@@ -1,5 +1,5 @@
-import {SPECIES,speciesById} from './species.mjs';
-import {MORNING,EVENING,AMBIENT,CARE,MINI_TYPES,ENDINGS} from './content.mjs';
+import {SPECIES,speciesById} from './species.mjs?v=morphology-4';
+import {MORNING,EVENING,AMBIENT,CARE,MINI_TYPES,ENDINGS} from './content.mjs?v=morphology-4';
 export const VERSION=3;
 export const PERIODS=['晨间','午后','夜间'];
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));

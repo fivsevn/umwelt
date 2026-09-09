@@ -1,17 +1,46 @@
-.isobug{--shell:#cbbb96;--mark:#403a2d;--rim:#e0cfa8;position:relative;display:inline-block;width:32px;height:22px;flex:none;image-rendering:pixelated;filter:drop-shadow(1px 2px 0 #181d1599)}
-.isobug i,.isobug b{position:absolute;display:block;box-sizing:border-box}.plates{left:2px;top:3px;height:16px;width:25px;display:flex!important;align-items:center;z-index:2}.plate{position:relative!important;width:4px;height:16px;background:var(--shell);border-top:2px solid var(--rim);border-bottom:2px solid var(--rim);box-shadow:inset -1px 0 var(--mark);clip-path:polygon(0 2px,2px 2px,2px 0,100% 0,100% 100%,2px 100%,2px calc(100% - 2px),0 calc(100% - 2px))}.plate.p0,.plate.p6{height:12px}.plate.p1,.plate.p5{height:14px}.head{right:2px;top:6px;width:6px;height:10px;background:var(--rim);z-index:3;clip-path:polygon(0 0,4px 0,4px 2px,6px 2px,6px 8px,4px 8px,4px 10px,0 10px)}.head:after{content:'';position:absolute;right:1px;top:1px;width:2px;height:2px;background:#20231d;box-shadow:0 6px #20231d}.legs{top:1px;left:3px;width:23px;height:20px;background:repeating-linear-gradient(90deg,transparent 0 2px,var(--rim) 2px 3px,transparent 3px 4px);animation:legs .4s steps(2) infinite;animation-delay:var(--phase)}.feelers{right:-4px;top:1px;width:9px;height:20px;border-top:2px solid var(--rim);border-bottom:2px solid var(--rim);clip-path:polygon(0 0,100% 0,100% 3px,2px 3px,2px 17px,100% 17px,100% 100%,0 100%);animation:feel .9s steps(2) infinite;animation-delay:var(--phase)}.tail{left:-2px;top:7px;width:5px;height:8px;background:var(--rim)}
-.round .tail{width:3px;left:0}.wide{width:36px;height:26px}.wide .plates{top:3px;height:20px;width:28px}.wide .plate{height:20px;width:5px}.wide .p0,.wide .p6{height:14px}.wide .head{top:8px}.wide .legs{height:24px}.long{width:38px}.long .plates{width:29px}.long .feelers{right:-7px;width:13px}.flat .plate{height:14px}.spiny .plate{clip-path:polygon(0 0,100% 2px,100% 14px,0 16px);border-top-width:3px;border-bottom-width:3px}
-.spots .plate:nth-child(3n+1){background:linear-gradient(0deg,var(--shell) 30%,var(--mark) 30% 60%,var(--shell) 60%)}.spots .plate:nth-child(4n){background:linear-gradient(0deg,var(--mark) 0 30%,var(--shell) 30% 60%,var(--mark) 60% 80%,var(--shell) 80%)}
-.bands .plate{background:linear-gradient(0deg,var(--mark) 20%,var(--shell) 20% 40%,var(--mark) 40% 60%,var(--shell) 60% 80%,var(--mark) 80%)}
-.stripe .plate{background:linear-gradient(0deg,var(--shell) 40%,var(--mark) 40% 60%,var(--shell) 60%)}
-.diablo .plate{background:linear-gradient(0deg,var(--shell) 35%,var(--mark) 35% 60%,var(--shell) 60%);border-top-color:var(--rim);border-bottom-color:var(--rim)}
-.ember .plate{border-top:3px solid var(--mark);border-bottom:3px solid var(--mark)}.ducky .plate{border-color:var(--mark)}.ducky .p0{background:var(--rim);border-color:var(--rim)}
-.tricolor .p0,.tricolor .p1{background:#ddd1b0;border-color:#eee0c0}.tricolor .p4,.tricolor .p5,.tricolor .p6{background:var(--rim);border-color:var(--rim)}
-.saddle .p2,.saddle .p3{background:var(--mark);border-color:var(--mark)}.saddle .head{background:var(--shell)}
-.dots .plate:after{content:'';position:absolute;width:2px;height:2px;left:0;top:2px;background:var(--mark);box-shadow:0 6px var(--mark)}
-.ridges .plate{box-shadow:inset 1px 0 var(--rim),inset -1px 0 var(--mark);background:repeating-linear-gradient(0deg,var(--shell) 0 3px,var(--mark) 3px 4px)}
-.resting .legs{animation-play-state:paused}.curled .plates{transform:scaleX(.7)}.curled .feelers,.curled .legs{opacity:0}.curled .head{transform:translateX(-6px)}
-.plate{flex:0 0 4px;border-top-width:1px;border-bottom-width:1px}.wide .plate{flex-basis:4px}.isobug .legs{opacity:.65}.round .plates{clip-path:polygon(0 5px,2px 5px,2px 2px,6px 2px,6px 0,19px 0,19px 2px,23px 2px,23px 5px,25px 5px,25px 11px,23px 11px,23px 14px,19px 14px,19px 16px,6px 16px,6px 14px,2px 14px,2px 11px,0 11px)}
-.bands .plate{background:var(--mark)}.bands .p1,.bands .p4{background:var(--shell)}.round .legs{top:3px;height:16px;width:21px;left:4px}.feelers{clip-path:none;border:0;top:5px;height:12px;width:10px;right:-6px}.feelers:before,.feelers:after{content:'';position:absolute;width:5px;height:1px;background:var(--rim);left:0;top:0;box-shadow:4px -2px var(--rim),7px -3px var(--rim)}.feelers:after{top:10px;box-shadow:4px 2px var(--rim),7px 3px var(--rim)}.round .feelers{right:-3px}.tail{background:none;border-top:2px solid var(--rim);border-bottom:2px solid var(--rim)}.round .tail{display:none}
-@keyframes legs{to{transform:translateX(1px)}}@keyframes feel{to{transform:scaleY(.8) translateX(1px)}}
-@media(prefers-reduced-motion:reduce){.isobug *{animation:none!important}}
+/* Morphology primitives. Head faces right. All lengths derive from phenotype. */
+.isopod{position:relative;display:inline-block;flex:none;filter:none;vertical-align:middle;isolation:isolate}
+.isopod i,.isopod b{position:absolute;display:block;box-sizing:border-box;font-style:normal}
+.isopod .body{inset:0;opacity:var(--shell-opacity);transform-origin:center}
+.isopod .pereon{inset:0;z-index:3}
+.isopod .anatomy{background:var(--base);top:50%;transform:translateY(-50%);border:0}
+.isopod .plate{position:absolute!important;flex:none;top:50%;border-radius:var(--plate-arc);background:var(--base);box-shadow:inset 1px 0 rgb(10 17 12 / var(--seam-alpha)),inset -1px 0 #eee8cf30;clip-path:none}
+.isopod .plate::before{content:'';position:absolute;inset:0;border-radius:inherit;background-image:var(--pattern);opacity:var(--pattern-expression);z-index:1}
+.isopod .plate::after,.isopod .cephalon::before,.isopod .pleon::after,.isopod .pleotelson::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(0deg,#10190f55,transparent 35%,#fff5 60%,transparent 85%,#1115);opacity:calc(var(--convexity)*.8);z-index:3}
+.isopod .epimera{inset:0;z-index:2}
+.isopod .epimera::before,.isopod .epimera::after{content:'';position:absolute;left:calc(0% - var(--flare));width:calc(100% + var(--flare));height:var(--epimera-size);background:linear-gradient(0deg,var(--edge) 40%,var(--tip));border-radius:var(--epimera-round);box-shadow:inset 1px 0 #1114}
+.isopod .epimera::before{top:0;transform:rotate(var(--epimera-angle));transform-origin:right bottom}
+.isopod .epimera::after{bottom:0;transform:rotate(calc(0deg - var(--epimera-angle)));transform-origin:right top;background:linear-gradient(180deg,var(--edge) 40%,var(--tip))}
+.isopod .epimera[data-tip=pointed]::before,.isopod .epimera[data-tip=pointed]::after{clip-path:polygon(0 0,100% 28%,100% 100%,20% 100%)}
+.isopod .cephalon{z-index:4;background:var(--pattern),var(--base);box-shadow:inset -1px 0 #10191050}
+.isopod .cephalon::after{content:'';position:absolute;right:16%;top:19%;width:2px;height:2px;background:#1c251c;border-radius:50%;box-shadow:0 7px #1c251c}
+.isopod .pleon{left:6%;z-index:2;border-radius:40% 5% 5% 40%;background:repeating-linear-gradient(90deg,#18251555 0 1px,transparent 1px 3px),var(--base);clip-path:polygon(var(--rear-taper) 0,100% 0,100% 100%,var(--rear-taper) 100%,0 50%)}
+.isopod .pleotelson{left:1%;z-index:2;clip-path:polygon(0 50%,100% 0,100% 100%)}
+.isopod .pleotelson[data-apex=compact],.isopod .pleotelson[data-apex=rounded]{border-radius:60% 0 0 60%;clip-path:none}
+.isopod .pleotelson[data-apex=truncate]{clip-path:polygon(0 20%,100% 0,100% 100%,0 80%)}
+.isopod .uropods{left:2%;width:var(--uropod-length);height:35%;background:none;z-index:1;opacity:var(--uropod-opacity);transform:translate(-80%,-50%)}
+.isopod .uropods::before,.isopod .uropods::after{content:'';position:absolute;right:0;width:100%;height:var(--uropod-thickness);background:var(--uropod-color);border-radius:70% 10% 10% 70%;transform:rotate(var(--uropod-angle));transform-origin:right}
+.isopod .uropods::before{top:0}.isopod .uropods::after{bottom:0;transform:rotate(calc(0deg - var(--uropod-angle)))}
+.isopod .legs{left:18%;top:50%;width:62%;height:var(--leg-height);transform:translateY(-50%);background:repeating-linear-gradient(90deg,transparent 0 10%,var(--leg-color) 11% 14%);opacity:var(--leg-opacity);z-index:0;animation:none}
+.isopod .antennae{left:87%;top:28%;height:44%;width:var(--antenna-length);z-index:0}
+.isopod .antennae::before,.isopod .antennae::after{content:'';position:absolute;width:100%;height:var(--antenna-thickness);background:var(--antenna-color);transform-origin:left;transform:rotate(calc(0deg - var(--antenna-angle)));border-radius:0 80% 20% 0}
+.isopod .antennae::before{top:0}.isopod .antennae::after{bottom:0;transform:rotate(var(--antenna-angle))}
+.isopod[data-sculpture=tuberculate] .plate::after,.isopod[data-sculpture=granular] .plate::after{inset:-3% 4%;background:radial-gradient(ellipse at 45% 28%,#aaa0a5 0 12%,#292f2c 18% 30%,transparent 42%);background-size:4px 5px;opacity:var(--surface-alpha)}
+.isopod[data-sculpture=ridged] .plate::after{background:repeating-linear-gradient(0deg,#eee7 0 1px,#1119 1px 2px,transparent 2px 4px);opacity:var(--surface-alpha)}
+.isopod[data-sculpture=spiny] .plate{clip-path:polygon(0 0,55% 12%,100% 0,100% 100%,55% 88%,0 100%)}
+.isopod[data-material=matte] .plate{box-shadow:inset 1px 0 rgb(10 17 12 / var(--seam-alpha))}
+.isopod .molting{background-color:color-mix(in srgb,var(--base) 45%,#f1eddd);--edge:color-mix(in srgb,var(--base) 45%,#f1eddd)!important;--tip:var(--edge)!important}
+.isopod .molting::before,.isopod .molting::after{opacity:.3}
+.isopod .uropods.molting{background:none;--uropod-color:#e6e1d2}
+.isopod[data-posture=curled][data-ability=none] .body{transform:scaleX(calc(1 - var(--closure)*.6))}
+.isopod[data-posture=curled][data-ability=partial] .body{transform:scaleX(calc(1 - var(--closure)*.35)) rotate(-9deg)}
+.isopod[data-posture=curled][data-ability=partial] .cephalon{transform:translate(-12%,-35%) rotate(15deg)}
+.isopod[data-posture=curled][data-ability=full] .body{transform:scaleX(calc(1 - var(--closure)*.33));border-radius:50%;overflow:hidden}
+.isopod[data-posture=curled][data-ability=full] .cephalon{right:13%!important;transform:translateY(-50%) scale(.7);z-index:2}
+.isopod[data-posture=curled][data-ability=full] .pleon{left:16%;z-index:2}
+.isopod[data-posture=curled][data-ability=full] .uropods,.isopod[data-posture=curled][data-ability=full]>.antennae,.isopod[data-posture=curled][data-ability=full]>.legs{visibility:hidden}
+.isopod.moving>.legs{animation:isopod-steps .35s steps(2) infinite}
+.isopod.moving>.antennae{animation:isopod-feel .8s steps(2) infinite}
+@keyframes isopod-steps{to{transform:translate(1px,-50%)}}
+@keyframes isopod-feel{to{transform:scaleY(.86)}}
+@media(prefers-reduced-motion:reduce){.isopod *{animation:none!important}}

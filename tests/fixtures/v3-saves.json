@@ -1,0 +1,1354 @@
+[
+  {
+    "version": 3,
+    "seed": 157,
+    "species": "dairy",
+    "day": 2,
+    "period": 2,
+    "stage": "feedback",
+    "humidity": 58,
+    "temp": 22.1,
+    "vent": 67,
+    "light": 42,
+    "cover": 50,
+    "food": 0,
+    "interventions": 3,
+    "quiet": 1,
+    "accuracy": 0,
+    "maps": 1,
+    "labels": 1,
+    "care": 0,
+    "records": [
+      {
+        "day": 1,
+        "period": 0,
+        "kind": "text",
+        "choice": "mist",
+        "label": "湿区喷水",
+        "text": "你补了水。盒壁上的数字先变化，土下的变化慢一点。"
+      },
+      {
+        "day": 1,
+        "period": 1,
+        "kind": "route",
+        "choice": "route1",
+        "label": "木片",
+        "text": "它最终靠近叶缘。与你留下的箭头不同。地面的差别还在那里。"
+      },
+      {
+        "day": 1,
+        "period": 2,
+        "kind": "text",
+        "choice": "blank",
+        "label": "留下一行空白",
+        "text": "笔停下来时，最小的个体还在走。"
+      },
+      {
+        "day": 2,
+        "period": 0,
+        "kind": "text",
+        "choice": "air",
+        "label": "增加通风",
+        "text": "空气流动后，盒壁上的雾变薄。湿区仍留在左边。"
+      },
+      {
+        "day": 2,
+        "period": 1,
+        "kind": "shelter",
+        "choice": "flat",
+        "label": "平放叶片",
+        "text": "叶片贴着土。一只沿外缘绕过去，没有进入下面。"
+      },
+      {
+        "day": 2,
+        "period": 2,
+        "kind": "text",
+        "choice": "describe",
+        "label": "只记看到的",
+        "text": "你写下了位置、颜色和停留。句子没有替它们补上理由。"
+      }
+    ],
+    "ending": null,
+    "feedback": "你写下了位置、颜色和停留。句子没有替它们补上理由。",
+    "scene": {
+      "id": "2.2",
+      "title": "夜间",
+      "kind": "text",
+      "text": "叶片下面传来细小的移动，表面看不出是谁。 食物旁出现了新的缺口。搬运并没有发生，食物只是变小了一点。",
+      "options": [
+        {
+          "id": "describe",
+          "label": "只记看到的",
+          "delta": {
+            "labels": 1
+          },
+          "text": "你写下了位置、颜色和停留。句子没有替它们补上理由。"
+        },
+        {
+          "id": "infer",
+          "label": "写下一个猜测",
+          "delta": {
+            "maps": 1
+          },
+          "text": "你写下“可能”，后面跟着一个很小的问号。"
+        },
+        {
+          "id": "blank",
+          "label": "留下一行空白",
+          "delta": {
+            "quiet": 1
+          },
+          "text": "笔停下来时，最小的个体还在走。"
+        }
+      ]
+    }
+  },
+  {
+    "version": 3,
+    "seed": 157,
+    "species": "cappuccino",
+    "day": 2,
+    "period": 2,
+    "stage": "feedback",
+    "humidity": 68,
+    "temp": 22.1,
+    "vent": 67,
+    "light": 42,
+    "cover": 75,
+    "food": 0,
+    "interventions": 3,
+    "quiet": 1,
+    "accuracy": 1,
+    "maps": 1,
+    "labels": 1,
+    "care": 0,
+    "records": [
+      {
+        "day": 1,
+        "period": 0,
+        "kind": "text",
+        "choice": "mist",
+        "label": "湿区喷水",
+        "text": "你补了水。盒壁上的数字先变化，土下的变化慢一点。"
+      },
+      {
+        "day": 1,
+        "period": 1,
+        "kind": "route",
+        "choice": "route1",
+        "label": "木片",
+        "text": "它最终靠近木片。这一次与你的猜测相同。地面的差别还在那里。"
+      },
+      {
+        "day": 1,
+        "period": 2,
+        "kind": "text",
+        "choice": "blank",
+        "label": "留下一行空白",
+        "text": "笔停下来时，最小的个体还在走。"
+      },
+      {
+        "day": 2,
+        "period": 0,
+        "kind": "text",
+        "choice": "air",
+        "label": "增加通风",
+        "text": "空气流动后，盒壁上的雾变薄。湿区仍留在左边。"
+      },
+      {
+        "day": 2,
+        "period": 1,
+        "kind": "shelter",
+        "choice": "flat",
+        "label": "平放叶片",
+        "text": "叶片贴着土。一只沿外缘绕过去，没有进入下面。"
+      },
+      {
+        "day": 2,
+        "period": 2,
+        "kind": "text",
+        "choice": "describe",
+        "label": "只记看到的",
+        "text": "你写下了位置、颜色和停留。句子没有替它们补上理由。"
+      }
+    ],
+    "ending": null,
+    "feedback": "你写下了位置、颜色和停留。句子没有替它们补上理由。",
+    "scene": {
+      "id": "2.2",
+      "title": "夜间",
+      "kind": "text",
+      "text": "叶片下面传来细小的移动，表面看不出是谁。 一只在落叶边缘停下，另一只贴着它经过。两者都没有改变速度。",
+      "options": [
+        {
+          "id": "describe",
+          "label": "只记看到的",
+          "delta": {
+            "labels": 1
+          },
+          "text": "你写下了位置、颜色和停留。句子没有替它们补上理由。"
+        },
+        {
+          "id": "infer",
+          "label": "写下一个猜测",
+          "delta": {
+            "maps": 1
+          },
+          "text": "你写下“可能”，后面跟着一个很小的问号。"
+        },
+        {
+          "id": "blank",
+          "label": "留下一行空白",
+          "delta": {
+            "quiet": 1
+          },
+          "text": "笔停下来时，最小的个体还在走。"
+        }
+      ]
+    }
+  },
+  {
+    "version": 3,
+    "seed": 157,
+    "species": "diablo",
+    "day": 2,
+    "period": 2,
+    "stage": "feedback",
+    "humidity": 63,
+    "temp": 22.1,
+    "vent": 67,
+    "light": 42,
+    "cover": 55,
+    "food": 0,
+    "interventions": 3,
+    "quiet": 1,
+    "accuracy": 0,
+    "maps": 1,
+    "labels": 1,
+    "care": 0,
+    "records": [
+      {
+        "day": 1,
+        "period": 0,
+        "kind": "text",
+        "choice": "mist",
+        "label": "湿区喷水",
+        "text": "你补了水。盒壁上的数字先变化，土下的变化慢一点。"
+      },
+      {
+        "day": 1,
+        "period": 1,
+        "kind": "route",
+        "choice": "route1",
+        "label": "木片",
+        "text": "它最终靠近叶缘。与你留下的箭头不同。地面的差别还在那里。"
+      },
+      {
+        "day": 1,
+        "period": 2,
+        "kind": "text",
+        "choice": "blank",
+        "label": "留下一行空白",
+        "text": "笔停下来时，最小的个体还在走。"
+      },
+      {
+        "day": 2,
+        "period": 0,
+        "kind": "text",
+        "choice": "air",
+        "label": "增加通风",
+        "text": "空气流动后，盒壁上的雾变薄。湿区仍留在左边。"
+      },
+      {
+        "day": 2,
+        "period": 1,
+        "kind": "shelter",
+        "choice": "flat",
+        "label": "平放叶片",
+        "text": "叶片贴着土。一只沿外缘绕过去，没有进入下面。"
+      },
+      {
+        "day": 2,
+        "period": 2,
+        "kind": "text",
+        "choice": "describe",
+        "label": "只记看到的",
+        "text": "你写下了位置、颜色和停留。句子没有替它们补上理由。"
+      }
+    ],
+    "ending": null,
+    "feedback": "你写下了位置、颜色和停留。句子没有替它们补上理由。",
+    "scene": {
+      "id": "2.2",
+      "title": "夜间",
+      "kind": "text",
+      "text": "叶片下面传来细小的移动，表面看不出是谁。 红褐色边缘划过苔藓，随后落到阴影里。颜色在暗处变得不重要。",
+      "options": [
+        {
+          "id": "describe",
+          "label": "只记看到的",
+          "delta": {
+            "labels": 1
+          },
+          "text": "你写下了位置、颜色和停留。句子没有替它们补上理由。"
+        },
+        {
+          "id": "infer",
+          "label": "写下一个猜测",
+          "delta": {
+            "maps": 1
+          },
+          "text": "你写下“可能”，后面跟着一个很小的问号。"
+        },
+        {
+          "id": "blank",
+          "label": "留下一行空白",
+          "delta": {
+            "quiet": 1
+          },
+          "text": "笔停下来时，最小的个体还在走。"
+        }
+      ]
+    }
+  },
+  {
+    "version": 3,
+    "seed": 157,
+    "species": "echinatus",
+    "day": 2,
+    "period": 2,
+    "stage": "feedback",
+    "humidity": 52,
+    "temp": 22.1,
+    "vent": 67,
+    "light": 42,
+    "cover": 50,
+    "food": 0,
+    "interventions": 3,
+    "quiet": 1,
+    "accuracy": 0,
+    "maps": 1,
+    "labels": 1,
+    "care": 0,
+    "records": [
+      {
+        "day": 1,
+        "period": 0,
+        "kind": "text",
+        "choice": "mist",
+        "label": "湿区喷水",
+        "text": "你补了水。盒壁上的数字先变化，土下的变化慢一点。"
+      },
+      {
+        "day": 1,
+        "period": 1,
+        "kind": "route",
+        "choice": "route1",
+        "label": "木片",
+        "text": "它最终靠近叶缘。与你留下的箭头不同。地面的差别还在那里。"
+      },
+      {
+        "day": 1,
+        "period": 2,
+        "kind": "text",
+        "choice": "blank",
+        "label": "留下一行空白",
+        "text": "笔停下来时，最小的个体还在走。"
+      },
+      {
+        "day": 2,
+        "period": 0,
+        "kind": "text",
+        "choice": "air",
+        "label": "增加通风",
+        "text": "空气流动后，盒壁上的雾变薄。湿区仍留在左边。"
+      },
+      {
+        "day": 2,
+        "period": 1,
+        "kind": "shelter",
+        "choice": "flat",
+        "label": "平放叶片",
+        "text": "叶片贴着土。一只沿外缘绕过去，没有进入下面。"
+      },
+      {
+        "day": 2,
+        "period": 2,
+        "kind": "text",
+        "choice": "describe",
+        "label": "只记看到的",
+        "text": "你写下了位置、颜色和停留。句子没有替它们补上理由。"
+      }
+    ],
+    "ending": null,
+    "feedback": "你写下了位置、颜色和停留。句子没有替它们补上理由。",
+    "scene": {
+      "id": "2.2",
+      "title": "夜间",
+      "kind": "text",
+      "text": "叶片下面传来细小的移动，表面看不出是谁。 它从窄缝退出，换了一个角度，再次进去。入口没有变宽。",
+      "options": [
+        {
+          "id": "describe",
+          "label": "只记看到的",
+          "delta": {
+            "labels": 1
+          },
+          "text": "你写下了位置、颜色和停留。句子没有替它们补上理由。"
+        },
+        {
+          "id": "infer",
+          "label": "写下一个猜测",
+          "delta": {
+            "maps": 1
+          },
+          "text": "你写下“可能”，后面跟着一个很小的问号。"
+        },
+        {
+          "id": "blank",
+          "label": "留下一行空白",
+          "delta": {
+            "quiet": 1
+          },
+          "text": "笔停下来时，最小的个体还在走。"
+        }
+      ]
+    }
+  },
+  {
+    "version": 3,
+    "seed": 157,
+    "species": "pink",
+    "day": 2,
+    "period": 2,
+    "stage": "feedback",
+    "humidity": 68,
+    "temp": 22.1,
+    "vent": 67,
+    "light": 42,
+    "cover": 83,
+    "food": 0,
+    "interventions": 3,
+    "quiet": 1,
+    "accuracy": 1,
+    "maps": 1,
+    "labels": 1,
+    "care": 0,
+    "records": [
+      {
+        "day": 1,
+        "period": 0,
+        "kind": "text",
+        "choice": "mist",
+        "label": "湿区喷水",
+        "text": "你补了水。盒壁上的数字先变化，土下的变化慢一点。"
+      },
+      {
+        "day": 1,
+        "period": 1,
+        "kind": "route",
+        "choice": "route1",
+        "label": "木片",
+        "text": "它最终靠近木片。这一次与你的猜测相同。地面的差别还在那里。"
+      },
+      {
+        "day": 1,
+        "period": 2,
+        "kind": "text",
+        "choice": "blank",
+        "label": "留下一行空白",
+        "text": "笔停下来时，最小的个体还在走。"
+      },
+      {
+        "day": 2,
+        "period": 0,
+        "kind": "text",
+        "choice": "air",
+        "label": "增加通风",
+        "text": "空气流动后，盒壁上的雾变薄。湿区仍留在左边。"
+      },
+      {
+        "day": 2,
+        "period": 1,
+        "kind": "shelter",
+        "choice": "flat",
+        "label": "平放叶片",
+        "text": "叶片贴着土。一只沿外缘绕过去，没有进入下面。"
+      },
+      {
+        "day": 2,
+        "period": 2,
+        "kind": "text",
+        "choice": "describe",
+        "label": "只记看到的",
+        "text": "你写下了位置、颜色和停留。句子没有替它们补上理由。"
+      }
+    ],
+    "ending": null,
+    "feedback": "你写下了位置、颜色和停留。句子没有替它们补上理由。",
+    "scene": {
+      "id": "2.2",
+      "title": "夜间",
+      "kind": "text",
+      "text": "叶片下面传来细小的移动，表面看不出是谁。 湿土让浅色身体更显眼。它停在一粒土旁，触角慢慢扫过。",
+      "options": [
+        {
+          "id": "describe",
+          "label": "只记看到的",
+          "delta": {
+            "labels": 1
+          },
+          "text": "你写下了位置、颜色和停留。句子没有替它们补上理由。"
+        },
+        {
+          "id": "infer",
+          "label": "写下一个猜测",
+          "delta": {
+            "maps": 1
+          },
+          "text": "你写下“可能”，后面跟着一个很小的问号。"
+        },
+        {
+          "id": "blank",
+          "label": "留下一行空白",
+          "delta": {
+            "quiet": 1
+          },
+          "text": "笔停下来时，最小的个体还在走。"
+        }
+      ]
+    }
+  },
+  {
+    "version": 3,
+    "seed": 157,
+    "species": "coros",
+    "day": 2,
+    "period": 2,
+    "stage": "feedback",
+    "humidity": 52,
+    "temp": 22.1,
+    "vent": 67,
+    "light": 42,
+    "cover": 55,
+    "food": 0,
+    "interventions": 3,
+    "quiet": 1,
+    "accuracy": 0,
+    "maps": 1,
+    "labels": 1,
+    "care": 0,
+    "records": [
+      {
+        "day": 1,
+        "period": 0,
+        "kind": "text",
+        "choice": "mist",
+        "label": "湿区喷水",
+        "text": "你补了水。盒壁上的数字先变化，土下的变化慢一点。"
+      },
+      {
+        "day": 1,
+        "period": 1,
+        "kind": "route",
+        "choice": "route1",
+        "label": "木片",
+        "text": "它最终靠近叶缘。与你留下的箭头不同。地面的差别还在那里。"
+      },
+      {
+        "day": 1,
+        "period": 2,
+        "kind": "text",
+        "choice": "blank",
+        "label": "留下一行空白",
+        "text": "笔停下来时，最小的个体还在走。"
+      },
+      {
+        "day": 2,
+        "period": 0,
+        "kind": "text",
+        "choice": "air",
+        "label": "增加通风",
+        "text": "空气流动后，盒壁上的雾变薄。湿区仍留在左边。"
+      },
+      {
+        "day": 2,
+        "period": 1,
+        "kind": "shelter",
+        "choice": "flat",
+        "label": "平放叶片",
+        "text": "叶片贴着土。一只沿外缘绕过去，没有进入下面。"
+      },
+      {
+        "day": 2,
+        "period": 2,
+        "kind": "text",
+        "choice": "describe",
+        "label": "只记看到的",
+        "text": "你写下了位置、颜色和停留。句子没有替它们补上理由。"
+      }
+    ],
+    "ending": null,
+    "feedback": "你写下了位置、颜色和停留。句子没有替它们补上理由。",
+    "scene": {
+      "id": "2.2",
+      "title": "夜间",
+      "kind": "text",
+      "text": "叶片下面传来细小的移动，表面看不出是谁。 身体很宽，却进入了你原以为太窄的缝。高度比面积更有用。",
+      "options": [
+        {
+          "id": "describe",
+          "label": "只记看到的",
+          "delta": {
+            "labels": 1
+          },
+          "text": "你写下了位置、颜色和停留。句子没有替它们补上理由。"
+        },
+        {
+          "id": "infer",
+          "label": "写下一个猜测",
+          "delta": {
+            "maps": 1
+          },
+          "text": "你写下“可能”，后面跟着一个很小的问号。"
+        },
+        {
+          "id": "blank",
+          "label": "留下一行空白",
+          "delta": {
+            "quiet": 1
+          },
+          "text": "笔停下来时，最小的个体还在走。"
+        }
+      ]
+    }
+  },
+  {
+    "version": 3,
+    "seed": 157,
+    "species": "bolivari",
+    "day": 2,
+    "period": 2,
+    "stage": "feedback",
+    "humidity": 50,
+    "temp": 22.1,
+    "vent": 67,
+    "light": 42,
+    "cover": 47,
+    "food": 0,
+    "interventions": 3,
+    "quiet": 1,
+    "accuracy": 0,
+    "maps": 1,
+    "labels": 1,
+    "care": 0,
+    "records": [
+      {
+        "day": 1,
+        "period": 0,
+        "kind": "text",
+        "choice": "mist",
+        "label": "湿区喷水",
+        "text": "你补了水。盒壁上的数字先变化，土下的变化慢一点。"
+      },
+      {
+        "day": 1,
+        "period": 1,
+        "kind": "route",
+        "choice": "route1",
+        "label": "木片",
+        "text": "它最终靠近叶缘。与你留下的箭头不同。地面的差别还在那里。"
+      },
+      {
+        "day": 1,
+        "period": 2,
+        "kind": "text",
+        "choice": "blank",
+        "label": "留下一行空白",
+        "text": "笔停下来时，最小的个体还在走。"
+      },
+      {
+        "day": 2,
+        "period": 0,
+        "kind": "text",
+        "choice": "air",
+        "label": "增加通风",
+        "text": "空气流动后，盒壁上的雾变薄。湿区仍留在左边。"
+      },
+      {
+        "day": 2,
+        "period": 1,
+        "kind": "shelter",
+        "choice": "flat",
+        "label": "平放叶片",
+        "text": "叶片贴着土。一只沿外缘绕过去，没有进入下面。"
+      },
+      {
+        "day": 2,
+        "period": 2,
+        "kind": "text",
+        "choice": "describe",
+        "label": "只记看到的",
+        "text": "你写下了位置、颜色和停留。句子没有替它们补上理由。"
+      }
+    ],
+    "ending": null,
+    "feedback": "你写下了位置、颜色和停留。句子没有替它们补上理由。",
+    "scene": {
+      "id": "2.2",
+      "title": "夜间",
+      "kind": "text",
+      "text": "叶片下面传来细小的移动，表面看不出是谁。 它抬高身体跨过石粒。平面上的捷径原来有高度。",
+      "options": [
+        {
+          "id": "describe",
+          "label": "只记看到的",
+          "delta": {
+            "labels": 1
+          },
+          "text": "你写下了位置、颜色和停留。句子没有替它们补上理由。"
+        },
+        {
+          "id": "infer",
+          "label": "写下一个猜测",
+          "delta": {
+            "maps": 1
+          },
+          "text": "你写下“可能”，后面跟着一个很小的问号。"
+        },
+        {
+          "id": "blank",
+          "label": "留下一行空白",
+          "delta": {
+            "quiet": 1
+          },
+          "text": "笔停下来时，最小的个体还在走。"
+        }
+      ]
+    }
+  },
+  {
+    "version": 3,
+    "seed": 157,
+    "species": "ducky",
+    "day": 2,
+    "period": 2,
+    "stage": "feedback",
+    "humidity": 70,
+    "temp": 22.1,
+    "vent": 67,
+    "light": 42,
+    "cover": 85,
+    "food": 0,
+    "interventions": 3,
+    "quiet": 1,
+    "accuracy": 1,
+    "maps": 1,
+    "labels": 1,
+    "care": 0,
+    "records": [
+      {
+        "day": 1,
+        "period": 0,
+        "kind": "text",
+        "choice": "mist",
+        "label": "湿区喷水",
+        "text": "你补了水。盒壁上的数字先变化，土下的变化慢一点。"
+      },
+      {
+        "day": 1,
+        "period": 1,
+        "kind": "route",
+        "choice": "route1",
+        "label": "木片",
+        "text": "它最终靠近木片。这一次与你的猜测相同。地面的差别还在那里。"
+      },
+      {
+        "day": 1,
+        "period": 2,
+        "kind": "text",
+        "choice": "blank",
+        "label": "留下一行空白",
+        "text": "笔停下来时，最小的个体还在走。"
+      },
+      {
+        "day": 2,
+        "period": 0,
+        "kind": "text",
+        "choice": "air",
+        "label": "增加通风",
+        "text": "空气流动后，盒壁上的雾变薄。湿区仍留在左边。"
+      },
+      {
+        "day": 2,
+        "period": 1,
+        "kind": "shelter",
+        "choice": "flat",
+        "label": "平放叶片",
+        "text": "叶片贴着土。一只沿外缘绕过去，没有进入下面。"
+      },
+      {
+        "day": 2,
+        "period": 2,
+        "kind": "text",
+        "choice": "describe",
+        "label": "只记看到的",
+        "text": "你写下了位置、颜色和停留。句子没有替它们补上理由。"
+      }
+    ],
+    "ending": null,
+    "feedback": "你写下了位置、颜色和停留。句子没有替它们补上理由。",
+    "scene": {
+      "id": "2.2",
+      "title": "夜间",
+      "kind": "text",
+      "text": "叶片下面传来细小的移动，表面看不出是谁。 它缩成较圆的轮廓。等周围安静下来，触角重新伸出。",
+      "options": [
+        {
+          "id": "describe",
+          "label": "只记看到的",
+          "delta": {
+            "labels": 1
+          },
+          "text": "你写下了位置、颜色和停留。句子没有替它们补上理由。"
+        },
+        {
+          "id": "infer",
+          "label": "写下一个猜测",
+          "delta": {
+            "maps": 1
+          },
+          "text": "你写下“可能”，后面跟着一个很小的问号。"
+        },
+        {
+          "id": "blank",
+          "label": "留下一行空白",
+          "delta": {
+            "quiet": 1
+          },
+          "text": "笔停下来时，最小的个体还在走。"
+        }
+      ]
+    }
+  },
+  {
+    "version": 3,
+    "seed": 157,
+    "species": "daxin",
+    "day": 2,
+    "period": 2,
+    "stage": "feedback",
+    "humidity": 66,
+    "temp": 22.1,
+    "vent": 67,
+    "light": 42,
+    "cover": 70,
+    "food": 0,
+    "interventions": 3,
+    "quiet": 1,
+    "accuracy": 0,
+    "maps": 1,
+    "labels": 1,
+    "care": 0,
+    "records": [
+      {
+        "day": 1,
+        "period": 0,
+        "kind": "text",
+        "choice": "mist",
+        "label": "湿区喷水",
+        "text": "你补了水。盒壁上的数字先变化，土下的变化慢一点。"
+      },
+      {
+        "day": 1,
+        "period": 1,
+        "kind": "route",
+        "choice": "route1",
+        "label": "木片",
+        "text": "它最终靠近叶缘。与你留下的箭头不同。地面的差别还在那里。"
+      },
+      {
+        "day": 1,
+        "period": 2,
+        "kind": "text",
+        "choice": "blank",
+        "label": "留下一行空白",
+        "text": "笔停下来时，最小的个体还在走。"
+      },
+      {
+        "day": 2,
+        "period": 0,
+        "kind": "text",
+        "choice": "air",
+        "label": "增加通风",
+        "text": "空气流动后，盒壁上的雾变薄。湿区仍留在左边。"
+      },
+      {
+        "day": 2,
+        "period": 1,
+        "kind": "shelter",
+        "choice": "flat",
+        "label": "平放叶片",
+        "text": "叶片贴着土。一只沿外缘绕过去，没有进入下面。"
+      },
+      {
+        "day": 2,
+        "period": 2,
+        "kind": "text",
+        "choice": "describe",
+        "label": "只记看到的",
+        "text": "你写下了位置、颜色和停留。句子没有替它们补上理由。"
+      }
+    ],
+    "ending": null,
+    "feedback": "你写下了位置、颜色和停留。句子没有替它们补上理由。",
+    "scene": {
+      "id": "2.2",
+      "title": "夜间",
+      "kind": "text",
+      "text": "叶片下面传来细小的移动，表面看不出是谁。 你追着浅色尾端看了一会儿。它钻进木片，三种颜色一起离开。",
+      "options": [
+        {
+          "id": "describe",
+          "label": "只记看到的",
+          "delta": {
+            "labels": 1
+          },
+          "text": "你写下了位置、颜色和停留。句子没有替它们补上理由。"
+        },
+        {
+          "id": "infer",
+          "label": "写下一个猜测",
+          "delta": {
+            "maps": 1
+          },
+          "text": "你写下“可能”，后面跟着一个很小的问号。"
+        },
+        {
+          "id": "blank",
+          "label": "留下一行空白",
+          "delta": {
+            "quiet": 1
+          },
+          "text": "笔停下来时，最小的个体还在走。"
+        }
+      ]
+    }
+  },
+  {
+    "version": 3,
+    "seed": 157,
+    "species": "ember",
+    "day": 2,
+    "period": 2,
+    "stage": "feedback",
+    "humidity": 62,
+    "temp": 22.1,
+    "vent": 67,
+    "light": 42,
+    "cover": 55,
+    "food": 0,
+    "interventions": 3,
+    "quiet": 1,
+    "accuracy": 0,
+    "maps": 1,
+    "labels": 1,
+    "care": 0,
+    "records": [
+      {
+        "day": 1,
+        "period": 0,
+        "kind": "text",
+        "choice": "mist",
+        "label": "湿区喷水",
+        "text": "你补了水。盒壁上的数字先变化，土下的变化慢一点。"
+      },
+      {
+        "day": 1,
+        "period": 1,
+        "kind": "route",
+        "choice": "route1",
+        "label": "木片",
+        "text": "它最终靠近叶缘。与你留下的箭头不同。地面的差别还在那里。"
+      },
+      {
+        "day": 1,
+        "period": 2,
+        "kind": "text",
+        "choice": "blank",
+        "label": "留下一行空白",
+        "text": "笔停下来时，最小的个体还在走。"
+      },
+      {
+        "day": 2,
+        "period": 0,
+        "kind": "text",
+        "choice": "air",
+        "label": "增加通风",
+        "text": "空气流动后，盒壁上的雾变薄。湿区仍留在左边。"
+      },
+      {
+        "day": 2,
+        "period": 1,
+        "kind": "shelter",
+        "choice": "flat",
+        "label": "平放叶片",
+        "text": "叶片贴着土。一只沿外缘绕过去，没有进入下面。"
+      },
+      {
+        "day": 2,
+        "period": 2,
+        "kind": "text",
+        "choice": "describe",
+        "label": "只记看到的",
+        "text": "你写下了位置、颜色和停留。句子没有替它们补上理由。"
+      }
+    ],
+    "ending": null,
+    "feedback": "你写下了位置、颜色和停留。句子没有替它们补上理由。",
+    "scene": {
+      "id": "2.2",
+      "title": "夜间",
+      "kind": "text",
+      "text": "叶片下面传来细小的移动，表面看不出是谁。 它在较高的木片上停下，触角伸向下面。这里的地面不只有一层。",
+      "options": [
+        {
+          "id": "describe",
+          "label": "只记看到的",
+          "delta": {
+            "labels": 1
+          },
+          "text": "你写下了位置、颜色和停留。句子没有替它们补上理由。"
+        },
+        {
+          "id": "infer",
+          "label": "写下一个猜测",
+          "delta": {
+            "maps": 1
+          },
+          "text": "你写下“可能”，后面跟着一个很小的问号。"
+        },
+        {
+          "id": "blank",
+          "label": "留下一行空白",
+          "delta": {
+            "quiet": 1
+          },
+          "text": "笔停下来时，最小的个体还在走。"
+        }
+      ]
+    }
+  },
+  {
+    "version": 3,
+    "seed": 157,
+    "species": "amber",
+    "day": 2,
+    "period": 2,
+    "stage": "feedback",
+    "humidity": 68,
+    "temp": 22.1,
+    "vent": 67,
+    "light": 42,
+    "cover": 77,
+    "food": 0,
+    "interventions": 3,
+    "quiet": 1,
+    "accuracy": 1,
+    "maps": 1,
+    "labels": 1,
+    "care": 0,
+    "records": [
+      {
+        "day": 1,
+        "period": 0,
+        "kind": "text",
+        "choice": "mist",
+        "label": "湿区喷水",
+        "text": "你补了水。盒壁上的数字先变化，土下的变化慢一点。"
+      },
+      {
+        "day": 1,
+        "period": 1,
+        "kind": "route",
+        "choice": "route1",
+        "label": "木片",
+        "text": "它最终靠近木片。这一次与你的猜测相同。地面的差别还在那里。"
+      },
+      {
+        "day": 1,
+        "period": 2,
+        "kind": "text",
+        "choice": "blank",
+        "label": "留下一行空白",
+        "text": "笔停下来时，最小的个体还在走。"
+      },
+      {
+        "day": 2,
+        "period": 0,
+        "kind": "text",
+        "choice": "air",
+        "label": "增加通风",
+        "text": "空气流动后，盒壁上的雾变薄。湿区仍留在左边。"
+      },
+      {
+        "day": 2,
+        "period": 1,
+        "kind": "shelter",
+        "choice": "flat",
+        "label": "平放叶片",
+        "text": "叶片贴着土。一只沿外缘绕过去，没有进入下面。"
+      },
+      {
+        "day": 2,
+        "period": 2,
+        "kind": "text",
+        "choice": "describe",
+        "label": "只记看到的",
+        "text": "你写下了位置、颜色和停留。句子没有替它们补上理由。"
+      }
+    ],
+    "ending": null,
+    "feedback": "你写下了位置、颜色和停留。句子没有替它们补上理由。",
+    "scene": {
+      "id": "2.2",
+      "title": "夜间",
+      "kind": "text",
+      "text": "叶片下面传来细小的移动，表面看不出是谁。 浅色头部钻进叶片，暗带随后经过。尾端比你预想的晚一点消失。",
+      "options": [
+        {
+          "id": "describe",
+          "label": "只记看到的",
+          "delta": {
+            "labels": 1
+          },
+          "text": "你写下了位置、颜色和停留。句子没有替它们补上理由。"
+        },
+        {
+          "id": "infer",
+          "label": "写下一个猜测",
+          "delta": {
+            "maps": 1
+          },
+          "text": "你写下“可能”，后面跟着一个很小的问号。"
+        },
+        {
+          "id": "blank",
+          "label": "留下一行空白",
+          "delta": {
+            "quiet": 1
+          },
+          "text": "笔停下来时，最小的个体还在走。"
+        }
+      ]
+    }
+  },
+  {
+    "version": 3,
+    "seed": 157,
+    "species": "vex",
+    "day": 2,
+    "period": 2,
+    "stage": "feedback",
+    "humidity": 66,
+    "temp": 22.1,
+    "vent": 67,
+    "light": 42,
+    "cover": 87,
+    "food": 0,
+    "interventions": 3,
+    "quiet": 1,
+    "accuracy": 1,
+    "maps": 1,
+    "labels": 1,
+    "care": 0,
+    "records": [
+      {
+        "day": 1,
+        "period": 0,
+        "kind": "text",
+        "choice": "mist",
+        "label": "湿区喷水",
+        "text": "你补了水。盒壁上的数字先变化，土下的变化慢一点。"
+      },
+      {
+        "day": 1,
+        "period": 1,
+        "kind": "route",
+        "choice": "route1",
+        "label": "木片",
+        "text": "它最终靠近木片。这一次与你的猜测相同。地面的差别还在那里。"
+      },
+      {
+        "day": 1,
+        "period": 2,
+        "kind": "text",
+        "choice": "blank",
+        "label": "留下一行空白",
+        "text": "笔停下来时，最小的个体还在走。"
+      },
+      {
+        "day": 2,
+        "period": 0,
+        "kind": "text",
+        "choice": "air",
+        "label": "增加通风",
+        "text": "空气流动后，盒壁上的雾变薄。湿区仍留在左边。"
+      },
+      {
+        "day": 2,
+        "period": 1,
+        "kind": "shelter",
+        "choice": "flat",
+        "label": "平放叶片",
+        "text": "叶片贴着土。一只沿外缘绕过去，没有进入下面。"
+      },
+      {
+        "day": 2,
+        "period": 2,
+        "kind": "text",
+        "choice": "describe",
+        "label": "只记看到的",
+        "text": "你写下了位置、颜色和停留。句子没有替它们补上理由。"
+      }
+    ],
+    "ending": null,
+    "feedback": "你写下了位置、颜色和停留。句子没有替它们补上理由。",
+    "scene": {
+      "id": "2.2",
+      "title": "夜间",
+      "kind": "text",
+      "text": "叶片下面传来细小的移动，表面看不出是谁。 它移动得很少，但两次记录的位置并不相同。",
+      "options": [
+        {
+          "id": "describe",
+          "label": "只记看到的",
+          "delta": {
+            "labels": 1
+          },
+          "text": "你写下了位置、颜色和停留。句子没有替它们补上理由。"
+        },
+        {
+          "id": "infer",
+          "label": "写下一个猜测",
+          "delta": {
+            "maps": 1
+          },
+          "text": "你写下“可能”，后面跟着一个很小的问号。"
+        },
+        {
+          "id": "blank",
+          "label": "留下一行空白",
+          "delta": {
+            "quiet": 1
+          },
+          "text": "笔停下来时，最小的个体还在走。"
+        }
+      ]
+    }
+  },
+  {
+    "version": 3,
+    "seed": 157,
+    "species": "orange",
+    "day": 2,
+    "period": 2,
+    "stage": "feedback",
+    "humidity": 56,
+    "temp": 22.1,
+    "vent": 67,
+    "light": 42,
+    "cover": 60,
+    "food": 0,
+    "interventions": 3,
+    "quiet": 1,
+    "accuracy": 0,
+    "maps": 1,
+    "labels": 1,
+    "care": 0,
+    "records": [
+      {
+        "day": 1,
+        "period": 0,
+        "kind": "text",
+        "choice": "mist",
+        "label": "湿区喷水",
+        "text": "你补了水。盒壁上的数字先变化，土下的变化慢一点。"
+      },
+      {
+        "day": 1,
+        "period": 1,
+        "kind": "route",
+        "choice": "route1",
+        "label": "木片",
+        "text": "它最终靠近叶缘。与你留下的箭头不同。地面的差别还在那里。"
+      },
+      {
+        "day": 1,
+        "period": 2,
+        "kind": "text",
+        "choice": "blank",
+        "label": "留下一行空白",
+        "text": "笔停下来时，最小的个体还在走。"
+      },
+      {
+        "day": 2,
+        "period": 0,
+        "kind": "text",
+        "choice": "air",
+        "label": "增加通风",
+        "text": "空气流动后，盒壁上的雾变薄。湿区仍留在左边。"
+      },
+      {
+        "day": 2,
+        "period": 1,
+        "kind": "shelter",
+        "choice": "flat",
+        "label": "平放叶片",
+        "text": "叶片贴着土。一只沿外缘绕过去，没有进入下面。"
+      },
+      {
+        "day": 2,
+        "period": 2,
+        "kind": "text",
+        "choice": "describe",
+        "label": "只记看到的",
+        "text": "你写下了位置、颜色和停留。句子没有替它们补上理由。"
+      }
+    ],
+    "ending": null,
+    "feedback": "你写下了位置、颜色和停留。句子没有替它们补上理由。",
+    "scene": {
+      "id": "2.2",
+      "title": "夜间",
+      "kind": "text",
+      "text": "叶片下面传来细小的移动，表面看不出是谁。 身体展开后，浅点重新排成几行。它并没有回到刚才的位置。",
+      "options": [
+        {
+          "id": "describe",
+          "label": "只记看到的",
+          "delta": {
+            "labels": 1
+          },
+          "text": "你写下了位置、颜色和停留。句子没有替它们补上理由。"
+        },
+        {
+          "id": "infer",
+          "label": "写下一个猜测",
+          "delta": {
+            "maps": 1
+          },
+          "text": "你写下“可能”，后面跟着一个很小的问号。"
+        },
+        {
+          "id": "blank",
+          "label": "留下一行空白",
+          "delta": {
+            "quiet": 1
+          },
+          "text": "笔停下来时，最小的个体还在走。"
+        }
+      ]
+    }
+  }
+]
