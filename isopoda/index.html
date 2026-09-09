@@ -1,55 +1,34 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,">
-  <meta name="theme-color" content="#22281f">
-  <meta name="description" content="ISOPODA FUGUE：一段七日鼠妇培养与观察记录。">
-  <title>ISOPODA FUGUE / UMWELT 01</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%2322281f'/%3E%3Cpath d='M3 7h2V5h6v2h2v3h-2v2H5v-2H3z' fill='%23e2dfca'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="./style.css">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#22281f"><meta name="description" content="Isopoda Fugue 等足目赋格。十三份培养档案，七天，许多次不完整的观察。">
+<title>ISOPODA FUGUE / 等足目赋格</title><link rel="icon" href="data:,">
+<link rel="stylesheet" href="./style.css?v=3"><link rel="stylesheet" href="./sprites.css?v=3">
 </head>
-<body>
-  <div id="flash" aria-hidden="true"></div>
-  <main id="game">
-    <header class="topbar">
-      <a href="../" aria-label="返回 Umwelt 目录">UMWELT / 01</a>
-      <div class="day-readout"><span id="dayLabel">DAY 1</span><i id="dayTicks" aria-hidden="true"></i></div>
-      <button id="soundBtn" class="icon-button" aria-label="切换声音" aria-pressed="false">SOUND: OFF</button>
-    </header>
-
-    <section class="title-card" id="titleCard">
-      <p>OBSERVATION BOX 01</p>
-      <h1>ISOPODA FUGUE</h1>
-      <p class="zh">等足目赋格</p>
-      <div class="intro-copy">七天。一小群鼠妇。<br>每天只需要看一会儿。</div>
-      <button id="startBtn" class="primary">打开培养盒</button>
-      <button id="continueBtn" class="text-button" hidden>继续上次的记录</button>
-    </section>
-
-    <section class="play-view" id="playView" hidden>
-      <div class="box-frame" id="boxFrame">
-        <canvas id="habitat" width="384" height="430" aria-label="俯视的鼠妇培养盒，里面有土壤、叶片、木片和十二只移动的鼠妇"></canvas>
-        <div class="glass-shine" aria-hidden="true"></div>
-        <div class="zoom-tools"><button id="zoomOut" aria-label="缩小观察">−</button><span id="zoomLevel">1×</span><button id="zoomIn" aria-label="放大观察">＋</button><button id="zoomReset">复位</button></div>
-      </div>
-
-      <section class="record" aria-live="polite">
-        <div class="record-head"><span>DAILY NOTE</span><span id="recordNo">001</span></div>
-        <p id="observation"></p>
-      </section>
-
-      <section class="actions" id="actions" aria-label="今日操作"></section>
-      <button class="next-button" id="nextBtn" hidden>结束今天的观察 →</button>
-    </section>
-
-    <section class="end-card" id="endCard" hidden>
-      <p>DAY 7 / 记录结束</p>
-      <div class="end-window"><canvas id="endCanvas" width="320" height="230"></canvas></div>
-      <p class="last-line">明天应该也差不多。</p>
-      <div class="end-actions"><button id="restartBtn" class="primary">重新开始</button><a href="../" class="text-link">返回档案</a></div>
-    </section>
-  </main>
-  <script src="./game.js"></script>
-</body>
-</html>
+<body><div id="flash" aria-hidden="true"></div>
+<main id="game">
+<header class="topbar"><a href="../" aria-label="返回 Umwelt 目录">UMWELT / 01</a><span id="dayLabel">ISOPODA FUGUE</span><button id="soundBtn" class="icon-button" aria-pressed="false">声音 关</button></header>
+<section id="titleCard" class="title-card">
+<h1>ISOPODA<br>FUGUE</h1><p class="zh">等足目赋格</p>
+<p class="intro-copy">七天，晨间、午后与夜间。<br>选一份培养档案，开始观察。</p>
+<div class="specimen-card"><div id="specimenPreview" class="specimen-preview"></div><h2 id="speciesName"></h2><p id="speciesLatin"></p><p id="speciesHint"></p></div>
+<div class="picker"><button id="speciesPrev" aria-label="上一品种">←</button><span id="speciesIndex"></span><button id="speciesNext" aria-label="下一品种">→</button></div>
+<button id="startBtn" class="primary">打开这只培养盒</button><button id="continueBtn" class="text-button" hidden>继续上次的记录</button>
+<div class="title-links"><button id="titleCatalog" class="text-button">品种图鉴</button><button id="titleArchive" class="text-button">已存记录</button></div><p id="storageNotice" role="status" hidden></p>
+</section>
+<section id="playView" class="play-view" hidden>
+<div id="boxFrame" class="box-frame">
+<canvas id="habitat" width="384" height="430" aria-label="鼠妇培养盒；可拖动观察，或使用缩放按钮"></canvas><div id="critters" aria-hidden="true"></div>
+<div class="instruments"><time id="realClock"></time><span id="simClimate"></span><span id="simDetail"></span></div>
+<div class="box-label" id="boxLabel"></div>
+<div class="zoom-tools"><button id="zoomOut" aria-label="缩小观察">−</button><span id="zoomLevel">1×</span><button id="zoomIn" aria-label="放大观察">＋</button><button id="zoomReset">复位</button></div>
+</div>
+<section class="record" aria-live="polite"><div class="record-head"><span id="recordTitle"></span><span id="recordNo"></span></div><p id="observation"></p><div id="miniView" hidden></div></section>
+<section id="actions" class="actions" aria-label="本轮选择"></section>
+<div class="bottom-bar"><button id="catalogBtn" class="small-button">图鉴</button><button id="journalBtn" class="small-button">记录</button><button id="nextBtn" class="next-button" disabled>选择后继续 →</button></div>
+</section>
+<section id="endCard" class="end-card" hidden><p>DAY 7 / 末页</p><div id="endSpecimen" class="end-specimen"></div><h2 id="endingTitle"></h2><p id="endingBody"></p><p id="endingLine" class="last-line"></p><p id="endingCount"></p><div class="end-actions"><button id="restartBtn" class="primary">另开一份记录</button><button id="endArchive" class="text-button">翻阅末页</button><a href="../">返回 UMWELT</a></div></section>
+<dialog id="drawer"><header><h2 id="drawerTitle"></h2><button id="closeDrawer" aria-label="关闭">×</button></header><div id="drawerContent"></div><footer><button id="pagePrev" aria-label="上一页">←</button><span id="pageNumber"></span><button id="pageNext" aria-label="下一页">→</button></footer></dialog>
+</main><script type="module" src="./game.js?v=3"></script>
+</body></html>

@@ -1,199 +1,95 @@
-"use strict";
-
-const $ = (s) => document.querySelector(s);
-const canvas = $("#habitat");
-const display = canvas.getContext("2d");
-const world = document.createElement("canvas");world.width=384;world.height=430;
-const ctx = world.getContext("2d");
-ctx.imageSmoothingEnabled = false;
-
-const DAYS = [
-  {
-    note: "培养盒里的土还很新。十二只鼠妇大多停在木片附近，偶尔沿着边缘慢慢移动。左侧的土颜色稍浅。",
-    after: {
-      mist: "细小的水滴落在左侧。过了一会儿，两只鼠妇从木片下爬出来，停在湿土的边缘。",
-      leaf: "新叶片盖住一小块土。一只鼠妇碰到叶缘，停了一会儿，随后钻了进去。",
-      wait: "没有进行处理。它们的移动很慢，像是在确认这个空间的边界。"
-    },
-    actions: [["mist","向左侧喷水"],["leaf","加入一片枯叶"],["wait","暂不处理"]]
-  },
-  {
-    note: "清晨，个体主要聚集在遮蔽物下。较小的一只独自在叶片边缘活动，触角反复碰到同一处土粒。",
-    after: {
-      food: "食物被放在叶片旁。没有个体立刻靠近。等光线暗下来，它们才缓慢改变路线。",
-      mist: "水让表层土壤变暗。原先分散的个体逐渐靠近，但并没有完全聚在一起。",
-      observe: "靠近看时，最小的个体缩起身体。你的影子离开后，它再次展开。"
-    },
-    actions: [["food","放少量食物"],["mist","轻轻喷水"],["observe","靠近观察"]]
-  },
-  {
-    note: "昨天靠近食物的个体，今天又经过了相似的位置。木片右下方有一条被反复经过的窄路。也可能只是那里比较平。",
-    after: {
-      moveLeaf: "叶片的位置改变后，原有的路线中断了。它们在新的边缘来回碰触，之后各自散开。",
-      observe: "你等了很久。第三只个体沿盒壁移动了两次，每次都在同一个角落转向。",
-      wait: "什么也没有改变。下午，木片下面仍然有四只；第十二只不在能看见的地方。"
-    },
-    actions: [["moveLeaf","移动枯叶"],["observe","记录一条路线"],["wait","保持原样"]]
-  },
-  {
-    note: "08:43，较大的个体离开木片。08:46，它在湿土边缘停下。昨天也是如此。你已经能在它出现前看向那里。",
-    after: {
-      mist: "喷雾改变了地面的气味和触感。记录中的路线暂时消失，新的路线绕过了你的水滴。",
-      food: "食物被移到远离遮蔽物的位置。两只个体抵达过那里，但都没有停留太久。",
-      observe: "它又一次在同一点转向。空间足够狭小时，重复的路线看起来很像习惯。"
-    },
-    actions: [["mist","改变湿润区域"],["food","把食物放远一些"],["observe","继续等待"]]
-  },
-  {
-    note: "光亮起来时，十二只个体都向遮蔽物移动。最小的个体晚了片刻。它经过的地方与你昨天留下的阴影重合。",
-    after: {
-      shade: "阴影停在木片与盒壁之间。几只个体很快进入其中。阴影移开后，它们仍停留了一会儿。",
-      edge: "边缘没有遮蔽物，土也更干。它沿盒壁走过半圈，又回到叶片下面。",
-      stay: "你留在这里。过了一阵，触角从叶片下面伸出来，碰了碰亮处的边界。"
-    },
-    actions: [["shade","阴影"],["edge","边缘"],["stay","留在这里"]],
-    prompt: "去哪里？"
-  },
-  {
-    note: "盒盖打开。空气流动，光从上方落下。你下意识靠近了阴影。等到震动停止，活动才重新开始。",
-    after: {
-      mist: "水滴很大，落地时带来短暂的震动。左边更容易呼吸。个体沿着深色土壤重新分布。",
-      leaf: "叶片落下，覆盖了昨天的开阔地。下面变暗，也更安静。几只个体很快消失不见。",
-      wait: "盖子保持打开了一会儿。这里没有可以避开的地方，只有可以靠近的地方。"
-    },
-    actions: [["mist","补充水分"],["leaf","加入遮蔽物"],["wait","暂不处理"]]
-  },
-  {
-    note: "第七天。木片下面仍然湿润。个体数量没有变化。盒盖尚未打开，它们已经停在昨天躲藏的位置附近。",
-    after: {
-      open: "盖子被打开。白光铺进培养盒，熟悉的震动沿着边缘传来。十二只个体各自进入最近的阴影。",
-      observe: "你看着它们。它们停下来。过了一会儿，你也没有移动。"
-    },
-    actions: [["open","照常打开盒盖"],["observe","再看一会儿"]]
-  }
-];
-
-let state = {day:1, acted:false, moisture:0, leaves:0, food:0, choiceLog:[]};
-let running = false, last = 0, soundOn = false, audioCtx;
-const critters = Array.from({length:12}, (_,i)=>({
-  x: 45+(i*71)%300, y: 65+(i*97)%320, a: (i*.9)-.4, speed:.18+i*.016,
-  turn: 40+i*33, pause: i*22, phase:i*.75, hidden:false
-}));
-
-function save(){ localStorage.setItem("umwelt-isopod-v1",JSON.stringify(state)); }
-function load(){ try { const s=JSON.parse(localStorage.getItem("umwelt-isopod-v1")); if(s&&s.day>=1&&s.day<=7) state={...state,...s}; } catch(_){} }
-function dayData(){return DAYS[state.day-1]}
-function updateDay(){
-  $("#dayLabel").textContent=`DAY ${state.day}`;
-  $("#dayTicks").innerHTML=Array.from({length:7},(_,i)=>`<b class="${i<state.day?'on':''}"></b>`).join("");
-  $("#recordNo").textContent=String(state.day).padStart(3,"0");
+import {SPECIES,speciesById} from './species.mjs';
+import {ENDINGS} from './content.mjs';
+import {createRun,validRun,migrateLegacy,ensureScene,choose,advance,PERIODS} from './engine.mjs';
+import {makeBug} from './sprites.mjs';
+import {createHabitat} from './habitat.mjs';
+const $=s=>document.querySelector(s),KEY='isopoda-fugue-v3',ARCHIVE='isopoda-fugue-endings-v3';
+let storageOK=true;
+function read(key){try{return JSON.parse(localStorage.getItem(key))}catch{return null}}
+function write(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch{storageOK=false;$('#storageNotice').hidden=false;$('#storageNotice').textContent='此浏览器无法保存记录；本次仍可完整游玩。'}}
+let stored=read(KEY),legacy=read('umwelt-isopod-v1');
+let state=validRun(stored)?stored:legacy?migrateLegacy(legacy,Date.now()>>>0):createRun();
+let selected=SPECIES.findIndex(p=>p.id===state.species),playing=false,sound=false,audio,drawerMode='catalog',page=0;
+let archives=read(ARCHIVE);if(!Array.isArray(archives))archives=[];archives=archives.filter(a=>a&&ENDINGS.some(e=>e.id===a.id));
+const habitat=createHabitat($('#habitat'),$('#critters'),()=>state);
+function save(){write(KEY,state)}
+function preview(){
+ const p=SPECIES[selected];$('#specimenPreview').replaceChildren(makeBug(p));$('#speciesName').textContent=p.name+' / '+p.label;$('#speciesLatin').textContent=p.taxon;
+ $('#speciesHint').textContent=p.shape==='flat'||p.shape==='long'?'扁长的身体，叶缘与干湿边界。':p.shape==='wide'?'宽阔的侧缘，低矮的入口。':'圆拱的甲片，树皮下的间隙。';
+ $('#speciesIndex').textContent=String(selected+1).padStart(2,'0')+' / 13';
 }
-function begin(fresh=false){
-  if(fresh){state={day:1,acted:false,moisture:0,leaves:0,food:0,choiceLog:[]};save()}
-  $("#titleCard").hidden=true; $("#playView").hidden=false; running=true; renderTurn(); requestAnimationFrame(loop);
+function buttons(scene){
+ $('#actions').replaceChildren();
+ for(const o of scene.options){const b=document.createElement('button');b.className='action';b.textContent=o.label;b.disabled=state.stage!=='choice';b.onclick=()=>act(o.id);$('#actions').append(b)}
 }
-function renderTurn(){
-  updateDay(); const d=dayData(); $("#observation").textContent=d.note;
-  $("#actions").innerHTML=""; $("#nextBtn").hidden=true;
-  if(d.prompt){ const p=document.createElement("p");p.className="action-prompt";p.textContent=d.prompt;$("#actions").append(p); }
-  d.actions.forEach(([id,label])=>{const b=document.createElement("button");b.className="action";b.textContent=label;b.disabled=state.acted;b.onclick=()=>act(id);$("#actions").append(b)});
-  if(state.acted){ const prev=state.choiceLog[state.day-1]; if(prev) $("#observation").textContent=d.after[prev]; $("#nextBtn").hidden=false; }
-
+function render(){
+ const scene=ensureScene(state),p=speciesById(state.species);
+ $('#dayLabel').textContent='D'+state.day+' / '+PERIODS[state.period];$('#boxLabel').textContent=p.label;
+ $('#recordTitle').textContent=state.stage==='feedback'?'观察结果':(scene.kind==='text'?'观察记录':'小观察');
+ $('#recordNo').textContent=String((state.day-1)*3+state.period+1).padStart(2,'0')+' / 21';
+ $('#observation').textContent=state.stage==='feedback'?state.feedback:scene.text;
+ $('#nextBtn').disabled=state.stage!=='feedback';
+ $('#nextBtn').textContent=state.stage==='choice'?'选择后继续 →':state.day===7&&state.period===2?'合上这份记录 →':state.period===2?'进入第 '+(state.day+1)+' 天 →':'继续到'+PERIODS[state.period+1]+' →';
+ buttons(scene);$('#miniView').replaceChildren();$('#miniView').hidden=state.stage==='feedback'||scene.kind==='text';
+ if(state.stage==='choice'&&scene.kind==='count'){for(let i=0;i<scene.count;i++)$('#miniView').append(makeBug(p,i))}
+ else if(state.stage==='choice'&&scene.kind==='route'){for(const label of ['湿苔','木片','叶缘']){const span=document.createElement('span');span.className='mini-chip';span.textContent=label;$('#miniView').append(span)}}
+ else if(state.stage==='choice'&&scene.kind!=='text'){$('#miniView').hidden=true}
+ climate();save();
 }
-function act(id){
-  state.acted=true;state.choiceLog[state.day-1]=id;
-  if(id==="mist")state.moisture++;if(["leaf","moveLeaf"].includes(id))state.leaves++;if(id==="food")state.food++;
-  if(id==="shade")critters.forEach((c,i)=>{c.x=135+i*15;c.y=145+i*9;c.pause=10});
-  if(id==="edge")critters[0].x=348;if(id==="stay")critters[2].x=180;
-  save(); tone(130,0.055); renderTurn();
+function begin(fresh){
+ if(fresh){state=createRun(SPECIES[selected].id,Date.now()>>>0);save()}
+ $('#titleCard').hidden=true;$('#endCard').hidden=true;playing=true;
+ if(state.stage==='ended'){showEnd();return}
+ $('#playView').hidden=false;habitat.reset();habitat.home();$('#zoomLevel').textContent='1×';habitat.start();render();
 }
+function act(id){if(!choose(state,id))return;habitat.react(id);tone(130);render()}
 function next(){
-  if(state.day===7){finish();return}
-  state.day++;state.acted=false;save();tone(92,.05);renderTurn();window.scrollTo({top:0,behavior:"smooth"});
+ if(!advance(state))return;tone(95);save();
+ if(state.stage==='ended'){habitat.stop();$('#flash').animate([{opacity:0},{opacity:.92},{opacity:0}],{duration:1800});showEnd();return}
+ render();
 }
-function finish(){
-  running=false;localStorage.removeItem("umwelt-isopod-v1");
-  $("#flash").animate([{opacity:0},{opacity:.97,offset:.45},{opacity:.97,offset:.75},{opacity:0}],{duration:3100,easing:"ease-in-out"});
-  setTimeout(()=>{$("#playView").hidden=true;$("#endCard").hidden=false;drawEnd();window.scrollTo(0,0)},1600);
-  tone(70,.18);
+function showEnd(){
+ habitat.stop();$('#playView').hidden=true;$('#endCard').hidden=false;
+ const e=ENDINGS.find(e=>e.id===state.ending)||ENDINGS[5];$('#endingTitle').textContent=e.title;$('#endingBody').textContent=e.body;$('#endingLine').textContent=e.line;
+ $('#endSpecimen').replaceChildren(...[0,1,2].map(i=>makeBug(speciesById(state.species),i)));
+ if(!archives.some(a=>a.run===state.seed&&a.species===state.species)){archives.push({id:e.id,run:state.seed,species:state.species,date:new Date().toLocaleDateString(),records:state.records.length});archives=archives.slice(-60);write(ARCHIVE,archives)}
+ $('#endingCount').textContent='末页已存 · '+new Set(archives.map(a=>a.id)).size+' / 6';save();
 }
-function tone(freq,duration){
-  if(!soundOn)return;audioCtx ||= new (window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type="square";o.frequency.value=freq;g.gain.setValueAtTime(.025,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+duration);o.connect(g).connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+duration);
+function home(){
+ playing=false;habitat.stop();$('#playView').hidden=true;$('#endCard').hidden=true;$('#titleCard').hidden=false;$('#dayLabel').textContent='ISOPODA FUGUE';selected=SPECIES.findIndex(p=>p.id===state.species);preview();$('#continueBtn').hidden=false;$('#continueBtn').textContent=state.stage==='ended'?'翻回刚才的末页':'继续上次的记录';
 }
-function px(c,x,y,w,h,color){c.fillStyle=color;c.fillRect(Math.round(x),Math.round(y),w,h)}
-function drawHabitat(t){
-  const w=world.width,h=world.height;ctx.fillStyle="#443729";ctx.fillRect(0,0,w,h);
-  for(let i=0;i<165;i++){const x=(i*67)%w,y=(i*113)%h;px(ctx,x,y,(i%3)+2,(i%2)+2,i%5===0?"#6f5940":"#342a21")}
-  // wet patch
-  for(let y=8;y<422;y+=4){const edge=72+Math.round(18*Math.sin(y*.04)+12*Math.sin(y*.09));px(ctx,8,y,edge,4,state.moisture?"#344637":"#45432f")}for(let i=0;i<40;i++)px(ctx,(i*31)%75,30+(i*47)%370,3,2,"#60705a");
-  scenery(t);
-  // leaves
-  leaf(ctx,275,110,-.45,"#917b45");leaf(ctx,290,344,.35,"#745936");if(state.leaves)leaf(ctx,90,315,-.15,"#a4824d");
-  // bark shelter
-  ctx.save();ctx.translate(190,215);ctx.rotate(-.09);ctx.fillStyle="#5a412b";ctx.fillRect(-68,-36,136,72);ctx.fillStyle="#76583a";ctx.fillRect(-64,-32,128,8);for(let i=-55;i<60;i+=18)px(ctx,i,-20,8,46,i%36?"#4b3527":"#6b4d33");ctx.restore();
-  if(state.food){px(ctx,315,252,13,10,"#ba9b62");px(ctx,327,258,8,7,"#d0af70")}
-  critters.forEach((c,i)=>updateCritter(c,i,t));
-  ctx.fillStyle="rgba(210,214,183,.07)";ctx.fillRect(4,4,w-8,h-8);ctx.strokeStyle="#93947c";ctx.lineWidth=4;ctx.strokeRect(2,2,w-4,h-4);
-  present();
+function climate(){
+ $('#realClock').textContent='现实 '+new Date().toLocaleTimeString('zh-CN',{hour12:false});
+ $('#simClimate').textContent='箱内 '+state.temp.toFixed(1)+'°C  '+Math.round(state.humidity)+'% RH';
+ $('#simDetail').textContent='通风 '+(state.vent>75?'较强':state.vent<40?'微弱':'适中')+' · '+(state.light<30?'微光':state.light>65?'亮':'柔光');
 }
-function leaf(c,x,y,a,color){c.save();c.translate(x,y);c.rotate(a);c.fillStyle=color;c.beginPath();c.moveTo(-50,0);c.lineTo(-22,-23);c.lineTo(14,-29);c.lineTo(45,-10);c.lineTo(50,15);c.lineTo(14,27);c.lineTo(-24,20);c.closePath();c.fill();c.strokeStyle="#4d402a";c.lineWidth=3;c.beginPath();c.moveTo(-47,0);c.lineTo(46,2);c.stroke();for(let n=-25;n<35;n+=15){c.beginPath();c.moveTo(n,1);c.lineTo(n+13,n<0?-17:18);c.stroke()}c.restore()}
-function updateCritter(c,i,t){
-  if(c.hidden&&state.day<2)return;c.turn--;c.pause--;
-  if(c.turn<0){c.a+=(Math.sin(t*.001+c.phase)*1.4);c.turn=45+((i*29+t*.01)%80)}
-  const nearShelter=c.x>112&&c.x<270&&c.y>165&&c.y<265;
-  if(c.pause<0){c.x+=Math.cos(c.a)*c.speed*2.7;c.y+=Math.sin(c.a)*c.speed*2.7}
-  if(c.pause<-100){c.pause=25+(i*17)%80}
-  if(c.x<22||c.x>362){c.a=Math.PI-c.a;c.x=Math.max(22,Math.min(362,c.x))}if(c.y<24||c.y>405){c.a=-c.a;c.y=Math.max(24,Math.min(405,c.y))}
-  if(!nearShelter || Math.sin(t*.0005+i)>0.2) drawCritter(c,t,i)
+function tone(freq){if(!sound)return;try{audio ||= new (window.AudioContext||window.webkitAudioContext)();audio.resume();const o=audio.createOscillator(),g=audio.createGain();o.type='triangle';o.frequency.value=freq;g.gain.setValueAtTime(.025,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.12);o.connect(g).connect(audio.destination);o.start();o.stop(audio.currentTime+.12)}catch{sound=false;$('#soundBtn').textContent='声音 不可用'}}
+function paragraph(text,cls=''){const p=document.createElement('p');p.textContent=text;p.className=cls;return p}
+function drawDrawer(){
+ const el=$('#drawerContent');el.replaceChildren();let total=1;
+ if(drawerMode==='catalog'){
+  total=SPECIES.length;page=(page+total)%total;const p=SPECIES[page];$('#drawerTitle').textContent=p.name+' / '+p.label;
+  const art=document.createElement('div');art.className='catalog-art';art.append(makeBug(p));el.append(art,paragraph(p.taxon,'latin'),paragraph(p.status,'taxonomy-note'),paragraph(p.notes[0]),paragraph('箱内温湿度与行为为游戏模拟。每份记录单独培养一种；数值不作真实饲养处方。','catalog-disclaimer'));
+ }else if(drawerMode==='journal'){
+  const records=state.records;total=Math.max(1,records.length);page=Math.min(Math.max(0,page),total-1);$('#drawerTitle').textContent='这七天的记录';
+  if(records.length){const r=records[page];el.append(paragraph('DAY '+r.day+' / '+PERIODS[r.period],'entry-date'),paragraph('你选择：'+r.label),paragraph(r.text))}else el.append(paragraph('第一页还没有写下操作。'));
+ }else{
+  total=6;page=(page+total)%total;const e=ENDINGS[page],saved=archives.filter(a=>a.id===e.id);$('#drawerTitle').textContent=saved.length?e.title:'尚未写到的末页';
+  if(saved.length){el.append(paragraph(e.body),paragraph(e.line),paragraph('已留下 '+saved.length+' 份记录 · '+saved[saved.length-1].date,'entry-date'))}else el.append(paragraph('这里暂时空着。另一种观察方式，也许会把记录带到这里。'));
+ }
+ $('#pageNumber').textContent=(page+1)+' / '+total;$('#pagePrev').disabled=total===1;$('#pageNext').disabled=total===1;
 }
-function drawCritter(c,t,i){
-  ctx.save();ctx.translate(Math.round(c.x),Math.round(c.y));ctx.rotate(c.a);const wig=Math.sin(t*.012+c.phase);
-  ctx.strokeStyle="#25251e";ctx.lineWidth=2;for(let n=-11;n<=11;n+=5){ctx.beginPath();ctx.moveTo(n,-5);ctx.lineTo(n-3,-10+(n%2)*wig);ctx.moveTo(n,5);ctx.lineTo(n-3,10-(n%2)*wig);ctx.stroke()}
-  ctx.fillStyle=i===2?"#777262":"#666557";ctx.fillRect(-15,-6,25,12);for(let n=-12;n<10;n+=5){ctx.fillStyle=n%10?"#858071":"#56564a";ctx.fillRect(n,-7,4,14)}ctx.fillStyle="#4a4b40";ctx.fillRect(10,-5,6,10);
-  ctx.strokeStyle="#9a9582";ctx.beginPath();ctx.moveTo(15,-3);ctx.lineTo(22+wig*2,-8);ctx.moveTo(15,3);ctx.lineTo(22+wig*2,8);ctx.stroke();ctx.restore()
-}
-function loop(t){if(!running)return;if(t-last>34){drawHabitat(t);last=t}requestAnimationFrame(loop)}
-function drawEnd(){const c=$("#endCanvas").getContext("2d");c.imageSmoothingEnabled=false;c.fillStyle="#efe9d0";c.fillRect(0,0,320,230);c.fillStyle="#d7d0b8";c.fillRect(0,175,320,55);for(let i=0;i<5;i++){c.save();c.translate(62+i*47,192+(i%2)*8);c.rotate((i-2)*.15);c.fillStyle="#68675b";c.fillRect(-12,-5,23,10);for(let n=-10;n<10;n+=5){c.fillStyle=n%10?"#817d70":"#56564b";c.fillRect(n,-6,3,12)}c.restore()}}
-
-$("#startBtn").onclick=()=>begin(true);$("#continueBtn").onclick=()=>begin(false);$("#nextBtn").onclick=next;
-$("#restartBtn").onclick=()=>{location.reload()};$("#soundBtn").onclick=()=>{soundOn=!soundOn;$("#soundBtn").textContent=`SOUND: ${soundOn?'ON':'OFF'}`;$("#soundBtn").setAttribute("aria-pressed",soundOn);tone(110,.05)};
-
-
-const camera={zoom:1,x:192,y:215};
-function present(){
-  const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;
-  const w=Math.max(80,Math.round(rect.width/2)),h=Math.max(60,Math.round(rect.height/2));
-  if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h}
-  display.imageSmoothingEnabled=false;
-  const fit=Math.max(w/384,h/430),sw=w/(fit*camera.zoom),sh=h/(fit*camera.zoom);
-  camera.x=Math.max(sw/2,Math.min(384-sw/2,camera.x));camera.y=Math.max(sh/2,Math.min(430-sh/2,camera.y));
-  display.drawImage(world,Math.round(camera.x-sw/2),Math.round(camera.y-sh/2),sw,sh,0,0,w,h);
-}
-function zoom(z){camera.zoom=Math.max(1,Math.min(3,z));$("#zoomLevel").textContent=camera.zoom.toFixed(1).replace(".0","")+"×";present()}
-$("#zoomIn").onclick=()=>zoom(camera.zoom+.5);$("#zoomOut").onclick=()=>zoom(camera.zoom-.5);$("#zoomReset").onclick=()=>{camera.x=192;camera.y=215;zoom(1)};
-let pointer=null;
-canvas.addEventListener("pointerdown",e=>{pointer={x:e.clientX,y:e.clientY};canvas.setPointerCapture(e.pointerId)});
-canvas.addEventListener("pointermove",e=>{if(!pointer)return;const r=canvas.getBoundingClientRect(),scale=Math.max(r.width/384,r.height/430)*camera.zoom;camera.x-=(e.clientX-pointer.x)/scale;camera.y-=(e.clientY-pointer.y)/scale;pointer={x:e.clientX,y:e.clientY};present()});
-for(const event of ["pointerup","pointercancel","lostpointercapture"])canvas.addEventListener(event,()=>pointer=null);
-canvas.addEventListener("wheel",e=>{e.preventDefault();zoom(camera.zoom+(e.deltaY<0?.25:-.25))},{passive:false});
-function scenery(t){
-  // Irregular moss carpet, pebbles, roots and leaf litter.
-  for(let i=0;i<600;i++){const x=(i*67)%384,y=(i*83)%430;
-    if(x<65+28*Math.sin(y*.03)||y>370+15*Math.sin(x*.05)){
-      px(ctx,x,y,5+i%5,3+i%3,["#39472e","#4b5837","#607044","#748052"][i%4]);
-      if(i%7===0)px(ctx,x+2,y-2,2,2,"#92996b");
-    }
-  }
-  for(let i=0;i<38;i++){const x=30+(i*73)%330,y=25+(i*119)%380;
-    px(ctx,x,y,8,5,"#2d2d23");px(ctx,x,y-2,6,4,["#77715a","#67694f","#8b8167"][i%3]);px(ctx,x+1,y-2,2,1,"#a19b7d");
-  }
-  for(let i=0;i<60;i++){const x=275+Math.sin(i*.07)*30,y=20+i*5;px(ctx,x,y,5,7,"#302a20");px(ctx,x+1,y,2,5,"#705338");if(i%5===0)for(let j=0;j<8;j++)px(ctx,x-j*3,y+j,4,2,"#5e4830")}
-  for(let i=0;i<14;i++){ctx.save();ctx.translate(35+(i*91)%320,30+(i*63)%365);ctx.scale(.22+(i%3)*.08,.24);leaf(ctx,0,0,i*.8,["#897246","#a08750","#645336"][i%3]);ctx.restore()}
-  // Small fern rosettes, kept to the damp side.
-  for(const [x,y] of [[52,60],[40,330],[323,382]])for(let i=0;i<6;i++)for(let j=0;j<9;j++){
-    const a=i*Math.PI/3,xx=x+Math.cos(a)*j*3,yy=y+Math.sin(a)*j*3;
-    px(ctx,xx,yy,3,3,"#768253");if(j%2===0){px(ctx,xx-4,yy,5,2,"#4f6940");px(ctx,xx,yy-3,5,2,"#627b49")}
-  }
-}
-
-load();if(localStorage.getItem("umwelt-isopod-v1"))$("#continueBtn").hidden=false;updateDay();drawHabitat(0);
+function openDrawer(mode){drawerMode=mode;page=mode==='catalog'?(playing?SPECIES.findIndex(p=>p.id===state.species):selected):mode==='journal'?Math.max(0,state.records.length-1):0;drawDrawer();$('#drawer').showModal()}
+$('#speciesPrev').onclick=()=>{selected=(selected+12)%13;preview()};$('#speciesNext').onclick=()=>{selected=(selected+1)%13;preview()};
+$('#startBtn').onclick=()=>begin(true);$('#continueBtn').onclick=()=>begin(false);$('#nextBtn').onclick=next;$('#restartBtn').onclick=home;
+$('#soundBtn').onclick=()=>{sound=!sound;$('#soundBtn').textContent='声音 '+(sound?'开':'关');$('#soundBtn').setAttribute('aria-pressed',String(sound));tone(120)};
+$('#zoomIn').onclick=()=>$('#zoomLevel').textContent=habitat.zoomBy(.5).toFixed(1)+'×';
+$('#zoomOut').onclick=()=>$('#zoomLevel').textContent=habitat.zoomBy(-.5).toFixed(1)+'×';
+$('#zoomReset').onclick=()=>{$('#zoomLevel').textContent=habitat.home()+'×'};
+for(const id of ['catalogBtn','titleCatalog'])$('#'+id).onclick=()=>openDrawer('catalog');
+for(const id of ['titleArchive','endArchive'])$('#'+id).onclick=()=>openDrawer('archive');
+$('#journalBtn').onclick=()=>openDrawer('journal');$('#closeDrawer').onclick=()=>$('#drawer').close();
+$('#pagePrev').onclick=()=>{page--;if(page<0)page=drawerMode==='catalog'?12:drawerMode==='journal'?Math.max(0,state.records.length-1):5;drawDrawer()};
+$('#pageNext').onclick=()=>{const n=drawerMode==='catalog'?13:drawerMode==='journal'?Math.max(1,state.records.length):6;page=(page+1)%n;drawDrawer()};
+preview();climate();setInterval(climate,1000);$('#continueBtn').hidden=!(validRun(stored)||legacy);
+if(state.stage==='ended')$('#continueBtn').textContent='查看上次的末页';
