@@ -2,12 +2,14 @@
 
 const $ = (s) => document.querySelector(s);
 const canvas = $("#habitat");
-const ctx = canvas.getContext("2d");
+const display = canvas.getContext("2d");
+const world = document.createElement("canvas");world.width=384;world.height=430;
+const ctx = world.getContext("2d");
 ctx.imageSmoothingEnabled = false;
 
 const DAYS = [
   {
-    note: "培养盒里的土还很新。五只鼠妇大多停在木片附近，偶尔沿着边缘慢慢移动。左侧的土颜色稍浅。",
+    note: "培养盒里的土还很新。十二只鼠妇大多停在木片附近，偶尔沿着边缘慢慢移动。左侧的土颜色稍浅。",
     after: {
       mist: "细小的水滴落在左侧。过了一会儿，两只鼠妇从木片下爬出来，停在湿土的边缘。",
       leaf: "新叶片盖住一小块土。一只鼠妇碰到叶缘，停了一会儿，随后钻了进去。",
@@ -29,7 +31,7 @@ const DAYS = [
     after: {
       moveLeaf: "叶片的位置改变后，原有的路线中断了。它们在新的边缘来回碰触，之后各自散开。",
       observe: "你等了很久。第三只个体沿盒壁移动了两次，每次都在同一个角落转向。",
-      wait: "什么也没有改变。下午，木片下面仍然有四只；第五只不在能看见的地方。"
+      wait: "什么也没有改变。下午，木片下面仍然有四只；第十二只不在能看见的地方。"
     },
     actions: [["moveLeaf","移动枯叶"],["observe","记录一条路线"],["wait","保持原样"]]
   },
@@ -43,7 +45,7 @@ const DAYS = [
     actions: [["mist","改变湿润区域"],["food","把食物放远一些"],["observe","继续等待"]]
   },
   {
-    note: "光亮起来时，五只个体都向遮蔽物移动。最小的个体晚了片刻。它经过的地方与你昨天留下的阴影重合。",
+    note: "光亮起来时，十二只个体都向遮蔽物移动。最小的个体晚了片刻。它经过的地方与你昨天留下的阴影重合。",
     after: {
       shade: "阴影停在木片与盒壁之间。几只个体很快进入其中。阴影移开后，它们仍停留了一会儿。",
       edge: "边缘没有遮蔽物，土也更干。它沿盒壁走过半圈，又回到叶片下面。",
@@ -64,7 +66,7 @@ const DAYS = [
   {
     note: "第七天。木片下面仍然湿润。个体数量没有变化。盒盖尚未打开，它们已经停在昨天躲藏的位置附近。",
     after: {
-      open: "盖子被打开。白光铺进培养盒，熟悉的震动沿着边缘传来。五只个体各自进入最近的阴影。",
+      open: "盖子被打开。白光铺进培养盒，熟悉的震动沿着边缘传来。十二只个体各自进入最近的阴影。",
       observe: "你看着它们。它们停下来。过了一会儿，你也没有移动。"
     },
     actions: [["open","照常打开盒盖"],["observe","再看一会儿"]]
@@ -73,9 +75,9 @@ const DAYS = [
 
 let state = {day:1, acted:false, moisture:0, leaves:0, food:0, choiceLog:[]};
 let running = false, last = 0, soundOn = false, audioCtx;
-const critters = Array.from({length:5}, (_,i)=>({
-  x: 78+i*49, y: 170+(i%2)*88, a: (i*.9)-.4, speed:.18+i*.016,
-  turn: 40+i*33, pause: i*22, phase:i*.75, hidden:i===4
+const critters = Array.from({length:12}, (_,i)=>({
+  x: 45+(i*71)%300, y: 65+(i*97)%320, a: (i*.9)-.4, speed:.18+i*.016,
+  turn: 40+i*33, pause: i*22, phase:i*.75, hidden:false
 }));
 
 function save(){ localStorage.setItem("umwelt-isopod-v1",JSON.stringify(state)); }
@@ -93,10 +95,10 @@ function begin(fresh=false){
 function renderTurn(){
   updateDay(); const d=dayData(); $("#observation").textContent=d.note;
   $("#actions").innerHTML=""; $("#nextBtn").hidden=true;
-  if(d.prompt){ const p=document.createElement("p");p.className="action-prompt";p.textContent=d.prompt;p.style.cssText="grid-column:1/-1;margin:2px 0 5px;font:12px system-ui;letter-spacing:.08em";$("#actions").append(p); }
+  if(d.prompt){ const p=document.createElement("p");p.className="action-prompt";p.textContent=d.prompt;$("#actions").append(p); }
   d.actions.forEach(([id,label])=>{const b=document.createElement("button");b.className="action";b.textContent=label;b.disabled=state.acted;b.onclick=()=>act(id);$("#actions").append(b)});
   if(state.acted){ const prev=state.choiceLog[state.day-1]; if(prev) $("#observation").textContent=d.after[prev]; $("#nextBtn").hidden=false; }
-  if(state.day>=6) $("#boxFrame").classList.add("close"); else $("#boxFrame").classList.remove("close");
+
 }
 function act(id){
   state.acted=true;state.choiceLog[state.day-1]=id;
@@ -120,10 +122,11 @@ function tone(freq,duration){
 }
 function px(c,x,y,w,h,color){c.fillStyle=color;c.fillRect(Math.round(x),Math.round(y),w,h)}
 function drawHabitat(t){
-  const w=canvas.width,h=canvas.height;ctx.fillStyle="#443729";ctx.fillRect(0,0,w,h);
+  const w=world.width,h=world.height;ctx.fillStyle="#443729";ctx.fillRect(0,0,w,h);
   for(let i=0;i<165;i++){const x=(i*67)%w,y=(i*113)%h;px(ctx,x,y,(i%3)+2,(i%2)+2,i%5===0?"#6f5940":"#342a21")}
   // wet patch
-  ctx.fillStyle=state.moisture?"#344637":"#4b4531";ctx.fillRect(0,80,116,260);for(let i=0;i<20;i++)px(ctx,(i*31)%112,90+(i*47)%240,3,2,"#60705a");
+  for(let y=8;y<422;y+=4){const edge=72+Math.round(18*Math.sin(y*.04)+12*Math.sin(y*.09));px(ctx,8,y,edge,4,state.moisture?"#344637":"#45432f")}for(let i=0;i<40;i++)px(ctx,(i*31)%75,30+(i*47)%370,3,2,"#60705a");
+  scenery(t);
   // leaves
   leaf(ctx,275,110,-.45,"#917b45");leaf(ctx,290,344,.35,"#745936");if(state.leaves)leaf(ctx,90,315,-.15,"#a4824d");
   // bark shelter
@@ -131,16 +134,17 @@ function drawHabitat(t){
   if(state.food){px(ctx,315,252,13,10,"#ba9b62");px(ctx,327,258,8,7,"#d0af70")}
   critters.forEach((c,i)=>updateCritter(c,i,t));
   ctx.fillStyle="rgba(210,214,183,.07)";ctx.fillRect(4,4,w-8,h-8);ctx.strokeStyle="#93947c";ctx.lineWidth=4;ctx.strokeRect(2,2,w-4,h-4);
+  present();
 }
 function leaf(c,x,y,a,color){c.save();c.translate(x,y);c.rotate(a);c.fillStyle=color;c.beginPath();c.moveTo(-50,0);c.lineTo(-22,-23);c.lineTo(14,-29);c.lineTo(45,-10);c.lineTo(50,15);c.lineTo(14,27);c.lineTo(-24,20);c.closePath();c.fill();c.strokeStyle="#4d402a";c.lineWidth=3;c.beginPath();c.moveTo(-47,0);c.lineTo(46,2);c.stroke();for(let n=-25;n<35;n+=15){c.beginPath();c.moveTo(n,1);c.lineTo(n+13,n<0?-17:18);c.stroke()}c.restore()}
 function updateCritter(c,i,t){
   if(c.hidden&&state.day<2)return;c.turn--;c.pause--;
   if(c.turn<0){c.a+=(Math.sin(t*.001+c.phase)*1.4);c.turn=45+((i*29+t*.01)%80)}
   const nearShelter=c.x>112&&c.x<270&&c.y>165&&c.y<265;
-  if(c.pause<0&&!nearShelter){c.x+=Math.cos(c.a)*c.speed*2.7;c.y+=Math.sin(c.a)*c.speed*2.7}
+  if(c.pause<0){c.x+=Math.cos(c.a)*c.speed*2.7;c.y+=Math.sin(c.a)*c.speed*2.7}
   if(c.pause<-100){c.pause=25+(i*17)%80}
   if(c.x<22||c.x>362){c.a=Math.PI-c.a;c.x=Math.max(22,Math.min(362,c.x))}if(c.y<24||c.y>405){c.a=-c.a;c.y=Math.max(24,Math.min(405,c.y))}
-  drawCritter(c,t,i)
+  if(!nearShelter || Math.sin(t*.0005+i)>0.2) drawCritter(c,t,i)
 }
 function drawCritter(c,t,i){
   ctx.save();ctx.translate(Math.round(c.x),Math.round(c.y));ctx.rotate(c.a);const wig=Math.sin(t*.012+c.phase);
@@ -153,5 +157,43 @@ function drawEnd(){const c=$("#endCanvas").getContext("2d");c.imageSmoothingEnab
 
 $("#startBtn").onclick=()=>begin(true);$("#continueBtn").onclick=()=>begin(false);$("#nextBtn").onclick=next;
 $("#restartBtn").onclick=()=>{location.reload()};$("#soundBtn").onclick=()=>{soundOn=!soundOn;$("#soundBtn").textContent=`SOUND: ${soundOn?'ON':'OFF'}`;$("#soundBtn").setAttribute("aria-pressed",soundOn);tone(110,.05)};
-canvas.onclick=()=>{$("#tapHint").classList.add("gone");$("#boxFrame").classList.toggle("close");tone(160,.035)};
+
+
+const camera={zoom:1,x:192,y:215};
+function present(){
+  const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;
+  const w=Math.max(80,Math.round(rect.width/2)),h=Math.max(60,Math.round(rect.height/2));
+  if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h}
+  display.imageSmoothingEnabled=false;
+  const fit=Math.max(w/384,h/430),sw=w/(fit*camera.zoom),sh=h/(fit*camera.zoom);
+  camera.x=Math.max(sw/2,Math.min(384-sw/2,camera.x));camera.y=Math.max(sh/2,Math.min(430-sh/2,camera.y));
+  display.drawImage(world,Math.round(camera.x-sw/2),Math.round(camera.y-sh/2),sw,sh,0,0,w,h);
+}
+function zoom(z){camera.zoom=Math.max(1,Math.min(3,z));$("#zoomLevel").textContent=camera.zoom.toFixed(1).replace(".0","")+"×";present()}
+$("#zoomIn").onclick=()=>zoom(camera.zoom+.5);$("#zoomOut").onclick=()=>zoom(camera.zoom-.5);$("#zoomReset").onclick=()=>{camera.x=192;camera.y=215;zoom(1)};
+let pointer=null;
+canvas.addEventListener("pointerdown",e=>{pointer={x:e.clientX,y:e.clientY};canvas.setPointerCapture(e.pointerId)});
+canvas.addEventListener("pointermove",e=>{if(!pointer)return;const r=canvas.getBoundingClientRect(),scale=Math.max(r.width/384,r.height/430)*camera.zoom;camera.x-=(e.clientX-pointer.x)/scale;camera.y-=(e.clientY-pointer.y)/scale;pointer={x:e.clientX,y:e.clientY};present()});
+for(const event of ["pointerup","pointercancel","lostpointercapture"])canvas.addEventListener(event,()=>pointer=null);
+canvas.addEventListener("wheel",e=>{e.preventDefault();zoom(camera.zoom+(e.deltaY<0?.25:-.25))},{passive:false});
+function scenery(t){
+  // Irregular moss carpet, pebbles, roots and leaf litter.
+  for(let i=0;i<600;i++){const x=(i*67)%384,y=(i*83)%430;
+    if(x<65+28*Math.sin(y*.03)||y>370+15*Math.sin(x*.05)){
+      px(ctx,x,y,5+i%5,3+i%3,["#39472e","#4b5837","#607044","#748052"][i%4]);
+      if(i%7===0)px(ctx,x+2,y-2,2,2,"#92996b");
+    }
+  }
+  for(let i=0;i<38;i++){const x=30+(i*73)%330,y=25+(i*119)%380;
+    px(ctx,x,y,8,5,"#2d2d23");px(ctx,x,y-2,6,4,["#77715a","#67694f","#8b8167"][i%3]);px(ctx,x+1,y-2,2,1,"#a19b7d");
+  }
+  for(let i=0;i<60;i++){const x=275+Math.sin(i*.07)*30,y=20+i*5;px(ctx,x,y,5,7,"#302a20");px(ctx,x+1,y,2,5,"#705338");if(i%5===0)for(let j=0;j<8;j++)px(ctx,x-j*3,y+j,4,2,"#5e4830")}
+  for(let i=0;i<14;i++){ctx.save();ctx.translate(35+(i*91)%320,30+(i*63)%365);ctx.scale(.22+(i%3)*.08,.24);leaf(ctx,0,0,i*.8,["#897246","#a08750","#645336"][i%3]);ctx.restore()}
+  // Small fern rosettes, kept to the damp side.
+  for(const [x,y] of [[52,60],[40,330],[323,382]])for(let i=0;i<6;i++)for(let j=0;j<9;j++){
+    const a=i*Math.PI/3,xx=x+Math.cos(a)*j*3,yy=y+Math.sin(a)*j*3;
+    px(ctx,xx,yy,3,3,"#768253");if(j%2===0){px(ctx,xx-4,yy,5,2,"#4f6940");px(ctx,xx,yy-3,5,2,"#627b49")}
+  }
+}
+
 load();if(localStorage.getItem("umwelt-isopod-v1"))$("#continueBtn").hidden=false;updateDay();drawHabitat(0);

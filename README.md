@@ -1,8 +1,6 @@
-# UMWELT / 环世界
+# UMWELT
 
-Independent short games about the worlds perceived by other forms of life.
+- `/` — series index
+- `/isopoda/` — Isopoda Fugue / 等足目赋格
 
-- `/` — series archive
-- `/isopod/` — a seven-day isopod observation game
-
-Static HTML, CSS, and JavaScript. No build step or external assets.
+Static HTML / CSS / Canvas. Twelve isopods, seven days, viewport-contained zoom and drag. Local Fusion Pixel 12px font; licenses in assets/fonts. Progress from version 1 remains compatible.
