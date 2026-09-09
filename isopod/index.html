@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+  <meta name="theme-color" content="#22281f">
+  <meta name="description" content="ISOPOD：一段七日鼠妇培养与观察记录。">
+  <title>ISOPOD / UMWELT 01</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div id="flash" aria-hidden="true"></div>
+  <main id="game">
+    <header class="topbar">
+      <a href="../" aria-label="返回 Umwelt 目录">UMWELT / 01</a>
+      <div class="day-readout"><span id="dayLabel">DAY 1</span><i id="dayTicks" aria-hidden="true"></i></div>
+      <button id="soundBtn" class="icon-button" aria-label="切换声音" aria-pressed="false">SOUND: OFF</button>
+    </header>
+
+    <section class="title-card" id="titleCard">
+      <p>OBSERVATION BOX 01</p>
+      <h1>ISOPOD</h1>
+      <p class="zh">鼠妇培养观察记录</p>
+      <div class="intro-copy">七天。五只个体。<br>每天只需要看一会儿。</div>
+      <button id="startBtn" class="primary">打开培养盒</button>
+      <button id="continueBtn" class="text-button" hidden>继续上次的记录</button>
+    </section>
+
+    <section class="play-view" id="playView" hidden>
+      <div class="box-frame" id="boxFrame">
+        <canvas id="habitat" width="384" height="430" aria-label="俯视的鼠妇培养盒，里面有土壤、叶片、木片和五只移动的鼠妇"></canvas>
+        <div class="glass-shine" aria-hidden="true"></div>
+        <p class="tap-hint" id="tapHint">轻触培养盒，靠近观察</p>
+      </div>
+
+      <section class="record" aria-live="polite">
+        <div class="record-head"><span>DAILY NOTE</span><span id="recordNo">001</span></div>
+        <p id="observation"></p>
+      </section>
+
+      <section class="actions" id="actions" aria-label="今日操作"></section>
+      <button class="next-button" id="nextBtn" hidden>结束今天的观察 →</button>
+    </section>
+
+    <section class="end-card" id="endCard" hidden>
+      <p>DAY 7 / 记录结束</p>
+      <div class="end-window"><canvas id="endCanvas" width="320" height="230"></canvas></div>
+      <p class="last-line">明天应该也差不多。</p>
+      <div class="end-actions"><button id="restartBtn" class="primary">重新开始</button><a href="../" class="text-link">返回档案</a></div>
+    </section>
+  </main>
+  <script src="./game.js"></script>
+</body>
+</html>
