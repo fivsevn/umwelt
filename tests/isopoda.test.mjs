@@ -5,7 +5,7 @@ import {ENDINGS,MINI_TYPES} from '../isopoda/content.mjs';
 import {createRun,ensureScene,choose,advance,validRun,migrateLegacy,endingFor,hash} from '../isopoda/engine.mjs';
 test('all thirteen references have distinct skins and stable identifiers',()=>{
  assert.equal(SPECIES.length,13);assert.equal(new Set(SPECIES.map(s=>s.id)).size,13);
- assert.equal(new Set(SPECIES.map(s=>s.colors.join()+s.pattern)).size,13);
+ assert.equal(new Set(SPECIES.map(s=>JSON.stringify(s.visual))).size,13);
  for(const p of SPECIES){assert.equal(p.notes.length,3);assert.ok(p.status.length>10)}
 });
 test('every species completes 21 turns across seeded branches; reload never duplicates a choice',()=>{

@@ -1,5 +1,5 @@
-import {makeBug} from './sprites.mjs';
-import {speciesById} from './species.mjs';
+import {makeIsopod,setIsopodState} from './sprites.mjs?v=morphology-4';
+import {speciesById} from './species.mjs?v=morphology-4';
 export function createHabitat(canvas,layer,getState){
 const display=canvas.getContext('2d'),world=document.createElement('canvas');world.width=384;world.height=430;
 const ctx=world.getContext('2d');ctx.imageSmoothingEnabled=false;
@@ -7,7 +7,7 @@ let state=getState(),critters=[],last=0,active=false,effect=null,frame=0;
 const camera={zoom:1,x:192,y:215},reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function reset(){
  state=getState();layer.replaceChildren();const p=speciesById(state.species);
- critters=Array.from({length:12},(_,i)=>{const el=makeBug(p,i);el.style.position='absolute';el.style.left='0';el.style.top='0';layer.append(el);return {el,x:45+(i*71)%300,y:65+(i*97)%320,a:i*.9,speed:(.12+(i%4)*.025)*p.speed,pause:i*6,turn:20+i*7,hidden:false,size:.65+(i%4)*.12}});
+ critters=Array.from({length:12},(_,i)=>{const el=makeIsopod(p,{stage:['S','M','L'][i%3],seed:state.seed+':'+i});el.style.position='absolute';el.style.left='0';el.style.top='0';layer.append(el);return {el,x:45+(i*71)%300,y:65+(i*97)%320,a:i*.9,speed:(.12+(i%4)*.025)*p.speed,pause:i*6,turn:20+i*7,hidden:false,size:.95+(i%2)*.05}});
 }
 function react(id){
  effect={id,until:performance.now()+6000};
@@ -25,7 +25,7 @@ function updateCritter(c,i,t){
  c.x=Math.max(18,Math.min(365,c.x));c.y=Math.max(18,Math.min(410,c.y));
  const shelter=c.x>122&&c.x<252&&c.y>184&&c.y<243;
  c.hidden=shelter&&Math.sin(t*.00025+i)>((100-state.cover)/100);
- c.el.classList.toggle('resting',c.pause>0);c.el.classList.toggle('curled',p.shape==='round'&&c.pause>15&&state.light>65);
+ c.posture=c.pause>15&&state.light>65?'curled':c.pause>0?'resting':'normal';
 }
 function present(){
  const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;
@@ -36,9 +36,10 @@ function present(){
  camera.x=Math.max(sw/2,Math.min(384-sw/2,camera.x));camera.y=Math.max(sh/2,Math.min(430-sh/2,camera.y));
  const sx=camera.x-sw/2,sy=camera.y-sh/2;display.drawImage(world,sx,sy,sw,sh,0,0,w,h);
  const scale=rect.width/sw;
- for(const c of critters){const x=(c.x-sx)*scale,y=(c.y-sy)*scale;c.el.style.visibility=c.hidden?'hidden':'visible';c.el.style.transform='translate('+Math.round(x)+'px,'+Math.round(y)+'px) translate(-50%,-50%) rotate('+c.a+'rad) scale('+scale*c.size+')'}
+ for(const c of critters){const x=(c.x-sx)*scale,y=(c.y-sy)*scale;const offscreen=x< -50||y< -50||x>rect.width+50||y>rect.height+50;c.el.style.visibility=c.hidden||offscreen?'hidden':'visible';setIsopodState(c.el,{posture:c.posture,moving:active&&!c.hidden&&!offscreen&&c.pause<=0&&!reduced});c.el.style.transform='translate('+Math.round(x)+'px,'+Math.round(y)+'px) translate(-50%,-50%) rotate('+c.a+'rad) scale('+scale*c.size+')'}
 }
 function zoom(z){camera.zoom=Math.max(1,Math.min(3,z));present();return camera.zoom}
+document.addEventListener('visibilitychange',()=>{if(document.hidden)for(const c of critters)c.el.classList.remove('moving')});
 let pointer=null;
 canvas.addEventListener('pointerdown',e=>{pointer={x:e.clientX,y:e.clientY};canvas.setPointerCapture(e.pointerId)});
 canvas.addEventListener('pointermove',e=>{if(!pointer)return;const r=canvas.getBoundingClientRect(),scale=Math.max(r.width/384,r.height/430)*camera.zoom;camera.x-=(e.clientX-pointer.x)/scale;camera.y-=(e.clientY-pointer.y)/scale;pointer={x:e.clientX,y:e.clientY};present()});
@@ -85,5 +86,5 @@ function scenery(t){
   }
 }
 
-return {reset,react,zoom,zoomBy:d=>zoom(camera.zoom+d),home:()=>{camera.x=192;camera.y=215;return zoom(1)},start:()=>{if(!active){active=true;frame=requestAnimationFrame(tick)}},stop:()=>{active=false;cancelAnimationFrame(frame)},visible:()=>critters.filter(c=>!c.hidden).length};
+return {reset,react,zoom,zoomBy:d=>zoom(camera.zoom+d),home:()=>{camera.x=192;camera.y=215;return zoom(1)},start:()=>{if(!active){active=true;frame=requestAnimationFrame(tick)}},stop:()=>{active=false;cancelAnimationFrame(frame);for(const c of critters)c.el.classList.remove('moving')},visible:()=>critters.filter(c=>!c.hidden).length};
 }

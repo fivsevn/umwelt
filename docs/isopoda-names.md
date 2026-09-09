@@ -1,3 +1,5 @@
+> Historical v3 notes, superseded by Species Data Standard Draft v1.0 and [morphology release](isopoda-morphology-v4.md). Links below were not reverified or promoted to current field evidence.
+
 # Isopoda Fugue — name verification / 2026-09-10
 
 All thirteen visual designs refer to the author's supplied stamps. Stamps are visual references, not diagnostic specimens. No uploaded photo/PNG is shipped with the game. Drawings are CSS elements; the environment remains Canvas. A label in quotation marks is not a formally described species name.

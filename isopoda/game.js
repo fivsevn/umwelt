@@ -1,8 +1,9 @@
-import {SPECIES,speciesById} from './species.mjs';
-import {ENDINGS} from './content.mjs';
-import {createRun,validRun,migrateLegacy,ensureScene,choose,advance,PERIODS} from './engine.mjs';
-import {makeBug} from './sprites.mjs';
-import {createHabitat} from './habitat.mjs';
+import {renderCatalog} from './catalog.mjs?v=morphology-4';
+import {SPECIES,speciesById} from './species.mjs?v=morphology-4';
+import {ENDINGS} from './content.mjs?v=morphology-4';
+import {createRun,validRun,migrateLegacy,ensureScene,choose,advance,PERIODS} from './engine.mjs?v=morphology-4';
+import {makeBug} from './sprites.mjs?v=morphology-4';
+import {createHabitat} from './habitat.mjs?v=morphology-4';
 const $=s=>document.querySelector(s),KEY='isopoda-fugue-v3',ARCHIVE='isopoda-fugue-endings-v3';
 let storageOK=true;
 function read(key){try{return JSON.parse(localStorage.getItem(key))}catch{return null}}
@@ -15,7 +16,7 @@ const habitat=createHabitat($('#habitat'),$('#critters'),()=>state);
 function save(){write(KEY,state)}
 function preview(){
  const p=SPECIES[selected];$('#specimenPreview').replaceChildren(makeBug(p));$('#speciesName').textContent=p.name+' / '+p.label;$('#speciesLatin').textContent=p.taxon;
- $('#speciesHint').textContent=p.shape==='flat'||p.shape==='long'?'扁长的身体，叶缘与干湿边界。':p.shape==='wide'?'宽阔的侧缘，低矮的入口。':'圆拱的甲片，树皮下的间隙。';
+ $('#speciesHint').textContent=p.visual.body.convexity<.4?'低平的甲片，叶缘与干湿边界。':p.visual.body.width>.9?'宽厚的侧板，树皮下的间隙。':'圆拱的甲片，收拢的后缘。';
  $('#speciesIndex').textContent=String(selected+1).padStart(2,'0')+' / 13';
 }
 function buttons(scene){
@@ -69,7 +70,7 @@ function drawDrawer(){
  const el=$('#drawerContent');el.replaceChildren();let total=1;
  if(drawerMode==='catalog'){
   total=SPECIES.length;page=(page+total)%total;const p=SPECIES[page];$('#drawerTitle').textContent=p.name+' / '+p.label;
-  const art=document.createElement('div');art.className='catalog-art';art.append(makeBug(p));el.append(art,paragraph(p.taxon,'latin'),paragraph(p.status,'taxonomy-note'),paragraph(p.notes[0]),paragraph('箱内温湿度与行为为游戏模拟。每份记录单独培养一种；数值不作真实饲养处方。','catalog-disclaimer'));
+  el.append(renderCatalog(p));el.scrollTop=0;
  }else if(drawerMode==='journal'){
   const records=state.records;total=Math.max(1,records.length);page=Math.min(Math.max(0,page),total-1);$('#drawerTitle').textContent='这七天的记录';
   if(records.length){const r=records[page];el.append(paragraph('DAY '+r.day+' / '+PERIODS[r.period],'entry-date'),paragraph('你选择：'+r.label),paragraph(r.text))}else el.append(paragraph('第一页还没有写下操作。'));
@@ -79,7 +80,7 @@ function drawDrawer(){
  }
  $('#pageNumber').textContent=(page+1)+' / '+total;$('#pagePrev').disabled=total===1;$('#pageNext').disabled=total===1;
 }
-function openDrawer(mode){drawerMode=mode;page=mode==='catalog'?(playing?SPECIES.findIndex(p=>p.id===state.species):selected):mode==='journal'?Math.max(0,state.records.length-1):0;drawDrawer();$('#drawer').showModal()}
+function openDrawer(mode){habitat.stop();drawerMode=mode;page=mode==='catalog'?(playing?SPECIES.findIndex(p=>p.id===state.species):selected):mode==='journal'?Math.max(0,state.records.length-1):0;drawDrawer();$('#drawer').showModal()}
 $('#speciesPrev').onclick=()=>{selected=(selected+12)%13;preview()};$('#speciesNext').onclick=()=>{selected=(selected+1)%13;preview()};
 $('#startBtn').onclick=()=>begin(true);$('#continueBtn').onclick=()=>begin(false);$('#nextBtn').onclick=next;$('#restartBtn').onclick=home;
 $('#soundBtn').onclick=()=>{sound=!sound;$('#soundBtn').textContent='声音 '+(sound?'开':'关');$('#soundBtn').setAttribute('aria-pressed',String(sound));tone(120)};
@@ -88,6 +89,7 @@ $('#zoomOut').onclick=()=>$('#zoomLevel').textContent=habitat.zoomBy(-.5).toFixe
 $('#zoomReset').onclick=()=>{$('#zoomLevel').textContent=habitat.home()+'×'};
 for(const id of ['catalogBtn','titleCatalog'])$('#'+id).onclick=()=>openDrawer('catalog');
 for(const id of ['titleArchive','endArchive'])$('#'+id).onclick=()=>openDrawer('archive');
+$('#drawer').addEventListener('close',()=>{if(playing&&state.stage!=='ended')habitat.start()});
 $('#journalBtn').onclick=()=>openDrawer('journal');$('#closeDrawer').onclick=()=>$('#drawer').close();
 $('#pagePrev').onclick=()=>{page--;if(page<0)page=drawerMode==='catalog'?12:drawerMode==='journal'?Math.max(0,state.records.length-1):5;drawDrawer()};
 $('#pageNext').onclick=()=>{const n=drawerMode==='catalog'?13:drawerMode==='journal'?Math.max(1,state.records.length):6;page=(page+1)%n;drawDrawer()};
