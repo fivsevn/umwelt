@@ -1,5 +1,6 @@
-import {SPECIES,speciesById} from './species.mjs?v=morphology-4';
-import {MORNING,EVENING,AMBIENT,CARE,MINI_TYPES,ENDINGS} from './content.mjs?v=morphology-4';
+import {encounterFor,encounterText,responseMode} from './encounters.mjs?v=fieldnotes-5';
+import {SPECIES,speciesById} from './species.mjs?v=fieldnotes-5';
+import {MORNING,EVENING,AMBIENT,CARE,MINI_TYPES,ENDINGS} from './content.mjs?v=fieldnotes-5';
 export const VERSION=3;
 export const PERIODS=['晨间','午后','夜间'];
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
@@ -8,6 +9,11 @@ export function createRun(species='dairy',seed=Date.now()>>>0){
  const p=speciesById(species);return {version:VERSION,seed:seed>>>0,species:p.id,day:1,period:0,stage:'choice',humidity:p.wet,temp:23,vent:55,light:54,cover:p.cover,food:1,interventions:0,quiet:0,accuracy:0,maps:0,labels:0,care:0,records:[],ending:null,feedback:'',scene:null};
 }
 export function validRun(s){return !!(s&&s.version===VERSION&&SPECIES.some(p=>p.id===s.species)&&Number.isInteger(s.day)&&s.day>=1&&s.day<=7&&Number.isInteger(s.period)&&s.period>=0&&s.period<=2&&['choice','feedback','ended'].includes(s.stage)&&Array.isArray(s.records)&&['seed','humidity','temp','vent','light','cover','food','interventions','quiet','accuracy','maps','labels','care'].every(k=>Number.isFinite(s[k])))}
+export function timeFor(seed,day,period){
+ const starts=[6*60,13*60,20*60],spans=[5*60,5*60,4*60];
+ const minute=starts[period]+((hash(seed,period+71)+(day-1)*47)%spans[period]);
+ return String(Math.floor(minute/60)).padStart(2,'0')+':'+String(minute%60).padStart(2,'0');
+}
 function pick(s,a,salt=0){return a[hash(s.seed,(s.day-1)*3+s.period+salt)%a.length]}
 function opt(id,label,delta={},text=''){return {id,label,delta,text}}
 export function sceneFor(s){
@@ -22,10 +28,10 @@ export function sceneFor(s){
  }else{
    const type=MINI_TYPES[(s.day-1+hash(s.seed,50)%7)%7];scene.kind=type;
    if(type==='count'){
-     scene.count=4+salt%5;scene.text='观察片段已停格。数一数这几只露在叶外的个体；藏着的暂不计入。';
-     scene.options=[scene.count-1,scene.count,scene.count+1].map(n=>opt('count'+n,n+' 只',{accuracy:n===scene.count?1:0},n===scene.count?'这次露在外面的数量对上了。木片下面的数量仍然空着。':`停格里是 ${scene.count} 只。颜色和碎叶挨在一起，很容易少看或多看一只。`));
+     scene.count=2+salt%4;scene.text='观察片段已停格。数一数这几只露在叶外的个体；藏着的暂不计入。';
+     scene.options=(scene.count===5?[3,4,5]:[scene.count-1,scene.count,scene.count+1]).map(n=>opt('count'+n,n+' 只',{accuracy:n===scene.count?1:0},n===scene.count?'这次露在外面的数量对上了。木片下面的数量仍然空着。':`停格里是 ${scene.count} 只。颜色和碎叶挨在一起，很容易少看或多看一只。`));
    }else if(type==='water'){
-     scene.text=`左侧湿区 ${clamp(s.humidity+8,35,98)}%，右侧 ${clamp(s.humidity-14,25,90)}%。这次只选一个位置补水，留出可以离开的地方。`;
+     scene.text='左侧的土仍然深暗，右侧已经松散。只给一个地方补水，还是让干湿之间的距离缩短一些？';
      scene.options=[opt('wet-left','湿区少量',{humidity:5,care:1,interventions:1},'少量水留在左侧，右边仍较干。个体可以在两边之间移动。'),opt('wet-all','两边都喷',{humidity:14,interventions:1},'两侧都变暗了，原先的干湿边界缩小。下一次可以留出一块较干的地面。'),opt('wet-none','这次不补',{quiet:1},s.humidity>80?'湿度已经偏高。这次没有再增加水，盒壁上的水珠慢慢变小。':'你没有补水。湿区还在，但边缘继续向里缩。')];
    }else if(type==='route'){
      scene.target=(s.humidity<p.wet-5?'湿苔':s.cover>65?'木片':'叶缘');scene.text='一只停在岔口。先猜它会靠近哪里，再看下一段记录。';
@@ -44,6 +50,9 @@ export function sceneFor(s){
      scene.options=[opt('molt','记录为疑似旧壳',{labels:1,accuracy:1},'你没有移动它。稍后，一个个体在薄片旁停留，边缘出现了更小的缺口。'),opt('remove','当作残渣取走',{interventions:1},'薄片被取走。你失去了继续观察它的机会，盒子空出很小一块。'),opt('unknown','暂不命名',{quiet:1,labels:1},'你画下轮廓，把名称空着。下一次仍能找到这张图。')];
    }
  }
+ const encounter=encounterFor(s);scene.encounter=encounter.id;scene.time=timeFor(s.seed,s.day,s.period);
+ scene.activity=encounterText(encounter,s.seed);scene.text=scene.activity+' '+scene.text;
+ for(const option of scene.options)option.text+=' '+encounter[responseMode(option.id)];
  return scene;
 }
 export function ensureScene(s){if(!s.scene)s.scene=sceneFor(s);return s.scene}
@@ -52,7 +61,7 @@ export function choose(s,id){
  const before=s.humidity;for(const [k,v] of Object.entries(o.delta))s[k]+=v;
  s.humidity=clamp(s.humidity,35,96);s.cover=clamp(s.cover,20,94);s.light=clamp(s.light,8,85);s.food=clamp(s.food,0,6);s.vent=clamp(s.vent,20,95);
  if(Math.abs(s.humidity-speciesById(s.species).wet)<Math.abs(before-speciesById(s.species).wet))s.care++;
- s.feedback=o.text;s.stage='feedback';s.records.push({day:s.day,period:s.period,kind:scene.kind,choice:id,label:o.label,text:o.text});return true;
+ s.feedback=o.text;s.stage='feedback';s.records.push({day:s.day,period:s.period,kind:scene.kind,choice:id,label:o.label,text:o.text,time:scene.time||timeFor(s.seed,s.day,s.period),encounter:scene.encounter||null});return true;
 }
 export function endingFor(s){
  let id='ordinary';if(s.interventions>=11)id='visitor';else if(s.quiet>=17)id='margin';else if(s.labels>=7)id='names';else if(s.maps>=6)id='map';else if(s.care>=5)id='instrument';return ENDINGS.find(e=>e.id===id);

@@ -26,7 +26,7 @@ jobs:
         with:
           node-version: '22'
       - name: Verify observation game
-        run: node --test tests/isopoda.test.mjs
+        run: node --test tests/*.test.mjs
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
