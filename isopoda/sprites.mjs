@@ -1,4 +1,4 @@
-import {STAGES} from './phenotypes.mjs?v=morphology-4';
+import {STAGES} from './phenotypes.mjs?v=fieldnotes-5';
 export const MOLT_REGIONS={anterior:['cephalon','p1','p2','p3','p4'],posterior:['p5','p6','p7','pleon','pleotelson','uropods']};
 export function stableHash(seed){let x=2166136261;for(const c of String(seed))x=Math.imul(x^c.charCodeAt(0),16777619);return x>>>0}
 export function resolvePalette(p){const v={...p};for(const [key,parent] of [['cephalon','tergite'],['epimera','tergite'],['pleon','tergite'],['pleotelson','pleon'],['uropods','pleotelson'],['antennae','epimera'],['legs','epimera']])v[key]??=v[parent];return v}
