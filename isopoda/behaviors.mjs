@@ -1,4 +1,4 @@
-import {stableHash} from './sprites.mjs?v=pixel-life-6';
+import {stableHash} from './sprites.mjs?v=projection-7';
 export const MOTIONS=['contact','follow','feed','gather','yield','climb','groom','molt','shell','border','defend','emerge','orbit','rest','under','disperse','parallel','wall','hesitate'];
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function makeIndividuals(seed,speed=1){return Array.from({length:5},(_,id)=>{

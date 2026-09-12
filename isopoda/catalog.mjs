@@ -1,4 +1,4 @@
-import {makeIsopod} from './sprites.mjs?v=pixel-life-6';
+import {makeIsopod} from './sprites.mjs?v=projection-7';
 import {sources,frameworkSources,sourceDirectory} from './sources.mjs?v=pixel-life-6';
 const text=(tag,value,cls='')=>{const el=document.createElement(tag);el.textContent=value;el.className=cls;return el};
 export function renderCatalog(p,{unlocked=true}={}){

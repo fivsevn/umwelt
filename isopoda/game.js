@@ -1,12 +1,12 @@
-import {renderCatalog,renderSources} from './catalog.mjs?v=pixel-life-6';
-import {SPECIES,speciesById} from './species.mjs?v=pixel-life-6';
+import {renderCatalog,renderSources} from './catalog.mjs?v=projection-7';
+import {SPECIES,speciesById} from './species.mjs?v=projection-7';
 import {ENDINGS} from './content.mjs?v=pixel-life-6';
 import {createRun,validRun,migrateLegacy,ensureScene,choose,advance,timeFor} from './engine.mjs?v=pixel-life-6';
-import {makeBug} from './sprites.mjs?v=pixel-life-6';
-import {createHabitat} from './habitat.mjs?v=pixel-life-6';
+import {makeBug} from './sprites.mjs?v=projection-7';
+import {createHabitat} from './habitat.mjs?v=habitat-window-9';
 import {restoreCollection,drawSpecies,unlock} from './collection.mjs?v=pixel-life-6';
 import {encounterById,encounterFor} from './encounters.mjs?v=pixel-life-6';
-import {iconButton,createInstrument} from './ui.mjs?v=pixel-life-6';
+import {iconButton,createInstrument} from './ui.mjs?v=habitat-window-9';
 const $=s=>document.querySelector(s),KEY='isopoda-fugue-v3',ARCHIVE='isopoda-fugue-endings-v3',COLLECTION='isopoda-fieldnotes-v1';
 function read(key){try{return JSON.parse(localStorage.getItem(key))}catch{return null}}
 function write(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch{$('#storageNotice').hidden=false;$('#storageNotice').textContent='纸页暂时留不住；这一次仍可以走完。'}}
@@ -17,7 +17,7 @@ let collection=restoreCollection(read(COLLECTION),hasRun?state:null,archives);wr
 let playing=false,sound=false,audio,drawerMode='catalog',page=0,lastScene=null,referenceReturn=null;
 const habitat=createHabitat($('#habitat'),$('#critters'),()=>state);
 const emptyHabitat=createHabitat($('#emptyHabitat'),$('#emptyCritters'),()=>state);
-const instrument=createInstrument($('#instruments'),()=>{const styles=['round','twin','strip'];collection.instrument=styles[(styles.indexOf(collection.instrument)+1)%3];write(COLLECTION,collection);instrument(state,collection.instrument)});
+const instrument=createInstrument($('#instruments'));
 for(const [id,kind,label] of [['soundBtn','sound','开启声音'],['startBtn','draw','抽取一组鼠妇'],['titleCatalog','book','所见之物'],['catalogBtn','book','所见之物'],['journalBtn','leaf','散页'],['endArchive','book','在所见之物中翻阅末页'],['sourcesBtn','source','出处与旁注']])iconButton($('#'+id),kind,label);
 function save(){write(KEY,state)}
 function clock(day=state.day,period=state.period){return '第 '+day+' 日 · '+timeFor(state.seed,day,period)}
@@ -35,7 +35,7 @@ function render(){
  buttons(scene);$('#miniView').replaceChildren();$('#miniView').hidden=true;
  if(state.stage==='choice'&&scene.kind==='count'){$('#miniView').hidden=false;for(let i=0;i<scene.count;i++)$('#miniView').append(makeBug(p,i))}
  if(lastScene!==scene.id){habitat.stage(scene);lastScene=scene.id}
- instrument(state,collection.instrument);save();
+ instrument(state);save();
 }
 function arrival(){playing=false;habitat.stop();$('#titleCard').hidden=true;$('#playView').hidden=true;$('#endCard').hidden=true;$('#arrivalCard').hidden=false;$('#dayLabel').textContent='';const p=speciesById(state.species);$('#arrivalSpecimens').replaceChildren(...Array.from({length:5},(_,i)=>makeBug(p,state.seed+i)));$('#arrivalName').textContent=p.name;$('#arrivalText').textContent='五个体，一种尚未熟悉的生活。名字已经夹进「所见之物」。'}
 function draw(){if($('#startBtn').disabled)return;$('#startBtn').disabled=true;const seed=Date.now()>>>0,id=drawSpecies(collection,seed);state=createRun(id,seed);state.arrivalPending=true;hasRun=true;collection.draws++;unlock(collection,id);write(COLLECTION,collection);save();arrival();tone(130)}
@@ -75,3 +75,12 @@ $('#specimensTab').onclick=()=>{drawerMode='catalog';page=Math.max(0,SPECIES.fin
 $('#sourcesBtn').onclick=()=>{if(drawerMode==='sources'){drawerMode=referenceReturn?.mode||'catalog';page=referenceReturn?.page||0}else{referenceReturn={mode:drawerMode,page};drawerMode='sources';page=0}drawDrawer()};
 for(const [id,delta] of [['pagePrev',-1],['pageNext',1]])$('#'+id).onclick=()=>{const n=drawerMode==='catalog'?13:drawerMode==='endings'?6:Math.max(1,state.records.length);page=(page+delta+n)%n;drawDrawer()};
 home();
+
+// Window controls keep the run intact; closing returns to the saved home view.
+const habitatWindow=$('#boxFrame');
+function restoreHabitatWindow(){habitatWindow.classList.remove('minimized');$('#windowMinimize').setAttribute('aria-expanded','true');$('#windowMinimize').setAttribute('aria-label','最小化饲养窗口');if(playing)habitat.start()}
+$('#windowMinimize').onclick=()=>{const minimized=habitatWindow.classList.toggle('minimized');$('#windowMinimize').setAttribute('aria-expanded',String(!minimized));$('#windowMinimize').setAttribute('aria-label',minimized?'还原饲养窗口':'最小化饲养窗口');minimized?habitat.stop():habitat.start()};
+$('#windowMaximize').onclick=async()=>{restoreHabitatWindow();if(document.fullscreenElement){await document.exitFullscreen();return}if(habitatWindow.classList.contains('maximized')){habitatWindow.classList.remove('maximized');$('#windowMaximize').setAttribute('aria-pressed','false');return}try{await habitatWindow.requestFullscreen()}catch{habitatWindow.classList.add('maximized');$('#windowMaximize').setAttribute('aria-pressed','true')}};
+document.addEventListener('fullscreenchange',()=>{$('#windowMaximize').setAttribute('aria-pressed',String(!!document.fullscreenElement))});
+$('#windowClose').onclick=async()=>{save();if(document.fullscreenElement)await document.exitFullscreen();habitatWindow.classList.remove('maximized');restoreHabitatWindow();home();$('#continueBtn').focus()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&habitatWindow.classList.contains('maximized')){habitatWindow.classList.remove('maximized');$('#windowMaximize').setAttribute('aria-pressed','false')}});
