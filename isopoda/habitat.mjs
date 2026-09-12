@@ -1,7 +1,7 @@
-import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?v=pixel-life-6';
+import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?v=projection-7';
 import {encounterById,responseMode} from './encounters.mjs?v=pixel-life-6';
-import {makeIsopod,setIsopodState} from './sprites.mjs?v=pixel-life-6';
-import {speciesById} from './species.mjs?v=pixel-life-6';
+import {makeIsopod,setIsopodState} from './sprites.mjs?v=projection-7';
+import {speciesById} from './species.mjs?v=projection-7';
 export function cameraWindow(width,height,zoom=1,x=192,y=215){
  const scale=Math.max(1,width/384)*zoom,sw=width/scale,sh=height/scale;
  x=Math.max(sw/2,Math.min(384-sw/2,x));y=Math.max(sh/2,Math.min(430-sh/2,y));

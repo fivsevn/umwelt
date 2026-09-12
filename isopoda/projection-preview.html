@@ -1,0 +1,9 @@
+<!doctype html><meta charset="utf-8"><title>Isopoda projection study</title>
+<link rel="stylesheet" href="./sprites.css"><style>body{background:#20291f;color:#ddd7ba;font:14px monospace;margin:24px}section{display:flex;align-items:center;border-bottom:1px solid #43513c}label{width:120px;flex:none}article{width:140px;text-align:center}.isopod{width:128px!important;height:128px!important}header{position:sticky;top:0;background:#20291f;padding:12px}button{margin:8px}</style>
+<header>俯视投影 · 13 品种 / 姿态 / 朝向 <button id="play">播放 / 暂停</button><input id="phase" type="range" min="0" max="3" value="0"></header><main></main>
+<script type="module">
+import {SPECIES} from './species.mjs';import {makeIsopod,setIsopodState} from './sprites.mjs';
+const states=[['静止','resting',0],['行走','normal',0],['斜向','normal',Math.PI/4],['转身','turning',Math.PI/2],['探查','probing',0],['梳理','grooming',0],['卷曲','curled',0],['后半蜕皮','molting',0],['钻出','emerging',Math.PI]];
+const bugs=[];for(const species of SPECIES){const row=document.createElement('section');row.innerHTML='<label>'+species.id+'</label>';for(const [name,posture,angle] of states){const box=document.createElement('article');box.textContent=name;const bug=makeIsopod(species,{seed:189});box.append(bug);row.append(box);bugs.push([bug,{posture,angle,moving:posture==='normal',molt:posture==='molting'?'posterior':'none'}])}document.querySelector('main').append(row)}
+let running=false;function draw(phase){for(const [bug,state] of bugs)setIsopodState(bug,{...state,phase})}document.querySelector('#phase').oninput=e=>draw(+e.target.value);document.querySelector('#play').onclick=()=>running=!running;setInterval(()=>{if(running){const input=document.querySelector('#phase');input.value=(+input.value+1)%4;draw(+input.value)}},350);draw(0);
+</script>
