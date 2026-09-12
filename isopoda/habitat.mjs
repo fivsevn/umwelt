@@ -39,20 +39,27 @@ function tick(t){if(!active)return;if(!document.hidden&&t-last>50){const dt=Math
 function px(c,x,y,w,h,color){c.fillStyle=color;c.fillRect(Math.round(x/2)*2,Math.round(y/2)*2,Math.max(2,Math.round(w/2)*2),Math.max(2,Math.round(h/2)*2))}
 function drawHabitat(t){
   const w=world.width,h=world.height;ctx.fillStyle="#443729";ctx.fillRect(0,0,w,h);
+  // Broad, broken loam patches give the litter depth before its fine grain.
+  for(let yy=0;yy<h;yy+=2)for(let xx=0;xx<w;xx+=2){
+   const n=Math.sin(xx*.031+Math.sin(yy*.023))*Math.cos(yy*.042)+Math.sin((xx+yy)*.018)*.45;
+   if(n>.65)px(ctx,xx,yy,2,2,'#493c2d');else if(n<-.65)px(ctx,xx,yy,2,2,'#3c3329');
+  }
   // Soil aggregates use clustered cells, not isolated uniform confetti.
-  for(let i=0;i<900;i++){const x=(i*67+i%9*11)%w,y=(i*113+i%7*19)%h;
-   const shades=['#3a3025','#4b3c2c','#54432f','#302b22','#665039'];
+  for(let i=0;i<570;i++){const x=(i*67+i%9*11)%w,y=(i*113+i%7*19)%h;
+   const shades=['#3d3429','#483c2e','#514331','#352f26','#5d4b36'];
    px(ctx,x,y,4+i%3*2,2+i%2*2,shades[i%5]);
    if(i%4===0)px(ctx,x+2,y+4,4,2,'#392f24');
   }
   // wet patch
-  for(let y=8;y<422;y+=4){const edge=72+Math.round(18*Math.sin(y*.04)+12*Math.sin(y*.09));px(ctx,8,y,edge,4,state.humidity>70?"#344637":"#45432f")}for(let i=0;i<40;i++)px(ctx,(i*31)%75,30+(i*47)%370,3,2,"#60705a");
+  for(let y=8;y<422;y+=2){const edge=56+Math.round(14*Math.sin(y*.04)+10*Math.sin(y*.09));
+   for(let x=8;x<edge;x+=2){const broken=(x*13+y*7)%23;if(x>edge-12&&broken<10)continue;px(ctx,x,y,2,2,state.humidity>70?'#354031':'#3f402e')}
+  }
   scenery(t);
   // leaves
   leaf(ctx,275,110,-.45,"#917b45");leaf(ctx,290,344,.35,"#745936");if(state.cover>65||effect&&elapsed<effect.until&&effect.id==='leaf')leaf(ctx,90,315,-.15,"#a4824d");
   // bark shelter
   bark(190,215-(effect&&elapsed<effect.until&&effect.id==='lift'?12:0));
-  if(state.food){px(ctx,315,252,13,10,"#ba9b62");px(ctx,327,258,8,7,"#d0af70")}
+  if(state.food){for(let y=0;y<12;y+=2)for(let x=0;x<16;x+=2){if((x===0||x===14)&&(y===0||y===10))continue;px(ctx,315+x,252+y,2,2,(x+y)%6===0?'#bc995d':y>7?'#8b7043':'#c6a86d')}px(ctx,334,264,4,2,'#a98b53')}
   if(encounter&&['shell','molt'].includes(encounter.motion)){const [x,y]=encounter.place;px(ctx,x-20,y+10,7,4,'#c9c4a8');px(ctx,x-18,y+8,4,2,'#aaa990')}
   if(state.light<35){ctx.fillStyle='rgba(15,27,21,.16)';ctx.fillRect(0,0,w,h)}
   if(!reduced&&effect&&elapsed<effect.until&&['mist','wet-left','wet-all'].includes(effect.id))for(let i=0;i<18;i++){const x=12+(i*29)%(effect.id==='wet-all'?350:82),y=(i*71+t*.05)%420;px(ctx,x,y,2,3,'#91a994')}
@@ -75,29 +82,38 @@ function leaf(c,x,y,a,color,scale=1){
   else if(Math.abs(v)<1.5*scale)ink='#c0a06a';
   else if(Math.abs((u+Math.abs(v)*1.5)%(13*scale))<2*scale)ink='#594631';
   else if((Math.floor(u/3)+Math.floor(v/3))%9===0)ink='#79603b';
+  else if(v<0&&Math.abs(v)<rim*.6)ink='#9b804b';
+  if(t>.15&&t<.35&&v>rim*.45&&v<rim*.7)continue;
   px(c,x+xx,y+yy,2,2,ink);
  }
  for(let i=0;i<7*scale;i+=2)px(c,x-ca*(length+i),y-sa*(length+i),2,2,'#998057');
 }
 function bark(x,y){
- // A dark mouth under a torn slab, with chipped ends and layered cork ridges.
- for(let row=-34;row<=38;row+=2)for(let col=-70;col<=70;col+=2){
-  const edge=66-((Math.floor((row+34)/8)%3)*2);
-  if(Math.abs(col)>edge||row< -30&&Math.abs(col)>50)continue;
-  const grain=Math.floor((row+col*.12)/6),chip=(Math.floor(col/8)+grain*3)%11;
-  const shades=['#443326','#715337','#8b6842','#60462f','#503b29'];
-  const ink=row>27?'#24281e':row< -26?'#9b7950':chip===0?'#372d23':shades[((grain%5)+5)%5];
+ // A rounded fallen cork slab: irregular silhouette, longitudinal grain, torn underside.
+ for(let row=-38;row<=40;row+=2)for(let col=-72;col<=72;col+=2){
+  const cap=Math.sqrt(Math.max(0,1-(col/74)**2)),top=-30*cap-4*Math.sin(col*.12),bottom=29*cap+4*Math.sin(col*.19);
+  if(row<top||row>bottom+8)continue;
+  if(row>bottom){px(ctx,x+col,y+row,2,2,'#25271e');continue}
+  const groove=row+3*Math.sin(col*.055)+2*Math.sin(col*.17),band=Math.floor(groove/7);
+  let ink=['#6d5035','#77593a','#5c442f','#81613f'][((band%4)+4)%4];
+  if(row<top+4)ink='#98764d';
+  else if(row>bottom-5)ink='#433426';
+  else if(Math.abs(groove%7)<1.5)ink='#3e3125';
+  else if(Math.abs(groove%7)>5&&col%10!==0)ink='#917049';
+  if((Math.floor(col/3)*17+Math.floor(row/2)*31)%29===0)ink='#a08052';
+  if(Math.abs(col)>60&&row%6<2)ink='#3b3025';
   px(ctx,x+col,y+row,2,2,ink);
-  if(col%18===0&&row> -24&&row<22)px(ctx,x+col,y+row,2,4,'#3c3025');
  }
- for(let i=0;i<11;i++)px(ctx,x-59+i*12,y+34+(i%3)*2,6,4,'#29291f');
+ // Knot and short splits interrupt the long grain, without regular plank divisions.
+ for(let yy=-8;yy<=8;yy+=2)for(let xx=-12;xx<=12;xx+=2){const d=(xx/12)**2+(yy/8)**2;if(d<1)px(ctx,x+18+xx,y-4+yy,2,2,d>.6?'#9a764a':d>.25?'#4b3727':'#322d22')}
+ for(let i=0;i<20;i+=2){px(ctx,x-40+i,y+8+Math.round(Math.sin(i*.4)*2),4,2,'#342d23');if(i<10)px(ctx,x+40+i,y-12,2,2,'#423225')}
 }
 
 function scenery(t){
   // Irregular moss carpet, pebbles, roots and leaf litter.
-  for(let i=0;i<600;i++){const x=(i*67)%384,y=(i*83)%430;
+  for(let i=0;i<420;i++){const x=(i*67)%384,y=(i*83)%430;
     if(x<65+28*Math.sin(y*.03)||y>370+15*Math.sin(x*.05)){
-      px(ctx,x,y,5+i%5,3+i%3,["#39472e","#4b5837","#607044","#748052"][i%4]);
+      px(ctx,x,y,4+i%3*2,2+i%2*2,["#39472e","#4b5837","#607044","#748052"][i%4]);px(ctx,x-2,y+2,4,2,"#435333");
       if(i%7===0)px(ctx,x+2,y-2,2,2,"#92996b");
     }
   }
