@@ -3,10 +3,10 @@ import {SPECIES,speciesById} from './species.mjs?v=projection-7';
 import {ENDINGS} from './content.mjs?v=pixel-life-6';
 import {createRun,validRun,migrateLegacy,ensureScene,choose,advance,timeFor} from './engine.mjs?v=pixel-life-6';
 import {makeBug} from './sprites.mjs?v=projection-7';
-import {createHabitat} from './habitat.mjs?v=habitat-window-8';
+import {createHabitat} from './habitat.mjs?v=habitat-window-9';
 import {restoreCollection,drawSpecies,unlock} from './collection.mjs?v=pixel-life-6';
 import {encounterById,encounterFor} from './encounters.mjs?v=pixel-life-6';
-import {iconButton,createInstrument} from './ui.mjs?v=habitat-window-8';
+import {iconButton,createInstrument} from './ui.mjs?v=habitat-window-9';
 const $=s=>document.querySelector(s),KEY='isopoda-fugue-v3',ARCHIVE='isopoda-fugue-endings-v3',COLLECTION='isopoda-fieldnotes-v1';
 function read(key){try{return JSON.parse(localStorage.getItem(key))}catch{return null}}
 function write(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch{$('#storageNotice').hidden=false;$('#storageNotice').textContent='纸页暂时留不住；这一次仍可以走完。'}}
@@ -75,3 +75,12 @@ $('#specimensTab').onclick=()=>{drawerMode='catalog';page=Math.max(0,SPECIES.fin
 $('#sourcesBtn').onclick=()=>{if(drawerMode==='sources'){drawerMode=referenceReturn?.mode||'catalog';page=referenceReturn?.page||0}else{referenceReturn={mode:drawerMode,page};drawerMode='sources';page=0}drawDrawer()};
 for(const [id,delta] of [['pagePrev',-1],['pageNext',1]])$('#'+id).onclick=()=>{const n=drawerMode==='catalog'?13:drawerMode==='endings'?6:Math.max(1,state.records.length);page=(page+delta+n)%n;drawDrawer()};
 home();
+
+// Window controls keep the run intact; closing returns to the saved home view.
+const habitatWindow=$('#boxFrame');
+function restoreHabitatWindow(){habitatWindow.classList.remove('minimized');$('#windowMinimize').setAttribute('aria-expanded','true');$('#windowMinimize').setAttribute('aria-label','最小化饲养窗口');if(playing)habitat.start()}
+$('#windowMinimize').onclick=()=>{const minimized=habitatWindow.classList.toggle('minimized');$('#windowMinimize').setAttribute('aria-expanded',String(!minimized));$('#windowMinimize').setAttribute('aria-label',minimized?'还原饲养窗口':'最小化饲养窗口');minimized?habitat.stop():habitat.start()};
+$('#windowMaximize').onclick=async()=>{restoreHabitatWindow();if(document.fullscreenElement){await document.exitFullscreen();return}if(habitatWindow.classList.contains('maximized')){habitatWindow.classList.remove('maximized');$('#windowMaximize').setAttribute('aria-pressed','false');return}try{await habitatWindow.requestFullscreen()}catch{habitatWindow.classList.add('maximized');$('#windowMaximize').setAttribute('aria-pressed','true')}};
+document.addEventListener('fullscreenchange',()=>{$('#windowMaximize').setAttribute('aria-pressed',String(!!document.fullscreenElement))});
+$('#windowClose').onclick=async()=>{save();if(document.fullscreenElement)await document.exitFullscreen();habitatWindow.classList.remove('maximized');restoreHabitatWindow();home();$('#continueBtn').focus()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&habitatWindow.classList.contains('maximized')){habitatWindow.classList.remove('maximized');$('#windowMaximize').setAttribute('aria-pressed','false')}});
