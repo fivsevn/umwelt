@@ -1,12 +1,12 @@
-import {renderCatalog,renderSources} from './catalog.mjs?v=fieldnotes-5';
-import {SPECIES,speciesById} from './species.mjs?v=fieldnotes-5';
-import {ENDINGS} from './content.mjs?v=fieldnotes-5';
-import {createRun,validRun,migrateLegacy,ensureScene,choose,advance,timeFor} from './engine.mjs?v=fieldnotes-5';
-import {makeBug} from './sprites.mjs?v=fieldnotes-5';
-import {createHabitat} from './habitat.mjs?v=fieldnotes-5';
-import {restoreCollection,drawSpecies,unlock} from './collection.mjs?v=fieldnotes-5';
-import {encounterById,encounterFor} from './encounters.mjs?v=fieldnotes-5';
-import {iconButton,createInstrument} from './ui.mjs?v=fieldnotes-5';
+import {renderCatalog,renderSources} from './catalog.mjs?v=pixel-life-6';
+import {SPECIES,speciesById} from './species.mjs?v=pixel-life-6';
+import {ENDINGS} from './content.mjs?v=pixel-life-6';
+import {createRun,validRun,migrateLegacy,ensureScene,choose,advance,timeFor} from './engine.mjs?v=pixel-life-6';
+import {makeBug} from './sprites.mjs?v=pixel-life-6';
+import {createHabitat} from './habitat.mjs?v=pixel-life-6';
+import {restoreCollection,drawSpecies,unlock} from './collection.mjs?v=pixel-life-6';
+import {encounterById,encounterFor} from './encounters.mjs?v=pixel-life-6';
+import {iconButton,createInstrument} from './ui.mjs?v=pixel-life-6';
 const $=s=>document.querySelector(s),KEY='isopoda-fugue-v3',ARCHIVE='isopoda-fugue-endings-v3',COLLECTION='isopoda-fieldnotes-v1';
 function read(key){try{return JSON.parse(localStorage.getItem(key))}catch{return null}}
 function write(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch{$('#storageNotice').hidden=false;$('#storageNotice').textContent='纸页暂时留不住；这一次仍可以走完。'}}

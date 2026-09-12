@@ -1,5 +1,5 @@
-import {makeIsopod} from './sprites.mjs?v=fieldnotes-5';
-import {sources,frameworkSources,sourceDirectory} from './sources.mjs?v=fieldnotes-5';
+import {makeIsopod} from './sprites.mjs?v=pixel-life-6';
+import {sources,frameworkSources,sourceDirectory} from './sources.mjs?v=pixel-life-6';
 const text=(tag,value,cls='')=>{const el=document.createElement(tag);el.textContent=value;el.className=cls;return el};
 export function renderCatalog(p,{unlocked=true}={}){
  const card=document.createElement('article');card.className='species-card';
@@ -8,7 +8,7 @@ export function renderCatalog(p,{unlocked=true}={}){
  const controls=document.createElement('div');controls.className='specimen-controls';const sizes=document.createElement('div');sizes.className='size-controls';sizes.setAttribute('aria-label','展示生长阶段');
  for(const value of ['S','M','L']){const b=text('button',value);b.type='button';b.setAttribute('aria-pressed',String(value===stage));b.onclick=()=>{stage=value;for(const button of sizes.children)button.setAttribute('aria-pressed',String(button===b));refresh()};sizes.append(b)}
  const label=text('label',''),select=document.createElement('select');select.setAttribute('aria-label','展示状态');
- for(const [value,name] of [['normal','舒展'],['molt-posterior','后半蜕皮'],['molt-anterior','前半蜕皮'],['curled','收拢']]){const option=text('option',name);option.value=value;select.append(option)}select.onchange=()=>{condition=select.value;refresh()};label.append(select);controls.append(sizes,label);
+ for(const [value,name] of [['normal','舒展'],['resting','停驻'],['probing','探查'],['tucked','轻收'],['turning','转身'],['feeding','进食'],['grooming','整理'],['emerging','探出'],['molt-posterior','后半蜕皮'],['molt-anterior','前半蜕皮'],['curled','收拢']]){const option=text('option',name);option.value=value;select.append(option)}select.onchange=()=>{condition=select.value;refresh()};label.append(select);controls.append(sizes,label);
  card.append(art,controls);
  const names=document.createElement('div');names.className='specimen-names';names.append(text('h3',p.names.zhCN),text('p',p.label,'trade-name'));
  const latin=text('p','', 'latin');if(p.taxonomy.acceptedScientificName)latin.append(text('em',p.taxonomy.acceptedScientificName),document.createTextNode(' '+(p.taxonomy.authority||'')));else latin.textContent=p.trade.designation||'尚未确定的名字';names.append(latin);

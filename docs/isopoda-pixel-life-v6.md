@@ -1,0 +1,13 @@
+# Isopoda pixel life v6
+
+Scope: pixel anatomy, poses, seeded individual motion and a square habitat camera.
+
+- `sprites.mjs` retains makeIsopod / setIsopodState / renderModel and the phenotype grammar. Head, seven pereon segments with epimera, five pleon segments, telson, uropods, antennae and seven pairs of legs produce integer cells. The final rotation samples the same pixel grid; there are no antialiased anatomical outlines. Anatomical DOM hooks and the two molt regions remain available.
+- Ten postures: extended gait, resting, probing, lightly tucked, defensive, turning, feeding, grooming, molting and emerging. A full defense reconstructs overlapping plates into a closed dorsum only for phenotypes whose existing conglobation ability is full. Partial/non-rolling phenotypes retain head and appendages. This is a simplified observational model, not a new taxonomic claim.
+- `behaviors.mjs` gives each seeded individual stable stage, palette details, antenna variation, speed, alertness and pauses. Encounter participants vary; a new observation does not teleport them into a row. Nineteen existing motion families now drive poses, heading, approach, pauses, differentiated departures and partial concealment.
+- Existing responseMode drives ten-second intervention transitions. Spraying, leaf placement and bark lifting have environmental feedback. Entering cover conceals the head first; emerging reveals it first.
+- `habitat.mjs` retains the 384 × 430 world. Canvas and animals share one camera scale. A viewport narrower than the world crops at native scale; dragging is clamped to world bounds. CSS keeps the observation viewport square in portrait and landscape. Reset and zoom remain.
+- Reduced-motion settings suppress gait cycling and rain animation and slow essential movement to 45%, rather than freeze the observation. Background tabs and open notebooks pause the habitat.
+- The v3 save schema, species IDs, records, collection and endings are unchanged. No migration is required. Module imports use the pixel-life-6 cache key to avoid mixed versions.
+
+Validation before release: all Node suites, thirteen-phenotype integer/posture assertions, stable identity across scenes, two-minute simulations for every encounter, camera scale/bounds checks, and 979 existing browser morphology checks. Browser playthrough completed all 21 observations, including reload after a choice, catalog posture controls, journal and ending. Desktop and 390-pixel portrait layouts inspected. `tests/pixel-life.html` is a developer fixture for all species, poses and encounters; the player-facing page stays at `/isopoda/`.
