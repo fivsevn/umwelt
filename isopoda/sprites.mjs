@@ -44,7 +44,12 @@ export function pixelAnatomy(m,{posture='normal',molt='none',phase=0,moving=m.mo
  }
  // One projected envelope is shared by tergites, side plates and hidden feet.
  const front=14,back=center(7).x-7,projection=v.body.projection||{middle:.60,frontWidth:.60,rearWidth:.48},cap=(1-projection.middle)/2;
- const envelope=x=>{const t=(x-back)/(front+4-back);return width*(t<cap?projection.rearWidth+(1-projection.rearWidth)*Math.sin(Math.max(0,t)/cap*Math.PI/2):t>1-cap?projection.frontWidth+(1-projection.frontWidth)*Math.sin(Math.max(0,1-t)/cap*Math.PI/2):1)};
+ // Sample half a cell inside an elliptical cap: a rounded tip, not a flat end wall.
+ const envelope=x=>{const t=(x-back+.5)/(front+5-back),q=t<cap?t/cap:t>1-cap?(1-t)/cap:1;
+  const roundness=t<cap?(projection.rearRoundness||1):(projection.frontRoundness||1);
+  return width*Math.pow(Math.sqrt(Math.max(0,1-(1-Math.min(1,q))**2)),roundness);
+ };
+
  const leg=module('legs');
  for(let n=1;n<=7;n++){const c=center(n);for(const s of [-1,1]){
   const gait=(frame+n*2+(s>0?2:0))%7;
@@ -85,11 +90,23 @@ export function pixelAnatomy(m,{posture='normal',molt='none',phase=0,moving=m.mo
    (Math.abs(y)>half-sideDepth?epi:put)(cx+x,c.y+y,color(col,region));
   }
   }
+  // Side plates are overlapping lobes, distinct from the dorsal plate and feet.
+  // Flatter shield forms spread farther; high-domed forms keep a narrow rim.
+  const skirt=v.pereon.epimera.skirt||0,skirtPut=module('skirt'+n);
+  for(const side of [-1,1])for(let x=0;x<plateWidth-1;x++){
+   const edge=Math.round(envelope(cx+x)),u=x/Math.max(1,plateWidth-2);
+   const shape=v.pereon.epimera.lobe==='swept'?1-u*.75:Math.sin((u*.8+.1)*Math.PI);
+   const reach=tucked?0:Math.round(skirt*3*shape);
+   for(let d=0;d<reach;d++){
+    const ink=d===reach-1?pal.tip:pal.edge;
+    skirtPut(cx+x,c.y+side*(edge+d),color(mix(ink,d===0?'#eee1be':'#252b23',d===0?.12:.20),region));
+   }
+  }
  }
  const head=module('cephalon'),hx=tucked?12:14,hy=posture==='feeding'?2:posture==='emerging'?-2:bend?2:0;
  const hp=regionPalette(m,'cephalon'),hw=Math.round(width*(.70+v.cephalon.width*.12));
  for(let x=0;x<5;x++)for(let y=-Math.round(envelope(hx+x));y<=Math.round(envelope(hx+x));y++)head(hx+x,hy+y,color(x===4?mix(hp.base,'#222820',.25):hp.base,'cephalon'));
- if(!tucked)for(const s of [-1,1])head(hx+3,hy+s*(hw-1),'#20291f');
+ if(!tucked)for(const s of [-1,1])head(hx+2,hy+s*Math.max(1,Math.round(envelope(hx+2))-2),'#20291f');
  const antenna=module('antennae'),length=Math.round((4+v.antennae.length*6)*(1+((h>>>8)%5-2)*.025)*m.growth.appendageRatio);
  for(const s of [-1,1]){
   const startX=hx+3,startY=hy+s*Math.round(hw*.65);
