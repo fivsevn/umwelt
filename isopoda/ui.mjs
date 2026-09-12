@@ -9,9 +9,7 @@ const glyphs={
 };
 export function pixelIcon(kind){const el=document.createElement('span');el.className='pixel-icon';el.setAttribute('aria-hidden','true');const dots=[];for(const [y,row] of (glyphs[kind]||glyphs.leaf).entries())for(let x=0;x<row.length;x++)if(row[x]==='1')dots.push(`${x*2}px ${y*2}px 0 currentColor`);const bit=document.createElement('i');bit.style.boxShadow=dots.join(',');el.append(bit);return el}
 export function iconButton(button,kind,label){button.replaceChildren(pixelIcon(kind));button.setAttribute('aria-label',label);button.title=label}
-export function createInstrument(root,onSwitch){
- root.innerHTML='<button type="button" id="instrumentSwitch"></button><div class="meter-face"><span class="meter-ticks" aria-hidden="true"></span><i class="temp-needle" aria-hidden="true"></i><i class="wet-needle" aria-hidden="true"></i><div class="meter-values"><span id="meterTemp"></span><span id="meterWet"></span></div><i class="meter-column" aria-hidden="true"></i></div><span id="simDetail"></span>';
- const ticks=root.querySelector('.meter-ticks');for(let n=0;n<12;n++){const tick=document.createElement('i');tick.style.setProperty('--tick',n);ticks.append(tick)}
- const b=root.querySelector('button');iconButton(b,'switch','更换温湿度计样式');b.onclick=onSwitch;
- return (state,style)=>{root.dataset.style=style;root.style.setProperty('--temperature-angle',(-110+Math.max(0,Math.min(1,(state.temp-10)/30))*220)+'deg');root.style.setProperty('--humidity-angle',(-110+state.humidity*2.2)+'deg');root.style.setProperty('--mercury',Math.max(10,Math.min(90,(state.temp-10)*3))+'%');root.querySelector('#meterTemp').textContent=state.temp.toFixed(1)+'°C';root.querySelector('#meterWet').textContent=Math.round(state.humidity)+'% RH';root.querySelector('#simDetail').textContent='通风'+(state.vent>75?'较强':state.vent<40?'微弱':'适中')+' · '+(state.light<30?'微光':state.light>65?'亮':'柔光');b.title='更换温湿度计样式 · '+({round:'圆盘',twin:'双窗',strip:'立式'})[style]};
+export function createInstrument(root){
+ root.innerHTML='<span id="meterTemp"></span><span id="meterWet"></span><span id="simDetail"></span>';
+ return state=>{root.querySelector('#meterTemp').textContent='温度 '+state.temp.toFixed(1)+'°C';root.querySelector('#meterWet').textContent='湿度 '+Math.round(state.humidity)+'%';root.querySelector('#simDetail').textContent='通风'+(state.vent>75?'较强':state.vent<40?'微弱':'适中')+' · '+(state.light<30?'微光':state.light>65?'明亮':'柔光')};
 }

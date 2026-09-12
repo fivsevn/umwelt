@@ -1,4 +1,4 @@
-// [RENDER] Relative CSS coefficients from Morphology Renderer Draft v1.0, not measurements.
+// [RENDER] Relative morphology coefficients from Morphology Renderer Draft v1.0, not measurements.
 // Stage and curl settings are visual models, not verified species-level developmental claims.
 const baseline = {
  dairy:[1.10,.72,.34,.46,.78,.72], cappuccino:[.94,.84,.72,.64,.60,.22],
@@ -43,13 +43,13 @@ export function phenotypeFor(id){
  const roller=convexity>.7,flare=id==='diablo'||id==='ember';
  return {
   provenance:'RENDER: normalized visual tuning; conglobation/stages are rendering defaults where unverified',
-  body:{length,width,convexity,anteriorTaper:roller?.16:.24,posteriorTaper:roller?.16:.32,pleonTaper:roller?.12:.4},
+  body:{length,width,convexity,projection:{middle:.60,frontRoundness:roller?1:.92,rearRoundness:roller?.94:1.08},anteriorTaper:roller?.16:.24,posteriorTaper:roller?.16:.32,pleonTaper:roller?.12:.4},
   cephalon:{width:roller?.66:.54,length:roller?.66:.84,embedding:roller?.7:.2,frontalMargin:.3,medianProjection:roller?.12:0,lateralLobes:.25,roundness:roller?.8:.35},
-  pereon:{plateArc:convexity,overlap:id==='vex'?.26:roller?.18:.08,seamStrength:id==='bolivari'?.4:.22,heightProfile:[.80,.94,1,1,.97,.90,.76],epimera:{width:E,flare:flare?.4:id==='coros'?.26:.1,angle:flare?.3:.12,roundness:roller?.7:.25,tip:flare?'pointed':'round'}},
+  pereon:{plateArc:convexity,overlap:id==='vex'?.26:roller?.18:.08,seamStrength:id==='bolivari'?.4:.22,heightProfile:[.80,.94,1,1,.97,.90,.76],epimera:{skirt:flare?.85:id==='coros'?1:id==='vex'?.55:roller?.18:.30,lobe:flare?'swept':id==='coros'?'shield':'rounded',width:E,flare:flare?.4:id==='coros'?.26:.1,angle:flare?.3:.12,roundness:roller?.7:.25,tip:flare?'pointed':'round'}},
   pleon:{length:roller?.13:.23,width:roller?.62:.45,taper:roller?.18:.38,segmentContrast:.2},
   pleotelson:{length:roller?.09:.16,width:roller?.36:.28,taper:.35,apex:roller?'compact':'triangular'},
   uropods:{projection:U,width:.2,spread:roller?.08:.22,thickness:roller?.28:.15,visibility:roller?.35:.95},
-  antennae:{length:A,thickness:.18,spread:roller?.3:.5,bend:.3},
+  antennae:{length:A,thickness:.18,spread:roller?.3:.5,bend:.3,joints:[.44,.32,.24]},
   legs:{length:roller?.22:.48,visibility:roller?.4:.7,spread:.3},
   surface:{sculpture:id==='echinatus'?'tuberculate':'smooth',intensity:id==='echinatus'?.85:.12,material:['pink','vex','cappuccino'].includes(id)?'translucent':roller?'glossy':'matte',translucency:['pink','vex','cappuccino'].includes(id)?.12:.02},
   palette:{tergite:base,cephalon:['ducky','daxin'].includes(id)?'#d8ac59':base,epimera:rim,pleon:id==='ducky'?rim:base,pleotelson:null,uropods:null,antennae:null,legs:null,dark,light:rim,accentA:id==='daxin'?'#c38b4b':dark,accentB:rim},

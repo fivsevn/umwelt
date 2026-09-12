@@ -1,4 +1,4 @@
-import {STAGES} from './phenotypes.mjs?v=pixel-life-6';
+import {STAGES} from './phenotypes.mjs?v=projection-7';
 export const MOLT_REGIONS={anterior:['cephalon','p1','p2','p3','p4'],posterior:['p5','p6','p7','pleon','pleotelson','uropods']};
 export const POSTURES=['normal','resting','probing','tucked','curled','turning','feeding','grooming','molting','emerging'];
 export function stableHash(seed){let x=2166136261;for(const c of String(seed))x=Math.imul(x^c.charCodeAt(0),16777619);return x>>>0}
@@ -21,18 +21,18 @@ function regionPalette(m,region,n){
 }
 // Modules produce cells on one integer lattice. Rotation is nearest-neighbour
 // sampling on that same lattice: even diagonally moving animals retain square pixels.
-export function pixelAnatomy(m,{posture='normal',molt='none',phase=0}={}){
+export function pixelAnatomy(m,{posture='normal',molt='none',phase=0,moving=m.moving}={}){
  const v=m.visual,p=m.palette,h=stableHash(m.seed),frame=phase%4;
  const full=posture==='curled'&&v.conglobation.ability==='full';
  const tucked=posture==='tucked'||posture==='curled';
  const closure=posture==='curled'?1: .55;
- const bend=posture==='turning'?1:posture==='grooming'?-1:0;
+ const bend=posture==='turning'?.45:posture==='grooming'?-.3:0;
  const modules=[];
  function module(region){const cells=[];modules.push({region,cells});return (x,y,color)=>cells.push([Math.round(x),Math.round(y),color])}
  const pale=region=>MOLT_REGIONS[molt]?.includes(region);
  function color(c,region){return pale(region)?mix(c,'#eee6d1',.58):c}
- function line(put,x,y,xx,yy,c){const d=Math.max(Math.abs(xx-x),Math.abs(yy-y));for(let i=0;i<=d;i++)put(x+(xx-x)*i/(d||1),y+(yy-y)*i/(d||1),c)}
- const width=Math.round(14*v.body.width*m.growth.widthRatio),stride=3*v.body.length;
+ function line(put,x,y,xx,yy,c){const d=Math.ceil(Math.max(Math.abs(xx-x),Math.abs(yy-y)));for(let i=0;i<=d;i++)put(x+(xx-x)*i/(d||1),y+(yy-y)*i/(d||1),c)}
+ const width=Math.round(12*v.body.width*m.growth.widthRatio),stride=3.6*v.body.length;
  const center=n=>({x:Math.round(10-(n-1)*stride),y:bend*Math.round((n-4)*(n-4)/5)});
  if(full){
   // The same seven tergites overlap around a closed dorsum; head and appendages fold inside.
@@ -42,23 +42,32 @@ export function pixelAnatomy(m,{posture='normal',molt='none',phase=0}={}){
   }
   return modules;
  }
+ // One projected envelope is shared by tergites, side plates and hidden feet.
+ const front=14,back=center(7).x-7,projection=v.body.projection||{middle:.60,frontWidth:.60,rearWidth:.48},cap=(1-projection.middle)/2;
+ // Sample half a cell inside an elliptical cap: a rounded tip, not a flat end wall.
+ const envelope=x=>{const t=(x-back+.5)/(front+5-back),q=t<cap?t/cap:t>1-cap?(1-t)/cap:1;
+  const roundness=t<cap?(projection.rearRoundness||1):(projection.frontRoundness||1);
+  return width*Math.pow(Math.sqrt(Math.max(0,1-(1-Math.min(1,q))**2)),roundness);
+ };
+
  const leg=module('legs');
- for(let n=1;n<=7;n++){const c=center(n),reach=tucked?1:Math.round(1+v.legs.length*3);for(const s of [-1,1]){
-  const gait=posture==='normal'?((frame+n+(s>0?1:0))%3)-1:0;
-  line(leg,c.x,c.y+s*(width-2),c.x-1+gait,c.y+s*(width+reach),mix(p.legs,'#353c2d',.32));
-  leg(c.x-2+gait,c.y+s*(width+reach),mix(p.legs,'#171d17',.2));
+ for(let n=1;n<=7;n++){const c=center(n);for(const s of [-1,1]){
+  const gait=(frame+n*2+(s>0?2:0))%7;
+  const active=!tucked&&(posture==='resting'?gait===0: moving||posture==='turning'||posture==='emerging'?gait<3:gait<1);
+  const reach=active?Math.min(3,2+Number(v.legs.length>.35)+Number(posture==='turning'&&s>0)): -1;
+  const edge=Math.round(envelope(c.x))-1;
+  line(leg,c.x+1,c.y+s*(edge-4),c.x+(frame%2),c.y+s*(edge+reach),mix(p.legs,'#353c2d',.55));
  }}
  const rear=center(7),tail=module('uropods');
- if(v.uropods.visibility>.2)for(const s of [-1,1])line(tail,rear.x-5,rear.y+s*2,rear.x-5-Math.round(v.uropods.projection*7),rear.y+s*(2+Math.round(v.uropods.spread*8)),color(p.uropods,'uropods'));
- // Pleon is five smaller abdominal segments, distinct from the seven walking segments.
- const pleon=module('pleon');for(let n=0;n<5;n++){const w=Math.max(2,Math.round(width*v.pleon.width)-Math.floor(n/2));for(let y=-w;y<=w;y++)pleon(rear.x-1-n,rear.y+y,color(n%2?p.pleon:mix(p.pleon,'#292a24',.22),'pleon'))}
- const telson=module('pleotelson');for(let x=0;x<3;x++)for(let y=-2+x;y<=2-x;y++)telson(rear.x-6-x,rear.y+y,color(p.pleotelson,'pleotelson'));
+ if(v.uropods.visibility>.2&&!tucked)for(const s of [-1,1])line(tail,back+2,rear.y+s*3,back-Math.round(v.uropods.projection*7),rear.y+s*(3+Math.round(v.uropods.spread*5)),color(p.uropods,'uropods'));
+ const pleon=module('pleon');for(let n=0;n<5;n++){const x=rear.x-n-1,w=Math.round(envelope(x));for(let y=-w;y<=w;y++)pleon(x,rear.y+y,color(n%2?p.pleon:mix(p.pleon,'#292a24',.18),'pleon'))}
+ const telson=module('pleotelson');for(let x=0;x<3;x++){const xx=rear.x-5-x,w=Math.round(envelope(xx));for(let y=-w;y<=w;y++)telson(xx,rear.y+y,color(Math.abs(y)>w-2?mix(p.pleotelson,'#292a24',.2):p.pleotelson,'pleotelson'))}
  for(let n=7;n>=1;n--){const c=center(n),region='p'+n,put=module(region),epi=module('epimera'+n),pal=regionPalette(m,'pereon',n);
-  const half=Math.round(width*v.pereon.heightProfile[n-1]*[.82,.96,1,1,.98,.9,.78][n-1]),plateWidth=Math.max(3,Math.round(stride+1));
-  const inset=tucked?Math.round((n-4)*.9*closure):0,cx=c.x+inset;if(tucked)c.y+=Math.round((n-4)*(n-4)/5*closure);if(posture==='resting')c.y+=n%3===0?1:0;
-  for(let x=0;x<plateWidth;x++)for(let y=-half;y<=half;y++){
+  const plateWidth=Math.max(3,Math.round(stride+1));
+  const cx=c.x;if(tucked)c.y+=Math.round((n-4)*(n-4)/12*closure);
+  for(let x=0;x<plateWidth;x++){const notch=x===plateWidth-2?1:0;const half=Math.round(envelope(cx+x))-notch;for(let y=-half;y<=half;y++){
    // Each plate has a stepped edge and colour clusters, never a smooth band.
-   if(Math.abs(y)===half&&(x===0||x===plateWidth-1))continue;
+   const sideDepth=Math.max(1,Math.round(v.pereon.epimera.width*(1-v.body.convexity*.55)*3));
    let col=pal.base;const rh=stableHash(m.seed+':'+n),ny=(y+half)/(half*2);
    for(const rule of v.patterns){if(![ 'pereon','body','any'].includes(rule.target))continue;const ink=p[rule.color]||rule.color||p.dark;
     if(rule.type==='blotch'&&((Math.abs(y-((rh%9)-4))<2+(rh%2)&&x<2)||(Math.abs(y-(((rh>>>7)%11)-5))<2&&x>0)))col=ink;
@@ -71,20 +80,43 @@ export function pixelAnatomy(m,{posture='normal',molt='none',phase=0}={}){
    else if(x<3&&y>-half+2&&y<-half+5&&(n+h)%3!==0)col=mix(col,'#fff4d8',.25);
    if(v.surface.sculpture==='tuberculate'&&y%3===0&&x===1)col=mix(col,'#d8caca',.45);
    if((h>>>4)%7===n&&y===2&&x===2)col=mix(col,p.light,.5);
-   put(cx+x,c.y+y,color(col,region));
+   if(Math.abs(y)>half-sideDepth)col=mix(x<=1?pal.tip:pal.edge,'#252b23',.20+v.body.convexity*.16+(x===0?.15:0));
+   else if(Math.abs(y)>half*.65)col=mix(col,'#252b23',v.body.convexity*.24);
+   // Curved seams and broken highlights suggest stitched, overlapping shields.
+   const arc=Math.round((1+v.pereon.plateArc)*(y/half)**2);
+   if(x===arc+1&&Math.abs(y)<half-2&&(y+n)%3!==0)col=mix(col,p.light,.22);
+   if((x+y+n+h)%7===0&&Math.abs(y)<half-1)col=mix(col,'#eee4d0',.10);
+   if(x===arc&&Math.abs(y)<half-1)col=mix(col,'#252b23',.24);
+   (Math.abs(y)>half-sideDepth?epi:put)(cx+x,c.y+y,color(col,region));
   }
-  for(const s of [-1,1]){const flare=Math.round(v.pereon.epimera.flare*4);for(let x=1;x<plateWidth;x++){epi(cx+x,c.y+s*half,color(pal.edge,region));if(flare&&x<2)epi(cx+x-1,c.y+s*(half+flare),color(pal.tip,region))}}
+  }
+  // Side plates are overlapping lobes, distinct from the dorsal plate and feet.
+  // Flatter shield forms spread farther; high-domed forms keep a narrow rim.
+  const skirt=v.pereon.epimera.skirt||0,skirtPut=module('skirt'+n);
+  for(const side of [-1,1])for(let x=0;x<plateWidth-1;x++){
+   const edge=Math.round(envelope(cx+x)),u=x/Math.max(1,plateWidth-2);
+   const shape=v.pereon.epimera.lobe==='swept'?1-u*.75:Math.sin((u*.8+.1)*Math.PI);
+   const reach=tucked?0:Math.round(skirt*3*shape);
+   for(let d=0;d<reach;d++){
+    const ink=d===reach-1?pal.tip:pal.edge;
+    skirtPut(cx+x,c.y+side*(edge+d),color(mix(ink,d===0?'#eee1be':'#252b23',d===0?.12:.20),region));
+   }
+  }
  }
- const head=module('cephalon'),hx=tucked?11:posture==='feeding'?12:14,hy=posture==='feeding'?2:posture==='emerging'?-2:bend?2:0;
- const hp=regionPalette(m,'cephalon'),hw=Math.round(width*v.cephalon.width);
- for(let x=0;x<5;x++)for(let y=-hw;y<=hw;y++)if(!(x>2&&Math.abs(y)>=hw))head(hx+x,hy+y,color(x===4?mix(hp.base,'#222820',.25):hp.base,'cephalon'));
- if(!tucked)for(const s of [-1,1])head(hx+3,hy+s*(hw-1),'#20291f');
+ const head=module('cephalon'),hx=tucked?12:14,hy=posture==='feeding'?2:posture==='emerging'?-2:bend?2:0;
+ const hp=regionPalette(m,'cephalon'),hw=Math.round(width*(.70+v.cephalon.width*.12));
+ for(let x=0;x<5;x++)for(let y=-Math.round(envelope(hx+x));y<=Math.round(envelope(hx+x));y++)head(hx+x,hy+y,color(x===4?mix(hp.base,'#222820',.25):hp.base,'cephalon'));
+ if(!tucked)for(const s of [-1,1])head(hx+2,hy+s*Math.max(1,Math.round(envelope(hx+2))-2),'#20291f');
  const antenna=module('antennae'),length=Math.round((4+v.antennae.length*6)*(1+((h>>>8)%5-2)*.025)*m.growth.appendageRatio);
  for(const s of [-1,1]){
-  const startX=hx+4,startY=hy+s*(hw-1),probing=posture==='probing'||posture==='emerging';
-  const endX=posture==='grooming'&&s===(frame%2?1:-1)?hx+2:tucked?hx+5:startX+length;
-  const endY=posture==='grooming'&&s===(frame%2?1:-1)?hy:hy+s*(hw+(tucked?0:probing?5+frame%2:2));
-  const jointX=Math.round((startX+endX)/2),jointY=endY-s;line(antenna,startX,startY,jointX,jointY,p.antennae);line(antenna,jointX,jointY,endX,endY+(probing?s:0),p.antennae);
+  const startX=hx+3,startY=hy+s*Math.round(hw*.65);
+  const probe=posture==='probing'||posture==='emerging',groom=posture==='grooming';
+  const sweep=Math.sin(frame*Math.PI/2)*.12;
+  let angle=s*((posture==='resting'?.20:.38)+v.antennae.spread*.5+Math.sin(frame*Math.PI/2+s*.3)*.10)+sweep;
+  const folds=tucked?[1.0,.9]:groom?[.95,.8]:probe?[.08,.08]:[v.antennae.bend+(frame===2?.48:0),frame===0?.04:.38];
+  let x=startX,y=startY;
+  for(let j=0;j<3;j++){if(j)angle+=s*folds[j-1];const len=length*(v.antennae.joints||[.44,.32,.24])[j]*(tucked?.6:1),xx=x+Math.cos(angle)*len,yy=y+Math.sin(angle)*len;line(antenna,x,y,xx,yy,p.antennae);x=xx;y=yy}
+
  }
  if(posture==='feeding'){const mouth=module('mouthparts');mouth(hx+5,hy+(frame%2),'#d0ba83');mouth(hx+4,hy+2,p.dark)}
  if(posture==='molting'){const old=module('exuvia');const back=molt!=='anterior';for(let i=0;i<5;i++)old((back?-12:12)+i,-width-3+i%2,'#bdbca2')}
@@ -111,10 +143,10 @@ export function setIsopodState(bug,{posture='normal',molt='none',moving=false,ph
  const orientation=Math.round(angle/(Math.PI/32)),f=Math.floor(phase)%4,key=[posture,molt,moving,f,orientation,occlusionSide,Math.round(occlusion*8)].join(':');if(renderedStates.get(bug)===key)return;renderedStates.set(bug,key);
  bug.dataset.posture=posture;bug.dataset.molt=molt;bug.dataset.phase=f;bug.dataset.occlusion=occlusion.toFixed(2);bug.classList.toggle('moving',moving);
  for(const part of bug.querySelectorAll('[data-region]'))part.classList.toggle('molting',(MOLT_REGIONS[molt]||[]).includes(part.dataset.region));
- const {m,canvas,cache}=model,sourceKey=[posture,molt,f].join(':');let cells=cache.get(sourceKey);
- if(!cells){cells=new Map();for(const part of pixelAnatomy(m,{posture,molt,phase:f}))for(const [x,y,c] of part.cells)cells.set((y+32)*64+x+32,c);cache.set(sourceKey,cells);if(cache.size>64)cache.delete(cache.keys().next().value)}
+ const {m,canvas,cache}=model,sourceKey=[posture,molt,f,moving].join(':');let cells=cache.get(sourceKey);
+ if(!cells){cells=new Map();for(const part of pixelAnatomy(m,{posture,molt,phase:f,moving}))for(const [x,y,c] of part.cells)cells.set((y+32)*64+x+32,c);cache.set(sourceKey,cells);if(cache.size>64)cache.delete(cache.keys().next().value)}
  const ctx=canvas.getContext('2d');ctx.clearRect(0,0,64,64);ctx.imageSmoothingEnabled=false;
  const a=orientation*Math.PI/32,cos=Math.cos(a),sin=Math.sin(a);
- for(let y=0;y<64;y++)for(let x=0;x<64;x++){const sx=Math.round((x-32)*cos+(y-32)*sin),sy=Math.round(-(x-32)*sin+(y-32)*cos);if(occlusion>0&&(occlusionSide==='front'?sx>24-occlusion*49:sx< -24+occlusion*49))continue;const c=cells.get((sy+32)*64+sx+32);if(c){ctx.fillStyle=c;ctx.fillRect(x,y,1,1)}}
+ for(let y=0;y<64;y++)for(let x=0;x<64;x++){const sx=Math.round((x-32)*cos+(y-32)*sin),sy=Math.round(-(x-32)*sin+(y-32)*cos);if(occlusion>0&&(occlusionSide==='front'?sx>24-occlusion*49:sx< -24+occlusion*49))continue;if(sx< -32||sx>=32||sy< -32||sy>=32)continue;const c=cells.get((sy+32)*64+sx+32);if(c){ctx.fillStyle=c;ctx.fillRect(x,y,1,1)}}
 }
 export function makeBug(species,index=0){return makeIsopod(species,{seed:index})}
