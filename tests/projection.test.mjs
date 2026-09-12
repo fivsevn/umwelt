@@ -2,11 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {SPECIES} from '../isopoda/species.mjs';
 import {pixelAnatomy,renderModel,POSTURES} from '../isopoda/sprites.mjs';
-const shell=p=>/^(p\d|epimera\d|cephalon|pleon|pleotelson)$/.test(p.region);
+const shell=p=>/^(p\d|epimera\d|skirt\d|cephalon|pleon|pleotelson)$/.test(p.region);
 test('projected shells have a broad middle and short asymmetric caps',()=>{
- for(const species of SPECIES){const parts=pixelAnatomy(renderModel(species.visual)),columns=new Map();for(const part of parts.filter(shell))for(const [x,y] of part.cells){if(!columns.has(x))columns.set(x,[]);columns.get(x).push(y)}
+ for(const species of SPECIES){const parts=pixelAnatomy(renderModel(species.visual)),columns=new Map();for(const part of parts.filter(p=>shell(p)&&!p.region.startsWith('skirt')))for(const [x,y] of part.cells){if(!columns.has(x))columns.set(x,[]);columns.get(x).push(y)}
  const widths=[...columns].sort((a,b)=>a[0]-b[0]).map(([,ys])=>Math.max(...ys)-Math.min(...ys)+1),max=Math.max(...widths);
- assert.ok(widths.filter(w=>w>=max-2).length/widths.length>=.55,species.id+' broad middle');assert.ok(widths[0]>max*.4&&widths.at(-1)>max*.4,species.id+' blunt ends');assert.notEqual(widths[0],widths.at(-1));
+ assert.ok(widths.filter(w=>w>=max-2).length/widths.length>=.55,species.id+' broad middle');assert.ok(widths[0]>=3&&widths.at(-1)>=3&&widths[0]<max*.55&&widths.at(-1)<max*.55,species.id+' blunt ends');
  }
 });
 test('walking feet are occluded, sparse, short and alternate across frames',()=>{
@@ -16,4 +16,11 @@ test('walking feet are occluded, sparse, short and alternate across frames',()=>
 });
 test('all stages, poses and phases remain finite integer pixels within the rotation-safe raster',()=>{
  for(const species of SPECIES)for(const stage of ['juvenile','subadult','adult'])for(const posture of POSTURES)for(let phase=0;phase<4;phase++)for(const part of pixelAnatomy(renderModel(species.visual,{stage}),{posture,phase,moving:true}))for(const [x,y] of part.cells){assert.ok(Number.isInteger(x)&&Number.isInteger(y));assert.ok(Math.hypot(x,y)<31,species.id+' rotation bounds')}
+});
+test('species skirts have distinct spread and retract with protective poses',()=>{
+ const cells=(id,posture='normal')=>pixelAnatomy(renderModel(SPECIES.find(s=>s.id===id).visual),{posture}).filter(p=>p.region.startsWith('skirt')).flatMap(p=>p.cells);
+ assert.ok(cells('coros').length>cells('dairy').length*2);
+ assert.ok(cells('diablo').length>cells('ducky').length*2);
+ assert.ok(cells('vex').length>cells('ducky').length);
+ for(const s of SPECIES){assert.equal(cells(s.id,'tucked').length,0);if(s.visual.conglobation.ability==='full')assert.equal(cells(s.id,'curled').length,0)}
 });
