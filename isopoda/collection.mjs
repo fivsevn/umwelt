@@ -1,5 +1,5 @@
-import {SPECIES} from './species.mjs?v=fieldnotes-5';
-import {hash} from './engine.mjs?v=fieldnotes-5';
+import {SPECIES} from './species.mjs?v=pixel-life-6';
+import {hash} from './engine.mjs?v=pixel-life-6';
 const ids=new Set(SPECIES.map(s=>s.id));
 export function restoreCollection(value,run,archives=[]){
  const known=Array.isArray(value?.unlocked)?value.unlocked.filter(id=>ids.has(id)):[];

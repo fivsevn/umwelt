@@ -20,3 +20,14 @@ dialog{width:min(470px,calc(100% - 24px));max-height:calc(100dvh - 24px);backgro
 @media(max-width:360px){#game{padding-inline:8px}.action{font-size:11px;padding:5px 3px}.activity-label{font-size:10px;max-width:35%}.instruments{transform:scale(.86);transform-origin:top left}.intro-copy{font-size:11px}dialog{padding:10px}.journal-paper{padding-inline:15px}.specimen-controls{gap:12px}}
 @media(orientation:landscape) and (max-height:600px){#game{width:100%}.play-view{grid-template-columns:1.1fr 1fr;grid-template-rows:1fr auto 40px}.box-frame{grid-row:1/4}.record{grid-column:2;max-height:none}.actions,.bottom-bar{grid-column:2}.title-card{display:grid;grid-template-columns:1fr 1.15fr;grid-template-rows:auto auto auto;column-gap:20px;align-content:center;justify-items:center;padding:8px 14px}.title-card h1{grid-column:1;grid-row:1}.title-card .zh{grid-column:1;grid-row:2}.title-card .intro-copy{grid-column:1;grid-row:3;margin:10px 0}.empty-box{grid-column:2;grid-row:1/4;height:210px;width:100%;max-width:420px}.title-links{grid-column:1/-1;margin:5px}.end-card{padding:5px}.end-specimen{height:36px}.end-card #endingBody{margin:4px;max-width:560px}.last-line{margin:8px}.end-card h2{margin:5px}.catalog-art{height:65px}.primary{padding:8px 18px}.instruments{transform:scale(.8);transform-origin:top left}}
 @media(prefers-reduced-motion:reduce){.isopod.grooming>.antennae{animation:none!important}}
+
+/* Square camera viewport; small screens crop the fixed world rather than squeeze it. */
+.play-view{grid-template-rows:auto auto auto 40px;align-content:start;overflow-y:auto;overscroll-behavior:contain}
+.box-frame{aspect-ratio:1;width:min(100%,calc(100dvh - 262px));min-width:0;min-height:0;justify-self:center;flex:none}
+.empty-box{aspect-ratio:1;height:auto;width:min(100%,300px,38dvh)}
+.record{max-height:24dvh}
+.catalog-art{height:135px}.catalog-art .isopod{transform:scale(2)}
+#arrivalSpecimens{gap:0}#arrivalSpecimens .isopod{transform:none}
+@media(min-width:900px){#game{width:min(1100px,100%)}.play-view{grid-template-columns:minmax(0,1.5fr) minmax(290px,1fr);grid-template-rows:1fr auto 40px;align-content:stretch;overflow:hidden;padding:18px 0}.box-frame{grid-column:1;grid-row:1/4;width:min(100%,calc(100dvh - 90px));align-self:center}.record{grid-column:2;max-height:none;align-self:start}.actions,.bottom-bar{grid-column:2}.record p{line-height:2}.empty-box{width:min(320px,38dvh)}}
+@media(orientation:landscape) and (max-height:600px){.play-view{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:1fr auto 40px;overflow-y:auto}.box-frame{grid-column:1;grid-row:1/4;width:min(100%,calc(100dvh - 64px));align-self:center}.record{max-height:none}.empty-box{width:min(100%,38dvh);height:auto}.catalog-art{height:120px}}
+@media(max-width:899px) and (orientation:portrait){.box-frame{width:min(100%,max(220px,calc(100dvh - 280px)))}}
