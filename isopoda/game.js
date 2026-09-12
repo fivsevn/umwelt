@@ -3,10 +3,10 @@ import {SPECIES,speciesById} from './species.mjs?v=projection-7';
 import {ENDINGS} from './content.mjs?v=pixel-life-6';
 import {createRun,validRun,migrateLegacy,ensureScene,choose,advance,timeFor} from './engine.mjs?v=pixel-life-6';
 import {makeBug} from './sprites.mjs?v=projection-7';
-import {createHabitat} from './habitat.mjs?v=projection-7';
+import {createHabitat} from './habitat.mjs?v=habitat-window-8';
 import {restoreCollection,drawSpecies,unlock} from './collection.mjs?v=pixel-life-6';
 import {encounterById,encounterFor} from './encounters.mjs?v=pixel-life-6';
-import {iconButton,createInstrument} from './ui.mjs?v=pixel-life-6';
+import {iconButton,createInstrument} from './ui.mjs?v=habitat-window-8';
 const $=s=>document.querySelector(s),KEY='isopoda-fugue-v3',ARCHIVE='isopoda-fugue-endings-v3',COLLECTION='isopoda-fieldnotes-v1';
 function read(key){try{return JSON.parse(localStorage.getItem(key))}catch{return null}}
 function write(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch{$('#storageNotice').hidden=false;$('#storageNotice').textContent='纸页暂时留不住；这一次仍可以走完。'}}
@@ -17,7 +17,7 @@ let collection=restoreCollection(read(COLLECTION),hasRun?state:null,archives);wr
 let playing=false,sound=false,audio,drawerMode='catalog',page=0,lastScene=null,referenceReturn=null;
 const habitat=createHabitat($('#habitat'),$('#critters'),()=>state);
 const emptyHabitat=createHabitat($('#emptyHabitat'),$('#emptyCritters'),()=>state);
-const instrument=createInstrument($('#instruments'),()=>{const styles=['round','twin','strip'];collection.instrument=styles[(styles.indexOf(collection.instrument)+1)%3];write(COLLECTION,collection);instrument(state,collection.instrument)});
+const instrument=createInstrument($('#instruments'));
 for(const [id,kind,label] of [['soundBtn','sound','开启声音'],['startBtn','draw','抽取一组鼠妇'],['titleCatalog','book','所见之物'],['catalogBtn','book','所见之物'],['journalBtn','leaf','散页'],['endArchive','book','在所见之物中翻阅末页'],['sourcesBtn','source','出处与旁注']])iconButton($('#'+id),kind,label);
 function save(){write(KEY,state)}
 function clock(day=state.day,period=state.period){return '第 '+day+' 日 · '+timeFor(state.seed,day,period)}
@@ -35,7 +35,7 @@ function render(){
  buttons(scene);$('#miniView').replaceChildren();$('#miniView').hidden=true;
  if(state.stage==='choice'&&scene.kind==='count'){$('#miniView').hidden=false;for(let i=0;i<scene.count;i++)$('#miniView').append(makeBug(p,i))}
  if(lastScene!==scene.id){habitat.stage(scene);lastScene=scene.id}
- instrument(state,collection.instrument);save();
+ instrument(state);save();
 }
 function arrival(){playing=false;habitat.stop();$('#titleCard').hidden=true;$('#playView').hidden=true;$('#endCard').hidden=true;$('#arrivalCard').hidden=false;$('#dayLabel').textContent='';const p=speciesById(state.species);$('#arrivalSpecimens').replaceChildren(...Array.from({length:5},(_,i)=>makeBug(p,state.seed+i)));$('#arrivalName').textContent=p.name;$('#arrivalText').textContent='五个体，一种尚未熟悉的生活。名字已经夹进「所见之物」。'}
 function draw(){if($('#startBtn').disabled)return;$('#startBtn').disabled=true;const seed=Date.now()>>>0,id=drawSpecies(collection,seed);state=createRun(id,seed);state.arrivalPending=true;hasRun=true;collection.draws++;unlock(collection,id);write(COLLECTION,collection);save();arrival();tone(130)}
