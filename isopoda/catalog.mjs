@@ -1,5 +1,5 @@
-import {makeIsopod} from './sprites.mjs?v=desktop-11';
-import {sources,frameworkSources,sourceDirectory} from './sources.mjs?v=desktop-11';
+import {makeIsopod} from './sprites.mjs?v=compact-12';
+import {sources,frameworkSources,sourceDirectory} from './sources.mjs?v=compact-12';
 const text=(tag,value,cls='')=>{const el=document.createElement(tag);el.textContent=value;el.className=cls;return el};
 export function renderCatalog(p,{unlocked=true,collectedOn=null}={}){
  const card=document.createElement('article');card.className='species-card';

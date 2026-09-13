@@ -1,6 +1,6 @@
-import {encounterFor,encounterText,responseMode} from './encounters.mjs?v=desktop-11';
-import {SPECIES,speciesById} from './species.mjs?v=desktop-11';
-import {MORNING,EVENING,AMBIENT,CARE,MINI_TYPES,ENDINGS} from './content.mjs?v=desktop-11';
+import {encounterFor,encounterText,responseMode} from './encounters.mjs?v=compact-12';
+import {SPECIES,speciesById} from './species.mjs?v=compact-12';
+import {MORNING,EVENING,AMBIENT,CARE,MINI_TYPES,ENDINGS} from './content.mjs?v=compact-12';
 export const VERSION=3;
 export const PERIODS=['晨间','午后','夜间'];
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
@@ -27,11 +27,8 @@ export function sceneFor(s){
    scene.text=pick(s,EVENING[s.day-1])+' '+p.notes[(s.day-1)%3];
    scene.options=[opt('describe','只记看到的',{labels:1},pick(s,['你写下了位置、颜色和停留。句子没有替它们补上理由。','你记下“进入叶片下面”。今天到这里为止。','纸上多了几行。盒子里的土没有因此变平。'],8)),opt('infer','写下一个猜测',{maps:1},pick(s,['你写下“可能”，后面跟着一个很小的问号。','你留下一个假设。明天的路线也许不会配合。','这一条先放在页边，暂不抄进结论。'],7)),opt('blank','留下一行空白',{quiet:1},pick(s,['空白留在原处。它不是一次漏记。','笔停下来时，最小的个体还在走。','你把本子合上了一会儿，叶片下的时间没有暂停。'],4))];
  }else{
-   const type=MINI_TYPES[(s.day-1+hash(s.seed,50)%7)%7];scene.kind=type;
-   if(type==='count'){
-     scene.count=2+salt%4;scene.text='观察片段已停格。数一数这几只露在叶外的个体；藏着的暂不计入。';
-     scene.options=(scene.count===5?[3,4,5]:[scene.count-1,scene.count,scene.count+1]).map(n=>opt('count'+n,n+' 只',{accuracy:n===scene.count?1:0},n===scene.count?'这次露在外面的数量对上了。木片下面的数量仍然空着。':`停格里是 ${scene.count} 只。颜色和碎叶挨在一起，很容易少看或多看一只。`));
-   }else if(type==='water'){
+   const type=MINI_TYPES[(s.day-1+hash(s.seed,50)%MINI_TYPES.length)%MINI_TYPES.length];scene.kind=type;
+   if(type==='water'){
      scene.text='左侧的土仍然深暗，右侧已经松散。只给一个地方补水，还是让干湿之间的距离缩短一些？';
      scene.options=[opt('wet-left','湿区少量',{humidity:5,care:1,interventions:1},'少量水留在左侧，右边仍较干。个体可以在两边之间移动。'),opt('wet-all','两边都喷',{humidity:14,interventions:1},'两侧都变暗了，原先的干湿边界缩小。下一次可以留出一块较干的地面。'),opt('wet-none','这次不补',{quiet:1},s.humidity>80?'湿度已经偏高。这次没有再增加水，盒壁上的水珠慢慢变小。':'你没有补水。湿区还在，但边缘继续向里缩。')];
    }else if(type==='route'){
@@ -56,7 +53,7 @@ export function sceneFor(s){
  for(const option of scene.options)option.text+=' '+encounter[responseMode(option.id)];
  return scene;
 }
-export function ensureScene(s){if(!s.scene)s.scene=sceneFor(s);return s.scene}
+export function ensureScene(s){if(s.stage==='choice'&&s.scene?.kind==='count')s.scene=null;if(!s.scene)s.scene=sceneFor(s);return s.scene}
 export function choose(s,id){
  if(s.stage!=='choice')return false;const scene=ensureScene(s),o=scene.options.find(o=>o.id===id);if(!o)return false;
  const before=s.humidity;for(const [k,v] of Object.entries(o.delta))s[k]+=v;

@@ -42,8 +42,10 @@ test('all six endings are reachable through actual legal choices',()=>{
  }
  assert.deepEqual([...reached].sort(),ENDINGS.map(e=>e.id).sort());
 });
-test('count tasks have exactly one matching answer and give an explicit correction',()=>{
- for(let seed=0;seed<50;seed++){const s=createRun('pink',seed);s.period=1;for(let day=1;day<=7;day++){s.day=day;s.scene=null;const scene=ensureScene(s);if(scene.kind!=='count')continue;assert.equal(scene.options.filter(o=>o.delta.accuracy===1).length,1);assert.ok(scene.options.some(o=>o.label===scene.count+' 只'));}}
+test('new runs and pending legacy scenes never offer counting tasks',()=>{
+ assert.ok(!MINI_TYPES.includes('count'));
+ for(let seed=0;seed<50;seed++){const s=createRun('pink',seed);s.period=1;for(let day=1;day<=7;day++){s.day=day;s.scene=null;assert.notEqual(ensureScene(s).kind,'count')}}
+ const old=createRun('pink',17);old.period=1;old.scene={kind:'count',count:3};assert.notEqual(ensureScene(old).kind,'count');assert.equal(old.day,1);assert.equal(old.period,1);
 });
 test('legacy saves retain day and survive malformed input',()=>{
  assert.equal(migrateLegacy({day:5,moisture:2,leaves:1}).day,5);assert.ok(validRun(migrateLegacy(null)));assert.equal(validRun({day:99}),false);assert.equal(validRun(null),false);
