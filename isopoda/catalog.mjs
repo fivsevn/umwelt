@@ -13,7 +13,7 @@ export function renderCatalog(p,{unlocked=true,collectedOn=null}={}){
  if(p.names.zhAliases.length)names.append(text('p','也有人叫它 '+p.names.zhAliases.join('、'),'faint'));
  if(p.trade.morph)names.append(text('p',p.trade.morph+' · 色型','faint'));if(p.trade.locality)names.append(text('p',p.trade.locality.label+' · 产地系','faint'));if(p.trade.lineage)names.append(text('p',p.trade.lineage.label+' · 培养线','faint'));
  if(!p.taxonomy.acceptedScientificName)names.append(text('p','名字暂时写在这里，身份仍留有余地。','name-aside'));card.append(names);
- const note=document.createElement('blockquote');note.className='anonymous-note';note.append(text('div','窗口摘要','summary-label'));for(const line of p.literature.lines)note.append(text('p',line));card.append(note);return card;
+ const note=document.createElement('blockquote');note.className='anonymous-note';note.append(text('div','Annotation','summary-label'));for(const line of p.literature.lines)note.append(text('p',line));card.append(note);return card;
 }
 export function renderSources(){
  const el=document.createElement('article');el.className='reference-page';el.append(text('p','有些句子来自泥土，有些来自别人的书。','reference-intro'));
