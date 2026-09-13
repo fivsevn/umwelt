@@ -1,7 +1,8 @@
-import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?v=resonance-13';
-import {encounterById,responseMode} from './encounters.mjs?v=resonance-13';
-import {pixelAnatomy,renderModel} from './sprites.mjs?v=resonance-13';
-import {speciesById} from './species.mjs?v=resonance-13';
+import {environmentFor} from './environment.mjs?v=memory-14';
+import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?v=memory-14';
+import {encounterById,responseMode} from './encounters.mjs?v=memory-14';
+import {pixelAnatomy,renderModel} from './sprites.mjs?v=memory-14';
+import {speciesById} from './species.mjs?v=memory-14';
 // All scene assets, including future actors, share two world units per pixel.
 export const SCENE_PIXEL=2;
 export function sceneActorPixels(source,actor){
@@ -32,7 +33,7 @@ function reset(options={}){
  encounter=empty?null:encounterById(state.scene?.encounter);stageIndividuals(critters,encounter,{initial:true});drawHabitat(0);
 }
 function stage(scene){encounter=encounterById(scene.encounter);elapsed=0;effect=null;stageIndividuals(critters,encounter);if(encounter){[camera.x,camera.y]=encounter.place}drawHabitat(0)}
-function react(id){effect={id,mode:responseMode(id),start:elapsed,until:elapsed+10}}
+function react(id){effect={id,mode:responseMode(id),start:elapsed,until:elapsed+10};drawHabitat(performance.now())}
 function present(){
  const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;
  const w=Math.max(80,Math.round(rect.width/2)),h=w;
@@ -65,18 +66,24 @@ function drawHabitat(t){
    px(ctx,x,y,4+i%3*2,2+i%2*2,shades[i%5]);
    if(i%4===0)px(ctx,x+2,y+4,4,2,'#392f24');
   }
-  // wet patch
-  for(let y=8;y<422;y+=2){const edge=56+Math.round(14*Math.sin(y*.04)+10*Math.sin(y*.09));
-   for(let x=8;x<edge;x+=2){const broken=(x*13+y*7)%23;if(x>edge-12&&broken<10)continue;px(ctx,x,y,2,2,state.humidity>70?'#354031':'#3f402e')}
+  const memory=environmentFor(state);
+  for(const z of memory.wetZones)for(let y=8;y<422;y+=2)for(let x=8;x<376;x+=2){
+   const radius=.5+z.moisture/100,edge=((x-z.x)/(z.rx*radius))**2+((y-z.y)/(z.ry*radius))**2;
+   if(edge<1+(Math.sin(y*.13)+Math.cos(x*.2))*.08)px(ctx,x,y,2,2,z.moisture>65?'#293d31':z.moisture>35?'#34402f':'#404030');
   }
   scenery(t);
-  // leaves
-  leaf(ctx,275,110,-.45,"#917b45");leaf(ctx,290,344,.35,"#745936");if(state.cover>65||effect&&elapsed<effect.until&&effect.id==='leaf')leaf(ctx,90,315,-.15,"#a4824d");
-  // bark shelter
-  bark(190,215-(effect&&elapsed<effect.until&&effect.id==='lift'?12:0));
-  if(state.food){for(let y=0;y<12;y+=2)for(let x=0;x<16;x+=2){if((x===0||x===14)&&(y===0||y===10))continue;px(ctx,315+x,252+y,2,2,(x+y)%6===0?'#bc995d':y>7?'#8b7043':'#c6a86d')}px(ctx,334,264,4,2,'#a98b53')}
-  if(encounter&&['shell','molt'].includes(encounter.motion)){const [x,y]=encounter.place;px(ctx,x-20,y+10,7,4,'#c9c4a8');px(ctx,x-18,y+8,4,2,'#aaa990')}
-  if(state.light<35){ctx.fillStyle='rgba(15,27,21,.16)';ctx.fillRect(0,0,w,h)}
+  for(const mark of memory.scuffs)for(let i=0;i<12;i++)px(ctx,mark.x-30+i*5,mark.y+i%3*2,4,2,'#69543a');
+  for(const l of memory.leaves){
+   if(l.gap)for(let x=-30;x<32;x+=2)px(ctx,l.x+x,l.y+15,2,6,'#202c22');
+   leaf(ctx,l.x,l.y,l.a,l.age>8?'#745936':'#a4824d',1-Math.min(l.age,20)*.006);
+  }
+  bark(memory.shelter.x,memory.shelter.y-(effect&&elapsed<effect.until&&effect.id==='lift'?12:0));
+  for(const f of memory.foodNodes){
+   for(let i=0;i<5;i++)px(ctx,f.x-8+i*4,f.y+10+i%2*4,2,2,'#806a42');
+   if(f.amount>0)for(let y=0;y<12;y+=2)for(let x=0;x<Math.min(22,8+f.amount*6);x+=2){if((x+y+f.age*2)%17<3)continue;px(ctx,f.x+x-8,f.y+y-6,2,2,y>7?'#8b7043':'#c6a86d')}
+  }
+  if(encounter&&!memory.removedShells.includes(encounter.id)&&['shell','molt'].includes(encounter.motion)){const [x,y]=encounter.place;px(ctx,x-20,y+10,7,4,'#c9c4a8');px(ctx,x-18,y+8,4,2,'#aaa990')}
+  if(state.light<55){ctx.fillStyle=`rgba(15,27,21,${(55-state.light)/120})`;ctx.fillRect(0,0,w,h)}
   if(!reduced&&effect&&elapsed<effect.until&&['mist','wet-left','wet-all'].includes(effect.id))for(let i=0;i<18;i++){const x=12+(i*29)%(effect.id==='wet-all'?350:82),y=(i*71+t*.05)%420;px(ctx,x,y,2,3,'#91a994')}
   ctx.fillStyle="rgba(210,214,183,.07)";ctx.fillRect(4,4,w-8,h-8);ctx.strokeStyle="#93947c";ctx.lineWidth=4;ctx.strokeRect(2,2,w-4,h-4);
   drawActors();
