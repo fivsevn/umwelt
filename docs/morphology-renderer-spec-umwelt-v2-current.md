@@ -1,10 +1,10 @@
-# Isopod Morphology Renderer 规格
-## 企划-umwelt系列 / 鼠妇图鉴 CSS 形态渲染资产
+# Isopod Morphology & Pixel Renderer 规格
+## 企划-umwelt系列 / 鼠妇图鉴形态与像素渲染资产
 
-**文档状态：** Draft v1.0  
-**用途：** 项目长期资产；作为后续 Work 实现、鼠妇图鉴扩展、视觉统一和未来培育系统的底层规范。  
+**文档状态：** Implementation Baseline v2.0 · 2026-09-13  
+**用途：** 项目长期资产；记录当前已落地的鼠妇形态数据层、整数像素渲染器、姿态系统、图鉴与饲养场景共用的视觉底层，并约束未来扩展。  
 **当前适用范围：** Umwelt 仓库 `isopoda/` 下现有 13 个鼠妇条目。  
-**核心原则：** 先描述鼠妇的形态，再由 CSS 渲染；不以“每个品种手写一只 sprite”为长期方案。
+**核心原则：** 先描述鼠妇的形态与表型，再生成整数像素单元；不以“每个品种手写一张 sprite / PNG”为长期方案。
 
 ---
 
@@ -12,7 +12,7 @@
 
 本文件只解决一个问题：
 
-> **如何把真实鼠妇的外部形态，拆解成一套科学上有对应关系、工程上可复用、性能上足够轻的 CSS 渲染系统。**
+> **如何把真实鼠妇的外部形态，拆解成一套科学上有对应关系、工程上可复用、性能上足够轻的像素形态渲染系统。**
 
 本文件**不是**物种分类学数据库，也**不是**饲养指南。  
 物种中文名、学名、贸易名、鉴定状态、来源与图鉴文案，应由独立的 `isopod-species-data-standard.md` 负责。
@@ -32,9 +32,64 @@
 
 ---
 
+
+## 0.1 当前实现快照｜2026-09-13
+
+当前仓库已经从最初的 **CSS-only 形态原型** 继续演进为：
+
+```text
+Species data
+   ↓
+phenotypeFor(id)
+   ↓
+Morphology / Phenotype / Stage
+   ↓
+renderModel()
+   ↓
+pixelAnatomy()
+   ↓
+integer-cell raster
+   ↓
+64 × 64 specimen canvas / habitat world canvas
+```
+
+当前实际文件职责：
+
+```text
+isopoda/species.mjs
+  资料、游戏兼容字段；运行时挂载 visual
+
+isopoda/phenotypes.mjs
+  13 个条目的形态系数、palette、pattern grammar、stageProfiles
+
+isopoda/sprites.mjs
+  renderModel / pixelAnatomy / makeIsopod / setIsopodState
+
+isopoda/sprites.css
+  只负责容器尺寸、pixelated scaling；不再承担身体绘制
+
+isopoda/behaviors.mjs
+  个体姿态、移动、停顿、相遇与干预后的行为状态
+
+isopoda/habitat.mjs
+  384 × 430 世界、场景像素、鼠妇合成、方形相机、拖动与缩放
+```
+
+因此本规范中出现的 `body / cephalon / P1–P7 / epimera / pleon / uropods / palette / patterns` 仍然是长期数据接口；但**最终可见鼠妇现在由整数像素栅格生成并绘制到 Canvas，而不是由可见 DOM 甲片直接用 CSS 画出。**
+
+当前原则：
+
+- 不使用鼠妇 PNG / WebP 素材；
+- 不为 13 个品种各写一套 renderer；
+- 形态差异继续由数据驱动；
+- 图鉴标本使用 64 × 64 内部 Canvas；
+- 旋转采用最近邻整数采样，斜向时仍保持方形像素；
+- habitat 中鼠妇与环境最终合成到同一像素世界；
+- 解剖 DOM hooks 仍保留，但当前隐藏，用于语义、测试、molt region 与未来工具。
+
 # 1. 总体设计原则
 
-## 1.1 Morphology first，CSS second
+## 1.1 Morphology first，Raster second
 
 不要把物种定义为：
 
@@ -55,7 +110,7 @@ Phenotype
    ↓
 Ontogeny / Condition / Individual Variation
    ↓
-CSS Renderer
+Pixel Renderer
 ```
 
 其中：
@@ -65,34 +120,64 @@ CSS Renderer
 - **Ontogeny**：生长阶段。
 - **Condition**：蜕皮、蜷缩、静息等状态。
 - **Individual Variation**：同一品种不同个体之间允许出现的轻微差异。
-- **CSS Renderer**：只负责把以上数据画出来，不包含物种知识。
+- **Pixel Renderer**：只负责把以上数据转换成整数像素并输出，不包含物种知识。
 
 ---
 
-## 1.2 CSS-only，但不追求极端 DOM 压缩
+## 1.2 Data-driven pixel raster，而不是 CSS-only
 
-目标是：
+最初规范把 CSS 作为最终绘图层；当前版本已经改为 **JavaScript 生成整数像素单元 + Canvas 输出**。
 
-- 不加载鼠妇 PNG / WebP / 外部 SVG；
-- 不依赖 Canvas / WebGL；
+当前目标：
+
+- 鼠妇本体不加载 PNG / WebP / 外部 SVG；
+- `pixelAnatomy()` 按解剖模块生成 `[x, y, color]` 单元；
+- 所有结构先落在同一整数 lattice；
+- 标本 Canvas 固定为 `64 × 64` 内部栅格；
+- 显示尺寸由 stage 控制，CSS 只做 `image-rendering: pixelated`；
+- 旋转使用 nearest-neighbour 反向采样，不产生抗锯齿边缘；
+- habitat 中再把同一份 anatomy raster 合成到 2 world-units / pixel 的场景网格；
 - 不为每一个斑点创建 DOM；
-- 允许保留合理的解剖节点；
-- 使用 CSS variables、gradient、clip-path、border-radius 等完成绘制；
-- 图鉴中大量静态鼠妇不持续动画。
+- 不为每个物种创建专属 renderer 分支。
 
-当前项目已经使用 7 个 `.plate` 表示背甲分节，这一思路应保留并科学化。
+当前 `makeIsopod()` 仍创建隐藏解剖节点：
 
-**原则：省网络资源，不极端省结构。**
+```text
+cephalon
+P1–P7
+pleon
+pleotelson
+uropods
+7 × epimera hooks
+legs
+antennae
+```
 
-十几个轻量 DOM 节点换来的可维护性和形态控制能力，远比把一只鼠妇压缩为 1–2 个元素更有价值。
+这些节点现在主要承担：
 
----
+```text
+data-region
+molt region
+测试
+图鉴语义
+未来模块工具
+```
 
-# 2. 科学形态学与 CSS 映射
+真正可见的身体由：
+
+```html
+<canvas class="pixel-body" width="64" height="64"></canvas>
+```
+
+输出。
+
+**原则：数据结构保持解剖可寻址，可见层保持单一整数像素语言。**
+
+# 2. 科学形态学与 Pixel Renderer 映射
 
 ## 2.1 外部体区
 
-陆生等足目的外部身体可以按以下区域组织：
+形态数据仍按陆生等足目的外部身体区域组织：
 
 ```text
 Cephalon
@@ -117,45 +202,23 @@ Cephalon
     └── Uropods
 ```
 
-项目渲染不需要把所有结构都拆成独立 DOM。
+当前实现并不要求每一个结构都有一个可见 DOM 节点，而是在 `pixelAnatomy()` 中按 module 输出像素：
 
-建议的轻量 DOM：
-
-```html
-<span class="isopod">
-  <i class="antennae"></i>
-  <i class="legs"></i>
-
-  <b class="body">
-    <i class="cephalon"></i>
-
-    <i class="pereon">
-      <i class="plate p1"></i>
-      <i class="plate p2"></i>
-      <i class="plate p3"></i>
-      <i class="plate p4"></i>
-      <i class="plate p5"></i>
-      <i class="plate p6"></i>
-      <i class="plate p7"></i>
-    </i>
-
-    <i class="pleon"></i>
-    <i class="pleotelson"></i>
-    <i class="uropods"></i>
-  </b>
-</span>
+```text
+legs
+uropods
+pleon
+pleotelson
+P7 → P1
+epimera1 → epimera7
+skirt1 → skirt7
+cephalon
+antennae
+mouthparts   // feeding 时
+exuvia       // molting 时
 ```
 
-其中：
-
-- `P1–P7` 独立元素：用于甲片轮廓、分区花纹、蜕皮、成长差异。
-- `pleon`：不必生成 5 个子节点，可用 repeating-linear-gradient 表示腹部分节。
-- `pleotelson`：单独节点。
-- `uropods`：单节点 + pseudo-elements 表示左右尾肢。
-- `legs`：允许一层 gradient 表示多足，不创建 14 个足节点。
-- `antennae`：允许一个元素 + `::before / ::after`。
-
----
+P1–P7 仍然是整个 renderer 的结构核心；双相蜕皮、卷曲与 pattern 均可按这些区域寻址。
 
 ## 2.2 Body proportions｜总体比例
 
@@ -177,7 +240,7 @@ body: {
 
 ### 字段含义
 
-| 字段 | CSS/视觉意义 |
+| 字段 | Renderer / 视觉意义 |
 |---|---|
 | `length` | 纵向/前后方向的总体长度比例 |
 | `width` | 最大体宽 |
@@ -186,7 +249,19 @@ body: {
 | `posteriorTaper` | P6–P7 向后收窄程度 |
 | `pleonTaper` | pleon 相对 pereon 的收窄程度 |
 
-这些数值是**CSS 归一化视觉系数**，不是毫米测量值。
+这些数值是**Renderer 归一化视觉系数**，不是毫米测量值。
+
+当前实现额外使用：
+
+```js
+projection: {
+  middle: 0.60,
+  frontRoundness: 1.00,
+  rearRoundness: 0.94
+}
+```
+
+`pixelAnatomy()` 用一个共享 projected envelope 组织头、七胸节、侧板与后端轮廓。当前默认约 60% 为相对平行的中段，前后使用短的椭圆 cap；不同物种可分别调整前端与后端的圆钝程度。
 
 Renderer 可内部使用 preset 优化实现：
 
@@ -325,16 +400,7 @@ pleon: {
 }
 ```
 
-CSS 使用：
-
-```css
-background:
-  repeating-linear-gradient(
-    90deg,
-    var(--pleon) 0 3px,
-    var(--pleon-seam) 3px 4px
-  );
-```
+当前 Pixel Renderer 不再用 gradient 伪造 pleon。`pixelAnatomy()` 直接生成 5 个节律单元区，并使用轻微交替明暗表现腹部分节；这些单元仍统一归入 `pleon` molt region。
 
 不需要 5 个额外 DOM。
 
@@ -390,7 +456,7 @@ uropods: {
 }
 ```
 
-CSS 主要控制：
+当前 Pixel Renderer 主要控制：
 
 - 是否明显伸出；
 - 长短；
@@ -436,7 +502,7 @@ legs: {
 }
 ```
 
-CSS 使用 repeating gradient、mask 或 box-shadow 产生节律。
+当前 Pixel Renderer 用 7 对足对应的整数 line cells 产生节律；是否伸出由 posture、moving、phase 与 `legs.length` 共同决定。
 
 足的视觉职责：
 
@@ -486,14 +552,14 @@ glossy
 translucent
 ```
 
-### CSS 实现
+### 当前像素实现
 
 优先：
 
-- radial-gradient；
-- repeating-linear-gradient；
-- inset box-shadow；
-- clip-path 轮廓微调。
+- integer-cell clusters；
+- 局部明暗混色；
+- segment / edge 条件着色；
+- surface sculpture 对局部 cell 的亮度与密度修正。
 
 禁止为了颗粒感创建大量 DOM。
 
@@ -632,7 +698,7 @@ individual: {
 variant = hash(seed) % N;
 ```
 
-或预定义 CSS variant：
+或预定义 raster variant：
 
 ```text
 v0
@@ -732,29 +798,58 @@ manca
 
 ---
 
-# 15. Condition｜状态系统
+# 15. Condition / Posture｜当前状态系统
 
-状态与物种数据分离：
+当前实现把 **姿态 posture**、**蜕皮 molt**、**是否移动 moving** 分开。
 
-```js
-condition: {
-  molt: "none",
-  posture: "normal"
-}
-```
-
-初版支持：
+`POSTURES` 当前为：
 
 ```text
 normal
 resting
-moving
+probing
+tucked
 curled
-molt-posterior
-molt-anterior
+turning
+feeding
+grooming
+molting
+emerging
 ```
 
----
+其中：
+
+- `normal`：延展状态 / 一般移动基础姿态；
+- `resting`：静止，足部暴露减少；
+- `probing`：触角探查；
+- `tucked`：防御性收拢，但不等于完整卷球；
+- `curled`：根据 `conglobation.ability` 决定是否形成闭合球状；
+- `turning`：转向，身体中心线发生简化弯曲；
+- `feeding`：头端出现简化 mouthparts；
+- `grooming`：触角向身体方向折回；
+- `molting`：配合 `molt: anterior / posterior`；
+- `emerging`：从遮蔽物下钻出或进入遮挡。
+
+`moving` 当前是独立 boolean，不再作为 posture 枚举值。
+
+推荐调用：
+
+```js
+setIsopodState(bug, {
+  posture: "probing",
+  molt: "none",
+  moving: false,
+  phase: 0,
+  angle: 0,
+  occlusion: 0
+});
+```
+
+当前运动帧使用 4 个 phase：
+
+```text
+0 / 1 / 2 / 3
+```
 
 # 16. Biphasic Molt｜双相蜕皮
 
@@ -815,11 +910,9 @@ P5 + P6 + P7 + Pleon + Pleotelson + Uropods
 
 ---
 
-# 17. Conglobation｜卷曲/卷球能力
+# 17. Conglobation｜卷曲 / 卷球能力
 
-当前 `.curled` 不能继续简单地对所有鼠妇执行统一 `scaleX(.7)`。
-
-建议：
+当前 schema：
 
 ```js
 conglobation: {
@@ -829,7 +922,7 @@ conglobation: {
 }
 ```
 
-初版值：
+支持：
 
 ```text
 none
@@ -837,14 +930,22 @@ partial
 full
 ```
 
-注意：
+当前 renderer 行为：
 
-- 这是形态/行为能力字段；
-- 不是所有鼠妇都应表现为完整圆球；
-- 对 full 类型，renderer 才允许头尾闭合、触角隐藏、后缘收拢；
-- 对 none 类型，`curled` 最多表现为短缩、防御性蜷身，而不是完整球形。
+- `full + curled`：重新组织同一组 P1–P7，在闭合背面中形成圆形/近圆形 dorsum；头部与暴露附肢折入；
+- `partial + curled`：只做防御性收拢，不生成完整闭合球；
+- `none + curled`：表现为短缩 / tucked defensive posture，不伪装成 Armadillidium 式卷球；
+- `tucked`：所有类型都可使用，是比 `curled` 更弱的防御状态。
 
----
+当前 `phenotypeFor()` 中 conglobation 能力仍有一部分是 **[RENDER] 默认值**：
+
+```text
+高拱 roller → full
+Red Diablo / Ember Bee 类 flare → partial
+其余默认 → none
+```
+
+这些默认值在未获得物种级可靠证据前，不应回写为自然史事实。
 
 # 18. Phenotype ≠ Genotype
 
@@ -862,7 +963,7 @@ Phenotype
 Genotype
 ```
 
-禁止从 CSS trait 直接推导虚构基因：
+禁止从视觉 trait 直接推导虚构基因：
 
 ```text
 红色 ≠ RedGene
@@ -934,15 +1035,25 @@ unknown
 
 ---
 
-# 20. Renderer 数据 Schema 建议
+# 20. 当前 Renderer 数据 Schema
+
+当前 `phenotypeFor(id)` 返回的核心结构如下：
 
 ```js
 visual: {
+  provenance: "RENDER: ...",
 
   body: {
     length: 1,
     width: .75,
     convexity: .5,
+
+    projection: {
+      middle: .60,
+      frontRoundness: 1,
+      rearRoundness: 1
+    },
+
     anteriorTaper: .2,
     posteriorTaper: .2,
     pleonTaper: .3
@@ -964,7 +1075,7 @@ visual: {
     seamStrength: .2,
 
     heightProfile: [
-      .82, .94, 1, 1, .98, .91, .80
+      .80, .94, 1, 1, .97, .90, .76
     ],
 
     epimera: {
@@ -972,7 +1083,10 @@ visual: {
       flare: .15,
       angle: .1,
       roundness: .5,
-      tip: "round"
+      tip: "round",
+
+      skirt: .30,
+      lobe: "rounded"
     }
   },
 
@@ -1002,7 +1116,8 @@ visual: {
     length: .7,
     thickness: .2,
     spread: .4,
-    bend: .2
+    bend: .2,
+    joints: [.44, .32, .24]
   },
 
   legs: {
@@ -1040,15 +1155,42 @@ visual: {
     ability: "none",
     closure: 0,
     antennaeHidden: false
+  },
+
+  stageProfiles: {
+    juvenile: { ... },
+    subadult: { ... },
+    adult: { ... }
   }
 }
 ```
 
----
+当前 13 个品种仍先由六个基础相对系数组织：
+
+```text
+L = body.length
+W = body.width
+C = body.convexity
+E = epimera.width
+A = antennae.length
+U = uropods.projection
+```
+
+然后再叠加 species-specific **数据配置**，例如：
+
+```text
+Vex → 更高 overlap
+Coros → shield epimera + 大 skirt
+Red Diablo / Ember Bee → swept epimera
+Echinatus → tuberculate surface
+Pink / Vex / Cappuccino → translucent material
+```
+
+这里的“species-specific”是 `phenotypes.mjs` 的数据差异，不是 renderer 内部按物种名分支绘图。
 
 # 21. 现有 13 个品种的第一版 Morphology Profile
 
-> 以下为 **CSS 相对视觉系数 / renderer tuning**，不是生物测量数据。  
+> 以下为 **Renderer 相对视觉系数 / tuning**，不是生物测量数据。  
 > 参数依据当前项目视觉参考、公开照片的稳定识别特征以及现有 sprite 方向做第一版归纳。  
 > 以后可以调整具体值，不应影响 renderer schema。
 
@@ -1281,71 +1423,114 @@ base + saddle
 
 ---
 
-# 23. CSS 实现原则
+# 23. Pixel / Canvas 实现原则
 
-## 23.1 推荐
+## 23.1 当前可见层
 
-- CSS custom properties；
-- `linear-gradient()`；
-- `radial-gradient()`；
-- `repeating-linear-gradient()`；
-- 小规模 `box-shadow`；
-- `border-radius`；
-- `clip-path: polygon()`；
-- `transform`；
-- `opacity`。
+当前标本：
 
-## 23.2 避免
+```text
+64 × 64 internal canvas
+↓
+1-cell painting
+↓
+image-rendering: pixelated
+↓
+CSS scaling
+```
 
-- 大面积 `filter: blur()`；
-- 每只鼠妇永久 `drop-shadow()`；
-- 每只鼠妇永远运行腿部动画；
-- 每只鼠妇永远运行触角动画；
+当前 habitat：
+
+```text
+pixelAnatomy()
+↓
+sceneActorPixels()
+↓
+2 world-units / pixel
+↓
+384 × 430 world canvas
+↓
+square cropped camera
+```
+
+### 必须保留
+
+- 整数 lattice；
+- 最近邻采样；
+- `imageSmoothingEnabled = false`；
+- 共享 anatomy generator；
+- stable seed；
+- region 可寻址；
+- posture / phase raster cache；
+- 静止状态不做无意义持续动画。
+
+### 避免
+
+- 把鼠妇重新改成位图素材库；
+- 斜向旋转时使用抗锯齿 transform 直接拉 Canvas；
+- 用 CSS `border-radius` 再画一套与 Pixel Renderer 不一致的身体；
+- 每个品种一个独立 render function；
 - 每个斑点一个 DOM；
-- 复杂 SVG filter；
-- 频繁修改 gradient 参数的 animation；
-- 频繁 layout-triggering animation。
+- 大面积 blur / SVG filter；
+- habitat 与 catalog 各自维护两套形态算法。
 
----
-
-# 24. 动画策略
-
-静止鼠妇：
+当前 `sprites.css` 的职责仅是：
 
 ```text
-0 持续动画
+container
+pixelated display
+隐藏 anatomy hooks
 ```
 
-移动鼠妇：
+不再承担主要身体绘制。
 
-```css
-.isopod.moving .legs { ... }
-.isopod.moving .antennae { ... }
-```
+# 24. 当前动画与状态更新策略
 
-只优先动画：
+当前动画不是连续形变，而是：
 
 ```text
-transform
-opacity
+posture
++
+molt
++
+moving
++
+phase 0–3
++
+orientation
++
+occlusion
 ```
 
-不要动画：
+共同决定一帧。
 
-```text
-width
-height
-filter
-background-position of large layers
-```
+关键规则：
 
-图鉴展示中的鼠妇默认静态。
+- gait / antenna movement 使用 4 相 phase；
+- `setIsopodState()` 对状态 key 去重，相同状态不重绘；
+- anatomy raster 按 `posture:molt:phase:moving` 缓存；
+- orientation 量化为 `π / 32`；
+- Canvas 旋转使用 nearest-neighbour sampling；
+- occlusion 以 front / rear 裁切模拟进入遮蔽物；
+- habitat 缓存每个 actor 的姿态 raster，避免每帧重新构造所有 anatomy；
+- `prefers-reduced-motion` 下停止 gait cycling 与雨滴动画，并降低必要移动速度，而不是冻结整个观察。
 
----
+# 25. 当前性能模型
 
-# 25. 图鉴大量个体性能
+当前页面并不是把几十只可见 DOM 鼠妇同时持续动画。
 
-当图鉴扩展到几十或数百品种时：
+现状：
+
+- 图鉴一次挂载一个主要 specimen；
+- specimen 内部 Canvas 为 64 × 64；
+- anatomy 状态有 raster cache；
+- habitat 使用一个 384 × 430 world canvas；
+- habitat actor 在同一像素世界内直接合成；
+- 后台标签页与打开 notebook/dialog 时可暂停 habitat；
+- CSS 保持 `image-rendering: pixelated`；
+- 鼠妇没有外部图片资源。
+
+如果未来扩到几十 / 数百品种，仍可继续使用：
 
 ```css
 .species-card {
@@ -1354,64 +1539,80 @@ background-position of large layers
 }
 ```
 
-只有进入可视区域的卡片才承担完整绘制。
+但性能优化的核心已经从“减少可见解剖 DOM”转变为：
 
-如果同一页出现大量真实游戏个体，可进一步采用：
-
-- viewport-based spawn；
-- 离屏暂停 animation；
-- movement state only animation；
-- 相同 pattern class 复用。
-
----
-
-# 26. 当前旧系统迁移
-
-旧：
-
-```js
-{
-  shape: "round",
-  colors: ["...", "...", "..."],
-  pattern: "ducky"
-}
+```text
+减少 raster 重建
++
+缓存姿态
++
+只更新可见场景
++
+暂停离屏 / 背景动画
 ```
 
-迁移过程：
+# 26. 当前迁移状态｜已完成
+
+早期系统：
 
 ```text
 shape
-  ↓
-body + cephalon + pereon + pleon + uropods
-
-colors
-  ↓
-palette
-
+colors[]
 pattern
-  ↓
-patterns[]
-
-旧 CSS 类
-  ↓
-renderer primitive
+旧 p0–p6
+feelers
+tail
+species-specific CSS
 ```
 
-### 迁移原则
+当前已迁移为：
 
-1. 保持 `species.id` 不变；
-2. 不一次改变游戏机制；
-3. 先让新 renderer 能复刻现有 13 种；
-4. 再提升精细度；
-5. 最后删除重复旧 sprite CSS；
-6. 旧存档/已有状态不得因 visual schema 改动而失效。
+```text
+phenotypes.mjs
+  ↓
+body / cephalon / pereon / epimera / pleon / pleotelson / uropods
+palette
+patterns[]
+surface
+conglobation
+stageProfiles
 
----
+sprites.mjs
+  ↓
+P1–P7
+pixelAnatomy
+MOLT_REGIONS
+POSTURES
+nearest-neighbour raster
+```
 
-# 27. Renderer API 建议
+当前迁移结论：
+
+- `species.id` 保持不变；
+- v3 save 不保存 visual 数据，因此 renderer 更新不要求存档迁移；
+- P1–P7 已使用正向编号；
+- anterior molt = cephalon + P1–P4；
+- posterior molt = P5–P7 + pleon + pleotelson + uropods；
+- 旧 sprite CSS / p0–p6 / feelers / tail 已不再是当前视觉底层；
+- `species.mjs` 运行时通过 `phenotypeFor(id)` 挂载 `visual`，避免把 phenotype 复制进存档。
+
+# 27. 当前 Renderer API
+
+## 创建标本
 
 ```js
 makeIsopod(species, {
+  stage: "adult",       // 也接受 S / M / L
+  condition: "normal",
+  seed: 12345,
+  moving: false
+});
+```
+
+## 建立渲染模型
+
+```js
+renderModel(visual, {
   stage: "adult",
   condition: "normal",
   seed: 12345,
@@ -1419,18 +1620,41 @@ makeIsopod(species, {
 });
 ```
 
-渲染器不应该知道：
+## 生成整数 anatomy cells
+
+```js
+pixelAnatomy(model, {
+  posture: "probing",
+  molt: "none",
+  phase: 2,
+  moving: false
+});
+```
+
+## 更新已有标本
+
+```js
+setIsopodState(bug, {
+  posture: "turning",
+  molt: "none",
+  moving: true,
+  phase: 1,
+  angle: Math.PI / 4,
+  occlusion: 0
+});
+```
+
+Renderer 不应该知道：
 
 - 学名；
 - rarity；
-- 饲养参数；
-- 图鉴文案；
+- 图鉴文学文本；
 - 贸易名真假；
-- 遗传模式。
+- taxonomy confidence；
+- genetics；
+- breeding compatibility。
 
-它只接收已经整理好的 visual phenotype。
-
----
+Renderer 只消费已经整理好的 `visual phenotype + state`。
 
 # 28. 未来扩品种原则
 
@@ -1453,57 +1677,62 @@ makeIsopod(species, {
 14. 生长阶段有哪些有依据的差异？
 ```
 
-如果这 14 个问题能回答，理论上就不需要再写一套新的“专属鼠妇 CSS”。
+如果这 14 个问题能回答，理论上就不需要再写一套新的“专属鼠妇 renderer”。
 
 ---
 
-# 29. 第一阶段验收标准
+# 29. 当前实现验收状态
 
-Work 实现完成后至少验证：
+截至 2026-09-13，第一阶段已经不再是待办清单，而是当前实现基线。
 
 ### 结构
 
-- [ ] `P1–P7` 具有明确编号。
-- [ ] `pleon` 独立存在。
-- [ ] `pleotelson` 独立存在。
-- [ ] `uropods` 独立存在。
-- [ ] epimera 可单独控制。
-- [ ] cephalon 可单独改变结构与颜色。
+- [x] P1–P7 正向编号。
+- [x] `pleon` 独立存在于 anatomy / molt semantics。
+- [x] `pleotelson` 独立存在。
+- [x] `uropods` 独立存在。
+- [x] epimera 独立控制，并扩展 `skirt / lobe`。
+- [x] cephalon 可独立配色并保留结构参数。
+- [x] antennae 使用三段 joints。
+- [x] 可见层统一为整数像素 Canvas。
 
 ### 表型
 
-- [ ] palette 支持解剖区域。
-- [ ] pattern primitives 可组合。
-- [ ] surface sculpture 可区分。
-- [ ] 13 种不再依赖物种专属大段 CSS。
-- [ ] Dairy Cow 至少有多种稳定斑纹 variant。
+- [x] palette 支持解剖区域继承。
+- [x] pattern primitives 可组合。
+- [x] `tuberculate` surface 已用于 Echinatus 基准。
+- [x] 13 种共享 renderer。
+- [x] seed 稳定；Dairy Cow blotch 会随 seed 稳定变化。
 
 ### 生长与状态
 
-- [ ] S/M/L 不只是简单缩放。
-- [ ] 默认不假设幼体统一变浅。
-- [ ] posterior molt 对应 P5–P7 + 后端。
-- [ ] anterior molt 对应 cephalon + P1–P4。
-- [ ] curled 尊重 conglobation ability。
+- [x] S/M/L → juvenile/subadult/adult。
+- [x] stage 不默认把幼体整体变浅。
+- [x] posterior molt 对应 P5–P7 + 后端。
+- [x] anterior molt 对应 cephalon + P1–P4。
+- [x] full conglobation 会闭合；partial / none 不伪装成完整球。
+- [x] 10 个 posture 已进入 renderer。
+- [x] habitat 中个体具有稳定 seed、stage、速度、alertness 与 pause 差异。
 
-### 性能
+### 像素与场景
 
-- [ ] 鼠妇零外部图片资源。
-- [ ] 静止个体无持续动画。
-- [ ] 不使用大面积 blur。
-- [ ] 不依赖复杂 SVG filter。
-- [ ] 图鉴离屏卡片可跳过绘制。
-- [ ] 手机端大量展示时无明显首屏阻塞。
+- [x] 旋转保持 nearest-neighbour 方块像素。
+- [x] habitat 为 384 × 430 world。
+- [x] 场景采用 2 world-units / pixel。
+- [x] 观察窗口保持正方形。
+- [x] 小屏只显示世界局部，可拖动观察。
+- [x] camera zoom 支持 1×–3×。
+- [x] 鼠妇与环境合成进同一像素世界。
 
-### 可扩展性
+### 当前测试入口
 
-- [ ] 新增品种主要通过数据完成。
-- [ ] renderer 不包含 taxonomy 判断。
-- [ ] phenotype 与 genotype 分层。
-- [ ] crossCompatibility 默认 unknown。
-- [ ] visual 参数均明确为 renderer 系数，而非伪装成生物测量值。
+```text
+tests/morphology.html
+tests/pixel-life.html
+isopoda/projection-preview.html
+```
 
----
+其中 `projection-preview.html` 使用真实 renderer，展示 13 个品种的多姿态 / 多朝向；`pixel-life.html` 用于检查场景、姿态和行为。
 
 # 30. 第二阶段可选扩展
 
@@ -1538,7 +1767,7 @@ Work 实现完成后至少验证：
 依据照片或可信物种描述确定的视觉特征。
 
 [RENDER]
-为了 CSS 呈现而定义的归一化参数。
+为了 Pixel Renderer 呈现而定义的归一化参数。
 
 [GAME]
 纯游戏机制。
@@ -1613,7 +1842,7 @@ https://pmc.ncbi.nlm.nih.gov/articles/PMC4857051/
 
 整个系统最终应符合一句话：
 
-> **Species data 描述“它是什么”，Morphology 描述“它长成什么结构”，Phenotype 描述“它看起来怎样”，CSS Renderer 只负责把这些信息画出来。**
+> **Species data 描述“它是什么”，Morphology 描述“它长成什么结构”，Phenotype 描述“它看起来怎样”，Pixel Renderer 只负责把这些信息转换成整数像素并画出来。**
 
 不要把：
 
@@ -1643,8 +1872,8 @@ stage
 seed
 ```
 
-当这一点成立时，项目才真正从“13 只 CSS 鼠妇”升级成：
+当这一点成立时，项目才真正从“13 个手工视觉条目”升级成：
 
-# **Isopod Morphology Renderer**
+# **Isopod Morphology & Pixel Renderer**
 
 它既能服务当前图鉴，也能作为未来扩展数十/数百品种、个体差异、成长、蜕皮和培育玩法的共同视觉底层。
