@@ -1,4 +1,5 @@
-import {stableHash} from './sprites.mjs?v=resonance-13';
+import {environmentTarget} from './environment.mjs?v=memory-14';
+import {stableHash} from './sprites.mjs?v=memory-14';
 export const MOTIONS=['contact','follow','feed','gather','yield','climb','groom','molt','shell','border','defend','emerge','orbit','rest','under','disperse','parallel','wall','hesitate'];
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function makeIndividuals(seed,speed=1){return Array.from({length:5},(_,id)=>{
@@ -43,13 +44,21 @@ export function stepIndividuals(group,{encounter,state={},time=0,dt=.05,reaction
     case 'hesitate':tx=125+Math.sin(time*.5)*15;ty=211;stop=near&&phase%6<3;posture=stop?'probing':'tucked';break;
    }
   }else{stop=phase<c.pause;posture=stop?(phase<2?'grooming':'resting'):'normal';if(state.humidity>85)tx+=25;if(state.humidity<55)tx-=30}
+  // Uninvolved individuals respond to persistent places between encounters.
+  const target=environmentTarget(state,c);
+  if(target&&(!focus||time>24)&&motion!=='molt'){
+   tx=target.x+(c.id%2?12:-12);ty=target.y;hide=0;stop=false;
+   const arrived=Math.hypot(tx-c.x,ty-c.y)<14;
+   if(arrived){stop=true;posture=target.kind==='food'?'feeding':target.kind==='shelter'?'emerging':'probing';hide=target.kind==='shelter'?.65:0}
+  }
   if(reaction?.mode==='disturb'){
    const age=reaction.age||0;hide=0;
    if(age<1.2+c.alertness&&c.alertness>.48){stop=true;posture=age<.4?'tucked':'curled'}else{tx=clamp(c.x+(c.x-x||i+1)*2,24,355);ty=clamp(c.y+(c.y-y||i+1)*2,30,400);pace*=1.4+c.alertness;stop=false;posture='normal'}
   }else if(reaction?.mode==='care'){
    if(['mist','wet-left'].includes(reaction.id)){tx=70+c.id*17;ty=120+c.id*42;posture=(reaction.age||0)<2?'probing':'normal';stop=(reaction.age||0)<c.alertness}
-   else if(reaction.id==='food'){tx=316+Math.cos(i*1.3)*26;ty=255+Math.sin(i*1.3)*26;posture=Math.hypot(tx-c.x,ty-c.y)<10?'feeding':'normal';stop=posture==='feeding';face=Math.atan2(255-c.y,316-c.x)}
-   else {tx=155+c.id*19;ty=234+c.id%2*18;posture='emerging';hide=near?.3:0;stop=false}
+   else if(reaction.id==='food'){const food=state.environment?.foodNodes.at(-1)||{x:316,y:255};tx=food.x+Math.cos(i*1.3)*12;ty=food.y+Math.sin(i*1.3)*12;posture=Math.hypot(tx-c.x,ty-c.y)<10?'feeding':'normal';stop=posture==='feeding';face=Math.atan2(255-c.y,316-c.x)}
+   else if(['leaf','gap','flat'].includes(reaction.id)&&state.environment){const l=state.environment.leaves.at(-1);tx=l.x+(l.gap?0:35);ty=l.y+c.id%2*10;const close=Math.hypot(tx-c.x,ty-c.y)<12;posture=close&&l.gap?'emerging':'probing';hide=close&&l.gap?.6:0;stop=close}
+   else if(target){tx=target.x;ty=target.y;stop=false;posture='probing'}
   }else if(reaction?.mode==='quiet'&&motion==='defend'){stop=false;posture=(reaction.age||0)<2?'tucked':'normal'}
   const dx=tx-c.x,dy=ty-c.y,dist=Math.hypot(dx,dy);c.moving=!stop&&dist>5;
   if(c.moving){const desired=Math.atan2(dy,dx),delta=Math.atan2(Math.sin(desired-c.a),Math.cos(desired-c.a));c.a+=clamp(delta,-dt*1.7,dt*1.7);if(Math.abs(delta)>.7&&posture==='normal')posture='turning';const step=Math.min(dist,pace*dt*11*(reduced?.45:1));c.x+=Math.cos(c.a)*step;c.y+=Math.sin(c.a)*step}

@@ -1,12 +1,12 @@
-import {renderCatalog,renderSources} from './catalog.mjs?v=resonance-13';
-import {SPECIES,speciesById} from './species.mjs?v=resonance-13';
-import {ENDINGS} from './content.mjs?v=resonance-13';
-import {createRun,validRun,migrateLegacy,ensureScene,choose,advance,timeFor} from './engine.mjs?v=resonance-13';
-import {makeBug} from './sprites.mjs?v=resonance-13';
-import {createHabitat} from './habitat.mjs?v=resonance-13';
-import {restoreCollection,drawSpecies,unlock} from './collection.mjs?v=resonance-13';
-import {encounterById,encounterFor} from './encounters.mjs?v=resonance-13';
-import {iconButton,createInstrument} from './ui.mjs?v=resonance-13';
+import {renderCatalog,renderSources} from './catalog.mjs?v=memory-14';
+import {SPECIES,speciesById} from './species.mjs?v=memory-14';
+import {ENDINGS} from './content.mjs?v=memory-14';
+import {createRun,validRun,migrateLegacy,ensureScene,choose,advance,timeFor} from './engine.mjs?v=memory-14';
+import {makeBug} from './sprites.mjs?v=memory-14';
+import {createHabitat} from './habitat.mjs?v=memory-14';
+import {restoreCollection,drawSpecies,unlock} from './collection.mjs?v=memory-14';
+import {encounterById,encounterFor} from './encounters.mjs?v=memory-14';
+import {iconButton,createInstrument} from './ui.mjs?v=memory-14';
 const $=s=>document.querySelector(s),KEY='isopoda-fugue-v3',ARCHIVE='isopoda-fugue-endings-v3',COLLECTION='isopoda-fieldnotes-v1';
 function read(key){try{return JSON.parse(localStorage.getItem(key))}catch{return null}}
 function write(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch{$('#storageNotice').hidden=false;$('#storageNotice').textContent='纸页暂时留不住；这一次仍可以走完。'}}

@@ -1,5 +1,5 @@
-import {makeIsopod} from './sprites.mjs?v=resonance-13';
-import {sources,frameworkSources,sourceDirectory} from './sources.mjs?v=resonance-13';
+import {makeIsopod} from './sprites.mjs?v=memory-14';
+import {sources,frameworkSources,sourceDirectory} from './sources.mjs?v=memory-14';
 const text=(tag,value,cls='')=>{const el=document.createElement(tag);el.textContent=value;el.className=cls;return el};
 export function renderCatalog(p,{unlocked=true,collectedOn=null}={}){
  const card=document.createElement('article');card.className='species-card';

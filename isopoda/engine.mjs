@@ -1,6 +1,7 @@
-import {encounterFor,encounterText,responseMode} from './encounters.mjs?v=resonance-13';
-import {SPECIES,speciesById} from './species.mjs?v=resonance-13';
-import {MORNING,EVENING,AMBIENT,CARE,MINI_TYPES,ENDINGS} from './content.mjs?v=resonance-13';
+import {environmentFor,changeEnvironment,ageEnvironment} from './environment.mjs?v=memory-14';
+import {encounterFor,encounterText} from './encounters.mjs?v=memory-14';
+import {SPECIES,speciesById} from './species.mjs?v=memory-14';
+import {EVENING,CARE,MINI_TYPES,ENDINGS} from './content.mjs?v=memory-14';
 export const VERSION=3;
 export const PERIODS=['晨间','午后','夜间'];
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
@@ -20,11 +21,11 @@ function opt(id,label,delta={},text=''){return {id,label,delta,text}}
 export function sceneFor(s){
  const p=speciesById(s.species),salt=hash(s.seed,s.day),scene={id:`${s.day}.${s.period}`,title:PERIODS[s.period],kind:'text',text:'',options:[]};
  if(s.period===0){
-   scene.text=pick(s,MORNING[s.day-1]);const extra=AMBIENT.filter(e=>e.when(s));if(extra.length)scene.text+=' '+pick(s,extra,5).text;
+   scene.text='';
    let keys=s.humidity>85?['air','leaf','wait']:s.food>3?['clean','air','wait']:s.humidity<58?['mist','leaf','wait']:s.day%3===0?['food','shade','wait']:s.day%2===0?['air','food','wait']:['mist','leaf','wait'];
    scene.options=keys.map(id=>opt(id,CARE[id].label,CARE[id].delta,pick(s,CARE[id].text,3)));
  }else if(s.period===2){
-   scene.text=pick(s,EVENING[s.day-1])+' '+p.notes[(s.day-1)%3];
+   scene.text=pick(s,EVENING[s.day-1]);
    scene.options=[opt('describe','只记看到的',{labels:1},pick(s,['你写下了位置、颜色和停留。句子没有替它们补上理由。','你记下“进入叶片下面”。今天到这里为止。','纸上多了几行。盒子里的土没有因此变平。'],8)),opt('infer','写下一个猜测',{maps:1},pick(s,['你写下“可能”，后面跟着一个很小的问号。','你留下一个假设。明天的路线也许不会配合。','这一条先放在页边，暂不抄进结论。'],7)),opt('blank','留下一行空白',{quiet:1},pick(s,['空白留在原处。它不是一次漏记。','笔停下来时，最小的个体还在走。','你把本子合上了一会儿，叶片下的时间没有暂停。'],4))];
  }else{
    const type=MINI_TYPES[(s.day-1+hash(s.seed,50)%MINI_TYPES.length)%MINI_TYPES.length];scene.kind=type;
@@ -49,14 +50,14 @@ export function sceneFor(s){
    }
  }
  const encounter=encounterFor(s);scene.encounter=encounter.id;scene.time=timeFor(s.seed,s.day,s.period);
- scene.activity=encounterText(encounter,s.seed);scene.text=scene.activity+' '+scene.text;
- for(const option of scene.options)option.text+=' '+encounter[responseMode(option.id)];
+ scene.activity=encounterText(encounter,s.seed);scene.text=s.period===0?scene.activity:s.period===2?scene.text:scene.activity+' '+scene.text;
+ // Keep each response complete; the habitat carries the additional reaction.
  return scene;
 }
-export function ensureScene(s){if(s.stage==='choice'&&s.scene?.kind==='count')s.scene=null;if(!s.scene)s.scene=sceneFor(s);return s.scene}
+export function ensureScene(s){environmentFor(s);if(s.stage==='choice'&&s.scene?.kind==='count')s.scene=null;if(!s.scene)s.scene=sceneFor(s);return s.scene}
 export function choose(s,id){
  if(s.stage!=='choice')return false;const scene=ensureScene(s),o=scene.options.find(o=>o.id===id);if(!o)return false;
- const before=s.humidity;for(const [k,v] of Object.entries(o.delta))s[k]+=v;
+ changeEnvironment(s,id);const before=s.humidity;for(const [k,v] of Object.entries(o.delta))s[k]+=v;
  s.humidity=clamp(s.humidity,35,96);s.cover=clamp(s.cover,20,94);s.light=clamp(s.light,8,85);s.food=clamp(s.food,0,6);s.vent=clamp(s.vent,20,95);
  if(Math.abs(s.humidity-speciesById(s.species).wet)<Math.abs(before-speciesById(s.species).wet))s.care++;
  s.feedback=o.text;s.stage='feedback';s.records.push({day:s.day,period:s.period,kind:scene.kind,choice:id,label:o.label,text:o.text,time:scene.time||timeFor(s.seed,s.day,s.period),encounter:scene.encounter||null});return true;
@@ -71,6 +72,6 @@ export function advance(s){
  const delta=(s.vent>70?4:2)+(s.period===1?1:0);s.humidity=clamp(s.humidity-delta,35,96);
  s.temp=Math.round((22+(s.period===1?2:s.period===2?-.5:0)+(hash(s.seed,s.day)%5)*.3)*10)/10;
  s.light=clamp(s.light+(s.period===1?10:s.period===2?-22:12),8,85);
- s.food=clamp(s.food-(s.period===0?1:0),0,6);s.stage='choice';s.feedback='';s.scene=null;ensureScene(s);return true;
+ ageEnvironment(s);s.food=clamp(s.food-(s.period===0?1:0),0,6);s.stage='choice';s.feedback='';s.scene=null;ensureScene(s);return true;
 }
 export function migrateLegacy(old,seed=1){const s=createRun('dairy',seed);if(old&&Number.isInteger(old.day)&&old.day>=1&&old.day<=7){s.day=old.day;s.period=0;s.humidity=clamp(68+(Number(old.moisture)||0)*2,35,90);s.cover=clamp(45+(Number(old.leaves)||0)*5,20,90)}return s}

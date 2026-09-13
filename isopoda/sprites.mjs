@@ -1,4 +1,4 @@
-import {STAGES} from './phenotypes.mjs?v=resonance-13';
+import {STAGES} from './phenotypes.mjs?v=memory-14';
 export const MOLT_REGIONS={anterior:['cephalon','p1','p2','p3','p4'],posterior:['p5','p6','p7','pleon','pleotelson','uropods']};
 export const POSTURES=['normal','resting','probing','tucked','curled','turning','feeding','grooming','molting','emerging'];
 export function stableHash(seed){let x=2166136261;for(const c of String(seed))x=Math.imul(x^c.charCodeAt(0),16777619);return x>>>0}
