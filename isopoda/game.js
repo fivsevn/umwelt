@@ -1,4 +1,4 @@
-import {renderCatalog,renderSources} from './catalog.mjs?v=memory-14';
+import {renderCatalog,renderSources} from './catalog.mjs?v=credits-1';
 import {SPECIES,speciesById} from './species.mjs?v=memory-14';
 import {ENDINGS} from './content.mjs?v=memory-14';
 import {createRun,validRun,migrateLegacy,ensureScene,choose,advance,timeFor} from './engine.mjs?v=memory-14';
@@ -18,7 +18,7 @@ let playing=false,sound=false,audio,drawerMode='catalog',page=0,lastScene=null,r
 const habitat=createHabitat($('#habitat'),$('#critters'),()=>state);
 const emptyHabitat=createHabitat($('#emptyHabitat'),$('#emptyCritters'),()=>state);
 const instrument=createInstrument($('#instruments'));
-for(const [id,kind,label] of [['soundBtn','sound','开启声音'],['catalogBtn','book','资料库'],['sourcesBtn','source','出处与旁注']])iconButton($('#'+id),kind,label);
+for(const [id,kind,label] of [['soundBtn','sound','开启声音'],['catalogBtn','book','资料库'],['sourcesBtn','source','来源 / Credits']])iconButton($('#'+id),kind,label);
 function save(){write(KEY,state)}
 function clock(day=state.day,period=state.period){const date=state.startedOn?new Date(state.startedOn+'T12:00:00'):null;if(date)date.setDate(date.getDate()+day-1);return (date?[date.getFullYear(),String(date.getMonth()+1).padStart(2,'0'),String(date.getDate()).padStart(2,'0')].join('.'):'第 '+day+' 日')+' · '+timeFor(state.seed,day,period)}
 function sceneNow(){
@@ -62,8 +62,8 @@ function drawDrawer(){
   total=ENDINGS.length;page=(page+total)%total;const e=ENDINGS[page],saved=archives.some(a=>a.id===e.id);$('#drawerTitle').textContent='阿西莫夫的资料库';const note=document.createElement('article');note.className='ending-note';if(saved){const h=document.createElement('h3');h.textContent=e.title;note.append(h,paragraph(e.body),paragraph(e.line,'last-line'))}else note.append(paragraph('尚未翻到的地方。'),paragraph('也许另一种停留，会把纸页带到这里。','faint'));el.append(note);
  }else if(drawerMode==='journal'){
   total=Math.max(1,state.records.length);page=Math.max(0,Math.min(page,total-1));$('#drawerTitle').textContent='阿西莫夫的资料库';const paper=document.createElement('article');paper.className='journal-paper';if(state.records.length){const r=state.records[page];paper.append(paragraph('第 '+r.day+' 日 · '+(r.time||timeFor(state.seed,r.day,r.period)),'entry-date'),paragraph(r.label,'pencil-mark'),paragraph(r.text))}else paper.append(paragraph('这一页还没有写下什么。'));el.append(paper);
- }else{$('#drawerTitle').textContent='出处与旁注';el.append(renderSources())}
- $('#pageNumber').textContent=total>1?String(page+1).padStart(2,'0'):'·';$('#pagePrev').disabled=total===1;$('#pageNext').disabled=total===1;iconButton($('#sourcesBtn'),drawerMode==='sources'?'book':'source',drawerMode==='sources'?'回到所见之物':'出处与旁注');
+ }else{$('#drawerTitle').textContent='来源 / Credits';el.append(renderSources())}
+ $('#pageNumber').textContent=total>1?String(page+1).padStart(2,'0'):'·';$('#pagePrev').disabled=total===1;$('#pageNext').disabled=total===1;iconButton($('#sourcesBtn'),drawerMode==='sources'?'book':'source',drawerMode==='sources'?'回到所见之物':'来源 / Credits');
 }
 function openDrawer(mode){habitat.stop();drawerMode=mode;page=mode==='catalog'?Math.max(0,SPECIES.findIndex(p=>p.id===state.species&&collection.unlocked.includes(p.id))):mode==='journal'?Math.max(0,state.records.length-1):Math.max(0,ENDINGS.findIndex(e=>e.id===state.ending));drawDrawer();$('#drawer').showModal()}
 $('#startBtn').onclick=draw;$('#continueBtn').onclick=begin;$('#settleBtn').onclick=()=>{state.arrivalPending=false;save();begin()};$('#nextBtn').onclick=next;$('#restartBtn').onclick=home;
