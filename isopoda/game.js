@@ -1,12 +1,12 @@
-import {renderCatalog,renderSources} from './catalog.mjs?v=projection-7';
-import {SPECIES,speciesById} from './species.mjs?v=projection-7';
-import {ENDINGS} from './content.mjs?v=pixel-life-6';
-import {createRun,validRun,migrateLegacy,ensureScene,choose,advance,timeFor} from './engine.mjs?v=pixel-life-6';
-import {makeBug} from './sprites.mjs?v=projection-7';
-import {createHabitat} from './habitat.mjs?v=habitat-window-9';
-import {restoreCollection,drawSpecies,unlock} from './collection.mjs?v=pixel-life-6';
-import {encounterById,encounterFor} from './encounters.mjs?v=pixel-life-6';
-import {iconButton,createInstrument} from './ui.mjs?v=habitat-window-9';
+import {renderCatalog,renderSources} from './catalog.mjs?v=desktop-11';
+import {SPECIES,speciesById} from './species.mjs?v=desktop-11';
+import {ENDINGS} from './content.mjs?v=desktop-11';
+import {createRun,validRun,migrateLegacy,ensureScene,choose,advance,timeFor} from './engine.mjs?v=desktop-11';
+import {makeBug} from './sprites.mjs?v=desktop-11';
+import {createHabitat} from './habitat.mjs?v=desktop-11';
+import {restoreCollection,drawSpecies,unlock} from './collection.mjs?v=desktop-11';
+import {encounterById,encounterFor} from './encounters.mjs?v=desktop-11';
+import {iconButton,createInstrument} from './ui.mjs?v=desktop-11';
 const $=s=>document.querySelector(s),KEY='isopoda-fugue-v3',ARCHIVE='isopoda-fugue-endings-v3',COLLECTION='isopoda-fieldnotes-v1';
 function read(key){try{return JSON.parse(localStorage.getItem(key))}catch{return null}}
 function write(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch{$('#storageNotice').hidden=false;$('#storageNotice').textContent='纸页暂时留不住；这一次仍可以走完。'}}
@@ -20,7 +20,7 @@ const emptyHabitat=createHabitat($('#emptyHabitat'),$('#emptyCritters'),()=>stat
 const instrument=createInstrument($('#instruments'));
 for(const [id,kind,label] of [['soundBtn','sound','开启声音'],['startBtn','draw','抽取一组鼠妇'],['titleCatalog','book','所见之物'],['catalogBtn','book','所见之物'],['journalBtn','leaf','散页'],['endArchive','book','在所见之物中翻阅末页'],['sourcesBtn','source','出处与旁注']])iconButton($('#'+id),kind,label);
 function save(){write(KEY,state)}
-function clock(day=state.day,period=state.period){return '第 '+day+' 日 · '+timeFor(state.seed,day,period)}
+function clock(day=state.day,period=state.period){const date=state.startedOn?new Date(state.startedOn+'T12:00:00'):null;if(date)date.setDate(date.getDate()+day-1);return (date?[date.getFullYear(),String(date.getMonth()+1).padStart(2,'0'),String(date.getDate()).padStart(2,'0')].join('.'):'第 '+day+' 日')+' · '+timeFor(state.seed,day,period)}
 function sceneNow(){
  // Preserve old feedback and journals; only rebuild an unchosen old count scene that assumed >5 animals.
  if(state.stage==='choice'&&state.scene?.kind==='count'&&state.scene.count>5)state.scene=null;
@@ -38,7 +38,7 @@ function render(){
  instrument(state);save();
 }
 function arrival(){playing=false;habitat.stop();$('#titleCard').hidden=true;$('#playView').hidden=true;$('#endCard').hidden=true;$('#arrivalCard').hidden=false;$('#dayLabel').textContent='';const p=speciesById(state.species);$('#arrivalSpecimens').replaceChildren(...Array.from({length:5},(_,i)=>makeBug(p,state.seed+i)));$('#arrivalName').textContent=p.name;$('#arrivalText').textContent='五个体，一种尚未熟悉的生活。名字已经夹进「所见之物」。'}
-function draw(){if($('#startBtn').disabled)return;$('#startBtn').disabled=true;const seed=Date.now()>>>0,id=drawSpecies(collection,seed);state=createRun(id,seed);state.arrivalPending=true;hasRun=true;collection.draws++;unlock(collection,id);write(COLLECTION,collection);save();arrival();tone(130)}
+function draw(){if($('#startBtn').disabled)return;$('#startBtn').disabled=true;const seed=Date.now()>>>0,id=drawSpecies(collection,seed);state=createRun(id,seed);state.arrivalPending=true;hasRun=true;collection.draws++;unlock(collection,id,state.startedOn);write(COLLECTION,collection);save();arrival();tone(130)}
 function begin(){
  if(!hasRun)return;if(state.arrivalPending){arrival();return}
  $('#titleCard').hidden=true;$('#arrivalCard').hidden=true;$('#endCard').hidden=true;playing=true;
@@ -57,11 +57,11 @@ function paragraph(value,cls=''){const el=document.createElement('p');el.textCon
 function drawDrawer(){
  const el=$('#drawerContent');el.replaceChildren();el.scrollTop=0;let total=1;$('#drawerTabs').hidden=!['catalog','endings'].includes(drawerMode);$('#sourcesBtn').hidden=drawerMode==='journal';$('#specimensTab').setAttribute('aria-pressed',String(drawerMode==='catalog'));$('#endingsTab').setAttribute('aria-pressed',String(drawerMode==='endings'));
  if(drawerMode==='catalog'){
-  total=SPECIES.length;page=(page+total)%total;const p=SPECIES[page],known=collection.unlocked.includes(p.id);$('#drawerTitle').textContent='所见之物';el.append(renderCatalog(p,{unlocked:known}));
+  total=SPECIES.length;page=(page+total)%total;const p=SPECIES[page],known=collection.unlocked.includes(p.id);$('#drawerTitle').textContent='标本档案';el.append(renderCatalog(p,{unlocked:known,collectedOn:collection.acquired?.[p.id]}));
  }else if(drawerMode==='endings'){
-  total=ENDINGS.length;page=(page+total)%total;const e=ENDINGS[page],saved=archives.some(a=>a.id===e.id);$('#drawerTitle').textContent='所见之物';const note=document.createElement('article');note.className='ending-note';if(saved){const h=document.createElement('h3');h.textContent=e.title;note.append(h,paragraph(e.body),paragraph(e.line,'last-line'))}else note.append(paragraph('尚未翻到的地方。'),paragraph('也许另一种停留，会把纸页带到这里。','faint'));el.append(note);
+  total=ENDINGS.length;page=(page+total)%total;const e=ENDINGS[page],saved=archives.some(a=>a.id===e.id);$('#drawerTitle').textContent='标本档案';const note=document.createElement('article');note.className='ending-note';if(saved){const h=document.createElement('h3');h.textContent=e.title;note.append(h,paragraph(e.body),paragraph(e.line,'last-line'))}else note.append(paragraph('尚未翻到的地方。'),paragraph('也许另一种停留，会把纸页带到这里。','faint'));el.append(note);
  }else if(drawerMode==='journal'){
-  total=Math.max(1,state.records.length);page=Math.max(0,Math.min(page,total-1));$('#drawerTitle').textContent='散页';const paper=document.createElement('article');paper.className='journal-paper';if(state.records.length){const r=state.records[page];paper.append(paragraph('第 '+r.day+' 日 · '+(r.time||timeFor(state.seed,r.day,r.period)),'entry-date'),paragraph(r.label,'pencil-mark'),paragraph(r.text))}else paper.append(paragraph('这一页还没有写下什么。'));el.append(paper);
+  total=Math.max(1,state.records.length);page=Math.max(0,Math.min(page,total-1));$('#drawerTitle').textContent='观察日志';const paper=document.createElement('article');paper.className='journal-paper';if(state.records.length){const r=state.records[page];paper.append(paragraph('第 '+r.day+' 日 · '+(r.time||timeFor(state.seed,r.day,r.period)),'entry-date'),paragraph(r.label,'pencil-mark'),paragraph(r.text))}else paper.append(paragraph('这一页还没有写下什么。'));el.append(paper);
  }else{$('#drawerTitle').textContent='出处与旁注';el.append(renderSources())}
  $('#pageNumber').textContent=total>1?String(page+1).padStart(2,'0'):'·';$('#pagePrev').disabled=total===1;$('#pageNext').disabled=total===1;iconButton($('#sourcesBtn'),drawerMode==='sources'?'book':'source',drawerMode==='sources'?'回到所见之物':'出处与旁注');
 }
