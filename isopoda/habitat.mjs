@@ -1,7 +1,21 @@
-import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?v=projection-7';
-import {encounterById,responseMode} from './encounters.mjs?v=pixel-life-6';
-import {makeIsopod,setIsopodState} from './sprites.mjs?v=projection-7';
-import {speciesById} from './species.mjs?v=projection-7';
+import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?v=desktop-11';
+import {encounterById,responseMode} from './encounters.mjs?v=desktop-11';
+import {pixelAnatomy,renderModel} from './sprites.mjs?v=desktop-11';
+import {speciesById} from './species.mjs?v=desktop-11';
+// All scene assets, including future actors, share two world units per pixel.
+export const SCENE_PIXEL=2;
+export function sceneActorPixels(source,actor){
+ const cells=[];
+ const size=.98*actor.model.growth.scale,ca=Math.cos(actor.a),sa=Math.sin(actor.a);
+  const centerX=Math.round(actor.x/2)*2,centerY=Math.round((actor.y+(actor.lift||0))/2)*2;
+  for(let dy=-28;dy<=28;dy+=2)for(let dx=-28;dx<=28;dx+=2){
+   const sx=Math.round((dx*ca+dy*sa)/size),sy=Math.round((-dx*sa+dy*ca)/(size*.88));
+   const front=['under','gather'].includes(actor.activity);
+   if(actor.occlusion>0&&(front?sx>24-actor.occlusion*49:sx< -24+actor.occlusion*49))continue;
+   const color=source.get(sx+','+sy);if(color)cells.push([centerX+dx,centerY+dy,color]);
+  }
+ return cells;
+}
 export function cameraWindow(width,height,zoom=1,x=192,y=215){
  const scale=Math.max(1,width/384)*zoom,sw=width/scale,sh=height/scale;
  x=Math.max(sw/2,Math.min(384-sw/2,x));y=Math.max(sh/2,Math.min(430-sh/2,y));
@@ -14,7 +28,7 @@ let state=getState(),critters=[],last=0,active=false,effect=null,frame=0,encount
 const camera={zoom:1,x:192,y:215},reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function reset(options={}){
  state=getState();empty=!!options.empty;layer.replaceChildren();const p=speciesById(state.species);elapsed=0;effect=null;
- critters=empty?[]:makeIndividuals(state.seed,p.speed).map(c=>{const el=makeIsopod(p,{stage:c.stage,seed:c.seed});el.style.position='absolute';el.style.left='0';el.style.top='0';layer.append(el);return {...c,el}});
+ critters=empty?[]:makeIndividuals(state.seed,p.speed).map(c=>({...c,model:renderModel(p.visual,{stage:c.stage,seed:c.seed}),pixels:new Map()}));
  encounter=empty?null:encounterById(state.scene?.encounter);stageIndividuals(critters,encounter,{initial:true});drawHabitat(0);
 }
 function stage(scene){encounter=encounterById(scene.encounter);elapsed=0;effect=null;stageIndividuals(critters,encounter);if(encounter){[camera.x,camera.y]=encounter.place}drawHabitat(0)}
@@ -26,10 +40,11 @@ function present(){
  display.imageSmoothingEnabled=false;
  const view=cameraWindow(rect.width,rect.height,camera.zoom,camera.x,camera.y),{scale,sw,sh,sx,sy}=view;camera.x=view.x;camera.y=view.y;display.drawImage(world,sx,sy,sw,sh,0,0,w,h);
  const scaleX=scale,scaleY=scale;
- for(const c of critters){const x=(c.x-sx)*scaleX,y=(c.y-sy)*scaleY;const offscreen=x< -50||y< -50||x>rect.width+50||y>rect.height+50;c.el.style.visibility=c.hidden||offscreen?'hidden':'visible';setIsopodState(c.el,{posture:c.posture,molt:c.molt,moving:active&&!c.hidden&&!offscreen&&c.moving&&!reduced,phase:c.phase,angle:c.a,occlusion:c.occlusion,occlusionSide:['under','gather'].includes(c.activity)?'front':'rear'});c.el.dataset.activity=c.activity||'rest';c.el.classList.toggle('grooming',active&&c.groom&&!c.hidden&&!offscreen&&!reduced);c.el.style.transform='translate('+Math.round(x)+'px,'+Math.round(y+(c.lift||0))+'px) translate(-50%,-50%) scale('+scale*c.size+')'}
+ layer.hidden=true; // Actors are composited into the same two-unit world lattice as scenery.
+
 }
 function zoom(z){camera.zoom=Math.max(1,Math.min(3,z));present();return camera.zoom}
-document.addEventListener('visibilitychange',()=>{if(document.hidden)for(const c of critters){setIsopodState(c.el,{posture:c.posture,molt:c.molt,moving:false,phase:c.phase,angle:c.a,occlusion:c.occlusion,occlusionSide:['under','gather'].includes(c.activity)?'front':'rear'});c.el.classList.remove('grooming')}});
+
 let pointer=null;
 canvas.addEventListener('pointerdown',e=>{pointer={x:e.clientX,y:e.clientY};canvas.setPointerCapture(e.pointerId)});
 canvas.addEventListener('pointermove',e=>{if(!pointer)return;const r=canvas.getBoundingClientRect();camera.x-=(e.clientX-pointer.x)/(Math.max(1,r.width/384)*camera.zoom);camera.y-=(e.clientY-pointer.y)/(Math.max(1,r.width/384)*camera.zoom);pointer={x:e.clientX,y:e.clientY};present()});
@@ -42,7 +57,7 @@ function drawHabitat(t){
   // Broad, broken loam patches give the litter depth before its fine grain.
   for(let yy=0;yy<h;yy+=2)for(let xx=0;xx<w;xx+=2){
    const n=Math.sin(xx*.031+Math.sin(yy*.023))*Math.cos(yy*.042)+Math.sin((xx+yy)*.018)*.45;
-   if(n>.65)px(ctx,xx,yy,2,2,'#493c2d');else if(n<-.65)px(ctx,xx,yy,2,2,'#3c3329');
+   if(n>.65)px(ctx,xx,yy,2,2,'#51422f');else if(n<-.65)px(ctx,xx,yy,2,2,'#302e25');
   }
   // Soil aggregates use clustered cells, not isolated uniform confetti.
   for(let i=0;i<570;i++){const x=(i*67+i%9*11)%w,y=(i*113+i%7*19)%h;
@@ -64,7 +79,18 @@ function drawHabitat(t){
   if(state.light<35){ctx.fillStyle='rgba(15,27,21,.16)';ctx.fillRect(0,0,w,h)}
   if(!reduced&&effect&&elapsed<effect.until&&['mist','wet-left','wet-all'].includes(effect.id))for(let i=0;i<18;i++){const x=12+(i*29)%(effect.id==='wet-all'?350:82),y=(i*71+t*.05)%420;px(ctx,x,y,2,3,'#91a994')}
   ctx.fillStyle="rgba(210,214,183,.07)";ctx.fillRect(4,4,w-8,h-8);ctx.strokeStyle="#93947c";ctx.lineWidth=4;ctx.strokeRect(2,2,w-4,h-4);
+  drawActors();
   present();
+}
+// Habitat sprites use a deliberately coarser projection than pinned catalog specimens.
+// Everything in the scene is painted onto this shared grid before camera scaling.
+function drawActors(){
+ for(const actor of critters){if(actor.hidden)continue;
+  const phase=reduced?0:Math.floor(actor.phase)%4,key=[actor.posture,actor.molt,phase,actor.moving].join(':');
+  let source=actor.pixels.get(key);
+  if(!source){source=new Map();for(const part of pixelAnatomy(actor.model,{posture:actor.posture,molt:actor.molt,phase,moving:actor.moving}))for(const [x,y,color] of part.cells)source.set(x+','+y,color);actor.pixels.set(key,source);if(actor.pixels.size>40)actor.pixels.delete(actor.pixels.keys().next().value)}
+  for(const [x,y,color] of sceneActorPixels(source,actor))px(ctx,x,y,2,2,color);
+ }
 }
 // Rasterize each rotated leaf directly onto the world grid; no antialiased paths.
 function leaf(c,x,y,a,color,scale=1){
@@ -93,10 +119,10 @@ function bark(x,y){
  for(let row=-38;row<=40;row+=2)for(let col=-72;col<=72;col+=2){
   const cap=Math.sqrt(Math.max(0,1-(col/74)**2)),top=-30*cap-4*Math.sin(col*.12),bottom=29*cap+4*Math.sin(col*.19);
   if(row<top||row>bottom+8)continue;
-  if(row>bottom){px(ctx,x+col,y+row,2,2,'#25271e');continue}
+  if(row>bottom){px(ctx,x+col,y+row,2,2,'#1d281f');continue}
   const groove=row+3*Math.sin(col*.055)+2*Math.sin(col*.17),band=Math.floor(groove/7);
   let ink=['#6d5035','#77593a','#5c442f','#81613f'][((band%4)+4)%4];
-  if(row<top+4)ink='#98764d';
+  if(row<top+4)ink='#ad8954';
   else if(row>bottom-5)ink='#433426';
   else if(Math.abs(groove%7)<1.5)ink='#3e3125';
   else if(Math.abs(groove%7)>5&&col%10!==0)ink='#917049';
@@ -130,5 +156,5 @@ function scenery(t){
 }
 
 new ResizeObserver(()=>drawHabitat(0)).observe(canvas);
-return {reset,stage,react,zoom,zoomBy:d=>zoom(camera.zoom+d),home:()=>{camera.x=192;camera.y=215;return zoom(1)},start:()=>{if(!active){active=true;last=performance.now();frame=requestAnimationFrame(tick)}},stop:()=>{active=false;cancelAnimationFrame(frame);for(const c of critters){setIsopodState(c.el,{posture:c.posture,molt:c.molt,moving:false,phase:c.phase,angle:c.a,occlusion:c.occlusion,occlusionSide:['under','gather'].includes(c.activity)?'front':'rear'});c.el.classList.remove('grooming')}},visible:()=>critters.filter(c=>!c.hidden).length};
+return {reset,stage,react,zoom,zoomBy:d=>zoom(camera.zoom+d),home:()=>{camera.x=192;camera.y=215;return zoom(1)},start:()=>{if(!active){active=true;last=performance.now();frame=requestAnimationFrame(tick)}},stop:()=>{active=false;cancelAnimationFrame(frame)},visible:()=>critters.filter(c=>!c.hidden).length};
 }

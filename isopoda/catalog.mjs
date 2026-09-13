@@ -1,21 +1,19 @@
-import {makeIsopod} from './sprites.mjs?v=projection-7';
-import {sources,frameworkSources,sourceDirectory} from './sources.mjs?v=pixel-life-6';
+import {makeIsopod} from './sprites.mjs?v=desktop-11';
+import {sources,frameworkSources,sourceDirectory} from './sources.mjs?v=desktop-11';
 const text=(tag,value,cls='')=>{const el=document.createElement(tag);el.textContent=value;el.className=cls;return el};
-export function renderCatalog(p,{unlocked=true}={}){
+export function renderCatalog(p,{unlocked=true,collectedOn=null}={}){
  const card=document.createElement('article');card.className='species-card';
  if(!unlocked){card.classList.add('unseen');card.append(text('div','', 'absent-mark'),text('p','这一页还没有遇见它。'),text('p','空着，也是一种如实记录。','faint'));return card}
- const art=document.createElement('div');art.className='catalog-art';let stage='L',condition='normal';const refresh=()=>art.replaceChildren(makeIsopod(p,{stage,condition,seed:p.id}));refresh();
- const controls=document.createElement('div');controls.className='specimen-controls';const sizes=document.createElement('div');sizes.className='size-controls';sizes.setAttribute('aria-label','展示生长阶段');
- for(const value of ['S','M','L']){const b=text('button',value);b.type='button';b.setAttribute('aria-pressed',String(value===stage));b.onclick=()=>{stage=value;for(const button of sizes.children)button.setAttribute('aria-pressed',String(button===b));refresh()};sizes.append(b)}
- const label=text('label',''),select=document.createElement('select');select.setAttribute('aria-label','展示状态');
- for(const [value,name] of [['normal','舒展'],['resting','停驻'],['probing','探查'],['tucked','轻收'],['turning','转身'],['feeding','进食'],['grooming','整理'],['emerging','探出'],['molt-posterior','后半蜕皮'],['molt-anterior','前半蜕皮'],['curled','收拢']]){const option=text('option',name);option.value=value;select.append(option)}select.onchange=()=>{condition=select.value;refresh()};label.append(select);controls.append(sizes,label);
- card.append(art,controls);
+ const art=document.createElement('div');art.className='catalog-art specimen-mount';
+ art.append(makeIsopod(p,{stage:'L',condition:'normal',seed:p.id}));
+ const pin=text('i','','specimen-pin');pin.setAttribute('aria-hidden','true');art.append(pin);
+ card.append(text('p','标本 / '+p.id.toUpperCase(),'specimen-id'),art,text('p','采集日期  '+(collectedOn||'未记录'),'specimen-date'));
  const names=document.createElement('div');names.className='specimen-names';names.append(text('h3',p.names.zhCN),text('p',p.label,'trade-name'));
  const latin=text('p','', 'latin');if(p.taxonomy.acceptedScientificName)latin.append(text('em',p.taxonomy.acceptedScientificName),document.createTextNode(' '+(p.taxonomy.authority||'')));else latin.textContent=p.trade.designation||'尚未确定的名字';names.append(latin);
  if(p.names.zhAliases.length)names.append(text('p','也有人叫它 '+p.names.zhAliases.join('、'),'faint'));
  if(p.trade.morph)names.append(text('p',p.trade.morph+' · 色型','faint'));if(p.trade.locality)names.append(text('p',p.trade.locality.label+' · 产地系','faint'));if(p.trade.lineage)names.append(text('p',p.trade.lineage.label+' · 培养线','faint'));
  if(!p.taxonomy.acceptedScientificName)names.append(text('p','名字暂时写在这里，身份仍留有余地。','name-aside'));card.append(names);
- const note=document.createElement('blockquote');note.className='anonymous-note';for(const line of p.literature.lines)note.append(text('p',line));card.append(note);return card;
+ const note=document.createElement('blockquote');note.className='anonymous-note';note.append(text('div','窗口摘要','summary-label'));for(const line of p.literature.lines)note.append(text('p',line));card.append(note);return card;
 }
 export function renderSources(){
  const el=document.createElement('article');el.className='reference-page';el.append(text('p','有些句子来自泥土，有些来自别人的书。','reference-intro'));

@@ -1,12 +1,13 @@
-import {encounterFor,encounterText,responseMode} from './encounters.mjs?v=pixel-life-6';
-import {SPECIES,speciesById} from './species.mjs?v=pixel-life-6';
-import {MORNING,EVENING,AMBIENT,CARE,MINI_TYPES,ENDINGS} from './content.mjs?v=pixel-life-6';
+import {encounterFor,encounterText,responseMode} from './encounters.mjs?v=desktop-11';
+import {SPECIES,speciesById} from './species.mjs?v=desktop-11';
+import {MORNING,EVENING,AMBIENT,CARE,MINI_TYPES,ENDINGS} from './content.mjs?v=desktop-11';
 export const VERSION=3;
 export const PERIODS=['晨间','午后','夜间'];
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function hash(seed,n){let x=(seed+Math.imul(n+1,2654435761))>>>0;x=Math.imul(x^(x>>>16),2246822507);x=Math.imul(x^(x>>>13),3266489909);return (x^(x>>>16))>>>0}
 export function createRun(species='dairy',seed=Date.now()>>>0){
- const p=speciesById(species);return {version:VERSION,seed:seed>>>0,species:p.id,day:1,period:0,stage:'choice',humidity:p.wet,temp:23,vent:55,light:54,cover:p.cover,food:1,interventions:0,quiet:0,accuracy:0,maps:0,labels:0,care:0,records:[],ending:null,feedback:'',scene:null};
+ const now=new Date(),startedOn=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');
+ const p=speciesById(species);return {startedOn,version:VERSION,seed:seed>>>0,species:p.id,day:1,period:0,stage:'choice',humidity:p.wet,temp:23,vent:55,light:54,cover:p.cover,food:1,interventions:0,quiet:0,accuracy:0,maps:0,labels:0,care:0,records:[],ending:null,feedback:'',scene:null};
 }
 export function validRun(s){return !!(s&&s.version===VERSION&&SPECIES.some(p=>p.id===s.species)&&Number.isInteger(s.day)&&s.day>=1&&s.day<=7&&Number.isInteger(s.period)&&s.period>=0&&s.period<=2&&['choice','feedback','ended'].includes(s.stage)&&Array.isArray(s.records)&&['seed','humidity','temp','vent','light','cover','food','interventions','quiet','accuracy','maps','labels','care'].every(k=>Number.isFinite(s[k])))}
 export function timeFor(seed,day,period){
