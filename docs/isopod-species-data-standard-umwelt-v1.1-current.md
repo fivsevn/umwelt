@@ -1,8 +1,8 @@
 # Isopod Species Data Standard
 ## 企划-umwelt系列 / 鼠妇资料规范化与图鉴资产
 
-**文档状态：** Draft v1.0  
-**用途：** 项目长期资产；作为 Umwelt 仓库 `isopoda/` 下真实鼠妇、贸易品系、产地系、人工色型与未来幻想品种的统一资料规范。  
+**文档状态：** Implementation Baseline v1.1 · 2026-09-13  
+**用途：** 项目长期资产；规范 Umwelt 仓库 `isopoda/` 当前 13 个条目的资料、游戏兼容字段、证据状态，以及未来真实/幻想条目的扩展方式。  
 **配套文档：** `morphology-renderer-spec.md`  
 **核心原则：** 资料层先回答“它是什么、我们凭什么这样说”；形态层再回答“它长成什么结构、如何被渲染”。
 
@@ -40,6 +40,95 @@
 ```
 
 ---
+
+
+## 0.1 当前代码实现快照｜2026-09-13
+
+当前 `species.mjs` 已经采用本规范的大部分结构，但为了兼容现有游戏，还保留一组顶层字段。
+
+当前实际条目结构可以理解为：
+
+```text
+A. 游戏兼容 / 展示快捷字段
+   id
+   name
+   label
+   taxon
+   status
+   speed
+   wet
+   cover
+   notes
+
+B. 资料规范字段
+   names
+   taxonomy
+   trade
+   biogeography
+   profile
+   nomenclature
+   literature
+   evidenceIds
+   evidence
+   genetics
+   breeding
+
+C. 运行时视觉字段
+   visual = phenotypeFor(id)
+```
+
+其中必须长期区分：
+
+```text
+speed / wet / cover      → [GAME]
+notes                    → [GAME / NARRATIVE]
+visual                   → [RENDER]
+taxonomy / trade / etc.  → KNOWLEDGE DATA
+```
+
+`wet` 与 `cover` 当前参与游戏环境初始值和 care scoring，**不是饲养处方或实测生态阈值**。  
+`speed` 是游戏移动倍率，**不是生物学速度测量值**。
+
+当前 `visual` 不在每条 species 对象中手工重复保存；文件末尾统一执行：
+
+```js
+for (const p of SPECIES) {
+  p.visual = phenotypeFor(p.id);
+}
+```
+
+这样存档只需要稳定 `species.id`，不会把 taxonomy、sources 或 phenotype 大对象复制进 save。
+
+### 当前证据状态
+
+当前 13 个条目已经完成“规范化字段迁移”，但**尚未完成逐字段独立资料核验**。
+
+代码目前明确保留：
+
+```js
+evidenceIds: []
+
+evidence: {
+  status: "pending_field_sources",
+  claims: []
+}
+```
+
+`sources.mjs` 当前的 species-level：
+
+```js
+sources = []
+evidence = []
+```
+
+只存在：
+
+- 2 条共享 morphology framework source；
+- WoRMS / GBIF / Catalogue of Life / Isopod Site 等检索入口。
+
+因此本文件中的 13 种 taxonomy / trade baseline 应继续理解为：
+
+> **项目 working baseline，不等于已经逐条建立证据链的最终数据库。**
 
 # 1. 总体原则
 
@@ -324,6 +413,8 @@ zhNameType: "project_translation"
 
 # 4. Source / Evidence 体系
 
+> **当前实现状态：** source/evidence 架构已经存在，但 13 个条目的逐字段 `evidenceIds` 仍为空。检索目录不能替代 claim-level evidence。后续补资料时应逐条落到本节规则，而不是只往“参考资料”页面继续堆入口链接。
+
 ## 4.1 来源等级
 
 建议使用：
@@ -402,120 +493,47 @@ taxonomy: {
 
 ---
 
-# 5. 推荐的数据 Schema
+# 5. 当前数据 Schema
+
+当前运行中的 `species.mjs` 比最初建议 schema 多了一层“游戏兼容字段”。
 
 ```js
 {
+  // stable identity
   id: "ducky",
 
-  names: {
-    zhCN: "鸭仔",
-    zhAliases: ["黄头鸭", "橡皮鸭"],
-    zhNameType: "hobby_vernacular",
-    zhConfidence: "high",
+  // [GAME / UI COMPAT]
+  name: "鸭仔",
+  label: "Rubber Ducky",
+  taxon: "“Cubaris” sp. “Rubber Ducky”",
+  status: "种级身份未定……",
 
-    en: "Rubber Ducky",
-    enNameType: "trade_name",
-
-    ja: null,
-    jaAliases: []
-  },
-
-  taxonomy: {
-    kingdom: "Animalia",
-    phylum: "Arthropoda",
-    class: "Malacostraca",
-    order: "Isopoda",
-    suborder: "Oniscidea",
-
-    family: "Armadillidae",
-
-    genus: "Cubaris",
-    species: null,
-
-    acceptedScientificName: null,
-    authority: null,
-
-    genusStatus: "tentative",
-    speciesStatus: "undescribed_or_unresolved",
-
-    identificationQualifier: "trade_assigned",
-    identificationConfidence: "low"
-  },
-
-  trade: {
-    designation: "“Cubaris” sp. “Rubber Ducky”",
-    tradeName: "Rubber Ducky",
-
-    type: "undescribed_trade_taxon",
-
-    morph: null,
-    locality: null,
-    lineage: null,
-
-    tradeAliases: []
-  },
-
-  biogeography: {
-    originCountry: "Thailand",
-    originRegion: null,
-    locality: null,
-
-    nativeRange: null,
-    distributionNotes: null,
-
-    confidence: "trade_documented"
-  },
-
-  profile: {
-    adultLengthMm: null,
-    adultLengthRangeMm: null,
-
-    ecology: [],
-    microhabitat: [],
-    behaviour: [],
-
-    notableMorphology: [],
-    diagnosticNotes: [],
-
-    conglobation: "full_or_near_full",
-
-    careDataStatus: "not_in_scope"
-  },
-
-  nomenclature: {
-    taxonomicStatus: "undescribed",
-    tradeStatus: "established",
-    vernacularStatus: "established_hobby",
-
-    lastReviewed: "2026-09-10"
-  },
-
-  literature: {
-    lines: [
-      "它的脸让人想起鸭子，于是它成了鸭仔。",
-      "被观察者的命运之一，就是长得像观察者认识的东西。"
-    ],
-
-    basis: [
-      {
-        claim: "trade name refers to duck-like yellow facial appearance",
-        evidenceIds: ["isopodsite-ducky"]
-      }
-    ],
-
-    themes: [
-      "anthropocentric naming",
-      "observer and observed"
-    ]
-  },
-
-  evidenceIds: [
-    "isopodsite-ducky"
+  speed: 0.7,   // 游戏移动倍率，不是实测速度
+  wet: 78,      // 游戏环境基线，不是饲养处方
+  cover: 70,    // 游戏环境基线
+  notes: [
+    "...", "...", "..."
   ],
 
-  visual: {
-    // morphology-renderer-spec.md
+  // KNOWLEDGE DATA
+  names: { ... },
+  taxonomy: { ... },
+  trade: { ... },
+  biogeography: { ... },
+  profile: { ... },
+  nomenclature: { ... },
+
+  literature: {
+    lines: [...],
+    basis: [...],
+    themes: [...]
+  },
+
+  evidenceIds: [],
+
+  evidence: {
+    status: "pending_field_sources",
+    claims: []
   },
 
   genetics: {
@@ -526,10 +544,50 @@ taxonomy: {
   breeding: {
     crossCompatibility: "unknown"
   }
+
+  // visual 不在这里手工重复写
 }
 ```
 
----
+运行时：
+
+```js
+p.visual = phenotypeFor(p.id)
+```
+
+`visual` 的 schema 由 `morphology-renderer-spec-umwelt.md` 定义。
+
+## 5.1 顶层兼容字段的长期处理
+
+当前不要急着删除：
+
+```text
+name
+label
+taxon
+status
+speed
+wet
+cover
+notes
+```
+
+因为游戏控制器仍在使用它们。
+
+但它们的语义必须明确：
+
+| 字段 | 当前性质 |
+|---|---|
+| `name` | UI 快捷中文名 |
+| `label` | UI 快捷英文 / trade label |
+| `taxon` | UI 快捷 taxon/designation |
+| `status` | UI 简短身份说明 |
+| `speed` | `[GAME]` movement multiplier |
+| `wet` | `[GAME]` humidity baseline / care comparison |
+| `cover` | `[GAME]` 初始遮蔽物参数 |
+| `notes` | `[GAME/NARRATIVE]` 夜间观察文本 |
+
+未来如果 controller 完全切换到结构化字段，可以再移除 `name / label / taxon / status` 的重复；但 `speed / wet / cover` 应迁入明确的 `gameplay` 区域，而不是并入 `profile` 当成自然史事实。
 
 # 6. 枚举值建议
 
@@ -585,21 +643,48 @@ unknown
 
 ---
 
-# 7. 图鉴 UI 的资料展示规则
+# 7. 当前图鉴 UI 与未来资料页
 
-建议详情页按以下顺序：
+## 7.1 当前已经显示的内容
+
+当前 `catalog.mjs` 的 specimen card 实际显示：
 
 ```text
+SPECIMEN ID
+鼠妇标本图
+采集日期
+
 中文主名
 English / Trade name
 
-SCIENTIFIC NAME
-正式种 → 显示 accepted scientific name
-未定种 → 显示 “Not formally described / 未正式描述”
+accepted scientific name
+或 trade designation
 
-TRADE DESIGNATION
-需要时单独显示
+别名（如有）
+morph / locality / lineage 标签（如有）
 
+文学观察文本
+```
+
+如果没有 `acceptedScientificName`，页面会明确保留“不确定”的语气，而不是强行显示一个正式学名。
+
+当前 Sources 页分成：
+
+```text
+关于身体      → frameworkSources
+关于名字      → species-level sources（目前为空）
+书架的入口    → sourceDirectory
+```
+
+并明确提示：
+
+> 检索入口不等于逐条鉴定证据。
+
+## 7.2 未来完整资料页建议
+
+以下内容仍然是合理的下一阶段方向，但**目前尚未全部进入玩家 UI**：
+
+```text
 CLASSIFICATION
 Family / Genus / Species / Status
 
@@ -607,33 +692,15 @@ ORIGIN
 国家 / 地区 / Locality
 
 IDENTIFICATION NOTE
-“属级归属为贸易圈暂定”
-“Coros 为 locality 标签”
-“Orange 为人工色型”
+genusStatus
+identificationQualifier
+identificationConfidence
+
+CLAIMS / EVIDENCE
+字段 → evidenceIds → source
 ```
 
-底部：
-
-```text
-SOURCES / 资料来源
-
-[TAXONOMY]
-GBIF
-World List of Isopoda
-
-[REVISION]
-Kästle & Regalado Fernández, 2025
-
-[TRADE ID]
-Isopod Site
-
-[VERNACULAR]
-中文鼠妇图鉴 / hobby usage
-```
-
-链接由 `sources[]` 自动生成，不硬编码在 HTML。
-
----
+不要在文档中把这套“未来详情页”写成当前已经上线的功能。
 
 # 8. 文学描述规范
 
@@ -722,7 +789,8 @@ literature: {
 
 # 9. 当前 13 个条目的规范化基线
 
-> 本表是当前项目的 **working baseline**。  
+> 本表是当前项目的 **working baseline**，并已写入 `species.mjs`。  
+> 但当前逐字段 `evidenceIds` 仍为空，因此它表示“代码当前采用的身份工作标注”，不是项目已经独立完成的最终分类学核验。  
 > “正式物种”和“贸易身份”必须区别阅读。  
 > 未描述 hobby taxa 的属级归属可随未来正式研究更新。
 
@@ -1373,7 +1441,7 @@ taxonomy → 不变
 
 # 18. Genetics / Breeding 边界
 
-默认：
+当前代码仍然保持：
 
 ```js
 genetics: {
@@ -1386,68 +1454,101 @@ breeding: {
 }
 ```
 
-禁止：
+截至当前游戏版本：
+
+- 没有 genotype 模型；
+- 没有真实遗传资料数据库；
+- 没有 cross-compatibility 数据；
+- 没有 breeding / hybridization 游戏系统；
+- `patterns[]` 只是 phenotype renderer grammar，不是 gene；
+- `seed` 只是稳定视觉与个体行为随机源，不是遗传种子。
+
+因此即使后续设计已经讨论到“混入其他品种”“出现新品种”等玩法，在代码真正落地前也必须继续标为：
 
 ```text
-同属 = 可杂交
-颜色相同 = 相同基因
-pattern primitive = gene
+future GAME MODEL
 ```
 
-如果未来为了玩法建立遗传系统：
+不得回写为：
+
+```text
+documented genetics
+documented hybrid compatibility
+```
+
+未来若加入玩法模拟遗传：
 
 ```js
 genetics: {
   knowledge: "game-model",
-  model: "..."
+  model: { ... }
 }
 ```
 
-如果是幻想物种：
+并且 UI / 文档都要明确它是游戏模型。
+
+幻想种则使用：
 
 ```text
 fictional
 ```
 
----
-
 # 19. 版本与维护
 
-每个条目建议带：
+## 19.1 Species data revision
+
+每个条目仍建议维护：
 
 ```js
 revision: {
   created: "2026-09-10",
-  lastReviewed: "2026-09-10",
-
+  lastReviewed: "2026-09-13",
   taxonomyVersion: 1,
   literatureVersion: 1,
-  visualVersion: 1
+  visualVersion: 2
 }
 ```
 
-如果以后 taxonomy 变化：
+当前 `species.mjs` 尚未把 `revision` 对象正式写进每个条目，因此这仍是下一步 schema clean-up 项。
+
+如果 taxonomy 变化：
 
 ```text
-不要删除历史信息
-→ 移到 previousIdentifications[]
+不要覆盖掉历史工作标注
+→ previousIdentifications[]
 ```
 
-例如：
+## 19.2 与游戏存档版本分离
+
+当前游戏 engine：
 
 ```js
-previousIdentifications: [
-  {
-    designation: "Merulanella sp. “Red Diablo”",
-    status: "superseded_trade_assignment",
-    replacedBy: "Ardentiella sp. “Red Diablo”"
-  }
-]
+VERSION = 3
 ```
 
-这会让项目几年后仍然知道旧邮票、旧截图、旧玩家资料为什么写了另一个名字。
+Species 文档版本、taxonomyVersion、visualVersion 与游戏 save version 是不同概念。
 
----
+当前 v3 save 只保存稳定的：
+
+```text
+species.id
+seed
+day / period / stage
+环境与记录状态
+```
+
+不会把：
+
+```text
+taxonomy
+literature
+sources
+visual
+```
+
+复制进存档。
+
+因此正常的 taxonomy 文案修订或 renderer 调参不需要自动升级 save schema。
 
 # 20. 数据完整性检查
 
@@ -1471,9 +1572,25 @@ previousIdentifications: [
 
 ---
 
-# 21. 建议的文件拆分
+# 21. 当前文件结构与未来拆分
 
-随着品种增加，最终建议采用以下 **Umwelt 仓库相对路径**：
+当前 13 个条目仍然适合保持较平的结构：
+
+```text
+isopoda/
+├── species.mjs        # 资料 + 游戏兼容字段
+├── phenotypes.mjs     # visual phenotype
+├── sources.mjs        # evidence/source infrastructure
+├── catalog.mjs        # 图鉴展示
+├── sprites.mjs        # pixel morphology renderer
+├── behaviors.mjs      # 个体状态 / 行为
+├── habitat.mjs        # 场景
+└── engine.mjs         # v3 游戏状态与 7 日流程
+```
+
+当前不需要为了“看起来像数据库”强行拆成 13 个 species 文件。
+
+当品种明显超过约 30–50 个、或者开始出现独立证据链维护压力时，再考虑：
 
 ```text
 isopoda/
@@ -1482,31 +1599,17 @@ isopoda/
 │   │   ├── dairy.mjs
 │   │   ├── ducky.mjs
 │   │   └── ...
-│   │
 │   ├── sources.mjs
 │   ├── taxonomy.mjs
 │   └── schema.mjs
 │
-├── renderer/
-│   ├── morphology.mjs
-│   ├── patterns.mjs
-│   └── renderer.mjs
-│
-└── docs/
-    ├── isopod-species-data-standard.md
-    └── morphology-renderer-spec.md
+└── renderer/
+    ├── phenotypes.mjs
+    ├── patterns.mjs
+    └── sprites.mjs
 ```
 
-如果当前只有 13–30 种，也可以先保持：
-
-```text
-species.mjs
-sources.mjs
-```
-
-避免过早拆分。
-
----
+拆分的触发条件应该是维护成本，而不是品种数量还很少时的形式完整。
 
 # 22. 项目的两份核心资产
 
@@ -1572,6 +1675,66 @@ Renderer
 ```
 
 ---
+
+
+## 22.1 当前游戏如何消费 Species Data
+
+当前 engine 仍为 **v3，7 天 × 每天 3 个时段 = 21 次观察**。
+
+Species data 当前主要进入游戏的方式：
+
+```text
+species.id
+  → 存档稳定身份
+
+speed
+  → behaviors 中个体移动倍率
+
+wet
+  → 初始 humidity
+  → 判断一次照护是否让 humidity 更接近该游戏基线
+
+cover
+  → 初始遮蔽物参数
+
+notes
+  → 夜间观察文本
+
+visual
+  → catalog specimen + habitat actors
+```
+
+这意味着资料层必须避免一个常见错误：
+
+> **游戏参数被写得像真实饲养事实。**
+
+例如：
+
+```js
+wet: 78
+```
+
+当前只意味着“本游戏模拟里这个 species 的湿度基线是 78”。
+
+它不意味着：
+
+```text
+真实最佳湿度 = 78%
+```
+
+同理：
+
+```js
+speed: 1.2
+```
+
+不是毫米/秒。
+
+当前 `catalog.mjs` 也明确写着：
+
+> 温湿度、成长比例与状态演示不作为饲养处方或实测数据。
+
+这一边界应长期保留。
 
 # 23. 最终原则
 
