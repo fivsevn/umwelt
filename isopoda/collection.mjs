@@ -1,5 +1,5 @@
-import {SPECIES} from './species.mjs?v=desktop-11';
-import {hash} from './engine.mjs?v=desktop-11';
+import {SPECIES} from './species.mjs?v=compact-12';
+import {hash} from './engine.mjs?v=compact-12';
 const ids=new Set(SPECIES.map(s=>s.id));
 export function restoreCollection(value,run,archives=[]){
  const known=Array.isArray(value?.unlocked)?value.unlocked.filter(id=>ids.has(id)):[];
