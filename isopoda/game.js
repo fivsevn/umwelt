@@ -1,12 +1,12 @@
-import {renderCatalog,renderSources} from './catalog.mjs?v=compact-12';
-import {SPECIES,speciesById} from './species.mjs?v=compact-12';
-import {ENDINGS} from './content.mjs?v=compact-12';
-import {createRun,validRun,migrateLegacy,ensureScene,choose,advance,timeFor} from './engine.mjs?v=compact-12';
-import {makeBug} from './sprites.mjs?v=compact-12';
-import {createHabitat} from './habitat.mjs?v=compact-12';
-import {restoreCollection,drawSpecies,unlock} from './collection.mjs?v=compact-12';
-import {encounterById,encounterFor} from './encounters.mjs?v=compact-12';
-import {iconButton,createInstrument} from './ui.mjs?v=compact-12';
+import {renderCatalog,renderSources} from './catalog.mjs?v=resonance-13';
+import {SPECIES,speciesById} from './species.mjs?v=resonance-13';
+import {ENDINGS} from './content.mjs?v=resonance-13';
+import {createRun,validRun,migrateLegacy,ensureScene,choose,advance,timeFor} from './engine.mjs?v=resonance-13';
+import {makeBug} from './sprites.mjs?v=resonance-13';
+import {createHabitat} from './habitat.mjs?v=resonance-13';
+import {restoreCollection,drawSpecies,unlock} from './collection.mjs?v=resonance-13';
+import {encounterById,encounterFor} from './encounters.mjs?v=resonance-13';
+import {iconButton,createInstrument} from './ui.mjs?v=resonance-13';
 const $=s=>document.querySelector(s),KEY='isopoda-fugue-v3',ARCHIVE='isopoda-fugue-endings-v3',COLLECTION='isopoda-fieldnotes-v1';
 function read(key){try{return JSON.parse(localStorage.getItem(key))}catch{return null}}
 function write(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch{$('#storageNotice').hidden=false;$('#storageNotice').textContent='纸页暂时留不住；这一次仍可以走完。'}}
@@ -37,10 +37,10 @@ function render(){
  if(lastScene!==scene.id){habitat.stage(scene);lastScene=scene.id}
  instrument(state);save();
 }
-function arrival(){playing=false;habitat.stop();$('#titleCard').hidden=true;$('#playView').hidden=true;$('#endCard').hidden=true;$('#arrivalCard').hidden=false;$('#dayLabel').textContent='';const p=speciesById(state.species);$('#arrivalSpecimens').replaceChildren(...Array.from({length:5},(_,i)=>makeBug(p,state.seed+i)));$('#arrivalName').textContent=p.name;$('#arrivalText').textContent='五个体，一种尚未熟悉的生活。名字已经夹进「所见之物」。'}
-function draw(){if($('#startBtn').disabled)return;$('#startBtn').disabled=true;const seed=Date.now()>>>0,id=drawSpecies(collection,seed);state=createRun(id,seed);state.arrivalPending=false;hasRun=true;collection.draws++;unlock(collection,id,state.startedOn);write(COLLECTION,collection);save();begin();tone(130)}
+function arrival(){playing=false;habitat.stop();$('#titleCard').hidden=true;$('#playView').hidden=true;$('#endCard').hidden=true;$('#arrivalCard').hidden=false;$('#dayLabel').textContent='';const p=speciesById(state.species);$('#arrivalSpecimens').replaceChildren(...Array.from({length:5},(_,i)=>makeBug(p,state.seed+i)));$('#arrivalName').textContent=p.name;$('#arrivalText').textContent=p.literature.lines.join('\n')}
+function draw(){if($('#startBtn').disabled)return;$('#startBtn').disabled=true;const seed=Date.now()>>>0,id=drawSpecies(collection,seed);state=createRun(id,seed);state.arrivalPending=true;hasRun=true;collection.draws++;unlock(collection,id,state.startedOn);write(COLLECTION,collection);save();begin();tone(130)}
 function begin(){
- if(!hasRun)return;if(state.arrivalPending){state.arrivalPending=false;save()}
+ if(!hasRun)return;if(state.arrivalPending){arrival();return}
  $('#titleCard').hidden=true;$('#arrivalCard').hidden=true;$('#endCard').hidden=true;$('.window-toolbar').insertBefore($('#catalogBtn'),$('#soundBtn'));playing=true;
  if(state.stage==='ended'){showEnd();return}
  $('#playView').hidden=false;lastScene=null;sceneNow();habitat.reset();habitat.home();$('#zoomLevel').textContent='1×';render();habitat.start();
@@ -49,7 +49,7 @@ function act(id){if(!choose(state,id))return;habitat.react(id);tone(130);render(
 function next(){if(!advance(state))return;tone(95);save();if(state.stage==='ended'){showEnd();return}render()}
 function showEnd(){
  habitat.stop();$('#playView').hidden=true;$('#arrivalCard').hidden=true;$('#endCard').hidden=false;$('#endRecordsSlot').append($('#catalogBtn'));$('#dayLabel').textContent='';const e=ENDINGS.find(e=>e.id===state.ending)||ENDINGS[5];$('#endingTime').textContent=clock();$('#endingTitle').textContent=e.title;$('#endingBody').textContent=e.body;$('#endingLine').textContent=e.line;$('#endSpecimen').replaceChildren(...[0,1,2].map(i=>makeBug(speciesById(state.species),state.seed+i)));
- if(!archives.some(a=>a.run===state.seed&&a.species===state.species)){archives.push({id:e.id,run:state.seed,species:state.species,date:new Date().toLocaleDateString(),records:state.records.length});archives=archives.slice(-60);write(ARCHIVE,archives)}$('#endingCount').textContent='这一页，已夹进所见之物。';save();
+ if(!archives.some(a=>a.run===state.seed&&a.species===state.species)){archives.push({id:e.id,run:state.seed,species:state.species,date:new Date().toLocaleDateString(),records:state.records.length});archives=archives.slice(-60);write(ARCHIVE,archives)}$('#endingCount').textContent='已归档至「余响」。';save();
 }
 function home(){playing=false;habitat.stop();$('#playView').hidden=true;$('#endCard').hidden=true;$('#arrivalCard').hidden=true;$('#titleCard').hidden=false;$('#dayLabel').textContent='';$('#startBtn').disabled=false;$('#continueBtn').hidden=!hasRun;$('#continueBtn').textContent=state.stage==='ended'?'查看结局':'继续观察';emptyHabitat.reset({empty:true})}
 function tone(freq){if(!sound)return;try{audio ||= new (window.AudioContext||window.webkitAudioContext)();audio.resume();const o=audio.createOscillator(),g=audio.createGain();o.type='triangle';o.frequency.value=freq;g.gain.setValueAtTime(.025,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.12);o.connect(g).connect(audio.destination);o.start();o.stop(audio.currentTime+.12)}catch{sound=false;$('#soundBtn').setAttribute('aria-pressed','false');$('#soundBtn').setAttribute('aria-label','声音暂不可用')}}

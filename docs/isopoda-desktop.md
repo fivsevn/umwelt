@@ -31,3 +31,12 @@ buttons inside 100dvh. Browser checks ran all 21 rounds, before and after choice
 at 320x568, 390x650, 430x740, 844x390 and 1440x900 with no page or record overflow.
 A longest-text check across 150 seeds also fit at 320x568. Counting tasks are
 removed; pending legacy counting scenes are regenerated, preserving past records.
+
+## Draw confirmation and resonance
+
+Library order is Specimens / Notes / Resonance (标本 / 笔记 / 余响).
+A new draw persists arrivalPending and shows species and its catalog literary
+lines; confirmation begins the run. Reloading resumes the same pending draw.
+Endings use separate specimen, observation, afterword and archive-status panels.
+Browser checks at 320x568, 390x650 and 1440x900 completed all 21 rounds, confirmed
+pending-draw persistence and library order, and found no ending panel overflow.
