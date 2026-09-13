@@ -1,6 +1,6 @@
-import {encounterFor,encounterText,responseMode} from './encounters.mjs?v=compact-12';
-import {SPECIES,speciesById} from './species.mjs?v=compact-12';
-import {MORNING,EVENING,AMBIENT,CARE,MINI_TYPES,ENDINGS} from './content.mjs?v=compact-12';
+import {encounterFor,encounterText,responseMode} from './encounters.mjs?v=resonance-13';
+import {SPECIES,speciesById} from './species.mjs?v=resonance-13';
+import {MORNING,EVENING,AMBIENT,CARE,MINI_TYPES,ENDINGS} from './content.mjs?v=resonance-13';
 export const VERSION=3;
 export const PERIODS=['晨间','午后','夜间'];
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));

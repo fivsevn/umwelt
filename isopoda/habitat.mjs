@@ -1,7 +1,7 @@
-import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?v=compact-12';
-import {encounterById,responseMode} from './encounters.mjs?v=compact-12';
-import {pixelAnatomy,renderModel} from './sprites.mjs?v=compact-12';
-import {speciesById} from './species.mjs?v=compact-12';
+import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?v=resonance-13';
+import {encounterById,responseMode} from './encounters.mjs?v=resonance-13';
+import {pixelAnatomy,renderModel} from './sprites.mjs?v=resonance-13';
+import {speciesById} from './species.mjs?v=resonance-13';
 // All scene assets, including future actors, share two world units per pixel.
 export const SCENE_PIXEL=2;
 export function sceneActorPixels(source,actor){
