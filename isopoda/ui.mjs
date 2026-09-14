@@ -11,7 +11,13 @@ const glyphs={
  draw:['000011000000','000011000000','001111110000','011000011000','110000001100','110110101100','110000001100','011111111000','001111110000'],
  switch:['000010000000','000011000000','111111100000','000011000000','000010000000','000000100000','000001100000','000011111110','000001100000','000000100000']
 };
-export function pixelIcon(kind){const el=document.createElement('span');el.className='pixel-icon';el.setAttribute('aria-hidden','true');const dots=[];for(const [y,row] of (glyphs[kind]||glyphs.leaf).entries())for(let x=0;x<row.length;x++)if(row[x]==='1')dots.push(`${x*2}px ${y*2}px 0 currentColor`);const bit=document.createElement('i');bit.style.boxShadow=dots.join(',');el.append(bit);return el}
+export function pixelIcon(kind){
+ const el=document.createElement('span');el.className='pixel-icon';el.setAttribute('aria-hidden','true');
+ const cells=[];for(const [y,row] of (glyphs[kind]||glyphs.leaf).entries())for(let x=0;x<row.length;x++)if(row[x]==='1')cells.push([x,y]);
+ const minX=Math.min(...cells.map(c=>c[0])),minY=Math.min(...cells.map(c=>c[1])),maxX=Math.max(...cells.map(c=>c[0])),maxY=Math.max(...cells.map(c=>c[1])),unit=kind==='sound'?1:2;
+ el.style.width=(maxX-minX+1)*unit+'px';el.style.height=(maxY-minY+1)*unit+'px';
+ const bit=document.createElement('i');bit.style.width=bit.style.height=unit+'px';bit.style.boxShadow=cells.map(([x,y])=>`${(x-minX)*unit}px ${(y-minY)*unit}px 0 currentColor`).join(',');el.append(bit);return el;
+}
 export function iconButton(button,kind,label){button.replaceChildren(pixelIcon(kind));button.setAttribute('aria-label',label);button.title=label}
 export function createInstrument(root){
  root.innerHTML='<span id="meterTemp"></span><span id="meterWet"></span><span id="simDetail"></span>';
