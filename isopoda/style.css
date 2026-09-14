@@ -68,3 +68,6 @@ html,body{height:100%;overflow:hidden}#game{height:100dvh;padding:6px 8px max(6p
 
 /* Credits retain the terminal frame and scroll within the drawer. */
 .reference-page{overflow-wrap:anywhere}.reference-page h3:first-child{margin-top:4px}.reference-page blockquote{margin:24px 0 0;padding:0 0 0 12px;border-left:2px solid #82916b;color:#aebb98}.reference-page a:focus-visible{outline:2px solid #cbd2ae;outline-offset:3px}
+
+/* Seven stable specimens remain visible on narrow arrival / ending cards. */
+#arrivalSpecimens,#endSpecimen{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:0;width:100%;justify-items:center}#arrivalSpecimens .isopod,#endSpecimen .isopod{width:100%!important;max-width:56px;height:auto!important;aspect-ratio:1;min-width:0}

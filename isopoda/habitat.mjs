@@ -1,8 +1,8 @@
-import {environmentFor} from './environment.mjs?v=memory-14';
-import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?v=memory-14';
-import {encounterById,responseMode} from './encounters.mjs?v=memory-14';
-import {pixelAnatomy,renderModel} from './sprites.mjs?v=memory-14';
-import {speciesById} from './species.mjs?v=memory-14';
+import {environmentFor} from './environment.mjs?v=cohort-4';
+import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?v=cohort-4';
+import {encounterById,responseMode} from './encounters.mjs?v=cohort-4';
+import {pixelAnatomy,renderModel} from './sprites.mjs?v=cohort-4';
+import {speciesById} from './species.mjs?v=cohort-4';
 // All scene assets, including future actors, share two world units per pixel.
 export const SCENE_PIXEL=2;
 export function sceneActorPixels(source,actor){
@@ -28,8 +28,9 @@ const ctx=world.getContext('2d');ctx.imageSmoothingEnabled=false;
 let state=getState(),critters=[],last=0,active=false,effect=null,frame=0,encounter=null,elapsed=0,empty=false;
 const camera={zoom:1,x:192,y:215},reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function reset(options={}){
- state=getState();empty=!!options.empty;layer.replaceChildren();const p=speciesById(state.species);elapsed=0;effect=null;
- critters=empty?[]:makeIndividuals(state.seed,p.speed).map(c=>({...c,model:renderModel(p.visual,{stage:c.stage,seed:c.seed}),pixels:new Map()}));
+ state=getState();empty=!!options.empty;layer.replaceChildren();elapsed=0;effect=null;
+ critters=empty?[]:makeIndividuals(state.cohort).map(c=>({...c,model:renderModel(speciesById(c.species).visual,{stage:c.stage,seed:c.seed}),pixels:new Map()}));
+ canvas.dataset.specimens=String(critters.length);canvas.dataset.taxa=[...new Set(critters.map(c=>c.species))].join(',');
  encounter=empty?null:encounterById(state.scene?.encounter);stageIndividuals(critters,encounter,{initial:true});drawHabitat(0);
 }
 function stage(scene){encounter=encounterById(scene.encounter);elapsed=0;effect=null;stageIndividuals(critters,encounter);if(encounter){[camera.x,camera.y]=encounter.place}drawHabitat(0)}
