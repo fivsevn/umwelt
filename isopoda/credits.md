@@ -3,7 +3,7 @@
 **作者**
 
 - 五月七日
-- 主页：[fivsevn.com](https://fivsevn.com/)。
+- 主页：[fivsevn.com](https://fivsevn.com/)
 - 最近经常在[抖音](https://v.douyin.com/fy3BstaoOYk)发点自己觉得好玩的东西。
 
 **协力**
@@ -40,6 +40,7 @@
 - [GitHub Repository](https://github.com/fivsevn/umwelt)
 
 
-
-> 有关品种资料中的未定种、贸易名与培养线，保留其不确定性。  
-> 游戏中的活动、温湿度与成长状态均为模拟，不作为实际饲养或生物学数据。
+```
+有关品种资料中的未定种、贸易名与培养线，保留其不确定性。  
+游戏中的活动、温湿度与成长状态均为模拟，不作为实际饲养或生物学数据。
+```
