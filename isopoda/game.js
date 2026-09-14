@@ -1,12 +1,12 @@
-import {renderCatalog,renderSources} from './catalog.mjs?v=quiet-ui-1';
-import {SPECIES,speciesById} from './species.mjs?v=quiet-ui-1';
-import {ENDINGS} from './content.mjs?v=quiet-ui-1';
-import {createRun,validRun,migrateV3,runSpecies,migrateLegacy,ensureScene,choose,advance,timeFor} from './engine.mjs?v=quiet-ui-1';
-import {makeBug,makeIsopod} from './sprites.mjs?v=quiet-ui-1';
-import {createHabitat} from './habitat.mjs?v=quiet-ui-1';
-import {restoreCollection,drawCohort,unlock} from './collection.mjs?v=quiet-ui-1';
-import {encounterById,encounterFor} from './encounters.mjs?v=quiet-ui-1';
-import {iconButton,createInstrument} from './ui.mjs?v=quiet-ui-1';
+import {renderCatalog,renderSources} from './catalog.mjs?v=quiet-ui-2';
+import {SPECIES,speciesById} from './species.mjs?v=quiet-ui-2';
+import {ENDINGS} from './content.mjs?v=quiet-ui-2';
+import {createRun,validRun,migrateV3,runSpecies,migrateLegacy,ensureScene,choose,advance,timeFor} from './engine.mjs?v=quiet-ui-2';
+import {makeBug,makeIsopod} from './sprites.mjs?v=quiet-ui-2';
+import {createHabitat} from './habitat.mjs?v=quiet-ui-2';
+import {restoreCollection,drawCohort,unlock} from './collection.mjs?v=quiet-ui-2';
+import {encounterById,encounterFor} from './encounters.mjs?v=quiet-ui-2';
+import {iconButton,createInstrument} from './ui.mjs?v=quiet-ui-2';
 const $=s=>document.querySelector(s),KEY='isopoda-fugue-v4',ARCHIVE='isopoda-fugue-endings-v3',COLLECTION='isopoda-fieldnotes-v1';
 function read(key){try{return JSON.parse(localStorage.getItem(key))}catch{return null}}
 function write(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch{$('#storageNotice').hidden=false;$('#storageNotice').textContent='纸页暂时留不住；这一次仍可以走完。'}}
@@ -18,7 +18,7 @@ let playing=false,sound=false,audio,drawerMode='catalog',page=0,lastScene=null,r
 const habitat=createHabitat($('#habitat'),$('#critters'),()=>state);
 const emptyHabitat=createHabitat($('#emptyHabitat'),$('#emptyCritters'),()=>state);
 const instrument=createInstrument($('#instruments'));
-for(const [id,kind,label] of [['soundBtn','sound','开启声音'],['catalogBtn','book','资料库'],['sourcesBtn','source','来源 / Credits'],['journalBtn','pencil','本轮笔记'],['zoomOut','minus','缩小观察'],['zoomIn','plus','放大观察'],['zoomReset','center','复位观察']])iconButton($('#'+id),kind,label);
+for(const [id,kind,label] of [['soundBtn','sound','开启声音'],['catalogBtn','book','资料库'],['sourcesBtn','source','来源 / Credits'],['journalBtn','pencil','阿西莫夫的笔记'],['zoomOut','minus','缩小观察'],['zoomIn','plus','放大观察'],['zoomReset','center','复位观察']])iconButton($('#'+id),kind,label);
 function save(){write(KEY,state)}
 function clock(day=state.day,period=state.period){const date=state.startedOn?new Date(state.startedOn+'T12:00:00'):null;if(date)date.setDate(date.getDate()+day-1);return (date?[String(date.getMonth()+1).padStart(2,'0'),String(date.getDate()).padStart(2,'0')].join('/'):'第 '+day+' 日')+' '+timeFor(state.seed,day,period)}
 function sceneNow(){
@@ -62,7 +62,7 @@ function drawDrawer(){
  }else if(drawerMode==='endings'){
   total=ENDINGS.length;page=(page+total)%total;const e=ENDINGS[page],saved=archives.some(a=>a.id===e.id);$('#drawerTitle').textContent='阿西莫夫的资料库';const note=document.createElement('article');note.className='ending-note';if(saved){const h=document.createElement('h3');h.textContent=e.title;note.append(h,paragraph(e.body),paragraph(e.line,'last-line'));const batches=archives.filter(a=>a.id===e.id);for(const a of batches){const taxa=Array.isArray(a.species)?a.species:[a.species];note.append(paragraph(`${a.date} · ${taxa.map(id=>speciesById(id).name).join(' / ')}`,'faint'))}}else{note.classList.add('unseen');const h=document.createElement('h3');h.innerHTML='&nbsp;';note.append(h,paragraph('','ending-space'),paragraph('空白也有它的时间。','last-line'))}el.append(note);
  }else if(drawerMode==='journal'){
-  total=Math.max(1,state.records.length);page=Math.max(0,Math.min(page,total-1));$('#drawerTitle').textContent='本轮笔记';const paper=document.createElement('article');paper.className='journal-paper';if(state.records.length){const r=state.records[page];paper.append(paragraph('第 '+r.day+' 日 · '+(r.time||timeFor(state.seed,r.day,r.period)),'entry-date'),paragraph(r.label,'pencil-mark'),paragraph(r.text))}else paper.append(paragraph('这一页还没有写下什么。'));el.append(paper);
+  total=Math.max(1,state.records.length);page=Math.max(0,Math.min(page,total-1));$('#drawerTitle').textContent='阿西莫夫的笔记';const paper=document.createElement('article');paper.className='journal-paper';if(state.records.length){const r=state.records[page];paper.append(paragraph('第 '+r.day+' 日 · '+(r.time||timeFor(state.seed,r.day,r.period)),'entry-date'),paragraph(r.label,'pencil-mark'),paragraph(r.text))}else paper.append(paragraph('这一页还没有写下什么。'));el.append(paper);
  }else{$('#drawerTitle').textContent='来源 / Credits';el.append(renderSources())}
  $('#pageNumber').textContent=total>1?String(page+1).padStart(2,'0'):'·';$('#pagePrev').disabled=total===1;$('#pageNext').disabled=total===1;iconButton($('#sourcesBtn'),drawerMode==='sources'?'book':'source',drawerMode==='sources'?'回到所见之物':'来源 / Credits');
 }
