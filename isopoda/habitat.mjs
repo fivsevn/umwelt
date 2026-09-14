@@ -1,3 +1,4 @@
+import {createReactions,actionFocus,drawReactionBubbles} from './reactions.mjs?v=bubbles-1';
 import {environmentFor} from './environment.mjs?v=cohort-4';
 import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?v=cohort-4';
 import {encounterById,responseMode} from './encounters.mjs?v=cohort-4';
@@ -24,23 +25,24 @@ export function cameraWindow(width,height,zoom=1,x=192,y=215){
 }
 export function createHabitat(canvas,layer,getState){
 const display=canvas.getContext('2d'),world=document.createElement('canvas');world.width=384;world.height=430;
+const overlay=document.createElement('canvas');overlay.width=384;overlay.height=430;const overlayCtx=overlay.getContext('2d'),reactions=createReactions();
 const ctx=world.getContext('2d');ctx.imageSmoothingEnabled=false;
 let state=getState(),critters=[],last=0,active=false,effect=null,frame=0,encounter=null,elapsed=0,empty=false;
 const camera={zoom:1,x:192,y:215},reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function reset(options={}){
- state=getState();empty=!!options.empty;layer.replaceChildren();elapsed=0;effect=null;
+ state=getState();empty=!!options.empty;layer.replaceChildren();elapsed=0;effect=null;reactions.reset();
  critters=empty?[]:makeIndividuals(state.cohort).map(c=>({...c,model:renderModel(speciesById(c.species).visual,{stage:c.stage,seed:c.seed}),pixels:new Map()}));
  canvas.dataset.specimens=String(critters.length);canvas.dataset.taxa=[...new Set(critters.map(c=>c.species))].join(',');
  encounter=empty?null:encounterById(state.scene?.encounter);stageIndividuals(critters,encounter,{initial:true});drawHabitat(0);
 }
-function stage(scene){encounter=encounterById(scene.encounter);elapsed=0;effect=null;stageIndividuals(critters,encounter);if(encounter){[camera.x,camera.y]=encounter.place}drawHabitat(0)}
-function react(id){effect={id,mode:responseMode(id),start:elapsed,until:elapsed+10};drawHabitat(performance.now())}
+function stage(scene){encounter=encounterById(scene.encounter);elapsed=0;effect=null;reactions.reset();stageIndividuals(critters,encounter);if(encounter){[camera.x,camera.y]=encounter.place}drawHabitat(0)}
+function react(id){state=getState();const point=actionFocus(id,state,encounter);const selected=[...critters].sort((a,b)=>Math.hypot(a.x-point.x,a.y-point.y)-Math.hypot(b.x-point.x,b.y-point.y)).slice(0,2).map(c=>c.id);effect={id,selected,mode:responseMode(id),start:elapsed,until:elapsed+10};drawHabitat(performance.now())}
 function present(){
  const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;
  const w=Math.max(80,Math.round(rect.width/2)),h=w;
  if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h}
  display.imageSmoothingEnabled=false;
- const view=cameraWindow(rect.width,rect.height,camera.zoom,camera.x,camera.y),{scale,sw,sh,sx,sy}=view;camera.x=view.x;camera.y=view.y;display.drawImage(world,sx,sy,sw,sh,0,0,w,h);
+ const view=cameraWindow(rect.width,rect.height,camera.zoom,camera.x,camera.y),{scale,sw,sh,sx,sy}=view;camera.x=view.x;camera.y=view.y;overlayCtx.drawImage(world,0,0);drawReactionBubbles(overlayCtx,reactions.active,critters,elapsed,view,reduced);display.drawImage(overlay,sx,sy,sw,sh,0,0,w,h);
  const scaleX=scale,scaleY=scale;
  layer.hidden=true; // Actors are composited into the same two-unit world lattice as scenery.
 
@@ -52,7 +54,7 @@ canvas.addEventListener('pointerdown',e=>{pointer={x:e.clientX,y:e.clientY};canv
 canvas.addEventListener('pointermove',e=>{if(!pointer)return;const r=canvas.getBoundingClientRect();camera.x-=(e.clientX-pointer.x)/(Math.max(1,r.width/384)*camera.zoom);camera.y-=(e.clientY-pointer.y)/(Math.max(1,r.width/384)*camera.zoom);pointer={x:e.clientX,y:e.clientY};present()});
 for(const event of ['pointerup','pointercancel','lostpointercapture'])canvas.addEventListener(event,()=>pointer=null);
 canvas.addEventListener('wheel',e=>{e.preventDefault();zoom(camera.zoom+(e.deltaY<0?.25:-.25));const label=document.querySelector('#zoomLevel');if(label)label.textContent=camera.zoom.toFixed(1)+'×'},{passive:false});
-function tick(t){if(!active)return;if(!document.hidden&&t-last>50){const dt=Math.min(.1,(t-last)/1000);state=getState();elapsed+=dt;stepIndividuals(critters,{encounter,state,time:elapsed,dt,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null,reduced});drawHabitat(t);last=t}frame=requestAnimationFrame(tick)}
+function tick(t){if(!active)return;if(!document.hidden&&t-last>50){const dt=Math.min(.1,(t-last)/1000);state=getState();elapsed+=dt;stepIndividuals(critters,{encounter,state,time:elapsed,dt,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null,reduced});reactions.update(critters,{encounter,state,time:elapsed,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});drawHabitat(t);last=t}frame=requestAnimationFrame(tick)}
 function px(c,x,y,w,h,color){c.fillStyle=color;c.fillRect(Math.round(x/2)*2,Math.round(y/2)*2,Math.max(2,Math.round(w/2)*2),Math.max(2,Math.round(h/2)*2))}
 function drawHabitat(t){
   const w=world.width,h=world.height;ctx.fillStyle="#443729";ctx.fillRect(0,0,w,h);
