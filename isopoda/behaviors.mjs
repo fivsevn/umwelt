@@ -1,3 +1,4 @@
+import {stepInteraction} from './interaction.mjs?v=pointer-1';
 import {speciesById} from './species.mjs?v=cohort-4';
 import {cohortFor} from './engine.mjs?v=cohort-4';
 import {environmentTarget} from './environment.mjs?v=cohort-4';
@@ -21,6 +22,7 @@ export function stepIndividuals(group,{encounter,state={},time=0,dt=.05,reaction
  dt=clamp(dt,0,.1);const motion=encounter?.motion||'rest',[x,y]=encounter?.place||[190,220],participants=encounter?.actors||1;
  const ordered=actorOrder(group,encounter),positions=ordered.map(c=>({x:c.x,y:c.y,a:c.a}));
  for(const c of group){
+  if(stepInteraction(c,dt))continue;
   const i=ordered.indexOf(c),phase=(time+c.offset)%22,focus=i<participants,near=Math.hypot(c.x-x,c.y-y)<48;
   let tx=70+(stableHash(c.seed)%240)+Math.sin((time+c.offset)*.12)*35,ty=85+(stableHash(c.seed+'y')%250)+Math.cos((time+c.offset)*.11)*32,pace=c.speed,stop=false,molt='none',posture='normal',face=null,hide=0;
   if(focus){tx=x;ty=y;

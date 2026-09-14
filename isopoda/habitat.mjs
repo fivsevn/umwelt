@@ -1,6 +1,7 @@
+import {bindPointerInteraction} from './interaction.mjs?v=pointer-1';
 import {createReactions,actionFocus,drawReactionBubbles} from './reactions.mjs?v=bubbles-1';
 import {environmentFor} from './environment.mjs?v=cohort-4';
-import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?v=cohort-4';
+import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?v=pointer-1';
 import {encounterById,responseMode} from './encounters.mjs?v=cohort-4';
 import {pixelAnatomy,renderModel} from './sprites.mjs?v=cohort-4';
 import {speciesById} from './species.mjs?v=cohort-4';
@@ -30,12 +31,12 @@ const ctx=world.getContext('2d');ctx.imageSmoothingEnabled=false;
 let state=getState(),critters=[],last=0,active=false,effect=null,frame=0,encounter=null,elapsed=0,empty=false;
 const camera={zoom:1,x:192,y:215},reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function reset(options={}){
- state=getState();empty=!!options.empty;layer.replaceChildren();elapsed=0;effect=null;reactions.reset();
- critters=empty?[]:makeIndividuals(state.cohort).map(c=>({...c,model:renderModel(speciesById(c.species).visual,{stage:c.stage,seed:c.seed}),pixels:new Map()}));
+ interaction.cancel();state=getState();empty=!!options.empty;layer.replaceChildren();elapsed=0;effect=null;reactions.reset();
+ critters=empty?[]:makeIndividuals(state.cohort).map(c=>({...c,interaction:speciesById(c.species).interaction,model:renderModel(speciesById(c.species).visual,{stage:c.stage,seed:c.seed}),pixels:new Map()}));
  canvas.dataset.specimens=String(critters.length);canvas.dataset.taxa=[...new Set(critters.map(c=>c.species))].join(',');
  encounter=empty?null:encounterById(state.scene?.encounter);stageIndividuals(critters,encounter,{initial:true});drawHabitat(0);
 }
-function stage(scene){encounter=encounterById(scene.encounter);elapsed=0;effect=null;reactions.reset();stageIndividuals(critters,encounter);if(encounter){[camera.x,camera.y]=encounter.place}drawHabitat(0)}
+function stage(scene){interaction.cancel();encounter=encounterById(scene.encounter);elapsed=0;effect=null;reactions.reset();stageIndividuals(critters,encounter);if(encounter){[camera.x,camera.y]=encounter.place}drawHabitat(0)}
 function react(id){state=getState();const point=actionFocus(id,state,encounter);const selected=[...critters].sort((a,b)=>Math.hypot(a.x-point.x,a.y-point.y)-Math.hypot(b.x-point.x,b.y-point.y)).slice(0,2).map(c=>c.id);effect={id,selected,mode:responseMode(id),start:elapsed,until:elapsed+10};drawHabitat(performance.now())}
 function present(){
  const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;
@@ -49,10 +50,19 @@ function present(){
 }
 function zoom(z){camera.zoom=Math.max(1,Math.min(3,z));present();return camera.zoom}
 
-let pointer=null;
-canvas.addEventListener('pointerdown',e=>{pointer={x:e.clientX,y:e.clientY};canvas.setPointerCapture(e.pointerId)});
-canvas.addEventListener('pointermove',e=>{if(!pointer)return;const r=canvas.getBoundingClientRect();camera.x-=(e.clientX-pointer.x)/(Math.max(1,r.width/384)*camera.zoom);camera.y-=(e.clientY-pointer.y)/(Math.max(1,r.width/384)*camera.zoom);pointer={x:e.clientX,y:e.clientY};present()});
-for(const event of ['pointerup','pointercancel','lostpointercapture'])canvas.addEventListener(event,()=>pointer=null);
+const interaction=bindPointerInteraction(canvas,{
+ enabled:()=>active&&!empty,
+ worldPoint:event=>{
+  const r=canvas.getBoundingClientRect(),view=cameraWindow(r.width,r.height,camera.zoom,camera.x,camera.y);
+  return {x:view.sx+(event.clientX-r.left)/view.scale,y:view.sy+(event.clientY-r.top)/view.scale};
+ },
+ hitTest:point=>[...critters].reverse().find(actor=>!actor.hidden&&actor.hitCells?.some(([x,y])=>point.x>=x-3&&point.x<=x+5&&point.y>=y-3&&point.y<=y+5)),
+ pan:(dx,dy)=>{
+  const r=canvas.getBoundingClientRect(),scale=Math.max(1,r.width/384)*camera.zoom;
+  camera.x-=dx/scale;camera.y-=dy/scale;present();
+ },
+ draw:()=>drawHabitat(performance.now())
+});
 canvas.addEventListener('wheel',e=>{e.preventDefault();zoom(camera.zoom+(e.deltaY<0?.25:-.25));const label=document.querySelector('#zoomLevel');if(label)label.textContent=camera.zoom.toFixed(1)+'×'},{passive:false});
 function tick(t){if(!active)return;if(!document.hidden&&t-last>50){const dt=Math.min(.1,(t-last)/1000);state=getState();elapsed+=dt;stepIndividuals(critters,{encounter,state,time:elapsed,dt,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null,reduced});reactions.update(critters,{encounter,state,time:elapsed,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});drawHabitat(t);last=t}frame=requestAnimationFrame(tick)}
 function px(c,x,y,w,h,color){c.fillStyle=color;c.fillRect(Math.round(x/2)*2,Math.round(y/2)*2,Math.max(2,Math.round(w/2)*2),Math.max(2,Math.round(h/2)*2))}
@@ -95,11 +105,13 @@ function drawHabitat(t){
 // Habitat sprites use a deliberately coarser projection than pinned catalog specimens.
 // Everything in the scene is painted onto this shared grid before camera scaling.
 function drawActors(){
- for(const actor of critters){if(actor.hidden)continue;
+ for(const actor of [...critters].sort((a,b)=>Number(a.interactionState?.mode==='grabbed')-Number(b.interactionState?.mode==='grabbed'))){if(actor.hidden){actor.hitCells=[];continue;}
   const phase=reduced?0:Math.floor(actor.phase)%4,key=[actor.posture,actor.molt,phase,actor.moving].join(':');
   let source=actor.pixels.get(key);
   if(!source){source=new Map();for(const part of pixelAnatomy(actor.model,{posture:actor.posture,molt:actor.molt,phase,moving:actor.moving}))for(const [x,y,color] of part.cells)source.set(x+','+y,color);actor.pixels.set(key,source);if(actor.pixels.size>40)actor.pixels.delete(actor.pixels.keys().next().value)}
-  for(const [x,y,color] of sceneActorPixels(source,actor))px(ctx,x,y,2,2,color);
+  if(actor.interactionState?.mode==='grabbed')px(ctx,actor.x-8,actor.y+8,16,4,'#252b21');
+  actor.hitCells=sceneActorPixels(source,actor);
+  for(const [x,y,color] of actor.hitCells)px(ctx,x,y,2,2,color);
  }
 }
 // Rasterize each rotated leaf directly onto the world grid; no antialiased paths.
@@ -166,5 +178,5 @@ function scenery(t){
 }
 
 new ResizeObserver(()=>drawHabitat(0)).observe(canvas);
-return {reset,stage,react,zoom,zoomBy:d=>zoom(camera.zoom+d),home:()=>{camera.x=192;camera.y=215;return zoom(1)},start:()=>{if(!active){active=true;last=performance.now();frame=requestAnimationFrame(tick)}},stop:()=>{active=false;cancelAnimationFrame(frame)},visible:()=>critters.filter(c=>!c.hidden).length};
+return {reset,stage,react,zoom,zoomBy:d=>zoom(camera.zoom+d),home:()=>{camera.x=192;camera.y=215;return zoom(1)},start:()=>{if(!active){active=true;last=performance.now();frame=requestAnimationFrame(tick)}},stop:()=>{interaction.cancel();active=false;cancelAnimationFrame(frame)},visible:()=>critters.filter(c=>!c.hidden).length};
 }
