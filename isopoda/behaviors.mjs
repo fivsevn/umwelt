@@ -1,9 +1,11 @@
-import {environmentTarget} from './environment.mjs?v=memory-14';
-import {stableHash} from './sprites.mjs?v=memory-14';
+import {speciesById} from './species.mjs?v=cohort-4';
+import {cohortFor} from './engine.mjs?v=cohort-4';
+import {environmentTarget} from './environment.mjs?v=cohort-4';
+import {stableHash} from './sprites.mjs?v=cohort-4';
 export const MOTIONS=['contact','follow','feed','gather','yield','climb','groom','molt','shell','border','defend','emerge','orbit','rest','under','disperse','parallel','wall','hesitate'];
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-export function makeIndividuals(seed,speed=1){return Array.from({length:5},(_,id)=>{
- const h=stableHash(seed+':'+id),stage=['S','M','L','M','L'][id];return {id,seed:seed+':'+id,x:55+h%260,y:65+(h>>>8)%290,a:(h%628)/100,speed:(.65+(h>>>12)%70/100)*speed,size:.94+(h>>>18)%13/100,stage,alertness:.25+(h>>>16)%60/100,pause:2+(h>>>20)%5,offset:h%190/10,hidden:false,posture:'normal',moving:false,molt:'none',occlusion:0,phase:0};
+export function makeIndividuals(seed,speed=1){return (Array.isArray(seed)?seed:cohortFor('dairy',seed)).map((specimen,id)=>{
+ const h=stableHash(specimen.seed),stage=specimen.stage;return {id,specimenId:specimen.id,species:specimen.species,seed:specimen.seed,x:55+h%260,y:65+(h>>>8)%290,a:(h%628)/100,speed:(.65+(h>>>12)%70/100)*speed*speciesById(specimen.species).speed,size:.94+(h>>>18)%13/100,stage,alertness:.25+(h>>>16)%60/100,pause:2+(h>>>20)%5,offset:h%190/10,hidden:false,posture:'normal',moving:false,molt:'none',occlusion:0,phase:0};
 })}
 export function actorOrder(group,encounter){
  if(encounter?.id==='younger'||encounter?.id==='touch-return')return [...group].sort((a,b)=>['S','M','L'].indexOf(a.stage)-['S','M','L'].indexOf(b.stage));
@@ -55,7 +57,7 @@ export function stepIndividuals(group,{encounter,state={},time=0,dt=.05,reaction
    const age=reaction.age||0;hide=0;
    if(age<1.2+c.alertness&&c.alertness>.48){stop=true;posture=age<.4?'tucked':'curled'}else{tx=clamp(c.x+(c.x-x||i+1)*2,24,355);ty=clamp(c.y+(c.y-y||i+1)*2,30,400);pace*=1.4+c.alertness;stop=false;posture='normal'}
   }else if(reaction?.mode==='care'){
-   if(['mist','wet-left'].includes(reaction.id)){tx=70+c.id*17;ty=120+c.id*42;posture=(reaction.age||0)<2?'probing':'normal';stop=(reaction.age||0)<c.alertness}
+   if(['mist','wet-left'].includes(reaction.id)){tx=target?.x??tx;ty=target?.y??ty;posture=(reaction.age||0)<2?'probing':'normal';stop=(reaction.age||0)<c.alertness}
    else if(reaction.id==='food'){const food=state.environment?.foodNodes.at(-1)||{x:316,y:255};tx=food.x+Math.cos(i*1.3)*12;ty=food.y+Math.sin(i*1.3)*12;posture=Math.hypot(tx-c.x,ty-c.y)<10?'feeding':'normal';stop=posture==='feeding';face=Math.atan2(255-c.y,316-c.x)}
    else if(['leaf','gap','flat'].includes(reaction.id)&&state.environment){const l=state.environment.leaves.at(-1);tx=l.x+(l.gap?0:35);ty=l.y+c.id%2*10;const close=Math.hypot(tx-c.x,ty-c.y)<12;posture=close&&l.gap?'emerging':'probing';hide=close&&l.gap?.6:0;stop=close}
    else if(target){tx=target.x;ty=target.y;stop=false;posture='probing'}

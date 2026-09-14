@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';
-import {SPECIES,speciesById} from '../isopoda/species.mjs';import {renderModel,resolvePalette,stableHash,MOLT_REGIONS} from '../isopoda/sprites.mjs';import {sources,evidence} from '../isopoda/sources.mjs';import {validRun,advance,choose,ensureScene} from '../isopoda/engine.mjs';
+import {SPECIES,speciesById} from '../isopoda/species.mjs';import {renderModel,resolvePalette,stableHash,MOLT_REGIONS} from '../isopoda/sprites.mjs';import {sources,evidence} from '../isopoda/sources.mjs';import {migrateV3,validRun,advance,choose,ensureScene} from '../isopoda/engine.mjs';
 const ids=['dairy','cappuccino','diablo','echinatus','pink','coros','bolivari','ducky','daxin','ember','amber','vex','orange'];
 test('13 stable identities: taxonomy, trade, locality, morph and uncertainty stay separate',()=>{
  assert.deepEqual(SPECIES.map(s=>s.id),ids);assert.equal(speciesById('ducky').names.zhCN,'鸭仔');
@@ -23,5 +23,5 @@ test('benchmark coefficients and composed patterns preserve contrasting morpholo
 });
 test('actual pre-migration v3 saves resume every species and finish without persisting definitions',()=>{
  const fixtures=JSON.parse(readFileSync(new URL('./fixtures/v3-saves.json',import.meta.url)));
- for(let s of fixtures){assert.ok(validRun(s));assert.equal(s.records.length,6);assert.equal(choose(s,ensureScene(s).options[0].id),false);advance(s);while(s.stage!=='ended'){choose(s,ensureScene(s).options[0].id);advance(s);s=JSON.parse(JSON.stringify(s));assert.ok(validRun(s))}assert.equal(s.records.length,21);for(const field of ['visual','taxonomy','sources','evidence'])assert.ok(!JSON.stringify(s).includes('"'+field+'"'))}
+ for(let s of fixtures){s=migrateV3(s);assert.ok(validRun(s));assert.equal(s.records.length,6);assert.equal(choose(s,ensureScene(s).options[0].id),false);advance(s);while(s.stage!=='ended'){choose(s,ensureScene(s).options[0].id);advance(s);s=JSON.parse(JSON.stringify(s));assert.ok(validRun(s))}assert.equal(s.records.length,21);for(const field of ['visual','taxonomy','sources','evidence'])assert.ok(!JSON.stringify(s).includes('"'+field+'"'))}
 });

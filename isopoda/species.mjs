@@ -1,4 +1,4 @@
-import {phenotypeFor} from './phenotypes.mjs?v=memory-14';
+import {phenotypeFor} from './phenotypes.mjs?v=cohort-4';
 // Species Standard Draft v1.0 working baseline. Unknown evidence is intentionally empty.
 // speed / wet / cover / notes preserve the v3 game. Phenotype data is resolved at runtime and never copied into a save.
 export const SPECIES = [

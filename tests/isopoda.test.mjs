@@ -13,7 +13,7 @@ test('every species completes 21 turns across seeded branches; reload never dupl
  for(const p of SPECIES)for(let seed=1;seed<=40;seed++){
   let s=createRun(p.id,seed);assert.ok(validRun(s));
   for(let turn=0;turn<21;turn++){
-   const scene=ensureScene(s);kinds.add(scene.kind);assert.ok(scene.text);assert.equal(scene.options.length,3);
+   const scene=ensureScene(s);kinds.add(scene.kind);assert.ok(scene.text);assert.equal(scene.options.length,scene.kind==='route'?4:3);
    assert.equal(advance(s),false);assert.equal(choose(s,'missing'),false);
    // Exercise each offered option in an independent copy before choosing the run's branch.
    for(const o of scene.options){const copy=structuredClone(s);assert.equal(choose(copy,o.id),true);assert.ok(copy.feedback);assert.equal(copy.records.length,turn+1);choices++}

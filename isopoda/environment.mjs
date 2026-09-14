@@ -1,3 +1,4 @@
+import {speciesById} from './species.mjs?v=cohort-4';
 // Spatial traces advance with observation turns, never with frame rate or wall time.
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function environmentFor(s){
@@ -28,11 +29,21 @@ export function ageEnvironment(s){
  if(s.period===0){let remaining=1;for(const f of e.foodNodes){const take=Math.min(remaining,f.amount);f.amount-=take;remaining-=take;f.age++}}
  e.disturbance=Math.max(0,e.disturbance-1);
 }
+// Score available microhabitats separately for each animal; never average taxa.
+export function habitatFit(s,c){
+ const e=environmentFor(s),p=speciesById(c.species||s.cohort?.[0]?.species||'dairy');
+ const moisture=Math.min(Math.abs(Math.max(15,s.humidity-22)-p.wet),...e.wetZones.map(z=>Math.abs(z.moisture-p.wet)));
+ const cover=Math.max(0,p.cover-s.cover-e.leaves.filter(l=>l.gap).length*3);
+ return -moisture-cover*.4;
+}
 export function environmentTarget(s,c){
  const e=s.environment;if(!e)return null;
+ const p=speciesById(c.species||s.cohort?.[0]?.species||'dairy'),i=Number.isInteger(c.id)?c.id:Math.max(0,'ABCDEFG'.indexOf(c.id));
+ const dry=Math.max(15,s.humidity-22),z=e.wetZones.reduce((a,b)=>Math.abs(a.moisture-p.wet)<=Math.abs(b.moisture-p.wet)?a:b);
+ if(e.disturbance||s.light>100-p.cover*.6)return {...e.shelter,kind:'shelter'};
+ if(Math.abs(dry-p.wet)-Math.abs(z.moisture-p.wet)>12)return {x:z.x+8+i*3,y:90+i*42,kind:'wet'};
  const food=e.foodNodes.filter(f=>f.amount>0);
- if(e.disturbance||s.light>65)return {...e.shelter,kind:'shelter'};
- if(food.length&&c.id%2===0)return {...food[c.id%food.length],kind:'food'};
- if(c.id%2===1||s.humidity<58){const z=e.wetZones.reduce((a,b)=>a.moisture>b.moisture?a:b);return {x:z.x+12+c.id*4,y:90+c.id*55,kind:'wet'}}
- const leaf=e.leaves[c.id%e.leaves.length];return {...leaf,kind:leaf.gap?'shelter':'edge'};
+ if(food.length&&i%2===0)return {...food[i%food.length],kind:'food'};
+ if(s.cover<p.cover)return {...e.shelter,kind:'shelter'};
+ const leaf=e.leaves[i%e.leaves.length];return leaf?{...leaf,kind:leaf.gap?'shelter':'edge'}:{x:300,y:200,kind:'edge'};
 }
