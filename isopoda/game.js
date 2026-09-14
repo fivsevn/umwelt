@@ -1,12 +1,12 @@
-import {renderCatalog,renderSources} from './catalog.mjs?v=quiet-ui-2';
-import {SPECIES,speciesById} from './species.mjs?v=quiet-ui-2';
-import {ENDINGS} from './content.mjs?v=quiet-ui-2';
-import {createRun,validRun,migrateV3,runSpecies,migrateLegacy,ensureScene,choose,advance,timeFor} from './engine.mjs?v=quiet-ui-2';
-import {makeBug,makeIsopod} from './sprites.mjs?v=quiet-ui-2';
-import {createHabitat} from './habitat.mjs?v=quiet-ui-2';
-import {restoreCollection,drawCohort,unlock} from './collection.mjs?v=quiet-ui-2';
-import {encounterById,encounterFor} from './encounters.mjs?v=quiet-ui-2';
-import {iconButton,createInstrument} from './ui.mjs?v=quiet-ui-2';
+import {renderCatalog,renderSources} from './catalog.mjs?v=quiet-ui-3';
+import {SPECIES,speciesById} from './species.mjs?v=quiet-ui-3';
+import {ENDINGS} from './content.mjs?v=quiet-ui-3';
+import {createRun,validRun,migrateV3,runSpecies,migrateLegacy,ensureScene,choose,advance,timeFor} from './engine.mjs?v=quiet-ui-3';
+import {makeBug,makeIsopod} from './sprites.mjs?v=quiet-ui-3';
+import {createHabitat} from './habitat.mjs?v=quiet-ui-3';
+import {restoreCollection,drawCohort,unlock} from './collection.mjs?v=quiet-ui-3';
+import {encounterById,encounterFor} from './encounters.mjs?v=quiet-ui-3';
+import {iconButton,createInstrument} from './ui.mjs?v=quiet-ui-3';
 const $=s=>document.querySelector(s),KEY='isopoda-fugue-v4',ARCHIVE='isopoda-fugue-endings-v3',COLLECTION='isopoda-fieldnotes-v1';
 function read(key){try{return JSON.parse(localStorage.getItem(key))}catch{return null}}
 function write(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch{$('#storageNotice').hidden=false;$('#storageNotice').textContent='纸页暂时留不住；这一次仍可以走完。'}}
@@ -49,8 +49,8 @@ function begin(){
 function act(id){if(!choose(state,id))return;habitat.react(id);tone(130);render()}
 function next(){if(!advance(state))return;tone(95);save();if(state.stage==='ended'){showEnd();return}render()}
 function showEnd(){
- habitat.stop();$('#playView').hidden=true;$('#arrivalCard').hidden=true;$('#endCard').hidden=false;$('#endRecordsSlot').append($('#catalogBtn'));$('#dayLabel').textContent='';const e=ENDINGS.find(e=>e.id===state.ending)||ENDINGS[5];$('#endingTime').textContent=clock();$('#endingTitle').textContent=e.title;$('#endingBody').textContent=e.body;$('#endingLine').textContent=e.line;$('#endSpecimen').replaceChildren(...batchBugs());
- if(!archives.some(a=>a.run===state.seed)){archives.push({id:e.id,run:state.seed,species:runSpecies(state),cohort:state.cohort,date:new Date().toLocaleDateString(),records:state.records.length});archives=archives.slice(-60);write(ARCHIVE,archives)}$('#endingCount').textContent='已归档。';save();
+ habitat.stop();$('#playView').hidden=true;$('#arrivalCard').hidden=true;$('#endCard').hidden=false;$('#dayLabel').textContent='';const e=ENDINGS.find(e=>e.id===state.ending)||ENDINGS[5];$('#endingTime').textContent=clock();$('#endingTitle').textContent='Epilogue - '+e.title;$('#endingBody').textContent=e.body;$('#endingLine').textContent=e.line;$('#endSpecimen').replaceChildren(...batchBugs());
+ if(!archives.some(a=>a.run===state.seed)){archives.push({id:e.id,run:state.seed,species:runSpecies(state),cohort:state.cohort,date:new Date().toLocaleDateString(),records:state.records.length});archives=archives.slice(-60);write(ARCHIVE,archives)}save();
 }
 function home(){playing=false;habitat.stop();$('#playView').hidden=true;$('#endCard').hidden=true;$('#arrivalCard').hidden=true;$('#titleCard').hidden=false;$('#dayLabel').textContent='';$('#startBtn').disabled=false;$('#continueBtn').hidden=!hasRun;$('#continueBtn').textContent=state.stage==='ended'?'查看结局':'继续观察';emptyHabitat.reset({empty:true})}
 function tone(freq){if(!sound)return;try{audio ||= new (window.AudioContext||window.webkitAudioContext)();audio.resume();const o=audio.createOscillator(),g=audio.createGain();o.type='triangle';o.frequency.value=freq;g.gain.setValueAtTime(.025,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.12);o.connect(g).connect(audio.destination);o.start();o.stop(audio.currentTime+.12)}catch{sound=false;$('#soundBtn').setAttribute('aria-pressed','false');$('#soundBtn').setAttribute('aria-label','声音暂不可用')}}
@@ -70,7 +70,7 @@ function openDrawer(mode){habitat.stop();drawerMode=mode;page=mode==='catalog'?M
 $('#startBtn').onclick=draw;$('#continueBtn').onclick=begin;$('#settleBtn').onclick=()=>{state.arrivalPending=false;save();begin()};$('#nextBtn').onclick=next;$('#restartBtn').onclick=home;
 $('#soundBtn').onclick=()=>{sound=!sound;$('#soundBtn').setAttribute('aria-pressed',String(sound));$('#soundBtn').setAttribute('aria-label',sound?'关闭声音':'开启声音');$('#soundBtn').title=sound?'关闭声音':'开启声音';tone(120)};
 $('#zoomIn').onclick=()=>$('#zoomLevel').textContent=habitat.zoomBy(.5).toFixed(1)+'×';$('#zoomOut').onclick=()=>$('#zoomLevel').textContent=habitat.zoomBy(-.5).toFixed(1)+'×';$('#zoomReset').onclick=()=>{$('#zoomLevel').textContent=habitat.home()+'×'};
-$('#catalogBtn').onclick=()=>openDrawer('catalog');$('#journalBtn').onclick=()=>openDrawer('journal');
+$('#catalogBtn').onclick=()=>openDrawer('catalog');$('#endingCatalogBtn').onclick=()=>openDrawer('catalog');$('#journalBtn').onclick=()=>openDrawer('journal');
 $('#drawer').addEventListener('close',()=>{if(playing&&state.stage!=='ended')habitat.start()});$('#closeDrawer').onclick=()=>$('#drawer').close();
 $('#specimensTab').onclick=()=>{drawerMode='catalog';page=Math.max(0,SPECIES.findIndex(p=>p.id===state.cohort[0].species));drawDrawer()};$('#endingsTab').onclick=()=>{drawerMode='endings';page=Math.max(0,ENDINGS.findIndex(e=>e.id===state.ending));drawDrawer()};
 $('#sourcesBtn').onclick=()=>{if(drawerMode==='sources'){drawerMode=referenceReturn?.mode||'catalog';page=referenceReturn?.page||0}else{referenceReturn={mode:drawerMode,page};drawerMode='sources';page=0}drawDrawer()};
