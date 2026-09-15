@@ -1,7 +1,10 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#273e34"><title>UMWELT / 桌面</title><link rel="icon" href="data:,"><link rel="stylesheet" href="./style.css?v=memory-14"><link rel="stylesheet" href="./window-system.css?v=memory-14"></head><body>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#273e34"><title>UMWELT / 桌面</title><link rel="icon" href="data:,"><link rel="stylesheet" href="./style.css?v=memory-15"><link rel="stylesheet" href="./window-system.css?v=memory-14"></head><body>
 <canvas id="forest" aria-hidden="true"></canvas><header class="desktop-menu"><strong>UMWELT</strong><span>環世界観測システム</span><button id="aboutButton">About</button></header>
-<main class="desktop"><a class="desktop-icon" href="./isopoda/"><span class="app-picture" aria-hidden="true"><i></i></span><span>ISOPODA.EXE<small>等足目赋格</small></span></a>
-<a class="desktop-icon tick-entry" href="./tick/"><span class="app-picture" aria-hidden="true"><i></i></span><span>TICK.EXE<small>三个信号</small></span></a>
+<main class="desktop">
+<div class="desktop-apps">
+<a class="desktop-icon tick-entry" href="./tick/"><span class="app-picture tick-picture" aria-hidden="true"><i></i></span><span>TICK<small>三个信号</small></span></a>
+<a class="desktop-icon" href="./isopoda/"><span class="app-picture isopoda-picture" aria-hidden="true"><i></i></span><span>ISOPODA<small>等足目赋格</small></span></a>
+</div>
 <section class="welcome" id="welcome"><header><span>UMWELT / ようこそ</span><button id="closeWelcome" aria-label="关闭欢迎窗口"><i class="window-glyph glyph-close" aria-hidden="true"></i></button></header><div class="welcome-body"><h1>UMWELT</h1><p>環世界</p></div></section></main>
 <footer class="taskbar"><span class="system-mark">▣ UMWELT</span><time id="desktopDate"></time></footer>
 <script src="./forest.js"></script><script>const welcome=document.querySelector('#welcome');document.querySelector('#closeWelcome').onclick=()=>welcome.hidden=true;document.querySelector('#aboutButton').onclick=()=>welcome.hidden=false;document.querySelector('#desktopDate').textContent=new Date().toLocaleDateString('zh-CN');</script></body></html>
