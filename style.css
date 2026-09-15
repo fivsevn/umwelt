@@ -13,7 +13,7 @@ a:focus-visible,button:focus-visible{outline:2px dotted #ebebd0;outline-offset:3
 .desktop-menu strong{letter-spacing:2px}
 .desktop-menu button{margin-left:auto;background:none;border:0;color:#2f4734}
 
-.desktop{position:relative;height:100%;padding:58px 18px}
+.desktop{position:relative;height:100%;padding:58px 18px 58px 10px}
 .desktop-apps{position:relative;z-index:0;display:flex;flex-direction:column;align-items:flex-start;gap:28px}
 .desktop-icon{display:flex;flex-direction:column;align-items:center;gap:10px;width:120px;text-decoration:none;text-align:center;line-height:1.5}
 .desktop-icon small{display:block;font-size:10px}
@@ -73,7 +73,7 @@ a:focus-visible,button:focus-visible{outline:2px dotted #ebebd0;outline-offset:3
 .system-mark{font-size:10px}
 
 @media(max-width:450px){
-.desktop{padding:54px 12px}
+.desktop{padding:54px 12px 54px 6px}
 .desktop-apps{gap:26px}
 .welcome{top:57%}
 .welcome-body{padding:18px 12px}
