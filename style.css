@@ -19,7 +19,7 @@ a:focus-visible,button:focus-visible{outline:2px dotted #ebebd0;outline-offset:3
 .desktop-icon small{display:block;font-size:10px}
 .desktop-icon:hover>span:last-child{background:#627d62}
 
-.app-picture{display:grid;place-items:center;width:64px;height:56px;background:#879678;border:3px solid #d1d5b4;border-bottom-color:#354e38;border-right-color:#354e38;box-shadow:3px 3px #1c3024;position:relative;overflow:hidden}
+.app-picture{display:grid;place-items:center;width:64px;height:64px;background:#879678;border:3px solid #d1d5b4;border-bottom-color:#354e38;border-right-color:#354e38;box-shadow:3px 3px #1c3024;position:relative;overflow:hidden}
 
 /* TICK.SYS — 使用与 /tick/ 内部相近的暗色配色 */
 .tick-picture{
