@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101310">
+  <title>TICK / UMWELT</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./style.css?v=1">
+</head>
+<body>
+  <main class="game" id="game">
+    <header class="topbar">
+      <a class="home" href="../" aria-label="返回 UMWELT">← UMWELT</a>
+      <button class="about-button" id="aboutButton" type="button">UMWELT?</button>
+    </header>
+
+    <section class="stage" aria-live="polite">
+      <div class="field" id="field" aria-hidden="true">
+        <div class="branch"></div>
+        <div class="tick" id="tick">
+          <i class="body"></i>
+          <i class="leg l1"></i><i class="leg l2"></i><i class="leg l3"></i><i class="leg l4"></i>
+          <i class="leg r1"></i><i class="leg r2"></i><i class="leg r3"></i><i class="leg r4"></i>
+        </div>
+        <div class="signal-rings" id="signalRings"><i></i><i></i><i></i></div>
+      </div>
+
+      <div class="readout">
+        <p class="eyebrow" id="eyebrow">TICK</p>
+        <h1 id="signal">三个信号。</h1>
+        <p class="description" id="description">世界的其余部分与你无关。</p>
+      </div>
+
+      <button class="action" id="actionButton" type="button">BEGIN</button>
+      <p class="status" id="status">A WORLD OF THREE SIGNALS</p>
+    </section>
+  </main>
+
+  <section class="about" id="aboutPanel" hidden aria-modal="true" role="dialog" aria-labelledby="aboutTitle">
+    <button class="about-close" id="aboutClose" type="button" aria-label="关闭">×</button>
+    <div class="about-inner">
+      <p class="about-kicker">UMWELT</p>
+      <h2 id="aboutTitle">環世界</h2>
+      <blockquote>“Three stimuli shine forth from the dark like beacons.”</blockquote>
+      <p class="citation">Jakob von Uexküll, <cite>A Foray into the Worlds of Animals and Humans</cite> (1934)</p>
+      <p class="about-note">生物并不经验一个完全相同的世界。<br>对蜱虫而言，少数具有意义的信号已经构成一个完整的世界。</p>
+    </div>
+  </section>
+
+  <script src="./game.js?v=1"></script>
+</body>
+</html>
