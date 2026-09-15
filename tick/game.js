@@ -1,10 +1,8 @@
 (() => {
   const field = document.querySelector('#field');
   const signal = document.querySelector('#signal');
-  const description = document.querySelector('#description');
   const eyebrow = document.querySelector('#eyebrow');
   const action = document.querySelector('#actionButton');
-  const status = document.querySelector('#status');
   const rings = document.querySelector('#signalRings');
   const aboutButton = document.querySelector('#aboutButton');
   const aboutPanel = document.querySelector('#aboutPanel');
@@ -39,37 +37,31 @@
     rings.classList.remove('active');
   };
 
-  const fail = (message) => {
+  const fail = () => {
     clearTimers();
     phase = 'failed';
     rings.classList.remove('active');
-    eyebrow.textContent = 'NO SIGNAL';
-    signal.textContent = '世界重新归于沉默。';
-    description.textContent = message;
-    status.textContent = 'NOTHING ELSE ENTERS YOUR WORLD';
-    setAction('AGAIN');
+    eyebrow.textContent = '—';
+    signal.textContent = '错过信号。';
+    setAction('重来');
   };
 
-  const armCue = (nextPhase, label, cueText, detail, waitText, timeout = 4200) => {
+  const armCue = (nextPhase, cueText, actionText, waitText, timeout = 4200) => {
     phase = `${nextPhase}-waiting`;
-    setAction('WAIT', false);
+    eyebrow.textContent = '…';
     signal.textContent = waitText;
-    description.textContent = '';
-    status.textContent = 'WAIT';
+    setAction('…', false);
 
     const thisRun = runId;
     later(() => {
       if (thisRun !== runId) return;
       phase = nextPhase;
+      eyebrow.textContent = nextPhase === 'touch' ? '02 / 03' : '03 / 03';
       signal.textContent = cueText;
-      description.textContent = detail;
-      setAction(label, true, true);
-      status.textContent = 'SIGNAL';
+      setAction(actionText, true, true);
 
       later(() => {
-        if (thisRun === runId && phase === nextPhase) {
-          fail('信号经过了，而你没有行动。');
-        }
+        if (thisRun === runId && phase === nextPhase) fail();
       }, timeout);
     }, 1200 + Math.random() * 900);
   };
@@ -79,26 +71,20 @@
     runId += 1;
     resetVisuals();
     phase = 'smell-waiting';
-    eyebrow.textContent = 'I / CHEMICAL';
-    signal.textContent = '等待。';
-    description.textContent = '没有颜色。没有形状。没有远方。';
-    setAction('WAIT', false);
-    status.textContent = 'THE REST DOES NOT MATTER';
+    eyebrow.textContent = '01 / 03';
+    signal.textContent = '等待气味。';
+    setAction('…', false);
 
     const thisRun = runId;
     later(() => {
       if (thisRun !== runId) return;
       phase = 'smell';
       rings.classList.add('active');
-      signal.textContent = 'BUTYRIC ACID';
-      description.textContent = '一种来自哺乳动物的气味进入你的世界。';
-      setAction('DROP', true, true);
-      status.textContent = 'SIGNAL 01 / 03';
+      signal.textContent = '气味';
+      setAction('落下', true, true);
 
       later(() => {
-        if (thisRun === runId && phase === 'smell') {
-          fail('气味散去了。你仍留在枝头。');
-        }
+        if (thisRun === runId && phase === 'smell') fail();
       }, 4600);
     }, 1800);
   };
@@ -108,49 +94,31 @@
     rings.classList.remove('active');
     phase = 'falling';
     field.classList.add('falling');
-    eyebrow.textContent = 'BETWEEN SIGNALS';
-    signal.textContent = '坠落。';
-    description.textContent = '';
-    setAction('...', false);
-    status.textContent = 'NO IMAGE OF THE ANIMAL IS GIVEN';
+    eyebrow.textContent = '…';
+    signal.textContent = '坠落';
+    setAction('…', false);
 
     const thisRun = runId;
     later(() => {
       if (thisRun !== runId) return;
       field.classList.remove('falling');
       field.classList.add('contact');
-      armCue(
-        'touch',
-        'CRAWL',
-        'CONTACT',
-        '毛与表面的触感成为第二个信号。',
-        '……',
-        4600
-      );
-    }, 1000);
+      armCue('touch', '接触', '爬行', '等待接触。', 4600);
+    }, 900);
   };
 
   const crawl = () => {
     clearTimers();
     phase = 'crawling';
-    eyebrow.textContent = 'II / CONTACT';
-    signal.textContent = '沿着表面移动。';
-    description.textContent = '你不知道自己落在什么动物身上。你不需要知道。';
-    setAction('...', false);
-    status.textContent = 'SIGNAL 02 / 03';
+    eyebrow.textContent = '02 / 03';
+    signal.textContent = '移动';
+    setAction('…', false);
 
     const thisRun = runId;
     later(() => {
       if (thisRun !== runId) return;
       field.classList.add('warm');
-      armCue(
-        'warmth',
-        'BITE',
-        'WARMTH',
-        '接近体温的区域出现。第三个信号。',
-        '寻找温度。',
-        5200
-      );
+      armCue('warmth', '温度', '叮咬', '寻找温度。', 5200);
     }, 900);
   };
 
@@ -158,11 +126,9 @@
     clearTimers();
     phase = 'done';
     field.classList.add('done');
-    eyebrow.textContent = 'III / WARMTH';
-    signal.textContent = '足够了。';
-    description.textContent = '气味。接触。温度。对这个主体而言，它们已经组成一个世界。';
-    setAction('AGAIN');
-    status.textContent = 'UMWELT / COMPLETE';
+    eyebrow.textContent = '03 / 03';
+    signal.textContent = '一个世界。';
+    setAction('重来');
   };
 
   action.addEventListener('click', () => {
@@ -189,4 +155,7 @@
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && !aboutPanel.hidden) closeAbout();
   });
+
+  // 阻止 iOS/Safari 在页面边缘产生橡皮筋式滚动。
+  document.addEventListener('touchmove', (event) => event.preventDefault(), { passive: false });
 })();
