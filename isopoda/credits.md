@@ -16,6 +16,19 @@
 - [陆生等足类外部形态](https://pmc.ncbi.nlm.nih.gov/articles/PMC6288251/)
 - [Titanethes albus 双相蜕皮](https://pmc.ncbi.nlm.nih.gov/articles/PMC3335403/)
 
+**新增正式物种资料**
+
+- [ITIS · Armadillidium maculatum](https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=594376)
+- [The Canadian Entomologist · A. maculatum 形态与分布记录](https://www.cambridge.org/core/journals/canadian-entomologist/article/distribution-and-diversity-of-terrestrial-isopods-isopoda-oniscidea-in-canada-including-new-records-and-a-species-checklist/C413A7873A1E0F943D684431096688EC)
+- [ITIS · Armadillidium klugii](https://itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=594364)
+- [WoRMS · Armadillidium gestroi](https://www.marinespecies.org/aphia.php?id=257699&p=taxdetails)
+- [ITIS · Armadillidium versicolor](https://itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=594464)
+- [Journal of Crustacean Biology 2025 · A. klugii / A. gestroi / A. versicolor](https://doi.org/10.1093/jcbiol/ruaf014)
+- [WoRMS · Porcellio hoffmannseggii](https://www.marinespecies.org/aphia.php?p=taxlist&tName=Porcellio+hoffmannseggi)
+- [Schmalfuss 1987 · Porcellio hoffmannseggii revision](https://www.porcellio.nl/_downloads/d2cdeb36a8bf6ca82ada2945ddb41dee)
+- [Taiti & Rossano 2015 · Morocco Oniscidea](https://doi.org/10.1080/00222933.2015.1009512)
+- [Graellsia 2021 · P. hoffmannseggii Iberian records](https://doi.org/10.3989/graellsia.2021.v77.285)
+
 **分类与名称检索**
 
 - [World List of Isopod Crustaceans](https://www.marinespecies.org/isopoda/)
