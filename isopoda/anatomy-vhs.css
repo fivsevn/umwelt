@@ -144,6 +144,102 @@
   .reference p{line-height:1.52;margin:4px 0}
 }
 
+/* Responsive hardening: long taxonomy strings and small windows should reflow, never clip. */
+.part-button,.part-button>span,.part-button small,
+.specimen-readout,.specimen-readout b,.specimen-readout span,.specimen-readout small,
+.template-readout dd,.reference,.reference cite,.reference p,.references>header,
+.legend,.part-info,.accession,.footer,.lab-title{min-width:0;overflow-wrap:anywhere;word-break:normal}
+.part-button small{white-space:normal;line-height:1.35}
+.reference a,.template-readout dd{word-break:break-word}
+.exploded-stage{transform-origin:50% 50%!important;flex:0 0 640px}
+
+/* Tablet / narrow-window mode: natural document flow and a genuinely centered optical table. */
+@media(max-width:900px){
+  html,body{height:auto!important;min-height:100%;overflow-x:hidden!important;overflow-y:auto!important}
+  body{display:block!important}
+  .anatomy-app{height:auto!important;min-height:100dvh!important;overflow:visible!important}
+  .workspace{overflow:visible!important}
+  .viewer{
+    display:block!important;
+    position:relative!important;
+    width:100%;
+    min-width:0;
+    min-height:590px!important;
+    overflow:hidden!important;
+  }
+  .exploded-stage{
+    position:absolute!important;
+    left:50%!important;
+    top:50%!important;
+    margin:0!important;
+    transform:translate(-50%,-50%) scale(.68)!important;
+    transform-origin:50% 50%!important;
+  }
+  .layer-panel{overflow:visible!important;min-height:0!important}
+  .part-list{grid-template-columns:repeat(2,minmax(0,1fr))!important;overflow:visible!important;gap:6px!important}
+  .part-button{grid-template-columns:minmax(0,1fr)!important;align-content:start;min-height:0!important;padding:8px 9px!important}
+  .part-button small{justify-self:start;text-align:left;max-width:100%;margin-top:3px}
+  .side-stack{grid-template-columns:1fr!important;grid-template-rows:auto!important;overflow:visible!important}
+  .inspector,.references,.reference-list{overflow:visible!important;max-height:none!important}
+  .specimen-readout span,.specimen-readout small{white-space:normal!important;overflow:visible!important;text-overflow:clip!important}
+  .species-picker,.species-picker select{min-width:0;max-width:100%}
+  .footer{flex-wrap:wrap;row-gap:4px}
+  .vhs-roll{top:50px!important}
+  .vhs-headcam{left:16px!important;bottom:46px!important}
+  .vhs-tailcam{right:16px!important;bottom:46px!important}
+}
+
+@media(max-width:700px){
+  .viewer{min-height:550px!important}
+  .exploded-stage{transform:translate(-50%,-50%) scale(.58)!important}
+  .vhs-card{width:102px!important;height:84px!important;padding:4px!important}
+  .vhs-screen{height:53px!important}
+  .vhs-head b{font-size:5px}
+  .vhs-head em{display:none}
+  .vhs-headcam{left:10px!important;bottom:42px!important}
+  .vhs-tailcam{right:10px!important;bottom:42px!important}
+}
+
+@media(max-width:520px){
+  .topbar{display:block!important}
+  .lab-status{text-align:left!important;margin-top:9px}
+  .lab-title h1{display:grid!important;gap:4px!important}
+  .specimen-toolbar{grid-template-columns:34px minmax(0,1fr) 34px!important}
+  .specimen-readout{grid-column:1/-1!important;border-left:0!important;border-top:1px solid #46563a}
+  .accession{grid-column:1/-1;text-align:left!important;padding-top:5px}
+  .viewer{min-height:505px!important}
+  .exploded-stage{transform:translate(-50%,-50%) scale(.48)!important}
+  .part-list{grid-template-columns:1fr!important}
+  .part-button{padding:9px 10px!important}
+  .vhs-card{width:90px!important;height:76px!important}
+  .vhs-screen{height:46px!important}
+  .vhs-roll{top:52px!important}
+  .vhs-headcam{left:8px!important;bottom:40px!important}
+  .vhs-tailcam{right:8px!important;bottom:40px!important}
+  .hint{max-width:70%;white-space:normal;line-height:1.4}
+  .viewer::after{display:none}
+  .footer{display:grid!important;gap:3px!important}
+}
+
+@media(max-width:380px){
+  .anatomy-app{padding-inline:6px!important}
+  .viewer{min-height:455px!important}
+  .exploded-stage{transform:translate(-50%,-50%) scale(.40)!important}
+  .vhs-headcam,.vhs-tailcam{display:none!important}
+  .vhs-roll{top:48px!important}
+  .lab-title .zh-title{font-size:16px!important}
+  .lab-title .en-title{font-size:9px!important}
+}
+
+/* An extremely short desktop cannot honestly be a one-screen layout: scroll instead of cropping content. */
+@media(max-height:560px) and (min-width:901px){
+  html,body{height:auto!important;min-height:100%;overflow:auto!important}
+  body{display:block!important}
+  .anatomy-app{height:auto!important;min-height:100dvh!important;overflow:visible!important}
+  .workspace{min-height:520px!important;overflow:visible!important}
+  .layer-panel,.side-stack,.inspector,.references,.reference-list{overflow:visible!important;max-height:none!important}
+}
+
 @media(prefers-reduced-motion:reduce){
   .vhs-card::after,.vhs-screen::before,.vhs-screen::after,.vhs-screen canvas,.vhs-head i{animation:none!important}
 }
