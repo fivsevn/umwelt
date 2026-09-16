@@ -168,7 +168,8 @@ export function pixelAnatomy(m,{posture='normal',molt='none',phase=0,moving=m.mo
    else if(e.lobe==='rectangular')shape=.92-u*.08;
    const posteriorOn=!e.posteriorProjectionFrom||n>=e.posteriorProjectionFrom;
    const posterior=posteriorOn?(e.posteriorProjection||0)*Math.pow(1-u,2):0;
-   const reach=tucked?0:Math.round(skirt*3*shape+posterior*3);
+   const tooth=e.edgeProfile==='stepped-serrate'&&((n+x)%3===0)?Math.max(1,Math.round(e.edgeStep||1)):0;
+   const reach=tucked?0:Math.max(0,Math.round(skirt*3*shape+posterior*3)+tooth);
    for(let d=0;d<reach;d++){
     const ink=d===reach-1?pal.tip:pal.edge;
     skirtPut(cx+x,c.y+side*(edge+d),color(mix(ink,d===0?'#eee1be':'#252b23',d===0?.12:.20),region));
