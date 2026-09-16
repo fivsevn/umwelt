@@ -22,7 +22,9 @@ export function stepIndividuals(group,{encounter,state={},time=0,dt=.05,reaction
  const ordered=actorOrder(group,encounter),positions=ordered.map(c=>({x:c.x,y:c.y,a:c.a}));
  for(const c of group){
   if(stepInteraction(c,dt))continue;
-  const i=ordered.indexOf(c),phase=(time+c.offset)%22,focus=i<participants,near=Math.hypot(c.x-x,c.y-y)<48;
+  const i=ordered.indexOf(c),phase=(time+c.offset)%22;
+  const ambient=time>24&&motion!=='molt'&&(!reaction||reaction.age>4),focus=i<participants&&!ambient,near=Math.hypot(c.x-x,c.y-y)<48;
+  const lifeSlot=Math.floor((time+c.offset)/9),lifeAge=(time+c.offset)%9,lifeRoll=stableHash(c.seed+':life:'+lifeSlot)%6;
   let tx=70+(stableHash(c.seed)%240)+Math.sin((time+c.offset)*.12)*35,ty=85+(stableHash(c.seed+'y')%250)+Math.cos((time+c.offset)*.11)*32,pace=c.speed,stop=false,molt='none',posture='normal',face=null,hide=0,travel=0;
   if(focus){tx=x;ty=y;
    switch(motion){
@@ -46,12 +48,18 @@ export function stepIndividuals(group,{encounter,state={},time=0,dt=.05,reaction
     case 'wall':tx=344;ty=y+Math.sin(time*.16)*75;posture=Math.abs(c.x-344)<10?'probing':'normal';break;
     case 'hesitate':tx=125+Math.sin(time*.5)*15;ty=211;stop=near&&phase%6<3;posture=stop?'probing':'tucked';break;
    }
-  }else{stop=phase<c.pause;posture=stop?(phase<2?'grooming':'resting'):'normal';if(state.humidity>85)tx+=25;if(state.humidity<55)tx-=30}
-  const target=environmentTarget(state,c);
-  if(target&&(!focus||time>24)&&motion!=='molt'){
+  }else{
+   // Background animals and long-running scenes keep cycling through small, non-narrative life beats.
+   if(lifeRoll===1&&lifeAge<2.2){stop=true;posture='probing'}
+   else if(lifeRoll===2&&lifeAge<2.5){stop=true;posture='grooming'}
+   else if(lifeRoll===3&&lifeAge<2.8){stop=true;posture='resting'}
+   else {stop=false;posture='normal';if(state.humidity>85)tx+=18;if(state.humidity<55)tx-=20}
+  }
+  const target=environmentTarget(state,c),seekTarget=!focus&&lifeRoll===4&&lifeAge<5.5;
+  if(target&&seekTarget&&motion!=='molt'){
    tx=target.x+(c.id%2?12:-12);ty=target.y;hide=0;stop=false;
    const arrived=Math.hypot(tx-c.x,ty-c.y)<14;
-   if(arrived){stop=true;posture=target.kind==='food'?'feeding':target.kind==='shelter'?'emerging':'probing';hide=target.kind==='shelter'?.65:0}
+   if(arrived){stop=true;posture=target.kind==='food'?'feeding':target.kind==='shelter'?'emerging':'probing';hide=target.kind==='shelter'?.55:0}
   }
   if(reaction?.mode==='disturb'){
    const age=reaction.age||0;hide=0;
@@ -66,7 +74,7 @@ export function stepIndividuals(group,{encounter,state={},time=0,dt=.05,reaction
   if(c.moving){const desired=Math.atan2(dy,dx),delta=Math.atan2(Math.sin(desired-c.a),Math.cos(desired-c.a));c.a+=clamp(delta,-dt*1.7,dt*1.7);if(Math.abs(delta)>.7&&posture==='normal')posture='turning';travel=Math.min(dist,pace*dt*11*(reduced?.45:1));c.x+=Math.cos(c.a)*travel;c.y+=Math.sin(c.a)*travel}
   else if(face!==null){const d=Math.atan2(Math.sin(face-c.a),Math.cos(face-c.a));c.a+=clamp(d,-dt*1.5,dt*1.5)}
   if(c.moving)for(const other of group){if(c===other)continue;const d=Math.hypot(c.x-other.x,c.y-other.y);if(d>0&&d<24){c.x+=(c.x-other.x)/d*(24-d)*dt;c.y+=(c.y-other.y)/d*(24-d)*dt}}
-  c.x=clamp(c.x,24,355);c.y=clamp(c.y,30,400);c.posture=posture;c.molt=molt;c.activity=focus?motion:stop?'rest':'wander';c.role=i;
+  c.x=clamp(c.x,24,355);c.y=clamp(c.y,30,400);c.posture=posture;c.molt=molt;c.activity=focus?motion:posture==='feeding'?'feed':ambient?'ambient':stop?'rest':'wander';c.role=i;
   c.occlusion=c.occlusion+clamp(hide-c.occlusion,-dt*.35,dt*.35);c.hidden=c.occlusion>=.99;
   // Keep appendage cadence coupled to the slower crawl without letting it freeze at very low speeds.
   if(c.moving)c.gaitPhase=(c.gaitPhase??0)+Math.max(travel*1.1,dt*4);
