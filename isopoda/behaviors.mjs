@@ -71,7 +71,8 @@ export function stepIndividuals(group,{encounter,state={},time=0,dt=.05,reaction
   if(c.moving)for(const other of group){if(c===other)continue;const d=Math.hypot(c.x-other.x,c.y-other.y);if(d>0&&d<24){c.x+=(c.x-other.x)/d*(24-d)*dt;c.y+=(c.y-other.y)/d*(24-d)*dt}}
   c.x=clamp(c.x,24,355);c.y=clamp(c.y,30,400);c.posture=posture;c.molt=molt;c.activity=focus?motion:stop?'rest':'wander';c.role=i;
   c.occlusion=c.occlusion+clamp(hide-c.occlusion,-dt*.35,dt*.35);c.hidden=c.occlusion>=.99;
-  c.phase=reduced?0:Math.floor((time+c.offset)*(c.moving?c.speed*5:posture==='grooming'?2:1));
+  // The preview and habitat share the same four-frame renderer; habitat simply advances the gait more briskly while walking.
+  c.phase=reduced?0:Math.floor((time+c.offset)*(c.moving?c.speed*7:posture==='grooming'?2:1));
   c.lift=focus&&motion==='climb'?Math.round(Math.sin(time+i)*2):0;
  }
  return group;
