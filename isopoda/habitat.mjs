@@ -124,9 +124,9 @@ function drawHabitat(t){
   leaf(ctx,l.x,l.y,angle,variant,size,tone);
  }
  const shelterY=memory.shelter.y-(effect&&elapsed<effect.until&&effect.id==='lift'?12:0);
- // Two broad, slab-like pieces: rectangular/trapezoidal first, erosion only where real decayed bark would break away.
- bark(memory.shelter.x+10,shelterY-5,-.035,0,1.08);
- bark(memory.shelter.x-47,memory.shelter.y+32,.22,1,.78);
+ // Larger crossed slabs fill the central shelter footprint while retaining two distinct pieces.
+ bark(memory.shelter.x+8,shelterY-4,-.12,0,1.38);
+ bark(memory.shelter.x-58,memory.shelter.y+40,.10,1,.92);
  for(const f of memory.foodNodes){
   for(let i=0;i<7;i++)px(ctx,f.x-9+i*3,f.y+10+i%2*3,1,1,'#806a42');
   if(f.amount>0)for(let y=0;y<12;y++)for(let x=0;x<Math.min(22,8+f.amount*6);x++){if((x+y+f.age*2)%17<3)continue;px(ctx,f.x+x-8,f.y+y-6,1,1,y>8?'#8b7043':y%3===0?'#d1b578':'#c6a86d')}
@@ -193,7 +193,7 @@ function bark(x,y,a=0,variant=0,scale=1){
   const endLoss=variant===1&&col<left+15*scale&&row< -depth+12*scale;
   const softEdge=variant===0&&col<left+28*scale&&row< -depth+8*scale+(col-left)*.17;
   const lowerRot=variant===0&&col>right-46*scale&&col<right-21*scale&&row>depth-9*scale&&((col+row)%7<3);
-  const smallChip=((Math.floor(col*5+row*7+variant*19)%83)===0)&&(Math.abs(row)>depth-5*scale||Math.abs(col)>half-7*scale);
+  const smallChip=((Math.floor(col*5+row*7+variant*19)%137)===0)&&(Math.abs(row)>depth-5*scale||Math.abs(col)>half-7*scale);
   if(rotCorner||brokenEnd||sideBite||endLoss||softEdge||lowerRot||smallChip)continue;
   let ink=variant===0?'#684a32':'#62452f';
   const fibre=Math.floor((row+depth)/(variant===0?8:7));
@@ -201,38 +201,33 @@ function bark(x,y,a=0,variant=0,scale=1){
   else if(fibre%4===2)ink=variant===0?'#745437':'#6d4d33';
   if(row<=-depth+2*scale)ink=variant===0?'#8c6743':'#866342';
   else if(row>=depth-3*scale)ink='#392f27';
-  const rotBand=(variant===0&&((col>half*.34&&row< -depth*.35)||(col< -half*.38&&row>depth*.24)))||(variant===1&&col>half*.3&&row>depth*.12);
-  if(rotBand)ink=((col+row)%5<2)?'#3a3128':'#4a372c';
+  const rotBand=(variant===0&&col>half*.28&&row< -depth*.30)||(variant===1&&col>half*.34&&row>depth*.18);
+  if(rotBand)ink=((col+row)%5<2)?'#49382e':'#574131';
   if((Math.floor(col*11+row*17+variant*23)%71)===0)ink='#8e6a45';
   plot(col,row,ink);
  }
- // Long fibres and fractures follow the length of the slab.
+ // Long fibres and a few larger fractures carry the texture without peppering the slab with dark marks.
  const fibres=variant===0?[[-60,-18,96,.015],[-67,-8,116,.01],[-66,3,108,-.018],[-48,13,92,.018],[-41,20,76,.022]]:[[-44,-11,67,.025],[-50,-1,76,.01],[-49,8,70,-.02]];
  for(const [sx,sy,len,slope] of fibres)for(let i=0;i<len*scale;i++)if(i%5!==2)plot((sx+i)*scale,(sy+i*slope+Math.sin(i*.32)*.55)*scale,'#3c3028');
- const cracks=variant===0?[[-38,-11,19,.32],[-24,-4,28,.18],[-5,16,24,-.28],[18,10,31,-.16],[43,-13,17,.35]]:[[-28,-8,18,.3],[-21,1,23,-.24],[9,-6,19,.2]];
- for(const [sx,sy,len,slope] of cracks)for(let i=0;i<len*scale;i++)if(i%4!==1)plot((sx+i)*scale,(sy+i*slope+Math.sin(i*.55))*scale,'#27251f');
- // Delaminated bark flakes: dark underlayer with a lighter lifted rim.
- const flakes=variant===0?[[-45,-3,15,6],[36,12,18,7],[2,-17,13,5]]:[[-19,10,13,5],[28,-4,11,5]];
+ const cracks=variant===0?[[-33,-9,24,.25],[3,15,28,-.22],[39,-12,20,.30]]:[[-24,-7,21,.26],[8,5,24,-.18]];
+ for(const [sx,sy,len,slope] of cracks)for(let i=0;i<len*scale;i++)if(i%4!==1)plot((sx+i)*scale,(sy+i*slope+Math.sin(i*.55))*scale,'#2d2923');
+ // One broad delaminated patch reads as lifted bark rather than many small dark spots.
+ const flakes=variant===0?[[-42,9,19,8]]:[[20,-4,15,6]];
  for(const [fx,fy,fw,fh] of flakes)for(let yy=-fh;yy<=fh;yy++)for(let xx=-fw;xx<=fw;xx++){
   const d=(xx/fw)**2+(yy/fh)**2;if(d>=1)continue;
-  const rim=d>.68;plot((fx+xx)*scale,(fy+yy)*scale,rim?'#80603f':'#332d26');
+  const rim=d>.68;plot((fx+xx)*scale,(fy+yy)*scale,rim?'#80603f':'#49382d');
  }
  if(variant===0){
-  // Several soft-rot cavities and insect galleries make the slab read older and more decomposed.
-  const holes=[[18,-2,12,8],[-28,11,8,5],[48,-13,7,5]];
+  // A single larger soft-rot cavity replaces the former cluster of small pits and galleries.
+  const holes=[[18,-1,18,11]];
   for(const [hx,hy,rx,ry] of holes)for(let yy=-ry;yy<=ry;yy++)for(let xx=-rx;xx<=rx;xx++){
-   const d=(xx/rx)**2+(yy/ry)**2;if(d<1)plot(hx*scale+xx*scale,hy*scale+yy*scale,d>.64?'#5b422f':d>.3?'#372f27':'#22231f');
-  }
-  const galleries=[[-55,8,24,.08],[-8,-12,21,.2],[28,18,20,-.17]];
-  for(const [gx,gy,len,slope] of galleries)for(let i=0;i<len;i++){
-   plot((gx+i)*scale,(gy+Math.sin(i*.7)*1.5+i*slope)*scale,'#2b2923');
-   if(i%6===0)plot((gx+i)*scale,(gy+2+Math.sin(i*.7)*1.5+i*slope)*scale,'#4d382b');
+   const d=(xx/rx)**2+(yy/ry)**2;if(d<1)plot(hx*scale+xx*scale,hy*scale+yy*scale,d>.66?'#5b422f':d>.34?'#403128':'#2b2923');
   }
   // Pale exposed fibres on the eroded upper-right corner.
   for(let i=0;i<19;i++){plot((half-35*scale+i*1.15*scale),(-depth+16*scale+i*.3*scale),'#9d774e');if(i%3===0)plot((half-36*scale+i*1.15*scale),(-depth+19*scale+i*.3*scale),'#6f533a')}
  }else{
-  const holes=[[13,2,7,5],[-25,-8,5,4]];
-  for(const [hx,hy,rx,ry] of holes)for(let yy=-ry;yy<=ry;yy++)for(let xx=-rx;xx<=rx;xx++){const d=(xx/rx)**2+(yy/ry)**2;if(d<1)plot(hx*scale+xx,hy*scale+yy,d>.6?'#543d2f':'#2d2923')}
+  const holes=[[10,2,10,7]];
+  for(const [hx,hy,rx,ry] of holes)for(let yy=-ry;yy<=ry;yy++)for(let xx=-rx;xx<=rx;xx++){const d=(xx/rx)**2+(yy/ry)**2;if(d<1)plot(hx*scale+xx,hy*scale+yy,d>.65?'#5b4432':'#373029')}
   for(let yy=-7;yy<=7;yy++)for(let xx=-5;xx<=5;xx++){const d=(xx/5)**2+(yy/7)**2;if(d<1)plot((-half+11*scale)+xx,yy,d>.6?'#765639':d>.25?'#8f6a47':'#47352b')}
  }
 }
