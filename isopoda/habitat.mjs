@@ -7,7 +7,7 @@ import {pixelAnatomy,renderModel} from './sprites.mjs?v=cohort-4';
 import {speciesById} from './species.mjs?v=cohort-4';
 // Habitat scenery and specimens share one world lattice, but scenery is allowed to sit one visual step behind the specimens.
 export const SCENE_PIXEL=1;
-const SCENE_ACTOR_SCALE=.94,SCENE_OUTPUT_SCALE=.76,BACKGROUND_SCALE=.72;
+const SCENE_ACTOR_SCALE=.88,SCENE_OUTPUT_SCALE=.76,BACKGROUND_SCALE=.72;
 export function sceneActorPixels(source,actor){
  const cells=new Map(),size=SCENE_ACTOR_SCALE*actor.model.growth.scale,ca=Math.cos(actor.a),sa=Math.sin(actor.a);
  const centerX=Math.round(actor.x),centerY=Math.round(actor.y+(actor.lift||0));
