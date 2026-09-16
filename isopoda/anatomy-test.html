@@ -1,0 +1,118 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Isopoda anatomy test</title>
+<link rel="stylesheet" href="./anatomy-test.css?v=1">
+<main class="anatomy-app">
+  <header class="topbar">
+    <div class="title">
+      <h1>形态拆解 / MORPHOLOGY</h1>
+      <p>把鼠标移到部位上，或点击右侧名称。</p>
+    </div>
+    <div class="specimen">高露思 Coros<br><span class="latin">Porcellio spatulatus</span></div>
+  </header>
+  <section class="workspace">
+    <div class="viewer">
+      <div id="stage" class="exploded-stage" aria-label="Porcellio spatulatus Coros exploded morphology"></div>
+      <div class="hint">HOVER / CLICK · 点击空白处解除锁定</div>
+    </div>
+    <aside class="inspector">
+      <section class="part-info" aria-live="polite">
+        <div class="eyebrow" id="evidence">RENDER SYSTEM</div>
+        <h2><span id="partZh">整体比例</span><span class="en" id="partEn">Body proportions</span></h2>
+        <p id="partDescription">长度、宽度和背部拱度共同决定整体轮廓。这个比例层会影响后续头部、背板、腹部和附肢在 64 px 顶视图中的空间关系。</p>
+      </section>
+      <div class="controls-label">ANATOMY LAYERS</div>
+      <div class="part-list" id="partList"></div>
+      <div class="legend"><b>交互说明</b><br>悬停：临时查看 · 点击：锁定部位 · 再点空白：返回整体。<br>所有拆开的像素都直接来自当前游戏的 <code>pixelAnatomy()</code>。</div>
+    </aside>
+  </section>
+  <footer class="footer"><span>TEST PAGE · 尚未接入正式游戏</span><span><code>isopoda/anatomy-test.html</code></span></footer>
+</main>
+<script type="module">
+import {SPECIES} from './species.mjs?v=anatomy-test-1';
+import {renderModel,pixelAnatomy} from './sprites.mjs?v=anatomy-test-1';
+
+const species=SPECIES.find(s=>s.id==='coros');
+if(!species)throw new Error('Coros species entry not found');
+const model=renderModel(species.visual||species,{stage:'adult',condition:'resting',seed:189,moving:false});
+const anatomy=pixelAnatomy(model,{posture:'resting',phase:0,moving:false});
+const stage=document.querySelector('#stage');
+const list=document.querySelector('#partList');
+
+const INFO={
+ body:{zh:'整体比例',en:'Body proportions',evidence:'RENDER / MORPHOLOGY',description:'长度、宽度和背部拱度共同决定整体轮廓。这个比例层会影响后续头部、背板、腹部和附肢在 64 px 顶视图中的空间关系。',targets:['pereon','epimera','cephalon','pleon','pleotelson','uropods','antennae','pereopods']},
+ cephalon:{zh:'头部',en:'Cephalon',evidence:'HEAD TEMPLATE',description:'控制头部宽度、轮廓、额叶或额盾、眼位等。Porcellio 类群与紧凑卷球型在这里使用不同的头部模板。',targets:['cephalon']},
+ antennae:{zh:'第二触角',en:'Antenna II',evidence:'ANTENNA TEMPLATE',description:'控制长度、张角、弯曲、粗细与可见节比例。高露思还保留第三触角柄节突起的像素代理。',targets:['antennae']},
+ pereon:{zh:'胸部背板',en:'Pereon tergites',evidence:'PEREON TEMPLATE',description:'七节胸部背板分别绘制，可改变弧度、重叠和整体背板轮廓，是主体甲片结构的核心。',targets:['pereon']},
+ epimera:{zh:'侧板',en:'Epimera',evidence:'EPIMERA TEMPLATE',description:'控制侧板宽度、叶形、裙缘和后角。高露思使用宽大的 paddle-like 侧板，各节交界自然内收。',targets:['epimera']},
+ surface:{zh:'表面结构',en:'Surface sculpture',evidence:'SURFACE TEMPLATE',description:'背甲表面的平滑、颗粒、tuberculation 与 scale-setae 只做 64 px 可读的视觉代理，不假装呈现显微结构。',targets:['pereon']},
+ pereopods:{zh:'步足',en:'Pereopods',evidence:'ECO-MORPH PROXY',description:'七对步足按暴露度、相对伸长和步幅拆分。这里表现的是生态形态差异，而不是显微级足节鉴定。',targets:['pereopods']},
+ pleon:{zh:'腹部',en:'Pleon',evidence:'POSTERIOR TEMPLATE',description:'控制腹部长度、宽度和向后收窄程度，并与尾节、尾肢共同决定后半身轮廓。',targets:['pleon']},
+ pleotelson:{zh:'尾节',en:'Pleotelson',evidence:'TAIL TEMPLATE',description:'控制长度、宽度、末端形状以及部分类群的 keel 代理，是不同鼠妇后端识别的重要轮廓之一。',targets:['pleotelson']},
+ uropods:{zh:'尾肢',en:'Uropods',evidence:'TAIL TEMPLATE',description:'控制突出程度、位置、粗细和排列方式。Porcellio 的突出型与卷球类群的紧凑或贴合型在这里明显分开。',targets:['uropods']}
+};
+const ORDER=['body','cephalon','antennae','pereon','epimera','surface','pereopods','pleon','pleotelson','uropods'];
+const GROUPS=[
+ {name:'pereon',semantic:'pereon',className:'part-pereon',match:r=>/^p[1-7]$/.test(r)},
+ {name:'epimera-top',semantic:'epimera',className:'part-epimera-top',match:r=>/^(epimera|skirt)[1-7]$/.test(r),side:'top'},
+ {name:'epimera-bottom',semantic:'epimera',className:'part-epimera-bottom',match:r=>/^(epimera|skirt)[1-7]$/.test(r),side:'bottom'},
+ {name:'cephalon',semantic:'cephalon',className:'part-cephalon',match:r=>r==='cephalon'},
+ {name:'antennae',semantic:'antennae',className:'part-antennae',match:r=>r==='antennae'},
+ {name:'pleon',semantic:'pleon',className:'part-pleon',match:r=>r==='pleon'},
+ {name:'pleotelson',semantic:'pleotelson',className:'part-pleotelson',match:r=>r==='pleotelson'},
+ {name:'uropods',semantic:'uropods',className:'part-uropods',match:r=>r==='uropods'},
+ {name:'legs-top',semantic:'pereopods',className:'part-legs-top',match:r=>r==='legs',side:'top'},
+ {name:'legs-bottom',semantic:'pereopods',className:'part-legs-bottom',match:r=>r==='legs',side:'bottom'}
+];
+
+function makeLayer(group){
+ const wrap=document.createElement('div');
+ wrap.className=`exploded-part ${group.className}`;
+ wrap.dataset.part=group.name;wrap.dataset.semantic=group.semantic;
+ const canvas=document.createElement('canvas');canvas.width=canvas.height=64;
+ const ctx=canvas.getContext('2d');ctx.imageSmoothingEnabled=false;
+ for(const module of anatomy){
+  if(!group.match(module.region))continue;
+  for(const [x,y,color] of module.cells){
+   if(!color)continue;if(group.side==='top'&&y>=0)continue;if(group.side==='bottom'&&y<0)continue;
+   const px=x+32,py=y+32;if(px<0||px>=64||py<0||py>=64)continue;
+   ctx.fillStyle=color;ctx.fillRect(px,py,1,1);
+  }
+ }
+ wrap.append(canvas);stage.append(wrap);return wrap;
+}
+const layers=GROUPS.map(makeLayer);
+
+for(const key of ORDER){
+ const info=INFO[key],button=document.createElement('button');
+ button.className='part-button';button.type='button';button.dataset.key=key;button.setAttribute('aria-pressed','false');
+ button.innerHTML=`<span>${info.zh}<br><span class="en-label">${info.en}</span></span><small>${info.evidence}</small>`;
+ button.addEventListener('click',()=>lockSelection(key));list.append(button);
+}
+
+let locked=null,current='body';
+const zh=document.querySelector('#partZh'),en=document.querySelector('#partEn'),desc=document.querySelector('#partDescription'),evidence=document.querySelector('#evidence');
+function show(key){
+ const info=INFO[key]||INFO.body;current=key;
+ zh.textContent=info.zh;en.textContent=info.en;desc.textContent=info.description;evidence.textContent=info.evidence;
+ stage.classList.toggle('has-selection',key!=='body');
+ for(const layer of layers)layer.classList.toggle('is-active',info.targets.includes(layer.dataset.semantic));
+ for(const button of list.querySelectorAll('.part-button'))button.setAttribute('aria-pressed',String(button.dataset.key===key));
+}
+function lockSelection(key){locked=key==='body'?null:key;show(key)}
+function hitTest(ev){
+ for(let i=layers.length-1;i>=0;i--){
+  const layer=layers[i],canvas=layer.querySelector('canvas'),rect=canvas.getBoundingClientRect();
+  if(ev.clientX<rect.left||ev.clientX>=rect.right||ev.clientY<rect.top||ev.clientY>=rect.bottom)continue;
+  const x=Math.floor((ev.clientX-rect.left)/rect.width*64),y=Math.floor((ev.clientY-rect.top)/rect.height*64);
+  if(x<0||x>63||y<0||y>63)continue;
+  if(canvas.getContext('2d').getImageData(x,y,1,1).data[3]>0)return layer.dataset.semantic;
+ }
+ return null;
+}
+stage.addEventListener('pointermove',ev=>{if(locked)return;const hit=hitTest(ev);show(hit||'body');stage.style.cursor=hit?'pointer':'default'});
+stage.addEventListener('pointerleave',()=>{if(!locked)show('body')});
+stage.addEventListener('click',ev=>{const hit=hitTest(ev);if(hit){locked=hit;show(hit)}else{locked=null;show('body')}});
+show('body');
+</script>
