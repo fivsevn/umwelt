@@ -6,7 +6,7 @@
 <main class="anatomy-app">
   <header class="topbar">
     <div class="lab-title">
-      <div class="lab-code">ASIMOV / ONISCIDEA · MORPHOLOGY ARRAY 13</div>
+      <div class="lab-code">ASIMOV / ONISCIDEA · MORPHOLOGY ARRAY 18</div>
       <h1><span class="zh-title">阿西莫夫形态实验室</span><span class="en-title">ASIMOV MORPHOLOGY LAB</span></h1>
       <p>把一只鼠妇拆成可独立变化的形态模块，再逐一核对它们的依据。</p>
     </div>
@@ -25,7 +25,7 @@
       <span id="specimenTaxon">—</span>
       <small id="specimenStatus">—</small>
     </div>
-    <div class="accession"><span id="specimenIndex">01 / 13</span><small id="morphologyKey">morphology: —</small></div>
+    <div class="accession"><span id="specimenIndex">01 / 18</span><small id="morphologyKey">morphology: —</small></div>
   </section>
 
   <section class="workspace">
@@ -92,7 +92,7 @@
 </main>
 
 <script type="module">
-import {SPECIES} from './species.mjs?v=anatomy-lab-5';
+import {SPECIES} from './species-registry.mjs?v=species-18';
 import {renderModel,pixelAnatomy} from './sprites.mjs?v=anatomy-lab-5';
 
 const stage=document.querySelector('#stage');
@@ -133,7 +133,11 @@ const REFERENCES={
  taiti2015:{short:'Taiti & Wynne 2015',citation:'Taiti, S., & Wynne, J. J. (2015). The terrestrial Isopoda (Crustacea, Oniscidea) of Rapa Nui (Easter Island), with descriptions of two new species. ZooKeys, 515, 27–49. DOI: 10.3897/zookeys.515.9477.',note:'用于卷球型鼠妇的额盾、尾节和尾肢差异，尤其帮助拆分 Armadillidium 与 Venezillo 式紧凑后端。',url:'https://doi.org/10.3897/zookeys.515.9477'},
  kastle2025:{short:'Kästle & Regalado Fernández 2025',citation:'Kästle, B., & Regalado Fernández, O. R. (2025). Facing the taxonomic impediment — a reassessment of Merulanella Verhoeff, 1926 (Oniscidea, Armadillidae) through historical specimens. Natural History Collections and Museomics, 2, 1–38. DOI: 10.3897/nhcm.2.144386.',note:'用于 Ardentiella / 旧 Merulanella 贸易类群：长细触角、侧板、尾部和 runner 型生态形态，也用于提醒贸易名与正式分类不能直接画等号。',url:'https://doi.org/10.3897/nhcm.2.144386'},
  cifuentes2020:{short:'Cifuentes & Barranco 2020',citation:'Cifuentes, J., & Barranco, P. (2020). Porcellio selomai sp. n. (Oniscidea, Porcellionidae), un nuevo isópodo terrestre del medio subterráneo superficial (MSS) de la península ibérica. Boletín de la Asociación Española de Entomología, 44(1–2), 167–182.',note:'文中比较 P. spatulatus 与近缘 Porcellio；高露思主要参考中央额叶、第三触角柄节的大型扁平齿、habitus、尾节与尾肢。',url:'https://www.entomologica.es/publicaciones-boletin/art1818'},
- cifuentes2018:{short:'Cifuentes 2018',citation:'Cifuentes, J. (2018). Sobre algunos caracteres morfológicos en la identificación de las especies del género Porcellio Latreille, 1804: El papel de las sedas-escamas. Boletín de la Asociación Española de Entomología, 42(1–2), 71–91.',note:'用于 Porcellio 的 scale-setae 与背甲表面鉴定价值；游戏里只转化成表面雕刻/颗粒感代理。',url:'https://www.entomologica.es/publicaciones-boletin/en/vol72'}
+ cifuentes2018:{short:'Cifuentes 2018',citation:'Cifuentes, J. (2018). Sobre algunos caracteres morfológicos en la identificación de las especies del género Porcellio Latreille, 1804: El papel de las sedas-escamas. Boletín de la Asociación Española de Entomología, 42(1–2), 71–91.',note:'用于 Porcellio 的 scale-setae 与背甲表面鉴定价值；游戏里只转化成表面雕刻/颗粒感代理。',url:'https://www.entomologica.es/publicaciones-boletin/en/vol72'},
+ maculatum2026:{short:'The Canadian Entomologist 2026',citation:'Distribution and diversity of terrestrial isopods (Isopoda: Oniscidea) in Canada, including new records and a species checklist. The Canadian Entomologist.',note:'A. maculatum 条目描述深色、凸起体形、截短尾肢、平滑背面以及沿胸腹背板后缘延伸的细亮白带，并总结其法国—意大利地中海沿岸原生分布。',url:'https://www.cambridge.org/core/journals/canadian-entomologist/article/distribution-and-diversity-of-terrestrial-isopods-isopoda-oniscidea-in-canada-including-new-records-and-a-species-checklist/C413A7873A1E0F943D684431096688EC'},
+ durajkova2025:{short:'Ďurajková et al. 2025',citation:'Ďurajková, B., Tuf, I. H., & Vittori, M. (2025). Repugnatorial glands and aposematism in terrestrial isopods. Journal of Crustacean Biology, 45(1), ruaf014. DOI: 10.1093/jcbiol/ruaf014.',note:'研究表列出 A. klugii、A. gestroi 与 A. versicolor 的体尺、颜色和分布，并直接比较三种 Armadillidium 的醒目体色。',url:'https://doi.org/10.1093/jcbiol/ruaf014'},
+ schmalfuss1987:{short:'Schmalfuss 1987',citation:'Schmalfuss, H. (1987). Revision der Gattung Porcellio Latr. 1. Teil: P. hoffmannseggii und P. magnificus. Eos, 63, 281–299.',note:'P. hoffmannseggii 修订资料；模式雄体记为 16 mm × 8 mm，uropod exopod 约 4 mm，用于支持游戏中大型 Porcellio 与显著后突尾肢的强调。',url:'https://www.porcellio.nl/_downloads/d2cdeb36a8bf6ca82ada2945ddb41dee'},
+ taitiRossano2015:{short:'Taiti & Rossano 2015',citation:'Taiti, S., & Rossano, C. (2015). Terrestrial isopods from Morocco. Journal of Natural History. DOI: 10.1080/00222933.2015.1009512.',note:'用于 P. hoffmannseggii 的北非—伊比利亚分布背景，并引用 Schmalfuss 的诊断修订。',url:'https://doi.org/10.1080/00222933.2015.1009512'}
 };
 
 const SPECIES_REFS={
@@ -143,7 +147,12 @@ const SPECIES_REFS={
  bolivari:['shultz2018','cifuentes2018'],
  diablo:['kastle2025','shultz2018'],ember:['kastle2025','shultz2018'],
  cappuccino:['taiti2015','shultz2018'],pink:['taiti2015','shultz2018'],ducky:['taiti2015','shultz2018'],amber:['taiti2015','shultz2018'],vex:['taiti2015','shultz2018'],
- daxin:['taiti2015','shultz2018'],orange:['taiti2015','shultz2018']
+ daxin:['taiti2015','shultz2018'],orange:['taiti2015','shultz2018'],
+ maculatum:['maculatum2026','taiti2015','shultz2018'],
+ klugii:['durajkova2025','taiti2015','shultz2018'],
+ gestroi:['durajkova2025','taiti2015','shultz2018'],
+ versicolor:['durajkova2025','taiti2015','shultz2018'],
+ hoffmannseggii:['schmalfuss1987','taitiRossano2015','shultz2018']
 };
 
 let speciesIndex=Math.max(0,SPECIES.findIndex(s=>s.id==='coros'));
