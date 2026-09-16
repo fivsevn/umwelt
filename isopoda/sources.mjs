@@ -1,5 +1,17 @@
-// Directory links are discovery aids, never evidence for a species claim.
-export const sources = [];
+// Species sources support concrete taxonomy, distribution or morphology claims.
+// Directory links below remain discovery aids and are never evidence by themselves.
+export const sources = [
+ {id:'itis-maculatum',level:'A1',type:'TAXONOMY',title:'ITIS — Armadillidium maculatum (Risso, 1816)',url:'https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=594376',supports:['maculatum.taxonomy','maculatum.type-locality']},
+ {id:'cambridge-maculatum-2026',level:'A1',type:'DISTRIBUTION / MORPHOLOGY',title:'Distribution and diversity of terrestrial isopods in Canada — A. maculatum account',url:'https://www.cambridge.org/core/journals/canadian-entomologist/article/distribution-and-diversity-of-terrestrial-isopods-isopoda-oniscidea-in-canada-including-new-records-and-a-species-checklist/C413A7873A1E0F943D684431096688EC',supports:['maculatum.range','maculatum.visible-morphology']},
+ {id:'itis-klugii',level:'A1',type:'TAXONOMY',title:'ITIS — Armadillidium klugii Brandt, 1833',url:'https://itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=594364',supports:['klugii.taxonomy','klugii.type-locality']},
+ {id:'worms-gestroi',level:'A1',type:'TAXONOMY',title:'WoRMS — Armadillidium gestroi Tua, 1900',url:'https://www.marinespecies.org/aphia.php?id=257699&p=taxdetails',supports:['gestroi.taxonomy','gestroi.synonymy','gestroi.type-locality']},
+ {id:'itis-versicolor',level:'A1',type:'TAXONOMY',title:'ITIS — Armadillidium versicolor Stein, 1859',url:'https://itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=594464',supports:['versicolor.taxonomy','versicolor.subspecies','versicolor.type-locality']},
+ {id:'jcb-aposematism-2025',level:'A1',type:'MORPHOLOGY / DISTRIBUTION',title:'Ďurajková, Tuf & Vittori 2025 — Repugnatorial glands and aposematism in terrestrial isopods',url:'https://doi.org/10.1093/jcbiol/ruaf014',supports:['klugii.size','klugii.colour','klugii.range','gestroi.size','gestroi.colour','gestroi.range','versicolor.size','versicolor.colour','versicolor.range']},
+ {id:'worms-hoffmannseggii',level:'A1',type:'TAXONOMY',title:'WoRMS — Porcellio hoffmannseggii Brandt, 1833',url:'https://www.marinespecies.org/aphia.php?p=taxlist&tName=Porcellio+hoffmannseggi',supports:['hoffmannseggii.accepted-spelling','hoffmannseggii.taxonomy']},
+ {id:'schmalfuss-hoffmannseggii-1987',level:'A1',type:'MORPHOLOGY',title:'Schmalfuss 1987 — Revision der Gattung Porcellio: P. hoffmannseggii und P. magnificus',url:'https://www.porcellio.nl/_downloads/d2cdeb36a8bf6ca82ada2945ddb41dee',supports:['hoffmannseggii.body-size','hoffmannseggii.uropods','hoffmannseggii.diagnosis']},
+ {id:'taiti-rossano-2015',level:'A1',type:'DISTRIBUTION / TAXONOMY',title:'Taiti & Rossano 2015 — Terrestrial isopods from Morocco',url:'https://doi.org/10.1080/00222933.2015.1009512',supports:['hoffmannseggii.range','hoffmannseggii.diagnosis']},
+ {id:'graellsia-hoffmannseggii-2021',level:'A1',type:'DISTRIBUTION',title:'Graellsia 2021 — Iberian records of Porcellio hoffmannseggii',url:'https://doi.org/10.3989/graellsia.2021.v77.285',supports:['hoffmannseggii.range']}
+];
 export const evidence = [];
 export const sourceDirectory = [
  {title:'World List of Isopod Crustaceans',url:'https://www.marinespecies.org/isopoda/',type:'TAXONOMY'},
