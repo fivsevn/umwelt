@@ -125,9 +125,6 @@ export function pixelAnatomy(m,{posture='normal',molt='none',phase=0,moving=m.mo
   }
  }
 
- // Coros uses shallow inward scallops at pereonite boundaries; collect transparent cutouts
- // and apply them after all overlapping epimera have been painted.
- const edgeCutCells=[];
  for(let n=7;n>=1;n--){const c=center(n),region='p'+n,put=module(region),epi=module('epimera'+n),pal=regionPalette(m,'pereon',n);
   const plateWidth=Math.max(3,Math.round(stride+1));
   const cx=c.x;if(tucked)c.y+=Math.round((n-4)*(n-4)/12*closure);
@@ -161,30 +158,24 @@ export function pixelAnatomy(m,{posture='normal',molt='none',phase=0,moving=m.mo
    (Math.abs(y)>half-sideDepth?epi:put)(cx+x,c.y+y,color(col,region));
   }}
 
-  // Epimera use taxon templates: rounded/shield/rectangular outlines plus optional posterior projection.
+  // Real P. spatulatus has broad, paddle-like epimera: each plate bulges gently outwards and the
+  // intersegment boundaries fall inward. The whole pale skirt also tapers toward the first and seventh pereonites.
   const e=v.pereon.epimera,skirt=e.skirt||0,skirtPut=module('skirt'+n);
+  const coros=e.edgeProfile==='stepped-serrate';
+  const corosSegmentScale=coros?[.76,.91,1,1.05,1,.91,.76][n-1]:1;
   for(const side of [-1,1])for(let x=0;x<plateWidth-1;x++){
    const edge=Math.round(envelope(cx+x)),u=x/Math.max(1,plateWidth-2);
    let shape=Math.sin((u*.8+.1)*Math.PI);
    if(e.lobe==='swept')shape=1-u*.75;
+   else if(coros)shape=.58+Math.sin(u*Math.PI)*.48;
    else if(e.lobe==='shield')shape=.82+Math.sin((u*.9+.05)*Math.PI)*.22;
    else if(e.lobe==='rectangular')shape=.92-u*.08;
    const posteriorOn=!e.posteriorProjectionFrom||n>=e.posteriorProjectionFrom;
    const posterior=posteriorOn?(e.posteriorProjection||0)*Math.pow(1-u,2):0;
-   const reach=tucked?0:Math.max(0,Math.round(skirt*3*shape+posterior*3));
+   const reach=tucked?0:Math.max(0,Math.round((skirt*3*shape*corosSegmentScale)+posterior*3));
    for(let d=0;d<reach;d++){
     const ink=d===reach-1?pal.tip:pal.edge;
     skirtPut(cx+x,c.y+side*(edge+d),color(mix(ink,d===0?'#eee1be':'#252b23',d===0?.12:.20),region));
-   }
-  }
-  // Instead of outward teeth, Coros receives shallow rounded inward notches at the six internal plate seams.
-  if(e.edgeProfile==='stepped-serrate'&&!tucked&&n>1){
-   const seamX=cx,depth=Math.max(2,Math.round((e.edgeStep||1)+1));
-   for(const side of [-1,1])for(const dx of [-1,0,1]){
-    const xx=seamX+dx,edge=Math.round(envelope(xx));
-    const shoulder=dx===0?depth:Math.max(1,depth-1);
-    const baseReach=Math.max(2,Math.round(skirt*3));
-    for(let d=0;d<shoulder;d++)edgeCutCells.push([xx,c.y+side*(edge+baseReach-1-d),null]);
    }
   }
   // Noduli laterales are reduced to paired pixels; exact species-level positions are not claimed.
@@ -193,7 +184,6 @@ export function pixelAnatomy(m,{posture='normal',molt='none',phase=0,moving=m.mo
    for(const side of [-1,1])nod(cx+1,c.y+side*offset,color(mix(pal.base,p.light,.42),region));
   }
  }
- if(edgeCutCells.length)modules.push({region:'edgeCutouts',cells:edgeCutCells});
 
  // Cephalon renderer: Porcellio gets a three-lobed frontal margin; compact rollers a shield-like head.
  const head=module('cephalon'),hx=tucked?12:14,hy=posture==='feeding'?2:posture==='emerging'?-2:bend?2:0;
