@@ -6,7 +6,7 @@ import {stableHash} from './sprites.mjs?v=cohort-4';
 export const MOTIONS=['contact','follow','feed','gather','yield','climb','groom','molt','shell','border','defend','emerge','orbit','rest','under','disperse','parallel','wall','hesitate'];
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function makeIndividuals(seed,speed=1){return (Array.isArray(seed)?seed:cohortFor('dairy',seed)).map((specimen,id)=>{
- const h=stableHash(specimen.seed),stage=specimen.stage;return {id,specimenId:specimen.id,species:specimen.species,seed:specimen.seed,x:55+h%260,y:65+(h>>>8)%290,a:(h%628)/100,speed:(.65+(h>>>12)%70/100)*speed*speciesById(specimen.species).speed,size:.94+(h>>>18)%13/100,stage,alertness:.25+(h>>>16)%60/100,pause:2+(h>>>20)%5,offset:h%190/10,hidden:false,posture:'normal',moving:false,molt:'none',occlusion:0,phase:0};
+ const h=stableHash(specimen.seed),stage=specimen.stage;return {id,specimenId:specimen.id,species:specimen.species,seed:specimen.seed,x:55+h%260,y:65+(h>>>8)%290,a:(h%628)/100,speed:(.65+(h>>>12)%70/100)*speed*speciesById(specimen.species).speed,size:.94+(h>>>18)%13/100,stage,alertness:.25+(h>>>16)%60/100,pause:2+(h>>>20)%5,offset:h%190/10,hidden:false,posture:'normal',moving:false,molt:'none',occlusion:0,phase:0,gaitPhase:h%4};
 })}
 export function actorOrder(group,encounter){
  if(encounter?.id==='younger'||encounter?.id==='touch-return')return [...group].sort((a,b)=>['S','M','L'].indexOf(a.stage)-['S','M','L'].indexOf(b.stage));
@@ -24,7 +24,7 @@ export function stepIndividuals(group,{encounter,state={},time=0,dt=.05,reaction
  for(const c of group){
   if(stepInteraction(c,dt))continue;
   const i=ordered.indexOf(c),phase=(time+c.offset)%22,focus=i<participants,near=Math.hypot(c.x-x,c.y-y)<48;
-  let tx=70+(stableHash(c.seed)%240)+Math.sin((time+c.offset)*.12)*35,ty=85+(stableHash(c.seed+'y')%250)+Math.cos((time+c.offset)*.11)*32,pace=c.speed,stop=false,molt='none',posture='normal',face=null,hide=0;
+  let tx=70+(stableHash(c.seed)%240)+Math.sin((time+c.offset)*.12)*35,ty=85+(stableHash(c.seed+'y')%250)+Math.cos((time+c.offset)*.11)*32,pace=c.speed,stop=false,molt='none',posture='normal',face=null,hide=0,travel=0;
   if(focus){tx=x;ty=y;
    switch(motion){
     case 'contact':{const cycle=time%20,spread=cycle<8?26:cycle<12?20:64;tx=x+(i%2?1:-1)*spread;ty=y+(i>1?32:0);if(near&&cycle>=6&&cycle<12){stop=true;posture='probing';face=Math.atan2(y-c.y,x-c.x)}else if(cycle>=12)posture='turning';break}
@@ -65,14 +65,15 @@ export function stepIndividuals(group,{encounter,state={},time=0,dt=.05,reaction
    else if(target){tx=target.x;ty=target.y;stop=false;posture='probing'}
   }else if(reaction?.mode==='quiet'&&motion==='defend'){stop=false;posture=(reaction.age||0)<2?'tucked':'normal'}
   const dx=tx-c.x,dy=ty-c.y,dist=Math.hypot(dx,dy);c.moving=!stop&&dist>5;
-  if(c.moving){const desired=Math.atan2(dy,dx),delta=Math.atan2(Math.sin(desired-c.a),Math.cos(desired-c.a));c.a+=clamp(delta,-dt*1.7,dt*1.7);if(Math.abs(delta)>.7&&posture==='normal')posture='turning';const step=Math.min(dist,pace*dt*11*(reduced?.45:1));c.x+=Math.cos(c.a)*step;c.y+=Math.sin(c.a)*step}
+  if(c.moving){const desired=Math.atan2(dy,dx),delta=Math.atan2(Math.sin(desired-c.a),Math.cos(desired-c.a));c.a+=clamp(delta,-dt*1.7,dt*1.7);if(Math.abs(delta)>.7&&posture==='normal')posture='turning';travel=Math.min(dist,pace*dt*11*(reduced?.45:1));c.x+=Math.cos(c.a)*travel;c.y+=Math.sin(c.a)*travel}
   else if(face!==null){const d=Math.atan2(Math.sin(face-c.a),Math.cos(face-c.a));c.a+=clamp(d,-dt*1.5,dt*1.5)}
   // Avoid crowding without disturbing a stationary molting animal.
   if(c.moving)for(const other of group){if(c===other)continue;const d=Math.hypot(c.x-other.x,c.y-other.y);if(d>0&&d<24){c.x+=(c.x-other.x)/d*(24-d)*dt;c.y+=(c.y-other.y)/d*(24-d)*dt}}
   c.x=clamp(c.x,24,355);c.y=clamp(c.y,30,400);c.posture=posture;c.molt=molt;c.activity=focus?motion:stop?'rest':'wander';c.role=i;
   c.occlusion=c.occlusion+clamp(hide-c.occlusion,-dt*.35,dt*.35);c.hidden=c.occlusion>=.99;
-  // The preview and habitat share the same four-frame renderer; habitat simply advances the gait more briskly while walking.
-  c.phase=reduced?0:Math.floor((time+c.offset)*(c.moving?c.speed*7:posture==='grooming'?2:1));
+  // Walking animation is distance-driven: faster translation advances the shared four-frame gait faster, preventing visual sliding.
+  if(c.moving)c.gaitPhase=(c.gaitPhase??0)+travel*1.25;
+  c.phase=reduced?0:c.moving?Math.floor(c.gaitPhase):Math.floor((time+c.offset)*(posture==='grooming'?2:1));
   c.lift=focus&&motion==='climb'?Math.round(Math.sin(time+i)*2):0;
  }
  return group;
