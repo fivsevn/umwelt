@@ -57,12 +57,14 @@ UMWELT 当前主要由静态 Web 技术构成：
 node --test tests/*.test.mjs
 ```
 
-开发用视觉测试页面：
+开发用视觉 / 诊断页面（不属于正式游戏流程）：
 
 ```text
-/tests/morphology.html
-/tests/pixel-life.html
-/isopoda/projection-preview.html
+/tests/morphology.html            morphology / stage / condition verification
+/tests/pixel-life.html            habitat / behaviour preview
+/isopoda/projection-preview.html  posture / orientation matrix
+/isopoda/exploded-preview.html    clean exploded-morphology preview
+/isopoda/anatomy-test.html        Asimov morphology lab / wiki prototype
 ```
 
 ---
