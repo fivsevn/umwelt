@@ -17,6 +17,8 @@ dialog .drawer-tools button.icon-button{background:var(--os-face);border:2px sol
 #game button{position:relative;border-style:solid;border-width:2px;border-top-color:var(--os-hi);border-left-color:var(--os-hi);border-right-color:var(--os-lo);border-bottom-color:var(--os-lo);box-shadow:1px 1px 0 #1b2a20;transform:translate(0,0);transition:none}
 #game button:active:not(:disabled){border-color:var(--os-lo) var(--os-hi) var(--os-hi) var(--os-lo);box-shadow:none;transform:translate(1px,1px)}
 #game button:disabled{box-shadow:none}
+/* Sound stays a flat toolbar indicator rather than a mechanical command button. */
+#game #soundBtn,#game #soundBtn:active:not(:disabled){border:0;box-shadow:none;transform:none}
 #game dialog:focus{outline:none}
 #game .launch-close{box-shadow:1px 1px 0 #1b2a20;transform:translate(0,0)}
 #game .launch-close:active{box-shadow:none;transform:translate(1px,1px)}
