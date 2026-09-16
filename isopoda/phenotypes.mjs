@@ -59,7 +59,7 @@ const HEAD_TEMPLATES={
  porcellioStandard:{template:'porcellio-trilobed',shape:'trilobed',medianProjection:.34,lateralLobes:.62,lateralProjection:.52,scutellum:'none',eyeSet:.78,confidence:'genus-proxy'},
  porcellioSpatulatus:{template:'porcellio-spatulatus-head',shape:'trilobed-broad',medianProjection:.28,lateralLobes:.70,lateralProjection:.62,scutellum:'none',eyeSet:.80,confidence:'species-proxy'},
  porcellioBolivari:{template:'porcellio-bolivari-head',shape:'trilobed-narrow',medianProjection:.30,lateralLobes:.58,lateralProjection:.48,scutellum:'none',eyeSet:.77,confidence:'species-proxy'},
- ardentiellaRunner:{template:'ardentiella-head',shape:'trilobed-soft',medianProjection:.18,lateralLobes:.48,lateralProjection:.34,scutellum:'none',eyeSet:.76,confidence:'genus-proxy'},
+ ardentiellaRunner:{template:'ardentiella-frontal-shield',shape:'rounded-shield',medianProjection:.06,lateralLobes:.30,lateralProjection:.08,scutellum:'subtle',eyeSet:.78,confidence:'genus-proxy'},
  armadillidCompact:{template:'armadillid-rounded-head',shape:'rounded-shield',medianProjection:.08,lateralLobes:.30,lateralProjection:.12,scutellum:'subtle',eyeSet:.82,confidence:'family-proxy'},
  venezilloCompact:{template:'venezillo-no-scutellum',shape:'rounded-shield',medianProjection:0,lateralLobes:.26,lateralProjection:.08,scutellum:'none',eyeSet:.84,confidence:'genus-proxy'},
  armadillidiumCompact:{template:'armadillidium-scutellum',shape:'rounded-shield',medianProjection:.12,lateralLobes:.34,lateralProjection:.12,scutellum:'triangular',eyeSet:.83,confidence:'genus-proxy'}
@@ -78,7 +78,7 @@ const TAIL_TEMPLATES={
  porcellioStandard:{template:'porcellio-tail',pleotelson:{shape:'triangular-concave',apex:'narrow-rounded',lengthScale:1,widthScale:1},uropods:{mode:'projecting',tip:'slender',thicknessScale:.92}},
  porcellioSpatulatus:{template:'porcellio-spatulatus-tail',pleotelson:{shape:'triangular-broad',apex:'rounded-point',lengthScale:.94,widthScale:1.08},uropods:{mode:'projecting',tip:'broad',thicknessScale:1.12}},
  porcellioBolivari:{template:'porcellio-bolivari-tail',pleotelson:{shape:'triangular-long',apex:'pointed',lengthScale:1.12,widthScale:.94},uropods:{mode:'projecting',tip:'slender',thicknessScale:.90}},
- ardentiellaRunner:{template:'ardentiella-tail',pleotelson:{shape:'pointed',apex:'acute',lengthScale:1.08,widthScale:.92},uropods:{mode:'projecting',tip:'slender',thicknessScale:.92}},
+ ardentiellaRunner:{template:'ardentiella-tail',pleotelson:{shape:'pointed',apex:'acute',lengthScale:1.08,widthScale:.96},uropods:{mode:'flush-protopod',tip:'acute-protopod',thicknessScale:1.14}},
  armadillidCompact:{template:'armadillid-compact-tail',pleotelson:{shape:'compact',apex:'rounded',lengthScale:.88,widthScale:1.08},uropods:{mode:'compact',tip:'rounded',thicknessScale:1.15}},
  venezilloCompact:{template:'venezillo-hourglass-tail',pleotelson:{shape:'hourglass',apex:'broad',lengthScale:.90,widthScale:1.10},uropods:{mode:'flush-protopod',tip:'flat',thicknessScale:1.30}},
  armadillidiumCompact:{template:'armadillidium-trapezoid-tail',pleotelson:{shape:'trapezoidal',apex:'truncate',lengthScale:.88,widthScale:1.16},uropods:{mode:'flush-exopod',tip:'flat',thicknessScale:1.25}}
