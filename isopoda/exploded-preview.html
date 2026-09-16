@@ -1,0 +1,57 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Coros exploded morphology</title>
+<link rel="stylesheet" href="./exploded-preview.css?v=1">
+<div id="stage" class="exploded-stage" aria-label="Porcellio spatulatus Coros exploded morphology"></div>
+<script type="module">
+import {SPECIES} from './species.mjs';
+import {renderModel,pixelAnatomy} from './sprites.mjs';
+
+const species=SPECIES.find(s=>s.id==='coros');
+if(!species)throw new Error('Coros species entry not found');
+const model=renderModel(species.visual||species,{stage:'adult',condition:'resting',seed:189,moving:false});
+const anatomy=pixelAnatomy(model,{posture:'resting',phase:0,moving:false});
+const stage=document.querySelector('#stage');
+
+const GROUPS=[
+  {name:'pereon',className:'part-pereon',match:r=>/^p[1-7]$/.test(r)},
+  {name:'epimera-top',className:'part-epimera-top',match:r=>/^(epimera|skirt)[1-7]$/.test(r),side:'top'},
+  {name:'epimera-bottom',className:'part-epimera-bottom',match:r=>/^(epimera|skirt)[1-7]$/.test(r),side:'bottom'},
+  {name:'cephalon',className:'part-cephalon',match:r=>r==='cephalon'},
+  {name:'antennae',className:'part-antennae',match:r=>r==='antennae'},
+  {name:'pleon',className:'part-pleon',match:r=>r==='pleon'},
+  {name:'pleotelson',className:'part-pleotelson',match:r=>r==='pleotelson'},
+  {name:'uropods',className:'part-uropods',match:r=>r==='uropods'},
+  {name:'legs-top',className:'part-legs-top',match:r=>r==='legs',side:'top'},
+  {name:'legs-bottom',className:'part-legs-bottom',match:r=>r==='legs',side:'bottom'}
+];
+
+function makeLayer(group){
+  const wrap=document.createElement('div');
+  wrap.className=`exploded-part ${group.className}`;
+  wrap.dataset.part=group.name;
+  const canvas=document.createElement('canvas');
+  canvas.width=canvas.height=64;
+  const ctx=canvas.getContext('2d');
+  ctx.imageSmoothingEnabled=false;
+  for(const module of anatomy){
+    if(!group.match(module.region))continue;
+    for(const [x,y,color] of module.cells){
+      if(!color)continue;
+      if(group.side==='top'&&y>=0)continue;
+      if(group.side==='bottom'&&y<0)continue;
+      const px=x+32,py=y+32;
+      if(px<0||px>=64||py<0||py>=64)continue;
+      ctx.fillStyle=color;
+      ctx.fillRect(px,py,1,1);
+    }
+  }
+  wrap.append(canvas);
+  return wrap;
+}
+for(const group of GROUPS)stage.append(makeLayer(group));
+
+// Development helpers: ?guides=1 shows layer bounds. The normal page is export-clean.
+if(new URLSearchParams(location.search).get('guides')==='1')stage.classList.add('guides');
+</script>
