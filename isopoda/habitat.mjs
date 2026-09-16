@@ -7,7 +7,7 @@ import {pixelAnatomy,renderModel} from './sprites.mjs?v=cohort-4';
 import {speciesById} from './species.mjs?v=cohort-4';
 // Habitat scenery and specimens share one world unit per visible pixel.
 export const SCENE_PIXEL=1;
-const SCENE_ACTOR_SCALE=.94;
+const SCENE_ACTOR_SCALE=.94,SCENE_OUTPUT_SCALE=.82;
 export function sceneActorPixels(source,actor){
  const cells=new Map(),size=SCENE_ACTOR_SCALE*actor.model.growth.scale,ca=Math.cos(actor.a),sa=Math.sin(actor.a);
  const centerX=Math.round(actor.x),centerY=Math.round(actor.y+(actor.lift||0));
@@ -42,7 +42,8 @@ function stage(scene){interaction.cancel();encounter=encounterById(scene.encount
 function react(id){state=getState();const point=actionFocus(id,state,encounter);const selected=[...critters].sort((a,b)=>Math.hypot(a.x-point.x,a.y-point.y)-Math.hypot(b.x-point.x,b.y-point.y)).slice(0,2).map(c=>c.id);effect={id,selected,mode:responseMode(id),start:elapsed,until:elapsed+10};drawHabitat(performance.now())}
 function present(){
  const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;
- const w=Math.max(80,Math.round(rect.width)),h=Math.max(80,Math.round(rect.height));
+ // Render the whole habitat slightly below CSS resolution so scenery and specimens gain the same modest pixel weight.
+ const w=Math.max(80,Math.round(rect.width*SCENE_OUTPUT_SCALE)),h=Math.max(80,Math.round(rect.height*SCENE_OUTPUT_SCALE));
  if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h}
  display.imageSmoothingEnabled=false;
  const view=cameraWindow(rect.width,rect.height,camera.zoom,camera.x,camera.y),{scale,sw,sh,sx,sy}=view;camera.x=view.x;camera.y=view.y;overlayCtx.drawImage(world,0,0);drawReactionBubbles(overlayCtx,reactions.active,critters,elapsed,view,reduced);display.drawImage(overlay,sx,sy,sw,sh,0,0,w,h);
