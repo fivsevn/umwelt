@@ -1,4 +1,4 @@
-import {STAGES} from './phenotypes.mjs?v=morphology-5';
+import {STAGES} from './phenotypes.mjs?v=morphology-6';
 export const MOLT_REGIONS={anterior:['cephalon','p1','p2','p3','p4'],posterior:['p5','p6','p7','pleon','pleotelson','uropods']};
 export const POSTURES=['normal','resting','probing','tucked','curled','turning','feeding','grooming','molting','emerging'];
 export function stableHash(seed){let x=2166136261;for(const c of String(seed))x=Math.imul(x^c.charCodeAt(0),16777619);return x>>>0}
@@ -36,7 +36,7 @@ export function pixelAnatomy(m,{posture='normal',molt='none',phase=0,moving=m.mo
  const width=Math.round(12*v.body.width*m.growth.widthRatio),stride=3.6*v.body.length;
  const center=n=>({x:Math.round(10-(n-1)*stride),y:bend*Math.round((n-4)*(n-4)/5)});
  if(full){
-  // The same seven tergites overlap around a closed dorsum; head and appendages fold inside.
+  // Full rollers close the dorsal shield; cephalon and appendages are concealed inside.
   const r=width+2;
   for(let n=7;n>=1;n--){const put=module('p'+n),pal=regionPalette(m,'pereon',n);const x0=Math.round(-r+(7-n)*2*r/7),x1=Math.round(-r+(8-n)*2*r/7);
    for(let xx=x0-2;xx<x1+2;xx++)for(let y=-r;y<=r;y++){const shift=Math.round(y*y/(r*r)*2),x=xx+shift;if(xx<x0||xx>=x1||x*x+y*y>=r*r)continue;const c=(x+1)*(x+1)+y*y>(r-2)*(r-2)?pal.edge:(xx===x0&&Math.abs(y)>2)?mix(pal.base,'#201e1a',.3):y<0&&x%3===1?mix(pal.base,'#fff1cc',.24):pal.base;put(x,y,color(c,'p'+n))}
@@ -45,22 +45,26 @@ export function pixelAnatomy(m,{posture='normal',molt='none',phase=0,moving=m.mo
  }
  // One projected envelope is shared by tergites, side plates and hidden feet.
  const front=14,back=center(7).x-7,projection=v.body.projection||{middle:.60,frontWidth:.60,rearWidth:.48},cap=(1-projection.middle)/2;
- // Sample half a cell inside an elliptical cap: a rounded tip, not a flat end wall.
  const envelope=x=>{const t=(x-back+.5)/(front+5-back),q=t<cap?t/cap:t>1-cap?(1-t)/cap:1;
   const roundness=t<cap?(projection.rearRoundness||1):(projection.frontRoundness||1);
   return width*Math.pow(Math.sqrt(Math.max(0,1-(1-Math.min(1,q))**2)),roundness);
  };
 
- const leg=module('legs');
+ // Seven pereopod pairs share the gait engine, but exposure/reach/step amplitude are template-driven.
+ const leg=module('legs'),legInk=mix(p.legs,'#353c2d',.55);
  for(let n=1;n<=7;n++){const c=center(n);for(const s of [-1,1]){
   const gait=(frame+n*2+(s>0?2:0))%7;
-  const active=!tucked&&(posture==='resting'?gait===0: moving||posture==='turning'||posture==='emerging'?gait<3:gait<1);
-  const reach=active?Math.min(3,2+Number(v.legs.length>.35)+Number(posture==='turning'&&s>0)): -1;
-  const edge=Math.round(envelope(c.x))-1;
-  line(leg,c.x+1,c.y+s*(edge-4),c.x+(frame%2),c.y+s*(edge+reach),mix(p.legs,'#353c2d',.55));
+  const active=!tucked&&(posture==='resting'?gait===0:moving||posture==='turning'||posture==='emerging'?gait<3:gait<1);
+  const edge=Math.round(envelope(c.x))-1,exposure=v.legs.visibility??.7;
+  const reachBase=Math.max(1,Math.round(1+(v.legs.length||.35)*5));
+  const reach=active?Math.min(5,reachBase+Number(posture==='turning'&&s>0)): -1;
+  const attachInset=Math.max(2,Math.round(5-exposure*2.5));
+  const step=active?Math.round((((gait%3)-1)*(v.legs.stepScale||1))+(posture==='turning'&&s>0?1:0)):0;
+  const thickness=Math.max(1,Math.round(v.legs.thickness||1));
+  ribbon(leg,c.x+1,c.y+s*(edge-attachInset),c.x+step,c.y+s*(edge+reach),legInk,thickness);
  }}
 
- // Posterior anatomy now uses pleon, pleotelson and uropod templates instead of one shared tail silhouette.
+ // Posterior anatomy uses pleon, pleotelson and uropod templates instead of one shared tail silhouette.
  const rear=center(7),pleon=module('pleon');
  const pleonLen=Math.max(3,Math.round(3+v.pleon.length*8));
  for(let n=0;n<pleonLen;n++){
@@ -83,18 +87,19 @@ export function pixelAnatomy(m,{posture='normal',molt='none',phase=0,moving=m.mo
   if(telShape==='triangular-concave')factor=Math.pow(1-u,.78)*.86+.14;
   else if(telShape==='triangular-broad')factor=1-u*.62;
   else if(telShape==='triangular-long')factor=1-u*.82;
-  else if(telShape==='pointed')factor=1-u*.92;
+  else if(telShape==='pointed'||telShape==='keeled-pointed')factor=1-u*.92;
   else if(telShape==='trapezoidal')factor=1-u*.24;
   else if(telShape==='hourglass')factor=u<.55?1-u*.72:.60+(u-.55)*.28;
   else if(telShape==='compact')factor=1-u*.34;
   let w=Math.max(1,Math.round(telBase*factor));
-  if(['pointed','triangular-long'].includes(telShape)&&i===telLen-1)w=0;
+  if(['pointed','keeled-pointed','triangular-long'].includes(telShape)&&i===telLen-1)w=0;
   if(pt.apex==='truncate'&&i===telLen-1)w=Math.max(2,w);
   const xx=telStart-i;
   for(let y=-w;y<=w;y++){
    let col=p.pleotelson;
    if(Math.abs(y)>=w&&w>0)col=mix(col,'#292a24',.22);
    if(i===0)col=mix(col,p.light,.10);
+   if(pt.keel&&Math.abs(y)<=0&&i>0)col=mix(col,p.light,.24);
    telson(xx,rear.y+y,color(col,'pleotelson'));
   }
  }
@@ -124,10 +129,9 @@ export function pixelAnatomy(m,{posture='normal',molt='none',phase=0,moving=m.mo
   const plateWidth=Math.max(3,Math.round(stride+1));
   const cx=c.x;if(tucked)c.y+=Math.round((n-4)*(n-4)/12*closure);
   for(let x=0;x<plateWidth;x++){const notch=x===plateWidth-2?1:0;const half=Math.round(envelope(cx+x))-notch;for(let y=-half;y<=half;y++){
-   // Each plate has a stepped edge and colour clusters, never a smooth band.
    const sideDepth=Math.max(1,Math.round(v.pereon.epimera.width*(1-v.body.convexity*.55)*3));
    let col=pal.base;const rh=stableHash(m.seed+':'+n),ny=(y+half)/(half*2);
-   for(const rule of v.patterns){if(![ 'pereon','body','any'].includes(rule.target))continue;const ink=p[rule.color]||rule.color||p.dark;
+   for(const rule of v.patterns){if(!['pereon','body','any'].includes(rule.target))continue;const ink=p[rule.color]||rule.color||p.dark;
     if(rule.type==='blotch'&&((Math.abs(y-((rh%9)-4))<2+(rh%2)&&x<2)||(Math.abs(y-(((rh>>>7)%11)-5))<2&&x>0)))col=ink;
     if(['dorsalStripe','centerField'].includes(rule.type)&&Math.abs(y)<Math.max(1,half*(rule.width||.35)))col=rule.opacity?mix(col,ink,rule.opacity):ink;
     if(rule.type==='lateralStripe'&&Math.abs(Math.abs(y)-half*.65)<1.5)col=ink;
@@ -136,29 +140,44 @@ export function pixelAnatomy(m,{posture='normal',molt='none',phase=0,moving=m.mo
    }
    if(x===0&&(Math.abs(y)>half*.6||y%4===0))col=mix(col,'#1d231c',.35);
    else if(x<3&&y>-half+2&&y<-half+5&&(n+h)%3!==0)col=mix(col,'#fff4d8',.25);
-   if(v.surface.sculpture==='tuberculate'&&y%3===0&&x===1)col=mix(col,'#d8caca',.45);
+   // Surface characters are deliberately low-amplitude: at 64 px they read as relief, not literal seta anatomy.
+   if(v.surface.sculpture==='tuberculate'&&Math.abs(y)<half-1){
+    const spacing=v.surface.tubercleSpacing||3;
+    if((x*2+y+n+h)%spacing===0)col=mix(col,p.light,.18+.28*(v.surface.intensity||.5));
+    else if((x*2+y+n+h+1)%spacing===0)col=mix(col,'#1b201a',.12+.16*(v.surface.intensity||.5));
+   }else if(v.surface.scaleSetae!=='none'&&(x*3+y+n+h)%11===0&&Math.abs(y)<half-1){
+    col=mix(col,p.light,v.surface.scaleSetae==='coarse'?.16:.07);
+   }
    if((h>>>4)%7===n&&y===2&&x===2)col=mix(col,p.light,.5);
    if(Math.abs(y)>half-sideDepth)col=mix(x<=1?pal.tip:pal.edge,'#252b23',.20+v.body.convexity*.16+(x===0?.15:0));
    else if(Math.abs(y)>half*.65)col=mix(col,'#252b23',v.body.convexity*.24);
-   // Curved seams and broken highlights suggest stitched, overlapping shields.
    const arc=Math.round((1+v.pereon.plateArc)*(y/half)**2);
    if(x===arc+1&&Math.abs(y)<half-2&&(y+n)%3!==0)col=mix(col,p.light,.22);
    if((x+y+n+h)%7===0&&Math.abs(y)<half-1)col=mix(col,'#eee4d0',.10);
    if(x===arc&&Math.abs(y)<half-1)col=mix(col,'#252b23',.24);
    (Math.abs(y)>half-sideDepth?epi:put)(cx+x,c.y+y,color(col,region));
-  }
-  }
-  // Side plates are overlapping lobes, distinct from the dorsal plate and feet.
-  // Flatter shield forms spread farther; high-domed forms keep a narrow rim.
-  const skirt=v.pereon.epimera.skirt||0,skirtPut=module('skirt'+n);
+  }}
+
+  // Epimera use taxon templates: rounded/shield/rectangular outlines plus optional posterior projection.
+  const e=v.pereon.epimera,skirt=e.skirt||0,skirtPut=module('skirt'+n);
   for(const side of [-1,1])for(let x=0;x<plateWidth-1;x++){
    const edge=Math.round(envelope(cx+x)),u=x/Math.max(1,plateWidth-2);
-   const shape=v.pereon.epimera.lobe==='swept'?1-u*.75:Math.sin((u*.8+.1)*Math.PI);
-   const reach=tucked?0:Math.round(skirt*3*shape);
+   let shape=Math.sin((u*.8+.1)*Math.PI);
+   if(e.lobe==='swept')shape=1-u*.75;
+   else if(e.lobe==='shield')shape=.82+Math.sin((u*.9+.05)*Math.PI)*.22;
+   else if(e.lobe==='rectangular')shape=.92-u*.08;
+   const posteriorOn=!e.posteriorProjectionFrom||n>=e.posteriorProjectionFrom;
+   const posterior=posteriorOn?(e.posteriorProjection||0)*Math.pow(1-u,2):0;
+   const reach=tucked?0:Math.round(skirt*3*shape+posterior*3);
    for(let d=0;d<reach;d++){
     const ink=d===reach-1?pal.tip:pal.edge;
     skirtPut(cx+x,c.y+side*(edge+d),color(mix(ink,d===0?'#eee1be':'#252b23',d===0?.12:.20),region));
    }
+  }
+  // Noduli laterales are reduced to paired pixels; exact species-level positions are not claimed.
+  if(v.surface.noduliLaterales==='linear'){
+   const nod=module('noduli'+n),edge=Math.max(2,Math.round(envelope(cx+1))-2),offset=n===1?Math.max(2,edge-2):edge;
+   for(const side of [-1,1])nod(cx+1,c.y+side*offset,color(mix(pal.base,p.light,.42),region));
   }
  }
 
@@ -188,12 +207,13 @@ export function pixelAnatomy(m,{posture='normal',molt='none',phase=0,moving=m.mo
  }
  if(ct.scutellum==='triangular'){
   for(let d=0;d<3;d++)for(let y=-(2-d);y<=2-d;y++)head(frontX+d,hy+y,color(d===0?mix(hp.base,p.light,.14):hp.base,'cephalon'));
- }else if(ct.scutellum==='subtle'){
-  for(let y=-1;y<=1;y++)head(frontX,hy+y,color(mix(hp.base,p.light,.10),'cephalon'));
+ }else if(ct.scutellum==='subtle'||ct.scutellum==='notched-subtle'){
+  for(let y=-1;y<=1;y++)if(!(ct.scutellum==='notched-subtle'&&y===0))head(frontX,hy+y,color(mix(hp.base,p.light,.10),'cephalon'));
  }
  if(!tucked)for(const s of [-1,1]){
   const eyeY=hy+s*Math.max(2,Math.round(hw*(ct.eyeSet||.78)));
   head(hx+Math.max(1,headLen-2),eyeY,'#20291f');
+  if((ct.eyeScale||1)>1.15)head(hx+Math.max(1,headLen-3),eyeY,'#20291f');
  }
 
  const antenna=module('antennae'),length=Math.round((4+v.antennae.length*6)*(1+((h>>>8)%5-2)*.025)*m.growth.appendageRatio);
@@ -227,7 +247,6 @@ export function makeIsopod(species,options={}){
  for(const [k,v] of Object.entries({stage:m.stage,ability:m.visual.conglobation.ability,variant:m.variant,seed:m.seed}))bug.dataset[k]=v;
  const size=Math.round(80*m.growth.scale);bug.style.width=size+'px';bug.style.height=size+'px';
  const canvas=document.createElement('canvas');canvas.width=canvas.height=64;canvas.className='pixel-body';bug.append(canvas);
- // Retain anatomical DOM hooks for catalog, molt semantics and future module tools.
  const body=document.createElement('b');body.className='body';for(const name of ['legs','antennae']){const node=document.createElement('i');node.className=name;bug.append(node)}
  for(const region of ['cephalon',...Array.from({length:7},(_,i)=>'p'+(i+1)),'pleon','pleotelson','uropods']){
   const part=document.createElement('i');part.dataset.region=region;part.className='anatomy '+(/^p\d$/.test(region)?'plate '+region:region);part.style.setProperty('--base',regionPalette(m,/^p\d$/.test(region)?'pereon':region,Number(region[1])).base);
