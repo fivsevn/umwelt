@@ -33,6 +33,49 @@ const grammar={
  vex:[{type:'segmentSeam',color:'dark',target:'pereon'}],
  orange:[{type:'spotRow',color:'light',target:'pereon'}]
 };
+
+// Antenna II is simplified to three visible pixel limbs by the 64 px renderer.
+// `joints` therefore controls the rendered silhouette rather than claiming three anatomical articles.
+// The taxonomic metadata below records the real two-articled flagellum shared by the represented
+// Porcellionidae / Armadillidae-style taxa. Trade-assigned taxa use conservative family/genus proxies.
+const ANTENNA_TEMPLATES={
+ porcellioStandard:{
+  template:'porcellio-standard',thickness:.16,spread:.54,bend:.24,joints:[.45,.33,.22],flagellumArticles:2,
+  confidence:'genus-proxy',basis:'Porcellionidae: elongate antenna II with two distinct flagellar articles.'
+ },
+ porcellioSpatulatus:{
+  template:'porcellio-spatulatus',thickness:.18,spread:.56,bend:.22,joints:[.48,.31,.21],flagellumArticles:2,
+  peduncleArticle3Tooth:'large-rounded',confidence:'species-character',basis:'Porcellio spatulatus: conspicuous rounded tooth on antennal peduncle article 3.'
+ },
+ porcellioBolivari:{
+  template:'porcellio-bolivari',thickness:.14,spread:.62,bend:.15,joints:[.38,.35,.27],flagellumArticles:2,
+  peduncleArticle3Tooth:'long-wide',confidence:'species-character',basis:'Porcellio bolivari: very long antennae; article 3 bears a long, broad tooth.'
+ },
+ ardentiellaRunner:{
+  template:'ardentiella-runner',thickness:.14,spread:.60,bend:.14,joints:[.39,.36,.25],flagellumArticles:2,
+  confidence:'genus-proxy',basis:'Ardentiella diagnosis: antennae long and slender; runner-type habitus.'
+ },
+ armadillidCompact:{
+  template:'armadillid-compact',thickness:.20,spread:.30,bend:.40,joints:[.51,.29,.20],flagellumArticles:2,
+  confidence:'family-proxy',basis:'Armadillidae proxy for unresolved hobby taxa: compact conglobating habitus, two-articled flagellum.'
+ },
+ venezilloCompact:{
+  template:'venezillo-compact',thickness:.20,spread:.28,bend:.43,joints:[.50,.28,.22],flagellumArticles:2,
+  confidence:'genus-proxy',basis:'Venezillo / Armadillidae proxy: short compact antenna, two-articled flagellum.'
+ },
+ armadillidiumCompact:{
+  template:'armadillidium-compact',thickness:.22,spread:.26,bend:.46,joints:[.53,.28,.19],flagellumArticles:2,
+  confidence:'family-genus-proxy',basis:'Armadillidium: robust compact antenna; two distinct flagellar articles; antennae hidden during conglobation.'
+ }
+};
+const antennaTemplateById={
+ dairy:'porcellioStandard',echinatus:'porcellioStandard',
+ coros:'porcellioSpatulatus',bolivari:'porcellioBolivari',
+ diablo:'ardentiellaRunner',ember:'ardentiellaRunner',
+ cappuccino:'armadillidCompact',pink:'armadillidCompact',ducky:'armadillidCompact',amber:'armadillidCompact',vex:'armadillidCompact',
+ daxin:'venezilloCompact',orange:'armadillidiumCompact'
+};
+
 export const STAGES={
  juvenile:{scale:.72,widthRatio:.96,plateMaturity:.82,appendageRatio:.90,patternExpression:.75},
  subadult:{scale:.87,widthRatio:.98,plateMaturity:.92,appendageRatio:.96,patternExpression:.9},
@@ -41,15 +84,16 @@ export const STAGES={
 export function phenotypeFor(id){
  const [length,width,convexity,E,A,U]=baseline[id], [base,dark,rim]=colors[id];
  const roller=convexity>.7,flare=id==='diablo'||id==='ember';
+ const antennaTemplate=ANTENNA_TEMPLATES[antennaTemplateById[id]]||ANTENNA_TEMPLATES.porcellioStandard;
  return {
-  provenance:'RENDER: normalized visual tuning; conglobation/stages are rendering defaults where unverified',
+  provenance:'RENDER: normalized visual tuning; antenna silhouette uses literature-backed taxon templates; conglobation/stages are rendering defaults where unverified',
   body:{length,width,convexity,projection:{middle:.60,frontRoundness:roller?1:.92,rearRoundness:roller?.94:1.08},anteriorTaper:roller?.16:.24,posteriorTaper:roller?.16:.32,pleonTaper:roller?.12:.4},
   cephalon:{width:roller?.66:.54,length:roller?.66:.84,embedding:roller?.7:.2,frontalMargin:.3,medianProjection:roller?.12:0,lateralLobes:.25,roundness:roller?.8:.35},
   pereon:{plateArc:convexity,overlap:id==='vex'?.26:roller?.18:.08,seamStrength:id==='bolivari'?.4:.22,heightProfile:[.80,.94,1,1,.97,.90,.76],epimera:{skirt:flare?.85:id==='coros'?1:id==='vex'?.55:roller?.18:.30,lobe:flare?'swept':id==='coros'?'shield':'rounded',width:E,flare:flare?.4:id==='coros'?.26:.1,angle:flare?.3:.12,roundness:roller?.7:.25,tip:flare?'pointed':'round'}},
   pleon:{length:roller?.13:.23,width:roller?.62:.45,taper:roller?.18:.38,segmentContrast:.2},
   pleotelson:{length:roller?.09:.16,width:roller?.36:.28,taper:.35,apex:roller?'compact':'triangular'},
   uropods:{projection:U,width:.2,spread:roller?.08:.22,thickness:roller?.28:.15,visibility:roller?.35:.95},
-  antennae:{length:A,thickness:.18,spread:roller?.3:.5,bend:.3,joints:[.44,.32,.24]},
+  antennae:{...structuredClone(antennaTemplate),length:A},
   legs:{length:roller?.22:.48,visibility:roller?.4:.7,spread:.3},
   surface:{sculpture:id==='echinatus'?'tuberculate':'smooth',intensity:id==='echinatus'?.85:.12,material:['pink','vex','cappuccino'].includes(id)?'translucent':roller?'glossy':'matte',translucency:['pink','vex','cappuccino'].includes(id)?.12:.02},
   palette:{tergite:base,cephalon:['ducky','daxin'].includes(id)?'#d8ac59':base,epimera:rim,pleon:id==='ducky'?rim:base,pleotelson:null,uropods:null,antennae:null,legs:null,dark,light:rim,accentA:id==='daxin'?'#c38b4b':dark,accentB:rim},
