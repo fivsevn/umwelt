@@ -1,9 +1,9 @@
 import {bindPointerInteraction} from './interaction.mjs?v=pointer-1';
 import {createReactions,actionFocus,drawReactionBubbles} from './reactions.mjs?v=bubbles-1';
 import {environmentFor} from './environment.mjs?v=cohort-4';
-import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?v=pointer-1';
+import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?v=appendage-2';
 import {encounterById,responseMode} from './encounters.mjs?v=cohort-4';
-import {pixelAnatomy,renderModel} from './sprites.mjs?v=cohort-4';
+import {pixelAnatomy,renderModel} from './sprites.mjs?v=appendage-2';
 import {speciesById} from './species.mjs?v=cohort-4';
 // Habitat scenery and specimens share one world lattice, but scenery is allowed to sit one visual step behind the specimens.
 export const SCENE_PIXEL=1;
@@ -142,7 +142,7 @@ function drawHabitat(t){
 // Use the original anatomy pixels directly; habitat projection only rotates and lightly reduces them.
 function drawActors(){
  for(const actor of [...critters].sort((a,b)=>Number(a.interactionState?.mode==='grabbed')-Number(b.interactionState?.mode==='grabbed'))){if(actor.hidden){actor.hitCells=[];continue;}
-  const phase=reduced?0:Math.floor(actor.phase)%4,key=[actor.posture,actor.molt,phase,actor.moving].join(':');
+  const phase=Math.floor(actor.phase)%4,key=[actor.posture,actor.molt,phase,actor.moving].join(':');
   let source=actor.pixels.get(key);
   if(!source){source=new Map();for(const part of pixelAnatomy(actor.model,{posture:actor.posture,molt:actor.molt,phase,moving:actor.moving}))for(const [x,y,color] of part.cells)source.set(x+','+y,color);actor.pixels.set(key,source);if(actor.pixels.size>40)actor.pixels.delete(actor.pixels.keys().next().value)}
   if(actor.interactionState?.mode==='grabbed')px(ctx,actor.x-7,actor.y+8,14,2,'#252b21');
