@@ -12,3 +12,11 @@ dialog header .pixel-icon{position:relative;width:24px;height:20px;transform:sca
 dialog footer{display:flex;align-items:center;justify-content:space-between;background:var(--os-face);border-top:2px solid var(--os-hi);padding:4px;margin:0}dialog footer button{width:32px;height:32px;min-height:32px;padding:0;background:var(--os-face);color:var(--os-ink);border:2px solid var(--os-hi);border-right-color:var(--os-lo);border-bottom-color:var(--os-lo)}dialog footer button:active:not(:disabled){border-color:var(--os-lo) var(--os-hi) var(--os-hi) var(--os-lo)}
 .window-story .record{overflow:auto}
 dialog .drawer-tools button.icon-button{background:var(--os-face);border:2px solid var(--os-hi);border-right-color:var(--os-lo);border-bottom-color:var(--os-lo)}dialog .drawer-tools button.icon-button:active{border-color:var(--os-lo) var(--os-hi) var(--os-hi) var(--os-lo)}dialog .drawer-tools .pixel-icon{transform:scale(.5)}.window-story .record{align-self:stretch;width:100%}
+
+/* One pressed-button grammar for the observation application. Each control keeps its own palette; only the retro chrome is normalized. */
+#game button{position:relative;border-style:solid;border-width:2px;border-top-color:var(--os-hi);border-left-color:var(--os-hi);border-right-color:var(--os-lo);border-bottom-color:var(--os-lo);box-shadow:1px 1px 0 #1b2a20;transform:translate(0,0);transition:none}
+#game button:active:not(:disabled){border-color:var(--os-lo) var(--os-hi) var(--os-hi) var(--os-lo);box-shadow:none;transform:translate(1px,1px)}
+#game button:disabled{box-shadow:none}
+#game dialog:focus{outline:none}
+#game .launch-close{box-shadow:1px 1px 0 #1b2a20;transform:translate(0,0)}
+#game .launch-close:active{box-shadow:none;transform:translate(1px,1px)}
