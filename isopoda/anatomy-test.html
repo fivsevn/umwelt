@@ -91,13 +91,13 @@ for(const key of ORDER){
  button.addEventListener('click',()=>lockSelection(key));list.append(button);
 }
 
-let locked=null,current='body';
+let locked=null;
 const zh=document.querySelector('#partZh'),en=document.querySelector('#partEn'),desc=document.querySelector('#partDescription'),evidence=document.querySelector('#evidence');
 function show(key){
- const info=INFO[key]||INFO.body;current=key;
+ const info=INFO[key]||INFO.body;
  zh.textContent=info.zh;en.textContent=info.en;desc.textContent=info.description;evidence.textContent=info.evidence;
- stage.classList.toggle('has-selection',key!=='body');
- for(const layer of layers)layer.classList.toggle('is-active',info.targets.includes(layer.dataset.semantic));
+ const focused=key!=='body';stage.classList.toggle('has-selection',focused);
+ for(const layer of layers)layer.classList.toggle('is-active',focused&&info.targets.includes(layer.dataset.semantic));
  for(const button of list.querySelectorAll('.part-button'))button.setAttribute('aria-pressed',String(button.dataset.key===key));
 }
 function lockSelection(key){locked=key==='body'?null:key;show(key)}
