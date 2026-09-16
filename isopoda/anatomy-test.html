@@ -2,7 +2,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>阿西莫夫形态实验室 · Asimov Morphology Lab</title>
-<link rel="stylesheet" href="./anatomy-test.css?v=4">
+<link rel="stylesheet" href="./anatomy-test.css?v=5">
 <main class="anatomy-app">
   <header class="topbar">
     <div class="lab-title">
@@ -73,6 +73,11 @@
         </div>
       </section>
 
+      <details class="dossier" id="specimenDossier">
+        <summary><span>SPECIMEN DOSSIER / 标本档案</span><small>后台资料 · 点击展开</small></summary>
+        <div class="dossier-body" id="dossierBody"></div>
+      </details>
+
       <section class="references" aria-label="当前标本参考文献">
         <header>
           <span>SPECIMEN REFERENCES / 当前标本参考</span>
@@ -87,13 +92,14 @@
 </main>
 
 <script type="module">
-import {SPECIES} from './species.mjs?v=anatomy-lab-4';
-import {renderModel,pixelAnatomy} from './sprites.mjs?v=anatomy-lab-4';
+import {SPECIES} from './species.mjs?v=anatomy-lab-5';
+import {renderModel,pixelAnatomy} from './sprites.mjs?v=anatomy-lab-5';
 
 const stage=document.querySelector('#stage');
 const list=document.querySelector('#partList');
 const select=document.querySelector('#speciesSelect');
 const referenceList=document.querySelector('#referenceList');
+const dossierBody=document.querySelector('#dossierBody');
 
 const INFO={
  body:{zh:'整体比例',en:'Body proportions',evidence:'RENDER / MORPHOLOGY',description:'长度、宽度和背部拱度共同决定整体轮廓。这里不是缩放图片，而是让头部、背板、腹部和附肢共享同一套身体空间。',targets:['pereon','epimera','cephalon','pleon','pleotelson','uropods','antennae','pereopods'],refs:['shultz2018']},
@@ -208,6 +214,30 @@ function templateFor(key){
  return {template:'—',confidence:'—'};
 }
 
+function addDossierRow(label,value,{quote=false}={}){
+ if(!value)return;
+ const row=document.createElement('section');row.className='dossier-row';
+ const heading=document.createElement('b');heading.textContent=label;
+ const text=document.createElement(quote?'blockquote':'p');text.textContent=value;
+ row.append(heading,text);dossierBody.append(row);
+}
+function renderDossier(){
+ dossierBody.replaceChildren();
+ const t=species.taxonomy||{},p=species.profile||{},b=species.biogeography||{};
+ const taxonomy=[t.kingdom,t.phylum,t.class,t.order,t.suborder,t.family,t.genus,t.species].filter(Boolean).join(' › ');
+ addDossierRow('CLASSIFICATION / 分类',taxonomy||species.taxon||'当前未解析到正式分类层级。');
+ addDossierRow('STATUS / 鉴定状态',species.status||p.diagnosticNotes?.[0]);
+ addDossierRow('MORPHOLOGY / 显著形态',p.notableMorphology?.[0]);
+ addDossierRow('DIAGNOSTIC NOTE / 诊断备注',p.diagnosticNotes?.[0]!==species.status?p.diagnosticNotes?.[0]:null);
+ const locality=[b.originCountry,b.originRegion,b.locality,b.nativeRange,b.distributionNotes].filter(Boolean).join(' · ');
+ addDossierRow('BIOGEOGRAPHY / 产地与分布',locality);
+ const labLine=species.literature?.lines?.filter(Boolean).slice(0,2).join(' / ');
+ addDossierRow('LAB NOTE / 项目观察',labLine,{quote:true});
+ if(!dossierBody.children.length)addDossierRow('DATA STATUS / 数据状态','当前没有可公开展示的后台档案字段；保留为未解析。');
+ const count=dossierBody.children.length;
+ const hint=document.querySelector('#specimenDossier summary small');if(hint)hint.textContent=`后台资料 ${count} 项 · 点击展开`;
+}
+
 function renderReferences(){
  const ids=SPECIES_REFS[species.id]||['shultz2018'];
  referenceList.replaceChildren();
@@ -232,7 +262,7 @@ function renderSpecies(index){
  document.querySelector('#specimenIndex').textContent=`${String(speciesIndex+1).padStart(2,'0')} / ${String(SPECIES.length).padStart(2,'0')}`;
  document.querySelector('#morphologyKey').textContent=`morphology: ${model.visual.morphologyKey||'—'}`;
  stage.setAttribute('aria-label',`${species.name} ${species.label} exploded morphology`);
- renderVhs();renderReferences();show('body');
+ renderVhs();renderDossier();renderReferences();show('body');
 }
 
 const zh=document.querySelector('#partZh'),en=document.querySelector('#partEn'),desc=document.querySelector('#partDescription'),evidence=document.querySelector('#evidence'),template=document.querySelector('#partTemplate'),confidence=document.querySelector('#partConfidence');
