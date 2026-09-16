@@ -35,6 +35,22 @@ const grammar={
  orange:[{type:'spotRow',color:'light',target:'pereon'}]
 };
 
+// Pixel-readability emphasis only. These coefficients deliberately separate silhouettes at 64 px
+// without changing the evidence level or pretending to be morphometric measurements.
+// Long runner-type antennae stay straighter and more open; compact rollers become shorter,
+// more strongly flexed and more peduncle-heavy. P. spatulatus stays relatively stout/compact,
+// while P. bolivari gets the clearest long, slender flagellum silhouette.
+const ANTENNA_RENDER={
+ porcellioStandard:{lengthScale:1.04,spread:.58,bend:.20,joints:[.44,.32,.24],thicknessScale:1},
+ porcellioEchinatus:{lengthScale:1.00,spread:.50,bend:.28,joints:[.47,.32,.21],thicknessScale:1.02},
+ porcellioSpatulatus:{lengthScale:.94,spread:.48,bend:.30,joints:[.50,.31,.19],thicknessScale:1.08},
+ porcellioBolivari:{lengthScale:1.18,spread:.70,bend:.08,joints:[.36,.34,.30],thicknessScale:.90},
+ ardentiellaRunner:{lengthScale:1.12,spread:.66,bend:.10,joints:[.38,.35,.27],thicknessScale:.92},
+ armadillidHobby:{lengthScale:.86,spread:.24,bend:.52,joints:[.54,.29,.17],thicknessScale:1.10},
+ venezilloCompact:{lengthScale:.82,spread:.20,bend:.58,joints:[.56,.27,.17],thicknessScale:1.12},
+ armadillidiumCompact:{lengthScale:.78,spread:.17,bend:.64,joints:[.58,.25,.17],thicknessScale:1.14}
+};
+
 export const STAGES={
  juvenile:{scale:.72,widthRatio:.96,plateMaturity:.82,appendageRatio:.90,patternExpression:.75},
  subadult:{scale:.87,widthRatio:.98,plateMaturity:.92,appendageRatio:.96,patternExpression:.9},
@@ -45,6 +61,7 @@ export function phenotypeFor(id){
  const [length,width,convexity,E,A,U]=baseline[id], [base,dark,rim]=colors[id];
  const morph=morphologyFor(id),epi=morph.pereon.epimera;
  const roller=morph.conglobation.ability==='full';
+ const antTune=ANTENNA_RENDER[morph.key]||ANTENNA_RENDER.porcellioStandard;
  const legacyFinish={material:['pink','vex','cappuccino'].includes(id)?'translucent':roller?'glossy':'matte',translucency:['pink','vex','cappuccino'].includes(id)?.12:.02,renderOnly:true};
  return {
   provenance:'RENDER: normalized visual tuning; morphology registry separates species characters, genus/family proxies and unresolved trade-taxonomy proxies.',
@@ -55,7 +72,7 @@ export function phenotypeFor(id){
   pleon:{length:roller?.13:.23,width:roller?.62:.45,taper:roller?.18:.38,segmentContrast:.2},
   pleotelson:{length:roller?.09:.16,width:roller?.36:.28,taper:.35,...morph.tail.pleotelson,template:morph.tail.template,confidence:morph.tail.confidence},
   uropods:{projection:U,width:.2,spread:roller?.08:.22,thickness:roller?.28:.15,visibility:roller?.35:.95,...morph.tail.uropods,template:morph.tail.template,confidence:morph.tail.confidence},
-  antennae:{...morph.antennae,length:A},
+  antennae:{...morph.antennae,length:A*antTune.lengthScale,spread:antTune.spread,bend:antTune.bend,joints:structuredClone(antTune.joints),thickness:morph.antennae.thickness*antTune.thicknessScale,renderEmphasis:'64px-readability'},
   legs:{...morph.legs,length:(roller?.22:.48)*(morph.legs.lengthScale||1),visibility:morph.legs.exposure,spread:morph.legs.spread},
   surface:{...morph.surface,...legacyFinish},
   palette:{tergite:base,cephalon:['ducky','daxin'].includes(id)?'#d8ac59':base,epimera:rim,pleon:id==='ducky'?rim:base,pleotelson:null,uropods:null,antennae:null,legs:null,dark,light:rim,accentA:id==='daxin'?'#c38b4b':dark,accentB:rim},
