@@ -68,8 +68,8 @@ export function stepIndividuals(group,{encounter,state={},time=0,dt=.05,reaction
   if(c.moving)for(const other of group){if(c===other)continue;const d=Math.hypot(c.x-other.x,c.y-other.y);if(d>0&&d<24){c.x+=(c.x-other.x)/d*(24-d)*dt;c.y+=(c.y-other.y)/d*(24-d)*dt}}
   c.x=clamp(c.x,24,355);c.y=clamp(c.y,30,400);c.posture=posture;c.molt=molt;c.activity=focus?motion:stop?'rest':'wander';c.role=i;
   c.occlusion=c.occlusion+clamp(hide-c.occlusion,-dt*.35,dt*.35);c.hidden=c.occlusion>=.99;
-  // Keep appendage motion visible at low crawl speeds; reduced motion slows translation but no longer freezes anatomy frames.
-  if(c.moving)c.gaitPhase=(c.gaitPhase??0)+Math.max(travel*1.6,dt*8);
+  // Keep appendage cadence coupled to the slower crawl without letting it freeze at very low speeds.
+  if(c.moving)c.gaitPhase=(c.gaitPhase??0)+Math.max(travel*1.1,dt*4);
   c.phase=c.moving?Math.floor(c.gaitPhase):Math.floor((time+c.offset)*(posture==='grooming'?2:1));
   c.lift=focus&&motion==='climb'?Math.round(Math.sin(time+i)*2):0;
  }
