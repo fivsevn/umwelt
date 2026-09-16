@@ -8,6 +8,13 @@ import {speciesById} from './species.mjs?v=cohort-4';
 // Habitat scenery and specimens share one world lattice, but scenery is allowed to sit one visual step behind the specimens.
 export const SCENE_PIXEL=1;
 const SCENE_ACTOR_SCALE=.88,SCENE_OUTPUT_SCALE=.76,BACKGROUND_SCALE=.72;
+const LEAF_PALETTES=[
+ ['#5a422c','#7a5935','#a17c48','#c09b5c','#3e3428'],
+ ['#67482f','#8d6238','#b4864d','#d0a567','#433126'],
+ ['#4d402d','#6d5a39','#92804d','#b6a066','#38362b'],
+ ['#6a5232','#927343','#bea05e','#d4b875','#473a29'],
+ ['#463a2c','#67513a','#806545','#a38158','#322f28']
+];
 export function sceneActorPixels(source,actor){
  const cells=new Map(),size=SCENE_ACTOR_SCALE*actor.model.growth.scale,ca=Math.cos(actor.a),sa=Math.sin(actor.a);
  const centerX=Math.round(actor.x),centerY=Math.round(actor.y+(actor.lift||0));
@@ -73,9 +80,25 @@ function coarsenScenery(){
  backdropCtx.clearRect(0,0,backdrop.width,backdrop.height);backdropCtx.drawImage(world,0,0,backdrop.width,backdrop.height);
  ctx.clearRect(0,0,world.width,world.height);ctx.imageSmoothingEnabled=false;ctx.drawImage(backdrop,0,0,backdrop.width,backdrop.height,0,0,world.width,world.height);
 }
+function soilMoisture(zones){
+ for(const z of zones)for(let y=8;y<422;y+=2)for(let x=8;x<376;x+=2){
+  const wet=Math.max(0,Math.min(1,z.moisture/100)),radius=.5+wet;
+  const edge=((x-z.x)/(z.rx*radius))**2+((y-z.y)/(z.ry*radius))**2;
+  const ripple=(Math.sin(y*.13)+Math.cos(x*.2))*.08;
+  if(edge>=1+ripple)continue;
+  const grain=Math.abs((x*19+y*31+Math.floor(z.x*7)+Math.floor(z.y*11))%29);
+  const cover=.44+wet*.42;if(grain/29>cover)continue;
+  const palette=wet>.66?['#302d27','#353028','#393329','#2c3029','#3e372c']:wet>.36?['#3b342b','#40372d','#453b30','#35332b','#493d31']:['#463b30','#4b4033','#514536','#40382e','#574938'];
+  let ink=palette[grain%palette.length];
+  if(wet>.58&&grain%17===0)ink='#304137';
+  else if(wet>.72&&grain%23===0)ink='#263a32';
+  px(ctx,x,y,2,2,ink);
+  if(wet>.55&&grain%13===0)px(ctx,x+1,y,1,1,'#55604a');
+ }
+}
 function drawHabitat(t){
  const w=world.width,h=world.height;ctx.fillStyle="#443729";ctx.fillRect(0,0,w,h);
- // Broad loam shapes stay quiet; a second one-pixel pass supplies the finer grain before final backdrop quantization.
+ // Loam remains brown first; moisture is a darker soil pass instead of a separate green terrain layer.
  for(let yy=0;yy<h;yy+=2)for(let xx=0;xx<w;xx+=2){
   const n=Math.sin(xx*.031+Math.sin(yy*.023))*Math.cos(yy*.042)+Math.sin((xx+yy)*.018)*.45;
   if(n>.65)px(ctx,xx,yy,2,2,'#51422f');else if(n<-.65)px(ctx,xx,yy,2,2,'#302e25');
@@ -90,17 +113,15 @@ function drawHabitat(t){
   if(v===6)px(ctx,x+1,y,2,1,'#352f26');
  }
  const memory=environmentFor(state);
- for(const z of memory.wetZones)for(let y=8;y<422;y+=2)for(let x=8;x<376;x+=2){
-  const radius=.5+z.moisture/100,edge=((x-z.x)/(z.rx*radius))**2+((y-z.y)/(z.ry*radius))**2;
-  if(edge<1+(Math.sin(y*.13)+Math.cos(x*.2))*.08){px(ctx,x,y,2,2,z.moisture>65?'#293d31':z.moisture>35?'#34402f':'#404030');if((x+y)%10===0)px(ctx,x+1,y,1,1,'#50604a')}
- }
+ soilMoisture(memory.wetZones);
  scenery(t);
  for(const mark of memory.scuffs)for(let i=0;i<12;i++)px(ctx,mark.x-30+i*5,mark.y+i%3*2,3,1,'#69543a');
  for(const l of memory.leaves){
   if(l.gap)for(let x=-30;x<32;x+=2)px(ctx,l.x+x,l.y+15,1,5,'#202c22');
-  leaf(ctx,l.x,l.y,l.a,l.age>8?'#745936':'#a4824d',1-Math.min(l.age,20)*.006);
+  const variant=Math.abs(Math.round(l.x+l.y))%4,tone=l.age>12?4:l.age>8?2:Math.abs(Math.round(l.x*3+l.y))%4;
+  leaf(ctx,l.x,l.y,l.a,variant,1-Math.min(l.age,20)*.006,tone);
  }
- bark(memory.shelter.x,memory.shelter.y-(effect&&elapsed<effect.until&&effect.id==='lift'?12:0));
+ bark(memory.shelter.x,memory.shelter.y-(effect&&elapsed<effect.until&&effect.id==='lift'?12:0),Math.abs(Math.round(memory.shelter.x+memory.shelter.y))%3);
  for(const f of memory.foodNodes){
   for(let i=0;i<7;i++)px(ctx,f.x-9+i*3,f.y+10+i%2*3,1,1,'#806a42');
   if(f.amount>0)for(let y=0;y<12;y++)for(let x=0;x<Math.min(22,8+f.amount*6);x++){if((x+y+f.age*2)%17<3)continue;px(ctx,f.x+x-8,f.y+y-6,1,1,y>8?'#8b7043':y%3===0?'#d1b578':'#c6a86d')}
@@ -124,65 +145,93 @@ function drawActors(){
   for(const [x,y,color] of actor.hitCells)px(ctx,x,y,1,1,color);
  }
 }
-// Leaves use the same one-pixel lattice as the animals, with no antialiasing.
-function leaf(c,x,y,a,color,scale=1){
- const ca=Math.cos(a),sa=Math.sin(a),length=49*scale,width=25*scale;
+// Four leaf silhouettes share a restrained autumn palette: ovate, willow-like, lobed and torn/curling.
+function leaf(c,x,y,a,variant=0,scale=1,tone=0){
+ const palette=LEAF_PALETTES[tone%LEAF_PALETTES.length],ca=Math.cos(a),sa=Math.sin(a);
+ const length=(variant===1?43:variant===2?45:49)*scale,width=(variant===1?13:variant===2?22:variant===3?20:25)*scale;
  const radius=Math.ceil(length+width);
  for(let yy=-radius;yy<=radius;yy++)for(let xx=-radius;xx<=radius;xx++){
-  const u=xx*ca+yy*sa,v=-xx*sa+yy*ca,t=u/length;
-  if(Math.abs(t)>1)continue;
-  const rim=width*Math.pow(Math.max(0,1-t*t),.72)*(1+.10*Math.sin(Math.floor(u/Math.max(.3,scale)/5)*2));
+  const u=xx*ca+yy*sa,v=-xx*sa+yy*ca,t=u/length;if(Math.abs(t)>1)continue;
+  let rim=width*Math.pow(Math.max(0,1-t*t),variant===1?.9:.72);
+  if(variant===2)rim*=.74+.30*Math.abs(Math.sin((t+.08)*Math.PI*3.2));
+  if(variant===3)rim*=1+.10*Math.sin(Math.floor(u/Math.max(.3,scale)/5)*2)+(v>0?.06:-.04);
   if(Math.abs(v)>rim)continue;
-  const nick=Math.floor(u/Math.max(.3,scale)/7);if(nick%5===0&&v>rim-2*Math.max(.5,scale))continue;
-  let ink=color;
-  if(v>rim-1.4*Math.max(.5,scale))ink='#4b3b28';
-  else if(v< -rim+1.4*Math.max(.5,scale))ink='#ab8b50';
-  else if(Math.abs(v)<.8*Math.max(.6,scale))ink='#c0a06a';
-  else if(Math.abs((u+Math.abs(v)*1.5)%(13*Math.max(.45,scale)))<1.1*Math.max(.5,scale))ink='#594631';
-  else if((Math.floor(u/2)+Math.floor(v/2))%11===0)ink='#79603b';
-  else if(v<0&&Math.abs(v)<rim*.6)ink='#9b804b';
-  if(t>.15&&t<.35&&v>rim*.45&&v<rim*.7)continue;
+  const nick=Math.floor((u+17)/Math.max(.35,scale)/7);
+  if((variant===3&&nick%4===0&&v>rim-2.4*Math.max(.5,scale))||(variant===0&&nick%7===0&&v>rim-1.8*Math.max(.5,scale)))continue;
+  if(variant===2&&Math.abs(t)>.15&&Math.abs(t)<.82&&Math.abs(v)>rim*.72&&((Math.floor((t+1)*10)+Math.sign(v))%3===0))continue;
+  let ink=palette[1];
+  if(v>rim-1.4*Math.max(.5,scale))ink=palette[0];
+  else if(v< -rim+1.2*Math.max(.5,scale))ink=palette[2];
+  else if(Math.abs(v)<.75*Math.max(.6,scale))ink=palette[3];
+  else if((Math.floor(u/2)+Math.floor(v/2)+variant)%11===0)ink=palette[2];
+  if(variant===3&&t>.15&&t<.38&&v>rim*.35&&v<rim*.68)continue;
   px(c,x+xx,y+yy,1,1,ink);
  }
- for(let i=0;i<7*scale;i++)px(c,x-ca*(length+i),y-sa*(length+i),1,1,'#998057');
+ for(let i=0;i<(variant===1?10:7)*scale;i++)px(c,x-ca*(length+i),y-sa*(length+i),1,1,palette[4]);
 }
-function bark(x,y){
- // Fallen cork keeps its old silhouette, but grain and torn edges resolve at one-pixel detail.
- for(let row=-38;row<=40;row++)for(let col=-72;col<=72;col++){
-  const cap=Math.sqrt(Math.max(0,1-(col/74)**2)),top=-30*cap-4*Math.sin(col*.12),bottom=29*cap+4*Math.sin(col*.19);
-  if(row<top||row>bottom+8)continue;
-  if(row>bottom){px(ctx,x+col,y+row,1,1,'#1d281f');continue}
-  const groove=row+3*Math.sin(col*.055)+2*Math.sin(col*.17),band=Math.floor(groove/7);
-  let ink=['#6d5035','#77593a','#5c442f','#81613f'][((band%4)+4)%4];
-  if(row<top+2)ink='#ad8954';
-  else if(row>bottom-3)ink='#433426';
-  else if(Math.abs(groove%7)<.9)ink='#3e3125';
-  else if(Math.abs(groove%7)>5.6&&col%10!==0)ink='#917049';
-  if((col*17+row*31)%47===0)ink='#b08a58';
-  if(Math.abs(col)>60&&row%5===0)ink='#3b3025';
+// Main shelter: irregular bark slab with broken ends, offset grain and short cracks.
+function bark(x,y,variant=0){
+ const half=variant===1?68:variant===2?76:72,depth=variant===1?31:variant===2?35:33;
+ for(let row=-depth-9;row<=depth+10;row++)for(let col=-half-3;col<=half+3;col++){
+  const ncol=col/half,cap=Math.sqrt(Math.max(0,1-ncol*ncol));
+  const top=-depth*cap-4*Math.sin(col*.075+variant)-2*Math.sin(col*.19);
+  const bottom=depth*.82*cap+5*Math.sin(col*.11+1.7)-2*Math.sin(col*.23);
+  const broken=(variant===0?Math.sin(col*.31):Math.cos(col*.27+variant))*2;
+  if(row<top+broken||row>bottom+broken+7)continue;
+  if(row>bottom+broken){px(ctx,x+col,y+row,1,1,'#243027');continue}
+  const ridge=row+3*Math.sin(col*.052+variant)+1.8*Math.sin(col*.17),band=Math.floor((ridge+variant*2)/8);
+  let ink=['#5a422f','#6a4d32','#765638','#80613e','#634730'][((band%5)+5)%5];
+  if(row<top+broken+2)ink='#a17c4d';
+  else if(row>bottom+broken-3)ink='#3c3128';
+  else if(Math.abs((ridge+40)%8)<1)ink='#392f27';
+  else if((col*13+row*29+variant*17)%61===0)ink='#a48151';
   px(ctx,x+col,y+row,1,1,ink);
  }
- for(let yy=-8;yy<=8;yy++)for(let xx=-12;xx<=12;xx++){const d=(xx/12)**2+(yy/8)**2;if(d<1)px(ctx,x+18+xx,y-4+yy,1,1,d>.65?'#9a764a':d>.28?'#4b3727':'#322d22')}
- for(let i=0;i<20;i++){px(ctx,x-40+i,y+8+Math.round(Math.sin(i*.4)*2),2,1,'#342d23');if(i<10)px(ctx,x+40+i,y-12,1,1,'#423225')}
+ // Knot and split network break the old shell-like horizontal repetition.
+ const knotX=variant===1?-18:variant===2?24:12,knotY=variant===1?3:-5;
+ for(let yy=-7;yy<=7;yy++)for(let xx=-11;xx<=11;xx++){const d=(xx/11)**2+(yy/7)**2;if(d<1)px(ctx,x+knotX+xx,y+knotY+yy,1,1,d>.58?'#8c6842':d>.25?'#493528':'#2f2b24')}
+ for(let i=0;i<34;i++){const sx=-45+i,sy=8+Math.round(Math.sin(i*.28+variant)*3);if(i%3!==0)px(ctx,x+sx,y+sy,1,1,'#302b24')}
+ for(let i=0;i<20;i++){const sx=34+i,sy=-14+Math.round(i*.28)+Math.round(Math.sin(i*.5)*2);if(i%4!==0)px(ctx,x+sx,y+sy,1,1,'#453226')}
 }
-
+function woodChip(x,y,a,kind=0,scale=1){
+ const ca=Math.cos(a),sa=Math.sin(a),length=(kind===0?21:kind===1?28:17)*scale,width=(kind===2?8:6)*scale;
+ for(let yy=-Math.ceil(width);yy<=Math.ceil(width);yy++)for(let xx=-Math.ceil(length);xx<=Math.ceil(length);xx++){
+  const u=xx*ca+yy*sa,v=-xx*sa+yy*ca,t=u/length;if(Math.abs(t)>1)continue;
+  let rim=width*(1-Math.abs(t)*.58)+(kind===1?Math.sin(u*.45)*1.3:0);if(Math.abs(v)>rim)continue;
+  if(kind===2&&t>.1&&t<.35&&v>0)continue;
+  let ink=Math.abs(v)<1?'#a27b48':v<0?'#7c5b38':'#5b432e';
+  if(Math.abs(t)>.86)ink='#403329';
+  if((Math.floor(u)+Math.floor(v)*5+kind)%17===0)ink='#b08b55';
+  px(ctx,x+xx,y+yy,1,1,ink);
+ }
+}
+function sphagnumPatch(cx,cy,rx,ry,seed=0){
+ const greens=['#354638','#40523d','#4d6244','#60704c','#78805a'];
+ for(let i=0;i<150;i++){
+  const a=(i*2.399+seed*.73),r=Math.sqrt(((i*37+seed*13)%149)/149);
+  const x=cx+Math.cos(a)*rx*r*(.82+.18*Math.sin(i*.61+seed)),y=cy+Math.sin(a)*ry*r;
+  const edge=((x-cx)/rx)**2+((y-cy)/ry)**2;if(edge>1+.08*Math.sin(i))continue;
+  const base=greens[(i+seed)%4];px(ctx,x,y,2+(i%3===0),1+(i%4===0),base);
+  if(i%5===0){const len=3+i%4;for(let j=1;j<=len;j++){px(ctx,x,y-j,1,1,greens[2+(j+i)%3]);if(j>1&&j%2===0)px(ctx,x+(i%2?1:-1),y-j,1,1,greens[1+(i+j)%3])}}
+ }
+}
 function scenery(t){
- // Moss, stones, roots and litter now include one-pixel highlights while retaining the old composition.
- for(let i=0;i<420;i++){const x=(i*67)%384,y=(i*83)%430;
-  if(x<65+28*Math.sin(y*.03)||y>370+15*Math.sin(x*.05)){
-   px(ctx,x,y,3+i%4,1+i%3,["#39472e","#4b5837","#607044","#748052"][i%4]);px(ctx,x-1,y+2,3,1,"#435333");
-   if(i%7===0)px(ctx,x+1,y-1,1,1,"#a3a77a");
-  }
+ // Sphagnum/moss is now tufted and discontinuous instead of one large polygonal green carpet.
+ sphagnumPatch(48,80,36,58,1);sphagnumPatch(42,184,31,70,3);sphagnumPatch(48,318,38,58,5);sphagnumPatch(323,390,34,25,8);
+ // Pebbles stay subdued so the leaf litter carries more visual variety.
+ for(let i=0;i<34;i++){const x=30+(i*73)%330,y=25+(i*119)%380;
+  px(ctx,x,y,7,4,'#2d2d23');px(ctx,x,y-2,5,3,['#77715a','#67694f','#8b8167'][i%3]);if(i%3===0)px(ctx,x+1,y-2,1,1,'#aaa486');
  }
- for(let i=0;i<38;i++){const x=30+(i*73)%330,y=25+(i*119)%380;
-  px(ctx,x,y,8,5,"#2d2d23");px(ctx,x,y-2,6,3,["#77715a","#67694f","#8b8167"][i%3]);px(ctx,x+1,y-2,1,1,"#b4ad8a");px(ctx,x+5,y+1,1,1,'#4a493b');
+ // Fine root / twig line on the right side.
+ for(let i=0;i<58;i++){const x=278+Math.sin(i*.075)*27,y=18+i*5;px(ctx,x,y,3,5,'#302a20');px(ctx,x+1,y,1,4,'#705338');if(i%6===0)for(let j=0;j<7;j++)px(ctx,x-j*3,y+j,3,1,'#5e4830')}
+ // Leaf litter: several silhouettes and several earth-toned palettes.
+ for(let i=0;i<18;i++){
+  const x=31+(i*91)%326,y=27+(i*63)%370,variant=i%4,tone=(i*3+1)%LEAF_PALETTES.length;
+  leaf(ctx,x,y,i*.79,variant,.20+(i%4)*.045,tone);
  }
- for(let i=0;i<60;i++){const x=275+Math.sin(i*.07)*30,y=20+i*5;px(ctx,x,y,4,6,"#302a20");px(ctx,x+1,y,1,5,"#705338");if(i%5===0)for(let j=0;j<8;j++)px(ctx,x-j*3,y+j,3,1,"#5e4830")}
- for(let i=0;i<14;i++)leaf(ctx,35+(i*91)%320,30+(i*63)%365,i*.8,["#897246","#a08750","#645336"][i%3],.22+(i%3)*.08);
- for(const [x,y] of [[52,60],[40,330],[323,382]])for(let i=0;i<6;i++)for(let j=0;j<9;j++){
-  const a=i*Math.PI/3,xx=x+Math.cos(a)*j*3,yy=y+Math.sin(a)*j*3;
-  px(ctx,xx,yy,2,2,"#768253");if(j%2===0){px(ctx,xx-3,yy,4,1,"#4f6940");px(ctx,xx,yy-2,4,1,"#627b49")}if(j%3===0)px(ctx,xx+1,yy-1,1,1,'#9ba173');
- }
+ // Small wood debris in three shapes; main shelter remains the dominant wood object.
+ const chips=[[106,101,.55,0,.75],[337,119,-.35,1,.66],[82,382,2.55,2,.82],[258,350,-1.0,0,.6],[160,57,.15,2,.55],[320,269,2.15,1,.55]];
+ for(const [x,y,a,kind,s] of chips)woodChip(x,y,a,kind,s);
 }
 
 new ResizeObserver(()=>drawHabitat(0)).observe(canvas);
