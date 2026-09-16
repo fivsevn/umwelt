@@ -5,7 +5,7 @@ import {environmentTarget} from './environment.mjs?v=cohort-4';
 import {stableHash} from './sprites.mjs?v=appendage-2';
 export const MOTIONS=['contact','follow','feed','gather','yield','climb','groom','molt','shell','border','defend','emerge','orbit','rest','under','disperse','parallel','wall','hesitate'];
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-export function makeIndividuals(seed,speed=.82){return (Array.isArray(seed)?seed:cohortFor('dairy',seed)).map((specimen,id)=>{
+export function makeIndividuals(seed,speed=.68){return (Array.isArray(seed)?seed:cohortFor('dairy',seed)).map((specimen,id)=>{
  const h=stableHash(specimen.seed),stage=specimen.stage;return {id,specimenId:specimen.id,species:specimen.species,seed:specimen.seed,x:55+h%260,y:65+(h>>>8)%290,a:(h%628)/100,speed:(.65+(h>>>12)%70/100)*speed*speciesById(specimen.species).speed,size:.94+(h>>>18)%13/100,stage,alertness:.25+(h>>>16)%60/100,pause:2+(h>>>20)%5,offset:h%190/10,hidden:false,posture:'normal',moving:false,molt:'none',occlusion:0,phase:0,gaitPhase:h%4};
 })}
 export function actorOrder(group,encounter){
