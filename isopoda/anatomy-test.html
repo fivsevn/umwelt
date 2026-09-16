@@ -2,12 +2,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>阿西莫夫形态实验室 · Asimov Morphology Lab</title>
-<link rel="stylesheet" href="./anatomy-test.css?v=3">
+<link rel="stylesheet" href="./anatomy-test.css?v=4">
 <main class="anatomy-app">
   <header class="topbar">
     <div class="lab-title">
       <div class="lab-code">ASIMOV / ONISCIDEA · MORPHOLOGY ARRAY 13</div>
-      <h1>阿西莫夫形态实验室 <span>ASIMOV MORPHOLOGY LAB</span></h1>
+      <h1><span class="zh-title">阿西莫夫形态实验室</span><span class="en-title">ASIMOV MORPHOLOGY LAB</span></h1>
       <p>把一只鼠妇拆成可独立变化的形态模块，再逐一核对它们的依据。</p>
     </div>
     <div class="lab-status"><span>LAB NOTE 07</span><b>LIVE RENDER</b><small>64 px dorsal morphology</small></div>
@@ -38,6 +38,25 @@
     <div class="viewer">
       <div class="viewer-label"><span>EXPLODED SPECIMEN</span><small id="viewerSpecies">—</small></div>
       <div id="stage" class="exploded-stage" aria-label="鼠妇形态拆解图"></div>
+
+      <div class="vhs-deck" aria-label="录像观察窗">
+        <button class="vhs-card vhs-roll" type="button" data-focus="conglobation">
+          <span class="vhs-head"><i>● REC</i><b>ROLL TEST</b><em id="rollMode">—</em></span>
+          <span class="vhs-screen"><canvas id="vhsRoll" width="64" height="64"></canvas></span>
+          <small>CAM 03 · CONGLOBATION</small>
+        </button>
+        <button class="vhs-card vhs-headcam" type="button" data-focus="cephalon">
+          <span class="vhs-head"><i>● REC</i><b>HEAD CAM</b><em>02:17:43</em></span>
+          <span class="vhs-screen"><canvas id="vhsHead" width="64" height="64"></canvas></span>
+          <small>CAM 01 · CEPHALON / ANTENNA II</small>
+        </button>
+        <button class="vhs-card vhs-tailcam" type="button" data-focus="uropods">
+          <span class="vhs-head"><i>● REC</i><b>TAIL CAM</b><em>02:18:09</em></span>
+          <span class="vhs-screen"><canvas id="vhsTail" width="64" height="64"></canvas></span>
+          <small>CAM 02 · POSTERIOR ARRAY</small>
+        </button>
+      </div>
+
       <div class="hint">HOVER / CLICK · 同一套 renderer，仅由 CSS 拉开部位</div>
     </div>
 
@@ -68,8 +87,8 @@
 </main>
 
 <script type="module">
-import {SPECIES} from './species.mjs?v=anatomy-lab-3';
-import {renderModel,pixelAnatomy} from './sprites.mjs?v=anatomy-lab-3';
+import {SPECIES} from './species.mjs?v=anatomy-lab-4';
+import {renderModel,pixelAnatomy} from './sprites.mjs?v=anatomy-lab-4';
 
 const stage=document.querySelector('#stage');
 const list=document.querySelector('#partList');
@@ -87,7 +106,7 @@ const INFO={
  pleon:{zh:'腹部',en:'Pleon',evidence:'POSTERIOR TEMPLATE',description:'控制腹部长度、宽度和向后收窄程度，并与尾节、尾肢共同形成后半身轮廓。',targets:['pleon'],refs:['shultz2018']},
  pleotelson:{zh:'尾节',en:'Pleotelson',evidence:'TAIL TEMPLATE',description:'控制尾节长度、宽度、末端外形以及部分类群的 keel 代理；不同类群不再共用一个尾巴。',targets:['pleotelson'],refs:['shultz2018','taiti2015','cifuentes2020']},
  uropods:{zh:'尾肢',en:'Uropods',evidence:'TAIL TEMPLATE',description:'控制尾肢突出程度、位置、粗细与排列。Porcellio 的后突型与卷球类群的紧凑 / flush 型在此分开。',targets:['uropods'],refs:['shultz2018','taiti2015']},
- conglobation:{zh:'卷球策略',en:'Conglobation strategy',evidence:'BODY-PLAN / BEHAVIOUR',description:'这是系统层而不是单独器官：不同类群可以完全卷球、部分卷曲或基本不卷。',targets:['pereon','epimera','cephalon','pleon','pleotelson','uropods','antennae','pereopods'],refs:['taiti2015','kastle2025']}
+ conglobation:{zh:'卷球策略',en:'Conglobation strategy',evidence:'BODY-PLAN / BEHAVIOUR',description:'这是系统层而不是单独器官：不同类群可以完全卷球、部分卷曲或基本不卷。上方 ROLL TEST 录像窗直接显示当前 renderer 的 curled 姿态。',targets:['pereon','epimera','cephalon','pleon','pleotelson','uropods','antennae','pereopods'],refs:['taiti2015','kastle2025']}
 };
 const ORDER=['body','cephalon','antennae','pereon','epimera','surface','pereopods','pleon','pleotelson','uropods','conglobation'];
 const GROUPS=[
@@ -153,6 +172,27 @@ function makeLayer(group){
  wrap.append(canvas);stage.append(wrap);return wrap;
 }
 
+function drawModules(canvas,modules,{filter=()=>true,scale=1,offsetX=0,offsetY=0}={}){
+ const ctx=canvas.getContext('2d');ctx.clearRect(0,0,64,64);ctx.imageSmoothingEnabled=false;
+ for(const module of modules){
+  if(!filter(module.region))continue;
+  for(const [x,y,color] of module.cells){
+   const px=Math.round(32+offsetX+x*scale),py=Math.round(32+offsetY+y*scale);
+   if(px<0||px>=64||py<0||py>=64)continue;
+   ctx.fillStyle=color;ctx.fillRect(px,py,Math.max(1,Math.round(scale)),Math.max(1,Math.round(scale)));
+  }
+ }
+}
+function renderVhs(){
+ const normal=pixelAnatomy(model,{posture:'resting',phase:0,moving:false});
+ const curled=pixelAnatomy(model,{posture:'curled',phase:0,moving:false});
+ drawModules(document.querySelector('#vhsRoll'),curled,{scale:1.20});
+ drawModules(document.querySelector('#vhsHead'),normal,{filter:r=>r==='cephalon'||r==='antennae',scale:1.55,offsetX:-13});
+ drawModules(document.querySelector('#vhsTail'),normal,{filter:r=>r==='pleon'||r==='pleotelson'||r==='uropods',scale:1.65,offsetX:17});
+ const c=model.visual.conglobation||{};
+ document.querySelector('#rollMode').textContent=(c.ability||'none').toUpperCase();
+}
+
 function templateFor(key){
  const v=model.visual;
  if(key==='body')return {template:v.morphologyKey||'body-proportion layer',confidence:'render morphology'};
@@ -192,7 +232,7 @@ function renderSpecies(index){
  document.querySelector('#specimenIndex').textContent=`${String(speciesIndex+1).padStart(2,'0')} / ${String(SPECIES.length).padStart(2,'0')}`;
  document.querySelector('#morphologyKey').textContent=`morphology: ${model.visual.morphologyKey||'—'}`;
  stage.setAttribute('aria-label',`${species.name} ${species.label} exploded morphology`);
- renderReferences();show('body');
+ renderVhs();renderReferences();show('body');
 }
 
 const zh=document.querySelector('#partZh'),en=document.querySelector('#partEn'),desc=document.querySelector('#partDescription'),evidence=document.querySelector('#evidence'),template=document.querySelector('#partTemplate'),confidence=document.querySelector('#partConfidence');
@@ -203,6 +243,7 @@ function show(key){
  const focused=key!=='body';stage.classList.toggle('has-selection',focused);
  for(const layer of layers)layer.classList.toggle('is-active',focused&&info.targets.includes(layer.dataset.semantic));
  for(const button of list.querySelectorAll('.part-button'))button.setAttribute('aria-pressed',String(button.dataset.key===key));
+ for(const card of document.querySelectorAll('.vhs-card'))card.classList.toggle('is-relevant',card.dataset.focus===key||(key==='antennae'&&card.dataset.focus==='cephalon')||(['pleon','pleotelson'].includes(key)&&card.dataset.focus==='uropods'));
  const related=new Set(info.refs||[]);
  for(const ref of referenceList.querySelectorAll('.reference'))ref.classList.toggle('is-relevant',related.has(ref.dataset.ref));
 }
@@ -220,6 +261,7 @@ function hitTest(ev){
 stage.addEventListener('pointermove',ev=>{if(locked)return;const hit=hitTest(ev);show(hit||'body');stage.style.cursor=hit?'pointer':'default'});
 stage.addEventListener('pointerleave',()=>{if(!locked)show('body')});
 stage.addEventListener('click',ev=>{const hit=hitTest(ev);if(hit){locked=hit;show(hit)}else{locked=null;show('body')}});
+for(const card of document.querySelectorAll('.vhs-card'))card.addEventListener('click',()=>{locked=card.dataset.focus;show(locked)});
 select.addEventListener('change',()=>renderSpecies(Number(select.value)));
 document.querySelector('#prevSpecies').addEventListener('click',()=>renderSpecies(speciesIndex-1));
 document.querySelector('#nextSpecies').addEventListener('click',()=>renderSpecies(speciesIndex+1));
