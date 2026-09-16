@@ -5,9 +5,9 @@ import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?
 import {encounterById,responseMode} from './encounters.mjs?v=cohort-4';
 import {pixelAnatomy,renderModel} from './sprites.mjs?v=cohort-4';
 import {speciesById} from './species.mjs?v=cohort-4';
-// Habitat scenery and specimens share one world unit per visible pixel.
+// Habitat scenery and specimens share one world lattice, but scenery is allowed to sit one visual step behind the specimens.
 export const SCENE_PIXEL=1;
-const SCENE_ACTOR_SCALE=.94,SCENE_OUTPUT_SCALE=.82;
+const SCENE_ACTOR_SCALE=.94,SCENE_OUTPUT_SCALE=.76,BACKGROUND_SCALE=.72;
 export function sceneActorPixels(source,actor){
  const cells=new Map(),size=SCENE_ACTOR_SCALE*actor.model.growth.scale,ca=Math.cos(actor.a),sa=Math.sin(actor.a);
  const centerX=Math.round(actor.x),centerY=Math.round(actor.y+(actor.lift||0));
@@ -28,6 +28,8 @@ export function cameraWindow(width,height,zoom=1,x=192,y=215){
 }
 export function createHabitat(canvas,layer,getState){
 const display=canvas.getContext('2d'),world=document.createElement('canvas');world.width=384;world.height=430;
+const backdrop=document.createElement('canvas');backdrop.width=Math.round(world.width*BACKGROUND_SCALE);backdrop.height=Math.round(world.height*BACKGROUND_SCALE);
+const backdropCtx=backdrop.getContext('2d');backdropCtx.imageSmoothingEnabled=false;
 const overlay=document.createElement('canvas');overlay.width=384;overlay.height=430;const overlayCtx=overlay.getContext('2d'),reactions=createReactions();
 const ctx=world.getContext('2d');ctx.imageSmoothingEnabled=false;
 let state=getState(),critters=[],last=0,active=false,effect=null,frame=0,encounter=null,elapsed=0,empty=false;
@@ -42,7 +44,7 @@ function stage(scene){interaction.cancel();encounter=encounterById(scene.encount
 function react(id){state=getState();const point=actionFocus(id,state,encounter);const selected=[...critters].sort((a,b)=>Math.hypot(a.x-point.x,a.y-point.y)-Math.hypot(b.x-point.x,b.y-point.y)).slice(0,2).map(c=>c.id);effect={id,selected,mode:responseMode(id),start:elapsed,until:elapsed+10};drawHabitat(performance.now())}
 function present(){
  const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;
- // Render the whole habitat slightly below CSS resolution so scenery and specimens gain the same modest pixel weight.
+ // Specimens lose only one display step; the backdrop is separately coarsened before they are composited.
  const w=Math.max(80,Math.round(rect.width*SCENE_OUTPUT_SCALE)),h=Math.max(80,Math.round(rect.height*SCENE_OUTPUT_SCALE));
  if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h}
  display.imageSmoothingEnabled=false;
@@ -67,9 +69,13 @@ const interaction=bindPointerInteraction(canvas,{
 canvas.addEventListener('wheel',e=>{e.preventDefault();zoom(camera.zoom+(e.deltaY<0?.25:-.25));const label=document.querySelector('#zoomLevel');if(label)label.textContent=camera.zoom.toFixed(1)+'×'},{passive:false});
 function tick(t){if(!active)return;if(!document.hidden&&t-last>50){const dt=Math.min(.1,(t-last)/1000);state=getState();elapsed+=dt;stepIndividuals(critters,{encounter,state,time:elapsed,dt,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null,reduced});reactions.update(critters,{encounter,state,time:elapsed,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});drawHabitat(t);last=t}frame=requestAnimationFrame(tick)}
 function px(c,x,y,w,h,color){c.fillStyle=color;c.fillRect(Math.round(x),Math.round(y),Math.max(1,Math.round(w)),Math.max(1,Math.round(h)))}
+function coarsenScenery(){
+ backdropCtx.clearRect(0,0,backdrop.width,backdrop.height);backdropCtx.drawImage(world,0,0,backdrop.width,backdrop.height);
+ ctx.clearRect(0,0,world.width,world.height);ctx.imageSmoothingEnabled=false;ctx.drawImage(backdrop,0,0,backdrop.width,backdrop.height,0,0,world.width,world.height);
+}
 function drawHabitat(t){
  const w=world.width,h=world.height;ctx.fillStyle="#443729";ctx.fillRect(0,0,w,h);
- // Broad loam shapes stay quiet; a second one-pixel pass supplies the finer grain.
+ // Broad loam shapes stay quiet; a second one-pixel pass supplies the finer grain before final backdrop quantization.
  for(let yy=0;yy<h;yy+=2)for(let xx=0;xx<w;xx+=2){
   const n=Math.sin(xx*.031+Math.sin(yy*.023))*Math.cos(yy*.042)+Math.sin((xx+yy)*.018)*.45;
   if(n>.65)px(ctx,xx,yy,2,2,'#51422f');else if(n<-.65)px(ctx,xx,yy,2,2,'#302e25');
@@ -103,6 +109,7 @@ function drawHabitat(t){
  if(state.light<55){ctx.fillStyle=`rgba(15,27,21,${(55-state.light)/120})`;ctx.fillRect(0,0,w,h)}
  if(!reduced&&effect&&elapsed<effect.until&&['mist','wet-left','wet-all'].includes(effect.id))for(let i=0;i<18;i++){const x=12+(i*29)%(effect.id==='wet-all'?350:82),y=(i*71+t*.05)%420;px(ctx,x,y,1,2,'#91a994')}
  ctx.fillStyle="rgba(210,214,183,.055)";ctx.fillRect(3,3,w-6,h-6);ctx.strokeStyle="#93947c";ctx.lineWidth=3;ctx.strokeRect(1.5,1.5,w-3,h-3);
+ coarsenScenery();
  drawActors();
  present();
 }
