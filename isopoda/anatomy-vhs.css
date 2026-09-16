@@ -157,8 +157,13 @@
 @media(max-width:900px){
   html,body{height:auto!important;min-height:100%;overflow-x:hidden!important;overflow-y:auto!important}
   body{display:block!important}
-  .anatomy-app{height:auto!important;min-height:100dvh!important;overflow:visible!important}
-  .workspace{overflow:visible!important}
+  .anatomy-app{
+    height:auto!important;
+    min-height:100dvh!important;
+    overflow:visible!important;
+    grid-template-rows:auto auto auto auto!important;
+  }
+  .workspace{overflow:visible!important;min-height:0!important}
   .viewer{
     display:block!important;
     position:relative!important;
@@ -180,10 +185,22 @@
   .part-button{grid-template-columns:minmax(0,1fr)!important;align-content:start;min-height:0!important;padding:8px 9px!important}
   .part-button small{justify-self:start;text-align:left;max-width:100%;margin-top:3px}
   .side-stack{grid-template-columns:1fr!important;grid-template-rows:auto!important;overflow:visible!important}
-  .inspector,.references,.reference-list{overflow:visible!important;max-height:none!important}
+  .inspector,.references,.reference-list{overflow:visible!important;max-height:none!important;height:auto!important}
+  .references{display:block!important}
+  .reference-list{display:grid!important;grid-template-rows:none!important}
+  .reference{height:auto!important;min-height:0!important;overflow:visible!important}
+  .reference cite,.reference p,.reference b,.reference a{max-width:100%;white-space:normal!important;overflow-wrap:anywhere!important;word-break:break-word!important}
   .specimen-readout span,.specimen-readout small{white-space:normal!important;overflow:visible!important;text-overflow:clip!important}
   .species-picker,.species-picker select{min-width:0;max-width:100%}
-  .footer{flex-wrap:wrap;row-gap:4px}
+  .footer{
+    position:static!important;
+    flex-wrap:wrap;
+    row-gap:4px;
+    margin-top:10px!important;
+    padding-top:6px!important;
+    padding-bottom:10px!important;
+    clear:both;
+  }
   .vhs-roll{top:50px!important}
   .vhs-headcam{left:16px!important;bottom:46px!important}
   .vhs-tailcam{right:16px!important;bottom:46px!important}
@@ -198,6 +215,8 @@
   .vhs-head em{display:none}
   .vhs-headcam{left:10px!important;bottom:42px!important}
   .vhs-tailcam{right:10px!important;bottom:42px!important}
+  .references{padding-bottom:4px!important}
+  .reference-list{padding-bottom:8px!important}
 }
 
 @media(max-width:520px){
@@ -218,7 +237,8 @@
   .vhs-tailcam{right:8px!important;bottom:40px!important}
   .hint{max-width:70%;white-space:normal;line-height:1.4}
   .viewer::after{display:none}
-  .footer{display:grid!important;gap:3px!important}
+  .footer{display:grid!important;gap:5px!important;margin-top:12px!important}
+  .reference{padding:8px!important}
 }
 
 @media(max-width:380px){
@@ -229,15 +249,18 @@
   .vhs-roll{top:48px!important}
   .lab-title .zh-title{font-size:16px!important}
   .lab-title .en-title{font-size:9px!important}
+  .reference{padding:7px!important}
+  .reference cite,.reference p{font-size:8px!important;line-height:1.55!important}
 }
 
 /* An extremely short desktop cannot honestly be a one-screen layout: scroll instead of cropping content. */
 @media(max-height:560px) and (min-width:901px){
   html,body{height:auto!important;min-height:100%;overflow:auto!important}
   body{display:block!important}
-  .anatomy-app{height:auto!important;min-height:100dvh!important;overflow:visible!important}
+  .anatomy-app{height:auto!important;min-height:100dvh!important;overflow:visible!important;grid-template-rows:auto auto auto auto!important}
   .workspace{min-height:520px!important;overflow:visible!important}
   .layer-panel,.side-stack,.inspector,.references,.reference-list{overflow:visible!important;max-height:none!important}
+  .footer{position:static!important;margin-top:10px!important}
 }
 
 @media(prefers-reduced-motion:reduce){
