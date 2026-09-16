@@ -27,6 +27,12 @@ export function placeIndividual(actor,point){
 // A single captured pointer owns either an animal gesture or the existing camera pan.
 export function bindPointerInteraction(canvas,{enabled,worldPoint,hitTest,pan,draw}){
  let gesture=null;
+ // Mobile Safari/Chrome must treat the habitat as a game surface, not selectable page content.
+ canvas.style.touchAction='none';
+ canvas.style.userSelect='none';
+ canvas.style.webkitUserSelect='none';
+ canvas.style.webkitTouchCallout='none';
+ for(const type of ['selectstart','dragstart'])canvas.addEventListener(type,event=>event.preventDefault());
  const clear=()=>{if(gesture?.timer)clearTimeout(gesture.timer)};
  function finish(event,cancel=false){
   if(!gesture||(event&&event.pointerId!==gesture.id))return;
