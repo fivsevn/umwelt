@@ -2,7 +2,7 @@ import {stepInteraction} from './interaction.mjs?v=pointer-1';
 import {speciesById} from './species.mjs?v=cohort-4';
 import {cohortFor} from './engine.mjs?v=cohort-4';
 import {environmentTarget} from './environment.mjs?v=cohort-4';
-import {stableHash} from './sprites.mjs?v=cohort-4';
+import {stableHash} from './sprites.mjs?v=appendage-2';
 export const MOTIONS=['contact','follow','feed','gather','yield','climb','groom','molt','shell','border','defend','emerge','orbit','rest','under','disperse','parallel','wall','hesitate'];
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function makeIndividuals(seed,speed=1){return (Array.isArray(seed)?seed:cohortFor('dairy',seed)).map((specimen,id)=>{
@@ -68,9 +68,9 @@ export function stepIndividuals(group,{encounter,state={},time=0,dt=.05,reaction
   if(c.moving)for(const other of group){if(c===other)continue;const d=Math.hypot(c.x-other.x,c.y-other.y);if(d>0&&d<24){c.x+=(c.x-other.x)/d*(24-d)*dt;c.y+=(c.y-other.y)/d*(24-d)*dt}}
   c.x=clamp(c.x,24,355);c.y=clamp(c.y,30,400);c.posture=posture;c.molt=molt;c.activity=focus?motion:stop?'rest':'wander';c.role=i;
   c.occlusion=c.occlusion+clamp(hide-c.occlusion,-dt*.35,dt*.35);c.hidden=c.occlusion>=.99;
-  // Keep the four-frame appendage renderer visibly ahead of body translation: each travelled pixel advances 2.5 animation frames.
-  if(c.moving)c.gaitPhase=(c.gaitPhase??0)+travel*2.5;
-  c.phase=reduced?0:c.moving?Math.floor(c.gaitPhase):Math.floor((time+c.offset)*(posture==='grooming'?2:1));
+  // Keep appendage motion visible at low crawl speeds; reduced motion slows translation but no longer freezes anatomy frames.
+  if(c.moving)c.gaitPhase=(c.gaitPhase??0)+Math.max(travel*1.6,dt*8);
+  c.phase=c.moving?Math.floor(c.gaitPhase):Math.floor((time+c.offset)*(posture==='grooming'?2:1));
   c.lift=focus&&motion==='climb'?Math.round(Math.sin(time+i)*2):0;
  }
  return group;
