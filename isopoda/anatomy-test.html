@@ -2,13 +2,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>阿西莫夫形态实验室 · Asimov Morphology Lab</title>
-<link rel="stylesheet" href="./anatomy-test.css?v=2">
+<link rel="stylesheet" href="./anatomy-test.css?v=3">
 <main class="anatomy-app">
   <header class="topbar">
     <div class="lab-title">
       <div class="lab-code">ASIMOV / ONISCIDEA · MORPHOLOGY ARRAY 13</div>
       <h1>阿西莫夫形态实验室 <span>ASIMOV MORPHOLOGY LAB</span></h1>
-      <p>标本进入观察台。把一只鼠妇拆成可独立变化的形态模块，再逐一核对它们的依据。</p>
+      <p>把一只鼠妇拆成可独立变化的形态模块，再逐一核对它们的依据。</p>
     </div>
     <div class="lab-status"><span>LAB NOTE 07</span><b>LIVE RENDER</b><small>64 px dorsal morphology</small></div>
   </header>
@@ -32,13 +32,13 @@
     <aside class="layer-panel">
       <div class="panel-heading">ANATOMY LAYERS</div>
       <div class="part-list" id="partList"></div>
-      <div class="legend"><b>观察方法</b><br>悬停像素：临时查看<br>点击像素或名称：锁定<br>点击空白：回到整体<br><br>所有部位都直接来自当前游戏的 <code>pixelAnatomy()</code>。</div>
+      <div class="legend"><b>观察方法</b><br>悬停：临时查看 · 点击：锁定<br>点击空白：回到整体<br><span>所有像素直接来自 <code>pixelAnatomy()</code></span></div>
     </aside>
 
     <div class="viewer">
       <div class="viewer-label"><span>EXPLODED SPECIMEN</span><small id="viewerSpecies">—</small></div>
       <div id="stage" class="exploded-stage" aria-label="鼠妇形态拆解图"></div>
-      <div class="hint">HOVER / CLICK · 同一套 renderer，只有部位被 CSS 拉开</div>
+      <div class="hint">HOVER / CLICK · 同一套 renderer，仅由 CSS 拉开部位</div>
     </div>
 
     <aside class="side-stack">
@@ -54,80 +54,40 @@
         </div>
       </section>
 
-      <section class="references" aria-label="参考文献">
-        <header><span>REFERENCES / 参考文献</span><small>用于形态模板与解释，不代表所有贸易种均已完成种级鉴定。</small></header>
-        <div class="reference-list">
-          <article class="reference" data-ref="shultz2018">
-            <b>Shultz, J. W. (2018).</b>
-            <cite>A guide to the identification of the terrestrial Isopoda of Maryland, U.S.A. (Crustacea).</cite>
-            <span>ZooKeys, 801, 207–228. DOI: 10.3897/zookeys.801.24146.</span>
-            <p>中文说明：作为通用外部解剖框架，主要参考头部、胸部、腹部、第二触角、尾节与尾肢等结构，以及这些结构在鉴定中的意义。</p>
-            <a href="https://doi.org/10.3897/zookeys.801.24146" target="_blank" rel="noreferrer">OPEN SOURCE ↗</a>
-          </article>
-          <article class="reference" data-ref="taiti2015">
-            <b>Taiti, S., &amp; Wynne, J. J. (2015).</b>
-            <cite>The terrestrial Isopoda (Crustacea, Oniscidea) of Rapa Nui (Easter Island), with descriptions of two new species.</cite>
-            <span>ZooKeys, 515, 27–49. DOI: 10.3897/zookeys.515.9477.</span>
-            <p>中文说明：主要参考卷球型鼠妇的头部额盾、尾节和尾肢差异；尤其用于区分 Armadillidium 与 Venezillo 式的紧凑后端结构。</p>
-            <a href="https://doi.org/10.3897/zookeys.515.9477" target="_blank" rel="noreferrer">OPEN SOURCE ↗</a>
-          </article>
-          <article class="reference" data-ref="kastle2025">
-            <b>Kästle, B., &amp; Regalado Fernández, O. R. (2025).</b>
-            <cite>Facing the taxonomic impediment — a reassessment of Merulanella Verhoeff, 1926 (Oniscidea, Armadillidae) through historical specimens.</cite>
-            <span>Natural History Collections and Museomics, 2, 1–38. DOI: 10.3897/nhcm.2.144386.</span>
-            <p>中文说明：主要用于 Ardentiella / 旧 Merulanella 贸易类群的重新定位，参考其长细触角、侧板、尾部以及 runner 型生态形态；也提醒贸易名与正式分类不能直接画等号。</p>
-            <a href="https://doi.org/10.3897/nhcm.2.144386" target="_blank" rel="noreferrer">OPEN SOURCE ↗</a>
-          </article>
-          <article class="reference" data-ref="cifuentes2020">
-            <b>Cifuentes, J., &amp; Barranco, P. (2020).</b>
-            <cite>Porcellio selomai sp. n. (Oniscidea, Porcellionidae), un nuevo isópodo terrestre del medio subterráneo superficial (MSS) de la península ibérica.</cite>
-            <span>Boletín de la Asociación Española de Entomología, 44(1–2), 167–182.</span>
-            <p>中文说明：文中把 P. spatulatus 与近缘 Porcellio 做形态比较；本项目重点参考高露思的大型中央额叶、第三触角柄节的大型扁平齿，以及 habitus、尾节、尾肢和 scale-setae 图示。</p>
-            <a href="https://www.entomologica.es/publicaciones-boletin/art1818" target="_blank" rel="noreferrer">OPEN SOURCE ↗</a>
-          </article>
-          <article class="reference" data-ref="cifuentes2018">
-            <b>Cifuentes, J. (2018).</b>
-            <cite>Sobre algunos caracteres morfológicos en la identificación de las especies del género Porcellio Latreille, 1804: El papel de las sedas-escamas.</cite>
-            <span>Boletín de la Asociación Española de Entomología, 42(1–2), 71–91.</span>
-            <p>中文说明：用于理解 Porcellio 背甲表面的 scale-setae 为什么具有鉴定价值；在 64 px 中只转化成“表面雕刻/颗粒感”的视觉代理，不模拟显微结构本身。</p>
-            <a href="https://www.entomologica.es/publicaciones-boletin/en/vol72" target="_blank" rel="noreferrer">OPEN SOURCE ↗</a>
-          </article>
-          <article class="reference" data-ref="vittori2012">
-            <b>Vittori, M., Kostanjšek, R., Žnidaršič, N., &amp; Štrus, J. (2012).</b>
-            <cite>Molting and cuticle deposition in the subterranean trichoniscid Titanethes albus (Crustacea, Isopoda).</cite>
-            <span>ZooKeys, 176, 23–38. DOI: 10.3897/zookeys.176.2285.</span>
-            <p>中文说明：用于游戏中的双相蜕皮逻辑：鼠妇先蜕后半身，再蜕前半身，分界位于第 4 与第 5 胸节之间；它属于行为/生理框架，不是某个贸易种的专属特征。</p>
-            <a href="https://doi.org/10.3897/zookeys.176.2285" target="_blank" rel="noreferrer">OPEN SOURCE ↗</a>
-          </article>
-        </div>
+      <section class="references" aria-label="当前标本参考文献">
+        <header>
+          <span>SPECIMEN REFERENCES / 当前标本参考</span>
+          <small id="referenceSummary">仅显示与当前鼠妇形态模板直接相关的资料。</small>
+        </header>
+        <div class="reference-list" id="referenceList"></div>
       </section>
     </aside>
   </section>
 
-  <footer class="footer"><span>TEST PAGE · 尚未接入正式游戏</span><span>ASIMOV LAB / specimen morphology interface · <code>isopoda/anatomy-test.html</code></span></footer>
+  <footer class="footer"><span>TEST PAGE · 尚未接入正式游戏</span><span>ASIMOV LAB · <code>isopoda/anatomy-test.html</code></span></footer>
 </main>
 
 <script type="module">
-import {SPECIES} from './species.mjs?v=anatomy-lab-2';
-import {renderModel,pixelAnatomy} from './sprites.mjs?v=anatomy-lab-2';
+import {SPECIES} from './species.mjs?v=anatomy-lab-3';
+import {renderModel,pixelAnatomy} from './sprites.mjs?v=anatomy-lab-3';
 
 const stage=document.querySelector('#stage');
 const list=document.querySelector('#partList');
 const select=document.querySelector('#speciesSelect');
-const refs=[...document.querySelectorAll('.reference')];
+const referenceList=document.querySelector('#referenceList');
 
 const INFO={
- body:{zh:'整体比例',en:'Body proportions',evidence:'RENDER / MORPHOLOGY',description:'长度、宽度和背部拱度共同决定整体轮廓。这里不是单纯缩放图片，而是让后续头部、背板、腹部和附肢共享同一套身体空间。',targets:['pereon','epimera','cephalon','pleon','pleotelson','uropods','antennae','pereopods'],refs:['shultz2018']},
- cephalon:{zh:'头部',en:'Cephalon',evidence:'HEAD TEMPLATE',description:'控制头部宽度、前缘轮廓、额叶或额盾、眼位。Porcellio、Armadillidium、Venezillo 与 Ardentiella 不共用同一种头型。',targets:['cephalon'],refs:['shultz2018','taiti2015','cifuentes2020']},
+ body:{zh:'整体比例',en:'Body proportions',evidence:'RENDER / MORPHOLOGY',description:'长度、宽度和背部拱度共同决定整体轮廓。这里不是缩放图片，而是让头部、背板、腹部和附肢共享同一套身体空间。',targets:['pereon','epimera','cephalon','pleon','pleotelson','uropods','antennae','pereopods'],refs:['shultz2018']},
+ cephalon:{zh:'头部',en:'Cephalon',evidence:'HEAD TEMPLATE',description:'控制头部宽度、前缘轮廓、额叶或额盾、眼位。Porcellio、Armadillidium、Venezillo 与 Ardentiella 使用不同头型。',targets:['cephalon'],refs:['shultz2018','taiti2015','cifuentes2020']},
  antennae:{zh:'第二触角',en:'Antenna II',evidence:'ANTENNA TEMPLATE',description:'控制总长度、张角、弯曲、粗细和可见节比例；部分 Porcellio 还保留触角柄节特殊突起的像素代理。',targets:['antennae'],refs:['shultz2018','cifuentes2020','kastle2025']},
- pereon:{zh:'胸部背板',en:'Pereon tergites',evidence:'PEREON TEMPLATE',description:'七节胸部背板分别绘制，控制弧度、重叠与总体背甲轮廓；这是“同一只鼠妇换颜色”与真正形态拆分之间最核心的区别之一。',targets:['pereon'],refs:['shultz2018','kastle2025']},
- epimera:{zh:'侧板',en:'Epimera',evidence:'EPIMERA TEMPLATE',description:'控制侧板的宽度、叶形、裙缘、后角和外展程度。高露思的 paddle-like 宽侧板与 Ardentiella 的偏矩形侧板会在这里分开。',targets:['epimera'],refs:['cifuentes2020','kastle2025']},
- surface:{zh:'表面结构',en:'Surface sculpture',evidence:'SURFACE TEMPLATE',description:'控制背甲平滑、颗粒、tuberculation 与 scale-setae 的可读性代理。64 px 不足以表现真实显微结构，因此这里只保留“表面质感层”。',targets:['pereon'],refs:['cifuentes2018','cifuentes2020']},
- pereopods:{zh:'步足',en:'Pereopods',evidence:'ECO-MORPH PROXY',description:'七对步足按暴露度、相对伸长和步幅拆分。这里主要表现 runner / walker / compact roller 等生态形态，而不是雄性足节等显微鉴别结构。',targets:['pereopods'],refs:['kastle2025','shultz2018']},
- pleon:{zh:'腹部',en:'Pleon',evidence:'POSTERIOR TEMPLATE',description:'控制腹部长度、宽度和向后收窄程度，并与尾节和尾肢一起形成后半身的识别轮廓。',targets:['pleon'],refs:['shultz2018']},
- pleotelson:{zh:'尾节',en:'Pleotelson',evidence:'TAIL TEMPLATE',description:'控制尾节长度、宽度、末端外形以及部分类群的 keel 代理。三角、梯形、hourglass 等轮廓不会再共用一个尾巴。',targets:['pleotelson'],refs:['shultz2018','taiti2015','cifuentes2020']},
- uropods:{zh:'尾肢',en:'Uropods',evidence:'TAIL TEMPLATE',description:'控制尾肢突出程度、位置、粗细与排列。Porcellio 的后突型，与卷球类群的紧凑 / flush 型在此分开。',targets:['uropods'],refs:['shultz2018','taiti2015']},
- conglobation:{zh:'卷球策略',en:'Conglobation strategy',evidence:'BODY-PLAN / BEHAVIOUR',description:'这是系统层而不是单独器官：不同类群可以是完全卷球、部分卷曲或基本不卷。选择时高亮整个标本。',targets:['pereon','epimera','cephalon','pleon','pleotelson','uropods','antennae','pereopods'],refs:['taiti2015','kastle2025']}
+ pereon:{zh:'胸部背板',en:'Pereon tergites',evidence:'PEREON TEMPLATE',description:'七节胸部背板分别绘制，控制弧度、重叠与总体背甲轮廓，是主体结构拆分的核心。',targets:['pereon'],refs:['shultz2018','kastle2025']},
+ epimera:{zh:'侧板',en:'Epimera',evidence:'EPIMERA TEMPLATE',description:'控制侧板宽度、叶形、裙缘、后角和外展程度。高露思的宽侧板与 Ardentiella 的偏矩形侧板在这里分开。',targets:['epimera'],refs:['cifuentes2020','kastle2025']},
+ surface:{zh:'表面结构',en:'Surface sculpture',evidence:'SURFACE TEMPLATE',description:'控制背甲平滑、颗粒、tuberculation 与 scale-setae 的可读性代理。64 px 只保留表面质感层，不模拟显微结构。',targets:['pereon'],refs:['cifuentes2018','cifuentes2020']},
+ pereopods:{zh:'步足',en:'Pereopods',evidence:'ECO-MORPH PROXY',description:'七对步足按暴露度、相对伸长和步幅拆分，主要表现 runner / walker / compact roller 等生态形态。',targets:['pereopods'],refs:['kastle2025','shultz2018']},
+ pleon:{zh:'腹部',en:'Pleon',evidence:'POSTERIOR TEMPLATE',description:'控制腹部长度、宽度和向后收窄程度，并与尾节、尾肢共同形成后半身轮廓。',targets:['pleon'],refs:['shultz2018']},
+ pleotelson:{zh:'尾节',en:'Pleotelson',evidence:'TAIL TEMPLATE',description:'控制尾节长度、宽度、末端外形以及部分类群的 keel 代理；不同类群不再共用一个尾巴。',targets:['pleotelson'],refs:['shultz2018','taiti2015','cifuentes2020']},
+ uropods:{zh:'尾肢',en:'Uropods',evidence:'TAIL TEMPLATE',description:'控制尾肢突出程度、位置、粗细与排列。Porcellio 的后突型与卷球类群的紧凑 / flush 型在此分开。',targets:['uropods'],refs:['shultz2018','taiti2015']},
+ conglobation:{zh:'卷球策略',en:'Conglobation strategy',evidence:'BODY-PLAN / BEHAVIOUR',description:'这是系统层而不是单独器官：不同类群可以完全卷球、部分卷曲或基本不卷。',targets:['pereon','epimera','cephalon','pleon','pleotelson','uropods','antennae','pereopods'],refs:['taiti2015','kastle2025']}
 };
 const ORDER=['body','cephalon','antennae','pereon','epimera','surface','pereopods','pleon','pleotelson','uropods','conglobation'];
 const GROUPS=[
@@ -143,10 +103,22 @@ const GROUPS=[
  {name:'legs-bottom',semantic:'pereopods',className:'part-legs-bottom',match:r=>r==='legs',side:'bottom'}
 ];
 
+const REFERENCES={
+ shultz2018:{short:'Shultz 2018',citation:'Shultz, J. W. (2018). A guide to the identification of the terrestrial Isopoda of Maryland, U.S.A. (Crustacea). ZooKeys, 801, 207–228. DOI: 10.3897/zookeys.801.24146.',note:'通用外部解剖框架：头部、胸部、腹部、第二触角、尾节与尾肢，以及这些结构在鉴定中的意义。',url:'https://doi.org/10.3897/zookeys.801.24146'},
+ taiti2015:{short:'Taiti & Wynne 2015',citation:'Taiti, S., & Wynne, J. J. (2015). The terrestrial Isopoda (Crustacea, Oniscidea) of Rapa Nui (Easter Island), with descriptions of two new species. ZooKeys, 515, 27–49. DOI: 10.3897/zookeys.515.9477.',note:'用于卷球型鼠妇的额盾、尾节和尾肢差异，尤其帮助拆分 Armadillidium 与 Venezillo 式紧凑后端。',url:'https://doi.org/10.3897/zookeys.515.9477'},
+ kastle2025:{short:'Kästle & Regalado Fernández 2025',citation:'Kästle, B., & Regalado Fernández, O. R. (2025). Facing the taxonomic impediment — a reassessment of Merulanella Verhoeff, 1926 (Oniscidea, Armadillidae) through historical specimens. Natural History Collections and Museomics, 2, 1–38. DOI: 10.3897/nhcm.2.144386.',note:'用于 Ardentiella / 旧 Merulanella 贸易类群：长细触角、侧板、尾部和 runner 型生态形态，也用于提醒贸易名与正式分类不能直接画等号。',url:'https://doi.org/10.3897/nhcm.2.144386'},
+ cifuentes2020:{short:'Cifuentes & Barranco 2020',citation:'Cifuentes, J., & Barranco, P. (2020). Porcellio selomai sp. n. (Oniscidea, Porcellionidae), un nuevo isópodo terrestre del medio subterráneo superficial (MSS) de la península ibérica. Boletín de la Asociación Española de Entomología, 44(1–2), 167–182.',note:'文中比较 P. spatulatus 与近缘 Porcellio；高露思主要参考中央额叶、第三触角柄节的大型扁平齿、habitus、尾节与尾肢。',url:'https://www.entomologica.es/publicaciones-boletin/art1818'},
+ cifuentes2018:{short:'Cifuentes 2018',citation:'Cifuentes, J. (2018). Sobre algunos caracteres morfológicos en la identificación de las especies del género Porcellio Latreille, 1804: El papel de las sedas-escamas. Boletín de la Asociación Española de Entomología, 42(1–2), 71–91.',note:'用于 Porcellio 的 scale-setae 与背甲表面鉴定价值；游戏里只转化成表面雕刻/颗粒感代理。',url:'https://www.entomologica.es/publicaciones-boletin/en/vol72'}
+};
+
 const SPECIES_REFS={
- coros:['cifuentes2020'],diablo:['kastle2025'],ember:['kastle2025'],
- daxin:['taiti2015'],orange:['taiti2015'],cappuccino:['taiti2015'],pink:['taiti2015'],ducky:['taiti2015'],amber:['taiti2015'],vex:['taiti2015'],
- echinatus:['cifuentes2018'],dairy:['shultz2018'],bolivari:['shultz2018','cifuentes2018']
+ dairy:['shultz2018','cifuentes2018'],
+ echinatus:['shultz2018','cifuentes2018'],
+ coros:['cifuentes2020','cifuentes2018','shultz2018'],
+ bolivari:['shultz2018','cifuentes2018'],
+ diablo:['kastle2025','shultz2018'],ember:['kastle2025','shultz2018'],
+ cappuccino:['taiti2015','shultz2018'],pink:['taiti2015','shultz2018'],ducky:['taiti2015','shultz2018'],amber:['taiti2015','shultz2018'],vex:['taiti2015','shultz2018'],
+ daxin:['taiti2015','shultz2018'],orange:['taiti2015','shultz2018']
 };
 
 let speciesIndex=Math.max(0,SPECIES.findIndex(s=>s.id==='coros'));
@@ -196,6 +168,18 @@ function templateFor(key){
  return {template:'—',confidence:'—'};
 }
 
+function renderReferences(){
+ const ids=SPECIES_REFS[species.id]||['shultz2018'];
+ referenceList.replaceChildren();
+ for(const id of ids){
+  const ref=REFERENCES[id];if(!ref)continue;
+  const article=document.createElement('article');article.className='reference';article.dataset.ref=id;
+  article.innerHTML=`<b>${ref.short}</b><cite>${ref.citation}</cite><p><span>本项目参考：</span>${ref.note}</p><a href="${ref.url}" target="_blank" rel="noreferrer">OPEN SOURCE ↗</a>`;
+  referenceList.append(article);
+ }
+ document.querySelector('#referenceSummary').textContent=`当前标本 ${ids.length} 篇 · 仅显示与 ${species.name} 当前形态模板直接相关的资料。`;
+}
+
 function renderSpecies(index){
  speciesIndex=(index+SPECIES.length)%SPECIES.length;species=SPECIES[speciesIndex];select.value=String(speciesIndex);
  model=renderModel(species.visual||species,{stage:'adult',condition:'resting',seed:189+speciesIndex,moving:false});
@@ -208,7 +192,7 @@ function renderSpecies(index){
  document.querySelector('#specimenIndex').textContent=`${String(speciesIndex+1).padStart(2,'0')} / ${String(SPECIES.length).padStart(2,'0')}`;
  document.querySelector('#morphologyKey').textContent=`morphology: ${model.visual.morphologyKey||'—'}`;
  stage.setAttribute('aria-label',`${species.name} ${species.label} exploded morphology`);
- show('body');
+ renderReferences();show('body');
 }
 
 const zh=document.querySelector('#partZh'),en=document.querySelector('#partEn'),desc=document.querySelector('#partDescription'),evidence=document.querySelector('#evidence'),template=document.querySelector('#partTemplate'),confidence=document.querySelector('#partConfidence');
@@ -219,8 +203,8 @@ function show(key){
  const focused=key!=='body';stage.classList.toggle('has-selection',focused);
  for(const layer of layers)layer.classList.toggle('is-active',focused&&info.targets.includes(layer.dataset.semantic));
  for(const button of list.querySelectorAll('.part-button'))button.setAttribute('aria-pressed',String(button.dataset.key===key));
- const related=new Set([...(info.refs||[]),...(SPECIES_REFS[species?.id]||[])]);
- for(const ref of refs)ref.classList.toggle('is-relevant',related.has(ref.dataset.ref));
+ const related=new Set(info.refs||[]);
+ for(const ref of referenceList.querySelectorAll('.reference'))ref.classList.toggle('is-relevant',related.has(ref.dataset.ref));
 }
 function lockSelection(key){locked=key==='body'?null:key;show(key)}
 function hitTest(ev){
