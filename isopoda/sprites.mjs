@@ -1,4 +1,4 @@
-import {STAGES} from './phenotypes.mjs?v=cohort-4';
+import {STAGES} from './phenotypes.mjs?v=morphology-5';
 export const MOLT_REGIONS={anterior:['cephalon','p1','p2','p3','p4'],posterior:['p5','p6','p7','pleon','pleotelson','uropods']};
 export const POSTURES=['normal','resting','probing','tucked','curled','turning','feeding','grooming','molting','emerging'];
 export function stableHash(seed){let x=2166136261;for(const c of String(seed))x=Math.imul(x^c.charCodeAt(0),16777619);return x>>>0}
@@ -32,6 +32,7 @@ export function pixelAnatomy(m,{posture='normal',molt='none',phase=0,moving=m.mo
  const pale=region=>MOLT_REGIONS[molt]?.includes(region);
  function color(c,region){return pale(region)?mix(c,'#eee6d1',.58):c}
  function line(put,x,y,xx,yy,c){const d=Math.ceil(Math.max(Math.abs(xx-x),Math.abs(yy-y)));for(let i=0;i<=d;i++)put(x+(xx-x)*i/(d||1),y+(yy-y)*i/(d||1),c)}
+ function ribbon(put,x,y,xx,yy,c,thickness=1){line(put,x,y,xx,yy,c);if(thickness>1)line(put,x,y+1,xx,yy+1,c);if(thickness>2)line(put,x,y-1,xx,yy-1,c)}
  const width=Math.round(12*v.body.width*m.growth.widthRatio),stride=3.6*v.body.length;
  const center=n=>({x:Math.round(10-(n-1)*stride),y:bend*Math.round((n-4)*(n-4)/5)});
  if(full){
@@ -58,10 +59,67 @@ export function pixelAnatomy(m,{posture='normal',molt='none',phase=0,moving=m.mo
   const edge=Math.round(envelope(c.x))-1;
   line(leg,c.x+1,c.y+s*(edge-4),c.x+(frame%2),c.y+s*(edge+reach),mix(p.legs,'#353c2d',.55));
  }}
- const rear=center(7),tail=module('uropods');
- if(v.uropods.visibility>.2&&!tucked)for(const s of [-1,1])line(tail,back+2,rear.y+s*3,back-Math.round(v.uropods.projection*7),rear.y+s*(3+Math.round(v.uropods.spread*5)),color(p.uropods,'uropods'));
- const pleon=module('pleon');for(let n=0;n<5;n++){const x=rear.x-n-1,w=Math.round(envelope(x));for(let y=-w;y<=w;y++)pleon(x,rear.y+y,color(n%2?p.pleon:mix(p.pleon,'#292a24',.18),'pleon'))}
- const telson=module('pleotelson');for(let x=0;x<3;x++){const xx=rear.x-5-x,w=Math.round(envelope(xx));for(let y=-w;y<=w;y++)telson(xx,rear.y+y,color(Math.abs(y)>w-2?mix(p.pleotelson,'#292a24',.2):p.pleotelson,'pleotelson'))}
+
+ // Posterior anatomy now uses pleon, pleotelson and uropod templates instead of one shared tail silhouette.
+ const rear=center(7),pleon=module('pleon');
+ const pleonLen=Math.max(3,Math.round(3+v.pleon.length*8));
+ for(let n=0;n<pleonLen;n++){
+  const x=rear.x-n-1,envelopeW=Math.round(envelope(x));
+  const taper=1-(n/Math.max(1,pleonLen-1))*v.pleon.taper*.55;
+  const target=Math.max(2,Math.round(width*(.55+v.pleon.width*.35)*taper));
+  const w=Math.max(2,Math.min(envelopeW,target));
+  for(let y=-w;y<=w;y++){
+   const seam=n%2?0:v.pleon.segmentContrast||.2;
+   const col=Math.abs(y)>=w?mix(p.pleon,'#292a24',.22):seam?mix(p.pleon,'#292a24',seam):p.pleon;
+   pleon(x,rear.y+y,color(col,'pleon'));
+  }
+ }
+ const telson=module('pleotelson'),pt=v.pleotelson||{},telShape=pt.shape||pt.apex||'triangular-concave';
+ const telLen=Math.max(2,Math.round((2+(pt.length||.14)*10)*(pt.lengthScale||1)));
+ const telBase=Math.max(2,Math.round(width*(.20+(pt.width||.30)*.38)*(pt.widthScale||1)));
+ const telStart=rear.x-pleonLen-1;
+ for(let i=0;i<telLen;i++){
+  const u=i/Math.max(1,telLen-1);let factor=1-u*.55;
+  if(telShape==='triangular-concave')factor=Math.pow(1-u,.78)*.86+.14;
+  else if(telShape==='triangular-broad')factor=1-u*.62;
+  else if(telShape==='triangular-long')factor=1-u*.82;
+  else if(telShape==='pointed')factor=1-u*.92;
+  else if(telShape==='trapezoidal')factor=1-u*.24;
+  else if(telShape==='hourglass')factor=u<.55?1-u*.72:.60+(u-.55)*.28;
+  else if(telShape==='compact')factor=1-u*.34;
+  let w=Math.max(1,Math.round(telBase*factor));
+  if(['pointed','triangular-long'].includes(telShape)&&i===telLen-1)w=0;
+  if(pt.apex==='truncate'&&i===telLen-1)w=Math.max(2,w);
+  const xx=telStart-i;
+  for(let y=-w;y<=w;y++){
+   let col=p.pleotelson;
+   if(Math.abs(y)>=w&&w>0)col=mix(col,'#292a24',.22);
+   if(i===0)col=mix(col,p.light,.10);
+   telson(xx,rear.y+y,color(col,'pleotelson'));
+  }
+ }
+ const tail=module('uropods'),ur=v.uropods||{},mode=ur.mode||'projecting';
+ if(ur.visibility>.2&&!tucked){
+  const telTip=telStart-(telLen-1),thick=Math.max(1,Math.round((.65+(ur.thickness||.15)*3)*(ur.thicknessScale||1)));
+  for(const s of [-1,1]){
+   const attachY=rear.y+s*(telBase+1),ink=color(p.uropods,'uropods');
+   if(mode==='projecting'){
+    const extra=Math.max(1,Math.round((ur.projection||.2)*7));
+    const targetY=rear.y+s*(telBase+1+Math.round((ur.spread||.2)*5));
+    ribbon(tail,telStart+1,attachY,telTip-extra,targetY,ink,thick);
+   }else if(mode==='compact'){
+    const targetY=rear.y+s*(telBase+1+Math.round((ur.spread||.1)*2));
+    ribbon(tail,telStart+1,attachY,telTip-1,targetY,ink,thick);
+   }else if(mode==='flush-exopod'){
+    ribbon(tail,telStart+1,attachY,telTip+1,rear.y+s*Math.max(2,telBase-1),ink,Math.max(2,thick));
+   }else if(mode==='flush-protopod'){
+    const y0=rear.y+s*Math.max(2,telBase-1);
+    ribbon(tail,telStart+2,y0,telTip+1,y0,ink,Math.max(2,thick));
+    tail(telStart+1,rear.y+s*telBase,ink);
+   }
+  }
+ }
+
  for(let n=7;n>=1;n--){const c=center(n),region='p'+n,put=module(region),epi=module('epimera'+n),pal=regionPalette(m,'pereon',n);
   const plateWidth=Math.max(3,Math.round(stride+1));
   const cx=c.x;if(tucked)c.y+=Math.round((n-4)*(n-4)/12*closure);
@@ -103,22 +161,63 @@ export function pixelAnatomy(m,{posture='normal',molt='none',phase=0,moving=m.mo
    }
   }
  }
+
+ // Cephalon renderer: Porcellio gets a three-lobed frontal margin; compact rollers a shield-like head.
  const head=module('cephalon'),hx=tucked?12:14,hy=posture==='feeding'?2:posture==='emerging'?-2:bend?2:0;
- const hp=regionPalette(m,'cephalon'),hw=Math.round(width*(.70+v.cephalon.width*.12));
- for(let x=0;x<5;x++)for(let y=-Math.round(envelope(hx+x));y<=Math.round(envelope(hx+x));y++)head(hx+x,hy+y,color(x===4?mix(hp.base,'#222820',.25):hp.base,'cephalon'));
- if(!tucked)for(const s of [-1,1])head(hx+2,hy+s*Math.max(1,Math.round(envelope(hx+2))-2),'#20291f');
+ const hp=regionPalette(m,'cephalon'),ct=v.cephalon||{},hw=Math.max(3,Math.round(width*(.58+(ct.width||.55)*.18)));
+ const headLen=Math.max(4,Math.round(3+(ct.length||.7)*3)),rounded=(ct.shape||'').includes('rounded');
+ for(let ix=0;ix<headLen;ix++){
+  const u=ix/Math.max(1,headLen-1),frontRound=rounded?Math.round(u*u*(1+(ct.roundness||.5)*1.4)):Math.round(u*u*.7);
+  const half=Math.max(2,hw-frontRound),xx=hx+ix;
+  for(let y=-half;y<=half;y++){
+   let col=hp.base;
+   if(Math.abs(y)>=half)col=mix(col,'#222820',.22);
+   if(ix===0)col=mix(col,p.light,.08);
+   head(xx,hy+y,color(col,'cephalon'));
+  }
+ }
+ const frontX=hx+headLen,headShape=ct.shape||'trilobed';
+ if(headShape.startsWith('trilobed')){
+  const md=Math.max(1,Math.round((ct.medianProjection||.2)*4)),ld=Math.max(1,Math.round((ct.lateralProjection||.3)*3));
+  const ly=Math.max(2,Math.round(hw*(ct.lateralLobes||.55)));
+  for(let d=0;d<md;d++)for(let y=-1;y<=1;y++)head(frontX+d,hy+y,color(hp.base,'cephalon'));
+  for(const s of [-1,1])for(let d=0;d<ld;d++){
+   head(frontX+d,hy+s*ly,color(hp.base,'cephalon'));
+   head(frontX+d,hy+s*Math.max(1,ly-1),color(mix(hp.base,'#222820',d===ld-1?.10:0),'cephalon'));
+  }
+ }
+ if(ct.scutellum==='triangular'){
+  for(let d=0;d<3;d++)for(let y=-(2-d);y<=2-d;y++)head(frontX+d,hy+y,color(d===0?mix(hp.base,p.light,.14):hp.base,'cephalon'));
+ }else if(ct.scutellum==='subtle'){
+  for(let y=-1;y<=1;y++)head(frontX,hy+y,color(mix(hp.base,p.light,.10),'cephalon'));
+ }
+ if(!tucked)for(const s of [-1,1]){
+  const eyeY=hy+s*Math.max(2,Math.round(hw*(ct.eyeSet||.78)));
+  head(hx+Math.max(1,headLen-2),eyeY,'#20291f');
+ }
+
  const antenna=module('antennae'),length=Math.round((4+v.antennae.length*6)*(1+((h>>>8)%5-2)*.025)*m.growth.appendageRatio);
  for(const s of [-1,1]){
-  const startX=hx+3,startY=hy+s*Math.round(hw*.65);
+  const startX=frontX-1,startY=hy+s*Math.max(2,Math.round(hw*.64));
   const probe=posture==='probing'||posture==='emerging',groom=posture==='grooming';
   const sweep=Math.sin(frame*Math.PI/2)*.12;
   let angle=s*((posture==='resting'?.20:.38)+v.antennae.spread*.5+Math.sin(frame*Math.PI/2+s*.3)*.10)+sweep;
   const folds=tucked?[1.0,.9]:groom?[.95,.8]:probe?[.08,.08]:[v.antennae.bend+(frame===2?.48:0),frame===0?.04:.38];
   let x=startX,y=startY;
-  for(let j=0;j<3;j++){if(j)angle+=s*folds[j-1];const len=length*(v.antennae.joints||[.44,.32,.24])[j]*(tucked?.6:1),xx=x+Math.cos(angle)*len,yy=y+Math.sin(angle)*len;line(antenna,x,y,xx,yy,p.antennae);x=xx;y=yy}
-
+  for(let j=0;j<3;j++){
+   if(j)angle+=s*folds[j-1];
+   const len=length*(v.antennae.joints||[.44,.32,.24])[j]*(tucked?.6:1),xx=x+Math.cos(angle)*len,yy=y+Math.sin(angle)*len;
+   const antThickness=j===0&&v.antennae.thickness>.19?2:1;
+   ribbon(antenna,x,y,xx,yy,p.antennae,antThickness);
+   if(j===0&&v.antennae.peduncleArticle3Tooth){
+    const t=.56,tx=x+(xx-x)*t,ty=y+(yy-y)*t,tooth=v.antennae.peduncleArticle3Tooth==='long-wide'?2:1;
+    const px=-Math.sin(angle)*s,py=Math.cos(angle)*s;
+    ribbon(antenna,tx,ty,tx+px*tooth,ty+py*tooth,p.antennae,tooth>1?2:1);
+   }
+   x=xx;y=yy;
+  }
  }
- if(posture==='feeding'){const mouth=module('mouthparts');mouth(hx+5,hy+(frame%2),'#d0ba83');mouth(hx+4,hy+2,p.dark)}
+ if(posture==='feeding'){const mouth=module('mouthparts');mouth(frontX,hy+(frame%2),'#d0ba83');mouth(frontX-1,hy+2,p.dark)}
  if(posture==='molting'){const old=module('exuvia');const back=molt!=='anterior';for(let i=0;i<5;i++)old((back?-12:12)+i,-width-3+i%2,'#bdbca2')}
  return modules;
 }
