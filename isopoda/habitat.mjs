@@ -5,18 +5,20 @@ import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?
 import {encounterById,responseMode} from './encounters.mjs?v=cohort-4';
 import {pixelAnatomy,renderModel} from './sprites.mjs?v=cohort-4';
 import {speciesById} from './species.mjs?v=cohort-4';
-// All scene assets, including future actors, share two world units per pixel.
+// Scenery and actors stay on the same two-world-unit pixel lattice.
 export const SCENE_PIXEL=2;
+const SCENE_ACTOR_SCALE=1.25;
 export function sceneActorPixels(source,actor){
  const cells=[];
- const size=.98*actor.model.growth.scale,ca=Math.cos(actor.a),sa=Math.sin(actor.a);
-  const centerX=Math.round(actor.x/2)*2,centerY=Math.round((actor.y+(actor.lift||0))/2)*2;
-  for(let dy=-28;dy<=28;dy+=2)for(let dx=-28;dx<=28;dx+=2){
-   const sx=Math.round((dx*ca+dy*sa)/size),sy=Math.round((-dx*sa+dy*ca)/(size*.88));
-   const front=['under','gather'].includes(actor.activity);
-   if(actor.occlusion>0&&(front?sx>24-actor.occlusion*49:sx< -24+actor.occlusion*49))continue;
-   const color=source.get(sx+','+sy);if(color)cells.push([centerX+dx,centerY+dy,color]);
-  }
+ const size=SCENE_ACTOR_SCALE*actor.model.growth.scale,ca=Math.cos(actor.a),sa=Math.sin(actor.a);
+ const centerX=Math.round(actor.x/2)*2,centerY=Math.round((actor.y+(actor.lift||0))/2)*2;
+ const sample=(x,y)=>source.get(x+','+y)||source.get((x-1)+','+y)||source.get((x+1)+','+y)||source.get(x+','+(y-1))||source.get(x+','+(y+1));
+ for(let dy=-40;dy<=40;dy+=2)for(let dx=-40;dx<=40;dx+=2){
+  const sx=Math.round((dx*ca+dy*sa)/size),sy=Math.round((-dx*sa+dy*ca)/(size*.88));
+  const front=['under','gather'].includes(actor.activity);
+  if(actor.occlusion>0&&(front?sx>24-actor.occlusion*49:sx< -24+actor.occlusion*49))continue;
+  const color=sample(sx,sy);if(color)cells.push([centerX+dx,centerY+dy,color]);
+ }
  return cells;
 }
 export function cameraWindow(width,height,zoom=1,x=192,y=215){
@@ -67,43 +69,42 @@ canvas.addEventListener('wheel',e=>{e.preventDefault();zoom(camera.zoom+(e.delta
 function tick(t){if(!active)return;if(!document.hidden&&t-last>50){const dt=Math.min(.1,(t-last)/1000);state=getState();elapsed+=dt;stepIndividuals(critters,{encounter,state,time:elapsed,dt,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null,reduced});reactions.update(critters,{encounter,state,time:elapsed,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});drawHabitat(t);last=t}frame=requestAnimationFrame(tick)}
 function px(c,x,y,w,h,color){c.fillStyle=color;c.fillRect(Math.round(x/2)*2,Math.round(y/2)*2,Math.max(2,Math.round(w/2)*2),Math.max(2,Math.round(h/2)*2))}
 function drawHabitat(t){
-  const w=world.width,h=world.height;ctx.fillStyle="#443729";ctx.fillRect(0,0,w,h);
-  // Broad, broken loam patches give the litter depth before its fine grain.
-  for(let yy=0;yy<h;yy+=2)for(let xx=0;xx<w;xx+=2){
-   const n=Math.sin(xx*.031+Math.sin(yy*.023))*Math.cos(yy*.042)+Math.sin((xx+yy)*.018)*.45;
-   if(n>.65)px(ctx,xx,yy,2,2,'#51422f');else if(n<-.65)px(ctx,xx,yy,2,2,'#302e25');
-  }
-  // Soil aggregates use clustered cells, not isolated uniform confetti.
-  for(let i=0;i<570;i++){const x=(i*67+i%9*11)%w,y=(i*113+i%7*19)%h;
-   const shades=['#3d3429','#483c2e','#514331','#352f26','#5d4b36'];
-   px(ctx,x,y,4+i%3*2,2+i%2*2,shades[i%5]);
-   if(i%4===0)px(ctx,x+2,y+4,4,2,'#392f24');
-  }
-  const memory=environmentFor(state);
-  for(const z of memory.wetZones)for(let y=8;y<422;y+=2)for(let x=8;x<376;x+=2){
-   const radius=.5+z.moisture/100,edge=((x-z.x)/(z.rx*radius))**2+((y-z.y)/(z.ry*radius))**2;
-   if(edge<1+(Math.sin(y*.13)+Math.cos(x*.2))*.08)px(ctx,x,y,2,2,z.moisture>65?'#293d31':z.moisture>35?'#34402f':'#404030');
-  }
-  scenery(t);
-  for(const mark of memory.scuffs)for(let i=0;i<12;i++)px(ctx,mark.x-30+i*5,mark.y+i%3*2,4,2,'#69543a');
-  for(const l of memory.leaves){
-   if(l.gap)for(let x=-30;x<32;x+=2)px(ctx,l.x+x,l.y+15,2,6,'#202c22');
-   leaf(ctx,l.x,l.y,l.a,l.age>8?'#745936':'#a4824d',1-Math.min(l.age,20)*.006);
-  }
-  bark(memory.shelter.x,memory.shelter.y-(effect&&elapsed<effect.until&&effect.id==='lift'?12:0));
-  for(const f of memory.foodNodes){
-   for(let i=0;i<5;i++)px(ctx,f.x-8+i*4,f.y+10+i%2*4,2,2,'#806a42');
-   if(f.amount>0)for(let y=0;y<12;y+=2)for(let x=0;x<Math.min(22,8+f.amount*6);x+=2){if((x+y+f.age*2)%17<3)continue;px(ctx,f.x+x-8,f.y+y-6,2,2,y>7?'#8b7043':'#c6a86d')}
-  }
-  if(encounter&&!memory.removedShells.includes(encounter.id)&&['shell','molt'].includes(encounter.motion)){const [x,y]=encounter.place;px(ctx,x-20,y+10,7,4,'#c9c4a8');px(ctx,x-18,y+8,4,2,'#aaa990')}
-  if(state.light<55){ctx.fillStyle=`rgba(15,27,21,${(55-state.light)/120})`;ctx.fillRect(0,0,w,h)}
-  if(!reduced&&effect&&elapsed<effect.until&&['mist','wet-left','wet-all'].includes(effect.id))for(let i=0;i<18;i++){const x=12+(i*29)%(effect.id==='wet-all'?350:82),y=(i*71+t*.05)%420;px(ctx,x,y,2,3,'#91a994')}
-  ctx.fillStyle="rgba(210,214,183,.07)";ctx.fillRect(4,4,w-8,h-8);ctx.strokeStyle="#93947c";ctx.lineWidth=4;ctx.strokeRect(2,2,w-4,h-4);
-  drawActors();
-  present();
+ const w=world.width,h=world.height;ctx.fillStyle="#443729";ctx.fillRect(0,0,w,h);
+ // Broad, broken loam patches give the litter depth before its fine grain.
+ for(let yy=0;yy<h;yy+=2)for(let xx=0;xx<w;xx+=2){
+  const n=Math.sin(xx*.031+Math.sin(yy*.023))*Math.cos(yy*.042)+Math.sin((xx+yy)*.018)*.45;
+  if(n>.65)px(ctx,xx,yy,2,2,'#51422f');else if(n<-.65)px(ctx,xx,yy,2,2,'#302e25');
+ }
+ // Soil aggregates use clustered cells, not isolated uniform confetti.
+ for(let i=0;i<570;i++){const x=(i*67+i%9*11)%w,y=(i*113+i%7*19)%h;
+  const shades=['#3d3429','#483c2e','#514331','#352f26','#5d4b36'];
+  px(ctx,x,y,4+i%3*2,2+i%2*2,shades[i%5]);
+  if(i%4===0)px(ctx,x+2,y+4,4,2,'#392f24');
+ }
+ const memory=environmentFor(state);
+ for(const z of memory.wetZones)for(let y=8;y<422;y+=2)for(let x=8;x<376;x+=2){
+  const radius=.5+z.moisture/100,edge=((x-z.x)/(z.rx*radius))**2+((y-z.y)/(z.ry*radius))**2;
+  if(edge<1+(Math.sin(y*.13)+Math.cos(x*.2))*.08)px(ctx,x,y,2,2,z.moisture>65?'#293d31':z.moisture>35?'#34402f':'#404030');
+ }
+ scenery(t);
+ for(const mark of memory.scuffs)for(let i=0;i<12;i++)px(ctx,mark.x-30+i*5,mark.y+i%3*2,4,2,'#69543a');
+ for(const l of memory.leaves){
+  if(l.gap)for(let x=-30;x<32;x+=2)px(ctx,l.x+x,l.y+15,2,6,'#202c22');
+  leaf(ctx,l.x,l.y,l.a,l.age>8?'#745936':'#a4824d',1-Math.min(l.age,20)*.006);
+ }
+ bark(memory.shelter.x,memory.shelter.y-(effect&&elapsed<effect.until&&effect.id==='lift'?12:0));
+ for(const f of memory.foodNodes){
+  for(let i=0;i<5;i++)px(ctx,f.x-8+i*4,f.y+10+i%2*4,2,2,'#806a42');
+  if(f.amount>0)for(let y=0;y<12;y+=2)for(let x=0;x<Math.min(22,8+f.amount*6);x+=2){if((x+y+f.age*2)%17<3)continue;px(ctx,f.x+x-8,f.y+y-6,2,2,y>7?'#8b7043':'#c6a86d')}
+ }
+ if(encounter&&!memory.removedShells.includes(encounter.id)&&['shell','molt'].includes(encounter.motion)){const [x,y]=encounter.place;px(ctx,x-20,y+10,7,4,'#c9c4a8');px(ctx,x-18,y+8,4,2,'#aaa990')}
+ if(state.light<55){ctx.fillStyle=`rgba(15,27,21,${(55-state.light)/120})`;ctx.fillRect(0,0,w,h)}
+ if(!reduced&&effect&&elapsed<effect.until&&['mist','wet-left','wet-all'].includes(effect.id))for(let i=0;i<18;i++){const x=12+(i*29)%(effect.id==='wet-all'?350:82),y=(i*71+t*.05)%420;px(ctx,x,y,2,3,'#91a994')}
+ ctx.fillStyle="rgba(210,214,183,.07)";ctx.fillRect(4,4,w-8,h-8);ctx.strokeStyle="#93947c";ctx.lineWidth=4;ctx.strokeRect(2,2,w-4,h-4);
+ drawActors();
+ present();
 }
-// Habitat sprites use a deliberately coarser projection than pinned catalog specimens.
-// Everything in the scene is painted onto this shared grid before camera scaling.
+// Habitat specimens preserve more of the 64px source anatomy while staying on the scene's shared two-unit lattice.
 function drawActors(){
  for(const actor of [...critters].sort((a,b)=>Number(a.interactionState?.mode==='grabbed')-Number(b.interactionState?.mode==='grabbed'))){if(actor.hidden){actor.hitCells=[];continue;}
   const phase=reduced?0:Math.floor(actor.phase)%4,key=[actor.posture,actor.molt,phase,actor.moving].join(':');
@@ -158,23 +159,23 @@ function bark(x,y){
 }
 
 function scenery(t){
-  // Irregular moss carpet, pebbles, roots and leaf litter.
-  for(let i=0;i<420;i++){const x=(i*67)%384,y=(i*83)%430;
-    if(x<65+28*Math.sin(y*.03)||y>370+15*Math.sin(x*.05)){
-      px(ctx,x,y,4+i%3*2,2+i%2*2,["#39472e","#4b5837","#607044","#748052"][i%4]);px(ctx,x-2,y+2,4,2,"#435333");
-      if(i%7===0)px(ctx,x+2,y-2,2,2,"#92996b");
-    }
+ // Irregular moss carpet, pebbles, roots and leaf litter.
+ for(let i=0;i<420;i++){const x=(i*67)%384,y=(i*83)%430;
+  if(x<65+28*Math.sin(y*.03)||y>370+15*Math.sin(x*.05)){
+   px(ctx,x,y,4+i%3*2,2+i%2*2,["#39472e","#4b5837","#607044","#748052"][i%4]);px(ctx,x-2,y+2,4,2,"#435333");
+   if(i%7===0)px(ctx,x+2,y-2,2,2,"#92996b");
   }
-  for(let i=0;i<38;i++){const x=30+(i*73)%330,y=25+(i*119)%380;
-    px(ctx,x,y,8,5,"#2d2d23");px(ctx,x,y-2,6,4,["#77715a","#67694f","#8b8167"][i%3]);px(ctx,x+1,y-2,2,1,"#a19b7d");
-  }
-  for(let i=0;i<60;i++){const x=275+Math.sin(i*.07)*30,y=20+i*5;px(ctx,x,y,5,7,"#302a20");px(ctx,x+1,y,2,5,"#705338");if(i%5===0)for(let j=0;j<8;j++)px(ctx,x-j*3,y+j,4,2,"#5e4830")}
-  for(let i=0;i<14;i++){leaf(ctx,35+(i*91)%320,30+(i*63)%365,i*.8,["#897246","#a08750","#645336"][i%3],.22+(i%3)*.08)}
-  // Small fern rosettes, kept to the damp side.
-  for(const [x,y] of [[52,60],[40,330],[323,382]])for(let i=0;i<6;i++)for(let j=0;j<9;j++){
-    const a=i*Math.PI/3,xx=x+Math.cos(a)*j*3,yy=y+Math.sin(a)*j*3;
-    px(ctx,xx,yy,3,3,"#768253");if(j%2===0){px(ctx,xx-4,yy,5,2,"#4f6940");px(ctx,xx,yy-3,5,2,"#627b49")}
-  }
+ }
+ for(let i=0;i<38;i++){const x=30+(i*73)%330,y=25+(i*119)%380;
+  px(ctx,x,y,8,5,"#2d2d23");px(ctx,x,y-2,6,4,["#77715a","#67694f","#8b8167"][i%3]);px(ctx,x+1,y-2,2,1,"#a19b7d");
+ }
+ for(let i=0;i<60;i++){const x=275+Math.sin(i*.07)*30,y=20+i*5;px(ctx,x,y,5,7,"#302a20");px(ctx,x+1,y,2,5,"#705338");if(i%5===0)for(let j=0;j<8;j++)px(ctx,x-j*3,y+j,4,2,"#5e4830")}
+ for(let i=0;i<14;i++){leaf(ctx,35+(i*91)%320,30+(i*63)%365,i*.8,["#897246","#a08750","#645336"][i%3],.22+(i%3)*.08)}
+ // Small fern rosettes, kept to the damp side.
+ for(const [x,y] of [[52,60],[40,330],[323,382]])for(let i=0;i<6;i++)for(let j=0;j<9;j++){
+  const a=i*Math.PI/3,xx=x+Math.cos(a)*j*3,yy=y+Math.sin(a)*j*3;
+  px(ctx,xx,yy,3,3,"#768253");if(j%2===0){px(ctx,xx-4,yy,5,2,"#4f6940");px(ctx,xx,yy-3,5,2,"#627b49")}
+ }
 }
 
 new ResizeObserver(()=>drawHabitat(0)).observe(canvas);
