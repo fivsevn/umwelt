@@ -15,7 +15,6 @@ export function actorOrder(group,encounter){
 export function stageIndividuals(group,encounter,{initial=false}={}){
  const [x,y]=encounter?.place||[190,220],ordered=actorOrder(group,encounter);
  for(const c of group){c.hidden=false;c.molt='none';c.occlusion=0;c.posture='normal';c.role=ordered.indexOf(c);c.encounterId=encounter?.id}
- // Only arrival places the animals. Later scenes preserve their positions and identities.
  if(initial)for(const c of group){const i=c.role;if(i<(encounter?.actors||1)){const a=i*2.4+stableHash(c.seed)%10;c.x=clamp(x+Math.cos(a)*38,24,355);c.y=clamp(y+Math.sin(a)*32,30,400);c.a=Math.atan2(y-c.y,x-c.x)}}
 }
 export function stepIndividuals(group,{encounter,state={},time=0,dt=.05,reaction=null,reduced=false}){
@@ -48,7 +47,6 @@ export function stepIndividuals(group,{encounter,state={},time=0,dt=.05,reaction
     case 'hesitate':tx=125+Math.sin(time*.5)*15;ty=211;stop=near&&phase%6<3;posture=stop?'probing':'tucked';break;
    }
   }else{stop=phase<c.pause;posture=stop?(phase<2?'grooming':'resting'):'normal';if(state.humidity>85)tx+=25;if(state.humidity<55)tx-=30}
-  // Uninvolved individuals respond to persistent places between encounters.
   const target=environmentTarget(state,c);
   if(target&&(!focus||time>24)&&motion!=='molt'){
    tx=target.x+(c.id%2?12:-12);ty=target.y;hide=0;stop=false;
@@ -67,12 +65,11 @@ export function stepIndividuals(group,{encounter,state={},time=0,dt=.05,reaction
   const dx=tx-c.x,dy=ty-c.y,dist=Math.hypot(dx,dy);c.moving=!stop&&dist>5;
   if(c.moving){const desired=Math.atan2(dy,dx),delta=Math.atan2(Math.sin(desired-c.a),Math.cos(desired-c.a));c.a+=clamp(delta,-dt*1.7,dt*1.7);if(Math.abs(delta)>.7&&posture==='normal')posture='turning';travel=Math.min(dist,pace*dt*11*(reduced?.45:1));c.x+=Math.cos(c.a)*travel;c.y+=Math.sin(c.a)*travel}
   else if(face!==null){const d=Math.atan2(Math.sin(face-c.a),Math.cos(face-c.a));c.a+=clamp(d,-dt*1.5,dt*1.5)}
-  // Avoid crowding without disturbing a stationary molting animal.
   if(c.moving)for(const other of group){if(c===other)continue;const d=Math.hypot(c.x-other.x,c.y-other.y);if(d>0&&d<24){c.x+=(c.x-other.x)/d*(24-d)*dt;c.y+=(c.y-other.y)/d*(24-d)*dt}}
   c.x=clamp(c.x,24,355);c.y=clamp(c.y,30,400);c.posture=posture;c.molt=molt;c.activity=focus?motion:stop?'rest':'wander';c.role=i;
   c.occlusion=c.occlusion+clamp(hide-c.occlusion,-dt*.35,dt*.35);c.hidden=c.occlusion>=.99;
-  // Walking animation is distance-driven: faster translation advances the shared four-frame gait faster, preventing visual sliding.
-  if(c.moving)c.gaitPhase=(c.gaitPhase??0)+travel*1.25;
+  // Keep the four-frame appendage renderer visibly ahead of body translation: each travelled pixel advances 2.5 animation frames.
+  if(c.moving)c.gaitPhase=(c.gaitPhase??0)+travel*2.5;
   c.phase=reduced?0:c.moving?Math.floor(c.gaitPhase):Math.floor((time+c.offset)*(posture==='grooming'?2:1));
   c.lift=focus&&motion==='climb'?Math.round(Math.sin(time+i)*2):0;
  }
