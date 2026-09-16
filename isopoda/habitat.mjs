@@ -121,7 +121,10 @@ function drawHabitat(t){
   const variant=Math.abs(Math.round(l.x+l.y))%4,tone=l.age>12?4:l.age>8?2:Math.abs(Math.round(l.x*3+l.y))%4;
   leaf(ctx,l.x,l.y,l.a,variant,1-Math.min(l.age,20)*.006,tone);
  }
- bark(memory.shelter.x,memory.shelter.y-(effect&&elapsed<effect.until&&effect.id==='lift'?12:0),Math.abs(Math.round(memory.shelter.x+memory.shelter.y))%3);
+ const shelterY=memory.shelter.y-(effect&&elapsed<effect.until&&effect.id==='lift'?12:0);
+ // Two visually distinct bark pieces create the initial shelter cluster; only the larger plate follows lift interactions.
+ bark(memory.shelter.x+18,shelterY-4,-.08,0,.82);
+ bark(memory.shelter.x-42,memory.shelter.y+28,.34,1,.64);
  for(const f of memory.foodNodes){
   for(let i=0;i<7;i++)px(ctx,f.x-9+i*3,f.y+10+i%2*3,1,1,'#806a42');
   if(f.amount>0)for(let y=0;y<12;y++)for(let x=0;x<Math.min(22,8+f.amount*6);x++){if((x+y+f.age*2)%17<3)continue;px(ctx,f.x+x-8,f.y+y-6,1,1,y>8?'#8b7043':y%3===0?'#d1b578':'#c6a86d')}
@@ -169,29 +172,37 @@ function leaf(c,x,y,a,variant=0,scale=1,tone=0){
  }
  for(let i=0;i<(variant===1?10:7)*scale;i++)px(c,x-ca*(length+i),y-sa*(length+i),1,1,palette[4]);
 }
-// Main shelter: irregular bark slab with broken ends, offset grain and short cracks.
-function bark(x,y,variant=0){
- const half=variant===1?68:variant===2?76:72,depth=variant===1?31:variant===2?35:33;
- for(let row=-depth-9;row<=depth+10;row++)for(let col=-half-3;col<=half+3;col++){
-  const ncol=col/half,cap=Math.sqrt(Math.max(0,1-ncol*ncol));
-  const top=-depth*cap-4*Math.sin(col*.075+variant)-2*Math.sin(col*.19);
-  const bottom=depth*.82*cap+5*Math.sin(col*.11+1.7)-2*Math.sin(col*.23);
-  const broken=(variant===0?Math.sin(col*.31):Math.cos(col*.27+variant))*2;
-  if(row<top+broken||row>bottom+broken+7)continue;
-  if(row>bottom+broken){px(ctx,x+col,y+row,1,1,'#243027');continue}
-  const ridge=row+3*Math.sin(col*.052+variant)+1.8*Math.sin(col*.17),band=Math.floor((ridge+variant*2)/8);
-  let ink=['#5a422f','#6a4d32','#765638','#80613e','#634730'][((band%5)+5)%5];
-  if(row<top+broken+2)ink='#a17c4d';
-  else if(row>bottom+broken-3)ink='#3c3128';
-  else if(Math.abs((ridge+40)%8)<1)ink='#392f27';
-  else if((col*13+row*29+variant*17)%61===0)ink='#a48151';
-  px(ctx,x+col,y+row,1,1,ink);
+// Bark pieces follow the same top-down prop grammar as the leaf litter: irregular silhouette first, sparse internal texture second.
+function bark(x,y,a=0,variant=0,scale=1){
+ const ca=Math.cos(a),sa=Math.sin(a),half=(variant===1?58:70)*scale,depth=(variant===1?22:30)*scale;
+ const plot=(u,v,color)=>px(ctx,x+u*ca-v*sa,y+u*sa+v*ca,1,1,color);
+ for(let row=Math.floor(-depth-8);row<=depth+9;row++)for(let col=Math.floor(-half-5);col<=half+5;col++){
+  const t=col/half;if(Math.abs(t)>1.06)continue;
+  let rim=depth*Math.pow(Math.max(0,1-t*t),variant===1?.72:.55);
+  if(variant===0)rim*=.83+.12*Math.sin(col*.13)+.08*Math.sin(col*.31);
+  else rim*=.72+.18*Math.cos(col*.16)+.10*Math.sin(col*.37);
+  const top=-rim-(variant===0?4*Math.sin(col*.10):2*Math.cos(col*.18));
+  const bottom=rim*.72+(variant===0?3*Math.sin(col*.16+1.2):4*Math.sin(col*.12));
+  // Missing corners and end bites keep both pieces from reading as smooth ovals.
+  const bite=(variant===0&&t<-.58&&row<top+7)||(variant===0&&t>.72&&row>bottom-9)||(variant===1&&t>.46&&row<top+6)||(variant===1&&t<-.72&&row>bottom-5);
+  if(row<top||row>bottom+5||bite)continue;
+  if(row>bottom){plot(col,row,'#263127');continue}
+  const ridge=row+(variant===0?2.4*Math.sin(col*.045):1.8*Math.cos(col*.075))+(variant===0?Math.sin(col*.21):Math.sin(col*.29));
+  let ink=variant===0?['#5a422f','#6a4d32','#765638','#846341'][((Math.floor((ridge+40)/9)%4)+4)%4]:['#4f3a2c','#62452f','#795536','#8a6741'][((Math.floor((ridge+36)/8)%4)+4)%4];
+  if(row<top+2)ink=variant===0?'#a47d4c':'#987044';
+  else if(row>bottom-3)ink='#3a3028';
+  else if((Math.floor(col*3+row*5+variant*17)%53)===0)ink='#aa8453';
+  plot(col,row,ink);
  }
- // Knot and split network break the old shell-like horizontal repetition.
- const knotX=variant===1?-18:variant===2?24:12,knotY=variant===1?3:-5;
- for(let yy=-7;yy<=7;yy++)for(let xx=-11;xx<=11;xx++){const d=(xx/11)**2+(yy/7)**2;if(d<1)px(ctx,x+knotX+xx,y+knotY+yy,1,1,d>.58?'#8c6842':d>.25?'#493528':'#2f2b24')}
- for(let i=0;i<34;i++){const sx=-45+i,sy=8+Math.round(Math.sin(i*.28+variant)*3);if(i%3!==0)px(ctx,x+sx,y+sy,1,1,'#302b24')}
- for(let i=0;i<20;i++){const sx=34+i,sy=-14+Math.round(i*.28)+Math.round(Math.sin(i*.5)*2);if(i%4!==0)px(ctx,x+sx,y+sy,1,1,'#453226')}
+ // Sparse cracks replace the old continuous horizontal bands.
+ const cracks=variant===0?[[-42,-4,22,.13],[10,8,27,-.12],[30,-11,18,.28]]:[[-28,1,22,-.22],[3,-7,19,.18],[19,6,15,-.31]];
+ for(const [sx,sy,len,slope] of cracks)for(let i=0;i<len*scale;i++)if(i%4!==1)plot((sx+i)*scale,(sy+i*slope+Math.sin(i*.55))*scale,'#332c25');
+ // Each piece gets a different identifying feature: knot on the large plate, pale broken end on the smaller shard.
+ if(variant===0){
+  for(let yy=-6;yy<=6;yy++)for(let xx=-9;xx<=9;xx++){const d=(xx/9)**2+(yy/6)**2;if(d<1)plot(13*scale+xx*scale,-2*scale+yy*scale,d>.58?'#89633e':d>.23?'#493529':'#2d2923')}
+ }else{
+  for(let yy=-8;yy<=8;yy++)for(let xx=-5;xx<=5;xx++){const d=(xx/5)**2+(yy/8)**2;if(d<1)plot((-half+5)+xx,yy, d>.62?'#8b6640':d>.25?'#aa8252':'#5a412f')}
+ }
 }
 function woodChip(x,y,a,kind=0,scale=1){
  const ca=Math.cos(a),sa=Math.sin(a),length=(kind===0?21:kind===1?28:17)*scale,width=(kind===2?8:6)*scale;
