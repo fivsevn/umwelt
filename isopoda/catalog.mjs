@@ -1,5 +1,5 @@
 import {makeIsopod} from './sprites.mjs?v=quiet-ui-1';
-import {renderCredits} from './credits.mjs?v=i18n-1';
+import {renderCredits} from './credits.mjs?v=credits-3';
 import {getLanguage,t,formatDate,speciesPrimaryName,speciesSecondaryName,speciesLiteratureLines} from './i18n.mjs?v=i18n-1';
 import {annotationLabel,localizedAnnotationLines} from './annotation-locales.mjs?v=i18n-1';
 
