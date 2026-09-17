@@ -1,3 +1,5 @@
+import {getLanguage} from './i18n.mjs?v=i18n-1';
+
 // Tiny CSS pixel marks: no raster resources, system emoji, or smooth icon font.
 const glyphs={
  pencil:['000000001100','000000011110','000000111100','000001111000','000011110000','000111100000','001111000000','001110000000','001000000000'],
@@ -11,6 +13,11 @@ const glyphs={
  draw:['000011000000','000011000000','001111110000','011000011000','110000001100','110110101100','110000001100','011111111000','001111110000'],
  switch:['000010000000','000011000000','111111100000','000011000000','000010000000','000000100000','000001100000','000011111110','000001100000','000000100000']
 };
+const meterCopy={
+ zh:{temp:'温度',wet:'湿度',ventLow:'通风微弱',ventMid:'通风适中',ventHigh:'通风较强',lightLow:'微光',lightMid:'柔光',lightHigh:'明亮'},
+ en:{temp:'TEMP',wet:'HUMIDITY',ventLow:'LOW AIRFLOW',ventMid:'AIRFLOW OK',ventHigh:'HIGH AIRFLOW',lightLow:'DIM',lightMid:'SOFT LIGHT',lightHigh:'BRIGHT'},
+ ja:{temp:'温度',wet:'湿度',ventLow:'通気 弱',ventMid:'通気 中',ventHigh:'通気 強',lightLow:'微光',lightMid:'柔光',lightHigh:'明るい'}
+};
 export function pixelIcon(kind){
  const el=document.createElement('span');el.className='pixel-icon';el.setAttribute('aria-hidden','true');
  const cells=[];for(const [y,row] of (glyphs[kind]||glyphs.leaf).entries())for(let x=0;x<row.length;x++)if(row[x]==='1')cells.push([x,y]);
@@ -21,5 +28,5 @@ export function pixelIcon(kind){
 export function iconButton(button,kind,label){button.replaceChildren(pixelIcon(kind));button.setAttribute('aria-label',label);button.title=label}
 export function createInstrument(root){
  root.innerHTML='<span id="meterTemp"></span><span id="meterWet"></span><span id="simDetail"></span>';
- return state=>{root.querySelector('#meterTemp').textContent='温度 '+state.temp.toFixed(1)+'°C';root.querySelector('#meterWet').textContent='湿度 '+Math.round(state.humidity)+'%';root.querySelector('#simDetail').textContent='通风'+(state.vent>75?'较强':state.vent<40?'微弱':'适中')+' · '+(state.light<30?'微光':state.light>65?'明亮':'柔光')};
+ return state=>{const c=meterCopy[getLanguage()]||meterCopy.zh;root.querySelector('#meterTemp').textContent=c.temp+' '+state.temp.toFixed(1)+'°C';root.querySelector('#meterWet').textContent=c.wet+' '+Math.round(state.humidity)+'%';root.querySelector('#simDetail').textContent=(state.vent>75?c.ventHigh:state.vent<40?c.ventLow:c.ventMid)+' · '+(state.light<30?c.lightLow:state.light>65?c.lightHigh:c.lightMid)};
 }
