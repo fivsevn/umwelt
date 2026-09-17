@@ -4,7 +4,7 @@ import {EXTRA_SPECIES_2} from './species-extra-2.mjs?v=species-23';
 import {EXTRA_SPECIES_3} from './species-extra-3.mjs?v=species-28';
 import {EXTRA_SPECIES_4} from './species-extra-4.mjs?v=species-33';
 import {EXTRA_SPECIES_5} from './species-extra-5.mjs?v=species-34';
-import {EXTRA_SPECIES_6} from './species-extra-6.mjs?v=species-39';
+import {EXTRA_SPECIES_6} from './species-extra-6.mjs?v=species-39b';
 import {applySpeciesDisplayScale} from './species-size.mjs?v=size-5';
 
 // Keep the original 13-species table stable. Independently sourced taxa and explicitly labelled
