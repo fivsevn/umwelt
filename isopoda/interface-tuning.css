@@ -1,19 +1,17 @@
 /* Compact observation-window tuning: flat system menu, in-habitat species label, handed controls and non-stretched portrait layout. */
-.window-system-menu{position:relative;min-height:27px;display:flex;align-items:center;gap:4px;padding:2px 92px 2px 5px;background:#b8bda2;color:#334436;border-top:2px solid #d5d7bc;border-bottom:2px solid #58674e;font-size:10px;line-height:1;white-space:nowrap;overflow:hidden}
+.window-system-menu{position:relative;min-height:27px;display:flex;align-items:center;gap:4px;padding:2px 92px 2px 5px;background:#b8bda2;color:#334436;border-top:2px solid #d5d7bd;border-bottom:2px solid #58674e;font-size:10px;line-height:1;white-space:nowrap;overflow:hidden}
 .system-menu-left{display:flex;align-items:center;gap:2px;min-width:0}
 .language-menu{display:flex;align-items:center;gap:0;padding-right:4px;margin-right:2px;border-right:1px solid #89967b}
 .window-system-menu button{appearance:none;-webkit-appearance:none;height:20px;min-height:20px;min-width:20px;margin:0;padding:0 4px;border:0!important;outline:0;background:transparent;color:#40513f;box-shadow:none!important;border-radius:0;line-height:20px;text-align:center}
 .window-system-menu button:hover{background:#aeb79a}
 .window-system-menu button[aria-pressed="true"]{background:#536d61;color:#e2e2c8}
 .window-system-menu button:focus-visible{outline:1px dotted #52644f!important;outline-offset:-2px}
-/* Music and SFX share one control rhythm; the SFX glyph itself is deliberately one step larger. */
 #musicBtn,#soundBtn{display:grid;place-items:center;width:26px;min-width:26px;height:22px!important;min-height:22px!important;margin:0!important;padding:0!important;opacity:1!important;color:#40513f}
 #musicBtn{font-size:13px}
 .window-system-menu #musicBtn[aria-pressed="false"],.window-system-menu #soundBtn[aria-pressed="false"]{background:transparent;color:#40513f;opacity:1!important}
 .window-system-menu #musicBtn[aria-pressed="true"],.window-system-menu #soundBtn[aria-pressed="true"]{background:#536d61;color:#e2e2c8;opacity:1!important}
 .window-system-menu #soundBtn .pixel-icon{transform:scale(.78)}
 .window-system-menu #soundBtn::after{display:none}
-/* Two arrows = 16x, three arrows = intentionally silly 64x turbo. Clicking the active speed returns to 1x. */
 .speed-choice{display:grid!important;place-items:center!important;padding:0!important}
 #speedFastBtn{width:34px;min-width:34px;margin-left:2px;border-left:1px solid #89967b!important}
 #speedTurboBtn{width:40px;min-width:40px}
@@ -21,33 +19,29 @@
 .speed-arrows i{display:block;width:0;height:0;border-top:4px solid transparent;border-bottom:4px solid transparent;border-left:5px solid currentColor}
 .system-clock{position:absolute;right:10px;top:50%;transform:translateY(-50%);margin:0;padding:0;min-width:76px;text-align:right;font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
-/* Environment row is deliberately limited to habitat conditions. */
 .status-row{display:flex;align-items:center;justify-content:flex-start!important;gap:6px;flex-wrap:nowrap!important;overflow:hidden;min-height:24px;padding:1px 6px}
 .status-row .instruments{display:flex;gap:5px;align-items:center;font-size:11px;padding:0;min-height:0;min-width:0;white-space:nowrap;overflow:hidden}
 
-/* Species names live quietly inside the habitat and have their own language cycle. */
-.species-status{display:block!important;position:absolute;top:8px;right:8px;z-index:20;max-width:50%;padding:2px 4px;margin:0;border:0!important;border-left:1px solid #8f987d!important;background:rgba(37,46,34,.58)!important;box-shadow:none!important;color:#d6d7bb;font-size:9px;line-height:1.45;white-space:pre-line;text-align:right;cursor:pointer;opacity:.96;text-shadow:1px 1px #263126;overflow-wrap:anywhere;pointer-events:auto}
+/* Explicitly establish the habitat as the containing block. Without this, the species label can anchor to the outer window instead of the canvas. */
+#boxFrame .habitat-viewport{position:relative!important;isolation:isolate;overflow:hidden}
+#boxFrame #habitat{position:relative;z-index:1}
+.species-status{display:block!important;position:absolute!important;top:8px!important;right:8px!important;left:auto!important;bottom:auto!important;z-index:30!important;max-width:52%;padding:2px 4px;margin:0;border:0!important;border-left:1px solid #8f987d!important;background:rgba(37,46,34,.62)!important;box-shadow:none!important;color:#e1e2c6!important;font-size:9px;line-height:1.45;white-space:pre-line;text-align:right;cursor:pointer;opacity:1!important;text-shadow:1px 1px #263126;overflow-wrap:anywhere;pointer-events:auto!important}
 .species-status[data-empty="true"]{display:none!important}
-.species-status:hover{color:#eeeece;opacity:1}
+.species-status:hover{color:#f1f1d3!important}
 .species-status:focus-visible{outline:1px dotted #bdc4a7;outline-offset:1px}
 
-/* Right-handed primary field controls: zoom/pan on the left, archive/library on the right. */
-.habitat-library{left:auto!important;right:8px!important}
-#boxFrame .zoom-tools{right:auto!important;left:8px!important}
-/* Keep the field-control frames light. */
+.habitat-library{left:auto!important;right:8px!important;z-index:20}
+#boxFrame .zoom-tools{right:auto!important;left:8px!important;z-index:20}
 .habitat-library,#boxFrame .zoom-tools{padding:2px!important;gap:2px!important;border-width:1px!important}
 #boxFrame .zoom-tools button{position:relative;display:grid!important;place-items:center;width:24px!important;min-width:24px!important;height:24px!important;min-height:24px!important;border-width:1px!important;font-size:0!important;color:#30492e}
-/* Draw the zoom glyphs as one-pixel lines instead of relying on heavy font glyphs. */
 #zoomOut::before,#zoomIn::before{content:'';position:absolute;left:50%;top:50%;width:8px;height:1px;background:currentColor;transform:translate(-50%,-50%)}
 #zoomIn::after{content:'';position:absolute;left:50%;top:50%;width:1px;height:8px;background:currentColor;transform:translate(-50%,-50%)}
 #zoomReset::before{content:'';position:absolute;left:50%;top:50%;width:8px;height:8px;border:1px solid currentColor;transform:translate(-50%,-50%)}
 #zoomReset::after{content:'';position:absolute;left:50%;top:50%;width:1px;height:1px;background:currentColor;transform:translate(-50%,-50%)}
 #boxFrame #zoomLevel{min-width:22px!important;font-size:9px!important;font-weight:400!important;letter-spacing:-.2px!important;opacity:.9}
-/* The Asimov library control regains a little visual weight; it should not be as thin as the zoom glyphs. */
 .habitat-library #catalogBtn{width:26px!important;min-width:26px!important;height:26px!important;min-height:26px!important;border-width:2px!important}
 .habitat-library #catalogBtn .pixel-icon{transform:scale(.94)!important;transform-origin:center!important;opacity:1!important}
 
-/* The application window sizes to its content. Extra viewport height remains desktop wallpaper. */
 html,body{height:auto!important;min-height:100%;overflow:auto!important}
 body{min-height:100dvh}
 #game{height:auto!important;min-height:100dvh!important;padding:6px 8px max(28px,env(safe-area-inset-bottom))!important;background:transparent!important}
@@ -80,5 +74,5 @@ body{min-height:100dvh}
   .system-clock{right:6px;font-size:9px;min-width:66px}
   .status-row{padding-inline:4px}
   .status-row .instruments{font-size:10px;gap:4px}
-  .species-status{top:6px;right:6px;max-width:55%;font-size:8px;padding:2px 3px}
+  .species-status{top:6px!important;right:6px!important;max-width:58%;font-size:8px;padding:2px 3px}
 }
