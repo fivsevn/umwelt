@@ -10,18 +10,20 @@ const secondBatch=['nasatum','granulatum','expansus','haasi','officinalis'];
 const thirdBatch=['vulgare','asellus','muscorum','rathkii','reaumuri'];
 const fourthBatch=['pictum','pulchellum','werneri','spinicornis','magnificus'];
 const marineReference=['uniramea'];
-const added=[...firstBatch,...secondBatch,...thirdBatch,...fourthBatch,...marineReference];
+const hobbyLines=['pandaKing','pinkPandaKing','redPandaKing','blackPandaKing','citrusPandaKing'];
+const accepted=[...firstBatch,...secondBatch,...thirdBatch,...fourthBatch,...marineReference];
 
-test('expanded registry preserves terrestrial batches and appends the sourced marine reference',()=>{
- assert.equal(SPECIES.length,34);
+test('expanded registry preserves accepted-species batches, marine reference and Panda King hobby lines',()=>{
+ assert.equal(SPECIES.length,39);
  assert.deepEqual(SPECIES.slice(0,13).map(s=>s.id),original);
  assert.deepEqual(SPECIES.slice(13,18).map(s=>s.id),firstBatch);
  assert.deepEqual(SPECIES.slice(18,23).map(s=>s.id),secondBatch);
  assert.deepEqual(SPECIES.slice(23,28).map(s=>s.id),thirdBatch);
  assert.deepEqual(SPECIES.slice(28,33).map(s=>s.id),fourthBatch);
- assert.deepEqual(SPECIES.slice(33).map(s=>s.id),marineReference);
- assert.equal(new Set(SPECIES.map(s=>s.id)).size,34);
- for(const id of added){
+ assert.deepEqual(SPECIES.slice(33,34).map(s=>s.id),marineReference);
+ assert.deepEqual(SPECIES.slice(34).map(s=>s.id),hobbyLines);
+ assert.equal(new Set(SPECIES.map(s=>s.id)).size,39);
+ for(const id of accepted){
   const p=speciesById(id);
   assert.equal(p.taxonomy.speciesStatus,'accepted_species');
   assert.ok(p.taxonomy.acceptedScientificName);
@@ -29,9 +31,18 @@ test('expanded registry preserves terrestrial batches and appends the sourced ma
   assert.equal(p.evidence.status,'literature_supported');
   for(const evidenceId of p.evidenceIds)assert.ok(sources.some(s=>s.id===evidenceId),`${id}: missing ${evidenceId}`);
  }
+ for(const id of hobbyLines){
+  const p=speciesById(id);
+  assert.equal(p.taxonomy.speciesStatus,'undescribed_or_unresolved');
+  assert.equal(p.taxonomy.acceptedScientificName,null);
+  assert.equal(p.taxonomy.genus,'Cubaris');
+  assert.ok(p.visual);
+  assert.equal(p.evidence.status,'hobby_documented');
+  for(const evidenceId of p.evidenceIds)assert.ok(sources.some(s=>s.id===evidenceId),`${id}: missing ${evidenceId}`);
+ }
 });
 
-test('new sprites retain conservative scaffolds while species evidence changes readable morphology',()=>{
+test('new sprites retain conservative scaffolds while evidence changes readable morphology',()=>{
  for(const id of ['maculatum','klugii','gestroi','versicolor']){
   const p=speciesById(id);
   assert.equal(p.visual.morphologyKey,'armadillidiumCompact');
@@ -130,6 +141,17 @@ test('new sprites retain conservative scaffolds while species evidence changes r
  assert.equal(uniramea.visual.uropods.ramiPerUropod,1);
  assert.deepEqual(uniramea.visual.legs.posteriorAnchoringPairs,[5,6,7]);
  assert.equal(uniramea.association.hostAcceptedName,'Australostichopus mollis');
+
+ const panda=speciesById('pandaKing').visual,pink=speciesById('pinkPandaKing').visual,red=speciesById('redPandaKing').visual,black=speciesById('blackPandaKing').visual,citrus=speciesById('citrusPandaKing').visual;
+ assert.equal(panda.morphologyKey,'cubarisPandaKing');
+ assert.equal(panda.conglobation.ability,'full');
+ assert.ok(panda.patterns.some(p=>p.type==='segmentBand'));
+ assert.ok(pink.patterns.some(p=>p.type==='segmentBand'));
+ assert.ok(red.patterns.some(p=>p.type==='segmentBand'));
+ assert.equal(black.patterns.length,0);
+ assert.equal(citrus.patterns.length,0);
+ assert.notEqual(panda.palette.tergite,pink.palette.tergite);
+ assert.notEqual(red.palette.tergite,citrus.palette.tergite);
 });
 
 test('adult body-length references scale whole specimens without changing stage ratios',()=>{
@@ -148,6 +170,7 @@ test('adult body-length references scale whole specimens without changing stage 
  assert.equal(referenceLengthMm(speciesById('spinicornis')),12);
  assert.equal(referenceLengthMm(speciesById('magnificus')),29);
  assert.equal(referenceLengthMm(speciesById('uniramea')),.85);
+ for(const id of hobbyLines)assert.equal(referenceLengthMm(speciesById(id)),10);
  assert.equal(referenceLengthMm(large),30);
  assert.ok(speciesById('pulchellum').renderSize.scale<=.82);
  assert.equal(speciesById('uniramea').renderSize.scale,.70);
@@ -159,7 +182,7 @@ test('adult body-length references scale whole specimens without changing stage 
  assert.ok(large.renderSize.scale>=1.27);
  assert.equal(small.visual.adultDisplayScale,displayScaleForMm(10));
  assert.equal(large.visual.adultDisplayScale,displayScaleForMm(30));
- for(const p of [small,large,speciesById('muscorum'),speciesById('reaumuri'),speciesById('pulchellum'),speciesById('magnificus'),speciesById('uniramea')]){
+ for(const p of [small,large,speciesById('muscorum'),speciesById('reaumuri'),speciesById('pulchellum'),speciesById('magnificus'),speciesById('uniramea'),speciesById('pandaKing')]){
   assert.ok(p.visual.stageProfiles.juvenile.scale<p.visual.stageProfiles.subadult.scale);
   assert.ok(p.visual.stageProfiles.subadult.scale<p.visual.stageProfiles.adult.scale);
   assert.ok(Math.abs(p.visual.stageProfiles.juvenile.scale/p.visual.stageProfiles.adult.scale-.72)<1e-9);
