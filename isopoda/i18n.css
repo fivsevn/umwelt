@@ -1,26 +1,41 @@
 /* Language-specific typefaces. Chinese keeps the self-hosted Fusion Pixel face from style.css. */
+@font-face{
+  font-family:"Tiny5Game";
+  src:url("https://raw.githubusercontent.com/Gissio/font_Tiny5/4125536fda841fd155428e2158dc4fc5396e133b/fonts/webfonts/Tiny5-Regular.woff2") format("woff2");
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+}
+@font-face{
+  font-family:"DenkiChip";
+  src:url("https://raw.githubusercontent.com/hicchicc/x8y12pxDenkiChip/29eb3f477bdc695fbb5e8cb8f383b4db760edab6/fonts/woff2/x8y12pxDenkiChip.woff2") format("woff2");
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+}
+
 html[data-ui-language="zh"] body,
 html[data-ui-language="zh"] dialog{font-family:Pixel,monospace}
 
 html[data-ui-language="en"] body,
-html[data-ui-language="en"] dialog{font-family:"Silkscreen",Pixel,monospace}
+html[data-ui-language="en"] dialog{font-family:"Tiny5Game",Pixel,monospace;font-synthesis:none}
 
 html[data-ui-language="ja"] body,
-html[data-ui-language="ja"] dialog{font-family:"DotGothic16",Pixel,monospace}
+html[data-ui-language="ja"] dialog{font-family:"DenkiChip",Pixel,monospace;font-synthesis:none}
 
 html[data-ui-language="en"] button,
 html[data-ui-language="en"] a,
 html[data-ui-language="en"] select,
 html[data-ui-language="en"] input,
-html[data-ui-language="en"] textarea{font-family:"Silkscreen",Pixel,monospace}
+html[data-ui-language="en"] textarea{font-family:"Tiny5Game",Pixel,monospace}
 
 html[data-ui-language="ja"] button,
 html[data-ui-language="ja"] a,
 html[data-ui-language="ja"] select,
 html[data-ui-language="ja"] input,
-html[data-ui-language="ja"] textarea{font-family:"DotGothic16",Pixel,monospace}
+html[data-ui-language="ja"] textarea{font-family:"DenkiChip",Pixel,monospace}
 
 html[data-ui-language="en"] .specimen-names h3{font-size:18px;line-height:1.45}
-html[data-ui-language="ja"] .specimen-names h3{font-size:20px;line-height:1.5}
+html[data-ui-language="ja"] .specimen-names h3{font-size:18px;line-height:1.55}
 html[data-ui-language="ja"] .anonymous-note p{line-height:2.05!important}
-html[data-ui-language="en"] .window-system-menu{letter-spacing:-.02em}
+html[data-ui-language="en"] .window-system-menu{letter-spacing:0}
