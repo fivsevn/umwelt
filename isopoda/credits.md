@@ -58,7 +58,22 @@
 - [GBIF · Porcellio magnificus](https://www.gbif.org/species/6284298)
 - [Tuf & Ďurajková 2022 · 陆生等足类反捕食策略与天然色彩](https://www.porcellio.nl/_downloads/f81b8300feef2be5176f1dbea0eb23f5)
 
-**海洋参考标本 · “海参鼠妇”**
+**熊猫王选育 / 贸易品系资料**
+
+- [中文圈 · 熊猫王 Cubaris sp. “Panda King”](https://vocus.cc/article/692dad62fd89780001c87ed1)
+- [中文圈 · 粉红熊猫王 Cubaris sp. “Pink Panda King”](https://vocus.cc/article/692f2843fd89780001460197)
+- [Herpeton Academy · Panda King unresolved captive-culture label](https://academy.herpeton.net/en/caresheets/invertebrates/cubaris-sp-panda-king/)
+- [Xoticbugs · Panda King collector guide](https://xoticbugs.com/pages/cubaris-sp-panda-king-isopod)
+- [Xoticbugs · selective breeding / Panda King morphs](https://xoticbugs.com/pages/selective-breeding-isopods)
+- [PostPods · Red Panda King](https://postpods.co.uk/products/red-panda-king-isopods)
+- [Richard’s Inverts · Pink Panda King breeder line](https://richardsinverts-store.com/products/cubaris-sp-pink-panda-king)
+- [PostPods · Pink Panda King](https://postpods.co.uk/products/pink-panda-king)
+- [Pangea Reptile · Cubaris sp. “Citrus”](https://www.pangeareptile.com/products/cubaris-sp-citris-isopods)
+- [TC INSECTS · Cubaris sp. “Citrus” / Panda-line pattern notes](https://tcinsects.com/product/cubaris-citrus-isopods/)
+
+熊猫王及其 Pink / Red / Black / Citrus 条目按观赏鼠妇圈中的 captive lineage / trade morph 记录，不视为五个正式物种。底层 “Cubaris sp. Panda King” 目前仍保留未正式描述 / 未解析状态；选育来源与遗传模式主要来自饲养者和商家记录，不升级为分类学证据。
+
+**海洋参考标本 · 海参共栖等足虫**
 
 - [ITIS · Halacarsantia uniramea](https://itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=544573)
 - [Menzies & Miller 1955 · Antias unirameus 原始描述、体尺、海参宿主与共栖观察](https://paperspast.natlib.govt.nz/periodicals/TPRSNZ1955-83.2.6.12)
@@ -66,7 +81,7 @@
 - [Shimomura & Bruce 2012 · Halacarsantia 属级诊断](https://pmc.ncbi.nlm.nih.gov/articles/PMC3307358/)
 - [WoRMS · Australostichopus mollis，原文宿主 Stichopus mollis 的现接受名](https://www.marinespecies.org/aphia.php?id=529443&p=taxdetails)
 
-“海参鼠妇”为本项目沿用粉丝提问的中文俗称，并非已核实的正式中文通名。H. uniramea 属于海洋 Asellota，不是陆生 Oniscidea，因此只作为参考标本进入资料库与形态页面，不进入陆生饲养盒抽取。
+“海参共栖等足虫”为本项目中文显示名；“海参鼠妇”保留为粉丝 / 爱好者俗称。H. uniramea 属于海洋 Asellota，不是陆生 Oniscidea，因此只作为参考标本进入资料库与形态页面，不进入陆生饲养盒抽取。
 
 **分类与名称检索**
 
