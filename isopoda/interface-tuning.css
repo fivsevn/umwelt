@@ -26,19 +26,26 @@
 .status-row .instruments{display:flex;gap:5px;align-items:center;font-size:11px;padding:0;min-height:0;min-width:0;white-space:nowrap;overflow:hidden}
 
 /* Species names live quietly inside the habitat and have their own language cycle. */
-.species-status{position:absolute;top:8px;right:8px;z-index:6;max-width:48%;padding:1px 2px;margin:0;border:0!important;background:transparent!important;box-shadow:none!important;color:#c0c5aa;font-size:8px;line-height:1.35;white-space:pre-line;text-align:right;cursor:pointer;opacity:.82;text-shadow:1px 1px #263126;overflow-wrap:anywhere}
-.species-status:hover{color:#e0e0c4;opacity:1}
+.species-status{display:block!important;position:absolute;top:8px;right:8px;z-index:20;max-width:50%;padding:2px 4px;margin:0;border:0!important;border-left:1px solid #8f987d!important;background:rgba(37,46,34,.58)!important;box-shadow:none!important;color:#d6d7bb;font-size:9px;line-height:1.45;white-space:pre-line;text-align:right;cursor:pointer;opacity:.96;text-shadow:1px 1px #263126;overflow-wrap:anywhere;pointer-events:auto}
+.species-status[data-empty="true"]{display:none!important}
+.species-status:hover{color:#eeeece;opacity:1}
 .species-status:focus-visible{outline:1px dotted #bdc4a7;outline-offset:1px}
 
 /* Right-handed primary field controls: zoom/pan on the left, archive/library on the right. */
 .habitat-library{left:auto!important;right:8px!important}
 #boxFrame .zoom-tools{right:auto!important;left:8px!important}
-/* Make the field controls a little lighter and less chunky without changing their placement. */
+/* Keep the field-control frames light. */
 .habitat-library,#boxFrame .zoom-tools{padding:2px!important;gap:2px!important;border-width:1px!important}
-.habitat-library #catalogBtn,#boxFrame .zoom-tools button{width:24px!important;min-width:24px!important;height:24px!important;min-height:24px!important;border-width:1px!important}
-/* The inner pixel glyphs and the center zoom readout should feel as light as the new borders. */
-.habitat-library #catalogBtn .pixel-icon,#boxFrame .zoom-tools button .pixel-icon{transform:scale(.78)!important;transform-origin:center!important}
+#boxFrame .zoom-tools button{position:relative;display:grid!important;place-items:center;width:24px!important;min-width:24px!important;height:24px!important;min-height:24px!important;border-width:1px!important;font-size:0!important;color:#30492e}
+/* Draw the zoom glyphs as one-pixel lines instead of relying on heavy font glyphs. */
+#zoomOut::before,#zoomIn::before{content:'';position:absolute;left:50%;top:50%;width:8px;height:1px;background:currentColor;transform:translate(-50%,-50%)}
+#zoomIn::after{content:'';position:absolute;left:50%;top:50%;width:1px;height:8px;background:currentColor;transform:translate(-50%,-50%)}
+#zoomReset::before{content:'';position:absolute;left:50%;top:50%;width:8px;height:8px;border:1px solid currentColor;transform:translate(-50%,-50%)}
+#zoomReset::after{content:'';position:absolute;left:50%;top:50%;width:1px;height:1px;background:currentColor;transform:translate(-50%,-50%)}
 #boxFrame #zoomLevel{min-width:22px!important;font-size:9px!important;font-weight:400!important;letter-spacing:-.2px!important;opacity:.9}
+/* The Asimov library control regains a little visual weight; it should not be as thin as the zoom glyphs. */
+.habitat-library #catalogBtn{width:26px!important;min-width:26px!important;height:26px!important;min-height:26px!important;border-width:2px!important}
+.habitat-library #catalogBtn .pixel-icon{transform:scale(.94)!important;transform-origin:center!important;opacity:1!important}
 
 /* The application window sizes to its content. Extra viewport height remains desktop wallpaper. */
 html,body{height:auto!important;min-height:100%;overflow:auto!important}
@@ -73,5 +80,5 @@ body{min-height:100dvh}
   .system-clock{right:6px;font-size:9px;min-width:66px}
   .status-row{padding-inline:4px}
   .status-row .instruments{font-size:10px;gap:4px}
-  .species-status{top:6px;right:6px;max-width:52%;font-size:7px}
+  .species-status{top:6px;right:6px;max-width:55%;font-size:8px;padding:2px 3px}
 }
