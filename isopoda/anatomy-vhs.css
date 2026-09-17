@@ -191,6 +191,15 @@
   .reference{padding:8px!important}
   .dossier summary{display:grid;gap:3px}
   .dossier summary small{text-align:left}
+
+  /* Mobile Safari gives the pixel font a larger visual descent than desktop.
+     Keep the VHS labels in explicit rows and nudge glyphs upward without
+     changing the monitor geometry or desktop rendering. */
+  .vhs-card .vhs-head{display:grid!important;align-items:center!important;height:12px!important;line-height:8px!important;margin:0!important;transform:translateY(-1px)!important}
+  .vhs-card .vhs-head i,.vhs-card .vhs-head b,.vhs-card .vhs-head em{display:block!important;line-height:8px!important;transform:translateY(-1px)!important}
+  .vhs-card .vhs-screen{height:52px!important;margin-top:1px!important}
+  .vhs-card .vhs-screen .vhs-osd{line-height:6px!important;transform:translateY(-1px)!important}
+  .vhs-card>small{display:block!important;height:8px!important;margin-top:1px!important;line-height:8px!important;transform:translateY(-2px)!important;overflow:hidden!important}
 }
 
 @media(max-width:380px){
@@ -203,6 +212,8 @@
   .lab-title .en-title{font-size:9px!important}
   .reference{padding:7px!important}
   .reference cite,.reference p{font-size:8px!important;line-height:1.55!important}
+  .vhs-card .vhs-screen{height:46px!important}
+  .vhs-card>small{transform:translateY(-2px)!important}
 }
 
 @media(max-height:560px) and (min-width:901px){
