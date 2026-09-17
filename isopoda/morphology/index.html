@@ -56,6 +56,29 @@ function applyPublicBranding(){
    .legend-source{display:block;margin-top:5px;color:#68795a;line-height:1.5}
    .legend-source a{color:#97a989;text-decoration:underline;text-underline-offset:2px}
    .legend-source code{color:inherit}
+
+   /* Public VHS bay: two distinct feeds, both preserving the renderer's native aspect ratio. */
+   .vhs-deck{position:absolute;inset:0;z-index:32;pointer-events:none}
+   .vhs-card{width:154px!important;height:126px!important;padding:7px!important;background:#0d120c!important;border:2px solid #4f5b45!important;box-shadow:0 0 0 1px #10160e,4px 5px 0 #11170f,inset 0 0 0 1px rgba(216,216,181,.045)!important;opacity:.92!important;overflow:hidden!important;transform:none!important}
+   .vhs-card:hover,.vhs-card.is-relevant{background:#121911!important;border-color:#8f9775!important;box-shadow:0 0 0 1px #161d13,4px 5px 0 #0b100a,inset 0 0 0 1px rgba(224,222,190,.08)!important}
+   .vhs-motion{left:22px!important;bottom:48px!important;top:auto!important;right:auto!important}
+   .vhs-roll{right:22px!important;bottom:48px!important;top:auto!important;left:auto!important}
+   .vhs-head{height:14px!important;grid-template-columns:auto 1fr auto!important;gap:4px!important;font-size:6px!important;letter-spacing:.07em!important}
+   .vhs-head i{color:#bd796a!important;text-shadow:0 0 3px rgba(189,121,106,.26)}
+   .vhs-head b{color:#c7c7a4!important;overflow:hidden;white-space:nowrap;text-overflow:clip}
+   .vhs-head em{color:#727e64!important;font-variant-numeric:tabular-nums}
+   .vhs-screen{height:84px!important;margin-top:4px!important;display:grid!important;place-items:center!important;background:#080c08!important;border:2px solid #252e22!important;box-shadow:inset 0 0 0 1px #070a07,inset 0 0 15px rgba(0,0,0,.92)!important;overflow:hidden!important}
+   .vhs-screen::before{opacity:.52!important;background-size:6px 5px,8px 6px!important}
+   .vhs-screen::after{background:repeating-linear-gradient(to bottom,rgba(232,232,199,.075) 0,rgba(232,232,199,.075) 1px,transparent 1px,transparent 3px),linear-gradient(to bottom,transparent 61%,rgba(202,205,164,.13) 63%,transparent 66%)!important;animation-duration:2.9s!important}
+   .vhs-screen canvas{display:block!important;width:auto!important;height:100%!important;max-width:100%!important;aspect-ratio:1/1!important;object-fit:contain!important;margin:auto!important;image-rendering:pixelated!important;image-rendering:crisp-edges!important;filter:saturate(.42) sepia(.08) contrast(1.19) brightness(.88)!important}
+   .vhs-osd{position:absolute;z-index:12;font-size:5px;line-height:1;color:#9ca78c;text-shadow:1px 1px #050805;pointer-events:none;letter-spacing:.06em}
+   .vhs-osd-play{left:5px;top:5px}.vhs-osd-time{right:5px;top:5px;font-variant-numeric:tabular-nums}.vhs-osd-mode{right:5px;bottom:5px;color:#65715b}
+   .vhs-card small{margin-top:4px!important;font-size:6px!important;line-height:1!important;color:#68745e!important;letter-spacing:.04em!important;white-space:nowrap!important}
+   .vhs-card small::after{content:''!important}
+   .vhs-card::after{height:3px!important;left:7px!important;right:7px!important;background:rgba(214,216,181,.14)!important;box-shadow:0 1px rgba(8,12,8,.9)!important;animation-duration:3.4s!important}
+   .vhs-card::before{background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.38) 100%),linear-gradient(90deg,rgba(190,198,161,.025),transparent 30%,rgba(210,197,150,.02) 70%,transparent)!important}
+   .vhs-card.is-relevant small{color:#a4ab8c!important}
+
    @media(max-width:900px){
     .specimen-toolbar{align-items:stretch}
     .accession{grid-column:1/-1;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:12px;text-align:left;padding:5px 9px;border-top:1px solid #46563a;line-height:1.35}
@@ -63,6 +86,12 @@ function applyPublicBranding(){
     .accession small{text-align:right;white-space:normal;overflow-wrap:anywhere}
     .specimen-readout span,.specimen-readout small{white-space:normal;overflow:visible;text-overflow:clip}
     .reference cite,.reference p{overflow-wrap:anywhere}
+    .vhs-motion{left:16px!important;bottom:44px!important}.vhs-roll{right:16px!important;bottom:44px!important}
+   }
+   @media(max-width:700px){
+    .vhs-card{width:126px!important;height:108px!important;padding:6px!important}
+    .vhs-screen{height:69px!important}
+    .vhs-motion{left:10px!important;bottom:42px!important}.vhs-roll{right:10px!important;bottom:42px!important}
    }
    @media(max-width:620px){
     .anatomy-app{padding:7px;gap:6px}
@@ -80,7 +109,12 @@ function applyPublicBranding(){
     .template-readout div{grid-template-columns:1fr;gap:1px}
     .template-readout dt{margin-top:2px}
     .references>header,.reference{overflow-wrap:anywhere}
-    .footer{display:grid;gap:4px;line-height:1.35}
+   }
+   @media(max-width:520px){
+    .vhs-card{width:106px!important;height:93px!important;padding:5px!important}
+    .vhs-screen{height:58px!important}
+    .vhs-head em{display:none!important}
+    .vhs-motion{left:8px!important;bottom:40px!important}.vhs-roll{right:8px!important;bottom:40px!important}
    }
    @media(max-width:460px){
     .lab-title .zh-title{font-size:17px}
@@ -91,12 +125,10 @@ function applyPublicBranding(){
     .exploded-stage{transform:scale(.51)}
     .part-list{grid-template-columns:1fr}
     .part-button{min-height:38px}
-    .vhs-card{width:88px;height:74px;padding:3px}
-    .vhs-screen{height:45px}
-    .vhs-headcam{left:7px}.vhs-tailcam{right:7px}
     .viewer-label{left:12px}.viewer::after{right:12px}
     .hint{left:12px;right:12px;line-height:1.4}
    }
+   @media(max-width:380px){.vhs-card{width:96px!important;height:86px!important}.vhs-screen{height:52px!important}.vhs-motion{left:6px!important}.vhs-roll{right:6px!important}}
   `;
   d.head.append(style);
  }catch(error){console.warn('Archive branding patch skipped',error)}
@@ -105,14 +137,64 @@ function applyPublicBranding(){
 frame.addEventListener('load',applyPublicBranding);
 (async()=>{
  try{
-  const response=await fetch('../anatomy-test.html?archive=5',{cache:'no-store'});
+  const response=await fetch('../anatomy-test.html?archive=6',{cache:'no-store'});
   if(!response.ok)throw new Error('Archive source unavailable');
   let html=await response.text();
   html=html.replace('<!doctype html>','<!doctype html><base href="../">');
   html=html.replaceAll('species-registry.mjs?v=species-33','species-registry.mjs?v=species-39b');
+
+  // Replace the three diagnostic crops with two VHS feeds: a low-resolution live motion study and a curled-body test.
+  html=html.replace(/<div class="vhs-deck" aria-label="录像观察窗">[\s\S]*?<\/div>\n\n      <div class="hint">/,`<div class="vhs-deck" aria-label="VHS 录像观察窗">
+        <button class="vhs-card vhs-motion" type="button" data-focus="body">
+          <span class="vhs-head"><i>● REC</i><b>LIVE MOTION</b><em id="motionCounter">00:00:00</em></span>
+          <span class="vhs-screen"><canvas id="vhsMotion" width="64" height="64"></canvas><span class="vhs-osd vhs-osd-play">▶ PLAY</span><span class="vhs-osd vhs-osd-time">CH 01</span><span class="vhs-osd vhs-osd-mode">SP</span></span>
+          <small>CAM 01 · MOTION STUDY / LOW RES</small>
+        </button>
+        <button class="vhs-card vhs-roll" type="button" data-focus="conglobation">
+          <span class="vhs-head"><i>● REC</i><b>ROLL TEST</b><em id="rollMode">—</em></span>
+          <span class="vhs-screen"><canvas id="vhsRoll" width="64" height="64"></canvas><span class="vhs-osd vhs-osd-play">II STILL</span><span class="vhs-osd vhs-osd-time">CH 02</span><span class="vhs-osd vhs-osd-mode">SP</span></span>
+          <small>CAM 02 · CONGLOBATION / LOW RES</small>
+        </button>
+      </div>
+
+      <div class="hint">`);
+
+  html=html.replace(/function renderVhs\(\)\{[\s\S]*?\n\}\n\nfunction templateFor/,`function drawVhsModules(canvas,modules,{scale=1,offsetX=0,offsetY=0,block=2}={}){
+ const ctx=canvas.getContext('2d');ctx.clearRect(0,0,64,64);ctx.imageSmoothingEnabled=false;
+ for(const module of modules){
+  for(const [x,y,color] of module.cells){
+   if(!color)continue;
+   const rawX=32+offsetX+x*scale,rawY=32+offsetY+y*scale;
+   const px=Math.round(rawX/block)*block,py=Math.round(rawY/block)*block;
+   if(px<0||px>=64||py<0||py>=64)continue;
+   ctx.fillStyle=color;ctx.fillRect(px,py,block,block);
+  }
+ }
+}
+let vhsFrame=0;
+function drawMotionFrame(){
+ const canvas=document.querySelector('#vhsMotion');if(!canvas||!model)return;
+ const phase=vhsFrame%4,postures=['normal','probing','turning','normal'];
+ const moving=pixelAnatomy(model,{posture:postures[vhsFrame%postures.length],phase,moving:true});
+ drawVhsModules(canvas,moving,{scale:.90,block:2,offsetX:phase===1?1:phase===3?-1:0});
+ const counter=document.querySelector('#motionCounter');
+ if(counter){const total=vhsFrame*4;counter.textContent=\`00:\${String(Math.floor(total/60)%60).padStart(2,'0')}:\${String(total%60).padStart(2,'0')}\`;}
+ vhsFrame++;
+}
+function renderVhs(){
+ const curled=pixelAnatomy(model,{posture:'curled',phase:0,moving:false});
+ drawVhsModules(document.querySelector('#vhsRoll'),curled,{scale:.94,block:2});
+ drawMotionFrame();
+ const c=model.visual.conglobation||{};
+ document.querySelector('#rollMode').textContent=(c.ability||'none').toUpperCase();
+}
+setInterval(drawMotionFrame,240);
+
+function templateFor`);
+  html=html.replace("for(const card of document.querySelectorAll('.vhs-card'))card.addEventListener('click',()=>{locked=card.dataset.focus;show(locked)});","for(const card of document.querySelectorAll('.vhs-card'))card.addEventListener('click',()=>lockSelection(card.dataset.focus));");
   frame.srcdoc=html;
  }catch(error){
-  frame.src='../anatomy-test.html?public=morphology-5';
+  frame.src='../anatomy-test.html?public=morphology-6';
  }
 })();
 </script>
