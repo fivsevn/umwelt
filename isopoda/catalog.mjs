@@ -1,5 +1,5 @@
 import {makeIsopod} from './sprites.mjs?v=quiet-ui-1';
-import {renderCredits} from './credits.mjs?v=credits-2';
+import {renderCredits} from './credits.mjs?v=credits-3';
 const text=(tag,value,cls='')=>{const el=document.createElement(tag);el.textContent=value;el.className=cls;return el};
 export function renderCatalog(p,{unlocked=true,collectedOn=null}={}){
  const card=document.createElement('article');card.className='species-card';
