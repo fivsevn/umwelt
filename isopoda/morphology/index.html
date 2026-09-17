@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#20291f">
+<meta name="description" content="《等足目赋格》的形态、分类、体型与逐标本参考资料。">
+<title>等足目形态资料库 · ISOPODA MORPHOLOGY ARCHIVE</title>
+<style>
+html,body{margin:0;width:100%;height:100%;background:#20291f;overflow:hidden}
+#archive{border:0;width:100%;height:100%;display:block;opacity:0;transition:opacity .08s linear}
+#archive.ready{opacity:1}
+noscript{display:block;padding:24px;color:#dedcc4;font:14px monospace}noscript a{color:#cbd2ae}
+</style>
+</head>
+<body>
+<iframe id="archive" title="等足目形态资料库" src="../anatomy-test.html?public=morphology-1"></iframe>
+<noscript><a href="../anatomy-test.html">打开等足目形态资料页</a></noscript>
+<script>
+const frame=document.querySelector('#archive');
+frame.addEventListener('load',()=>{
+ try{
+  const d=frame.contentDocument;
+  d.title='等足目形态资料库 · ISOPODA MORPHOLOGY ARCHIVE';
+  const set=(selector,value)=>{const el=d.querySelector(selector);if(el)el.textContent=value};
+  set('.lab-code','ISOPODA / MORPHOLOGY ARCHIVE');
+  set('.zh-title','等足目形态资料库');
+  set('.en-title','ISOPODA MORPHOLOGY ARCHIVE');
+  set('.lab-title p','形态、分类、体型与逐标本参考资料。');
+  set('.lab-status span','PUBLIC REFERENCE');
+  set('.lab-status small','作者 / 五月七日');
+  set('#specimenDossier summary small','详细资料 · 点击展开');
+  const footer=d.querySelector('.footer');
+  if(footer){
+   const spans=footer.querySelectorAll('span');
+   if(spans[0])spans[0].textContent='PUBLIC REFERENCE · 资料页';
+   if(spans[1])spans[1].textContent='AUTHOR · 五月七日 / fivsevn.com';
+  }
+  const style=d.createElement('style');
+  style.textContent='.viewer::after{content:"ISOPODA / OPTICAL TABLE"}';
+  d.head.append(style);
+ }catch(error){console.warn('Archive branding patch skipped',error)}
+ frame.classList.add('ready');
+});
+</script>
+</body>
+</html>
