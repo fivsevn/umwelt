@@ -7,7 +7,7 @@ const SIZE_REFERENCE={
  gestroi:{mm:20,confidence:'literature',basis:'Journal of Crustacean Biology 2025 specimen-size table'},
  versicolor:{mm:10,confidence:'literature',basis:'Journal of Crustacean Biology 2025 specimen-size table'},
  hoffmannseggii:{mm:16,confidence:'type-specimen',basis:'Schmalfuss 1987 holotype body length; conservative species anchor'},
- nasatum:{mm:20,confidence:'field-guide',basis:'British regional identification key, uncurled body length'},
+ nasatum:{mm:15,confidence:'historical-literature',basis:'published adult body-length record; conservative anchor amid regional size variation'},
  granulatum:{range:[15,25],confidence:'reference-range',basis:'published/hobby reference range; midpoint used only for display scaling'},
  expansus:{range:[25,35],confidence:'reference-range',basis:'multiple specialist references describe adults around 25–35 mm; midpoint used for display scaling'},
  haasi:{mm:25.5,confidence:'taxonomic-material',basis:'large P. haasi taxonomic material; conservative large-species display anchor'},
@@ -15,12 +15,14 @@ const SIZE_REFERENCE={
 };
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function referenceLengthMm(species){
+ const p=species?.profile||{};
+ // Prefer the species dossier whenever it carries a literature-backed body length. The fallback
+ // table exists for taxa whose current profile intentionally leaves size unresolved.
+ if(Number.isFinite(p.adultLengthMm)&&p.adultLengthMm>0)return p.adultLengthMm;
+ if(Array.isArray(p.adultLengthRangeMm)&&p.adultLengthRangeMm.length===2&&p.adultLengthRangeMm.every(v=>Number.isFinite(v)&&v>0))return (p.adultLengthRangeMm[0]+p.adultLengthRangeMm[1])/2;
  const ref=SIZE_REFERENCE[species?.id];
  if(ref?.mm)return ref.mm;
  if(ref?.range)return (ref.range[0]+ref.range[1])/2;
- const p=species?.profile||{};
- if(Number.isFinite(p.adultLengthMm))return p.adultLengthMm;
- if(Array.isArray(p.adultLengthRangeMm)&&p.adultLengthRangeMm.length===2&&p.adultLengthRangeMm.every(Number.isFinite))return (p.adultLengthRangeMm[0]+p.adultLengthRangeMm[1])/2;
  return null;
 }
 // 15 mm is the neutral visual baseline. Power compression preserves readable differences
