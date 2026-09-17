@@ -21,7 +21,8 @@ const SIZE_REFERENCE={
  pulchellum:{mm:5,confidence:'specialist-field-guide',basis:'BMIG / Gregory & Richards 2008: adults to 5 mm'},
  werneri:{mm:21,confidence:'revision-reference',basis:'modern species revision / specialist references: adults around 21 mm'},
  spinicornis:{mm:12,confidence:'specialist-field-guide',basis:'BMIG and Shultz 2018: adults to about 12 mm'},
- magnificus:{mm:29,confidence:'taxonomic-material',basis:'Schmalfuss 1987 cites adult males reaching about 29 mm'}
+ magnificus:{mm:29,confidence:'taxonomic-material',basis:'Schmalfuss 1987 cites adult males reaching about 29 mm'},
+ uniramea:{range:[.7,1.0],confidence:'type-series',basis:'Menzies & Miller 1955: holotype male 0.7 mm; ovigerous allotype female 1.0 mm'}
 };
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function referenceLengthMm(species){
@@ -38,6 +39,8 @@ export function referenceLengthMm(species){
 // 15 mm is the neutral visual baseline. Power compression preserves readable differences
 // without letting giant Porcellio dominate the 384 px habitat. A 0.70 floor keeps true
 // miniature species legible while preserving the difference between ~5 mm and ~9–10 mm taxa.
+// Sub-millimetre marine reference specimens also stop at this floor; their displayed size is
+// explicitly a legibility compromise, not a literal scale comparison with terrestrial taxa.
 export function displayScaleForMm(mm){
  if(!Number.isFinite(mm)||mm<=0)return 1;
  return clamp(Math.pow(mm/15,.4),.70,1.28);
