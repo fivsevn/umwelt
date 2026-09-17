@@ -39,8 +39,8 @@
 **Fonts / フォント**
 
 - [Fusion Pixel Font / 缝合像素字体](https://github.com/TakWolf/fusion-pixel-font) — TakWolf；SIL Open Font License 1.1。中国語表示ではリポジトリ内のセルフホスト版を使用しています。
-- [Silkscreen](https://github.com/googlefonts/silkscreen) — Jason Kottke；SIL Open Font License 1.1。英語表示で使用しています。
-- [DotGothic16](https://github.com/fontworks-fonts/DotGothic16) — Fontworks；SIL Open Font License。日本語表示で使用しています。
+- [Tiny5](https://github.com/Gissio/font_Tiny5) — Stefan Schmidt / Gissio；SIL Open Font License 1.1。英語表示では、旧端末や8/16-bitゲームに近い5ピクセル字形として使用しています。
+- [x8y12pxDenkiChip / でんきチップ](https://github.com/hicchicc/x8y12pxDenkiChip) — hicc（患者長ひっく）；SIL Open Font License 1.1。日本語表示ではコンパクトな12px日本語ピクセルフォントとして使用しています。
 - [リポジトリ内のフォントとライセンス](https://github.com/fivsevn/umwelt/tree/main/assets/fonts)
 
 **ライセンス**
