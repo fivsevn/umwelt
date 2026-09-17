@@ -1,5 +1,4 @@
 import {readFile} from 'node:fs/promises';
-import {fileURLToPath} from 'node:url';
 import {SUPPORTED_LANGUAGES,UI_COPY} from '../locales/ui.mjs';
 
 const root=new URL('../',import.meta.url);
@@ -61,7 +60,7 @@ for(const file of speciesFiles){
 for(const id of [...speciesIds].sort())if(!annotationIds.includes(id))fail(`annotation ${id}: no locale entry`);
 for(const id of annotationIds)if(!speciesIds.has(id))warn(`annotation ${id}: entry has no matching specimen id`);
 
-// 3) Authored game copy: active source strings must exist in the three-column translation table.
+// 3) Authored game copy: active visible source strings must exist in the translation table.
 const gameSource=await read('game-locales.mjs');
 const translatedZh=new Set([...gameSource.matchAll(/^\['([^'\n]*)',/gm)].map(match=>match[1]));
 const rowTriples=[...gameSource.matchAll(/^\['([^'\n]*)','([^'\n]*)','([^'\n]*)'\],?$/gm)];
@@ -69,8 +68,13 @@ for(const [index,match] of rowTriples.entries()){
  if(!match[1]||!match[2]||!match[3])fail(`game locale row ${index+1}: empty zh/en/ja value`);
 }
 
+// Encounter response fields (quiet/care/disturb) drive habitat behavior and are not rendered as copy.
+// Titles and observation lines are visible, so they are required.
 const encounterSource=await read('encounters.mjs');
-for(const value of chineseStrings(encounterSource))if(!translatedZh.has(value))fail(`game locale: encounter text is not translated: ${value}`);
+const encounterVisible=[];
+for(const match of encounterSource.matchAll(/\btitle:'([^']+)'/g))encounterVisible.push(match[1]);
+for(const match of encounterSource.matchAll(/\blines:\[([^\]]*)\]/g))encounterVisible.push(...chineseStrings(match[1]));
+for(const value of [...new Set(encounterVisible)])if(!translatedZh.has(value))fail(`game locale: visible encounter text is not translated: ${value}`);
 
 const contentSource=await read('content.mjs');
 const activeSections=[];
@@ -84,6 +88,14 @@ for(const [name,pattern] of [
  activeSections.push(body);
 }
 for(const value of chineseStrings(activeSections.join('\n')))if(!translatedZh.has(value))fail(`game locale: active content is not translated: ${value}`);
+
+// Midday scene copy is authored directly in engine.mjs. PERIODS are state labels and are not rendered.
+const engineSource=await read('engine.mjs');
+const engineIgnore=new Set(['晨间','午后','夜间']);
+for(const value of chineseStrings(engineSource)){
+ if(engineIgnore.has(value))continue;
+ if(!translatedZh.has(value))warn(`engine source string is handled dynamically or not yet represented as a direct locale row: ${value}`);
+}
 
 // MORNING / AMBIENT are not currently used by engine.mjs. Report them without failing CI.
 for(const [name,pattern] of [
