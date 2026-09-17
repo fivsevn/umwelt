@@ -9,9 +9,14 @@ const SIZE_REFERENCE={
  hoffmannseggii:{mm:16,confidence:'type-specimen',basis:'Schmalfuss 1987 holotype body length; conservative species anchor'},
  nasatum:{mm:15,confidence:'historical-literature',basis:'published adult body-length record; conservative anchor amid regional size variation'},
  granulatum:{range:[15,25],confidence:'reference-range',basis:'published/hobby reference range; midpoint used only for display scaling'},
- expansus:{range:[25,35],confidence:'reference-range',basis:'multiple specialist references describe adults around 25–35 mm; midpoint used for display scaling'},
+ expansus:{range:[25,35],confidence:'reference-range',basis:'multiple specialist references describe adults around 25–35 mm; midpoint used only for display scaling'},
  haasi:{mm:25.5,confidence:'taxonomic-material',basis:'large P. haasi taxonomic material; conservative large-species display anchor'},
- officinalis:{mm:20,confidence:'reference',basis:'multiple specialist references place adults around 20 mm'}
+ officinalis:{mm:20,confidence:'reference',basis:'multiple specialist references place adults around 20 mm'},
+ vulgare:{mm:18,confidence:'specialist-field-guide',basis:'BMIG species account: adults to 18 mm'},
+ asellus:{mm:18,confidence:'specialist-field-guide',basis:'BMIG species account: adults to 18 mm'},
+ muscorum:{range:[8,11],confidence:'literature-range',basis:'Saska 2007 diagnosis: adults 8–11 mm'},
+ rathkii:{range:[12,15],confidence:'literature-range',basis:'published diagnosis and BMIG account: adults 12–15 mm'},
+ reaumuri:{mm:22,confidence:'secondary-reference',basis:'widely reported adult maximum around 22 mm; used only as a compressed display anchor'}
 };
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function referenceLengthMm(species){
