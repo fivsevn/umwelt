@@ -58,20 +58,20 @@
 - [GBIF · Porcellio magnificus](https://www.gbif.org/species/6284298)
 - [Tuf & Ďurajková 2022 · 陆生等足类反捕食策略与天然色彩](https://www.porcellio.nl/_downloads/f81b8300feef2be5176f1dbea0eb23f5)
 
-**熊猫王选育 / 贸易品系资料**
+**中文圈常见观赏 / 选育品系资料**
 
-- [中文圈 · 熊猫王 Cubaris sp. “Panda King”](https://vocus.cc/article/692dad62fd89780001c87ed1)
+- [只鼠與你 · 鼠婦圖鑑：熊猫王、粉红熊猫王、木瓜、白鲨等](https://xoscars.lionfree.net/gallery.html)
 - [中文圈 · 粉红熊猫王 Cubaris sp. “Pink Panda King”](https://vocus.cc/article/692f2843fd89780001460197)
 - [Herpeton Academy · Panda King unresolved captive-culture label](https://academy.herpeton.net/en/caresheets/invertebrates/cubaris-sp-panda-king/)
-- [Xoticbugs · Panda King collector guide](https://xoticbugs.com/pages/cubaris-sp-panda-king-isopod)
-- [Xoticbugs · selective breeding / Panda King morphs](https://xoticbugs.com/pages/selective-breeding-isopods)
-- [PostPods · Red Panda King](https://postpods.co.uk/products/red-panda-king-isopods)
 - [Richard’s Inverts · Pink Panda King breeder line](https://richardsinverts-store.com/products/cubaris-sp-pink-panda-king)
-- [PostPods · Pink Panda King](https://postpods.co.uk/products/pink-panda-king)
-- [Pangea Reptile · Cubaris sp. “Citrus”](https://www.pangeareptile.com/products/cubaris-sp-citris-isopods)
-- [TC INSECTS · Cubaris sp. “Citrus” / Panda-line pattern notes](https://tcinsects.com/product/cubaris-citrus-isopods/)
+- [GBIF · Armadillidium vulgare，Magic Potion 的正式母种](https://www.gbif.org/species/2212923)
+- [Roach Crossing · Armadillidium vulgare “Magic Potion” cultivar history](https://www.roachcrossing.com/for-sale/non-roach/common-roly-poly-4/)
+- [中文市场 · 魔法药水鼠妇名称使用](https://www.jd.com/hprm/69943f46412a49ec1e3c.html?catID=36683&electedExtAttrSet=&extAttrValue=expand_name%2C&sort_type=sort_default)
+- [GBIF · Cubaris murina，Papaya 的正式母种](https://www.gbif.org/species/328BK)
+- [Pangea Reptile · Cubaris murina “Papaya”](https://www.pangeareptile.com/products/cubaris-murina-papaya-isopods-10-pack)
+- [Herpeton Academy · Cubaris sp. “White Shark”](https://academy.herpeton.net/en/caresheets/invertebrates/cubaris-sp-white-shark/)
 
-熊猫王及其 Pink / Red / Black / Citrus 条目按观赏鼠妇圈中的 captive lineage / trade morph 记录，不视为五个正式物种。底层 “Cubaris sp. Panda King” 目前仍保留未正式描述 / 未解析状态；选育来源与遗传模式主要来自饲养者和商家记录，不升级为分类学证据。
+本轮只保留熊猫王与粉红熊猫王两个 Panda King 条目；Red / Black / Citrus 暂时移出 registry。Magic Potion 与 Papaya 有明确正式母种，因此分别写作 Armadillidium vulgare 与 Cubaris murina 的人工培养 morph；White Shark 继续保留 Cubaris sp. 的未解析贸易标注。商家 / 玩家资料只用于贸易名、选育关系、常见外观与中文圈使用，不升级成正式分类学证据。
 
 **海洋参考标本 · 海参共栖等足虫**
 
@@ -110,5 +110,3 @@
 
 > 有关品种资料中的未定种、贸易名与培养线，保留其不确定性。  
 > 游戏中的活动、温湿度与成长状态均为模拟，不作为实际饲养或生物学数据。
-
-
