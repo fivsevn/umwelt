@@ -49,6 +49,7 @@ function applyPublicBranding(){
    if(spans[0])spans[0].textContent='PUBLIC REFERENCE · 资料页';
    if(spans[1])spans[1].textContent='PROJECT BY · 五月七日 / fivsevn.com';
   }
+
   const style=d.createElement('style');
   style.textContent=`
    .viewer::after{content:"ASIMOV LAB / OPTICAL TABLE"}
@@ -57,9 +58,12 @@ function applyPublicBranding(){
    .legend-source a{color:#97a989;text-decoration:underline;text-underline-offset:2px}
    .legend-source code{color:inherit}
 
+   /* The anatomy array occupies the visual field above the two VHS monitors. */
+   @media(min-width:901px){.exploded-stage{top:-58px!important}}
+
    /* Public VHS bay: two distinct feeds, both preserving the renderer's native aspect ratio. */
    .vhs-deck{position:absolute;inset:0;z-index:32;pointer-events:none}
-   .vhs-card{width:154px!important;height:126px!important;padding:7px!important;background:#0d120c!important;border:2px solid #4f5b45!important;box-shadow:0 0 0 1px #10160e,4px 5px 0 #11170f,inset 0 0 0 1px rgba(216,216,181,.045)!important;opacity:.92!important;overflow:hidden!important;transform:none!important}
+   .vhs-card{position:absolute;width:154px!important;height:126px!important;padding:7px!important;background:#0d120c!important;border:2px solid #4f5b45!important;box-shadow:0 0 0 1px #10160e,4px 5px 0 #11170f,inset 0 0 0 1px rgba(216,216,181,.045)!important;opacity:.92!important;overflow:hidden!important;transform:none!important;pointer-events:auto}
    .vhs-card:hover,.vhs-card.is-relevant{background:#121911!important;border-color:#8f9775!important;box-shadow:0 0 0 1px #161d13,4px 5px 0 #0b100a,inset 0 0 0 1px rgba(224,222,190,.08)!important}
    .vhs-motion{left:22px!important;bottom:48px!important;top:auto!important;right:auto!important}
    .vhs-roll{right:22px!important;bottom:48px!important;top:auto!important;left:auto!important}
@@ -67,7 +71,7 @@ function applyPublicBranding(){
    .vhs-head i{color:#bd796a!important;text-shadow:0 0 3px rgba(189,121,106,.26)}
    .vhs-head b{color:#c7c7a4!important;overflow:hidden;white-space:nowrap;text-overflow:clip}
    .vhs-head em{color:#727e64!important;font-variant-numeric:tabular-nums}
-   .vhs-screen{height:84px!important;margin-top:4px!important;display:grid!important;place-items:center!important;background:#080c08!important;border:2px solid #252e22!important;box-shadow:inset 0 0 0 1px #070a07,inset 0 0 15px rgba(0,0,0,.92)!important;overflow:hidden!important}
+   .vhs-screen{position:relative;height:84px!important;margin-top:4px!important;display:grid!important;place-items:center!important;background:#080c08!important;border:2px solid #252e22!important;box-shadow:inset 0 0 0 1px #070a07,inset 0 0 15px rgba(0,0,0,.92)!important;overflow:hidden!important}
    .vhs-screen::before{opacity:.52!important;background-size:6px 5px,8px 6px!important}
    .vhs-screen::after{background:repeating-linear-gradient(to bottom,rgba(232,232,199,.075) 0,rgba(232,232,199,.075) 1px,transparent 1px,transparent 3px),linear-gradient(to bottom,transparent 61%,rgba(202,205,164,.13) 63%,transparent 66%)!important;animation-duration:2.9s!important}
    .vhs-screen canvas{display:block!important;width:auto!important;height:100%!important;max-width:100%!important;aspect-ratio:1/1!important;object-fit:contain!important;margin:auto!important;image-rendering:pixelated!important;image-rendering:crisp-edges!important;filter:saturate(.42) sepia(.08) contrast(1.19) brightness(.88)!important}
@@ -86,6 +90,7 @@ function applyPublicBranding(){
     .accession small{text-align:right;white-space:normal;overflow-wrap:anywhere}
     .specimen-readout span,.specimen-readout small{white-space:normal;overflow:visible;text-overflow:clip}
     .reference cite,.reference p{overflow-wrap:anywhere}
+    .exploded-stage{top:43%!important}
     .vhs-motion{left:16px!important;bottom:44px!important}.vhs-roll{right:16px!important;bottom:44px!important}
    }
    @media(max-width:700px){
@@ -111,6 +116,7 @@ function applyPublicBranding(){
     .references>header,.reference{overflow-wrap:anywhere}
    }
    @media(max-width:520px){
+    .exploded-stage{top:41%!important}
     .vhs-card{width:106px!important;height:93px!important;padding:5px!important}
     .vhs-screen{height:58px!important}
     .vhs-head em{display:none!important}
@@ -122,7 +128,6 @@ function applyPublicBranding(){
     .lab-title p{font-size:9px;line-height:1.5}
     .species-picker select{font-size:10px}
     .viewer{min-height:505px}
-    .exploded-stage{transform:scale(.51)}
     .part-list{grid-template-columns:1fr}
     .part-button{min-height:38px}
     .viewer-label{left:12px}.viewer::after{right:12px}
@@ -135,15 +140,16 @@ function applyPublicBranding(){
  frame.classList.add('ready');
 }
 frame.addEventListener('load',applyPublicBranding);
+
 (async()=>{
  try{
-  const response=await fetch('../anatomy-test.html?archive=6',{cache:'no-store'});
+  const response=await fetch('../anatomy-test.html?archive=7',{cache:'no-store'});
   if(!response.ok)throw new Error('Archive source unavailable');
   let html=await response.text();
   html=html.replace('<!doctype html>','<!doctype html><base href="../">');
   html=html.replaceAll('species-registry.mjs?v=species-33','species-registry.mjs?v=species-39b');
 
-  // Replace the three diagnostic crops with two VHS feeds: a low-resolution live motion study and a curled-body test.
+  // Two VHS feeds: low-resolution live motion and conglobation.
   html=html.replace(/<div class="vhs-deck" aria-label="录像观察窗">[\s\S]*?<\/div>\n\n      <div class="hint">/,`<div class="vhs-deck" aria-label="VHS 录像观察窗">
         <button class="vhs-card vhs-motion" type="button" data-focus="body">
           <span class="vhs-head"><i>● REC</i><b>LIVE MOTION</b><em id="motionCounter">00:00:00</em></span>
@@ -178,7 +184,7 @@ function drawMotionFrame(){
  const moving=pixelAnatomy(model,{posture:postures[vhsFrame%postures.length],phase,moving:true});
  drawVhsModules(canvas,moving,{scale:.90,block:2,offsetX:phase===1?1:phase===3?-1:0});
  const counter=document.querySelector('#motionCounter');
- if(counter){const total=vhsFrame*4;counter.textContent=\`00:\${String(Math.floor(total/60)%60).padStart(2,'0')}:\${String(total%60).padStart(2,'0')}\`;}
+ if(counter){const total=vhsFrame*4;counter.textContent='00:'+String(Math.floor(total/60)%60).padStart(2,'0')+':'+String(total%60).padStart(2,'0')}
  vhsFrame++;
 }
 function renderVhs(){
@@ -191,10 +197,22 @@ function renderVhs(){
 setInterval(drawMotionFrame,240);
 
 function templateFor`);
-  html=html.replace("for(const card of document.querySelectorAll('.vhs-card'))card.addEventListener('click',()=>{locked=card.dataset.focus;show(locked)});","for(const card of document.querySelectorAll('.vhs-card'))card.addEventListener('click',()=>lockSelection(card.dataset.focus));");
+
+  // Idle body view keeps the right-hand body information, but no left module is highlighted.
+  // The Body proportions tile lights only when the LIVE MOTION monitor is explicitly activated.
+  html=html.replace("const zh=document.querySelector('#partZh')","let bodyExplicit=false;\nconst zh=document.querySelector('#partZh')");
+  html=html.replace("button.setAttribute('aria-pressed',String(button.dataset.key===key));","button.setAttribute('aria-pressed',String(button.dataset.key===key&&(key!=='body'||bodyExplicit)));" );
+  html=html.replace("button.addEventListener('click',()=>lockSelection(key));list.append(button);","button.addEventListener('click',()=>{bodyExplicit=false;if(key==='body'){locked=null;show('body')}else lockSelection(key)});list.append(button);");
+  html=html.replace("function lockSelection(key){locked=key==='body'?null:key;show(key)}","function lockSelection(key){locked=key;show(key)}");
+  html=html.replace("stage.replaceChildren();layers=GROUPS.map(makeLayer);locked=null;","stage.replaceChildren();layers=GROUPS.map(makeLayer);locked=null;bodyExplicit=false;");
+  html=html.replace("stage.addEventListener('pointermove',ev=>{if(locked)return;const hit=hitTest(ev);show(hit||'body');stage.style.cursor=hit?'pointer':'default'});","stage.addEventListener('pointermove',ev=>{if(locked)return;const hit=hitTest(ev);bodyExplicit=false;show(hit||'body');stage.style.cursor=hit?'pointer':'default'});");
+  html=html.replace("stage.addEventListener('pointerleave',()=>{if(!locked)show('body')});","stage.addEventListener('pointerleave',()=>{if(!locked){bodyExplicit=false;show('body')}});");
+  html=html.replace("stage.addEventListener('click',ev=>{const hit=hitTest(ev);if(hit){locked=hit;show(hit)}else{locked=null;show('body')}});","stage.addEventListener('click',ev=>{const hit=hitTest(ev);bodyExplicit=false;if(hit){locked=hit;show(hit)}else{locked=null;show('body')}});");
+  html=html.replace("for(const card of document.querySelectorAll('.vhs-card'))card.addEventListener('click',()=>{locked=card.dataset.focus;show(locked)});","for(const card of document.querySelectorAll('.vhs-card'))card.addEventListener('click',()=>{const key=card.dataset.focus;bodyExplicit=key==='body';locked=key;show(key)});");
+
   frame.srcdoc=html;
  }catch(error){
-  frame.src='../anatomy-test.html?public=morphology-6';
+  frame.src='../anatomy-test.html?public=morphology-7';
  }
 })();
 </script>
