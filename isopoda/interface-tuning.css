@@ -25,10 +25,11 @@
 /* Explicitly establish the habitat as the containing block. Without this, the species label can anchor to the outer window instead of the canvas. */
 #boxFrame .habitat-viewport{position:relative!important;isolation:isolate;overflow:hidden}
 #boxFrame #habitat{position:relative;z-index:1}
-.species-status{display:block!important;position:absolute!important;top:8px!important;right:8px!important;left:auto!important;bottom:auto!important;z-index:30!important;max-width:52%;padding:2px 4px;margin:0;border:0!important;border-left:1px solid #8f987d!important;background:rgba(37,46,34,.62)!important;box-shadow:none!important;color:#e1e2c6!important;font-size:9px;line-height:1.45;white-space:pre-line;text-align:right;cursor:pointer;opacity:1!important;text-shadow:1px 1px #263126;overflow-wrap:anywhere;pointer-events:auto!important}
+/* Species names should read like a quiet overlay, close to the mood-bubble text rather than a panel. */
+.species-status{display:block!important;position:absolute!important;top:8px!important;right:8px!important;left:auto!important;bottom:auto!important;z-index:30!important;max-width:52%;padding:1px 2px;margin:0;border:0!important;background:transparent!important;box-shadow:none!important;color:rgba(222,224,216,.72)!important;font-size:9px;line-height:1.45;white-space:pre-line;text-align:right;cursor:pointer;opacity:1!important;text-shadow:1px 1px rgba(38,49,38,.42);overflow-wrap:anywhere;pointer-events:auto!important}
 .species-status[data-empty="true"]{display:none!important}
-.species-status:hover{color:#f1f1d3!important}
-.species-status:focus-visible{outline:1px dotted #bdc4a7;outline-offset:1px}
+.species-status:hover{color:rgba(236,238,230,.88)!important}
+.species-status:focus-visible{outline:1px dotted rgba(210,214,202,.55);outline-offset:1px}
 
 .habitat-library{left:auto!important;right:8px!important;z-index:20}
 #boxFrame .zoom-tools{right:auto!important;left:8px!important;z-index:20}
@@ -74,5 +75,5 @@ body{min-height:100dvh}
   .system-clock{right:6px;font-size:9px;min-width:66px}
   .status-row{padding-inline:4px}
   .status-row .instruments{font-size:10px;gap:4px}
-  .species-status{top:6px!important;right:6px!important;max-width:58%;font-size:8px;padding:2px 3px}
+  .species-status{top:6px!important;right:6px!important;max-width:58%;font-size:8px;padding:1px 2px}
 }
