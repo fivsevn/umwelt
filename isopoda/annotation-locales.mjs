@@ -132,8 +132,8 @@ const copy={
     ja:['この橙色は、飼育系統で説明する必要がない。','大きさ、長い尾肢、色が重なって、輪郭を背景の手前へ押し出す。']
   },
   uniramea:{
-    en:['It does not live under leaf litter; it braces its last three pairs of legs in tiny depressions in a sea cucumber’s skin.','At under a millimeter long, this commensal isopod looks more like a moving punctuation mark on its host.'],
-    ja:['落ち葉の下ではなく、ナマコの皮膚にある小さなくぼみに後ろ三対の歩脚を引っかけて暮らす。','一ミリにも満たない身体は、宿主の表面に貼りついた動く句読点のようだ。']
+    en:['Halacarsantia uniramea is a marine isopod less than a millimetre long.','Its broad rounded frontal lobe, prominent lateral plates, and uniramous uropods define the reference model used here.'],
+    ja:['Halacarsantia uniramea は体長1ミリ未満の小型の海生等脚類。','幅広く丸い頭部前縁、目立つ側板、単枝の尾肢を現在の参照モデルの主要形質としている。']
   },
   pandaKing:{
     en:['Its name comes from the simplest contrast: black and white.','The taxonomic identity remains unsettled, but the pattern became a shared language among keepers first.'],
