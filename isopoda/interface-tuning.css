@@ -1,0 +1,57 @@
+/* Compact observation-window tuning: system menu, species label, handed controls and non-stretched portrait layout. */
+.window-system-menu{min-height:27px;display:flex;align-items:center;gap:5px;padding:2px 5px;background:#b8bda2;color:#334436;border-top:2px solid #d5d7bc;border-bottom:2px solid #58674e;font-size:10px;line-height:1;white-space:nowrap;overflow:hidden}
+.system-menu-left{display:flex;align-items:center;gap:4px;min-width:0}
+.language-menu{display:flex;align-items:center;gap:1px;padding-right:4px;border-right:1px solid #89967b}
+.window-system-menu button{height:21px;min-height:21px;min-width:22px;padding:0 4px;border:0;background:transparent;color:#40513f;box-shadow:none;border-radius:0;line-height:1}
+.window-system-menu button:hover{background:#a8b192}
+.window-system-menu button[aria-pressed="true"]{background:#536d61;color:#e2e2c8}
+#musicBtn,#soundBtn{width:23px;min-width:23px;padding:0;display:grid;place-items:center}
+#musicBtn{font-size:13px}
+.window-system-menu #soundBtn{height:21px;min-height:21px;color:#40513f;opacity:1}
+.window-system-menu #soundBtn[aria-pressed="false"]{opacity:.52}
+.window-system-menu #soundBtn .pixel-icon{transform:scale(.66)}
+.window-system-menu #soundBtn::after{display:none}
+#speedBtn{min-width:35px;padding-inline:5px;border-left:1px solid #89967b}
+.system-clock{margin-left:auto;padding-left:7px;font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:none}
+
+.status-row{flex-wrap:nowrap!important;overflow:hidden;min-height:24px}
+.status-row .instruments{min-width:0;flex:1;overflow:hidden}
+.species-status{margin-left:auto;min-width:0;max-width:46%;padding:0 2px;border:0;background:transparent;color:#5b6953;font-size:9px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:right;cursor:pointer}
+.species-status:hover{color:#344a36}
+.species-status:focus-visible{outline:1px solid #53664d;outline-offset:1px}
+
+/* Right-handed primary field controls: zoom/pan on the left, archive/library on the right. */
+.habitat-library{left:auto!important;right:8px!important}
+#boxFrame .zoom-tools{right:auto!important;left:8px!important}
+
+/* The application window sizes to its content. Extra viewport height remains desktop wallpaper. */
+html,body{height:auto!important;min-height:100%;overflow:auto!important}
+body{min-height:100dvh}
+#game{height:auto!important;min-height:100dvh!important;padding:6px 8px max(28px,env(safe-area-inset-bottom))!important;background:transparent!important}
+.play-view{height:auto!important;min-height:0!important;flex:none!important;overflow:visible!important;width:100%}
+.play-view .box-frame:not(.maximized){height:auto!important;max-height:none!important;overflow:hidden}
+.box-frame:not(.maximized):not(:fullscreen) .window-content{flex:none!important;height:auto!important;min-height:0!important;justify-content:flex-start!important;overflow:visible!important;gap:0!important}
+.box-frame:not(.maximized):not(:fullscreen) .window-story{height:auto!important;flex:none!important;margin:0!important;padding-top:3px!important}
+
+@media(max-width:899px) and (orientation:portrait){
+  .box-frame:not(.maximized):not(:fullscreen) .window-content{display:flex!important;flex-direction:column!important;align-items:stretch!important}
+  .box-frame:not(.maximized):not(:fullscreen) .window-content>.habitat-viewport{width:100%!important;height:auto!important;max-width:none!important;aspect-ratio:1!important;align-self:stretch!important}
+  .box-frame:not(.maximized):not(:fullscreen) .window-story{width:100%!important}
+}
+
+@media(min-width:900px),(orientation:landscape){
+  .box-frame:not(.maximized):not(:fullscreen) .window-content{display:flex!important;flex-direction:row!important;align-items:stretch!important;gap:6px!important}
+  .box-frame:not(.maximized):not(:fullscreen) .window-content>.habitat-viewport{width:59%!important;height:auto!important;max-width:59%!important;aspect-ratio:1!important;align-self:flex-start!important}
+  .box-frame:not(.maximized):not(:fullscreen) .window-story{width:40%!important;align-self:stretch!important}
+}
+
+@media(max-width:430px){
+  .window-system-menu{gap:3px;padding-inline:3px;font-size:9px}
+  .system-menu-left{gap:2px}
+  .language-menu{padding-right:2px}
+  .window-system-menu button{min-width:19px;padding-inline:3px;font-size:9px}
+  #musicBtn,#soundBtn{width:20px;min-width:20px}
+  #speedBtn{min-width:31px}
+  .system-clock{font-size:9px;padding-left:3px}
+  .species-status{max-width:38%;font-size:8px}
+}
