@@ -102,7 +102,7 @@ const referenceList=document.querySelector('#referenceList');
 const dossierBody=document.querySelector('#dossierBody');
 
 const INFO={
- body:{zh:'整体比例',en:'Body proportions',evidence:'RENDER / MORPHOLOGY',description:'长度、宽度和背部拱度共同决定整体轮廓。这里不是缩放图片，而是让头部、背板、腹部和附肢共享同一套身体空间。',targets:['pereon','epimera','cephalon','pleon','pleotelson','uropods','antennae','pereopods'],refs:['shultz2018']},
+ body:{zh:'整体比例',en:'Body proportions',evidence:'RENDER / MORPHOLOGY',description:'长度、宽度和背部拱度共同决定整体轮廓。头部、背板、腹部和附肢按照同一套身体空间组织，共同构成当前的整体比例。',targets:['pereon','epimera','cephalon','pleon','pleotelson','uropods','antennae','pereopods'],refs:['shultz2018']},
  cephalon:{zh:'头部',en:'Cephalon',evidence:'HEAD TEMPLATE',description:'控制头部宽度、前缘轮廓、额叶或额盾、眼位。不同属级或科级模板不再强行共用同一个头型。',targets:['cephalon'],refs:['shultz2018','taiti2015','cifuentes2020']},
  antennae:{zh:'第二触角',en:'Antenna II',evidence:'ANTENNA TEMPLATE',description:'控制总长度、张角、弯曲、粗细和可见节比例；部分 Porcellio 还保留触角柄节特殊突起的像素代理。',targets:['antennae'],refs:['shultz2018','cifuentes2020','kastle2025']},
  pereon:{zh:'胸部背板',en:'Pereon tergites',evidence:'PEREON TEMPLATE',description:'七节胸部背板分别绘制，控制弧度、重叠与总体背甲轮廓，是主体结构拆分的核心。',targets:['pereon'],refs:['shultz2018','kastle2025']},
@@ -112,7 +112,7 @@ const INFO={
  pleon:{zh:'腹部',en:'Pleon',evidence:'POSTERIOR TEMPLATE',description:'控制腹部长度、宽度和向后收窄程度，并与尾节、尾肢共同形成后半身轮廓。',targets:['pleon'],refs:['shultz2018']},
  pleotelson:{zh:'尾节',en:'Pleotelson',evidence:'TAIL TEMPLATE',description:'控制尾节长度、宽度、末端外形以及部分类群的 keel 代理；不同类群不再共用一个尾巴。',targets:['pleotelson'],refs:['shultz2018','taiti2015','cifuentes2020']},
  uropods:{zh:'尾肢',en:'Uropods',evidence:'TAIL TEMPLATE',description:'控制尾肢突出程度、位置、粗细与排列。Porcellio 的后突型与卷球类群的紧凑 / flush 型在此分开。',targets:['uropods'],refs:['shultz2018','taiti2015']},
- conglobation:{zh:'卷球策略',en:'Conglobation strategy',evidence:'BODY-PLAN / BEHAVIOUR',description:'这是系统层而不是单独器官：不同类群可以完全卷球、部分卷曲或基本不卷。上方 ROLL TEST 录像窗直接显示当前 renderer 的 curled 姿态。',targets:['pereon','epimera','cephalon','pleon','pleotelson','uropods','antennae','pereopods'],refs:['taiti2015','kastle2025']}
+ conglobation:{zh:'卷球策略',en:'Conglobation strategy',evidence:'BODY-PLAN / BEHAVIOUR',description:'这一项描述整体层面的卷球策略。不同类群可以完全卷球、部分卷曲或基本不卷；上方 ROLL TEST 录像窗直接显示当前 renderer 的 curled 姿态。',targets:['pereon','epimera','cephalon','pleon','pleotelson','uropods','antennae','pereopods'],refs:['taiti2015','kastle2025']}
 };
 const ORDER=['body','cephalon','antennae','pereon','epimera','surface','pereopods','pleon','pleotelson','uropods','conglobation'];
 const GROUPS=[
