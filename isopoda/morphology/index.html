@@ -26,10 +26,10 @@ function applyPublicBranding(){
   d.title='阿西莫夫形态实验室 · ASIMOV MORPHOLOGY LAB';
   const set=(selector,value)=>{const el=d.querySelector(selector);if(el)el.textContent=value};
   const speciesCount=d.querySelector('#speciesSelect')?.options.length||0;
-  set('.lab-code',`ASIMOV / ONISCIDEA · MORPHOLOGY ARRAY ${speciesCount||'—'}`);
+  set('.lab-code',`ASIMOV / ISOPODA · MORPHOLOGY ARRAY ${speciesCount||'—'}`);
   set('.zh-title','阿西莫夫形态实验室');
   set('.en-title','ASIMOV MORPHOLOGY LAB');
-  set('.lab-title p','把一只鼠妇拆成可独立变化的形态模块，再逐一核对它们的依据。');
+  set('.lab-title p','将等足类标本拆分为可独立观察的形态模块，再逐一核对各部分的依据。');
   set('.lab-status span','LAB NOTE 07');
   set('.lab-status small','64 px dorsal morphology');
   set('#specimenDossier summary small','详细资料 · 点击展开');
