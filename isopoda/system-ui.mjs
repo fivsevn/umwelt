@@ -1,19 +1,20 @@
 import {speciesById} from './species-registry.mjs?v=species-39b';
 
 const LANGS=['zh','en','ja','iso'];
-let language='zh';
+let interfaceLanguage='zh';
+let speciesLanguage='zh';
 
 function speciesName(species,lang){
   if(!species)return '—';
   if(lang==='zh')return species.names?.zhCN||species.name||species.label||species.id;
   if(lang==='en')return species.names?.en||species.label||species.name||species.id;
-  if(lang==='ja')return species.names?.ja||species.label||species.name||species.id;
+  if(lang==='ja')return species.names?.ja||species.label||species.names?.en||species.name||species.id;
   return `ISO · ${species.id}`;
 }
 
-function updateLanguageButtons(){
-  document.querySelectorAll('[data-system-lang]').forEach(button=>{
-    button.setAttribute('aria-pressed',String(button.dataset.systemLang===language));
+function updateLanguageItems(){
+  document.querySelectorAll('[data-system-lang]').forEach(item=>{
+    item.setAttribute('aria-pressed',String(item.dataset.systemLang===interfaceLanguage));
   });
 }
 
@@ -28,34 +29,40 @@ function updateSpeciesStatus(){
   const ids=[...new Set(currentTaxa())];
   if(!ids.length){target.textContent='—';target.title='';return;}
   const species=ids.map(speciesById);
-  target.textContent=species.map(item=>speciesName(item,language)).join(' / ');
-  target.title=species.map(item=>item.taxon||item.label||item.name||item.id).join(' / ');
+  target.textContent=species.map(item=>speciesName(item,speciesLanguage)).join('\n');
+  target.title=species.map(item=>item.taxon||item.label||item.name||item.id).join('\n');
+  target.dataset.language=speciesLanguage;
 }
 
-function setLanguage(next){
+// Changing the whole interface language also resets the species label to that language.
+// From that point on the species label can be cycled independently.
+function setInterfaceLanguage(next){
   if(!LANGS.includes(next))return;
-  language=next;
-  updateLanguageButtons();
+  interfaceLanguage=next;
+  speciesLanguage=next;
+  document.documentElement.dataset.uiLanguage=next;
+  updateLanguageItems();
   updateSpeciesStatus();
 }
 
-function cycleLanguage(){
-  setLanguage(LANGS[(LANGS.indexOf(language)+1)%LANGS.length]);
+function cycleSpeciesLanguage(){
+  speciesLanguage=LANGS[(LANGS.indexOf(speciesLanguage)+1)%LANGS.length];
+  updateSpeciesStatus();
 }
 
 function init(){
   globalThis.__ISOPODA_HABITAT_SPEED__=1;
 
-  document.querySelectorAll('[data-system-lang]').forEach(button=>{
-    button.addEventListener('click',()=>setLanguage(button.dataset.systemLang));
+  document.querySelectorAll('[data-system-lang]').forEach(item=>{
+    item.addEventListener('click',()=>setInterfaceLanguage(item.dataset.systemLang));
   });
-  document.querySelector('#speciesStatus')?.addEventListener('click',cycleLanguage);
+  document.querySelector('#speciesStatus')?.addEventListener('click',cycleSpeciesLanguage);
 
   const habitat=document.querySelector('#habitat');
   if(habitat){
     new MutationObserver(updateSpeciesStatus).observe(habitat,{attributes:true,attributeFilter:['data-taxa']});
   }
-  updateLanguageButtons();
+  updateLanguageItems();
   updateSpeciesStatus();
 
   const speedButton=document.querySelector('#speedBtn');
