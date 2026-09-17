@@ -65,7 +65,7 @@ function applyPublicBranding(){
    @media(min-width:901px){.exploded-stage{top:-58px!important}}
 
    /* Public VHS bay: two distinct feeds, both preserving the renderer's native aspect ratio. */
-   .vhs-deck{position:absolute;inset:0;z-index:32;pointer-events:none}
+   .vhs-deck{position:absolute;inset:0;z-index:32;pointer-events:none;overflow:hidden}
    .vhs-card{position:absolute;width:154px!important;height:126px!important;padding:7px!important;background:#0d120c!important;border:2px solid #4f5b45!important;box-shadow:0 0 0 1px #10160e,4px 5px 0 #11170f,inset 0 0 0 1px rgba(216,216,181,.045)!important;opacity:.92!important;overflow:hidden!important;transform:none!important;pointer-events:auto}
    .vhs-card:hover,.vhs-card.is-relevant{background:#121911!important;border-color:#8f9775!important;box-shadow:0 0 0 1px #161d13,4px 5px 0 #0b100a,inset 0 0 0 1px rgba(224,222,190,.08)!important}
    .vhs-motion{left:22px!important;bottom:48px!important;top:auto!important;right:auto!important}
@@ -77,7 +77,7 @@ function applyPublicBranding(){
    .vhs-screen{position:relative;height:84px!important;margin-top:4px!important;display:grid!important;place-items:center!important;background:#080c08!important;border:2px solid #252e22!important;box-shadow:inset 0 0 0 1px #070a07,inset 0 0 15px rgba(0,0,0,.92)!important;overflow:hidden!important}
    .vhs-screen::before{opacity:.52!important;background-size:6px 5px,8px 6px!important}
    .vhs-screen::after{background:repeating-linear-gradient(to bottom,rgba(232,232,199,.075) 0,rgba(232,232,199,.075) 1px,transparent 1px,transparent 3px),linear-gradient(to bottom,transparent 61%,rgba(202,205,164,.13) 63%,transparent 66%)!important;animation-duration:2.9s!important}
-   .vhs-screen canvas{display:block!important;width:auto!important;height:100%!important;max-width:100%!important;aspect-ratio:1/1!important;object-fit:contain!important;margin:auto!important;image-rendering:pixelated!important;image-rendering:crisp-edges!important;filter:saturate(.42) sepia(.08) contrast(1.19) brightness(.88)!important}
+   .vhs-screen canvas{position:absolute!important;left:50%!important;top:50%!important;display:block!important;width:76px!important;height:76px!important;max-width:calc(100% - 6px)!important;max-height:calc(100% - 6px)!important;aspect-ratio:1/1!important;object-fit:contain!important;margin:0!important;transform:translate(-50%,-50%)!important;image-rendering:pixelated!important;image-rendering:crisp-edges!important;filter:saturate(.42) sepia(.08) contrast(1.19) brightness(.88)!important}
    .vhs-osd{position:absolute;z-index:12;font-size:5px;line-height:1;color:#9ca78c;text-shadow:1px 1px #050805;pointer-events:none;letter-spacing:.06em}
    .vhs-osd-play{left:5px;top:5px}.vhs-osd-time{right:5px;top:5px;font-variant-numeric:tabular-nums}.vhs-osd-mode{right:5px;bottom:5px;color:#65715b}
    .vhs-card small{margin-top:4px!important;font-size:6px!important;line-height:1!important;color:#68745e!important;letter-spacing:.04em!important;white-space:nowrap!important}
@@ -93,13 +93,15 @@ function applyPublicBranding(){
     .accession small{text-align:right;white-space:normal;overflow-wrap:anywhere}
     .specimen-readout span,.specimen-readout small{white-space:normal;overflow:visible;text-overflow:clip}
     .reference cite,.reference p{overflow-wrap:anywhere}
-    .exploded-stage{top:43%!important}
-    .vhs-motion{left:16px!important;bottom:44px!important}.vhs-roll{right:16px!important;bottom:44px!important}
+    .viewer{overflow:hidden!important}
+    .exploded-stage{top:39%!important}
+    .vhs-deck{inset:10px 10px 30px!important}
+    .vhs-motion{left:8px!important;bottom:8px!important}.vhs-roll{right:8px!important;bottom:8px!important}
    }
    @media(max-width:700px){
     .vhs-card{width:126px!important;height:108px!important;padding:6px!important}
     .vhs-screen{height:69px!important}
-    .vhs-motion{left:10px!important;bottom:42px!important}.vhs-roll{right:10px!important;bottom:42px!important}
+    .vhs-screen canvas{width:61px!important;height:61px!important}
    }
    @media(max-width:620px){
     .anatomy-app{padding:7px;gap:6px}
@@ -111,7 +113,7 @@ function applyPublicBranding(){
     .accession{gap:8px;padding:5px 7px}
     .accession span{font-size:8px}
     .accession small{font-size:7px}
-    .viewer{min-height:540px}
+    .viewer{min-height:560px!important}
     .part-list{gap:4px}
     .part-button{min-width:0}
     .template-readout div{grid-template-columns:1fr;gap:1px}
@@ -119,24 +121,35 @@ function applyPublicBranding(){
     .references>header,.reference{overflow-wrap:anywhere}
    }
    @media(max-width:520px){
-    .exploded-stage{top:41%!important}
+    .viewer{min-height:570px!important}
+    .exploded-stage{top:35%!important}
+    .vhs-deck{inset:10px 10px 34px!important}
     .vhs-card{width:106px!important;height:93px!important;padding:5px!important}
     .vhs-screen{height:58px!important}
+    .vhs-screen canvas{width:50px!important;height:50px!important}
     .vhs-head em{display:none!important}
-    .vhs-motion{left:8px!important;bottom:40px!important}.vhs-roll{right:8px!important;bottom:40px!important}
+    .vhs-motion{left:6px!important;bottom:8px!important}.vhs-roll{right:6px!important;bottom:8px!important}
    }
    @media(max-width:460px){
     .lab-title .zh-title{font-size:17px}
     .lab-title .en-title{font-size:9px}
     .lab-title p{font-size:9px;line-height:1.5}
     .species-picker select{font-size:10px}
-    .viewer{min-height:505px}
+    .viewer{min-height:580px!important}
+    .exploded-stage{top:34%!important}
+    .vhs-deck{inset:10px 10px 36px!important}
     .part-list{grid-template-columns:1fr}
     .part-button{min-height:38px}
     .viewer-label{left:12px}.viewer::after{right:12px}
-    .hint{left:12px;right:12px;line-height:1.4}
+    .hint{left:12px;right:12px;bottom:11px!important;line-height:1.4}
    }
-   @media(max-width:380px){.vhs-card{width:96px!important;height:86px!important}.vhs-screen{height:52px!important}.vhs-motion{left:6px!important}.vhs-roll{right:6px!important}}
+   @media(max-width:380px){
+    .viewer{min-height:560px!important}
+    .vhs-card{width:94px!important;height:84px!important;padding:4px!important}
+    .vhs-screen{height:50px!important}
+    .vhs-screen canvas{width:44px!important;height:44px!important}
+    .vhs-motion{left:4px!important}.vhs-roll{right:4px!important}
+   }
   `;
   d.head.append(style);
  }catch(error){console.warn('Morphology branding patch skipped',error)}
