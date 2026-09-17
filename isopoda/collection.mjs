@@ -4,8 +4,10 @@ const ids=new Set(SPECIES.map(s=>s.id));
 // Registry-only reference specimens (for example marine Asellota) remain visible in the archive
 // but must never be selected for the terrestrial enclosure.
 const habitatSpecies=SPECIES.filter(s=>s.game?.habitatEligible!==false);
+const referenceSpecies=SPECIES.filter(s=>s.game?.referenceOnly).map(s=>s.id);
 export function restoreCollection(value,run,archives=[]){
  const known=Array.isArray(value?.unlocked)?value.unlocked.filter(id=>ids.has(id)):[];
+ known.push(...referenceSpecies);
  if(run)known.push(...runSpecies(run));
  for(const item of archives)known.push(...(Array.isArray(item.species)?item.species.filter(id=>ids.has(id)):runSpecies(item)));
  const acquired={};for(const [id,date] of Object.entries(value?.acquired||{}))if(ids.has(id)&&/^\d{4}-\d{2}-\d{2}$/.test(date))acquired[id]=date;
