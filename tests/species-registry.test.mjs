@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {SPECIES,speciesById} from '../isopoda/species-registry.mjs';
-import {sources} from '../isopoda/sources.mjs';
+import {sources} from '../isopoda/sources-registry.mjs';
 import {displayScaleForMm,referenceLengthMm} from '../isopoda/species-size.mjs';
 
 const original=['dairy','cappuccino','diablo','echinatus','pink','coros','bolivari','ducky','daxin','ember','amber','vex','orange'];
@@ -9,16 +9,18 @@ const firstBatch=['maculatum','klugii','gestroi','versicolor','hoffmannseggii'];
 const secondBatch=['nasatum','granulatum','expansus','haasi','officinalis'];
 const thirdBatch=['vulgare','asellus','muscorum','rathkii','reaumuri'];
 const fourthBatch=['pictum','pulchellum','werneri','spinicornis','magnificus'];
-const added=[...firstBatch,...secondBatch,...thirdBatch,...fourthBatch];
+const marineReference=['uniramea'];
+const added=[...firstBatch,...secondBatch,...thirdBatch,...fourthBatch,...marineReference];
 
-test('expanded registry preserves the original 13 and appends twenty sourced accepted species',()=>{
- assert.equal(SPECIES.length,33);
+test('expanded registry preserves terrestrial batches and appends the sourced marine reference',()=>{
+ assert.equal(SPECIES.length,34);
  assert.deepEqual(SPECIES.slice(0,13).map(s=>s.id),original);
  assert.deepEqual(SPECIES.slice(13,18).map(s=>s.id),firstBatch);
  assert.deepEqual(SPECIES.slice(18,23).map(s=>s.id),secondBatch);
  assert.deepEqual(SPECIES.slice(23,28).map(s=>s.id),thirdBatch);
- assert.deepEqual(SPECIES.slice(28).map(s=>s.id),fourthBatch);
- assert.equal(new Set(SPECIES.map(s=>s.id)).size,33);
+ assert.deepEqual(SPECIES.slice(28,33).map(s=>s.id),fourthBatch);
+ assert.deepEqual(SPECIES.slice(33).map(s=>s.id),marineReference);
+ assert.equal(new Set(SPECIES.map(s=>s.id)).size,34);
  for(const id of added){
   const p=speciesById(id);
   assert.equal(p.taxonomy.speciesStatus,'accepted_species');
@@ -118,6 +120,16 @@ test('new sprites retain conservative scaffolds while species evidence changes r
  assert.equal(magnificus.conglobation.ability,'none');
  assert.ok(magnificus.uropods.projection>dairy.uropods.projection);
  assert.equal(magnificus.palette.tergite,'#c76935');
+
+ const uniramea=speciesById('uniramea');
+ assert.equal(uniramea.taxonomy.suborder,'Asellota');
+ assert.equal(uniramea.game.habitatEligible,false);
+ assert.equal(uniramea.game.referenceOnly,true);
+ assert.equal(uniramea.visual.morphologyKey,'halacarsantiaMarine');
+ assert.equal(uniramea.visual.conglobation.ability,'none');
+ assert.equal(uniramea.visual.uropods.ramiPerUropod,1);
+ assert.deepEqual(uniramea.visual.legs.posteriorAnchoringPairs,[5,6,7]);
+ assert.equal(uniramea.association.hostAcceptedName,'Australostichopus mollis');
 });
 
 test('adult body-length references scale whole specimens without changing stage ratios',()=>{
@@ -135,8 +147,10 @@ test('adult body-length references scale whole specimens without changing stage 
  assert.equal(referenceLengthMm(speciesById('werneri')),21);
  assert.equal(referenceLengthMm(speciesById('spinicornis')),12);
  assert.equal(referenceLengthMm(speciesById('magnificus')),29);
+ assert.equal(referenceLengthMm(speciesById('uniramea')),.85);
  assert.equal(referenceLengthMm(large),30);
  assert.ok(speciesById('pulchellum').renderSize.scale<=.82);
+ assert.equal(speciesById('uniramea').renderSize.scale,.70);
  assert.ok(speciesById('muscorum').renderSize.scale<.9);
  assert.ok(small.renderSize.scale<.9);
  assert.equal(neutral.renderSize.scale,1);
@@ -145,7 +159,7 @@ test('adult body-length references scale whole specimens without changing stage 
  assert.ok(large.renderSize.scale>=1.27);
  assert.equal(small.visual.adultDisplayScale,displayScaleForMm(10));
  assert.equal(large.visual.adultDisplayScale,displayScaleForMm(30));
- for(const p of [small,large,speciesById('muscorum'),speciesById('reaumuri'),speciesById('pulchellum'),speciesById('magnificus')]){
+ for(const p of [small,large,speciesById('muscorum'),speciesById('reaumuri'),speciesById('pulchellum'),speciesById('magnificus'),speciesById('uniramea')]){
   assert.ok(p.visual.stageProfiles.juvenile.scale<p.visual.stageProfiles.subadult.scale);
   assert.ok(p.visual.stageProfiles.subadult.scale<p.visual.stageProfiles.adult.scale);
   assert.ok(Math.abs(p.visual.stageProfiles.juvenile.scale/p.visual.stageProfiles.adult.scale-.72)<1e-9);
