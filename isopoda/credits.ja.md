@@ -4,6 +4,7 @@
 
 - 五月七日
 - [fivsevn.com](https://fivsevn.com/)
+- 短い映像作品や実験的な投稿は [Douyin](https://v.douyin.com/fy3BstaoOYk) にも掲載しています。
 
 **協力**
 
