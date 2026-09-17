@@ -36,10 +36,11 @@ export function referenceLengthMm(species){
  return null;
 }
 // 15 mm is the neutral visual baseline. Power compression preserves readable differences
-// without letting giant Porcellio dominate the 384 px habitat or tiny taxa become illegible.
+// without letting giant Porcellio dominate the 384 px habitat. A 0.70 floor keeps true
+// miniature species legible while preserving the difference between ~5 mm and ~9–10 mm taxa.
 export function displayScaleForMm(mm){
  if(!Number.isFinite(mm)||mm<=0)return 1;
- return clamp(Math.pow(mm/15,.4),.82,1.28);
+ return clamp(Math.pow(mm/15,.4),.70,1.28);
 }
 export function speciesDisplayScale(species){return displayScaleForMm(referenceLengthMm(species))}
 export function sizeReferenceFor(species){return SIZE_REFERENCE[species?.id]||null}
