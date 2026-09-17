@@ -50,8 +50,17 @@ function cycleSpeciesLanguage(){
   updateSpeciesStatus();
 }
 
+function setHabitatSpeed(speed){
+  const next=Number(speed)||1;
+  globalThis.__ISOPODA_HABITAT_SPEED__=next;
+  document.querySelectorAll('[data-habitat-speed]').forEach(button=>{
+    const active=Number(button.dataset.habitatSpeed)===next;
+    button.setAttribute('aria-pressed',String(active));
+  });
+}
+
 function init(){
-  globalThis.__ISOPODA_HABITAT_SPEED__=1;
+  setHabitatSpeed(1);
 
   document.querySelectorAll('[data-system-lang]').forEach(item=>{
     item.addEventListener('click',()=>setInterfaceLanguage(item.dataset.systemLang));
@@ -65,13 +74,12 @@ function init(){
   updateLanguageItems();
   updateSpeciesStatus();
 
-  const speedButton=document.querySelector('#speedBtn');
-  speedButton?.addEventListener('click',()=>{
-    const active=speedButton.getAttribute('aria-pressed')!=='true';
-    globalThis.__ISOPODA_HABITAT_SPEED__=active?16:1;
-    speedButton.setAttribute('aria-pressed',String(active));
-    speedButton.setAttribute('aria-label',active?'恢复正常观察速度':'将饲养箱观察加速至 16 倍');
-    speedButton.title=active?'恢复 1×':'饲养箱 16×';
+  document.querySelectorAll('[data-habitat-speed]').forEach(button=>{
+    button.addEventListener('click',()=>{
+      const value=Number(button.dataset.habitatSpeed)||1;
+      const alreadyActive=button.getAttribute('aria-pressed')==='true';
+      setHabitatSpeed(alreadyActive?1:value);
+    });
   });
 
   const musicButton=document.querySelector('#musicBtn');
