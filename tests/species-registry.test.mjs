@@ -64,6 +64,8 @@ test('new sprites retain conservative scaffolds while species evidence changes r
 test('adult body-length references scale whole specimens without changing stage ratios',()=>{
  const small=speciesById('versicolor'),neutral=speciesById('dairy'),large=speciesById('expansus');
  assert.equal(referenceLengthMm(small),10);
+ assert.equal(referenceLengthMm(speciesById('nasatum')),15);
+ assert.equal(referenceLengthMm(speciesById('klugii')),21);
  assert.equal(referenceLengthMm(large),30);
  assert.ok(small.renderSize.scale<.9);
  assert.equal(neutral.renderSize.scale,1);
