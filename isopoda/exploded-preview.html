@@ -7,7 +7,7 @@
 <label class="preview-toolbar">SPECIMEN<select id="speciesSelect"></select></label>
 <div id="stage" class="exploded-stage"></div>
 <script type="module">
-import {SPECIES} from './species-registry.mjs?v=species-33';
+import {SPECIES} from './species-registry.mjs?v=species-34';
 import {renderModel,pixelAnatomy} from './sprites.mjs';
 
 const stage=document.querySelector('#stage'),select=document.querySelector('#speciesSelect'),params=new URLSearchParams(location.search);
@@ -23,7 +23,7 @@ const GROUPS=[
   {name:'legs-top',className:'part-legs-top',match:r=>r==='legs',side:'top'},
   {name:'legs-bottom',className:'part-legs-bottom',match:r=>r==='legs',side:'bottom'}
 ];
-for(const p of SPECIES)select.append(new Option(`${p.name} / ${p.label}`,p.id));
+for(const p of SPECIES)select.append(new Option(`${p.name} / ${p.label}${p.game?.referenceOnly?' · REF':''}`,p.id));
 function render(id){
  const species=SPECIES.find(s=>s.id===id)||SPECIES.find(s=>s.id==='coros')||SPECIES[0];
  select.value=species.id;document.title=`${species.label} exploded morphology`;stage.setAttribute('aria-label',`${species.taxon||species.label} exploded morphology`);
