@@ -12,21 +12,18 @@ function multiplier(){
 
 export function stepIndividuals(group,context={}){
   const speed=multiplier();
-  if(speed===1){
-    const time=Number(context.time||0);
-    clocks.set(group,{last:time,virtual:time});
-    return baseStepIndividuals(group,context);
-  }
-
   const time=Number(context.time||0);
   let clock=clocks.get(group);
-  if(!clock||clock.last===null||time<clock.last){clock={last:time,virtual:time};}
-  else{
+  if(!clock||clock.last===null||time<clock.last){
+    clock={last:time,virtual:time};
+  }else{
     const delta=Math.max(0,Math.min(.5,time-clock.last));
     clock.virtual+=delta*speed;
     clock.last=time;
   }
   clocks.set(group,clock);
+
+  if(speed===1)return baseStepIndividuals(group,{...context,time:clock.virtual});
 
   const originalSpeeds=group.map(actor=>actor.speed);
   for(let i=0;i<group.length;i++)group[i].speed=originalSpeeds[i]*speed;
