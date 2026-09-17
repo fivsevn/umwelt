@@ -10,12 +10,20 @@ function inline(el,value){
  }
  el.append(document.createTextNode(value.slice(start)));
 }
+function moreAction(line){
+ const match=line.match(/^\*\*\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)\*\*$/);
+ if(!match||!match[2].includes('/isopoda/morphology/'))return null;
+ const wrap=document.createElement('div');wrap.className='reference-more';wrap.style.cssText='margin-top:32px;padding-top:19px;border-top:1px solid #4f6241';
+ const a=document.createElement('a');a.href=match[2];a.target='_blank';a.rel='noopener noreferrer';a.style.cssText='display:inline-flex;align-items:center;justify-content:space-between;gap:18px;min-width:132px;min-height:34px;padding:5px 11px;border:1px solid #677653;background:#35432c;color:#cbd2ae;text-decoration:none;box-shadow:2px 2px #182015';
+ const label=document.createElement('span');label.textContent=match[1];const arrow=document.createElement('span');arrow.textContent='→';arrow.setAttribute('aria-hidden','true');arrow.style.color='#8fa17b';a.append(label,arrow);wrap.append(a);return wrap;
+}
 export function parseCredits(markdown){
  const fragment=document.createDocumentFragment();let list=null,quote=null;
  for(const raw of markdown.split(/\r?\n/)){
   const line=raw.trim();if(!line){list=null;quote=null;continue}
   // The document title is already shown in the dialog title bar.
   if(/^##\s+.*Credits\s*$/i.test(line))continue;
+  const action=moreAction(line);if(action){fragment.append(action);list=null;quote=null;continue}
   const heading=line.match(/^(?:\*\*(.+)\*\*|#{2,6} (.+))$/);
   let el;
   if(heading){el=document.createElement('h3');inline(el,heading[1]||heading[2]);fragment.append(el);list=null;quote=null}
@@ -30,7 +38,7 @@ const fileFor={zh:'credits.md',en:'credits.en.md',ja:'credits.ja.md'};
 export function renderCredits(){
  const lang=getLanguage(),file=fileFor[lang]||fileFor.zh;
  const el=document.createElement('article');el.className='reference-page';el.setAttribute('aria-busy','true');el.textContent=t('creditsLoading');
- if(!cache.has(file))cache.set(file,fetch(new URL(`./${file}?v=credits-2`,import.meta.url)).then(response=>{if(!response.ok)throw new Error('Credits unavailable');return response.text()}).catch(error=>{cache.delete(file);throw error}));
+ if(!cache.has(file))cache.set(file,fetch(new URL(`./${file}?v=credits-3`,import.meta.url)).then(response=>{if(!response.ok)throw new Error('Credits unavailable');return response.text()}).catch(error=>{cache.delete(file);throw error}));
  cache.get(file).then(markdown=>{el.replaceChildren(parseCredits(markdown));el.removeAttribute('aria-busy')}).catch(()=>{el.textContent=t('creditsError');el.removeAttribute('aria-busy')});
  return el;
 }
