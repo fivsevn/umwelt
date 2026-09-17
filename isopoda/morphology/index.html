@@ -14,11 +14,11 @@ noscript{display:block;padding:24px;color:#dedcc4;font:14px monospace}noscript a
 </style>
 </head>
 <body>
-<iframe id="archive" title="等足目形态资料库" src="../anatomy-test.html?public=morphology-1"></iframe>
+<iframe id="archive" title="等足目形态资料库"></iframe>
 <noscript><a href="../anatomy-test.html">打开等足目形态资料页</a></noscript>
 <script>
 const frame=document.querySelector('#archive');
-frame.addEventListener('load',()=>{
+function applyPublicBranding(){
  try{
   const d=frame.contentDocument;
   d.title='等足目形态资料库 · ISOPODA MORPHOLOGY ARCHIVE';
@@ -41,7 +41,20 @@ frame.addEventListener('load',()=>{
   d.head.append(style);
  }catch(error){console.warn('Archive branding patch skipped',error)}
  frame.classList.add('ready');
-});
+}
+frame.addEventListener('load',applyPublicBranding);
+(async()=>{
+ try{
+  const response=await fetch('../anatomy-test.html?archive=2',{cache:'no-store'});
+  if(!response.ok)throw new Error('Archive source unavailable');
+  let html=await response.text();
+  html=html.replace('<!doctype html>','<!doctype html><base href="../">');
+  html=html.replaceAll('species-registry.mjs?v=species-33','species-registry.mjs?v=species-39b');
+  frame.srcdoc=html;
+ }catch(error){
+  frame.src='../anatomy-test.html?public=morphology-2';
+ }
+})();
 </script>
 </body>
 </html>
