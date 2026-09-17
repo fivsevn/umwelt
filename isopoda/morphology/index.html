@@ -30,6 +30,19 @@ function applyPublicBranding(){
   set('.lab-status span','LAB NOTE 07');
   set('.lab-status small','64 px dorsal morphology');
   set('#specimenDossier summary small','详细资料 · 点击展开');
+
+  const legend=d.querySelector('.legend');
+  if(legend){
+   legend.replaceChildren();
+   const heading=d.createElement('b');heading.textContent='观察方法';legend.append(heading,d.createElement('br'));
+   for(const line of ['悬停：临时查看','点击：锁定','点击空白：回到整体']){
+    const item=d.createElement('span');item.className='legend-step';item.textContent=line;legend.append(item);
+   }
+   const source=d.createElement('span');source.className='legend-source';source.append('所有像素直接来自 ');
+   const link=d.createElement('a');link.href='https://github.com/fivsevn/umwelt/blob/main/isopoda/sprites.mjs';link.target='_blank';link.rel='noopener noreferrer';link.title='查看 sprites.mjs 中的 pixelAnatomy()';
+   const code=d.createElement('code');code.textContent='pixelAnatomy()';link.append(code);source.append(link);legend.append(source);
+  }
+
   const footer=d.querySelector('.footer');
   if(footer){
    const spans=footer.querySelectorAll('span');
@@ -37,7 +50,54 @@ function applyPublicBranding(){
    if(spans[1])spans[1].textContent='PROJECT BY · 五月七日 / fivsevn.com';
   }
   const style=d.createElement('style');
-  style.textContent='.viewer::after{content:"ASIMOV LAB / OPTICAL TABLE"}';
+  style.textContent=`
+   .viewer::after{content:"ASIMOV LAB / OPTICAL TABLE"}
+   .legend-step{display:block;color:#7f9070;line-height:1.65}
+   .legend-source{display:block;margin-top:5px;color:#68795a;line-height:1.5}
+   .legend-source a{color:#97a989;text-decoration:underline;text-underline-offset:2px}
+   .legend-source code{color:inherit}
+   @media(max-width:900px){
+    .specimen-toolbar{align-items:stretch}
+    .accession{grid-column:1/-1;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:12px;text-align:left;padding:5px 9px;border-top:1px solid #46563a;line-height:1.35}
+    .accession span{white-space:nowrap;font-size:9px;letter-spacing:.04em}
+    .accession small{text-align:right;white-space:normal;overflow-wrap:anywhere}
+    .specimen-readout span,.specimen-readout small{white-space:normal;overflow:visible;text-overflow:clip}
+    .reference cite,.reference p{overflow-wrap:anywhere}
+   }
+   @media(max-width:620px){
+    .anatomy-app{padding:7px;gap:6px}
+    .topbar{padding-bottom:7px}
+    .lab-status{grid-template-columns:auto auto 1fr;align-items:baseline;gap:8px;min-width:0;text-align:left}
+    .lab-status span,.lab-status b,.lab-status small{font-size:7px;white-space:nowrap}
+    .specimen-toolbar{position:relative;top:auto;grid-template-columns:34px minmax(0,1fr) 34px;gap:4px;padding:4px}
+    .specimen-readout{padding:5px 7px}
+    .accession{gap:8px;padding:5px 7px}
+    .accession span{font-size:8px}
+    .accession small{font-size:7px}
+    .viewer{min-height:540px}
+    .part-list{gap:4px}
+    .part-button{min-width:0}
+    .template-readout div{grid-template-columns:1fr;gap:1px}
+    .template-readout dt{margin-top:2px}
+    .references>header,.reference{overflow-wrap:anywhere}
+    .footer{display:grid;gap:4px;line-height:1.35}
+   }
+   @media(max-width:460px){
+    .lab-title .zh-title{font-size:17px}
+    .lab-title .en-title{font-size:9px}
+    .lab-title p{font-size:9px;line-height:1.5}
+    .species-picker select{font-size:10px}
+    .viewer{min-height:505px}
+    .exploded-stage{transform:scale(.51)}
+    .part-list{grid-template-columns:1fr}
+    .part-button{min-height:38px}
+    .vhs-card{width:88px;height:74px;padding:3px}
+    .vhs-screen{height:45px}
+    .vhs-headcam{left:7px}.vhs-tailcam{right:7px}
+    .viewer-label{left:12px}.viewer::after{right:12px}
+    .hint{left:12px;right:12px;line-height:1.4}
+   }
+  `;
   d.head.append(style);
  }catch(error){console.warn('Archive branding patch skipped',error)}
  frame.classList.add('ready');
@@ -45,14 +105,14 @@ function applyPublicBranding(){
 frame.addEventListener('load',applyPublicBranding);
 (async()=>{
  try{
-  const response=await fetch('../anatomy-test.html?archive=4',{cache:'no-store'});
+  const response=await fetch('../anatomy-test.html?archive=5',{cache:'no-store'});
   if(!response.ok)throw new Error('Archive source unavailable');
   let html=await response.text();
   html=html.replace('<!doctype html>','<!doctype html><base href="../">');
   html=html.replaceAll('species-registry.mjs?v=species-33','species-registry.mjs?v=species-39b');
   frame.srcdoc=html;
  }catch(error){
-  frame.src='../anatomy-test.html?public=morphology-4';
+  frame.src='../anatomy-test.html?public=morphology-5';
  }
 })();
 </script>
