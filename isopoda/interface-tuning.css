@@ -33,6 +33,10 @@
 /* Right-handed primary field controls: zoom/pan on the left, archive/library on the right. */
 .habitat-library{left:auto!important;right:8px!important}
 #boxFrame .zoom-tools{right:auto!important;left:8px!important}
+/* Make the field controls a little lighter and less chunky without changing their placement. */
+.habitat-library,#boxFrame .zoom-tools{padding:2px!important;gap:2px!important;border-width:1px!important}
+.habitat-library #catalogBtn,#boxFrame .zoom-tools button{width:24px!important;min-width:24px!important;height:24px!important;min-height:24px!important;border-width:1px!important}
+#boxFrame #zoomLevel{min-width:22px!important;font-size:10px!important}
 
 /* The application window sizes to its content. Extra viewport height remains desktop wallpaper. */
 html,body{height:auto!important;min-height:100%;overflow:auto!important}
