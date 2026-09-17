@@ -16,7 +16,12 @@ const SIZE_REFERENCE={
  asellus:{mm:18,confidence:'specialist-field-guide',basis:'BMIG species account: adults to 18 mm'},
  muscorum:{range:[8,11],confidence:'literature-range',basis:'Saska 2007 diagnosis: adults 8–11 mm'},
  rathkii:{range:[12,15],confidence:'literature-range',basis:'published diagnosis and BMIG account: adults 12–15 mm'},
- reaumuri:{mm:22,confidence:'secondary-reference',basis:'widely reported adult maximum around 22 mm; used only as a compressed display anchor'}
+ reaumuri:{mm:22,confidence:'secondary-reference',basis:'widely reported adult maximum around 22 mm; used only as a compressed display anchor'},
+ pictum:{mm:9,confidence:'specialist-field-guide',basis:'BMIG / Gregory & Richards 2008: adults to 9 mm'},
+ pulchellum:{mm:5,confidence:'specialist-field-guide',basis:'BMIG / Gregory & Richards 2008: adults to 5 mm'},
+ werneri:{mm:21,confidence:'revision-reference',basis:'modern species revision / specialist references: adults around 21 mm'},
+ spinicornis:{mm:12,confidence:'specialist-field-guide',basis:'BMIG and Shultz 2018: adults to about 12 mm'},
+ magnificus:{mm:29,confidence:'taxonomic-material',basis:'Schmalfuss 1987 cites adult males reaching about 29 mm'}
 };
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function referenceLengthMm(species){
