@@ -38,9 +38,8 @@
 
 **Fonts / Typefaces**
 
-- [Fusion Pixel Font](https://github.com/TakWolf/fusion-pixel-font) — TakWolf; SIL Open Font License 1.1. The Chinese interface uses the self-hosted repository copy.
-- [Tiny5](https://github.com/Gissio/font_Tiny5) — Stefan Schmidt / Gissio; SIL Open Font License 1.1. Used by the English interface for a more terminal-like 5-pixel, 8/16-bit game texture.
-- [x8y12pxDenkiChip / でんきチップ](https://github.com/hicchicc/x8y12pxDenkiChip) — hicc; SIL Open Font License 1.1. Used by the Japanese interface as a compact 12px Japanese pixel face.
+- [Fusion Pixel Font](https://github.com/TakWolf/fusion-pixel-font) — TakWolf; SIL Open Font License 1.1. The Chinese and English interfaces share the self-hosted repository copy.
+- [PixelMplus](https://github.com/itouhiro/PixelMplus) — itouhiro / M+ FONTS PROJECT; M+ FONT LICENSE. The Japanese interface uses PixelMplus12 Regular for a more Japanese 8-bit / bitmap-game texture.
 - [Repository font files and licenses](https://github.com/fivsevn/umwelt/tree/main/assets/fonts)
 
 **License**
