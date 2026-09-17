@@ -1,6 +1,7 @@
 import {makeIsopod} from './sprites.mjs?v=quiet-ui-1';
 import {renderCredits} from './credits.mjs?v=i18n-1';
 import {getLanguage,t,formatDate,speciesPrimaryName,speciesSecondaryName,speciesLiteratureLines} from './i18n.mjs?v=i18n-1';
+import {annotationLabel,localizedAnnotationLines} from './annotation-locales.mjs?v=i18n-1';
 
 const text=(tag,value,cls='')=>{const el=document.createElement(tag);el.textContent=value;el.className=cls;return el};
 export function renderCatalog(p,{unlocked=true,collectedOn=null}={}){
@@ -23,12 +24,13 @@ export function renderCatalog(p,{unlocked=true,collectedOn=null}={}){
  if(p.trade.lineage)names.append(text('p',t('catalogLineage',{value:p.trade.lineage.label}),'faint'));
  if(p.game?.referenceOnly)names.append(text('p',t('catalogMarine'),'name-aside'));
  if(!p.taxonomy.acceptedScientificName)names.append(text('p',t('catalogUncertain'),'name-aside'));card.append(names);
- const note=document.createElement('blockquote');note.className='anonymous-note';note.append(text('div','Annotation','summary-label'));for(const line of speciesLiteratureLines(p,lang))note.append(text('p',line));card.append(note);
+ const note=document.createElement('blockquote');note.className='anonymous-note';note.append(text('div',annotationLabel(lang),'summary-label'));
+ const annotationLines=localizedAnnotationLines(p,lang,speciesLiteratureLines(p,lang));for(const line of annotationLines)note.append(text('p',line));card.append(note);
  if(!unlocked){
   card.classList.add('unseen');
   // Keep the specimen mount, name area and annotation frame without revealing a taxon.
   for(const el of card.querySelectorAll('.specimen-id,.specimen-date,.specimen-names')){el.replaceChildren();el.setAttribute('aria-hidden','true')}
-  note.replaceChildren(text('div','Annotation','summary-label'),text('p',t('catalogUnseen')));
+  note.replaceChildren(text('div',annotationLabel(lang),'summary-label'),text('p',t('catalogUnseen')));
  }
  return card;
 }
