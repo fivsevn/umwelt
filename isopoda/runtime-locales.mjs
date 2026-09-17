@@ -1,7 +1,9 @@
 import {getLanguage} from './i18n.mjs?v=i18n-1';
 import {gameText} from './game-locales.mjs?v=game-i18n-1';
+import {encounterById} from './encounters.mjs?v=quiet-ui-3';
 
 const selectors=[
+ '#activityLabel',
  '#observation',
  '#actions .action',
  '#endingTitle',
@@ -32,8 +34,23 @@ function localized(value,lang){
  return value;
 }
 
+function currentEncounterTitle(lang){
+ try{
+  const saved=JSON.parse(localStorage.getItem('isopoda-fugue-v4'));
+  const encounter=encounterById(saved?.scene?.encounter);
+  if(!encounter?.title)return null;
+  return lang==='zh'?encounter.title:gameText(encounter.title,lang);
+ }catch{return null}
+}
+
 function translateElement(el){
- const lang=getLanguage();if(lang==='zh'||!el?.textContent)return;
+ const lang=getLanguage();if(!el)return;
+ if(el.id==='activityLabel'){
+  const title=currentEncounterTitle(lang);
+  if(title&&el.textContent!==title)el.textContent=title;
+  return;
+ }
+ if(lang==='zh'||!el.textContent)return;
  const before=el.textContent,after=localized(before,lang);if(after!==before)el.textContent=after;
 }
 
