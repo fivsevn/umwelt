@@ -6,7 +6,7 @@
 <main class="anatomy-app">
   <header class="topbar">
     <div class="lab-title">
-      <div class="lab-code">ASIMOV / ONISCIDEA · MORPHOLOGY ARRAY 23</div>
+      <div class="lab-code">ASIMOV / ONISCIDEA · MORPHOLOGY ARRAY 28</div>
       <h1><span class="zh-title">阿西莫夫形态实验室</span><span class="en-title">ASIMOV MORPHOLOGY LAB</span></h1>
       <p>把一只鼠妇拆成可独立变化的形态模块，再逐一核对它们的依据。</p>
     </div>
@@ -25,7 +25,7 @@
       <span id="specimenTaxon">—</span>
       <small id="specimenStatus">—</small>
     </div>
-    <div class="accession"><span id="specimenIndex">01 / 23</span><small id="morphologyKey">morphology: —</small></div>
+    <div class="accession"><span id="specimenIndex">01 / 28</span><small id="morphologyKey">morphology: —</small></div>
   </section>
 
   <section class="workspace">
@@ -92,7 +92,7 @@
 </main>
 
 <script type="module">
-import {SPECIES} from './species-registry.mjs?v=species-23';
+import {SPECIES} from './species-registry.mjs?v=species-28';
 import {renderModel,pixelAnatomy} from './sprites.mjs?v=anatomy-lab-5';
 
 const stage=document.querySelector('#stage');
@@ -103,7 +103,7 @@ const dossierBody=document.querySelector('#dossierBody');
 
 const INFO={
  body:{zh:'整体比例',en:'Body proportions',evidence:'RENDER / MORPHOLOGY',description:'长度、宽度和背部拱度共同决定整体轮廓。这里不是缩放图片，而是让头部、背板、腹部和附肢共享同一套身体空间。',targets:['pereon','epimera','cephalon','pleon','pleotelson','uropods','antennae','pereopods'],refs:['shultz2018']},
- cephalon:{zh:'头部',en:'Cephalon',evidence:'HEAD TEMPLATE',description:'控制头部宽度、前缘轮廓、额叶或额盾、眼位。Porcellio、Armadillidium、Venezillo 与 Ardentiella 使用不同头型。',targets:['cephalon'],refs:['shultz2018','taiti2015','cifuentes2020']},
+ cephalon:{zh:'头部',en:'Cephalon',evidence:'HEAD TEMPLATE',description:'控制头部宽度、前缘轮廓、额叶或额盾、眼位。不同属级或科级模板不再强行共用同一个头型。',targets:['cephalon'],refs:['shultz2018','taiti2015','cifuentes2020']},
  antennae:{zh:'第二触角',en:'Antenna II',evidence:'ANTENNA TEMPLATE',description:'控制总长度、张角、弯曲、粗细和可见节比例；部分 Porcellio 还保留触角柄节特殊突起的像素代理。',targets:['antennae'],refs:['shultz2018','cifuentes2020','kastle2025']},
  pereon:{zh:'胸部背板',en:'Pereon tergites',evidence:'PEREON TEMPLATE',description:'七节胸部背板分别绘制，控制弧度、重叠与总体背甲轮廓，是主体结构拆分的核心。',targets:['pereon'],refs:['shultz2018','kastle2025']},
  epimera:{zh:'侧板',en:'Epimera',evidence:'EPIMERA TEMPLATE',description:'控制侧板宽度、叶形、裙缘、后角和外展程度。高露思的宽侧板与 Ardentiella 的偏矩形侧板在这里分开。',targets:['epimera'],refs:['cifuentes2020','kastle2025']},
@@ -129,7 +129,7 @@ const GROUPS=[
 ];
 
 const REFERENCES={
- shultz2018:{short:'Shultz 2018',citation:'Shultz, J. W. (2018). A guide to the identification of the terrestrial Isopoda of Maryland, U.S.A. (Crustacea). ZooKeys, 801, 207–228. DOI: 10.3897/zookeys.801.24146.',note:'通用外部解剖框架，也直接给出 A. nasatum 的额盾前突与近三角尾节鉴别特征。',url:'https://doi.org/10.3897/zookeys.801.24146'},
+ shultz2018:{short:'Shultz 2018',citation:'Shultz, J. W. (2018). A guide to the identification of the terrestrial Isopoda of Maryland, U.S.A. (Crustacea). ZooKeys, 801, 207–228. DOI: 10.3897/zookeys.801.24146.',note:'通用外部解剖框架，也直接给出部分 Armadillidium 的额盾、尾节和卷球鉴别特征。',url:'https://doi.org/10.3897/zookeys.801.24146'},
  taiti2015:{short:'Taiti & Wynne 2015',citation:'Taiti, S., & Wynne, J. J. (2015). The terrestrial Isopoda (Crustacea, Oniscidea) of Rapa Nui (Easter Island), with descriptions of two new species. ZooKeys, 515, 27–49. DOI: 10.3897/zookeys.515.9477.',note:'用于卷球型鼠妇的额盾、尾节和尾肢差异，尤其帮助拆分 Armadillidium 与 Venezillo 式紧凑后端。',url:'https://doi.org/10.3897/zookeys.515.9477'},
  kastle2025:{short:'Kästle & Regalado Fernández 2025',citation:'Kästle, B., & Regalado Fernández, O. R. (2025). Facing the taxonomic impediment — a reassessment of Merulanella Verhoeff, 1926 (Oniscidea, Armadillidae) through historical specimens. Natural History Collections and Museomics, 2, 1–38. DOI: 10.3897/nhcm.2.144386.',note:'用于 Ardentiella / 旧 Merulanella 贸易类群：长细触角、侧板、尾部和 runner 型生态形态，也用于提醒贸易名与正式分类不能直接画等号。',url:'https://doi.org/10.3897/nhcm.2.144386'},
  cifuentes2020:{short:'Cifuentes & Barranco 2020',citation:'Cifuentes, J., & Barranco, P. (2020). Porcellio selomai sp. n. (Oniscidea, Porcellionidae), un nuevo isópodo terrestre del medio subterráneo superficial (MSS) de la península ibérica. Boletín de la Asociación Española de Entomología, 44(1–2), 167–182.',note:'文中比较 P. spatulatus 与近缘 Porcellio；高露思主要参考中央额叶、第三触角柄节的大型扁平齿、habitus、尾节与尾肢。',url:'https://www.entomologica.es/publicaciones-boletin/art1818'},
@@ -140,7 +140,14 @@ const REFERENCES={
  taitiRossano2015:{short:'Taiti & Rossano 2015',citation:'Taiti, S., & Rossano, C. (2015). Terrestrial isopods from Morocco. Journal of Natural History. DOI: 10.1080/00222933.2015.1009512.',note:'用于 P. hoffmannseggii 的北非—伊比利亚分布背景，并引用 Schmalfuss 的诊断修订。',url:'https://doi.org/10.1080/00222933.2015.1009512'},
  zecchini2019:{short:'Zecchini & Montesanto 2019',citation:'Zecchini, A., & Montesanto, G. (2019). Description of the postmarsupial manca stages of Armadillidium granulatum (Crustacea, Isopoda, Oniscidea). Invertebrate Reproduction & Development, 63(1), 30–39. DOI: 10.1080/07924259.2018.1514329.',note:'A. granulatum 的发育形态研究；本项目重点取其物种标志性的粗糙/颗粒背部作为 64 px 表面层。',url:'https://doi.org/10.1080/07924259.2018.1514329'},
  garcia2017:{short:'Garcia et al. 2017',citation:'Garcia, L., Robledo, A., & Villar Zabal, E. (2017). Redescubrimiento y redescripción de Porcellio succinctus Budde-Lund, 1885, con notas adicionales para su identificación. Boletín de la Sociedad Entomológica Aragonesa, 60, 187–194.',note:'比较表同时列出 P. expansus、P. haasi 等大型伊比利亚 Porcellio 的颜色、头部、触角柄齿和雄性尾肢鉴别特征。',url:'https://www.porcellio.nl/_downloads/54dab6333467771facbf2e693e71067a'},
- montesanto2018:{short:'Montesanto 2018',citation:'Montesanto, G. (2018). Presence of a stridulatory apparatus in the manca stages of isopods (Crustacea, Isopoda, Oniscidea). ZooKeys, 801, 501–518. DOI: 10.3897/zookeys.801.23018.',note:'A. officinalis 的地中海—黑海西岸分布、较干环境、夜行习性，以及第 4–5 步足上的发声鳞列；微结构不直接画进背视 sprite。',url:'https://doi.org/10.3897/zookeys.801.23018'}
+ montesanto2018:{short:'Montesanto 2018',citation:'Montesanto, G. (2018). Presence of a stridulatory apparatus in the manca stages of isopods (Crustacea, Isopoda, Oniscidea). ZooKeys, 801, 501–518. DOI: 10.3897/zookeys.801.23018.',note:'A. officinalis 的地中海—黑海西岸分布、较干环境、夜行习性，以及第 4–5 步足上的发声鳞列；微结构不直接画进背视 sprite。',url:'https://doi.org/10.3897/zookeys.801.23018'},
+ bmigVulgare:{short:'BMIG · A. vulgare',citation:'British Myriapod and Isopod Group — Armadillidium vulgare species account.',note:'用于成年体长、石板灰常见野生外观、完整卷球与常见微生境；颜色变异不被硬编码成物种特征。',url:'https://bmig.org.uk/species/armadillidium-vulgare'},
+ bmigOniscus:{short:'BMIG · O. asellus',citation:'British Myriapod and Isopod Group — Oniscus asellus species account.',note:'用于成年 18 mm 级体型、宽低平光滑背部、连续身体轮廓和三节触角鞭部。',url:'https://bmig.org.uk/species/oniscus-asellus-ssp-asellus'},
+ saska2007:{short:'Saska 2007',citation:'Saska, P. (2007). Philoscia muscorum (Crustacea: Oniscidea: Philosciidae), new terrestrial-isopod record for the Czech Republic.',note:'用于 P. muscorum 的 8–11 mm 体尺、细长长腿 runner、阶梯状胸腹轮廓、三节触角鞭部和中央深色纵带。',url:'https://www.researchgate.net/publication/266137835_Philoscia_muscorum_Crustacea_Oniscidea_Philosciidae_new_species_of_terrestrial_isopod_for_the_Czech_Republic'},
+ bmigRathkii:{short:'BMIG · T. rathkii',citation:'British Myriapod and Isopod Group — Trachelipus rathkii species account.',note:'用于 12–15 mm 级大型灰色体形、浅色纵向斑带、两节触角鞭部和偏湿微生境。',url:'https://bmig.org.uk/species/trachelipus-rathkii'},
+ belarus2019:{short:'Belarus Oniscidea account',citation:'On the fauna of woodlice (Crustacea, Isopoda, Oniscidea) of south-eastern Belarus.',note:'补充 T. rathkii 的弱背板结节、头部叶形、两节鞭部和纵纹诊断。',url:'https://www.researchgate.net/publication/344730795_On_the_fauna_of_woodlice_Crustacea_Isopoda_Oniscidea_of_south-eastern_Belarus'},
+ ernst2020:{short:'Ernst et al. 2020',citation:'Ernst et al. (2020). Tergite edge regions in Hemilepistus reaumuri. Applied Physics A. DOI: 10.1007/s00339-020-03961-0.',note:'用于 H. reaumuri 前四胸节大型结节及其与守洞/掘穴机械负荷相关的解释；当前 64 px 表面层仍是粗略代理。',url:'https://doi.org/10.1007/s00339-020-03961-0'},
+ ayari2016:{short:'Ayari et al. 2016',citation:'Ayari et al. (2016). Family identity of the sub-social desert isopod Hemilepistus reaumurii. Journal of Arid Environments. DOI: 10.1016/j.jaridenv.2016.06.012.',note:'用于 H. reaumuri 的沙漠洞穴生活、稳定家庭单位与归巢/识别背景。',url:'https://doi.org/10.1016/j.jaridenv.2016.06.012'}
 };
 
 const SPECIES_REFS={
@@ -156,7 +163,12 @@ const SPECIES_REFS={
  hoffmannseggii:['schmalfuss1987','taitiRossano2015','shultz2018'],
  nasatum:['shultz2018','taiti2015'],granulatum:['zecchini2019','taiti2015','shultz2018'],
  expansus:['garcia2017','cifuentes2018','shultz2018'],haasi:['garcia2017','cifuentes2018','shultz2018'],
- officinalis:['montesanto2018','durajkova2025','shultz2018']
+ officinalis:['montesanto2018','durajkova2025','shultz2018'],
+ vulgare:['bmigVulgare','shultz2018'],
+ asellus:['bmigOniscus','shultz2018'],
+ muscorum:['saska2007','shultz2018'],
+ rathkii:['bmigRathkii','belarus2019','shultz2018'],
+ reaumuri:['ernst2020','ayari2016','shultz2018']
 };
 
 let speciesIndex=Math.max(0,SPECIES.findIndex(s=>s.id==='coros'));
@@ -242,6 +254,7 @@ function renderDossier(){
  addDossierRow('STATUS / 鉴定状态',species.status||p.diagnosticNotes?.[0]);
  addDossierRow('MORPHOLOGY / 显著形态',p.notableMorphology?.[0]);
  addDossierRow('DIAGNOSTIC NOTE / 诊断备注',p.diagnosticNotes?.[0]!==species.status?p.diagnosticNotes?.[0]:null);
+ const size=species.renderSize?.referenceMm;if(size)addDossierRow('BODY SIZE / 体型参考',`成年体长参考约 ${size} mm · 游戏显示缩放 ${species.renderSize.scale.toFixed(2)}×`);
  const locality=[b.originCountry,b.originRegion,b.locality,b.nativeRange,b.distributionNotes].filter(Boolean).join(' · ');
  addDossierRow('BIOGEOGRAPHY / 产地与分布',locality);
  const labLine=species.literature?.lines?.filter(Boolean).slice(0,2).join(' / ');
