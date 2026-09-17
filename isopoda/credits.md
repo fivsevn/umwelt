@@ -37,6 +37,16 @@
 - [Garcia, Robledo & Villar 2017 · 大型伊比利亚 Porcellio 比较形态](https://www.porcellio.nl/_downloads/54dab6333467771facbf2e693e71067a)
 - [GBIF · Armadillo officinalis](https://www.gbif.org/species/2202347)
 - [Montesanto 2018 · Armadillo officinalis 发声结构与自然史](https://doi.org/10.3897/zookeys.801.23018)
+- [BMIG · Armadillidium vulgare](https://bmig.org.uk/species/armadillidium-vulgare)
+- [Shultz 2018 · A. vulgare 额盾与卷球鉴别](https://pmc.ncbi.nlm.nih.gov/articles/PMC6288251/)
+- [BMIG · Oniscus asellus](https://bmig.org.uk/species/oniscus-asellus-ssp-asellus)
+- [BMIG · Philoscia muscorum](https://bmig.org.uk/species/philoscia-muscorum)
+- [Saska 2007 · Philoscia muscorum 形态与分布](https://www.researchgate.net/publication/266137835_Philoscia_muscorum_Crustacea_Oniscidea_Philosciidae_new_species_of_terrestrial_isopod_for_the_Czech_Republic)
+- [BMIG · Trachelipus rathkii](https://bmig.org.uk/species/trachelipus-rathkii)
+- [South-eastern Belarus Oniscidea · T. rathkii 诊断](https://www.researchgate.net/publication/344730795_On_the_fauna_of_woodlice_Crustacea_Isopoda_Oniscidea_of_south-eastern_Belarus)
+- [ITIS · Hemilepistus reaumuri](https://itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=595330)
+- [Ernst et al. 2020 · H. reaumuri 背板与守洞力学](https://doi.org/10.1007/s00339-020-03961-0)
+- [Ayari et al. 2016 · H. reaumuri 家庭单位与洞穴行为](https://doi.org/10.1016/j.jaridenv.2016.06.012)
 
 **分类与名称检索**
 
