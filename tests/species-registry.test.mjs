@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {SPECIES,speciesById} from '../isopoda/species-registry.mjs';
 import {sources} from '../isopoda/sources.mjs';
+import {displayScaleForMm,referenceLengthMm} from '../isopoda/species-size.mjs';
 
 const original=['dairy','cappuccino','diablo','echinatus','pink','coros','bolivari','ducky','daxin','ember','amber','vex','orange'];
 const firstBatch=['maculatum','klugii','gestroi','versicolor','hoffmannseggii'];
@@ -58,4 +59,20 @@ test('new sprites retain conservative scaffolds while species evidence changes r
  const officinalis=speciesById('officinalis').visual;
  assert.equal(officinalis.morphologyKey,'armadillidHobby');
  assert.equal(officinalis.conglobation.ability,'full');
+});
+
+test('adult body-length references scale whole specimens without changing stage ratios',()=>{
+ const small=speciesById('versicolor'),neutral=speciesById('dairy'),large=speciesById('expansus');
+ assert.equal(referenceLengthMm(small),10);
+ assert.equal(referenceLengthMm(large),30);
+ assert.ok(small.renderSize.scale<.9);
+ assert.equal(neutral.renderSize.scale,1);
+ assert.ok(large.renderSize.scale>=1.27);
+ assert.equal(small.visual.adultDisplayScale,displayScaleForMm(10));
+ assert.equal(large.visual.adultDisplayScale,displayScaleForMm(30));
+ for(const p of [small,large]){
+  assert.ok(p.visual.stageProfiles.juvenile.scale<p.visual.stageProfiles.subadult.scale);
+  assert.ok(p.visual.stageProfiles.subadult.scale<p.visual.stageProfiles.adult.scale);
+  assert.ok(Math.abs(p.visual.stageProfiles.juvenile.scale/p.visual.stageProfiles.adult.scale-.72)<1e-9);
+ }
 });
