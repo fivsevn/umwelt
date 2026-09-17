@@ -6,14 +6,19 @@
 .window-system-menu button:hover{background:#aeb79a}
 .window-system-menu button[aria-pressed="true"]{background:#536d61;color:#e2e2c8}
 .window-system-menu button:focus-visible{outline:1px dotted #52644f!important;outline-offset:-2px}
-/* Music and SFX are a matched pair: same footprint, same idle state and same pressed state. */
+/* Music and SFX share one control rhythm; the SFX glyph itself is deliberately one step larger. */
 #musicBtn,#soundBtn{display:grid;place-items:center;width:26px;min-width:26px;height:22px!important;min-height:22px!important;margin:0!important;padding:0!important;opacity:1!important;color:#40513f}
 #musicBtn{font-size:13px}
 .window-system-menu #musicBtn[aria-pressed="false"],.window-system-menu #soundBtn[aria-pressed="false"]{background:transparent;color:#40513f;opacity:1!important}
 .window-system-menu #musicBtn[aria-pressed="true"],.window-system-menu #soundBtn[aria-pressed="true"]{background:#536d61;color:#e2e2c8;opacity:1!important}
-.window-system-menu #soundBtn .pixel-icon{transform:scale(.68)}
+.window-system-menu #soundBtn .pixel-icon{transform:scale(.78)}
 .window-system-menu #soundBtn::after{display:none}
-#speedBtn{min-width:35px;padding-inline:5px;margin-left:2px;border-left:1px solid #89967b!important}
+/* Two arrows = 16x, three arrows = intentionally silly 64x turbo. Clicking the active speed returns to 1x. */
+.speed-choice{display:grid!important;place-items:center!important;padding:0!important}
+#speedFastBtn{width:34px;min-width:34px;margin-left:2px;border-left:1px solid #89967b!important}
+#speedTurboBtn{width:40px;min-width:40px}
+.speed-arrows{display:flex;align-items:center;justify-content:center;gap:1px;height:10px;pointer-events:none}
+.speed-arrows i{display:block;width:0;height:0;border-top:4px solid transparent;border-bottom:4px solid transparent;border-left:5px solid currentColor}
 .system-clock{position:absolute;right:10px;top:50%;transform:translateY(-50%);margin:0;padding:0;min-width:76px;text-align:right;font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 /* Environment row is deliberately limited to habitat conditions. */
@@ -56,7 +61,9 @@ body{min-height:100dvh}
   .language-menu{padding-right:2px;margin-right:1px}
   .window-system-menu button{min-width:18px;padding-inline:3px;font-size:9px}
   #musicBtn,#soundBtn{width:22px;min-width:22px;height:20px!important;min-height:20px!important}
-  #speedBtn{min-width:31px;padding-inline:3px}
+  #speedFastBtn{width:30px;min-width:30px}
+  #speedTurboBtn{width:35px;min-width:35px}
+  .speed-arrows i{border-top-width:3px;border-bottom-width:3px;border-left-width:4px}
   .system-clock{right:6px;font-size:9px;min-width:66px}
   .status-row{padding-inline:4px}
   .status-row .instruments{font-size:10px;gap:4px}
