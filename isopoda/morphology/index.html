@@ -34,7 +34,7 @@ function applyPublicBranding(){
   if(footer){
    const spans=footer.querySelectorAll('span');
    if(spans[0])spans[0].textContent='PUBLIC REFERENCE · 资料页';
-   if(spans[1])spans[1].textContent='AUTHOR · 五月七日 / fivsevn.com';
+   if(spans[1])spans[1].textContent='PROJECT BY · 五月七日 / fivsevn.com';
   }
   const style=d.createElement('style');
   style.textContent='.viewer::after{content:"ASIMOV LAB / OPTICAL TABLE"}';
@@ -45,14 +45,14 @@ function applyPublicBranding(){
 frame.addEventListener('load',applyPublicBranding);
 (async()=>{
  try{
-  const response=await fetch('../anatomy-test.html?archive=3',{cache:'no-store'});
+  const response=await fetch('../anatomy-test.html?archive=4',{cache:'no-store'});
   if(!response.ok)throw new Error('Archive source unavailable');
   let html=await response.text();
   html=html.replace('<!doctype html>','<!doctype html><base href="../">');
   html=html.replaceAll('species-registry.mjs?v=species-33','species-registry.mjs?v=species-39b');
   frame.srcdoc=html;
  }catch(error){
-  frame.src='../anatomy-test.html?public=morphology-3';
+  frame.src='../anatomy-test.html?public=morphology-4';
  }
 })();
 </script>
