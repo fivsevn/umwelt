@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#20291f">
 <meta name="description" content="《等足目赋格》的形态、分类、体型与逐标本参考资料。">
-<title>等足目形态资料库 · ISOPODA MORPHOLOGY ARCHIVE</title>
+<title>阿西莫夫形态实验室 · ASIMOV MORPHOLOGY LAB</title>
 <style>
 html,body{margin:0;width:100%;height:100%;background:#20291f;overflow:hidden}
 #archive{border:0;width:100%;height:100%;display:block;opacity:0;transition:opacity .08s linear}
@@ -14,21 +14,21 @@ noscript{display:block;padding:24px;color:#dedcc4;font:14px monospace}noscript a
 </style>
 </head>
 <body>
-<iframe id="archive" title="等足目形态资料库"></iframe>
-<noscript><a href="../anatomy-test.html">打开等足目形态资料页</a></noscript>
+<iframe id="archive" title="阿西莫夫形态实验室"></iframe>
+<noscript><a href="../anatomy-test.html">打开阿西莫夫形态实验室</a></noscript>
 <script>
 const frame=document.querySelector('#archive');
 function applyPublicBranding(){
  try{
   const d=frame.contentDocument;
-  d.title='等足目形态资料库 · ISOPODA MORPHOLOGY ARCHIVE';
+  d.title='阿西莫夫形态实验室 · ASIMOV MORPHOLOGY LAB';
   const set=(selector,value)=>{const el=d.querySelector(selector);if(el)el.textContent=value};
-  set('.lab-code','ISOPODA / MORPHOLOGY ARCHIVE');
-  set('.zh-title','等足目形态资料库');
-  set('.en-title','ISOPODA MORPHOLOGY ARCHIVE');
-  set('.lab-title p','形态、分类、体型与逐标本参考资料。');
-  set('.lab-status span','PUBLIC REFERENCE');
-  set('.lab-status small','作者 / 五月七日');
+  set('.lab-code','ASIMOV / ONISCIDEA · MORPHOLOGY ARRAY 39');
+  set('.zh-title','阿西莫夫形态实验室');
+  set('.en-title','ASIMOV MORPHOLOGY LAB');
+  set('.lab-title p','把一只鼠妇拆成可独立变化的形态模块，再逐一核对它们的依据。');
+  set('.lab-status span','LAB NOTE 07');
+  set('.lab-status small','64 px dorsal morphology');
   set('#specimenDossier summary small','详细资料 · 点击展开');
   const footer=d.querySelector('.footer');
   if(footer){
@@ -37,7 +37,7 @@ function applyPublicBranding(){
    if(spans[1])spans[1].textContent='AUTHOR · 五月七日 / fivsevn.com';
   }
   const style=d.createElement('style');
-  style.textContent='.viewer::after{content:"ISOPODA / OPTICAL TABLE"}';
+  style.textContent='.viewer::after{content:"ASIMOV LAB / OPTICAL TABLE"}';
   d.head.append(style);
  }catch(error){console.warn('Archive branding patch skipped',error)}
  frame.classList.add('ready');
@@ -45,14 +45,14 @@ function applyPublicBranding(){
 frame.addEventListener('load',applyPublicBranding);
 (async()=>{
  try{
-  const response=await fetch('../anatomy-test.html?archive=2',{cache:'no-store'});
+  const response=await fetch('../anatomy-test.html?archive=3',{cache:'no-store'});
   if(!response.ok)throw new Error('Archive source unavailable');
   let html=await response.text();
   html=html.replace('<!doctype html>','<!doctype html><base href="../">');
   html=html.replaceAll('species-registry.mjs?v=species-33','species-registry.mjs?v=species-39b');
   frame.srcdoc=html;
  }catch(error){
-  frame.src='../anatomy-test.html?public=morphology-2';
+  frame.src='../anatomy-test.html?public=morphology-3';
  }
 })();
 </script>
