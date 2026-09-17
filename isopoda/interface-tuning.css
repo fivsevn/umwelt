@@ -1,20 +1,20 @@
 /* Compact observation-window tuning: flat system menu, in-habitat species label, handed controls and non-stretched portrait layout. */
-.window-system-menu{position:relative;min-height:27px;display:flex;align-items:center;gap:4px;padding:2px 88px 2px 5px;background:#b8bda2;color:#334436;border-top:2px solid #d5d7bc;border-bottom:2px solid #58674e;font-size:10px;line-height:1;white-space:nowrap;overflow:hidden}
+.window-system-menu{position:relative;min-height:27px;display:flex;align-items:center;gap:4px;padding:2px 92px 2px 5px;background:#b8bda2;color:#334436;border-top:2px solid #d5d7bc;border-bottom:2px solid #58674e;font-size:10px;line-height:1;white-space:nowrap;overflow:hidden}
 .system-menu-left{display:flex;align-items:center;gap:2px;min-width:0}
 .language-menu{display:flex;align-items:center;gap:0;padding-right:4px;margin-right:2px;border-right:1px solid #89967b}
 .window-system-menu button{appearance:none;-webkit-appearance:none;height:20px;min-height:20px;min-width:20px;margin:0;padding:0 4px;border:0!important;outline:0;background:transparent;color:#40513f;box-shadow:none!important;border-radius:0;line-height:20px;text-align:center}
 .window-system-menu button:hover{background:#aeb79a}
 .window-system-menu button[aria-pressed="true"]{background:#536d61;color:#e2e2c8}
 .window-system-menu button:focus-visible{outline:1px dotted #52644f!important;outline-offset:-2px}
-#musicBtn,#soundBtn{width:22px;min-width:22px;padding:0;display:grid;place-items:center}
-#musicBtn{font-size:13px;margin-left:1px}
-.window-system-menu #soundBtn{height:20px;min-height:20px;color:#40513f;opacity:1}
-.window-system-menu #soundBtn[aria-pressed="false"]{opacity:.56}
-.window-system-menu #soundBtn[aria-pressed="true"]{opacity:1;color:#e2e2c8}
-.window-system-menu #soundBtn .pixel-icon{transform:scale(.62)}
+/* Music and SFX are a matched pair: same footprint, same idle state and same pressed state. */
+#musicBtn,#soundBtn{display:grid;place-items:center;width:26px;min-width:26px;height:22px!important;min-height:22px!important;margin:0!important;padding:0!important;opacity:1!important;color:#40513f}
+#musicBtn{font-size:13px}
+.window-system-menu #musicBtn[aria-pressed="false"],.window-system-menu #soundBtn[aria-pressed="false"]{background:transparent;color:#40513f;opacity:1!important}
+.window-system-menu #musicBtn[aria-pressed="true"],.window-system-menu #soundBtn[aria-pressed="true"]{background:#536d61;color:#e2e2c8;opacity:1!important}
+.window-system-menu #soundBtn .pixel-icon{transform:scale(.68)}
 .window-system-menu #soundBtn::after{display:none}
 #speedBtn{min-width:35px;padding-inline:5px;margin-left:2px;border-left:1px solid #89967b!important}
-.system-clock{position:absolute;right:6px;top:50%;transform:translateY(-50%);margin:0;padding:0;min-width:76px;text-align:right;font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.system-clock{position:absolute;right:10px;top:50%;transform:translateY(-50%);margin:0;padding:0;min-width:76px;text-align:right;font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 /* Environment row is deliberately limited to habitat conditions. */
 .status-row{display:flex;align-items:center;justify-content:flex-start!important;gap:6px;flex-wrap:nowrap!important;overflow:hidden;min-height:24px;padding:1px 6px}
@@ -51,13 +51,13 @@ body{min-height:100dvh}
 }
 
 @media(max-width:430px){
-  .window-system-menu{gap:2px;padding:2px 74px 2px 3px;font-size:9px}
+  .window-system-menu{gap:2px;padding:2px 80px 2px 3px;font-size:9px}
   .system-menu-left{gap:1px}
   .language-menu{padding-right:2px;margin-right:1px}
   .window-system-menu button{min-width:18px;padding-inline:3px;font-size:9px}
-  #musicBtn,#soundBtn{width:19px;min-width:19px}
+  #musicBtn,#soundBtn{width:22px;min-width:22px;height:20px!important;min-height:20px!important}
   #speedBtn{min-width:31px;padding-inline:3px}
-  .system-clock{right:3px;font-size:9px;min-width:66px}
+  .system-clock{right:6px;font-size:9px;min-width:66px}
   .status-row{padding-inline:4px}
   .status-row .instruments{font-size:10px;gap:4px}
   .species-status{top:6px;right:6px;max-width:52%;font-size:7px}
