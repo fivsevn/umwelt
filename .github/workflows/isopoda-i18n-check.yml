@@ -1,4 +1,4 @@
-name: ISOPODA i18n check
+name: ISOPODA content checks
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
       - '.github/workflows/isopoda-i18n-check.yml'
 
 jobs:
-  i18n:
+  content:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,3 +20,5 @@ jobs:
           node-version: '22'
       - name: Check Chinese / English / Japanese coverage
         run: node isopoda/tools/check-i18n.mjs
+      - name: Check morphology page structure
+        run: node isopoda/tools/check-morphology-page.mjs
