@@ -7,14 +7,16 @@ import {displayScaleForMm,referenceLengthMm} from '../isopoda/species-size.mjs';
 const original=['dairy','cappuccino','diablo','echinatus','pink','coros','bolivari','ducky','daxin','ember','amber','vex','orange'];
 const firstBatch=['maculatum','klugii','gestroi','versicolor','hoffmannseggii'];
 const secondBatch=['nasatum','granulatum','expansus','haasi','officinalis'];
-const added=[...firstBatch,...secondBatch];
+const thirdBatch=['vulgare','asellus','muscorum','rathkii','reaumuri'];
+const added=[...firstBatch,...secondBatch,...thirdBatch];
 
-test('expanded registry preserves the original 13 and appends ten sourced accepted species',()=>{
- assert.equal(SPECIES.length,23);
+test('expanded registry preserves the original 13 and appends fifteen sourced accepted species',()=>{
+ assert.equal(SPECIES.length,28);
  assert.deepEqual(SPECIES.slice(0,13).map(s=>s.id),original);
  assert.deepEqual(SPECIES.slice(13,18).map(s=>s.id),firstBatch);
- assert.deepEqual(SPECIES.slice(18).map(s=>s.id),secondBatch);
- assert.equal(new Set(SPECIES.map(s=>s.id)).size,23);
+ assert.deepEqual(SPECIES.slice(18,23).map(s=>s.id),secondBatch);
+ assert.deepEqual(SPECIES.slice(23).map(s=>s.id),thirdBatch);
+ assert.equal(new Set(SPECIES.map(s=>s.id)).size,28);
  for(const id of added){
   const p=speciesById(id);
   assert.equal(p.taxonomy.speciesStatus,'accepted_species');
@@ -59,6 +61,34 @@ test('new sprites retain conservative scaffolds while species evidence changes r
  const officinalis=speciesById('officinalis').visual;
  assert.equal(officinalis.morphologyKey,'armadillidHobby');
  assert.equal(officinalis.conglobation.ability,'full');
+
+ const vulgare=speciesById('vulgare').visual;
+ assert.equal(vulgare.morphologyKey,'armadillidiumVulgare');
+ assert.equal(vulgare.conglobation.ability,'full');
+ assert.equal(vulgare.cephalon.confidence,'species-character');
+
+ const asellus=speciesById('asellus').visual;
+ assert.equal(asellus.morphologyKey,'oniscusAsellus');
+ assert.equal(asellus.antennae.flagellumArticles,3);
+ assert.equal(asellus.conglobation.ability,'none');
+ assert.ok(asellus.body.width>dairy.body.width);
+
+ const muscorum=speciesById('muscorum').visual;
+ assert.equal(muscorum.morphologyKey,'philosciaMuscorum');
+ assert.equal(muscorum.antennae.flagellumArticles,3);
+ assert.equal(muscorum.conglobation.strategy,'runner');
+ assert.ok(muscorum.pleon.width<asellus.pleon.width);
+
+ const rathkii=speciesById('rathkii').visual;
+ assert.equal(rathkii.morphologyKey,'trachelipusRathkii');
+ assert.equal(rathkii.antennae.flagellumArticles,2);
+ assert.ok(rathkii.patterns.some(p=>p.type==='lateralStripe'));
+
+ const reaumuri=speciesById('reaumuri').visual;
+ assert.equal(reaumuri.morphologyKey,'hemilepistusDesert');
+ assert.equal(reaumuri.surface.sculpture,'tuberculate');
+ assert.equal(reaumuri.conglobation.ability,'none');
+ assert.ok(reaumuri.legs.visibility>.9);
 });
 
 test('adult body-length references scale whole specimens without changing stage ratios',()=>{
@@ -66,13 +96,20 @@ test('adult body-length references scale whole specimens without changing stage 
  assert.equal(referenceLengthMm(small),10);
  assert.equal(referenceLengthMm(speciesById('nasatum')),15);
  assert.equal(referenceLengthMm(speciesById('klugii')),21);
+ assert.equal(referenceLengthMm(speciesById('vulgare')),18);
+ assert.equal(referenceLengthMm(speciesById('asellus')),18);
+ assert.equal(referenceLengthMm(speciesById('muscorum')),9.5);
+ assert.equal(referenceLengthMm(speciesById('rathkii')),15);
+ assert.equal(referenceLengthMm(speciesById('reaumuri')),22);
  assert.equal(referenceLengthMm(large),30);
+ assert.ok(speciesById('muscorum').renderSize.scale<.9);
  assert.ok(small.renderSize.scale<.9);
  assert.equal(neutral.renderSize.scale,1);
+ assert.ok(speciesById('reaumuri').renderSize.scale>1.15);
  assert.ok(large.renderSize.scale>=1.27);
  assert.equal(small.visual.adultDisplayScale,displayScaleForMm(10));
  assert.equal(large.visual.adultDisplayScale,displayScaleForMm(30));
- for(const p of [small,large]){
+ for(const p of [small,large,speciesById('muscorum'),speciesById('reaumuri')]){
   assert.ok(p.visual.stageProfiles.juvenile.scale<p.visual.stageProfiles.subadult.scale);
   assert.ok(p.visual.stageProfiles.subadult.scale<p.visual.stageProfiles.adult.scale);
   assert.ok(Math.abs(p.visual.stageProfiles.juvenile.scale/p.visual.stageProfiles.adult.scale-.72)<1e-9);
