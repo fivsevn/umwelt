@@ -26,7 +26,7 @@ export function parseCredits(markdown){
 let content;
 export function renderCredits(){
  const el=document.createElement('article');el.className='reference-page';el.setAttribute('aria-busy','true');el.textContent='正在载入…';
- content??=fetch(new URL('./credits.md?v=species-39',import.meta.url)).then(response=>{if(!response.ok)throw new Error('Credits unavailable');return response.text()}).catch(error=>{content=null;throw error});
+ content??=fetch(new URL('./credits.md?v=species-39b',import.meta.url)).then(response=>{if(!response.ok)throw new Error('Credits unavailable');return response.text()}).catch(error=>{content=null;throw error});
  content.then(markdown=>{el.replaceChildren(parseCredits(markdown));el.removeAttribute('aria-busy')}).catch(()=>{el.textContent='加载失败，请关闭后重试。';el.removeAttribute('aria-busy')});
  return el;
 }
