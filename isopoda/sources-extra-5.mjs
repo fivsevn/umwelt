@@ -1,0 +1,9 @@
+// Marine-reference evidence kept separate from the terrestrial source table so adding a
+// non-Oniscidea specimen does not rewrite the established Oniscidea bibliography.
+export const EXTRA_SOURCES_5=[
+ {id:'itis-halacarsantia-uniramea',level:'A1',type:'TAXONOMY',title:'ITIS — Halacarsantia uniramea (Menzies & Miller, 1955)',url:'https://itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=544573',supports:['uniramea.accepted-name','uniramea.taxonomy']},
+ {id:'menzies-miller-unirameus-1955',level:'A1',type:'ORIGINAL DESCRIPTION / MORPHOLOGY / HOST ASSOCIATION',title:'Menzies & Miller 1955 — Antias unirameus n. sp., marine asellote from a sea cucumber',url:'https://paperspast.natlib.govt.nz/periodicals/TPRSNZ1955-83.2.6.12',supports:['uniramea.type-size','uniramea.colour','uniramea.frontal-lobe','uniramea.marginal-setae','uniramea.epimera','uniramea.uropods','uniramea.posterior-pereopods','uniramea.host-association','uniramea.commensal-interpretation']},
+ {id:'wolff-halacarsantia-1989',level:'A1',type:'TAXONOMY / REVISION',title:'Wolff 1989 — Halacarsantia gen. nov.; Antias uniramea transferred to Halacarsantia',url:'https://isopods.nhm.org/pdfs/24390/24390.pdf',supports:['uniramea.current-combination','uniramea.posterior-pereopods','uniramea.uniramous-uropods']},
+ {id:'shimomura-bruce-halacarsantia-2012',level:'A1',type:'MORPHOLOGY / GENUS DIAGNOSIS',title:'Shimomura & Bruce 2012 — Halacarsantia diagnosis and species key',url:'https://pmc.ncbi.nlm.nih.gov/articles/PMC3307358/',supports:['uniramea.genus-diagnosis','uniramea.frontal-lobe','uniramea.epimera','uniramea.uniramous-uropods','uniramea.marine-asellota']},
+ {id:'worms-australostichopus-mollis',level:'A1',type:'HOST TAXONOMY',title:'WoRMS — Australostichopus mollis (Hutton, 1872)',url:'https://www.marinespecies.org/aphia.php?id=529443&p=taxdetails',supports:['uniramea.host-current-name','uniramea.host-historical-name']}
+];
