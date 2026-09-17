@@ -58,6 +58,16 @@
 - [GBIF · Porcellio magnificus](https://www.gbif.org/species/6284298)
 - [Tuf & Ďurajková 2022 · 陆生等足类反捕食策略与天然色彩](https://www.porcellio.nl/_downloads/f81b8300feef2be5176f1dbea0eb23f5)
 
+**海洋参考标本 · “海参鼠妇”**
+
+- [ITIS · Halacarsantia uniramea](https://itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=544573)
+- [Menzies & Miller 1955 · Antias unirameus 原始描述、体尺、海参宿主与共栖观察](https://paperspast.natlib.govt.nz/periodicals/TPRSNZ1955-83.2.6.12)
+- [Wolff 1989 · Halacarsantia 建属及 H. uniramea 新组合](https://isopods.nhm.org/pdfs/24390/24390.pdf)
+- [Shimomura & Bruce 2012 · Halacarsantia 属级诊断](https://pmc.ncbi.nlm.nih.gov/articles/PMC3307358/)
+- [WoRMS · Australostichopus mollis，原文宿主 Stichopus mollis 的现接受名](https://www.marinespecies.org/aphia.php?id=529443&p=taxdetails)
+
+“海参鼠妇”为本项目沿用粉丝提问的中文俗称，并非已核实的正式中文通名。H. uniramea 属于海洋 Asellota，不是陆生 Oniscidea，因此只作为参考标本进入资料库与形态页面，不进入陆生饲养盒抽取。
+
 **分类与名称检索**
 
 - [World List of Isopod Crustaceans](https://www.marinespecies.org/isopoda/)
