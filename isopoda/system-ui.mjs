@@ -1,6 +1,7 @@
 import {speciesById} from './species-registry.mjs?v=species-39b';
 
 const LANGS=['zh','en','ja','iso'];
+const RUN_KEY='isopoda-fugue-v4';
 let interfaceLanguage='zh';
 let speciesLanguage='zh';
 
@@ -18,20 +19,29 @@ function updateLanguageItems(){
   });
 }
 
+function savedTaxa(){
+  try{
+    const run=JSON.parse(localStorage.getItem(RUN_KEY)||'null');
+    return Array.isArray(run?.cohort)?run.cohort.map(item=>item?.species).filter(Boolean):[];
+  }catch{return []}
+}
+
 function currentTaxa(){
-  return (document.querySelector('#habitat')?.dataset.taxa||'')
+  const live=(document.querySelector('#habitat')?.dataset.taxa||'')
     .split(',').map(value=>value.trim()).filter(Boolean);
+  return live.length?live:savedTaxa();
 }
 
 function updateSpeciesStatus(){
   const target=document.querySelector('#speciesStatus');
   if(!target)return;
   const ids=[...new Set(currentTaxa())];
-  if(!ids.length){target.textContent='—';target.title='';return;}
+  if(!ids.length){target.textContent='—';target.title='';target.dataset.empty='true';return;}
   const species=ids.map(speciesById);
   target.textContent=species.map(item=>speciesName(item,speciesLanguage)).join('\n');
   target.title=species.map(item=>item.taxon||item.label||item.name||item.id).join('\n');
   target.dataset.language=speciesLanguage;
+  target.dataset.empty='false';
 }
 
 // Changing the whole interface language also resets the species label to that language.
@@ -71,8 +81,15 @@ function init(){
   if(habitat){
     new MutationObserver(updateSpeciesStatus).observe(habitat,{attributes:true,attributeFilter:['data-taxa']});
   }
+  const playView=document.querySelector('#playView');
+  if(playView){
+    new MutationObserver(updateSpeciesStatus).observe(playView,{attributes:true,attributeFilter:['hidden']});
+  }
   updateLanguageItems();
   updateSpeciesStatus();
+  // The game writes the active cohort to localStorage; this small heartbeat is a fallback
+  // for browsers where the canvas data attribute is populated before this module observes it.
+  setInterval(updateSpeciesStatus,800);
 
   document.querySelectorAll('[data-habitat-speed]').forEach(button=>{
     button.addEventListener('click',()=>{
