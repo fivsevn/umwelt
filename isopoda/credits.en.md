@@ -4,6 +4,7 @@
 
 - 五月七日
 - [fivsevn.com](https://fivsevn.com/)
+- Short-form experiments and other work also appear on [Douyin](https://v.douyin.com/fy3BstaoOYk).
 
 **With assistance from**
 
