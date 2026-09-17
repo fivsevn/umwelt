@@ -3,7 +3,7 @@ import {EXTRA_SPECIES} from './species-extra.mjs?v=species-18';
 import {EXTRA_SPECIES_2} from './species-extra-2.mjs?v=species-23';
 import {EXTRA_SPECIES_3} from './species-extra-3.mjs?v=species-28';
 import {EXTRA_SPECIES_4} from './species-extra-4.mjs?v=species-33';
-import {applySpeciesDisplayScale} from './species-size.mjs?v=size-3';
+import {applySpeciesDisplayScale} from './species-size.mjs?v=size-4';
 
 // Keep the original 13-species table stable. Independently sourced taxa are appended in batches
 // so future expansion does not rewrite legacy save-compatible species definitions.
