@@ -1,24 +1,29 @@
-/* Compact observation-window tuning: system menu, species label, handed controls and non-stretched portrait layout. */
-.window-system-menu{min-height:27px;display:flex;align-items:center;gap:5px;padding:2px 5px;background:#b8bda2;color:#334436;border-top:2px solid #d5d7bc;border-bottom:2px solid #58674e;font-size:10px;line-height:1;white-space:nowrap;overflow:hidden}
-.system-menu-left{display:flex;align-items:center;gap:4px;min-width:0}
-.language-menu{display:flex;align-items:center;gap:1px;padding-right:4px;border-right:1px solid #89967b}
-.window-system-menu button{height:21px;min-height:21px;min-width:22px;padding:0 4px;border:0;background:transparent;color:#40513f;box-shadow:none;border-radius:0;line-height:1}
-.window-system-menu button:hover{background:#a8b192}
+/* Compact observation-window tuning: flat system menu, in-habitat species label, handed controls and non-stretched portrait layout. */
+.window-system-menu{min-height:27px;display:flex;align-items:center;gap:4px;padding:2px 5px;background:#b8bda2;color:#334436;border-top:2px solid #d5d7bc;border-bottom:2px solid #58674e;font-size:10px;line-height:1;white-space:nowrap;overflow:hidden}
+.system-menu-left{display:flex;align-items:center;gap:2px;min-width:0}
+.language-menu{display:flex;align-items:center;gap:0;padding-right:4px;margin-right:2px;border-right:1px solid #89967b}
+.window-system-menu button{appearance:none;-webkit-appearance:none;height:20px;min-height:20px;min-width:20px;margin:0;padding:0 4px;border:0!important;outline:0;background:transparent;color:#40513f;box-shadow:none!important;border-radius:0;line-height:20px;text-align:center}
+.window-system-menu button:hover{background:#aeb79a}
 .window-system-menu button[aria-pressed="true"]{background:#536d61;color:#e2e2c8}
-#musicBtn,#soundBtn{width:23px;min-width:23px;padding:0;display:grid;place-items:center}
-#musicBtn{font-size:13px}
-.window-system-menu #soundBtn{height:21px;min-height:21px;color:#40513f;opacity:1}
-.window-system-menu #soundBtn[aria-pressed="false"]{opacity:.52}
-.window-system-menu #soundBtn .pixel-icon{transform:scale(.66)}
+.window-system-menu button:focus-visible{outline:1px dotted #52644f!important;outline-offset:-2px}
+#musicBtn,#soundBtn{width:22px;min-width:22px;padding:0;display:grid;place-items:center}
+#musicBtn{font-size:13px;margin-left:1px}
+.window-system-menu #soundBtn{height:20px;min-height:20px;color:#40513f;opacity:1}
+.window-system-menu #soundBtn[aria-pressed="false"]{opacity:.56}
+.window-system-menu #soundBtn[aria-pressed="true"]{opacity:1;color:#e2e2c8}
+.window-system-menu #soundBtn .pixel-icon{transform:scale(.62)}
 .window-system-menu #soundBtn::after{display:none}
-#speedBtn{min-width:35px;padding-inline:5px;border-left:1px solid #89967b}
-.system-clock{margin-left:auto;padding-left:7px;font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:none}
+#speedBtn{min-width:35px;padding-inline:5px;margin-left:2px;border-left:1px solid #89967b!important}
+.system-clock{margin-left:auto;padding-left:8px;min-width:72px;text-align:right;font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:none}
 
-.status-row{flex-wrap:nowrap!important;overflow:hidden;min-height:24px}
-.status-row .instruments{min-width:0;flex:1;overflow:hidden}
-.species-status{margin-left:auto;min-width:0;max-width:46%;padding:0 2px;border:0;background:transparent;color:#5b6953;font-size:9px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:right;cursor:pointer}
-.species-status:hover{color:#344a36}
-.species-status:focus-visible{outline:1px solid #53664d;outline-offset:1px}
+/* Environment row is deliberately limited to habitat conditions. */
+.status-row{display:flex;align-items:center;justify-content:flex-start!important;gap:6px;flex-wrap:nowrap!important;overflow:hidden;min-height:24px;padding:1px 6px}
+.status-row .instruments{display:flex;gap:5px;align-items:center;font-size:11px;padding:0;min-height:0;min-width:0;white-space:nowrap;overflow:hidden}
+
+/* Species names live quietly inside the habitat and have their own language cycle. */
+.species-status{position:absolute;top:8px;right:8px;z-index:6;max-width:48%;padding:1px 2px;margin:0;border:0!important;background:transparent!important;box-shadow:none!important;color:#c0c5aa;font-size:8px;line-height:1.35;white-space:pre-line;text-align:right;cursor:pointer;opacity:.82;text-shadow:1px 1px #263126;overflow-wrap:anywhere}
+.species-status:hover{color:#e0e0c4;opacity:1}
+.species-status:focus-visible{outline:1px dotted #bdc4a7;outline-offset:1px}
 
 /* Right-handed primary field controls: zoom/pan on the left, archive/library on the right. */
 .habitat-library{left:auto!important;right:8px!important}
@@ -46,12 +51,14 @@ body{min-height:100dvh}
 }
 
 @media(max-width:430px){
-  .window-system-menu{gap:3px;padding-inline:3px;font-size:9px}
-  .system-menu-left{gap:2px}
-  .language-menu{padding-right:2px}
-  .window-system-menu button{min-width:19px;padding-inline:3px;font-size:9px}
-  #musicBtn,#soundBtn{width:20px;min-width:20px}
-  #speedBtn{min-width:31px}
-  .system-clock{font-size:9px;padding-left:3px}
-  .species-status{max-width:38%;font-size:8px}
+  .window-system-menu{gap:2px;padding-inline:3px;font-size:9px}
+  .system-menu-left{gap:1px}
+  .language-menu{padding-right:2px;margin-right:1px}
+  .window-system-menu button{min-width:18px;padding-inline:3px;font-size:9px}
+  #musicBtn,#soundBtn{width:19px;min-width:19px}
+  #speedBtn{min-width:31px;padding-inline:3px}
+  .system-clock{font-size:9px;padding-left:3px;min-width:68px}
+  .status-row{padding-inline:4px}
+  .status-row .instruments{font-size:10px;gap:4px}
+  .species-status{top:6px;right:6px;max-width:52%;font-size:7px}
 }
