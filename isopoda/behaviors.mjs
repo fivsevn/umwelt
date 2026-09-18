@@ -11,16 +11,16 @@ export function behaviorTraits(seed){return {
 }}
 function ambientCounts(group,self){const counts={};for(const c of group){if(c===self||!c.ambientAction)continue;counts[c.ambientAction]=(counts[c.ambientAction]||0)+1}return counts}
 function chooseAmbient(c,group,slot,state){
- const t=c.traits,counts=ambientCounts(group,c),humidity=state.humidity??70,food=state.environment?.foodNodes?.some(f=>f.amount>0);
+ const t=c.traits,counts=ambientCounts(group,c),humidity=state.humidity??70,food=state.environment?.foodNodes?.some(f=>f.amount>0),period=state.period??0,activity=period===2?1.38:period===1?.76:1;
  const choices=[
-  ['explore',1.05*(.55+t.exploration*1.15)*(.75+t.restlessness*.55)],
-  ['probe',.62*(.55+t.boldness*.8)],
-  ['groom',.55*(.38+t.grooming*1.35)],
-  ['rest',.62*(1.25-t.restlessness*.7)],
-  ['forage',(food?.52:.12)*(.35+t.foraging*1.55)],
-  ['wet',.42*(.35+t.moistureAffinity*1.5)*(humidity<82?1.2:.72)],
-  ['shelter',.46*(.35+t.shelterAffinity*1.5)*(1.15-t.boldness*.28)],
-  ['edge',.34*(.4+t.exploration*1.25)]
+  ['explore',1.05*(.55+t.exploration*1.15)*(.75+t.restlessness*.55)*activity],
+  ['probe',.62*(.55+t.boldness*.8)*activity],
+  ['groom',.55*(.38+t.grooming*1.35)*(period===1?1.12:1)],
+  ['rest',.62*(1.25-t.restlessness*.7)*(period===1?1.38:period===2?.72:1)],
+  ['forage',(food?.52:.12)*(.35+t.foraging*1.55)*activity*(period===2?1.18:1)],
+  ['wet',.42*(.35+t.moistureAffinity*1.5)*(humidity<82?1.2:.72)*(humidity<58?1.45:1)],
+  ['shelter',.46*(.35+t.shelterAffinity*1.5)*(1.15-t.boldness*.28)*(humidity<60?1.5:1)*(period===1?1.18:1)],
+  ['edge',.34*(.4+t.exploration*1.25)*activity]
  ];
  let total=0;for(const choice of choices){const n=counts[choice[0]]||0;choice[1]*=n===0?1:n===1?.30:.07;total+=choice[1]}
  let roll=(stableHash(c.seed+':ambient:'+slot)%100000)/100000*total;
@@ -97,8 +97,12 @@ export function stepIndividuals(group,{encounter,state={},time=0,dt=.05,reaction
    if(arrived){stop=true;posture=target.kind==='food'?'feeding':target.kind==='shelter'?'emerging':'probing';hide=target.kind==='shelter'?.50:0}
   }
   if(reaction?.mode==='disturb'){
-   const age=reaction.age||0;hide=0;
-   if(age<1.2+c.alertness&&c.alertness>.48){stop=true;posture=age<.4?'tucked':'curled'}else{tx=clamp(c.x+(c.x-x||i+1)*2,24,355);ty=clamp(c.y+(c.y-y||i+1)*2,30,400);pace*=1.4+c.alertness;stop=false;posture='normal'}
+   const age=reaction.age||0,rx=reaction.point?.x??x,ry=reaction.point?.y??y,distance=Math.hypot(c.x-rx,c.y-ry),range=105+c.alertness*38;hide=0;
+   if(distance<range){
+    const shock=Math.max(.15,1-distance/range);
+    if(age<.65+c.alertness*1.25&&c.alertness>.35-shock*.12){stop=true;posture=age<.32?'tucked':c.model?.visual?.conglobation?.ability==='full'?'curled':'tucked'}
+    else{tx=clamp(c.x+(c.x-rx||i+1)*(1.5+shock),24,355);ty=clamp(c.y+(c.y-ry||i+1)*(1.5+shock),30,400);pace*=1.25+c.alertness+shock*.55;stop=false;posture='normal'}
+   }
   }else if(reaction?.mode==='care'){
    const env=state.environment||{},food=env.foodNodes?.at(-1),wet=env.wetZones?.[0],leaf=env.leaves?.at(-1);
    if(['mist','wet-left'].includes(reaction.id)){if(wet){tx=wet.x;ty=wet.y}posture=(reaction.age||0)<2?'probing':'normal';stop=(reaction.age||0)<c.alertness}
