@@ -21,7 +21,7 @@ https://umwelt.fivsevn.com/isopoda/morphology/
 
 ## Isopoda Fugue / 等足目赋格
 
-一个以鼠妇观察为主题的浏览器游戏。
+一个以等足类观察、环境与记录为主题的浏览器游戏。
 
 ---
 
@@ -34,7 +34,7 @@ UMWELT 当前主要由静态 Web 技术构成：
 - JavaScript
 - Canvas
 
-游戏中的鼠妇使用数据驱动的 morphology / phenotype system 描述不同品种与个体的形态差异，再由统一的整数像素 renderer 绘制到 Canvas。
+游戏中的等足类标本使用数据驱动的 morphology / phenotype system 描述不同品种与个体的形态差异，再由统一的整数像素 renderer 绘制到 Canvas。
 
 当前形态系统包含：
 
@@ -50,7 +50,7 @@ UMWELT 当前主要由静态 Web 技术构成：
 - Pattern
 - Conglobation
 
-饲养环境同样采用程序化像素 Canvas 渲染。
+饲养环境同样采用程序化像素 Canvas 渲染，并将基质、枯叶、水苔、树皮、石块及其他场景元素拆分为可维护的 scenery renderer。场景系统的维护边界记录在 `docs/isopoda-scenery-system.md`。
 
 游戏进度主要保存在浏览器本地。
 
@@ -60,18 +60,9 @@ UMWELT 当前主要由静态 Web 技术构成：
 node --test tests/*.test.mjs
 ```
 
-开发用视觉 / 诊断页面（仅本地使用，Pages 部署明确排除）：
+开发用视觉 / 诊断工具保留在仓库中，并在 GitHub Pages 构建时明确排除。它们用于 morphology、行为、场景素材和浏览器回归检查，不属于公开站点内容。
 
-```text
-/tests/morphology.html            morphology / stage / condition verification
-/tests/pixel-life.html            habitat / behaviour preview
-/isopoda/anatomy-test.html        compatibility / anatomy development entry
-/isopoda/projection-preview.html  posture / orientation matrix
-/isopoda/exploded-preview.html    clean exploded-morphology preview
-/isopoda/scenery-test.html        habitat scenery asset lab
-```
-
-公开展示页与测试页严格分开。虽然“阿西莫夫形态实验室”名称中包含“实验室”，但它是正式公开资料页，不属于测试页面。
+维护说明集中在 `docs/` 与各模块目录的 README 中。公开展示页与开发工具保持分离；“阿西莫夫形态实验室”虽然以“实验室”命名，但它是正式公开资料页。
 
 ---
 
