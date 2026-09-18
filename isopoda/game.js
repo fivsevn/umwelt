@@ -1,9 +1,9 @@
 import {renderCatalog,renderSources} from './catalog.mjs?v=quiet-ui-3';
 import {SPECIES,speciesById} from './species.mjs?v=quiet-ui-3';
 import {ENDINGS} from './content.mjs?v=narrative-pool-2';
-import {createRun,validRun,migrateV3,runSpecies,migrateLegacy,ensureScene,choose,advance,timeFor,recordDirectInteraction,endingMemoryFor} from './engine.mjs?v=narrative-pool-3';
+import {createRun,validRun,migrateV3,runSpecies,migrateLegacy,ensureScene,choose,advance,timeFor,recordDirectInteraction,endingMemoryFor} from './engine.mjs?v=environment-memory-1';
 import {makeBug,makeIsopod} from './sprites.mjs?v=quiet-ui-3';
-import {createHabitat} from './habitat.mjs?v=narrative-pool-1';
+import {createHabitat} from './habitat.mjs?v=environment-memory-1';
 import {restoreCollection,drawCohort,unlock} from './collection.mjs?v=quiet-ui-3';
 import {encounterById,encounterFor} from './encounters.mjs?v=narrative-pool-2';
 import {iconButton,createInstrument} from './ui.mjs?v=quiet-ui-3';
@@ -50,9 +50,21 @@ function begin(){
 }
 function act(id){if(!choose(state,id))return;habitat.react(id);tone(130);render()}
 function next(){if(!advance(state))return;tone(95);save();if(state.stage==='ended'){showEnd();return}render()}
+function drawEndMolts(){
+ const canvas=$('#endMolts'),shells=Array.isArray(state.collectedShells)?state.collectedShells.slice(-10):[];if(!canvas)return;
+ canvas.hidden=!shells.length;if(!shells.length)return;
+ const cell=2,slot=28,w=Math.max(72,shells.length*slot+12),h=34;canvas.width=w;canvas.height=h;canvas.style.width=Math.min(360,w*2)+'px';canvas.style.height=(h*2)+'px';
+ const g=canvas.getContext('2d');g.clearRect(0,0,w,h);g.imageSmoothingEnabled=false;
+ const pixel=(x,y,a=.72)=>{g.fillStyle=`rgba(229,228,210,${a})`;g.fillRect(Math.round(x),Math.round(y),cell,cell)};
+ shells.forEach((shell,index)=>{
+  const phase=shell.phase||'whole',segments=phase==='whole'?8:5,length=phase==='whole'?18:11,cx=9+index*slot+slot/2,cy=17,offset=phase==='anterior'?-2:phase==='posterior'?2:0;
+  for(let i=0;i<segments;i++){const t=segments===1?0:i/(segments-1),x=cx-length/2+t*length+offset,r=2+Math.sin(t*Math.PI)*3;pixel(x,cy-r,.82);pixel(x,cy+r,.55);if(i%2===0)pixel(x,cy,.68)}
+  if(phase==='whole'){pixel(cx-length/2-2,cy,.78);pixel(cx+length/2+2,cy,.48)}
+ });
+}
 function showEnd(){
- habitat.stop();$('#playView').hidden=true;$('#arrivalCard').hidden=true;$('#endCard').hidden=false;$('#dayLabel').textContent='';const e=ENDINGS.find(e=>e.id===state.ending)||ENDINGS[5];$('#endingTime').textContent=clock();$('#endingTitle').textContent='Epilogue - '+e.title;$('#endingBody').textContent=e.body;$('#endingLine').textContent=e.line;$('#endSpecimen').replaceChildren(...batchBugs());
- if(!archives.some(a=>a.run===state.seed)){archives.push({id:e.id,run:state.seed,species:runSpecies(state),cohort:state.cohort,date:new Date().toLocaleDateString(),records:state.records.length});archives=archives.slice(-60);write(ARCHIVE,archives)}save();
+ habitat.stop();$('#playView').hidden=true;$('#arrivalCard').hidden=true;$('#endCard').hidden=false;$('#dayLabel').textContent='';const e=ENDINGS.find(e=>e.id===state.ending)||ENDINGS[5];$('#endingTime').textContent=clock();$('#endingTitle').textContent='Epilogue - '+e.title;$('#endingBody').textContent=e.body;$('#endingLine').textContent=e.line;$('#endSpecimen').replaceChildren(...batchBugs());drawEndMolts();
+ if(!archives.some(a=>a.run===state.seed)){archives.push({id:e.id,run:state.seed,species:runSpecies(state),cohort:state.cohort,date:new Date().toLocaleDateString(),records:state.records.length,memory:endingMemoryFor(state),molts:(state.collectedShells||[]).map(shell=>({phase:shell.phase,specimen:shell.specimen}))});archives=archives.slice(-60);write(ARCHIVE,archives)}save();
 }
 function home(){playing=false;habitat.stop();$('#playView').hidden=true;$('#endCard').hidden=true;$('#arrivalCard').hidden=true;$('#titleCard').hidden=false;$('#dayLabel').textContent='';$('#startBtn').disabled=false;$('#continueBtn').hidden=!hasRun;$('#continueBtn').textContent=state.stage==='ended'?t('viewEnding'):t('continueObservation');emptyHabitat.reset({empty:true})}
 function tone(freq){if(!sound)return;try{audio ||= new (window.AudioContext||window.webkitAudioContext)();audio.resume();const o=audio.createOscillator(),g=audio.createGain();o.type='triangle';o.frequency.value=freq;g.gain.setValueAtTime(.025,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.12);o.connect(g).connect(audio.destination);o.start();o.stop(audio.currentTime+.12)}catch{sound=false;$('#soundBtn').setAttribute('aria-pressed','false');$('#soundBtn').setAttribute('aria-label',t('soundUnavailable'))}}
