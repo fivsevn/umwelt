@@ -120,3 +120,13 @@ html,body{height:100%;overflow:hidden}#game{height:100dvh;padding:6px 8px max(6p
 /* Mobile: keep rapid game input from becoming browser double-tap zoom. */
 #game,#game *{touch-action:manipulation}
 #game #habitat{touch-action:none}
+
+
+/* Epilogue specimens and collected exuviae are separate archival modules. */
+.specimen-result-panel #endSpecimen{border:0}
+.molt-result-panel{overflow:hidden}
+.end-molts-body{min-height:72px;display:flex;align-items:center;justify-content:center;padding:4px 8px}
+.end-molts{display:block;margin:0 auto;max-width:100%;image-rendering:pixelated;opacity:1}
+@media(max-height:650px){
+ .end-molts-body{min-height:56px;padding-block:2px}
+}
