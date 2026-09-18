@@ -1,7 +1,7 @@
 import {environmentFor,changeEnvironment,ageEnvironment,environmentTarget,habitatFit,syncSceneTrace,releaseDueShells,takeShell} from './environment.mjs?v=molt-sequence-1';
 import {encounterFor,encounterById,encounterText} from './encounters.mjs?v=narrative-pool-2';
 import {SPECIES,speciesById} from './species.mjs?v=cohort-4';
-import {EVENING,AMBIENT,CARE,MINI_TYPES,ENDINGS} from './content.mjs?v=narrative-pool-2';
+import {EVENING,AMBIENT,CARE,MINI_TYPES,ENDINGS} from './content.mjs?v=interaction-story-1';
 export const VERSION=4;
 export const PERIODS=['晨间','午后','夜间'];
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
@@ -10,10 +10,28 @@ export function cohortFor(species,seed){return Array.from({length:7},(_,i)=>({id
 export function runSpecies(s){return [...new Set(s.cohort?.map(c=>c.species)||[s.species])].filter(id=>SPECIES.some(p=>p.id===id))}
 export function createRun(species='dairy',seed=Date.now()>>>0){
  const now=new Date(),startedOn=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');
- const p=speciesById(species);return {startedOn,version:VERSION,narrativeVersion:1,seed:seed>>>0,cohort:cohortFor(p.id,seed),day:1,period:0,stage:'choice',humidity:p.wet,temp:23,vent:55,light:54,cover:p.cover,food:1,interventions:0,quiet:0,accuracy:0,maps:0,labels:0,care:0,directTouches:0,directGrabs:0,directMoves:0,groundTaps:0,barkLifts:0,shellCollects:0,collectedShells:[],directRecords:[],records:[],ending:null,feedback:'',scene:null};
+ const p=speciesById(species);return {startedOn,version:VERSION,narrativeVersion:1,seed:seed>>>0,cohort:cohortFor(p.id,seed),day:1,period:0,stage:'choice',humidity:p.wet,temp:23,vent:55,light:54,cover:p.cover,food:1,interventions:0,quiet:0,accuracy:0,maps:0,labels:0,care:0,directTouches:0,directGrabs:0,directMoves:0,groundTaps:0,barkLifts:0,shellCollects:0,collectedShells:[],directRecords:[],interactionDiscoveries:{tap:false,grab:false,lift:false,collect:false},interactionIntent:null,observerContradictions:[],records:[],ending:null,feedback:'',scene:null};
+}
+function interactionState(s){
+ s.interactionDiscoveries=s.interactionDiscoveries&&typeof s.interactionDiscoveries==='object'?s.interactionDiscoveries:{};
+ for(const key of ['tap','grab','lift','collect'])s.interactionDiscoveries[key]=!!s.interactionDiscoveries[key];
+ if(!Array.isArray(s.observerContradictions))s.observerContradictions=[];
+ return s.interactionDiscoveries;
+}
+function contradictionFor(s,type){
+ if(s.stage!=='feedback')return '';
+ const r=Array.isArray(s.records)?s.records.at(-1):null;
+ if(!r||r.day!==s.day||r.period!==s.period)return '';
+ if(r.choice==='hands-off'&&['tap','grab','place'].includes(type))return '你先选择不碰它，后来手还是进入了盒子。意图被写下，行为也被写下；它们不必替彼此作证。';
+ if(r.choice==='touch-one'&&type==='grab')return '你原本只打算碰一下，手却停留得更久。尺度改变时，“一下”也不是一个稳定的单位。';
+ if(r.choice==='leave'&&type==='lift')return '你先决定不再追看，随后又抬起了木片。记录中的克制和手的动作没有发生在同一个层面。';
+ if(r.choice==='patient'&&type==='lift')return '你选择等待它自己出来，后来又改变了等待的条件。等待仍然发生过，只是不再是原来的等待。';
+ if(['molt','unknown'].includes(r.choice)&&type==='collect')return '你先让旧壳留在原处，后来又把它收走。所谓“原处”，只维持到下一次动作。';
+ return '';
 }
 export function recordDirectInteraction(s,event={}){
  const type=['tap','grab','place','ground','lift','collect'].includes(event.type)?event.type:null;if(!type)return null;
+ const discoveries=interactionState(s);
  s.directTouches=Number.isFinite(s.directTouches)?s.directTouches:0;s.directGrabs=Number.isFinite(s.directGrabs)?s.directGrabs:0;s.directMoves=Number.isFinite(s.directMoves)?s.directMoves:0;
  s.groundTaps=Number.isFinite(s.groundTaps)?s.groundTaps:0;s.barkLifts=Number.isFinite(s.barkLifts)?s.barkLifts:0;s.shellCollects=Number.isFinite(s.shellCollects)?s.shellCollects:0;
  if(!Array.isArray(s.collectedShells))s.collectedShells=[];if(!Array.isArray(s.directRecords))s.directRecords=[];
@@ -21,11 +39,24 @@ export function recordDirectInteraction(s,event={}){
  if(type==='tap')s.directTouches++;else if(type==='grab')s.directGrabs++;else if(type==='place')s.directMoves++;else if(type==='ground')s.groundTaps++;else if(type==='lift')s.barkLifts++;else if(type==='collect'){
   shell=takeShell(s,event.shell);if(!shell)return null;s.shellCollects++;s.collectedShells.push({...shell,collectedDay:s.day,collectedPeriod:s.period});s.collectedShells=s.collectedShells.slice(-12);
  }
+ const discoveredType=type==='place'?'grab':['tap','grab','lift','collect'].includes(type)?type:null;
+ if(discoveredType)discoveries[discoveredType]=true;
  s.interventions=(Number.isFinite(s.interventions)?s.interventions:0)+1;
  const env=environmentFor(s),strength=type==='tap'?1:type==='ground'?2:type==='collect'?2:type==='grab'?4:5;env.disturbance=Math.max(env.disturbance||0,strength);
  const point=event.point&&Number.isFinite(event.point.x)&&Number.isFinite(event.point.y)?{x:Math.round(event.point.x),y:Math.round(event.point.y)}:null;
  if(type==='place'&&point){env.scuffs??=[];env.scuffs.push({...point,turn:s.records.length,direct:true});env.scuffs=env.scuffs.slice(-18)}
  const specimen=/^[A-G]$/.test(event.specimen||'')?event.specimen:null,record={day:s.day,period:s.period,time:timeFor(s.seed,s.day,s.period),type,specimen,point,shell:shell?{id:shell.id,phase:shell.phase,specimen:shell.specimen}:null};
+ const contradiction=contradictionFor(s,type);
+ if(contradiction){
+  const item={day:s.day,period:s.period,type,choice:s.records.at(-1)?.choice||null,text:contradiction};
+  s.observerContradictions.push(item);s.observerContradictions=s.observerContradictions.slice(-12);record.contradiction=contradiction;s.feedback=contradiction;
+ }
+ const intent=s.interactionIntent;
+ if(intent&&intent.day===s.day&&intent.period===s.period&&intent.type===discoveredType){
+  s.feedback=intent.done||s.feedback;
+  const narrative=s.records.at(-1);if(narrative&&narrative.day===s.day&&narrative.period===s.period){narrative.text=s.feedback;narrative.interactionCompleted=intent.type}
+  record.completedIntent=intent.type;s.interactionIntent=null;
+ }
  s.directRecords.push(record);s.directRecords=s.directRecords.slice(-50);return record;
 }
 function directRecordForDay(s,day=s.day){
@@ -33,6 +64,7 @@ function directRecordForDay(s,day=s.day){
  return [...list].reverse().find(r=>r.type==='place')||[...list].reverse().find(r=>r.type==='grab')||list.at(-1)||null;
 }
 export function directMemoryForDay(s,day=s.day){
+ const contradiction=Array.isArray(s.observerContradictions)?[...s.observerContradictions].reverse().find(x=>x.day===day):null;if(contradiction)return contradiction.text;
  const r=directRecordForDay(s,day);if(!r)return '';const who=r.specimen?`个体 ${r.specimen}`:'一个个体';
  if(r.type==='place')return `今天你把${who}放回了另一个位置。它后来的路线从那里继续。`;
  if(r.type==='grab')return `今天${who}曾经离开土面。盒子里的移动因此停顿了一会儿。`;
@@ -42,6 +74,7 @@ export function directMemoryForDay(s,day=s.day){
  return `今天你碰过${who}。它收紧身体，后来才重新展开。`;
 }
 export function endingMemoryFor(s){
+ const contradictions=Array.isArray(s.observerContradictions)?s.observerContradictions:[];if(contradictions.length)return '这七天里，至少有一次你写下的决定和随后发生的动作并不相同。田野笔记把两者都保留下来，而不是替其中一个作证。';
  const list=Array.isArray(s.directRecords)?s.directRecords:[];if(!list.length)return '';
  const r=[...list].reverse().find(x=>x.type==='place')||[...list].reverse().find(x=>x.type==='grab')||list.at(-1),who=r.specimen?`个体 ${r.specimen}`:'一个个体';
  if(r.type==='place')return `这七天里，${who}曾被你拿起，又被放回另一个位置。后面的路线从那里继续。`;
@@ -63,7 +96,7 @@ function ambientLine(s){
  const pool=direct.length?direct:matched.length?matched:AMBIENT.filter(a=>a.id==='base'),entry=pool[hash(s.seed,s.day*37+s.period*11+503)%pool.length];
  const lines=Array.isArray(entry?.text)?entry.text:[entry?.text].filter(Boolean);return lines.length?lines[hash(s.seed,s.day*41+s.period*13+509)%lines.length]:'';
 }
-function opt(id,label,delta={},text=''){return {id,label,delta,text}}
+function opt(id,label,delta={},text='',interaction=null){return {id,label,delta,text,...(interaction?{interaction}:{})}}
 function observationTurn(s){return (s.day-1)*3+s.period}
 function rawEncounterAt(s,turn){
  return encounterFor({seed:s.seed,narrativeVersion:s.narrativeVersion,day:Math.floor(turn/3)+1,period:turn%3});
@@ -107,13 +140,19 @@ export function sceneFor(s){
      scene.options=[opt('gap','留一条窄缝',{cover:8,care:1,interventions:1},'叶片被石粒稍稍撑起。一只从下面穿过，另一只停在入口。'),opt('flat','平放叶片',{cover:5,interventions:1},'叶片贴着土。一只沿外缘绕过去，没有进入下面。'),opt('old','保留原处',{quiet:1},'叶片没动。它们继续沿着原来的边缘经过。')];
    }else if(type==='pause'){
      scene.text='木片边缘露出触角。想看清身体，需要再等一会儿。';
-     scene.options=[opt('patient','等它出来',{quiet:2,accuracy:1},'你等了一小会儿。触角先伸出，身体随后越过阴影的边界。'),opt('lift','轻抬木片',{interventions:2,light:8},'木片被抬起。你看见了更多身体，同时也看见它们迅速分散。'),opt('leave','不再追看',{quiet:1},'你把这次记录停在触角那里。身体不必为了完成句子而出现。')];
+     scene.options=[opt('patient','等它出来',{quiet:2,accuracy:1},'你等了一小会儿。触角先伸出，身体随后越过阴影的边界。'),opt('lift','轻抬木片',{interventions:1,light:4},'你把手移到木片边缘。阴影下面的轮廓还没有离开。',{type:'lift',prompt:'木片就在画面中央。按住边缘。',done:'木片被抬起。你看见了更多身体，同时也看见它们迅速分散。'}),opt('leave','不再追看',{quiet:1},'你把这次记录停在触角那里。身体不必为了完成句子而出现。')];
+   }else if(type==='touch'){
+     scene.specimen=focal.id;scene.text=`个体 ${focal.id} 停在叶缘。触角仍在缓慢移动。你的手已经离它很近。`;
+     scene.options=[opt('touch-one','碰一下',{},'你把指尖靠近它，距离只剩下一点。',{type:'tap',prompt:'它就在画面里。碰一下。',done:'它立刻收紧身体。甲片一节节合拢起来。'}),opt('take-near','拿近一点看',{},'你的手停在它上方。这个距离已经不再只是观看。',{type:'grab',prompt:'手指停在它上方。按住一会儿。',done:'它短暂离开土面。你看清了更多细节，也同时改变了它所在的位置。'}),opt('hands-off','不碰它',{quiet:1},'你把手留在盒壁外。它继续沿叶缘移动。')];
    }else if(type==='map'){
      scene.text=s.day>=5?'去哪里？':'把观察点放在哪里？';
      scene.options=[opt('shadow','阴影',{quiet:1,maps:1},'木片下面没有那么亮。一个轮廓贴着暗处停下来。'),opt('edge','边缘',{maps:1,light:4},'边缘有风，也有光。它沿着盒壁走过一段，又转回去了。'),opt('stay','留在这里',{quiet:1},'你留在这里。触角碰到了脚下的土粒。')];
    }else{
-     scene.text='甲片、碎叶和旧壳都在同一片土上。给眼前的浅色薄片选一个暂时的记录方式。';
-     scene.options=[opt('molt','记录为疑似旧壳',{labels:1,accuracy:1},'你没有移动它。稍后，一个个体在薄片旁停留，边缘出现了更小的缺口。'),opt('remove','当作残渣取走',{interventions:1},'薄片被取走。你失去了继续观察它的机会，盒子空出很小一块。'),opt('unknown','暂不命名',{quiet:1,labels:1},'你画下轮廓，把名称空着。下一次仍能找到这张图。')];
+     const traceEnv=environmentFor(s),hasShell=(traceEnv.shells||[]).length>0;
+     scene.text=hasShell?'甲片、碎叶和旧壳都在同一片土上。给眼前的浅色薄片选一个暂时的记录方式。':'土面上有几片浅色碎屑。它们没有因为暂时叫不出名字而离开原处。';
+     scene.options=hasShell
+      ?[opt('molt','记录为疑似旧壳',{labels:1,accuracy:1},'你没有移动它。稍后，一个个体在薄片旁停留，边缘出现了更小的缺口。'),opt('collect-shell','收起来',{labels:1},'你把手移到那层薄壳上方。它仍留在土面上。',{type:'collect',prompt:'那片旧壳还在土面上。按住它。',done:'旧壳离开了土面。它从环境的一部分，变成了你带走的一件东西。'}),opt('unknown','暂不命名',{quiet:1,labels:1},'你画下轮廓，把名称空着。下一次仍能找到这张图。')]
+      :[opt('molt','记下轮廓',{labels:1},'你只记下颜色和位置，没有替碎屑补上来源。'),opt('unknown','暂不命名',{quiet:1,labels:1},'你画下轮廓，把名称空着。下一次仍能找到这张图。'),opt('leave-trace','留在原处',{quiet:1},'碎屑没有移动。下一次观察仍可能从这里开始。')];
    }
  }
  let encounter=encounterFor(s);
@@ -150,7 +189,8 @@ export function choose(s,id){
  const before=s.cohort.map(c=>habitatFit(s,c));changeEnvironment(s,id);for(const [k,v] of Object.entries(o.delta))s[k]+=v;
  s.humidity=clamp(s.humidity,35,96);s.cover=clamp(s.cover,20,94);s.light=clamp(s.light,8,85);s.food=clamp(s.food,0,6);s.vent=clamp(s.vent,20,95);
  const after=s.cohort.map(c=>habitatFit(s,c));if(after.some((v,i)=>v>before[i]+.01)&&after.every((v,i)=>v>=before[i]-.01))s.care++;
- s.feedback=o.text;s.stage='feedback';s.records.push({day:s.day,period:s.period,kind:scene.kind,choice:id,label:o.label,text:o.text,time:scene.time||timeFor(s.seed,s.day,s.period),encounter:scene.encounter||null});return true;
+ const discoveries=interactionState(s);s.interactionIntent=o.interaction?{...o.interaction,day:s.day,period:s.period,choice:id,hint:discoveries[o.interaction.type]?'':o.interaction.prompt}:null;
+ s.feedback=o.text;s.stage='feedback';s.records.push({day:s.day,period:s.period,kind:scene.kind,choice:id,label:o.label,text:o.text,time:scene.time||timeFor(s.seed,s.day,s.period),encounter:scene.encounter||null,interaction:o.interaction?.type||null});return true;
 }
 function endingFromPool(s,ids,salt){
  const direct=(s.directGrabs||0)+(s.directMoves||0),signature=s.interventions*11+s.quiet*17+s.maps*19+s.labels*23+s.care*29+s.accuracy*31+direct*37;
@@ -172,7 +212,7 @@ export function advance(s){
  const delta=(s.vent>70?4:2)+(s.period===1?1:0);s.humidity=clamp(s.humidity-delta,35,96);
  s.temp=Math.round((22+(s.period===1?2:s.period===2?-.5:0)+(hash(s.seed,s.day)%5)*.3)*10)/10;
  s.light=clamp(s.light+(s.period===1?10:s.period===2?-22:12),8,85);
- ageEnvironment(s);s.food=clamp(s.food-(s.period===0?1:0),0,6);s.stage='choice';s.feedback='';s.scene=null;ensureScene(s);return true;
+ ageEnvironment(s);s.food=clamp(s.food-(s.period===0?1:0),0,6);s.stage='choice';s.feedback='';s.interactionIntent=null;s.scene=null;ensureScene(s);return true;
 }
 export function migrateLegacy(old,seed=1){const s=createRun('dairy',seed);if(old&&Number.isInteger(old.day)&&old.day>=1&&old.day<=7){s.day=old.day;s.period=0;s.humidity=clamp(68+(Number(old.moisture)||0)*2,35,90);s.cover=clamp(45+(Number(old.leaves)||0)*5,20,90)}return s}
 
