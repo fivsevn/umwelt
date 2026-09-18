@@ -59,13 +59,20 @@ function reset(options={}){
 }
 function stage(scene){interaction.cancel();encounter=encounterForScene(scene);elapsed=0;effect=null;shelterHeld=false;reactions.reset();stageIndividuals(critters,encounter);placeSceneMolt(scene);if(encounter){[camera.x,camera.y]=encounter.place}drawHabitat(0)}
 function react(id){state=getState();const point=actionFocus(id,state,encounter);const selected=[...critters].sort((a,b)=>Math.hypot(a.x-point.x,a.y-point.y)-Math.hypot(b.x-point.x,b.y-point.y)).slice(0,2).map(c=>c.id);effect={id,selected,mode:responseMode(id),start:elapsed,until:elapsed+10};drawHabitat(performance.now())}
+function syncArtwork(view){
+ const root=canvas.parentElement?.querySelector('.habitat-art');if(!root)return;
+ const {scale,sx,sy}=view,base=root.querySelector('.habitat-art-bg'),barkLayer=root.querySelector('.habitat-art-bark');
+ const transform=(dy=0)=>`translate(${-sx*scale}px,${(-sy+dy)*scale}px) scale(${scale})`;
+ if(base)base.style.transform=transform();
+ if(barkLayer)barkLayer.style.transform=transform(shelterHeld?-12:0);
+}
 function present(){
  const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;
- // Specimens lose only one display step; the backdrop is separately coarsened before they are composited.
  const w=Math.max(80,Math.round(rect.width*SCENE_OUTPUT_SCALE)),h=Math.max(80,Math.round(rect.height*SCENE_OUTPUT_SCALE));
  if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h}
  display.imageSmoothingEnabled=false;
- const view=cameraWindow(rect.width,rect.height,camera.zoom,camera.x,camera.y),{scale,sw,sh,sx,sy}=view;camera.x=view.x;camera.y=view.y;overlayCtx.drawImage(world,0,0);drawReactionBubbles(overlayCtx,reactions.active,critters,elapsed,view,reduced);display.drawImage(overlay,sx,sy,sw,sh,0,0,w,h);
+ const view=cameraWindow(rect.width,rect.height,camera.zoom,camera.x,camera.y),{scale,sw,sh,sx,sy}=view;camera.x=view.x;camera.y=view.y;syncArtwork(view);
+ overlayCtx.clearRect(0,0,overlay.width,overlay.height);overlayCtx.drawImage(world,0,0);drawReactionBubbles(overlayCtx,reactions.active,critters,elapsed,view,reduced);display.clearRect(0,0,w,h);display.drawImage(overlay,sx,sy,sw,sh,0,0,w,h);
  layer.hidden=true;
 }
 function zoom(z){camera.zoom=Math.max(1,Math.min(3,z));present();return camera.zoom}
@@ -132,43 +139,24 @@ function soilMoisture(zones){
  }
 }
 function drawHabitat(t){
- const w=world.width,h=world.height;ctx.fillStyle="#443729";ctx.fillRect(0,0,w,h);
- // Loam remains brown first; moisture is a darker soil pass instead of a separate green terrain layer.
- for(let yy=0;yy<h;yy+=2)for(let xx=0;xx<w;xx+=2){
-  const n=Math.sin(xx*.031+Math.sin(yy*.023))*Math.cos(yy*.042)+Math.sin((xx+yy)*.018)*.45;
-  if(n>.65)px(ctx,xx,yy,2,2,'#51422f');else if(n<-.65)px(ctx,xx,yy,2,2,'#302e25');
- }
- for(let i=0;i<570;i++){const x=(i*67+i%9*11)%w,y=(i*113+i%7*19)%h;
-  const shades=['#3d3429','#483c2e','#514331','#352f26','#5d4b36'];
-  px(ctx,x,y,3+i%4,1+i%3,shades[i%5]);
-  if(i%4===0)px(ctx,x+1,y+3,3,1,'#392f24');
- }
- for(let i=0;i<1050;i++){const x=(i*97+(i%13)*17)%w,y=(i*149+(i%11)*23)%h,v=(i*37+x+y)%17;
-  if(v<5)px(ctx,x,y,1,1,['#625039','#574630','#2f2d24','#756047','#454033'][v]);
-  if(v===6)px(ctx,x+1,y,2,1,'#352f26');
- }
+ const w=world.width,h=world.height;ctx.clearRect(0,0,w,h);
  const memory=environmentFor(state);
- soilMoisture(memory.wetZones);
- scenery(t);
- for(const mark of memory.scuffs)for(let i=0;i<12;i++)px(ctx,mark.x-30+i*5,mark.y+i%3*2,3,1,'#69543a');
+ // Only user-created traces sit above the fixed pixel-art husbandry layout.
+ for(const mark of memory.scuffs)for(let i=0;i<8;i++)px(ctx,mark.x-18+i*5,mark.y+i%2*2,3,1,'rgba(108,84,58,.55)');
  for(const l of memory.leaves){
-  if(l.gap)for(let x=-30;x<32;x+=2)px(ctx,l.x+x,l.y+15,1,5,'#202c22');
+  if(['leaf-a','leaf-b','leaf-old'].includes(l.id))continue;
+  if(l.gap)for(let x=-24;x<26;x+=3)px(ctx,l.x+x,l.y+14,2,4,'rgba(24,35,28,.65)');
   const hash=Math.abs(Math.round(l.x*17+l.y*31+l.a*100)),variant=hash%6,tone=(hash>>2)%LEAF_PALETTES.length;
-  const size=(.62+(hash%7)*.085)*(1-Math.min(l.age,20)*.006),angle=l.a+((hash%9)-4)*.11;
+  const size=(.48+(hash%5)*.07)*(1-Math.min(l.age,20)*.006),angle=l.a+((hash%9)-4)*.11;
   leaf(ctx,l.x,l.y,angle,variant,size,tone);
  }
- const shelterY=memory.shelter.y-((shelterHeld||(effect&&elapsed<effect.until&&effect.id==='lift'))?12:0);
- // One dominant cork slab with a smaller fragment partially underneath.
- bark(memory.shelter.x-24,memory.shelter.y+31,.08,1,.78);
- bark(memory.shelter.x+6,shelterY-6,-.08,0,1.34);
  for(const f of memory.foodNodes){
-  for(let i=0;i<7;i++)px(ctx,f.x-9+i*3,f.y+10+i%2*3,1,1,'#806a42');
-  if(f.amount>0)for(let y=0;y<12;y++)for(let x=0;x<Math.min(22,8+f.amount*6);x++){if((x+y+f.age*2)%17<3)continue;px(ctx,f.x+x-8,f.y+y-6,1,1,y>8?'#8b7043':y%3===0?'#d1b578':'#c6a86d')}
+  if(f.amount>0)for(let y=0;y<10;y+=2)for(let x=0;x<Math.min(20,8+f.amount*5);x+=2)px(ctx,f.x+x-8,f.y+y-5,2,2,y>6?'#80683f':'#c3a46b');
  }
  for(const shell of memory.shells||[])drawMoltShell(shell);
  if(state.light<55){ctx.fillStyle=`rgba(15,27,21,${(55-state.light)/120})`;ctx.fillRect(0,0,w,h)}
  if(!reduced&&effect&&elapsed<effect.until&&['mist','wet-left','wet-all'].includes(effect.id))for(let i=0;i<18;i++){const x=12+(i*29)%(effect.id==='wet-all'?350:82),y=(i*71+t*.05)%420;px(ctx,x,y,1,2,'#91a994')}
- ctx.fillStyle="rgba(210,214,183,.055)";ctx.fillRect(3,3,w-6,h-6);ctx.strokeStyle="#93947c";ctx.lineWidth=3;ctx.strokeRect(1.5,1.5,w-3,h-3);
+ ctx.strokeStyle='rgba(147,148,124,.55)';ctx.lineWidth=2;ctx.strokeRect(1,1,w-2,h-2);
  coarsenScenery();
  drawActors();
  present();
