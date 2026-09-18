@@ -1,7 +1,7 @@
 import {environmentFor,changeEnvironment,ageEnvironment,environmentTarget,habitatFit} from './environment.mjs?v=cohort-4';
-import {encounterFor,encounterText} from './encounters.mjs?v=cohort-4';
+import {encounterFor,encounterText} from './encounters.mjs?v=narrative-pool-1';
 import {SPECIES,speciesById} from './species.mjs?v=cohort-4';
-import {EVENING,CARE,MINI_TYPES,ENDINGS} from './content.mjs?v=cohort-4';
+import {EVENING,AMBIENT,CARE,MINI_TYPES,ENDINGS} from './content.mjs?v=narrative-pool-1';
 export const VERSION=4;
 export const PERIODS=['晨间','午后','夜间'];
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
@@ -48,6 +48,11 @@ export function timeFor(seed,day,period){
  return String(Math.floor(minute/60)).padStart(2,'0')+':'+String(minute%60).padStart(2,'0');
 }
 function pick(s,a,salt=0){return a[hash(s.seed,(s.day-1)*3+s.period+salt)%a.length]}
+function ambientLine(s){
+ const matched=AMBIENT.filter(a=>a.id!=='base'&&a.when(s)),direct=matched.filter(a=>a.id==='direct');
+ const pool=direct.length?direct:matched.length?matched:AMBIENT.filter(a=>a.id==='base'),entry=pool[hash(s.seed,s.day*37+s.period*11+503)%pool.length];
+ const lines=Array.isArray(entry?.text)?entry.text:[entry?.text].filter(Boolean);return lines.length?lines[hash(s.seed,s.day*41+s.period*13+509)%lines.length]:'';
+}
 function opt(id,label,delta={},text=''){return {id,label,delta,text}}
 export function sceneFor(s){
  const focal=s.cohort[hash(s.seed,s.day)%7],scene={id:`${s.day}.${s.period}`,title:PERIODS[s.period],kind:'text',text:'',options:[]};
@@ -57,7 +62,7 @@ export function sceneFor(s){
    scene.options=keys.map(id=>opt(id,CARE[id].label,CARE[id].delta,pick(s,CARE[id].text,3)));
  }else if(s.period===2){
    scene.text=pick(s,EVENING[s.day-1]);const direct=directMemoryForDay(s);if(direct)scene.text+=' '+direct;
-   scene.options=[opt('describe','只记看到的',{labels:1},pick(s,['你写下了位置、颜色和停留。句子没有替它们补上理由。','你记下“进入叶片下面”。今天到这里为止。','纸上多了几行。盒子里的土没有因此变平。'],8)),opt('infer','写下一个猜测',{maps:1},pick(s,['你写下“可能”，后面跟着一个很小的问号。','你留下一个假设。明天的路线也许不会配合。','这一条先放在页边，暂不抄进结论。'],7)),opt('blank','留下一行空白',{quiet:1},pick(s,['空白留在原处。它不是一次漏记。','笔停下来时，最小的个体还在走。','你把本子合上了一会儿，叶片下的时间没有暂停。'],4))];
+   scene.options=[opt('describe','只记看到的',{labels:1},pick(s,['你写下了位置、颜色和停留。句子没有替它们补上理由。','你记下“进入叶片下面”。今天到这里为止。','纸上多了几行。盒子里的土没有因此变平。','你把三个动词删成了两个名词。今天的记录因此更短。','你只写下出现和消失的位置，没有替中间补一条路线。'],8)),opt('infer','写下一个猜测',{maps:1},pick(s,['你写下“可能”，后面跟着一个很小的问号。','你留下一个假设。明天的路线也许不会配合。','这一条先放在页边，暂不抄进结论。','你在箭头旁写下“如果”。这个词暂时没有被验证。','猜测被圈在页边，没有和观察记录用同一种笔压下去。'],7)),opt('blank','留下一行空白',{quiet:1},pick(s,['空白留在原处。它不是一次漏记。','笔停下来时，最小的个体还在走。','你把本子合上了一会儿，叶片下的时间没有暂停。','这一行没有内容，但保留了它原本应该出现的位置。','你没有补完最后一句。盒子里的移动也没有等待句号。'],4))];
  }else{
    const type=MINI_TYPES[(s.day-1+hash(s.seed,50)%MINI_TYPES.length)%MINI_TYPES.length];scene.kind=type;
    if(type==='water'){
@@ -81,7 +86,7 @@ export function sceneFor(s){
    }
  }
  const encounter=encounterFor(s);scene.encounter=encounter.id;scene.time=timeFor(s.seed,s.day,s.period);
- scene.activity=encounterText(encounter,s.seed);scene.text=s.period===0?scene.activity:s.period===2?scene.text:scene.activity+' '+scene.text;
+ scene.activity=encounterText(encounter,s.seed);if(s.period===0){const ambient=ambientLine(s);scene.text=ambient?scene.activity+' '+ambient:scene.activity}else scene.text=s.period===2?scene.text:scene.activity+' '+scene.text;
  // Keep each response complete; the habitat carries the additional reaction.
  return scene;
 }
@@ -93,8 +98,18 @@ export function choose(s,id){
  const after=s.cohort.map(c=>habitatFit(s,c));if(after.some((v,i)=>v>before[i]+.01)&&after.every((v,i)=>v>=before[i]-.01))s.care++;
  s.feedback=o.text;s.stage='feedback';s.records.push({day:s.day,period:s.period,kind:scene.kind,choice:id,label:o.label,text:o.text,time:scene.time||timeFor(s.seed,s.day,s.period),encounter:scene.encounter||null});return true;
 }
+function endingFromPool(s,ids,salt){
+ const direct=(s.directGrabs||0)+(s.directMoves||0),signature=s.interventions*11+s.quiet*17+s.maps*19+s.labels*23+s.care*29+s.accuracy*31+direct*37;
+ const id=ids[hash(s.seed,salt+signature)%ids.length];return ENDINGS.find(e=>e.id===id);
+}
 export function endingFor(s){
- let id='ordinary';if(s.interventions>=11)id='visitor';else if(s.quiet>=17)id='margin';else if(s.labels>=7)id='names';else if(s.maps>=6)id='map';else if(s.care>=5)id='instrument';return ENDINGS.find(e=>e.id===id);
+ const direct=(s.directGrabs||0)+(s.directMoves||0);
+ if(direct>=2||s.interventions>=12)return endingFromPool(s,['visitor','hand'],701);
+ if(s.quiet>=12&&s.quiet>=s.maps&&s.quiet>=s.labels)return endingFromPool(s,['margin','stillness','shadow'],709);
+ if(s.labels>=6&&s.labels>s.maps)return endingFromPool(s,['names','unnamed','grammar'],719);
+ if(s.maps>=5&&s.maps>=s.labels)return endingFromPool(s,['map','arrows','scale'],727);
+ if(s.care>=4)return endingFromPool(s,['instrument','gradient'],733);
+ return endingFromPool(s,['witness','ordinary'],739);
 }
 export function advance(s){
  if(s.stage!=='feedback')return false;

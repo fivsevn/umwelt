@@ -20,6 +20,6 @@ test('same environment produces species-specific spatial choices',()=>{const s=c
 test('direct handling becomes persistent observer memory without invalidating v4 saves',()=>{
  const s=createRun('dairy',991);delete s.directTouches;delete s.directGrabs;delete s.directMoves;delete s.directRecords;assert.ok(validRun(s));
  const base=s.interventions;recordDirectInteraction(s,{type:'tap',specimen:'B',point:{x:80,y:120}});assert.equal(s.directTouches,1);assert.equal(s.interventions,base+1);assert.ok(s.environment.disturbance>=1);assert.match(directMemoryForDay(s),/个体 B/);
- recordDirectInteraction(s,{type:'grab',specimen:'C',point:{x:140,y:180}});recordDirectInteraction(s,{type:'place',specimen:'C',point:{x:260,y:300}});assert.equal(s.directGrabs,1);assert.equal(s.directMoves,1);assert.ok(s.environment.scuffs.some(mark=>mark.direct&&mark.x===260&&mark.y===300));assert.match(directMemoryForDay(s),/个体 C/);assert.match(endingMemoryFor(s),/个体 C/);assert.ok(validRun(s));
+ s.scene=null;assert.match(ensureScene(s).text,/你的手|原因|新痕/);s.scene=null;recordDirectInteraction(s,{type:'grab',specimen:'C',point:{x:140,y:180}});recordDirectInteraction(s,{type:'place',specimen:'C',point:{x:260,y:300}});assert.equal(s.directGrabs,1);assert.equal(s.directMoves,1);assert.ok(s.environment.scuffs.some(mark=>mark.direct&&mark.x===260&&mark.y===300));assert.match(directMemoryForDay(s),/个体 C/);assert.match(endingMemoryFor(s),/个体 C/);assert.ok(validRun(s));
  const restored=JSON.parse(JSON.stringify(s));assert.match(endingMemoryFor(restored),/放回另一个位置/);
 });

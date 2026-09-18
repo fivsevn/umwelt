@@ -2,7 +2,7 @@ import {bindPointerInteraction} from './interaction.mjs?v=observer-memory-1';
 import {createReactions,actionFocus,drawReactionBubbles} from './reactions.mjs?v=bubbles-1';
 import {environmentFor} from './environment.mjs?v=cohort-4';
 import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?v=appendage-2';
-import {encounterById,responseMode} from './encounters.mjs?v=cohort-4';
+import {encounterById,responseMode} from './encounters.mjs?v=narrative-pool-1';
 import {pixelAnatomy,renderModel} from './sprites.mjs?v=appendage-2';
 import {speciesById} from './species.mjs?v=cohort-4';
 // Habitat scenery and specimens share one world lattice, but scenery is allowed to sit one visual step behind the specimens.
