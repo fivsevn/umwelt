@@ -1,6 +1,8 @@
 // Runtime localization for authored game copy.
 // Canonical simulation/state text stays in Chinese so saved runs remain language-neutral.
 const rows=[
+['木片旁的一个后半身颜色较浅，几节甲片像还没有完全离开原来的表面。','Beside the bark, one posterior half is paler; several plates look as if they have not fully left their former surface.','木片のそばで、ある個体の後半身が淡い。いくつかの背板は、まだ元の表面から完全には離れていないように見える。'],
+['它缩近木片，浅色的后半身也跟着退入阴影。','It draws closer to the bark, and the pale posterior half retreats into shadow with it.','木片へ身を寄せ、淡い後半身もそのまま影の中へ退いていく。'],
 ['观察个体','Observed Specimens','観察個体'],
 ['收集到的蜕皮','Collected Exuviae','採集した脱皮殻'],
 // Encounter titles and observations.
