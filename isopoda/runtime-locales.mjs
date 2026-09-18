@@ -1,5 +1,5 @@
 import {getLanguage} from './i18n.mjs?v=i18n-1';
-import {gameText} from './game-locales.mjs?v=environment-memory-1';
+import {gameText} from './game-locales.mjs?v=exuvia-1';
 import {encounterById} from './encounters.mjs?v=narrative-pool-2';
 
 const selectors=[
@@ -9,6 +9,8 @@ const selectors=[
  '#endingTitle',
  '#endingBody',
  '#endingLine',
+ '#endSpecimenCaption',
+ '#endMoltsCaption',
  '.ending-note h3',
  '.ending-note p',
  '.journal-paper .pencil-mark',
