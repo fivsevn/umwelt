@@ -1,6 +1,6 @@
 import {getLanguage} from './i18n.mjs?v=i18n-1';
-import {gameText} from './game-locales.mjs?v=exuvia-1';
-import {encounterById} from './encounters.mjs?v=narrative-pool-2';
+import {gameText} from './game-locales.mjs?v=molt-sequence-1';
+import {encounterById} from './encounters.mjs?v=molt-sequence-1';
 
 const selectors=[
  '#activityLabel',
