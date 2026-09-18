@@ -38,7 +38,7 @@ export const CARE = {
  shade:{label:'降低光线',delta:{light:-15,quiet:1},text:['光暗了一点。触角从树皮下重新伸出来。','阴影变宽，几只个体不再贴着同一条边缘。','你把光调暗。今天的照片可能不够好看。']},
  wait:{label:'保持原样',delta:{quiet:1},text:['没有进行处理。一次停顿之后，原来的路线继续了。','你把手放下。盒子里没有立刻发生值得奖励这件事的变化。','这一栏没有操作。记录仍然算数。']}
 };
-export const MINI_TYPES=['water','route','shelter','pause','map','trace'];
+export const MINI_TYPES=['water','route','shelter','pause','touch','map','trace'];
 export const ENDINGS=[
  {id:'margin',title:'留在页边',line:'空白的地方，也保持着湿度。',body:'这七天，你常常没有移动任何东西。叶片下的路线没有完整进入记录。最后一页留着几行空白。'},
  {id:'stillness',title:'没有移动的证据',line:'没有发生，也是一种发生。',body:'你留下了许多没有操作的时段。后来回看，最难复原的反而是那些看起来什么都没发生的几分钟。'},
