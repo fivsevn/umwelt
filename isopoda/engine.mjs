@@ -1,5 +1,5 @@
 import {environmentFor,changeEnvironment,ageEnvironment,environmentTarget,habitatFit,syncSceneTrace,takeShell} from './environment.mjs?v=environment-memory-1';
-import {encounterFor,encounterText} from './encounters.mjs?v=narrative-pool-2';
+import {encounterFor,encounterById,encounterText} from './encounters.mjs?v=narrative-pool-2';
 import {SPECIES,speciesById} from './species.mjs?v=cohort-4';
 import {EVENING,AMBIENT,CARE,MINI_TYPES,ENDINGS} from './content.mjs?v=narrative-pool-2';
 export const VERSION=4;
@@ -95,9 +95,15 @@ export function sceneFor(s){
      scene.options=[opt('molt','记录为疑似旧壳',{labels:1,accuracy:1},'你没有移动它。稍后，一个个体在薄片旁停留，边缘出现了更小的缺口。'),opt('remove','当作残渣取走',{interventions:1},'薄片被取走。你失去了继续观察它的机会，盒子空出很小一块。'),opt('unknown','暂不命名',{quiet:1,labels:1},'你画下轮廓，把名称空着。下一次仍能找到这张图。')];
    }
  }
- const encounter=encounterFor(s);scene.encounter=encounter.id;
+ let encounter=encounterFor(s);
+ if(encounter.id==='molt-back'||encounter.id==='molt-front'){
+  const moltSeen=s.records.filter(record=>record.encounter==='molt-back'||record.encounter==='molt-front').length;
+  encounter=encounterById(moltSeen===0?'molt-back':'molt-front')||encounter;
+ }
+ scene.encounter=encounter.id;
  if(['molt','shell'].includes(encounter.motion)){
-  scene.specimen=scene.specimen||focal.id;
+  const moltSpecimen=s.cohort[hash(s.seed,1907)%s.cohort.length];
+  scene.specimen=encounter.motion==='molt'?moltSpecimen.id:(scene.specimen||focal.id);
   const phase=encounter.motion==='molt'?(encounter.molt||'whole'):'whole',[sx,sy]=encounter.place||[190,220];
   scene.shellTrace={id:`${scene.id}:${encounter.id}`,source:encounter.id,specimen:scene.specimen,phase,x:sx-18,y:sy+11,a:(hash(s.seed,s.day*53+s.period*17)%13-6)*.08};
  }
