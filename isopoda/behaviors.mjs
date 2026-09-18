@@ -38,6 +38,7 @@ export function makeIndividuals(seed,speed=.68){return (Array.isArray(seed)?seed
  const h=stableHash(specimen.seed),stage=specimen.stage;return {id,specimenId:specimen.id,species:specimen.species,seed:specimen.seed,x:55+h%260,y:65+(h>>>8)%290,a:(h%628)/100,speed:(.65+(h>>>12)%70/100)*speed*speciesById(specimen.species).speed,size:.94+(h>>>18)%13/100,stage,alertness:.25+(h>>>16)%60/100,pause:2+(h>>>20)%5,offset:h%190/10,hidden:false,posture:'normal',moving:false,molt:'none',occlusion:0,phase:0,gaitPhase:h%4,traits:behaviorTraits(specimen.seed),ambientSlot:-1,ambientAction:null};
 })}
 export function actorOrder(group,encounter){
+ if(encounter?.specimenId)return [...group].sort((a,b)=>Number(b.specimenId===encounter.specimenId)-Number(a.specimenId===encounter.specimenId)||stableHash(a.seed+':'+encounter?.id)-stableHash(b.seed+':'+encounter?.id));
  if(encounter?.id==='younger'||encounter?.id==='touch-return')return [...group].sort((a,b)=>['S','M','L'].indexOf(a.stage)-['S','M','L'].indexOf(b.stage));
  return [...group].sort((a,b)=>stableHash(a.seed+':'+encounter?.id)-stableHash(b.seed+':'+encounter?.id));
 }
@@ -109,6 +110,10 @@ export function stepIndividuals(group,{encounter,state={},time=0,dt=.05,reaction
    else if(reaction.id==='food'){const f=food||{x:316,y:255};tx=f.x+Math.cos(i*1.3)*12;ty=f.y+Math.sin(i*1.3)*12;posture=Math.hypot(tx-c.x,ty-c.y)<10?'feeding':'normal';stop=posture==='feeding';face=Math.atan2(ty-c.y,tx-c.x)}
    else if(['leaf','gap','flat'].includes(reaction.id)&&leaf){tx=leaf.x+(leaf.gap?0:35);ty=leaf.y+c.id%2*10;const close=Math.hypot(tx-c.x,ty-c.y)<12;posture=close&&leaf.gap?'emerging':'probing';hide=close&&leaf.gap?.6:0;stop=close}
   }else if(reaction?.mode==='quiet'&&motion==='defend'){stop=false;posture=(reaction.age||0)<2?'tucked':'normal'}
+  const sceneMolt=state.scene?.moltVisual;
+  if(sceneMolt?.specimen===c.specimenId){
+   tx=sceneMolt.x;ty=sceneMolt.y;hide=0;pace*=.22;stop=Math.hypot(tx-c.x,ty-c.y)<9;posture='molting';molt=sceneMolt.phase||'posterior';
+  }
   const dx=tx-c.x,dy=ty-c.y,dist=Math.hypot(dx,dy);c.moving=!stop&&dist>5;
   if(c.moving){const desired=Math.atan2(dy,dx),delta=Math.atan2(Math.sin(desired-c.a),Math.cos(desired-c.a));c.a+=clamp(delta,-dt*1.7,dt*1.7);if(Math.abs(delta)>.7&&posture==='normal')posture='turning';travel=Math.min(dist,pace*dt*11*(reduced?.45:1));c.x+=Math.cos(c.a)*travel;c.y+=Math.sin(c.a)*travel}
   else if(face!==null){const d=Math.atan2(Math.sin(face-c.a),Math.cos(face-c.a));c.a+=clamp(d,-dt*1.5,dt*1.5)}
