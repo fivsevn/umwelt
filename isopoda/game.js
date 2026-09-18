@@ -8,15 +8,27 @@ import {restoreCollection,drawCohort,unlock} from './collection.mjs?v=quiet-ui-3
 import {encounterById,encounterFor} from './encounters.mjs?v=molt-sequence-1';
 import {iconButton,createInstrument} from './ui.mjs?v=quiet-ui-3';
 import {getLanguage,t,formatShortDate,speciesPrimaryName} from './i18n.mjs?v=i18n-1';
-const $=s=>document.querySelector(s),KEY='isopoda-fugue-v4',ARCHIVE='isopoda-fugue-endings-v3',COLLECTION='isopoda-fieldnotes-v1';
+const $=s=>document.querySelector(s),KEY='isopoda-fugue-v4',ARCHIVE='isopoda-fugue-endings-v3',COLLECTION='isopoda-fieldnotes-v1',DISCOVERIES='isopoda-interaction-discoveries-v1';
 function read(key){try{return JSON.parse(localStorage.getItem(key))}catch{return null}}
 function write(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch{$('#storageNotice').hidden=false;$('#storageNotice').textContent=t('storageNotice')}}
 const stored=read(KEY)||migrateV3(read('isopoda-fugue-v3')),legacy=read('umwelt-isopod-v1');let hasRun=validRun(stored)||!!legacy;
 let state=validRun(stored)?stored:legacy?migrateLegacy(legacy,Date.now()>>>0):createRun('dairy',0);
+let learnedInteractions=read(DISCOVERIES);if(!learnedInteractions||typeof learnedInteractions!=='object')learnedInteractions={};
+function mergeLearnedInteractions(target){
+ target.interactionDiscoveries=target.interactionDiscoveries&&typeof target.interactionDiscoveries==='object'?target.interactionDiscoveries:{};
+ const past=Array.isArray(target.directRecords)?target.directRecords:[];
+ for(const key of ['tap','grab','lift','collect']){
+  const seen=key==='grab'?past.some(r=>r.type==='grab'||r.type==='place'):past.some(r=>r.type===key);
+  target.interactionDiscoveries[key]=!!target.interactionDiscoveries[key]||!!learnedInteractions[key]||seen;
+  if(target.interactionDiscoveries[key])learnedInteractions[key]=true;
+ }
+ write(DISCOVERIES,learnedInteractions);
+}
+mergeLearnedInteractions(state);
 let archives=read(ARCHIVE);if(!Array.isArray(archives))archives=[];archives=archives.filter(a=>a&&ENDINGS.some(e=>e.id===a.id));
 let collection=restoreCollection(read(COLLECTION),hasRun?state:null,archives);write(COLLECTION,collection);
 let playing=false,sound=false,audio,drawerMode='catalog',page=0,lastScene=null,referenceReturn=null;
-const habitat=createHabitat($('#habitat'),$('#critters'),()=>state,event=>{if(!playing||state.stage==='ended')return;const record=recordDirectInteraction(state,event);save();if(record)render()});
+const habitat=createHabitat($('#habitat'),$('#critters'),()=>state,event=>{if(!playing||state.stage==='ended')return;const record=recordDirectInteraction(state,event);if(record){mergeLearnedInteractions(state);save();render()}});
 const emptyHabitat=createHabitat($('#emptyHabitat'),$('#emptyCritters'),()=>state);
 const instrument=createInstrument($('#instruments'));
 function refreshIconLabels(){for(const [id,kind,label] of [['soundBtn','sound',sound?t('soundOff'):t('soundOn')],['catalogBtn','book',t('archive')],['sourcesBtn','source',t('sources')],['journalBtn','pencil',t('journal')],['zoomOut','minus',t('zoomOut')],['zoomIn','plus',t('zoomIn')],['zoomReset','center',t('zoomReset')]])iconButton($('#'+id),kind,label)}
@@ -42,7 +54,7 @@ function render(){
 }
 function batchBugs(){return state.cohort.map(c=>{const bug=makeIsopod(speciesById(c.species),{seed:c.seed,stage:c.stage});bug.dataset.specimen=c.id;bug.dataset.species=c.species;bug.title=`${c.id} · ${speciesPrimaryName(speciesById(c.species))}`;return bug})}
 function arrival(){playing=false;habitat.stop();$('#titleCard').hidden=true;$('#playView').hidden=true;$('#endCard').hidden=true;$('#arrivalCard').hidden=false;$('#dayLabel').textContent='';$('#arrivalSpecimens').replaceChildren(...batchBugs())}
-function draw(){if($('#startBtn').disabled)return;$('#startBtn').disabled=true;const seed=Date.now()>>>0,cohort=drawCohort(collection,seed);state=createRun(cohort[0].species,seed);state.cohort=cohort;state.arrivalPending=true;hasRun=true;collection.draws++;for(const id of runSpecies(state))unlock(collection,id,state.startedOn);write(COLLECTION,collection);save();begin();tone(130)}
+function draw(){if($('#startBtn').disabled)return;$('#startBtn').disabled=true;const seed=Date.now()>>>0,cohort=drawCohort(collection,seed);state=createRun(cohort[0].species,seed);state.cohort=cohort;mergeLearnedInteractions(state);state.arrivalPending=true;hasRun=true;collection.draws++;for(const id of runSpecies(state))unlock(collection,id,state.startedOn);write(COLLECTION,collection);save();begin();tone(130)}
 function begin(){
  if(!hasRun)return;if(state.arrivalPending){arrival();return}
  $('#titleCard').hidden=true;$('#arrivalCard').hidden=true;$('#endCard').hidden=true;$('#habitatLibrary').append($('#catalogBtn'));playing=true;
