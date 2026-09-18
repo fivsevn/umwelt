@@ -1,5 +1,5 @@
 import {environmentFor,changeEnvironment,ageEnvironment,environmentTarget,habitatFit} from './environment.mjs?v=cohort-4';
-import {encounterFor,encounterText} from './encounters.mjs?v=narrative-pool-1';
+import {encounterFor,encounterText} from './encounters.mjs?v=narrative-pool-2';
 import {SPECIES,speciesById} from './species.mjs?v=cohort-4';
 import {EVENING,AMBIENT,CARE,MINI_TYPES,ENDINGS} from './content.mjs?v=narrative-pool-2';
 export const VERSION=4;
@@ -10,7 +10,7 @@ export function cohortFor(species,seed){return Array.from({length:7},(_,i)=>({id
 export function runSpecies(s){return [...new Set(s.cohort?.map(c=>c.species)||[s.species])].filter(id=>SPECIES.some(p=>p.id===id))}
 export function createRun(species='dairy',seed=Date.now()>>>0){
  const now=new Date(),startedOn=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');
- const p=speciesById(species);return {startedOn,version:VERSION,seed:seed>>>0,cohort:cohortFor(p.id,seed),day:1,period:0,stage:'choice',humidity:p.wet,temp:23,vent:55,light:54,cover:p.cover,food:1,interventions:0,quiet:0,accuracy:0,maps:0,labels:0,care:0,directTouches:0,directGrabs:0,directMoves:0,directRecords:[],records:[],ending:null,feedback:'',scene:null};
+ const p=speciesById(species);return {startedOn,version:VERSION,narrativeVersion:1,seed:seed>>>0,cohort:cohortFor(p.id,seed),day:1,period:0,stage:'choice',humidity:p.wet,temp:23,vent:55,light:54,cover:p.cover,food:1,interventions:0,quiet:0,accuracy:0,maps:0,labels:0,care:0,directTouches:0,directGrabs:0,directMoves:0,directRecords:[],records:[],ending:null,feedback:'',scene:null};
 }
 export function recordDirectInteraction(s,event={}){
  const type=['tap','grab','place'].includes(event.type)?event.type:null;if(!type)return null;
