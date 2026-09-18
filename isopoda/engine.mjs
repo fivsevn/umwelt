@@ -1,4 +1,4 @@
-import {environmentFor,changeEnvironment,ageEnvironment,environmentTarget,habitatFit,syncSceneTrace,takeShell} from './environment.mjs?v=environment-memory-1';
+import {environmentFor,changeEnvironment,ageEnvironment,environmentTarget,habitatFit,syncSceneTrace,releaseDueShells,takeShell} from './environment.mjs?v=molt-sequence-1';
 import {encounterFor,encounterById,encounterText} from './encounters.mjs?v=narrative-pool-2';
 import {SPECIES,speciesById} from './species.mjs?v=cohort-4';
 import {EVENING,AMBIENT,CARE,MINI_TYPES,ENDINGS} from './content.mjs?v=narrative-pool-2';
@@ -64,6 +64,27 @@ function ambientLine(s){
  const lines=Array.isArray(entry?.text)?entry.text:[entry?.text].filter(Boolean);return lines.length?lines[hash(s.seed,s.day*41+s.period*13+509)%lines.length]:'';
 }
 function opt(id,label,delta={},text=''){return {id,label,delta,text}}
+function observationTurn(s){return (s.day-1)*3+s.period}
+function rawEncounterAt(s,turn){
+ return encounterFor({seed:s.seed,narrativeVersion:s.narrativeVersion,day:Math.floor(turn/3)+1,period:turn%3});
+}
+function ambientMoltTurns(s){
+ const narrative=[];for(let turn=0;turn<21;turn++)if(rawEncounterAt(s,turn)?.motion==='molt')narrative.push(turn);
+ const need=Math.max(0,2-Math.min(2,narrative.length));if(!need)return [];
+ const used=new Set(narrative),ranges=need===2?[[4,8],[12,16]]:[[8,15]],result=[];
+ for(let i=0;i<ranges.length;i++){
+  const [lo,hi]=ranges[i],span=hi-lo+1;let candidate=lo+hash(s.seed,2201+i)%span;
+  for(let n=0;n<span;n++){if(!used.has(candidate)&&!result.includes(candidate))break;candidate=lo+(candidate-lo+1)%span}
+  result.push(candidate);
+ }
+ return result.sort((a,b)=>a-b);
+}
+function ambientMoltFor(s){
+ const turns=ambientMoltTurns(s),index=turns.indexOf(observationTurn(s));if(index<0)return null;
+ const specimen=s.cohort[hash(s.seed,2309+index)%s.cohort.length],phase=index%2?'anterior':'posterior';
+ const x=92+hash(s.seed,2401+index)%205,y=92+hash(s.seed,2411+index)%240,a=(hash(s.seed,2423+index)%21-10)*.06;
+ return {specimen:specimen.id,phase,x,y,a,source:'ambient'};
+}
 export function sceneFor(s){
  const focal=s.cohort[hash(s.seed,s.day)%7],scene={id:`${s.day}.${s.period}`,title:PERIODS[s.period],kind:'text',text:'',options:[]};
  if(s.period===0){
@@ -100,19 +121,29 @@ export function sceneFor(s){
   const moltSeen=s.records.filter(record=>record.encounter==='molt-back'||record.encounter==='molt-front').length;
   encounter=encounterById(moltSeen===0?'molt-back':'molt-front')||encounter;
  }
+ const env=environmentFor(s);
+ if(encounter.id==='old-shell'&&!env.shells.length)encounter=encounterById(hash(s.seed,observationTurn(s)+2511)%2?'rest':'clean')||encounter;
  scene.encounter=encounter.id;
- if(['molt','shell'].includes(encounter.motion)){
-  const moltSpecimen=s.cohort[hash(s.seed,1907)%s.cohort.length];
-  scene.specimen=encounter.motion==='molt'?moltSpecimen.id:(scene.specimen||focal.id);
-  const phase=encounter.motion==='molt'?(encounter.molt||'whole'):'whole',[sx,sy]=encounter.place||[190,220];
-  scene.shellTrace={id:`${scene.id}:${encounter.id}`,source:encounter.id,specimen:scene.specimen,phase,x:sx-18,y:sy+11,a:(hash(s.seed,s.day*53+s.period*17)%13-6)*.08};
+ if(encounter.motion==='molt'){
+  const moltSpecimen=s.cohort[hash(s.seed,1907)%s.cohort.length],[mx,my]=encounter.place||[190,220];
+  scene.specimen=moltSpecimen.id;
+  scene.moltVisual={specimen:moltSpecimen.id,phase:encounter.molt||'posterior',x:mx,y:my,a:(hash(s.seed,s.day*53+s.period*17)%13-6)*.08,source:'narrative'};
+ }else{
+  const ambientMolt=ambientMoltFor(s);if(ambientMolt)scene.moltVisual=ambientMolt;
+ }
+ if(encounter.id==='old-shell'&&env.shells.length){
+  const shell=env.shells[hash(s.seed,observationTurn(s)+2521)%env.shells.length];
+  scene.specimen=shell.specimen||scene.specimen;scene.encounterPlace=[shell.x,shell.y];
+ }
+ if(scene.moltVisual){
+  const m=scene.moltVisual;scene.shellTrace={id:`molt:${scene.id}:${m.source}:${m.specimen}`,source:m.source==='narrative'?encounter.id:'ambient-molt',specimen:m.specimen,phase:m.phase,x:m.x,y:m.y,a:m.a};
  }
  scene.time=timeFor(s.seed,s.day,s.period);
  scene.activity=encounterText(encounter,s.seed);if(s.period===0){const ambient=ambientLine(s);scene.text=ambient?scene.activity+' '+ambient:scene.activity}else scene.text=s.period===2?scene.text:scene.activity+' '+scene.text;
  // Keep each response complete; the habitat carries the additional reaction.
  return scene;
 }
-export function ensureScene(s){environmentFor(s);if(s.stage==='choice'&&s.scene?.kind==='count')s.scene=null;if(!s.scene)s.scene=sceneFor(s);syncSceneTrace(s,s.scene);return s.scene}
+export function ensureScene(s){releaseDueShells(s);environmentFor(s);if(s.stage==='choice'&&s.scene?.kind==='count')s.scene=null;if(!s.scene)s.scene=sceneFor(s);syncSceneTrace(s,s.scene);return s.scene}
 export function choose(s,id){
  if(s.stage!=='choice')return false;const scene=ensureScene(s),o=scene.options.find(o=>o.id===id);if(!o)return false;
  const before=s.cohort.map(c=>habitatFit(s,c));changeEnvironment(s,id);for(const [k,v] of Object.entries(o.delta))s[k]+=v;
