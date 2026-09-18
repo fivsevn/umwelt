@@ -1,6 +1,34 @@
 // Runtime localization for authored game copy.
 // Canonical simulation/state text stays in Chinese so saved runs remain language-neutral.
 const rows=[
+// Optional in-story interaction discovery.
+['你把手移到木片边缘。阴影下面的轮廓还没有离开。','You move your hand to the edge of the bark. The outlines beneath the shadow have not left.','木片の縁へ手を移す。影の下の輪郭はまだそこを離れていない。'],
+['木片就在画面中央。按住边缘。','The bark is still in the middle of the scene. Hold its edge.','木片は画面中央にある。縁を長押しする。'],
+['碰一下','Touch it once','一度触れる'],
+['你把指尖靠近它，距离只剩下一点。','You bring a fingertip close. Only a small distance remains.','指先を近づける。残る距離はほんの少しだ。'],
+['它就在画面里。碰一下。','It is still in the scene. Touch it once.','画面の中にいる。一度触れてみる。'],
+['它立刻收紧身体。甲片一节节合拢起来。','It immediately tightens its body. The plates draw together one by one.','すぐに身体を縮め、甲板が一節ずつ閉じていく。'],
+['拿近一点看','Bring it closer','少し近くで見る'],
+['你的手停在它上方。这个距离已经不再只是观看。','Your hand stops above it. At this distance, this is no longer only looking.','手がその上で止まる。この距離では、もう見るだけではない。'],
+['手指停在它上方。按住一会儿。','Your finger is above it. Hold for a moment.','指はその上にある。少し長押しする。'],
+['它短暂离开土面。你看清了更多细节，也同时改变了它所在的位置。','It briefly leaves the soil. You see more detail, and at the same time alter where it is.','一時的に土の面を離れる。細部がよく見えると同時に、その居場所も変えている。'],
+['不碰它','Do not touch it','触れない'],
+['你把手留在盒壁外。它继续沿叶缘移动。','You keep your hand outside the enclosure wall. It continues along the leaf edge.','手をケースの外に残す。個体は葉の縁に沿って動き続ける。'],
+['土面上有几片浅色碎屑。它们没有因为暂时叫不出名字而离开原处。','A few pale fragments lie on the soil. They do not leave because you cannot yet name them.','土の上に淡い破片がいくつかある。まだ名前を付けられなくても、その場から消えはしない。'],
+['收起来','Collect it','しまう'],
+['你把手移到那层薄壳上方。它仍留在土面上。','You move your hand above the thin shell. It is still on the soil.','薄い殻の上へ手を移す。それはまだ土の上に残っている。'],
+['那片旧壳还在土面上。按住它。','The old shell is still on the soil. Hold it.','古い殻はまだ土の上にある。長押しする。'],
+['旧壳离开了土面。它从环境的一部分，变成了你带走的一件东西。','The old shell leaves the soil. It changes from part of the environment into something you take away.','古い殻が土を離れる。環境の一部だったものが、持ち去る一つの物になる。'],
+['记下轮廓','Record the outline','輪郭を記す'],
+['你只记下颜色和位置，没有替碎屑补上来源。','You record only color and position, without supplying an origin for the fragments.','色と位置だけを記し、破片の由来までは補わない。'],
+['留在原处','Leave it there','その場に残す'],
+['碎屑没有移动。下一次观察仍可能从这里开始。','The fragments do not move. The next observation may still begin here.','破片は動かない。次の観察もここから始まるかもしれない。'],
+['你先选择不碰它，后来手还是进入了盒子。意图被写下，行为也被写下；它们不必替彼此作证。','You first chose not to touch it, but your hand later entered the enclosure. Intention was recorded, and so was action; neither has to testify for the other.','最初は触れないと選んだが、その後、手はケースの中へ入った。意図も行為も記録された。どちらかがもう一方を証明する必要はない。'],
+['你原本只打算碰一下，手却停留得更久。尺度改变时，“一下”也不是一个稳定的单位。','You meant only to touch once, but your hand stayed longer. When scale changes, even “once” is not a stable unit.','一度だけ触れるつもりだったが、手はもっと長く留まった。尺度が変われば、「一度」も安定した単位ではない。'],
+['你先决定不再追看，随后又抬起了木片。记录中的克制和手的动作没有发生在同一个层面。','You first decided to stop following, then lifted the bark. The restraint in the note and the movement of your hand did not occur on the same plane.','追って見ないと決めたあとで、木片を持ち上げた。記録の中の抑制と手の動きは、同じ平面では起きていない。'],
+['你选择等待它自己出来，后来又改变了等待的条件。等待仍然发生过，只是不再是原来的等待。','You chose to wait for it to emerge, then changed the conditions of waiting. Waiting still occurred, but it was no longer the same waiting.','自分から出てくるのを待つと選んだあとで、待つ条件を変えた。待つこと自体は起きたが、もう同じ待ち方ではない。'],
+['你先让旧壳留在原处，后来又把它收走。所谓“原处”，只维持到下一次动作。','You first left the old shell where it was, then collected it. “Where it was” lasted only until the next action.','古い殻をその場に残したあとで、結局しまった。「その場」は次の動作までしか続かなかった。'],
+['这七天里，至少有一次你写下的决定和随后发生的动作并不相同。田野笔记把两者都保留下来，而不是替其中一个作证。','Across these seven days, at least once, a written decision and the action that followed were not the same. Field notes kept both rather than testifying for one of them.','この7日間に少なくとも一度、書き留めた決定と、その後の行為は同じではなかった。フィールドノートは片方の証明をする代わりに、両方を残した。'],
 ['木片旁的一个后半身颜色较浅，几节甲片像还没有完全离开原来的表面。','Beside the bark, one posterior half is paler; several plates look as if they have not fully left their former surface.','木片のそばで、ある個体の後半身が淡い。いくつかの背板は、まだ元の表面から完全には離れていないように見える。'],
 ['它缩近木片，浅色的后半身也跟着退入阴影。','It draws closer to the bark, and the pale posterior half retreats into shadow with it.','木片へ身を寄せ、淡い後半身もそのまま影の中へ退いていく。'],
 ['观察个体','Observed Specimens','観察個体'],
@@ -350,7 +378,9 @@ function dynamic(value,lang){
  };
  if(interactionMemory[value])return interactionMemory[value][lang];
  const actor=label=>label.startsWith('个体 ')?(lang==='en'?`specimen ${label.slice(3)}`:`個体 ${label.slice(3)}`):(lang==='en'?'one individual':'1匹');
- let match=value.match(/^个体 ([A-G]) 停在岔口。先猜它会靠近哪里，再看下一段记录。$/);
+ let match=value.match(/^个体 ([A-G]) 停在叶缘。触角仍在缓慢移动。你的手已经离它很近。$/);
+ if(match)return lang==='en'?'Specimen '+match[1]+' pauses at the leaf edge. Its antennae are still moving slowly. Your hand is already very close.':'個体 '+match[1]+' が葉の縁で止まっている。触角はまだゆっくり動いている。手はすでにすぐ近くにある。';
+ match=value.match(/^个体 ([A-G]) 停在岔口。先猜它会靠近哪里，再看下一段记录。$/);
  if(match)return lang==='en'?`Specimen ${match[1]} pauses at a fork. Guess where it will move next, then check the next note.`:`個体 ${match[1]} が分かれ道で止まった。次にどこへ近づくか予想して、その先の記録を見る。`;
  match=value.match(/^它最终靠近(湿苔|木片|叶缘|食物)。(这一次与你的猜测相同。|与你留下的箭头不同。)地面的差别还在那里。$/);
  if(match){const target=routeTargets[lang][match[1]];const same=match[2].startsWith('这一次');if(lang==='en')return `It eventually moved toward the ${target}. ${same?'This time, your guess matched.':'It differed from the arrow you left.'} The differences in the ground remain.`;return `最後には${target}へ近づいた。${same?'今回は予想と同じだった。':'残した矢印とは違った。'}地面の違いはそのまま残っている。`;}
