@@ -171,7 +171,7 @@ function drawActors(){
   for(const [x,y,color] of actor.hitCells)px(ctx,x,y,1,1,color);
  }
 }
-// Added leaf litter matches the 4px background lattice: muted blocks, one shadow, minimal venation.
+// Added leaf litter matches the 3px background lattice: muted blocks, one shadow, minimal venation.
 function leaf(c,x,y,a,variant=0,scale=1,tone=0){
  const palettes=[
   ['#564630','#72603c','#8b7848','#a38c55','#3b3328'],
@@ -180,7 +180,7 @@ function leaf(c,x,y,a,variant=0,scale=1,tone=0){
   ['#65452e','#825936','#9c6d40','#b5844f','#402f25'],
   ['#4c4232','#65553d','#7d6848','#947d56','#37312a'],
   ['#5b4935','#755d40','#8d724c','#a1895c','#3d332a']
- ],p=palettes[tone%palettes.length],ca=Math.cos(a),sa=Math.sin(a),cell=4;
+ ],p=palettes[tone%palettes.length],ca=Math.cos(a),sa=Math.sin(a),cell=3;
  const length=[40,46,42,39,44,41][variant%6]*scale,width=[20,12,22,23,19,17][variant%6]*scale;
  const at=(u,v,color)=>px(c,x+u*ca-v*sa,y+u*sa+v*ca,cell,cell,color);
  const widthAt=t=>{
@@ -195,7 +195,7 @@ function leaf(c,x,y,a,variant=0,scale=1,tone=0){
  // Soft substrate shadow first.
  for(let u=-length;u<=length;u+=cell)for(let v=-width;v<=width;v+=cell){
   const t=u/length,rim=widthAt(t);if(Math.abs(v)>rim)continue;
-  at(u+3,v+4,'rgba(38,31,25,.42)');
+  at(u+2,v+3,'rgba(38,31,25,.42)');
  }
  // Broad leaf body; no stipple and no dark wireframe.
  for(let u=-length;u<=length;u+=cell)for(let v=-width;v<=width;v+=cell){
