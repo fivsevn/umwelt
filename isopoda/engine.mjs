@@ -140,7 +140,7 @@ export function sceneFor(s){
      scene.options=[opt('gap','留一条窄缝',{cover:8,care:1,interventions:1},'叶片被石粒稍稍撑起。一只从下面穿过，另一只停在入口。'),opt('flat','平放叶片',{cover:5,interventions:1},'叶片贴着土。一只沿外缘绕过去，没有进入下面。'),opt('old','保留原处',{quiet:1},'叶片没动。它们继续沿着原来的边缘经过。')];
    }else if(type==='pause'){
      scene.text='木片边缘露出触角。想看清身体，需要再等一会儿。';
-     scene.options=[opt('patient','等它出来',{quiet:2,accuracy:1},'你等了一小会儿。触角先伸出，身体随后越过阴影的边界。'),opt('lift','轻抬木片',{interventions:1,light:4},'你把手移到木片边缘。阴影下面的轮廓还没有离开。',{type:'lift',prompt:'木片就在画面中央。按住边缘。',done:'木片被抬起。你看见了更多身体，同时也看见它们迅速分散。'}),opt('leave','不再追看',{quiet:1},'你把这次记录停在触角那里。身体不必为了完成句子而出现。')];
+     scene.options=[opt('patient','等它出来',{quiet:2,accuracy:1},'你等了一小会儿。触角先伸出，身体随后越过阴影的边界。'),opt('lift-bark','轻抬木片',{},'你把手移到木片边缘。阴影下面的轮廓还没有离开。',{type:'lift',prompt:'木片就在画面中央。按住边缘。',done:'木片被抬起。你看见了更多身体，同时也看见它们迅速分散。'}),opt('leave','不再追看',{quiet:1},'你把这次记录停在触角那里。身体不必为了完成句子而出现。')];
    }else if(type==='touch'){
      scene.specimen=focal.id;scene.text=`个体 ${focal.id} 停在叶缘。触角仍在缓慢移动。你的手已经离它很近。`;
      scene.options=[opt('touch-one','碰一下',{},'你把指尖靠近它，距离只剩下一点。',{type:'tap',prompt:'它就在画面里。碰一下。',done:'它立刻收紧身体。甲片一节节合拢起来。'}),opt('take-near','拿近一点看',{},'你的手停在它上方。这个距离已经不再只是观看。',{type:'grab',prompt:'手指停在它上方。按住一会儿。',done:'它短暂离开土面。你看清了更多细节，也同时改变了它所在的位置。'}),opt('hands-off','不碰它',{quiet:1},'你把手留在盒壁外。它继续沿叶缘移动。')];
