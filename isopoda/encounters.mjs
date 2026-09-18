@@ -1,5 +1,5 @@
 // GAME: authored observational choreography, not claims about species social cognition.
-// Each seed gives a 24-scene permutation; a 21-observation run never repeats an encounter.
+// Each seed gives a 36-scene permutation; a 21-observation run never repeats an encounter.
 export const ENCOUNTERS=[
  {id:'antenna',motion:'contact',actors:2,place:[174,145],title:'触角之间',lines:['两根触角碰了一下。身体都停住了，随后各自转向。','它们在叶缘相遇，接触短得不足以替它们起一个关系的名字。'],quiet:'它们自行错开。刚才的接触没有留下凭据。',care:'新的湿痕把两条路线分开；相遇留在它们身后。',disturb:'盒壁轻响以后，两根触角先收了回去。'},
  {id:'following',motion:'follow',actors:3,place:[250,320],title:'同一条路',lines:['前一只沿叶脉走，后两只隔着一小段距离经过。','三只先后拐过同一粒石子。队伍也许只是地形的另一种写法。'],quiet:'最前面的先拐弯，后面的绕去了另一边。所谓队伍到这里为止。',care:'多出来的叶片给了最后一只另一条路。',disturb:'它们散开了。刚才看起来一致的方向并没有被保存。'},
@@ -24,7 +24,19 @@ export const ENCOUNTERS=[
  {id:'parallel',motion:'parallel',actors:2,place:[241,304],title:'并行',lines:['两只沿着叶缘平行移动，始终隔着一粒土的距离。','它们朝同一方向走，却没有靠近。'],quiet:'叶缘结束时，两条路也分开了。',care:'新叶片延长了其中一条边缘。',disturb:'一只停下，另一只继续向前。'},
  {id:'wall',motion:'wall',actors:1,place:[336,165],title:'透明的尽头',lines:['触角碰到了盒壁。身体慢一点才开始转向。','它沿着透明的边走；你看得见的外面，不是它可以走到的地方。'],quiet:'它顺着盒壁转过一个角，又回到土上。',care:'叶缘离盒壁近了一点，它转向那道阴影。',disturb:'轻响从透明的那一边传来，它退开了。'},
  {id:'younger',motion:'follow',actors:2,place:[133,312],title:'不同的尺度',lines:['较小的一只穿过缝隙，较大的沿外缘绕行。','同一片碎叶，对两个体来说并不是同样大的障碍。'],quiet:'它们在另一边出现，先后次序已经倒过来。',care:'叶片多了一点高度，较大的也试着靠近。',disturb:'两个轮廓都停下，大小没有替它们决定下一步。'},
- {id:'threshold',motion:'hesitate',actors:1,place:[126,207],title:'还没有进去',lines:['它在入口前停了又停。身体已经朝向里面，触角仍留在外面。','入口在这里，它却向旁边探了一点。方向没有立刻成为决定。'],quiet:'它终于钻进去，留下一个普通的空入口。',care:'新的遮挡让入口变暗，它随之向前了一点。',disturb:'它换了方向。刚才的朝向没有成为一条承诺。'}
+ {id:'threshold',motion:'hesitate',actors:1,place:[126,207],title:'还没有进去',lines:['它在入口前停了又停。身体已经朝向里面，触角仍留在外面。','入口在这里，它却向旁边探了一点。方向没有立刻成为决定。'],quiet:'它终于钻进去，留下一个普通的空入口。',care:'新的遮挡让入口变暗，它随之向前了一点。',disturb:'它换了方向。刚才的朝向没有成为一条承诺。'},
+ {id:'waterline',motion:'border',actors:2,place:[94,214],title:'水线之外',lines:['两只沿着湿土变浅的地方移动，一只先越过去，另一只转了回去。','同一条水线对两个身体没有给出同一个答案。'],quiet:'边界还在那里。它们各自把路线接到别处。',care:'新的湿痕把旧边界推远了一点。',disturb:'两条路线同时离开水线。'},
+ {id:'leaf-pause',motion:'rest',actors:2,place:[278,326],title:'叶背的停顿',lines:['两只停在同一片叶子的两侧。你只能同时看见其中一边。','叶片很薄，却足够把一个停顿分成正面和背面。'],quiet:'其中一只先动，另一只仍留在看不见的一侧。',care:'叶缘被撑高后，背面的轮廓短暂露出来。',disturb:'叶片一动，两边的停顿同时结束。'},
+ {id:'crumb-turn',motion:'feed',actors:2,place:[306,276],title:'碎屑的方向',lines:['一只从食物边缘带开很小的碎屑，另一只停在原来的缺口旁。','碎屑离开中心以后，食物的边界变成了两个地方。'],quiet:'较小的碎屑先失去清楚的轮廓。',care:'新食物落下，原来的碎屑仍在旁边。',disturb:'两只都离开，碎屑留在中间。'},
+ {id:'crossing',motion:'contact',actors:2,place:[214,176],title:'同一秒的路口',lines:['两条路线在一粒土旁交叉。接触发生得比你画完交点更快。','它们同时到达一个很小的地方，随后朝不同方向离开。'],quiet:'交点没有留下可以辨认的痕迹。',care:'湿痕从交点旁经过，其中一只改了方向。',disturb:'两只同时收回触角，交叉没有完成。'},
+ {id:'under-return',motion:'under',actors:2,place:[290,348],title:'又从下面出来',lines:['刚才消失在叶片下面的轮廓，从另一条边重新出现。','一只进去，一只出来。你无法确认叶片下面的路线是否相遇。'],quiet:'叶片恢复成一块普通的遮挡。',care:'新的缝让出来的位置更早被看见。',disturb:'叶片移动后，两个出口都暂时空了。'},
+ {id:'glass-corner',motion:'wall',actors:1,place:[342,304],title:'透明的转角',lines:['它沿盒壁走到角落，触角先碰到两面透明的尽头。','直线在角落结束。身体转向前，触角已经试过另一边。'],quiet:'它沿另一面盒壁继续走。',care:'附近多出的叶缘让它提前离开透明边。',disturb:'轻响从角落外传来，它从两面壁之间退开。'},
+ {id:'after-dark',motion:'emerge',actors:3,place:[205,238],title:'灯灭以后',lines:['光线变暗后，几个轮廓不是同时出现的。最晚的一只隔了很久。','暗下来以后，木片边缘一点一点多出身体。没有统一的开始。'],quiet:'最后一个轮廓出现时，最先出来的已经走远。',care:'新的阴影把出现的位置分散开。',disturb:'尚未出来的个体重新退回暗处。'},
+ {id:'root-gap',motion:'yield',actors:2,place:[266,202],title:'根与身体',lines:['两只从根的两边接近同一条窄缝。较小的一只先穿过去。','缝隙没有变化，能通过它的方式却因身体大小而不同。'],quiet:'较大的那只绕到根的另一侧。',care:'叶片搭住根以后，多出一条较缓的路线。',disturb:'两只都离开窄缝，根仍留在原处。'},
+ {id:'paired-groom',motion:'groom',actors:2,place:[142,286],title:'各自整理',lines:['两只隔着一小段距离同时停下，各自清理触角。','看起来同步的动作没有让它们靠近。它们只是在差不多的时候停住。'],quiet:'其中一只先结束，另一只还在整理。',care:'环境改变时，其中一只继续完成原来的动作。',disturb:'两次整理同时被中断。'},
+ {id:'false-follow',motion:'follow',actors:3,place:[236,318],title:'短暂同向',lines:['三只朝同一方向走了一小段，随后在不同的位置转开。','它们短暂排成一条线。下一处边缘很快把这条线拆开。'],quiet:'最前面的路线先弯走，后面两只没有继续跟上。',care:'新叶缘让中间的一只提前转向。',disturb:'三只从同一方向同时散开。'},
+ {id:'high-ground',motion:'climb',actors:2,place:[176,112],title:'高处的一小段',lines:['两只先后爬上同一段树皮，停留的高度却不同。','从上面经过时，原本平面的路线短暂有了高度。'],quiet:'一只先落回土面，另一只仍停在高处。',care:'树皮旁的新遮挡让下来的路线变缓。',disturb:'震动使两只都提前回到土面。'},
+ {id:'late-departure',motion:'disperse',actors:4,place:[198,226],title:'还没离开',lines:['几只已经散开，最后一只仍停在原来的阴影里。','离开没有统一的时刻。最后留下的那个轮廓让“结束”推迟了一会儿。'],quiet:'最后一只终于移动，原来的位置恢复成空处。',care:'新的叶缘截住它离开的方向。',disturb:'最后一只也迅速离开，结束忽然变得整齐。'}
 ];
 function hash(seed,n){let x=(seed+Math.imul(n+1,2654435761))>>>0;x=Math.imul(x^(x>>>16),2246822507);return (x^(x>>>13))>>>0}
 export function encounterFor(state){const order=ENCOUNTERS.map((e,i)=>({e,key:hash(state.seed,i+401)})).sort((a,b)=>a.key-b.key);return order[((state.day-1)*3+state.period)%order.length].e}
