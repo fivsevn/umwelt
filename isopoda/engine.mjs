@@ -156,6 +156,7 @@ export function sceneFor(s){
      scene.options=[opt('shadow','阴影',{quiet:1,maps:1},'木片下面没有那么亮。一个轮廓贴着暗处停下来。'),opt('edge','边缘',{maps:1,light:4},'边缘有风，也有光。它沿着盒壁走过一段，又转回去了。'),opt('stay','留在这里',{quiet:1},'你留在这里。触角碰到了脚下的土粒。')];
    }else{
      const traceEnv=environmentFor(s),hasShell=(traceEnv.shells||[]).length>0;
+     if(hasShell){const shell=traceEnv.shells[hash(s.seed,observationTurn(s)+2611)%traceEnv.shells.length];scene.encounterPlace=[shell.x,shell.y];scene.specimen=shell.specimen||scene.specimen}
      scene.text=hasShell?'甲片、碎叶和旧壳都在同一片土上。给眼前的浅色薄片选一个暂时的记录方式。':'土面上有几片浅色碎屑。它们没有因为暂时叫不出名字而离开原处。';
      scene.options=hasShell
       ?[opt('molt','记录为疑似旧壳',{labels:1,accuracy:1},'你没有移动它。稍后，一个个体在薄片旁停留，边缘出现了更小的缺口。'),opt('collect-shell','收起来',{labels:1},'你把手移到那层薄壳上方。它仍留在土面上。',{type:'collect',prompt:'那片旧壳还在土面上。按住它。',done:'旧壳离开了土面。它从环境的一部分，变成了你带走的一件东西。'}),opt('unknown','暂不命名',{quiet:1,labels:1},'你画下轮廓，把名称空着。下一次仍能找到这张图。')]
