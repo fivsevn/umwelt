@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ISOPODA / 场景要素测试</title>
+<link rel="stylesheet" href="./scenery-test.css?v=1">
+</head>
+<body>
+<main>
+<header>
+ <div><strong>ISOPODA / 场景要素测试</strong><small>本地测试 · 纯程序化像素绘制 · 无图片资源</small></div>
+</header>
+<section class="hero">
+ <div><h1>组合场景</h1><p>与游戏使用同一套 scenery renderer。场景元素逐个模块化调整。</p></div>
+ <canvas id="scene" width="384" height="430"></canvas>
+</section>
+<section><h2>枯叶 / leaf.mjs</h2><div id="leaves" class="grid six"></div></section>
+<section><h2>水苔 / moss.mjs</h2><div id="moss" class="grid"></div></section>
+<section><h2>木片 / bark.mjs</h2><div id="bark" class="grid"></div></section>
+<section><h2>墨鱼骨 / cuttlebone.mjs</h2><div id="cuttlebone" class="grid"></div></section>
+<section><h2>基质 / substrate.mjs</h2><div id="substrate" class="grid"></div></section>
+</main>
+<script type="module" src="./scenery-test.mjs?v=1"></script>
+</body>
+</html>
