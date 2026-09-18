@@ -1,7 +1,24 @@
 import {drawStudySubstrate,drawStudyLeaf,drawStudyMoss,drawStudyBark,drawStudyStone,drawStudyCuttlebone,drawStudyTwig,drawStudyWoodChip} from '../tests/scenery-study.mjs?v=jp16-1';
+import {SPECIES,speciesById} from './species-registry.mjs?v=species-39b';
+import {renderModel,pixelAnatomy} from './sprites.mjs?v=exuvia-1';
 
 const $=s=>document.querySelector(s);
 const scene=$('#scene'),ctx=scene.getContext('2d');ctx.imageSmoothingEnabled=false;
+
+// Exact projection multiplier used by habitat.mjs for live specimens.
+// Keep this local tool value in sync with SCENE_ACTOR_SCALE when the game renderer changes.
+const GAME_ACTOR_SCALE=.88;
+const reference={
+ species:'dairy',stage:'M',x:226,y:286,a:-.34,seed:189,visible:true
+};
+let referenceHitCells=[];
+
+for(const p of SPECIES.filter(p=>p.game?.habitatEligible!==false)){
+ const option=new Option(`${p.label||p.name||p.id} · ${p.taxon||p.id}`,p.id);
+ $('#referenceSpecies').append(option);
+}
+$('#referenceSpecies').value=reference.species;
+$('#referenceStage').value=reference.stage;
 
 const ASSETS=[
  {id:'substrate-dry',category:'substrate',kind:'background',label:'Dry substrate',note:'基质 / 干燥',params:{wetZones:[],light:82}},
@@ -64,6 +81,31 @@ function drawObject(target,asset,item,preview=false){
  if(asset.id.startsWith('woodchip'))return drawStudyWoodChip(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
 }
 
+function drawReferenceSpecimen(){
+ referenceHitCells=[];
+ if(!reference.visible)return;
+ const species=speciesById(reference.species);
+ const model=renderModel(species.visual,{stage:reference.stage,seed:reference.seed});
+ const scale=GAME_ACTOR_SCALE*model.growth.scale,ca=Math.cos(reference.a),sa=Math.sin(reference.a);
+ const seen=new Map();
+ for(const module of pixelAnatomy(model,{posture:'normal',phase:0,moving:false})){
+  for(const [sx,sy,color] of module.cells){
+   if(!color)continue;
+   const ox=sx*scale,oy=sy*scale;
+   const x=Math.round(reference.x+ox*ca-oy*sa),y=Math.round(reference.y+ox*sa+oy*ca);
+   seen.set(x+','+y,[x,y,color]);
+  }
+ }
+ referenceHitCells=[...seen.values()];
+ for(const [x,y,color] of referenceHitCells){ctx.fillStyle=color;ctx.fillRect(x,y,1,1)}
+ const size=species.renderSize?.referenceMm;
+ $('#specimenReadout').textContent=`${species.label||species.name||species.id} · ${reference.stage} · 1× game habitat scale${Number.isFinite(size)?` · ref ${size.toFixed(size<2?1:0)} mm`:''}`;
+}
+
+function referenceHit(point){
+ return reference.visible&&referenceHitCells.some(([x,y])=>point.x>=x-3&&point.x<=x+4&&point.y>=y-3&&point.y<=y+4);
+}
+
 function drawScene(){
  ctx.clearRect(0,0,scene.width,scene.height);
  drawBackground(ctx);
@@ -71,6 +113,7 @@ function drawScene(){
  for(const item of ordered){
   const asset=ASSET_BY_ID.get(item.assetId);if(asset)drawObject(ctx,asset,item);
  }
+ drawReferenceSpecimen();
  const selected=state.items.find(i=>i.id===state.selected);
  if(selected){
   const asset=ASSET_BY_ID.get(selected.assetId),r=Math.max(8,(asset?.radius||24)*selected.scale);
@@ -137,13 +180,25 @@ function hitTest(point){
  })||null;
 }
 scene.addEventListener('pointerdown',event=>{
- const p=canvasPoint(event),item=hitTest(p);state.selected=item?.id||null;
- if(item){drag={id:item.id,dx:p.x-item.x,dy:p.y-item.y};scene.setPointerCapture(event.pointerId)}
+ const p=canvasPoint(event);
+ if(referenceHit(p)){
+  state.selected=null;drag={kind:'specimen',dx:p.x-reference.x,dy:p.y-reference.y};
+  scene.setPointerCapture(event.pointerId);
+ }else{
+  const item=hitTest(p);state.selected=item?.id||null;
+  if(item){drag={kind:'asset',id:item.id,dx:p.x-item.x,dy:p.y-item.y};scene.setPointerCapture(event.pointerId)}
+ }
  $('#pointerReadout').textContent=`${Math.round(p.x)}, ${Math.round(p.y)}`;drawScene();
 });
 scene.addEventListener('pointermove',event=>{
  const p=canvasPoint(event);$('#pointerReadout').textContent=`${Math.round(p.x)}, ${Math.round(p.y)}`;
- if(!drag)return;const item=state.items.find(i=>i.id===drag.id);if(!item)return;
+ if(!drag)return;
+ if(drag.kind==='specimen'){
+  reference.x=Math.max(0,Math.min(scene.width,p.x-drag.dx));
+  reference.y=Math.max(0,Math.min(scene.height,p.y-drag.dy));
+  drawScene();return;
+ }
+ const item=state.items.find(i=>i.id===drag.id);if(!item)return;
  item.x=Math.max(0,Math.min(scene.width,p.x-drag.dx));item.y=Math.max(0,Math.min(scene.height,p.y-drag.dy));drawScene();
 });
 scene.addEventListener('pointerup',()=>drag=null);scene.addEventListener('pointercancel',()=>drag=null);
@@ -155,8 +210,17 @@ for(const button of document.querySelectorAll('[data-category]'))button.onclick=
  renderAssetList();
 };
 
-$('#resetScene').onclick=()=>{state.background='substrate-wet-left';state.backgroundSeed=57;cloneStarter();drawScene()};
+$('#resetScene').onclick=()=>{state.background='substrate-wet-left';state.backgroundSeed=57;cloneStarter();reference.x=226;reference.y=286;reference.a=-.34;drawScene()};
 $('#clearScene').onclick=()=>{state.items=[];state.selected=null;drawScene()};
+
+$('#referenceSpecies').onchange=event=>{reference.species=event.target.value;reference.seed=(reference.seed+31)>>>0;drawScene()};
+$('#referenceStage').onchange=event=>{reference.stage=event.target.value;drawScene()};
+$('#toggleReference').onclick=event=>{
+ reference.visible=!reference.visible;
+ event.currentTarget.setAttribute('aria-pressed',String(reference.visible));
+ event.currentTarget.textContent='GAME SCALE · '+(reference.visible?'ON':'OFF');
+ drawScene();
+};
 
 document.querySelector('.control-grid').addEventListener('click',event=>{
  const button=event.target.closest('button[data-action]'),item=selectedItem();if(!button||!item)return;
