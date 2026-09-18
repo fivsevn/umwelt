@@ -53,8 +53,10 @@ export function recordDirectInteraction(s,event={}){
  const specimen=/^[A-G]$/.test(event.specimen||'')?event.specimen:null,record={day:s.day,period:s.period,time:timeFor(s.seed,s.day,s.period),type,specimen,point,shell:shell?{id:shell.id,phase:shell.phase,specimen:shell.specimen}:null};
  const contradiction=contradictionFor(s,type);
  if(contradiction){
-  const item={day:s.day,period:s.period,type,choice:s.records.at(-1)?.choice||null,text:contradiction};
-  s.observerContradictions.push(item);s.observerContradictions=s.observerContradictions.slice(-12);record.contradiction=contradiction;s.feedback=contradiction;
+  const choice=s.records.at(-1)?.choice||null,exists=s.observerContradictions.some(x=>x.day===s.day&&x.period===s.period&&x.choice===choice);
+  if(!exists){const item={day:s.day,period:s.period,type,choice,text:contradiction};s.observerContradictions.push(item);s.observerContradictions=s.observerContradictions.slice(-12)}
+  record.contradiction=contradiction;s.feedback=contradiction;
+  const narrative=s.records.at(-1);if(narrative&&narrative.day===s.day&&narrative.period===s.period)narrative.text=contradiction;
  }
  const intent=s.interactionIntent;
  if(intent&&intent.day===s.day&&intent.period===s.period&&intent.type===discoveredType){
