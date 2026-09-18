@@ -69,7 +69,9 @@ function drawDrawer(){
  $('#pageNumber').textContent=total>1?String(page+1).padStart(2,'0'):'·';$('#pagePrev').disabled=total===1;$('#pageNext').disabled=total===1;iconButton($('#sourcesBtn'),drawerMode==='sources'?'book':'source',drawerMode==='sources'?t('sourceBack'):t('sources'));
 }
 function openDrawer(mode){habitat.stop();drawerMode=mode;page=mode==='catalog'?Math.max(0,SPECIES.findIndex(p=>p.id===state.cohort[0].species&&collection.unlocked.includes(p.id))):mode==='journal'?Math.max(0,state.records.length-1):Math.max(0,ENDINGS.findIndex(e=>e.id===state.ending));drawDrawer();$('#drawer').showModal()}
-// CSS touch-action prevents mobile double-tap zoom while preserving pinch zoom; this also blocks browser dblclick fallback inside the game.\n$('#game').addEventListener('dblclick',event=>event.preventDefault(),{passive:false});\n$('#startBtn').onclick=draw;$('#continueBtn').onclick=begin;$('#settleBtn').onclick=()=>{state.arrivalPending=false;save();begin()};$('#nextBtn').onclick=next;$('#restartBtn').onclick=home;
+// CSS touch-action prevents mobile double-tap zoom while preserving pinch zoom; this also blocks browser dblclick fallback inside the game.
+$('#game').addEventListener('dblclick',event=>event.preventDefault(),{passive:false});
+$('#startBtn').onclick=draw;$('#continueBtn').onclick=begin;$('#settleBtn').onclick=()=>{state.arrivalPending=false;save();begin()};$('#nextBtn').onclick=next;$('#restartBtn').onclick=home;
 $('#soundBtn').onclick=()=>{sound=!sound;$('#soundBtn').setAttribute('aria-pressed',String(sound));$('#soundBtn').setAttribute('aria-label',sound?t('soundOff'):t('soundOn'));$('#soundBtn').title=sound?t('soundOff'):t('soundOn');tone(120)};
 $('#zoomIn').onclick=()=>$('#zoomLevel').textContent=habitat.zoomBy(.5).toFixed(1)+'×';$('#zoomOut').onclick=()=>$('#zoomLevel').textContent=habitat.zoomBy(-.5).toFixed(1)+'×';$('#zoomReset').onclick=()=>{$('#zoomLevel').textContent=habitat.home()+'×'};
 $('#catalogBtn').onclick=()=>openDrawer('catalog');$('#endingCatalogBtn').onclick=()=>openDrawer('catalog');$('#journalBtn').onclick=()=>openDrawer('journal');
