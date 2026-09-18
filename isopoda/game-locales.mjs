@@ -1,6 +1,8 @@
 // Runtime localization for authored game copy.
 // Canonical simulation/state text stays in Chinese so saved runs remain language-neutral.
 const rows=[
+['观察个体','Observed Specimens','観察個体'],
+['收集到的蜕皮','Collected Exuviae','採集した脱皮殻'],
 // Encounter titles and observations.
 ['触角之间','Between Antennae','触角のあいだ'],
 ['两根触角碰了一下。身体都停住了，随后各自转向。','Two antennae touched. Both bodies stopped, then turned away in different directions.','2本の触角が触れた。どちらも止まり、そのあと別々の方向へ向きを変えた。'],
