@@ -158,9 +158,9 @@ function drawHabitat(t){
   leaf(ctx,l.x,l.y,angle,variant,size,tone);
  }
  const shelterY=memory.shelter.y-((shelterHeld||(effect&&elapsed<effect.until&&effect.id==='lift'))?12:0);
- // Larger crossed slabs fill the central shelter footprint while retaining two distinct pieces.
- bark(memory.shelter.x+8,shelterY-4,-.12,0,1.38);
- bark(memory.shelter.x-58,memory.shelter.y+40,.10,1,.92);
+ // One dominant cork slab with a smaller fragment partially underneath.
+ bark(memory.shelter.x-24,memory.shelter.y+31,.08,1,.78);
+ bark(memory.shelter.x+6,shelterY-6,-.08,0,1.34);
  for(const f of memory.foodNodes){
   for(let i=0;i<7;i++)px(ctx,f.x-9+i*3,f.y+10+i%2*3,1,1,'#806a42');
   if(f.amount>0)for(let y=0;y<12;y++)for(let x=0;x<Math.min(22,8+f.amount*6);x++){if((x+y+f.age*2)%17<3)continue;px(ctx,f.x+x-8,f.y+y-6,1,1,y>8?'#8b7043':y%3===0?'#d1b578':'#c6a86d')}
@@ -184,97 +184,86 @@ function drawActors(){
   for(const [x,y,color] of actor.hitCells)px(ctx,x,y,1,1,color);
  }
 }
-// Fallen leaves use broad readable silhouettes, a strong midrib and a few broken margins.
+// Leaf litter is drawn like low-resolution specimen art: silhouette, one midrib, a few veins, no micro-noise.
 function leaf(c,x,y,a,variant=0,scale=1,tone=0){
  const palette=LEAF_PALETTES[tone%LEAF_PALETTES.length],ca=Math.cos(a),sa=Math.sin(a);
- const lengths=[45,48,44,41,47,43],widths=[22,12,24,25,20,17],length=lengths[variant%6]*scale,width=widths[variant%6]*scale;
- const plot=(u,v,color,w=1,h=1)=>px(c,x+u*ca-v*sa,y+u*sa+v*ca,w,h,color);
- const rimAt=t=>{
-  const q=Math.max(0,1-Math.abs(t)),base=width*Math.pow(q,.55);
-  if(variant===1)return base*.54*(.92+.08*Math.cos(t*Math.PI*3));
-  if(variant===2)return base*(.72+.24*Math.abs(Math.sin((t+.05)*Math.PI*3.2)));
-  if(variant===3){const p=(t+1)/2;return width*Math.pow(Math.max(0,Math.sin(p*Math.PI)),.42)*(.52+.58*p)}
-  if(variant===4)return base*(.86+.12*Math.cos((t+.18)*Math.PI*2.2));
-  if(variant===5)return base*(.68+.18*Math.sin((t+.1)*Math.PI*2.6));
-  return base*(.92+.07*t);
+ const length=[42,48,43,39,46,40][variant%6]*scale,width=[21,13,23,24,20,17][variant%6]*scale,step=Math.max(1.5,2.4*scale);
+ const plot=(u,v,color,s=2)=>px(c,x+u*ca-v*sa,y+u*sa+v*ca,s,s,color);
+ const widthAt=t=>{
+  const q=Math.max(0,1-Math.abs(t));
+  if(variant===1)return width*Math.pow(q,.72)*.62;
+  if(variant===2)return width*Math.pow(q,.56)*(.82+.14*Math.sin((t+.05)*Math.PI*3));
+  if(variant===3)return width*Math.pow(q,.50)*(t<-.28?.70:1);
+  if(variant===4)return width*Math.pow(q,.60)*(.88+.10*Math.cos(t*Math.PI*2.2));
+  if(variant===5)return width*Math.pow(q,.64)*(.72+.16*Math.cos((t+.1)*Math.PI*2.4));
+  return width*Math.pow(q,.58);
  };
- const radius=Math.ceil(length+width+4);
- for(let yy=-radius;yy<=radius;yy++)for(let xx=-radius;xx<=radius;xx++){
-  const u=xx*ca+yy*sa,v=-xx*sa+yy*ca,t=u/length;if(t<-1||t>1)continue;
-  let rim=rimAt(t);if(Math.abs(v)>rim)continue;
-  const side=Math.sign(v)||1,edge=rim-Math.abs(v),band=Math.floor((t+1)*12);
-  // Missing pieces stay on the perimeter: no internal pinholes or swiss-cheese texture.
-  if(variant===2&&edge<3*scale&&band%4===1&&side>0)continue;
-  if(variant===3&&t>.58&&edge<4*scale&&Math.abs(v)<rim*.42)continue;
-  if(variant===4&&edge<3.2*scale&&((band===3&&side<0)||(band===8&&side>0)))continue;
-  if(variant===5&&edge<2.8*scale&&band%5===2)continue;
+ for(let u=-length;u<=length;u+=step)for(let v=-width;v<=width;v+=step){
+  const t=u/length,rim=widthAt(t);if(Math.abs(v)>rim)continue;
+  const edge=rim-Math.abs(v),side=Math.sign(v)||1;
+  // Damage only removes a few coarse bites from the margin.
+  if(variant===2&&t>.15&&t<.42&&side>0&&edge<4*scale)continue;
+  if(variant===3&&t>.52&&side<0&&edge<5*scale)continue;
+  if(variant===4&&t<-.35&&side>0&&edge<4*scale)continue;
   let ink=palette[1];
-  if(edge<1.5*Math.max(.55,scale))ink=palette[0];
-  else if(v< -rim*.38)ink=palette[2];
-  else if(Math.abs(v)<1.3*Math.max(.65,scale))ink=palette[3];
-  else if(((Math.floor(u/4)+Math.floor(v/3)+variant*3)&7)===0)ink=palette[2];
+  if(edge<2.4*scale)ink=palette[0];
+  else if(v<0)ink=palette[2];
+  if(Math.abs(v)<2.2*scale)ink=palette[3];
+  plot(u,v,ink,Math.max(1,2*scale));
+ }
+ // Clear midrib.
+ for(let u=-length*.88;u<length*.84;u+=2.2*scale)plot(u,0,palette[3],Math.max(1,1.8*scale));
+ // Three broad lateral veins on each side.
+ for(const t of [-.46,-.08,.30]){
+  const u=t*length,rim=widthAt(t)*.72;
+  for(const side of [-1,1])for(let q=.18;q<1;q+=.24){
+   plot(u+q*length*.16,side*rim*q,palette[2],Math.max(1,1.45*scale));
+  }
+ }
+ // Short petiole.
+ for(let i=0;i<8*scale;i+=2)plot(-length-i,Math.sin(i*.45)*.6,palette[4],Math.max(1,1.6*scale));
+}
+// Cork bark is a hand-composed low-resolution "photo": large tonal patches, broken edge, very few cracks.
+function bark(x,y,a=0,variant=0,scale=1){
+ const ca=Math.cos(a),sa=Math.sin(a),half=(variant===1?57:78)*scale,depth=(variant===1?23:32)*scale,cell=Math.max(2,Math.round(3*scale));
+ const plot=(u,v,color,w=cell,h=cell)=>px(ctx,x+u*ca-v*sa,y+u*sa+v*ca,w,h,color);
+ const pal=variant===0
+  ?['#302620','#493126','#62432d','#7a5435','#986d45','#b98d5e','#cfaa76']
+  :['#302722','#463329','#5d432f','#725338','#8d6744','#aa7d52','#c39868'];
+ const leftAt=v=>-half+(6+((v+depth)/(depth*2))*8)*scale;
+ const rightAt=v=> half-(6+(1-(v+depth)/(depth*2))*9)*scale;
+ for(let v=-depth;v<=depth;v+=cell)for(let u=-half;u<=half;u+=cell){
+  const left=leftAt(v),right=rightAt(v);if(u<left||u>right)continue;
+  const pxn=(u-left)/Math.max(1,right-left),pyn=(v+depth)/(depth*2);
+  // Four intentionally large regions, like a downsampled photograph.
+  let ink=pal[2];
+  if(pyn<.18)ink=pal[4];
+  if(pyn>.80)ink=pal[1];
+  if(((pxn-.54)/.34)**2+((pyn-.40)/.29)**2<1)ink=pal[4];
+  if(((pxn-.24)/.23)**2+((pyn-.61)/.25)**2<1)ink=pal[1];
+  if(((pxn-.76)/.18)**2+((pyn-.64)/.22)**2<1)ink=pal[3];
+  if(((pxn-.54)/.17)**2+((pyn-.28)/.15)**2<1)ink=pal[5];
+  // Irregular broken silhouette, but no holes inside the slab.
+  const broken=(variant===0&&pxn>.90&&pyn<.24)||(variant===0&&pxn<.08&&pyn>.72)||
+               (variant===1&&pxn<.12&&pyn<.25)||(variant===1&&pxn>.91&&pyn>.70);
+  if(broken)continue;
+  if(pxn<.035||pxn>.965||pyn<.055||pyn>.95)ink=pal[0];
   plot(u,v,ink);
  }
- // Midrib and a restrained set of lateral veins keep the leaf readable at game scale.
- for(let u=-length*.86;u<length*.82;u+=1.3)plot(u,0,palette[3]);
- const branchInk=palette[2];
- for(const t of [-.55,-.28,.02,.30,.56]){
-  const u=t*length,rim=rimAt(t)*.78;
-  for(const side of [-1,1]){
-   const reach=rim*(variant===1?.72:.88),steps=Math.max(2,Math.round(reach));
-   for(let i=1;i<steps;i+=2){const q=i/steps;plot(u+q*length*.18,side*i,branchInk)}
-  }
+ // One broad peeled patch.
+ const patch=variant===0?[-19,-10,60,15]:[-22,-8,43,13];
+ const [pu,pv,pw,ph]=patch;
+ for(let v=0;v<ph*scale;v+=cell)for(let u=0;u<pw*scale;u+=cell){
+  const nx=u/(pw*scale),ny=v/(ph*scale);
+  if(nx<.05+ny*.12||nx>.96-ny*.08)continue;
+  plot((pu*scale)+u,(pv*scale)+v,ny<.35?pal[6]:pal[5]);
  }
- // A short crooked petiole.
- const stem=(variant===1?10:7)*scale;
- for(let i=0;i<stem;i++)plot(-length-i,Math.sin(i*.7)*.45,palette[4]);
-}
-// Bark is treated like a low-resolution photo: broad tonal masses first, only a few coarse cracks on top.
-function bark(x,y,a=0,variant=0,scale=1){
- const ca=Math.cos(a),sa=Math.sin(a),half=(variant===1?60:80)*scale,depth=(variant===1?25:34)*scale;
- const plot=(u,v,color,w=2,h=2)=>px(ctx,x+u*ca-v*sa,y+u*sa+v*ca,w,h,color);
- const palette=variant===0
-  ?['#2f2722','#4a3428','#67462f','#825b39','#a47749','#bd9160']
-  :['#302822','#49362b','#60452f','#76563a','#936b45','#ad8154'];
- const leftAt=v=>-half+(7+((v+depth)/(depth*2))*7)*scale;
- const rightAt=v=>half-(6+(1-(v+depth)/(depth*2))*8)*scale;
- // Coarse 3x3 sampling prevents any dense repetitive pattern.
- for(let vv=-depth;vv<=depth;vv+=3)for(let uu=-half;uu<=half;uu+=3){
-  const left=leftAt(vv),right=rightAt(vv);if(uu<left||uu>right)continue;
-  const q=(vv+depth)/(depth*2),p=(uu-left)/Math.max(1,right-left);
-  const broken=(variant===0&&p>.86&&q<.20)||(variant===0&&p<.10&&q>.76)||
-               (variant===1&&p<.14&&q<.24)||(variant===1&&p>.88&&q>.72);
-  if(broken)continue;
-  let ink;
-  // Large light/dark zones imitate real uneven bark lighting rather than procedural hatching.
-  if(q<.16)ink=palette[4];
-  else if(q>.78)ink=palette[1];
-  else if(p>.56&&q<.52)ink=palette[3];
-  else ink=palette[2];
-  const lightPatch=((p-.48)/.33)**2+((q-.37)/.27)**2<1;
-  const darkPatch=((p-.20)/.25)**2+((q-.66)/.22)**2<1;
-  if(lightPatch)ink=palette[4+(variant===0?1:0)];
-  if(darkPatch)ink=palette[1];
-  if(p<.06||p>.94||q<.05||q>.95)ink=palette[0];
-  plot(uu,vv,ink,3,3);
- }
- // A few broad longitudinal color bands.
- const bands=variant===0?[[-55,-14,86,5,5],[-42,5,108,7,3],[-18,19,72,6,1]]:[[-42,-11,70,5,4],[-36,5,82,7,3],[2,17,50,5,1]];
- for(const [sx,sy,len,thick,tone] of bands){
-  for(let i=0;i<len*scale;i+=2){
-   const lift=Math.sin(i*.09+variant)*1.3*scale;
-   for(let d=-thick*scale/2;d<=thick*scale/2;d+=2)plot((sx+i)*scale,sy*scale+lift+d,palette[tone],2,2);
-  }
- }
- // Only three or four chunky fractures.
- const cracks=variant===0?[[-48,-2,31,.18],[5,12,34,-.13],[34,-17,23,.24]]:[[-31,-1,28,.16],[8,12,26,-.17]];
- for(const [sx,sy,len,slope] of cracks)for(let i=0;i<len*scale;i+=2)plot((sx+i)*scale,(sy+i*slope)*scale,palette[0],2,2);
- // Light exposed fibres at one broken end.
- const side=variant===0?1:-1,ex=side*(half-5*scale);
- for(let i=0;i<5;i++){
-  const yy=(-depth*.46+i*depth*.23),len=(7+i%2*4)*scale;
-  for(let j=0;j<len;j+=2)plot(ex+side*j,yy+j*(i%2?.11:-.08),palette[5],2,2);
- }
+ // Two to three coarse fractures only.
+ const cracks=variant===0?[[-43,5,33,.10],[14,12,28,-.18],[33,-17,20,.20]]:[[-31,7,26,-.12],[7,-12,22,.19]];
+ for(const [sx,sy,len,slope] of cracks)for(let i=0;i<len*scale;i+=cell)plot((sx*scale)+i,(sy*scale)+i*slope,pal[0],cell,Math.max(2,cell-1));
+ // Small pale splinters at one damaged end.
+ const side=variant===0?1:-1,ex=side*(half-6*scale);
+ for(let i=0;i<4;i++)for(let j=0;j<(7+i*2)*scale;j+=cell)plot(ex+side*j,(-depth*.42+i*depth*.24)+j*(i%2?.08:-.06),pal[6],cell,Math.max(2,cell-1));
 }
 function drawMoltShell(shell){
  const specimen=state.cohort?.find(c=>c.id===shell.specimen)||state.cohort?.[0];
@@ -316,72 +305,70 @@ function twig(x,y,a,len=18,shade='#5b432e'){
  const ca=Math.cos(a),sa=Math.sin(a);
  for(let i=0;i<len;i++){px(ctx,x+ca*i,y+sa*i,1,1,shade);if(i===Math.floor(len*.55))for(let j=1;j<6;j++)px(ctx,x+ca*i-sa*j,y+sa*i+ca*j,1,1,'#49372c')}
 }
-function sphagnumPatch(cx,cy,rx,ry,seed=0,alpha=.62){
- const greens=[
-  `rgba(43,70,55,${alpha*.72})`,
-  `rgba(55,91,62,${alpha*.82})`,
-  `rgba(73,113,76,${alpha*.90})`,
-  `rgba(96,139,91,${alpha})`,
-  `rgba(128,168,112,${Math.min(.82,alpha*1.08)})`
+function sphagnumPatch(cx,cy,rx,ry,seed=0,alpha=.46){
+ const colors=[
+  `rgba(48,78,59,${alpha*.68})`,
+  `rgba(62,98,67,${alpha*.78})`,
+  `rgba(79,120,78,${alpha*.86})`,
+  `rgba(101,145,94,${alpha*.94})`,
+  `rgba(132,171,112,${alpha})`
+ ],cell=4;
+ // Union of several broad cushions creates an irregular mass; no fine speckling.
+ const lobes=[
+  [-.46,-.02,.52,.58],[.02,-.18,.62,.72],[.48,.00,.48,.58],
+  [-.22,.28,.58,.48],[.28,.30,.62,.46],[-.68,.25,.30,.36],[.70,.26,.28,.34]
  ];
- const topAt=xx=>{
-  const n=Math.abs(xx/rx),fall=Math.pow(Math.max(0,1-n),.48);
-  return -ry*fall*(.66+.13*Math.sin(xx*.085+seed)+.10*Math.sin(xx*.19+seed*1.4));
- };
- const bottomAt=xx=>{
-  const n=Math.abs(xx/rx),fall=Math.max(0,1-n);
-  return ry*(.24+.08*Math.sin(xx*.075+seed*.6))*fall;
- };
- // Broad translucent mass.
- for(let xx=-rx;xx<=rx;xx+=3){
-  const top=topAt(xx),bottom=bottomAt(xx);if(top>=bottom)continue;
-  for(let yy=Math.floor(top);yy<=bottom;yy+=3){
-   const h=Math.abs((xx*29+yy*17+seed*41)%97),rel=(yy-top)/Math.max(1,bottom-top);
-   const ink=rel<.23?greens[3+h%2]:rel>.72?greens[h%2]:greens[1+h%3];
-   px(ctx,cx+xx,cy+yy,3,3,ink);
+ for(let yy=-ry;yy<=ry;yy+=cell)for(let xx=-rx;xx<=rx;xx+=cell){
+  let inside=false,best=9;
+  for(const [lx,ly,lr,lry] of lobes){
+   const dx=(xx-rx*lx)/(rx*lr),dy=(yy-ry*ly)/(ry*lry),d=dx*dx+dy*dy;
+   if(d<=1){inside=true;best=Math.min(best,d)}
   }
+  if(!inside)continue;
+  const upper=(yy/ry)<-.05,tone=upper?3:best<.35?2:1;
+  const shift=((Math.floor((xx+rx)/20)+Math.floor((yy+ry)/16)+seed)%3===0)?1:0;
+  px(ctx,cx+xx,cy+yy,cell,cell,colors[Math.min(4,tone+shift)]);
  }
- // Large irregular crowns rather than many tiny specks.
- for(let xx=-rx+8;xx<rx-8;xx+=9){
-  const top=topAt(xx),h=Math.abs((xx*13+seed*31)%9),height=4+h%8;
-  for(let j=1;j<=height;j+=2)px(ctx,cx+xx,cy+top-j,3,2,greens[2+(j+h)%3]);
-  if(h%2===0){px(ctx,cx+xx-4,cy+top-height+2,4,2,greens[3]);px(ctx,cx+xx+3,cy+top-height,4,2,greens[4])}
- }
- // A few detached lobes make the outline less rectangular.
- const lobes=[[-.82,-.12,.18],[.78,-.18,.20],[-.62,.18,.14],[.58,.20,.12]];
- for(const [sx,sy,s] of lobes){
-  const lx=cx+rx*sx,ly=cy+ry*sy,rr=rx*s;
-  for(let yy=-rr*.5;yy<=rr*.5;yy+=3)for(let xx=-rr;xx<=rr;xx+=3){
-   if((xx/rr)**2+(yy/(rr*.55))**2<=1)px(ctx,lx+xx,ly+yy,3,3,greens[2+((xx+yy+seed)&1)]);
-  }
+ // A handful of large upright tufts.
+ const crowns=[[-.55,-.42,12],[-.27,-.58,16],[.04,-.66,18],[.31,-.55,14],[.57,-.39,11]];
+ for(const [sx,sy,h] of crowns){
+  const bx=cx+rx*sx,by=cy+ry*sy;
+  for(let j=0;j<h;j+=3){px(ctx,bx,by-j,4,3,colors[3+(j%2)]);if(j>5&&j%6===0){px(ctx,bx-5,by-j+2,5,3,colors[3]);px(ctx,bx+4,by-j,5,3,colors[4])}}
  }
 }
 function scenery(t){
- // Two broad translucent sphagnum cushions: a large upper-left patch and a smaller lower-left patch.
- sphagnumPatch(92,104,92,64,3,.58);
- sphagnumPatch(64,344,55,34,11,.54);
- // A small cuttlebone fragment marks this as a maintained culture rather than untouched forest floor.
- cuttlebone(333,168,-.42,.72);
- // More humus flecks and tiny decomposing fragments fill negative space without becoming new focal objects.
- for(let i=0;i<95;i++){const x=18+(i*83+i%7*19)%350,y=20+(i*137+i%11*23)%392,v=(i*29+x+y)%9;px(ctx,x,y,1+v%3,1,['#2d2b24','#3a3127','#58442f','#67513a','#454033'][v%5]);if(v===1)px(ctx,x+2,y+1,1,1,'#8b7048')}
- // Pebbles stay subdued but are slightly more numerous.
- for(let i=0;i<44;i++){const x=25+(i*73)%338,y=22+(i*119)%386;
-  px(ctx,x,y,7,4,'#2d2d23');px(ctx,x,y-2,5,3,['#77715a','#67694f','#8b8167'][i%3]);if(i%3===0)px(ctx,x+1,y-2,1,1,'#aaa486');
- }
- // Fine root / twig line on the right side plus scattered short twigs elsewhere.
- for(let i=0;i<58;i++){const x=278+Math.sin(i*.075)*27,y=18+i*5;px(ctx,x,y,3,5,'#302a20');px(ctx,x+1,y,1,4,'#705338');if(i%6===0)for(let j=0;j<7;j++)px(ctx,x-j*3,y+j,3,1,'#5e4830')}
- const twigs=[[91,143,.36,20],[142,336,-.62,17],[331,74,2.38,15],[234,93,-.15,22],[298,304,1.9,18],[74,261,-2.35,14],[188,386,.18,21],[347,334,-1.15,16]];
+ // Wet side: one broad upper-left sphagnum field and a smaller lower-left refuge.
+ sphagnumPatch(84,96,96,72,3,.43);
+ sphagnumPatch(57,348,58,39,11,.40);
+
+ // Calcium source remains a small husbandry detail.
+ cuttlebone(332,166,-.42,.70);
+
+ // Bare substrate stays visible. Only a few coarse bits of humus interrupt it.
+ const humus=[[38,43,7,3],[145,34,8,3],[238,52,6,3],[337,45,7,3],[118,166,8,4],[57,213,6,3],[328,244,9,4],[82,287,7,3],[219,307,8,3],[345,359,7,3],[153,391,9,3],[278,394,6,3]];
+ for(let i=0;i<humus.length;i++){const [x,y,w,h]=humus[i];px(ctx,x,y,w,h,['#3a3027','#4a392b','#5b4430'][i%3])}
+
+ // Leaf litter is deliberately sparse and layered, with a clear large / medium / small hierarchy.
+ const leaves=[
+  [315,100,-.62,0,1.02,1],
+  [300,320,.62,2,.88,0],
+  [218,370,-2.56,4,.78,2],
+  [116,349,-.28,1,.66,1],
+  [338,235,2.24,3,.60,0],
+  [84,182,.34,5,.54,2],
+  [248,86,2.68,0,.48,1],
+  [147,90,-2.15,4,.42,0],
+  [333,373,-1.32,1,.36,2],
+  [61,270,1.72,5,.31,1],
+  [189,55,.10,2,.26,0],
+  [268,235,-.44,3,.22,2]
+ ];
+ for(const [x,y,a,v,s,tone] of leaves)leaf(ctx,x,y,a,v,s,tone);
+
+ // A few sticks and bark crumbs imply litter without filling every empty patch.
+ const twigs=[[122,302,-.55,19],[327,76,2.35,17],[80,385,-2.70,14],[282,280,1.82,15]];
  for(const [x,y,a,len] of twigs)twig(x,y,a,len);
- // Fallen leaves have an obvious size hierarchy instead of a field of similarly tiny pieces.
- const leafSizes=[.92,.82,.74,.68,.61,.57,.52,.48,.44,.40,.36,.33,.30,.27,.24,.22,.20,.18,.16,.14];
- for(let i=0;i<leafSizes.length;i++){
-  const x=28+(i*97+i%4*23+i%3*11)%332,y=24+(i*71+i%6*29+i%5*13)%378;
-  const hash=(i*61+x*7+y*13)%997,variant=hash%6,tone=(hash>>3)%LEAF_PALETTES.length;
-  const angle=((hash*.021+i*1.414)%6.283)-3.1415;
-  leaf(ctx,x,y,angle,variant,leafSizes[i],tone);
- }
- // Small wood debris in several shapes supports the two larger shelter slabs.
- const chips=[[106,101,.55,0,.75],[337,119,-.35,1,.66],[82,382,2.55,2,.82],[258,350,-1.0,0,.6],[160,57,.15,2,.55],[320,269,2.15,1,.55],[214,42,2.82,0,.5],[47,226,-.84,1,.47],[346,365,.42,2,.6],[136,223,1.7,0,.42]];
+ const chips=[[146,246,.55,0,.55],[335,128,-.32,1,.52],[227,45,2.82,0,.44],[320,352,.40,2,.50]];
  for(const [x,y,a,kind,s] of chips)woodChip(x,y,a,kind,s);
 }
 
