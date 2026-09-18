@@ -157,7 +157,6 @@ function drawHabitat(t){
  if(state.light<55){ctx.fillStyle=`rgba(15,27,21,${(55-state.light)/120})`;ctx.fillRect(0,0,w,h)}
  if(!reduced&&effect&&elapsed<effect.until&&['mist','wet-left','wet-all'].includes(effect.id))for(let i=0;i<18;i++){const x=12+(i*29)%(effect.id==='wet-all'?350:82),y=(i*71+t*.05)%420;px(ctx,x,y,1,2,'#91a994')}
  ctx.strokeStyle='rgba(147,148,124,.55)';ctx.lineWidth=2;ctx.strokeRect(1,1,w-2,h-2);
- coarsenScenery();
  drawActors();
  present();
 }
@@ -172,44 +171,52 @@ function drawActors(){
   for(const [x,y,color] of actor.hitCells)px(ctx,x,y,1,1,color);
  }
 }
-// Leaf litter is drawn like low-resolution specimen art: silhouette, one midrib, a few veins, no micro-noise.
+// Added leaf litter matches the 4px background lattice: muted blocks, one shadow, minimal venation.
 function leaf(c,x,y,a,variant=0,scale=1,tone=0){
- const palette=LEAF_PALETTES[tone%LEAF_PALETTES.length],ca=Math.cos(a),sa=Math.sin(a);
- const length=[42,48,43,39,46,40][variant%6]*scale,width=[21,13,23,24,20,17][variant%6]*scale,step=Math.max(1.5,2.4*scale);
- const plot=(u,v,color,s=2)=>px(c,x+u*ca-v*sa,y+u*sa+v*ca,s,s,color);
+ const palettes=[
+  ['#564630','#72603c','#8b7848','#a38c55','#3b3328'],
+  ['#5b3e2b','#765033','#93633b','#aa7949','#3b2d25'],
+  ['#514734','#6b6042','#85764d','#9e8d5b','#39342b'],
+  ['#65452e','#825936','#9c6d40','#b5844f','#402f25'],
+  ['#4c4232','#65553d','#7d6848','#947d56','#37312a'],
+  ['#5b4935','#755d40','#8d724c','#a1895c','#3d332a']
+ ],p=palettes[tone%palettes.length],ca=Math.cos(a),sa=Math.sin(a),cell=4;
+ const length=[40,46,42,39,44,41][variant%6]*scale,width=[20,12,22,23,19,17][variant%6]*scale;
+ const at=(u,v,color)=>px(c,x+u*ca-v*sa,y+u*sa+v*ca,cell,cell,color);
  const widthAt=t=>{
   const q=Math.max(0,1-Math.abs(t));
-  if(variant===1)return width*Math.pow(q,.72)*.62;
-  if(variant===2)return width*Math.pow(q,.56)*(.82+.14*Math.sin((t+.05)*Math.PI*3));
-  if(variant===3)return width*Math.pow(q,.50)*(t<-.28?.70:1);
-  if(variant===4)return width*Math.pow(q,.60)*(.88+.10*Math.cos(t*Math.PI*2.2));
-  if(variant===5)return width*Math.pow(q,.64)*(.72+.16*Math.cos((t+.1)*Math.PI*2.4));
-  return width*Math.pow(q,.58);
+  if(variant===1)return width*Math.pow(q,.74)*.60;
+  if(variant===2)return width*Math.pow(q,.58)*(.84+.12*Math.sin((t+.05)*Math.PI*3));
+  if(variant===3)return width*Math.pow(q,.52)*(t<-.25?.72:1);
+  if(variant===4)return width*Math.pow(q,.62)*(.90+.08*Math.cos(t*Math.PI*2));
+  if(variant===5)return width*Math.pow(q,.66)*(.74+.13*Math.cos((t+.1)*Math.PI*2.4));
+  return width*Math.pow(q,.60);
  };
- for(let u=-length;u<=length;u+=step)for(let v=-width;v<=width;v+=step){
+ // Soft substrate shadow first.
+ for(let u=-length;u<=length;u+=cell)for(let v=-width;v<=width;v+=cell){
+  const t=u/length,rim=widthAt(t);if(Math.abs(v)>rim)continue;
+  at(u+3,v+4,'rgba(38,31,25,.42)');
+ }
+ // Broad leaf body; no stipple and no dark wireframe.
+ for(let u=-length;u<=length;u+=cell)for(let v=-width;v<=width;v+=cell){
   const t=u/length,rim=widthAt(t);if(Math.abs(v)>rim)continue;
   const edge=rim-Math.abs(v),side=Math.sign(v)||1;
-  // Damage only removes a few coarse bites from the margin.
-  if(variant===2&&t>.15&&t<.42&&side>0&&edge<4*scale)continue;
-  if(variant===3&&t>.52&&side<0&&edge<5*scale)continue;
-  if(variant===4&&t<-.35&&side>0&&edge<4*scale)continue;
-  let ink=palette[1];
-  if(edge<2.4*scale)ink=palette[0];
-  else if(v<0)ink=palette[2];
-  if(Math.abs(v)<2.2*scale)ink=palette[3];
-  plot(u,v,ink,Math.max(1,2*scale));
+  if(variant===2&&t>.18&&t<.42&&side>0&&edge<cell*1.2)continue;
+  if(variant===3&&t>.54&&side<0&&edge<cell*1.35)continue;
+  if(variant===4&&t<-.38&&side>0&&edge<cell*1.15)continue;
+  let ink=p[1];
+  if(edge<cell*.9)ink=p[0];
+  else if(v<0)ink=p[2];
+  if(t>.18&&v>0)ink=p[2];
+  at(u,v,ink);
  }
- // Clear midrib.
- for(let u=-length*.88;u<length*.84;u+=2.2*scale)plot(u,0,palette[3],Math.max(1,1.8*scale));
- // Three broad lateral veins on each side.
- for(const t of [-.46,-.08,.30]){
-  const u=t*length,rim=widthAt(t)*.72;
-  for(const side of [-1,1])for(let q=.18;q<1;q+=.24){
-   plot(u+q*length*.16,side*rim*q,palette[2],Math.max(1,1.45*scale));
-  }
+ // One coarse midrib and only two restrained side-vein pairs.
+ for(let u=-length*.82;u<length*.78;u+=cell)at(u,0,p[3]);
+ for(const t of [-.34,.20]){
+  const u=t*length,rim=widthAt(t)*.70;
+  for(const side of [-1,1])for(let q=.28;q<.92;q+=.30)at(u+q*length*.14,side*rim*q,p[2]);
  }
- // Short petiole.
- for(let i=0;i<8*scale;i+=2)plot(-length-i,Math.sin(i*.45)*.6,palette[4],Math.max(1,1.6*scale));
+ for(let i=0;i<7*scale;i+=cell)at(-length-i,0,p[4]);
 }
 // Cork bark is a hand-composed low-resolution "photo": large tonal patches, broken edge, very few cracks.
 function bark(x,y,a=0,variant=0,scale=1){
