@@ -2,19 +2,31 @@ import {speciesById} from './species.mjs?v=cohort-4';
 // Spatial traces advance with observation turns, never with frame rate or wall time.
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function environmentFor(s){
- if(s.environment?.version===2)return s.environment;
- if(s.environment?.version===1){
-  s.environment.version=2;
+ if(s.environment?.version===3)return s.environment;
+ if(s.environment?.version===1||s.environment?.version===2){
+  s.environment.version=3;
   s.environment.shells=Array.isArray(s.environment.shells)?s.environment.shells:[];
+  s.environment.pendingShells=Array.isArray(s.environment.pendingShells)?s.environment.pendingShells:[];
   s.environment.removedShells=Array.isArray(s.environment.removedShells)?s.environment.removedShells:[];
   return s.environment;
  }
- return s.environment={version:2,wetZones:[{x:42,y:215,rx:30,ry:202,moisture:s.humidity}],leaves:[{id:'leaf-a',x:275,y:110,a:-.45,gap:true,age:0},{id:'leaf-b',x:290,y:344,a:.35,gap:true,age:0},...(s.cover>65?[{id:'leaf-old',x:90,y:315,a:-.15,gap:true,age:0}]:[])],foodNodes:s.food?[{x:320,y:258,amount:s.food,age:0}]:[],shelter:{x:190,y:215},disturbance:0,scuffs:[],shells:[],removedShells:[]};
+ return s.environment={version:3,wetZones:[{x:42,y:215,rx:30,ry:202,moisture:s.humidity}],leaves:[{id:'leaf-a',x:275,y:110,a:-.45,gap:true,age:0},{id:'leaf-b',x:290,y:344,a:.35,gap:true,age:0},...(s.cover>65?[{id:'leaf-old',x:90,y:315,a:-.15,gap:true,age:0}]:[])],foodNodes:s.food?[{x:320,y:258,amount:s.food,age:0}]:[],shelter:{x:190,y:215},disturbance:0,scuffs:[],shells:[],pendingShells:[],removedShells:[]};
+}
+const observationTurn=s=>(Math.max(1,Number(s.day)||1)-1)*3+Math.max(0,Number(s.period)||0);
+export function releaseDueShells(s){
+ const e=environmentFor(s),turn=observationTurn(s),keep=[];
+ for(const trace of e.pendingShells){
+  if((trace.dueTurn??Infinity)>turn){keep.push(trace);continue}
+  if(e.removedShells.includes(trace.id)||e.shells.some(shell=>shell.id===trace.id))continue;
+  e.shells.push({id:trace.id,source:trace.source||null,specimen:trace.specimen||null,phase:trace.phase||'whole',x:Math.round(trace.x),y:Math.round(trace.y),a:Number(trace.a)||0,age:0,createdDay:s.day,createdPeriod:s.period});
+ }
+ e.pendingShells=keep;e.shells=e.shells.slice(-12);return e;
 }
 export function syncSceneTrace(s,scene){
- const e=environmentFor(s),trace=scene?.shellTrace;if(!trace||!trace.id||e.removedShells.includes(trace.id)||e.shells.some(shell=>shell.id===trace.id))return e;
- e.shells.push({id:trace.id,source:trace.source||scene.encounter||null,specimen:trace.specimen||null,phase:trace.phase||'whole',x:Math.round(trace.x),y:Math.round(trace.y),a:Number(trace.a)||0,age:0,createdDay:s.day,createdPeriod:s.period});
- e.shells=e.shells.slice(-12);return e;
+ const e=environmentFor(s),trace=scene?.shellTrace;if(!trace||!trace.id)return e;
+ if(e.removedShells.includes(trace.id)||e.shells.some(shell=>shell.id===trace.id)||e.pendingShells.some(shell=>shell.id===trace.id))return e;
+ e.pendingShells.push({id:trace.id,source:trace.source||scene.encounter||null,specimen:trace.specimen||null,phase:trace.phase||'whole',x:Math.round(trace.x),y:Math.round(trace.y),a:Number(trace.a)||0,dueTurn:observationTurn(s)+1});
+ e.pendingShells=e.pendingShells.slice(-12);return e;
 }
 export function takeShell(s,id){
  const e=environmentFor(s),index=e.shells.findIndex(shell=>shell.id===id);if(index<0)return null;
