@@ -44,7 +44,7 @@ let state=getState(),critters=[],last=0,active=false,effect=null,frame=0,encount
 const camera={zoom:1,x:192,y:215},reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function encounterForScene(scene){
  const base=encounterById(scene?.encounter);if(!base)return null;
- return {...base,place:Array.isArray(scene?.encounterPlace)?scene.encounterPlace:base.place,specimenId:base.motion==='molt'?scene?.moltVisual?.specimen:null};
+ return {...base,place:Array.isArray(scene?.encounterPlace)?scene.encounterPlace:base.place,specimenId:scene?.moltVisual?.specimen||scene?.specimen||null};
 }
 function placeSceneMolt(scene){
  const molt=scene?.moltVisual;if(!molt)return;
