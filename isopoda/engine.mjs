@@ -1,7 +1,7 @@
 import {environmentFor,changeEnvironment,ageEnvironment,environmentTarget,habitatFit,syncSceneTrace,releaseDueShells,takeShell} from './environment.mjs?v=molt-sequence-1';
-import {encounterFor,encounterById,encounterText} from './encounters.mjs?v=narrative-pool-2';
+import {encounterFor,encounterById,encounterText} from './encounters.mjs?v=molt-sequence-1';
 import {SPECIES,speciesById} from './species.mjs?v=cohort-4';
-import {EVENING,AMBIENT,CARE,MINI_TYPES,ENDINGS} from './content.mjs?v=interaction-story-1';
+import {EVENING,AMBIENT,CARE,MINI_TYPES,ENDINGS} from './content.mjs?v=interaction-story-2';
 export const VERSION=4;
 export const PERIODS=['晨间','午后','夜间'];
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
