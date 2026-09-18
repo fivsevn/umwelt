@@ -23,13 +23,17 @@ $('#referenceStage').value=reference.stage;
 const ASSETS=[
  {id:'substrate-dry',category:'substrate',kind:'background',label:'Dry substrate',note:'基质 / 干燥',params:{wetZones:[],light:82}},
  {id:'substrate-wet-left',category:'substrate',kind:'background',label:'Moisture gradient',note:'基质 / 左侧湿区',params:{wetZones:[{x:44,y:215,rx:92,ry:250,moisture:78}],light:82}},
+ {id:'substrate-forest',category:'substrate',kind:'background',label:'Forest floor',note:'基质 / 林地湿润斑块',params:{wetZones:[{x:60,y:120,rx:115,ry:170,moisture:74},{x:320,y:300,rx:90,ry:115,moisture:58}],light:76}},
 
  {id:'moss-sphagnum-01',category:'moss',label:'Sphagnum cluster 01',note:'水苔 / 大片',radius:52,params:{rx:48,ry:31,wetness:.76,alpha:.80}},
  {id:'moss-sphagnum-02',category:'moss',label:'Sphagnum cluster 02',note:'水苔 / 小片',radius:38,params:{rx:34,ry:22,wetness:.62,alpha:.76}},
+ {id:'moss-carpet-03',category:'moss',label:'Moss carpet 03',note:'苔藓 / 林地大片',radius:64,params:{rx:58,ry:36,wetness:.70,alpha:.84}},
 
  {id:'leaf-broad-01',category:'leaf',label:'Dry leaf 01',note:'枯叶 / 宽叶',radius:44,params:{variant:0,tone:0,scale:.72}},
  {id:'leaf-narrow-01',category:'leaf',label:'Dry leaf 02',note:'枯叶 / 狭长',radius:46,params:{variant:1,tone:1,scale:.72}},
  {id:'leaf-broken-01',category:'leaf',label:'Broken leaf 01',note:'枯叶 / 破损',radius:46,params:{variant:3,tone:2,scale:.74,gap:true}},
+ {id:'leaf-fan-01',category:'leaf',label:'Fan leaf 01',note:'枯叶 / 扇形裂叶',radius:48,params:{variant:4,tone:1,scale:.78}},
+ {id:'leaf-curled-01',category:'leaf',label:'Curled leaf 01',note:'枯叶 / 卷曲',radius:44,params:{variant:5,tone:2,scale:.72}},
 
  {id:'bark-shelter-01',category:'bark',label:'Bark shelter 01',note:'树皮 / 躲避',radius:88,params:{variant:0,scale:.72}},
  {id:'bark-fragment-01',category:'bark',label:'Bark fragment 01',note:'树皮 / 碎片',radius:68,params:{variant:1,scale:.68}},
@@ -56,13 +60,46 @@ const STARTER=[
  {assetId:'cuttlebone-01',x:332,y:166,a:-.42,scale:1,seed:67,z:33}
 ];
 
+const FOREST_STUDY=[
+ {assetId:'moss-carpet-03',x:58,y:62,a:0,scale:1.28,seed:101,z:8},
+ {assetId:'moss-sphagnum-01',x:26,y:142,a:0,scale:1.00,seed:103,z:9},
+ {assetId:'moss-sphagnum-02',x:354,y:140,a:0,scale:.92,seed:107,z:9},
+ {assetId:'moss-carpet-03',x:42,y:365,a:0,scale:1.18,seed:109,z:8},
+ {assetId:'moss-sphagnum-02',x:338,y:236,a:0,scale:.82,seed:113,z:9},
+
+ {assetId:'bark-shelter-01',x:118,y:128,a:-.10,scale:1.16,seed:127,z:24},
+ {assetId:'bark-fragment-01',x:89,y:160,a:-.18,scale:.88,seed:131,z:23},
+
+ {assetId:'leaf-fan-01',x:320,y:78,a:.28,scale:1.24,seed:137,z:28},
+ {assetId:'leaf-broad-01',x:122,y:286,a:.72,scale:1.35,seed:139,z:27},
+ {assetId:'leaf-broken-01',x:322,y:292,a:-.74,scale:1.12,seed:149,z:27},
+ {assetId:'leaf-curled-01',x:338,y:366,a:-.28,scale:.88,seed:151,z:27},
+ {assetId:'leaf-narrow-01',x:213,y:372,a:2.66,scale:.66,seed:157,z:26},
+
+ {assetId:'twig-01',x:235,y:52,a:.46,scale:2.65,seed:163,z:19},
+ {assetId:'twig-01',x:265,y:177,a:.22,scale:2.25,seed:167,z:19},
+ {assetId:'twig-01',x:18,y:325,a:.35,scale:2.15,seed:173,z:18},
+ {assetId:'woodchip-01',x:170,y:235,a:-.38,scale:.85,seed:179,z:20},
+ {assetId:'woodchip-02',x:244,y:324,a:.72,scale:.76,seed:181,z:20},
+
+ {assetId:'stone-round-01',x:292,y:188,a:0,scale:1.18,seed:191,z:25},
+ {assetId:'stone-flat-01',x:318,y:346,a:.04,scale:1.48,seed:193,z:25},
+ {assetId:'stone-small-01',x:194,y:334,a:0,scale:.86,seed:197,z:24},
+ {assetId:'stone-small-01',x:82,y:238,a:0,scale:.78,seed:199,z:24},
+
+ {assetId:'cuttlebone-01',x:314,y:214,a:-.20,scale:1.14,seed:211,z:31}
+];
+
 let state={background:'substrate-wet-left',backgroundSeed:57,items:[],selected:null,nextId:1};
 let category='all',drag=null;
 
-function cloneStarter(){
- state.items=STARTER.map(item=>({...item,id:'instance-'+state.nextId++}));
+function loadPreset(items,background='substrate-wet-left'){
+ state.background=background;
+ state.backgroundSeed=(background==='substrate-forest'?103:57);
+ state.items=items.map(item=>({...item,id:'instance-'+state.nextId++}));
  state.selected=null;
 }
+function cloneStarter(){loadPreset(STARTER,'substrate-wet-left')}
 cloneStarter();
 
 function drawBackground(target,assetId=state.background,seed=state.backgroundSeed){
@@ -210,7 +247,11 @@ for(const button of document.querySelectorAll('[data-category]'))button.onclick=
  renderAssetList();
 };
 
-$('#resetScene').onclick=()=>{state.background='substrate-wet-left';state.backgroundSeed=57;cloneStarter();reference.x=226;reference.y=286;reference.a=-.34;drawScene()};
+$('#forestScene').onclick=()=>{
+ loadPreset(FOREST_STUDY,'substrate-forest');
+ reference.x=208;reference.y=248;reference.a=-.26;drawScene();
+};
+$('#resetScene').onclick=()=>{cloneStarter();reference.x=226;reference.y=286;reference.a=-.34;drawScene()};
 $('#clearScene').onclick=()=>{state.items=[];state.selected=null;drawScene()};
 
 $('#referenceSpecies').onchange=event=>{reference.species=event.target.value;reference.seed=(reference.seed+31)>>>0;drawScene()};
