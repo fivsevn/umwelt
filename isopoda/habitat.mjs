@@ -1,4 +1,4 @@
-import {bindPointerInteraction} from './interaction.mjs?v=observer-memory-1';
+import {bindPointerInteraction} from './interaction.mjs?v=environment-memory-1';
 import {createReactions,actionFocus,drawReactionBubbles} from './reactions.mjs?v=bubbles-1';
 import {environmentFor} from './environment.mjs?v=cohort-4';
 import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?v=appendage-2';
