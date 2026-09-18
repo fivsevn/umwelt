@@ -31,14 +31,7 @@ jobs:
       - name: Prepare Pages artifact
         run: |
           mkdir -p _site
-          rsync -a --delete \
-            --exclude '.git/' \
-            --exclude '.github/' \
-            --exclude '_site/' \
-            --exclude 'isopoda/scenery-test.html' \
-            --exclude 'isopoda/scenery-test.css' \
-            --exclude 'isopoda/scenery-test.mjs' \
-            ./ _site/
+          rsync -a --delete             --exclude '.git/'             --exclude '.github/'             --exclude '_site/'             --exclude 'tests/'             --exclude 'isopoda/anatomy-test.html'             --exclude 'isopoda/exploded-preview.html'             --exclude 'isopoda/exploded-preview.css'             --exclude 'isopoda/projection-preview.html'             --exclude 'isopoda/scenery-test.html'             --exclude 'isopoda/scenery-test.css'             --exclude 'isopoda/scenery-test.mjs'             ./ _site/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
