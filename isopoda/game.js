@@ -1,9 +1,9 @@
 import {renderCatalog,renderSources} from './catalog.mjs?v=quiet-ui-3';
 import {SPECIES,speciesById} from './species.mjs?v=quiet-ui-3';
-import {ENDINGS} from './content.mjs?v=narrative-pool-2';
-import {createRun,validRun,migrateV3,runSpecies,migrateLegacy,ensureScene,choose,advance,timeFor,recordDirectInteraction,endingMemoryFor} from './engine.mjs?v=molt-sequence-2';
+import {ENDINGS} from './content.mjs?v=interaction-story-1';
+import {createRun,validRun,migrateV3,runSpecies,migrateLegacy,ensureScene,choose,advance,timeFor,recordDirectInteraction,endingMemoryFor} from './engine.mjs?v=interaction-story-1';
 import {makeBug,makeIsopod,renderModel,exuviaPixels} from './sprites.mjs?v=exuvia-1';
-import {createHabitat} from './habitat.mjs?v=habitat-art-3';
+import {createHabitat} from './habitat.mjs?v=interaction-story-1';
 import {restoreCollection,drawCohort,unlock} from './collection.mjs?v=quiet-ui-3';
 import {encounterById,encounterFor} from './encounters.mjs?v=molt-sequence-1';
 import {iconButton,createInstrument} from './ui.mjs?v=quiet-ui-3';
@@ -16,7 +16,7 @@ let state=validRun(stored)?stored:legacy?migrateLegacy(legacy,Date.now()>>>0):cr
 let archives=read(ARCHIVE);if(!Array.isArray(archives))archives=[];archives=archives.filter(a=>a&&ENDINGS.some(e=>e.id===a.id));
 let collection=restoreCollection(read(COLLECTION),hasRun?state:null,archives);write(COLLECTION,collection);
 let playing=false,sound=false,audio,drawerMode='catalog',page=0,lastScene=null,referenceReturn=null;
-const habitat=createHabitat($('#habitat'),$('#critters'),()=>state,event=>{if(!playing||state.stage==='ended')return;recordDirectInteraction(state,event);save()});
+const habitat=createHabitat($('#habitat'),$('#critters'),()=>state,event=>{if(!playing||state.stage==='ended')return;const record=recordDirectInteraction(state,event);save();if(record)render()});
 const emptyHabitat=createHabitat($('#emptyHabitat'),$('#emptyCritters'),()=>state);
 const instrument=createInstrument($('#instruments'));
 function refreshIconLabels(){for(const [id,kind,label] of [['soundBtn','sound',sound?t('soundOff'):t('soundOn')],['catalogBtn','book',t('archive')],['sourcesBtn','source',t('sources')],['journalBtn','pencil',t('journal')],['zoomOut','minus',t('zoomOut')],['zoomIn','plus',t('zoomIn')],['zoomReset','center',t('zoomReset')]])iconButton($('#'+id),kind,label)}
@@ -33,6 +33,7 @@ function render(){
  const scene=sceneNow(),p=speciesById(state.cohort[0].species),encounter=encounterById(scene.encounter);
  $('#dayLabel').textContent=clock();$('#recordTitle').textContent=state.stage==='feedback'?t('recordLater'):t('recordNow');$('#observation').textContent=state.stage==='feedback'?state.feedback:scene.text;
  $('#activityLabel').textContent=getLanguage()==='zh'?(encounter?.title||''):t('habitatWindow');$('#activityLabel').dataset.motion=encounter?.motion||'';
+ const cue=state.stage==='feedback'?(state.interactionIntent?.hint||''):'';$('#interactionCue').hidden=!cue;$('#interactionCue').textContent=cue;
  $('#nextBtn').disabled=state.stage!=='feedback';$('#nextBtn').textContent=state.stage==='choice'?t('holdMoment'):state.day===7&&state.period===2?t('closeGently'):t('later',{time:timeFor(state.seed,state.period===2?state.day+1:state.day,(state.period+1)%3)});
  buttons(scene);$('#miniView').replaceChildren();$('#miniView').hidden=true;
  if(state.stage==='choice'&&scene.kind==='count'){$('#miniView').hidden=false;for(let i=0;i<scene.count;i++)$('#miniView').append(makeBug(p,i))}
@@ -48,7 +49,7 @@ function begin(){
  if(state.stage==='ended'){showEnd();return}
  $('#playView').hidden=false;lastScene=null;sceneNow();habitat.reset();habitat.home();$('#zoomLevel').textContent='1×';render();habitat.start();
 }
-function act(id){if(!choose(state,id))return;habitat.react(id);tone(130);render()}
+function act(id){if(!choose(state,id))return;if(!state.interactionIntent)habitat.react(id);tone(130);render()}
 function next(){if(!advance(state))return;tone(95);save();if(state.stage==='ended'){showEnd();return}render()}
 function drawEndMolts(){
  const canvas=$('#endMolts'),shells=Array.isArray(state.collectedShells)?state.collectedShells.slice(-8):[];if(!canvas)return;
