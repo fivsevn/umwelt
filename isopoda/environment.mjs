@@ -2,8 +2,23 @@ import {speciesById} from './species.mjs?v=cohort-4';
 // Spatial traces advance with observation turns, never with frame rate or wall time.
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function environmentFor(s){
- if(s.environment?.version===1)return s.environment;
- return s.environment={version:1,wetZones:[{x:42,y:215,rx:30,ry:202,moisture:s.humidity}],leaves:[{id:'leaf-a',x:275,y:110,a:-.45,gap:true,age:0},{id:'leaf-b',x:290,y:344,a:.35,gap:true,age:0},...(s.cover>65?[{id:'leaf-old',x:90,y:315,a:-.15,gap:true,age:0}]:[])],foodNodes:s.food?[{x:320,y:258,amount:s.food,age:0}]:[],shelter:{x:190,y:215},disturbance:0,scuffs:[],removedShells:[]};
+ if(s.environment?.version===2)return s.environment;
+ if(s.environment?.version===1){
+  s.environment.version=2;
+  s.environment.shells=Array.isArray(s.environment.shells)?s.environment.shells:[];
+  s.environment.removedShells=Array.isArray(s.environment.removedShells)?s.environment.removedShells:[];
+  return s.environment;
+ }
+ return s.environment={version:2,wetZones:[{x:42,y:215,rx:30,ry:202,moisture:s.humidity}],leaves:[{id:'leaf-a',x:275,y:110,a:-.45,gap:true,age:0},{id:'leaf-b',x:290,y:344,a:.35,gap:true,age:0},...(s.cover>65?[{id:'leaf-old',x:90,y:315,a:-.15,gap:true,age:0}]:[])],foodNodes:s.food?[{x:320,y:258,amount:s.food,age:0}]:[],shelter:{x:190,y:215},disturbance:0,scuffs:[],shells:[],removedShells:[]};
+}
+export function syncSceneTrace(s,scene){
+ const e=environmentFor(s),trace=scene?.shellTrace;if(!trace||!trace.id||e.removedShells.includes(trace.id)||e.shells.some(shell=>shell.id===trace.id))return e;
+ e.shells.push({id:trace.id,source:trace.source||scene.encounter||null,specimen:trace.specimen||null,phase:trace.phase||'whole',x:Math.round(trace.x),y:Math.round(trace.y),a:Number(trace.a)||0,age:0,createdDay:s.day,createdPeriod:s.period});
+ e.shells=e.shells.slice(-12);return e;
+}
+export function takeShell(s,id){
+ const e=environmentFor(s),index=e.shells.findIndex(shell=>shell.id===id);if(index<0)return null;
+ const [shell]=e.shells.splice(index,1);if(!e.removedShells.includes(id))e.removedShells.push(id);e.removedShells=e.removedShells.slice(-24);return shell;
 }
 export function changeEnvironment(s,id){
  const e=environmentFor(s),turn=s.records.length;
@@ -27,6 +42,8 @@ export function ageEnvironment(s){
  for(const z of e.wetZones)z.moisture=Math.max(12,z.moisture-(s.vent>70?8:4));
  for(const l of e.leaves)l.age++;
  if(s.period===0){let remaining=1;for(const f of e.foodNodes){const take=Math.min(remaining,f.amount);f.amount-=take;remaining-=take;f.age++}}
+ for(const shell of e.shells)shell.age=(shell.age||0)+1;
+ e.shells=e.shells.filter(shell=>shell.age<9);
  e.disturbance=Math.max(0,e.disturbance-1);
 }
 // Score available microhabitats separately for each animal; never average taxa.
