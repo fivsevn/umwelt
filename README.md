@@ -14,6 +14,9 @@ https://umwelt.fivsevn.com
 **Isopoda Fugue / 等足目赋格**  
 https://umwelt.fivsevn.com/isopoda/
 
+**阿西莫夫形态实验室 / Asimov Morphology Lab**  
+https://umwelt.fivsevn.com/isopoda/morphology/
+
 ---
 
 ## Isopoda Fugue / 等足目赋格
@@ -57,15 +60,18 @@ UMWELT 当前主要由静态 Web 技术构成：
 node --test tests/*.test.mjs
 ```
 
-开发用视觉 / 诊断页面（不属于正式游戏流程）：
+开发用视觉 / 诊断页面（仅本地使用，Pages 部署明确排除）：
 
 ```text
 /tests/morphology.html            morphology / stage / condition verification
 /tests/pixel-life.html            habitat / behaviour preview
+/isopoda/anatomy-test.html        compatibility / anatomy development entry
 /isopoda/projection-preview.html  posture / orientation matrix
 /isopoda/exploded-preview.html    clean exploded-morphology preview
-/isopoda/anatomy-test.html        Asimov morphology lab / wiki prototype
+/isopoda/scenery-test.html        habitat scenery asset lab
 ```
+
+公开展示页与测试页严格分开。虽然“阿西莫夫形态实验室”名称中包含“实验室”，但它是正式公开资料页，不属于测试页面。
 
 ---
 
