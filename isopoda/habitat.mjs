@@ -3,7 +3,7 @@ import {createReactions,actionFocus,drawReactionBubbles} from './reactions.mjs?v
 import {environmentFor} from './environment.mjs?v=environment-memory-1';
 import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?v=appendage-2';
 import {encounterById,responseMode} from './encounters.mjs?v=narrative-pool-2';
-import {pixelAnatomy,renderModel} from './sprites.mjs?v=appendage-2';
+import {pixelAnatomy,renderModel,exuviaPixels} from './sprites.mjs?v=exuvia-1';
 import {speciesById} from './species.mjs?v=cohort-4';
 // Habitat scenery and specimens share one world lattice, but scenery is allowed to sit one visual step behind the specimens.
 export const SCENE_PIXEL=1;
@@ -257,19 +257,15 @@ function bark(x,y,a=0,variant=0,scale=1){
  }
 }
 function drawMoltShell(shell){
- const age=Math.max(0,shell.age||0),fade=Math.max(.32,.82-age*.055),phase=shell.phase||'whole',segments=phase==='whole'?9:6,length=phase==='whole'?18:12;
- const ca=Math.cos(shell.a||0),sa=Math.sin(shell.a||0),offset=phase==='anterior'?-3:phase==='posterior'?3:0;
- ctx.save();ctx.globalAlpha=fade;
- const plot=(u,v,color)=>px(ctx,shell.x+(u+offset)*ca-v*sa,shell.y+(u+offset)*sa+v*ca,1,1,color);
- for(let i=0;i<segments;i++){
-  if(age>2&&((i+Math.floor(age))%5===1))continue;
-  const t=segments===1?0:i/(segments-1),u=-length/2+t*length,rim=2+Math.sin(t*Math.PI)*3.2;
-  plot(u,-rim,'#ecebdc');plot(u,rim,'#bdbda9');
-  if(i%2===0)plot(u,0,'#d8d7c4');
-  if(i<segments-1){plot(u+1,-rim+1,'#dedcca');plot(u+1,rim-1,'#c9c8b4')}
+ const specimen=state.cohort?.find(c=>c.id===shell.specimen)||state.cohort?.[0];
+ const species=speciesById(specimen?.species||state.cohort?.[0]?.species||'dairy');
+ const model=renderModel(species.visual,{stage:specimen?.stage||'M',seed:specimen?.seed||shell.id});
+ const cells=exuviaPixels(model,{phase:shell.phase||'whole',age:shell.age||0});
+ const scale=.82*model.growth.scale,ca=Math.cos(shell.a||0),sa=Math.sin(shell.a||0);
+ for(const [sx,sy,color] of cells){
+  const ox=sx*scale,oy=sy*scale;
+  px(ctx,shell.x+ox*ca-oy*sa,shell.y+ox*sa+oy*ca,1,1,color);
  }
- if(phase==='whole'){plot(-length/2-2,0,'#e7e5d1');plot(length/2+2,0,'#aaa994')}
- ctx.restore();
 }
 function cuttlebone(x,y,a=-.42,scale=.72){
  const ca=Math.cos(a),sa=Math.sin(a),rx=25*scale,ry=10*scale;
