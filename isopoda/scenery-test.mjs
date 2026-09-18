@@ -59,7 +59,7 @@ function drawObject(target,asset,item,preview=false){
  if(asset.category==='leaf')return drawLeaf(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
  if(asset.category==='moss')return drawMossPatch(target,{...p,x,y,seed,rx:(p.rx||30)*mult,ry:(p.ry||20)*mult});
  if(asset.category==='bark')return drawBark(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
- if(asset.category==='stone')return drawStone(target,{...p,x,y,seed,scale:(p.scale||1)*mult});
+ if(asset.category==='stone')return drawStone(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
  if(asset.category==='calcium')return drawCuttlebone(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
  if(asset.id.startsWith('twig'))return drawTwig(target,{...p,x,y,a,seed,length:(p.length||18)*mult});
  if(asset.id.startsWith('woodchip'))return drawWoodChip(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
