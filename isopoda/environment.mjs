@@ -43,7 +43,7 @@ export function changeEnvironment(s,id){
   const n=e.leaves.length,h=((s.seed>>>0)^Math.imul(turn+11,2654435761)^Math.imul(n+3,2246822507))>>>0;
   const sites=[[92,164],[276,142],[116,300],[286,314],[206,108],[326,244],[73,356],[238,356],[156,225],[312,382],[67,238],[252,252]];
   const site=sites[(n+((h>>>17)%sites.length))%sites.length],x=clamp(site[0]+(h%23)-11,48,338),y=clamp(site[1]+((h>>>8)%21)-10,55,388);
-  const a=((h>>>12)%628)/100-3.14,scale=.82+((h>>>5)%6)*.09;
+  const a=((h>>>12)%628)/100-3.14,scale=1.34+((h>>>5)%6)*.13;
   e.leaves.push({id:'leaf-'+turn,x,y,a,gap:id!=='flat',age:0,scale});
  }
  if(id==='food')e.foodNodes.push({x:310-(turn%3)*24,y:258+(turn%2)*30,amount:1,age:0});
