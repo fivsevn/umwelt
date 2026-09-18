@@ -13,8 +13,13 @@ export function createRun(species='dairy',seed=Date.now()>>>0){
  const p=speciesById(species);return {startedOn,version:VERSION,narrativeVersion:1,seed:seed>>>0,cohort:cohortFor(p.id,seed),day:1,period:0,stage:'choice',humidity:p.wet,temp:23,vent:55,light:54,cover:p.cover,food:1,interventions:0,quiet:0,accuracy:0,maps:0,labels:0,care:0,directTouches:0,directGrabs:0,directMoves:0,groundTaps:0,barkLifts:0,shellCollects:0,collectedShells:[],directRecords:[],interactionDiscoveries:{tap:false,grab:false,lift:false,collect:false},interactionIntent:null,observerContradictions:[],records:[],ending:null,feedback:'',scene:null};
 }
 function interactionState(s){
- s.interactionDiscoveries=s.interactionDiscoveries&&typeof s.interactionDiscoveries==='object'?s.interactionDiscoveries:{};
- for(const key of ['tap','grab','lift','collect'])s.interactionDiscoveries[key]=!!s.interactionDiscoveries[key];
+ const hadDiscoveries=!!(s.interactionDiscoveries&&typeof s.interactionDiscoveries==='object');
+ s.interactionDiscoveries=hadDiscoveries?s.interactionDiscoveries:{};
+ const past=Array.isArray(s.directRecords)?s.directRecords:[];
+ for(const key of ['tap','grab','lift','collect']){
+  const seen=key==='grab'?past.some(r=>r.type==='grab'||r.type==='place'):past.some(r=>r.type===key);
+  s.interactionDiscoveries[key]=!!s.interactionDiscoveries[key]||(!hadDiscoveries&&seen);
+ }
  if(!Array.isArray(s.observerContradictions))s.observerContradictions=[];
  return s.interactionDiscoveries;
 }
