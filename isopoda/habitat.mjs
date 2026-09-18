@@ -1,6 +1,6 @@
 import {bindPointerInteraction} from './interaction.mjs?v=environment-memory-1';
 import {createReactions,actionFocus,drawReactionBubbles} from './reactions.mjs?v=bubbles-1';
-import {environmentFor} from './environment.mjs?v=molt-sequence-1';
+import {environmentFor} from './environment.mjs?v=leaf-integration-1';
 import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?v=appendage-2';
 import {encounterById,responseMode} from './encounters.mjs?v=narrative-pool-2';
 import {pixelAnatomy,renderModel,exuviaPixels} from './sprites.mjs?v=exuvia-1';
