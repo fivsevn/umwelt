@@ -28,7 +28,7 @@ export function exuviaPixels(m,{phase='whole',age=0}={}){
   const appendage=['legs','antennae','uropods'].includes(region),plate=/^(p|epimera|skirt|noduli)\d/.test(region);
   const n=Number((region.match(/\d+/)||['0'])[0]);
   const rgb=edge?[239,238,221]:appendage?[186,188,174]:plate&&n%2?[218,218,202]:[207,208,193];
-  const alpha=fade*(edge?1:appendage?.70:.79);
+  const alpha=fade*(edge?1:(appendage?0.70:0.79));
   out.push([x,y,`rgba(${rgb[0]},${rgb[1]},${rgb[2]},${alpha.toFixed(3)})`]);
  }
  return out;
