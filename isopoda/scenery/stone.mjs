@@ -1,8 +1,8 @@
-import {px,hash32} from './pixel.mjs';
+import {px,rot,hash32} from './pixel.mjs';
 
 // Code-drawn placeholder stones for the habitat asset lab.
 // Kept separate from scenery/index.mjs so the live game is not changed by this test pass.
-export function drawStone(ctx,{x=0,y=0,scale=1,variant=0,seed=0}={}){
+export function drawStone(ctx,{x=0,y=0,a=0,scale=1,variant=0,seed=0}={}){
  const shapes=[
   {rx:12,ry:8,flat:.18},
   {rx:15,ry:6,flat:.34},
@@ -20,10 +20,14 @@ export function drawStone(ctx,{x=0,y=0,scale=1,variant=0,seed=0}={}){
   let tone=edge?0:ny<-.18?3:2;
   if(h%13===0)tone=Math.min(4,tone+1);
   if(h%19===0)tone=Math.max(0,tone-1);
-  px(ctx,x+xx,y+yy,1,1,pal[tone]);
+  const [dx,dy]=rot(xx,yy,a);
+  px(ctx,x+dx,y+dy,1,1,pal[tone]);
  }
  for(let i=-Math.floor(rx*.55);i<=Math.floor(rx*.45);i+=4){
   const h=hash32(seed,'vein',i);
-  if(h%3===0)px(ctx,x+i,y-Math.max(1,Math.round(ry*.18)),2,1,'#96927c');
+  if(h%3===0){
+   const [dx,dy]=rot(i,-Math.max(1,Math.round(ry*.18)),a);
+   px(ctx,x+dx,y+dy,2,1,'#96927c');
+  }
  }
 }
