@@ -30,7 +30,10 @@ export function changeEnvironment(s,id){
  if(['leaf','gap','flat'].includes(id)){const n=e.leaves.length;e.leaves.push({id:'leaf-'+turn,x:85+(n%3)*85,y:300-Math.floor(n/3)*48,a:(n%3-1)*.35,gap:id!=='flat',age:0})}
  if(id==='food')e.foodNodes.push({x:310-(turn%3)*24,y:258+(turn%2)*30,amount:1,age:0});
  if(id==='clean'){let left=2;for(const f of e.foodNodes){const take=Math.min(left,f.amount);f.amount-=take;left-=take}}
- if(id==='remove'&&s.scene?.encounter&&!e.removedShells.includes(s.scene.encounter))e.removedShells.push(s.scene.encounter);
+ if(id==='remove'&&s.scene?.encounter){
+  const removed=e.shells.filter(shell=>shell.source===s.scene.encounter);e.shells=e.shells.filter(shell=>shell.source!==s.scene.encounter);
+  for(const shell of removed)if(!e.removedShells.includes(shell.id))e.removedShells.push(shell.id);
+ }
  if(['lift','clean','remove','wet-all','flat'].includes(id)){
   e.disturbance=3;e.scuffs.push({x:e.shelter.x,y:e.shelter.y+30,turn});
   if(id==='lift'){e.shelter.x=190+(turn%2?12:-12);e.shelter.y=209}
