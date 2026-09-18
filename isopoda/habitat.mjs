@@ -1,7 +1,7 @@
 import {bindPointerInteraction} from './interaction.mjs?v=environment-memory-1';
 import {createReactions,actionFocus,drawReactionBubbles} from './reactions.mjs?v=bubbles-1';
-import {environmentFor} from './environment.mjs?v=environment-memory-1';
-import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?v=appendage-2';
+import {environmentFor} from './environment.mjs?v=molt-sequence-1';
+import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?v=molt-sequence-1';
 import {encounterById,responseMode} from './encounters.mjs?v=narrative-pool-2';
 import {pixelAnatomy,renderModel,exuviaPixels} from './sprites.mjs?v=exuvia-1';
 import {speciesById} from './species.mjs?v=cohort-4';
@@ -42,13 +42,22 @@ const overlay=document.createElement('canvas');overlay.width=384;overlay.height=
 const ctx=world.getContext('2d');ctx.imageSmoothingEnabled=false;
 let state=getState(),critters=[],last=0,active=false,effect=null,frame=0,encounter=null,elapsed=0,empty=false,shelterHeld=false;
 const camera={zoom:1,x:192,y:215},reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function encounterForScene(scene){
+ const base=encounterById(scene?.encounter);if(!base)return null;
+ return {...base,place:Array.isArray(scene?.encounterPlace)?scene.encounterPlace:base.place,specimenId:base.motion==='molt'?scene?.moltVisual?.specimen:null};
+}
+function placeSceneMolt(scene){
+ const molt=scene?.moltVisual;if(!molt)return;
+ const actor=critters.find(c=>c.specimenId===molt.specimen);if(!actor)return;
+ actor.x=molt.x;actor.y=molt.y;actor.a=molt.a||0;actor.posture='molting';actor.molt=molt.phase||'posterior';actor.moving=false;actor.hidden=false;actor.occlusion=0;
+}
 function reset(options={}){
  interaction.cancel();state=getState();empty=!!options.empty;layer.replaceChildren();elapsed=0;effect=null;shelterHeld=false;reactions.reset();
  critters=empty?[]:makeIndividuals(state.cohort).map(c=>({...c,interaction:speciesById(c.species).interaction,model:renderModel(speciesById(c.species).visual,{stage:c.stage,seed:c.seed}),pixels:new Map()}));
  canvas.dataset.specimens=String(critters.length);canvas.dataset.taxa=[...new Set(critters.map(c=>c.species))].join(',');
- encounter=empty?null:encounterById(state.scene?.encounter);stageIndividuals(critters,encounter,{initial:true});drawHabitat(0);
+ encounter=empty?null:encounterForScene(state.scene);stageIndividuals(critters,encounter,{initial:true});if(!empty)placeSceneMolt(state.scene);drawHabitat(0);
 }
-function stage(scene){interaction.cancel();encounter=encounterById(scene.encounter);elapsed=0;effect=null;shelterHeld=false;reactions.reset();stageIndividuals(critters,encounter);if(encounter){[camera.x,camera.y]=encounter.place}drawHabitat(0)}
+function stage(scene){interaction.cancel();encounter=encounterForScene(scene);elapsed=0;effect=null;shelterHeld=false;reactions.reset();stageIndividuals(critters,encounter);placeSceneMolt(scene);if(encounter){[camera.x,camera.y]=encounter.place}drawHabitat(0)}
 function react(id){state=getState();const point=actionFocus(id,state,encounter);const selected=[...critters].sort((a,b)=>Math.hypot(a.x-point.x,a.y-point.y)-Math.hypot(b.x-point.x,b.y-point.y)).slice(0,2).map(c=>c.id);effect={id,selected,mode:responseMode(id),start:elapsed,until:elapsed+10};drawHabitat(performance.now())}
 function present(){
  const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;
