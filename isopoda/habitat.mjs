@@ -34,7 +34,7 @@ export function cameraWindow(width,height,zoom=1,x=192,y=215){
  x=Math.max(sw/2,Math.min(384-sw/2,x));y=Math.max(sh/2,Math.min(430-sh/2,y));
  return {scale,sw,sh,x,y,sx:x-sw/2,sy:y-sh/2};
 }
-export function createHabitat(canvas,layer,getState){
+export function createHabitat(canvas,layer,getState,onDirectInteraction=()=>{}){
 const display=canvas.getContext('2d'),world=document.createElement('canvas');world.width=384;world.height=430;
 const backdrop=document.createElement('canvas');backdrop.width=Math.round(world.width*BACKGROUND_SCALE);backdrop.height=Math.round(world.height*BACKGROUND_SCALE);
 const backdropCtx=backdrop.getContext('2d');backdropCtx.imageSmoothingEnabled=false;
@@ -72,7 +72,8 @@ const interaction=bindPointerInteraction(canvas,{
   const r=canvas.getBoundingClientRect(),scale=Math.max(1,r.width/384)*camera.zoom;
   camera.x-=dx/scale;camera.y-=dy/scale;present();
  },
- draw:()=>drawHabitat(performance.now())
+ draw:()=>drawHabitat(performance.now()),
+ report:event=>onDirectInteraction({type:event.type,specimen:event.actor?.specimenId||null,point:event.point||null})
 });
 canvas.addEventListener('wheel',e=>{e.preventDefault();zoom(camera.zoom+(e.deltaY<0?.25:-.25));const label=document.querySelector('#zoomLevel');if(label)label.textContent=camera.zoom.toFixed(1)+'×'},{passive:false});
 function tick(t){if(!active)return;if(!document.hidden&&t-last>50){const dt=Math.min(.1,(t-last)/1000);state=getState();elapsed+=dt;stepIndividuals(critters,{encounter,state,time:elapsed,dt,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null,reduced});reactions.update(critters,{encounter,state,time:elapsed,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});drawHabitat(t);last=t}frame=requestAnimationFrame(tick)}
