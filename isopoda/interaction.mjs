@@ -25,7 +25,7 @@ export function placeIndividual(actor,point){
  actor.y=Math.max(30,Math.min(400,point.y));
 }
 // A single captured pointer owns either an animal gesture or the existing camera pan.
-export function bindPointerInteraction(canvas,{enabled,worldPoint,hitTest,pan,draw,report=()=>{}}){
+export function bindPointerInteraction(canvas,{enabled,worldPoint,hitTest,objectHitTest=()=>null,pan,draw,report=()=>{},objectHoldStart=()=>{},objectHoldEnd=()=>{},groundTap=()=>{}}){
  let gesture=null;
  // Mobile Safari/Chrome must treat the habitat as a game surface, not selectable page content.
  canvas.style.touchAction='none';
@@ -37,39 +37,53 @@ export function bindPointerInteraction(canvas,{enabled,worldPoint,hitTest,pan,dr
  function finish(event,cancel=false){
   if(!gesture||(event&&event.pointerId!==gesture.id))return;
   const g=gesture;clear();gesture=null;
+  const point=event?worldPoint(event):null;
   if(g.actor){
    const config=interactionConfig(g.actor);
-   if(g.grabbed&&!cancel&&event){const point=worldPoint(event);placeIndividual(g.actor,point);report({type:'place',actor:g.actor,point})}
-   if(!cancel&&!g.grabbed&&!g.moved)report({type:'tap',actor:g.actor,point:event?worldPoint(event):null});
+   if(g.grabbed&&!cancel&&point){placeIndividual(g.actor,point);report({type:'place',actor:g.actor,point})}
+   if(!cancel&&!g.grabbed&&!g.moved)report({type:'tap',actor:g.actor,point});
    holdIndividual(g.actor,!cancel&&!g.grabbed&&!g.moved?'defensive':'recovering',
     !cancel&&!g.grabbed&&!g.moved?config.defenseDuration:config.recoveryTime);
-  }
+  }else if(g.object){
+   if(g.objectHeld)objectHoldEnd(g.object,point,{cancel});
+  }else if(!cancel&&!g.moved&&point)groundTap(point);
   if(canvas.hasPointerCapture(g.id))canvas.releasePointerCapture(g.id);
   draw();
  }
  canvas.addEventListener('pointerdown',event=>{
   if(gesture||!enabled()||event.button!==0||event.isPrimary===false)return;
   event.preventDefault();
-  const actor=hitTest(worldPoint(event));
-  gesture={id:event.pointerId,actor,x:event.clientX,y:event.clientY,startX:event.clientX,startY:event.clientY,moved:false,grabbed:false};
+  const point=worldPoint(event),actor=hitTest(point),object=actor?null:objectHitTest(point);
+  gesture={id:event.pointerId,actor,object,x:event.clientX,y:event.clientY,startX:event.clientX,startY:event.clientY,moved:false,grabbed:false,objectHeld:false};
   canvas.setPointerCapture(event.pointerId);
+  const g=gesture;
   if(actor){
    holdIndividual(actor,'pressed');
-   const g=gesture;
    g.timer=setTimeout(()=>{
     if(gesture!==g||g.moved)return;
     g.grabbed=true;holdIndividual(actor,'grabbed');report({type:'grab',actor,point:worldPoint(event)});draw();
    },interactionConfig(actor).longPress);
    draw();
+  }else if(object){
+   g.timer=setTimeout(()=>{
+    if(gesture!==g||g.moved)return;
+    g.objectHeld=true;objectHoldStart(object,point);draw();
+   },500);
   }
  });
  canvas.addEventListener('pointermove',event=>{
   const g=gesture;if(!g||event.pointerId!==g.id)return;
   event.preventDefault();
+  const distance=Math.hypot(event.clientX-g.startX,event.clientY-g.startY);
   if(g.actor){
    if(g.grabbed){placeIndividual(g.actor,worldPoint(event));draw()}
-   else if(Math.hypot(event.clientX-g.startX,event.clientY-g.startY)>10){g.moved=true;clear()}
-  }else pan(event.clientX-g.x,event.clientY-g.y);
+   else if(distance>10){g.moved=true;clear()}
+  }else if(g.object){
+   if(!g.objectHeld&&distance>10){g.moved=true;clear();pan(event.clientX-g.x,event.clientY-g.y)}
+  }else{
+   if(distance>8)g.moved=true;
+   pan(event.clientX-g.x,event.clientY-g.y);
+  }
   g.x=event.clientX;g.y=event.clientY;
  });
  canvas.addEventListener('pointerup',event=>finish(event));
