@@ -136,3 +136,6 @@ html,body{height:100%;overflow:hidden}#game{height:100dvh;padding:6px 8px max(6p
 
 /* Keep the reference-art pixels on an exact 4x lattice; Safari otherwise softens background images. */
 .habitat-art-bg,.habitat-art-bark{image-rendering:-webkit-optimize-contrast;image-rendering:crisp-edges;image-rendering:pixelated}
+
+/* Interaction discovery is presented as a quiet continuation of the observation, never as tutorial chrome. */
+.interaction-cue{min-height:22px;padding:3px 8px 2px;border-left:2px solid #758061;color:#9da88b;font-size:11px;line-height:1.55;letter-spacing:.02em;background:rgba(44,54,39,.46)}
