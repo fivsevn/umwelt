@@ -1,5 +1,4 @@
-import {drawSubstrate,drawLeaf,drawMossPatch,drawBark,drawCuttlebone,drawTwig,drawWoodChip} from './scenery/index.mjs?v=1';
-import {drawStone} from './scenery/stone.mjs?v=1';
+import {drawStudySubstrate,drawStudyLeaf,drawStudyMoss,drawStudyBark,drawStudyStone,drawStudyCuttlebone,drawStudyTwig,drawStudyWoodChip} from '../tests/scenery-study.mjs?v=jp16-1';
 
 const $=s=>document.querySelector(s);
 const scene=$('#scene'),ctx=scene.getContext('2d');ctx.imageSmoothingEnabled=false;
@@ -51,18 +50,18 @@ cloneStarter();
 
 function drawBackground(target,assetId=state.background,seed=state.backgroundSeed){
  const asset=ASSET_BY_ID.get(assetId)||ASSET_BY_ID.get('substrate-dry');
- drawSubstrate(target,{...asset.params,seed});
+ drawStudySubstrate(target,{...asset.params,seed});
 }
 
 function drawObject(target,asset,item,preview=false){
  const x=item.x,y=item.y,a=item.a||0,seed=item.seed||0,mult=item.scale??1,p=asset.params||{};
- if(asset.category==='leaf')return drawLeaf(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
- if(asset.category==='moss')return drawMossPatch(target,{...p,x,y,seed,rx:(p.rx||30)*mult,ry:(p.ry||20)*mult});
- if(asset.category==='bark')return drawBark(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
- if(asset.category==='stone')return drawStone(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
- if(asset.category==='calcium')return drawCuttlebone(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
- if(asset.id.startsWith('twig'))return drawTwig(target,{...p,x,y,a,seed,length:(p.length||18)*mult});
- if(asset.id.startsWith('woodchip'))return drawWoodChip(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
+ if(asset.category==='leaf')return drawStudyLeaf(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
+ if(asset.category==='moss')return drawStudyMoss(target,{...p,x,y,seed,rx:(p.rx||30)*mult,ry:(p.ry||20)*mult});
+ if(asset.category==='bark')return drawStudyBark(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
+ if(asset.category==='stone')return drawStudyStone(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
+ if(asset.category==='calcium')return drawStudyCuttlebone(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
+ if(asset.id.startsWith('twig'))return drawStudyTwig(target,{...p,x,y,a,seed,length:(p.length||18)*mult});
+ if(asset.id.startsWith('woodchip'))return drawStudyWoodChip(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
 }
 
 function drawScene(){
