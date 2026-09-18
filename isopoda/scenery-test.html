@@ -40,6 +40,11 @@
  <section class="panel viewer-panel">
   <div class="viewer-head">
    <div><span>SCENE SANDBOX</span><small>拖动物件测试组合与遮挡</small></div>
+   <div class="specimen-reference" aria-label="游戏内实际比例标本参考">
+    <label><span>SPECIMEN</span><select id="referenceSpecies"></select></label>
+    <label><span>STAGE</span><select id="referenceStage"><option value="S">S</option><option value="M" selected>M</option><option value="L">L</option></select></label>
+    <button id="toggleReference" type="button" aria-pressed="true">GAME SCALE · ON</button>
+   </div>
    <div class="viewer-actions">
     <button id="resetScene">RESET</button>
     <button id="clearScene">CLEAR OBJECTS</button>
@@ -52,6 +57,7 @@
   <div class="viewer-foot">
    <span>pointer: <b id="pointerReadout">—</b></span>
    <span>background: <b id="backgroundReadout">substrate-dry</b></span>
+   <span>specimen: <b id="specimenReadout">Dairy Cow · M · 1× game habitat scale</b></span>
    <span>renderer: <b>Canvas fillRect()</b></span>
   </div>
  </section>
@@ -95,6 +101,6 @@
  <span>isopoda/scenery-test.html</span>
 </footer>
 </main>
-<script type="module" src="./scenery-test.mjs?v=2"></script>
+<script type="module" src="./scenery-test.mjs?v=3"></script>
 </body>
 </html>
