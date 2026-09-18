@@ -1,9 +1,9 @@
 import {renderCatalog,renderSources} from './catalog.mjs?v=quiet-ui-3';
 import {SPECIES,speciesById} from './species.mjs?v=quiet-ui-3';
 import {ENDINGS} from './content.mjs?v=quiet-ui-3';
-import {createRun,validRun,migrateV3,runSpecies,migrateLegacy,ensureScene,choose,advance,timeFor} from './engine.mjs?v=quiet-ui-3';
+import {createRun,validRun,migrateV3,runSpecies,migrateLegacy,ensureScene,choose,advance,timeFor,recordDirectInteraction,endingMemoryFor} from './engine.mjs?v=observer-memory-1';
 import {makeBug,makeIsopod} from './sprites.mjs?v=quiet-ui-3';
-import {createHabitat} from './habitat.mjs?v=pointer-1';
+import {createHabitat} from './habitat.mjs?v=observer-memory-1';
 import {restoreCollection,drawCohort,unlock} from './collection.mjs?v=quiet-ui-3';
 import {encounterById,encounterFor} from './encounters.mjs?v=quiet-ui-3';
 import {iconButton,createInstrument} from './ui.mjs?v=quiet-ui-3';
@@ -16,7 +16,7 @@ let state=validRun(stored)?stored:legacy?migrateLegacy(legacy,Date.now()>>>0):cr
 let archives=read(ARCHIVE);if(!Array.isArray(archives))archives=[];archives=archives.filter(a=>a&&ENDINGS.some(e=>e.id===a.id));
 let collection=restoreCollection(read(COLLECTION),hasRun?state:null,archives);write(COLLECTION,collection);
 let playing=false,sound=false,audio,drawerMode='catalog',page=0,lastScene=null,referenceReturn=null;
-const habitat=createHabitat($('#habitat'),$('#critters'),()=>state);
+const habitat=createHabitat($('#habitat'),$('#critters'),()=>state,event=>{if(!playing||state.stage==='ended')return;recordDirectInteraction(state,event);save()});
 const emptyHabitat=createHabitat($('#emptyHabitat'),$('#emptyCritters'),()=>state);
 const instrument=createInstrument($('#instruments'));
 function refreshIconLabels(){for(const [id,kind,label] of [['soundBtn','sound',sound?t('soundOff'):t('soundOn')],['catalogBtn','book',t('archive')],['sourcesBtn','source',t('sources')],['journalBtn','pencil',t('journal')],['zoomOut','minus',t('zoomOut')],['zoomIn','plus',t('zoomIn')],['zoomReset','center',t('zoomReset')]])iconButton($('#'+id),kind,label)}
@@ -62,7 +62,7 @@ function drawDrawer(){
  if(drawerMode==='catalog'){
   total=SPECIES.length;page=(page+total)%total;const p=SPECIES[page],known=collection.unlocked.includes(p.id);$('#drawerTitle').textContent=t('archive');el.append(renderCatalog(p,{unlocked:known,collectedOn:collection.acquired?.[p.id]}));
  }else if(drawerMode==='endings'){
-  total=ENDINGS.length;page=(page+total)%total;const e=ENDINGS[page],saved=archives.some(a=>a.id===e.id);$('#drawerTitle').textContent=t('archive');const note=document.createElement('article');note.className='ending-note';if(saved){const h=document.createElement('h3');h.textContent=e.title;note.append(h,paragraph(e.body),paragraph(e.line,'last-line'));const batches=archives.filter(a=>a.id===e.id);for(const a of batches){const taxa=Array.isArray(a.species)?a.species:[a.species];note.append(paragraph(`${a.date} · ${taxa.map(id=>speciesPrimaryName(speciesById(id))).join(' / ')}`,'faint'))}}else{note.classList.add('unseen');const h=document.createElement('h3');h.innerHTML='&nbsp;';note.append(h,paragraph('','ending-space'),paragraph(t('emptyEnding'),'last-line'))}el.append(note);
+  total=ENDINGS.length;page=(page+total)%total;const e=ENDINGS[page],saved=archives.some(a=>a.id===e.id);$('#drawerTitle').textContent=t('archive');const note=document.createElement('article');note.className='ending-note';if(saved){const h=document.createElement('h3');h.textContent=e.title;note.append(h,paragraph(e.body),paragraph(e.line,'last-line'));const batches=archives.filter(a=>a.id===e.id);for(const a of batches){const taxa=Array.isArray(a.species)?a.species:[a.species];if(a.memory)note.append(paragraph(a.memory,'ending-memory'));note.append(paragraph(`${a.date} · ${taxa.map(id=>speciesPrimaryName(speciesById(id))).join(' / ')}`,'faint'))}}else{note.classList.add('unseen');const h=document.createElement('h3');h.innerHTML='&nbsp;';note.append(h,paragraph('','ending-space'),paragraph(t('emptyEnding'),'last-line'))}el.append(note);
  }else if(drawerMode==='journal'){
   total=Math.max(1,state.records.length);page=Math.max(0,Math.min(page,total-1));$('#drawerTitle').textContent=t('journalTitle');const paper=document.createElement('article');paper.className='journal-paper';if(state.records.length){const r=state.records[page];paper.append(paragraph(t('journalEntry',{day:r.day,time:r.time||timeFor(state.seed,r.day,r.period)}),'entry-date'),paragraph(r.label,'pencil-mark'),paragraph(r.text))}else paper.append(paragraph(t('journalEmpty')));el.append(paper);
  }else{$('#drawerTitle').textContent=t('sources');el.append(renderSources())}
