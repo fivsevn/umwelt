@@ -40,15 +40,15 @@ const backdrop=document.createElement('canvas');backdrop.width=Math.round(world.
 const backdropCtx=backdrop.getContext('2d');backdropCtx.imageSmoothingEnabled=false;
 const overlay=document.createElement('canvas');overlay.width=384;overlay.height=430;const overlayCtx=overlay.getContext('2d'),reactions=createReactions();
 const ctx=world.getContext('2d');ctx.imageSmoothingEnabled=false;
-let state=getState(),critters=[],last=0,active=false,effect=null,frame=0,encounter=null,elapsed=0,empty=false;
+let state=getState(),critters=[],last=0,active=false,effect=null,frame=0,encounter=null,elapsed=0,empty=false,shelterHeld=false;
 const camera={zoom:1,x:192,y:215},reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function reset(options={}){
- interaction.cancel();state=getState();empty=!!options.empty;layer.replaceChildren();elapsed=0;effect=null;reactions.reset();
+ interaction.cancel();state=getState();empty=!!options.empty;layer.replaceChildren();elapsed=0;effect=null;shelterHeld=false;reactions.reset();
  critters=empty?[]:makeIndividuals(state.cohort).map(c=>({...c,interaction:speciesById(c.species).interaction,model:renderModel(speciesById(c.species).visual,{stage:c.stage,seed:c.seed}),pixels:new Map()}));
  canvas.dataset.specimens=String(critters.length);canvas.dataset.taxa=[...new Set(critters.map(c=>c.species))].join(',');
  encounter=empty?null:encounterById(state.scene?.encounter);stageIndividuals(critters,encounter,{initial:true});drawHabitat(0);
 }
-function stage(scene){interaction.cancel();encounter=encounterById(scene.encounter);elapsed=0;effect=null;reactions.reset();stageIndividuals(critters,encounter);if(encounter){[camera.x,camera.y]=encounter.place}drawHabitat(0)}
+function stage(scene){interaction.cancel();encounter=encounterById(scene.encounter);elapsed=0;effect=null;shelterHeld=false;reactions.reset();stageIndividuals(critters,encounter);if(encounter){[camera.x,camera.y]=encounter.place}drawHabitat(0)}
 function react(id){state=getState();const point=actionFocus(id,state,encounter);const selected=[...critters].sort((a,b)=>Math.hypot(a.x-point.x,a.y-point.y)-Math.hypot(b.x-point.x,b.y-point.y)).slice(0,2).map(c=>c.id);effect={id,selected,mode:responseMode(id),start:elapsed,until:elapsed+10};drawHabitat(performance.now())}
 function present(){
  const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;
@@ -68,6 +68,30 @@ const interaction=bindPointerInteraction(canvas,{
   return {x:view.sx+(event.clientX-r.left)/view.scale,y:view.sy+(event.clientY-r.top)/view.scale};
  },
  hitTest:point=>[...critters].reverse().find(actor=>!actor.hidden&&actor.hitCells?.some(([x,y])=>point.x>=x-3&&point.x<=x+4&&point.y>=y-3&&point.y<=y+4)),
+ objectHitTest:point=>{
+  const env=environmentFor(getState()),shell=[...(env.shells||[])].reverse().find(item=>Math.hypot(point.x-item.x,point.y-item.y)<15);
+  if(shell)return {kind:'shell',id:shell.id};
+  if(point.x>=env.shelter.x-88&&point.x<=env.shelter.x+90&&point.y>=env.shelter.y-48&&point.y<=env.shelter.y+62)return {kind:'shelter'};
+  return null;
+ },
+ objectHoldStart:(object,point)=>{
+  state=getState();
+  if(object.kind==='shell'){
+   onDirectInteraction({type:'collect',shell:object.id,point});
+   effect={id:'shell-collect',selected:[],mode:'quiet',start:elapsed,until:elapsed+.8,point};
+  }else if(object.kind==='shelter'){
+   shelterHeld=true;const env=environmentFor(state),origin={x:env.shelter.x,y:env.shelter.y};
+   const selected=[...critters].sort((a,b)=>Math.hypot(a.x-origin.x,a.y-origin.y)-Math.hypot(b.x-origin.x,b.y-origin.y)).slice(0,4).map(actor=>actor.id);
+   effect={id:'direct-lift',selected,mode:'disturb',start:elapsed,until:elapsed+4,point:origin};
+   onDirectInteraction({type:'lift',point:origin});
+  }
+ },
+ objectHoldEnd:object=>{if(object.kind==='shelter')shelterHeld=false},
+ groundTap:point=>{
+  const selected=[...critters].sort((a,b)=>Math.hypot(a.x-point.x,a.y-point.y)-Math.hypot(b.x-point.x,b.y-point.y)).slice(0,3).map(actor=>actor.id);
+  effect={id:'ground-tap',selected,mode:'disturb',start:elapsed,until:elapsed+3.2,point};
+  onDirectInteraction({type:'ground',point});
+ },
  pan:(dx,dy)=>{
   const r=canvas.getBoundingClientRect(),scale=Math.max(1,r.width/384)*camera.zoom;
   camera.x-=dx/scale;camera.y-=dy/scale;present();
@@ -124,7 +148,7 @@ function drawHabitat(t){
   const size=(.62+(hash%7)*.085)*(1-Math.min(l.age,20)*.006),angle=l.a+((hash%9)-4)*.11;
   leaf(ctx,l.x,l.y,angle,variant,size,tone);
  }
- const shelterY=memory.shelter.y-(effect&&elapsed<effect.until&&effect.id==='lift'?12:0);
+ const shelterY=memory.shelter.y-((shelterHeld||(effect&&elapsed<effect.until&&effect.id==='lift'))?12:0);
  // Larger crossed slabs fill the central shelter footprint while retaining two distinct pieces.
  bark(memory.shelter.x+8,shelterY-4,-.12,0,1.38);
  bark(memory.shelter.x-58,memory.shelter.y+40,.10,1,.92);
@@ -132,7 +156,7 @@ function drawHabitat(t){
   for(let i=0;i<7;i++)px(ctx,f.x-9+i*3,f.y+10+i%2*3,1,1,'#806a42');
   if(f.amount>0)for(let y=0;y<12;y++)for(let x=0;x<Math.min(22,8+f.amount*6);x++){if((x+y+f.age*2)%17<3)continue;px(ctx,f.x+x-8,f.y+y-6,1,1,y>8?'#8b7043':y%3===0?'#d1b578':'#c6a86d')}
  }
- if(encounter&&!memory.removedShells.includes(encounter.id)&&['shell','molt'].includes(encounter.motion)){const [x,y]=encounter.place;px(ctx,x-20,y+10,7,3,'#c9c4a8');px(ctx,x-18,y+8,4,1,'#aaa990');px(ctx,x-15,y+11,1,1,'#f1ecd0')}
+ for(const shell of memory.shells||[])drawMoltShell(shell);
  if(state.light<55){ctx.fillStyle=`rgba(15,27,21,${(55-state.light)/120})`;ctx.fillRect(0,0,w,h)}
  if(!reduced&&effect&&elapsed<effect.until&&['mist','wet-left','wet-all'].includes(effect.id))for(let i=0;i<18;i++){const x=12+(i*29)%(effect.id==='wet-all'?350:82),y=(i*71+t*.05)%420;px(ctx,x,y,1,2,'#91a994')}
  ctx.fillStyle="rgba(210,214,183,.055)";ctx.fillRect(3,3,w-6,h-6);ctx.strokeStyle="#93947c";ctx.lineWidth=3;ctx.strokeRect(1.5,1.5,w-3,h-3);
@@ -232,6 +256,34 @@ function bark(x,y,a=0,variant=0,scale=1){
   for(let yy=-7;yy<=7;yy++)for(let xx=-5;xx<=5;xx++){const d=(xx/5)**2+(yy/7)**2;if(d<1)plot((-half+11*scale)+xx,yy,d>.6?'#765639':d>.25?'#8f6a47':'#47352b')}
  }
 }
+function drawMoltShell(shell){
+ const age=Math.max(0,shell.age||0),fade=Math.max(.32,.82-age*.055),phase=shell.phase||'whole',segments=phase==='whole'?9:6,length=phase==='whole'?18:12;
+ const ca=Math.cos(shell.a||0),sa=Math.sin(shell.a||0),offset=phase==='anterior'?-3:phase==='posterior'?3:0;
+ ctx.save();ctx.globalAlpha=fade;
+ const plot=(u,v,color)=>px(ctx,shell.x+(u+offset)*ca-v*sa,shell.y+(u+offset)*sa+v*ca,1,1,color);
+ for(let i=0;i<segments;i++){
+  if(age>2&&((i+Math.floor(age))%5===1))continue;
+  const t=segments===1?0:i/(segments-1),u=-length/2+t*length,rim=2+Math.sin(t*Math.PI)*3.2;
+  plot(u,-rim,'#ecebdc');plot(u,rim,'#bdbda9');
+  if(i%2===0)plot(u,0,'#d8d7c4');
+  if(i<segments-1){plot(u+1,-rim+1,'#dedcca');plot(u+1,rim-1,'#c9c8b4')}
+ }
+ if(phase==='whole'){plot(-length/2-2,0,'#e7e5d1');plot(length/2+2,0,'#aaa994')}
+ ctx.restore();
+}
+function cuttlebone(x,y,a=-.42,scale=.72){
+ const ca=Math.cos(a),sa=Math.sin(a),rx=25*scale,ry=10*scale;
+ const plot=(u,v,color)=>px(ctx,x+u*ca-v*sa,y+u*sa+v*ca,1,1,color);
+ for(let yy=-Math.ceil(ry);yy<=Math.ceil(ry);yy++)for(let xx=-Math.ceil(rx);xx<=Math.ceil(rx);xx++){
+  const d=(xx/rx)**2+(yy/ry)**2;if(d>1)continue;
+  if(xx>rx*.58&&yy< -ry*.22)continue;
+  const edge=d>.72,grain=Math.abs((xx*11+yy*17+37)%19);
+  let ink=edge?'#8f8d7a':grain<3?'#a7a58e':'#bbb8a0';
+  if(grain===7||grain===8)ink='#777866';
+  plot(xx,yy,ink);
+ }
+ for(let i=-13;i<=13;i+=5)plot(i*scale,1*scale,'#777866');
+}
 function woodChip(x,y,a,kind=0,scale=1){
  const ca=Math.cos(a),sa=Math.sin(a),length=(kind===0?21:kind===1?28:17)*scale,width=(kind===2?8:6)*scale;
  for(let yy=-Math.ceil(width);yy<=Math.ceil(width);yy++)for(let xx=-Math.ceil(length);xx<=Math.ceil(length);xx++){
@@ -262,6 +314,8 @@ function scenery(t){
  // Sphagnum/moss remains clustered, with a few smaller islands to keep the floor from reading empty.
  sphagnumPatch(48,80,36,58,1);sphagnumPatch(42,184,31,70,3);sphagnumPatch(48,318,38,58,5);sphagnumPatch(323,390,34,25,8);
  sphagnumPatch(112,368,16,12,11);sphagnumPatch(338,211,15,18,13);
+ // A small cuttlebone fragment marks this as a maintained culture rather than untouched forest floor.
+ cuttlebone(333,168,-.42,.72);
  // More humus flecks and tiny decomposing fragments fill negative space without becoming new focal objects.
  for(let i=0;i<95;i++){const x=18+(i*83+i%7*19)%350,y=20+(i*137+i%11*23)%392,v=(i*29+x+y)%9;px(ctx,x,y,1+v%3,1,['#2d2b24','#3a3127','#58442f','#67513a','#454033'][v%5]);if(v===1)px(ctx,x+2,y+1,1,1,'#8b7048')}
  // Pebbles stay subdued but are slightly more numerous.
