@@ -1,6 +1,6 @@
 import {getLanguage} from './i18n.mjs?v=i18n-1';
-import {gameText} from './game-locales.mjs?v=observer-memory-1';
-import {encounterById} from './encounters.mjs?v=quiet-ui-3';
+import {gameText} from './game-locales.mjs?v=narrative-pool-1';
+import {encounterById} from './encounters.mjs?v=narrative-pool-1';
 
 const selectors=[
  '#activityLabel',
