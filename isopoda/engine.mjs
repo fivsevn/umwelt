@@ -69,7 +69,7 @@ function rawEncounterAt(s,turn){
  return encounterFor({seed:s.seed,narrativeVersion:s.narrativeVersion,day:Math.floor(turn/3)+1,period:turn%3});
 }
 function ambientMoltTurns(s){
- const narrative=[];for(let turn=0;turn<21;turn++)if(rawEncounterAt(s,turn)?.motion==='molt')narrative.push(turn);
+ const narrative=[];for(let turn=0;turn<20;turn++)if(rawEncounterAt(s,turn)?.motion==='molt')narrative.push(turn);
  const need=Math.max(0,2-Math.min(2,narrative.length));if(!need)return [];
  const used=new Set(narrative),ranges=need===2?[[4,8],[12,16]]:[[8,15]],result=[];
  for(let i=0;i<ranges.length;i++){
@@ -117,6 +117,7 @@ export function sceneFor(s){
    }
  }
  let encounter=encounterFor(s);
+ if(observationTurn(s)===20&&encounter.motion==='molt')encounter=encounterById(hash(s.seed,2591)%2?'rest':'clean')||encounter;
  if(encounter.id==='molt-back'||encounter.id==='molt-front'){
   const moltSeen=s.records.filter(record=>record.encounter==='molt-back'||record.encounter==='molt-front').length;
   encounter=encounterById(moltSeen===0?'molt-back':'molt-front')||encounter;
