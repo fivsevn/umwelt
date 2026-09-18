@@ -63,8 +63,9 @@ function syncArtwork(view){
  const root=canvas.parentElement?.querySelector('.habitat-art');if(!root)return;
  const {scale,sx,sy}=view,base=root.querySelector('.habitat-art-bg'),barkLayer=root.querySelector('.habitat-art-bark');
  const transform=(dy=0)=>`translate(${-sx*scale}px,${(-sy+dy)*scale}px) scale(${scale})`;
+ const lifted=shelterHeld||!!(effect&&elapsed<effect.until&&['lift','direct-lift'].includes(effect.id));
  if(base)base.style.transform=transform();
- if(barkLayer)barkLayer.style.transform=transform(shelterHeld?-12:0);
+ if(barkLayer)barkLayer.style.transform=transform(lifted?-12:0);
 }
 function present(){
  const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;
