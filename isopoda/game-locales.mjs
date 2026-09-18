@@ -214,10 +214,23 @@ const routeTargets={
 };
 
 function dynamic(value,lang){
+ const actor=label=>label.startsWith('个体 ')?(lang==='en'?`specimen ${label.slice(3)}`:`個体 ${label.slice(3)}`):(lang==='en'?'one individual':'1匹');
  let match=value.match(/^个体 ([A-G]) 停在岔口。先猜它会靠近哪里，再看下一段记录。$/);
  if(match)return lang==='en'?`Specimen ${match[1]} pauses at a fork. Guess where it will move next, then check the next note.`:`個体 ${match[1]} が分かれ道で止まった。次にどこへ近づくか予想して、その先の記録を見る。`;
  match=value.match(/^它最终靠近(湿苔|木片|叶缘|食物)。(这一次与你的猜测相同。|与你留下的箭头不同。)地面的差别还在那里。$/);
  if(match){const target=routeTargets[lang][match[1]];const same=match[2].startsWith('这一次');if(lang==='en')return `It eventually moved toward the ${target}. ${same?'This time, your guess matched.':'It differed from the arrow you left.'} The differences in the ground remain.`;return `最後には${target}へ近づいた。${same?'今回は予想と同じだった。':'残した矢印とは違った。'}地面の違いはそのまま残っている。`;}
+ match=value.match(/^今天你把(个体 [A-G]|一个个体)放回了另一个位置。它后来的路线从那里继续。$/);
+ if(match)return lang==='en'?`Today you put ${actor(match[1])} back in a different place. Its later route continued from there.`:`今日は${actor(match[1])}を別の場所へ戻した。その後の経路はそこから続いた。`;
+ match=value.match(/^今天(个体 [A-G]|一个个体)曾经离开土面。盒子里的移动因此停顿了一会儿。$/);
+ if(match)return lang==='en'?`Today ${actor(match[1])} left the soil for a moment. Movement in the enclosure paused around it.`:`今日は${actor(match[1])}が一度、土の面を離れた。そのためケース内の動きがしばらく止まった。`;
+ match=value.match(/^今天你碰过(个体 [A-G]|一个个体)。它收紧身体，后来才重新展开。$/);
+ if(match)return lang==='en'?`Today you touched ${actor(match[1])}. It tightened its body, then later opened out again.`:`今日は${actor(match[1])}に触れた。身体を縮め、しばらくしてからまた開いた。`;
+ match=value.match(/^这七天里，(个体 [A-G]|一个个体)曾被你拿起，又被放回另一个位置。后面的路线从那里继续。$/);
+ if(match)return lang==='en'?`Across these seven days, you picked up ${actor(match[1])} and returned it somewhere else. The later route continued from there.`:`この7日間に、${actor(match[1])}を持ち上げ、別の場所へ戻したことがあった。その後の経路はそこから続いた。`;
+ match=value.match(/^这七天里，(个体 [A-G]|一个个体)曾短暂离开土面。记录没有把那次停顿从环境里删掉。$/);
+ if(match)return lang==='en'?`Across these seven days, ${actor(match[1])} briefly left the soil. The record did not erase that pause from the environment.`:`この7日間に、${actor(match[1])}が一時的に土の面を離れた。記録はその停止を環境から消さなかった。`;
+ match=value.match(/^这七天里，你曾碰过(个体 [A-G]|一个个体)。它收紧过身体，后来又重新展开。$/);
+ if(match)return lang==='en'?`Across these seven days, you touched ${actor(match[1])}. It tightened its body, and later opened out again.`:`この7日間に、${actor(match[1])}に触れたことがあった。身体を縮め、その後また開いた。`;
  return null;
 }
 
