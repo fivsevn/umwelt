@@ -22,19 +22,46 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+
       - name: Verify observation game
         run: node --test tests/*.test.mjs
+
       - uses: actions/configure-pages@v5
+
       - name: Prepare Pages artifact
         run: |
           mkdir -p _site
-          rsync -a --delete             --exclude '.git/'             --exclude '.github/'             --exclude '_site/'             --exclude 'tests/'             --exclude 'isopoda/anatomy-test.html'             --exclude 'isopoda/exploded-preview.html'             --exclude 'isopoda/exploded-preview.css'             --exclude 'isopoda/projection-preview.html'             --exclude 'isopoda/scenery-test.html'             --exclude 'isopoda/scenery-test.css'             --exclude 'isopoda/scenery-test.mjs'             ./ _site/
+          rsync -a --delete \
+            --exclude '.git/' \
+            --exclude '.github/' \
+            --exclude '.gitignore' \
+            --exclude '_site/' \
+            --exclude 'README.md' \
+            --exclude 'docs/' \
+            --exclude 'tests/' \
+            --exclude 'isopoda/tools/' \
+            --exclude 'isopoda/cohort.md' \
+            --exclude 'isopoda/morphology.md' \
+            --exclude 'isopoda/locales/README.md' \
+            --exclude 'isopoda/morphology/README.md' \
+            --exclude 'isopoda/scenery/README.md' \
+            --exclude 'isopoda/anatomy-test.html' \
+            --exclude 'isopoda/exploded-preview.html' \
+            --exclude 'isopoda/exploded-preview.css' \
+            --exclude 'isopoda/projection-preview.html' \
+            --exclude 'isopoda/scenery-test.html' \
+            --exclude 'isopoda/scenery-test.css' \
+            --exclude 'isopoda/scenery-test.mjs' \
+            ./ _site/
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
