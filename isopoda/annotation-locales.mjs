@@ -157,7 +157,7 @@ const copy={
   }
 };
 
-const labels={zh:'注记',en:'Annotation',ja:'注記'};
+const labels={zh:'阿西莫夫的笔记',en:"Asimov's Notes",ja:'アシモフのノート'};
 
 export function annotationLabel(lang='zh'){
   return labels[lang]||labels.zh;
