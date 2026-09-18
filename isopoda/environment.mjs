@@ -39,7 +39,13 @@ export function changeEnvironment(s,id){
   if(id==='wet-all'){if(!e.wetZones[1])e.wetZones.push({x:265,y:235,rx:90,ry:145,moisture:25});e.wetZones[1].moisture=clamp(e.wetZones[1].moisture+40,15,100)}
  }
  if(id==='air')for(const z of e.wetZones)z.moisture=Math.max(12,z.moisture-15);
- if(['leaf','gap','flat'].includes(id)){const n=e.leaves.length;e.leaves.push({id:'leaf-'+turn,x:85+(n%3)*85,y:300-Math.floor(n/3)*48,a:(n%3-1)*.35,gap:id!=='flat',age:0})}
+ if(['leaf','gap','flat'].includes(id)){
+  const n=e.leaves.length,h=((s.seed>>>0)^Math.imul(turn+11,2654435761)^Math.imul(n+3,2246822507))>>>0;
+  const sites=[[92,164],[276,142],[116,300],[286,314],[206,108],[326,244],[73,356],[238,356],[156,225],[312,382],[67,238],[252,252]];
+  const site=sites[(n+((h>>>17)%sites.length))%sites.length],x=clamp(site[0]+(h%23)-11,48,338),y=clamp(site[1]+((h>>>8)%21)-10,55,388);
+  const a=((h>>>12)%628)/100-3.14,scale=.82+((h>>>5)%6)*.09;
+  e.leaves.push({id:'leaf-'+turn,x,y,a,gap:id!=='flat',age:0,scale});
+ }
  if(id==='food')e.foodNodes.push({x:310-(turn%3)*24,y:258+(turn%2)*30,amount:1,age:0});
  if(id==='clean'){let left=2;for(const f of e.foodNodes){const take=Math.min(left,f.amount);f.amount-=take;left-=take}}
  if(id==='remove'&&s.scene?.encounter){
