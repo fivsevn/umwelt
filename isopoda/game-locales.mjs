@@ -336,6 +336,15 @@ const routeTargets={
 };
 
 function dynamic(value,lang){
+ const interactionMemory={
+  '今天你收起了一片旧壳。原来的位置只剩下土和碎叶。':{en:'Today you collected a shed shell. Only soil and leaf fragments remain where it was.',ja:'今日は古い脱皮殻を一片しまった。元の場所には土と落ち葉の欠片だけが残った。'},
+  '今天你抬起过木片。阴影短暂打开，随后又落回原处。':{en:'Today you lifted the bark. The shadow opened briefly, then fell back into place.',ja:'今日は木片を持ち上げた。影は短いあいだ開き、その後また元の場所へ戻った。'},
+  '今天你敲到过土面。附近的触角和路线因此停顿了一下。':{en:'Today you tapped the soil. Nearby antennae and routes paused for a moment.',ja:'今日は土の面を軽く叩いた。近くの触角と経路が一瞬止まった。'},
+  '这七天里，你收起过一片旧壳。它没有继续留在盒子里变薄。':{en:'Across these seven days, you collected a shed shell. It did not remain in the enclosure to grow thinner.',ja:'この7日間に、古い脱皮殻を一片しまった。それはケースの中に残ってさらに薄くなることはなかった。'},
+  '这七天里，你抬起过木片。看见的东西与那次打开阴影的动作已经不能完全分开。':{en:'Across these seven days, you lifted the bark. What you saw can no longer be fully separated from the act of opening that shadow.',ja:'この7日間に、木片を持ち上げたことがあった。見えたものは、影を開いたその動作と完全には切り離せない。'},
+  '这七天里，你曾让土面发生过短促的震动。几条路线从那里重新开始。':{en:'Across these seven days, you caused a brief vibration in the soil. Several routes began again from there.',ja:'この7日間に、土の面へ短い振動を起こしたことがあった。いくつかの経路はそこから再び始まった。'}
+ };
+ if(interactionMemory[value])return interactionMemory[value][lang];
  const actor=label=>label.startsWith('个体 ')?(lang==='en'?`specimen ${label.slice(3)}`:`個体 ${label.slice(3)}`):(lang==='en'?'one individual':'1匹');
  let match=value.match(/^个体 ([A-G]) 停在岔口。先猜它会靠近哪里，再看下一段记录。$/);
  if(match)return lang==='en'?`Specimen ${match[1]} pauses at a fork. Guess where it will move next, then check the next note.`:`個体 ${match[1]} が分かれ道で止まった。次にどこへ近づくか予想して、その先の記録を見る。`;
