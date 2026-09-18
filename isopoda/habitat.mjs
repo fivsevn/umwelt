@@ -9,13 +9,58 @@ import {speciesById} from './species.mjs?v=cohort-4';
 export const SCENE_PIXEL=1;
 const SCENE_ACTOR_SCALE=.88,SCENE_OUTPUT_SCALE=.76,BACKGROUND_SCALE=.72;
 const LEAF_PALETTES=[
- ['#5a422c','#7a5935','#a17c48','#c09b5c','#3e3428'],
- ['#67482f','#8d6238','#b4864d','#d0a567','#433126'],
- ['#4d402d','#6d5a39','#92804d','#b6a066','#38362b'],
- ['#6a5232','#927343','#bea05e','#d4b875','#473a29'],
- ['#463a2c','#67513a','#806545','#a38158','#322f28'],
- ['#594333','#75563b','#98734b','#b79261','#3b322b']
+ ['#504332','#68543a','#806a48','#97805a','#393229'],
+ ['#59412f','#704f35','#89613e','#9f774d','#3d3027'],
+ ['#4b4433','#615a40','#786f4c','#8f845b','#37342b'],
+ ['#5c4932','#755c3a','#8f7146','#a18455','#40342a'],
+ ['#484033','#5e523d','#746449','#897858','#35312a'],
+ ['#524536','#69583e','#806b4c','#95805b','#3a332b']
 ];
+
+// The fixed 128×144 habitat painting is authored at a coarser lattice.
+// Refine only its hard pixel edges to the 384×432 world lattice; no smoothing
+// and no new texture are introduced. This keeps specimens and scenery on one plane.
+const refinedArtworkRoots=new WeakSet();
+function refineArtworkLayer(layer){
+ if(!layer||layer.dataset.pixelRefined)return;
+ const css=getComputedStyle(layer).backgroundImage,match=css.match(/^url\(["']?(data:image\/png;base64,[^"')]+)["']?\)$/);if(!match)return;
+ layer.dataset.pixelRefined='loading';
+ const image=new Image();image.onload=()=>{
+  const sw=image.naturalWidth,sh=image.naturalHeight;if(!sw||!sh){delete layer.dataset.pixelRefined;return}
+  const src=document.createElement('canvas');src.width=sw;src.height=sh;const sg=src.getContext('2d',{willReadFrequently:true});sg.imageSmoothingEnabled=false;sg.drawImage(image,0,0);
+  const input=sg.getImageData(0,0,sw,sh),data=input.data,out=document.createElement('canvas');out.width=sw*3;out.height=sh*3;
+  const output=out.getContext('2d').createImageData(out.width,out.height),dst=output.data;
+  const idx=(x,y)=>((Math.max(0,Math.min(sw-1,x))+Math.max(0,Math.min(sh-1,y))*sw)<<2);
+  const same=(a,b)=>data[a]===data[b]&&data[a+1]===data[b+1]&&data[a+2]===data[b+2]&&data[a+3]===data[b+3];
+  const put=(di,si)=>{
+   const alpha=data[si+3];dst[di+3]=alpha;if(!alpha){dst[di]=dst[di+1]=dst[di+2]=0;return}
+   for(let k=0;k<3;k++){const value=128+(data[si+k]-128)*1.045;dst[di+k]=Math.max(0,Math.min(255,Math.round(value)))}
+  };
+  for(let y=0;y<sh;y++)for(let x=0;x<sw;x++){
+   const A=idx(x-1,y-1),B=idx(x,y-1),C=idx(x+1,y-1),D=idx(x-1,y),E=idx(x,y),F=idx(x+1,y),G=idx(x-1,y+1),H=idx(x,y+1),I=idx(x+1,y+1);
+   let p=[E,E,E,E,E,E,E,E,E];
+   if(!same(B,H)&&!same(D,F)){
+    p=[
+     same(D,B)?D:E,
+     (same(D,B)&&!same(E,C))||(same(B,F)&&!same(E,A))?B:E,
+     same(B,F)?F:E,
+     (same(D,B)&&!same(E,G))||(same(D,H)&&!same(E,A))?D:E,
+     E,
+     (same(B,F)&&!same(E,I))||(same(H,F)&&!same(E,C))?F:E,
+     same(D,H)?D:E,
+     (same(D,H)&&!same(E,I))||(same(H,F)&&!same(E,G))?H:E,
+     same(H,F)?F:E
+    ];
+   }
+   const ox=x*3,oy=y*3;for(let yy=0;yy<3;yy++)for(let xx=0;xx<3;xx++){const di=((ox+xx)+(oy+yy)*out.width)<<2;put(di,p[yy*3+xx])}
+  }
+  const og=out.getContext('2d');og.putImageData(output,0,0);layer.style.backgroundImage='url("'+out.toDataURL('image/png')+'")';layer.dataset.pixelRefined='1';
+ };image.onerror=()=>{delete layer.dataset.pixelRefined};image.src=match[1];
+}
+function refineArtwork(root){
+ if(!root||refinedArtworkRoots.has(root))return;refinedArtworkRoots.add(root);
+ refineArtworkLayer(root.querySelector('.habitat-art-bg'));refineArtworkLayer(root.querySelector('.habitat-art-bark'));
+}
 export function sceneActorPixels(source,actor){
  const cells=new Map(),size=SCENE_ACTOR_SCALE*actor.model.growth.scale,ca=Math.cos(actor.a),sa=Math.sin(actor.a);
  const centerX=Math.round(actor.x),centerY=Math.round(actor.y+(actor.lift||0));
@@ -35,6 +80,7 @@ export function cameraWindow(width,height,zoom=1,x=192,y=215){
  return {scale,sw,sh,x,y,sx:x-sw/2,sy:y-sh/2};
 }
 export function createHabitat(canvas,layer,getState,onDirectInteraction=()=>{}){
+refineArtwork(canvas.parentElement?.querySelector('.habitat-art'));
 const display=canvas.getContext('2d'),world=document.createElement('canvas');world.width=384;world.height=430;
 const backdrop=document.createElement('canvas');backdrop.width=Math.round(world.width*BACKGROUND_SCALE);backdrop.height=Math.round(world.height*BACKGROUND_SCALE);
 const backdropCtx=backdrop.getContext('2d');backdropCtx.imageSmoothingEnabled=false;
@@ -146,10 +192,9 @@ function drawHabitat(t){
  for(const mark of memory.scuffs)for(let i=0;i<8;i++)px(ctx,mark.x-18+i*5,mark.y+i%2*2,3,1,'rgba(108,84,58,.55)');
  for(const l of memory.leaves){
   if(['leaf-a','leaf-b','leaf-old'].includes(l.id))continue;
-  if(l.gap)for(let x=-24;x<26;x+=3)px(ctx,l.x+x,l.y+14,2,4,'rgba(24,35,28,.65)');
   const hash=Math.abs(Math.round(l.x*17+l.y*31+l.a*100)),variant=hash%6,tone=(hash>>2)%LEAF_PALETTES.length;
-  const size=(.48+(hash%5)*.07)*(1-Math.min(l.age,20)*.006),angle=l.a+((hash%9)-4)*.11;
-  leaf(ctx,l.x,l.y,angle,variant,size,tone);
+  const baseSize=Number.isFinite(l.scale)?l.scale:.84+(hash%6)*.075,size=baseSize*(1-Math.min(l.age,20)*.004),angle=l.a+((hash%7)-3)*.065;
+  leaf(ctx,l.x,l.y,angle,variant,size,tone,l.gap);
  }
  for(const f of memory.foodNodes){
   if(f.amount>0)for(let y=0;y<10;y+=2)for(let x=0;x<Math.min(20,8+f.amount*5);x+=2)px(ctx,f.x+x-8,f.y+y-5,2,2,y>6?'#80683f':'#c3a46b');
@@ -172,52 +217,50 @@ function drawActors(){
   for(const [x,y,color] of actor.hitCells)px(ctx,x,y,1,1,color);
  }
 }
-// Added leaf litter matches the 3px background lattice: muted blocks, one shadow, minimal venation.
-function leaf(c,x,y,a,variant=0,scale=1,tone=0){
- const palettes=[
-  ['#564630','#72603c','#8b7848','#a38c55','#3b3328'],
-  ['#5b3e2b','#765033','#93633b','#aa7949','#3b2d25'],
-  ['#514734','#6b6042','#85764d','#9e8d5b','#39342b'],
-  ['#65452e','#825936','#9c6d40','#b5844f','#402f25'],
-  ['#4c4232','#65553d','#7d6848','#947d56','#37312a'],
-  ['#5b4935','#755d40','#8d724c','#a1895c','#3d332a']
- ],p=palettes[tone%palettes.length],ca=Math.cos(a),sa=Math.sin(a),cell=3;
- const length=[40,46,42,39,44,41][variant%6]*scale,width=[20,12,22,23,19,17][variant%6]*scale;
- const at=(u,v,color)=>px(c,x+u*ca-v*sa,y+u*sa+v*ca,cell,cell,color);
+// Added litter uses the same broad silhouettes as the fixed background leaves:
+// large / medium hierarchy, thick body, broken edges, and almost no line-art veins.
+function leaf(c,x,y,a,variant=0,scale=1,tone=0,gap=false){
+ const palettes=LEAF_PALETTES,p=palettes[tone%palettes.length],ca=Math.cos(a),sa=Math.sin(a),cell=3;
+ const length=[42,47,44,41,46,43][variant%6]*scale,width=[24,18,27,26,23,22][variant%6]*scale;
+ const at=(u,v,color,w=cell,h=cell)=>px(c,x+u*ca-v*sa,y+u*sa+v*ca,w,h,color);
  const widthAt=t=>{
   const q=Math.max(0,1-Math.abs(t));
-  if(variant===1)return width*Math.pow(q,.74)*.60;
-  if(variant===2)return width*Math.pow(q,.58)*(.84+.12*Math.sin((t+.05)*Math.PI*3));
-  if(variant===3)return width*Math.pow(q,.52)*(t<-.25?.72:1);
-  if(variant===4)return width*Math.pow(q,.62)*(.90+.08*Math.cos(t*Math.PI*2));
-  if(variant===5)return width*Math.pow(q,.66)*(.74+.13*Math.cos((t+.1)*Math.PI*2.4));
-  return width*Math.pow(q,.60);
+  if(variant===1)return width*Math.pow(q,.70)*.76;
+  if(variant===2)return width*Math.pow(q,.56)*(.88+.10*Math.sin((t+.05)*Math.PI*3));
+  if(variant===3)return width*Math.pow(q,.50)*(t<-.25?.76:1);
+  if(variant===4)return width*Math.pow(q,.60)*(.92+.07*Math.cos(t*Math.PI*2));
+  if(variant===5)return width*Math.pow(q,.63)*(.82+.10*Math.cos((t+.1)*Math.PI*2.4));
+  return width*Math.pow(q,.57);
  };
- // Soft substrate shadow first.
+ // One broad, rotated shadow. Raised leaves simply open this shadow a little more.
+ const shadowU=gap?4:2,shadowV=gap?6:4;
  for(let u=-length;u<=length;u+=cell)for(let v=-width;v<=width;v+=cell){
   const t=u/length,rim=widthAt(t);if(Math.abs(v)>rim)continue;
-  at(u+2,v+3,'rgba(38,31,25,.42)');
+  at(u+shadowU,v+shadowV,'rgba(35,31,26,.34)');
  }
- // Broad leaf body; no stipple and no dark wireframe.
+ // Broad body with a handful of torn notches; no dotted texture and no wireframe.
  for(let u=-length;u<=length;u+=cell)for(let v=-width;v<=width;v+=cell){
   const t=u/length,rim=widthAt(t);if(Math.abs(v)>rim)continue;
   const edge=rim-Math.abs(v),side=Math.sign(v)||1;
-  if(variant===2&&t>.18&&t<.42&&side>0&&edge<cell*1.2)continue;
-  if(variant===3&&t>.54&&side<0&&edge<cell*1.35)continue;
-  if(variant===4&&t<-.38&&side>0&&edge<cell*1.15)continue;
+  if(variant===0&&t>.38&&t<.58&&side<0&&edge<cell*1.25)continue;
+  if(variant===1&&t<-.22&&t>-.48&&side>0&&edge<cell*1.18)continue;
+  if(variant===2&&t>.12&&t<.38&&side>0&&edge<cell*1.32)continue;
+  if(variant===3&&t>.50&&side<0&&edge<cell*1.42)continue;
+  if(variant===4&&t<-.36&&side>0&&edge<cell*1.22)continue;
+  if(variant===5&&t>.30&&t<.55&&side<0&&edge<cell*1.18)continue;
   let ink=p[1];
-  if(edge<cell*.9)ink=p[0];
+  if(edge<cell*.90)ink=p[0];
   else if(v<0)ink=p[2];
-  if(t>.18&&v>0)ink=p[2];
+  if(t>.22&&v>0)ink=p[2];
+  if(t<-.10&&t>-.38&&v<-.15*rim)ink=p[3];
   at(u,v,ink);
  }
- // One coarse midrib and only two restrained side-vein pairs.
- for(let u=-length*.82;u<length*.78;u+=cell)at(u,0,p[3]);
- for(const t of [-.34,.20]){
-  const u=t*length,rim=widthAt(t)*.70;
-  for(const side of [-1,1])for(let q=.28;q<.92;q+=.30)at(u+q*length*.14,side*rim*q,p[2]);
- }
- for(let i=0;i<7*scale;i+=cell)at(-length-i,0,p[4]);
+ // A coarse midrib that breaks in places, plus just one restrained side-vein pair.
+ for(let u=-length*.76;u<length*.74;u+=cell*2)at(u,0,p[2]);
+ const vu=-.12*length,vr=widthAt(-.12)*.66;
+ for(const side of [-1,1])for(let q=.34;q<.92;q+=.32)at(vu+q*length*.12,side*vr*q,p[2]);
+ // Stem is short and thick enough to read as part of the same silhouette.
+ for(let i=0;i<8*scale;i+=cell)at(-length-i,0,p[4]);
 }
 // Cork bark is a hand-composed low-resolution "photo": large tonal patches, broken edge, very few cracks.
 function bark(x,y,a=0,variant=0,scale=1){
