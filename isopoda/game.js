@@ -1,11 +1,11 @@
 import {renderCatalog,renderSources} from './catalog.mjs?v=quiet-ui-3';
 import {SPECIES,speciesById} from './species.mjs?v=quiet-ui-3';
 import {ENDINGS} from './content.mjs?v=narrative-pool-2';
-import {createRun,validRun,migrateV3,runSpecies,migrateLegacy,ensureScene,choose,advance,timeFor,recordDirectInteraction,endingMemoryFor} from './engine.mjs?v=narrative-pool-2';
+import {createRun,validRun,migrateV3,runSpecies,migrateLegacy,ensureScene,choose,advance,timeFor,recordDirectInteraction,endingMemoryFor} from './engine.mjs?v=narrative-pool-3';
 import {makeBug,makeIsopod} from './sprites.mjs?v=quiet-ui-3';
 import {createHabitat} from './habitat.mjs?v=narrative-pool-1';
 import {restoreCollection,drawCohort,unlock} from './collection.mjs?v=quiet-ui-3';
-import {encounterById,encounterFor} from './encounters.mjs?v=narrative-pool-1';
+import {encounterById,encounterFor} from './encounters.mjs?v=narrative-pool-2';
 import {iconButton,createInstrument} from './ui.mjs?v=quiet-ui-3';
 import {getLanguage,t,formatShortDate,speciesPrimaryName} from './i18n.mjs?v=i18n-1';
 const $=s=>document.querySelector(s),KEY='isopoda-fugue-v4',ARCHIVE='isopoda-fugue-endings-v3',COLLECTION='isopoda-fieldnotes-v1';

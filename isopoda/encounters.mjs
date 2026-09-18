@@ -39,7 +39,8 @@ export const ENCOUNTERS=[
  {id:'late-departure',motion:'disperse',actors:4,place:[198,226],title:'还没离开',lines:['几只已经散开，最后一只仍停在原来的阴影里。','离开没有统一的时刻。最后留下的那个轮廓让“结束”推迟了一会儿。'],quiet:'最后一只终于移动，原来的位置恢复成空处。',care:'新的叶缘截住它离开的方向。',disturb:'最后一只也迅速离开，结束忽然变得整齐。'}
 ];
 function hash(seed,n){let x=(seed+Math.imul(n+1,2654435761))>>>0;x=Math.imul(x^(x>>>16),2246822507);return (x^(x>>>13))>>>0}
-export function encounterFor(state){const order=ENCOUNTERS.map((e,i)=>({e,key:hash(state.seed,i+401)})).sort((a,b)=>a.key-b.key);return order[((state.day-1)*3+state.period)%order.length].e}
+export const LEGACY_ENCOUNTER_COUNT=24;
+export function encounterFor(state){const pool=(state.narrativeVersion||0)>=1?ENCOUNTERS:ENCOUNTERS.slice(0,LEGACY_ENCOUNTER_COUNT),order=pool.map((e,i)=>({e,key:hash(state.seed,i+401)})).sort((a,b)=>a.key-b.key);return order[((state.day-1)*3+state.period)%order.length].e}
 export function responseMode(id){return ['lift','remove','wet-all'].includes(id)?'disturb':['mist','wet-left','food','leaf','gap','flat','shade','air','clean'].includes(id)?'care':'quiet'}
 export function encounterText(e,seed){return e.lines[hash(seed,73)%e.lines.length]}
 export const encounterById=id=>ENCOUNTERS.find(e=>e.id===id);

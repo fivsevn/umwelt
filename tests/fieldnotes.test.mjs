@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {SPECIES} from '../isopoda/species.mjs';
 import {restoreCollection,drawSpecies,unlock} from '../isopoda/collection.mjs';
 import {createRun,timeFor,ensureScene,choose,advance} from '../isopoda/engine.mjs';
-import {ENCOUNTERS,encounterFor} from '../isopoda/encounters.mjs';
+import {ENCOUNTERS,LEGACY_ENCOUNTER_COUNT,encounterFor} from '../isopoda/encounters.mjs';
 import {MOTIONS,actorOrder,makeIndividuals,stageIndividuals,stepIndividuals} from '../isopoda/behaviors.mjs';
 test('fresh collection is empty; old run and archive unlock only known species',()=>{
  assert.deepEqual(restoreCollection(null,null).unlocked,[]);
@@ -26,4 +26,9 @@ test('all encounter motions animate five bounded stable individuals, with correc
 test('reduced motion keeps essential activity gentle; disturbing and waiting alter defensive encounter',()=>{
  const e=ENCOUNTERS.find(e=>e.motion==='defend'),g=makeIndividuals(2);stageIndividuals(g,e);const p=g.map(c=>[c.x,c.y]);stepIndividuals(g,{encounter:e,state:{},time:3,reduced:true});assert.ok(g.every((c,i)=>Math.hypot(c.x-p[i][0],c.y-p[i][1])<1));assert.ok(g.some(c=>c.moving));
  stepIndividuals(g,{encounter:e,state:{},time:3,reaction:{mode:'quiet'}});assert.ok(g.every(c=>['tucked','normal','turning'].includes(c.posture)));stepIndividuals(g,{encounter:e,state:{},time:3,reaction:{mode:'disturb'}});assert.ok(g.some(c=>['tucked','curled'].includes(c.posture)));
+});
+
+test('active pre-expansion saves keep the original encounter pool while new runs use all thirty-six',()=>{
+ const old=createRun('ducky',404);delete old.narrativeVersion;const oldSeen=new Set();for(let n=0;n<21;n++){const e=encounterFor(old);oldSeen.add(e.id);choose(old,ensureScene(old).options[0].id);advance(old)}assert.equal(oldSeen.size,21);assert.ok([...oldSeen].every(id=>ENCOUNTERS.slice(0,LEGACY_ENCOUNTER_COUNT).some(e=>e.id===id)));
+ const fresh=createRun('ducky',404);assert.equal(fresh.narrativeVersion,1);for(let seed=1,found=false;seed<=120&&!found;seed++){const s=createRun('ducky',seed);for(let n=0;n<21;n++){if(ENCOUNTERS.indexOf(encounterFor(s))>=LEGACY_ENCOUNTER_COUNT){found=true;break}choose(s,ensureScene(s).options[0].id);advance(s)}if(seed===120)assert.ok(found)}
 });
