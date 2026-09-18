@@ -135,7 +135,7 @@ export function sceneFor(s){
    scene.text=pick(s,EVENING[s.day-1]);const direct=directMemoryForDay(s);if(direct)scene.text+=' '+direct;
    scene.options=[opt('describe','只记看到的',{labels:1},pick(s,['你写下了位置、颜色和停留。句子没有替它们补上理由。','你记下“进入叶片下面”。今天到这里为止。','纸上多了几行。盒子里的土没有因此变平。','你把三个动词删成了两个名词。今天的记录因此更短。','你只写下出现和消失的位置，没有替中间补一条路线。'],8)),opt('infer','写下一个猜测',{maps:1},pick(s,['你写下“可能”，后面跟着一个很小的问号。','你留下一个假设。明天的路线也许不会配合。','这一条先放在页边，暂不抄进结论。','你在箭头旁写下“如果”。这个词暂时没有被验证。','猜测被圈在页边，没有和观察记录用同一种笔压下去。'],7)),opt('blank','留下一行空白',{quiet:1},pick(s,['空白留在原处。它不是一次漏记。','笔停下来时，最小的个体还在走。','你把本子合上了一会儿，叶片下的时间没有暂停。','这一行没有内容，但保留了它原本应该出现的位置。','你没有补完最后一句。盒子里的移动也没有等待句号。'],4))];
  }else{
-   const type=MINI_TYPES[(s.day-1+hash(s.seed,50)%MINI_TYPES.length)%MINI_TYPES.length];scene.kind=type;
+   const otherTypes=MINI_TYPES.filter(type=>type!=='touch'),type=s.day===1?'touch':otherTypes[(s.day-2+hash(s.seed,50)%otherTypes.length)%otherTypes.length];scene.kind=type;
    if(type==='water'){
      scene.text='左侧的土仍然深暗，右侧已经松散。只给一个地方补水，还是让干湿之间的距离缩短一些？';
      scene.options=[opt('wet-left','湿区少量',{humidity:5,care:1,interventions:1},'少量水留在左侧，右边仍较干。个体可以在两边之间移动。'),opt('wet-all','两边都喷',{humidity:14,interventions:1},'两侧都变暗了，原先的干湿边界缩小。下一次可以留出一块较干的地面。'),opt('wet-none','这次不补',{quiet:1},s.humidity>80?'湿度已经偏高。这次没有再增加水，盒壁上的水珠慢慢变小。':'你没有补水。湿区还在，但边缘继续向里缩。')];
