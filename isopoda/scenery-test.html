@@ -3,24 +3,98 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ISOPODA / 场景要素测试</title>
-<link rel="stylesheet" href="./scenery-test.css?v=1">
+<title>ISOPODA / Habitat Asset Lab</title>
+<link rel="stylesheet" href="./scenery-test.css?v=2">
 </head>
 <body>
-<main>
-<header>
- <div><strong>ISOPODA / 场景要素测试</strong><small>本地测试 · 纯程序化像素绘制 · 无图片资源</small></div>
+<main class="lab">
+<header class="topbar">
+ <div>
+  <div class="lab-code">ISOPODA / DEV TOOL / HABITAT</div>
+  <h1>饲养环境素材实验室 <span>Habitat Asset Lab</span></h1>
+  <p>Canvas 程序化像素 · 不加载 PNG / JPG / WebP · 只测试场景模块，不改游戏流程</p>
+ </div>
+ <div class="status"><b>CODE-DRAWN</b><span>384 × 430 WORLD</span><small id="objectCount">0 OBJECTS</small></div>
 </header>
-<section class="hero">
- <div><h1>组合场景</h1><p>与游戏使用同一套 scenery renderer。场景元素逐个模块化调整。</p></div>
- <canvas id="scene" width="384" height="430"></canvas>
+
+<nav class="category-bar" aria-label="素材分类">
+ <button data-category="all" aria-pressed="true">ALL</button>
+ <button data-category="substrate">BASE</button>
+ <button data-category="moss">MOSS</button>
+ <button data-category="leaf">LEAF</button>
+ <button data-category="bark">WOOD</button>
+ <button data-category="stone">STONE</button>
+ <button data-category="calcium">CUTTLEBONE</button>
+ <button data-category="debris">DEBRIS</button>
+</nav>
+
+<section class="workspace">
+ <aside class="panel asset-panel">
+  <div class="panel-heading">
+   <span>ASSET LIBRARY</span>
+   <small>点击物件加入画布；BASE 直接切换基质</small>
+  </div>
+  <div id="assetList" class="asset-list"></div>
+ </aside>
+
+ <section class="panel viewer-panel">
+  <div class="viewer-head">
+   <div><span>SCENE SANDBOX</span><small>拖动物件测试组合与遮挡</small></div>
+   <div class="viewer-actions">
+    <button id="resetScene">RESET</button>
+    <button id="clearScene">CLEAR OBJECTS</button>
+   </div>
+  </div>
+  <div class="canvas-shell">
+   <canvas id="scene" width="384" height="430" aria-label="模块化饲养环境测试画布"></canvas>
+   <div class="axis-label axis-x">384</div><div class="axis-label axis-y">430</div>
+  </div>
+  <div class="viewer-foot">
+   <span>pointer: <b id="pointerReadout">—</b></span>
+   <span>background: <b id="backgroundReadout">substrate-dry</b></span>
+   <span>renderer: <b>Canvas fillRect()</b></span>
+  </div>
+ </section>
+
+ <aside class="panel inspector">
+  <div class="panel-heading">
+   <span>SELECTED MODULE</span>
+   <small>只修改测试场景中的实例</small>
+  </div>
+  <div id="emptyInspector" class="empty-inspector">在画布中点选一个物件。</div>
+  <div id="selectedInspector" hidden>
+   <div class="selected-name"><b id="selectedLabel">—</b><span id="selectedId">—</span></div>
+   <dl class="readout">
+    <div><dt>TYPE</dt><dd id="selectedType">—</dd></div>
+    <div><dt>POSITION</dt><dd id="selectedPosition">—</dd></div>
+    <div><dt>SEED</dt><dd id="selectedSeed">—</dd></div>
+    <div><dt>SCALE</dt><dd id="selectedScale">—</dd></div>
+    <div><dt>ANGLE</dt><dd id="selectedAngle">—</dd></div>
+    <div><dt>Z</dt><dd id="selectedZ">—</dd></div>
+   </dl>
+   <div class="control-grid">
+    <button data-action="rotate-left">↶ ROTATE</button>
+    <button data-action="rotate-right">ROTATE ↷</button>
+    <button data-action="scale-down">− SCALE</button>
+    <button data-action="scale-up">＋ SCALE</button>
+    <button data-action="back">↓ BACK</button>
+    <button data-action="front">↑ FRONT</button>
+    <button data-action="reroll">↻ SEED</button>
+    <button data-action="delete" class="danger">DELETE</button>
+   </div>
+  </div>
+  <div class="notes">
+   <b>占位规则</b>
+   <p>这里先验证“基质 + 独立物件 + 鼠妇”这套组合逻辑。素材全部由代码生成；以后再逐个提高像素质量。</p>
+  </div>
+ </aside>
 </section>
-<section><h2>枯叶 / leaf.mjs</h2><div id="leaves" class="grid six"></div></section>
-<section><h2>水苔 / moss.mjs</h2><div id="moss" class="grid"></div></section>
-<section><h2>木片 / bark.mjs</h2><div id="bark" class="grid"></div></section>
-<section><h2>墨鱼骨 / cuttlebone.mjs</h2><div id="cuttlebone" class="grid"></div></section>
-<section><h2>基质 / substrate.mjs</h2><div id="substrate" class="grid"></div></section>
+
+<footer>
+ <span>TEST PAGE ONLY · game.js / habitat.mjs 未改动</span>
+ <span>isopoda/scenery-test.html</span>
+</footer>
 </main>
-<script type="module" src="./scenery-test.mjs?v=1"></script>
+<script type="module" src="./scenery-test.mjs?v=2"></script>
 </body>
 </html>
