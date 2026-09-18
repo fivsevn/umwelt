@@ -2,8 +2,8 @@ import {renderCatalog,renderSources} from './catalog.mjs?v=quiet-ui-3';
 import {SPECIES,speciesById} from './species.mjs?v=quiet-ui-3';
 import {ENDINGS} from './content.mjs?v=narrative-pool-2';
 import {createRun,validRun,migrateV3,runSpecies,migrateLegacy,ensureScene,choose,advance,timeFor,recordDirectInteraction,endingMemoryFor} from './engine.mjs?v=environment-memory-1';
-import {makeBug,makeIsopod} from './sprites.mjs?v=quiet-ui-3';
-import {createHabitat} from './habitat.mjs?v=environment-memory-1';
+import {makeBug,makeIsopod,renderModel,exuviaPixels} from './sprites.mjs?v=exuvia-1';
+import {createHabitat} from './habitat.mjs?v=exuvia-1';
 import {restoreCollection,drawCohort,unlock} from './collection.mjs?v=quiet-ui-3';
 import {encounterById,encounterFor} from './encounters.mjs?v=narrative-pool-2';
 import {iconButton,createInstrument} from './ui.mjs?v=quiet-ui-3';
@@ -51,15 +51,15 @@ function begin(){
 function act(id){if(!choose(state,id))return;habitat.react(id);tone(130);render()}
 function next(){if(!advance(state))return;tone(95);save();if(state.stage==='ended'){showEnd();return}render()}
 function drawEndMolts(){
- const canvas=$('#endMolts'),shells=Array.isArray(state.collectedShells)?state.collectedShells.slice(-10):[];if(!canvas)return;
+ const canvas=$('#endMolts'),shells=Array.isArray(state.collectedShells)?state.collectedShells.slice(-8):[];if(!canvas)return;
  canvas.hidden=!shells.length;if(!shells.length)return;
- const cell=2,slot=28,w=Math.max(72,shells.length*slot+12),h=34;canvas.width=w;canvas.height=h;canvas.style.width=Math.min(360,w*2)+'px';canvas.style.height=(h*2)+'px';
+ const slot=56,w=Math.max(96,shells.length*slot+16),h=58;canvas.width=w;canvas.height=h;canvas.style.width=Math.min(420,Math.round(w*1.45))+'px';canvas.style.height=Math.round(h*1.45)+'px';
  const g=canvas.getContext('2d');g.clearRect(0,0,w,h);g.imageSmoothingEnabled=false;
- const pixel=(x,y,a=.72)=>{g.fillStyle=`rgba(229,228,210,${a})`;g.fillRect(Math.round(x),Math.round(y),cell,cell)};
  shells.forEach((shell,index)=>{
-  const phase=shell.phase||'whole',segments=phase==='whole'?8:5,length=phase==='whole'?18:11,cx=9+index*slot+slot/2,cy=17,offset=phase==='anterior'?-2:phase==='posterior'?2:0;
-  for(let i=0;i<segments;i++){const t=segments===1?0:i/(segments-1),x=cx-length/2+t*length+offset,r=2+Math.sin(t*Math.PI)*3;pixel(x,cy-r,.82);pixel(x,cy+r,.55);if(i%2===0)pixel(x,cy,.68)}
-  if(phase==='whole'){pixel(cx-length/2-2,cy,.78);pixel(cx+length/2+2,cy,.48)}
+  const specimen=state.cohort?.find(c=>c.id===shell.specimen)||state.cohort?.[0],species=speciesById(specimen?.species||state.cohort?.[0]?.species||'dairy');
+  const model=renderModel(species.visual,{stage:specimen?.stage||'M',seed:specimen?.seed||shell.id});
+  const cells=exuviaPixels(model,{phase:shell.phase||'whole',age:0}),cx=8+slot*index+slot/2,cy=h/2,scale=.78;
+  for(const [x,y,color] of cells){g.fillStyle=color;g.fillRect(Math.round(cx+x*scale),Math.round(cy+y*scale),1,1)}
  });
 }
 function showEnd(){
