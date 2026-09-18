@@ -193,7 +193,8 @@ function drawHabitat(t){
  for(const l of memory.leaves){
   if(['leaf-a','leaf-b','leaf-old'].includes(l.id))continue;
   const hash=Math.abs(Math.round(l.x*17+l.y*31+l.a*100)),variant=hash%6,tone=(hash>>2)%LEAF_PALETTES.length;
-  const baseSize=Number.isFinite(l.scale)?l.scale:.84+(hash%6)*.075,size=baseSize*(1-Math.min(l.age,20)*.004),angle=l.a+((hash%7)-3)*.065;
+  // Ignore legacy tiny saved scales here: litter should read like the large leaves already painted into the habitat.
+  const baseSize=1.34+(hash%6)*.13,size=baseSize*(1-Math.min(l.age,20)*.003),angle=l.a+((hash%7)-3)*.065;
   leaf(ctx,l.x,l.y,angle,variant,size,tone,l.gap);
  }
  for(const f of memory.foodNodes){
@@ -221,7 +222,7 @@ function drawActors(){
 // large / medium hierarchy, thick body, broken edges, and almost no line-art veins.
 function leaf(c,x,y,a,variant=0,scale=1,tone=0,gap=false){
  const palettes=LEAF_PALETTES,p=palettes[tone%palettes.length],ca=Math.cos(a),sa=Math.sin(a),cell=3;
- const length=[42,47,44,41,46,43][variant%6]*scale,width=[24,18,27,26,23,22][variant%6]*scale;
+ const length=[44,50,47,44,49,46][variant%6]*scale,width=[26,21,29,29,26,25][variant%6]*scale;
  const at=(u,v,color,w=cell,h=cell)=>px(c,x+u*ca-v*sa,y+u*sa+v*ca,w,h,color);
  const widthAt=t=>{
   const q=Math.max(0,1-Math.abs(t));
