@@ -184,85 +184,100 @@ function drawActors(){
   for(const [x,y,color] of actor.hitCells)px(ctx,x,y,1,1,color);
  }
 }
-// Six silhouettes suggest mixed broadleaf litter without tying the scene to one exact tree species.
+// Fallen leaves use broad readable silhouettes, a strong midrib and a few broken margins.
 function leaf(c,x,y,a,variant=0,scale=1,tone=0){
  const palette=LEAF_PALETTES[tone%LEAF_PALETTES.length],ca=Math.cos(a),sa=Math.sin(a);
- const lengths=[49,45,46,50,43,40],widths=[25,12,22,19,27,24];
- const length=lengths[variant%6]*scale,width=widths[variant%6]*scale,radius=Math.ceil(length+width);
+ const lengths=[45,48,44,41,47,43],widths=[22,12,24,25,20,17],length=lengths[variant%6]*scale,width=widths[variant%6]*scale;
+ const plot=(u,v,color,w=1,h=1)=>px(c,x+u*ca-v*sa,y+u*sa+v*ca,w,h,color);
+ const rimAt=t=>{
+  const q=Math.max(0,1-Math.abs(t)),base=width*Math.pow(q,.55);
+  if(variant===1)return base*.54*(.92+.08*Math.cos(t*Math.PI*3));
+  if(variant===2)return base*(.72+.24*Math.abs(Math.sin((t+.05)*Math.PI*3.2)));
+  if(variant===3){const p=(t+1)/2;return width*Math.pow(Math.max(0,Math.sin(p*Math.PI)),.42)*(.52+.58*p)}
+  if(variant===4)return base*(.86+.12*Math.cos((t+.18)*Math.PI*2.2));
+  if(variant===5)return base*(.68+.18*Math.sin((t+.1)*Math.PI*2.6));
+  return base*(.92+.07*t);
+ };
+ const radius=Math.ceil(length+width+4);
  for(let yy=-radius;yy<=radius;yy++)for(let xx=-radius;xx<=radius;xx++){
-  const u=xx*ca+yy*sa,v=-xx*sa+yy*ca,t=u/length;if(Math.abs(t)>1)continue;
-  let rim=width*Math.pow(Math.max(0,1-t*t),variant===1?.95:variant===5?.58:.72);
-  if(variant===2)rim*=.72+.31*Math.abs(Math.sin((t+.05)*Math.PI*3.1));
-  if(variant===3)rim*=1+.11*Math.sin((t+.2)*Math.PI*4)+(v>0?.07:-.04);
-  if(variant===4)rim*=.82+.21*Math.abs(Math.cos(t*Math.PI*2.45));
-  if(variant===5)rim*=.88+.08*Math.cos(t*Math.PI*2);
-  if(Math.abs(v)>rim)continue;
-  const nick=Math.floor((u+19)/Math.max(.35,scale)/7);
-  if(variant===3&&nick%4===0&&v>rim-2.5*Math.max(.5,scale))continue;
-  if(variant===0&&nick%7===0&&v>rim-1.8*Math.max(.5,scale))continue;
-  if(variant===2&&Math.abs(t)>.14&&Math.abs(t)<.84&&Math.abs(v)>rim*.69&&((Math.floor((t+1)*11)+Math.sign(v))%3===0))continue;
-  if(variant===4&&Math.abs(t)>.18&&Math.abs(t)<.8&&Math.abs(v)>rim*.73&&Math.floor((t+1)*9)%2===0)continue;
+  const u=xx*ca+yy*sa,v=-xx*sa+yy*ca,t=u/length;if(t<-1||t>1)continue;
+  let rim=rimAt(t);if(Math.abs(v)>rim)continue;
+  const side=Math.sign(v)||1,edge=rim-Math.abs(v),band=Math.floor((t+1)*12);
+  // Missing pieces stay on the perimeter: no internal pinholes or swiss-cheese texture.
+  if(variant===2&&edge<3*scale&&band%4===1&&side>0)continue;
+  if(variant===3&&t>.58&&edge<4*scale&&Math.abs(v)<rim*.42)continue;
+  if(variant===4&&edge<3.2*scale&&((band===3&&side<0)||(band===8&&side>0)))continue;
+  if(variant===5&&edge<2.8*scale&&band%5===2)continue;
   let ink=palette[1];
-  if(v>rim-1.4*Math.max(.5,scale))ink=palette[0];
-  else if(v< -rim+1.2*Math.max(.5,scale))ink=palette[2];
-  else if(Math.abs(v)<.75*Math.max(.6,scale))ink=palette[3];
-  else if((Math.floor(u/2)+Math.floor(v/2)+variant)%11===0)ink=palette[2];
-  if((variant===3||variant===5)&&t>.15&&t<.4&&v>rim*.34&&v<rim*.67)continue;
-  px(c,x+xx,y+yy,1,1,ink);
+  if(edge<1.5*Math.max(.55,scale))ink=palette[0];
+  else if(v< -rim*.38)ink=palette[2];
+  else if(Math.abs(v)<1.3*Math.max(.65,scale))ink=palette[3];
+  else if(((Math.floor(u/4)+Math.floor(v/3)+variant*3)&7)===0)ink=palette[2];
+  plot(u,v,ink);
  }
- const stem=(variant===1?11:variant===4?5:7)*scale;
- for(let i=0;i<stem;i++)px(c,x-ca*(length+i),y-sa*(length+i),1,1,palette[4]);
+ // Midrib and a restrained set of lateral veins keep the leaf readable at game scale.
+ for(let u=-length*.86;u<length*.82;u+=1.3)plot(u,0,palette[3]);
+ const branchInk=palette[2];
+ for(const t of [-.55,-.28,.02,.30,.56]){
+  const u=t*length,rim=rimAt(t)*.78;
+  for(const side of [-1,1]){
+   const reach=rim*(variant===1?.72:.88),steps=Math.max(2,Math.round(reach));
+   for(let i=1;i<steps;i+=2){const q=i/steps;plot(u+q*length*.18,side*i,branchInk)}
+  }
+ }
+ // A short crooked petiole.
+ const stem=(variant===1?10:7)*scale;
+ for(let i=0;i<stem;i++)plot(-length-i,Math.sin(i*.7)*.45,palette[4]);
 }
-// Real decayed bark reads as a broad slab: mostly straight edges, tapered sides, localized rot and broken fibre.
+// Decayed bark is built from long layered fibres and broken slabs, never dense perforations.
 function bark(x,y,a=0,variant=0,scale=1){
- const ca=Math.cos(a),sa=Math.sin(a),half=(variant===1?62:78)*scale,depth=(variant===1?25:34)*scale;
- const plot=(u,v,color)=>px(ctx,x+u*ca-v*sa,y+u*sa+v*ca,1,1,color);
- for(let row=Math.floor(-depth-5);row<=depth+6;row++)for(let col=Math.floor(-half-6);col<=half+6;col++){
-  const n=(row+depth)/(depth*2),left=-half+(variant===0?5:9)*n*scale,right=half-(variant===0?11:4)*n*scale;
-  if(col<left||col>right||row< -depth||row>depth)continue;
-  // Decay remains local: eaten corners, softened side bites and collapsed fibres rather than a scalloped perimeter.
-  const rotCorner=variant===0&&col>right-31*scale&&row< -depth+18*scale&&row<(-depth+18*scale)+(col-(right-31*scale))*.48;
-  const brokenEnd=variant===0&&col<left+17*scale&&row>depth-13*scale&&row>(depth-13*scale)+(left+17*scale-col)*.35;
-  const sideBite=variant===1&&col>right-19*scale&&row>depth-17*scale&&row>(depth-17*scale)+(col-(right-19*scale))*.42;
-  const endLoss=variant===1&&col<left+15*scale&&row< -depth+12*scale;
-  const softEdge=variant===0&&col<left+28*scale&&row< -depth+8*scale+(col-left)*.17;
-  const lowerRot=variant===0&&col>right-46*scale&&col<right-21*scale&&row>depth-9*scale&&((col+row)%7<3);
-  const smallChip=((Math.floor(col*5+row*7+variant*19)%137)===0)&&(Math.abs(row)>depth-5*scale||Math.abs(col)>half-7*scale);
-  if(rotCorner||brokenEnd||sideBite||endLoss||softEdge||lowerRot||smallChip)continue;
-  let ink=variant===0?'#684a32':'#62452f';
-  const fibre=Math.floor((row+depth)/(variant===0?8:7));
-  if(fibre%4===0&&Math.abs(row)<depth-4*scale)ink=variant===0?'#573d2e':'#51382b';
-  else if(fibre%4===2)ink=variant===0?'#745437':'#6d4d33';
-  if(row<=-depth+2*scale)ink=variant===0?'#8c6743':'#866342';
-  else if(row>=depth-3*scale)ink='#392f27';
-  const rotBand=(variant===0&&col>half*.28&&row< -depth*.30)||(variant===1&&col>half*.34&&row>depth*.18);
-  if(rotBand)ink=((col+row)%5<2)?'#49382e':'#574131';
-  if((Math.floor(col*11+row*17+variant*23)%71)===0)ink='#8e6a45';
+ const ca=Math.cos(a),sa=Math.sin(a),half=(variant===1?61:79)*scale,depth=(variant===1?24:33)*scale;
+ const plot=(u,v,color,w=1,h=1)=>px(ctx,x+u*ca-v*sa,y+u*sa+v*ca,w,h,color);
+ const base=variant===0?['#3f3028','#563b2d','#6d4b31','#805b38','#9a7348']:['#3a2d27','#50392d','#684930','#785536','#8e6842'];
+ for(let row=Math.floor(-depth);row<=depth;row++)for(let col=Math.floor(-half);col<=half;col++){
+  const q=(row+depth)/(depth*2),left=-half+(5+q*7)*scale,right=half-(4+(1-q)*8)*scale;
+  if(col<left||col>right)continue;
+  const endBreak=(variant===0&&col>right-17*scale&&row< -depth+10*scale+(right-col)*.35)||
+                 (variant===0&&col<left+12*scale&&row>depth-8*scale)||
+                 (variant===1&&col<left+16*scale&&row< -depth+9*scale)||
+                 (variant===1&&col>right-12*scale&&row>depth-10*scale);
+  if(endBreak)continue;
+  const edge=Math.min(row+depth,depth-row,col-left,right-col);
+  const stripe=Math.floor((row+depth)/(6*scale+1));
+  let ink=base[2];
+  if(stripe%4===0)ink=base[1];else if(stripe%4===2)ink=base[3];
+  if(edge<2.2*scale)ink=base[0];
+  else if(((Math.floor(col/12)+stripe*3+variant)&7)===0)ink=base[4];
   plot(col,row,ink);
  }
- // Long fibres and a few larger fractures carry the texture without peppering the slab with dark marks.
- const fibres=variant===0?[[-60,-18,96,.015],[-67,-8,116,.01],[-66,3,108,-.018],[-48,13,92,.018],[-41,20,76,.022]]:[[-44,-11,67,.025],[-50,-1,76,.01],[-49,8,70,-.02]];
- for(const [sx,sy,len,slope] of fibres)for(let i=0;i<len*scale;i++)if(i%5!==2)plot((sx+i)*scale,(sy+i*slope+Math.sin(i*.32)*.55)*scale,'#3c3028');
- const cracks=variant===0?[[-33,-9,24,.25],[3,15,28,-.22],[39,-12,20,.30]]:[[-24,-7,21,.26],[8,5,24,-.18]];
- for(const [sx,sy,len,slope] of cracks)for(let i=0;i<len*scale;i++)if(i%4!==1)plot((sx+i)*scale,(sy+i*slope+Math.sin(i*.55))*scale,'#2d2923');
- // One broad delaminated patch reads as lifted bark rather than many small dark spots.
- const flakes=variant===0?[[-42,9,19,8]]:[[20,-4,15,6]];
- for(const [fx,fy,fw,fh] of flakes)for(let yy=-fh;yy<=fh;yy++)for(let xx=-fw;xx<=fw;xx++){
-  const d=(xx/fw)**2+(yy/fh)**2;if(d>=1)continue;
-  const rim=d>.68;plot((fx+xx)*scale,(fy+yy)*scale,rim?'#80603f':'#49382d');
- }
- if(variant===0){
-  // A single larger soft-rot cavity replaces the former cluster of small pits and galleries.
-  const holes=[[18,-1,18,11]];
-  for(const [hx,hy,rx,ry] of holes)for(let yy=-ry;yy<=ry;yy++)for(let xx=-rx;xx<=rx;xx++){
-   const d=(xx/rx)**2+(yy/ry)**2;if(d<1)plot(hx*scale+xx*scale,hy*scale+yy*scale,d>.66?'#5b422f':d>.34?'#403128':'#2b2923');
+ // Broad longitudinal plates give the bark a layered, splintered surface.
+ const plates=variant===0?[
+  [-65,-20,92,6,.03,4],[-58,-9,118,7,-.018,3],[-68,4,104,7,.014,1],
+  [-47,15,82,6,-.026,4],[8,-22,58,5,.035,3],[22,19,42,5,-.02,1]
+ ]:[
+  [-49,-15,72,6,.018,4],[-53,-4,90,7,-.012,3],[-45,8,77,6,.025,1],[-28,16,51,5,-.03,4]
+ ];
+ for(const [sx,sy,len,thick,slope,tone] of plates){
+  for(let i=0;i<len*scale;i++){
+   const u=(sx+i)*scale,v=(sy+i*slope+Math.sin((i+variant*5)*.16)*.8)*scale;
+   const taper=Math.min(1,i/(7*scale+1),(len*scale-i)/(8*scale+1));
+   const hh=Math.max(1,Math.round(thick*scale*taper));
+   for(let d=-hh;d<=hh;d++)if(((i+d*5+variant*7)%17)!==0)plot(u,v+d,base[tone]);
   }
-  // Pale exposed fibres on the eroded upper-right corner.
-  for(let i=0;i<19;i++){plot((half-35*scale+i*1.15*scale),(-depth+16*scale+i*.3*scale),'#9d774e');if(i%3===0)plot((half-36*scale+i*1.15*scale),(-depth+19*scale+i*.3*scale),'#6f533a')}
- }else{
-  const holes=[[10,2,10,7]];
-  for(const [hx,hy,rx,ry] of holes)for(let yy=-ry;yy<=ry;yy++)for(let xx=-rx;xx<=rx;xx++){const d=(xx/rx)**2+(yy/ry)**2;if(d<1)plot(hx*scale+xx,hy*scale+yy,d>.65?'#5b4432':'#373029')}
-  for(let yy=-7;yy<=7;yy++)for(let xx=-5;xx<=5;xx++){const d=(xx/5)**2+(yy/7)**2;if(d<1)plot((-half+11*scale)+xx,yy,d>.6?'#765639':d>.25?'#8f6a47':'#47352b')}
+ }
+ // Only a few long fractures and peeled fibres; no repeated circular pits.
+ const fractures=variant===0?[[-38,-14,35,.10],[12,6,42,-.08],[39,-6,25,.16]]:[[-28,-9,31,.12],[6,10,34,-.11]];
+ for(const [sx,sy,len,slope] of fractures)for(let i=0;i<len*scale;i++)if(i%5!==1)plot((sx+i)*scale,(sy+i*slope+Math.sin(i*.45)*.7)*scale,base[0]);
+ const peel=variant===0?[[-55,23,45],[-8,-27,40]]:[[-38,21,34]];
+ for(const [sx,sy,len] of peel)for(let i=0;i<len*scale;i++){
+  const lift=Math.sin((i/(len*scale))*Math.PI)*4*scale;
+  if(i%3!==1)plot((sx+i)*scale,sy*scale-lift,base[4]);
+ }
+ // Broken-end splinters make the silhouette feel fibrous without producing clustered holes.
+ const side=variant===0?1:-1,ex=side*half;
+ for(let i=0;i<7;i++){
+  const sy=(-depth*.55+i*depth*.18),len=(5+(i%3)*3)*scale;
+  for(let j=0;j<len;j++)plot(ex+side*j,sy+j*((i%2?.16:-.12)),i%2?base[3]:base[1]);
  }
 }
 function drawMoltShell(shell){
@@ -306,19 +321,42 @@ function twig(x,y,a,len=18,shade='#5b432e'){
  for(let i=0;i<len;i++){px(ctx,x+ca*i,y+sa*i,1,1,shade);if(i===Math.floor(len*.55))for(let j=1;j<6;j++)px(ctx,x+ca*i-sa*j,y+sa*i+ca*j,1,1,'#49372c')}
 }
 function sphagnumPatch(cx,cy,rx,ry,seed=0){
- const greens=['#354638','#40523d','#4d6244','#60704c','#78805a'];
- for(let i=0;i<150;i++){
-  const a=(i*2.399+seed*.73),r=Math.sqrt(((i*37+seed*13)%149)/149);
-  const x=cx+Math.cos(a)*rx*r*(.82+.18*Math.sin(i*.61+seed)),y=cy+Math.sin(a)*ry*r;
-  const edge=((x-cx)/rx)**2+((y-cy)/ry)**2;if(edge>1+.08*Math.sin(i))continue;
-  const base=greens[(i+seed)%4];px(ctx,x,y,2+(i%3===0),1+(i%4===0),base);
-  if(i%5===0){const len=3+i%4;for(let j=1;j<=len;j++){px(ctx,x,y-j,1,1,greens[2+(j+i)%3]);if(j>1&&j%2===0)px(ctx,x+(i%2?1:-1),y-j,1,1,greens[1+(i+j)%3])}}
+ const greens=['#2e4437','#3d5940','#4f7049','#66885a','#83a56e'];
+ const topAt=xx=>{
+  const n=Math.abs(xx/rx),fall=Math.pow(Math.max(0,1-n),.46);
+  return -ry*fall*(.58+.14*Math.sin(xx*.11+seed)+.10*Math.sin(xx*.23+seed*1.7));
+ };
+ const bottomAt=xx=>{
+  const n=Math.abs(xx/rx),fall=Math.max(0,1-n);
+  return ry*(.16+.08*Math.sin(xx*.09+seed*.7))*fall;
+ };
+ // A contiguous low mound, rendered in chunky 2px cells rather than a vertical strip of dots.
+ for(let xx=-rx;xx<=rx;xx+=2){
+  const top=topAt(xx),bottom=bottomAt(xx);
+  if(top>=bottom)continue;
+  for(let yy=Math.floor(top);yy<=bottom;yy+=2){
+   const h=(xx*31+yy*17+seed*43)&255,rel=(yy-top)/Math.max(1,bottom-top);
+   let ink=rel<.24?greens[3+(h%2)]:rel>.72?greens[h%2]:greens[1+(h%3)];
+   px(ctx,cx+xx,cy+yy,2,2,ink);
+   if((h%23)===0&&rel<.56)px(ctx,cx+xx+1,cy+yy-2,1,2,greens[4]);
+  }
+ }
+ // Irregular crowns and detached tips keep the outline organic like a moss cushion.
+ for(let xx=-rx+5;xx<rx-5;xx+=6){
+  const top=topAt(xx),h=Math.abs((xx*19+seed*37)%11),stem=2+h%5;
+  for(let j=1;j<=stem;j++)px(ctx,cx+xx,cy+top-j,1+(j%3===0),1,greens[2+(j+h)%3]);
+  if(h%3===0){px(ctx,cx+xx-2,cy+top-stem+1,2,1,greens[3]);px(ctx,cx+xx+2,cy+top-stem,2,1,greens[4])}
+ }
+ const satellites=[[-.88,.05,.08],[-.72,-.24,.07],[.76,-.18,.08],[.91,.10,.06]];
+ for(const [sx,sy,s] of satellites){
+  const px0=cx+rx*sx,py0=cy+ry*sy;
+  px(ctx,px0,py0,Math.max(2,rx*s),2,greens[2]);px(ctx,px0+2,py0-2,2,2,greens[3]);
  }
 }
 function scenery(t){
- // Sphagnum/moss remains clustered, with a few smaller islands to keep the floor from reading empty.
- sphagnumPatch(48,80,36,58,1);sphagnumPatch(42,184,31,70,3);sphagnumPatch(48,318,38,58,5);sphagnumPatch(323,390,34,25,8);
- sphagnumPatch(112,368,16,12,11);sphagnumPatch(338,211,15,18,13);
+ // Two irregular sphagnum cushions: one broad upper-left mass and one smaller lower-left patch.
+ sphagnumPatch(73,104,67,47,3);
+ sphagnumPatch(54,342,38,24,11);
  // A small cuttlebone fragment marks this as a maintained culture rather than untouched forest floor.
  cuttlebone(333,168,-.42,.72);
  // More humus flecks and tiny decomposing fragments fill negative space without becoming new focal objects.
