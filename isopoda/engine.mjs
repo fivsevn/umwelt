@@ -10,7 +10,36 @@ export function cohortFor(species,seed){return Array.from({length:7},(_,i)=>({id
 export function runSpecies(s){return [...new Set(s.cohort?.map(c=>c.species)||[s.species])].filter(id=>SPECIES.some(p=>p.id===id))}
 export function createRun(species='dairy',seed=Date.now()>>>0){
  const now=new Date(),startedOn=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');
- const p=speciesById(species);return {startedOn,version:VERSION,seed:seed>>>0,cohort:cohortFor(p.id,seed),day:1,period:0,stage:'choice',humidity:p.wet,temp:23,vent:55,light:54,cover:p.cover,food:1,interventions:0,quiet:0,accuracy:0,maps:0,labels:0,care:0,records:[],ending:null,feedback:'',scene:null};
+ const p=speciesById(species);return {startedOn,version:VERSION,seed:seed>>>0,cohort:cohortFor(p.id,seed),day:1,period:0,stage:'choice',humidity:p.wet,temp:23,vent:55,light:54,cover:p.cover,food:1,interventions:0,quiet:0,accuracy:0,maps:0,labels:0,care:0,directTouches:0,directGrabs:0,directMoves:0,directRecords:[],records:[],ending:null,feedback:'',scene:null};
+}
+export function recordDirectInteraction(s,event={}){
+ const type=['tap','grab','place'].includes(event.type)?event.type:null;if(!type)return null;
+ s.directTouches=Number.isFinite(s.directTouches)?s.directTouches:0;s.directGrabs=Number.isFinite(s.directGrabs)?s.directGrabs:0;s.directMoves=Number.isFinite(s.directMoves)?s.directMoves:0;
+ if(!Array.isArray(s.directRecords))s.directRecords=[];
+ if(type==='tap')s.directTouches++;else if(type==='grab')s.directGrabs++;else s.directMoves++;
+ s.interventions=(Number.isFinite(s.interventions)?s.interventions:0)+1;
+ const env=environmentFor(s),strength=type==='tap'?1:type==='grab'?4:5;env.disturbance=Math.max(env.disturbance||0,strength);
+ const point=event.point&&Number.isFinite(event.point.x)&&Number.isFinite(event.point.y)?{x:Math.round(event.point.x),y:Math.round(event.point.y)}:null;
+ if(type==='place'&&point){env.scuffs??=[];env.scuffs.push({...point,turn:s.records.length,direct:true});env.scuffs=env.scuffs.slice(-18)}
+ const specimen=/^[A-G]$/.test(event.specimen||'')?event.specimen:null,record={day:s.day,period:s.period,time:timeFor(s.seed,s.day,s.period),type,specimen,point};
+ s.directRecords.push(record);s.directRecords=s.directRecords.slice(-40);return record;
+}
+function directRecordForDay(s,day=s.day){
+ const list=Array.isArray(s.directRecords)?s.directRecords.filter(r=>r.day===day):[];
+ return [...list].reverse().find(r=>r.type==='place')||[...list].reverse().find(r=>r.type==='grab')||list.at(-1)||null;
+}
+export function directMemoryForDay(s,day=s.day){
+ const r=directRecordForDay(s,day);if(!r)return '';const who=r.specimen?`个体 ${r.specimen}`:'一个个体';
+ if(r.type==='place')return `今天你把${who}放回了另一个位置。它后来的路线从那里继续。`;
+ if(r.type==='grab')return `今天${who}曾经离开土面。盒子里的移动因此停顿了一会儿。`;
+ return `今天你碰过${who}。它收紧身体，后来才重新展开。`;
+}
+export function endingMemoryFor(s){
+ const list=Array.isArray(s.directRecords)?s.directRecords:[];if(!list.length)return '';
+ const r=[...list].reverse().find(x=>x.type==='place')||[...list].reverse().find(x=>x.type==='grab')||list.at(-1),who=r.specimen?`个体 ${r.specimen}`:'一个个体';
+ if(r.type==='place')return `这七天里，${who}曾被你拿起，又被放回另一个位置。后面的路线从那里继续。`;
+ if(r.type==='grab')return `这七天里，${who}曾短暂离开土面。记录没有把那次停顿从环境里删掉。`;
+ return `这七天里，你曾碰过${who}。它收紧过身体，后来又重新展开。`;
 }
 export function validRun(s){return !!(s&&s.version===VERSION&&Array.isArray(s.cohort)&&s.cohort.length===7&&s.cohort.every((c,i)=>c.id===String.fromCharCode(65+i)&&SPECIES.some(p=>p.id===c.species)&&Number.isInteger(c.seed)&&['S','M','L'].includes(c.stage))&&Number.isInteger(s.day)&&s.day>=1&&s.day<=7&&Number.isInteger(s.period)&&s.period>=0&&s.period<=2&&['choice','feedback','ended'].includes(s.stage)&&Array.isArray(s.records)&&['seed','humidity','temp','vent','light','cover','food','interventions','quiet','accuracy','maps','labels','care'].every(k=>Number.isFinite(s[k])))}
 export function timeFor(seed,day,period){
@@ -27,7 +56,7 @@ export function sceneFor(s){
    let keys=s.humidity>85?['air','leaf','wait']:s.food>3?['clean','air','wait']:s.humidity<58?['mist','leaf','wait']:s.day%3===0?['food','shade','wait']:s.day%2===0?['air','food','wait']:['mist','leaf','wait'];
    scene.options=keys.map(id=>opt(id,CARE[id].label,CARE[id].delta,pick(s,CARE[id].text,3)));
  }else if(s.period===2){
-   scene.text=pick(s,EVENING[s.day-1]);
+   scene.text=pick(s,EVENING[s.day-1]);const direct=directMemoryForDay(s);if(direct)scene.text+=' '+direct;
    scene.options=[opt('describe','只记看到的',{labels:1},pick(s,['你写下了位置、颜色和停留。句子没有替它们补上理由。','你记下“进入叶片下面”。今天到这里为止。','纸上多了几行。盒子里的土没有因此变平。'],8)),opt('infer','写下一个猜测',{maps:1},pick(s,['你写下“可能”，后面跟着一个很小的问号。','你留下一个假设。明天的路线也许不会配合。','这一条先放在页边，暂不抄进结论。'],7)),opt('blank','留下一行空白',{quiet:1},pick(s,['空白留在原处。它不是一次漏记。','笔停下来时，最小的个体还在走。','你把本子合上了一会儿，叶片下的时间没有暂停。'],4))];
  }else{
    const type=MINI_TYPES[(s.day-1+hash(s.seed,50)%MINI_TYPES.length)%MINI_TYPES.length];scene.kind=type;

@@ -25,7 +25,7 @@ export function placeIndividual(actor,point){
  actor.y=Math.max(30,Math.min(400,point.y));
 }
 // A single captured pointer owns either an animal gesture or the existing camera pan.
-export function bindPointerInteraction(canvas,{enabled,worldPoint,hitTest,pan,draw}){
+export function bindPointerInteraction(canvas,{enabled,worldPoint,hitTest,pan,draw,report=()=>{}}){
  let gesture=null;
  // Mobile Safari/Chrome must treat the habitat as a game surface, not selectable page content.
  canvas.style.touchAction='none';
@@ -39,7 +39,8 @@ export function bindPointerInteraction(canvas,{enabled,worldPoint,hitTest,pan,dr
   const g=gesture;clear();gesture=null;
   if(g.actor){
    const config=interactionConfig(g.actor);
-   if(g.grabbed&&!cancel&&event)placeIndividual(g.actor,worldPoint(event));
+   if(g.grabbed&&!cancel&&event){const point=worldPoint(event);placeIndividual(g.actor,point);report({type:'place',actor:g.actor,point})}
+   if(!cancel&&!g.grabbed&&!g.moved)report({type:'tap',actor:g.actor,point:event?worldPoint(event):null});
    holdIndividual(g.actor,!cancel&&!g.grabbed&&!g.moved?'defensive':'recovering',
     !cancel&&!g.grabbed&&!g.moved?config.defenseDuration:config.recoveryTime);
   }
@@ -57,7 +58,7 @@ export function bindPointerInteraction(canvas,{enabled,worldPoint,hitTest,pan,dr
    const g=gesture;
    g.timer=setTimeout(()=>{
     if(gesture!==g||g.moved)return;
-    g.grabbed=true;holdIndividual(actor,'grabbed');draw();
+    g.grabbed=true;holdIndividual(actor,'grabbed');report({type:'grab',actor,point:worldPoint(event)});draw();
    },interactionConfig(actor).longPress);
    draw();
   }
