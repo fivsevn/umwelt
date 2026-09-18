@@ -17,50 +17,6 @@ const LEAF_PALETTES=[
  ['#524536','#69583e','#806b4c','#95805b','#3a332b']
 ];
 
-// The fixed 128×144 habitat painting is authored at a coarser lattice.
-// Refine only its hard pixel edges to the 384×432 world lattice; no smoothing
-// and no new texture are introduced. This keeps specimens and scenery on one plane.
-const refinedArtworkRoots=new WeakSet();
-function refineArtworkLayer(layer){
- if(!layer||layer.dataset.pixelRefined)return;
- const css=getComputedStyle(layer).backgroundImage,match=css.match(/^url\(["']?(data:image\/png;base64,[^"')]+)["']?\)$/);if(!match)return;
- layer.dataset.pixelRefined='loading';
- const image=new Image();image.onload=()=>{
-  const sw=image.naturalWidth,sh=image.naturalHeight;if(!sw||!sh){delete layer.dataset.pixelRefined;return}
-  const src=document.createElement('canvas');src.width=sw;src.height=sh;const sg=src.getContext('2d',{willReadFrequently:true});sg.imageSmoothingEnabled=false;sg.drawImage(image,0,0);
-  const input=sg.getImageData(0,0,sw,sh),data=input.data,out=document.createElement('canvas');out.width=sw*3;out.height=sh*3;
-  const output=out.getContext('2d').createImageData(out.width,out.height),dst=output.data;
-  const idx=(x,y)=>((Math.max(0,Math.min(sw-1,x))+Math.max(0,Math.min(sh-1,y))*sw)<<2);
-  const same=(a,b)=>data[a]===data[b]&&data[a+1]===data[b+1]&&data[a+2]===data[b+2]&&data[a+3]===data[b+3];
-  const put=(di,si)=>{
-   const alpha=data[si+3];dst[di+3]=alpha;if(!alpha){dst[di]=dst[di+1]=dst[di+2]=0;return}
-   for(let k=0;k<3;k++){const value=128+(data[si+k]-128)*1.045;dst[di+k]=Math.max(0,Math.min(255,Math.round(value)))}
-  };
-  for(let y=0;y<sh;y++)for(let x=0;x<sw;x++){
-   const A=idx(x-1,y-1),B=idx(x,y-1),C=idx(x+1,y-1),D=idx(x-1,y),E=idx(x,y),F=idx(x+1,y),G=idx(x-1,y+1),H=idx(x,y+1),I=idx(x+1,y+1);
-   let p=[E,E,E,E,E,E,E,E,E];
-   if(!same(B,H)&&!same(D,F)){
-    p=[
-     same(D,B)?D:E,
-     (same(D,B)&&!same(E,C))||(same(B,F)&&!same(E,A))?B:E,
-     same(B,F)?F:E,
-     (same(D,B)&&!same(E,G))||(same(D,H)&&!same(E,A))?D:E,
-     E,
-     (same(B,F)&&!same(E,I))||(same(H,F)&&!same(E,C))?F:E,
-     same(D,H)?D:E,
-     (same(D,H)&&!same(E,I))||(same(H,F)&&!same(E,G))?H:E,
-     same(H,F)?F:E
-    ];
-   }
-   const ox=x*3,oy=y*3;for(let yy=0;yy<3;yy++)for(let xx=0;xx<3;xx++){const di=((ox+xx)+(oy+yy)*out.width)<<2;put(di,p[yy*3+xx])}
-  }
-  const og=out.getContext('2d');og.putImageData(output,0,0);layer.style.backgroundImage='url("'+out.toDataURL('image/png')+'")';layer.dataset.pixelRefined='1';
- };image.onerror=()=>{delete layer.dataset.pixelRefined};image.src=match[1];
-}
-function refineArtwork(root){
- if(!root||refinedArtworkRoots.has(root))return;refinedArtworkRoots.add(root);
- refineArtworkLayer(root.querySelector('.habitat-art-bg'));refineArtworkLayer(root.querySelector('.habitat-art-bark'));
-}
 export function sceneActorPixels(source,actor){
  const cells=new Map(),size=SCENE_ACTOR_SCALE*actor.model.growth.scale,ca=Math.cos(actor.a),sa=Math.sin(actor.a);
  const centerX=Math.round(actor.x),centerY=Math.round(actor.y+(actor.lift||0));
@@ -80,7 +36,6 @@ export function cameraWindow(width,height,zoom=1,x=192,y=215){
  return {scale,sw,sh,x,y,sx:x-sw/2,sy:y-sh/2};
 }
 export function createHabitat(canvas,layer,getState,onDirectInteraction=()=>{}){
-refineArtwork(canvas.parentElement?.querySelector('.habitat-art'));
 const display=canvas.getContext('2d'),world=document.createElement('canvas');world.width=384;world.height=430;
 const backdrop=document.createElement('canvas');backdrop.width=Math.round(world.width*BACKGROUND_SCALE);backdrop.height=Math.round(world.height*BACKGROUND_SCALE);
 const backdropCtx=backdrop.getContext('2d');backdropCtx.imageSmoothingEnabled=false;
@@ -219,11 +174,10 @@ function drawActors(){
  }
 }
 // Added litter uses the same broad silhouettes as the fixed background leaves:
-// large / medium hierarchy, thick body, broken edges, and almost no line-art veins.
+// large / medium hierarchy, solid fill, thick body and only restrained veins.
 function leaf(c,x,y,a,variant=0,scale=1,tone=0,gap=false){
- const palettes=LEAF_PALETTES,p=palettes[tone%palettes.length],ca=Math.cos(a),sa=Math.sin(a),cell=3;
+ const p=LEAF_PALETTES[tone%LEAF_PALETTES.length],ca=Math.cos(a),sa=Math.sin(a),cell=2;
  const length=[44,50,47,44,49,46][variant%6]*scale,width=[26,21,29,29,26,25][variant%6]*scale;
- const at=(u,v,color,w=cell,h=cell)=>px(c,x+u*ca-v*sa,y+u*sa+v*ca,w,h,color);
  const widthAt=t=>{
   const q=Math.max(0,1-Math.abs(t));
   if(variant===1)return width*Math.pow(q,.70)*.76;
@@ -233,35 +187,48 @@ function leaf(c,x,y,a,variant=0,scale=1,tone=0,gap=false){
   if(variant===5)return width*Math.pow(q,.63)*(.82+.10*Math.cos((t+.1)*Math.PI*2.4));
   return width*Math.pow(q,.57);
  };
- // One broad, rotated shadow. Raised leaves simply open this shadow a little more.
- const shadowU=gap?4:2,shadowV=gap?6:4;
- for(let u=-length;u<=length;u+=cell)for(let v=-width;v<=width;v+=cell){
-  const t=u/length,rim=widthAt(t);if(Math.abs(v)>rim)continue;
-  at(u+shadowU,v+shadowV,'rgba(35,31,26,.34)');
- }
- // Broad body with a handful of torn notches; no dotted texture and no wireframe.
- for(let u=-length;u<=length;u+=cell)for(let v=-width;v<=width;v+=cell){
-  const t=u/length,rim=widthAt(t);if(Math.abs(v)>rim)continue;
+ const inside=(u,v)=>{
+  if(Math.abs(u)>length)return false;
+  const t=u/length,rim=widthAt(t);if(Math.abs(v)>rim)return false;
   const edge=rim-Math.abs(v),side=Math.sign(v)||1;
-  if(variant===0&&t>.38&&t<.58&&side<0&&edge<cell*1.25)continue;
-  if(variant===1&&t<-.22&&t>-.48&&side>0&&edge<cell*1.18)continue;
-  if(variant===2&&t>.12&&t<.38&&side>0&&edge<cell*1.32)continue;
-  if(variant===3&&t>.50&&side<0&&edge<cell*1.42)continue;
-  if(variant===4&&t<-.36&&side>0&&edge<cell*1.22)continue;
-  if(variant===5&&t>.30&&t<.55&&side<0&&edge<cell*1.18)continue;
+  if(variant===0&&t>.38&&t<.58&&side<0&&edge<cell*1.35)return false;
+  if(variant===1&&t<-.22&&t>-.48&&side>0&&edge<cell*1.30)return false;
+  if(variant===2&&t>.12&&t<.38&&side>0&&edge<cell*1.45)return false;
+  if(variant===3&&t>.50&&side<0&&edge<cell*1.55)return false;
+  if(variant===4&&t<-.36&&side>0&&edge<cell*1.35)return false;
+  if(variant===5&&t>.30&&t<.55&&side<0&&edge<cell*1.30)return false;
+  return true;
+ };
+ const radius=Math.ceil(Math.hypot(length,width)+10);
+ // Rotated shadow, rasterized on the world grid so there can be no holes.
+ const su=gap?4:2,sv=gap?6:4;
+ for(let yy=-radius;yy<=radius;yy+=cell)for(let xx=-radius;xx<=radius;xx+=cell){
+  const dx=xx-su,dy=yy-sv,u=dx*ca+dy*sa,v=-dx*sa+dy*ca;
+  if(inside(u,v))px(c,x+xx,y+yy,cell,cell,'rgba(35,31,26,.34)');
+ }
+ // Solid body. Every world-grid cell inside the silhouette is filled.
+ for(let yy=-radius;yy<=radius;yy+=cell)for(let xx=-radius;xx<=radius;xx+=cell){
+  const u=xx*ca+yy*sa,v=-xx*sa+yy*ca;if(!inside(u,v))continue;
+  const t=u/length,rim=widthAt(t),edge=rim-Math.abs(v);
   let ink=p[1];
-  if(edge<cell*.90)ink=p[0];
+  if(edge<cell*1.25)ink=p[0];
   else if(v<0)ink=p[2];
   if(t>.22&&v>0)ink=p[2];
   if(t<-.10&&t>-.38&&v<-.15*rim)ink=p[3];
-  at(u,v,ink);
+  px(c,x+xx,y+yy,cell,cell,ink);
  }
- // A coarse midrib that breaks in places, plus just one restrained side-vein pair.
- for(let u=-length*.76;u<length*.74;u+=cell*2)at(u,0,p[2]);
+ // Midrib and one quiet vein pair; no stippling.
+ for(let u=-length*.76;u<length*.74;u+=cell*2){
+  const xx=u*ca,yy=u*sa;px(c,x+xx,y+yy,cell,cell,p[3]);
+ }
  const vu=-.12*length,vr=widthAt(-.12)*.66;
- for(const side of [-1,1])for(let q=.34;q<.92;q+=.32)at(vu+q*length*.12,side*vr*q,p[2]);
- // Stem is short and thick enough to read as part of the same silhouette.
- for(let i=0;i<8*scale;i+=cell)at(-length-i,0,p[4]);
+ for(const side of [-1,1])for(let q=.34;q<.92;q+=.32){
+  const u=vu+q*length*.12,v=side*vr*q,xx=u*ca-v*sa,yy=u*sa+v*ca;
+  px(c,x+xx,y+yy,cell,cell,p[2]);
+ }
+ for(let i=0;i<8*scale;i+=cell){
+  const u=-length-i,xx=u*ca,yy=u*sa;px(c,x+xx,y+yy,cell,cell,p[4]);
+ }
 }
 // Cork bark is a hand-composed low-resolution "photo": large tonal patches, broken edge, very few cracks.
 function bark(x,y,a=0,variant=0,scale=1){
