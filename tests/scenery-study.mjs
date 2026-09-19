@@ -6,12 +6,14 @@ import {px,rot,hash32,WORLD_W,WORLD_H} from '../isopoda/scenery/pixel.mjs';
 // The public game does not import this module.
 
 const SOIL={
- dry:['#5a4938','#66513d','#705b42','#4b3d31'],
- mid:['#514638','#5a4d3d','#635744','#443c32'],
- wet:['#3f4339','#474a3e','#505246','#373c34'],
- dark:'#332b26',
- light:'#8b704b',
- green:'#5d6b45'
+ // Warm compact humus palette sampled from the user's pixel-soil reference.
+ // Keep value changes narrow so the floor reads as one continuous brown mass.
+ dry:['#643e23','#654025','#603c22','#5a361f','#654a2b'],
+ mid:['#583820','#5d3b23','#54351f','#4d311d','#5e4529'],
+ wet:['#493a2a','#4e3f2e','#453729','#3f3327','#514432'],
+ dark:'#4b2d1a',
+ light:'#765033',
+ green:'#5d6942'
 };
 const LEAVES=[
  ['#342125','#6b3d2c','#915a37','#bd7d43','#e0a557'],
@@ -45,35 +47,71 @@ function putRot(ctx,x,y,a,u,v,w,h,color){
 }
 
 export function drawStudySubstrate(ctx,{wetZones=[],light=100,seed=57}={}){
+ // Reference direction: a continuous warm-brown soil block with restrained,
+ // hand-placed-looking mottling. No visible checkerboard / tile grid.
  px(ctx,0,0,WORLD_W,WORLD_H,SOIL.dry[0]);
 
- // Large low-frequency tiles: the ground should read as a field, not as noise.
- for(let y=0;y<WORLD_H;y+=8)for(let x=0;x<WORLD_W;x+=8){
-  const wet=wetAt(x+4,y+4,wetZones),h=hash32(seed,x>>3,y>>3);
-  const pal=wet>.50?SOIL.wet:wet>.16?SOIL.mid:SOIL.dry;
-  let ink=pal[h%pal.length];
-  if(h%19===0)ink=wet>.28?SOIL.green:SOIL.light;
-  if(h%37===0)ink=SOIL.dark;
-  px(ctx,x,y,8,8,ink);
+ // Broad stepped patches. Each patch is made from a few rectangles rather than
+ // a full-canvas cell grid, so neighbouring pixels merge into larger soil masses.
+ for(let i=0;i<82;i++){
+  const h=hash32(seed,'soil-patch-ref',i);
+  const cx=(h%WORLD_W)-8,cy=((h>>>9)%WORLD_H)-6;
+  const wet=wetAt(cx,cy,wetZones);
+  const pal=wet>.52?SOIL.wet:wet>.18?SOIL.mid:SOIL.dry;
+  const ink=pal[(h>>>18)%pal.length];
+  const w=6+((h>>>21)%14),hh=4+((h>>>25)%9);
 
-  // One subordinate step inside some tiles gives texture without checkerboarding.
-  if(h%5===0){
-   const sub=shade(ink,(h>>>4)%2?1.08:.88);
-   px(ctx,x+((h>>>7)%2?0:4),y+((h>>>8)%2?0:4),4,4,sub);
+  px(ctx,cx,cy,w,hh,ink);
+  if(h%3===0)px(ctx,cx-3,cy+2,5,Math.max(2,hh-3),ink);
+  if(h%4===0)px(ctx,cx+w-2,cy+Math.floor(hh/2),5,Math.max(2,hh-2),ink);
+  if(h%7===0){
+   const accent=shade(ink,(h>>>6)%2?1.07:.88);
+   px(ctx,cx+2,cy+1,Math.max(3,Math.floor(w*.42)),2,accent);
   }
  }
 
- // A few authored-looking soil chips and pebbles.
- for(let i=0;i<18;i++){
-  const h=hash32(seed,'soil-chip-v2',i),x=10+h%364,y=10+((h>>>9)%410);
-  const w=[5,7,9][h%3],ink=[SOIL.dark,'#4a372a','#836946'][h%3];
-  px(ctx,x,y,w,2,ink);
-  if(h%3===0)px(ctx,x+2,y-1,Math.max(2,w-4),1,shade(ink,1.18));
+ // Small warm chips and compact dark grains, matching the reference's sparse
+ // low-contrast pixel clusters instead of a uniformly noisy texture.
+ for(let i=0;i<70;i++){
+  const h=hash32(seed,'soil-grain-ref',i),x=5+h%(WORLD_W-10),y=5+((h>>>10)%(WORLD_H-10));
+  const wet=wetAt(x,y,wetZones);
+  const dark=wet>.45?'#3f3327':SOIL.dark;
+  const mid=wet>.45?'#594937':'#70472a';
+  if(h%4===0){
+   px(ctx,x,y,4+((h>>>20)%5),2,dark);
+   if(h%8===0)px(ctx,x+2,y-2,2,2,mid);
+  }else{
+   px(ctx,x,y,2+((h>>>18)%3),2,(h%3===0)?mid:'#5a371f');
+  }
  }
- for(let i=0;i<9;i++){
-  const h=hash32(seed,'soil-pebble-v2',i),x=12+h%358,y=12+((h>>>11)%402);
-  px(ctx,x,y,4,3,h%2?'#665443':'#453a31');
-  px(ctx,x+1,y,2,1,h%2?'#8a7354':'#66594a');
+
+ // A handful of tiny stepped fissures gives the same dry-soil shorthand visible
+ // in the reference without turning the floor into cracks everywhere.
+ for(let i=0;i<14;i++){
+  const h=hash32(seed,'soil-fissure-ref',i),x=12+h%(WORLD_W-28),y=12+((h>>>11)%(WORLD_H-28));
+  const wet=wetAt(x,y,wetZones);
+  const ink=wet>.38?'#40352b':'#4a2c1b';
+  const dir=h%2?1:-1;
+  px(ctx,x,y,5,1,ink);
+  px(ctx,x+dir*3,y+2,5,1,ink);
+  if(h%3===0)px(ctx,x+dir*6,y+4,4,1,ink);
+ }
+
+ // Wet zones remain visually darker/cooler, but their boundary is soft and only
+ // appears through local overlays so the reference-like brown surface survives.
+ for(const z of wetZones){
+  const rx=Math.max(1,z.rx||1),ry=Math.max(1,z.ry||1),moist=(Number(z.moisture)||0)/100;
+  for(let yy=Math.floor(z.y-ry);yy<=Math.ceil(z.y+ry);yy+=6){
+   for(let xx=Math.floor(z.x-rx);xx<=Math.ceil(z.x+rx);xx+=6){
+    const d=((xx-z.x)/rx)**2+((yy-z.y)/ry)**2;
+    if(d>=1)continue;
+    const h=hash32(seed,'wet-soft-ref',xx>>1,yy>>1);
+    if(h%4!==0)continue;
+    const alpha=Math.max(0,(1-d)*moist*.17);
+    ctx.fillStyle=`rgba(45,55,43,${alpha})`;
+    ctx.fillRect(Math.round(xx),Math.round(yy),6,6);
+   }
+  }
  }
 
  if(light<55){
