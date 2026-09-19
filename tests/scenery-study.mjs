@@ -6,14 +6,14 @@ import {px,rot,hash32,WORLD_W,WORLD_H} from '../isopoda/scenery/pixel.mjs';
 // The public game does not import this module.
 
 const SOIL={
- // Warm compact humus palette sampled from the user's pixel-soil reference.
- // Keep value changes narrow so the floor reads as one continuous brown mass.
- dry:['#643e23','#654025','#603c22','#5a361f','#654a2b'],
- mid:['#583820','#5d3b23','#54351f','#4d311d','#5e4529'],
- wet:['#493a2a','#4e3f2e','#453729','#3f3327','#514432'],
- dark:'#4b2d1a',
- light:'#765033',
- green:'#5d6942'
+ // Close to the user's reference: one warm soil mass with narrow-value texture.
+ base:'#68452b',
+ base2:'#644128',
+ mid:'#5f3c25',
+ dark:'#51321f',
+ deep:'#472b1b',
+ light:'#765034',
+ light2:'#7e5737'
 };
 const LEAVES=[
  ['#342125','#6b3d2c','#915a37','#bd7d43','#e0a557'],
@@ -47,75 +47,72 @@ function putRot(ctx,x,y,a,u,v,w,h,color){
 }
 
 export function drawStudySubstrate(ctx,{wetZones=[],light=100,seed=57}={}){
- // Reference direction: a continuous warm-brown soil block with restrained,
- // hand-placed-looking mottling. No visible checkerboard / tile grid.
- px(ctx,0,0,WORLD_W,WORLD_H,SOIL.dry[0]);
+ // Flat warm-brown body first. The reference reads as one continuous soil plane.
+ px(ctx,0,0,WORLD_W,WORLD_H,SOIL.base);
 
- // Broad stepped patches. Each patch is made from a few rectangles rather than
- // a full-canvas cell grid, so neighbouring pixels merge into larger soil masses.
- for(let i=0;i<82;i++){
-  const h=hash32(seed,'soil-patch-ref',i);
-  const cx=(h%WORLD_W)-8,cy=((h>>>9)%WORLD_H)-6;
-  const wet=wetAt(cx,cy,wetZones);
-  const pal=wet>.52?SOIL.wet:wet>.18?SOIL.mid:SOIL.dry;
-  const ink=pal[(h>>>18)%pal.length];
-  const w=6+((h>>>21)%14),hh=4+((h>>>25)%9);
-
-  px(ctx,cx,cy,w,hh,ink);
-  if(h%3===0)px(ctx,cx-3,cy+2,5,Math.max(2,hh-3),ink);
-  if(h%4===0)px(ctx,cx+w-2,cy+Math.floor(hh/2),5,Math.max(2,hh-2),ink);
-  if(h%7===0){
-   const accent=shade(ink,(h>>>6)%2?1.07:.88);
-   px(ctx,cx+2,cy+1,Math.max(3,Math.floor(w*.42)),2,accent);
-  }
+ // Very soft, irregular low-frequency patches. These are intentionally close to
+ // the base value and never form a repeating grid.
+ for(let i=0;i<34;i++){
+  const h=hash32(seed,'soil-soft',i);
+  const x=(h%WORLD_W)-8,y=((h>>>10)%WORLD_H)-6;
+  const w=8+((h>>>20)%18),hh=5+((h>>>25)%12);
+  const ink=(h%3===0)?SOIL.base2:(h%3===1)?'#6b472c':'#624028';
+  px(ctx,x,y,w,hh,ink);
+  if(h%2===0)px(ctx,x-3,y+2,6,Math.max(3,hh-4),ink);
+  if(h%5===0)px(ctx,x+w-2,y+Math.floor(hh*.45),5,Math.max(2,hh-5),ink);
  }
 
- // Small warm chips and compact dark grains, matching the reference's sparse
- // low-contrast pixel clusters instead of a uniformly noisy texture.
- for(let i=0;i<70;i++){
-  const h=hash32(seed,'soil-grain-ref',i),x=5+h%(WORLD_W-10),y=5+((h>>>10)%(WORLD_H-10));
-  const wet=wetAt(x,y,wetZones);
-  const dark=wet>.45?'#3f3327':SOIL.dark;
-  const mid=wet>.45?'#594937':'#70472a';
-  if(h%4===0){
-   px(ctx,x,y,4+((h>>>20)%5),2,dark);
-   if(h%8===0)px(ctx,x+2,y-2,2,2,mid);
-  }else{
-   px(ctx,x,y,2+((h>>>18)%3),2,(h%3===0)?mid:'#5a371f');
-  }
+ // Fine specks and short strokes: this is the main texture in the reference.
+ for(let i=0;i<230;i++){
+  const h=hash32(seed,'soil-fine',i);
+  const x=3+h%(WORLD_W-6),y=3+((h>>>11)%(WORLD_H-6));
+  const tone=h%11;
+  const ink=tone<2?SOIL.dark:tone<4?SOIL.mid:tone===4?SOIL.light:tone===5?SOIL.light2:SOIL.base2;
+  const kind=(h>>>19)%5;
+  if(kind===0)px(ctx,x,y,1,1,ink);
+  else if(kind===1)px(ctx,x,y,2,1,ink);
+  else if(kind===2)px(ctx,x,y,1,2,ink);
+  else if(kind===3){px(ctx,x,y,2,1,ink);px(ctx,x+1,y+1,1,1,ink)}
+  else {px(ctx,x,y,1,1,ink);px(ctx,x+2,y,1,1,ink)}
  }
 
- // A handful of tiny stepped fissures gives the same dry-soil shorthand visible
- // in the reference without turning the floor into cracks everywhere.
- for(let i=0;i<14;i++){
-  const h=hash32(seed,'soil-fissure-ref',i),x=12+h%(WORLD_W-28),y=12+((h>>>11)%(WORLD_H-28));
-  const wet=wetAt(x,y,wetZones);
-  const ink=wet>.38?'#40352b':'#4a2c1b';
-  const dir=h%2?1:-1;
-  px(ctx,x,y,5,1,ink);
-  px(ctx,x+dir*3,y+2,5,1,ink);
-  if(h%3===0)px(ctx,x+dir*6,y+4,4,1,ink);
+ // Occasional tiny humus crumbs.
+ for(let i=0;i<46;i++){
+  const h=hash32(seed,'soil-crumb',i);
+  const x=5+h%(WORLD_W-10),y=5+((h>>>9)%(WORLD_H-10));
+  const ink=h%3===0?SOIL.deep:h%3===1?SOIL.dark:'#573721';
+  px(ctx,x,y,2+((h>>>18)%3),1,ink);
+  if(h%4===0)px(ctx,x+1,y+1,2,1,ink);
  }
 
- // Wet zones remain visually darker/cooler, but their boundary is soft and only
- // appears through local overlays so the reference-like brown surface survives.
+ // A few quiet stepped cracks, kept short and low-contrast.
+ for(let i=0;i<11;i++){
+  const h=hash32(seed,'soil-crack',i);
+  const x=10+h%(WORLD_W-24),y=10+((h>>>10)%(WORLD_H-24));
+  const dir=h%2?1:-1,ink='#573621';
+  px(ctx,x,y,4,1,ink);
+  px(ctx,x+dir*3,y+2,3,1,ink);
+  if(h%3===0)px(ctx,x+dir*5,y+4,3,1,ink);
+ }
+
+ // Moisture stays in the same brown family. It only darkens the soil; no green/grey
+ // field is introduced, so dry and wet areas still read as one material.
  for(const z of wetZones){
   const rx=Math.max(1,z.rx||1),ry=Math.max(1,z.ry||1),moist=(Number(z.moisture)||0)/100;
-  for(let yy=Math.floor(z.y-ry);yy<=Math.ceil(z.y+ry);yy+=6){
-   for(let xx=Math.floor(z.x-rx);xx<=Math.ceil(z.x+rx);xx+=6){
+  for(let yy=Math.floor(z.y-ry);yy<=Math.ceil(z.y+ry);yy+=3){
+   for(let xx=Math.floor(z.x-rx);xx<=Math.ceil(z.x+rx);xx+=3){
     const d=((xx-z.x)/rx)**2+((yy-z.y)/ry)**2;
     if(d>=1)continue;
-    const h=hash32(seed,'wet-soft-ref',xx>>1,yy>>1);
-    if(h%4!==0)continue;
-    const alpha=Math.max(0,(1-d)*moist*.17);
-    ctx.fillStyle=`rgba(45,55,43,${alpha})`;
-    ctx.fillRect(Math.round(xx),Math.round(yy),6,6);
+    const strength=Math.max(0,1-d)*moist;
+    if(strength<.08)continue;
+    ctx.fillStyle=`rgba(48,31,22,${strength*.20})`;
+    ctx.fillRect(Math.round(xx),Math.round(yy),3,3);
    }
   }
  }
 
  if(light<55){
-  ctx.fillStyle=`rgba(18,27,22,${(55-light)/120})`;
+  ctx.fillStyle=`rgba(18,21,18,${(55-light)/145})`;
   ctx.fillRect(0,0,WORLD_W,WORLD_H);
  }
 }
