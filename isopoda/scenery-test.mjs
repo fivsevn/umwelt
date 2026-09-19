@@ -1,4 +1,4 @@
-import {drawStudySubstrate,drawStudyLeaf,drawStudyMoss,drawStudyBark,drawStudyStone,drawStudyCuttlebone,drawStudyTwig,drawStudyWoodChip} from '../tests/scenery-study.mjs?v=jp16-4';
+import {drawStudySubstrate,drawStudyLeaf,drawStudyMoss,drawStudyBark,drawStudyStone,drawStudyCuttlebone,drawStudyTwig,drawStudyWoodChip} from '../tests/scenery-study.mjs?v=jp16-5';
 import {SPECIES,speciesById} from './species-registry.mjs?v=species-39b';
 import {renderModel,pixelAnatomy} from './sprites.mjs?v=exuvia-1';
 
