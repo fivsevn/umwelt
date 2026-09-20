@@ -4,12 +4,22 @@ on:
   push:
     paths:
       - 'isopoda/**'
+      - 'tick/**'
+      - 'index.html'
+      - 'assets/fonts/**'
       - 'tests/**'
+      - '.github/scripts/subset-font.py'
+      - '.github/workflows/pages.yml'
       - '.github/workflows/isopoda-i18n-check.yml'
   pull_request:
     paths:
       - 'isopoda/**'
+      - 'tick/**'
+      - 'index.html'
+      - 'assets/fonts/**'
       - 'tests/**'
+      - '.github/scripts/subset-font.py'
+      - '.github/workflows/pages.yml'
       - '.github/workflows/isopoda-i18n-check.yml'
 
 jobs:
@@ -26,3 +36,31 @@ jobs:
         run: node isopoda/tools/check-i18n.mjs
       - name: Check morphology page structure
         run: node isopoda/tools/check-morphology-page.mjs
+      - name: Install font subsetting tools
+        run: python -m pip install --disable-pip-version-check "fonttools>=4.55,<5" "brotli>=1.1,<2"
+      - name: Check deploy font subset
+        run: |
+          mkdir -p _fontcheck
+          rsync -a --delete \
+            --exclude '.git/' \
+            --exclude '.github/' \
+            --exclude '.gitignore' \
+            --exclude '_site/' \
+            --exclude '_fontcheck/' \
+            --exclude 'README.md' \
+            --exclude 'docs/' \
+            --exclude 'tests/' \
+            --exclude 'isopoda/tools/' \
+            --exclude 'isopoda/cohort.md' \
+            --exclude 'isopoda/morphology.md' \
+            --exclude 'isopoda/locales/README.md' \
+            --exclude 'isopoda/morphology/README.md' \
+            --exclude 'isopoda/scenery/README.md' \
+            --exclude 'isopoda/anatomy-test.html' \
+            --exclude 'isopoda/exploded-preview.html' \
+            --exclude 'isopoda/exploded-preview.css' \
+            --exclude 'isopoda/projection-preview.html' \
+            ./ _fontcheck/
+          python .github/scripts/subset-font.py \
+            --scan-root _fontcheck \
+            --font _fontcheck/assets/fonts/fusion-pixel-12px-monospaced-zh_hans.ttf.woff2

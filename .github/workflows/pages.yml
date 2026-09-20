@@ -32,6 +32,9 @@ jobs:
 
       - uses: actions/configure-pages@v5
 
+      - name: Install font subsetting tools
+        run: python -m pip install --disable-pip-version-check "fonttools>=4.55,<5" "brotli>=1.1,<2"
+
       - name: Prepare Pages artifact
         run: |
           mkdir -p _site
@@ -54,6 +57,12 @@ jobs:
             --exclude 'isopoda/exploded-preview.css' \
             --exclude 'isopoda/projection-preview.html' \
             ./ _site/
+
+      - name: Subset deployed Pixel font
+        run: |
+          python .github/scripts/subset-font.py \
+            --scan-root _site \
+            --font _site/assets/fonts/fusion-pixel-12px-monospaced-zh_hans.ttf.woff2
 
       - uses: actions/upload-pages-artifact@v3
         with:
