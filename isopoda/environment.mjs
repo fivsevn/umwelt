@@ -1,3 +1,4 @@
+import {DEFAULT_LAYOUT,DEFAULT_SHELTER} from './scenery/default-layout.mjs?v=forest-7';
 import {speciesById} from './species.mjs?v=cohort-4';
 // Spatial traces advance with observation turns, never with frame rate or wall time.
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
@@ -10,7 +11,7 @@ export function environmentFor(s){
   s.environment.removedShells=Array.isArray(s.environment.removedShells)?s.environment.removedShells:[];
   return s.environment;
  }
- return s.environment={version:3,wetZones:[{x:42,y:215,rx:30,ry:202,moisture:s.humidity}],leaves:[{id:'leaf-a',x:275,y:110,a:-.45,gap:true,age:0},{id:'leaf-b',x:290,y:344,a:.35,gap:true,age:0},...(s.cover>65?[{id:'leaf-old',x:90,y:315,a:-.15,gap:true,age:0}]:[])],foodNodes:s.food?[{x:320,y:258,amount:s.food,age:0}]:[],shelter:{x:190,y:215},disturbance:0,scuffs:[],shells:[],pendingShells:[],removedShells:[]};
+ return s.environment={version:3,wetZones:structuredClone(DEFAULT_LAYOUT.background.params.wetZones),leaves:[{id:'leaf-a',x:275,y:110,a:-.45,gap:true,age:0},{id:'leaf-b',x:290,y:344,a:.35,gap:true,age:0},...(s.cover>65?[{id:'leaf-old',x:90,y:315,a:-.15,gap:true,age:0}]:[])],foodNodes:s.food?[{x:320,y:258,amount:s.food,age:0}]:[],shelter:{x:DEFAULT_SHELTER.x,y:DEFAULT_SHELTER.y},disturbance:0,scuffs:[],shells:[],pendingShells:[],removedShells:[]};
 }
 const observationTurn=s=>(Math.max(1,Number(s.day)||1)-1)*3+Math.max(0,Number(s.period)||0);
 export function releaseDueShells(s){

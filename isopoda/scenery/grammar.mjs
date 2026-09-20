@@ -3,7 +3,7 @@
 import {hash32} from './pixel.mjs';
 
 export const SCENERY_CELL=1;
-export const SCENERY_CLUSTER=2;
+export const SCENERY_CLUSTER=2.25;
 export const ACTOR_SCALE=.88;
 export function contains(points,x,y){
  let inside=false;
@@ -34,7 +34,7 @@ export function materialInk(fill,x,y,seed=0,material='grain'){
  const key=fill+':'+amount;
  let ramp=textureRamps.get(key);
  if(!ramp){const base=rgb(fill);ramp=[hex(base.map((v,i)=>v-amount*[1,.88,.65][i])),fill,hex(base.map((v,i)=>v+amount*[1,.92,.68][i]))];textureRamps.set(key,ramp)}
- const row=Math.floor(y/2),col=Math.floor((x+(row&1))/2);
+ const row=Math.floor(y/SCENERY_CLUSTER),col=Math.floor((x+(row&1))/SCENERY_CLUSTER);
  let h=Math.imul(col+seed,374761393)^Math.imul(row,668265263);
  h=Math.imul(h^(h>>>13),1274126177);h=(h^(h>>>16))>>>0;
  const step=(col+row+(h%3)+seed)%3;
@@ -59,7 +59,7 @@ export function paint(ctx,{x=0,y=0,a=0,scale=1,extent=90,inside,shade,edge=(u,v,
   // silhouettes do not read like a vector sticker with a complete keyline.
   const broken=border&&roughness>0&&(hash32('rough-edge',Math.round(u/2),Math.round(v/2),Math.round(a*32))%100)<roughness*100;
   if(broken)continue;
-  const fill=materialInk(shade(Math.floor(u/2)*2,Math.floor(v/2)*2),xx,yy,seed,texture),rim=typeof edge==='function'?edge(u,v,fill):edge;
+  const fill=materialInk(shade(Math.floor(u/SCENERY_CLUSTER)*SCENERY_CLUSTER,Math.floor(v/SCENERY_CLUSTER)*SCENERY_CLUSTER),xx,yy,seed,texture),rim=typeof edge==='function'?edge(u,v,fill):edge;
   ctx.fillStyle=border?rim:fill;ctx.fillRect(ox+xx,oy+yy,cell,cell);
  }
 }
