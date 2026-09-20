@@ -1,4 +1,4 @@
-import {paint,contains,nearLine} from './grammar.mjs?v=forest-3';
+import {paint,contains,nearLine} from './grammar.mjs?v=forest-4';
 import {hash32} from './pixel.mjs';
 export const LEAF_PALETTES=[
  ['#51402b','#7b6038','#a08750','#b49a61','#3a3528'],
@@ -21,7 +21,7 @@ export function drawLeaf(ctx,{x=0,y=0,a=0,variant=0,scale=.9,tone=0,gap=false,ag
  const holes=gap||h%3===0;
  scale*=1.25;
  const inside=(u,v)=>contains(shape,u,v)&&!(holes&&((u-10)/6)**2+((v+7)/4.5)**2<1)&&!(damaged&&u>notch&&u<notch+7&&v>8)&&!(gap&&u>8&&u<14&&v< -6&&v> -13);
- paint(ctx,{x,y,a,scale,extent:48,inside,edge:p[4],shade:(u,v)=>{
+ paint(ctx,{x,y,a,scale,extent:48,inside,edge:p[1],shade:(u,v)=>{
   if(nearLine(u,v,-34,0,kind===4?20:32,kind===4?-2:0,1.5))return p[0];
   for(const side of [-1,1])for(const start of [-23,-12,0,12,24]){
    if(nearLine(u,v,start,0,start+10,side*(kind===1?7:20),1.2))return p[0];

@@ -16,7 +16,14 @@ export function nearLine(x,y,ax,ay,bx,by,width=1.4){
  const dx=bx-ax,dy=by-ay,t=Math.max(0,Math.min(1,((x-ax)*dx+(y-ay)*dy)/(dx*dx+dy*dy||1)));
  return Math.hypot(x-ax-t*dx,y-ay-t*dy)<width;
 }
-export function paint(ctx,{x=0,y=0,a=0,scale=1,extent=90,inside,shade,edge='#392c2a',shadow=true,roughness=.20}){
+function rgb(hex){
+ const n=parseInt(hex.slice(1),16);return [n>>16&255,n>>8&255,n&255];
+}
+function hex([r,g,b]){return '#'+[r,g,b].map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join('');}
+export function softEdge(fill,shadow='#302f29',amount=.42){
+ const a=rgb(fill),b=rgb(shadow);return hex(a.map((v,i)=>v*(1-amount)+b[i]*amount));
+}
+export function paint(ctx,{x=0,y=0,a=0,scale=1,extent=90,inside,shade,edge=(u,v,fill)=>softEdge(fill),shadow=true,roughness=.20}){
  ctx.imageSmoothingEnabled=false;
  const c=Math.cos(a),s=Math.sin(a),r=Math.ceil((extent*scale+6)/2)*2,cell=SCENERY_CELL;
  const sample=(xx,yy)=>[(xx*c+yy*s)/scale,(-xx*s+yy*c)/scale];
@@ -34,6 +41,7 @@ export function paint(ctx,{x=0,y=0,a=0,scale=1,extent=90,inside,shade,edge='#392
   // silhouettes do not read like a vector sticker with a complete keyline.
   const broken=border&&roughness>0&&(hash32('rough-edge',Math.round(u/2),Math.round(v/2),Math.round(a*32))%100)<roughness*100;
   if(broken)continue;
-  ctx.fillStyle=border?edge:shade(u,v);ctx.fillRect(ox+xx,oy+yy,cell,cell);
+  const fill=shade(u,v),rim=typeof edge==='function'?edge(u,v,fill):edge;
+  ctx.fillStyle=border?rim:fill;ctx.fillRect(ox+xx,oy+yy,cell,cell);
  }
 }

@@ -1,4 +1,4 @@
-import {paint,nearLine} from './grammar.mjs?v=forest-3';
+import {paint,nearLine} from './grammar.mjs?v=forest-4';
 import {hash32} from './pixel.mjs';
 // Adapted from the layered cork in habitat.mjs at 6959a88.
 // Broad ridges, broken fibres and a knot; detail is sampled on the shared 2px grid.
@@ -10,7 +10,7 @@ export function drawBark(ctx,{x=192,y=218,a=-.08,scale=1,variant=0,lift=0,seed=5
   return [-depth*cap-4*Math.sin(u*.09+phase)-2*Math.sin(u*.23),depth*.83*cap+4*Math.sin(u*.14+1.7)];
  };
  const inside=(u,v)=>{const [top,bottom]=bounds(u);return Math.abs(u)<half&&v>=top&&v<=bottom&&!(u>half-14&&v< -8&&v> -17)};
- paint(ctx,{x,y:y+lift,a,scale,extent:half+8,inside,edge:'#352e25',shade:(u,v)=>{
+ paint(ctx,{x,y:y+lift,a,scale,extent:half+8,inside,edge:'#5b4732',shade:(u,v)=>{
   const [top,bottom]=bounds(u),ridge=v+3*Math.sin(u*.055+phase)+2*Math.sin(u*.17),band=((ridge%9)+9)%9;
   const knot=((u-18)/13)**2+((v+3)/8)**2;
   if(knot<1)return knot>.64?'#947348':knot>.26?'#403428':'#352e25';

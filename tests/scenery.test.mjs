@@ -10,7 +10,7 @@ const render=(draw,options={})=>{
 test('lab compatibility exports are the production renderers',()=>{
  for(const name of ['Substrate','Leaf','Bark','Stone','Cuttlebone','Twig','WoodChip'])assert.equal(study['drawStudy'+name],scenery['draw'+name]);
  assert.equal(study.drawStudyMoss,scenery.drawMossPatch);
- const source=readFileSync(new URL('../isopoda/scenery-test.mjs',import.meta.url),'utf8');
+ const source=readFileSync(new URL('../isopoda/habitat-lab.mjs',import.meta.url),'utf8');
  assert.ok(source.includes("from './scenery/index.mjs"));assert.ok(!source.includes('../tests/'));
 });
 test('all rotated, scaled scenery stays on opaque two-pixel cells, deterministic and finite',()=>{
