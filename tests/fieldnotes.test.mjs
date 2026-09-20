@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {SPECIES} from '../isopoda/species.mjs';
+import {SPECIES} from '../isopoda/species-registry.mjs';
 import {restoreCollection,drawSpecies,unlock} from '../isopoda/collection.mjs';
 import {createRun,timeFor,ensureScene,choose,advance} from '../isopoda/engine.mjs';
 import {ENCOUNTERS,LEGACY_ENCOUNTER_COUNT,encounterFor} from '../isopoda/encounters.mjs';
