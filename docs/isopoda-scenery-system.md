@@ -283,3 +283,19 @@ This documentation checkpoint does not:
 - introduce aquatic gameplay.
 
 The next phase is primarily a scenery-pixel-art pass built on the boundaries above.
+
+## Fine pixel habitat and scene exchange (2026-09)
+
+Scenery now uses the same 1-world-pixel grid as specimen anatomy. Shapes are
+sampled after rotation, with opaque integer fillRect cells and no smoothing.
+Leaf/stone/chip contours are corner-cut in geometry; bark uses interrupted curved
+fibres. The actor renderer and world dimensions are unchanged.
+
+The habitat editor offers COPY SCENE, DOWNLOAD JSON, IMPORT SCENE (text or file)
+and COPY SHARE CODE. Version 1 records 384 × 430 canvas dimensions, background
+seed and parameters, ordered objects with stable id/type, x/y, scale, angle in
+radians, z, seed, renderer parameters, and reference specimen state. Equal z
+retains array order. The codec also accepts older items/assetId/a field names.
+Unknown assets, duplicate ids, invalid numbers and incompatible dimensions are
+rejected before replacing the current scene. Share codes use UMWELT1-prefixed
+base64 JSON. They are portable text, not a server-side upload or short URL.

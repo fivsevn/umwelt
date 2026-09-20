@@ -1,4 +1,4 @@
-import {paint,contains,nearLine} from './grammar.mjs?v=forest-4';
+import {paint,contains,nearLine,rounded} from './grammar.mjs?v=forest-5';
 import {hash32} from './pixel.mjs';
 export const LEAF_PALETTES=[
  ['#51402b','#7b6038','#a08750','#b49a61','#3a3528'],
@@ -16,18 +16,18 @@ const SHAPES=[
  [[-35,0],[-22,-12],[-5,-20],[13,-17],[32,-6],[37,0],[21,12],[4,18],[-15,12]]
 ];
 export function drawLeaf(ctx,{x=0,y=0,a=0,variant=0,scale=.9,tone=0,gap=false,age=0,seed=0}={}){
- const kind=((variant%6)+6)%6,p=LEAF_PALETTES[((tone%4)+4)%4],shape=SHAPES[kind],h=hash32(seed,'leaf');
+ const kind=((variant%6)+6)%6,p=LEAF_PALETTES[((tone%4)+4)%4],shape=SHAPES[kind],roundedShape=rounded(shape),h=hash32(seed,'leaf');
  const damaged=gap||age>8||h%4===0,notch=(h%3-1)*9;
  const holes=gap||h%3===0;
  scale*=1.25;
- const inside=(u,v)=>contains(shape,u,v)&&!(holes&&((u-10)/6)**2+((v+7)/4.5)**2<1)&&!(damaged&&u>notch&&u<notch+7&&v>8)&&!(gap&&u>8&&u<14&&v< -6&&v> -13);
- paint(ctx,{x,y,a,scale,extent:48,inside,edge:p[1],shade:(u,v)=>{
-  if(nearLine(u,v,-34,0,kind===4?20:32,kind===4?-2:0,1.5))return p[0];
+ const inside=(u,v)=>contains(roundedShape,u+Math.sin(v*.43+seed)*.55,v+Math.sin(u*.38+seed)*.65)&&!(holes&&((u-10)/6)**2+((v+7)/4.5)**2<1)&&!(damaged&&((u-notch)/3.8)**2+((v-19)/9)**2<1)&&!(gap&&((u-11)/3)**2+((v+10)/4)**2<1);
+ paint(ctx,{x,y,a,scale,extent:48,inside,edge:p[0],shade:(u,v)=>{
+  if(nearLine(u,v,-34,0,kind===4?20:32,kind===4?-2:0, .65))return p[1];
   for(const side of [-1,1])for(const start of [-23,-12,0,12,24]){
-   if(nearLine(u,v,start,0,start+10,side*(kind===1?7:20),1.2))return p[0];
-   if(nearLine(u,v,start-2,-2,start+8,side*(kind===1?7:20)-2,1.1))return p[3];
+   if(nearLine(u,v,start,0,start+10,side*(kind===1?7:20),.48))return p[1];
+   if(nearLine(u,v,start-2,-2,start+8,side*(kind===1?7:20)-2,.42))return p[3];
   }
-  const patch=hash32(seed,Math.floor((u+v*.45)/5),Math.floor(v/4));
+  const patch=hash32(seed,Math.floor((u+v*.45+Math.sin(v*.5))/3),Math.floor(v/2));
   if(patch%9===0)return p[1];
   if(patch%13===0&&Math.abs(v)>5)return p[3];
   if(v>5+u*.12)return p[1];

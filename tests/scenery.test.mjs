@@ -13,14 +13,14 @@ test('lab compatibility exports are the production renderers',()=>{
  const source=readFileSync(new URL('../isopoda/habitat-lab.mjs',import.meta.url),'utf8');
  assert.ok(source.includes("from './scenery/index.mjs"));assert.ok(!source.includes('../tests/'));
 });
-test('all rotated, scaled scenery stays on opaque two-pixel cells, deterministic and finite',()=>{
+test('all rotated, scaled scenery stays on opaque one-pixel cells, deterministic and finite',()=>{
  for(const name of ['Leaf','Bark','Stone','MossPatch','Cuttlebone','Twig','WoodChip'])for(const a of [0,.26,1.57,2.7])for(const scale of [.45,1,1.8]){
   const options={x:173.4,y:216.8,a,scale,seed:97};
   const {calls,ctx}=render(scenery['draw'+name],options);
   assert.ok(calls.length>0,name);assert.equal(ctx.imageSmoothingEnabled,false);
   assert.deepEqual(calls,render(scenery['draw'+name],options).calls);
-  for(const [x,y,w,h,color] of calls){assert.ok([x,y,w,h].every(Number.isInteger));assert.ok(x%2===0&&y%2===0);assert.equal(w,2);assert.equal(h,2);assert.match(color,/^#[0-9a-f]{6}$/i)}
-  assert.ok(new Set(calls.map(c=>c[4])).size<=8,name+' finite palette');
+  for(const [x,y,w,h,color] of calls){assert.ok([x,y,w,h].every(Number.isInteger));assert.equal(w,1);assert.equal(h,1);assert.match(color,/^#[0-9a-f]{6}$/i)}
+  assert.ok(new Set(calls.map(c=>c[4])).size<=12,name+' finite palette');
  }
 });
 test('six leaves have distinct silhouettes; damage, seed and palette are visible',()=>{
@@ -34,11 +34,11 @@ test('six leaves have distinct silhouettes; damage, seed and palette are visible
 test('soil has coherent dark humus islands and moisture without fine dither',()=>{
  const dry=render(scenery.drawSubstrate),wet=render(scenery.drawSubstrate,{wetZones:[{x:80,y:200,rx:160,ry:240,moisture:95}]});
  assert.deepEqual(dry.calls[0].slice(0,4),[0,0,384,430]);
- assert.ok(dry.calls.every(c=>c[2]>=2&&c[3]>=2));
+ assert.ok(dry.calls.every(c=>c[2]>=1&&c[3]>=1));
  assert.ok(new Set(dry.calls.map(c=>c[4])).size<=10);
- const base=dry.calls.filter(c=>c[2]===4&&c[3]===4).slice(0,96*108);
+ const base=dry.calls.filter(c=>c[2]===1&&c[3]===1).slice(0,384*430);
  assert.equal(new Set(base.map(c=>c[4])).size,3);
- const changes=base.reduce((n,c,i)=>n+Number(i%96!==0&&c[4]!==base[i-1][4]),0);
+ const changes=base.reduce((n,c,i)=>n+Number(i%384!==0&&c[4]!==base[i-1][4]),0);
  assert.ok(changes/base.length<.12,'large connected patches, not random pixel colors');
  assert.notDeepEqual(dry.calls,wet.calls);assert.ok(wet.calls.every(c=>/^#[0-9a-f]{6}$/i.test(c[4])));
 });

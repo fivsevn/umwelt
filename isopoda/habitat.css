@@ -54,3 +54,15 @@ footer{display:flex;justify-content:space-between;gap:16px;padding:0 2px;color:#
 @media(max-width:1040px){.workspace{grid-template-columns:220px minmax(420px,1fr)}.inspector{grid-column:1/-1;display:grid;grid-template-columns:220px 1fr auto}.inspector .panel-heading{border-right:1px solid var(--line2);border-bottom:0}.notes{margin-top:0;border-top:0;border-left:1px solid var(--line2)}}
 @media(max-width:760px){.lab{padding:8px}.topbar{display:block}.status{text-align:left;margin-top:8px;grid-template-columns:auto auto auto;justify-content:start;gap:10px}.topbar h1 span{display:block;margin:2px 0 0}.workspace{grid-template-columns:1fr}.asset-panel{max-height:360px}.asset-list{grid-template-columns:repeat(2,minmax(0,1fr))}.viewer-panel{min-height:560px}.inspector{grid-column:auto;display:flex}.notes{border-left:0;border-top:1px solid var(--line2)}.specimen-reference{order:3;width:100%;margin-left:0;align-items:end}.specimen-reference label:first-child{flex:1}.specimen-reference select{max-width:none;width:100%}footer{display:block}}
 @media(max-width:480px){.asset-list{grid-template-columns:1fr}.viewer-head{align-items:flex-start;flex-direction:column}.viewer-actions{width:100%}.viewer-actions button{flex:1}.viewer-panel{min-height:500px}.canvas-shell{padding:12px}}
+
+.scene-transfer{padding:12px;border-bottom:1px solid var(--line,#4a493b)}
+.scene-transfer summary{cursor:pointer;margin-bottom:10px}
+.scene-transfer textarea{display:block;width:100%;box-sizing:border-box;margin:8px 0;background:#171c17;color:#d4d1b9;border:1px solid #555943;font:12px monospace;resize:vertical}
+.scene-transfer input{max-width:100%}.scene-transfer .viewer-actions{flex-wrap:wrap;margin:8px 0}
+#sceneMessage{min-height:1em;margin:6px 0}
+.viewer-panel{grid-template-rows:auto auto minmax(0,1fr) auto;overflow:auto}
+.scene-transfer{max-height:220px;overflow:auto}
+@media(min-width:761px){.canvas-shell{min-height:448px;flex-shrink:0}.viewer-panel{grid-template-rows:auto auto 448px auto}}
+.viewer-panel{display:flex;flex-direction:column}.viewer-head,.scene-transfer,.viewer-foot{flex:none}
+.canvas-shell{height:448px;min-height:448px;flex:none}
+@media(max-width:480px){.canvas-shell{height:auto;min-height:0}#scene{width:100%;height:auto}}
