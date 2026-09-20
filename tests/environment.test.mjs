@@ -1,6 +1,6 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {createRun,choose,advance,ensureScene,validRun} from '../isopoda/engine.mjs';
-import {environmentFor,changeEnvironment,ageEnvironment,environmentTarget} from '../isopoda/environment.mjs?v=forest-8';
+import {environmentFor,changeEnvironment,ageEnvironment,environmentTarget} from '../isopoda/environment.mjs?v=forest-9';
 import {makeIndividuals,stepIndividuals} from '../isopoda/behaviors.mjs';
 test('old saves acquire spatial memory without losing records, day or feedback',()=>{const s=createRun('dairy',12);s.day=4;s.stage='feedback';s.feedback='旧记录';s.records=[{text:'旧记录'}];const before=JSON.stringify(s);environmentFor(s);assert.equal(validRun(s),true);const {environment,...old}=s;assert.equal(JSON.stringify(old),before);assert.deepEqual(environmentFor(JSON.parse(JSON.stringify(s))),environment)});
 test('leaf choice is atomic and persists in the same location through turns and reload',()=>{let s=createRun('dairy',42);ensureScene(s);assert.ok(choose(s,'leaf'));const leaf={...s.environment.leaves.at(-1)};assert.equal(choose(s,'leaf'),false);for(let n=0;n<6;n++){advance(s);choose(s,s.scene.options.at(-1).id);s=JSON.parse(JSON.stringify(s))}const restored=s.environment.leaves.find(l=>l.id===leaf.id);assert.equal(restored.x,leaf.x);assert.equal(restored.y,leaf.y);assert.ok(restored.age>0)});

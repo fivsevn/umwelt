@@ -43,7 +43,7 @@ export function materialInk(fill,x,y,seed=0,material='grain'){
  const accent=(((x|0)+(y|0)*3+seed)&15)===0;
  return ramp[accent?2:(step+3)%3];
 }
-export function paint(ctx,{x=0,y=0,a=0,scale=1,extent=90,inside,shade,edge=(u,v,fill)=>softEdge(fill),shadow=true,roughness=.08,seed=0,texture='grain'}){
+export function paint(ctx,{x=0,y=0,a=0,scale=1,extent=90,inside,shade,edge=(u,v,fill)=>softEdge(fill),shadow=true,roughness=.14,seed=0,texture='grain'}){
  ctx.imageSmoothingEnabled=false;
  const c=Math.cos(a),s=Math.sin(a),r=Math.ceil((extent*scale+6)/2)*2,cell=SCENERY_CELL;
  const sample=(xx,yy)=>[(xx*c+yy*s)/scale,(-xx*s+yy*c)/scale];

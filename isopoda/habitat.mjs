@@ -1,11 +1,11 @@
 import {bindPointerInteraction} from './interaction.mjs?v=environment-memory-1';
 import {createReactions,actionFocus,drawReactionBubbles} from './reactions.mjs?v=bubbles-1';
-import {environmentFor} from './environment.mjs?v=forest-8';
+import {environmentFor} from './environment.mjs?v=forest-9';
 import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?v=appendage-2';
 import {encounterById,responseMode} from './encounters.mjs?v=narrative-pool-2';
 import {pixelAnatomy,renderModel,exuviaPixels} from './sprites.mjs?v=exuvia-1';
 import {speciesById} from './species.mjs?v=cohort-4';
-import {drawBaseScene,drawLeaf,DEFAULT_LAYOUT} from './scenery/index.mjs?v=forest-8';
+import {drawBaseScene,drawLeaf,DEFAULT_LAYOUT} from './scenery/index.mjs?v=forest-9';
 import {ACTOR_SCALE} from './scenery/grammar.mjs';
 // Anatomy and scenery share the same integer world lattice.
 export const SCENE_PIXEL=1;
@@ -92,6 +92,7 @@ const interaction=bindPointerInteraction(canvas,{
  },
  objectHoldEnd:object=>{if(object.kind==='shelter')shelterHeld=false},
  groundTap:point=>{
+  if(shelterHeld){shelterHeld=false;effect=null;drawHabitat(performance.now());return}
   const selected=[...critters].sort((a,b)=>Math.hypot(a.x-point.x,a.y-point.y)-Math.hypot(b.x-point.x,b.y-point.y)).slice(0,3).map(actor=>actor.id);
   effect={id:'ground-tap',selected,mode:'disturb',start:elapsed,until:elapsed+3.2,point};
   onDirectInteraction({type:'ground',point});
