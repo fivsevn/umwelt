@@ -1,11 +1,11 @@
 import {bindPointerInteraction} from './interaction.mjs?v=environment-memory-1';
 import {createReactions,actionFocus,drawReactionBubbles} from './reactions.mjs?v=bubbles-1';
-import {environmentFor} from './environment.mjs?v=forest-7';
+import {environmentFor} from './environment.mjs?v=forest-8';
 import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?v=appendage-2';
 import {encounterById,responseMode} from './encounters.mjs?v=narrative-pool-2';
 import {pixelAnatomy,renderModel,exuviaPixels} from './sprites.mjs?v=exuvia-1';
 import {speciesById} from './species.mjs?v=cohort-4';
-import {drawBaseScene,drawLeaf,DEFAULT_LAYOUT} from './scenery/index.mjs?v=forest-7';
+import {drawBaseScene,drawLeaf,DEFAULT_LAYOUT} from './scenery/index.mjs?v=forest-8';
 import {ACTOR_SCALE} from './scenery/grammar.mjs';
 // Anatomy and scenery share the same integer world lattice.
 export const SCENE_PIXEL=1;
@@ -104,7 +104,7 @@ const interaction=bindPointerInteraction(canvas,{
  report:event=>onDirectInteraction({type:event.type,specimen:event.actor?.specimenId||null,point:event.point||null})
 });
 canvas.addEventListener('wheel',e=>{e.preventDefault();zoom(camera.zoom+(e.deltaY<0?.25:-.25));const label=document.querySelector('#zoomLevel');if(label)label.textContent=camera.zoom.toFixed(1)+'×'},{passive:false});
-function tick(t){if(!active)return;if(!document.hidden&&t-last>50){const dt=Math.min(.1,(t-last)/1000);state=getState();elapsed+=dt;stepIndividuals(critters,{encounter,state,time:elapsed,dt,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null,reduced});reactions.update(critters,{encounter,state,time:elapsed,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});drawHabitat(t);last=t}frame=requestAnimationFrame(tick)}
+function tick(t){if(!active)return;if(!document.hidden&&t-last>66){const dt=Math.min(.1,(t-last)/1000);state=getState();elapsed+=dt;stepIndividuals(critters,{encounter,state,time:elapsed,dt,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null,reduced});reactions.update(critters,{encounter,state,time:elapsed,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});drawHabitat(t);last=t}frame=requestAnimationFrame(tick)}
 function px(c,x,y,w,h,color){c.fillStyle=color;c.fillRect(Math.round(x),Math.round(y),Math.max(1,Math.round(w)),Math.max(1,Math.round(h)))}
 function drawHabitat(t){
  const w=world.width,h=world.height;ctx.clearRect(0,0,w,h);

@@ -1,4 +1,4 @@
-import {environmentTarget} from './environment.mjs?v=forest-7';
+import {environmentTarget} from './environment.mjs?v=forest-8';
 // GAME: reading cues for visible actions, never emotions or social cognition.
 export const PRIORITY={'!!':5,'!':4,'◎':3,'?':2,'…':2,'♡':1,'~':1,'*':1,'o':1,'z':1};
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));

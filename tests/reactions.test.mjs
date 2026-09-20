@@ -52,7 +52,7 @@ test('all encounters and player actions keep bounded cues without mutating simul
  const {ENCOUNTERS,responseMode}=await import('../isopoda/encounters.mjs');
  const {makeIndividuals,stageIndividuals,stepIndividuals}=await import('../isopoda/behaviors.mjs');
  const {createRun}=await import('../isopoda/engine.mjs');
- const {changeEnvironment}=await import('../isopoda/environment.mjs?v=forest-7');
+ const {changeEnvironment}=await import('../isopoda/environment.mjs?v=forest-8');
  const {actionFocus}=await import('../isopoda/reactions.mjs');
  const observed=new Set();
  for(const e of ENCOUNTERS)for(const action of [null,'mist','wet-left','food','leaf','gap','flat','lift','wet-all','remove']){
