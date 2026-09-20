@@ -1,4 +1,4 @@
-import {paint,contains,nearLine,rounded} from './grammar.mjs?v=forest-8';
+import {paint,contains,nearLine,rounded} from './grammar.mjs?v=forest-9';
 import {hash32} from './pixel.mjs';
 export function drawTwig(ctx,{x=0,y=0,a=0,length=18,seed=0}={}){
  if(length>100){

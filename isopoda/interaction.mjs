@@ -1,7 +1,7 @@
 // GAME defaults, in milliseconds; future species may supply an interaction config.
 export function interactionConfig(actor){
  const full=actor.model?.visual.conglobation.ability==='full';
- return {tap:full?'volvation':'freeze',pickupPose:full?'curled':'tucked',longPress:500,defenseDuration:2600,recoveryTime:800,...actor.interaction};
+ return {tap:full?'volvation':'freeze',pickupPose:full?'curled':'tucked',longPress:400,defenseDuration:2600,recoveryTime:800,...actor.interaction};
 }
 export function holdIndividual(actor,mode,duration=0){
  const config=interactionConfig(actor);
@@ -26,7 +26,7 @@ export function placeIndividual(actor,point){
 }
 // A single captured pointer owns either an animal gesture or the existing camera pan.
 export function bindPointerInteraction(canvas,{enabled,worldPoint,hitTest,objectHitTest=()=>null,pan,draw,report=()=>{},objectHoldStart=()=>{},objectHoldEnd=()=>{},groundTap=()=>{}}){
- let gesture=null;
+ let gesture=null,lastObjectTap=null;
  // Mobile Safari/Chrome must treat the habitat as a game surface, not selectable page content.
  canvas.style.touchAction='none';
  canvas.style.userSelect='none';
@@ -65,10 +65,17 @@ export function bindPointerInteraction(canvas,{enabled,worldPoint,hitTest,object
    },interactionConfig(actor).longPress);
    draw();
   }else if(object){
-   g.timer=setTimeout(()=>{
-    if(gesture!==g||g.moved)return;
-    g.objectHeld=true;objectHoldStart(object,point);draw();
-   },500);
+   const now=performance.now(),previous=lastObjectTap;
+   const doubled=previous&&previous.object.kind===object.kind&&now-previous.time<360&&Math.hypot(previous.x-point.x,previous.y-point.y)<20;
+   if(doubled){
+    lastObjectTap=null;g.objectHeld=true;objectHoldStart(object,point);draw();
+   }else{
+    lastObjectTap={object,time:now,x:point.x,y:point.y};
+    g.timer=setTimeout(()=>{
+     if(gesture!==g||g.moved)return;
+     g.objectHeld=true;objectHoldStart(object,point);draw();
+    },420);
+   }
   }
  });
  canvas.addEventListener('pointermove',event=>{
