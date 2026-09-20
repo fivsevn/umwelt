@@ -299,3 +299,16 @@ retains array order. The codec also accepts older items/assetId/a field names.
 Unknown assets, duplicate ids, invalid numbers and incompatible dimensions are
 rejected before replacing the current scene. Share codes use UMWELT1-prefixed
 base64 JSON. They are portable text, not a server-side upload or short URL.
+
+### Visible material pixels
+
+The follow-up art pass retains 1px silhouette sampling but quantizes internal
+shading into approximately 2px clusters. Every broad material shade uses three
+near-colors in staggered clusters, with sparse single-pixel accents. Bark, leaf,
+stone and soil have different contrast levels; the seed fixes the pattern. This
+keeps nearby pixels legible instead of merging a large surface into flat color.
+
+Technique references (not photographic source assets):
+- https://www.drububu.com/tutorial/pixel-art-and-dithering.html
+- https://www.derekyu.com/makegames/pixelart.html
+- https://pixeljoint.com/forum/forum_posts.asp?TID=11299

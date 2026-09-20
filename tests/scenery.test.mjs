@@ -20,7 +20,7 @@ test('all rotated, scaled scenery stays on opaque one-pixel cells, deterministic
   assert.ok(calls.length>0,name);assert.equal(ctx.imageSmoothingEnabled,false);
   assert.deepEqual(calls,render(scenery['draw'+name],options).calls);
   for(const [x,y,w,h,color] of calls){assert.ok([x,y,w,h].every(Number.isInteger));assert.equal(w,1);assert.equal(h,1);assert.match(color,/^#[0-9a-f]{6}$/i)}
-  assert.ok(new Set(calls.map(c=>c[4])).size<=12,name+' finite palette');
+  assert.ok(new Set(calls.map(c=>c[4])).size<=36,name+' finite palette');
  }
 });
 test('six leaves have distinct silhouettes; damage, seed and palette are visible',()=>{
@@ -31,15 +31,15 @@ test('six leaves have distinct silhouettes; damage, seed and palette are visible
  assert.notDeepEqual(render(scenery.drawLeaf,{seed:19,tone:0}).calls,render(scenery.drawLeaf,{seed:19,tone:3}).calls);
  assert.ok(new Set(Array.from({length:12},(_,seed)=>JSON.stringify(render(scenery.drawLeaf,{seed}).calls))).size>2);
 });
-test('soil has coherent dark humus islands and moisture without fine dither',()=>{
+test('soil has coherent dark humus islands and moisture with clustered near-color texture',()=>{
  const dry=render(scenery.drawSubstrate),wet=render(scenery.drawSubstrate,{wetZones:[{x:80,y:200,rx:160,ry:240,moisture:95}]});
  assert.deepEqual(dry.calls[0].slice(0,4),[0,0,384,430]);
  assert.ok(dry.calls.every(c=>c[2]>=1&&c[3]>=1));
- assert.ok(new Set(dry.calls.map(c=>c[4])).size<=10);
+ assert.ok(new Set(dry.calls.map(c=>c[4])).size<=20);
  const base=dry.calls.filter(c=>c[2]===1&&c[3]===1).slice(0,384*430);
- assert.equal(new Set(base.map(c=>c[4])).size,3);
+ assert.equal(new Set(base.map(c=>c[4])).size,9);
  const changes=base.reduce((n,c,i)=>n+Number(i%384!==0&&c[4]!==base[i-1][4]),0);
- assert.ok(changes/base.length<.12,'large connected patches, not random pixel colors');
+ assert.ok(changes/base.length>.25,'neighboring near-colors keep soil pixels readable');
  assert.notDeepEqual(dry.calls,wet.calls);assert.ok(wet.calls.every(c=>/^#[0-9a-f]{6}$/i.test(c[4])));
 });
 test('complete production composition is pure, including lift, stones and both calcium shapes',()=>{
@@ -67,4 +67,16 @@ test('default habitat composition has the requested starter-box anchors',()=>{
  assert.ok(moss.some(item=>item.x>300&&item.y>380),'bottom-right moss');
  assert.ok(leaves.some(item=>item.x>280&&item.y<120),'top-right leaf litter');
  assert.ok(leaves.some(item=>item.x<160&&item.y>300),'lower-left leaf litter');
+});
+
+test('flat material shades contain deterministic near-color clusters rather than solid fills',async()=>{
+ const {materialInk}=await import('../isopoda/scenery/grammar.mjs');
+ for(const material of ['wood','grain','stone','soil']){
+  const pixels=Array.from({length:32*32},(_,i)=>materialInk('#806747',i%32,Math.floor(i/32),57,material));
+  assert.equal(new Set(pixels).size,3,'bounded three-color material ramp');
+  const changes=pixels.filter((c,i)=>i%32&&c!==pixels[i-1]).length;
+  assert.ok(changes>250&&changes<850,'readable clusters without a solid fill or alternating every pixel');
+  assert.deepEqual(pixels,Array.from({length:32*32},(_,i)=>materialInk('#806747',i%32,Math.floor(i/32),57,material)));
+  assert.notDeepEqual(pixels,Array.from({length:32*32},(_,i)=>materialInk('#806747',i%32,Math.floor(i/32),97,material)));
+ }
 });
