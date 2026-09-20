@@ -1,4 +1,4 @@
-import {paint,contains,nearLine,rounded} from './grammar.mjs?v=forest-5';
+import {paint,contains,nearLine,rounded} from './grammar.mjs?v=forest-6';
 import {hash32} from './pixel.mjs';
 export const LEAF_PALETTES=[
  ['#51402b','#7b6038','#a08750','#b49a61','#3a3528'],
@@ -21,7 +21,7 @@ export function drawLeaf(ctx,{x=0,y=0,a=0,variant=0,scale=.9,tone=0,gap=false,ag
  const holes=gap||h%3===0;
  scale*=1.25;
  const inside=(u,v)=>contains(roundedShape,u+Math.sin(v*.43+seed)*.55,v+Math.sin(u*.38+seed)*.65)&&!(holes&&((u-10)/6)**2+((v+7)/4.5)**2<1)&&!(damaged&&((u-notch)/3.8)**2+((v-19)/9)**2<1)&&!(gap&&((u-11)/3)**2+((v+10)/4)**2<1);
- paint(ctx,{x,y,a,scale,extent:48,inside,edge:p[0],shade:(u,v)=>{
+ paint(ctx,{x,y,seed,a,scale,extent:48,inside,edge:p[0],shade:(u,v)=>{
   if(nearLine(u,v,-34,0,kind===4?20:32,kind===4?-2:0, .65))return p[1];
   for(const side of [-1,1])for(const start of [-23,-12,0,12,24]){
    if(nearLine(u,v,start,0,start+10,side*(kind===1?7:20),.48))return p[1];
@@ -35,5 +35,5 @@ export function drawLeaf(ctx,{x=0,y=0,a=0,variant=0,scale=.9,tone=0,gap=false,ag
   return p[2];
  }});
  // The petiole is structural, not texture noise.
- paint(ctx,{x,y,a,scale,extent:47,inside:(u,v)=>u< -29&&u> -45&&Math.abs(v-(u+30)*.14)<1.5,shade:()=>p[0],edge:null,shadow:false});
+ paint(ctx,{x,y,seed,a,scale,extent:47,texture:false,inside:(u,v)=>u< -29&&u> -45&&Math.abs(v-(u+30)*.14)<1.5,shade:()=>p[0],edge:null,shadow:false});
 }

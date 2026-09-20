@@ -1,3 +1,4 @@
+import {materialInk} from './grammar.mjs?v=forest-6';
 import {px,WORLD_W,WORLD_H,hash32} from './pixel.mjs';
 const PALETTES=[['#493e2e','#39372b','#534532'],['#403b2d','#303328','#49412f'],['#37392c','#2c3228','#414030']];
 export function drawSubstrate(ctx,{wetZones=[],light=100,seed=57}={}){
@@ -8,7 +9,7 @@ export function drawSubstrate(ctx,{wetZones=[],light=100,seed=57}={}){
  // Restore the early forest floor's coherent humus islands, not per-pixel noise.
  for(let y=0;y<WORLD_H;y++)for(let x=0;x<WORLD_W;x++){
   const n=Math.sin(x*.031+Math.sin(y*.023))*Math.cos(y*.042)+Math.sin((x+y)*.018)*.45;
-  const p=palette(x,y);px(ctx,x,y,1,1,n<-.58?p[1]:n>.74?p[2]:p[0]);
+  const p=palette(x,y);px(ctx,x,y,1,1,materialInk(n<-.58?p[1]:n>.74?p[2]:p[0],x,y,seed,'soil'));
  }
  for(let i=0;i<240;i++){
   const h=hash32(seed,'humus',i),x=4+h%187*2,y=4+(h>>>10)%209*2,w=2+(h>>>21)%4;

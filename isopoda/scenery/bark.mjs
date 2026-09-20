@@ -1,4 +1,4 @@
-import {paint,nearLine} from './grammar.mjs?v=forest-5';
+import {paint,nearLine} from './grammar.mjs?v=forest-6';
 import {hash32} from './pixel.mjs';
 // Curved, interrupted fibres sampled on the anatomy-sized world grid.
 export function drawBark(ctx,{x=192,y=218,a=-.08,scale=1,variant=0,lift=0,seed=57}={}){
@@ -9,7 +9,7 @@ export function drawBark(ctx,{x=192,y=218,a=-.08,scale=1,variant=0,lift=0,seed=5
   return [-depth*cap-4*Math.sin(u*.09+phase)-2*Math.sin(u*.23)+.8*Math.sin(u*.73+phase),depth*.83*cap+4*Math.sin(u*.14+1.7)+Math.sin(u*.61+phase)];
  };
  const inside=(u,v)=>{const [top,bottom]=bounds(u);return Math.abs(u)<half&&v>=top&&v<=bottom&&!(u>half-14&&v< -8&&v> -17)};
- paint(ctx,{x,y:y+lift,a,scale,extent:half+8,inside,edge:'#68533d',shade:(u,v)=>{
+ paint(ctx,{x,y:y+lift,seed,texture:'wood',a,scale,extent:half+8,inside,edge:'#68533d',shade:(u,v)=>{
   const [top,bottom]=bounds(u);
   const ridge=v+3*Math.sin(u*.055+phase)+1.3*Math.sin(u*.19+v*.06);
   const knot=Math.sqrt(((u-18)/13)**2+((v+3)/8)**2);

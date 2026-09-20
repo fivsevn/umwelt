@@ -1,8 +1,9 @@
 // World-space cells: rotate the geometry, never the canvas or the pixel grid.
-// Anatomy uses 1px structure; scenery uses the same opaque 1px grid with connected color clusters.
+// Anatomy uses 1px structure; scenery retains 1px edges but builds readable 2px material color clusters.
 import {hash32} from './pixel.mjs';
 
 export const SCENERY_CELL=1;
+export const SCENERY_CLUSTER=2;
 export const ACTOR_SCALE=.88;
 export function contains(points,x,y){
  let inside=false;
@@ -23,7 +24,24 @@ function hex([r,g,b]){return '#'+[r,g,b].map(v=>Math.max(0,Math.min(255,Math.rou
 export function softEdge(fill,shadow='#302f29',amount=.42){
  const a=rgb(fill),b=rgb(shadow);return hex(a.map((v,i)=>v*(1-amount)+b[i]*amount));
 }
-export function paint(ctx,{x=0,y=0,a=0,scale=1,extent=90,inside,shade,edge=(u,v,fill)=>softEdge(fill),shadow=true,roughness=.08}){
+// Three discrete near-colors per ink. Staggered 2px clusters supply visible
+// material texture even within a single shade; sparse 1px accents break the grid.
+// No blur, alpha blend, gradient, or per-frame random noise is used.
+const textureRamps=new Map();
+export function materialInk(fill,x,y,seed=0,material='grain'){
+ if(material===false)return fill;
+ const amount=material==='soil'?7:material==='stone'?10:material==='wood'?14:12;
+ const key=fill+':'+amount;
+ let ramp=textureRamps.get(key);
+ if(!ramp){const base=rgb(fill);ramp=[hex(base.map((v,i)=>v-amount*[1,.88,.65][i])),fill,hex(base.map((v,i)=>v+amount*[1,.92,.68][i]))];textureRamps.set(key,ramp)}
+ const row=Math.floor(y/2),col=Math.floor((x+(row&1))/2);
+ let h=Math.imul(col+seed,374761393)^Math.imul(row,668265263);
+ h=Math.imul(h^(h>>>13),1274126177);h=(h^(h>>>16))>>>0;
+ const step=(col+row+(h%3)+seed)%3;
+ const accent=((Math.floor(x)+Math.floor(y)*3+seed)&15)===0;
+ return ramp[accent?2:(step+3)%3];
+}
+export function paint(ctx,{x=0,y=0,a=0,scale=1,extent=90,inside,shade,edge=(u,v,fill)=>softEdge(fill),shadow=true,roughness=.08,seed=0,texture='grain'}){
  ctx.imageSmoothingEnabled=false;
  const c=Math.cos(a),s=Math.sin(a),r=Math.ceil((extent*scale+6)/2)*2,cell=SCENERY_CELL;
  const sample=(xx,yy)=>[(xx*c+yy*s)/scale,(-xx*s+yy*c)/scale];
@@ -41,7 +59,7 @@ export function paint(ctx,{x=0,y=0,a=0,scale=1,extent=90,inside,shade,edge=(u,v,
   // silhouettes do not read like a vector sticker with a complete keyline.
   const broken=border&&roughness>0&&(hash32('rough-edge',Math.round(u/2),Math.round(v/2),Math.round(a*32))%100)<roughness*100;
   if(broken)continue;
-  const fill=shade(u,v),rim=typeof edge==='function'?edge(u,v,fill):edge;
+  const fill=materialInk(shade(Math.floor(u/2)*2,Math.floor(v/2)*2),xx,yy,seed,texture),rim=typeof edge==='function'?edge(u,v,fill):edge;
   ctx.fillStyle=border?rim:fill;ctx.fillRect(ox+xx,oy+yy,cell,cell);
  }
 }
