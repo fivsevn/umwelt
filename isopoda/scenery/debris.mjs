@@ -1,4 +1,4 @@
-import {paint,contains,nearLine} from './grammar.mjs?v=forest-2';
+import {paint,contains,nearLine} from './grammar.mjs?v=forest-3';
 export function drawTwig(ctx,{x=0,y=0,a=0,length=18,seed=0}={}){
  if(length>100){
   const curve=u=>Math.sin(u*.025)*15;

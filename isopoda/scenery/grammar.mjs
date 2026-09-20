@@ -1,5 +1,7 @@
 // World-space cells: rotate the geometry, never the canvas or the pixel grid.
 // Anatomy uses 1px structure; scenery groups those units into opaque 2px clusters.
+import {hash32} from './pixel.mjs';
+
 export const SCENERY_CELL=2;
 export const ACTOR_SCALE=.88;
 export function contains(points,x,y){
@@ -14,7 +16,7 @@ export function nearLine(x,y,ax,ay,bx,by,width=1.4){
  const dx=bx-ax,dy=by-ay,t=Math.max(0,Math.min(1,((x-ax)*dx+(y-ay)*dy)/(dx*dx+dy*dy||1)));
  return Math.hypot(x-ax-t*dx,y-ay-t*dy)<width;
 }
-export function paint(ctx,{x=0,y=0,a=0,scale=1,extent=90,inside,shade,edge='#392c2a',shadow=true}){
+export function paint(ctx,{x=0,y=0,a=0,scale=1,extent=90,inside,shade,edge='#392c2a',shadow=true,roughness=.20}){
  ctx.imageSmoothingEnabled=false;
  const c=Math.cos(a),s=Math.sin(a),r=Math.ceil((extent*scale+6)/2)*2,cell=SCENERY_CELL;
  const sample=(xx,yy)=>[(xx*c+yy*s)/scale,(-xx*s+yy*c)/scale];
@@ -28,6 +30,10 @@ export function paint(ctx,{x=0,y=0,a=0,scale=1,extent=90,inside,shade,edge='#392
  for(let yy=-r;yy<=r;yy+=cell)for(let xx=-r;xx<=r;xx+=cell){
   const [u,v]=sample(xx,yy);if(!inside(u,v))continue;
   const border=edge&&[[2,0],[-2,0],[0,2],[0,-2]].some(([dx,dy])=>!inside(u+dx/scale,v+dy/scale));
+  // Natural pixel edges are slightly porous. Break a few outline cells so
+  // silhouettes do not read like a vector sticker with a complete keyline.
+  const broken=border&&roughness>0&&(hash32('rough-edge',Math.round(u/2),Math.round(v/2),Math.round(a*32))%100)<roughness*100;
+  if(broken)continue;
   ctx.fillStyle=border?edge:shade(u,v);ctx.fillRect(ox+xx,oy+yy,cell,cell);
  }
 }

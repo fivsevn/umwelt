@@ -1,16 +1,17 @@
-import {drawStone} from './stone.mjs?v=forest-2';
-import {drawSubstrate} from './substrate.mjs?v=forest-2';
-import {drawLeaf,LEAF_PALETTES} from './leaf.mjs?v=forest-2';
-import {drawMossPatch} from './moss.mjs?v=forest-2';
-import {drawBark} from './bark.mjs?v=forest-2';
-import {drawCuttlebone} from './cuttlebone.mjs?v=forest-2';
-import {drawTwig,drawWoodChip} from './debris.mjs?v=forest-2';
+import {drawStone} from './stone.mjs?v=forest-3';
+import {drawSubstrate} from './substrate.mjs?v=forest-3';
+import {drawLeaf,LEAF_PALETTES} from './leaf.mjs?v=forest-3';
+import {drawMossPatch} from './moss.mjs?v=forest-3';
+import {drawBark} from './bark.mjs?v=forest-3';
+import {drawCuttlebone} from './cuttlebone.mjs?v=forest-3';
+import {drawTwig,drawWoodChip} from './debris.mjs?v=forest-3';
 
 export {drawStone,drawSubstrate,drawLeaf,LEAF_PALETTES,drawMossPatch,drawBark,drawCuttlebone,drawTwig,drawWoodChip};
 
 export const BASE_SCENE=[
- {type:'moss',id:'moss-upper',x:24,y:105,rx:42,ry:99,seed:3,alpha:.70,z:10},
- {type:'moss',id:'moss-lower',x:30,y:354,rx:48,ry:65,seed:11,alpha:.66,z:10},
+ {type:'moss',id:'moss-upper',x:18,y:104,rx:38,ry:110,seed:3,alpha:.70,z:10},
+ {type:'moss',id:'moss-lower',x:24,y:356,rx:44,ry:69,seed:11,alpha:.66,z:10},
+ {type:'moss',id:'moss-bottom-right',x:352,y:414,rx:42,ry:30,seed:87,alpha:.66,z:10},
 
  {type:'leaf',id:'leaf-top-right',x:312,y:94,a:-.58,variant:2,scale:1.12,tone:0,seed:17,z:24},
  {type:'leaf',id:'leaf-bottom-left',x:125,y:337,a:-2.48,variant:4,scale:1.04,tone:0,seed:19,z:24},
@@ -19,6 +20,10 @@ export const BASE_SCENE=[
  {type:'leaf',id:'leaf-top-mid',x:230,y:67,a:2.55,variant:1,scale:.52,tone:1,seed:31,z:23},
  {type:'leaf',id:'leaf-right-mid',x:337,y:246,a:2.18,variant:0,scale:.58,tone:0,seed:37,z:23},
 
+ {type:'bark',id:'bark-top-right',x:311,y:76,a:-.32,variant:2,scale:.76,seed:91,z:27},
+ {type:'bark',id:'bark-bottom-left',x:112,y:340,a:.18,variant:1,scale:.72,seed:93,z:26},
+ {type:'bark',id:'bark-bottom-right',x:316,y:365,a:-.46,variant:2,scale:.64,seed:95,z:26},
+
  {type:'moss',id:'moss-corner',x:333,y:409,rx:48,ry:32,seed:81,z:10},
  {type:'twig',id:'root',x:283,y:20,a:Math.PI/2,length:320,seed:83,z:15},
  {type:'twig',id:'twig-a',x:116,y:290,a:-.52,length:24,seed:41,z:18},
@@ -26,7 +31,7 @@ export const BASE_SCENE=[
  {type:'chip',id:'chip-a',x:146,y:250,a:.50,variant:0,scale:.64,seed:47,z:20},
  {type:'chip',id:'chip-b',x:330,y:130,a:-.32,variant:1,scale:.58,seed:53,z:20},
 
- {type:'bark',id:'shelter',x:192,y:216,a:-.08,variant:0,scale:1.16,seed:57,z:30},
+ {type:'bark',id:'shelter',x:192,y:216,a:-.08,variant:0,scale:1.20,seed:57,z:30},
  {type:'bark',id:'bark-under',x:162,y:249,a:.10,variant:1,scale:.90,seed:61,z:29},
 
  {type:'stone',id:'stone-flat',x:302,y:300,variant:1,seed:71,z:21},

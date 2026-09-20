@@ -1,4 +1,4 @@
-import {paint,contains} from './grammar.mjs?v=forest-2';
+import {paint,contains} from './grammar.mjs?v=forest-3';
 export function drawCuttlebone(ctx,{x=330,y=170,a=-.42,scale=.72,seed=3,variant=0}={}){
  const shape=variant? [[-23,0],[-15,-7],[3,-10],[16,-7],[11,-2],[22,1],[15,5],[18,8],[-4,10],[-18,5]]:[[-26,0],[-16,-7],[2,-11],[19,-8],[27,-2],[21,5],[7,10],[-13,7]];
  paint(ctx,{x,y,a,scale,extent:31,inside:(u,v)=>contains(shape,u,v),edge:'#84785d',shade:(u,v)=>{

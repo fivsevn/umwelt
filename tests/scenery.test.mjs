@@ -57,3 +57,14 @@ test('hero bark and broad leaves remain large relative to a habitat specimen',()
  assert.ok(width(render(scenery.drawBark,{...bark,a:0}).calls)>=210);
  assert.ok(width(render(scenery.drawLeaf,{...leaf,a:0}).calls)>=100);
 });
+
+test('default habitat composition has the requested starter-box anchors',()=>{
+ const bark=scenery.BASE_SCENE.filter(item=>item.type==='bark');
+ const moss=scenery.BASE_SCENE.filter(item=>item.type==='moss');
+ const leaves=scenery.BASE_SCENE.filter(item=>item.type==='leaf');
+ assert.ok(bark.length>=5,'central and surrounding wood pieces');
+ assert.ok(moss.some(item=>item.x<40&&item.ry>80),'left moss border');
+ assert.ok(moss.some(item=>item.x>300&&item.y>380),'bottom-right moss');
+ assert.ok(leaves.some(item=>item.x>280&&item.y<120),'top-right leaf litter');
+ assert.ok(leaves.some(item=>item.x<160&&item.y>300),'lower-left leaf litter');
+});
