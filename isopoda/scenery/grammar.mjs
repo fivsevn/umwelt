@@ -3,7 +3,7 @@
 import {hash32} from './pixel.mjs';
 
 export const SCENERY_CELL=1;
-export const SCENERY_CLUSTER=2.25;
+export const SCENERY_CLUSTER=2.75;
 export const ACTOR_SCALE=.88;
 export function contains(points,x,y){
  let inside=false;
@@ -34,11 +34,13 @@ export function materialInk(fill,x,y,seed=0,material='grain'){
  const key=fill+':'+amount;
  let ramp=textureRamps.get(key);
  if(!ramp){const base=rgb(fill);ramp=[hex(base.map((v,i)=>v-amount*[1,.88,.65][i])),fill,hex(base.map((v,i)=>v+amount*[1,.92,.68][i]))];textureRamps.set(key,ramp)}
- const row=Math.floor(y/SCENERY_CLUSTER),col=Math.floor((x+(row&1))/SCENERY_CLUSTER);
- let h=Math.imul(col+seed,374761393)^Math.imul(row,668265263);
+ const row=(y/SCENERY_CLUSTER)|0,col=((x+(row&1))/SCENERY_CLUSTER)|0;
+ // Small integer hash: this runs once for every scenery cell, so avoid the
+ // general-purpose string hash and modulo-heavy path used by authored shapes.
+ let h=Math.imul((col+seed)|0,374761393)^Math.imul(row,668265263);
  h=Math.imul(h^(h>>>13),1274126177);h=(h^(h>>>16))>>>0;
  const step=(col+row+(h%3)+seed)%3;
- const accent=((Math.floor(x)+Math.floor(y)*3+seed)&15)===0;
+ const accent=(((x|0)+(y|0)*3+seed)&15)===0;
  return ramp[accent?2:(step+3)%3];
 }
 export function paint(ctx,{x=0,y=0,a=0,scale=1,extent=90,inside,shade,edge=(u,v,fill)=>softEdge(fill),shadow=true,roughness=.08,seed=0,texture='grain'}){
