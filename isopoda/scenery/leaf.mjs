@@ -1,10 +1,10 @@
-import {paint,contains,nearLine} from './grammar.mjs';
+import {paint,contains,nearLine} from './grammar.mjs?v=forest-2';
 import {hash32} from './pixel.mjs';
 export const LEAF_PALETTES=[
- ['#61402c','#a36b36','#cd9347','#e3b765','#49302a'],
- ['#59352c','#975033','#bd7546','#d8995a','#422c29'],
- ['#422e29','#704532','#996443','#b58757','#352827'],
- ['#51443a','#827052','#a7956d','#c0ad7f','#39332e']
+ ['#51402b','#7b6038','#a08750','#b49a61','#3a3528'],
+ ['#4c3529','#765036','#997247','#ae8653','#342e25'],
+ ['#352f25','#58452f','#7b623e','#948054','#292c24'],
+ ['#44402e','#686044','#8c8054','#a4996a','#303127']
 ];
 export const LEAF_KINDS=['oak','willow','magnolia','maple','ginkgo','beech'];
 const SHAPES=[
@@ -18,12 +18,20 @@ const SHAPES=[
 export function drawLeaf(ctx,{x=0,y=0,a=0,variant=0,scale=.9,tone=0,gap=false,age=0,seed=0}={}){
  const kind=((variant%6)+6)%6,p=LEAF_PALETTES[((tone%4)+4)%4],shape=SHAPES[kind],h=hash32(seed,'leaf');
  const damaged=gap||age>8||h%4===0,notch=(h%3-1)*9;
- const inside=(u,v)=>contains(shape,u,v)&&!(damaged&&u>notch&&u<notch+7&&v>8)&&!(gap&&u>8&&u<14&&v< -6&&v> -13);
+ const holes=gap||h%3===0;
+ scale*=1.25;
+ const inside=(u,v)=>contains(shape,u,v)&&!(holes&&((u-10)/6)**2+((v+7)/4.5)**2<1)&&!(damaged&&u>notch&&u<notch+7&&v>8)&&!(gap&&u>8&&u<14&&v< -6&&v> -13);
  paint(ctx,{x,y,a,scale,extent:48,inside,edge:p[4],shade:(u,v)=>{
   if(nearLine(u,v,-34,0,kind===4?20:32,kind===4?-2:0,1.5))return p[0];
-  for(const side of [-1,1])for(const start of [-15,0,14])if(nearLine(u,v,start,0,start+13,side*(kind===1?6:17),1.1))return p[1];
+  for(const side of [-1,1])for(const start of [-23,-12,0,12,24]){
+   if(nearLine(u,v,start,0,start+10,side*(kind===1?7:20),1.2))return p[0];
+   if(nearLine(u,v,start-2,-2,start+8,side*(kind===1?7:20)-2,1.1))return p[3];
+  }
+  const patch=hash32(seed,Math.floor((u+v*.45)/5),Math.floor(v/4));
+  if(patch%9===0)return p[1];
+  if(patch%13===0&&Math.abs(v)>5)return p[3];
   if(v>5+u*.12)return p[1];
-  if(v< -5&&u<16)return p[3];
+  if(v< -5&&u<16)return p[2];
   return p[2];
  }});
  // The petiole is structural, not texture noise.

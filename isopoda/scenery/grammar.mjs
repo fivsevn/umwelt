@@ -20,7 +20,7 @@ export function paint(ctx,{x=0,y=0,a=0,scale=1,extent=90,inside,shade,edge='#392
  const sample=(xx,yy)=>[(xx*c+yy*s)/scale,(-xx*s+yy*c)/scale];
  const ox=Math.round(x/cell)*cell,oy=Math.round(y/cell)*cell;
  if(shadow){
-  ctx.fillStyle='#49332c';
+  ctx.fillStyle='#252e24';
   for(let yy=-r;yy<=r;yy+=cell)for(let xx=-r;xx<=r;xx+=cell){
    const [u,v]=sample(xx,yy);if(inside(u,v))ctx.fillRect(ox+xx,oy+yy+4,cell,cell);
   }

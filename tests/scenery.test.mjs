@@ -31,12 +31,15 @@ test('six leaves have distinct silhouettes; damage, seed and palette are visible
  assert.notDeepEqual(render(scenery.drawLeaf,{seed:19,tone:0}).calls,render(scenery.drawLeaf,{seed:19,tone:3}).calls);
  assert.ok(new Set(Array.from({length:12},(_,seed)=>JSON.stringify(render(scenery.drawLeaf,{seed}).calls))).size>2);
 });
-test('soil is low-frequency, fills world, and moisture is a warm tonal change',()=>{
+test('soil has coherent dark humus islands and moisture without fine dither',()=>{
  const dry=render(scenery.drawSubstrate),wet=render(scenery.drawSubstrate,{wetZones:[{x:80,y:200,rx:160,ry:240,moisture:95}]});
  assert.deepEqual(dry.calls[0].slice(0,4),[0,0,384,430]);
  assert.ok(dry.calls.every(c=>c[2]>=2&&c[3]>=2));
- assert.ok(new Set(dry.calls.map(c=>c[4])).size<=5);
- const base= dry.calls.filter(c=>c[2]===6&&c[3]===6);assert.equal(new Set(base.map(c=>c[4])).size,1);
+ assert.ok(new Set(dry.calls.map(c=>c[4])).size<=10);
+ const base=dry.calls.filter(c=>c[2]===4&&c[3]===4).slice(0,96*108);
+ assert.equal(new Set(base.map(c=>c[4])).size,3);
+ const changes=base.reduce((n,c,i)=>n+Number(i%96!==0&&c[4]!==base[i-1][4]),0);
+ assert.ok(changes/base.length<.12,'large connected patches, not random pixel colors');
  assert.notDeepEqual(dry.calls,wet.calls);assert.ok(wet.calls.every(c=>/^#[0-9a-f]{6}$/i.test(c[4])));
 });
 test('complete production composition is pure, including lift, stones and both calcium shapes',()=>{
@@ -45,4 +48,12 @@ test('complete production composition is pure, including lift, stones and both c
  assert.equal(JSON.stringify([scenery.BASE_SCENE,options]),before);assert.notDeepEqual(normal.calls,lift.calls);
  assert.ok(scenery.BASE_SCENE.some(x=>x.type==='stone'));
  assert.notDeepEqual(render(scenery.drawCuttlebone,{variant:0}).calls,render(scenery.drawCuttlebone,{variant:1}).calls);
+});
+
+test('hero bark and broad leaves remain large relative to a habitat specimen',()=>{
+ const width=calls=>Math.max(...calls.map(c=>c[0]+c[2]))-Math.min(...calls.map(c=>c[0]));
+ const bark=scenery.BASE_SCENE.find(x=>x.id==='shelter');
+ const leaf=scenery.BASE_SCENE.find(x=>x.id==='leaf-top-right');
+ assert.ok(width(render(scenery.drawBark,{...bark,a:0}).calls)>=210);
+ assert.ok(width(render(scenery.drawLeaf,{...leaf,a:0}).calls)>=100);
 });

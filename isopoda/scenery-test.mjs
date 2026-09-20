@@ -1,4 +1,4 @@
-import {drawSubstrate,drawLeaf,drawMossPatch,drawBark,drawStone,drawCuttlebone,drawTwig,drawWoodChip,BASE_SCENE} from './scenery/index.mjs?v=handheld-1';
+import {drawSubstrate,drawLeaf,drawMossPatch,drawBark,drawStone,drawCuttlebone,drawTwig,drawWoodChip,BASE_SCENE} from './scenery/index.mjs?v=forest-2';
 import {ACTOR_SCALE} from './scenery/grammar.mjs';
 import {SPECIES,speciesById} from './species-registry.mjs?v=species-39b';
 import {renderModel,pixelAnatomy} from './sprites.mjs?v=exuvia-1';
@@ -30,18 +30,18 @@ const ASSETS=[
  {id:'moss-sphagnum-02',category:'moss',label:'Sphagnum cluster 02',note:'水苔 / 小片',radius:38,params:{rx:34,ry:22,wetness:.62,alpha:.76}},
  {id:'moss-carpet-03',category:'moss',label:'Moss carpet 03',note:'苔藓 / 林地大片',radius:64,params:{variant:2,rx:58,ry:36,wetness:.70,alpha:.84}},
 
- {id:'leaf-broad-01',category:'leaf',label:'Oak leaf',note:'橡树 / 裂片枯叶',radius:44,params:{variant:0,tone:0,scale:.72}},
- {id:'leaf-narrow-01',category:'leaf',label:'Willow leaf',note:'柳树 / 狭长枯叶',radius:46,params:{variant:1,tone:1,scale:.72}},
- {id:'leaf-broken-01',category:'leaf',label:'Maple leaf',note:'枫树 / 掌状破损叶',radius:46,params:{variant:3,tone:2,scale:.74,gap:true}},
- {id:'leaf-fan-01',category:'leaf',label:'Ginkgo leaf',note:'银杏 / 扇形裂叶',radius:48,params:{variant:4,tone:1,scale:.78}},
- {id:'leaf-curled-01',category:'leaf',label:'Beech leaf',note:'林地阔叶 / 山毛榉',radius:44,params:{variant:5,tone:2,scale:.72}},
+ {id:'leaf-broad-01',category:'leaf',label:'Oak leaf',note:'橡树 / 裂片枯叶',radius:58,params:{variant:0,tone:0,scale:1.04}},
+ {id:'leaf-narrow-01',category:'leaf',label:'Willow leaf',note:'柳树 / 狭长枯叶',radius:46,params:{variant:1,tone:1,scale:.92}},
+ {id:'leaf-broken-01',category:'leaf',label:'Maple leaf',note:'枫树 / 掌状破损叶',radius:46,params:{variant:3,tone:2,scale:1.04,gap:true}},
+ {id:'leaf-fan-01',category:'leaf',label:'Ginkgo leaf',note:'银杏 / 扇形裂叶',radius:60,params:{variant:4,tone:0,scale:1.04}},
+ {id:'leaf-curled-01',category:'leaf',label:'Beech leaf',note:'林地阔叶 / 山毛榉',radius:58,params:{variant:5,tone:2,scale:1.0}},
 
- {id:'leaf-magnolia-01',category:'leaf',label:'Magnolia leaf',note:'玉兰 / 大宽叶',radius:48,params:{variant:2,tone:3,scale:.86}},
- {id:'leaf-oak-rust',category:'leaf',label:'Oak · russet',note:'橡树 / 赤褐破损叶',radius:44,params:{variant:0,tone:1,scale:.72,gap:true}},
- {id:'leaf-ginkgo-brown',category:'leaf',label:'Ginkgo · aged',note:'银杏 / 深棕枯叶',radius:44,params:{variant:4,tone:2,scale:.72}},
- {id:'bark-log-01',category:'bark',label:'Mossy broken log',note:'断木 / 附苔',radius:68,params:{variant:2,scale:.82}},
- {id:'bark-shelter-01',category:'bark',label:'Bark shelter 01',note:'树皮 / 躲避',radius:88,params:{variant:0,scale:.72}},
- {id:'bark-fragment-01',category:'bark',label:'Bark fragment 01',note:'树皮 / 碎片',radius:68,params:{variant:1,scale:.68}},
+ {id:'leaf-magnolia-01',category:'leaf',label:'Magnolia leaf',note:'玉兰 / 大宽叶',radius:60,params:{variant:2,tone:3,scale:1.10}},
+ {id:'leaf-oak-rust',category:'leaf',label:'Oak · russet',note:'橡树 / 赤褐破损叶',radius:58,params:{variant:0,tone:1,scale:.72,gap:true}},
+ {id:'leaf-ginkgo-brown',category:'leaf',label:'Ginkgo · aged',note:'银杏 / 深棕枯叶',radius:58,params:{variant:4,tone:2,scale:.72}},
+ {id:'bark-log-01',category:'bark',label:'Mossy broken log',note:'断木 / 附苔',radius:68,params:{variant:2,scale:1.02}},
+ {id:'bark-shelter-01',category:'bark',label:'Bark shelter 01',note:'树皮 / 躲避',radius:112,params:{variant:0,scale:1.16}},
+ {id:'bark-fragment-01',category:'bark',label:'Bark fragment 01',note:'树皮 / 碎片',radius:68,params:{variant:1,scale:.96}},
 
  {id:'stone-round-01',category:'stone',label:'Stone round 01',note:'石块 / 圆',radius:18,params:{variant:0,scale:1}},
  {id:'stone-flat-01',category:'stone',label:'Stone flat 01',note:'石块 / 扁平',radius:20,params:{variant:1,scale:1}},
@@ -67,34 +67,13 @@ const STARTER=BASE_SCENE.map(item=>{
 });
 
 const FOREST_STUDY=[
- {assetId:'moss-carpet-03',x:58,y:62,a:0,scale:1.28,seed:101,z:8},
- {assetId:'moss-sphagnum-01',x:26,y:142,a:0,scale:1.00,seed:103,z:9},
- {assetId:'moss-sphagnum-02',x:354,y:140,a:0,scale:.92,seed:107,z:9},
- {assetId:'moss-carpet-03',x:42,y:365,a:0,scale:1.18,seed:109,z:8},
- {assetId:'moss-sphagnum-02',x:338,y:236,a:0,scale:.82,seed:113,z:9},
-
- {assetId:'bark-shelter-01',x:118,y:128,a:-.10,scale:1.16,seed:127,z:24},
- {assetId:'bark-fragment-01',x:89,y:160,a:-.18,scale:.88,seed:131,z:23},
-
- {assetId:'leaf-fan-01',x:320,y:78,a:.28,scale:1.24,seed:137,z:28},
- {assetId:'leaf-broad-01',x:122,y:286,a:.72,scale:1.35,seed:139,z:27},
- {assetId:'leaf-broken-01',x:322,y:292,a:-.74,scale:1.12,seed:149,z:27},
- {assetId:'leaf-curled-01',x:338,y:366,a:-.28,scale:.88,seed:151,z:27},
- {assetId:'leaf-magnolia-01',x:244,y:100,a:-.8,scale:.9,seed:153,z:27},
- {assetId:'leaf-narrow-01',x:213,y:372,a:2.66,scale:.66,seed:157,z:26},
-
- {assetId:'twig-01',x:235,y:52,a:.46,scale:2.65,seed:163,z:19},
- {assetId:'twig-01',x:265,y:177,a:.22,scale:2.25,seed:167,z:19},
- {assetId:'twig-01',x:18,y:325,a:.35,scale:2.15,seed:173,z:18},
- {assetId:'woodchip-01',x:170,y:235,a:-.38,scale:.85,seed:179,z:20},
- {assetId:'woodchip-02',x:244,y:324,a:.72,scale:.76,seed:181,z:20},
-
- {assetId:'stone-round-01',x:292,y:188,a:0,scale:1.18,seed:191,z:25},
- {assetId:'stone-flat-01',x:318,y:346,a:.04,scale:1.48,seed:193,z:25},
- {assetId:'stone-small-01',x:194,y:334,a:0,scale:.86,seed:197,z:24},
- {assetId:'stone-small-01',x:82,y:238,a:0,scale:.78,seed:199,z:24},
-
- {assetId:'cuttlebone-01',x:314,y:214,a:-.20,scale:1.14,seed:211,z:31}
+ ...STARTER.filter(item=>!['game-leaf-top-right','game-leaf-bottom-right'].includes(item.assetId)),
+ {assetId:'leaf-magnolia-01',x:300,y:87,a:-.65,scale:1.0,seed:137,z:28},
+ {assetId:'leaf-oak-rust',x:281,y:347,a:.42,scale:1.16,seed:139,z:28},
+ {assetId:'leaf-narrow-01',x:195,y:127,a:1.75,scale:.58,seed:149,z:23},
+ {assetId:'leaf-curled-01',x:70,y:285,a:.12,scale:.46,seed:151,z:23},
+ {assetId:'woodchip-01',x:74,y:364,a:-.75,scale:.92,seed:157,z:24},
+ {assetId:'leaf-broken-01',x:166,y:53,a:.65,scale:.46,seed:163,z:23}
 ];
 
 let state={background:'substrate-wet-left',backgroundSeed:57,items:[],selected:null,nextId:1};
@@ -174,7 +153,7 @@ function makePreview(asset){
  if(asset.kind==='background'){
   drawBackground(g,asset.id,57);
  }else{
-  const scale=asset.category==='bark'?.72:asset.category==='leaf'?.82:asset.category==='moss'?.88:1;
+  const scale=asset.category==='bark'?.48:asset.category==='leaf'?.72:asset.category==='moss'?.88:1;
   drawObject(g,asset,{x:c.width/2,y:c.height/2,a:asset.category==='leaf'?-.35:asset.category==='bark'?-.08:0,seed:57,scale});
  }
  return c;
