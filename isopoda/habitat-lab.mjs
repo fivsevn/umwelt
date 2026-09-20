@@ -1,5 +1,5 @@
-import {exportScene,importScene,shareCode} from './scene-codec.mjs?v=forest-6';
-import {drawSubstrate,drawLeaf,drawMossPatch,drawBark,drawStone,drawCuttlebone,drawTwig,drawWoodChip,BASE_SCENE} from './scenery/index.mjs?v=forest-6';
+import {exportScene,importScene,shareCode} from './scene-codec.mjs?v=forest-7';
+import {drawSubstrate,drawLeaf,drawMossPatch,drawBark,drawStone,drawCuttlebone,drawTwig,drawWoodChip,LEGACY_BASE_SCENE,DEFAULT_LAYOUT} from './scenery/index.mjs?v=forest-7';
 import {ACTOR_SCALE} from './scenery/grammar.mjs';
 import {SPECIES,speciesById} from './species-registry.mjs?v=species-39b';
 import {renderModel,pixelAnatomy} from './sprites.mjs?v=exuvia-1';
@@ -58,7 +58,7 @@ const ASSETS=[
 ];
 const ASSET_BY_ID=new Map(ASSETS.map(a=>[a.id,a]));
 
-const STARTER=BASE_SCENE.map(item=>{
+const STARTER=LEGACY_BASE_SCENE.map(item=>{
  const assetId='game-'+item.id;
  const category=item.type==='cuttlebone'?'calcium':['twig','chip'].includes(item.type)?'debris':item.type;
  const {x,y,a,seed,z,...params}=item;
@@ -67,26 +67,16 @@ const STARTER=BASE_SCENE.map(item=>{
  return {assetId,x,y,a:a||0,scale:1,seed,z};
 });
 
-const FOREST_STUDY=[
- ...STARTER.filter(item=>!['game-leaf-top-right','game-leaf-bottom-right'].includes(item.assetId)),
- {assetId:'leaf-magnolia-01',x:300,y:87,a:-.65,scale:1.0,seed:137,z:28},
- {assetId:'leaf-oak-rust',x:281,y:347,a:.42,scale:1.16,seed:139,z:28},
- {assetId:'leaf-narrow-01',x:195,y:127,a:1.75,scale:.58,seed:149,z:23},
- {assetId:'leaf-curled-01',x:70,y:285,a:.12,scale:.46,seed:151,z:23},
- {assetId:'woodchip-01',x:74,y:364,a:-.75,scale:.92,seed:157,z:24},
- {assetId:'leaf-broken-01',x:166,y:53,a:.65,scale:.46,seed:163,z:23}
-];
-
 let state={background:'substrate-wet-left',backgroundSeed:57,items:[],selected:null,nextId:1};
 let category='all',drag=null;
 
-function loadPreset(items,background='substrate-wet-left'){
- state.background=background;delete state.backgroundParams;
- state.backgroundSeed=(background==='substrate-forest'?103:57);
- state.items=items.map(item=>({...item,id:'instance-'+state.nextId++}));
- state.selected=null;
+function cloneStarter(){
+ const imported=importScene(JSON.stringify(DEFAULT_LAYOUT),ASSET_BY_ID,reference);
+ state=imported.state;Object.assign(reference,imported.reference);
+ $('#referenceSpecies').value=reference.species;$('#referenceStage').value=reference.stage;
+ $('#toggleReference').setAttribute('aria-pressed',String(reference.visible));
+ $('#toggleReference').textContent='GAME SCALE · '+(reference.visible?'ON':'OFF');
 }
-function cloneStarter(){loadPreset(STARTER,'substrate-wet-left')}
 cloneStarter();
 
 function drawBackground(target,assetId=state.background,seed=state.backgroundSeed){
@@ -236,11 +226,7 @@ for(const button of document.querySelectorAll('[data-category]'))button.onclick=
  renderAssetList();
 };
 
-$('#forestScene').onclick=()=>{
- loadPreset(FOREST_STUDY,'substrate-forest');
- reference.x=208;reference.y=248;reference.a=-.26;drawScene();
-};
-$('#resetScene').onclick=()=>{cloneStarter();reference.x=226;reference.y=286;reference.a=-.34;drawScene()};
+$('#resetScene').onclick=()=>{cloneStarter();drawScene()};
 $('#clearScene').onclick=()=>{state.items=[];state.selected=null;drawScene()};
 
 $('#referenceSpecies').onchange=event=>{reference.species=event.target.value;reference.seed=(reference.seed+31)>>>0;drawScene()};

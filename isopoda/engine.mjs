@@ -1,4 +1,4 @@
-import {environmentFor,changeEnvironment,ageEnvironment,environmentTarget,habitatFit,syncSceneTrace,releaseDueShells,takeShell} from './environment.mjs?v=scenery-modules-1';
+import {environmentFor,changeEnvironment,ageEnvironment,environmentTarget,habitatFit,syncSceneTrace,releaseDueShells,takeShell} from './environment.mjs?v=forest-7';
 import {encounterFor,encounterById,encounterText} from './encounters.mjs?v=molt-sequence-1';
 import {SPECIES,speciesById} from './species.mjs?v=cohort-4';
 import {EVENING,AMBIENT,CARE,MINI_TYPES,ENDINGS} from './content.mjs?v=interaction-story-2';

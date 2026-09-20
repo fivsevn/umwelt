@@ -1,14 +1,16 @@
-import {drawStone} from './stone.mjs?v=forest-6';
-import {drawSubstrate} from './substrate.mjs?v=forest-6';
-import {drawLeaf,LEAF_PALETTES} from './leaf.mjs?v=forest-6';
-import {drawMossPatch} from './moss.mjs?v=forest-6';
-import {drawBark} from './bark.mjs?v=forest-6';
-import {drawCuttlebone} from './cuttlebone.mjs?v=forest-6';
-import {drawTwig,drawWoodChip} from './debris.mjs?v=forest-6';
+import {DEFAULT_LAYOUT,DEFAULT_SHELTER,sceneObjects} from './default-layout.mjs?v=forest-7';
+export {DEFAULT_LAYOUT,DEFAULT_SHELTER};
+import {drawStone} from './stone.mjs?v=forest-7';
+import {drawSubstrate} from './substrate.mjs?v=forest-7';
+import {drawLeaf,LEAF_PALETTES} from './leaf.mjs?v=forest-7';
+import {drawMossPatch} from './moss.mjs?v=forest-7';
+import {drawBark} from './bark.mjs?v=forest-7';
+import {drawCuttlebone} from './cuttlebone.mjs?v=forest-7';
+import {drawTwig,drawWoodChip} from './debris.mjs?v=forest-7';
 
 export {drawStone,drawSubstrate,drawLeaf,LEAF_PALETTES,drawMossPatch,drawBark,drawCuttlebone,drawTwig,drawWoodChip};
 
-export const BASE_SCENE=[
+export const LEGACY_BASE_SCENE=[
  {type:'moss',id:'moss-upper',x:18,y:104,rx:38,ry:110,seed:3,alpha:.70,z:10},
  {type:'moss',id:'moss-lower',x:24,y:356,rx:44,ry:69,seed:11,alpha:.66,z:10},
  {type:'moss',id:'moss-bottom-right',x:352,y:414,rx:42,ry:30,seed:87,alpha:.66,z:10},
@@ -39,18 +41,22 @@ export const BASE_SCENE=[
  {type:'cuttlebone',id:'cuttlebone',x:334,y:168,a:-.42,scale:.72,seed:67,z:33}
 ];
 
-export function drawSceneElement(ctx,item,{shelterLift=0,wetness=.65}={}){
- if(item.type==='moss')return drawMossPatch(ctx,{...item,wetness});
+// Keep the legacy composition export for game and scenery regression callers;
+// the habitat editor explicitly uses DEFAULT_LAYOUT via its scene codec.
+export const BASE_SCENE=LEGACY_BASE_SCENE;
+export const DEFAULT_SCENE=sceneObjects();
+
+export function drawSceneElement(ctx,item,{shelterLift=0}={}){
+ if(item.type==='moss')return drawMossPatch(ctx,item);
  if(item.type==='stone')return drawStone(ctx,item);
  if(item.type==='leaf')return drawLeaf(ctx,item);
- if(item.type==='bark')return drawBark(ctx,{...item,lift:item.id==='shelter'?shelterLift:0});
+ if(item.type==='bark')return drawBark(ctx,{...item,lift:item.id===DEFAULT_SHELTER.id?shelterLift:0});
  if(item.type==='cuttlebone')return drawCuttlebone(ctx,item);
  if(item.type==='twig')return drawTwig(ctx,item);
  if(item.type==='chip')return drawWoodChip(ctx,item);
 }
 
-export function drawBaseScene(ctx,{wetZones=[],light=100,shelterLift=0,seed=57}={}){
- drawSubstrate(ctx,{wetZones,light,seed});
- const wetness=Math.max(.25,Math.min(1,(wetZones[0]?.moisture??60)/100));
- for(const item of [...BASE_SCENE].sort((a,b)=>(a.z||0)-(b.z||0)))drawSceneElement(ctx,item,{shelterLift,wetness});
+export function drawBaseScene(ctx,{wetZones=DEFAULT_LAYOUT.background.params.wetZones,light=DEFAULT_LAYOUT.background.params.light,shelterLift=0,seed=DEFAULT_LAYOUT.background.seed}={}){
+ drawSubstrate(ctx,{...DEFAULT_LAYOUT.background.params,wetZones,light,seed});
+ for(const item of [...DEFAULT_SCENE].sort((a,b)=>(a.z||0)-(b.z||0)))drawSceneElement(ctx,item,{shelterLift});
 }

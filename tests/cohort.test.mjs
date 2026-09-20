@@ -3,7 +3,7 @@ import {createRun,validRun,ensureScene,choose,advance,runSpecies,migrateV3,recor
 import {drawCohort,restoreCollection,unlock} from '../isopoda/collection.mjs';
 import {SPECIES} from '../isopoda/species.mjs';
 import {makeIndividuals} from '../isopoda/behaviors.mjs';
-import {environmentFor,environmentTarget} from '../isopoda/environment.mjs';
+import {environmentFor,environmentTarget} from '../isopoda/environment.mjs?v=forest-7';
 test('cohort distribution, compatible unique taxa, unseen anchor and deterministic identities',()=>{
  const counts=[0,0,0];for(let seed=0;seed<10000;seed++){const c=restoreCollection(null,null),batch=drawCohort(c,seed);assert.deepEqual(batch,drawCohort(c,seed));assert.equal(batch.length,7);const taxa=[...new Set(batch.map(c=>c.species))];counts[taxa.length-1]++;assert.equal(new Set(batch.map(c=>c.seed)).size,7)}
  for(const [i,p] of [.30,.45,.25].entries())assert.ok(Math.abs(counts[i]/10000-p)<.025,counts.join(','));

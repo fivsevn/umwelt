@@ -1,11 +1,11 @@
 import {bindPointerInteraction} from './interaction.mjs?v=environment-memory-1';
 import {createReactions,actionFocus,drawReactionBubbles} from './reactions.mjs?v=bubbles-1';
-import {environmentFor} from './environment.mjs?v=scenery-modules-1';
+import {environmentFor} from './environment.mjs?v=forest-7';
 import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?v=appendage-2';
 import {encounterById,responseMode} from './encounters.mjs?v=narrative-pool-2';
 import {pixelAnatomy,renderModel,exuviaPixels} from './sprites.mjs?v=exuvia-1';
 import {speciesById} from './species.mjs?v=cohort-4';
-import {drawBaseScene,drawLeaf} from './scenery/index.mjs?v=forest-6';
+import {drawBaseScene,drawLeaf,DEFAULT_LAYOUT} from './scenery/index.mjs?v=forest-7';
 import {ACTOR_SCALE} from './scenery/grammar.mjs';
 // Anatomy and scenery share the same integer world lattice.
 export const SCENE_PIXEL=1;
@@ -110,7 +110,7 @@ function drawHabitat(t){
  const w=world.width,h=world.height;ctx.clearRect(0,0,w,h);
  const memory=environmentFor(state);
  const lifted=shelterHeld||!!(effect&&elapsed<effect.until&&['lift','direct-lift'].includes(effect.id));
- const sceneryOptions={wetZones:memory.wetZones||[],light:100,shelterLift:lifted?-12:0,seed:state.seed||57};
+ const sceneryOptions={wetZones:memory.wetZones||[],light:DEFAULT_LAYOUT.background.params.light,shelterLift:lifted?-12:0,seed:DEFAULT_LAYOUT.background.seed};
  const nextSceneryKey=JSON.stringify(sceneryOptions);
  if(nextSceneryKey!==sceneryKey){drawBaseScene(sceneryCtx,sceneryOptions);sceneryKey=nextSceneryKey}
  ctx.drawImage(sceneryCanvas,0,0);
