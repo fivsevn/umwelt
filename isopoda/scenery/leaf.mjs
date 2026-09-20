@@ -1,4 +1,4 @@
-import {paint,contains,nearLine} from './grammar.mjs?v=forest-2';
+import {paint,contains,nearLine} from './grammar.mjs?v=forest-3';
 import {hash32} from './pixel.mjs';
 export const LEAF_PALETTES=[
  ['#51402b','#7b6038','#a08750','#b49a61','#3a3528'],

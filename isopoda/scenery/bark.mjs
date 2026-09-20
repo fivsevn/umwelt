@@ -1,4 +1,4 @@
-import {paint,nearLine} from './grammar.mjs?v=forest-2';
+import {paint,nearLine} from './grammar.mjs?v=forest-3';
 import {hash32} from './pixel.mjs';
 // Adapted from the layered cork in habitat.mjs at 6959a88.
 // Broad ridges, broken fibres and a knot; detail is sampled on the shared 2px grid.

@@ -1,4 +1,4 @@
-import {drawSubstrate,drawLeaf,drawMossPatch,drawBark,drawStone,drawCuttlebone,drawTwig,drawWoodChip,BASE_SCENE} from './scenery/index.mjs?v=forest-2';
+import {drawSubstrate,drawLeaf,drawMossPatch,drawBark,drawStone,drawCuttlebone,drawTwig,drawWoodChip,BASE_SCENE} from './scenery/index.mjs?v=forest-3';
 import {ACTOR_SCALE} from './scenery/grammar.mjs';
 import {SPECIES,speciesById} from './species-registry.mjs?v=species-39b';
 import {renderModel,pixelAnatomy} from './sprites.mjs?v=exuvia-1';
