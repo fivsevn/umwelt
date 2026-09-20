@@ -93,8 +93,8 @@ export const DEFAULT_LAYOUT={
     {
       "id": "instance-103",
       "type": "moss-carpet-03",
-      "x": 112.30728941084817,
-      "y": 420.7395830573514,
+      "x": 113.1041644345969,
+      "y": 420.895833062008,
       "scale": 0.9999999999999994,
       "angle": 0,
       "z": 51,
@@ -110,12 +110,12 @@ export const DEFAULT_LAYOUT={
     {
       "id": "instance-105",
       "type": "bark-shelter-01",
-      "x": 207.5833330526948,
-      "y": 222.9062514277175,
+      "x": 203.29687459161505,
+      "y": 230.33854331588373,
       "scale": 1,
       "angle": 1.1102230246251565e-16,
       "z": 25,
-      "seed": 212,
+      "seed": 600,
       "params": {
         "variant": 0,
         "scale": 1.16
@@ -124,29 +124,15 @@ export const DEFAULT_LAYOUT={
     {
       "id": "instance-106",
       "type": "bark-fragment-01",
-      "x": 266.2083363197744,
-      "y": 275.1145852142945,
-      "scale": 0.7000000000000001,
-      "angle": 0,
+      "x": 243.78646065155044,
+      "y": 272.98958515096456,
+      "scale": 0.9,
+      "angle": -3.141592653589793,
       "z": 22,
-      "seed": 243,
+      "seed": 1601,
       "params": {
         "variant": 1,
         "scale": 0.96
-      }
-    },
-    {
-      "id": "instance-107",
-      "type": "bark-log-01",
-      "x": 142.6093734386377,
-      "y": 172.04687270661816,
-      "scale": 0.65,
-      "angle": -6.544984694978734,
-      "z": 23,
-      "seed": 274,
-      "params": {
-        "variant": 2,
-        "scale": 1.02
       }
     },
     {
@@ -285,7 +271,7 @@ export const DEFAULT_LAYOUT={
       "id": "instance-118",
       "type": "cuttlebone-broken",
       "x": 127.36979054519907,
-      "y": 102.04687032243237,
+      "y": 102.20312032708898,
       "scale": 1.7000000000000006,
       "angle": -0.2617993877991494,
       "z": 60,
@@ -398,8 +384,8 @@ export const DEFAULT_LAYOUT={
     {
       "id": "instance-130",
       "type": "leaf-fan-01",
-      "x": 372.02083297632635,
-      "y": 267.1718765250407,
+      "x": 371.8593746381812,
+      "y": 267.6458348724991,
       "scale": 1.4000000000000004,
       "angle": 1.3089969389957468,
       "z": 48,
@@ -497,7 +483,7 @@ export const DEFAULT_LAYOUT={
       "id": "instance-141",
       "type": "leaf-ginkgo-brown",
       "x": 184.24479033285752,
-      "y": 415.6562558012083,
+      "y": 415.8177141393535,
       "scale": 1,
       "angle": -4.188790204786391,
       "z": 23,
@@ -556,7 +542,7 @@ export const DEFAULT_LAYOUT={
       "x": 350.15625578630716,
       "y": 174.19270631251857,
       "scale": 0.45,
-      "angle": 2.356194490192345,
+      "angle": 2.6179938779914944,
       "z": 56,
       "seed": 1949,
       "params": {
@@ -577,6 +563,34 @@ export const DEFAULT_LAYOUT={
         "variant": 1,
         "scale": 0.72
       }
+    },
+    {
+      "id": "instance-1",
+      "type": "woodchip-02",
+      "x": 156.24479080969468,
+      "y": 161.29166584089398,
+      "scale": 0.7000000000000001,
+      "angle": -1.8325957145940457,
+      "z": 57,
+      "seed": 1495,
+      "params": {
+        "variant": 1,
+        "scale": 0.72
+      }
+    },
+    {
+      "id": "instance-2",
+      "type": "stone-small-01",
+      "x": 147.82812302792445,
+      "y": 162.85416478477418,
+      "scale": 0.5000000000000001,
+      "angle": 0,
+      "z": 58,
+      "seed": 1235,
+      "params": {
+        "variant": 3,
+        "scale": 0.82
+      }
     }
   ],
   "reference": {
@@ -588,7 +602,7 @@ export const DEFAULT_LAYOUT={
     "seed": 189,
     "visible": false
   }
-};
+}
 export const DEFAULT_SHELTER=DEFAULT_LAYOUT.objects.find(item=>item.type==='bark-shelter-01');
 export function sceneObjects(layout=DEFAULT_LAYOUT){
  return layout.objects.map(item=>{
