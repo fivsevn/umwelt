@@ -1,12 +1,10 @@
-import {px,rot,hash32} from './pixel.mjs';
-
-export function drawCuttlebone(ctx,{x=330,y=170,a=-.42,scale=.72,seed=3}={}){
- const rx=25*scale,ry=10*scale,ca=Math.cos(a),sa=Math.sin(a);
- for(let yy=-Math.ceil(ry);yy<=Math.ceil(ry);yy++)for(let xx=-Math.ceil(rx);xx<=Math.ceil(rx);xx++){
-  const d=(xx/rx)**2+(yy/ry)**2;if(d>1)continue;if(xx>rx*.58&&yy<-ry*.22)continue;
-  const h=hash32(seed,xx,yy),edge=d>.72;let ink=edge?'#aaa795':h%9<2?'#d1cdb7':'#bebaa4';
-  if(h%17===0)ink='#8b8a79';
-  const [dx,dy]=rot(xx,yy,a);px(ctx,x+dx,y+dy,1,1,ink);
- }
- for(let i=-13;i<=13;i+=5){const [dx,dy]=rot(i*scale,1*scale,a);px(ctx,x+dx,y+dy,1,1,'#888878')}
+import {paint,contains} from './grammar.mjs';
+export function drawCuttlebone(ctx,{x=330,y=170,a=-.42,scale=.72,seed=3,variant=0}={}){
+ const shape=variant? [[-23,0],[-15,-7],[3,-10],[16,-7],[11,-2],[22,1],[15,5],[18,8],[-4,10],[-18,5]]:[[-26,0],[-16,-7],[2,-11],[19,-8],[27,-2],[21,5],[7,10],[-13,7]];
+ paint(ctx,{x,y,a,scale,extent:31,inside:(u,v)=>contains(shape,u,v),edge:'#84785d',shade:(u,v)=>{
+  if(v>4)return '#b7a681';
+  if(Math.abs(v+u*.09)<2)return '#f0e5bc';
+  if(u> -15&&u<18&&v<0)return '#ddd0a4';
+  return '#cbbd94';
+ }});
 }

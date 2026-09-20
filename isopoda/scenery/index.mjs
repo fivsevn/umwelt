@@ -1,3 +1,4 @@
+import {drawStone} from './stone.mjs';
 import {drawSubstrate} from './substrate.mjs';
 import {drawLeaf,LEAF_PALETTES} from './leaf.mjs';
 import {drawMossPatch} from './moss.mjs';
@@ -5,7 +6,7 @@ import {drawBark} from './bark.mjs';
 import {drawCuttlebone} from './cuttlebone.mjs';
 import {drawTwig,drawWoodChip} from './debris.mjs';
 
-export {drawSubstrate,drawLeaf,LEAF_PALETTES,drawMossPatch,drawBark,drawCuttlebone,drawTwig,drawWoodChip};
+export {drawStone,drawSubstrate,drawLeaf,LEAF_PALETTES,drawMossPatch,drawBark,drawCuttlebone,drawTwig,drawWoodChip};
 
 export const BASE_SCENE=[
  {type:'moss',id:'moss-upper',x:78,y:92,rx:82,ry:62,seed:3,alpha:.70,z:10},
@@ -26,11 +27,14 @@ export const BASE_SCENE=[
  {type:'bark',id:'shelter',x:192,y:216,a:-.08,variant:0,scale:1.08,seed:57,z:30},
  {type:'bark',id:'bark-under',x:150,y:249,a:.10,variant:1,scale:.72,seed:61,z:29},
 
+ {type:'stone',id:'stone-flat',x:302,y:300,variant:1,seed:71,z:21},
+ {type:'stone',id:'stone-small',x:283,y:318,variant:3,seed:73,z:21},
  {type:'cuttlebone',id:'cuttlebone',x:334,y:168,a:-.42,scale:.72,seed:67,z:33}
 ];
 
 export function drawSceneElement(ctx,item,{shelterLift=0,wetness=.65}={}){
  if(item.type==='moss')return drawMossPatch(ctx,{...item,wetness});
+ if(item.type==='stone')return drawStone(ctx,item);
  if(item.type==='leaf')return drawLeaf(ctx,item);
  if(item.type==='bark')return drawBark(ctx,{...item,lift:item.id==='shelter'?shelterLift:0});
  if(item.type==='cuttlebone')return drawCuttlebone(ctx,item);
@@ -40,6 +44,6 @@ export function drawSceneElement(ctx,item,{shelterLift=0,wetness=.65}={}){
 
 export function drawBaseScene(ctx,{wetZones=[],light=100,shelterLift=0,seed=57}={}){
  drawSubstrate(ctx,{wetZones,light,seed});
- const wetness=Math.max(.25,Math.min(1,(wetZones[0]?.moisture||60)/100));
+ const wetness=Math.max(.25,Math.min(1,(wetZones[0]?.moisture??60)/100));
  for(const item of [...BASE_SCENE].sort((a,b)=>(a.z||0)-(b.z||0)))drawSceneElement(ctx,item,{shelterLift,wetness});
 }

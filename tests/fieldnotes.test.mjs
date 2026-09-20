@@ -16,8 +16,8 @@ test('thirteen draws unlock thirteen unique species and survive serialization',(
 test('specific times vary every day, remain in their windows and survive reload',()=>{
  for(let seed=0;seed<100;seed++)for(let period=0;period<3;period++){const seen=new Set();for(let day=1;day<=7;day++){const t=timeFor(seed,day,period),[h,m]=t.split(':').map(Number);assert.ok(h>=[6,13,20][period]&&h<=[10,17,23][period]&&m<60);seen.add(t);assert.equal(t,timeFor(JSON.parse(JSON.stringify(seed)),day,period))}assert.equal(seen.size,7)}
 });
-test('36-event pool gives each run 21 unique encounters with timed records',()=>{
- assert.equal(ENCOUNTERS.length,36);for(let seed=1;seed<=30;seed++){const state=createRun('ducky',seed),seen=new Set();for(let n=0;n<21;n++){const scene=ensureScene(state),e=encounterFor(state);assert.equal(scene.encounter,e.id);assert.ok(!seen.has(e.id));seen.add(e.id);if(scene.kind==='count')assert.ok(scene.count<=5);choose(state,scene.options[0].id);assert.equal(state.records[n].time,timeFor(seed,state.day,state.period));assert.equal(state.records[n].encounter,e.id);advance(state)}}
+test('36-event schedule stays unique while visible encounters honor shell and molt history',()=>{
+ assert.equal(ENCOUNTERS.length,36);for(let seed=1;seed<=30;seed++){const state=createRun('ducky',seed),seen=new Set();for(let n=0;n<21;n++){const scene=ensureScene(state),e=encounterFor(state);if((n===20&&e.motion==='molt')||(e.id==='old-shell'&&!state.environment.shells.length))assert.ok(['rest','clean'].includes(scene.encounter));else if(e.motion==='molt'){const prior=state.records.filter(r=>['molt-back','molt-front'].includes(r.encounter)).length;assert.equal(scene.encounter,prior===0?'molt-back':'molt-front')}else assert.equal(scene.encounter,e.id);assert.ok(!seen.has(e.id));seen.add(e.id);if(scene.kind==='count')assert.ok(scene.count<=5);choose(state,scene.options[0].id);assert.equal(state.records[n].time,timeFor(seed,state.day,state.period));assert.equal(state.records[n].encounter,scene.encounter);advance(state)}}
 });
 test('all encounter motions animate five bounded stable individuals, with correct molt halves',()=>{
  assert.deepEqual(new Set(ENCOUNTERS.map(e=>e.motion)),new Set(MOTIONS));
@@ -25,7 +25,7 @@ test('all encounter motions animate five bounded stable individuals, with correc
 });
 test('reduced motion keeps essential activity gentle; disturbing and waiting alter defensive encounter',()=>{
  const e=ENCOUNTERS.find(e=>e.motion==='defend'),g=makeIndividuals(2);stageIndividuals(g,e);const p=g.map(c=>[c.x,c.y]);stepIndividuals(g,{encounter:e,state:{},time:3,reduced:true});assert.ok(g.every((c,i)=>Math.hypot(c.x-p[i][0],c.y-p[i][1])<1));assert.ok(g.some(c=>c.moving));
- stepIndividuals(g,{encounter:e,state:{},time:3,reaction:{mode:'quiet'}});assert.ok(g.every(c=>['tucked','normal','turning'].includes(c.posture)));stepIndividuals(g,{encounter:e,state:{},time:3,reaction:{mode:'disturb'}});assert.ok(g.some(c=>['tucked','curled'].includes(c.posture)));
+ stepIndividuals(g,{encounter:e,state:{},time:3,reaction:{mode:'quiet'}});assert.ok(g.every(c=>['tucked','normal','turning'].includes(c.posture)));stepIndividuals(g,{encounter:e,state:{},time:3,reaction:{mode:'disturb',point:{x:g[0].x,y:g[0].y}}});assert.ok(g.some(c=>['tucked','curled'].includes(c.posture)));
 });
 
 test('active pre-expansion saves keep the original encounter pool while new runs use all thirty-six',()=>{

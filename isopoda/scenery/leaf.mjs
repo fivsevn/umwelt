@@ -1,60 +1,31 @@
-import {px,rot,hash32} from './pixel.mjs';
-
+import {paint,contains,nearLine} from './grammar.mjs';
+import {hash32} from './pixel.mjs';
 export const LEAF_PALETTES=[
- ['#4b3d2d','#6d4e32','#8b633b','#aa7f4d','#352d27'],
- ['#514632','#6b5a3c','#86764a','#a18d59','#373129'],
- ['#5b4130','#795238','#986843','#b67d50','#3c2f27'],
- ['#51483a','#6e6045','#88784f','#9e8a5d','#38332c']
+ ['#61402c','#a36b36','#cd9347','#e3b765','#49302a'],
+ ['#59352c','#975033','#bd7546','#d8995a','#422c29'],
+ ['#422e29','#704532','#996443','#b58757','#352827'],
+ ['#51443a','#827052','#a7956d','#c0ad7f','#39332e']
 ];
-
-function widthAt(variant,t,width){
- const q=Math.max(0,1-Math.abs(t));
- if(variant===1)return width*Math.pow(q,.72)*.72;
- if(variant===2)return width*Math.pow(q,.56)*(.90+.09*Math.sin((t+.06)*Math.PI*3));
- if(variant===3)return width*Math.pow(q,.52)*(t<-.22?.78:1);
- if(variant===4)return width*Math.pow(q,.61)*(.92+.07*Math.cos(t*Math.PI*2));
- if(variant===5)return width*Math.pow(q,.64)*(.82+.10*Math.cos((t+.1)*Math.PI*2.3));
- return width*Math.pow(q,.58);
-}
-
+export const LEAF_KINDS=['oak','willow','magnolia','maple','ginkgo','beech'];
+const SHAPES=[
+ [[-36,0],[-26,-7],[-25,-13],[-17,-13],[-20,-20],[-10,-23],[-6,-17],[0,-25],[8,-24],[10,-16],[21,-17],[22,-9],[34,-5],[39,0],[29,8],[20,9],[20,18],[10,19],[7,14],[-1,24],[-10,20],[-10,13],[-22,15],[-25,8]],
+ [[-42,0],[-23,-6],[0,-10],[22,-7],[43,-2],[28,3],[9,8],[-13,7],[-30,4]],
+ [[-37,0],[-27,-12],[-11,-21],[8,-23],[26,-15],[38,-3],[29,11],[10,20],[-11,18],[-29,9]],
+ [[-30,0],[-22,-8],[-30,-20],[-14,-17],[-14,-32],[-1,-20],[13,-30],[11,-13],[36,-17],[24,-2],[40,4],[23,11],[21,26],[6,17],[-6,28],[-10,15],[-27,17],[-21,6]],
+ [[-29,0],[-14,-11],[-7,-23],[4,-31],[17,-34],[26,-27],[31,-13],[20,-2],[33,3],[30,17],[21,29],[6,30],[-8,20],[-16,9]],
+ [[-35,0],[-22,-12],[-5,-20],[13,-17],[32,-6],[37,0],[21,12],[4,18],[-15,12]]
+];
 export function drawLeaf(ctx,{x=0,y=0,a=0,variant=0,scale=.9,tone=0,gap=false,age=0,seed=0}={}){
- const p=LEAF_PALETTES[tone%LEAF_PALETTES.length],cell=2,ca=Math.cos(a),sa=Math.sin(a);
- const fade=Math.max(.78,1-Math.min(20,age)*.008);
- const length=[39,44,42,40,43,41][variant%6]*scale,width=[21,17,24,23,21,20][variant%6]*scale;
- const inside=(u,v)=>{
-  if(Math.abs(u)>length)return false;
-  const t=u/length,rim=widthAt(variant,t,width);if(Math.abs(v)>rim)return false;
-  const edge=rim-Math.abs(v),side=Math.sign(v)||1;
-  if(variant===0&&t>.40&&t<.58&&side<0&&edge<3)return false;
-  if(variant===2&&t>.12&&t<.34&&side>0&&edge<3)return false;
-  if(variant===3&&t>.52&&side<0&&edge<3.5)return false;
-  if(variant===4&&t<-.36&&side>0&&edge<3)return false;
-  return true;
- };
- const radius=Math.ceil(Math.hypot(length,width)+9);
- const sx=gap?4:2,sy=gap?5:3;
- for(let yy=-radius;yy<=radius;yy+=cell)for(let xx=-radius;xx<=radius;xx+=cell){
-  const dx=xx-sx,dy=yy-sy,u=dx*ca+dy*sa,v=-dx*sa+dy*ca;
-  if(inside(u,v))px(ctx,x+xx,y+yy,cell,cell,'rgba(28,25,22,.34)');
- }
- for(let yy=-radius;yy<=radius;yy+=cell)for(let xx=-radius;xx<=radius;xx+=cell){
-  const u=xx*ca+yy*sa,v=-xx*sa+yy*ca;if(!inside(u,v))continue;
-  const t=u/length,rim=widthAt(variant,t,width),edge=rim-Math.abs(v);
-  let ink=p[1];if(edge<2.4)ink=p[0];else if(v<0)ink=p[2];if(t<-.12&&v<-.2*rim)ink=p[3];
-  if(fade<1){
-   // age by darkening only, never by puncturing the fill
-   const m=fade,hex=ink.slice(1),r=parseInt(hex.slice(0,2),16),g=parseInt(hex.slice(2,4),16),b=parseInt(hex.slice(4,6),16);
-   ink=`rgb(${Math.round(r*m)},${Math.round(g*m)},${Math.round(b*m)})`;
-  }
-  px(ctx,x+xx,y+yy,cell,cell,ink);
- }
- for(let u=-length*.74;u<length*.72;u+=4){
-  const [dx,dy]=rot(u,0,a);px(ctx,x+dx,y+dy,2,2,p[3]);
- }
- const h=hash32(seed,x,y,variant);
- for(const side of [-1,1]){
-  const u=(-.10+(h%7)*.012)*length,r=widthAt(variant,u/length,width)*.62;
-  for(let q=.38;q<.9;q+=.34){const [dx,dy]=rot(u+q*length*.12,side*r*q,a);px(ctx,x+dx,y+dy,2,2,p[2])}
- }
- for(let i=0;i<7*scale;i+=2){const [dx,dy]=rot(-length-i,0,a);px(ctx,x+dx,y+dy,2,2,p[4])}
+ const kind=((variant%6)+6)%6,p=LEAF_PALETTES[((tone%4)+4)%4],shape=SHAPES[kind],h=hash32(seed,'leaf');
+ const damaged=gap||age>8||h%4===0,notch=(h%3-1)*9;
+ const inside=(u,v)=>contains(shape,u,v)&&!(damaged&&u>notch&&u<notch+7&&v>8)&&!(gap&&u>8&&u<14&&v< -6&&v> -13);
+ paint(ctx,{x,y,a,scale,extent:48,inside,edge:p[4],shade:(u,v)=>{
+  if(nearLine(u,v,-34,0,kind===4?20:32,kind===4?-2:0,1.5))return p[0];
+  for(const side of [-1,1])for(const start of [-15,0,14])if(nearLine(u,v,start,0,start+13,side*(kind===1?6:17),1.1))return p[1];
+  if(v>5+u*.12)return p[1];
+  if(v< -5&&u<16)return p[3];
+  return p[2];
+ }});
+ // The petiole is structural, not texture noise.
+ paint(ctx,{x,y,a,scale,extent:47,inside:(u,v)=>u< -29&&u> -45&&Math.abs(v-(u+30)*.14)<1.5,shade:()=>p[0],edge:null,shadow:false});
 }

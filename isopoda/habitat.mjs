@@ -5,10 +5,11 @@ import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?
 import {encounterById,responseMode} from './encounters.mjs?v=narrative-pool-2';
 import {pixelAnatomy,renderModel,exuviaPixels} from './sprites.mjs?v=exuvia-1';
 import {speciesById} from './species.mjs?v=cohort-4';
-import {drawBaseScene,drawLeaf} from './scenery/index.mjs?v=scenery-modules-1';
-// Habitat scenery and specimens share one world lattice, but scenery is allowed to sit one visual step behind the specimens.
+import {drawBaseScene,drawLeaf} from './scenery/index.mjs?v=handheld-1';
+import {ACTOR_SCALE} from './scenery/grammar.mjs';
+// Anatomy and scenery share the same integer world lattice.
 export const SCENE_PIXEL=1;
-const SCENE_ACTOR_SCALE=.88,SCENE_OUTPUT_SCALE=.76;
+const SCENE_ACTOR_SCALE=ACTOR_SCALE,SCENE_OUTPUT_SCALE=1;
 
 export function sceneActorPixels(source,actor){
  const cells=new Map(),size=SCENE_ACTOR_SCALE*actor.model.growth.scale,ca=Math.cos(actor.a),sa=Math.sin(actor.a);
@@ -32,6 +33,8 @@ export function createHabitat(canvas,layer,getState,onDirectInteraction=()=>{}){
 const display=canvas.getContext('2d'),world=document.createElement('canvas');world.width=384;world.height=430;
 const overlay=document.createElement('canvas');overlay.width=384;overlay.height=430;const overlayCtx=overlay.getContext('2d'),reactions=createReactions();
 const ctx=world.getContext('2d');ctx.imageSmoothingEnabled=false;
+const sceneryCanvas=document.createElement('canvas');sceneryCanvas.width=384;sceneryCanvas.height=430;
+const sceneryCtx=sceneryCanvas.getContext('2d');sceneryCtx.imageSmoothingEnabled=false;let sceneryKey='';
 let state=getState(),critters=[],last=0,active=false,effect=null,frame=0,encounter=null,elapsed=0,empty=false,shelterHeld=false;
 const camera={zoom:1,x:192,y:215},reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function encounterForScene(scene){
@@ -107,7 +110,10 @@ function drawHabitat(t){
  const w=world.width,h=world.height;ctx.clearRect(0,0,w,h);
  const memory=environmentFor(state);
  const lifted=shelterHeld||!!(effect&&elapsed<effect.until&&['lift','direct-lift'].includes(effect.id));
- drawBaseScene(ctx,{wetZones:memory.wetZones||[],light:100,shelterLift:lifted?-12:0,seed:state.seed||57});
+ const sceneryOptions={wetZones:memory.wetZones||[],light:100,shelterLift:lifted?-12:0,seed:state.seed||57};
+ const nextSceneryKey=JSON.stringify(sceneryOptions);
+ if(nextSceneryKey!==sceneryKey){drawBaseScene(sceneryCtx,sceneryOptions);sceneryKey=nextSceneryKey}
+ ctx.drawImage(sceneryCanvas,0,0);
 
  for(const mark of memory.scuffs||[])for(let i=0;i<8;i++)px(ctx,mark.x-18+i*5,mark.y+i%2*2,3,1,'rgba(108,84,58,.55)');
 

@@ -53,9 +53,6 @@ jobs:
             --exclude 'isopoda/exploded-preview.html' \
             --exclude 'isopoda/exploded-preview.css' \
             --exclude 'isopoda/projection-preview.html' \
-            --exclude 'isopoda/scenery-test.html' \
-            --exclude 'isopoda/scenery-test.css' \
-            --exclude 'isopoda/scenery-test.mjs' \
             ./ _site/
 
       - uses: actions/upload-pages-artifact@v3

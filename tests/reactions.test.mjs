@@ -8,11 +8,14 @@ test('one per individual, global cap, and stronger stimulus interrupts positive 
  const r=createReactions(),group=Array.from({length:7},(_,i)=>actor(i,{posture:'feeding'}));
  for(let t=0;t<2;t+=.1){r.update(group,context(t));assert.ok(r.active.length<=3);assert.equal(new Set(r.active.map(b=>b.id)).size,r.active.length)}
  r.update(group,context(2,{reaction:{id:'lift',mode:'disturb',selected:[0,1],age:0}}));
+ assert.equal(r.active.filter(b=>b.cue==='!!').length,0); // Urgent cues still stagger.
+ for(const time of [2.05,2.22,2.35])r.update(group,context(time,{reaction:{id:'lift',mode:'disturb',selected:[0,1],age:time-2}}));
  assert.deepEqual(r.active.filter(b=>b.cue==='!!').map(b=>b.id),[0,1]);
  group.forEach(c=>c.posture='curled');
  r.update(group,context(2.4,{reaction:{id:'lift',mode:'disturb',selected:[0,1],age:.4}}));
  assert.equal(r.active.find(b=>b.id===0).cue,'!!');
  r.update(group,context(2.81,{reaction:{id:'lift',mode:'disturb',selected:[0,1],age:.81}}));
+ r.update(group,context(3.0,{reaction:{id:'lift',mode:'disturb',selected:[0,1],age:1}}));
  assert.equal(r.active.find(b=>b.id===0).cue,'◎');
 });
 test('stable actions do not loop bubbles, scene reset clears everything, feeding is staggered',()=>{
@@ -31,7 +34,7 @@ test('cues require actual posture; shell feeding never gets a heart, quiet route
  assert.equal(cueFor(c,[c,actor(1,{x:210,posture:'probing'})],{...encounter,motion:'contact'},{}),'!');
 });
 test('long rest waits; molt uses a longer duration',()=>{
- const r=createReactions(),c=actor(0,{posture:'resting'});r.update([c],context(0));r.update([c],context(1.9));assert.equal(r.active.length,0);r.update([c],context(2.1));assert.equal(r.active[0].cue,'…');
+ const r=createReactions(),c=actor(0,{posture:'resting'});r.update([c],context(0));r.update([c],context(1.3));assert.equal(r.active.length,0);r.update([c],context(1.5));assert.equal(r.active[0].cue,'…');
  r.reset();c.posture='molting';r.update([c],context(0));r.update([c],context(.2));assert.equal(r.active[0].until,2.1);
 });
 test('bubble and shadow stay inside camera edges, snap to scene lattice, reduced motion retains cue',()=>{
@@ -63,5 +66,5 @@ test('all encounters and player actions keep bounded cues without mutating simul
    assert.ok(r.active.length<=3);for(const b of r.active){assert.ok(group.some(c=>c.id===b.id));assert.ok(b.until>time);observed.add(b.cue)}
   }
  }
- assert.deepEqual([...observed].sort(),['!','!!','?','~','…','◎','♡'].sort());
+ assert.deepEqual([...observed].sort(),['!','!!','?','~','…','◎','♡','*','z'].sort());
 });
