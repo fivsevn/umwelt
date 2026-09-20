@@ -1,4 +1,4 @@
-import {paint,contains,nearLine} from './grammar.mjs?v=forest-3';
+import {paint,contains,nearLine} from './grammar.mjs?v=forest-4';
 export function drawTwig(ctx,{x=0,y=0,a=0,length=18,seed=0}={}){
  if(length>100){
   const curve=u=>Math.sin(u*.025)*15;
@@ -8,5 +8,5 @@ export function drawTwig(ctx,{x=0,y=0,a=0,length=18,seed=0}={}){
 }
 export function drawWoodChip(ctx,{x=0,y=0,a=0,variant=0,scale=1,seed=0}={}){
  const shape=variant===1?[[-23,2],[-9,-6],[18,-7],[13,-2],[25,0],[6,5],[-16,6]]:[[-17,1],[-11,-6],[4,-8],[18,-3],[9,1],[13,4],[-4,7]];
- paint(ctx,{x,y,a,scale,extent:28,inside:(u,v)=>contains(shape,u,v),edge:'#4a332b',shade:(u,v)=>Math.abs(v+u*.1)<1.8?'#a18451':v<0?'#82613e':'#594730'});
+ paint(ctx,{x,y,a,scale,extent:28,inside:(u,v)=>contains(shape,u,v),edge:'#684b36',shade:(u,v)=>Math.abs(v+u*.1)<1.8?'#a18451':v<0?'#82613e':'#594730'});
 }

@@ -1,10 +1,11 @@
+@font-face{font-family:Pixel;src:url('../assets/fonts/fusion-pixel-12px-monospaced-zh_hans.ttf.woff2') format('woff2');font-display:swap}
 :root{
  --page:#20271e;--night:#242d21;--panel:#293325;--panel2:#303b2a;--line:#536046;--line2:#415035;
  --cream:#dedcc4;--faint:#899879;--active:#c5c6a6;--active-ink:#293723;--shadow:#151e12;--danger:#b98f7a;
- font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color-scheme:dark
+ font-family:Pixel,ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color-scheme:dark
 }
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--page);color:var(--cream)}
-body{font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+body{font:12px/1.5 Pixel,ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 button{font:inherit;color:inherit;cursor:pointer}
 button:focus-visible{outline:1px solid #e0ddbd;outline-offset:2px}
 .lab{width:min(1420px,100%);min-height:100vh;margin:0 auto;padding:9px 10px;display:grid;grid-template-rows:auto auto minmax(0,1fr) auto;gap:5px;background:var(--night)}

@@ -2,7 +2,7 @@
 
 Status: phase checkpoint, 2026-09-18.
 
-This document defines the maintenance boundary for the habitat scenery used by **Isopoda Fugue / 等足目赋格**. The handheld scenery rebuild is live. Production and the public Habitat Asset Lab now share the renderers in `isopoda/scenery/index.mjs`. See `isopoda/scenery/README.md` for the current pixel contract. The planning sections below remain historical context.
+This document defines the maintenance boundary for the habitat scenery used by **Isopoda Fugue / 等足目赋格**. The handheld scenery rebuild is live. Production and the public Asimov Habitat Lab now share the renderers in `isopoda/scenery/index.mjs`. See `isopoda/scenery/README.md` for the current pixel contract. The planning sections below remain historical context.
 
 ## 1. Current responsibilities
 
@@ -179,7 +179,7 @@ Known integration point for the next pass: the main shelter currently exists bot
 The local asset lab is:
 
 ```text
-/isopoda/scenery-test.html
+/isopoda/habitat.html
 ```
 
 It is a developer tool only. It is intentionally excluded from the GitHub Pages artifact.

@@ -1,4 +1,4 @@
-import {paint,contains,nearLine} from './grammar.mjs?v=forest-3';
+import {paint,contains,nearLine} from './grammar.mjs?v=forest-4';
 import {hash32,px,rot} from './pixel.mjs';
 // Top-down moss: overlapping branching shoots, no shaded hill silhouettes.
 const PATCH=[[-1,-.2],[-.75,-.55],[-.38,-.5],[-.22,-.92],[.18,-.75],[.46,-.92],[.7,-.48],[1,-.12],[.8,.25],[.94,.5],[.54,.64],[.3,.92],[-.05,.7],[-.48,.86],[-.62,.47],[-.91,.42]];
