@@ -1,16 +1,27 @@
-import {paint,contains,nearLine} from './grammar.mjs';
+import {paint,nearLine} from './grammar.mjs?v=forest-2';
 import {hash32} from './pixel.mjs';
-const OUTLINE=[[-82,12],[-76,-9],[-66,-14],[-70,-27],[-44,-24],[-27,-34],[1,-29],[26,-36],[45,-27],[74,-29],[65,-14],[82,-18],[77,0],[63,6],[74,16],[47,22],[28,18],[13,31],[-15,26],[-30,32],[-51,23],[-75,27]];
+// Adapted from the layered cork in habitat.mjs at 6959a88.
+// Broad ridges, broken fibres and a knot; detail is sampled on the shared 2px grid.
 export function drawBark(ctx,{x=192,y=218,a=-.08,scale=1,variant=0,lift=0,seed=57}={}){
- const h=hash32(seed,'bark'),sx=variant===1?.8:variant===2?.68:1,sy=variant===1?.58:variant===2?.92:1;
- const shape=OUTLINE.map(([u,v])=>[u*sx,v*sy]);
- paint(ctx,{x,y:y+lift,a,scale,extent:90,inside:(u,v)=>contains(shape,u,v),edge:'#342a2b',shade:(xx,yy)=>{
-  const u=xx/sx,v=yy/sy;
-  if(variant===0&&contains([[-68,12],[-50,4],[28,6],[52,13],[29,22],[-30,26]],u,v))return '#342a2b';
-  if(contains([[-68,-15],[-38,-23],[-8,-21],[-22,-12],[6,-14],[37,-23],[61,-21],[43,-12],[8,-4],[-36,-3]],u,v))return '#b18453';
-  if(contains([[-63,-9],[-29,-15],[-40,-6],[-6,-9],[-18,-1],[-49,4]],u,v))return '#d0a16a';
-  for(const [ax,ay,bx,by] of [[-64,10,-10,-2],[-5,15,51,2],[-18,-18,18,-24],[36,-7,66,-15]])if(nearLine(u,v,ax,ay,bx,by,2))return '#342a2b';
-  if((variant===2||h%3===0)&&contains([[-9,-25],[4,-29],[16,-23],[26,-22],[22,-12],[10,-8],[4,-13],[-9,-10]],u,v))return v< -19?'#8d9c57':'#536b3e';
-  return v>8?'#795035':v< -8?'#94643f':'#795035';
+ const h=hash32(seed,'bark'),phase=(h%17)*.11;
+ const half=variant===1?76:variant===2?84:94,depth=variant===1?26:42;
+ const bounds=u=>{
+  const cap=Math.sqrt(Math.max(0,1-(u/(half+2))**2));
+  return [-depth*cap-4*Math.sin(u*.09+phase)-2*Math.sin(u*.23),depth*.83*cap+4*Math.sin(u*.14+1.7)];
+ };
+ const inside=(u,v)=>{const [top,bottom]=bounds(u);return Math.abs(u)<half&&v>=top&&v<=bottom&&!(u>half-14&&v< -8&&v> -17)};
+ paint(ctx,{x,y:y+lift,a,scale,extent:half+8,inside,edge:'#352e25',shade:(u,v)=>{
+  const [top,bottom]=bounds(u),ridge=v+3*Math.sin(u*.055+phase)+2*Math.sin(u*.17),band=((ridge%9)+9)%9;
+  const knot=((u-18)/13)**2+((v+3)/8)**2;
+  if(knot<1)return knot>.64?'#947348':knot>.26?'#403428':'#352e25';
+  if(v>bottom-6)return '#403428';
+  if(v<top+4)return '#a08452';
+  if(variant===2&&u< -25&&v< -10){const moss=Math.sin(u*.18)+Math.cos(v*.26);if(moss>.35)return moss>1?'#798052':'#4c5b39'}
+  for(const [ax,ay,bx,by] of [[-63,12,-26,9],[-20,-19,4,-12],[42,-15,67,-8]])if(nearLine(u,v,ax,ay,bx,by,1.8))return '#352e25';
+  if(band<2)return '#403428';
+  if(band>6)return '#a08452';
+  const grain=hash32(seed,Math.floor(u/8),Math.floor(ridge/9));
+  if(grain%7===0&&band>3)return '#947348';
+  return Math.floor(ridge/9)%2===0?'#80613e':'#6d5035';
  }});
 }

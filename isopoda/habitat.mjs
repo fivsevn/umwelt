@@ -5,7 +5,7 @@ import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors.mjs?
 import {encounterById,responseMode} from './encounters.mjs?v=narrative-pool-2';
 import {pixelAnatomy,renderModel,exuviaPixels} from './sprites.mjs?v=exuvia-1';
 import {speciesById} from './species.mjs?v=cohort-4';
-import {drawBaseScene,drawLeaf} from './scenery/index.mjs?v=handheld-1';
+import {drawBaseScene,drawLeaf} from './scenery/index.mjs?v=forest-2';
 import {ACTOR_SCALE} from './scenery/grammar.mjs';
 // Anatomy and scenery share the same integer world lattice.
 export const SCENE_PIXEL=1;

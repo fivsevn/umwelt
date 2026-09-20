@@ -1,18 +1,28 @@
-import {paint,contains} from './grammar.mjs';
+import {paint,contains,nearLine} from './grammar.mjs?v=forest-2';
 import {hash32} from './pixel.mjs';
-const TUFT=[[-1,.4],[-.95,.05],[-.78,.05],[-.85,-.18],[-.62,-.22],[-.65,-.5],[-.4,-.48],[-.4,-.76],[-.18,-.7],[-.12,-.94],[.08,-.86],[.18,-.65],[.39,-.74],[.43,-.45],[.65,-.49],[.64,-.23],[.87,-.23],[.81,.04],[1,.15],[.9,.4],[.67,.42],[.7,.65],[.4,.61],[.26,.85],[.03,.73],[-.19,.83],[-.37,.63],[-.63,.72],[-.69,.47]];
+// Top-down moss: overlapping branching shoots, no shaded hill silhouettes.
+const PATCH=[[-1,-.2],[-.75,-.55],[-.38,-.5],[-.22,-.92],[.18,-.75],[.46,-.92],[.7,-.48],[1,-.12],[.8,.25],[.94,.5],[.54,.64],[.3,.92],[-.05,.7],[-.48,.86],[-.62,.47],[-.91,.42]];
 export function drawMossPatch(ctx,{x=0,y=0,a=0,rx=62,ry=42,seed=0,wetness=.65,variant=0}={}){
- const p=wetness>.72?['#293e30','#3c5939','#557a47','#7c9c59']:['#30432d','#4a6539','#6e8b49','#9aac64'];
- const lobes=[[-.54,.12,.42],[-.26,-.35,.46],[.16,-.25,.52],[.57,.05,.38],[-.17,.35,.50],[.4,.4,.38]];
- const ca=Math.cos(a),sa=Math.sin(a);
- for(let i=0;i<lobes.length;i++){
-  const [lx,ly,r]=lobes[i],h=hash32(seed,i),dx=lx*rx,dy=ly*ry;
-  const sx=rx*r,sy=ry*r*(variant===2?.75:1),shift=(h%5-2)*.035;
-  paint(ctx,{x:x+dx*ca-dy*sa,y:y+dx*sa+dy*ca,a,extent:Math.max(sx,sy)+4,edge:p[1],inside:(u,v)=>contains(TUFT,u/sx+shift,v/sy),shade:(u,v)=>{
-   if(v>sy*.40||u>sx*.70)return p[0];
-   if(v>sy*.15)return p[1];
-   if(contains([[-.7,-.3],[-.3,-.7],[.1,-.6],[.25,-.15],[.6,-.1],[.3,.2],[-.25,.05],[-.45,.25]],u/sx,v/sy))return p[3];
-   return p[2];
-  }});
+ const p=wetness>.72?['#293b2e','#3b4d32','#53633d','#7b8653']:['#303c2b','#455335','#627044','#7c8553'];
+ const shoots=[];
+ for(let i=0;i<22;i++){
+  const h=hash32(seed,'shoot',i),theta=i*2.399,rad=Math.sqrt((h%997)/997);
+  const cx=Math.cos(theta)*rx*.82*rad,cy=Math.sin(theta)*ry*.82*rad,angle=(h>>>12)%628/100,len=10+(h>>>21)%9;
+  const ca=Math.cos(angle),sa=Math.sin(angle);
+  shoots.push({cx,cy,ca,sa,len});
  }
+ paint(ctx,{x,y,a,extent:Math.max(rx,ry)+8,edge:null,shadow:false,inside:(u,v)=>contains(PATCH,u/rx,v/ry),shade:(u,v)=>{
+  let ink=p[0];
+  for(const s of shoots){
+   const dx=u-s.cx,dy=v-s.cy,uu=dx*s.ca+dy*s.sa,vv=-dx*s.sa+dy*s.ca;
+   if(Math.abs(uu)>s.len+3||Math.abs(vv)>9)continue;
+   if(nearLine(uu,vv,-s.len,0,s.len,0,1.4))ink=p[2];
+   for(let j=-s.len+3;j<s.len;j+=6)for(const side of [-1,1]){
+    const leaf=[[j-4,0],[j-2,side*5],[j+2,side*7],[j+4,side*3],[j+2,0]];
+    if(contains(leaf,uu,vv))ink=side<0?p[3]:p[2];
+   }
+  }
+  if(ink===p[0]&&(Math.sin(u*.17)+Math.cos(v*.22)>.8))return p[1];
+  return ink;
+ }});
 }
