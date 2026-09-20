@@ -36,7 +36,7 @@ for(const lang of SUPPORTED_LANGUAGES){
 }
 
 // 2) Specimen annotations: every registered specimen must have both EN and JA copy.
-const annotationSource=await read('annotation-locales.mjs');
+const annotationSource=await read('locales/annotations.mjs');
 const annotationBody=annotationSource.match(/const copy=\{([\s\S]*?)\n\};/)?.[1]||'';
 const annotationMatches=[...annotationBody.matchAll(/^  ([A-Za-z0-9_]+):\{/gm)];
 const annotationIds=[];
@@ -49,7 +49,7 @@ for(let i=0;i<annotationMatches.length;i++){
  if(!/\bja:\s*\[/.test(block))fail(`annotation ${id}: missing Japanese lines`);
 }
 
-const speciesFiles=['species.mjs','species-extra.mjs','species-extra-2.mjs','species-extra-3.mjs','species-extra-4.mjs','species-extra-5.mjs','species-extra-6.mjs'];
+const speciesFiles=['species.mjs','data/species/batch-01.mjs','data/species/batch-02.mjs','data/species/batch-03.mjs','data/species/batch-04.mjs','data/species/marine-reference.mjs','data/species/hobby-lines.mjs'];
 const speciesIds=new Set();
 for(const file of speciesFiles){
  const source=await read(file);
@@ -61,7 +61,7 @@ for(const id of [...speciesIds].sort())if(!annotationIds.includes(id))fail(`anno
 for(const id of annotationIds)if(!speciesIds.has(id))warn(`annotation ${id}: entry has no matching specimen id`);
 
 // 3) Authored game copy: active visible source strings must exist in the translation table.
-const gameSource=await read('game-locales.mjs');
+const gameSource=await read('locales/game.mjs');
 const translatedZh=new Set([...gameSource.matchAll(/^\['([^'\n]*)',/gm)].map(match=>match[1]));
 const rowTriples=[...gameSource.matchAll(/^\['([^'\n]*)','([^'\n]*)','([^'\n]*)'\],?$/gm)];
 for(const [index,match] of rowTriples.entries()){
