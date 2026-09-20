@@ -1,33 +1,16 @@
-import {px,rot,hash32} from './pixel.mjs';
-
-// Code-drawn placeholder stones for the habitat asset lab.
-// Kept separate from scenery/index.mjs so the live game is not changed by this test pass.
+import {paint,contains,nearLine} from './grammar.mjs';
+const SHAPES=[
+ [[-15,2],[-13,-7],[-4,-12],[7,-11],[15,-4],[17,5],[8,11],[-7,10]],
+ [[-21,1],[-12,-8],[4,-10],[18,-5],[23,3],[13,8],[-10,8]],
+ [[-12,-2],[-4,-12],[5,-9],[7,-2],[13,3],[6,10],[-8,8]],
+ [[-8,1],[-4,-6],[4,-5],[9,1],[3,6],[-5,5]]
+];
 export function drawStone(ctx,{x=0,y=0,a=0,scale=1,variant=0,seed=0}={}){
- const shapes=[
-  {rx:12,ry:8,flat:.18},
-  {rx:15,ry:6,flat:.34},
-  {rx:9,ry:9,flat:.08}
- ];
- const s=shapes[variant%shapes.length],rx=s.rx*scale,ry=s.ry*scale,cell=1;
- const pal=['#3a3b35','#505046','#666657','#7a7967','#8d8b76'];
- for(let yy=-Math.ceil(ry);yy<=Math.ceil(ry);yy+=cell)for(let xx=-Math.ceil(rx);xx<=Math.ceil(rx);xx+=cell){
-  const nx=xx/rx,ny=yy/ry;
-  let d=nx*nx+ny*ny;
-  if(variant===1&&ny<-.45)d+=Math.abs(ny+.45)*s.flat;
-  if(d>1)continue;
-  const h=hash32(seed,xx,yy,variant);
-  const edge=d>.72;
-  let tone=edge?0:ny<-.18?3:2;
-  if(h%13===0)tone=Math.min(4,tone+1);
-  if(h%19===0)tone=Math.max(0,tone-1);
-  const [dx,dy]=rot(xx,yy,a);
-  px(ctx,x+dx,y+dy,1,1,pal[tone]);
- }
- for(let i=-Math.floor(rx*.55);i<=Math.floor(rx*.45);i+=4){
-  const h=hash32(seed,'vein',i);
-  if(h%3===0){
-   const [dx,dy]=rot(i,-Math.max(1,Math.round(ry*.18)),a);
-   px(ctx,x+dx,y+dy,2,1,'#96927c');
-  }
- }
+ const shape=SHAPES[variant%4];
+ paint(ctx,{x,y,a,scale,extent:26,inside:(u,v)=>contains(shape,u,v),edge:'#42433b',shade:(u,v)=>{
+  if(seed%3===0&&nearLine(u,v,1,-8,5,2,1.1))return '#57584a';
+  if(v>2||u>11)return '#676b59';
+  if(v< -3&&u<7)return '#b0ad8c';
+  return '#8c9076';
+ }});
 }

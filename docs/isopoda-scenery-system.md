@@ -2,7 +2,7 @@
 
 Status: phase checkpoint, 2026-09-18.
 
-This document defines the maintenance boundary for the habitat scenery used by **Isopoda Fugue / 等足目赋格**. The current public game is intentionally left unchanged during this documentation pass. The next visual phase should improve scenery by editing scenery content and renderers rather than by adding more scene-specific logic to the game shell.
+This document defines the maintenance boundary for the habitat scenery used by **Isopoda Fugue / 等足目赋格**. The handheld scenery rebuild is live. Production and the public Habitat Asset Lab now share the renderers in `isopoda/scenery/index.mjs`. See `isopoda/scenery/README.md` for the current pixel contract. The planning sections below remain historical context.
 
 ## 1. Current responsibilities
 

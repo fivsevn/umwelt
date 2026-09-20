@@ -1,32 +1,18 @@
-import {px,hash32} from './pixel.mjs';
-
-export function drawMossPatch(ctx,{x=0,y=0,rx=62,ry=42,seed=0,wetness=.65,alpha=.72}={}){
- const greens=[
-  [46,69,53],[58,88,61],[75,109,72],[96,133,86],[121,155,101]
- ];
- const lobes=[
-  [-.52,-.02,.46,.52],[-.16,-.22,.55,.68],[.22,-.18,.58,.66],[.55,.04,.42,.54],
-  [-.34,.27,.52,.42],[.08,.30,.62,.43],[.50,.28,.46,.38]
- ];
- const cell=2;
- for(let yy=-ry;yy<=ry;yy+=cell)for(let xx=-rx;xx<=rx;xx+=cell){
-  let d=9;
-  for(const [lx,ly,lrx,lry] of lobes){
-   const dx=(xx-rx*lx)/(rx*lrx),dy=(yy-ry*ly)/(ry*lry);
-   d=Math.min(d,dx*dx+dy*dy);
-  }
-  if(d>1)continue;
-  const h=hash32(seed,xx>>1,yy>>1),upper=yy<-.05*ry;
-  let tone=upper?3:d<.32?2:1;if(h%9===0)tone=Math.min(4,tone+1);if(h%17===0)tone=Math.max(0,tone-1);
-  const [r,g,b]=greens[tone],wet=.82+wetness*.18;
-  px(ctx,x+xx,y+yy,cell,cell,`rgba(${Math.round(r*wet)},${Math.round(g*wet)},${Math.round(b*wet)},${alpha})`);
- }
- const crowns=[[-.56,-.48,10],[-.32,-.61,14],[-.05,-.68,16],[.24,-.61,13],[.50,-.45,11]];
- for(const [sx,sy,h] of crowns){
-  const bx=x+rx*sx,by=y+ry*sy;
-  for(let j=0;j<h;j+=2){
-   px(ctx,bx,by-j,2,2,`rgba(112,151,96,${alpha})`);
-   if(j>4&&j%4===0){px(ctx,bx-3,by-j+1,3,2,`rgba(91,132,85,${alpha})`);px(ctx,bx+2,by-j,3,2,`rgba(124,163,104,${alpha})`)}
-  }
+import {paint,contains} from './grammar.mjs';
+import {hash32} from './pixel.mjs';
+const TUFT=[[-1,.4],[-.95,.05],[-.78,.05],[-.85,-.18],[-.62,-.22],[-.65,-.5],[-.4,-.48],[-.4,-.76],[-.18,-.7],[-.12,-.94],[.08,-.86],[.18,-.65],[.39,-.74],[.43,-.45],[.65,-.49],[.64,-.23],[.87,-.23],[.81,.04],[1,.15],[.9,.4],[.67,.42],[.7,.65],[.4,.61],[.26,.85],[.03,.73],[-.19,.83],[-.37,.63],[-.63,.72],[-.69,.47]];
+export function drawMossPatch(ctx,{x=0,y=0,a=0,rx=62,ry=42,seed=0,wetness=.65,variant=0}={}){
+ const p=wetness>.72?['#293e30','#3c5939','#557a47','#7c9c59']:['#30432d','#4a6539','#6e8b49','#9aac64'];
+ const lobes=[[-.54,.12,.42],[-.26,-.35,.46],[.16,-.25,.52],[.57,.05,.38],[-.17,.35,.50],[.4,.4,.38]];
+ const ca=Math.cos(a),sa=Math.sin(a);
+ for(let i=0;i<lobes.length;i++){
+  const [lx,ly,r]=lobes[i],h=hash32(seed,i),dx=lx*rx,dy=ly*ry;
+  const sx=rx*r,sy=ry*r*(variant===2?.75:1),shift=(h%5-2)*.035;
+  paint(ctx,{x:x+dx*ca-dy*sa,y:y+dx*sa+dy*ca,a,extent:Math.max(sx,sy)+4,edge:p[1],inside:(u,v)=>contains(TUFT,u/sx+shift,v/sy),shade:(u,v)=>{
+   if(v>sy*.40||u>sx*.70)return p[0];
+   if(v>sy*.15)return p[1];
+   if(contains([[-.7,-.3],[-.3,-.7],[.1,-.6],[.25,-.15],[.6,-.1],[.3,.2],[-.25,.05],[-.45,.25]],u/sx,v/sy))return p[3];
+   return p[2];
+  }});
  }
 }
