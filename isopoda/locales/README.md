@@ -5,8 +5,8 @@ The game currently ships in Chinese (`zh`), English (`en`) and Japanese (`ja`). 
 ## Where text lives
 
 - `locales/ui.mjs` — static interface labels and accessibility copy. All languages use the same stable keys.
-- `game-locales.mjs` — authored game / encounter translations. Chinese remains the canonical simulation text so saved runs stay language-neutral; every active Chinese source string must have English and Japanese rows.
-- `annotation-locales.mjs` — specimen annotation translations, keyed by stable specimen id.
+- `locales/game.mjs` — authored game / encounter translations. Chinese remains the canonical simulation text so saved runs stay language-neutral; every active Chinese source string must have English and Japanese rows.
+- `locales/annotations.mjs` — specimen annotation translations, keyed by stable specimen id.
 - `credits.md`, `credits.en.md`, `credits.ja.md` — localized Credits prose. Their links and section structure must stay aligned.
 - Species common names remain in species data because they are biological / trade metadata, not literal UI translations. Do not invent Japanese or English common names when a stable local name is not documented; fall back to trade name or scientific name according to `i18n.mjs`.
 
@@ -30,7 +30,7 @@ The same check runs in GitHub Actions. A missing language should therefore be ca
 ## Adding another language
 
 1. Add the language code to `SUPPORTED_LANGUAGES` in `locales/ui.mjs` and add the complete UI key set.
-2. Extend the authored-game locale data and annotation locale data with that language.
+2. Extend `locales/game.mjs` and `locales/annotations.mjs` with that language.
 3. Add the localized Credits document.
 4. Add the language-specific font rules only if needed.
 5. Extend `tools/check-i18n.mjs` so the new language is required by the audit.
