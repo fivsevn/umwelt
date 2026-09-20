@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>阿西莫夫环境实验室 · ASIMOV HABITAT LAB</title>
-<link rel="stylesheet" href="./habitat.css?v=4">
+<link rel="stylesheet" href="./habitat.css?v=5">
 </head>
 <body>
 <main class="lab">
@@ -51,6 +51,18 @@
     <button id="clearScene">CLEAR OBJECTS</button>
    </div>
   </div>
+  <details class="scene-transfer" open>
+   <summary>布局导入 / 导出</summary>
+   <div class="viewer-actions">
+    <button id="copyScene">COPY SCENE</button><button id="downloadScene">DOWNLOAD JSON</button>
+    <button id="copyShare">COPY SHARE CODE</button>
+   </div>
+   <label for="sceneText">粘贴场景 JSON 或分享代码（角度为弧度）</label>
+   <textarea id="sceneText" rows="3" spellcheck="false"></textarea>
+   <div class="viewer-actions"><button id="importScene">IMPORT SCENE</button>
+    <label>导入文件 <input id="sceneFile" type="file" accept=".json,application/json"></label></div>
+   <p id="sceneMessage" role="status" aria-live="polite"></p>
+  </details>
   <div class="canvas-shell">
    <canvas id="scene" width="384" height="430" aria-label="模块化饲养环境测试画布"></canvas>
    <div class="axis-label axis-x">384</div><div class="axis-label axis-y">430</div>
@@ -92,7 +104,7 @@
   </div>
   <div class="notes">
    <b>当前画风测试</b>
-   <p>统一 2px 色块、有限色板、无贴图。FOREST STUDY 展示混合叶型；RESET 恢复正式场景布局。鼠妇以游戏真实比例绘制。</p>
+   <p>统一 1px 细节与自然色簇、有限色板、无贴图。FOREST STUDY 展示混合叶型；RESET 恢复正式场景布局。鼠妇以游戏真实比例绘制。</p>
   </div>
  </aside>
 </section>
@@ -102,6 +114,6 @@
  <span>isopoda/habitat.html</span>
 </footer>
 </main>
-<script type="module" src="./habitat-lab.mjs?v=forest-4"></script>
+<script type="module" src="./habitat-lab.mjs?v=forest-5"></script>
 </body>
 </html>

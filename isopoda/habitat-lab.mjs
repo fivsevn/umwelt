@@ -1,4 +1,5 @@
-import {drawSubstrate,drawLeaf,drawMossPatch,drawBark,drawStone,drawCuttlebone,drawTwig,drawWoodChip,BASE_SCENE} from './scenery/index.mjs?v=forest-4';
+import {exportScene,importScene,shareCode} from './scene-codec.mjs?v=forest-5';
+import {drawSubstrate,drawLeaf,drawMossPatch,drawBark,drawStone,drawCuttlebone,drawTwig,drawWoodChip,BASE_SCENE} from './scenery/index.mjs?v=forest-5';
 import {ACTOR_SCALE} from './scenery/grammar.mjs';
 import {SPECIES,speciesById} from './species-registry.mjs?v=species-39b';
 import {renderModel,pixelAnatomy} from './sprites.mjs?v=exuvia-1';
@@ -80,7 +81,7 @@ let state={background:'substrate-wet-left',backgroundSeed:57,items:[],selected:n
 let category='all',drag=null;
 
 function loadPreset(items,background='substrate-wet-left'){
- state.background=background;
+ state.background=background;delete state.backgroundParams;
  state.backgroundSeed=(background==='substrate-forest'?103:57);
  state.items=items.map(item=>({...item,id:'instance-'+state.nextId++}));
  state.selected=null;
@@ -90,11 +91,11 @@ cloneStarter();
 
 function drawBackground(target,assetId=state.background,seed=state.backgroundSeed){
  const asset=ASSET_BY_ID.get(assetId)||ASSET_BY_ID.get('substrate-dry');
- drawSubstrate(target,{...asset.params,seed});
+ drawSubstrate(target,{...asset.params,...(target===ctx?state.backgroundParams:{}),seed});
 }
 
 function drawObject(target,asset,item,preview=false){
- const x=item.x,y=item.y,a=item.a||0,seed=item.seed||0,mult=item.scale??1,p=asset.params||{};
+ const x=item.x,y=item.y,a=item.a||0,seed=item.seed||0,mult=item.scale??1,p=item.params??asset.params??{};
  if(asset.category==='leaf')return drawLeaf(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
  if(asset.category==='moss')return drawMossPatch(target,{...p,x,y,a,seed,rx:(p.rx||30)*mult,ry:(p.ry||20)*mult});
  if(asset.category==='bark')return drawBark(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
@@ -173,9 +174,11 @@ function renderAssetList(){
 }
 
 function setBackground(assetId){
- state.background=assetId;state.backgroundSeed=(state.backgroundSeed+17)>>>0;drawScene();
+ state.background=assetId;delete state.backgroundParams;state.backgroundSeed=(state.backgroundSeed+17)>>>0;drawScene();
 }
 function addAsset(asset){
+ if(state.items.length>=150){$('#sceneMessage').textContent='最多放置 150 个物件';return}
+ while(state.items.some(i=>i.id==='instance-'+state.nextId))state.nextId++;
  const n=state.items.length;
  const item={assetId:asset.id,id:'instance-'+state.nextId++,x:192+((n*29)%80)-40,y:215+((n*37)%90)-45,a:0,scale:1,seed:(57+n*31)>>>0,z:20+n};
  state.items.push(item);state.selected=item.id;drawScene();
@@ -264,3 +267,35 @@ document.querySelector('.control-grid').addEventListener('click',event=>{
 });
 
 renderAssetList();drawScene();
+
+const sceneText=$('#sceneText'),message=$('#sceneMessage');
+const snapshot=()=>exportScene(state,reference,ASSET_BY_ID);
+async function copy(text){
+ sceneText.value=text;
+ try{await navigator.clipboard.writeText(text);message.textContent='已复制场景'}
+ catch{sceneText.focus();sceneText.select();message.textContent='请复制下方已选中的场景文本'}
+}
+$('#copyScene').onclick=()=>copy(JSON.stringify(snapshot(),null,2));
+$('#copyShare').onclick=()=>copy(shareCode(snapshot()));
+$('#downloadScene').onclick=()=>{
+ const url=URL.createObjectURL(new Blob([JSON.stringify(snapshot(),null,2)],{type:'application/json'}));
+ const link=document.createElement('a');link.href=url;link.download='habitat-layout.json';link.click();
+ setTimeout(()=>URL.revokeObjectURL(url),1000);message.textContent='已下载场景';
+};
+function restore(text){
+ try{
+  const imported=importScene(text.trim(),ASSET_BY_ID,reference);
+  if(!SPECIES.some(p=>p.id===imported.reference.species))throw new Error('未知标本种类');
+  state=imported.state;Object.assign(reference,imported.reference);drag=null;
+  $('#referenceSpecies').value=reference.species;$('#referenceStage').value=reference.stage;
+  $('#toggleReference').setAttribute('aria-pressed',String(reference.visible));
+  $('#toggleReference').textContent='GAME SCALE · '+(reference.visible?'ON':'OFF');
+  drawScene();message.textContent='已精确还原 '+state.items.length+' 个物件';
+ }catch(error){message.textContent=error.message}
+}
+$('#importScene').onclick=()=>restore(sceneText.value);
+$('#sceneFile').onchange=async event=>{
+ const file=event.target.files[0];if(!file)return;
+ if(file.size>1000000){message.textContent='场景文件过大';return}
+ sceneText.value=await file.text();restore(sceneText.value);event.target.value='';
+};

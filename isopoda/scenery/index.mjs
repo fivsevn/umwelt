@@ -1,10 +1,10 @@
-import {drawStone} from './stone.mjs?v=forest-4';
-import {drawSubstrate} from './substrate.mjs?v=forest-4';
-import {drawLeaf,LEAF_PALETTES} from './leaf.mjs?v=forest-4';
-import {drawMossPatch} from './moss.mjs?v=forest-4';
-import {drawBark} from './bark.mjs?v=forest-4';
-import {drawCuttlebone} from './cuttlebone.mjs?v=forest-4';
-import {drawTwig,drawWoodChip} from './debris.mjs?v=forest-4';
+import {drawStone} from './stone.mjs?v=forest-5';
+import {drawSubstrate} from './substrate.mjs?v=forest-5';
+import {drawLeaf,LEAF_PALETTES} from './leaf.mjs?v=forest-5';
+import {drawMossPatch} from './moss.mjs?v=forest-5';
+import {drawBark} from './bark.mjs?v=forest-5';
+import {drawCuttlebone} from './cuttlebone.mjs?v=forest-5';
+import {drawTwig,drawWoodChip} from './debris.mjs?v=forest-5';
 
 export {drawStone,drawSubstrate,drawLeaf,LEAF_PALETTES,drawMossPatch,drawBark,drawCuttlebone,drawTwig,drawWoodChip};
 
