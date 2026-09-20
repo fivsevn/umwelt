@@ -1,5 +1,5 @@
 import {DEFAULT_LAYOUT,DEFAULT_SHELTER} from './scenery/default-layout.mjs?v=forest-10';
-import {speciesById} from './species.mjs?v=cohort-4';
+import {speciesById} from './species-registry.mjs?v=species-39b';
 // Spatial traces advance with observation turns, never with frame rate or wall time.
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function environmentFor(s){
