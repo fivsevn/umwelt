@@ -1,4 +1,4 @@
-import {SPECIES,speciesById} from './species.mjs?v=cohort-4';
+import {SPECIES,speciesById} from './species-registry.mjs?v=species-39b';
 import {hash,cohortFor,runSpecies} from './engine.mjs?v=cohort-4';
 const ids=new Set(SPECIES.map(s=>s.id));
 // Registry-only reference specimens (for example marine Asellota) remain visible in the archive

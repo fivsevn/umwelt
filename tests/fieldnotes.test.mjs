@@ -1,17 +1,17 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {SPECIES} from '../isopoda/species.mjs';
+import {SPECIES} from '../isopoda/species-registry.mjs';
 import {restoreCollection,drawSpecies,unlock} from '../isopoda/collection.mjs';
 import {createRun,timeFor,ensureScene,choose,advance} from '../isopoda/engine.mjs';
 import {ENCOUNTERS,LEGACY_ENCOUNTER_COUNT,encounterFor} from '../isopoda/encounters.mjs';
 import {MOTIONS,actorOrder,makeIndividuals,stageIndividuals,stepIndividuals} from '../isopoda/behaviors.mjs';
-test('fresh collection is empty; old run and archive unlock only known species',()=>{
- assert.deepEqual(restoreCollection(null,null).unlocked,[]);
- assert.deepEqual(restoreCollection({unlocked:['fake','ducky','ducky']},{species:'dairy'},[{species:'coros'},{species:'fake'}]).unlocked,['ducky','dairy','coros']);
+test('fresh collection contains only reference specimens; old run and archive unlock only known species',()=>{
+ const references=SPECIES.filter(s=>s.game?.referenceOnly).map(s=>s.id);assert.deepEqual(restoreCollection(null,null).unlocked,references);
+ assert.deepEqual(restoreCollection({unlocked:['fake','ducky','ducky']},{species:'dairy'},[{species:'coros'},{species:'fake'}]).unlocked,[...new Set(['ducky',...references,'dairy','coros'])]);
 });
-test('thirteen draws unlock thirteen unique species and survive serialization',()=>{
+test('thirteen draws unlock thirteen unique habitat species and survive serialization',()=>{
  let c=restoreCollection(null,null);for(let i=0;i<13;i++){const id=drawSpecies(c,177+i);assert.ok(!c.unlocked.includes(id));unlock(c,id);c.draws++;c=restoreCollection(JSON.parse(JSON.stringify(c)),null)}
- assert.equal(c.unlocked.length,13);assert.ok(SPECIES.some(s=>s.id===drawSpecies(c,12)));
+ const habitatIds=new Set(SPECIES.filter(s=>s.game?.habitatEligible!==false).map(s=>s.id));assert.equal(c.unlocked.filter(id=>habitatIds.has(id)).length,13);assert.ok(SPECIES.some(s=>s.id===drawSpecies(c,12)));
 });
 test('specific times vary every day, remain in their windows and survive reload',()=>{
  for(let seed=0;seed<100;seed++)for(let period=0;period<3;period++){const seen=new Set();for(let day=1;day<=7;day++){const t=timeFor(seed,day,period),[h,m]=t.split(':').map(Number);assert.ok(h>=[6,13,20][period]&&h<=[10,17,23][period]&&m<60);seen.add(t);assert.equal(t,timeFor(JSON.parse(JSON.stringify(seed)),day,period))}assert.equal(seen.size,7)}
