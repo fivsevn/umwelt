@@ -1,23 +1,27 @@
-name: ISOPODA content checks
+name: ISOPODA checks
 
 on:
   push:
     paths:
       - 'isopoda/**'
+      - 'tests/**'
       - '.github/workflows/isopoda-i18n-check.yml'
   pull_request:
     paths:
       - 'isopoda/**'
+      - 'tests/**'
       - '.github/workflows/isopoda-i18n-check.yml'
 
 jobs:
-  content:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Run game and data tests
+        run: node --test tests/*.test.mjs
       - name: Check Chinese / English / Japanese coverage
         run: node isopoda/tools/check-i18n.mjs
       - name: Check morphology page structure
