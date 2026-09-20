@@ -1,4 +1,4 @@
-import {materialInk} from './grammar.mjs?v=forest-9';
+import {materialInk} from './grammar.mjs?v=forest-10';
 import {px,WORLD_W,WORLD_H,hash32} from './pixel.mjs';
 const PALETTES=[['#493e2e','#39372b','#534532'],['#403b2d','#303328','#49412f'],['#37392c','#2c3228','#414030']];
 export function drawSubstrate(ctx,{wetZones=[],light=100,seed=57}={}){

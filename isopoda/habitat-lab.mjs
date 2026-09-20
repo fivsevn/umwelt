@@ -1,5 +1,5 @@
-import {exportScene,importScene,shareCode} from './scene-codec.mjs?v=forest-9';
-import {drawSubstrate,drawLeaf,drawMossPatch,drawBark,drawStone,drawCuttlebone,drawTwig,drawWoodChip,LEGACY_BASE_SCENE,DEFAULT_LAYOUT} from './scenery/index.mjs?v=forest-9';
+import {exportScene,importScene,shareCode} from './scene-codec.mjs?v=forest-10';
+import {drawSubstrate,drawLeaf,drawMossPatch,drawBark,drawStone,drawCuttlebone,drawTwig,drawWoodChip,LEGACY_BASE_SCENE,DEFAULT_LAYOUT} from './scenery/index.mjs?v=forest-10';
 import {ACTOR_SCALE} from './scenery/grammar.mjs';
 import {SPECIES,speciesById} from './species-registry.mjs?v=species-39b';
 import {renderModel,pixelAnatomy} from './sprites.mjs?v=exuvia-1';

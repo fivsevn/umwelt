@@ -1,4 +1,4 @@
-import {paint,contains,nearLine,rounded} from './grammar.mjs?v=forest-9';
+import {paint,contains,nearLine,rounded} from './grammar.mjs?v=forest-10';
 const SHAPES=[
  [[-15,2],[-13,-7],[-4,-12],[7,-11],[15,-4],[17,5],[8,11],[-7,10]],
  [[-21,1],[-12,-8],[4,-10],[18,-5],[23,3],[13,8],[-10,8]],

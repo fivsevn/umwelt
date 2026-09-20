@@ -1,12 +1,12 @@
-import {DEFAULT_LAYOUT,DEFAULT_SHELTER,sceneObjects} from './default-layout.mjs?v=forest-9';
+import {DEFAULT_LAYOUT,DEFAULT_SHELTER,sceneObjects} from './default-layout.mjs?v=forest-10';
 export {DEFAULT_LAYOUT,DEFAULT_SHELTER};
-import {drawStone} from './stone.mjs?v=forest-9';
-import {drawSubstrate} from './substrate.mjs?v=forest-9';
-import {drawLeaf,LEAF_PALETTES} from './leaf.mjs?v=forest-9';
-import {drawMossPatch} from './moss.mjs?v=forest-9';
-import {drawBark} from './bark.mjs?v=forest-9';
-import {drawCuttlebone} from './cuttlebone.mjs?v=forest-9';
-import {drawTwig,drawWoodChip} from './debris.mjs?v=forest-9';
+import {drawStone} from './stone.mjs?v=forest-10';
+import {drawSubstrate} from './substrate.mjs?v=forest-10';
+import {drawLeaf,LEAF_PALETTES} from './leaf.mjs?v=forest-10';
+import {drawMossPatch} from './moss.mjs?v=forest-10';
+import {drawBark} from './bark.mjs?v=forest-10';
+import {drawCuttlebone} from './cuttlebone.mjs?v=forest-10';
+import {drawTwig,drawWoodChip} from './debris.mjs?v=forest-10';
 
 export {drawStone,drawSubstrate,drawLeaf,LEAF_PALETTES,drawMossPatch,drawBark,drawCuttlebone,drawTwig,drawWoodChip};
 
