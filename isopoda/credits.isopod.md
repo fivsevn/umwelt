@@ -24,7 +24,7 @@
 **o!**
 
 - o?  o:  o#  =  taxonomy.
-- \\o/  /o\\  <o>  =  game.  o#  care advice.
+- \o/  /o\  <o>  =  game.  o#  care advice.
 
 **o: / =o=**
 
