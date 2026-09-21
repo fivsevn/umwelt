@@ -1,3 +1,5 @@
+import {encodeIsopodText} from './isopod.mjs?v=isopod-1';
+
 // Runtime localization for authored game copy.
 // Canonical simulation/state text stays in Chinese so saved runs remain language-neutral.
 const rows=[
@@ -362,6 +364,8 @@ const rows=[
 ];
 
 const table=new Map(rows.map(([zh,en,ja])=>[zh,{en,ja}]));
+const sourceText=new Map();
+for(const [zh,en,ja] of rows){sourceText.set(zh,zh);sourceText.set(en,zh);sourceText.set(ja,zh);}
 const routeTargets={
  en:{'湿苔':'wet moss','木片':'bark','叶缘':'leaf edge','食物':'food'},
  ja:{'湿苔':'湿った苔','木片':'木片','叶缘':'葉の縁','食物':'餌'}
@@ -400,12 +404,15 @@ function dynamic(value,lang){
 }
 
 export function gameText(value,lang='zh'){
- if(value==null||lang==='zh')return value??'';
+ if(value==null)return '';
  value=String(value);
- const direct=table.get(value)?.[lang];if(direct)return direct;
- const generated=dynamic(value,lang);if(generated)return generated;
+ const canonical=sourceText.get(value)||value;
+ if(lang==='zh')return canonical;
+ if(lang==='isopod')return encodeIsopodText(canonical);
+ const direct=table.get(canonical)?.[lang];if(direct)return direct;
+ const generated=dynamic(canonical,lang);if(generated)return generated;
  // Midday scenes concatenate one encounter observation and one prompt with a space.
  // Route prompts are handled above because they contain their own spaces around the specimen id.
- const parts=value.split(' ');if(parts.length===2){const a=table.get(parts[0])?.[lang],b=table.get(parts[1])?.[lang];if(a&&b)return `${a} ${b}`;}
- return value;
+ const parts=canonical.split(' ');if(parts.length===2){const a=table.get(parts[0])?.[lang],b=table.get(parts[1])?.[lang];if(a&&b)return `${a} ${b}`;}
+ return canonical;
 }
