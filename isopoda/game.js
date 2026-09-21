@@ -46,6 +46,17 @@ function isopodWaveTime(time){
 function isopodWaveClock(date,time){
  return isopodWaveNumber(date.getMonth()+1)+isopodWaveNumber(date.getDate())+'\u2009'+isopodWaveTime(time);
 }
+function setWaveText(el,value){
+ const text=String(value??'');
+ if(getLanguage()!=='isopod'||![...text].some(ch=>ISOPOD_WAVES.includes(ch))){el.textContent=text;return}
+ const fragment=document.createDocumentFragment();
+ for(const ch of text){
+  if(ISOPOD_WAVES.includes(ch)){
+   const span=document.createElement('span');span.className='isopod-wave-glyph';span.textContent=ch;fragment.append(span);
+  }else fragment.append(document.createTextNode(ch));
+ }
+ el.replaceChildren(fragment);
+}
 function clock(day=state.day,period=state.period){
  const date=state.startedOn?new Date(state.startedOn+'T12:00:00'):null;
  if(date)date.setDate(date.getDate()+day-1);
@@ -61,13 +72,13 @@ function sceneNow(){
 function buttons(scene){$('#actions').replaceChildren();for(const o of scene.options){const b=document.createElement('button');b.className='action';b.textContent=gameText(o.label,getLanguage());b.disabled=state.stage!=='choice';b.onclick=()=>act(o.id);$('#actions').append(b)}}
 function render(){
  const scene=sceneNow(),p=speciesById(state.cohort[0].species),encounter=encounterById(scene.encounter);
- $('#dayLabel').textContent=clock();$('#recordTitle').textContent=state.stage==='feedback'?t('recordLater'):t('recordNow');$('#observation').textContent=state.stage==='feedback'?state.feedback:scene.text;
+ setWaveText($('#dayLabel'),clock());$('#recordTitle').textContent=state.stage==='feedback'?t('recordLater'):t('recordNow');$('#observation').textContent=state.stage==='feedback'?state.feedback:scene.text;
  $('#activityLabel').textContent=getLanguage()==='zh'?(encounter?.title||''):t('habitatWindow');$('#activityLabel').dataset.motion=encounter?.motion||'';
  const cue=state.stage==='feedback'?(state.interactionIntent?.hint||''):'';$('#interactionCue').hidden=!cue;$('#interactionCue').textContent=cue;
  $('#nextBtn').disabled=state.stage!=='feedback';
  const nextTime=timeFor(state.seed,state.period===2?state.day+1:state.day,(state.period+1)%3);
  const nextTimeLabel=getLanguage()==='isopod'?isopodWaveTime(nextTime):nextTime;
- $('#nextBtn').textContent=state.stage==='choice'?t('holdMoment'):state.day===7&&state.period===2?t('closeGently'):t('later',{time:nextTimeLabel});
+ setWaveText($('#nextBtn'),state.stage==='choice'?t('holdMoment'):state.day===7&&state.period===2?t('closeGently'):t('later',{time:nextTimeLabel}));
  buttons(scene);$('#miniView').replaceChildren();$('#miniView').hidden=true;
  if(state.stage==='choice'&&scene.kind==='count'){$('#miniView').hidden=false;for(let i=0;i<scene.count;i++)$('#miniView').append(makeBug(p,i))}
  if(lastScene!==scene.id){habitat.stage(scene);lastScene=scene.id}
@@ -97,7 +108,7 @@ function drawEndMolts(){
  });
 }
 function showEnd(){
- habitat.stop();$('#playView').hidden=true;$('#arrivalCard').hidden=true;$('#endCard').hidden=false;$('#dayLabel').textContent='';const e=ENDINGS.find(e=>e.id===state.ending)||ENDINGS[5];$('#endingTime').textContent=clock();$('#endingTitle').textContent='Epilogue - '+e.title;$('#endingBody').textContent=e.body;$('#endingLine').textContent=e.line;$('#endSpecimen').replaceChildren(...batchBugs());drawEndMolts();
+ habitat.stop();$('#playView').hidden=true;$('#arrivalCard').hidden=true;$('#endCard').hidden=false;$('#dayLabel').textContent='';const e=ENDINGS.find(e=>e.id===state.ending)||ENDINGS[5];setWaveText($('#endingTime'),clock());$('#endingTitle').textContent='Epilogue - '+e.title;$('#endingBody').textContent=e.body;$('#endingLine').textContent=e.line;$('#endSpecimen').replaceChildren(...batchBugs());drawEndMolts();
  if(!archives.some(a=>a.run===state.seed)){archives.push({id:e.id,run:state.seed,species:runSpecies(state),cohort:state.cohort,date:new Date().toLocaleDateString(),records:state.records.length,memory:endingMemoryFor(state),molts:(state.collectedShells||[]).map(shell=>({phase:shell.phase,specimen:shell.specimen}))});archives=archives.slice(-60);write(ARCHIVE,archives)}save();
 }
 function home(){playing=false;habitat.stop();$('#playView').hidden=true;$('#endCard').hidden=true;$('#arrivalCard').hidden=true;$('#titleCard').hidden=false;$('#dayLabel').textContent='';$('#startBtn').disabled=false;$('#continueBtn').hidden=!hasRun;$('#continueBtn').textContent=state.stage==='ended'?t('viewEnding'):t('continueObservation');emptyHabitat.reset({empty:true})}
