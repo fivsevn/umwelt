@@ -3,7 +3,7 @@ import {SPECIES,speciesById} from './species-registry.mjs?v=species-39b';
 import {ENDINGS} from './content.mjs?v=interaction-story-2';
 import {createRun,validRun,migrateV3,runSpecies,migrateLegacy,ensureScene,choose,advance,timeFor,recordDirectInteraction,endingMemoryFor} from './engine.mjs?v=choices-3';
 import {makeBug,makeIsopod,renderModel,exuviaPixels} from './sprites.mjs?v=exuvia-1';
-import {createHabitat} from './habitat.mjs?v=forest-10';
+import {createHabitat} from './habitat.mjs?v=isopod-hearts-1';
 import {restoreCollection,drawCohort,unlock} from './collection.mjs?v=species-39b';
 import {encounterById,encounterFor} from './encounters.mjs?v=molt-sequence-1';
 import {iconButton,createInstrument} from './ui.mjs?v=isopod-3';
@@ -29,6 +29,7 @@ mergeLearnedInteractions(state);
 let archives=read(ARCHIVE);if(!Array.isArray(archives))archives=[];archives=archives.filter(a=>a&&ENDINGS.some(e=>e.id===a.id));
 let collection=restoreCollection(read(COLLECTION),hasRun?state:null,archives);write(COLLECTION,collection);
 let playing=false,sound=false,audio,drawerMode='catalog',page=0,lastScene=null,referenceReturn=null;
+let lastInterfaceLanguage=getLanguage();
 const habitat=createHabitat($('#habitat'),$('#critters'),()=>state,event=>{if(!playing||state.stage==='ended')return;const record=recordDirectInteraction(state,event);if(record){mergeLearnedInteractions(state);save();render()}});
 const emptyHabitat=createHabitat($('#emptyHabitat'),$('#emptyCritters'),()=>state);
 const instrument=createInstrument($('#instruments'));
@@ -147,11 +148,13 @@ document.addEventListener('fullscreenchange',()=>{$('#windowMaximize').setAttrib
 $('#windowClose').onclick=async()=>{save();if(document.fullscreenElement)await document.exitFullscreen();habitatWindow.classList.remove('maximized');location.href='../'};
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&habitatWindow.classList.contains('maximized')){habitatWindow.classList.remove('maximized');$('#windowMaximize').setAttribute('aria-pressed','false')}});
 
-window.addEventListener('isopoda:languagechange',()=>{
+window.addEventListener('isopoda:languagechange',event=>{
+ const nextLanguage=event.detail?.language||getLanguage(),enteredIsopod=nextLanguage==='isopod'&&lastInterfaceLanguage!=='isopod';
+ lastInterfaceLanguage=nextLanguage;
  refreshIconLabels();
  $('#continueBtn').textContent=state.stage==='ended'?t('viewEnding'):t('continueObservation');
  $('#soundBtn').setAttribute('aria-label',sound?t('soundOff'):t('soundOn'));$('#soundBtn').title=sound?t('soundOff'):t('soundOn');
- if(playing&&state.stage!=='ended')render();
+ if(playing&&state.stage!=='ended'){render();if(enteredIsopod)habitat.heartBurst()}
  if($('#arrivalCard')&&!$('#arrivalCard').hidden)arrival();
  if($('#endCard')&&!$('#endCard').hidden)showEnd();
  if($('#drawer').open)drawDrawer();
