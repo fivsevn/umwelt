@@ -148,42 +148,9 @@ function drawHabitat(t){
  drawActors();
  present();
 }
-// Keep anatomy pixels untouched. Readability is added only by the habitat compositor.
-function actorSceneTreatment(cells,layer){
- if(!cells.length)return;
- let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
- const top=new Map(),bottom=new Map();
- for(const [x,y] of cells){
-  if(x<minX)minX=x;if(x>maxX)maxX=x;if(y<minY)minY=y;if(y>maxY)maxY=y;
-  if(!top.has(x)||y<top.get(x))top.set(x,y);
-  if(!bottom.has(x)||y>bottom.get(x))bottom.set(x,y);
- }
- const width=Math.max(4,maxX-minX+1),center=(minX+maxX)/2;
- if(layer==='under'){
-  // Pixel contact shadow: broad near the body, narrower as it falls away.
-  const rows=[
-   [maxY-2,.82,.30],
-   [maxY-1,.72,.27],
-   [maxY,.60,.23],
-   [maxY+1,.46,.18],
-   [maxY+2,.30,.13]
-  ];
-  for(const [y,ratio,alpha] of rows){
-   const half=Math.max(2,Math.round(width*ratio/2));
-   for(let x=Math.round(center-half);x<=Math.round(center+half);x++){
-    if((x+y)%2===0||ratio>.7)px(ctx,x,y,1,1,`rgba(20,27,20,${alpha})`);
-   }
-  }
-  // A one-pixel lower rim separates pale animals from bark and leaf litter.
-  for(const [x,y] of bottom)if((x-minX)%2===0)px(ctx,x,y+1,1,1,'rgba(25,31,23,.24)');
-  return;
- }
- // Sparse upper rim light reads as shell sheen without recoloring the animal itself.
- for(const [x,y] of top){
-  if((x-minX)%2!==0)continue;
-  const edge=(x-minX)/(width-1||1),alpha=.18+Math.sin(edge*Math.PI)*.13;
-  px(ctx,x,y-1,1,1,`rgba(228,226,197,${alpha.toFixed(2)})`);
- }
+// Keep anatomy pixels untouched. The habitat only places a dark duplicate beneath each rendered animal.
+function drawActorUnderlay(cells){
+ for(const [x,y] of cells)px(ctx,x+1,y+2,1,1,'rgba(24,28,21,.38)');
 }
 function drawActors(){
  for(const actor of [...critters].sort((a,b)=>Number(a.interactionState?.mode==='grabbed')-Number(b.interactionState?.mode==='grabbed'))){if(actor.hidden){actor.hitCells=[];continue;}
@@ -192,9 +159,8 @@ function drawActors(){
   if(!source){source=new Map();for(const part of pixelAnatomy(actor.model,{posture:actor.posture,molt:actor.molt,phase,moving:actor.moving}))for(const [x,y,color] of part.cells)source.set(x+','+y,color);actor.pixels.set(key,source);if(actor.pixels.size>40)actor.pixels.delete(actor.pixels.keys().next().value)}
   if(actor.interactionState?.mode==='grabbed')px(ctx,actor.x-7,actor.y+8,14,2,'#252b21');
   actor.hitCells=sceneActorPixels(source,actor);
-  actorSceneTreatment(actor.hitCells,'under');
+  drawActorUnderlay(actor.hitCells);
   for(const [x,y,color] of actor.hitCells)px(ctx,x,y,1,1,color);
-  actorSceneTreatment(actor.hitCells,'over');
  }
 }
 function drawMoltShell(shell){
