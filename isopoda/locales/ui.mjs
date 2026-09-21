@@ -1,5 +1,5 @@
 // Pure locale data for static UI. Keep the same key set in every language.
-export const SUPPORTED_LANGUAGES=['zh','en','ja'];
+export const SUPPORTED_LANGUAGES=['zh','en','ja','isopod'];
 
 export const UI_COPY={
  zh:{
@@ -12,3 +12,79 @@ export const UI_COPY={
   documentTitle:'ISOPODA FUGUE / 等脚目フーガ',documentDescription:'等脚目のフーガ。世界は、観察されたときに初めて始まるわけではない。',titleBar:'ISOPODA / 等脚目フーガ',closeReturn:'ウィンドウを閉じてデスクトップへ戻る',habitatAria:'飼育環境',newObservation:'新しい観察',continueObservation:'観察を続ける',waitingSpecimens:'導入を待つ個体',startObservation:'観察を始める',habitatWindow:'ISOPODA / 飼育ケース',minimizeWindow:'飼育ウィンドウを最小化',restoreWindow:'飼育ウィンドウを元に戻す',maximizeWindow:'飼育ウィンドウを全画面表示',closeWindow:'飼育ウィンドウを閉じてホームへ戻る',systemActions:'システム操作',language:'言語',music:'音楽',musicPlaceholder:'音楽切替（準備中）',soundOn:'効果音をオン',soundOff:'効果音をオフ',soundUnavailable:'効果音は現在利用できません',speed16:'飼育ケース 16倍速',speed64:'飼育ケース 64倍极速',environmentStatus:'飼育環境の状態',habitatCanvas:'7匹のワラジムシ類を観察する飼育ケース。ドラッグして観察できます',speciesStatus:'現在の種名。クリックすると種名表示の言語だけを切り替えます',archive:'アシモフ資料庫',zoomOut:'縮小',zoomIn:'拡大',zoomReset:'表示をリセット',roundChoices:'今回の選択',journal:'今回の観察メモ',holdMoment:'もう少し、この瞬間にいる',observeSpecimens:'観察個体',collectedExuviae:'採集した脱皮殻',sevenDayObservation:'7日間の観察',asimovMessage:'アシモフからのメモ',restart:'もう一度、偶然を待つ',viewArchive:'資料庫を見る',sources:'出典 / Credits',close:'閉じる',specimens:'標本',previousPage:'前のページ',nextPage:'次のページ',recordLater:'その後',recordNow:'いま',closeGently:'静かに閉じる →',later:'あとで · {time} →',viewEnding:'Epilogueを見る',emptyEnding:'空白にも、それ自身の時間がある。',journalTitle:'アシモフのノート',journalEmpty:'このページには、まだ何も書かれていない。',journalEntry:'{day}日目 · {time}',sourceBack:'観察資料へ戻る',storageNotice:'いまは記録を保存できませんが、この観察は最後まで続けられます。',dayNumber:'{day}日目',creditsLoading:'読み込み中…',creditsError:'読み込めませんでした。閉じてから、もう一度お試しください。',catalogSpecimen:'標本 / {id}',catalogReferenceType:'資料種別  海生参考標本',catalogCollectionDate:'採集日 {date}',catalogUnrecorded:'記録なし',catalogAlias:'別名 {names}',catalogMorph:'{value} · モルフ',catalogLocality:'{value} · 産地系',catalogLineage:'{value} · 飼育系統',catalogMarine:'MARINE REFERENCE · 海生種の参考標本。陸生飼育ケースの抽選対象外。',catalogUncertain:'名前は仮置きのまま。分類上の同定にも余地が残る。',catalogUnseen:'まだ見ていないものも、起こり続けている。',englishName:'英名 · {name}'
  }
 };
+
+
+const ISOPOD_UI=Object.fromEntries(Object.keys(UI_COPY.zh).map(key=>[key,'o:']));
+Object.assign(ISOPOD_UI,{
+  "documentTitle": "ISOPODA FUGUE / o",
+  "documentDescription": "o  [o]  \\o/  <o>  o:",
+  "titleBar": "ISOPODA / o",
+  "closeReturn": "o#  <o>",
+  "habitatAria": "[o]",
+  "newObservation": "o:  +",
+  "continueObservation": "o:  <o>",
+  "waitingSpecimens": "oo  o.",
+  "startObservation": "o:  <o>",
+  "habitatWindow": "ISOPODA / [o]",
+  "minimizeWindow": "[o]  o-",
+  "restoreWindow": "[o]  o.",
+  "maximizeWindow": "[o]  o+",
+  "closeWindow": "o#  <o>",
+  "systemActions": "o:  <o>",
+  "language": "o?",
+  "music": "o.",
+  "musicPlaceholder": "o.  ?",
+  "soundOn": "o.  +",
+  "soundOff": "o.  -",
+  "soundUnavailable": "o.  o#",
+  "speed16": "<o>  16",
+  "speed64": "<o>  64",
+  "environmentStatus": "[o]  \\o/  /o\\",
+  "habitatCanvas": "oo  [o]  o:",
+  "speciesStatus": "oo  o?",
+  "archive": "o:  [o]",
+  "zoomOut": "o-",
+  "zoomIn": "o+",
+  "zoomReset": "o.",
+  "roundChoices": "o?  <o>",
+  "journal": "o:",
+  "holdMoment": "o.",
+  "observeSpecimens": "oo  o:",
+  "collectedExuviae": "(o)  o+",
+  "sevenDayObservation": "7  o..  o:",
+  "asimovMessage": "o:  ?",
+  "restart": "o..  <o>",
+  "viewArchive": "o:  [o]",
+  "sources": "o:  ?",
+  "close": "o#",
+  "specimens": "oo",
+  "previousPage": "<",
+  "nextPage": ">",
+  "recordLater": "o..  >",
+  "recordNow": "o.",
+  "closeGently": "o#  .",
+  "later": "o..  {time}  >",
+  "viewEnding": "o:  >",
+  "emptyEnding": "...",
+  "journalTitle": "o:",
+  "journalEmpty": "o:  ...",
+  "journalEntry": "{day}  o..  {time}  o:",
+  "sourceBack": "<  o:",
+  "storageNotice": "o:  o#  /  <o>",
+  "dayNumber": "{day}  o..",
+  "creditsLoading": "o.  o.  o.",
+  "creditsError": "o#  !",
+  "catalogSpecimen": "o / {id}",
+  "catalogReferenceType": "o:  [o]",
+  "catalogCollectionDate": "o..  {date}",
+  "catalogUnrecorded": "o?",
+  "catalogAlias": "o?  {names}",
+  "catalogMorph": "{value} / o",
+  "catalogLocality": "{value} / [o]",
+  "catalogLineage": "{value} / oo",
+  "catalogMarine": "o#  [o]  <o>",
+  "catalogUncertain": "o?  o?",
+  "catalogUnseen": "[o]  ...",
+  "englishName": "O:  {name}"
+});
+UI_COPY.isopod=ISOPOD_UI;

@@ -1,4 +1,4 @@
-import {getLanguage} from './i18n.mjs?v=i18n-1';
+import {getLanguage} from './i18n.mjs?v=i18n-2';
 
 // Tiny CSS pixel marks: no raster resources, system emoji, or smooth icon font.
 const glyphs={

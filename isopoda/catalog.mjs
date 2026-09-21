@@ -1,7 +1,7 @@
 import {makeIsopod} from './sprites.mjs?v=quiet-ui-1';
-import {renderCredits} from './credits.mjs?v=credits-3';
-import {getLanguage,t,formatDate,speciesPrimaryName,speciesSecondaryName,speciesLiteratureLines} from './i18n.mjs?v=i18n-1';
-import {annotationLabel,localizedAnnotationLines} from './locales/annotations.mjs?v=i18n-2';
+import {renderCredits} from './credits.mjs?v=credits-4';
+import {getLanguage,t,formatDate,speciesPrimaryName,speciesSecondaryName,speciesLiteratureLines} from './i18n.mjs?v=i18n-2';
+import {annotationLabel,localizedAnnotationLines} from './locales/annotations.mjs?v=i18n-3';
 
 const text=(tag,value,cls='')=>{const el=document.createElement(tag);el.textContent=value;el.className=cls;return el};
 export function renderCatalog(p,{unlocked=true,collectedOn=null}={}){

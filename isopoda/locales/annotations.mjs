@@ -1,3 +1,5 @@
+import {encodeIsopodText} from './isopod.mjs?v=isopod-1';
+
 const copy={
   dairy:{
     en:['It wears a cow pattern, yet has never seen a pasture.','Humans gave it a name; beneath the leaf litter, it goes on becoming something else.'],
@@ -157,7 +159,7 @@ const copy={
   }
 };
 
-const labels={zh:'阿西莫夫的笔记',en:"Asimov's Notes",ja:'アシモフのノート'};
+const labels={zh:'阿西莫夫的笔记',en:"Asimov's Notes",ja:'アシモフのノート',isopod:'o:'};
 
 export function annotationLabel(lang='zh'){
   return labels[lang]||labels.zh;
@@ -165,5 +167,6 @@ export function annotationLabel(lang='zh'){
 
 export function localizedAnnotationLines(species,lang='zh',fallback=[]){
   if(lang==='zh')return fallback;
+  if(lang==='isopod')return fallback.length?fallback.map(encodeIsopodText):['o:  o?'];
   return copy[species?.id]?.[lang]||[];
 }
