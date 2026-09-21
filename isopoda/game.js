@@ -57,47 +57,7 @@ function sceneNow(){
  if(state.stage==='choice'&&state.scene?.kind==='count')state.scene=null;
  const scene=ensureScene(state);if(!scene.encounter)scene.encounter=encounterFor(state).id;return scene;
 }
-function buttons(scene){
- const root=$('#actions'),options=Array.isArray(scene?.options)?scene.options:[];
- root.replaceChildren();
- root.style.setProperty('display','flex','important');
- root.style.setProperty('flex-direction','row','important');
- root.style.setProperty('align-items','stretch','important');
- root.style.setProperty('gap','4px','important');
- root.style.setProperty('width','100%','important');
- root.style.setProperty('min-height','38px','important');
- root.style.setProperty('height','auto','important');
- root.style.setProperty('overflow','visible','important');
- root.style.setProperty('flex','0 0 auto','important');
- for(const o of options){
-  const b=document.createElement('button');
-  b.type='button';
-  b.className='action';
-  b.textContent=o.label;
-  b.disabled=state.stage!=='choice';
-  b.style.setProperty('display','flex','important');
-  b.style.setProperty('align-items','center','important');
-  b.style.setProperty('justify-content','center','important');
-  b.style.setProperty('flex','1 1 0','important');
-  b.style.setProperty('min-width','0','important');
-  b.style.setProperty('min-height','38px','important');
-  b.style.setProperty('height','38px','important');
-  b.style.setProperty('padding','5px 4px','important');
-  b.style.setProperty('background','#b5bba0','important');
-  b.style.setProperty('color','#30442f','important');
-  b.style.setProperty('border','2px solid #d0d2b3','important');
-  b.style.setProperty('border-right-color','#4a5d47','important');
-  b.style.setProperty('border-bottom-color','#4a5d47','important');
-  b.style.setProperty('box-shadow','inset 1px 1px #c9cdb0','important');
-  b.style.setProperty('opacity','1','important');
-  b.style.setProperty('pointer-events','auto','important');
-  b.style.setProperty('visibility','visible','important');
-  b.style.setProperty('position','relative','important');
-  b.style.setProperty('z-index','20','important');
-  b.onclick=()=>act(o.id);
-  root.append(b);
- }
-}
+function buttons(scene){$('#actions').replaceChildren();for(const o of scene.options){const b=document.createElement('button');b.className='action';b.textContent=o.label;b.disabled=state.stage!=='choice';b.onclick=()=>act(o.id);$('#actions').append(b)}}
 function render(){
  const scene=sceneNow(),p=speciesById(state.cohort[0].species),encounter=encounterById(scene.encounter);
  $('#dayLabel').textContent=clock();$('#recordTitle').textContent=state.stage==='feedback'?t('recordLater'):t('recordNow');$('#observation').textContent=state.stage==='feedback'?state.feedback:scene.text;
