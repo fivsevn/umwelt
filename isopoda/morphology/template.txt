@@ -2,7 +2,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>阿西莫夫形态实验室 · Asimov Morphology Lab</title>
-<link rel="stylesheet" href="./anatomy-test.css?v=8">
+<link rel="stylesheet" href="./anatomy-test.css?v=5">
 <main class="anatomy-app">
   <header class="topbar">
     <div class="lab-title">
@@ -73,18 +73,18 @@
         </div>
       </section>
 
-      <details class="dossier" id="specimenDossier" open>
-        <summary><span>SPECIMEN DOSSIER / 标本档案</span></summary>
+      <details class="dossier" id="specimenDossier">
+        <summary><span>SPECIMEN DOSSIER / 标本档案</span><small>后台资料 · 点击展开</small></summary>
         <div class="dossier-body" id="dossierBody"></div>
       </details>
 
-      <details class="references" aria-label="当前标本参考文献" open>
-        <summary>
+      <section class="references" aria-label="当前标本参考文献">
+        <header>
           <span>SPECIMEN REFERENCES / 当前标本参考</span>
           <small id="referenceSummary">仅显示与当前鼠妇形态模板直接相关的资料。</small>
-        </summary>
+        </header>
         <div class="reference-list" id="referenceList"></div>
-      </details>
+      </section>
     </aside>
   </section>
 
@@ -270,6 +270,8 @@ function renderDossier(){
  const labLine=species.literature?.lines?.filter(Boolean).slice(0,2).join(' / ');
  addDossierRow('LAB NOTE / 项目观察',labLine,{quote:true});
  if(!dossierBody.children.length)addDossierRow('DATA STATUS / 数据状态','当前没有可公开展示的后台档案字段；保留为未解析。');
+ const count=dossierBody.children.length;
+ const hint=document.querySelector('#specimenDossier summary small');if(hint)hint.textContent=`后台资料 ${count} 项 · 点击展开`;
 }
 
 function renderReferences(){
