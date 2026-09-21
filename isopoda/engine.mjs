@@ -191,7 +191,13 @@ export function sceneFor(s){
  // Keep each response complete; the habitat carries the additional reaction.
  return scene;
 }
-export function ensureScene(s){releaseDueShells(s);environmentFor(s);if(s.stage==='choice'&&s.scene?.kind==='count')s.scene=null;if(!s.scene)s.scene=sceneFor(s);syncSceneTrace(s,s.scene);return s.scene}
+export function ensureScene(s){
+ releaseDueShells(s);environmentFor(s);
+ if(s.stage==='choice'&&(s.scene?.kind==='count'||!Array.isArray(s.scene?.options)||s.scene.options.length===0))s.scene=null;
+ if(!s.scene)s.scene=sceneFor(s);
+ syncSceneTrace(s,s.scene);
+ return s.scene;
+}
 export function choose(s,id){
  if(s.stage!=='choice')return false;const scene=ensureScene(s),o=scene.options.find(o=>o.id===id);if(!o)return false;
  const before=s.cohort.map(c=>habitatFit(s,c));changeEnvironment(s,id);for(const [k,v] of Object.entries(o.delta))s[k]+=v;
