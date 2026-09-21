@@ -1,4 +1,4 @@
-import {getLanguage,t} from './i18n.mjs?v=i18n-1';
+import {getLanguage,t} from './i18n.mjs?v=i18n-2';
 
 // Edit credits*.md to maintain the copy. Supports headings, lists, links,
 // paragraphs and blockquotes; text is inserted as text nodes, never raw HTML.
@@ -34,11 +34,11 @@ export function parseCredits(markdown){
  return fragment;
 }
 const cache=new Map();
-const fileFor={zh:'credits.md',en:'credits.en.md',ja:'credits.ja.md'};
+const fileFor={zh:'credits.md',en:'credits.en.md',ja:'credits.ja.md',isopod:'credits.isopod.md'};
 export function renderCredits(){
  const lang=getLanguage(),file=fileFor[lang]||fileFor.zh;
  const el=document.createElement('article');el.className='reference-page';el.setAttribute('aria-busy','true');el.textContent=t('creditsLoading');
- if(!cache.has(file))cache.set(file,fetch(new URL(`./${file}?v=credits-3`,import.meta.url)).then(response=>{if(!response.ok)throw new Error('Credits unavailable');return response.text()}).catch(error=>{cache.delete(file);throw error}));
+ if(!cache.has(file))cache.set(file,fetch(new URL(`./${file}?v=credits-4`,import.meta.url)).then(response=>{if(!response.ok)throw new Error('Credits unavailable');return response.text()}).catch(error=>{cache.delete(file);throw error}));
  cache.get(file).then(markdown=>{el.replaceChildren(parseCredits(markdown));el.removeAttribute('aria-busy')}).catch(()=>{el.textContent=t('creditsError');el.removeAttribute('aria-busy')});
  return el;
 }

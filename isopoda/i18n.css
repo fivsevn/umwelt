@@ -1,4 +1,4 @@
-/* Language-specific typefaces. Chinese and English share the self-hosted Fusion Pixel face from style.css. */
+/* Language-specific typefaces. Chinese, English and isopod copy share the self-hosted Fusion Pixel face from style.css. */
 @font-face{
   font-family:"PixelMplus12";
   src:url("https://raw.githubusercontent.com/itouhiro/PixelMplus/d89b95f04eeb95bf98bb09cb9234a2f99d186df5/PixelMplus12-Regular.ttf") format("truetype");
@@ -10,7 +10,9 @@
 html[data-ui-language="zh"] body,
 html[data-ui-language="zh"] dialog,
 html[data-ui-language="en"] body,
-html[data-ui-language="en"] dialog{font-family:Pixel,monospace;font-synthesis:none}
+html[data-ui-language="en"] dialog,
+html[data-ui-language="isopod"] body,
+html[data-ui-language="isopod"] dialog{font-family:Pixel,monospace;font-synthesis:none}
 
 html[data-ui-language="ja"] body,
 html[data-ui-language="ja"] dialog{font-family:"PixelMplus12",Pixel,monospace;font-synthesis:none}
@@ -19,7 +21,12 @@ html[data-ui-language="en"] button,
 html[data-ui-language="en"] a,
 html[data-ui-language="en"] select,
 html[data-ui-language="en"] input,
-html[data-ui-language="en"] textarea{font-family:Pixel,monospace}
+html[data-ui-language="en"] textarea,
+html[data-ui-language="isopod"] button,
+html[data-ui-language="isopod"] a,
+html[data-ui-language="isopod"] select,
+html[data-ui-language="isopod"] input,
+html[data-ui-language="isopod"] textarea{font-family:Pixel,monospace}
 
 html[data-ui-language="ja"] button,
 html[data-ui-language="ja"] a,
@@ -27,7 +34,9 @@ html[data-ui-language="ja"] select,
 html[data-ui-language="ja"] input,
 html[data-ui-language="ja"] textarea{font-family:"PixelMplus12",Pixel,monospace}
 
-html[data-ui-language="en"] .specimen-names h3{font-size:18px;line-height:1.45}
+html[data-ui-language="en"] .specimen-names h3,
+html[data-ui-language="isopod"] .specimen-names h3{font-size:18px;line-height:1.45}
 html[data-ui-language="ja"] .specimen-names h3{font-size:18px;line-height:1.55}
 html[data-ui-language="ja"] .anonymous-note p{line-height:2.05!important}
-html[data-ui-language="en"] .window-system-menu{letter-spacing:0}
+html[data-ui-language="en"] .window-system-menu,
+html[data-ui-language="isopod"] .window-system-menu{letter-spacing:0}

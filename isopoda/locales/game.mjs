@@ -1,3 +1,5 @@
+import {encodeIsopodText} from './isopod.mjs?v=isopod-1';
+
 // Runtime localization for authored game copy.
 // Canonical simulation/state text stays in Chinese so saved runs remain language-neutral.
 const rows=[
@@ -400,8 +402,10 @@ function dynamic(value,lang){
 }
 
 export function gameText(value,lang='zh'){
- if(value==null||lang==='zh')return value??'';
+ if(value==null)return '';
  value=String(value);
+ if(lang==='zh')return value;
+ if(lang==='isopod')return encodeIsopodText(value);
  const direct=table.get(value)?.[lang];if(direct)return direct;
  const generated=dynamic(value,lang);if(generated)return generated;
  // Midday scenes concatenate one encounter observation and one prompt with a space.

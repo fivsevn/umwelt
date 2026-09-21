@@ -1,4 +1,4 @@
-import {SUPPORTED_LANGUAGES,UI_COPY} from './locales/ui.mjs?v=i18n-2';
+import {SUPPORTED_LANGUAGES,UI_COPY} from './locales/ui.mjs?v=i18n-3';
 
 export {SUPPORTED_LANGUAGES};
 
@@ -15,7 +15,7 @@ export function t(key,vars={},lang=language){
 }
 
 function setDocumentLanguage(){
- const html=document.documentElement;html.dataset.uiLanguage=language;html.lang=language==='zh'?'zh-CN':language;
+ const html=document.documentElement;html.dataset.uiLanguage=language;html.lang=language==='zh'?'zh-CN':language==='isopod'?'x-isopod':language;
  document.title=t('documentTitle');const description=document.querySelector('meta[name="description"]');if(description)description.content=t('documentDescription');
 }
 
@@ -30,8 +30,9 @@ export function applyStaticTranslations(){
  setDocumentLanguage();
  for(const [selector,key] of textBindings){const el=document.querySelector(selector);if(el)el.textContent=t(key)}
  for(const [selector,attribute,key] of attributeBindings){document.querySelectorAll(selector).forEach(el=>el.setAttribute(attribute,t(key)))}
+ const languageNames={zh:'中文',en:'English',ja:'日本語',isopod:'鼠婦語'};
  document.querySelectorAll('[data-system-lang]').forEach(button=>{
-  const lang=button.dataset.systemLang;button.setAttribute('aria-label',lang==='zh'?'中文':lang==='en'?'English':'日本語');
+  const lang=button.dataset.systemLang,label=languageNames[lang]||lang;button.setAttribute('aria-label',label);button.title=label;
  });
 }
 
@@ -46,13 +47,13 @@ export function setLanguage(next,{announce=true}={}){
 export function formatDate(value,lang=language){
  if(!value)return t('catalogUnrecorded',{},lang);
  const match=String(value).match(/^(\d{4})-(\d{2})-(\d{2})/);if(!match)return String(value);
- const [,year,month,day]=match;if(lang==='zh')return `${year}-${month}-${day}`;if(lang==='ja')return `${Number(year)}年${Number(month)}月${Number(day)}日`;
+ const [,year,month,day]=match;if(lang==='zh'||lang==='isopod')return `${year}-${month}-${day}`;if(lang==='ja')return `${Number(year)}年${Number(month)}月${Number(day)}日`;
  const date=new Date(Number(year),Number(month)-1,Number(day),12);return new Intl.DateTimeFormat('en-GB',{day:'2-digit',month:'short',year:'numeric'}).format(date);
 }
 
 export function formatShortDate(date,lang=language){
  const year=date.getFullYear(),month=date.getMonth()+1,day=date.getDate();
- if(lang==='zh')return `${String(month).padStart(2,'0')}/${String(day).padStart(2,'0')}`;
+ if(lang==='zh'||lang==='isopod')return `${String(month).padStart(2,'0')}/${String(day).padStart(2,'0')}`;
  if(lang==='ja')return `${month}月${day}日`;
  return new Intl.DateTimeFormat('en-GB',{day:'2-digit',month:'short'}).format(date);
 }
@@ -61,6 +62,7 @@ function scientificName(species){return species?.taxonomy?.acceptedScientificNam
 export function speciesPrimaryName(species,lang=language){
  if(!species)return '—';
  if(lang==='zh')return species.names?.zhCN||species.name||scientificName(species);
+ if(lang==='isopod')return `o / ${scientificName(species)}`;
  if(lang==='en'){
   if(species.trade?.tradeName)return species.trade.tradeName;
   if(species.names?.en&&['vernacular','hobby_vernacular','trade_name','taxon_label'].includes(species.names.enNameType))return species.names.en;
@@ -74,7 +76,7 @@ export function speciesPrimaryName(species,lang=language){
 export function speciesSecondaryName(species,lang=language){
  if(!species)return '';
  if(lang==='zh')return species.label||species.names?.en||'';
- if(lang==='en')return '';
+ if(lang==='en'||lang==='isopod')return '';
  if(species.names?.en&&['vernacular','hobby_vernacular','trade_name'].includes(species.names.enNameType))return t('englishName',{name:species.names.en},'ja');
  return '';
 }

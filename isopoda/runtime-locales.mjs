@@ -1,5 +1,5 @@
-import {getLanguage} from './i18n.mjs?v=i18n-1';
-import {gameText} from './locales/game.mjs?v=interaction-story-2';
+import {getLanguage} from './i18n.mjs?v=i18n-2';
+import {gameText} from './locales/game.mjs?v=interaction-story-3';
 import {encounterById} from './encounters.mjs?v=molt-sequence-1';
 
 const selectors=[
@@ -19,7 +19,7 @@ const selectors=[
 ];
 
 function localized(value,lang){
- if(!value||lang==='zh')return value;
+ if(!value)return value;
  let out=gameText(value,lang);if(out!==value)return out;
  if(value.startsWith('Epilogue - ')){
   const suffix=value.slice('Epilogue - '.length),translated=gameText(suffix,lang);
@@ -53,8 +53,16 @@ function translateElement(el){
   if(title&&el.textContent!==title)el.textContent=title;
   return;
  }
- if(lang==='zh'||!el.textContent)return;
- const before=el.textContent,after=localized(before,lang);if(after!==before)el.textContent=after;
+ if(!el.textContent)return;
+ const current=el.textContent;
+ let source=el.dataset.localeSource;
+ if(!source||current!==el.dataset.localeRendered){
+  source=current;
+  el.dataset.localeSource=source;
+ }
+ const after=localized(source,lang);
+ el.dataset.localeRendered=after;
+ if(after!==current)el.textContent=after;
 }
 
 function scan(root=document){
