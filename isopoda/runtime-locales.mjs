@@ -65,16 +65,24 @@ function translateElement(el){
  if(after!==current)el.textContent=after;
 }
 
+const selectorQuery=selectors.join(',');
+
 function scan(root=document){
  for(const selector of selectors)root.querySelectorAll?.(selector).forEach(translateElement);
- if(root.nodeType===1&&root.matches?.(selectors.join(',')))translateElement(root);
+ if(root.nodeType===1&&root.matches?.(selectorQuery))translateElement(root);
 }
 
 const observer=new MutationObserver(records=>{
  for(const record of records){
-  if(record.type==='characterData'){translateElement(record.target.parentElement);continue}
+  if(record.type==='characterData'){
+   const parent=record.target.parentElement;
+   if(parent?.matches?.(selectorQuery))translateElement(parent);
+   continue;
+  }
   for(const node of record.addedNodes)if(node.nodeType===1)scan(node);
-  if(record.target?.nodeType===1)translateElement(record.target);
+  // Only translate actual localized leaves. Translating a container such as
+  // #actions would replace its child buttons with encoded text.
+  if(record.target?.nodeType===1&&record.target.matches?.(selectorQuery))translateElement(record.target);
  }
 });
 
