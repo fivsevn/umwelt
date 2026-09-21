@@ -1,5 +1,5 @@
 import {bindPointerInteraction} from './interaction.mjs?v=environment-memory-1';
-import {createReactions,actionFocus,drawReactionBubbles} from './reactions.mjs?v=ambient-1';
+import {createReactions,actionFocus,drawReactionBubbles} from './reactions.mjs?v=isopod-hearts-1';
 import {environmentFor} from './environment.mjs?v=forest-10';
 import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors-speed.mjs?v=molt-sequence-1';
 import {encounterById,responseMode} from './encounters.mjs?v=narrative-pool-2';
@@ -54,6 +54,7 @@ function reset(options={}){
 }
 function stage(scene){interaction.cancel();encounter=encounterForScene(scene);elapsed=0;effect=null;shelterHeld=false;reactions.reset();stageIndividuals(critters,encounter);placeSceneMolt(scene);if(encounter){[camera.x,camera.y]=encounter.place}drawHabitat(0)}
 function react(id){state=getState();const point=actionFocus(id,state,encounter);const selected=[...critters].sort((a,b)=>Math.hypot(a.x-point.x,a.y-point.y)-Math.hypot(b.x-point.x,b.y-point.y)).slice(0,2).map(c=>c.id);effect={id,selected,mode:responseMode(id),start:elapsed,until:elapsed+10};drawHabitat(performance.now())}
+function heartBurst(){if(empty||!critters.length)return;reactions.burst(critters,'♡',elapsed);drawHabitat(performance.now())}
 function present(){
  const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;
  const w=Math.max(80,Math.round(rect.width*SCENE_OUTPUT_SCALE)),h=Math.max(80,Math.round(rect.height*SCENE_OUTPUT_SCALE));
@@ -170,5 +171,5 @@ function drawMoltShell(shell){
  }
 }
 new ResizeObserver(()=>drawHabitat(0)).observe(canvas);
-return {reset,stage,react,zoom,zoomBy:d=>zoom(camera.zoom+d),home:()=>{camera.x=192;camera.y=215;return zoom(1)},start:()=>{if(!active){active=true;last=performance.now();frame=requestAnimationFrame(tick)}},stop:()=>{interaction.cancel();active=false;cancelAnimationFrame(frame)},visible:()=>critters.filter(c=>!c.hidden).length};
+return {reset,stage,react,heartBurst,zoom,zoomBy:d=>zoom(camera.zoom+d),home:()=>{camera.x=192;camera.y=215;return zoom(1)},start:()=>{if(!active){active=true;last=performance.now();frame=requestAnimationFrame(tick)}},stop:()=>{interaction.cancel();active=false;cancelAnimationFrame(frame)},visible:()=>critters.filter(c=>!c.hidden).length};
 }
