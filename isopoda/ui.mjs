@@ -16,7 +16,8 @@ const glyphs={
 const meterCopy={
  zh:{temp:'温度',wet:'湿度',ventLow:'通风微弱',ventMid:'通风适中',ventHigh:'通风较强',lightLow:'微光',lightMid:'柔光',lightHigh:'明亮'},
  en:{temp:'TEMP',wet:'HUMIDITY',ventLow:'LOW AIRFLOW',ventMid:'AIRFLOW OK',ventHigh:'HIGH AIRFLOW',lightLow:'DIM',lightMid:'SOFT LIGHT',lightHigh:'BRIGHT'},
- ja:{temp:'温度',wet:'湿度',ventLow:'通気 弱',ventMid:'通気 中',ventHigh:'通気 強',lightLow:'微光',lightMid:'柔光',lightHigh:'明るい'}
+ ja:{temp:'温度',wet:'湿度',ventLow:'通気 弱',ventMid:'通気 中',ventHigh:'通気 強',lightLow:'微光',lightMid:'柔光',lightHigh:'明るい'},
+ isopod:{temp:'~o~',wet:'\\o/',ventLow:'<o  ~',ventMid:'<o>',ventHigh:'~  o>',lightLow:'o^  -',lightMid:'o^',lightHigh:'o^  o*'}
 };
 export function pixelIcon(kind){
  const el=document.createElement('span');el.className='pixel-icon';el.setAttribute('aria-hidden','true');
