@@ -38,9 +38,12 @@ const ISOPOD_WAVES=['▁','▂','▃','▄','▅','▆','▇'];
 function isopodWaveNumber(value,minDigits=2){
  return Math.max(0,Number(value)||0).toString(7).padStart(minDigits,'0').replace(/[0-6]/g,d=>ISOPOD_WAVES[Number(d)]);
 }
-function isopodWaveClock(date,time){
+function isopodWaveTime(time){
  const [hour,minute]=time.split(':').map(Number);
- return isopodWaveNumber(date.getMonth()+1)+isopodWaveNumber(date.getDate())+'\u2009'+isopodWaveNumber(hour)+isopodWaveNumber(minute);
+ return isopodWaveNumber(hour)+isopodWaveNumber(minute);
+}
+function isopodWaveClock(date,time){
+ return isopodWaveNumber(date.getMonth()+1)+isopodWaveNumber(date.getDate())+'\u2009'+isopodWaveTime(time);
 }
 function clock(day=state.day,period=state.period){
  const date=state.startedOn?new Date(state.startedOn+'T12:00:00'):null;
@@ -100,7 +103,10 @@ function render(){
  $('#dayLabel').textContent=clock();$('#recordTitle').textContent=state.stage==='feedback'?t('recordLater'):t('recordNow');$('#observation').textContent=state.stage==='feedback'?state.feedback:scene.text;
  $('#activityLabel').textContent=getLanguage()==='zh'?(encounter?.title||''):t('habitatWindow');$('#activityLabel').dataset.motion=encounter?.motion||'';
  const cue=state.stage==='feedback'?(state.interactionIntent?.hint||''):'';$('#interactionCue').hidden=!cue;$('#interactionCue').textContent=cue;
- $('#nextBtn').disabled=state.stage!=='feedback';$('#nextBtn').textContent=state.stage==='choice'?t('holdMoment'):state.day===7&&state.period===2?t('closeGently'):t('later',{time:timeFor(state.seed,state.period===2?state.day+1:state.day,(state.period+1)%3)});
+ $('#nextBtn').disabled=state.stage!=='feedback';
+ const nextTime=timeFor(state.seed,state.period===2?state.day+1:state.day,(state.period+1)%3);
+ const nextTimeLabel=getLanguage()==='isopod'?isopodWaveTime(nextTime):nextTime;
+ $('#nextBtn').textContent=state.stage==='choice'?t('holdMoment'):state.day===7&&state.period===2?t('closeGently'):t('later',{time:nextTimeLabel});
  buttons(scene);$('#miniView').replaceChildren();$('#miniView').hidden=true;
  if(state.stage==='choice'&&scene.kind==='count'){$('#miniView').hidden=false;for(let i=0;i<scene.count;i++)$('#miniView').append(makeBug(p,i))}
  if(lastScene!==scene.id){habitat.stage(scene);lastScene=scene.id}
