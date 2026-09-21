@@ -6,7 +6,6 @@ const selectors=[
  '#activityLabel',
  '#observation',
  '#interactionCue',
- '#actions .action',
  '#endingTitle',
  '#endingBody',
  '#endingLine',
