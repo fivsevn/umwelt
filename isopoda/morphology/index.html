@@ -33,6 +33,7 @@ function applyPublicBranding(){
   set('.lab-title p','将等足类标本拆分为可独立观察的形态模块，再逐一核对各部分的依据。');
   set('.lab-status span','LAB NOTE 07');
   set('.lab-status small','64 px dorsal morphology');
+  set('#specimenDossier summary small','详细资料 · 点击展开');
 
   const legend=d.querySelector('.legend');
   if(legend){
@@ -118,7 +119,7 @@ function applyPublicBranding(){
     .part-button{min-width:0}
     .template-readout div{grid-template-columns:1fr;gap:1px}
     .template-readout dt{margin-top:2px}
-    .references>summary,.reference{overflow-wrap:anywhere}
+    .references>header,.reference{overflow-wrap:anywhere}
    }
    @media(max-width:520px){
     .viewer{min-height:570px!important}
