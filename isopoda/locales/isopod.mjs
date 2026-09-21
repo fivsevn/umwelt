@@ -2,6 +2,13 @@
 // It intentionally compresses human sentences into a small survival-oriented lexicon.
 
 const EXACT=new Map([
+ ['湿区喷水','\\o/  +'],
+ ['增加通风','<o>  ~'],
+ ['添一片枯叶','=o=  [o]  +'],
+ ['少量投食','=o=  +'],
+ ['取走剩食','=o=  -'],
+ ['降低光线','o^  -'],
+ ['保持原样','o.'],
  ['湿苔','\\o/'],
  ['木片','[o]'],
  ['叶缘','=o=  |'],
