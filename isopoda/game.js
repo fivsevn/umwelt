@@ -6,7 +6,7 @@ import {makeBug,makeIsopod,renderModel,exuviaPixels} from './sprites.mjs?v=exuvi
 import {createHabitat} from './habitat.mjs?v=forest-10';
 import {restoreCollection,drawCohort,unlock} from './collection.mjs?v=species-39b';
 import {encounterById,encounterFor} from './encounters.mjs?v=molt-sequence-1';
-import {iconButton,createInstrument} from './ui.mjs?v=isopod-2';
+import {iconButton,createInstrument} from './ui.mjs?v=isopod-3';
 import {getLanguage,t,formatShortDate,speciesPrimaryName} from './i18n.mjs?v=i18n-2';
 const $=s=>document.querySelector(s),KEY='isopoda-fugue-v4',ARCHIVE='isopoda-fugue-endings-v3',COLLECTION='isopoda-fieldnotes-v1',DISCOVERIES='isopoda-interaction-discoveries-v1';
 function read(key){try{return JSON.parse(localStorage.getItem(key))}catch{return null}}
