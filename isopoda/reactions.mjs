@@ -57,6 +57,12 @@ export function createReactions(){
  let bubbles=[],seen=new Map(),lastStart=-Infinity;
  return {
   reset(){bubbles=[];seen.clear();lastStart=-Infinity},
+  burst(group,cue,time,duration=1.15){
+   const priority=Number.MAX_SAFE_INTEGER;
+   bubbles=group.map(c=>({id:c.id,cue,priority,start:time,until:time+duration}));
+   lastStart=time;
+   return bubbles;
+  },
   update(group,{encounter,state,time,reaction}){
    bubbles=bubbles.filter(b=>time<b.until&&group.some(c=>c.id===b.id));
    const candidates=[];
