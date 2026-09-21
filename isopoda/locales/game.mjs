@@ -1,4 +1,4 @@
-import {encodeIsopodText} from './isopod.mjs?v=isopod-1';
+import {encodeIsopodText} from './isopod.mjs?v=isopod-3';
 
 // Runtime localization for authored game copy.
 // Canonical simulation/state text stays in Chinese so saved runs remain language-neutral.
