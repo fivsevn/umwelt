@@ -40,7 +40,7 @@ function isopodWaveNumber(value,minDigits=2){
 }
 function isopodWaveClock(date,time){
  const [hour,minute]=time.split(':').map(Number);
- return isopodWaveNumber(date.getMonth()+1)+isopodWaveNumber(date.getDate())+'　　'+isopodWaveNumber(hour)+isopodWaveNumber(minute);
+ return isopodWaveNumber(date.getMonth()+1)+isopodWaveNumber(date.getDate())+'\u2009'+isopodWaveNumber(hour)+isopodWaveNumber(minute);
 }
 function clock(day=state.day,period=state.period){
  const date=state.startedOn?new Date(state.startedOn+'T12:00:00'):null;
