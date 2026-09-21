@@ -1,5 +1,5 @@
-import {getLanguage} from './i18n.mjs?v=i18n-1';
-import {gameText} from './locales/game.mjs?v=interaction-story-2';
+import {getLanguage} from './i18n.mjs?v=i18n-2';
+import {gameText} from './locales/game.mjs?v=interaction-story-3';
 import {encounterById} from './encounters.mjs?v=molt-sequence-1';
 
 const selectors=[
