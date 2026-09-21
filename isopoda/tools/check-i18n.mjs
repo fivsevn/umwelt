@@ -35,8 +35,10 @@ for(const lang of SUPPORTED_LANGUAGES){
  for(const key of keys)if(UI_COPY[lang][key]==='')fail(`UI ${lang}.${key}: empty translation`);
 }
 
-// 2) Specimen annotations: every registered specimen must have both EN and JA copy.
+// 2) Specimen annotations: EN and JA remain authored; isopod copy is generated from canonical text.
 const annotationSource=await read('locales/annotations.mjs');
+const isopodSource=await read('locales/isopod.mjs');
+if(!/export function encodeIsopodText/.test(isopodSource))fail('isopod locale: missing encoder export');
 const annotationBody=annotationSource.match(/const copy=\{([\s\S]*?)\n\};/)?.[1]||'';
 const annotationMatches=[...annotationBody.matchAll(/^  ([A-Za-z0-9_]+):\{/gm)];
 const annotationIds=[];
@@ -60,7 +62,7 @@ for(const file of speciesFiles){
 for(const id of [...speciesIds].sort())if(!annotationIds.includes(id))fail(`annotation ${id}: no locale entry`);
 for(const id of annotationIds)if(!speciesIds.has(id))warn(`annotation ${id}: entry has no matching specimen id`);
 
-// 3) Authored game copy: active visible source strings must exist in the translation table.
+// 3) Authored game copy: active visible source strings must exist in the EN/JA translation table. Isopod copy is generated.
 const gameSource=await read('locales/game.mjs');
 const translatedZh=new Set([...gameSource.matchAll(/^\['([^'\n]*)',/gm)].map(match=>match[1]));
 const rowTriples=[...gameSource.matchAll(/^\['([^'\n]*)','([^'\n]*)','([^'\n]*)'\],?$/gm)];
@@ -108,12 +110,12 @@ for(const [name,pattern] of [
 }
 
 // 4) Credits: localized files may translate prose, but links and section count must stay in sync.
-const creditFiles={zh:'credits.md',en:'credits.en.md',ja:'credits.ja.md'};
+const creditFiles={zh:'credits.md',en:'credits.en.md',ja:'credits.ja.md',isopod:'credits.isopod.md'};
 const credits={};
 for(const [lang,file] of Object.entries(creditFiles))credits[lang]=await read(file);
 const zhUrls=markdownUrls(credits.zh);
 const zhHeadingCount=markdownHeadings(credits.zh);
-for(const lang of ['en','ja']){
+for(const lang of SUPPORTED_LANGUAGES.filter(lang=>lang!=='zh')){
  const urls=markdownUrls(credits[lang]);
  if(!same(zhUrls,urls)){
   const missing=zhUrls.filter(url=>!urls.includes(url));
@@ -130,5 +132,5 @@ if(errors.length){
  console.error(`\n${errors.length} i18n check(s) failed.`);
  process.exitCode=1;
 }else{
- console.log(`[i18n] OK — ${baseKeys.length} UI keys, ${speciesIds.size} specimens, ${annotationIds.length} annotation entries, ${rowTriples.length} game locale rows, 3 credit files.`);
+ console.log(`[i18n] OK — ${baseKeys.length} UI keys, ${speciesIds.size} specimens, ${annotationIds.length} annotation entries, ${rowTriples.length} game locale rows, ${Object.keys(creditFiles).length} credit files.`);
 }
