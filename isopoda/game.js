@@ -8,6 +8,7 @@ import {restoreCollection,drawCohort,unlock} from './collection.mjs?v=species-39
 import {encounterById,encounterFor} from './encounters.mjs?v=molt-sequence-1';
 import {iconButton,createInstrument} from './ui.mjs?v=isopod-3';
 import {getLanguage,t,formatShortDate,speciesPrimaryName} from './i18n.mjs?v=i18n-2';
+import {gameText} from './locales/game.mjs?v=isopod-3';
 const $=s=>document.querySelector(s),KEY='isopoda-fugue-v4',ARCHIVE='isopoda-fugue-endings-v3',COLLECTION='isopoda-fieldnotes-v1',DISCOVERIES='isopoda-interaction-discoveries-v1';
 function read(key){try{return JSON.parse(localStorage.getItem(key))}catch{return null}}
 function write(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch{$('#storageNotice').hidden=false;$('#storageNotice').textContent=t('storageNotice')}}
@@ -57,7 +58,7 @@ function sceneNow(){
  if(state.stage==='choice'&&state.scene?.kind==='count')state.scene=null;
  const scene=ensureScene(state);if(!scene.encounter)scene.encounter=encounterFor(state).id;return scene;
 }
-function buttons(scene){$('#actions').replaceChildren();for(const o of scene.options){const b=document.createElement('button');b.className='action';b.textContent=o.label;b.disabled=state.stage!=='choice';b.onclick=()=>act(o.id);$('#actions').append(b)}}
+function buttons(scene){$('#actions').replaceChildren();for(const o of scene.options){const b=document.createElement('button');b.className='action';b.textContent=gameText(o.label,getLanguage());b.disabled=state.stage!=='choice';b.onclick=()=>act(o.id);$('#actions').append(b)}}
 function render(){
  const scene=sceneNow(),p=speciesById(state.cohort[0].species),encounter=encounterById(scene.encounter);
  $('#dayLabel').textContent=clock();$('#recordTitle').textContent=state.stage==='feedback'?t('recordLater'):t('recordNow');$('#observation').textContent=state.stage==='feedback'?state.feedback:scene.text;
