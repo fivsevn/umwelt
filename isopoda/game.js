@@ -40,7 +40,7 @@ function sceneNow(){
  if(state.stage==='choice'&&state.scene?.kind==='count')state.scene=null;
  const scene=ensureScene(state);if(!scene.encounter)scene.encounter=encounterFor(state).id;return scene;
 }
-function buttons(scene){$('#actions').replaceChildren();for(const o of scene.options){const b=document.createElement('button');b.className='action';b.textContent=o.label;b.disabled=state.stage!=='choice';b.onclick=()=>act(o.id);$('#actions').append(b)}}
+function buttons(scene){const root=$('#actions');root.replaceChildren();root.style.gridTemplateColumns=`repeat(${Math.max(1,scene.options.length)},minmax(0,1fr))`;root.style.gridAutoFlow='row';for(const o of scene.options){const b=document.createElement('button');b.type='button';b.className='action';b.textContent=o.label;b.disabled=state.stage!=='choice';b.onclick=()=>act(o.id);root.append(b)}}
 function render(){
  const scene=sceneNow(),p=speciesById(state.cohort[0].species),encounter=encounterById(scene.encounter);
  $('#dayLabel').textContent=clock();$('#recordTitle').textContent=state.stage==='feedback'?t('recordLater'):t('recordNow');$('#observation').textContent=state.stage==='feedback'?state.feedback:scene.text;
