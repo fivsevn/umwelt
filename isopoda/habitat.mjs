@@ -150,7 +150,7 @@ function drawHabitat(t){
 }
 // Keep anatomy pixels untouched. The habitat only places a dark duplicate beneath each rendered animal.
 function drawActorUnderlay(cells){
- for(const [x,y] of cells)px(ctx,x+1,y+2,1,1,'rgba(24,28,21,.38)');
+ for(const [x,y] of cells)px(ctx,x+1,y+2,1,1,'rgba(20,24,18,.46)');
 }
 function drawActors(){
  for(const actor of [...critters].sort((a,b)=>Number(a.interactionState?.mode==='grabbed')-Number(b.interactionState?.mode==='grabbed'))){if(actor.hidden){actor.hitCells=[];continue;}
