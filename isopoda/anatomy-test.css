@@ -19,7 +19,7 @@
 .dossier[open]>summary,.references[open]>summary{border-bottom:1px solid #4d5d41}
 .dossier>summary span,.references>summary span{font-size:9px;color:#d1cba8}
 .references>summary small{display:block;margin:2px 0 0 15px;font-size:7px;color:#738464;line-height:1.45;white-space:normal;overflow-wrap:anywhere}
-.dossier-body{min-height:0;overflow:auto;padding:5px;display:grid;gap:4px;scrollbar-width:thin;scrollbar-color:#657451 #293325}
+.dossier[open]{display:flex;flex-direction:column}.dossier-body{flex:1 1 auto;min-height:0;overflow:auto;padding:5px;display:grid;gap:4px;scrollbar-width:thin;scrollbar-color:#657451 #293325}
 .dossier-row{padding:6px 7px;border:1px solid #3f4e35;background:#273222}
 .dossier-row b{display:block;font-weight:400;color:#b6c09e;font-size:8px}
 .dossier-row p,.dossier-row blockquote{margin:3px 0 0;color:#93a280;font-size:8px;line-height:1.48;overflow-wrap:anywhere}
