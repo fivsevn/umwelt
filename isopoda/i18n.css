@@ -1,4 +1,4 @@
-/* Language-specific typefaces. Chinese and English share the self-hosted Fusion Pixel face from style.css. */
+/* Language-specific typefaces. Chinese, English and isopod copy share the self-hosted Fusion Pixel face from style.css. */
 @font-face{
   font-family:"PixelMplus12";
   src:url("https://raw.githubusercontent.com/itouhiro/PixelMplus/d89b95f04eeb95bf98bb09cb9234a2f99d186df5/PixelMplus12-Regular.ttf") format("truetype");
