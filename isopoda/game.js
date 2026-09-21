@@ -34,7 +34,21 @@ const instrument=createInstrument($('#instruments'));
 function refreshIconLabels(){for(const [id,kind,label] of [['soundBtn','sound',sound?t('soundOff'):t('soundOn')],['catalogBtn','book',t('archive')],['sourcesBtn','source',t('sources')],['journalBtn','pencil',t('journal')],['zoomOut','minus',t('zoomOut')],['zoomIn','plus',t('zoomIn')],['zoomReset','center',t('zoomReset')]])iconButton($('#'+id),kind,label)}
 refreshIconLabels();
 function save(){write(KEY,state)}
-function clock(day=state.day,period=state.period){const date=state.startedOn?new Date(state.startedOn+'T12:00:00'):null;if(date)date.setDate(date.getDate()+day-1);return (date?formatShortDate(date):t('dayNumber',{day}))+' '+timeFor(state.seed,day,period)}
+const ISOPOD_WAVES=['▁','▂','▃','▄','▅','▆','▇'];
+function isopodWaveNumber(value,minDigits=2){
+ return Math.max(0,Number(value)||0).toString(7).padStart(minDigits,'0').replace(/[0-6]/g,d=>ISOPOD_WAVES[Number(d)]);
+}
+function isopodWaveClock(date,time){
+ const [hour,minute]=time.split(':').map(Number);
+ return isopodWaveNumber(date.getMonth()+1)+isopodWaveNumber(date.getDate())+'　　'+isopodWaveNumber(hour)+isopodWaveNumber(minute);
+}
+function clock(day=state.day,period=state.period){
+ const date=state.startedOn?new Date(state.startedOn+'T12:00:00'):null;
+ if(date)date.setDate(date.getDate()+day-1);
+ const time=timeFor(state.seed,day,period);
+ if(getLanguage()==='isopod'&&date)return isopodWaveClock(date,time);
+ return (date?formatShortDate(date):t('dayNumber',{day}))+' '+time;
+}
 function sceneNow(){
  // Replace pending legacy counting scenes without erasing past feedback or records.
  if(state.stage==='choice'&&state.scene?.kind==='count')state.scene=null;
