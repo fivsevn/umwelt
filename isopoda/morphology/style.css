@@ -20,8 +20,8 @@ button:focus-visible,select:focus-visible,summary:focus-visible,a:focus-visible{
 .cross-lab-link:hover{background:#37432f;color:#d4d4b6;border-color:#667557}
 .specimen-toolbar{display:grid;grid-template-columns:32px minmax(180px,390px) 32px minmax(0,1fr) auto;gap:5px;padding:5px;background:var(--panel);border:1px solid #48583b;box-shadow:2px 2px var(--shadow)}
 .nav-button{border:1px solid #58674a;background:#35432c;color:#bdc5a5;min-height:34px}.nav-button:hover{background:#445239}
-.species-picker{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:7px;padding:2px 7px;border:1px solid #46563a;background:#303b2a}
-.species-picker>span{font-size:9px;color:#839373}.species-picker select{display:block;width:100%;max-width:100%;overflow:hidden;text-overflow:ellipsis;border:0;background:#273222;padding:5px}
+.species-picker{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:7px;padding:2px 7px;border:1px solid #46563a;background:#303b2a;overflow:hidden}
+.species-picker>span{font-size:9px;color:#839373}.species-picker select{display:block;width:100%;max-width:100%;min-inline-size:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;border:0;background:#273222;padding:5px}
 .specimen-readout{padding:2px 9px;border-left:1px solid var(--line);display:flex;flex-direction:column;justify-content:center;line-height:1.35;overflow-wrap:anywhere}
 .specimen-readout b{font-weight:400;font-size:12px}.specimen-readout span{color:#a9b596;font-style:italic;font-size:11px}.specimen-readout small{font-size:9px;color:#748566}
 .accession{display:flex;flex-direction:column;justify-content:center;text-align:right;padding:2px 6px;line-height:1.4;overflow-wrap:anywhere}
