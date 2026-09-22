@@ -182,7 +182,25 @@ function drawAbyssalBackground(g,{palette=['#10181b','#172225','#223033','#343d3
   labPixel(g,x,y,len,1,'rgba(45,56,57,.34)');
  }
 }
-function drawLabDetail(g,{kind,x=0,y=0,a=0,scale=1,seed=57}={}){
+function withSoftWorldShadow(g,{alpha=.12,dy=2}={},draw){
+ if(alpha<=0||dy<=0)return draw();
+ g.save();
+ g.shadowColor=`rgba(18,24,20,${alpha})`;
+ g.shadowOffsetX=0;
+ g.shadowOffsetY=dy;
+ g.shadowBlur=0;
+ try{return draw()}finally{g.restore()}
+}
+function labDetailShadow(kind){
+ if(kind==='rock-crack')return {alpha:0,dy:0};
+ if(kind==='mycelium'||kind==='humus'||kind==='silt'||kind==='abyssal-silt')return {alpha:.055,dy:1};
+ if(kind==='algae-film'||kind==='crustose')return {alpha:.045,dy:1};
+ if(kind==='leaf-skeleton'||kind==='root-tangle')return {alpha:.13,dy:2};
+ if(kind==='shell-fragment'||kind==='holdfast'||kind==='nodule')return {alpha:.11,dy:2};
+ if(kind==='sponge'||kind==='sunken-wood')return {alpha:.14,dy:3};
+ return {alpha:.08,dy:2};
+}
+function drawLabDetailShape(g,{kind,x=0,y=0,a=0,scale=1,seed=57}={}){
  const o={x,y,a,scale};
  if(kind==='root-tangle'){
   for(let i=0;i<7;i++){
@@ -270,6 +288,9 @@ function drawLabDetail(g,{kind,x=0,y=0,a=0,scale=1,seed=57}={}){
   labLocalLine(g,o,-18,5,-8,12,2,'#1b211f');labLocalLine(g,o,12,5,22,11,2,'#1b211f');
  }
 }
+function drawLabDetail(g,options={}){
+ return withSoftWorldShadow(g,labDetailShadow(options.kind),()=>drawLabDetailShape(g,options));
+}
 
 function cloneStarter(){
  const imported=importScene(JSON.stringify(DEFAULT_LAYOUT),ASSET_BY_ID,reference);
@@ -311,8 +332,8 @@ function drawObjectRaw(target,asset,item,preview=false){
  if(asset.category==='bark')return drawBark(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
  if(asset.category==='stone')return drawStone(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
  if(asset.category==='calcium')return drawCuttlebone(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
- if(p.detail)return drawAquaticDetail(target,{...p,kind:p.detail,x,y,a,seed,scale:mult});
- if(asset.category==='aquatic')return drawAquaticPlant(target,{...p,x,y,a,seed,scale:mult});
+ if(p.detail)return withSoftWorldShadow(target,{alpha:.065,dy:1},()=>drawAquaticDetail(target,{...p,kind:p.detail,x,y,a,seed,scale:mult}));
+ if(asset.category==='aquatic')return withSoftWorldShadow(target,{alpha:.075,dy:2},()=>drawAquaticPlant(target,{...p,x,y,a,seed,scale:mult}));
  if(asset.id.startsWith('twig')||p.type==='twig')return drawTwig(target,{...p,x,y,a,seed,length:(p.length||18)*mult});
  if(asset.id.startsWith('woodchip')||p.type==='chip')return drawWoodChip(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
 }
