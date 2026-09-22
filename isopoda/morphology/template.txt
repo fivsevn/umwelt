@@ -93,7 +93,7 @@
 
 <script type="module">
 import {SPECIES} from './species-registry.mjs';
-import {sources as PROJECT_SOURCES} from './sources-registry.mjs?v=wiki-1';
+import {sources as PROJECT_SOURCES,frameworkSources as FRAMEWORK_SOURCES} from './sources-registry.mjs?v=wiki-1';
 import {LOCOMOTION_SOURCES,locomotionSourceIds} from './locomotion.mjs?v=locomotion-3';
 import {WIKI_SOURCES,WIKI_SOURCE_IDS_BY_SPECIES} from './data/wiki/specimen-sources.mjs?v=wiki-1';
 import {renderModel,pixelAnatomy} from './sprites.mjs';
@@ -187,6 +187,21 @@ const SPECIES_REFS={
 const PROJECT_SOURCE_BY_ID=new Map(PROJECT_SOURCES.map(source=>[source.id,source]));
 const LOCOMOTION_SOURCE_BY_ID=new Map(LOCOMOTION_SOURCES.map(source=>[source.id,source]));
 const WIKI_SOURCE_BY_ID=new Map(WIKI_SOURCES.map(source=>[source.id,source]));
+const FRAMEWORK_SOURCE_BY_ID=new Map(FRAMEWORK_SOURCES.map(source=>[source.id,source]));
+
+function frameworkSourceIdsFor(species){
+ const ids=[],t=species.taxonomy||{},v=species.visual||{},genus=t.genus||'',key=String(v.morphologyKey||'').toLowerCase();
+ const terrestrial=(t.suborder==='Oniscidea')||(!species.game?.habitats?.some?.(h=>h!=='terrestrial')&&!['Asellota','Valvifera','Sphaeromatidea'].includes(t.suborder));
+ if(terrestrial){
+  ids.push('external-anatomy','biphasic-molt');
+  if(genus==='Porcellio')ids.push('porcellio-scale-setae-2018');
+  if(genus==='Armadillidium'||genus==='Venezillo'||/armadillid|venezillo|cubaris/.test(key))ids.push('armadillidium-venezillo-head-tail');
+  if(genus==='Ardentiella'||/ardentiella/.test(key))ids.push('ardentiella-reassessment-2025');
+  if(species.id==='coros'||t.species==='spatulatus')ids.push('porcellio-spatulatus-comparison');
+  if(species.id==='bolivari'||t.species==='bolivari')ids.push('porcellio-bolivari-characters');
+ }
+ return [...new Set(ids)];
+}
 
 const COMMERCE_URL=/\/products?\/|\/product-page\/|\/for-sale\/|(?:^|\.)jd\.com|shop\.app|morphmarket\.com|shopee\.|myship\.7-11\.com\.tw|richardsinverts|pangeareptile|roachcrossing/i;
 function normalizeReference(id,source,kind='project'){
@@ -232,6 +247,9 @@ function referenceRowsFor(species){
  }
  for(const id of WIKI_SOURCE_IDS_BY_SPECIES[species.id]||[]){
   const row=normalizeReference(id,WIKI_SOURCE_BY_ID.get(id),'wiki');if(row)rows.push(row);
+ }
+ for(const id of frameworkSourceIdsFor(species)){
+  const row=normalizeReference(id,FRAMEWORK_SOURCE_BY_ID.get(id),'project');if(row)rows.push(row);
  }
  const seen=new Set();
  return rows.filter(row=>{
