@@ -337,7 +337,7 @@ export function drawAquaticWater(g,s,time=0,{drawPlants=true}={}){
  const h=habitatConfig(s),surface=h.tides?Math.round(360-s.tide*3.35):0;
  // Water is transparent stippling with stepped ripples, never a smooth gradient.
  for(let y=surface;y<430;y+=4)for(let x=0;x<384;x+=4)if(noise(x,y)%4===0)pixel(g,x,y,2,1,'rgba(80,133,126,.13)');
- if(drawPlants){
+ if(drawPlants&&h.plants>0){
   const rawCount=Math.max(3,Math.round(h.plants*(s.algae/70)));
   const count=h.id==='shallow-marine'?Math.max(6,Math.round(rawCount*.52)):h.id==='intertidal'?Math.max(4,Math.round(rawCount*.72)):rawCount;
   const kind=h.id==='freshwater'?'waterweed':h.id==='intertidal'?'rockweed':'kelp';
