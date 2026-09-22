@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>阿西莫夫环境实验室 · ASIMOV HABITAT LAB</title>
 <link rel="preload" href="../assets/fonts/fusion-pixel-12px-monospaced-zh_hans.ttf.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-<link rel="stylesheet" href="./habitat.css?v=15">
+<link rel="stylesheet" href="./habitat.css?v=16">
 </head>
 <body>
 <main class="lab">
@@ -105,6 +105,7 @@
     <div><dt>SEED</dt><dd id="selectedSeed">—</dd></div>
     <div><dt>SCALE</dt><dd id="selectedScale">—</dd></div>
     <div><dt>ANGLE</dt><dd id="selectedAngle">—</dd></div>
+    <div><dt>MIRROR</dt><dd id="selectedFlip">OFF</dd></div>
     <div><dt>Z</dt><dd id="selectedZ">—</dd></div>
    </dl>
    <div class="control-grid">
@@ -114,6 +115,7 @@
     <button data-action="scale-up">＋ SCALE</button>
     <button data-action="back">↓ BACK</button>
     <button data-action="front">↑ FRONT</button>
+    <button data-action="flip-horizontal" class="wide">⇋ FLIP HORIZONTAL</button>
     <button data-action="reroll">↻ SEED</button>
     <button data-action="delete" class="danger">DELETE</button>
    </div>
@@ -155,6 +157,6 @@
  else narrow.addListener(sync);
 })();
 </script>
-<script type="module" src="./habitat-lab.mjs?v=scene-assets-8"></script>
+<script type="module" src="./habitat-lab.mjs?v=scene-assets-9"></script>
 </body>
 </html>
