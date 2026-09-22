@@ -37,7 +37,11 @@ function ambientTarget(action,state,c,slot){
 // Keep within-individual pace variation narrow enough that species-level locomotion remains visible.
 // The species speed field is animation/game tuning, not a measured mm/s value.
 export function makeIndividuals(seed,speed=.68){return (Array.isArray(seed)?seed:cohortFor('dairy',seed)).map((specimen,id)=>{
- const h=stableHash(specimen.seed),stage=specimen.stage;return {id,specimenId:specimen.id,species:specimen.species,seed:specimen.seed,x:55+h%260,y:65+(h>>>8)%290,a:(h%628)/100,speed:(.90+(h>>>12)%21/100)*speed*speciesById(specimen.species).speed,size:.94+(h>>>18)%13/100,stage,alertness:.25+(h>>>16)%60/100,pause:2+(h>>>20)%5,offset:h%190/10,hidden:false,posture:'normal',moving:false,molt:'none',occlusion:0,phase:0,gaitPhase:h%4,traits:behaviorTraits(specimen.seed),ambientSlot:-1,ambientAction:null};
+ const h=stableHash(specimen.seed),stage=specimen.stage,p=speciesById(specimen.species),locomotion=p.locomotion?.simulation||{};
+ const individualPace=.90+(h>>>12)%21/100;
+ return {id,specimenId:specimen.id,species:specimen.species,seed:specimen.seed,x:55+h%260,y:65+(h>>>8)%290,a:(h%628)/100,
+  speed:individualPace*speed*(Number(locomotion.cruise)||p.speed||.8),locomotion,
+  size:.94+(h>>>18)%13/100,stage,alertness:.25+(h>>>16)%60/100,pause:2+(h>>>20)%5,offset:h%190/10,hidden:false,posture:'normal',moving:false,molt:'none',occlusion:0,phase:0,gaitPhase:h%4,traits:behaviorTraits(specimen.seed),ambientSlot:-1,ambientAction:null};
 })}
 export function actorOrder(group,encounter){
  if(encounter?.specimenId)return [...group].sort((a,b)=>Number(b.specimenId===encounter.specimenId)-Number(a.specimenId===encounter.specimenId)||stableHash(a.seed+':'+encounter?.id)-stableHash(b.seed+':'+encounter?.id));
@@ -104,7 +108,7 @@ export function stepIndividuals(group,{encounter,state={},time=0,dt=.05,reaction
    if(distance<range){
     const shock=Math.max(.15,1-distance/range);
     if(age<.65+c.alertness*1.25&&c.alertness>.35-shock*.12){stop=true;posture=age<.32?'tucked':c.model?.visual?.conglobation?.ability==='full'?'curled':'tucked'}
-    else{tx=clamp(c.x+(c.x-rx||i+1)*(1.5+shock),24,355);ty=clamp(c.y+(c.y-ry||i+1)*(1.5+shock),30,400);pace*=1.25+c.alertness+shock*.55;stop=false;posture='normal'}
+    else{tx=clamp(c.x+(c.x-rx||i+1)*(1.5+shock),24,355);ty=clamp(c.y+(c.y-ry||i+1)*(1.5+shock),30,400);pace*=(1.05+c.alertness+shock*.45)*(Number(c.locomotion?.burst)||1.2);stop=false;posture='normal'}
    }
   }else if(reaction?.mode==='care'){
    const env=state.environment||{},food=env.foodNodes?.at(-1),wet=env.wetZones?.[0],leaf=env.leaves?.at(-1);
