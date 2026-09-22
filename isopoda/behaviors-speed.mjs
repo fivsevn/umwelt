@@ -1,6 +1,6 @@
 // Thin runtime shim for the observation-speed control.
 // Only specimen simulation is accelerated; the surrounding UI keeps normal time.
-import {stepIndividuals as baseStepIndividuals} from './behaviors.mjs?v=locomotion-1';
+import {stepIndividuals as baseStepIndividuals} from './behaviors.mjs?v=locomotion-2';
 export * from './behaviors.mjs?v=molt-sequence-1';
 
 const clocks=new WeakMap();
