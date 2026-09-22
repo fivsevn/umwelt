@@ -17,6 +17,9 @@ https://umwelt.fivsevn.com/isopoda/
 **阿西莫夫形态实验室 / Asimov Morphology Lab**  
 https://umwelt.fivsevn.com/isopoda/morphology/
 
+**阿西莫夫环境实验室 / Asimov Habitat Lab**  
+https://umwelt.fivsevn.com/isopoda/habitat.html
+
 ---
 
 ## Isopoda Fugue / 等足目赋格
@@ -50,7 +53,7 @@ UMWELT 当前主要由静态 Web 技术构成：
 - Pattern
 - Conglobation
 
-饲养环境同样采用程序化像素 Canvas 渲染，并将基质、枯叶、水苔、树皮、石块及其他场景元素拆分为可维护的 scenery renderer。场景系统的维护边界记录在 `docs/isopoda-scenery-system.md`。
+饲养环境同样采用程序化像素 Canvas 渲染，并将基质、枯叶、水苔、树皮、石块及其他场景元素拆分为可维护的 scenery renderer。场景系统的维护边界记录在 `isopoda/docs/reference/isopoda-scenery-system.md`。
 
 游戏进度主要保存在浏览器本地。
 
@@ -60,9 +63,11 @@ UMWELT 当前主要由静态 Web 技术构成：
 node --test tests/*.test.mjs
 ```
 
+测试目录的自动化 / 浏览器回归边界见 `tests/README.md`。
+
 开发用视觉 / 诊断工具保留在仓库中，用于 morphology、行为、场景素材和浏览器回归检查。公开与开发页面的发布边界由 GitHub Pages workflow 明确控制。
 
-维护说明集中在 `docs/` 与各模块目录的 README 中。公开展示页与开发工具保持分离；“阿西莫夫形态实验室”虽然以“实验室”命名，但它是正式公开资料页。
+ISOPODA 的开发入口集中在 `isopoda/README.md`，文档统一放在 `isopoda/docs/`。公开展示页与开发工具保持分离；阿西莫夫形态实验室与环境实验室虽然以“实验室”命名，但都属于正式公开页面。
 
 ---
 

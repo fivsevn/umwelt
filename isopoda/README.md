@@ -22,10 +22,10 @@ The morphology lab also depends on `morphology/template.txt` and the live styles
 - Localization: `i18n.mjs`, `runtime-locales.mjs`, `locales/`.
 - Public labs: `morphology/`, `habitat.html`, `habitat-lab.mjs`, `habitat.css`.
 - Development-only previews: `dev/`.
-- Developer documentation: `docs/`.
+- Developer documentation: `docs/` (single entry point: `docs/README.md`).
 - CI / repository checks: `tools/`.
 
-See `docs/content-map.md` before adding story, encounter, species or locale content.
+Start with `docs/README.md`. See `docs/content-map.md` before adding story, encounter, species or locale content. Historical and subsystem notes live under `docs/reference/`; they are reference material rather than automatic runtime contracts.
 
 ## Stability rules
 
@@ -33,4 +33,4 @@ See `docs/content-map.md` before adding story, encounter, species or locale cont
 2. Do not move a runtime file just to improve folder aesthetics; first add a compatibility boundary or update all verified consumers.
 3. Chinese authored copy is the canonical source for legacy terrestrial text, but visible active strings must have EN and JA coverage.
 4. Water / abyssal stories use stable content keys; preserve those keys when rewriting prose.
-5. Run `node --test tests/*.test.mjs`, `node isopoda/tools/check-i18n.mjs`, `node isopoda/tools/check-morphology-page.mjs`, and `node isopoda/tools/check-public-surface.mjs` before merging structural changes.
+5. Run `node --test tests/*.test.mjs`, `node isopoda/tools/check-i18n.mjs`, `node isopoda/tools/check-morphology-page.mjs`, and `node isopoda/tools/check-public-surface.mjs` before merging structural changes. See `../tests/README.md` for browser/manual regression harnesses.
