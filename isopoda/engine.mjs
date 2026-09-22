@@ -250,4 +250,15 @@ export function migrateLegacy(old,seed=1){const s=createRun('dairy',seed);if(old
 export function migrateV3(old){if(!old||old.version!==3||!SPECIES.some(p=>p.id===old.species))return null;const s={...old,habitatId:'terrestrial',version:VERSION,cohort:cohortFor(old.species,old.seed)};delete s.species;if(s.stage==='choice')s.scene=null;return validRun(s)?s:null}
 
 // Existing v4 records and completed scenes survive migration. Keep the storage key stable.
-export function migrateV4(old){if(!old||old.version!==4)return null;const s={...old,habitatId:old.habitatId??'terrestrial'};return validRun(s)?s:null}
+export function migrateV4(old){
+ if(!old||old.version!==4)return null;
+ const s={...old,habitatId:old.habitatId??'terrestrial'};
+ if(s.habitatId==='abyssal'){
+  // Older abyssal saves used day/period only as a transport for the dialogue index.
+  // Preserve their choices, but normalize the rewritten mode to one untimed sequence.
+  s.day=1;s.period=0;
+  if(s.stage==='choice')s.scene=null;
+  if(s.ending==='abyssal-observer')s.ending='abyssal-field';
+ }
+ return validRun(s)?s:null;
+}
