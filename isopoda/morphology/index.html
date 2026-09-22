@@ -240,12 +240,12 @@ frame.addEventListener('load',applyPublicBranding);
   let html=await response.text();
   html=html.replace('<!doctype html>','<!doctype html><base href="../">');
 
-  // Two VHS feeds: low-resolution live motion and conglobation.
+  // Two VHS feeds: low-resolution relative locomotion study and conglobation.
   html=html.replace(/<div class="vhs-deck" aria-label="录像观察窗">[\s\S]*?<\/div>\n\n      <div class="hint">/,`<div class="vhs-deck" aria-label="VHS 录像观察窗">
         <button class="vhs-card vhs-motion" type="button" data-focus="body">
           <span class="vhs-head"><i>● REC</i><b>LIVE MOTION</b><em id="motionCounter">00:00:00</em></span>
-          <span class="vhs-screen"><canvas id="vhsMotion" width="64" height="64"></canvas><span class="vhs-osd vhs-osd-play">▶ PLAY</span><span class="vhs-osd vhs-osd-time">CH 01</span><span class="vhs-osd vhs-osd-mode">SP</span></span>
-          <small>CAM 01 · MOTION STUDY / LOW RES</small>
+          <span class="vhs-screen"><canvas id="vhsMotion" width="64" height="64"></canvas><span class="vhs-osd vhs-osd-play">▶ PLAY</span><span class="vhs-osd vhs-osd-time">CH 01</span><span class="vhs-osd vhs-osd-mode">REL</span></span>
+          <small>CAM 01 · RELATIVE SPEED / LOW RES</small>
         </button>
         <button class="vhs-card vhs-roll" type="button" data-focus="conglobation">
           <span class="vhs-head"><i>● REC</i><b>ROLL TEST</b><em id="rollMode">—</em></span>
@@ -268,17 +268,22 @@ frame.addEventListener('load',applyPublicBranding);
   }
  }
 }
-let vhsFrame=0;
+let vhsFrame=0,vhsMotionClock=0;
 function drawMotionFrame(){
  const canvas=document.querySelector('#vhsMotion');if(!canvas||!model)return;
- const phase=vhsFrame%4,postures=['normal','probing','turning','normal'];
- const moving=pixelAnatomy(model,{posture:postures[vhsFrame%postures.length],phase,moving:true});
+ // Species pace is deliberately shown only as relative motion in this low-resolution feed.
+ // No numerical speed is exposed: the underlying coefficient remains animation/game tuning.
+ const pace=Math.max(.55,Math.min(1.45,Number(species?.speed)||1));
+ vhsMotionClock+=pace;
+ const motionFrame=Math.floor(vhsMotionClock),phase=motionFrame%4,postures=['normal','probing','turning','normal'];
+ const moving=pixelAnatomy(model,{posture:postures[motionFrame%postures.length],phase,moving:true});
  drawVhsModules(canvas,moving,{scale:.90,block:2,offsetX:phase===1?1:phase===3?-1:0});
  const counter=document.querySelector('#motionCounter');
  if(counter){const total=vhsFrame*4;counter.textContent='00:'+String(Math.floor(total/60)%60).padStart(2,'0')+':'+String(total%60).padStart(2,'0')}
  vhsFrame++;
 }
 function renderVhs(){
+ vhsFrame=0;vhsMotionClock=0;
  const curled=pixelAnatomy(model,{posture:'curled',phase:0,moving:false});
  drawVhsModules(document.querySelector('#vhsRoll'),curled,{scale:.94,block:2});
  drawMotionFrame();
