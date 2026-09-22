@@ -1,6 +1,9 @@
 import {stepInteraction} from '../interaction.mjs?v=touchhold-1';
 import {habitatConfig} from '../habitats.mjs';
-import {drawStone,drawBark,drawLeaf,drawMossPatch} from './index.mjs?v=forest-10';
+import {drawStone} from './stone.mjs?v=forest-10';
+import {drawBark} from './bark.mjs?v=forest-10';
+import {drawLeaf} from './leaf.mjs?v=forest-10';
+import {drawMossPatch} from './moss.mjs?v=forest-10';
 
 const noise=(x,y,seed=0)=>{let n=Math.imul(x+seed+1,374761393)^Math.imul(y+1,668265263);n=Math.imul(n^(n>>>13),1274126177);return (n^(n>>>16))>>>0};
 const pixel=(g,x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),Math.max(1,Math.round(w)),Math.max(1,Math.round(h)))};
@@ -8,7 +11,8 @@ const pixel=(g,x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y)
 export const AQUATIC_BACKDROPS=Object.freeze({
  freshwater:{palette:['#273b32','#344439','#4e5140','#68634b'],water:'#31564f',accent:'#81906a'},
  intertidal:{palette:['#324743','#405552','#69736a','#9b9880'],water:'#456b67',accent:'#aab59b'},
- 'shallow-marine':{palette:['#203e3d','#355452','#6d7660','#969375'],water:'#315e5a',accent:'#a7ad83'}
+ 'shallow-marine':{palette:['#203e3d','#355452','#6d7660','#969375'],water:'#315e5a',accent:'#a7ad83'},
+ abyssal:{palette:['#10181b','#172225','#223033','#343d3f'],water:'#17272b',accent:'#667374'}
 });
 
 function localPixel(g,o,u,v,w,h,c){
@@ -290,21 +294,22 @@ export function drawAquaticBase(g,s){
 
 export function plantAnchor(h,i){return {x:18+(i*83)%350,y:96+(i*97)%318}}
 
-export function drawAquaticWater(g,s,time=0){
+export function drawAquaticWater(g,s,time=0,{drawPlants=true}={}){
  const h=habitatConfig(s),surface=h.tides?Math.round(360-s.tide*3.35):0;
  // Water is transparent stippling with stepped ripples, never a smooth gradient.
  for(let y=surface;y<430;y+=4)for(let x=0;x<384;x+=4)if(noise(x,y)%4===0)pixel(g,x,y,2,1,'rgba(80,133,126,.13)');
- const rawCount=Math.max(3,Math.round(h.plants*(s.algae/70)));
- const count=h.id==='shallow-marine'?Math.max(6,Math.round(rawCount*.52)):h.id==='intertidal'?Math.max(4,Math.round(rawCount*.72)):rawCount;
- const kind=h.id==='freshwater'?'waterweed':h.id==='intertidal'?'rockweed':'kelp';
- for(let i=0;i<count;i++){
-  const anchor=plantAnchor(h,i),baseHeight=h.id==='freshwater'?35+i%4*13:h.id==='intertidal'?22+i%4*8:60+i%5*15;
-  drawAquaticPlant(g,{kind,x:anchor.x,y:anchor.y,a:(noise(i,55,s.seed)%9-4)*.025,scale:h.id==='shallow-marine'?.9+(i%3)*.08:.88+(i%2)*.08,seed:s.seed+i*19,height:baseHeight,time,flow:s.flow});
- }
- // Low seagrass and broad Ulva fans fill negative space without competing with the animals.
- if(h.id==='shallow-marine'){
-  for(let i=0;i<8;i++){const n=noise(i,66,s.seed);drawAquaticPlant(g,{kind:'seagrass',x:18+n%350,y:118+(n>>>10)%285,scale:.62,seed:s.seed+i*31,height:24+i%3*8,time,flow:s.flow})}
-  for(let i=0;i<3;i++){const n=noise(i,149,s.seed);drawAquaticPlant(g,{kind:'ulva',x:28+n%330,y:150+(n>>>11)%245,scale:.52+(i%2)*.06,seed:s.seed+i*47,height:28+i%3*6,time,flow:s.flow})}
+ if(drawPlants){
+  const rawCount=Math.max(3,Math.round(h.plants*(s.algae/70)));
+  const count=h.id==='shallow-marine'?Math.max(6,Math.round(rawCount*.52)):h.id==='intertidal'?Math.max(4,Math.round(rawCount*.72)):rawCount;
+  const kind=h.id==='freshwater'?'waterweed':h.id==='intertidal'?'rockweed':'kelp';
+  for(let i=0;i<count;i++){
+   const anchor=plantAnchor(h,i),baseHeight=h.id==='freshwater'?35+i%4*13:h.id==='intertidal'?22+i%4*8:60+i%5*15;
+   drawAquaticPlant(g,{kind,x:anchor.x,y:anchor.y,a:(noise(i,55,s.seed)%9-4)*.025,scale:h.id==='shallow-marine'?.9+(i%3)*.08:.88+(i%2)*.08,seed:s.seed+i*19,height:baseHeight,time,flow:s.flow});
+  }
+  if(h.id==='shallow-marine'){
+   for(let i=0;i<8;i++){const n=noise(i,66,s.seed);drawAquaticPlant(g,{kind:'seagrass',x:18+n%350,y:118+(n>>>10)%285,scale:.62,seed:s.seed+i*31,height:24+i%3*8,time,flow:s.flow})}
+   for(let i=0;i<3;i++){const n=noise(i,149,s.seed);drawAquaticPlant(g,{kind:'ulva',x:28+n%330,y:150+(n>>>11)%245,scale:.52+(i%2)*.06,seed:s.seed+i*47,height:28+i%3*6,time,flow:s.flow})}
+  }
  }
  if(h.tides){for(let x=0;x<384;x+=3){const y=surface+Math.round(Math.sin(x*.07+time)*3);pixel(g,x,y,3,1,'#9db9a4');if(x%12===0)pixel(g,x+2,y+5,5,1,'#6f948b')}}
  const particles=30+Math.round(s.detritus*.5);for(let i=0;i<particles;i++){const n=noise(i,37,s.seed),x=(n%384+time*s.flow*.085)%384,y=surface+((n>>>12)%Math.max(1,430-surface));pixel(g,x,y,i%7===0?2:1,1,i%3?'#889a79':'#b1bc95')}
