@@ -9,7 +9,8 @@ export const AQUATIC_TAXA=[
  ['granulosa','Idotea granulosa','Rathke, 1843','intertidal','Valvifera','Idoteidae','https://www.marlin.ac.uk/species/detail/2091','Algae on open but not strongly exposed shores; Fucus and other algae.',20,'#77784b'],
  ['balthica','Idotea balthica','(Pallas, 1772)','shallow-marine','Valvifera','Idoteidae','https://www.marlin.ac.uk/species/detail/2087','Primarily subtidal, feeding on seaweeds; also lower shore.',30,'#7a8950'],
  ['emarginata','Idotea emarginata','(Fabricius, 1793)','shallow-marine','Valvifera','Idoteidae','https://ns-crustacea.linnaeus.naturalis.nl/linnaeus_ng/app/views/species/nsr_taxon.php?epi=210&id=132140','Sublittoral accumulations of detached algae on fully marine coasts.',30,'#876b48'],
- ['neglecta','Idotea neglecta','G. O. Sars, 1897','shallow-marine','Valvifera','Idoteidae','https://www2.habitas.org.uk/marbiop-ni/species.php?item=S15660','Mostly sublittoral among algae, including detached algal material.',30,'#8b7c58']
+ ['neglecta','Idotea neglecta','G. O. Sars, 1897','shallow-marine','Valvifera','Idoteidae','https://www2.habitas.org.uk/marbiop-ni/species.php?item=S15660','Mostly sublittoral among algae, including detached algal material.',30,'#8b7c58'],
+ ['giganteus','Bathynomus giganteus','A. Milne-Edwards, 1879','abyssal','Cymothoida','Cirolanidae','https://www.marinespecies.org/imis.php?module=ref&refid=283148','Large deep-sea benthic scavenger; Bathynomus are documented from deep seafloor habitats and B. giganteus has been observed resting and swimming near the bottom.',450,'#747a76']
 ];
 const AQUATIC_NOTES={
  aquaticus:['水把腐叶的边缘泡软，身体从沉木与水草之间经过。我们称这里为“淡水”，它只遇见阻力、遮蔽，以及仍可前进的缝隙。','标本柜要求一个名字，水面却不替任何物种停下来。分类与流动，只在这一页纸上短暂相遇。'],
@@ -20,20 +21,21 @@ const AQUATIC_NOTES={
  granulosa:['藻叶随着水摆动，栖身其间的身体也被带进同一阵水流。画面可以留下轮廓，却不能把海的推力一起装进框里。','我们用颜色与背形记住它；它并不需要被记住，仍会在藻间继续。'],
  balthica:['藻场看起来像背景，直到一具身体把海藻同时当作食物与经过之处。人的记录喜欢把功能分开，水下没有表格。','当它离开这一片藻叶，位置改变了；“标本”这个词却要求它永远停在某处。'],
  emarginata:['脱落的藻体漂到一起，形成一种没有地基的栖身之处。我们仍习惯问“它住在哪里”，仿佛地点必须固定。','一片藻叶离开岩石之后仍然可以成为环境；有时，漂移只是另一种栖居方式。'],
- neglecta:['藻丛中的空隙会随着水流改变。看似相同的两秒钟，对毫米尺度的身体并不是同一个地方。','资料不足时，把“不知道”留在页上，比补齐一段漂亮的确定更接近观察。']
+ neglecta:['藻丛中的空隙会随着水流改变。看似相同的两秒钟，对毫米尺度的身体并不是同一个地方。','资料不足时，把“不知道”留在页上，比补齐一段漂亮的确定更接近观察。'],
+ giganteus:['深海里，一个身体可以占据画面很久而几乎不改变位置。我们容易把这种停留叫作等待；这个词首先暴露的是观察者的时间。','大王具足虫没有在游戏里获得人类语言。深海章节出现的“回答”是虚构的翻译层：把可见动作转写成人类句子，并始终保留这层误差。']
 };
 export const AQUATIC_SOURCES=AQUATIC_TAXA.map(([id,name,,,,,url])=>({id:'aquatic-'+id,level:'A2',type:'TAXONOMY / ECOLOGY / MORPHOLOGY',title:name+' — habitat and identification account',url,supports:[id+'.taxonomy',id+'.habitat',id+'.morphology']}));
 function visualFor(id,family,color){
  const v=structuredClone(phenotypeFor(family==='Sphaeromatidae'?'orange':'dairy'));
- const asellid=family==='Asellidae',round=family==='Sphaeromatidae';
- v.morphologyKey=asellid?'asellidAquatic':round?'sphaeromatidAquatic':'idoteidAquatic';
+ const asellid=family==='Asellidae',round=family==='Sphaeromatidae',giant=family==='Cirolanidae';
+ v.morphologyKey=giant?'cirolanidAbyssal':asellid?'asellidAquatic':round?'sphaeromatidAquatic':'idoteidAquatic';
  v.provenance='Evidence-informed dorsal approximation. Fused pleotelson and family silhouette represented; antennules, male pleopods, uropod serrations and species-level tail teeth are below reliable pixel resolution. Colour is an illustrative variant, not diagnostic.';
- v.body.length=round?.92:1.18;v.body.width=round?.94:.63;v.body.convexity=round?.7:.18;
+ v.body.length=giant?1.08:round?.92:1.18;v.body.width=giant?.82:round?.94:.63;v.body.convexity=giant?.42:round?.7:.18;
  v.cephalon={...v.cephalon,shape:'rounded-shield',medianProjection:.08,lateralProjection:.12,scutellum:'none',confidence:'family-proxy'};
- v.antennae={...v.antennae,length:asellid?1:.63,flagellumArticles:null,confidence:'render-proxy'};
- v.pleon={...v.pleon,length:.12,visiblePleonites:asellid?2:round?1:2};
- v.pleotelson={...v.pleotelson,lengthScale:1.55,widthScale:1.12,confidence:'family-proxy'};
- v.uropods={...v.uropods,projection:asellid?.7:round?.38:.05,visibility:asellid?1:round?.8:.1};
+ v.antennae={...v.antennae,length:giant?.72:asellid?1:.63,flagellumArticles:null,confidence:'render-proxy'};
+ v.pleon={...v.pleon,length:giant?.18:.12,visiblePleonites:giant?3:asellid?2:round?1:2};
+ v.pleotelson={...v.pleotelson,lengthScale:giant?1.35:1.55,widthScale:giant?1.22:1.12,confidence:'family-proxy'};
+ v.uropods={...v.uropods,projection:giant?.58:asellid?.7:round?.38:.05,visibility:giant?1:asellid?1:round?.8:.1};
  v.conglobation={...v.conglobation,ability:round?'full':'none',antennaeHidden:round};
  v.palette={...v.palette,tergite:color,cephalon:color,epimera:color,pleon:color,pleotelson:color,dark:'#303c33',light:'#bebc8a'};
  v.patterns=[{type:'blotch',color:'light',target:'pereon',opacity:.18}];return v;
