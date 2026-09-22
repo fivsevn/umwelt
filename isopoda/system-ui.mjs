@@ -1,5 +1,5 @@
 import {speciesById} from './species-registry.mjs?v=aquatic-1';
-import {SUPPORTED_LANGUAGES,getLanguage,setLanguage,t,applyStaticTranslations,speciesPrimaryName} from './i18n.mjs?v=aquatic-4';
+import {SUPPORTED_LANGUAGES,getLanguage,setLanguage,t,applyStaticTranslations,speciesPrimaryName} from './i18n.mjs?v=i18n-5';
 
 const LANGS=SUPPORTED_LANGUAGES;
 const RUN_KEY='isopoda-fugue-v4';
