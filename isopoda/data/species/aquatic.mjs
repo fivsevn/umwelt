@@ -22,7 +22,7 @@ const AQUATIC_NOTES={
  balthica:['藻场看起来像背景，直到一具身体把海藻同时当作食物与经过之处。人的记录喜欢把功能分开，水下没有表格。','当它离开这一片藻叶，位置改变了；“标本”这个词却要求它永远停在某处。'],
  emarginata:['脱落的藻体漂到一起，形成一种没有地基的栖身之处。我们仍习惯问“它住在哪里”，仿佛地点必须固定。','一片藻叶离开岩石之后仍然可以成为环境；有时，漂移只是另一种栖居方式。'],
  neglecta:['藻丛中的空隙会随着水流改变。看似相同的两秒钟，对毫米尺度的身体并不是同一个地方。','资料不足时，把“不知道”留在页上，比补齐一段漂亮的确定更接近观察。'],
- giganteus:['深海里，一个身体可以占据画面很久而几乎不改变位置。我们容易把这种停留叫作等待；这个词首先暴露的是观察者的时间。','大王具足虫没有在游戏里获得人类语言。深海章节出现的“回答”是虚构的翻译层：把可见动作转写成人类句子，并始终保留这层误差。']
+ giganteus:['深海里，一个身体可以占据画面很久而几乎不改变位置。我们容易把这种停留叫作等待；这个词首先暴露的是观察者的时间。','深海章节围绕同一个体展开。它的移动、停顿、觅食与离开会和玩家的选择一起构成剧情；记录仍然保留身体实际发生的动作与观察者理解之间的距离。']
 };
 export const AQUATIC_SOURCES=AQUATIC_TAXA.map(([id,name,,,,,url])=>({id:'aquatic-'+id,level:'A2',type:'TAXONOMY / ECOLOGY / MORPHOLOGY',title:name+' — habitat and identification account',url,supports:[id+'.taxonomy',id+'.habitat',id+'.morphology']}));
 function visualFor(id,family,color){
