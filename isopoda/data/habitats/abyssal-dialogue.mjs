@@ -1,171 +1,176 @@
 // Direct narrative for the abyssal habitat.
-// Surface structure mirrors the other observation habitats, but the observed animal
-// gradually returns the gaze. "Day" and "period" remain internal engine counters only.
+// It keeps the observation -> choice -> visible consequence rhythm used by the other habitats,
+// but the observed animal gradually returns the gaze. No day/period structure is exposed here.
 export const ABYSSAL_NODES=[
  {
   id:'light',
-  prompt:['探照灯落在粉砂上。一个宽大的轮廓停在光的边缘，触角慢慢转向观察窗。过了一会儿，它问：“光为什么停在这里？”','The lamp settles over pale silt. A broad silhouette rests at the edge of the light, antennae slowly turning toward the observation window. After a while, it asks, “Why did the light stop here?”','探照灯が淡い泥の上に止まる。幅広い輪郭が光の縁にいて、触角をゆっくり観察窓へ向ける。しばらくして聞く。「どうして光はここで止まったの？」'],
+  prompt:['探照灯落在粉砂上。光边缘的轮廓没有离开，只把右侧触角慢慢转向观察窗。片刻后，它问：“为什么要一直照着这里？”','The lamp falls across the silt. The silhouette at its edge does not leave; only the right antenna slowly turns toward the observation window. After a while it asks, “Why keep the light here?”','探照灯が泥の上に落ちる。光の縁にいる輪郭は離れず、右の触角だけをゆっくり観察窓へ向ける。しばらくして聞く。「どうしてずっとここを照らすの？」'],
   options:[
-   {id:'light-place',label:['为了看清这里','To see this place clearly','ここをよく見るため'],delta:{attention:1,maps:1},text:['光斑没有移动。它沿着亮处的边缘走了一小段，没有进入中央。','The pool of light stays still. It walks a short distance along the bright edge without entering the center.','光の斑点は動かない。明るい場所の縁を少し進み、中央には入らない。']},
-   {id:'light-you',label:['为了看清你','To see you clearly','君をよく見るため'],delta:{interpretation:1,attention:1},text:['触角停了一瞬，又转向灯外。镜头里能看见的部分因此少了一点。','The antennae pause, then turn beyond the light. A little less of the body remains visible in the frame.','触角が一瞬止まり、光の外へ向く。画面に見える身体が少し減る。']},
-   {id:'light-move',label:['把灯移开一点','Move the light aside','光を少し外す'],delta:{restraint:2,quiet:1},text:['光斑移到旁边。它没有跟过去，原来的位置很快只剩粉砂。','The light shifts aside. It does not follow; the old spot soon contains only silt.','光を少し外す。追いかけては来ない。さっきの場所にはすぐ泥だけが残る。']}
+   {id:'light-see',label:['想看清一点','See a little more clearly','もう少しよく見る'],delta:{attention:2,interpretation:1},text:['灯没有移动。背板的边缘更清楚了，粉砂也因此失去了一部分阴影。','The lamp stays. The edge of the plates becomes clearer, and part of the silt loses its shadow with it.','灯りは動かさない。背板の縁はよく見えるようになり、そのぶん泥の影が一部消える。']},
+   {id:'light-dim',label:['把灯移开一点','Move the lamp aside','灯りを少し外す'],delta:{restraint:2,quiet:1},text:['亮斑退到一旁。它没有跟着光走，触角仍朝观察窗这一侧。','The bright patch slides aside. It does not follow the light; the antenna remains turned toward the window.','明るい斑点が横へずれる。光を追わず、触角はまだ観察窓の方を向いている。']},
+   {id:'light-silent',label:['不回答','Do not answer','答えない'],delta:{restraint:1,attention:1,quiet:1},text:['机器的低鸣留在水里。过了一会儿，它先把触角放低。','The vehicle hum remains in the water. After a while, it lowers the antenna first.','機体の低い音だけが水に残る。しばらくして、先に触角を下ろす。']}
   ]
  },
  {
-  id:'trace',
-  prompt:['粉砂上留下几道很浅的步足痕。身体已经停在另一处。镜头在两边之间来回一次。它问：“记的是刚才，还是现在？”','Shallow leg marks remain in the silt. The body has already stopped somewhere else. The camera moves once between the two. It asks, “Are you recording before, or now?”','泥に浅い脚跡が残り、身体はもう別の場所で止まっている。カメラが二つの場所を一度往復する。「記録しているのは、さっき？　それとも今？」'],
+  id:'stillness',
+  prompt:['位置几乎没有变化。触角扫过砂面，步足也有细小调整。记录栏却很容易只剩下“未移动”。它看着镜头：“不动的时候，也算在记录里吗？”','Its position barely changes. Antennae sweep the silt and the legs make small adjustments. The log could easily collapse all of that into “no movement.” It faces the camera. “Does not moving count as part of the record?”','位置はほとんど変わらない。触角は泥をなぞり、脚もわずかに動く。それでも記録欄には「移動なし」とだけ書けてしまう。カメラを向いたまま聞く。「動かない時も、記録に入るの？」'],
   options:[
-   {id:'trace-before',label:['先记痕迹','Record the marks first','先に痕跡を記す'],delta:{labels:1,attention:1},text:['痕迹被画成几条短线。画完时，边缘已经开始被细粒盖住。','The marks become a few short lines on the page. By the time the drawing is finished, fine grains are already softening their edges.','痕跡を短い線で描く。描き終える頃には、細かな粒が縁を埋め始めている。']},
-   {id:'trace-now',label:['先记现在的位置','Record the current position first','先に今の位置を記す'],delta:{maps:1,attention:1},text:['新的位置被点在纸上。旧痕仍在画面另一侧，没有被这一个点带过来。','The new position becomes a dot on the page. The old marks remain elsewhere in the frame and do not move with it.','新しい位置を紙に点で残す。古い痕跡は画面の別の場所にあり、その点と一緒には動かない。']},
-   {id:'trace-together',label:['先不分开','Do not separate them yet','まだ分けない'],delta:{restraint:1,quiet:1},text:['这一栏暂时空着。痕迹和身体同时留在画面里，直到镜头再次移动。','The field stays blank for now. Marks and body remain in the same frame until the camera moves again.','欄はしばらく空白のまま。カメラがまた動くまで、痕跡と身体が同じ画面に残る。']}
+   {id:'still-detail',label:['把细小动作也记下','Record the small movements','小さな動きも記す'],delta:{attention:2,labels:1},text:['纸上多了几行。位置没有变，记录却比刚才长。','Several lines are added to the page. The position has not changed, but the record is longer.','紙に数行が増える。位置は変わっていないのに、記録だけが長くなる。']},
+   {id:'still-position',label:['只记位置变化','Record position changes only','位置の変化だけ記す'],delta:{interpretation:1,maps:2},text:['两个坐标之间留着一段空白。触角的移动没有进入图里。','A blank remains between two coordinates. The antenna movement never enters the map.','二つの座標のあいだに空白が残る。触角の動きは図には入らない。']},
+   {id:'still-blank',label:['这一栏先留空','Leave the field blank','欄を空けておく'],delta:{restraint:2,quiet:1},text:['空栏保留下来。画面没有因此停止。','The blank field remains. The scene does not stop because of it.','空欄だけが残る。それでも画面は止まらない。']}
   ]
  },
  {
   id:'name',
-  prompt:['资料栏的学名一直留在画面下方。它经过一块小石时，身体短暂挡住了其中几个字母。它问：“那几个字，是在说这里，还是在说别处？”','The scientific name remains beneath the image. As it passes a small stone, its body briefly covers several letters. It asks, “Do those words describe here, or somewhere else?”','資料欄の学名は画面の下に残り続ける。小石を通るとき、身体が一瞬いくつかの文字を隠す。「その文字は、ここについて書いてあるの？　それとも別の場所？」'],
+  prompt:['资料栏的名称一直停在画面下方。它从一块小石旁经过，身体短暂挡住其中几个字。等字重新露出来，它问：“那个名字，是给谁看的？”','The archive name remains fixed below the image. It passes a small stone and briefly covers several letters. When the text is visible again, it asks, “Who is that name for?”','資料欄の名前は画面の下に固定されたまま。小石のそばを通る身体が、しばらく文字をいくつか隠す。文字がまた見えると聞く。「その名前は、誰が見るためのもの？」'],
   options:[
-   {id:'name-body',label:['说的是眼前这个身体','This body in front of me','目の前のこの身体'],delta:{interpretation:2,labels:1},text:['它从字上移开。名称重新完整出现，身体已经换了位置。','It moves away from the text. The name becomes complete again while the body is already elsewhere.','文字の上から離れる。名称はまた完全に見えるが、身体はもう別の位置にいる。']},
-   {id:'name-species',label:['说的是这一类','This kind of animal','この種類'],delta:{labels:2},text:['它停在石头另一侧。“这一类有多大？”问完以后，没有再补一句。','It stops on the far side of the stone. “How large is a kind?” It adds nothing after the question.','石の向こうで止まる。「種類って、どれくらい大きいの？」それ以上は何も言わない。']},
-   {id:'name-index',label:['只是方便找到资料','It is only an index for the archive','資料を探すための索引'],delta:{restraint:1,labels:2},text:['它没有回答。资料栏仍在原处，路线从文字上方继续过去。','It does not answer. The archive label stays where it is while the route continues above it.','答えない。資料欄はそのままで、経路だけが文字の上を通り過ぎていく。']}
+   {id:'name-later',label:['给后来看到记录的人','For whoever reads the record later','あとで記録を見る人のため'],delta:{attention:1,labels:2},text:['它继续向前。名字留在原处，像没有跟上。','It continues forward. The name stays where it was, as though it did not follow.','そのまま進む。名前だけが元の場所に残り、ついてこなかったように見える。']},
+   {id:'name-archive',label:['给资料库','For the archive','資料庫のため'],delta:{interpretation:1,labels:2},text:['它没有回应。资料栏仍然整齐，石边的足迹已经开始变浅。','It does not answer. The archive field remains orderly while the tracks beside the stone begin to fade.','返事はない。資料欄は整ったまま、石のそばの足跡だけが薄くなり始める。']},
+   {id:'name-none',label:['先不解释','Leave it unexplained','説明しない'],delta:{restraint:2,quiet:1},text:['那几个字继续显示。这个问题没有被填进任何一栏。','The text remains on screen. The question is not entered into any field.','文字はそのまま表示される。この問いはどの欄にも書き込まれない。']}
   ]
  },
  {
-  id:'fall',
-  prompt:['一小片有机残屑从黑水里落下来，先经过灯光，随后沉到粉砂上。它没有立刻靠近，只把触角转向那里。“它落下来以前，这里少了什么？”','A small piece of organic debris falls through the black water, crosses the light, and settles on the silt. It does not approach at once, only turns its antennae toward it. “Before it fell, what was missing here?”','小さな有機物の破片が黒い水から落ち、光を横切って泥に沈む。すぐには近づかず、触角だけをそちらへ向ける。「これが落ちてくる前、ここには何が足りなかったの？」'],
+  id:'food',
+  prompt:['一小片有机残屑从黑水里落下。它停了一下，改变方向，慢慢靠近。触角碰到残屑前，它先问：“刚才那一下，会被写成什么？”','A small piece of organic debris falls through the black water. It pauses, changes direction, and slowly approaches. Before the antenna touches the debris, it asks, “What will that just now be written as?”','小さな有機物の破片が黒い水から落ちる。一度止まり、向きを変えてゆっくり近づく。触角が破片に触れる前に聞く。「今のは、何と書かれるの？」'],
   options:[
-   {id:'fall-food',label:['食物','Food','食べ物'],delta:{interpretation:2},text:['它仍没有靠近。残屑先在水流里轻轻翻了一次。','It still does not approach. The debris turns once in the current first.','まだ近づかない。破片が先に流れの中で一度だけ転がる。']},
-   {id:'fall-route',label:['一条可能经过的路线','A route that might be taken','通るかもしれない経路'],delta:{maps:2,attention:1},text:['触角扫过残屑和旁边的空地。下一步落在两者之间。','The antennae sweep across the debris and the empty ground beside it. The next step lands between them.','触角が破片と、その横の何もない場所をなぞる。次の一歩はその間に落ちる。']},
-   {id:'fall-none',label:['什么也没少','Nothing was missing','何も足りなかったわけではない'],delta:{restraint:2,quiet:1},text:['它停了一会儿。残屑已经成为底部的一部分，没有出现新的标记。','It pauses. The debris has already become part of the bottom, without receiving a new label.','少し止まる。破片はもう底の一部になっているが、新しい印は付かない。']}
-  ]
- },
- {
-  id:'motive',
-  prompt:['过了一阵，它缓慢靠近那片残屑，又从旁边经过半个身体长度。镜头跟着转过去。它问：“已经知道为什么了吗？”','After a while it slowly approaches the debris, then passes it by half a body length. The camera follows. It asks, “Do you already know why?”','しばらくしてゆっくり破片へ近づき、半体長ほど通り過ぎる。カメラも向きを変える。「もう、理由は分かった？」'],
-  options:[
-   {id:'motive-hunger',label:['大概是饿了','Probably hunger','たぶん空腹'],delta:{interpretation:2},text:['它折回来，触角碰到残屑。“大概”被保留在记录里。','It turns back and touches the debris with an antenna. The word “probably” remains in the record.','折り返し、触角が破片に触れる。「たぶん」という語は記録に残る。']},
-   {id:'motive-motion',label:['只知道靠近过','Only that you approached it','近づいたことだけ分かる'],delta:{attention:2,restraint:1},text:['记录里多了一条路线，没有补上原因。它在路线末端停住。','A route is added to the record without a cause attached. It stops at the end of that route.','記録には経路だけが増え、理由は書き足されない。その経路の端で止まる。']},
-   {id:'motive-blank',label:['先不写原因','Leave the reason blank','理由はまだ書かない'],delta:{restraint:2,quiet:1},text:['原因栏空着。残屑边缘少了一小块，但画面没有说明是谁完成的。','The cause field remains blank. A small piece is missing from the debris, but the image does not say who removed it.','理由の欄は空白のまま。破片の縁が少し欠けているが、画面は誰がそうしたかを語らない。']}
+   {id:'food-route',label:['靠近残屑','Approached the debris','破片へ近づいた'],delta:{attention:2,restraint:1},text:['记录停在动作上。它越过残屑半个身体，又折回来。','The record stops at the movement. It passes half a body length beyond the debris, then turns back.','記録は動作のところで止まる。破片を半体長ほど通り過ぎてから、また戻る。']},
+   {id:'food-hunger',label:['觅食','Foraging','採餌'],delta:{interpretation:2,labels:1},text:['“觅食”被写进栏里。它仍没有碰到那片残屑。','“Foraging” enters the field. It still has not touched the debris.','「採餌」と欄に書かれる。それでもまだ破片には触れていない。']},
+   {id:'food-wait',label:['先不写动机','Leave the motive unwritten','動機は書かない'],delta:{restraint:2,attention:1,quiet:1},text:['只留下方向变化。过了一会儿，残屑被水带动了一点。','Only the change of direction is kept. After a while, the debris shifts slightly in the water.','方向の変化だけを残す。しばらくして、破片の方が水に押されて少し動く。']}
   ]
  },
  {
   id:'scale',
-  prompt:['倍率被调高。背板、步足和触角很快占满观察窗；刚才还能看见的石块退到画面外。它问：“现在变大的是哪一边？”','The magnification increases. Dorsal plates, legs, and antennae soon fill the observation window; the stone that was visible a moment ago leaves the frame. It asks, “Which side became larger?”','倍率を上げる。背板、脚、触角がすぐ観察窓を埋め、さっき見えていた石は画面外へ出る。「今、大きくなったのはどっち側？」'],
+  prompt:['倍率被调高。背板、步足和触角很快占满观察窗，周围的海底只剩一圈窄边。它靠近镜头：“现在变大的是哪一个？”','Magnification increases. Plates, legs, and antennae soon fill the observation window, leaving only a narrow rim of seafloor. It comes closer to the camera. “Which one became larger just now?”','倍率が上がる。背板、脚、触角が観察窓を埋め、周囲の海底は細い縁だけになる。カメラへ少し近づいて聞く。「今、大きくなったのはどれ？」'],
   options:[
-   {id:'scale-body',label:['画面里的身体','The body in the image','画面の中の身体'],delta:{interpretation:2},text:['倍率数字仍亮着。身体没有占据更多海底，只占据了更多画面。','The magnification number remains lit. The body occupies no more seafloor, only more of the image.','倍率の数字は点いたまま。身体が占める海底は増えず、画面だけを多く占める。']},
-   {id:'scale-frame',label:['观察窗里的比例','The scale inside the window','観察窓の中の比率'],delta:{attention:1,maps:2},text:['倍率被记在位置旁边。石块没有消失，只是不再和身体同时出现。','The magnification is written beside the position. The stone has not disappeared; it simply no longer appears at the same time as the body.','位置の横に倍率を記す。石は消えていない。ただ身体と同時に映らなくなった。']},
-   {id:'scale-none',label:['没有东西真的变大','Nothing actually became larger','実際に大きくなったものはない'],delta:{restraint:1,attention:1},text:['它继续向前。画面不得不再次移动，才能把完整轮廓收回来。','It keeps moving. The frame has to move again to contain the whole outline.','そのまま進む。輪郭全体を収めるため、画面の方がまた動く。']}
+   {id:'scale-body',label:['画面里的身体','The body in the image','画面の中の身体'],delta:{interpretation:2},text:['身体没有改变。画面外能看见的海底变少了。','The body itself has not changed. Less seafloor remains visible outside it.','身体そのものは変わらない。周囲に見える海底だけが減る。']},
+   {id:'scale-view',label:['观察窗里的世界','The world inside the window','観察窓の中の世界'],delta:{attention:2,maps:1},text:['倍率被记在页角。刚才同一块石头，现在已经不在画面里。','The magnification is noted in the corner. The same stone from moments ago is now outside the frame.','倍率を頁の隅に記す。さっきまで見えていた同じ石は、もう画面の外にある。']},
+   {id:'scale-none',label:['只是比例变了','Only the scale changed','縮尺が変わっただけ'],delta:{restraint:2,maps:1},text:['它没有继续问。画面仍然很满。','It does not ask again. The image remains crowded.','それ以上は聞かない。画面はまだいっぱいのまま。']}
   ]
  },
  {
-  id:'unseen',
-  prompt:['它绕到一块石头后面。仪表上的数值没有变化，画面里只剩石块、粉砂和偶尔露出的触角尖。石后传来一句：“看不见的那一段，还在记录里吗？”','It passes behind a rock. The instrument readings do not change; only rock, silt, and an occasional antenna tip remain in view. From behind the rock comes a question: “Is the part you cannot see still in the record?”','石の後ろへ回る。計器の数字は変わらず、画面には石と泥、ときどき触角の先だけが残る。石の向こうから聞こえる。「見えない部分も、記録の中にある？」'],
+  id:'background',
+  prompt:['它绕过一块石头。仪表仍只显示流速、溶氧和碎屑，石头没有自己的数字。触角擦过石面时，它问：“这个算环境，还是背景？”','It moves around a stone. The instruments still show only flow, oxygen, and detritus; the stone has no number of its own. As an antenna brushes the surface, it asks, “Does this count as environment, or background?”','石を回り込む。計器に出るのは流速、溶存酸素、有機物だけで、石には固有の数字がない。触角が石面に触れた時に聞く。「これは環境？　それとも背景？」'],
   options:[
-   {id:'unseen-route',label:['留一条虚线','Leave a dotted route','点線を残す'],delta:{maps:2,interpretation:1},text:['虚线穿过石头。它重新出现的位置与虚线并不完全相接。','A dotted line crosses the rock. Where it reappears does not quite meet the line.','点線が石を横切る。再び現れた位置は、その点線と完全にはつながらない。']},
-   {id:'unseen-gap',label:['只记消失和出现','Record disappearance and return','消えた所と現れた所だけ記す'],delta:{attention:2,restraint:1},text:['纸上留下两个点。石头仍占着两点之间的地方。','Two points remain on the page. The rock still occupies the space between them.','紙には二つの点が残る。その間の場所は石が占めたままだ。']},
-   {id:'unseen-blank',label:['中间留空','Leave the middle blank','間を空白にする'],delta:{restraint:2,quiet:1},text:['空白没有被补上。它从石头另一侧出来以后，也没有回头看那一栏。','The blank is not filled. After it emerges on the other side, it does not look back at that field.','空白は埋めない。石の反対側から出たあとも、その欄を振り返らない。']}
+   {id:'background-env',label:['环境','Environment','環境'],delta:{attention:2,maps:1},text:['地图上多了一个石块的轮廓。它从轮廓旁继续向前。','A stone outline is added to the map. It continues past the outline.','地図に石の輪郭が一つ増える。その輪郭の脇をそのまま進む。']},
+   {id:'background-bg',label:['背景','Background','背景'],delta:{interpretation:1,labels:1},text:['石头留在画面底层。下一次转向仍然发生在它旁边。','The stone remains in the visual background. The next turn still happens beside it.','石は画面の背景に残る。次の方向転換も、その石のそばで起こる。']},
+   {id:'background-both',label:['先不分','Do not separate them yet','まだ分けない'],delta:{restraint:2,attention:1},text:['记录里没有新增分类。石头也没有离开原处。','No new category is added to the record. The stone does not leave its place.','記録に新しい分類は増えない。石もその場所を離れない。']}
   ]
  },
  {
-  id:'boundary',
-  prompt:['载具轻微漂移，原本居中的石块慢慢滑到画面边缘。海底没有移动，取景范围却换了一块。它问：“这里的边界在哪里？”','The vehicle drifts slightly and the centered rock slides toward the edge of the frame. The seafloor has not moved, but the sampled view has changed. It asks, “Where is the boundary of here?”','機体がわずかに漂い、中央にあった石が画面の端へ滑る。海底は動いていないのに、切り取られる範囲だけが変わる。「『ここ』の境界はどこ？」'],
+  id:'trace',
+  prompt:['刚留下的步足痕迹被缓慢落下的细粒盖住。几道线先变浅，再看不见。它停在更远一点的位置：“痕迹没了，刚才那一段还在吗？”','The fresh leg marks are covered by slowly settling particles. The lines fade, then disappear. It stops a little farther away. “If the trace is gone, is that stretch from just now still here?”','さっき残った脚の跡が、ゆっくり沈む細粒に覆われる。線は薄くなり、やがて見えなくなる。少し離れた場所で止まり、聞く。「跡がなくなったら、さっきのあいだはまだある？」'],
   options:[
-   {id:'boundary-light',label:['灯照到的地方','Where the light reaches','光が届くところ'],delta:{interpretation:1,maps:1},text:['光的边缘很清楚，水却继续穿过去。一个悬浮颗粒从暗处进入亮处。','The edge of the light is clear, but water continues through it. A suspended particle crosses from dark into brightness.','光の縁ははっきりしているが、水はそのまま通り抜ける。浮遊粒子が暗い方から明るい方へ入る。']},
-   {id:'boundary-frame',label:['镜头边缘','The edge of the frame','画面の縁'],delta:{labels:1,maps:1},text:['镜头再次漂移，边界随之移动。石块从“外面”回到画面里。','The camera drifts again and the boundary moves with it. The rock returns from “outside” into the frame.','カメラがまた漂い、境界も一緒に動く。石が「外」から画面の中へ戻る。']},
-   {id:'boundary-open',label:['暂时不知道','Not sure yet','まだ分からない'],delta:{restraint:2,maps:1,quiet:1},text:['没有画边界。画面仍有四条边，海底没有。','No boundary is drawn. The image still has four edges; the seafloor does not.','境界は描かない。画面には四辺があるが、海底にはない。']}
+   {id:'trace-record',label:['记录里还在','It remains in the record','記録には残る'],delta:{labels:2,attention:1},text:['纸上的线没有变浅。海底已经恢复成另一种表面。','The line on paper does not fade. The seafloor has already become another surface.','紙の線は薄くならない。海底の方は、もう別の表面になっている。']},
+   {id:'trace-happened',label:['发生过就还在','It remains because it happened','起きたこととして残る'],delta:{interpretation:2},text:['它没有点头，也没有否认。细粒继续落。','It neither agrees nor disagrees. The particles keep falling.','肯定も否定もしない。細粒だけが降り続ける。']},
+   {id:'trace-unsure',label:['不知道','Not sure','分からない'],delta:{restraint:2,quiet:1},text:['这一句没有被补成结论。下一道足迹已经出现。','The sentence is not completed into a conclusion. Another track is already appearing.','その言葉は結論に直されない。別の足跡がもう現れている。']}
   ]
  },
  {
-  id:'remains',
-  prompt:['一块旧的甲壳残片半埋在粉砂里。它用触角碰了一下，残片翻过来，露出颜色更浅的一面。“只剩这一小块以后，原来的名字还在吗？”','An old shell fragment lies half buried in silt. It touches the fragment with an antenna; it turns over, revealing a paler side. “When only this small piece remains, does the old name remain too?”','古い甲殻の破片が泥に半分埋まっている。触角で触れると裏返り、より淡い面が出る。「これだけが残ったあとも、前の名前は残る？」'],
+  id:'blank',
+  prompt:['记录页上有几处空栏。画面里发生过什么，空栏本身看不出来。它在一处阴影里停住：“没有写下来的，会去哪里？”','Several fields on the page are blank. The blanks themselves cannot show what happened in the image. It pauses in a patch of shadow. “Where does what was not written down go?”','記録頁には空欄がいくつかある。空欄そのものから、画面で何が起きたかは分からない。影の中で止まり、聞く。「書かなかったものは、どこへ行くの？」'],
   options:[
-   {id:'remains-name',label:['如果知道原来是谁，就还在','If the former identity is known, yes','元が誰か分かるなら残る'],delta:{labels:2,interpretation:1},text:['残片旁边多了一个暂定名称。它没有因此变得更完整。','A provisional name is added beside the fragment. It does not become more complete.','破片の横に仮の名称が付く。それで元の形に近づくわけではない。']},
-   {id:'remains-record',label:['名字留在记录里','The name remains in the record','名前は記録に残る'],delta:{labels:2,restraint:1},text:['记录里的字保持完整。残片再次被细砂覆盖了一点。','The word in the record remains complete. A little more fine silt covers the fragment.','記録の文字は完全なまま。破片にはまた少し細かな泥がかかる。']},
-   {id:'remains-unknown',label:['不知道原来是什么','The former whole is unknown','元が何だったか分からない'],delta:{restraint:2,quiet:1},text:['名称栏保持空白，只画了边缘。水流让那条边又露出一点。','The name field stays blank; only the edge is drawn. The current exposes a little more of that edge.','名称欄は空白のまま、縁だけを描く。流れでその縁が少しだけさらに現れる。']}
+   {id:'blank-outside',label:['留在记录外面','Outside the record','記録の外に残る'],delta:{attention:2,restraint:1},text:['页边没有变宽。画面里的阴影仍然比记录多。','The margin does not grow wider. The image still contains more shadow than the record does.','頁の余白は広がらない。画面の影は、記録よりまだ多い。']},
+   {id:'blank-space',label:['留在空白里','In the blank','空白に残る'],delta:{interpretation:1,quiet:2},text:['空栏被保留下来，没有加注释。','The blank field is kept without annotation.','空欄はそのまま残され、注釈は足されない。']},
+   {id:'blank-unknown',label:['不知道','Not sure','分からない'],delta:{restraint:2,quiet:1},text:['它从阴影里出来。空栏仍然没有答案。','It comes out of the shadow. The blank still has no answer.','影から出てくる。空欄にはまだ答えがない。']}
   ]
  },
  {
-  id:'sentence',
-  prompt:['画面很久没有明显变化。记录里出现一句“未见明显变化”。它仍伏在原处，触角偶尔移动。过了一会儿，它问：“这一句写的是谁？”','For a long while the image shows no obvious change. The record gains one sentence: “No obvious change observed.” It remains in place while its antennae occasionally move. After a while it asks, “Who is that sentence about?”','長いあいだ画面に目立った変化がない。記録には「明瞭な変化を認めず」と一文が増える。身体はその場にあり、触角だけが時々動く。しばらくして聞く。「その一文は、誰について書いたの？」'],
+  id:'observer',
+  prompt:['载具轻微漂移，探照灯从背板上滑开。它随即转向更暗的一侧。灯和身体几乎同时改变了位置。它问：“刚才是谁先动的？”','The vehicle drifts slightly and the lamp slides off its plates. It turns toward the darker side almost at once. Light and body have both changed position. It asks, “Which one moved first just now?”','機体がわずかに流れ、探照灯が背板から外れる。ほとんど同時に、暗い方へ向きを変える。光と身体の位置がどちらも変わった。聞く。「今、先に動いたのはどっち？」'],
   options:[
-   {id:'sentence-animal',label:['写的是你','You','君について'],delta:{interpretation:2},text:['触角又移动了一次。那句话没有修改。','The antennae move once more. The sentence is not revised.','触角がもう一度動く。その一文は直されない。']},
-   {id:'sentence-frame',label:['写的是画面','The image','画面について'],delta:{attention:2},text:['镜头没有移动。画面确实几乎一样，水中的细粒仍持续下沉。','The camera does not move. The image is indeed almost unchanged, while fine particles keep falling through the water.','カメラは動かない。画面は確かにほぼ同じだが、水中の細粒は落ち続けている。']},
-   {id:'sentence-observer',label:['写的是这次观察','This observation','この観察について'],delta:{attention:1,restraint:1,labels:1},text:['“未见”两个字被圈了一下。其余部分仍留在原处。','The words “not observed” are circled. The rest of the sentence remains untouched.','「認めず」の部分だけに印を付ける。残りの文はそのまま残す。']}
+   {id:'observer-light',label:['灯先动','The light moved first','灯りが先'],delta:{attention:2,maps:1},text:['灯光移动的时刻被单独记下。转向写在下一行。两行没有连成箭头。','The lamp movement is recorded separately. The turn is written on the next line. No arrow joins them.','灯りが動いた時を別に記す。向きの変化は次の行に書く。二行は矢印で結ばない。']},
+   {id:'observer-body',label:['身体先动','The body moved first','身体が先'],delta:{interpretation:2},text:['这个顺序被写下。载具仍在缓慢漂移。','That order is written down. The vehicle is still drifting slowly.','その順番を書き込む。機体はまだゆっくり流れている。']},
+   {id:'observer-mixed',label:['分不开','Cannot separate them','分けられない'],delta:{restraint:2,attention:1},text:['两次变化被放在同一行。没有主语。','Both changes are placed on the same line. There is no subject.','二つの変化を同じ行に置く。主語はない。']}
   ]
  },
  {
-  id:'gaze',
-  prompt:['它慢慢转过身体，正面对着观察窗。镜头没有再跟随移动。两边隔着玻璃和黑水停了一阵。它问：“你那边有多深？”','It slowly turns to face the observation window. The camera stops following. The two sides remain separated by glass and black water for a while. It asks, “How deep is it on your side?”','ゆっくり身体を向け、観察窓を正面から見る。カメラはもう追わない。ガラスと黒い水を挟んで、両側がしばらく止まる。「そっちは、どれくらい深いの？」'],
+  id:'translation',
+  prompt:['水下麦克风里只剩短促的摩擦声。它没有靠近，也没有离开。过了一会儿，又问：“回答了，就算听懂了吗？”','Only brief scraping sounds remain in the underwater microphone. It neither approaches nor leaves. After a while it asks, “If there is an answer, does that mean it was understood?”','水中マイクには短い擦過音だけが残る。近づきも離れもしない。しばらくしてまた聞く。「答えが返れば、分かったことになるの？」'],
   options:[
-   {id:'gaze-unmeasured',label:['没有量过','I have never measured it','測ったことがない'],delta:{restraint:2,attention:1},text:['它没有追问。仪表上的深度也没有替另一边回答。','It does not ask again. The depth gauge does not answer for the other side either.','それ以上は聞かない。深度計も、反対側の深さまでは答えない。']},
-   {id:'gaze-shallow',label:['大概比这里浅','Probably shallower than here','たぶんここより浅い'],delta:{interpretation:1,maps:1},text:['“大概。”它把这个词重复了一次，随后把身体转回侧面。','“Probably.” It repeats the word once, then turns sideways again.','「たぶん。」その語を一度繰り返し、また身体を横へ向ける。']},
-   {id:'gaze-screen',label:['隔着这里说不清','Hard to say from across this window','ここを挟むと分からない'],delta:{attention:2,maps:1},text:['观察窗里同时映出一点设备的反光和它的轮廓。两种影子短暂重叠。','The observation window holds a faint reflection of the equipment and its outline at once. The two overlap briefly.','観察窓に機器の薄い反射とその輪郭が同時に映る。二つの影が一瞬重なる。']}
+   {id:'translation-yes',label:['至少算一种听懂','At least one kind of understanding','少なくとも一つの理解'],delta:{interpretation:2},text:['这句话被麦克风完整收下。摩擦声没有变得更清楚。','The microphone captures the sentence clearly. The scraping does not become clearer.','その言葉はマイクにきれいに入る。擦過音の方は、少しも明瞭にならない。']},
+   {id:'translation-no',label:['回答和听懂不是一回事','Answering and understanding differ','答えることと理解は別'],delta:{restraint:2,attention:1},text:['它停了一会儿。下一次声音更短，仍然没有字幕。','It pauses. The next sound is shorter and still has no subtitle.','少し止まる。次の音はもっと短く、やはり字幕はない。']},
+   {id:'translation-watch',label:['先继续观察','Keep observing','観察を続ける'],delta:{attention:2,quiet:1},text:['麦克风继续开着。记录里只写下声音出现的位置。','The microphone stays on. The record notes only where the sound occurred.','マイクはつけたままにする。記録には音が出た位置だけを書く。']}
   ]
  },
  {
-  id:'close',
-  prompt:['它开始沿着粉砂向灯外移动。身体只剩一半还在画面里时，又停了一次。触角转回来。“这一页要合上了吗？”','It begins moving across the silt toward the darkness beyond the lamp. When only half its body remains in the frame, it pauses once more and turns an antenna back. “Is this page about to close?”','泥の上を進み、光の外へ向かう。身体の半分だけが画面に残ったところで、もう一度止まり、触角をこちらへ向ける。「この頁は、もう閉じるの？」'],
+  id:'frame',
+  prompt:['它沿粉砂向画面边缘移动。身体的一部分先消失，触角还留在镜头里。它没有回头：“出了画面，还算这次观察吗？”','It moves across the silt toward the edge of the image. Part of the body disappears first while an antenna remains in frame. Without turning back, it asks, “Once it leaves the image, is it still part of this observation?”','泥の上を画面の端へ進む。身体の一部が先に消え、触角だけがまだ残る。振り返らずに聞く。「画面を出たあとも、この観察の中にいる？」'],
   options:[
-   {id:'close-here',label:['到这里','Here is enough','ここまで'],delta:{labels:1,restraint:1},text:['记录停在这个位置。它随后离开光线，最后一段路线没有进入纸面。','The record stops at this position. It then leaves the light; the last part of the route never enters the page.','記録はこの位置で止まる。そのあと光の外へ出て、最後の経路は紙面に入らない。']},
-   {id:'close-wait',label:['再等一会儿','Wait a little longer','もう少し待つ'],delta:{quiet:2,attention:1},text:['没有新的动作立刻出现。过了一阵，画面里的那半个轮廓才继续向外移动。','No new action appears immediately. After a while, the half-visible outline continues out of the frame.','すぐには新しい動きは起きない。しばらくして、半分だけ見えていた輪郭がまた外へ進む。']},
-   {id:'close-open',label:['先不合上','Leave it open','まだ閉じない'],delta:{maps:1,restraint:1},text:['页面保持打开。画面最终只剩粉砂、石块和缓慢下沉的颗粒。','The page remains open. Eventually the image contains only silt, rock, and slowly falling particles.','頁は開いたまま。やがて画面には泥と石、ゆっくり沈む粒子だけが残る。']}
+   {id:'frame-yes',label:['还算','It still counts','まだ入る'],delta:{attention:2,maps:1},text:['记录继续了一行。画面里已经只剩触角尖。','The record continues for one more line. Only the tip of an antenna remains in the image.','記録はもう一行続く。画面には触角の先だけが残っている。']},
+   {id:'frame-no',label:['到画面为止','Only up to the frame','画面まで'],delta:{labels:2,interpretation:1},text:['句号落在身体消失的位置。镜头外没有跟着出现句号。','The full stop is placed where the body disappears. Nothing outside the frame receives one.','身体が消えた位置に句点を置く。画面の外には句点は現れない。']},
+   {id:'frame-open',label:['先不划边界','Leave the boundary open','境界を決めない'],delta:{restraint:2,quiet:1},text:['这一行没有收尾。触角随后也离开画面。','The line is left unfinished. The antenna then leaves the image as well.','その行は終わらせない。やがて触角も画面から消える。']}
+  ]
+ },
+ {
+  id:'ending',
+  prompt:['画面里只剩粉砂、石块和缓慢落下的颗粒。过了一会儿，触角又从边缘短暂出现。它问了最后一句：“到这里，算结束吗？”','Only silt, stones, and slowly settling particles remain in the image. After a while an antenna briefly reappears at the edge. It asks one last question. “Does this count as an ending?”','画面に残るのは泥、石、ゆっくり沈む粒だけ。しばらくして、触角が端から短く現れる。最後に一つだけ聞く。「ここまでで、終わりになる？」'],
+  options:[
+   {id:'ending-close',label:['到这里','End here','ここまで'],delta:{labels:1,restraint:1},text:['记录停在这一行。触角没有再次出现。','The record stops on this line. The antenna does not appear again.','記録はこの行で止まる。触角はもう現れない。']},
+   {id:'ending-watch',label:['再看一会儿','Keep watching','もう少し見る'],delta:{attention:2,quiet:1},text:['画面没有新的动作。粉砂仍在缓慢改变表面。','No new movement enters the image. The silt continues slowly changing the surface.','新しい動きは画面に入らない。泥だけがゆっくり表面を変え続ける。']},
+   {id:'ending-silent',label:['不回答','Do not answer','答えない'],delta:{restraint:2,quiet:1},text:['麦克风没有收到回答。记录仍然需要在某处停下。','The microphone receives no answer. The record still has to stop somewhere.','マイクに返事は入らない。それでも記録はどこかで止まる必要がある。']}
   ]
  }
 ];
 
 export const ABYSSAL_ENDING_DATA={
  'abyssal-untranslated':{
-  title:['没有译完','Unfinished Translation','訳し切らない'],
-  body:['记录里留下许多空白、暂定词和没有补完的原因。没有哪一处空白因此变成错误；它们只是把无法确认的部分继续留在海底。最后一条路线离开灯光，页上没有替它续写。','The record keeps blanks, provisional words, and causes left unfinished. None of the blanks become errors; they simply leave what could not be confirmed on the seafloor. The final route leaves the light, and the page does not continue it.','記録には空白、仮の語、書き切らない理由が残る。空白は誤りにはならず、確かめられない部分を海底に残す。最後の経路は光を離れ、頁はその先を書き足さない。'],
-  line:['不完整的记录，也可以保持完整的边界。','An incomplete record can keep an honest boundary.','不完全な記録にも、保たれる境界がある。']
- },
- 'abyssal-observer':{
-  title:['观察窗两面','Two Sides of the Window','観察窓の二つの面'],
-  body:['旧记录把灯光、倍率、载具漂移和观察位置也写进了海底档案。这个结局保留给已经完成的观察；新的记录会把同一种关系分到更细的页里。','An older record included light, magnification, vehicle drift, and observer position in the seafloor archive. This ending is retained for completed observations; newer records distribute the same relation across more specific pages.','旧い記録には光、倍率、機体の漂流、観察位置まで海底の資料に書かれている。この結末は完了済みの観察のために残し、新しい記録では同じ関係をより細かな頁へ分ける。'],
-  line:['观察窗从来不只朝一个方向。','An observation window never faces only one way.','観察窓は一方向だけを向いているわけではない。']
- },
- 'abyssal-reciprocal':{
-  title:['第二个观察点','A Second Observation Point','もう一つの観察点'],
-  body:['后来，记录里不只出现海底的位置，也出现灯、倍率、取景和观察窗另一侧。画面没有因此变成对称；只是原本不写进图里的位置，开始留下痕迹。','Later the record contains not only positions on the seafloor, but also light, magnification, framing, and the far side of the observation window. The image does not become symmetrical; a position once omitted from the map simply begins to leave traces.','記録には海底の位置だけでなく、光、倍率、切り取り方、観察窓の反対側まで現れる。画面が対称になるわけではない。ただ、図に入っていなかった位置が痕跡を残し始める。'],
-  line:['观察窗有两面，记录通常只画一面。','An observation window has two sides; records usually draw only one.','観察窓には二つの面がある。記録はたいてい片方しか描かない。']
- },
- 'abyssal-index':{
-  title:['页码之外','Beyond the Page Number','頁番号の外'],
-  body:['名称、学名和暂定标签都留在资料里。它们能把下一次查找带回这一页，却不能把已经离开的路线叫回来。分类仍然有用，只是不再假装等于眼前发生过的一切。','Names, scientific labels, and provisional tags remain in the archive. They can lead a future search back to this page, but cannot call the departed route back. Classification remains useful without pretending to equal everything that happened in front of the window.','名称、学名、仮のラベルは資料に残る。次の検索をこの頁へ戻すことはできても、去った経路を呼び戻すことはできない。分類は役に立つ。ただし、目の前で起きたすべてと同じものではない。'],
-  line:['名字留下的位置，和身体留下的位置并不重合。','The place a name remains is not the place a body remains.','名前が残る場所と、身体が残る場所は重ならない。']
- },
- 'abyssal-scale':{
-  title:['借来的比例尺','A Borrowed Scale','借りた尺度'],
-  body:['画面曾把身体放大，也把石块和海底挤到外面。记录里留下倍率、距离和几个比较词。回看时，很难再说“巨大”究竟来自身体，还是来自被带进深海的另一套尺度。','The image enlarged the body while pushing rock and seafloor outside the frame. Magnification, distance, and several comparative words remain in the notes. Looking back, it is hard to say whether “giant” belonged to the body or to another scale carried into the deep sea.','画面は身体を大きくし、石や海底を外へ押し出した。記録には倍率、距離、いくつかの比較語が残る。振り返ると、「巨大」が身体に属していたのか、深海へ持ち込まれた別の尺度に属していたのか分からなくなる。'],
-  line:['比例尺没有住在海底。','The scale bar did not live on the seafloor.','尺度そのものが海底に住んでいたわけではない。']
- },
- 'abyssal-trace':{
-  title:['两个点之间','Between Two Points','二つの点のあいだ'],
-  body:['消失的位置和重新出现的位置都很清楚。最难处理的是中间：石后的路线、被细砂盖住的足痕、没有进入镜头的动作。最后，记录没有把这些缺口全部连成线。','The place of disappearance and the place of return are both clear. The difficulty lies between them: routes behind rock, tracks covered by silt, movements outside the frame. In the end the record does not connect every gap into a line.','消えた場所と再び現れた場所ははっきりしている。難しいのはその間だ。石の後ろの経路、泥に埋まる足跡、画面に入らなかった動き。最後まで、すべての空白を一本の線にはしない。'],
-  line:['两个坐标之间，不一定已经有一条路。','Two coordinates do not guarantee a route between them.','二つの座標の間に、必ず経路があるとは限らない。']
+  title:['未译部分','Untranslated Part','未訳の部分'],
+  body:['记录里保留了许多没有被解释的动作：一次转向，一次停留，一段没有字幕的声音。它们没有因此变得更完整，也没有被删掉。最后留下的只是观察能够到达的位置。','The record keeps many actions without explanation: a turn, a pause, a sound with no subtitle. They are neither completed by interpretation nor removed. What remains is simply where observation could reach.','記録には、説明されない動きが多く残る。向きの変化、停止、字幕のない音。解釈で完成させることも、消すこともしない。最後に残るのは、観察が届いた場所だけ。'],
+  line:['没有译出的部分，也在记录里。','What was not translated is still in the record.','訳されなかった部分も、記録の中にある。']
  },
  'abyssal-field':{
-  title:['灯以内，灯以外','Inside the Light, Outside It','光の内、光の外'],
-  body:['灯光、镜头和仪表划出一块可以记录的海底。边缘之外没有因此变成空无；只是没有同时进入这一套观察。最后留下的图有清楚的范围，也留下范围外继续存在的可能。','Lamp, camera, and instruments carve out a seafloor that can be recorded. Beyond their edge does not become nothing; it simply does not enter the same observation at the same time. The final map has a clear range and leaves open the possibility of what continues beyond it.','光、カメラ、計器が記録できる海底を切り取る。その外側が無になるわけではない。同じ観察へ同時に入らないだけだ。最後の図には明確な範囲と、その外で続くものの余地が残る。'],
-  line:['画面有边，环境不必照着画面长。','The image has edges; the environment need not grow to match them.','画面には縁がある。環境までその形に従う必要はない。']
- },
- 'abyssal-stillness':{
-  title:['两次移动之间','Between Two Movements','二つの移動のあいだ'],
-  body:['移动被记成点和线，停留却占去了更长的部分。回看记录时，那些时间只剩下“未见明显变化”、空白，或者一笔没有写完的句子。海底并没有相应地缺掉一块。','Movement becomes dots and lines, while pauses occupy more of the encounter. Looking back, those spans remain only as “no obvious change,” blank space, or an unfinished sentence. No matching piece is missing from the seafloor.','移動は点と線になり、停止の方が長い部分を占める。記録を見返すと、その時間は「明瞭な変化を認めず」、空白、書きかけの文だけになる。海底から同じ大きさの部分が欠けたわけではない。'],
-  line:['没有事件的地方，仍然有时间经过。','Time still passes where no event is written.','出来事が書かれない場所にも、時間は通っている。']
- },
- 'abyssal-remains':{
-  title:['名字留下以后','After the Name Remains','名前だけが残ったあと'],
-  body:['一小块残片被画下、命名，又慢慢被细砂盖住。名字比边缘保存得更完整。它因此更像资料，却没有因此更接近原来的身体。','A small fragment is drawn, named, and slowly covered by fine silt. The name stays more complete than the edge. It becomes easier to archive without becoming closer to the former body.','小さな破片は描かれ、名付けられ、また泥に覆われていく。名前の方が縁より完全に残る。資料にはしやすくなるが、元の身体へ近づくわけではない。'],
-  line:['保存下来的完整，有时属于名称。','Sometimes the completeness that survives belongs to the name.','残る完全さが、名前の側にあることもある。']
+  title:['观察窗以内','Inside the Observation Window','観察窓の内側'],
+  body:['后来留下的不只有身体的位置。灯光、倍率、石块、载具漂移，也一并进入记录。观察窗没有消失，只是不再被当作世界的外侧。','The later record contains more than the body’s position. Light, magnification, stones, and vehicle drift enter it as well. The observation window does not vanish; it simply stops being treated as outside the world.','後に残る記録には、身体の位置だけでなく、灯り、倍率、石、機体の漂流も入る。観察窓は消えない。ただ、世界の外側として扱われなくなる。'],
+  line:['透明，不等于不在场。','Transparent does not mean absent.','透明であることは、不在であることではない。']
  },
  'abyssal-voice':{
-  title:['没有主语的句子','A Sentence Without a Subject','主語のない文'],
-  body:['记录里留下了许多解释：靠近、停留、巨大、食物、原因。后来再读，那些词有些像在写海底，有些更像在写观察时使用的语言。两者没有被重新分开。','The notes retain many interpretations: approach, pause, giant, food, cause. Read later, some words seem to describe the seafloor and others the language used while observing it. They are not separated again.','記録には多くの解釈が残る。接近、停止、巨大、食物、理由。後から読むと、海底を書いた語もあれば、観察に使った言葉そのものを書いたような語もある。二つはもう分け直さない。'],
-  line:['句子需要主语，发生过的事未必需要。','A sentence needs a subject; what happened may not.','文には主語が要る。起きたことには、必ずしも要らない。']
+  title:['问句留下','The Question Remains','問いが残る'],
+  body:['几次回答之后，纸上留下的反而是问句。名字、动机、边界和结束都得到过解释，却没有哪一个解释能把画面固定下来。最后一行仍然带着问号。','After several answers, the questions are what remain on the page. Names, motives, boundaries, and endings all receive explanations, yet none of them fixes the image in place. The final line still carries a question mark.','いくつか答えたあと、頁に残るのはむしろ問いの方だった。名前、動機、境界、終わりには説明がついたが、どの説明も画面を固定できない。最後の行にはまだ疑問符がある。'],
+  line:['回答写得比问题整齐。','Answers are written more neatly than questions.','答えの方が、問いより整って書かれる。']
+ },
+ 'abyssal-margin':{
+  title:['页边','At the Margin','頁の余白'],
+  body:['几处空栏和没有写完的句子被原样留下。记录没有因此少一页，只是页边比别处更安静。后来再打开时，最先看见的反而是那些没有被填满的位置。','Several blank fields and unfinished sentences are left as they are. The record is not missing a page; its margins are simply quieter. When opened again, the unfilled places are what appear first.','いくつかの空欄と書き終えなかった文をそのまま残す。記録から頁が欠けるわけではなく、余白だけが少し静かになる。あとで開くと、最初に目に入るのは埋まらなかった場所だった。'],
+  line:['空白没有替任何东西说话。','The blank speaks for nothing.','空白は、何かの代わりに語らない。']
+ },
+ 'abyssal-label':{
+  title:['标签朝外','Label Facing Outward','外を向くラベル'],
+  body:['名称、动作和位置被写得很清楚。标签帮助下一次查找，也把许多连续的东西切成可以归档的单位。标本页因此很整齐，海底没有跟着变整齐。','Names, actions, and positions are written clearly. Labels help the next search and divide continuous things into units that can be archived. The specimen page becomes orderly; the seafloor does not.','名前、動作、位置は明確に書かれる。ラベルは次の検索を助け、連続したものを保管できる単位へ切り分ける。標本頁は整うが、海底まで整うわけではない。'],
+  line:['标签总是朝向读它的人。','A label always faces its reader.','ラベルはいつも、それを読む側を向く。']
+ },
+ 'abyssal-map':{
+  title:['不完整的底图','Incomplete Base Map','不完全な底図'],
+  body:['石块、光斑、足迹和画面边缘被逐一画下。地图越来越有用，也越来越明确地显示出没有被画进去的部分。最后一个轮廓停在纸边。','Stones, light patches, tracks, and frame edges are drawn one by one. The map becomes more useful and also makes clearer what was never drawn into it. The final outline stops at the edge of the page.','石、光の斑点、足跡、画面の縁を一つずつ描く。地図は役に立つようになり、同時に描かれなかった部分もはっきりする。最後の輪郭は紙の端で止まる。'],
+  line:['地图的边缘不是海底的边缘。','The edge of the map is not the edge of the seafloor.','地図の端は、海底の端ではない。']
+ },
+ 'abyssal-frame':{
+  title:['画面之外','Outside the Frame','画面の外'],
+  body:['记录持续到身体离开镜头之后。看不见的部分没有因此获得新的图像，只是被承认还可能继续。最后，画面里只剩粉砂，记录却没有把粉砂写成终点。','The record continues after the body leaves the camera. The unseen part gains no new image; it is only allowed to keep going. In the end only silt remains on screen, but the record does not turn the silt into an endpoint.','身体がカメラを離れたあとも記録は続く。見えない部分に新しい映像が与えられるわけではなく、ただ続いている可能性を残す。最後に画面へ泥だけが残っても、それを終点とは書かない。'],
+  line:['看不见以后，边界才开始显眼。','The boundary becomes visible after sight ends.','見えなくなってから、境界の方が目立ち始める。']
+ },
+ 'abyssal-name':{
+  title:['档案中的名字','The Name in the Archive','資料庫の名前'],
+  body:['名称被反复使用，却没有一次和身体完全重合。它帮助打开正确的页面，帮助找到同一条记录，也始终留在页面这一侧。画面里的身体早已换过位置。','The name is used repeatedly, yet never fully overlaps the body. It opens the right page and retrieves the same record, while remaining on this side of the page. The body in the image has long since changed position.','名前は何度も使われるが、身体と完全に重なることはない。正しい頁を開き、同じ記録を探す役には立つが、ずっと頁のこちら側に残る。画面の身体はとっくに位置を変えている。'],
+  line:['名字便于返回，不负责停留。','A name helps one return; it does not make anything stay.','名前は戻るために役立つが、留まらせるものではない。']
+ },
+ 'abyssal-silt':{
+  title:['粉砂复原','Silt Restored','泥が戻る'],
+  body:['足迹一度清楚，随后被细粒覆盖。没有补画消失的部分，也没有把消失写成缺失。海底恢复成近似原来的表面，记录保留着那次差异。','Tracks are clear for a while, then covered by fine particles. The vanished parts are neither redrawn nor treated as missing. The seafloor returns to something like its earlier surface while the record keeps the difference.','足跡はいったん鮮明になり、やがて細粒に覆われる。消えた部分を描き足すことも、欠落と書くこともしない。海底は元に近い表面へ戻り、記録だけがその差を残す。'],
+  line:['痕迹消失，不等于从未经过。','A vanished trace is not the same as no passage.','跡が消えることと、通らなかったことは同じではない。']
+ },
+ 'abyssal-return':{
+  title:['回看','Looking Back','見返す'],
+  body:['解释和观察交替写在同一份记录里。回看时，很难再把哪一句完全归给身体，哪一句完全归给观察者。两边都留下了痕迹，也都没有成为最后的说明。','Interpretation and observation alternate in the same record. On rereading, it becomes difficult to assign any sentence entirely to the body or entirely to the observer. Both leave traces; neither becomes the final explanation.','解釈と観察が同じ記録の中で交互に書かれる。読み返すと、どの文を完全に身体へ、どの文を完全に観察者へ帰せるのか分からなくなる。両方が跡を残し、どちらも最後の説明にはならない。'],
+  line:['记录也有自己的观察位置。','A record has its own position of observation.','記録にも、観察する位置がある。']
+ },
+ 'abyssal-blank':{
+  title:['空栏','Blank Field','空欄'],
+  body:['有些地方没有命名，没有箭头，也没有补上原因。它们在纸上只表现为空白，却并不因此等同于什么都没有发生。下一次打开资料库时，这些空栏仍在。','Some places receive no name, arrow, or added cause. On paper they appear only as blanks, but that does not make them equivalent to nothing having happened. The fields are still blank when the archive is opened again.','名前も矢印も原因も足されなかった場所がある。紙の上では空白にしか見えないが、何も起きなかったことと同じではない。次に資料庫を開いた時も、その欄は空いたまま残る。'],
+  line:['不知道，也是一种被保留下来的状态。','Not knowing can also be a preserved state.','分からないことも、残しておける状態の一つ。']
  },
  'abyssal-between':{
-  title:['观察窗两侧','Both Sides of the Window','観察窓の両側'],
-  body:['这一轮没有得到一个统一的答案。名字有时有用，空白有时有用；路线可以画，也可以停在石头前。最后，画面里只剩粉砂和缓慢下沉的颗粒，观察窗另一侧仍有人看着。','This round produces no single answer. Names are useful at times, blanks at others; a route can be drawn or allowed to stop before a rock. In the end only silt and slowly falling particles remain in the image, while someone still watches from the other side of the window.','この一回で一つの答えにはまとまらない。名前が役立つ時も、空白が役立つ時もある。経路は描けるし、石の前で止めてもいい。最後に画面へ残るのは泥とゆっくり沈む粒子だけで、観察窓の反対側にはまだ見る者がいる。'],
-  line:['观察结束时，位置并没有只剩一个。','When observation ends, there is still more than one position.','観察が終わっても、位置は一つだけにはならない。']
+  title:['两边都没有结论','No Conclusion on Either Side','どちら側にも結論はない'],
+  body:['有时回答，有时只记录，有时什么也没有补上。问句和动作没有排成同一种顺序。最后的页面因此不太像结论，更像一次相遇留下的几种不同痕迹。','Sometimes there is an answer, sometimes only a record, sometimes nothing is added. Questions and movements never settle into the same order. The final page reads less like a conclusion than several kinds of trace left by an encounter.','答える時もあれば、記録だけの時もあり、何も足さない時もある。問いと動きは同じ順序には並ばない。最後の頁は結論というより、一度の出会いが残したいくつかの異なる跡に近い。'],
+  line:['相遇不一定需要归类以后才成立。','An encounter does not need a category in order to have happened.','出会いは、分類されてから成立するものではない。']
  }
 };
