@@ -1,6 +1,6 @@
 import {STORIES} from './data/habitats/stories.mjs';
 import {STORY_ALTERNATES} from './data/habitats/story-alternates.mjs?v=pool-1';
-import {ABYSSAL_NODES,ABYSSAL_ENDING_DATA} from './data/habitats/abyssal-dialogue.mjs?v=dialogue-5';
+import {ABYSSAL_NODES,ABYSSAL_ENDING_DATA} from './data/habitats/abyssal-dialogue.mjs?v=dialogue-6';
 import {habitatConfig} from './habitats.mjs?v=abyssal-2';
 import {encodeIsopodText} from './locales/isopod.mjs?v=isopod-3';
 const COPY={
