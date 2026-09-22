@@ -94,7 +94,9 @@ footer{display:flex;justify-content:space-between;gap:16px;padding:0 2px;color:#
 
 @media(max-width:1100px) and (min-width:761px){
  .workspace{grid-template-columns:220px minmax(0,1fr)}
- .inspector{grid-column:1/-1}
+ .inspector{grid-column:1/-1;display:flex;flex-direction:column}
+ .inspector .panel-heading{border-right:0;border-bottom:1px solid var(--line2)}
+ .notes{margin-top:auto;border-left:0;border-top:1px solid var(--line2)}
  .asset-panel{max-height:620px}
  .viewer-panel{min-width:0}
  .specimen-reference{margin-left:0;flex:1 1 100%}
@@ -116,6 +118,7 @@ footer{display:flex;justify-content:space-between;gap:16px;padding:0 2px;color:#
 @media(max-height:520px) and (orientation:landscape){
  .canvas-shell{height:340px;min-height:340px}
  .scene-transfer{max-height:170px}
+ .asset-panel{max-height:360px}
 }
 @media(max-width:480px){
  .specimen-reference{align-items:stretch}
