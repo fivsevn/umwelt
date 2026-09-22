@@ -11,7 +11,7 @@ These routes are intentionally public and should keep their current appearance a
 - `/isopoda/morphology/` — Asimov Morphology Lab.
 - `/isopoda/habitat.html` — Asimov Habitat Lab.
 
-The morphology lab is canonical under `morphology/` and depends on `morphology/template.txt` plus `morphology/style.css`. The habitat lab depends on `habitat-lab.mjs`, `habitat.css`, the shared scenery modules and the shared specimen renderer.
+The morphology lab is canonical under `morphology/` and depends on `morphology/app.mjs` plus `morphology/style.css`. The habitat lab depends on `habitat-lab.mjs`, `habitat.css`, the shared scenery modules and the shared specimen renderer.
 
 ## Runtime boundaries
 
