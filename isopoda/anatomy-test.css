@@ -130,3 +130,20 @@
  .side-stack>.references{order:5!important}
  .inspector{height:auto!important;min-height:0!important;overflow:visible!important}
 }
+
+
+/* Final portrait spacing pass: keep the last panels and footer off the viewport edge. */
+@media(max-width:900px) and (orientation:portrait){
+ .anatomy-app{padding-bottom:max(14px,env(safe-area-inset-bottom))!important;gap:9px!important}
+ .workspace{gap:10px!important}
+ .references{margin-bottom:2px!important}
+ .reference-list{padding-bottom:8px!important}
+ .reference:last-child{margin-bottom:2px!important}
+ .footer{display:flex!important;flex-wrap:wrap!important;gap:4px 14px!important;padding:8px 2px max(12px,env(safe-area-inset-bottom))!important;line-height:1.4!important}
+}
+@media(max-width:460px) and (orientation:portrait){
+ .anatomy-app{padding-left:7px!important;padding-right:7px!important}
+ .references>header{padding-left:8px!important;padding-right:8px!important}
+ .reference-list{padding:6px!important;padding-bottom:10px!important}
+ .footer{font-size:7px!important;padding-top:9px!important}
+}
