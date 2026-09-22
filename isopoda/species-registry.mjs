@@ -7,7 +7,7 @@ import {EXTRA_SPECIES_4} from './data/species/batch-04.mjs?v=species-33';
 import {EXTRA_SPECIES_5} from './data/species/marine-reference.mjs?v=species-34';
 import {EXTRA_SPECIES_6} from './data/species/hobby-lines.mjs?v=wiki-1';
 import {applySpeciesDisplayScale} from './species-size.mjs?v=size-5';
-import {applyLocomotionProfile} from './locomotion.mjs?v=locomotion-2';
+import {applyLocomotionProfile} from './locomotion.mjs?v=abyssal-1';
 
 // Keep the original 13-species table stable. Independently sourced taxa and explicitly labelled
 // hobby lineages are appended in batches so expansion does not rewrite save-compatible definitions.
