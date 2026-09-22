@@ -1,7 +1,7 @@
 import {STORIES} from './data/habitats/stories.mjs';
 import {STORY_ALTERNATES} from './data/habitats/story-alternates.mjs?v=pool-1';
-import {ABYSSAL_NODES,ABYSSAL_ENDING_DATA} from './data/habitats/abyssal-dialogue.mjs?v=dialogue-1';
-import {habitatConfig} from './habitats.mjs?v=abyssal-1';
+import {ABYSSAL_NODES,ABYSSAL_ENDING_DATA} from './data/habitats/abyssal-dialogue.mjs?v=dialogue-2';
+import {habitatConfig} from './habitats.mjs?v=abyssal-2';
 import {encodeIsopodText} from './locales/isopod.mjs?v=isopod-3';
 const COPY={
  wait:['让时间过去','Let time pass','時を待つ'],record:['只记录位置','Record the positions','位置だけを記す'],

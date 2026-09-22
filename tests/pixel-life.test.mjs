@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {SPECIES} from '../isopoda/species.mjs';
+import {speciesById} from '../isopoda/species-registry.mjs';
 import {pixelAnatomy,renderModel,POSTURES} from '../isopoda/sprites.mjs';
 import {makeIndividuals,stageIndividuals,stepIndividuals,actorOrder} from '../isopoda/behaviors.mjs';
 import {ENCOUNTERS} from '../isopoda/encounters.mjs';
@@ -23,7 +24,16 @@ test('long observations retain independent activity and all encounters resolve p
  assert.ok(!poses.has('swimming'),'terrestrial encounters do not synthesize the aquatic swimming posture');
 });
 
-import {cameraWindow} from '../isopoda/habitat.mjs';
+import {cameraWindow,sceneActorPixels} from '../isopoda/habitat.mjs';
+test('large abyssal specimen rasterizes as a solid pixel silhouette instead of a dotted cloud',()=>{
+ const giant=speciesById('giganteus'),model=renderModel(giant.visual,{stage:'L',seed:57});
+ const source=new Map();for(const part of pixelAnatomy(model,{posture:'normal',moving:false}))for(const [x,y,c] of part.cells)source.set(x+','+y,c);
+ const cells=sceneActorPixels(source,{model,habitatScale:2.10,a:0,x:192,y:220,lift:0,activity:'crawl',occlusion:0});
+ const xs=cells.map(c=>c[0]),ys=cells.map(c=>c[1]),area=(Math.max(...xs)-Math.min(...xs)+1)*(Math.max(...ys)-Math.min(...ys)+1);
+ assert.ok(cells.length>source.size*2.5);
+ assert.ok(cells.length/area>.28);
+});
+
 test('square camera uses one scale, crops at small widths and clamps drag to world',()=>{
  for(const size of [220,286,356,620])for(const zoom of [1,1.5,3])for(const x of [-900,190,999])for(const y of [-900,215,999]){const c=cameraWindow(size,size,zoom,x,y);assert.equal(c.sw,c.sh);assert.equal(c.scale*c.sw,size);assert.ok(c.sx>=-1e-9&&c.sy>=-1e-9&&c.sx+c.sw<=384+1e-9&&c.sy+c.sh<=430+1e-9)}
  assert.equal(cameraWindow(286,286).scale,1);assert.equal(cameraWindow(356,356).scale,1);assert.ok(cameraWindow(620,620).scale>1);

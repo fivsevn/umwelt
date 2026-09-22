@@ -27,15 +27,36 @@ const AQUATIC_NOTES={
 export const AQUATIC_SOURCES=AQUATIC_TAXA.map(([id,name,,,,,url])=>({id:'aquatic-'+id,level:'A2',type:'TAXONOMY / ECOLOGY / MORPHOLOGY',title:name+' — habitat and identification account',url,supports:[id+'.taxonomy',id+'.habitat',id+'.morphology']}));
 function visualFor(id,family,color){
  const v=structuredClone(phenotypeFor(family==='Sphaeromatidae'?'orange':'dairy'));
- const asellid=family==='Asellidae',round=family==='Sphaeromatidae',giant=family==='Cirolanidae';
- v.morphologyKey=giant?'cirolanidAbyssal':asellid?'asellidAquatic':round?'sphaeromatidAquatic':'idoteidAquatic';
+ const asellid=family==='Asellidae',round=family==='Sphaeromatidae',giant=id==='giganteus';
+ if(giant){
+  // Bathynomus gets a dedicated dorsal silhouette instead of a scaled terrestrial woodlouse.
+  // Reference emphasis: broad low oval body; seven overlapping pereonites with wide coxal
+  // plates; compact cephalon with large lateral eyes; two antennal pairs; seven pereopod
+  // pairs; short pleon; broad serrate pleotelson with plate-like lateral uropods.
+  v.morphologyKey='cirolanidAbyssal';
+  v.provenance='Bathynomus giganteus dorsal reconstruction informed by NOAA/WoRMS in-situ imagery and general isopod anatomy. Pixel art prioritizes the broad overlapping pereon, lateral eyes, seven walking-leg pairs, two antennal pairs, and wide serrate pleotelson; fine diagnostic spination is simplified.';
+  v.body={...v.body,length:1.22,width:1.00,convexity:.16,projection:{middle:.72,frontRoundness:.86,rearRoundness:.82},anteriorTaper:.10,posteriorTaper:.12,pleonTaper:.08};
+  v.cephalon={...v.cephalon,shape:'rounded-shield',width:.84,length:.70,embedding:.46,medianProjection:0,lateralProjection:.05,scutellum:'none',eyeSet:.76,eyeScale:1.45,roundness:.72,confidence:'family-proxy'};
+  v.pereon={...v.pereon,plateArc:.12,overlap:.24,seamStrength:.58,heightProfile:[.80,.93,1,1,.98,.91,.78],epimera:{...v.pereon.epimera,lobe:'shield',skirt:.76,flare:.18,angle:.05,roundness:.20,tip:'broad-posterior',width:1.08,widthScale:1.10,posteriorProjection:.16,posteriorProjectionFrom:4}};
+  v.pleon={...v.pleon,length:.24,width:.78,taper:.08,segmentContrast:.34};
+  v.pleotelson={...v.pleotelson,shape:'fan-rounded',apex:'serrate-rounded',length:.30,width:.72,lengthScale:1.40,widthScale:1.60,serrations:7,confidence:'family-proxy'};
+  v.uropods={...v.uropods,mode:'fan-lateral',projection:.12,width:.42,spread:.22,thickness:.42,visibility:1,confidence:'family-proxy'};
+  v.antennae={...v.antennae,length:.82,spread:.34,bend:.08,joints:[.45,.34,.21],thickness:.18,secondaryPair:true,confidence:'order-character'};
+  v.legs={...v.legs,length:.58,visibility:.96,spread:.38,stepScale:.88,thickness:1.15,confidence:'order-character'};
+  v.surface={...v.surface,sculpture:'smooth',scaleSetae:'none',intensity:.04};
+  v.conglobation={...v.conglobation,ability:'none',closure:0,antennaeHidden:false,strategy:'benthic-walker',confidence:'family-proxy'};
+  v.palette={tergite:'#66747b',cephalon:'#627078',epimera:'#596970',pleon:'#5f6e75',pleotelson:'#65747c',uropods:'#596970',antennae:'#718087',legs:'#53636a',dark:'#2d3a40',light:'#89989e',accentA:'#76858b',accentB:'#4b5a61'};
+  v.patterns=[];
+  return v;
+ }
+ v.morphologyKey=asellid?'asellidAquatic':round?'sphaeromatidAquatic':'idoteidAquatic';
  v.provenance='Evidence-informed dorsal approximation. Fused pleotelson and family silhouette represented; antennules, male pleopods, uropod serrations and species-level tail teeth are below reliable pixel resolution. Colour is an illustrative variant, not diagnostic.';
- v.body.length=giant?1.08:round?.92:1.18;v.body.width=giant?.82:round?.94:.63;v.body.convexity=giant?.42:round?.7:.18;
+ v.body.length=round?.92:1.18;v.body.width=round?.94:.63;v.body.convexity=round?.7:.18;
  v.cephalon={...v.cephalon,shape:'rounded-shield',medianProjection:.08,lateralProjection:.12,scutellum:'none',confidence:'family-proxy'};
- v.antennae={...v.antennae,length:giant?.72:asellid?1:.63,flagellumArticles:null,confidence:'render-proxy'};
- v.pleon={...v.pleon,length:giant?.18:.12,visiblePleonites:giant?3:asellid?2:round?1:2};
- v.pleotelson={...v.pleotelson,lengthScale:giant?1.35:1.55,widthScale:giant?1.22:1.12,confidence:'family-proxy'};
- v.uropods={...v.uropods,projection:giant?.58:asellid?.7:round?.38:.05,visibility:giant?1:asellid?1:round?.8:.1};
+ v.antennae={...v.antennae,length:asellid?1:.63,flagellumArticles:null,confidence:'render-proxy'};
+ v.pleon={...v.pleon,length:.12,visiblePleonites:asellid?2:round?1:2};
+ v.pleotelson={...v.pleotelson,lengthScale:1.55,widthScale:1.12,confidence:'family-proxy'};
+ v.uropods={...v.uropods,projection:asellid?.7:round?.38:.05,visibility:asellid?1:round?.8:.1};
  v.conglobation={...v.conglobation,ability:round?'full':'none',antennaeHidden:round};
  v.palette={...v.palette,tergite:color,cephalon:color,epimera:color,pleon:color,pleotelson:color,dark:'#303c33',light:'#bebc8a'};
  v.patterns=[{type:'blotch',color:'light',target:'pereon',opacity:.18}];return v;

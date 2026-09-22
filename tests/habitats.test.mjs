@@ -7,6 +7,7 @@ import {drawCohort} from '../isopoda/collection.mjs';
 import {environmentFor} from '../isopoda/environment.mjs';
 import {gameText} from '../isopoda/locales/game.mjs';
 import {AQUATIC_ENDINGS} from '../isopoda/aquatic-story.mjs';
+import {ABYSSAL_NODES,ABYSSAL_ENDING_DATA} from '../isopoda/data/habitats/abyssal-dialogue.mjs';
 import {stepAquatic} from '../isopoda/scenery/aquatic.mjs';
 import {sources} from '../isopoda/sources-registry.mjs';
 const languages=['zh','en','ja','isopod'];
@@ -72,6 +73,13 @@ test('every aquatic ending is reachable through a complete nine-choice run',()=>
   }
   assert.equal(s.ending,ending);
  }
+});
+
+test('abyssal story is direct narrative without translation-layer disclaimers',()=>{
+ const visible=JSON.stringify({nodes:ABYSSAL_NODES,endings:ABYSSAL_ENDING_DATA});
+ assert.doesNotMatch(visible,/翻译层|虚构.{0,4}翻译|translation layer|fictional translation|翻訳層/u);
+ assert.equal(ABYSSAL_NODES.length,9);
+ assert.ok(ABYSSAL_NODES.every(node=>node.options.length===3));
 });
 
 test('aquatic presets draw distinct deterministic finite pixel scenes and tide changes water',async()=>{
