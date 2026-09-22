@@ -2,7 +2,7 @@ import {habitatConfig,HABITATS,eligibleSpecies,advanceWater} from './habitats.mj
 import {aquaticScene,aquaticEnding} from './aquatic-story.mjs?v=abyssal-2';
 import {environmentFor,changeEnvironment,ageEnvironment,environmentTarget,habitatFit,syncSceneTrace,releaseDueShells,takeShell} from './environment.mjs?v=abyssal-2';
 import {encounterFor,encounterById,encounterText} from './encounters.mjs?v=molt-sequence-1';
-import {SPECIES,speciesById} from './species-registry.mjs?v=abyssal-2';
+import {SPECIES,speciesById} from './species-registry.mjs?v=abyssal-3';
 import {EVENING,AMBIENT,CARE,MINI_TYPES,ENDINGS} from './content.mjs?v=interaction-story-2';
 export const VERSION=4;
 export const PERIODS=['晨间','午后','夜间'];
