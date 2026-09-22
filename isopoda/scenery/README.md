@@ -16,6 +16,6 @@ Production and the public Asimov Habitat Lab import `index.mjs`. `tests/scenery-
 
 Open `/isopoda/habitat.html`. RESET reads BASE_SCENE at exact production object dimensions. FOREST STUDY demonstrates mixed species. Placement, dragging, rotation, scale, depth, seed and live-size anatomy reference remain available. Pages publishes only this lab; other excluded development pages remain excluded.
 
-Run `node --test tests/*.test.mjs`, plus the two checks under `isopoda/tools/`. Scenery tests enforce renderer identity, opaque integer cells, bounded palettes, low-frequency soil, deterministic variety and pure scene composition.
+Run `node --test tests/*.test.mjs` plus the repository checks under `isopoda/tools/`. Scenery tests enforce renderer identity, opaque integer cells, bounded palettes, low-frequency soil, deterministic variety and pure scene composition.
 
 The second visual pass follows the early woodland screenshot: muted ochre leaves, dark soil, a larger central shelter and large leaf litter. No simulation or save logic changes. `FOREST STUDY` uses the same production composition plus extra litter.
