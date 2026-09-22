@@ -79,7 +79,7 @@ test('aquatic endings resolve after each habitat completes its configured observ
 test('abyssal story is direct narrative without translation-layer disclaimers',()=>{
  const visible=JSON.stringify({nodes:ABYSSAL_NODES,endings:ABYSSAL_ENDING_DATA});
  assert.doesNotMatch(visible,/翻译层|虚构.{0,4}翻译|translation layer|fictional translation|翻訳層/u);
- assert.equal(ABYSSAL_NODES.length,12);
+ assert.equal(ABYSSAL_NODES.length,habitatConfig('abyssal').turns);
  assert.ok(ABYSSAL_NODES.every(node=>node.options.length===3));
  assert.ok(Object.keys(ABYSSAL_ENDING_DATA).length>=10);
  assert.doesNotMatch(JSON.stringify(ABYSSAL_NODES),/三天|第二天|第三天|观察时段|我们/u);
