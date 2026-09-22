@@ -1,6 +1,6 @@
 import {exportScene,importScene,shareCode} from './scene-codec.mjs?v=forest-10';
 import {drawSubstrate,drawLeaf,drawMossPatch,drawBark,drawStone,drawCuttlebone,drawTwig,drawWoodChip,LEGACY_BASE_SCENE,DEFAULT_LAYOUT} from './scenery/index.mjs?v=forest-10';
-import {drawAquaticBackground,drawAquaticPlant,drawAquaticDetail,AQUATIC_BACKDROPS} from './scenery/aquatic.mjs?v=aquatic-detail-3';
+import {drawAquaticBackground,drawAquaticPlant,drawAquaticDetail,AQUATIC_BACKDROPS} from './scenery/aquatic.mjs?v=aquatic-detail-4';
 import {ACTOR_SCALE} from './scenery/grammar.mjs';
 import {SPECIES,speciesById} from './species-registry.mjs?v=aquatic-1';
 import {renderModel,pixelAnatomy} from './sprites.mjs?v=exuvia-1';
@@ -40,7 +40,7 @@ const ASSETS=[
  {id:'barnacle-cluster-01',category:'aquatic',scenes:['intertidal'],label:'Barnacle cluster',note:'潮间带 / 藤壶附着群',radius:34,params:{detail:'barnacle',count:12}},
  {id:'limpet-cluster-01',category:'aquatic',scenes:['intertidal'],label:'Limpet cluster',note:'潮间带 / 帽贝附着群',radius:30,params:{detail:'limpet',count:7}},
  {id:'seagrass-tuft-01',category:'aquatic',scenes:['shallow-marine'],label:'Seagrass 01',note:'浅海草丛 / 细叶',radius:36,params:{kind:'seagrass',height:46,flow:44}},
- {id:'ulva-clump-01',category:'aquatic',scenes:['shallow-marine'],label:'Sea lettuce',note:'浅海 / 石莼宽叶簇',radius:42,params:{kind:'ulva',height:48,flow:42}},
+ {id:'ulva-clump-01',category:'aquatic',scenes:['shallow-marine'],label:'Sea lettuce',note:'浅海 / 石莼叶簇',radius:34,params:{kind:'ulva',height:38,flow:42}},
  {id:'kelp-frond-01',category:'aquatic',scenes:['shallow-marine'],label:'Kelp frond 01',note:'海带 / 交错宽叶',radius:64,params:{kind:'kelp',height:92,flow:46}},
  {id:'kelp-frond-02',category:'aquatic',scenes:['shallow-marine'],label:'Kelp frond 02',note:'海带 / 长株',radius:76,params:{kind:'kelp',height:118,flow:52}},
  {id:'shell-grit-01',category:'debris',scenes:['intertidal','shallow-marine'],label:'Shell grit',note:'海岸 / 贝壳碎屑',radius:32,params:{detail:'shellgrit',count:18}},
@@ -120,7 +120,7 @@ function aquaticPreset(id){
    presetItem('stone-flat-01',109,369,1.35,.1,18,201),presetItem('stone-round-01',232,157,1.1,0,19,202),presetItem('stone-small-01',301,208,.9,0,20,203),
    ...[[36,149,.88],[93,229,.82],[142,124,.9],[191,276,.86],[240,112,.92],[287,247,.84],[337,146,.9],[72,348,.78],[166,377,.82],[260,360,.86],[331,349,.78]].map((p,i)=>presetItem(i%4===0?'kelp-frond-02':'kelp-frond-01',p[0],p[1],p[2],(i%5-2)*.08,28+i,220+i)),
    ...[[118,219,.7],[217,313,.66],[310,298,.72],[48,286,.64]].map((p,i)=>presetItem('seagrass-tuft-01',p[0],p[1],p[2],0,48+i,260+i)),
-   ...[[83,274,.7],[193,206,.64],[286,386,.72],[344,307,.62]].map((p,i)=>presetItem('ulva-clump-01',p[0],p[1],p[2],(i%3-1)*.08,56+i,275+i)),
+   ...[[83,274,.56],[193,206,.52],[286,386,.58],[344,307,.5]].map((p,i)=>presetItem('ulva-clump-01',p[0],p[1],p[2],(i%3-1)*.08,56+i,275+i)),
    ...[[126,397,.78],[250,333,.7],[51,374,.66]].map((p,i)=>presetItem('shell-grit-01',p[0],p[1],p[2],0,65+i,290+i))
   ],selected:null,nextId:900
  };
