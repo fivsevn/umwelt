@@ -1,21 +1,13 @@
 import {gameText} from './locales/game.mjs?v=aquatic-1';
 import {makeIsopod} from './sprites.mjs?v=swim-1';
 import {renderCredits} from './credits.mjs?v=credits-4';
-import {getLanguage,t,formatDate,speciesPrimaryName,speciesSecondaryName,speciesLiteratureLines} from './i18n.mjs?v=aquatic-1';
+import {getLanguage,t,formatDate,speciesPrimaryName,speciesSecondaryName,speciesLiteratureLines} from './i18n.mjs?v=aquatic-2';
 import {annotationLabel,localizedAnnotationLines} from './locales/annotations.mjs?v=i18n-4';
 
 const text=(tag,value,cls='')=>{const el=document.createElement(tag);el.textContent=value;el.className=cls;return el};
 const TAG_LABELS={zh:['采集日期','采集地点'],en:['DATE','SITE'],ja:['採集日','採集地点'],isopod:['o:','o:']};
 const TAG_HABITATS_EN={terrestrial:'LITTER',freshwater:'FRESH',intertidal:'TIDAL','shallow-marine':'SEAWEED'};
-const TAG_MONTHS_EN=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
-function tagDate(value,lang){
- const fallback=formatDate(value);if(!value)return fallback;
- const raw=String(value),d=new Date(/^\d{4}-\d{2}-\d{2}$/.test(raw)?raw+'T12:00:00':raw);
- if(Number.isNaN(d.getTime()))return fallback;
- if(lang==='en')return String(d.getDate()).padStart(2,'0')+' '+TAG_MONTHS_EN[d.getMonth()]+' '+String(d.getFullYear()).slice(-2);
- if(lang==='ja')return d.getFullYear()+'/'+(d.getMonth()+1)+'/'+d.getDate();
- return fallback;
-}
+const tagDate=(value,lang)=>formatDate(value,lang);
 const tagRow=(label,value)=>{const row=document.createElement('div');row.className='specimen-tag-row';row.append(text('span',label,'specimen-tag-label'),text('b',value||'—','specimen-tag-value'));return row};
 export function renderCatalog(p,{unlocked=true,collectedOn=null}={}){
  const lang=getLanguage();
