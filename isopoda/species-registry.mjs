@@ -1,4 +1,4 @@
-import {AQUATIC_SPECIES} from './data/species/aquatic.mjs?v=aquatic-3';
+import {AQUATIC_SPECIES} from './data/species/aquatic.mjs?v=locomotion-1';
 import {SPECIES as BASE_SPECIES} from './species.mjs?v=base-13';
 import {EXTRA_SPECIES} from './data/species/batch-01.mjs?v=species-18';
 import {EXTRA_SPECIES_2} from './data/species/batch-02.mjs?v=species-23';
