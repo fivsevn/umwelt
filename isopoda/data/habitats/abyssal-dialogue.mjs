@@ -52,7 +52,7 @@ export const ABYSSAL_NODES=[
   prompt:['它绕过一块石头。仪表仍只显示流速、溶氧和碎屑，石头没有自己的数字。触角擦过石面时，它问：“这个算环境，还是背景？”','It moves around a stone. The instruments still show only flow, oxygen, and detritus; the stone has no number of its own. As an antenna brushes the surface, it asks, “Does this count as environment, or background?”','石を回り込む。計器に出るのは流速、溶存酸素、有機物だけで、石には固有の数字がない。触角が石面に触れた時に聞く。「これは環境？　それとも背景？」'],
   options:[
    {id:'background-env',label:['环境','Environment','環境'],delta:{attention:2,maps:1},text:['地图上多了一个石块的轮廓。它从轮廓旁继续向前。','A stone outline is added to the map. It continues past the outline.','地図に石の輪郭が一つ増える。その輪郭の脇をそのまま進む。']},
-   {id:'background-bg',label:['背景','Background','背景'],delta:{interpretation:1,labels:1},text:['石头留在画面底层。下一次转向仍然发生在它旁边。','The stone remains in the visual background. The next turn still happens beside it.','石は画面の背景に残る。次の方向転換も、その石のそばで起こる。']},
+   {id:'background-bg',label:['背景','Background','背景として扱う'],delta:{interpretation:1,labels:1},text:['石头留在画面底层。下一次转向仍然发生在它旁边。','The stone remains in the visual background. The next turn still happens beside it.','石は画面の背景に残る。次の方向転換も、その石のそばで起こる。']},
    {id:'background-both',label:['先不分','Do not separate them yet','まだ分けない'],delta:{restraint:2,attention:1},text:['记录里没有新增分类。石头也没有离开原处。','No new category is added to the record. The stone does not leave its place.','記録に新しい分類は増えない。石もその場所を離れない。']}
   ]
  },
