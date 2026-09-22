@@ -48,6 +48,12 @@ test('specimen wiki excludes commerce pages and all mapped wiki ids resolve',()=
  assert.match(template,/COMMERCE_URL/);
 });
 
+
+test('morphology wiki also exposes renderer framework literature used by the simulation',()=>{
+ assert.match(template,/frameworkSourceIdsFor\(species\)/);
+ for(const id of ['external-anatomy','biphasic-molt','porcellio-scale-setae-2018','ardentiella-reassessment-2025','porcellio-spatulatus-comparison','porcellio-bolivari-characters'])assert.ok(template.includes("'"+id+"'"),id);
+});
+
 test('game credits keep umbrella databases and literature platforms, not paper-level citations',()=>{
  const files=[
   ['../isopoda/credits.md','**主要资料来源**','**声明**'],
