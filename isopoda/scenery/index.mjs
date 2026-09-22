@@ -1,5 +1,7 @@
-import {DEFAULT_LAYOUT,DEFAULT_SHELTER,sceneObjects} from './default-layout.mjs?v=forest-10';
-export {DEFAULT_LAYOUT,DEFAULT_SHELTER};
+import {DEFAULT_LAYOUT,DEFAULT_SHELTER,sceneObjects} from './default-layout.mjs?v=authored-1';
+export {DEFAULT_LAYOUT,DEFAULT_SHELTER,sceneObjects};
+export {SCENE_LAYOUTS,layoutForHabitat} from './authored-layouts.mjs?v=authored-1';
+
 import {drawStone} from './stone.mjs?v=forest-10';
 import {drawSubstrate} from './substrate.mjs?v=forest-10';
 import {drawLeaf,LEAF_PALETTES} from './leaf.mjs?v=forest-10';
@@ -7,8 +9,10 @@ import {drawMossPatch} from './moss.mjs?v=forest-10';
 import {drawBark} from './bark.mjs?v=forest-10';
 import {drawCuttlebone} from './cuttlebone.mjs?v=forest-10';
 import {drawTwig,drawWoodChip} from './debris.mjs?v=forest-10';
+import {drawAquaticBackground,drawAquaticPlant,drawAquaticDetail} from './aquatic.mjs?v=authored-1';
+import {drawSceneDetail,withSoftWorldShadow} from './details.mjs?v=authored-1';
 
-export {drawStone,drawSubstrate,drawLeaf,LEAF_PALETTES,drawMossPatch,drawBark,drawCuttlebone,drawTwig,drawWoodChip};
+export {drawStone,drawSubstrate,drawLeaf,LEAF_PALETTES,drawMossPatch,drawBark,drawCuttlebone,drawTwig,drawWoodChip,drawAquaticBackground,drawAquaticPlant,drawAquaticDetail,drawSceneDetail};
 
 export const LEGACY_BASE_SCENE=[
  {type:'moss',id:'moss-upper',x:18,y:104,rx:38,ry:110,seed:3,alpha:.70,z:10},
@@ -41,22 +45,41 @@ export const LEGACY_BASE_SCENE=[
  {type:'cuttlebone',id:'cuttlebone',x:334,y:168,a:-.42,scale:.72,seed:67,z:33}
 ];
 
-// Keep the legacy composition export for game and scenery regression callers;
-// the habitat editor explicitly uses DEFAULT_LAYOUT via its scene codec.
+
 export const BASE_SCENE=LEGACY_BASE_SCENE;
 export const DEFAULT_SCENE=sceneObjects();
 
-export function drawSceneElement(ctx,item,{shelterLift=0}={}){
+function drawSceneElementRaw(ctx,item,{shelterLift=0,time=0}={}){
+ if(item.type==='scene-detail')return drawSceneDetail(ctx,{...item,kind:item.labDetail});
+ if(item.type==='aquatic-detail')return withSoftWorldShadow(ctx,{alpha:.065,dy:1},()=>drawAquaticDetail(ctx,{...item,kind:item.detail}));
+ if(item.type==='aquatic')return withSoftWorldShadow(ctx,{alpha:.075,dy:2},()=>drawAquaticPlant(ctx,{...item,time}));
  if(item.type==='moss')return drawMossPatch(ctx,item);
  if(item.type==='stone')return drawStone(ctx,item);
  if(item.type==='leaf')return drawLeaf(ctx,item);
- if(item.type==='bark')return drawBark(ctx,{...item,lift:item.id===DEFAULT_SHELTER.id?shelterLift:0});
+ if(item.type==='bark')return drawBark(ctx,{...item,lift:item.id===DEFAULT_SHELTER?.id?shelterLift:0});
  if(item.type==='cuttlebone')return drawCuttlebone(ctx,item);
  if(item.type==='twig')return drawTwig(ctx,item);
  if(item.type==='chip')return drawWoodChip(ctx,item);
 }
-
+export function drawSceneElement(ctx,item,options={}){
+ if(!item.flipX)return drawSceneElementRaw(ctx,item,options);
+ const pivotX=Math.round(item.x||0);
+ ctx.save();ctx.translate(pivotX*2,0);ctx.scale(-1,1);
+ try{return drawSceneElementRaw(ctx,item,options)}finally{ctx.restore()}
+}
+export function isAnimatedSceneElement(item){
+ return item.type==='aquatic'&&['waterweed','rockweed','seagrass','ulva','kelp'].includes(item.kind);
+}
+export function drawSceneBackground(ctx,layout=DEFAULT_LAYOUT,overrides={}){
+ const bg=layout.background||{},p={...(bg.params||{}),...overrides},seed=overrides.seed??bg.seed??57;
+ if(p.aquatic)return drawAquaticBackground(ctx,{kind:p.kind,palette:p.palette,seed});
+ return drawSubstrate(ctx,{...p,seed});
+}
+export function drawLayoutScene(ctx,layout=DEFAULT_LAYOUT,{time=0,shelterLift=0,backgroundOverrides={}}={}){
+ drawSceneBackground(ctx,layout,backgroundOverrides);
+ for(const item of sceneObjects(layout).sort((a,b)=>(a.z||0)-(b.z||0)))drawSceneElement(ctx,item,{time,shelterLift});
+}
 export function drawBaseScene(ctx,{wetZones=DEFAULT_LAYOUT.background.params.wetZones,light=DEFAULT_LAYOUT.background.params.light,shelterLift=0,seed=DEFAULT_LAYOUT.background.seed}={}){
- drawSubstrate(ctx,{...DEFAULT_LAYOUT.background.params,wetZones,light,seed});
+ drawSceneBackground(ctx,DEFAULT_LAYOUT,{wetZones,light,seed});
  for(const item of [...DEFAULT_SCENE].sort((a,b)=>(a.z||0)-(b.z||0)))drawSceneElement(ctx,item,{shelterLift});
 }
