@@ -13,6 +13,13 @@
 **主要资料来源**
 
 - [World List of Isopod Crustaceans / WoRMS](https://www.marinespecies.org/isopoda/)
+- [Catalogue of Life](https://www.catalogueoflife.org/)
+- [GBIF](https://www.gbif.org/)
+- [TaiCOL · 臺灣物種名錄](https://taicol.tw/)
+- [TBN · 台灣生物多樣性網絡](https://www.tbn.org.tw/taxa)
+- [BISMaL · 日本海洋生物多樣性資料庫](https://www.godac.jamstec.go.jp/bismal/j/)
+- [British Myriapod and Isopod Group](https://bmig.org.uk/)
+- [J-STAGE](https://www.jstage.jst.go.jp/)
 
 **声明**
 
