@@ -1,6 +1,6 @@
 import {habitatConfig} from './habitats.mjs?v=abyssal-1';
 import {gameText} from './locales/game.mjs?v=abyssal-1';
-import {getLanguage} from './i18n.mjs?v=abyssal-1';
+import {getLanguage} from './i18n.mjs?v=i18n-5';
 
 // Tiny CSS pixel marks: no raster resources, system emoji, or smooth icon font.
 const glyphs={
