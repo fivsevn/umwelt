@@ -62,7 +62,7 @@ function drawSceneElementRaw(ctx,item,{shelterLift=0,time=0}={}){
  if(item.type==='chip')return drawWoodChip(ctx,item);
 }
 export function drawSceneElement(ctx,item,options={}){
- if(!item.flipX)return drawSceneElementRaw(ctx,item,options);
+ if(!item.flipX||typeof ctx.save!=='function'||typeof ctx.restore!=='function'||typeof ctx.translate!=='function'||typeof ctx.scale!=='function')return drawSceneElementRaw(ctx,item,options);
  const pivotX=Math.round(item.x||0);
  ctx.save();ctx.translate(pivotX*2,0);ctx.scale(-1,1);
  try{return drawSceneElementRaw(ctx,item,options)}finally{ctx.restore()}
