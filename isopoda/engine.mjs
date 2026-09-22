@@ -1,5 +1,5 @@
-import {habitatConfig,HABITATS,eligibleSpecies,advanceWater} from './habitats.mjs?v=abyssal-2';
-import {aquaticScene,aquaticEnding} from './aquatic-story.mjs?v=abyssal-2';
+import {habitatConfig,HABITATS,eligibleSpecies,advanceWater} from './habitats.mjs?v=abyssal-3';
+import {aquaticScene,aquaticEnding} from './aquatic-story.mjs?v=abyssal-3';
 import {environmentFor,changeEnvironment,ageEnvironment,environmentTarget,habitatFit,syncSceneTrace,releaseDueShells,takeShell} from './environment.mjs?v=abyssal-2';
 import {encounterFor,encounterById,encounterText} from './encounters.mjs?v=molt-sequence-1';
 import {SPECIES,speciesById} from './species-registry.mjs?v=abyssal-3';
@@ -131,7 +131,7 @@ function ambientMoltFor(s){
  return {specimen:specimen.id,phase,x,y,a,source:'ambient'};
 }
 export function sceneFor(s){
- if(habitatConfig(s).aquatic)return {...aquaticScene(s),time:timeFor(s.seed,s.day,s.period)};
+ if(habitatConfig(s).aquatic){const scene=aquaticScene(s);return {...scene,time:habitatConfig(s).dialogue?'':timeFor(s.seed,s.day,s.period)}};
  const focal=s.cohort[hash(s.seed,s.day)%7],scene={id:`${s.day}.${s.period}`,title:PERIODS[s.period],kind:'text',text:'',options:[]};
  if(s.period===0){
    scene.text='';
@@ -199,6 +199,7 @@ export function sceneFor(s){
 }
 export function ensureScene(s){
  releaseDueShells(s);environmentFor(s);
+ if(habitatConfig(s).dialogue&&s.stage==='choice')s.scene=null;
  if(s.stage==='choice'&&(s.scene?.kind==='count'||!Array.isArray(s.scene?.options)||s.scene.options.length===0))s.scene=null;
  if(!s.scene)s.scene=sceneFor(s);
  syncSceneTrace(s,s.scene);
@@ -211,7 +212,7 @@ export function choose(s,id){
  const after=s.cohort.map(c=>habitatFit(s,c));if(after.some((v,i)=>v>before[i]+.01)&&after.every((v,i)=>v>=before[i]-.01))s.care++;
  const discoveries=interactionState(s);s.interactionIntent=o.interaction?{...o.interaction,day:s.day,period:s.period,choice:id,hint:discoveries[o.interaction.type]?'':o.interaction.prompt}:null;
  if(habitatConfig(s).aquatic)for(const k of Object.keys(habitatConfig(s).defaults))s[k]=clamp(s[k],0,k==='salinity'?42:100);
- s.feedback=o.text;s.stage='feedback';s.records.push({day:s.day,period:s.period,kind:scene.kind,choice:id,label:o.label,text:o.text,time:scene.time||timeFor(s.seed,s.day,s.period),encounter:scene.encounter||null,storyKey:scene.storyKey||null,dialogueNode:scene.dialogueNode||null,interaction:o.interaction?.type||null});return true;
+ s.feedback=o.text;s.stage='feedback';s.records.push({day:s.day,period:s.period,kind:scene.kind,choice:id,label:o.label,text:o.text,time:scene.time??timeFor(s.seed,s.day,s.period),encounter:scene.encounter||null,storyKey:scene.storyKey||null,dialogueNode:scene.dialogueNode||null,interaction:o.interaction?.type||null});return true;
 }
 function endingFromPool(s,ids,salt){
  const direct=(s.directGrabs||0)+(s.directMoves||0),signature=s.interventions*11+s.quiet*17+s.maps*19+s.labels*23+s.care*29+s.accuracy*31+direct*37;
@@ -229,9 +230,13 @@ export function endingFor(s){
 }
 export function advance(s){
  if(s.stage!=='feedback')return false;
- if(s.day===habitatConfig(s).days&&s.period===2){s.stage='ended';s.ending=endingFor(s).id;return true}
+ const config=habitatConfig(s);
+ if(config.dialogue){
+  const completed=(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind==='abyssal-dialogue').length;
+  if(completed>=config.turns){s.stage='ended';s.ending=endingFor(s).id;return true}
+ }else if(s.day===config.days&&s.period===2){s.stage='ended';s.ending=endingFor(s).id;return true}
  s.period++;if(s.period===3){s.period=0;s.day++}
- if(habitatConfig(s).aquatic){advanceWater(s);s.stage='choice';s.feedback='';s.interactionIntent=null;s.scene=null;ensureScene(s);return true}
+ if(config.aquatic){advanceWater(s);s.stage='choice';s.feedback='';s.interactionIntent=null;s.scene=null;ensureScene(s);return true}
  const delta=(s.vent>70?4:2)+(s.period===1?1:0);s.humidity=clamp(s.humidity-delta,35,96);
  s.temp=Math.round((22+(s.period===1?2:s.period===2?-.5:0)+(hash(s.seed,s.day)%5)*.3)*10)/10;
  s.light=clamp(s.light+(s.period===1?10:s.period===2?-22:12),8,85);
