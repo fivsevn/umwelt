@@ -35,6 +35,27 @@ function plantRamp(kind){
  return ['#405733','#667646','#8d9353','#b8ae6c'];
 }
 
+function plantSway(kind,j,height,time,seed,flow,phase=0){
+ const t=Math.max(0,Math.min(1,j/Math.max(1,height)));
+ // Smooth cantilever profile: roots remain fixed while the flexible upper body carries most motion.
+ const flex=t*t*(3-2*t);
+ const current=Math.max(.34,Math.min(1.18,(Number(flow)||45)/58));
+ const profile={
+  waterweed:{amp:8.5,speed:.66,ripple:.28},
+  rockweed:{amp:5.4,speed:.43,ripple:.20},
+  seagrass:{amp:11.5,speed:.74,ripple:.20},
+  ulva:{amp:7.2,speed:.52,ripple:.24},
+  kelp:{amp:13.5,speed:.39,ripple:.30}
+ }[kind]||{amp:8,speed:.5,ripple:.22};
+ const basePhase=seed*.071+phase;
+ const broad=Math.sin(time*profile.speed+basePhase);
+ // A slower second current keeps the motion from reading as a mechanical pendulum.
+ const undertow=Math.sin(time*profile.speed*.57+basePhase*1.73+j*.016);
+ // A small travelling wave makes neighbouring stem segments lag behind each other.
+ const ripple=Math.sin(time*profile.speed*1.24+basePhase*.63+j*.052);
+ return profile.amp*current*flex*(broad*.68+undertow*.22+ripple*profile.ripple);
+}
+
 // Small scene modules use the same hard-edged pixel vocabulary as the larger scenery.
 // They are exported so Habitat Lab can place the exact same elements as the live game.
 export function drawAquaticDetail(g,{kind='barnacle',x=0,y=0,a=0,scale=1,seed=0,count}={}){
@@ -127,7 +148,7 @@ export function drawAquaticBackground(g,{kind='freshwater',palette,seed=57}={}){
 }
 
 export function drawAquaticPlant(g,{kind='waterweed',x=0,y=0,a=0,scale=1,seed=0,height=64,time=0,flow=45}={}){
- const ramp=plantRamp(kind),o={x,y,a,scale},swayBase=Math.sin(time*.55+seed*.17)*(flow/100);
+ const ramp=plantRamp(kind),o={x,y,a,scale};
 
  if(kind==='waterweed'){
   const stems=2+(seed%2);
@@ -135,7 +156,8 @@ export function drawAquaticPlant(g,{kind='waterweed',x=0,y=0,a=0,scale=1,seed=0,
    const baseU=(stem-(stems-1)/2)*6,stemHeight=height*(.78+(noise(stem,3,seed)%23)/100);
    let prev={u:baseU,v:1};
    for(let j=0;j<=stemHeight;j+=3){
-    const drift=Math.sin(j*.075+seed*.31+stem*.85)*(1.8+j*.045*(flow/70))+swayBase*j*.038;
+    const staticDrift=Math.sin(j*.075+seed*.31+stem*.85)*(1.8+j*.045*(flow/70));
+    const drift=staticDrift+plantSway('waterweed',j,stemHeight,time,seed,flow,stem*.58);
     const cur={u:baseU+drift,v:-j};
     localLine(g,o,prev.u,prev.v,cur.u,cur.v,1.4,j%12<6?ramp[0]:ramp[1]);
     prev=cur;
@@ -159,10 +181,13 @@ export function drawAquaticPlant(g,{kind='waterweed',x=0,y=0,a=0,scale=1,seed=0,
   const branches=4+(seed%3);
   for(let b=0;b<branches;b++){
    const side=b-(branches-1)/2,len=height*(.58+(noise(b,9,seed)%35)/100),bend=side*4+Math.sin(seed+b)*3;
-   localLine(g,o,0,0,bend*.38,-len*.46,2,ramp[0]);
-   localLine(g,o,bend*.38,-len*.46,bend,-len,2,ramp[b%2?1:2]);
+   const midSway=plantSway('rockweed',len*.46,len,time,seed,flow,b*.47);
+   const tipSway=plantSway('rockweed',len,len,time,seed,flow,b*.47);
+   const midU=bend*.38+midSway,tipU=bend+tipSway;
+   localLine(g,o,0,0,midU,-len*.46,2,ramp[0]);
+   localLine(g,o,midU,-len*.46,tipU,-len,2,ramp[b%2?1:2]);
    for(let k=1;k<4;k++){
-    const t=k/4,dir=(side<0?-1:1),u=bend*t+dir*(3+k),v=-len*t;
+    const t=k/4,dir=(side<0?-1:1),u=bend*t+plantSway('rockweed',len*t,len,time,seed,flow,b*.47)+dir*(3+k),v=-len*t;
     // Short overlapping olive-green fronds form readable pixel clusters.
     const frondW=5+k%2;
     localPixel(g,o,dir>0?u-1:u-frondW+1,v+1,frondW,2,ramp[0]);
@@ -170,9 +195,9 @@ export function drawAquaticPlant(g,{kind='waterweed',x=0,y=0,a=0,scale=1,seed=0,
     localPixel(g,o,dir>0?u+3+k%2:u-4-k%2,v-1,2,1,ramp[3]);
    }
    // Rounded air bladder at the tip.
-   localPixel(g,o,bend-2,-len-2,5,4,ramp[1]);
-   localPixel(g,o,bend-1,-len-3,3,2,ramp[2]);
-   localPixel(g,o,bend,-len-3,1,1,ramp[3]);
+   localPixel(g,o,tipU-2,-len-2,5,4,ramp[1]);
+   localPixel(g,o,tipU-1,-len-3,3,2,ramp[2]);
+   localPixel(g,o,tipU,-len-3,1,1,ramp[3]);
   }
   localPixel(g,o,-7,0,14,4,ramp[0]);
   localPixel(g,o,-4,-1,8,2,ramp[1]);
@@ -182,8 +207,10 @@ export function drawAquaticPlant(g,{kind='waterweed',x=0,y=0,a=0,scale=1,seed=0,
  if(kind==='seagrass'){
   const blades=6+(seed%4);
   for(let b=0;b<blades;b++){
-   const u=(b-(blades-1)/2)*3,len=height*(.58+(noise(b,13,seed)%42)/100),tip=u+Math.sin(seed*.2+b)*7+swayBase*7;
-   const middle=u*.62+(tip-u)*.28;
+   const u=(b-(blades-1)/2)*3,len=height*(.58+(noise(b,13,seed)%42)/100);
+   const naturalLean=Math.sin(seed*.2+b)*7;
+   const middle=u*.62+naturalLean*.28+plantSway('seagrass',len*.58,len,time,seed,flow,b*.41);
+   const tip=u+naturalLean+plantSway('seagrass',len,len,time,seed,flow,b*.41);
    localLine(g,o,u,1,middle,-len*.58,1.7,b%3===0?ramp[0]:ramp[1]);
    localLine(g,o,middle,-len*.58,tip,-len,1.8,b%3===0?ramp[2]:ramp[1]);
    if(b%2===0)localPixel(g,o,tip,-len,1,2,ramp[3]);
@@ -204,7 +231,7 @@ export function drawAquaticPlant(g,{kind='waterweed',x=0,y=0,a=0,scale=1,seed=0,
     const t=j/fanHeight;
     const baseWidth=Math.max(3,Math.round((Math.sin(t*Math.PI)*8+3)*(1-t*.16)));
     const wobble=((noise(f,j+11,seed)%5)-2);
-    const center=lean*t+Math.sin(j*.12+seed+f)*2+swayBase*j*.03;
+    const center=lean*t+Math.sin(j*.12+seed+f)*2+plantSway('ulva',j,fanHeight,time,seed,flow,f*.53);
     const width=Math.max(2,baseWidth+wobble);
     const left=center-width/2+((noise(f,j+17,seed)%3)-1);
 
@@ -232,7 +259,8 @@ export function drawAquaticPlant(g,{kind='waterweed',x=0,y=0,a=0,scale=1,seed=0,
  // carries the silhouette; shadows use the same green family as the rest of the plant.
  const stipeHeight=height,stipe=[];
  for(let j=0;j<=stipeHeight;j+=3){
-  const drift=Math.sin(j*.055+seed*.41)*(2.2+j*.046*(flow/60))+swayBase*j*.045;
+  const staticDrift=Math.sin(j*.055+seed*.41)*(2.2+j*.046*(flow/60));
+  const drift=staticDrift+plantSway('kelp',j,stipeHeight,time,seed,flow);
   stipe.push({u:drift,v:-j});
   if(stipe.length>1){
    const p=stipe[stipe.length-2];
@@ -257,7 +285,7 @@ export function drawAquaticPlant(g,{kind='waterweed',x=0,y=0,a=0,scale=1,seed=0,
  // Terminal blade is shorter and fuller to break the old ladder-like repetition.
  const top=stipe[stipe.length-1],crownLen=Math.min(25,height*.3);
  for(let k=0;k<crownLen;k+=2){
-  const t=k/crownLen,arc=Math.sin(t*Math.PI),u=top.u+Math.sin(k*.2+seed)*3+swayBase*k*.12,v=top.v-k*.72;
+  const t=k/crownLen,arc=Math.sin(t*Math.PI),u=top.u+Math.sin(k*.2+seed)*3+plantSway('kelp',stipeHeight+k*.35,stipeHeight+crownLen*.35,time,seed,flow,.31),v=top.v-k*.72;
   const w=4+Math.round(arc*6);
   localPixel(g,o,u-1,v+1,w,2,ramp[0]);
   localPixel(g,o,u,v,w,2,k%6<3?ramp[2]:ramp[1]);
