@@ -46,7 +46,7 @@ test('individual variation preserves species pace and structured simulation fiel
  const slow=makeIndividuals([{id:'A',species:slowSpecies.id,seed:101,stage:'M'}])[0];
  const fast=makeIndividuals([{id:'A',species:fastSpecies.id,seed:101,stage:'M'}])[0];
  assert.ok(fast.speed>slow.speed);
- assert.equal(fast.locomotion,fastSpecies.locomotion.simulation);
+ assert.deepEqual(fast.locomotion,fastSpecies.locomotion.simulation);
  assert.ok(fast.locomotion.burst>1);
 });
 
