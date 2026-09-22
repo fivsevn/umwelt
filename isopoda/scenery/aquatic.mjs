@@ -189,21 +189,32 @@ export function drawAquaticPlant(g,{kind='waterweed',x=0,y=0,a=0,scale=1,seed=0,
  }
 
  if(kind==='ulva'){
-  const fans=3+(seed%3);
-  for(let f=0;f<fans;f++){
-   const side=f-(fans-1)/2,fanHeight=height*(.64+(noise(f,19,seed)%30)/100),lean=side*5+((noise(f,23,seed)%7)-3);
-   for(let j=0;j<fanHeight;j+=2){
-    const t=j/fanHeight;
-    const width=Math.max(4,Math.round((Math.sin(t*Math.PI)*10+3)*(1-t*.18)));
-    const center=lean*t+Math.sin(j*.12+seed+f)*2+swayBase*j*.025;
-    // One green shadow edge plus a broad mid/highlight cluster keeps the sheet leafy, not outlined.
-    localPixel(g,o,center-width/2-1,-j+1,width+1,2,ramp[0]);
-    localPixel(g,o,center-width/2,-j,width,2,j%8<4?ramp[1]:ramp[2]);
-    if(j%10===0)localPixel(g,o,center+width*.18,-j,2,1,ramp[3]);
+  // Sea lettuce: several separate, softly ruffled blades instead of one solid striped mass.
+  const fronds=4+(seed%2);
+  for(let f=0;f<fronds;f++){
+   const side=f-(fronds-1)/2;
+   const bladeHeight=height*(.68+(noise(f,19,seed)%23)/100);
+   const baseU=side*5.2,lean=side*4+((noise(f,23,seed)%5)-2);
+   for(let j=0;j<bladeHeight;j+=3){
+    const t=j/bladeHeight,body=Math.sin(Math.min(1,t)*Math.PI);
+    const rag=((noise(f,j+17,seed)%3)-1);
+    const width=Math.max(3,Math.round(3+body*(4+(noise(f,j+29,seed)%3))));
+    const center=baseU+lean*t+Math.sin(j*.16+seed*.37+f)*1.5+swayBase*j*.018;
+    const left=center-width/2+rag*.45;
+    const tone=t<.18?ramp[1]:t>.78?ramp[1]:((f+j/3)%3===0?ramp[3]:ramp[2]);
+    localPixel(g,o,left-1,-j+1,width+1,2,ramp[0]);
+    localPixel(g,o,left,-j,width,2,tone);
+    if(j>5&&j<bladeHeight-5&&j%9===0){
+     localPixel(g,o,left+Math.max(1,Math.floor(width*.55)),-j-1,2,1,ramp[3]);
+    }
    }
+   // A small split at the tip keeps the silhouette organic.
+   const tipU=baseU+lean+Math.sin(bladeHeight*.16+seed*.37+f)*1.5;
+   localPixel(g,o,tipU-2,-bladeHeight-1,2,2,ramp[2]);
+   localPixel(g,o,tipU+1,-bladeHeight-2,2,2,ramp[1]);
   }
-  localPixel(g,o,-7,1,14,3,ramp[0]);
-  localPixel(g,o,-4,0,8,1,ramp[2]);
+  localPixel(g,o,-9,1,18,3,ramp[0]);
+  localPixel(g,o,-6,0,12,2,ramp[1]);
   return;
  }
 
@@ -288,7 +299,7 @@ export function drawAquaticWater(g,s,time=0){
  // Low seagrass and broad Ulva fans fill negative space without competing with the animals.
  if(h.id==='shallow-marine'){
   for(let i=0;i<8;i++){const n=noise(i,66,s.seed);drawAquaticPlant(g,{kind:'seagrass',x:18+n%350,y:118+(n>>>10)%285,scale:.62,seed:s.seed+i*31,height:24+i%3*8,time,flow:s.flow})}
-  for(let i=0;i<4;i++){const n=noise(i,149,s.seed);drawAquaticPlant(g,{kind:'ulva',x:28+n%330,y:150+(n>>>11)%245,scale:.58+(i%2)*.08,seed:s.seed+i*47,height:30+i%3*7,time,flow:s.flow})}
+  for(let i=0;i<3;i++){const n=noise(i,149,s.seed);drawAquaticPlant(g,{kind:'ulva',x:28+n%330,y:150+(n>>>11)%245,scale:.52+(i%2)*.06,seed:s.seed+i*47,height:28+i%3*6,time,flow:s.flow})}
  }
  if(h.tides){for(let x=0;x<384;x+=3){const y=surface+Math.round(Math.sin(x*.07+time)*3);pixel(g,x,y,3,1,'#9db9a4');if(x%12===0)pixel(g,x+2,y+5,5,1,'#6f948b')}}
  const particles=30+Math.round(s.detritus*.5);for(let i=0;i<particles;i++){const n=noise(i,37,s.seed),x=(n%384+time*s.flow*.085)%384,y=surface+((n>>>12)%Math.max(1,430-surface));pixel(g,x,y,i%7===0?2:1,1,i%3?'#889a79':'#b1bc95')}
