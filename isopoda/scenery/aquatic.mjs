@@ -21,11 +21,13 @@ function localLine(g,o,ax,ay,bx,by,width,color){
  for(let i=0;i<=steps;i++){const t=i/steps;localPixel(g,o,ax+(bx-ax)*t,ay+(by-ay)*t,width,width,color)}
 }
 function plantRamp(kind){
- if(kind==='waterweed')return ['#21372d','#4c7049','#7f9668','#b5b98a'];
- if(kind==='rockweed')return ['#27382d','#596943','#87915f','#b8b07a'];
- if(kind==='seagrass')return ['#21362f','#4f765a','#82a06f','#bcc494'];
- if(kind==='ulva')return ['#21372e','#4e7955','#85a873','#c0c993'];
- return ['#22352c','#536f43','#87945b','#b8b47c'];
+ // Greens stay inside the existing muted palette, but vegetation gets its own hue/value lane.
+ // The darkest tone is a green shadow, not a black outline.
+ if(kind==='waterweed')return ['#365640','#55794f','#7f9b65','#b0ba7b'];
+ if(kind==='rockweed')return ['#3d5535','#647344','#8b9258','#b6ad70'];
+ if(kind==='seagrass')return ['#365b46','#5d805e','#89a670','#bbc58b'];
+ if(kind==='ulva')return ['#40694a','#67935f','#91b874','#c2ce91'];
+ return ['#405733','#667646','#8d9353','#b8ae6c'];
 }
 
 // Small scene modules use the same hard-edged pixel vocabulary as the larger scenery.
@@ -121,108 +123,127 @@ export function drawAquaticBackground(g,{kind='freshwater',palette,seed=57}={}){
 
 export function drawAquaticPlant(g,{kind='waterweed',x=0,y=0,a=0,scale=1,seed=0,height=64,time=0,flow=45}={}){
  const ramp=plantRamp(kind),o={x,y,a,scale},swayBase=Math.sin(time*.55+seed*.17)*(flow/100);
+
  if(kind==='waterweed'){
   const stems=2+(seed%2);
   for(let stem=0;stem<stems;stem++){
-   const baseU=(stem-(stems-1)/2)*5,stemHeight=height*(.78+((noise(stem,3,seed)%23)/100));
+   const baseU=(stem-(stems-1)/2)*6,stemHeight=height*(.78+(noise(stem,3,seed)%23)/100);
    let prev={u:baseU,v:1};
    for(let j=0;j<=stemHeight;j+=3){
-    const drift=Math.sin(j*.085+seed*.31+stem*.9)*(2.2+j*.055*(flow/70))+swayBase*j*.045;
+    const drift=Math.sin(j*.075+seed*.31+stem*.85)*(1.8+j*.045*(flow/70))+swayBase*j*.038;
     const cur={u:baseU+drift,v:-j};
-    localLine(g,o,prev.u,prev.v,cur.u,cur.v,3,'#1d3029');
-    localLine(g,o,prev.u,prev.v,cur.u,cur.v,1.5,j%12<6?ramp[0]:ramp[1]);prev=cur;
-    if(j>7&&j%9<3){
-     const side=((j/9+stem+seed)&1)?1:-1,leaf=6+(noise(j,stem,seed)%6);
-     localLine(g,o,cur.u,cur.v,cur.u+side*leaf,cur.v-4,3.5,'#1d3029');
-     localLine(g,o,cur.u+side*2,cur.v-1,cur.u+side*(leaf-1),cur.v-5,3.5,'#1d3029');
-     localLine(g,o,cur.u,cur.v,cur.u+side*leaf,cur.v-4,2,ramp[1]);
-     localLine(g,o,cur.u+side*2,cur.v-1,cur.u+side*(leaf-1),cur.v-5,2,ramp[2]);
-     localPixel(g,o,cur.u+side*(leaf-1),cur.v-5,2,2,ramp[3]);
-     localPixel(g,o,cur.u,cur.v,1,1,ramp[3]);
+    localLine(g,o,prev.u,prev.v,cur.u,cur.v,1.4,j%12<6?ramp[0]:ramp[1]);
+    prev=cur;
+    if(j>7&&j%10<3){
+     const side=((Math.floor(j/10)+stem+seed)&1)?1:-1,leaf=7+(noise(j,stem,seed)%6);
+     // Leaves are compact tapered clusters rather than dark outlined sticks.
+     const lu=cur.u+side*2,lv=cur.v-1;
+     localPixel(g,o,lu,lv,side>0?4:-4,2,ramp[1]);
+     localPixel(g,o,cur.u+side*4,cur.v-3,side>0?5:-5,2,ramp[2]);
+     localPixel(g,o,cur.u+side*(leaf-1),cur.v-5,side>0?3:-3,2,ramp[2]);
+     localPixel(g,o,cur.u+side*leaf,cur.v-5,1,1,ramp[3]);
     }
    }
   }
-  localPixel(g,o,-5,1,11,3,ramp[0]);return;
+  localPixel(g,o,-5,1,11,3,ramp[0]);
+  localPixel(g,o,-3,0,6,1,ramp[2]);
+  return;
  }
+
  if(kind==='rockweed'){
   const branches=4+(seed%3);
   for(let b=0;b<branches;b++){
    const side=b-(branches-1)/2,len=height*(.58+(noise(b,9,seed)%35)/100),bend=side*4+Math.sin(seed+b)*3;
-   localLine(g,o,0,0,bend*.35,-len*.45,4,'#1e3029');
-   localLine(g,o,bend*.35,-len*.45,bend,-len,4,'#1e3029');
-   localLine(g,o,0,0,bend*.35,-len*.45,2.3,ramp[0]);
-   localLine(g,o,bend*.35,-len*.45,bend,-len,2.5,ramp[b%2?1:2]);
+   localLine(g,o,0,0,bend*.38,-len*.46,2,ramp[0]);
+   localLine(g,o,bend*.38,-len*.46,bend,-len,2,ramp[b%2?1:2]);
    for(let k=1;k<4;k++){
-    const t=k/4,u=bend*t+(side<0?-1:1)*(3+k),v=-len*t;
-    localPixel(g,o,u-1,v+1,6+k%2,4,'#1e3029');
-    localPixel(g,o,u,v,4+k%2,3,ramp[2]);
+    const t=k/4,dir=(side<0?-1:1),u=bend*t+dir*(3+k),v=-len*t;
+    // Short overlapping olive-green fronds form readable pixel clusters.
+    localPixel(g,o,u-dir*1,v+1,dir*5,2,ramp[0]);
+    localPixel(g,o,u,v,dir*(5+k%2),3,ramp[k===2?2:1]);
+    localPixel(g,o,u+dir*(3+k%2),v-1,dir*2,1,ramp[3]);
    }
-   localPixel(g,o,bend-2,-len-2,5,5,ramp[1]);
-   localPixel(g,o,bend-1,-len-1,3,3,ramp[3]);
-   localPixel(g,o,bend,-len,1,1,ramp[0]);
+   // Rounded air bladder at the tip.
+   localPixel(g,o,bend-2,-len-2,5,4,ramp[1]);
+   localPixel(g,o,bend-1,-len-3,3,2,ramp[2]);
+   localPixel(g,o,bend,-len-3,1,1,ramp[3]);
   }
-  localPixel(g,o,-7,0,14,4,ramp[0]);return;
+  localPixel(g,o,-7,0,14,4,ramp[0]);
+  localPixel(g,o,-4,-1,8,2,ramp[1]);
+  return;
  }
+
  if(kind==='seagrass'){
-  const blades=7+(seed%4);
+  const blades=6+(seed%4);
   for(let b=0;b<blades;b++){
-   const u=(b-(blades-1)/2)*2.6,len=height*(.55+(noise(b,13,seed)%45)/100),tip=u+Math.sin(seed*.2+b)*8+swayBase*8;
-   localLine(g,o,u,1,u*.6,-len*.55,3.4,'#1c302a');
-   localLine(g,o,u*.6,-len*.55,tip,-len,3.7,'#1c302a');
-   localLine(g,o,u,1,u*.6,-len*.55,1.8,ramp[b%3?1:0]);
-   localLine(g,o,u*.6,-len*.55,tip,-len,2.1,ramp[b%3===0?3:2]);
-   if(b%3===0)localPixel(g,o,tip,-len,1,2,ramp[3]);
+   const u=(b-(blades-1)/2)*3,len=height*(.58+(noise(b,13,seed)%42)/100),tip=u+Math.sin(seed*.2+b)*7+swayBase*7;
+   const middle=u*.62+(tip-u)*.28;
+   localLine(g,o,u,1,middle,-len*.58,1.7,b%3===0?ramp[0]:ramp[1]);
+   localLine(g,o,middle,-len*.58,tip,-len,1.8,b%3===0?ramp[2]:ramp[1]);
+   if(b%2===0)localPixel(g,o,tip,-len,1,2,ramp[3]);
   }
-  localPixel(g,o,-8,1,16,3,ramp[0]);return;
+  localPixel(g,o,-8,1,16,3,ramp[0]);
+  localPixel(g,o,-5,0,10,1,ramp[2]);
+  return;
  }
+
  if(kind==='ulva'){
   const fans=3+(seed%3);
   for(let f=0;f<fans;f++){
-   const side=f-(fans-1)/2,fanHeight=height*(.62+(noise(f,19,seed)%32)/100),lean=side*5+((noise(f,23,seed)%7)-3);
+   const side=f-(fans-1)/2,fanHeight=height*(.64+(noise(f,19,seed)%30)/100),lean=side*5+((noise(f,23,seed)%7)-3);
    for(let j=0;j<fanHeight;j+=2){
-    const t=j/fanHeight,width=Math.max(3,Math.round((Math.sin(t*Math.PI)*9+3)*(1-t*.22)));
-    const center=lean*t+Math.sin(j*.12+seed+f)*2+swayBase*j*.03;
-    localPixel(g,o,center-width/2-1,-j+1,width+2,3,'#1d3129');
+    const t=j/fanHeight;
+    const width=Math.max(4,Math.round((Math.sin(t*Math.PI)*10+3)*(1-t*.18)));
+    const center=lean*t+Math.sin(j*.12+seed+f)*2+swayBase*j*.025;
+    // One green shadow edge plus a broad mid/highlight cluster keeps the sheet leafy, not outlined.
+    localPixel(g,o,center-width/2-1,-j+1,width+1,2,ramp[0]);
     localPixel(g,o,center-width/2,-j,width,2,j%8<4?ramp[1]:ramp[2]);
-    if(j%10===0)localPixel(g,o,center-width/2,-j,1,1,ramp[3]);
-    if(j%14===0)localPixel(g,o,center+width/4,-j,1,1,ramp[0]);
+    if(j%10===0)localPixel(g,o,center+width*.18,-j,2,1,ramp[3]);
    }
   }
-  localPixel(g,o,-7,1,14,3,ramp[0]);return;
+  localPixel(g,o,-7,1,14,3,ramp[0]);
+  localPixel(g,o,-4,0,8,1,ramp[2]);
+  return;
  }
- // Kelp: a thin stipe with broad, stepped alternating blades and a visible holdfast.
+
+ // Kelp: thin stipe + broad alternating ribbon blades. The blade mass, not a dark outline,
+ // carries the silhouette; shadows use the same green family as the rest of the plant.
  const stipeHeight=height,stipe=[];
  for(let j=0;j<=stipeHeight;j+=3){
-  const drift=Math.sin(j*.058+seed*.41)*(2.5+j*.052*(flow/60))+swayBase*j*.055;
+  const drift=Math.sin(j*.055+seed*.41)*(2.2+j*.046*(flow/60))+swayBase*j*.045;
   stipe.push({u:drift,v:-j});
   if(stipe.length>1){
    const p=stipe[stipe.length-2];
-   localLine(g,o,p.u,p.v,drift,-j,3.2,'#1c3028');
-   localLine(g,o,p.u,p.v,drift,-j,1.7,j%12<6?ramp[0]:ramp[1]);
+   localLine(g,o,p.u,p.v,drift,-j,1.6,j%15<7?ramp[0]:ramp[1]);
   }
  }
- for(let j=12,index=0;j<stipeHeight-5;j+=14,index++){
+ for(let j=12,index=0;j<stipeHeight-7;j+=15,index++){
   const p=stipe[Math.min(stipe.length-1,Math.round(j/3))],side=((index+seed)&1)?1:-1;
-  const bladeLen=16+(noise(index,17,seed)%13),bladeWidth=4+(noise(index,21,seed)%4);
+  const bladeLen=18+(noise(index,17,seed)%13),bladeWidth=5+(noise(index,21,seed)%4);
   for(let k=0;k<bladeLen;k+=2){
-   const t=k/bladeLen,curve=Math.sin(t*Math.PI)*bladeWidth*side;
-   const u=p.u+side*k*.38+curve,v=p.v-k*.58-Math.sin(t*Math.PI)*3;
-   const w=Math.max(2,Math.round((1-Math.abs(t-.52)*1.25)*bladeWidth));
-   localPixel(g,o,u-1,v+1,w+2,3,'#1c3028');
-   localPixel(g,o,u,v,w,2,k%6<3?ramp[2]:ramp[1]);
-   localPixel(g,o,u-side*Math.max(1,w/2),v,1,1,ramp[0]);
-   if(k%8===0)localPixel(g,o,u+side,v-1,1,1,ramp[3]);
+   const t=k/bladeLen;
+   const arc=Math.sin(t*Math.PI);
+   const centerU=p.u+side*(k*.45+arc*bladeWidth*.55);
+   const centerV=p.v-k*.46-arc*3;
+   const w=Math.max(3,Math.round((2+arc*bladeWidth)*(1-t*.22)));
+   // A lower-side shadow and two larger color clusters suggest a folded ribbon.
+   localPixel(g,o,centerU-side*1,centerV+1,w,2,ramp[0]);
+   localPixel(g,o,centerU,centerV,w,2,(index+k/2)%3===0?ramp[1]:ramp[2]);
+   if(k>3&&k<bladeLen-4&&k%6===0)localPixel(g,o,centerU+side*Math.max(1,Math.floor(w*.22)),centerV-1,2,1,ramp[3]);
   }
  }
- // Crown blade breaks the repeated ladder-like silhouette of the old renderer.
- const top=stipe[stipe.length-1];
- for(let k=0;k<Math.min(30,height*.35);k+=2){
-  const u=top.u+Math.sin(k*.22+seed)*5+swayBase*k*.2,v=top.v-k*.82;
-  const crownW=5+Math.round(Math.sin(k*.17)**2*4);
-  localPixel(g,o,u-1,v+1,crownW+2,3,'#1c3028');
-  localPixel(g,o,u,v,crownW,2,k%6<3?ramp[2]:ramp[1]);
+ // Terminal blade is shorter and fuller to break the old ladder-like repetition.
+ const top=stipe[stipe.length-1],crownLen=Math.min(25,height*.3);
+ for(let k=0;k<crownLen;k+=2){
+  const t=k/crownLen,arc=Math.sin(t*Math.PI),u=top.u+Math.sin(k*.2+seed)*3+swayBase*k*.12,v=top.v-k*.72;
+  const w=4+Math.round(arc*6);
+  localPixel(g,o,u-1,v+1,w,2,ramp[0]);
+  localPixel(g,o,u,v,w,2,k%6<3?ramp[2]:ramp[1]);
+  if(k%8===0)localPixel(g,o,u+Math.floor(w*.35),v-1,1,1,ramp[3]);
  }
- localPixel(g,o,-6,0,4,3,ramp[0]);localPixel(g,o,2,0,5,3,ramp[0]);localPixel(g,o,-2,2,4,2,ramp[1]);
+ localPixel(g,o,-7,1,5,3,ramp[0]);
+ localPixel(g,o,1,1,6,3,ramp[0]);
+ localPixel(g,o,-3,0,7,2,ramp[1]);
 }
 
 export function drawAquaticBase(g,s){
