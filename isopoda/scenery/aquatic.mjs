@@ -21,11 +21,11 @@ function localLine(g,o,ax,ay,bx,by,width,color){
  for(let i=0;i<=steps;i++){const t=i/steps;localPixel(g,o,ax+(bx-ax)*t,ay+(by-ay)*t,width,width,color)}
 }
 function plantRamp(kind){
- if(kind==='waterweed')return ['#304c38','#4e6d49','#71835b','#9aa171'];
- if(kind==='rockweed')return ['#364b36','#556641','#78805a','#a09b69'];
- if(kind==='seagrass')return ['#344c3f','#52705a','#738665','#9ba174'];
- if(kind==='ulva')return ['#2e4937','#527050','#748865','#a5aa78'];
- return ['#304737','#53633e','#73794b','#999366'];
+ if(kind==='waterweed')return ['#21372d','#4c7049','#7f9668','#b5b98a'];
+ if(kind==='rockweed')return ['#27382d','#596943','#87915f','#b8b07a'];
+ if(kind==='seagrass')return ['#21362f','#4f765a','#82a06f','#bcc494'];
+ if(kind==='ulva')return ['#21372e','#4e7955','#85a873','#c0c993'];
+ return ['#22352c','#536f43','#87945b','#b8b47c'];
 }
 
 // Small scene modules use the same hard-edged pixel vocabulary as the larger scenery.
@@ -82,7 +82,9 @@ export function drawAquaticBackground(g,{kind='freshwater',palette,seed=57}={}){
  const preset=AQUATIC_BACKDROPS[kind]||AQUATIC_BACKDROPS.freshwater,p=palette||preset.palette,w=g.canvas?.width||384,h=g.canvas?.height||430;
  for(let y=0;y<h;y+=2)for(let x=0;x<w;x+=2){
   const n=noise(x>>1,y>>1,seed),wave=Math.sin((x+seed)*.024+y*.013)+Math.sin(y*.031);
-  const band=n%47===0?3:wave>.85&&n%3===0?2:n%3===0?1:0;
+  const highlightMod=kind==='shallow-marine'?103:kind==='intertidal'?67:47;
+  const midMod=kind==='shallow-marine'?5:3;
+  const band=n%highlightMod===0?3:wave>.85&&n%midMod===0?2:n%midMod===0?1:0;
   pixel(g,x,y,2,2,p[band]);
  }
  // Sparse granular flecks make the ground read as a submerged surface rather than flat water.
@@ -127,9 +129,12 @@ export function drawAquaticPlant(g,{kind='waterweed',x=0,y=0,a=0,scale=1,seed=0,
    for(let j=0;j<=stemHeight;j+=3){
     const drift=Math.sin(j*.085+seed*.31+stem*.9)*(2.2+j*.055*(flow/70))+swayBase*j*.045;
     const cur={u:baseU+drift,v:-j};
+    localLine(g,o,prev.u,prev.v,cur.u,cur.v,3,'#1d3029');
     localLine(g,o,prev.u,prev.v,cur.u,cur.v,1.5,j%12<6?ramp[0]:ramp[1]);prev=cur;
     if(j>7&&j%9<3){
      const side=((j/9+stem+seed)&1)?1:-1,leaf=6+(noise(j,stem,seed)%6);
+     localLine(g,o,cur.u,cur.v,cur.u+side*leaf,cur.v-4,3.5,'#1d3029');
+     localLine(g,o,cur.u+side*2,cur.v-1,cur.u+side*(leaf-1),cur.v-5,3.5,'#1d3029');
      localLine(g,o,cur.u,cur.v,cur.u+side*leaf,cur.v-4,2,ramp[1]);
      localLine(g,o,cur.u+side*2,cur.v-1,cur.u+side*(leaf-1),cur.v-5,2,ramp[2]);
      localPixel(g,o,cur.u+side*(leaf-1),cur.v-5,2,2,ramp[3]);
@@ -143,10 +148,13 @@ export function drawAquaticPlant(g,{kind='waterweed',x=0,y=0,a=0,scale=1,seed=0,
   const branches=4+(seed%3);
   for(let b=0;b<branches;b++){
    const side=b-(branches-1)/2,len=height*(.58+(noise(b,9,seed)%35)/100),bend=side*4+Math.sin(seed+b)*3;
+   localLine(g,o,0,0,bend*.35,-len*.45,4,'#1e3029');
+   localLine(g,o,bend*.35,-len*.45,bend,-len,4,'#1e3029');
    localLine(g,o,0,0,bend*.35,-len*.45,2.3,ramp[0]);
    localLine(g,o,bend*.35,-len*.45,bend,-len,2.5,ramp[b%2?1:2]);
    for(let k=1;k<4;k++){
     const t=k/4,u=bend*t+(side<0?-1:1)*(3+k),v=-len*t;
+    localPixel(g,o,u-1,v+1,6+k%2,4,'#1e3029');
     localPixel(g,o,u,v,4+k%2,3,ramp[2]);
    }
    localPixel(g,o,bend-2,-len-2,5,5,ramp[1]);
@@ -159,6 +167,8 @@ export function drawAquaticPlant(g,{kind='waterweed',x=0,y=0,a=0,scale=1,seed=0,
   const blades=7+(seed%4);
   for(let b=0;b<blades;b++){
    const u=(b-(blades-1)/2)*2.6,len=height*(.55+(noise(b,13,seed)%45)/100),tip=u+Math.sin(seed*.2+b)*8+swayBase*8;
+   localLine(g,o,u,1,u*.6,-len*.55,3.4,'#1c302a');
+   localLine(g,o,u*.6,-len*.55,tip,-len,3.7,'#1c302a');
    localLine(g,o,u,1,u*.6,-len*.55,1.8,ramp[b%3?1:0]);
    localLine(g,o,u*.6,-len*.55,tip,-len,2.1,ramp[b%3===0?3:2]);
    if(b%3===0)localPixel(g,o,tip,-len,1,2,ramp[3]);
@@ -172,6 +182,7 @@ export function drawAquaticPlant(g,{kind='waterweed',x=0,y=0,a=0,scale=1,seed=0,
    for(let j=0;j<fanHeight;j+=2){
     const t=j/fanHeight,width=Math.max(3,Math.round((Math.sin(t*Math.PI)*9+3)*(1-t*.22)));
     const center=lean*t+Math.sin(j*.12+seed+f)*2+swayBase*j*.03;
+    localPixel(g,o,center-width/2-1,-j+1,width+2,3,'#1d3129');
     localPixel(g,o,center-width/2,-j,width,2,j%8<4?ramp[1]:ramp[2]);
     if(j%10===0)localPixel(g,o,center-width/2,-j,1,1,ramp[3]);
     if(j%14===0)localPixel(g,o,center+width/4,-j,1,1,ramp[0]);
@@ -184,7 +195,11 @@ export function drawAquaticPlant(g,{kind='waterweed',x=0,y=0,a=0,scale=1,seed=0,
  for(let j=0;j<=stipeHeight;j+=3){
   const drift=Math.sin(j*.058+seed*.41)*(2.5+j*.052*(flow/60))+swayBase*j*.055;
   stipe.push({u:drift,v:-j});
-  if(stipe.length>1){const p=stipe[stipe.length-2];localLine(g,o,p.u,p.v,drift,-j,1.7,j%12<6?ramp[0]:ramp[1])}
+  if(stipe.length>1){
+   const p=stipe[stipe.length-2];
+   localLine(g,o,p.u,p.v,drift,-j,3.2,'#1c3028');
+   localLine(g,o,p.u,p.v,drift,-j,1.7,j%12<6?ramp[0]:ramp[1]);
+  }
  }
  for(let j=12,index=0;j<stipeHeight-5;j+=14,index++){
   const p=stipe[Math.min(stipe.length-1,Math.round(j/3))],side=((index+seed)&1)?1:-1;
@@ -193,6 +208,7 @@ export function drawAquaticPlant(g,{kind='waterweed',x=0,y=0,a=0,scale=1,seed=0,
    const t=k/bladeLen,curve=Math.sin(t*Math.PI)*bladeWidth*side;
    const u=p.u+side*k*.38+curve,v=p.v-k*.58-Math.sin(t*Math.PI)*3;
    const w=Math.max(2,Math.round((1-Math.abs(t-.52)*1.25)*bladeWidth));
+   localPixel(g,o,u-1,v+1,w+2,3,'#1c3028');
    localPixel(g,o,u,v,w,2,k%6<3?ramp[2]:ramp[1]);
    localPixel(g,o,u-side*Math.max(1,w/2),v,1,1,ramp[0]);
    if(k%8===0)localPixel(g,o,u+side,v-1,1,1,ramp[3]);
@@ -202,7 +218,9 @@ export function drawAquaticPlant(g,{kind='waterweed',x=0,y=0,a=0,scale=1,seed=0,
  const top=stipe[stipe.length-1];
  for(let k=0;k<Math.min(30,height*.35);k+=2){
   const u=top.u+Math.sin(k*.22+seed)*5+swayBase*k*.2,v=top.v-k*.82;
-  localPixel(g,o,u,v,5+Math.round(Math.sin(k*.17)**2*4),2,k%6<3?ramp[2]:ramp[1]);
+  const crownW=5+Math.round(Math.sin(k*.17)**2*4);
+  localPixel(g,o,u-1,v+1,crownW+2,3,'#1c3028');
+  localPixel(g,o,u,v,crownW,2,k%6<3?ramp[2]:ramp[1]);
  }
  localPixel(g,o,-6,0,4,3,ramp[0]);localPixel(g,o,2,0,5,3,ramp[0]);localPixel(g,o,-2,2,4,2,ramp[1]);
 }
