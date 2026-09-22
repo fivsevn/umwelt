@@ -63,15 +63,18 @@ test('aquatic endings resolve after each habitat completes its configured observ
   const s=createRun(h.species[0],37,h.id);while(s.stage!=='ended'){choose(s,choice);advance(s)}assert.equal(s.ending,h.id+'-'+kind);
  }
  const abyssal=habitatConfig('abyssal'),validIds=new Set(Object.keys(ABYSSAL_ENDING_DATA));
- for(const [metric,ending] of [['restraint','abyssal-untranslated'],['interpretation','abyssal-voice'],['attention','abyssal-field']]){
-  const s=createRun(abyssal.species[0],37,abyssal.id);s[metric]=50;
+ const samePath=[];
+ for(const metric of [null,'restraint','interpretation','attention']){
+  const s=createRun(abyssal.species[0],37,abyssal.id);if(metric)s[metric]=50;
   while(s.stage!=='ended'){const scene=ensureScene(s);assert.ok(choose(s,scene.options[0].id));advance(s)}
   assert.equal(s.records.filter(r=>r.kind==='abyssal-dialogue').length,abyssal.turns);
-  assert.equal(s.ending,ending);
+  assert.match(s.ending,/^abyssal-record-/);assert.ok(validIds.has(s.ending));samePath.push(s.ending);
  }
+ assert.equal(new Set(samePath).size,1);
+ assert.equal(Object.keys(ABYSSAL_ENDING_DATA).filter(id=>id.startsWith('abyssal-record-')).length,64);
  const s=createRun(abyssal.species[0],91,abyssal.id);
  while(s.stage!=='ended'){const scene=ensureScene(s);assert.ok(choose(s,scene.options[(s.records.length+1)%3].id));advance(s)}
- assert.ok(validIds.has(s.ending));
+ assert.match(s.ending,/^abyssal-record-/);assert.ok(validIds.has(s.ending));
  assert.equal(s.day,1);
  assert.equal(s.period,0);
 });
