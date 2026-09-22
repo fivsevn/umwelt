@@ -1,8 +1,10 @@
+import {habitatConfig} from './habitats.mjs';
 import {DEFAULT_LAYOUT,DEFAULT_SHELTER} from './scenery/default-layout.mjs?v=forest-10';
-import {speciesById} from './species-registry.mjs?v=species-39b';
+import {speciesById} from './species-registry.mjs?v=aquatic-1';
 // Spatial traces advance with observation turns, never with frame rate or wall time.
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function environmentFor(s){
+ if(habitatConfig(s).aquatic&&!s.environment){const h=habitatConfig(s);s.environment={version:3,habitatId:h.id,wetZones:[],leaves:[],foodNodes:[],shelter:{x:190,y:250},disturbance:0,scuffs:[],shells:[],pendingShells:[],removedShells:[]}}
  if(s.environment?.version===3)return s.environment;
  if(s.environment?.version===1||s.environment?.version===2){
   s.environment.version=3;
@@ -70,12 +72,14 @@ export function ageEnvironment(s){
 }
 // Score available microhabitats separately for each animal; never average taxa.
 export function habitatFit(s,c){
+ if(habitatConfig(s).aquatic)return s.oxygen*.4+s.cover*.2-Math.abs(s.flow-45)*.2;
  const e=environmentFor(s),p=speciesById(c.species||s.cohort?.[0]?.species||'dairy');
  const moisture=Math.min(Math.abs(Math.max(15,s.humidity-22)-p.wet),...e.wetZones.map(z=>Math.abs(z.moisture-p.wet)));
  const cover=Math.max(0,p.cover-s.cover-e.leaves.filter(l=>l.gap).length*3);
  return -moisture-cover*.4;
 }
 export function environmentTarget(s,c){
+ if(habitatConfig(s).aquatic)return {x:180,y:240,kind:s.flow>65?'shelter':'edge'};
  const e=s.environment;if(!e)return null;
  const p=speciesById(c.species||s.cohort?.[0]?.species||'dairy'),i=Number.isInteger(c.id)?c.id:Math.max(0,'ABCDEFG'.indexOf(c.id));
  const dry=Math.max(15,s.humidity-22),z=e.wetZones.reduce((a,b)=>Math.abs(a.moisture-p.wet)<=Math.abs(b.moisture-p.wet)?a:b);

@@ -1,5 +1,5 @@
-import {getLanguage} from './i18n.mjs?v=i18n-2';
-import {gameText} from './locales/game.mjs?v=isopod-3';
+import {getLanguage} from './i18n.mjs?v=aquatic-1';
+import {gameText} from './locales/game.mjs?v=aquatic-1';
 import {encounterById} from './encounters.mjs?v=molt-sequence-1';
 
 const selectors=[
@@ -52,6 +52,7 @@ function translateElement(el){
   if(title&&el.textContent!==title)el.textContent=title;
   return;
  }
+ if(el.dataset.directLocale==='true')return;
  if(!el.textContent)return;
  const current=el.textContent;
  let source=el.dataset.localeSource;

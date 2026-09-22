@@ -1,10 +1,12 @@
+import {habitatConfig} from './habitats.mjs';
+import {drawAquaticBase,drawAquaticWater,stepAquatic} from './scenery/aquatic.mjs';
 import {bindPointerInteraction} from './interaction.mjs?v=environment-memory-1';
-import {createReactions,actionFocus,drawReactionBubbles} from './reactions.mjs?v=isopod-hearts-1';
-import {environmentFor} from './environment.mjs?v=forest-10';
+import {createReactions,actionFocus,drawReactionBubbles} from './reactions.mjs?v=aquatic-1';
+import {environmentFor} from './environment.mjs?v=aquatic-1';
 import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors-speed.mjs?v=molt-sequence-1';
 import {encounterById,responseMode} from './encounters.mjs?v=narrative-pool-2';
 import {pixelAnatomy,renderModel,exuviaPixels} from './sprites.mjs?v=exuvia-1';
-import {speciesById} from './species-registry.mjs?v=species-39b';
+import {speciesById} from './species-registry.mjs?v=aquatic-1';
 import {drawBaseScene,drawLeaf,DEFAULT_LAYOUT} from './scenery/index.mjs?v=forest-10';
 import {ACTOR_SCALE} from './scenery/grammar.mjs';
 // Anatomy and scenery share the same integer world lattice.
@@ -74,6 +76,7 @@ const interaction=bindPointerInteraction(canvas,{
  },
  hitTest:point=>[...critters].reverse().find(actor=>!actor.hidden&&actor.hitCells?.some(([x,y])=>point.x>=x-3&&point.x<=x+4&&point.y>=y-3&&point.y<=y+4)),
  objectHitTest:point=>{
+  const config=habitatConfig(getState());if(config.aquatic&&!config.wood)return null;
   const env=environmentFor(getState()),shell=[...(env.shells||[])].reverse().find(item=>Math.hypot(point.x-item.x,point.y-item.y)<15);
   if(shell)return {kind:'shell',id:shell.id};
   if(point.x>=env.shelter.x-88&&point.x<=env.shelter.x+90&&point.y>=env.shelter.y-48&&point.y<=env.shelter.y+62)return {kind:'shelter'};
@@ -106,15 +109,16 @@ const interaction=bindPointerInteraction(canvas,{
  report:event=>onDirectInteraction({type:event.type,specimen:event.actor?.specimenId||null,point:event.point||null})
 });
 canvas.addEventListener('wheel',e=>{e.preventDefault();zoom(camera.zoom+(e.deltaY<0?.25:-.25));const label=document.querySelector('#zoomLevel');if(label)label.textContent=camera.zoom.toFixed(1)+'×'},{passive:false});
-function tick(t){if(!active)return;if(!document.hidden&&t-last>66){const dt=Math.min(.1,(t-last)/1000);state=getState();elapsed+=dt;stepIndividuals(critters,{encounter,state,time:elapsed,dt,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null,reduced});reactions.update(critters,{encounter,state,time:elapsed,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});drawHabitat(t);last=t}frame=requestAnimationFrame(tick)}
+function tick(t){if(!active)return;if(!document.hidden&&t-last>66){const dt=Math.min(.1,(t-last)/1000);state=getState();elapsed+=dt;(habitatConfig(state).aquatic?stepAquatic:stepIndividuals)(critters,{encounter,state,time:elapsed,dt,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null,reduced});reactions.update(critters,{encounter,state,time:elapsed,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});drawHabitat(t);last=t}frame=requestAnimationFrame(tick)}
 function px(c,x,y,w,h,color){c.fillStyle=color;c.fillRect(Math.round(x),Math.round(y),Math.max(1,Math.round(w)),Math.max(1,Math.round(h)))}
 function drawHabitat(t){
  const w=world.width,h=world.height;ctx.clearRect(0,0,w,h);
  const memory=environmentFor(state);
  const lifted=shelterHeld||!!(effect&&elapsed<effect.until&&['lift','direct-lift'].includes(effect.id));
  const sceneryOptions={wetZones:memory.wetZones||[],light:DEFAULT_LAYOUT.background.params.light,shelterLift:lifted?-12:0,seed:DEFAULT_LAYOUT.background.seed};
- const nextSceneryKey=JSON.stringify(sceneryOptions);
- if(nextSceneryKey!==sceneryKey){drawBaseScene(sceneryCtx,sceneryOptions);sceneryKey=nextSceneryKey}
+ const aquatic=habitatConfig(state).aquatic;
+ const nextSceneryKey=JSON.stringify(aquatic?[state.habitatId,state.seed,state.detritus]:sceneryOptions);
+ if(nextSceneryKey!==sceneryKey){aquatic?drawAquaticBase(sceneryCtx,state):drawBaseScene(sceneryCtx,sceneryOptions);sceneryKey=nextSceneryKey}
  ctx.drawImage(sceneryCanvas,0,0);
 
  for(const mark of memory.scuffs||[])for(let i=0;i<8;i++)px(ctx,mark.x-18+i*5,mark.y+i%2*2,3,1,'rgba(108,84,58,.55)');
@@ -145,6 +149,7 @@ function drawHabitat(t){
 
  if(state.light<55){ctx.fillStyle=`rgba(15,27,21,${(55-state.light)/120})`;ctx.fillRect(0,0,w,h)}
  ctx.strokeStyle='rgba(147,148,124,.55)';ctx.lineWidth=2;ctx.strokeRect(1,1,w-2,h-2);
+ if(aquatic)drawAquaticWater(ctx,state,reduced?0:elapsed);
  drawActors();
  present();
 }

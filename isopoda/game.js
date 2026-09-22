@@ -1,19 +1,23 @@
-import {renderCatalog,renderSources} from './catalog.mjs?v=i18n-5';
-import {SPECIES,speciesById} from './species-registry.mjs?v=species-39b';
-import {ENDINGS} from './content.mjs?v=interaction-story-2';
-import {createRun,validRun,migrateV3,runSpecies,migrateLegacy,ensureScene,choose,advance,timeFor,recordDirectInteraction,endingMemoryFor} from './engine.mjs?v=choices-3';
+import {habitatConfig,cycleHabitat} from './habitats.mjs';
+import {AQUATIC_ENDINGS,aquaticFeedback} from './aquatic-story.mjs';
+import {renderCatalog,renderSources} from './catalog.mjs?v=aquatic-1';
+import {SPECIES,speciesById} from './species-registry.mjs?v=aquatic-1';
+import {ENDINGS as LAND_ENDINGS} from './content.mjs?v=interaction-story-2';
+import {createRun,validRun,migrateV3,migrateV4,runSpecies,migrateLegacy,ensureScene,choose,advance,timeFor,recordDirectInteraction,endingMemoryFor} from './engine.mjs?v=aquatic-1';
 import {makeBug,makeIsopod,renderModel,exuviaPixels} from './sprites.mjs?v=exuvia-1';
-import {createHabitat} from './habitat.mjs?v=sprite-underlay-2';
-import {restoreCollection,drawCohort,unlock} from './collection.mjs?v=species-39b';
+import {createHabitat} from './habitat.mjs?v=aquatic-1';
+import {restoreCollection,drawCohort,unlock} from './collection.mjs?v=aquatic-1';
 import {encounterById,encounterFor} from './encounters.mjs?v=molt-sequence-1';
-import {iconButton,createInstrument} from './ui.mjs?v=isopod-3';
-import {getLanguage,t,formatShortDate,speciesPrimaryName} from './i18n.mjs?v=i18n-2';
-import {gameText} from './locales/game.mjs?v=isopod-3';
+import {iconButton,createInstrument} from './ui.mjs?v=aquatic-1';
+import {getLanguage,t,formatShortDate,speciesPrimaryName} from './i18n.mjs?v=aquatic-1';
+import {gameText} from './locales/game.mjs?v=aquatic-1';
+const ENDINGS=[...LAND_ENDINGS,...AQUATIC_ENDINGS];
 const $=s=>document.querySelector(s),KEY='isopoda-fugue-v4',ARCHIVE='isopoda-fugue-endings-v3',COLLECTION='isopoda-fieldnotes-v1',DISCOVERIES='isopoda-interaction-discoveries-v1';
 function read(key){try{return JSON.parse(localStorage.getItem(key))}catch{return null}}
 function write(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch{$('#storageNotice').hidden=false;$('#storageNotice').textContent=t('storageNotice')}}
-const stored=read(KEY)||migrateV3(read('isopoda-fugue-v3')),legacy=read('umwelt-isopod-v1');let hasRun=validRun(stored)||!!legacy;
+const stored=migrateV4(read(KEY))||migrateV3(read('isopoda-fugue-v3')),legacy=read('umwelt-isopod-v1');let hasRun=validRun(stored)||!!legacy;
 let state=validRun(stored)?stored:legacy?migrateLegacy(legacy,Date.now()>>>0):createRun('dairy',0);
+let selectedHabitat=state.habitatId||'terrestrial',previewState=createRun('dairy',4107,selectedHabitat);
 let learnedInteractions=read(DISCOVERIES);if(!learnedInteractions||typeof learnedInteractions!=='object')learnedInteractions={};
 function mergeLearnedInteractions(target){
  target.interactionDiscoveries=target.interactionDiscoveries&&typeof target.interactionDiscoveries==='object'?target.interactionDiscoveries:{};
@@ -31,7 +35,7 @@ let collection=restoreCollection(read(COLLECTION),hasRun?state:null,archives);wr
 let playing=false,sound=false,audio,drawerMode='catalog',page=0,lastScene=null,referenceReturn=null;
 let lastInterfaceLanguage=getLanguage();
 const habitat=createHabitat($('#habitat'),$('#critters'),()=>state,event=>{if(!playing||state.stage==='ended')return;const record=recordDirectInteraction(state,event);if(record){mergeLearnedInteractions(state);save();render()}});
-const emptyHabitat=createHabitat($('#emptyHabitat'),$('#emptyCritters'),()=>state);
+const emptyHabitat=createHabitat($('#emptyHabitat'),$('#emptyCritters'),()=>previewState);
 const instrument=createInstrument($('#instruments'));
 function refreshIconLabels(){for(const [id,kind,label] of [['soundBtn','sound',sound?t('soundOff'):t('soundOn')],['catalogBtn','book',t('archive')],['sourcesBtn','source',t('sources')],['journalBtn','pencil',t('journal')],['zoomOut','minus',t('zoomOut')],['zoomIn','plus',t('zoomIn')],['zoomReset','center',t('zoomReset')]])iconButton($('#'+id),kind,label)}
 refreshIconLabels();
@@ -68,18 +72,19 @@ function clock(day=state.day,period=state.period){
 function sceneNow(){
  // Replace pending legacy counting scenes without erasing past feedback or records.
  if(state.stage==='choice'&&state.scene?.kind==='count')state.scene=null;
- const scene=ensureScene(state);if(!scene.encounter)scene.encounter=encounterFor(state).id;return scene;
+ const scene=ensureScene(state);if(!scene.encounter&&!habitatConfig(state).aquatic)scene.encounter=encounterFor(state).id;return scene;
 }
-function buttons(scene){$('#actions').replaceChildren();for(const o of scene.options){const b=document.createElement('button');b.className='action';b.textContent=gameText(o.label,getLanguage());b.disabled=state.stage!=='choice';b.onclick=()=>act(o.id);$('#actions').append(b)}}
+function buttons(scene){$('#actions').replaceChildren();for(const o of scene.options){const b=document.createElement('button');b.className='action';b.dataset.directLocale='true';b.textContent=gameText(o.label,getLanguage());b.disabled=state.stage!=='choice';b.onclick=()=>act(o.id);$('#actions').append(b)}}
 function render(){
  const scene=sceneNow(),p=speciesById(state.cohort[0].species),encounter=encounterById(scene.encounter);
- setWaveText($('#dayLabel'),clock());$('#recordTitle').textContent=state.stage==='feedback'?t('recordLater'):t('recordNow');$('#observation').textContent=state.stage==='feedback'?state.feedback:scene.text;
- $('#activityLabel').textContent=getLanguage()==='zh'?(encounter?.title||''):t('habitatWindow');$('#activityLabel').dataset.motion=encounter?.motion||'';
+ setWaveText($('#dayLabel'),clock());$('#recordTitle').textContent=state.stage==='feedback'?t('recordLater'):t('recordNow');$('#observation').dataset.directLocale='true';$('#observation').textContent=gameText(state.stage==='feedback'?state.feedback:scene.text,getLanguage());
+ if(habitatConfig(state).aquatic&&state.stage==='feedback')$('#observation').textContent+=' '+gameText(aquaticFeedback(state),getLanguage());
+ $('#activityLabel').textContent=habitatConfig(state).aquatic?gameText('water:habitat:'+state.habitatId,getLanguage()):getLanguage()==='zh'?(encounter?.title||''):t('habitatWindow');$('#activityLabel').dataset.motion=encounter?.motion||'';
  const cue=state.stage==='feedback'?(state.interactionIntent?.hint||''):'';$('#interactionCue').hidden=!cue;$('#interactionCue').textContent=cue;
  $('#nextBtn').disabled=state.stage!=='feedback';
  const nextTime=timeFor(state.seed,state.period===2?state.day+1:state.day,(state.period+1)%3);
  const nextTimeLabel=getLanguage()==='isopod'?isopodWaveTime(nextTime):nextTime;
- setWaveText($('#nextBtn'),state.stage==='choice'?t('holdMoment'):state.day===7&&state.period===2?t('closeGently'):t('later',{time:nextTimeLabel}));
+ setWaveText($('#nextBtn'),state.stage==='choice'?t('holdMoment'):state.day===habitatConfig(state).days&&state.period===2?t('closeGently'):t('later',{time:nextTimeLabel}));
  buttons(scene);$('#miniView').replaceChildren();$('#miniView').hidden=true;
  if(state.stage==='choice'&&scene.kind==='count'){$('#miniView').hidden=false;for(let i=0;i<scene.count;i++)$('#miniView').append(makeBug(p,i))}
  if(lastScene!==scene.id){habitat.stage(scene);lastScene=scene.id}
@@ -87,9 +92,9 @@ function render(){
 }
 function batchBugs(){return state.cohort.map(c=>{const bug=makeIsopod(speciesById(c.species),{seed:c.seed,stage:c.stage});bug.dataset.specimen=c.id;bug.dataset.species=c.species;bug.title=`${c.id} · ${speciesPrimaryName(speciesById(c.species))}`;return bug})}
 function arrival(){playing=false;habitat.stop();$('#titleCard').hidden=true;$('#playView').hidden=true;$('#endCard').hidden=true;$('#arrivalCard').hidden=false;$('#dayLabel').textContent='';$('#arrivalSpecimens').replaceChildren(...batchBugs())}
-function draw(){if($('#startBtn').disabled)return;$('#startBtn').disabled=true;const seed=Date.now()>>>0,cohort=drawCohort(collection,seed);state=createRun(cohort[0].species,seed);state.cohort=cohort;mergeLearnedInteractions(state);state.arrivalPending=true;hasRun=true;collection.draws++;for(const id of runSpecies(state))unlock(collection,id,state.startedOn);write(COLLECTION,collection);save();begin();tone(130)}
+function draw(){if($('#startBtn').disabled)return;$('#startBtn').disabled=true;const seed=Date.now()>>>0,cohort=drawCohort(collection,seed,selectedHabitat);state=createRun(cohort[0].species,seed,selectedHabitat);state.cohort=cohort;mergeLearnedInteractions(state);state.arrivalPending=true;hasRun=true;collection.draws++;for(const id of runSpecies(state))unlock(collection,id,state.startedOn);write(COLLECTION,collection);save();begin();tone(130)}
 function begin(){
- if(!hasRun)return;if(state.arrivalPending){arrival();return}
+ if(!hasRun)return;emptyHabitat.stop();if(state.arrivalPending){arrival();return}
  $('#titleCard').hidden=true;$('#arrivalCard').hidden=true;$('#endCard').hidden=true;$('#habitatLibrary').append($('#catalogBtn'));playing=true;
  if(state.stage==='ended'){showEnd();return}
  $('#playView').hidden=false;lastScene=null;sceneNow();habitat.reset();habitat.home();$('#zoomLevel').textContent='1×';render();habitat.start();
@@ -109,18 +114,18 @@ function drawEndMolts(){
  });
 }
 function showEnd(){
- habitat.stop();$('#playView').hidden=true;$('#arrivalCard').hidden=true;$('#endCard').hidden=false;$('#dayLabel').textContent='';const e=ENDINGS.find(e=>e.id===state.ending)||ENDINGS[5];setWaveText($('#endingTime'),clock());$('#endingTitle').textContent='Epilogue - '+e.title;$('#endingBody').textContent=e.body;$('#endingLine').textContent=e.line;$('#endSpecimen').replaceChildren(...batchBugs());drawEndMolts();
+ habitat.stop();$('#playView').hidden=true;$('#arrivalCard').hidden=true;$('#endCard').hidden=false;$('#dayLabel').textContent='';const e=ENDINGS.find(e=>e.id===state.ending)||ENDINGS[5];setWaveText($('#endingTime'),clock());for(const id of ['endingTitle','endingBody','endingLine'])$('#'+id).dataset.directLocale='true';$('#endingTitle').textContent=gameText(e.title,getLanguage());$('#endingBody').textContent=gameText(e.body,getLanguage());$('#endingLine').textContent=gameText(e.line,getLanguage());$('#endCard .ending-date span:last-child').textContent=habitatConfig(state).aquatic?gameText('water:days3',getLanguage()):t('sevenDayObservation');$('#endSpecimen').replaceChildren(...batchBugs());drawEndMolts();
  if(!archives.some(a=>a.run===state.seed)){archives.push({id:e.id,run:state.seed,species:runSpecies(state),cohort:state.cohort,date:new Date().toLocaleDateString(),records:state.records.length,memory:endingMemoryFor(state),molts:(state.collectedShells||[]).map(shell=>({phase:shell.phase,specimen:shell.specimen}))});archives=archives.slice(-60);write(ARCHIVE,archives)}save();
 }
-function home(){playing=false;habitat.stop();$('#playView').hidden=true;$('#endCard').hidden=true;$('#arrivalCard').hidden=true;$('#titleCard').hidden=false;$('#dayLabel').textContent='';$('#startBtn').disabled=false;$('#continueBtn').hidden=!hasRun;$('#continueBtn').textContent=state.stage==='ended'?t('viewEnding'):t('continueObservation');emptyHabitat.reset({empty:true})}
+function home(){playing=false;habitat.stop();$('#playView').hidden=true;$('#endCard').hidden=true;$('#arrivalCard').hidden=true;$('#titleCard').hidden=false;$('#dayLabel').textContent='';$('#startBtn').disabled=false;$('#continueBtn').hidden=!hasRun;$('#continueBtn').textContent=state.stage==='ended'?t('viewEnding'):t('continueObservation');refreshPreview()}
 function tone(freq){if(!sound)return;try{audio ||= new (window.AudioContext||window.webkitAudioContext)();audio.resume();const o=audio.createOscillator(),g=audio.createGain();o.type='triangle';o.frequency.value=freq;g.gain.setValueAtTime(.025,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.12);o.connect(g).connect(audio.destination);o.start();o.stop(audio.currentTime+.12)}catch{sound=false;$('#soundBtn').setAttribute('aria-pressed','false');$('#soundBtn').setAttribute('aria-label',t('soundUnavailable'))}}
-function paragraph(value,cls=''){const el=document.createElement('p');el.textContent=value;el.className=cls;return el}
+function paragraph(value,cls=''){const el=document.createElement('p');el.dataset.directLocale='true';el.textContent=gameText(value,getLanguage());el.className=cls;return el}
 function drawDrawer(){
  const el=$('#drawerContent');el.replaceChildren();el.scrollTop=0;let total=1;const sourcesOnly=drawerMode==='sources';$('#drawer').dataset.mode=drawerMode;$('#drawerTabs').hidden=sourcesOnly||drawerMode==='journal';$('#sourcesBtn').hidden=drawerMode==='journal';$('#pagePrev').parentElement.hidden=sourcesOnly;$('#specimensTab').setAttribute('aria-pressed',String(drawerMode==='catalog'));$('#endingsTab').setAttribute('aria-pressed',String(drawerMode==='endings'));
  if(drawerMode==='catalog'){
   total=SPECIES.length;page=(page+total)%total;const p=SPECIES[page],known=collection.unlocked.includes(p.id);$('#drawerTitle').textContent=t('archive');el.append(renderCatalog(p,{unlocked:known,collectedOn:collection.acquired?.[p.id]}));
  }else if(drawerMode==='endings'){
-  total=ENDINGS.length;page=(page+total)%total;const e=ENDINGS[page],saved=archives.some(a=>a.id===e.id);$('#drawerTitle').textContent=t('archive');const note=document.createElement('article');note.className='ending-note';if(saved){const h=document.createElement('h3');h.textContent=e.title;note.append(h,paragraph(e.body),paragraph(e.line,'last-line'));const batches=archives.filter(a=>a.id===e.id);for(const a of batches){const taxa=Array.isArray(a.species)?a.species:[a.species];if(a.memory)note.append(paragraph(a.memory,'ending-memory'));note.append(paragraph(`${a.date} · ${taxa.map(id=>speciesPrimaryName(speciesById(id))).join(' / ')}`,'faint'))}}else{note.classList.add('unseen');const h=document.createElement('h3');h.innerHTML='&nbsp;';note.append(h,paragraph('','ending-space'),paragraph(t('emptyEnding'),'last-line'))}el.append(note);
+  total=ENDINGS.length;page=(page+total)%total;const e=ENDINGS[page],saved=archives.some(a=>a.id===e.id);$('#drawerTitle').textContent=t('archive');const note=document.createElement('article');note.className='ending-note';if(saved){const h=document.createElement('h3');h.dataset.directLocale='true';h.textContent=gameText(e.title,getLanguage());note.append(h,paragraph(gameText(e.body,getLanguage())),paragraph(gameText(e.line,getLanguage()),'last-line'));const batches=archives.filter(a=>a.id===e.id);for(const a of batches){const taxa=Array.isArray(a.species)?a.species:[a.species];if(a.memory)note.append(paragraph(a.memory,'ending-memory'));note.append(paragraph(`${a.date} · ${taxa.map(id=>speciesPrimaryName(speciesById(id))).join(' / ')}`,'faint'))}}else{note.classList.add('unseen');const h=document.createElement('h3');h.innerHTML='&nbsp;';note.append(h,paragraph('','ending-space'),paragraph(t('emptyEnding'),'last-line'))}el.append(note);
  }else if(drawerMode==='journal'){
   total=Math.max(1,state.records.length);page=Math.max(0,Math.min(page,total-1));$('#drawerTitle').textContent=t('journalTitle');const paper=document.createElement('article');paper.className='journal-paper';if(state.records.length){const r=state.records[page];paper.append(paragraph(t('journalEntry',{day:r.day,time:r.time||timeFor(state.seed,r.day,r.period)}),'entry-date'),paragraph(r.label,'pencil-mark'),paragraph(r.text))}else paper.append(paragraph(t('journalEmpty')));el.append(paper);
  }else{$('#drawerTitle').textContent=t('sources');el.append(renderSources())}
@@ -137,6 +142,13 @@ $('#drawer').addEventListener('close',()=>{if(playing&&state.stage!=='ended')hab
 $('#specimensTab').onclick=()=>{drawerMode='catalog';page=Math.max(0,SPECIES.findIndex(p=>p.id===state.cohort[0].species));drawDrawer()};$('#endingsTab').onclick=()=>{drawerMode='endings';page=Math.max(0,ENDINGS.findIndex(e=>e.id===state.ending));drawDrawer()};
 $('#sourcesBtn').onclick=()=>{if(drawerMode==='sources'){drawerMode=referenceReturn?.mode||'catalog';page=referenceReturn?.page||0}else{referenceReturn={mode:drawerMode,page};drawerMode='sources';page=0}drawDrawer()};
 for(const [id,delta] of [['pagePrev',-1],['pageNext',1]])$('#'+id).onclick=()=>{const n=drawerMode==='catalog'?SPECIES.length:drawerMode==='endings'?ENDINGS.length:Math.max(1,state.records.length);page=(page+delta+n)%n;drawDrawer()};
+function refreshPreview(){
+ const seed=4107;previewState=createRun('dairy',seed,selectedHabitat);previewState.cohort=drawCohort({unlocked:[],draws:0},seed,selectedHabitat);
+ $('#titleCard .window-title span').textContent='ISOPODA / '+gameText('water:habitat:'+selectedHabitat,getLanguage());
+ $('#habitatPrev').setAttribute('aria-label',gameText('water:prev',getLanguage()));$('#habitatNext').setAttribute('aria-label',gameText('water:next',getLanguage()));
+ $('#titleCard').dataset.habitat=selectedHabitat;emptyHabitat.reset();emptyHabitat.start();
+}
+for(const [id,d] of [['habitatPrev',-1],['habitatNext',1]])$('#'+id).onclick=()=>{selectedHabitat=cycleHabitat(selectedHabitat,d);refreshPreview()};
 home();
 
 // Window controls keep the run intact; closing returns to the saved home view.
@@ -152,6 +164,7 @@ window.addEventListener('isopoda:languagechange',event=>{
  const nextLanguage=event.detail?.language||getLanguage(),enteredIsopod=nextLanguage==='isopod'&&lastInterfaceLanguage!=='isopod';
  lastInterfaceLanguage=nextLanguage;
  refreshIconLabels();
+ if(!$('#titleCard').hidden){refreshPreview();if(enteredIsopod)emptyHabitat.heartBurst()}
  $('#continueBtn').textContent=state.stage==='ended'?t('viewEnding'):t('continueObservation');
  $('#soundBtn').setAttribute('aria-label',sound?t('soundOff'):t('soundOn'));$('#soundBtn').title=sound?t('soundOff'):t('soundOn');
  if(playing&&state.stage!=='ended'){render();if(enteredIsopod)habitat.heartBurst()}

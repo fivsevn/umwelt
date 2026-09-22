@@ -1,3 +1,4 @@
+import {aquaticText} from '../aquatic-story.mjs';
 import {encodeIsopodText} from './isopod.mjs?v=isopod-3';
 
 // Runtime localization for authored game copy.
@@ -403,6 +404,7 @@ function dynamic(value,lang){
 
 export function gameText(value,lang='zh'){
  if(value==null)return '';
+ const water=aquaticText(value,lang);if(water!==null)return water;
  value=String(value);
  if(lang==='zh')return value;
  if(lang==='isopod')return encodeIsopodText(value);

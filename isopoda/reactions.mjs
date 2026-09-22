@@ -1,4 +1,4 @@
-import {environmentTarget} from './environment.mjs?v=forest-10';
+import {environmentTarget} from './environment.mjs?v=aquatic-1';
 // GAME: reading cues for visible actions, never emotions or social cognition.
 export const PRIORITY={'!!':5,'!':4,'◎':3,'?':2,'…':2,'♡':1,'~':1,'*':1,'o':1,'z':1};
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
@@ -34,7 +34,7 @@ export function cueFor(c,group,encounter,state,reaction,time=0){
  if(c.occlusion>.4&&motion!=='emerge')return '~';
  const target=environmentTarget(state,c);
  if(reaction&&['mist','wet-left'].includes(reaction.id)&&target?.kind==='wet'&&Math.hypot(c.x-target.x,c.y-target.y)<18)return '~';
- if(!focus)return reaction?null:ambientCue(c,time);
+ if(!focus||!encounter)return reaction?null:ambientCue(c,time);
  const near=Math.hypot(c.x-encounter.place[0],c.y-encounter.place[1])<52;
  if(motion==='contact'){
   if(p==='probing'&&group.some(o=>o!==c&&o.role<encounter.actors&&o.posture==='probing'&&Math.hypot(c.x-o.x,c.y-o.y)<55))return '!';

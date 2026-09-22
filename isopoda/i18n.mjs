@@ -1,4 +1,4 @@
-import {SUPPORTED_LANGUAGES,UI_COPY} from './locales/ui.mjs?v=i18n-3';
+import {SUPPORTED_LANGUAGES,UI_COPY} from './locales/ui.mjs?v=aquatic-1';
 
 export {SUPPORTED_LANGUAGES};
 
@@ -20,7 +20,7 @@ function setDocumentLanguage(){
 }
 
 const textBindings=[
- ['#titleCard .window-title span','titleBar'],['#startBtn','newObservation'],['#continueBtn','continueObservation'],['#arrivalCard .panel-caption','waitingSpecimens'],['#settleBtn','startObservation'],['#activityLabel','habitatWindow'],['#nextBtn','holdMoment'],['#endSpecimenCaption','observeSpecimens'],['#endMoltsCaption','collectedExuviae'],['#endCard .ending-date span:last-child','sevenDayObservation'],['#endCard .afterword .panel-caption','asimovMessage'],['#restartBtn','restart'],['#endingCatalogBtn','viewArchive'],['#specimensTab','specimens']
+ ['#startBtn','newObservation'],['#continueBtn','continueObservation'],['#arrivalCard .panel-caption','waitingSpecimens'],['#settleBtn','startObservation'],['#activityLabel','habitatWindow'],['#nextBtn','holdMoment'],['#endSpecimenCaption','observeSpecimens'],['#endMoltsCaption','collectedExuviae'],['#endCard .ending-date span:last-child','sevenDayObservation'],['#endCard .afterword .panel-caption','asimovMessage'],['#restartBtn','restart'],['#endingCatalogBtn','viewArchive'],['#specimensTab','specimens']
 ];
 const attributeBindings=[
  ['.launch-close','aria-label','closeReturn'],['#emptyHabitat','aria-label','habitatAria'],['#windowMinimize','aria-label','minimizeWindow'],['#windowMaximize','aria-label','maximizeWindow'],['#windowClose','aria-label','closeWindow'],['.window-system-menu','aria-label','systemActions'],['.language-menu','aria-label','language'],['#musicBtn','aria-label','music'],['#musicBtn','title','musicPlaceholder'],['#soundBtn','aria-label','soundOn'],['#soundBtn','title','soundOn'],['#speedFastBtn','aria-label','speed16'],['#speedTurboBtn','aria-label','speed64'],['#instruments','aria-label','environmentStatus'],['#habitat','aria-label','habitatCanvas'],['#speciesStatus','aria-label','speciesStatus'],['#catalogBtn','aria-label','archive'],['#zoomOut','aria-label','zoomOut'],['#zoomIn','aria-label','zoomIn'],['#zoomReset','aria-label','zoomReset'],['#actions','aria-label','roundChoices'],['#journalBtn','aria-label','journal'],['#sourcesBtn','aria-label','sources'],['#closeDrawer','aria-label','close'],['#pagePrev','aria-label','previousPage'],['#pageNext','aria-label','nextPage']

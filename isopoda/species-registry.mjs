@@ -1,3 +1,4 @@
+import {AQUATIC_SPECIES} from './data/species/aquatic.mjs';
 import {SPECIES as BASE_SPECIES} from './species.mjs?v=base-13';
 import {EXTRA_SPECIES} from './data/species/batch-01.mjs?v=species-18';
 import {EXTRA_SPECIES_2} from './data/species/batch-02.mjs?v=species-23';
@@ -13,6 +14,6 @@ import {applySpeciesDisplayScale} from './species-size.mjs?v=size-5';
 // while adult body-length references only scale the complete specimen silhouette.
 // Scientifically useful reference taxa can live in the registry without being eligible for
 // the terrestrial habitat draw; collection.mjs respects game.habitatEligible === false.
-const RAW_SPECIES=[...BASE_SPECIES,...EXTRA_SPECIES,...EXTRA_SPECIES_2,...EXTRA_SPECIES_3,...EXTRA_SPECIES_4,...EXTRA_SPECIES_5,...EXTRA_SPECIES_6];
+const RAW_SPECIES=[...BASE_SPECIES,...EXTRA_SPECIES,...EXTRA_SPECIES_2,...EXTRA_SPECIES_3,...EXTRA_SPECIES_4,...EXTRA_SPECIES_5,...EXTRA_SPECIES_6,...AQUATIC_SPECIES];
 export const SPECIES=RAW_SPECIES.map(applySpeciesDisplayScale);
 export const speciesById=id=>SPECIES.find(s=>s.id===id)||SPECIES[0];

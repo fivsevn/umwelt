@@ -1,6 +1,6 @@
 import {stepInteraction} from './interaction.mjs?v=touchhold-1';
-import {speciesById} from './species-registry.mjs?v=species-39b';
-import {cohortFor} from './engine.mjs?v=cohort-4';
+import {speciesById} from './species-registry.mjs?v=aquatic-1';
+import {cohortFor} from './engine.mjs?v=aquatic-1';
 import {stableHash} from './sprites.mjs?v=appendage-2';
 export const MOTIONS=['contact','follow','feed','gather','yield','climb','groom','molt','shell','border','defend','emerge','orbit','rest','under','disperse','parallel','wall','hesitate'];
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));

@@ -133,3 +133,7 @@ html,body{height:100%;overflow:hidden}#game{height:100dvh;padding:6px 8px max(6p
 
 /* Interaction discovery is presented as a quiet continuation of the observation, never as tutorial chrome. */
 .interaction-cue{min-height:22px;padding:3px 8px 2px;border-left:2px solid #758061;color:#9da88b;font-size:11px;line-height:1.55;letter-spacing:.02em;background:rgba(44,54,39,.46)}
+
+.habitat-switch{display:flex;align-items:center;justify-content:space-between;padding:4px 6px;background:var(--panel,#bdc4a6);color:#536a5e}.habitat-switch button{min-width:44px;min-height:32px;padding:3px 14px;font:inherit}.habitat-switch span{letter-spacing:8px}.launch-card .window-title span{min-width:0;overflow-wrap:anywhere}
+
+.launch-card>.habitat-switch{display:flex;width:100%;box-sizing:border-box;align-self:stretch;background:#bdc4a6}.habitat-switch button{background:#bdc4a6;color:#3b5146;border-color:#e1e4cb #536354 #536354 #e1e4cb}
