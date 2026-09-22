@@ -1,4 +1,4 @@
-import {getLanguage,t} from './i18n.mjs?v=aquatic-4';
+import {getLanguage,t} from './i18n.mjs?v=i18n-5';
 
 // Edit credits*.md to maintain the copy. Supports headings, lists, links,
 // paragraphs and blockquotes; text is inserted as text nodes, never raw HTML.
