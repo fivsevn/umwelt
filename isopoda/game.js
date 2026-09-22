@@ -1,6 +1,6 @@
 import {habitatConfig,cycleHabitat} from './habitats.mjs?v=abyssal-1';
 import {AQUATIC_ENDINGS,aquaticFeedback} from './aquatic-story.mjs?v=abyssal-1';
-import {renderCatalog,renderSources} from './catalog.mjs?v=aquatic-7';
+import {renderCatalog,renderSources} from './catalog.mjs?v=abyssal-1';
 import {SPECIES,speciesById} from './species-registry.mjs?v=abyssal-1';
 import {ENDINGS as LAND_ENDINGS} from './content.mjs?v=interaction-story-2';
 import {createRun,validRun,migrateV3,migrateV4,runSpecies,migrateLegacy,ensureScene,choose,advance,timeFor,recordDirectInteraction,endingMemoryFor} from './engine.mjs?v=abyssal-1';
