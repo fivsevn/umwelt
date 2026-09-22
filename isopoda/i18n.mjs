@@ -5,16 +5,21 @@ export {SUPPORTED_LANGUAGES};
 const STORAGE_KEY='isopoda-ui-language-v1';
 
 function normalize(value){return SUPPORTED_LANGUAGES.includes(value)?value:'zh'}
-let language=normalize((()=>{try{return localStorage.getItem(STORAGE_KEY)}catch{return null}})());
+const storedLanguage=normalize((()=>{try{return localStorage.getItem(STORAGE_KEY)}catch{return null}})());
+// This module has mutable state. Query-string cache busting can otherwise instantiate it
+// more than once and split the interface into different active languages.
+const I18N_STATE=globalThis.__ISOPODA_I18N_STATE__??={language:storedLanguage};
+I18N_STATE.language=normalize(I18N_STATE.language);
 
-export function getLanguage(){return language}
-export function t(key,vars={},lang=language){
+export function getLanguage(){return I18N_STATE.language}
+export function t(key,vars={},lang=I18N_STATE.language){
  const table=UI_COPY[normalize(lang)]||UI_COPY.zh;let value=table[key]??UI_COPY.zh[key]??key;
  for(const [name,replacement] of Object.entries(vars))value=value.replaceAll(`{${name}}`,String(replacement));
  return value;
 }
 
 function setDocumentLanguage(){
+ const language=I18N_STATE.language;
  const html=document.documentElement;html.dataset.uiLanguage=language;html.lang=language==='zh'?'zh-CN':language==='isopod'?'x-isopod':language;
  document.title=t('documentTitle');const description=document.querySelector('meta[name="description"]');if(description)description.content=t('documentDescription');
 }
@@ -37,7 +42,7 @@ export function applyStaticTranslations(){
 }
 
 export function setLanguage(next,{announce=true}={}){
- const value=normalize(next);language=value;
+ const value=normalize(next);I18N_STATE.language=value;
  try{localStorage.setItem(STORAGE_KEY,value)}catch{}
  applyStaticTranslations();
  if(announce)window.dispatchEvent(new CustomEvent('isopoda:languagechange',{detail:{language:value}}));
@@ -62,19 +67,19 @@ function numericDate(date,lang,{year=false}={}){
  return new Intl.DateTimeFormat(dateLocale(lang),options).format(date);
 }
 
-export function formatDate(value,lang=language){
+export function formatDate(value,lang=I18N_STATE.language){
  if(!value)return t('catalogUnrecorded',{},lang);
  const match=String(value).match(/^(\d{4})-(\d{2})-(\d{2})/);if(!match)return String(value);
  const [,year,month,day]=match,date=new Date(Number(year),Number(month)-1,Number(day),12);
  return numericDate(date,lang,{year:true});
 }
 
-export function formatShortDate(date,lang=language){
+export function formatShortDate(date,lang=I18N_STATE.language){
  return numericDate(date,lang);
 }
 
 function scientificName(species){return species?.taxonomy?.acceptedScientificName||species?.taxon||species?.trade?.designation||species?.id||'—'}
-export function speciesPrimaryName(species,lang=language){
+export function speciesPrimaryName(species,lang=I18N_STATE.language){
  if(!species)return '—';
  if(lang==='zh')return species.names?.zhCN||species.name||scientificName(species);
  if(lang==='isopod')return `o / ${scientificName(species)}`;
@@ -88,7 +93,7 @@ export function speciesPrimaryName(species,lang=language){
  return scientificName(species);
 }
 
-export function speciesSecondaryName(species,lang=language){
+export function speciesSecondaryName(species,lang=I18N_STATE.language){
  if(!species)return '';
  if(lang==='zh')return species.label||species.names?.en||'';
  if(lang==='en'||lang==='isopod')return '';
