@@ -20,7 +20,10 @@ async function inspect(page,narrow){
   if(!narrow){check(rect(q('.layer-panel')).right<rect(q('.viewer')).left,'desktop left column');check(rect(q('.viewer')).right<rect(q('.inspector')).left,'desktop right column')}
   within(q('.reference-list'),q('.references'),'reference list escapes border');
   if(narrow)for(const e of document.querySelectorAll('.reference'))within(e,q('.references'),'reference card escapes panel');
-  if(q('.dossier').open)within(q('.dossier-body'),q('.dossier'),'dossier body escapes border');
+  if(q('.dossier').open){
+   within(q('.dossier-body'),q('.dossier'),'dossier body escapes border');
+   for(const row of document.querySelectorAll('.dossier-row')){within(row,q('.dossier'),'dossier row escapes border');check(parseFloat(getComputedStyle(row).borderTopWidth)>0&&parseFloat(getComputedStyle(row).borderLeftWidth)>0,'dossier item missing its own frame')}
+  }
   const field=rect(q('.optical-field')),deck=rect(q('.vhs-deck')),label=rect(q('.viewer-label'));
   check(field.top>=label.bottom-1&&deck.top>=field.bottom-1,'optical rows overlap');
   for(const e of document.querySelectorAll('.vhs-card')){within(e,q('.viewer'),'monitor escapes viewer');within(e.querySelector('canvas'),e.querySelector('.vhs-screen'),'monitor canvas escapes screen')}
