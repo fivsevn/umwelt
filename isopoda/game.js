@@ -103,8 +103,8 @@ function begin(){
 function act(id){if(!choose(state,id))return;if(!state.interactionIntent)habitat.react(id);tone(130);render()}
 function next(){if(!advance(state))return;tone(95);save();if(state.stage==='ended'){showEnd();return}render()}
 function drawEndMolts(){
- const canvas=$('#endMolts'),shells=Array.isArray(state.collectedShells)?state.collectedShells.slice(-8):[];if(!canvas)return;
- canvas.hidden=!shells.length;if(!shells.length)return;
+ const canvas=$('#endMolts'),panel=canvas?.closest('.molt-result-panel'),shells=Array.isArray(state.collectedShells)?state.collectedShells.slice(-8):[];if(!canvas)return;
+ if(panel)panel.hidden=!shells.length;canvas.hidden=!shells.length;if(!shells.length)return;
  const slot=56,w=Math.max(96,shells.length*slot+16),h=58;canvas.width=w;canvas.height=h;canvas.style.width=Math.min(420,Math.round(w*1.45))+'px';canvas.style.height=Math.round(h*1.45)+'px';
  const g=canvas.getContext('2d');g.clearRect(0,0,w,h);g.imageSmoothingEnabled=false;
  shells.forEach((shell,index)=>{
