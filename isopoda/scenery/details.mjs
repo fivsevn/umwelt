@@ -9,7 +9,7 @@ function localLine(g,o,ax,ay,bx,by,width,color){
  for(let i=0;i<=steps;i++){const t=i/steps;localPixel(g,o,ax+(bx-ax)*t,ay+(by-ay)*t,width,width,color)}
 }
 export function withSoftWorldShadow(g,{alpha=.1,dy=2}={},draw){
- if(alpha<=0||dy<=0)return draw();
+ if(alpha<=0||dy<=0||typeof g.save!=='function'||typeof g.restore!=='function')return draw();
  g.save();g.shadowColor=`rgba(18,24,20,${alpha})`;g.shadowOffsetX=0;g.shadowOffsetY=dy;g.shadowBlur=0;
  try{return draw()}finally{g.restore()}
 }
