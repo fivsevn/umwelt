@@ -5,7 +5,7 @@ import {EXTRA_SPECIES_2} from './data/species/batch-02.mjs?v=species-23';
 import {EXTRA_SPECIES_3} from './data/species/batch-03.mjs?v=species-28';
 import {EXTRA_SPECIES_4} from './data/species/batch-04.mjs?v=species-33';
 import {EXTRA_SPECIES_5} from './data/species/marine-reference.mjs?v=species-34';
-import {EXTRA_SPECIES_6} from './data/species/hobby-lines.mjs?v=species-39b';
+import {EXTRA_SPECIES_6} from './data/species/hobby-lines.mjs?v=wiki-1';
 import {applySpeciesDisplayScale} from './species-size.mjs?v=size-5';
 import {applyLocomotionProfile} from './locomotion.mjs?v=locomotion-2';
 
