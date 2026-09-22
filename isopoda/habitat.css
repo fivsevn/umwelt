@@ -83,3 +83,43 @@ footer{display:flex;justify-content:space-between;gap:16px;padding:0 2px;color:#
  .lab-title p{font-size:9px;line-height:1.5}
  .lab-code{font-size:8px}
 }
+
+
+/* Responsive regression fixes for tablet, phone portrait, and short landscape viewports. */
+.workspace>*,
+.asset-panel,.viewer-panel,.inspector{min-width:0}
+.viewer-actions,.specimen-reference{min-width:0;flex-wrap:wrap}
+.specimen-reference label{min-width:0}
+.specimen-reference select{max-width:100%}
+
+@media(max-width:1100px) and (min-width:761px){
+ .workspace{grid-template-columns:220px minmax(0,1fr)}
+ .inspector{grid-column:1/-1}
+ .asset-panel{max-height:620px}
+ .viewer-panel{min-width:0}
+ .specimen-reference{margin-left:0;flex:1 1 100%}
+ .specimen-reference label:first-child{flex:1 1 220px}
+ .viewer-actions{flex-wrap:wrap}
+}
+@media(max-width:900px){
+ .topbar{display:block;padding-bottom:7px}
+ .lab-title h1{display:grid;gap:2px}
+ .lab-title p{white-space:normal}
+ .lab-status{grid-template-columns:auto auto auto;align-items:baseline;justify-content:start;justify-items:start;gap:2px 10px;min-width:0;text-align:left;margin-top:8px}
+ .cross-lab-link{grid-column:1/-1}
+}
+@media(max-width:760px){
+ .workspace{grid-template-columns:minmax(0,1fr)}
+ .asset-panel,.viewer-panel,.inspector{width:100%}
+ .specimen-reference{width:100%;margin-left:0}
+}
+@media(max-height:520px) and (orientation:landscape){
+ .canvas-shell{height:340px;min-height:340px}
+ .scene-transfer{max-height:170px}
+}
+@media(max-width:480px){
+ .specimen-reference{align-items:stretch}
+ .specimen-reference label{flex:1 1 100%}
+ .specimen-reference #referenceStage{width:100%}
+ .viewer-actions{width:100%}
+}
