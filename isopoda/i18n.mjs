@@ -1,4 +1,4 @@
-import {SUPPORTED_LANGUAGES,UI_COPY} from './locales/ui.mjs?v=aquatic-1';
+import {SUPPORTED_LANGUAGES,UI_COPY} from './locales/ui.mjs?v=abyssal-1';
 
 export {SUPPORTED_LANGUAGES};
 
