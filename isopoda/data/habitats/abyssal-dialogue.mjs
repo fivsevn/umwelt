@@ -75,6 +75,33 @@ export const ABYSSAL_NODES=[
   ]
  },
  {
+  id:'reflection',
+  prompt:['观察窗上浮出一层很淡的反光。镜头这一侧的轮廓第一次叠进黑水里。它停了一会儿，看着那层反光：“这个也算画面里的东西吗？”','A faint reflection appears on the observation window. For the first time, a shape from this side of the glass overlaps the black water. It pauses and looks at the reflection. “Does this count as something in the image too?”','観察窓にごく薄い反射が浮かぶ。ガラスのこちら側の輪郭が、初めて黒い水に重なる。少し止まり、その反射を見て聞く。「これも画面の中のものになる？」'],
+  options:[
+   {id:'reflection-clear',label:['把反光避开','Move out of the reflection','反射から外れる'],delta:{restraint:1,attention:1},text:['镜头这边的轮廓消失了。黑水重新显得完整。观察窗仍在原处。','The shape on this side disappears. The black water looks whole again. The observation window remains where it was.','こちら側の輪郭は消える。黒い水はまた一続きに見える。観察窓そのものは同じ場所に残る。']},
+   {id:'reflection-note',label:['把反光也记在旁边','Note the reflection as well','反射も脇に記す'],delta:{attention:2,maps:1},text:['页边多了一句很短的注记。画面里的身体没有因此换位置。','A short note is added in the margin. The body in the image does not change position because of it.','頁の端に短い注記が増える。画面の身体は、それで位置を変えるわけではない。']},
+   {id:'reflection-leave',label:['先不处理','Leave it alone','そのままにする'],delta:{quiet:2,restraint:1},text:['两个轮廓短暂重在一起。过了一会儿，水流让反光自己散开。','The two silhouettes overlap briefly. After a while, the reflection breaks apart on its own as the water shifts.','二つの輪郭がしばらく重なる。やがて水の揺れで、反射の方が自然にほどける。']}
+  ]
+ },
+ {
+  id:'offering',
+  prompt:['机械臂边缘掉下一小片残屑。它没有立刻靠近，先看了看残屑，又转向观察窗：“这个是海底的一部分，还是你带来的？”','A small fragment falls from the edge of the manipulator. It does not approach at once. It looks at the fragment, then toward the observation window. “Is this part of the seafloor, or something you brought?”','マニピュレーターの縁から小さな破片が落ちる。すぐには近づかず、破片を見てから観察窓へ向く。「これは海底の一部？　それとも君が持ってきたもの？」'],
+  options:[
+   {id:'offering-food',label:['先记作食物','Record it as food for now','ひとまず食物と記す'],delta:{interpretation:2,labels:1},text:['“食物”进入记录。残屑还没有被吃。','“Food” enters the record. The fragment has not been eaten.','「食物」と記録される。破片はまだ食べられていない。']},
+   {id:'offering-intervention',label:['记作一次干预','Record an intervention','介入として記す'],delta:{attention:2,restraint:1},text:['记录里多出一个来自观察窗这一侧的动作。残屑仍躺在粉砂上。','An action originating from this side of the observation window enters the record. The fragment still lies on the silt.','観察窓のこちら側から起きた動作が記録に加わる。破片はまだ泥の上にある。']},
+   {id:'offering-fall',label:['只记它落下','Record only that it fell','落ちたことだけ記す'],delta:{restraint:2,quiet:1},text:['记录停在落下这一刻。它后来是否靠近，被留到下一行。','The record stops at the fall itself. Whether it later approaches is left for another line.','記録は落下した瞬間で止まる。その後近づくかどうかは、次の行へ残される。']}
+  ]
+ },
+ {
+  id:'specimen',
+  prompt:['资料库窗口被短暂调到前景。编号、学名、采集栏和固定的背面图像盖住了海底的一角。它从窗口后方经过，只露出几节步足：“这里已经有一页了，为什么还要看这里？”','The archive window briefly moves to the foreground. A number, scientific name, collection fields, and a fixed dorsal image cover part of the seafloor. It passes behind the window with only a few legs visible. “There is already a page here. Why keep looking here?”','資料庫の窓が短く前面に出る。番号、学名、採集欄、固定された背面像が海底の一部を覆う。その窓の後ろを通り、数本の脚だけが見える。「もう一頁あるのに、どうしてまだここを見るの？」'],
+  options:[
+   {id:'specimen-update',label:['为了补全资料','To complete the record','資料を補うため'],delta:{labels:2,interpretation:1},text:['资料页多了一行。海底的画面没有因此少掉一处未知。','A line is added to the archive page. The seafloor image does not lose an unknown because of it.','資料頁に一行増える。それでも海底の画面から未知が一つ減るわけではない。']},
+   {id:'specimen-now',label:['这一页没有现在','The page does not contain now','この頁には「今」がない'],delta:{attention:2,quiet:1},text:['资料库窗口被移到一旁。刚才被遮住的位置已经没有身体。','The archive window is moved aside. The place it covered no longer contains the body.','資料庫の窓を脇へ寄せる。さっき隠れていた場所には、もう身体はいない。']},
+   {id:'specimen-noanswer',label:['不回答','Do not answer','答えない'],delta:{restraint:2,quiet:1},text:['窗口仍开着。它从窗口另一侧重新出现，没有再问。','The window remains open. It reappears on the other side and does not ask again.','窓は開いたまま。その反対側からまた現れ、それ以上は聞かない。']}
+  ]
+ },
+ {
   id:'observer',
   prompt:['载具轻微漂移，探照灯从背板上滑开。它随即转向更暗的一侧。灯和身体几乎同时改变了位置。它问：“刚才是谁先动的？”','The vehicle drifts slightly and the lamp slides off its plates. It turns toward the darker side almost at once. Light and body have both changed position. It asks, “Which one moved first just now?”','機体がわずかに流れ、探照灯が背板から外れる。ほとんど同時に、暗い方へ向きを変える。光と身体の位置がどちらも変わった。聞く。「今、先に動いたのはどっち？」'],
   options:[
@@ -167,6 +194,21 @@ export const ABYSSAL_ENDING_DATA={
   title:['空栏','Blank Field','空欄'],
   body:['有些地方没有命名，没有箭头，也没有补上原因。它们在纸上只表现为空白，却并不因此等同于什么都没有发生。下一次打开资料库时，这些空栏仍在。','Some places receive no name, arrow, or added cause. On paper they appear only as blanks, but that does not make them equivalent to nothing having happened. The fields are still blank when the archive is opened again.','名前も矢印も原因も足されなかった場所がある。紙の上では空白にしか見えないが、何も起きなかったことと同じではない。次に資料庫を開いた時も、その欄は空いたまま残る。'],
   line:['不知道，也是一种被保留下来的状态。','Not knowing can also be a preserved state.','分からないことも、残しておける状態の一つ。']
+ },
+ 'abyssal-reflection':{
+  title:['玻璃上的第二个轮廓','The Second Silhouette on the Glass','ガラスの二つ目の輪郭'],
+  body:['有一刻，观察窗两边的轮廓叠在同一幅画面里。后来反光散去，记录却留下了这一处不太容易归类的位置。它既不是海底的身体，也不完全在画面之外。','For a moment, silhouettes from both sides of the observation window overlap in one image. The reflection later disappears, but the record keeps a position that is difficult to classify: neither a body on the seafloor nor entirely outside the frame.','一度だけ、観察窓の両側の輪郭が同じ画面に重なる。反射はやがて消えるが、記録には分類しにくい位置が残る。海底の身体でもなく、完全に画面の外でもない。'],
+  line:['观察者也会留下轮廓。','An observer can leave a silhouette too.','観察者にも輪郭は残る。']
+ },
+ 'abyssal-offering':{
+  title:['落下的东西','What Fell Down','落ちてきたもの'],
+  body:['一小片残屑后来进入了海底，也进入了记录。它可以被写作食物、干预，或只是一次落下。名称不同，落下这件事没有重来。观察从来不只收集现场，也会给现场增加东西。','A small fragment eventually enters both the seafloor and the record. It can be written as food, intervention, or simply a fall. The names differ; the fall does not happen again. Observation does not only collect a field. It also adds things to it.','小さな破片が海底と記録の両方へ入る。食物、介入、ただの落下と書くことができる。呼び方は違っても、落下そのものはやり直されない。観察は現場を集めるだけでなく、現場へ何かを加えることもある。'],
+  line:['记录现场的时候，现场也在记录动作。','While the field is recorded, it also retains the action.','現場を記録する時、現場の方にも動作が残る。']
+ },
+ 'abyssal-specimen':{
+  title:['已经存在的一页','A Page That Already Exists','すでにある一頁'],
+  body:['资料库里早已有编号、名称和固定的图像。继续观察并没有让那一页失效，也没有让眼前的身体变成多余。档案保存可以返回的东西，现场保留无法被提前写完的部分。','The archive already contains a number, a name, and a fixed image. Continued observation neither invalidates that page nor makes the body in view redundant. The archive preserves what can be returned to; the field keeps what cannot be finished in advance.','資料庫にはすでに番号、名前、固定された画像がある。観察を続けてもその頁は無効にならず、目の前の身体も余分にはならない。資料庫は戻れるものを残し、現場はあらかじめ書き終えられない部分を残す。'],
+  line:['一页资料可以完成，遭遇不一定。','A page can be completed; an encounter need not be.','一頁の資料は完成できても、出会いまで完成するとは限らない。']
  },
  'abyssal-between':{
   title:['两边都没有结论','No Conclusion on Either Side','どちら側にも結論はない'],
