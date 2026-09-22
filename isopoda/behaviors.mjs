@@ -1,5 +1,5 @@
 import {stepInteraction} from './interaction.mjs?v=touchhold-1';
-import {speciesById} from './species-registry.mjs?v=aquatic-1';
+import {speciesById} from './species-registry.mjs?v=locomotion-1';
 import {cohortFor} from './engine.mjs?v=aquatic-1';
 import {stableHash} from './sprites.mjs?v=appendage-2';
 export const MOTIONS=['contact','follow','feed','gather','yield','climb','groom','molt','shell','border','defend','emerge','orbit','rest','under','disperse','parallel','wall','hesitate'];
@@ -34,8 +34,10 @@ function ambientTarget(action,state,c,slot){
  if(action==='edge'){const side=h%4,p=38+(h>>>5)%310;return side===0?{x:30,y:clamp(p,45,385),kind:'edge'}:side===1?{x:350,y:clamp(p,45,385),kind:'edge'}:side===2?{x:clamp(p,35,345),y:36,kind:'edge'}:{x:clamp(p,35,345),y:392,kind:'edge'}}
  return null;
 }
+// Keep within-individual pace variation narrow enough that species-level locomotion remains visible.
+// The species speed field is animation/game tuning, not a measured mm/s value.
 export function makeIndividuals(seed,speed=.68){return (Array.isArray(seed)?seed:cohortFor('dairy',seed)).map((specimen,id)=>{
- const h=stableHash(specimen.seed),stage=specimen.stage;return {id,specimenId:specimen.id,species:specimen.species,seed:specimen.seed,x:55+h%260,y:65+(h>>>8)%290,a:(h%628)/100,speed:(.65+(h>>>12)%70/100)*speed*speciesById(specimen.species).speed,size:.94+(h>>>18)%13/100,stage,alertness:.25+(h>>>16)%60/100,pause:2+(h>>>20)%5,offset:h%190/10,hidden:false,posture:'normal',moving:false,molt:'none',occlusion:0,phase:0,gaitPhase:h%4,traits:behaviorTraits(specimen.seed),ambientSlot:-1,ambientAction:null};
+ const h=stableHash(specimen.seed),stage=specimen.stage;return {id,specimenId:specimen.id,species:specimen.species,seed:specimen.seed,x:55+h%260,y:65+(h>>>8)%290,a:(h%628)/100,speed:(.90+(h>>>12)%21/100)*speed*speciesById(specimen.species).speed,size:.94+(h>>>18)%13/100,stage,alertness:.25+(h>>>16)%60/100,pause:2+(h>>>20)%5,offset:h%190/10,hidden:false,posture:'normal',moving:false,molt:'none',occlusion:0,phase:0,gaitPhase:h%4,traits:behaviorTraits(specimen.seed),ambientSlot:-1,ambientAction:null};
 })}
 export function actorOrder(group,encounter){
  if(encounter?.specimenId)return [...group].sort((a,b)=>Number(b.specimenId===encounter.specimenId)-Number(a.specimenId===encounter.specimenId)||stableHash(a.seed+':'+encounter?.id)-stableHash(b.seed+':'+encounter?.id));
