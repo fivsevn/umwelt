@@ -1,12 +1,12 @@
-import {gameText} from './locales/game.mjs?v=aquatic-1';
+import {gameText} from './locales/game.mjs?v=abyssal-1';
 import {makeIsopod} from './sprites.mjs?v=swim-1';
 import {renderCredits} from './credits.mjs?v=credits-5';
-import {getLanguage,t,formatDate,speciesPrimaryName,speciesSecondaryName,speciesLiteratureLines} from './i18n.mjs?v=aquatic-4';
+import {getLanguage,t,formatDate,speciesPrimaryName,speciesSecondaryName,speciesLiteratureLines} from './i18n.mjs?v=abyssal-1';
 import {annotationLabel,localizedAnnotationLines} from './locales/annotations.mjs?v=i18n-4';
 
 const text=(tag,value,cls='')=>{const el=document.createElement(tag);el.textContent=value;el.className=cls;return el};
 const TAG_LABELS={zh:['采集日期','采集地点'],en:['DATE','SITE'],ja:['採集日','採集地点'],isopod:['o:','o:']};
-const TAG_HABITATS_EN={terrestrial:'LITTER',freshwater:'FRESH',intertidal:'TIDAL','shallow-marine':'SEAWEED'};
+const TAG_HABITATS_EN={terrestrial:'LITTER',freshwater:'FRESH',intertidal:'TIDAL','shallow-marine':'SEAWEED',abyssal:'ABYSSAL'};
 const tagDate=(value,lang)=>formatDate(value,lang);
 const tagRow=(label,value)=>{const row=document.createElement('div');row.className='specimen-tag-row';row.append(text('span',label,'specimen-tag-label'),text('b',value||'—','specimen-tag-value'));return row};
 export function renderCatalog(p,{unlocked=true,collectedOn=null}={}){
