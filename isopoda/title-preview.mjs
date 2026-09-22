@@ -5,11 +5,7 @@ if(canvas){
  let saved=null;
  try{saved=JSON.parse(localStorage.getItem('isopoda-fugue-v4')||'null')}catch{}
  const savedEnvironment=saved?.environment&&typeof saved.environment==='object'?saved.environment:null;
- const defaultLeaves=[
-  {id:'leaf-a',x:275,y:110,a:-.45,gap:true,age:0},
-  {id:'leaf-b',x:290,y:344,a:.35,gap:true,age:0},
-  ...(Number(saved?.cover)>65?[{id:'leaf-old',x:90,y:315,a:-.15,gap:true,age:0}]:[])
- ];
+ const defaultLeaves=[];
  const foodAmount=Number.isFinite(Number(saved?.food))?Number(saved.food):1;
  const memory={
   wetZones:Array.isArray(savedEnvironment?.wetZones)?savedEnvironment.wetZones:DEFAULT_LAYOUT.background.params.wetZones,
