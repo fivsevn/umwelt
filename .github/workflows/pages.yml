@@ -30,6 +30,9 @@ jobs:
       - name: Verify observation game
         run: node --test tests/*.test.mjs
 
+      - name: Verify public ISOPODA surface
+        run: node isopoda/tools/check-public-surface.mjs
+
       - uses: actions/configure-pages@v5
 
       - name: Install font subsetting tools
@@ -47,15 +50,13 @@ jobs:
             --exclude 'docs/' \
             --exclude 'tests/' \
             --exclude 'isopoda/tools/' \
-            --exclude 'isopoda/cohort.md' \
-            --exclude 'isopoda/morphology.md' \
+            --exclude 'isopoda/dev/' \
+            --exclude 'isopoda/docs/' \
+            --exclude 'isopoda/README.md' \
             --exclude 'isopoda/locales/README.md' \
             --exclude 'isopoda/morphology/README.md' \
             --exclude 'isopoda/scenery/README.md' \
             --exclude 'isopoda/anatomy-test.html' \
-            --exclude 'isopoda/exploded-preview.html' \
-            --exclude 'isopoda/exploded-preview.css' \
-            --exclude 'isopoda/projection-preview.html' \
             ./ _site/
 
       - name: Subset deployed Pixel font

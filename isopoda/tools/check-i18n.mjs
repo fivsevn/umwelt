@@ -91,6 +91,7 @@ const contentSource=await read('content.mjs');
 const activeSections=[];
 for(const [name,pattern] of [
  ['EVENING',/export const EVENING\s*=\s*\[([\s\S]*?)\n\];/],
+ ['AMBIENT',/export const AMBIENT\s*=\s*\[([\s\S]*?)\n\];/],
  ['CARE',/export const CARE\s*=\s*\{([\s\S]*?)\n\};/],
  ['ENDINGS',/export const ENDINGS\s*=\s*\[([\s\S]*?)\n\];/]
 ]){
@@ -108,10 +109,9 @@ for(const value of chineseStrings(engineSource)){
  if(!translatedZh.has(value))warn(`engine source string is handled dynamically or not yet represented as a direct locale row: ${value}`);
 }
 
-// MORNING / AMBIENT are not currently used by engine.mjs. Report them without failing CI.
+// MORNING is retained legacy copy and is not used by the current scene builder.
 for(const [name,pattern] of [
- ['MORNING',/export const MORNING\s*=\s*\[([\s\S]*?)\n\];/],
- ['AMBIENT',/export const AMBIENT\s*=\s*\[([\s\S]*?)\n\];/]
+ ['MORNING',/export const MORNING\s*=\s*\[([\s\S]*?)\n\];/]
 ]){
  const body=contentSource.match(pattern)?.[1];if(!body)continue;
  const missing=chineseStrings(body).filter(value=>!translatedZh.has(value));

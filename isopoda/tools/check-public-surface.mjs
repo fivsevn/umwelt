@@ -1,0 +1,44 @@
+import {access,readFile} from 'node:fs/promises';
+import {constants} from 'node:fs';
+
+const root=new URL('../../',import.meta.url);
+const required=[
+ 'index.html',
+ 'isopoda/index.html',
+ 'isopoda/game.js',
+ 'isopoda/style.css',
+ 'isopoda/interface-tuning.css',
+ 'isopoda/i18n.css',
+ 'isopoda/system-ui.mjs',
+ 'isopoda/runtime-locales.mjs',
+ 'isopoda/morphology/index.html',
+ 'isopoda/morphology/template.txt',
+ 'isopoda/anatomy-test.css',
+ 'isopoda/habitat.html',
+ 'isopoda/habitat.css',
+ 'isopoda/habitat-lab.mjs'
+];
+const errors=[];
+for(const path of required){
+ try{await access(new URL(path,root),constants.R_OK)}
+ catch{errors.push(`missing public runtime file: ${path}`)}
+}
+const read=path=>readFile(new URL(path,root),'utf8');
+const game=await read('isopoda/index.html');
+const morphology=await read('isopoda/morphology/index.html');
+const template=await read('isopoda/morphology/template.txt');
+const habitat=await read('isopoda/habitat.html');
+
+for(const [label,source,needles] of [
+ ['game',game,['./game.js','./system-ui.mjs','./runtime-locales.mjs','./style.css']],
+ ['morphology',morphology,['./template.txt']],
+ ['morphology template',template,['./anatomy-test.css']],
+ ['habitat',habitat,['./habitat.css','./habitat-lab.mjs']]
+]){
+ for(const needle of needles)if(!source.includes(needle))errors.push(`${label}: expected runtime reference not found: ${needle}`);
+ if(/(?:href|src)=["'][^"']*(?:\/dev\/|\/docs\/)/.test(source))errors.push(`${label}: public page references a development-only path`);
+}
+if(errors.length){
+ for(const error of errors)console.error(`[public-surface] ${error}`);
+ process.exitCode=1;
+}else console.log(`[public-surface] OK — ${required.length} required runtime files and 3 ISOPODA public entry surfaces verified.`);
