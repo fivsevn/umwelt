@@ -1,5 +1,5 @@
 import {habitatConfig} from './habitats.mjs';
-import {drawAquaticWater,stepAquatic} from './scenery/aquatic.mjs?v=motion-1';
+import {drawAquaticWater,stepAquatic} from './scenery/aquatic.mjs?v=motion-2';
 import {bindPointerInteraction} from './interaction.mjs?v=environment-memory-1';
 import {createReactions,actionFocus,drawReactionBubbles} from './reactions.mjs?v=aquatic-1';
 import {environmentFor} from './environment.mjs?v=aquatic-1';
@@ -7,7 +7,7 @@ import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors-spee
 import {encounterById,responseMode} from './encounters.mjs?v=narrative-pool-2';
 import {pixelAnatomy,renderModel,exuviaPixels} from './sprites.mjs?v=swim-1';
 import {speciesById} from './species-registry.mjs?v=aquatic-3';
-import {drawBaseScene,drawLeaf,DEFAULT_LAYOUT,drawSceneBackground,drawSceneElement,sceneObjects,layoutForHabitat,isAnimatedSceneElement} from './scenery/index.mjs?v=authored-1';
+import {drawBaseScene,drawLeaf,DEFAULT_LAYOUT,drawSceneBackground,drawSceneElement,sceneObjects,layoutForHabitat,isAnimatedSceneElement} from './scenery/index.mjs?v=motion-2';
 import {ACTOR_SCALE} from './scenery/grammar.mjs';
 // Anatomy and scenery share the same integer world lattice.
 export const SCENE_PIXEL=1;
@@ -58,7 +58,7 @@ function drawAquaticLayout(time){
  ctx.drawImage(aquaticPlan.background,0,0);
  for(const step of aquaticPlan.steps){
   if(step.canvas)ctx.drawImage(step.canvas,0,0);
-  else drawSceneElement(ctx,step.item,{time});
+  else drawSceneElement(ctx,step.item,{time,motion:reduced?.22:1});
  }
 }
 let state=getState(),critters=[],last=0,active=false,effect=null,frame=0,encounter=null,elapsed=0,empty=false,shelterHeld=false;
@@ -141,7 +141,7 @@ function drawHabitat(t){
  const lifted=shelterHeld||!!(effect&&elapsed<effect.until&&['lift','direct-lift'].includes(effect.id));
  const sceneryOptions={wetZones:memory.wetZones||[],light:DEFAULT_LAYOUT.background.params.light,shelterLift:lifted?-12:0,seed:DEFAULT_LAYOUT.background.seed};
  const aquatic=habitatConfig(state).aquatic;
- if(aquatic)drawAquaticLayout(reduced?0:elapsed);
+ if(aquatic)drawAquaticLayout(elapsed);
  else{
   const nextSceneryKey=JSON.stringify(sceneryOptions);
   if(nextSceneryKey!==sceneryKey){sceneryCtx.clearRect(0,0,sceneryCanvas.width,sceneryCanvas.height);drawBaseScene(sceneryCtx,sceneryOptions);sceneryKey=nextSceneryKey}
