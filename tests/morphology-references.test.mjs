@@ -30,20 +30,30 @@ test('morphology reference module resolves evidence for every registry specimen'
  }
 });
 
-test('game credits keep only the umbrella World List source',()=>{
+test('game credits keep umbrella databases and literature platforms, not paper-level citations',()=>{
  const files=[
   ['../isopoda/credits.md','**主要资料来源**','**声明**'],
   ['../isopoda/credits.en.md','**Primary sources**','**Notes**'],
   ['../isopoda/credits.ja.md','**主な資料**','**注記**'],
   ['../isopoda/credits.isopod.md','**o:**','**o!**']
  ];
+ const expected=[
+  'https://www.marinespecies.org/isopoda/',
+  'https://www.catalogueoflife.org/',
+  'https://www.gbif.org/',
+  'https://taicol.tw/',
+  'https://www.tbn.org.tw/taxa',
+  'https://www.godac.jamstec.go.jp/bismal/j/',
+  'https://bmig.org.uk/',
+  'https://www.jstage.jst.go.jp/'
+ ];
  for(const [url,startMark,endMark] of files){
   const body=readFileSync(new URL(url,import.meta.url),'utf8');
   const start=body.indexOf(startMark),end=body.indexOf(endMark,start+startMark.length);
   assert.ok(start>=0&&end>start,url);
   const section=body.slice(start,end);
-  const links=[...section.matchAll(/^\s*- \[[^\]]+\]\(([^)]+)\)/gm)];
-  assert.equal(links.length,1,url);
-  assert.equal(links[0][1],'https://www.marinespecies.org/isopoda/',url);
+  const links=[...section.matchAll(/^\s*- \[[^\]]+\]\(([^)]+)\)/gm)].map(match=>match[1]);
+  assert.deepEqual(links,expected,url);
+  assert.equal(/doi\.org|researchgate\.net|pmc\.ncbi\.nlm\.nih\.gov/i.test(section),false,url);
  }
 });
