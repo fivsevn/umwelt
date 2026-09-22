@@ -1,0 +1,43 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Exploded isopod morphology</title>
+<link rel="stylesheet" href="./exploded-preview.css?v=1">
+<style>.preview-toolbar{position:fixed;top:14px;left:14px;z-index:5;padding:8px 10px;background:#20291f;color:#ddd7ba;border:1px solid #647452;font:12px monospace}.preview-toolbar select{font:inherit;margin-left:8px;background:#293426;color:#ddd7ba;border:1px solid #7b8968;padding:4px}</style>
+<label class="preview-toolbar">SPECIMEN<select id="speciesSelect"></select></label>
+<div id="stage" class="exploded-stage"></div>
+<script type="module">
+import {SPECIES} from '../../species-registry.mjs?v=aquatic-1';
+import {renderModel,pixelAnatomy} from '../../sprites.mjs';
+
+const stage=document.querySelector('#stage'),select=document.querySelector('#speciesSelect'),params=new URLSearchParams(location.search);
+const GROUPS=[
+  {name:'pereon',className:'part-pereon',match:r=>/^p[1-7]$/.test(r)},
+  {name:'epimera-top',className:'part-epimera-top',match:r=>/^(epimera|skirt)[1-7]$/.test(r),side:'top'},
+  {name:'epimera-bottom',className:'part-epimera-bottom',match:r=>/^(epimera|skirt)[1-7]$/.test(r),side:'bottom'},
+  {name:'cephalon',className:'part-cephalon',match:r=>r==='cephalon'},
+  {name:'antennae',className:'part-antennae',match:r=>r==='antennae'},
+  {name:'pleon',className:'part-pleon',match:r=>r==='pleon'},
+  {name:'pleotelson',className:'part-pleotelson',match:r=>r==='pleotelson'},
+  {name:'uropods',className:'part-uropods',match:r=>r==='uropods'},
+  {name:'legs-top',className:'part-legs-top',match:r=>r==='legs',side:'top'},
+  {name:'legs-bottom',className:'part-legs-bottom',match:r=>r==='legs',side:'bottom'}
+];
+for(const p of SPECIES)select.append(new Option(`${p.name} / ${p.label}${p.game?.referenceOnly?' · REF':''}`,p.id));
+function render(id){
+ const species=SPECIES.find(s=>s.id===id)||SPECIES.find(s=>s.id==='coros')||SPECIES[0];
+ select.value=species.id;document.title=`${species.label} exploded morphology`;stage.setAttribute('aria-label',`${species.taxon||species.label} exploded morphology`);
+ const model=renderModel(species.visual||species,{stage:'adult',condition:'resting',seed:189,moving:false});
+ const anatomy=pixelAnatomy(model,{posture:'resting',phase:0,moving:false});stage.replaceChildren();
+ function makeLayer(group){
+  const wrap=document.createElement('div');wrap.className=`exploded-part ${group.className}`;wrap.dataset.part=group.name;
+  const canvas=document.createElement('canvas');canvas.width=canvas.height=64;const ctx=canvas.getContext('2d');ctx.imageSmoothingEnabled=false;
+  for(const module of anatomy){if(!group.match(module.region))continue;for(const [x,y,color] of module.cells){if(!color)continue;if(group.side==='top'&&y>=0)continue;if(group.side==='bottom'&&y<0)continue;const px=x+32,py=y+32;if(px<0||px>=64||py<0||py>=64)continue;ctx.fillStyle=color;ctx.fillRect(px,py,1,1)}}
+  wrap.append(canvas);return wrap;
+ }
+ for(const group of GROUPS)stage.append(makeLayer(group));
+ if(params.get('guides')==='1')stage.classList.add('guides');else stage.classList.remove('guides');
+}
+select.addEventListener('change',()=>{params.set('species',select.value);history.replaceState(null,'','?'+params.toString());render(select.value)});
+render(params.get('species')||'coros');
+</script>
