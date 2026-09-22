@@ -54,6 +54,20 @@ test('morphology wiki also exposes renderer framework literature used by the sim
  for(const id of ['external-anatomy','biphasic-molt','porcellio-scale-setae-2018','ardentiella-reassessment-2025','porcellio-spatulatus-comparison','porcellio-bolivari-characters'])assert.ok(template.includes("'"+id+"'"),id);
 });
 
+test('public specimen references avoid DOI redirectors and known empty pages',()=>{
+ const files=[
+  '../isopoda/morphology/template.txt',
+  '../isopoda/sources.mjs',
+  '../isopoda/data/locomotion/sources.mjs',
+  '../isopoda/data/wiki/specimen-sources.mjs'
+ ];
+ for(const url of files){
+  const body=readFileSync(new URL(url,import.meta.url),'utf8');
+  assert.equal(body.includes('https://doi.org/'),false,url);
+  assert.equal(body.includes('armadillidae-venezillo-sp-daxin-tricolor'),false,url);
+ }
+});
+
 test('game credits keep umbrella databases and literature platforms, not paper-level citations',()=>{
  const files=[
   ['../isopoda/credits.md','**主要资料来源**','**声明**'],
