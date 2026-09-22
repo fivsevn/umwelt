@@ -15,13 +15,13 @@ test('all configured habitats complete their full duration with eligible animals
  for(const h of HABITATS){
   const cohort=drawCohort({unlocked:[],draws:0},901,h.id),s=createRun(cohort[0].species,901,h.id);s.cohort=cohort;
   assert.ok(validRun(s));assert.ok(cohort.every(c=>eligibleSpecies(SPECIES.find(p=>p.id===c.species),h.id)));
-  const scenes=new Set();let turns=0;
+  const scenes=new Set();let turns=0;const expectedTurns=h.turns||h.days*3;
   while(s.stage!=='ended'){
    const scene=ensureScene(s);scenes.add(scene.text);
-   if(h.aquatic)for(const lang of languages)for(const key of [scene.text,...scene.options.flatMap(o=>[o.label,o.text])]){const text=gameText(key,lang);assert.ok(text&&!text.startsWith('water:'),key);if(lang==='en'||lang==='ja')assert.notEqual(text,gameText(key,'zh'))}
-   assert.ok(choose(s,scene.options[turns%3].id));assert.ok(advance(s));turns++;assert.ok(turns<=h.days*3);assert.ok(validRun(s));
+   if(h.aquatic)for(const lang of languages)for(const key of [scene.text,...scene.options.flatMap(o=>[o.label,o.text])]){const text=gameText(key,lang);assert.ok(text&&!text.startsWith('water:')&&!text.startsWith('abyssal:'),key);if(lang==='en'||lang==='ja')assert.notEqual(text,gameText(key,'zh'))}
+   assert.ok(choose(s,scene.options[turns%3].id));assert.ok(advance(s));turns++;assert.ok(turns<=expectedTurns);assert.ok(validRun(s));
   }
-  assert.equal(turns,h.days*3);if(h.aquatic){assert.equal(scenes.size,9);assert.ok(s.ending.startsWith(h.id));assert.equal(environmentFor(s).habitatId,h.id)}
+  assert.equal(turns,expectedTurns);if(h.aquatic){assert.equal(scenes.size,expectedTurns);assert.ok(s.ending.startsWith(h.id));assert.equal(environmentFor(s).habitatId,h.id)}
  }
 });
 test('v4 migration preserves records, scene, environment and cohort without changing input',()=>{
@@ -58,28 +58,29 @@ test('aquatic sources, species counts and all ending translations are complete',
  for(const e of AQUATIC_ENDINGS)for(const lang of languages)for(const key of [e.title,e.body,e.line])assert.ok(!gameText(key,lang).startsWith('water:'));
 });
 
-test('every aquatic ending is reachable through a complete nine-choice run',()=>{
+test('aquatic endings resolve after each habitat completes its configured observation sequence',()=>{
  for(const h of HABITATS.filter(h=>h.aquatic&&!h.dialogue))for(const [choice,kind] of [['water-adjust','care'],['water-wait','calm'],['water-record','trace']]){
   const s=createRun(h.species[0],37,h.id);while(s.stage!=='ended'){choose(s,choice);advance(s)}assert.equal(s.ending,h.id+'-'+kind);
  }
- const abyssal=habitatConfig('abyssal');
- for(const [metric,ending] of [['restraint','abyssal-untranslated'],['interpretation','abyssal-voice'],['attention','abyssal-observer'],['balanced','abyssal-between']]){
-  const s=createRun(abyssal.species[0],37,abyssal.id);
-  if(metric!=='balanced')s[metric]=50;
-  while(s.stage!=='ended'){
-   const scene=ensureScene(s);assert.ok(choose(s,scene.options[0].id));
-   if(metric==='balanced'){const n=Math.max(s.interpretation,s.restraint,s.attention);s.interpretation=s.restraint=s.attention=n}
-   advance(s);
-  }
+ const abyssal=habitatConfig('abyssal'),validIds=new Set(Object.keys(ABYSSAL_ENDING_DATA));
+ for(const [metric,ending] of [['restraint','abyssal-untranslated'],['interpretation','abyssal-voice'],['attention','abyssal-field']]){
+  const s=createRun(abyssal.species[0],37,abyssal.id);s[metric]=50;
+  while(s.stage!=='ended'){const scene=ensureScene(s);assert.ok(choose(s,scene.options[0].id));advance(s)}
+  assert.equal(s.records.filter(r=>r.kind==='abyssal-dialogue').length,abyssal.turns);
   assert.equal(s.ending,ending);
  }
+ const s=createRun(abyssal.species[0],91,abyssal.id);
+ while(s.stage!=='ended'){const scene=ensureScene(s);assert.ok(choose(s,scene.options[(s.records.length+1)%3].id));advance(s)}
+ assert.ok(validIds.has(s.ending));
 });
 
 test('abyssal story is direct narrative without translation-layer disclaimers',()=>{
  const visible=JSON.stringify({nodes:ABYSSAL_NODES,endings:ABYSSAL_ENDING_DATA});
  assert.doesNotMatch(visible,/翻译层|虚构.{0,4}翻译|translation layer|fictional translation|翻訳層/u);
- assert.equal(ABYSSAL_NODES.length,9);
+ assert.equal(ABYSSAL_NODES.length,12);
  assert.ok(ABYSSAL_NODES.every(node=>node.options.length===3));
+ assert.ok(Object.keys(ABYSSAL_ENDING_DATA).length>=10);
+ assert.doesNotMatch(JSON.stringify(ABYSSAL_NODES),/三天|第二天|第三天|观察时段/u);
 });
 
 test('aquatic presets draw distinct deterministic finite pixel scenes and tide changes water',async()=>{
