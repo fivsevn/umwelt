@@ -4,6 +4,7 @@ import {drawStone} from './stone.mjs?v=forest-10';
 import {drawBark} from './bark.mjs?v=forest-10';
 import {drawLeaf} from './leaf.mjs?v=forest-10';
 import {drawMossPatch} from './moss.mjs?v=forest-10';
+import {layoutForHabitat} from './authored-layouts.mjs?v=authored-1';
 
 const noise=(x,y,seed=0)=>{let n=Math.imul(x+seed+1,374761393)^Math.imul(y+1,668265263);n=Math.imul(n^(n>>>13),1274126177);return (n^(n>>>16))>>>0};
 const pixel=(g,x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),Math.max(1,Math.round(w)),Math.max(1,Math.round(h)))};
@@ -292,7 +293,17 @@ export function drawAquaticBase(g,s){
  if(!h.wood)for(let i=0;i<14;i++){const n=noise(i,77,seed);pixel(g,n%380,(n>>>9)%426,2+i%2,1,i%3?p[2]:p[3])}
 }
 
-export function plantAnchor(h,i){return {x:18+(i*83)%350,y:96+(i*97)%318}}
+const anchorCache=new Map();
+function authoredPlantAnchors(h){
+ if(anchorCache.has(h.id))return anchorCache.get(h.id);
+ const layout=layoutForHabitat(h.id),anchors=(layout.objects||[]).filter(o=>o.params?.kind).map(o=>({x:o.x,y:o.y}));
+ anchorCache.set(h.id,anchors);return anchors;
+}
+export function plantAnchor(h,i){
+ const anchors=authoredPlantAnchors(h);
+ if(anchors.length)return anchors[((i%anchors.length)+anchors.length)%anchors.length];
+ return {x:18+(i*83)%350,y:96+(i*97)%318};
+}
 
 export function drawAquaticWater(g,s,time=0,{drawPlants=true}={}){
  const h=habitatConfig(s),surface=h.tides?Math.round(360-s.tide*3.35):0;
