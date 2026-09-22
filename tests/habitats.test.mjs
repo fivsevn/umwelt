@@ -72,6 +72,8 @@ test('aquatic endings resolve after each habitat completes its configured observ
  const s=createRun(abyssal.species[0],91,abyssal.id);
  while(s.stage!=='ended'){const scene=ensureScene(s);assert.ok(choose(s,scene.options[(s.records.length+1)%3].id));advance(s)}
  assert.ok(validIds.has(s.ending));
+ assert.equal(s.day,1);
+ assert.equal(s.period,0);
 });
 
 test('abyssal story is direct narrative without translation-layer disclaimers',()=>{
@@ -80,7 +82,9 @@ test('abyssal story is direct narrative without translation-layer disclaimers',(
  assert.equal(ABYSSAL_NODES.length,12);
  assert.ok(ABYSSAL_NODES.every(node=>node.options.length===3));
  assert.ok(Object.keys(ABYSSAL_ENDING_DATA).length>=10);
- assert.doesNotMatch(JSON.stringify(ABYSSAL_NODES),/三天|第二天|第三天|观察时段/u);
+ assert.doesNotMatch(JSON.stringify(ABYSSAL_NODES),/三天|第二天|第三天|观察时段|我们/u);
+ const archiveNote=SPECIES.find(p=>p.id==='giganteus').literature.lines.join('');
+ assert.doesNotMatch(archiveNote,/我们|大王具足虫|Bathynomus giganteus/u);
 });
 
 test('aquatic presets draw distinct deterministic finite pixel scenes and tide changes water',async()=>{
