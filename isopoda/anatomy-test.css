@@ -110,3 +110,23 @@
  .reference p{line-height:1.5!important;margin:5px 0!important}
  .reference a{margin-top:2px!important;line-height:1.4!important}
 }
+
+
+/* Tablet/small-window stability: flatten the side stack so references size to content.
+   This removes the 621–900px flex/grid shrink path that let cards escape their border. */
+@media(max-width:900px){
+ .references{display:block!important;height:auto!important;min-height:0!important;overflow:visible!important}
+ .reference-list{display:block!important;height:auto!important;min-height:0!important;overflow:visible!important;padding:6px!important}
+ .reference{display:block!important;height:auto!important;min-height:0!important;overflow:visible!important;margin:0 0 7px!important}
+ .reference:last-child{margin-bottom:0!important}
+ .reference b,.reference cite,.reference p,.reference a{position:static!important;max-width:100%!important;overflow-wrap:anywhere!important;word-break:normal}
+}
+@media(min-width:621px) and (max-width:900px){
+ .workspace>.side-stack{display:contents!important}
+ .workspace>.viewer{order:1!important}
+ .workspace>.layer-panel{order:2!important}
+ .side-stack>.inspector{order:3!important}
+ .side-stack>.dossier{order:4!important}
+ .side-stack>.references{order:5!important}
+ .inspector{height:auto!important;min-height:0!important;overflow:visible!important}
+}
