@@ -8,7 +8,7 @@
 body{font:12px/1.5 Pixel,ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 button{font:inherit;color:inherit;cursor:pointer}
 button:focus-visible{outline:1px solid #e0ddbd;outline-offset:2px}
-.lab{width:min(1420px,100%);min-height:100vh;margin:0 auto;padding:9px 10px;display:grid;grid-template-rows:auto auto auto auto minmax(0,1fr) auto;gap:5px;background:var(--night)}
+.lab{width:min(1380px,100%);min-height:100vh;margin:0 auto;padding:10px 12px 8px;display:grid;grid-template-rows:auto auto auto auto minmax(0,1fr) auto;gap:5px;background:var(--night)}
 .topbar{min-height:52px;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:3px 4px 9px;border-bottom:1px solid var(--line2)}
 .lab-code{font-size:8px;color:#728164;letter-spacing:.09em;margin-bottom:4px}
 .topbar h1{display:flex;align-items:baseline;gap:20px;font-weight:400;font-size:20px;line-height:1.12;margin:0 0 5px;color:var(--cream);letter-spacing:.015em}.topbar h1 span{font-size:11px;color:#a7b393;margin:0;letter-spacing:.04em}
