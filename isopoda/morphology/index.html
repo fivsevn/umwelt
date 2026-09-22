@@ -203,11 +203,25 @@ function applyPublicBranding(){
     .workspace>.viewer>.exploded-stage{position:absolute!important;left:50%!important;top:42%!important;margin:0!important;transform:translate(-50%,-50%) scale(.58)!important;transform-origin:center center!important}
     .part-list{grid-template-columns:repeat(2,minmax(0,1fr))!important}
    }
+   /* Restore the pre-Sep-22 progressive specimen scaling: as the optical table narrows,
+      the exploded specimen gets smaller instead of merely being re-centered. */
+   @media(max-width:900px){
+    .workspace>.viewer>.exploded-stage{top:41%!important;transform:translate(-50%,-50%) scale(.52)!important}
+   }
+   @media(max-width:700px){
+    .workspace>.viewer>.exploded-stage{top:40%!important;transform:translate(-50%,-50%) scale(.48)!important}
+   }
+   @media(max-width:620px){
+    .workspace>.viewer>.exploded-stage{top:39%!important;transform:translate(-50%,-50%) scale(.44)!important}
+   }
    @media(max-width:520px){
-    .workspace>.viewer>.exploded-stage{top:40%!important;transform:translate(-50%,-50%) scale(.54)!important}
+    .workspace>.viewer>.exploded-stage{top:38%!important;transform:translate(-50%,-50%) scale(.40)!important}
+   }
+   @media(max-width:460px){
+    .workspace>.viewer>.exploded-stage{top:37%!important;transform:translate(-50%,-50%) scale(.37)!important}
    }
    @media(max-width:380px){
-    .workspace>.viewer>.exploded-stage{top:39%!important;transform:translate(-50%,-50%) scale(.48)!important}
+    .workspace>.viewer>.exploded-stage{top:36%!important;transform:translate(-50%,-50%) scale(.34)!important}
    }
    @media(max-width:1120px) and (orientation:landscape){
     .workspace>.viewer>.exploded-stage{top:40%!important}
