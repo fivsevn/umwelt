@@ -9,7 +9,7 @@ import {createHabitat} from './habitat.mjs?v=aquatic-3';
 import {restoreCollection,drawCohort,unlock} from './collection.mjs?v=aquatic-1';
 import {encounterById,encounterFor} from './encounters.mjs?v=molt-sequence-1';
 import {iconButton,createInstrument} from './ui.mjs?v=aquatic-2';
-import {getLanguage,t,formatShortDate,speciesPrimaryName} from './i18n.mjs?v=aquatic-3';
+import {getLanguage,t,formatShortDate,speciesPrimaryName,isopodWaveNumber,isopodWaveDate} from './i18n.mjs?v=aquatic-4';
 import {gameText} from './locales/game.mjs?v=aquatic-1';
 const ENDINGS=[...LAND_ENDINGS,...AQUATIC_ENDINGS];
 const $=s=>document.querySelector(s),KEY='isopoda-fugue-v4',ARCHIVE='isopoda-fugue-endings-v3',COLLECTION='isopoda-fieldnotes-v1',DISCOVERIES='isopoda-interaction-discoveries-v1';
@@ -41,15 +41,12 @@ function refreshIconLabels(){for(const [id,kind,label] of [['soundBtn','sound',s
 refreshIconLabels();
 function save(){write(KEY,state)}
 const ISOPOD_WAVES=['▁','▂','▃','▄','▅','▆','▇'];
-function isopodWaveNumber(value,minDigits=2){
- return Math.max(0,Number(value)||0).toString(7).padStart(minDigits,'0').replace(/[0-6]/g,d=>ISOPOD_WAVES[Number(d)]);
-}
 function isopodWaveTime(time){
  const [hour,minute]=time.split(':').map(Number);
  return isopodWaveNumber(hour)+isopodWaveNumber(minute);
 }
 function isopodWaveClock(date,time){
- return isopodWaveNumber(date.getMonth()+1)+isopodWaveNumber(date.getDate())+'\u2009'+isopodWaveTime(time);
+ return isopodWaveDate(date)+'\u2009'+isopodWaveTime(time);
 }
 function setWaveText(el,value){
  const text=String(value??'');
