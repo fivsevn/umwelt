@@ -6,7 +6,7 @@ const COPY={
  still:['你没有改变它们经过的地方。下一次移动仍由它们开始。','You leave their surroundings as they are. The next movement begins with them.','通る場所を変えずにおく。次の動きは彼らから始まる。'],
  note:['纸上留下了位置，水里没有多出一条线。','Positions remain on paper. No new line appears in the water.','位置は紙に残る。水には新しい線はできない。'],
  limitation:['像素形态为有资料依据的近似；微小鉴别特征未完整绘制。','Pixel anatomy is evidence-informed; microscopic diagnostics are not fully rendered.','ピクセル形態は資料に基づく近似で、微細な識別形質は省略している。'],
- source:['物种资料','Species account','種の資料'],
+
  prev:['上一个环境','Previous habitat','前の環境'],next:['下一个环境','Next habitat','次の環境'],days3:['三日观察','Three days of observation','三日間の観察'],
  flow:['水流','Flow','水流'],oxygen:['溶氧','Oxygen','溶存酸素'],detritus:['碎屑','Detritus','有機物'],tide:['潮位','Tide','潮位'],salinity:['盐度','Salinity','塩分'],algae:['藻丛','Algae','藻'],
  calm:['水中的空白','A space in the water','水の中の余白'],care:['改变过的水','Altered water','変えられた水'],trace:['水线之外','Beyond the waterline','水位線の向こう'],

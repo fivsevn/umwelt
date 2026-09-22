@@ -1,11 +1,11 @@
 import {habitatConfig,cycleHabitat} from './habitats.mjs';
 import {AQUATIC_ENDINGS,aquaticFeedback} from './aquatic-story.mjs';
-import {renderCatalog,renderSources} from './catalog.mjs?v=aquatic-2';
-import {SPECIES,speciesById} from './species-registry.mjs?v=aquatic-2';
+import {renderCatalog,renderSources} from './catalog.mjs?v=aquatic-3';
+import {SPECIES,speciesById} from './species-registry.mjs?v=aquatic-3';
 import {ENDINGS as LAND_ENDINGS} from './content.mjs?v=interaction-story-2';
 import {createRun,validRun,migrateV3,migrateV4,runSpecies,migrateLegacy,ensureScene,choose,advance,timeFor,recordDirectInteraction,endingMemoryFor} from './engine.mjs?v=aquatic-1';
-import {makeBug,makeIsopod,renderModel,exuviaPixels} from './sprites.mjs?v=exuvia-1';
-import {createHabitat} from './habitat.mjs?v=aquatic-2';
+import {makeBug,makeIsopod,renderModel,exuviaPixels} from './sprites.mjs?v=swim-1';
+import {createHabitat} from './habitat.mjs?v=aquatic-3';
 import {restoreCollection,drawCohort,unlock} from './collection.mjs?v=aquatic-1';
 import {encounterById,encounterFor} from './encounters.mjs?v=molt-sequence-1';
 import {iconButton,createInstrument} from './ui.mjs?v=aquatic-1';
@@ -143,7 +143,7 @@ $('#specimensTab').onclick=()=>{drawerMode='catalog';page=Math.max(0,SPECIES.fin
 $('#sourcesBtn').onclick=()=>{if(drawerMode==='sources'){drawerMode=referenceReturn?.mode||'catalog';page=referenceReturn?.page||0}else{referenceReturn={mode:drawerMode,page};drawerMode='sources';page=0}drawDrawer()};
 for(const [id,delta] of [['pagePrev',-1],['pageNext',1]])$('#'+id).onclick=()=>{const n=drawerMode==='catalog'?SPECIES.length:drawerMode==='endings'?ENDINGS.length:Math.max(1,state.records.length);page=(page+delta+n)%n;drawDrawer()};
 function refreshPreview(){
- const seed=4107;previewState=createRun('dairy',seed,selectedHabitat);previewState.cohort=drawCohort({unlocked:[],draws:0},seed,selectedHabitat);
+ const seed=4107;previewState=createRun('dairy',seed,selectedHabitat);previewState.cohort=[];
  $('#titleCard .window-title span').textContent='ISOPODA / '+gameText('water:habitat:'+selectedHabitat,getLanguage());
  $('#habitatPrev').setAttribute('aria-label',gameText('water:prev',getLanguage()));$('#habitatNext').setAttribute('aria-label',gameText('water:next',getLanguage()));
  $('#titleCard').dataset.habitat=selectedHabitat;emptyHabitat.reset({empty:true});emptyHabitat.start();
