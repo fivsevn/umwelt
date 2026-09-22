@@ -32,7 +32,7 @@ const habitat=await read('isopoda/habitat.html');
 for(const [label,source,needles] of [
  ['game',game,['./game.js','./system-ui.mjs','./runtime-locales.mjs','./style.css']],
  ['morphology',morphology,['./template.txt']],
- ['morphology template',template,['../anatomy-test.css']],
+ ['morphology template',template,['./anatomy-test.css']],
  ['habitat',habitat,['./habitat.css','./habitat-lab.mjs']]
 ]){
  for(const needle of needles)if(!source.includes(needle))errors.push(`${label}: expected runtime reference not found: ${needle}`);
