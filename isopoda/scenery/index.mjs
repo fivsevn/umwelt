@@ -9,7 +9,7 @@ import {drawMossPatch} from './moss.mjs?v=forest-10';
 import {drawBark} from './bark.mjs?v=forest-10';
 import {drawCuttlebone} from './cuttlebone.mjs?v=forest-10';
 import {drawTwig,drawWoodChip} from './debris.mjs?v=forest-10';
-import {drawAquaticBackground,drawAquaticPlant,drawAquaticDetail} from './aquatic.mjs?v=motion-1';
+import {drawAquaticBackground,drawAquaticPlant,drawAquaticDetail} from './aquatic.mjs?v=motion-2';
 import {drawSceneDetail,withSoftWorldShadow} from './details.mjs?v=authored-1';
 
 export {drawStone,drawSubstrate,drawLeaf,LEAF_PALETTES,drawMossPatch,drawBark,drawCuttlebone,drawTwig,drawWoodChip,drawAquaticBackground,drawAquaticPlant,drawAquaticDetail,drawSceneDetail};
@@ -49,10 +49,10 @@ export const LEGACY_BASE_SCENE=[
 export const BASE_SCENE=LEGACY_BASE_SCENE;
 export const DEFAULT_SCENE=sceneObjects();
 
-function drawSceneElementRaw(ctx,item,{shelterLift=0,time=0}={}){
+function drawSceneElementRaw(ctx,item,{shelterLift=0,time=0,motion=1}={}){
  if(item.type==='scene-detail')return drawSceneDetail(ctx,{...item,kind:item.labDetail});
  if(item.type==='aquatic-detail')return withSoftWorldShadow(ctx,{alpha:.065,dy:1},()=>drawAquaticDetail(ctx,{...item,kind:item.detail}));
- if(item.type==='aquatic')return withSoftWorldShadow(ctx,{alpha:.075,dy:2},()=>drawAquaticPlant(ctx,{...item,time}));
+ if(item.type==='aquatic')return withSoftWorldShadow(ctx,{alpha:.075,dy:2},()=>drawAquaticPlant(ctx,{...item,time,motion}));
  if(item.type==='moss')return drawMossPatch(ctx,item);
  if(item.type==='stone')return drawStone(ctx,item);
  if(item.type==='leaf')return drawLeaf(ctx,item);
