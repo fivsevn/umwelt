@@ -1,4 +1,4 @@
-import {getLanguage} from './i18n.mjs?v=abyssal-1';
+import {getLanguage} from './i18n.mjs?v=i18n-5';
 import {gameText} from './locales/game.mjs?v=abyssal-1';
 import {encounterById} from './encounters.mjs?v=molt-sequence-1';
 
