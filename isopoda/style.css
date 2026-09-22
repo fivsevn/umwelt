@@ -152,11 +152,12 @@ html,body{height:100%;overflow:hidden}#game{height:100dvh;padding:6px 8px max(6p
 @media(max-width:430px){.launch-card .title-habitat-cycle{width:28px!important;min-width:28px!important;max-width:28px!important;height:28px!important;min-height:28px!important;bottom:6px!important}.launch-card .title-habitat-cycle.prev{left:6px!important}.launch-card .title-habitat-cycle.next{right:6px!important}}
 
 /* Archive mount label: a small museum card belongs to the specimen frame, not the prose below it. */
-.specimen-tag{position:absolute;right:8px;bottom:8px;z-index:4;width:min(112px,36%);padding:4px 5px 5px;background:repeating-linear-gradient(0deg,rgba(75,70,49,.045) 0 1px,transparent 1px 4px),repeating-linear-gradient(90deg,rgba(255,255,235,.04) 0 1px,transparent 1px 7px),#c9c3a1;color:#454733;border:1px solid #ddd8b7;border-right-color:#77765b;border-bottom-color:#77765b;box-shadow:inset 1px 1px #e4dfbd,inset -1px -1px #aaa47f,2px 2px #586048;text-align:left;pointer-events:none;clip-path:polygon(0 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) calc(100% - 3px),calc(100% - 3px) 100%,0 100%)}
+.specimen-tag{position:absolute;right:8px;bottom:8px;z-index:4;width:min(92px,30%);padding:4px 5px 5px;background:repeating-linear-gradient(0deg,rgba(75,70,49,.045) 0 1px,transparent 1px 4px),repeating-linear-gradient(90deg,rgba(255,255,235,.04) 0 1px,transparent 1px 7px),#c9c3a1;color:#454733;border:1px solid #ddd8b7;border-right-color:#77765b;border-bottom-color:#77765b;box-shadow:inset 1px 1px #e4dfbd,inset -1px -1px #aaa47f,2px 2px #586048;text-align:left;pointer-events:none;clip-path:polygon(0 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) calc(100% - 3px),calc(100% - 3px) 100%,0 100%)}
 .specimen-tag::before{content:'';display:block;height:1px;margin:0 0 3px;background:#77775c;box-shadow:0 3px rgba(255,255,230,.12);opacity:.58}
 .specimen-tag::after{content:'';position:absolute;inset:2px;border:1px dotted rgba(92,91,67,.16);pointer-events:none}
 .specimen-tag-row{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.2fr);gap:4px;align-items:start;padding:1px 0;border-top:1px dotted #8a896b;font-size:7px;line-height:1.28}
 .specimen-tag-row:first-of-type{border-top:0}
 .specimen-tag-label{color:#727359;white-space:nowrap}
-.specimen-tag-value{font-weight:400;color:#40432f;overflow-wrap:anywhere}
-@media(max-width:390px){.specimen-tag{right:6px;bottom:6px;width:min(104px,40%);padding:3px 4px 4px}.specimen-tag-row{font-size:6px;gap:3px}}
+.specimen-tag-value{font-weight:400;color:#40432f;overflow-wrap:anywhere;min-width:0}
+.species-card[data-language="en"] .specimen-tag-row{grid-template-columns:19px minmax(0,1fr);gap:3px;font-size:6px}
+@media(max-width:390px){.specimen-tag{right:6px;bottom:6px;width:min(88px,34%);padding:3px 4px 4px}.specimen-tag-row{font-size:6px;gap:3px}}
