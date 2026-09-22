@@ -126,3 +126,28 @@ footer{display:flex;justify-content:space-between;gap:16px;padding:0 2px;color:#
  .specimen-reference #referenceStage{width:100%}
  .viewer-actions{width:100%}
 }
+
+
+/* Portrait workflow: keep the canvas close to specimen controls and move JSON I/O below it. */
+@media(max-width:900px) and (orientation:portrait){
+ .lab{padding-bottom:max(14px,env(safe-area-inset-bottom))}
+ .workspace{grid-template-columns:minmax(0,1fr)!important;gap:10px}
+ .asset-panel{max-height:360px}
+ .viewer-panel{width:100%;min-height:0!important;overflow:visible!important}
+ .viewer-head{order:1}
+ .canvas-shell{order:2}
+ .scene-transfer{order:3;max-height:none!important;overflow:visible!important;border-top:1px solid var(--line2);border-bottom:0}
+ .viewer-foot{order:4}
+ .inspector{grid-column:auto!important;display:flex!important;flex-direction:column!important;width:100%}
+ .inspector .panel-heading{border-right:0!important;border-bottom:1px solid var(--line2)!important}
+ .notes{margin-top:auto!important;border-left:0!important;border-top:1px solid var(--line2)!important;padding-bottom:12px}
+ footer{display:flex!important;flex-wrap:wrap;gap:4px 14px;padding:8px 4px 10px;line-height:1.4}
+}
+@media(max-width:480px) and (orientation:portrait){
+ .scene-transfer{padding:10px}
+ .scene-transfer .viewer-actions{display:grid;width:100%;grid-template-columns:1fr}
+ .scene-transfer .viewer-actions button{width:100%}
+ .scene-transfer textarea{min-height:76px}
+ .viewer-foot{padding:6px 8px}
+ footer{padding-bottom:max(12px,env(safe-area-inset-bottom))}
+}
