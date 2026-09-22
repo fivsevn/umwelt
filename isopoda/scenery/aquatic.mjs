@@ -26,7 +26,7 @@ function plantRamp(kind){
  if(kind==='waterweed')return ['#365640','#55794f','#7f9b65','#b0ba7b'];
  if(kind==='rockweed')return ['#3d5535','#647344','#8b9258','#b6ad70'];
  if(kind==='seagrass')return ['#365b46','#5d805e','#89a670','#bbc58b'];
- if(kind==='ulva')return ['#40694a','#67935f','#91b874','#c2ce91'];
+ if(kind==='ulva')return ['#294638','#3f5f43','#59754b','#7b8d5b'];
  return ['#405733','#667646','#8d9353','#b8ae6c'];
 }
 
@@ -204,14 +204,16 @@ export function drawAquaticPlant(g,{kind='waterweed',x=0,y=0,a=0,scale=1,seed=0,
     const left=center-width/2+((noise(f,j+17,seed)%3)-1);
 
     // Broken, mottled clusters instead of clean horizontal bands.
-    const tone=(noise(f,j+31,seed)%5===0)?ramp[3]:(noise(f,j+37,seed)%3===0?ramp[1]:ramp[2]);
+    const roll=noise(f,j+31,seed)%12;
+    const tone=roll<3?ramp[1]:roll<10?ramp[2]:ramp[3];
     localPixel(g,o,left,-j,width,2,tone);
 
-    // Random darker chips, holes and bright flecks make the sheet look pixel-noisy again.
-    if(noise(f,j+41,seed)%3===0)localPixel(g,o,left-1,-j+1,2,1,ramp[0]);
-    if(width>5&&noise(f,j+43,seed)%4===0)localPixel(g,o,left+2+(noise(f,j+47,seed)%(width-4)),-j,1,1,ramp[0]);
-    if(width>4&&noise(f,j+53,seed)%5===0)localPixel(g,o,left+1+(noise(f,j+59,seed)%(width-2)),-j-1,2,1,ramp[3]);
-    if(noise(f,j+61,seed)%7===0)localPixel(g,o,left+width-1,-j+1,2,1,ramp[1]);
+    // Darker internal chips plus a muted olive midtone add depth without making the plant glow.
+    if(noise(f,j+41,seed)%2===0)localPixel(g,o,left-1,-j+1,2,1,ramp[0]);
+    if(width>5&&noise(f,j+43,seed)%3===0)localPixel(g,o,left+2+(noise(f,j+47,seed)%(width-4)),-j,1,1,ramp[0]);
+    if(width>4&&noise(f,j+53,seed)%6===0)localPixel(g,o,left+1+(noise(f,j+59,seed)%(width-2)),-j-1,2,1,'#687a50');
+    if(width>3&&noise(f,j+67,seed)%5===0)localPixel(g,o,left+Math.max(1,Math.floor(width*.35)),-j+1,2,1,ramp[1]);
+    if(noise(f,j+61,seed)%9===0)localPixel(g,o,left+width-1,-j+1,2,1,ramp[3]);
    }
   }
   // Uneven holdfast instead of a neat rectangular base.
