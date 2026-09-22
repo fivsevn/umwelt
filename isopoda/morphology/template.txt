@@ -81,7 +81,7 @@
       <section class="references" aria-label="当前标本参考文献">
         <header>
           <span>SPECIMEN REFERENCES / 当前标本参考</span>
-          <small id="referenceSummary">形态、分类、生态与运动研究统一在当前标本下归档。</small>
+          <small id="referenceSummary">分类、形态、生态、运动、图像与贸易名资料统一在当前标本下归档。</small>
         </header>
         <div class="reference-list" id="referenceList"></div>
       </section>
@@ -95,6 +95,7 @@
 import {SPECIES} from './species-registry.mjs?v=locomotion-3';
 import {sources as PROJECT_SOURCES} from './sources-registry.mjs?v=locomotion-3';
 import {LOCOMOTION_SOURCES,locomotionSourceIds} from './locomotion.mjs?v=locomotion-3';
+import {WIKI_SOURCES,WIKI_SOURCE_IDS_BY_SPECIES} from './data/wiki/specimen-sources.mjs?v=wiki-1';
 import {renderModel,pixelAnatomy} from './sprites.mjs';
 
 const stage=document.querySelector('#stage');
@@ -185,14 +186,22 @@ const SPECIES_REFS={
 
 const PROJECT_SOURCE_BY_ID=new Map(PROJECT_SOURCES.map(source=>[source.id,source]));
 const LOCOMOTION_SOURCE_BY_ID=new Map(LOCOMOTION_SOURCES.map(source=>[source.id,source]));
+const WIKI_SOURCE_BY_ID=new Map(WIKI_SOURCES.map(source=>[source.id,source]));
 
+const COMMERCE_URL=/\/products?\/|\/product-page\/|\/for-sale\/|(?:^|\.)jd\.com|shop\.app|morphmarket\.com|shopee\.|myship\.7-11\.com\.tw|richardsinverts|pangeareptile|roachcrossing/i;
 function normalizeReference(id,source,kind='project'){
- if(!source)return null;
+ if(!source||source.publicWiki===false||COMMERCE_URL.test(source.url||''))return null;
  if(kind==='static')return {id,...source,kind};
  if(kind==='locomotion')return {
   id,kind,short:source.title.split(' — ')[0]||source.title,
   citation:source.citation||source.title,
   note:['运动研究',source.method&&'方法：'+source.method,source.limitations&&'限制：'+source.limitations].filter(Boolean).join(' · '),
+  url:source.url
+ };
+ if(kind==='wiki')return {
+  id,kind,short:source.title.split(' — ')[0]||source.title,
+  citation:source.title,
+  note:['资料类型：'+(source.type||'REFERENCE'),source.quality&&'证据等级：'+source.quality,source.note].filter(Boolean).join(' · '),
   url:source.url
  };
  return {
@@ -220,6 +229,9 @@ function referenceRowsFor(species){
  }
  for(const id of locomotionSourceIds(species.locomotion)){
   const row=normalizeReference(id,LOCOMOTION_SOURCE_BY_ID.get(id),'locomotion');if(row)rows.push(row);
+ }
+ for(const id of WIKI_SOURCE_IDS_BY_SPECIES[species.id]||[]){
+  const row=normalizeReference(id,WIKI_SOURCE_BY_ID.get(id),'wiki');if(row)rows.push(row);
  }
  const seen=new Set();
  return rows.filter(row=>{
@@ -336,7 +348,7 @@ function renderReferences(){
   referenceList.append(article);
  }
  document.querySelector('#referenceSummary').textContent=refs.length
-  ?`当前标本 ${refs.length} 条 · 形态 / 分类 / 生态 / 运动资料合并显示；游戏本体不展开具体文献。`
+  ?`当前标本 ${refs.length} 条 · 分类 / 形态 / 生态 / 运动 / 图像与贸易名资料合并显示；商品页不收入。`
   :'当前标本暂无已映射资料；后台保留为待补证据。';
 }
 
