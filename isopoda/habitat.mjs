@@ -1,12 +1,12 @@
-import {habitatConfig} from './habitats.mjs?v=abyssal-1';
-import {drawAquaticWater,stepAquatic} from './scenery/aquatic.mjs?v=abyssal-1';
+import {habitatConfig} from './habitats.mjs?v=abyssal-2';
+import {drawAquaticWater,stepAquatic} from './scenery/aquatic.mjs?v=abyssal-2';
 import {bindPointerInteraction} from './interaction.mjs?v=environment-memory-1';
 import {createReactions,actionFocus,drawReactionBubbles} from './reactions.mjs?v=aquatic-1';
-import {environmentFor} from './environment.mjs?v=abyssal-1';
+import {environmentFor} from './environment.mjs?v=abyssal-2';
 import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors-speed.mjs?v=locomotion-2';
 import {encounterById,responseMode} from './encounters.mjs?v=narrative-pool-2';
-import {pixelAnatomy,renderModel,exuviaPixels} from './sprites.mjs?v=swim-1';
-import {speciesById} from './species-registry.mjs?v=abyssal-1';
+import {pixelAnatomy,renderModel,exuviaPixels} from './sprites.mjs?v=swim-2';
+import {speciesById} from './species-registry.mjs?v=abyssal-2';
 import {drawBaseScene,drawLeaf,DEFAULT_LAYOUT,drawSceneBackground,drawSceneElement,sceneObjects,layoutForHabitat,isAnimatedSceneElement} from './scenery/index.mjs?v=motion-2';
 import {ACTOR_SCALE} from './scenery/grammar.mjs';
 // Anatomy and scenery share the same integer world lattice.
