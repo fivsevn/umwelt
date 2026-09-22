@@ -1,11 +1,11 @@
 import {habitatConfig,cycleHabitat} from './habitats.mjs';
 import {AQUATIC_ENDINGS,aquaticFeedback} from './aquatic-story.mjs';
 import {renderCatalog,renderSources} from './catalog.mjs?v=aquatic-7';
-import {SPECIES,speciesById} from './species-registry.mjs?v=aquatic-3';
+import {SPECIES,speciesById} from './species-registry.mjs?v=locomotion-1';
 import {ENDINGS as LAND_ENDINGS} from './content.mjs?v=interaction-story-2';
 import {createRun,validRun,migrateV3,migrateV4,runSpecies,migrateLegacy,ensureScene,choose,advance,timeFor,recordDirectInteraction,endingMemoryFor} from './engine.mjs?v=aquatic-1';
 import {makeBug,makeIsopod,renderModel,exuviaPixels} from './sprites.mjs?v=swim-1';
-import {createHabitat} from './habitat.mjs?v=motion-2';
+import {createHabitat} from './habitat.mjs?v=locomotion-1';
 import {restoreCollection,drawCohort,unlock} from './collection.mjs?v=aquatic-1';
 import {encounterById,encounterFor} from './encounters.mjs?v=molt-sequence-1';
 import {iconButton,createInstrument} from './ui.mjs?v=aquatic-2';
