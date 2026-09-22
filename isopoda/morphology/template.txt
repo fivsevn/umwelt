@@ -92,7 +92,7 @@
 </main>
 
 <script type="module">
-import {SPECIES} from './species-registry.mjs';
+import {SPECIES} from './species-registry.mjs?v=locomotion-2';
 import {renderModel,pixelAnatomy} from './sprites.mjs';
 
 const stage=document.querySelector('#stage');
