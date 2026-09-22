@@ -138,9 +138,9 @@ export function drawAquaticPlant(g,{kind='waterweed',x=0,y=0,a=0,scale=1,seed=0,
      const side=((Math.floor(j/10)+stem+seed)&1)?1:-1,leaf=7+(noise(j,stem,seed)%6);
      // Leaves are compact tapered clusters rather than dark outlined sticks.
      const lu=cur.u+side*2,lv=cur.v-1;
-     localPixel(g,o,lu,lv,side>0?4:-4,2,ramp[1]);
-     localPixel(g,o,cur.u+side*4,cur.v-3,side>0?5:-5,2,ramp[2]);
-     localPixel(g,o,cur.u+side*(leaf-1),cur.v-5,side>0?3:-3,2,ramp[2]);
+     localPixel(g,o,side>0?lu:lu-4,lv,4,2,ramp[1]);
+     localPixel(g,o,side>0?cur.u+side*4:cur.u+side*4-5,cur.v-3,5,2,ramp[2]);
+     localPixel(g,o,side>0?cur.u+side*(leaf-1):cur.u+side*(leaf-1)-3,cur.v-5,3,2,ramp[2]);
      localPixel(g,o,cur.u+side*leaf,cur.v-5,1,1,ramp[3]);
     }
    }
@@ -159,9 +159,10 @@ export function drawAquaticPlant(g,{kind='waterweed',x=0,y=0,a=0,scale=1,seed=0,
    for(let k=1;k<4;k++){
     const t=k/4,dir=(side<0?-1:1),u=bend*t+dir*(3+k),v=-len*t;
     // Short overlapping olive-green fronds form readable pixel clusters.
-    localPixel(g,o,u-dir*1,v+1,dir*5,2,ramp[0]);
-    localPixel(g,o,u,v,dir*(5+k%2),3,ramp[k===2?2:1]);
-    localPixel(g,o,u+dir*(3+k%2),v-1,dir*2,1,ramp[3]);
+    const frondW=5+k%2;
+    localPixel(g,o,dir>0?u-1:u-frondW+1,v+1,frondW,2,ramp[0]);
+    localPixel(g,o,dir>0?u:u-frondW,v,frondW,3,ramp[k===2?2:1]);
+    localPixel(g,o,dir>0?u+3+k%2:u-4-k%2,v-1,2,1,ramp[3]);
    }
    // Rounded air bladder at the tip.
    localPixel(g,o,bend-2,-len-2,5,4,ramp[1]);
