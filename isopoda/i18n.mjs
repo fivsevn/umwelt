@@ -45,12 +45,17 @@ export function setLanguage(next,{announce=true}={}){
 }
 
 const DATE_LOCALES={zh:'zh-CN',en:'en-GB',ja:'ja-JP'};
+const ISOPOD_WAVES=['▁','▂','▃','▄','▅','▆','▇'];
 function dateLocale(lang){return DATE_LOCALES[lang]||DATE_LOCALES.zh}
+export function isopodWaveNumber(value,minDigits=2){
+ return Math.max(0,Number(value)||0).toString(7).padStart(minDigits,'0').replace(/[0-6]/g,d=>ISOPOD_WAVES[Number(d)]);
+}
+export function isopodWaveDate(date,{year=false}={}){
+ const md=isopodWaveNumber(date.getMonth()+1)+isopodWaveNumber(date.getDate());
+ return year?isopodWaveNumber(date.getFullYear()%100)+String.fromCharCode(0x2009)+md:md;
+}
 function numericDate(date,lang,{year=false}={}){
- if(lang==='isopod'){
-  const month=String(date.getMonth()+1).padStart(2,'0'),day=String(date.getDate()).padStart(2,'0');
-  return year?`${date.getFullYear()}/${month}/${day}`:`${month}/${day}`;
- }
+ if(lang==='isopod')return isopodWaveDate(date,{year});
  const options=year
   ?{year:'numeric',month:'2-digit',day:'2-digit'}
   :{month:'2-digit',day:'2-digit'};
