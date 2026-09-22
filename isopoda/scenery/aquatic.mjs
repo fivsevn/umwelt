@@ -189,32 +189,35 @@ export function drawAquaticPlant(g,{kind='waterweed',x=0,y=0,a=0,scale=1,seed=0,
  }
 
  if(kind==='ulva'){
-  // Sea lettuce: several separate, softly ruffled blades instead of one solid striped mass.
-  const fronds=4+(seed%2);
-  for(let f=0;f<fronds;f++){
-   const side=f-(fronds-1)/2;
-   const bladeHeight=height*(.68+(noise(f,19,seed)%23)/100);
-   const baseU=side*5.2,lean=side*4+((noise(f,23,seed)%5)-2);
-   for(let j=0;j<bladeHeight;j+=3){
-    const t=j/bladeHeight,body=Math.sin(Math.min(1,t)*Math.PI);
-    const rag=((noise(f,j+17,seed)%3)-1);
-    const width=Math.max(3,Math.round(3+body*(4+(noise(f,j+29,seed)%3))));
-    const center=baseU+lean*t+Math.sin(j*.16+seed*.37+f)*1.5+swayBase*j*.018;
-    const left=center-width/2+rag*.45;
-    const tone=t<.18?ramp[1]:t>.78?ramp[1]:((f+j/3)%3===0?ramp[3]:ramp[2]);
-    localPixel(g,o,left-1,-j+1,width+1,2,ramp[0]);
+  // Sea lettuce: deliberately irregular pixel mass, closer to the earlier noisy aquatic style.
+  const fans=3+(seed%3);
+  for(let f=0;f<fans;f++){
+   const side=f-(fans-1)/2;
+   const fanHeight=height*(.62+(noise(f,19,seed)%32)/100);
+   const lean=side*5+((noise(f,23,seed)%7)-3);
+   for(let j=0;j<fanHeight;j+=2){
+    const t=j/fanHeight;
+    const baseWidth=Math.max(3,Math.round((Math.sin(t*Math.PI)*8+3)*(1-t*.16)));
+    const wobble=((noise(f,j+11,seed)%5)-2);
+    const center=lean*t+Math.sin(j*.12+seed+f)*2+swayBase*j*.03;
+    const width=Math.max(2,baseWidth+wobble);
+    const left=center-width/2+((noise(f,j+17,seed)%3)-1);
+
+    // Broken, mottled clusters instead of clean horizontal bands.
+    const tone=(noise(f,j+31,seed)%5===0)?ramp[3]:(noise(f,j+37,seed)%3===0?ramp[1]:ramp[2]);
     localPixel(g,o,left,-j,width,2,tone);
-    if(j>5&&j<bladeHeight-5&&j%9===0){
-     localPixel(g,o,left+Math.max(1,Math.floor(width*.55)),-j-1,2,1,ramp[3]);
-    }
+
+    // Random darker chips, holes and bright flecks make the sheet look pixel-noisy again.
+    if(noise(f,j+41,seed)%3===0)localPixel(g,o,left-1,-j+1,2,1,ramp[0]);
+    if(width>5&&noise(f,j+43,seed)%4===0)localPixel(g,o,left+2+(noise(f,j+47,seed)%(width-4)),-j,1,1,ramp[0]);
+    if(width>4&&noise(f,j+53,seed)%5===0)localPixel(g,o,left+1+(noise(f,j+59,seed)%(width-2)),-j-1,2,1,ramp[3]);
+    if(noise(f,j+61,seed)%7===0)localPixel(g,o,left+width-1,-j+1,2,1,ramp[1]);
    }
-   // A small split at the tip keeps the silhouette organic.
-   const tipU=baseU+lean+Math.sin(bladeHeight*.16+seed*.37+f)*1.5;
-   localPixel(g,o,tipU-2,-bladeHeight-1,2,2,ramp[2]);
-   localPixel(g,o,tipU+1,-bladeHeight-2,2,2,ramp[1]);
   }
-  localPixel(g,o,-9,1,18,3,ramp[0]);
-  localPixel(g,o,-6,0,12,2,ramp[1]);
+  // Uneven holdfast instead of a neat rectangular base.
+  localPixel(g,o,-7,1,6,2,ramp[0]);
+  localPixel(g,o,0,0,7,3,ramp[1]);
+  localPixel(g,o,-3,-1,5,1,ramp[2]);
   return;
  }
 
