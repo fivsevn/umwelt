@@ -1,6 +1,6 @@
 import {STORIES} from './data/habitats/stories.mjs';
 import {STORY_ALTERNATES} from './data/habitats/story-alternates.mjs?v=pool-1';
-import {ABYSSAL_NODES,ABYSSAL_ENDING_DATA} from './data/habitats/abyssal-dialogue.mjs?v=dialogue-2';
+import {ABYSSAL_NODES,ABYSSAL_ENDING_DATA} from './data/habitats/abyssal-dialogue.mjs?v=dialogue-3';
 import {habitatConfig} from './habitats.mjs?v=abyssal-2';
 import {encodeIsopodText} from './locales/isopod.mjs?v=isopod-3';
 const COPY={
@@ -9,7 +9,7 @@ const COPY={
  note:['纸上留下了位置，水里没有多出一条线。','Positions remain on paper. No new line appears in the water.','位置は紙に残る。水には新しい線はできない。'],
  limitation:['像素形态为有资料依据的近似；微小鉴别特征未完整绘制。','Pixel anatomy is evidence-informed; microscopic diagnostics are not fully rendered.','ピクセル形態は資料に基づく近似で、微細な識別形質は省略している。'],
 
- prev:['上一个环境','Previous habitat','前の環境'],next:['下一个环境','Next habitat','次の環境'],days3:['三日观察','Three days of observation','三日間の観察'],
+ prev:['上一个环境','Previous habitat','前の環境'],next:['下一个环境','Next habitat','次の環境'],days3:['三日观察','Three days of observation','三日間の観察'],abyssalRound:['单次观察','Single observation','一回の観察'],
  flow:['水流','Flow','水流'],oxygen:['溶氧','Oxygen','溶存酸素'],detritus:['碎屑','Detritus','有機物'],tide:['潮位','Tide','潮位'],salinity:['盐度','Salinity','塩分'],algae:['藻丛','Algae','藻'],
  calm:['水中的空白','A space in the water','水の中の余白'],care:['改变过的水','Altered water','変えられた水'],trace:['水线之外','Beyond the waterline','水位線の向こう'],
  low:['悬浮颗粒缓慢下沉，几个轮廓停在水流经过的边缘。','Particles settle slowly. Several bodies rest near passing water.','粒子がゆっくり沈み、輪郭が流れの縁で止まる。'],
@@ -84,8 +84,8 @@ export function aquaticText(value,lang='zh'){
  return localizedRow(row,lang);
 }
 function abyssalScene(s){
- const index=(s.day-1)*3+s.period,node=ABYSSAL_NODES[index]||ABYSSAL_NODES.at(-1);
- return {id:`abyssal:${s.day}.${s.period}`,title:`abyssal:node:${node.id}:prompt`,kind:'abyssal-dialogue',text:`abyssal:node:${node.id}:prompt`,activity:`abyssal:node:${node.id}:prompt`,dialogueNode:node.id,storyKey:`abyssal:${node.id}`,options:node.options.map((option,i)=>({id:option.id,label:`abyssal:node:${node.id}:option:${i}:label`,delta:{...option.delta},text:`abyssal:node:${node.id}:option:${i}:text`}))};
+ const index=(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind==='abyssal-dialogue').length,node=ABYSSAL_NODES[index]||ABYSSAL_NODES.at(-1);
+ return {id:`abyssal:${index}`,title:`abyssal:node:${node.id}:prompt`,kind:'abyssal-dialogue',text:`abyssal:node:${node.id}:prompt`,activity:`abyssal:node:${node.id}:prompt`,dialogueNode:node.id,storyKey:`abyssal:${node.id}`,options:node.options.map((option,i)=>({id:option.id,label:`abyssal:node:${node.id}:option:${i}:label`,delta:{...option.delta},text:`abyssal:node:${node.id}:option:${i}:text`}))};
 }
 export function aquaticScene(s){
  if(habitatConfig(s).dialogue)return abyssalScene(s);
@@ -94,9 +94,19 @@ export function aquaticScene(s){
 }
 export function aquaticEnding(s){
  if(habitatConfig(s).dialogue){
-  const interpretation=Number(s.interpretation)||0,restraint=Number(s.restraint)||0,attention=Number(s.attention)||0;
-  const id=restraint>=interpretation+2&&restraint>=attention?'abyssal-untranslated':attention>=interpretation+2&&attention>=restraint?'abyssal-observer':interpretation>=restraint+2&&interpretation>=attention?'abyssal-voice':'abyssal-between';
-  return ABYSSAL_ENDINGS.find(e=>e.id===id);
+  const interpretation=Number(s.interpretation)||0,restraint=Number(s.restraint)||0,attention=Number(s.attention)||0,maps=Number(s.maps)||0,labels=Number(s.labels)||0,quiet=Number(s.quiet)||0;
+  const choices=new Set((Array.isArray(s.records)?s.records:[]).filter(record=>record.kind==='abyssal-dialogue').map(record=>record.choice));
+  let id='abyssal-between';
+  if(choices.has('remains-record')&&labels>=5)id='abyssal-remains';
+  else if(choices.has('gaze-screen')&&attention>=6)id='abyssal-reciprocal';
+  else if(maps>=7&&attention>=5)id='abyssal-field';
+  else if(quiet>=5&&restraint>=6)id='abyssal-stillness';
+  else if(labels>=7&&labels>maps+1)id='abyssal-index';
+  else if(maps>=5&&(choices.has('unseen-route')||choices.has('unseen-gap')))id='abyssal-trace';
+  else if(choices.has('scale-frame')&&maps>=4)id='abyssal-scale';
+  else if(restraint>=interpretation+3)id='abyssal-untranslated';
+  else if(interpretation>=restraint+3)id='abyssal-voice';
+  return ABYSSAL_ENDINGS.find(e=>e.id===id)||ABYSSAL_ENDINGS.find(e=>e.id==='abyssal-between');
  }
  const kind=s.interventions>=5?'care':s.quiet>=8?'calm':'trace';return AQUATIC_ENDINGS.find(e=>habitatConfig(s).endingPool.includes(e.id)&&e.id.endsWith('-'+kind));
 }
