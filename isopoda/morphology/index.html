@@ -6,242 +6,55 @@
 <meta name="theme-color" content="#20291f">
 <meta name="description" content="《等足目赋格》的形态、分类、体型与逐标本参考资料。">
 <title>阿西莫夫形态实验室 · ASIMOV MORPHOLOGY LAB</title>
-<link rel="preload" href="../../assets/fonts/fusion-pixel-12px-monospaced-zh_hans.ttf.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-<style>
-html,body{margin:0;width:100%;height:100%;background:#20291f;overflow:hidden}
-#archive{border:0;width:100%;height:100%;display:block;opacity:0;transition:opacity .08s linear}
-#archive.ready{opacity:1}
-#fatal{display:none;padding:24px;color:#dedcc4;font:14px/1.6 monospace}
-</style>
+<link rel="preload" href="../../assets/fonts/fusion-pixel-12px-monospaced-zh_hans.ttf.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="./style.css">
+<script type="module" src="./app.mjs"></script>
 </head>
 <body>
-<iframe id="archive" aria-label="阿西莫夫形态实验室"></iframe>
-<div id="fatal" role="alert"></div>
-<script>
-const frame=document.querySelector('#archive');
-const fatal=document.querySelector('#fatal');
+<main class="anatomy-app">
+  <header class="topbar">
+    <div class="lab-title">
+      <div class="lab-code">ASIMOV / ISOPODA · MORPHOLOGY ARRAY</div>
+      <h1><span class="zh-title">阿西莫夫形态实验室</span><span class="en-title">ASIMOV MORPHOLOGY LAB</span></h1>
+      <p>将等足类标本拆分为可独立观察的形态模块，再逐一核对各部分的依据。</p>
+    </div>
+    <div class="lab-status"><span>LAB NOTE 07</span><b>MORPHOLOGY LAB</b><small>64 px dorsal morphology</small><a class="cross-lab-link" href="../habitat.html">前往阿西莫夫环境实验室 →</a></div>
+  </header>
 
-function applyPublicBranding(){
- try{
-  const d=frame.contentDocument;
-  d.title='阿西莫夫形态实验室 · ASIMOV MORPHOLOGY LAB';
-  const set=(selector,value)=>{const el=d.querySelector(selector);if(el)el.textContent=value};
-  const speciesCount=d.querySelector('#speciesSelect')?.options.length||0;
-  set('.lab-code',`ASIMOV / ISOPODA · MORPHOLOGY ARRAY ${speciesCount||'—'}`);
-  set('.zh-title','阿西莫夫形态实验室');
-  set('.en-title','ASIMOV MORPHOLOGY LAB');
-  set('.lab-title p','将等足类标本拆分为可独立观察的形态模块，再逐一核对各部分的依据。');
-  set('.lab-status span','LAB NOTE 07');
-  set('.lab-status b','MORPHOLOGY LAB');
-  set('.lab-status small',`${speciesCount||'—'} specimens · 64 px dorsal morphology`);
-  set('#specimenDossier summary small','详细资料 · 点击展开');
+  <section class="specimen-toolbar" aria-label="标本切换">
+    <button id="prevSpecies" class="nav-button" type="button" aria-label="上一个标本">◀</button>
+    <label class="species-picker">
+      <span>SPECIMEN / 标本</span>
+      <select id="speciesSelect"></select>
+    </label>
+    <button id="nextSpecies" class="nav-button" type="button" aria-label="下一个标本">▶</button>
+    <div class="specimen-readout">
+      <b id="specimenName">—</b>
+      <span id="specimenTaxon">—</span>
+      <small id="specimenStatus">—</small>
+    </div>
+    <div class="accession"><span id="specimenIndex">— / —</span><small id="morphologyKey">morphology: —</small></div>
+  </section>
 
-  const status=d.querySelector('.lab-status');
-  if(status&&!status.querySelector('.cross-lab-link')){
-   const link=d.createElement('a');
-   link.className='cross-lab-link';link.href='habitat.html';link.target='_top';
-   link.textContent='前往阿西莫夫环境实验室 →';
-   status.append(link);
-  }
+  <section class="workspace">
+      <section class="inspector">
+        <div class="part-info" aria-live="polite">
+          <div class="eyebrow" id="evidence">RENDER SYSTEM</div>
+          <h2><span id="partZh">整体比例</span><span class="en" id="partEn">Body proportions</span></h2>
+          <p id="partDescription"></p>
+          <dl class="template-readout">
+            <div><dt>CURRENT TEMPLATE</dt><dd id="partTemplate">—</dd></div>
+            <div><dt>EVIDENCE</dt><dd id="partConfidence">—</dd></div>
+          </dl>
+        </div>
+      </section>
 
-  const legend=d.querySelector('.legend');
-  if(legend){
-   legend.replaceChildren();
-   const heading=d.createElement('b');heading.textContent='观察方法';legend.append(heading,d.createElement('br'));
-   for(const line of ['悬停：临时查看','点击：锁定','点击空白：回到整体']){
-    const item=d.createElement('span');item.className='legend-step';item.textContent=line;legend.append(item);
-   }
-   const source=d.createElement('span');source.className='legend-source';source.append('所有像素直接来自 ');
-   const link=d.createElement('a');link.href='https://github.com/fivsevn/umwelt/blob/main/isopoda/sprites.mjs';link.target='_blank';link.rel='noopener noreferrer';link.title='查看 sprites.mjs 中的 pixelAnatomy()';
-   const code=d.createElement('code');code.textContent='pixelAnatomy()';link.append(code);source.append(link);legend.append(source);
-  }
 
-  const footer=d.querySelector('.footer');
-  if(footer){
-   const spans=footer.querySelectorAll('span');
-   if(spans[0])spans[0].textContent='PUBLIC REFERENCE · 资料页';
-   if(spans[1])spans[1].textContent='PROJECT BY · 五月七日 / fivsevn.com';
-  }
+    <div class="viewer">
+      <div class="viewer-label"><span>EXPLODED SPECIMEN</span><small id="viewerSpecies">—</small></div>
+      <div class="optical-field"><div id="stage" class="exploded-stage" aria-label="鼠妇形态拆解图"></div></div>
 
-  const style=d.createElement('style');
-  style.textContent=`
-   .viewer::after{content:"ASIMOV LAB / OPTICAL TABLE"}
-   /* Shared Asimov lab header metrics: identical to habitat.css. */
-   .topbar{min-height:60px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:24px!important;padding:3px 4px 9px!important;border-bottom:1px solid #3e4b34!important}
-   .lab-title{min-width:0!important}
-   .lab-code{font-size:8px!important;line-height:1.25!important;color:#728164!important;letter-spacing:.09em!important;margin:0 0 4px!important}
-   .lab-title h1{display:flex!important;align-items:baseline!important;gap:20px!important;font-weight:400!important;line-height:1.12!important;margin:0 0 5px!important}
-   .lab-title .zh-title{font-size:20px!important;line-height:1.12!important;color:#dedcc4!important;letter-spacing:.015em!important}
-   .lab-title .en-title{font-size:11px!important;line-height:1.12!important;color:#a7b393!important;letter-spacing:.04em!important}
-   .lab-title p{margin:0!important;color:#99a486!important;font-size:10px!important;line-height:1.5!important;white-space:nowrap!important}
-   .lab-status{min-width:210px!important;text-align:right!important;display:grid!important;justify-items:end!important;gap:1px!important;color:#829174!important;line-height:1.35!important}
-   .lab-status b{font-size:10px!important;color:#d1cba8!important;font-weight:400!important}.lab-status span,.lab-status small{font-size:8px!important}
-   .cross-lab-link{display:inline-block!important;margin-top:4px!important;padding:3px 5px!important;border:1px solid #46563a!important;background:#2b3527!important;color:#9eaa8d!important;font-size:8px!important;line-height:1.25!important;text-decoration:none!important;white-space:nowrap!important}
-   .cross-lab-link:hover{background:#37432f!important;color:#d4d4b6!important;border-color:#667557!important}
-   .legend-step{display:block;color:#7f9070;line-height:1.65}
-   .legend-source{display:block;margin-top:5px;color:#68795a;line-height:1.5}
-   .legend-source a{color:#97a989;text-decoration:underline;text-underline-offset:2px}
-   .legend-source code{color:inherit}
-
-   /* The anatomy array occupies the visual field above the two VHS monitors. */
-   @media(min-width:1121px){.exploded-stage{top:-58px!important}}
-
-   /* Public VHS bay: two distinct feeds, both preserving the renderer's native aspect ratio. */
-   .vhs-deck{position:absolute;inset:0;z-index:32;pointer-events:none;overflow:hidden}
-   .vhs-card{position:absolute;width:154px!important;height:126px!important;padding:7px!important;background:#0d120c!important;border:2px solid #4f5b45!important;box-shadow:0 0 0 1px #10160e,4px 5px 0 #11170f,inset 0 0 0 1px rgba(216,216,181,.045)!important;opacity:.92!important;overflow:hidden!important;transform:none!important;pointer-events:auto}
-   .vhs-card:hover,.vhs-card.is-relevant{background:#121911!important;border-color:#8f9775!important;box-shadow:0 0 0 1px #161d13,4px 5px 0 #0b100a,inset 0 0 0 1px rgba(224,222,190,.08)!important}
-   .vhs-motion{left:22px!important;bottom:48px!important;top:auto!important;right:auto!important}
-   .vhs-roll{right:22px!important;bottom:48px!important;top:auto!important;left:auto!important}
-   .vhs-head{height:14px!important;grid-template-columns:auto 1fr auto!important;gap:4px!important;font-size:6px!important;letter-spacing:.07em!important}
-   .vhs-head i{color:#bd796a!important;text-shadow:0 0 3px rgba(189,121,106,.26)}
-   .vhs-head b{color:#c7c7a4!important;overflow:hidden;white-space:nowrap;text-overflow:clip}
-   .vhs-head em{color:#727e64!important;font-variant-numeric:tabular-nums}
-   .vhs-screen{position:relative;height:84px!important;margin-top:4px!important;display:grid!important;place-items:center!important;background:#080c08!important;border:2px solid #252e22!important;box-shadow:inset 0 0 0 1px #070a07,inset 0 0 15px rgba(0,0,0,.92)!important;overflow:hidden!important}
-   .vhs-screen::before{opacity:.52!important;background-size:6px 5px,8px 6px!important}
-   .vhs-screen::after{background:repeating-linear-gradient(to bottom,rgba(232,232,199,.075) 0,rgba(232,232,199,.075) 1px,transparent 1px,transparent 3px),linear-gradient(to bottom,transparent 61%,rgba(202,205,164,.13) 63%,transparent 66%)!important;animation-duration:2.9s!important}
-   .vhs-screen canvas{position:absolute!important;left:50%!important;top:50%!important;display:block!important;width:76px!important;height:76px!important;max-width:calc(100% - 6px)!important;max-height:calc(100% - 6px)!important;aspect-ratio:1/1!important;object-fit:contain!important;margin:0!important;transform:translate(-50%,-50%)!important;image-rendering:pixelated!important;image-rendering:crisp-edges!important;filter:saturate(.42) sepia(.08) contrast(1.19) brightness(.88)!important}
-   .vhs-osd{position:absolute;z-index:12;font-size:5px;line-height:1;color:#9ca78c;text-shadow:1px 1px #050805;pointer-events:none;letter-spacing:.06em}
-   .vhs-osd-play{left:5px;top:5px}.vhs-osd-time{right:5px;top:5px;font-variant-numeric:tabular-nums}.vhs-osd-mode{right:5px;bottom:5px;color:#65715b}
-   .vhs-card small{margin-top:4px!important;font-size:6px!important;line-height:1!important;color:#68745e!important;letter-spacing:.04em!important;white-space:nowrap!important}
-   .vhs-card small::after{content:''!important}
-   .vhs-card::after{height:3px!important;left:7px!important;right:7px!important;background:rgba(214,216,181,.14)!important;box-shadow:0 1px rgba(8,12,8,.9)!important;animation-duration:3.4s!important}
-   .vhs-card::before{background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.38) 100%),linear-gradient(90deg,rgba(190,198,161,.025),transparent 30%,rgba(210,197,150,.02) 70%,transparent)!important}
-   .vhs-card.is-relevant small{color:#a4ab8c!important}
-
-   @media(max-width:1120px){
-    .topbar{display:block!important;padding-bottom:7px!important}
-    .lab-title h1{display:grid!important;gap:2px!important}
-    .lab-title p{white-space:normal!important}
-    .lab-status{grid-template-columns:auto auto auto!important;align-items:baseline!important;justify-content:start!important;justify-items:start!important;gap:2px 10px!important;min-width:0!important;text-align:left!important;margin-top:8px!important}
-    .cross-lab-link{grid-column:1/-1!important}
-    .specimen-toolbar{align-items:stretch}
-    .accession{grid-column:1/-1;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:12px;text-align:left;padding:5px 9px;border-top:1px solid #46563a;line-height:1.35}
-    .accession span{white-space:nowrap;font-size:9px;letter-spacing:.04em}
-    .accession small{text-align:right;white-space:normal;overflow-wrap:anywhere}
-    .specimen-readout span,.specimen-readout small{white-space:normal;overflow:visible;text-overflow:clip}
-    .reference cite,.reference p{overflow-wrap:anywhere}
-    .viewer{overflow:hidden!important}
-    .exploded-stage{top:39%!important}
-    .vhs-deck{inset:10px 10px 30px!important}
-    .vhs-motion{left:8px!important;bottom:8px!important}.vhs-roll{right:8px!important;bottom:8px!important}
-   }
-   @media(max-width:700px){
-    .vhs-card{width:126px!important;height:108px!important;padding:6px!important}
-    .vhs-screen{height:69px!important}
-    .vhs-screen canvas{width:61px!important;height:61px!important}
-   }
-   @media(max-width:620px){
-    .anatomy-app{padding:7px;gap:6px}
-    .topbar{display:block!important;padding-bottom:7px!important}
-    .lab-title h1{display:grid!important;gap:2px!important}
-    .lab-title p{white-space:normal!important}
-    .lab-status{grid-template-columns:auto auto auto!important;align-items:baseline!important;justify-content:start!important;justify-items:start!important;gap:2px 10px!important;min-width:0!important;text-align:left!important;margin-top:8px!important}
-    .cross-lab-link{grid-column:1/-1!important}
-    .lab-status span,.lab-status b,.lab-status small{font-size:7px;white-space:nowrap}
-    .specimen-toolbar{position:relative;top:auto;grid-template-columns:34px minmax(0,1fr) 34px;gap:4px;padding:4px}
-    .specimen-readout{padding:5px 7px}
-    .accession{gap:8px;padding:5px 7px}
-    .accession span{font-size:8px}
-    .accession small{font-size:7px}
-    .viewer{min-height:560px!important}
-    .part-list{gap:4px}
-    .part-button{min-width:0}
-    .template-readout div{grid-template-columns:1fr;gap:1px}
-    .template-readout dt{margin-top:2px}
-    .references>header,.reference{overflow-wrap:anywhere}
-   }
-   @media(max-width:520px){
-    .viewer{min-height:570px!important}
-    .exploded-stage{top:35%!important}
-    .vhs-deck{inset:10px 10px 34px!important}
-    .vhs-card{width:106px!important;height:93px!important;padding:5px!important}
-    .vhs-screen{height:58px!important}
-    .vhs-screen canvas{width:50px!important;height:50px!important}
-    .vhs-head em{display:none!important}
-    .vhs-motion{left:6px!important;bottom:8px!important}.vhs-roll{right:6px!important;bottom:8px!important}
-   }
-   @media(max-width:460px){
-    .lab-title .zh-title{font-size:17px!important}
-    .lab-title .en-title{font-size:9px!important}
-    .lab-title p{font-size:9px!important;line-height:1.5!important}
-    .lab-code{font-size:8px!important}
-    .species-picker select{font-size:10px}
-    .viewer{min-height:580px!important}
-    .exploded-stage{top:34%!important}
-    .vhs-deck{inset:10px 10px 36px!important}
-    .part-list{grid-template-columns:1fr}
-    .part-button{min-height:38px}
-    .viewer-label{left:12px}.viewer::after{right:12px}
-    .hint{left:12px;right:12px;bottom:11px!important;line-height:1.4}
-   }
-   @media(max-width:380px){
-    .viewer{min-height:560px!important}
-    .vhs-card{width:94px!important;height:84px!important;padding:4px!important}
-    .vhs-screen{height:50px!important}
-    .vhs-screen canvas{width:44px!important;height:44px!important}
-    .vhs-motion{left:4px!important}.vhs-roll{right:4px!important}
-   }
-   @media(max-width:1120px) and (orientation:landscape){
-    .viewer{min-height:430px!important}
-    .exploded-stage{top:37%!important}
-   }
-   @media(max-height:680px) and (min-width:1121px){
-    .lab-status{display:none!important}
-   }
-
-   /* Match the canonical two-state responsive policy. */
-   @media(max-width:1120px){
-    .topbar{display:block!important;padding-bottom:7px!important}
-    .lab-title h1{display:grid!important;gap:2px!important}
-    .lab-title p{white-space:normal!important}
-    .lab-status{grid-template-columns:auto auto auto!important;align-items:baseline!important;justify-content:start!important;justify-items:start!important;gap:2px 10px!important;min-width:0!important;text-align:left!important;margin-top:8px!important}
-    .cross-lab-link{grid-column:1/-1!important}
-    .specimen-toolbar{position:relative!important;top:auto!important;grid-template-columns:36px minmax(0,1fr) 36px!important;gap:5px!important;padding:5px!important}
-    .specimen-readout{padding:5px 7px!important}
-    .accession{display:grid!important;grid-column:1/-1!important}
-    .viewer{min-height:clamp(420px,72vw,620px)!important}
-    .workspace>.viewer>.exploded-stage{position:absolute!important;left:50%!important;top:42%!important;margin:0!important;transform:translate(-50%,-50%) scale(.58)!important;transform-origin:center center!important}
-    .part-list{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-   }
-   /* Restore the pre-Sep-22 progressive specimen scaling: as the optical table narrows,
-      the exploded specimen gets smaller instead of merely being re-centered. */
-   @media(max-width:900px){
-    .workspace>.viewer>.exploded-stage{top:41%!important;transform:translate(-50%,-50%) scale(.52)!important}
-   }
-   @media(max-width:700px){
-    .workspace>.viewer>.exploded-stage{top:40%!important;transform:translate(-50%,-50%) scale(.48)!important}
-   }
-   @media(max-width:620px){
-    .workspace>.viewer>.exploded-stage{top:39%!important;transform:translate(-50%,-50%) scale(.44)!important}
-   }
-   @media(max-width:520px){
-    .workspace>.viewer>.exploded-stage{top:38%!important;transform:translate(-50%,-50%) scale(.40)!important}
-   }
-   @media(max-width:460px){
-    .workspace>.viewer>.exploded-stage{top:37%!important;transform:translate(-50%,-50%) scale(.37)!important}
-   }
-   @media(max-width:380px){
-    .workspace>.viewer>.exploded-stage{top:36%!important;transform:translate(-50%,-50%) scale(.34)!important}
-   }
-   @media(max-width:1120px) and (orientation:landscape){
-    .workspace>.viewer>.exploded-stage{top:40%!important}
-   }
-  `;
-  d.head.append(style);
- }catch(error){console.warn('Morphology branding patch skipped',error)}
- frame.classList.add('ready');
-}
-frame.addEventListener('load',applyPublicBranding);
-
-(async()=>{
- try{
-  const response=await fetch('./template.txt',{cache:'no-store'});
-  if(!response.ok)throw new Error('Morphology template unavailable');
-  let html=await response.text();
-  html=html.replace('<!doctype html>','<!doctype html><base href="../">');
-
-  // Two VHS feeds: low-resolution relative locomotion study and conglobation.
-  html=html.replace(/<div class="vhs-deck" aria-label="录像观察窗">[\s\S]*?<\/div>\n\n      <div class="hint">/,`<div class="vhs-deck" aria-label="VHS 录像观察窗">
+      <div class="vhs-deck" aria-label="VHS 录像观察窗">
         <button class="vhs-card vhs-motion" type="button" data-focus="body">
           <span class="vhs-head"><i>● REC</i><b>LIVE MOTION</b><em id="motionCounter">00:00:00</em></span>
           <span class="vhs-screen"><canvas id="vhsMotion" width="64" height="64"></canvas><span class="vhs-osd vhs-osd-play">▶ PLAY</span><span class="vhs-osd vhs-osd-time">CH 01</span><span class="vhs-osd vhs-osd-mode">REL</span></span>
@@ -254,66 +67,36 @@ frame.addEventListener('load',applyPublicBranding);
         </button>
       </div>
 
-      <div class="hint">`);
+      <div class="hint">HOVER / CLICK · 同一套 renderer，仅由 CSS 拉开部位</div>
+    </div>
 
-  html=html.replace(/function renderVhs\(\)\{[\s\S]*?\n\}\n\nfunction templateFor/,`function drawVhsModules(canvas,modules,{scale=1,offsetX=0,offsetY=0,block=2}={}){
- const ctx=canvas.getContext('2d');ctx.clearRect(0,0,64,64);ctx.imageSmoothingEnabled=false;
- for(const module of modules){
-  for(const [x,y,color] of module.cells){
-   if(!color)continue;
-   const rawX=32+offsetX+x*scale,rawY=32+offsetY+y*scale;
-   const px=Math.round(rawX/block)*block,py=Math.round(rawY/block)*block;
-   if(px<0||px>=64||py<0||py>=64)continue;
-   ctx.fillStyle=color;ctx.fillRect(px,py,block,block);
-  }
- }
-}
-let vhsFrame=0,vhsMotionClock=0;
-function drawMotionFrame(){
- const canvas=document.querySelector('#vhsMotion');if(!canvas||!model)return;
- // Species pace is deliberately shown only as relative motion in this low-resolution feed.
- // No numerical speed is exposed: the underlying coefficient remains animation/game tuning.
- const pace=Math.max(.55,Math.min(1.45,Number(species?.locomotion?.simulation?.cruise)||1));
- vhsMotionClock+=pace;
- const motionFrame=Math.floor(vhsMotionClock),phase=motionFrame%4,postures=['normal','probing','turning','normal'];
- const moving=pixelAnatomy(model,{posture:postures[motionFrame%postures.length],phase,moving:true});
- drawVhsModules(canvas,moving,{scale:.90,block:2,offsetX:phase===1?1:phase===3?-1:0});
- const counter=document.querySelector('#motionCounter');
- if(counter){const total=vhsFrame*4;counter.textContent='00:'+String(Math.floor(total/60)%60).padStart(2,'0')+':'+String(total%60).padStart(2,'0')}
- vhsFrame++;
-}
-function renderVhs(){
- vhsFrame=0;vhsMotionClock=0;
- const curled=pixelAnatomy(model,{posture:'curled',phase:0,moving:false});
- drawVhsModules(document.querySelector('#vhsRoll'),curled,{scale:.94,block:2});
- drawMotionFrame();
- const c=model.visual.conglobation||{};
- document.querySelector('#rollMode').textContent=(c.ability||'none').toUpperCase();
-}
-setInterval(drawMotionFrame,240);
 
-function templateFor`);
 
-  // Idle body view keeps the right-hand body information, but no left module is highlighted.
-  // The Body proportions tile lights only when the LIVE MOTION monitor is explicitly activated.
-  html=html.replace("const zh=document.querySelector('#partZh')","let bodyExplicit=false;\nconst zh=document.querySelector('#partZh')");
-  html=html.replace("button.setAttribute('aria-pressed',String(button.dataset.key===key));","button.setAttribute('aria-pressed',String(button.dataset.key===key&&(key!=='body'||bodyExplicit)));");
-  html=html.replace("button.addEventListener('click',()=>lockSelection(key));list.append(button);","button.addEventListener('click',()=>{bodyExplicit=false;if(key==='body'){locked=null;show('body')}else lockSelection(key)});list.append(button);");
-  html=html.replace("function lockSelection(key){locked=key==='body'?null:key;show(key)}","function lockSelection(key){locked=key;show(key)}");
-  html=html.replace("stage.replaceChildren();layers=GROUPS.map(makeLayer);locked=null;","stage.replaceChildren();layers=GROUPS.map(makeLayer);locked=null;bodyExplicit=false;");
-  html=html.replace("stage.addEventListener('pointermove',ev=>{if(locked)return;const hit=hitTest(ev);show(hit||'body');stage.style.cursor=hit?'pointer':'default'});","stage.addEventListener('pointermove',ev=>{if(locked)return;const hit=hitTest(ev);bodyExplicit=false;show(hit||'body');stage.style.cursor=hit?'pointer':'default'});");
-  html=html.replace("stage.addEventListener('pointerleave',()=>{if(!locked)show('body')});","stage.addEventListener('pointerleave',()=>{if(!locked){bodyExplicit=false;show('body')}});");
-  html=html.replace("stage.addEventListener('click',ev=>{const hit=hitTest(ev);if(hit){locked=hit;show(hit)}else{locked=null;show('body')}});","stage.addEventListener('click',ev=>{const hit=hitTest(ev);bodyExplicit=false;if(hit){locked=hit;show(hit)}else{locked=null;show('body')}});");
-  html=html.replace("for(const card of document.querySelectorAll('.vhs-card'))card.addEventListener('click',()=>{locked=card.dataset.focus;show(locked)});","for(const card of document.querySelectorAll('.vhs-card'))card.addEventListener('click',()=>{const key=card.dataset.focus;bodyExplicit=key==='body';locked=key;show(key)});");
 
-  frame.srcdoc=html;
- }catch(error){
-  console.error(error);
-  frame.hidden=true;
-  fatal.style.display='block';
-  fatal.textContent='Morphology archive could not be loaded.';
- }
-})();
-</script>
+    <aside class="layer-panel">
+      <div class="panel-heading">ANATOMY LAYERS</div>
+      <div class="part-list" id="partList"></div>
+      <div class="legend"><b>观察方法</b><br><span class="legend-step">悬停：临时查看</span><span class="legend-step">点击：锁定</span><span class="legend-step">点击空白：回到整体</span><span class="legend-source">所有像素直接来自 <a href="https://github.com/fivsevn/umwelt/blob/main/isopoda/sprites.mjs" target="_blank" rel="noopener noreferrer"><code>pixelAnatomy()</code></a></span></div>
+    </aside>
+
+      <details class="dossier" id="specimenDossier">
+        <summary><span>SPECIMEN DOSSIER / 标本档案</span><small>详细资料 · 点击展开</small></summary>
+        <div class="dossier-body" id="dossierBody"></div>
+      </details>
+
+      <section class="references" aria-label="当前标本参考文献">
+        <header>
+          <span>SPECIMEN REFERENCES / 当前标本参考</span>
+          <small id="referenceSummary">分类、形态、生态、运动、图像与贸易名资料统一在当前标本下归档。</small>
+        </header>
+        <div class="reference-list" id="referenceList"></div>
+      </section>
+
+  </section>
+
+  <footer class="footer"><span>PUBLIC REFERENCE · 资料页</span><span>PROJECT BY · 五月七日 / fivsevn.com</span></footer>
+</main>
+
+
 </body>
 </html>

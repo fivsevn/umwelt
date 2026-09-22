@@ -1,27 +1,17 @@
-import {readFile} from 'node:fs/promises';
-
-const read=path=>readFile(new URL(`../${path}`,import.meta.url),'utf8');
-const [page,template,style]=await Promise.all([
- read('morphology/index.html'),
- read('morphology/template.txt'),
- read('morphology/style.css')
-]);
-
+import {readFile,access} from 'node:fs/promises';
+const root=new URL('../morphology/',import.meta.url);
+const [page,app,style]=await Promise.all(['index.html','app.mjs','style.css'].map(p=>readFile(new URL(p,root),'utf8')));
 const errors=[];
 const expect=(condition,message)=>{if(!condition)errors.push(message)};
-
-expect(page.includes("fetch('./template.txt'"),'canonical morphology page must load morphology/template.txt');
-expect(page.includes("#speciesSelect')?.options.length"),'MORPHOLOGY ARRAY count must be derived from the rendered species selector');
-expect(!/MORPHOLOGY ARRAY\s+\d+/.test(page),'canonical morphology page must not hard-code a species count');
-expect(template.includes("from './species-registry.mjs'"),'internal template must read the shared species registry directly');
-expect(!template.includes('species-registry.mjs?v=species-'),'internal template must not pin a species-count cache tag');
-expect(template.includes('./morphology/style.css'),'internal template must load the canonical morphology stylesheet');
-expect(style.length>1000,'canonical morphology stylesheet must not be empty');
-expect(!page.includes('anatomy-test')&&!template.includes('anatomy-test'),'canonical morphology implementation must not reference retired anatomy-test files');
-
-if(errors.length){
- for(const error of errors)console.error(`[morphology page] ${error}`);
- process.exitCode=1;
-}else{
- console.log('[morphology page] OK — one canonical route, shared registry and canonical morphology assets are consistent.');
+expect(page.includes('src="./app.mjs"'),'canonical page must load its module directly');
+expect(page.includes('href="./style.css"'),'canonical page must load its stylesheet directly');
+expect(!/<iframe|srcdoc|<base|<style/i.test(page),'page must not nest documents or inject layout styles');
+expect(app.includes('speciesCount=SPECIES.length'),'specimen counts must come from the registry');
+expect(app.includes("from '../species-registry.mjs'"),'page must use the shared species registry');
+expect(!/!important|nth-child|@import/.test(style),'layout must not depend on override stacks or positional patches');
+expect(style.includes('.dossier')&&style.includes("'inspector' 'viewer' 'layers' 'dossier' 'references'"),'narrow reading order and dossier styling must be explicit');
+for(const asset of [...style.matchAll(/url\(['"]?([^)'"\s]+)/g)]){
+ try{await access(new URL(asset[1],root))}catch{errors.push(`missing stylesheet asset: ${asset[1]}`)}
 }
+if(errors.length){for(const error of errors)console.error(`[morphology page] ${error}`);process.exitCode=1}
+else console.log('[morphology page] OK — direct document, shared registry, canonical assets and two-state layout.');

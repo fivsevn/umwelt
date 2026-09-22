@@ -1,102 +1,8 @@
-<!doctype html>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>阿西莫夫形态实验室 · Asimov Morphology Lab</title>
-<link rel="stylesheet" href="./morphology/style.css?v=10">
-<main class="anatomy-app">
-  <header class="topbar">
-    <div class="lab-title">
-      <div class="lab-code">ASIMOV / ONISCIDEA · MORPHOLOGY ARRAY</div>
-      <h1><span class="zh-title">阿西莫夫形态实验室</span><span class="en-title">ASIMOV MORPHOLOGY LAB</span></h1>
-      <p>把一只鼠妇拆成可独立变化的形态模块，再逐一核对它们的依据。</p>
-    </div>
-    <div class="lab-status"><span>LAB NOTE 07</span><b>LIVE RENDER</b><small>64 px dorsal morphology</small></div>
-  </header>
-
-  <section class="specimen-toolbar" aria-label="标本切换">
-    <button id="prevSpecies" class="nav-button" type="button" aria-label="上一个标本">◀</button>
-    <label class="species-picker">
-      <span>SPECIMEN / 标本</span>
-      <select id="speciesSelect"></select>
-    </label>
-    <button id="nextSpecies" class="nav-button" type="button" aria-label="下一个标本">▶</button>
-    <div class="specimen-readout">
-      <b id="specimenName">—</b>
-      <span id="specimenTaxon">—</span>
-      <small id="specimenStatus">—</small>
-    </div>
-    <div class="accession"><span id="specimenIndex">— / —</span><small id="morphologyKey">morphology: —</small></div>
-  </section>
-
-  <section class="workspace">
-    <aside class="layer-panel">
-      <div class="panel-heading">ANATOMY LAYERS</div>
-      <div class="part-list" id="partList"></div>
-      <div class="legend"><b>观察方法</b><br>悬停：临时查看 · 点击：锁定<br>点击空白：回到整体<br><span>所有像素直接来自 <code>pixelAnatomy()</code></span></div>
-    </aside>
-
-    <div class="viewer">
-      <div class="viewer-label"><span>EXPLODED SPECIMEN</span><small id="viewerSpecies">—</small></div>
-      <div id="stage" class="exploded-stage" aria-label="鼠妇形态拆解图"></div>
-
-      <div class="vhs-deck" aria-label="录像观察窗">
-        <button class="vhs-card vhs-roll" type="button" data-focus="conglobation">
-          <span class="vhs-head"><i>● REC</i><b>ROLL TEST</b><em id="rollMode">—</em></span>
-          <span class="vhs-screen"><canvas id="vhsRoll" width="64" height="64"></canvas></span>
-          <small>CAM 03 · CONGLOBATION</small>
-        </button>
-        <button class="vhs-card vhs-headcam" type="button" data-focus="cephalon">
-          <span class="vhs-head"><i>● REC</i><b>HEAD CAM</b><em>02:17:43</em></span>
-          <span class="vhs-screen"><canvas id="vhsHead" width="64" height="64"></canvas></span>
-          <small>CAM 01 · CEPHALON / ANTENNA II</small>
-        </button>
-        <button class="vhs-card vhs-tailcam" type="button" data-focus="uropods">
-          <span class="vhs-head"><i>● REC</i><b>TAIL CAM</b><em>02:18:09</em></span>
-          <span class="vhs-screen"><canvas id="vhsTail" width="64" height="64"></canvas></span>
-          <small>CAM 02 · POSTERIOR ARRAY</small>
-        </button>
-      </div>
-
-      <div class="hint">HOVER / CLICK · 同一套 renderer，仅由 CSS 拉开部位</div>
-    </div>
-
-    <aside class="side-stack">
-      <section class="inspector">
-        <div class="part-info" aria-live="polite">
-          <div class="eyebrow" id="evidence">RENDER SYSTEM</div>
-          <h2><span id="partZh">整体比例</span><span class="en" id="partEn">Body proportions</span></h2>
-          <p id="partDescription"></p>
-          <dl class="template-readout">
-            <div><dt>CURRENT TEMPLATE</dt><dd id="partTemplate">—</dd></div>
-            <div><dt>EVIDENCE</dt><dd id="partConfidence">—</dd></div>
-          </dl>
-        </div>
-      </section>
-
-      <details class="dossier" id="specimenDossier">
-        <summary><span>SPECIMEN DOSSIER / 标本档案</span><small>后台资料 · 点击展开</small></summary>
-        <div class="dossier-body" id="dossierBody"></div>
-      </details>
-
-      <section class="references" aria-label="当前标本参考文献">
-        <header>
-          <span>SPECIMEN REFERENCES / 当前标本参考</span>
-          <small id="referenceSummary">分类、形态、生态、运动、图像与贸易名资料统一在当前标本下归档。</small>
-        </header>
-        <div class="reference-list" id="referenceList"></div>
-      </section>
-    </aside>
-  </section>
-
-  <footer class="footer"><span>INTERNAL TEMPLATE</span><span>ASIMOV LAB · morphology/template.txt</span></footer>
-</main>
-
-<script type="module">
-import {SPECIES} from './species-registry.mjs';
-import {sources as PROJECT_SOURCES,frameworkSources as FRAMEWORK_SOURCES} from './sources-registry.mjs?v=wiki-1';
-import {LOCOMOTION_SOURCES,locomotionSourceIds} from './locomotion.mjs?v=locomotion-3';
-import {WIKI_SOURCES,WIKI_SOURCE_IDS_BY_SPECIES} from './data/wiki/specimen-sources.mjs?v=wiki-1';
-import {renderModel,pixelAnatomy} from './sprites.mjs';
+import {SPECIES} from '../species-registry.mjs';
+import {sources as PROJECT_SOURCES,frameworkSources as FRAMEWORK_SOURCES} from '../sources-registry.mjs?v=wiki-1';
+import {LOCOMOTION_SOURCES,locomotionSourceIds} from '../locomotion.mjs?v=locomotion-3';
+import {WIKI_SOURCES,WIKI_SOURCE_IDS_BY_SPECIES} from '../data/wiki/specimen-sources.mjs?v=wiki-1';
+import {renderModel,pixelAnatomy} from '../sprites.mjs';
 
 const stage=document.querySelector('#stage');
 const list=document.querySelector('#partList');
@@ -271,7 +177,7 @@ for(const key of ORDER){
  const info=INFO[key],button=document.createElement('button');
  button.className='part-button';button.type='button';button.dataset.key=key;button.setAttribute('aria-pressed','false');
  button.innerHTML=`<span>${info.zh}<br><span class="en-label">${info.en}</span></span><small>${info.evidence}</small>`;
- button.addEventListener('click',()=>lockSelection(key));list.append(button);
+ button.addEventListener('click',()=>{bodyExplicit=false;if(key==='body'){locked=null;show('body')}else lockSelection(key)});list.append(button);
 }
 
 function makeLayer(group){
@@ -301,15 +207,41 @@ function drawModules(canvas,modules,{filter=()=>true,scale=1,offsetX=0,offsetY=0
   }
  }
 }
+function drawVhsModules(canvas,modules,{scale=1,offsetX=0,offsetY=0,block=2}={}){
+ const ctx=canvas.getContext('2d');ctx.clearRect(0,0,64,64);ctx.imageSmoothingEnabled=false;
+ for(const module of modules){
+  for(const [x,y,color] of module.cells){
+   if(!color)continue;
+   const rawX=32+offsetX+x*scale,rawY=32+offsetY+y*scale;
+   const px=Math.round(rawX/block)*block,py=Math.round(rawY/block)*block;
+   if(px<0||px>=64||py<0||py>=64)continue;
+   ctx.fillStyle=color;ctx.fillRect(px,py,block,block);
+  }
+ }
+}
+let vhsFrame=0,vhsMotionClock=0;
+function drawMotionFrame(){
+ const canvas=document.querySelector('#vhsMotion');if(!canvas||!model)return;
+ // Species pace is deliberately shown only as relative motion in this low-resolution feed.
+ // No numerical speed is exposed: the underlying coefficient remains animation/game tuning.
+ const pace=Math.max(.55,Math.min(1.45,Number(species?.locomotion?.simulation?.cruise)||1));
+ vhsMotionClock+=pace;
+ const motionFrame=Math.floor(vhsMotionClock),phase=motionFrame%4,postures=['normal','probing','turning','normal'];
+ const moving=pixelAnatomy(model,{posture:postures[motionFrame%postures.length],phase,moving:true});
+ drawVhsModules(canvas,moving,{scale:.90,block:2,offsetX:phase===1?1:phase===3?-1:0});
+ const counter=document.querySelector('#motionCounter');
+ if(counter){const total=vhsFrame*4;counter.textContent='00:'+String(Math.floor(total/60)%60).padStart(2,'0')+':'+String(total%60).padStart(2,'0')}
+ vhsFrame++;
+}
 function renderVhs(){
- const normal=pixelAnatomy(model,{posture:'resting',phase:0,moving:false});
+ vhsFrame=0;vhsMotionClock=0;
  const curled=pixelAnatomy(model,{posture:'curled',phase:0,moving:false});
- drawModules(document.querySelector('#vhsRoll'),curled,{scale:1.20});
- drawModules(document.querySelector('#vhsHead'),normal,{filter:r=>r==='cephalon'||r==='antennae',scale:1.55,offsetX:-13});
- drawModules(document.querySelector('#vhsTail'),normal,{filter:r=>r==='pleon'||r==='pleotelson'||r==='uropods',scale:1.65,offsetX:17});
+ drawVhsModules(document.querySelector('#vhsRoll'),curled,{scale:.94,block:2});
+ drawMotionFrame();
  const c=model.visual.conglobation||{};
  document.querySelector('#rollMode').textContent=(c.ability||'none').toUpperCase();
 }
+setInterval(drawMotionFrame,240);
 
 function templateFor(key){
  const v=model.visual;
@@ -354,7 +286,7 @@ function renderDossier(){
  addDossierRow('LAB NOTE / 项目观察',labLine,{quote:true});
  if(!dossierBody.children.length)addDossierRow('DATA STATUS / 数据状态','当前没有可公开展示的后台档案字段；保留为未解析。');
  const count=dossierBody.children.length;
- const hint=document.querySelector('#specimenDossier summary small');if(hint)hint.textContent=`后台资料 ${count} 项 · 点击展开`;
+ const hint=document.querySelector('#specimenDossier summary small');if(hint)hint.textContent=`档案资料 ${count} 项 · 点击展开`;
 }
 
 function renderReferences(){
@@ -374,7 +306,7 @@ function renderSpecies(index){
  speciesIndex=(index+SPECIES.length)%SPECIES.length;species=SPECIES[speciesIndex];select.value=String(speciesIndex);
  model=renderModel(species.visual||species,{stage:'adult',condition:'resting',seed:189+speciesIndex,moving:false});
  anatomy=pixelAnatomy(model,{posture:'resting',phase:0,moving:false});
- stage.replaceChildren();layers=GROUPS.map(makeLayer);locked=null;
+ stage.replaceChildren();layers=GROUPS.map(makeLayer);locked=null;bodyExplicit=false;
  document.querySelector('#specimenName').textContent=`${species.name} / ${species.label}`;
  document.querySelector('#specimenTaxon').textContent=species.taxon||species.taxonomy?.acceptedScientificName||'taxon unresolved';
  document.querySelector('#specimenStatus').textContent=species.status||'当前按项目中的保守形态模板显示。';
@@ -382,9 +314,10 @@ function renderSpecies(index){
  document.querySelector('#specimenIndex').textContent=`${String(speciesIndex+1).padStart(2,'0')} / ${String(SPECIES.length).padStart(2,'0')}`;
  document.querySelector('#morphologyKey').textContent=`morphology: ${model.visual.morphologyKey||'—'}`;
  stage.setAttribute('aria-label',`${species.name} ${species.label} exploded morphology`);
- renderVhs();renderDossier();renderReferences();show('body');
+ centerSpecimen();renderVhs();renderDossier();renderReferences();show('body');
 }
 
+let bodyExplicit=false;
 const zh=document.querySelector('#partZh'),en=document.querySelector('#partEn'),desc=document.querySelector('#partDescription'),evidence=document.querySelector('#evidence'),template=document.querySelector('#partTemplate'),confidence=document.querySelector('#partConfidence');
 function show(key){
  const info=INFO[key]||INFO.body;currentKey=key;
@@ -392,12 +325,12 @@ function show(key){
  const meta=templateFor(key);template.textContent=meta.template;confidence.textContent=meta.confidence;
  const focused=key!=='body';stage.classList.toggle('has-selection',focused);
  for(const layer of layers)layer.classList.toggle('is-active',focused&&info.targets.includes(layer.dataset.semantic));
- for(const button of list.querySelectorAll('.part-button'))button.setAttribute('aria-pressed',String(button.dataset.key===key));
+ for(const button of list.querySelectorAll('.part-button'))button.setAttribute('aria-pressed',String(button.dataset.key===key&&(key!=='body'||bodyExplicit)));
  for(const card of document.querySelectorAll('.vhs-card'))card.classList.toggle('is-relevant',card.dataset.focus===key||(key==='antennae'&&card.dataset.focus==='cephalon')||(['pleon','pleotelson'].includes(key)&&card.dataset.focus==='uropods'));
  const related=new Set(info.refs||[]);
  for(const ref of referenceList.querySelectorAll('.reference'))ref.classList.toggle('is-relevant',related.has(ref.dataset.ref));
 }
-function lockSelection(key){locked=key==='body'?null:key;show(key)}
+function lockSelection(key){locked=key;show(key)}
 function hitTest(ev){
  for(let i=layers.length-1;i>=0;i--){
   const layer=layers[i],canvas=layer.querySelector('canvas'),rect=canvas.getBoundingClientRect();
@@ -408,12 +341,41 @@ function hitTest(ev){
  }
  return null;
 }
-stage.addEventListener('pointermove',ev=>{if(locked)return;const hit=hitTest(ev);show(hit||'body');stage.style.cursor=hit?'pointer':'default'});
-stage.addEventListener('pointerleave',()=>{if(!locked)show('body')});
-stage.addEventListener('click',ev=>{const hit=hitTest(ev);if(hit){locked=hit;show(hit)}else{locked=null;show('body')}});
-for(const card of document.querySelectorAll('.vhs-card'))card.addEventListener('click',()=>{locked=card.dataset.focus;show(locked)});
+stage.addEventListener('pointermove',ev=>{if(locked)return;const hit=hitTest(ev);bodyExplicit=false;show(hit||'body');stage.style.cursor=hit?'pointer':'default'});
+stage.addEventListener('pointerleave',()=>{if(!locked){bodyExplicit=false;show('body')}});
+stage.addEventListener('click',ev=>{const hit=hitTest(ev);bodyExplicit=false;if(hit){locked=hit;show(hit)}else{locked=null;show('body')}});
+for(const card of document.querySelectorAll('.vhs-card'))card.addEventListener('click',()=>{const key=card.dataset.focus;bodyExplicit=key==='body';locked=key;show(key)});
 select.addEventListener('change',()=>renderSpecies(Number(select.value)));
 document.querySelector('#prevSpecies').addEventListener('click',()=>renderSpecies(speciesIndex-1));
 document.querySelector('#nextSpecies').addEventListener('click',()=>renderSpecies(speciesIndex+1));
+// Layout uses visible pixels, rather than the transparent 64px canvas margins.
+const field=document.querySelector('.optical-field');
+field.addEventListener('click',ev=>{if(ev.target===field){locked=null;bodyExplicit=false;show('body')}});
+let specimenBounds={width:640,height:520};
+function centerSpecimen(){
+ let left=Infinity,top=Infinity,right=-Infinity,bottom=-Infinity;
+ for(const layer of layers){
+  const canvas=layer.querySelector('canvas'),pixels=canvas.getContext('2d').getImageData(0,0,64,64).data;
+  const shift=new DOMMatrixReadOnly(getComputedStyle(layer).transform);
+  for(let y=0;y<64;y++)for(let x=0;x<64;x++){
+   if(!pixels[(y*64+x)*4+3])continue;
+   const px=layer.offsetLeft+shift.e+x*5,py=layer.offsetTop+shift.f+y*5;
+   left=Math.min(left,px);right=Math.max(right,px+5);top=Math.min(top,py);bottom=Math.max(bottom,py+5);
+  }
+ }
+ if(!Number.isFinite(left))return;
+ specimenBounds={width:right-left,height:bottom-top};
+ stage.style.setProperty('--center-x',`${320-(left+right)/2}px`);
+ stage.style.setProperty('--center-y',`${260-(top+bottom)/2}px`);
+ fitSpecimen();
+}
+function fitSpecimen(){
+ const {width,height}=field.getBoundingClientRect();
+ const scale=Math.max(.05,Math.min(.78,width/850,(width-24)/specimenBounds.width,(height-24)/specimenBounds.height));
+ stage.style.setProperty('--specimen-scale',scale);
+}
+new ResizeObserver(fitSpecimen).observe(field);
+const speciesCount=SPECIES.length;
+document.querySelector('.lab-code').textContent=`ASIMOV / ISOPODA · MORPHOLOGY ARRAY ${speciesCount}`;
+document.querySelector('.lab-status small').textContent=`${speciesCount} specimens · 64 px dorsal morphology`;
 renderSpecies(speciesIndex);
-</script>
