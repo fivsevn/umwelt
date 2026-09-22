@@ -1,4 +1,4 @@
-import {getLanguage} from './i18n.mjs?v=aquatic-1';
+import {getLanguage} from './i18n.mjs?v=aquatic-3';
 import {gameText} from './locales/game.mjs?v=aquatic-1';
 import {encounterById} from './encounters.mjs?v=molt-sequence-1';
 
