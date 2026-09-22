@@ -19,7 +19,8 @@ test('identity is repeatable, diverse, and uninterrupted across scene transition
 });
 test('long observations retain independent activity and all encounters resolve poses',()=>{
  const poses=new Set();for(const e of ENCOUNTERS){const g=makeIndividuals(42);stageIndividuals(g,e,{initial:true});let moving=0;for(let i=0;i<1200;i++){stepIndividuals(g,{encounter:e,time:i*.1,dt:.1,state:{humidity:70}});g.forEach(c=>poses.add(c.posture));if(i>1000)moving+=g.filter(c=>c.moving).length;for(const c of g)assert.ok(Number.isFinite(c.x+c.y+c.a+c.occlusion))}assert.ok(moving>0,e.id+' never freezes group')}
- for(const p of POSTURES)assert.ok(poses.has(p),'encounters use '+p);
+ for(const p of POSTURES.filter(p=>p!=='swimming'))assert.ok(poses.has(p),'land encounters use '+p);
+ assert.ok(!poses.has('swimming'),'terrestrial encounters do not synthesize the aquatic swimming posture');
 });
 
 import {cameraWindow} from '../isopoda/habitat.mjs';
