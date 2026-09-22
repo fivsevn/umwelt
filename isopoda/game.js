@@ -1,11 +1,11 @@
 import {habitatConfig,cycleHabitat} from './habitats.mjs?v=abyssal-2';
 import {AQUATIC_ENDINGS,aquaticFeedback} from './aquatic-story.mjs?v=abyssal-2';
 import {renderCatalog,renderSources} from './catalog.mjs?v=abyssal-2';
-import {SPECIES,speciesById} from './species-registry.mjs?v=abyssal-2';
+import {SPECIES,speciesById} from './species-registry.mjs?v=abyssal-3';
 import {ENDINGS as LAND_ENDINGS} from './content.mjs?v=interaction-story-2';
-import {createRun,validRun,migrateV3,migrateV4,runSpecies,migrateLegacy,ensureScene,choose,advance,timeFor,recordDirectInteraction,endingMemoryFor} from './engine.mjs?v=abyssal-2';
+import {createRun,validRun,migrateV3,migrateV4,runSpecies,migrateLegacy,ensureScene,choose,advance,timeFor,recordDirectInteraction,endingMemoryFor} from './engine.mjs?v=abyssal-3';
 import {makeBug,makeIsopod,renderModel,exuviaPixels} from './sprites.mjs?v=swim-2';
-import {createHabitat} from './habitat.mjs?v=abyssal-2';
+import {createHabitat} from './habitat.mjs?v=abyssal-3';
 import {restoreCollection,drawCohort,unlock} from './collection.mjs?v=abyssal-2';
 import {encounterById,encounterFor} from './encounters.mjs?v=molt-sequence-1';
 import {iconButton,createInstrument} from './ui.mjs?v=aquatic-2';
