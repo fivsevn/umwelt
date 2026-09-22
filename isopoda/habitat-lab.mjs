@@ -1,5 +1,6 @@
 import {exportScene,importScene,shareCode} from './scene-codec.mjs?v=forest-10';
 import {drawSubstrate,drawLeaf,drawMossPatch,drawBark,drawStone,drawCuttlebone,drawTwig,drawWoodChip,LEGACY_BASE_SCENE,DEFAULT_LAYOUT} from './scenery/index.mjs?v=forest-10';
+import {drawAquaticBackground,drawAquaticPlant,AQUATIC_BACKDROPS} from './scenery/aquatic.mjs?v=aquatic-4';
 import {ACTOR_SCALE} from './scenery/grammar.mjs';
 import {SPECIES,speciesById} from './species-registry.mjs?v=aquatic-1';
 import {renderModel,pixelAnatomy} from './sprites.mjs?v=exuvia-1';
@@ -27,6 +28,17 @@ const ASSETS=[
  {id:'substrate-wet-left',category:'substrate',kind:'background',label:'Moisture gradient',note:'基质 / 左侧湿区',params:{wetZones:[{x:44,y:215,rx:92,ry:250,moisture:78}],light:82}},
  {id:'substrate-forest',category:'substrate',kind:'background',label:'Forest floor',note:'基质 / 林地湿润斑块',params:{wetZones:[{x:60,y:120,rx:115,ry:170,moisture:74},{x:320,y:300,rx:90,ry:115,moisture:58}],light:76}},
 
+ {id:'water-freshwater',category:'water',kind:'background',label:'Freshwater pool',note:'淡水 / 深绿腐殖底',params:{aquatic:true,kind:'freshwater',palette:AQUATIC_BACKDROPS.freshwater.palette}},
+ {id:'water-intertidal',category:'water',kind:'background',label:'Intertidal pool',note:'潮间带 / 岩池底',params:{aquatic:true,kind:'intertidal',palette:AQUATIC_BACKDROPS.intertidal.palette}},
+ {id:'water-shallow-marine',category:'water',kind:'background',label:'Shallow seaweed bed',note:'浅海 / 藻场底',params:{aquatic:true,kind:'shallow-marine',palette:AQUATIC_BACKDROPS['shallow-marine'].palette}},
+
+ {id:'waterweed-tuft-01',category:'aquatic',label:'Waterweed 01',note:'淡水水草 / 对生叶',radius:42,params:{kind:'waterweed',height:58,flow:36}},
+ {id:'waterweed-tuft-02',category:'aquatic',label:'Waterweed 02',note:'淡水水草 / 高株',radius:52,params:{kind:'waterweed',height:78,flow:42}},
+ {id:'rockweed-tuft-01',category:'aquatic',label:'Rockweed 01',note:'潮间带褐藻 / 短簇',radius:40,params:{kind:'rockweed',height:42,flow:58}},
+ {id:'seagrass-tuft-01',category:'aquatic',label:'Seagrass 01',note:'浅海草丛 / 细叶',radius:36,params:{kind:'seagrass',height:46,flow:44}},
+ {id:'kelp-frond-01',category:'aquatic',label:'Kelp frond 01',note:'海带 / 交错宽叶',radius:64,params:{kind:'kelp',height:92,flow:46}},
+ {id:'kelp-frond-02',category:'aquatic',label:'Kelp frond 02',note:'海带 / 长株',radius:76,params:{kind:'kelp',height:118,flow:52}},
+
  {id:'moss-sphagnum-01',category:'moss',label:'Sphagnum cluster 01',note:'水苔 / 大片',radius:52,params:{rx:48,ry:31,wetness:.76,alpha:.80}},
  {id:'moss-sphagnum-02',category:'moss',label:'Sphagnum cluster 02',note:'水苔 / 小片',radius:38,params:{rx:34,ry:22,wetness:.62,alpha:.76}},
  {id:'moss-carpet-03',category:'moss',label:'Moss carpet 03',note:'苔藓 / 林地大片',radius:64,params:{variant:2,rx:58,ry:36,wetness:.70,alpha:.84}},
@@ -49,6 +61,8 @@ const ASSETS=[
  {id:'stone-small-01',category:'stone',label:'Stone small 01',note:'石块 / 小',radius:15,params:{variant:3,scale:.82}},
 
  {id:'stone-shard-01',category:'stone',label:'Stone shard',note:'石块 / 缺角碎石',radius:18,params:{variant:2,scale:1}},
+ {id:'stone-tide-01',category:'stone',label:'Tide rock 01',note:'潮间带 / 大圆岩',radius:42,params:{variant:0,scale:2.35}},
+ {id:'stone-tide-02',category:'stone',label:'Tide rock 02',note:'潮间带 / 扁平岩',radius:48,params:{variant:1,scale:2.65}},
  {id:'cuttlebone-broken',category:'calcium',label:'Broken cuttlebone',note:'墨鱼骨 / 破损片',radius:30,params:{variant:1,scale:.82}},
  {id:'cuttlebone-01',category:'calcium',label:'Cuttlebone 01',note:'墨鱼骨 / 钙源',radius:30,params:{scale:.82}},
 
@@ -68,7 +82,37 @@ const STARTER=LEGACY_BASE_SCENE.map(item=>{
 });
 
 let state={background:'substrate-wet-left',backgroundSeed:57,items:[],selected:null,nextId:1};
-let category='all',drag=null;
+let category='all',drag=null,currentPreset='forest';
+
+function presetItem(assetId,x,y,scale=1,a=0,z=20,seed=57){
+ return {assetId,id:'instance-'+Math.floor(seed*13+z*7+x+y),x,y,a,scale,z,seed};
+}
+function aquaticPreset(id){
+ const seed=id==='freshwater'?83:id==='intertidal'?131:197;
+ if(id==='freshwater')return {
+  background:'water-freshwater',backgroundSeed:seed,items:[
+   presetItem('bark-log-01',176,248,1.05,.38,18,81),
+   presetItem('moss-sphagnum-02',63,122,.92,-.2,19,82),
+   presetItem('stone-round-01',226,230,1.2,0,21,83),presetItem('stone-flat-01',117,344,1.1,0,22,84),
+   presetItem('stone-small-01',285,95,.9,0,23,85),presetItem('stone-shard-01',306,299,.85,.4,24,86),
+   presetItem('leaf-narrow-01',82,176,.65,.7,25,87),presetItem('leaf-broad-01',309,159,.62,-.5,26,88),
+   ...[[44,116,.86],[164,92,.95],[276,128,.82],[337,205,.9],[107,306,.88],[218,354,.92],[319,367,.82],[63,392,.74]].map((p,i)=>presetItem(i%3===0?'waterweed-tuft-02':'waterweed-tuft-01',p[0],p[1],p[2],(i%3-1)*.08,30+i,100+i))
+  ],selected:null,nextId:900
+ };
+ if(id==='intertidal')return {
+  background:'water-intertidal',backgroundSeed:seed,items:[
+   ...[[72,113,1.25],[178,99,1.15],[245,116,1.1],[326,83,1.35],[119,196,1.4],[219,192,1.25],[331,218,1.5],[84,332,1.2],[196,300,1.55],[304,337,1.35]].map((p,i)=>presetItem(i%2?'stone-tide-01':'stone-tide-02',p[0],p[1],p[2],(i%3-1)*.12,18+i,130+i)),
+   ...[[55,149,.78],[153,164,.7],[267,177,.82],[340,278,.74],[110,363,.72]].map((p,i)=>presetItem('rockweed-tuft-01',p[0],p[1],p[2],(i%3-1)*.15,45+i,160+i))
+  ],selected:null,nextId:900
+ };
+ return {
+  background:'water-shallow-marine',backgroundSeed:seed,items:[
+   presetItem('stone-flat-01',109,369,1.35,.1,18,201),presetItem('stone-round-01',232,157,1.1,0,19,202),presetItem('stone-small-01',301,208,.9,0,20,203),
+   ...[[36,149,.88],[93,229,.82],[142,124,.9],[191,276,.86],[240,112,.92],[287,247,.84],[337,146,.9],[72,348,.78],[166,377,.82],[260,360,.86],[331,349,.78]].map((p,i)=>presetItem(i%4===0?'kelp-frond-02':'kelp-frond-01',p[0],p[1],p[2],(i%5-2)*.08,28+i,220+i)),
+   ...[[118,219,.7],[217,313,.66],[310,298,.72],[48,286,.64]].map((p,i)=>presetItem('seagrass-tuft-01',p[0],p[1],p[2],0,48+i,260+i))
+  ],selected:null,nextId:900
+ };
+}
 
 function cloneStarter(){
  const imported=importScene(JSON.stringify(DEFAULT_LAYOUT),ASSET_BY_ID,reference);
@@ -77,11 +121,25 @@ function cloneStarter(){
  $('#toggleReference').setAttribute('aria-pressed',String(reference.visible));
  $('#toggleReference').textContent='GAME SCALE · '+(reference.visible?'ON':'OFF');
 }
+function loadPreset(id){
+ currentPreset=id;
+ if(id==='forest')cloneStarter();
+ else{
+  const next=aquaticPreset(id);
+  state={...next,items:next.items.map((item,i)=>({...item,id:'instance-'+(i+1)}))};
+  reference.visible=false;
+  $('#toggleReference').setAttribute('aria-pressed','false');$('#toggleReference').textContent='GAME SCALE · OFF';
+ }
+ for(const button of document.querySelectorAll('[data-preset]'))button.setAttribute('aria-pressed',String(button.dataset.preset===id));
+ drawScene();
+}
 cloneStarter();
 
 function drawBackground(target,assetId=state.background,seed=state.backgroundSeed){
  const asset=ASSET_BY_ID.get(assetId)||ASSET_BY_ID.get('substrate-dry');
- drawSubstrate(target,{...asset.params,...(target===ctx?state.backgroundParams:{}),seed});
+ const params={...asset.params,...(target===ctx?state.backgroundParams:{})};
+ if(params.aquatic)return drawAquaticBackground(target,{kind:params.kind,palette:params.palette,seed});
+ drawSubstrate(target,{...params,seed});
 }
 
 function drawObject(target,asset,item,preview=false){
@@ -91,6 +149,7 @@ function drawObject(target,asset,item,preview=false){
  if(asset.category==='bark')return drawBark(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
  if(asset.category==='stone')return drawStone(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
  if(asset.category==='calcium')return drawCuttlebone(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
+ if(asset.category==='aquatic')return drawAquaticPlant(target,{...p,x,y,a,seed,scale:mult});
  if(asset.id.startsWith('twig')||p.type==='twig')return drawTwig(target,{...p,x,y,a,seed,length:(p.length||18)*mult});
  if(asset.id.startsWith('woodchip')||p.type==='chip')return drawWoodChip(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
 }
@@ -144,7 +203,7 @@ function makePreview(asset){
  if(asset.kind==='background'){
   drawBackground(g,asset.id,57);
  }else{
-  const scale=asset.category==='bark'?.48:asset.category==='leaf'?.72:asset.category==='moss'?.88:1;
+  const scale=asset.category==='bark'?.48:asset.category==='leaf'?.72:asset.category==='moss'?.88:asset.category==='aquatic'?.78:asset.id.startsWith('stone-tide')?.55:1;
   drawObject(g,asset,{x:c.width/2,y:c.height/2,a:asset.category==='leaf'?-.35:asset.category==='bark'?-.08:0,seed:57,scale});
  }
  return c;
@@ -226,7 +285,8 @@ for(const button of document.querySelectorAll('[data-category]'))button.onclick=
  renderAssetList();
 };
 
-$('#resetScene').onclick=()=>{cloneStarter();drawScene()};
+$('#resetScene').onclick=()=>loadPreset(currentPreset);
+for(const button of document.querySelectorAll('[data-preset]'))button.onclick=()=>loadPreset(button.dataset.preset);
 $('#clearScene').onclick=()=>{state.items=[];state.selected=null;drawScene()};
 
 $('#referenceSpecies').onchange=event=>{reference.species=event.target.value;reference.seed=(reference.seed+31)>>>0;drawScene()};
