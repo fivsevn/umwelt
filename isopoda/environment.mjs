@@ -1,6 +1,6 @@
-import {habitatConfig} from './habitats.mjs';
+import {habitatConfig} from './habitats.mjs?v=abyssal-1';
 import {DEFAULT_LAYOUT,DEFAULT_SHELTER} from './scenery/default-layout.mjs?v=authored-1';
-import {speciesById} from './species-registry.mjs?v=aquatic-1';
+import {speciesById} from './species-registry.mjs?v=abyssal-1';
 // Spatial traces advance with observation turns, never with frame rate or wall time.
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function environmentFor(s){
