@@ -55,17 +55,12 @@ jobs:
             --exclude '.gitignore' \
             --exclude '_site/' \
             --exclude '_fontcheck/' \
-            --exclude 'README.md' \
+            --exclude 'README*.md' \
             --exclude 'docs/' \
             --exclude 'tests/' \
             --exclude 'isopoda/tools/' \
             --exclude 'isopoda/dev/' \
             --exclude 'isopoda/docs/' \
-            --exclude 'isopoda/README.md' \
-            --exclude 'isopoda/locales/README.md' \
-            --exclude 'isopoda/morphology/README.md' \
-            --exclude 'isopoda/scenery/README.md' \
-            --exclude 'isopoda/anatomy-test.html' \
             ./ _fontcheck/
           python .github/scripts/subset-font.py \
             --scan-root _fontcheck \

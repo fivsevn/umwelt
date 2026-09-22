@@ -2,7 +2,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>阿西莫夫形态实验室 · Asimov Morphology Lab</title>
-<link rel="stylesheet" href="./anatomy-test.css?v=10">
+<link rel="stylesheet" href="./morphology/style.css?v=10">
 <main class="anatomy-app">
   <header class="topbar">
     <div class="lab-title">

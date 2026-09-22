@@ -3,6 +3,8 @@ name: Deploy static site to Pages
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - '**/README*.md'
   workflow_dispatch:
 
 permissions:
@@ -30,6 +32,12 @@ jobs:
       - name: Verify observation game
         run: node --test tests/*.test.mjs
 
+      - name: Check Chinese / English / Japanese coverage
+        run: node isopoda/tools/check-i18n.mjs
+
+      - name: Check morphology page structure
+        run: node isopoda/tools/check-morphology-page.mjs
+
       - name: Verify public ISOPODA surface
         run: node isopoda/tools/check-public-surface.mjs
 
@@ -46,17 +54,12 @@ jobs:
             --exclude '.github/' \
             --exclude '.gitignore' \
             --exclude '_site/' \
-            --exclude 'README.md' \
+            --exclude 'README*.md' \
             --exclude 'docs/' \
             --exclude 'tests/' \
             --exclude 'isopoda/tools/' \
             --exclude 'isopoda/dev/' \
             --exclude 'isopoda/docs/' \
-            --exclude 'isopoda/README.md' \
-            --exclude 'isopoda/locales/README.md' \
-            --exclude 'isopoda/morphology/README.md' \
-            --exclude 'isopoda/scenery/README.md' \
-            --exclude 'isopoda/anatomy-test.html' \
             ./ _site/
 
       - name: Subset deployed Pixel font
