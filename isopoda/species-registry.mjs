@@ -7,6 +7,7 @@ import {EXTRA_SPECIES_4} from './data/species/batch-04.mjs?v=species-33';
 import {EXTRA_SPECIES_5} from './data/species/marine-reference.mjs?v=species-34';
 import {EXTRA_SPECIES_6} from './data/species/hobby-lines.mjs?v=species-39b';
 import {applySpeciesDisplayScale} from './species-size.mjs?v=size-5';
+import {applyLocomotionProfile} from './locomotion.mjs?v=locomotion-2';
 
 // Keep the original 13-species table stable. Independently sourced taxa and explicitly labelled
 // hobby lineages are appended in batches so expansion does not rewrite save-compatible definitions.
@@ -15,5 +16,5 @@ import {applySpeciesDisplayScale} from './species-size.mjs?v=size-5';
 // Scientifically useful reference taxa can live in the registry without being eligible for
 // the terrestrial habitat draw; collection.mjs respects game.habitatEligible === false.
 const RAW_SPECIES=[...BASE_SPECIES,...EXTRA_SPECIES,...EXTRA_SPECIES_2,...EXTRA_SPECIES_3,...EXTRA_SPECIES_4,...EXTRA_SPECIES_5,...EXTRA_SPECIES_6,...AQUATIC_SPECIES];
-export const SPECIES=RAW_SPECIES.map(applySpeciesDisplayScale);
+export const SPECIES=RAW_SPECIES.map(applySpeciesDisplayScale).map(applyLocomotionProfile);
 export const speciesById=id=>SPECIES.find(s=>s.id===id)||SPECIES[0];
