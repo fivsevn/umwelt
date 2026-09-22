@@ -1,6 +1,6 @@
 import {STORIES} from './data/habitats/stories.mjs';
 import {STORY_ALTERNATES} from './data/habitats/story-alternates.mjs?v=pool-1';
-import {ABYSSAL_NODES,ABYSSAL_ENDING_DATA,ABYSSAL_FRAGMENT_DATA} from './data/habitats/abyssal-dialogue.mjs?v=dialogue-7';
+import {ABYSSAL_NODES,ABYSSAL_ENDING_DATA,ABYSSAL_FRAGMENT_DATA} from './data/habitats/abyssal-dialogue.mjs?v=dialogue-8';
 import {habitatConfig} from './habitats.mjs?v=abyssal-2';
 import {encodeIsopodText} from './locales/isopod.mjs?v=isopod-3';
 const COPY={
@@ -106,39 +106,43 @@ const ABYSSAL_OPTION_ORDER={
 // The visible position of an option is deliberately unrelated to these traces.
 const ABYSSAL_FRAGMENT_UNLOCKS={
  position:{
-  glass:['light-see','light-dim','reflection-note','offering-intervention','specimen-now','observer-mixed','translation-watch'],
+  glass:['light-see','light-dim','reflection-clear','reflection-note','specimen-now','observer-mixed'],
   drift:['still-detail','food-route','background-bg','trace-happened','observer-body','ending-watch'],
-  edge:['light-silent','scale-view','background-both','blank-outside','reflection-clear','specimen-noanswer','frame-open']
+  edge:['light-silent','scale-view','background-both','blank-outside','specimen-noanswer','frame-open','ending-silent'],
+  interval:['still-position','food-wait','scale-none','trace-unsure','blank-space','offering-fall','translation-watch','ending-close']
  },
  record:{
-  names:['name-later','name-archive','food-hunger','background-bg','offering-food','specimen-update','frame-no'],
-  traces:['still-detail','still-position','food-route','trace-record','reflection-note','observer-light','frame-yes'],
-  gaps:['still-blank','name-none','food-wait','trace-unsure','blank-space','blank-unknown','reflection-leave','offering-fall','translation-no','ending-silent']
+  names:['name-later','name-archive','food-hunger','offering-food','specimen-update','translation-no','frame-no'],
+  traces:['still-detail','food-route','background-bg','trace-record','reflection-note','offering-fall','observer-light','frame-yes'],
+  gaps:['still-blank','name-none','food-wait','blank-space','reflection-leave','specimen-noanswer','frame-open','ending-silent'],
+  sequence:['still-position','scale-none','background-both','trace-happened','blank-unknown','offering-intervention','observer-mixed','translation-watch','ending-watch']
  },
  remainder:{
-  field:['light-dim','background-env','reflection-note','observer-mixed','frame-yes'],
-  return:['still-position','name-later','trace-record','specimen-now','ending-watch'],
-  intervention:['light-see','scale-body','reflection-clear','offering-intervention','observer-light'],
-  open:['light-silent','still-blank','name-none','trace-unsure','blank-outside','translation-watch','frame-open','ending-silent']
+  field:['light-dim','background-env','reflection-note','observer-mixed','frame-yes','blank-unknown'],
+  return:['still-position','name-later','trace-record','specimen-now','ending-close'],
+  intervention:['light-see','scale-body','reflection-clear','offering-intervention','observer-body','ending-silent'],
+  open:['light-silent','still-blank','name-none','food-wait','trace-unsure','blank-outside','translation-watch','frame-open','ending-watch']
  }
 };
 
 const ABYSSAL_FRAGMENT_RESONANCE={
  position:{
-  glass:[['reflection-note','observer-mixed'],['offering-intervention','observer-light']],
+  glass:[['reflection-note','observer-mixed'],['reflection-clear','specimen-now']],
   drift:[['still-detail','trace-happened'],['food-route','ending-watch']],
-  edge:[['scale-view','frame-open'],['blank-outside','specimen-noanswer']]
+  edge:[['scale-view','frame-open'],['blank-outside','specimen-noanswer']],
+  interval:[['still-position','translation-watch'],['food-wait','ending-close']]
  },
  record:{
-  names:[['name-archive','specimen-update'],['food-hunger','frame-no']],
-  traces:[['still-position','trace-record'],['reflection-note','frame-yes']],
-  gaps:[['name-none','blank-space'],['trace-unsure','ending-silent']]
+  names:[['name-archive','specimen-update'],['food-hunger','translation-no']],
+  traces:[['trace-record','reflection-note'],['observer-light','frame-yes']],
+  gaps:[['name-none','blank-space'],['specimen-noanswer','ending-silent']],
+  sequence:[['still-position','scale-none'],['observer-mixed','translation-watch']]
  },
  remainder:{
   field:[['background-env','observer-mixed'],['reflection-note','frame-yes']],
-  return:[['name-later','specimen-now'],['trace-record','ending-watch']],
-  intervention:[['light-see','offering-intervention'],['reflection-clear','observer-light']],
-  open:[['blank-outside','frame-open'],['translation-watch','ending-silent']]
+  return:[['name-later','specimen-now'],['trace-record','ending-close']],
+  intervention:[['light-see','offering-intervention'],['reflection-clear','observer-body']],
+  open:[['blank-outside','frame-open'],['translation-watch','ending-watch']]
  }
 };
 
