@@ -13,13 +13,6 @@
 **o:**
 
 - [World List of Isopod Crustaceans / WoRMS](https://www.marinespecies.org/isopoda/)
-- [Catalogue of Life](https://www.catalogueoflife.org/)
-- [GBIF](https://www.gbif.org/)
-- [TaiCOL](https://taicol.tw/)
-- [TBN](https://www.tbn.org.tw/taxa)
-- [BISMaL](https://www.godac.jamstec.go.jp/bismal/j/)
-- [British Myriapod and Isopod Group](https://bmig.org.uk/)
-- [J-STAGE](https://www.jstage.jst.go.jp/)
 
 **o!**
 
