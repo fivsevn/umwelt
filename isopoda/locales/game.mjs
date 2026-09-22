@@ -1,4 +1,4 @@
-import {aquaticText} from '../aquatic-story.mjs';
+import {aquaticText} from '../aquatic-story.mjs?v=abyssal-1';
 import {encodeIsopodText} from './isopod.mjs?v=isopod-3';
 
 // Runtime localization for authored game copy.
