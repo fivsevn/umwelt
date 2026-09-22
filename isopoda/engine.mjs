@@ -1,6 +1,8 @@
-import {environmentFor,changeEnvironment,ageEnvironment,environmentTarget,habitatFit,syncSceneTrace,releaseDueShells,takeShell} from './environment.mjs?v=forest-10';
+import {habitatConfig,HABITATS,eligibleSpecies,advanceWater} from './habitats.mjs';
+import {aquaticScene,aquaticEnding} from './aquatic-story.mjs';
+import {environmentFor,changeEnvironment,ageEnvironment,environmentTarget,habitatFit,syncSceneTrace,releaseDueShells,takeShell} from './environment.mjs?v=aquatic-1';
 import {encounterFor,encounterById,encounterText} from './encounters.mjs?v=molt-sequence-1';
-import {SPECIES,speciesById} from './species-registry.mjs?v=species-39b';
+import {SPECIES,speciesById} from './species-registry.mjs?v=aquatic-1';
 import {EVENING,AMBIENT,CARE,MINI_TYPES,ENDINGS} from './content.mjs?v=interaction-story-2';
 export const VERSION=4;
 export const PERIODS=['晨间','午后','夜间'];
@@ -8,9 +10,11 @@ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function hash(seed,n){let x=(seed+Math.imul(n+1,2654435761))>>>0;x=Math.imul(x^(x>>>16),2246822507);x=Math.imul(x^(x>>>13),3266489909);return (x^(x>>>16))>>>0}
 export function cohortFor(species,seed){return Array.from({length:7},(_,i)=>({id:String.fromCharCode(65+i),species:speciesById(species).id,seed:hash(seed,i+1701),stage:['S','M','L','M','L','S','M'][i]}))}
 export function runSpecies(s){return [...new Set(s.cohort?.map(c=>c.species)||[s.species])].filter(id=>SPECIES.some(p=>p.id===id))}
-export function createRun(species='dairy',seed=Date.now()>>>0){
+export function createRun(species='dairy',seed=Date.now()>>>0,habitatId='terrestrial'){
+ const config=HABITATS.find(h=>h.id===habitatId);if(!config)throw new RangeError('Unknown habitat');
+ if(!eligibleSpecies(speciesById(species),habitatId))species=config.species?.[0]||'dairy';
  const now=new Date(),startedOn=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');
- const p=speciesById(species);return {startedOn,version:VERSION,narrativeVersion:1,seed:seed>>>0,cohort:cohortFor(p.id,seed),day:1,period:0,stage:'choice',humidity:p.wet,temp:23,vent:55,light:54,cover:p.cover,food:1,interventions:0,quiet:0,accuracy:0,maps:0,labels:0,care:0,directTouches:0,directGrabs:0,directMoves:0,groundTaps:0,barkLifts:0,shellCollects:0,collectedShells:[],directRecords:[],interactionDiscoveries:{tap:false,grab:false,lift:false,collect:false},interactionIntent:null,observerContradictions:[],records:[],ending:null,feedback:'',scene:null};
+ const p=speciesById(species);return {habitatId,startedOn,version:VERSION,narrativeVersion:1,seed:seed>>>0,cohort:cohortFor(p.id,seed),day:1,period:0,stage:'choice',humidity:p.wet,temp:23,vent:55,light:54,cover:p.cover,food:1,interventions:0,quiet:0,accuracy:0,maps:0,labels:0,care:0,directTouches:0,directGrabs:0,directMoves:0,groundTaps:0,barkLifts:0,shellCollects:0,collectedShells:[],directRecords:[],interactionDiscoveries:{tap:false,grab:false,lift:false,collect:false},interactionIntent:null,observerContradictions:[],records:[],ending:null,feedback:'',scene:null,...config.defaults};
 }
 function interactionState(s){
  const hadDiscoveries=!!(s.interactionDiscoveries&&typeof s.interactionDiscoveries==='object');
@@ -81,6 +85,7 @@ export function directMemoryForDay(s,day=s.day){
  return `今天你碰过${who}。它收紧身体，后来才重新展开。`;
 }
 export function endingMemoryFor(s){
+ if(habitatConfig(s).aquatic)return s.directRecords?.length?'water:memory':'';
  const contradictions=Array.isArray(s.observerContradictions)?s.observerContradictions:[];if(contradictions.length)return '这七天里，至少有一次你写下的决定和随后发生的动作并不相同。田野笔记把两者都保留下来，而不是替其中一个作证。';
  const list=Array.isArray(s.directRecords)?s.directRecords:[];if(!list.length)return '';
  const r=[...list].reverse().find(x=>x.type==='place')||[...list].reverse().find(x=>x.type==='grab')||list.at(-1),who=r.specimen?`个体 ${r.specimen}`:'一个个体';
@@ -91,7 +96,7 @@ export function endingMemoryFor(s){
  if(r.type==='ground')return '这七天里，你曾让土面发生过短促的震动。几条路线从那里重新开始。';
  return `这七天里，你曾碰过${who}。它收紧过身体，后来又重新展开。`;
 }
-export function validRun(s){return !!(s&&s.version===VERSION&&Array.isArray(s.cohort)&&s.cohort.length===7&&s.cohort.every((c,i)=>c.id===String.fromCharCode(65+i)&&SPECIES.some(p=>p.id===c.species)&&Number.isInteger(c.seed)&&['S','M','L'].includes(c.stage))&&Number.isInteger(s.day)&&s.day>=1&&s.day<=7&&Number.isInteger(s.period)&&s.period>=0&&s.period<=2&&['choice','feedback','ended'].includes(s.stage)&&Array.isArray(s.records)&&['seed','humidity','temp','vent','light','cover','food','interventions','quiet','accuracy','maps','labels','care'].every(k=>Number.isFinite(s[k])))}
+export function validRun(s){return !!(s&&s.version===VERSION&&Array.isArray(s.cohort)&&s.cohort.length===7&&s.cohort.every((c,i)=>c.id===String.fromCharCode(65+i)&&SPECIES.some(p=>p.id===c.species&&eligibleSpecies(p,s.habitatId))&&Number.isInteger(c.seed)&&['S','M','L'].includes(c.stage))&&Number.isInteger(s.day)&&s.day>=1&&s.day<=habitatConfig(s).days&&(s.habitatId==null||HABITATS.some(h=>h.id===s.habitatId))&&(!habitatConfig(s).aquatic||Object.keys(habitatConfig(s).defaults).every(k=>Number.isFinite(s[k])))&&Number.isInteger(s.period)&&s.period>=0&&s.period<=2&&['choice','feedback','ended'].includes(s.stage)&&Array.isArray(s.records)&&['seed','humidity','temp','vent','light','cover','food','interventions','quiet','accuracy','maps','labels','care'].every(k=>Number.isFinite(s[k])))}
 export function timeFor(seed,day,period){
  const starts=[6*60,13*60,20*60],spans=[5*60,5*60,4*60];
  const minute=starts[period]+((hash(seed,period+71)+(day-1)*47)%spans[period]);
@@ -126,6 +131,7 @@ function ambientMoltFor(s){
  return {specimen:specimen.id,phase,x,y,a,source:'ambient'};
 }
 export function sceneFor(s){
+ if(habitatConfig(s).aquatic)return {...aquaticScene(s),time:timeFor(s.seed,s.day,s.period)};
  const focal=s.cohort[hash(s.seed,s.day)%7],scene={id:`${s.day}.${s.period}`,title:PERIODS[s.period],kind:'text',text:'',options:[]};
  if(s.period===0){
    scene.text='';
@@ -200,10 +206,11 @@ export function ensureScene(s){
 }
 export function choose(s,id){
  if(s.stage!=='choice')return false;const scene=ensureScene(s),o=scene.options.find(o=>o.id===id);if(!o)return false;
- const before=s.cohort.map(c=>habitatFit(s,c));changeEnvironment(s,id);for(const [k,v] of Object.entries(o.delta))s[k]+=v;
+ const before=s.cohort.map(c=>habitatFit(s,c));if(!habitatConfig(s).aquatic)changeEnvironment(s,id);for(const [k,v] of Object.entries(o.delta))s[k]+=v;
  s.humidity=clamp(s.humidity,35,96);s.cover=clamp(s.cover,20,94);s.light=clamp(s.light,8,85);s.food=clamp(s.food,0,6);s.vent=clamp(s.vent,20,95);
  const after=s.cohort.map(c=>habitatFit(s,c));if(after.some((v,i)=>v>before[i]+.01)&&after.every((v,i)=>v>=before[i]-.01))s.care++;
  const discoveries=interactionState(s);s.interactionIntent=o.interaction?{...o.interaction,day:s.day,period:s.period,choice:id,hint:discoveries[o.interaction.type]?'':o.interaction.prompt}:null;
+ if(habitatConfig(s).aquatic)for(const k of Object.keys(habitatConfig(s).defaults))s[k]=clamp(s[k],0,k==='salinity'?42:100);
  s.feedback=o.text;s.stage='feedback';s.records.push({day:s.day,period:s.period,kind:scene.kind,choice:id,label:o.label,text:o.text,time:scene.time||timeFor(s.seed,s.day,s.period),encounter:scene.encounter||null,interaction:o.interaction?.type||null});return true;
 }
 function endingFromPool(s,ids,salt){
@@ -211,6 +218,7 @@ function endingFromPool(s,ids,salt){
  const id=ids[hash(s.seed,salt+signature)%ids.length];return ENDINGS.find(e=>e.id===id);
 }
 export function endingFor(s){
+ if(habitatConfig(s).aquatic)return aquaticEnding(s);
  const direct=(s.directGrabs||0)+(s.directMoves||0);
  if(direct>=2||s.interventions>=12)return endingFromPool(s,['visitor','hand'],701);
  if(s.quiet>=12&&s.quiet>=s.maps&&s.quiet>=s.labels)return endingFromPool(s,['margin','stillness','shadow'],709);
@@ -221,8 +229,9 @@ export function endingFor(s){
 }
 export function advance(s){
  if(s.stage!=='feedback')return false;
- if(s.day===7&&s.period===2){s.stage='ended';s.ending=endingFor(s).id;return true}
+ if(s.day===habitatConfig(s).days&&s.period===2){s.stage='ended';s.ending=endingFor(s).id;return true}
  s.period++;if(s.period===3){s.period=0;s.day++}
+ if(habitatConfig(s).aquatic){advanceWater(s);s.stage='choice';s.feedback='';s.interactionIntent=null;s.scene=null;ensureScene(s);return true}
  const delta=(s.vent>70?4:2)+(s.period===1?1:0);s.humidity=clamp(s.humidity-delta,35,96);
  s.temp=Math.round((22+(s.period===1?2:s.period===2?-.5:0)+(hash(s.seed,s.day)%5)*.3)*10)/10;
  s.light=clamp(s.light+(s.period===1?10:s.period===2?-22:12),8,85);
@@ -230,4 +239,7 @@ export function advance(s){
 }
 export function migrateLegacy(old,seed=1){const s=createRun('dairy',seed);if(old&&Number.isInteger(old.day)&&old.day>=1&&old.day<=7){s.day=old.day;s.period=0;s.humidity=clamp(68+(Number(old.moisture)||0)*2,35,90);s.cover=clamp(45+(Number(old.leaves)||0)*5,20,90)}return s}
 
-export function migrateV3(old){if(!old||old.version!==3||!SPECIES.some(p=>p.id===old.species))return null;const s={...old,version:VERSION,cohort:cohortFor(old.species,old.seed)};delete s.species;if(s.stage==='choice')s.scene=null;return validRun(s)?s:null}
+export function migrateV3(old){if(!old||old.version!==3||!SPECIES.some(p=>p.id===old.species))return null;const s={...old,habitatId:'terrestrial',version:VERSION,cohort:cohortFor(old.species,old.seed)};delete s.species;if(s.stage==='choice')s.scene=null;return validRun(s)?s:null}
+
+// Existing v4 records and completed scenes survive migration. Keep the storage key stable.
+export function migrateV4(old){if(!old||old.version!==4)return null;const s={...old,habitatId:old.habitatId??'terrestrial'};return validRun(s)?s:null}

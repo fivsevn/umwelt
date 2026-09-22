@@ -1,6 +1,7 @@
+import {gameText} from './locales/game.mjs?v=aquatic-1';
 import {makeIsopod} from './sprites.mjs?v=quiet-ui-1';
 import {renderCredits} from './credits.mjs?v=credits-4';
-import {getLanguage,t,formatDate,speciesPrimaryName,speciesSecondaryName,speciesLiteratureLines} from './i18n.mjs?v=i18n-2';
+import {getLanguage,t,formatDate,speciesPrimaryName,speciesSecondaryName,speciesLiteratureLines} from './i18n.mjs?v=aquatic-1';
 import {annotationLabel,localizedAnnotationLines} from './locales/annotations.mjs?v=i18n-3';
 
 const text=(tag,value,cls='')=>{const el=document.createElement(tag);el.textContent=value;el.className=cls;return el};
@@ -26,6 +27,7 @@ export function renderCatalog(p,{unlocked=true,collectedOn=null}={}){
  if(!p.taxonomy.acceptedScientificName)names.append(text('p',t('catalogUncertain'),'name-aside'));card.append(names);
  const note=document.createElement('blockquote');note.className='anonymous-note';note.append(text('div',annotationLabel(lang),'summary-label'));
  const annotationLines=localizedAnnotationLines(p,lang,speciesLiteratureLines(p,lang));for(const line of annotationLines)note.append(text('p',line));card.append(note);
+ if(unlocked&&p.game?.habitats){note.replaceChildren(text('div',annotationLabel(lang),'summary-label'),text('p',gameText('water:habitat:'+p.game.habitats[0],lang)),text('p',gameText('water:limitation',lang)));const a=document.createElement('a');a.href=p.provenance.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=gameText('water:source',lang);note.append(a)}
  if(!unlocked){
   card.classList.add('unseen');
   // Keep the specimen mount, name area and annotation frame without revealing a taxon.

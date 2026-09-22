@@ -1,3 +1,5 @@
+import {HABITATS} from '../habitats.mjs';
+import {aquaticScene,AQUATIC_ENDINGS, aquaticText} from '../aquatic-story.mjs';
 import {readFile} from 'node:fs/promises';
 import {SUPPORTED_LANGUAGES,UI_COPY} from '../locales/ui.mjs';
 
@@ -21,6 +23,13 @@ function chineseStrings(source){
 }
 function markdownUrls(source){return [...source.matchAll(/\]\((https?:\/\/[^)]+)\)/g)].map(match=>match[1]).sort()}
 function markdownHeadings(source){return [...source.matchAll(/^\*\*.+?\*\*$/gm)].length}
+
+// Aquatic scenes use explicit stable keys and authored zh/en/ja rows.
+for(const h of HABITATS.filter(h=>h.aquatic))for(let turn=0;turn<9;turn++){
+ const scene=aquaticScene({habitatId:h.id,day:Math.floor(turn/3)+1,period:turn%3});
+ for(const key of [scene.text,...scene.options.flatMap(o=>[o.label,o.text]),'water:habitat:'+h.id,...h.metrics.map(k=>'water:'+k)])for(const lang of SUPPORTED_LANGUAGES){const value=aquaticText(key,lang);if(!value||value===key)fail(`Aquatic missing ${lang}: ${key}`)}
+}
+for(const e of AQUATIC_ENDINGS)for(const key of [e.title,e.body,e.line])for(const lang of SUPPORTED_LANGUAGES)if(aquaticText(key,lang)===key)fail(`Ending missing ${lang}: ${key}`);
 
 // 1) Static UI: every language must expose exactly the same stable keys.
 const baseKeys=sortedKeys(UI_COPY.zh);
@@ -132,5 +141,5 @@ if(errors.length){
  console.error(`\n${errors.length} i18n check(s) failed.`);
  process.exitCode=1;
 }else{
- console.log(`[i18n] OK — ${baseKeys.length} UI keys, ${speciesIds.size} specimens, ${annotationIds.length} annotation entries, ${rowTriples.length} game locale rows, ${Object.keys(creditFiles).length} credit files.`);
+ console.log(`[i18n] OK — ${baseKeys.length} UI keys, ${speciesIds.size} legacy specimens + 9 aquatic specimens / 27 scenes, ${annotationIds.length} annotation entries, ${rowTriples.length} game locale rows, ${Object.keys(creditFiles).length} credit files.`);
 }

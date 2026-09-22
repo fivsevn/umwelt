@@ -16,15 +16,15 @@ const acceptedMorphs=['magicPotion','papaya'];
 const accepted=[...firstBatch,...secondBatch,...thirdBatch,...fourthBatch,...marineReference];
 
 test('expanded registry preserves accepted batches and appends a diversified hobby batch',()=>{
- assert.equal(SPECIES.length,39);
+ assert.equal(SPECIES.length,48);
  assert.deepEqual(SPECIES.slice(0,13).map(s=>s.id),original);
  assert.deepEqual(SPECIES.slice(13,18).map(s=>s.id),firstBatch);
  assert.deepEqual(SPECIES.slice(18,23).map(s=>s.id),secondBatch);
  assert.deepEqual(SPECIES.slice(23,28).map(s=>s.id),thirdBatch);
  assert.deepEqual(SPECIES.slice(28,33).map(s=>s.id),fourthBatch);
  assert.deepEqual(SPECIES.slice(33,34).map(s=>s.id),marineReference);
- assert.deepEqual(SPECIES.slice(34).map(s=>s.id),hobbyBatch);
- assert.equal(new Set(SPECIES.map(s=>s.id)).size,39);
+ assert.deepEqual(SPECIES.slice(34,39).map(s=>s.id),hobbyBatch);
+ assert.equal(new Set(SPECIES.map(s=>s.id)).size,48);
  for(const id of accepted){
   const p=speciesById(id);
   assert.equal(p.taxonomy.speciesStatus,'accepted_species');

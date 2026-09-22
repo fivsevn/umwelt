@@ -1,4 +1,6 @@
-import {getLanguage} from './i18n.mjs?v=i18n-2';
+import {habitatConfig} from './habitats.mjs';
+import {gameText} from './locales/game.mjs?v=aquatic-1';
+import {getLanguage} from './i18n.mjs?v=aquatic-1';
 
 // Tiny CSS pixel marks: no raster resources, system emoji, or smooth icon font.
 const glyphs={
@@ -29,5 +31,5 @@ export function pixelIcon(kind){
 export function iconButton(button,kind,label){button.replaceChildren(pixelIcon(kind));button.setAttribute('aria-label',label);button.title=label}
 export function createInstrument(root){
  root.innerHTML='<span id="meterTemp"></span><span id="meterWet"></span><span id="simDetail"></span>';
- return state=>{const c=meterCopy[getLanguage()]||meterCopy.zh;root.querySelector('#meterTemp').textContent=c.temp+' '+state.temp.toFixed(1)+'°C';root.querySelector('#meterWet').textContent=c.wet+' '+Math.round(state.humidity)+'%';root.querySelector('#simDetail').textContent=(state.vent>75?c.ventHigh:state.vent<40?c.ventLow:c.ventMid)+' · '+(state.light<30?c.lightLow:state.light>65?c.lightHigh:c.lightMid)};
+ return state=>{if(habitatConfig(state).aquatic){const nodes=[...root.children];habitatConfig(state).metrics.forEach((key,i)=>{nodes[i].textContent=gameText('water:'+key,getLanguage())+' '+Math.round(state[key])});return}const c=meterCopy[getLanguage()]||meterCopy.zh;root.querySelector('#meterTemp').textContent=c.temp+' '+state.temp.toFixed(1)+'°C';root.querySelector('#meterWet').textContent=c.wet+' '+Math.round(state.humidity)+'%';root.querySelector('#simDetail').textContent=(state.vent>75?c.ventHigh:state.vent<40?c.ventLow:c.ventMid)+' · '+(state.light<30?c.lightLow:state.light>65?c.lightHigh:c.lightMid)};
 }
