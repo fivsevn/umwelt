@@ -1,6 +1,6 @@
 import {habitatConfig,cycleHabitat} from './habitats.mjs';
 import {AQUATIC_ENDINGS,aquaticFeedback} from './aquatic-story.mjs';
-import {renderCatalog,renderSources} from './catalog.mjs?v=aquatic-6';
+import {renderCatalog,renderSources} from './catalog.mjs?v=aquatic-7';
 import {SPECIES,speciesById} from './species-registry.mjs?v=aquatic-3';
 import {ENDINGS as LAND_ENDINGS} from './content.mjs?v=interaction-story-2';
 import {createRun,validRun,migrateV3,migrateV4,runSpecies,migrateLegacy,ensureScene,choose,advance,timeFor,recordDirectInteraction,endingMemoryFor} from './engine.mjs?v=aquatic-1';
@@ -8,8 +8,8 @@ import {makeBug,makeIsopod,renderModel,exuviaPixels} from './sprites.mjs?v=swim-
 import {createHabitat} from './habitat.mjs?v=aquatic-3';
 import {restoreCollection,drawCohort,unlock} from './collection.mjs?v=aquatic-1';
 import {encounterById,encounterFor} from './encounters.mjs?v=molt-sequence-1';
-import {iconButton,createInstrument} from './ui.mjs?v=aquatic-1';
-import {getLanguage,t,formatShortDate,speciesPrimaryName} from './i18n.mjs?v=aquatic-2';
+import {iconButton,createInstrument} from './ui.mjs?v=aquatic-2';
+import {getLanguage,t,formatShortDate,speciesPrimaryName} from './i18n.mjs?v=aquatic-3';
 import {gameText} from './locales/game.mjs?v=aquatic-1';
 const ENDINGS=[...LAND_ENDINGS,...AQUATIC_ENDINGS];
 const $=s=>document.querySelector(s),KEY='isopoda-fugue-v4',ARCHIVE='isopoda-fugue-endings-v3',COLLECTION='isopoda-fieldnotes-v1',DISCOVERIES='isopoda-interaction-discoveries-v1';
