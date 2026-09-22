@@ -14,7 +14,7 @@ export function createRun(species='dairy',seed=Date.now()>>>0,habitatId='terrest
  const config=HABITATS.find(h=>h.id===habitatId);if(!config)throw new RangeError('Unknown habitat');
  if(!eligibleSpecies(speciesById(species),habitatId))species=config.species?.[0]||'dairy';
  const now=new Date(),startedOn=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');
- const p=speciesById(species);return {habitatId,startedOn,version:VERSION,narrativeVersion:1,seed:seed>>>0,cohort:cohortFor(p.id,seed),day:1,period:0,stage:'choice',humidity:p.wet,temp:23,vent:55,light:54,cover:p.cover,food:1,interventions:0,quiet:0,accuracy:0,maps:0,labels:0,care:0,directTouches:0,directGrabs:0,directMoves:0,groundTaps:0,barkLifts:0,shellCollects:0,collectedShells:[],directRecords:[],interactionDiscoveries:{tap:false,grab:false,lift:false,collect:false},interactionIntent:null,observerContradictions:[],records:[],ending:null,feedback:'',scene:null,...config.defaults};
+ const p=speciesById(species),count=config.cohortSize||7,cohort=cohortFor(p.id,seed).slice(0,count).map(c=>count===1?{...c,stage:'L'}:c);return {habitatId,startedOn,version:VERSION,narrativeVersion:1,seed:seed>>>0,cohort,day:1,period:0,stage:'choice',humidity:p.wet,temp:23,vent:55,light:54,cover:p.cover,food:1,interventions:0,quiet:0,accuracy:0,maps:0,labels:0,care:0,directTouches:0,directGrabs:0,directMoves:0,groundTaps:0,barkLifts:0,shellCollects:0,collectedShells:[],directRecords:[],interactionDiscoveries:{tap:false,grab:false,lift:false,collect:false},interactionIntent:null,observerContradictions:[],records:[],ending:null,feedback:'',scene:null,...config.defaults};
 }
 function interactionState(s){
  const hadDiscoveries=!!(s.interactionDiscoveries&&typeof s.interactionDiscoveries==='object');
@@ -96,7 +96,7 @@ export function endingMemoryFor(s){
  if(r.type==='ground')return '这七天里，你曾让土面发生过短促的震动。几条路线从那里重新开始。';
  return `这七天里，你曾碰过${who}。它收紧过身体，后来又重新展开。`;
 }
-export function validRun(s){return !!(s&&s.version===VERSION&&Array.isArray(s.cohort)&&s.cohort.length===7&&s.cohort.every((c,i)=>c.id===String.fromCharCode(65+i)&&SPECIES.some(p=>p.id===c.species&&eligibleSpecies(p,s.habitatId))&&Number.isInteger(c.seed)&&['S','M','L'].includes(c.stage))&&Number.isInteger(s.day)&&s.day>=1&&s.day<=habitatConfig(s).days&&(s.habitatId==null||HABITATS.some(h=>h.id===s.habitatId))&&(!habitatConfig(s).aquatic||Object.keys(habitatConfig(s).defaults).every(k=>Number.isFinite(s[k])))&&Number.isInteger(s.period)&&s.period>=0&&s.period<=2&&['choice','feedback','ended'].includes(s.stage)&&Array.isArray(s.records)&&['seed','humidity','temp','vent','light','cover','food','interventions','quiet','accuracy','maps','labels','care'].every(k=>Number.isFinite(s[k])))}
+export function validRun(s){const h=habitatConfig(s),count=h.cohortSize||7;return !!(s&&s.version===VERSION&&Array.isArray(s.cohort)&&s.cohort.length===count&&s.cohort.every((c,i)=>c.id===String.fromCharCode(65+i)&&SPECIES.some(p=>p.id===c.species&&eligibleSpecies(p,s.habitatId))&&Number.isInteger(c.seed)&&['S','M','L'].includes(c.stage))&&Number.isInteger(s.day)&&s.day>=1&&s.day<=h.days&&(s.habitatId==null||HABITATS.some(h=>h.id===s.habitatId))&&(!h.aquatic||Object.keys(h.defaults).every(k=>Number.isFinite(s[k])))&&Number.isInteger(s.period)&&s.period>=0&&s.period<=2&&['choice','feedback','ended'].includes(s.stage)&&Array.isArray(s.records)&&['seed','humidity','temp','vent','light','cover','food','interventions','quiet','accuracy','maps','labels','care'].every(k=>Number.isFinite(s[k])))}
 export function timeFor(seed,day,period){
  const starts=[6*60,13*60,20*60],spans=[5*60,5*60,4*60];
  const minute=starts[period]+((hash(seed,period+71)+(day-1)*47)%spans[period]);
@@ -211,7 +211,7 @@ export function choose(s,id){
  const after=s.cohort.map(c=>habitatFit(s,c));if(after.some((v,i)=>v>before[i]+.01)&&after.every((v,i)=>v>=before[i]-.01))s.care++;
  const discoveries=interactionState(s);s.interactionIntent=o.interaction?{...o.interaction,day:s.day,period:s.period,choice:id,hint:discoveries[o.interaction.type]?'':o.interaction.prompt}:null;
  if(habitatConfig(s).aquatic)for(const k of Object.keys(habitatConfig(s).defaults))s[k]=clamp(s[k],0,k==='salinity'?42:100);
- s.feedback=o.text;s.stage='feedback';s.records.push({day:s.day,period:s.period,kind:scene.kind,choice:id,label:o.label,text:o.text,time:scene.time||timeFor(s.seed,s.day,s.period),encounter:scene.encounter||null,interaction:o.interaction?.type||null});return true;
+ s.feedback=o.text;s.stage='feedback';s.records.push({day:s.day,period:s.period,kind:scene.kind,choice:id,label:o.label,text:o.text,time:scene.time||timeFor(s.seed,s.day,s.period),encounter:scene.encounter||null,storyKey:scene.storyKey||null,dialogueNode:scene.dialogueNode||null,interaction:o.interaction?.type||null});return true;
 }
 function endingFromPool(s,ids,salt){
  const direct=(s.directGrabs||0)+(s.directMoves||0),signature=s.interventions*11+s.quiet*17+s.maps*19+s.labels*23+s.care*29+s.accuracy*31+direct*37;
