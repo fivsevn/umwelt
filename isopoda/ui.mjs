@@ -1,6 +1,6 @@
 import {habitatConfig} from './habitats.mjs';
 import {gameText} from './locales/game.mjs?v=aquatic-1';
-import {getLanguage} from './i18n.mjs?v=aquatic-3';
+import {getLanguage} from './i18n.mjs?v=aquatic-4';
 
 // Tiny CSS pixel marks: no raster resources, system emoji, or smooth icon font.
 const glyphs={
