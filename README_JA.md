@@ -13,7 +13,7 @@ https://umwelt.fivsevn.com
 
 ## 現在公開中の内容
 
-- **Isopoda Fugue / 等脚目フーガ**  
+- **Isopoda Fugue / イソポーダ・フーガ**  
   https://umwelt.fivsevn.com/isopoda/
 
   - **Asimov Morphology Lab / アシモフ形態ラボ**  
@@ -23,9 +23,9 @@ https://umwelt.fivsevn.com
     https://umwelt.fivsevn.com/isopoda/habitat.html
 
 
-## Isopoda Fugue / 等脚目フーガ
+## Isopoda Fugue / イソポーダ・フーガ
 
-『Isopoda Fugue / 等脚目フーガ』は、等脚類を主な対象とするブラウザ上のインタラクティブ作品です。生物学、自然史、飼育に関する資料を参照し、その一部を視覚表現やインタラクションへと変換しています。
+『Isopoda Fugue / イソポーダ・フーガ』は、等脚類を主な対象とするブラウザ上のインタラクティブ作品です。生物学、自然史、飼育に関する資料を参照し、その一部を視覚表現やインタラクションへと変換しています。
 
 作品内の表現、各種パラメータ、インタラクションのロジックには創作上の処理が含まれており、現実の生物学的現象を完全に再現するものではありません。
 
