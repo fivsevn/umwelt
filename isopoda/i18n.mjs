@@ -44,18 +44,28 @@ export function setLanguage(next,{announce=true}={}){
  return value;
 }
 
+const DATE_LOCALES={zh:'zh-CN',en:'en-GB',ja:'ja-JP'};
+function dateLocale(lang){return DATE_LOCALES[lang]||DATE_LOCALES.zh}
+function numericDate(date,lang,{year=false}={}){
+ if(lang==='isopod'){
+  const month=String(date.getMonth()+1).padStart(2,'0'),day=String(date.getDate()).padStart(2,'0');
+  return year?`${date.getFullYear()}/${month}/${day}`:`${month}/${day}`;
+ }
+ const options=year
+  ?{year:'numeric',month:'2-digit',day:'2-digit'}
+  :{month:'2-digit',day:'2-digit'};
+ return new Intl.DateTimeFormat(dateLocale(lang),options).format(date);
+}
+
 export function formatDate(value,lang=language){
  if(!value)return t('catalogUnrecorded',{},lang);
  const match=String(value).match(/^(\d{4})-(\d{2})-(\d{2})/);if(!match)return String(value);
- const [,year,month,day]=match;if(lang==='zh'||lang==='isopod')return `${year}-${month}-${day}`;if(lang==='ja')return `${Number(year)}年${Number(month)}月${Number(day)}日`;
- const date=new Date(Number(year),Number(month)-1,Number(day),12);return new Intl.DateTimeFormat('en-GB',{day:'2-digit',month:'short',year:'numeric'}).format(date);
+ const [,year,month,day]=match,date=new Date(Number(year),Number(month)-1,Number(day),12);
+ return numericDate(date,lang,{year:true});
 }
 
 export function formatShortDate(date,lang=language){
- const year=date.getFullYear(),month=date.getMonth()+1,day=date.getDate();
- if(lang==='zh'||lang==='isopod')return `${String(month).padStart(2,'0')}/${String(day).padStart(2,'0')}`;
- if(lang==='ja')return `${month}月${day}日`;
- return new Intl.DateTimeFormat('en-GB',{day:'2-digit',month:'short'}).format(date);
+ return numericDate(date,lang);
 }
 
 function scientificName(species){return species?.taxonomy?.acceptedScientificName||species?.taxon||species?.trade?.designation||species?.id||'—'}
