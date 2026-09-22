@@ -22,3 +22,18 @@ test('invalid imports are rejected without touching the source scene',()=>{
  }
  assert.throws(()=>importScene('{',assets,reference));assert.equal(JSON.stringify(state),before);
 });
+
+test('mirror flag survives JSON and share-code round trips',()=>{
+ const mirrored={...state,items:state.items.map(item=>({...item,flipX:true}))};
+ const scene=exportScene(mirrored,reference,assets);
+ assert.equal(scene.objects[0].flipX,true);
+ for(const text of [JSON.stringify(scene),shareCode(scene)]){
+  const restored=importScene(text,assets,reference);
+  assert.equal(restored.state.items[0].flipX,true);
+  assert.deepEqual(exportScene(restored.state,restored.reference,assets),scene);
+ }
+});
+test('invalid mirror values are rejected',()=>{
+ const scene=exportScene(state,reference,assets);scene.objects[0].flipX='yes';
+ assert.throws(()=>importScene(JSON.stringify(scene),assets,reference));
+});
