@@ -7,6 +7,7 @@ import {drawCohort} from '../isopoda/collection.mjs';
 import {environmentFor} from '../isopoda/environment.mjs';
 import {gameText} from '../isopoda/locales/game.mjs';
 import {AQUATIC_ENDINGS} from '../isopoda/aquatic-story.mjs';
+import {stepAquatic} from '../isopoda/scenery/aquatic.mjs';
 import {sources} from '../isopoda/sources-registry.mjs';
 const languages=['zh','en','ja','isopod'];
 test('all configured habitats complete their full duration with eligible animals and localized distinct scenes',()=>{
@@ -36,6 +37,20 @@ test('tides advance when waiting and water quality responds to choices',()=>{
  while(s.stage!=='ended'){tides.push(s.tide);choose(s,'water-wait');advance(s)}assert.ok(new Set(tides).size>=6);
  const a=createRun('aquaticus',1,'freshwater'),b=structuredClone(a);choose(a,'water-adjust');choose(b,'water-wait');assert.ok(a.oxygen>b.oxygen);assert.ok(a.flow>b.flow);
 });
+test('aquatic locomotion tuning stays hidden, differentiated and affects animation pace',()=>{
+ for(const h of HABITATS.filter(h=>h.aquatic)){
+  const speeds=h.species.map(id=>SPECIES.find(p=>p.id===id).speed);
+  assert.ok(speeds.every(v=>Number.isFinite(v)&&v>=.55&&v<=1.45));
+  assert.ok(new Set(speeds).size>=2);
+ }
+ const state=createRun('aquaticus',5,'freshwater');
+ const actor=speed=>({id:0,offset:0,x:180,y:220,a:0,phase:0,speed,interactionState:null,activity:'crawl',hidden:false,occlusion:0,posture:'normal',molt:'none',moving:true});
+ const slow=actor(.42),fast=actor(.92);
+ stepAquatic([slow],{state,time:0,dt:.1,reduced:false});
+ stepAquatic([fast],{state,time:0,dt:.1,reduced:false});
+ assert.ok(fast.x-180>slow.x-180);
+});
+
 test('aquatic sources, species counts and all ending translations are complete',()=>{
  for(const h of HABITATS.filter(h=>h.aquatic)){assert.ok(h.species.length>=3&&h.species.length<=7);for(const id of h.species){const p=SPECIES.find(p=>p.id===id);assert.ok(p.provenance.renderLimitation);assert.ok(p.taxonomy.acceptedScientificName);assert.ok(p.evidenceIds.every(id=>sources.some(s=>s.id===id)));assert.equal(eligibleSpecies(p,'terrestrial'),false)}}
  assert.equal(eligibleSpecies(SPECIES.find(p=>p.id==='uniramea'),'shallow-marine'),false);
