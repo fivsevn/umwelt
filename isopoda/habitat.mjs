@@ -1,5 +1,5 @@
 import {habitatConfig} from './habitats.mjs';
-import {drawAquaticBase,drawAquaticWater,stepAquatic} from './scenery/aquatic.mjs?v=aquatic-detail-5';
+import {drawAquaticBase,drawAquaticWater,stepAquatic} from './scenery/aquatic.mjs?v=aquatic-detail-6';
 import {bindPointerInteraction} from './interaction.mjs?v=environment-memory-1';
 import {createReactions,actionFocus,drawReactionBubbles} from './reactions.mjs?v=aquatic-1';
 import {environmentFor} from './environment.mjs?v=aquatic-1';
