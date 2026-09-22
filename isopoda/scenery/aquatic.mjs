@@ -356,7 +356,7 @@ export function drawAquaticWater(g,s,time=0,{drawPlants=true}={}){
 }
 
 export function stepAquatic(group,{state:s,time,dt,reduced}){
- const h=habitatConfig(s),speed=Math.min(64,Math.max(1,Number(globalThis.__ISOPODA_HABITAT_SPEED__)||1)),motionScale=reduced?.45:1;
+ const h=habitatConfig(s),speed=Math.min(64,Math.max(1,Number(globalThis.__ISOPODA_HABITAT_SPEED__)||1)),motionScale=(reduced?.45:1)*(h.motionScale??1);
  for(const a of group){if(stepInteraction(a,dt))continue;
   const slot=Math.floor((time+a.offset*.35)/7),mode=h.motion[(a.id+slot)%h.motion.length],swimming=mode==='swim'||mode==='drift';
   // makeIndividuals() stores .68 × species pace × slight individual variance.
