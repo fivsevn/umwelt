@@ -361,7 +361,9 @@ export function stepAquatic(group,{state:s,time,dt,reduced}){
   const slot=Math.floor((time+a.offset*.35)/7),mode=h.motion[(a.id+slot)%h.motion.length],swimming=mode==='swim'||mode==='drift';
   // makeIndividuals() stores .68 × species pace × slight individual variance.
   // Normalize the shared .68 base here so the habitat mode constants stay readable.
-  const specimenPace=Math.max(.55,Math.min(1.45,(Number(a.speed)||.68)/.68));
+  const cruisePace=Math.max(.55,Math.min(1.45,(Number(a.speed)||.68)/.68));
+  const modePace=Math.max(0,Math.min(1.5,Number(a.locomotion?.modeScale?.[mode]??1)));
+  const specimenPace=cruisePace*modePace;
   a.activity=mode;a.hidden=false;a.occlusion=0;a.posture=swimming?'swimming':mode==='cling'?'probing':'normal';a.molt='none';a.moving=mode!=='cling';
   a.phase+=dt*speed*specimenPace*(swimming?8:mode==='crawl'?4:2.4)*motionScale;
   const waterTop=h.tides?Math.max(25,355-s.tide*3.2):25;
