@@ -9,7 +9,7 @@ import {drawMossPatch} from './moss.mjs?v=forest-10';
 import {drawBark} from './bark.mjs?v=forest-10';
 import {drawCuttlebone} from './cuttlebone.mjs?v=forest-10';
 import {drawTwig,drawWoodChip} from './debris.mjs?v=forest-10';
-import {drawAquaticBackground,drawAquaticPlant,drawAquaticDetail} from './aquatic.mjs?v=authored-1';
+import {drawAquaticBackground,drawAquaticPlant,drawAquaticDetail} from './aquatic.mjs?v=motion-1';
 import {drawSceneDetail,withSoftWorldShadow} from './details.mjs?v=authored-1';
 
 export {drawStone,drawSubstrate,drawLeaf,LEAF_PALETTES,drawMossPatch,drawBark,drawCuttlebone,drawTwig,drawWoodChip,drawAquaticBackground,drawAquaticPlant,drawAquaticDetail,drawSceneDetail};
