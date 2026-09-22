@@ -1,7 +1,7 @@
 import {gameText} from './locales/game.mjs?v=abyssal-1';
 import {makeIsopod} from './sprites.mjs?v=swim-1';
 import {renderCredits} from './credits.mjs?v=credits-5';
-import {getLanguage,t,formatDate,speciesPrimaryName,speciesSecondaryName,speciesLiteratureLines} from './i18n.mjs?v=abyssal-1';
+import {getLanguage,t,formatDate,speciesPrimaryName,speciesSecondaryName,speciesLiteratureLines} from './i18n.mjs?v=i18n-5';
 import {annotationLabel,localizedAnnotationLines} from './locales/annotations.mjs?v=i18n-4';
 
 const text=(tag,value,cls='')=>{const el=document.createElement(tag);el.textContent=value;el.className=cls;return el};
