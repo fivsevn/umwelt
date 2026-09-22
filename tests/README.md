@@ -21,7 +21,7 @@ These tests protect game state, habitats, localization, morphology, scenery, int
 ## Test support
 
 - `fixtures/` — stable test fixtures such as historical save data.
-- `scenery-study.mjs` — support module imported by `scenery.test.mjs`.
+- `support/scenery-study.mjs` — support module imported by `scenery.test.mjs`.
 
 These are support files, not standalone CI test entry points.
 
@@ -29,11 +29,11 @@ These are support files, not standalone CI test entry points.
 
 Files such as:
 
-- `browser-habitats.cjs`
-- `pointer-browser.cjs`
-- `browser-checks.mjs`
-- `morphology.html`
-- `pixel-life.html`
+- `browser/browser-habitats.cjs`
+- `browser/pointer-browser.cjs`
+- `browser/browser-checks.mjs`
+- `browser/morphology.html`
+- `browser/pixel-life.html`
 
 are browser-oriented regression or diagnostic harnesses. They are intentionally not matched by the default Node test glob. Some require a local HTTP server, Playwright/Chrome, or manual inspection.
 

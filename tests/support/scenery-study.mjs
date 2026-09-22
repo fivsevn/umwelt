@@ -4,4 +4,4 @@ export {
  drawMossPatch as drawStudyMoss, drawBark as drawStudyBark,
  drawStone as drawStudyStone, drawCuttlebone as drawStudyCuttlebone,
  drawTwig as drawStudyTwig, drawWoodChip as drawStudyWoodChip
-} from '../isopoda/scenery/index.mjs';
+} from '../../isopoda/scenery/index.mjs';

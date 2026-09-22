@@ -1,4 +1,4 @@
-import {SPECIES} from '../isopoda/species.mjs';import {makeIsopod,MOLT_REGIONS} from '../isopoda/sprites.mjs';
+import {SPECIES} from '../../isopoda/species.mjs';import {makeIsopod,MOLT_REGIONS} from '../../isopoda/sprites.mjs';
 const result={passed:0,failures:[],staticAnimations:0,nodesPerSpecimen:0};
 function check(ok,label){if(ok)result.passed++;else result.failures.push(label)}
 const host=document.createElement('div');host.style.cssText='position:absolute;left:-10000px;top:0';document.body.append(host);
