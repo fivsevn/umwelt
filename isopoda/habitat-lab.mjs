@@ -1,6 +1,6 @@
 import {exportScene,importScene,shareCode} from './scene-codec.mjs?v=forest-10';
 import {drawSubstrate,drawLeaf,drawMossPatch,drawBark,drawStone,drawCuttlebone,drawTwig,drawWoodChip,LEGACY_BASE_SCENE,DEFAULT_LAYOUT} from './scenery/index.mjs?v=forest-10';
-import {drawAquaticBackground,drawAquaticPlant,drawAquaticDetail,AQUATIC_BACKDROPS} from './scenery/aquatic.mjs?v=aquatic-detail-5';
+import {drawAquaticBackground,drawAquaticPlant,drawAquaticDetail,AQUATIC_BACKDROPS} from './scenery/aquatic.mjs?v=aquatic-detail-6';
 import {ACTOR_SCALE} from './scenery/grammar.mjs';
 import {SPECIES,speciesById} from './species-registry.mjs?v=aquatic-1';
 import {renderModel,pixelAnatomy} from './sprites.mjs?v=exuvia-1';
