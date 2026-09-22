@@ -38,8 +38,16 @@ function visualFor(id,family,color){
  v.palette={...v.palette,tergite:color,cephalon:color,epimera:color,pleon:color,pleotelson:color,dark:'#303c33',light:'#bebc8a'};
  v.patterns=[{type:'blotch',color:'light',target:'pereon',opacity:.18}];return v;
 }
+// Hidden animation-only comparative locomotion tuning.
+// These are coarse game/render coefficients based on locomotor style (crawler / clinger / active Idotea),
+// not direct laboratory mm/s measurements and never presented as a biological metric in the catalogue.
+const AQUATIC_SPEED=Object.freeze({
+ aquaticus:.78,meridianus:.72,coxalis:.76,
+ serratum:.66,pelagica:.92,granulosa:.96,
+ balthica:1.02,emarginata:1.08,neglecta:.94
+});
 export const AQUATIC_SPECIES=AQUATIC_TAXA.map(([id,taxon,authority,habitat,suborder,family,url,microhabitat,maxLength,color])=>({
- id,name:taxon,label:taxon,taxon,status:'Accepted aquatic species; evidence-informed render approximation.',speed:.7,wet:85,cover:65,
+ id,name:taxon,label:taxon,taxon,status:'Accepted aquatic species; evidence-informed render approximation.',speed:AQUATIC_SPEED[id]??.8,wet:85,cover:65,
  game:{habitatEligible:false,referenceOnly:false,habitats:[habitat]},
  names:{zhCN:taxon,zhAliases:[],zhNameType:'scientific_name_fallback',zhConfidence:'high',en:taxon,enNameType:'scientific_name',ja:taxon,jaAliases:[]},
  taxonomy:{kingdom:'Animalia',phylum:'Arthropoda',class:'Malacostraca',order:'Isopoda',suborder,family,genus:taxon.split(' ')[0],species:taxon.split(' ')[1],acceptedScientificName:taxon,authority,referenceTaxon:taxon,genusStatus:'accepted',speciesStatus:'accepted_species',identificationConfidence:'literature_supported',evidenceIds:['aquatic-'+id]},
