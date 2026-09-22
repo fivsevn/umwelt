@@ -77,3 +77,36 @@
  .workspace>.viewer{min-height:380px!important}
  .workspace>.viewer>.exploded-stage{top:39%!important}
 }
+
+
+/* Responsive regression fixes: reference cards and narrow/landscape layouts. */
+.workspace>*,
+.side-stack>*,
+.inspector,.references,.dossier,.layer-panel,.viewer{min-width:0}
+.reference-list{grid-auto-rows:max-content;align-content:start}
+.reference{display:flex;flex-direction:column;min-width:0;min-height:max-content;overflow:visible}
+.reference b,.reference cite,.reference p,.reference a{min-width:0;overflow-wrap:anywhere}
+.reference a{display:block;align-self:flex-start;margin-top:3px;line-height:1.35}
+
+@media(max-width:1120px) and (min-width:901px){
+ .workspace{grid-template-columns:170px minmax(0,1fr) minmax(280px,315px)}
+ .specimen-toolbar{grid-template-columns:32px minmax(210px,1fr) 32px minmax(0,1fr)}
+ .accession{display:none}
+}
+@media(max-width:900px){
+ .side-stack{grid-template-columns:1fr;grid-template-rows:auto}
+ .reference-list{gap:7px;overflow:visible}
+ .reference{padding:8px 9px}
+}
+@media(max-width:900px) and (orientation:landscape){
+ .viewer{min-height:430px}
+ .exploded-stage{transform:scale(.54)}
+}
+@media(max-width:620px){
+ .reference-list{gap:8px!important;padding:6px!important}
+ .reference{padding:8px 9px!important}
+ .reference b{line-height:1.35!important;margin-bottom:2px!important}
+ .reference cite{line-height:1.48!important;margin:0!important}
+ .reference p{line-height:1.5!important;margin:5px 0!important}
+ .reference a{margin-top:2px!important;line-height:1.4!important}
+}
