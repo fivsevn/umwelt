@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import * as scenery from '../isopoda/scenery/index.mjs';
-import * as study from './scenery-study.mjs';
+import * as study from './support/scenery-study.mjs';
 const render=(draw,options={})=>{
  const calls=[],ctx={fillStyle:null,imageSmoothingEnabled:true,fillRect(x,y,w,h){calls.push([x,y,w,h,this.fillStyle])}};
  draw(ctx,options);return {calls,ctx};
