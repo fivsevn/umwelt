@@ -41,7 +41,7 @@ test('aquatic locomotion tuning stays hidden, differentiated and affects animati
  for(const h of HABITATS.filter(h=>h.aquatic)){
   const speeds=h.species.map(id=>SPECIES.find(p=>p.id===id).speed);
   assert.ok(speeds.every(v=>Number.isFinite(v)&&v>=.55&&v<=1.45));
-  assert.ok(new Set(speeds).size>=2);
+  if(h.species.length>1)assert.ok(new Set(speeds).size>=2);else{assert.equal(h.dialogue,true);assert.equal(h.cohortSize,1)}
  }
  const state=createRun('aquaticus',5,'freshwater');
  const actor=speed=>({id:0,offset:0,x:180,y:220,a:0,phase:0,speed,interactionState:null,activity:'crawl',hidden:false,occlusion:0,posture:'normal',molt:'none',moving:true});
@@ -52,14 +52,25 @@ test('aquatic locomotion tuning stays hidden, differentiated and affects animati
 });
 
 test('aquatic sources, species counts and all ending translations are complete',()=>{
- for(const h of HABITATS.filter(h=>h.aquatic)){assert.ok(h.species.length>=3&&h.species.length<=7);for(const id of h.species){const p=SPECIES.find(p=>p.id===id);assert.ok(p.provenance.renderLimitation);assert.ok(p.taxonomy.acceptedScientificName);assert.ok(p.evidenceIds.every(id=>sources.some(s=>s.id===id)));assert.equal(eligibleSpecies(p,'terrestrial'),false)}}
+ for(const h of HABITATS.filter(h=>h.aquatic)){if(h.dialogue)assert.equal(h.species.length,1);else assert.ok(h.species.length>=3&&h.species.length<=7);for(const id of h.species){const p=SPECIES.find(p=>p.id===id);assert.ok(p.provenance.renderLimitation);assert.ok(p.taxonomy.acceptedScientificName);assert.ok(p.evidenceIds.every(id=>sources.some(s=>s.id===id)));assert.equal(eligibleSpecies(p,'terrestrial'),false)}}
  assert.equal(eligibleSpecies(SPECIES.find(p=>p.id==='uniramea'),'shallow-marine'),false);
  for(const e of AQUATIC_ENDINGS)for(const lang of languages)for(const key of [e.title,e.body,e.line])assert.ok(!gameText(key,lang).startsWith('water:'));
 });
 
 test('every aquatic ending is reachable through a complete nine-choice run',()=>{
- for(const h of HABITATS.filter(h=>h.aquatic))for(const [choice,kind] of [['water-adjust','care'],['water-wait','calm'],['water-record','trace']]){
+ for(const h of HABITATS.filter(h=>h.aquatic&&!h.dialogue))for(const [choice,kind] of [['water-adjust','care'],['water-wait','calm'],['water-record','trace']]){
   const s=createRun(h.species[0],37,h.id);while(s.stage!=='ended'){choose(s,choice);advance(s)}assert.equal(s.ending,h.id+'-'+kind);
+ }
+ const abyssal=habitatConfig('abyssal');
+ for(const [metric,ending] of [['restraint','abyssal-untranslated'],['interpretation','abyssal-voice'],['attention','abyssal-observer'],['balanced','abyssal-between']]){
+  const s=createRun(abyssal.species[0],37,abyssal.id);
+  if(metric!=='balanced')s[metric]=50;
+  while(s.stage!=='ended'){
+   const scene=ensureScene(s);assert.ok(choose(s,scene.options[0].id));
+   if(metric==='balanced'){const n=Math.max(s.interpretation,s.restraint,s.attention);s.interpretation=s.restraint=s.attention=n}
+   advance(s);
+  }
+  assert.equal(s.ending,ending);
  }
 });
 
@@ -68,6 +79,6 @@ test('aquatic presets draw distinct deterministic finite pixel scenes and tide c
  const render=(draw,s)=>{const calls=[],ctx={fillRect(x,y,w,h){assert.ok([x,y,w,h].every(Number.isFinite));calls.push([x,y,w,h,this.fillStyle])}};draw(ctx,s,0);return calls};
  const scenes=[];
  for(const h of HABITATS.filter(h=>h.aquatic)){const s=createRun(h.species[0],7,h.id),a=render(drawAquaticBase,s);assert.deepEqual(a,render(drawAquaticBase,s));scenes.push(JSON.stringify(a));assert.ok(render(drawAquaticWater,s).length>0)}
- assert.equal(new Set(scenes).size,3);
+ assert.equal(new Set(scenes).size,HABITATS.filter(h=>h.aquatic).length);
  const s=createRun('serratum',8,'intertidal');assert.notDeepEqual(render(drawAquaticWater,s),render(drawAquaticWater,{...s,tide:94}));
 });
