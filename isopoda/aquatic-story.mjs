@@ -1,6 +1,6 @@
 import {STORIES} from './data/habitats/stories.mjs';
 import {STORY_ALTERNATES} from './data/habitats/story-alternates.mjs?v=pool-1';
-import {ABYSSAL_NODES,ABYSSAL_ENDING_DATA} from './data/habitats/abyssal-dialogue.mjs?v=dialogue-4';
+import {ABYSSAL_NODES,ABYSSAL_ENDING_DATA} from './data/habitats/abyssal-dialogue.mjs?v=dialogue-5';
 import {habitatConfig} from './habitats.mjs?v=abyssal-2';
 import {encodeIsopodText} from './locales/isopod.mjs?v=isopod-3';
 const COPY={
@@ -95,17 +95,23 @@ export function aquaticScene(s){
 export function aquaticEnding(s){
  if(habitatConfig(s).dialogue){
   const interpretation=Number(s.interpretation)||0,restraint=Number(s.restraint)||0,attention=Number(s.attention)||0,maps=Number(s.maps)||0,labels=Number(s.labels)||0,quiet=Number(s.quiet)||0;
-  const choices=new Set((Array.isArray(s.records)?s.records:[]).filter(record=>record.kind==='abyssal-dialogue').map(record=>record.choice));
+  const top=Math.max(interpretation,restraint,attention);
   let id='abyssal-between';
-  if(choices.has('remains-record')&&labels>=5)id='abyssal-remains';
-  else if(choices.has('gaze-screen')&&attention>=6)id='abyssal-reciprocal';
-  else if(maps>=7&&attention>=5)id='abyssal-field';
-  else if(quiet>=5&&restraint>=6)id='abyssal-stillness';
-  else if(labels>=7&&labels>maps+1)id='abyssal-index';
-  else if(maps>=5&&(choices.has('unseen-route')||choices.has('unseen-gap')))id='abyssal-trace';
-  else if(choices.has('scale-frame')&&maps>=4)id='abyssal-scale';
-  else if(restraint>=interpretation+3)id='abyssal-untranslated';
-  else if(interpretation>=restraint+3)id='abyssal-voice';
+
+  // Strong single tendencies stay legible, but none is treated as a better outcome.
+  if(restraint>=interpretation+4&&restraint>=attention+4)id='abyssal-untranslated';
+  else if(interpretation>=restraint+4&&interpretation>=attention+4)id='abyssal-voice';
+  else if(attention>=interpretation+4&&attention>=restraint+4)id='abyssal-field';
+  // Mixed records resolve through what the player actually kept on the page.
+  else if(restraint+quiet>=top+quiet/2+7&&quiet>=4)id='abyssal-silt';
+  else if(attention+maps>=interpretation+restraint+3&&maps>=4)id='abyssal-frame';
+  else if(interpretation+labels>=attention+restraint+3&&labels>=4)id='abyssal-name';
+  else if(labels>=7&&labels>=maps+2)id='abyssal-label';
+  else if(maps>=7&&maps>=labels+2)id='abyssal-map';
+  else if(quiet>=7&&labels<=4&&maps<=4)id='abyssal-blank';
+  else if(quiet>=5&&restraint>=attention&&restraint>=interpretation)id='abyssal-margin';
+  else if(interpretation>=5&&attention>=5&&Math.abs(interpretation-attention)<=3)id='abyssal-return';
+
   return ABYSSAL_ENDINGS.find(e=>e.id===id)||ABYSSAL_ENDINGS.find(e=>e.id==='abyssal-between');
  }
  const kind=s.interventions>=5?'care':s.quiet>=8?'calm':'trace';return AQUATIC_ENDINGS.find(e=>habitatConfig(s).endingPool.includes(e.id)&&e.id.endsWith('-'+kind));
