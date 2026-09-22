@@ -141,5 +141,5 @@ if(errors.length){
  console.error(`\n${errors.length} i18n check(s) failed.`);
  process.exitCode=1;
 }else{
- console.log(`[i18n] OK — ${baseKeys.length} UI keys, ${speciesIds.size} legacy specimens + 9 aquatic specimens / 27 scenes, ${annotationIds.length} annotation entries, ${rowTriples.length} game locale rows, ${Object.keys(creditFiles).length} credit files.`);
+ const aquaticHabitats=HABITATS.filter(h=>h.aquatic),aquaticSpecimens=new Set(aquaticHabitats.flatMap(h=>h.species||[])).size,aquaticScenes=aquaticHabitats.reduce((n,h)=>n+h.days*3,0);console.log(`[i18n] OK — ${baseKeys.length} UI keys, ${speciesIds.size} legacy specimens + ${aquaticSpecimens} aquatic specimens / ${aquaticScenes} scenes, ${annotationIds.length} annotation entries, ${rowTriples.length} game locale rows, ${Object.keys(creditFiles).length} credit files.`);
 }
