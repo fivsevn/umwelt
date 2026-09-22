@@ -1,16 +1,16 @@
-import {habitatConfig,cycleHabitat} from './habitats.mjs';
-import {AQUATIC_ENDINGS,aquaticFeedback} from './aquatic-story.mjs';
+import {habitatConfig,cycleHabitat} from './habitats.mjs?v=abyssal-1';
+import {AQUATIC_ENDINGS,aquaticFeedback} from './aquatic-story.mjs?v=abyssal-1';
 import {renderCatalog,renderSources} from './catalog.mjs?v=aquatic-7';
-import {SPECIES,speciesById} from './species-registry.mjs?v=locomotion-2';
+import {SPECIES,speciesById} from './species-registry.mjs?v=abyssal-1';
 import {ENDINGS as LAND_ENDINGS} from './content.mjs?v=interaction-story-2';
-import {createRun,validRun,migrateV3,migrateV4,runSpecies,migrateLegacy,ensureScene,choose,advance,timeFor,recordDirectInteraction,endingMemoryFor} from './engine.mjs?v=aquatic-1';
+import {createRun,validRun,migrateV3,migrateV4,runSpecies,migrateLegacy,ensureScene,choose,advance,timeFor,recordDirectInteraction,endingMemoryFor} from './engine.mjs?v=abyssal-1';
 import {makeBug,makeIsopod,renderModel,exuviaPixels} from './sprites.mjs?v=swim-1';
-import {createHabitat} from './habitat.mjs?v=locomotion-2';
-import {restoreCollection,drawCohort,unlock} from './collection.mjs?v=aquatic-1';
+import {createHabitat} from './habitat.mjs?v=abyssal-1';
+import {restoreCollection,drawCohort,unlock} from './collection.mjs?v=abyssal-1';
 import {encounterById,encounterFor} from './encounters.mjs?v=molt-sequence-1';
 import {iconButton,createInstrument} from './ui.mjs?v=aquatic-2';
-import {getLanguage,t,formatShortDate,speciesPrimaryName,isopodWaveNumber,isopodWaveDate} from './i18n.mjs?v=aquatic-4';
-import {gameText} from './locales/game.mjs?v=aquatic-1';
+import {getLanguage,t,formatShortDate,speciesPrimaryName,isopodWaveNumber,isopodWaveDate} from './i18n.mjs?v=abyssal-1';
+import {gameText} from './locales/game.mjs?v=abyssal-1';
 const ENDINGS=[...LAND_ENDINGS,...AQUATIC_ENDINGS];
 const $=s=>document.querySelector(s),KEY='isopoda-fugue-v4',ARCHIVE='isopoda-fugue-endings-v3',COLLECTION='isopoda-fieldnotes-v1',DISCOVERIES='isopoda-interaction-discoveries-v1';
 function read(key){try{return JSON.parse(localStorage.getItem(key))}catch{return null}}
@@ -73,10 +73,10 @@ function sceneNow(){
 }
 function buttons(scene){$('#actions').replaceChildren();for(const o of scene.options){const b=document.createElement('button');b.className='action';b.dataset.directLocale='true';b.textContent=gameText(o.label,getLanguage());b.disabled=state.stage!=='choice';b.onclick=()=>act(o.id);$('#actions').append(b)}}
 function render(){
- const scene=sceneNow(),p=speciesById(state.cohort[0].species),encounter=encounterById(scene.encounter);
- setWaveText($('#dayLabel'),clock());$('#recordTitle').textContent=state.stage==='feedback'?t('recordLater'):t('recordNow');$('#observation').dataset.directLocale='true';$('#observation').textContent=gameText(state.stage==='feedback'?state.feedback:scene.text,getLanguage());
- if(habitatConfig(state).aquatic&&state.stage==='feedback')$('#observation').textContent+=' '+gameText(aquaticFeedback(state),getLanguage());
- $('#activityLabel').textContent=habitatConfig(state).aquatic?gameText('water:habitat:'+state.habitatId,getLanguage()):getLanguage()==='zh'?(encounter?.title||''):t('habitatWindow');$('#activityLabel').dataset.motion=encounter?.motion||'';
+ const scene=sceneNow(),config=habitatConfig(state),p=speciesById(state.cohort[0].species),encounter=encounterById(scene.encounter);
+ $('#habitat').setAttribute('aria-label',t(config.cohortSize===1?'habitatCanvasSingle':'habitatCanvas'));setWaveText($('#dayLabel'),clock());$('#recordTitle').textContent=state.stage==='feedback'?t('recordLater'):t('recordNow');$('#observation').dataset.directLocale='true';$('#observation').textContent=gameText(state.stage==='feedback'?state.feedback:scene.text,getLanguage());
+ const waterFeedback=habitatConfig(state).aquatic&&state.stage==='feedback'?aquaticFeedback(state):'';if(waterFeedback)$('#observation').textContent+=' '+gameText(waterFeedback,getLanguage());
+ $('#activityLabel').textContent=config.aquatic?gameText('water:habitat:'+state.habitatId,getLanguage()):getLanguage()==='zh'?(encounter?.title||''):t('habitatWindow');$('#activityLabel').dataset.motion=encounter?.motion||'';
  const cue=state.stage==='feedback'?(state.interactionIntent?.hint||''):'';$('#interactionCue').hidden=!cue;$('#interactionCue').textContent=cue;
  $('#nextBtn').disabled=state.stage!=='feedback';
  const nextTime=timeFor(state.seed,state.period===2?state.day+1:state.day,(state.period+1)%3);
@@ -111,7 +111,7 @@ function drawEndMolts(){
  });
 }
 function showEnd(){
- habitat.stop();$('#playView').hidden=true;$('#arrivalCard').hidden=true;$('#endCard').hidden=false;$('#dayLabel').textContent='';const e=ENDINGS.find(e=>e.id===state.ending)||ENDINGS[5];setWaveText($('#endingTime'),clock());for(const id of ['endingTitle','endingBody','endingLine'])$('#'+id).dataset.directLocale='true';$('#endingTitle').textContent=gameText(e.title,getLanguage());$('#endingBody').textContent=gameText(e.body,getLanguage());$('#endingLine').textContent=gameText(e.line,getLanguage());$('#endCard .ending-date span:last-child').textContent=habitatConfig(state).aquatic?gameText('water:days3',getLanguage()):t('sevenDayObservation');$('#endSpecimen').replaceChildren(...batchBugs());drawEndMolts();
+ habitat.stop();$('#playView').hidden=true;$('#arrivalCard').hidden=true;$('#endCard').hidden=false;$('#dayLabel').textContent='';const e=ENDINGS.find(e=>e.id===state.ending)||ENDINGS[5];setWaveText($('#endingTime'),clock());for(const id of ['endingTitle','endingBody','endingLine'])$('#'+id).dataset.directLocale='true';$('#endingTitle').textContent=gameText(e.title,getLanguage());$('#endingBody').textContent=gameText(e.body,getLanguage());$('#endingLine').textContent=gameText(e.line,getLanguage());$('#endCard .ending-date span:last-child').textContent=config.aquatic?gameText('water:days3',getLanguage()):t('sevenDayObservation');$('#endSpecimen').replaceChildren(...batchBugs());drawEndMolts();
  if(!archives.some(a=>a.run===state.seed)){archives.push({id:e.id,run:state.seed,species:runSpecies(state),cohort:state.cohort,date:new Date().toLocaleDateString(),records:state.records.length,memory:endingMemoryFor(state),molts:(state.collectedShells||[]).map(shell=>({phase:shell.phase,specimen:shell.specimen}))});archives=archives.slice(-60);write(ARCHIVE,archives)}save();
 }
 function home(){playing=false;habitat.stop();$('#playView').hidden=true;$('#endCard').hidden=true;$('#arrivalCard').hidden=true;$('#titleCard').hidden=false;$('#dayLabel').textContent='';$('#startBtn').disabled=false;$('#continueBtn').hidden=!hasRun;$('#continueBtn').textContent=state.stage==='ended'?t('viewEnding'):t('continueObservation');refreshPreview()}
