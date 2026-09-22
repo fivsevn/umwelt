@@ -14,7 +14,7 @@ export const SCENE_PIXEL=1;
 const SCENE_ACTOR_SCALE=ACTOR_SCALE,SCENE_OUTPUT_SCALE=1;
 
 export function sceneActorPixels(source,actor){
- const cells=new Map(),size=SCENE_ACTOR_SCALE*actor.model.growth.scale,ca=Math.cos(actor.a),sa=Math.sin(actor.a);
+ const cells=new Map(),size=SCENE_ACTOR_SCALE*actor.model.growth.scale*(actor.habitatScale||1),ca=Math.cos(actor.a),sa=Math.sin(actor.a);
  const centerX=Math.round(actor.x),centerY=Math.round(actor.y+(actor.lift||0));
  const front=['under','gather'].includes(actor.activity);
  for(const [key,color] of source){
@@ -74,11 +74,14 @@ function placeSceneMolt(scene){
 }
 function reset(options={}){
  interaction.cancel();state=getState();empty=!!options.empty;layer.replaceChildren();elapsed=0;effect=null;shelterHeld=false;reactions.reset();
- critters=empty?[]:makeIndividuals(state.cohort).map(c=>({...c,interaction:speciesById(c.species).interaction,model:renderModel(speciesById(c.species).visual,{stage:c.stage,seed:c.seed}),pixels:new Map()}));
+ const config=habitatConfig(state);
+ critters=empty?[]:makeIndividuals(state.cohort).map(c=>({...c,interaction:speciesById(c.species).interaction,model:renderModel(speciesById(c.species).visual,{stage:c.stage,seed:c.seed}),habitatScale:config.actorScale||1,pixels:new Map()}));
  canvas.dataset.specimens=String(critters.length);canvas.dataset.taxa=[...new Set(critters.map(c=>c.species))].join(',');
- encounter=empty?null:encounterForScene(state.scene);stageIndividuals(critters,encounter,{initial:true});if(!empty)placeSceneMolt(state.scene);drawHabitat(0);
+ encounter=empty?null:encounterForScene(state.scene);
+ if(config.dialogue&&critters[0]){const a=critters[0];a.x=196;a.y=246;a.a=-.18;a.activity='crawl';a.posture='normal';a.moving=false;a.hidden=false;a.occlusion=0}else stageIndividuals(critters,encounter,{initial:true});
+ if(!empty)placeSceneMolt(state.scene);drawHabitat(0);
 }
-function stage(scene){interaction.cancel();encounter=encounterForScene(scene);elapsed=0;effect=null;shelterHeld=false;reactions.reset();stageIndividuals(critters,encounter);placeSceneMolt(scene);if(encounter){[camera.x,camera.y]=encounter.place}drawHabitat(0)}
+function stage(scene){interaction.cancel();encounter=encounterForScene(scene);elapsed=0;effect=null;shelterHeld=false;reactions.reset();if(!habitatConfig(state).dialogue)stageIndividuals(critters,encounter);placeSceneMolt(scene);if(encounter){[camera.x,camera.y]=encounter.place}drawHabitat(0)}
 function react(id){state=getState();const point=actionFocus(id,state,encounter);const selected=[...critters].sort((a,b)=>Math.hypot(a.x-point.x,a.y-point.y)-Math.hypot(b.x-point.x,b.y-point.y)).slice(0,2).map(c=>c.id);effect={id,selected,mode:responseMode(id),start:elapsed,until:elapsed+10};drawHabitat(performance.now())}
 function heartBurst(){if(empty||!critters.length)return;reactions.burst(critters,'♡',elapsed);drawHabitat(performance.now())}
 function present(){
@@ -98,9 +101,9 @@ const interaction=bindPointerInteraction(canvas,{
   const r=canvas.getBoundingClientRect(),view=cameraWindow(r.width,r.height,camera.zoom,camera.x,camera.y);
   return {x:view.sx+(event.clientX-r.left)/view.scale,y:view.sy+(event.clientY-r.top)/view.scale};
  },
- hitTest:point=>[...critters].reverse().find(actor=>!actor.hidden&&actor.hitCells?.some(([x,y])=>point.x>=x-3&&point.x<=x+4&&point.y>=y-3&&point.y<=y+4)),
+ hitTest:point=>habitatConfig(getState()).dialogue?null:[...critters].reverse().find(actor=>!actor.hidden&&actor.hitCells?.some(([x,y])=>point.x>=x-3&&point.x<=x+4&&point.y>=y-3&&point.y<=y+4)),
  objectHitTest:point=>{
-  const config=habitatConfig(getState());if(config.aquatic&&!config.wood)return null;
+  const config=habitatConfig(getState());if(config.dialogue)return null;if(config.aquatic&&!config.wood)return null;
   const env=environmentFor(getState()),shell=[...(env.shells||[])].reverse().find(item=>Math.hypot(point.x-item.x,point.y-item.y)<15);
   if(shell)return {kind:'shell',id:shell.id};
   if(point.x>=env.shelter.x-88&&point.x<=env.shelter.x+90&&point.y>=env.shelter.y-48&&point.y<=env.shelter.y+62)return {kind:'shelter'};
@@ -120,6 +123,7 @@ const interaction=bindPointerInteraction(canvas,{
  },
  objectHoldEnd:object=>{if(object.kind==='shelter')shelterHeld=false},
  groundTap:point=>{
+  if(habitatConfig(getState()).dialogue)return;
   if(shelterHeld){shelterHeld=false;effect=null;drawHabitat(performance.now());return}
   const selected=[...critters].sort((a,b)=>Math.hypot(a.x-point.x,a.y-point.y)-Math.hypot(b.x-point.x,b.y-point.y)).slice(0,3).map(actor=>actor.id);
   effect={id:'ground-tap',selected,mode:'disturb',start:elapsed,until:elapsed+3.2,point};
