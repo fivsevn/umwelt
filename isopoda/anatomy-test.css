@@ -12,7 +12,7 @@
 .side-stack{min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr);gap:8px;overflow:hidden}.inspector,.references{min-height:0;overflow:hidden}.part-info{padding:12px 13px 11px;height:auto;overflow:hidden}.eyebrow{color:#7f9070;font-size:8px;margin-bottom:4px}.part-info h2{font-size:18px;font-weight:400;line-height:1.25;margin:0}.part-info .en{display:block;color:#aeb99a;font-size:11px;margin-top:1px}.part-info p{margin:7px 0 8px;color:#c8caae;line-height:1.55;font-size:10px}.template-readout{margin:0;display:grid;gap:3px;border-top:1px dashed #506044;padding-top:6px}.template-readout div{display:grid;grid-template-columns:92px 1fr;gap:5px}.template-readout dt{color:#738464;font-size:7px}.template-readout dd{margin:0;color:#b7c49f;font-size:8px;overflow-wrap:anywhere}
 .references{display:flex;flex-direction:column}.references>header{padding:7px 9px 6px;border-bottom:1px solid #4d5d41;display:grid;gap:1px;color:#aeb99a}.references>header span{font-size:9px;color:#d1cba8}.references>header small{font-size:7px;color:#738464;line-height:1.45}.reference-list{min-height:0;overflow:auto;padding:5px;display:grid;gap:4px;scrollbar-width:thin;scrollbar-color:#657451 #293325}.reference{padding:6px 7px;border:1px solid #3f4e35;background:#273222;color:#8d9c7b;transition:border-color .12s steps(2),background .12s steps(2)}.reference.is-relevant{border-color:#9b9f76;background:#313c2a}.reference b{display:block;font-weight:400;color:#b6c09e;font-size:8px}.reference cite{display:block;color:#c6c8ab;font-style:normal;line-height:1.4;margin:1px 0;font-size:8px}.reference p{font-size:8px;line-height:1.45;margin:4px 0;color:#93a280}.reference p span{color:#b7c49f}.reference a{font-size:7px;text-decoration:none;color:#c8bd8d}.reference a:hover{text-decoration:underline}
 .footer{display:flex;justify-content:space-between;gap:20px;color:#718163;font-size:8px;padding:0 2px;line-height:1.1}.footer code{color:#97a989;font:inherit}
-@media(min-width:901px){
+@media(min-width:1121px){
  html,body{font-size:13px}
  .workspace{grid-template-columns:195px minmax(460px,1.28fr) minmax(350px,.9fr)}
  .lab-code{font-size:9px}.lab-title .zh-title{font-size:21px}.lab-title .en-title{font-size:12px}.lab-title p{font-size:11px}
@@ -23,11 +23,10 @@
  .eyebrow{font-size:9px}.part-info h2{font-size:20px}.part-info .en{font-size:12px}.part-info p{font-size:11px;line-height:1.62}.template-readout dt{font-size:8px}.template-readout dd{font-size:9px}
  .references>header span{font-size:10px}.references>header small{font-size:8px}.reference b{font-size:9px}.reference cite{font-size:9px;line-height:1.45}.reference p{font-size:9px;line-height:1.5}.reference a{font-size:8px}.footer{font-size:9px}
 }
-@media(min-height:850px) and (min-width:901px){.exploded-stage{transform:scale(.78)}.reference{padding:8px 9px}.reference p{line-height:1.55}}
-@media(max-height:760px) and (min-width:901px){.anatomy-app{padding-top:7px}.lab-title p{display:none}.topbar{min-height:43px}.exploded-stage{transform:scale(.64)}.part-button{min-height:30px;padding:4px 6px}.legend{padding-block:5px}.part-info{padding:9px 11px}.part-info p{font-size:10px;margin:5px 0 6px}.reference cite,.reference p{font-size:8px}.vhs-card{transform:scale(.9);transform-origin:center}.vhs-roll{transform:translateX(-50%) scale(.9)}}
-@media(max-height:680px) and (min-width:901px){.exploded-stage{transform:scale(.57)}.lab-status{display:none}.specimen-toolbar{min-height:40px}.part-button{min-height:27px}.part-button small{display:none}.legend span{display:none}.template-readout{display:none}.vhs-card{width:104px;height:84px}.vhs-screen{height:53px}}
-@media(max-width:1120px) and (min-width:901px){.workspace{grid-template-columns:180px minmax(400px,1fr) 315px}.exploded-stage{transform:scale(.62)}.accession{display:none}.part-button small{display:none}.vhs-headcam{left:12px}.vhs-tailcam{right:12px}}
-@media(max-width:900px){html,body{height:auto;min-height:100%;overflow:auto}body{display:block}.anatomy-app{height:auto;min-height:100dvh;padding:10px;overflow:visible}.workspace{grid-template-columns:1fr;overflow:visible}.layer-panel{order:2}.viewer{order:1;min-height:590px}.side-stack{order:3;grid-template-columns:1fr 1fr;grid-template-rows:auto;overflow:visible}.exploded-stage{transform:scale(.70)}.part-list{grid-template-columns:repeat(3,1fr);overflow:visible}.part-button{min-height:40px}.legend{margin-top:0}.specimen-toolbar{grid-template-columns:36px 1fr 36px}.specimen-readout{grid-column:1/-1;border-left:0;border-top:1px solid #46563a}.topbar{align-items:flex-start}.lab-title p{white-space:normal}.references{max-height:none}.reference-list{overflow:visible}.part-info{height:auto}.footer{padding-bottom:4px}.vhs-roll{top:54px}.vhs-headcam{left:18px;bottom:46px}.vhs-tailcam{right:18px;bottom:46px}}
+@media(min-height:850px) and (min-width:1121px){.exploded-stage{transform:scale(.78)}.reference{padding:8px 9px}.reference p{line-height:1.55}}
+@media(max-height:760px) and (min-width:1121px){.anatomy-app{padding-top:7px}.lab-title p{display:none}.topbar{min-height:43px}.exploded-stage{transform:scale(.64)}.part-button{min-height:30px;padding:4px 6px}.legend{padding-block:5px}.part-info{padding:9px 11px}.part-info p{font-size:10px;margin:5px 0 6px}.reference cite,.reference p{font-size:8px}.vhs-card{transform:scale(.9);transform-origin:center}.vhs-roll{transform:translateX(-50%) scale(.9)}}
+@media(max-height:680px) and (min-width:1121px){.exploded-stage{transform:scale(.57)}.lab-status{display:none}.specimen-toolbar{min-height:40px}.part-button{min-height:27px}.part-button small{display:none}.legend span{display:none}.template-readout{display:none}.vhs-card{width:104px;height:84px}.vhs-screen{height:53px}}
+@media(max-width:1120px){html,body{height:auto;min-height:100%;overflow:auto}body{display:block}.anatomy-app{height:auto;min-height:100dvh;padding:10px;overflow:visible}.workspace{grid-template-columns:1fr;overflow:visible}.layer-panel{order:2}.viewer{order:1;min-height:590px}.side-stack{order:3;grid-template-columns:1fr 1fr;grid-template-rows:auto;overflow:visible}.exploded-stage{transform:scale(.70)}.part-list{grid-template-columns:repeat(3,1fr);overflow:visible}.part-button{min-height:40px}.legend{margin-top:0}.specimen-toolbar{grid-template-columns:36px 1fr 36px}.specimen-readout{grid-column:1/-1;border-left:0;border-top:1px solid #46563a}.topbar{align-items:flex-start}.lab-title p{white-space:normal}.references{max-height:none}.reference-list{overflow:visible}.part-info{height:auto}.footer{padding-bottom:4px}.vhs-roll{top:54px}.vhs-headcam{left:18px;bottom:46px}.vhs-tailcam{right:18px;bottom:46px}}
 @media(max-width:620px){.anatomy-app{padding:8px}.topbar{display:block}.lab-status{margin-top:7px;text-align:left}.lab-title h1{display:grid;gap:2px}.lab-title .zh-title{font-size:18px}.lab-title .en-title{font-size:10px}.viewer{min-height:560px}.exploded-stage{transform:scale(.58)}.part-list{grid-template-columns:1fr 1fr}.side-stack{grid-template-columns:1fr}.species-picker{grid-template-columns:1fr}.species-picker>span{display:none}.hint{font-size:7px}.footer{display:block}.specimen-toolbar{position:sticky;top:0;z-index:50}.vhs-card{width:96px;height:79px;padding:4px}.vhs-screen{height:49px}.vhs-head b{font-size:5px}.vhs-head em{display:none}.vhs-headcam{left:10px}.vhs-tailcam{right:10px}}
 
 /* Mobile information architecture: keep all content, but put the live part detail close to the specimen picker and compress the control matrix. */
@@ -88,17 +87,12 @@
 .reference b,.reference cite,.reference p,.reference a{min-width:0;overflow-wrap:anywhere}
 .reference a{display:block;align-self:flex-start;margin-top:3px;line-height:1.35}
 
-@media(max-width:1120px) and (min-width:901px){
- .workspace{grid-template-columns:170px minmax(0,1fr) minmax(280px,315px)}
- .specimen-toolbar{grid-template-columns:32px minmax(210px,1fr) 32px minmax(0,1fr)}
- .accession{display:none}
-}
-@media(max-width:900px){
+@media(max-width:1120px){
  .side-stack{grid-template-columns:1fr;grid-template-rows:auto}
  .reference-list{gap:7px;overflow:visible}
  .reference{padding:8px 9px}
 }
-@media(max-width:900px) and (orientation:landscape){
+@media(max-width:1120px) and (orientation:landscape){
  .viewer{min-height:430px}
  .exploded-stage{transform:scale(.54)}
 }
@@ -114,14 +108,14 @@
 
 /* Tablet/small-window stability: flatten the side stack so references size to content.
    This removes the 621–900px flex/grid shrink path that let cards escape their border. */
-@media(max-width:900px){
+@media(max-width:1120px){
  .references{display:block!important;height:auto!important;min-height:0!important;overflow:visible!important}
  .reference-list{display:block!important;height:auto!important;min-height:0!important;overflow:visible!important;padding:6px!important}
  .reference{display:block!important;height:auto!important;min-height:0!important;overflow:visible!important;margin:0 0 7px!important}
  .reference:last-child{margin-bottom:0!important}
  .reference b,.reference cite,.reference p,.reference a{position:static!important;max-width:100%!important;overflow-wrap:anywhere!important;word-break:normal}
 }
-@media(min-width:621px) and (max-width:900px){
+@media(min-width:621px) and (max-width:1120px){
  .workspace>.side-stack{display:contents!important}
  .workspace>.viewer{order:1!important}
  .workspace>.layer-panel{order:2!important}
@@ -133,7 +127,7 @@
 
 
 /* Final portrait spacing pass: keep the last panels and footer off the viewport edge. */
-@media(max-width:900px) and (orientation:portrait){
+@media(max-width:1120px) and (orientation:portrait){
  .anatomy-app{padding-bottom:max(14px,env(safe-area-inset-bottom))!important;gap:9px!important}
  .workspace{gap:10px!important}
  .references{margin-bottom:2px!important}
@@ -180,7 +174,7 @@
  .inspector{height:auto!important;min-height:0!important;overflow:visible!important}
  .part-info{height:auto!important;overflow:visible!important}
  .viewer{min-height:clamp(420px,72vw,620px)!important;overflow:hidden!important}
- .exploded-stage{transform:scale(.58)!important}
+ .workspace>.viewer>.exploded-stage{top:0!important;left:auto!important;margin:auto!important;transform:scale(.58)!important;transform-origin:center center!important}
  .part-list{grid-template-columns:repeat(2,minmax(0,1fr))!important;overflow:visible!important}
  .part-button{min-width:0!important}
  .side-stack,.references,.reference-list{height:auto!important;min-height:0!important;overflow:visible!important}
