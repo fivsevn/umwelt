@@ -2,6 +2,7 @@ name: ISOPODA checks
 
 on:
   push:
+    branches: [main]
     paths:
       - 'isopoda/**'
       - 'tick/**'
