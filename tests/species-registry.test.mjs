@@ -16,7 +16,7 @@ const acceptedMorphs=['magicPotion','papaya'];
 const accepted=[...firstBatch,...secondBatch,...thirdBatch,...fourthBatch,...marineReference];
 
 test('expanded registry preserves accepted batches and appends a diversified hobby batch',()=>{
- assert.equal(SPECIES.length,48);
+ assert.equal(SPECIES.length,49);
  assert.deepEqual(SPECIES.slice(0,13).map(s=>s.id),original);
  assert.deepEqual(SPECIES.slice(13,18).map(s=>s.id),firstBatch);
  assert.deepEqual(SPECIES.slice(18,23).map(s=>s.id),secondBatch);
@@ -24,7 +24,7 @@ test('expanded registry preserves accepted batches and appends a diversified hob
  assert.deepEqual(SPECIES.slice(28,33).map(s=>s.id),fourthBatch);
  assert.deepEqual(SPECIES.slice(33,34).map(s=>s.id),marineReference);
  assert.deepEqual(SPECIES.slice(34,39).map(s=>s.id),hobbyBatch);
- assert.equal(new Set(SPECIES.map(s=>s.id)).size,48);
+ assert.equal(new Set(SPECIES.map(s=>s.id)).size,49);
  for(const id of accepted){
   const p=speciesById(id);
   assert.equal(p.taxonomy.speciesStatus,'accepted_species');
@@ -69,6 +69,7 @@ test('new sprites retain conservative scaffolds while evidence changes readable 
  const magnificus=speciesById('magnificus').visual;assert.equal(magnificus.morphologyKey,'porcellioMagnificus');assert.equal(magnificus.conglobation.ability,'none');assert.ok(magnificus.uropods.projection>dairy.uropods.projection);assert.equal(magnificus.palette.tergite,'#c76935');
  const uniramea=speciesById('uniramea');assert.equal(uniramea.taxonomy.suborder,'Asellota');assert.equal(uniramea.game.habitatEligible,false);assert.equal(uniramea.game.referenceOnly,true);assert.equal(uniramea.visual.morphologyKey,'halacarsantiaMarine');assert.equal(uniramea.visual.uropods.ramiPerUropod,1);assert.deepEqual(uniramea.visual.legs.posteriorAnchoringPairs,[5,6,7]);
 
+ const giant=speciesById('giganteus');assert.equal(giant.taxonomy.acceptedScientificName,'Bathynomus giganteus');assert.equal(giant.game.habitats[0],'abyssal');assert.equal(giant.game.habitatEligible,false);assert.equal(giant.visual.morphologyKey,'cirolanidAbyssal');assert.equal(giant.names.zhCN,'大王具足虫');assert.equal(giant.names.ja,'オオグソクムシ');
  const panda=speciesById('pandaKing').visual,pink=speciesById('pinkPandaKing').visual,magic=speciesById('magicPotion').visual,papaya=speciesById('papaya').visual,shark=speciesById('whiteShark').visual;
  assert.equal(panda.morphologyKey,'cubarisPandaKing');assert.ok(panda.patterns.some(p=>p.type==='segmentBand'));
  assert.equal(pink.morphologyKey,'cubarisPinkPandaKing');assert.ok(pink.patterns.some(p=>p.type==='segmentBand'));
