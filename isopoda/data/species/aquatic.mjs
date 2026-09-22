@@ -10,7 +10,7 @@ export const AQUATIC_TAXA=[
  ['balthica','Idotea balthica','(Pallas, 1772)','shallow-marine','Valvifera','Idoteidae','https://www.marlin.ac.uk/species/detail/2087','Primarily subtidal, feeding on seaweeds; also lower shore.',30,'#7a8950'],
  ['emarginata','Idotea emarginata','(Fabricius, 1793)','shallow-marine','Valvifera','Idoteidae','https://ns-crustacea.linnaeus.naturalis.nl/linnaeus_ng/app/views/species/nsr_taxon.php?epi=210&id=132140','Sublittoral accumulations of detached algae on fully marine coasts.',30,'#876b48'],
  ['neglecta','Idotea neglecta','G. O. Sars, 1897','shallow-marine','Valvifera','Idoteidae','https://www2.habitas.org.uk/marbiop-ni/species.php?item=S15660','Mostly sublittoral among algae, including detached algal material.',30,'#8b7c58'],
- ['giganteus','Bathynomus giganteus','A. Milne-Edwards, 1879','abyssal','Cymothoida','Cirolanidae','https://www.marinespecies.org/imis.php?module=ref&refid=283148','Large deep-sea benthic scavenger; Bathynomus are documented from deep seafloor habitats and B. giganteus has been observed resting and swimming near the bottom.',450,'#747a76']
+ ['giganteus','Bathynomus giganteus','A. Milne-Edwards, 1879','abyssal','Cymothoida','Cirolanidae','https://www.marinespecies.org/imis.php?module=ref&refid=283148','Large deep-sea benthic scavenger; Bathynomus are documented from deep seafloor habitats and B. giganteus has been observed resting and swimming near the bottom.',300,'#747a76']
 ];
 const AQUATIC_NOTES={
  aquaticus:['水把腐叶的边缘泡软，身体从沉木与水草之间经过。我们称这里为“淡水”，它只遇见阻力、遮蔽，以及仍可前进的缝隙。','标本柜要求一个名字，水面却不替任何物种停下来。分类与流动，只在这一页纸上短暂相遇。'],
@@ -43,7 +43,7 @@ function visualFor(id,family,color){
 export const AQUATIC_SPECIES=AQUATIC_TAXA.map(([id,taxon,authority,habitat,suborder,family,url,microhabitat,maxLength,color])=>({
  id,name:taxon,label:taxon,taxon,status:'Accepted aquatic species; evidence-informed render approximation.',speed:.8,wet:85,cover:65,
  game:{habitatEligible:false,referenceOnly:false,habitats:[habitat]},
- names:{zhCN:taxon,zhAliases:[],zhNameType:'scientific_name_fallback',zhConfidence:'high',en:taxon,enNameType:'scientific_name',ja:taxon,jaAliases:[]},
+ names:{zhCN:id==='giganteus'?'大王具足虫':taxon,zhAliases:id==='giganteus'?['巨型深海等足类']:[],zhNameType:id==='giganteus'?'vernacular':'scientific_name_fallback',zhConfidence:'high',en:id==='giganteus'?'Giant isopod':taxon,enNameType:id==='giganteus'?'vernacular':'scientific_name',ja:id==='giganteus'?'オオグソクムシ':taxon,jaAliases:[]},
  taxonomy:{kingdom:'Animalia',phylum:'Arthropoda',class:'Malacostraca',order:'Isopoda',suborder,family,genus:taxon.split(' ')[0],species:taxon.split(' ')[1],acceptedScientificName:taxon,authority,referenceTaxon:taxon,genusStatus:'accepted',speciesStatus:'accepted_species',identificationConfidence:'literature_supported',evidenceIds:['aquatic-'+id]},
  evidenceIds:['aquatic-'+id],evidence:{status:'literature_supported',claims:[{claim:microhabitat,url}]},
  provenance:{url,reviewed:'2026-09-22',habitatBasis:microhabitat,renderLimitation:'Family dorsal approximation; not an identification key. Adult maximum lengths are not typical individual measurements.'},
