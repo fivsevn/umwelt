@@ -96,10 +96,16 @@ export function aquaticEnding(s){
  if(habitatConfig(s).dialogue){
   const interpretation=Number(s.interpretation)||0,restraint=Number(s.restraint)||0,attention=Number(s.attention)||0,maps=Number(s.maps)||0,labels=Number(s.labels)||0,quiet=Number(s.quiet)||0;
   const top=Math.max(interpretation,restraint,attention);
+  const records=(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind==='abyssal-dialogue');
+  const choices=new Set(records.map(record=>record.choice));
   let id='abyssal-between';
 
+  // Some endings grow from a relation between several observations rather than a score.
+  if(choices.has('reflection-note')&&(choices.has('observer-mixed')||choices.has('light-silent')||attention>=restraint))id='abyssal-reflection';
+  else if(choices.has('offering-intervention')&&(choices.has('food-wait')||restraint>=interpretation-1))id='abyssal-offering';
+  else if(choices.has('specimen-now')&&(choices.has('name-none')||choices.has('name-later')||attention>=6))id='abyssal-specimen';
   // Strong single tendencies stay legible, but none is treated as a better outcome.
-  if(restraint>=interpretation+4&&restraint>=attention+4)id='abyssal-untranslated';
+  else if(restraint>=interpretation+4&&restraint>=attention+4)id='abyssal-untranslated';
   else if(interpretation>=restraint+4&&interpretation>=attention+4)id='abyssal-voice';
   else if(attention>=interpretation+4&&attention>=restraint+4)id='abyssal-field';
   // Mixed records resolve through what the player actually kept on the page.
