@@ -1,6 +1,6 @@
 import {exportScene,importScene,shareCode} from './scene-codec.mjs?v=forest-10';
 import {drawSubstrate,drawLeaf,drawMossPatch,drawBark,drawStone,drawCuttlebone,drawTwig,drawWoodChip,LEGACY_BASE_SCENE,DEFAULT_LAYOUT} from './scenery/index.mjs?v=forest-10';
-import {drawAquaticBackground,drawAquaticPlant,AQUATIC_BACKDROPS} from './scenery/aquatic.mjs?v=aquatic-5';
+import {drawAquaticBackground,drawAquaticPlant,drawAquaticDetail,AQUATIC_BACKDROPS} from './scenery/aquatic.mjs?v=aquatic-detail-1';
 import {ACTOR_SCALE} from './scenery/grammar.mjs';
 import {SPECIES,speciesById} from './species-registry.mjs?v=aquatic-1';
 import {renderModel,pixelAnatomy} from './sprites.mjs?v=exuvia-1';
@@ -34,10 +34,16 @@ const ASSETS=[
 
  {id:'waterweed-tuft-01',category:'aquatic',scenes:['freshwater'],label:'Waterweed 01',note:'淡水水草 / 对生叶',radius:42,params:{kind:'waterweed',height:58,flow:36}},
  {id:'waterweed-tuft-02',category:'aquatic',scenes:['freshwater'],label:'Waterweed 02',note:'淡水水草 / 高株',radius:52,params:{kind:'waterweed',height:78,flow:42}},
+ {id:'freshwater-detritus-01',category:'debris',scenes:['freshwater'],label:'Detritus mat',note:'淡水腐殖池 / 腐殖碎屑',radius:34,params:{detail:'detritus',count:13}},
  {id:'rockweed-tuft-01',category:'aquatic',scenes:['intertidal'],label:'Rockweed 01',note:'潮间带褐藻 / 短簇',radius:40,params:{kind:'rockweed',height:42,flow:58}},
+ {id:'rockweed-tuft-02',category:'aquatic',scenes:['intertidal'],label:'Rockweed 02',note:'潮间带褐藻 / 高簇',radius:48,params:{kind:'rockweed',height:58,flow:64}},
+ {id:'barnacle-cluster-01',category:'aquatic',scenes:['intertidal'],label:'Barnacle cluster',note:'潮间带 / 藤壶附着群',radius:34,params:{detail:'barnacle',count:12}},
+ {id:'limpet-cluster-01',category:'aquatic',scenes:['intertidal'],label:'Limpet cluster',note:'潮间带 / 帽贝附着群',radius:30,params:{detail:'limpet',count:7}},
  {id:'seagrass-tuft-01',category:'aquatic',scenes:['shallow-marine'],label:'Seagrass 01',note:'浅海草丛 / 细叶',radius:36,params:{kind:'seagrass',height:46,flow:44}},
+ {id:'ulva-clump-01',category:'aquatic',scenes:['shallow-marine'],label:'Sea lettuce',note:'浅海 / 石莼宽叶簇',radius:42,params:{kind:'ulva',height:48,flow:42}},
  {id:'kelp-frond-01',category:'aquatic',scenes:['shallow-marine'],label:'Kelp frond 01',note:'海带 / 交错宽叶',radius:64,params:{kind:'kelp',height:92,flow:46}},
  {id:'kelp-frond-02',category:'aquatic',scenes:['shallow-marine'],label:'Kelp frond 02',note:'海带 / 长株',radius:76,params:{kind:'kelp',height:118,flow:52}},
+ {id:'shell-grit-01',category:'debris',scenes:['intertidal','shallow-marine'],label:'Shell grit',note:'海岸 / 贝壳碎屑',radius:32,params:{detail:'shellgrit',count:18}},
 
  {id:'moss-sphagnum-01',category:'moss',scenes:['forest','freshwater'],label:'Sphagnum cluster 01',note:'水苔 / 大片',radius:52,params:{rx:48,ry:31,wetness:.76,alpha:.80}},
  {id:'moss-sphagnum-02',category:'moss',scenes:['forest','freshwater'],label:'Sphagnum cluster 02',note:'水苔 / 小片',radius:38,params:{rx:34,ry:22,wetness:.62,alpha:.76}},
@@ -96,20 +102,26 @@ function aquaticPreset(id){
    presetItem('stone-round-01',226,230,1.2,0,21,83),presetItem('stone-flat-01',117,344,1.1,0,22,84),
    presetItem('stone-small-01',285,95,.9,0,23,85),presetItem('stone-shard-01',306,299,.85,.4,24,86),
    presetItem('leaf-narrow-01',82,176,.65,.7,25,87),presetItem('leaf-broad-01',309,159,.62,-.5,26,88),
-   ...[[44,116,.86],[164,92,.95],[276,128,.82],[337,205,.9],[107,306,.88],[218,354,.92],[319,367,.82],[63,392,.74]].map((p,i)=>presetItem(i%3===0?'waterweed-tuft-02':'waterweed-tuft-01',p[0],p[1],p[2],(i%3-1)*.08,30+i,100+i))
+   ...[[44,116,.86],[164,92,.95],[276,128,.82],[337,205,.9],[107,306,.88],[218,354,.92],[319,367,.82],[63,392,.74]].map((p,i)=>presetItem(i%3===0?'waterweed-tuft-02':'waterweed-tuft-01',p[0],p[1],p[2],(i%3-1)*.08,30+i,100+i)),
+   ...[[68,245,.82],[184,323,.94],[302,264,.78],[258,397,.72]].map((p,i)=>presetItem('freshwater-detritus-01',p[0],p[1],p[2],(i%3-1)*.2,52+i,118+i))
   ],selected:null,nextId:900
  };
  if(id==='intertidal')return {
   background:'water-intertidal',backgroundSeed:seed,items:[
    ...[[72,113,1.25],[178,99,1.15],[245,116,1.1],[326,83,1.35],[119,196,1.4],[219,192,1.25],[331,218,1.5],[84,332,1.2],[196,300,1.55],[304,337,1.35]].map((p,i)=>presetItem(i%2?'stone-tide-01':'stone-tide-02',p[0],p[1],p[2],(i%3-1)*.12,18+i,130+i)),
-   ...[[55,149,.78],[153,164,.7],[267,177,.82],[340,278,.74],[110,363,.72]].map((p,i)=>presetItem('rockweed-tuft-01',p[0],p[1],p[2],(i%3-1)*.15,45+i,160+i))
+   ...[[55,149,.78],[153,164,.7],[267,177,.82],[340,278,.74],[110,363,.72]].map((p,i)=>presetItem(i%2?'rockweed-tuft-02':'rockweed-tuft-01',p[0],p[1],p[2],(i%3-1)*.15,45+i,160+i)),
+   ...[[70,108,.78],[177,96,.74],[246,112,.72],[326,80,.8],[118,191,.86],[220,188,.76]].map((p,i)=>presetItem('barnacle-cluster-01',p[0],p[1],p[2],(i%3-1)*.1,58+i,176+i)),
+   ...[[329,214,.7],[83,329,.64],[194,296,.72]].map((p,i)=>presetItem('limpet-cluster-01',p[0],p[1],p[2],0,68+i,188+i)),
+   presetItem('shell-grit-01',287,383,.74,-.1,75,195)
   ],selected:null,nextId:900
  };
  return {
   background:'water-shallow-marine',backgroundSeed:seed,items:[
    presetItem('stone-flat-01',109,369,1.35,.1,18,201),presetItem('stone-round-01',232,157,1.1,0,19,202),presetItem('stone-small-01',301,208,.9,0,20,203),
    ...[[36,149,.88],[93,229,.82],[142,124,.9],[191,276,.86],[240,112,.92],[287,247,.84],[337,146,.9],[72,348,.78],[166,377,.82],[260,360,.86],[331,349,.78]].map((p,i)=>presetItem(i%4===0?'kelp-frond-02':'kelp-frond-01',p[0],p[1],p[2],(i%5-2)*.08,28+i,220+i)),
-   ...[[118,219,.7],[217,313,.66],[310,298,.72],[48,286,.64]].map((p,i)=>presetItem('seagrass-tuft-01',p[0],p[1],p[2],0,48+i,260+i))
+   ...[[118,219,.7],[217,313,.66],[310,298,.72],[48,286,.64]].map((p,i)=>presetItem('seagrass-tuft-01',p[0],p[1],p[2],0,48+i,260+i)),
+   ...[[83,274,.7],[193,206,.64],[286,386,.72],[344,307,.62]].map((p,i)=>presetItem('ulva-clump-01',p[0],p[1],p[2],(i%3-1)*.08,56+i,275+i)),
+   ...[[126,397,.78],[250,333,.7],[51,374,.66]].map((p,i)=>presetItem('shell-grit-01',p[0],p[1],p[2],0,65+i,290+i))
   ],selected:null,nextId:900
  };
 }
@@ -150,6 +162,7 @@ function drawObject(target,asset,item,preview=false){
  if(asset.category==='bark')return drawBark(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
  if(asset.category==='stone')return drawStone(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
  if(asset.category==='calcium')return drawCuttlebone(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
+ if(p.detail)return drawAquaticDetail(target,{...p,kind:p.detail,x,y,a,seed,scale:mult});
  if(asset.category==='aquatic')return drawAquaticPlant(target,{...p,x,y,a,seed,scale:mult});
  if(asset.id.startsWith('twig')||p.type==='twig')return drawTwig(target,{...p,x,y,a,seed,length:(p.length||18)*mult});
  if(asset.id.startsWith('woodchip')||p.type==='chip')return drawWoodChip(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
