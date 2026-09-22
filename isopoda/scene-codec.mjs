@@ -26,7 +26,7 @@ function params(value,depth=0){
 export function exportScene(state,reference,assets){
  return {version:SCENE_VERSION,canvas:{width:384,height:430},angleUnit:'radians',
   background:{type:state.background,seed:state.backgroundSeed,params:state.backgroundParams??assets.get(state.background).params},
-  objects:state.items.map(item=>({id:item.id,type:item.assetId,x:item.x,y:item.y,scale:item.scale,angle:item.a,z:item.z,seed:item.seed,params:item.params??assets.get(item.assetId).params})),reference:{...reference}};
+  objects:state.items.map(item=>({id:item.id,type:item.assetId,x:item.x,y:item.y,scale:item.scale,angle:item.a,flipX:item.flipX===true,z:item.z,seed:item.seed,params:item.params??assets.get(item.assetId).params})),reference:{...reference}};
 }
 export function importScene(text,assets,defaultReference){
  if(text.length>1000000)fail('场景文件过大');
@@ -46,7 +46,8 @@ export function importScene(text,assets,defaultReference){
   const assetId=o.type??o.assetId,id=o.id??'instance-'+(i+1);
   if(!assets.has(assetId)||assets.get(assetId).kind==='background')fail('未知素材类型：'+String(assetId));
   if(typeof id!=='string'||id.length>120||ids.has(id))fail('物件 id 无效或重复');ids.add(id);
-  return {id,assetId,x:number(o.x,192),y:number(o.y,215),a:number(o.angle??o.a,0),scale:number(o.scale,1,.05,4),z:number(o.z,0),seed:number(o.seed,0,0,4294967295),...(o.params===undefined?{}:{params:params(o.params)})};
+  if(o.flipX!==undefined&&typeof o.flipX!=='boolean')fail('镜像参数无效');
+  return {id,assetId,x:number(o.x,192),y:number(o.y,215),a:number(o.angle??o.a,0),scale:number(o.scale,1,.05,4),...(o.flipX===true?{flipX:true}:{}),z:number(o.z,0),seed:number(o.seed,0,0,4294967295),...(o.params===undefined?{}:{params:params(o.params)})};
  });
  const r={...defaultReference,...data.reference};
  if(typeof r.species!=='string'||!['S','M','L'].includes(r.stage)||typeof r.visible!=='boolean')fail('标本参考参数无效');
