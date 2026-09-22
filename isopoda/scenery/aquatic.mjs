@@ -28,7 +28,7 @@ function plantRamp(kind){
 }
 
 export function drawAquaticBackground(g,{kind='freshwater',palette,seed=57}={}){
- const preset=AQUATIC_BACKDROPS[kind]||AQUATIC_BACKDROPS.freshwater,p=palette||preset.palette,w=g.canvas.width,h=g.canvas.height;
+ const preset=AQUATIC_BACKDROPS[kind]||AQUATIC_BACKDROPS.freshwater,p=palette||preset.palette,w=g.canvas?.width||384,h=g.canvas?.height||430;
  for(let y=0;y<h;y+=2)for(let x=0;x<w;x+=2){
   const n=noise(x>>1,y>>1,seed),wave=Math.sin((x+seed)*.024+y*.013)+Math.sin(y*.031);
   const band=n%47===0?3:wave>.85&&n%3===0?2:n%3===0?1:0;
