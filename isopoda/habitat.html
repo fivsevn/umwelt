@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>阿西莫夫环境实验室 · ASIMOV HABITAT LAB</title>
 <link rel="preload" href="../assets/fonts/fusion-pixel-12px-monospaced-zh_hans.ttf.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-<link rel="stylesheet" href="./habitat.css?v=14">
+<link rel="stylesheet" href="./habitat.css?v=15">
 </head>
 <body>
 <main class="lab">
@@ -65,16 +65,18 @@
    </div>
   </div>
   <details class="scene-transfer" open>
-   <summary>布局导入 / 导出</summary>
-   <div class="viewer-actions">
-    <button id="copyScene">COPY SCENE</button><button id="downloadScene">DOWNLOAD JSON</button>
-    <button id="copyShare">COPY SHARE CODE</button>
+   <summary><span>布局导入 / 导出</span><small>SCENE TRANSFER · JSON / SHARE CODE</small></summary>
+   <div class="scene-transfer-body">
+    <div class="viewer-actions transfer-export-actions">
+     <button id="copyScene">COPY SCENE</button><button id="downloadScene">DOWNLOAD JSON</button>
+     <button id="copyShare">COPY SHARE CODE</button>
+    </div>
+    <label class="transfer-label" for="sceneText">粘贴场景 JSON 或分享代码（角度为弧度）</label>
+    <textarea id="sceneText" rows="3" spellcheck="false"></textarea>
+    <div class="viewer-actions transfer-import-actions"><button id="importScene">IMPORT SCENE</button>
+     <label class="file-import-label"><span>导入文件</span><input id="sceneFile" type="file" accept=".json,application/json"></label></div>
+    <p id="sceneMessage" role="status" aria-live="polite"></p>
    </div>
-   <label for="sceneText">粘贴场景 JSON 或分享代码（角度为弧度）</label>
-   <textarea id="sceneText" rows="3" spellcheck="false"></textarea>
-   <div class="viewer-actions"><button id="importScene">IMPORT SCENE</button>
-    <label>导入文件 <input id="sceneFile" type="file" accept=".json,application/json"></label></div>
-   <p id="sceneMessage" role="status" aria-live="polite"></p>
   </details>
   <div class="canvas-shell">
    <canvas id="scene" width="384" height="430" aria-label="模块化饲养环境测试画布"></canvas>
