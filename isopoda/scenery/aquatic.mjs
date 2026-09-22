@@ -1,5 +1,5 @@
 import {stepInteraction} from '../interaction.mjs?v=touchhold-1';
-import {habitatConfig} from '../habitats.mjs';
+import {habitatConfig} from '../habitats.mjs?v=abyssal-1';
 import {drawStone} from './stone.mjs?v=forest-10';
 import {drawBark} from './bark.mjs?v=forest-10';
 import {drawLeaf} from './leaf.mjs?v=forest-10';
