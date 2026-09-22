@@ -3,24 +3,39 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>阿西莫夫环境实验室 · ASIMOV HABITAT LAB</title>
+<title>阿西莫夫实验室 · 环境模块 · ASIMOV LAB</title>
 <link rel="preload" href="../assets/fonts/fusion-pixel-12px-monospaced-zh_hans.ttf.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-<link rel="stylesheet" href="./habitat.css?v=5">
+<link rel="stylesheet" href="./habitat.css?v=6">
 </head>
 <body>
 <main class="lab">
 <header class="topbar">
  <div>
-  <div class="lab-code">ISOPODA / DEV TOOL / HABITAT · 16-BIT STUDY</div>
-  <h1>阿西莫夫环境实验室 <span>ASIMOV HABITAT LAB</span></h1>
-  <p>Canvas 程序化像素 · 与正式游戏共用素材 · RESET 对照正式场景</p>
+  <div class="lab-code">ASIMOV / ISOPODA · FIELD LAB SYSTEM</div>
+  <h1>阿西莫夫实验室 <span>ASIMOV LAB</span></h1>
+  <p>环境实验室 · HABITAT MODULE · Canvas 程序化像素与场景编排</p>
  </div>
- <div class="status"><b>CODE-DRAWN</b><span>384 × 430 WORLD</span><small id="objectCount">0 OBJECTS</small></div>
+ <div class="status"><b>HABITAT MODULE</b><span>384 × 430 WORLD</span><small id="objectCount">0 OBJECTS</small></div>
 </header>
+
+<nav class="lab-switch" aria-label="阿西莫夫实验室模块">
+ <a href="./habitat.html" aria-current="page"><b>环境实验室</b><span>HABITAT</span></a>
+ <a href="./morphology/"><b>形态实验室</b><span>MORPHOLOGY</span></a>
+</nav>
+
+<nav class="preset-bar" aria-label="场景预设">
+ <span>SCENE PRESET</span>
+ <button data-preset="forest" aria-pressed="true">FOREST</button>
+ <button data-preset="freshwater" aria-pressed="false">FRESHWATER</button>
+ <button data-preset="intertidal" aria-pressed="false">INTERTIDAL</button>
+ <button data-preset="shallow-marine" aria-pressed="false">SHALLOW SEA</button>
+</nav>
 
 <nav class="category-bar" aria-label="素材分类">
  <button data-category="all" aria-pressed="true">ALL</button>
  <button data-category="substrate">BASE</button>
+ <button data-category="water">WATER</button>
+ <button data-category="aquatic">AQUA</button>
  <button data-category="moss">MOSS</button>
  <button data-category="leaf">LEAF</button>
  <button data-category="bark">WOOD</button>
@@ -114,6 +129,6 @@
  <span>isopoda/habitat.html</span>
 </footer>
 </main>
-<script type="module" src="./habitat-lab.mjs?v=forest-10"></script>
+<script type="module" src="./habitat-lab.mjs?v=aquatic-lab-1"></script>
 </body>
 </html>
