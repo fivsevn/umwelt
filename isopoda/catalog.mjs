@@ -5,7 +5,15 @@ import {getLanguage,t,formatDate,speciesPrimaryName,speciesSecondaryName,species
 import {annotationLabel,localizedAnnotationLines} from './locales/annotations.mjs?v=i18n-4';
 
 const text=(tag,value,cls='')=>{const el=document.createElement(tag);el.textContent=value;el.className=cls;return el};
-const TAG_LABELS={zh:['采集日期','采集地点'],en:['COLLECTION DATE','COLLECTION SITE'],ja:['採集日','採集地点'],isopod:['o:','o:']};
+const TAG_LABELS={zh:['采集日期','采集地点'],en:['DATE','SITE'],ja:['採集日','採集地点'],isopod:['o:','o:']};
+const TAG_HABITATS_EN={terrestrial:'LITTER',freshwater:'FRESH',intertidal:'TIDAL','shallow-marine':'SEAWEED'};
+const TAG_MONTHS_EN=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+function tagDate(value,lang){
+ const fallback=formatDate(value);if(lang!=='en'||!value)return fallback;
+ const raw=String(value),d=new Date(/^\d{4}-\d{2}-\d{2}$/.test(raw)?raw+'T12:00:00':raw);
+ if(Number.isNaN(d.getTime()))return fallback;
+ return String(d.getDate()).padStart(2,'0')+' '+TAG_MONTHS_EN[d.getMonth()]+' '+String(d.getFullYear()).slice(-2);
+}
 const tagRow=(label,value)=>{const row=document.createElement('div');row.className='specimen-tag-row';row.append(text('span',label,'specimen-tag-label'),text('b',value||'—','specimen-tag-value'));return row};
 export function renderCatalog(p,{unlocked=true,collectedOn=null}={}){
  const lang=getLanguage();
@@ -16,7 +24,7 @@ export function renderCatalog(p,{unlocked=true,collectedOn=null}={}){
  const specimenId=t('catalogSpecimen',{id:p.id.toUpperCase()}),labels=TAG_LABELS[lang]||TAG_LABELS.zh;
  if(unlocked){
   const habitatId=p.game?.habitats?.[0]||'terrestrial',tag=document.createElement('div');tag.className='specimen-tag';
-  tag.append(tagRow(labels[0],formatDate(collectedOn)),tagRow(labels[1],gameText('water:habitat:'+habitatId,lang)));art.append(tag);
+  const habitatLabel=lang==='en'?(TAG_HABITATS_EN[habitatId]||gameText('water:habitat:'+habitatId,lang)):gameText('water:habitat:'+habitatId,lang);tag.append(tagRow(labels[0],tagDate(collectedOn,lang)),tagRow(labels[1],habitatLabel));art.append(tag);
  }
  card.append(text('p',specimenId,'specimen-id'),art);
  if(p.game?.referenceOnly)card.append(text('p',t('catalogReferenceType'),'specimen-date'));
