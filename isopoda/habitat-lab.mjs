@@ -24,51 +24,51 @@ $('#referenceSpecies').value=reference.species;
 $('#referenceStage').value=reference.stage;
 
 const ASSETS=[
- {id:'substrate-dry',category:'substrate',kind:'background',label:'Dry substrate',note:'基质 / 干燥',params:{wetZones:[],light:82}},
- {id:'substrate-wet-left',category:'substrate',kind:'background',label:'Moisture gradient',note:'基质 / 左侧湿区',params:{wetZones:[{x:44,y:215,rx:92,ry:250,moisture:78}],light:82}},
- {id:'substrate-forest',category:'substrate',kind:'background',label:'Forest floor',note:'基质 / 林地湿润斑块',params:{wetZones:[{x:60,y:120,rx:115,ry:170,moisture:74},{x:320,y:300,rx:90,ry:115,moisture:58}],light:76}},
+ {id:'substrate-dry',category:'substrate',kind:'background',scenes:['forest'],label:'Dry substrate',note:'基质 / 干燥',params:{wetZones:[],light:82}},
+ {id:'substrate-wet-left',category:'substrate',kind:'background',scenes:['forest'],label:'Moisture gradient',note:'基质 / 左侧湿区',params:{wetZones:[{x:44,y:215,rx:92,ry:250,moisture:78}],light:82}},
+ {id:'substrate-forest',category:'substrate',kind:'background',scenes:['forest'],label:'Forest floor',note:'基质 / 林地湿润斑块',params:{wetZones:[{x:60,y:120,rx:115,ry:170,moisture:74},{x:320,y:300,rx:90,ry:115,moisture:58}],light:76}},
 
- {id:'water-freshwater',category:'water',kind:'background',label:'Freshwater pool',note:'淡水 / 深绿腐殖底',params:{aquatic:true,kind:'freshwater',palette:AQUATIC_BACKDROPS.freshwater.palette}},
- {id:'water-intertidal',category:'water',kind:'background',label:'Intertidal pool',note:'潮间带 / 岩池底',params:{aquatic:true,kind:'intertidal',palette:AQUATIC_BACKDROPS.intertidal.palette}},
- {id:'water-shallow-marine',category:'water',kind:'background',label:'Shallow seaweed bed',note:'浅海 / 藻场底',params:{aquatic:true,kind:'shallow-marine',palette:AQUATIC_BACKDROPS['shallow-marine'].palette}},
+ {id:'water-freshwater',category:'water',kind:'background',scenes:['freshwater'],label:'Freshwater pool',note:'淡水 / 深绿腐殖底',params:{aquatic:true,kind:'freshwater',palette:AQUATIC_BACKDROPS.freshwater.palette}},
+ {id:'water-intertidal',category:'water',kind:'background',scenes:['intertidal'],label:'Intertidal pool',note:'潮间带 / 岩池底',params:{aquatic:true,kind:'intertidal',palette:AQUATIC_BACKDROPS.intertidal.palette}},
+ {id:'water-shallow-marine',category:'water',kind:'background',scenes:['shallow-marine'],label:'Shallow seaweed bed',note:'浅海 / 藻场底',params:{aquatic:true,kind:'shallow-marine',palette:AQUATIC_BACKDROPS['shallow-marine'].palette}},
 
- {id:'waterweed-tuft-01',category:'aquatic',label:'Waterweed 01',note:'淡水水草 / 对生叶',radius:42,params:{kind:'waterweed',height:58,flow:36}},
- {id:'waterweed-tuft-02',category:'aquatic',label:'Waterweed 02',note:'淡水水草 / 高株',radius:52,params:{kind:'waterweed',height:78,flow:42}},
- {id:'rockweed-tuft-01',category:'aquatic',label:'Rockweed 01',note:'潮间带褐藻 / 短簇',radius:40,params:{kind:'rockweed',height:42,flow:58}},
- {id:'seagrass-tuft-01',category:'aquatic',label:'Seagrass 01',note:'浅海草丛 / 细叶',radius:36,params:{kind:'seagrass',height:46,flow:44}},
- {id:'kelp-frond-01',category:'aquatic',label:'Kelp frond 01',note:'海带 / 交错宽叶',radius:64,params:{kind:'kelp',height:92,flow:46}},
- {id:'kelp-frond-02',category:'aquatic',label:'Kelp frond 02',note:'海带 / 长株',radius:76,params:{kind:'kelp',height:118,flow:52}},
+ {id:'waterweed-tuft-01',category:'aquatic',scenes:['freshwater'],label:'Waterweed 01',note:'淡水水草 / 对生叶',radius:42,params:{kind:'waterweed',height:58,flow:36}},
+ {id:'waterweed-tuft-02',category:'aquatic',scenes:['freshwater'],label:'Waterweed 02',note:'淡水水草 / 高株',radius:52,params:{kind:'waterweed',height:78,flow:42}},
+ {id:'rockweed-tuft-01',category:'aquatic',scenes:['intertidal'],label:'Rockweed 01',note:'潮间带褐藻 / 短簇',radius:40,params:{kind:'rockweed',height:42,flow:58}},
+ {id:'seagrass-tuft-01',category:'aquatic',scenes:['shallow-marine'],label:'Seagrass 01',note:'浅海草丛 / 细叶',radius:36,params:{kind:'seagrass',height:46,flow:44}},
+ {id:'kelp-frond-01',category:'aquatic',scenes:['shallow-marine'],label:'Kelp frond 01',note:'海带 / 交错宽叶',radius:64,params:{kind:'kelp',height:92,flow:46}},
+ {id:'kelp-frond-02',category:'aquatic',scenes:['shallow-marine'],label:'Kelp frond 02',note:'海带 / 长株',radius:76,params:{kind:'kelp',height:118,flow:52}},
 
- {id:'moss-sphagnum-01',category:'moss',label:'Sphagnum cluster 01',note:'水苔 / 大片',radius:52,params:{rx:48,ry:31,wetness:.76,alpha:.80}},
- {id:'moss-sphagnum-02',category:'moss',label:'Sphagnum cluster 02',note:'水苔 / 小片',radius:38,params:{rx:34,ry:22,wetness:.62,alpha:.76}},
- {id:'moss-carpet-03',category:'moss',label:'Moss carpet 03',note:'苔藓 / 林地大片',radius:64,params:{variant:2,rx:58,ry:36,wetness:.70,alpha:.84}},
+ {id:'moss-sphagnum-01',category:'moss',scenes:['forest','freshwater'],label:'Sphagnum cluster 01',note:'水苔 / 大片',radius:52,params:{rx:48,ry:31,wetness:.76,alpha:.80}},
+ {id:'moss-sphagnum-02',category:'moss',scenes:['forest','freshwater'],label:'Sphagnum cluster 02',note:'水苔 / 小片',radius:38,params:{rx:34,ry:22,wetness:.62,alpha:.76}},
+ {id:'moss-carpet-03',category:'moss',scenes:['forest'],label:'Moss carpet 03',note:'苔藓 / 林地大片',radius:64,params:{variant:2,rx:58,ry:36,wetness:.70,alpha:.84}},
 
- {id:'leaf-broad-01',category:'leaf',label:'Oak leaf',note:'橡树 / 裂片枯叶',radius:58,params:{variant:0,tone:0,scale:1.04}},
- {id:'leaf-narrow-01',category:'leaf',label:'Willow leaf',note:'柳树 / 狭长枯叶',radius:46,params:{variant:1,tone:1,scale:.92}},
- {id:'leaf-broken-01',category:'leaf',label:'Maple leaf',note:'枫树 / 掌状破损叶',radius:46,params:{variant:3,tone:2,scale:1.04,gap:true}},
- {id:'leaf-fan-01',category:'leaf',label:'Ginkgo leaf',note:'银杏 / 扇形裂叶',radius:60,params:{variant:4,tone:0,scale:1.04}},
- {id:'leaf-curled-01',category:'leaf',label:'Beech leaf',note:'林地阔叶 / 山毛榉',radius:58,params:{variant:5,tone:2,scale:1.0}},
+ {id:'leaf-broad-01',category:'leaf',scenes:['forest','freshwater'],label:'Oak leaf',note:'橡树 / 裂片枯叶',radius:58,params:{variant:0,tone:0,scale:1.04}},
+ {id:'leaf-narrow-01',category:'leaf',scenes:['forest','freshwater'],label:'Willow leaf',note:'柳树 / 狭长枯叶',radius:46,params:{variant:1,tone:1,scale:.92}},
+ {id:'leaf-broken-01',category:'leaf',scenes:['forest'],label:'Maple leaf',note:'枫树 / 掌状破损叶',radius:46,params:{variant:3,tone:2,scale:1.04,gap:true}},
+ {id:'leaf-fan-01',category:'leaf',scenes:['forest'],label:'Ginkgo leaf',note:'银杏 / 扇形裂叶',radius:60,params:{variant:4,tone:0,scale:1.04}},
+ {id:'leaf-curled-01',category:'leaf',scenes:['forest'],label:'Beech leaf',note:'林地阔叶 / 山毛榉',radius:58,params:{variant:5,tone:2,scale:1.0}},
 
- {id:'leaf-magnolia-01',category:'leaf',label:'Magnolia leaf',note:'玉兰 / 大宽叶',radius:60,params:{variant:2,tone:3,scale:1.10}},
- {id:'leaf-oak-rust',category:'leaf',label:'Oak · russet',note:'橡树 / 赤褐破损叶',radius:58,params:{variant:0,tone:1,scale:.72,gap:true}},
- {id:'leaf-ginkgo-brown',category:'leaf',label:'Ginkgo · aged',note:'银杏 / 深棕枯叶',radius:58,params:{variant:4,tone:2,scale:.72}},
- {id:'bark-log-01',category:'bark',label:'Mossy broken log',note:'断木 / 附苔',radius:68,params:{variant:2,scale:1.02}},
- {id:'bark-shelter-01',category:'bark',label:'Bark shelter 01',note:'树皮 / 躲避',radius:112,params:{variant:0,scale:1.16}},
- {id:'bark-fragment-01',category:'bark',label:'Bark fragment 01',note:'树皮 / 碎片',radius:68,params:{variant:1,scale:.96}},
+ {id:'leaf-magnolia-01',category:'leaf',scenes:['forest'],label:'Magnolia leaf',note:'玉兰 / 大宽叶',radius:60,params:{variant:2,tone:3,scale:1.10}},
+ {id:'leaf-oak-rust',category:'leaf',scenes:['forest'],label:'Oak · russet',note:'橡树 / 赤褐破损叶',radius:58,params:{variant:0,tone:1,scale:.72,gap:true}},
+ {id:'leaf-ginkgo-brown',category:'leaf',scenes:['forest'],label:'Ginkgo · aged',note:'银杏 / 深棕枯叶',radius:58,params:{variant:4,tone:2,scale:.72}},
+ {id:'bark-log-01',category:'bark',scenes:['forest','freshwater'],label:'Mossy broken log',note:'断木 / 附苔',radius:68,params:{variant:2,scale:1.02}},
+ {id:'bark-shelter-01',category:'bark',scenes:['forest'],label:'Bark shelter 01',note:'树皮 / 躲避',radius:112,params:{variant:0,scale:1.16}},
+ {id:'bark-fragment-01',category:'bark',scenes:['forest','freshwater'],label:'Bark fragment 01',note:'树皮 / 碎片',radius:68,params:{variant:1,scale:.96}},
 
- {id:'stone-round-01',category:'stone',label:'Stone round 01',note:'石块 / 圆',radius:18,params:{variant:0,scale:1}},
- {id:'stone-flat-01',category:'stone',label:'Stone flat 01',note:'石块 / 扁平',radius:20,params:{variant:1,scale:1}},
- {id:'stone-small-01',category:'stone',label:'Stone small 01',note:'石块 / 小',radius:15,params:{variant:3,scale:.82}},
+ {id:'stone-round-01',category:'stone',scenes:['forest','freshwater','intertidal','shallow-marine'],label:'Stone round 01',note:'石块 / 圆',radius:18,params:{variant:0,scale:1}},
+ {id:'stone-flat-01',category:'stone',scenes:['forest','freshwater','intertidal','shallow-marine'],label:'Stone flat 01',note:'石块 / 扁平',radius:20,params:{variant:1,scale:1}},
+ {id:'stone-small-01',category:'stone',scenes:['forest','freshwater','intertidal','shallow-marine'],label:'Stone small 01',note:'石块 / 小',radius:15,params:{variant:3,scale:.82}},
 
- {id:'stone-shard-01',category:'stone',label:'Stone shard',note:'石块 / 缺角碎石',radius:18,params:{variant:2,scale:1}},
- {id:'stone-tide-01',category:'stone',label:'Tide rock 01',note:'潮间带 / 大圆岩',radius:42,params:{variant:0,scale:2.35}},
- {id:'stone-tide-02',category:'stone',label:'Tide rock 02',note:'潮间带 / 扁平岩',radius:48,params:{variant:1,scale:2.65}},
- {id:'cuttlebone-broken',category:'calcium',label:'Broken cuttlebone',note:'墨鱼骨 / 破损片',radius:30,params:{variant:1,scale:.82}},
- {id:'cuttlebone-01',category:'calcium',label:'Cuttlebone 01',note:'墨鱼骨 / 钙源',radius:30,params:{scale:.82}},
+ {id:'stone-shard-01',category:'stone',scenes:['forest','freshwater','intertidal','shallow-marine'],label:'Stone shard',note:'石块 / 缺角碎石',radius:18,params:{variant:2,scale:1}},
+ {id:'stone-tide-01',category:'stone',scenes:['intertidal'],label:'Tide rock 01',note:'潮间带 / 大圆岩',radius:42,params:{variant:0,scale:2.35}},
+ {id:'stone-tide-02',category:'stone',scenes:['intertidal'],label:'Tide rock 02',note:'潮间带 / 扁平岩',radius:48,params:{variant:1,scale:2.65}},
+ {id:'cuttlebone-broken',category:'calcium',scenes:['forest'],label:'Broken cuttlebone',note:'墨鱼骨 / 破损片',radius:30,params:{variant:1,scale:.82}},
+ {id:'cuttlebone-01',category:'calcium',scenes:['forest'],label:'Cuttlebone 01',note:'墨鱼骨 / 钙源',radius:30,params:{scale:.82}},
 
- {id:'twig-01',category:'debris',label:'Twig 01',note:'细枝',radius:24,params:{length:24}},
- {id:'woodchip-01',category:'debris',label:'Wood chip 01',note:'木屑 / 碎片',radius:26,params:{variant:0,scale:.82}},
- {id:'woodchip-02',category:'debris',label:'Wood chip 02',note:'木屑 / 长片',radius:30,params:{variant:1,scale:.72}}
+ {id:'twig-01',category:'debris',scenes:['forest','freshwater'],label:'Twig 01',note:'细枝',radius:24,params:{length:24}},
+ {id:'woodchip-01',category:'debris',scenes:['forest','freshwater'],label:'Wood chip 01',note:'木屑 / 碎片',radius:26,params:{variant:0,scale:.82}},
+ {id:'woodchip-02',category:'debris',scenes:['forest','freshwater'],label:'Wood chip 02',note:'木屑 / 长片',radius:30,params:{variant:1,scale:.72}}
 ];
 const ASSET_BY_ID=new Map(ASSETS.map(a=>[a.id,a]));
 
@@ -131,6 +131,7 @@ function loadPreset(id){
   $('#toggleReference').setAttribute('aria-pressed','false');$('#toggleReference').textContent='GAME SCALE · OFF';
  }
  for(const button of document.querySelectorAll('[data-preset]'))button.setAttribute('aria-pressed',String(button.dataset.preset===id));
+ renderAssetList();
  drawScene();
 }
 cloneStarter();
@@ -209,9 +210,13 @@ function makePreview(asset){
  return c;
 }
 
+function assetAvailableInPreset(asset,preset=currentPreset){
+ return !Array.isArray(asset.scenes)||asset.scenes.includes(preset);
+}
 function renderAssetList(){
  const list=$('#assetList');list.replaceChildren();
  for(const asset of ASSETS){
+  if(!assetAvailableInPreset(asset))continue;
   if(category!=='all'&&asset.category!==category)continue;
   const card=document.createElement('button');card.type='button';card.className='asset-card';card.dataset.kind=asset.kind||'object';
   const copy=document.createElement('div'),name=document.createElement('b'),type=document.createElement('span'),note=document.createElement('small');
