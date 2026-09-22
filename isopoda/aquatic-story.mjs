@@ -1,6 +1,6 @@
 import {STORIES} from './data/habitats/stories.mjs';
 import {STORY_ALTERNATES} from './data/habitats/story-alternates.mjs?v=pool-1';
-import {ABYSSAL_NODES,ABYSSAL_ENDING_DATA} from './data/habitats/abyssal-dialogue.mjs?v=dialogue-6';
+import {ABYSSAL_NODES,ABYSSAL_ENDING_DATA,ABYSSAL_FRAGMENT_DATA} from './data/habitats/abyssal-dialogue.mjs?v=dialogue-7';
 import {habitatConfig} from './habitats.mjs?v=abyssal-2';
 import {encodeIsopodText} from './locales/isopod.mjs?v=isopod-3';
 const COPY={
@@ -83,9 +83,100 @@ export function aquaticText(value,lang='zh'){
  if(!row)return text;
  return localizedRow(row,lang);
 }
+const ABYSSAL_OPTION_ORDER={
+ light:[0,2,1],
+ stillness:[2,0,1],
+ name:[1,0,2],
+ food:[2,1,0],
+ scale:[1,2,0],
+ background:[2,0,1],
+ trace:[1,0,2],
+ blank:[2,1,0],
+ reflection:[1,2,0],
+ offering:[2,0,1],
+ specimen:[1,2,0],
+ observer:[2,1,0],
+ translation:[1,2,0],
+ frame:[2,0,1],
+ ending:[1,0,2]
+};
+
+// Endings are assembled from traces distributed across the whole encounter.
+// A choice can unlock more than one sentence family, or none at all.
+// The visible position of an option is deliberately unrelated to these traces.
+const ABYSSAL_FRAGMENT_UNLOCKS={
+ position:{
+  glass:['light-see','light-dim','reflection-note','offering-intervention','specimen-now','observer-mixed','translation-watch'],
+  drift:['still-detail','food-route','background-bg','trace-happened','observer-body','ending-watch'],
+  edge:['light-silent','scale-view','background-both','blank-outside','reflection-clear','specimen-noanswer','frame-open']
+ },
+ record:{
+  names:['name-later','name-archive','food-hunger','background-bg','offering-food','specimen-update','frame-no'],
+  traces:['still-detail','still-position','food-route','trace-record','reflection-note','observer-light','frame-yes'],
+  gaps:['still-blank','name-none','food-wait','trace-unsure','blank-space','blank-unknown','reflection-leave','offering-fall','translation-no','ending-silent']
+ },
+ remainder:{
+  field:['light-dim','background-env','reflection-note','observer-mixed','frame-yes'],
+  return:['still-position','name-later','trace-record','specimen-now','ending-watch'],
+  intervention:['light-see','scale-body','reflection-clear','offering-intervention','observer-light'],
+  open:['light-silent','still-blank','name-none','trace-unsure','blank-outside','translation-watch','frame-open','ending-silent']
+ }
+};
+
+const ABYSSAL_FRAGMENT_RESONANCE={
+ position:{
+  glass:[['reflection-note','observer-mixed'],['offering-intervention','observer-light']],
+  drift:[['still-detail','trace-happened'],['food-route','ending-watch']],
+  edge:[['scale-view','frame-open'],['blank-outside','specimen-noanswer']]
+ },
+ record:{
+  names:[['name-archive','specimen-update'],['food-hunger','frame-no']],
+  traces:[['still-position','trace-record'],['reflection-note','frame-yes']],
+  gaps:[['name-none','blank-space'],['trace-unsure','ending-silent']]
+ },
+ remainder:{
+  field:[['background-env','observer-mixed'],['reflection-note','frame-yes']],
+  return:[['name-later','specimen-now'],['trace-record','ending-watch']],
+  intervention:[['light-see','offering-intervention'],['reflection-clear','observer-light']],
+  open:[['blank-outside','frame-open'],['translation-watch','ending-silent']]
+ }
+};
+
+function abyssalPathHash(choices){
+ let h=2166136261>>>0;
+ for(const choice of choices){
+  for(let i=0;i<choice.length;i++){h^=choice.charCodeAt(i);h=Math.imul(h,16777619)>>>0}
+  h^=124;h=Math.imul(h,16777619)>>>0;
+ }
+ return h>>>0;
+}
+function abyssalFragmentKey(group,choices,signature,salt){
+ const chosen=new Set(choices),unlocks=ABYSSAL_FRAGMENT_UNLOCKS[group],resonance=ABYSSAL_FRAGMENT_RESONANCE[group]||{};
+ const scored=Object.keys(ABYSSAL_FRAGMENT_DATA[group]).map(id=>{
+  let score=(unlocks[id]||[]).reduce((n,choice)=>n+(chosen.has(choice)?1:0),0);
+  for(const pair of resonance[id]||[])if(pair.every(choice=>chosen.has(choice)))score+=2;
+  return {id,score};
+ });
+ const max=Math.max(...scored.map(item=>item.score));
+ // Keep near-neighbours in play: the record is assembled from overlapping traces,
+ // not from a single dominant personality axis.
+ const pool=max>0?scored.filter(item=>item.score>=Math.max(1,max-1)):scored;
+ return pool[(signature+salt)%pool.length].id;
+}
+function abyssalCompositeEnding(s){
+ const choices=(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind==='abyssal-dialogue').map(record=>record.choice).filter(Boolean);
+ const signature=abyssalPathHash(choices);
+ const position=abyssalFragmentKey('position',choices,signature,17);
+ const record=abyssalFragmentKey('record',choices,signature>>>3,29);
+ const remainder=abyssalFragmentKey('remainder',choices,signature>>>7,43);
+ const id=`abyssal-record-${position}-${record}-${remainder}`;
+ return ABYSSAL_ENDINGS.find(ending=>ending.id===id)||ABYSSAL_ENDINGS.find(ending=>ending.id==='abyssal-between');
+}
+
 function abyssalScene(s){
  const index=(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind==='abyssal-dialogue').length,node=ABYSSAL_NODES[index]||ABYSSAL_NODES.at(-1);
- return {id:`abyssal:${index}`,title:`abyssal:node:${node.id}:prompt`,kind:'abyssal-dialogue',text:`abyssal:node:${node.id}:prompt`,activity:`abyssal:node:${node.id}:prompt`,dialogueNode:node.id,storyKey:`abyssal:${node.id}`,options:node.options.map((option,i)=>({id:option.id,label:`abyssal:node:${node.id}:option:${i}:label`,delta:{...option.delta},text:`abyssal:node:${node.id}:option:${i}:text`}))};
+ const order=ABYSSAL_OPTION_ORDER[node.id]||node.options.map((_,i)=>i);
+ return {id:`abyssal:${index}`,title:`abyssal:node:${node.id}:prompt`,kind:'abyssal-dialogue',text:`abyssal:node:${node.id}:prompt`,activity:`abyssal:node:${node.id}:prompt`,dialogueNode:node.id,storyKey:`abyssal:${node.id}`,options:order.map(i=>{const option=node.options[i];return {id:option.id,label:`abyssal:node:${node.id}:option:${i}:label`,delta:{...option.delta},text:`abyssal:node:${node.id}:option:${i}:text`}})};
 }
 export function aquaticScene(s){
  if(habitatConfig(s).dialogue)return abyssalScene(s);
@@ -93,33 +184,7 @@ export function aquaticScene(s){
  return {id:`${s.habitatId}:${s.day}.${s.period}`,title:key(0),kind:'aquatic',text:key(0),activity:key(0),storyKey:ref.storyKey,options:[{id:'water-adjust',label:key(1),delta:{...row[2],interventions:1,care:1},text:key(3)},{id:'water-wait',label:'water:wait',delta:{quiet:2},text:'water:still'},{id:'water-record',label:'water:record',delta:{labels:1},text:'water:note'}]};
 }
 export function aquaticEnding(s){
- if(habitatConfig(s).dialogue){
-  const interpretation=Number(s.interpretation)||0,restraint=Number(s.restraint)||0,attention=Number(s.attention)||0,maps=Number(s.maps)||0,labels=Number(s.labels)||0,quiet=Number(s.quiet)||0;
-  const top=Math.max(interpretation,restraint,attention);
-  const records=(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind==='abyssal-dialogue');
-  const choices=new Set(records.map(record=>record.choice));
-  let id='abyssal-between';
-
-  // Some endings grow from a relation between several observations rather than a score.
-  if(choices.has('reflection-note')&&(choices.has('observer-mixed')||choices.has('light-silent')||attention>=restraint))id='abyssal-reflection';
-  else if(choices.has('offering-intervention')&&(choices.has('food-wait')||restraint>=interpretation-1))id='abyssal-offering';
-  else if(choices.has('specimen-now')&&(choices.has('name-none')||choices.has('name-later')||attention>=6))id='abyssal-specimen';
-  // Strong single tendencies stay legible, but none is treated as a better outcome.
-  else if(restraint>=interpretation+4&&restraint>=attention+4)id='abyssal-untranslated';
-  else if(interpretation>=restraint+4&&interpretation>=attention+4)id='abyssal-voice';
-  else if(attention>=interpretation+4&&attention>=restraint+4)id='abyssal-field';
-  // Mixed records resolve through what the player actually kept on the page.
-  else if(restraint+quiet>=top+quiet/2+7&&quiet>=4)id='abyssal-silt';
-  else if(attention+maps>=interpretation+restraint+3&&maps>=4)id='abyssal-frame';
-  else if(interpretation+labels>=attention+restraint+3&&labels>=4)id='abyssal-name';
-  else if(labels>=7&&labels>=maps+2)id='abyssal-label';
-  else if(maps>=7&&maps>=labels+2)id='abyssal-map';
-  else if(quiet>=7&&labels<=4&&maps<=4)id='abyssal-blank';
-  else if(quiet>=5&&restraint>=attention&&restraint>=interpretation)id='abyssal-margin';
-  else if(interpretation>=5&&attention>=5&&Math.abs(interpretation-attention)<=3)id='abyssal-return';
-
-  return ABYSSAL_ENDINGS.find(e=>e.id===id)||ABYSSAL_ENDINGS.find(e=>e.id==='abyssal-between');
- }
+ if(habitatConfig(s).dialogue)return abyssalCompositeEnding(s);
  const kind=s.interventions>=5?'care':s.quiet>=8?'calm':'trace';return AQUATIC_ENDINGS.find(e=>habitatConfig(s).endingPool.includes(e.id)&&e.id.endsWith('-'+kind));
 }
 export function aquaticFeedback(s){if(habitatConfig(s).dialogue)return '';return s.oxygen<45?'water:low':s.flow>65?'water:fast':'water:normal'}
