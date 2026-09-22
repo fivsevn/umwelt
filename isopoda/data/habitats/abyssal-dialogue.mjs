@@ -118,6 +118,11 @@ export const ABYSSAL_ENDING_DATA={
   body:['记录里留下许多空白、暂定词和没有补完的原因。没有哪一处空白因此变成错误；它们只是把无法确认的部分继续留在海底。最后一条路线离开灯光，页上没有替它续写。','The record keeps blanks, provisional words, and causes left unfinished. None of the blanks become errors; they simply leave what could not be confirmed on the seafloor. The final route leaves the light, and the page does not continue it.','記録には空白、仮の語、書き切らない理由が残る。空白は誤りにはならず、確かめられない部分を海底に残す。最後の経路は光を離れ、頁はその先を書き足さない。'],
   line:['不完整的记录，也可以保持完整的边界。','An incomplete record can keep an honest boundary.','不完全な記録にも、保たれる境界がある。']
  },
+ 'abyssal-observer':{
+  title:['观察窗两面','Two Sides of the Window','観察窓の二つの面'],
+  body:['旧记录把灯光、倍率、载具漂移和观察位置也写进了海底档案。这个结局保留给已经完成的观察；新的记录会把同一种关系分到更细的页里。','An older record included light, magnification, vehicle drift, and observer position in the seafloor archive. This ending is retained for completed observations; newer records distribute the same relation across more specific pages.','旧い記録には光、倍率、機体の漂流、観察位置まで海底の資料に書かれている。この結末は完了済みの観察のために残し、新しい記録では同じ関係をより細かな頁へ分ける。'],
+  line:['观察窗从来不只朝一个方向。','An observation window never faces only one way.','観察窓は一方向だけを向いているわけではない。']
+ },
  'abyssal-reciprocal':{
   title:['第二个观察点','A Second Observation Point','もう一つの観察点'],
   body:['后来，记录里不只出现海底的位置，也出现灯、倍率、取景和观察窗另一侧。画面没有因此变成对称；只是原本不写进图里的位置，开始留下痕迹。','Later the record contains not only positions on the seafloor, but also light, magnification, framing, and the far side of the observation window. The image does not become symmetrical; a position once omitted from the map simply begins to leave traces.','記録には海底の位置だけでなく、光、倍率、切り取り方、観察窓の反対側まで現れる。画面が対称になるわけではない。ただ、図に入っていなかった位置が痕跡を残し始める。'],
