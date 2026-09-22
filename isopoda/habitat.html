@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>阿西莫夫环境实验室 · ASIMOV HABITAT LAB</title>
 <link rel="preload" href="../assets/fonts/fusion-pixel-12px-monospaced-zh_hans.ttf.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-<link rel="stylesheet" href="./habitat.css?v=13">
+<link rel="stylesheet" href="./habitat.css?v=14">
 </head>
 <body>
 <main class="lab">
@@ -127,6 +127,31 @@
  <span>isopoda/habitat.html</span>
 </footer>
 </main>
+<script>
+/* In the single-column layout, keep editing controls close to the canvas and
+   move scene import/export to the end of the workbench. Restore desktop DOM
+   placement when the viewport widens again. */
+(()=>{
+ const transfer=document.querySelector('.scene-transfer');
+ const viewer=document.querySelector('.viewer-panel');
+ const canvas=document.querySelector('.canvas-shell');
+ const inspector=document.querySelector('.inspector');
+ if(!transfer||!viewer||!canvas||!inspector)return;
+ const narrow=window.matchMedia('(max-width:1120px)');
+ const sync=()=>{
+  if(narrow.matches){
+   inspector.after(transfer);
+   transfer.classList.add('is-detached');
+  }else{
+   canvas.before(transfer);
+   transfer.classList.remove('is-detached');
+  }
+ };
+ sync();
+ if(narrow.addEventListener)narrow.addEventListener('change',sync);
+ else narrow.addListener(sync);
+})();
+</script>
 <script type="module" src="./habitat-lab.mjs?v=aquatic-lab-2"></script>
 </body>
 </html>
