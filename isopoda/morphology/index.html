@@ -39,8 +39,8 @@ function applyPublicBranding(){
   const topbar=d.querySelector('.topbar');
   if(topbar&&!d.querySelector('.lab-switch')){
    const nav=d.createElement('nav');nav.className='lab-switch';nav.setAttribute('aria-label','阿西莫夫实验室模块');
-   const habitat=d.createElement('a');habitat.href='../habitat.html';habitat.innerHTML='<b>环境实验室</b><span>HABITAT</span>';
-   const morphology=d.createElement('a');morphology.href='./';morphology.setAttribute('aria-current','page');morphology.innerHTML='<b>形态实验室</b><span>MORPHOLOGY</span>';
+   const habitat=d.createElement('a');habitat.href='habitat.html';habitat.innerHTML='<b>环境实验室</b><span>HABITAT</span>';
+   const morphology=d.createElement('a');morphology.href='morphology/';morphology.setAttribute('aria-current','page');morphology.innerHTML='<b>形态实验室</b><span>MORPHOLOGY</span>';
    nav.append(habitat,morphology);topbar.insertAdjacentElement('afterend',nav);
   }
 
