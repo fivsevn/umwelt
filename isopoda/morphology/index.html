@@ -109,6 +109,11 @@ function applyPublicBranding(){
    .vhs-card.is-relevant small{color:#a4ab8c!important}
 
    @media(max-width:900px){
+    .topbar{display:block!important;padding-bottom:7px!important}
+    .lab-title h1{display:grid!important;gap:2px!important}
+    .lab-title p{white-space:normal!important}
+    .lab-status{grid-template-columns:auto auto auto!important;align-items:baseline!important;justify-content:start!important;justify-items:start!important;gap:2px 10px!important;min-width:0!important;text-align:left!important;margin-top:8px!important}
+    .cross-lab-link{grid-column:1/-1!important}
     .specimen-toolbar{align-items:stretch}
     .accession{grid-column:1/-1;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:12px;text-align:left;padding:5px 9px;border-top:1px solid #46563a;line-height:1.35}
     .accession span{white-space:nowrap;font-size:9px;letter-spacing:.04em}
@@ -175,6 +180,13 @@ function applyPublicBranding(){
     .vhs-screen{height:50px!important}
     .vhs-screen canvas{width:44px!important;height:44px!important}
     .vhs-motion{left:4px!important}.vhs-roll{right:4px!important}
+   }
+   @media(max-width:900px) and (orientation:landscape){
+    .viewer{min-height:430px!important}
+    .exploded-stage{top:37%!important}
+   }
+   @media(max-height:680px) and (min-width:901px){
+    .lab-status{display:none!important}
    }
   `;
   d.head.append(style);
