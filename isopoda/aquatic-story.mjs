@@ -1,4 +1,6 @@
 import {STORIES} from './data/habitats/stories.mjs';
+import {STORY_ALTERNATES} from './data/habitats/story-alternates.mjs?v=pool-1';
+import {ABYSSAL_NODES,ABYSSAL_ENDING_DATA} from './data/habitats/abyssal-dialogue.mjs?v=dialogue-1';
 import {habitatConfig} from './habitats.mjs';
 import {encodeIsopodText} from './locales/isopod.mjs?v=isopod-3';
 const COPY={
@@ -20,19 +22,82 @@ const endingBodies={
  intertidal:[['石缝重新被潮水覆盖。你等待过的地方，正在成为另一种边缘。','Tide covers the crack again. The place where you waited becomes another kind of edge.','割れ目がまた潮に覆われる。待っていた場所が別の縁になる。'],['你移动过的石头仍在这里。潮水一遍遍经过，把干预也收进环境。','The stone you moved remains. Repeated tides make that intervention part of the surroundings.','動かした石が残る。繰り返す潮が、その介入も環境に含める。'],['你记下多条水线。没有哪一条能够替海停在这里。','You recorded several waterlines. None can hold the sea here.','いくつもの水位線を記した。どの線も海をここに止められない。']],
  'shallow-marine':[['藻叶慢慢摆回原处。附着不是静止，只是和另一种移动一起发生。','Fronds slowly swing back. Attachment is not stillness; it moves with something else.','藻葉がゆっくり戻る。付着は静止ではなく、別の動きと共にある。'],['改变后的藻间仍有身体经过。你看到的路线，也包含你留下的空隙。','Bodies pass through the altered bed. Their routes also contain the gaps you left.','変えた藻間を身体が通る。見えた経路には、作った隙間も含まれる。'],['最后一条线画成了藻叶的形状。真实的藻叶已经转向下一阵流。','The last line takes the shape of a frond. The real one has turned toward the next current.','最後の線は藻葉の形になる。本物は次の流れへ向いている。']]
 };
-export const AQUATIC_ENDINGS=Object.keys(STORIES).flatMap(id=>['calm','care','trace'].map((kind,i)=>({id:`${id}-${kind}`,title:`water:${kind}`,body:`water:${id}:ending:${i}`,line:'water:note'})));
+const STANDARD_AQUATIC_ENDINGS=Object.keys(STORIES).flatMap(id=>['calm','care','trace'].map((kind,i)=>({id:`${id}-${kind}`,title:`water:${kind}`,body:`water:${id}:ending:${i}`,line:'water:note'})));
+export const ABYSSAL_ENDINGS=Object.keys(ABYSSAL_ENDING_DATA).map(id=>({id,title:`abyssal:ending:${id}:title`,body:`abyssal:ending:${id}:body`,line:`abyssal:ending:${id}:line`}));
+export const AQUATIC_ENDINGS=[...STANDARD_AQUATIC_ENDINGS,...ABYSSAL_ENDINGS];
+
+const langIndex={zh:0,en:1,ja:2};
+function localizedRow(row,lang='zh'){
+ if(!row)return null;
+ return lang==='isopod'?encodeIsopodText(row[0]):row[langIndex[lang]??0];
+}
+function storyHash(seed,n){let x=(seed+Math.imul(n+1,2654435761))>>>0;x=Math.imul(x^(x>>>16),2246822507);return (x^(x>>>13))>>>0}
+function altMatches(tag,s){
+ if(tag==='always')return true;
+ if(tag==='high-flow')return s.flow>50;
+ if(tag==='low-flow')return s.flow<48;
+ if(tag==='high-detritus')return s.detritus>52;
+ if(tag==='low-detritus')return s.detritus<32;
+ if(tag==='low-light')return s.light<35;
+ if(tag==='low-oxygen')return s.oxygen<65;
+ if(tag==='high-cover')return s.cover>68;
+ if(tag==='low-salinity')return s.salinity<34;
+ if(tag==='high-algae')return s.algae>72;
+ return false;
+}
+function storyRefFor(s){
+ const id=habitatConfig(s).encounterPool,turn=(s.day-1)*3+s.period,base=STORIES[id]?.[turn];
+ const alts=STORY_ALTERNATES[id]?.[turn]||[],eligible=alts.map((entry,index)=>({entry,index})).filter(({entry})=>altMatches(entry.when,s));
+ if(eligible.length&&storyHash(s.seed,turn+3101)%100<72){
+  const picked=eligible[storyHash(s.seed,turn+3119)%eligible.length];
+  return {row:picked.entry.row,storyKey:`alt:${turn}:${picked.index}`,key:n=>`water:${id}:alt:${turn}:${picked.index}:${n}`};
+ }
+ return {row:base,storyKey:`turn:${turn}`,key:n=>`water:${id}:turn:${turn}:${n}`};
+}
+function abyssalText(value,lang){
+ const parts=value.split(':'),kind=parts[1];
+ if(kind==='node'){
+  const node=ABYSSAL_NODES.find(n=>n.id===parts[2]);if(!node)return value;
+  if(parts[3]==='prompt')return localizedRow(node.prompt,lang);
+  if(parts[3]==='option'){
+   const option=node.options[Number(parts[4])];if(!option)return value;
+   return localizedRow(option[parts[5]],lang)??value;
+  }
+ }
+ if(kind==='ending'){
+  const ending=ABYSSAL_ENDING_DATA[parts[2]];if(!ending)return value;
+  return localizedRow(ending[parts[3]],lang)??value;
+ }
+ return value;
+}
 export function aquaticText(value,lang='zh'){
- if(!String(value).startsWith('water:'))return null;
- const parts=value.split(':');let row;
+ const text=String(value??'');
+ if(text.startsWith('abyssal:'))return abyssalText(text,lang);
+ if(!text.startsWith('water:'))return null;
+ const parts=text.split(':');let row;
  if(parts[1]==='habitat')row=habitatConfig(parts[2]).names;
  else if(parts[2]==='ending')row=endingBodies[parts[1]]?.[Number(parts[3])];
  else if(parts[2]==='turn')row=STORIES[parts[1]]?.[Number(parts[3])]?.[Number(parts[4])];
+ else if(parts[2]==='alt')row=STORY_ALTERNATES[parts[1]]?.[Number(parts[3])]?.[Number(parts[4])]?.row?.[Number(parts[5])];
  else row=COPY[parts[1]];
- if(!row)return value;
- return lang==='isopod'?encodeIsopodText(row[0]):row[{zh:0,en:1,ja:2}[lang]??0];
+ if(!row)return text;
+ return localizedRow(row,lang);
 }
-export function aquaticScene(s){const index=(s.day-1)*3+s.period,row=STORIES[habitatConfig(s).encounterPool][index],key=n=>`water:${s.habitatId}:turn:${index}:${n}`;
- return {id:`${s.habitatId}:${s.day}.${s.period}`,title:key(0),kind:'aquatic',text:key(0),activity:key(0),options:[{id:'water-adjust',label:key(1),delta:{...row[2],interventions:1,care:1},text:key(3)},{id:'water-wait',label:'water:wait',delta:{quiet:2},text:'water:still'},{id:'water-record',label:'water:record',delta:{labels:1},text:'water:note'}]};
+function abyssalScene(s){
+ const index=(s.day-1)*3+s.period,node=ABYSSAL_NODES[index]||ABYSSAL_NODES.at(-1);
+ return {id:`abyssal:${s.day}.${s.period}`,title:`abyssal:node:${node.id}:prompt`,kind:'abyssal-dialogue',text:`abyssal:node:${node.id}:prompt`,activity:`abyssal:node:${node.id}:prompt`,dialogueNode:node.id,storyKey:`abyssal:${node.id}`,options:node.options.map((option,i)=>({id:option.id,label:`abyssal:node:${node.id}:option:${i}:label`,delta:{...option.delta},text:`abyssal:node:${node.id}:option:${i}:text`}))};
 }
-export function aquaticEnding(s){const kind=s.interventions>=5?'care':s.quiet>=8?'calm':'trace';return AQUATIC_ENDINGS.find(e=>habitatConfig(s).endingPool.includes(e.id)&&e.id.endsWith('-'+kind))}
-export function aquaticFeedback(s){return s.oxygen<45?'water:low':s.flow>65?'water:fast':'water:normal'}
+export function aquaticScene(s){
+ if(habitatConfig(s).dialogue)return abyssalScene(s);
+ const ref=storyRefFor(s),row=ref.row,key=ref.key;
+ return {id:`${s.habitatId}:${s.day}.${s.period}`,title:key(0),kind:'aquatic',text:key(0),activity:key(0),storyKey:ref.storyKey,options:[{id:'water-adjust',label:key(1),delta:{...row[2],interventions:1,care:1},text:key(3)},{id:'water-wait',label:'water:wait',delta:{quiet:2},text:'water:still'},{id:'water-record',label:'water:record',delta:{labels:1},text:'water:note'}]};
+}
+export function aquaticEnding(s){
+ if(habitatConfig(s).dialogue){
+  const interpretation=Number(s.interpretation)||0,restraint=Number(s.restraint)||0,attention=Number(s.attention)||0;
+  const id=restraint>=interpretation+2&&restraint>=attention?'abyssal-untranslated':attention>=interpretation+2&&attention>=restraint?'abyssal-observer':interpretation>=restraint+2&&interpretation>=attention?'abyssal-voice':'abyssal-between';
+  return ABYSSAL_ENDINGS.find(e=>e.id===id);
+ }
+ const kind=s.interventions>=5?'care':s.quiet>=8?'calm':'trace';return AQUATIC_ENDINGS.find(e=>habitatConfig(s).endingPool.includes(e.id)&&e.id.endsWith('-'+kind));
+}
+export function aquaticFeedback(s){if(habitatConfig(s).dialogue)return '';return s.oxygen<45?'water:low':s.flow>65?'water:fast':'water:normal'}
