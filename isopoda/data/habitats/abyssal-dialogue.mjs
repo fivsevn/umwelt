@@ -4,11 +4,11 @@
 export const ABYSSAL_NODES=[
  {
   id:'light',
-  prompt:['探照灯落在粉砂上。光边缘的轮廓没有离开，只把右侧触角慢慢转向观察窗。片刻后，它问：“为什么要一直照着这里？”','The lamp falls across the silt. The silhouette at its edge does not leave; only the right antenna slowly turns toward the observation window. After a while it asks, “Why keep the light here?”','探照灯が泥の上に落ちる。光の縁にいる輪郭は離れず、右の触角だけをゆっくり観察窓へ向ける。しばらくして聞く。「どうしてずっとここを照らすの？」'],
+  prompt:['探照灯落在粉砂上。光边缘的轮廓没有离开，只把右侧触角慢慢转向观察窗。片刻后，它说：“有光……”','The lamp falls across the silt. The silhouette at its edge does not leave; only the right antenna slowly turns toward the observation window. After a while it says, “There is light…”','探照灯が泥の上に落ちる。光の縁にいる輪郭は離れず、右の触角だけをゆっくり観察窓へ向ける。しばらくして言う。「光がある……」'],
   options:[
-   {id:'light-see',label:['想看清一点','See a little more clearly','もう少しよく見る'],delta:{attention:2,interpretation:1},text:['灯没有移动。背板的边缘更清楚了，粉砂也因此失去了一部分阴影。','The lamp stays. The edge of the plates becomes clearer, and part of the silt loses its shadow with it.','灯りは動かさない。背板の縁はよく見えるようになり、そのぶん泥の影が一部消える。']},
-   {id:'light-dim',label:['把灯移开一点','Move the lamp aside','灯りを少し外す'],delta:{restraint:2,quiet:1},text:['亮斑退到一旁。它没有跟着光走，触角仍朝观察窗这一侧。','The bright patch slides aside. It does not follow the light; the antenna remains turned toward the window.','明るい斑点が横へずれる。光を追わず、触角はまだ観察窓の方を向いている。']},
-   {id:'light-silent',label:['不回答','Do not answer','答えない'],delta:{restraint:1,attention:1,quiet:1},text:['机器的低鸣留在水里。过了一会儿，它先把触角放低。','The vehicle hum remains in the water. After a while, it lowers the antenna first.','機体の低い音だけが水に残る。しばらくして、先に触角を下ろす。']}
+   {id:'light-see',label:['“嗯。”','“Mm.”','「うん。」'],delta:{attention:1},text:['灯还落在原处。它没有再说什么，背板边缘在亮处慢慢显出来。','The lamp remains where it is. It says nothing more; the edge of its plates slowly emerges in the light.','灯りはそのまま残る。それ以上は何も言わず、背板の縁が明るいところにゆっくり現れる。']},
+   {id:'light-dim',label:['把光束压低一点','Lower the beam a little','光を少し下げる'],delta:{attention:1,restraint:1},text:['亮处往粉砂上退了一截。它没有跟着光走，触角仍朝观察窗这一侧。','The bright patch retreats across the silt. It does not follow the light; the antenna remains turned toward the window.','明るい部分が泥の上を少し退く。光は追わず、触角はまだ観察窓の方を向いている。']},
+   {id:'light-silent',label:['看向光外的粉砂','Look at the silt beyond the light','光の外の泥を見る'],delta:{maps:1},text:['光外的粉砂更暗，细粒仍在下落。等你再看回来时，它的触角已经低了一些。','The silt beyond the light is darker, with fine particles still settling. When you look back, its antenna is already lower.','光の外の泥はもっと暗く、細粒がまだ沈んでいる。視線を戻すと、触角は少し下がっている。']}
   ]
  },
  {
@@ -139,6 +139,52 @@ export const ABYSSAL_NODES=[
  }
 ];
 
+export const ABYSSAL_FRAGMENT_DATA={
+ position:{
+  glass:{
+   title:['观察窗两侧','Both Sides of the Window','観察窓の両側'],
+   body:['这一次观察没有只留下它的位置。灯光、镜头和观察窗这一侧，也在几处记录里露了出来。','This observation did not leave only its position behind. The light, the camera, and this side of the window also appear in several entries.','今回の観察に残ったのは、その身体の位置だけではない。灯り、カメラ、観察窓のこちら側も、いくつかの記録に現れている。']
+  },
+  drift:{
+   title:['几次移动之间','Between Movements','いくつかの移動のあいだ'],
+   body:['后来再看这些记录，很难说究竟是哪一刻开始成为“观察”的：有些发生在它移动时，有些发生在你改变位置之前。','Looking back, it is hard to say exactly when these moments became “observation”: some happened while it moved, others before you changed position.','あとから記録を見返すと、どの瞬間から「観察」になったのかはっきりしない。身体が動いていた時もあれば、こちらが位置を変える前に起きたこともある。']
+  },
+  edge:{
+   title:['停在边缘的地方','Where It Stops at the Edge','縁で止まる場所'],
+   body:['几次最清楚的记录都停在边缘：光照不到的地方、画面之外、石块后面，或一句话还没说完的位置。','Several of the clearest entries stop at an edge: beyond the light, outside the frame, behind a stone, or where a sentence remains unfinished.','いくつかの最も鮮明な記録は、縁で止まっている。光の届かない場所、画面の外、石の向こう、あるいは文が終わる前の位置。']
+  }
+ },
+ record:{
+  names:{
+   body:['名字和分类确实让一些东西变得容易返回，但它们没有和眼前的身体完全重合。','Names and categories do make some things easier to return to, but they never fully overlap the body in view.','名前や分類によって戻りやすくなるものはあるが、目の前の身体と完全に重なることはない。']
+  },
+  traces:{
+   body:['纸上留下的多是方向、停顿、时间和已经消失的痕迹；它们彼此并不总能拼成同一种解释。','What remains on paper is mostly direction, pauses, time, and traces already gone; they do not always assemble into the same explanation.','紙に残るのは、方向、停止、時間、すでに消えた痕跡が多い。それらがいつも同じ説明へまとまるわけではない。']
+  },
+  gaps:{
+   body:['也有几处没有被补上。空栏没有替现场说话，只保留了当时没有写下来的那一部分。','Some places were never filled in. The blank fields do not speak for the scene; they only preserve what was not written at the time.','埋められなかった場所もある。空欄は現場の代わりに語らず、その時に書かれなかった部分だけを残している。']
+  }
+ },
+ remainder:{
+  field:{
+   body:['最后留下的不像一个结论，更像一次相遇里双方各自移动过的位置。','What remains is less a conclusion than the positions through which both sides moved during an encounter.','最後に残るのは結論というより、一度の出会いの中で両側がそれぞれ動いた位置に近い。'],
+   line:['相遇发生过，不必先被归成一种类型。','An encounter need not become a type before it can have happened.','出会いは、先に一つの型へ分類されなくても起こりうる。']
+  },
+  return:{
+   body:['如果以后再打开这份记录，能返回的也许只是这些句子，而不是当时那片海底。','If this record is opened again, what can be returned to may be only these sentences, not that seafloor at that moment.','あとでこの記録を開き直しても、戻れるのはこの文だけで、あの時の海底ではないのかもしれない。'],
+   line:['能返回的东西，不一定仍停在原处。','What can be returned to need not still be where it was.','戻れるものが、同じ場所に留まっているとは限らない。']
+  },
+  intervention:{
+   body:['观察没有只从现场取走东西；灯光、机械臂、分类和等待本身，也曾进入现场。','Observation did not only take things from the scene; light, the manipulator, classification, and waiting also entered it.','観察は現場から何かを受け取るだけではなかった。灯り、マニピュレーター、分類、待つことそのものも現場へ入っていた。'],
+   line:['观察留下记录，也留下条件。','Observation leaves records, and also conditions.','観察は記録だけでなく、条件も残す。']
+  },
+  open:{
+   body:['记录在这里停下，但有些事情没有因此获得句号。','The record stops here, but some things do not receive a full stop because of it.','記録はここで止まる。それでも、いくつかのことに句点が付くわけではない。'],
+   line:['停下和结束不是同一个动作。','Stopping and ending are not the same action.','止めることと、終わることは同じ動作ではない。']
+  }
+ }
+};
+
 export const ABYSSAL_ENDING_DATA={
  'abyssal-untranslated':{
   title:['未译部分','Untranslated Part','未訳の部分'],
@@ -216,3 +262,20 @@ export const ABYSSAL_ENDING_DATA={
   line:['相遇不一定需要归类以后才成立。','An encounter does not need a category in order to have happened.','出会いは、分類されてから成立するものではない。']
  }
 };
+
+
+for(const [positionId,position] of Object.entries(ABYSSAL_FRAGMENT_DATA.position)){
+ for(const [recordId,record] of Object.entries(ABYSSAL_FRAGMENT_DATA.record)){
+  for(const [remainderId,remainder] of Object.entries(ABYSSAL_FRAGMENT_DATA.remainder)){
+   ABYSSAL_ENDING_DATA[`abyssal-record-${positionId}-${recordId}-${remainderId}`]={
+    title:position.title,
+    body:[
+     position.body[0]+record.body[0]+remainder.body[0],
+     position.body[1]+' '+record.body[1]+' '+remainder.body[1],
+     position.body[2]+record.body[2]+remainder.body[2]
+    ],
+    line:remainder.line
+   };
+  }
+ }
+}
