@@ -137,8 +137,10 @@ html,body{height:100%;overflow:hidden}#game{height:100dvh;padding:6px 8px max(6p
 .launch-card .window-title span{min-width:0;overflow-wrap:anywhere}
 
 
-/* 2026-09 aquatic polish: habitat chooser stays inside the preview image. */
-.launch-card .empty-box{padding:0!important}
+/* 2026-09 aquatic polish: habitat chooser stays inside the preview image.
+   Keep the launch preview intrinsically square: the generic .empty-box rule above
+   resets aspect-ratio to auto, so a percentage-height child otherwise collapses. */
+.launch-card .empty-box{padding:0!important;aspect-ratio:1!important;height:auto!important;min-height:0}
 .launch-card .empty-box>.habitat-viewport{position:relative!important;width:100%!important;height:100%!important;aspect-ratio:auto!important;overflow:hidden!important}
 .launch-card .title-habitat-cycle{position:absolute!important;z-index:18!important;bottom:8px!important;top:auto!important;display:grid!important;place-items:center!important;width:30px!important;min-width:30px!important;max-width:30px!important;height:30px!important;min-height:30px!important;margin:0!important;padding:0!important;border:2px solid #d5d9b9!important;border-right-color:#425841!important;border-bottom-color:#425841!important;border-radius:0!important;background:#b6bea0!important;color:#304630!important;box-shadow:1px 1px #203022!important;font-size:0!important;line-height:1!important}
 .launch-card .title-habitat-cycle.prev{left:8px!important;right:auto!important}
