@@ -317,7 +317,7 @@ export function drawAquaticBase(g,s){
   for(let i=0;i<7;i++){const n=noise(i,143,seed);drawAquaticDetail(g,{kind:'shellgrit',x:28+n%330,y:92+(n>>>10)%310,scale:.72+(i%2)*.12,seed:seed+i*43,count:8+i%6})}
  }
  // Extra gravel and organic fragments add depth without introducing image assets.
- for(let i=0;i<Math.round(s.detritus*2.4);i++){const n=noise(i,8,seed);pixel(g,n%380,(n>>>10)%426,1+i%3,1,p[3])}
+ const debrisDots=h.id==='abyssal'?Math.round(s.detritus*.55):Math.round(s.detritus*2.4);for(let i=0;i<debrisDots;i++){const n=noise(i,8,seed);pixel(g,n%380,(n>>>10)%426,1+i%3,1,p[3])}
  if(!h.wood)for(let i=0;i<14;i++){const n=noise(i,77,seed);pixel(g,n%380,(n>>>9)%426,2+i%2,1,i%3?p[2]:p[3])}
 }
 
@@ -351,7 +351,7 @@ export function drawAquaticWater(g,s,time=0,{drawPlants=true}={}){
   }
  }
  if(h.tides){for(let x=0;x<384;x+=3){const y=surface+Math.round(Math.sin(x*.07+time)*3);pixel(g,x,y,3,1,'#9db9a4');if(x%12===0)pixel(g,x+2,y+5,5,1,'#6f948b')}}
- const particles=30+Math.round(s.detritus*.5);for(let i=0;i<particles;i++){const n=noise(i,37,s.seed),x=(n%384+time*s.flow*.085)%384,y=surface+((n>>>12)%Math.max(1,430-surface));pixel(g,x,y,i%7===0?2:1,1,i%3?'#889a79':'#b1bc95')}
+ const abyssal=h.id==='abyssal',particles=abyssal?14+Math.round(s.detritus*.18):30+Math.round(s.detritus*.5),drift=abyssal?time*s.flow*.022:time*s.flow*.085;for(let i=0;i<particles;i++){const n=noise(i,37,s.seed),x=(n%384+drift)%384,y=surface+((n>>>12)%Math.max(1,430-surface));pixel(g,x,y,i%9===0?2:1,1,abyssal?(i%3?'#46595d':'#607176'):(i%3?'#889a79':'#b1bc95'))}
  if(s.light>45)for(let i=0;i<8;i++){const x=20+i*49+Math.round(Math.sin(time*.6+i)*5),y=35+(i*67)%340;pixel(g,x,y,18+i%3*6,1,'rgba(202,217,158,.23)');pixel(g,x+9,y+3,8,1,'rgba(202,217,158,.13)')}
 }
 
