@@ -1,5 +1,5 @@
 import {stepInteraction} from './interaction.mjs?v=touchhold-1';
-import {speciesById} from './species-registry.mjs?v=locomotion-1';
+import {speciesById} from './species-registry.mjs?v=locomotion-2';
 import {cohortFor} from './engine.mjs?v=aquatic-1';
 import {stableHash} from './sprites.mjs?v=appendage-2';
 export const MOTIONS=['contact','follow','feed','gather','yield','climb','groom','molt','shell','border','defend','emerge','orbit','rest','under','disperse','parallel','wall','hesitate'];
