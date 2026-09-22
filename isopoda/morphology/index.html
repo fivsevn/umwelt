@@ -273,7 +273,7 @@ function drawMotionFrame(){
  const canvas=document.querySelector('#vhsMotion');if(!canvas||!model)return;
  // Species pace is deliberately shown only as relative motion in this low-resolution feed.
  // No numerical speed is exposed: the underlying coefficient remains animation/game tuning.
- const pace=Math.max(.55,Math.min(1.45,Number(species?.speed)||1));
+ const pace=Math.max(.55,Math.min(1.45,Number(species?.locomotion?.simulation?.cruise)||1));
  vhsMotionClock+=pace;
  const motionFrame=Math.floor(vhsMotionClock),phase=motionFrame%4,postures=['normal','probing','turning','normal'];
  const moving=pixelAnatomy(model,{posture:postures[motionFrame%postures.length],phase,moving:true});
