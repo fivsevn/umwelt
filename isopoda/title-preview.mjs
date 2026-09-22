@@ -1,4 +1,4 @@
-import {drawBaseScene,drawLeaf,DEFAULT_LAYOUT} from './scenery/index.mjs?v=authored-1';
+import {drawBaseScene,drawLeaf,DEFAULT_LAYOUT} from './scenery/index.mjs?v=motion-2';
 
 const canvas=document.querySelector('#emptyHabitat');
 if(canvas){
