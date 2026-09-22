@@ -33,16 +33,25 @@ export function drawAquaticWater(g,s,time=0){
  if(s.light>45)for(let i=0;i<8;i++){const x=20+i*49+Math.round(Math.sin(time*.6+i)*5),y=35+(i*67)%340;pixel(g,x,y,18+i%3*6,1,'rgba(202,217,158,.23)');pixel(g,x+9,y+3,8,1,'rgba(202,217,158,.13)')}
 }
 export function stepAquatic(group,{state:s,time,dt,reduced}){
- const h=habitatConfig(s),speed=Math.min(64,Math.max(1,Number(globalThis.__ISOPODA_HABITAT_SPEED__)||1));
+ const h=habitatConfig(s),speed=Math.min(64,Math.max(1,Number(globalThis.__ISOPODA_HABITAT_SPEED__)||1)),motionScale=reduced?.45:1;
  for(const a of group){if(stepInteraction(a,dt))continue;
-  const mode=h.motion[(a.id+Math.floor(time/9))%h.motion.length];a.activity=mode;a.hidden=false;a.occlusion=0;a.posture='normal';a.molt='none';a.moving=mode!=='cling';
-  if(reduced)continue;
-  a.phase+=dt*speed*(mode==='swim'?9:3);
-  if(mode==='cling'){const target=plantAnchor(h,a.id%h.plants);a.x+=(target.x-a.x)*dt*.22;a.y+=(target.y-22-a.y)*dt*.22}
-  const flow=s.flow/100,rate=mode==='swim'?10:mode==='drift'?6:mode==='cling'?.4:3;
-  a.a+=Math.sin(time*.3+a.id)*dt*.25;
-  a.x=Math.max(20,Math.min(362,a.x+(Math.cos(a.a)*rate+flow*2)*dt*speed));
-  a.y=Math.max(h.tides?Math.max(25,355-s.tide*3.2):25,Math.min(405,a.y+Math.sin(a.a)*rate*dt*speed));
-  if(a.x>=361||a.x<=21||a.y>=404)a.a+=Math.PI*.6;
+  const slot=Math.floor((time+a.offset*.35)/7),mode=h.motion[(a.id+slot)%h.motion.length],swimming=mode==='swim'||mode==='drift';
+  a.activity=mode;a.hidden=false;a.occlusion=0;a.posture=swimming?'swimming':mode==='cling'?'probing':'normal';a.molt='none';a.moving=mode!=='cling';
+  a.phase+=dt*speed*(swimming?8:mode==='crawl'?4:2.4)*motionScale;
+  const waterTop=h.tides?Math.max(25,355-s.tide*3.2):25;
+  if(mode==='cling'){
+   const target=plantAnchor(h,a.id%Math.max(1,h.plants)),rate=dt*.28*motionScale;
+   a.x+=(target.x-a.x)*rate;a.y+=(Math.max(waterTop+8,target.y-22)-a.y)*rate;
+   a.a+=Math.sin(time*.42+a.offset)*dt*.08*motionScale;
+   continue;
+  }
+  const flow=s.flow/100,rate=mode==='swim'?11:mode==='drift'?6.5:3.4;
+  const steer=(Math.sin(time*.31+a.offset)+Math.sin(time*.13+a.id))*dt*(swimming?.34:.18)*motionScale;
+  a.a+=steer;
+  const nx=a.x+(Math.cos(a.a)*rate+flow*(swimming?2.5:1.4))*dt*speed*motionScale;
+  const ny=a.y+(Math.sin(a.a)*rate+(mode==='drift'?Math.sin(time*.72+a.offset)*.7:0))*dt*speed*motionScale;
+  if(nx<=20||nx>=362)a.a=Math.PI-a.a;
+  if(ny<=waterTop||ny>=405)a.a=-a.a;
+  a.x=Math.max(20,Math.min(362,nx));a.y=Math.max(waterTop,Math.min(405,ny));
  }
 }

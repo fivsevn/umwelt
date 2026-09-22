@@ -1,12 +1,12 @@
 import {habitatConfig} from './habitats.mjs';
-import {drawAquaticBase,drawAquaticWater,stepAquatic} from './scenery/aquatic.mjs';
+import {drawAquaticBase,drawAquaticWater,stepAquatic} from './scenery/aquatic.mjs?v=aquatic-3';
 import {bindPointerInteraction} from './interaction.mjs?v=environment-memory-1';
 import {createReactions,actionFocus,drawReactionBubbles} from './reactions.mjs?v=aquatic-1';
 import {environmentFor} from './environment.mjs?v=aquatic-1';
 import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors-speed.mjs?v=molt-sequence-1';
 import {encounterById,responseMode} from './encounters.mjs?v=narrative-pool-2';
-import {pixelAnatomy,renderModel,exuviaPixels} from './sprites.mjs?v=exuvia-1';
-import {speciesById} from './species-registry.mjs?v=aquatic-1';
+import {pixelAnatomy,renderModel,exuviaPixels} from './sprites.mjs?v=swim-1';
+import {speciesById} from './species-registry.mjs?v=aquatic-3';
 import {drawBaseScene,drawLeaf,DEFAULT_LAYOUT} from './scenery/index.mjs?v=forest-10';
 import {ACTOR_SCALE} from './scenery/grammar.mjs';
 // Anatomy and scenery share the same integer world lattice.

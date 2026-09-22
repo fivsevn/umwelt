@@ -137,6 +137,42 @@ const copy={
     en:['Halacarsantia uniramea is a marine isopod less than a millimetre long.','Its broad rounded frontal lobe, prominent lateral plates, and uniramous uropods define the reference model used here.'],
     ja:['Halacarsantia uniramea は体長1ミリ未満の小型の海生等脚類。','幅広く丸い頭部前縁、目立つ側板、単枝の尾肢を現在の参照モデルの主要形質としている。']
   },
+  aquaticus:{
+    en:['Water softens the leaf litter; the body passes between submerged wood and plants. We call the place freshwater, while it encounters resistance, cover, and gaps.','A specimen case asks for one name. The water does not stop for it. Classification and flow meet only briefly on this page.'],
+    ja:['水は腐葉の縁を柔らかくし、身体は沈木と水草のあいだを通る。私たちはここを「淡水」と呼ぶが、身体が出会うのは抵抗と遮蔽と隙間だ。','標本箱は一つの名前を求める。水はそのために止まらない。分類と流れは、この一頁で短く出会うだけだ。']
+  },
+  meridianus:{
+    en:['Plants, stones, and submerged wood divide one body of water into many scales. We call it habitat; for a small body it may only be the question of where the next step can land.','Separating similar outlines needs evidence finer than these pixels. What cannot be seen should not be promoted into certainty.'],
+    ja:['水草、石、沈木は同じ水域をいくつもの尺度に分ける。私たちはそれを環境と呼ぶが、小さな身体には次の一歩を置けるかどうかかもしれない。','似た輪郭を分けるには、ピクセルより細かな証拠が要る。見えない部分を確定へ変えてはいけない。']
+  },
+  coxalis:{
+    en:['Sediments in shallow water do not keep tidy borders. The name was written later; the body crossed the mixed grains first.','If a pixel cannot carry a diagnostic character, let it remain silent. Silence is part of the record too.'],
+    ja:['浅水の堆積物に整然とした境界はない。名前はあとから書かれ、身体は先に混じり合う粒を通った。','一つのピクセルに識別形質を背負わせられないなら、黙らせておけばいい。沈黙も資料の一部だ。']
+  },
+  serratum:{
+    en:['The tide returns a crevice to the sea and takes it back again. The boundary moves each day; the specimen frame asks it to stay still.','It can roll its body inward, briefly carrying a boundary onto itself. No specimen can answer where the next waterline will be.'],
+    ja:['潮は岩の隙間を海へ返し、また引き取る。境界は毎日動くのに、標本枠は静止を求める。','身体を巻き込むことができる。その瞬間だけ境界を自分へ持ち帰るように見える。次の水位線を答えられる標本はない。']
+  },
+  pelagica:{
+    en:['Barnacles, mussels, and short fucoids divide the rocky shore into surfaces that can be crossed. We call it exposure; the body meets attachments and gaps.','The pin fixes one direction. While alive, direction was never part of the specimen.'],
+    ja:['フジツボ、イガイ、短い褐藻は岩岸を通過できる面へ分ける。私たちは「露出」と呼ぶが、身体が出会うのは付着物と隙間だ。','標本針は方向を固定する。生きている間、方向は標本の一部ではなかった。']
+  },
+  granulosa:{
+    en:['Algal fronds move with the water, carrying the body among them into the same current. An image can keep an outline but cannot mount the force of the sea beside it.','We remember colour and dorsal shape. It does not need to be remembered to continue among the algae.'],
+    ja:['藻葉は水とともに揺れ、その間の身体も同じ流れへ入る。画像は輪郭を残せても、海の力まで枠に収められない。','私たちは色と背面の形で覚える。それは覚えられなくても、藻の間で続いていく。']
+  },
+  balthica:{
+    en:['A seaweed bed looks like background until a body uses seaweed as food and a place to pass through. Records separate functions; underwater there is no table.','When it leaves one frond its position changes. The word specimen asks it to remain somewhere forever.'],
+    ja:['藻場は背景に見える。海藻が食物であり通過する場所でもあると、一つの身体が示すまでは。記録は機能を分けるが、水中に表はない。','一枚の藻葉を離れれば位置は変わる。それでも「標本」という語は、どこかに永遠に留まることを求める。']
+  },
+  emarginata:{
+    en:['Detached algae gather into a dwelling with no foundation. We still ask where it lives, as though a place must stay fixed.','A frond can leave the rock and still become habitat. Sometimes drifting is another way of dwelling.'],
+    ja:['ちぎれた藻体が集まり、地基のない居場所になる。私たちはなお「どこに住むのか」と問う。場所は固定されるべきだと思うからだ。','藻葉は岩を離れても環境になり得る。漂流が、別の住み方であることもある。']
+  },
+  neglecta:{
+    en:['Gaps among algae change with the water. Two seconds that look alike are not the same place to a millimetre-scale body.','When evidence runs thin, leaving “unknown” on the page is closer to observation than completing a beautiful certainty.'],
+    ja:['藻の隙間は水流とともに変わる。同じに見える二秒間も、ミリメートル尺度の身体には同じ場所ではない。','資料が足りないとき、「不明」を頁に残すほうが、美しい確定を補うより観察に近い。']
+  },
   pandaKing:{
     en:['Its name comes from the simplest contrast: black and white.','The taxonomic identity remains unsettled, but the pattern became a shared language among keepers first.'],
     ja:['名前は、もっとも単純な黒と白の対比から来ている。','分類上の正体は定まっていないのに、模様は先に飼育者たちの共通語になった。']
