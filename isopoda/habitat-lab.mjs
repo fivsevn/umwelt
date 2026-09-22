@@ -1,4 +1,4 @@
-import {exportScene,importScene,shareCode} from './scene-codec.mjs?v=forest-10';
+import {exportScene,importScene,shareCode} from './scene-codec.mjs?v=mirror-1';
 import {drawSubstrate,drawLeaf,drawMossPatch,drawBark,drawStone,drawCuttlebone,drawTwig,drawWoodChip,LEGACY_BASE_SCENE,DEFAULT_LAYOUT} from './scenery/index.mjs?v=forest-10';
 import {drawAquaticBackground,drawAquaticPlant,drawAquaticDetail,AQUATIC_BACKDROPS} from './scenery/aquatic.mjs?v=aquatic-detail-6';
 import {ACTOR_SCALE} from './scenery/grammar.mjs';
@@ -303,7 +303,7 @@ function drawBackground(target,assetId=state.background,seed=state.backgroundSee
  drawSubstrate(target,{...params,seed});
 }
 
-function drawObject(target,asset,item,preview=false){
+function drawObjectRaw(target,asset,item,preview=false){
  const x=item.x,y=item.y,a=item.a||0,seed=item.seed||0,mult=item.scale??1,p=item.params??asset.params??{};
  if(p.labDetail)return drawLabDetail(target,{kind:p.labDetail,x,y,a,seed,scale:mult});
  if(asset.category==='leaf')return drawLeaf(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
@@ -315,6 +315,15 @@ function drawObject(target,asset,item,preview=false){
  if(asset.category==='aquatic')return drawAquaticPlant(target,{...p,x,y,a,seed,scale:mult});
  if(asset.id.startsWith('twig')||p.type==='twig')return drawTwig(target,{...p,x,y,a,seed,length:(p.length||18)*mult});
  if(asset.id.startsWith('woodchip')||p.type==='chip')return drawWoodChip(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
+}
+function drawObject(target,asset,item,preview=false){
+ if(!item.flipX)return drawObjectRaw(target,asset,item,preview);
+ const pivotX=Math.round(item.x||0);
+ target.save();
+ target.translate(pivotX*2,0);
+ target.scale(-1,1);
+ try{return drawObjectRaw(target,asset,item,preview)}
+ finally{target.restore()}
 }
 
 function drawReferenceSpecimen(){
@@ -408,7 +417,7 @@ function updateInspector(){
  $('#selectedLabel').textContent=asset?.label||item.assetId;$('#selectedId').textContent=item.id+' / '+item.assetId;
  $('#selectedType').textContent=asset?.category||'—';$('#selectedPosition').textContent=`${Math.round(item.x)}, ${Math.round(item.y)}`;
  $('#selectedSeed').textContent=String(item.seed>>>0);$('#selectedScale').textContent=item.scale.toFixed(2);
- $('#selectedAngle').textContent=(item.a||0).toFixed(2)+' rad';$('#selectedZ').textContent=String(item.z||0);
+ $('#selectedAngle').textContent=(item.a||0).toFixed(2)+' rad';$('#selectedFlip').textContent=item.flipX?'HORIZONTAL':'OFF';$('#selectedZ').textContent=String(item.z||0);
 }
 
 function canvasPoint(event){
@@ -474,6 +483,7 @@ document.querySelector('.control-grid').addEventListener('click',event=>{
  if(action==='scale-up')item.scale=Math.min(1.8,item.scale+.1);
  if(action==='back')item.z=(item.z||0)-1;
  if(action==='front')item.z=(item.z||0)+1;
+ if(action==='flip-horizontal'){if(item.flipX)delete item.flipX;else item.flipX=true}
  if(action==='reroll')item.seed=(item.seed+97)>>>0;
  if(action==='delete'){state.items=state.items.filter(i=>i.id!==item.id);state.selected=null}
  drawScene();
