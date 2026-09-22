@@ -6,7 +6,7 @@ import {sources} from '../isopoda/sources-registry.mjs';
 import {locomotionSourceIds} from '../isopoda/locomotion.mjs';
 import {WIKI_SOURCES,WIKI_SOURCE_IDS_BY_SPECIES} from '../isopoda/data/wiki/specimen-sources.mjs';
 
-const template=readFileSync(new URL('../isopoda/morphology/template.txt',import.meta.url),'utf8');
+const template=readFileSync(new URL('../isopoda/morphology/app.mjs',import.meta.url),'utf8');
 const sourceIds=new Set(sources.map(source=>source.id));
 
 function evidenceIds(species){
@@ -56,7 +56,7 @@ test('morphology wiki also exposes renderer framework literature used by the sim
 
 test('public specimen references avoid DOI redirectors and known empty pages',()=>{
  const files=[
-  '../isopoda/morphology/template.txt',
+  '../isopoda/morphology/app.mjs',
   '../isopoda/sources.mjs',
   '../isopoda/data/locomotion/sources.mjs',
   '../isopoda/data/wiki/specimen-sources.mjs'
