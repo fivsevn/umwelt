@@ -1,9 +1,9 @@
-import {habitatConfig,cycleHabitat} from './habitats.mjs?v=abyssal-2';
-import {AQUATIC_ENDINGS,aquaticFeedback} from './aquatic-story.mjs?v=abyssal-2';
+import {habitatConfig,cycleHabitat} from './habitats.mjs?v=abyssal-3';
+import {AQUATIC_ENDINGS,aquaticFeedback} from './aquatic-story.mjs?v=abyssal-3';
 import {renderCatalog,renderSources} from './catalog.mjs?v=abyssal-2';
 import {SPECIES,speciesById} from './species-registry.mjs?v=abyssal-3';
 import {ENDINGS as LAND_ENDINGS} from './content.mjs?v=interaction-story-2';
-import {createRun,validRun,migrateV3,migrateV4,runSpecies,migrateLegacy,ensureScene,choose,advance,timeFor,recordDirectInteraction,endingMemoryFor} from './engine.mjs?v=abyssal-3';
+import {createRun,validRun,migrateV3,migrateV4,runSpecies,migrateLegacy,ensureScene,choose,advance,timeFor,recordDirectInteraction,endingMemoryFor} from './engine.mjs?v=abyssal-4';
 import {makeBug,makeIsopod,renderModel,exuviaPixels} from './sprites.mjs?v=swim-2';
 import {createHabitat} from './habitat.mjs?v=abyssal-3';
 import {restoreCollection,drawCohort,unlock} from './collection.mjs?v=abyssal-2';
@@ -60,6 +60,7 @@ function setWaveText(el,value){
  el.replaceChildren(fragment);
 }
 function clock(day=state.day,period=state.period){
+ if(habitatConfig(state).dialogue)return '';
  const date=state.startedOn?new Date(state.startedOn+'T12:00:00'):null;
  if(date)date.setDate(date.getDate()+day-1);
  const time=timeFor(state.seed,day,period);
@@ -81,7 +82,10 @@ function render(){
  $('#nextBtn').disabled=state.stage!=='feedback';
  const nextTime=timeFor(state.seed,state.period===2?state.day+1:state.day,(state.period+1)%3);
  const nextTimeLabel=getLanguage()==='isopod'?isopodWaveTime(nextTime):nextTime;
- setWaveText($('#nextBtn'),state.stage==='choice'?t('holdMoment'):state.day===habitatConfig(state).days&&state.period===2?t('closeGently'):t('later',{time:nextTimeLabel}));
+ if(config.dialogue){
+  const completed=(Array.isArray(state.records)?state.records:[]).filter(record=>record.kind==='abyssal-dialogue').length;
+  setWaveText($('#nextBtn'),state.stage==='choice'?t('holdMoment'):completed>=config.turns?t('closeGently'):t('continueObservation'));
+ }else setWaveText($('#nextBtn'),state.stage==='choice'?t('holdMoment'):state.day===config.days&&state.period===2?t('closeGently'):t('later',{time:nextTimeLabel}));
  buttons(scene);$('#miniView').replaceChildren();$('#miniView').hidden=true;
  if(state.stage==='choice'&&scene.kind==='count'){$('#miniView').hidden=false;for(let i=0;i<scene.count;i++)$('#miniView').append(makeBug(p,i))}
  if(lastScene!==scene.id){habitat.stage(scene);lastScene=scene.id}
@@ -111,7 +115,7 @@ function drawEndMolts(){
  });
 }
 function showEnd(){
- habitat.stop();$('#playView').hidden=true;$('#arrivalCard').hidden=true;$('#endCard').hidden=false;$('#dayLabel').textContent='';const e=ENDINGS.find(e=>e.id===state.ending)||ENDINGS[5];setWaveText($('#endingTime'),clock());for(const id of ['endingTitle','endingBody','endingLine'])$('#'+id).dataset.directLocale='true';$('#endingTitle').textContent=gameText(e.title,getLanguage());$('#endingBody').textContent=gameText(e.body,getLanguage());$('#endingLine').textContent=gameText(e.line,getLanguage());$('#endCard .ending-date span:last-child').textContent=habitatConfig(state).aquatic?gameText('water:days3',getLanguage()):t('sevenDayObservation');$('#endSpecimen').replaceChildren(...batchBugs());drawEndMolts();
+ habitat.stop();$('#playView').hidden=true;$('#arrivalCard').hidden=true;$('#endCard').hidden=false;$('#dayLabel').textContent='';const e=ENDINGS.find(e=>e.id===state.ending)||ENDINGS[5];setWaveText($('#endingTime'),clock());for(const id of ['endingTitle','endingBody','endingLine'])$('#'+id).dataset.directLocale='true';$('#endingTitle').textContent=gameText(e.title,getLanguage());$('#endingBody').textContent=gameText(e.body,getLanguage());$('#endingLine').textContent=gameText(e.line,getLanguage());const endConfig=habitatConfig(state);$('#endCard .ending-date span:last-child').textContent=endConfig.dialogue?gameText('water:abyssalRound',getLanguage()):endConfig.aquatic?gameText('water:days3',getLanguage()):t('sevenDayObservation');$('#endSpecimen').replaceChildren(...batchBugs());drawEndMolts();
  if(!archives.some(a=>a.run===state.seed)){archives.push({id:e.id,run:state.seed,species:runSpecies(state),cohort:state.cohort,date:new Date().toLocaleDateString(),records:state.records.length,memory:endingMemoryFor(state),molts:(state.collectedShells||[]).map(shell=>({phase:shell.phase,specimen:shell.specimen}))});archives=archives.slice(-60);write(ARCHIVE,archives)}save();
 }
 function home(){playing=false;habitat.stop();$('#playView').hidden=true;$('#endCard').hidden=true;$('#arrivalCard').hidden=true;$('#titleCard').hidden=false;$('#dayLabel').textContent='';$('#startBtn').disabled=false;$('#continueBtn').hidden=!hasRun;$('#continueBtn').textContent=state.stage==='ended'?t('viewEnding'):t('continueObservation');refreshPreview()}
