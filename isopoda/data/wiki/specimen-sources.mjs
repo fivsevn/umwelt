@@ -17,7 +17,6 @@ export const WIKI_SOURCES=Object.freeze([
  {id:'wiki-gbif-bolivari',type:'TAXONOMY',quality:'A1',title:'GBIF — Porcellio bolivari Dollfus, 1892',url:'https://www.gbif.org/species/6284561',note:'Accepted-name record with original-description and world-catalogue bibliography.'},
  {id:'wiki-isopodsite-bolivari',type:'PHOTO / MORPHOLOGY',quality:'B1',title:'Isopod Site — Porcellio bolivari',url:'https://isopod.site/isopod/porcellionidae-porcellio-bolivari/',note:'Photo and gross-morphology cross-check for the large Iberian Porcellio.'},
  {id:'wiki-isopodsite-rubber-ducky',type:'PHOTO / HOBBY ID',quality:'B1',title:'Isopod Site — “Cubaris” sp. “Rubber Ducky”',url:'https://isopod.site/isopod/armadillidae-cubaris-sp-rubber-ducky/',note:'Non-selling reference for the Rubber Ducky trade taxon, Thailand provenance and photographed body pattern.'},
- {id:'wiki-isopodsite-daxin',type:'PHOTO / HOBBY ID',quality:'B1',title:'Isopod Site — Venezillo sp. “Daxin Tricolor”',url:'https://isopod.site/isopod/armadillidae-venezillo-sp-daxin-tricolor/',note:'Non-selling photographic/trade-name reference for the Daxin Tricolor line.'},
  {id:'wiki-jo-kuyken-isopods',type:'PERSONAL DATABASE / PHOTO',quality:'B2',title:'Jo Kuyken — Animal Database / Isopods',url:'https://sites.google.com/view/jos-animal-database/invertebrates/crustaceans/isopods',note:'Personal zoological photo database used as a secondary visual/name cross-check for several hobby taxa, including Daxin Tricolor and Vex.'},
  {id:'wiki-isopodsite-ember-bee',type:'PHOTO / HOBBY ID',quality:'B1',title:'Isopod Site — Ardentiella sp. “Ember Bee”',url:'https://isopod.site/isopod/armadillidae-ardentiella-sp-ember-bee/',note:'Documents the Ember Bee trade taxon, photographs, Vietnam provenance and post-reassessment Ardentiella placement.'},
  {id:'wiki-hatena-ember-bee',type:'KEEPER BLOG / PHOTO',quality:'B2',title:'けんぢの独り言ブログ — エンバービー',url:'https://taketake-waradan.hatenablog.com/entry/03dcb9642e3592fc8b4cd629ebde9ec2',note:'Personal keeper record with photographs and captive observations; not used as formal taxonomic authority.'},
@@ -28,8 +27,6 @@ export const WIKI_SOURCES=Object.freeze([
  {id:'wiki-isopodsite-frontetriangulum',type:'PHOTO / MORPHOLOGY',quality:'B1',title:'Isopod Site — Armadillidium frontetriangulum',url:'https://isopod.site/isopod/armadillidiidae-armadillidium-frontetriangulum/',note:'Non-selling species photo and locality/body-size cross-check.'},
  {id:'wiki-isopodsite-panda-king',type:'PHOTO / HOBBY ID',quality:'B1',title:'Isopod Site — Cubaris sp. “Panda King”',url:'https://isopod.site/isopod/armadillidae-cubaris-sp-panda-king/',note:'Non-selling photo/knowledge reference for the Panda King trade taxon.'},
  {id:'wiki-isopodsite-magic-potion',type:'PHOTO / MORPH',quality:'B1',title:'Isopod Site — Armadillidium vulgare “Magic Potion”',url:'https://isopod.site/isopod/armadillidiidae-armadillidium-vulgare-magic-potion/',note:'Non-selling photo/morph reference; the morph label is kept separate from the accepted parent species.'},
- {id:'wiki-isopodsite-murina',type:'PHOTO / TAXON',quality:'B1',title:'Isopod Site — Cubaris murina',url:'https://isopod.site/isopod/armadillidae-cubaris-murina/',note:'Non-selling species reference for the accepted parent taxon of the Papaya captive morph.'},
- {id:'wiki-isopodsite-white-shark',type:'PHOTO / HOBBY ID',quality:'B1',title:'Isopod Site — “Cubaris” sp. “White Shark”',url:'https://isopod.site/isopod/armadillidae-cubaris-sp-white-shark/',note:'Non-selling photo/trade-name reference; species-level identity remains unresolved.'}
 ]);
 
 export const WIKI_SOURCE_IDS_BY_SPECIES=Object.freeze({
@@ -41,7 +38,7 @@ export const WIKI_SOURCE_IDS_BY_SPECIES=Object.freeze({
  coros:['wiki-gbif-spatulatus','wiki-herpeton-spatulatus','wiki-isopodsite-spatulatus'],
  bolivari:['wiki-gbif-bolivari','wiki-isopodsite-bolivari'],
  ducky:['wiki-isopodsite-rubber-ducky','wiki-xoscars-gallery'],
- daxin:['wiki-isopodsite-daxin','wiki-jo-kuyken-isopods'],
+ daxin:['wiki-jo-kuyken-isopods','wiki-xoscars-gallery'],
  ember:['wiki-isopodsite-ember-bee','wiki-hatena-ember-bee','wiki-xoscars-gallery'],
  amber:['wiki-isopodsite-amber-ducky','wiki-xoscars-gallery'],
  vex:['wiki-hatena-vex','wiki-tim-skie-gallery','wiki-xoscars-gallery','wiki-jo-kuyken-isopods'],
@@ -49,8 +46,8 @@ export const WIKI_SOURCE_IDS_BY_SPECIES=Object.freeze({
  pandaKing:['wiki-isopodsite-panda-king','wiki-xoscars-gallery'],
  pinkPandaKing:['wiki-xoscars-gallery'],
  magicPotion:['wiki-isopodsite-magic-potion','wiki-xoscars-gallery'],
- papaya:['wiki-isopodsite-murina','wiki-xoscars-gallery'],
- whiteShark:['wiki-isopodsite-white-shark','wiki-xoscars-gallery']
+ papaya:['wiki-xoscars-gallery'],
+ whiteShark:['wiki-xoscars-gallery']
 });
 
 export const wikiSourcesFor=speciesId=>{
