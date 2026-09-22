@@ -2,7 +2,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>阿西莫夫形态实验室 · Asimov Morphology Lab</title>
-<link rel="stylesheet" href="./anatomy-test.css?v=5">
+<link rel="stylesheet" href="./anatomy-test.css?v=6">
 <main class="anatomy-app">
   <header class="topbar">
     <div class="lab-title">
@@ -265,7 +265,13 @@ function renderDossier(){
  addDossierRow('MORPHOLOGY / 显著形态',p.notableMorphology?.[0]);
  addDossierRow('DIAGNOSTIC NOTE / 诊断备注',p.diagnosticNotes?.[0]!==species.status?p.diagnosticNotes?.[0]:null);
  const size=species.renderSize?.referenceMm;if(size)addDossierRow('BODY SIZE / 体型参考',`成年体长参考约 ${size} mm · 游戏显示缩放 ${species.renderSize.scale.toFixed(2)}×`);
- const locality=[b.originCountry,b.originRegion,b.locality,b.nativeRange,b.distributionNotes].filter(Boolean).join(' · ');
+ const dossierText=value=>{
+  if(value===null||value===undefined||value==='')return '';
+  if(Array.isArray(value))return value.map(dossierText).filter(Boolean).join(' / ');
+  if(typeof value==='object')return Object.values(value).map(dossierText).filter(Boolean).join(' / ');
+  return String(value);
+ };
+ const locality=[b.originCountry,b.originRegion,b.locality,b.nativeRange,b.distributionNotes].map(dossierText).filter(Boolean).join(' · ');
  addDossierRow('BIOGEOGRAPHY / 产地与分布',locality);
  const labLine=species.literature?.lines?.filter(Boolean).slice(0,2).join(' / ');
  addDossierRow('LAB NOTE / 项目观察',labLine,{quote:true});
