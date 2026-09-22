@@ -1,9 +1,14 @@
-import {drawBaseScene,drawLeaf,DEFAULT_LAYOUT} from './scenery/index.mjs?v=motion-2';
+import {drawBaseScene,drawLeaf,DEFAULT_LAYOUT,drawLayoutScene,layoutForHabitat} from './scenery/index.mjs?v=motion-2';
+import {drawAquaticWater} from './scenery/aquatic.mjs?v=motion-2';
+import {habitatConfig} from './habitats.mjs?v=abyssal-5';
 
 const canvas=document.querySelector('#emptyHabitat');
 if(canvas){
  let saved=null;
  try{saved=JSON.parse(localStorage.getItem('isopoda-fugue-v4')||'null')}catch{}
+
+ const requestedHabitat=typeof saved?.habitatId==='string'?saved.habitatId:'terrestrial';
+ const config=habitatConfig(requestedHabitat),habitatId=config.id;
  const savedEnvironment=saved?.environment&&typeof saved.environment==='object'?saved.environment:null;
  const defaultLeaves=[];
  const foodAmount=Number.isFinite(Number(saved?.food))?Number(saved.food):1;
@@ -14,11 +19,20 @@ if(canvas){
   scuffs:Array.isArray(savedEnvironment?.scuffs)?savedEnvironment.scuffs:[]
  };
 
+ const previewState={habitatId,seed:Number.isFinite(Number(saved?.seed))?Number(saved.seed):4107,...config.defaults};
+ for(const key of Object.keys(config.defaults)){
+  const value=Number(saved?.[key]);
+  if(Number.isFinite(value))previewState[key]=value;
+ }
+ const light=Number.isFinite(Number(saved?.light))?Number(saved.light):Number(previewState.light??54);
+
  const world=document.createElement('canvas');
  world.width=384;world.height=430;
  const ctx=world.getContext('2d');
  ctx.imageSmoothingEnabled=false;
- drawBaseScene(ctx,{
+
+ if(config.aquatic)drawLayoutScene(ctx,layoutForHabitat(habitatId),{time:0});
+ else drawBaseScene(ctx,{
   wetZones:memory.wetZones,
   light:DEFAULT_LAYOUT.background.params.light,
   shelterLift:0,
@@ -39,9 +53,12 @@ if(canvas){
   if(food.amount>0)for(let y=0;y<10;y+=2)for(let x=0;x<Math.min(20,8+food.amount*5);x+=2)
    px(food.x+x-8,food.y+y-5,2,2,y>6?'#80683f':'#c3a46b');
  }
- const light=Number.isFinite(Number(saved?.light))?Number(saved.light):54;
- if(light<55){ctx.fillStyle=`rgba(15,27,21,${(55-light)/120})`;ctx.fillRect(0,0,world.width,world.height)}
+
+ if(habitatId==='abyssal'){ctx.fillStyle='rgba(5,11,14,.10)';ctx.fillRect(0,0,world.width,world.height)}
+ else if(light<55){ctx.fillStyle=`rgba(15,27,21,${(55-light)/120})`;ctx.fillRect(0,0,world.width,world.height)}
+
  ctx.strokeStyle='rgba(147,148,124,.55)';ctx.lineWidth=2;ctx.strokeRect(1,1,world.width-2,world.height-2);
+ if(config.aquatic)drawAquaticWater(ctx,previewState,0,{drawPlants:false});
 
  const rect=canvas.getBoundingClientRect();
  const cssWidth=rect.width||384,cssHeight=rect.height||430;
@@ -55,4 +72,10 @@ if(canvas){
  display.clearRect(0,0,width,height);
  display.drawImage(world,x-sw/2,y-sh/2,sw,sh,0,0,width,height);
  canvas.dataset.titlePreview='ready';
+ canvas.dataset.previewHabitat=habitatId;
+
+ const language=document.documentElement.dataset.uiLanguage||'zh';
+ const languageIndex=language==='en'?1:language==='ja'?2:0;
+ const title=document.querySelector('#titleCard .window-title span');
+ if(title)title.textContent='ISOPODA / '+config.names[languageIndex];
 }
