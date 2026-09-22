@@ -1,5 +1,5 @@
-import {habitatConfig,HABITATS,eligibleSpecies,advanceWater} from './habitats.mjs?v=abyssal-4';
-import {aquaticScene,aquaticEnding} from './aquatic-story.mjs?v=abyssal-6';
+import {habitatConfig,HABITATS,eligibleSpecies,advanceWater} from './habitats.mjs?v=abyssal-5';
+import {aquaticScene,aquaticEnding} from './aquatic-story.mjs?v=abyssal-7';
 import {environmentFor,changeEnvironment,ageEnvironment,environmentTarget,habitatFit,syncSceneTrace,releaseDueShells,takeShell} from './environment.mjs?v=abyssal-2';
 import {encounterFor,encounterById,encounterText} from './encounters.mjs?v=molt-sequence-1';
 import {SPECIES,speciesById} from './species-registry.mjs?v=abyssal-5';
