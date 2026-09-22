@@ -1,15 +1,26 @@
 # Morphology page structure
 
-`/isopoda/morphology/` is the only public/canonical morphology page.
+`/isopoda/morphology/` is the only public and canonical morphology laboratory.
 
-- `index.html` — public shell and the only page that should receive UI/VHS/interaction changes.
-- `template.txt` — internal HTML template loaded by `index.html`; it is not a standalone page. It reads `../species-registry.mjs` directly, so newly registered species appear automatically.
-- `../anatomy-test.html` — retired compatibility URL; redirects to `/isopoda/morphology/`.
-- `../../tests/morphology.html` — developer verification harness for renderer regression checks, not a public content page.
-- `../exploded-preview.html` and `../projection-preview.html` — developer-only visual diagnostics. They are independent of the public page and may be removed later if no longer useful.
+## Canonical files
+
+- `index.html` — public entry point and the only public morphology route.
+- `template.txt` — internal document loaded by `index.html`; it is implementation detail inside the canonical morphology directory, not a standalone public page.
+- `style.css` — live morphology-lab stylesheet.
+- Shared renderer and specimen data remain in the normal ISOPODA runtime modules such as `../sprites.mjs`, `../morphology.mjs` and `../species-registry.mjs`.
+
+The retired `/isopoda/anatomy-test.html` entry and the old `isopoda/anatomy-test.css` path have been removed. Do not recreate a second morphology page or compatibility copy.
+
+## Development-only diagnostics
+
+- `../dev/previews/exploded-preview.html` — exploded morphology layer study.
+- `../dev/previews/projection-preview.html` — posture / projection matrix.
+- `../../tests/browser/morphology.html` — renderer regression harness.
+
+These diagnostics are not public content and may evolve independently of the canonical morphology page.
 
 ## Maintenance rule
 
-When adding a species, add it to the normal species registry/data pipeline. Do not manually add it to the public morphology page. The specimen selector, index count and `MORPHOLOGY ARRAY` count are derived from the shared registry at runtime.
+When adding a species, add it through the normal species registry/data pipeline. Do not manually duplicate species lists inside the morphology page. The specimen selector and counts are derived from the shared registry at runtime.
 
-Morphology-page presentation changes belong in `morphology/index.html`. Renderer/species morphology changes belong in the shared renderer/data modules (`sprites.mjs`, `morphology.mjs`, species files), not in the page shell.
+Presentation work for the morphology laboratory belongs under `isopoda/morphology/`. Renderer or species morphology work belongs in the shared renderer/data modules. Keep the public route stable at `/isopoda/morphology/`.

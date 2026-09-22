@@ -13,7 +13,7 @@ const required=[
  'isopoda/runtime-locales.mjs',
  'isopoda/morphology/index.html',
  'isopoda/morphology/template.txt',
- 'isopoda/anatomy-test.css',
+ 'isopoda/morphology/style.css',
  'isopoda/habitat.html',
  'isopoda/habitat.css',
  'isopoda/habitat-lab.mjs'
@@ -32,11 +32,14 @@ const habitat=await read('isopoda/habitat.html');
 for(const [label,source,needles] of [
  ['game',game,['./game.js','./system-ui.mjs','./runtime-locales.mjs','./style.css']],
  ['morphology',morphology,['./template.txt']],
- ['morphology template',template,['./anatomy-test.css']],
+ ['morphology template',template,['./morphology/style.css']],
  ['habitat',habitat,['./habitat.css','./habitat-lab.mjs']]
 ]){
  for(const needle of needles)if(!source.includes(needle))errors.push(`${label}: expected runtime reference not found: ${needle}`);
  if(/(?:href|src)=["'][^"']*(?:\/dev\/|\/docs\/)/.test(source))errors.push(`${label}: public page references a development-only path`);
+}
+for(const source of [morphology,template]){
+ if(source.includes('anatomy-test'))errors.push('morphology: retired anatomy-test path is still referenced');
 }
 if(errors.length){
  for(const error of errors)console.error(`[public-surface] ${error}`);
