@@ -1,5 +1,5 @@
-import {habitatConfig,HABITATS,eligibleSpecies,advanceWater} from './habitats.mjs?v=abyssal-3';
-import {aquaticScene,aquaticEnding} from './aquatic-story.mjs?v=abyssal-4';
+import {habitatConfig,HABITATS,eligibleSpecies,advanceWater} from './habitats.mjs?v=abyssal-4';
+import {aquaticScene,aquaticEnding} from './aquatic-story.mjs?v=abyssal-5';
 import {environmentFor,changeEnvironment,ageEnvironment,environmentTarget,habitatFit,syncSceneTrace,releaseDueShells,takeShell} from './environment.mjs?v=abyssal-2';
 import {encounterFor,encounterById,encounterText} from './encounters.mjs?v=molt-sequence-1';
 import {SPECIES,speciesById} from './species-registry.mjs?v=abyssal-3';
@@ -234,6 +234,9 @@ export function advance(s){
  if(config.dialogue){
   const completed=(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind==='abyssal-dialogue').length;
   if(completed>=config.turns){s.stage='ended';s.ending=endingFor(s).id;return true}
+  // Abyssal dialogue is one continuous observation. Keep day/period as inert legacy
+  // save fields instead of turning the sequence into hidden mornings, afternoons or nights.
+  if(config.aquatic){advanceWater(s);s.stage='choice';s.feedback='';s.interactionIntent=null;s.scene=null;ensureScene(s);return true}
  }else if(s.day===config.days&&s.period===2){s.stage='ended';s.ending=endingFor(s).id;return true}
  s.period++;if(s.period===3){s.period=0;s.day++}
  if(config.aquatic){advanceWater(s);s.stage='choice';s.feedback='';s.interactionIntent=null;s.scene=null;ensureScene(s);return true}
