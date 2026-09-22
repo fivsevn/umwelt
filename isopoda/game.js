@@ -9,7 +9,7 @@ import {createHabitat} from './habitat.mjs?v=abyssal-3';
 import {restoreCollection,drawCohort,unlock} from './collection.mjs?v=abyssal-2';
 import {encounterById,encounterFor} from './encounters.mjs?v=molt-sequence-1';
 import {iconButton,createInstrument} from './ui.mjs?v=aquatic-2';
-import {getLanguage,t,formatShortDate,speciesPrimaryName,isopodWaveNumber,isopodWaveDate} from './i18n.mjs?v=abyssal-2';
+import {getLanguage,t,formatShortDate,speciesPrimaryName,isopodWaveNumber,isopodWaveDate} from './i18n.mjs?v=i18n-5';
 import {gameText} from './locales/game.mjs?v=abyssal-2';
 const ENDINGS=[...LAND_ENDINGS,...AQUATIC_ENDINGS];
 const $=s=>document.querySelector(s),KEY='isopoda-fugue-v4',ARCHIVE='isopoda-fugue-endings-v3',COLLECTION='isopoda-fieldnotes-v1',DISCOVERIES='isopoda-interaction-discoveries-v1';
