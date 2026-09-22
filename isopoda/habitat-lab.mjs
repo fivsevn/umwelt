@@ -2,6 +2,7 @@ import {exportScene,importScene,shareCode} from './scene-codec.mjs?v=mirror-1';
 import {drawSubstrate,drawLeaf,drawMossPatch,drawBark,drawStone,drawCuttlebone,drawTwig,drawWoodChip,LEGACY_BASE_SCENE,DEFAULT_LAYOUT} from './scenery/index.mjs?v=forest-10';
 import {drawAquaticBackground,drawAquaticPlant,drawAquaticDetail,AQUATIC_BACKDROPS} from './scenery/aquatic.mjs?v=aquatic-detail-6';
 import {ACTOR_SCALE} from './scenery/grammar.mjs';
+import {SCENE_LAYOUTS} from './scenery/authored-layouts.mjs?v=authored-1';
 import {SPECIES,speciesById} from './species-registry.mjs?v=aquatic-1';
 import {renderModel,pixelAnatomy} from './sprites.mjs?v=exuvia-1';
 
@@ -301,16 +302,14 @@ function cloneStarter(){
 }
 function loadPreset(id){
  currentPreset=id;
- if(id==='forest')cloneStarter();
- else{
-  const next=aquaticPreset(id);
-  state={...next,items:next.items.map((item,i)=>({...item,id:'instance-'+(i+1)}))};
-  reference.visible=false;
-  $('#toggleReference').setAttribute('aria-pressed','false');$('#toggleReference').textContent='GAME SCALE · OFF';
- }
+ const layout=SCENE_LAYOUTS[id]||SCENE_LAYOUTS.forest;
+ const imported=importScene(JSON.stringify(layout),ASSET_BY_ID,reference);
+ state=imported.state;Object.assign(reference,imported.reference);drag=null;
+ $('#referenceSpecies').value=reference.species;$('#referenceStage').value=reference.stage;
+ $('#toggleReference').setAttribute('aria-pressed',String(reference.visible));
+ $('#toggleReference').textContent='GAME SCALE · '+(reference.visible?'ON':'OFF');
  for(const button of document.querySelectorAll('[data-preset]'))button.setAttribute('aria-pressed',String(button.dataset.preset===id));
- renderAssetList();
- drawScene();
+ renderAssetList();drawScene();
 }
 cloneStarter();
 
