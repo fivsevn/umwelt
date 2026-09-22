@@ -359,20 +359,23 @@ export function stepAquatic(group,{state:s,time,dt,reduced}){
  const h=habitatConfig(s),speed=Math.min(64,Math.max(1,Number(globalThis.__ISOPODA_HABITAT_SPEED__)||1)),motionScale=reduced?.45:1;
  for(const a of group){if(stepInteraction(a,dt))continue;
   const slot=Math.floor((time+a.offset*.35)/7),mode=h.motion[(a.id+slot)%h.motion.length],swimming=mode==='swim'||mode==='drift';
+  // makeIndividuals() stores .68 × species pace × slight individual variance.
+  // Normalize the shared .68 base here so the habitat mode constants stay readable.
+  const specimenPace=Math.max(.55,Math.min(1.45,(Number(a.speed)||.68)/.68));
   a.activity=mode;a.hidden=false;a.occlusion=0;a.posture=swimming?'swimming':mode==='cling'?'probing':'normal';a.molt='none';a.moving=mode!=='cling';
-  a.phase+=dt*speed*(swimming?8:mode==='crawl'?4:2.4)*motionScale;
+  a.phase+=dt*speed*specimenPace*(swimming?8:mode==='crawl'?4:2.4)*motionScale;
   const waterTop=h.tides?Math.max(25,355-s.tide*3.2):25;
   if(mode==='cling'){
-   const target=plantAnchor(h,a.id%Math.max(1,h.plants)),rate=dt*.28*motionScale;
+   const target=plantAnchor(h,a.id%Math.max(1,h.plants)),rate=dt*.28*specimenPace*motionScale;
    a.x+=(target.x-a.x)*rate;a.y+=(Math.max(waterTop+8,target.y-22)-a.y)*rate;
-   a.a+=Math.sin(time*.42+a.offset)*dt*.08*motionScale;
+   a.a+=Math.sin(time*.42+a.offset)*dt*.08*specimenPace*motionScale;
    continue;
   }
   const flow=s.flow/100,rate=mode==='swim'?11:mode==='drift'?6.5:3.4;
-  const steer=(Math.sin(time*.31+a.offset)+Math.sin(time*.13+a.id))*dt*(swimming?.34:.18)*motionScale;
+  const steer=(Math.sin(time*.31+a.offset)+Math.sin(time*.13+a.id))*dt*(swimming?.34:.18)*specimenPace*motionScale;
   a.a+=steer;
-  const nx=a.x+(Math.cos(a.a)*rate+flow*(swimming?2.5:1.4))*dt*speed*motionScale;
-  const ny=a.y+(Math.sin(a.a)*rate+(mode==='drift'?Math.sin(time*.72+a.offset)*.7:0))*dt*speed*motionScale;
+  const nx=a.x+(Math.cos(a.a)*rate+flow*(swimming?2.5:1.4))*dt*speed*specimenPace*motionScale;
+  const ny=a.y+(Math.sin(a.a)*rate+(mode==='drift'?Math.sin(time*.72+a.offset)*.7:0))*dt*speed*specimenPace*motionScale;
   if(nx<=20||nx>=362)a.a=Math.PI-a.a;
   if(ny<=waterTop||ny>=405)a.a=-a.a;
   a.x=Math.max(20,Math.min(362,nx));a.y=Math.max(waterTop,Math.min(405,ny));
