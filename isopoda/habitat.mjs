@@ -17,12 +17,18 @@ export function sceneActorPixels(source,actor){
  const cells=new Map(),size=SCENE_ACTOR_SCALE*actor.model.growth.scale*(actor.habitatScale||1),ca=Math.cos(actor.a),sa=Math.sin(actor.a);
  const centerX=Math.round(actor.x),centerY=Math.round(actor.y+(actor.lift||0));
  const front=['under','gather'].includes(actor.activity);
+ // Scaling used to move each source cell farther apart while still painting a single output
+ // pixel. Large animals therefore turned into dotted clouds. Keep 1px cells at normal scale,
+ // but rasterize a compact footprint when a habitat deliberately enlarges an animal.
+ const footprint=size>1.45?Math.max(2,Math.ceil(size*.92)):1,offset=Math.floor(footprint/2);
  for(const [key,color] of source){
   const comma=key.indexOf(','),sx=Number(key.slice(0,comma)),sy=Number(key.slice(comma+1));
   if(actor.occlusion>0&&(front?sx>24-actor.occlusion*49:sx< -24+actor.occlusion*49))continue;
   const ox=sx*size,oy=sy*size;
   const x=Math.round(centerX+ox*ca-oy*sa),y=Math.round(centerY+ox*sa+oy*ca);
-  cells.set(x+','+y,[x,y,color]);
+  for(let yy=0;yy<footprint;yy++)for(let xx=0;xx<footprint;xx++){
+   const px=x+xx-offset,py=y+yy-offset;cells.set(px+','+py,[px,py,color]);
+  }
  }
  return [...cells.values()];
 }
@@ -144,7 +150,7 @@ function drawHabitat(t){
  const memory=environmentFor(state);
  const lifted=shelterHeld||!!(effect&&elapsed<effect.until&&['lift','direct-lift'].includes(effect.id));
  const sceneryOptions={wetZones:memory.wetZones||[],light:DEFAULT_LAYOUT.background.params.light,shelterLift:lifted?-12:0,seed:DEFAULT_LAYOUT.background.seed};
- const aquatic=habitatConfig(state).aquatic;
+ const config=habitatConfig(state),aquatic=config.aquatic;
  if(aquatic)drawAquaticLayout(elapsed);
  else{
   const nextSceneryKey=JSON.stringify(sceneryOptions);
@@ -178,11 +184,28 @@ function drawHabitat(t){
   if(wide)ctx.fillRect(0,0,w,h);else ctx.fillRect(0,0,112,h);
  }
 
- if(state.light<55){ctx.fillStyle=`rgba(15,27,21,${(55-state.light)/120})`;ctx.fillRect(0,0,w,h)}
+ if(state.light<55&&config.id!=='abyssal'){ctx.fillStyle=`rgba(15,27,21,${(55-state.light)/120})`;ctx.fillRect(0,0,w,h)}
+ if(config.id==='abyssal'){ctx.fillStyle='rgba(5,11,14,.10)';ctx.fillRect(0,0,w,h)}
  ctx.strokeStyle='rgba(147,148,124,.55)';ctx.lineWidth=2;ctx.strokeRect(1,1,w-2,h-2);
  if(aquatic)drawAquaticWater(ctx,state,reduced?0:elapsed,{drawPlants:false});
+ if(config.id==='abyssal')drawAbyssalSpotlight(ctx,critters[0]);
  drawActors();
  present();
+}
+function drawAbyssalSpotlight(g,actor){
+ const cx=Math.round(actor?.x??196),cy=Math.round(actor?.y??246);
+ const bands=[
+  {rx:118,ry:78,a:.026},
+  {rx:92,ry:60,a:.036},
+  {rx:68,ry:44,a:.045}
+ ];
+ for(const {rx,ry,a} of bands){
+  g.fillStyle=`rgba(132,160,166,${a})`;
+  for(let dy=-ry;dy<=ry;dy+=3){
+   const q=dy/ry,span=Math.round(rx*Math.sqrt(Math.max(0,1-q*q)));
+   g.fillRect(cx-span,cy+dy,span*2,3);
+  }
+ }
 }
 // Keep anatomy pixels untouched. The habitat only places a dark duplicate beneath each rendered animal.
 function drawActorUnderlay(cells){
