@@ -1,4 +1,4 @@
-import {drawBaseScene,drawLeaf,DEFAULT_LAYOUT,drawLayoutScene,layoutForHabitat} from './scenery/index.mjs?v=motion-2';
+import {drawBaseScene,drawLeaf,DEFAULT_LAYOUT,drawLayoutScene,layoutForHabitat} from './scenery/index.mjs?v=motion-3';
 import {drawAquaticWater} from './scenery/aquatic.mjs?v=motion-2';
 import {habitatConfig} from './habitats.mjs?v=abyssal-5';
 
