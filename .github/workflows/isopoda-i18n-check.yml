@@ -36,14 +36,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Run game and data tests
-        run: node --test tests/*.test.mjs
-      - name: Check Chinese / English / Japanese coverage
-        run: node isopoda/tools/check-i18n.mjs
-      - name: Check morphology page structure
-        run: node isopoda/tools/check-morphology-page.mjs
-      - name: Check public ISOPODA surface
-        run: node isopoda/tools/check-public-surface.mjs
+      - name: Run ISOPODA structural checks
+        run: node isopoda/tools/check-all.mjs
       - name: Install font subsetting tools
         run: python -m pip install --disable-pip-version-check "fonttools>=4.55,<5" "brotli>=1.1,<2"
       - name: Check deploy font subset
