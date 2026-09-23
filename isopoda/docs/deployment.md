@@ -7,3 +7,5 @@ The transform adds the same full commit SHA to existing local assets in HTML, JS
 The stamp is deterministic/idempotent and uses no runtime bundler, redirects or public-path renames. It also versions fonts after subsetting. A rollback builds the earlier commit's artifact and thus uses that commit's query identity. Already open tabs retain their loaded module graph until navigation/reload, as before; no service worker or save migration is introduced.
 
 Run the Node asset-stamping tests and build an artifact using the Pages exclusions. Serve both source and stamped output for browser checks. The main-game browser harness supports baseline comparison via `COMPARE_URL`, including home, game, morphology and habitat routes; morphology's existing ten-viewport suite remains independent. Main-game CSS files stay separate and unchanged.
+
+The font subset explicitly retains `凝吃址铺`, the four characters unique to the retired MORNING pool, so literal historical save text retains the pre-cleanup glyph coverage. Removing runtime copy must not silently shrink historical-save font support.

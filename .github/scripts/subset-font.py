@@ -16,6 +16,9 @@ TEXT_SUFFIXES = {
 # disappear from the scanned source tree.
 BASE_TEXT = "".join(chr(code) for code in range(0x20, 0x7F))
 BASE_TEXT += "\n\r\t\u00a0\u3000\ufffd"
+# Retired MORNING prose can survive as literal text in historical saves. Keep the
+# four glyphs no longer present in active source after removing that unused pool.
+BASE_TEXT += "凝吃址铺"
 
 
 def collect_text(root: Path) -> str:
