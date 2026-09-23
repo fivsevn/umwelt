@@ -1,9 +1,9 @@
-import {habitatConfig,HABITATS,eligibleSpecies,advanceWater} from './habitats.mjs?v=abyssal-5';
-import {aquaticScene,aquaticEnding} from './aquatic-story.mjs?v=abyssal-9';
-import {environmentFor,changeEnvironment,ageEnvironment,environmentTarget,habitatFit,syncSceneTrace,releaseDueShells,takeShell} from './environment.mjs?v=abyssal-2';
-import {encounterFor,encounterById,encounterText} from './encounters.mjs?v=molt-sequence-1';
-import {SPECIES,speciesById} from './species-registry.mjs?v=abyssal-5';
-import {EVENING,AMBIENT,CARE,MINI_TYPES,ENDINGS} from './content.mjs?v=interaction-story-2';
+import {habitatConfig,HABITATS,eligibleSpecies,advanceWater} from './habitats.mjs';
+import {aquaticScene,aquaticEnding} from './aquatic-story.mjs';
+import {environmentFor,changeEnvironment,ageEnvironment,environmentTarget,habitatFit,syncSceneTrace,releaseDueShells,takeShell} from './environment.mjs';
+import {encounterFor,encounterById,encounterText} from './encounters.mjs';
+import {SPECIES,speciesById} from './species-registry.mjs';
+import {EVENING,AMBIENT,CARE,MINI_TYPES,ENDINGS} from './content.mjs';
 export const VERSION=4;
 export const PERIODS=['晨间','午后','夜间'];
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));

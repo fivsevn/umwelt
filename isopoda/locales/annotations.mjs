@@ -1,4 +1,4 @@
-import {encodeIsopodText} from './isopod.mjs?v=isopod-1';
+import {encodeIsopodText} from './isopod.mjs';
 
 const copy={
   dairy:{

@@ -2,12 +2,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Exploded isopod morphology</title>
-<link rel="stylesheet" href="./exploded-preview.css?v=1">
+<link rel="stylesheet" href="./exploded-preview.css">
 <style>.preview-toolbar{position:fixed;top:14px;left:14px;z-index:5;padding:8px 10px;background:#20291f;color:#ddd7ba;border:1px solid #647452;font:12px monospace}.preview-toolbar select{font:inherit;margin-left:8px;background:#293426;color:#ddd7ba;border:1px solid #7b8968;padding:4px}</style>
 <label class="preview-toolbar">SPECIMEN<select id="speciesSelect"></select></label>
 <div id="stage" class="exploded-stage"></div>
 <script type="module">
-import {SPECIES} from '../../species-registry.mjs?v=aquatic-1';
+import {SPECIES} from '../../species-registry.mjs';
 import {renderModel,pixelAnatomy} from '../../sprites.mjs';
 
 const stage=document.querySelector('#stage'),select=document.querySelector('#speciesSelect'),params=new URLSearchParams(location.search);

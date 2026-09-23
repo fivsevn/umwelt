@@ -1,16 +1,16 @@
-import {DEFAULT_LAYOUT,DEFAULT_SHELTER,sceneObjects} from './default-layout.mjs?v=authored-1';
+import {DEFAULT_LAYOUT,DEFAULT_SHELTER,sceneObjects} from './default-layout.mjs';
 export {DEFAULT_LAYOUT,DEFAULT_SHELTER,sceneObjects};
-export {SCENE_LAYOUTS,layoutForHabitat} from './authored-layouts.mjs?v=authored-2';
+export {SCENE_LAYOUTS,layoutForHabitat} from './authored-layouts.mjs';
 
-import {drawStone} from './stone.mjs?v=forest-10';
-import {drawSubstrate} from './substrate.mjs?v=forest-10';
-import {drawLeaf,LEAF_PALETTES} from './leaf.mjs?v=forest-10';
-import {drawMossPatch} from './moss.mjs?v=forest-10';
-import {drawBark} from './bark.mjs?v=forest-11';
-import {drawCuttlebone} from './cuttlebone.mjs?v=forest-10';
-import {drawTwig,drawWoodChip} from './debris.mjs?v=forest-10';
-import {drawAquaticBackground,drawAquaticPlant,drawAquaticDetail} from './aquatic.mjs?v=motion-2';
-import {drawSceneDetail,withSoftWorldShadow} from './details.mjs?v=authored-1';
+import {drawStone} from './stone.mjs';
+import {drawSubstrate} from './substrate.mjs';
+import {drawLeaf,LEAF_PALETTES} from './leaf.mjs';
+import {drawMossPatch} from './moss.mjs';
+import {drawBark} from './bark.mjs';
+import {drawCuttlebone} from './cuttlebone.mjs';
+import {drawTwig,drawWoodChip} from './debris.mjs';
+import {drawAquaticBackground,drawAquaticPlant,drawAquaticDetail} from './aquatic.mjs';
+import {drawSceneDetail,withSoftWorldShadow} from './details.mjs';
 
 export {drawStone,drawSubstrate,drawLeaf,LEAF_PALETTES,drawMossPatch,drawBark,drawCuttlebone,drawTwig,drawWoodChip,drawAquaticBackground,drawAquaticPlant,drawAquaticDetail,drawSceneDetail};
 

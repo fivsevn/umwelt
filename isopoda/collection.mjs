@@ -1,6 +1,6 @@
-import {eligibleSpecies,habitatConfig} from './habitats.mjs?v=abyssal-1';
-import {SPECIES,speciesById} from './species-registry.mjs?v=abyssal-1';
-import {hash,cohortFor,runSpecies} from './engine.mjs?v=abyssal-1';
+import {eligibleSpecies,habitatConfig} from './habitats.mjs';
+import {SPECIES,speciesById} from './species-registry.mjs';
+import {hash,cohortFor,runSpecies} from './engine.mjs';
 const ids=new Set(SPECIES.map(s=>s.id));
 // Registry-only reference specimens (for example marine Asellota) remain visible in the archive
 // but must never be selected for the terrestrial enclosure.

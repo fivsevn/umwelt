@@ -68,6 +68,9 @@ jobs:
             --scan-root _site \
             --font _site/assets/fonts/fusion-pixel-12px-monospaced-zh_hans.ttf.woff2
 
+      - name: Stamp deployed asset URLs with commit SHA
+        run: node .github/scripts/stamp-assets.mjs _site "$GITHUB_SHA"
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site

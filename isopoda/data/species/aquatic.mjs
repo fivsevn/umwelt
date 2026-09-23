@@ -1,4 +1,4 @@
-import {phenotypeFor} from '../../phenotypes.mjs?v=cohort-4';
+import {phenotypeFor} from '../../phenotypes.mjs';
 // Pools are ecological observation selections, not claims of sympatry or co-housing suitability.
 export const AQUATIC_TAXA=[
  ['aquaticus','Asellus aquaticus','(Linnaeus, 1758)','freshwater','Asellota','Asellidae','https://bmig.org.uk/species/asellus-aquaticus','Ponds and rivers; submerged wood, plants and stones.',20,'#76694d'],

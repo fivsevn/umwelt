@@ -1,5 +1,5 @@
-import {aquaticText} from '../aquatic-story.mjs?v=abyssal-2';
-import {encodeIsopodText} from './isopod.mjs?v=isopod-3';
+import {aquaticText} from '../aquatic-story.mjs';
+import {encodeIsopodText} from './isopod.mjs';
 
 // Runtime localization for authored game copy.
 // Canonical simulation/state text stays in Chinese so saved runs remain language-neutral.

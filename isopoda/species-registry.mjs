@@ -1,13 +1,13 @@
-import {AQUATIC_SPECIES} from './data/species/aquatic.mjs?v=abyssal-5';
-import {SPECIES as BASE_SPECIES} from './species.mjs?v=base-13';
-import {EXTRA_SPECIES} from './data/species/batch-01.mjs?v=species-18';
-import {EXTRA_SPECIES_2} from './data/species/batch-02.mjs?v=species-23';
-import {EXTRA_SPECIES_3} from './data/species/batch-03.mjs?v=species-28';
-import {EXTRA_SPECIES_4} from './data/species/batch-04.mjs?v=species-33';
-import {EXTRA_SPECIES_5} from './data/species/marine-reference.mjs?v=species-34';
-import {EXTRA_SPECIES_6} from './data/species/hobby-lines.mjs?v=wiki-1';
-import {applySpeciesDisplayScale} from './species-size.mjs?v=size-5';
-import {applyLocomotionProfile} from './locomotion.mjs?v=abyssal-1';
+import {AQUATIC_SPECIES} from './data/species/aquatic.mjs';
+import {SPECIES as BASE_SPECIES} from './species.mjs';
+import {EXTRA_SPECIES} from './data/species/batch-01.mjs';
+import {EXTRA_SPECIES_2} from './data/species/batch-02.mjs';
+import {EXTRA_SPECIES_3} from './data/species/batch-03.mjs';
+import {EXTRA_SPECIES_4} from './data/species/batch-04.mjs';
+import {EXTRA_SPECIES_5} from './data/species/marine-reference.mjs';
+import {EXTRA_SPECIES_6} from './data/species/hobby-lines.mjs';
+import {applySpeciesDisplayScale} from './species-size.mjs';
+import {applyLocomotionProfile} from './locomotion.mjs';
 
 // Keep the original 13-species table stable. Independently sourced taxa and explicitly labelled
 // hobby lineages are appended in batches so expansion does not rewrite save-compatible definitions.

@@ -1,4 +1,4 @@
-import {paint,nearLine} from './grammar.mjs?v=forest-10';
+import {paint,nearLine} from './grammar.mjs';
 import {hash32} from './pixel.mjs';
 // Curved, interrupted fibres sampled on the anatomy-sized world grid.
 export function drawBark(ctx,{x=192,y=218,a=-.08,scale=1,variant=0,lift=0,seed=57,tone='normal'}={}){

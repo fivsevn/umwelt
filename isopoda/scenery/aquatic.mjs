@@ -1,10 +1,10 @@
-import {stepInteraction} from '../interaction.mjs?v=touchhold-1';
-import {habitatConfig} from '../habitats.mjs?v=abyssal-2';
-import {drawStone} from './stone.mjs?v=forest-10';
-import {drawBark} from './bark.mjs?v=forest-10';
-import {drawLeaf} from './leaf.mjs?v=forest-10';
-import {drawMossPatch} from './moss.mjs?v=forest-10';
-import {layoutForHabitat} from './authored-layouts.mjs?v=authored-1';
+import {stepInteraction} from '../interaction.mjs';
+import {habitatConfig} from '../habitats.mjs';
+import {drawStone} from './stone.mjs';
+import {drawBark} from './bark.mjs';
+import {drawLeaf} from './leaf.mjs';
+import {drawMossPatch} from './moss.mjs';
+import {layoutForHabitat} from './authored-layouts.mjs';
 
 const noise=(x,y,seed=0)=>{let n=Math.imul(x+seed+1,374761393)^Math.imul(y+1,668265263);n=Math.imul(n^(n>>>13),1274126177);return (n^(n>>>16))>>>0};
 const pixel=(g,x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),Math.max(1,Math.round(w)),Math.max(1,Math.round(h)))};

@@ -1,4 +1,4 @@
-import {phenotypeFor} from '../../phenotypes.mjs?v=cohort-4';
+import {phenotypeFor} from '../../phenotypes.mjs';
 
 // Additional accepted species. Taxonomy / distribution / visible morphology are literature-backed;
 // speed / wet / cover remain game-tuning proxies, not husbandry recommendations.

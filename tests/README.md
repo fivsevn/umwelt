@@ -42,3 +42,14 @@ Do not rename a browser harness to `*.test.mjs` unless it is safe and determinis
 ## Maintenance rule
 
 Runtime behavior should be covered by a `*.test.mjs` test when practical. Browser-only checks should stay clearly separated from the default CI suite and should not become production dependencies.
+
+## Public output comparison
+
+`browser/public-regression.cjs` covers 320×568, 390×844 and 1440×900 in Chromium or WebKit, four public routes, terrestrial/abyssal arrival, choice, feedback, reload and Credits. It fixes date/randomness and steps animation frames only inside the test browser. With `COMPARE_URL`, it requires identical screenshots, visible text, overflow state and saved JSON against a separately served baseline. Without a baseline it checks runtime errors, assets and core interactions; it does not establish pixel equivalence.
+
+```sh
+BASE_URL=http://127.0.0.1:8765 COMPARE_URL=http://127.0.0.1:8766 node tests/browser/public-regression.cjs
+BROWSER=webkit BASE_URL=http://127.0.0.1:8765 COMPARE_URL=http://127.0.0.1:8766 node tests/browser/public-regression.cjs
+```
+
+Use `QA_OUTPUT` outside the site for screenshots. The existing morphology workflow runs both harnesses in each browser. `data-contracts.test.mjs` adds schema, narrative and invalid-input checks; `asset-stamping.test.mjs` covers the deployment URL transform. Existing compatibility tests remain in place.
