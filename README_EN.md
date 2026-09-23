@@ -2,6 +2,8 @@
 
 [中文](README.md) | **English** | [日本語](README_JA.md)
 
+[Development documentation](isopoda/docs/README.md)
+
 **UMWELT** is a personal experimental project initiated and maintained by **fivsevn**.
 
 The project takes its name from the concept of **Umwelt**, developed by German biologist **Jakob von Uexküll** in his studies of animal perception and behavior. Different organisms do not merely occupy the same abstract “environment”; through their own modes of perception and action, they inhabit meaningful surrounding worlds of their own. This project adopts the concept as a name and intellectual point of departure, while its specific content, visual design, interactive forms, and implementation remain original to the project.
