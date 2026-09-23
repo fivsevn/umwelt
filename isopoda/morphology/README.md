@@ -14,6 +14,8 @@ At widths above 1120px, named grid areas place the layer controls on the left, t
 
 At 1120px and below, the DOM and visual order is inspector → optical table → layer controls → dossier → references. All content flows vertically and the reference list uses document scrolling. Smaller typography at 620px does not introduce another composition.
 
+The dossier and references are independent native disclosures. The dossier starts closed and references start open; mouse or keyboard activation of each summary toggles that panel. Both retain their item cards and count-only summaries. Collapsed references size to their summary instead of stretching into an empty grid row.
+
 All five panels own their borders. Do not use `display:contents` on a bordered panel or constrain a content panel to a fixed height. Additional right-column panels need a named area and a deliberate place in the mobile reading order. Adding rows/cards within existing panels requires no layout change.
 
 The optical table has four flow rows: label, optical field, two-monitor row, hint. Absolute positions belong only to the renderer coordinate system and monitor overlays. The 640×520 stage never flex-shrinks. `centerSpecimen()` measures painted pixels; `ResizeObserver` fits them into the available field. Transparent canvas margins do not determine the visual center. New renderer layers must retain the existing native 64×64 / displayed 320×320 coordinate contract or update that conversion explicitly.
