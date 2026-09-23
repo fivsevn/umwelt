@@ -37,4 +37,4 @@ BROWSER=webkit BASE_URL=http://127.0.0.1:8765 node tests/browser/morphology-layo
 
 The browser test requires Playwright (Chromium uses installed Chrome; WebKit uses Playwright's browser). `NODE_PATH` can point to a shared installation. Set `QA_OUTPUT` to save screenshots outside the deployed site. It checks all registered specimens at ten viewport sizes, actual painted-pixel centering, panel borders/order/containment, content growth/removal, input paths, reload, missing assets and a habitat smoke check.
 
-See `../../docs/morphology-layout-repair.md` for the regression history. Development renderer diagnostics remain under `../dev/` and `../../tests/browser/`; do not create another public morphology page.
+See `../docs/reference/morphology-layout-repair.md` for the regression history. Development renderer diagnostics remain under `../dev/` and `../../tests/browser/`; do not create another public morphology page.

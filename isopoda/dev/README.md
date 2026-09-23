@@ -8,6 +8,6 @@ Current previews:
 
 - `previews/exploded-preview.html` — exploded morphology layer study.
 - `previews/projection-preview.html` — posture / projection matrix for sprite inspection.
-- `styles/anatomy-vhs.css` — archived VHS styling experiment. The public morphology lab currently applies its VHS styling from `morphology/index.html`; this file is not a runtime dependency.
+- `styles/anatomy-vhs.css` — archived VHS styling experiment. The public morphology lab currently applies its VHS styling from `morphology/style.css`; this file is not a runtime dependency.
 
 Public morphology presentation assets belong under `isopoda/morphology/`. Development-only studies belong here and must not become production dependencies.

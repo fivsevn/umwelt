@@ -1,6 +1,6 @@
 > **Historical implementation note.** This file records the 2026-09-10 morphology migration state and is retained as development history. It is not the current implementation specification.
 >
-> Current references: [`isopod-species-data-standard-umwelt-v1.1-current.md`](isopod-species-data-standard-umwelt-v1.1-current.md) and [`morphology-renderer-spec-umwelt-v2-current.md`](morphology-renderer-spec-umwelt-v2-current.md). Details below such as the CSS-only renderer description and source counts are intentionally preserved as a snapshot and may no longer describe `main`.
+> Current references: [`isopod-species-data-standard-umwelt-v1.1-2026-09-13.md`](isopod-species-data-standard-umwelt-v1.1-2026-09-13.md) and [`morphology-renderer-spec-umwelt-v2-2026-09-13.md`](morphology-renderer-spec-umwelt-v2-2026-09-13.md). Details below such as the CSS-only renderer description and source counts are intentionally preserved as a snapshot and may no longer describe `main`.
 
 # Isopoda morphology and species migration — 2026-09-10
 

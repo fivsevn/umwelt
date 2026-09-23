@@ -1,3 +1,5 @@
+> Historical snapshot — 2026-09-13. Not a current runtime contract. See [current contracts](../README.md).
+
 # Isopod Species Data Standard
 ## 企划-umwelt系列 / 鼠妇资料规范化与图鉴资产
 

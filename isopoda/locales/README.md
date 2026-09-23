@@ -36,3 +36,5 @@ The same check runs in GitHub Actions. A missing language should therefore be ca
 5. Extend `tools/check-i18n.mjs` so the new language is required by the audit.
 
 Keep stable ids / keys unchanged when wording changes. Translation identity must not depend on the current Chinese sentence text for new code.
+
+For all new narrative pools and the explicit clean-baseline exceptions, see `../docs/narrative-contract.md`. Run both the i18n checker and narrative validator; do not silence missing translations with broad ignore rules.

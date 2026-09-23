@@ -6,7 +6,11 @@ This is the single documentation entry point for ISOPODA development.
 
 - `../README.md` — runtime boundaries, public-surface contract and stability rules.
 - `content-map.md` — where active authored game content belongs.
-- `cohort.md` — seven-specimen run/save model.
+- `cohort.md` — habitat-aware cohort model (seven by default, one for abyssal).
+- `species-data-contract.md` — current registry/schema and specimen extension rules.
+- `save-compat.md` — stable storage, archive and content IDs.
+- `narrative-contract.md` — stable text keys, locale coverage and extension validation.
+- `deployment.md` — generated asset versions and public-output checks.
 - `morphology-renderer.md` — current morphology renderer scope and evidence handling.
 
 These files should be checked before adding new gameplay, narrative, species, localization or renderer content.
@@ -14,6 +18,8 @@ These files should be checked before adding new gameplay, narrative, species, lo
 ## Reference archive
 
 `reference/` contains earlier implementation notes, release notes, system studies and scientific/data specifications that are still useful for context.
+
+The `*-2026-09-13.md` species and renderer specifications preserve the original 13-entry baseline; they are historical, not live specifications. `morphology-layout-repair.md` records a completed repair. Do not update these snapshots to describe new runtime changes.
 
 Important: files in `reference/` are not automatically current runtime contracts. Versioned notes such as `*-v3.md`, `*-v4.md` or `*-v6.md` describe the state of the project when they were written. When a reference note conflicts with current code or the current development contracts above, the current code and current contracts take precedence.
 
