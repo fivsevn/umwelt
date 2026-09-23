@@ -26,7 +26,7 @@ This document is the development entry point for authored content. It separates 
 - `data/habitats/story-alternates.mjs` — conditional alternate turns selected from environment state.
 - `habitats.mjs` — habitat configuration, eligible species, duration, metrics and stable habitat IDs.
 
-When expanding aquatic content, add authored rows to the habitat data modules and keep `aquatic-story.mjs` focused on routing.
+When expanding aquatic content, add authored rows to the habitat data modules and keep `aquatic-story.mjs` focused on routing. New habitat definitions must also satisfy `tools/validate-habitats.mjs`.
 
 ## Abyssal single observation
 
@@ -36,7 +36,9 @@ When expanding aquatic content, add authored rows to the habitat data modules an
 
 ## Species and specimen content
 
-- `species-registry.mjs` is the shared registry boundary.
+- `species-registry.mjs` is the shared enriched runtime boundary.
+- `data/species/manifest.mjs` owns specimen batch append order.
+- `data/sources/manifest.mjs` owns evidence/source batch append order.
 - `species.mjs` contains the original terrestrial table.
 - `data/species/batch-*.mjs` contains accepted-species expansion batches.
 - `data/species/hobby-lines.mjs` contains captive/trade lineages.
@@ -61,6 +63,8 @@ Visible active terrestrial source strings must be represented in the locale tabl
 
 1. Choose the correct content module before writing prose.
 2. Preserve existing IDs and storage keys.
-3. Add EN/JA coverage in the same change where required.
-4. Add or update tests when a new condition, habitat, ending branch or species eligibility rule is introduced.
-5. Run all repository checks listed in `isopoda/README.md`.
+3. Register new specimen/source batches through the manifests without reordering existing groups.
+4. Add EN/JA coverage in the same change where required.
+5. Add or update tests when a new condition, habitat, ending branch or species eligibility rule is introduced.
+6. Run `node isopoda/tools/check-all.mjs` plus the relevant browser regression harnesses.
+
