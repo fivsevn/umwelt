@@ -10,11 +10,19 @@ Files matching:
 tests/*.test.mjs
 ```
 
-are the default Node test suite and are run by GitHub Actions with:
+are the default Node test suite and can still be run directly with:
 
 ```bash
 node --test tests/*.test.mjs
 ```
+
+For the full non-browser structural gate used by the ISOPODA CI workflow, run:
+
+```bash
+node isopoda/tools/check-all.mjs
+```
+
+That entry point runs the Node tests plus localization, species, habitat, narrative, morphology-page and public-surface checks in a fixed order. It does not run browser/visual regression or deployment font tooling.
 
 These tests protect game state, habitats, localization, morphology, scenery, interactions, save compatibility and other deterministic/runtime contracts.
 
@@ -53,3 +61,4 @@ BROWSER=webkit BASE_URL=http://127.0.0.1:8765 COMPARE_URL=http://127.0.0.1:8766 
 ```
 
 Use `QA_OUTPUT` outside the site for screenshots. The existing morphology workflow runs both harnesses in each browser. `data-contracts.test.mjs` adds schema, narrative and invalid-input checks; `asset-stamping.test.mjs` covers the deployment URL transform. Existing compatibility tests remain in place.
+
