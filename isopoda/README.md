@@ -17,7 +17,7 @@ The morphology lab is canonical under `morphology/` and depends on `morphology/a
 
 - Game orchestration: `game.js`, `engine.mjs`, `habitat.mjs`, `environment.mjs`, `interaction.mjs`.
 - Authored narrative: `content.mjs`, `encounters.mjs`, `aquatic-story.mjs`, `data/habitats/`.
-- Species / evidence: `species-registry.mjs`, `species.mjs`, `data/species/`, `data/sources/`, `sources*.mjs`.
+- Species / evidence: `species-registry.mjs`, `data/species/manifest.mjs`, `data/sources/manifest.mjs`, `species.mjs`, `data/species/`, `data/sources/`, `sources*.mjs`.
 - Rendering: `sprites.mjs`, `morphology.mjs`, `scenery/`, `locomotion.mjs`.
 - Localization: `i18n.mjs`, `runtime-locales.mjs`, `locales/`.
 - Public labs: `morphology/`, `habitat.html`, `habitat-lab.mjs`, `habitat.css`.
@@ -33,4 +33,6 @@ Start with `docs/README.md`. See `docs/content-map.md` before adding story, enco
 2. Do not move a runtime file just to improve folder aesthetics; first add a compatibility boundary or update all verified consumers.
 3. Chinese authored copy is the canonical source for legacy terrestrial text, but visible active strings must have EN and JA coverage.
 4. Water / abyssal stories use stable content keys; preserve those keys when rewriting prose.
-5. Run `node --test tests/*.test.mjs`, `node isopoda/tools/check-i18n.mjs`, `node isopoda/tools/check-morphology-page.mjs`, and `node isopoda/tools/check-public-surface.mjs` before merging structural changes. See `../tests/README.md` for browser/manual regression harnesses.
+5. Register new specimen/source batches through the manifests; do not extend the runtime registries with another parallel import list.
+6. Run `node isopoda/tools/check-all.mjs` before merging structural or authored-content changes. See `../tests/README.md` for browser/manual regression harnesses.
+
