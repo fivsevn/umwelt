@@ -1,3 +1,5 @@
+> Historical snapshot — 2026-09-13. Not a current runtime contract. See [current contracts](../README.md).
+
 # Isopod Morphology & Pixel Renderer 规格
 ## 企划-umwelt系列 / 鼠妇图鉴形态与像素渲染资产
 

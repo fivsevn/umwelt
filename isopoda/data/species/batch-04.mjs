@@ -1,4 +1,4 @@
-import {phenotypeFor} from '../../phenotypes.mjs?v=cohort-4';
+import {phenotypeFor} from '../../phenotypes.mjs';
 
 // Fourth accepted-species batch. This group prioritises naturally conspicuous colour patterns.
 // Species-level colour / size / diagnostic claims are evidence-backed where cited; exact 64 px

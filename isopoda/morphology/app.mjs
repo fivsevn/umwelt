@@ -1,7 +1,7 @@
 import {SPECIES} from '../species-registry.mjs';
-import {sources as PROJECT_SOURCES,frameworkSources as FRAMEWORK_SOURCES} from '../sources-registry.mjs?v=wiki-1';
-import {LOCOMOTION_SOURCES,locomotionSourceIds} from '../locomotion.mjs?v=locomotion-3';
-import {WIKI_SOURCES,WIKI_SOURCE_IDS_BY_SPECIES} from '../data/wiki/specimen-sources.mjs?v=wiki-1';
+import {sources as PROJECT_SOURCES,frameworkSources as FRAMEWORK_SOURCES} from '../sources-registry.mjs';
+import {LOCOMOTION_SOURCES,locomotionSourceIds} from '../locomotion.mjs';
+import {WIKI_SOURCES,WIKI_SOURCE_IDS_BY_SPECIES} from '../data/wiki/specimen-sources.mjs';
 import {renderModel,pixelAnatomy} from '../sprites.mjs';
 
 const stage=document.querySelector('#stage');

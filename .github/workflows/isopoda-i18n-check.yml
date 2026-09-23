@@ -9,7 +9,7 @@ on:
       - 'index.html'
       - 'assets/fonts/**'
       - 'tests/**'
-      - '.github/scripts/subset-font.py'
+      - '.github/scripts/**'
       - '.github/workflows/pages.yml'
       - '.github/workflows/isopoda-i18n-check.yml'
   pull_request:
@@ -19,7 +19,7 @@ on:
       - 'index.html'
       - 'assets/fonts/**'
       - 'tests/**'
-      - '.github/scripts/subset-font.py'
+      - '.github/scripts/**'
       - '.github/workflows/pages.yml'
       - '.github/workflows/isopoda-i18n-check.yml'
 
@@ -65,3 +65,5 @@ jobs:
           python .github/scripts/subset-font.py \
             --scan-root _fontcheck \
             --font _fontcheck/assets/fonts/fusion-pixel-12px-monospaced-zh_hans.ttf.woff2
+      - name: Check deployment asset stamping
+        run: node .github/scripts/stamp-assets.mjs _fontcheck "$GITHUB_SHA"
