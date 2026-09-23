@@ -286,7 +286,7 @@ function renderDossier(){
  addDossierRow('LAB NOTE / 项目观察',labLine,{quote:true});
  if(!dossierBody.children.length)addDossierRow('DATA STATUS / 数据状态','当前没有可公开展示的后台档案字段；保留为未解析。');
  const count=dossierBody.children.length;
- const hint=document.querySelector('#specimenDossier summary small');if(hint)hint.textContent=`档案资料 ${count} 项 · 点击展开`;
+ const hint=document.querySelector('#specimenDossier summary small');if(hint)hint.textContent=`档案资料 ${count} 项`;
 }
 
 function renderReferences(){
@@ -298,8 +298,8 @@ function renderReferences(){
   referenceList.append(article);
  }
  document.querySelector('#referenceSummary').textContent=refs.length
-  ?`当前标本 ${refs.length} 条 · 分类 / 形态 / 生态 / 运动 / 图像与贸易名资料合并显示；商品页不收入。`
-  :'当前标本暂无已映射资料；后台保留为待补证据。';
+  ?`当前标本 ${refs.length} 条`
+  :'当前标本暂无参考资料。';
 }
 
 function renderSpecies(index){
