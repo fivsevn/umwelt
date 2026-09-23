@@ -1,40 +1,34 @@
-# ISOPODA documentation
+# ISOPODA 开发文档导航
 
-This is the single documentation entry point for ISOPODA development.
+这里是游戏维护与内容扩展的唯一文档入口。先按任务选指南，再查对应契约；运行代码决定当前实际行为，指南不代表功能已经实现。此次整理只涉及开发文档，下一轮再添加内容。
 
-## Current development contracts
+## 按任务进入
 
-- `../README.md` — runtime boundaries, public-surface contract and stability rules.
-- `content-map.md` — where active authored game content belongs.
-- `cohort.md` — habitat-aware cohort model (seven by default, one for abyssal).
-- `species-data-contract.md` — current registry/schema and specimen extension rules.
-- `save-compat.md` — stable storage, archive and content IDs.
-- `narrative-contract.md` — stable text keys, locale coverage and extension validation.
-- `deployment.md` — generated asset versions and public-output checks.
-- `morphology-renderer.md` — current morphology renderer scope and evidence handling.
+| 下一轮任务 | 从这里开始 | 必须同时阅读 |
+| --- | --- | --- |
+| 添加鼠妇品种、培养线或参考标本 | [扩展工作流：品种](expansion-guide.md#品种与标本) | [物种数据契约](species-data-contract.md)、[形态边界](morphology-renderer.md) |
+| 添加环境、布景或生态指标 | [环境扩展指南](environments.md) | [群体模型](cohort.md)、[存档兼容](save-compat.md) |
+| 添加事件、内容或结局 | [扩展工作流：叙事](expansion-guide.md#游戏内容与结局) | [内容地图](content-map.md)、[叙事契约](narrative-contract.md) |
+| 添加一种语言 | [语言扩展指南](languages.md) | [本地化模块](../locales/README.md)、[叙事契约](narrative-contract.md) |
+| 添加动画动作或交互反应 | [动作扩展指南](animation.md) | [形态边界](morphology-renderer.md)、[运动研究](../data/locomotion/README.md) |
+| 开始一项扩展设计 | [提案模板](templates/expansion-proposal.md) | [扩展工作流](expansion-guide.md) |
 
-These files should be checked before adding new gameplay, narrative, species, localization or renderer content.
+## 当前维护契约
 
-## Reference archive
+- [运行边界与公开页面](../README.md)：主页、游戏、两个实验室与稳定性规则。
+- [内容地图](content-map.md)：现有内容的唯一维护位置。
+- [物种数据契约](species-data-contract.md)：注册、来源、形态代理与环境资格。
+- [群体模型](cohort.md)：普通环境七只、深海一只及身份连续性。
+- [存档兼容](save-compat.md)：存储键、稳定 ID、索引与迁移边界。
+- [叙事契约](narrative-contract.md)：文字键、现有三语结构及验证范围。
+- [形态渲染边界](morphology-renderer.md)：可表达的形态与证据限制。
+- [验证与发布](deployment.md)：发布排除项、字体及资源版本。
+- [测试入口](../../tests/README.md)：统一检查与浏览器回归。
 
-`reference/` contains earlier implementation notes, release notes, system studies and scientific/data specifications that are still useful for context.
+## 文档维护规则
 
-The `*-2026-09-13.md` species and renderer specifications preserve the original 13-entry baseline; they are historical, not live specifications. `morphology-layout-repair.md` records a completed repair. Do not update these snapshots to describe new runtime changes.
-
-Important: files in `reference/` are not automatically current runtime contracts. Versioned notes such as `*-v3.md`, `*-v4.md` or `*-v6.md` describe the state of the project when they were written. When a reference note conflicts with current code or the current development contracts above, the current code and current contracts take precedence.
-
-The archive currently includes material about:
-
-- aquatic habitats and environment memory
-- specimen naming and data standards
-- morphology and projection studies
-- scenery and interaction systems
-- historical release / field-note iterations
-- renderer specifications
-- reaction bubbles and other focused subsystem notes
-
-## Documentation rule
-
-New active maintenance documentation belongs under `isopoda/docs/`.
-
-Do not recreate a second ISOPODA documentation root at repository-level `docs/`. If a note is historical or narrowly technical, place it under `isopoda/docs/reference/`.
+1. 当前契约放在本目录；操作指南引用契约，不再复制完整字段定义或存档键表。
+2. 模块目录的 README 只解释该模块，并链接回本入口。提案使用 [模板](templates/expansion-proposal.md)，明确标为待实施；不要用占位数据注册尚未完成的内容。
+3. 已完成的阶段记录及旧设计放入 [历史索引](reference/README.md)。历史文档不随当前代码重写，也不能替代当前契约。
+4. 不新建仓库根目录 `docs/` 作为第二套 ISOPODA 文档。公开 Credits、字体许可、来源数据具有运行或授权用途，不能当作开发文档移动或删减。
+5. 只整理文档时，保持运行文件、素材、配置、发布脚本和已有测试不变；执行 [文档整理验证](deployment.md#文档整理的零前端变化验证)。

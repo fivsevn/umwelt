@@ -29,12 +29,8 @@ The same check runs in GitHub Actions. A missing language should therefore be ca
 
 ## Adding another language
 
-1. Add the language code to `SUPPORTED_LANGUAGES` in `locales/ui.mjs` and add the complete UI key set.
-2. Extend `locales/game.mjs` and `locales/annotations.mjs` with that language. The special `isopod` locale is generated instead of authored row-by-row.
-3. Add the localized Credits document.
-4. Add the language-specific font rules only if needed.
-5. Extend `tools/check-i18n.mjs` so the new language is required by the audit.
+Use the [new-language integration guide](../docs/languages.md). Adding a code to `SUPPORTED_LANGUAGES` alone is insufficient: game text, annotations, aquatic triples, Credits selection, date/name fallbacks and validation contain explicit language assumptions.
 
-Keep stable ids / keys unchanged when wording changes. Translation identity must not depend on the current Chinese sentence text for new code.
+For new narrative pools and clean-baseline exceptions, see the [narrative contract](../docs/narrative-contract.md). Run both the i18n checker and narrative validator; do not silence missing translations with broad ignore rules.
 
-For all new narrative pools and the explicit clean-baseline exceptions, see `../docs/narrative-contract.md`. Run both the i18n checker and narrative validator; do not silence missing translations with broad ignore rules.
+[Documentation index](../docs/README.md)

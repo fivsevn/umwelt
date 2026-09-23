@@ -25,7 +25,7 @@ The morphology lab is canonical under `morphology/` and depends on `morphology/a
 - Developer documentation: `docs/` (single entry point: `docs/README.md`).
 - CI / repository checks: `tools/`.
 
-Start with `docs/README.md`. See `docs/content-map.md` before adding story, encounter, species or locale content. Historical and subsystem notes live under `docs/reference/`; they are reference material rather than automatic runtime contracts.
+Start with [the documentation index](docs/README.md). See [the content map](docs/content-map.md) before adding story, encounter, species or locale content. Historical and subsystem notes live under `docs/reference/`; they are reference material rather than automatic runtime contracts.
 
 ## Stability rules
 
