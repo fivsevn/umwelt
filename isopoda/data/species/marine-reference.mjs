@@ -1,4 +1,4 @@
-import {phenotypeFor} from '../../phenotypes.mjs?v=cohort-4';
+import {phenotypeFor} from '../../phenotypes.mjs';
 
 // Marine reference specimen. Keep it in the shared registry for morphology and catalogue use,
 // but exclude it from the terrestrial habitat draw.

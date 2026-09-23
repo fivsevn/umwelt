@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="../../sprites.css"><style>body{background:#20291f;color:#ddd7ba;font:14px monospace;margin:24px}section{display:flex;align-items:center;border-bottom:1px solid #43513c}label{width:120px;flex:none}article{width:140px;text-align:center}.isopod{width:128px!important;height:128px!important}header{position:sticky;top:0;background:#20291f;padding:12px;z-index:2}button{margin:8px}</style>
 <header>俯视投影 · <span id="speciesCount">—</span> 品种 / 姿态 / 朝向 <button id="play">播放 / 暂停</button><input id="phase" type="range" min="0" max="3" value="0"></header><main></main>
 <script type="module">
-import {SPECIES} from '../../species-registry.mjs?v=aquatic-1';import {makeIsopod,setIsopodState} from '../../sprites.mjs';
+import {SPECIES} from '../../species-registry.mjs';import {makeIsopod,setIsopodState} from '../../sprites.mjs';
 document.querySelector('#speciesCount').textContent=SPECIES.length;
 const states=[['静止','resting',0],['行走','normal',0],['斜向','normal',Math.PI/4],['转身','turning',Math.PI/2],['探查','probing',0],['梳理','grooming',0],['卷曲','curled',0],['后半蜕皮','molting',0],['钻出','emerging',Math.PI]];
 const bugs=[];for(const species of SPECIES){const row=document.createElement('section');row.innerHTML='<label>'+species.id+(species.game?.referenceOnly?' · REF':'')+'</label>';for(const [name,posture,angle] of states){const box=document.createElement('article');box.textContent=name;const bug=makeIsopod(species,{seed:189});box.append(bug);row.append(box);bugs.push([bug,{posture,angle,moving:posture==='normal',molt:posture==='molting'?'posterior':'none'}])}document.querySelector('main').append(row)}

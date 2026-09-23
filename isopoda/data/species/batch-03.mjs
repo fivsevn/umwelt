@@ -1,4 +1,4 @@
-import {phenotypeFor} from '../../phenotypes.mjs?v=cohort-4';
+import {phenotypeFor} from '../../phenotypes.mjs';
 
 // Third accepted-species batch. Morphology and natural-history fields are evidence-backed where cited;
 // exact 64 px coefficients, palette choices and game tuning remain render/game proxies.

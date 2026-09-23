@@ -1,4 +1,4 @@
-import {phenotypeFor} from '../../phenotypes.mjs?v=cohort-4';
+import {phenotypeFor} from '../../phenotypes.mjs';
 
 // Popular captive / trade forms familiar to Chinese-language hobbyists. Keep morphs and trade taxa
 // separate from formal species: accepted parent species are used only where independently supported.

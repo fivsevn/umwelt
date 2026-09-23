@@ -1,4 +1,4 @@
-import {morphologyFor} from './morphology.mjs?v=morphology-6';
+import {morphologyFor} from './morphology.mjs';
 // [RENDER] Relative morphology coefficients from Morphology Renderer Draft v1.0, not measurements.
 // Morphological templates live in morphology.mjs and carry their own evidence-confidence labels.
 const baseline = {

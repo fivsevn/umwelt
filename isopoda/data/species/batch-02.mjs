@@ -1,4 +1,4 @@
-import {phenotypeFor} from '../../phenotypes.mjs?v=cohort-4';
+import {phenotypeFor} from '../../phenotypes.mjs';
 
 // Second accepted-species batch. Literature-backed fields describe taxonomy, distribution and
 // visible morphology only; speed / wet / cover and exact pixel coefficients remain GAME / RENDER proxies.

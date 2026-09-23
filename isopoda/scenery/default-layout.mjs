@@ -1,5 +1,5 @@
 // Canonical scene data authored in /isopoda/habitat and exported by the editor.
-import {FOREST_LAYOUT} from './authored-layouts.mjs?v=authored-1';
+import {FOREST_LAYOUT} from './authored-layouts.mjs';
 
 export const DEFAULT_LAYOUT=FOREST_LAYOUT;
 export const DEFAULT_SHELTER=DEFAULT_LAYOUT.objects.find(item=>item.type==='bark-shelter-01');

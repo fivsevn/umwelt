@@ -1,8 +1,8 @@
 import {STORIES} from './data/habitats/stories.mjs';
-import {STORY_ALTERNATES} from './data/habitats/story-alternates.mjs?v=pool-1';
-import {ABYSSAL_NODES,ABYSSAL_ENDING_DATA,ABYSSAL_FRAGMENT_DATA} from './data/habitats/abyssal-dialogue.mjs?v=dialogue-8';
-import {habitatConfig} from './habitats.mjs?v=abyssal-2';
-import {encodeIsopodText} from './locales/isopod.mjs?v=isopod-3';
+import {STORY_ALTERNATES} from './data/habitats/story-alternates.mjs';
+import {ABYSSAL_NODES,ABYSSAL_ENDING_DATA,ABYSSAL_FRAGMENT_DATA} from './data/habitats/abyssal-dialogue.mjs';
+import {habitatConfig} from './habitats.mjs';
+import {encodeIsopodText} from './locales/isopod.mjs';
 const COPY={
  wait:['让时间过去','Let time pass','時を待つ'],record:['只记录位置','Record the positions','位置だけを記す'],
  still:['你没有改变它们经过的地方。下一次移动仍由它们开始。','You leave their surroundings as they are. The next movement begins with them.','通る場所を変えずにおく。次の動きは彼らから始まる。'],
