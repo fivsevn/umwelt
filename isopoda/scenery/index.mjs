@@ -1,12 +1,12 @@
 import {DEFAULT_LAYOUT,DEFAULT_SHELTER,sceneObjects} from './default-layout.mjs?v=authored-1';
 export {DEFAULT_LAYOUT,DEFAULT_SHELTER,sceneObjects};
-export {SCENE_LAYOUTS,layoutForHabitat} from './authored-layouts.mjs?v=authored-1';
+export {SCENE_LAYOUTS,layoutForHabitat} from './authored-layouts.mjs?v=authored-2';
 
 import {drawStone} from './stone.mjs?v=forest-10';
 import {drawSubstrate} from './substrate.mjs?v=forest-10';
 import {drawLeaf,LEAF_PALETTES} from './leaf.mjs?v=forest-10';
 import {drawMossPatch} from './moss.mjs?v=forest-10';
-import {drawBark} from './bark.mjs?v=forest-10';
+import {drawBark} from './bark.mjs?v=forest-11';
 import {drawCuttlebone} from './cuttlebone.mjs?v=forest-10';
 import {drawTwig,drawWoodChip} from './debris.mjs?v=forest-10';
 import {drawAquaticBackground,drawAquaticPlant,drawAquaticDetail} from './aquatic.mjs?v=motion-2';
