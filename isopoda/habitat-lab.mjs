@@ -1,8 +1,8 @@
 import {exportScene,importScene,shareCode} from './scene-codec.mjs?v=mirror-1';
-import {drawSubstrate,drawLeaf,drawMossPatch,drawBark,drawStone,drawCuttlebone,drawTwig,drawWoodChip,LEGACY_BASE_SCENE,DEFAULT_LAYOUT} from './scenery/index.mjs?v=motion-2';
+import {drawSubstrate,drawLeaf,drawMossPatch,drawBark,drawStone,drawCuttlebone,drawTwig,drawWoodChip,LEGACY_BASE_SCENE,DEFAULT_LAYOUT} from './scenery/index.mjs?v=motion-3';
 import {drawAquaticBackground,drawAquaticPlant,drawAquaticDetail,AQUATIC_BACKDROPS} from './scenery/aquatic.mjs?v=motion-2';
 import {ACTOR_SCALE} from './scenery/grammar.mjs';
-import {SCENE_LAYOUTS} from './scenery/authored-layouts.mjs?v=authored-1';
+import {SCENE_LAYOUTS} from './scenery/authored-layouts.mjs?v=authored-2';
 import {SPECIES,speciesById} from './species-registry.mjs?v=aquatic-1';
 import {renderModel,pixelAnatomy} from './sprites.mjs?v=exuvia-1';
 
