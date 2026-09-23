@@ -1,6 +1,6 @@
 # Scenery renderer contract
 
-Production and the public Asimov Habitat Lab import `index.mjs`. `tests/scenery-study.mjs` only re-exports compatibility names; it contains no artwork.
+Production and the public Asimov Habitat Lab import `index.mjs`. `tests/support/scenery-study.mjs` only re-exports compatibility names; it contains no artwork.
 
 - `grammar.mjs`: integer world-space 1px edges and 2px near-color material clusters, inverse geometry rotation, opaque palette fills, and the shared 0.88 anatomy projection scale. No rotated canvas, bitmap assets, or blurred gradients. Deterministic clustered dithering makes surface pixels visible.
 - `substrate.mjs`: dark woodland ground, connected humus islands, sparse mineral clusters and moisture bands.
@@ -19,3 +19,5 @@ Open `/isopoda/habitat.html`. RESET reads BASE_SCENE at exact production object 
 Run `node --test tests/*.test.mjs` plus the repository checks under `isopoda/tools/`. Scenery tests enforce renderer identity, opaque integer cells, bounded palettes, low-frequency soil, deterministic variety and pure scene composition.
 
 The second visual pass follows the early woodland screenshot: muted ochre leaves, dark soil, a larger central shelter and large leaf litter. No simulation or save logic changes. `FOREST STUDY` uses the same production composition plus extra litter.
+
+For new layouts or habitats, use the [environment guide](../docs/environments.md). [Documentation index](../docs/README.md).

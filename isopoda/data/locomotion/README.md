@@ -25,8 +25,10 @@ The simulation may be informed by literature without pretending that a paper mea
 - `related_taxon_transfer`: genus/family/ecotype evidence used only to constrain a proxy.
 - `game_proxy`: no suitable locomotion evidence is currently attached. The value exists for animation balance and is flagged for review.
 
-Every non-proxy claim must cite an ID in `sources.mjs`.
+Every non-proxy claim must cite a resolvable source ID; locomotion research sources live in [`sources.mjs`](sources.mjs) in this directory and are resolved by the locomotion module, separately from `sources-registry.mjs`.
 
 ## Extension rule
 
 Do not overwrite research facts to make animation feel better. Change `simulation` and leave an explicit `tuningNotes` entry. If a new paper is found, add the source and claim first, then decide whether the simulation should change.
+
+For runtime action integration, see the [animation guide](../../docs/animation.md). [Documentation index](../../docs/README.md).
