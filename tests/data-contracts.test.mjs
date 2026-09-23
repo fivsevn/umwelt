@@ -14,7 +14,7 @@ test('narrative validates all dialogue nodes including turns after nine',()=>{
  const errors=validateNarrative({nodes}).join('\n');assert.match(errors,/zh\/en\/ja coverage/);assert.match(errors,/duplicate\/missing option/);
 });
 test('new stable-key catalog requires locale coverage and valid references',()=>{
- const row={key:'story:example:prompt',locales:{zh:'示例',en:'Example',ja:'例'},refs:{habitat:['abyssal'],species:['giganteus'],ending:['freshwater-calm']}};
+ const row={key:'story:example:prompt',locales:{zh:'示例',en:'Example',ja:'例'},refs:{habitat:['abyssal'],species:['giganteus'],ending:['freshwater-calm','ordinary']}};
  assert.deepEqual(validateTextCatalog([row]),[]);
  assert.ok(validateTextCatalog([row,row]).some(e=>e.includes('duplicate')));
  assert.ok(validateTextCatalog([{...row,locales:{zh:'示例'},refs:{species:['no-such-id']}}]).length>=3);

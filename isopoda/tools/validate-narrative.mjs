@@ -1,5 +1,6 @@
 import {readFileSync,readdirSync} from 'node:fs';
 import {runInNewContext} from 'node:vm';
+import {ENDINGS as LAND_ENDINGS} from '../content.mjs';
 import {HABITATS} from '../habitats.mjs';
 import {SPECIES} from '../species-registry.mjs';
 import {STORIES} from '../data/habitats/stories.mjs';
@@ -9,7 +10,7 @@ import {AQUATIC_ENDINGS,aquaticText} from '../aquatic-story.mjs';
 import {pathToFileURL} from 'node:url';
 const text=v=>typeof v==='string'&&v.trim().length>0;
 // New authored modules use this validator without changing legacy runtime representations.
-export function validateTextCatalog(rows,{habitats=HABITATS,species=SPECIES,endings=AQUATIC_ENDINGS}={}){
+export function validateTextCatalog(rows,{habitats=HABITATS,species=SPECIES,endings=[...LAND_ENDINGS,...AQUATIC_ENDINGS]}={}){
  const errors=[],seen=new Set(),sets={habitat:new Set(habitats.map(x=>x.id)),species:new Set(species.map(x=>x.id)),ending:new Set(endings.map(x=>x.id))};
  for(const row of rows){
   if(!/^[a-z][A-Za-z0-9_-]*(?::[A-Za-z0-9_-]+)+$/.test(row.key||'')||seen.has(row.key))errors.push(`invalid/duplicate content key ${row.key}`);seen.add(row.key);
@@ -40,7 +41,7 @@ export function validateNarrative({stories=STORIES,alternates=STORY_ALTERNATES,n
   check(Array.isArray(node.options)&&node.options.length===3,`${node.id}: options`);
   for(const [i,o] of (node.options||[]).entries()){check(text(o.id)&&!optionIds.has(o.id),`duplicate/missing option ID ${o.id}`);optionIds.add(o.id);for(const field of ['label','text']){const key=`abyssal:node:${node.id}:option:${i}:${field}`;triple(o[field],key);resolveKey(key)}check(o.delta&&Object.values(o.delta).every(Number.isFinite),`${o.id}: delta`)}
  }
- const endingIds=new Set();for(const e of AQUATIC_ENDINGS){check(!endingIds.has(e.id),`duplicate ending ${e.id}`);endingIds.add(e.id);for(const field of ['title','body','line'])resolveKey(e[field])}
+ const endingIds=new Set();for(const e of LAND_ENDINGS){check(!endingIds.has(e.id),`duplicate ending ${e.id}`);endingIds.add(e.id);for(const field of ['title','body','line'])check(text(e[field]),`${e.id}: missing ${field}`)}for(const e of AQUATIC_ENDINGS){check(!endingIds.has(e.id),`duplicate ending ${e.id}`);endingIds.add(e.id);for(const field of ['title','body','line'])resolveKey(e[field])}
  for(const [id,e] of Object.entries(endingData)){check(endingIds.has(id),`unregistered ending ${id}`);for(const field of ['title','body','line'])triple(e[field],`abyssal:ending:${id}:${field}`)}
  for(const [group,entries] of Object.entries(fragments))for(const [id,e] of Object.entries(entries))for(const field of (group==='position'?['title','body']:group==='record'?['body']:['body','line']))triple(e[field],`abyssal:fragment:${group}:${id}:${field}`);
  for(const h of ordinary)for(const id of h.endingPool)check(endingIds.has(id),`${h.id}: missing ending ${id}`);
