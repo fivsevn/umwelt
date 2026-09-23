@@ -19,3 +19,5 @@ Aquatic `water:<habitat>:turn:<index>:<field>` and alternate keys include positi
 Before renaming/removing any ID or changing state shape, enumerate every reader and saved/archive representation; add explicit migration fixtures for old, active feedback, ended and reload states. Preserve backup keys and unknown/legacy fallbacks until a deliberate migration policy replaces them. Do not bump storage versions to perform documentation, asset-query or validator maintenance. Asset query versions are deployment metadata and never save versions.
 
 `content.mjs:MORNING` had no runtime/test/migration consumers and was removed; historical text is retrievable from pre-cleanup main `08a3613`. All active source paths, authored copy and migration behavior remain intact.
+
+The font subset explicitly retains `凝吃址铺`, the four characters unique to the retired MORNING pool, so literal historical save text retains the pre-cleanup glyph coverage. Removing runtime copy must not silently shrink historical-save font support.
