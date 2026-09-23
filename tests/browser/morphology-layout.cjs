@@ -18,8 +18,8 @@ async function inspect(page,narrow){
   const order=narrow?['.inspector','.viewer','.layer-panel','.dossier','.references']:['.inspector','.dossier','.references'];
   for(let i=1;i<order.length;i++)check(rect(q(order[i])).top>=rect(q(order[i-1])).bottom-1,order[i]+' overlaps / out of order');
   if(!narrow){check(rect(q('.layer-panel')).right<rect(q('.viewer')).left,'desktop left column');check(rect(q('.viewer')).right<rect(q('.inspector')).left,'desktop right column')}
-  within(q('.reference-list'),q('.references'),'reference list escapes border');
-  if(narrow)for(const e of document.querySelectorAll('.reference'))within(e,q('.references'),'reference card escapes panel');
+  if(q('.references').open)within(q('.reference-list'),q('.references'),'reference list escapes border');
+  if(narrow&&q('.references').open)for(const e of document.querySelectorAll('.reference'))within(e,q('.references'),'reference card escapes panel');
   if(q('.dossier').open){
    within(q('.dossier-body'),q('.dossier'),'dossier body escapes border');
    for(const row of document.querySelectorAll('.dossier-row')){within(row,q('.dossier'),'dossier row escapes border');check(parseFloat(getComputedStyle(row).borderTopWidth)>0&&parseFloat(getComputedStyle(row).borderLeftWidth)>0,'dossier item missing its own frame')}
@@ -63,7 +63,18 @@ async function settle(page){await page.evaluate(()=>new Promise(resolve=>request
   assert.ok(await page.locator('.reference').last().isVisible());
   await page.evaluate(()=>{document.querySelector('.reference-list').scrollTop=0;window.scrollTo(0,0)});
   if(output)await page.screenshot({path:`${output}/morphology-${width}x${height}.png`,fullPage:true});
+  await page.locator('.references summary').click();await settle(page);await inspect(page,width<=1120);
+  assert.equal(await page.locator('.references').getAttribute('open'),null);
+  assert.equal(await page.locator('.reference-list').isVisible(),false);
+  await page.locator('.references summary').focus();await page.keyboard.press('Enter');await settle(page);
+  assert.equal(await page.locator('.reference-list').isVisible(),true);
   await page.locator('.dossier summary').click();await settle(page);await inspect(page,width<=1120);
+  await page.locator('.references summary').click();await settle(page);await inspect(page,width<=1120);
+  await page.locator('.dossier summary').click();await settle(page);await inspect(page,width<=1120);
+  assert.equal(await page.locator('.dossier-body').isVisible(),false);
+  await page.locator('.dossier summary').focus();await page.keyboard.press('Enter');
+  await page.locator('.references summary').click();await settle(page);await inspect(page,width<=1120);
+  assert.match(await page.locator('#referenceSummary').textContent(),/^当前标本 \d+ 条$/);
   // Expansion stress: long unbroken tokens, more rows, more references and a new control.
   await page.evaluate(()=>{
    const d=document.querySelector('.dossier-body');for(let i=0;i<8;i++){const row=d.firstElementChild.cloneNode(true);row.querySelector('p').textContent='扩容资料 / '+ 'LongUnbrokenReference'.repeat(30);d.append(row)}
