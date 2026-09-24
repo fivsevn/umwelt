@@ -1,0 +1,10 @@
+export const RELEASE_AQUATIC_SOURCES=[
+ {id:'release-pulchra-bmig',level:'A2',type:'IDENTIFICATION / HABITAT',title:'BMIG — Eurydice pulchra',url:'https://bmig.org.uk/species/eurydice-pulchra',supports:['pulchra.taxonomy','pulchra.size','pulchra.sandy-shore','pulchra.burrowing','pulchra.swimming']},
+ {id:'release-affinis-bmig',level:'A2',type:'IDENTIFICATION / HABITAT',title:'BMIG — Eurydice affinis',url:'https://bmig.org.uk/species/Eurydice-affinis',supports:['affinis.taxonomy','affinis.size','affinis.sandy-shore','affinis.morphology']},
+ {id:'release-spinigera-bmig',level:'A2',type:'IDENTIFICATION / HABITAT',title:'BMIG — Eurydice spinigera',url:'https://bmig.org.uk/species/eurydice-spinigera',supports:['spinigera.habitat','spinigera.morphology']},
+ {id:'release-spinigera-worms',level:'A2',type:'TAXONOMY',title:'WoRMS — Eurydice spinigera Hansen, 1890',url:'https://www.marinespecies.org/aphia.php?id=148637&p=taxdetails',supports:['spinigera.taxonomy','spinigera.accepted-name']},
+ {id:'release-cavaticus-bmig',level:'A2',type:'IDENTIFICATION / HABITAT',title:'BMIG — Proasellus cavaticus',url:'https://bmig.org.uk/species/proasellus-cavaticus',supports:['cavaticus.taxonomy','cavaticus.stygobite','cavaticus.cave','cavaticus.depigm­entation']},
+ {id:'release-lusitanicus-nature',level:'A1',type:'ECOLOGY / MORPHOLOGY',title:'Di Lorenzo & Reboleira 2022 — Proasellus lusitanicus in the Estremenho karst aquifer',url:'https://pmc.ncbi.nlm.nih.gov/articles/PMC9605946/',supports:['lusitanicus.taxonomy','lusitanicus.size','lusitanicus.stygobite','lusitanicus.cave','lusitanicus.depigm­entation']},
+ {id:'release-virei-ijs',level:'A1',type:'ECOLOGY / HABITAT',title:'Magniez 1968 — Habitats of Stenasellus virei',url:'https://digitalcommons.usf.edu/ijs/vol3/iss3/15/',supports:['virei.groundwater','virei.cave','virei.phreatic','virei.river-underflow']},
+ {id:'release-virei-persee',level:'A1',type:'IDENTIFICATION / SIZE',title:'Magniez et al. 1983 — French freshwater Asellota identification',url:'https://www.persee.fr/doc/linly_0366-1326_1983_num_52_10_10613?pageId=T1_341',supports:['virei.size','virei.rose-colour','virei.morphology']}
+];
