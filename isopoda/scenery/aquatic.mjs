@@ -12,6 +12,7 @@ const pixel=(g,x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y)
 export const AQUATIC_BACKDROPS=Object.freeze({
  freshwater:{palette:['#273b32','#344439','#4e5140','#68634b'],water:'#31564f',accent:'#81906a'},
  intertidal:{palette:['#324743','#405552','#69736a','#9b9880'],water:'#456b67',accent:'#aab59b'},
+ estuary:{palette:['#31453f','#46564d','#6f715d','#9a8e6d'],water:'#4b6d62',accent:'#b0a77d'},
  'shallow-marine':{palette:['#203e3d','#355452','#6d7660','#969375'],water:'#315e5a',accent:'#a7ad83'},
  abyssal:{palette:['#10181b','#172225','#223033','#343d3f'],water:'#17272b',accent:'#667374'}
 });
@@ -127,6 +128,9 @@ export function drawAquaticBackground(g,{kind='freshwater',palette,seed=57}={}){
    pixel(g,x,y,span,1,i%3?'rgba(39,56,43,.58)':'rgba(108,107,75,.42)');
    if(i%4===0)pixel(g,x+2,y+2,2,1,'rgba(129,132,91,.38)');
   }
+ }
+ if(kind==='estuary'){
+  for(let i=0;i<38;i++){const n=noise(i,113,seed),x=n%w,y=(n>>>10)%h,span=4+(n%11);pixel(g,x,y,span,1,i%4===0?'rgba(155,139,103,.30)':'rgba(49,69,63,.48)');if(i%5===0)pixel(g,x+2,y+2,2,1,'rgba(112,113,93,.36)')}
  }
  if(kind==='intertidal'){
   for(let x=0;x<w;x+=7){const y=Math.round(h*.56+Math.sin((x+seed)*.055)*2);pixel(g,x,y,5,1,'rgba(157,185,164,.34)')}
@@ -339,11 +343,11 @@ export function drawAquaticWater(g,s,time=0,{drawPlants=true}={}){
  for(let y=surface;y<430;y+=4)for(let x=0;x<384;x+=4)if(noise(x,y)%4===0)pixel(g,x,y,2,1,'rgba(80,133,126,.13)');
  if(drawPlants&&h.plants>0){
   const rawCount=Math.max(3,Math.round(h.plants*(s.algae/70)));
-  const count=h.id==='shallow-marine'?Math.max(6,Math.round(rawCount*.52)):h.id==='intertidal'?Math.max(4,Math.round(rawCount*.72)):rawCount;
-  const kind=h.id==='freshwater'?'waterweed':h.id==='intertidal'?'rockweed':'kelp';
+  const count=h.id==='shallow-marine'?Math.max(6,Math.round(rawCount*.52)):h.id==='intertidal'?Math.max(4,Math.round(rawCount*.72)):h.id==='estuary'?Math.max(5,Math.round(rawCount*.68)):rawCount;
+  const kind=h.id==='freshwater'?'waterweed':h.id==='intertidal'?'rockweed':h.id==='estuary'?'ulva':'kelp';
   for(let i=0;i<count;i++){
-   const anchor=plantAnchor(h,i),baseHeight=h.id==='freshwater'?35+i%4*13:h.id==='intertidal'?22+i%4*8:60+i%5*15;
-   drawAquaticPlant(g,{kind,x:anchor.x,y:anchor.y,a:(noise(i,55,s.seed)%9-4)*.025,scale:h.id==='shallow-marine'?.9+(i%3)*.08:.88+(i%2)*.08,seed:s.seed+i*19,height:baseHeight,time,flow:s.flow});
+   const anchor=plantAnchor(h,i),baseHeight=h.id==='freshwater'?35+i%4*13:h.id==='intertidal'?22+i%4*8:h.id==='estuary'?30+i%4*7:60+i%5*15;
+   drawAquaticPlant(g,{kind,x:anchor.x,y:anchor.y,a:(noise(i,55,s.seed)%9-4)*.025,scale:h.id==='shallow-marine'?.9+(i%3)*.08:h.id==='estuary'?.66+(i%3)*.07:.88+(i%2)*.08,seed:s.seed+i*19,height:baseHeight,time,flow:s.flow});
   }
   if(h.id==='shallow-marine'){
    for(let i=0;i<8;i++){const n=noise(i,66,s.seed);drawAquaticPlant(g,{kind:'seagrass',x:18+n%350,y:118+(n>>>10)%285,scale:.62,seed:s.seed+i*31,height:24+i%3*8,time,flow:s.flow})}
