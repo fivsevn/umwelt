@@ -1,3 +1,4 @@
+import {WATER_BACKGROUNDS,drawWaterBackground,drawWaterDetail,drawWaterPlant} from './aquatic-materials.mjs';
 import {LAUNCH_BACKGROUNDS,drawLaunchBackground} from './launch-materials.mjs';
 import {stepInteraction} from '../interaction.mjs';
 import {habitatConfig} from '../habitats.mjs';
@@ -67,41 +68,7 @@ function plantSway(kind,j,height,time,seed,flow,phase=0){
 // They are exported so Habitat Lab can place the exact same elements as the live game.
 export function drawAquaticDetail(g,{kind='barnacle',x=0,y=0,a=0,scale=1,seed=0,count}={}){
  const o={x,y,a,scale};
- if(kind==='barnacle'){
-  const total=count??(7+seed%6);
-  for(let i=0;i<total;i++){
-   const n=noise(i,31,seed),u=-18+(n%37),v=-10+((n>>>8)%21),w=3+(n%3),h=3+((n>>>4)%2);
-   // Pale square U-shaped shell with a dark aperture; this restores the old tide-rock motif.
-   localPixel(g,o,u-1,v-1,w+2,h+2,'#59635a');
-   localPixel(g,o,u,v,w,1,'#c0bea0');
-   localPixel(g,o,u,v+1,1,h-1,'#a9ad91');
-   localPixel(g,o,u+w-1,v+1,1,h-1,'#d0c9aa');
-   localPixel(g,o,u+1,v+1,Math.max(1,w-2),Math.max(1,h-2),'#4b5751');
-   if(i%3===0)localPixel(g,o,u+1,v,1,1,'#ded8b5');
-  }
-  return;
- }
- if(kind==='limpet'){
-  const total=count??(4+seed%4);
-  for(let i=0;i<total;i++){
-   const n=noise(i,43,seed),u=-14+(n%29),v=-9+((n>>>9)%19),w=5+(n%4);
-   localPixel(g,o,u,v,w,2,'#596158');
-   localPixel(g,o,u+1,v-1,Math.max(2,w-2),1,'#b8b79b');
-   localPixel(g,o,u+2,v-2,Math.max(1,w-4),1,'#d2c9a9');
-   localPixel(g,o,u+1,v+1,Math.max(2,w-2),1,'#747b68');
-  }
-  return;
- }
- if(kind==='detritus'){
-  const total=count??(8+seed%7);
-  for(let i=0;i<total;i++){
-   const n=noise(i,57,seed),u=-22+(n%45),v=-14+((n>>>7)%29),len=4+((n>>>13)%8),side=n&1?1:-1;
-   const dark=i%3===0?'#3a4634':'#4a533a',mid=i%2?'#697052':'#5b6247';
-   localLine(g,o,u,v,u+side*len,v+((n>>>4)%5)-2,1,dark);
-   if(i%2===0)localPixel(g,o,u+side*Math.floor(len*.55),v-1,2,1,mid);
-  }
-  return;
- }
+ if(['barnacle','limpet','detritus'].includes(kind))return drawWaterDetail(g,{kind,x,y,a,scale,seed,count});
  if(kind==='shellgrit'){
   const total=count??(12+seed%8);
   for(let i=0;i<total;i++){
@@ -114,103 +81,14 @@ export function drawAquaticDetail(g,{kind='barnacle',x=0,y=0,a=0,scale=1,seed=0,
 }
 
 export function drawAquaticBackground(g,{kind='freshwater',palette,seed=57}={}){
- const preset=AQUATIC_BACKDROPS[kind]||AQUATIC_BACKDROPS.freshwater,p=palette||preset.palette,w=g.canvas?.width||384,h=g.canvas?.height||430;
  if(LAUNCH_BACKGROUNDS.has(kind))return drawLaunchBackground(g,{kind,seed});
- for(let y=0;y<h;y+=2)for(let x=0;x<w;x+=2){
-  const n=noise(x>>1,y>>1,seed),wave=Math.sin((x+seed)*.024+y*.013)+Math.sin(y*.031);
-  const highlightMod=kind==='shallow-marine'?103:kind==='intertidal'?67:47;
-  const midMod=kind==='shallow-marine'?5:3;
-  const band=n%highlightMod===0?3:wave>.85&&n%midMod===0?2:n%midMod===0?1:0;
-  pixel(g,x,y,2,2,p[band]);
- }
- // Sparse granular flecks make the ground read as a submerged surface rather than flat water.
- for(let i=0;i<Math.round(w*h/780);i++){
-  const n=noise(i,91,seed),x=n%w,y=(n>>>11)%h;
-  pixel(g,x,y,n%5===0?2:1,1,n%3===0?p[3]:p[1]);
- }
- if(kind==='freshwater'){
-  // Peaty silt pockets, tiny decomposing fragments and darker anaerobic spots.
-  for(let i=0;i<34;i++){
-   const n=noise(i,101,seed),x=n%w,y=(n>>>10)%h,span=3+(n%8);
-   pixel(g,x,y,span,1,i%3?'rgba(39,56,43,.58)':'rgba(108,107,75,.42)');
-   if(i%4===0)pixel(g,x+2,y+2,2,1,'rgba(129,132,91,.38)');
-  }
- }
- if(kind==='intertidal'){
-  for(let x=0;x<w;x+=7){const y=Math.round(h*.56+Math.sin((x+seed)*.055)*2);pixel(g,x,y,5,1,'rgba(157,185,164,.34)')}
-  // Mineral pitting and wet rock-pool scuffs keep the floor from reading as a flat carpet.
-  for(let i=0;i<28;i++){
-   const n=noise(i,109,seed),x=n%w,y=(n>>>10)%h;
-   pixel(g,x,y,2+(n%4),1,i%4===0?'rgba(188,188,156,.28)':'rgba(46,67,62,.45)');
-   if(i%6===0)pixel(g,x+1,y+2,1,1,'rgba(183,193,166,.38)');
-  }
- }
- if(kind==='shallow-marine'){
-  // Broken sand ripples and shell glints: geometric rather than smooth gradients.
-  for(let i=0;i<20;i++){
-   const n=noise(i,117,seed),x=n%w,y=(n>>>11)%h,len=7+(n%13);
-   for(let j=0;j<len;j+=3)pixel(g,x+j,y+Math.round(Math.sin((j+i)*.8)),2,1,'rgba(157,160,126,.22)');
-  }
-  for(let i=0;i<22;i++){const n=noise(i,121,seed);pixel(g,n%w,(n>>>9)%h,1+(n%3),1,i%4===0?'rgba(205,201,158,.38)':'rgba(86,105,83,.34)')}
- }
+ if(WATER_BACKGROUNDS.has(kind))return drawWaterBackground(g,{kind,seed});
 }
 
 export function drawAquaticPlant(g,{kind='waterweed',x=0,y=0,a=0,scale=1,seed=0,height=64,time=0,flow=45,motion=1}={}){
  const ramp=plantRamp(kind),o={x,y,a,scale};
 
- if(kind==='waterweed'){
-  const stems=2+(seed%2);
-  for(let stem=0;stem<stems;stem++){
-   const baseU=(stem-(stems-1)/2)*6,stemHeight=height*(.78+(noise(stem,3,seed)%23)/100);
-   let prev={u:baseU,v:1};
-   for(let j=0;j<=stemHeight;j+=3){
-    const staticDrift=Math.sin(j*.075+seed*.31+stem*.85)*(1.8+j*.045*(flow/70));
-    const drift=staticDrift+plantSway('waterweed',j,stemHeight,time,seed,flow,stem*.58)*motion;
-    const cur={u:baseU+drift,v:-j};
-    localLine(g,o,prev.u,prev.v,cur.u,cur.v,1.4,j%12<6?ramp[0]:ramp[1]);
-    prev=cur;
-    if(j>7&&j%10<3){
-     const side=((Math.floor(j/10)+stem+seed)&1)?1:-1,leaf=7+(noise(j,stem,seed)%6);
-     // Leaves are compact tapered clusters rather than dark outlined sticks.
-     const lu=cur.u+side*2,lv=cur.v-1;
-     localPixel(g,o,side>0?lu:lu-4,lv,4,2,ramp[1]);
-     localPixel(g,o,side>0?cur.u+side*4:cur.u+side*4-5,cur.v-3,5,2,ramp[2]);
-     localPixel(g,o,side>0?cur.u+side*(leaf-1):cur.u+side*(leaf-1)-3,cur.v-5,3,2,ramp[2]);
-     localPixel(g,o,cur.u+side*leaf,cur.v-5,1,1,ramp[3]);
-    }
-   }
-  }
-  localPixel(g,o,-5,1,11,3,ramp[0]);
-  localPixel(g,o,-3,0,6,1,ramp[2]);
-  return;
- }
-
- if(kind==='rockweed'){
-  const branches=4+(seed%3);
-  for(let b=0;b<branches;b++){
-   const side=b-(branches-1)/2,len=height*(.58+(noise(b,9,seed)%35)/100),bend=side*4+Math.sin(seed+b)*3;
-   const midSway=plantSway('rockweed',len*.46,len,time,seed,flow,b*.47)*motion;
-   const tipSway=plantSway('rockweed',len,len,time,seed,flow,b*.47)*motion;
-   const midU=bend*.38+midSway,tipU=bend+tipSway;
-   localLine(g,o,0,0,midU,-len*.46,2,ramp[0]);
-   localLine(g,o,midU,-len*.46,tipU,-len,2,ramp[b%2?1:2]);
-   for(let k=1;k<4;k++){
-    const t=k/4,dir=(side<0?-1:1),u=bend*t+plantSway('rockweed',len*t,len,time,seed,flow,b*.47)*motion+dir*(3+k),v=-len*t;
-    // Short overlapping olive-green fronds form readable pixel clusters.
-    const frondW=5+k%2;
-    localPixel(g,o,dir>0?u-1:u-frondW+1,v+1,frondW,2,ramp[0]);
-    localPixel(g,o,dir>0?u:u-frondW,v,frondW,3,ramp[k===2?2:1]);
-    localPixel(g,o,dir>0?u+3+k%2:u-4-k%2,v-1,2,1,ramp[3]);
-   }
-   // Rounded air bladder at the tip.
-   localPixel(g,o,tipU-2,-len-2,5,4,ramp[1]);
-   localPixel(g,o,tipU-1,-len-3,3,2,ramp[2]);
-   localPixel(g,o,tipU,-len-3,1,1,ramp[3]);
-  }
-  localPixel(g,o,-7,0,14,4,ramp[0]);
-  localPixel(g,o,-4,-1,8,2,ramp[1]);
-  return;
- }
+ if(['waterweed','rockweed','kelp'].includes(kind))return drawWaterPlant(g,{kind,x,y,a,scale,seed,height,time,flow,motion},(j,len,phase)=>plantSway(kind,j,len,time,seed,flow,phase)*motion);
 
  if(kind==='seagrass'){
   const blades=6+(seed%4);
@@ -288,45 +166,6 @@ export function drawAquaticPlant(g,{kind='waterweed',x=0,y=0,a=0,scale=1,seed=0,
   return;
  }
 
- // Kelp: thin stipe + broad alternating ribbon blades. The blade mass, not a dark outline,
- // carries the silhouette; shadows use the same green family as the rest of the plant.
- const stipeHeight=height,stipe=[];
- for(let j=0;j<=stipeHeight;j+=3){
-  const staticDrift=Math.sin(j*.055+seed*.41)*(2.2+j*.046*(flow/60));
-  const drift=staticDrift+plantSway('kelp',j,stipeHeight,time,seed,flow)*motion;
-  stipe.push({u:drift,v:-j});
-  if(stipe.length>1){
-   const p=stipe[stipe.length-2];
-   localLine(g,o,p.u,p.v,drift,-j,1.6,j%15<7?ramp[0]:ramp[1]);
-  }
- }
- for(let j=12,index=0;j<stipeHeight-7;j+=15,index++){
-  const p=stipe[Math.min(stipe.length-1,Math.round(j/3))],side=((index+seed)&1)?1:-1;
-  const bladeLen=18+(noise(index,17,seed)%13),bladeWidth=5+(noise(index,21,seed)%4);
-  for(let k=0;k<bladeLen;k+=2){
-   const t=k/bladeLen;
-   const arc=Math.sin(t*Math.PI);
-   const centerU=p.u+side*(k*.45+arc*bladeWidth*.55);
-   const centerV=p.v-k*.46-arc*3;
-   const w=Math.max(3,Math.round((2+arc*bladeWidth)*(1-t*.22)));
-   // A lower-side shadow and two larger color clusters suggest a folded ribbon.
-   localPixel(g,o,centerU-side*1,centerV+1,w,2,ramp[0]);
-   localPixel(g,o,centerU,centerV,w,2,(index+k/2)%3===0?ramp[1]:ramp[2]);
-   if(k>3&&k<bladeLen-4&&k%6===0)localPixel(g,o,centerU+side*Math.max(1,Math.floor(w*.22)),centerV-1,2,1,ramp[3]);
-  }
- }
- // Terminal blade is shorter and fuller to break the old ladder-like repetition.
- const top=stipe[stipe.length-1],crownLen=Math.min(25,height*.3);
- for(let k=0;k<crownLen;k+=2){
-  const t=k/crownLen,arc=Math.sin(t*Math.PI),u=top.u+Math.sin(k*.2+seed)*3+plantSway('kelp',stipeHeight+k*.35,stipeHeight+crownLen*.35,time,seed,flow,.31)*motion,v=top.v-k*.72;
-  const w=4+Math.round(arc*6);
-  localPixel(g,o,u-1,v+1,w,2,ramp[0]);
-  localPixel(g,o,u,v,w,2,k%6<3?ramp[2]:ramp[1]);
-  if(k%8===0)localPixel(g,o,u+Math.floor(w*.35),v-1,1,1,ramp[3]);
- }
- localPixel(g,o,-7,1,5,3,ramp[0]);
- localPixel(g,o,1,1,6,3,ramp[0]);
- localPixel(g,o,-3,0,7,2,ramp[1]);
 }
 
 export function drawAquaticBase(g,s){

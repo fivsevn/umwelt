@@ -27,3 +27,9 @@ For new layouts or habitats, use the [environment guide](../docs/environments.md
 `launch-materials.mjs` contains only groundwater, estuary, sandy-surf and petri-dish backgrounds and their exclusive objects. It reuses the woodland `paint` / `materialInk` integer-cell grammar. Established forest, freshwater, intertidal, shallow-marine and abyssal renderers and authored layouts are unchanged. Saltmarsh grass is refined only in its existing species branch.
 
 Limestone shelves, calcite terraces, seep films, sediment, mud burrows, wrack, sand ripples, foam, glass scratches, attached bubbles and sample floc are editable objects. Only continuous substrate, shore material transitions and the dish body belong to backgrounds. Existing asset IDs and the version-1 scene JSON schema remain stable; two dish assets are additive. Launch placements are provisional and can be replaced with Habitat Lab exports. No ecology, movement, save or species behavior changes.
+
+## Aquatic finishing pass
+
+`aquatic-materials.mjs` completes freshwater, intertidal, shallow-marine and abyssal art with the same integer-cell material grammar. It replaces high-contrast scattered backgrounds with connected substrate patches and refines scene-exclusive vegetation, attached shells, films, sediment, nodules, sponges and sunken wood. All nine authored layouts remain unchanged in this pass. Woodland and the four launch additions retain their render output, including their shared seagrass, sea lettuce and shell fragments.
+
+Animated leaf geometry is cached in unscaled pixel tiles; plants are composited before casting their shadow. Sway profiles are unchanged. Browser regression compares the cached plant geometry to direct painting, checks all nine scene-specific English download filenames and JSON contents, and exercises editor import/export and responsive dragging. Downloads derive the filename from the active background's English habitat name, including after scene import.

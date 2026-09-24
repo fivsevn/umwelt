@@ -531,7 +531,7 @@ $('#copyScene').onclick=()=>copy(JSON.stringify(snapshot(),null,2));
 $('#copyShare').onclick=()=>copy(shareCode(snapshot()));
 $('#downloadScene').onclick=()=>{
  const url=URL.createObjectURL(new Blob([JSON.stringify(snapshot(),null,2)],{type:'application/json'}));
- const link=document.createElement('a');link.href=url;link.download=habitatLayoutFilename(currentPreset);link.click();
+ const link=document.createElement('a');link.href=url;link.download=habitatLayoutFilename(presetForBackground(state.background));link.click();
  setTimeout(()=>URL.revokeObjectURL(url),1000);message.textContent='已下载场景';
 };
 function restore(text){

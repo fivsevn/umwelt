@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
+import {WATER_BACKGROUNDS,WATER_DETAILS,drawWaterBackground,drawWaterDetail} from '../isopoda/scenery/aquatic-materials.mjs';
 import {LAUNCH_BACKGROUNDS,LAUNCH_DETAILS,drawLaunchBackground,drawLaunchDetail} from '../isopoda/scenery/launch-materials.mjs';
 const render=(draw,options)=>{
  const hash=createHash('sha256');let count=0;
@@ -26,5 +27,18 @@ test('every launch object survives fractional placement, rotation and scaling wi
   const options={kind,x:172.3,y:206.7,a,scale,seed:91};
   const result=render(drawLaunchDetail,options);assert.ok(result.count>0,kind);
   assert.deepEqual(result,render(drawLaunchDetail,options),kind);
+ }
+});
+
+test('finished aquatic backgrounds and exclusive objects retain opaque deterministic integer pixels',()=>{
+ for(const kind of WATER_BACKGROUNDS){
+  const a=render(drawWaterBackground,{kind,seed:57});assert.ok(a.count>=384*430/4);
+  assert.deepEqual(a,render(drawWaterBackground,{kind,seed:57}));
+  assert.notEqual(a.hash,render(drawWaterBackground,{kind,seed:97}).hash);
+ }
+ for(const kind of [...WATER_DETAILS,'barnacle','limpet','detritus']){
+  const options={kind,x:171.3,y:203.8,a:.37,scale:.65,seed:91};
+  const a=render(drawWaterDetail,options);assert.ok(a.count>0,kind);
+  assert.deepEqual(a,render(drawWaterDetail,options));
  }
 });
