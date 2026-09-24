@@ -11,6 +11,20 @@ import {layoutForHabitat} from './authored-layouts.mjs';
 const noise=(x,y,seed=0)=>{let n=Math.imul(x+seed+1,374761393)^Math.imul(y+1,668265263);n=Math.imul(n^(n>>>13),1274126177);return (n^(n>>>16))>>>0};
 const pixel=(g,x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),Math.max(1,Math.round(w)),Math.max(1,Math.round(h)))};
 
+// Large water-body stipple is visually static between state changes. Cache those
+// transparent pixels and keep only foam, particles and ripples on the live frame.
+const waterLayerCache=new Map();
+function staticWaterLayer(key,draw,limit=16){
+ if(typeof document==='undefined')return null;
+ let canvas=waterLayerCache.get(key);
+ if(canvas){waterLayerCache.delete(key);waterLayerCache.set(key,canvas);return canvas}
+ canvas=document.createElement('canvas');canvas.width=384;canvas.height=430;
+ const ctx=canvas.getContext('2d');ctx.imageSmoothingEnabled=false;draw(ctx);
+ waterLayerCache.set(key,canvas);
+ if(waterLayerCache.size>limit)waterLayerCache.delete(waterLayerCache.keys().next().value);
+ return canvas;
+}
+
 export const AQUATIC_BACKDROPS=Object.freeze({
  freshwater:{palette:['#273b32','#344439','#4e5140','#68634b'],water:'#31564f',accent:'#81906a'},
  groundwater:{palette:['#111716','#202724','#64675d','#aaa793'],water:'#263d3b',accent:'#c1bda5'},
@@ -228,7 +242,9 @@ export function drawAquaticWater(g,s,time=0,{drawPlants=true}={}){
  }
  if(h.id==='sandy-surf'){
   const shore=Math.max(112,Math.min(326,Math.round(270-(s.tide-50)*1.55+Math.sin(time*.55)*4)));
-  for(let y=shore;y<430;y+=4)for(let x=0;x<384;x+=4)if(noise(x,y,s.seed)%3!==0)pixel(g,x,y,4,2,'rgba(48,105,99,.18)');
+  const drawBody=target=>{for(let y=shore;y<430;y+=4)for(let x=0;x<384;x+=4)if(noise(x,y,s.seed)%3!==0)pixel(target,x,y,4,2,'rgba(48,105,99,.18)')};
+  const body=staticWaterLayer(`sandy:${s.seed}:${shore}`,drawBody);
+  if(body&&typeof g.drawImage==='function')g.drawImage(body,0,0);else drawBody(g);
   // Three broken swash/foam bands; gaps prevent the shoreline from reading as a UI divider.
   for(let band=0;band<3;band++){
    const by=shore+band*8+Math.sin(time*.8+band)*3;
@@ -254,7 +270,9 @@ export function drawAquaticWater(g,s,time=0,{drawPlants=true}={}){
   return;
  }
  // Water is transparent stippling with stepped ripples, never a smooth gradient.
- for(let y=surface;y<430;y+=4)for(let x=0;x<384;x+=4)if(noise(x,y)%4===0)pixel(g,x,y,2,1,'rgba(80,133,126,.13)');
+ const drawBody=target=>{for(let y=surface;y<430;y+=4)for(let x=0;x<384;x+=4)if(noise(x,y)%4===0)pixel(target,x,y,2,1,'rgba(80,133,126,.13)')};
+ const body=staticWaterLayer(`water:${surface}`,drawBody);
+ if(body&&typeof g.drawImage==='function')g.drawImage(body,0,0);else drawBody(g);
  if(drawPlants&&h.plants>0){
   const rawCount=Math.max(3,Math.round(h.plants*(s.algae/70)));
   const count=h.id==='shallow-marine'?Math.max(6,Math.round(rawCount*.52)):h.id==='intertidal'?Math.max(4,Math.round(rawCount*.72)):h.id==='estuary'?Math.max(5,Math.round(rawCount*.68)):rawCount;
