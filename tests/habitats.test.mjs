@@ -12,7 +12,7 @@ import {stepAquatic} from '../isopoda/scenery/aquatic.mjs';
 import {sources} from '../isopoda/sources-registry.mjs';
 const languages=['zh','en','ja','isopod'];
 test('aquatic habitat order follows the fresh-to-deep-sea gradient',()=>{
- assert.deepEqual(HABITATS.filter(h=>h.aquatic).map(h=>h.id),['freshwater','estuary','intertidal','shallow-marine','abyssal']);
+ assert.deepEqual(HABITATS.filter(h=>h.aquatic).map(h=>h.id),['freshwater','groundwater','estuary','intertidal','sandy-surf','shallow-marine','abyssal','petri-dish']);
 });
 
 test('all configured habitats complete their full duration with eligible animals and localized distinct scenes',()=>{
