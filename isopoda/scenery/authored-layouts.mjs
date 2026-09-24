@@ -8,9 +8,9 @@ export const ABYSSAL_LAYOUT={"version":1,"canvas":{"width":384,"height":430},"an
 export const SCENE_LAYOUTS=Object.freeze({
  forest:FOREST_LAYOUT,
  freshwater:FRESHWATER_LAYOUT,
+ estuary:ESTUARY_LAYOUT,
  intertidal:INTERTIDAL_LAYOUT,
  'shallow-marine':SHALLOW_MARINE_LAYOUT,
- estuary:ESTUARY_LAYOUT,
  abyssal:ABYSSAL_LAYOUT
 });
 export function layoutForHabitat(value){
