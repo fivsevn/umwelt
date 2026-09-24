@@ -11,6 +11,10 @@ import {ABYSSAL_NODES,ABYSSAL_ENDING_DATA} from '../isopoda/data/habitats/abyssa
 import {stepAquatic} from '../isopoda/scenery/aquatic.mjs';
 import {sources} from '../isopoda/sources-registry.mjs';
 const languages=['zh','en','ja','isopod'];
+test('aquatic habitat order follows the fresh-to-deep-sea gradient',()=>{
+ assert.deepEqual(HABITATS.filter(h=>h.aquatic).map(h=>h.id),['freshwater','estuary','intertidal','shallow-marine','abyssal']);
+});
+
 test('all configured habitats complete their full duration with eligible animals and localized distinct scenes',()=>{
  for(const h of HABITATS){
   const cohort=drawCohort({unlocked:[],draws:0},901,h.id),s=createRun(cohort[0].species,901,h.id);s.cohort=cohort;
