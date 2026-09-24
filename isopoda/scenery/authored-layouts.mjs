@@ -9,6 +9,7 @@ export const SCENE_LAYOUTS=Object.freeze({
  freshwater:FRESHWATER_LAYOUT,
  intertidal:INTERTIDAL_LAYOUT,
  'shallow-marine':SHALLOW_MARINE_LAYOUT,
+ estuary:{...INTERTIDAL_LAYOUT,background:{type:'water-estuary',seed:167,params:{aquatic:true,kind:'estuary',palette:['#31453f','#46564d','#6f715d','#9a8e6d']}}},
  abyssal:ABYSSAL_LAYOUT
 });
 export function layoutForHabitat(value){
