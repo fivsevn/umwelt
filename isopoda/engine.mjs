@@ -85,7 +85,7 @@ export function directMemoryForDay(s,day=s.day){
  return `今天你碰过${who}。它收紧身体，后来才重新展开。`;
 }
 export function endingMemoryFor(s){
- if(habitatConfig(s).aquatic)return s.directRecords?.length?'water:memory':'';
+ if(habitatConfig(s).aquatic)return s.directRecords?.length?(s.habitatId==='freshwater'?'water:freshwaterMemory':'water:memory'):'';
  const contradictions=Array.isArray(s.observerContradictions)?s.observerContradictions:[];if(contradictions.length)return '这七天里，至少有一次你写下的决定和随后发生的动作并不相同。田野笔记把两者都保留下来，而不是替其中一个作证。';
  const list=Array.isArray(s.directRecords)?s.directRecords:[];if(!list.length)return '';
  const r=[...list].reverse().find(x=>x.type==='place')||[...list].reverse().find(x=>x.type==='grab')||list.at(-1),who=r.specimen?`个体 ${r.specimen}`:'一个个体';
