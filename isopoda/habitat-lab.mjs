@@ -1,7 +1,8 @@
 import {exportScene,importScene,shareCode} from './scene-codec.mjs';
 import {drawSubstrate,drawLeaf,drawMossPatch,drawBark,drawStone,drawCuttlebone,drawTwig,drawWoodChip,LEGACY_BASE_SCENE,DEFAULT_LAYOUT} from './scenery/index.mjs';
 import {drawAquaticBackground,drawAquaticPlant,drawAquaticDetail,AQUATIC_BACKDROPS} from './scenery/aquatic.mjs';
-import {ACTOR_SCALE} from './scenery/grammar.mjs';
+import {sceneActorPixels} from './habitat.mjs';
+import {habitatConfig,eligibleSpecies} from './habitats.mjs';
 import {SCENE_LAYOUTS} from './scenery/authored-layouts.mjs';
 import {SPECIES,speciesById} from './species-registry.mjs';
 import {renderModel,pixelAnatomy} from './sprites.mjs';
@@ -9,16 +10,13 @@ import {renderModel,pixelAnatomy} from './sprites.mjs';
 const $=s=>document.querySelector(s);
 const scene=$('#scene'),ctx=scene.getContext('2d');ctx.imageSmoothingEnabled=false;
 
-// Exact projection multiplier used by habitat.mjs for live specimens.
-// The scale is shared with the game renderer.
-const GAME_ACTOR_SCALE=ACTOR_SCALE;
 const reference={
  species:'dairy',stage:'M',x:226,y:286,a:-.34,seed:189,visible:true
 };
 let referenceHitCells=[];
 
-for(const p of SPECIES.filter(p=>p.game?.habitatEligible!==false)){
- const option=new Option(`${p.label||p.name||p.id} · ${p.taxon||p.id}`,p.id);
+for(const p of SPECIES){
+ const option=new Option(`${p.label||p.name||p.id} · ${p.taxon||p.id}${p.game?.referenceOnly?' · 参考标本':''}`,p.id);
  $('#referenceSpecies').append(option);
 }
 $('#referenceSpecies').value=reference.species;
@@ -95,68 +93,17 @@ const ASSETS=[
 ];
 const ASSET_BY_ID=new Map(ASSETS.map(a=>[a.id,a]));
 
-const STARTER=LEGACY_BASE_SCENE.map(item=>{
+// Retain legacy asset IDs so previously exported layouts remain importable.
+for(const item of LEGACY_BASE_SCENE){
  const assetId='game-'+item.id;
  const category=item.type==='cuttlebone'?'calcium':['twig','chip'].includes(item.type)?'debris':item.type;
  const {x,y,a,seed,z,...params}=item;
  const asset={id:assetId,category,label:item.id,note:'正式场景',radius:item.type==='bark'?90:item.type==='moss'?item.rx:45,params};
  ASSET_BY_ID.set(assetId,asset);
- return {assetId,x,y,a:a||0,scale:1,seed,z};
-});
+}
 
 let state={background:'substrate-wet-left',backgroundSeed:57,items:[],selected:null,nextId:1};
 let category='all',drag=null,currentPreset='forest';
-
-function presetItem(assetId,x,y,scale=1,a=0,z=20,seed=57){
- return {assetId,id:'instance-'+Math.floor(seed*13+z*7+x+y),x,y,a,scale,z,seed};
-}
-function aquaticPreset(id){
- const seed=id==='freshwater'?83:id==='intertidal'?131:id==='shallow-marine'?197:251;
- if(id==='freshwater')return {
-  background:'water-freshwater',backgroundSeed:seed,items:[
-   presetItem('bark-log-01',176,248,1.05,.38,18,81),
-   presetItem('moss-sphagnum-02',63,122,.92,-.2,19,82),
-   presetItem('stone-round-01',226,230,1.2,0,21,83),presetItem('stone-flat-01',117,344,1.1,0,22,84),
-   presetItem('stone-small-01',285,95,.9,0,23,85),presetItem('stone-shard-01',306,299,.85,.4,24,86),
-   presetItem('leaf-narrow-01',82,176,.65,.7,25,87),presetItem('leaf-broad-01',309,159,.62,-.5,26,88),
-   ...[[44,116,.86],[164,92,.95],[276,128,.82],[337,205,.9],[107,306,.88],[218,354,.92],[319,367,.82],[63,392,.74]].map((p,i)=>presetItem(i%3===0?'waterweed-tuft-02':'waterweed-tuft-01',p[0],p[1],p[2],(i%3-1)*.08,30+i,100+i)),
-   ...[[68,245,.82],[184,323,.94],[302,264,.78],[258,397,.72]].map((p,i)=>presetItem('freshwater-detritus-01',p[0],p[1],p[2],(i%3-1)*.2,52+i,118+i))
-  ],selected:null,nextId:900
- };
- if(id==='intertidal')return {
-  background:'water-intertidal',backgroundSeed:seed,items:[
-   ...[[72,113,1.25],[178,99,1.15],[245,116,1.1],[326,83,1.35],[119,196,1.4],[219,192,1.25],[331,218,1.5],[84,332,1.2],[196,300,1.55],[304,337,1.35]].map((p,i)=>presetItem(i%2?'stone-tide-01':'stone-tide-02',p[0],p[1],p[2],(i%3-1)*.12,18+i,130+i)),
-   ...[[55,149,.78],[153,164,.7],[267,177,.82],[340,278,.74],[110,363,.72]].map((p,i)=>presetItem(i%2?'rockweed-tuft-02':'rockweed-tuft-01',p[0],p[1],p[2],(i%3-1)*.15,45+i,160+i)),
-   ...[[70,108,.78],[177,96,.74],[246,112,.72],[326,80,.8],[118,191,.86],[220,188,.76]].map((p,i)=>presetItem('barnacle-cluster-01',p[0],p[1],p[2],(i%3-1)*.1,58+i,176+i)),
-   ...[[329,214,.7],[83,329,.64],[194,296,.72]].map((p,i)=>presetItem('limpet-cluster-01',p[0],p[1],p[2],0,68+i,188+i)),
-   presetItem('shell-grit-01',287,383,.74,-.1,75,195)
-  ],selected:null,nextId:900
- };
- if(id==='abyssal')return {
-  background:'water-abyssal',backgroundSeed:seed,items:[
-   presetItem('abyssal-silt-01',76,96,1.25,-.12,12,301),
-   presetItem('abyssal-silt-01',310,344,1.1,.18,13,302),
-   presetItem('nodule-cluster-01',55,326,.82,0,22,303),
-   presetItem('nodule-cluster-01',132,379,.66,.1,23,304),
-   presetItem('nodule-cluster-01',325,112,.72,-.08,24,305),
-   presetItem('nodule-cluster-01',278,286,.58,.12,25,306),
-   presetItem('shell-fragment-01',102,181,.72,-.58,31,307),
-   presetItem('shell-fragment-01',339,389,.54,.42,32,308),
-   presetItem('sunken-wood-01',28,236,.9,.78,28,309),
-   presetItem('deepsea-sponge-01',319,233,.95,-.08,36,310)
-  ],selected:null,nextId:900
- };
- return {
-  background:'water-shallow-marine',backgroundSeed:seed,items:[
-   presetItem('stone-flat-01',109,369,1.35,.1,18,201),presetItem('stone-round-01',232,157,1.1,0,19,202),presetItem('stone-small-01',301,208,.9,0,20,203),
-   ...[[36,149,.88],[93,229,.82],[142,124,.9],[191,276,.86],[240,112,.92],[287,247,.84],[337,146,.9],[72,348,.78],[166,377,.82],[260,360,.86],[331,349,.78]].map((p,i)=>presetItem(i%4===0?'kelp-frond-02':'kelp-frond-01',p[0],p[1],p[2],(i%5-2)*.08,28+i,220+i)),
-   ...[[118,219,.7],[217,313,.66],[310,298,.72],[48,286,.64]].map((p,i)=>presetItem('seagrass-tuft-01',p[0],p[1],p[2],0,48+i,260+i)),
-   ...[[83,274,.56],[193,206,.52],[286,386,.58],[344,307,.5]].map((p,i)=>presetItem('ulva-clump-01',p[0],p[1],p[2],(i%3-1)*.08,56+i,275+i)),
-   ...[[126,397,.78],[250,333,.7],[51,374,.66]].map((p,i)=>presetItem('shell-grit-01',p[0],p[1],p[2],0,65+i,290+i))
-  ],selected:null,nextId:900
- };
-}
-
 
 const labNoise=(x,y,seed=0)=>{let n=Math.imul(x+seed+1,374761393)^Math.imul(y+1,668265263);n=Math.imul(n^(n>>>13),1274126177);return (n^(n>>>16))>>>0};
 const labPixel=(g,x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),Math.max(1,Math.round(w)),Math.max(1,Math.round(h)))};
@@ -293,25 +240,33 @@ function drawLabDetail(g,options={}){
  return withSoftWorldShadow(g,labDetailShadow(options.kind),()=>drawLabDetailShape(g,options));
 }
 
-function cloneStarter(){
- const imported=importScene(JSON.stringify(DEFAULT_LAYOUT),ASSET_BY_ID,reference);
- state=imported.state;Object.assign(reference,imported.reference);
+function syncControls(){
  $('#referenceSpecies').value=reference.species;$('#referenceStage').value=reference.stage;
  $('#toggleReference').setAttribute('aria-pressed',String(reference.visible));
  $('#toggleReference').textContent='GAME SCALE · '+(reference.visible?'ON':'OFF');
+ for(const button of document.querySelectorAll('[data-preset]'))button.setAttribute('aria-pressed',String(button.dataset.preset===currentPreset));
+ for(const button of document.querySelectorAll('[data-category]')){
+  const available=button.dataset.category==='all'||ASSETS.some(asset=>assetAvailableInPreset(asset)&&asset.category===button.dataset.category);
+  button.disabled=!available;
+ }
+ if(!ASSETS.some(asset=>assetAvailableInPreset(asset)&&asset.category===category))category='all';
+ for(const button of document.querySelectorAll('[data-category]'))button.setAttribute('aria-pressed',String(button.dataset.category===category));
+ renderAssetList();
 }
+function presetForBackground(background){return ASSET_BY_ID.get(background)?.scenes?.[0]||'forest'}
 function loadPreset(id){
  currentPreset=id;
- const layout=SCENE_LAYOUTS[id]||SCENE_LAYOUTS.forest;
+ const layout=SCENE_LAYOUTS[id]||DEFAULT_LAYOUT;
  const imported=importScene(JSON.stringify(layout),ASSET_BY_ID,reference);
  state=imported.state;Object.assign(reference,imported.reference);drag=null;
- $('#referenceSpecies').value=reference.species;$('#referenceStage').value=reference.stage;
- $('#toggleReference').setAttribute('aria-pressed',String(reference.visible));
- $('#toggleReference').textContent='GAME SCALE · '+(reference.visible?'ON':'OFF');
- for(const button of document.querySelectorAll('[data-preset]'))button.setAttribute('aria-pressed',String(button.dataset.preset===id));
- renderAssetList();drawScene();
+ const habitat=habitatConfig(id==='forest'?'terrestrial':id);
+ const specimen=speciesById(reference.species);
+ if(specimen.game?.referenceOnly||!eligibleSpecies(specimen,habitat.id)){
+  reference.species=SPECIES.find(p=>!p.game?.referenceOnly&&eligibleSpecies(p,habitat.id)).id;
+  if(habitat.dialogue)reference.stage='L';
+ }
+ syncControls();drawScene();
 }
-cloneStarter();
 
 function drawBackground(target,assetId=state.background,seed=state.backgroundSeed){
  const asset=ASSET_BY_ID.get(assetId)||ASSET_BY_ID.get('substrate-dry');
@@ -348,36 +303,47 @@ function drawObject(target,asset,item,preview=false){
 
 function drawReferenceSpecimen(){
  referenceHitCells=[];
- if(!reference.visible)return;
  const species=speciesById(reference.species);
- const model=renderModel(species.visual,{stage:reference.stage,seed:reference.seed});
- const scale=GAME_ACTOR_SCALE*model.growth.scale,ca=Math.cos(reference.a),sa=Math.sin(reference.a);
- const seen=new Map();
- for(const module of pixelAnatomy(model,{posture:'normal',phase:0,moving:false})){
-  for(const [sx,sy,color] of module.cells){
-   if(!color)continue;
-   const ox=sx*scale,oy=sy*scale;
-   const x=Math.round(reference.x+ox*ca-oy*sa),y=Math.round(reference.y+ox*sa+oy*ca);
-   seen.set(x+','+y,[x,y,color]);
-  }
- }
- referenceHitCells=[...seen.values()];
- for(const [x,y,color] of referenceHitCells){ctx.fillStyle=color;ctx.fillRect(x,y,1,1)}
  const size=species.renderSize?.referenceMm;
- $('#specimenReadout').textContent=`${species.label||species.name||species.id} · ${reference.stage} · 1× game habitat scale${Number.isFinite(size)?` · ref ${size.toFixed(size<2?1:0)} mm`:''}`;
+ $('#specimenReadout').textContent=`${species.label||species.name||species.id} · ${reference.stage} · ${reference.visible?'当前环境游戏比例':'参考标本已隐藏'}${Number.isFinite(size)?` · ref ${size.toFixed(size<2?1:0)} mm`:''}`;
+ if(!reference.visible)return;
+ const model=renderModel(species.visual,{stage:reference.stage,seed:reference.seed});
+ const source=new Map();
+ for(const module of pixelAnatomy(model,{posture:'normal',phase:0,moving:false}))
+  for(const [x,y,color] of module.cells)source.set(x+','+y,color);
+ const habitat=habitatConfig(currentPreset==='forest'?'terrestrial':currentPreset);
+ referenceHitCells=sceneActorPixels(source,{...reference,model,habitatScale:habitat.actorScale||1});
+ for(const [x,y,color] of referenceHitCells){ctx.fillStyle=color;ctx.fillRect(x,y,1,1)}
 }
 
 function referenceHit(point){
  return reference.visible&&referenceHitCells.some(([x,y])=>point.x>=x-3&&point.x<=x+4&&point.y>=y-3&&point.y<=y+4);
 }
 
+const hitCanvas=document.createElement('canvas');hitCanvas.width=scene.width;hitCanvas.height=scene.height;
+const hitContext=hitCanvas.getContext('2d',{willReadFrequently:true});
+let objectHits=[];
+let hitCache=new Map();
 function drawScene(){
  ctx.clearRect(0,0,scene.width,scene.height);
  drawBackground(ctx);
  const ordered=[...state.items].sort((a,b)=>(a.z||0)-(b.z||0));
+ objectHits=[];
+ const nextHitCache=new Map();
  for(const item of ordered){
-  const asset=ASSET_BY_ID.get(item.assetId);if(asset)drawObject(ctx,asset,item);
+  const asset=ASSET_BY_ID.get(item.assetId);if(!asset)continue;
+  drawObject(ctx,asset,item);
+  const key=JSON.stringify(item),cached=hitCache.get(item.id);
+  let mask=cached?.key===key?cached.mask:null;
+  if(!mask){
+   hitContext.clearRect(0,0,scene.width,scene.height);drawObject(hitContext,asset,item);
+   const rgba=hitContext.getImageData(0,0,scene.width,scene.height).data;
+   mask=new Uint8Array(scene.width*scene.height);
+   for(let i=0;i<mask.length;i++)mask[i]=rgba[i*4+3]>32?1:0;
+  }
+  nextHitCache.set(item.id,{key,mask});objectHits.push({id:item.id,mask});
  }
+ hitCache=nextHitCache;
  drawReferenceSpecimen();
  const selected=state.items.find(i=>i.id===state.selected);
  if(selected){
@@ -441,29 +407,32 @@ function updateInspector(){
 }
 
 function canvasPoint(event){
- const r=scene.getBoundingClientRect();
- return {x:(event.clientX-r.left)*scene.width/r.width,y:(event.clientY-r.top)*scene.height/r.height};
+ const r=scene.getBoundingClientRect(),style=getComputedStyle(scene);
+ const left=parseFloat(style.borderLeftWidth)||0,top=parseFloat(style.borderTopWidth)||0;
+ return {x:(event.clientX-r.left-left)*scene.width/(r.width-left-(parseFloat(style.borderRightWidth)||0)),y:(event.clientY-r.top-top)*scene.height/(r.height-top-(parseFloat(style.borderBottomWidth)||0))};
 }
 function hitTest(point){
- return [...state.items].sort((a,b)=>(b.z||0)-(a.z||0)).find(item=>{
-  const asset=ASSET_BY_ID.get(item.assetId),r=Math.max(8,(asset?.radius||24)*item.scale);
-  return Math.hypot(point.x-item.x,point.y-item.y)<=r;
- })||null;
+ const x=Math.floor(point.x),y=Math.floor(point.y);
+ if(x<0||y<0||x>=scene.width||y>=scene.height)return null;
+ // Reverse the actual paint order, including ties in z.
+ for(let i=objectHits.length-1;i>=0;i--)if(objectHits[i].mask[y*scene.width+x])return state.items.find(item=>item.id===objectHits[i].id);
+ return null;
 }
 scene.addEventListener('pointerdown',event=>{
+ if(event.button!==0||drag)return;
  const p=canvasPoint(event);
  if(referenceHit(p)){
-  state.selected=null;drag={kind:'specimen',dx:p.x-reference.x,dy:p.y-reference.y};
+  state.selected=null;drag={pointerId:event.pointerId,kind:'specimen',dx:p.x-reference.x,dy:p.y-reference.y};
   scene.setPointerCapture(event.pointerId);
  }else{
   const item=hitTest(p);state.selected=item?.id||null;
-  if(item){drag={kind:'asset',id:item.id,dx:p.x-item.x,dy:p.y-item.y};scene.setPointerCapture(event.pointerId)}
+  if(item){drag={pointerId:event.pointerId,kind:'asset',id:item.id,dx:p.x-item.x,dy:p.y-item.y};scene.setPointerCapture(event.pointerId)}
  }
  $('#pointerReadout').textContent=`${Math.round(p.x)}, ${Math.round(p.y)}`;drawScene();
 });
 scene.addEventListener('pointermove',event=>{
  const p=canvasPoint(event);$('#pointerReadout').textContent=`${Math.round(p.x)}, ${Math.round(p.y)}`;
- if(!drag)return;
+ if(!drag||drag.pointerId!==event.pointerId)return;
  if(drag.kind==='specimen'){
   reference.x=Math.max(0,Math.min(scene.width,p.x-drag.dx));
   reference.y=Math.max(0,Math.min(scene.height,p.y-drag.dy));
@@ -472,7 +441,7 @@ scene.addEventListener('pointermove',event=>{
  const item=state.items.find(i=>i.id===drag.id);if(!item)return;
  item.x=Math.max(0,Math.min(scene.width,p.x-drag.dx));item.y=Math.max(0,Math.min(scene.height,p.y-drag.dy));drawScene();
 });
-scene.addEventListener('pointerup',()=>drag=null);scene.addEventListener('pointercancel',()=>drag=null);
+for(const type of ['pointerup','pointercancel','lostpointercapture'])scene.addEventListener(type,event=>{if(drag?.pointerId===event.pointerId)drag=null});
 scene.addEventListener('pointerleave',()=>{if(!drag)$('#pointerReadout').textContent='—'});
 
 for(const button of document.querySelectorAll('[data-category]'))button.onclick=()=>{
@@ -499,17 +468,17 @@ document.querySelector('.control-grid').addEventListener('click',event=>{
  const action=button.dataset.action;
  if(action==='rotate-left')item.a=(item.a||0)-Math.PI/12;
  if(action==='rotate-right')item.a=(item.a||0)+Math.PI/12;
- if(action==='scale-down')item.scale=Math.max(.45,item.scale-.1);
- if(action==='scale-up')item.scale=Math.min(1.8,item.scale+.1);
- if(action==='back')item.z=(item.z||0)-1;
- if(action==='front')item.z=(item.z||0)+1;
+ if(action==='scale-down')item.scale=Math.max(.05,Math.round((item.scale-.1)*100)/100);
+ if(action==='scale-up')item.scale=Math.min(4,Math.round((item.scale+.1)*100)/100);
+ if(action==='back')item.z=Math.max(-10000,Math.min(...state.items.map(i=>i.z||0))-1);
+ if(action==='front')item.z=Math.min(10000,Math.max(...state.items.map(i=>i.z||0))+1);
  if(action==='flip-horizontal'){if(item.flipX)delete item.flipX;else item.flipX=true}
  if(action==='reroll')item.seed=(item.seed+97)>>>0;
  if(action==='delete'){state.items=state.items.filter(i=>i.id!==item.id);state.selected=null}
  drawScene();
 });
 
-renderAssetList();drawScene();
+loadPreset('forest');
 
 const sceneText=$('#sceneText'),message=$('#sceneMessage');
 const snapshot=()=>exportScene(state,reference,ASSET_BY_ID);
@@ -526,19 +495,24 @@ $('#downloadScene').onclick=()=>{
  setTimeout(()=>URL.revokeObjectURL(url),1000);message.textContent='已下载场景';
 };
 function restore(text){
+ const previous={state,reference:{...reference},currentPreset,category};
  try{
   const imported=importScene(text.trim(),ASSET_BY_ID,reference);
   if(!SPECIES.some(p=>p.id===imported.reference.species))throw new Error('未知标本种类');
   state=imported.state;Object.assign(reference,imported.reference);drag=null;
-  $('#referenceSpecies').value=reference.species;$('#referenceStage').value=reference.stage;
-  $('#toggleReference').setAttribute('aria-pressed',String(reference.visible));
-  $('#toggleReference').textContent='GAME SCALE · '+(reference.visible?'ON':'OFF');
-  drawScene();message.textContent='已精确还原 '+state.items.length+' 个物件';
- }catch(error){message.textContent=error.message}
+  currentPreset=presetForBackground(state.background);
+  drawScene();syncControls();message.textContent='已精确还原 '+state.items.length+' 个物件';
+ }catch(error){
+  state=previous.state;Object.assign(reference,previous.reference);currentPreset=previous.currentPreset;category=previous.category;drag=null;
+  drawScene();syncControls();message.textContent='未导入，原布局已保留：'+error.message;
+ }
 }
 $('#importScene').onclick=()=>restore(sceneText.value);
 $('#sceneFile').onchange=async event=>{
  const file=event.target.files[0];if(!file)return;
- if(file.size>1000000){message.textContent='场景文件过大';return}
- sceneText.value=await file.text();restore(sceneText.value);event.target.value='';
+ try{
+  if(file.size>1000000){message.textContent='场景文件过大';return}
+  sceneText.value=await file.text();restore(sceneText.value);
+ }catch{message.textContent='无法读取文件，原布局已保留'}
+ finally{event.target.value=''}
 };

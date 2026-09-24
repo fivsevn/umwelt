@@ -14,7 +14,9 @@ function params(value,depth=0){
  if(Array.isArray(value)&&value.length<=100)return value.map(v=>params(v,depth+1));
  if(value&&typeof value==='object')return Object.fromEntries(Object.entries(value).map(([k,v])=>{
   if(['__proto__','constructor','prototype'].includes(k))fail('非法参数');
-  if(['variant','tone'].includes(k)&&(!Number.isInteger(v)||v<0||v>5))fail('素材变体无效');
+  if(k==='variant'&&(!Number.isInteger(v)||v<0||v>5))fail('素材变体无效');
+  // Bark uses named tones; leaves retain numeric palette indices.
+  if(k==='tone'&&!['normal','waterlogged'].includes(v)&&(!Number.isInteger(v)||v<0||v>5))fail('素材色调无效');
   if(['wetness','alpha','age','light','moisture','lift','x','y','a'].includes(k))number(v,0);
   if(k==='wetZones'&&(!Array.isArray(v)||v.some(z=>!z||typeof z!=='object'||!Number.isFinite(z.x)||!Number.isFinite(z.y))))fail('湿区参数无效');
   if(['rx','ry','length'].includes(k))number(v,1,.01,500);

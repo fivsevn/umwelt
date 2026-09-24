@@ -320,3 +320,6 @@ footer{display:flex;justify-content:space-between;gap:16px;padding:0 2px;color:#
   flex-wrap:wrap!important;
  }
 }
+
+/* Unavailable material families stay visible without producing an empty shelf. */
+.category-bar button:disabled{opacity:.4;cursor:default}
