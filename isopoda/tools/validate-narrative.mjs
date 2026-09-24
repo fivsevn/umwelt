@@ -6,6 +6,7 @@ import {SPECIES} from '../species-registry.mjs';
 import {STORIES} from '../data/habitats/stories.mjs';
 import {STORY_ALTERNATES} from '../data/habitats/story-alternates.mjs';
 import {ABYSSAL_NODES,ABYSSAL_ENDING_DATA,ABYSSAL_FRAGMENT_DATA} from '../data/habitats/abyssal-dialogue.mjs';
+import {FRESHWATER_MATERIAL_STAGES,FRESHWATER_MATERIAL_ENDINGS} from '../data/habitats/freshwater-material.mjs';
 import {AQUATIC_ENDINGS,aquaticText} from '../aquatic-story.mjs';
 import {pathToFileURL} from 'node:url';
 const text=v=>typeof v==='string'&&v.trim().length>0;
@@ -29,7 +30,15 @@ export function validateNarrative({stories=STORIES,alternates=STORY_ALTERNATES,n
  const rowCheck=(row,key)=>{check(Array.isArray(row)&&row.length===4,`${key}: story row shape`);for(const i of [0,1,3]){triple(row?.[i],`${key}:${i}`);resolveKey(`${key}:${i}`)}check(row?.[2]&&Object.values(row[2]).every(Number.isFinite),`${key}: delta`)};
  const ordinary=HABITATS.filter(h=>h.aquatic&&!h.dialogue);
  check(Object.keys(stories).length===ordinary.length,'story habitat count');
- for(const [id,rows] of Object.entries(stories)){const h=ordinary.find(h=>h.id===id);check(!!h,`unknown story habitat ${id}`);check(rows.length===h?.days*3,`${id}: turn count`);rows.forEach((r,i)=>rowCheck(r,`water:${id}:turn:${i}`))}
+ for(const [id,rows] of Object.entries(stories)){const h=ordinary.find(h=>h.id===id);check(!!h,`unknown story habitat ${id}`);if(!h?.sequence)check(rows.length===h?.days*3,`${id}: turn count`);rows.forEach((r,i)=>rowCheck(r,`water:${id}:turn:${i}`))}
+ const freshwater=HABITATS.find(h=>h.id==='freshwater');check(FRESHWATER_MATERIAL_STAGES.length===freshwater?.turns,'freshwater: material stage count');
+ for(const [i,stage] of FRESHWATER_MATERIAL_STAGES.entries()){
+  triple(stage.name,`water:freshwater-material:stage:${i}`);resolveKey(`water:freshwater-material:stage:${i}`);triple(stage.prompt,`water:freshwater-material:${i}:prompt`);resolveKey(`water:freshwater-material:${i}:prompt`);
+  check(Array.isArray(stage.options)&&stage.options.length===3,`freshwater:${i}: options`);
+  for(const [j,option] of (stage.options||[]).entries())for(const field of ['label','text']){triple(option[field],`water:freshwater-material:${i}:option:${j}:${field}`);resolveKey(`water:freshwater-material:${i}:option:${j}:${field}`)}
+  for(const [choice,row] of Object.entries(stage.after||{})){triple(row,`water:freshwater-material:${i}:after:${choice}`);resolveKey(`water:freshwater-material:${i}:after:${choice}`)}
+ }
+ check(FRESHWATER_MATERIAL_ENDINGS.length===3,'freshwater: material ending count');for(const [i,ending] of FRESHWATER_MATERIAL_ENDINGS.entries())for(const field of ['title','body','line']){triple(ending[field],`water:freshwater-material:ending:${i}:${field}`);resolveKey(`water:freshwater-material:ending:${i}:${field}`)}
  const conditions=new Set(['always','high-flow','low-flow','high-detritus','low-detritus','low-light','low-oxygen','high-cover','low-salinity','high-algae']);
  for(const [id,turns] of Object.entries(alternates))for(const [turn,entries] of Object.entries(turns)){
   check(!!stories[id]?.[turn],`${id}: invalid alternate turn ${turn}`);
