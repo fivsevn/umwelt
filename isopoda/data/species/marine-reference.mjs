@@ -32,6 +32,7 @@ export const MARINE_REFERENCE_ISOPOD={
  game:{habitatEligible:false,referenceOnly:false,habitat:'marine',habitats:['petri-dish'],reason:'Marine Asellota; excluded from terrestrial habitat draws and available only in the special dish observation.'},
  evidenceIds:['itis-halacarsantia-uniramea','menzies-miller-unirameus-1955','wolff-halacarsantia-1989','shimomura-bruce-halacarsantia-2012'],
  evidence:{status:'literature_supported',claims:[]},
+ provenance:{url:'https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=922683',reviewed:'2026-09-24',habitatBasis:'Marine benthic Asellota; retained here as a magnified dish specimen.',renderLimitation:'Sub-millimetre setae and posterior pereopod modifications are documented but not individually resolved in the low-resolution sprite.'},
  genetics:{knowledge:'unknown',model:null},
  breeding:{crossCompatibility:'not_applicable'},
  nomenclature:{taxonomicStatus:'accepted_species',tradeStatus:null,vernacularStatus:'scientific_name_only',lastReviewed:'2026-09-17',provenance:'ITIS + original species description + later Halacarsantia revision'},
