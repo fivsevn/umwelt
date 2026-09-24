@@ -4,8 +4,8 @@ import {SCENE_LAYOUTS,layoutForHabitat} from '../isopoda/scenery/authored-layout
 import {sceneObjects,isAnimatedSceneElement} from '../isopoda/scenery/index.mjs';
 import {drawAquaticPlant} from '../isopoda/scenery/aquatic.mjs';
 
-test('the five exported habitat layouts are the canonical editor scenes',()=>{
- const expected={forest:42,freshwater:46,intertidal:51,'shallow-marine':32,abyssal:9};
+test('the exported habitat layouts are the canonical editor scenes',()=>{
+ const expected={forest:42,freshwater:46,intertidal:51,'shallow-marine':32,estuary:51,abyssal:9};
  assert.deepEqual(Object.keys(SCENE_LAYOUTS),Object.keys(expected));
  for(const [id,count] of Object.entries(expected)){
   const layout=SCENE_LAYOUTS[id];
@@ -19,7 +19,7 @@ test('the five exported habitat layouts are the canonical editor scenes',()=>{
 });
 
 test('authored aquatic plant positions remain animation-ready without changing editor coordinates',()=>{
- for(const id of ['freshwater','intertidal','shallow-marine']){
+ for(const id of ['freshwater','intertidal','shallow-marine','estuary']){
   const source=SCENE_LAYOUTS[id].objects.filter(item=>item.params?.kind);
   const runtime=sceneObjects(SCENE_LAYOUTS[id]).filter(isAnimatedSceneElement);
   assert.equal(runtime.length,source.length,id);
