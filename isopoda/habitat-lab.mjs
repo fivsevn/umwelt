@@ -535,21 +535,21 @@ $('#copyScene').onclick=()=>copy(JSON.stringify(snapshot(),null,2));
 $('#copyShare').onclick=()=>copy(shareCode(snapshot()));
 $('#downloadScene').onclick=()=>{
  const url=URL.createObjectURL(new Blob([JSON.stringify(snapshot(),null,2)],{type:'application/json'}));
- const link=document.createElement('a');link.href=url;link.download=habitatLayoutFilename(presetForBackground(state.background));link.click();
+ const link=document.createElement('a');link.href=url;link.download=currentPreset==='freshwater'?freshwaterStageFilename(currentFreshwaterStage):habitatLayoutFilename(presetForBackground(state.background));link.click();
  setTimeout(()=>URL.revokeObjectURL(url),1000);message.textContent='已下载场景';
 };
 function restore(text){
- const previous={state,reference:{...reference},currentPreset,category};
+ const previous={state,reference:{...reference},currentPreset,currentFreshwaterStage,category};
  try{
   const raw=text.trim(),decoded=raw.startsWith('UMWELT1:')?decodeURIComponent(escape(atob(raw.slice(8)))):raw,metadata=JSON.parse(decoded)?.metadata;
   const imported=importScene(raw,ASSET_BY_ID,reference);
   if(!SPECIES.some(p=>p.id===imported.reference.species))throw new Error('未知标本种类');
   state=imported.state;Object.assign(reference,imported.reference);drag=null;
   currentPreset=presetForBackground(state.background);
-  if(currentPreset==='freshwater'&&Number.isInteger(metadata?.materialStage))currentFreshwaterStage=Math.max(0,Math.min(FRESHWATER_STAGE_LAYOUTS.length-1,metadata.materialStage));
+  if(currentPreset==='freshwater')currentFreshwaterStage=Number.isInteger(metadata?.materialStage)?Math.max(0,Math.min(FRESHWATER_STAGE_LAYOUTS.length-1,metadata.materialStage)):0;
   drawScene();syncControls();message.textContent='已精确还原 '+state.items.length+' 个物件';
  }catch(error){
-  state=previous.state;Object.assign(reference,previous.reference);currentPreset=previous.currentPreset;category=previous.category;drag=null;
+  state=previous.state;Object.assign(reference,previous.reference);currentPreset=previous.currentPreset;currentFreshwaterStage=previous.currentFreshwaterStage;category=previous.category;drag=null;
   drawScene();syncControls();message.textContent='未导入，原布局已保留：'+error.message;
  }
 }
