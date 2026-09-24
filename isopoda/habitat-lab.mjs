@@ -4,6 +4,7 @@ import {drawAquaticBackground,drawAquaticPlant,drawAquaticDetail,AQUATIC_BACKDRO
 import {sceneActorPixels} from './habitat.mjs';
 import {habitatConfig,eligibleSpecies,habitatLayoutFilename} from './habitats.mjs';
 import {SCENE_LAYOUTS} from './scenery/authored-layouts.mjs';
+import {FRESHWATER_STAGE_LAYOUTS,FRESHWATER_STAGE_META,freshwaterStageFilename} from './scenery/freshwater-stages.mjs';
 import {SPECIES,speciesById} from './species-registry.mjs';
 import {renderModel,pixelAnatomy} from './sprites.mjs';
 
@@ -21,6 +22,7 @@ for(const p of SPECIES){
 }
 $('#referenceSpecies').value=reference.species;
 $('#referenceStage').value=reference.stage;
+for(const [index,stage] of FRESHWATER_STAGE_META.entries())$('#freshwaterStage').append(new Option(stage.label,String(index)));
 
 const ASSETS=[
  {id:'substrate-dry',category:'substrate',kind:'background',scenes:['forest'],label:'Dry substrate',note:'基质 / 干燥',params:{wetZones:[],light:82}},
@@ -87,7 +89,7 @@ const ASSETS=[
 
  {id:'leaf-broad-01',category:'leaf',scenes:['forest','freshwater'],label:'Oak leaf',note:'橡树 / 裂片枯叶',radius:58,params:{variant:0,tone:0,scale:1.04}},
  {id:'leaf-narrow-01',category:'leaf',scenes:['forest','freshwater'],label:'Willow leaf',note:'柳树 / 狭长枯叶',radius:46,params:{variant:1,tone:1,scale:.92}},
- {id:'leaf-broken-01',category:'leaf',scenes:['forest'],label:'Maple leaf',note:'枫树 / 掌状破损叶',radius:46,params:{variant:3,tone:2,scale:1.04,gap:true}},
+ {id:'leaf-broken-01',category:'leaf',scenes:['forest','freshwater'],label:'Maple leaf',note:'枫树 / 掌状破损叶',radius:46,params:{variant:3,tone:2,scale:1.04,gap:true}},
  {id:'leaf-fan-01',category:'leaf',scenes:['forest'],label:'Ginkgo leaf',note:'银杏 / 扇形裂叶',radius:60,params:{variant:4,tone:0,scale:1.04}},
  {id:'leaf-curled-01',category:'leaf',scenes:['forest'],label:'Beech leaf',note:'林地阔叶 / 山毛榉',radius:58,params:{variant:5,tone:2,scale:1.0}},
 
@@ -124,7 +126,7 @@ for(const item of LEGACY_BASE_SCENE){
 }
 
 let state={background:'substrate-wet-left',backgroundSeed:57,items:[],selected:null,nextId:1};
-let category='all',drag=null,currentPreset='forest';
+let category='all',drag=null,currentPreset='forest',currentFreshwaterStage=0;
 
 const labNoise=(x,y,seed=0)=>{let n=Math.imul(x+seed+1,374761393)^Math.imul(y+1,668265263);n=Math.imul(n^(n>>>13),1274126177);return (n^(n>>>16))>>>0};
 const labPixel=(g,x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),Math.max(1,Math.round(w)),Math.max(1,Math.round(h)))};
@@ -282,6 +284,7 @@ function drawLabDetail(g,options={}){
 
 function syncControls(){
  $('#referenceSpecies').value=reference.species;$('#referenceStage').value=reference.stage;
+ $('#freshwaterStageControl').hidden=currentPreset!=='freshwater';$('#freshwaterStage').value=String(currentFreshwaterStage);
  $('#toggleReference').setAttribute('aria-pressed',String(reference.visible));
  $('#toggleReference').textContent='GAME SCALE · '+(reference.visible?'ON':'OFF');
  for(const button of document.querySelectorAll('[data-preset]'))button.setAttribute('aria-pressed',String(button.dataset.preset===currentPreset));
@@ -296,7 +299,7 @@ function syncControls(){
 function presetForBackground(background){return ASSET_BY_ID.get(background)?.scenes?.[0]||'forest'}
 function loadPreset(id){
  currentPreset=id;
- const layout=SCENE_LAYOUTS[id]||DEFAULT_LAYOUT;
+ const layout=id==='freshwater'?FRESHWATER_STAGE_LAYOUTS[currentFreshwaterStage]:(SCENE_LAYOUTS[id]||DEFAULT_LAYOUT);
  const imported=importScene(JSON.stringify(layout),ASSET_BY_ID,reference);
  state=imported.state;Object.assign(reference,imported.reference);drag=null;
  const habitat=habitatConfig(id==='forest'?'terrestrial':id);
@@ -491,7 +494,8 @@ for(const button of document.querySelectorAll('[data-category]'))button.onclick=
 };
 
 $('#resetScene').onclick=()=>loadPreset(currentPreset);
-for(const button of document.querySelectorAll('[data-preset]'))button.onclick=()=>loadPreset(button.dataset.preset);
+for(const button of document.querySelectorAll('[data-preset]'))button.onclick=()=>{if(button.dataset.preset==='freshwater')currentFreshwaterStage=0;loadPreset(button.dataset.preset)};
+$('#freshwaterStage').onchange=event=>{currentFreshwaterStage=Math.max(0,Math.min(FRESHWATER_STAGE_LAYOUTS.length-1,Number(event.target.value)||0));loadPreset('freshwater')};
 $('#clearScene').onclick=()=>{state.items=[];state.selected=null;drawScene()};
 
 $('#referenceSpecies').onchange=event=>{reference.species=event.target.value;reference.seed=(reference.seed+31)>>>0;drawScene()};
@@ -521,7 +525,7 @@ document.querySelector('.control-grid').addEventListener('click',event=>{
 loadPreset('forest');
 
 const sceneText=$('#sceneText'),message=$('#sceneMessage');
-const snapshot=()=>exportScene(state,reference,ASSET_BY_ID);
+const snapshot=()=>{const data=exportScene(state,reference,ASSET_BY_ID);if(currentPreset==='freshwater')data.metadata={habitat:'freshwater',materialStage:currentFreshwaterStage,stageId:FRESHWATER_STAGE_META[currentFreshwaterStage].id};return data};
 async function copy(text){
  sceneText.value=text;
  try{await navigator.clipboard.writeText(text);message.textContent='已复制场景'}
@@ -537,10 +541,12 @@ $('#downloadScene').onclick=()=>{
 function restore(text){
  const previous={state,reference:{...reference},currentPreset,category};
  try{
-  const imported=importScene(text.trim(),ASSET_BY_ID,reference);
+  const raw=text.trim(),decoded=raw.startsWith('UMWELT1:')?decodeURIComponent(escape(atob(raw.slice(8)))):raw,metadata=JSON.parse(decoded)?.metadata;
+  const imported=importScene(raw,ASSET_BY_ID,reference);
   if(!SPECIES.some(p=>p.id===imported.reference.species))throw new Error('未知标本种类');
   state=imported.state;Object.assign(reference,imported.reference);drag=null;
   currentPreset=presetForBackground(state.background);
+  if(currentPreset==='freshwater'&&Number.isInteger(metadata?.materialStage))currentFreshwaterStage=Math.max(0,Math.min(FRESHWATER_STAGE_LAYOUTS.length-1,metadata.materialStage));
   drawScene();syncControls();message.textContent='已精确还原 '+state.items.length+' 个物件';
  }catch(error){
   state=previous.state;Object.assign(reference,previous.reference);currentPreset=previous.currentPreset;category=previous.category;drag=null;
