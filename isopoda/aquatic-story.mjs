@@ -16,7 +16,8 @@ const COPY={
  low:['悬浮颗粒缓慢下沉，几个轮廓停在水流经过的边缘。','Particles settle slowly. Several bodies rest near passing water.','粒子がゆっくり沈み、輪郭が流れの縁で止まる。'],
  fast:['颗粒加快移动，身体更靠近可以抓住的表面。','Particles move faster; bodies draw nearer to surfaces they can grip.','粒子が速まり、身体がつかまれる面へ寄る。'],
  normal:['水穿过遮蔽之间，细小的路线仍在继续。','Water passes between shelters. Small routes continue.','水が隠れ場の間を通り、小さな経路が続く。'],
- memory:['三天里，你的手也曾改变水中的位置。记录保留了那些动作。','During these three days your hand also changed positions in the water. Those actions remain in the record.','この三日間、手も水中の位置を変えた。その動作も記録に残る。']
+ memory:['三天里，你的手也曾改变水中的位置。记录保留了那些动作。','During these three days your hand also changed positions in the water. Those actions remain in the record.','この三日間、手も水中の位置を変えた。その動作も記録に残る。'],
+ freshwaterMemory:['这五次观察里，你的手也曾改变水中的位置。物质继续变化时，那些动作也留在记录里。','Across these five observations your hand also changed positions in the water. As matter kept changing, those actions remained in the record.','この五回の観察でも、手は水中の位置を変えた。物質が変わり続けるあいだ、その動作も記録に残った。']
 };
 const endingBodies={
  groundwater:[['滴水继续落进浅池，流石边缘仍有细小移动。','Drops continue into the shallow pool while small movements persist along the flowstone edge.','滴は浅い水たまりへ落ち続け、流石の縁では小さな動きが続く。'],['你改变过渗流、光或细泥。后来的路线发生在这些改变之后。','You changed seepage, light, or fine silt. Later routes occurred after those changes.','染み出し、光、細泥を変えた。その後の経路は変更のあとに起きた。'],['最后一条线停在水膜边缘，下一滴水已经落下。','The last line stops at the water-film edge; the next drop has already fallen.','最後の線は水膜の縁で止まり、次の滴はもう落ちている。']],
@@ -27,7 +28,8 @@ const endingBodies={
  estuary:[['潮水退去以后，泥面的湿痕仍在改变。你等待过的地方没有保持同一种水。','After the tide withdraws, wet marks on the mud keep changing. The place where you waited did not hold one kind of water.','潮が引いたあとも泥面の湿り跡は変わり続ける。待っていた場所に同じ水は留まらなかった。'],['你改变过沟槽、漂木或渗流。后来的混合发生在这些改变之后，记录无法把干预从河口分开。','You changed a channel, driftwood, or seep. Later mixing happened after those changes; the record cannot separate intervention from estuary.','水路、流木、染み出しを変えた。その後の混合から介入だけを切り離すことはできない。'],['纸上最后一条盐度线停住了。真实的河口没有停住。','The last salinity line stops on paper. The real estuary does not.','紙上の最後の塩分線は止まる。実際の河口は止まらない。']],
  'shallow-marine':[['藻叶慢慢摆回原处.附着不是静止，只是和另一种移动一起发生。','Fronds slowly swing back. Attachment is not stillness; it moves with something else.','藻葉がゆっくり戻る。付着は静止ではなく、別の動きと共にある。'],['改变后的藻间仍有身体经过。你看到的路线，也包含你留下的空隙。','Bodies pass through the altered bed. Their routes also contain the gaps you left.','変えた藻間を身体が通る。見えた経路には、作った隙間も含まれる。'],['最后一条线画成了藻叶的形状。真实的藻叶已经转向下一阵流。','The last line takes the shape of a frond. The real one has turned toward the next current.','最後の線は藻葉の形になる。本物は次の流れへ向いている。']]
 };
-const STANDARD_AQUATIC_ENDINGS=Object.keys(STORIES).flatMap(id=>['calm','care','trace'].map((kind,i)=>({id:`${id}-${kind}`,title:id==='freshwater'?`water:freshwater-material:ending:${i}:title`:`water:${kind}`,body:id==='freshwater'?`water:freshwater-material:ending:${i}:body`:`water:${id}:ending:${i}`,line:id==='freshwater'?`water:freshwater-material:ending:${i}:line`:'water:note'})));
+const freshwaterEndingIndex={care:0,calm:1,trace:2};
+const STANDARD_AQUATIC_ENDINGS=Object.keys(STORIES).flatMap(id=>['calm','care','trace'].map((kind,i)=>{const endingIndex=id==='freshwater'?freshwaterEndingIndex[kind]:i;return {id:`${id}-${kind}`,title:id==='freshwater'?`water:freshwater-material:ending:${endingIndex}:title`:`water:${kind}`,body:id==='freshwater'?`water:freshwater-material:ending:${endingIndex}:body`:`water:${id}:ending:${i}`,line:id==='freshwater'?`water:freshwater-material:ending:${endingIndex}:line`:'water:note'}}));
 export const ABYSSAL_ENDINGS=Object.keys(ABYSSAL_ENDING_DATA).map(id=>({id,title:`abyssal:ending:${id}:title`,body:`abyssal:ending:${id}:body`,line:`abyssal:ending:${id}:line`}));
 export const AQUATIC_ENDINGS=[...STANDARD_AQUATIC_ENDINGS,...ABYSSAL_ENDINGS];
 
