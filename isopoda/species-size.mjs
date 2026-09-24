@@ -22,7 +22,16 @@ const SIZE_REFERENCE={
  werneri:{mm:21,confidence:'revision-reference',basis:'modern species revision / specialist references: adults around 21 mm'},
  spinicornis:{mm:12,confidence:'specialist-field-guide',basis:'BMIG and Shultz 2018: adults to about 12 mm'},
  magnificus:{mm:29,confidence:'taxonomic-material',basis:'Schmalfuss 1987 cites adult males reaching about 29 mm'},
- uniramea:{range:[.7,1.0],confidence:'type-series',basis:'Menzies & Miller 1955: holotype male 0.7 mm; ovigerous allotype female 1.0 mm'}
+ uniramea:{range:[.7,1.0],confidence:'type-series',basis:'Menzies & Miller 1955: holotype male 0.7 mm; ovigerous allotype female 1.0 mm'},
+ albifrons:{mm:5,confidence:'specialist-field-guide',basis:'BMIG / Naylor & Brandt: females to 5.0 mm'},
+ bidentata:{mm:7,confidence:'specialist-field-guide',basis:'MarLIN species account: adults approximately 6–7 mm'},
+ linearis:{mm:40,confidence:'specialist-field-guide',basis:'BMIG / Naylor & Brandt: males to 40 mm'},
+ maculosa:{mm:10,confidence:'specialist-field-guide',basis:'BMIG / Naylor & Brandt: males to 10 mm'},
+ hookeri:{mm:10.5,confidence:'specialist-field-guide',basis:'BMIG / Naylor & Brandt: males to 10.5 mm'},
+ rugicauda:{mm:10,confidence:'specialist-field-guide',basis:'BMIG / Naylor & Brandt: males to about 10 mm'},
+ chelipes:{mm:15,confidence:'specialist-field-guide',basis:'specialist marine-isopod account: males to about 15 mm'},
+ carinata:{range:[14,27],confidence:'specialist-field-guide',basis:'BMIG / Naylor & Brandt: 14–27 mm'},
+ nordmanni:{mm:4.5,confidence:'specialist-field-guide',basis:'BMIG / Naylor & Brandt: males to 4.5 mm'}
 };
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function referenceLengthMm(species){
