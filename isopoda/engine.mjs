@@ -131,7 +131,7 @@ function ambientMoltFor(s){
  return {specimen:specimen.id,phase,x,y,a,source:'ambient'};
 }
 export function sceneFor(s){
- if(habitatConfig(s).aquatic){const scene=aquaticScene(s);return {...scene,time:habitatConfig(s).dialogue?'':timeFor(s.seed,s.day,s.period)}};
+ if(habitatConfig(s).aquatic){const scene=aquaticScene(s),config=habitatConfig(s);return {...scene,time:(config.dialogue||config.untimed)?'':timeFor(s.seed,s.day,s.period)}};
  const focal=s.cohort[hash(s.seed,s.day)%7],scene={id:`${s.day}.${s.period}`,title:PERIODS[s.period],kind:'text',text:'',options:[]};
  if(s.period===0){
    scene.text='';
@@ -231,6 +231,11 @@ export function endingFor(s){
 export function advance(s){
  if(s.stage!=='feedback')return false;
  const config=habitatConfig(s);
+ if(config.sequence==='freshwater-material'){
+  const completed=(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind==='freshwater-material').length;
+  if(completed>=config.turns){s.stage='ended';s.ending=endingFor(s).id;return true}
+  advanceWater(s);s.day=1;s.period=0;s.stage='choice';s.feedback='';s.interactionIntent=null;s.scene=null;ensureScene(s);return true;
+ }
  if(config.dialogue){
   const completed=(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind==='abyssal-dialogue').length;
   if(completed>=config.turns){s.stage='ended';s.ending=endingFor(s).id;return true}
@@ -253,6 +258,11 @@ export function migrateV3(old){if(!old||old.version!==3||!SPECIES.some(p=>p.id==
 export function migrateV4(old){
  if(!old||old.version!==4)return null;
  const s={...old,habitatId:old.habitatId??'terrestrial'};
+ if(s.habitatId==='freshwater'){
+  // Freshwater now uses five untimed material observations instead of three dated days.
+  s.day=1;s.period=0;
+  if(s.stage==='choice')s.scene=null;
+ }
  if(s.habitatId==='abyssal'){
   // Older abyssal saves used day/period only as a transport for the dialogue index.
   // Preserve their choices, but normalize the rewritten mode to one untimed sequence.
