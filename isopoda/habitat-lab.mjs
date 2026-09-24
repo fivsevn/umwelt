@@ -49,6 +49,8 @@ const ASSETS=[
  {id:'sand-ripple-01',category:'debris',scenes:['sandy-surf'],label:'Sand ripple',note:'沙滩 / 平行砂纹',radius:50,params:{labDetail:'sand-ripple'}},
  {id:'foam-trace-01',category:'water',scenes:['sandy-surf'],label:'Foam trace',note:'沙滩 / 破碎泡沫线',radius:50,params:{labDetail:'foam-trace'}},
  {id:'dish-sediment-01',category:'debris',scenes:['petri-dish'],label:'Dish sediment',note:'培养皿 / 微粒沉积',radius:32,params:{labDetail:'dish-sediment'}},
+ {id:'dish-bubbles-01',category:'water',scenes:['petri-dish'],label:'Trapped bubbles',note:'培养皿 / 附壁微气泡',radius:28,params:{labDetail:'dish-bubbles'}},
+ {id:'dish-floc-01',category:'debris',scenes:['petri-dish'],label:'Sample floc',note:'培养皿 / 样本絮团',radius:28,params:{labDetail:'dish-floc'}},
  {id:'glass-scratch-01',category:'debris',scenes:['petri-dish'],label:'Glass scratch',note:'培养皿 / 玻璃细划痕',radius:40,params:{labDetail:'glass-scratch'}},
 
  {id:'waterweed-tuft-01',category:'aquatic',scenes:['freshwater'],label:'Waterweed 01',note:'淡水水草 / 对生叶',radius:42,params:{kind:'waterweed',height:58,flow:36}},

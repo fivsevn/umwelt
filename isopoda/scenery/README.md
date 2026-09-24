@@ -21,3 +21,9 @@ Run `node --test tests/*.test.mjs` plus the repository checks under `isopoda/too
 The second visual pass follows the early woodland screenshot: muted ochre leaves, dark soil, a larger central shelter and large leaf litter. No simulation or save logic changes. `FOREST STUDY` uses the same production composition plus extra litter.
 
 For new layouts or habitats, use the [environment guide](../docs/environments.md). [Documentation index](../docs/README.md).
+
+## Launch habitat art
+
+`launch-materials.mjs` contains only groundwater, estuary, sandy-surf and petri-dish backgrounds and their exclusive objects. It reuses the woodland `paint` / `materialInk` integer-cell grammar. Established forest, freshwater, intertidal, shallow-marine and abyssal renderers and authored layouts are unchanged. Saltmarsh grass is refined only in its existing species branch.
+
+Limestone shelves, calcite terraces, seep films, sediment, mud burrows, wrack, sand ripples, foam, glass scratches, attached bubbles and sample floc are editable objects. Only continuous substrate, shore material transitions and the dish body belong to backgrounds. Existing asset IDs and the version-1 scene JSON schema remain stable; two dish assets are additive. Launch placements are provisional and can be replaced with Habitat Lab exports. No ecology, movement, save or species behavior changes.
