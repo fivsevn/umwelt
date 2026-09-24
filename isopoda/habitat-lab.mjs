@@ -1,5 +1,5 @@
 import {exportScene,importScene,shareCode} from './scene-codec.mjs';
-import {drawSubstrate,drawLeaf,drawMossPatch,drawBark,drawStone,drawCuttlebone,drawTwig,drawWoodChip,LEGACY_BASE_SCENE,DEFAULT_LAYOUT} from './scenery/index.mjs';
+import {drawSubstrate,drawLeaf,drawMossPatch,drawBark,drawStone,drawCuttlebone,drawTwig,drawWoodChip,drawSceneDetail,LEGACY_BASE_SCENE,DEFAULT_LAYOUT} from './scenery/index.mjs';
 import {drawAquaticBackground,drawAquaticPlant,drawAquaticDetail,AQUATIC_BACKDROPS} from './scenery/aquatic.mjs';
 import {sceneActorPixels} from './habitat.mjs';
 import {habitatConfig,eligibleSpecies} from './habitats.mjs';
@@ -28,16 +28,28 @@ const ASSETS=[
  {id:'substrate-forest',category:'substrate',kind:'background',scenes:['forest'],label:'Forest floor',note:'基质 / 林地湿润斑块',params:{wetZones:[{x:60,y:120,rx:115,ry:170,moisture:74},{x:320,y:300,rx:90,ry:115,moisture:58}],light:76}},
 
  {id:'water-freshwater',category:'water',kind:'background',scenes:['freshwater'],label:'Freshwater pool',note:'淡水 / 深绿腐殖底',params:{aquatic:true,kind:'freshwater',palette:AQUATIC_BACKDROPS.freshwater.palette}},
+ {id:'water-groundwater',category:'water',kind:'background',scenes:['groundwater'],label:'Limestone groundwater',note:'地下水 / 石灰岩洞穴',params:{aquatic:true,kind:'groundwater',palette:AQUATIC_BACKDROPS.groundwater.palette}},
  {id:'water-intertidal',category:'water',kind:'background',scenes:['intertidal'],label:'Intertidal pool',note:'潮间带 / 岩池底',params:{aquatic:true,kind:'intertidal',palette:AQUATIC_BACKDROPS.intertidal.palette}},
+ {id:'water-sandy-surf',category:'water',kind:'background',scenes:['sandy-surf'],label:'Sandy surf zone',note:'沙滩 / 干沙·湿沙·浅水',params:{aquatic:true,kind:'sandy-surf',palette:AQUATIC_BACKDROPS['sandy-surf'].palette}},
  {id:'water-estuary',category:'water',kind:'background',scenes:['estuary'],label:'Brackish estuary',note:'河口 / 潮沟泥滩',params:{aquatic:true,kind:'estuary',palette:AQUATIC_BACKDROPS.estuary.palette}},
  {id:'saltmarsh-tuft-01',category:'aquatic',scenes:['estuary'],label:'Saltmarsh grass 01',note:'河口 / 盐沼草丛',radius:40,params:{kind:'saltmarsh',height:54,flow:34}},
  {id:'saltmarsh-tuft-02',category:'aquatic',scenes:['estuary'],label:'Saltmarsh grass 02',note:'河口 / 高株盐沼草',radius:48,params:{kind:'saltmarsh',height:72,flow:38}},
  {id:'tidal-runnel-01',category:'water',scenes:['estuary'],label:'Tidal runnel',note:'河口 / 细潮沟',radius:52,params:{labDetail:'tidal-runnel'}},
  {id:'mud-burrows-01',category:'debris',scenes:['estuary'],label:'Mud burrows',note:'河口 / 泥孔与泥丸',radius:34,params:{labDetail:'mud-burrows'}},
- {id:'wrack-line-01',category:'debris',scenes:['estuary'],label:'Wrack line',note:'河口 / 漂积植物碎屑',radius:48,params:{labDetail:'wrack-line'}},
+ {id:'wrack-line-01',category:'debris',scenes:['estuary','sandy-surf'],label:'Wrack line',note:'河口 / 漂积植物碎屑',radius:48,params:{labDetail:'wrack-line'}},
  {id:'estuary-silt-01',category:'debris',scenes:['estuary'],label:'Estuary silt',note:'河口 / 黄褐细泥',radius:42,params:{labDetail:'estuary-silt'}},
  {id:'water-shallow-marine',category:'water',kind:'background',scenes:['shallow-marine'],label:'Shallow seaweed bed',note:'浅海 / 藻场底',params:{aquatic:true,kind:'shallow-marine',palette:AQUATIC_BACKDROPS['shallow-marine'].palette}},
  {id:'water-abyssal',category:'water',kind:'background',scenes:['abyssal'],label:'Abyssal plain',note:'深海 / 深渊沉积平原',params:{aquatic:true,kind:'abyssal',palette:['#10181b','#172225','#223033','#343d3f']}},
+ {id:'water-petri-dish',category:'water',kind:'background',scenes:['petri-dish'],label:"Asimov's dish",note:'特殊 / 培养皿与实验台',params:{aquatic:true,kind:'petri-dish',palette:AQUATIC_BACKDROPS['petri-dish'].palette}},
+
+ {id:'limestone-shelf-01',category:'stone',scenes:['groundwater'],label:'Limestone shelf',note:'洞穴 / 石灰岩台地',radius:52,params:{labDetail:'limestone-shelf'}},
+ {id:'flowstone-01',category:'stone',scenes:['groundwater'],label:'Flowstone',note:'洞穴 / 流石与方解石脊',radius:46,params:{labDetail:'flowstone'}},
+ {id:'seep-film-01',category:'water',scenes:['groundwater'],label:'Seep film',note:'洞穴 / 薄层渗流水',radius:48,params:{labDetail:'seep-film'}},
+ {id:'cave-silt-01',category:'debris',scenes:['groundwater'],label:'Cave silt',note:'洞穴 / 细泥沉积',radius:36,params:{labDetail:'cave-silt'}},
+ {id:'sand-ripple-01',category:'debris',scenes:['sandy-surf'],label:'Sand ripple',note:'沙滩 / 平行砂纹',radius:50,params:{labDetail:'sand-ripple'}},
+ {id:'foam-trace-01',category:'water',scenes:['sandy-surf'],label:'Foam trace',note:'沙滩 / 破碎泡沫线',radius:50,params:{labDetail:'foam-trace'}},
+ {id:'dish-sediment-01',category:'debris',scenes:['petri-dish'],label:'Dish sediment',note:'培养皿 / 微粒沉积',radius:32,params:{labDetail:'dish-sediment'}},
+ {id:'glass-scratch-01',category:'debris',scenes:['petri-dish'],label:'Glass scratch',note:'培养皿 / 玻璃细划痕',radius:40,params:{labDetail:'glass-scratch'}},
 
  {id:'waterweed-tuft-01',category:'aquatic',scenes:['freshwater'],label:'Waterweed 01',note:'淡水水草 / 对生叶',radius:42,params:{kind:'waterweed',height:58,flow:36}},
  {id:'waterweed-tuft-02',category:'aquatic',scenes:['freshwater'],label:'Waterweed 02',note:'淡水水草 / 高株',radius:52,params:{kind:'waterweed',height:78,flow:42}},
@@ -50,7 +62,7 @@ const ASSETS=[
  {id:'ulva-clump-01',category:'aquatic',scenes:['shallow-marine','estuary'],label:'Sea lettuce',note:'浅海 / 河口下游石莼',radius:34,params:{kind:'ulva',height:38,flow:42}},
  {id:'kelp-frond-01',category:'aquatic',scenes:['shallow-marine'],label:'Kelp frond 01',note:'海带 / 交错宽叶',radius:64,params:{kind:'kelp',height:92,flow:46}},
  {id:'kelp-frond-02',category:'aquatic',scenes:['shallow-marine'],label:'Kelp frond 02',note:'海带 / 长株',radius:76,params:{kind:'kelp',height:118,flow:52}},
- {id:'shell-grit-01',category:'debris',scenes:['intertidal','shallow-marine','estuary'],label:'Shell grit',note:'海岸 / 河口下游贝壳碎屑',radius:32,params:{detail:'shellgrit',count:18}},
+ {id:'shell-grit-01',category:'debris',scenes:['intertidal','shallow-marine','estuary','sandy-surf'],label:'Shell grit',note:'海岸 / 河口下游贝壳碎屑',radius:32,params:{detail:'shellgrit',count:18}},
 
  {id:'root-tangle-01',category:'debris',scenes:['forest','freshwater'],label:'Root tangle',note:'细根 / 缠结根须',radius:44,params:{labDetail:'root-tangle'}},
  {id:'leaf-skeleton-01',category:'leaf',scenes:['forest','freshwater'],label:'Leaf skeleton',note:'半腐叶 / 裸露叶脉',radius:34,params:{labDetail:'leaf-skeleton'}},
@@ -59,7 +71,7 @@ const ASSETS=[
  {id:'silt-pocket-01',category:'debris',scenes:['freshwater'],label:'Silt pocket',note:'细泥 / 浅水沉积',radius:38,params:{labDetail:'silt'}},
  {id:'rock-crack-01',category:'stone',scenes:['intertidal'],label:'Rock crack',note:'潮间带 / 岩面裂隙',radius:34,params:{labDetail:'rock-crack'}},
  {id:'algae-film-01',category:'aquatic',scenes:['intertidal'],label:'Algae film',note:'潮间带 / 岩面藻膜',radius:38,params:{labDetail:'algae-film'}},
- {id:'shell-fragment-01',category:'debris',scenes:['intertidal','shallow-marine','abyssal'],label:'Shell fragment',note:'海底 / 大块贝壳残片',radius:28,params:{labDetail:'shell-fragment'}},
+ {id:'shell-fragment-01',category:'debris',scenes:['intertidal','shallow-marine','abyssal','sandy-surf'],label:'Shell fragment',note:'海底 / 大块贝壳残片',radius:28,params:{labDetail:'shell-fragment'}},
  {id:'kelp-holdfast-01',category:'aquatic',scenes:['shallow-marine'],label:'Kelp holdfast',note:'浅海 / 海带固着器',radius:34,params:{labDetail:'holdfast'}},
  {id:'crustose-algae-01',category:'aquatic',scenes:['intertidal','shallow-marine'],label:'Crustose algae',note:'壳状藻 / 灰紫附着斑',radius:34,params:{labDetail:'crustose'}},
  {id:'abyssal-silt-01',category:'debris',scenes:['abyssal'],label:'Abyssal silt',note:'深海 / 细沉积物斑',radius:42,params:{labDetail:'abyssal-silt'}},
@@ -306,7 +318,7 @@ function drawBackground(target,assetId=state.background,seed=state.backgroundSee
 
 function drawObjectRaw(target,asset,item,preview=false){
  const x=item.x,y=item.y,a=item.a||0,seed=item.seed||0,mult=item.scale??1,p=item.params??asset.params??{};
- if(p.labDetail)return drawLabDetail(target,{kind:p.labDetail,x,y,a,seed,scale:mult});
+ if(p.labDetail)return drawSceneDetail(target,{...p,kind:p.labDetail,x,y,a,seed,scale:mult});
  if(asset.category==='leaf')return drawLeaf(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
  if(asset.category==='moss')return drawMossPatch(target,{...p,x,y,a,seed,rx:(p.rx||30)*mult,ry:(p.ry||20)*mult});
  if(asset.category==='bark')return drawBark(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
