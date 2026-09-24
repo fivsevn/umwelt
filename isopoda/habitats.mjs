@@ -12,6 +12,11 @@ const configs=[
 ];
 export const HABITATS=Object.freeze(configs.map(h=>Object.freeze({...h,encounterPool:h.aquatic?h.id:null,endingPool:h.aquatic?[`${h.id}-calm`,`${h.id}-care`,`${h.id}-trace`]:null})));
 export function habitatConfig(value){const id=typeof value==='string'?value:value?.habitatId;return HABITATS.find(h=>h.id===(id||'terrestrial'))||HABITATS[0]}
+export function habitatLayoutFilename(value){
+ const h=habitatConfig(value==='forest'?'terrestrial':value),fallback=h.scene||h.id;
+ const slug=String(h.names?.[1]||fallback).toLowerCase().replace(/['’]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')||fallback;
+ return `habitat-layout-${slug}.json`;
+}
 export function eligibleSpecies(p,id='terrestrial'){const h=habitatConfig(id);return h.species?h.species.includes(p.id):p.game?.habitatEligible!==false}
 export function cycleHabitat(id,direction){return HABITATS[(HABITATS.findIndex(h=>h.id===id)+direction+HABITATS.length)%HABITATS.length].id}
 export function advanceWater(s){const h=habitatConfig(s);if(!h.aquatic)return;const turn=(s.day-1)*3+s.period;
