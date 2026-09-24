@@ -30,9 +30,26 @@ const base=process.env.BASE_URL||'http://127.0.0.1:8765';
   await click('[data-preset="forest"]');await restore(data);
   assert.equal(await active(),preset,'import synchronizes preset: '+await page.locator('#sceneMessage').innerText());assert.deepEqual(await snapshot(),data);
   await click('#copyShare');const share=await page.locator('#sceneText').inputValue();await restore(share);assert.deepEqual(await snapshot(),data);
+  const names={forest:'forest-litter',freshwater:'freshwater-pool',groundwater:'limestone-groundwater-cave',estuary:'brackish-estuary',intertidal:'intertidal-rock-pool','sandy-surf':'sandy-surf-zone','shallow-marine':'nearshore-seaweed-bed',abyssal:'abyssal-plain','petri-dish':'asimovs-dish'};
+  const sceneDownload=preset+' download';
+  const pendingDownload=page.waitForEvent('download');await click('#downloadScene');const exported=await pendingDownload;
+  assert.equal(exported.suggestedFilename(),`habitat-layout-${names[preset]}.json`,sceneDownload);
+  assert.deepEqual(JSON.parse(fs.readFileSync(await exported.path(),'utf8')),data,sceneDownload+' content');
   await click('#clearScene');assert.equal((await snapshot()).objects.length,0);
   await click('#resetScene');assert.equal((await snapshot()).background.type,data.background.type);
  }
+ // Cached moving leaves must retain exactly the integer geometry of direct painting.
+ const cachedPlants=await page.evaluate(async()=>{
+  const {drawWaterPlant}=await import('/isopoda/scenery/aquatic-materials.mjs');const result=[];
+  for(const kind of ['waterweed','rockweed','kelp'])for(const angle of [0,.37]){
+   const a=document.createElement('canvas'),b=document.createElement('canvas');a.width=b.width=384;a.height=b.height=430;
+   const ctx=b.getContext('2d'),raw=new Proxy(ctx,{get(t,k){if(k==='drawImage')return undefined;const v=t[k];return typeof v==='function'?v.bind(t):v},set(t,k,v){t[k]=v;return true}});
+   const options={kind,x:173.4,y:230.7,a:angle,scale:.8,seed:57,height:92},sway=j=>Math.sin(j*.03)*3;
+   drawWaterPlant(a.getContext('2d'),options,sway);drawWaterPlant(raw,options,sway);
+   result.push({kind,angle,equal:a.toDataURL()===b.toDataURL()});
+  }return result;
+ });
+ assert.ok(cachedPlants.every(x=>x.equal),JSON.stringify(cachedPlants));
  await click('[data-preset="forest"]');await click('[data-category="calcium"]');
  await click('[data-preset="freshwater"]');assert.equal(await page.locator('[data-category="all"]').getAttribute('aria-pressed'),'true');assert.ok(await page.locator('[data-category="calcium"]').isDisabled());
  // Verify the reference pixels use the same habitat projection as the game, including abyssal enlargement.
