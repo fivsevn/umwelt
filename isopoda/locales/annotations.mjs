@@ -173,6 +173,50 @@ const copy={
     en:['Gaps among algae change with the water. Two seconds that look alike are not the same place to a millimetre-scale body.','When evidence runs thin, leaving “unknown” on the page is closer to observation than completing a beautiful certainty.'],
     ja:['藻の隙間は水流とともに変わる。同じに見える二秒間も、ミリメートル尺度の身体には同じ場所ではない。','資料が足りないとき、「不明」を頁に残すほうが、美しい確定を補うより観察に近い。']
   },
+  communis:{
+    en:['Clear water, fine sediment, and decaying leaves give this waterlouse a different setting without making the boundary between species visible.','The male first pereopod is diagnostic in real identification; the pixel model does not pretend to resolve it.'],
+    ja:['澄んだ水、細かな底質、腐葉がこのミズムシに別の環境を与えるが、種の境界そのものが見えるわけではない。','実際の同定では雄の第一胸脚が重要だが、ピクセル模型はそこまで見えるふりをしない。']
+  },
+  fontinalis:{
+    en:['Springs, seep outlets, and streams join into one freshwater network. A locality name divides what the water connects.','The archive keeps a conservative Asellota silhouette because the habitat record is stronger than any species-level pixel claim.'],
+    ja:['泉、湧出部、流れは一つの淡水網へつながる。地名は、水がつなぐものを区切って記録する。','生息記録のほうが種レベルのピクセル形態より確かなので、資料庫では保守的な Asellota の輪郭に留める。']
+  },
+  albifrons:{
+    en:['At only a few millimetres long, it occupies the underside of stones that look enormous at its scale.','Species-level Jaera identification depends on structures too small for this renderer, so the outline remains deliberately conservative.'],
+    ja:['数ミリの身体にとって、石の裏側は巨大な地形になる。','Jaera の種同定にはこの描画では表せない微細構造が必要なため、輪郭は意図的に保守的にしている。']
+  },
+  bidentata:{
+    en:['Juveniles live among intertidal algae while adults can retreat into crevices and empty barnacle tests.','The same species therefore changes the spaces it can use as its body and life stage change.'],
+    ja:['幼体は潮間帯の藻類の間におり、成体は岩の隙間や空いたフジツボ殻へ入ることがある。','同じ種でも、身体と生活段階が変われば利用できる空間も変わる。']
+  },
+  linearis:{
+    en:['Its long narrow body can leave a frond, swim through shallow water, and attach again.','Length is conspicuous; the finer coxal and tail characters used for identification are simplified here.'],
+    ja:['細長い身体は藻葉を離れ、浅水を泳ぎ、また別の表面につかまることができる。','長さは目立つが、同定に使う側板や尾端の細部はここでは簡略化している。']
+  },
+  maculosa:{
+    en:['Long antennae and uropods extend beyond a flattened body among stones, sponges, and kelp holdfasts.','Those appendages are emphasized because they are visible evidence; smaller diagnostic details are not invented.'],
+    ja:['長い触角と尾肢が、石、海綿、コンブの付着器の間にいる扁平な身体から大きく伸びる。','見える根拠のある付属肢は強調するが、より細かな識別形質を作り足してはいない。']
+  },
+  hookeri:{
+    en:['Mud, stones, channels, and estuarine vegetation divide the upper estuary into many small salinity histories.','Its pill-like form is useful at this scale, but real separation from close relatives requires finer characters.'],
+    ja:['泥、石、水路、河口の植生は、上流側の河口を異なる塩分履歴をもつ小さな場所へ分ける。','丸くなる輪郭はこの尺度でも読めるが、近縁種との区別にはもっと細かな形質が必要だ。']
+  },
+  rugicauda:{
+    en:['Saltmarsh pools and estuarine margins can be isolated at low water and reconnected hours later.','The habitat label stays still while the water around the animal does not.'],
+    ja:['塩性湿地の水たまりや河口縁は、干潮で切り離され、数時間後には再びつながる。','環境名は固定されていても、個体の周囲の水は固定されない。']
+  },
+  chelipes:{
+    en:['Brackish vegetation is both shelter and a surface to cross. Salinity changes without drawing a visible line through the plants.','The archive records an Idotea outline; colour and small tail characters remain non-diagnostic at this resolution.'],
+    ja:['汽水域の植生は隠れ場所であり、通過する表面でもある。塩分は植物の間に見える線を引かずに変化する。','資料庫は Idotea の輪郭を記録するが、この解像度では色や細かな尾端形質を診断には使わない。']
+  },
+  carinata:{
+    en:['Its elongated pereon makes it read less like a familiar woodlouse and more like a narrow body moving over mud.','At night the animal may be easier to see on the surface; the daytime record can be only a gap and a trace.'],
+    ja:['長い胸部体節のため、見慣れたワラジムシよりも泥上を進む細長い身体として見える。','夜には表面を歩く姿を見つけやすくても、昼の記録には隙間と痕跡だけが残ることがある。']
+  },
+  nordmanni:{
+    en:['Freshwater streams, brackish pools, and estuaries all occur in its records. One species can cross labels that look separate on a menu.','Its rounded flattened body is represented; the male structures needed for confident identification are not.'],
+    ja:['淡水の流れ、汽水の水たまり、河口のすべてが記録に現れる。一つの種が、メニューでは別々に見える区分をまたぐ。','丸く扁平な体形は描くが、確実な同定に必要な雄の微細構造までは描いていない。']
+  },
   pandaKing:{
     en:['Its name comes from the simplest contrast: black and white.','The taxonomic identity remains unsettled, but the pattern became a shared language among keepers first.'],
     ja:['名前は、もっとも単純な黒と白の対比から来ている。','分類上の正体は定まっていないのに、模様は先に飼育者たちの共通語になった。']

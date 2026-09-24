@@ -9,7 +9,7 @@ const url=process.env.GAME_URL||'http://localhost:8765/isopoda/';
   const p=await browser.newPage({viewport:{width,height:900}});p.on('pageerror',e=>errors.push(e.stack));
   await p.addInitScript(lang=>localStorage.setItem('isopoda-ui-language-v1',lang),lang);await p.goto(url);await p.waitForSelector('#titleCard[data-habitat]');
   assert.ok((await p.locator('#titleCard .window-title span').innerText()).includes('ISOPODA /'));
-  for(const habitat of ['freshwater','intertidal','shallow-marine','abyssal']){
+  for(const habitat of ['freshwater','estuary','intertidal','shallow-marine','abyssal']){
    await p.click('#habitatNext');assert.equal(await p.locator('#titleCard').getAttribute('data-habitat'),habitat);
    await p.click('#startBtn');await p.click('#settleBtn');
    assert.equal(await p.evaluate(()=>JSON.parse(localStorage.getItem('isopoda-fugue-v4')).habitatId),habitat);

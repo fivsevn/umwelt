@@ -9,7 +9,7 @@ const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
 const clone=value=>structuredClone(value);
 const conglobationOf=species=>species?.visual?.conglobation?.ability||species?.profile?.conglobation||'unknown';
 const habitatOf=species=>species?.game?.habitats?.[0]||species?.game?.habitat||species?.profile?.ecology?.find(x=>/freshwater|marine|intertidal/i.test(x))||'terrestrial';
-const aquaticDomain=species=>/freshwater|marine|intertidal|shallow|abyssal/i.test(String(habitatOf(species)));
+const aquaticDomain=species=>/freshwater|marine|intertidal|estuary|brackish|shallow|abyssal/i.test(String(habitatOf(species)));
 
 function baseProfile(species){
  const aquatic=aquaticDomain(species),roll=conglobationOf(species),legacy=Number(species?.speed);
