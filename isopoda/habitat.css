@@ -41,6 +41,10 @@ button:focus-visible{outline:1px solid #e0ddbd;outline-offset:2px}
 .viewer-panel{display:grid;grid-template-rows:auto minmax(0,1fr) auto;overflow:hidden}
 .viewer-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 7px;border-bottom:1px solid var(--line2);flex-wrap:wrap}
 .viewer-head>div:first-child{display:grid}.viewer-head span{font-size:9px;color:#d1cba8}.viewer-head small{font-size:7px;color:#738464}
+.material-stage-control{display:grid;gap:2px;min-width:220px}
+.material-stage-control span{font-size:6px;color:#718163;letter-spacing:.06em}
+.material-stage-control select{font:inherit;border:1px solid #657557;background:#394631;color:#dedcc4;min-height:26px;padding:4px 6px;font-size:8px}
+.material-stage-control[hidden]{display:none!important}
 .specimen-reference{display:flex;align-items:end;gap:4px;margin-left:auto}
 .specimen-reference label{display:grid;gap:2px}.specimen-reference label span{font-size:6px;color:#718163;letter-spacing:.06em}
 .specimen-reference select,.specimen-reference button{font:inherit;border:1px solid #536046;background:#303b2a;color:#d7d6bc;min-height:26px;padding:4px 6px;font-size:8px}
@@ -87,7 +91,7 @@ footer{display:flex;justify-content:space-between;gap:16px;padding:0 2px;color:#
 /* Responsive regression fixes for tablet, phone portrait, and short landscape viewports. */
 .workspace>*,
 .asset-panel,.viewer-panel,.inspector{min-width:0}
-.viewer-actions,.specimen-reference{min-width:0;flex-wrap:wrap}
+.viewer-actions,.specimen-reference,.material-stage-control{min-width:0;flex-wrap:wrap}
 .specimen-reference label{min-width:0}
 .specimen-reference select{max-width:100%}
 
@@ -174,6 +178,8 @@ footer{display:flex;justify-content:space-between;gap:16px;padding:0 2px;color:#
  .inspector .panel-heading{border-right:0!important;border-bottom:1px solid var(--line2)!important}
  .notes{margin-top:auto!important;border-left:0!important;border-top:1px solid var(--line2)!important;padding-bottom:12px!important}
 
+ .material-stage-control{order:2!important;width:100%!important;min-width:0!important}
+ .material-stage-control select{width:100%!important}
  .specimen-reference{order:3!important;width:100%!important;margin-left:0!important;align-items:end!important;flex-wrap:wrap!important}
  .specimen-reference label:first-child{flex:1 1 220px!important}
  .specimen-reference select{max-width:none!important;width:100%!important}
