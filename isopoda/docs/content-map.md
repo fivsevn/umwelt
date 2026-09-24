@@ -22,7 +22,8 @@ This document is the development entry point for authored content. It separates 
 ## Ordinary aquatic three-day runs
 
 - `aquatic-story.mjs` — routing, stable text keys, endings and state-to-story selection.
-- `data/habitats/stories.mjs` — the nine base turns for freshwater, estuary, intertidal and shallow-marine habitats.
+- `data/habitats/stories.mjs` — core three-day aquatic turns.
+- `data/habitats/release-stories.mjs` — launch turns for groundwater, sandy-surf and the special petri-dish observation.
 - `data/habitats/story-alternates.mjs` — conditional alternate turns selected from environment state.
 - `habitats.mjs` — habitat configuration, eligible species, duration, metrics and stable habitat IDs.
 
@@ -42,8 +43,10 @@ When expanding aquatic content, add authored rows to the habitat data modules an
 - `species.mjs` contains the original terrestrial table.
 - `data/species/batch-*.mjs` contains accepted-species expansion batches.
 - `data/species/hobby-lines.mjs` contains captive/trade lineages.
-- `data/species/aquatic.mjs` contains playable aquatic taxa.
-- `data/species/marine-reference.mjs` contains reference-only marine material.
+- `data/species/aquatic.mjs` contains the original playable aquatic taxa.
+- `data/species/aquatic-expansion.mjs` contains the estuary and first aquatic expansion taxa.
+- `data/species/release-aquatic.mjs` contains the groundwater and sandy-surf launch taxa.
+- `data/species/marine-reference.mjs` contains the sub-millimetre marine specimen now routed only to the special petri-dish environment.
 - `locales/annotations.mjs` contains localized specimen annotations.
 - `data/wiki/` and `data/sources/` contain provenance/reference support.
 
