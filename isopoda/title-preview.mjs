@@ -1,6 +1,7 @@
 import {drawBaseScene,drawLeaf,DEFAULT_LAYOUT,drawLayoutScene,layoutForHabitat} from './scenery/index.mjs';
 import {drawAquaticWater} from './scenery/aquatic.mjs';
 import {habitatConfig} from './habitats.mjs';
+import {freshwaterLayout} from './scenery/freshwater-stages.mjs';
 
 const canvas=document.querySelector('#emptyHabitat');
 if(canvas){
@@ -19,7 +20,7 @@ if(canvas){
   scuffs:Array.isArray(savedEnvironment?.scuffs)?savedEnvironment.scuffs:[]
  };
 
- const previewState={habitatId,seed:Number.isFinite(Number(saved?.seed))?Number(saved.seed):4107,...config.defaults};
+ const previewState={habitatId,seed:Number.isFinite(Number(saved?.seed))?Number(saved.seed):4107,scene:saved?.scene||null,records:Array.isArray(saved?.records)?saved.records:[],...config.defaults};
  for(const key of Object.keys(config.defaults)){
   const value=Number(saved?.[key]);
   if(Number.isFinite(value))previewState[key]=value;
@@ -31,7 +32,7 @@ if(canvas){
  const ctx=world.getContext('2d');
  ctx.imageSmoothingEnabled=false;
 
- if(config.aquatic)drawLayoutScene(ctx,layoutForHabitat(habitatId),{time:0});
+ if(config.aquatic)drawLayoutScene(ctx,habitatId==='freshwater'?freshwaterLayout(previewState):layoutForHabitat(habitatId),{time:0});
  else drawBaseScene(ctx,{
   wetZones:memory.wetZones,
   light:DEFAULT_LAYOUT.background.params.light,
