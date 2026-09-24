@@ -243,4 +243,4 @@ export function aquaticEnding(s){
  }
  const kind=s.interventions>=5?'care':s.quiet>=8?'calm':'trace';return AQUATIC_ENDINGS.find(e=>habitatConfig(s).endingPool.includes(e.id)&&e.id.endsWith('-'+kind));
 }
-export function aquaticFeedback(s){if(habitatConfig(s).dialogue)return '';return s.oxygen<45?'water:low':s.flow>65?'water:fast':'water:normal'}
+export function aquaticFeedback(s){if(habitatConfig(s).dialogue||s.habitatId==='freshwater')return '';return s.oxygen<45?'water:low':s.flow>65?'water:fast':'water:normal'}
