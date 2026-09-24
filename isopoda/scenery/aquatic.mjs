@@ -11,10 +11,13 @@ const pixel=(g,x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y)
 
 export const AQUATIC_BACKDROPS=Object.freeze({
  freshwater:{palette:['#273b32','#344439','#4e5140','#68634b'],water:'#31564f',accent:'#81906a'},
+ groundwater:{palette:['#111716','#202724','#64675d','#aaa793'],water:'#263d3b',accent:'#c1bda5'},
  intertidal:{palette:['#324743','#405552','#69736a','#9b9880'],water:'#456b67',accent:'#aab59b'},
+ 'sandy-surf':{palette:['#3b625f','#6f8576','#a99b73','#d0bd8a'],water:'#356762',accent:'#e0d4a4'},
  estuary:{palette:['#3d4135','#4e5140','#68644d','#8f8263'],water:'#385750',accent:'#a89a70'},
  'shallow-marine':{palette:['#203e3d','#355452','#6d7660','#969375'],water:'#315e5a',accent:'#a7ad83'},
- abyssal:{palette:['#10181b','#172225','#223033','#343d3f'],water:'#17272b',accent:'#667374'}
+ abyssal:{palette:['#10181b','#172225','#223033','#343d3f'],water:'#17272b',accent:'#667374'},
+ 'petri-dish':{palette:['#202925','#53615b','#a6ad9b','#d8d8c3'],water:'#667f76',accent:'#e4e1c9'}
 });
 
 function localPixel(g,o,u,v,w,h,c){
@@ -111,6 +114,78 @@ export function drawAquaticDetail(g,{kind='barnacle',x=0,y=0,a=0,scale=1,seed=0,
 
 export function drawAquaticBackground(g,{kind='freshwater',palette,seed=57}={}){
  const preset=AQUATIC_BACKDROPS[kind]||AQUATIC_BACKDROPS.freshwater,p=palette||preset.palette,w=g.canvas?.width||384,h=g.canvas?.height||430;
+ if(kind==='groundwater'){
+  g.fillStyle=p[0];g.fillRect(0,0,w,h);
+  const shelf=(cx,cy,rx,ry,phase=0)=>{
+   for(let yy=-ry;yy<=ry;yy+=2){
+    const t=1-(yy*yy)/(ry*ry),span=Math.sqrt(Math.max(0,t))*rx;
+    const wobble=(noise(yy+phase,17,seed)%7)-3,left=Math.round(cx-span+wobble),right=Math.round(cx+span+wobble*.35);
+    pixel(g,left,cy+yy,Math.max(1,right-left),2,yy<-ry*.38?p[3]:yy>ry*.55?p[1]:p[2]);
+    if((yy+phase)%10===0)pixel(g,left+8+(noise(yy,31,seed)%Math.max(8,Math.round(span))),cy+yy,7+(noise(yy,37,seed)%14),1,'rgba(199,197,171,.32)');
+   }
+  };
+  // Large calcite masses frame dark water. Their scan-line silhouettes stay hard-edged.
+  shelf(76,102,86,54,3);shelf(315,82,94,48,7);shelf(75,348,105,62,11);shelf(318,342,102,68,15);
+  shelf(196,210,72,42,19);
+  // Thin groundwater films connect pools rather than filling the whole cave.
+  for(let y=112;y<326;y+=2){
+   const cx=Math.round(190+Math.sin((y+seed)*.035)*18),half=10+Math.round(Math.sin(y*.027+seed)*3);
+   pixel(g,cx-half,y,half*2,2,'rgba(38,61,59,.90)');
+   if(y%18===0)pixel(g,cx-half+4,y,Math.max(5,half),1,'rgba(152,168,151,.22)');
+  }
+  for(let i=0;i<42;i++){const n=noise(i,211,seed),x=n%w,y=(n>>>9)%h;pixel(g,x,y,1+(n%3),1,i%5===0?p[3]:p[1])}
+  return;
+ }
+ if(kind==='sandy-surf'){
+  // Three material bands: dry sand, compact wet sand, then shallow sea.
+  g.fillStyle='#b9a879';g.fillRect(0,0,w,h);
+  const wetTop=Math.round(h*.43),seaTop=Math.round(h*.72);
+  g.fillStyle='#8e8265';g.fillRect(0,wetTop,w,seaTop-wetTop);
+  g.fillStyle='#355f5b';g.fillRect(0,seaTop,w,h-seaTop);
+  // Broken lamination: clusters, not blanket noise.
+  for(let band=0;band<24;band++){
+   const y=16+band*13+(noise(band,223,seed)%7),offset=(noise(band,227,seed)%19)-9;
+   for(let x=8+offset;x<w-8;x+=26+(band%3)*7){
+    const n=noise(x,band,seed),len=7+n%17;
+    pixel(g,x,y,len,1,y<wetTop?(band%4===0?'#d1c08d':'#a99871'):(y<seaTop?'#756f58':'rgba(161,176,142,.20)'));
+   }
+  }
+  // Damp transition is irregular and stepped.
+  for(let x=0;x<w;x+=4){
+   const y=wetTop+Math.round(Math.sin((x+seed)*.035)*5+Math.sin(x*.013)*3);
+   pixel(g,x,y,4,2,'#776f58');
+   if(x%20===0)pixel(g,x+3,y-3,9,1,'#c0af7d');
+  }
+  for(let i=0;i<30;i++){const n=noise(i,229,seed),x=n%w,y=12+(n>>>10)%(seaTop-18);pixel(g,x,y,1+(n%3),1,i%6===0?'#d8c892':'#8f805f')}
+  return;
+ }
+ if(kind==='petri-dish'){
+  g.fillStyle='#18211e';g.fillRect(0,0,w,h);
+  // Lab bench grain uses sparse compact clusters so the dish remains the dominant silhouette.
+  for(let i=0;i<58;i++){const n=noise(i,241,seed),x=n%w,y=(n>>>9)%h;pixel(g,x,y,2+(n%4),1,i%4===0?'#303a34':'#222d29')}
+  const cx=Math.round(w/2),cy=Math.round(h/2),r=Math.min(170,Math.floor(w*.44));
+  // Pixel-circle shadow and concentric glass/water rings are built scanline by scanline.
+  for(let yy=-r;yy<=r;yy+=2){
+   const span=Math.floor(Math.sqrt(Math.max(0,r*r-yy*yy)));
+   pixel(g,cx-span+5,cy+yy+7,span*2,2,'#0f1513');
+  }
+  const ring=(radius,color,inset=0)=>{
+   for(let yy=-radius;yy<=radius;yy+=2){
+    const span=Math.floor(Math.sqrt(Math.max(0,radius*radius-yy*yy)));
+    const innerRadius=Math.max(0,radius-inset),inner=innerRadius?Math.floor(Math.sqrt(Math.max(0,innerRadius*innerRadius-yy*yy))):0;
+    if(inset>0&&Math.abs(yy)<innerRadius){pixel(g,cx-span,cy+yy,Math.max(1,span-inner),2,color);pixel(g,cx+inner,cy+yy,Math.max(1,span-inner),2,color)}
+    else pixel(g,cx-span,cy+yy,span*2,2,color);
+   }
+  };
+  // Pale liquid field first, then darker inner edge and bright glass rim.
+  for(let yy=-(r-11);yy<=r-11;yy+=2){const span=Math.floor(Math.sqrt(Math.max(0,(r-11)*(r-11)-yy*yy)));pixel(g,cx-span,cy+yy,span*2,2,yy>r*.45?'#596b63':'#687970')}
+  ring(r,'#8f9888',7);ring(r-5,'#c4c7ae',2);ring(r-12,'#41534d',2);
+  // Selective rim highlights and calibration ticks; no smooth antialiasing.
+  for(let i=0;i<12;i++){const a=-2.8+i*.18,x=cx+Math.cos(a)*(r-3),y=cy+Math.sin(a)*(r-3);pixel(g,x,y,8,2,i%3===0?'#e0ddc3':'#b7bba5')}
+  for(let i=0;i<16;i++){const a=i*Math.PI*2/16,x1=cx+Math.cos(a)*(r+2),y1=cy+Math.sin(a)*(r+2),x2=cx+Math.cos(a)*(r+7),y2=cy+Math.sin(a)*(r+7);localLine(g,{x:0,y:0,a:0,scale:1},x1,y1,x2,y2,1,'#657169')}
+  for(let i=0;i<26;i++){const n=noise(i,251,seed),x=cx-r+18+n%(2*r-36),y=cy-r+18+(n>>>9)%(2*r-36);if((x-cx)**2+(y-cy)**2<(r-20)**2)pixel(g,x,y,1+(n%2),1,i%5===0?'#c8c8ad':'#44554f')}
+  return;
+ }
  for(let y=0;y<h;y+=2)for(let x=0;x<w;x+=2){
   const n=noise(x>>1,y>>1,seed),wave=Math.sin((x+seed)*.024+y*.013)+Math.sin(y*.031);
   const highlightMod=kind==='shallow-marine'?103:kind==='intertidal'?67:47;
