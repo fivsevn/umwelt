@@ -209,6 +209,30 @@ const copy={
     en:['Mud has no obvious corridors, yet a narrow body turns sediment into traversable space.','It tolerates a broad low-salinity range and is especially associated with muddy estuarine bottoms.'],
     ja:['泥には明瞭な通路がない。それでも細長い身体は堆積物を通過できる空間へ変える。','幅広い低塩分域に生息でき、とくに泥質の河口底でよく見られる。']
   },
+  pulchra:{
+    en:['As the tide falls it buries in wet sand; with rising water and at night it returns to the surf and shallow water.','Moving sand makes burial and swimming two stages of the same tidal route.'],
+    ja:['潮が引くと湿砂へ潜り、潮が上がるときや夜には波打ち際と浅水へ戻る。','動き続ける砂の中では、潜ることと泳ぐことが同じ潮汐経路の二つの段階になる。']
+  },
+  affinis:{
+    en:['It shares sandy shores with E. pulchra but is smaller, with darker markings concentrated on the upper surface.','Where there are no rock crevices, gaps among sand grains become shelter.'],
+    ja:['E. pulchra と同じ砂浜に現れるが、より小型で、暗色の模様は主に背面に集まる。','岩の割れ目がない場所では、砂粒の間そのものが隠れ場所になる。']
+  },
+  spinigera:{
+    en:['It is more often associated with shallow offshore sand but also reaches intertidal sand on some coasts.','A concave posterior margin and strong spines give the rear of the body a sharper outline.'],
+    ja:['主に浅海の砂底に見られるが、一部の海岸では潮間帯の砂地にも現れる。','尾節後縁のくぼみと強い棘が、身体後端をより鋭い輪郭にする。']
+  },
+  cavaticus:{
+    en:['Cave water may be only a film, seep, or shallow pool; this species lives entirely in subterranean fresh water.','Without eyes or pigment, its pale body is read mainly as an outline between flowstone and dark water.'],
+    ja:['洞窟の水は水膜、染み出し、浅い水たまりだけのこともあり、この種は地下淡水だけで生活する。','眼も色素もなく、淡い身体は流石と暗い水の間でほとんど輪郭として見える。']
+  },
+  lusitanicus:{
+    en:['It inhabits karst groundwater and cave streams, using long appendages across fine sediment in darkness.','Studied adults measure about 4.2–7.2 mm and lack both eyes and pigmentation.'],
+    ja:['カルスト地下水と洞窟河川に生息し、暗闇の細粒堆積物を長い付属肢で進む。','研究された成体は約4.2–7.2 mmで、眼も色素も持たない。']
+  },
+  virei:{
+    en:['Caves, phreatic water, and river underflow can all form parts of its subterranean-water network.','The body is elongate and nearly parallel-sided, often distinctly rose-coloured against pale groundwater Asellidae.'],
+    ja:['洞窟、地下水面下の水、河川伏流はいずれも地下水ネットワークの一部になり得る。','身体は細長く側縁がほぼ平行で、淡色の地下水性 Asellidae と比べて明瞭な桃色を帯びることがある。']
+  },
   pandaKing:{
     en:['Its name comes from the simplest contrast: black and white.','The taxonomic identity remains unsettled, but the pattern became a shared language among keepers first.'],
     ja:['名前は、もっとも単純な黒と白の対比から来ている。','分類上の正体は定まっていないのに、模様は先に飼育者たちの共通語になった。']
