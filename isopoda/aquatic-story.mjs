@@ -2,6 +2,7 @@ import {STORIES} from './data/habitats/stories.mjs';
 import {STORY_ALTERNATES} from './data/habitats/story-alternates.mjs';
 import {ABYSSAL_NODES,ABYSSAL_ENDING_DATA,ABYSSAL_FRAGMENT_DATA} from './data/habitats/abyssal-dialogue.mjs';
 import {habitatConfig} from './habitats.mjs';
+import {FRESHWATER_MATERIAL_STAGES,FRESHWATER_MATERIAL_ENDINGS} from './data/habitats/freshwater-material.mjs';
 import {encodeIsopodText} from './locales/isopod.mjs';
 const COPY={
  wait:['让时间过去','Let time pass','時を待つ'],record:['只记录位置','Record the positions','位置だけを記す'],
@@ -26,7 +27,7 @@ const endingBodies={
  estuary:[['潮水退去以后，泥面的湿痕仍在改变。你等待过的地方没有保持同一种水。','After the tide withdraws, wet marks on the mud keep changing. The place where you waited did not hold one kind of water.','潮が引いたあとも泥面の湿り跡は変わり続ける。待っていた場所に同じ水は留まらなかった。'],['你改变过沟槽、漂木或渗流。后来的混合发生在这些改变之后，记录无法把干预从河口分开。','You changed a channel, driftwood, or seep. Later mixing happened after those changes; the record cannot separate intervention from estuary.','水路、流木、染み出しを変えた。その後の混合から介入だけを切り離すことはできない。'],['纸上最后一条盐度线停住了。真实的河口没有停住。','The last salinity line stops on paper. The real estuary does not.','紙上の最後の塩分線は止まる。実際の河口は止まらない。']],
  'shallow-marine':[['藻叶慢慢摆回原处.附着不是静止，只是和另一种移动一起发生。','Fronds slowly swing back. Attachment is not stillness; it moves with something else.','藻葉がゆっくり戻る。付着は静止ではなく、別の動きと共にある。'],['改变后的藻间仍有身体经过。你看到的路线，也包含你留下的空隙。','Bodies pass through the altered bed. Their routes also contain the gaps you left.','変えた藻間を身体が通る。見えた経路には、作った隙間も含まれる。'],['最后一条线画成了藻叶的形状。真实的藻叶已经转向下一阵流。','The last line takes the shape of a frond. The real one has turned toward the next current.','最後の線は藻葉の形になる。本物は次の流れへ向いている。']]
 };
-const STANDARD_AQUATIC_ENDINGS=Object.keys(STORIES).flatMap(id=>['calm','care','trace'].map((kind,i)=>({id:`${id}-${kind}`,title:`water:${kind}`,body:`water:${id}:ending:${i}`,line:'water:note'})));
+const STANDARD_AQUATIC_ENDINGS=Object.keys(STORIES).flatMap(id=>['calm','care','trace'].map((kind,i)=>({id:`${id}-${kind}`,title:id==='freshwater'?`water:freshwater-material:ending:${i}:title`:`water:${kind}`,body:id==='freshwater'?`water:freshwater-material:ending:${i}:body`:`water:${id}:ending:${i}`,line:id==='freshwater'?`water:freshwater-material:ending:${i}:line`:'water:note'})));
 export const ABYSSAL_ENDINGS=Object.keys(ABYSSAL_ENDING_DATA).map(id=>({id,title:`abyssal:ending:${id}:title`,body:`abyssal:ending:${id}:body`,line:`abyssal:ending:${id}:line`}));
 export const AQUATIC_ENDINGS=[...STANDARD_AQUATIC_ENDINGS,...ABYSSAL_ENDINGS];
 
@@ -58,6 +59,23 @@ function storyRefFor(s){
  }
  return {row:base,storyKey:`turn:${turn}`,key:n=>`water:${id}:turn:${turn}:${n}`};
 }
+function freshwaterMaterialText(value,lang){
+ const parts=value.split(':'),index=Number(parts[2]);
+ if(parts[0]!=='water'||parts[1]!=='freshwater-material')return value;
+ if(parts[2]==='stage')return localizedRow(FRESHWATER_MATERIAL_STAGES[Number(parts[3])]?.name,lang)??value;
+ if(parts[2]==='ending'){
+  const ending=FRESHWATER_MATERIAL_ENDINGS[Number(parts[3])];if(!ending)return value;
+  return localizedRow(ending[parts[4]],lang)??value;
+ }
+ const stage=FRESHWATER_MATERIAL_STAGES[index];if(!stage)return value;
+ if(parts[3]==='prompt')return localizedRow(stage.prompt,lang)??value;
+ if(parts[3]==='after')return localizedRow(stage.after?.[parts[4]],lang)??localizedRow(stage.prompt,lang)??value;
+ if(parts[3]==='option'){
+  const option=stage.options[Number(parts[4])];if(!option)return value;
+  return localizedRow(option[parts[5]],lang)??value;
+ }
+ return value;
+}
 function abyssalText(value,lang){
  const parts=value.split(':'),kind=parts[1];
  if(kind==='node'){
@@ -77,6 +95,7 @@ function abyssalText(value,lang){
 export function aquaticText(value,lang='zh'){
  const text=String(value??'');
  if(text.startsWith('abyssal:'))return abyssalText(text,lang);
+ if(text.startsWith('water:freshwater-material:'))return freshwaterMaterialText(text,lang);
  if(!text.startsWith('water:'))return null;
  const parts=text.split(':');let row;
  if(parts[1]==='habitat')row=habitatConfig(parts[2]).names;
@@ -186,13 +205,42 @@ function abyssalScene(s){
  const order=ABYSSAL_OPTION_ORDER[node.id]||node.options.map((_,i)=>i);
  return {id:`abyssal:${index}`,title:`abyssal:node:${node.id}:prompt`,kind:'abyssal-dialogue',text:`abyssal:node:${node.id}:prompt`,activity:`abyssal:node:${node.id}:prompt`,dialogueNode:node.id,storyKey:`abyssal:${node.id}`,options:order.map(i=>{const option=node.options[i];return {id:option.id,label:`abyssal:node:${node.id}:option:${i}:label`,delta:{...option.delta},text:`abyssal:node:${node.id}:option:${i}:text`}})};
 }
+function freshwaterMaterialScene(s){
+ const records=(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind==='freshwater-material');
+ const index=Math.min(FRESHWATER_MATERIAL_STAGES.length-1,records.length),stage=FRESHWATER_MATERIAL_STAGES[index],previous=records.at(-1)?.choice;
+ const prompt=stage.after?.[previous]?`water:freshwater-material:${index}:after:${previous}`:`water:freshwater-material:${index}:prompt`;
+ return {
+  id:`freshwater-material:${index}`,
+  title:`water:freshwater-material:stage:${index}`,
+  kind:'freshwater-material',
+  text:prompt,
+  activity:`water:freshwater-material:stage:${index}`,
+  storyKey:`freshwater-material:${stage.id}`,
+  materialStage:index,
+  options:stage.options.map((option,i)=>({
+   id:option.id,
+   label:`water:freshwater-material:${index}:option:${i}:label`,
+   delta:{},
+   text:`water:freshwater-material:${index}:option:${i}:text`
+  }))
+ };
+}
 export function aquaticScene(s){
+ if(s.habitatId==='freshwater')return freshwaterMaterialScene(s);
  if(habitatConfig(s).dialogue)return abyssalScene(s);
  const ref=storyRefFor(s),row=ref.row,key=ref.key;
  return {id:`${s.habitatId}:${s.day}.${s.period}`,title:key(0),kind:'aquatic',text:key(0),activity:key(0),storyKey:ref.storyKey,options:[{id:'water-adjust',label:key(1),delta:{...row[2],interventions:1,care:1},text:key(3)},{id:'water-wait',label:'water:wait',delta:{quiet:2},text:'water:still'},{id:'water-record',label:'water:record',delta:{labels:1},text:'water:note'}]};
 }
 export function aquaticEnding(s){
  if(habitatConfig(s).dialogue)return abyssalCompositeEnding(s);
+ if(s.habitatId==='freshwater'){
+  const frames=(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind==='freshwater-material'&&['material-food','material-shelter','material-record'].includes(record.choice));
+  const counts={care:0,calm:0,trace:0},map={'material-food':'care','material-shelter':'calm','material-record':'trace'};
+  for(const record of frames)counts[map[record.choice]]++;
+  const latest=map[[...frames].reverse().find(Boolean)?.choice]||'trace',max=Math.max(...Object.values(counts));
+  const tied=['care','calm','trace'].filter(key=>counts[key]===max),kind=tied.includes(latest)?latest:(tied[0]||'trace');
+  return AQUATIC_ENDINGS.find(e=>e.id===`freshwater-${kind}`);
+ }
  const kind=s.interventions>=5?'care':s.quiet>=8?'calm':'trace';return AQUATIC_ENDINGS.find(e=>habitatConfig(s).endingPool.includes(e.id)&&e.id.endsWith('-'+kind));
 }
 export function aquaticFeedback(s){if(habitatConfig(s).dialogue)return '';return s.oxygen<45?'water:low':s.flow>65?'water:fast':'water:normal'}
