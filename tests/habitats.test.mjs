@@ -133,3 +133,14 @@ test('freshwater material layouts expose five editable visual stages',()=>{
  assert.ok(!FRESHWATER_STAGE_LAYOUTS[4].objects.some(object=>object.id==='material-leaf-main'));
  assert.ok(FRESHWATER_STAGE_LAYOUTS[4].objects.filter(object=>object.type==='freshwater-detritus-01').length>=3);
 });
+
+
+test('freshwater suspended material stage renders moving leaf fragments',async()=>{
+ const {drawAquaticWater}=await import('../isopoda/scenery/aquatic.mjs');
+ const s=createRun('aquaticus',57,'freshwater');
+ for(let i=0;i<3;i++){const scene=ensureScene(s);assert.equal(scene.materialStage,i);assert.ok(choose(s,scene.options[0].id));assert.ok(advance(s))}
+ const scene=ensureScene(s);assert.equal(scene.materialStage,3);
+ const calls=[],ctx={fillStyle:'',fillRect(x,y,w,h){assert.ok([x,y,w,h].every(Number.isFinite));calls.push([x,y,w,h,this.fillStyle])}};
+ assert.doesNotThrow(()=>drawAquaticWater(ctx,s,2,{drawPlants:false}));
+ assert.ok(calls.some(([, ,w,h,color])=>w>=3&&h===2&&['#6b5738','#806846'].includes(color)),'stage IV should include visible drifting leaf fragments');
+});
