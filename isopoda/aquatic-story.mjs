@@ -10,7 +10,7 @@ const COPY={
  limitation:['像素形态为有资料依据的近似；微小鉴别特征未完整绘制。','Pixel anatomy is evidence-informed; microscopic diagnostics are not fully rendered.','ピクセル形態は資料に基づく近似で、微細な識別形質は省略している。'],
 
  prev:['上一个环境','Previous habitat','前の環境'],next:['下一个环境','Next habitat','次の環境'],days3:['三日观察','Three days of observation','三日間の観察'],abyssalRound:['单次观察','Single observation','一回の観察'],
- flow:['水流','Flow','水流'],oxygen:['溶氧','Oxygen','溶存酸素'],detritus:['碎屑','Detritus','有機物'],tide:['潮位','Tide','潮位'],salinity:['盐度','Salinity','塩分'],algae:['藻丛','Algae','藻'],
+ flow:['水流','Flow','水流'],oxygen:['溶氧','Oxygen','溶存酸素'],light:['光照','Light','光量'],detritus:['碎屑','Detritus','有機物'],tide:['潮位','Tide','潮位'],salinity:['盐度','Salinity','塩分'],algae:['藻丛','Algae','藻'],
  calm:['水中的空白','A space in the water','水の中の余白'],care:['改变过的水','Altered water','変えられた水'],trace:['水线之外','Beyond the waterline','水位線の向こう'],
  low:['悬浮颗粒缓慢下沉，几个轮廓停在水流经过的边缘。','Particles settle slowly. Several bodies rest near passing water.','粒子がゆっくり沈み、輪郭が流れの縁で止まる。'],
  fast:['颗粒加快移动，身体更靠近可以抓住的表面。','Particles move faster; bodies draw nearer to surfaces they can grip.','粒子が速まり、身体がつかまれる面へ寄る。'],
