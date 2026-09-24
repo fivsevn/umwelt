@@ -213,34 +213,32 @@ export function drawAquaticBackground(g,{kind='freshwater',palette,seed=57}={}){
    pixel(g,x,y,span,1,i%5===0?'rgba(170,150,108,.34)':'rgba(62,70,54,.42)');
    if(i%7===0)pixel(g,x+Math.floor(span*.25),y+2,Math.max(2,Math.floor(span*.45)),1,'rgba(108,102,73,.34)');
   }
-  // The main channel widens toward the lower edge: upstream mudflat above,
-  // a broad seaward mouth below. This keeps the scene legible as an estuary,
-  // not merely a generic river reach.
-  for(let y=Math.round(h*.08);y<h;y+=2){
-   const t=Math.max(0,Math.min(1,(y-h*.08)/(h*.92)));
-   const center=Math.round(w*.56+Math.sin((y+seed)*.024)*24-Math.sin((y-seed)*.010)*15);
-   const half=Math.round(9+18*t+92*t*t);
-   pixel(g,center-half-2,y,2,2,'rgba(151,136,97,.48)');
-   pixel(g,center-half,y,half*2,2,t>.70?'rgba(38,67,64,.96)':'rgba(42,67,61,.92)');
-   pixel(g,center+half,y,2,2,'rgba(151,136,97,.46)');
-   if(y%14===0)pixel(g,center-Math.floor(half*.36),y,Math.max(8,Math.floor(half*.72)),1,'rgba(145,160,126,.24)');
+  // An asymmetric river mouth: a narrow upstream channel bends across the mudflat,
+  // then opens toward the lower-right sea. The large silhouette carries the habitat identity.
+  for(let y=Math.round(h*.05);y<h;y+=2){
+   const t=Math.max(0,Math.min(1,(y-h*.05)/(h*.95)));
+   const bend=Math.sin((y+seed)*.023)*22+Math.sin((y-seed)*.009)*11;
+   const center=Math.round(w*(.43+.17*t)+bend);
+   const half=Math.round(8+13*t+74*t*t);
+   pixel(g,center-half-2,y,2,2,'rgba(151,136,97,.50)');
+   pixel(g,center-half,y,half*2,2,t>.66?'rgba(35,67,65,.97)':'rgba(42,67,61,.93)');
+   pixel(g,center+half,y,2,2,'rgba(151,136,97,.43)');
+   if(y%16===0)pixel(g,center-Math.floor(half*.30),y,Math.max(7,Math.floor(half*.58)),1,'rgba(154,166,128,.22)');
   }
-  // Open marine water occupies the seaward apron and visually continues beyond
-  // the frame; sparse ripple glints borrow the shallow-sea vocabulary.
-  for(let y=Math.round(h*.82);y<h;y+=2){
-   const inset=Math.max(0,Math.round((h-y)*.72));
-   pixel(g,inset,y,w-inset*2,2,'rgba(36,68,66,.96)');
-   if(y%12===0)for(let x=inset+12;x<w-inset-10;x+=34)pixel(g,x,y,10+(noise(x,y,seed)%10),1,'rgba(159,169,132,.22)');
+  // Seaward apron occupies only the lower-right half instead of forming a symmetrical funnel.
+  for(let y=Math.round(h*.78);y<h;y+=2){
+   const t=(y-h*.78)/(h*.22),left=Math.round(w*(.38-.26*t)+Math.sin(y*.021+seed)*8);
+   pixel(g,left,y,w-left,2,'rgba(34,67,66,.98)');
+   if(y%12===0)for(let x=left+18;x<w-8;x+=38)pixel(g,x,y,8+(noise(x,y,seed)%13),1,'rgba(163,174,135,.23)');
   }
-  // Narrow tributary runnels feed the widening channel from the mudflat.
-  for(let y=36;y<h*.48;y+=2){
-   const x=Math.round(w*.30+Math.sin((y+seed)*.037)*20);
-   pixel(g,x-4,y,9,2,'rgba(46,72,65,.74)');
-   if(y%14===0)pixel(g,x-2,y,5,1,'rgba(142,153,119,.20)');
+  // Small tributaries are thin cuts in mud, not separate heavy objects.
+  for(let y=50;y<h*.39;y+=2){
+   const x=Math.round(w*.23+Math.sin((y+seed)*.041)*15);
+   pixel(g,x-2,y,5,2,'rgba(45,70,63,.64)');
   }
-  for(let y=50;y<h*.43;y+=2){
-   const x=Math.round(w*.76+Math.sin((y-seed)*.033)*17);
-   pixel(g,x-3,y,7,2,'rgba(46,72,65,.70)');
+  for(let y=72;y<h*.33;y+=2){
+   const x=Math.round(w*.72+Math.sin((y-seed)*.037)*12);
+   pixel(g,x-2,y,4,2,'rgba(45,70,63,.58)');
   }
  }
  if(kind==='intertidal'){
@@ -470,6 +468,52 @@ export function plantAnchor(h,i){
 
 export function drawAquaticWater(g,s,time=0,{drawPlants=true}={}){
  const h=habitatConfig(s),surface=h.tides?Math.round(360-s.tide*3.35):0;
+ if(h.id==='groundwater'){
+  // Only thin films and small pools move; the cave is not rendered as a full water column.
+  for(let i=0;i<8;i++){
+   const phase=time*.7+i*.9,cy=118+(i%4)*70,cx=188+Math.sin(i*1.8)*24;
+   const radius=8+(i%3)*5+Math.sin(phase)*2;
+   for(let x=-radius;x<=radius;x+=4)pixel(g,cx+x,cy+Math.sin(x*.25+phase)*2,3,1,'rgba(170,185,164,.16)');
+  }
+  for(let i=0;i<18;i++){const n=noise(i,269,s.seed),x=150+n%92,y=95+(n>>>10)%245;pixel(g,x,y,1,1,i%4===0?'rgba(209,205,178,.28)':'rgba(120,143,132,.16)')}
+  return;
+ }
+ if(h.id==='petri-dish'){
+  const cx=192,cy=215,r=143,drift=time*s.flow*.025;
+  for(let i=0;i<24;i++){
+   const n=noise(i,277,s.seed),a=(n%628)/100,rr=18+((n>>>9)%116),x=cx+Math.cos(a)*rr+Math.sin(time*.23+i)*drift,y=cy+Math.sin(a)*rr;
+   pixel(g,x,y,i%7===0?2:1,1,i%5===0?'rgba(223,221,195,.32)':'rgba(120,145,134,.22)');
+  }
+  const rr=24+Math.sin(time*.8)*4;for(let x=-rr;x<=rr;x+=5)pixel(g,cx+x,cy-44+Math.sin(x*.18+time)*1.5,3,1,'rgba(196,207,184,.16)');
+  return;
+ }
+ if(h.id==='sandy-surf'){
+  const shore=Math.max(112,Math.min(326,Math.round(270-(s.tide-50)*1.55+Math.sin(time*.55)*4)));
+  for(let y=shore;y<430;y+=4)for(let x=0;x<384;x+=4)if(noise(x,y,s.seed)%3!==0)pixel(g,x,y,4,2,'rgba(48,105,99,.18)');
+  // Three broken swash/foam bands; gaps prevent the shoreline from reading as a UI divider.
+  for(let band=0;band<3;band++){
+   const by=shore+band*8+Math.sin(time*.8+band)*3;
+   for(let x=2;x<382;x+=11){
+    const n=noise(x,band+281,s.seed);if(n%5===0)continue;
+    const y=by+Math.sin(x*.045+time*.9+band)*2.5;
+    pixel(g,x,y,5+(n%8),band===0?2:1,band===0?'rgba(229,221,184,.72)':'rgba(197,207,174,.36)');
+   }
+  }
+  for(let i=0;i<20;i++){const n=noise(i,283,s.seed),x=(n%384+time*s.flow*.04)%384,y=shore+8+((n>>>10)%Math.max(1,420-shore));pixel(g,x,y,1+(n%2),1,'rgba(196,205,169,.26)')}
+  return;
+ }
+ if(h.id==='estuary'){
+  // Tide changes glints and suspended matter inside the authored river-mouth shape,
+  // without laying a horizontal water sheet over the mudflat.
+  const level=(s.tide-50)/50;
+  for(let i=0;i<28;i++){
+   const n=noise(i,289,s.seed),y=70+(n>>>10)%340,t=(y-20)/410,center=384*(.43+.17*t)+Math.sin((y+s.seed)*.023)*22,half=10+13*t+74*t*t;
+   const x=center-half+(n%(Math.max(4,Math.floor(half*2))));
+   pixel(g,x,y,2+(i%3),1,i%5===0?'rgba(177,187,146,.26)':'rgba(91,131,118,.15)');
+  }
+  if(level>.25)for(let y=335;y<430;y+=9)pixel(g,110+Math.sin(y*.03+time)*8,y,260,1,'rgba(149,165,130,.10)');
+  return;
+ }
  // Water is transparent stippling with stepped ripples, never a smooth gradient.
  for(let y=surface;y<430;y+=4)for(let x=0;x<384;x+=4)if(noise(x,y)%4===0)pixel(g,x,y,2,1,'rgba(80,133,126,.13)');
  if(drawPlants&&h.plants>0){
