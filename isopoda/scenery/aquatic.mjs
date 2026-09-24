@@ -138,21 +138,34 @@ export function drawAquaticBackground(g,{kind='freshwater',palette,seed=57}={}){
    pixel(g,x,y,span,1,i%5===0?'rgba(170,150,108,.34)':'rgba(62,70,54,.42)');
    if(i%7===0)pixel(g,x+Math.floor(span*.25),y+2,Math.max(2,Math.floor(span*.45)),1,'rgba(108,102,73,.34)');
   }
-  // A sinuous tidal creek cuts across the mud. It is intentionally broad and dark so
-  // the estuary reads as a drainage landscape rather than another rock pool.
-  for(let x=0;x<w;x+=2){
-   const center=Math.round(h*.51+Math.sin((x+seed)*.027)*27+Math.sin((x-seed)*.011)*15);
-   const half=17+Math.round((Math.sin((x+seed)*.019)+1)*5);
-   pixel(g,x,center-half-2,2,2,'rgba(148,132,94,.52)');
-   pixel(g,x,center-half,2,half*2,'rgba(42,67,61,.94)');
-   pixel(g,x,center+half,2,2,'rgba(151,136,97,.48)');
-   if(x%12===0)pixel(g,x,center-2,8,1,'rgba(145,160,126,.26)');
+  // The main channel widens toward the lower edge: upstream mudflat above,
+  // a broad seaward mouth below. This keeps the scene legible as an estuary,
+  // not merely a generic river reach.
+  for(let y=Math.round(h*.08);y<h;y+=2){
+   const t=Math.max(0,Math.min(1,(y-h*.08)/(h*.92)));
+   const center=Math.round(w*.56+Math.sin((y+seed)*.024)*24-Math.sin((y-seed)*.010)*15);
+   const half=Math.round(9+18*t+92*t*t);
+   pixel(g,center-half-2,y,2,2,'rgba(151,136,97,.48)');
+   pixel(g,center-half,y,half*2,2,t>.70?'rgba(38,67,64,.96)':'rgba(42,67,61,.92)');
+   pixel(g,center+half,y,2,2,'rgba(151,136,97,.46)');
+   if(y%14===0)pixel(g,center-Math.floor(half*.36),y,Math.max(8,Math.floor(half*.72)),1,'rgba(145,160,126,.24)');
   }
-  // Two narrow side runnels make the drainage pattern branch.
-  for(let y=40;y<h*.55;y+=2){
-   const x=Math.round(w*.67+Math.sin((y+seed)*.035)*18);
-   pixel(g,x-4,y,9,2,'rgba(46,72,65,.78)');
-   if(y%14===0)pixel(g,x-2,y,5,1,'rgba(142,153,119,.22)');
+  // Open marine water occupies the seaward apron and visually continues beyond
+  // the frame; sparse ripple glints borrow the shallow-sea vocabulary.
+  for(let y=Math.round(h*.82);y<h;y+=2){
+   const inset=Math.max(0,Math.round((h-y)*.72));
+   pixel(g,inset,y,w-inset*2,2,'rgba(36,68,66,.96)');
+   if(y%12===0)for(let x=inset+12;x<w-inset-10;x+=34)pixel(g,x,y,10+(noise(x,y,seed)%10),1,'rgba(159,169,132,.22)');
+  }
+  // Narrow tributary runnels feed the widening channel from the mudflat.
+  for(let y=36;y<h*.48;y+=2){
+   const x=Math.round(w*.30+Math.sin((y+seed)*.037)*20);
+   pixel(g,x-4,y,9,2,'rgba(46,72,65,.74)');
+   if(y%14===0)pixel(g,x-2,y,5,1,'rgba(142,153,119,.20)');
+  }
+  for(let y=50;y<h*.43;y+=2){
+   const x=Math.round(w*.76+Math.sin((y-seed)*.033)*17);
+   pixel(g,x-3,y,7,2,'rgba(46,72,65,.70)');
   }
  }
  if(kind==='intertidal'){
