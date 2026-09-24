@@ -8,6 +8,7 @@ import {encounterById,responseMode} from './encounters.mjs';
 import {pixelAnatomy,renderModel,exuviaPixels} from './sprites.mjs';
 import {speciesById} from './species-registry.mjs';
 import {drawBaseScene,drawLeaf,DEFAULT_LAYOUT,drawSceneBackground,drawSceneElement,sceneObjects,layoutForHabitat,isAnimatedSceneElement} from './scenery/index.mjs';
+import {freshwaterLayout} from './scenery/freshwater-stages.mjs';
 import {ACTOR_SCALE} from './scenery/grammar.mjs';
 // Anatomy and scenery share the same integer world lattice.
 export const SCENE_PIXEL=1;
@@ -60,7 +61,7 @@ function buildAquaticPlan(layout){
  flush();return {background,steps};
 }
 function drawAquaticLayout(time){
- const layout=layoutForHabitat(state),key=(state.habitatId||'freshwater')+':'+layout.background.seed+':'+layout.objects.length;
+ const layout=state.habitatId==='freshwater'?freshwaterLayout(state):layoutForHabitat(state),key=(state.habitatId||'freshwater')+':'+(layout.materialStage??'base')+':'+layout.background.seed+':'+layout.objects.length;
  if(!aquaticPlan||aquaticPlanKey!==key){aquaticPlan=buildAquaticPlan(layout);aquaticPlanKey=key}
  ctx.drawImage(aquaticPlan.background,0,0);
  for(const step of aquaticPlan.steps){
