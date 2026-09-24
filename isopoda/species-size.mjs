@@ -22,7 +22,13 @@ const SIZE_REFERENCE={
  werneri:{mm:21,confidence:'revision-reference',basis:'modern species revision / specialist references: adults around 21 mm'},
  spinicornis:{mm:12,confidence:'specialist-field-guide',basis:'BMIG and Shultz 2018: adults to about 12 mm'},
  magnificus:{mm:29,confidence:'taxonomic-material',basis:'Schmalfuss 1987 cites adult males reaching about 29 mm'},
- uniramea:{range:[.7,1.0],confidence:'type-series',basis:'Menzies & Miller 1955: holotype male 0.7 mm; ovigerous allotype female 1.0 mm'}
+ uniramea:{range:[.7,1.0],confidence:'type-series',basis:'Menzies & Miller 1955: holotype male 0.7 mm; ovigerous allotype female 1.0 mm'},
+ pulchra:{mm:8,confidence:'specialist-field-guide',basis:'BMIG: males to 8 mm'},
+ affinis:{mm:6,confidence:'specialist-field-guide',basis:'BMIG: females to 6 mm'},
+ spinigera:{mm:9,confidence:'literature-reference',basis:'marine isopod reference: up to about 9 mm'},
+ cavaticus:{mm:8,confidence:'specialist-reference',basis:'groundwater and cave references: adults to about 8 mm'},
+ lusitanicus:{range:[4.2,7.2],confidence:'peer-reviewed-range',basis:'Di Lorenzo & Reboleira 2022 measured adults 4.2–7.2 mm'},
+ virei:{mm:8,confidence:'specialist-reference',basis:'French freshwater Asellota guide: usual adult size around 8 mm'}
 };
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function referenceLengthMm(species){
