@@ -5,7 +5,7 @@ import {sceneObjects,isAnimatedSceneElement} from '../isopoda/scenery/index.mjs'
 import {drawAquaticPlant} from '../isopoda/scenery/aquatic.mjs';
 
 test('the exported habitat layouts are the canonical editor scenes',()=>{
- const expected={forest:42,freshwater:46,estuary:34,intertidal:51,'shallow-marine':32,abyssal:9};
+ const expected={forest:42,freshwater:46,groundwater:15,estuary:30,intertidal:51,'sandy-surf':15,'shallow-marine':32,abyssal:9,'petri-dish':7};
  assert.deepEqual(Object.keys(SCENE_LAYOUTS),Object.keys(expected));
  for(const [id,count] of Object.entries(expected)){
   const layout=SCENE_LAYOUTS[id];
@@ -20,18 +20,22 @@ test('the exported habitat layouts are the canonical editor scenes',()=>{
  assert.equal(SCENE_LAYOUTS.estuary.background.type,'water-estuary');
  assert.notDeepEqual(SCENE_LAYOUTS.estuary.objects,SCENE_LAYOUTS.intertidal.objects);
  const estuaryTypes=new Set(SCENE_LAYOUTS.estuary.objects.map(item=>item.type));
- for(const type of ['saltmarsh-tuft-01','tidal-runnel-01','mud-burrows-01','wrack-line-01','estuary-silt-01'])assert.ok(estuaryTypes.has(type),type);
+ for(const type of ['saltmarsh-tuft-01','mud-burrows-01','wrack-line-01','estuary-silt-01'])assert.ok(estuaryTypes.has(type),type);
+ assert.ok(!estuaryTypes.has('tidal-runnel-01'),'tributaries belong in the estuary background, not chunky overlay modules');
  assert.ok(![...estuaryTypes].some(type=>type.startsWith('stone-')),'estuary should read as mudflat, not rock pool');
 });
 
 test('authored aquatic plant positions remain animation-ready without changing editor coordinates',()=>{
- for(const id of ['freshwater','intertidal','shallow-marine','estuary']){
+ for(const id of ['freshwater','groundwater','estuary','intertidal','sandy-surf','shallow-marine','petri-dish']){
   const source=SCENE_LAYOUTS[id].objects.filter(item=>item.params?.kind);
   const runtime=sceneObjects(SCENE_LAYOUTS[id]).filter(isAnimatedSceneElement);
   assert.equal(runtime.length,source.length,id);
   assert.deepEqual(runtime.map(item=>[item.x,item.y,item.a,item.flipX]),source.map(item=>[item.x,item.y,item.angle||0,item.flipX]));
  }
  assert.equal(sceneObjects(SCENE_LAYOUTS.abyssal).filter(isAnimatedSceneElement).length,0);
+ assert.equal(SCENE_LAYOUTS.groundwater.background.type,'water-groundwater');
+ assert.equal(SCENE_LAYOUTS['sandy-surf'].background.type,'water-sandy-surf');
+ assert.equal(SCENE_LAYOUTS['petri-dish'].background.type,'water-petri-dish');
 });
 
 
