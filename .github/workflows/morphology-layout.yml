@@ -53,6 +53,7 @@ jobs:
             sleep 1
           done
           NODE_PATH="$RUNNER_TEMP/morphology-browser/node_modules" node tests/browser/morphology-layout.cjs
+          NODE_PATH="$RUNNER_TEMP/morphology-browser/node_modules" QA_OUTPUT="$RUNNER_TEMP/habitat-screenshots" node tests/browser/habitat-lab.cjs
           NODE_PATH="$RUNNER_TEMP/morphology-browser/node_modules" QA_OUTPUT="$RUNNER_TEMP/public-screenshots" node tests/browser/public-regression.cjs
       - uses: actions/upload-artifact@v4
         if: always()
@@ -61,4 +62,5 @@ jobs:
           path: |
             ${{ runner.temp }}/morphology-screenshots
             ${{ runner.temp }}/public-screenshots
+            ${{ runner.temp }}/habitat-screenshots
           retention-days: 14

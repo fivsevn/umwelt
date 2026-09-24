@@ -62,3 +62,14 @@ BROWSER=webkit BASE_URL=http://127.0.0.1:8765 COMPARE_URL=http://127.0.0.1:8766 
 
 Use `QA_OUTPUT` outside the site for screenshots. The existing morphology workflow runs both harnesses in each browser. `data-contracts.test.mjs` adds schema, narrative and invalid-input checks; `asset-stamping.test.mjs` covers the deployment URL transform. Existing compatibility tests remain in place.
 
+
+## Habitat lab editor regression
+
+`browser/habitat-lab.cjs` exercises all five presets, registry coverage, JSON/share/file round trips, import failure rollback, real game-scale specimen pixels, equal-depth selection, layer edits, imported scales, responsive dragging, transfer-panel placement and game-save isolation. It runs in both browser jobs alongside the morphology regression.
+
+```sh
+BASE_URL=http://127.0.0.1:8765 node tests/browser/habitat-lab.cjs
+BROWSER=webkit BASE_URL=http://127.0.0.1:8765 node tests/browser/habitat-lab.cjs
+```
+
+`CHROME_PATH` optionally selects a local Chromium executable; `QA_OUTPUT` saves screenshots outside the site. The scene-codec Node tests also import every shipped authored layout, including named bark tones.

@@ -13,6 +13,10 @@
 | 添加动画动作或交互反应 | [动作扩展指南](animation.md) | [形态边界](morphology-renderer.md)、[运动研究](../data/locomotion/README.md) |
 | 开始一项扩展设计 | [提案模板](templates/expansion-proposal.md) | [扩展工作流](expansion-guide.md) |
 
+## 两个公开实验室
+
+[姐妹实验室维护契约](laboratories.md)：游戏新增品种、环境、动作或语言时，同步核对形态资料页与环境布置页，保持阿西莫夫的叙事包装。
+
 ## 当前维护契约
 
 - [运行边界与公开页面](../README.md)：主页、游戏、两个实验室与稳定性规则。

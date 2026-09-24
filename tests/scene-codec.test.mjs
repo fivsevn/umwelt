@@ -37,3 +37,21 @@ test('invalid mirror values are rejected',()=>{
  const scene=exportScene(state,reference,assets);scene.objects[0].flipX='yes';
  assert.throws(()=>importScene(JSON.stringify(scene),assets,reference));
 });
+
+// Public authored layouts include waterlogged wood, not only numeric leaf palettes.
+import {SCENE_LAYOUTS} from '../isopoda/scenery/authored-layouts.mjs';
+test('every shipped habitat layout survives JSON and share-code import',()=>{
+ const library=new Map();
+ for(const layout of Object.values(SCENE_LAYOUTS)){
+  library.set(layout.background.type,{kind:'background',params:layout.background.params});
+  for(const item of layout.objects)library.set(item.type,{params:item.params});
+ }
+ for(const [id,layout] of Object.entries(SCENE_LAYOUTS))for(const text of [JSON.stringify(layout),shareCode(layout)]){
+  const restored=importScene(text,library,reference);
+  const normalized=exportScene(restored.state,restored.reference,library);
+  assert.deepEqual(normalized.objects.map(o=>o.params),layout.objects.map(o=>o.params),id);
+  assert.deepEqual(normalized.background,layout.background,id);
+ }
+ const bad=structuredClone(SCENE_LAYOUTS.freshwater);bad.objects[0].params.tone='unknown';
+ assert.throws(()=>importScene(JSON.stringify(bad),library,reference));
+});
