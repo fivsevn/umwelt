@@ -12,7 +12,7 @@ const pixel=(g,x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y)
 export const AQUATIC_BACKDROPS=Object.freeze({
  freshwater:{palette:['#273b32','#344439','#4e5140','#68634b'],water:'#31564f',accent:'#81906a'},
  intertidal:{palette:['#324743','#405552','#69736a','#9b9880'],water:'#456b67',accent:'#aab59b'},
- estuary:{palette:['#31453f','#46564d','#6f715d','#9a8e6d'],water:'#4b6d62',accent:'#b0a77d'},
+ estuary:{palette:['#3d4135','#4e5140','#68644d','#8f8263'],water:'#385750',accent:'#a89a70'},
  'shallow-marine':{palette:['#203e3d','#355452','#6d7660','#969375'],water:'#315e5a',accent:'#a7ad83'},
  abyssal:{palette:['#10181b','#172225','#223033','#343d3f'],water:'#17272b',accent:'#667374'}
 });
@@ -33,6 +33,7 @@ function plantRamp(kind){
  if(kind==='rockweed')return ['#3d5535','#647344','#8b9258','#b6ad70'];
  if(kind==='seagrass')return ['#365b46','#5d805e','#89a670','#bbc58b'];
  if(kind==='ulva')return ['#294638','#3f5f43','#59754b','#7b8d5b'];
+ if(kind==='saltmarsh')return ['#3a452f','#59613b','#7b7b4d','#a39a63'];
  return ['#405733','#667646','#8d9353','#b8ae6c'];
 }
 
@@ -46,6 +47,7 @@ function plantSway(kind,j,height,time,seed,flow,phase=0){
   rockweed:{amp:5.4,speed:.43,ripple:.20},
   seagrass:{amp:11.5,speed:.74,ripple:.20},
   ulva:{amp:7.2,speed:.52,ripple:.24},
+  saltmarsh:{amp:6.2,speed:.34,ripple:.12},
   kelp:{amp:13.5,speed:.39,ripple:.30}
  }[kind]||{amp:8,speed:.5,ripple:.22};
  const basePhase=seed*.071+phase;
@@ -130,7 +132,28 @@ export function drawAquaticBackground(g,{kind='freshwater',palette,seed=57}={}){
   }
  }
  if(kind==='estuary'){
-  for(let i=0;i<38;i++){const n=noise(i,113,seed),x=n%w,y=(n>>>10)%h,span=4+(n%11);pixel(g,x,y,span,1,i%4===0?'rgba(155,139,103,.30)':'rgba(49,69,63,.48)');if(i%5===0)pixel(g,x+2,y+2,2,1,'rgba(112,113,93,.36)')}
+  // Mudflat first: broad horizontal laminae and shallow drainage scars.
+  for(let i=0;i<82;i++){
+   const n=noise(i,113,seed),x=n%w,y=(n>>>10)%h,span=5+(n%18);
+   pixel(g,x,y,span,1,i%5===0?'rgba(170,150,108,.34)':'rgba(62,70,54,.42)');
+   if(i%7===0)pixel(g,x+Math.floor(span*.25),y+2,Math.max(2,Math.floor(span*.45)),1,'rgba(108,102,73,.34)');
+  }
+  // A sinuous tidal creek cuts across the mud. It is intentionally broad and dark so
+  // the estuary reads as a drainage landscape rather than another rock pool.
+  for(let x=0;x<w;x+=2){
+   const center=Math.round(h*.51+Math.sin((x+seed)*.027)*27+Math.sin((x-seed)*.011)*15);
+   const half=17+Math.round((Math.sin((x+seed)*.019)+1)*5);
+   pixel(g,x,center-half-2,2,2,'rgba(148,132,94,.52)');
+   pixel(g,x,center-half,2,half*2,'rgba(42,67,61,.94)');
+   pixel(g,x,center+half,2,2,'rgba(151,136,97,.48)');
+   if(x%12===0)pixel(g,x,center-2,8,1,'rgba(145,160,126,.26)');
+  }
+  // Two narrow side runnels make the drainage pattern branch.
+  for(let y=40;y<h*.55;y+=2){
+   const x=Math.round(w*.67+Math.sin((y+seed)*.035)*18);
+   pixel(g,x-4,y,9,2,'rgba(46,72,65,.78)');
+   if(y%14===0)pixel(g,x-2,y,5,1,'rgba(142,153,119,.22)');
+  }
  }
  if(kind==='intertidal'){
   for(let x=0;x<w;x+=7){const y=Math.round(h*.56+Math.sin((x+seed)*.055)*2);pixel(g,x,y,5,1,'rgba(157,185,164,.34)')}
@@ -221,6 +244,26 @@ export function drawAquaticPlant(g,{kind='waterweed',x=0,y=0,a=0,scale=1,seed=0,
   }
   localPixel(g,o,-8,1,16,3,ramp[0]);
   localPixel(g,o,-5,0,10,1,ramp[2]);
+  return;
+ }
+
+ if(kind==='saltmarsh'){
+  const blades=8+(seed%5);
+  for(let b=0;b<blades;b++){
+   const u=(b-(blades-1)/2)*2.8,len=height*(.52+(noise(b,151,seed)%45)/100);
+   const lean=((noise(b,157,seed)%13)-6)*.45;
+   const mid=u+lean*.45+plantSway('saltmarsh',len*.55,len,time,seed,flow,b*.37)*motion;
+   const tip=u+lean+plantSway('saltmarsh',len,len,time,seed,flow,b*.37)*motion;
+   localLine(g,o,u,1,mid,-len*.55,1.6,b%3===0?ramp[0]:ramp[1]);
+   localLine(g,o,mid,-len*.55,tip,-len,1.4,b%4===0?ramp[2]:ramp[1]);
+   if(b%4===0){
+    const seedHeadY=-len*.82,seedHeadU=mid+(tip-mid)*.7;
+    localPixel(g,o,seedHeadU-1,seedHeadY,3,5,ramp[2]);
+    localPixel(g,o,seedHeadU,seedHeadY-2,1,2,ramp[3]);
+   }
+  }
+  localPixel(g,o,-9,1,18,3,ramp[0]);
+  localPixel(g,o,-6,0,12,1,ramp[2]);
   return;
  }
 
@@ -344,9 +387,9 @@ export function drawAquaticWater(g,s,time=0,{drawPlants=true}={}){
  if(drawPlants&&h.plants>0){
   const rawCount=Math.max(3,Math.round(h.plants*(s.algae/70)));
   const count=h.id==='shallow-marine'?Math.max(6,Math.round(rawCount*.52)):h.id==='intertidal'?Math.max(4,Math.round(rawCount*.72)):h.id==='estuary'?Math.max(5,Math.round(rawCount*.68)):rawCount;
-  const kind=h.id==='freshwater'?'waterweed':h.id==='intertidal'?'rockweed':h.id==='estuary'?'ulva':'kelp';
+  const kind=h.id==='freshwater'?'waterweed':h.id==='intertidal'?'rockweed':h.id==='estuary'?'saltmarsh':'kelp';
   for(let i=0;i<count;i++){
-   const anchor=plantAnchor(h,i),baseHeight=h.id==='freshwater'?35+i%4*13:h.id==='intertidal'?22+i%4*8:h.id==='estuary'?30+i%4*7:60+i%5*15;
+   const anchor=plantAnchor(h,i),baseHeight=h.id==='freshwater'?35+i%4*13:h.id==='intertidal'?22+i%4*8:h.id==='estuary'?42+i%4*9:60+i%5*15;
    drawAquaticPlant(g,{kind,x:anchor.x,y:anchor.y,a:(noise(i,55,s.seed)%9-4)*.025,scale:h.id==='shallow-marine'?.9+(i%3)*.08:h.id==='estuary'?.66+(i%3)*.07:.88+(i%2)*.08,seed:s.seed+i*19,height:baseHeight,time,flow:s.flow});
   }
   if(h.id==='shallow-marine'){
