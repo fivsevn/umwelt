@@ -44,6 +44,7 @@ const ctx=world.getContext('2d');ctx.imageSmoothingEnabled=false;
 const sceneryCanvas=document.createElement('canvas');sceneryCanvas.width=384;sceneryCanvas.height=430;
 const sceneryCtx=sceneryCanvas.getContext('2d');sceneryCtx.imageSmoothingEnabled=false;let sceneryKey='';
 let aquaticPlan=null,aquaticPlanKey='';
+const [traceCanvas,traceCtx]=offscreen();let traceKey='';
 function offscreen(){
  const c=document.createElement('canvas');c.width=384;c.height=430;const g=c.getContext('2d');g.imageSmoothingEnabled=false;return [c,g];
 }
@@ -158,19 +159,28 @@ function drawHabitat(t){
   ctx.drawImage(sceneryCanvas,0,0);
  }
 
- for(const mark of memory.scuffs||[])for(let i=0;i<8;i++)px(ctx,mark.x-18+i*5,mark.y+i%2*2,3,1,'rgba(108,84,58,.55)');
+ // All persistent traces change with game state, not with animation time.
+ // Value-based invalidation also catches in-place mutations and future trace fields.
+ const nextTraceKey=JSON.stringify([memory.scuffs,memory.leaves,memory.foodNodes,memory.shells,state.cohort]);
+ if(nextTraceKey!==traceKey){
+  traceCtx.clearRect(0,0,384,430);
+ for(const mark of memory.scuffs||[])for(let i=0;i<8;i++)px(traceCtx,mark.x-18+i*5,mark.y+i%2*2,3,1,'rgba(108,84,58,.55)');
 
  // Pre-existing and newly-added leaves share the exact same renderer.
  for(const l of memory.leaves||[]){
   const hash=Math.abs(Math.round(l.x*17+l.y*31+l.a*100)),variant=hash%6,tone=(hash>>2)%4;
   const size=.68+(hash%6)*.055;
-  drawLeaf(ctx,{x:l.x,y:l.y,a:l.a+((hash%7)-3)*.045,variant,scale:size,tone,gap:!!l.gap,age:l.age||0,seed:hash});
+  drawLeaf(traceCtx,{x:l.x,y:l.y,a:l.a+((hash%7)-3)*.045,variant,scale:size,tone,gap:!!l.gap,age:l.age||0,seed:hash});
  }
 
  for(const food of memory.foodNodes||[]){
-  if(food.amount>0)for(let y=0;y<10;y+=2)for(let x=0;x<Math.min(20,8+food.amount*5);x+=2)px(ctx,food.x+x-8,food.y+y-5,2,2,y>6?'#80683f':'#c3a46b');
+  if(food.amount>0)for(let y=0;y<10;y+=2)for(let x=0;x<Math.min(20,8+food.amount*5);x+=2)px(traceCtx,food.x+x-8,food.y+y-5,2,2,y>6?'#80683f':'#c3a46b');
  }
- for(const shell of memory.shells||[])drawMoltShell(shell);
+ for(const shell of memory.shells||[])drawMoltShell(shell,traceCtx);
+
+  traceKey=nextTraceKey;
+ }
+ ctx.drawImage(traceCanvas,0,0);
 
  // Spraying has an immediate visible response now that scenery is on the same canvas layer.
  if(!reduced&&effect&&elapsed<effect.until&&['mist','wet-left','wet-all'].includes(effect.id)){
@@ -222,7 +232,7 @@ function drawActors(){
   for(const [x,y,color] of actor.hitCells)px(ctx,x,y,1,1,color);
  }
 }
-function drawMoltShell(shell){
+function drawMoltShell(shell,target=ctx){
  const specimen=state.cohort?.find(c=>c.id===shell.specimen)||state.cohort?.[0];
  const species=speciesById(specimen?.species||state.cohort?.[0]?.species||'dairy');
  const model=renderModel(species.visual,{stage:specimen?.stage||'M',seed:specimen?.seed||shell.id});
@@ -230,7 +240,7 @@ function drawMoltShell(shell){
  const scale=.82*model.growth.scale,ca=Math.cos(shell.a||0),sa=Math.sin(shell.a||0);
  for(const [sx,sy,color] of cells){
   const ox=sx*scale,oy=sy*scale;
-  px(ctx,shell.x+ox*ca-oy*sa,shell.y+ox*sa+oy*ca,1,1,color);
+  px(target,shell.x+ox*ca-oy*sa,shell.y+ox*sa+oy*ca,1,1,color);
  }
 }
 new ResizeObserver(()=>drawHabitat(0)).observe(canvas);

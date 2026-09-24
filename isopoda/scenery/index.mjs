@@ -79,7 +79,31 @@ export function drawLayoutScene(ctx,layout=DEFAULT_LAYOUT,{time=0,shelterLift=0,
  drawSceneBackground(ctx,layout,backgroundOverrides);
  for(const item of sceneObjects(layout).sort((a,b)=>(a.z||0)-(b.z||0)))drawSceneElement(ctx,item,{time,shelterLift});
 }
+// Share expensive authored scenery between the early title preview and the game.
+// Keep the changing substrate separate from objects: moisture must not rerasterize
+// every moss/stone/bark contour. Small bounded caches never enter saved game data.
+const baseLayers=new Map(),backgroundLayers=new Map();
+function baseLayer(key,draw,layers=baseLayers,limit=4){
+ let canvas=layers.get(key);
+ if(canvas){layers.delete(key);layers.set(key,canvas);return canvas}
+ canvas=document.createElement('canvas');canvas.width=384;canvas.height=430;
+ const g=canvas.getContext('2d');g.imageSmoothingEnabled=false;draw(g);
+ layers.set(key,canvas);
+ if(layers.size>limit)layers.delete(layers.keys().next().value);
+ return canvas;
+}
 export function drawBaseScene(ctx,{wetZones=DEFAULT_LAYOUT.background.params.wetZones,light=DEFAULT_LAYOUT.background.params.light,shelterLift=0,seed=DEFAULT_LAYOUT.background.seed}={}){
- drawSceneBackground(ctx,DEFAULT_LAYOUT,{wetZones,light,seed});
- for(const item of [...DEFAULT_SCENE].sort((a,b)=>(a.z||0)-(b.z||0)))drawSceneElement(ctx,item,{shelterLift});
+ const background=g=>drawSceneBackground(g,DEFAULT_LAYOUT,{wetZones,light,seed});
+ const ordered=[...DEFAULT_SCENE].sort((a,b)=>(a.z||0)-(b.z||0));
+ const objects=g=>{for(const item of ordered)drawSceneElement(g,item,{shelterLift})};
+ // Pure renderers and test recording contexts also work outside the browser.
+ if(typeof document==='undefined'||typeof ctx.drawImage!=='function'){background(ctx);objects(ctx);return}
+ ctx.drawImage(baseLayer('background:'+JSON.stringify([DEFAULT_LAYOUT.background,wetZones,light,seed]),background,backgroundLayers,2),0,0);
+ // Preserve the authored stacking order while lifting only the shelter.
+ const pivot=ordered.findIndex(item=>item.id===DEFAULT_SHELTER?.id);
+ const groups=pivot<0?[ordered]:[ordered.slice(0,pivot),[ordered[pivot]],ordered.slice(pivot+1)];
+ for(const group of groups){
+  const lift=group.some(item=>item.id===DEFAULT_SHELTER?.id)?shelterLift:0;
+  ctx.drawImage(baseLayer('objects:'+JSON.stringify([group,lift]),g=>{for(const item of group)drawSceneElement(g,item,{shelterLift:lift})}),0,0);
+ }
 }
