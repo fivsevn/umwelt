@@ -173,6 +173,42 @@ const copy={
     en:['Gaps among algae change with the water. Two seconds that look alike are not the same place to a millimetre-scale body.','When evidence runs thin, leaving “unknown” on the page is closer to observation than completing a beautiful certainty.'],
     ja:['藻の隙間は水流とともに変わる。同じに見える二秒間も、ミリメートル尺度の身体には同じ場所ではない。','資料が足りないとき、「不明」を頁に残すほうが、美しい確定を補うより観察に近い。']
   },
+  hilgendorfii:{
+    en:['Rivers, lakes, ponds, and ditches are map categories; once leaves enter the water, decomposition works along finer boundaries.','Closely related water-slaters share similar outlines. Without microscopic characters, the pixels keep only broader structural differences.'],
+    ja:['河川、湖、池、溝は地図上の分類にすぎない。落葉が水に入ると、分解者はもっと細かな境界に沿って働く。','近縁のミズムシ類は輪郭がよく似る。顕微鏡的形質がなければ、ピクセルは大まかな構造差だけを残す。']
+  },
+  ischiosetosa:{
+    en:['Freshwater runoff compresses a salinity gradient into a very short distance. A thin film beneath one stone is already another environment at millimetre scale.','It is so small that many diagnostic characters fall outside the pixel grid. Missing setae should not be replaced by invented colour.'],
+    ja:['淡水の流入は塩分勾配を短い距離へ圧縮する。一枚の石の下の薄い水膜だけでも、ミリメートル尺度では別の環境になる。','小さすぎて多くの識別形質はピクセルの外に落ちる。見えない剛毛を色で補ってはいけない。']
+  },
+  bidentata:{
+    en:['Juveniles live among algae while adults use crevices and empty barnacle tests. One life cycle divides a single shore into different scales.','Male and female tails differ. This outline preserves shared structure, not a sex diagnosis.'],
+    ja:['幼体は藻の間に、成体は割れ目やフジツボの殻内に入る。一つの生活史が同じ岸を異なる尺度へ分ける。','雌雄で尾部形態が異なる。この輪郭は共通構造を残すだけで、性判定を装うものではない。']
+  },
+  linearis:{
+    en:['When its long body clings to fine algae or eelgrass, the outline nearly becomes part of the plant.','Forty millimetres is a reported maximum, not a standard size for every individual.'],
+    ja:['細長い身体が細い藻やアマモに沿うと、輪郭はほとんど植物の一部になる。','四十ミリは記録された最大値であり、すべての個体の標準サイズではない。']
+  },
+  maculosa:{
+    en:['Long antennae cross the front boundary of the body, and long uropods extend it again behind. Measurement always begins by choosing where a boundary starts.','Sponges, bryozoans, and kelp holdfasts are not decoration; together they determine where a body can remain.'],
+    ja:['長い触角は身体の前方境界を越え、長い尾肢は後方へさらに延ばす。測定はいつも境界をどこに置くか決めることから始まる。','海綿、コケムシ、コンブの付着器は背景装飾ではなく、どこに留まれるかを決める環境そのものだ。']
+  },
+  hookeri:{
+    en:['An estuary has no stable salinity line. Tide, runoff, and mud repeatedly mix what we call sea water and fresh water.','A rolling body is easy to notice; the setal patterns actually used for identification are much harder to place in pixels.'],
+    ja:['河口に安定した塩分線はない。潮汐、流入水、泥底が「海水」と「淡水」を繰り返し混ぜる。','丸くなる輪郭は見つけやすいが、実際の識別に使う剛毛配列はピクセルへ落としにくい。']
+  },
+  rugicauda:{
+    en:['Salt-marsh pools, seaweed, driftwood, and mud banks can all shelter the same species. An environment is not a single material.','Small pleotelson tubercles are useful evidence; the pixel model can preserve only a coarse impression of that texture.'],
+    ja:['塩性湿地の池、海藻、流木、泥壁のすべてが同じ種の隠れ場所になり得る。環境は一種類の材質ではない。','尾節の小さな瘤は識別の手掛かりだが、ピクセルでは粗い質感として近似するしかない。']
+  },
+  chelipes:{
+    en:['Algae, mudflats, salt-marsh pools, and estuary stones are linked by the same brackish gradient.','Colour varies. Antennae, coxal plates, and pleotelson shape remain more reliable than colour.'],
+    ja:['藻、泥干潟、塩性湿地の池、河口の石は、同じ汽水勾配でつながっている。','色は変化する。識別では色より触角、側板、尾節形態のほうが信頼できる。']
+  },
+  carinata:{
+    en:['Mud has no obvious corridors, yet a narrow body turns sediment into traversable space.','The salinity range belongs to population records, not to a single line drawn around one individual.'],
+    ja:['泥には明瞭な通路がない。それでも細長い身体は堆積物を通過できる空間へ変える。','塩分範囲は個体を囲む一本の線ではなく、集団記録から得られたものだ。']
+  },
   pandaKing:{
     en:['Its name comes from the simplest contrast: black and white.','The taxonomic identity remains unsettled, but the pattern became a shared language among keepers first.'],
     ja:['名前は、もっとも単純な黒と白の対比から来ている。','分類上の正体は定まっていないのに、模様は先に飼育者たちの共通語になった。']
