@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {HABITATS,habitatConfig,eligibleSpecies,cycleHabitat} from '../isopoda/habitats.mjs';
+import {HABITATS,habitatConfig,eligibleSpecies,cycleHabitat,habitatLayoutFilename} from '../isopoda/habitats.mjs';
 import {createRun,migrateV4,validRun,ensureScene,choose,advance} from '../isopoda/engine.mjs';
 import {SPECIES} from '../isopoda/species-registry.mjs';
 import {drawCohort} from '../isopoda/collection.mjs';
@@ -13,6 +13,21 @@ import {sources} from '../isopoda/sources-registry.mjs';
 const languages=['zh','en','ja','isopod'];
 test('aquatic habitat order follows the fresh-to-deep-sea gradient',()=>{
  assert.deepEqual(HABITATS.filter(h=>h.aquatic).map(h=>h.id),['freshwater','groundwater','estuary','intertidal','sandy-surf','shallow-marine','abyssal','petri-dish']);
+});
+
+test('habitat layout downloads use stable descriptive scene filenames',()=>{
+ const expected={
+  forest:'habitat-layout-forest-litter.json',
+  freshwater:'habitat-layout-freshwater-pool.json',
+  groundwater:'habitat-layout-limestone-groundwater-cave.json',
+  estuary:'habitat-layout-brackish-estuary.json',
+  intertidal:'habitat-layout-intertidal-rock-pool.json',
+  'sandy-surf':'habitat-layout-sandy-surf-zone.json',
+  'shallow-marine':'habitat-layout-nearshore-seaweed-bed.json',
+  abyssal:'habitat-layout-abyssal-plain.json',
+  'petri-dish':'habitat-layout-asimovs-dish.json'
+ };
+ for(const [scene,filename] of Object.entries(expected))assert.equal(habitatLayoutFilename(scene),filename,scene);
 });
 
 test('all configured habitats complete their full duration with eligible animals and localized distinct scenes',()=>{
