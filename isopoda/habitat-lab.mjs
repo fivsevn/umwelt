@@ -28,6 +28,7 @@ const ASSETS=[
  {id:'substrate-forest',category:'substrate',kind:'background',scenes:['forest'],label:'Forest floor',note:'基质 / 林地湿润斑块',params:{wetZones:[{x:60,y:120,rx:115,ry:170,moisture:74},{x:320,y:300,rx:90,ry:115,moisture:58}],light:76}},
 
  {id:'water-freshwater',category:'water',kind:'background',scenes:['freshwater'],label:'Freshwater pool',note:'淡水 / 深绿腐殖底',params:{aquatic:true,kind:'freshwater',palette:AQUATIC_BACKDROPS.freshwater.palette}},
+ {id:'water-estuary',category:'water',kind:'background',scenes:['estuary'],label:'Estuarine brackish margin',note:'河口 / 汽水泥底',params:{aquatic:true,kind:'estuary',palette:AQUATIC_BACKDROPS.estuary.palette}},
  {id:'water-intertidal',category:'water',kind:'background',scenes:['intertidal'],label:'Intertidal pool',note:'潮间带 / 岩池底',params:{aquatic:true,kind:'intertidal',palette:AQUATIC_BACKDROPS.intertidal.palette}},
  {id:'water-shallow-marine',category:'water',kind:'background',scenes:['shallow-marine'],label:'Shallow seaweed bed',note:'浅海 / 藻场底',params:{aquatic:true,kind:'shallow-marine',palette:AQUATIC_BACKDROPS['shallow-marine'].palette}},
  {id:'water-abyssal',category:'water',kind:'background',scenes:['abyssal'],label:'Abyssal plain',note:'深海 / 深渊沉积平原',params:{aquatic:true,kind:'abyssal',palette:['#10181b','#172225','#223033','#343d3f']}},
@@ -39,11 +40,11 @@ const ASSETS=[
  {id:'rockweed-tuft-02',category:'aquatic',scenes:['intertidal'],label:'Rockweed 02',note:'潮间带褐藻 / 高簇',radius:48,params:{kind:'rockweed',height:58,flow:64}},
  {id:'barnacle-cluster-01',category:'aquatic',scenes:['intertidal'],label:'Barnacle cluster',note:'潮间带 / 藤壶附着群',radius:34,params:{detail:'barnacle',count:12}},
  {id:'limpet-cluster-01',category:'aquatic',scenes:['intertidal'],label:'Limpet cluster',note:'潮间带 / 帽贝附着群',radius:30,params:{detail:'limpet',count:7}},
- {id:'seagrass-tuft-01',category:'aquatic',scenes:['shallow-marine'],label:'Seagrass 01',note:'浅海草丛 / 细叶',radius:36,params:{kind:'seagrass',height:46,flow:44}},
- {id:'ulva-clump-01',category:'aquatic',scenes:['shallow-marine'],label:'Sea lettuce',note:'浅海 / 石莼叶簇',radius:34,params:{kind:'ulva',height:38,flow:42}},
+ {id:'seagrass-tuft-01',category:'aquatic',scenes:['estuary','shallow-marine'],label:'Seagrass 01',note:'浅海草丛 / 细叶',radius:36,params:{kind:'seagrass',height:46,flow:44}},
+ {id:'ulva-clump-01',category:'aquatic',scenes:['estuary','shallow-marine'],label:'Sea lettuce',note:'浅海 / 石莼叶簇',radius:34,params:{kind:'ulva',height:38,flow:42}},
  {id:'kelp-frond-01',category:'aquatic',scenes:['shallow-marine'],label:'Kelp frond 01',note:'海带 / 交错宽叶',radius:64,params:{kind:'kelp',height:92,flow:46}},
  {id:'kelp-frond-02',category:'aquatic',scenes:['shallow-marine'],label:'Kelp frond 02',note:'海带 / 长株',radius:76,params:{kind:'kelp',height:118,flow:52}},
- {id:'shell-grit-01',category:'debris',scenes:['intertidal','shallow-marine'],label:'Shell grit',note:'海岸 / 贝壳碎屑',radius:32,params:{detail:'shellgrit',count:18}},
+ {id:'shell-grit-01',category:'debris',scenes:['estuary','intertidal','shallow-marine'],label:'Shell grit',note:'海岸 / 贝壳碎屑',radius:32,params:{detail:'shellgrit',count:18}},
 
  {id:'root-tangle-01',category:'debris',scenes:['forest','freshwater'],label:'Root tangle',note:'细根 / 缠结根须',radius:44,params:{labDetail:'root-tangle'}},
  {id:'leaf-skeleton-01',category:'leaf',scenes:['forest','freshwater'],label:'Leaf skeleton',note:'半腐叶 / 裸露叶脉',radius:34,params:{labDetail:'leaf-skeleton'}},
@@ -77,11 +78,11 @@ const ASSETS=[
  {id:'bark-shelter-01',category:'bark',scenes:['forest'],label:'Bark shelter 01',note:'树皮 / 躲避',radius:112,params:{variant:0,scale:1.16}},
  {id:'bark-fragment-01',category:'bark',scenes:['forest','freshwater'],label:'Bark fragment 01',note:'树皮 / 碎片',radius:68,params:{variant:1,scale:.96}},
 
- {id:'stone-round-01',category:'stone',scenes:['forest','freshwater','intertidal','shallow-marine'],label:'Stone round 01',note:'石块 / 圆',radius:18,params:{variant:0,scale:1}},
- {id:'stone-flat-01',category:'stone',scenes:['forest','freshwater','intertidal','shallow-marine'],label:'Stone flat 01',note:'石块 / 扁平',radius:20,params:{variant:1,scale:1}},
- {id:'stone-small-01',category:'stone',scenes:['forest','freshwater','intertidal','shallow-marine'],label:'Stone small 01',note:'石块 / 小',radius:15,params:{variant:3,scale:.82}},
+ {id:'stone-round-01',category:'stone',scenes:['forest','freshwater','estuary','intertidal','shallow-marine'],label:'Stone round 01',note:'石块 / 圆',radius:18,params:{variant:0,scale:1}},
+ {id:'stone-flat-01',category:'stone',scenes:['forest','freshwater','estuary','intertidal','shallow-marine'],label:'Stone flat 01',note:'石块 / 扁平',radius:20,params:{variant:1,scale:1}},
+ {id:'stone-small-01',category:'stone',scenes:['forest','freshwater','estuary','intertidal','shallow-marine'],label:'Stone small 01',note:'石块 / 小',radius:15,params:{variant:3,scale:.82}},
 
- {id:'stone-shard-01',category:'stone',scenes:['forest','freshwater','intertidal','shallow-marine'],label:'Stone shard',note:'石块 / 缺角碎石',radius:18,params:{variant:2,scale:1}},
+ {id:'stone-shard-01',category:'stone',scenes:['forest','freshwater','estuary','intertidal','shallow-marine'],label:'Stone shard',note:'石块 / 缺角碎石',radius:18,params:{variant:2,scale:1}},
  {id:'stone-tide-01',category:'stone',scenes:['intertidal'],label:'Tide rock 01',note:'潮间带 / 大圆岩',radius:42,params:{variant:0,scale:2.35}},
  {id:'stone-tide-02',category:'stone',scenes:['intertidal'],label:'Tide rock 02',note:'潮间带 / 扁平岩',radius:48,params:{variant:1,scale:2.65}},
  {id:'cuttlebone-broken',category:'calcium',scenes:['forest'],label:'Broken cuttlebone',note:'墨鱼骨 / 破损片',radius:30,params:{variant:1,scale:.82}},
