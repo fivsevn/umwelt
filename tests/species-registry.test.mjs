@@ -14,9 +14,10 @@ const hobbyBatch=['pandaKing','pinkPandaKing','magicPotion','papaya','whiteShark
 const unresolvedHobby=['pandaKing','pinkPandaKing','whiteShark'];
 const acceptedMorphs=['magicPotion','papaya'];
 const accepted=[...firstBatch,...secondBatch,...thirdBatch,...fourthBatch,...marineReference];
+const aquaticExpansion=['communis','fontinalis','albifrons','bidentata','linearis','maculosa','hookeri','rugicauda','chelipes','carinata','nordmanni'];
 
 test('expanded registry preserves accepted batches and appends a diversified hobby batch',()=>{
- assert.equal(SPECIES.length,49);
+ assert.equal(SPECIES.length,60);
  assert.deepEqual(SPECIES.slice(0,13).map(s=>s.id),original);
  assert.deepEqual(SPECIES.slice(13,18).map(s=>s.id),firstBatch);
  assert.deepEqual(SPECIES.slice(18,23).map(s=>s.id),secondBatch);
@@ -24,7 +25,8 @@ test('expanded registry preserves accepted batches and appends a diversified hob
  assert.deepEqual(SPECIES.slice(28,33).map(s=>s.id),fourthBatch);
  assert.deepEqual(SPECIES.slice(33,34).map(s=>s.id),marineReference);
  assert.deepEqual(SPECIES.slice(34,39).map(s=>s.id),hobbyBatch);
- assert.equal(new Set(SPECIES.map(s=>s.id)).size,49);
+ assert.deepEqual(SPECIES.slice(49).map(s=>s.id),aquaticExpansion);
+ assert.equal(new Set(SPECIES.map(s=>s.id)).size,60);
  for(const id of accepted){
   const p=speciesById(id);
   assert.equal(p.taxonomy.speciesStatus,'accepted_species');
