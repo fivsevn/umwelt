@@ -5,7 +5,7 @@ import {sceneObjects,isAnimatedSceneElement} from '../isopoda/scenery/index.mjs'
 import {drawAquaticPlant} from '../isopoda/scenery/aquatic.mjs';
 
 test('the exported habitat layouts are the canonical editor scenes',()=>{
- const expected={forest:42,freshwater:46,intertidal:51,'shallow-marine':32,estuary:31,abyssal:9};
+ const expected={forest:42,freshwater:46,intertidal:51,'shallow-marine':32,estuary:29,abyssal:9};
  assert.deepEqual(Object.keys(SCENE_LAYOUTS),Object.keys(expected));
  for(const [id,count] of Object.entries(expected)){
   const layout=SCENE_LAYOUTS[id];
@@ -38,7 +38,7 @@ test('aquatic plants move over time while their rooted base remains anchored',()
   drawAquaticPlant(ctx,{kind,x:180,y:260,scale:1,seed:211,height:92,time,flow:52});
   return calls;
  };
- for(const kind of ['waterweed','rockweed','seagrass','ulva','kelp']){
+ for(const kind of ['waterweed','rockweed','seagrass','ulva','saltmarsh','kelp']){
   const a=render(kind,0),b=render(kind,1.7);
   assert.notDeepEqual(a,b,kind+' should sway over time');
   const roots=calls=>calls.filter(c=>c[1]>=258&&c[1]<=263).map(c=>c.slice(0,4));
