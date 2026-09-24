@@ -19,6 +19,9 @@ test('the exported habitat layouts are the canonical editor scenes',()=>{
  assert.equal(layoutForHabitat('estuary'),SCENE_LAYOUTS.estuary);
  assert.equal(SCENE_LAYOUTS.estuary.background.type,'water-estuary');
  assert.notDeepEqual(SCENE_LAYOUTS.estuary.objects,SCENE_LAYOUTS.intertidal.objects);
+ const estuaryTypes=new Set(SCENE_LAYOUTS.estuary.objects.map(item=>item.type));
+ for(const type of ['saltmarsh-tuft-01','tidal-runnel-01','mud-burrows-01','wrack-line-01','estuary-silt-01'])assert.ok(estuaryTypes.has(type),type);
+ assert.ok(![...estuaryTypes].some(type=>type.startsWith('stone-')),'estuary should read as mudflat, not rock pool');
 });
 
 test('authored aquatic plant positions remain animation-ready without changing editor coordinates',()=>{
