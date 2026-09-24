@@ -7,6 +7,7 @@ import {EXTRA_SPECIES_5} from './marine-reference.mjs';
 import {EXTRA_SPECIES_6} from './hobby-lines.mjs';
 import {AQUATIC_SPECIES} from './aquatic.mjs';
 import {AQUATIC_EXPANSION_SPECIES} from './aquatic-expansion.mjs';
+import {RELEASE_AQUATIC_SPECIES} from './release-aquatic.mjs';
 
 // Single append-order manifest for runtime specimen data.
 // Group IDs are developer-facing only; saved identity remains each specimen's stable id.
@@ -19,6 +20,7 @@ export const SPECIES_GROUPS=Object.freeze([
  {id:'marine-reference',rows:EXTRA_SPECIES_5},
  {id:'hobby-lines',rows:EXTRA_SPECIES_6},
  {id:'aquatic',rows:AQUATIC_SPECIES},
- {id:'aquatic-expansion',rows:AQUATIC_EXPANSION_SPECIES}
+ {id:'aquatic-expansion',rows:AQUATIC_EXPANSION_SPECIES},
+ {id:'release-aquatic',rows:RELEASE_AQUATIC_SPECIES}
 ]);
 export const RAW_SPECIES=SPECIES_GROUPS.flatMap(group=>group.rows);
