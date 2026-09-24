@@ -60,7 +60,12 @@ function setWaveText(el,value){
  el.replaceChildren(fragment);
 }
 function clock(day=state.day,period=state.period){
- if(habitatConfig(state).dialogue)return '';
+ const config=habitatConfig(state);
+ if(config.sequence==='freshwater-material'){
+  const index=Number.isInteger(state.scene?.materialStage)?state.scene.materialStage:Math.min(config.turns-1,(state.records||[]).filter(record=>record.kind==='freshwater-material').length);
+  return gameText(`water:freshwater-material:stage:${index}`,getLanguage());
+ }
+ if(config.dialogue)return '';
  const date=state.startedOn?new Date(state.startedOn+'T12:00:00'):null;
  if(date)date.setDate(date.getDate()+day-1);
  const time=timeFor(state.seed,day,period);
@@ -82,7 +87,10 @@ function render(){
  $('#nextBtn').disabled=state.stage!=='feedback';
  const nextTime=timeFor(state.seed,state.period===2?state.day+1:state.day,(state.period+1)%3);
  const nextTimeLabel=getLanguage()==='isopod'?isopodWaveTime(nextTime):nextTime;
- if(config.dialogue){
+ if(config.sequence==='freshwater-material'){
+  const completed=(Array.isArray(state.records)?state.records:[]).filter(record=>record.kind==='freshwater-material').length;
+  setWaveText($('#nextBtn'),state.stage==='choice'?t('holdMoment'):completed>=config.turns?t('closeGently'):t('continueObservation'));
+ }else if(config.dialogue){
   const completed=(Array.isArray(state.records)?state.records:[]).filter(record=>record.kind==='abyssal-dialogue').length;
   setWaveText($('#nextBtn'),state.stage==='choice'?t('holdMoment'):completed>=config.turns?t('closeGently'):t('continueObservation'));
  }else setWaveText($('#nextBtn'),state.stage==='choice'?t('holdMoment'):state.day===config.days&&state.period===2?t('closeGently'):t('later',{time:nextTimeLabel}));
@@ -115,7 +123,7 @@ function drawEndMolts(){
  });
 }
 function showEnd(){
- habitat.stop();$('#playView').hidden=true;$('#arrivalCard').hidden=true;$('#endCard').hidden=false;$('#dayLabel').textContent='';const e=ENDINGS.find(e=>e.id===state.ending)||ENDINGS[5];setWaveText($('#endingTime'),clock());for(const id of ['endingTitle','endingBody','endingLine'])$('#'+id).dataset.directLocale='true';$('#endingTitle').textContent=gameText(e.title,getLanguage());$('#endingBody').textContent=gameText(e.body,getLanguage());$('#endingLine').textContent=gameText(e.line,getLanguage());const endConfig=habitatConfig(state);$('#endCard .ending-date span:last-child').textContent=endConfig.dialogue?gameText('water:abyssalRound',getLanguage()):endConfig.aquatic?gameText('water:days3',getLanguage()):t('sevenDayObservation');$('#endSpecimen').replaceChildren(...batchBugs());drawEndMolts();
+ habitat.stop();$('#playView').hidden=true;$('#arrivalCard').hidden=true;$('#endCard').hidden=false;$('#dayLabel').textContent='';const e=ENDINGS.find(e=>e.id===state.ending)||ENDINGS[5];setWaveText($('#endingTime'),clock());for(const id of ['endingTitle','endingBody','endingLine'])$('#'+id).dataset.directLocale='true';$('#endingTitle').textContent=gameText(e.title,getLanguage());$('#endingBody').textContent=gameText(e.body,getLanguage());$('#endingLine').textContent=gameText(e.line,getLanguage());const endConfig=habitatConfig(state);$('#endCard .ending-date span:last-child').textContent=endConfig.sequence==='freshwater-material'?gameText('water:observations5',getLanguage()):endConfig.dialogue?gameText('water:abyssalRound',getLanguage()):endConfig.aquatic?gameText('water:days3',getLanguage()):t('sevenDayObservation');$('#endSpecimen').replaceChildren(...batchBugs());drawEndMolts();
  if(!archives.some(a=>a.run===state.seed)){archives.push({id:e.id,run:state.seed,species:runSpecies(state),cohort:state.cohort,date:new Date().toLocaleDateString(),records:state.records.length,memory:endingMemoryFor(state),molts:(state.collectedShells||[]).map(shell=>({phase:shell.phase,specimen:shell.specimen}))});archives=archives.slice(-60);write(ARCHIVE,archives)}save();
 }
 function home(){playing=false;habitat.stop();$('#playView').hidden=true;$('#endCard').hidden=true;$('#arrivalCard').hidden=true;$('#titleCard').hidden=false;$('#dayLabel').textContent='';$('#startBtn').disabled=false;$('#continueBtn').hidden=!hasRun;$('#continueBtn').textContent=state.stage==='ended'?t('viewEnding'):t('continueObservation');refreshPreview()}
@@ -128,7 +136,7 @@ function drawDrawer(){
  }else if(drawerMode==='endings'){
   total=ENDINGS.length;page=(page+total)%total;const e=ENDINGS[page],saved=archives.some(a=>a.id===e.id);$('#drawerTitle').textContent=t('archive');const note=document.createElement('article');note.className='ending-note';if(saved){const h=document.createElement('h3');h.dataset.directLocale='true';h.textContent=gameText(e.title,getLanguage());note.append(h,paragraph(gameText(e.body,getLanguage())),paragraph(gameText(e.line,getLanguage()),'last-line'));const batches=archives.filter(a=>a.id===e.id);for(const a of batches){const taxa=Array.isArray(a.species)?a.species:[a.species];if(a.memory)note.append(paragraph(a.memory,'ending-memory'));note.append(paragraph(`${a.date} · ${taxa.map(id=>speciesPrimaryName(speciesById(id))).join(' / ')}`,'faint'))}}else{note.classList.add('unseen');const h=document.createElement('h3');h.innerHTML='&nbsp;';note.append(h,paragraph('','ending-space'),paragraph(t('emptyEnding'),'last-line'))}el.append(note);
  }else if(drawerMode==='journal'){
-  total=Math.max(1,state.records.length);page=Math.max(0,Math.min(page,total-1));$('#drawerTitle').textContent=t('journalTitle');const paper=document.createElement('article');paper.className='journal-paper';if(state.records.length){const r=state.records[page];paper.append(paragraph(t('journalEntry',{day:r.day,time:r.time||timeFor(state.seed,r.day,r.period)}),'entry-date'),paragraph(r.label,'pencil-mark'),paragraph(r.text))}else paper.append(paragraph(t('journalEmpty')));el.append(paper);
+  total=Math.max(1,state.records.length);page=Math.max(0,Math.min(page,total-1));$('#drawerTitle').textContent=t('journalTitle');const paper=document.createElement('article');paper.className='journal-paper';if(state.records.length){const r=state.records[page],entryDate=r.kind==='freshwater-material'?gameText(`water:freshwater-material:stage:${Math.max(0,state.records.filter((item,i)=>i<=page&&item.kind==='freshwater-material').length-1)}`,getLanguage()):t('journalEntry',{day:r.day,time:r.time||timeFor(state.seed,r.day,r.period)});paper.append(paragraph(entryDate,'entry-date'),paragraph(r.label,'pencil-mark'),paragraph(r.text))}else paper.append(paragraph(t('journalEmpty')));el.append(paper);
  }else{$('#drawerTitle').textContent=t('sources');el.append(renderSources())}
  $('#pageNumber').textContent=total>1?String(page+1).padStart(2,'0'):'·';$('#pagePrev').disabled=total===1;$('#pageNext').disabled=total===1;iconButton($('#sourcesBtn'),drawerMode==='sources'?'book':'source',drawerMode==='sources'?t('sourceBack'):t('sources'));
 }
