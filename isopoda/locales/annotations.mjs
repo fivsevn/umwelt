@@ -142,12 +142,12 @@ const copy={
     ja:['水は腐葉の縁を柔らかくし、身体は沈木と水草のあいだを通る。私たちはここを「淡水」と呼ぶが、身体が出会うのは抵抗と遮蔽と隙間だ。','標本箱は一つの名前を求める。水はそのために止まらない。分類と流れは、この一頁で短く出会うだけだ。']
   },
   meridianus:{
-    en:['Plants, stones, and submerged wood divide one body of water into many scales. We call it habitat; for a small body it may only be the question of where the next step can land.','Separating similar outlines needs evidence finer than these pixels. What cannot be seen should not be promoted into certainty.'],
-    ja:['水草、石、沈木は同じ水域をいくつもの尺度に分ける。私たちはそれを環境と呼ぶが、小さな身体には次の一歩を置けるかどうかかもしれない。','似た輪郭を分けるには、ピクセルより細かな証拠が要る。見えない部分を確定へ変えてはいけない。']
+    en:['Plants, stones, and submerged wood divide one body of water into many scales. We call it habitat; for a small body it may only be the question of where the next step can land.','Flow differs among plants, stones, and submerged wood, and animals move along the slower surfaces and gaps.'],
+    ja:['水草、石、沈木は同じ水域をいくつもの尺度に分ける。私たちはそれを環境と呼ぶが、小さな身体には次の一歩を置けるかどうかかもしれない。','水草、石、沈木のあいだでは流れの速さが異なり、個体は比較的緩い面や隙間に沿って移動する。']
   },
   coxalis:{
-    en:['Sediments in shallow water do not keep tidy borders. The name was written later; the body crossed the mixed grains first.','If a pixel cannot carry a diagnostic character, let it remain silent. Silence is part of the record too.'],
-    ja:['浅水の堆積物に整然とした境界はない。名前はあとから書かれ、身体は先に混じり合う粒を通った。','一つのピクセルに識別形質を背負わせられないなら、黙らせておけばいい。沈黙も資料の一部だ。']
+    en:['Sediments in shallow water do not keep tidy borders. The name was written later; the body crossed the mixed grains first.','Sand, mud, and debris on the shallow bottom are continually rearranged, and animal routes change with them.'],
+    ja:['浅水の堆積物に整然とした境界はない。名前はあとから書かれ、身体は先に混じり合う粒を通った。','浅い底では砂、泥、破片が絶えず並び替わり、個体の経路もそれに合わせて変わる。']
   },
   serratum:{
     en:['The tide returns a crevice to the sea and takes it back again. The boundary moves each day; the specimen frame asks it to stay still.','It can roll its body inward, briefly carrying a boundary onto itself. No specimen can answer where the next waterline will be.'],
@@ -170,20 +170,20 @@ const copy={
     ja:['ちぎれた藻体が集まり、地基のない居場所になる。私たちはなお「どこに住むのか」と問う。場所は固定されるべきだと思うからだ。','藻葉は岩を離れても環境になり得る。漂流が、別の住み方であることもある。']
   },
   neglecta:{
-    en:['Gaps among algae change with the water. Two seconds that look alike are not the same place to a millimetre-scale body.','When evidence runs thin, leaving “unknown” on the page is closer to observation than completing a beautiful certainty.'],
-    ja:['藻の隙間は水流とともに変わる。同じに見える二秒間も、ミリメートル尺度の身体には同じ場所ではない。','資料が足りないとき、「不明」を頁に残すほうが、美しい確定を補うより観察に近い。']
+    en:['Gaps among algae change with the water. Two seconds that look alike are not the same place to a millimetre-scale body.','It lives among submerged algae and detached algal material, where shelter itself shifts with the current.'],
+    ja:['藻の隙間は水流とともに変わる。同じに見える二秒間も、ミリメートル尺度の身体には同じ場所ではない。','水中の藻場やちぎれた藻体の間で活動し、その隠れ場所自体も流れとともに動く。']
   },
   hilgendorfii:{
-    en:['Rivers, lakes, ponds, and ditches are map categories; once leaves enter the water, decomposition works along finer boundaries.','Closely related water-slaters share similar outlines. Without microscopic characters, the pixels keep only broader structural differences.'],
-    ja:['河川、湖、池、溝は地図上の分類にすぎない。落葉が水に入ると、分解者はもっと細かな境界に沿って働く。','近縁のミズムシ類は輪郭がよく似る。顕微鏡的形質がなければ、ピクセルは大まかな構造差だけを残す。']
+    en:['Rivers, lakes, ponds, and ditches are map categories; once leaves enter the water, decomposition works along finer boundaries.','Leaf litter and organic debris collect on the bottom, and animals often move along these deposits and plant edges.'],
+    ja:['河川、湖、池、溝は地図上の分類にすぎない。落葉が水に入ると、分解者はもっと細かな境界に沿って働く。','腐葉や有機物は水底に集まり、個体はその堆積物や水草の縁に沿って活動する。']
   },
   ischiosetosa:{
-    en:['Freshwater runoff compresses a salinity gradient into a very short distance. A thin film beneath one stone is already another environment at millimetre scale.','It is so small that many diagnostic characters fall outside the pixel grid. Missing setae should not be replaced by invented colour.'],
-    ja:['淡水の流入は塩分勾配を短い距離へ圧縮する。一枚の石の下の薄い水膜だけでも、ミリメートル尺度では別の環境になる。','小さすぎて多くの識別形質はピクセルの外に落ちる。見えない剛毛を色で補ってはいけない。']
+    en:['Freshwater runoff compresses a salinity gradient into a very short distance. A thin film beneath one stone is already another environment at millimetre scale.','Adults are only a few millimetres long and often shelter beneath intertidal stones, especially in low-salinity patches influenced by freshwater runoff.'],
+    ja:['淡水の流入は塩分勾配を短い距離へ圧縮する。一枚の石の下の薄い水膜だけでも、ミリメートル尺度では別の環境になる。','成体は数ミリほどで、潮間帯の石の下、とくに淡水流入の影響を受ける低塩分の小環境に見られる。']
   },
   bidentata:{
-    en:['Juveniles live among algae while adults use crevices and empty barnacle tests. One life cycle divides a single shore into different scales.','Male and female tails differ. This outline preserves shared structure, not a sex diagnosis.'],
-    ja:['幼体は藻の間に、成体は割れ目やフジツボの殻内に入る。一つの生活史が同じ岸を異なる尺度へ分ける。','雌雄で尾部形態が異なる。この輪郭は共通構造を残すだけで、性判定を装うものではない。']
+    en:['Juveniles live among algae while adults use crevices and empty barnacle tests. One life cycle divides a single shore into different scales.','The body can roll inward, and adult tail morphology differs between males and females.'],
+    ja:['幼体は藻の間に、成体は割れ目やフジツボの殻内に入る。一つの生活史が同じ岸を異なる尺度へ分ける。','身体を巻き込むことができ、成体の尾部形態は雌雄で異なる。']
   },
   linearis:{
     en:['When its long body clings to fine algae or eelgrass, the outline nearly becomes part of the plant.','Forty millimetres is a reported maximum, not a standard size for every individual.'],
@@ -194,20 +194,20 @@ const copy={
     ja:['長い触角は身体の前方境界を越え、長い尾肢は後方へさらに延ばす。測定はいつも境界をどこに置くか決めることから始まる。','海綿、コケムシ、コンブの付着器は背景装飾ではなく、どこに留まれるかを決める環境そのものだ。']
   },
   hookeri:{
-    en:['An estuary has no stable salinity line. Tide, runoff, and mud repeatedly mix what we call sea water and fresh water.','A rolling body is easy to notice; the setal patterns actually used for identification are much harder to place in pixels.'],
-    ja:['河口に安定した塩分線はない。潮汐、流入水、泥底が「海水」と「淡水」を繰り返し混ぜる。','丸くなる輪郭は見つけやすいが、実際の識別に使う剛毛配列はピクセルへ落としにくい。']
+    en:['An estuary has no stable salinity line. Tide, runoff, and mud repeatedly mix what we call sea water and fresh water.','Its body is short and broad and can roll inward; it occurs in upper estuaries, channels, beneath stones, and on muddy bottoms.'],
+    ja:['河口に安定した塩分線はない。潮汐、流入水、泥底が「海水」と「淡水」を繰り返し混ぜる。','身体は短く幅広く、巻き込むことができる。上流側の河口、水路、石の下、泥底などに見られる。']
   },
   rugicauda:{
-    en:['Salt-marsh pools, seaweed, driftwood, and mud banks can all shelter the same species. An environment is not a single material.','Small pleotelson tubercles are useful evidence; the pixel model can preserve only a coarse impression of that texture.'],
-    ja:['塩性湿地の池、海藻、流木、泥壁のすべてが同じ種の隠れ場所になり得る。環境は一種類の材質ではない。','尾節の小さな瘤は識別の手掛かりだが、ピクセルでは粗い質感として近似するしかない。']
+    en:['Salt-marsh pools, seaweed, driftwood, and mud banks can all shelter the same species. An environment is not a single material.','Small tubercles on the pleotelson and the posterior body outline are among its more visible external features.'],
+    ja:['塩性湿地の池、海藻、流木、泥壁のすべてが同じ種の隠れ場所になり得る。環境は一種類の材質ではない。','尾節の小さな瘤と後体部の輪郭は、比較的目立つ外形特徴の一つ。']
   },
   chelipes:{
     en:['Algae, mudflats, salt-marsh pools, and estuary stones are linked by the same brackish gradient.','Colour varies. Antennae, coxal plates, and pleotelson shape remain more reliable than colour.'],
     ja:['藻、泥干潟、塩性湿地の池、河口の石は、同じ汽水勾配でつながっている。','色は変化する。識別では色より触角、側板、尾節形態のほうが信頼できる。']
   },
   carinata:{
-    en:['Mud has no obvious corridors, yet a narrow body turns sediment into traversable space.','The salinity range belongs to population records, not to a single line drawn around one individual.'],
-    ja:['泥には明瞭な通路がない。それでも細長い身体は堆積物を通過できる空間へ変える。','塩分範囲は個体を囲む一本の線ではなく、集団記録から得られたものだ。']
+    en:['Mud has no obvious corridors, yet a narrow body turns sediment into traversable space.','It tolerates a broad low-salinity range and is especially associated with muddy estuarine bottoms.'],
+    ja:['泥には明瞭な通路がない。それでも細長い身体は堆積物を通過できる空間へ変える。','幅広い低塩分域に生息でき、とくに泥質の河口底でよく見られる。']
   },
   pandaKing:{
     en:['Its name comes from the simplest contrast: black and white.','The taxonomic identity remains unsettled, but the pattern became a shared language among keepers first.'],
