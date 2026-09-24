@@ -23,6 +23,16 @@ test('all rotated, scaled scenery stays on opaque one-pixel cells, deterministic
   assert.ok(new Set(calls.map(c=>c[4])).size<=36,name+' finite palette');
  }
 });
+test('leaf pixel cache preserves the cold raster exactly and is translation-safe',()=>{
+ const options={x:173.4,y:216.8,a:.413,scale:1.137,seed:23063,tone:2,variant:3,gap:true};
+ const cold=render(scenery.drawLeaf,options).calls;
+ const hot=render(scenery.drawLeaf,options).calls;
+ assert.deepEqual(hot,cold,'cached replay must match the uncached pixel stream');
+ const moved={...options,x:191.6,y:241.2},translated=render(scenery.drawLeaf,moved).calls;
+ const dx=Math.round(moved.x)-Math.round(options.x),dy=Math.round(moved.y)-Math.round(options.y);
+ assert.deepEqual(translated,cold.map(([x,y,w,h,color])=>[x+dx,y+dy,w,h,color]),'position is applied only after cached rasterization');
+});
+
 test('six leaves have distinct silhouettes; damage, seed and palette are visible',()=>{
  const silhouette=options=>new Set(render(scenery.drawLeaf,options).calls.map(c=>c.slice(0,4).join(',')));
  const variants=Array.from({length:6},(_,variant)=>JSON.stringify([...silhouette({variant,seed:19})]));
