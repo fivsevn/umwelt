@@ -4,7 +4,7 @@ export const FRESHWATER_MATERIAL_STAGES=Object.freeze([
  {
   id:'leaf',
   name:['观察 I · 叶片','Observation I · Leaf','観察 I · 葉'],
-  prompt:['一片叶子落在沉木旁。个体沿着叶缘停下来。对你来说，它还是一片完整的叶子。','A leaf has settled beside the submerged wood. An animal pauses along its edge. To you, it is still one intact leaf.','一枚の葉が沈木のそばに沈んでいる。個体は葉の縁で止まる。あなたには、まだ一枚の完整な葉に見える。'],
+  prompt:['一片叶子落在沉木旁。个体沿着叶缘停下来。对你来说，它还是一片完整的叶子。','A leaf has settled beside the submerged wood. An animal pauses along its edge. To you, it is still one intact leaf.','一枚の葉が沈木のそばに沈んでいる。個体は葉の縁で止まる。あなたには、まだ一枚の完全な葉に見える。'],
   after:{},
   options:[
    {id:'material-food',label:['把它当作食物','Treat it as food','食べ物として見る'],text:['你开始注意叶缘和口器接触的位置。叶片没有因为这个分类立刻改变。','You begin to watch the leaf edge and where mouthparts meet it. The leaf does not change immediately because of that category.','葉の縁と口器が触れる場所を見るようになる。その分類だけで葉がすぐ変わるわけではない。']},
@@ -68,7 +68,7 @@ export const FRESHWATER_MATERIAL_STAGES=Object.freeze([
   },
   options:[
    {id:'material-boundary-use',label:['当它开始承担别的功能','When other functions took over','別の機能を担い始めた時'],text:['你把界线放在用途变化上。可对个体来说，这些用途从来没有排队出现。','You place the boundary at a change of use. For the animals, those uses never arrived one at a time.','用途の変化に境界を置く。しかし個体にとって、それらの用途は順番に一つずつ現れたわけではない。']},
-   {id:'material-boundary-shape',label:['当完整轮廓消失','When the whole outline disappeared','完整な輪郭が消えた時'],text:['你把界线放在形状上。水里的碎片却继续参与原来那片叶子制造的关系。','You place the boundary at the loss of shape. Yet the fragments keep participating in relations made by the former leaf.','形の消失に境界を置く。それでも水中の破片は、元の葉が作っていた関係に参加し続ける。']},
+   {id:'material-boundary-shape',label:['当完整轮廓消失','When the whole outline disappeared','完全な輪郭が消えた時'],text:['你把界线放在形状上。水里的碎片却继续参与原来那片叶子制造的关系。','You place the boundary at the loss of shape. Yet the fragments keep participating in relations made by the former leaf.','形の消失に境界を置く。それでも水中の破片は、元の葉が作っていた関係に参加し続ける。']},
    {id:'material-boundary-open',label:['我无法指出一个时刻','I cannot point to one moment','一つの時点を指せない'],text:['你没有画最后那条线。记录停在这里，物质仍继续成为别的东西。','You do not draw the final line. The record stops here while matter continues becoming something else.','最後の線は引かない。記録はここで止まるが、物質は別のものになり続ける。']}
   ]
  }
@@ -78,7 +78,7 @@ export const FRESHWATER_MATERIAL_ENDINGS=Object.freeze([
  {
   id:'care',
   title:['可食的表面','Edible Surfaces','食べられる表面'],
-  body:['你最常沿着“食物”去看。叶片从一个可指认的对象，变成许多可利用的表面，最后混进底面。用途没有等到物体保持完整才开始。','You most often followed “food.” The leaf changed from one identifiable object into many usable surfaces and finally into the bottom. Use did not wait for the object to remain whole.','最も多く「食べ物」を追った。葉は一つの指し示せる物から、多くの利用できる表面へ、そして底面へ変わった。利用は物体が完整であることを待たなかった。'],
+  body:['你最常沿着“食物”去看。叶片从一个可指认的对象，变成许多可利用的表面，最后混进底面。用途没有等到物体保持完整才开始。','You most often followed “food.” The leaf changed from one identifiable object into many usable surfaces and finally into the bottom. Use did not wait for the object to remain whole.','最も多く「食べ物」を追った。葉は一つの指し示せる物から、多くの利用できる表面へ、そして底面へ変わった。利用は、物体が完全な形を保つことを待たなかった。'],
   line:['“一片叶子”是你的单位；可利用的表面是另一种单位。','“A leaf” was your unit; a usable surface was another.','「一枚の葉」はあなたの単位で、利用できる表面は別の単位だった。']
  },
  {
@@ -90,7 +90,7 @@ export const FRESHWATER_MATERIAL_ENDINGS=Object.freeze([
  {
   id:'trace',
   title:['位置保留了不存在的整体','A Position Kept a Whole That Was Gone','位置が消えた全体を残した'],
-  body:['你最常记录位置。最后，最稳定的是沉木和石块；叶片的坐标还可以标出来，但已经没有一个完整对象与那个坐标对应。','You most often recorded position. In the end the wood and stones were the stable references; the leaf’s coordinates could still be marked, but no whole object remained to match them.','最も多く位置を記録した。最後に安定していたのは沈木と石で、葉の座標はまだ示せても、それに対応する完整な物体は残っていなかった。'],
+  body:['你最常记录位置。最后，最稳定的是沉木和石块；叶片的坐标还可以标出来，但已经没有一个完整对象与那个坐标对应。','You most often recorded position. In the end the wood and stones were the stable references; the leaf’s coordinates could still be marked, but no whole object remained to match them.','最も多く位置を記録した。最後に安定していたのは沈木と石で、葉の座標はまだ示せても、それに対応する一つの物体は、もう残っていなかった。'],
   line:['地图能保留位置，却不能替物质决定它何时还是“同一个东西”。','A map can preserve position, but it cannot decide when matter is still “the same thing.”','地図は位置を残せても、物質がいつまで「同じもの」かを決めることはできない。']
  }
 ]);
