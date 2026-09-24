@@ -29,6 +29,7 @@ const ASSETS=[
 
  {id:'water-freshwater',category:'water',kind:'background',scenes:['freshwater'],label:'Freshwater pool',note:'淡水 / 深绿腐殖底',params:{aquatic:true,kind:'freshwater',palette:AQUATIC_BACKDROPS.freshwater.palette}},
  {id:'water-intertidal',category:'water',kind:'background',scenes:['intertidal'],label:'Intertidal pool',note:'潮间带 / 岩池底',params:{aquatic:true,kind:'intertidal',palette:AQUATIC_BACKDROPS.intertidal.palette}},
+ {id:'water-estuary',category:'water',kind:'background',scenes:['estuary'],label:'Brackish estuary',note:'河口 / 汽水泥滩',params:{aquatic:true,kind:'estuary',palette:AQUATIC_BACKDROPS.estuary.palette}},
  {id:'water-shallow-marine',category:'water',kind:'background',scenes:['shallow-marine'],label:'Shallow seaweed bed',note:'浅海 / 藻场底',params:{aquatic:true,kind:'shallow-marine',palette:AQUATIC_BACKDROPS['shallow-marine'].palette}},
  {id:'water-abyssal',category:'water',kind:'background',scenes:['abyssal'],label:'Abyssal plain',note:'深海 / 深渊沉积平原',params:{aquatic:true,kind:'abyssal',palette:['#10181b','#172225','#223033','#343d3f']}},
 
@@ -46,10 +47,10 @@ const ASSETS=[
  {id:'shell-grit-01',category:'debris',scenes:['intertidal','shallow-marine','estuary'],label:'Shell grit',note:'海岸 / 贝壳碎屑',radius:32,params:{detail:'shellgrit',count:18}},
 
  {id:'root-tangle-01',category:'debris',scenes:['forest','freshwater','estuary'],label:'Root tangle',note:'细根 / 缠结根须',radius:44,params:{labDetail:'root-tangle'}},
- {id:'leaf-skeleton-01',category:'leaf',scenes:['forest','freshwater'],label:'Leaf skeleton',note:'半腐叶 / 裸露叶脉',radius:34,params:{labDetail:'leaf-skeleton'}},
+ {id:'leaf-skeleton-01',category:'leaf',scenes:['forest','freshwater','estuary'],label:'Leaf skeleton',note:'半腐叶 / 裸露叶脉',radius:34,params:{labDetail:'leaf-skeleton'}},
  {id:'mycelium-patch-01',category:'moss',scenes:['forest'],label:'Mycelium patch',note:'菌丝 / 淡色腐殖斑',radius:34,params:{labDetail:'mycelium'}},
  {id:'humus-clump-01',category:'debris',scenes:['forest'],label:'Humus clump',note:'腐殖团 / 深色有机碎屑',radius:30,params:{labDetail:'humus'}},
- {id:'silt-pocket-01',category:'debris',scenes:['freshwater'],label:'Silt pocket',note:'淡水 / 细泥沉积',radius:38,params:{labDetail:'silt'}},
+ {id:'silt-pocket-01',category:'debris',scenes:['freshwater','estuary'],label:'Silt pocket',note:'细泥 / 浅水沉积',radius:38,params:{labDetail:'silt'}},
  {id:'rock-crack-01',category:'stone',scenes:['intertidal'],label:'Rock crack',note:'潮间带 / 岩面裂隙',radius:34,params:{labDetail:'rock-crack'}},
  {id:'algae-film-01',category:'aquatic',scenes:['intertidal','estuary'],label:'Algae film',note:'潮间带 / 岩面藻膜',radius:38,params:{labDetail:'algae-film'}},
  {id:'shell-fragment-01',category:'debris',scenes:['intertidal','shallow-marine','abyssal'],label:'Shell fragment',note:'海底 / 大块贝壳残片',radius:28,params:{labDetail:'shell-fragment'}},
@@ -64,8 +65,8 @@ const ASSETS=[
  {id:'moss-sphagnum-02',category:'moss',scenes:['forest','freshwater'],label:'Sphagnum cluster 02',note:'水苔 / 小片',radius:38,params:{rx:34,ry:22,wetness:.62,alpha:.76}},
  {id:'moss-carpet-03',category:'moss',scenes:['forest'],label:'Moss carpet 03',note:'苔藓 / 林地大片',radius:64,params:{variant:2,rx:58,ry:36,wetness:.70,alpha:.84}},
 
- {id:'leaf-broad-01',category:'leaf',scenes:['forest','freshwater'],label:'Oak leaf',note:'橡树 / 裂片枯叶',radius:58,params:{variant:0,tone:0,scale:1.04}},
- {id:'leaf-narrow-01',category:'leaf',scenes:['forest','freshwater'],label:'Willow leaf',note:'柳树 / 狭长枯叶',radius:46,params:{variant:1,tone:1,scale:.92}},
+ {id:'leaf-broad-01',category:'leaf',scenes:['forest','freshwater','estuary'],label:'Oak leaf',note:'橡树 / 裂片枯叶',radius:58,params:{variant:0,tone:0,scale:1.04}},
+ {id:'leaf-narrow-01',category:'leaf',scenes:['forest','freshwater','estuary'],label:'Willow leaf',note:'柳树 / 狭长枯叶',radius:46,params:{variant:1,tone:1,scale:.92}},
  {id:'leaf-broken-01',category:'leaf',scenes:['forest'],label:'Maple leaf',note:'枫树 / 掌状破损叶',radius:46,params:{variant:3,tone:2,scale:1.04,gap:true}},
  {id:'leaf-fan-01',category:'leaf',scenes:['forest'],label:'Ginkgo leaf',note:'银杏 / 扇形裂叶',radius:60,params:{variant:4,tone:0,scale:1.04}},
  {id:'leaf-curled-01',category:'leaf',scenes:['forest'],label:'Beech leaf',note:'林地阔叶 / 山毛榉',radius:58,params:{variant:5,tone:2,scale:1.0}},
