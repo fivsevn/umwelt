@@ -7,6 +7,7 @@ import {drawBark} from './bark.mjs';
 import {drawLeaf} from './leaf.mjs';
 import {drawMossPatch} from './moss.mjs';
 import {layoutForHabitat} from './authored-layouts.mjs';
+import {freshwaterLayout} from './freshwater-stages.mjs';
 
 const noise=(x,y,seed=0)=>{let n=Math.imul(x+seed+1,374761393)^Math.imul(y+1,668265263);n=Math.imul(n^(n>>>13),1274126177);return (n^(n>>>16))>>>0};
 const pixel=(g,x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),Math.max(1,Math.round(w)),Math.max(1,Math.round(h)))};
@@ -208,13 +209,14 @@ export function drawAquaticBase(g,s){
 }
 
 const anchorCache=new Map();
-function authoredPlantAnchors(h){
- if(anchorCache.has(h.id))return anchorCache.get(h.id);
- const layout=layoutForHabitat(h.id),anchors=(layout.objects||[]).filter(o=>o.params?.kind).map(o=>({x:o.x,y:o.y}));
- anchorCache.set(h.id,anchors);return anchors;
+function authoredPlantAnchors(h,state=null){
+ const freshwater=h.id==='freshwater',stage=freshwater?(Number.isInteger(state?.scene?.materialStage)?state.scene.materialStage:0):null,key=freshwater?`freshwater:${stage}`:h.id;
+ if(anchorCache.has(key))return anchorCache.get(key);
+ const layout=freshwater?freshwaterLayout(stage):layoutForHabitat(h.id),anchors=(layout.objects||[]).filter(o=>o.params?.kind).map(o=>({x:o.x,y:o.y}));
+ anchorCache.set(key,anchors);return anchors;
 }
-export function plantAnchor(h,i){
- const anchors=authoredPlantAnchors(h);
+export function plantAnchor(h,i,state=null){
+ const anchors=authoredPlantAnchors(h,state);
  if(anchors.length)return anchors[((i%anchors.length)+anchors.length)%anchors.length];
  return {x:18+(i*83)%350,y:96+(i*97)%318};
 }
@@ -305,7 +307,7 @@ export function stepAquatic(group,{state:s,time,dt,reduced}){
   a.phase+=dt*speed*specimenPace*(swimming?8:mode==='crawl'?4:2.4)*motionScale;
   const waterTop=h.tides?Math.max(25,355-s.tide*3.2):25;
   if(mode==='cling'){
-   const target=plantAnchor(h,a.id%Math.max(1,h.plants)),rate=dt*.28*specimenPace*motionScale;
+   const target=plantAnchor(h,a.id%Math.max(1,h.plants),s),rate=dt*.28*specimenPace*motionScale;
    a.x+=(target.x-a.x)*rate;a.y+=(Math.max(waterTop+8,target.y-22)-a.y)*rate;
    a.a+=Math.sin(time*.42+a.offset)*dt*.08*specimenPace*motionScale;
    continue;
