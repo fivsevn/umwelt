@@ -9,6 +9,7 @@ import {gameText} from '../isopoda/locales/game.mjs';
 import {AQUATIC_ENDINGS} from '../isopoda/aquatic-story.mjs';
 import {ABYSSAL_NODES,ABYSSAL_ENDING_DATA} from '../isopoda/data/habitats/abyssal-dialogue.mjs';
 import {stepAquatic} from '../isopoda/scenery/aquatic.mjs';
+import {FRESHWATER_STAGE_LAYOUTS,FRESHWATER_STAGE_META} from '../isopoda/scenery/freshwater-stages.mjs';
 import {sources} from '../isopoda/sources-registry.mjs';
 const languages=['zh','en','ja','isopod'];
 test('aquatic habitat order follows the fresh-to-deep-sea gradient',()=>{
@@ -52,10 +53,12 @@ test('preview switching never changes the existing save, and selected environmen
  const saved=createRun('dairy',9);const before=JSON.stringify(saved);let selected='terrestrial';
  for(let i=0;i<4;i++){selected=cycleHabitat(selected,1);const cohort=drawCohort({unlocked:[],draws:0},i,selected);const run=createRun(cohort[0].species,i,selected);assert.equal(run.habitatId,selected);assert.equal(JSON.stringify(saved),before)}
 });
-test('tides advance when waiting and water quality responds to choices',()=>{
+test('tides advance in tidal habitats and freshwater advances material state without day-night time',()=>{
  const s=createRun('serratum',1,'intertidal'),tides=[];
  while(s.stage!=='ended'){tides.push(s.tide);choose(s,'water-wait');advance(s)}assert.ok(new Set(tides).size>=6);
- const a=createRun('aquaticus',1,'freshwater'),b=structuredClone(a);choose(a,'water-adjust');choose(b,'water-wait');assert.ok(a.oxygen>b.oxygen);assert.ok(a.flow>b.flow);
+ const fresh=createRun('aquaticus',1,'freshwater'),detritus=[fresh.detritus];
+ while(fresh.stage!=='ended'){const scene=ensureScene(fresh);assert.equal(scene.materialStage,detritus.length-1);assert.ok(choose(fresh,scene.options[0].id));assert.ok(advance(fresh));if(fresh.stage!=='ended')detritus.push(fresh.detritus)}
+ assert.equal(fresh.day,1);assert.equal(fresh.period,0);assert.deepEqual(detritus,[55,62,70,78,64]);
 });
 test('aquatic locomotion tuning stays hidden, differentiated and affects animation pace',()=>{
  for(const h of HABITATS.filter(h=>h.aquatic)){
@@ -78,8 +81,11 @@ test('aquatic sources, species counts and all ending translations are complete',
 });
 
 test('aquatic endings resolve after each habitat completes its configured observation sequence',()=>{
- for(const h of HABITATS.filter(h=>h.aquatic&&!h.dialogue))for(const [choice,kind] of [['water-adjust','care'],['water-wait','calm'],['water-record','trace']]){
+ for(const h of HABITATS.filter(h=>h.aquatic&&!h.dialogue&&h.id!=='freshwater'))for(const [choice,kind] of [['water-adjust','care'],['water-wait','calm'],['water-record','trace']]){
   const s=createRun(h.species[0],37,h.id);while(s.stage!=='ended'){choose(s,choice);advance(s)}assert.equal(s.ending,h.id+'-'+kind);
+ }
+ for(const [choice,kind] of [['material-food','care'],['material-shelter','calm'],['material-record','trace']]){
+  const s=createRun('aquaticus',37,'freshwater');while(s.stage!=='ended'){const scene=ensureScene(s);const option=scene.options.find(o=>o.id===choice)||scene.options.at(-1);choose(s,option.id);advance(s)}assert.equal(s.ending,'freshwater-'+kind);
  }
  const abyssal=habitatConfig('abyssal'),validIds=new Set(Object.keys(ABYSSAL_ENDING_DATA));
  const samePath=[];
@@ -116,4 +122,14 @@ test('aquatic presets draw distinct deterministic finite pixel scenes and tide c
  for(const h of HABITATS.filter(h=>h.aquatic)){const s=createRun(h.species[0],7,h.id),a=render(drawAquaticBase,s);assert.deepEqual(a,render(drawAquaticBase,s));scenes.push(JSON.stringify(a));assert.ok(render(drawAquaticWater,s).length>0)}
  assert.equal(new Set(scenes).size,HABITATS.filter(h=>h.aquatic).length);
  const s=createRun('serratum',8,'intertidal');assert.notDeepEqual(render(drawAquaticWater,s),render(drawAquaticWater,{...s,tide:94}));
+});
+
+
+test('freshwater material layouts expose five editable visual stages',()=>{
+ assert.equal(FRESHWATER_STAGE_LAYOUTS.length,5);assert.equal(FRESHWATER_STAGE_META.length,5);
+ const counts=FRESHWATER_STAGE_LAYOUTS.map(layout=>layout.objects.filter(object=>object.id.startsWith('material-')).length);
+ assert.deepEqual(counts,[2,3,5,6,7]);
+ assert.ok(FRESHWATER_STAGE_LAYOUTS[0].objects.some(object=>object.id==='material-leaf-main'&&object.type==='leaf-broad-01'));
+ assert.ok(!FRESHWATER_STAGE_LAYOUTS[4].objects.some(object=>object.id==='material-leaf-main'));
+ assert.ok(FRESHWATER_STAGE_LAYOUTS[4].objects.filter(object=>object.type==='freshwater-detritus-01').length>=3);
 });
