@@ -68,7 +68,7 @@ export function drawSceneElement(ctx,item,options={}){
  try{return drawSceneElementRaw(ctx,item,options)}finally{ctx.restore()}
 }
 export function isAnimatedSceneElement(item){
- return item.type==='aquatic'&&['waterweed','rockweed','seagrass','ulva','kelp'].includes(item.kind);
+ return item.type==='aquatic'&&['waterweed','rockweed','seagrass','ulva','saltmarsh','kelp'].includes(item.kind);
 }
 export function drawSceneBackground(ctx,layout=DEFAULT_LAYOUT,overrides={}){
  const bg=layout.background||{},p={...(bg.params||{}),...overrides},seed=overrides.seed??bg.seed??57;
