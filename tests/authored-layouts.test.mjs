@@ -5,7 +5,7 @@ import {sceneObjects,isAnimatedSceneElement} from '../isopoda/scenery/index.mjs'
 import {drawAquaticPlant} from '../isopoda/scenery/aquatic.mjs';
 
 test('the exported habitat layouts are the canonical editor scenes',()=>{
- const expected={forest:42,freshwater:46,groundwater:15,estuary:30,intertidal:51,'sandy-surf':15,'shallow-marine':32,abyssal:9,'petri-dish':12};
+ const expected={forest:42,freshwater:54,groundwater:17,estuary:52,intertidal:63,'sandy-surf':19,'shallow-marine':40,abyssal:7,'petri-dish':12};
  assert.deepEqual(Object.keys(SCENE_LAYOUTS),Object.keys(expected));
  for(const [id,count] of Object.entries(expected)){
   const layout=SCENE_LAYOUTS[id];
@@ -20,8 +20,7 @@ test('the exported habitat layouts are the canonical editor scenes',()=>{
  assert.equal(SCENE_LAYOUTS.estuary.background.type,'water-estuary');
  assert.notDeepEqual(SCENE_LAYOUTS.estuary.objects,SCENE_LAYOUTS.intertidal.objects);
  const estuaryTypes=new Set(SCENE_LAYOUTS.estuary.objects.map(item=>item.type));
- for(const type of ['saltmarsh-tuft-01','mud-burrows-01','wrack-line-01','estuary-silt-01'])assert.ok(estuaryTypes.has(type),type);
- assert.ok(!estuaryTypes.has('tidal-runnel-01'),'tributaries belong in the estuary background, not chunky overlay modules');
+ for(const type of ['saltmarsh-tuft-01','mud-burrows-01','wrack-line-01','estuary-silt-01','tidal-runnel-01'])assert.ok(estuaryTypes.has(type),type);
  assert.ok(![...estuaryTypes].some(type=>type.startsWith('stone-')),'estuary should read as mudflat, not rock pool');
 });
 
