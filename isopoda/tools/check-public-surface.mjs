@@ -33,12 +33,12 @@ const habitatLab=await read('isopoda/habitat-lab.mjs');
 for(const [label,source,needles] of [
  ['game',game,['./game.js','./system-ui.mjs','./runtime-locales.mjs','./style.css']],
  ['morphology',morphology,['./style.css','./app.mjs']],
- ['habitat',habitat,['./habitat.css','./habitat-lab.mjs','data-preset="estuary"']]
+ ['habitat',habitat,['./habitat.css','./habitat-lab.mjs','data-preset="groundwater"','data-preset="estuary"','data-preset="sandy-surf"','data-preset="petri-dish"']]
 ]){
  for(const needle of needles)if(!source.includes(needle))errors.push(`${label}: expected runtime reference not found: ${needle}`);
  if(/(?:href|src)=["'][^"']*(?:\/dev\/|\/docs\/)/.test(source))errors.push(`${label}: public page references a development-only path`);
 }
-if(!habitatLab.includes("id:'water-estuary'"))errors.push('habitat: estuary background asset is not registered in Habitat Lab');
+for(const id of ['water-groundwater','water-estuary','water-sandy-surf','water-petri-dish'])if(!habitatLab.includes(`id:'${id}'`))errors.push(`habitat: ${id} background asset is not registered in Habitat Lab`);
 for(const source of [morphology,morphologyApp]){
  if(source.includes('anatomy-test'))errors.push('morphology: retired anatomy-test path is still referenced');
 }
