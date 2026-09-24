@@ -22,7 +22,7 @@ This document is the development entry point for authored content. It separates 
 ## Ordinary aquatic three-day runs
 
 - `aquatic-story.mjs` — routing, stable text keys, endings and state-to-story selection.
-- `data/habitats/stories.mjs` — the nine base turns for freshwater, intertidal and shallow-marine habitats.
+- `data/habitats/stories.mjs` — the nine base turns for freshwater, estuary, intertidal and shallow-marine habitats.
 - `data/habitats/story-alternates.mjs` — conditional alternate turns selected from environment state.
 - `habitats.mjs` — habitat configuration, eligible species, duration, metrics and stable habitat IDs.
 
