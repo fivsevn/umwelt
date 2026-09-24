@@ -1,4 +1,4 @@
-// Optional state-aware alternatives for the three aquatic observation habitats.
+// Optional state-aware alternatives for ordinary aquatic observation habitats.
 // Each slot keeps the same day/period as STORIES; only the authored observation changes.
 // "when" is interpreted by aquatic-story.mjs. Rows remain [observation, action, delta, consequence].
 export const STORY_ALTERNATES={
