@@ -2,7 +2,7 @@ import {exportScene,importScene,shareCode} from './scene-codec.mjs';
 import {drawSubstrate,drawLeaf,drawMossPatch,drawBark,drawStone,drawCuttlebone,drawTwig,drawWoodChip,drawSceneDetail,LEGACY_BASE_SCENE,DEFAULT_LAYOUT} from './scenery/index.mjs';
 import {drawAquaticBackground,drawAquaticPlant,drawAquaticDetail,AQUATIC_BACKDROPS} from './scenery/aquatic.mjs';
 import {sceneActorPixels} from './habitat.mjs';
-import {habitatConfig,eligibleSpecies} from './habitats.mjs';
+import {habitatConfig,eligibleSpecies,habitatLayoutFilename} from './habitats.mjs';
 import {SCENE_LAYOUTS} from './scenery/authored-layouts.mjs';
 import {SPECIES,speciesById} from './species-registry.mjs';
 import {renderModel,pixelAnatomy} from './sprites.mjs';
@@ -531,7 +531,7 @@ $('#copyScene').onclick=()=>copy(JSON.stringify(snapshot(),null,2));
 $('#copyShare').onclick=()=>copy(shareCode(snapshot()));
 $('#downloadScene').onclick=()=>{
  const url=URL.createObjectURL(new Blob([JSON.stringify(snapshot(),null,2)],{type:'application/json'}));
- const link=document.createElement('a');link.href=url;link.download='habitat-layout.json';link.click();
+ const link=document.createElement('a');link.href=url;link.download=habitatLayoutFilename(currentPreset);link.click();
  setTimeout(()=>URL.revokeObjectURL(url),1000);message.textContent='已下载场景';
 };
 function restore(text){
