@@ -1,3 +1,4 @@
+import {LAUNCH_BACKGROUNDS,drawLaunchBackground} from './launch-materials.mjs';
 import {stepInteraction} from '../interaction.mjs';
 import {habitatConfig} from '../habitats.mjs';
 import {drawStone} from './stone.mjs';
@@ -114,78 +115,7 @@ export function drawAquaticDetail(g,{kind='barnacle',x=0,y=0,a=0,scale=1,seed=0,
 
 export function drawAquaticBackground(g,{kind='freshwater',palette,seed=57}={}){
  const preset=AQUATIC_BACKDROPS[kind]||AQUATIC_BACKDROPS.freshwater,p=palette||preset.palette,w=g.canvas?.width||384,h=g.canvas?.height||430;
- if(kind==='groundwater'){
-  g.fillStyle=p[0];g.fillRect(0,0,w,h);
-  const shelf=(cx,cy,rx,ry,phase=0)=>{
-   for(let yy=-ry;yy<=ry;yy+=2){
-    const t=1-(yy*yy)/(ry*ry),span=Math.sqrt(Math.max(0,t))*rx;
-    const wobble=(noise(yy+phase,17,seed)%7)-3,left=Math.round(cx-span+wobble),right=Math.round(cx+span+wobble*.35);
-    pixel(g,left,cy+yy,Math.max(1,right-left),2,yy<-ry*.38?p[3]:yy>ry*.55?p[1]:p[2]);
-    if((yy+phase)%10===0)pixel(g,left+8+(noise(yy,31,seed)%Math.max(8,Math.round(span))),cy+yy,7+(noise(yy,37,seed)%14),1,'rgba(199,197,171,.32)');
-   }
-  };
-  // Large calcite masses frame dark water. Their scan-line silhouettes stay hard-edged.
-  shelf(76,102,86,54,3);shelf(315,82,94,48,7);shelf(75,348,105,62,11);shelf(318,342,102,68,15);
-  shelf(196,210,72,42,19);
-  // Thin groundwater films connect pools rather than filling the whole cave.
-  for(let y=112;y<326;y+=2){
-   const cx=Math.round(190+Math.sin((y+seed)*.035)*18),half=10+Math.round(Math.sin(y*.027+seed)*3);
-   pixel(g,cx-half,y,half*2,2,'rgba(38,61,59,.90)');
-   if(y%18===0)pixel(g,cx-half+4,y,Math.max(5,half),1,'rgba(152,168,151,.22)');
-  }
-  for(let i=0;i<42;i++){const n=noise(i,211,seed),x=n%w,y=(n>>>9)%h;pixel(g,x,y,1+(n%3),1,i%5===0?p[3]:p[1])}
-  return;
- }
- if(kind==='sandy-surf'){
-  // Three material bands: dry sand, compact wet sand, then shallow sea.
-  g.fillStyle='#b9a879';g.fillRect(0,0,w,h);
-  const wetTop=Math.round(h*.43),seaTop=Math.round(h*.72);
-  g.fillStyle='#8e8265';g.fillRect(0,wetTop,w,seaTop-wetTop);
-  g.fillStyle='#355f5b';g.fillRect(0,seaTop,w,h-seaTop);
-  // Broken lamination: clusters, not blanket noise.
-  for(let band=0;band<24;band++){
-   const y=16+band*13+(noise(band,223,seed)%7),offset=(noise(band,227,seed)%19)-9;
-   for(let x=8+offset;x<w-8;x+=26+(band%3)*7){
-    const n=noise(x,band,seed),len=7+n%17;
-    pixel(g,x,y,len,1,y<wetTop?(band%4===0?'#d1c08d':'#a99871'):(y<seaTop?'#756f58':'rgba(161,176,142,.20)'));
-   }
-  }
-  // Damp transition is irregular and stepped.
-  for(let x=0;x<w;x+=4){
-   const y=wetTop+Math.round(Math.sin((x+seed)*.035)*5+Math.sin(x*.013)*3);
-   pixel(g,x,y,4,2,'#776f58');
-   if(x%20===0)pixel(g,x+3,y-3,9,1,'#c0af7d');
-  }
-  for(let i=0;i<30;i++){const n=noise(i,229,seed),x=n%w,y=12+(n>>>10)%(seaTop-18);pixel(g,x,y,1+(n%3),1,i%6===0?'#d8c892':'#8f805f')}
-  return;
- }
- if(kind==='petri-dish'){
-  g.fillStyle='#18211e';g.fillRect(0,0,w,h);
-  // Lab bench grain uses sparse compact clusters so the dish remains the dominant silhouette.
-  for(let i=0;i<58;i++){const n=noise(i,241,seed),x=n%w,y=(n>>>9)%h;pixel(g,x,y,2+(n%4),1,i%4===0?'#303a34':'#222d29')}
-  const cx=Math.round(w/2),cy=Math.round(h/2),r=Math.min(170,Math.floor(w*.44));
-  // Pixel-circle shadow and concentric glass/water rings are built scanline by scanline.
-  for(let yy=-r;yy<=r;yy+=2){
-   const span=Math.floor(Math.sqrt(Math.max(0,r*r-yy*yy)));
-   pixel(g,cx-span+5,cy+yy+7,span*2,2,'#0f1513');
-  }
-  const ring=(radius,color,inset=0)=>{
-   for(let yy=-radius;yy<=radius;yy+=2){
-    const span=Math.floor(Math.sqrt(Math.max(0,radius*radius-yy*yy)));
-    const innerRadius=Math.max(0,radius-inset),inner=innerRadius?Math.floor(Math.sqrt(Math.max(0,innerRadius*innerRadius-yy*yy))):0;
-    if(inset>0&&Math.abs(yy)<innerRadius){pixel(g,cx-span,cy+yy,Math.max(1,span-inner),2,color);pixel(g,cx+inner,cy+yy,Math.max(1,span-inner),2,color)}
-    else pixel(g,cx-span,cy+yy,span*2,2,color);
-   }
-  };
-  // Pale liquid field first, then darker inner edge and bright glass rim.
-  for(let yy=-(r-11);yy<=r-11;yy+=2){const span=Math.floor(Math.sqrt(Math.max(0,(r-11)*(r-11)-yy*yy)));pixel(g,cx-span,cy+yy,span*2,2,yy>r*.45?'#596b63':'#687970')}
-  ring(r,'#8f9888',7);ring(r-5,'#c4c7ae',2);ring(r-12,'#41534d',2);
-  // Selective rim highlights and calibration ticks; no smooth antialiasing.
-  for(let i=0;i<12;i++){const a=-2.8+i*.18,x=cx+Math.cos(a)*(r-3),y=cy+Math.sin(a)*(r-3);pixel(g,x,y,8,2,i%3===0?'#e0ddc3':'#b7bba5')}
-  for(let i=0;i<16;i++){const a=i*Math.PI*2/16,x1=cx+Math.cos(a)*(r+2),y1=cy+Math.sin(a)*(r+2),x2=cx+Math.cos(a)*(r+7),y2=cy+Math.sin(a)*(r+7);localLine(g,{x:0,y:0,a:0,scale:1},x1,y1,x2,y2,1,'#657169')}
-  for(let i=0;i<26;i++){const n=noise(i,251,seed),x=cx-r+18+n%(2*r-36),y=cy-r+18+(n>>>9)%(2*r-36);if((x-cx)**2+(y-cy)**2<(r-20)**2)pixel(g,x,y,1+(n%2),1,i%5===0?'#c8c8ad':'#44554f')}
-  return;
- }
+ if(LAUNCH_BACKGROUNDS.has(kind))return drawLaunchBackground(g,{kind,seed});
  for(let y=0;y<h;y+=2)for(let x=0;x<w;x+=2){
   const n=noise(x>>1,y>>1,seed),wave=Math.sin((x+seed)*.024+y*.013)+Math.sin(y*.031);
   const highlightMod=kind==='shallow-marine'?103:kind==='intertidal'?67:47;
@@ -204,41 +134,6 @@ export function drawAquaticBackground(g,{kind='freshwater',palette,seed=57}={}){
    const n=noise(i,101,seed),x=n%w,y=(n>>>10)%h,span=3+(n%8);
    pixel(g,x,y,span,1,i%3?'rgba(39,56,43,.58)':'rgba(108,107,75,.42)');
    if(i%4===0)pixel(g,x+2,y+2,2,1,'rgba(129,132,91,.38)');
-  }
- }
- if(kind==='estuary'){
-  // Mudflat first: broad horizontal laminae and shallow drainage scars.
-  for(let i=0;i<82;i++){
-   const n=noise(i,113,seed),x=n%w,y=(n>>>10)%h,span=5+(n%18);
-   pixel(g,x,y,span,1,i%5===0?'rgba(170,150,108,.34)':'rgba(62,70,54,.42)');
-   if(i%7===0)pixel(g,x+Math.floor(span*.25),y+2,Math.max(2,Math.floor(span*.45)),1,'rgba(108,102,73,.34)');
-  }
-  // An asymmetric river mouth: a narrow upstream channel bends across the mudflat,
-  // then opens toward the lower-right sea. The large silhouette carries the habitat identity.
-  for(let y=Math.round(h*.05);y<h;y+=2){
-   const t=Math.max(0,Math.min(1,(y-h*.05)/(h*.95)));
-   const bend=Math.sin((y+seed)*.023)*22+Math.sin((y-seed)*.009)*11;
-   const center=Math.round(w*(.43+.17*t)+bend);
-   const half=Math.round(8+13*t+74*t*t);
-   pixel(g,center-half-2,y,2,2,'rgba(151,136,97,.50)');
-   pixel(g,center-half,y,half*2,2,t>.66?'rgba(35,67,65,.97)':'rgba(42,67,61,.93)');
-   pixel(g,center+half,y,2,2,'rgba(151,136,97,.43)');
-   if(y%16===0)pixel(g,center-Math.floor(half*.30),y,Math.max(7,Math.floor(half*.58)),1,'rgba(154,166,128,.22)');
-  }
-  // Seaward apron occupies only the lower-right half instead of forming a symmetrical funnel.
-  for(let y=Math.round(h*.78);y<h;y+=2){
-   const t=(y-h*.78)/(h*.22),left=Math.round(w*(.38-.26*t)+Math.sin(y*.021+seed)*8);
-   pixel(g,left,y,w-left,2,'rgba(34,67,66,.98)');
-   if(y%12===0)for(let x=left+18;x<w-8;x+=38)pixel(g,x,y,8+(noise(x,y,seed)%13),1,'rgba(163,174,135,.23)');
-  }
-  // Small tributaries are thin cuts in mud, not separate heavy objects.
-  for(let y=50;y<h*.39;y+=2){
-   const x=Math.round(w*.23+Math.sin((y+seed)*.041)*15);
-   pixel(g,x-2,y,5,2,'rgba(45,70,63,.64)');
-  }
-  for(let y=72;y<h*.33;y+=2){
-   const x=Math.round(w*.72+Math.sin((y-seed)*.037)*12);
-   pixel(g,x-2,y,4,2,'rgba(45,70,63,.58)');
   }
  }
  if(kind==='intertidal'){
@@ -334,22 +229,27 @@ export function drawAquaticPlant(g,{kind='waterweed',x=0,y=0,a=0,scale=1,seed=0,
  }
 
  if(kind==='saltmarsh'){
-  const blades=8+(seed%5);
+  // Fine stems, folded blades, ochre seed heads and a ragged fibrous crown.
+  const blades=11+(seed%4);
   for(let b=0;b<blades;b++){
-   const u=(b-(blades-1)/2)*2.8,len=height*(.52+(noise(b,151,seed)%45)/100);
-   const lean=((noise(b,157,seed)%13)-6)*.45;
-   const mid=u+lean*.45+plantSway('saltmarsh',len*.55,len,time,seed,flow,b*.37)*motion;
-   const tip=u+lean+plantSway('saltmarsh',len,len,time,seed,flow,b*.37)*motion;
-   localLine(g,o,u,1,mid,-len*.55,1.6,b%3===0?ramp[0]:ramp[1]);
-   localLine(g,o,mid,-len*.55,tip,-len,1.4,b%4===0?ramp[2]:ramp[1]);
-   if(b%4===0){
-    const seedHeadY=-len*.82,seedHeadU=mid+(tip-mid)*.7;
-    localPixel(g,o,seedHeadU-1,seedHeadY,3,5,ramp[2]);
-    localPixel(g,o,seedHeadU,seedHeadY-2,1,2,ramp[3]);
+   const q=noise(b,151,seed),u=(b-(blades-1)/2)*1.45,len=height*(.42+(q%54)/100);
+   const lean=(b-(blades-1)/2)*2.1+((q>>>9)%9)-4;
+   let lastX=u,lastY=2;
+   for(let j=2;j<=len;j+=2){
+    const t=j/len,xx=u+lean*t*t+plantSway('saltmarsh',j,len,time,seed,flow,b*.37)*motion;
+    const width=t<.28?3:t<.77?2:1;
+    localLine(g,o,lastX,lastY,xx,-j,width,b%3===0?ramp[1]:ramp[0]);
+    if(t>.15&&t<.86)localPixel(g,o,xx,-j,1,2,(b+j)%5===0?ramp[3]:ramp[2]);
+    if(j===Math.floor(len*.5/2)*2&&b%3!==0){
+     const side=b%2?1:-1;
+     localLine(g,o,xx,-j,xx+side*8,-j-9,2,ramp[1]);
+     localLine(g,o,xx+side*8,-j-9,xx+side*12,-j-16,1,ramp[2]);
+    }
+    lastX=xx;lastY=-j;
    }
+   if(b%4===0){for(let k=0;k<8;k++){localPixel(g,o,lastX+(k%3===0?-1:0),lastY+k,2,1,k%3?'#8c8655':'#b0a16a')}}
   }
-  localPixel(g,o,-9,1,18,3,ramp[0]);
-  localPixel(g,o,-6,0,12,1,ramp[2]);
+  for(let i=0;i<12;i++){const q=noise(i,163,seed),u=-12+q%25,v=(q>>>9)%5;localLine(g,o,u,v,u+(q%7)-3,v+3,1,i%3===0?'#8b7a50':ramp[0])}
   return;
  }
 
