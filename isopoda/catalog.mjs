@@ -6,7 +6,7 @@ import {annotationLabel,localizedAnnotationLines} from './locales/annotations.mj
 
 const text=(tag,value,cls='')=>{const el=document.createElement(tag);el.textContent=value;el.className=cls;return el};
 const TAG_LABELS={zh:['采集日期','采集地点'],en:['DATE','SITE'],ja:['採集日','採集地点'],isopod:['o:','o:']};
-const TAG_HABITATS_EN={terrestrial:'LITTER',freshwater:'FRESH',estuary:'ESTUARY',intertidal:'TIDAL','shallow-marine':'SEAWEED',abyssal:'ABYSSAL'};
+const TAG_HABITATS_EN={terrestrial:'LITTER',freshwater:'FRESH',groundwater:'CAVE',estuary:'ESTUARY',intertidal:'TIDAL','sandy-surf':'SURF','shallow-marine':'SEAWEED',abyssal:'ABYSSAL','petri-dish':'DISH'};
 const tagDate=(value,lang)=>formatDate(value,lang);
 const tagRow=(label,value)=>{const row=document.createElement('div');row.className='specimen-tag-row';row.append(text('span',label,'specimen-tag-label'),text('b',value||'—','specimen-tag-value'));return row};
 export function renderCatalog(p,{unlocked=true,collectedOn=null}={}){
