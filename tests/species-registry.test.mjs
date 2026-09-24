@@ -14,10 +14,11 @@ const hobbyBatch=['pandaKing','pinkPandaKing','magicPotion','papaya','whiteShark
 const unresolvedHobby=['pandaKing','pinkPandaKing','whiteShark'];
 const acceptedMorphs=['magicPotion','papaya'];
 const aquaticExpansion=['hilgendorfii','ischiosetosa','bidentata','linearis','maculosa','hookeri','rugicauda','chelipes','carinata'];
-const accepted=[...firstBatch,...secondBatch,...thirdBatch,...fourthBatch,...marineReference,...aquaticExpansion];
+const releaseAquatic=['pulchra','affinis','spinigera','cavaticus','lusitanicus','virei'];
+const accepted=[...firstBatch,...secondBatch,...thirdBatch,...fourthBatch,...marineReference,...aquaticExpansion,...releaseAquatic];
 
 test('expanded registry preserves accepted batches and appends a diversified hobby batch',()=>{
- assert.equal(SPECIES.length,58);
+ assert.equal(SPECIES.length,64);
  assert.deepEqual(SPECIES.slice(0,13).map(s=>s.id),original);
  assert.deepEqual(SPECIES.slice(13,18).map(s=>s.id),firstBatch);
  assert.deepEqual(SPECIES.slice(18,23).map(s=>s.id),secondBatch);
@@ -25,8 +26,9 @@ test('expanded registry preserves accepted batches and appends a diversified hob
  assert.deepEqual(SPECIES.slice(28,33).map(s=>s.id),fourthBatch);
  assert.deepEqual(SPECIES.slice(33,34).map(s=>s.id),marineReference);
  assert.deepEqual(SPECIES.slice(34,39).map(s=>s.id),hobbyBatch);
- assert.deepEqual(SPECIES.slice(-9).map(s=>s.id),aquaticExpansion);
- assert.equal(new Set(SPECIES.map(s=>s.id)).size,58);
+ assert.deepEqual(SPECIES.slice(-15,-6).map(s=>s.id),aquaticExpansion);
+ assert.deepEqual(SPECIES.slice(-6).map(s=>s.id),releaseAquatic);
+ assert.equal(new Set(SPECIES.map(s=>s.id)).size,64);
  for(const id of accepted){
   const p=speciesById(id);
   assert.equal(p.taxonomy.speciesStatus,'accepted_species');
@@ -69,8 +71,13 @@ test('new sprites retain conservative scaffolds while evidence changes readable 
  const werneri=speciesById('werneri').visual;assert.equal(werneri.morphologyKey,'armadillidiumWerneri');assert.equal(werneri.conglobation.ability,'full');assert.ok(werneri.patterns.some(p=>p.type==='spotRow'));
  const spinicornis=speciesById('spinicornis').visual;assert.equal(spinicornis.morphologyKey,'porcellioSpinicornis');assert.equal(spinicornis.conglobation.ability,'none');assert.ok(spinicornis.patterns.some(p=>p.type==='dorsalStripe'));assert.ok(spinicornis.patterns.some(p=>p.type==='lateralStripe'));
  const magnificus=speciesById('magnificus').visual;assert.equal(magnificus.morphologyKey,'porcellioMagnificus');assert.equal(magnificus.conglobation.ability,'none');assert.ok(magnificus.uropods.projection>dairy.uropods.projection);assert.equal(magnificus.palette.tergite,'#c76935');
- const uniramea=speciesById('uniramea');assert.equal(uniramea.taxonomy.suborder,'Asellota');assert.equal(uniramea.game.habitatEligible,false);assert.equal(uniramea.game.referenceOnly,true);assert.equal(uniramea.visual.morphologyKey,'halacarsantiaMarine');assert.equal(uniramea.visual.uropods.ramiPerUropod,1);assert.deepEqual(uniramea.visual.legs.posteriorAnchoringPairs,[5,6,7]);
+ const uniramea=speciesById('uniramea');assert.equal(uniramea.taxonomy.suborder,'Asellota');assert.equal(uniramea.game.habitatEligible,false);assert.equal(uniramea.game.referenceOnly,false);assert.deepEqual(uniramea.game.habitats,['petri-dish']);assert.equal(uniramea.visual.morphologyKey,'halacarsantiaMarine');assert.equal(uniramea.visual.uropods.ramiPerUropod,1);assert.deepEqual(uniramea.visual.legs.posteriorAnchoringPairs,[5,6,7]);
 
+ const pulchra=speciesById('pulchra'),cavaticus=speciesById('cavaticus'),lusitanicus=speciesById('lusitanicus'),virei=speciesById('virei');
+ assert.equal(pulchra.visual.morphologyKey,'cirolanidSurf');assert.ok(pulchra.game.habitats.includes('sandy-surf'));
+ assert.equal(cavaticus.visual.morphologyKey,'asellidStygobite');assert.equal(cavaticus.visual.cephalon.eyeScale,0);
+ assert.equal(lusitanicus.visual.morphologyKey,'asellidStygobiteLong');assert.equal(lusitanicus.visual.cephalon.eyeScale,0);
+ assert.equal(virei.visual.morphologyKey,'stenasellidGroundwater');assert.ok(virei.game.habitats.includes('groundwater'));
  const giant=speciesById('giganteus');assert.equal(giant.taxonomy.acceptedScientificName,'Bathynomus giganteus');assert.equal(giant.game.habitats[0],'abyssal');assert.equal(giant.game.habitatEligible,false);assert.equal(giant.visual.morphologyKey,'cirolanidAbyssal');assert.equal(giant.names.zhCN,'大王具足虫');assert.equal(giant.names.ja,'ダイオウグソクムシ');assert.equal(giant.visual.antennae.secondaryPair,true);assert.equal(giant.visual.pleotelson.shape,'fan-rounded');assert.equal(giant.visual.pleotelson.serrations,7);assert.equal(giant.visual.uropods.mode,'fan-lateral');assert.equal(giant.visual.patterns.length,0);assert.ok(giant.visual.body.width>=.95);assert.ok(giant.visual.legs.visibility>=.9);
  const panda=speciesById('pandaKing').visual,pink=speciesById('pinkPandaKing').visual,magic=speciesById('magicPotion').visual,papaya=speciesById('papaya').visual,shark=speciesById('whiteShark').visual;
  assert.equal(panda.morphologyKey,'cubarisPandaKing');assert.ok(panda.patterns.some(p=>p.type==='segmentBand'));
