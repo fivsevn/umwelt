@@ -1,6 +1,7 @@
+import {RELEASE_STORIES} from './release-stories.mjs';
 // Each row is an authored observation, intervention and visible consequence, in zh/en/ja.
 // State stores stable keys; no DOM observation is required to translate these stories.
-export const STORIES={
+const BASE_STORIES={
  freshwater:[
  [['沉木下的腐叶轻轻颤动。一对触角从叶柄旁出现。','A dead leaf trembles under the submerged wood. Antennae appear beside its stem.','沈木の下で腐葉が揺れ、葉柄のそばから触角が現れる。'],['疏开进水口','Open the inlet','流入口を少し開く'],{flow:12,oxygen:8},['细粒从木下带出，身体转向水流较缓的一面。','Fine grains leave the wood. A body turns toward its sheltered side.','木の下から細粒が流れ出し、個体は流れの弱い側へ向く。']],
  [['一只沿水草攀行，另一只在叶背停住。它们没有走同一条路。','One climbs a water plant; another pauses beneath a leaf. Their routes differ.','一匹は水草を登り、もう一匹は葉裏で止まる。経路は同じではない。'],['靠拢水草','Bring stems together','水草を寄せる'],{cover:10,algae:8},['两根茎之间多了一处搭脚的位置。','The two stems offer another foothold between them.','二本の茎の間に新しい足場ができる。']],
@@ -46,3 +47,5 @@ export const STORIES={
  [['最后一晚，藻丛仍在缓慢摆动。你看见了附着，也看见了离开。','On the final night the bed still sways. You have seen both attachment and departure.','最後の夜も藻場は揺れる。付着も、離れる姿も見た。'],['画下最后一片藻叶','Draw the last frond','最後の藻葉を描く'],{labels:2},['轮廓画完以后，真实的叶片已经转了一个角度。','By the time the outline is finished the real frond has turned.','輪郭を描き終えたとき、本物の葉は向きを変えている。']]
  ]
 };
+
+export const STORIES=Object.freeze({...BASE_STORIES,...RELEASE_STORIES});
