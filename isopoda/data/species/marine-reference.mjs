@@ -29,7 +29,7 @@ export const MARINE_REFERENCE_ISOPOD={
  taxon:'Halacarsantia uniramea',
  status:'正式海洋等足类，隶属 Asellota / Santiidae。当前按文献记录的体型与形态特征建立参考模型。',
  speed:.62,wet:96,cover:20,
- game:{habitatEligible:false,referenceOnly:true,habitat:'marine',reason:'Marine Asellota; excluded from the terrestrial Oniscidea habitat simulation.'},
+ game:{habitatEligible:false,referenceOnly:true,habitat:'marine',habitats:['petri-dish'],reason:'Marine Asellota; excluded from terrestrial habitat draws and surfaced only in the special dish observation.'},
  evidenceIds:['itis-halacarsantia-uniramea','menzies-miller-unirameus-1955','wolff-halacarsantia-1989','shimomura-bruce-halacarsantia-2012'],
  evidence:{status:'literature_supported',claims:[]},
  genetics:{knowledge:'unknown',model:null},
