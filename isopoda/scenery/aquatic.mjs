@@ -1,3 +1,4 @@
+import {stepPetri} from './petri.mjs';
 import {stepSand,sandShore} from './sandy-surf.mjs';
 import {isIntertidal} from '../data/narrative/intertidal.mjs';
 import {intertidalSurface,stepIntertidal,drawIntertidalLife} from './intertidal.mjs';
@@ -378,6 +379,7 @@ export function drawAquaticWater(g,s,time=0,{drawPlants=true,observationEffect=n
 export function stepAquatic(group,{state:s,time,dt,reduced,reaction}){
  const h=habitatConfig(s),speed=Math.min(64,Math.max(1,Number(globalThis.__ISOPODA_HABITAT_SPEED__)||1)),motionScale=(reduced?.45:1)*(h.motionScale??1);
  if(isIntertidal(s)){stepIntertidal(group,{state:s,dt,reduced,speed});return}
+ if(h.id==='petri-dish'){stepPetri(group,{state:s,time,dt,reduced});return}
  if(h.id==='sandy-surf'){stepSand(group,{state:s,time,dt,reduced});return}
  if(h.id==='groundwater'){stepGroundwater(group,{state:s,dt,reduced,speed});return}
  for(const a of group){if(stepInteraction(a,dt))continue;
