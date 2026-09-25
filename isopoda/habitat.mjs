@@ -198,7 +198,7 @@ function drawHabitat(t){
  if(state.light<55&&config.id!=='abyssal'){ctx.fillStyle=`rgba(15,27,21,${(55-state.light)/120})`;ctx.fillRect(0,0,w,h)}
  if(config.id==='abyssal'){ctx.fillStyle='rgba(5,11,14,.10)';ctx.fillRect(0,0,w,h)}
  ctx.strokeStyle='rgba(147,148,124,.55)';ctx.lineWidth=2;ctx.strokeRect(1,1,w-2,h-2);
- if(aquatic)drawAquaticWater(ctx,state,reduced?0:elapsed,{drawPlants:false});
+ if(aquatic)drawAquaticWater(ctx,state,reduced?0:elapsed,{drawPlants:false,observationEffect:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});
  if(config.id==='abyssal')drawAbyssalSpotlight(ctx,critters[0]);
  drawActors();
  present();
