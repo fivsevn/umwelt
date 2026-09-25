@@ -39,7 +39,7 @@ test('all configured habitats complete their full duration with eligible animals
   while(s.stage!=='ended'){
    const scene=ensureScene(s);scenes.add(scene.text);
    if(h.aquatic)for(const lang of languages)for(const key of [scene.text,...scene.options.flatMap(o=>[o.label,o.text])]){const text=gameText(key,lang);assert.ok(text&&!text.startsWith('water:')&&!text.startsWith('abyssal:'),key);if(lang==='en'||lang==='ja')assert.notEqual(text,gameText(key,'zh'))}
-   assert.ok(choose(s,scene.options[turns%3].id));assert.ok(advance(s));turns++;assert.ok(turns<=expectedTurns);assert.ok(validRun(s));
+   assert.ok(choose(s,scene.options[turns%scene.options.length].id));assert.ok(advance(s));turns++;assert.ok(turns<=expectedTurns);assert.ok(validRun(s));
   }
   assert.equal(turns,expectedTurns);if(h.aquatic){assert.equal(scenes.size,expectedTurns);assert.ok(s.ending.startsWith(h.id));assert.equal(environmentFor(s).habitatId,h.id)}
  }
@@ -56,9 +56,10 @@ test('preview switching never changes the existing save, and selected environmen
 test('tides advance in tidal habitats and freshwater advances material state without day-night time',()=>{
  const s=createRun('serratum',1,'intertidal'),tides=[];
  while(s.stage!=='ended'){tides.push(s.tide);choose(s,'water-wait');advance(s)}assert.ok(new Set(tides).size>=6);
- const fresh=createRun('aquaticus',1,'freshwater'),detritus=[fresh.detritus];
- while(fresh.stage!=='ended'){const scene=ensureScene(fresh);assert.equal(scene.materialStage,detritus.length-1);assert.ok(choose(fresh,scene.options[0].id));assert.ok(advance(fresh));if(fresh.stage!=='ended')detritus.push(fresh.detritus)}
- assert.equal(fresh.day,1);assert.equal(fresh.period,0);assert.deepEqual(detritus,[55,62,70,78,64]);
+ const fresh=createRun('aquaticus',1,'freshwater'),stages=[],beats=[],detritus=[];
+ while(fresh.stage!=='ended'){const scene=ensureScene(fresh);stages.push(scene.materialStage);beats.push(scene.materialBeat);detritus.push(fresh.detritus);assert.ok(choose(fresh,scene.options[0].id));assert.ok(advance(fresh))}
+ assert.equal(fresh.day,1);assert.equal(fresh.period,0);
+ assert.deepEqual(stages,[0,0,1,1,2,2,3,3,4,4]);assert.deepEqual(beats,[0,1,0,1,0,1,0,1,0,1]);assert.deepEqual(detritus,[55,55,62,62,70,70,78,78,64,64]);
 });
 test('aquatic locomotion tuning stays hidden, differentiated and affects animation pace',()=>{
  for(const h of HABITATS.filter(h=>h.aquatic)){
@@ -84,8 +85,16 @@ test('aquatic endings resolve after each habitat completes its configured observ
  for(const h of HABITATS.filter(h=>h.aquatic&&!h.dialogue&&h.id!=='freshwater'))for(const [choice,kind] of [['water-adjust','care'],['water-wait','calm'],['water-record','trace']]){
   const s=createRun(h.species[0],37,h.id);while(s.stage!=='ended'){choose(s,choice);advance(s)}assert.equal(s.ending,h.id+'-'+kind);
  }
- for(const [choice,kind] of [['material-food','care'],['material-shelter','calm'],['material-record','trace']]){
-  const s=createRun('aquaticus',37,'freshwater');while(s.stage!=='ended'){const scene=ensureScene(s);const option=scene.options.find(o=>o.id===choice)||scene.options.at(-1);choose(s,option.id);advance(s)}assert.equal(s.ending,'freshwater-'+kind);
+ for(const [strategy,kind] of [['relation','care'],['object','trace'],['mixed','calm']]){
+  const s=createRun('aquaticus',37,'freshwater');let turn=0;
+  while(s.stage!=='ended'){
+   const scene=ensureScene(s);let option;
+   if(strategy==='relation')option=scene.options.find(o=>o.lens==='relation')||scene.options[0];
+   else if(strategy==='object')option=scene.options.find(o=>o.lens==='object')||scene.options[0];
+   else {const desired=turn%2?'object':'relation';option=scene.options.find(o=>o.lens===desired)||scene.options[0]}
+   assert.ok(choose(s,option.id));assert.ok(advance(s));turn++;
+  }
+  assert.equal(s.ending,'freshwater-'+kind);
  }
  const abyssal=habitatConfig('abyssal'),validIds=new Set(Object.keys(ABYSSAL_ENDING_DATA));
  const samePath=[];
@@ -141,9 +150,31 @@ test('freshwater material layouts use the five authored filename-mapped scenes',
 test('freshwater suspended material stage renders moving leaf fragments',async()=>{
  const {drawAquaticWater}=await import('../isopoda/scenery/aquatic.mjs');
  const s=createRun('aquaticus',57,'freshwater');
- for(let i=0;i<3;i++){const scene=ensureScene(s);assert.equal(scene.materialStage,i);assert.ok(choose(s,scene.options[0].id));assert.ok(advance(s))}
- const scene=ensureScene(s);assert.equal(scene.materialStage,3);
+ for(let i=0;i<6;i++){const scene=ensureScene(s);assert.equal(scene.materialStage,Math.floor(i/2));assert.ok(choose(s,scene.options[0].id));assert.ok(advance(s))}
+ const scene=ensureScene(s);assert.equal(scene.materialStage,3);assert.equal(scene.materialBeat,0);
  const calls=[],ctx={fillStyle:'',fillRect(x,y,w,h){assert.ok([x,y,w,h].every(Number.isFinite));calls.push([x,y,w,h,this.fillStyle])}};
  assert.doesNotThrow(()=>drawAquaticWater(ctx,s,2,{drawPlants:false}));
  assert.ok(calls.some(([, ,w,h,color])=>w>=3&&h===2&&['#6b5738','#806846'].includes(color)),'stage IV should include visible drifting leaf fragments');
+});
+
+
+test('freshwater uses two philosophical choices per material stage and keeps animation metadata',()=>{
+ const s=createRun('aquaticus',73,'freshwater'),seen=[];
+ while(s.stage!=='ended'){
+  const scene=ensureScene(s);seen.push([scene.materialStage,scene.materialBeat,scene.options.length]);
+  assert.equal(scene.options.length,2);assert.ok(scene.options.every(o=>o.animation&&['object','relation'].includes(o.lens)));
+  assert.ok(choose(s,scene.options[0].id));assert.ok(advance(s));
+ }
+ assert.deepEqual(seen,[[0,0,2],[0,1,2],[1,0,2],[1,1,2],[2,0,2],[2,1,2],[3,0,2],[3,1,2],[4,0,2],[4,1,2]]);
+ assert.equal(s.records.filter(r=>r.kind==='freshwater-material').length,10);
+ assert.ok(s.records.every(r=>r.animation&&r.lens));
+});
+
+test('freshwater narrative reactions visibly steer the selected observation without changing material stage',()=>{
+ const s=createRun('aquaticus',81,'freshwater');ensureScene(s);
+ const actor={id:0,offset:0,x:40,y:60,a:0,phase:0,speed:.68,interactionState:null,activity:'crawl',hidden:false,occlusion:0,posture:'normal',molt:'none',moving:true};
+ const before=Math.hypot(actor.x-248.69859126103347,actor.y-234.42874491852993);
+ stepAquatic([actor],{state:s,time:1,dt:.1,reduced:false,reaction:{id:'fw-edge',selected:[0],age:.4}});
+ const after=Math.hypot(actor.x-248.69859126103347,actor.y-234.42874491852993);
+ assert.ok(after<before);assert.equal(ensureScene(s).materialStage,0);
 });
