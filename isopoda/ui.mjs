@@ -9,6 +9,10 @@ import {getLanguage} from './i18n.mjs';
 
 // Tiny CSS pixel marks: no raster resources, system emoji, or smooth icon font.
 const glyphs={
+ scopepower:['0111000','1000100','1010100','1000100','0111000','0000010','0000001'],
+ scopefocus:['1100011','1000001','0001000','0011100','0001000','1000001','1100011'],
+ scopelight:['0001000','0100010','0011100','1011101','0011100','0100010','0001000'],
+ microscope:['0011100','0010000','0100110','0100010','0111110','0000010','0111110'],
  pencil:['000000001100','000000011110','000000111100','000001111000','000011110000','000111100000','001111000000','001110000000','001000000000'],
  triangleDown:['1111111','0111110','0011100','0001000'],
  triangleUp:['0001000','0011100','0111110','1111111'],
@@ -29,10 +33,6 @@ const meterCopy={
  isopod:{temp:'~o~',wet:'\\o/',ventLow:'<o  ~',ventMid:'<o>',ventHigh:'~  o>',lightLow:'o^  -',lightMid:'o^',lightHigh:'o^  o*'}
 };
 export function pixelIcon(kind){
- if(kind==='microscope'){
-  const rows=['0000DDDD00000000','0000DLLD00000000','00000DLD00000000','00000DLD00000000','00000DLLDD000000','00000DMLDLDD0000','00000DMLDMDLD000','00000DLLDMDMLD00','0000DDDDDDMMLD00','0000DLD00DDMLD00','000DDDDD00DMLD00','000DLDLD00DMLD00','000DDDDD00DMLD00','0000000000DMLD00','00DDDDDDDDDMLD00','000000000DMLLD00','00000DDD0DLLLD00','0000DLLDDDDDDD00','000DDLLLLLLLLDD0','000DMMMMMMMMMMD0','000DDDDDDDDDDDD0'];
-  const el=document.createElement('span');el.className='pixel-icon microscope-icon';el.setAttribute('aria-hidden','true');el.style.width='16px';el.style.height='21px';const bit=document.createElement('i'),palette={D:'#304735',M:'#71896c',L:'#c9d1ac'};bit.style.width=bit.style.height='1px';bit.style.boxShadow=rows.flatMap((row,y)=>[...row].flatMap((v,x)=>palette[v]?[`${x}px ${y}px 0 ${palette[v]}`]:[])).join(',');el.append(bit);return el;
- }
  if(kind==='joystick'){
   const base=document.createElement('span');base.className='torch-stick';base.setAttribute('aria-hidden','true');
   const knob=document.createElement('span');knob.className='torch-stick-knob';base.append(knob);return base;
