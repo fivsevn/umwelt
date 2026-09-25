@@ -50,7 +50,7 @@ function syncCaveObserver(){
  const current=getState(),on=habitatConfig(current).id==='groundwater';
  caveMask.hidden=!on;viewport.classList.toggle('groundwater-observation',on);
  const last=Array.isArray(current.records)?current.records.at(-1):null;
- caveMask.dataset.lightsOut=String(on&&current.stage==='feedback'&&last?.kind==='groundwater-pulse'&&last?.choice==='lights-out');
+ caveMask.dataset.lightsOut=String(on&&['feedback','ended'].includes(current.stage)&&last?.kind==='groundwater-pulse'&&last?.choice==='lights-out');
 }
 function moveCaveBeam(event){
  if(!caveMask||caveMask.hidden)return;
@@ -237,14 +237,16 @@ function drawGroundwaterEvidence(g,s){
   const [ax,ay]=from,[bx,by]=to,steps=18,color=strong?'rgba(196,193,163,.58)':'rgba(161,165,143,.38)';
   for(let i=0;i<=steps;i++){if(i%2)continue;const t=i/steps;px(g,ax+(bx-ax)*t,ay+(by-ay)*t,2,2,color)}
  };
- mark(nodes.a,records.some(r=>r.choice==='mark-entrance'));
- if(records.length>=2)mark(nodes.b,records.some(r=>r.choice==='record-silt'));
- if(records.length>=3)mark(nodes.c,records.some(r=>r.choice==='watch-input'));
+ if(records.some(r=>['mark-entrance','connect-marks','finish-map'].includes(r.choice)))mark(nodes.a,true);
+ if(records.some(r=>['record-silt','connect-marks','finish-map'].includes(r.choice)))mark(nodes.b,true);
+ if(records.some(r=>r.choice==='watch-input'))mark(nodes.c,true);
  if(records.some(r=>r.choice==='seek-third'))mark(nodes.d,true);
  if(records.some(r=>r.choice==='connect-marks'))dotted(nodes.a,nodes.b,true);
  if(records.some(r=>r.choice==='watch-input'))dotted(nodes.b,nodes.c,false);
  if(records.some(r=>r.choice==='finish-map')){
-  dotted(nodes.a,nodes.b,true);dotted(nodes.b,nodes.c,true);dotted(nodes.a,nodes.d,false);
+  dotted(nodes.a,nodes.b,true);
+  if(records.some(r=>r.choice==='watch-input'))dotted(nodes.b,nodes.c,true);
+  if(records.some(r=>r.choice==='seek-third'))dotted(nodes.a,nodes.d,false);
  }
 }
 function drawAbyssalSpotlight(g,actor){
