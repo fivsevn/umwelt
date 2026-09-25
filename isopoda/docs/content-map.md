@@ -23,7 +23,7 @@ This document is the development entry point for authored content. It separates 
 
 - `aquatic-story.mjs` — routing, stable text keys, endings and state-to-story selection.
 - `data/habitats/stories.mjs` — core three-day aquatic turns.
-- `data/habitats/release-stories.mjs` — launch turns for groundwater, sandy-surf and the special petri-dish observation.
+- `data/habitats/release-stories.mjs` — legacy launch turns for groundwater, sandy-surf and the special petri-dish observation.
 - `data/habitats/story-alternates.mjs` — conditional alternate turns selected from environment state.
 - `habitats.mjs` — habitat configuration, eligible species, duration, metrics and stable habitat IDs.
 
@@ -71,3 +71,5 @@ Visible active terrestrial source strings must be represented in the locale tabl
 5. Add or update tests when a new condition, habitat, ending branch or species eligibility rule is introduced.
 6. Run `node isopoda/tools/check-all.mjs` plus the relevant browser regression harnesses.
 
+
+- `data/habitats/groundwater-observation.mjs` — eight current cave observations, phase metrics and focus points; `scenery/groundwater.mjs` supplies the corresponding wet-surface motion.

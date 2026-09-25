@@ -40,4 +40,13 @@
 - [UMWELT](https://umwelt.fivsevn.com/)
 - [GitHub Repository](https://github.com/fivsevn/umwelt)
 
+**地下水洞窟：八回の観察**
+
+一度の涵養過程を浸透、増水、流入、減水の四段階、各二回の観察として描く。生物膜の利用、底面での活動、粒子輸送にはそれぞれ資料がある。経路、時間、個体数、接続の指標は野外測定ではなく模式表現である。異なる地域の種の比較展示であり、同じ洞窟での共存を主張しない。
+
+- [Francois et al. 2016 — groundwater Proasellus trophic ecology](https://doi.org/10.1111/1365-2435.12484)
+- [Pronk et al. 2009 — karst percolation and particle transport](https://pubmed.ncbi.nlm.nih.gov/19462487/)
+- [Henry & Magniez 1983 — Proasellus valdensis](https://www.persee.fr/doc/linly_0366-1326_1983_num_52_10_10613?pageId=T1_335)
+- [Magniez 1975 — Stenasellus virei biology](https://digitalcommons.usf.edu/ijs/vol7/iss1/8/)
+
 **[もっと見る……](https://umwelt.fivsevn.com/isopoda/morphology/)**

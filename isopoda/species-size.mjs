@@ -26,6 +26,7 @@ const SIZE_REFERENCE={
  pulchra:{mm:8,confidence:'specialist-field-guide',basis:'BMIG: males to 8 mm'},
  affinis:{mm:6,confidence:'specialist-field-guide',basis:'BMIG: females to 6 mm'},
  spinigera:{mm:9,confidence:'literature-reference',basis:'marine isopod reference: up to about 9 mm'},
+ valdensis:{mm:8.5,confidence:'specialist-reference',basis:'Henry and Magniez 1983: up to 8.5 mm'},
  cavaticus:{mm:8,confidence:'specialist-reference',basis:'groundwater and cave references: adults to about 8 mm'},
  lusitanicus:{range:[4.2,7.2],confidence:'peer-reviewed-range',basis:'Di Lorenzo & Reboleira 2022 measured adults 4.2–7.2 mm'},
  virei:{mm:8,confidence:'specialist-reference',basis:'French freshwater Asellota guide: usual adult size around 8 mm'}

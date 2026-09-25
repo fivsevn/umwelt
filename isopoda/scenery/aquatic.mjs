@@ -1,3 +1,4 @@
+import {stepGroundwater,drawGroundwaterWater} from './groundwater.mjs';
 import {WATER_BACKGROUNDS,drawWaterBackground,drawWaterDetail,drawWaterPlant} from './aquatic-materials.mjs';
 import {LAUNCH_BACKGROUNDS,drawLaunchBackground} from './launch-materials.mjs';
 import {stepInteraction} from '../interaction.mjs';
@@ -288,22 +289,7 @@ function drawFreshwaterObservationOverlay(g,s,time,effect){
 
 export function drawAquaticWater(g,s,time=0,{drawPlants=true,observationEffect=null}={}){
  const h=habitatConfig(s),surface=h.tides?Math.round(360-s.tide*3.35):0;
- if(h.id==='groundwater'){
-  // Only thin films and small pools move; the cave is not rendered as a full water column.
-  const seep=(s.seepage??55)/100,linked=(s.connectivity??32)>60;
-  for(let i=0;i<8;i++){
-   const phase=time*(.22+seep*.85)+i*.9,cy=118+(i%4)*70,cx=188+Math.sin(i*1.8)*24;
-   const radius=8+(i%3)*5+Math.sin(phase)*2;
-   for(let x=-radius;x<=radius;x+=4)pixel(g,cx+x,cy+Math.sin(x*.25+phase)*2,linked?4:2,1,`rgba(170,185,164,${.08+seep*.15})`);
-  }
-  // Imported particles stay within the seep corridor, settling as the pulse recedes.
-  for(let i=0;i<Math.floor((s.input??8)/5);i++){
-   const n=noise(i,271,s.seed),x=185+n%31,y=245+((n>>>9)%64+time*seep*5)%70;
-   pixel(g,x,y,2,1,i%3?'#625b45':'#8a7e5c');
-  }
-  for(let i=0;i<18;i++){const n=noise(i,269,s.seed),x=150+n%92,y=95+(n>>>10)%245;pixel(g,x,y,1,1,i%4===0?'rgba(209,205,178,.28)':'rgba(120,143,132,.16)')}
-  return;
- }
+ if(h.id==='groundwater'){drawGroundwaterWater(g,s,time,pixel);return}
  if(h.id==='petri-dish'){
   const cx=192,cy=215,r=143,drift=time*s.flow*.025;
   for(let i=0;i<24;i++){
@@ -368,6 +354,7 @@ export function drawAquaticWater(g,s,time=0,{drawPlants=true,observationEffect=n
 
 export function stepAquatic(group,{state:s,time,dt,reduced,reaction}){
  const h=habitatConfig(s),speed=Math.min(64,Math.max(1,Number(globalThis.__ISOPODA_HABITAT_SPEED__)||1)),motionScale=(reduced?.45:1)*(h.motionScale??1);
+ if(h.id==='groundwater'){stepGroundwater(group,{state:s,dt,reduced,speed});return}
  for(const a of group){if(stepInteraction(a,dt))continue;
   const custom=h.id==='freshwater'&&reaction?.selected?.includes(a.id)&&reaction.age<7?freshwaterReactionPlan(reaction.id,s,a,time):null;
   if(custom?.target){const dx=custom.target.x-a.x,dy=custom.target.y-a.y,dist=Math.hypot(dx,dy),arrived=dist<10,pace=(custom.activity==='drift'?8:4.8)*Math.max(.65,Math.min(1.4,(Number(a.speed)||.68)/.68))*motionScale;a.a=Math.atan2(dy,dx);a.moving=custom.stop? !arrived:dist>4;a.activity=custom.activity;a.posture=arrived?custom.posture:'normal';a.occlusion=arrived?(custom.occlusion||0):0;a.hidden=false;a.molt='none';a.phase+=dt*speed*(custom.activity==='drift'?7:4)*motionScale;if(a.moving&&dist>0){const travel=Math.min(dist,pace*dt*speed);a.x+=dx/dist*travel;a.y+=dy/dist*travel}a.x=Math.max(20,Math.min(362,a.x));a.y=Math.max(25,Math.min(405,a.y));continue}

@@ -40,4 +40,13 @@
 - [UMWELT](https://umwelt.fivsevn.com/)
 - [GitHub Repository](https://github.com/fivsevn/umwelt)
 
+**地下水洞穴：八次观察**
+
+一次补给过程被整理为渗水、涨水、携入、退水四个阶段，各两次观察。生物膜食性、贴底活动和颗粒搬运分别有资料依据；具体路线、时间、数量与连通指标是叙事示意，不是野外测量。不同地区的物种在此比较展示，不主张同洞共存。
+
+- [Francois et al. 2016 — groundwater Proasellus trophic ecology](https://doi.org/10.1111/1365-2435.12484)
+- [Pronk et al. 2009 — karst percolation and particle transport](https://pubmed.ncbi.nlm.nih.gov/19462487/)
+- [Henry & Magniez 1983 — Proasellus valdensis](https://www.persee.fr/doc/linly_0366-1326_1983_num_52_10_10613?pageId=T1_335)
+- [Magniez 1975 — Stenasellus virei biology](https://digitalcommons.usf.edu/ijs/vol7/iss1/8/)
+
 **[更多……](https://umwelt.fivsevn.com/isopoda/morphology/)**

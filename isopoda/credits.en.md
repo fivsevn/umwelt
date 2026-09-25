@@ -40,4 +40,13 @@
 - [UMWELT](https://umwelt.fivsevn.com/)
 - [GitHub Repository](https://github.com/fivsevn/umwelt)
 
+**Groundwater cave: eight observations**
+
+One recharge episode is presented as four phases with two observations each: seepage, rising flow, material arrival and recession. Biofilm use, benthic activity and particle transport have separate evidence. Routes, timing, abundance and connectivity values are illustrative rather than field measurements. Species from different regions form a comparative display, not a claim of coexistence.
+
+- [Francois et al. 2016 — groundwater Proasellus trophic ecology](https://doi.org/10.1111/1365-2435.12484)
+- [Pronk et al. 2009 — karst percolation and particle transport](https://pubmed.ncbi.nlm.nih.gov/19462487/)
+- [Henry & Magniez 1983 — Proasellus valdensis](https://www.persee.fr/doc/linly_0366-1326_1983_num_52_10_10613?pageId=T1_335)
+- [Magniez 1975 — Stenasellus virei biology](https://digitalcommons.usf.edu/ijs/vol7/iss1/8/)
+
 **[More…](https://umwelt.fivsevn.com/isopoda/morphology/)**
