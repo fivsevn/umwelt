@@ -54,9 +54,9 @@ export function cueFor(c,group,encounter,state,reaction,time=0){
  return ambientCue(c,time);
 }
 export function createReactions(){
- let bubbles=[],seen=new Map(),lastStart=-Infinity;
+ let bubbles=[],seen=new Map(),lastStart=-Infinity,lastAnimal=new Map();
  return {
-  reset(){bubbles=[];seen.clear();lastStart=-Infinity},
+  reset(){bubbles=[];seen.clear();lastStart=-Infinity;lastAnimal.clear()},
   burst(group,cue,time,duration=1.15){
    const priority=Number.MAX_SAFE_INTEGER;
    bubbles=group.map(c=>({id:c.id,cue,priority,start:time,until:time+duration}));
@@ -68,7 +68,9 @@ export function createReactions(){
    bubbles=bubbles.filter(b=>time<b.until&&group.some(c=>c.id===b.id));
    const candidates=[];
    for(const c of group){
-    let cue=cueFor(c,group,encounter,state,reaction,time),old=seen.get(c.id);
+    const beach=state.habitatId==='sandy-surf';
+    let cue=beach?(ambientCue(c,time)?['~','o','…','?','*','z'][(Math.floor(time/5)+c.id)%6]:null):cueFor(c,group,encounter,state,reaction,time),old=seen.get(c.id);
+    if(beach&&(c.sand?.mode!=='surface'||time-(lastAnimal.get(c.id)??-Infinity)<18))continue;
     // A wall probe holds after impact; an unfolding animal briefly pauses.
     if(cue==='!'&&encounter?.motion==='wall'&&old?.cue==='!'&&time-old.since>.9)cue='?';
     if(encounter?.motion==='wall'&&old?.cue==='?'&&c.posture==='probing')cue='?';
@@ -84,10 +86,11 @@ export function createReactions(){
    for(const {c,cue,old} of candidates){
     const existing=bubbles.find(b=>b.id===c.id),priority=PRIORITY[cue];
     if(existing&&existing.priority>=priority)continue;
-    if(!existing&&time-lastStart<.28)continue;
+    if(!existing&&time-lastStart<(state.habitatId==='sandy-surf'?5:.28))continue;
+    if(state.habitatId==='sandy-surf'&&bubbles.length)continue;
     if(!existing&&bubbles.length>=3){const weakest=[...bubbles].sort((a,b)=>a.priority-b.priority)[0];if(weakest.priority>=priority)continue;bubbles=bubbles.filter(b=>b!==weakest)}
     bubbles=bubbles.filter(b=>b.id!==c.id);
-    bubbles.push({id:c.id,cue,priority,start:time,until:time+(c.posture==='molting'?1.9:cue==='!!'?.8:1.15)});old.shown=true;lastStart=time;
+    bubbles.push({id:c.id,cue,priority,start:time,until:time+(c.posture==='molting'?1.9:cue==='!!'?.8:1.15)});old.shown=true;lastStart=time;lastAnimal.set(c.id,time);
    }
    return bubbles;
   },
