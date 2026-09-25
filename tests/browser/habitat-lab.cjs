@@ -8,7 +8,9 @@ const base=process.env.BASE_URL||'http://127.0.0.1:8765';
  const browser=await (process.env.BROWSER==='webkit'?webkit:chromium).launch({headless:true,...(process.env.CHROME_PATH&&process.env.BROWSER!=='webkit'?{executablePath:process.env.CHROME_PATH}:{})});
  try{
  const page=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];
- page.on('pageerror',e=>errors.push(e.message));
+ page.on('pageerror',e=>{errors.push(e.message);console.log('[pageerror]',e.message)});
+   page.on('crash',()=>console.log('[page crash]'));
+   page.on('framenavigated',frame=>{if(frame===page.mainFrame())console.log('[navigation]',frame.url())});
  await page.goto(base+'/isopoda/habitat.html');
  await page.waitForFunction(()=>document.querySelectorAll('.asset-card').length>0);
  await page.evaluate(()=>document.fonts.ready);
