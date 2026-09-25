@@ -34,6 +34,7 @@ function contradictionFor(s,type){
  if(s.stage!=='feedback')return '';
  const r=Array.isArray(s.records)?s.records.at(-1):null;
  if(!r||r.day!==s.day||r.period!==s.period)return '';
+ if(s.habitatId==='sandy-surf'&&r.choice==='sand-wait'&&['ground','grab','tap','place'].includes(type))return 'sand:dig:changed';
  if(r.choice==='hands-off'&&['tap','grab','place'].includes(type))return '你先选择不碰它，后来手还是进入了盒子。意图被写下，行为也被写下；它们不必替彼此作证。';
  if(r.choice==='touch-one'&&type==='grab')return '你原本只打算碰一下，手却停留得更久。尺度改变时，“一下”也不是一个稳定的单位。';
  if(r.choice==='leave'&&type==='lift')return '你先决定不再追看，随后又抬起了木片。记录中的克制和手的动作没有发生在同一个层面。';
@@ -52,7 +53,7 @@ export function recordDirectInteraction(s,event={}){
  if(type==='tap')s.directTouches++;else if(type==='grab')s.directGrabs++;else if(type==='place')s.directMoves++;else if(type==='ground')s.groundTaps++;else if(type==='lift')s.barkLifts++;else if(type==='collect'){
   shell=takeShell(s,event.shell);if(!shell)return null;s.shellCollects++;s.collectedShells.push({...shell,collectedDay:s.day,collectedPeriod:s.period});s.collectedShells=s.collectedShells.slice(-12);
  }
- const discoveredType=type==='place'?'grab':['tap','grab','lift','collect'].includes(type)?type:null;
+ const discoveredType=s.habitatId==='sandy-surf'&&['ground','grab'].includes(type)?'dig':type==='place'?'grab':['tap','grab','lift','collect'].includes(type)?type:null;
  if(discoveredType)discoveries[discoveredType]=true;
  s.interventions=(Number.isFinite(s.interventions)?s.interventions:0)+1;
  const env=environmentFor(s),strength=type==='tap'?1:type==='ground'?2:type==='collect'?2:type==='grab'?4:5;env.disturbance=Math.max(env.disturbance||0,strength);
@@ -65,6 +66,10 @@ export function recordDirectInteraction(s,event={}){
   if(!exists){const item={day:s.day,period:s.period,type,choice,text:contradiction};s.observerContradictions.push(item);s.observerContradictions=s.observerContradictions.slice(-12)}
   record.contradiction=contradiction;s.feedback=contradiction;
   const narrative=s.records.at(-1);if(narrative&&narrative.day===s.day&&narrative.period===s.period)narrative.text=contradiction;
+ }
+ if(s.habitatId==='sandy-surf'&&['ground','grab'].includes(type)&&!contradiction){
+  if(s.stage==='choice')ensureScene(s).text='sand:dig:before';
+  else {s.feedback='sand:dig:done';const narrative=s.records.at(-1);if(narrative)narrative.text=s.feedback}
  }
  const intent=s.interactionIntent;
  if(intent&&intent.day===s.day&&intent.period===s.period&&intent.type===discoveredType){
@@ -217,7 +222,8 @@ export function choose(s,id){
  const discoveries=interactionState(s);s.interactionIntent=o.interaction?{...o.interaction,day:s.day,period:s.period,choice:id,hint:discoveries[o.interaction.type]?'':o.interaction.prompt}:null;
  if(habitatConfig(s).aquatic)for(const k of Object.keys(habitatConfig(s).defaults))s[k]=clamp(s[k],0,k==='salinity'?42:100);
  const evidence=isEstuaryObservation(s)?captureEstuaryEvidence(s,scene,o):null;
- s.feedback=o.text;s.stage='feedback';s.records.push({... (evidence?{evidence,estuaryNode:scene.estuaryNode}:{}),day:s.day,period:s.period,kind:scene.kind,choice:id,label:o.label,text:o.text,time:scene.time??timeFor(s.seed,s.day,s.period),encounter:scene.encounter||null,storyKey:scene.storyKey||null,dialogueNode:scene.dialogueNode||null,observationIndex:scene.observationIndex??null,materialStage:scene.materialStage??null,materialBeat:scene.materialBeat??null,animation:o.animation||null,lens:o.lens||null,interaction:o.interaction?.type||null});return true;
+ const sandAlready=s.habitatId==='sandy-surf'&&(s.directRecords||[]).some(r=>r.day===s.day&&r.period===s.period&&['ground','grab'].includes(r.type));
+ s.feedback=sandAlready?'sand:dig:done':o.text;if(sandAlready)s.interactionIntent=null;s.stage='feedback';s.records.push({... (evidence?{evidence,estuaryNode:scene.estuaryNode}:{}),day:s.day,period:s.period,kind:scene.kind,choice:id,label:o.label,text:s.feedback,time:scene.time??timeFor(s.seed,s.day,s.period),encounter:scene.encounter||null,storyKey:scene.storyKey||null,dialogueNode:scene.dialogueNode||null,observationIndex:scene.observationIndex??null,materialStage:scene.materialStage??null,materialBeat:scene.materialBeat??null,animation:o.animation||null,lens:o.lens||null,interaction:o.interaction?.type||null});return true;
 }
 function endingFromPool(s,ids,salt){
  const direct=(s.directGrabs||0)+(s.directMoves||0),signature=s.interventions*11+s.quiet*17+s.maps*19+s.labels*23+s.care*29+s.accuracy*31+direct*37;
