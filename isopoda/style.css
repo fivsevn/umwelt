@@ -164,3 +164,42 @@ html,body{height:100%;overflow:hidden}#game{height:100dvh;padding:6px 8px max(6p
 .species-card[data-language="ja"] .specimen-tag-row{grid-template-columns:24px max-content;font-size:6px}
 .species-card[data-language="ja"] .specimen-tag-value,.species-card[data-language="zh"] .specimen-tag-value,.species-card[data-language="en"] .specimen-tag-value,.species-card[data-language="isopod"] .specimen-tag-value{white-space:nowrap;overflow-wrap:normal}
 @media(max-width:390px){.specimen-tag{right:6px;bottom:6px;width:max-content;max-width:calc(100% - 12px);padding:3px 4px 4px}.specimen-tag-row{font-size:6px;column-gap:3px}.species-card[data-language="ja"] .specimen-tag-row{grid-template-columns:24px max-content}}
+
+
+/* Groundwater cave: one movable DOM aperture represents the observer's torch.
+   The scene outside the beam remains faintly legible; no texture or extra canvas is loaded. */
+.habitat-viewport.groundwater-observation{isolation:isolate}
+.cave-observer-mask{
+ --beam-x:50%;
+ --beam-y:54%;
+ position:absolute;
+ left:var(--beam-x);
+ top:var(--beam-y);
+ z-index:3;
+ width:34%;
+ aspect-ratio:1;
+ border-radius:50%;
+ transform:translate3d(-50%,-50%,0);
+ pointer-events:none;
+ background:rgba(3,6,5,.025);
+ box-shadow:
+  0 0 0 7px rgba(3,6,5,.10),
+  0 0 0 15px rgba(3,6,5,.16),
+  0 0 0 27px rgba(3,6,5,.22),
+  0 0 0 100vmax rgba(3,6,5,.68);
+ will-change:transform,left,top;
+}
+.cave-observer-mask[data-lights-out="true"]{
+ width:1px;
+ aspect-ratio:1;
+ left:50%;
+ top:50%;
+ background:transparent;
+ box-shadow:0 0 0 100vmax rgba(3,6,5,.76);
+}
+.habitat-viewport.groundwater-observation .species-status,
+.habitat-viewport.groundwater-observation .habitat-library,
+.habitat-viewport.groundwater-observation .zoom-tools{z-index:6}
+@media(prefers-reduced-motion:reduce){
+ .cave-observer-mask{will-change:auto}
+}
