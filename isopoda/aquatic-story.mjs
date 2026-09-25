@@ -70,11 +70,13 @@ function freshwaterMaterialText(value,lang){
   return localizedRow(ending[parts[4]],lang)??value;
  }
  const stage=FRESHWATER_MATERIAL_STAGES[index];if(!stage)return value;
- if(parts[3]==='prompt')return localizedRow(stage.prompt,lang)??value;
- if(parts[3]==='after')return localizedRow(stage.after?.[parts[4]],lang)??localizedRow(stage.prompt,lang)??value;
- if(parts[3]==='option'){
-  const option=stage.options[Number(parts[4])];if(!option)return value;
-  return localizedRow(option[parts[5]],lang)??value;
+ if(parts[3]!=='step')return value;
+ const step=stage.steps?.[Number(parts[4])];if(!step)return value;
+ if(parts[5]==='prompt')return localizedRow(step.prompt,lang)??value;
+ if(parts[5]==='after')return localizedRow(step.after?.[parts.slice(6).join(':')],lang)??localizedRow(step.prompt,lang)??value;
+ if(parts[5]==='option'){
+  const option=step.options?.[Number(parts[6])];if(!option)return value;
+  return localizedRow(option[parts[7]],lang)??value;
  }
  return value;
 }
@@ -209,21 +211,24 @@ function abyssalScene(s){
 }
 function freshwaterMaterialScene(s){
  const records=(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind==='freshwater-material');
- const index=Math.min(FRESHWATER_MATERIAL_STAGES.length-1,records.length),stage=FRESHWATER_MATERIAL_STAGES[index],previous=records.at(-1)?.choice;
- const prompt=stage.after?.[previous]?`water:freshwater-material:${index}:after:${previous}`:`water:freshwater-material:${index}:prompt`;
+ const turn=records.length,index=Math.min(FRESHWATER_MATERIAL_STAGES.length-1,Math.floor(turn/2)),beat=turn%2,stage=FRESHWATER_MATERIAL_STAGES[index],step=stage.steps[beat],previous=beat===1?records.at(-1)?.choice:null;
+ const prompt=previous&&step.after?.[previous]?`water:freshwater-material:${index}:step:${beat}:after:${previous}`:`water:freshwater-material:${index}:step:${beat}:prompt`;
  return {
-  id:`freshwater-material:${index}`,
+  id:`freshwater-material:${index}:${beat}`,
   title:`water:freshwater-material:stage:${index}`,
   kind:'freshwater-material',
   text:prompt,
   activity:`water:freshwater-material:stage:${index}`,
-  storyKey:`freshwater-material:${stage.id}`,
+  storyKey:`freshwater-material:${stage.id}:${beat}`,
   materialStage:index,
-  options:stage.options.map((option,i)=>({
+  materialBeat:beat,
+  options:step.options.map((option,i)=>({
    id:option.id,
-   label:`water:freshwater-material:${index}:option:${i}:label`,
+   label:`water:freshwater-material:${index}:step:${beat}:option:${i}:label`,
    delta:{},
-   text:`water:freshwater-material:${index}:option:${i}:text`
+   text:`water:freshwater-material:${index}:step:${beat}:option:${i}:text`,
+   animation:option.animation||option.id,
+   lens:option.lens||null
   }))
  };
 }
@@ -236,11 +241,9 @@ export function aquaticScene(s){
 export function aquaticEnding(s){
  if(habitatConfig(s).dialogue)return abyssalCompositeEnding(s);
  if(s.habitatId==='freshwater'){
-  const frames=(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind==='freshwater-material'&&['material-food','material-shelter','material-record'].includes(record.choice));
-  const counts={care:0,calm:0,trace:0},map={'material-food':'care','material-shelter':'calm','material-record':'trace'};
-  for(const record of frames)counts[map[record.choice]]++;
-  const latest=map[[...frames].reverse().find(Boolean)?.choice]||'trace',max=Math.max(...Object.values(counts));
-  const tied=['care','calm','trace'].filter(key=>counts[key]===max),kind=tied.includes(latest)?latest:(tied[0]||'trace');
+  const frames=(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind==='freshwater-material'&&['object','relation'].includes(record.lens));
+  const object=frames.filter(record=>record.lens==='object').length,relation=frames.filter(record=>record.lens==='relation').length;
+  const kind=Math.abs(object-relation)<=1?'calm':relation>object?'care':'trace';
   return AQUATIC_ENDINGS.find(e=>e.id===`freshwater-${kind}`);
  }
  const kind=s.interventions>=5?'care':s.quiet>=8?'calm':'trace';return AQUATIC_ENDINGS.find(e=>habitatConfig(s).endingPool.includes(e.id)&&e.id.endsWith('-'+kind));
