@@ -18,7 +18,7 @@ test('every environment uses a localized story subtitle, never a turn counter',(
     if(lang==='zh'){assert.ok(title.length<20,title);seen.add(title)}
     const scale=environmentScale(s,lang);if(scale){assert.match(scale.value,lang==='isopod'?/^[▁▂▃▄▅▆▇]+$/:/\d/);assert.doesNotMatch(scale.value,/NaN|\d+\/\d+/);assert.ok(scale.label)}
    }
-   if(s.habitatId==='petri-dish')s.microscope={completed:{[(s.day-1)*3+s.period]:true}};choose(s,scene.options[0].id);advance(s);
+   if(s.habitatId==='petri-dish')s.microscope={gateVersion:2,completed:{[(s.day-1)*3+s.period]:true}};choose(s,scene.options[0].id);advance(s);
   }
   assert.ok(seen.size>1,habitat.id);
  }
