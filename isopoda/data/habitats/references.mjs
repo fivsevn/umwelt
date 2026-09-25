@@ -1,5 +1,10 @@
 // Environment evidence only. Animal-specific evidence belongs to each specimen.
 export const HABITAT_REFERENCES={
+ estuary:{
+  scope:'河口汽水带 / BRACKISH ESTUARY / 河口汽水域',
+  entries:[{sourceId:'estuary-noaa-circulation',use:'潮流、来水与混合 / Tides, river input and mixing',note:'依据河口混合程度与盐度分布会受来水、潮流及地形影响的背景，描绘一段潮沟。不是所有河口都存在相同的分层或锋面；水流粒子不代表可见的盐度边界。 / Mixing and salinity distribution vary with river input, tides and geometry. Particles are not a visible salinity boundary.'}],
+  limits:'六次观察、P/Q 水样读数、物件位置和轮廓轨迹均为叙事示意，不是实测数据、盐度耐受阈值或特定物种的行为预测。选择采集的是预先编排的一段观察，不是浏览器逐帧追踪实验。只有选中的证据进入笔记；遮挡或中断后的轮廓不认定为先前个体。各时刻的动画、标记和轨迹以可编辑锚点为参照。保留 estuary-origin-wood、estuary-algae-base、estuary-observation-runnel 三个对象 ID，分别导出六个时刻后再交由开发整合。 / The six observations, sample readings and routes are authored illustrations, not measurements or species-specific responses. Only selected evidence is saved. Keep the three named anchors and export each observation separately. / 六回の観察、値と経路は創作上の模式表現。遮蔽後の輪郭を前の個体とは同定しない。各観察を個別に書き出す。'
+ },
  groundwater:{
   scope:'地下水 · 石灰岩洞穴 / LIMESTONE GROUNDWATER',
   entries:[
