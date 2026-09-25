@@ -3,7 +3,7 @@ import {petriText} from './data/habitats/petri-observation.mjs';
 import {iconButton,pixelIcon} from './ui.mjs';
 export function createPetriControls(viewport,habitat,getState,getLanguage){
  const root=document.createElement('div');root.className='petri-tools';root.hidden=true;
- root.innerHTML='<div class="scope-switch-frame"><button id="scopeToggle" class="icon-button field-button" type="button"></button></div><div id="scopePanel" hidden><div class="scope-dials">'+[['Power','power'],['Focus','focus'],['Light','light']].map(([id,key])=>`<div class="scope-knob"><button id="scope${id}" class="scope-dial" data-control="${key}" type="button" role="slider" ><span class="dial-face"><i></i></span></button></div>`).join('')+'</div><div class="scope-switch-frame"><button id="scopeCenter" class="icon-button field-button" type="button"></button></div></div>';
+ root.innerHTML='<div class="scope-switch-frame"><button id="scopeToggle" class="icon-button field-button" type="button"></button></div><div id="scopePanel" hidden><div class="scope-dials">'+[['Power','power'],['Focus','focus'],['Light','light']].map(([id,key])=>`<div class="scope-knob"><button id="scope${id}" class="scope-dial" data-control="${key}" type="button" role="slider" ><span class="dial-face"><i></i></span></button></div>`).join('')+'</div><button id="scopeCenter" class="dial-face scope-reset" type="button"></button></div>';
  viewport.append(root);const $=id=>root.querySelector('#'+id);
  for(const dial of root.querySelectorAll('.scope-dial'))dial.querySelector('.dial-face').append(pixelIcon('scope'+dial.dataset.control));
  const level=key=>{const m=microscope(getState());return key==='power'?Math.log2(m.magnification/4):m[key]};
