@@ -1,6 +1,16 @@
 import {encodeIsopodText} from './isopod.mjs';
 
 const copy={
+  hirsuta:{
+    zh:["藤壶之间露出一个小小的背面。潮水退下去，那里仍偶尔动一下。", "岸线画在它的下方。这一处该记在水里，还是岸上，两个词暂时挤在页边。"],
+    en:["A small back shows between barnacles. The tide falls; an occasional movement remains there.", "The shoreline is drawn below it. “Water” and “shore” wait together in the margin beside this place."],
+    ja:["フジツボの間に小さな背がのぞく。潮が引いても、そこでは時折動きがある。", "岸線はその下に引かれる。「水中」と「岸辺」が、この場所の傍らでひとまず余白に並ぶ。"]
+  },
+  albifrons:{
+    zh:["石边有一点灰影。放大以后，几条细足才从石纹里分出来。", "页上的轮廓占了很大一块。标记原来位置的小点，几乎被铅笔盖住。"],
+    en:["A grey fleck rests beside the stone. Under magnification, fine legs separate from the grain.", "The outline occupies much of the page. The dot marking its original position is almost covered by the pencil."],
+    ja:["石の縁に灰色の点がある。拡大すると、細い脚が石目から分かれて見える。", "紙の輪郭は大きな場所を取る。元の位置を示す小さな点は、鉛筆にほとんど隠れている。"]
+  },
   valdensis:{
     zh:["它停下的那块石面，在你的图里没有名字。", "你给停顿画了一个点。再抬头时，身体已不在点上。"],
     en:["The stone where it pauses has no name on your map.", "You mark the pause with a dot. When you look up, the body is no longer on it."],
@@ -155,16 +165,19 @@ const copy={
     ja:['浅水の堆積物に整然とした境界はない。名前はあとから書かれ、身体は先に混じり合う粒を通った。','浅い底では砂、泥、破片が絶えず並び替わり、個体の経路もそれに合わせて変わる。']
   },
   serratum:{
-    en:['The tide returns a crevice to the sea and takes it back again. The boundary moves each day; the specimen frame asks it to stay still.','It can roll its body inward, briefly carrying a boundary onto itself. No specimen can answer where the next waterline will be.'],
-    ja:['潮は岩の隙間を海へ返し、また引き取る。境界は毎日動くのに、標本枠は静止を求める。','身体を巻き込むことができる。その瞬間だけ境界を自分へ持ち帰るように見える。次の水位線を答えられる標本はない。']
+    zh:["石沿下的轮廓收成一团，过了一会儿，又慢慢展开。", "同一栏里留下了两种形状。名字写在上方，空白还够放下下一次变化。"],
+    en:["Below the ledge, an outline gathers into a ball. After a while, it slowly opens again.", "Two shapes remain in the same column. The name sits above them, with room left for another change."],
+    ja:["岩縁の下で輪郭が丸くまとまり、しばらくして、またゆっくり開く。", "同じ欄に二つの形が残る。名前はその上にあり、次の変化を書き足す余白もある。"]
   },
   pelagica:{
-    en:['Barnacles, mussels, and short fucoids divide the rocky shore into surfaces that can be crossed. We call it exposure; the body meets attachments and gaps.','The pin fixes one direction. While alive, direction was never part of the specimen.'],
-    ja:['フジツボ、イガイ、短い褐藻は岩岸を通過できる面へ分ける。私たちは「露出」と呼ぶが、身体が出会うのは付着物と隙間だ。','標本針は方向を固定する。生きている間、方向は標本の一部ではなかった。']
+    zh:["一阵水过去，步足还扣在原来的地方。落在纸上的那条短线，看起来像一次停留。", "线旁添了一个时间。那段持续抓附的间隙，没有单独的一栏。"],
+    en:["A wash of water passes. The legs still grip the same place. The short line on paper looks like a pause.", "A time is added beside the line. The interval spent holding on has no column of its own."],
+    ja:["ひと流れの水が過ぎても、脚は同じ場所をつかんでいる。紙に引いた短い線は、ひと休みに見える。", "線のそばに時刻を添える。つかまり続けた間のための欄は、別にはない。"]
   },
   granulosa:{
-    en:['Algal fronds move with the water, carrying the body among them into the same current. An image can keep an outline but cannot mount the force of the sea beside it.','We remember colour and dorsal shape. It does not need to be remembered to continue among the algae.'],
-    ja:['藻葉は水とともに揺れ、その間の身体も同じ流れへ入る。画像は輪郭を残せても、海の力まで枠に収められない。','私たちは色と背面の形で覚える。それは覚えられなくても、藻の間で続いていく。']
+    zh:["藻叶翻过来，刚才清楚的背纹藏进了折面。笔记停在那一笔，水还在把叶子翻向另一边。", "页边写着「仍在原处」。藻枝又摆了一次，这几个字便有些迟疑。"],
+    en:["A frond turns over, folding the clear markings out of sight. The pencil stops at that stroke; water keeps turning the frond.", "The margin says “still in the same place.” The weed sways once more, and the words seem less certain."],
+    ja:["藻葉が裏返り、見えていた背の模様が折り目に隠れる。鉛筆はそこで止まり、水はまだ葉を返している。", "余白に「同じ場所にいる」とある。藻がもう一度揺れ、その言葉が少しためらう。"]
   },
   balthica:{
     en:['A seaweed bed looks like background until a body uses seaweed as food and a place to pass through. Records separate functions; underwater there is no table.','When it leaves one frond its position changes. The word specimen asks it to remain somewhere forever.'],
@@ -183,12 +196,14 @@ const copy={
     ja:['河川、湖、池、溝は地図上の分類にすぎない。落葉が水に入ると、分解者はもっと細かな境界に沿って働く。','腐葉や有機物は水底に集まり、個体はその堆積物や水草の縁に沿って活動する。']
   },
   ischiosetosa:{
-    en:['Freshwater runoff compresses a salinity gradient into a very short distance. A thin film beneath one stone is already another environment at millimetre scale.','Adults are only a few millimetres long and often shelter beneath intertidal stones, especially in low-salinity patches influenced by freshwater runoff.'],
-    ja:['淡水の流入は塩分勾配を短い距離へ圧縮する。一枚の石の下の薄い水膜だけでも、ミリメートル尺度では別の環境になる。','成体は数ミリほどで、潮間帯の石の下、とくに淡水流入の影響を受ける低塩分の小環境に見られる。']
+    zh:["石头抬起的一瞬，阴影里的身体显了出来。页上多了一处位置，原来的阴影却已经变了。", "「发现于石下」写得很短。那只抬起石头的手，留在句子外面。"],
+    en:["As the stone is lifted, a body appears in its shade. A position is added to the page; the original shade has already changed.", "“Found beneath a stone” takes little space. The hand that lifted it remains outside the sentence."],
+    ja:["石を持ち上げた瞬間、陰の身体が現れる。紙に位置が一つ増え、その陰はすでに変わっている。", "「石の下で発見」と短く書く。石を持ち上げた手は、文の外に残る。"]
   },
   bidentata:{
-    en:['Juveniles live among algae while adults use crevices and empty barnacle tests. One life cycle divides a single shore into different scales.','The body can roll inward, and adult tail morphology differs between males and females.'],
-    ja:['幼体は藻の間に、成体は割れ目やフジツボの殻内に入る。一つの生活史が同じ岸を異なる尺度へ分ける。','身体を巻き込むことができ、成体の尾部形態は雌雄で異なる。']
+    zh:["壳口朝着水，里面只露出半截轮廓。", "「空」字写下之后，触角从壳口伸了出来。前一行没有擦去。"],
+    en:["The shell opening faces the water. Only part of an outline shows inside.", "After “empty” is written, antennae reach from the opening. The previous line is left unerased."],
+    ja:["殻の口が水に向き、内側に輪郭の半分だけが見える。", "「空」と書いたあと、殻口から触角が出てくる。前の行は消さずに残す。"]
   },
   linearis:{
     en:['When its long body clings to fine algae or eelgrass, the outline nearly becomes part of the plant.','Forty millimetres is a reported maximum, not a standard size for every individual.'],

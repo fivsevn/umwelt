@@ -2,6 +2,9 @@
 // Reference lengths are body-length anchors, not husbandry targets or strict morphometrics.
 // Strong literature measurements stay distinguishable from field-guide / hobby references.
 const SIZE_REFERENCE={
+ ischiosetosa:{mm:5,confidence:'specialist-field-guide',basis:'BMIG female maximum; matches the Jaera albifrons display reference convention'},
+ albifrons:{mm:5,confidence:'specialist-field-guide',basis:'BMIG female maximum; used as a compressed display anchor, not typical size'},
+ hirsuta:{mm:3.5,confidence:'specialist-field-guide',basis:'BMIG female maximum for the female-form rendering proxy; male maximum is 4 mm'},
  maculatum:{mm:18,confidence:'reference',basis:'published/field reference maximum; conservative display anchor'},
  klugii:{mm:21,confidence:'literature',basis:'Journal of Crustacean Biology 2025 specimen-size table'},
  gestroi:{mm:20,confidence:'literature',basis:'Journal of Crustacean Biology 2025 specimen-size table'},

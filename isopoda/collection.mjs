@@ -24,7 +24,7 @@ export function drawCohort(collection,seed,habitatId='terrestrial'){
  const anchor=speciesById(drawSpecies(collection,seed,habitatId));
  if(habitatId==='groundwater'){const taxa=[anchor,...habitatSpecies.filter(p=>p.id!==anchor.id)];return cohortFor(anchor.id,seed,14).map((c,i)=>({...c,species:taxa[i%taxa.length].id,stage:i%3?'M':'L'}))}
  if((habitatConfig(habitatId).cohortSize||7)===1)return cohortFor(anchor.id,seed).slice(0,1).map(c=>({...c,stage:'L'}));
- const roll=hash(seed,1901)%100,n=roll<30?1:roll<75?2:3;
+ const roll=hash(seed,1901)%100,n=Math.min(habitatConfig(habitatId).maxTaxa??3,roll<30?1:roll<75?2:3);
  const pool=habitatSpecies.filter(p=>p.id!==anchor.id&&Math.abs(p.wet-anchor.wet)<=20&&Math.abs(p.cover-anchor.cover)<=35).sort((a,b)=>hash(seed,habitatSpecies.indexOf(a)+2001)-hash(seed,habitatSpecies.indexOf(b)+2001));
  const taxa=[anchor,...pool.slice(0,n-1)],r=hash(seed,1902)%100;
  const counts=taxa.length===1?[7]:taxa.length===2?(r<70?[4,3]:r<90?[5,2]:[6,1]):(r<70?[3,2,2]:r<90?[4,2,1]:[5,1,1]);

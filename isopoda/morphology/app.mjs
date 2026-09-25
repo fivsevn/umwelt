@@ -282,8 +282,14 @@ function renderDossier(){
  };
  const locality=[b.originCountry,b.originRegion,b.locality,b.nativeRange,b.distributionNotes].map(dossierText).filter(Boolean).join(' · ');
  addDossierRow('BIOGEOGRAPHY / 产地与分布',locality);
- const labLine=species.literature?.lines?.filter(Boolean).slice(0,2).join(' / ');
- addDossierRow('LAB NOTE / 项目观察',labLine,{quote:true});
+ if(Array.isArray(p.scientificNotes)){
+  addDossierRow('MICROHABITAT / 微栖地',dossierText(p.microhabitat));
+  addDossierRow('SPECIMEN DATA / 标本资料',dossierText(p.scientificNotes));
+  addDossierRow('RENDER LIMIT / 绘制边界',species.provenance?.renderLimitation);
+ }else{
+  const labLine=species.literature?.lines?.filter(Boolean).slice(0,2).join(' / ');
+  addDossierRow('LAB NOTE / 项目观察',labLine,{quote:true});
+ }
  if(!dossierBody.children.length)addDossierRow('DATA STATUS / 数据状态','当前没有可公开展示的后台档案字段；保留为未解析。');
  const count=dossierBody.children.length;
  const hint=document.querySelector('#specimenDossier summary small');if(hint)hint.textContent=`档案资料 ${count} 项`;

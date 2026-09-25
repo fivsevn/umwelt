@@ -14,8 +14,8 @@ const TAXA=[
 
 const NOTES={
  hilgendorfii:['河川、湖沼、池与沟渠只是地图上的分类；腐叶落到水里以后，分解者沿着更细的边界工作。','腐叶与有机碎屑会在水底聚集，个体常沿着这些沉积物和植物边缘活动。'],
- ischiosetosa:['淡水径流把盐度切成很短的梯度。石头底下的一小片水，对毫米级身体已经足够成为另一种环境。','成体只有数毫米，常躲在潮间带石块下，尤其可见于受淡水径流影响的低盐小环境。'],
- bidentata:['幼体在藻间，成体进入裂缝与藤壶空壳。生命周期把“同一种环境”拆成不同尺度。','身体可以卷曲；成体尾部形态在雌雄之间存在差异。'],
+ ischiosetosa:["石头抬起的一瞬，阴影里的身体显了出来。页上多了一处位置，原来的阴影却已经变了。", "「发现于石下」写得很短。那只抬起石头的手，留在句子外面。"],
+ bidentata:["壳口朝着水，里面只露出半截轮廓。", "「空」字写下之后，触角从壳口伸了出来。前一行没有擦去。"],
  linearis:['细长的身体贴在细藻和海草上时，轮廓几乎成为植物的一部分。','四十毫米只是记录到的最大尺度，不是每一个个体的标准尺寸。'],
  maculosa:['长触角先越过身体边界，长尾肢又把边界向后延伸。测量总要先决定从哪里开始。','海绵、苔藓虫与海带固着器不是背景装饰，它们共同决定了可以停留的位置。'],
  hookeri:['河口没有稳定的盐度线。潮汐、径流与泥底把“海水”和“淡水”反复混在一起。','身体短宽并能卷曲，常出现在上游河口、沟渠、石下和泥底。'],
@@ -24,6 +24,10 @@ const NOTES={
  carinata:['泥里没有清楚的通道，细长身体却能把沉积物变成可经过的空间。','它能生活在较宽的低盐范围，尤其常见于泥质河口底部。']
 };
 
+const INTERTIDAL_SCIENCE={
+ ischiosetosa:['常见于有淡水径流影响的石下低盐微环境。雄体最大 2.7 mm、雌体最大 5 mm；雄性第六、七步足坐节刚毛为鉴别线索。 / Reduced-salinity under-stone sites; maxima male 2.7 mm, female 5 mm; male pereopod setation is diagnostic.'],
+ bidentata:['常见于岩缝、空藤壶壳和海藻间。雄体最大 7 mm、雌体最大 6 mm；雄性第六胸节的双突起不作为所有个体的通用形态。 / Crevices, empty barnacles and seaweed; maxima male 7 mm, female 6 mm; the paired male processes are sex-specific.']
+};
 function visualFor(row){
  const base=structuredClone(phenotypeFor(row.shape==='sphaeroma'?'orange':'dairy'));
  base.provenance='Evidence-informed aquatic dorsal approximation based on the cited taxon account. Fine setation, sexual structures and other microscopic diagnostics are intentionally omitted at 64 px.';
@@ -63,7 +67,7 @@ export const AQUATIC_EXPANSION_SPECIES=TAXA.map(row=>({
  genetics:{knowledge:'unknown',model:null},breeding:{crossCompatibility:'not_applicable'},
  trade:{type:'wild_species',tradeAliases:[],evidenceIds:[]},nomenclature:{taxonomicStatus:'accepted_species',vernacularStatus:'scientific_name_only',lastReviewed:'2026-09-24'},
  biogeography:{nativeRange:null,distributionNotes:'See cited species account; habitat pools are ecological selections and do not assert sympatry.',evidenceIds:['aquatic-expansion-'+row.id]},
- profile:{adultLengthMm:null,adultLengthRangeMm:null,reportedMaximumLengthMm:row.max,ecology:row.habitats,microhabitat:[row.micro],behaviour:['aquatic locomotion'],notableMorphology:[row.family+' dorsal body plan'],diagnosticNotes:['Pixel rendering is not an identification key.'],conglobation:row.shape==='sphaeroma'?'full':'none',evidenceIds:['aquatic-expansion-'+row.id]},
+ profile:{scientificNotes:INTERTIDAL_SCIENCE[row.id]||null,adultLengthMm:null,adultLengthRangeMm:null,reportedMaximumLengthMm:row.max,ecology:row.habitats,microhabitat:[row.micro],behaviour:['aquatic locomotion'],notableMorphology:[row.family+' dorsal body plan'],diagnosticNotes:['Pixel rendering is not an identification key.'],conglobation:row.shape==='sphaeroma'?'full':'none',evidenceIds:['aquatic-expansion-'+row.id]},
  notes:NOTES[row.id],literature:{lines:NOTES[row.id],basis:[{claim:row.micro,evidenceIds:['aquatic-expansion-'+row.id]}],themes:['water','scale','observation']},
  visual:visualFor(row)
 }));

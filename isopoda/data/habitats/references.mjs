@@ -3,8 +3,10 @@ export const HABITAT_REFERENCES={
  intertidal:{scope:'潮间带岩池 / INTERTIDAL ROCK POOL / 潮間帯の潮だまり',entries:[
  {sourceId:'intertidal-noaa-period',use:'半日潮周期 / Semidiurnal cycle / 半日潮',note:'采用约 12 小时 25 分的低潮到低潮作为一轮观察；九个时刻为叙事采样，并非当地潮汐预报。 / An approximately 12 h 25 min low-to-low cycle is sampled at nine authored moments, not a local tide forecast. / 約12時間25分を九つの観察に分けた創作上の周期。'},
  {sourceId:'intertidal-bmig-granulosa',use:'石下与藻间的庇护 / Stone and weed refuges / 石と藻の隠れ場',note:'以 I. granulosa 在潮间带石下和藻间出现的资料为背景，描绘涨水连通、落水收窄的活动范围。 / Habitat occurrence informs the wet refuges; route changes are authored. / 分布資料をもとに湿った隠れ場を描く。'},
+ {sourceId:'intertidal-albifrons-bmig',use:'留水石下微栖地 / Water-retaining stone refuges',note:'用于岩池旁仍保有浅水的石下区域，补充湿藻之外的停留位置。 / Under-stone shallow-water occurrence informs a different refuge from the seaweed.'},
+ {sourceId:'intertidal-hirsuta-bmig',use:'潮退露出的岩隙 / Emersed crevice refuges',note:'C. hirsuta 的较高岸位记录支持退潮后仍可停留在藤壶与岩隙处的场景；没有将所有物种强制压到水线以下。未模拟干燥耐受时长、盐度耐受或死亡。 / Upper-shore occurrence informs emersed refuges, not a desiccation, salinity or survival model.'},
  {sourceId:'intertidal-barnacle-cirri',use:'藤壶的蔓足 / Barnacle cirri / フジツボの蔓脚',note:'浸水时伸足、露出后收回的环境动画参考；画面没有鉴定到具体藤壶物种。 / Immersed feeding and emersed retraction inform ambient animation; no depicted barnacle species is identified. / 水中の摂食と露出時の閉殻を参考にした模式アニメーション。'}],
- limits:'九次观察、淹水百分比、1–5 个通水石隙与流势指数都是场景尺度，不是实测数据。流势没有物理单位；淹水为相对指标，不是二维画面的像素面积。游动只为 I. granulosa 示例启用，轨迹和速度不代表物种测量；其依据见形态实验室当前标本参考。混合展示不宣称所有物种在同一岩池共存。 / Nine observations, inundation index, 1–5 open gaps and unitless current index are authored, not measurements. Inundation is not screen pixel area. I. granulosa swimming is illustrative; routes and speeds are not measured. Species are comparative, not a co-occurrence claim. / 数値、経路、速度は創作上の模式表現で、実測ではない。'
+ limits:'九次观察、淹水百分比、1–5 个通水石隙与流势指数都是场景尺度，不是实测数据。流势没有物理单位；淹水为相对指标，不是二维画面的像素面积。游动只为 I. granulosa 示例启用；C. hirsuta 的湿岩隙位置可在水线以上，露出阶段收窄活动，不模拟陆生生活。轨迹和速度不代表物种测量；其依据见形态实验室当前标本参考。混合展示不宣称所有物种在同一岩池共存。 / Nine observations, inundation index, 1–5 open gaps and unitless current index are authored, not measurements. Inundation is not screen pixel area. I. granulosa swimming is illustrative; routes and speeds are not measured. Species are comparative, not a co-occurrence claim. / 数値、経路、速度は創作上の模式表現で、実測ではない。'
  },
  estuary:{
   scope:'河口汽水带 / BRACKISH ESTUARY / 河口汽水域',
