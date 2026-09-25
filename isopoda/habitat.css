@@ -339,3 +339,13 @@ footer{display:flex;justify-content:space-between;gap:16px;padding:0 2px;color:#
 .habitat-reference a{color:#d2d8b6;text-underline-offset:3px}
 .habitat-reference p{margin:8px 0 0}
 #habitatReferenceScope,#habitatReferenceLimits{font-size:11px;color:#a7b497}
+
+/* Estuary editing retains a full canvas even when its reference notes are open. */
+#estuaryPreview{font:inherit;font-size:8px;min-height:26px;padding:4px 8px;border:1px solid #657557;background:#394631;color:#dedcc4}
+#estuaryPreview[aria-pressed=true]{background:#768467;border-color:#aeb89a}
+#estuaryPreviewControl{max-width:250px}
+@media(min-width:1121px){
+ html:has(body[data-lab-preset="estuary"]),body[data-lab-preset="estuary"]{height:auto;overflow:auto}
+ body[data-lab-preset="estuary"] .lab{height:auto;min-height:100dvh;overflow:visible;grid-template-rows:auto auto auto auto auto auto}
+ body[data-lab-preset="estuary"] .workspace{height:790px;min-height:790px}
+}

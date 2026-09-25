@@ -55,6 +55,7 @@ jobs:
           NODE_PATH="$RUNNER_TEMP/morphology-browser/node_modules" node tests/browser/morphology-layout.cjs
           NODE_PATH="$RUNNER_TEMP/morphology-browser/node_modules" QA_OUTPUT="$RUNNER_TEMP/habitat-screenshots" node tests/browser/habitat-lab.cjs
           NODE_PATH="$RUNNER_TEMP/morphology-browser/node_modules" QA_OUTPUT="$RUNNER_TEMP/public-screenshots" node tests/browser/public-regression.cjs
+          NODE_PATH="$RUNNER_TEMP/morphology-browser/node_modules" QA_OUTPUT="$RUNNER_TEMP/estuary-screenshots" node tests/browser/estuary.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -63,4 +64,5 @@ jobs:
             ${{ runner.temp }}/morphology-screenshots
             ${{ runner.temp }}/public-screenshots
             ${{ runner.temp }}/habitat-screenshots
+            ${{ runner.temp }}/estuary-screenshots
           retention-days: 14
