@@ -212,7 +212,7 @@ export function choose(s,id){
  const after=s.cohort.map(c=>habitatFit(s,c));if(after.some((v,i)=>v>before[i]+.01)&&after.every((v,i)=>v>=before[i]-.01))s.care++;
  const discoveries=interactionState(s);s.interactionIntent=o.interaction?{...o.interaction,day:s.day,period:s.period,choice:id,hint:discoveries[o.interaction.type]?'':o.interaction.prompt}:null;
  if(habitatConfig(s).aquatic)for(const k of Object.keys(habitatConfig(s).defaults))s[k]=clamp(s[k],0,k==='salinity'?42:100);
- s.feedback=o.text;s.stage='feedback';s.records.push({day:s.day,period:s.period,kind:scene.kind,choice:id,label:o.label,text:o.text,time:scene.time??timeFor(s.seed,s.day,s.period),encounter:scene.encounter||null,storyKey:scene.storyKey||null,dialogueNode:scene.dialogueNode||null,interaction:o.interaction?.type||null});return true;
+ s.feedback=o.text;s.stage='feedback';s.records.push({day:s.day,period:s.period,kind:scene.kind,choice:id,label:o.label,text:o.text,time:scene.time??timeFor(s.seed,s.day,s.period),encounter:scene.encounter||null,storyKey:scene.storyKey||null,dialogueNode:scene.dialogueNode||null,materialStage:scene.materialStage??null,materialBeat:scene.materialBeat??null,animation:o.animation||null,lens:o.lens||null,interaction:o.interaction?.type||null});return true;
 }
 function endingFromPool(s,ids,salt){
  const direct=(s.directGrabs||0)+(s.directMoves||0),signature=s.interventions*11+s.quiet*17+s.maps*19+s.labels*23+s.care*29+s.accuracy*31+direct*37;
