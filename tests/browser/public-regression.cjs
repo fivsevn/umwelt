@@ -7,14 +7,15 @@ const base=process.env.BASE_URL||'http://127.0.0.1:8765',compare=process.env.COM
 const output=process.env.QA_OUTPUT;
 async function setup(browser,url,size){
  const context=await browser.newContext({viewport:{width:size[0],height:size[1]},locale:'zh-CN',timezoneId:'Asia/Shanghai',reducedMotion:'reduce'});
- await context.addInitScript(()=>{
+ await context.addInitScript(deterministic=>{
   const NativeDate=Date;globalThis.Date=class extends NativeDate{constructor(...args){super(...(args.length?args:[1790121600000]))}static now(){return 1790121600000}};
   let seed=12345;Math.random=()=>((seed=Math.imul(seed,1664525)+1013904223>>>0)/4294967296);
+  if(!deterministic){globalThis.__qaFrames=()=>{};return}
   let serial=0,time=0;const frames=new Map();
   requestAnimationFrame=fn=>{frames.set(++serial,fn);return serial};cancelAnimationFrame=id=>frames.delete(id);
   performance.now=()=>time;
   globalThis.__qaFrames=()=>{for(let i=0;i<8;i++){time+=80;const batch=[...frames.values()];frames.clear();for(const fn of batch)fn(time)}};
- });
+ },!!compare);
  const page=await context.newPage(),errors=[];
  page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400&&new URL(r.url()).origin===new URL(url).origin)errors.push(`${r.status()} ${r.url()}`)});
  return {page,context,errors,url};
@@ -34,7 +35,7 @@ async function capture(run,label){
  const engine=process.env.BROWSER==='webkit'?webkit:chromium;
  const browser=await engine.launch({headless:true,...(engine===chromium&&!process.env.CI?{channel:'chrome'}:{})});
  try{for(const size of [[320,568],[390,844],[1440,900]]){
-  const runs=await Promise.all([base,...(compare?[compare]:[])].map(url=>setup(browser,url,size)));
+  let runs=await Promise.all([base,...(compare?[compare]:[])].map(url=>setup(browser,url,size)));
   const snapshot=async label=>{
    const captures=[];for(const [i,r] of runs.entries())captures.push(await capture(r,`${size.join('x')}-${label}-${i}`));
    if(compare){assert.deepEqual(captures[0].state,captures[1].state,`${label}: text/layout/save differs`);assert.ok(captures[0].shot.equals(captures[1].shot),`${size}: ${label} pixels differ`)}
@@ -44,7 +45,16 @@ async function capture(run,label){
    await snapshot(route==='/'?'home':route.includes('morphology')?'morphology':'habitat');
   }
   for(const habitat of ['terrestrial','abyssal']){
-   for(const r of runs){await r.page.evaluate(()=>localStorage.clear());await r.page.goto(r.url+'/isopoda/');await r.page.waitForFunction(()=>!!document.querySelector('#startBtn')?.onclick);await settle(r.page);if(habitat==='abyssal')for(let i=0;i<4;i++)await click(r.page,'#habitatNext')}
+   // Each scenario starts in a fresh context, including dialogs, history and storage.
+   for(const r of runs)await r.context.close();
+   runs=await Promise.all([base,...(compare?[compare]:[])].map(url=>setup(browser,url,size)));
+   for(const r of runs){
+    await r.page.goto(r.url+'/isopoda/');await r.page.waitForFunction(()=>!!document.querySelector('#habitatNext')?.onclick);await settle(r.page);
+    const steps=await r.page.evaluate(async id=>{const {HABITATS}=await import('/isopoda/habitats.mjs');return HABITATS.findIndex(h=>h.id===id)},habitat);
+    assert.ok(steps>=0,`known habitat: ${habitat}`);
+    for(let i=0;i<steps;i++)await click(r.page,'#habitatNext');
+    assert.equal(await r.page.locator('#titleCard').getAttribute('data-habitat'),habitat);
+   }
    await snapshot(`${habitat}-title`);
    for(const r of runs)await click(r.page,'#startBtn');await snapshot(`${habitat}-arrival`);
    for(const r of runs){await click(r.page,'#settleBtn');assert.ok(await r.page.locator('#actions button').count()>0)}await snapshot(`${habitat}-play`);
