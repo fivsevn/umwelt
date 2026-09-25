@@ -25,7 +25,7 @@ export function placeIndividual(actor,point){
  actor.y=Math.max(30,Math.min(400,point.y));
 }
 // A single captured pointer owns either an animal gesture or the existing camera pan.
-export function bindPointerInteraction(canvas,{enabled,worldPoint,hitTest,objectHitTest=()=>null,pan,draw,report=()=>{},objectHoldStart=()=>{},objectHoldEnd=()=>{},groundTap=()=>{}}){
+export function bindPointerInteraction(canvas,{enabled,worldPoint,hitTest,objectHitTest=()=>null,pan,draw,report=()=>{},objectHoldStart=()=>{},objectHoldEnd=()=>{},groundTap=()=>{},digStart=()=>null,digEnd=()=>{}}){
  let gesture=null,lastObjectTap=null;
  // Mobile Safari/Chrome must treat the habitat as a game surface, not selectable page content.
  canvas.style.touchAction='none';
@@ -37,6 +37,7 @@ export function bindPointerInteraction(canvas,{enabled,worldPoint,hitTest,object
  function finish(event,cancel=false){
   if(!gesture||(event&&event.pointerId!==gesture.id))return;
   const g=gesture;clear();gesture=null;
+  if(g.digging)digEnd(g.actor,{cancel:cancel||(g.moved&&!g.grabbed),point:event?worldPoint(event):null});
   const point=event?worldPoint(event):null;
   if(g.actor){
    const config=interactionConfig(g.actor);
@@ -46,23 +47,23 @@ export function bindPointerInteraction(canvas,{enabled,worldPoint,hitTest,object
     !cancel&&!g.grabbed&&!g.moved?config.defenseDuration:config.recoveryTime);
   }else if(g.object){
    if(g.objectHeld)objectHoldEnd(g.object,point,{cancel});
-  }else if(!cancel&&!g.moved&&point)groundTap(point);
+  }else if(!cancel&&!g.moved&&point&&!g.digging)groundTap(point);
   if(canvas.hasPointerCapture(g.id))canvas.releasePointerCapture(g.id);
   draw();
  }
  canvas.addEventListener('pointerdown',event=>{
   if(gesture||!enabled()||event.button!==0||event.isPrimary===false)return;
   event.preventDefault();
-  const point=worldPoint(event),actor=hitTest(point),object=actor?null:objectHitTest(point);
-  gesture={id:event.pointerId,actor,object,x:event.clientX,y:event.clientY,startX:event.clientX,startY:event.clientY,moved:false,grabbed:false,objectHeld:false};
+  const point=worldPoint(event);let actor=hitTest(point);const dig=actor?null:digStart(point);if(dig?.actor)actor=dig.actor;const object=actor||dig?null:objectHitTest(point);
+  gesture={id:event.pointerId,actor,object,x:event.clientX,y:event.clientY,startX:event.clientX,startY:event.clientY,moved:false,grabbed:false,objectHeld:false,digging:!!dig};
   canvas.setPointerCapture(event.pointerId);
   const g=gesture;
   if(actor){
-   holdIndividual(actor,'pressed');
+   if(!dig)holdIndividual(actor,'pressed');else actor.interactionState={mode:'digging'};
    g.timer=setTimeout(()=>{
     if(gesture!==g||g.moved)return;
-    g.grabbed=true;holdIndividual(actor,'grabbed');report({type:'grab',actor,point:worldPoint(event)});draw();
-   },interactionConfig(actor).longPress);
+    g.grabbed=true;if(dig)digEnd(actor,{reveal:true});holdIndividual(actor,'grabbed');report({type:'grab',actor,point:worldPoint(event)});draw();
+   },dig?520:interactionConfig(actor).longPress);
    draw();
   }else if(object){
    const now=performance.now(),previous=lastObjectTap;
