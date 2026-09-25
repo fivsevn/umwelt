@@ -82,4 +82,6 @@ The sand cover and excavation are habitat effects, not new anatomical poses. Sci
 
 ## Petri dish microscope
 
-`tests/petri.test.mjs` checks single-specimen draws, circular containment, operation-gated narrative and saved progress. `tests/browser/petri.cjs` runs the nine observations at 320, 390 and 1440 pixels in Chromium or WebKit (`BROWSER=webkit`). It covers microscope entry, focus, magnification, panning, illumination, return to overview, 32× reload, four languages and the standalone ending. `BASE_URL` selects a served repository; `QA_OUTPUT` selects screenshot output. Microscope magnifications are authored display enlargement, not calibrated optical measurements.
+`tests/petri.test.mjs` checks single-specimen draws, circular containment, per-step operation gates and saved progress. `tests/browser/petri.cjs` runs the nine observations at 320, 390 and 1440 pixels in Chromium or WebKit (`BROWSER=webkit`). It covers microscope entry, physical-style rotary controls, focus, magnification, panning, illumination, return to overview, 32× reload, four languages and the standalone ending. `BASE_URL` selects a served repository; `QA_OUTPUT` selects screenshot output. Microscope magnifications are authored display enlargement, not calibrated optical measurements.
+
+Petri refinement also checks equal archive/microscope button sizes, filled background edges, touch/drag/keyboard dial control, three choices, no visible numeric controls, pre-adjusted magnification remaining locked, and optical edge dispersion/defocus rendering.

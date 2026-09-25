@@ -1,4 +1,5 @@
-import {microscope,focusTarget,confinePetri} from './scenery/petri.mjs';
+import {createPetriOptics} from './scenery/petri-optics.mjs';
+import {microscope,beginPetriStep,noteMicroscopeAction,confinePetri} from './scenery/petri.mjs';
 import {stageSand,buriedAt,uncoverSand,drawSandMarks,sandVisibleCells,sandPose,sandShore} from './scenery/sandy-surf.mjs';
 import {isEstuaryObservation,estuaryIndex} from './data/narrative/estuary.mjs';
 import {estuaryLayout} from './scenery/estuary-stages.mjs';
@@ -96,6 +97,7 @@ function drawAquaticLayout(time){
  }
 }
 let state=getState(),critters=[],last=0,active=false,effect=null,frame=0,encounter=null,elapsed=0,empty=false,shelterHeld=false;
+const drawOptics=createPetriOptics();
 const lensCanvas=document.createElement('canvas'),lensCtx=lensCanvas.getContext('2d');
 const camera={zoom:1,x:192,y:215},motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
 let reduced=motionPreference.matches;motionPreference.addEventListener('change',event=>{reduced=event.matches});
@@ -127,13 +129,16 @@ function heartBurst(){if(empty||!critters.length)return;reactions.burst(critters
 function scopeVisible(){const m=microscope(getState()),a=critters[0];return !!a&&Math.hypot(a.x-m.x,a.y-m.y)<130/m.magnification}
 function scopeControl(action,value){
  state=getState();if(state.habitatId!=='petri-dish')return;
- const m=microscope(state),a=critters[0];
+ const m=beginPetriStep(state),a=critters[0],before={...m};
  if(action==='toggle'){m.mode=!m.mode;if(m.mode&&a){m.x=a.x;m.y=a.y}}
  if(action==='zoom')m.magnification=Math.max(4,Math.min(32,m.magnification*(value>0?2:.5)));
  if(action==='focus')m.focus=Math.max(0,Math.min(100,Number(value)));
  if(action==='light'){if(Math.abs(m.light-value)>0)m.lights++;m.light=Math.max(10,Math.min(100,Number(value)))}
  if(action==='center'&&a){m.x=a.x;m.y=a.y}
  if(action==='move'&&m.mode){m.x=Math.max(40,Math.min(344,m.x+value[0]));m.y=Math.max(55,Math.min(375,m.y+value[1]));m.moves+=Math.hypot(...value)}
+ if(action==='zoom'&&m.magnification!==before.magnification)noteMicroscopeAction(state,m.magnification>before.magnification?'zoomUp':'zoomDown');
+ if(['focus','light'].includes(action)&&m[action]!==before[action])noteMicroscopeAction(state,action);
+ if(action==='move')noteMicroscopeAction(state,'move',Math.hypot(m.x-before.x,m.y-before.y));
  onDirectInteraction({type:'microscope',visible:scopeVisible()});drawHabitat(performance.now());
 }
 function present(){
@@ -142,7 +147,7 @@ function present(){
  if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h}
  display.imageSmoothingEnabled=false;
  const m=state.habitatId==='petri-dish'?microscope(state):null;
- const petriScale=Math.min(rect.width/384,rect.height/430)*(m?.mode?m.magnification:1);
+ const petriScale=Math.max(rect.width/384,rect.height/430)*(m?.mode?m.magnification:1);
  const view=m?{scale:petriScale,sw:rect.width/petriScale,sh:rect.height/petriScale,x:m.mode?m.x:192,y:m.mode?m.y:215,sx:(m.mode?m.x:192)-rect.width/petriScale/2,sy:(m.mode?m.y:215)-rect.height/petriScale/2}:cameraWindow(rect.width,rect.height,camera.zoom,camera.x,camera.y),{scale,sw,sh,sx,sy}=view;camera.x=view.x;camera.y=view.y;
  if(m&&!m.mode){camera.zoom=1;camera.x=192;camera.y=215}
 
@@ -154,14 +159,7 @@ function present(){
    const cells=sceneActorPixels(source,{...actor,x:(actor.x-sx)*scale,y:(actor.y-sy)*scale,habitatScale:actor.habitatScale*scale});
    for(const [x,y,color] of cells){lensCtx.fillStyle=color;lensCtx.fillRect(x,y,1,1)}
   }
-  const blur=Math.abs(m.focus-focusTarget(m))/14;
-  display.save();display.filter=`blur(${blur<.6?0:Math.min(3,blur)}px)`;display.drawImage(lensCanvas,0,0);display.restore();
-  display.fillStyle=m.light<65?`rgba(12,24,17,${(65-m.light)/85})`:`rgba(235,235,197,${(m.light-65)/100})`;display.fillRect(0,0,w,h);
-  const radius=Math.min(w,h)*.445,cx=w/2,cy=h/2;
-  for(let y=0;y<h;y+=2){const dy=y-cy,span=Math.abs(dy)<radius?Math.floor(Math.sqrt(radius*radius-dy*dy)):0;
-   display.fillStyle='#19241f';display.fillRect(0,y,cx-span,2);display.fillRect(cx+span,y,w,2);
-   if(span){display.fillStyle='#647762';display.fillRect(cx-span,y,2,2);display.fillRect(cx+span-2,y,2,2)}
-  }
+  drawOptics(display,lensCanvas,m);
  }
 
  layer.hidden=true;
@@ -206,7 +204,7 @@ const interaction=bindPointerInteraction(canvas,{
   onDirectInteraction({type:'ground',point});
  },
  pan:(dx,dy)=>{
-  if(getState().habitatId==='petri-dish'){const m=microscope(getState()),r=canvas.getBoundingClientRect();if(m.mode)scopeControl('move',[-dx/(Math.min(r.width/384,r.height/430)*m.magnification),-dy/(Math.min(r.width/384,r.height/430)*m.magnification)]);return}
+  if(getState().habitatId==='petri-dish'){const m=microscope(getState()),r=canvas.getBoundingClientRect();if(m.mode)scopeControl('move',[-dx/(Math.max(r.width/384,r.height/430)*m.magnification),-dy/(Math.max(r.width/384,r.height/430)*m.magnification)]);return}
   if(habitatConfig(getState()).id==='groundwater')return;
   const r=canvas.getBoundingClientRect(),scale=Math.max(1,r.width/384)*camera.zoom;
   camera.x-=dx/scale;camera.y-=dy/scale;present();
