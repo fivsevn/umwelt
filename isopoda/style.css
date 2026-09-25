@@ -216,11 +216,12 @@ html,body{height:100%;overflow:hidden}#game{height:100dvh;padding:6px 8px max(6p
 .cave-observer-mask[data-lights-out="true"]{width:1px!important;background:none!important}
 #arrivalSpecimens.cave-samples,#endSpecimen.cave-samples{grid-template-columns:repeat(4,minmax(0,1fr))}
 
-/* A small torch body: aperture controls above and below the thumb stick. */
-#boxFrame .groundwater-observation .zoom-tools{display:flex;flex-direction:column;gap:4px;padding:9px 5px 5px;left:9px;right:auto;bottom:9px;border:2px solid #a5b594;border-right-color:#526747;border-bottom-color:#526747;background:#465b40;box-shadow:2px 2px #1c2c21}
-#boxFrame .groundwater-observation .zoom-tools:before{content:"";position:absolute;left:-4px;right:-4px;top:-6px;height:7px;background:#b5c29c;border:2px solid #627553;border-top-color:#d0d7b6}
-#boxFrame .groundwater-observation .zoom-tools button{width:30px;min-width:30px;height:27px;min-height:27px}
+/* Vintage metal torch silhouette: flared reflector, ribbed barrel and end cap. */
+#boxFrame .groundwater-observation .zoom-tools{display:flex;flex-direction:column;align-items:center;gap:3px;width:44px;padding:5px 3px 7px;left:16px;right:auto;bottom:14px;border:2px solid #526746;border-left-color:#b2c19b;background:repeating-linear-gradient(90deg,#71865e 0 2px,#9aab83 2px 4px);box-shadow:3px 2px #1c2c21}
+#boxFrame .groundwater-observation .zoom-tools:before{content:"";position:absolute;left:-9px;right:-9px;top:-24px;height:24px;background:linear-gradient(#d0d8b3 0 3px,#7c9068 3px 5px,#b0bf98 5px 10px,#526747 10px 12px,#8fa379 12px 17px,#657b54 17px 21px,#b0bf98 21px 24px);clip-path:polygon(0 0,100% 0,100% 10px,90% 10px,90% 15px,80% 15px,80% 20px,72% 20px,72% 100%,28% 100%,28% 20px,20% 20px,20% 15px,10% 15px,10% 10px,0 10px);pointer-events:none}
+#boxFrame .groundwater-observation .zoom-tools:after{content:"";position:absolute;left:-3px;right:-3px;bottom:-6px;height:8px;background:linear-gradient(#b4c39d 0 2px,#71855c 2px 4px,#405636 4px 6px,#8da174 6px);box-shadow:2px 2px #1c2c21;pointer-events:none}
+#boxFrame .groundwater-observation .zoom-tools button{width:28px;min-width:28px;height:25px;min-height:25px;background:#8e9f78;border-color:#c1cea6 #536747 #536747 #c1cea6}
 #boxFrame .groundwater-observation #zoomIn{order:0}
 #boxFrame .groundwater-observation #zoomReset{order:1;height:34px;min-height:34px;width:34px;min-width:34px}
 #boxFrame .groundwater-observation #zoomOut{order:2}
-#boxFrame .groundwater-observation #zoomLevel{order:3;min-width:0;font-size:9px;line-height:11px;color:#c5cdaa}
+#boxFrame .groundwater-observation #zoomLevel{display:none}

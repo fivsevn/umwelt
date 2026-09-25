@@ -45,6 +45,6 @@
 - [UMWELT](https://umwelt.fivsevn.com/)
 - [GitHub Repository](https://github.com/fivsevn/umwelt)
 
-**[Morphology lab · specimen references](https://umwelt.fivsevn.com/isopoda/morphology/)**
+**[Enter Asimov’s Morphology Lab](https://umwelt.fivsevn.com/isopoda/morphology/)**
 
-**[Habitat lab · environment references](https://umwelt.fivsevn.com/isopoda/habitat)**
+**[Enter Asimov’s Habitat Lab](https://umwelt.fivsevn.com/isopoda/habitat)**
