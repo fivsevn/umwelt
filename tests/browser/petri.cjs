@@ -21,7 +21,7 @@ for(const width of [320,390,1440]){
  }
 
  await next();assert.equal(await page.locator('#actions button').first().isEnabled(),false);const r=await page.locator('#habitat').boundingBox();await page.mouse.move(r.x+r.width/2,r.y+r.height/2);await page.mouse.down();await page.mouse.move(r.x+r.width/2+Math.max(24,r.width*.07),r.y+r.height/2,{steps:5});await page.mouse.up();assert.equal(await page.locator('#actions button').first().isEnabled(),true);await next();
- await range('#scopeLight',50);assert.equal(await page.locator('#actions button').first().isEnabled(),true);await next();await page.locator('#scopeLess').click();await next();assert.equal(await page.locator('#actions button').first().isEnabled(),false);await page.locator('#scopeToggle').click();await next();await next();
+ await page.locator('#scopeLight').focus();await page.locator('#scopeLight').press('ArrowLeft');assert.equal(await page.locator('#actions button').first().isEnabled(),true);await next();await page.locator('#scopeLess').click();await next();assert.equal(await page.locator('#actions button').first().isEnabled(),false);await page.locator('#scopeToggle').click();await next();await next();
  assert.equal(await page.locator('#endCard').isVisible(),true);assert.match(await page.locator('#endCard').innerText(),/小点没有变小/);assert.equal(await page.locator('#playView').isVisible(),false);
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);assert.deepEqual(errors,[]);console.log(engine,width,'PASS');await page.close();
 }
