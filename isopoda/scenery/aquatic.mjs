@@ -243,18 +243,12 @@ function freshwaterReactionPlan(id,s,actor,time){
  if(['fw-under','fw-gap'].includes(id)){
   const leaf=pick(o.leaves,0);return {target:offset(leaf,(actor.id%2?9:-9),14),posture:'emerging',stop:true,occlusion:.48,activity:'crawl'};
  }
- if(['fw-fragment','fw-new-edges','fw-use-fragments'].includes(id)){
+ if(['fw-new-edges','fw-use-fragments'].includes(id)){
   const leaf=pick(o.leaves,actor.id+1)||pick(o.debris,actor.id);
   return {target:offset(leaf,(actor.id%2?7:-7),actor.id%3*4),posture:id==='fw-use-fragments'?'feeding':'probing',stop:true,activity:'crawl'};
  }
- if(id==='fw-drift'){
-  return {target:{x:40+((time*13+actor.id*61)%305),y:92+((actor.id*79)%250)},posture:'swimming',stop:false,activity:'drift'};
- }
  if(id==='fw-cling'){
   const target=pick(o.plants.length?o.plants:o.stones,actor.id);return {target:offset(target,0,-10),posture:'probing',stop:true,activity:'cling'};
- }
- if(id==='fw-redistribute'){
-  const target=pick(o.debris,actor.id);return {target:offset(target,(actor.id%2?8:-8),0),posture:'probing',stop:true,activity:'crawl'};
  }
  if(['fw-cross-bed','fw-new-route'].includes(id)){
   const target=pick(o.debris,actor.id+2)||pick(o.stones,actor.id);return {target:offset(target,(actor.id%2?16:-16),actor.id%3*5),posture:'normal',stop:false,activity:'crawl'};
@@ -275,6 +269,11 @@ function drawFreshwaterObservationOverlay(g,s,time,effect){
   const center=o.leaves.reduce((a,b)=>({x:a.x+b.x/o.leaves.length,y:a.y+b.y/o.leaves.length}),{x:0,y:0});
   for(const leafPart of o.leaves){const steps=9;for(let i=0;i<=steps;i+=2){const t=i/steps;pixel(g,center.x+(leafPart.x-center.x)*t,center.y+(leafPart.y-center.y)*t,2,1,`rgba(208,205,166,${pulse})`)}} 
  }
+ if(id==='fw-fragment'&&leaf)mark(leaf.x,leaf.y,`rgba(208,205,166,${pulse})`);
+ if(id==='fw-drift'){
+  for(let i=0;i<4;i++){const n=noise(i,397,s.seed),x=(n%420+time*(4.5+s.flow*.035))%420-18,y=55+((n>>>10)%320)+Math.sin(time*.42+i)*4;mark(x,y,`rgba(208,205,166,${pulse})`)}
+ }
+ if(id==='fw-redistribute')for(const d of o.debris.slice(0,5))mark(d.x,d.y,`rgba(169,180,139,${pulse})`);
  if(id==='fw-track-displacement'){
   const target=o.leaves[0]||o.debris[0]||origin;for(let i=0;i<=16;i+=2){const t=i/16;pixel(g,origin.x+(target.x-origin.x)*t,origin.y+(target.y-origin.y)*t,2,1,`rgba(208,205,166,${pulse})`)}mark(origin.x,origin.y);
  }
