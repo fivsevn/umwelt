@@ -1,3 +1,4 @@
+import {isEstuaryObservation,estuaryProgress,captureEstuaryEvidence} from './data/narrative/estuary.mjs';
 import {groundwaterProgress} from './data/habitats/groundwater-observation.mjs';
 import {habitatConfig,HABITATS,eligibleSpecies,advanceWater} from './habitats.mjs';
 import {aquaticScene,aquaticEnding} from './aquatic-story.mjs';
@@ -15,7 +16,7 @@ export function createRun(species='dairy',seed=Date.now()>>>0,habitatId='terrest
  const config=HABITATS.find(h=>h.id===habitatId);if(!config)throw new RangeError('Unknown habitat');
  if(!eligibleSpecies(speciesById(species),habitatId))species=config.species?.[0]||'dairy';
  const now=new Date(),startedOn=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');
- const p=speciesById(species),count=config.cohortSize||7,cohort=cohortFor(p.id,seed,count).map(c=>count===1?{...c,stage:'L'}:c);return {habitatId,startedOn,version:VERSION,narrativeVersion:1,seed:seed>>>0,cohort,day:1,period:0,stage:'choice',humidity:p.wet,temp:23,vent:55,light:54,cover:p.cover,food:1,interventions:0,quiet:0,accuracy:0,maps:0,labels:0,care:0,directTouches:0,directGrabs:0,directMoves:0,groundTaps:0,barkLifts:0,shellCollects:0,collectedShells:[],directRecords:[],interactionDiscoveries:{tap:false,grab:false,lift:false,collect:false},interactionIntent:null,observerContradictions:[],records:[],ending:null,feedback:'',scene:null,...config.defaults};
+ const p=speciesById(species),count=config.cohortSize||7,cohort=cohortFor(p.id,seed,count).map(c=>count===1?{...c,stage:'L'}:c);return {habitatId,...(habitatId==='estuary'?{estuaryVersion:1}:{}),startedOn,version:VERSION,narrativeVersion:1,seed:seed>>>0,cohort,day:1,period:0,stage:'choice',humidity:p.wet,temp:23,vent:55,light:54,cover:p.cover,food:1,interventions:0,quiet:0,accuracy:0,maps:0,labels:0,care:0,directTouches:0,directGrabs:0,directMoves:0,groundTaps:0,barkLifts:0,shellCollects:0,collectedShells:[],directRecords:[],interactionDiscoveries:{tap:false,grab:false,lift:false,collect:false},interactionIntent:null,observerContradictions:[],records:[],ending:null,feedback:'',scene:null,...config.defaults};
 }
 function interactionState(s){
  const hadDiscoveries=!!(s.interactionDiscoveries&&typeof s.interactionDiscoveries==='object');
@@ -40,6 +41,7 @@ function contradictionFor(s,type){
  return '';
 }
 export function recordDirectInteraction(s,event={}){
+ if(isEstuaryObservation(s))return null;
  const type=['tap','grab','place','ground','lift','collect'].includes(event.type)?event.type:null;if(!type)return null;
  const discoveries=interactionState(s);
  s.directTouches=Number.isFinite(s.directTouches)?s.directTouches:0;s.directGrabs=Number.isFinite(s.directGrabs)?s.directGrabs:0;s.directMoves=Number.isFinite(s.directMoves)?s.directMoves:0;
@@ -213,7 +215,8 @@ export function choose(s,id){
  const after=s.cohort.map(c=>habitatFit(s,c));if(after.some((v,i)=>v>before[i]+.01)&&after.every((v,i)=>v>=before[i]-.01))s.care++;
  const discoveries=interactionState(s);s.interactionIntent=o.interaction?{...o.interaction,day:s.day,period:s.period,choice:id,hint:discoveries[o.interaction.type]?'':o.interaction.prompt}:null;
  if(habitatConfig(s).aquatic)for(const k of Object.keys(habitatConfig(s).defaults))s[k]=clamp(s[k],0,k==='salinity'?42:100);
- s.feedback=o.text;s.stage='feedback';s.records.push({day:s.day,period:s.period,kind:scene.kind,choice:id,label:o.label,text:o.text,time:scene.time??timeFor(s.seed,s.day,s.period),encounter:scene.encounter||null,storyKey:scene.storyKey||null,dialogueNode:scene.dialogueNode||null,observationIndex:scene.observationIndex??null,materialStage:scene.materialStage??null,materialBeat:scene.materialBeat??null,animation:o.animation||null,lens:o.lens||null,interaction:o.interaction?.type||null});return true;
+ const evidence=isEstuaryObservation(s)?captureEstuaryEvidence(s,scene,o):null;
+ s.feedback=o.text;s.stage='feedback';s.records.push({... (evidence?{evidence,estuaryNode:scene.estuaryNode}:{}),day:s.day,period:s.period,kind:scene.kind,choice:id,label:o.label,text:o.text,time:scene.time??timeFor(s.seed,s.day,s.period),encounter:scene.encounter||null,storyKey:scene.storyKey||null,dialogueNode:scene.dialogueNode||null,observationIndex:scene.observationIndex??null,materialStage:scene.materialStage??null,materialBeat:scene.materialBeat??null,animation:o.animation||null,lens:o.lens||null,interaction:o.interaction?.type||null});return true;
 }
 function endingFromPool(s,ids,salt){
  const direct=(s.directGrabs||0)+(s.directMoves||0),signature=s.interventions*11+s.quiet*17+s.maps*19+s.labels*23+s.care*29+s.accuracy*31+direct*37;
@@ -232,6 +235,10 @@ export function endingFor(s){
 export function advance(s){
  if(s.stage!=='feedback')return false;
  const config=habitatConfig(s);
+ if(config.sequence==='estuary-observation'){
+  if(estuaryProgress(s)>=config.turns){s.stage='ended';s.ending=endingFor(s).id;return true}
+  advanceWater(s);s.day=1;s.period=0;s.stage='choice';s.feedback='';s.interactionIntent=null;s.scene=null;ensureScene(s);return true;
+ }
  if(config.sequence==='freshwater-material'||config.sequence==='groundwater-pulse'){
   const kind=config.sequence==='freshwater-material'?'freshwater-material':'groundwater-pulse';
   const completed=config.sequence==='groundwater-pulse'?groundwaterProgress(s):(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind===kind).length;
@@ -260,6 +267,14 @@ export function migrateV3(old){if(!old||old.version!==3||!SPECIES.some(p=>p.id==
 export function migrateV4(old){
  if(!old||old.version!==4)return null;
  const s={...old,habitatId:old.habitatId??'terrestrial'};
+ if(s.habitatId==='estuary'){
+  // Keep nine-turn v4 histories on their original decoder and clock. Never re-index them.
+  if(s.estuaryVersion!==1)s.estuaryLegacy=true;
+  else{
+   s.day=1;s.period=0;
+   if(s.stage==='choice'){s.scene=null;advanceWater(s)}
+  }
+ }
  if(s.habitatId==='freshwater'){
   // Freshwater now uses five untimed material observations instead of three dated days.
   s.day=1;s.period=0;

@@ -1,3 +1,4 @@
+import {isEstuaryObservation,estuaryScene,estuaryText,ESTUARY_ENDING} from './data/narrative/estuary.mjs';
 import {GROUNDWATER_OBSERVATIONS,groundwaterProgress} from './data/habitats/groundwater-observation.mjs';
 import {STORIES} from './data/habitats/stories.mjs';
 import {STORY_ALTERNATES} from './data/habitats/story-alternates.mjs';
@@ -34,7 +35,7 @@ const freshwaterEndingIndex={care:0,calm:1,trace:2};
 const STANDARD_AQUATIC_ENDINGS=Object.keys(STORIES).flatMap(id=>['calm','care','trace'].map((kind,i)=>{const endingIndex=id==='freshwater'?freshwaterEndingIndex[kind]:i;return {id:`${id}-${kind}`,title:id==='freshwater'?`water:freshwater-material:ending:${endingIndex}:title`:`water:${kind}`,body:id==='freshwater'?`water:freshwater-material:ending:${endingIndex}:body`:`water:${id}:ending:${i}`,line:id==='freshwater'?`water:freshwater-material:ending:${endingIndex}:line`:'water:note'}}));
 export const ABYSSAL_ENDINGS=Object.keys(ABYSSAL_ENDING_DATA).map(id=>({id,title:`abyssal:ending:${id}:title`,body:`abyssal:ending:${id}:body`,line:`abyssal:ending:${id}:line`}));
 export const GROUNDWATER_PULSE_ENDINGS=Object.keys(GROUNDWATER_ENDINGS).map(id=>({id:`groundwater-${id}`,title:`groundwater:ending:${id}:title`,body:`groundwater:ending:${id}:body`,line:`groundwater:ending:${id}:line`}));
-export const AQUATIC_ENDINGS=[...STANDARD_AQUATIC_ENDINGS,...ABYSSAL_ENDINGS,...GROUNDWATER_PULSE_ENDINGS];
+export const AQUATIC_ENDINGS=[...STANDARD_AQUATIC_ENDINGS,...ABYSSAL_ENDINGS,...GROUNDWATER_PULSE_ENDINGS,ESTUARY_ENDING];
 
 const langIndex={zh:0,en:1,ja:2};
 function localizedRow(row,lang='zh'){
@@ -118,6 +119,7 @@ function abyssalText(value,lang){
 }
 export function aquaticText(value,lang='zh'){
  const text=String(value??'');
+ if(text.startsWith('estuary:v1:'))return estuaryText(text,lang);
  if(text.startsWith('abyssal:'))return abyssalText(text,lang);
  if(text.startsWith('groundwater:'))return groundwaterPulseText(text,lang);
  if(text.startsWith('water:freshwater-material:'))return freshwaterMaterialText(text,lang);
@@ -262,6 +264,7 @@ function groundwaterPulseScene(s){
 }
 
 export function aquaticScene(s){
+ if(isEstuaryObservation(s))return estuaryScene(s);
  if(s.habitatId==='freshwater')return freshwaterMaterialScene(s);
  if(s.habitatId==='groundwater')return groundwaterPulseScene(s);
  if(habitatConfig(s).dialogue)return abyssalScene(s);
@@ -269,6 +272,7 @@ export function aquaticScene(s){
  return {id:`${s.habitatId}:${s.day}.${s.period}`,title:key(0),kind:'aquatic',text:key(0),activity:key(0),storyKey:ref.storyKey,options:[{id:'water-adjust',label:key(1),delta:{...row[2],interventions:1,care:1},text:key(3)},{id:'water-wait',label:'water:wait',delta:{quiet:2},text:'water:still'},{id:'water-record',label:'water:record',delta:{labels:1},text:'water:note'}]};
 }
 export function aquaticEnding(s){
+ if(isEstuaryObservation(s))return ESTUARY_ENDING;
  if(habitatConfig(s).dialogue)return abyssalCompositeEnding(s);
  if(s.habitatId==='groundwater'){
   const records=(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind==='groundwater-pulse');
@@ -284,4 +288,4 @@ export function aquaticEnding(s){
  }
  const kind=s.interventions>=5?'care':s.quiet>=8?'calm':'trace';return AQUATIC_ENDINGS.find(e=>habitatConfig(s).endingPool.includes(e.id)&&e.id.endsWith('-'+kind));
 }
-export function aquaticFeedback(s){if(habitatConfig(s).dialogue||s.habitatId==='freshwater'||s.habitatId==='groundwater')return '';return s.oxygen<45?'water:low':s.flow>65?'water:fast':'water:normal'}
+export function aquaticFeedback(s){if(isEstuaryObservation(s)||habitatConfig(s).dialogue||s.habitatId==='freshwater'||s.habitatId==='groundwater')return '';return s.oxygen<45?'water:low':s.flow>65?'water:fast':'water:normal'}

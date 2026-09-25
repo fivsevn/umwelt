@@ -10,6 +10,7 @@
 | --- | --- | --- |
 | 添加鼠妇品种、培养线或参考标本 | [扩展工作流：品种](expansion-guide.md#品种与标本) | [物种数据契约](species-data-contract.md)、[形态边界](morphology-renderer.md) |
 | 添加环境、布景或生态指标 | [环境扩展指南](environments.md) | [群体模型](cohort.md)、[存档兼容](save-compat.md) |
+| 精修河口观察与导入六阶段布景 | [河口汽水带](estuary.md) | [实验室契约](laboratories.md)、[存档兼容](save-compat.md) |
 | 添加事件、内容或结局 | [扩展工作流：叙事](expansion-guide.md#游戏内容与结局) | [内容地图](content-map.md)、[叙事契约](narrative-contract.md) |
 | 添加一种语言 | [语言扩展指南](languages.md) | [本地化模块](../locales/README.md)、[叙事契约](narrative-contract.md) |
 | 添加动画动作或交互反应 | [动作扩展指南](animation.md) | [形态边界](morphology-renderer.md)、[运动研究](../data/locomotion/README.md) |
