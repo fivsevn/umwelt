@@ -311,9 +311,9 @@ function loadPreset(id){
  syncControls();drawScene();
 }
 
-function drawBackground(target,assetId=state.background,seed=state.backgroundSeed){
+function drawBackground(target,assetId=state.background,seed=state.backgroundSeed,useStateParams=target===ctx){
  const asset=ASSET_BY_ID.get(assetId)||ASSET_BY_ID.get('substrate-dry');
- const params={...asset.params,...(target===ctx?state.backgroundParams:{})};
+ const params={...asset.params,...(useStateParams?state.backgroundParams:{})};
  if(params.aquatic){
   if(params.kind==='abyssal')return drawAbyssalBackground(target,{palette:params.palette,seed});
   return drawAquaticBackground(target,{kind:params.kind,palette:params.palette,seed});
@@ -365,14 +365,29 @@ function referenceHit(point){
 
 const hitCanvas=document.createElement('canvas');hitCanvas.width=scene.width;hitCanvas.height=scene.height;
 const hitContext=hitCanvas.getContext('2d',{willReadFrequently:true});
+const sceneLayerCache=new Map();
 function paintOrder(){return [...state.items].sort((a,b)=>(a.z||0)-(b.z||0))}
-function drawScene(){
- ctx.clearRect(0,0,scene.width,scene.height);
- drawBackground(ctx);
+function sceneLayerKey(){
+ return JSON.stringify([state.background,state.backgroundSeed,state.backgroundParams||null,state.items]);
+}
+function staticSceneLayer(){
+ const key=sceneLayerKey();
+ let layer=sceneLayerCache.get(key);
+ if(layer){sceneLayerCache.delete(key);sceneLayerCache.set(key,layer);return layer}
+ layer=document.createElement('canvas');layer.width=scene.width;layer.height=scene.height;
+ const g=layer.getContext('2d');g.imageSmoothingEnabled=false;
+ drawBackground(g,state.background,state.backgroundSeed,true);
  for(const item of paintOrder()){
   const asset=ASSET_BY_ID.get(item.assetId);if(!asset)continue;
-  drawObject(ctx,asset,item);
+  drawObject(g,asset,item);
  }
+ sceneLayerCache.set(key,layer);
+ if(sceneLayerCache.size>8)sceneLayerCache.delete(sceneLayerCache.keys().next().value);
+ return layer;
+}
+function drawScene(){
+ ctx.clearRect(0,0,scene.width,scene.height);
+ ctx.drawImage(staticSceneLayer(),0,0);
  drawReferenceSpecimen();
  const selected=state.items.find(i=>i.id===state.selected);
  if(selected){
