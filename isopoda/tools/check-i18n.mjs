@@ -27,7 +27,10 @@ function markdownHeadings(source){return [...source.matchAll(/^\*\*.+?\*\*$/gm)]
 
 // Aquatic scenes use explicit stable keys and authored zh/en/ja rows.
 for(const h of HABITATS.filter(h=>h.aquatic))for(let turn=0;turn<(h.turns??h.days*3);turn++){
- const scene=aquaticScene({habitatId:h.id,day:Math.floor(turn/3)+1,period:turn%3,records:Array.from({length:turn},()=>({kind:'abyssal-dialogue'}))});
+ const records=h.id==='freshwater'
+  ?Array.from({length:turn},(_,index)=>({kind:'freshwater-material',choice:index===0?'fw-leaf-edge':'fw-leaf-route'}))
+  :Array.from({length:turn},()=>({kind:'abyssal-dialogue'}));
+ const scene=aquaticScene({habitatId:h.id,day:Math.floor(turn/3)+1,period:turn%3,records});
  for(const key of [scene.text,...scene.options.flatMap(o=>[o.label,o.text]),'water:habitat:'+h.id,...h.metrics.map(k=>'water:'+k)])for(const lang of SUPPORTED_LANGUAGES){const value=aquaticText(key,lang);if(!value||value===key)fail(`Aquatic missing ${lang}: ${key}`)}
 }
 for(const e of AQUATIC_ENDINGS)for(const key of [e.title,e.body,e.line])for(const lang of SUPPORTED_LANGUAGES)if(aquaticText(key,lang)===key)fail(`Ending missing ${lang}: ${key}`);
