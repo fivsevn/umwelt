@@ -63,15 +63,6 @@ function syncCaveObserver(){
  const last=Array.isArray(current.records)?current.records.at(-1):null;
  caveMask.dataset.lightsOut=String(on&&['feedback','ended'].includes(current.stage)&&last?.kind==='groundwater-pulse'&&last?.choice==='lights-out');
 }
-function moveCaveBeam(event){
- if(!caveMask||caveMask.hidden)return;
- const r=canvas.getBoundingClientRect();if(!r.width||!r.height)return;
- const x=Math.max(0,Math.min(100,(event.clientX-r.left)/r.width*100));
- const y=Math.max(0,Math.min(100,(event.clientY-r.top)/r.height*100));
- beam.x=x;beam.y=y;paintBeam();
-}
-canvas.addEventListener('pointerdown',moveCaveBeam,{passive:true});
-canvas.addEventListener('pointermove',moveCaveBeam,{passive:true});
 const sceneryCanvas=document.createElement('canvas');sceneryCanvas.width=384;sceneryCanvas.height=430;
 const sceneryCtx=sceneryCanvas.getContext('2d');sceneryCtx.imageSmoothingEnabled=false;let sceneryKey='';
 let aquaticPlan=null,aquaticPlanKey='';
@@ -135,7 +126,7 @@ function present(){
 function zoom(z){camera.zoom=Math.max(1,Math.min(3,z));present();return camera.zoom}
 
 const interaction=bindPointerInteraction(canvas,{
- enabled:()=>active&&!empty&&habitatConfig(getState()).id!=='groundwater',
+ enabled:()=>active&&!empty,
  worldPoint:event=>{
   const r=canvas.getBoundingClientRect(),view=cameraWindow(r.width,r.height,camera.zoom,camera.x,camera.y);
   return {x:view.sx+(event.clientX-r.left)/view.scale,y:view.sy+(event.clientY-r.top)/view.scale};
@@ -169,13 +160,14 @@ const interaction=bindPointerInteraction(canvas,{
   onDirectInteraction({type:'ground',point});
  },
  pan:(dx,dy)=>{
+  if(habitatConfig(getState()).id==='groundwater')return;
   const r=canvas.getBoundingClientRect(),scale=Math.max(1,r.width/384)*camera.zoom;
   camera.x-=dx/scale;camera.y-=dy/scale;present();
  },
  draw:()=>drawHabitat(performance.now()),
  report:event=>onDirectInteraction({type:event.type,specimen:event.actor?.specimenId||null,point:event.point||null})
 });
-canvas.addEventListener('wheel',e=>{e.preventDefault();if(habitatConfig(getState()).id==='groundwater'){const size=beamResize(e.deltaY<0?4:-4);document.querySelector('#zoomLevel').textContent=size+'%';return}zoom(camera.zoom+(e.deltaY<0?.25:-.25));const label=document.querySelector('#zoomLevel');if(label)label.textContent=camera.zoom.toFixed(1)+'×'},{passive:false});
+canvas.addEventListener('wheel',e=>{e.preventDefault();if(habitatConfig(getState()).id==='groundwater')return;zoom(camera.zoom+(e.deltaY<0?.25:-.25));const label=document.querySelector('#zoomLevel');if(label)label.textContent=camera.zoom.toFixed(1)+'×'},{passive:false});
 function tick(t){if(!active)return;if(!document.hidden&&t-last>66){const dt=Math.min(.1,(t-last)/1000);state=getState();if(state.habitatId==='groundwater')beamMove(beam.dx*dt*28,beam.dy*dt*28);elapsed+=dt;(habitatConfig(state).aquatic?stepAquatic:stepIndividuals)(critters,{encounter,state,time:elapsed,dt,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null,reduced});reactions.update(critters,{encounter,state,time:elapsed,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});drawHabitat(t);last=t}frame=requestAnimationFrame(tick)}
 function px(c,x,y,w,h,color){c.fillStyle=color;c.fillRect(Math.round(x),Math.round(y),Math.max(1,Math.round(w)),Math.max(1,Math.round(h)))}
 function drawHabitat(t){

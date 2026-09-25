@@ -55,7 +55,7 @@ export function recordDirectInteraction(s,event={}){
  const env=environmentFor(s),strength=type==='tap'?1:type==='ground'?2:type==='collect'?2:type==='grab'?4:5;env.disturbance=Math.max(env.disturbance||0,strength);
  const point=event.point&&Number.isFinite(event.point.x)&&Number.isFinite(event.point.y)?{x:Math.round(event.point.x),y:Math.round(event.point.y)}:null;
  if(type==='place'&&point){env.scuffs??=[];env.scuffs.push({...point,turn:s.records.length,direct:true});env.scuffs=env.scuffs.slice(-18)}
- const specimen=/^[A-G]$/.test(event.specimen||'')?event.specimen:null,record={day:s.day,period:s.period,time:timeFor(s.seed,s.day,s.period),type,specimen,point,shell:shell?{id:shell.id,phase:shell.phase,specimen:shell.specimen}:null};
+ const specimen=s.cohort.some(c=>c.id===event.specimen)?event.specimen:null,record={day:s.day,period:s.period,time:timeFor(s.seed,s.day,s.period),type,specimen,point,shell:shell?{id:shell.id,phase:shell.phase,specimen:shell.specimen}:null};
  const contradiction=contradictionFor(s,type);
  if(contradiction){
   const choice=s.records.at(-1)?.choice||null,exists=s.observerContradictions.some(x=>x.day===s.day&&x.period===s.period&&x.choice===choice);

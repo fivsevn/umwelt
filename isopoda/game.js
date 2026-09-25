@@ -1,4 +1,5 @@
-import {groundwaterProgress,groundwaterObservationIndex} from './data/habitats/groundwater-observation.mjs';
+import {observationTitle,environmentScale} from './observation-header.mjs';
+import {groundwaterProgress} from './data/habitats/groundwater-observation.mjs';
 import {habitatConfig,cycleHabitat} from './habitats.mjs';
 import {AQUATIC_ENDINGS,aquaticFeedback} from './aquatic-story.mjs';
 import {renderCatalog,renderSources} from './catalog.mjs';
@@ -38,7 +39,7 @@ let lastInterfaceLanguage=getLanguage();
 const habitat=createHabitat($('#habitat'),$('#critters'),()=>state,event=>{if(!playing||state.stage==='ended')return;const record=recordDirectInteraction(state,event);if(record){mergeLearnedInteractions(state);save();render()}});
 const emptyHabitat=createHabitat($('#emptyHabitat'),$('#emptyCritters'),()=>previewState);
 const instrument=createInstrument($('#instruments'));
-function refreshIconLabels(){for(const [id,kind,label] of [['soundBtn','sound',sound?t('soundOff'):t('soundOn')],['catalogBtn','book',t('archive')],['sourcesBtn','source',t('sources')],['journalBtn','pencil',t('journal')],['zoomOut','minus',t(state.habitatId==='groundwater'?'beamSmaller':'zoomOut')],['zoomIn','plus',t(state.habitatId==='groundwater'?'beamLarger':'zoomIn')],['zoomReset','center',t(state.habitatId==='groundwater'?'beamJoystick':'zoomReset')]])iconButton($('#'+id),kind,label)}
+function refreshIconLabels(){for(const [id,kind,label] of [['soundBtn','sound',sound?t('soundOff'):t('soundOn')],['catalogBtn','book',t('archive')],['sourcesBtn','source',t('sources')],['journalBtn','pencil',t('journal')],['zoomOut',state.habitatId==='groundwater'?'triangleDown':'minus',t(state.habitatId==='groundwater'?'beamSmaller':'zoomOut')],['zoomIn',state.habitatId==='groundwater'?'triangleUp':'plus',t(state.habitatId==='groundwater'?'beamLarger':'zoomIn')],['zoomReset',state.habitatId==='groundwater'?'joystick':'center',t(state.habitatId==='groundwater'?'beamJoystick':'zoomReset')]])iconButton($('#'+id),kind,label)}
 refreshIconLabels();
 function save(){write(KEY,state)}
 const ISOPOD_WAVES=['▁','▂','▃','▄','▅','▆','▇'];
@@ -61,16 +62,7 @@ function setWaveText(el,value){
  el.replaceChildren(fragment);
 }
 function clock(day=state.day,period=state.period){
- const config=habitatConfig(state);
- if(config.sequence==='freshwater-material'){
-  const completed=(state.records||[]).filter(record=>record.kind==='freshwater-material').length,index=Number.isInteger(state.scene?.materialStage)?state.scene.materialStage:Math.min(4,Math.floor(completed/2)),beat=Number.isInteger(state.scene?.materialBeat)?state.scene.materialBeat:Math.min(1,completed%2);
-  return gameText(`water:freshwater-material:stage:${index}`,getLanguage())+` · ${beat+1}/2`;
- }
- if(config.sequence==='groundwater-pulse'){
-  const index=groundwaterObservationIndex(state);
-  return gameText(`groundwater:observation:${index}:name`,getLanguage())+` · ${index+1}/8`;
- }
- if(config.dialogue)return '';
+ const scale=environmentScale(state,getLanguage());if(scale)return scale.value;
  const date=state.startedOn?new Date(state.startedOn+'T12:00:00'):null;
  if(date)date.setDate(date.getDate()+day-1);
  const time=timeFor(state.seed,day,period);
@@ -85,9 +77,9 @@ function sceneNow(){
 function buttons(scene){$('#actions').replaceChildren();for(const o of scene.options){const b=document.createElement('button');b.className='action';b.dataset.directLocale='true';b.textContent=gameText(o.label,getLanguage());b.disabled=state.stage!=='choice';b.onclick=()=>act(o.id);$('#actions').append(b)}}
 function render(){
  const scene=sceneNow(),config=habitatConfig(state),p=speciesById(state.cohort[0].species),encounter=encounterById(scene.encounter);
- $('#habitat').setAttribute('aria-label',t(config.id==='groundwater'?'caveCanvas':config.cohortSize===1?'habitatCanvasSingle':'habitatCanvas'));setWaveText($('#dayLabel'),clock());$('#recordTitle').textContent=state.stage==='feedback'?t('recordLater'):t('recordNow');$('#observation').dataset.directLocale='true';$('#observation').textContent=gameText(state.stage==='feedback'?state.feedback:scene.text,getLanguage());
+ $('#habitat').setAttribute('aria-label',t(config.id==='groundwater'?'caveCanvas':config.cohortSize===1?'habitatCanvasSingle':'habitatCanvas'));setWaveText($('#dayLabel'),clock());$('#dayLabel').title=environmentScale(state,getLanguage())?.label||'';$('#recordTitle').textContent=state.stage==='feedback'?t('recordLater'):t('recordNow');$('#observation').dataset.directLocale='true';$('#observation').textContent=gameText(state.stage==='feedback'?state.feedback:scene.text,getLanguage());
  const waterFeedback=habitatConfig(state).aquatic&&state.stage==='feedback'?aquaticFeedback(state):'';if(waterFeedback)$('#observation').textContent+=' '+gameText(waterFeedback,getLanguage());
- $('#activityLabel').textContent=config.aquatic?gameText('water:habitat:'+state.habitatId,getLanguage()):getLanguage()==='zh'?(encounter?.title||''):t('habitatWindow');$('#activityLabel').dataset.motion=encounter?.motion||'';
+ $('#activityLabel').textContent=observationTitle(state,scene,encounter,getLanguage());$('#activityLabel').dataset.motion=encounter?.motion||'';
  const cue=state.stage==='feedback'?(state.interactionIntent?.hint||''):'';$('#interactionCue').hidden=!cue;$('#interactionCue').textContent=cue;
  $('#nextBtn').disabled=state.stage!=='feedback';
  const nextTime=timeFor(state.seed,state.period===2?state.day+1:state.day,(state.period+1)%3);
@@ -106,8 +98,7 @@ function render(){
  instrument(state);save();
 }
 function batchBugs(unique=false){return (unique?state.cohort.filter((c,i,all)=>all.findIndex(o=>o.species===c.species)===i):state.cohort).map(c=>{const bug=makeIsopod(speciesById(c.species),{seed:c.seed,stage:c.stage});bug.dataset.specimen=c.id;bug.dataset.species=c.species;bug.title=`${c.id} · ${speciesPrimaryName(speciesById(c.species))}`;return bug})}
-function caveSampleCards(){return batchBugs(true).map(bug=>{const figure=document.createElement('figure'),caption=document.createElement('figcaption');figure.className='cave-sample';caption.textContent=speciesById(bug.dataset.species).taxon;figure.append(bug,caption);return figure})}
-function arrival(){playing=false;habitat.stop();$('#titleCard').hidden=true;$('#playView').hidden=true;$('#endCard').hidden=true;$('#arrivalCard').hidden=false;$('#dayLabel').textContent='';$('#arrivalCard .panel-caption').textContent=t(state.habitatId==='groundwater'?'findSamples':'waitingSpecimens');$('#arrivalSpecimens').classList.toggle('cave-samples',state.habitatId==='groundwater');$('#arrivalSpecimens').replaceChildren(...(state.habitatId==='groundwater'?caveSampleCards():batchBugs()));$('#caveArrivalNote').hidden=state.habitatId!=='groundwater';$('#caveArrivalNote').textContent=t('caveSamplesNote')}
+function arrival(){playing=false;habitat.stop();$('#titleCard').hidden=true;$('#playView').hidden=true;$('#endCard').hidden=true;$('#arrivalCard').hidden=false;$('#dayLabel').textContent='';$('#arrivalCard .panel-caption').textContent=t(state.habitatId==='groundwater'?'findSamples':'waitingSpecimens');$('#arrivalSpecimens').classList.toggle('cave-samples',state.habitatId==='groundwater');$('#arrivalSpecimens').replaceChildren(...batchBugs(state.habitatId==='groundwater'))}
 function draw(){if($('#startBtn').disabled)return;$('#startBtn').disabled=true;const seed=Date.now()>>>0,cohort=drawCohort(collection,seed,selectedHabitat);state=createRun(cohort[0].species,seed,selectedHabitat);state.cohort=cohort;mergeLearnedInteractions(state);state.arrivalPending=true;hasRun=true;collection.draws++;for(const id of runSpecies(state))unlock(collection,id,state.startedOn);write(COLLECTION,collection);save();begin();tone(130)}
 function begin(){
  if(!hasRun)return;emptyHabitat.stop();if(state.arrivalPending){arrival();return}

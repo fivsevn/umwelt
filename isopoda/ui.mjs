@@ -5,6 +5,8 @@ import {getLanguage} from './i18n.mjs';
 // Tiny CSS pixel marks: no raster resources, system emoji, or smooth icon font.
 const glyphs={
  pencil:['000000001100','000000011110','000000111100','000001111000','000011110000','000111100000','001111000000','001110000000','001000000000'],
+ triangleDown:['1111111','0111110','0011100','0001000'],
+ triangleUp:['0001000','0011100','0111110','1111111'],
  minus:['11111'],
  plus:['00100', '00100', '11111', '00100', '00100'],
  center:['0001000', '0111110', '0101010', '1110111', '0101010', '0111110', '0001000'],
@@ -22,6 +24,10 @@ const meterCopy={
  isopod:{temp:'~o~',wet:'\\o/',ventLow:'<o  ~',ventMid:'<o>',ventHigh:'~  o>',lightLow:'o^  -',lightMid:'o^',lightHigh:'o^  o*'}
 };
 export function pixelIcon(kind){
+ if(kind==='joystick'){
+  const base=document.createElement('span');base.className='torch-stick';base.setAttribute('aria-hidden','true');
+  const knob=document.createElement('span');knob.className='torch-stick-knob';base.append(knob);return base;
+ }
  const el=document.createElement('span');el.className='pixel-icon';el.setAttribute('aria-hidden','true');
  const cells=[];for(const [y,row] of (glyphs[kind]||glyphs.leaf).entries())for(let x=0;x<row.length;x++)if(row[x]==='1')cells.push([x,y]);
  const minX=Math.min(...cells.map(c=>c[0])),minY=Math.min(...cells.map(c=>c[1])),maxX=Math.max(...cells.map(c=>c[0])),maxY=Math.max(...cells.map(c=>c[1])),unit=kind==='sound'?1:2;

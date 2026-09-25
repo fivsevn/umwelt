@@ -13,8 +13,8 @@ for(const [name,type] of [['chromium',chromium],['webkit',webkit]]){
   await page.reload();await page.waitForFunction(()=>document.querySelector('#continueBtn').onclick);await page.click('#continueBtn');
   assert.equal(await page.locator('#arrivalCard .panel-caption').textContent(),'寻找样本');
   assert.equal(await page.locator('#arrivalSpecimens .isopod').count(),4);
-  assert.ok(await page.evaluate(()=>document.querySelector('#arrivalSpecimens').getBoundingClientRect().bottom<=document.querySelector('#caveArrivalNote').getBoundingClientRect().top));
-  for(const card of await page.locator('.cave-sample').all()){const r=await card.boundingBox();assert.ok(r.height>55)}
+  assert.equal(await page.locator('#arrivalSpecimens figure').count(),0);
+  assert.ok(await page.locator('#arrivalSpecimens').evaluate(e=>e.getBoundingClientRect().height<=80));
   if(output)await page.screenshot({path:`${output}/${name}-${width}-arrival.png`,fullPage:true});
   await page.click('#settleBtn');assert.equal(await page.locator('#actions button').count(),3);
   const canvas=page.locator('#habitat'),mask=page.locator('.cave-observer-mask');
@@ -29,12 +29,14 @@ for(const [name,type] of [['chromium',chromium],['webkit',webkit]]){
   const beamAfter=await mask.evaluate(e=>parseFloat(e.style.getPropertyValue('--beam-x')));assert.ok(beamAfter>beamBefore+3);
   await page.waitForTimeout(300);assert.equal(await mask.evaluate(e=>parseFloat(e.style.getPropertyValue('--beam-x'))),beamAfter,'joystick releases');
   await page.locator('#zoomReset').focus();await page.keyboard.press('ArrowLeft');assert.ok(await mask.evaluate(e=>parseFloat(e.style.getPropertyValue('--beam-x')))<beamAfter);
+  const touchBeam=await mask.evaluate(e=>e.style.getPropertyValue('--beam-x'));
   const rect=await canvas.boundingBox();await canvas.dispatchEvent('pointerdown',{clientX:rect.x+rect.width*.65,clientY:rect.y+rect.height*.44,pointerType:'touch'});
-  assert.ok(Math.abs(await mask.evaluate(e=>parseFloat(e.style.getPropertyValue('--beam-x')))-65)<.01);
+  assert.equal(await mask.evaluate(e=>e.style.getPropertyValue('--beam-x')),touchBeam,'canvas touch does not steer torch');
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
   if(output)await page.screenshot({path:`${output}/${name}-${width}-cave.png`,fullPage:true});
   for(let turn=0;turn<8;turn++){
-   assert.match(await page.locator('#dayLabel').textContent(),new RegExp(`${turn+1}/8`));
+   assert.equal(await page.locator('#dayLabel').textContent(),'Δh −18.6 m');
+   assert.match(await page.locator('#activityLabel').textContent(),/渗水|涨水|携入|退水/);
    assert.doesNotMatch(await page.locator('#dayLabel').textContent(),/PULSE|脉冲/);
    await page.locator('#actions button').nth(turn===7?2:0).click();
    await page.reload();await page.waitForFunction(()=>document.querySelector('#continueBtn').onclick);await page.click('#continueBtn');
