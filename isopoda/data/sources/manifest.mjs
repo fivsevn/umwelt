@@ -1,3 +1,4 @@
+import {SANDY_EXPANSION_SOURCES} from './sandy-expansion.mjs';
 import {INTERTIDAL_EXPANSION_SOURCES} from './intertidal-expansion.mjs';
 import {sources as BASE_SOURCES,evidence,sourceDirectory,frameworkSources} from '../../sources.mjs';
 import {EXTRA_SOURCES_5} from './marine-reference.mjs';
@@ -15,7 +16,8 @@ export const SOURCE_GROUPS=Object.freeze([
  {id:'aquatic',rows:AQUATIC_SOURCES},
  {id:'aquatic-expansion',rows:AQUATIC_EXPANSION_SOURCES},
  {id:'release-aquatic',rows:RELEASE_AQUATIC_SOURCES},
- {id:'intertidal-expansion',rows:INTERTIDAL_EXPANSION_SOURCES}
+ {id:'intertidal-expansion',rows:INTERTIDAL_EXPANSION_SOURCES},
+ {id:'sandy-expansion',rows:SANDY_EXPANSION_SOURCES}
 ]);
 export const RAW_SOURCES=SOURCE_GROUPS.flatMap(group=>group.rows);
 export {evidence,sourceDirectory,frameworkSources};

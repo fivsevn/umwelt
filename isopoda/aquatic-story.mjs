@@ -1,4 +1,4 @@
-import {sandText,sandScene} from './data/habitats/sandy-observation.mjs';
+import {sandText,sandScene,sandEndingKind} from './data/habitats/sandy-observation.mjs';
 import {isIntertidal,intertidalScene,intertidalText} from './data/narrative/intertidal.mjs';
 import {isEstuaryObservation,estuaryScene,estuaryText,ESTUARY_ENDING} from './data/narrative/estuary.mjs';
 import {GROUNDWATER_OBSERVATIONS,groundwaterProgress} from './data/habitats/groundwater-observation.mjs';
@@ -34,7 +34,7 @@ const endingBodies={
  'shallow-marine':[['藻叶慢慢摆回原处.附着不是静止，只是和另一种移动一起发生。','Fronds slowly swing back. Attachment is not stillness; it moves with something else.','藻葉がゆっくり戻る。付着は静止ではなく、別の動きと共にある。'],['改变后的藻间仍有身体经过。你看到的路线，也包含你留下的空隙。','Bodies pass through the altered bed. Their routes also contain the gaps you left.','変えた藻間を身体が通る。見えた経路には、作った隙間も含まれる。'],['最后一条线画成了藻叶的形状。真实的藻叶已经转向下一阵流。','The last line takes the shape of a frond. The real one has turned toward the next current.','最後の線は藻葉の形になる。本物は次の流れへ向いている。']]
 };
 const freshwaterEndingIndex={care:0,calm:1,trace:2};
-const STANDARD_AQUATIC_ENDINGS=Object.keys(STORIES).flatMap(id=>['calm','care','trace'].map((kind,i)=>{const endingIndex=id==='freshwater'?freshwaterEndingIndex[kind]:i;return {id:`${id}-${kind}`,title:id==='sandy-surf'?'sand:ending:title':id==='freshwater'?`water:freshwater-material:ending:${endingIndex}:title`:`water:${kind}`,body:id==='sandy-surf'?'sand:ending:body':id==='freshwater'?`water:freshwater-material:ending:${endingIndex}:body`:`water:${id}:ending:${i}`,line:id==='sandy-surf'?'sand:ending:line':id==='freshwater'?`water:freshwater-material:ending:${endingIndex}:line`:'water:note'}}));
+const STANDARD_AQUATIC_ENDINGS=Object.keys(STORIES).flatMap(id=>['calm','care','trace'].map((kind,i)=>{const endingIndex=id==='freshwater'?freshwaterEndingIndex[kind]:i;return {id:`${id}-${kind}`,title:id==='sandy-surf'?`sand:ending:${kind}:title`:id==='freshwater'?`water:freshwater-material:ending:${endingIndex}:title`:`water:${kind}`,body:id==='sandy-surf'?`sand:ending:${kind}:body`:id==='freshwater'?`water:freshwater-material:ending:${endingIndex}:body`:`water:${id}:ending:${i}`,line:id==='sandy-surf'?`sand:ending:${kind}:line`:id==='freshwater'?`water:freshwater-material:ending:${endingIndex}:line`:'water:note'}}));
 export const ABYSSAL_ENDINGS=Object.keys(ABYSSAL_ENDING_DATA).map(id=>({id,title:`abyssal:ending:${id}:title`,body:`abyssal:ending:${id}:body`,line:`abyssal:ending:${id}:line`}));
 export const GROUNDWATER_PULSE_ENDINGS=Object.keys(GROUNDWATER_ENDINGS).map(id=>({id:`groundwater-${id}`,title:`groundwater:ending:${id}:title`,body:`groundwater:ending:${id}:body`,line:`groundwater:ending:${id}:line`}));
 export const AQUATIC_ENDINGS=[{id:"intertidal-cycle",title:"intertidal:ending",body:"intertidal:body",line:"intertidal:line"},...STANDARD_AQUATIC_ENDINGS,...ABYSSAL_ENDINGS,...GROUNDWATER_PULSE_ENDINGS,ESTUARY_ENDING];
@@ -278,6 +278,7 @@ export function aquaticScene(s){
  return {id:`${s.habitatId}:${s.day}.${s.period}`,title:key(0),kind:'aquatic',text:key(0),activity:key(0),storyKey:ref.storyKey,options:[{id:'water-adjust',label:key(1),delta:{...row[2],interventions:1,care:1},text:key(3)},{id:'water-wait',label:'water:wait',delta:{quiet:2},text:'water:still'},{id:'water-record',label:'water:record',delta:{labels:1},text:'water:note'}]};
 }
 export function aquaticEnding(s){
+ if(s.habitatId==='sandy-surf')return AQUATIC_ENDINGS.find(e=>e.id==='sandy-surf-'+sandEndingKind(s));
  if(isIntertidal(s))return {id:"intertidal-cycle",title:"intertidal:ending",body:"intertidal:body",line:"intertidal:line"};
  if(isEstuaryObservation(s))return ESTUARY_ENDING;
  if(habitatConfig(s).dialogue)return abyssalCompositeEnding(s);

@@ -47,3 +47,21 @@ test('every beach beat has its own choices and consequences',()=>{
  while(s.stage!=='ended'){const scene=ensureScene(s);for(const o of scene.options){labels.add(sandText(o.label));feedback.add(sandText(o.text))}choose(s,scene.options[0].id);advance(s)}
  assert.equal(labels.size,18);assert.equal(feedback.size,18);
 });
+
+test('beach prose excludes the framing author and endings reflect observation choices',async()=>{
+ const {sandEndingKind}=await import('../isopoda/data/habitats/sandy-observation.mjs');
+ const endings=new Set();
+ for(const choice of [0,1,2]){
+  const s=createRun('pulchra',42,'sandy-surf');if(choice===2)s.groundTaps=3;
+  while(s.stage!=='ended'){const scene=ensureScene(s);for(const lang of ['zh','en','ja'])for(const key of [scene.text,...scene.options.flatMap(o=>[o.label,o.text])])assert.doesNotMatch(sandText(key,lang),/阿西莫夫|Asimov|アシモフ/);choose(s,scene.options[choice===1?1:0].id);advance(s)}
+  assert.equal(s.ending,'sandy-surf-'+sandEndingKind(s));endings.add(s.ending);
+ }
+ assert.equal(endings.size,3);
+});
+test('sand pool appends two evidenced species with distinct pixels and literary notes',async()=>{
+ const {HABITATS}=await import('../isopoda/habitats.mjs'),{SPECIES}=await import('../isopoda/species-registry.mjs'),{pixelAnatomy}=await import('../isopoda/sprites.mjs'),{localizedAnnotationLines}=await import('../isopoda/locales/annotations.mjs');
+ const pool=HABITATS.find(h=>h.id==='sandy-surf').species,art=new Set();
+ assert.equal(pool.length,5);
+ for(const id of pool){const p=SPECIES.find(s=>s.id===id);assert.ok(p);art.add(JSON.stringify(pixelAnatomy(renderModel(p.visual,{seed:42,stage:'L'}))));for(const lang of ['zh','en','ja'])assert.equal(localizedAnnotationLines(p,lang,p.literature.lines).length,2)}
+ assert.equal(art.size,5);assert.deepEqual(SPECIES.slice(-2).map(s=>s.id),['chiltoni','naylori']);
+});

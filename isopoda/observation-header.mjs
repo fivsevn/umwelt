@@ -1,3 +1,4 @@
+import {sandIndex} from './data/habitats/sandy-observation.mjs';
 import {isIntertidal,intertidalText,intertidalTime} from './data/narrative/intertidal.mjs';
 import {isEstuaryObservation,estuaryIndex,estuaryText} from './data/narrative/estuary.mjs';
 import {groundwaterObservationIndex} from './data/habitats/groundwater-observation.mjs';
@@ -23,6 +24,8 @@ export function observationTitle(state,scene,encounter,lang='zh'){
  return gameText(encounter?.title||scene.title,lang);
 }
 export function environmentScale(state,lang='zh'){
+ if(state.habitatId==='sandy-surf')return {value:lang==='isopod'?isopodWaveNumber(sandIndex(state)+1):String(sandIndex(state)+1).padStart(2,'0')+' / 09',label:localize(['沙面观察进度','Beach observation progress','砂面観察の進み'],lang)};
+
  if(isIntertidal(state))return {value:intertidalTime(state,lang),label:intertidalText('intertidal:elapsed',lang)};
  if(isEstuaryObservation(state))return {value:lang==='isopod'?isopodWaveNumber(estuaryIndex(state)+1):String(estuaryIndex(state)+1).padStart(2,'0')+' / 06',label:estuaryText('estuary:v1:cycle',lang)};
  // Authored elevations of nearby observation points; not measured animal locations.
