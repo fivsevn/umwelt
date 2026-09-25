@@ -1,3 +1,4 @@
+import {SANDY_EXPANSION_SPECIES} from './sandy-expansion.mjs';
 import {INTERTIDAL_EXPANSION_SPECIES} from './intertidal-expansion.mjs';
 import {SPECIES as BASE_SPECIES} from '../../species.mjs';
 import {EXTRA_SPECIES} from './batch-01.mjs';
@@ -23,6 +24,7 @@ export const SPECIES_GROUPS=Object.freeze([
  {id:'aquatic',rows:AQUATIC_SPECIES},
  {id:'aquatic-expansion',rows:AQUATIC_EXPANSION_SPECIES},
  {id:'release-aquatic',rows:RELEASE_AQUATIC_SPECIES},
- {id:'intertidal-expansion',rows:INTERTIDAL_EXPANSION_SPECIES}
+ {id:'intertidal-expansion',rows:INTERTIDAL_EXPANSION_SPECIES},
+ {id:'sandy-expansion',rows:SANDY_EXPANSION_SPECIES}
 ]);
 export const RAW_SPECIES=SPECIES_GROUPS.flatMap(group=>group.rows);

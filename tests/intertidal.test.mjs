@@ -51,7 +51,7 @@ test('new intertidal taxa are playable, appended and keep notebook prose separat
    else assert.doesNotMatch(lines.join(' '),/[\p{Script=Han}]/u);
   }
  }
- assert.deepEqual(SPECIES.slice(-2).map(s=>s.id),['albifrons','hirsuta']);
+ assert.deepEqual(SPECIES.slice(65,67).map(s=>s.id),['albifrons','hirsuta']);
  const drawn=new Set();for(let i=0;i<160;i++)for(const c of drawCohort({unlocked:[],draws:0},i,'intertidal'))drawn.add(c.species);
  for(const id of ids)assert.ok(drawn.has(id),id+' can be collected');
  const j=speciesById('albifrons'),c=speciesById('hirsuta');assert.ok(j.visual.body.convexity<c.visual.body.convexity);assert.equal(c.visual.uropods.ramiPerUropod,1);
