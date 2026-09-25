@@ -1,3 +1,4 @@
+import {groundwaterProgress} from './data/habitats/groundwater-observation.mjs';
 import {habitatConfig,HABITATS,eligibleSpecies,advanceWater} from './habitats.mjs';
 import {aquaticScene,aquaticEnding} from './aquatic-story.mjs';
 import {environmentFor,changeEnvironment,ageEnvironment,environmentTarget,habitatFit,syncSceneTrace,releaseDueShells,takeShell} from './environment.mjs';
@@ -8,13 +9,13 @@ export const VERSION=4;
 export const PERIODS=['晨间','午后','夜间'];
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function hash(seed,n){let x=(seed+Math.imul(n+1,2654435761))>>>0;x=Math.imul(x^(x>>>16),2246822507);x=Math.imul(x^(x>>>13),3266489909);return (x^(x>>>16))>>>0}
-export function cohortFor(species,seed){return Array.from({length:7},(_,i)=>({id:String.fromCharCode(65+i),species:speciesById(species).id,seed:hash(seed,i+1701),stage:['S','M','L','M','L','S','M'][i]}))}
+export function cohortFor(species,seed,count=7){return Array.from({length:count},(_,i)=>({id:String.fromCharCode(65+i),species:speciesById(species).id,seed:hash(seed,i+1701),stage:['S','M','L','M','L','S','M'][i%7]}))}
 export function runSpecies(s){return [...new Set(s.cohort?.map(c=>c.species)||[s.species])].filter(id=>SPECIES.some(p=>p.id===id))}
 export function createRun(species='dairy',seed=Date.now()>>>0,habitatId='terrestrial'){
  const config=HABITATS.find(h=>h.id===habitatId);if(!config)throw new RangeError('Unknown habitat');
  if(!eligibleSpecies(speciesById(species),habitatId))species=config.species?.[0]||'dairy';
  const now=new Date(),startedOn=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');
- const p=speciesById(species),count=config.cohortSize||7,cohort=cohortFor(p.id,seed).slice(0,count).map(c=>count===1?{...c,stage:'L'}:c);return {habitatId,startedOn,version:VERSION,narrativeVersion:1,seed:seed>>>0,cohort,day:1,period:0,stage:'choice',humidity:p.wet,temp:23,vent:55,light:54,cover:p.cover,food:1,interventions:0,quiet:0,accuracy:0,maps:0,labels:0,care:0,directTouches:0,directGrabs:0,directMoves:0,groundTaps:0,barkLifts:0,shellCollects:0,collectedShells:[],directRecords:[],interactionDiscoveries:{tap:false,grab:false,lift:false,collect:false},interactionIntent:null,observerContradictions:[],records:[],ending:null,feedback:'',scene:null,...config.defaults};
+ const p=speciesById(species),count=config.cohortSize||7,cohort=cohortFor(p.id,seed,count).map(c=>count===1?{...c,stage:'L'}:c);return {habitatId,startedOn,version:VERSION,narrativeVersion:1,seed:seed>>>0,cohort,day:1,period:0,stage:'choice',humidity:p.wet,temp:23,vent:55,light:54,cover:p.cover,food:1,interventions:0,quiet:0,accuracy:0,maps:0,labels:0,care:0,directTouches:0,directGrabs:0,directMoves:0,groundTaps:0,barkLifts:0,shellCollects:0,collectedShells:[],directRecords:[],interactionDiscoveries:{tap:false,grab:false,lift:false,collect:false},interactionIntent:null,observerContradictions:[],records:[],ending:null,feedback:'',scene:null,...config.defaults};
 }
 function interactionState(s){
  const hadDiscoveries=!!(s.interactionDiscoveries&&typeof s.interactionDiscoveries==='object');
@@ -212,7 +213,7 @@ export function choose(s,id){
  const after=s.cohort.map(c=>habitatFit(s,c));if(after.some((v,i)=>v>before[i]+.01)&&after.every((v,i)=>v>=before[i]-.01))s.care++;
  const discoveries=interactionState(s);s.interactionIntent=o.interaction?{...o.interaction,day:s.day,period:s.period,choice:id,hint:discoveries[o.interaction.type]?'':o.interaction.prompt}:null;
  if(habitatConfig(s).aquatic)for(const k of Object.keys(habitatConfig(s).defaults))s[k]=clamp(s[k],0,k==='salinity'?42:100);
- s.feedback=o.text;s.stage='feedback';s.records.push({day:s.day,period:s.period,kind:scene.kind,choice:id,label:o.label,text:o.text,time:scene.time??timeFor(s.seed,s.day,s.period),encounter:scene.encounter||null,storyKey:scene.storyKey||null,dialogueNode:scene.dialogueNode||null,materialStage:scene.materialStage??null,materialBeat:scene.materialBeat??null,animation:o.animation||null,lens:o.lens||null,interaction:o.interaction?.type||null});return true;
+ s.feedback=o.text;s.stage='feedback';s.records.push({day:s.day,period:s.period,kind:scene.kind,choice:id,label:o.label,text:o.text,time:scene.time??timeFor(s.seed,s.day,s.period),encounter:scene.encounter||null,storyKey:scene.storyKey||null,dialogueNode:scene.dialogueNode||null,observationIndex:scene.observationIndex??null,materialStage:scene.materialStage??null,materialBeat:scene.materialBeat??null,animation:o.animation||null,lens:o.lens||null,interaction:o.interaction?.type||null});return true;
 }
 function endingFromPool(s,ids,salt){
  const direct=(s.directGrabs||0)+(s.directMoves||0),signature=s.interventions*11+s.quiet*17+s.maps*19+s.labels*23+s.care*29+s.accuracy*31+direct*37;
@@ -233,7 +234,7 @@ export function advance(s){
  const config=habitatConfig(s);
  if(config.sequence==='freshwater-material'||config.sequence==='groundwater-pulse'){
   const kind=config.sequence==='freshwater-material'?'freshwater-material':'groundwater-pulse';
-  const completed=(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind===kind).length;
+  const completed=config.sequence==='groundwater-pulse'?groundwaterProgress(s):(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind===kind).length;
   if(completed>=config.turns){s.stage='ended';s.ending=endingFor(s).id;return true}
   advanceWater(s);s.day=1;s.period=0;s.stage='choice';s.feedback='';s.interactionIntent=null;s.scene=null;ensureScene(s);return true;
  }
@@ -269,8 +270,10 @@ export function migrateV4(old){
   s.day=1;s.period=0;
   if(s.stage==='choice')s.scene=null;
   if(!Number.isFinite(s.connectivity))s.connectivity=32;
-  if(!Number.isFinite(s.seepage))s.seepage=55;
+  if(!Number.isFinite(s.seepage))s.seepage=36;
   if(!Number.isFinite(s.input))s.input=8;
+  if(s.cohort?.length===7){const oldCohort=s.cohort;s.cohort=cohortFor(oldCohort[0].species,s.seed,14).map((c,i)=>i<7?oldCohort[i]:{...c,species:oldCohort[i%7].species})}
+  if(s.stage==='choice')advanceWater(s);
  }
  if(s.habitatId==='abyssal'){
   // Older abyssal saves used day/period only as a transport for the dialogue index.

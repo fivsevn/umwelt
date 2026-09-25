@@ -1,3 +1,4 @@
+import {groundwaterProgress,groundwaterObservationIndex} from './data/habitats/groundwater-observation.mjs';
 import {habitatConfig,cycleHabitat} from './habitats.mjs';
 import {AQUATIC_ENDINGS,aquaticFeedback} from './aquatic-story.mjs';
 import {renderCatalog,renderSources} from './catalog.mjs';
@@ -37,7 +38,7 @@ let lastInterfaceLanguage=getLanguage();
 const habitat=createHabitat($('#habitat'),$('#critters'),()=>state,event=>{if(!playing||state.stage==='ended')return;const record=recordDirectInteraction(state,event);if(record){mergeLearnedInteractions(state);save();render()}});
 const emptyHabitat=createHabitat($('#emptyHabitat'),$('#emptyCritters'),()=>previewState);
 const instrument=createInstrument($('#instruments'));
-function refreshIconLabels(){for(const [id,kind,label] of [['soundBtn','sound',sound?t('soundOff'):t('soundOn')],['catalogBtn','book',t('archive')],['sourcesBtn','source',t('sources')],['journalBtn','pencil',t('journal')],['zoomOut','minus',t('zoomOut')],['zoomIn','plus',t('zoomIn')],['zoomReset','center',t('zoomReset')]])iconButton($('#'+id),kind,label)}
+function refreshIconLabels(){for(const [id,kind,label] of [['soundBtn','sound',sound?t('soundOff'):t('soundOn')],['catalogBtn','book',t('archive')],['sourcesBtn','source',t('sources')],['journalBtn','pencil',t('journal')],['zoomOut','minus',t(state.habitatId==='groundwater'?'beamSmaller':'zoomOut')],['zoomIn','plus',t(state.habitatId==='groundwater'?'beamLarger':'zoomIn')],['zoomReset','center',t(state.habitatId==='groundwater'?'beamJoystick':'zoomReset')]])iconButton($('#'+id),kind,label)}
 refreshIconLabels();
 function save(){write(KEY,state)}
 const ISOPOD_WAVES=['▁','▂','▃','▄','▅','▆','▇'];
@@ -66,8 +67,8 @@ function clock(day=state.day,period=state.period){
   return gameText(`water:freshwater-material:stage:${index}`,getLanguage())+` · ${beat+1}/2`;
  }
  if(config.sequence==='groundwater-pulse'){
-  const completed=(state.records||[]).filter(record=>record.kind==='groundwater-pulse').length,index=Math.min(3,completed);
-  return gameText(`groundwater:pulse:${index}:name`,getLanguage());
+  const index=groundwaterObservationIndex(state);
+  return gameText(`groundwater:observation:${index}:name`,getLanguage())+` · ${index+1}/8`;
  }
  if(config.dialogue)return '';
  const date=state.startedOn?new Date(state.startedOn+'T12:00:00'):null;
@@ -84,7 +85,7 @@ function sceneNow(){
 function buttons(scene){$('#actions').replaceChildren();for(const o of scene.options){const b=document.createElement('button');b.className='action';b.dataset.directLocale='true';b.textContent=gameText(o.label,getLanguage());b.disabled=state.stage!=='choice';b.onclick=()=>act(o.id);$('#actions').append(b)}}
 function render(){
  const scene=sceneNow(),config=habitatConfig(state),p=speciesById(state.cohort[0].species),encounter=encounterById(scene.encounter);
- $('#habitat').setAttribute('aria-label',t(config.cohortSize===1?'habitatCanvasSingle':'habitatCanvas'));setWaveText($('#dayLabel'),clock());$('#recordTitle').textContent=state.stage==='feedback'?t('recordLater'):t('recordNow');$('#observation').dataset.directLocale='true';$('#observation').textContent=gameText(state.stage==='feedback'?state.feedback:scene.text,getLanguage());
+ $('#habitat').setAttribute('aria-label',t(config.id==='groundwater'?'caveCanvas':config.cohortSize===1?'habitatCanvasSingle':'habitatCanvas'));setWaveText($('#dayLabel'),clock());$('#recordTitle').textContent=state.stage==='feedback'?t('recordLater'):t('recordNow');$('#observation').dataset.directLocale='true';$('#observation').textContent=gameText(state.stage==='feedback'?state.feedback:scene.text,getLanguage());
  const waterFeedback=habitatConfig(state).aquatic&&state.stage==='feedback'?aquaticFeedback(state):'';if(waterFeedback)$('#observation').textContent+=' '+gameText(waterFeedback,getLanguage());
  $('#activityLabel').textContent=config.aquatic?gameText('water:habitat:'+state.habitatId,getLanguage()):getLanguage()==='zh'?(encounter?.title||''):t('habitatWindow');$('#activityLabel').dataset.motion=encounter?.motion||'';
  const cue=state.stage==='feedback'?(state.interactionIntent?.hint||''):'';$('#interactionCue').hidden=!cue;$('#interactionCue').textContent=cue;
@@ -93,7 +94,7 @@ function render(){
  const nextTimeLabel=getLanguage()==='isopod'?isopodWaveTime(nextTime):nextTime;
  if(config.sequence==='freshwater-material'||config.sequence==='groundwater-pulse'){
   const kind=config.sequence==='freshwater-material'?'freshwater-material':'groundwater-pulse';
-  const completed=(Array.isArray(state.records)?state.records:[]).filter(record=>record.kind===kind).length;
+  const completed=config.id==='groundwater'?groundwaterProgress(state):(Array.isArray(state.records)?state.records:[]).filter(record=>record.kind===kind).length;
   setWaveText($('#nextBtn'),state.stage==='choice'?t('holdMoment'):completed>=config.turns?t('closeGently'):t('continueObservation'));
  }else if(config.dialogue){
   const completed=(Array.isArray(state.records)?state.records:[]).filter(record=>record.kind==='abyssal-dialogue').length;
@@ -104,14 +105,15 @@ function render(){
  if(lastScene!==scene.id){habitat.stage(scene);lastScene=scene.id}
  instrument(state);save();
 }
-function batchBugs(){return state.cohort.map(c=>{const bug=makeIsopod(speciesById(c.species),{seed:c.seed,stage:c.stage});bug.dataset.specimen=c.id;bug.dataset.species=c.species;bug.title=`${c.id} · ${speciesPrimaryName(speciesById(c.species))}`;return bug})}
-function arrival(){playing=false;habitat.stop();$('#titleCard').hidden=true;$('#playView').hidden=true;$('#endCard').hidden=true;$('#arrivalCard').hidden=false;$('#dayLabel').textContent='';$('#arrivalSpecimens').replaceChildren(...batchBugs())}
+function batchBugs(unique=false){return (unique?state.cohort.filter((c,i,all)=>all.findIndex(o=>o.species===c.species)===i):state.cohort).map(c=>{const bug=makeIsopod(speciesById(c.species),{seed:c.seed,stage:c.stage});bug.dataset.specimen=c.id;bug.dataset.species=c.species;bug.title=`${c.id} · ${speciesPrimaryName(speciesById(c.species))}`;return bug})}
+function caveSampleCards(){return batchBugs(true).map(bug=>{const figure=document.createElement('figure'),caption=document.createElement('figcaption');figure.className='cave-sample';caption.textContent=speciesById(bug.dataset.species).taxon;figure.append(bug,caption);return figure})}
+function arrival(){playing=false;habitat.stop();$('#titleCard').hidden=true;$('#playView').hidden=true;$('#endCard').hidden=true;$('#arrivalCard').hidden=false;$('#dayLabel').textContent='';$('#arrivalCard .panel-caption').textContent=t(state.habitatId==='groundwater'?'findSamples':'waitingSpecimens');$('#arrivalSpecimens').classList.toggle('cave-samples',state.habitatId==='groundwater');$('#arrivalSpecimens').replaceChildren(...(state.habitatId==='groundwater'?caveSampleCards():batchBugs()));$('#caveArrivalNote').hidden=state.habitatId!=='groundwater';$('#caveArrivalNote').textContent=t('caveSamplesNote')}
 function draw(){if($('#startBtn').disabled)return;$('#startBtn').disabled=true;const seed=Date.now()>>>0,cohort=drawCohort(collection,seed,selectedHabitat);state=createRun(cohort[0].species,seed,selectedHabitat);state.cohort=cohort;mergeLearnedInteractions(state);state.arrivalPending=true;hasRun=true;collection.draws++;for(const id of runSpecies(state))unlock(collection,id,state.startedOn);write(COLLECTION,collection);save();begin();tone(130)}
 function begin(){
  if(!hasRun)return;emptyHabitat.stop();if(state.arrivalPending){arrival();return}
  $('#titleCard').hidden=true;$('#arrivalCard').hidden=true;$('#endCard').hidden=true;$('#habitatLibrary').append($('#catalogBtn'));playing=true;
  if(state.stage==='ended'){showEnd();return}
- $('#playView').hidden=false;lastScene=null;sceneNow();habitat.reset();habitat.home();$('#zoomLevel').textContent='1×';render();habitat.start();
+ $('#playView').hidden=false;lastScene=null;sceneNow();habitat.reset();habitat.home();$('#zoomLevel').textContent=state.habitatId==='groundwater'?habitat.beamHome()+'%':'1×';refreshIconLabels();render();habitat.start();
 }
 function act(id){const option=ensureScene(state).options.find(o=>o.id===id);if(!choose(state,id))return;if(!state.interactionIntent)habitat.react(option?.animation||id);tone(130);render()}
 function next(){if(!advance(state))return;tone(95);save();if(state.stage==='ended'){showEnd();return}render()}
@@ -128,7 +130,7 @@ function drawEndMolts(){
  });
 }
 function showEnd(){
- habitat.stop();$('#playView').hidden=true;$('#arrivalCard').hidden=true;$('#endCard').hidden=false;$('#dayLabel').textContent='';const e=ENDINGS.find(e=>e.id===state.ending)||ENDINGS[5];setWaveText($('#endingTime'),clock());for(const id of ['endingTitle','endingBody','endingLine'])$('#'+id).dataset.directLocale='true';$('#endingTitle').textContent=gameText(e.title,getLanguage());$('#endingBody').textContent=gameText(e.body,getLanguage());$('#endingLine').textContent=gameText(e.line,getLanguage());const endConfig=habitatConfig(state);$('#endCard .ending-date span:last-child').textContent=endConfig.sequence==='freshwater-material'?gameText('water:observations5',getLanguage()):endConfig.sequence==='groundwater-pulse'?gameText('water:pulses4',getLanguage()):endConfig.dialogue?gameText('water:abyssalRound',getLanguage()):endConfig.aquatic?gameText('water:days3',getLanguage()):t('sevenDayObservation');$('#endSpecimen').replaceChildren(...batchBugs());drawEndMolts();
+ habitat.stop();$('#playView').hidden=true;$('#arrivalCard').hidden=true;$('#endCard').hidden=false;$('#dayLabel').textContent='';const e=ENDINGS.find(e=>e.id===state.ending)||ENDINGS[5];setWaveText($('#endingTime'),clock());for(const id of ['endingTitle','endingBody','endingLine'])$('#'+id).dataset.directLocale='true';$('#endingTitle').textContent=gameText(e.title,getLanguage());$('#endingBody').textContent=gameText(e.body,getLanguage());$('#endingLine').textContent=gameText(e.line,getLanguage());const endConfig=habitatConfig(state);$('#endCard .ending-date span:last-child').textContent=endConfig.sequence==='freshwater-material'?gameText('water:observations5',getLanguage()):endConfig.sequence==='groundwater-pulse'?gameText(state.records.some(r=>Number.isInteger(r.observationIndex))?'water:pulses4':'water:observations4',getLanguage()):endConfig.dialogue?gameText('water:abyssalRound',getLanguage()):endConfig.aquatic?gameText('water:days3',getLanguage()):t('sevenDayObservation');$('#endSpecimen').classList.toggle('cave-samples',state.habitatId==='groundwater');$('#endSpecimen').replaceChildren(...batchBugs(state.habitatId==='groundwater')); drawEndMolts();
  if(!archives.some(a=>a.run===state.seed)){archives.push({id:e.id,run:state.seed,species:runSpecies(state),cohort:state.cohort,date:new Date().toLocaleDateString(),records:state.records.length,memory:endingMemoryFor(state),molts:(state.collectedShells||[]).map(shell=>({phase:shell.phase,specimen:shell.specimen}))});archives=archives.slice(-60);write(ARCHIVE,archives)}save();
 }
 function home(){playing=false;habitat.stop();$('#playView').hidden=true;$('#endCard').hidden=true;$('#arrivalCard').hidden=true;$('#titleCard').hidden=false;$('#dayLabel').textContent='';$('#startBtn').disabled=false;$('#continueBtn').hidden=!hasRun;$('#continueBtn').textContent=state.stage==='ended'?t('viewEnding'):t('continueObservation');refreshPreview()}
@@ -141,7 +143,7 @@ function drawDrawer(){
  }else if(drawerMode==='endings'){
   total=ENDINGS.length;page=(page+total)%total;const e=ENDINGS[page],saved=archives.some(a=>a.id===e.id);$('#drawerTitle').textContent=t('archive');const note=document.createElement('article');note.className='ending-note';if(saved){const h=document.createElement('h3');h.dataset.directLocale='true';h.textContent=gameText(e.title,getLanguage());note.append(h,paragraph(gameText(e.body,getLanguage())),paragraph(gameText(e.line,getLanguage()),'last-line'));const batches=archives.filter(a=>a.id===e.id);for(const a of batches){const taxa=Array.isArray(a.species)?a.species:[a.species];if(a.memory)note.append(paragraph(a.memory,'ending-memory'));note.append(paragraph(`${a.date} · ${taxa.map(id=>speciesPrimaryName(speciesById(id))).join(' / ')}`,'faint'))}}else{note.classList.add('unseen');const h=document.createElement('h3');h.innerHTML='&nbsp;';note.append(h,paragraph('','ending-space'),paragraph(t('emptyEnding'),'last-line'))}el.append(note);
  }else if(drawerMode==='journal'){
-  total=Math.max(1,state.records.length);page=Math.max(0,Math.min(page,total-1));$('#drawerTitle').textContent=t('journalTitle');const paper=document.createElement('article');paper.className='journal-paper';if(state.records.length){const r=state.records[page],freshwaterIndex=Math.max(0,Math.floor((state.records.filter((item,i)=>i<=page&&item.kind==='freshwater-material').length-1)/2)),entryDate=r.kind==='freshwater-material'?gameText(`water:freshwater-material:stage:${freshwaterIndex}`,getLanguage())+` · ${(Number.isInteger(r.materialBeat)?r.materialBeat:(state.records.filter((item,i)=>i<=page&&item.kind==='freshwater-material').length-1)%2)+1}/2`:t('journalEntry',{day:r.day,time:r.time||timeFor(state.seed,r.day,r.period)});paper.append(paragraph(entryDate,'entry-date'),paragraph(r.label,'pencil-mark'),paragraph(r.text))}else paper.append(paragraph(t('journalEmpty')));el.append(paper);
+  total=Math.max(1,state.records.length);page=Math.max(0,Math.min(page,total-1));$('#drawerTitle').textContent=t('journalTitle');const paper=document.createElement('article');paper.className='journal-paper';if(state.records.length){const r=state.records[page],freshwaterIndex=Math.max(0,Math.floor((state.records.filter((item,i)=>i<=page&&item.kind==='freshwater-material').length-1)/2)),entryDate=r.kind==='groundwater-pulse'?gameText(`groundwater:observation:${Number.isInteger(r.observationIndex)?r.observationIndex:Math.min(7,page*2+1)}:name`,getLanguage()):r.kind==='freshwater-material'?gameText(`water:freshwater-material:stage:${freshwaterIndex}`,getLanguage())+` · ${(Number.isInteger(r.materialBeat)?r.materialBeat:(state.records.filter((item,i)=>i<=page&&item.kind==='freshwater-material').length-1)%2)+1}/2`:t('journalEntry',{day:r.day,time:r.time||timeFor(state.seed,r.day,r.period)});paper.append(paragraph(entryDate,'entry-date'),paragraph(r.label,'pencil-mark'),paragraph(r.text))}else paper.append(paragraph(t('journalEmpty')));el.append(paper);
  }else{$('#drawerTitle').textContent=t('sources');el.append(renderSources())}
  $('#pageNumber').textContent=total>1?String(page+1).padStart(2,'0'):'·';$('#pagePrev').disabled=total===1;$('#pageNext').disabled=total===1;iconButton($('#sourcesBtn'),drawerMode==='sources'?'book':'source',drawerMode==='sources'?t('sourceBack'):t('sources'));
 }
@@ -150,7 +152,17 @@ function openDrawer(mode){habitat.stop();drawerMode=mode;page=mode==='catalog'?M
 $('#game').addEventListener('dblclick',event=>event.preventDefault(),{passive:false});
 $('#startBtn').onclick=draw;$('#continueBtn').onclick=begin;$('#settleBtn').onclick=()=>{state.arrivalPending=false;save();begin()};$('#nextBtn').onclick=next;$('#restartBtn').onclick=home;
 $('#soundBtn').onclick=()=>{sound=!sound;$('#soundBtn').setAttribute('aria-pressed',String(sound));$('#soundBtn').setAttribute('aria-label',sound?t('soundOff'):t('soundOn'));$('#soundBtn').title=sound?t('soundOff'):t('soundOn');tone(120)};
-$('#zoomIn').onclick=()=>$('#zoomLevel').textContent=habitat.zoomBy(.5).toFixed(1)+'×';$('#zoomOut').onclick=()=>$('#zoomLevel').textContent=habitat.zoomBy(-.5).toFixed(1)+'×';$('#zoomReset').onclick=()=>{$('#zoomLevel').textContent=habitat.home()+'×'};
+function adjustView(delta){$('#zoomLevel').textContent=state.habitatId==='groundwater'?habitat.beamResize(delta*8)+'%':habitat.zoomBy(delta).toFixed(1)+'×'}
+$('#zoomIn').onclick=()=>adjustView(.5);$('#zoomOut').onclick=()=>adjustView(-.5);
+const stick=$('#zoomReset');let stickPointer=null,stickOrigin=null,stickDragged=false;
+function steerStick(event){if(stickPointer!==event.pointerId)return;const dx=Math.max(-1,Math.min(1,(event.clientX-stickOrigin.x)/18)),dy=Math.max(-1,Math.min(1,(event.clientY-stickOrigin.y)/18));if(Math.hypot(dx,dy)>.1)stickDragged=true;habitat.beamSteer(dx,dy);stick.style.setProperty('--stick-x',dx*5+'px');stick.style.setProperty('--stick-y',dy*5+'px')}
+function releaseStick(){stickPointer=null;habitat.beamSteer(0,0);stick.style.removeProperty('--stick-x');stick.style.removeProperty('--stick-y')}
+stick.addEventListener('pointerdown',event=>{if(state.habitatId!=='groundwater')return;event.preventDefault();stickPointer=event.pointerId;stickOrigin={x:event.clientX,y:event.clientY};stickDragged=false;stick.setPointerCapture(event.pointerId)});
+stick.addEventListener('pointermove',steerStick);for(const event of ['pointerup','pointercancel','lostpointercapture'])stick.addEventListener(event,releaseStick);
+stick.onclick=()=>{if(state.habitatId==='groundwater'){if(!stickDragged)habitat.beamHome();stickDragged=false}else $('#zoomLevel').textContent=habitat.home()+'×'};
+stick.addEventListener('keydown',event=>{if(state.habitatId!=='groundwater')return;const directions={ArrowLeft:[-3,0],ArrowRight:[3,0],ArrowUp:[0,-3],ArrowDown:[0,3]};if(directions[event.key]){event.preventDefault();habitat.beamMove(...directions[event.key])}});
+window.addEventListener('blur',releaseStick);
+
 $('#catalogBtn').onclick=()=>openDrawer('catalog');$('#endingCatalogBtn').onclick=()=>openDrawer('catalog');$('#journalBtn').onclick=()=>openDrawer('journal');
 $('#drawer').addEventListener('close',()=>{if(playing&&state.stage!=='ended')habitat.start()});$('#closeDrawer').onclick=()=>$('#drawer').close();
 $('#specimensTab').onclick=()=>{drawerMode='catalog';page=Math.max(0,SPECIES.findIndex(p=>p.id===state.cohort[0].species));drawDrawer()};$('#endingsTab').onclick=()=>{drawerMode='endings';page=Math.max(0,ENDINGS.findIndex(e=>e.id===state.ending));drawDrawer()};

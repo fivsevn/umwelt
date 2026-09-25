@@ -1,3 +1,4 @@
+import {GROUNDWATER_OBSERVATIONS,groundwaterProgress} from './data/habitats/groundwater-observation.mjs';
 import {STORIES} from './data/habitats/stories.mjs';
 import {STORY_ALTERNATES} from './data/habitats/story-alternates.mjs';
 import {ABYSSAL_NODES,ABYSSAL_ENDING_DATA,ABYSSAL_FRAGMENT_DATA} from './data/habitats/abyssal-dialogue.mjs';
@@ -11,7 +12,7 @@ const COPY={
  note:['纸上留下了位置，水里没有多出一条线。','Positions remain on paper. No new line appears in the water.','位置は紙に残る。水には新しい線はできない。'],
  limitation:['像素形态为有资料依据的近似；微小鉴别特征未完整绘制。','Pixel anatomy is evidence-informed; microscopic diagnostics are not fully rendered.','ピクセル形態は資料に基づく近似で、微細な識別形質は省略している。'],
 
- prev:['上一个环境','Previous habitat','前の環境'],next:['下一个环境','Next habitat','次の環境'],days3:['三日观察','Three days of observation','三日間の観察'],observations5:['五次观察','Five observations','五回の観察'],pulses4:['四次脉冲观察','Four pulse observations','四回のパルス観察'],abyssalRound:['单次观察','Single observation','一回の観察'],
+ prev:['上一个环境','Previous habitat','前の環境'],next:['下一个环境','Next habitat','次の環境'],days3:['三日观察','Three days of observation','三日間の観察'],observations5:['五次观察','Five observations','五回の観察'],observations4:['四次地下水观察','Four groundwater observations','4回の地下水観察'],pulses4:['八次地下水观察','Eight groundwater observations','8回の地下水観察'],abyssalRound:['单次观察','Single observation','一回の観察'],
  flow:['水流','Flow','水流'],oxygen:['溶氧','Oxygen','溶存酸素'],light:['光照','Light','光量'],connectivity:['连通性','Connectivity','接続性'],seepage:['渗流','Seepage','浸透'],input:['输入','Input','流入'],detritus:['碎屑','Detritus','有機物'],tide:['潮位','Tide','潮位'],salinity:['盐度','Salinity','塩分'],algae:['藻丛','Algae','藻'],
  calm:['水中的空白','A space in the water','水の中の余白'],care:['改变过的水','Altered water','変えられた水'],trace:['水线之外','Beyond the waterline','水位線の向こう'],
  low:['悬浮颗粒缓慢下沉，几个轮廓停在水流经过的边缘。','Particles settle slowly. Several bodies rest near passing water.','粒子がゆっくり沈み、輪郭が流れの縁で止まる。'],
@@ -84,8 +85,8 @@ function freshwaterMaterialText(value,lang){
 }
 function groundwaterPulseText(value,lang){
  const parts=value.split(':'),kind=parts[1];
- if(kind==='pulse'){
-  const pulse=GROUNDWATER_PULSES[Number(parts[2])];if(!pulse)return value;
+ if(kind==='pulse'||kind==='observation'){
+  const pulse=(kind==='observation'?GROUNDWATER_OBSERVATIONS:GROUNDWATER_PULSES)[Number(parts[2])];if(!pulse)return value;
   if(parts[3]==='name')return localizedRow(pulse.name,lang)??value;
   if(parts[3]==='prompt')return localizedRow(pulse.prompt,lang)??value;
   if(parts[3]==='option'){
@@ -253,26 +254,13 @@ function freshwaterMaterialScene(s){
  };
 }
 function groundwaterPulseScene(s){
- const records=(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind==='groundwater-pulse');
- const index=Math.min(GROUNDWATER_PULSES.length-1,records.length),pulse=GROUNDWATER_PULSES[index];
- return {
-  id:`groundwater-pulse:${index}`,
-  title:`groundwater:pulse:${index}:name`,
-  kind:'groundwater-pulse',
-  text:`groundwater:pulse:${index}:prompt`,
-  activity:`groundwater:pulse:${index}:name`,
-  storyKey:`groundwater-pulse:${pulse.id}`,
-  pulseIndex:index,
-  options:pulse.options.map((option,i)=>({
-   id:option.id,
-   label:`groundwater:pulse:${index}:option:${i}:label`,
-   delta:{},
-   text:`groundwater:pulse:${index}:option:${i}:text`,
-   animation:option.id,
-   lens:option.lens
-  }))
- };
+ const index=Math.min(7,groundwaterProgress(s)),observation=GROUNDWATER_OBSERVATIONS[index];
+ return {id:`groundwater-observation:${index}`,title:`groundwater:observation:${index}:name`,kind:'groundwater-pulse',
+ text:`groundwater:observation:${index}:prompt`,activity:`groundwater:observation:${index}:name`,storyKey:`groundwater-observation:${observation.id}`,
+ observationIndex:index,pulseIndex:Math.floor(index/2),
+ options:observation.options.map((option,i)=>({id:option.id,label:`groundwater:observation:${index}:option:${i}:label`,delta:{},text:`groundwater:observation:${index}:option:${i}:text`,animation:option.id,lens:option.lens}))};
 }
+
 export function aquaticScene(s){
  if(s.habitatId==='freshwater')return freshwaterMaterialScene(s);
  if(s.habitatId==='groundwater')return groundwaterPulseScene(s);

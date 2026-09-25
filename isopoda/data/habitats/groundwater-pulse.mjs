@@ -160,9 +160,9 @@ export const GROUNDWATER_ENDINGS={
  body:{
   title:['最后一次扫掠','Final sweep','最後の走査'],
   body:[
-   '四次渗流过去，你仍在寻找身体出现的位置。留下的是零散的踪迹，无法接成一次完整的移动。',
-   'Four pulses pass while you keep looking for the body. Scattered traces remain, but they cannot be joined into one witnessed movement.',
-   '四回の浸透が過ぎても、身体の現れる場所を探している。断片的な痕跡は残るが、一つの完全な移動にはつながらない。'
+   '观察结束时，你仍在寻找身体出现的位置。留下的是零散的踪迹，无法接成一次完整的移动。',
+   'As the observation ends, you keep looking for the body. Scattered traces remain, but they cannot be joined into one witnessed movement.',
+   '観察が終わっても、身体の現れる場所を探している。断片的な痕跡は残るが、一つの完全な移動にはつながらない。'
   ],
   line:[
    '你看见的是出现与消失，不是完整的路。',

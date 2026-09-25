@@ -1,6 +1,10 @@
 import {encodeIsopodText} from './isopod.mjs';
 
 const copy={
+  valdensis:{
+    en:['Recorded in Jura and pre-Alpine karst groundwater; research identifies sedimentary biofilm as an important food source.','Reliable separation from P. cavaticus requires fine diagnostic characters; this low-resolution dorsal view cannot replace identification.'],
+    ja:['ジュラ山地と前アルプスのカルスト地下水に記録され、研究では堆積物の生物膜が重要な食物源とされる。','P. cavaticus との確実な区別には微細な識別形質が必要で、この低解像度の背面図は同定の代わりにならない。']
+  },
   dairy:{
     en:['It wears a cow pattern, yet has never seen a pasture.','Humans gave it a name; beneath the leaf litter, it goes on becoming something else.'],
     ja:['「牛柄」をまとっているのに、草原を見たことはない。','人間が名前を与えても、落ち葉の下では別の何かとして黙々と生きている。']

@@ -37,7 +37,7 @@ export function validateSpecies(specimens=SPECIES,sourceRows=sources,habitats=HA
  }
  for(const h of habitats){
   check(Number.isInteger(h.days)&&h.days>0,`${h.id}: duration`);
-  check([1,7].includes(h.cohortSize||7),`${h.id}: unsupported cohort size`);
+  check(([1,7].includes(h.cohortSize||7)||(h.id==='groundwater'&&h.cohortSize===14)),`${h.id}: unsupported cohort size`);
   if(h.dialogue)check(Number.isInteger(h.turns)&&h.turns>0,`${h.id}: dialogue turns`);
   check(specimens.some(p=>eligibleSpecies(p,h.id)&&!p.game?.referenceOnly),`${h.id}: empty eligible pool`);
   check(new Set(h.species||[]).size===(h.species||[]).length,`${h.id}: duplicate eligibility`);

@@ -1,6 +1,7 @@
 import {phenotypeFor} from '../../phenotypes.mjs';
 
 const TAXA=[
+ {id:'valdensis',taxon:'Proasellus valdensis',authority:'(Chappuis, 1948)',habitats:['groundwater'],suborder:'Asellota',family:'Asellidae',color:'#cdcbb6',dark:'#73756a',shape:'cave-asellid',speed:.62,evidence:['groundwater-valdensis-key','groundwater-biofilm'],micro:'Obligate groundwater asellid of Jura and pre-Alpine karst waters. Sedimentary biofilm contributes strongly to the diet of the studied populations; separation from P. cavaticus requires fine diagnostic characters.',max:8.5},
  {id:'pulchra',taxon:'Eurydice pulchra',authority:'Leach, 1816',habitats:['sandy-surf'],suborder:'Cymothoida',family:'Cirolanidae',color:'#b8b29c',dark:'#55594f',shape:'eurydice',speed:1.24,evidence:['release-pulchra-bmig'],micro:'Mobile medium-to-fine sandy shores; buries as the tide falls and emerges to swim in surf and shallow water as the tide rises.',max:8},
  {id:'affinis',taxon:'Eurydice affinis',authority:'Hansen, 1905',habitats:['sandy-surf'],suborder:'Cymothoida',family:'Cirolanidae',color:'#c2bba5',dark:'#5f6056',shape:'eurydice',speed:1.18,evidence:['release-affinis-bmig'],micro:'Sandy shores, occurring with Eurydice pulchra on south-western British and Welsh coasts.',max:6},
  {id:'spinigera',taxon:'Eurydice spinigera',authority:'Hansen, 1890',habitats:['sandy-surf'],suborder:'Cymothoida',family:'Cirolanidae',color:'#aaa792',dark:'#4b514b',shape:'eurydice-spined',speed:1.28,evidence:['release-spinigera-bmig','release-spinigera-worms'],micro:'Primarily shallow offshore sand, with records from intertidal sand on southern and western shores; reaches about 9 mm.',max:9},
@@ -10,6 +11,7 @@ const TAXA=[
 ];
 
 const NOTES={
+ valdensis:['它记录于汝拉山与前阿尔卑斯的岩溶地下水；研究显示沉积物生物膜是重要食物来源。','它与 P. cavaticus 的可靠区分依赖细微鉴别特征；这张低分辨率背面图不能替代鉴定。'],
  pulchra:['退潮后它钻入湿沙；涨潮和夜间，身体重新进入浪区与浅水。','细沙一直在移动，埋藏和游泳是同一条潮汐路线的两个阶段。'],
  affinis:['它和 E. pulchra 一样出现在沙岸，但体型更小，背部暗色标记主要集中在上表面。','没有岩缝可守时，沙粒之间的空隙本身就是遮蔽。'],
  spinigera:['它更多出现在浅海沙底，也会在部分海岸的潮间沙地出现。','尾节后缘内凹并带明显棘突，身体在沙面上呈现更尖锐的后端轮廓。'],
