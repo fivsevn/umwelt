@@ -20,7 +20,7 @@ function shadowFor(kind){
  if(kind==='mycelium'||kind==='humus'||kind==='silt'||kind==='abyssal-silt'||kind==='estuary-silt'||kind==='cave-silt'||kind==='dish-sediment')return {alpha:.055,dy:1};
  if(kind==='tidal-runnel'||kind==='seep-film'||kind==='sand-ripple'||kind==='foam-trace'||kind==='glass-scratch')return {alpha:0,dy:0};
  if(kind==='mud-burrows'||kind==='wrack-line')return {alpha:.07,dy:1};
- if(kind==='limestone-shelf'||kind==='flowstone')return {alpha:.12,dy:2};
+ if(kind==='limestone-shelf'||kind==='flowstone')return {alpha:0,dy:0}; // Large cave rasters: per-pixel Canvas shadows are pathological in WebKit; material shading already carries depth.
  if(kind==='algae-film'||kind==='crustose')return {alpha:.045,dy:1};
  if(kind==='leaf-skeleton'||kind==='root-tangle')return {alpha:.13,dy:2};
  if(kind==='shell-fragment'||kind==='holdfast'||kind==='nodule')return {alpha:.11,dy:2};
