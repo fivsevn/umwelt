@@ -365,28 +365,14 @@ function referenceHit(point){
 
 const hitCanvas=document.createElement('canvas');hitCanvas.width=scene.width;hitCanvas.height=scene.height;
 const hitContext=hitCanvas.getContext('2d',{willReadFrequently:true});
-let objectHits=[];
-let hitCache=new Map();
+function paintOrder(){return [...state.items].sort((a,b)=>(a.z||0)-(b.z||0))}
 function drawScene(){
  ctx.clearRect(0,0,scene.width,scene.height);
  drawBackground(ctx);
- const ordered=[...state.items].sort((a,b)=>(a.z||0)-(b.z||0));
- objectHits=[];
- const nextHitCache=new Map();
- for(const item of ordered){
+ for(const item of paintOrder()){
   const asset=ASSET_BY_ID.get(item.assetId);if(!asset)continue;
   drawObject(ctx,asset,item);
-  const key=JSON.stringify(item),cached=hitCache.get(item.id);
-  let mask=cached?.key===key?cached.mask:null;
-  if(!mask){
-   hitContext.clearRect(0,0,scene.width,scene.height);drawObject(hitContext,asset,item);
-   const rgba=hitContext.getImageData(0,0,scene.width,scene.height).data;
-   mask=new Uint8Array(scene.width*scene.height);
-   for(let i=0;i<mask.length;i++)mask[i]=rgba[i*4+3]>32?1:0;
-  }
-  nextHitCache.set(item.id,{key,mask});objectHits.push({id:item.id,mask});
  }
- hitCache=nextHitCache;
  drawReferenceSpecimen();
  const selected=state.items.find(i=>i.id===state.selected);
  if(selected){
@@ -454,11 +440,21 @@ function canvasPoint(event){
  const left=parseFloat(style.borderLeftWidth)||0,top=parseFloat(style.borderTopWidth)||0;
  return {x:(event.clientX-r.left-left)*scene.width/(r.width-left-(parseFloat(style.borderRightWidth)||0)),y:(event.clientY-r.top-top)*scene.height/(r.height-top-(parseFloat(style.borderBottomWidth)||0))};
 }
+function objectPixelHit(item,x,y){
+ const asset=ASSET_BY_ID.get(item.assetId);if(!asset)return false;
+ // Hit rasters are generated only when the user actually clicks. Reading one pixel
+ // avoids the old O(objects × canvasPixels) synchronous work on every scene redraw.
+ hitContext.clearRect(0,0,scene.width,scene.height);
+ drawObject(hitContext,asset,item);
+ return hitContext.getImageData(x,y,1,1).data[3]>32;
+}
 function hitTest(point){
  const x=Math.floor(point.x),y=Math.floor(point.y);
  if(x<0||y<0||x>=scene.width||y>=scene.height)return null;
- // Reverse the actual paint order, including ties in z.
- for(let i=objectHits.length-1;i>=0;i--)if(objectHits[i].mask[y*scene.width+x])return state.items.find(item=>item.id===objectHits[i].id);
+ // Reverse the actual paint order, including ties in z, so the last painted visible
+ // pixel wins exactly as before without precomputing a full mask for every object.
+ const ordered=paintOrder();
+ for(let i=ordered.length-1;i>=0;i--)if(objectPixelHit(ordered[i],x,y))return ordered[i];
  return null;
 }
 scene.addEventListener('pointerdown',event=>{
