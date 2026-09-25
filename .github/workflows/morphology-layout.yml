@@ -30,6 +30,7 @@ jobs:
       fail-fast: false
       matrix:
         browser: [chromium, webkit]
+        suite: [morphology-layout, habitat-lab, estuary, public-regression]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -43,7 +44,7 @@ jobs:
         env:
           BROWSER: ${{ matrix.browser }}
           BASE_URL: http://127.0.0.1:8765
-          QA_OUTPUT: ${{ runner.temp }}/morphology-screenshots
+          QA_OUTPUT: ${{ runner.temp }}/${{ matrix.suite }}-screenshots
         run: |
           python3 -m http.server 8765 --bind 127.0.0.1 > "$RUNNER_TEMP/morphology-server.log" 2>&1 &
           SERVER_PID=$!
@@ -52,19 +53,10 @@ jobs:
             if curl --fail --silent "$BASE_URL/isopoda/morphology/" > /dev/null; then break; fi
             sleep 1
           done
-          CHECK_STATUS=0
-          NODE_PATH="$RUNNER_TEMP/morphology-browser/node_modules" node tests/browser/morphology-layout.cjs || CHECK_STATUS=1
-          NODE_PATH="$RUNNER_TEMP/morphology-browser/node_modules" QA_OUTPUT="$RUNNER_TEMP/habitat-screenshots" node tests/browser/habitat-lab.cjs || CHECK_STATUS=1
-          NODE_PATH="$RUNNER_TEMP/morphology-browser/node_modules" QA_OUTPUT="$RUNNER_TEMP/estuary-screenshots" node tests/browser/estuary.cjs || CHECK_STATUS=1
-          NODE_PATH="$RUNNER_TEMP/morphology-browser/node_modules" QA_OUTPUT="$RUNNER_TEMP/public-screenshots" node tests/browser/public-regression.cjs || CHECK_STATUS=1
-          exit "$CHECK_STATUS"
+          NODE_PATH="$RUNNER_TEMP/morphology-browser/node_modules" node "tests/browser/${{ matrix.suite }}.cjs"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: morphology-${{ matrix.browser }}-screenshots
-          path: |
-            ${{ runner.temp }}/morphology-screenshots
-            ${{ runner.temp }}/public-screenshots
-            ${{ runner.temp }}/habitat-screenshots
-            ${{ runner.temp }}/estuary-screenshots
+          name: ${{ matrix.suite }}-${{ matrix.browser }}-screenshots
+          path: ${{ runner.temp }}/${{ matrix.suite }}-screenshots
           retention-days: 14
