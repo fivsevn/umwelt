@@ -49,7 +49,7 @@
 - [Henry & Magniez 1983 — Proasellus valdensis](https://www.persee.fr/doc/linly_0366-1326_1983_num_52_10_10613?pageId=T1_335)
 - [Magniez 1975 — Stenasellus virei biology](https://digitalcommons.usf.edu/ijs/vol7/iss1/8/)
 
-洞穴数字尺度 Δh 表示相对洞口的高程；−18.6 m 是固定的虚构测点设定，不是物种采集记录，也不随观察次数递进。洞穴测绘以测点间距离、方位角和倾角确定位置。
+洞穴数字尺度 Δh 表示相对洞口的高程；数值随附近观察点小幅变化，属于虚构场景设定，不是物种采集记录，也不随观察次数递进。洞穴测绘以测点间距离、方位角和倾角确定位置。
 
 - [National Park Service — Cave Survey Techniques](https://www.nps.gov/jeca/learn/nature/surveying.htm)
 

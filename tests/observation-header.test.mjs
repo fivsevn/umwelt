@@ -16,7 +16,7 @@ test('every environment uses a localized story subtitle, never a turn counter',(
    for(const lang of ['zh','en','ja','isopod']){
     const title=observationTitle(s,scene,encounter,lang);assert.ok(title?.length,habitat.id);assert.doesNotMatch(title,/^(water|groundwater|abyssal):|\d+\/\d+/);
     if(lang==='zh'){assert.ok(title.length<20,title);seen.add(title)}
-    const scale=environmentScale(s,lang);if(scale){assert.match(scale.value,/\d/);assert.doesNotMatch(scale.value,/NaN|\d+\/\d+/);assert.ok(scale.label)}
+    const scale=environmentScale(s,lang);if(scale){assert.match(scale.value,lang==='isopod'?/^[▁▂▃▄▅▆▇]+$/:/\d/);assert.doesNotMatch(scale.value,/NaN|\d+\/\d+/);assert.ok(scale.label)}
    }
    choose(s,scene.options[0].id);advance(s);
   }
@@ -37,4 +37,25 @@ test('cave picking holds animals, release resumes continuously and all 14 IDs ar
  assert.ok(Math.hypot(actor.x-110,actor.y-160)>5);
  assert.equal(recordDirectInteraction(state,{type:'grab',specimen:'N'}).specimen,'N');
  assert.equal(recordDirectInteraction(state,{type:'grab',specimen:'Z'}).specimen,null);
+});
+
+test('cave elevation follows nearby observation points, not a monotonic turn counter',()=>{
+ const s=createRun('cavaticus',37,'groundwater'),values=[];
+ while(s.stage!=='ended'){const scene=ensureScene(s);values.push(Number(environmentScale(s).value.match(/[0-9.]+/)[0]));choose(s,scene.options[0].id);advance(s)}
+ assert.ok(new Set(values).size>3);assert.ok(Math.max(...values)-Math.min(...values)<2);
+ assert.ok(values.some((v,i)=>i&&v<values[i-1]));assert.ok(values.some((v,i)=>i&&v>values[i-1]));
+});
+
+test('cave notebook prose is distinct from scientific morphology records in every language',async()=>{
+ const {localizedAnnotationLines}=await import('../isopoda/locales/annotations.mjs');
+ const {speciesById}=await import('../isopoda/species-registry.mjs');
+ for(const id of ['cavaticus','lusitanicus','virei','valdensis']){
+  const species=speciesById(id),facts=species.literature.lines;
+  assert.equal(facts.length,2);
+  for(const lang of ['zh','en','ja','isopod']){
+   const prose=localizedAnnotationLines(species,lang,facts);
+   assert.equal(prose.length,2);assert.notDeepEqual(prose,facts);assert.ok(prose.every(line=>line.length>0));
+   assert.doesNotMatch(prose.join(' '),/4\.2|Asellidae|sedimentary biofilm|微生物|分类|研究/);
+  }
+ }
 });

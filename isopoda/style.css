@@ -215,3 +215,12 @@ html,body{height:100%;overflow:hidden}#game{height:100dvh;padding:6px 8px max(6p
 .zoom-tools .torch-stick-knob{min-width:0;position:absolute;z-index:1;left:7px;top:7px;width:10px;height:10px;background:#a8b58f;box-shadow:inset 2px 2px #d3d9b7,inset -2px -2px #526647,2px 2px #34482f;transform:translate(var(--stick-x,0px),var(--stick-y,0px))}
 .cave-observer-mask[data-lights-out="true"]{width:1px!important;background:none!important}
 #arrivalSpecimens.cave-samples,#endSpecimen.cave-samples{grid-template-columns:repeat(4,minmax(0,1fr))}
+
+/* A small torch body: aperture controls above and below the thumb stick. */
+#boxFrame .groundwater-observation .zoom-tools{display:flex;flex-direction:column;gap:4px;padding:9px 5px 5px;left:9px;right:auto;bottom:9px;border:2px solid #a5b594;border-right-color:#526747;border-bottom-color:#526747;background:#465b40;box-shadow:2px 2px #1c2c21}
+#boxFrame .groundwater-observation .zoom-tools:before{content:"";position:absolute;left:-4px;right:-4px;top:-6px;height:7px;background:#b5c29c;border:2px solid #627553;border-top-color:#d0d7b6}
+#boxFrame .groundwater-observation .zoom-tools button{width:30px;min-width:30px;height:27px;min-height:27px}
+#boxFrame .groundwater-observation #zoomIn{order:0}
+#boxFrame .groundwater-observation #zoomReset{order:1;height:34px;min-height:34px;width:34px;min-width:34px}
+#boxFrame .groundwater-observation #zoomOut{order:2}
+#boxFrame .groundwater-observation #zoomLevel{order:3;min-width:0;font-size:9px;line-height:11px;color:#c5cdaa}

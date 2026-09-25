@@ -49,7 +49,7 @@ One recharge episode is presented as four phases with two observations each: see
 - [Henry & Magniez 1983 — Proasellus valdensis](https://www.persee.fr/doc/linly_0366-1326_1983_num_52_10_10613?pageId=T1_335)
 - [Magniez 1975 — Stenasellus virei biology](https://digitalcommons.usf.edu/ijs/vol7/iss1/8/)
 
-The cave readout Δh is elevation relative to the entrance. −18.6 m is a fixed fictional station datum, not a species collection record or turn counter. Cave surveys locate stations using distance, azimuth and inclination.
+The cave readout Δh is elevation relative to the entrance. Values vary slightly between nearby fictional observation points. They are neither species collection records nor a turn counter. Cave surveys locate stations using distance, azimuth and inclination.
 
 - [National Park Service — Cave Survey Techniques](https://www.nps.gov/jeca/learn/nature/surveying.htm)
 

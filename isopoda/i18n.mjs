@@ -1,3 +1,5 @@
+import {isopodWaveNumber} from './locales/isopod.mjs';
+export {isopodWaveNumber};
 import {SUPPORTED_LANGUAGES,UI_COPY} from './locales/ui.mjs';
 
 export {SUPPORTED_LANGUAGES};
@@ -50,11 +52,7 @@ export function setLanguage(next,{announce=true}={}){
 }
 
 const DATE_LOCALES={zh:'zh-CN',en:'en-GB',ja:'ja-JP'};
-const ISOPOD_WAVES=['▁','▂','▃','▄','▅','▆','▇'];
 function dateLocale(lang){return DATE_LOCALES[lang]||DATE_LOCALES.zh}
-export function isopodWaveNumber(value,minDigits=2){
- return Math.max(0,Number(value)||0).toString(7).padStart(minDigits,'0').replace(/[0-6]/g,d=>ISOPOD_WAVES[Number(d)]);
-}
 export function isopodWaveDate(date,{year=false}={}){
  const md=isopodWaveNumber(date.getMonth()+1)+isopodWaveNumber(date.getDate());
  return year?isopodWaveNumber(date.getFullYear()%100)+String.fromCharCode(0x2009)+md:md;

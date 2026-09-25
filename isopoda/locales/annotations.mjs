@@ -2,8 +2,9 @@ import {encodeIsopodText} from './isopod.mjs';
 
 const copy={
   valdensis:{
-    en:['Recorded in Jura and pre-Alpine karst groundwater; research identifies sedimentary biofilm as an important food source.','Reliable separation from P. cavaticus requires fine diagnostic characters; this low-resolution dorsal view cannot replace identification.'],
-    ja:['ジュラ山地と前アルプスのカルスト地下水に記録され、研究では堆積物の生物膜が重要な食物源とされる。','P. cavaticus との確実な区別には微細な識別形質が必要で、この低解像度の背面図は同定の代わりにならない。']
+    zh:["它停下的那块石面，在你的图里没有名字。", "你给停顿画了一个点。再抬头时，身体已不在点上。"],
+    en:["The stone where it pauses has no name on your map.", "You mark the pause with a dot. When you look up, the body is no longer on it."],
+    ja:["立ち止まった石面には、あなたの地図では名前がない。", "停止を点で記す。顔を上げると、身体はもう点の上にいない。"]
   },
   dairy:{
     en:['It wears a cow pattern, yet has never seen a pasture.','Humans gave it a name; beneath the leaf litter, it goes on becoming something else.'],
@@ -226,16 +227,19 @@ const copy={
     ja:['主に浅海の砂底に見られるが、一部の海岸では潮間帯の砂地にも現れる。','尾節後縁のくぼみと強い棘が、身体後端をより鋭い輪郭にする。']
   },
   cavaticus:{
-    en:['Cave water may be only a film, seep, or shallow pool; this species lives entirely in subterranean fresh water.','Without eyes or pigment, its pale body is read mainly as an outline between flowstone and dark water.'],
-    ja:['洞窟の水は水膜、染み出し、浅い水たまりだけのこともあり、この種は地下淡水だけで生活する。','眼も色素もなく、淡い身体は流石と暗い水の間でほとんど輪郭として見える。']
+    zh:["光照到这里以前，这里并不缺少一个世界。", "你在纸上留下它的轮廓，轮廓之外，水还在慢慢经过。"],
+    en:["Before the light arrived, no world was missing here.", "You leave its outline on paper. Outside the outline, water continues to pass."],
+    ja:["光が届く前から、ここには世界があった。", "紙に輪郭を残す。その外では、水がまだゆっくり通っている。"]
   },
   lusitanicus:{
-    en:['It inhabits karst groundwater and cave streams, using long appendages across fine sediment in darkness.','Studied adults measure about 4.2–7.2 mm and lack both eyes and pigmentation.'],
-    ja:['カルスト地下水と洞窟河川に生息し、暗闇の細粒堆積物を長い付属肢で進む。','研究された成体は約4.2–7.2 mmで、眼も色素も持たない。']
+    zh:["它的前端在暗处轻轻探动。你把迟疑写进笔记，却不知道迟疑属于谁。", "有些距离，纸上的刻度走不过去。"],
+    en:["Its front end probes the dark. You write down hesitation, unsure whose hesitation it is.", "Some distances cannot be crossed by the scale on a page."],
+    ja:["前端が暗がりをそっと探る。ためらいと書く。それが誰のものかは分からない。", "紙の目盛りでは渡れない距離がある。"]
   },
   virei:{
-    en:['Caves, phreatic water, and river underflow can all form parts of its subterranean-water network.','The body is elongate and nearly parallel-sided, often distinctly rose-coloured against pale groundwater Asellidae.'],
-    ja:['洞窟、地下水面下の水、河川伏流はいずれも地下水ネットワークの一部になり得る。','身体は細長く側縁がほぼ平行で、淡色の地下水性 Asellidae と比べて明瞭な桃色を帯びることがある。']
+    zh:["那一点淡红没有在等谁看见。手电经过时，你才把它从石色里分出来。", "你写下「发现」。水没有因此多出一条路。"],
+    en:["That faint pink was not waiting to be seen. Only as the torch passes do you separate it from the stone.", "You write “discovery.” The water gains no new passage."],
+    ja:["淡い紅は、見つけられるのを待っていたわけではない。光が通り、ようやく石の色から分かれる。", "「発見」と書く。水の道は増えない。"]
   },
   pandaKing:{
     en:['Its name comes from the simplest contrast: black and white.','The taxonomic identity remains unsettled, but the pattern became a shared language among keepers first.'],
@@ -266,7 +270,7 @@ export function annotationLabel(lang='zh'){
 }
 
 export function localizedAnnotationLines(species,lang='zh',fallback=[]){
-  if(lang==='zh')return fallback;
-  if(lang==='isopod')return fallback.length?fallback.map(encodeIsopodText):['o:  o?'];
+  if(lang==='zh')return copy[species?.id]?.zh||fallback;
+  if(lang==='isopod'){const lines=copy[species?.id]?.zh||fallback;return lines.length?lines.map(encodeIsopodText):['o:  o?']}
   return copy[species?.id]?.[lang]||[];
 }
