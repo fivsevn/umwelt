@@ -121,7 +121,7 @@ function present(){
 function zoom(z){camera.zoom=Math.max(1,Math.min(3,z));present();return camera.zoom}
 
 const interaction=bindPointerInteraction(canvas,{
- enabled:()=>active&&!empty,
+ enabled:()=>active&&!empty&&habitatConfig(getState()).id!=='groundwater',
  worldPoint:event=>{
   const r=canvas.getBoundingClientRect(),view=cameraWindow(r.width,r.height,camera.zoom,camera.x,camera.y);
   return {x:view.sx+(event.clientX-r.left)/view.scale,y:view.sy+(event.clientY-r.top)/view.scale};
