@@ -236,6 +236,11 @@ export function advance(s){
   if(completed>=config.turns){s.stage='ended';s.ending=endingFor(s).id;return true}
   advanceWater(s);s.day=1;s.period=0;s.stage='choice';s.feedback='';s.interactionIntent=null;s.scene=null;ensureScene(s);return true;
  }
+ if(config.sequence==='groundwater-pulse'){
+  const completed=(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind==='groundwater-pulse').length;
+  if(completed>=config.turns){s.stage='ended';s.ending=endingFor(s).id;return true}
+  advanceWater(s);s.day=1;s.period=0;s.stage='choice';s.feedback='';s.interactionIntent=null;s.scene=null;ensureScene(s);return true;
+ }
  if(config.dialogue){
   const completed=(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind==='abyssal-dialogue').length;
   if(completed>=config.turns){s.stage='ended';s.ending=endingFor(s).id;return true}
@@ -262,6 +267,15 @@ export function migrateV4(old){
   // Freshwater now uses five untimed material observations instead of three dated days.
   s.day=1;s.period=0;
   if(s.stage==='choice')s.scene=null;
+ }
+ if(s.habitatId==='groundwater'){
+  // Groundwater is now an untimed connectivity sequence. Preserve old notes, but
+  // normalize legacy day/period fields and seed the new observer-independent metrics.
+  const defaults=habitatConfig('groundwater').defaults;
+  for(const key of ['connectivity','seepage','input'])if(!Number.isFinite(s[key]))s[key]=defaults[key];
+  s.day=1;s.period=0;
+  if(s.stage==='choice')s.scene=null;
+  if(['groundwater-calm','groundwater-care','groundwater-trace'].includes(s.ending))s.ending=s.quiet>=8?'groundwater-limit':s.maps>=s.labels?'groundwater-medium':'groundwater-body';
  }
  if(s.habitatId==='abyssal'){
   // Older abyssal saves used day/period only as a transport for the dialogue index.
