@@ -74,6 +74,16 @@ function clock(day=state.day,period=state.period){
  if(getLanguage()==='isopod'&&date)return isopodWaveClock(date,time);
  return (date?formatShortDate(date):t('dayNumber',{day}))+' '+time;
 }
+function refreshHeaderClock(){
+ if($('#playView').hidden)return;
+ const scale=environmentScale(state,getLanguage());
+ const date=new Date(),time=String(date.getHours()).padStart(2,'0')+':'+String(date.getMinutes()).padStart(2,'0');
+ const value=scale?.value||(getLanguage()==='isopod'?isopodWaveClock(date,time):formatShortDate(date)+' '+time);
+ setWaveText($('#dayLabel'),value);$('#dayLabel').title=scale?.label||'';
+}
+setInterval(refreshHeaderClock,1000);
+window.addEventListener('focus',refreshHeaderClock);
+document.addEventListener('visibilitychange',refreshHeaderClock);
 function sceneNow(){
  // Replace pending legacy counting scenes without erasing past feedback or records.
  if(state.stage==='choice'&&state.scene?.kind==='count')state.scene=null;
@@ -83,7 +93,7 @@ function buttons(scene){$('#actions').replaceChildren();for(const o of scene.opt
 function render(){
  if(state.habitatId==='petri-dish')checkMicroscope(state,habitat.scopeVisible());refreshPetri();
  const scene=sceneNow(),config=habitatConfig(state),p=speciesById(state.cohort[0].species),encounter=encounterById(scene.encounter);
- $('#habitat').setAttribute('aria-label',config.id==='petri-dish'?gameText('petri:canvas',getLanguage()):t(config.id==='groundwater'?'caveCanvas':config.cohortSize===1?'habitatCanvasSingle':'habitatCanvas'));setWaveText($('#dayLabel'),clock());$('#dayLabel').title=environmentScale(state,getLanguage())?.label||'';$('#recordTitle').textContent=state.stage==='feedback'?t('recordLater'):t('recordNow');$('#observation').dataset.directLocale='true';$('#observation').textContent=gameText(state.stage==='feedback'?state.feedback:scene.text,getLanguage());
+ $('#habitat').setAttribute('aria-label',config.id==='petri-dish'?gameText('petri:canvas',getLanguage()):t(config.id==='groundwater'?'caveCanvas':config.cohortSize===1?'habitatCanvasSingle':'habitatCanvas'));refreshHeaderClock();$('#recordTitle').textContent=state.stage==='feedback'?t('recordLater'):t('recordNow');$('#observation').dataset.directLocale='true';$('#observation').textContent=gameText(state.stage==='feedback'?state.feedback:scene.text,getLanguage());
  const waterFeedback=habitatConfig(state).aquatic&&state.stage==='feedback'?aquaticFeedback(state):'';if(waterFeedback)$('#observation').textContent+=' '+gameText(waterFeedback,getLanguage());
  $('#activityLabel').textContent=observationTitle(state,scene,encounter,getLanguage());$('#activityLabel').dataset.motion=encounter?.motion||'';
  const cue=state.habitatId==='petri-dish'&&state.stage==='choice'&&!petriReady(state)?'petri:gate:'+scene.requirement:state.stage==='feedback'?(state.interactionIntent?.hint||''):'';$('#interactionCue').hidden=!cue;$('#interactionCue').textContent=gameText(cue,getLanguage());

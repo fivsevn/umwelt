@@ -1,5 +1,6 @@
 import {encodeIsopodText} from '../../locales/isopod.mjs';
 const copy={
+ focusPosition:['焦位','Focus','焦点位置'],individuals:['个体','Specimens','個体'],
  power:['倍率','Power','倍率'],lowPower:['低倍','Low power','低倍率'],midPower:['中倍','Medium power','中倍率'],highPower:['高倍','High power','高倍率'],detailPower:['局部','Detail','部分'],low:['低','Low','低'],middle:['中','Middle','中'],high:['高','High','高'],turnDial:['上下拖动或滚动旋钮；方向键也可以调整','Drag or scroll the dial; arrow keys also adjust it','つまみをドラッグ、スクロール、または矢印キーで回す'],
 
  canvas:['培养皿中的一个等足目；目镜模式下可拖动或用方向键移动视野','One isopod in a dish; drag or use arrow keys to move the microscope field','皿の等脚類一匹。接眼ではドラッグや矢印キーで視野を動かす'],
