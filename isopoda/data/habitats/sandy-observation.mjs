@@ -13,296 +13,320 @@ const rows={
 const beats=[
  [
   [
-   "临时住址",
-   "A temporary address",
-   "仮の住所"
+   "沙面",
+   "The surface",
+   "砂の表面"
   ],
   [
-   "阿西莫夫把本子翻到空白页，写下：空地。旁边一小块沙拱了起来。他把那个字划掉，纸上立刻比沙滩拥挤。",
-   "Asimov opens a blank page and writes: vacant ground. A patch of sand rises beside him. He crosses out the word. The page is already more crowded than the beach.",
-   "アシモフは白紙に「空き地」と書いた。隣で砂が盛り上がる。その文字を消すと、浜辺より紙のほうが混み合ってきた。"
+   "一只沿着湿沙的暗边走，另一只只露出后半截。你刚找到第三只，前两处已经平了。这里的空白变化得很快。",
+   "One follows the dark edge of wet sand; another shows only its rear. By the time you find a third, the first two places are level again. Blank spaces change quickly here.",
+   "一匹は湿砂の暗い縁を進み、もう一匹は後ろ半分だけを見せている。三匹目を見つけたとき、先の二か所はもう平らだった。ここの空白はよく変わる。"
   ],
   [
-   "替它添一个门牌",
-   "Give it an address",
-   "番地をつける"
+   "记下露出的轮廓",
+   "Mark the visible outlines",
+   "見える輪郭を記す"
   ],
   [
-   "你在纸上画了一扇门。沙里的住客从门的背面钻走了。阿西莫夫说，地址可以先留着，建筑以后再议。",
-   "You draw a door on the page. The resident burrows away behind it. Asimov suggests keeping the address and discussing the building later.",
-   "紙に扉を描いた。住人はその裏へ潜った。住所は残して、建物は後で考えよう、とアシモフが言う。"
+   "纸上留下三个轮廓。沙面没有继续保持这个数目。",
+   "Three outlines remain on the page. The sand does not maintain that number.",
+   "紙には三つの輪郭が残った。砂はその数を保たなかった。"
   ],
   [
-   "先别给这里起名",
-   "Leave it unnamed",
-   "名前はまだつけない"
+   "多看一会儿空处",
+   "Watch an empty patch",
+   "空いた場所を見る"
   ],
   [
-   "这一栏暂时空着。小小的身体越过你的影子，倒没有为登记的事停下来。",
-   "The field stays blank. A small body crosses your shadow without stopping for registration.",
-   "欄は空いたまま。小さな身体は、登録のために止まることもなく影を横切った。"
+   "平静的地方动了几粒沙。你还没有看见身体，“空着”已经有点写不下去。",
+   "A few grains shift in the quiet patch. No body is visible yet, but “empty” is becoming harder to write.",
+   "静かな場所で砂粒が動いた。身体はまだ見えないが、「空」とは書きにくくなった。"
   ]
  ],
  [
   [
-   "拜访",
-   "A visit",
-   "訪問"
+   "下面",
+   "Underneath",
+   "下"
   ],
   [
-   "阿西莫夫伸出一根手指，又收了回去。“门铃大概在另一边。”你可以按住一小块沙，继续按着，把住客轻轻提起；松手便放回。没有动静的地方，也未必无人应门。",
-   "Asimov extends a finger, then withdraws it. “The bell must be on the other side.” Hold a patch of sand and keep holding to lift its resident; release to put it down. Even a quiet address may be occupied.",
-   "アシモフは指を伸ばし、引っ込めた。「呼び鈴は向こう側かな」。砂を押し続ければ住人をそっと持ち上げ、離せば下ろせる。静かな場所にも、誰かいるかもしれない。"
+   "几粒沙向两边滑开。手指按住那里，沙便松开；再停一会儿，可以把里面的身体轻轻提起，松手放回。旁边没有动静的一小块，也未必没有谁。",
+   "A few grains slide apart. Hold there to loosen the sand; keep holding to lift the body gently, then release to put it back. The still patch beside it may be occupied too.",
+   "砂粒が左右へ滑る。そこを押し続けると砂がほぐれ、少し待てば身体をそっと持ち上げられる。離せば戻せる。隣の静かな砂にも、何かいるかもしれない。"
   ],
   [
-   "记下这次拜访",
-   "Record the visit",
-   "訪問を記す"
+   "把下面也算进去",
+   "Include what is underneath",
+   "下も含めておく"
   ],
   [
-   "本子上多了“来访者一名”。你读了一遍，才发现阿西莫夫记的是你。",
-   "The notebook gains an entry: one visitor. Reading it again, you realise Asimov means you.",
-   "手帳に「訪問者一名」と増えた。読み返すと、それは自分のことだった。"
+   "你给图多留了一层。那一层还没有画满，沙面已经足够完整。",
+   "You leave another layer in the diagram. It is unfinished; the surface already looks complete.",
+   "図にもう一層の余地を残した。そこは描き終えていないのに、表面はもう整って見える。"
   ],
   [
-   "把手留在外面",
-   "Keep your hand outside",
-   "手を外に置く"
+   "只记看清的部分",
+   "Record only what is clear",
+   "見えた部分だけを記す"
   ],
   [
-   "你等了一会儿。没有谁出来招待。这里的礼貌，可能不包括证明自己在家。",
-   "You wait. Nobody comes out to receive you. Courtesy here may not require proof of being home.",
-   "しばらく待つ。迎えは来ない。ここの礼儀には、在宅の証明は含まれないのかもしれない。"
+   "这次的记录很短。短的是记录，不是这里的生活。",
+   "The entry is short. It is the entry that is short, not the life here.",
+   "短い記録になった。短いのは記録で、ここの暮らしではない。"
   ]
  ],
  [
   [
-   "一粒路标",
-   "A grain for a landmark",
-   "砂粒の道標"
+   "松动的边缘",
+   "A loosened edge",
+   "緩んだ縁"
   ],
   [
-   "你挑了一粒深色的沙，准备认住刚才的位置。浪退下去以后，附近多了十几粒一模一样的深色。阿西莫夫把尺子收起来了。",
-   "You choose a dark grain to mark the spot. After a wave retreats, a dozen identical grains surround it. Asimov puts his ruler away.",
-   "目印に黒い砂粒を選ぶ。波が引くと、同じ色が十数粒に増えていた。アシモフは定規をしまった。"
+   "翻开的沙比周围松一点。一只从凹边绕过去，触角碰了碰，随后继续走。你留下的东西暂时成了地形。",
+   "The opened sand is looser than its surroundings. An isopod skirts the hollow, touches the rim with its antennae, then moves on. What you left has briefly become terrain.",
+   "開いた砂は周囲より少し緩い。一匹がくぼみを回り、触角で縁に触れて進んだ。残したものが、しばらく地形になっている。"
   ],
   [
-   "画一张小地图",
-   "Draw a little map",
-   "小さな地図を描く"
+   "画下绕行的路",
+   "Draw the detour",
+   "回り道を描く"
   ],
   [
-   "地图画好了，比例是“一次记忆比一片沙滩”。暂时没有人提出异议。",
-   "The map is ready. Its scale is one memory to one beach. No objections have been filed.",
-   "縮尺は、ひとつの記憶対ひとつの浜辺。今のところ異議はない。"
+   "线绕着凹处弯了一下。你在图外，手留下的痕迹却在图内。",
+   "The line bends around the hollow. You are outside the diagram; your hand's trace is inside it.",
+   "線がくぼみをよけた。あなたは図の外にいる。手の跡は中にある。"
   ],
   [
-   "承认认错了地方",
-   "Admit losing the spot",
-   "見失ったと認める"
+   "等边缘落回去",
+   "Wait for the rim to settle",
+   "縁が戻るのを待つ"
   ],
   [
-   "阿西莫夫在页角点了一下。“这里也可以记一次发现。”那个点比路标可靠，至少不会被浪搬走。",
-   "Asimov dots the corner of the page. “That counts as a finding.” The dot, at least, will not be moved by a wave.",
-   "アシモフが頁の隅に点を打つ。「これも発見にしておこう」。少なくとも、この点は波に運ばれない。"
+   "几粒沙落下去，凹处浅了一点。刚才的绕路没有留下固定的理由。",
+   "A few grains fall and the hollow shallows. The detour is losing its fixed reason.",
+   "砂粒が落ち、くぼみが浅くなった。回り道の理由は、そこに固定されなかった。"
   ]
  ],
  [
   [
-   "谁在上面",
-   "Who is above",
-   "上にいるのは"
+   "影子的边界",
+   "The edge of a shadow",
+   "影の境界"
   ],
   [
-   "一只等足目停在你影子的边缘。你低头看它，阿西莫夫却抬头看了看你。两份观察记录，大概不会写出同一种天气。",
-   "An isopod pauses at the edge of your shadow. You look down at it; Asimov looks up at you. The two reports would probably describe different weather.",
-   "等脚類が影の端で止まった。あなたは見下ろし、アシモフはあなたを見上げる。二つの記録に、同じ天気は書かれないだろう。"
+   "光被你挡住了一小块。一只停在影子的边缘，触角还在动。你很容易把这次停顿叫作犹豫。",
+   "You block a small patch of light. An isopod pauses at the edge, antennae still moving. It is easy to call this hesitation.",
+   "光を少し遮った。一匹が影の縁で止まり、触角だけが動く。この停止を、ためらいと呼ぶのは簡単だった。"
   ],
   [
-   "把影子让开一点",
-   "Move your shadow aside",
-   "影を少しよける"
+   "把影子移开",
+   "Move the shadow",
+   "影をよける"
   ],
   [
-   "亮处往前移了一点。它转了个方向。阿西莫夫没有把这写成感谢。",
-   "The light shifts forward. It turns. Asimov does not record this as gratitude.",
-   "明るい場所が少し動く。身体が向きを変える。アシモフは、それを感謝とは書かなかった。"
+   "亮处移过去，它仍停了一会儿。解释走得比身体快。",
+   "The light moves across. It stays a little longer. The explanation moved faster than the body.",
+   "光が移っても、しばらく止まっていた。説明のほうが身体より速く進んだ。"
   ],
   [
-   "写下自己的位置",
-   "Record where you stand",
-   "自分の位置を書く"
+   "把“犹豫”留在页边",
+   "Leave “hesitation” in the margin",
+   "「ためらい」を余白へ"
   ],
   [
-   "你第一次把观察者画进图里。图上忽然出现了一个大得不太合适的东西。",
-   "For the first time you draw the observer into the diagram. Something awkwardly large appears on the page.",
-   "初めて観察者を図に描いた。妙に大きなものが一つ、紙の上に現れた。"
+   "正文里只剩“停下”。这个词小一些，也还装得下触角的动作。",
+   "Only “paused” remains in the entry. It is a smaller word, with room for moving antennae.",
+   "本文には「停止」だけが残った。小さな言葉だが、触角の動きも収まる。"
   ]
  ],
  [
   [
-   "搬家手续",
-   "Moving house",
-   "引っ越しの手続き"
+   "另一处出口",
+   "Another exit",
+   "別の出口"
   ],
   [
-   "一个身体钻下去，另一个在不远处露出来。你差点在两点之间画箭头。阿西莫夫按住了纸：“我们还没有问过它们的名字。”",
-   "One body disappears; another surfaces nearby. You nearly draw an arrow between them. Asimov steadies the paper. “We have not asked their names.”",
-   "一つが潜り、近くで別の身体が現れた。矢印を結びかけると、アシモフが紙を押さえる。「まだ名前も聞いていないよ」。"
+   "左边的轮廓消失后，右边露出一个相似的背面。中间那段沙很平。你画到一半的连线，正好经过看不见的地方。",
+   "An outline vanishes on the left; a similar back appears on the right. The sand between is level. Your half-drawn line crosses precisely what you cannot see.",
+   "左で輪郭が消え、右で似た背が現れた。間の砂は平らだ。描きかけの線は、見えない場所をちょうど通っている。"
   ],
   [
-   "把箭头擦掉",
-   "Erase the arrow",
-   "矢印を消す"
+   "保留两个位置",
+   "Keep the two positions",
+   "二つの位置を残す"
   ],
   [
-   "纸上剩下两个点。关系没有跟着消失，只是暂时不归你说明。",
-   "Two dots remain. Their relationship has not vanished; it is simply not yours to explain yet.",
-   "二つの点が残った。関係が消えたのではない。まだこちらが説明する番ではない。"
+   "两个点隔着一段白纸。它们没有因此变成两只，也没有因此变成一只。",
+   "Two dots stand apart on white paper. That makes them neither two animals nor one.",
+   "白紙を挟んで二つの点がある。それで二匹になったわけでも、一匹になったわけでもない。"
   ],
   [
-   "在箭头旁加问号",
-   "Add a question mark",
-   "疑問符を添える"
+   "给连线加问号",
+   "Question the connecting line",
+   "線に疑問符を添える"
   ],
   [
-   "问号占的地方比箭头还大。阿西莫夫觉得这个比例很合适。",
-   "The question mark takes more room than the arrow. Asimov approves of the proportions.",
-   "疑問符は矢印より大きくなった。アシモフは、ちょうどよい比率だと言う。"
+   "线仍在，确定少了一点。纸没有因为这点减少而变得难看。",
+   "The line stays; certainty diminishes. The page is none the worse for it.",
+   "線は残り、確かさが少し減った。紙はそのぶん見苦しくはならなかった。"
   ]
  ],
  [
   [
-   "不留收据",
-   "No receipt",
-   "領収書なし"
+   "身体收进去",
+   "Tucking away",
+   "身体が収まる"
   ],
   [
-   "刚才翻松的沙慢慢塌回去。一只等足目拱了几下，把自己收进里面。你找不到这次相遇的收据，手指上倒还沾着沙。",
-   "The loosened sand settles. An isopod heaves a few times and tucks itself away. There is no receipt for the encounter, though sand remains on your finger.",
-   "ほぐれた砂が戻っていく。等脚類は何度か身体を持ち上げ、中へ収まった。出会いの領収書はない。指に砂だけが残る。"
+   "前端先进入沙里，后半身又拱了几下。最后一节消失时，附近还有细小的沙粒在动。动作结束得比你的视线晚一点。",
+   "The front enters first; the rear heaves a few more times. When the last segment disappears, nearby grains are still moving. The action outlasts the visible body.",
+   "前から潜り、後ろ半分が何度か持ち上がる。最後の節が消えても、そばの砂粒は動いていた。身体より動作のほうが長く残った。"
   ],
   [
-   "留下那几粒沙",
-   "Keep those grains",
-   "砂粒を残す"
+   "看到沙粒停下",
+   "Watch until the grains stop",
+   "砂粒が止まるまで見る"
   ],
   [
-   "它们很快干了，颜色也变了。纪念品没有义务保持证词一致。",
-   "They soon dry and change colour. Souvenirs are under no obligation to keep their testimony consistent.",
-   "すぐに乾いて色が変わる。記念品に、証言を変えない義務はない。"
+   "最后一粒也停了。你看见的是停下，下面的事情没有一起交代。",
+   "The last grain stops. You have seen it stop; nothing below has been accounted for.",
+   "最後の一粒も止まった。見えたのは停止で、下の事情まで明らかになったわけではない。"
   ],
   [
-   "把沙还回去",
-   "Return the sand",
-   "砂を返す"
+   "记下消失的位置",
+   "Mark the disappearance",
+   "消えた位置を記す"
   ],
   [
-   "几粒沙落回许多粒沙里。没有掌声，事情还是办成了。",
-   "A few grains fall among many. There is no applause. The task is done all the same.",
-   "数粒が、たくさんの砂へ戻った。拍手はない。それでも用事は済んだ。"
+   "标记留下了一个小点。它比住在下面的身体更愿意待在原处。",
+   "A small dot remains. It is more willing to stay put than the body below.",
+   "小さな点が残る。下にいる身体より、こちらのほうが同じ場所にいてくれる。"
   ]
  ],
  [
   [
-   "浪的修订",
-   "The wave's revision",
-   "波の改稿"
+   "经过的水",
+   "Passing water",
+   "通り過ぎる水"
   ],
   [
-   "一道浪越过你刚才画的边界。湿的一侧扩大了，干的一侧没有提出申诉。阿西莫夫把“固定”两个字挪到了括号里。",
-   "A wave crosses your boundary. The wet side expands; the dry side files no appeal. Asimov puts the word “fixed” in brackets.",
-   "波がさっきの境界を越える。湿った側が広がり、乾いた側は異議を申し立てない。アシモフは「固定」を括弧に入れた。"
+   "薄水越过刚才的凹处，边缘很快浅了。浪退下去，较深的沙色留在原地。来过的东西并不都留下同一种痕迹。",
+   "Thin water crosses the hollow and softens its rim. As the wave retreats, darker sand remains. Visitors do not all leave the same kind of trace.",
+   "薄い水がくぼみを越え、縁を浅くした。波が引くと濃い砂色が残った。通ったものが同じ跡を残すとは限らない。"
   ],
   [
-   "跟着重画边界",
-   "Redraw the boundary",
-   "境界を描き直す"
+   "沿着新的湿边看",
+   "Follow the new wet edge",
+   "新しい湿りの縁を見る"
   ],
   [
-   "第二条线刚画完，第一条已经很像一条历史。",
-   "By the time the second line is finished, the first already resembles history.",
-   "二本目を描き終えるころ、一本目はもう歴史らしくなっていた。"
+   "新的边缘接到旧的沙纹上。你很难指出，变化具体从哪一粒开始。",
+   "The new edge joins the old ripples. It is hard to name the grain where change began.",
+   "新しい縁が古い砂紋につながる。変化がどの一粒から始まったかは、指せなかった。"
   ],
   [
-   "留着旧的那条",
-   "Keep the old line",
-   "古い線を残す"
+   "留着原来的位置",
+   "Keep the earlier position",
+   "元の位置を残す"
   ],
   [
-   "它现在表示的不是哪里，而是什么时候。地图多了一种用途。",
-   "It now marks when, rather than where. The map has acquired another use.",
-   "今度は場所でなく、時を示す線になった。地図の用途が一つ増えた。"
+   "图上的点没有移动，现在却已经不在水的同一边。",
+   "The dot has not moved. It is no longer on the same side of the water.",
+   "図の点は動いていない。それでも、水の同じ側にはいなくなった。"
   ]
  ],
  [
   [
-   "人口一栏",
-   "The population field",
-   "人口の欄"
+   "至少",
+   "At least",
+   "少なくとも"
   ],
   [
-   "阿西莫夫问看见了几只。你数完，笔尖停在“总共”前面。沙面又轻轻动了一下，像有人在桌子下面补交表格。",
-   "Asimov asks how many you saw. You count, then pause before “in total”. The sand shifts, as if someone under the desk were submitting a late form.",
-   "何匹見た、と聞かれて数える。「全部で」の手前でペンが止まった。砂が動く。机の下から遅れて書類が届いたようだった。"
+   "露在外面的身体比刚才少。你重新数了一遍，结果一样。沙下没有配合这次复核。",
+   "Fewer bodies are visible. You count again and get the same result. The sand below has not participated in the check.",
+   "見える身体が減った。数え直しても同じだった。砂の下は、この確認に参加していない。"
   ],
   [
-   "写“至少”",
-   "Write “at least”",
-   "「少なくとも」と書く"
+   "在数字前加“至少”",
+   "Put “at least” before the number",
+   "数の前に「少なくとも」"
   ],
   [
-   "这两个字给没露面的住客留了位置。纸张没有因此变大。",
-   "Those words leave room for unseen residents. The paper has not grown any larger.",
-   "姿の見えない住人の席ができた。紙は大きくなっていない。"
+   "数字没变，能容下的事情多了一点。",
+   "The number is unchanged. It can accommodate a little more now.",
+   "数は変わらない。収まることが少し増えた。"
   ],
   [
-   "这一栏先空着",
-   "Leave the field blank",
-   "欄を空けておく"
+   "只写“此刻看见”",
+   "Write “visible now”",
+   "「いま見える」と書く"
   ],
   [
-   "阿西莫夫没有催你。空白这次不是因为这里什么也没有。",
-   "Asimov does not hurry you. This blank does not mean that nothing is here.",
-   "アシモフは急かさない。今度の空白は、何もいないからではない。"
+   "这几个字把你也留在记录里，虽然没有写你的名字。",
+   "Those words keep you in the record too, without writing your name.",
+   "その言葉には、名前を書かずにあなたも記録されている。"
   ]
  ],
  [
   [
-   "把本子合上",
-   "Closing the notebook",
-   "手帳を閉じる"
+   "仍在这里",
+   "Still here",
+   "まだここに"
   ],
   [
-   "光落低了一点。你找回第一页，那个被划掉的“空地”还在。沙滩没有读过你的修订，照常有人出现，也有人把自己藏好。",
-   "The light lowers. On the first page, the crossed-out “vacant ground” remains. The beach has not read your revisions. Bodies appear and tuck themselves away as usual.",
-   "光が少し低くなった。最初の頁には、消した「空き地」が残っている。浜辺は改稿を読まず、現れたり隠れたりを続ける。"
+   "沙面又平了一些。一只从画面边缘经过，没有走进你最后画出的圈。这一页快写完了，圈外并没有跟着变少。",
+   "The sand is more level again. One passes along the edge without entering your final circle. The page is nearly finished; what lies outside it has not diminished.",
+   "砂はまた平らになった。一匹が、最後に描いた円に入らず縁を通る。頁は終わりに近いが、円の外が減ったわけではない。"
   ],
   [
-   "保留那个划痕",
-   "Keep the crossing-out",
-   "消した跡を残す"
+   "把圈留着",
+   "Keep the circle",
+   "円を残す"
   ],
   [
-   "阿西莫夫说，第一页终于像一张有人来过的纸了。",
-   "Asimov says the first page finally looks like somewhere someone has been.",
-   "ようやく誰かが訪れた紙になったね、とアシモフが言った。"
+   "它现在标出你看过的一小块。够小，就不必冒充整片沙滩。",
+   "It marks the small patch you watched. Small enough, it need not stand for the whole beach.",
+   "見た小さな場所の印になった。小さければ、浜辺全体のふりをしなくてよい。"
   ],
   [
-   "在旁边画一点沙",
-   "Draw sand beside it",
-   "隣に砂を描く"
+   "在圈边留一个缺口",
+   "Leave a gap in the circle",
+   "円に切れ目を残す"
   ],
   [
-   "你画了几个点，剩下的交给纸。它看起来还有很多地方。",
-   "You draw a few dots and leave the rest to the paper. There seems to be plenty of room.",
-   "点をいくつか描いて、残りは紙に任せた。まだ、ずいぶん場所がある。"
+   "笔停下来。缺口没有替谁安排出去的方向。",
+   "The pen stops. The gap assigns nobody a way out.",
+   "ペンが止まる。切れ目は、誰にも出る方向を決めなかった。"
   ]
  ]
 ];
 beats.forEach(([title,prompt,left,leftAfter,right,rightAfter],i)=>{
  for(const [key,value] of Object.entries({title,prompt,left,leftAfter,right,rightAfter}))rows[`${i}:${key}`]=value;
 });
-rows.cycle=['沙滩手记','Beach notes','砂浜の手帳'];
+rows.cycle=['九次观察','Nine observations','九つの観察'];
+const endings={
+ calm:[['空处仍有余地','Room in the blank','空白の余地'],['你留了几处没有补齐的空白。等待没有使沙下变得透明，却让“没看见”不再等同于“没有”。最后露出的轮廓，也没有把这一页填满。','You leave several blanks unfinished. Waiting has not made the sand transparent; it has loosened the connection between unseen and absent. The last outline does not fill the page.','埋めない空白がいくつか残った。待っても砂は透明にならない。ただ、見えないことと、いないことが少し離れた。最後の輪郭も頁を埋め尽くさない。'],['空白也可以是一种准确。','A blank can be a kind of accuracy.','空白も、正確さの一つになる。']],
+ care:[['手留下的地形','Terrain left by a hand','手が残した地形'],['几次翻沙以后，你认出了自己留下的凹边。有身体绕过它，也有水从那里经过。记录里原本只有被观察的对象，现在多出了一只没有画全的手。','After turning the sand, you recognise the rims you left. Bodies go around them; water passes through. A record once filled only with subjects now includes an unfinished hand.','砂を返すうち、自分の残した縁が分かるようになった。身体がよけ、水が通る。観察されるものだけだった記録に、描ききれない手が加わった。'],['观察者不必出镜，也会改变画面。','An observer can change the scene without entering the picture.','観察者は写らなくても、景色を変える。']],
+ trace:[['两点之间','Between two points','二つの点の間'],['你留下了位置、轮廓和几条没有接完的线。有些相似的身体始终没能确认是不是同一只。地图比开始时细了，仍有地方只属于沙子。','You keep positions, outlines and a few unfinished lines. Some similar bodies never become certain identities. The map is finer than before; parts of it still belong only to sand.','位置と輪郭、結び終えない線が残った。似た身体のいくつかは、同じ個体か分からないままだ。地図は細かくなったが、砂だけの場所も残っている。'],['连线很容易，经过那里则是另一回事。','Drawing a connection is easy. Passing through it is another matter.','線で結ぶのは簡単だ。そこを通るのは別のことだ。']]
+};
+for(const [kind,parts] of Object.entries(endings))['title','body','line'].forEach((key,i)=>rows['ending:'+kind+':'+key]=parts[i]);
+
 export const sandText=(key,lang='zh')=>{const row=rows[key.replace(/^sand:/,'')];return !row?key:lang==='isopod'?encodeIsopodText(row[0]):row[{zh:0,en:1,ja:2}[lang]??0]};
 export function sandScene(s){const i=Math.min(8,(s.day-1)*3+s.period);return {id:`sand:${i}`,kind:'aquatic',title:`sand:${i}:title`,text:`sand:${i}:prompt`,storyKey:`sand:${i}`,options:[{id:'sand-look',label:`sand:${i}:left`,text:`sand:${i}:leftAfter`,delta:{}},{id:'sand-wait',label:`sand:${i}:right`,text:`sand:${i}:rightAfter`,delta:{quiet:1}}]}}
+
+export const sandIndex=s=>Math.min(8,Math.max(0,(s.day-1)*3+s.period));
+export function sandEndingKind(s){
+ const touched=(s.directGrabs||0)+(s.groundTaps||0);
+ if(touched>=3)return 'care';
+ const records=(s.records||[]).filter(r=>['sand-look','sand-wait'].includes(r.choice));
+ const waiting=records.filter(r=>r.choice==='sand-wait').length;
+ return waiting>records.length/2?'calm':'trace';
+}
+
+const local=(row,lang)=>lang==='isopod'?encodeIsopodText(row[0]):row[{zh:0,en:1,ja:2}[lang]??0];
+export function sandInstrument(s,tides,lang='zh'){
+ const i=sandIndex(s),level=Math.round(s.tide),previous=tides[Math.max(0,i-1)];
+ const direction=i===0?['初退','Ebb begins','引き始め']:level>previous?['上移','Advancing','前進']:['下移','Retreating','後退'];
+ const surface=[['平整','Level','平ら'],['微动','Stirring','微動'],['松散','Loose','ほぐれる'],['回落','Settling','落ち着く'],['交错','Crossed','交差'],['松散','Loose','ほぐれる'],['抹平','Smoothed','ならされる'],['覆水','Washed','水に覆われる'],['平整','Level','平ら']][i];
+ return [local(['浪位','Wash','波の位置'],lang)+' '+(lang==='isopod'?encodeIsopodText(String(level)):level+'/100'),local(['浪向','Direction','波向'],lang)+' '+local(direction,lang),local(['沙面','Surface','砂面'],lang)+' '+local(surface,lang)];
+}

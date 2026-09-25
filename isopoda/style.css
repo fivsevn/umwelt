@@ -236,13 +236,3 @@ html,body{height:100%;overflow:hidden}#game{height:100dvh;padding:6px 8px max(6p
 /* Override the shared compact zoom sizing only for the illustrated torch. */
 #boxFrame .groundwater-observation .zoom-tools{padding:0!important;border-width:0!important;left:11px!important}
 #boxFrame .groundwater-observation .zoom-tools button{width:44px!important;min-width:44px!important;height:26px!important;min-height:26px!important;border-width:0!important}
-
-/* Keep the living beach and its final page in one window. */
-.window-story.sand-ending{max-height:48%;overflow:auto;justify-content:flex-start}
-.sand-ending #endCard{flex:none;width:100%;min-height:0;max-width:none;margin:0;padding:6px;border:0;box-shadow:none;overflow:visible}
-.sand-ending #endCard>.window-title,.sand-ending .specimen-result-panel{display:none}
-.sand-ending #endingBody{margin:6px;font-size:12px;line-height:1.55}
-.sand-ending .result-panel{width:100%;margin:3px 0}
-.sand-ending .dialog-actions{width:100%}
-.sand-ending .primary{padding:6px;margin-top:4px;font-size:11px}
-@media(min-width:900px),(orientation:landscape){.window-story.sand-ending{max-height:100%;height:100%!important}}
