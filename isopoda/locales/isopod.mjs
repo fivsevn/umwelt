@@ -107,3 +107,8 @@ export const ISOPOD_LEXICON=Object.freeze({
  record:'o:',uncertain:'o?',danger:'o!',more:'o+',less:'o-',shell:'(o)',
  blocked:'o#',edge:'|',light:'o^',time:'o..',strong:'o*'
 });
+
+const ISOPOD_WAVES=['▁','▂','▃','▄','▅','▆','▇'];
+export function isopodWaveNumber(value,minDigits=2){
+ return Math.max(0,Number(value)||0).toString(7).padStart(minDigits,'0').replace(/[0-6]/g,d=>ISOPOD_WAVES[Number(d)]);
+}

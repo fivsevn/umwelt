@@ -47,7 +47,7 @@ const ctx=world.getContext('2d');ctx.imageSmoothingEnabled=false;
 const viewport=canvas.closest('.habitat-viewport');
 const caveMask=canvas.id==='habitat'&&viewport?document.createElement('div'):null;
 if(caveMask){caveMask.className='cave-observer-mask';caveMask.hidden=true;caveMask.setAttribute('aria-hidden','true');viewport.append(caveMask)}
-const beam={x:50,y:54,size:34,dx:0,dy:0};
+const beam={x:50,y:54,size:34,dx:0,dy:0,last:0};
 function paintBeam(){if(!caveMask)return;caveMask.style.setProperty('--beam-x',beam.x+'%');caveMask.style.setProperty('--beam-y',beam.y+'%');caveMask.style.width=beam.size+'%'}
 function beamMove(dx,dy){beam.x=Math.max(0,Math.min(100,beam.x+dx));beam.y=Math.max(0,Math.min(100,beam.y+dy));paintBeam()}
 function beamResize(delta){beam.size=Math.max(18,Math.min(66,beam.size+delta));paintBeam();return beam.size}
@@ -168,7 +168,7 @@ const interaction=bindPointerInteraction(canvas,{
  report:event=>onDirectInteraction({type:event.type,specimen:event.actor?.specimenId||null,point:event.point||null})
 });
 canvas.addEventListener('wheel',e=>{e.preventDefault();if(habitatConfig(getState()).id==='groundwater')return;zoom(camera.zoom+(e.deltaY<0?.25:-.25));const label=document.querySelector('#zoomLevel');if(label)label.textContent=camera.zoom.toFixed(1)+'×'},{passive:false});
-function tick(t){if(!active)return;if(!document.hidden&&t-last>66){const dt=Math.min(.1,(t-last)/1000);state=getState();if(state.habitatId==='groundwater')beamMove(beam.dx*dt*28,beam.dy*dt*28);elapsed+=dt;(habitatConfig(state).aquatic?stepAquatic:stepIndividuals)(critters,{encounter,state,time:elapsed,dt,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null,reduced});reactions.update(critters,{encounter,state,time:elapsed,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});drawHabitat(t);last=t}frame=requestAnimationFrame(tick)}
+function tick(t){if(!active)return;const beamDt=Math.min(.035,Math.max(0,(t-beam.last)/1000));beam.last=t;if(!document.hidden&&getState().habitatId==='groundwater'&&(beam.dx||beam.dy))beamMove(beam.dx*beamDt*42,beam.dy*beamDt*42);if(!document.hidden&&t-last>66){const dt=Math.min(.1,(t-last)/1000);state=getState();elapsed+=dt;(habitatConfig(state).aquatic?stepAquatic:stepIndividuals)(critters,{encounter,state,time:elapsed,dt,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null,reduced});reactions.update(critters,{encounter,state,time:elapsed,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});drawHabitat(t);last=t}frame=requestAnimationFrame(tick)}
 function px(c,x,y,w,h,color){c.fillStyle=color;c.fillRect(Math.round(x),Math.round(y),Math.max(1,Math.round(w)),Math.max(1,Math.round(h)))}
 function drawHabitat(t){
  syncCaveObserver();
@@ -294,5 +294,5 @@ function drawMoltShell(shell,target=ctx){
  }
 }
 new ResizeObserver(()=>drawHabitat(0)).observe(canvas);
-return {reset,stage,react,heartBurst,zoom,beamResize,beamMove,beamHome,beamSteer:(dx,dy)=>{beam.dx=dx;beam.dy=dy},beamSize:()=>beam.size,zoomBy:d=>zoom(camera.zoom+d),home:()=>{camera.x=192;camera.y=215;return zoom(1)},start:()=>{if(!active){active=true;last=performance.now();if(reduced&&habitatConfig(getState()).id!=='groundwater'){drawHabitat(last);return}frame=requestAnimationFrame(tick)}},stop:()=>{beam.dx=0;beam.dy=0;interaction.cancel();active=false;cancelAnimationFrame(frame)},visible:()=>critters.filter(c=>!c.hidden).length};
+return {reset,stage,react,heartBurst,zoom,beamResize,beamMove,beamHome,beamSteer:(dx,dy)=>{beam.dx=dx;beam.dy=dy},beamSize:()=>beam.size,zoomBy:d=>zoom(camera.zoom+d),home:()=>{camera.x=192;camera.y=215;return zoom(1)},start:()=>{if(!active){active=true;last=performance.now();beam.last=last;if(reduced&&habitatConfig(getState()).id!=='groundwater'){drawHabitat(last);return}frame=requestAnimationFrame(tick)}},stop:()=>{beam.dx=0;beam.dy=0;interaction.cancel();active=false;cancelAnimationFrame(frame)},visible:()=>critters.filter(c=>!c.hidden).length};
 }

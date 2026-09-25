@@ -17,6 +17,10 @@ for(const [name,type] of [['chromium',chromium],['webkit',webkit]]){
   assert.ok(await page.locator('#arrivalSpecimens').evaluate(e=>e.getBoundingClientRect().height<=80));
   if(output)await page.screenshot({path:`${output}/${name}-${width}-arrival.png`,fullPage:true});
   await page.click('#settleBtn');assert.equal(await page.locator('#actions button').count(),3);
+  const layout=await page.evaluate(()=>['zoomIn','zoomReset','zoomOut'].map(id=>{const r=document.getElementById(id).getBoundingClientRect();return {x:r.x+r.width/2,y:r.y}}));
+  assert.ok(layout[0].y<layout[1].y&&layout[1].y<layout[2].y);assert.ok(layout.every(r=>Math.abs(r.x-layout[0].x)<1));
+  await page.locator('[data-system-lang="isopod"]').click();assert.ok(await page.locator('#dayLabel .isopod-wave-glyph').count()>0);assert.doesNotMatch(await page.locator('#dayLabel').textContent(),/[0-9Δhm]/);
+  await page.locator('[data-system-lang="zh"]').click();
   const canvas=page.locator('#habitat'),mask=page.locator('.cave-observer-mask');
   assert.equal(await canvas.getAttribute('data-specimens'),'14');
   const before=await canvas.evaluate(e=>e.toDataURL());await page.waitForTimeout(1200);assert.notEqual(await canvas.evaluate(e=>e.toDataURL()),before,'simulation runs under reduced motion');
@@ -25,7 +29,9 @@ for(const [name,type] of [['chromium',chromium],['webkit',webkit]]){
   // Pointer capture and held directional input, not just a synthetic click.
   const stick=await page.locator('#zoomReset').boundingBox(),x=stick.x+stick.width/2,y=stick.y+stick.height/2;
   const beamBefore=await mask.evaluate(e=>parseFloat(e.style.getPropertyValue('--beam-x')));
+  await page.evaluate(()=>{window.beamPaints=0;window.beamObserver=new MutationObserver(()=>window.beamPaints++);window.beamObserver.observe(document.querySelector('.cave-observer-mask'),{attributes:true,attributeFilter:['style']})});
   await page.mouse.move(x,y);await page.mouse.down();await page.mouse.move(x+15,y+5);await page.waitForTimeout(500);await page.mouse.up();
+  assert.ok(await page.evaluate(()=>window.beamPaints)>=10,'torch updates independently of the slower animal animation');await page.evaluate(()=>window.beamObserver.disconnect());
   const beamAfter=await mask.evaluate(e=>parseFloat(e.style.getPropertyValue('--beam-x')));assert.ok(beamAfter>beamBefore+3);
   await page.waitForTimeout(300);assert.equal(await mask.evaluate(e=>parseFloat(e.style.getPropertyValue('--beam-x'))),beamAfter,'joystick releases');
   await page.locator('#zoomReset').focus();await page.keyboard.press('ArrowLeft');assert.ok(await mask.evaluate(e=>parseFloat(e.style.getPropertyValue('--beam-x')))<beamAfter);
@@ -35,7 +41,7 @@ for(const [name,type] of [['chromium',chromium],['webkit',webkit]]){
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
   if(output)await page.screenshot({path:`${output}/${name}-${width}-cave.png`,fullPage:true});
   for(let turn=0;turn<8;turn++){
-   assert.equal(await page.locator('#dayLabel').textContent(),'Δh −18.6 m');
+   assert.equal(await page.locator('#dayLabel').textContent(),'Δh −'+[18.6,18.2,19.1,18.8,19.4,19.7,19.1,19.7][turn].toFixed(1)+' m');
    assert.match(await page.locator('#activityLabel').textContent(),/渗水|涨水|携入|退水/);
    assert.doesNotMatch(await page.locator('#dayLabel').textContent(),/PULSE|脉冲/);
    await page.locator('#actions button').nth(turn===7?2:0).click();

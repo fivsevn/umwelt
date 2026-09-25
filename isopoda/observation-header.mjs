@@ -1,5 +1,6 @@
+import {groundwaterObservationIndex} from './data/habitats/groundwater-observation.mjs';
 import {gameText} from './locales/game.mjs';
-import {encodeIsopodText} from './locales/isopod.mjs';
+import {encodeIsopodText,isopodWaveNumber} from './locales/isopod.mjs';
 
 const titles={
  intertidal:[['岩缝里的水','Water in the fissure','岩間の水'],['涨潮越过石沿','Over the ledge','岩縁を越える潮'],['夜潮','Night tide','夜の潮'],['碎贝间的水','Between shells','貝殻の間'],['伏下的藻','Lowered algae','伏せた藻'],['旧水线','Old waterline','古い水際'],['石下','Under stone','石の下'],['潮水回到触角','Returning tide','戻る潮'],['未完的潮','Unfinished tide','続く潮']],
@@ -18,11 +19,11 @@ export function observationTitle(state,scene,encounter,lang='zh'){
  return gameText(encounter?.title||scene.title,lang);
 }
 export function environmentScale(state,lang='zh'){
- // Fictional station datum, fixed across observations of the same cave site.
+ // Authored elevations of nearby observation points; not measured animal locations.
  // Cave surveys use distance, azimuth and inclination to locate stations:
  // https://www.nps.gov/jeca/learn/nature/surveying.htm
- if(state.habitatId==='groundwater')return {value:'Δh −18.6 m',label:localize(['相对洞口高程（场景设定）','Elevation relative to entrance (scene datum)','洞口からの比高（場面設定）'],lang)};
- if(state.habitatId==='freshwater')return {value:state.temp.toFixed(1)+' °C',label:localize(['水温','Water temperature','水温'],lang)};
- if(state.habitatId==='abyssal')return {value:Math.round(state.salinity)+' ‰',label:localize(['盐度','Salinity','塩分'],lang)};
+ if(state.habitatId==='groundwater'){const depth=[18.6,18.2,19.1,18.8,19.4,19.7,19.1,19.7][groundwaterObservationIndex(state)];return {value:lang==='isopod'?isopodWaveNumber(Math.round(depth*10),3):'Δh −'+depth.toFixed(1)+' m',label:localize(['观察点相对洞口高程（场景设定）','Observation point elevation relative to entrance (scene datum)','観察点の洞口からの比高（場面設定）'],lang)}};
+ if(state.habitatId==='freshwater')return {value:lang==='isopod'?isopodWaveNumber(Math.round(state.temp*10),3):state.temp.toFixed(1)+' °C',label:localize(['水温','Water temperature','水温'],lang)};
+ if(state.habitatId==='abyssal')return {value:lang==='isopod'?isopodWaveNumber(Math.round(state.salinity)):Math.round(state.salinity)+' ‰',label:localize(['盐度','Salinity','塩分'],lang)};
  return null; // Dated environments retain their existing date and clock.
 }
