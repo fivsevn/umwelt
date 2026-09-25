@@ -34,7 +34,7 @@ export function freshwaterStageIndex(value){
  if(Number.isInteger(explicit))return Math.max(0,Math.min(FRESHWATER_STAGE_LAYOUTS.length-1,explicit));
  const records=Array.isArray(value?.records)?value.records:[];
  const completed=records.filter(record=>record.kind==='freshwater-material').length;
- return Math.max(0,Math.min(FRESHWATER_STAGE_LAYOUTS.length-1,completed));
+ return Math.max(0,Math.min(FRESHWATER_STAGE_LAYOUTS.length-1,Math.floor(completed/2)));
 }
 export function freshwaterLayout(value=0){
  const index=Number.isInteger(value)?value:freshwaterStageIndex(value);
