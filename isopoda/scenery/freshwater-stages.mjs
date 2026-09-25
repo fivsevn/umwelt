@@ -1,80 +1,32 @@
-import {FRESHWATER_LAYOUT} from './authored-layouts.mjs';
+// Freshwater material-cycle layouts authored in /isopoda/habitat.
+// Stage identity follows the supplied filenames/order. Embedded JSON metadata is
+// intentionally ignored because later layouts were edited from earlier exports.
+import STAGE_01 from './freshwater-stage-data/01.mjs';
+import STAGE_02 from './freshwater-stage-data/02.mjs';
+import STAGE_03 from './freshwater-stage-data/03.mjs';
+import STAGE_04 from './freshwater-stage-data/04.mjs';
+import STAGE_05 from './freshwater-stage-data/05.mjs';
 
-const BASE_IDS=new Set([
- 'instance-1', // submerged log
- 'instance-3','instance-4','instance-6', // stable stones
- 'instance-9','instance-10','instance-12','instance-14','instance-15', // stable waterweed anchors
- 'instance-19', // root tangle
- 'instance-26' // silt pocket
-]);
-const fixed=FRESHWATER_LAYOUT.objects.filter(item=>BASE_IDS.has(item.id)).map(item=>structuredClone(item));
+export const FRESHWATER_STAGE_META=Object.freeze([{"id":"leaf","label":"01 · 叶片 / LEAF"},{"id":"conditioned","label":"02 · 微生物加工 / CONDITIONED"},{"id":"fragmented","label":"03 · 啃食与破碎 / FRAGMENTED"},{"id":"suspended","label":"04 · 悬浮碎屑 / SUSPENDED"},{"id":"redeposited","label":"05 · 再沉积底面 / REDEPOSITED"}]);
 
-const object=(id,type,x,y,scale,angle,z,seed,params,flipX=false)=>({
- id,type,x,y,scale,angle,flipX,z,seed,params
-});
-const leaf=(id,x,y,scale,angle,z,seed,{variant=0,tone=0,gap=false}={})=>
- object(id,variant===3?'leaf-broken-01':'leaf-broad-01',x,y,scale,angle,z,seed,{variant,tone,scale:1.04,gap});
-const fragment=(id,x,y,scale,angle,z,seed,{variant=1,tone=2,gap=true}={})=>
- object(id,variant===3?'leaf-broken-01':'leaf-narrow-01',x,y,scale,angle,z,seed,{variant,tone,scale:variant===1?.92:1.04,gap});
-const skeleton=(id,x,y,scale,angle,z,seed)=>
- object(id,'leaf-skeleton-01',x,y,scale,angle,z,seed,{labDetail:'leaf-skeleton'});
-const detritus=(id,x,y,scale,angle,z,seed,count=13)=>
- object(id,'freshwater-detritus-01',x,y,scale,angle,z,seed,{detail:'detritus',count});
-const silt=(id,x,y,scale,angle,z,seed)=>
- object(id,'silt-pocket-01',x,y,scale,angle,z,seed,{labDetail:'silt'});
+const BACKGROUND={"type":"water-freshwater","seed":83,"params":{"aquatic":true,"kind":"freshwater","palette":["#273b32","#344439","#4e5140","#68634b"]}};
+const REFERENCE={"species":"aquaticus","stage":"M","x":226,"y":286,"a":-0.34,"seed":189,"visible":false};
+const PARAMS={"bark-log-01":{"variant":2,"scale":1.02,"tone":"waterlogged"},"stone-round-01":{"variant":0,"scale":1},"stone-flat-01":{"variant":1,"scale":1},"stone-shard-01":{"variant":2,"scale":1},"waterweed-tuft-02":{"kind":"waterweed","height":78,"flow":42},"waterweed-tuft-01":{"kind":"waterweed","height":58,"flow":36},"root-tangle-01":{"labDetail":"root-tangle"},"leaf-broad-01":{"variant":0,"tone":0,"scale":1.04},"twig-01":{"length":24},"moss-sphagnum-02":{"rx":34,"ry":22,"wetness":0.62,"alpha":0.76},"silt-pocket-01":{"labDetail":"silt"},"leaf-narrow-01":{"variant":1,"tone":1,"scale":0.92},"woodchip-01":{"variant":0,"scale":0.82},"woodchip-02":{"variant":1,"scale":0.72},"stone-small-01":{"variant":3,"scale":0.82},"freshwater-detritus-01":{"detail":"detritus","count":13},"leaf-broken-01":{"variant":3,"tone":2,"scale":1.04,"gap":true},"bark-fragment-01":{"variant":1,"scale":0.96},"leaf-skeleton-01":{"labDetail":"leaf-skeleton"}};
+const ROWS=[STAGE_01,STAGE_02,STAGE_03,STAGE_04,STAGE_05];
 
-export const FRESHWATER_STAGE_META=Object.freeze([
- {id:'leaf',label:'01 · 叶片 / LEAF'},
- {id:'conditioned',label:'02 · 微生物加工 / CONDITIONED'},
- {id:'fragmented',label:'03 · 啃食与破碎 / FRAGMENTED'},
- {id:'suspended',label:'04 · 悬浮碎屑 / SUSPENDED'},
- {id:'redeposited',label:'05 · 再沉积底面 / REDEPOSITED'}
-]);
-
-const stageObjects=[
- [
-  leaf('material-leaf-main',244,238,1.34,-.34,48,5001,{variant:0,tone:0,gap:false}),
-  detritus('material-detritus-a',284,282,.42,-.08,43,5101,8)
- ],
- [
-  leaf('material-leaf-main',242,239,1.31,-.32,48,5001,{variant:0,tone:2,gap:false}),
-  detritus('material-detritus-a',274,274,.68,-.08,45,5101,12),
-  detritus('material-biofilm-a',226,228,.38,.18,49,5109,7)
- ],
- [
-  leaf('material-leaf-main',238,241,1.16,-.30,48,5001,{variant:0,tone:2,gap:true}),
-  skeleton('material-veins-main',241,241,.72,-.30,49,5201),
-  fragment('material-fragment-a',305,252,.45,.22,50,5207,{variant:1,tone:2,gap:true}),
-  fragment('material-fragment-b',190,290,.38,-.72,45,5213,{variant:3,tone:2,gap:true}),
-  detritus('material-detritus-a',281,276,.82,.08,44,5101,16)
- ],
- [
-  skeleton('material-veins-main',228,246,.63,-.28,44,5201),
-  fragment('material-fragment-a',304,198,.35,.58,49,5301,{variant:1,tone:2,gap:true}),
-  fragment('material-fragment-b',335,276,.28,-.42,49,5307,{variant:3,tone:2,gap:true}),
-  fragment('material-fragment-c',180,190,.24,1.02,48,5311,{variant:1,tone:2,gap:true}),
-  detritus('material-detritus-a',270,300,.76,-.08,43,5317,18),
-  detritus('material-detritus-b',330,330,.52,.12,43,5321,11)
- ],
- [
-  skeleton('material-veins-remnant',196,268,.34,-.18,42,5401),
-  detritus('material-bed-a',278,302,1.28,-.12,47,5411,22),
-  detritus('material-bed-b',320,322,1.12,.08,47,5417,20),
-  detritus('material-bed-c',244,330,.96,.18,46,5423,18),
-  silt('material-silt-a',298,318,1.16,-.06,43,5431),
-  silt('material-silt-b',252,346,.82,.08,42,5437),
-  fragment('material-fragment-last',344,300,.19,.32,49,5441,{variant:1,tone:2,gap:true})
- ]
-];
-
-export const FRESHWATER_STAGE_LAYOUTS=Object.freeze(stageObjects.map((objects,index)=>Object.freeze({
+function expand(row){
+ const [id,type,x,y,scale,angle,flipX,z,seed]=row;
+ return {id,type,x,y,scale,angle,flipX:!!flipX,z,seed,params:structuredClone(PARAMS[type]||{})};
+}
+export const FRESHWATER_STAGE_LAYOUTS=Object.freeze(ROWS.map((rows,index)=>Object.freeze({
  version:1,
  materialStage:index,
  canvas:{width:384,height:430},
  angleUnit:'radians',
- background:structuredClone(FRESHWATER_LAYOUT.background),
- objects:[...fixed.map(item=>structuredClone(item)),...objects],
- reference:structuredClone(FRESHWATER_LAYOUT.reference)
+ background:structuredClone(BACKGROUND),
+ objects:rows.map(expand),
+ reference:structuredClone(REFERENCE),
+ metadata:Object.freeze({habitat:'freshwater',materialStage:index,stageId:FRESHWATER_STAGE_META[index].id})
 })));
 
 export function freshwaterStageIndex(value){
