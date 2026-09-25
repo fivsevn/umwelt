@@ -191,7 +191,7 @@ window.addEventListener('isopoda:languagechange',event=>{
  if(!$('#titleCard').hidden){refreshPreview();if(enteredIsopod)emptyHabitat.heartBurst()}
  $('#continueBtn').textContent=state.stage==='ended'?t('viewEnding'):t('continueObservation');
  $('#soundBtn').setAttribute('aria-label',sound?t('soundOff'):t('soundOn'));$('#soundBtn').title=sound?t('soundOff'):t('soundOn');
- if(playing&&state.stage!=='ended'){render();if(enteredIsopod)habitat.heartBurst()}
+ if(playing&&state.stage!=='ended'){render();if(enteredIsopod)habitat.heartBurst()}else if(playing&&state.habitatId==='sandy-surf'&&enteredIsopod)habitat.heartBurst()
  if($('#arrivalCard')&&!$('#arrivalCard').hidden)arrival();
  if($('#endCard')&&!$('#endCard').hidden)showEnd();
  if($('#drawer').open)drawDrawer();

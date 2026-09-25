@@ -23,7 +23,7 @@ export function stepSand(group,{state:s,time,dt,reduced}){
    // Quiet individuals offer no location cue. All remain real, diggable actors.
    if((a.y>shore-10&&b.age>6+(a.id%3))||b.age>24+(a.id%4)*3){b.mode='emerging';b.age=0;b.cycle++}
   }else if(b.mode==='burying'){
-   b.depth=Math.min(1,b.depth+delta*.65);if(b.depth===1){b.mode='buried';b.age=0}
+   a.moving=true;b.depth=Math.min(1,b.depth+delta*.38);a.phase+=delta*9;if(b.depth===1){b.mode='buried';b.age=0}
   }else if(b.mode==='emerging'){
    b.depth=Math.max(0,b.depth-delta*.8);if(b.depth===0){b.mode='surface';b.age=0}
   }else{
@@ -41,16 +41,49 @@ export function stepSand(group,{state:s,time,dt,reduced}){
 export function sandVisibleCells(cells,a){
  const depth=a.sand?.depth||0;if(!depth)return cells;
  // Mask anatomy with sediment instead of making the animal translucent.
- const ys=cells.map(c=>c[1]),lo=Math.min(...ys),hi=Math.max(...ys),edge=hi-depth*(hi-lo+2);
- return cells.filter(([x,y])=>y<edge+(Math.abs(x*17)%3-1));
+ const axis=([x,y])=>(x-a.x)*Math.cos(a.a||0)+(y-a.y)*Math.sin(a.a||0),values=cells.map(axis),lo=Math.min(...values),hi=Math.max(...values),edge=hi-depth*(hi-lo+2);
+ return cells.filter(cell=>axis(cell)<edge+(Math.abs(cell[0]*17)%3-1));
 }
-export function drawSandMarks(g,group,time,holes=[],reduced=false){
- const px=(x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),w,h)};
- for(const h of holes){const age=time-h.time;if(age<0||age>7)continue;const r=age<.45?4+age*18:12;g.save();g.globalAlpha=Math.min(1,(7-age)/2);px(h.x-r+3,h.y-5,r*2-6,2,'#8b795b');px(h.x-r,h.y-3,r*2,6,'#968363');px(h.x-r+4,h.y-2,r*2-8,3,'#88775b');px(h.x-r,h.y+3,r*2,2,'#d0bd8a');for(let i=0;i<6;i++){const d=r+2+Math.min(age,.5)*10;px(h.x+Math.cos(i*1.1)*d,h.y+Math.sin(i*1.1)*d*.55,2,1,'#cbbc91')}g.restore()}
+// Three short pushes lift the rear while the head disappears into sediment.
+export function sandPose(a,reduced=false){
+ if(!a.sand||a.sand.mode!=='burying'||a.interactionState)return a;
+ const push=reduced?0:Math.max(0,Math.sin(a.sand.age*Math.PI*2.4));
+ return {...a,a:a.a+Math.sin(a.sand.age*Math.PI*2.4)*.10*(reduced?0:1),sandRearLift:push*4,moving:true};
+}
+export function drawSandMarks(g,group,time,holes=[],reduced=false,state={tide:46}){
+ const shore=sandShore(state,time),px=(x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),w,h)};
+ for(const h of holes){
+  const age=time-h.time;if(age<0||age>7)continue;
+  const water=h.water||h.y>=shore;
+  g.save();
+  if(water){
+   if(age>1.8){g.restore();continue}
+   g.globalAlpha=(1-age/1.8)*.65;
+   for(let ring=0;ring<2;ring++){const r=4+age*13+ring*5;for(let i=0;i<22;i++){if((i+ring)%5===0)continue;const a=i*Math.PI/11;px(h.x+Math.cos(a)*r,h.y+Math.sin(a)*r*.42,2,1,ring?'#91bcb0':'#c4d2b4')}}
+  }else{
+   const r=7+Math.min(age/.35,1)*5,seed=Math.round(h.x*13+h.y*7),wet=h.y>shore-45;
+   g.globalAlpha=Math.min(.85,(7-age)/3);
+   // Uneven stippled hollow, a broken shaded lip and loose grains; no rectangular rim.
+   for(let y=-6;y<=6;y++)for(let x=-13;x<=13;x++){
+    const n=Math.abs(x*31+y*47+seed)%19,q=x*x/(r*r)+y*y/30;
+    if(q<.72&&n<10)px(h.x+x,h.y+y,1,1,wet?'#777b60':'#a18d65');
+    if(q>.72&&q<1.12&&n<12)px(h.x+x,h.y+y,1,1,y<0?(wet?'#878769':'#ae9970'):(wet?'#b1ac80':'#d1bf91'));
+   }
+   for(let i=0;i<13;i++){const a=i*2.4+seed,rim=r+2+(i%4)+Math.min(age,.4)*5;px(h.x+Math.cos(a)*rim,h.y+Math.sin(a)*rim*.5,1+i%2,1,i%3?'#c5b487':'#ae996f')}
+  }
+  g.restore();
+ }
  for(const a of group){const b=a.sand;if(!b||a.interactionState)continue;
-  const active=b.mode==='burying'||b.mode==='emerging';
-  const hint=!b.quiet&&b.mode==='buried'&&b.age%8<.7;
+  const active=b.mode==='burying'||b.mode==='emerging',hint=!b.quiet&&b.mode==='buried'&&b.age%8<.7;
   if(!active&&!hint)continue;
-  for(let i=0;i<5;i++){const shift=reduced?0:Math.sin(time*11+i)*1.5;px(a.x-7+i*3+shift,a.y+3+(i%2)*2,2,1,i%2?'#d7c79b':'#9d8b68')}
+  if(a.y>=shore){
+   const pulse=reduced?0:b.age%1;
+   for(let i=0;i<12;i++){if(i%4===0)continue;const theta=i*Math.PI/6,r=7+pulse*8;px(a.x+Math.cos(theta)*r,a.y+Math.sin(theta)*r*.4,2,1,i%2?'#91bcb0':'#c4d2b4')}
+   continue;
+  }
+  for(let i=0;i<7;i++){const push=reduced?0:Math.max(0,Math.sin(b.age*Math.PI*2.4)),spread=5+i%3*3+push*4,side=i%2?1:-1;
+   const x=a.x+Math.cos(a.a+Math.PI/2)*side*spread-Math.cos(a.a)*3,y=a.y+Math.sin(a.a+Math.PI/2)*side*spread-Math.sin(a.a)*3;
+   px(x,y,1+i%2,1,i%2?'#d7c79b':'#9d8b68');
+  }
  }
 }
