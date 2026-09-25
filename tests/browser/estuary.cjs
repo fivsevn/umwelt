@@ -2,7 +2,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const {chromium,webkit}=require('playwright');
-const {click}=require('../support/browser-pointer.cjs');
+const {click}=require('../support/browser-controls.cjs');
 const name=process.env.BROWSER||'chromium',base=process.env.BASE_URL||'http://127.0.0.1:8765',output=process.env.QA_OUTPUT;
 if(output)fs.mkdirSync(output,{recursive:true});
 (async()=>{
@@ -54,7 +54,7 @@ if(output)fs.mkdirSync(output,{recursive:true});
     assert.match(await page.locator('#sceneMessage').textContent(),/原布局已保留/);
     assert.equal(await page.locator('#estuaryStage').inputValue(),String(i));
    }
-   await click(page,page.locator('#resetScene'));await page.locator('#scene').evaluate(e=>e.scrollIntoView({block:'center',behavior:'instant'}));
+   await click(page,page.locator('#resetScene'));await page.locator('#scene').scrollIntoViewIfNeeded();
    const box=await page.locator('#scene').boundingBox(),x=box.x+149/384*box.width,y=box.y+225/430*box.height;
    await page.mouse.move(x,y);await page.mouse.down();await page.mouse.move(x+12,y+8,{steps:4});await page.mouse.up();
    assert.ok(await page.locator('#selectedInspector').isVisible());
