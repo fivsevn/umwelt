@@ -158,14 +158,14 @@ test('freshwater suspended material stage renders moving leaf fragments',async()
 });
 
 
-test('freshwater uses two philosophical choices per material stage and keeps animation metadata',()=>{
+test('freshwater keeps ten observation beats with four choices and animation metadata',()=>{
  const s=createRun('aquaticus',73,'freshwater'),seen=[];
  while(s.stage!=='ended'){
   const scene=ensureScene(s);seen.push([scene.materialStage,scene.materialBeat,scene.options.length]);
-  assert.equal(scene.options.length,2);assert.ok(scene.options.every(o=>o.animation&&['object','relation'].includes(o.lens)));
+  assert.equal(scene.options.length,4);assert.ok(scene.options.every(o=>o.animation&&['object','relation'].includes(o.lens)));
   assert.ok(choose(s,scene.options[0].id));assert.ok(advance(s));
  }
- assert.deepEqual(seen,[[0,0,2],[0,1,2],[1,0,2],[1,1,2],[2,0,2],[2,1,2],[3,0,2],[3,1,2],[4,0,2],[4,1,2]]);
+ assert.deepEqual(seen,[[0,0,4],[0,1,4],[1,0,4],[1,1,4],[2,0,4],[2,1,4],[3,0,4],[3,1,4],[4,0,4],[4,1,4]]);
  assert.equal(s.records.filter(r=>r.kind==='freshwater-material').length,10);
  assert.ok(s.records.every(r=>r.animation&&r.lens));
 });
@@ -177,4 +177,29 @@ test('freshwater narrative reactions visibly steer the selected observation with
  stepAquatic([actor],{state:s,time:1,dt:.1,reduced:false,reaction:{id:'fw-edge',selected:[0],age:.4}});
  const after=Math.hypot(actor.x-248.69859126103347,actor.y-234.42874491852993);
  assert.ok(after<before);assert.equal(ensureScene(s).materialStage,0);
+});
+
+
+test('every freshwater option survives feedback reload and resolves in all four languages',()=>{
+ const visited=new Set(),sequences=[];
+ for(let slot=0;slot<4;slot++){
+  let s=createRun('aquaticus',93,'freshwater');const stages=[];
+  while(s.stage!=='ended'){
+   const scene=ensureScene(s),option=scene.options[slot];visited.add(option.id);
+   stages.push([scene.materialStage,scene.materialBeat,s.detritus,s.day,s.period]);
+   if(scene.materialStage===0&&scene.materialBeat===1)assert.ok(scene.text.includes(':after:'));
+   for(const lang of languages)for(const key of [scene.text,option.label,option.text]){
+    const resolved=gameText(key,lang);assert.ok(resolved&&resolved!==key&&!resolved.includes('water:'),`${lang}: ${key}`);
+   }
+   assert.ok(choose(s,option.id));
+   const restored=JSON.parse(JSON.stringify(s));assert.ok(validRun(restored));
+   assert.equal(restored.records.at(-1).choice,option.id);
+   assert.equal(restored.records.at(-1).animation,option.animation);
+   s=restored;assert.ok(advance(s));
+  }
+  assert.equal(s.records.length,10);assert.match(s.ending,/^freshwater-(care|calm|trace)$/);
+  sequences.push(stages);
+ }
+ assert.equal(visited.size,40);
+ for(const sequence of sequences)assert.deepEqual(sequence,sequences[0]);
 });
