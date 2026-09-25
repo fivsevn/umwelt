@@ -90,9 +90,9 @@ Object.assign(ISOPOD_UI,{
 UI_COPY.isopod=ISOPOD_UI;
 
 const caveCopy={
- zh:{beamSmaller:'缩小手电光圈',beamLarger:'扩大手电光圈',beamJoystick:'手电摇杆：按住拖动控制方向，轻点居中；也可用方向键',findSamples:'寻找样本',caveSamplesNote:'先认一认可能遇见的等足目。每种一张图；进入后在湿面上寻找。不同地下水物种在此作比较展示，不代表来自同一座洞穴。',caveCanvas:'地下水洞穴中的等足目；移动手电寻找活动，左下角可调光圈和方向'},
- en:{beamSmaller:'Narrow the torch beam',beamLarger:'Widen the torch beam',beamJoystick:'Torch joystick: hold and drag to steer, tap to centre; arrow keys also work',findSamples:'Look for specimens',caveSamplesNote:'One image per species to help you search the wet surfaces. This comparative display of groundwater species does not imply they share one cave.',caveCanvas:'Groundwater isopods; move the torch to find activity and use the lower-left beam controls'},
- ja:{beamSmaller:'光の輪を小さく',beamLarger:'光の輪を大きく',beamJoystick:'ライト操作：押して動かすと移動、タップで中央へ。矢印キーも使用可能',findSamples:'標本を探す',caveSamplesNote:'各種一枚の図を手掛かりに、湿った面を探す。地下水性の種を比較展示しており、同じ洞窟での共存を示すものではない。',caveCanvas:'地下水の等脚類。ライトで動きを探し、左下で光の大きさと向きを調節'},
+ zh:{beamSmaller:'缩小手电光圈',beamLarger:'扩大手电光圈',beamJoystick:'手电摇杆：按住拖动控制方向，轻点居中；也可用方向键',findSamples:'寻找样本',caveSamplesNote:'先认一认可能遇见的等足目。每种一张图；进入后在湿面上寻找。不同地下水物种在此作比较展示，不代表来自同一座洞穴。',caveCanvas:'地下水洞穴中的等足目；长按拖动抓取，左下角三角按钮调节光圈，摇杆控制光照方向'},
+ en:{beamSmaller:'Narrow the torch beam',beamLarger:'Widen the torch beam',beamJoystick:'Torch joystick: hold and drag to steer, tap to centre; arrow keys also work',findSamples:'Look for specimens',caveSamplesNote:'One image per species to help you search the wet surfaces. This comparative display of groundwater species does not imply they share one cave.',caveCanvas:'Groundwater isopods; hold and drag to pick up. Use the lower-left triangles and joystick to control the torch'},
+ ja:{beamSmaller:'光の輪を小さく',beamLarger:'光の輪を大きく',beamJoystick:'ライト操作：押して動かすと移動、タップで中央へ。矢印キーも使用可能',findSamples:'標本を探す',caveSamplesNote:'各種一枚の図を手掛かりに、湿った面を探す。地下水性の種を比較展示しており、同じ洞窟での共存を示すものではない。',caveCanvas:'地下水の等脚類。長押ししてドラッグでつかむ。左下の三角とスティックでライトを操作'},
  isopod:{beamSmaller:'o −',beamLarger:'o ＋',beamJoystick:'← o → ↑ ↓',findSamples:'o … o',caveSamplesNote:'o · o · o · o',caveCanvas:'o … ← o →'}
 };
 for(const [lang,copy] of Object.entries(caveCopy))Object.assign(UI_COPY[lang],copy);

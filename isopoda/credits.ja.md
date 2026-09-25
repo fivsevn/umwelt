@@ -49,4 +49,8 @@
 - [Henry & Magniez 1983 — Proasellus valdensis](https://www.persee.fr/doc/linly_0366-1326_1983_num_52_10_10613?pageId=T1_335)
 - [Magniez 1975 — Stenasellus virei biology](https://digitalcommons.usf.edu/ijs/vol7/iss1/8/)
 
+洞窟の Δh は洞口からの比高。−18.6 m は架空の固定測点で、採集記録でも観察回数でもない。洞窟測量では測点間の距離、方位角、傾斜角から位置を求める。
+
+- [National Park Service — Cave Survey Techniques](https://www.nps.gov/jeca/learn/nature/surveying.htm)
+
 **[もっと見る……](https://umwelt.fivsevn.com/isopoda/morphology/)**

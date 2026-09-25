@@ -1,3 +1,4 @@
+import {stepInteraction} from '../interaction.mjs';
 import {GROUNDWATER_OBSERVATIONS,groundwaterObservationIndex} from '../data/habitats/groundwater-observation.mjs';
 export const CAVE_WET_PATCHES=[[199,94],[192,132],[205,232],[186,318]];
 // Authored wet-surface paths are illustrative, never measured animal speeds or hidden tunnels.
@@ -14,6 +15,9 @@ export function stepGroundwater(group,{state,dt,reduced=false,speed=1}){
  const index=groundwaterObservationIndex(state);
  if(group.some(a=>a.caveObservation!==index||!a.caveAnchor))stageGroundwater(group,state);
  for(const a of group){
+  if(a.interactionState){a.caveDisplaced=true;if(stepInteraction(a,dt))continue}
+  // Released animals resume gradually; grabbing never snaps them back to a path.
+  const previous={x:a.x,y:a.y};
   a.caveTime+=dt*speed*(reduced?.65:1);
   const t=a.caveTime,focus=a.id===0,[cx,cy]=a.caveAnchor;
   // Asynchronous crawl/pause cycles; antenna and gait phases continue during a pause.
@@ -30,6 +34,11 @@ export function stepGroundwater(group,{state,dt,reduced=false,speed=1}){
    a.posture='emerging';a.activity='under';a.moving=true;
   }
   if(index===5&&cycle>=6&&cycle<9)a.posture='probing';
+  if(a.caveDisplaced){
+   const dx=a.x-previous.x,dy=a.y-previous.y,distance=Math.hypot(dx,dy),step=dt*speed*7;
+   if(distance>step){a.x=previous.x+dx/distance*step;a.y=previous.y+dy/distance*step;a.a=Math.atan2(dy,dx);a.moving=true;a.posture='normal';a.occlusion=0}
+   else a.caveDisplaced=false;
+  }
  }
 }
 export function drawGroundwaterWater(g,s,time,pixel){
