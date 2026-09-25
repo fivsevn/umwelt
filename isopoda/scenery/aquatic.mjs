@@ -101,7 +101,26 @@ export function drawAquaticBackground(g,{kind='freshwater',palette,seed=57}={}){
  if(WATER_BACKGROUNDS.has(kind))return drawWaterBackground(g,{kind,seed});
 }
 
-export function drawAquaticPlant(g,{kind='waterweed',x=0,y=0,a=0,scale=1,seed=0,height=64,time=0,flow=45,motion=1}={}){
+const coastalPlantBuffers=new WeakMap();
+export function drawAquaticPlant(g,options={}){
+ // As with the larger marine plants, apply the world shadow once per plant,
+ // not thousands of times to its individual pixels (particularly costly in WebKit).
+ if(!['seagrass','saltmarsh','ulva'].includes(options.kind)||typeof g.drawImage!=='function')return paintAquaticPlant(g,options);
+ const {x=0,y=0,scale=1,height=64}=options,r=Math.ceil((height+42)*scale+16),size=r*2+2;
+ let buffer=coastalPlantBuffers.get(g);
+ if(!buffer){
+  if(typeof OffscreenCanvas==='function')buffer=new OffscreenCanvas(size,size);
+  else if(typeof document!=='undefined'){buffer=document.createElement('canvas');buffer.width=size;buffer.height=size}
+  else return paintAquaticPlant(g,options);
+  coastalPlantBuffers.set(g,buffer);
+ }
+ if(buffer.width<size||buffer.height<size){buffer.width=size;buffer.height=size}
+ const ctx=buffer.getContext('2d');ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,buffer.width,buffer.height);ctx.imageSmoothingEnabled=false;
+ ctx.setTransform(1,0,0,1,r-Math.round(x),r-Math.round(y));
+ paintAquaticPlant(ctx,options);
+ g.imageSmoothingEnabled=false;g.drawImage(buffer,Math.round(x)-r,Math.round(y)-r);
+}
+function paintAquaticPlant(g,{kind='waterweed',x=0,y=0,a=0,scale=1,seed=0,height=64,time=0,flow=45,motion=1}={}){
  const ramp=plantRamp(kind),o={x,y,a,scale};
 
  if(['waterweed','rockweed','kelp'].includes(kind))return drawWaterPlant(g,{kind,x,y,a,scale,seed,height,time,flow,motion},(j,len,phase)=>plantSway(kind,j,len,time,seed,flow,phase)*motion);
