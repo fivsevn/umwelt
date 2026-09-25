@@ -48,3 +48,17 @@
 6. 验证旧档、新局、中途反馈重载、结局归档、环境切换和两个实验室。指标/状态形状变化按 [存档兼容](save-compat.md) 设计迁移。
 
 运行统一检查，其中 `validate-habitats.mjs` 检查配置结构；实际演进、视觉与交互仍需 [扩展验证矩阵](expansion-guide.md#验证选择) 中的测试与浏览器检查。历史水景、场景和环境记忆笔记见 [历史索引](reference/README.md)。
+
+## 地下水：四次无日夜渗流观察
+
+`groundwater-pulse` 固定四轮三选一：渗流 → 连通 → 外源输入 → 回落。指标为裂隙连通性、渗流强度、外源物输入；均为叙事性的相对尺度，不是实测百分比或水文预测。选项改变记录和结局倾向，不改变地下水参数；手电是观察者的视野，不作为动物趋光行为的依据。原有洞穴布局保留，水膜速度和碎屑随阶段变化。
+
+暖色光圈支持鼠标移动和触摸定位。地图只保留玩家选择记录的入口与推测虚线，未观察的出口不补画；熄灯在反馈和结局期间持续。正文与三种观察倾向结局位于 `data/habitats/groundwater-pulse.mjs`，81 条路径由 `tests/groundwater.test.mjs` 验证。
+
+资料依据与设计边界：
+
+- [Francois et al., 2016](https://doi.org/10.1111/1365-2435.12484)：地下水 Proasellus 的食物来源包括沉积物生物膜；碎屑输入不等于观察到即时进食。
+- [Linking Hydrogeology and Ecology in Karst Landscapes](https://www.mdpi.com/2073-4441/13/15/2106)：岩溶补给与生物连通性关系；该研究对象为桡足类，此处用于水文背景，不外推为等足目特定行为。
+- [Thermal acclimation and metabolic scaling of a groundwater asellid](https://pmc.ncbi.nlm.nih.gov/articles/PMC9605946/)：Proasellus lusitanicus 的无眼、无色素等地下水适应特征。
+
+四次事件及屏幕上的通路是这些资料启发的叙事抽象，不代表某个真实洞穴的测绘结果。

@@ -138,9 +138,9 @@ export const GROUNDWATER_PULSES=[
     id:'finish-map',lens:'medium',
     label:['完成通路图','Finish the route map','通路図を仕上げる'],
     text:[
-     '你把实线、虚线和空白留在同一张图上。它们代表不同程度的证据，不代表同一种空间。',
-     'You leave solid lines, broken lines, and blanks on the same map. They represent different degrees of evidence, not one kind of space.',
-     '実線、破線、空白を同じ図に残す。それらは証拠の強さの違いであり、同じ種類の空間を示すものではない。'
+     '你把入口标记、推测的虚线和未观察的空白留在同一张图上。没有见过的出口，仍然没有被补上。',
+     'You keep entrance marks, inferred dotted links, and unobserved blanks on one map. Outlets you never observed remain absent.',
+     '入口の印、推測の破線、未観察の空白を同じ図に残す。見ていない出口は、補わない。'
     ]
    },
    {
@@ -160,9 +160,9 @@ export const GROUNDWATER_ENDINGS={
  body:{
   title:['最后一次扫掠','Final sweep','最後の走査'],
   body:[
-   '你留下了四次发现。每一次都有一个身体进入或离开光圈。它们之间的黑暗没有被记录。',
-   'You leave four discoveries. Each contains a body entering or leaving the beam. The darkness between them was not recorded.',
-   '四回の発見が残る。どれも身体が光へ入り、あるいは光から出ていく記録だ。その間の暗闇は記録されなかった。'
+   '四次渗流过去，你仍在寻找身体出现的位置。留下的是零散的踪迹，无法接成一次完整的移动。',
+   'Four pulses pass while you keep looking for the body. Scattered traces remain, but they cannot be joined into one witnessed movement.',
+   '四回の浸透が過ぎても、身体の現れる場所を探している。断片的な痕跡は残るが、一つの完全な移動にはつながらない。'
   ],
   line:[
    '你看见的是出现与消失，不是完整的路。',
@@ -186,9 +186,9 @@ export const GROUNDWATER_ENDINGS={
  limit:{
   title:['灯外','Beyond the beam','光の外'],
   body:[
-   '你保留了几处没有补完的间隔。灯熄灭以后，观察结束了。洞穴没有。',
-   'You kept several intervals unfinished. When the light went out, the observation ended. The cave did not.',
-   'いくつかの区間を補完しないまま残した。光を消すと観察は終わった。洞窟は終わらなかった。'
+   '你保留了几处没有补完的间隔。观察到这里结束了。洞穴没有。',
+   'You kept several intervals unfinished. The observation ends here. The cave does not.',
+   'いくつかの区間を補完しないまま残した。観察はここで終わる。洞窟は終わらない。'
   ],
   line:[
    '对你而言，那里是黑暗。对它而言，那里仍然是路。',

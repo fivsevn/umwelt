@@ -290,10 +290,16 @@ export function drawAquaticWater(g,s,time=0,{drawPlants=true,observationEffect=n
  const h=habitatConfig(s),surface=h.tides?Math.round(360-s.tide*3.35):0;
  if(h.id==='groundwater'){
   // Only thin films and small pools move; the cave is not rendered as a full water column.
+  const seep=(s.seepage??55)/100,linked=(s.connectivity??32)>60;
   for(let i=0;i<8;i++){
-   const phase=time*.7+i*.9,cy=118+(i%4)*70,cx=188+Math.sin(i*1.8)*24;
+   const phase=time*(.22+seep*.85)+i*.9,cy=118+(i%4)*70,cx=188+Math.sin(i*1.8)*24;
    const radius=8+(i%3)*5+Math.sin(phase)*2;
-   for(let x=-radius;x<=radius;x+=4)pixel(g,cx+x,cy+Math.sin(x*.25+phase)*2,3,1,'rgba(170,185,164,.16)');
+   for(let x=-radius;x<=radius;x+=4)pixel(g,cx+x,cy+Math.sin(x*.25+phase)*2,linked?4:2,1,`rgba(170,185,164,${.08+seep*.15})`);
+  }
+  // Imported particles stay within the seep corridor, settling as the pulse recedes.
+  for(let i=0;i<Math.floor((s.input??8)/5);i++){
+   const n=noise(i,271,s.seed),x=185+n%31,y=245+((n>>>9)%64+time*seep*5)%70;
+   pixel(g,x,y,2,1,i%3?'#625b45':'#8a7e5c');
   }
   for(let i=0;i<18;i++){const n=noise(i,269,s.seed),x=150+n%92,y=95+(n>>>10)%245;pixel(g,x,y,1,1,i%4===0?'rgba(209,205,178,.28)':'rgba(120,143,132,.16)')}
   return;

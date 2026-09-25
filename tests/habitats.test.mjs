@@ -55,7 +55,7 @@ test('preview switching never changes the existing save, and selected environmen
 });
 test('tides advance in tidal habitats and freshwater advances material state without day-night time',()=>{
  const s=createRun('serratum',1,'intertidal'),tides=[];
- while(s.stage!=='ended'){tides.push(s.tide);choose(s,'water-wait');advance(s)}assert.ok(new Set(tides).size>=6);
+ while(s.stage!=='ended'){tides.push(s.tide);assert.ok(tides.length<=habitatConfig(s).days*3);assert.ok(choose(s,'water-wait'));assert.ok(advance(s))}assert.ok(new Set(tides).size>=6);
  const fresh=createRun('aquaticus',1,'freshwater'),stages=[],beats=[],detritus=[];
  while(fresh.stage!=='ended'){const scene=ensureScene(fresh);stages.push(scene.materialStage);beats.push(scene.materialBeat);detritus.push(fresh.detritus);assert.ok(choose(fresh,scene.options[0].id));assert.ok(advance(fresh))}
  assert.equal(fresh.day,1);assert.equal(fresh.period,0);
@@ -82,8 +82,8 @@ test('aquatic sources, species counts and all ending translations are complete',
 });
 
 test('aquatic endings resolve after each habitat completes its configured observation sequence',()=>{
- for(const h of HABITATS.filter(h=>h.aquatic&&!h.dialogue&&h.id!=='freshwater'))for(const [choice,kind] of [['water-adjust','care'],['water-wait','calm'],['water-record','trace']]){
-  const s=createRun(h.species[0],37,h.id);while(s.stage!=='ended'){choose(s,choice);advance(s)}assert.equal(s.ending,h.id+'-'+kind);
+ for(const h of HABITATS.filter(h=>h.aquatic&&!h.dialogue&&!h.sequence))for(const [choice,kind] of [['water-adjust','care'],['water-wait','calm'],['water-record','trace']]){
+  const s=createRun(h.species[0],37,h.id);let turns=0;while(s.stage!=='ended'){assert.ok(turns++<(h.turns||h.days*3),h.id+' must finish');assert.ok(choose(s,choice),h.id+' accepts '+choice);assert.ok(advance(s),h.id+' advances')}assert.equal(s.ending,h.id+'-'+kind);
  }
  for(const [strategy,kind] of [['relation','care'],['object','trace'],['mixed','calm']]){
   const s=createRun('aquaticus',37,'freshwater');let turn=0;
