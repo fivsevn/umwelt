@@ -220,9 +220,32 @@ function drawHabitat(t){
  if(config.id==='abyssal'){ctx.fillStyle='rgba(5,11,14,.10)';ctx.fillRect(0,0,w,h)}
  ctx.strokeStyle='rgba(147,148,124,.55)';ctx.lineWidth=2;ctx.strokeRect(1,1,w-2,h-2);
  if(aquatic)drawAquaticWater(ctx,state,reduced?0:elapsed,{drawPlants:false,observationEffect:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});
+ if(config.id==='groundwater')drawGroundwaterEvidence(ctx,state);
  if(config.id==='abyssal')drawAbyssalSpotlight(ctx,critters[0]);
  drawActors();
  present();
+}
+function drawGroundwaterEvidence(g,s){
+ const records=(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind==='groundwater-pulse');
+ if(!records.length)return;
+ const nodes={a:[199,94],b:[204,232],c:[187,318],d:[111,153]};
+ const mark=([x,y],strong=false)=>{
+  const color=strong?'rgba(204,199,170,.72)':'rgba(177,178,153,.48)';
+  px(g,x-3,y,7,1,color);px(g,x,y-3,1,7,color);
+ };
+ const dotted=(from,to,strong=false)=>{
+  const [ax,ay]=from,[bx,by]=to,steps=18,color=strong?'rgba(196,193,163,.58)':'rgba(161,165,143,.38)';
+  for(let i=0;i<=steps;i++){if(i%2)continue;const t=i/steps;px(g,ax+(bx-ax)*t,ay+(by-ay)*t,2,2,color)}
+ };
+ mark(nodes.a,records.some(r=>r.choice==='mark-entrance'));
+ if(records.length>=2)mark(nodes.b,records.some(r=>r.choice==='record-silt'));
+ if(records.length>=3)mark(nodes.c,records.some(r=>r.choice==='watch-input'));
+ if(records.some(r=>r.choice==='seek-third'))mark(nodes.d,true);
+ if(records.some(r=>r.choice==='connect-marks'))dotted(nodes.a,nodes.b,true);
+ if(records.some(r=>r.choice==='watch-input'))dotted(nodes.b,nodes.c,false);
+ if(records.some(r=>r.choice==='finish-map')){
+  dotted(nodes.a,nodes.b,true);dotted(nodes.b,nodes.c,true);dotted(nodes.a,nodes.d,false);
+ }
 }
 function drawAbyssalSpotlight(g,actor){
  const cx=Math.round(actor?.x??196),cy=Math.round(actor?.y??246);
