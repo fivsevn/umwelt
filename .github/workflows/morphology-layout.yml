@@ -8,6 +8,7 @@ on:
       - '*.css'
       - '.github/scripts/stamp-assets.mjs'
       - 'tests/browser/*.cjs'
+      - 'tests/browser/*.mjs'
       - 'tests/support/browser-controls.cjs'
       - '.github/workflows/morphology-layout.yml'
   push:
@@ -19,6 +20,7 @@ on:
       - '*.css'
       - '.github/scripts/stamp-assets.mjs'
       - 'tests/browser/*.cjs'
+      - 'tests/browser/*.mjs'
       - 'tests/support/browser-controls.cjs'
       - '.github/workflows/morphology-layout.yml'
   workflow_dispatch:
@@ -32,7 +34,7 @@ jobs:
       fail-fast: false
       matrix:
         browser: [chromium, webkit]
-        suite: [morphology-layout, habitat-lab, estuary, public-regression]
+        suite: [morphology-layout, habitat-lab, estuary, intertidal, public-regression]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -55,7 +57,11 @@ jobs:
             if curl --fail --silent "$BASE_URL/isopoda/morphology/" > /dev/null; then break; fi
             sleep 1
           done
-          NODE_PATH="$RUNNER_TEMP/morphology-browser/node_modules" node "tests/browser/${{ matrix.suite }}.cjs"
+          if [ "${{ matrix.suite }}" = "intertidal" ]; then
+            PLAYWRIGHT_MODULE="$RUNNER_TEMP/morphology-browser/node_modules/playwright/index.mjs" node tests/browser/intertidal.mjs
+          else
+            NODE_PATH="$RUNNER_TEMP/morphology-browser/node_modules" node "tests/browser/${{ matrix.suite }}.cjs"
+          fi
       - uses: actions/upload-artifact@v4
         if: always()
         with:

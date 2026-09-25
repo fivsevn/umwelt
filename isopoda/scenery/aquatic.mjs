@@ -1,3 +1,5 @@
+import {isIntertidal} from '../data/narrative/intertidal.mjs';
+import {intertidalSurface,stepIntertidal,drawIntertidalLife} from './intertidal.mjs';
 import {stepGroundwater,drawGroundwaterWater} from './groundwater.mjs';
 import {WATER_BACKGROUNDS,drawWaterBackground,drawWaterDetail,drawWaterPlant} from './aquatic-materials.mjs';
 import {LAUNCH_BACKGROUNDS,drawLaunchBackground} from './launch-materials.mjs';
@@ -307,7 +309,7 @@ function drawFreshwaterObservationOverlay(g,s,time,effect){
 }
 
 export function drawAquaticWater(g,s,time=0,{drawPlants=true,observationEffect=null}={}){
- const h=habitatConfig(s),surface=h.tides?Math.round(360-s.tide*3.35):0;
+ const h=habitatConfig(s),surface=isIntertidal(s)?Math.round(intertidalSurface(s)):h.tides?Math.round(360-s.tide*3.35):0;
  if(h.id==='groundwater'){drawGroundwaterWater(g,s,time,pixel);return}
  if(h.id==='petri-dish'){
   const cx=192,cy=215,r=143,drift=time*s.flow*.025;
@@ -368,11 +370,13 @@ export function drawAquaticWater(g,s,time=0,{drawPlants=true,observationEffect=n
  const abyssal=h.id==='abyssal',freshwaterStage=h.id==='freshwater'?(Number.isInteger(s.scene?.materialStage)?s.scene.materialStage:0):-1,particles=abyssal?14+Math.round(s.detritus*.18):30+Math.round(s.detritus*.5)+(freshwaterStage===3?28:0),drift=abyssal?time*s.flow*.022:time*s.flow*.085;for(let i=0;i<particles;i++){const n=noise(i,37,s.seed),x=(n%384+drift)%384,y=surface+((n>>>12)%Math.max(1,430-surface));pixel(g,x,y,i%9===0?2:1,1,abyssal?(i%3?'#46595d':'#607176'):(i%3?'#889a79':'#b1bc95'))}
  if(freshwaterStage===3){for(let i=0;i<9;i++){const n=noise(i,397,s.seed),x=(n%420+time*(4.5+s.flow*.035))%420-18,y=55+((n>>>10)%320)+Math.sin(time*.42+i)*4,w=3+(n%6);pixel(g,x,y,w,2,i%3===0?'#6b5738':'#806846');if(i%2===0)pixel(g,x+1,y-1,Math.max(1,w-2),1,'#9a8155')}}
  if(s.light>45)for(let i=0;i<8;i++){const x=20+i*49+Math.round(Math.sin(time*.6+i)*5),y=35+(i*67)%340;pixel(g,x,y,18+i%3*6,1,'rgba(202,217,158,.23)');pixel(g,x+9,y+3,8,1,'rgba(202,217,158,.13)')}
+ if(isIntertidal(s))drawIntertidalLife(g,s,time,pixel);
  if(h.id==='freshwater')drawFreshwaterObservationOverlay(g,s,time,observationEffect);
 }
 
 export function stepAquatic(group,{state:s,time,dt,reduced,reaction}){
  const h=habitatConfig(s),speed=Math.min(64,Math.max(1,Number(globalThis.__ISOPODA_HABITAT_SPEED__)||1)),motionScale=(reduced?.45:1)*(h.motionScale??1);
+ if(isIntertidal(s)){stepIntertidal(group,{state:s,dt,reduced,speed});return}
  if(h.id==='groundwater'){stepGroundwater(group,{state:s,dt,reduced,speed});return}
  for(const a of group){if(stepInteraction(a,dt))continue;
   const custom=h.id==='freshwater'&&reaction?.selected?.includes(a.id)&&reaction.age<7?freshwaterReactionPlan(reaction.id,s,a,time):null;

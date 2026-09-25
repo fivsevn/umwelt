@@ -1,4 +1,8 @@
 export const RELEASE_AQUATIC_SOURCES=[
+ {id:'intertidal-noaa-period',level:'A2',type:'TIDES',title:'NOAA — Tidal glossary and semidiurnal period',url:'https://tidesandcurrents.noaa.gov/glossary.html',supports:['intertidal.period']},
+ {id:'intertidal-bmig-granulosa',level:'A2',type:'HABITAT',title:'BMIG — Idotea granulosa',url:'https://bmig.org.uk/species/idotea-granulosa',supports:['granulosa.wet-refuge','intertidal.seaweed']},
+ {id:'intertidal-naturalis-granulosa',level:'A2',type:'LOCOMOTION',title:'Naturalis — Idotea granulosa',url:'https://ns-zooplankton.linnaeus.naturalis.nl/linnaeus_ng/app/views/species/taxon.php?id=132141',supports:['granulosa.swimming']},
+ {id:'intertidal-barnacle-cirri',level:'A1',type:'ECOLOGY',title:'2021 — Characterizing the cirri and gut microbiomes of Semibalanus balanoides',url:'https://pmc.ncbi.nlm.nih.gov/articles/PMC7807441/',supports:['intertidal.barnacle-cirri']},
  {id:'estuary-noaa-circulation',level:'A2',type:'ESTUARINE HYDROLOGY',title:'NOAA — Estuarine circulation and mixing',url:'https://oceanservice.noaa.gov/education/tutorial_estuaries/est05_circulation.html',supports:['estuary.mixing','estuary.salinity-distribution']},
  {id:'groundwater-survey',level:'A2',type:'CAVE SURVEY',title:'National Park Service — Cave Survey Techniques',url:'https://www.nps.gov/jeca/learn/nature/surveying.htm',supports:['groundwater.survey','groundwater.relative-elevation']},
  {id:'groundwater-valdensis-key',level:'A1',type:'TAXONOMY / MORPHOLOGY',title:'Henry & Magniez 1983 — French freshwater Asellota, Proasellus valdensis',url:'https://www.persee.fr/doc/linly_0366-1326_1983_num_52_10_10613?pageId=T1_335',supports:['valdensis.taxonomy','valdensis.size','valdensis.cave','valdensis.morphology']},
