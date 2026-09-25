@@ -68,3 +68,13 @@ test('all encounters and player actions keep bounded cues without mutating simul
  }
  assert.deepEqual([...observed].sort(),['!','!!','?','~','…','◎','♡','*','z'].sort());
 });
+
+test('sand hides ordinary cues but a language burst reaches hidden individuals',()=>{
+ const r=createReactions(),group=[actor(0,{hidden:true,sand:{depth:1}}),actor(1)],view={sx:0,sy:0,sw:384,sh:430};
+ let cells=[];const ctx={fillRect:(...v)=>cells.push(v)};
+ r.notify(group[0],'?',0);drawReactionBubbles(ctx,r.active,group,.1,view);assert.equal(cells.length,0);
+ r.burst(group,'♡',0);r.update(group,context(.1));assert.equal(r.active.length,2);
+ drawReactionBubbles(ctx,r.active,[group[0]],.1,view);assert.ok(cells.length);
+ group[0].hidden=false;r.notify(group[0],'!',.2);assert.equal(r.active.find(b=>b.id===0).cue,'!');
+ r.update(group,context(2));assert.ok(!r.active.some(b=>b.id===0&&b.cue==='!'));
+});

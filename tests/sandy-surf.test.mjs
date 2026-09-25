@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {stageSand,stepSand,buriedAt,uncoverSand,sandVisibleCells,drawSandMarks} from '../isopoda/scenery/sandy-surf.mjs';
+import {stageSand,stepSand,buriedAt,uncoverSand,sandVisibleCells,drawSandMarks,sandPose} from '../isopoda/scenery/sandy-surf.mjs';
 import {createRun,choose,advance,ensureScene,migrateV4} from '../isopoda/engine.mjs';
 import {makeIndividuals} from '../isopoda/behaviors.mjs';
 import {holdIndividual} from '../isopoda/interaction.mjs';
@@ -19,10 +19,13 @@ test('quiet buried residents exist before digging and have no visible trace',()=
 test('burial masks progressively and natural cycles continue after the story',()=>{
  const {state,group}=setup();state.stage='ended';const a=group.find(a=>a.hidden);let emerged=false;
  for(let i=0;i<450;i++){stepSand(group,{state,time:i*.1,dt:.1});if(!a.hidden&&a.sand.depth===0)emerged=true}assert.ok(emerged);
- const cells=Array.from({length:20},(_,y)=>[10,y,'red']);a.sand.depth=.5;const visible=sandVisibleCells(cells,a);assert.ok(visible.length>0&&visible.length<20);
+ const cells=Array.from({length:20},(_,x)=>[a.x+x,a.y,'red']);a.a=0;a.sand.depth=.5;const visible=sandVisibleCells(cells,a);assert.ok(visible.length>0&&visible.length<20);
 });
 test('nine observations finish with either approach and all displayed keys resolve',()=>{
  for(const option of [0,1]){const s=createRun('pulchra',42,'sandy-surf');let n=0;while(s.stage!=='ended'){const scene=ensureScene(s);for(const lang of ['zh','en','ja','isopod'])for(const key of [scene.title,scene.text,...scene.options.flatMap(o=>[o.label,o.text]),'sand:arrival','sand:hint','sand:ending:body'])assert.notEqual(sandText(key,lang),key);assert.ok(choose(s,scene.options[option].id));assert.ok(advance(s));n++}assert.equal(n,9);assert.ok(s.ending.startsWith('sandy-surf-'))}
 });
 
 test('legacy pending sand scenes refresh without erasing completed notes',()=>{const s=createRun('pulchra',42,'sandy-surf');s.scene={id:'sandy-surf:1.0',kind:'aquatic',options:[{id:'water-adjust'}]};s.records=[{kind:'aquatic',choice:'water-wait',text:'water:still'}];const next=migrateV4(s);assert.equal(ensureScene(next).id,'sand:0');assert.deepEqual(next.records,s.records);s.stage='feedback';s.feedback='water:still';assert.equal(migrateV4(s).feedback,s.feedback)});
+
+test('water excavation draws only short-lived ripples; sand has no slab fills',()=>{const calls=[],g={save(){},restore(){},fillRect(x,y,w,h){calls.push({x,y,w,h,color:this.fillStyle})}};drawSandMarks(g,[],.7,[{x:100,y:390,time:0}],false,{tide:46});assert.ok(calls.length);assert.ok(calls.every(c=>['#91bcb0','#c4d2b4'].includes(c.color)));calls.length=0;drawSandMarks(g,[],3,[{x:100,y:390,time:0}],false,{tide:46});assert.equal(calls.length,0);drawSandMarks(g,[],.7,[{x:100,y:100,time:0}],false,{tide:46});assert.ok(calls.length);assert.ok(calls.every(c=>c.w<=2&&c.h===1));});
+test('burrowing lifts the rear without changing the animal position',()=>{const {group}=setup(),a=group[2],before=[a.x,a.y,a.a];a.sand.mode='burying';a.sand.age=.2;assert.ok(sandPose(a).sandRearLift>0);assert.equal(sandPose(a,true).sandRearLift,0);a.sand.age=.6;assert.equal(sandPose(a).sandRearLift,0);assert.deepEqual([a.x,a.y,a.a],before)});

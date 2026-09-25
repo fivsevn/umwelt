@@ -1,4 +1,4 @@
-import {stageSand,buriedAt,uncoverSand,drawSandMarks,sandVisibleCells} from './scenery/sandy-surf.mjs';
+import {stageSand,buriedAt,uncoverSand,drawSandMarks,sandVisibleCells,sandPose,sandShore} from './scenery/sandy-surf.mjs';
 import {isEstuaryObservation,estuaryIndex} from './data/narrative/estuary.mjs';
 import {estuaryLayout} from './scenery/estuary-stages.mjs';
 import {stepEstuary,drawEstuaryWater,drawEstuaryEvidence} from './scenery/estuary.mjs';
@@ -32,7 +32,7 @@ export function sceneActorPixels(source,actor){
   const comma=key.indexOf(','),sx=Number(key.slice(0,comma)),sy=Number(key.slice(comma+1));
   if(actor.occlusion>0&&(front?sx>24-actor.occlusion*49:sx< -24+actor.occlusion*49))continue;
   const ox=sx*size,oy=sy*size;
-  const x=Math.round(centerX+ox*ca-oy*sa),y=Math.round(centerY+ox*sa+oy*ca);
+  const x=Math.round(centerX+ox*ca-oy*sa),y=Math.round(centerY+ox*sa+oy*ca-(actor.sandRearLift||0)*Math.max(0,Math.min(1,(16-sx)/36)));
   for(let yy=0;yy<footprint;yy++)for(let xx=0;xx<footprint;xx++){
    const px=x+xx-offset,py=y+yy-offset;cells.set(px+','+py,[px,py,color]);
   }
@@ -127,7 +127,7 @@ function present(){
  if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h}
  display.imageSmoothingEnabled=false;
  const view=cameraWindow(rect.width,rect.height,camera.zoom,camera.x,camera.y),{scale,sw,sh,sx,sy}=view;camera.x=view.x;camera.y=view.y;
- overlayCtx.clearRect(0,0,overlay.width,overlay.height);overlayCtx.drawImage(world,0,0);if(habitatConfig(state).id!=='groundwater'&&state.habitatId!=='sandy-surf'&&!isEstuaryObservation(state))drawReactionBubbles(overlayCtx,reactions.active,critters,elapsed,view,reduced);display.clearRect(0,0,w,h);display.drawImage(overlay,sx,sy,sw,sh,0,0,w,h);
+ overlayCtx.clearRect(0,0,overlay.width,overlay.height);overlayCtx.drawImage(world,0,0);if(habitatConfig(state).id!=='groundwater'&&!isEstuaryObservation(state))drawReactionBubbles(overlayCtx,reactions.active,critters,elapsed,view,reduced);display.clearRect(0,0,w,h);display.drawImage(overlay,sx,sy,sw,sh,0,0,w,h);
  layer.hidden=true;
 }
 function zoom(z){camera.zoom=Math.max(1,Math.min(3,z));present();return camera.zoom}
@@ -135,8 +135,8 @@ function zoom(z){camera.zoom=Math.max(1,Math.min(3,z));present();return camera.z
 let sandHoles=[];
 const interaction=bindPointerInteraction(canvas,{
  enabled:()=>active&&!empty,
- digStart:point=>{if(getState().habitatId!=='sandy-surf')return null;const actor=buriedAt(critters,point);sandHoles.push({...point,time:elapsed});sandHoles=sandHoles.slice(-16);drawHabitat(performance.now());return {actor}},
- digEnd:(actor,details)=>{uncoverSand(actor);if(!details.cancel&&!details.reveal)onDirectInteraction({type:'ground',point:details.point})},
+ digStart:point=>{if(getState().habitatId!=='sandy-surf')return null;const actor=buriedAt(critters,point);sandHoles.push({...point,time:elapsed,water:point.y>=sandShore(getState(),elapsed)});sandHoles=sandHoles.slice(-16);drawHabitat(performance.now());return {actor}},
+ digEnd:(actor,details)=>{const wasBuried=actor?.sand?.depth>0;uncoverSand(actor);if(actor&&!details.cancel&&(details.reveal||wasBuried))reactions.notify(actor,actor.id%2?'?':'!',elapsed);if(!details.cancel&&!details.reveal)onDirectInteraction({type:'ground',point:details.point})},
  worldPoint:event=>{
   const r=canvas.getBoundingClientRect(),view=cameraWindow(r.width,r.height,camera.zoom,camera.x,camera.y);
   return {x:view.sx+(event.clientX-r.left)/view.scale,y:view.sy+(event.clientY-r.top)/view.scale};
@@ -284,13 +284,13 @@ function drawActorUnderlay(cells){
  for(const [x,y] of cells)px(ctx,x+1,y+2,1,1,'rgba(20,24,18,.46)');
 }
 function drawActors(){
- if(state.habitatId==='sandy-surf')drawSandMarks(ctx,critters,elapsed,sandHoles,reduced);
+ if(state.habitatId==='sandy-surf')drawSandMarks(ctx,critters,elapsed,sandHoles,reduced,state);
  for(const actor of [...critters].sort((a,b)=>Number(a.interactionState?.mode==='grabbed')-Number(b.interactionState?.mode==='grabbed'))){if(actor.hidden){actor.hitCells=[];continue;}
   const phase=Math.floor(actor.phase)%4,key=[actor.posture,actor.molt,phase,actor.moving].join(':');
   let source=actor.pixels.get(key);
   if(!source){source=new Map();for(const part of pixelAnatomy(actor.model,{posture:actor.posture,molt:actor.molt,phase,moving:actor.moving}))for(const [x,y,color] of part.cells)source.set(x+','+y,color);actor.pixels.set(key,source);if(actor.pixels.size>40)actor.pixels.delete(actor.pixels.keys().next().value)}
   if(actor.interactionState?.mode==='grabbed')px(ctx,actor.x-7,actor.y+8,14,2,'#252b21');
-  actor.hitCells=sandVisibleCells(sceneActorPixels(source,actor),actor);
+  actor.hitCells=sandVisibleCells(sceneActorPixels(source,sandPose(actor,reduced)),actor);
   drawActorUnderlay(actor.hitCells);
   for(const [x,y,color] of actor.hitCells)px(ctx,x,y,1,1,color);
  }

@@ -63,6 +63,7 @@ export function createReactions(){
    lastStart=time;
    return bubbles;
   },
+  notify(actor,cue,time){bubbles=bubbles.filter(b=>b.id!==actor.id);bubbles.push({id:actor.id,cue,priority:PRIORITY[cue],start:time,until:time+1.6})},
   update(group,{encounter,state,time,reaction}){
    bubbles=bubbles.filter(b=>time<b.until&&group.some(c=>c.id===b.id));
    const candidates=[];
@@ -118,7 +119,7 @@ export function bubbleLayout(actor,bubble,time,view,reduced=false){
 }
 export function drawReactionBubbles(ctx,bubbles,group,time,view,reduced=false){
  for(const b of bubbles){
-  const actor=group.find(c=>c.id===b.id);if(!actor)continue;
+  const actor=group.find(c=>c.id===b.id);if(!actor||(actor.sand&&actor.hidden&&b.cue!=='♡'))continue;
   const r=bubbleLayout(actor,b,time,view,reduced);if(!r)continue;
   const {x,y,w,h,below,tail}=r;
   const cell=(xx,yy,color)=>{ctx.fillStyle=color;ctx.fillRect((x+xx)*2,(y+yy)*2,2,2)};
