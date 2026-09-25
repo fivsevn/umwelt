@@ -71,6 +71,23 @@ function drawAquaticLayout(time){
 }
 let state=getState(),critters=[],last=0,active=false,effect=null,frame=0,encounter=null,elapsed=0,empty=false,shelterHeld=false;
 const camera={zoom:1,x:192,y:215},reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const viewport=canvas.closest('.habitat-viewport'),caveVeil=canvas.id==='habitat'&&viewport?document.createElement('div'):null;
+let beamFrame=0,beamX=50,beamY=54;
+if(caveVeil){caveVeil.className='groundwater-veil';caveVeil.setAttribute('aria-hidden','true');caveVeil.hidden=true;viewport.append(caveVeil)}
+function syncGroundwaterVeil(){
+ const on=habitatConfig(state).id==='groundwater';
+ if(viewport)viewport.classList.toggle('groundwater-observation',on);
+ if(caveVeil)caveVeil.hidden=!on;
+}
+function moveGroundwaterBeam(event){
+ if(!caveVeil||habitatConfig(getState()).id!=='groundwater')return;
+ const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;
+ beamX=Math.max(0,Math.min(100,(event.clientX-rect.left)/rect.width*100));
+ beamY=Math.max(0,Math.min(100,(event.clientY-rect.top)/rect.height*100));
+ if(beamFrame)return;beamFrame=requestAnimationFrame(()=>{beamFrame=0;caveVeil.style.setProperty('--beam-x',beamX.toFixed(2)+'%');caveVeil.style.setProperty('--beam-y',beamY.toFixed(2)+'%')});
+}
+canvas.addEventListener('pointerdown',moveGroundwaterBeam,{passive:true});
+canvas.addEventListener('pointermove',moveGroundwaterBeam,{passive:true});
 function encounterForScene(scene){
  const base=encounterById(scene?.encounter);if(!base)return null;
  return {...base,place:Array.isArray(scene?.encounterPlace)?scene.encounterPlace:base.place,specimenId:scene?.moltVisual?.specimen||scene?.specimen||null};
@@ -81,7 +98,7 @@ function placeSceneMolt(scene){
  actor.x=molt.x;actor.y=molt.y;actor.a=molt.a||0;actor.posture='molting';actor.molt=molt.phase||'posterior';actor.moving=false;actor.hidden=false;actor.occlusion=0;
 }
 function reset(options={}){
- interaction.cancel();state=getState();empty=!!options.empty;layer.replaceChildren();elapsed=0;effect=null;shelterHeld=false;reactions.reset();
+ interaction.cancel();state=getState();syncGroundwaterVeil();empty=!!options.empty;layer.replaceChildren();elapsed=0;effect=null;shelterHeld=false;reactions.reset();
  const config=habitatConfig(state);
  critters=empty?[]:makeIndividuals(state.cohort).map(c=>({...c,interaction:speciesById(c.species).interaction,model:renderModel(speciesById(c.species).visual,{stage:c.stage,seed:c.seed}),habitatScale:config.actorScale||1,pixels:new Map()}));
  canvas.dataset.specimens=String(critters.length);canvas.dataset.taxa=[...new Set(critters.map(c=>c.species))].join(',');
@@ -89,7 +106,7 @@ function reset(options={}){
  if(config.dialogue&&critters[0]){const a=critters[0];a.x=196;a.y=246;a.a=-.18;a.activity='crawl';a.posture='normal';a.moving=false;a.hidden=false;a.occlusion=0}else stageIndividuals(critters,encounter,{initial:true});
  if(!empty)placeSceneMolt(state.scene);drawHabitat(0);
 }
-function stage(scene){interaction.cancel();encounter=encounterForScene(scene);elapsed=0;effect=null;shelterHeld=false;reactions.reset();if(!habitatConfig(state).dialogue)stageIndividuals(critters,encounter);placeSceneMolt(scene);if(encounter){[camera.x,camera.y]=encounter.place}drawHabitat(0)}
+function stage(scene){interaction.cancel();state=getState();syncGroundwaterVeil();encounter=encounterForScene(scene);elapsed=0;effect=null;shelterHeld=false;reactions.reset();if(!habitatConfig(state).dialogue)stageIndividuals(critters,encounter);placeSceneMolt(scene);if(encounter){[camera.x,camera.y]=encounter.place}drawHabitat(0)}
 function react(id){state=getState();const point=actionFocus(id,state,encounter);const selected=[...critters].sort((a,b)=>Math.hypot(a.x-point.x,a.y-point.y)-Math.hypot(b.x-point.x,b.y-point.y)).slice(0,2).map(c=>c.id);effect={id,selected,mode:responseMode(id),start:elapsed,until:elapsed+10};drawHabitat(performance.now())}
 function heartBurst(){if(empty||!critters.length)return;reactions.burst(critters,'♡',elapsed);drawHabitat(performance.now())}
 function present(){
@@ -195,7 +212,7 @@ function drawHabitat(t){
   if(wide)ctx.fillRect(0,0,w,h);else ctx.fillRect(0,0,112,h);
  }
 
- if(state.light<55&&config.id!=='abyssal'){ctx.fillStyle=`rgba(15,27,21,${(55-state.light)/120})`;ctx.fillRect(0,0,w,h)}
+ if(state.light<55&&config.id!=='abyssal'&&config.id!=='groundwater'){ctx.fillStyle=`rgba(15,27,21,${(55-state.light)/120})`;ctx.fillRect(0,0,w,h)}
  if(config.id==='abyssal'){ctx.fillStyle='rgba(5,11,14,.10)';ctx.fillRect(0,0,w,h)}
  ctx.strokeStyle='rgba(147,148,124,.55)';ctx.lineWidth=2;ctx.strokeRect(1,1,w-2,h-2);
  if(aquatic)drawAquaticWater(ctx,state,reduced?0:elapsed,{drawPlants:false,observationEffect:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});
