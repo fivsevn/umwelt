@@ -125,13 +125,16 @@ test('aquatic presets draw distinct deterministic finite pixel scenes and tide c
 });
 
 
-test('freshwater material layouts expose five editable visual stages',()=>{
+test('freshwater material layouts use the five authored filename-mapped scenes',()=>{
  assert.equal(FRESHWATER_STAGE_LAYOUTS.length,5);assert.equal(FRESHWATER_STAGE_META.length,5);
- const counts=FRESHWATER_STAGE_LAYOUTS.map(layout=>layout.objects.filter(object=>object.id.startsWith('material-')).length);
- assert.deepEqual(counts,[2,3,5,6,7]);
- assert.ok(FRESHWATER_STAGE_LAYOUTS[0].objects.some(object=>object.id==='material-leaf-main'&&object.type==='leaf-broad-01'));
- assert.ok(!FRESHWATER_STAGE_LAYOUTS[4].objects.some(object=>object.id==='material-leaf-main'));
- assert.ok(FRESHWATER_STAGE_LAYOUTS[4].objects.filter(object=>object.type==='freshwater-detritus-01').length>=3);
+ assert.deepEqual(FRESHWATER_STAGE_LAYOUTS.map(layout=>layout.objects.length),[24,29,35,36,37]);
+ assert.deepEqual(FRESHWATER_STAGE_LAYOUTS.map(layout=>layout.materialStage),[0,1,2,3,4]);
+ assert.deepEqual(FRESHWATER_STAGE_LAYOUTS.map(layout=>layout.metadata.stageId),FRESHWATER_STAGE_META.map(stage=>stage.id));
+ assert.ok(FRESHWATER_STAGE_LAYOUTS[0].objects.some(object=>object.id==='material-leaf-main'&&object.type==='leaf-broad-01'&&Math.abs(object.x-248.69859126103347)<1e-9));
+ assert.ok(FRESHWATER_STAGE_LAYOUTS[1].objects.some(object=>object.id==='instance-5'&&object.type==='leaf-broken-01'));
+ assert.equal(FRESHWATER_STAGE_LAYOUTS[3].objects.filter(object=>object.type==='leaf-skeleton-01').length,2);
+ assert.equal(FRESHWATER_STAGE_LAYOUTS[4].objects.filter(object=>object.type==='freshwater-detritus-01').length,5);
+ assert.equal(FRESHWATER_STAGE_LAYOUTS[4].objects.some(object=>object.type==='bark-log-01'),false);
 });
 
 
