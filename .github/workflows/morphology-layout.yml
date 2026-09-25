@@ -8,7 +8,7 @@ on:
       - '*.css'
       - '.github/scripts/stamp-assets.mjs'
       - 'tests/browser/*.cjs'
-      - 'tests/support/browser-pointer.cjs'
+      - 'tests/support/browser-controls.cjs'
       - '.github/workflows/morphology-layout.yml'
   push:
     branches: [main]
@@ -19,7 +19,7 @@ on:
       - '*.css'
       - '.github/scripts/stamp-assets.mjs'
       - 'tests/browser/*.cjs'
-      - 'tests/support/browser-pointer.cjs'
+      - 'tests/support/browser-controls.cjs'
       - '.github/workflows/morphology-layout.yml'
   workflow_dispatch:
 permissions:
