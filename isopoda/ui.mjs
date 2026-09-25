@@ -1,3 +1,5 @@
+import {microscope,isFocused} from './scenery/petri.mjs';
+import {petriText} from './data/habitats/petri-observation.mjs';
 import {sandInstrument} from './data/habitats/sandy-observation.mjs';
 import {isIntertidal,intertidalInstrument} from './data/narrative/intertidal.mjs';
 import {isEstuaryObservation,estuaryInstrument} from './data/narrative/estuary.mjs';
@@ -7,6 +9,7 @@ import {getLanguage} from './i18n.mjs';
 
 // Tiny CSS pixel marks: no raster resources, system emoji, or smooth icon font.
 const glyphs={
+ microscope:['000001111000','000001001000','000011110000','000110000000','001100011000','001100111100','001100011000','001111110000','001100000000','000110001000','000011111000','001111111100'],
  pencil:['000000001100','000000011110','000000111100','000001111000','000011110000','000111100000','001111000000','001110000000','001000000000'],
  triangleDown:['1111111','0111110','0011100','0001000'],
  triangleUp:['0001000','0011100','0111110','1111111'],
@@ -40,5 +43,5 @@ export function pixelIcon(kind){
 export function iconButton(button,kind,label){button.replaceChildren(pixelIcon(kind));button.setAttribute('aria-label',label);button.title=label}
 export function createInstrument(root){
  root.innerHTML='<span id="meterTemp"></span><span id="meterWet"></span><span id="simDetail"></span>';
- return state=>{if(state.habitatId==='sandy-surf'){sandInstrument(state,habitatConfig(state).tides,getLanguage()).forEach((label,i)=>root.children[i].textContent=label);return}if(isIntertidal(state)){intertidalInstrument(state,getLanguage()).forEach((label,i)=>root.children[i].textContent=label);return}if(isEstuaryObservation(state)){estuaryInstrument(state,getLanguage()).forEach((label,i)=>root.children[i].textContent=label);return}if(habitatConfig(state).aquatic){const nodes=[...root.children];habitatConfig(state).metrics.forEach((key,i)=>{nodes[i].textContent=gameText('water:'+key,getLanguage())+' '+Math.round(state[key])});return}const c=meterCopy[getLanguage()]||meterCopy.zh;root.querySelector('#meterTemp').textContent=c.temp+' '+state.temp.toFixed(1)+'°C';root.querySelector('#meterWet').textContent=c.wet+' '+Math.round(state.humidity)+'%';root.querySelector('#simDetail').textContent=(state.vent>75?c.ventHigh:state.vent<40?c.ventLow:c.ventMid)+' · '+(state.light<30?c.lightLow:state.light>65?c.lightHigh:c.lightMid)};
+ return state=>{if(state.habitatId==='petri-dish'){const m=microscope(state),t=k=>petriText(k,getLanguage());[t(m.mode?'lens':'overview'),m.mode?m.magnification+'×':t('field')+' 1×',m.mode?t(isFocused(m)?'clear':'soft'):t('cycle')].forEach((label,i)=>root.children[i].textContent=label);return}if(state.habitatId==='sandy-surf'){sandInstrument(state,habitatConfig(state).tides,getLanguage()).forEach((label,i)=>root.children[i].textContent=label);return}if(isIntertidal(state)){intertidalInstrument(state,getLanguage()).forEach((label,i)=>root.children[i].textContent=label);return}if(isEstuaryObservation(state)){estuaryInstrument(state,getLanguage()).forEach((label,i)=>root.children[i].textContent=label);return}if(habitatConfig(state).aquatic){const nodes=[...root.children];habitatConfig(state).metrics.forEach((key,i)=>{nodes[i].textContent=gameText('water:'+key,getLanguage())+' '+Math.round(state[key])});return}const c=meterCopy[getLanguage()]||meterCopy.zh;root.querySelector('#meterTemp').textContent=c.temp+' '+state.temp.toFixed(1)+'°C';root.querySelector('#meterWet').textContent=c.wet+' '+Math.round(state.humidity)+'%';root.querySelector('#simDetail').textContent=(state.vent>75?c.ventHigh:state.vent<40?c.ventLow:c.ventMid)+' · '+(state.light<30?c.lightLow:state.light>65?c.lightHigh:c.lightMid)};
 }

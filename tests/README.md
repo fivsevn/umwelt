@@ -79,3 +79,7 @@ BROWSER=webkit BASE_URL=http://127.0.0.1:8765 node tests/browser/habitat-lab.cjs
 `browser/sandy-surf.cjs` checks quiet buried residents, hold-to-dig/lift, drag/release, cancelled holds, empty digs, four languages, save/reload and the live post-ending scene at 320, 390 and 1440 pixels. Run with `BROWSER=webkit` for the second engine, `BASE_URL` for a server, `CHROME_PATH` for Chromium, and `QA_OUTPUT` for screenshots. Chromium mobile cases use real touch events. `sandy-surf.test.mjs` covers burial visibility, recovery, natural cycles, narrative completion and legacy pending scenes.
 
 The sand cover and excavation are habitat effects, not new anatomical poses. Scientific sources are shared between the two laboratories; the habitat reference describes accelerated timing, visual cues and the weaker species-specific evidence for E. spinigera.
+
+## Petri dish microscope
+
+`tests/petri.test.mjs` checks single-specimen draws, circular containment, operation-gated narrative and saved progress. `tests/browser/petri.cjs` runs the nine observations at 320, 390 and 1440 pixels in Chromium or WebKit (`BROWSER=webkit`). It covers microscope entry, focus, magnification, panning, illumination, return to overview, 32× reload, four languages and the standalone ending. `BASE_URL` selects a served repository; `QA_OUTPUT` selects screenshot output. Microscope magnifications are authored display enlargement, not calibrated optical measurements.
