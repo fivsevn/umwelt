@@ -61,6 +61,19 @@ test('tides advance in tidal habitats and freshwater advances material state wit
  assert.equal(fresh.day,1);assert.equal(fresh.period,0);
  assert.deepEqual(stages,[0,0,1,1,2,2,3,3,4,4]);assert.deepEqual(beats,[0,1,0,1,0,1,0,1,0,1]);assert.deepEqual(detritus,[55,55,62,62,70,70,78,78,64,64]);
 });
+test('groundwater uses four untimed connectivity pulses and topology-based endings',()=>{
+ const metricRun=createRun('cavaticus',37,'groundwater'),metrics=[];let turns=0;
+ while(metricRun.stage!=='ended'){
+  const scene=ensureScene(metricRun);assert.equal(scene.kind,'groundwater-pulse');assert.equal(scene.pulseIndex,turns);metrics.push([metricRun.connectivity,metricRun.seepage,metricRun.input]);
+  const option=scene.options.find(o=>o.lens==='medium');assert.ok(option);assert.ok(choose(metricRun,option.id));assert.ok(advance(metricRun));turns++;
+ }
+ assert.equal(turns,4);assert.equal(metricRun.day,1);assert.equal(metricRun.period,0);assert.equal(metricRun.ending,'groundwater-medium');
+ assert.deepEqual(metrics,[[18,16,4],[36,48,5],[76,66,8],[68,74,72]]);
+ for(const [lens,ending] of [['body','groundwater-body'],['limit','groundwater-limit']]){
+  const s=createRun('cavaticus',41,'groundwater');while(s.stage!=='ended'){const scene=ensureScene(s),option=scene.options.find(o=>o.lens===lens);assert.ok(option);assert.ok(choose(s,option.id));assert.ok(advance(s))}assert.equal(s.ending,ending);
+ }
+});
+
 test('aquatic locomotion tuning stays hidden, differentiated and affects animation pace',()=>{
  for(const h of HABITATS.filter(h=>h.aquatic)){
   const speeds=h.species.map(id=>SPECIES.find(p=>p.id===id).speed);
@@ -82,7 +95,7 @@ test('aquatic sources, species counts and all ending translations are complete',
 });
 
 test('aquatic endings resolve after each habitat completes its configured observation sequence',()=>{
- for(const h of HABITATS.filter(h=>h.aquatic&&!h.dialogue&&h.id!=='freshwater'))for(const [choice,kind] of [['water-adjust','care'],['water-wait','calm'],['water-record','trace']]){
+ for(const h of HABITATS.filter(h=>h.aquatic&&!h.dialogue&&!['freshwater','groundwater'].includes(h.id)))for(const [choice,kind] of [['water-adjust','care'],['water-wait','calm'],['water-record','trace']]){
   const s=createRun(h.species[0],37,h.id);while(s.stage!=='ended'){choose(s,choice);advance(s)}assert.equal(s.ending,h.id+'-'+kind);
  }
  for(const [strategy,kind] of [['relation','care'],['object','trace'],['mixed','calm']]){

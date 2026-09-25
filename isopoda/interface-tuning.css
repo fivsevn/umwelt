@@ -78,3 +78,60 @@ body{min-height:100dvh}
   .status-row .instruments{font-size:10px;gap:4px}
   .species-status{top:6px!important;right:6px!important;max-width:58%;font-size:8px;padding:1px 2px}
 }
+
+
+/* Groundwater observer beam: compositor-only veil, no image or extra canvas asset.
+   Darkness never reaches full black, so cave geometry stays faintly legible outside the beam. */
+.groundwater-veil{
+ position:absolute;
+ inset:0;
+ z-index:2;
+ pointer-events:none;
+ --beam-x:50%;
+ --beam-y:54%;
+ background:radial-gradient(
+  circle at var(--beam-x) var(--beam-y),
+  rgba(3,7,6,.02) 0%,
+  rgba(3,7,6,.04) 22%,
+  rgba(3,7,6,.16) 31%,
+  rgba(3,7,6,.48) 48%,
+  rgba(2,5,5,.70) 70%,
+  rgba(2,5,5,.78) 100%
+ );
+ opacity:0;
+ transition:opacity .16s linear;
+ will-change:background;
+}
+.groundwater-veil[hidden]{display:none!important}
+.groundwater-observation>.groundwater-veil{opacity:1}
+@media(prefers-reduced-motion:reduce){.groundwater-veil{transition:none}}
+
+
+.groundwater-observation>#habitat,
+.groundwater-observation>#habitat:active{cursor:crosshair}
+.groundwater-topology{
+ position:absolute;
+ left:50%;
+ bottom:7px;
+ z-index:12;
+ width:116px;
+ height:64px;
+ transform:translateX(-50%);
+ pointer-events:none;
+ color:rgba(214,219,198,.72);
+ background:rgba(15,23,20,.56);
+ border:1px solid rgba(126,141,116,.46);
+ box-shadow:inset 0 0 0 1px rgba(33,45,37,.42);
+}
+.groundwater-topology[hidden]{display:none!important}
+.groundwater-topology svg{display:block;width:100%;height:100%;overflow:visible}
+.groundwater-topology path{fill:none;stroke:currentColor;stroke-width:1}
+.groundwater-topology .topology-water{stroke:rgba(103,128,119,.28);stroke-width:1.3}
+.groundwater-topology .topology-node{fill:rgba(209,214,194,.86);stroke:rgba(42,57,48,.8);stroke-width:1}
+.groundwater-topology .topology-inferred{stroke-dasharray:3 3;stroke:rgba(215,220,199,.75)}
+.groundwater-topology .topology-input{stroke-dasharray:1 2;stroke:rgba(168,181,150,.72)}
+.groundwater-topology .topology-arrow{stroke:rgba(168,181,150,.72)}
+.groundwater-topology .topology-break{stroke:rgba(198,184,156,.82)}
+.groundwater-topology text{fill:currentColor;font-size:6px;font-family:inherit}
+.groundwater-topology .topology-question{fill:rgba(224,226,205,.76);font-size:7px}
+@media(max-width:430px){.groundwater-topology{width:102px;height:56px;bottom:6px}}
