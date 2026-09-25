@@ -268,6 +268,7 @@ export function migrateV3(old){if(!old||old.version!==3||!SPECIES.some(p=>p.id==
 export function migrateV4(old){
  if(!old||old.version!==4)return null;
  const s={...old,habitatId:old.habitatId??'terrestrial'};
+ if(s.habitatId==='sandy-surf'&&s.stage==='choice')s.scene=null; // Keep completed notes; refresh the pending observation.
  if(s.habitatId==='intertidal'&&s.intertidalVersion!==1)s.intertidalLegacy=true;
  if(s.habitatId==='estuary'){
   // Keep nine-turn v4 histories on their original decoder and clock. Never re-index them.

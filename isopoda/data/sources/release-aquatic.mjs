@@ -1,4 +1,6 @@
 export const RELEASE_AQUATIC_SOURCES=[
+ {id:'sand-jones-1970',level:'A1',type:'BURROWING / HABITAT',title:'Jones 1970 — Factors affecting the distribution of Eurydice pulchra and E. affinis',url:'https://www.vliz.be/imisdocs/publications/ocrd/75297.pdf',supports:['pulchra.burrowing','affinis.burrowing','sandy-surf.sediment']},
+ {id:'sand-rhythm-1970',level:'A1',type:'BEHAVIOUR',title:'Jones & Naylor 1970 — The swimming rhythm of the sand beach isopod Eurydice pulchra',url:'https://doi.org/10.1016/0022-0981(70)90024-9',supports:['pulchra.swimming','pulchra.burrowing','sandy-surf.wave-emergence']},
  {id:'intertidal-noaa-period',level:'A2',type:'TIDES',title:'NOAA — Tidal glossary and semidiurnal period',url:'https://tidesandcurrents.noaa.gov/glossary.html',supports:['intertidal.period']},
  {id:'intertidal-bmig-granulosa',level:'A2',type:'HABITAT',title:'BMIG — Idotea granulosa',url:'https://bmig.org.uk/species/idotea-granulosa',supports:['granulosa.wet-refuge','intertidal.seaweed']},
  {id:'intertidal-naturalis-granulosa',level:'A2',type:'LOCOMOTION',title:'Naturalis — Idotea granulosa',url:'https://ns-zooplankton.linnaeus.naturalis.nl/linnaeus_ng/app/views/species/taxon.php?id=132141',supports:['granulosa.swimming']},
