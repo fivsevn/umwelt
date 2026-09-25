@@ -3,6 +3,7 @@ import {STORY_ALTERNATES} from './data/habitats/story-alternates.mjs';
 import {ABYSSAL_NODES,ABYSSAL_ENDING_DATA,ABYSSAL_FRAGMENT_DATA} from './data/habitats/abyssal-dialogue.mjs';
 import {habitatConfig} from './habitats.mjs';
 import {FRESHWATER_MATERIAL_STAGES,FRESHWATER_MATERIAL_ENDINGS} from './data/habitats/freshwater-material.mjs';
+import {GROUNDWATER_PULSES,GROUNDWATER_ENDINGS} from './data/habitats/groundwater-pulse.mjs';
 import {encodeIsopodText} from './locales/isopod.mjs';
 const COPY={
  wait:['让时间过去','Let time pass','時を待つ'],record:['只记录位置','Record the positions','位置だけを記す'],
@@ -10,8 +11,8 @@ const COPY={
  note:['纸上留下了位置，水里没有多出一条线。','Positions remain on paper. No new line appears in the water.','位置は紙に残る。水には新しい線はできない。'],
  limitation:['像素形态为有资料依据的近似；微小鉴别特征未完整绘制。','Pixel anatomy is evidence-informed; microscopic diagnostics are not fully rendered.','ピクセル形態は資料に基づく近似で、微細な識別形質は省略している。'],
 
- prev:['上一个环境','Previous habitat','前の環境'],next:['下一个环境','Next habitat','次の環境'],days3:['三日观察','Three days of observation','三日間の観察'],observations5:['五次观察','Five observations','五回の観察'],abyssalRound:['单次观察','Single observation','一回の観察'],
- flow:['水流','Flow','水流'],oxygen:['溶氧','Oxygen','溶存酸素'],light:['光照','Light','光量'],detritus:['碎屑','Detritus','有機物'],tide:['潮位','Tide','潮位'],salinity:['盐度','Salinity','塩分'],algae:['藻丛','Algae','藻'],
+ prev:['上一个环境','Previous habitat','前の環境'],next:['下一个环境','Next habitat','次の環境'],days3:['三日观察','Three days of observation','三日間の観察'],observations5:['五次观察','Five observations','五回の観察'],pulses4:['四次脉冲观察','Four pulse observations','四回のパルス観察'],abyssalRound:['单次观察','Single observation','一回の観察'],
+ flow:['水流','Flow','水流'],oxygen:['溶氧','Oxygen','溶存酸素'],light:['光照','Light','光量'],connectivity:['连通性','Connectivity','接続性'],seepage:['渗流','Seepage','浸透'],input:['输入','Input','流入'],detritus:['碎屑','Detritus','有機物'],tide:['潮位','Tide','潮位'],salinity:['盐度','Salinity','塩分'],algae:['藻丛','Algae','藻'],
  calm:['水中的空白','A space in the water','水の中の余白'],care:['改变过的水','Altered water','変えられた水'],trace:['水线之外','Beyond the waterline','水位線の向こう'],
  low:['悬浮颗粒缓慢下沉，几个轮廓停在水流经过的边缘。','Particles settle slowly. Several bodies rest near passing water.','粒子がゆっくり沈み、輪郭が流れの縁で止まる。'],
  fast:['颗粒加快移动，身体更靠近可以抓住的表面。','Particles move faster; bodies draw nearer to surfaces they can grip.','粒子が速まり、身体がつかまれる面へ寄る。'],
@@ -31,7 +32,8 @@ const endingBodies={
 const freshwaterEndingIndex={care:0,calm:1,trace:2};
 const STANDARD_AQUATIC_ENDINGS=Object.keys(STORIES).flatMap(id=>['calm','care','trace'].map((kind,i)=>{const endingIndex=id==='freshwater'?freshwaterEndingIndex[kind]:i;return {id:`${id}-${kind}`,title:id==='freshwater'?`water:freshwater-material:ending:${endingIndex}:title`:`water:${kind}`,body:id==='freshwater'?`water:freshwater-material:ending:${endingIndex}:body`:`water:${id}:ending:${i}`,line:id==='freshwater'?`water:freshwater-material:ending:${endingIndex}:line`:'water:note'}}));
 export const ABYSSAL_ENDINGS=Object.keys(ABYSSAL_ENDING_DATA).map(id=>({id,title:`abyssal:ending:${id}:title`,body:`abyssal:ending:${id}:body`,line:`abyssal:ending:${id}:line`}));
-export const AQUATIC_ENDINGS=[...STANDARD_AQUATIC_ENDINGS,...ABYSSAL_ENDINGS];
+export const GROUNDWATER_PULSE_ENDINGS=Object.keys(GROUNDWATER_ENDINGS).map(id=>({id:`groundwater-${id}`,title:`groundwater:ending:${id}:title`,body:`groundwater:ending:${id}:body`,line:`groundwater:ending:${id}:line`}));
+export const AQUATIC_ENDINGS=[...STANDARD_AQUATIC_ENDINGS,...ABYSSAL_ENDINGS,...GROUNDWATER_PULSE_ENDINGS];
 
 const langIndex={zh:0,en:1,ja:2};
 function localizedRow(row,lang='zh'){
@@ -80,6 +82,23 @@ function freshwaterMaterialText(value,lang){
  }
  return value;
 }
+function groundwaterPulseText(value,lang){
+ const parts=value.split(':'),kind=parts[1];
+ if(kind==='pulse'){
+  const pulse=GROUNDWATER_PULSES[Number(parts[2])];if(!pulse)return value;
+  if(parts[3]==='name')return localizedRow(pulse.name,lang)??value;
+  if(parts[3]==='prompt')return localizedRow(pulse.prompt,lang)??value;
+  if(parts[3]==='option'){
+   const option=pulse.options[Number(parts[4])];if(!option)return value;
+   return localizedRow(option[parts[5]],lang)??value;
+  }
+ }
+ if(kind==='ending'){
+  const ending=GROUNDWATER_ENDINGS[parts[2]];if(!ending)return value;
+  return localizedRow(ending[parts[3]],lang)??value;
+ }
+ return value;
+}
 function abyssalText(value,lang){
  const parts=value.split(':'),kind=parts[1];
  if(kind==='node'){
@@ -99,6 +118,7 @@ function abyssalText(value,lang){
 export function aquaticText(value,lang='zh'){
  const text=String(value??'');
  if(text.startsWith('abyssal:'))return abyssalText(text,lang);
+ if(text.startsWith('groundwater:'))return groundwaterPulseText(text,lang);
  if(text.startsWith('water:freshwater-material:'))return freshwaterMaterialText(text,lang);
  if(!text.startsWith('water:'))return null;
  const parts=text.split(':');let row;
@@ -232,14 +252,42 @@ function freshwaterMaterialScene(s){
   }))
  };
 }
+function groundwaterPulseScene(s){
+ const records=(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind==='groundwater-pulse');
+ const index=Math.min(GROUNDWATER_PULSES.length-1,records.length),pulse=GROUNDWATER_PULSES[index];
+ return {
+  id:`groundwater-pulse:${index}`,
+  title:`groundwater:pulse:${index}:name`,
+  kind:'groundwater-pulse',
+  text:`groundwater:pulse:${index}:prompt`,
+  activity:`groundwater:pulse:${index}:name`,
+  storyKey:`groundwater-pulse:${pulse.id}`,
+  pulseIndex:index,
+  options:pulse.options.map((option,i)=>({
+   id:option.id,
+   label:`groundwater:pulse:${index}:option:${i}:label`,
+   delta:{},
+   text:`groundwater:pulse:${index}:option:${i}:text`,
+   animation:option.id,
+   lens:option.lens
+  }))
+ };
+}
 export function aquaticScene(s){
  if(s.habitatId==='freshwater')return freshwaterMaterialScene(s);
+ if(s.habitatId==='groundwater')return groundwaterPulseScene(s);
  if(habitatConfig(s).dialogue)return abyssalScene(s);
  const ref=storyRefFor(s),row=ref.row,key=ref.key;
  return {id:`${s.habitatId}:${s.day}.${s.period}`,title:key(0),kind:'aquatic',text:key(0),activity:key(0),storyKey:ref.storyKey,options:[{id:'water-adjust',label:key(1),delta:{...row[2],interventions:1,care:1},text:key(3)},{id:'water-wait',label:'water:wait',delta:{quiet:2},text:'water:still'},{id:'water-record',label:'water:record',delta:{labels:1},text:'water:note'}]};
 }
 export function aquaticEnding(s){
  if(habitatConfig(s).dialogue)return abyssalCompositeEnding(s);
+ if(s.habitatId==='groundwater'){
+  const records=(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind==='groundwater-pulse');
+  const counts={body:0,medium:0,limit:0};for(const record of records)if(record.lens in counts)counts[record.lens]++;
+  const max=Math.max(...Object.values(counts)),order=['medium','limit','body'],kind=order.find(key=>counts[key]===max)||'medium';
+  return AQUATIC_ENDINGS.find(e=>e.id===`groundwater-${kind}`);
+ }
  if(s.habitatId==='freshwater'){
   const frames=(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind==='freshwater-material'&&['object','relation'].includes(record.lens));
   const object=frames.filter(record=>record.lens==='object').length,relation=frames.filter(record=>record.lens==='relation').length;
@@ -248,4 +296,4 @@ export function aquaticEnding(s){
  }
  const kind=s.interventions>=5?'care':s.quiet>=8?'calm':'trace';return AQUATIC_ENDINGS.find(e=>habitatConfig(s).endingPool.includes(e.id)&&e.id.endsWith('-'+kind));
 }
-export function aquaticFeedback(s){if(habitatConfig(s).dialogue||s.habitatId==='freshwater')return '';return s.oxygen<45?'water:low':s.flow>65?'water:fast':'water:normal'}
+export function aquaticFeedback(s){if(habitatConfig(s).dialogue||s.habitatId==='freshwater'||s.habitatId==='groundwater')return '';return s.oxygen<45?'water:low':s.flow>65?'water:fast':'water:normal'}
