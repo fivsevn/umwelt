@@ -45,6 +45,6 @@
 - [UMWELT](https://umwelt.fivsevn.com/)
 - [GitHub Repository](https://github.com/fivsevn/umwelt)
 
-**[形態実験室 · 標本の参考資料](https://umwelt.fivsevn.com/isopoda/morphology/)**
+**[アシモフ形態実験室へ](https://umwelt.fivsevn.com/isopoda/morphology/)**
 
-**[環境実験室 · 環境の参考資料](https://umwelt.fivsevn.com/isopoda/habitat)**
+**[アシモフ環境実験室へ](https://umwelt.fivsevn.com/isopoda/habitat)**
