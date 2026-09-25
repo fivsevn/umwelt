@@ -78,3 +78,30 @@ body{min-height:100dvh}
   .status-row .instruments{font-size:10px;gap:4px}
   .species-status{top:6px!important;right:6px!important;max-width:58%;font-size:8px;padding:1px 2px}
 }
+
+
+/* Groundwater observer beam: compositor-only veil, no image or extra canvas asset.
+   Darkness never reaches full black, so cave geometry stays faintly legible outside the beam. */
+.groundwater-veil{
+ position:absolute;
+ inset:0;
+ z-index:2;
+ pointer-events:none;
+ --beam-x:50%;
+ --beam-y:54%;
+ background:radial-gradient(
+  circle at var(--beam-x) var(--beam-y),
+  rgba(3,7,6,.02) 0%,
+  rgba(3,7,6,.04) 22%,
+  rgba(3,7,6,.16) 31%,
+  rgba(3,7,6,.48) 48%,
+  rgba(2,5,5,.70) 70%,
+  rgba(2,5,5,.78) 100%
+ );
+ opacity:0;
+ transition:opacity .16s linear;
+ will-change:background;
+}
+.groundwater-veil[hidden]{display:none!important}
+.groundwater-observation>.groundwater-veil{opacity:1}
+@media(prefers-reduced-motion:reduce){.groundwater-veil{transition:none}}
