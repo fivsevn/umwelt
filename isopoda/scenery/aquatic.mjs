@@ -1,3 +1,4 @@
+import {stepSand,sandShore} from './sandy-surf.mjs';
 import {isIntertidal} from '../data/narrative/intertidal.mjs';
 import {intertidalSurface,stepIntertidal,drawIntertidalLife} from './intertidal.mjs';
 import {stepGroundwater,drawGroundwaterWater} from './groundwater.mjs';
@@ -321,7 +322,7 @@ export function drawAquaticWater(g,s,time=0,{drawPlants=true,observationEffect=n
   return;
  }
  if(h.id==='sandy-surf'){
-  const shore=Math.max(112,Math.min(326,Math.round(270-(s.tide-50)*1.55+Math.sin(time*.55)*4)));
+  const shore=Math.round(sandShore(s,time));
   const drawBody=target=>{for(let y=shore;y<430;y+=4)for(let x=0;x<384;x+=4)if(noise(x,y,s.seed)%3!==0)pixel(target,x,y,4,2,'rgba(48,105,99,.18)')};
   const body=staticWaterLayer(`sandy:${s.seed}:${shore}`,drawBody);
   if(body&&typeof g.drawImage==='function')g.drawImage(body,0,0);else drawBody(g);
@@ -377,6 +378,7 @@ export function drawAquaticWater(g,s,time=0,{drawPlants=true,observationEffect=n
 export function stepAquatic(group,{state:s,time,dt,reduced,reaction}){
  const h=habitatConfig(s),speed=Math.min(64,Math.max(1,Number(globalThis.__ISOPODA_HABITAT_SPEED__)||1)),motionScale=(reduced?.45:1)*(h.motionScale??1);
  if(isIntertidal(s)){stepIntertidal(group,{state:s,dt,reduced,speed});return}
+ if(h.id==='sandy-surf'){stepSand(group,{state:s,time,dt,reduced});return}
  if(h.id==='groundwater'){stepGroundwater(group,{state:s,dt,reduced,speed});return}
  for(const a of group){if(stepInteraction(a,dt))continue;
   const custom=h.id==='freshwater'&&reaction?.selected?.includes(a.id)&&reaction.age<7?freshwaterReactionPlan(reaction.id,s,a,time):null;
