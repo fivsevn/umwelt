@@ -88,7 +88,8 @@ test('game credits keep umbrella databases and literature platforms, not paper-l
   'https://pubmed.ncbi.nlm.nih.gov/',
   'https://www.persee.fr/',
   'https://digitalcommons.usf.edu/ijs/',
-  'https://www.nps.gov/'
+  'https://www.nps.gov/',
+  'https://www.noaa.gov/'
  ];
  for(const [url,startMark,endMark] of files){
   const body=readFileSync(new URL(url,import.meta.url),'utf8');
@@ -113,4 +114,15 @@ test('cave citations are attached to the exact specimens and environment they su
  for(const entry of Object.values(HABITAT_REFERENCES))for(const ref of entry.entries){assert.ok(sourceIds.has(ref.sourceId));assert.ok(ref.use&&ref.note)}
  assert.deepEqual(HABITAT_REFERENCES.groundwater.entries.map(r=>r.sourceId),['groundwater-recharge','groundwater-biofilm','groundwater-survey']);
  for(const species of SPECIES)assert.ok(!evidenceIds(species).has('groundwater-survey'),'survey source belongs to environment');
+});
+
+test('estuary circulation evidence stays with its environment, not specimen behavior',async()=>{
+ const {HABITAT_REFERENCES}=await import('../isopoda/data/habitats/references.mjs');
+ const id='estuary-noaa-circulation',matched=sources.filter(source=>source.id===id);
+ assert.equal(matched.length,1);
+ assert.equal(matched[0].url,'https://oceanservice.noaa.gov/education/tutorial_estuaries/est05_circulation.html');
+ assert.deepEqual(HABITAT_REFERENCES.estuary.entries.map(ref=>ref.sourceId),[id]);
+ assert.ok(HABITAT_REFERENCES.estuary.limits);
+ for(const [habitat,entry] of Object.entries(HABITAT_REFERENCES))if(habitat!=='estuary')assert.ok(!entry.entries.some(ref=>ref.sourceId===id));
+ for(const species of SPECIES)assert.ok(!evidenceIds(species).has(id),'circulation source is not species-level behavioral evidence');
 });
