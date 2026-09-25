@@ -20,6 +20,11 @@
 - [BISMaL](https://www.godac.jamstec.go.jp/bismal/j/)
 - [British Myriapod and Isopod Group](https://bmig.org.uk/)
 - [J-STAGE](https://www.jstage.jst.go.jp/)
+- [Wiley Online Library](https://onlinelibrary.wiley.com/)
+- [PubMed](https://pubmed.ncbi.nlm.nih.gov/)
+- [Persée](https://www.persee.fr/)
+- [International Journal of Speleology](https://digitalcommons.usf.edu/ijs/)
+- [National Park Service](https://www.nps.gov/)
 
 **o!**
 
@@ -40,15 +45,6 @@
 - [UMWELT](https://umwelt.fivsevn.com/)
 - [GitHub Repository](https://github.com/fivsevn/umwelt)
 
-**o · o · o · o**
-
-o … o … o … o / o … o … o … o
-
-- [Francois et al. 2016 — groundwater Proasellus trophic ecology](https://doi.org/10.1111/1365-2435.12484)
-- [Pronk et al. 2009 — karst percolation and particle transport](https://pubmed.ncbi.nlm.nih.gov/19462487/)
-- [Henry & Magniez 1983 — Proasellus valdensis](https://www.persee.fr/doc/linly_0366-1326_1983_num_52_10_10613?pageId=T1_335)
-- [Magniez 1975 — Stenasellus virei biology](https://digitalcommons.usf.edu/ijs/vol7/iss1/8/)
-
-- [National Park Service — Cave Survey Techniques](https://www.nps.gov/jeca/learn/nature/surveying.htm)
-
 **[o: ...](https://umwelt.fivsevn.com/isopoda/morphology/)**
+
+**[~o~ ...](https://umwelt.fivsevn.com/isopoda/habitat)**

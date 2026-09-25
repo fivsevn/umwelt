@@ -203,3 +203,12 @@ test('every freshwater option survives feedback reload and resolves in all four 
  assert.equal(visited.size,40);
  for(const sequence of sequences)assert.deepEqual(sequence,sequences[0]);
 });
+
+test('every water-habitat specimen has an aquatic motion domain, including surf and estuary',()=>{
+ for(const species of SPECIES){
+  if(species.game?.habitats?.some(id=>['freshwater','groundwater','estuary','intertidal','sandy-surf','shallow-marine','abyssal','petri-dish'].includes(id)))assert.equal(species.locomotion.domain,'aquatic',species.id);
+ }
+ for(const id of ['pulchra','affinis','spinigera']){
+  const p=SPECIES.find(s=>s.id===id);assert.ok(p.locomotion.simulation.modeScale.swim>0,id);
+ }
+});

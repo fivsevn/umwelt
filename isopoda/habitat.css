@@ -329,3 +329,13 @@ footer{display:flex;justify-content:space-between;gap:16px;padding:0 2px;color:#
 
 /* Unavailable material families stay visible without producing an empty shelf. */
 .category-bar button:disabled{opacity:.4;cursor:default}
+
+.habitat-references{margin:18px 0;padding:18px;border:2px solid #657653;background:#293b2d;color:#c3cbaa;line-height:1.8}
+.reference-heading{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px}
+.reference-heading h2{font-size:15px;margin:0;font-weight:normal}
+.reference-heading a{font-size:10px;color:inherit}
+#habitatReferenceList{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px}
+.habitat-reference{min-width:0;padding:12px;border:1px solid #526747;background:#304331;overflow-wrap:anywhere}
+.habitat-reference a{color:#d2d8b6;text-underline-offset:3px}
+.habitat-reference p{margin:8px 0 0}
+#habitatReferenceScope,#habitatReferenceLimits{font-size:11px;color:#a7b497}

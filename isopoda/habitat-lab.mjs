@@ -1,3 +1,4 @@
+import {renderHabitatReferences} from './habitat-references.mjs';
 import {exportScene,importScene,shareCode} from './scene-codec.mjs';
 import {drawSubstrate,drawLeaf,drawMossPatch,drawBark,drawStone,drawCuttlebone,drawTwig,drawWoodChip,drawSceneDetail,LEGACY_BASE_SCENE,DEFAULT_LAYOUT} from './scenery/index.mjs';
 import {drawAquaticBackground,drawAquaticPlant,drawAquaticDetail,AQUATIC_BACKDROPS} from './scenery/aquatic.mjs';
@@ -283,6 +284,7 @@ function drawLabDetail(g,options={}){
 }
 
 function syncControls(){
+ renderHabitatReferences(currentPreset);
  $('#referenceSpecies').value=reference.species;$('#referenceStage').value=reference.stage;
  $('#freshwaterStageControl').hidden=currentPreset!=='freshwater';$('#freshwaterStage').value=String(currentFreshwaterStage);
  $('#toggleReference').setAttribute('aria-pressed',String(reference.visible));

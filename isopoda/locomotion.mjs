@@ -9,10 +9,10 @@ const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
 const clone=value=>structuredClone(value);
 const conglobationOf=species=>species?.visual?.conglobation?.ability||species?.profile?.conglobation||'unknown';
 const habitatOf=species=>species?.game?.habitats?.[0]||species?.game?.habitat||species?.profile?.ecology?.find(x=>/freshwater|marine|intertidal/i.test(x))||'terrestrial';
-const aquaticDomain=species=>/freshwater|marine|intertidal|shallow|abyssal/i.test(String(habitatOf(species)));
+const aquaticDomain=species=>/freshwater|marine|intertidal|shallow|abyssal|groundwater|estuary|sandy-surf|petri-dish/i.test(String(habitatOf(species)));
 
 function baseProfile(species){
- const aquatic=aquaticDomain(species),roll=conglobationOf(species),legacy=Number(species?.speed);
+ const aquatic=aquaticDomain(species),swimming=aquatic&&!/groundwater/i.test(String(habitatOf(species))),roll=conglobationOf(species),legacy=Number(species?.speed);
  const cruise=Number.isFinite(legacy)?legacy:(aquatic?.8:.82);
  return {
   schemaVersion:LOCOMOTION_SCHEMA_VERSION,
@@ -20,7 +20,7 @@ function baseProfile(species){
   domain:aquatic?'aquatic':'terrestrial',
   capabilities:{
    crawl:true,climb:!aquatic,cling:true,
-   swim:aquatic,drift:aquatic,conglobate:roll==='full'||roll==='partial'
+   swim:swimming,drift:swimming,conglobate:roll==='full'||roll==='partial'
   },
   research:{
    basis:'game_proxy',confidence:'low',reviewedOn:'2026-09-22',referenceTaxon:species?.taxon||species?.name||species?.id,
@@ -35,7 +35,7 @@ function baseProfile(species){
    turnRate:1,
    pauseDurationScale:clamp(1.45-cruise*.5,.72,1.25),
    reactionLatencyScale:roll==='full'?.92:1,
-   modeScale:{crawl:1,climb:aquatic?0:.72,cling:.34,swim:aquatic?1:0,drift:aquatic?.62:0},
+   modeScale:{crawl:1,climb:aquatic?0:.72,cling:.34,swim:swimming?1:0,drift:swimming?.62:0},
    disturbanceStrategy:roll==='full'?'curl':roll==='partial'?'freeze_or_run':aquatic?'cling_or_swim':'run_or_cling',
    tags:[aquatic?'aquatic':'terrestrial',roll==='full'?'roller':roll==='partial'?'partial-roller':'non-conglobating'],
    tuningNotes:[Number.isFinite(legacy)?'Cruise starts from the pre-schema species speed so existing animation balance is preserved.':'Cruise uses the domain fallback because no legacy speed was present.']

@@ -83,7 +83,12 @@ test('game credits keep umbrella databases and literature platforms, not paper-l
   'https://www.tbn.org.tw/taxa',
   'https://www.godac.jamstec.go.jp/bismal/j/',
   'https://bmig.org.uk/',
-  'https://www.jstage.jst.go.jp/'
+  'https://www.jstage.jst.go.jp/',
+  'https://onlinelibrary.wiley.com/',
+  'https://pubmed.ncbi.nlm.nih.gov/',
+  'https://www.persee.fr/',
+  'https://digitalcommons.usf.edu/ijs/',
+  'https://www.nps.gov/'
  ];
  for(const [url,startMark,endMark] of files){
   const body=readFileSync(new URL(url,import.meta.url),'utf8');
@@ -92,6 +97,20 @@ test('game credits keep umbrella databases and literature platforms, not paper-l
   const section=body.slice(start,end);
   const links=[...section.matchAll(/^\s*- \[[^\]]+\]\(([^)]+)\)/gm)].map(match=>match[1]);
   assert.deepEqual(links,expected,url);
-  assert.equal(/doi\.org|researchgate\.net|pmc\.ncbi\.nlm\.nih\.gov/i.test(section),false,url);
+  assert.equal(/doi\.org|\/doi\/|researchgate\.net|pmc\.ncbi\.nlm\.nih\.gov/i.test(body),false,url);
+  for(const source of sources)if(source.url&&!expected.includes(source.url))assert.equal(body.includes(']('+source.url+')'),false,url+': paper detail outside laboratory');
+  assert.ok(body.includes('https://umwelt.fivsevn.com/isopoda/morphology/'));
+  assert.ok(body.includes('https://umwelt.fivsevn.com/isopoda/habitat'));
  }
+});
+
+test('cave citations are attached to the exact specimens and environment they support',async()=>{
+ const {HABITAT_REFERENCES}=await import('../isopoda/data/habitats/references.mjs');
+ const expected={cavaticus:['groundwater-biofilm'],valdensis:['groundwater-valdensis-key','groundwater-biofilm'],virei:['groundwater-virei-behaviour']};
+ for(const [id,refs] of Object.entries(expected)){
+  const specimen=SPECIES.find(p=>p.id===id);for(const ref of refs)assert.ok(evidenceIds(specimen).has(ref),id+':'+ref);
+ }
+ for(const entry of Object.values(HABITAT_REFERENCES))for(const ref of entry.entries){assert.ok(sourceIds.has(ref.sourceId));assert.ok(ref.use&&ref.note)}
+ assert.deepEqual(HABITAT_REFERENCES.groundwater.entries.map(r=>r.sourceId),['groundwater-recharge','groundwater-biofilm','groundwater-survey']);
+ for(const species of SPECIES)assert.ok(!evidenceIds(species).has('groundwater-survey'),'survey source belongs to environment');
 });
