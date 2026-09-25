@@ -10,9 +10,12 @@ if(output)fs.mkdirSync(output,{recursive:true});
   for(const [width,height] of [[320,568],[390,844],[1440,900]]){
    const context=await browser.newContext({viewport:{width,height}}),page=await context.newPage(),errors=[];
    page.on('pageerror',e=>errors.push(e.message));
-   await page.goto(base+'/isopoda/');await page.waitForFunction(()=>document.querySelector('#startBtn').onclick);
-   await page.evaluate(async()=>{const {createRun}=await import('./engine.mjs');localStorage.setItem('isopoda-fugue-v4',JSON.stringify(createRun('hookeri',57,'estuary')))});
-   await page.reload();await page.locator('#continueBtn').click();
+   await page.goto(base+'/isopoda/');await page.waitForFunction(()=>document.querySelector('#habitatNext')?.onclick);
+   const steps=await page.evaluate(async()=>{const {HABITATS}=await import('./habitats.mjs');return HABITATS.findIndex(h=>h.id==='estuary')});
+   assert.ok(steps>=0);
+   for(let i=0;i<steps;i++)await page.locator('#habitatNext').click();
+   assert.equal(await page.locator('#titleCard').getAttribute('data-habitat'),'estuary');
+   await page.locator('#startBtn').click();await page.locator('#settleBtn').click();
    for(let i=0;i<6;i++){
     assert.equal(await page.locator('#actions button').count(),3);
     for(const lang of ['en','ja','isopod','zh']){
@@ -23,7 +26,8 @@ if(output)fs.mkdirSync(output,{recursive:true});
     await page.locator('#actions button').nth(i%3).click();
     if(i===3){
      const feedback=await page.locator('#observation').textContent();
-     await page.reload();await page.locator('#continueBtn').click();
+     await page.reload({waitUntil:'domcontentloaded'});await page.waitForFunction(()=>document.querySelector('#continueBtn')?.onclick);
+     assert.deepEqual(errors,[]);await page.locator('#continueBtn').click();
      assert.equal(await page.locator('#observation').textContent(),feedback);
     }
     if(output&&i===3)await page.screenshot({path:path.join(output,`${name}-${width}-estuary-turn.png`),fullPage:true});
