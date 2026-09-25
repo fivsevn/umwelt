@@ -221,7 +221,73 @@ export function plantAnchor(h,i,state=null){
  return {x:18+(i*83)%350,y:96+(i*97)%318};
 }
 
-export function drawAquaticWater(g,s,time=0,{drawPlants=true}={}){
+
+function freshwaterObjects(s){
+ const objects=freshwaterLayout(s).objects||[];
+ const by=prefix=>objects.filter(o=>String(o.type).startsWith(prefix));
+ return {
+  leaves:by('leaf-').sort((a,b)=>(b.scale||1)-(a.scale||1)),
+  plants:objects.filter(o=>o.params?.kind==='waterweed'),
+  debris:objects.filter(o=>o.type==='freshwater-detritus-01'),
+  stones:by('stone-'),
+  wood:by('bark-')
+ };
+}
+function freshwaterReactionPlan(id,s,actor,time){
+ const o=freshwaterObjects(s),pick=(list,index=0)=>list.length?list[Math.abs(index)%list.length]:null;
+ const offset=(base,dx=0,dy=0)=>base?{x:base.x+dx,y:base.y+dy}:null;
+ if(['fw-edge','fw-route','fw-surface','fw-relate-surface'].includes(id)){
+  const leaf=pick(o.leaves,actor.id),side=actor.id%2?1:-1;
+  return {target:offset(leaf,side*18,(actor.id%3-1)*7),posture:id==='fw-surface'||id==='fw-relate-surface'?'feeding':'probing',stop:true,activity:'crawl'};
+ }
+ if(['fw-under','fw-gap'].includes(id)){
+  const leaf=pick(o.leaves,0);return {target:offset(leaf,(actor.id%2?9:-9),14),posture:'emerging',stop:true,occlusion:.48,activity:'crawl'};
+ }
+ if(['fw-fragment','fw-new-edges','fw-use-fragments'].includes(id)){
+  const leaf=pick(o.leaves,actor.id+1)||pick(o.debris,actor.id);
+  return {target:offset(leaf,(actor.id%2?7:-7),actor.id%3*4),posture:id==='fw-use-fragments'?'feeding':'probing',stop:true,activity:'crawl'};
+ }
+ if(id==='fw-drift'){
+  return {target:{x:40+((time*13+actor.id*61)%305),y:92+((actor.id*79)%250)},posture:'swimming',stop:false,activity:'drift'};
+ }
+ if(id==='fw-cling'){
+  const target=pick(o.plants.length?o.plants:o.stones,actor.id);return {target:offset(target,0,-10),posture:'probing',stop:true,activity:'cling'};
+ }
+ if(id==='fw-redistribute'){
+  const target=pick(o.debris,actor.id);return {target:offset(target,(actor.id%2?8:-8),0),posture:'probing',stop:true,activity:'crawl'};
+ }
+ if(['fw-cross-bed','fw-new-route'].includes(id)){
+  const target=pick(o.debris,actor.id+2)||pick(o.stones,actor.id);return {target:offset(target,(actor.id%2?16:-16),actor.id%3*5),posture:'normal',stop:false,activity:'crawl'};
+ }
+ return null;
+}
+function drawFreshwaterObservationOverlay(g,s,time,effect){
+ if(!effect||!String(effect.id).startsWith('fw-'))return;
+ const id=effect.id,o=freshwaterObjects(s),pulse=.45+.35*Math.sin(time*4),mark=(x,y,c='rgba(208,205,166,.72)')=>{pixel(g,x-4,y,3,1,c);pixel(g,x+2,y,3,1,c);pixel(g,x,y-4,1,3,c);pixel(g,x,y+2,1,3,c)};
+ const leaf=o.leaves[0],origin={x:249,y:234};
+ if(['fw-mark-leaf','fw-name-leaf'].includes(id)&&leaf){
+  const rx=Math.max(18,Math.round(24*(leaf.scale||1))),ry=Math.max(12,Math.round(16*(leaf.scale||1))),c=`rgba(208,205,166,${pulse})`;
+  for(let x=-rx;x<=rx;x+=7){pixel(g,leaf.x+x,leaf.y-ry,3,1,c);pixel(g,leaf.x+x,leaf.y+ry,3,1,c)}
+  for(let y=-ry;y<=ry;y+=7){pixel(g,leaf.x-rx,leaf.y+y,1,3,c);pixel(g,leaf.x+rx,leaf.y+y,1,3,c)}
+  mark(leaf.x,leaf.y,c);
+ }
+ if(id==='fw-link-fragments'&&o.leaves.length){
+  const center=o.leaves.reduce((a,b)=>({x:a.x+b.x/o.leaves.length,y:a.y+b.y/o.leaves.length}),{x:0,y:0});
+  for(const leafPart of o.leaves){const steps=9;for(let i=0;i<=steps;i+=2){const t=i/steps;pixel(g,center.x+(leafPart.x-center.x)*t,center.y+(leafPart.y-center.y)*t,2,1,`rgba(208,205,166,${pulse})`)}} 
+ }
+ if(id==='fw-track-displacement'){
+  const target=o.leaves[0]||o.debris[0]||origin;for(let i=0;i<=16;i+=2){const t=i/16;pixel(g,origin.x+(target.x-origin.x)*t,origin.y+(target.y-origin.y)*t,2,1,`rgba(208,205,166,${pulse})`)}mark(origin.x,origin.y);
+ }
+ if(id==='fw-origin'){
+  mark(origin.x,origin.y,`rgba(208,205,166,${pulse})`);for(const d of o.debris.slice(0,3))mark(d.x,d.y,'rgba(169,180,139,.58)');
+ }
+ if(id==='fw-boundary'&&o.debris.length){
+  const cx=o.debris.reduce((n,d)=>n+d.x,0)/o.debris.length,cy=o.debris.reduce((n,d)=>n+d.y,0)/o.debris.length,c=`rgba(208,205,166,${pulse})`;
+  for(let a=0;a<Math.PI*2;a+=.35)pixel(g,cx+Math.cos(a)*58,cy+Math.sin(a)*34,2,1,c);
+ }
+}
+
+export function drawAquaticWater(g,s,time=0,{drawPlants=true,observationEffect=null}={}){
  const h=habitatConfig(s),surface=h.tides?Math.round(360-s.tide*3.35):0;
  if(h.id==='groundwater'){
   // Only thin films and small pools move; the cave is not rendered as a full water column.
@@ -292,11 +358,14 @@ export function drawAquaticWater(g,s,time=0,{drawPlants=true}={}){
  const abyssal=h.id==='abyssal',freshwaterStage=h.id==='freshwater'?(Number.isInteger(s.scene?.materialStage)?s.scene.materialStage:0):-1,particles=abyssal?14+Math.round(s.detritus*.18):30+Math.round(s.detritus*.5)+(freshwaterStage===3?28:0),drift=abyssal?time*s.flow*.022:time*s.flow*.085;for(let i=0;i<particles;i++){const n=noise(i,37,s.seed),x=(n%384+drift)%384,y=surface+((n>>>12)%Math.max(1,430-surface));pixel(g,x,y,i%9===0?2:1,1,abyssal?(i%3?'#46595d':'#607176'):(i%3?'#889a79':'#b1bc95'))}
  if(freshwaterStage===3){for(let i=0;i<9;i++){const n=noise(i,397,s.seed),x=(n%420+time*(4.5+s.flow*.035))%420-18,y=55+((n>>>10)%320)+Math.sin(time*.42+i)*4,w=3+(n%6);pixel(g,x,y,w,2,i%3===0?'#6b5738':'#806846');if(i%2===0)pixel(g,x+1,y-1,Math.max(1,w-2),1,'#9a8155')}}
  if(s.light>45)for(let i=0;i<8;i++){const x=20+i*49+Math.round(Math.sin(time*.6+i)*5),y=35+(i*67)%340;pixel(g,x,y,18+i%3*6,1,'rgba(202,217,158,.23)');pixel(g,x+9,y+3,8,1,'rgba(202,217,158,.13)')}
+ if(h.id==='freshwater')drawFreshwaterObservationOverlay(g,s,time,observationEffect);
 }
 
-export function stepAquatic(group,{state:s,time,dt,reduced}){
+export function stepAquatic(group,{state:s,time,dt,reduced,reaction}){
  const h=habitatConfig(s),speed=Math.min(64,Math.max(1,Number(globalThis.__ISOPODA_HABITAT_SPEED__)||1)),motionScale=(reduced?.45:1)*(h.motionScale??1);
  for(const a of group){if(stepInteraction(a,dt))continue;
+  const custom=h.id==='freshwater'&&reaction?.selected?.includes(a.id)&&reaction.age<7?freshwaterReactionPlan(reaction.id,s,a,time):null;
+  if(custom?.target){const dx=custom.target.x-a.x,dy=custom.target.y-a.y,dist=Math.hypot(dx,dy),arrived=dist<10,pace=(custom.activity==='drift'?8:4.8)*Math.max(.65,Math.min(1.4,(Number(a.speed)||.68)/.68))*motionScale;a.a=Math.atan2(dy,dx);a.moving=custom.stop? !arrived:dist>4;a.activity=custom.activity;a.posture=arrived?custom.posture:'normal';a.occlusion=arrived?(custom.occlusion||0):0;a.hidden=false;a.molt='none';a.phase+=dt*speed*(custom.activity==='drift'?7:4)*motionScale;if(a.moving&&dist>0){const travel=Math.min(dist,pace*dt*speed);a.x+=dx/dist*travel;a.y+=dy/dist*travel}a.x=Math.max(20,Math.min(362,a.x));a.y=Math.max(25,Math.min(405,a.y));continue}
   const slot=Math.floor((time+a.offset*.35)/7),mode=h.motion[(a.id+slot)%h.motion.length],swimming=mode==='swim'||mode==='drift';
   // makeIndividuals() stores .68 × species pace × slight individual variance.
   // Normalize the shared .68 base here so the habitat mode constants stay readable.
