@@ -28,4 +28,22 @@ test('nine observations finish with either approach and all displayed keys resol
 test('legacy pending sand scenes refresh without erasing completed notes',()=>{const s=createRun('pulchra',42,'sandy-surf');s.scene={id:'sandy-surf:1.0',kind:'aquatic',options:[{id:'water-adjust'}]};s.records=[{kind:'aquatic',choice:'water-wait',text:'water:still'}];const next=migrateV4(s);assert.equal(ensureScene(next).id,'sand:0');assert.deepEqual(next.records,s.records);s.stage='feedback';s.feedback='water:still';assert.equal(migrateV4(s).feedback,s.feedback)});
 
 test('water excavation draws only short-lived ripples; sand has no slab fills',()=>{const calls=[],g={save(){},restore(){},fillRect(x,y,w,h){calls.push({x,y,w,h,color:this.fillStyle})}};drawSandMarks(g,[],.7,[{x:100,y:390,time:0}],false,{tide:46});assert.ok(calls.length);assert.ok(calls.every(c=>['#91bcb0','#c4d2b4'].includes(c.color)));calls.length=0;drawSandMarks(g,[],3,[{x:100,y:390,time:0}],false,{tide:46});assert.equal(calls.length,0);drawSandMarks(g,[],.7,[{x:100,y:100,time:0}],false,{tide:46});assert.ok(calls.length);assert.ok(calls.every(c=>c.w<=2&&c.h===1));});
-test('burrowing lifts the rear without changing the animal position',()=>{const {group}=setup(),a=group[2],before=[a.x,a.y,a.a];a.sand.mode='burying';a.sand.age=.2;assert.ok(sandPose(a).sandRearLift>0);assert.equal(sandPose(a,true).sandRearLift,0);a.sand.age=.6;assert.equal(sandPose(a).sandRearLift,0);assert.deepEqual([a.x,a.y,a.a],before)});
+test('burrowing lifts the rear without changing the animal position',()=>{const {group}=setup(),a=group[2],before=[a.x,a.y,a.a];a.sand.mode='burying';a.sand.age=.2;assert.ok(sandPose(a).sandRearLift>0);assert.equal(sandPose(a,true).sandRearLift,0);a.sand.age=.9;assert.equal(sandPose(a).sandRearLift,0);assert.deepEqual([a.x,a.y,a.a],before)});
+
+test('burrow and emergence retain staged motion at 64x and announce their transitions',()=>{
+ const {state,group}=setup(),a=group[0];a.sand.mode='burying';a.sand.age=0;a.sand.depth=0;
+ globalThis.__ISOPODA_HABITAT_SPEED__=64;
+ try{
+  stepSand([a],{state,time:0,dt:.1});assert.equal(a.sand.mode,'burying');assert.equal(a.sand.depth,0);
+  for(let i=0;i<40&&a.sand.mode==='burying';i++)stepSand([a],{state,time:i*.1,dt:.1});
+  assert.equal(a.sand.mode,'buried');
+  a.sand.age=30;stepSand([a],{state,time:4,dt:.1});assert.equal(a.sand.mode,'emerging');assert.equal(a.sand.cue,'?');
+  for(let i=0;i<40&&a.sand.mode==='emerging';i++)stepSand([a],{state,time:5+i*.1,dt:.1});
+  assert.equal(a.sand.mode,'surface');assert.equal(a.sand.cue,'!');
+ }finally{delete globalThis.__ISOPODA_HABITAT_SPEED__}
+});
+test('every beach beat has its own choices and consequences',()=>{
+ const s=createRun('pulchra',42,'sandy-surf'),labels=new Set(),feedback=new Set();
+ while(s.stage!=='ended'){const scene=ensureScene(s);for(const o of scene.options){labels.add(sandText(o.label));feedback.add(sandText(o.text))}choose(s,scene.options[0].id);advance(s)}
+ assert.equal(labels.size,18);assert.equal(feedback.size,18);
+});
