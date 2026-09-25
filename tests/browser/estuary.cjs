@@ -10,7 +10,9 @@ if(output)fs.mkdirSync(output,{recursive:true});
  try{
   for(const [width,height] of [[320,568],[390,844],[1440,900]]){
    const context=await browser.newContext({viewport:{width,height}}),page=await context.newPage(),errors=[];
-   page.on('pageerror',e=>errors.push(e.message));
+   page.on('pageerror',e=>{errors.push(e.message);console.log('[pageerror]',e.message)});
+   page.on('crash',()=>console.log('[page crash]'));
+   page.on('framenavigated',frame=>{if(frame===page.mainFrame())console.log('[navigation]',frame.url())});
    await page.goto(base+'/isopoda/');await page.waitForFunction(()=>document.querySelector('#habitatNext')?.onclick);
    const steps=await page.evaluate(async()=>{const {HABITATS}=await import('./habitats.mjs');return HABITATS.findIndex(h=>h.id==='estuary')});
    assert.ok(steps>=0);
