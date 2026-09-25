@@ -40,7 +40,7 @@ export function validateNarrative({stories=STORIES,alternates=STORY_ALTERNATES,n
   check(Array.isArray(stage.steps)&&stage.steps.length===2,`freshwater:${i}: steps`);
   for(const [beat,step] of (stage.steps||[]).entries()){
    triple(step.prompt,`water:freshwater-material:${i}:step:${beat}:prompt`);resolveKey(`water:freshwater-material:${i}:step:${beat}:prompt`);
-   check(Array.isArray(step.options)&&step.options.length===2,`freshwater:${i}:${beat}: options`);
+   check(Array.isArray(step.options)&&step.options.length===4,`freshwater:${i}:${beat}: options`);
    for(const [j,option] of (step.options||[]).entries()){
     check(text(option.id)&&!freshwaterOptionIds.has(option.id),`freshwater:${i}:${beat}: duplicate/missing option ID ${option.id}`);freshwaterOptionIds.add(option.id);
     check(text(option.animation),`freshwater:${i}:${beat}:${j}: animation`);
