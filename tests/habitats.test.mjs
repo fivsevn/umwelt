@@ -55,7 +55,7 @@ test('preview switching never changes the existing save, and selected environmen
 });
 test('tides advance in tidal habitats and freshwater advances material state without day-night time',()=>{
  const s=createRun('serratum',1,'intertidal'),tides=[];
- while(s.stage!=='ended'){tides.push(s.tide);assert.ok(tides.length<=habitatConfig(s).days*3);assert.ok(choose(s,'water-wait'));assert.ok(advance(s))}assert.ok(new Set(tides).size>=6);
+ while(s.stage!=='ended'){tides.push(s.tide);assert.ok(tides.length<=habitatConfig(s).days*3);assert.ok(choose(s,ensureScene(s).options[0].id));assert.ok(advance(s))}assert.deepEqual(tides,[24,34,59,84,94,84,59,34,24]);
  const fresh=createRun('aquaticus',1,'freshwater'),stages=[],beats=[],detritus=[];
  while(fresh.stage!=='ended'){const scene=ensureScene(fresh);stages.push(scene.materialStage);beats.push(scene.materialBeat);detritus.push(fresh.detritus);assert.ok(choose(fresh,scene.options[0].id));assert.ok(advance(fresh))}
  assert.equal(fresh.day,1);assert.equal(fresh.period,0);

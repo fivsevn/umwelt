@@ -1,3 +1,4 @@
+import {isIntertidal} from './data/narrative/intertidal.mjs';
 import {isEstuaryObservation,estuaryProgress,captureEstuaryEvidence} from './data/narrative/estuary.mjs';
 import {groundwaterProgress} from './data/habitats/groundwater-observation.mjs';
 import {habitatConfig,HABITATS,eligibleSpecies,advanceWater} from './habitats.mjs';
@@ -16,7 +17,7 @@ export function createRun(species='dairy',seed=Date.now()>>>0,habitatId='terrest
  const config=HABITATS.find(h=>h.id===habitatId);if(!config)throw new RangeError('Unknown habitat');
  if(!eligibleSpecies(speciesById(species),habitatId))species=config.species?.[0]||'dairy';
  const now=new Date(),startedOn=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');
- const p=speciesById(species),count=config.cohortSize||7,cohort=cohortFor(p.id,seed,count).map(c=>count===1?{...c,stage:'L'}:c);return {habitatId,...(habitatId==='estuary'?{estuaryVersion:1}:{}),startedOn,version:VERSION,narrativeVersion:1,seed:seed>>>0,cohort,day:1,period:0,stage:'choice',humidity:p.wet,temp:23,vent:55,light:54,cover:p.cover,food:1,interventions:0,quiet:0,accuracy:0,maps:0,labels:0,care:0,directTouches:0,directGrabs:0,directMoves:0,groundTaps:0,barkLifts:0,shellCollects:0,collectedShells:[],directRecords:[],interactionDiscoveries:{tap:false,grab:false,lift:false,collect:false},interactionIntent:null,observerContradictions:[],records:[],ending:null,feedback:'',scene:null,...config.defaults};
+ const p=speciesById(species),count=config.cohortSize||7,cohort=cohortFor(p.id,seed,count).map(c=>count===1?{...c,stage:'L'}:c);return {habitatId,...(habitatId==='intertidal'?{intertidalVersion:1}:{}),...(habitatId==='estuary'?{estuaryVersion:1}:{}),startedOn,version:VERSION,narrativeVersion:1,seed:seed>>>0,cohort,day:1,period:0,stage:'choice',humidity:p.wet,temp:23,vent:55,light:54,cover:p.cover,food:1,interventions:0,quiet:0,accuracy:0,maps:0,labels:0,care:0,directTouches:0,directGrabs:0,directMoves:0,groundTaps:0,barkLifts:0,shellCollects:0,collectedShells:[],directRecords:[],interactionDiscoveries:{tap:false,grab:false,lift:false,collect:false},interactionIntent:null,observerContradictions:[],records:[],ending:null,feedback:'',scene:null,...config.defaults};
 }
 function interactionState(s){
  const hadDiscoveries=!!(s.interactionDiscoveries&&typeof s.interactionDiscoveries==='object');
@@ -88,7 +89,7 @@ export function directMemoryForDay(s,day=s.day){
  return `今天你碰过${who}。它收紧身体，后来才重新展开。`;
 }
 export function endingMemoryFor(s){
- if(habitatConfig(s).aquatic)return s.directRecords?.length?(s.habitatId==='freshwater'?'water:freshwaterMemory':'water:memory'):'';
+ if(habitatConfig(s).aquatic)return s.directRecords?.length?(isIntertidal(s)?'intertidal:memory':s.habitatId==='freshwater'?'water:freshwaterMemory':'water:memory'):'';
  const contradictions=Array.isArray(s.observerContradictions)?s.observerContradictions:[];if(contradictions.length)return '这七天里，至少有一次你写下的决定和随后发生的动作并不相同。田野笔记把两者都保留下来，而不是替其中一个作证。';
  const list=Array.isArray(s.directRecords)?s.directRecords:[];if(!list.length)return '';
  const r=[...list].reverse().find(x=>x.type==='place')||[...list].reverse().find(x=>x.type==='grab')||list.at(-1),who=r.specimen?`个体 ${r.specimen}`:'一个个体';
@@ -267,6 +268,7 @@ export function migrateV3(old){if(!old||old.version!==3||!SPECIES.some(p=>p.id==
 export function migrateV4(old){
  if(!old||old.version!==4)return null;
  const s={...old,habitatId:old.habitatId??'terrestrial'};
+ if(s.habitatId==='intertidal'&&s.intertidalVersion!==1)s.intertidalLegacy=true;
  if(s.habitatId==='estuary'){
   // Keep nine-turn v4 histories on their original decoder and clock. Never re-index them.
   if(s.estuaryVersion!==1)s.estuaryLegacy=true;
