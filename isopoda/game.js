@@ -26,8 +26,8 @@ let learnedInteractions=read(DISCOVERIES);if(!learnedInteractions||typeof learne
 function mergeLearnedInteractions(target){
  target.interactionDiscoveries=target.interactionDiscoveries&&typeof target.interactionDiscoveries==='object'?target.interactionDiscoveries:{};
  const past=Array.isArray(target.directRecords)?target.directRecords:[];
- for(const key of ['tap','grab','lift','collect']){
-  const seen=key==='grab'?past.some(r=>r.type==='grab'||r.type==='place'):past.some(r=>r.type===key);
+ for(const key of ['tap','grab','lift','collect','dig']){
+  const seen=key==='dig'?target.habitatId==='sandy-surf'&&past.some(r=>['ground','grab'].includes(r.type)):key==='grab'?past.some(r=>r.type==='grab'||r.type==='place'):past.some(r=>r.type===key);
   target.interactionDiscoveries[key]=!!target.interactionDiscoveries[key]||!!learnedInteractions[key]||seen;
   if(target.interactionDiscoveries[key])learnedInteractions[key]=true;
  }
@@ -82,12 +82,11 @@ function render(){
  $('#habitat').setAttribute('aria-label',t(config.id==='groundwater'?'caveCanvas':config.cohortSize===1?'habitatCanvasSingle':'habitatCanvas'));setWaveText($('#dayLabel'),clock());$('#dayLabel').title=environmentScale(state,getLanguage())?.label||'';$('#recordTitle').textContent=state.stage==='feedback'?t('recordLater'):t('recordNow');$('#observation').dataset.directLocale='true';$('#observation').textContent=gameText(state.stage==='feedback'?state.feedback:scene.text,getLanguage());
  const waterFeedback=habitatConfig(state).aquatic&&state.stage==='feedback'?aquaticFeedback(state):'';if(waterFeedback)$('#observation').textContent+=' '+gameText(waterFeedback,getLanguage());
  $('#activityLabel').textContent=observationTitle(state,scene,encounter,getLanguage());$('#activityLabel').dataset.motion=encounter?.motion||'';
- const cue=state.habitatId==='sandy-surf'?'':state.stage==='feedback'?(state.interactionIntent?.hint||''):'';$('#interactionCue').hidden=!cue;$('#interactionCue').textContent=cue;
+ const cue=state.stage==='feedback'?(state.interactionIntent?.hint||''):'';$('#interactionCue').hidden=!cue;$('#interactionCue').textContent=gameText(cue,getLanguage());
  $('#nextBtn').disabled=state.stage!=='feedback';
  const nextTime=timeFor(state.seed,state.period===2?state.day+1:state.day,(state.period+1)%3);
  const nextTimeLabel=getLanguage()==='isopod'?isopodWaveTime(nextTime):nextTime;
- if(state.habitatId==='sandy-surf'){setWaveText($('#nextBtn'),state.stage==='choice'?t('holdMoment'):state.day===3&&state.period===2?t('closeGently'):t('continueObservation'));
- }else if(isIntertidal(state)){
+ if(isIntertidal(state)){
   setWaveText($('#nextBtn'),state.stage==='choice'?t('holdMoment'):intertidalIndex(state)===8?t('closeGently'):t('continueObservation'));
  }else if(isEstuaryObservation(state)){
   setWaveText($('#nextBtn'),state.stage==='choice'?t('holdMoment'):estuaryProgress(state)>=config.turns?t('closeGently'):t('continueObservation'));

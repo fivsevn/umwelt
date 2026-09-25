@@ -78,3 +78,14 @@ test('sand hides ordinary cues but a language burst reaches hidden individuals',
  group[0].hidden=false;r.notify(group[0],'!',.2);assert.equal(r.active.find(b=>b.id===0).cue,'!');
  r.update(group,context(2));assert.ok(!r.active.some(b=>b.id===0&&b.cue==='!'));
 });
+
+test('beach ambient bubbles are sparse and varied without hiding the language burst',()=>{
+ const r=createReactions(),group=Array.from({length:7},(_,id)=>actor(id,{sand:{mode:'surface'}})),seen=new Set(),cues=new Set(),last=new Map();let globalLast=-Infinity,starts=0;
+ for(let tick=0;tick<6000;tick++){
+  const time=tick*.1;r.update(group,context(time,{encounter:null,state:{habitatId:'sandy-surf'}}));assert.ok(r.active.length<=1);
+  for(const b of r.active){const key=b.id+':'+b.start;if(seen.has(key))continue;seen.add(key);cues.add(b.cue);assert.ok(b.start-globalLast>=5);assert.ok(b.start-(last.get(b.id)??-Infinity)>=18);last.set(b.id,b.start);globalLast=b.start;starts++}
+ }
+ assert.ok(starts>5&&starts<100);
+ assert.ok(cues.size>=5);
+ r.burst(group,'♡',601);r.update(group,context(601.1,{encounter:null,state:{habitatId:'sandy-surf'}}));assert.equal(r.active.length,7);
+});

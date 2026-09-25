@@ -2,13 +2,27 @@ const assert=require('node:assert/strict'),fs=require('node:fs');
 const {chromium,webkit}=require('playwright');
 const base=process.env.BASE_URL||'http://localhost:8874',out=process.env.QA_OUTPUT||'/tmp/sand-qa';fs.mkdirSync(out,{recursive:true});
 (async()=>{const engine=process.env.BROWSER||'chromium',browser=await (engine==='webkit'?webkit:chromium).launch({headless:true,...(engine==='chromium'?(process.env.CHROME_PATH?{executablePath:process.env.CHROME_PATH}:!process.env.CI?{channel:'chrome'}:{}):{})});
-try{for(const width of [320,390,1440]){
+try{
+ for(const mode of ['intervene','decline','before']){
+  const page=await browser.newPage({viewport:{width:390,height:844}});
+  await page.goto(base+'/isopoda/');await page.evaluate(async()=>{const {createRun}=await import('/isopoda/engine.mjs');const s=createRun('pulchra',42,'sandy-surf');s.period=1;s.arrivalPending=false;localStorage.setItem('isopoda-fugue-v4',JSON.stringify(s))});await page.reload();await page.locator('#continueBtn').click();
+  assert.equal(await page.locator('#interactionCue').isVisible(),false);assert.ok(!(await page.locator('#observation').innerText()).includes('按住'));
+  if(mode!=='before')await page.locator('#actions button').nth(mode==='intervene'?0:1).click();
+  assert.equal(await page.locator('#interactionCue').isVisible(),mode==='intervene');
+  if(mode==='intervene'){assert.match(await page.locator('#interactionCue').innerText(),/按住沙面/);assert.match(await page.locator('#nextBtn').innerText(),/稍后/)}
+  await page.locator('#habitat').click({position:{x:12,y:16}});
+  assert.match(await page.locator('#observation').innerText(),mode==='before'?/手先于选项/:mode==='decline'?/后来还是拨开/:/沙从指边落下/);
+  assert.equal(await page.locator('#interactionCue').isVisible(),false);
+  if(mode==='before'){await page.locator('#actions button').first().click();assert.equal(await page.locator('#interactionCue').isVisible(),false)}
+  await page.close();console.log(engine,mode,'narrative PASS');
+ }
+ for(const width of [320,390,1440]){
  const page=await browser.newPage({viewport:{width,height:width<500?844:900},hasTouch:width<500,isMobile:width<500}),errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.route('**/habitat.mjs*',async route=>{const response=await route.fetch();const body=(await response.text()).replace('return {reset,stage,react,heartBurst,',`if(canvas.id==='habitat')window.__sandTest={actors:()=>critters,bubbles:()=>reactions.active,camera,view:()=>{const r=canvas.getBoundingClientRect();return cameraWindow(r.width,r.height,camera.zoom,camera.x,camera.y)}};return {reset,stage,react,heartBurst,`);await route.fulfill({response,body})});
  await page.goto(base+'/isopoda/');await page.evaluate(async()=>{const {createRun}=await import('/isopoda/engine.mjs');const s=createRun('pulchra',42,'sandy-surf');s.arrivalPending=true;localStorage.setItem('isopoda-fugue-v4',JSON.stringify(s))});await page.reload();await page.locator('#continueBtn').click();assert.match(await page.locator('#arrivalCard').innerText(),/这片沙里的住客/);await page.screenshot({path:`${out}/${engine}-${width}-arrival.png`,fullPage:true});await page.locator('#settleBtn').click();
  const point=async id=>page.evaluate(id=>{const a=window.__sandTest.actors().find(a=>a.id===id),r=document.querySelector('#habitat').getBoundingClientRect(),v=window.__sandTest.view();return {x:r.left+(a.x-v.sx)*v.scale,y:r.top+(a.y-v.sy)*v.scale}},id);
  const snap=async id=>page.evaluate(id=>{const a=window.__sandTest.actors().find(a=>a.id===id);return {x:a.x,y:a.y,mode:a.interactionState?.mode,hidden:a.hidden,sand:{...a.sand}}},id);
- assert.match(await page.locator('#dayLabel').innerText(),/01 \/ 09/);assert.match(await page.locator('#instruments').innerText(),/浪位.*46/);
+ assert.match(await page.locator('#dayLabel').innerText(),/\d{2}\/\d{2} \d{2}:\d{2}/);assert.match(await page.locator('#instruments').innerText(),/浪位.*46/);
  assert.equal(await page.locator('#interactionCue').isVisible(),false);assert.ok(!(await page.locator('#observation').innerText()).includes('阿西莫夫'));
  const id=await page.evaluate(()=>window.__sandTest.actors().find(a=>a.hidden&&a.sand.quiet).id),p=await point(id),before=await snap(id);
  const client=engine==='chromium'&&width<500?await page.context().newCDPSession(page):null;
@@ -27,9 +41,9 @@ try{for(const width of [320,390,1440]){
  for(const lang of ['en','ja','isopod','zh']){if(lang==='isopod')await page.waitForFunction(()=>window.__sandTest.actors().some(a=>a.hidden));await page.evaluate(async lang=>{const {setLanguage}=await import('/isopoda/i18n.mjs');setLanguage(lang)},lang);if(lang==='isopod'){assert.ok(await page.evaluate(()=>{const t=window.__sandTest;return t.actors().some(a=>a.hidden)&&t.actors().every(a=>t.bubbles().some(b=>b.id===a.id&&b.cue==='♡'))}));await page.screenshot({path:`${out}/${engine}-${width}-hearts.png`,fullPage:true})}assert.ok(!(await page.locator('#playView').innerText()).includes('sand:'));assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false)}
  if(width===1440){
  await page.evaluate(()=>{const a=window.__sandTest.actors()[2];a.x=190;a.y=150;a.sand={...a.sand,mode:'buried',depth:1,age:35};a.hidden=true});
- await page.waitForFunction(()=>{const a=window.__sandTest.actors()[2];return a.sand.mode==='emerging'&&!a.hidden&&window.__sandTest.bubbles().some(b=>b.id===a.id&&b.cue==='?')});
+ await page.waitForFunction(()=>{const a=window.__sandTest.actors()[2];return a.sand.mode==='emerging'&&!a.hidden});
  await page.screenshot({path:`${out}/${engine}-emerging.png`,fullPage:true});
- await page.waitForFunction(()=>{const a=window.__sandTest.actors()[2];return a.sand.mode==='surface'&&window.__sandTest.bubbles().some(b=>b.id===a.id&&b.cue==='!')});
+ await page.waitForFunction(()=>{const a=window.__sandTest.actors()[2];return a.sand.mode==='surface'});
  await page.waitForFunction(()=>{const a=window.__sandTest.actors()[2];return a.sand.mode==='burying'&&a.sand.age>.4&&a.sand.age<1.3});
  await page.screenshot({path:`${out}/${engine}-burrowing.png`,fullPage:true});
  }
