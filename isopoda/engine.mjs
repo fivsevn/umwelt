@@ -231,8 +231,9 @@ export function endingFor(s){
 export function advance(s){
  if(s.stage!=='feedback')return false;
  const config=habitatConfig(s);
- if(config.sequence==='freshwater-material'){
-  const completed=(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind==='freshwater-material').length;
+ if(config.sequence==='freshwater-material'||config.sequence==='groundwater-pulse'){
+  const kind=config.sequence==='freshwater-material'?'freshwater-material':'groundwater-pulse';
+  const completed=(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind===kind).length;
   if(completed>=config.turns){s.stage='ended';s.ending=endingFor(s).id;return true}
   advanceWater(s);s.day=1;s.period=0;s.stage='choice';s.feedback='';s.interactionIntent=null;s.scene=null;ensureScene(s);return true;
  }
@@ -262,6 +263,14 @@ export function migrateV4(old){
   // Freshwater now uses five untimed material observations instead of three dated days.
   s.day=1;s.period=0;
   if(s.stage==='choice')s.scene=null;
+ }
+ if(s.habitatId==='groundwater'){
+  // Groundwater is an untimed four-pulse connectivity sequence; legacy day/period are inert.
+  s.day=1;s.period=0;
+  if(s.stage==='choice')s.scene=null;
+  if(!Number.isFinite(s.connectivity))s.connectivity=32;
+  if(!Number.isFinite(s.seepage))s.seepage=55;
+  if(!Number.isFinite(s.input))s.input=8;
  }
  if(s.habitatId==='abyssal'){
   // Older abyssal saves used day/period only as a transport for the dialogue index.
