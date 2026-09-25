@@ -21,11 +21,11 @@ export function stepSand(group,{state:s,time,dt,reduced}){
   b.age+=['burying','emerging'].includes(b.mode)?dt:delta; a.molt='none';a.posture='normal';a.activity='crawl';a.moving=false;
   if(b.mode==='buried'){
    // Quiet individuals offer no location cue. All remain real, diggable actors.
-   if((a.y>shore-10&&b.age>6+(a.id%3))||b.age>24+(a.id%4)*3){b.mode='emerging';b.age=0;b.cycle++;b.cue='?'}
+   if((a.y>shore-10&&b.age>6+(a.id%3))||b.age>24+(a.id%4)*3){b.mode='emerging';b.age=0;b.cycle++}
   }else if(b.mode==='burying'){
    a.moving=true;b.depth=sandProgress(b.age);a.phase+=dt*12;if(b.depth===1){b.mode='buried';b.age=0}
   }else if(b.mode==='emerging'){
-   a.moving=true;a.phase+=dt*12;b.depth=1-sandProgress(b.age);if(b.depth===0){b.mode='surface';b.age=0;b.cue='!'}
+   a.moving=true;a.phase+=dt*12;b.depth=1-sandProgress(b.age);if(b.depth===0){b.mode='surface';b.age=0}
   }else{
    const wet=a.y>shore,pace=(wet?8:2.7)*(reduced?.5:1);
    a.activity=wet?'swim':'crawl';a.posture=wet?'swimming':'normal';a.moving=true;
@@ -33,7 +33,7 @@ export function stepSand(group,{state:s,time,dt,reduced}){
    a.x+=Math.cos(a.a)*pace*delta;a.y+=Math.sin(a.a)*pace*delta;
    if(a.x<24||a.x>358)a.a=Math.PI-a.a;if(a.y<65||a.y>398)a.a=-a.a;
    a.x=Math.max(24,Math.min(358,a.x));a.y=Math.max(65,Math.min(398,a.y));
-   if(b.age>(wet?14:5)+(a.id%4)){b.mode='burying';b.age=0;b.cue='…'}
+   if(b.age>(wet?14:5)+(a.id%4)){b.mode='burying';b.age=0}
   }
   a.hidden=b.depth>=1;a.occlusion=0;
  }

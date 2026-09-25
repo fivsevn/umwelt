@@ -50,19 +50,19 @@ const beats=[
    "下"
   ],
   [
-   "几粒沙向两边滑开。手指按住那里，沙便松开；再停一会儿，可以把里面的身体轻轻提起，松手放回。旁边没有动静的一小块，也未必没有谁。",
-   "A few grains slide apart. Hold there to loosen the sand; keep holding to lift the body gently, then release to put it back. The still patch beside it may be occupied too.",
-   "砂粒が左右へ滑る。そこを押し続けると砂がほぐれ、少し待てば身体をそっと持ち上げられる。離せば戻せる。隣の静かな砂にも、何かいるかもしれない。"
+   "几粒沙向两边滑开，又停住了。下面像是有一个身体。你的手停在那一小块上方；沙没有替你决定，要不要往下看。",
+   "A few grains slide apart, then stop. There seems to be a body below. Your hand pauses above the patch; the sand does not decide whether you should look underneath.",
+   "砂粒が左右に滑り、止まった。下に身体があるらしい。手はその上で止まる。下を見るかどうか、砂は決めてくれない。"
   ],
   [
-   "把下面也算进去",
-   "Include what is underneath",
-   "下も含めておく"
+   "轻轻拨开沙子",
+   "Gently open the sand",
+   "そっと砂を開く"
   ],
   [
-   "你给图多留了一层。那一层还没有画满，沙面已经足够完整。",
-   "You leave another layer in the diagram. It is unfinished; the surface already looks complete.",
-   "図にもう一層の余地を残した。そこは描き終えていないのに、表面はもう整って見える。"
+   "你把手移近了一点。几粒松动的沙，还没有露出下面的轮廓。",
+   "You move your hand closer. The loosened grains have not yet revealed an outline.",
+   "手を少し近づけた。緩んだ砂からは、まだ輪郭が見えない。"
   ],
   [
    "只记看清的部分",
@@ -303,6 +303,11 @@ const beats=[
 beats.forEach(([title,prompt,left,leftAfter,right,rightAfter],i)=>{
  for(const [key,value] of Object.entries({title,prompt,left,leftAfter,right,rightAfter}))rows[`${i}:${key}`]=value;
 });
+
+rows['dig:hint']=['它就在这片沙里。按住沙面拨开，继续按住可提起，松手放回。','It is in this sand. Hold to dig, keep holding to lift, release to put it back.','この砂の中にいる。長押しで掘り、そのまま持ち上げ、離すと戻せる。'];
+rows['dig:done']=['沙从指边落下。你拨开的这一小块，现在连手的痕迹也算在里面。','Sand falls past your finger. This little patch now includes the trace of your hand.','指の脇から砂が落ちる。この小さな場所に、手の跡も加わった。'];
+rows['dig:before']=['手先于选项进入了沙里。几粒沙换了位置，记录还没来得及决定怎么写。','Your hand enters the sand before a choice is made. A few grains move before the record decides what to say.','選択より先に手が砂へ入った。砂粒が動き、記録はまだ書き方を決めていない。'];
+rows['dig:changed']=['你先把手留在外面，后来还是拨开了沙。刚才的决定没有作废，只是后面又发生了一件事。','You kept your hand outside, then opened the sand after all. The earlier decision remains; something else happened after it.','手を外に置くと決めてから、砂を開いた。先の決定が消えたわけではない。その後に、もう一つ出来事があった。'];
 rows.cycle=['九次观察','Nine observations','九つの観察'];
 const endings={
  calm:[['空处仍有余地','Room in the blank','空白の余地'],['你留了几处没有补齐的空白。等待没有使沙下变得透明，却让“没看见”不再等同于“没有”。最后露出的轮廓，也没有把这一页填满。','You leave several blanks unfinished. Waiting has not made the sand transparent; it has loosened the connection between unseen and absent. The last outline does not fill the page.','埋めない空白がいくつか残った。待っても砂は透明にならない。ただ、見えないことと、いないことが少し離れた。最後の輪郭も頁を埋め尽くさない。'],['空白也可以是一种准确。','A blank can be a kind of accuracy.','空白も、正確さの一つになる。']],
@@ -312,7 +317,7 @@ const endings={
 for(const [kind,parts] of Object.entries(endings))['title','body','line'].forEach((key,i)=>rows['ending:'+kind+':'+key]=parts[i]);
 
 export const sandText=(key,lang='zh')=>{const row=rows[key.replace(/^sand:/,'')];return !row?key:lang==='isopod'?encodeIsopodText(row[0]):row[{zh:0,en:1,ja:2}[lang]??0]};
-export function sandScene(s){const i=Math.min(8,(s.day-1)*3+s.period);return {id:`sand:${i}`,kind:'aquatic',title:`sand:${i}:title`,text:`sand:${i}:prompt`,storyKey:`sand:${i}`,options:[{id:'sand-look',label:`sand:${i}:left`,text:`sand:${i}:leftAfter`,delta:{}},{id:'sand-wait',label:`sand:${i}:right`,text:`sand:${i}:rightAfter`,delta:{quiet:1}}]}}
+export function sandScene(s){const i=Math.min(8,(s.day-1)*3+s.period);return {id:`sand:${i}`,kind:'aquatic',title:`sand:${i}:title`,text:`sand:${i}:prompt`,storyKey:`sand:${i}`,options:[{id:'sand-look',label:`sand:${i}:left`,text:`sand:${i}:leftAfter`,delta:{},...(i===1?{interaction:{type:'dig',prompt:'sand:dig:hint',done:'sand:dig:done'}}:{})},{id:'sand-wait',label:`sand:${i}:right`,text:`sand:${i}:rightAfter`,delta:{quiet:1}}]}}
 
 export const sandIndex=s=>Math.min(8,Math.max(0,(s.day-1)*3+s.period));
 export function sandEndingKind(s){
