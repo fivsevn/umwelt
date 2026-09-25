@@ -20,6 +20,11 @@
 - [BISMaL · Biological Information System for Marine Life](https://www.godac.jamstec.go.jp/bismal/j/)
 - [British Myriapod and Isopod Group](https://bmig.org.uk/)
 - [J-STAGE](https://www.jstage.jst.go.jp/)
+- [Wiley Online Library](https://onlinelibrary.wiley.com/)
+- [PubMed](https://pubmed.ncbi.nlm.nih.gov/)
+- [Persée](https://www.persee.fr/)
+- [International Journal of Speleology](https://digitalcommons.usf.edu/ijs/)
+- [National Park Service](https://www.nps.gov/)
 
 **Notes**
 
@@ -40,17 +45,6 @@
 - [UMWELT](https://umwelt.fivsevn.com/)
 - [GitHub Repository](https://github.com/fivsevn/umwelt)
 
-**Groundwater cave: eight observations**
+**[Morphology lab · specimen references](https://umwelt.fivsevn.com/isopoda/morphology/)**
 
-One recharge episode is presented as four phases with two observations each: seepage, rising flow, material arrival and recession. Biofilm use, benthic activity and particle transport have separate evidence. Routes, timing, abundance and connectivity values are illustrative rather than field measurements. Species from different regions form a comparative display, not a claim of coexistence.
-
-- [Francois et al. 2016 — groundwater Proasellus trophic ecology](https://doi.org/10.1111/1365-2435.12484)
-- [Pronk et al. 2009 — karst percolation and particle transport](https://pubmed.ncbi.nlm.nih.gov/19462487/)
-- [Henry & Magniez 1983 — Proasellus valdensis](https://www.persee.fr/doc/linly_0366-1326_1983_num_52_10_10613?pageId=T1_335)
-- [Magniez 1975 — Stenasellus virei biology](https://digitalcommons.usf.edu/ijs/vol7/iss1/8/)
-
-The cave readout Δh is elevation relative to the entrance. Values vary slightly between nearby fictional observation points. They are neither species collection records nor a turn counter. Cave surveys locate stations using distance, azimuth and inclination.
-
-- [National Park Service — Cave Survey Techniques](https://www.nps.gov/jeca/learn/nature/surveying.htm)
-
-**[More…](https://umwelt.fivsevn.com/isopoda/morphology/)**
+**[Habitat lab · environment references](https://umwelt.fivsevn.com/isopoda/habitat)**

@@ -91,7 +91,8 @@ function drawAquaticLayout(time){
  }
 }
 let state=getState(),critters=[],last=0,active=false,effect=null,frame=0,encounter=null,elapsed=0,empty=false,shelterHeld=false;
-const camera={zoom:1,x:192,y:215},reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const camera={zoom:1,x:192,y:215},motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
+let reduced=motionPreference.matches;motionPreference.addEventListener('change',event=>{reduced=event.matches});
 function encounterForScene(scene){
  const base=encounterById(scene?.encounter);if(!base)return null;
  return {...base,place:Array.isArray(scene?.encounterPlace)?scene.encounterPlace:base.place,specimenId:scene?.moltVisual?.specimen||scene?.specimen||null};
@@ -208,9 +209,9 @@ function drawHabitat(t){
  ctx.drawImage(traceCanvas,0,0);
 
  // Spraying has an immediate visible response now that scenery is on the same canvas layer.
- if(!reduced&&effect&&elapsed<effect.until&&['mist','wet-left','wet-all'].includes(effect.id)){
+ if(effect&&elapsed<effect.until&&['mist','wet-left','wet-all'].includes(effect.id)){
   const wide=effect.id==='wet-all',span=wide?350:102,origin=wide?12:8;
-  for(let i=0;i<30;i++){
+  for(let i=0;i<(reduced?15:30);i++){
    const x=origin+(i*37)%span,y=(i*67+t*.07)%420;
    px(ctx,x,y,1+(i%3===0),2,'rgba(151,177,157,.82)');
    if(i%5===0)px(ctx,x+2,y+3,1,1,'rgba(190,205,184,.62)');
@@ -222,7 +223,7 @@ function drawHabitat(t){
  if(state.light<55&&!['abyssal','groundwater'].includes(config.id)){ctx.fillStyle=`rgba(15,27,21,${(55-state.light)/120})`;ctx.fillRect(0,0,w,h)}
  if(config.id==='abyssal'){ctx.fillStyle='rgba(5,11,14,.10)';ctx.fillRect(0,0,w,h)}
  ctx.strokeStyle='rgba(147,148,124,.55)';ctx.lineWidth=2;ctx.strokeRect(1,1,w-2,h-2);
- if(aquatic)drawAquaticWater(ctx,state,reduced?(config.id==='groundwater'?elapsed*.65:0):elapsed,{drawPlants:false,observationEffect:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});
+ if(aquatic)drawAquaticWater(ctx,state,reduced?elapsed*.65:elapsed,{drawPlants:false,observationEffect:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});
  if(config.id==='groundwater')drawGroundwaterEvidence(ctx,state);
  if(config.id==='abyssal')drawAbyssalSpotlight(ctx,critters[0]);
  drawActors();
@@ -294,5 +295,5 @@ function drawMoltShell(shell,target=ctx){
  }
 }
 new ResizeObserver(()=>drawHabitat(0)).observe(canvas);
-return {reset,stage,react,heartBurst,zoom,beamResize,beamMove,beamHome,beamSteer:(dx,dy)=>{beam.dx=dx;beam.dy=dy},beamSize:()=>beam.size,zoomBy:d=>zoom(camera.zoom+d),home:()=>{camera.x=192;camera.y=215;return zoom(1)},start:()=>{if(!active){active=true;last=performance.now();beam.last=last;if(reduced&&habitatConfig(getState()).id!=='groundwater'){drawHabitat(last);return}frame=requestAnimationFrame(tick)}},stop:()=>{beam.dx=0;beam.dy=0;interaction.cancel();active=false;cancelAnimationFrame(frame)},visible:()=>critters.filter(c=>!c.hidden).length};
+return {reset,stage,react,heartBurst,zoom,beamResize,beamMove,beamHome,beamSteer:(dx,dy)=>{beam.dx=dx;beam.dy=dy},beamSize:()=>beam.size,zoomBy:d=>zoom(camera.zoom+d),home:()=>{camera.x=192;camera.y=215;return zoom(1)},start:()=>{if(!active){active=true;last=performance.now();beam.last=last;frame=requestAnimationFrame(tick)}},stop:()=>{beam.dx=0;beam.dy=0;interaction.cancel();active=false;cancelAnimationFrame(frame)},visible:()=>critters.filter(c=>!c.hidden).length};
 }

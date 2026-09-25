@@ -20,6 +20,11 @@
 - [BISMaL · 日本海洋生物多様性情報システム](https://www.godac.jamstec.go.jp/bismal/j/)
 - [British Myriapod and Isopod Group](https://bmig.org.uk/)
 - [J-STAGE](https://www.jstage.jst.go.jp/)
+- [Wiley Online Library](https://onlinelibrary.wiley.com/)
+- [PubMed](https://pubmed.ncbi.nlm.nih.gov/)
+- [Persée](https://www.persee.fr/)
+- [International Journal of Speleology](https://digitalcommons.usf.edu/ijs/)
+- [National Park Service](https://www.nps.gov/)
 
 **注記**
 
@@ -40,17 +45,6 @@
 - [UMWELT](https://umwelt.fivsevn.com/)
 - [GitHub Repository](https://github.com/fivsevn/umwelt)
 
-**地下水洞窟：八回の観察**
+**[形態実験室 · 標本の参考資料](https://umwelt.fivsevn.com/isopoda/morphology/)**
 
-一度の涵養過程を浸透、増水、流入、減水の四段階、各二回の観察として描く。生物膜の利用、底面での活動、粒子輸送にはそれぞれ資料がある。経路、時間、個体数、接続の指標は野外測定ではなく模式表現である。異なる地域の種の比較展示であり、同じ洞窟での共存を主張しない。
-
-- [Francois et al. 2016 — groundwater Proasellus trophic ecology](https://doi.org/10.1111/1365-2435.12484)
-- [Pronk et al. 2009 — karst percolation and particle transport](https://pubmed.ncbi.nlm.nih.gov/19462487/)
-- [Henry & Magniez 1983 — Proasellus valdensis](https://www.persee.fr/doc/linly_0366-1326_1983_num_52_10_10613?pageId=T1_335)
-- [Magniez 1975 — Stenasellus virei biology](https://digitalcommons.usf.edu/ijs/vol7/iss1/8/)
-
-洞窟の Δh は洞口からの比高。数値は近隣の架空の観察点に応じて少し変わるで、採集記録でも観察回数でもない。洞窟測量では測点間の距離、方位角、傾斜角から位置を求める。
-
-- [National Park Service — Cave Survey Techniques](https://www.nps.gov/jeca/learn/nature/surveying.htm)
-
-**[もっと見る……](https://umwelt.fivsevn.com/isopoda/morphology/)**
+**[環境実験室 · 環境の参考資料](https://umwelt.fivsevn.com/isopoda/habitat)**
