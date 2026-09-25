@@ -216,12 +216,23 @@ html,body{height:100%;overflow:hidden}#game{height:100dvh;padding:6px 8px max(6p
 .cave-observer-mask[data-lights-out="true"]{width:1px!important;background:none!important}
 #arrivalSpecimens.cave-samples,#endSpecimen.cave-samples{grid-template-columns:repeat(4,minmax(0,1fr))}
 
-/* Vintage metal torch silhouette: flared reflector, ribbed barrel and end cap. */
-#boxFrame .groundwater-observation .zoom-tools{display:flex;flex-direction:column;align-items:center;gap:3px;width:44px;padding:5px 3px 7px;left:16px;right:auto;bottom:14px;border:2px solid #526746;border-left-color:#b2c19b;background:repeating-linear-gradient(90deg,#71865e 0 2px,#9aab83 2px 4px);box-shadow:3px 2px #1c2c21}
-#boxFrame .groundwater-observation .zoom-tools:before{content:"";position:absolute;left:-9px;right:-9px;top:-24px;height:24px;background:linear-gradient(#d0d8b3 0 3px,#7c9068 3px 5px,#b0bf98 5px 10px,#526747 10px 12px,#8fa379 12px 17px,#657b54 17px 21px,#b0bf98 21px 24px);clip-path:polygon(0 0,100% 0,100% 10px,90% 10px,90% 15px,80% 15px,80% 20px,72% 20px,72% 100%,28% 100%,28% 20px,20% 20px,20% 15px,10% 15px,10% 10px,0 10px);pointer-events:none}
-#boxFrame .groundwater-observation .zoom-tools:after{content:"";position:absolute;left:-3px;right:-3px;bottom:-6px;height:8px;background:linear-gradient(#b4c39d 0 2px,#71855c 2px 4px,#405636 4px 6px,#8da174 6px);box-shadow:2px 2px #1c2c21;pointer-events:none}
-#boxFrame .groundwater-observation .zoom-tools button{width:28px;min-width:28px;height:25px;min-height:25px;background:#8e9f78;border-color:#c1cea6 #536747 #536747 #c1cea6}
-#boxFrame .groundwater-observation #zoomIn{order:0}
-#boxFrame .groundwater-observation #zoomReset{order:1;height:34px;min-height:34px;width:34px;min-width:34px}
-#boxFrame .groundwater-observation #zoomOut{order:2}
+/* Illustrated torch; generous invisible hit areas around small embedded controls. */
+#boxFrame .groundwater-observation .zoom-tools{display:block;width:44px;height:132px;padding:0;left:11px;right:auto;bottom:10px;border:0;background:url('./assets/torch-control.svg') center/44px 132px no-repeat;box-shadow:none;image-rendering:pixelated}
+#boxFrame .groundwater-observation .zoom-tools:before,#boxFrame .groundwater-observation .zoom-tools:after{content:none}
+#boxFrame .groundwater-observation .zoom-tools button{position:absolute;left:0;display:grid;place-items:center;width:44px;min-width:44px;height:26px;min-height:26px;padding:0;border:0;background:none;color:#b1c6a0;box-shadow:none}
+#boxFrame .groundwater-observation #zoomIn{top:45px}
+#boxFrame .groundwater-observation #zoomReset{top:69px;width:44px;min-width:44px;height:26px;min-height:26px;touch-action:none;cursor:move}
+#boxFrame .groundwater-observation #zoomOut{top:95px}
+#boxFrame .groundwater-observation #zoomIn .pixel-icon,#boxFrame .groundwater-observation #zoomOut .pixel-icon{transform:scale(.5);filter:drop-shadow(0 2px #183f2e)}
+#boxFrame .groundwater-observation .torch-stick{width:14px;height:16px;background:#214d38;box-shadow:inset 2px 2px #173b2b,inset -1px -1px #6d9874;clip-path:polygon(3px 0,11px 0,11px 2px,14px 2px,14px 14px,11px 14px,11px 16px,3px 16px,3px 14px,0 14px,0 2px,3px 2px)}
+#boxFrame .groundwater-observation .torch-stick:before,#boxFrame .groundwater-observation .torch-stick:after{content:none}
+#boxFrame .groundwater-observation .torch-stick-knob{left:4px;top:5px;width:6px;height:6px;background:#7ca181;box-shadow:inset 1px 1px #b5c6a0,inset -1px -1px #355f43;transform:translate(calc(var(--stick-x,0px)*.5),calc(var(--stick-y,0px)*.5))}
+#boxFrame .groundwater-observation .zoom-tools button:hover{color:#e0e8bc}
+#boxFrame .groundwater-observation .zoom-tools button:focus-visible{outline:1px dashed #b5c6a0;outline-offset:-5px}
 #boxFrame .groundwater-observation #zoomLevel{display:none}
+.reference-more{margin-top:12px}
+.reference-more:not(.reference-more + .reference-more){margin-top:24px;padding-top:18px;border-top:1px solid #4f6241}
+
+/* Override the shared compact zoom sizing only for the illustrated torch. */
+#boxFrame .groundwater-observation .zoom-tools{padding:0!important;border-width:0!important;left:11px!important}
+#boxFrame .groundwater-observation .zoom-tools button{width:44px!important;min-width:44px!important;height:26px!important;min-height:26px!important;border-width:0!important}

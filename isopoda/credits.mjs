@@ -13,7 +13,7 @@ function inline(el,value){
 function moreAction(line){
  const match=line.match(/^\*\*\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)\*\*$/);
  if(!match||!['https://umwelt.fivsevn.com/isopoda/morphology/','https://umwelt.fivsevn.com/isopoda/habitat'].includes(match[2]))return null;
- const wrap=document.createElement('div');wrap.className='reference-more';wrap.style.cssText='margin-top:12px';
+ const wrap=document.createElement('div');wrap.className='reference-more';
  const a=document.createElement('a');a.href=match[2];a.target='_blank';a.rel='noopener noreferrer';a.style.cssText='display:inline-flex;align-items:center;justify-content:space-between;gap:18px;min-width:132px;min-height:34px;padding:5px 11px;border:1px solid #677653;background:#35432c;color:#cbd2ae;text-decoration:none;box-shadow:2px 2px #182015';
  const label=document.createElement('span');label.textContent=match[1];a.append(label);wrap.append(a);return wrap;
 }
