@@ -1,3 +1,5 @@
+import {ESTUARY_STAGE_LAYOUTS,ESTUARY_STAGE_META,estuaryStageFilename,validateEstuaryLayout} from './scenery/estuary-stages.mjs';
+import {drawEstuaryWater,drawEstuaryEvidence} from './scenery/estuary.mjs';
 import {renderHabitatReferences} from './habitat-references.mjs';
 import {exportScene,importScene,shareCode} from './scene-codec.mjs';
 import {drawSubstrate,drawLeaf,drawMossPatch,drawBark,drawStone,drawCuttlebone,drawTwig,drawWoodChip,drawSceneDetail,LEGACY_BASE_SCENE,DEFAULT_LAYOUT} from './scenery/index.mjs';
@@ -23,6 +25,7 @@ for(const p of SPECIES){
 }
 $('#referenceSpecies').value=reference.species;
 $('#referenceStage').value=reference.stage;
+for(const [index,stage] of ESTUARY_STAGE_META.entries())$('#estuaryStage').append(new Option(stage.label,String(index)));
 for(const [index,stage] of FRESHWATER_STAGE_META.entries())$('#freshwaterStage').append(new Option(stage.label,String(index)));
 
 const ASSETS=[
@@ -82,7 +85,7 @@ const ASSETS=[
  {id:'abyssal-silt-01',category:'debris',scenes:['abyssal'],label:'Abyssal silt',note:'深海 / 细沉积物斑',radius:42,params:{labDetail:'abyssal-silt'}},
  {id:'nodule-cluster-01',category:'stone',scenes:['abyssal'],label:'Nodule cluster',note:'深海 / 锰结核状石块',radius:32,params:{labDetail:'nodule'}},
  {id:'deepsea-sponge-01',category:'aquatic',scenes:['abyssal'],label:'Deep-sea sponge',note:'深海 / 苍白固着海绵',radius:36,params:{labDetail:'sponge'}},
- {id:'sunken-wood-01',category:'bark',scenes:['abyssal'],label:'Sunken wood',note:'深海 / 沉木残片',radius:52,params:{labDetail:'sunken-wood'}},
+ {id:'sunken-wood-01',category:'bark',scenes:['abyssal','estuary'],label:'Sunken wood',note:'深海 / 河口 · 沉木残片',radius:52,params:{labDetail:'sunken-wood'}},
 
  {id:'moss-sphagnum-01',category:'moss',scenes:['forest','freshwater'],label:'Sphagnum cluster 01',note:'水苔 / 大片',radius:52,params:{rx:48,ry:31,wetness:.76,alpha:.80}},
  {id:'moss-sphagnum-02',category:'moss',scenes:['forest','freshwater'],label:'Sphagnum cluster 02',note:'水苔 / 小片',radius:38,params:{rx:34,ry:22,wetness:.62,alpha:.76}},
@@ -127,7 +130,7 @@ for(const item of LEGACY_BASE_SCENE){
 }
 
 let state={background:'substrate-wet-left',backgroundSeed:57,items:[],selected:null,nextId:1};
-let category='all',drag=null,currentPreset='forest',currentFreshwaterStage=0;
+let category='all',drag=null,currentPreset='forest',currentFreshwaterStage=0,currentEstuaryStage=0,estuaryPreview=false,previewTime=0,previewFrame=0,previewLast=0;
 
 const labNoise=(x,y,seed=0)=>{let n=Math.imul(x+seed+1,374761393)^Math.imul(y+1,668265263);n=Math.imul(n^(n>>>13),1274126177);return (n^(n>>>16))>>>0};
 const labPixel=(g,x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),Math.max(1,Math.round(w)),Math.max(1,Math.round(h)))};
@@ -284,8 +287,12 @@ function drawLabDetail(g,options={}){
 }
 
 function syncControls(){
+ document.body.dataset.labPreset=currentPreset;
  renderHabitatReferences(currentPreset);
  $('#referenceSpecies').value=reference.species;$('#referenceStage').value=reference.stage;
+ $('#estuaryStageControl').hidden=currentPreset!=='estuary';$('#estuaryStage').value=String(currentEstuaryStage);
+ $('#estuaryPreviewControl').hidden=currentPreset!=='estuary';$('#estuaryPreview').setAttribute('aria-pressed',String(estuaryPreview));
+ $('#estuaryPreview').textContent='FLOW · '+(estuaryPreview?'ON':'OFF');
  $('#freshwaterStageControl').hidden=currentPreset!=='freshwater';$('#freshwaterStage').value=String(currentFreshwaterStage);
  $('#toggleReference').setAttribute('aria-pressed',String(reference.visible));
  $('#toggleReference').textContent='GAME SCALE · '+(reference.visible?'ON':'OFF');
@@ -300,8 +307,8 @@ function syncControls(){
 }
 function presetForBackground(background){return ASSET_BY_ID.get(background)?.scenes?.[0]||'forest'}
 function loadPreset(id){
- currentPreset=id;
- const layout=id==='freshwater'?FRESHWATER_STAGE_LAYOUTS[currentFreshwaterStage]:(SCENE_LAYOUTS[id]||DEFAULT_LAYOUT);
+ currentPreset=id;previewTime=0;estuaryPreview=false;cancelAnimationFrame(previewFrame);previewFrame=0;
+ const layout=id==='estuary'?ESTUARY_STAGE_LAYOUTS[currentEstuaryStage]:id==='freshwater'?FRESHWATER_STAGE_LAYOUTS[currentFreshwaterStage]:(SCENE_LAYOUTS[id]||DEFAULT_LAYOUT);
  const imported=importScene(JSON.stringify(layout),ASSET_BY_ID,reference);
  state=imported.state;Object.assign(reference,imported.reference);drag=null;
  const habitat=habitatConfig(id==='forest'?'terrestrial':id);
@@ -390,6 +397,7 @@ function staticSceneLayer(){
 function drawScene(){
  ctx.clearRect(0,0,scene.width,scene.height);
  ctx.drawImage(staticSceneLayer(),0,0);
+ if(currentPreset==='estuary'){const layout=exportScene(state,reference,ASSET_BY_ID);drawEstuaryWater(ctx,currentEstuaryStage,previewTime,layout,!estuaryPreview);drawEstuaryEvidence(ctx,{records:[]},layout)}
  drawReferenceSpecimen();
  const selected=state.items.find(i=>i.id===state.selected);
  if(selected){
@@ -507,7 +515,10 @@ for(const button of document.querySelectorAll('[data-category]'))button.onclick=
 };
 
 $('#resetScene').onclick=()=>loadPreset(currentPreset);
-for(const button of document.querySelectorAll('[data-preset]'))button.onclick=()=>{if(button.dataset.preset==='freshwater')currentFreshwaterStage=0;loadPreset(button.dataset.preset)};
+for(const button of document.querySelectorAll('[data-preset]'))button.onclick=()=>{if(button.dataset.preset==='freshwater')currentFreshwaterStage=0;if(button.dataset.preset==='estuary')currentEstuaryStage=0;loadPreset(button.dataset.preset)};
+$('#estuaryStage').onchange=event=>{currentEstuaryStage=Number(event.target.value);loadPreset('estuary')};
+function previewTick(t){if(!estuaryPreview||currentPreset!=='estuary'){previewFrame=0;return}if(!document.hidden&&t-previewLast>80){previewTime=t/1000;drawScene();previewLast=t}previewFrame=requestAnimationFrame(previewTick)}
+$('#estuaryPreview').onclick=()=>{estuaryPreview=!estuaryPreview;if(matchMedia('(prefers-reduced-motion: reduce)').matches)estuaryPreview=false;if(estuaryPreview&&!previewFrame)previewFrame=requestAnimationFrame(previewTick);else if(!estuaryPreview){cancelAnimationFrame(previewFrame);previewFrame=0;previewTime=0;drawScene()}syncControls()};
 $('#freshwaterStage').onchange=event=>{currentFreshwaterStage=Math.max(0,Math.min(FRESHWATER_STAGE_LAYOUTS.length-1,Number(event.target.value)||0));loadPreset('freshwater')};
 $('#clearScene').onclick=()=>{state.items=[];state.selected=null;drawScene()};
 
@@ -538,7 +549,7 @@ document.querySelector('.control-grid').addEventListener('click',event=>{
 loadPreset('forest');
 
 const sceneText=$('#sceneText'),message=$('#sceneMessage');
-const snapshot=()=>{const data=exportScene(state,reference,ASSET_BY_ID);if(currentPreset==='freshwater')data.metadata={habitat:'freshwater',materialStage:currentFreshwaterStage,stageId:FRESHWATER_STAGE_META[currentFreshwaterStage].id};return data};
+const snapshot=()=>{const data=exportScene(state,reference,ASSET_BY_ID);if(currentPreset==='freshwater')data.metadata={habitat:'freshwater',materialStage:currentFreshwaterStage,stageId:FRESHWATER_STAGE_META[currentFreshwaterStage].id};if(currentPreset==='estuary')data.metadata={...ESTUARY_STAGE_LAYOUTS[currentEstuaryStage].metadata};return data};
 async function copy(text){
  sceneText.value=text;
  try{await navigator.clipboard.writeText(text);message.textContent='已复制场景'}
@@ -548,21 +559,23 @@ $('#copyScene').onclick=()=>copy(JSON.stringify(snapshot(),null,2));
 $('#copyShare').onclick=()=>copy(shareCode(snapshot()));
 $('#downloadScene').onclick=()=>{
  const url=URL.createObjectURL(new Blob([JSON.stringify(snapshot(),null,2)],{type:'application/json'}));
- const link=document.createElement('a');link.href=url;link.download=currentPreset==='freshwater'?freshwaterStageFilename(currentFreshwaterStage):habitatLayoutFilename(presetForBackground(state.background));link.click();
+ const link=document.createElement('a');link.href=url;link.download=currentPreset==='estuary'?estuaryStageFilename(currentEstuaryStage):currentPreset==='freshwater'?freshwaterStageFilename(currentFreshwaterStage):habitatLayoutFilename(presetForBackground(state.background));link.click();
  setTimeout(()=>URL.revokeObjectURL(url),1000);message.textContent='已下载场景';
 };
 function restore(text){
- const previous={state,reference:{...reference},currentPreset,currentFreshwaterStage,category};
+ const previous={state,reference:{...reference},currentPreset,currentFreshwaterStage,currentEstuaryStage,category};
  try{
   const raw=text.trim(),decoded=raw.startsWith('UMWELT1:')?decodeURIComponent(escape(atob(raw.slice(8)))):raw,metadata=JSON.parse(decoded)?.metadata;
   const imported=importScene(raw,ASSET_BY_ID,reference);
+  if(metadata?.habitat==='estuary')validateEstuaryLayout(JSON.parse(decoded),metadata.observationIndex);
   if(!SPECIES.some(p=>p.id===imported.reference.species))throw new Error('未知标本种类');
   state=imported.state;Object.assign(reference,imported.reference);drag=null;
   currentPreset=presetForBackground(state.background);
+  if(currentPreset==='estuary')currentEstuaryStage=metadata?.habitat==='estuary'?metadata.observationIndex:0;
   if(currentPreset==='freshwater')currentFreshwaterStage=Number.isInteger(metadata?.materialStage)?Math.max(0,Math.min(FRESHWATER_STAGE_LAYOUTS.length-1,metadata.materialStage)):0;
   drawScene();syncControls();message.textContent='已精确还原 '+state.items.length+' 个物件';
  }catch(error){
-  state=previous.state;Object.assign(reference,previous.reference);currentPreset=previous.currentPreset;currentFreshwaterStage=previous.currentFreshwaterStage;category=previous.category;drag=null;
+  state=previous.state;Object.assign(reference,previous.reference);currentPreset=previous.currentPreset;currentFreshwaterStage=previous.currentFreshwaterStage;currentEstuaryStage=previous.currentEstuaryStage;category=previous.category;drag=null;
   drawScene();syncControls();message.textContent='未导入，原布局已保留：'+error.message;
  }
 }

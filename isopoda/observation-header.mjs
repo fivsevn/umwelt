@@ -1,3 +1,4 @@
+import {isEstuaryObservation,estuaryIndex,estuaryText} from './data/narrative/estuary.mjs';
 import {groundwaterObservationIndex} from './data/habitats/groundwater-observation.mjs';
 import {gameText} from './locales/game.mjs';
 import {encodeIsopodText,isopodWaveNumber} from './locales/isopod.mjs';
@@ -12,6 +13,7 @@ const titles={
 const abyssal={light:['探照灯','Searchlight','探照灯'],stillness:['原处','Still here','同じ場所'],name:['长名字','A long name','長い名前'],food:['移动的残屑','Moving fragments','動く破片'],scale:['倍率','Magnification','倍率'],background:['石的背面','Behind the stone','石の裏'],trace:['足迹','Footprints','足跡'],blank:['看不见的地方','Out of sight','見えない場所'],reflection:['反光','Reflection','反射'],offering:['从上面来','From above','上から'],specimen:['不动的图像','A still image','静止した像'],observer:['观察窗','Observation window','観察窓'],translation:['翻译','Translation','翻訳'],frame:['画面之外','Beyond the frame','画面の外'],ending:['灯还亮着','Light remains','まだ灯る光']};
 function localize(row,lang){return lang==='isopod'?encodeIsopodText(row[0]):row[{zh:0,en:1,ja:2}[lang]??0]}
 export function observationTitle(state,scene,encounter,lang='zh'){
+ if(isEstuaryObservation(state))return gameText(scene.title,lang);
  if(state.habitatId==='groundwater'||state.habitatId==='freshwater')return gameText(scene.title,lang);
  if(state.habitatId==='abyssal')return localize(abyssal[scene.dialogueNode]||abyssal.light,lang);
  const rows=titles[state.habitatId];
@@ -19,6 +21,7 @@ export function observationTitle(state,scene,encounter,lang='zh'){
  return gameText(encounter?.title||scene.title,lang);
 }
 export function environmentScale(state,lang='zh'){
+ if(isEstuaryObservation(state))return {value:lang==='isopod'?isopodWaveNumber(estuaryIndex(state)+1):String(estuaryIndex(state)+1).padStart(2,'0')+' / 06',label:estuaryText('estuary:v1:cycle',lang)};
  // Authored elevations of nearby observation points; not measured animal locations.
  // Cave surveys use distance, azimuth and inclination to locate stations:
  // https://www.nps.gov/jeca/learn/nature/surveying.htm

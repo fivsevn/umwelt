@@ -25,6 +25,7 @@
 - [Persée](https://www.persee.fr/)
 - [International Journal of Speleology](https://digitalcommons.usf.edu/ijs/)
 - [National Park Service](https://www.nps.gov/)
+- [NOAA](https://www.noaa.gov/)
 
 **注記**
 

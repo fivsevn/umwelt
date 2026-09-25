@@ -88,7 +88,8 @@ test('game credits keep umbrella databases and literature platforms, not paper-l
   'https://pubmed.ncbi.nlm.nih.gov/',
   'https://www.persee.fr/',
   'https://digitalcommons.usf.edu/ijs/',
-  'https://www.nps.gov/'
+  'https://www.nps.gov/',
+  'https://www.noaa.gov/'
  ];
  for(const [url,startMark,endMark] of files){
   const body=readFileSync(new URL(url,import.meta.url),'utf8');
