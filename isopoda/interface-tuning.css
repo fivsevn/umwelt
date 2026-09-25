@@ -34,15 +34,15 @@
 
 .habitat-library{left:auto!important;right:8px!important;z-index:20}
 #boxFrame .zoom-tools{right:auto!important;left:8px!important;z-index:20}
-.habitat-library,#boxFrame .zoom-tools{padding:2px!important;gap:2px!important;border-width:1px!important}
+.habitat-library,.scope-switch-frame,#boxFrame .zoom-tools{padding:2px!important;gap:2px!important;border-width:1px!important}
 #boxFrame .zoom-tools button{position:relative;display:grid!important;place-items:center;width:24px!important;min-width:24px!important;height:24px!important;min-height:24px!important;border-width:1px!important;font-size:0!important;color:#30492e}
 #zoomOut::before,#zoomIn::before{content:'';position:absolute;left:50%;top:50%;width:8px;height:1px;background:currentColor;transform:translate(-50%,-50%)}
 #zoomIn::after{content:'';position:absolute;left:50%;top:50%;width:1px;height:8px;background:currentColor;transform:translate(-50%,-50%)}
 #zoomReset::before{content:'';position:absolute;left:50%;top:50%;width:8px;height:8px;border:1px solid currentColor;transform:translate(-50%,-50%)}
 #zoomReset::after{content:'';position:absolute;left:50%;top:50%;width:1px;height:1px;background:currentColor;transform:translate(-50%,-50%)}
 #boxFrame #zoomLevel{min-width:22px!important;font-size:9px!important;font-weight:400!important;letter-spacing:-.2px!important;opacity:.9}
-.habitat-library #catalogBtn{width:26px!important;min-width:26px!important;height:26px!important;min-height:26px!important;border-width:2px!important}
-.habitat-library #catalogBtn .pixel-icon{transform:scale(.94)!important;transform-origin:center!important;opacity:1!important}
+.habitat-library #catalogBtn,.scope-switch-frame :is(#scopeToggle,#scopeCenter){width:26px!important;min-width:26px!important;height:26px!important;min-height:26px!important;border-width:2px!important}
+.habitat-library #catalogBtn .pixel-icon,.scope-switch-frame :is(#scopeToggle,#scopeCenter) .pixel-icon{transform:scale(.94)!important;transform-origin:center!important;opacity:1!important}
 
 html,body{height:auto!important;min-height:100%;overflow:auto!important}
 body{min-height:100dvh}
