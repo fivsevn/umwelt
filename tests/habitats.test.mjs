@@ -37,7 +37,7 @@ test('all configured habitats complete their full duration with eligible animals
   assert.ok(validRun(s));assert.ok(cohort.every(c=>eligibleSpecies(SPECIES.find(p=>p.id===c.species),h.id)));
   const scenes=new Set();let turns=0;const expectedTurns=h.turns||h.days*3;
   while(s.stage!=='ended'){
-   const scene=ensureScene(s);scenes.add(scene.text);
+   const scene=ensureScene(s);scenes.add(scene.text);if(s.habitatId==='petri-dish')s.microscope={completed:{[(s.day-1)*3+s.period]:true}};
    if(h.aquatic)for(const lang of languages)for(const key of [scene.text,...scene.options.flatMap(o=>[o.label,o.text])]){const text=gameText(key,lang);assert.ok(text&&!text.startsWith('water:')&&!text.startsWith('abyssal:'),key);if(lang==='en'||lang==='ja')assert.notEqual(text,gameText(key,'zh'))}
    assert.ok(choose(s,scene.options[turns%scene.options.length].id));assert.ok(advance(s));turns++;assert.ok(turns<=expectedTurns);assert.ok(validRun(s));
   }

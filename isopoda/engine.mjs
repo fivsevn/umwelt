@@ -1,3 +1,4 @@
+import {petriReady} from './scenery/petri.mjs';
 import {isIntertidal} from './data/narrative/intertidal.mjs';
 import {isEstuaryObservation,estuaryProgress,captureEstuaryEvidence} from './data/narrative/estuary.mjs';
 import {groundwaterProgress} from './data/habitats/groundwater-observation.mjs';
@@ -215,6 +216,7 @@ export function ensureScene(s){
  return s.scene;
 }
 export function choose(s,id){
+ if(s.habitatId==='petri-dish'&&!petriReady(s))return false;
  if(s.stage!=='choice')return false;const scene=ensureScene(s),o=scene.options.find(o=>o.id===id);if(!o)return false;
  const before=s.cohort.map(c=>habitatFit(s,c));if(!habitatConfig(s).aquatic)changeEnvironment(s,id);for(const [k,v] of Object.entries(o.delta))s[k]+=v;
  s.humidity=clamp(s.humidity,35,96);s.cover=clamp(s.cover,20,94);s.light=clamp(s.light,8,85);s.food=clamp(s.food,0,6);s.vent=clamp(s.vent,20,95);
@@ -274,7 +276,7 @@ export function migrateV3(old){if(!old||old.version!==3||!SPECIES.some(p=>p.id==
 export function migrateV4(old){
  if(!old||old.version!==4)return null;
  const s={...old,habitatId:old.habitatId??'terrestrial'};
- if(s.habitatId==='sandy-surf'&&s.stage==='choice')s.scene=null; // Keep completed notes; refresh the pending observation.
+ if(['sandy-surf','petri-dish'].includes(s.habitatId)&&s.stage==='choice')s.scene=null; // Keep completed notes; refresh the pending observation.
  if(s.habitatId==='intertidal'&&s.intertidalVersion!==1)s.intertidalLegacy=true;
  if(s.habitatId==='estuary'){
   // Keep nine-turn v4 histories on their original decoder and clock. Never re-index them.
