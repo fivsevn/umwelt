@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs');
 const {chromium,webkit}=require('playwright');
 const base=process.env.BASE_URL||'http://localhost:8874',out=process.env.QA_OUTPUT||'/tmp/sand-qa';fs.mkdirSync(out,{recursive:true});
-(async()=>{const engine=process.env.BROWSER||'chromium',browser=await (engine==='webkit'?webkit:chromium).launch({headless:true,...(engine==='chromium'?{executablePath:process.env.CHROME_PATH||'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'}:{})});
+(async()=>{const engine=process.env.BROWSER||'chromium',browser=await (engine==='webkit'?webkit:chromium).launch({headless:true,...(engine==='chromium'?(process.env.CHROME_PATH?{executablePath:process.env.CHROME_PATH}:!process.env.CI?{channel:'chrome'}:{}):{})});
 try{for(const width of [320,390,1440]){
  const page=await browser.newPage({viewport:{width,height:width<500?844:900},hasTouch:width<500,isMobile:width<500}),errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.route('**/habitat.mjs*',async route=>{const response=await route.fetch();const body=(await response.text()).replace('return {reset,stage,react,heartBurst,',`if(canvas.id==='habitat')window.__sandTest={actors:()=>critters,camera,view:()=>{const r=canvas.getBoundingClientRect();return cameraWindow(r.width,r.height,camera.zoom,camera.x,camera.y)}};return {reset,stage,react,heartBurst,`);await route.fulfill({response,body})});
