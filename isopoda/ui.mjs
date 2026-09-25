@@ -15,6 +15,12 @@ const glyphs={
  draw:['000011000000','000011000000','001111110000','011000011000','110000001100','110110101100','110000001100','011111111000','001111110000'],
  switch:['000010000000','000011000000','111111100000','000011000000','000010000000','000000100000','000001100000','000011111110','000001100000','000000100000']
 };
+const groundwaterCopy={
+ zh:{connectivity:['分离','局部连通','连通'],seepage:['微弱','增强','强'],input:['未发现','少量','出现']},
+ en:{connectivity:['SEPARATE','PARTIAL','CONNECTED'],seepage:['FAINT','RISING','STRONG'],input:['NONE SEEN','TRACE','PRESENT']},
+ ja:{connectivity:['分離','部分連結','連結'],seepage:['微弱','増加','強'],input:['未確認','少量','流入あり']},
+ isopod:{connectivity:['o  o','o~o','o-o'],seepage:['~','~~','~~~'],input:['·','o','o*']}
+};
 const meterCopy={
  zh:{temp:'温度',wet:'湿度',ventLow:'通风微弱',ventMid:'通风适中',ventHigh:'通风较强',lightLow:'微光',lightMid:'柔光',lightHigh:'明亮'},
  en:{temp:'TEMP',wet:'HUMIDITY',ventLow:'LOW AIRFLOW',ventMid:'AIRFLOW OK',ventHigh:'HIGH AIRFLOW',lightLow:'DIM',lightMid:'SOFT LIGHT',lightHigh:'BRIGHT'},
@@ -31,5 +37,5 @@ export function pixelIcon(kind){
 export function iconButton(button,kind,label){button.replaceChildren(pixelIcon(kind));button.setAttribute('aria-label',label);button.title=label}
 export function createInstrument(root){
  root.innerHTML='<span id="meterTemp"></span><span id="meterWet"></span><span id="simDetail"></span>';
- return state=>{if(habitatConfig(state).aquatic){const nodes=[...root.children];habitatConfig(state).metrics.forEach((key,i)=>{nodes[i].textContent=gameText('water:'+key,getLanguage())+' '+Math.round(state[key])});return}const c=meterCopy[getLanguage()]||meterCopy.zh;root.querySelector('#meterTemp').textContent=c.temp+' '+state.temp.toFixed(1)+'°C';root.querySelector('#meterWet').textContent=c.wet+' '+Math.round(state.humidity)+'%';root.querySelector('#simDetail').textContent=(state.vent>75?c.ventHigh:state.vent<40?c.ventLow:c.ventMid)+' · '+(state.light<30?c.lightLow:state.light>65?c.lightHigh:c.lightMid)};
+ return state=>{if(habitatConfig(state).aquatic){const config=habitatConfig(state),nodes=[...root.children];if(config.sequence==='groundwater-pulse'){const copy=groundwaterCopy[getLanguage()]||groundwaterCopy.zh,level=(value,a,b)=>value<b?value<a?0:1:2;nodes[0].textContent=gameText('water:connectivity',getLanguage())+' '+copy.connectivity[level(state.connectivity,30,60)];nodes[1].textContent=gameText('water:seepage',getLanguage())+' '+copy.seepage[level(state.seepage,30,60)];nodes[2].textContent=gameText('water:input',getLanguage())+' '+copy.input[level(state.input,20,50)];return}config.metrics.forEach((key,i)=>{nodes[i].textContent=gameText('water:'+key,getLanguage())+' '+Math.round(state[key])});return}const c=meterCopy[getLanguage()]||meterCopy.zh;root.querySelector('#meterTemp').textContent=c.temp+' '+state.temp.toFixed(1)+'°C';root.querySelector('#meterWet').textContent=c.wet+' '+Math.round(state.humidity)+'%';root.querySelector('#simDetail').textContent=(state.vent>75?c.ventHigh:state.vent<40?c.ventLow:c.ventMid)+' · '+(state.light<30?c.lightLow:state.light>65?c.lightHigh:c.lightMid)};
 }
