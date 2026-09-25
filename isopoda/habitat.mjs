@@ -71,13 +71,31 @@ function drawAquaticLayout(time){
 }
 let state=getState(),critters=[],last=0,active=false,effect=null,frame=0,encounter=null,elapsed=0,empty=false,shelterHeld=false;
 const camera={zoom:1,x:192,y:215},reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
-const viewport=canvas.closest('.habitat-viewport'),caveVeil=canvas.id==='habitat'&&viewport?document.createElement('div'):null;
+const viewport=canvas.closest('.habitat-viewport'),caveVeil=canvas.id==='habitat'&&viewport?document.createElement('div'):null,caveTopology=canvas.id==='habitat'&&viewport?document.createElement('div'):null;
 let beamFrame=0,beamX=50,beamY=54;
 if(caveVeil){caveVeil.className='groundwater-veil';caveVeil.setAttribute('aria-hidden','true');caveVeil.hidden=true;viewport.append(caveVeil)}
+if(caveTopology){caveTopology.className='groundwater-topology';caveTopology.setAttribute('aria-hidden','true');caveTopology.hidden=true;viewport.append(caveTopology)}
+function groundwaterTopologyMarkup(){
+ const records=(Array.isArray(state.records)?state.records:[]).filter(record=>record.kind==='groundwater-pulse'),choices=new Set(records.map(record=>record.choice));
+ if(!records.length)return '';
+ const seenB=records.length>=2,seenC=records.length>=3||choices.has('search-third'),input=records.length>=3,recession=records.length>=4;
+ const inferredAB=choices.has('connect-points')||choices.has('finish-map'),inferredBC=choices.has('finish-map'),inputTrace=choices.has('watch-input');
+ return `<svg viewBox="0 0 120 66" role="presentation" focusable="false">
+  <path class="topology-water" d="M14 45 C32 17 46 50 60 30 S91 13 105 33"/>
+  <circle class="topology-node" cx="18" cy="45" r="3"/><text x="10" y="59">A</text>
+  ${seenB?'<circle class="topology-node" cx="62" cy="30" r="3"/><text x="58" y="43">B</text>':''}
+  ${seenC?'<circle class="topology-node" cx="104" cy="33" r="3"/><text x="101" y="47">C</text>':''}
+  ${seenB?(inferredAB?'<path class="topology-inferred" d="M21 44 C35 26 49 35 59 31"/><text class="topology-question" x="39" y="28">?</text>':'<text class="topology-question" x="39" y="37">···</text>'):''}
+  ${seenC?(inferredBC?'<path class="topology-inferred" d="M65 29 C77 18 91 23 101 32"/><text class="topology-question" x="83" y="20">?</text>':'<text class="topology-question" x="82" y="28">···</text>'):''}
+  ${input?(inputTrace?'<path class="topology-input" d="M102 5 L102 22"/><path class="topology-arrow" d="M98 18 L102 23 L106 18"/><text x="91" y="8">IN</text>':'<text class="topology-question" x="97" y="13">·</text>'):''}
+  ${recession?'<path class="topology-break" d="M74 20 L82 28 M82 20 L74 28"/><text x="5" y="9">P04</text>':''}
+ </svg>`;
+}
 function syncGroundwaterVeil(){
  const on=habitatConfig(state).id==='groundwater';
  if(viewport)viewport.classList.toggle('groundwater-observation',on);
  if(caveVeil)caveVeil.hidden=!on;
+ if(caveTopology){const markup=on?groundwaterTopologyMarkup():'';caveTopology.hidden=!markup;if(markup)caveTopology.innerHTML=markup;else caveTopology.replaceChildren()}
 }
 function moveGroundwaterBeam(event){
  if(!caveVeil||habitatConfig(getState()).id!=='groundwater')return;
