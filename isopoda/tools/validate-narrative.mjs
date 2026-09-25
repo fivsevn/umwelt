@@ -31,12 +31,24 @@ export function validateNarrative({stories=STORIES,alternates=STORY_ALTERNATES,n
  const ordinary=HABITATS.filter(h=>h.aquatic&&!h.dialogue);
  check(Object.keys(stories).length===ordinary.length,'story habitat count');
  for(const [id,rows] of Object.entries(stories)){const h=ordinary.find(h=>h.id===id);check(!!h,`unknown story habitat ${id}`);if(!h?.sequence)check(rows.length===h?.days*3,`${id}: turn count`);rows.forEach((r,i)=>rowCheck(r,`water:${id}:turn:${i}`))}
- const freshwater=HABITATS.find(h=>h.id==='freshwater');check(FRESHWATER_MATERIAL_STAGES.length===freshwater?.turns,'freshwater: material stage count');
+ const freshwater=HABITATS.find(h=>h.id==='freshwater'),freshwaterTurns=FRESHWATER_MATERIAL_STAGES.reduce((n,stage)=>n+(Array.isArray(stage.steps)?stage.steps.length:0),0);
+ check(FRESHWATER_MATERIAL_STAGES.length===5,'freshwater: material stage count');
+ check(freshwaterTurns===freshwater?.turns,'freshwater: material turn count');
+ const freshwaterOptionIds=new Set();
  for(const [i,stage] of FRESHWATER_MATERIAL_STAGES.entries()){
-  triple(stage.name,`water:freshwater-material:stage:${i}`);resolveKey(`water:freshwater-material:stage:${i}`);triple(stage.prompt,`water:freshwater-material:${i}:prompt`);resolveKey(`water:freshwater-material:${i}:prompt`);
-  check(Array.isArray(stage.options)&&stage.options.length===3,`freshwater:${i}: options`);
-  for(const [j,option] of (stage.options||[]).entries())for(const field of ['label','text']){triple(option[field],`water:freshwater-material:${i}:option:${j}:${field}`);resolveKey(`water:freshwater-material:${i}:option:${j}:${field}`)}
-  for(const [choice,row] of Object.entries(stage.after||{})){triple(row,`water:freshwater-material:${i}:after:${choice}`);resolveKey(`water:freshwater-material:${i}:after:${choice}`)}
+  triple(stage.name,`water:freshwater-material:stage:${i}`);resolveKey(`water:freshwater-material:stage:${i}`);
+  check(Array.isArray(stage.steps)&&stage.steps.length===2,`freshwater:${i}: steps`);
+  for(const [beat,step] of (stage.steps||[]).entries()){
+   triple(step.prompt,`water:freshwater-material:${i}:step:${beat}:prompt`);resolveKey(`water:freshwater-material:${i}:step:${beat}:prompt`);
+   check(Array.isArray(step.options)&&step.options.length===2,`freshwater:${i}:${beat}: options`);
+   for(const [j,option] of (step.options||[]).entries()){
+    check(text(option.id)&&!freshwaterOptionIds.has(option.id),`freshwater:${i}:${beat}: duplicate/missing option ID ${option.id}`);freshwaterOptionIds.add(option.id);
+    check(text(option.animation),`freshwater:${i}:${beat}:${j}: animation`);
+    check(['object','relation'].includes(option.lens),`freshwater:${i}:${beat}:${j}: lens`);
+    for(const field of ['label','text']){triple(option[field],`water:freshwater-material:${i}:step:${beat}:option:${j}:${field}`);resolveKey(`water:freshwater-material:${i}:step:${beat}:option:${j}:${field}`)}
+   }
+   for(const [choice,row] of Object.entries(step.after||{})){triple(row,`water:freshwater-material:${i}:step:${beat}:after:${choice}`);resolveKey(`water:freshwater-material:${i}:step:${beat}:after:${choice}`)}
+  }
  }
  check(FRESHWATER_MATERIAL_ENDINGS.length===3,'freshwater: material ending count');for(const [i,ending] of FRESHWATER_MATERIAL_ENDINGS.entries())for(const field of ['title','body','line']){triple(ending[field],`water:freshwater-material:ending:${i}:${field}`);resolveKey(`water:freshwater-material:ending:${i}:${field}`)}
  const conditions=new Set(['always','high-flow','low-flow','high-detritus','low-detritus','low-light','low-oxygen','high-cover','low-salinity','high-algae']);
