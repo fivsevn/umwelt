@@ -8,6 +8,8 @@ try{for(const width of [320,390,1440]){
  await page.goto(base+'/isopoda/');await page.evaluate(async()=>{const {createRun}=await import('/isopoda/engine.mjs');const s=createRun('pulchra',42,'sandy-surf');s.arrivalPending=true;localStorage.setItem('isopoda-fugue-v4',JSON.stringify(s))});await page.reload();await page.locator('#continueBtn').click();assert.match(await page.locator('#arrivalCard').innerText(),/这片沙里的住客/);await page.screenshot({path:`${out}/${engine}-${width}-arrival.png`,fullPage:true});await page.locator('#settleBtn').click();
  const point=async id=>page.evaluate(id=>{const a=window.__sandTest.actors().find(a=>a.id===id),r=document.querySelector('#habitat').getBoundingClientRect(),v=window.__sandTest.view();return {x:r.left+(a.x-v.sx)*v.scale,y:r.top+(a.y-v.sy)*v.scale}},id);
  const snap=async id=>page.evaluate(id=>{const a=window.__sandTest.actors().find(a=>a.id===id);return {x:a.x,y:a.y,mode:a.interactionState?.mode,hidden:a.hidden,sand:{...a.sand}}},id);
+ assert.match(await page.locator('#dayLabel').innerText(),/01 \/ 09/);assert.match(await page.locator('#instruments').innerText(),/浪位.*46/);
+ assert.equal(await page.locator('#interactionCue').isVisible(),false);assert.ok(!(await page.locator('#observation').innerText()).includes('阿西莫夫'));
  const id=await page.evaluate(()=>window.__sandTest.actors().find(a=>a.hidden&&a.sand.quiet).id),p=await point(id),before=await snap(id);
  const client=engine==='chromium'&&width<500?await page.context().newCDPSession(page):null;
  const down=async p=>{if(client)await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[p]});else{await page.mouse.move(p.x,p.y);await page.mouse.down()}};
@@ -23,10 +25,7 @@ try{for(const width of [320,390,1440]){
  }
  const quiet=await page.evaluate(()=>window.__sandTest.actors().find(a=>a.hidden)?.id);if(quiet!==undefined){await down(await point(quiet));await page.waitForTimeout(100);await page.evaluate(()=>window.dispatchEvent(new Event('blur')));await up();assert.equal((await snap(quiet)).mode,'recovering')}
  for(const lang of ['en','ja','isopod','zh']){if(lang==='isopod')await page.waitForFunction(()=>window.__sandTest.actors().some(a=>a.hidden));await page.evaluate(async lang=>{const {setLanguage}=await import('/isopoda/i18n.mjs');setLanguage(lang)},lang);if(lang==='isopod'){assert.ok(await page.evaluate(()=>{const t=window.__sandTest;return t.actors().some(a=>a.hidden)&&t.actors().every(a=>t.bubbles().some(b=>b.id===a.id&&b.cue==='♡'))}));await page.screenshot({path:`${out}/${engine}-${width}-hearts.png`,fullPage:true})}assert.ok(!(await page.locator('#playView').innerText()).includes('sand:'));assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false)}
- await page.locator('#actions button').first().click();await page.reload();await page.locator('#continueBtn').click();assert.equal(await page.locator('#nextBtn').isEnabled(),true);await page.locator('#nextBtn').click();
- for(let i=1;i<9;i++){await page.locator('#actions button').last().click();await page.locator('#nextBtn').click()}
- assert.equal(await page.locator('#endCard').isVisible(),true);assert.equal(await page.locator('#interactionCue').isVisible(),false);assert.equal(await page.locator('#nextBtn').isVisible(),false);assert.equal(await page.locator('.window-story #endCard').count(),1);assert.ok(!(await page.locator('#endCard').innerText()).includes('三日观察'));await page.screenshot({path:`${out}/${engine}-${width}-ending.png`,fullPage:true});assert.equal(await page.locator('#playView').isVisible(),true);await page.evaluate(async()=>{const {setLanguage}=await import('/isopoda/i18n.mjs');setLanguage('isopod')});assert.ok(await page.evaluate(()=>window.__sandTest.actors().every(a=>window.__sandTest.bubbles().some(b=>b.id===a.id&&b.cue==='♡'))));await page.waitForTimeout(1300);await page.evaluate(async()=>{const {setLanguage}=await import('/isopoda/i18n.mjs');setLanguage('isopod')});assert.ok(await page.evaluate(()=>window.__sandTest.bubbles().filter(b=>b.cue==='♡').length<7));const a0=await snap(0);await page.waitForTimeout(400);assert.notDeepEqual((await snap(0)).sand,a0.sand);
- await page.reload();await page.locator('#continueBtn').click();assert.equal(await page.locator('#playView').isVisible(),true);assert.equal(await page.evaluate(()=>window.__sandTest.actors().length),7);if(width===1440){
+ if(width===1440){
  await page.evaluate(()=>{const a=window.__sandTest.actors()[2];a.x=190;a.y=150;a.sand={...a.sand,mode:'buried',depth:1,age:35};a.hidden=true});
  await page.waitForFunction(()=>{const a=window.__sandTest.actors()[2];return a.sand.mode==='emerging'&&!a.hidden&&window.__sandTest.bubbles().some(b=>b.id===a.id&&b.cue==='?')});
  await page.screenshot({path:`${out}/${engine}-emerging.png`,fullPage:true});
@@ -34,6 +33,13 @@ try{for(const width of [320,390,1440]){
  await page.waitForFunction(()=>{const a=window.__sandTest.actors()[2];return a.sand.mode==='burying'&&a.sand.age>.4&&a.sand.age<1.3});
  await page.screenshot({path:`${out}/${engine}-burrowing.png`,fullPage:true});
  }
+ await page.locator('#actions button').first().click();await page.reload();await page.locator('#continueBtn').click();assert.equal(await page.locator('#nextBtn').isEnabled(),true);await page.locator('#nextBtn').click();
+ for(let i=1;i<9;i++){await page.locator('#actions button').last().click();await page.locator('#nextBtn').click()}
+ assert.equal(await page.locator('#endCard').isVisible(),true);assert.equal(await page.locator('#playView').isVisible(),false);assert.equal(await page.locator('.window-story #endCard').count(),0);
+ assert.match(await page.locator('#endCard').innerText(),/九次观察/);assert.ok(!(await page.locator('#endCard').innerText()).includes('三日观察'));
+ await page.screenshot({path:`${out}/${engine}-${width}-ending.png`,fullPage:true});
+ await page.reload();await page.locator('#continueBtn').click();assert.equal(await page.locator('#playView').isVisible(),false);assert.equal(await page.locator('#endCard').isVisible(),true);
+
  await page.locator('#restartBtn').click();assert.equal(await page.locator('#titleCard').isVisible(),true);assert.equal(await page.locator('.window-story #endCard').count(),0);
  assert.deepEqual(errors,[]);console.log(engine,width,'PASS');await page.close();
  }}finally{await browser.close()}})().catch(e=>{console.error(e);process.exit(1)});

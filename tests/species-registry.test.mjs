@@ -18,7 +18,7 @@ const releaseAquatic=['pulchra','affinis','spinigera','cavaticus','lusitanicus',
 const accepted=[...firstBatch,...secondBatch,...thirdBatch,...fourthBatch,...marineReference,...aquaticExpansion,...releaseAquatic];
 
 test('expanded registry preserves accepted batches and appends a diversified hobby batch',()=>{
- assert.equal(SPECIES.length,67);
+ assert.equal(SPECIES.length,69);
  assert.deepEqual(SPECIES.slice(0,13).map(s=>s.id),original);
  assert.deepEqual(SPECIES.slice(13,18).map(s=>s.id),firstBatch);
  assert.deepEqual(SPECIES.slice(18,23).map(s=>s.id),secondBatch);
@@ -28,8 +28,8 @@ test('expanded registry preserves accepted batches and appends a diversified hob
  assert.deepEqual(SPECIES.slice(34,39).map(s=>s.id),hobbyBatch);
  assert.deepEqual(SPECIES.slice(49,58).map(s=>s.id),aquaticExpansion);
  assert.deepEqual(SPECIES.slice(59,65).map(s=>s.id),releaseAquatic);
- assert.equal(new Set(SPECIES.map(s=>s.id)).size,67);
- assert.deepEqual(SPECIES.slice(65).map(s=>s.id),['albifrons','hirsuta']);
+ assert.equal(new Set(SPECIES.map(s=>s.id)).size,69);
+ assert.deepEqual(SPECIES.slice(65).map(s=>s.id),['albifrons','hirsuta','chiltoni','naylori']);
  for(const id of [...accepted,'albifrons','hirsuta']){
   const p=speciesById(id);
   assert.equal(p.taxonomy.speciesStatus,'accepted_species');

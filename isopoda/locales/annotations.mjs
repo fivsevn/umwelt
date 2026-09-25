@@ -1,6 +1,8 @@
 import {encodeIsopodText} from './isopod.mjs';
 
 const copy={
+  naylori:{zh: ["触角伸得很远，身体还留在原处。", "我们习惯把一个地方的居民，算到身体为止。"], en: ["The antennae reach far while the body stays put.", "We tend to count a place’s residents only as far as their bodies extend."], ja: ["触角は遠くへ伸び、身体は同じ場所にある。", "私たちは場所の住人を、身体のところまでで数えがちだ。"]},
+  chiltoni:{zh: ["它埋进去以后，一片沙又可以被叫作空地。", "这个称呼很方便，只需要不往下看。"], en: ["Once it burrows, a patch of sand can be called vacant again.", "A convenient description, requiring only that nobody look underneath."], ja: ["潜ってしまうと、その砂はまた空き地と呼べる。", "便利な呼び方だ。下を見なければよい。"]},
   hirsuta:{
     zh:["藤壶之间露出一个小小的背面。潮水退下去，那里仍偶尔动一下。", "岸线画在它的下方。这一处该记在水里，还是岸上，两个词暂时挤在页边。"],
     en:["A small back shows between barnacles. The tide falls; an occasional movement remains there.", "The shoreline is drawn below it. “Water” and “shore” wait together in the margin beside this place."],
@@ -229,18 +231,9 @@ const copy={
     en:['Mud has no obvious corridors, yet a narrow body turns sediment into traversable space.','It tolerates a broad low-salinity range and is especially associated with muddy estuarine bottoms.'],
     ja:['泥には明瞭な通路がない。それでも細長い身体は堆積物を通過できる空間へ変える。','幅広い低塩分域に生息でき、とくに泥質の河口底でよく見られる。']
   },
-  pulchra:{
-    en:['As the tide falls it buries in wet sand; with rising water and at night it returns to the surf and shallow water.','Moving sand makes burial and swimming two stages of the same tidal route.'],
-    ja:['潮が引くと湿砂へ潜り、潮が上がるときや夜には波打ち際と浅水へ戻る。','動き続ける砂の中では、潜ることと泳ぐことが同じ潮汐経路の二つの段階になる。']
-  },
-  affinis:{
-    en:['It shares sandy shores with E. pulchra but is smaller, with darker markings concentrated on the upper surface.','Where there are no rock crevices, gaps among sand grains become shelter.'],
-    ja:['E. pulchra と同じ砂浜に現れるが、より小型で、暗色の模様は主に背面に集まる。','岩の割れ目がない場所では、砂粒の間そのものが隠れ場所になる。']
-  },
-  spinigera:{
-    en:['It is more often associated with shallow offshore sand but also reaches intertidal sand on some coasts.','A concave posterior margin and strong spines give the rear of the body a sharper outline.'],
-    ja:['主に浅海の砂底に見られるが、一部の海岸では潮間帯の砂地にも現れる。','尾節後縁のくぼみと強い棘が、身体後端をより鋭い輪郭にする。']
-  },
+  pulchra:{zh: ["背上的斑点让它很容易被认出来，直到它钻进沙里。", "辨认是一种只在见面时有效的关系。"], en: ["The spots make it easy to recognise, until it enters the sand.", "Recognition is a relationship that works only while you can meet."], ja: ["背の斑点で見分けやすい。砂に潜るまでは。", "見分けるという関係は、顔を合わせている間だけ成り立つ。"]},
+  affinis:{zh: ["它和旁边那只很像，于是你先给它们用了同一个名字。", "相似替观察节省了时间，未必替它们省下了什么。"], en: ["It resembles the one beside it, so you first give them the same name.", "Resemblance saves the observer time. It may save the animals nothing."], ja: ["隣の個体に似ているので、ひとまず同じ名前で呼んだ。", "似ていることは観察の時間を省く。彼らに何か省けたかは分からない。"]},
+  spinigera:{zh: ["后端的几处尖角，让一个小小的背面看起来有了立场。", "它转过身，立场也跟着转了。"], en: ["A few sharp corners at the rear make a small back look as if it has taken a position.", "It turns around. The position turns with it."], ja: ["後ろの尖った角で、小さな背にも立場があるように見える。", "身体が向きを変えると、立場も一緒に変わった。"]},
   cavaticus:{
     zh:["光照到这里以前，这里并不缺少一个世界。", "你在纸上留下它的轮廓，轮廓之外，水还在慢慢经过。"],
     en:["Before the light arrived, no world was missing here.", "You leave its outline on paper. Outside the outline, water continues to pass."],
