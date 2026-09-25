@@ -33,7 +33,7 @@ const base=process.env.BASE_URL||'http://127.0.0.1:8765';
   const names={forest:'forest-litter',freshwater:'freshwater-pool',groundwater:'limestone-groundwater-cave',estuary:'brackish-estuary',intertidal:'intertidal-rock-pool','sandy-surf':'sandy-surf-zone','shallow-marine':'nearshore-seaweed-bed',abyssal:'abyssal-plain','petri-dish':'asimovs-dish'};
   const sceneDownload=preset+' download';
   const pendingDownload=page.waitForEvent('download');await click('#downloadScene');const exported=await pendingDownload;
-  assert.equal(exported.suggestedFilename(),preset==='freshwater'?'habitat-layout-freshwater-pool-stage-01-leaf.json':`habitat-layout-${names[preset]}.json`,sceneDownload);
+  assert.equal(exported.suggestedFilename(),preset==='estuary'?'habitat-layout-brackish-estuary-observation-01-mark.json':preset==='freshwater'?'habitat-layout-freshwater-pool-stage-01-leaf.json':`habitat-layout-${names[preset]}.json`,sceneDownload);
   assert.deepEqual(JSON.parse(fs.readFileSync(await exported.path(),'utf8')),data,sceneDownload+' content');
   await click('#clearScene');assert.equal((await snapshot()).objects.length,0);
   await click('#resetScene');assert.equal((await snapshot()).background.type,data.background.type);
