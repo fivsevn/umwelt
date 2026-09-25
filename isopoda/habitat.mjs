@@ -131,7 +131,7 @@ function scopeControl(action,value){
  if(action==='toggle'){m.mode=!m.mode;if(m.mode&&a){m.x=a.x;m.y=a.y}}
  if(action==='zoom')m.magnification=Math.max(4,Math.min(32,m.magnification*(value>0?2:.5)));
  if(action==='focus')m.focus=Math.max(0,Math.min(100,Number(value)));
- if(action==='light'){if(Math.abs(m.light-value)>=2)m.lights++;m.light=Math.max(10,Math.min(100,Number(value)))}
+ if(action==='light'){if(Math.abs(m.light-value)>0)m.lights++;m.light=Math.max(10,Math.min(100,Number(value)))}
  if(action==='center'&&a){m.x=a.x;m.y=a.y}
  if(action==='move'&&m.mode){m.x=Math.max(40,Math.min(344,m.x+value[0]));m.y=Math.max(55,Math.min(375,m.y+value[1]));m.moves+=Math.hypot(...value)}
  onDirectInteraction({type:'microscope',visible:scopeVisible()});drawHabitat(performance.now());
