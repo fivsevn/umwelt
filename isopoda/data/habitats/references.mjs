@@ -1,5 +1,10 @@
 // Environment evidence only. Animal-specific evidence belongs to each specimen.
 export const HABITAT_REFERENCES={
+ 'sandy-surf':{scope:'沙滩浪区 / SANDY SURF / 砂浜の波打ち際',entries:[
+ {sourceId:'sand-jones-1970',use:'沙中埋藏 / Burial in sand / 砂への潜行',note:'E. pulchra 与 E. affinis 的沙中分布和埋藏研究支持隐藏在湿沙下的个体。 / Sand distributions and burial experiments support concealed animals. / 砂中分布と潜行の実験が背景。'},
+ {sourceId:'sand-rhythm-1970',use:'游动与再埋藏 / Swimming and reburial / 遊泳と再潜行',note:'E. pulchra 的潮汐节律和浪扰动作为出沙背景；游戏没有复现生物钟。 / Tidal swimming and wave disturbance inform emergence; the game does not model the biological clock. / 潮汐に伴う遊泳を参考にするが、生物時計の再現ではない。'}],
+ limits:'个体位置、几秒内的出入沙循环、抓取、挖坑和局部沙粒抖动是游戏编排，不是实测深度、速度或可靠的野外定位线索。埋藏个体也可以没有提示。E. spinigera 的沙地记录不等于同等充分的行为证据，其动作是属级示意。日期沿用观察日历，不是当地潮汐预报。 / Positions, accelerated cycles, digging, pickup and grain cues are authored, not measured depths, speeds or reliable field signs. Some animals give no cue. E. spinigera movement is a genus-level illustration, not equally supported species behaviour. Dates are not tide predictions. / 位置、短い周期、掘削と持ち上げ、砂粒の動きは創作上の表現。静かな砂にも個体がいる。'
+ },
  intertidal:{scope:'潮间带岩池 / INTERTIDAL ROCK POOL / 潮間帯の潮だまり',entries:[
  {sourceId:'intertidal-noaa-period',use:'半日潮周期 / Semidiurnal cycle / 半日潮',note:'采用约 12 小时 25 分的低潮到低潮作为一轮观察；九个时刻为叙事采样，并非当地潮汐预报。 / An approximately 12 h 25 min low-to-low cycle is sampled at nine authored moments, not a local tide forecast. / 約12時間25分を九つの観察に分けた創作上の周期。'},
  {sourceId:'intertidal-bmig-granulosa',use:'石下与藻间的庇护 / Stone and weed refuges / 石と藻の隠れ場',note:'以 I. granulosa 在潮间带石下和藻间出现的资料为背景，描绘涨水连通、落水收窄的活动范围。 / Habitat occurrence informs the wet refuges; route changes are authored. / 分布資料をもとに湿った隠れ場を描く。'},

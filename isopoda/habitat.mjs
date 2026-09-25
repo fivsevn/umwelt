@@ -1,3 +1,4 @@
+import {stageSand,buriedAt,uncoverSand,drawSandMarks,sandVisibleCells,sandPose,sandShore} from './scenery/sandy-surf.mjs';
 import {isEstuaryObservation,estuaryIndex} from './data/narrative/estuary.mjs';
 import {estuaryLayout} from './scenery/estuary-stages.mjs';
 import {stepEstuary,drawEstuaryWater,drawEstuaryEvidence} from './scenery/estuary.mjs';
@@ -31,7 +32,7 @@ export function sceneActorPixels(source,actor){
   const comma=key.indexOf(','),sx=Number(key.slice(0,comma)),sy=Number(key.slice(comma+1));
   if(actor.occlusion>0&&(front?sx>24-actor.occlusion*49:sx< -24+actor.occlusion*49))continue;
   const ox=sx*size,oy=sy*size;
-  const x=Math.round(centerX+ox*ca-oy*sa),y=Math.round(centerY+ox*sa+oy*ca);
+  const x=Math.round(centerX+ox*ca-oy*sa),y=Math.round(centerY+ox*sa+oy*ca-(actor.sandRearLift||0)*Math.max(0,Math.min(1,(16-sx)/36)));
   for(let yy=0;yy<footprint;yy++)for(let xx=0;xx<footprint;xx++){
    const px=x+xx-offset,py=y+yy-offset;cells.set(px+','+py,[px,py,color]);
   }
@@ -112,11 +113,12 @@ function reset(options={}){
  canvas.dataset.specimens=String(critters.length);canvas.dataset.taxa=[...new Set(critters.map(c=>c.species))].join(',');
  encounter=empty?null:encounterForScene(state.scene);
  if(config.dialogue&&critters[0]){const a=critters[0];a.x=196;a.y=246;a.a=-.18;a.activity='crawl';a.posture='normal';a.moving=false;a.hidden=false;a.occlusion=0}else stageIndividuals(critters,encounter,{initial:true});
+ if(config.id==='sandy-surf'&&!empty){stageSand(critters,state);sandHoles=[]}
  if(config.id==='groundwater'&&!empty)stageGroundwater(critters,state);
  if(isEstuaryObservation(state)&&!empty)stepEstuary(critters,{state,time:0,reduced});
  if(!empty)placeSceneMolt(state.scene);drawHabitat(0);
 }
-function stage(scene){interaction.cancel();state=getState();syncCaveObserver();if(state.habitatId==='groundwater'){stageGroundwater(critters,state);beamHome()}encounter=encounterForScene(scene);elapsed=0;effect=null;shelterHeld=false;reactions.reset();if(!habitatConfig(state).dialogue)stageIndividuals(critters,encounter);if(isEstuaryObservation(state))stepEstuary(critters,{state,time:0,reduced});placeSceneMolt(scene);if(encounter){[camera.x,camera.y]=encounter.place}drawHabitat(0)}
+function stage(scene){interaction.cancel();state=getState();syncCaveObserver();if(state.habitatId==='groundwater'){stageGroundwater(critters,state);beamHome()}encounter=encounterForScene(scene);elapsed=0;effect=null;shelterHeld=false;reactions.reset();if(!habitatConfig(state).dialogue&&state.habitatId!=='sandy-surf')stageIndividuals(critters,encounter);if(state.habitatId==='sandy-surf')sandHoles=[];if(isEstuaryObservation(state))stepEstuary(critters,{state,time:0,reduced});placeSceneMolt(scene);if(encounter){[camera.x,camera.y]=encounter.place}drawHabitat(0)}
 function react(id){state=getState();if(isEstuaryObservation(state)){stepEstuary(critters,{state,time:elapsed,reduced});drawHabitat(performance.now());return}if(state.habitatId==='groundwater'){if(id==='film-dark'){beamMove(30,0)}else if(id!=='lights-out')beamHome();drawHabitat(performance.now());return}const point=actionFocus(id,state,encounter);const selected=[...critters].sort((a,b)=>Math.hypot(a.x-point.x,a.y-point.y)-Math.hypot(b.x-point.x,b.y-point.y)).slice(0,2).map(c=>c.id);effect={id,selected,mode:responseMode(id),start:elapsed,until:elapsed+10};drawHabitat(performance.now())}
 function heartBurst(){if(empty||!critters.length)return;reactions.burst(critters,'♡',elapsed);drawHabitat(performance.now())}
 function present(){
@@ -130,8 +132,11 @@ function present(){
 }
 function zoom(z){camera.zoom=Math.max(1,Math.min(3,z));present();return camera.zoom}
 
+let sandHoles=[];
 const interaction=bindPointerInteraction(canvas,{
  enabled:()=>active&&!empty,
+ digStart:point=>{if(getState().habitatId!=='sandy-surf')return null;const actor=buriedAt(critters,point);sandHoles.push({...point,time:elapsed,water:point.y>=sandShore(getState(),elapsed)});sandHoles=sandHoles.slice(-16);drawHabitat(performance.now());return {actor}},
+ digEnd:(actor,details)=>{const wasBuried=actor?.sand?.depth>0;uncoverSand(actor);if(actor&&!details.cancel&&(details.reveal||wasBuried))reactions.notify(actor,actor.id%2?'?':'!',elapsed);if(!details.cancel&&!details.reveal)onDirectInteraction({type:'ground',point:details.point})},
  worldPoint:event=>{
   const r=canvas.getBoundingClientRect(),view=cameraWindow(r.width,r.height,camera.zoom,camera.x,camera.y);
   return {x:view.sx+(event.clientX-r.left)/view.scale,y:view.sy+(event.clientY-r.top)/view.scale};
@@ -173,7 +178,7 @@ const interaction=bindPointerInteraction(canvas,{
  report:event=>onDirectInteraction({type:event.type,specimen:event.actor?.specimenId||null,point:event.point||null})
 });
 canvas.addEventListener('wheel',e=>{e.preventDefault();if(habitatConfig(getState()).id==='groundwater')return;zoom(camera.zoom+(e.deltaY<0?.25:-.25));const label=document.querySelector('#zoomLevel');if(label)label.textContent=camera.zoom.toFixed(1)+'×'},{passive:false});
-function tick(t){if(!active)return;const beamDt=Math.min(.035,Math.max(0,(t-beam.last)/1000));beam.last=t;if(!document.hidden&&getState().habitatId==='groundwater'&&(beam.dx||beam.dy))beamMove(beam.dx*beamDt*42,beam.dy*beamDt*42);if(!document.hidden&&t-last>66){const dt=Math.min(.1,(t-last)/1000);state=getState();elapsed+=dt;(isEstuaryObservation(state)?stepEstuary:habitatConfig(state).aquatic?stepAquatic:stepIndividuals)(critters,{encounter,state,time:elapsed,dt,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null,reduced});reactions.update(critters,{encounter,state,time:elapsed,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});drawHabitat(t);last=t}frame=requestAnimationFrame(tick)}
+function tick(t){if(!active)return;const beamDt=Math.min(.035,Math.max(0,(t-beam.last)/1000));beam.last=t;if(!document.hidden&&getState().habitatId==='groundwater'&&(beam.dx||beam.dy))beamMove(beam.dx*beamDt*42,beam.dy*beamDt*42);if(!document.hidden&&t-last>66){const dt=Math.min(.1,(t-last)/1000);state=getState();elapsed+=dt;(isEstuaryObservation(state)?stepEstuary:habitatConfig(state).aquatic?stepAquatic:stepIndividuals)(critters,{encounter,state,time:elapsed,dt,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null,reduced});for(const a of critters)if(a.sand?.cue){reactions.notify(a,a.sand.cue,elapsed);delete a.sand.cue}reactions.update(critters,{encounter,state,time:elapsed,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});drawHabitat(t);last=t}frame=requestAnimationFrame(tick)}
 function px(c,x,y,w,h,color){c.fillStyle=color;c.fillRect(Math.round(x),Math.round(y),Math.max(1,Math.round(w)),Math.max(1,Math.round(h)))}
 function drawHabitat(t){
  syncCaveObserver();
@@ -279,12 +284,13 @@ function drawActorUnderlay(cells){
  for(const [x,y] of cells)px(ctx,x+1,y+2,1,1,'rgba(20,24,18,.46)');
 }
 function drawActors(){
+ if(state.habitatId==='sandy-surf')drawSandMarks(ctx,critters,elapsed,sandHoles,reduced,state);
  for(const actor of [...critters].sort((a,b)=>Number(a.interactionState?.mode==='grabbed')-Number(b.interactionState?.mode==='grabbed'))){if(actor.hidden){actor.hitCells=[];continue;}
   const phase=Math.floor(actor.phase)%4,key=[actor.posture,actor.molt,phase,actor.moving].join(':');
   let source=actor.pixels.get(key);
   if(!source){source=new Map();for(const part of pixelAnatomy(actor.model,{posture:actor.posture,molt:actor.molt,phase,moving:actor.moving}))for(const [x,y,color] of part.cells)source.set(x+','+y,color);actor.pixels.set(key,source);if(actor.pixels.size>40)actor.pixels.delete(actor.pixels.keys().next().value)}
   if(actor.interactionState?.mode==='grabbed')px(ctx,actor.x-7,actor.y+8,14,2,'#252b21');
-  actor.hitCells=sceneActorPixels(source,actor);
+  actor.hitCells=sandVisibleCells(sceneActorPixels(source,sandPose(actor,reduced)),actor);
   drawActorUnderlay(actor.hitCells);
   for(const [x,y,color] of actor.hitCells)px(ctx,x,y,1,1,color);
  }

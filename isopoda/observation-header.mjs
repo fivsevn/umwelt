@@ -16,7 +16,7 @@ function localize(row,lang){return lang==='isopod'?encodeIsopodText(row[0]):row[
 export function observationTitle(state,scene,encounter,lang='zh'){
  if(isIntertidal(state))return intertidalText(scene.title,lang);
  if(isEstuaryObservation(state))return gameText(scene.title,lang);
- if(state.habitatId==='groundwater'||state.habitatId==='freshwater')return gameText(scene.title,lang);
+ if(state.habitatId==='sandy-surf'||state.habitatId==='groundwater'||state.habitatId==='freshwater')return gameText(scene.title,lang);
  if(state.habitatId==='abyssal')return localize(abyssal[scene.dialogueNode]||abyssal.light,lang);
  const rows=titles[state.habitatId];
  if(rows)return localize(rows[Math.min(rows.length-1,(state.day-1)*3+state.period)],lang);
