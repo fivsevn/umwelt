@@ -47,7 +47,7 @@ for(const [name,type] of [['chromium',chromium],['webkit',webkit]].filter(([name
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
    }
    if(output&&width===390)await page.screenshot({path:`${output}/${name}-${width}-${id}-notebook.png`,fullPage:true});
-   await click(page,'#closeDrawer');const resumed=await page.evaluate(()=>window.__motionTest().elapsed);await page.waitForTimeout(200);assert.ok(await page.evaluate(()=>window.__motionTest().elapsed)>resumed);
+   await click(page,'#closeDrawer');const resumed=await page.evaluate(()=>window.__motionTest().elapsed);await page.waitForFunction(previous=>window.__motionTest().elapsed>previous,resumed,{timeout:5000});
    await click(page,'#actions button:first-child');await page.reload();await click(page,'#continueBtn');
    assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('isopoda-fugue-v4')).cohort[0].species),id);
   }
