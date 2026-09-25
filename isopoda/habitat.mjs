@@ -41,9 +41,9 @@ export function sceneActorPixels(source,actor){
  }
  return [...cells.values()];
 }
-export function cameraWindow(width,height,zoom=1,x=192,y=215){
+export function cameraWindow(width,height,zoom=1,x=192,y=215,wide=false){
  const scale=Math.max(1,width/384)*zoom,sw=width/scale,sh=height/scale;
- x=Math.max(sw/2,Math.min(384-sw/2,x));y=Math.max(sh/2,Math.min(430-sh/2,y));
+ if(wide){x=192;y=215}else {x=Math.max(sw/2,Math.min(384-sw/2,x));y=Math.max(sh/2,Math.min(430-sh/2,y));}
  return {scale,sw,sh,x,y,sx:x-sw/2,sy:y-sh/2};
 }
 export function createHabitat(canvas,layer,getState,onDirectInteraction=()=>{}){
@@ -148,10 +148,21 @@ function present(){
  display.imageSmoothingEnabled=false;
  const m=state.habitatId==='petri-dish'?microscope(state):null;
  const petriScale=Math.max(rect.width/384,rect.height/430)*(m?.mode?m.magnification:1);
- const view=m?{scale:petriScale,sw:rect.width/petriScale,sh:rect.height/petriScale,x:m.mode?m.x:192,y:m.mode?m.y:215,sx:(m.mode?m.x:192)-rect.width/petriScale/2,sy:(m.mode?m.y:215)-rect.height/petriScale/2}:cameraWindow(rect.width,rect.height,camera.zoom,camera.x,camera.y),{scale,sw,sh,sx,sy}=view;camera.x=view.x;camera.y=view.y;
+ const view=m?{scale:petriScale,sw:rect.width/petriScale,sh:rect.height/petriScale,x:m.mode?m.x:192,y:m.mode?m.y:215,sx:(m.mode?m.x:192)-rect.width/petriScale/2,sy:(m.mode?m.y:215)-rect.height/petriScale/2}:cameraWindow(rect.width,rect.height,camera.zoom,camera.x,camera.y,state.habitatId==='abyssal'),{scale,sw,sh,sx,sy}=view;camera.x=view.x;camera.y=view.y;
  if(m&&!m.mode){camera.zoom=1;camera.x=192;camera.y=215}
 
- overlayCtx.clearRect(0,0,overlay.width,overlay.height);overlayCtx.drawImage(world,0,0);if(habitatConfig(state).id!=='groundwater'&&!isEstuaryObservation(state))drawReactionBubbles(overlayCtx,reactions.active,critters,elapsed,view,reduced);display.clearRect(0,0,w,h);if(m){display.fillStyle='#19241f';display.fillRect(0,0,w,h)}display.drawImage(overlay,sx,sy,sw,sh,0,0,w,h);
+ overlayCtx.clearRect(0,0,overlay.width,overlay.height);overlayCtx.drawImage(world,0,0);if(habitatConfig(state).id!=='groundwater'&&!isEstuaryObservation(state))drawReactionBubbles(overlayCtx,reactions.active,critters,elapsed,view,reduced);display.clearRect(0,0,w,h);
+ if(state.habitatId==='abyssal'&&camera.zoom<1){
+  // Extend the existing seafloor into darkness without exposing the world's rectangle.
+  display.drawImage(sceneryCanvas,0,0,w,h);display.fillStyle='rgba(3,8,11,.96)';display.fillRect(0,0,w,h);
+  const a=critters[0],cx=a?.x??192,cy=a?.y??215,fade=1-camera.zoom;
+  const shade=overlayCtx.createRadialGradient(cx,cy,16,cx,cy,230);
+  shade.addColorStop(0,`rgba(3,8,11,${fade*.22})`);shade.addColorStop(.45,`rgba(3,8,11,${fade*.78})`);shade.addColorStop(1,`rgba(3,8,11,${fade})`);
+  overlayCtx.fillStyle=shade;overlayCtx.fillRect(0,0,384,430);
+  const edge=overlayCtx.createRadialGradient(192,215,45,192,215,190);edge.addColorStop(0,'#fff');edge.addColorStop(.55,'#fff');edge.addColorStop(1,'transparent');
+  overlayCtx.save();overlayCtx.globalCompositeOperation='destination-in';overlayCtx.fillStyle=edge;overlayCtx.fillRect(0,0,384,430);overlayCtx.restore();
+ }
+ if(m){display.fillStyle='#19241f';display.fillRect(0,0,w,h)}display.drawImage(overlay,sx,sy,sw,sh,0,0,w,h);
  if(m?.mode){
   if(lensCanvas.width!==w||lensCanvas.height!==h){lensCanvas.width=w;lensCanvas.height=h}
   lensCtx.imageSmoothingEnabled=false;lensCtx.clearRect(0,0,w,h);lensCtx.drawImage(world,sx,sy,sw,sh,0,0,w,h);
@@ -164,7 +175,7 @@ function present(){
 
  layer.hidden=true;
 }
-function zoom(z){if(getState().habitatId==='petri-dish')return 1;camera.zoom=Math.max(1,Math.min(3,z));present();return camera.zoom}
+function zoom(z){if(getState().habitatId==='petri-dish')return 1;camera.zoom=getState().habitatId==='abyssal'?Math.max(.25,Math.min(1,z)):Math.max(1,Math.min(3,z));present();return camera.zoom}
 
 let sandHoles=[];
 const interaction=bindPointerInteraction(canvas,{
@@ -172,7 +183,7 @@ const interaction=bindPointerInteraction(canvas,{
  digStart:point=>{if(getState().habitatId!=='sandy-surf')return null;const actor=buriedAt(critters,point);sandHoles.push({...point,time:elapsed,water:point.y>=sandShore(getState(),elapsed)});sandHoles=sandHoles.slice(-16);drawHabitat(performance.now());return {actor}},
  digEnd:(actor,details)=>{const wasBuried=actor?.sand?.depth>0;uncoverSand(actor);if(actor&&!details.cancel&&(details.reveal||wasBuried))reactions.notify(actor,actor.id%2?'?':'!',elapsed);if(!details.cancel&&!details.reveal)onDirectInteraction({type:'ground',point:details.point})},
  worldPoint:event=>{
-  const r=canvas.getBoundingClientRect(),view=cameraWindow(r.width,r.height,camera.zoom,camera.x,camera.y);
+  const r=canvas.getBoundingClientRect(),view=cameraWindow(r.width,r.height,camera.zoom,camera.x,camera.y,state.habitatId==='abyssal');
   return {x:view.sx+(event.clientX-r.left)/view.scale,y:view.sy+(event.clientY-r.top)/view.scale};
  },
  hitTest:point=>(getState().habitatId==='petri-dish'||habitatConfig(getState()).dialogue||isEstuaryObservation(getState()))?null:[...critters].reverse().find(actor=>!actor.hidden&&actor.hitCells?.some(([x,y])=>point.x>=x-3&&point.x<=x+4&&point.y>=y-3&&point.y<=y+4)),
@@ -205,14 +216,14 @@ const interaction=bindPointerInteraction(canvas,{
  },
  pan:(dx,dy)=>{
   if(getState().habitatId==='petri-dish'){const m=microscope(getState()),r=canvas.getBoundingClientRect();if(m.mode)scopeControl('move',[-dx/(Math.max(r.width/384,r.height/430)*m.magnification),-dy/(Math.max(r.width/384,r.height/430)*m.magnification)]);return}
-  if(habitatConfig(getState()).id==='groundwater')return;
+  if(['groundwater','abyssal'].includes(habitatConfig(getState()).id))return;
   const r=canvas.getBoundingClientRect(),scale=Math.max(1,r.width/384)*camera.zoom;
   camera.x-=dx/scale;camera.y-=dy/scale;present();
  },
  draw:()=>drawHabitat(performance.now()),
  report:event=>onDirectInteraction({type:event.type,specimen:event.actor?.specimenId||null,point:event.point||null})
 });
-canvas.addEventListener('wheel',e=>{e.preventDefault();if(habitatConfig(getState()).id==='petri-dish'){if(microscope(getState()).mode)scopeControl('zoom',e.deltaY<0?1:-1);return}if(habitatConfig(getState()).id==='groundwater')return;zoom(camera.zoom+(e.deltaY<0?.25:-.25));const label=document.querySelector('#zoomLevel');if(label)label.textContent=camera.zoom.toFixed(1)+'×'},{passive:false});
+canvas.addEventListener('wheel',e=>{e.preventDefault();if(habitatConfig(getState()).id==='petri-dish'){if(microscope(getState()).mode)scopeControl('zoom',e.deltaY<0?1:-1);return}if(habitatConfig(getState()).id==='groundwater')return;zoom(camera.zoom+(e.deltaY<0?.25:-.25));const label=document.querySelector('#zoomLevel');if(label)label.textContent=camera.zoom.toFixed(2).replace(/0$/,'')+'×'},{passive:false});
 function tick(t){if(!active)return;const beamDt=Math.min(.035,Math.max(0,(t-beam.last)/1000));beam.last=t;if(!document.hidden&&getState().habitatId==='groundwater'&&(beam.dx||beam.dy))beamMove(beam.dx*beamDt*42,beam.dy*beamDt*42);if(!document.hidden&&t-last>66){const dt=Math.min(.1,(t-last)/1000);state=getState();elapsed+=dt;(isEstuaryObservation(state)?stepEstuary:habitatConfig(state).aquatic?stepAquatic:stepIndividuals)(critters,{encounter,state,time:elapsed,dt,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null,reduced});for(const a of critters)if(a.sand?.cue){reactions.notify(a,a.sand.cue,elapsed);delete a.sand.cue}reactions.update(critters,{encounter,state,time:elapsed,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});drawHabitat(t);last=t}frame=requestAnimationFrame(tick)}
 function px(c,x,y,w,h,color){c.fillStyle=color;c.fillRect(Math.round(x),Math.round(y),Math.max(1,Math.round(w)),Math.max(1,Math.round(h)))}
 function drawHabitat(t){
