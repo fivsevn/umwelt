@@ -65,6 +65,10 @@ function clock(day=state.day,period=state.period){
   const completed=(state.records||[]).filter(record=>record.kind==='freshwater-material').length,index=Number.isInteger(state.scene?.materialStage)?state.scene.materialStage:Math.min(4,Math.floor(completed/2)),beat=Number.isInteger(state.scene?.materialBeat)?state.scene.materialBeat:Math.min(1,completed%2);
   return gameText(`water:freshwater-material:stage:${index}`,getLanguage())+` · ${beat+1}/2`;
  }
+ if(config.sequence==='groundwater-pulse'){
+  const completed=(state.records||[]).filter(record=>record.kind==='groundwater-pulse').length,index=Math.min(3,completed);
+  return gameText(`groundwater:pulse:${index}:name`,getLanguage());
+ }
  if(config.dialogue)return '';
  const date=state.startedOn?new Date(state.startedOn+'T12:00:00'):null;
  if(date)date.setDate(date.getDate()+day-1);
@@ -87,8 +91,9 @@ function render(){
  $('#nextBtn').disabled=state.stage!=='feedback';
  const nextTime=timeFor(state.seed,state.period===2?state.day+1:state.day,(state.period+1)%3);
  const nextTimeLabel=getLanguage()==='isopod'?isopodWaveTime(nextTime):nextTime;
- if(config.sequence==='freshwater-material'){
-  const completed=(Array.isArray(state.records)?state.records:[]).filter(record=>record.kind==='freshwater-material').length;
+ if(config.sequence==='freshwater-material'||config.sequence==='groundwater-pulse'){
+  const kind=config.sequence==='freshwater-material'?'freshwater-material':'groundwater-pulse';
+  const completed=(Array.isArray(state.records)?state.records:[]).filter(record=>record.kind===kind).length;
   setWaveText($('#nextBtn'),state.stage==='choice'?t('holdMoment'):completed>=config.turns?t('closeGently'):t('continueObservation'));
  }else if(config.dialogue){
   const completed=(Array.isArray(state.records)?state.records:[]).filter(record=>record.kind==='abyssal-dialogue').length;
@@ -123,7 +128,7 @@ function drawEndMolts(){
  });
 }
 function showEnd(){
- habitat.stop();$('#playView').hidden=true;$('#arrivalCard').hidden=true;$('#endCard').hidden=false;$('#dayLabel').textContent='';const e=ENDINGS.find(e=>e.id===state.ending)||ENDINGS[5];setWaveText($('#endingTime'),clock());for(const id of ['endingTitle','endingBody','endingLine'])$('#'+id).dataset.directLocale='true';$('#endingTitle').textContent=gameText(e.title,getLanguage());$('#endingBody').textContent=gameText(e.body,getLanguage());$('#endingLine').textContent=gameText(e.line,getLanguage());const endConfig=habitatConfig(state);$('#endCard .ending-date span:last-child').textContent=endConfig.sequence==='freshwater-material'?gameText('water:observations5',getLanguage()):endConfig.dialogue?gameText('water:abyssalRound',getLanguage()):endConfig.aquatic?gameText('water:days3',getLanguage()):t('sevenDayObservation');$('#endSpecimen').replaceChildren(...batchBugs());drawEndMolts();
+ habitat.stop();$('#playView').hidden=true;$('#arrivalCard').hidden=true;$('#endCard').hidden=false;$('#dayLabel').textContent='';const e=ENDINGS.find(e=>e.id===state.ending)||ENDINGS[5];setWaveText($('#endingTime'),clock());for(const id of ['endingTitle','endingBody','endingLine'])$('#'+id).dataset.directLocale='true';$('#endingTitle').textContent=gameText(e.title,getLanguage());$('#endingBody').textContent=gameText(e.body,getLanguage());$('#endingLine').textContent=gameText(e.line,getLanguage());const endConfig=habitatConfig(state);$('#endCard .ending-date span:last-child').textContent=endConfig.sequence==='freshwater-material'?gameText('water:observations5',getLanguage()):endConfig.sequence==='groundwater-pulse'?gameText('water:pulses4',getLanguage()):endConfig.dialogue?gameText('water:abyssalRound',getLanguage()):endConfig.aquatic?gameText('water:days3',getLanguage()):t('sevenDayObservation');$('#endSpecimen').replaceChildren(...batchBugs());drawEndMolts();
  if(!archives.some(a=>a.run===state.seed)){archives.push({id:e.id,run:state.seed,species:runSpecies(state),cohort:state.cohort,date:new Date().toLocaleDateString(),records:state.records.length,memory:endingMemoryFor(state),molts:(state.collectedShells||[]).map(shell=>({phase:shell.phase,specimen:shell.specimen}))});archives=archives.slice(-60);write(ARCHIVE,archives)}save();
 }
 function home(){playing=false;habitat.stop();$('#playView').hidden=true;$('#endCard').hidden=true;$('#arrivalCard').hidden=true;$('#titleCard').hidden=false;$('#dayLabel').textContent='';$('#startBtn').disabled=false;$('#continueBtn').hidden=!hasRun;$('#continueBtn').textContent=state.stage==='ended'?t('viewEnding'):t('continueObservation');refreshPreview()}
