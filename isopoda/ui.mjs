@@ -9,7 +9,6 @@ import {getLanguage} from './i18n.mjs';
 
 // Tiny CSS pixel marks: no raster resources, system emoji, or smooth icon font.
 const glyphs={
- microscope:['000001111000','000001001000','000011110000','000110000000','001100011000','001100111100','001100011000','001111110000','001100000000','000110001000','000011111000','001111111100'],
  pencil:['000000001100','000000011110','000000111100','000001111000','000011110000','000111100000','001111000000','001110000000','001000000000'],
  triangleDown:['1111111','0111110','0011100','0001000'],
  triangleUp:['0001000','0011100','0111110','1111111'],
@@ -30,6 +29,10 @@ const meterCopy={
  isopod:{temp:'~o~',wet:'\\o/',ventLow:'<o  ~',ventMid:'<o>',ventHigh:'~  o>',lightLow:'o^  -',lightMid:'o^',lightHigh:'o^  o*'}
 };
 export function pixelIcon(kind){
+ if(kind==='microscope'){
+  const rows=['0000DDDD00000000','0000DLLD00000000','00000DLD00000000','00000DLD00000000','00000DLLDD000000','00000DMLDLDD0000','00000DMLDMDLD000','00000DLLDMDMLD00','0000DDDDDDMMLD00','0000DLD00DDMLD00','000DDDDD00DMLD00','000DLDLD00DMLD00','000DDDDD00DMLD00','0000000000DMLD00','00DDDDDDDDDMLD00','000000000DMLLD00','00000DDD0DLLLD00','0000DLLDDDDDDD00','000DDLLLLLLLLDD0','000DMMMMMMMMMMD0','000DDDDDDDDDDDD0'];
+  const el=document.createElement('span');el.className='pixel-icon microscope-icon';el.setAttribute('aria-hidden','true');el.style.width='16px';el.style.height='21px';const bit=document.createElement('i'),palette={D:'#304735',M:'#71896c',L:'#c9d1ac'};bit.style.width=bit.style.height='1px';bit.style.boxShadow=rows.flatMap((row,y)=>[...row].flatMap((v,x)=>palette[v]?[`${x}px ${y}px 0 ${palette[v]}`]:[])).join(',');el.append(bit);return el;
+ }
  if(kind==='joystick'){
   const base=document.createElement('span');base.className='torch-stick';base.setAttribute('aria-hidden','true');
   const knob=document.createElement('span');knob.className='torch-stick-knob';base.append(knob);return base;
@@ -43,5 +46,5 @@ export function pixelIcon(kind){
 export function iconButton(button,kind,label){button.replaceChildren(pixelIcon(kind));button.setAttribute('aria-label',label);button.title=label}
 export function createInstrument(root){
  root.innerHTML='<span id="meterTemp"></span><span id="meterWet"></span><span id="simDetail"></span>';
- return state=>{if(state.habitatId==='petri-dish'){const m=microscope(state),t=k=>petriText(k,getLanguage());[t(m.mode?'lens':'overview'),m.mode?m.magnification+'×':t('field')+' 1×',m.mode?t(isFocused(m)?'clear':'soft'):t('cycle')].forEach((label,i)=>root.children[i].textContent=label);return}if(state.habitatId==='sandy-surf'){sandInstrument(state,habitatConfig(state).tides,getLanguage()).forEach((label,i)=>root.children[i].textContent=label);return}if(isIntertidal(state)){intertidalInstrument(state,getLanguage()).forEach((label,i)=>root.children[i].textContent=label);return}if(isEstuaryObservation(state)){estuaryInstrument(state,getLanguage()).forEach((label,i)=>root.children[i].textContent=label);return}if(habitatConfig(state).aquatic){const nodes=[...root.children];habitatConfig(state).metrics.forEach((key,i)=>{nodes[i].textContent=gameText('water:'+key,getLanguage())+' '+Math.round(state[key])});return}const c=meterCopy[getLanguage()]||meterCopy.zh;root.querySelector('#meterTemp').textContent=c.temp+' '+state.temp.toFixed(1)+'°C';root.querySelector('#meterWet').textContent=c.wet+' '+Math.round(state.humidity)+'%';root.querySelector('#simDetail').textContent=(state.vent>75?c.ventHigh:state.vent<40?c.ventLow:c.ventMid)+' · '+(state.light<30?c.lightLow:state.light>65?c.lightHigh:c.lightMid)};
+ return state=>{if(state.habitatId==='petri-dish'){const m=microscope(state),t=k=>petriText(k,getLanguage());[t(m.mode?'lens':'overview'),m.mode?t(m.magnification<=4?'lowPower':m.magnification<=8?'midPower':m.magnification<=16?'highPower':'detailPower'):t('field'),m.mode?t(isFocused(m)?'clear':'soft'):t('cycle')].forEach((label,i)=>root.children[i].textContent=label);return}if(state.habitatId==='sandy-surf'){sandInstrument(state,habitatConfig(state).tides,getLanguage()).forEach((label,i)=>root.children[i].textContent=label);return}if(isIntertidal(state)){intertidalInstrument(state,getLanguage()).forEach((label,i)=>root.children[i].textContent=label);return}if(isEstuaryObservation(state)){estuaryInstrument(state,getLanguage()).forEach((label,i)=>root.children[i].textContent=label);return}if(habitatConfig(state).aquatic){const nodes=[...root.children];habitatConfig(state).metrics.forEach((key,i)=>{nodes[i].textContent=gameText('water:'+key,getLanguage())+' '+Math.round(state[key])});return}const c=meterCopy[getLanguage()]||meterCopy.zh;root.querySelector('#meterTemp').textContent=c.temp+' '+state.temp.toFixed(1)+'°C';root.querySelector('#meterWet').textContent=c.wet+' '+Math.round(state.humidity)+'%';root.querySelector('#simDetail').textContent=(state.vent>75?c.ventHigh:state.vent<40?c.ventLow:c.ventMid)+' · '+(state.light<30?c.lightLow:state.light>65?c.lightHigh:c.lightMid)};
 }
