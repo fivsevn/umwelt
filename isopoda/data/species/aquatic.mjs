@@ -16,13 +16,18 @@ const AQUATIC_NOTES={
  aquaticus:['水把腐叶的边缘泡软，身体从沉木与水草之间经过。我们称这里为“淡水”，它只遇见阻力、遮蔽，以及仍可前进的缝隙。','标本柜要求一个名字，水面却不替任何物种停下来。分类与流动，只在这一页纸上短暂相遇。'],
  meridianus:['水草、石块与沉木把同一片水分成许多尺度。对我们是“环境”，对一具小小的身体，也许只是下一步能否落下。','水草、石块与沉木之间的流速不同，个体会沿着较缓的表面和缝隙移动。'],
  coxalis:['浅水里的沉积物没有整齐的边界。名字是后来写上去的，身体先穿过那些混合的颗粒。','浅水底部的砂、泥与碎屑不断重新排列，个体的路线也随之改变。'],
- serratum:['潮水把石缝交还给海，又暂时收回。这里的边界每天都在移动，而标本框要求它保持不动。','它能够把身体卷起；那一刻，边界仿佛被暂时带回自己身上。至于下一次水线在哪里，没有一枚标本能够回答。'],
- pelagica:['藤壶、贻贝与短藻把岩岸拆成许多可以经过的表面。我们说“暴露”，身体只遇见一次又一次的附着与空隙。','标本针固定了方向；活着的时候，方向从来不是标本的一部分。'],
- granulosa:['藻叶随着水摆动，栖身其间的身体也被带进同一阵水流。画面可以留下轮廓，却不能把海的推力一起装进框里。','我们用颜色与背形记住它；它并不需要被记住，仍会在藻间继续。'],
+ serratum:["石沿下的轮廓收成一团，过了一会儿，又慢慢展开。", "同一栏里留下了两种形状。名字写在上方，空白还够放下下一次变化。"],
+ pelagica:["一阵水过去，步足还扣在原来的地方。落在纸上的那条短线，看起来像一次停留。", "线旁添了一个时间。那段持续抓附的间隙，没有单独的一栏。"],
+ granulosa:["藻叶翻过来，刚才清楚的背纹藏进了折面。笔记停在那一笔，水还在把叶子翻向另一边。", "页边写着「仍在原处」。藻枝又摆了一次，这几个字便有些迟疑。"],
  balthica:['藻场看起来像背景，直到一具身体把海藻同时当作食物与经过之处。人的记录喜欢把功能分开，水下没有表格。','当它离开这一片藻叶，位置改变了；“标本”这个词却要求它永远停在某处。'],
  emarginata:['脱落的藻体漂到一起，形成一种没有地基的栖身之处。我们仍习惯问“它住在哪里”，仿佛地点必须固定。','一片藻叶离开岩石之后仍然可以成为环境；有时，漂移只是另一种栖居方式。'],
  neglecta:['藻丛中的空隙会随着水流改变。看似相同的两秒钟，对毫米尺度的身体并不是同一个地方。','它多在水下藻丛和脱落藻体之间活动，遮蔽本身也会随着水流移动。'],
  giganteus:['两次移动之间隔了很久。','第一处和第二处都被记下，中间的部分却只留下了一段时间。']
+};
+const INTERTIDAL_SCIENCE={
+ serratum:['岩岸潮间带石下与裂隙记录；体型、尾肢等鉴别资料见当前标本参考。 / Rocky intertidal under-stone and crevice records; identification is documented in the specimen references.'],
+ pelagica:['受浪岩岸的藤壶、贻贝与短藻间有记录。像素抓附速度是场景编排，不是运动测量。 / Recorded among barnacles, mussels and short fucoids on exposed rocky shores; animation pace is authored.'],
+ granulosa:['记录于潮间带石下与藻间，可出现游动。动画中的具体轨迹与游动频率未作物种测量。 / Recorded beneath intertidal stones and amongst algae; may swim. Routes and frequency are not measured species parameters.']
 };
 export const AQUATIC_SOURCES=AQUATIC_TAXA.map(([id,name,,,,,url])=>({id:'aquatic-'+id,level:'A2',type:'TAXONOMY / ECOLOGY / MORPHOLOGY',title:name+' — habitat and identification account',url,supports:[id+'.taxonomy',id+'.habitat',id+'.morphology']}));
 function visualFor(id,family,color){
@@ -71,6 +76,6 @@ export const AQUATIC_SPECIES=AQUATIC_TAXA.map(([id,taxon,authority,habitat,subor
  genetics:{knowledge:'unknown',model:null},breeding:{crossCompatibility:'not_applicable'},
  trade:{type:'wild_species',tradeAliases:[],evidenceIds:[]},nomenclature:{taxonomicStatus:'accepted_species',vernacularStatus:'scientific_name_only',lastReviewed:'2026-09-22'},
  biogeography:{nativeRange:null,distributionNotes:'See linked regional species account; the pool does not assert a shared geographic locality.',evidenceIds:['aquatic-'+id]},
- profile:{adultLengthMm:null,adultLengthRangeMm:null,reportedMaximumLengthMm:maxLength,ecology:[habitat],microhabitat:[microhabitat],behaviour:['aquatic locomotion'],notableMorphology:[family+' dorsal body plan'],diagnosticNotes:['Approximate family silhouette; microscopic and sexual diagnostics omitted.'],conglobation:family==='Sphaeromatidae'?'full':'none',evidenceIds:['aquatic-'+id]},
+ profile:{scientificNotes:INTERTIDAL_SCIENCE[id]||null,adultLengthMm:null,adultLengthRangeMm:null,reportedMaximumLengthMm:maxLength,ecology:[habitat],microhabitat:[microhabitat],behaviour:['aquatic locomotion'],notableMorphology:[family+' dorsal body plan'],diagnosticNotes:['Approximate family silhouette; microscopic and sexual diagnostics omitted.'],conglobation:family==='Sphaeromatidae'?'full':'none',evidenceIds:['aquatic-'+id]},
  notes:AQUATIC_NOTES[id]||[taxon],literature:{lines:AQUATIC_NOTES[id]||[taxon],basis:[{claim:microhabitat,evidenceIds:['aquatic-'+id]}],themes:['water','observation']},visual:visualFor(id,family,color)
 }));

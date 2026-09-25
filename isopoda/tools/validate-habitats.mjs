@@ -37,6 +37,7 @@ export function validateHabitats(habitats=HABITATS,species=SPECIES){
   check(Array.isArray(habitat.metrics)&&habitat.metrics.length>0&&habitat.metrics.every(text),at+': metrics required');
   check(new Set(habitat.metrics||[]).size===(habitat.metrics||[]).length,at+': duplicate metrics');
   for(const metric of habitat.metrics||[])check(Object.hasOwn(habitat.defaults||{},metric),at+': metric '+metric+' has no default');
+  if(habitat.maxTaxa!=null)check(Number.isInteger(habitat.maxTaxa)&&habitat.maxTaxa>=1&&habitat.maxTaxa<=Math.min(3,habitat.species.length),at+': maxTaxa must be within the supported 1–3 taxa range');
   if(habitat.tides!=null){
    check(Array.isArray(habitat.tides)&&habitat.tides.length===habitat.days*3,at+': tides must cover each ordinary turn');
    for(const value of habitat.tides||[])check(finite(value)&&value>=0&&value<=100,at+': tide out of range');

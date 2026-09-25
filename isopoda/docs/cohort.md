@@ -13,3 +13,5 @@ Each animal evaluates available wet zones against its own wet preference, and sh
 The current catalog comes from `species-registry.mjs`; pagination uses its length. The original 13 entries are only the stable legacy prefix, not the whole registry. Reference-only entries remain in the catalog but are excluded from playable draws. See `species-data-contract.md` and `save-compat.md`.
 
 Validation: `node --test tests/*.test.mjs`, plus browser arrival, seven-actor habitat, reload/continue, 21 observations, ending, collection pagination, and narrow-screen checks.
+
+Intertidal sets `maxTaxa:2`: new rock-pool draws contain one or two taxa, still seven individuals. The existing 30 percent single-taxon branch is retained; the other branches yield two taxa. Other habitats keep their previous draw distribution, and saved cohorts are not redrawn.
