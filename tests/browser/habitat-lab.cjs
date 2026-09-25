@@ -43,12 +43,14 @@ const base=process.env.BASE_URL||'http://127.0.0.1:8765';
  }
  // Cached moving leaves must retain exactly the integer geometry of direct painting.
  const cachedPlants=await page.evaluate(async()=>{
-  const {drawWaterPlant}=await import('/isopoda/scenery/aquatic-materials.mjs');const result=[];
-  for(const kind of ['waterweed','rockweed','kelp'])for(const angle of [0,.37]){
+  const {drawWaterPlant}=await import('/isopoda/scenery/aquatic-materials.mjs');
+  const {drawAquaticPlant}=await import('/isopoda/scenery/aquatic.mjs');const result=[];
+  for(const kind of ['waterweed','rockweed','kelp','seagrass','saltmarsh','ulva'])for(const angle of [0,.37]){
    const a=document.createElement('canvas'),b=document.createElement('canvas');a.width=b.width=384;a.height=b.height=430;
    const ctx=b.getContext('2d'),raw=new Proxy(ctx,{get(t,k){if(k==='drawImage')return undefined;const v=t[k];return typeof v==='function'?v.bind(t):v},set(t,k,v){t[k]=v;return true}});
    const options={kind,x:173.4,y:230.7,a:angle,scale:.8,seed:57,height:92},sway=j=>Math.sin(j*.03)*3;
-   drawWaterPlant(a.getContext('2d'),options,sway);drawWaterPlant(raw,options,sway);
+   if(['seagrass','saltmarsh','ulva'].includes(kind)){drawAquaticPlant(a.getContext('2d'),{...options,time:1.7});drawAquaticPlant(raw,{...options,time:1.7})}
+   else{drawWaterPlant(a.getContext('2d'),options,sway);drawWaterPlant(raw,options,sway)}
    result.push({kind,angle,equal:a.toDataURL()===b.toDataURL()});
   }return result;
  });
