@@ -42,6 +42,26 @@ export function createHabitat(canvas,layer,getState,onDirectInteraction=()=>{}){
 const display=canvas.getContext('2d'),world=document.createElement('canvas');world.width=384;world.height=430;
 const overlay=document.createElement('canvas');overlay.width=384;overlay.height=430;const overlayCtx=overlay.getContext('2d'),reactions=createReactions();
 const ctx=world.getContext('2d');ctx.imageSmoothingEnabled=false;
+const viewport=canvas.closest('.habitat-viewport');
+const caveMask=canvas.id==='habitat'&&viewport?document.createElement('div'):null;
+if(caveMask){caveMask.className='cave-observer-mask';caveMask.hidden=true;caveMask.setAttribute('aria-hidden','true');viewport.append(caveMask)}
+function syncCaveObserver(){
+ if(!caveMask||!viewport)return;
+ const current=getState(),on=habitatConfig(current).id==='groundwater';
+ caveMask.hidden=!on;viewport.classList.toggle('groundwater-observation',on);
+ const last=Array.isArray(current.records)?current.records.at(-1):null;
+ caveMask.dataset.lightsOut=String(on&&current.stage==='feedback'&&last?.kind==='groundwater-pulse'&&last?.choice==='lights-out');
+}
+function moveCaveBeam(event){
+ if(!caveMask||caveMask.hidden)return;
+ const r=canvas.getBoundingClientRect();if(!r.width||!r.height)return;
+ const x=Math.max(0,Math.min(100,(event.clientX-r.left)/r.width*100));
+ const y=Math.max(0,Math.min(100,(event.clientY-r.top)/r.height*100));
+ caveMask.style.setProperty('--beam-x',x.toFixed(2)+'%');
+ caveMask.style.setProperty('--beam-y',y.toFixed(2)+'%');
+}
+canvas.addEventListener('pointerdown',moveCaveBeam,{passive:true});
+canvas.addEventListener('pointermove',moveCaveBeam,{passive:true});
 const sceneryCanvas=document.createElement('canvas');sceneryCanvas.width=384;sceneryCanvas.height=430;
 const sceneryCtx=sceneryCanvas.getContext('2d');sceneryCtx.imageSmoothingEnabled=false;let sceneryKey='';
 let aquaticPlan=null,aquaticPlanKey='';
@@ -81,7 +101,7 @@ function placeSceneMolt(scene){
  actor.x=molt.x;actor.y=molt.y;actor.a=molt.a||0;actor.posture='molting';actor.molt=molt.phase||'posterior';actor.moving=false;actor.hidden=false;actor.occlusion=0;
 }
 function reset(options={}){
- interaction.cancel();state=getState();empty=!!options.empty;layer.replaceChildren();elapsed=0;effect=null;shelterHeld=false;reactions.reset();
+ interaction.cancel();state=getState();syncCaveObserver();empty=!!options.empty;layer.replaceChildren();elapsed=0;effect=null;shelterHeld=false;reactions.reset();
  const config=habitatConfig(state);
  critters=empty?[]:makeIndividuals(state.cohort).map(c=>({...c,interaction:speciesById(c.species).interaction,model:renderModel(speciesById(c.species).visual,{stage:c.stage,seed:c.seed}),habitatScale:config.actorScale||1,pixels:new Map()}));
  canvas.dataset.specimens=String(critters.length);canvas.dataset.taxa=[...new Set(critters.map(c=>c.species))].join(',');
@@ -89,7 +109,7 @@ function reset(options={}){
  if(config.dialogue&&critters[0]){const a=critters[0];a.x=196;a.y=246;a.a=-.18;a.activity='crawl';a.posture='normal';a.moving=false;a.hidden=false;a.occlusion=0}else stageIndividuals(critters,encounter,{initial:true});
  if(!empty)placeSceneMolt(state.scene);drawHabitat(0);
 }
-function stage(scene){interaction.cancel();encounter=encounterForScene(scene);elapsed=0;effect=null;shelterHeld=false;reactions.reset();if(!habitatConfig(state).dialogue)stageIndividuals(critters,encounter);placeSceneMolt(scene);if(encounter){[camera.x,camera.y]=encounter.place}drawHabitat(0)}
+function stage(scene){interaction.cancel();syncCaveObserver();encounter=encounterForScene(scene);elapsed=0;effect=null;shelterHeld=false;reactions.reset();if(!habitatConfig(state).dialogue)stageIndividuals(critters,encounter);placeSceneMolt(scene);if(encounter){[camera.x,camera.y]=encounter.place}drawHabitat(0)}
 function react(id){state=getState();const point=actionFocus(id,state,encounter);const selected=[...critters].sort((a,b)=>Math.hypot(a.x-point.x,a.y-point.y)-Math.hypot(b.x-point.x,b.y-point.y)).slice(0,2).map(c=>c.id);effect={id,selected,mode:responseMode(id),start:elapsed,until:elapsed+10};drawHabitat(performance.now())}
 function heartBurst(){if(empty||!critters.length)return;reactions.burst(critters,'♡',elapsed);drawHabitat(performance.now())}
 function present(){
@@ -148,6 +168,7 @@ canvas.addEventListener('wheel',e=>{e.preventDefault();zoom(camera.zoom+(e.delta
 function tick(t){if(!active)return;if(!document.hidden&&t-last>66){const dt=Math.min(.1,(t-last)/1000);state=getState();elapsed+=dt;(habitatConfig(state).aquatic?stepAquatic:stepIndividuals)(critters,{encounter,state,time:elapsed,dt,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null,reduced});reactions.update(critters,{encounter,state,time:elapsed,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});drawHabitat(t);last=t}frame=requestAnimationFrame(tick)}
 function px(c,x,y,w,h,color){c.fillStyle=color;c.fillRect(Math.round(x),Math.round(y),Math.max(1,Math.round(w)),Math.max(1,Math.round(h)))}
 function drawHabitat(t){
+ syncCaveObserver();
  const w=world.width,h=world.height;ctx.clearRect(0,0,w,h);
  const memory=environmentFor(state);
  const lifted=shelterHeld||!!(effect&&elapsed<effect.until&&['lift','direct-lift'].includes(effect.id));
