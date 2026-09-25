@@ -44,7 +44,7 @@ const habitat=createHabitat($('#habitat'),$('#critters'),()=>state,event=>{if(!p
 const refreshPetri=createPetriControls($('#habitat').closest('.habitat-viewport'),habitat,()=>state,getLanguage);
 const emptyHabitat=createHabitat($('#emptyHabitat'),$('#emptyCritters'),()=>previewState);
 const instrument=createInstrument($('#instruments'));
-function refreshIconLabels(){for(const [id,kind,label] of [['soundBtn','sound',sound?t('soundOff'):t('soundOn')],['catalogBtn','book',t('archive')],['sourcesBtn','source',t('sources')],['journalBtn','pencil',t('journal')],['zoomOut',state.habitatId==='groundwater'?'triangleDown':'minus',t(state.habitatId==='groundwater'?'beamSmaller':'zoomOut')],['zoomIn',state.habitatId==='groundwater'?'triangleUp':'plus',t(state.habitatId==='groundwater'?'beamLarger':'zoomIn')],['zoomReset',state.habitatId==='groundwater'?'joystick':'center',t(state.habitatId==='groundwater'?'beamJoystick':'zoomReset')]])iconButton($('#'+id),kind,label)}
+function refreshIconLabels(){for(const [id,kind,label] of [['soundBtn','sound',sound?t('soundOff'):t('soundOn')],['catalogBtn','book',t('archive')],['sourcesBtn','source',t('sources')],['journalBtn','pencil',t('journal')],['zoomOut',state.habitatId==='groundwater'?'triangleDown':'minus',t(state.habitatId==='groundwater'?'beamSmaller':state.habitatId==='abyssal'?'pullBack':'zoomOut')],['zoomIn',state.habitatId==='groundwater'?'triangleUp':'plus',t(state.habitatId==='groundwater'?'beamLarger':state.habitatId==='abyssal'?'comeCloser':'zoomIn')],['zoomReset',state.habitatId==='groundwater'?'joystick':'center',t(state.habitatId==='groundwater'?'beamJoystick':'zoomReset')]])iconButton($('#'+id),kind,label)}
 refreshIconLabels();
 function save(){write(KEY,state)}
 const ISOPOD_WAVES=['▁','▂','▃','▄','▅','▆','▇'];
@@ -165,7 +165,7 @@ function openDrawer(mode){habitat.stop();drawerMode=mode;page=mode==='catalog'?M
 $('#game').addEventListener('dblclick',event=>event.preventDefault(),{passive:false});
 $('#startBtn').onclick=draw;$('#continueBtn').onclick=begin;$('#settleBtn').onclick=()=>{state.arrivalPending=false;save();begin()};$('#nextBtn').onclick=next;$('#restartBtn').onclick=home;
 $('#soundBtn').onclick=()=>{sound=!sound;$('#soundBtn').setAttribute('aria-pressed',String(sound));$('#soundBtn').setAttribute('aria-label',sound?t('soundOff'):t('soundOn'));$('#soundBtn').title=sound?t('soundOff'):t('soundOn');tone(120)};
-function adjustView(delta){$('#zoomLevel').textContent=state.habitatId==='groundwater'?habitat.beamResize(delta*8)+'%':habitat.zoomBy(delta).toFixed(1)+'×'}
+function adjustView(delta){$('#zoomLevel').textContent=state.habitatId==='groundwater'?habitat.beamResize(delta*8)+'%':habitat.zoomBy(state.habitatId==='abyssal'?delta/2:delta).toFixed(2).replace(/0$/,'')+'×'}
 $('#zoomIn').onclick=()=>adjustView(.5);$('#zoomOut').onclick=()=>adjustView(-.5);
 const stick=$('#zoomReset');let stickPointer=null,stickOrigin=null,stickDragged=false;
 function steerStick(event){if(stickPointer!==event.pointerId)return;const x=(event.clientX-stickOrigin.x)/12,y=(event.clientY-stickOrigin.y)/12,length=Math.hypot(x,y),scale=Math.max(1,length),dx=x/scale,dy=y/scale;if(length>.08)stickDragged=true;habitat.beamSteer(dx,dy);stick.style.setProperty('--stick-x',dx*6+'px');stick.style.setProperty('--stick-y',dy*6+'px')}
