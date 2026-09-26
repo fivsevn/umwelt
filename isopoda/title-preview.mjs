@@ -1,3 +1,4 @@
+import {shoreLayout,drawShoreWater} from './scenery/estuary-shore.mjs';
 import {drawBaseScene,drawLeaf,DEFAULT_LAYOUT,drawLayoutScene,layoutForHabitat} from './scenery/index.mjs';
 import {drawAquaticWater} from './scenery/aquatic.mjs';
 import {habitatConfig} from './habitats.mjs';
@@ -34,7 +35,7 @@ if(canvas){
  const ctx=world.getContext('2d');
  ctx.imageSmoothingEnabled=false;
 
- if(config.aquatic)drawLayoutScene(ctx,habitatId==='freshwater'?freshwaterLayout(previewState):layoutForHabitat(habitatId),{time:0});
+ if(config.aquatic)drawLayoutScene(ctx,habitatId==='estuary'?shoreLayout():habitatId==='freshwater'?freshwaterLayout(previewState):layoutForHabitat(habitatId),{time:0});
  else drawBaseScene(ctx,{
   wetZones:memory.wetZones,
   light:DEFAULT_LAYOUT.background.params.light,
@@ -61,7 +62,8 @@ if(canvas){
  else if(light<55){ctx.fillStyle=`rgba(15,27,21,${(55-light)/120})`;ctx.fillRect(0,0,world.width,world.height)}
 
  ctx.strokeStyle='rgba(147,148,124,.55)';ctx.lineWidth=2;ctx.strokeRect(1,1,world.width-2,world.height-2);
- if(config.aquatic)drawAquaticWater(ctx,previewState,0,{drawPlants:false});
+ if(habitatId==='estuary')drawShoreWater(ctx,{habitatId:'estuary',shorePoint:1,records:[]},0,true);
+ else if(config.aquatic)drawAquaticWater(ctx,previewState,0,{drawPlants:false});
 
  const rect=canvas.getBoundingClientRect();
  const cssWidth=rect.width||384,cssHeight=rect.height||430;

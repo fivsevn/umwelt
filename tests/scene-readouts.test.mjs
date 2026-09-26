@@ -26,7 +26,7 @@ test('eight habitats retain three numeric scales and one qualitative state acros
   if(!['terrestrial','petri-dish'].includes(h.id))assert.ok(times.size>1,h.id+' dynamic time/space');
   const refs=HABITAT_REFERENCES[h.id];assert.ok(refs.entries.length);assert.equal(new Set(refs.entries.map(e=>e.sourceId)).size,refs.entries.length);
  }
- assert.equal(sceneInstrument(createRun('hookeri',37,'estuary')),null);
+ const estuary=createRun('hookeri',37,'estuary');assert.equal(sceneInstrument(estuary).length,4);delete estuary.estuaryShoreVersion;assert.equal(sceneInstrument(estuary),null);
 });
 test('petri settings respond to each dial and distinguish inactive presets from optical focus',()=>{
  const s=createRun('maculosa',1,'petri-dish'),m=microscope(s);

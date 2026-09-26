@@ -1,3 +1,5 @@
+import {isShore} from '../data/habitats/estuary-shore.mjs';
+import {stepShore} from './estuary-shore.mjs';
 import {ESTUARY_NODES,ESTUARY_ROUTES,estuaryIndex,estuaryRecords} from '../data/narrative/estuary.mjs';
 import {estuaryLayout,estuaryPoint} from './estuary-stages.mjs';
 
@@ -12,6 +14,7 @@ export function estuaryRoute(layout,index){return ESTUARY_ROUTES[index].map(poin
 // Authored compressed intervals. Choosing a method never moves animals toward a probe.
 // Reduced motion keeps the interval's final frame, including genuine occlusion gaps.
 export function stepEstuary(group,{state,time=0,reduced=false,layout=estuaryLayout(state)}){
+ if(isShore(state))return stepShore(group,{state,time,reduced});
  const index=estuaryIndex(state),progress=reduced||state.stage!=='choice'?1:clamp(time/6),route=estuaryRoute(layout,index);
  if(route.length<2)return;
  for(const [i,actor] of group.entries()){
@@ -58,6 +61,7 @@ function line(g,points,alpha){
  points.forEach((p,i)=>i?g.lineTo(Math.round(p.x),Math.round(p.y)):g.moveTo(Math.round(p.x),Math.round(p.y)));g.stroke();g.restore();
 }
 export function drawEstuaryEvidence(g,state,layout=estuaryLayout(state)){
+ if(isShore(state))return;
  const records=estuaryRecords(state),last=records.at(-1),method=last?.lens;
  mark(g,estuaryPoint(layout,{anchor:'origin',x:0,y:14}),'P',method==='site'||method==='compare');
  mark(g,estuaryPoint(layout,{anchor:'algae',x:0,y:12}),'Q',method==='compare');

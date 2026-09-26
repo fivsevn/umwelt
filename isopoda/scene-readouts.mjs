@@ -1,3 +1,4 @@
+import {isShore,shoreReadings,shoreText} from './data/habitats/estuary-shore.mjs';
 // Display scales only: authored values are documented in the habitat laboratory.
 // Never feed display-unit conversions back into the ecosystem simulation.
 import {SEAWEED_CONDITIONS,seaweedIndex} from './data/habitats/seaweed-observation.mjs';
@@ -39,6 +40,7 @@ export function sceneInstrument(s,lang='zh'){
  const index=(key,value)=>numeric(key,Math.round(value),'/100');
  switch(s.habitatId||'terrestrial'){
   case 'terrestrial':return [numeric('temp',s.temp.toFixed(1),' °C'),numeric('humidity',Math.round(s.humidity),'%'),index('vent',s.vent),word(s.light<30?'dim':s.light>65?'bright':'soft')];
+  case 'estuary':{if(!isShore(s))return null;const r=shoreReadings(s);return [numeric('depth',r.depth.toFixed(2),' m'),numeric('salinity',r.salinity.toFixed(1),'‰'),numeric('flow',r.flow.toFixed(1),' cm/s'),shoreText('tide:'+r.tide,lang)]}
   case 'freshwater':return [numeric('waterTemp',s.temp.toFixed(1),' °C'),numeric('oxygen',(s.oxygen/10).toFixed(1),' mg/L'),numeric('flow',(s.flow/10).toFixed(1),' cm/s'),word(['leaf','film','fragments','suspended','settled'][Math.floor(freshwaterMoment(s)/2)])];
   case 'groundwater':return [index('connectivity',s.connectivity),index('seepage',s.seepage),index('input',s.input),word('dark')];
   case 'intertidal':{

@@ -2,7 +2,7 @@ import {RELEASE_AQUATIC_SPECIES} from './release-aquatic.mjs';
 const taxa=[
  {id:'chiltoni',name:'Excirolana chiltoni',authority:'(Richardson, 1905)',size:8,
  refs:['sand-chiltoni-worms','sand-bruce-jones-1981','sand-klapow-1972'],
- habitat:'沙滩较高潮间带；低潮埋沙，高潮在浪洗区出沙游动觅食。 / High intertidal sand; low-tide burial and high-tide swimming in wave wash.',
+ habitat:'沙滩潮间带较高处；低潮埋沙，满潮在浪洗区出沙游动觅食。 / High intertidal sand; low-tide burial and high-tide swimming in wave wash.',
  anatomy:'体长约为体宽的 2.5–2.75 倍，额部有前突；宽尾腹节收成钝的三角端。 / Length about 2.5–2.75 times width; projecting rostral region and broad pleotelson with a blunt triangular apex.',
  region:'Japan and California populations compared by Bruce & Jones (1981).',
  limitation:'采用 1981 年重描述的背面比例与宽尾形；颜色与斑点为保守像素配色，非鉴别特征。细毛、口器和尾肢分枝不在此倍率中完整表达。 / Dorsal proportions and broad tail follow the redescription; palette is illustrative, not diagnostic. Fine setae, mouthparts and uropod rami are simplified.'},

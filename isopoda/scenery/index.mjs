@@ -1,3 +1,4 @@
+import {drawShoreBackground} from './estuary-shore.mjs';
 import {DEFAULT_LAYOUT,DEFAULT_SHELTER,sceneObjects} from './default-layout.mjs';
 export {DEFAULT_LAYOUT,DEFAULT_SHELTER,sceneObjects};
 export {SCENE_LAYOUTS,layoutForHabitat} from './authored-layouts.mjs';
@@ -72,6 +73,7 @@ export function isAnimatedSceneElement(item){
 }
 export function drawSceneBackground(ctx,layout=DEFAULT_LAYOUT,overrides={}){
  const bg=layout.background||{},p={...(bg.params||{}),...overrides},seed=overrides.seed??bg.seed??57;
+ if(p.shore)return drawShoreBackground(ctx,{...p,seed});
  if(p.aquatic)return drawAquaticBackground(ctx,{kind:p.kind,palette:p.palette,seed});
  return drawSubstrate(ctx,{...p,seed});
 }

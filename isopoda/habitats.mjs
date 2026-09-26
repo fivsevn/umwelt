@@ -1,3 +1,4 @@
+import {isShore,SHORE_TURNS} from './data/habitats/estuary-shore.mjs';
 import {SEAWEED_CONDITIONS} from './data/habitats/seaweed-observation.mjs';
 import {isIntertidal,TIDE_LEVELS,TIDE_FLOWS,intertidalIndex} from './data/narrative/intertidal.mjs';
 import {applyEstuaryWater} from './data/narrative/estuary.mjs';
@@ -17,7 +18,7 @@ const configs=[
  {id:'petri-dish',days:3,sequence:'petri-microscope',names:['阿西莫夫的培养皿',"Asimov's dish",'アシモフの培養皿'],scene:'petri-dish',aquatic:true,cohortSize:1,actorScale:.55,motionScale:.35,species:['uniramea','ischiosetosa','maculosa'],defaults:{flow:10,oxygen:76,light:78,cover:24,detritus:8,salinity:30,tide:100,algae:4},palette:['#2a3330','#56635d','#aab09d','#d7d9c3'],plants:0,rocks:0,wood:false,motion:['crawl','crawl','crawl'],metrics:['light','oxygen','detritus'],tides:null},
 ];
 export const HABITATS=Object.freeze(configs.map(h=>Object.freeze({...h,encounterPool:h.aquatic?h.id:null,endingPool:h.id==='intertidal'?['intertidal-cycle']:h.id==='estuary'?['estuary-notebook']:h.id==='shallow-marine'?['shallow-marine-observed']:h.aquatic?[`${h.id}-calm`,`${h.id}-care`,`${h.id}-trace`]:null})));
-export function habitatConfig(value){const id=typeof value==='string'?value:value?.habitatId;if(id==='shallow-marine'&&value?.version===4&&value.seaweedVersion!==1){const h=HABITATS.find(h=>h.id===id);return {...h,cohortSize:7,untimed:false,sequence:null,endingPool:['shallow-marine-calm','shallow-marine-care','shallow-marine-trace']}}return id==='intertidal'&&value?.intertidalLegacy===true?LEGACY_INTERTIDAL:id==='estuary'&&value?.estuaryLegacy===true?LEGACY_ESTUARY:HABITATS.find(h=>h.id===(id||'terrestrial'))||HABITATS[0]}
+export function habitatConfig(value){if(isShore(value))return {...HABITATS.find(h=>h.id==='estuary'),turns:SHORE_TURNS,endingPool:['estuary-shore']};const id=typeof value==='string'?value:value?.habitatId;if(id==='shallow-marine'&&value?.version===4&&value.seaweedVersion!==1){const h=HABITATS.find(h=>h.id===id);return {...h,cohortSize:7,untimed:false,sequence:null,endingPool:['shallow-marine-calm','shallow-marine-care','shallow-marine-trace']}}return id==='intertidal'&&value?.intertidalLegacy===true?LEGACY_INTERTIDAL:id==='estuary'&&value?.estuaryLegacy===true?LEGACY_ESTUARY:HABITATS.find(h=>h.id===(id||'terrestrial'))||HABITATS[0]}
 export function habitatLayoutFilename(value){
  const h=habitatConfig(value==='forest'?'terrestrial':value),fallback=h.scene||h.id;
  const slug=String(h.names?.[1]||fallback).toLowerCase().replace(/['’]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')||fallback;

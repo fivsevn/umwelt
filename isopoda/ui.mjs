@@ -1,3 +1,4 @@
+import {isShore} from './data/habitats/estuary-shore.mjs';
 import {isopodNumbers} from './locales/isopod.mjs';
 import {sceneInstrument} from './scene-readouts.mjs';
 import {isEstuaryObservation,estuaryInstrument} from './data/narrative/estuary.mjs';
@@ -38,7 +39,7 @@ export function pixelIcon(kind){
 export function iconButton(button,kind,label){button.replaceChildren(pixelIcon(kind));button.setAttribute('aria-label',label);button.title=label}
 export function createInstrument(root){
  return state=>{
-  const layout=state.habitatId==='estuary'?'legacy':'scales';
+  const layout=state.habitatId==='estuary'&&!isShore(state)?'legacy':'scales';
   if(root.dataset.layout!==layout){root.replaceChildren();root.dataset.layout=layout;if(layout==='legacy')root.innerHTML='<span id="meterTemp"></span><span id="meterWet"></span><span id="simDetail"></span>'}
   let rows=sceneInstrument(state,getLanguage());
   if(!rows)rows=isEstuaryObservation(state)?estuaryInstrument(state,getLanguage()):habitatConfig(state).metrics.map(key=>gameText('water:'+key,getLanguage())+' '+Math.round(state[key]));

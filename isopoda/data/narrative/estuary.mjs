@@ -1,3 +1,4 @@
+import {isShore,shoreScene,shoreEvidence,shoreText,shoreRecordLine,shorePoint,shoreTide,shoreProgress} from '../habitats/estuary-shore.mjs';
 import {encodeIsopodText,isopodWaveNumber} from '../../locales/isopod.mjs';
 
 // Authored observation frames, not measured salinities, animal preferences or tide timings.
@@ -81,6 +82,7 @@ export function estuaryIndex(s){
  return Math.max(0,Math.min(5,count-(s?.stage==='feedback'||s?.stage==='ended'?1:0)));
 }
 export function estuaryScene(s){
+ if(isShore(s))return shoreScene(s);
  const index=Math.min(5,estuaryProgress(s)),node=ESTUARY_NODES[index],last=estuaryRecords(s).at(-1),previous=ESTUARY_METHODS.includes(last?.lens)?last.lens:'none';
  const continuous=index===0||(previous==='follow'&&!!last?.evidence?.track&&!last.evidence.track.lost);
  return {id:`estuary-v1:${node.id}`,kind:ESTUARY_KIND,estuaryNode:node.id,observationIndex:index,title:`${prefix}${node.id}:name`,text:`${prefix}${node.id}:prompt:${previous}`,storyKey:`estuary-v1:${node.id}`,options:ESTUARY_METHODS.map(method=>({id:`estuary-${method}`,label:prefix+'method:'+method,delta:{},lens:method,animation:`estuary-${method}`,text:`${prefix}${node.id}:${method}:${method==='follow'&&!continuous&&index>0&&node.id!=='ebb'?'new':'text'}`}))};
@@ -96,6 +98,7 @@ export const ESTUARY_ROUTES=Object.freeze([
  [point('runnel',-3,7),point('runnel',16,10)]
 ]);
 export function captureEstuaryEvidence(s,scene,option){
+ if(isShore(s))return shoreEvidence(s);
  const index=scene.observationIndex,node=ESTUARY_NODES[index],method=option.lens,last=estuaryRecords(s).at(-1);
  if(!node||!ESTUARY_METHODS.includes(method))throw new RangeError('Invalid estuary observation');
  const evidence={version:1,nodeId:node.id,method};
@@ -108,10 +111,12 @@ export function captureEstuaryEvidence(s,scene,option){
  return evidence;
 }
 export function applyEstuaryWater(s){
+ if(isShore(s)){const tide=Math.min(7,shoreProgress(s))%4;Object.assign(s,{flow:[42,8,38,5][tide],tide:[55,90,35,10][tide]});return;}
  const n=ESTUARY_NODES[Math.min(5,estuaryProgress(s))];
  Object.assign(s,{salinity:n.samples[0],flow:n.flow,oxygen:74,light:48,cover:66,detritus:52,tide:72,algae:58});
 }
 export function estuaryRecordLine(record,lang='zh'){
+ if(record?.evidence?.version===2)return shoreRecordLine(record,lang);
  const e=record?.evidence;if(!e||e.version!==1)return '';
  const value=n=>Number.isFinite(n)?String(n):'—';
  if(!ESTUARY_METHODS.includes(e.method))return '';
@@ -124,10 +129,12 @@ export function estuaryRecordLine(record,lang='zh'){
  return lang==='isopod'?encodeIsopodText(line):line;
 }
 export function estuarySummary(records,lang='zh'){
+ if(records.some(r=>r.evidence?.version===2))return shoreText('ending:body',lang);
  const entries=estuaryRecords({records}).filter(r=>ESTUARY_NODES.some(n=>n.id===r.evidence?.nodeId)).slice(0,6);
  return [text('ending:body',lang),...entries.map(r=>`${text(r.evidence?.nodeId+':name',lang)} — ${estuaryRecordLine(r,lang)}`)].join('\n\n');
 }
 export function estuaryInstrument(s,lang='zh'){
+ if(isShore(s))return [shoreText('point:'+shorePoint(s),lang),shoreText('tide:'+shoreTide(s),lang)];
  const e=estuaryRecords(s).at(-1)?.evidence,value=n=>Number.isFinite(n)?(lang==='isopod'?isopodWaveNumber(n):String(n)):'—';
  return [text('point:p',lang)+' '+value(e?.origin?.salinity??e?.pair?.origin),text('point:q',lang)+' '+value(e?.pair?.algae),text(e?'method:'+e.method:'pending',lang)];
 }

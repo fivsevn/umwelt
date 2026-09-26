@@ -1,3 +1,4 @@
+import {isShore,shoreText,SHORE_COORDINATES} from './data/habitats/estuary-shore.mjs';
 import {freshwaterMoment,FRESHWATER_HOURS,SAND_SECONDS,readoutText} from './scene-readouts.mjs';
 import {sandIndex} from './data/habitats/sandy-observation.mjs';
 import {isSeaweed,seaweedIndex,seaweedText,SEAWEED_CONDITIONS} from './data/habitats/seaweed-observation.mjs';
@@ -6,7 +7,7 @@ import {isIntertidal,intertidalText,intertidalTime} from './data/narrative/inter
 import {isEstuaryObservation,estuaryIndex,estuaryText} from './data/narrative/estuary.mjs';
 import {groundwaterObservationIndex} from './data/habitats/groundwater-observation.mjs';
 import {gameText} from './locales/game.mjs';
-import {encodeIsopodText,isopodWaveNumber} from './locales/isopod.mjs';
+import {encodeIsopodText,isopodWaveNumber,isopodNumbers} from './locales/isopod.mjs';
 
 const titles={
  intertidal:[['岩缝里的水','Water in the fissure','岩間の水'],['涨潮越过石沿','Over the ledge','岩縁を越える潮'],['夜潮','Night tide','夜の潮'],['碎贝间的水','Between shells','貝殻の間'],['伏下的藻','Lowered algae','伏せた藻'],['旧水线','Old waterline','古い水際'],['石下','Under stone','石の下'],['潮水回到触角','Returning tide','戻る潮'],['未完的潮','Unfinished tide','続く潮']],
@@ -28,6 +29,7 @@ export function observationTitle(state,scene,encounter,lang='zh'){
  return gameText(encounter?.title||scene.title,lang);
 }
 export function environmentScale(state,lang='zh'){
+ if(isShore(state)){const [x,y]=SHORE_COORDINATES[state.shorePoint??1],coordinate=`(${x.toFixed(1)}, ${y.toFixed(1)}) m`;return {value:lang==='isopod'?isopodNumbers(coordinate):coordinate,label:shoreText('position',lang)}};
  if(isSeaweed(state))return {value:lang==='isopod'?isopodWaveNumber(Number(SEAWEED_CONDITIONS[seaweedIndex(state)][0].replace(':','')),4):SEAWEED_CONDITIONS[seaweedIndex(state)][0],label:seaweedText('kelp:clock',lang)};
 
  if(isIntertidal(state))return {value:intertidalTime(state,lang),label:intertidalText('intertidal:elapsed',lang)};

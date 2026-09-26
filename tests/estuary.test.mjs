@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createRun,ensureScene,choose,advance,migrateV4,validRun} from '../isopoda/engine.mjs';
+import {createRun as createCurrentRun,ensureScene,choose,advance,migrateV4,validRun} from '../isopoda/engine.mjs';
 import {habitatConfig} from '../isopoda/habitats.mjs';
 import {aquaticText,AQUATIC_ENDINGS} from '../isopoda/aquatic-story.mjs';
 import {TEXT_CATALOG,ESTUARY_NODES,ESTUARY_KIND,estuaryRecords,estuaryIndex,estuarySummary,estuaryRecordLine,estuaryInstrument} from '../isopoda/data/narrative/estuary.mjs';
@@ -8,6 +8,7 @@ import {ESTUARY_STAGE_LAYOUTS,ESTUARY_ANCHORS,estuaryStageFilename,estuaryPoint,
 import {stepEstuary,drawEstuaryEvidence} from '../isopoda/scenery/estuary.mjs';
 import {importScene,exportScene,shareCode} from '../isopoda/scene-codec.mjs';
 
+const createRun=(...args)=>{const s=createCurrentRun(...args);delete s.estuaryShoreVersion;return s};
 const reload=s=>migrateV4(JSON.parse(JSON.stringify(s)));
 const physical=s=>['salinity','flow','oxygen','cover','light','detritus','tide','algae'].map(k=>s[k]);
 

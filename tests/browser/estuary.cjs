@@ -18,7 +18,8 @@ if(output)fs.mkdirSync(output,{recursive:true});
    assert.ok(steps>=0);
    for(let i=0;i<steps;i++)await click(page,page.locator('#habitatNext'));
    assert.equal(await page.locator('#titleCard').getAttribute('data-habitat'),'estuary');
-   await click(page,page.locator('#startBtn'));await click(page,page.locator('#settleBtn'));
+   await page.evaluate(async()=>{const {createRun}=await import('./engine.mjs');const s=createRun('hookeri',57,'estuary');delete s.estuaryShoreVersion;localStorage.setItem('isopoda-fugue-v4',JSON.stringify(s))});
+   await page.reload();await page.waitForFunction(()=>document.querySelector('#continueBtn')?.onclick);await click(page,page.locator('#continueBtn'));
    for(let i=0;i<6;i++){
     assert.equal(await page.locator('#actions button').count(),3);
     for(const lang of ['en','ja','isopod','zh']){
