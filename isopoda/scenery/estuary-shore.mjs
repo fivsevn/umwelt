@@ -23,12 +23,15 @@ export const shoreWaterBlend=shoreMarineFraction;
 export const shoreWaterType=(x,y,point,tide=0,rain=false)=>shoreWaterBlend(x,y,point,tide,rain)<.5?'fresh':'sea';
 function farBank(g,point,seed){
  if(point!==0)return;
- // Just the cropped tip of the opposite bank, never a second full landscape.
+ // Cropped foreground bank, using the same rounded soil patches as the far shore.
  for(let x=222;x<384;x+=2)for(let y=370;y<430;y+=2){
-  const edge=426-(x-222)*.23+Math.sin(x*.033)*4;
+  const edge=426-(x-222)*.23+Math.sin(x*.033)*4+Math.sin(x*.081)*3;
   if(y<edge)continue;
-  const d=y-edge,q=noise(x>>1,y>>1,seed);
-  px(g,x,y,2,2,d<5?'#858569':d<13?'#5b6650':q%9<2?'#6d7655':'#485e47');
+  const d=y-edge,u=x-190,v=y-310;
+  const broad=Math.sin(u*.031+Math.sin(v*.023))*Math.cos(v*.042)+Math.sin((u+v)*.018)*.45;
+  const rim=d+Math.sin(x*.12+y*.07)*2;
+  const color=rim<4?'#82816a':rim<10?'#77775e':broad<-.58?'#565e4a':broad>.74?'#7a755c':'#6d6b54';
+  px(g,x,y,2,2,materialInk(color,x,y,seed,'soil'));
  }
 }
 // Cache the fixed intermediate inks; no continuous interpolation per pixel.
