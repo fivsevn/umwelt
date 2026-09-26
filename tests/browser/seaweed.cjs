@@ -18,7 +18,7 @@ if(out)fs.mkdirSync(out,{recursive:true});
   if(out)await page.screenshot({path:`${out}/${name}-${width}-seaweed-arrival.png`,fullPage:true});
   await page.evaluate(async()=>{const {createRun}=await import('./engine.mjs'),{drawCohort,restoreCollection}=await import('./collection.mjs'),s=createRun('balthica',701,'shallow-marine');s.cohort=drawCohort(restoreCollection(null,null),701,'shallow-marine');localStorage.setItem('isopoda-fugue-v4',JSON.stringify(s))});
   await page.reload();await page.waitForFunction(()=>document.querySelector('#continueBtn')?.onclick);await click(page,page.locator('#continueBtn'));
-  await page.waitForTimeout(300);
+  await page.waitForFunction(()=>window.seaweedDebug?.critters.length===18);
   assert.equal(await page.locator('#habitat').getAttribute('data-specimens'),'18');
   assert.ok(await page.evaluate(()=>{const a=seaweedDebug.critters;return a.some(c=>c.y<140)&&a.some(c=>c.y>280)}));
   // The second exchange introduces the gesture through the shared humus cue.
