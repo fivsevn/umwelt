@@ -166,7 +166,14 @@ function present(){
  }
 
  if(m){display.fillStyle='#19241f';display.fillRect(0,0,w,h)}display.drawImage(overlay,sx,sy,sw,sh,0,0,w,h);
- if(state.habitatId==='abyssal'&&camera.zoom<1){display.fillStyle=`rgba(3,8,11,${(1-camera.zoom)*.52})`;display.fillRect(0,0,w,h)}
+ if(state.habitatId==='abyssal'&&camera.zoom<1){
+  const distance=(1-camera.zoom)/.75,actor=critters[0];
+  const cx=((actor?.x??192)-sx)/sw*w,cy=((actor?.y??215)-sy)/sh*h;
+  // Wide, continuous falloff across the viewport: sediment remains beneath it.
+  const shade=display.createRadialGradient(cx,cy,0,cx,cy,Math.hypot(w,h)*.64);
+  for(const [stop,opacity] of [[0,.18],[.18,.25],[.4,.48],[.65,.72],[1,.88]])shade.addColorStop(stop,`rgba(3,8,11,${opacity*distance})`);
+  display.fillStyle=shade;display.fillRect(0,0,w,h);
+ }
  if(m?.mode){
   if(lensCanvas.width!==w||lensCanvas.height!==h){lensCanvas.width=w;lensCanvas.height=h}
   lensCtx.imageSmoothingEnabled=false;lensCtx.clearRect(0,0,w,h);lensCtx.drawImage(world,sx,sy,sw,sh,0,0,w,h);
