@@ -1,6 +1,11 @@
 import {encodeIsopodText} from './isopod.mjs';
 
 const copy={
+  giganteus:{
+    zh:['两次移动之间隔了很久。','第一处和第二处都被记下，中间的部分却只留下了一段时间。'],
+    en:['A long time passed between the two movements.','The first position and the second were both recorded. Between them, only a stretch of time remained.'],
+    ja:['二度の動きのあいだに、長い時間が流れた。','最初の場所も次の場所も記録された。そのあいだには、ただ時間だけが残った。']
+  },
   naylori:{zh: ["触角伸得很远，身体还留在原处。", "我们习惯把一个地方的居民，算到身体为止。"], en: ["The antennae reach far while the body stays put.", "We tend to count a place’s residents only as far as their bodies extend."], ja: ["触角は遠くへ伸び、身体は同じ場所にある。", "私たちは場所の住人を、身体のところまでで数えがちだ。"]},
   chiltoni:{zh: ["它埋进去以后，一片沙又可以被叫作空地。", "这个称呼很方便，只需要不往下看。"], en: ["Once it burrows, a patch of sand can be called vacant again.", "A convenient description, requiring only that nobody look underneath."], ja: ["潜ってしまうと、その砂はまた空き地と呼べる。", "便利な呼び方だ。下を見なければよい。"]},
   hirsuta:{
