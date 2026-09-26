@@ -1,3 +1,4 @@
+import {localizedAnnotationLines} from '../locales/annotations.mjs';
 import {SPECIES} from '../species-registry.mjs';
 import {gameText} from '../locales/game.mjs';
 import {validateNarrative,validateNewNarrative} from './validate-narrative.mjs';
@@ -65,12 +66,12 @@ for(let i=0;i<annotationMatches.length;i++){
 }
 
 const speciesIds=new Set(SPECIES.map(p=>p.id));
-// Existing deliberate omission: giganteus has dialogue/ending copy but no Asimov annotation.
-// Keep this empty presentation unchanged; require coverage for every other/new specimen.
-const annotationExempt=new Map([['giganteus','Abyssal dialogue specimen; existing annotation panel has no authored lines.']]);
-for(const id of speciesIds)if(!annotationIds.includes(id)&&!annotationExempt.has(id))fail(`annotation ${id}: no locale entry`);
+for(const id of speciesIds)if(!annotationIds.includes(id))fail(`annotation ${id}: no locale entry`);
 for(const id of annotationIds)if(!speciesIds.has(id))fail(`annotation ${id}: entry has no matching specimen id`);
-for(const id of annotationExempt.keys())if(!speciesIds.has(id)||annotationIds.includes(id))fail(`annotation ${id}: stale exemption`);
+for(const species of SPECIES)for(const lang of ['en','ja']){
+ const lines=localizedAnnotationLines(species,lang);
+ if(!lines.length||lines.some(line=>!line.trim()))fail(`annotation ${species.id}: empty ${lang} lines`);
+}
 for(const message of [...validateNarrative(),...await validateNewNarrative()])fail(message);
 
 // 3) Authored game copy: active visible source strings must exist in the EN/JA translation table. Isopod copy is generated.
