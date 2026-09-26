@@ -259,4 +259,6 @@ html,body{height:100%;overflow:hidden}#game{height:100dvh;padding:6px 8px max(6p
 .specimen-size-note::before{content:'';position:absolute;width:16px;height:5px;top:-2px;left:10px;background:#e5ddbdad;border-left:1px solid #c1b98d80;border-right:1px solid #c1b98d80}
 .oversized-specimen .specimen-mount{margin-top:25px;margin-bottom:28px}
 
-.oversized-specimen .specimen-mount .isopod{transform:rotate(-82deg) scale(2);transform-origin:center}
+.oversized-specimen .specimen-mount .isopod{transform:rotate(-82deg) scale(var(--mount-scale,2));transform-origin:center}
+
+.giant-specimen .specimen-mount{margin-top:45px;margin-bottom:48px}
