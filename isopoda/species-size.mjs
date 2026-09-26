@@ -1,3 +1,4 @@
+import {ADULT_SIZE_REFERENCES,adultSizeSourceId} from './data/specimen-sizes.mjs';
 // Species display scale is separate from morphology proportions.
 // Reference lengths are body-length anchors, not husbandry targets or strict morphometrics.
 // Strong literature measurements stay distinguishable from field-guide / hobby references.
@@ -62,5 +63,18 @@ export function applySpeciesDisplayScale(species){
  if(!visual)return species;
  const stageProfiles={};
  for(const [stage,profile] of Object.entries(visual.stageProfiles||{}))stageProfiles[stage]={...profile,scale:(profile.scale??1)*scale};
- return {...species,visual:{...visual,adultDisplayScale:scale,stageProfiles},renderSize:{referenceMm:referenceLengthMm(species),scale,reference:sizeReferenceFor(species)}};
+ return {...species,visual:{...visual,adultDisplayScale:scale,stageProfiles},evidenceIds:[...(species.evidenceIds||[]),...(ADULT_SIZE_REFERENCES[species.id]?[adultSizeSourceId(species.id)]:[])],renderSize:{referenceMm:referenceLengthMm(species),scale,reference:sizeReferenceFor(species)}};
+}
+
+// Archive scales have stricter semantics than the game's compressed visual-size anchors.
+export function typicalAdultLengthMm(species){
+ const explicit=ADULT_SIZE_REFERENCES[species?.id];if(explicit)return explicit.mm;
+ const p=species?.profile||{},ref=SIZE_REFERENCE[species?.id];
+ // Type-series endpoints are not a common adult range.
+ if(species?.id==='uniramea')return null;
+ const range=p.adultLengthRangeMm||ref?.range;
+ if(Array.isArray(range)&&range.length===2&&range.every(n=>Number.isFinite(n)&&n>0))return (range[0]+range[1])/2;
+ // These entries explicitly describe usual adult size rather than maxima or single types.
+ if(species?.id==='virei')return 8;
+ return null;
 }
