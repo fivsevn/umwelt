@@ -96,8 +96,17 @@ test('game credits keep umbrella databases and literature platforms, not paper-l
  ];
  for(const [url,startMark,endMark] of files){
   const body=readFileSync(new URL(url,import.meta.url),'utf8');
+  assert.match(body.trim(),/\*\*\[[^\]]+\]\(https:\/\/umwelt\.fivsevn\.com\/isopoda\/habitat\)\*\*$/,url+': no appended prose after lab links');
+
+  for(const line of body.split(/\r?\n/).filter(line=>line.trim()))assert.match(line,/^(?:## |\*\*|- )/,url+': no explanatory prose blocks');
   const start=body.indexOf(startMark),end=body.indexOf(endMark,start+startMark.length);
   assert.ok(start>=0&&end>start,url);
+  const declarationEnd=body.indexOf('\n**',end+endMark.length);
+  const declaration=body.slice(end+endMark.length,declarationEnd);
+  assert.equal(declaration.split(/\r?\n/).filter(line=>line.startsWith('- ')).length,3,url+': three concise declaration bullets');
+  assert.ok(declaration.length<600,url+': declarations must stay concise');
+  const outsideDeclaration=body.slice(0,end)+body.slice(declarationEnd);
+  assert.doesNotMatch(outsideDeclaration,/比例尺|体长|模拟层|饲养建议|縮尺|体長|シミュレーション|飼育指針|scale bars?|adult.size|population averages?|simulation values|husbandry advice|care advice/i,url+': caveats belong in declaration section only');
   const section=body.slice(start,end);
   const links=[...section.matchAll(/^\s*- \[[^\]]+\]\(([^)]+)\)/gm)].map(match=>match[1]);
   assert.deepEqual(links,expected,url);

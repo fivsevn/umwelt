@@ -34,6 +34,7 @@
 
 - o?  o:  o#  =  taxonomy.
 - \o/  /o\  <o>  =  game.  o#  care advice.
+- ↔ ≈ mm / cm · [ o ] ≠ [ O ]
 
 **o: / =o=**
 
@@ -52,6 +53,3 @@
 **[o: ...](https://umwelt.fivsevn.com/isopoda/morphology/)**
 
 **[~o~ ...](https://umwelt.fivsevn.com/isopoda/habitat)**
-
-
-↔ ≈ mm / cm · [ o ] ≠ [ O ] · ↔ ?
