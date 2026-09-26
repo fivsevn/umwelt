@@ -400,22 +400,27 @@ function staticSceneLayer(){
 function drawSeaweedScene(){
  const key=sceneLayerKey();
  if(!seaweedPlan||seaweedPlan.key!==key){
-  const steps=[];let canvas=null,g=null;
+  const steps=[],scenery=[];let canvas=null,g=null;
   const fresh=()=>{canvas=document.createElement('canvas');canvas.width=384;canvas.height=430;g=canvas.getContext('2d');g.imageSmoothingEnabled=false};
   const flush=()=>{if(canvas)steps.push({canvas});canvas=null;g=null};
   fresh();drawBackground(g,state.background,state.backgroundSeed,true);
   for(const item of paintOrder()){
-   if(item.params?.layered){flush();steps.push({item});continue}
+   if(item.params?.layered){
+    if(item.params.interactive===false){
+     if(!canvas)fresh();const plant=kelpGeometry({...item.params,...item});scenery.push(plant);drawKelp(g,plant);
+    }else{flush();steps.push({item})}
+    continue;
+   }
    if(!canvas)fresh();drawObject(g,ASSET_BY_ID.get(item.assetId),item);
   }
-  flush();seaweedPlan={key,steps};
+  flush();seaweedPlan={key,steps,scenery,mask:null,sceneryMask:kelpDepth(scenery)};
  }
  const plants=[];
  for(const step of seaweedPlan.steps){
   if(step.canvas)ctx.drawImage(step.canvas,0,0);
   else {const p=kelpGeometry({...step.item.params,...step.item},{time:previewTime});plants.push(p);drawKelp(ctx,p)}
  }
- seaweedMask=kelpDepth(plants);
+ seaweedMask=seaweedPlan.mask=kelpDepth(plants,384,430,seaweedPlan.mask,seaweedPlan.sceneryMask,seaweedPlan.scenery.length);
 }
 function drawScene(){
  ctx.clearRect(0,0,scene.width,scene.height);

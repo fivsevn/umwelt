@@ -6,7 +6,7 @@ import {environmentScale} from '../isopoda/observation-header.mjs';
 import {gameText} from '../isopoda/locales/game.mjs';
 import {seaweedIndex,seaweedProgress} from '../isopoda/data/habitats/seaweed-observation.mjs';
 import {sceneObjects,layoutForHabitat} from '../isopoda/scenery/index.mjs';
-import {kelpGeometry,surfacePoint,kelpDepth,visibleKelpCell} from '../isopoda/scenery/kelp-geometry.mjs';
+import {kelpGeometry,surfacePoint,kelpDepth,visibleKelpCell,hitKelp,drawKelp} from '../isopoda/scenery/kelp-geometry.mjs';
 import {createSeaweedBed,seaweedFrame,stageSeaweed,stepSeaweed,beginSeaweedHold,moveSeaweedHold,endSeaweedHold} from '../isopoda/scenery/shallow-marine.mjs';
 const items=sceneObjects(layoutForHabitat('shallow-marine'));
 test('nine seaweed observations finish, localize and preserve legacy saves',()=>{
@@ -73,4 +73,36 @@ test('actual blade movement triggers a bounded startle and continuous escape',()
  moveSeaweedHold(bed,{x:125});stepSeaweed(group,bed,{time:.2,dt:.1});assert.equal(a.weed.cue,'!');assert.equal(a.posture,'tucked');delete a.weed.cue;
  stepSeaweed(group,bed,{time:.3,dt:.1});assert.equal(a.weed.cue,undefined);endSeaweedHold(bed);
  for(let i=4;i<60;i++)stepSeaweed(group,bed,{time:i*.1,dt:.1});assert.notEqual(a.weed.plant,original);
+});
+
+test('decorative kelp is cached and occludes without accepting attachment or dragging',()=>{
+ const bed=createSeaweedBed(items);seaweedFrame(bed);
+ assert.equal(bed.items.length,12);assert.equal(bed.scenery.length,7);
+ const group=Array.from({length:18},(_,id)=>({id,species:'balthica',phase:0}));stageSeaweed(group,bed);
+ const decorations=new Set(bed.scenery.map(p=>p.id)),geometry=bed.scenery.slice(),depth=bed.frame.mask.depth,owners=bed.frame.mask.owners;
+ for(let i=0;i<120;i++)stepSeaweed(group,bed,{time:i*.1,dt:.1});
+ assert.ok(group.every(a=>!decorations.has(a.weed.plant)&&!decorations.has(a.weed.travel?.plant)));
+ assert.equal(bed.frame.mask.depth,depth);assert.equal(bed.frame.mask.owners,owners);
+ bed.scenery.forEach((p,i)=>assert.equal(p,geometry[i]));
+ const rebuilt=kelpDepth(bed.frame.plants);
+ assert.deepEqual(bed.frame.mask,rebuilt,'cached scenery and reused buffers preserve frontmost ownership');
+ const decoration=bed.scenery.find(p=>p.cells.some(([x,y])=>x>=0&&x<384&&y>=0&&y<430&&bed.frame.mask.depth[y*384+x]===p.z));
+ const [x,y]=decoration.cells.find(([x,y])=>x>=0&&x<384&&y>=0&&y<430&&bed.frame.mask.depth[y*384+x]===decoration.z);
+ assert.equal(hitKelp(bed.frame,{x,y}),null,'foreground scenery cannot select a blade behind it');
+ assert.equal(visibleKelpCell(bed.frame.mask,x,y,decoration.z-1),false);
+});
+
+test('palette batching preserves every blade pixel with only one style change per color',()=>{
+ const plant=kelpGeometry(items.find(o=>o.layered)),painted=new Map();let color,changes=0;
+ drawKelp({set fillStyle(value){color=value;changes++},fillRect(x,y,w,h){assert.equal(w,1);assert.equal(h,1);painted.set(x+','+y,color)}},plant);
+ assert.equal(changes,new Set(plant.cells.map(c=>c[2])).size);
+ assert.deepEqual(painted,new Map(plant.cells.map(([x,y,c])=>[x+','+y,c])));
+});
+
+test('cached decoration respects original paint order when plant depths tie',()=>{
+ const source=items.find(o=>o.layered),active={...source,id:'active',interactive:true},still={...source,id:'still',interactive:false};
+ for(const objects of [[active,still],[still,active]]){
+  const bed=createSeaweedBed(objects);seaweedFrame(bed);
+  assert.deepEqual(bed.frame.mask,kelpDepth(bed.frame.plants));
+ }
 });
