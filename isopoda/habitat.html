@@ -62,18 +62,12 @@
    <label id="freshwaterStageControl" class="material-stage-control" hidden><span>MATERIAL STAGE</span><select id="freshwaterStage" aria-label="淡水腐殖池物质阶段"></select></label>
    <label id="estuaryStageControl" class="material-stage-control" hidden><span>OBSERVATION · 河口观察</span><select id="estuaryStage" aria-label="河口汽水带观察时刻"></select></label>
    <div id="estuaryPreviewControl" class="material-stage-control" hidden><button id="estuaryPreview" type="button" aria-pressed="false">FLOW · OFF</button><span>水流预览；P 木边 / Q 藻根。各时刻编辑后分别导出。<br>Flow preview; export each observation separately.</span></div>
-   <div class="specimen-reference" aria-label="游戏内实际比例标本参考">
-    <label><span>SPECIMEN</span><select id="referenceSpecies"></select></label>
-    <label><span>STAGE</span><select id="referenceStage"><option value="S">S</option><option value="M" selected>M</option><option value="L">L</option></select></label>
-    <label id="referenceDepthControl" hidden><span>标本所在层 · DEPTH</span><input id="referenceDepth" type="number" min="0" max="100" step="1" value="45"></label>
-    <button id="toggleReference" type="button" aria-pressed="true">GAME SCALE · ON</button>
-   </div>
    <div class="viewer-actions">
     <button id="resetScene">RESET</button>
     <button id="clearScene">CLEAR OBJECTS</button>
    </div>
   </div>
-  <details class="scene-transfer" open>
+  <details class="scene-transfer">
    <summary><span>布局导入 / 导出</span><small>SCENE TRANSFER · JSON / SHARE CODE</small></summary>
    <div class="scene-transfer-body">
     <div class="viewer-actions transfer-export-actions">
@@ -100,6 +94,13 @@
  </section>
 
  <aside class="panel inspector">
+   <div class="specimen-reference" aria-label="游戏内实际比例标本参考">
+    <label><span>SPECIMEN</span><select id="referenceSpecies"></select></label>
+    <label><span>STAGE</span><select id="referenceStage"><option value="S">S</option><option value="M" selected>M</option><option value="L">L</option></select></label>
+    <label id="referenceDepthControl" hidden><span>标本所在层 · DEPTH</span><input id="referenceDepth" type="number" min="0" max="100" step="1" value="45"></label>
+    <button id="toggleReference" type="button" aria-pressed="true">GAME SCALE · ON</button>
+   </div>
+
   <div class="panel-heading">
    <span>SELECTED MODULE</span>
    <small>只修改测试场景中的实例</small>
