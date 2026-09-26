@@ -22,12 +22,16 @@ export function stepIntertidal(group,{state:s,dt=0,reduced=false,speed=1}){
  const prior=waterLevels.get(s)??s.tide,level=prior+(s.tide-prior)*Math.min(1,dt*.8);waterLevels.set(s,level);
  const surface=intertidalSurface(s),top=Math.max(28,surface+12),wet=plants.filter(p=>p.y>top+18&&p.y<407),anchors=wet.length?wet:plants.slice(-2);
  const pace=(reduced?.55:1)*speed;
+ const refugeResidents=group.filter(a=>a.species==='hirsuta');
  for(const a of group){
   if(stepInteraction(a,dt))continue;
   a.tideClock=(a.tideClock??0)+dt*pace;const t=a.tideClock;
   const upperRefuge=a.species==='hirsuta',stoneDweller=a.species==='albifrons';
   const wetStones=stoneDweller?stones.filter(p=>p.y>top+18):[];
-  const pool=upperRefuge?(level<50?[shells[a.id%shells.length]]:shells):wetStones.length?wetStones:anchors;
+  // Cohort IDs are interleaved by species (0, 3, 6); rank residents instead of
+  // taking ID modulo refuge count, which stacked all three on the same shell patch.
+  const residentIndex=refugeResidents.indexOf(a),home=shells[Math.max(0,residentIndex)%shells.length];
+  const pool=upperRefuge?(level<50?[home]:shells):wetStones.length?wetStones:anchors;
   const floor=upperRefuge?28:top;
   // Independent, seeded bouts: each individual chooses a new local destination and dwell time.
   // Exposed hirsuta stay close to their damp refuge; aquatic taxa follow the wet margin.
@@ -35,11 +39,11 @@ export function stepIntertidal(group,{state:s,dt=0,reduced=false,speed=1}){
   if(!route||t>=route.until||!pool.includes(route.anchor)||route.y<floor){
    const bout=(route?.bout??0)+1,r=n=>noise(bout,n,(a.seed||0)+a.id*7919)/4294967296;
    const anchor=pool[Math.floor(r(11)*pool.length)],swim=a.species==='granulosa'&&level>48&&r(29)<.3,cling=!swim&&r(37)<.55;
-   const radius=swim?30:upperRefuge&&level<50?5:cling?5:17,angle=r(43)*Math.PI*2;
-   route=a.tideRoute={bout,anchor,swim,cling,until:t+2+r(53)*11,pauseUntil:t+r(61)*2.8,x:clamp(anchor.x+Math.cos(angle)*radius*r(71),22,362),y:clamp(anchor.y-12+Math.sin(angle)*radius*.7*r(83),floor,402),rate:.65+r(97)*.8};
+   const radius=swim?30:upperRefuge?Math.max(12,Math.min(20,home.scale*15)):cling?5:17,angle=r(43)*Math.PI*2;
+   route=a.tideRoute={bout,anchor,swim,cling,until:t+2+r(53)*11,pauseUntil:t+r(61)*2.8,x:clamp(anchor.x+Math.cos(angle)*radius*(.35+.65*r(71)),22,362),y:clamp(anchor.y-8+Math.sin(angle)*radius*.7*(.35+.65*r(83)),floor,402),rate:.65+r(97)*.8};
   }
   const {anchor,swim,cling}=route,x=route.x,y=route.y;
-  if(a.tideInitialized!==true){a.x=clamp(anchor.x+a.id*3-9,22,362);a.y=clamp(anchor.y-12,floor,402);a.tideInitialized=true}
+  if(a.tideInitialized!==true){a.x=upperRefuge?x:clamp(anchor.x+a.id*3-9,22,362);a.y=upperRefuge?y:clamp(anchor.y-12,floor,402);a.tideInitialized=true}
   const dx=x-a.x,dy=y-a.y,distance=Math.hypot(dx,dy),rate=(swim?12:cling?5:7)*Math.max(.6,a.speed/.68),travel=Math.min(distance,(t<route.pauseUntil?0:dt*pace*rate*route.rate));
   if(distance>1){a.a=Math.atan2(dy,dx);a.x+=dx/distance*travel;a.y+=dy/distance*travel}
   // Follow a receding wet margin continuously instead of teleporting at a turn boundary.
