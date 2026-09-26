@@ -22,11 +22,11 @@ export function createCaveLightTexture(doc){
 export function caveMotes(time,width,height,beam){
  const cx=beam.x/100*width,cy=beam.y/100*height,r=beam.size/100*width/2,points=[];
  // Positions belong to the scene, never to the moving torch. Slow drift is independent of animal speed.
- for(let i=0;i<62;i++){
-  const x=((i*97.31+Math.sin(time*.12+i)*3+time*(.35+i%3*.09))%width+width)%width;
-  const y=((i*61.73+time*(.48+i%5*.11))%height+height)%height;
+ for(let i=0;i<180;i++){
+  const x=((i*97.31+Math.sin(time*.22+i)*5+time*(1.1+i%3*.22))%width+width)%width;
+  const y=((i*61.73+time*(1.3+i%5*.24))%height+height)%height;
   const light=caveIllumination((x-cx)/r,(y-cy)/r);
-  if(light>.12)points.push({x:Math.floor(x),y:Math.floor(y),alpha:light*(.21+(i%4)*.055),size:i%11===0?2:1});
+  if(light>.12)points.push({x:Math.floor(x),y:Math.floor(y),alpha:light*(.62+(i%4)*.09),size:i%4===0?2:1});
  }
  return points;
 }
@@ -37,6 +37,6 @@ export function drawCaveLight(g,tile,beam,time,lightsOut){
  const r=beam.size/100*width/2,size=Math.round(r*96/44),x=Math.round(beam.x/100*width-size/2),y=Math.round(beam.y/100*height-size/2);
  g.clearRect(x,y,size,size);g.drawImage(tile,x,y,size,size);g.drawImage(tile.warm,x,y,size,size);
  for(const p of caveMotes(time,width,height,beam)){
-  g.fillStyle=`rgba(204,207,170,${p.alpha})`;g.fillRect(p.x,p.y,p.size,1);
+  g.fillStyle=`rgba(233,232,192,${p.alpha})`;g.fillRect(p.x,p.y,p.size,1);
  }
 }
