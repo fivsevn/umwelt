@@ -9,7 +9,7 @@ const text=(tag,value,cls='')=>{const el=document.createElement(tag);el.textCont
 const TAG_LABELS={zh:['采集日期','采集地点'],en:['DATE','SITE'],ja:['採集日','採集地点'],isopod:['o:','o:']};
 const TAG_HABITATS_EN={terrestrial:'LITTER',freshwater:'FRESH',groundwater:'CAVE',estuary:'ESTUARY',intertidal:'TIDAL','sandy-surf':'SURF','shallow-marine':'SEAWEED',abyssal:'ABYSSAL','petri-dish':'DISH'};
 const SIZE_LABELS={
- zh:{ref:'体长参考',unknown:'体长待考',note:'得换个标本框……',giant:'得换个标本框……'},
+ zh:{ref:'体长参考',unknown:'体长待考',note:'得换个标本框…',giant:'得换个标本框…'},
  en:{ref:'Body reference',unknown:'Size unresolved',note:'Need a new\nspecimen frame…',giant:'Need a new\nspecimen frame…'},
  ja:{ref:'体長の目安',unknown:'体長未確認',note:'標本箱を\n替えないと……',giant:'標本箱を\n替えないと……'},
  isopod:{ref:'↔',unknown:'↔ ?',note:'[  o  ] …\n[    O    ]',giant:'[ O ] …\n[     O     ]'}
