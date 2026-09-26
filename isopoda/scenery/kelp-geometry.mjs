@@ -33,7 +33,7 @@ export function kelpGeometry(item,{time=0,flow=item.flow??46,motion=1,bend=0}={}
  for(let i=1;i<stem.length;i++)line(cells,stem[i-1],stem[i],Math.max(1,Math.round(scale)),ramp[1]);
  const surfaces=[stem],joins=[0];
  for(let j=13,i=0;j<height+8;j+=17,i++){
-  const root=clamp(j/height,0,1),side=(i+seed)&1?1:-1,len=((near?29:23)+hash(i,seed)%13)*.82,width=((near?9:5)+hash(i+21,seed)%4)*.60;
+  const root=clamp(j/height,0,1),side=(i+seed)&1?1:-1,len=((near?29:23)+hash(i,seed)%13)*.92,width=((near?9:5)+hash(i+21,seed)%4)*.72;
   const theta=side>0?-.65:Math.PI+.65,local=[];
   for(let k=0;k<=8;k++){const t=k/8,lag=Math.sin(time*.63+seed*.071+root*1.9)*motion*t*t*2.5;local.push(transform(drift(root)+Math.cos(theta)*len*t+lag,-height*root+Math.sin(theta)*len*t))}
   const points=[];
