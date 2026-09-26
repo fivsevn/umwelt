@@ -52,3 +52,6 @@
 **[Enter Asimov’s Morphology Lab](https://umwelt.fivsevn.com/isopoda/morphology/)**
 
 **[Enter Asimov’s Habitat Lab](https://umwelt.fivsevn.com/isopoda/habitat)**
+
+
+Archive scale bars indicate approximate adult size, not life size on screen. References use published adult means or adult-range midpoints, not maximum records, and are not universal population averages. Body length generally excludes antennae and uropods; sources and measurement conventions are available in the morphology laboratory. Unresolved adult sizes are marked as such. Game sizes and individual variation are adjusted for readability and appearance; frames do not share one magnification.

@@ -1,3 +1,4 @@
+import {ADULT_SIZE_SOURCES} from '../specimen-sizes.mjs';
 import {OBSERVATION_SCALE_SOURCES} from './observation-scales.mjs';
 import {SEAWEED_SOURCES} from './seaweed.mjs';
 import {SANDY_EXPANSION_SOURCES} from './sandy-expansion.mjs';
@@ -13,6 +14,7 @@ import {RELEASE_AQUATIC_SOURCES} from './release-aquatic.mjs';
 // Group IDs are organizational only and never become public or saved identifiers.
 export const SOURCE_GROUPS=Object.freeze([
  {id:'legacy',rows:BASE_SOURCES},
+ {id:'archive-adult-size',rows:ADULT_SIZE_SOURCES},
  {id:'marine-reference',rows:EXTRA_SOURCES_5},
  {id:'hobby-lines',rows:EXTRA_SOURCES_6},
  {id:'aquatic',rows:AQUATIC_SOURCES},

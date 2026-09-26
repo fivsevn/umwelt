@@ -98,3 +98,12 @@ test('adult body-length references scale whole specimens without changing stage 
   assert.ok(p.visual.stageProfiles.juvenile.scale<p.visual.stageProfiles.subadult.scale);assert.ok(p.visual.stageProfiles.subadult.scale<p.visual.stageProfiles.adult.scale);assert.ok(Math.abs(p.visual.stageProfiles.juvenile.scale/p.visual.stageProfiles.adult.scale-.72)<1e-9);
  }
 });
+
+test('archive adult rulers never substitute maximum records or type specimens for typical size',async()=>{
+ const {typicalAdultLengthMm}=await import('../isopoda/species-size.mjs');
+ assert.equal(typicalAdultLengthMm({id:'unknown',profile:{adultLengthMm:50,reportedMaximumLengthMm:80}}),null);
+ assert.equal(typicalAdultLengthMm({id:'unknown',profile:{adultLengthRangeMm:[10,20],reportedMaximumLengthMm:80}}),15);
+ assert.equal(typicalAdultLengthMm(SPECIES.find(p=>p.id==='giganteus')),250);
+ assert.equal(typicalAdultLengthMm(SPECIES.find(p=>p.id==='magnificus')),27.5);
+ assert.equal(typicalAdultLengthMm(SPECIES.find(p=>p.id==='uniramea')),null);
+});
