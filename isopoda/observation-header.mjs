@@ -1,3 +1,4 @@
+import {abyssalDepth} from './data/habitats/abyssal-instruments.mjs';
 import {isIntertidal,intertidalText,intertidalTime} from './data/narrative/intertidal.mjs';
 import {isEstuaryObservation,estuaryIndex,estuaryText} from './data/narrative/estuary.mjs';
 import {groundwaterObservationIndex} from './data/habitats/groundwater-observation.mjs';
@@ -31,6 +32,6 @@ export function environmentScale(state,lang='zh'){
  // https://www.nps.gov/jeca/learn/nature/surveying.htm
  if(state.habitatId==='groundwater'){const depth=[18.6,18.2,19.1,18.8,19.4,19.7,19.1,19.7][groundwaterObservationIndex(state)];return {value:lang==='isopod'?isopodWaveNumber(Math.round(depth*10),3):'Δh −'+depth.toFixed(1)+' m',label:localize(['观察点相对洞口高程（场景设定）','Observation point elevation relative to entrance (scene datum)','観察点の洞口からの比高（場面設定）'],lang)}};
  if(state.habitatId==='freshwater')return {value:lang==='isopod'?isopodWaveNumber(Math.round(state.temp*10),3):state.temp.toFixed(1)+' °C',label:localize(['水温','Water temperature','水温'],lang)};
- if(state.habitatId==='abyssal')return {value:lang==='isopod'?isopodWaveNumber(Math.round(state.salinity)):Math.round(state.salinity)+' ‰',label:localize(['盐度','Salinity','塩分'],lang)};
+ if(state.habitatId==='abyssal')return abyssalDepth(state,lang);
  return null; // Dated environments retain their existing date and clock.
 }

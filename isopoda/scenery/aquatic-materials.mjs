@@ -42,7 +42,10 @@ export function drawWaterBackground(g,{kind,seed=57,originX=0,originY=0}={}){
    if(sand>.85&&Math.sin(y*.4+Math.sin(x*.031)*1.7)>.88&&grain%5!==0)c='#68785f';
   }else{
    // Broad, faint sediment drifts preserve the abyssal negative space.
-   c=broad>1?'#293536':broad<-.85?'#172528':'#213033';
+   const warpX=(sedimentNoise(x/170,y/190,seed+307)-.5)*145,warpY=(sedimentNoise(x/210,y/140,seed+401)-.5)*120;
+   const relief=sedimentNoise((x+warpX)/95,(y+warpY)/135,seed+503)*.75+sedimentNoise(x/42,y/65,seed+601)*.25;
+   const tone=Math.max(0,Math.min(1,(relief-.22)/.6));
+   c='#'+[23+tone*18,36+tone*17,39+tone*15].map(v=>Math.round(v).toString(16).padStart(2,'0')).join('');
    if(originX||originY)c=outerSediment(x,y,seed,c);
   }
   px(g,x-originX,y-originY,2,2,materialInk(c,x,y,seed,'soil'));
