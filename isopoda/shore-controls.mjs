@@ -22,7 +22,7 @@ export function createShoreControls(previous,next){
  const position=()=>{
   const r=viewport.getBoundingClientRect(),scale=Math.max(1,r.width/384),sw=r.width/scale,sh=r.height/scale;
   if(!sw||!sh)return;
-  for(const [button,direction] of buttons){const {x,y}=shoreWalkPose(currentPoint,direction);button.style.left=(direction<0?10:90)+'%';button.style.top=Math.max(14,Math.min(76,(y-(215-sh/2))/sh*100))+'%';}
+  for(const [button,direction] of buttons){const {x,y}=shoreWalkPose(currentPoint,direction);button.style.left=(direction<0?10:90)+'%';button.style.top=Math.max(26,Math.min(80,(y-(215-sh/2))/sh*100+12))+'%';}
  };
  new ResizeObserver(position).observe(viewport);
  for(const [button,direction] of buttons){const canvas=document.createElement('canvas');canvas.setAttribute('aria-hidden','true');const label=document.createElement('span');label.className='shore-walk-label';label.dataset.directLocale='true';button.replaceChildren(canvas,label)}
