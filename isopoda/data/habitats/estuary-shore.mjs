@@ -1,3 +1,4 @@
+import {shoreLocalSalinity} from './shore-hydrology.mjs';
 import {encodeIsopodText} from '../../locales/isopod.mjs';
 export const isShore=s=>s?.habitatId==='estuary'&&s?.estuaryShoreVersion===1;
 export const SHORE_TURNS=8;
@@ -11,7 +12,7 @@ export const shoreVisible=()=>true;
 export const SHORE_COORDINATES=Object.freeze([[-6,1.5],[0,0],[6,-1.5]]);
 export function shoreReadings(s){
  const point=shorePoint(s),tide=shoreTide(s),rain=shoreRain(s);
- return {depth:Math.max(.03,[.24,.46,.16,.06][tide]+point*.04),salinity:[7,16,25][point]+[1,3,-1,-3][tide]-(rain?3:0),flow:[3.6,.8,2.8,.4][tide]+point*.3,tide};
+ return {depth:Math.max(.03,[.24,.46,.16,.06][tide]+point*.04),salinity:shoreLocalSalinity(point,tide,rain),flow:[3.6,.8,2.8,.4][tide]+point*.3,tide};
 }
 export const shoreWalkLabel=(s,delta,lang='zh')=>shoreText('walk:'+Math.max(0,Math.min(2,shorePoint(s)+delta)),lang);
 const rows={
@@ -53,6 +54,14 @@ const observations=[
  ['小蟹在洞口停一下，又缩回去。等足目还在石头背水的一侧。','A small crab pauses at its hole, then retreats. The isopod remains on the sheltered side of the stone.','小蟹が穴の口で止まり、また引っ込む。等脚類は石の水を避ける側にいる。']
  ]
 ];
+const waterObservations=[
+ ['蓝绿色的水向河侧伸来，灰绿的水团被挤出几条细长的尾巴。沉木还在原处。','Blue-green water reaches riverward, stretching the grey-green patches into narrow tails. The wood stays where it was.','青緑の水が川側へ伸び、灰緑の水のかたまりが細い尾を引く。流木は同じ場所にある。'],
+ ['蓝绿色已经越过沉木旁刚才的交界。两种水色之间，还夹着零碎的小块。','Blue-green water has passed the earlier meeting place beside the wood. Small patches remain between the two colours.','青緑の水が、流木の脇にあった先ほどの境を越えた。二つの水色の間に小さなかたまりが残る。'],
+ ['灰绿色的来水往海侧铺开。沉木旁的蓝绿色退远了一点，交界又换了地方。','Grey-green river water spreads seaward. The blue-green patch beside the wood recedes, and the meeting place shifts again.','灰緑の川の水が海側へ広がる。流木の脇の青緑が少し遠ざかり、境がまた移る。'],
+ ['灰绿色占得更宽了。蓝绿色仍留在海侧，两边没有分出一条整齐的线。','Grey-green water occupies more of the shallows. Blue-green remains seaward, without a neat line between them.','灰緑の水が浅瀬に広がった。青緑は海側に残り、間には整った一本の線もない。']
+];
+for(let tide=0;tide<4;tide++)observations[tide][1]=waterObservations[tide];
+rows['rain-water']=['上游雨后的来水到了。灰绿色向海侧多铺开一截，这次涨潮，蓝绿色没能伸到上次那么远。','Rain-fed river water has arrived. Grey-green spreads farther seaward; this tide, blue-green does not reach as far upriver.','上流の雨の水が届いた。灰緑が海側へ伸び、今度の潮では青緑が前ほど川側へ届かない。'];
 for(let tide=0;tide<4;tide++)for(let point=0;point<3;point++)rows[`scene:${tide}:${point}`]=observations[tide][point];
 export const SHORE_TEXT_CATALOG=Object.freeze(Object.entries(rows).map(([key,row])=>({key:'estuary:v2:'+key,locales:{zh:row[0],en:row[1],ja:row[2]},refs:{habitat:['estuary']}})));
 export function shoreText(key,lang='zh'){
@@ -62,7 +71,7 @@ export function shoreText(key,lang='zh'){
 export const SHORE_ENDING={id:'estuary-shore',title:'estuary:v2:ending:title',body:'estuary:v2:ending:body',line:'estuary:v2:ending:line'};
 export function shoreScene(s){
  const index=shoreIndex(s),point=shorePoint(s),tide=shoreTide(s);
- return {id:`estuary-shore:${index}:${point}`,kind:'estuary-observation',estuaryNode:`shore-${tide}`,observationIndex:index,title:'estuary:v2:point:'+point,text:`estuary:v2:scene:${tide}:${point}`,options:[{id:'shore-watch',label:'estuary:v2:watch',delta:{},lens:'shore',text:'estuary:v2:'+(shoreVisible(s)?'recorded':'quiet')}]};
+ return {id:`estuary-shore:${index}:${point}`,kind:'estuary-observation',estuaryNode:`shore-${tide}`,observationIndex:index,title:'estuary:v2:point:'+point,text:shoreRain(s)?'estuary:v2:rain-water':`estuary:v2:scene:${tide}:${point}`,options:[{id:'shore-watch',label:'estuary:v2:watch',delta:{},lens:'shore',text:'estuary:v2:'+(shoreVisible(s)?'recorded':'quiet')}]};
 }
 export function shoreEvidence(s){return {version:2,point:shorePoint(s),tide:shoreTide(s),rain:shoreRain(s),found:shoreVisible(s)}}
 export function moveShore(s,delta){

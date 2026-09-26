@@ -27,6 +27,7 @@
 - [National Park Service](https://www.nps.gov/)
 - [NOAA](https://www.noaa.gov/)
 - [USGS](https://www.usgs.gov/)
+- [NASA](https://www.nasa.gov/)
 - [Japan Meteorological Agency](https://www.jma.go.jp/)
 - [Nikon MicroscopyU](https://www.microscopyu.com/)
 
@@ -35,6 +36,7 @@
 - 未定种、贸易名、产地系与人工培养线按现有资料标注，不视为正式分类结论。
 - 游戏中的温湿度、活动倾向与兼容参数属于模拟层，不作为实际饲养建议或生物学测量值。
 - 比例尺参考现实成体大小，游戏体型为画面效果适当调整。
+- 所有场景均依据参考资料进行抽象与模拟，不代表真实地点的精确复原或完整生态过程。
 
 **字体 / 素材与许可**
 

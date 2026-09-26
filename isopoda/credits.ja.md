@@ -27,6 +27,7 @@
 - [National Park Service](https://www.nps.gov/)
 - [NOAA](https://www.noaa.gov/)
 - [USGS](https://www.usgs.gov/)
+- [NASA](https://www.nasa.gov/)
 - [Japan Meteorological Agency](https://www.jma.go.jp/)
 - [Nikon MicroscopyU](https://www.microscopyu.com/)
 
@@ -35,6 +36,7 @@
 - 未記載種、流通名、産地系、飼育系統は必要に応じて暫定的な表記とし、正式な分類学的結論として扱いません。
 - ゲーム内の湿度、活動傾向、相性などの数値はシミュレーション用であり、実際の飼育指針や生物学的測定値ではありません。
 - 縮尺は現実の成体の大きさの目安です。ゲーム内の体格は見やすさのために調整しています。
+- すべての場面は参考資料に基づく抽象的なシミュレーションであり、実在の場所や生態過程全体を正確に再現するものではありません。
 
 **フォント / 素材・ライセンス**
 

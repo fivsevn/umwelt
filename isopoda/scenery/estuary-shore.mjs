@@ -1,3 +1,4 @@
+import {shoreFrontOffset,shoreMarineFraction} from '../data/habitats/shore-hydrology.mjs';
 import {SHORE_LAYOUTS} from './authored-shore-layouts.mjs';
 import {stepInteraction} from '../interaction.mjs';
 import {materialInk} from './grammar.mjs';
@@ -18,12 +19,8 @@ export function shoreWalkPose(point,direction){
  return {x,y,angle:Math.atan2(slope,1)+(direction<0?Math.PI:0)};
 }
 const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t)};
-export function shoreWaterBlend(x,y,point){
- const boundary=(point===0?326:point===2?35:192)+Math.sin(y*.022)*[30,61,24][point]+Math.sin(y*.009)*18;
- const eddy=Math.sin(x*.027+y*.018)*9+Math.sin(x*.011-y*.035)*7;
- return smooth(.5+(x-boundary+eddy)/100);
-}
-export const shoreWaterType=(x,y,point)=>shoreWaterBlend(x,y,point)<.5?'fresh':'sea';
+export const shoreWaterBlend=shoreMarineFraction;
+export const shoreWaterType=(x,y,point,tide=0,rain=false)=>shoreWaterBlend(x,y,point,tide,rain)<.5?'fresh':'sea';
 function farBank(g,point,seed){
  if(point!==0)return;
  // Just the cropped tip of the opposite bank, never a second full landscape.
@@ -40,7 +37,7 @@ function shoreHalfInk(a,b){
  const key=a+b;if(!shoreHalfInks.has(key))shoreHalfInks.set(key,'#'+[1,3,5].map(i=>Math.round((parseInt(a.slice(i,i+2),16)+parseInt(b.slice(i,i+2),16))/2).toString(16).padStart(2,'0')).join(''));
  return shoreHalfInks.get(key);
 }
-export function drawShoreBackground(g,{point=1,tide=0,rain=false,seed=467,level=shoreHeight(tide)}={}){
+export function drawShoreBackground(g,{point=1,tide=0,rain=false,seed=467,level=shoreHeight(tide),front=shoreFrontOffset(tide,rain)}={}){
  const soils=[['#566044','#697154','#414f3c'],['#74715a','#858064','#575d48'],['#969076','#aaa084','#7c8067']][point];
  for(let y=0;y<430;y+=2)for(let x=0;x<384;x+=2){
   const edge=shoreLine(x,point,tide,level),distance=y-edge,q=noise(x>>1,y>>1,seed+point*53);
@@ -65,7 +62,7 @@ export function drawShoreBackground(g,{point=1,tide=0,rain=false,seed=467,level=
    if(q%31===0)color=wet?'#999073':soils[1];
   }else{
    // Opaque color shelves with broken edges, rather than stacked gradients.
-   const sea=shoreWaterBlend(x,y,point),d=distance+patch*20+Math.sin(x*.07-y*.04)*7;
+   const sea=shoreWaterBlend(x,y,point,tide,rain,front),d=distance+patch*20+Math.sin(x*.07-y*.04)*7;
    const band=d<7?0:d<17?1:d<31?2:d<49?3:d<72?4:d<100?5:6;
    const fresh=rain?['#89866e','#828369','#797f64','#707b60','#64765b','#587056','#4c6852']:['#8c896e','#87876a','#808367','#778163','#6a7d5d','#587457','#486a53'];
    const marine=['#8b8d75','#839080','#779087','#6a8c85','#58827e','#447573','#32676b'];
