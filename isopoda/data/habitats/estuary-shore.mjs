@@ -21,7 +21,7 @@ const rows={
  'position':['沿岸局部坐标（米）','Local bank coordinates (m)','岸辺の局所座標（m）'],
  'prev':['向河侧走','Walk riverward','川側へ'],'next':['向海侧走','Walk seaward','海側へ'],
  'intro':['河水与海水在这里碰面。你停在岸边，潮水正慢慢靠近。','River and sea meet here. You stop on the bank as the water slowly approaches.','川と海がここで出会う。岸辺で足を止めると、潮がゆっくり近づいてくる。'],
- 'hint':['沿哪边再走走？点岸上的脚印换个地方，或留在这里，继续观察。','Which way will you wander? Click the footprints to move, or stay here and continue observing.','どちらへ歩こう。岸の足跡を押して移動するか、ここで観察を続けよう。'],
+ 'hint':['沿哪边再走走？点岸上的脚印换个地方，或留在这里，继续观察。按住等足目，可以轻轻捧起。','Which way will you wander? Click the footprints to move, or stay here and continue observing. Hold an isopod to gently pick it up.','どちらへ歩こう。岸の足跡を押して移動するか、ここで観察を続けよう。等脚類を長押しすると、そっと持ち上げられる。'],
  'linger':['沿岸再走几步，还是留在这里看一会儿？','A few more steps along the bank, or a little longer here?','岸沿いにもう少し歩こうか、ここでもうしばらく眺めようか。'],
  'canvas':['河口岸边，点击岸上脚印切换观察点','Estuary bank; use the footprints to walk along the shore','河口の岸辺。足跡を押して観察点を移動'],
  'arrival':['先在岸边停下来。','Pause beside the water.','まず岸辺に立ち止まる。'],

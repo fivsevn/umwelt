@@ -1,3 +1,4 @@
+import {isShore} from './data/habitats/estuary-shore.mjs';
 import {isSeaweed,seaweedIndex,seaweedProgress,seaweedFeedback} from './data/habitats/seaweed-observation.mjs';
 import {petriReady} from './scenery/petri.mjs';
 import {isIntertidal} from './data/narrative/intertidal.mjs';
@@ -45,7 +46,7 @@ function contradictionFor(s,type){
  return '';
 }
 export function recordDirectInteraction(s,event={}){
- if(isEstuaryObservation(s))return null;
+ if(isEstuaryObservation(s)&&!isShore(s))return null;
  if(isSeaweed(s)&&event.type==='seaweed'){interactionState(s).seaweed=true;if(s.interactionIntent?.type==='seaweed')s.interactionIntent=null;s.directRecords??=[];const record={type:'seaweed',observationIndex:seaweedIndex(s),point:event.point};s.directRecords.push(record);s.directRecords=s.directRecords.slice(-50);s.interventions++;if(s.stage==='feedback'){const last=s.records.at(-1),option=s.scene?.options?.find(o=>o.id===last?.choice);if(option){const result=seaweedFeedback(s,option);s.feedback=result.text;last.text=result.text;last.seaweedEvidence=result.evidence}}return record}
  const type=['tap','grab','place','ground','lift','collect'].includes(event.type)?event.type:null;if(!type)return null;
  const discoveries=interactionState(s);

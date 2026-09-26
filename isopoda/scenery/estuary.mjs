@@ -13,8 +13,8 @@ function routeAt(points,progress){
 export function estuaryRoute(layout,index){return ESTUARY_ROUTES[index].map(point=>estuaryPoint(layout,point)).filter(Boolean)}
 // Authored compressed intervals. Choosing a method never moves animals toward a probe.
 // Reduced motion keeps the interval's final frame, including genuine occlusion gaps.
-export function stepEstuary(group,{state,time=0,reduced=false,layout=estuaryLayout(state)}){
- if(isShore(state))return stepShore(group,{state,time,reduced});
+export function stepEstuary(group,{state,time=0,dt=0,reduced=false,layout=estuaryLayout(state)}){
+ if(isShore(state))return stepShore(group,{state,time,dt,reduced});
  const index=estuaryIndex(state),progress=reduced||state.stage!=='choice'?1:clamp(time/6),route=estuaryRoute(layout,index);
  if(route.length<2)return;
  for(const [i,actor] of group.entries()){
