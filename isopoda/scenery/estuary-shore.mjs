@@ -34,16 +34,30 @@ function farBank(g,point,seed){
   px(g,x,y,2,2,d<5?'#858569':d<13?'#5b6650':q%9<2?'#6d7655':'#485e47');
  }
 }
+// Cache the fixed intermediate inks; no continuous interpolation per pixel.
+const shoreHalfInks=new Map();
+function shoreHalfInk(a,b){
+ const key=a+b;if(!shoreHalfInks.has(key))shoreHalfInks.set(key,'#'+[1,3,5].map(i=>Math.round((parseInt(a.slice(i,i+2),16)+parseInt(b.slice(i,i+2),16))/2).toString(16).padStart(2,'0')).join(''));
+ return shoreHalfInks.get(key);
+}
 export function drawShoreBackground(g,{point=1,tide=0,rain=false,seed=467,level=shoreHeight(tide)}={}){
  const soils=[['#566044','#697154','#414f3c'],['#74715a','#858064','#575d48'],['#969076','#aaa084','#7c8067']][point];
  for(let y=0;y<430;y+=2)for(let x=0;x<384;x+=2){
   const edge=shoreLine(x,point,tide,level),distance=y-edge,q=noise(x>>1,y>>1,seed+point*53);
-  const broad=point===0?Math.sin(x*.042+y*.012)+Math.sin(y*.033):point===1?Math.sin(x*.022-y*.02)+Math.sin(y*.044+x*.008):Math.sin(y*.085+x*.029)*.7+Math.sin(x*.009)*.3;
+  // The same rounded humus-island grammar as the woodland substrate.
+  const u=x+point*41,v=y+point*29;
+  const broad=Math.sin(u*.031+Math.sin(v*.023))*Math.cos(v*.042)+Math.sin((u+v)*.018)*.45;
   const patch=Math.sin(Math.floor(x/8)*.73+Math.floor(y/6)*.51)*.22+Math.sin(x*.11-y*.15)*.12;
   const wet=y>shoreLine(x,point,1)-12;
-  let color=broad+patch<-.45?soils[2]:broad+patch>.55?soils[1]:soils[0];
+  let color=broad<-.58?soils[2]:broad>.74?soils[1]:soils[0];
   if(distance<0){
-   if(wet&&y-shoreLine(x,point,1)+12+patch*12>8)color=point===2?(broad+patch>0?'#85816c':'#757861'):(broad+patch>0?'#777159':'#595f4c');
+   if(wet&&y-shoreLine(x,point,1)+12+patch*12>8){
+    const wetSoils=point===2?['#85816c','#918971','#70765e']:['#6d6b54','#7a755c','#565e4a'];
+    color=wetSoils[broad<-.58?2:broad>.74?1:0];
+   }
+   // Damp silt approaches the water in two discrete, gently broken shelves.
+   const rim=distance+Math.sin(x*.085)*3+patch*4;
+   if(rim>-15)color=point===2?(rim>-6?'#898770':'#817f67'):(rim>-6?'#82816a':'#77775e');
    // Root-dark hollows, branching mud tongues, or broad parallel sand runnels.
    if(point===0&&y<170&&Math.abs(x-(84+Math.sin(y*.027)*23+y*.28))<3+Math.sin(y*.09)*2)color='#46563e';
    if(point===1&&Math.abs(x-(140+Math.sin(y*.024)*58))<2+Math.sin(y*.07)&&y>100&&y<220)color='#595f50';
@@ -52,12 +66,13 @@ export function drawShoreBackground(g,{point=1,tide=0,rain=false,seed=467,level=
   }else{
    // Opaque color shelves with broken edges, rather than stacked gradients.
    const sea=shoreWaterBlend(x,y,point),d=distance+patch*20+Math.sin(x*.07-y*.04)*7;
-   const band=d<12?0:d<42?1:d<90?2:3;
-   const fresh=rain?['#89866b','#777f62','#61755b','#4c6852']:['#928b6c','#7b8263','#627957','#486a53'];
-   const marine=['#8b9077','#6e9084','#4f7e7b','#32676b'];
-   const mixed=['#8b896c','#74856c','#577965','#406e61'];
+   const band=d<7?0:d<17?1:d<31?2:d<49?3:d<72?4:d<100?5:6;
+   const fresh=rain?['#89866e','#828369','#797f64','#707b60','#64765b','#587056','#4c6852']:['#8c896e','#87876a','#808367','#778163','#6a7d5d','#587457','#486a53'];
+   const marine=['#8b8d75','#839080','#779087','#6a8c85','#58827e','#447573','#32676b'];
+   const mixed=['#8b896e','#82886e','#7a866d','#70836c','#617c66','#507562','#406e61'];
    const seam=sea+patch*.18;
-   color=(seam<.38?fresh:seam>.62?marine:mixed)[band];
+   const bank=seam<.28?fresh:seam>.72?marine:mixed;
+   color=seam>=.28&&seam<.43?shoreHalfInk(fresh[band],mixed[band]):seam>.57&&seam<=.72?shoreHalfInk(mixed[band],marine[band]):bank[band];
   }
   px(g,x,y,2,2,materialInk(color,x,y,seed+point*113,'soil'));
  }
