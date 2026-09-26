@@ -94,8 +94,8 @@ export function shoreLayout(point=1,tide=0,rain=false){
 const shoreObject=(point,id)=>SHORE_LAYOUTS[point].objects.find(o=>o.id===id);
 export const shoreLayoutFor=s=>shoreLayout(shorePoint(s),shoreTide(s),shoreRain(s));
 // Seeded stop-and-go paths around real authored refuges. Pace is a game proxy.
-export function stepShore(group,{state,time=0,dt=0,reduced=false}){
- const point=shorePoint(state),layout=SHORE_LAYOUTS[point],t=time*(reduced?.65:1);
+export function stepShore(group,{state,time=0,dt=0,reduced=false,layout:editedLayout}){
+ const point=shorePoint(state),layout=editedLayout||SHORE_LAYOUTS[point],t=time*(reduced?.65:1);
  const snapshot=shoreFaunaSnapshot(group,point,shoreIndex(state));
  const local=group.some(a=>a.species)?group.filter((a,i)=>snapshot[i].visible):group.slice(0,4);
  for(const [i,a] of group.entries()){
@@ -103,7 +103,7 @@ export function stepShore(group,{state,time=0,dt=0,reduced=false}){
   const slot=local.indexOf(a),seed=(a.seed??i)>>>0,id=a.species||'hookeri';
   const refuge=SHORE_FAUNA_RULES[id]?.refuge,mud=refuge==='mud',stone=refuge==='stone',algae=refuge==='algae';
   const candidates=layout.objects.filter(o=>stone?/stone/.test(o.type)&&o.y>shoreLine(o.x,point,1)-40:algae?/ulva|seagrass|sunken-wood/.test(o.type):mud?/mud-burrows|estuary-silt/.test(o.type)&&o.y>shoreLine(o.x,point,1)-25:/sunken-wood/.test(o.type));
-  const shelter=candidates[(seed+slot)%Math.max(1,candidates.length)]||shoreObject(point,'shore-wood');
+  const shelter=candidates[(seed+slot)%Math.max(1,candidates.length)]||layout.objects.find(o=>o.id==='shore-wood')||shoreObject(point,'shore-wood');
   const key=String(point);
   if(a.shoreTrack?.key!==key)a.shoreTrack={key,dx:0,dy:0,clockOffset:0,lastTime:t};
   if(t<a.shoreTrack.lastTime)a.shoreTrack.clockOffset+=a.shoreTrack.lastTime;
