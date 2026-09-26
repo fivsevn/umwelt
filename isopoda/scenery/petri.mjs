@@ -23,8 +23,8 @@ export function confinePetri(a){
 }
 export function stepPetri(group,{state,time,dt,reduced}){
  for(const a of group){
-  a.hidden=false;a.occlusion=0;a.molt='none';a.posture='normal';a.activity='crawl';a.moving=Math.sin(time*.35+a.id)>.05;
-  if(a.moving){const speed=(reduced?.12:.32)*Math.min(4,Number(globalThis.__ISOPODA_HABITAT_SPEED__)||1);a.a+=Math.sin(time*.27+a.offset)*dt*.2;a.x+=Math.cos(a.a)*speed*dt;a.y+=Math.sin(a.a)*speed*dt;a.phase+=dt*3}
+  a.hidden=false;a.occlusion=0;a.molt='none';a.posture='normal';a.activity='crawl';a.moving=Math.sin(time*.71+a.offset)>-.78;a.posture=a.moving?'normal':'probing';a.phase+=dt*(a.moving?3:1.2);
+  if(a.moving){const speed=(reduced?.12:.32)*Math.min(4,Number(globalThis.__ISOPODA_HABITAT_SPEED__)||1);a.a+=Math.sin(time*.27+a.offset)*dt*.2;a.x+=Math.cos(a.a)*speed*dt;a.y+=Math.sin(a.a)*speed*dt}
   confinePetri(a);
  }
 }

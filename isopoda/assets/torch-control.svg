@@ -1,13 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="44" height="132" viewBox="0 0 44 132" shape-rendering="crispEdges">
-<!-- A faceted green torch, with an inset thumb switch rather than a button frame. -->
-<path fill="#26382a" d="M10 1h22v3h6v4h3v23h-3v8h-4v82h-3v7h-5v3H16v-3h-5v-7H8V39H4v-8H1V8h3V4h6z"/>
-<path fill="#536c4d" d="M11 34h21v86h-3v6H17v-3h-5V40h-1z"/>
-<path fill="#708365" d="M12 39h6v81h-3V49h-3z"/>
-<path fill="#3d523a" d="M29 38h4v82h-3v5h-5v-5h3V44h1z"/>
-<path fill="#899a7b" d="M12 43h3v34h-2V51h-1z"/>
-<path fill="#465d40" d="M17 83h8v33h-3v5h-6v-6h-2V89h3z"/>
-<path fill="#5c7553" d="M17 87h3v28h-3z"/>
-<path fill="#637b58" d="M14 119h13v5h-3v3h-6v-3h-4z"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="44" height="102" viewBox="0 0 44 102" shape-rendering="crispEdges">
+<!-- Short pixel-grid body and full-sized faceted lamp head. -->
+<path fill="#26382a" d="M10 1h22v3h6v4h3v23h-3v8h-4v52h-3v7h-5v3H16v-3h-5v-7H8V39H4v-8H1V8h3V4h6z"/>
+<path fill="#536c4d" d="M11 34h21v56h-3v6H17v-3h-5V40h-1z"/>
+<path fill="#708365" d="M12 39h6v51h-3V49h-3z"/>
+<path fill="#3d523a" d="M29 38h4v52h-3v5h-5v-5h3V44h1z"/>
+<path fill="#899a7b" d="M12 43h3v25h-2V51h-1z"/>
+<path fill="#465d40" d="M17 70h8v17h-3v5h-6v-6h-2V76h3z"/>
 <path fill="#788d69" d="M5 12h33v18h-3v7h-4v8H13v-5H9v-6H6z"/>
 <path fill="#9aaa88" d="M5 13h5v16h3v8h4v6h-4v-4H9v-7H6z"/>
 <path fill="#496140" d="M31 14h7v16h-3v7h-4v8h-7v-4h5v-9h2z"/>

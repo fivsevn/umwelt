@@ -94,7 +94,7 @@ export function encodeIsopodText(value){
  if(/[!！]/u.test(text))pushUnique(tokens,'!');
 
  const numbers=[...text.matchAll(/\b\d+\b/g)].map(match=>match[0]).slice(0,2);
- for(const number of numbers)pushUnique(tokens,number);
+ for(const number of numbers)pushUnique(tokens,isopodWaveNumber(number));
 
  if(!tokens.length)return text.length<=10?'o?':'o:  ...';
  if(tokens.length===1&&text.length>18)pushUnique(tokens,'...');
@@ -112,3 +112,5 @@ const ISOPOD_WAVES=['▁','▂','▃','▄','▅','▆','▇'];
 export function isopodWaveNumber(value,minDigits=2){
  return Math.max(0,Number(value)||0).toString(7).padStart(minDigits,'0').replace(/[0-6]/g,d=>ISOPOD_WAVES[Number(d)]);
 }
+
+export const isopodNumbers=value=>String(value).replace(/\d+/g,n=>isopodWaveNumber(n));
