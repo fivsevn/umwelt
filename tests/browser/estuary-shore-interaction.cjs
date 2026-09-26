@@ -6,14 +6,15 @@ const name=process.env.BROWSER||'chromium',base=process.env.BASE_URL||'http://12
  try{for(const touch of name==='chromium'?[false,true]:[false]){
   const page=await browser.newPage({viewport:{width:390,height:844},hasTouch:touch,reducedMotion:'reduce'}),errors=[];
   page.on('pageerror',e=>errors.push(e.message));
-  await page.route('**/habitat.mjs*',async route=>{const response=await route.fetch();const body=(await response.text()).replace('return {reset,stage,react,','if(canvas.id==="habitat")window.__shoreTest={actors:()=>critters,camera,clock:()=>elapsed};\nreturn {reset,stage,react,');await route.fulfill({response,body})});
+  await page.route('**/habitat.mjs*',async route=>{const response=await route.fetch();const body=(await response.text()).replace('return {reset,stage,react,','if(canvas.id==="habitat")window.__shoreTest={actors:()=>critters,camera,clock:()=>animalElapsed,environmentClock:()=>elapsed};\nreturn {reset,stage,react,');await route.fulfill({response,body})});
   await page.goto(base+'/isopoda/?habitat=estuary');await page.locator('#startBtn').click();await page.locator('#settleBtn').click();
-  const rates=[];
+  const rates=[],environmentRates=[];
   for(const button of [null,'#speedFastBtn','#speedTurboBtn','#speedTurboBtn']){
    if(button)await page.locator(button).click();
-   const before=await page.evaluate(()=>window.__shoreTest.clock());await page.waitForTimeout(700);rates.push((await page.evaluate(()=>window.__shoreTest.clock()))-before);
+   const environmentBefore=await page.evaluate(()=>window.__shoreTest.environmentClock());const before=await page.evaluate(()=>window.__shoreTest.clock());await page.waitForTimeout(700);rates.push((await page.evaluate(()=>window.__shoreTest.clock()))-before);environmentRates.push((await page.evaluate(()=>window.__shoreTest.environmentClock()))-environmentBefore);
   }
   assert.ok(rates[1]>rates[0]*8&&rates[2]>rates[1]*2&&rates[3]<rates[1]/8,JSON.stringify(rates));
+  assert.ok(Math.max(...environmentRates)<Math.min(...environmentRates)*2,'environment time stays at normal speed: '+environmentRates);
   assert.equal(await page.locator('#habitat').getAttribute('data-shore-tide'),'0','speed does not advance narrative tide');
   const marks=await Promise.all(['#shorePrev','#shoreNext'].map(id=>page.locator(id).boundingBox()));await page.locator('#zoomIn').click();await page.locator('#zoomIn').click();assert.deepEqual(await Promise.all(['#shorePrev','#shoreNext'].map(id=>page.locator(id).boundingBox())),marks,'footprints stay fixed during zoom');const frame=await page.locator('#habitat').boundingBox();await page.mouse.move(frame.x+frame.width/2,frame.y+45);await page.mouse.down();await page.mouse.move(frame.x+frame.width/2+24,frame.y+65,{steps:3});await page.mouse.up();assert.deepEqual(await Promise.all(['#shorePrev','#shoreNext'].map(id=>page.locator(id).boundingBox())),marks,'footprints stay fixed during pan');await page.locator('#zoomReset').click();
   const actorPoint=()=>page.evaluate(()=>{

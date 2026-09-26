@@ -37,7 +37,7 @@ function closestSurface(frame,a,exclude=null,group=[]){
  }}return best;
 }
 export function stepSeaweed(group,bed,{time,dt,reduced,flow=46}){
- const pace=reduced?.55:1;
+ const pace=(reduced?.55:1)*Math.max(1,Math.min(64,Number(globalThis.__ISOPODA_HABITAT_SPEED__)||1));
  for(const [id,bend] of bed.bends)if(bed.held?.id!==id){const next=bend*Math.exp(-dt*2.2);if(Math.abs(next)<.04)bed.bends.delete(id);else bed.bends.set(id,next)}
  seaweedFrame(bed,{time,flow,reduced});
  const held=bed.held;

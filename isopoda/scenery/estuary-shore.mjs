@@ -104,7 +104,7 @@ export function shoreGoby(s,time=0){
  const point=shorePoint(s),phase=time*.5+point*.8,x=252+Math.sin(phase)*24;
  return {x,y:Math.max(shoreLine(x,point,shoreTide(s))+42,305)+Math.sin(time*.8)*2,dir:Math.cos(phase)<0?-1:1};
 }
-export function drawShoreWater(g,s,time=0,reduced=false){
+export function drawShoreWater(g,s,time=0,reduced=false,animalTime=time){
  const point=shorePoint(s),tide=shoreTide(s),t=time*(reduced?.65:1),dir=tide<2?-1:1,level=s.shoreLevel??shoreHeight(tide);
  // Shallow translucent water covers the lower portions of the fixed wood and stones.
  for(let x=0;x<384;x+=2){const y=shoreLine(x,point,tide,level);px(g,x,y,2,Math.max(1,430-Math.round(y)),'rgba(54,91,80,.07)')}
@@ -114,19 +114,19 @@ export function drawShoreWater(g,s,time=0,reduced=false){
  }
  for(let x=0;x<384;x+=6){if(noise(x,11,point)%3===0)continue;const y=shoreLine(x,point,tide,level)+Math.sin(t*.65+x*.025)*1.5;px(g,x,y,4,1,'rgba(178,190,153,.40)')}
  // Long quiet gaps: one small school on incoming water; a resting goby on the ebb.
- const cycle=t%32;
+ const life=animalTime*(reduced?.65:1),cycle=life%32;
  if(tide<2&&point>0&&cycle<7){
   const x=410-cycle*48;
-  for(let i=0;i<2;i++)fish(g,x+i*25,338+i*12+Math.sin(t*.8+i)*2,-1,false,t+i);
+  for(let i=0;i<2;i++)fish(g,x+i*25,338+i*12+Math.sin(life*.8+i)*2,-1,false,life+i);
  }
- const goby=shoreGoby(s,t);fish(g,goby.x,goby.y,goby.dir,true,t);
+ const goby=shoreGoby(s,life);fish(g,goby.x,goby.y,goby.dir,true,life);
  // A few reed fragments drift with the current, always inside the shallow water.
  for(let i=0;i<3;i++){const x=(83+i*107+dir*t*2+384)%384,y=shoreLine(x,point,tide,level)+28+i*18;px(g,x,y,4,1,'#8b9472');px(g,x+2,y+1,2,1,'#546d56')}
  if(tide>=2){
   const hole=shoreObject(point,'shore-holes'),x=hole.x,y=hole.y;
   px(g,x,y,5,2,'#414b3c');
-  if(t%18<12){const d=Math.sin((t%18)/12*Math.PI)*12;px(g,x+d,y-3,6,3,'#98906b');for(let i=0;i<3;i++){px(g,x+d-2,y-4+i*2+Math.round(Math.sin(t*5+i)),2,1,'#727657');px(g,x+d+6,y-4+i*2+Math.round(Math.sin(t*5+i)),2,1,'#727657')}}
-  if(tide===3)for(let i=0;i<15;i++)px(g,207+i*2,238+Math.round(Math.sin(i*.6+t*.6)*2),1,1,'#545d49');
+  if(life%18<12){const d=Math.sin((life%18)/12*Math.PI)*12;px(g,x+d,y-3,6,3,'#98906b');for(let i=0;i<3;i++){px(g,x+d-2,y-4+i*2+Math.round(Math.sin(life*5+i)),2,1,'#727657');px(g,x+d+6,y-4+i*2+Math.round(Math.sin(life*5+i)),2,1,'#727657')}}
+  if(tide===3)for(let i=0;i<15;i++)px(g,207+i*2,238+Math.round(Math.sin(i*.6+life*.6)*2),1,1,'#545d49');
  }
  farBank(g,point,467);
 }
