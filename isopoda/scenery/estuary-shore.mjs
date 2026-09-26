@@ -20,13 +20,13 @@ const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t)};
 const rgbCache=new Map();
 function mix(a,b,t){
  const rgb=c=>{if(!rgbCache.has(c))rgbCache.set(c,[1,3,5].map(i=>parseInt(c.slice(i,i+2),16)));return rgbCache.get(c)};
- const aa=rgb(a),bb=rgb(b),k=Math.round(Math.max(0,Math.min(1,t))*24)/24;
+ const aa=rgb(a),bb=rgb(b),k=Math.round(Math.max(0,Math.min(1,t))*5)/5;
  return '#'+aa.map((v,i)=>Math.round(v+(bb[i]-v)*k).toString(16).padStart(2,'0')).join('');
 }
 export function shoreWaterBlend(x,y,point){
  const boundary=(point===0?326:point===2?35:192)+Math.sin(y*.022)*[30,61,24][point]+Math.sin(y*.009)*18;
  const eddy=Math.sin(x*.027+y*.018)*9+Math.sin(x*.011-y*.035)*7;
- return smooth(.5+(x-boundary+eddy)/150);
+ return smooth(.5+(x-boundary+eddy)/100);
 }
 export const shoreWaterType=(x,y,point)=>shoreWaterBlend(x,y,point)<.5?'fresh':'sea';
 function farBank(g,point,seed){
@@ -54,11 +54,11 @@ export function drawShoreBackground(g,{point=1,tide=0,rain=false,seed=467,level=
    if(point===2&&wet&&Math.sin(y*.19+x*.07+Math.sin(x*.04))>.9&&q%4)color='#938d75';
    if(q%31===0)color=wet?'#999073':soils[1];
   }else{
-   const sea=shoreWaterBlend(x,y,point),depth=smooth((distance+((q%7)-3))/140);
+   const sea=shoreWaterBlend(x,y,point),depth=smooth((distance+((q%7)-3))/105);
    const fresh=mix(rain?'#7c836b':'#858971',rain?'#677960':'#526e57',depth);
    const marine=mix('#73918a','#356a70',depth);
    color=mix(fresh,marine,sea);
-   color=mix(point===2?'#85816c':'#777159',color,smooth(distance/18));
+   color=mix(point===2?'#85816c':'#777159',color,smooth(distance/10));
   }
   px(g,x,y,2,2,materialInk(color,x,y,seed+point*113,'soil'));
  }
