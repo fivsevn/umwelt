@@ -28,7 +28,7 @@ export function cycleHabitat(id,direction){return HABITATS[(HABITATS.findIndex(h
 export function advanceWater(s){const h=habitatConfig(s);if(!h.aquatic)return;const turn=(s.day-1)*3+s.period;
  if(isIntertidal(s)){const i=intertidalIndex(s);s.tide=TIDE_LEVELS[i];s.flow=TIDE_FLOWS[i];s.salinity=34;s.light=62;return}
  if(h.sequence==='estuary-observation'){applyEstuaryWater(s);return}
- if(h.id==='shallow-marine'&&s.seaweedVersion===1){s.light=54;s.flow=SEAWEED_CONDITIONS[Math.min(8,(s.records||[]).filter(r=>r.kind==='seaweed-observation').length)][1];return}
+ if(h.id==='shallow-marine'&&s.seaweedVersion===1){const conditions=SEAWEED_CONDITIONS[Math.min(8,(s.records||[]).filter(r=>r.kind==='seaweed-observation').length)];s.flow=conditions[1];s.light=conditions[2];return}
  if(h.sequence==='freshwater-material'){const completed=(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind==='freshwater-material').length,stage=Math.min(4,Math.floor(completed/2));s.flow=30;s.light=38;s.detritus=[55,62,70,78,64][stage];s.oxygen=Math.max(50,68-stage*2);s.salinity=0;s.tide=100;s.algae=55;return}
  if(h.sequence==='groundwater-pulse'){const index=Math.min(3,Math.floor(groundwaterProgress(s)/2));[s.connectivity,s.seepage,s.input,s.flow,s.detritus]=GROUNDWATER_PHASES[index].metrics;s.light=8;s.oxygen=Math.max(58,72+(s.seepage-50)*.08-(s.input-20)*.04);s.salinity=0;s.tide=100;s.algae=6;return}
  if(h.dialogue){s.light=h.defaults.light;s.oxygen=Math.max(5,Math.min(100,s.oxygen+(s.flow-20)*.018-(s.detritus-25)*.012));s.detritus=Math.max(0,s.detritus-.35);s.salinity=h.defaults.salinity;return}

@@ -1,4 +1,4 @@
-import {encodeIsopodText} from '../../locales/isopod.mjs';
+import {encodeIsopodText,isopodWaveNumber} from '../../locales/isopod.mjs';
 const row=(title,prompt,labels,after)=>({title,prompt,labels,after});
 export const SEAWEED_OBSERVATIONS=[
  row(['叶缘','The blade edge','葉の縁'],['藻叶在水中慢慢摆动。沿着叶缘找一找，身体也可能随着它移动。','The blades sway slowly. Look along an edge: a body may be moving with it.','藻葉がゆっくり揺れる。縁に沿って見ると、一緒に動く身体が見つかるかもしれない。'],[['沿着叶缘看','Watch the edge','葉の縁を見る'],['看看藻根','Look near the holdfast','付着器を見る'],['记下这一处','Note this place','この場所を記す']],['目光沿着叶缘停了一会儿。','Your gaze stays with the blade edge.','葉の縁にしばらく目を留める。']),
@@ -47,5 +47,10 @@ export function seaweedFeedback(s,option){
 }
 
 // Authored observation times and flow, not measurements or a local tide prediction.
-export const SEAWEED_CONDITIONS=[['09:12',46],['09:16',48],['09:21',52],['09:27',58],['09:33',62],['09:40',55],['09:47',49],['09:54',43],['10:02',38]];
-export function seaweedInstrument(s,lang){const i=seaweedIndex(s);return [i<3?'slow':i<5?'full':'ease','light',i>=3&&i<6?'sweep':'sway'].map(k=>seaweedText('kelp:'+k,lang))}
+export const SEAWEED_CONDITIONS=[['09:12',46,54,2.4],['09:16',48,57,2.4],['09:21',52,59,2.4],['09:27',58,56,2.5],['09:33',62,52,2.5],['09:40',55,49,2.5],['09:47',49,53,2.6],['09:54',43,55,2.6],['10:02',38,54,2.6]];
+export function seaweedInstrument(s,lang='zh'){
+ const [,flow,light,depth]=SEAWEED_CONDITIONS[seaweedIndex(s)],speed=Math.round(flow/5.8);
+ if(lang==='isopod')return ['~ '+isopodWaveNumber(speed),'o^ '+isopodWaveNumber(light),'v '+isopodWaveNumber(Math.round(depth*10))];
+ const labels={zh:['水流','透光','水深'],en:['Flow','Light','Depth'],ja:['流速','透光','水深']}[lang]||['水流','透光','水深'];
+ return [labels[0]+' '+speed+' cm/s',labels[1]+' '+light+'%',labels[2]+' '+depth.toFixed(1)+' m'];
+}
