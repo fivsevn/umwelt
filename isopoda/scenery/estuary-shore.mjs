@@ -8,19 +8,27 @@ export const shoreHeight=tide=>[246,194,296,336][tide];
 export function shoreLine(x,point=1,tide=0,level=shoreHeight(tide)){
  if(point===0)return level+18-x*.12+Math.sin(x*.015)*28;
  if(point===2)return level-30-x*.48+Math.sin(x*.014)*12;
- return level-x*.27+Math.sin((x-45)*.017)*31;
+ return level-x*.27+Math.sin((x-45)*.017)*31+48*smooth((x-245)/110);
 }
 export function shoreWalkPose(point,direction){
- const x=direction<0?(point===2?130:82):point===1?244:286;
+ const x=direction<0?46:338;
  const y=shoreLine(x,point,1)-38;
  const slope=(shoreLine(x+2,point,1)-shoreLine(x-2,point,1))/4;
  return {x,y,angle:Math.atan2(slope,1)+(direction<0?Math.PI:0)};
 }
-export function shoreWaterType(x,y,point){
- const boundary=(point===0?326:point===2?35:192)+Math.sin(y*.022)*[30,61,24][point]+Math.sin(y*.009)*18;
- const edgeDither=(noise(x>>1,y>>1,71)%31)-15;
- return x-boundary+edgeDither<0?'fresh':'sea';
+const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t)};
+const rgbCache=new Map();
+function mix(a,b,t){
+ const rgb=c=>{if(!rgbCache.has(c))rgbCache.set(c,[1,3,5].map(i=>parseInt(c.slice(i,i+2),16)));return rgbCache.get(c)};
+ const aa=rgb(a),bb=rgb(b),k=Math.round(Math.max(0,Math.min(1,t))*24)/24;
+ return '#'+aa.map((v,i)=>Math.round(v+(bb[i]-v)*k).toString(16).padStart(2,'0')).join('');
 }
+export function shoreWaterBlend(x,y,point){
+ const boundary=(point===0?326:point===2?35:192)+Math.sin(y*.022)*[30,61,24][point]+Math.sin(y*.009)*18;
+ const eddy=Math.sin(x*.027+y*.018)*9+Math.sin(x*.011-y*.035)*7;
+ return smooth(.5+(x-boundary+eddy)/150);
+}
+export const shoreWaterType=(x,y,point)=>shoreWaterBlend(x,y,point)<.5?'fresh':'sea';
 function farBank(g,point,seed){
  if(point!==0)return;
  // Just the cropped tip of the opposite bank, never a second full landscape.
@@ -37,19 +45,20 @@ export function drawShoreBackground(g,{point=1,tide=0,rain=false,seed=467,level=
   const edge=shoreLine(x,point,tide,level),distance=y-edge,q=noise(x>>1,y>>1,seed+point*53);
   const broad=point===0?Math.sin(x*.042+y*.012)+Math.sin(y*.033):point===1?Math.sin(x*.022-y*.02)+Math.sin(y*.044+x*.008):Math.sin(y*.085+x*.029)*.7+Math.sin(x*.009)*.3;
   const wet=y>shoreLine(x,point,1)-12;
-  let color=soils[broad>.65?1:broad<-.65?2:0];
+  let color=broad<0?mix(soils[0],soils[2],smooth(-broad/1.7)):mix(soils[0],soils[1],smooth(broad/1.7));
   if(distance<0){
-   if(wet)color=point===2?(broad>.2?'#85816c':'#757861'):(broad>.2?'#777159':'#656550');
+   if(wet){const wetInk=point===2?mix('#757861','#85816c',smooth((broad+1)/2)):mix('#656550','#777159',smooth((broad+1)/2));color=mix(color,wetInk,smooth((y-shoreLine(x,point,1)+12)/30));}
    // Root-dark hollows, branching mud tongues, or broad parallel sand runnels.
    if(point===0&&y<170&&Math.abs(x-(84+Math.sin(y*.027)*23+y*.28))<3+Math.sin(y*.09)*2)color='#46563e';
    if(point===1&&Math.abs(x-(140+Math.sin(y*.024)*58))<2+Math.sin(y*.07)&&y>100&&y<220)color='#595f50';
    if(point===2&&wet&&Math.sin(y*.19+x*.07+Math.sin(x*.04))>.9&&q%4)color='#938d75';
    if(q%31===0)color=wet?'#999073':soils[1];
   }else{
-   const fresh=shoreWaterType(x,y,point)==='fresh';
-   const palette=fresh?['#858971','#697b63','#526e57']:['#73918a','#507e7a','#356a70'];
-   color=palette[distance<22?0:distance<70?1:2];
-   if(rain&&fresh)color=distance<65?'#7c836b':'#677960';
+   const sea=shoreWaterBlend(x,y,point),depth=smooth((distance+((q%7)-3))/140);
+   const fresh=mix(rain?'#7c836b':'#858971',rain?'#677960':'#526e57',depth);
+   const marine=mix('#73918a','#356a70',depth);
+   color=mix(fresh,marine,sea);
+   color=mix(point===2?'#85816c':'#777159',color,smooth(distance/18));
   }
   px(g,x,y,2,2,materialInk(color,x,y,seed+point*113,'soil'));
  }
@@ -62,7 +71,7 @@ export function drawShoreBackground(g,{point=1,tide=0,rain=false,seed=467,level=
 }
 const obj=(id,type,x,y,scale,params={},angle=0,z=30)=>({id,type,x,y,scale,params,angle,flipX:false,z,seed:467+x});
 export function shoreLayout(point=1,tide=0,rain=false){
- const plants=point===0?[[65,132,1.1],[126,108,.9],[190,93,.8]]:point===1?[[65,130,1],[125,102,.85]]:[[65,123,.75]];
+ const plants=point===0?[[65,132,1.1],[126,108,.9],[190,93,.8]]:point===1?[[65,130,1],[125,102,.85]]:[[113,76,.75]];
  const wood=[[159,228],[177,222],[102,171]][point],stone=[[285,190],[285,175],[246,192]][point];
  const objects=[
   ...plants.map(([x,y,s],i)=>obj('shore-reed-'+i,'saltmarsh-tuft-02',x,y,s,{kind:'saltmarsh',height:72,flow:52},-.06,50)),

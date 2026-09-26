@@ -15,6 +15,7 @@ const name=process.env.BROWSER||'chromium',base=process.env.BASE_URL||'http://12
   }
   assert.ok(rates[1]>rates[0]*8&&rates[2]>rates[1]*2&&rates[3]<rates[1]/8,JSON.stringify(rates));
   assert.equal(await page.locator('#habitat').getAttribute('data-shore-tide'),'0','speed does not advance narrative tide');
+  const marks=await Promise.all(['#shorePrev','#shoreNext'].map(id=>page.locator(id).boundingBox()));await page.locator('#zoomIn').click();await page.locator('#zoomIn').click();assert.deepEqual(await Promise.all(['#shorePrev','#shoreNext'].map(id=>page.locator(id).boundingBox())),marks,'footprints stay fixed during zoom');const frame=await page.locator('#habitat').boundingBox();await page.mouse.move(frame.x+frame.width/2,frame.y+45);await page.mouse.down();await page.mouse.move(frame.x+frame.width/2+24,frame.y+65,{steps:3});await page.mouse.up();assert.deepEqual(await Promise.all(['#shorePrev','#shoreNext'].map(id=>page.locator(id).boundingBox())),marks,'footprints stay fixed during pan');await page.locator('#zoomReset').click();
   const actorPoint=()=>page.evaluate(()=>{
    const {actors,camera}=window.__shoreTest,r=document.querySelector('#habitat').getBoundingClientRect(),scale=Math.max(1,r.width/384)*camera.zoom,sx=camera.x-r.width/scale/2,sy=camera.y-r.height/scale/2;
    for(const a of [...actors()].reverse()){

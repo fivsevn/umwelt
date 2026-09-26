@@ -14,7 +14,7 @@ const name=process.env.BROWSER||'chromium',base=process.env.BASE_URL||'http://12
   const sample=()=>page.evaluate(()=>{
    const c=document.querySelector('#habitat'),g=c.getContext('2d'),point=Number(c.dataset.shorePoint),scale=Math.max(1,c.width/384),sw=c.width/scale,sh=c.height/scale,sx=192-sw/2,sy=215-sh/2;
    const grab=(x,y,w,h)=>{const ax=Math.max(0,Math.round((x-sx)*scale)),ay=Math.max(0,Math.round((y-sy)*scale)),bw=Math.min(c.width-ax,Math.round(w*scale)),bh=Math.min(c.height-ay,Math.round(h*scale));return [...g.getImageData(ax,ay,bw,bh).data]};
-   const [x,y]=[[159,228],[177,222],[246,192]][point];return {animal:grab(x-43,y-1,86,46),reeds:grab(50,80,110,54),water:grab(217,300,90,55)};
+   const [x,y]=[[159,228],[177,222],[246,192]][point];return {animal:grab(x-43,y-1,86,46),reeds:point===2?grab(90,20,50,65):grab(50,80,110,54),water:grab(217,300,90,55)};
   });
   for(let tide=0;tide<4;tide++){
    for(let point=0;point<3;point++){

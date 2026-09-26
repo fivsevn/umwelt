@@ -17,9 +17,17 @@ function footprints(canvas,angle){
  for(const key of cells){const [x,y]=key.split(',').map(Number);g.fillStyle=!cells.has(x+','+(y-1))||!cells.has((x-1)+','+y)?'#354233':'#566047';g.fillRect(x,y,1,1);}
 }
 export function createShoreControls(previous,next){
- const buttons=[[previous,-1],[next,1]];
+ const buttons=[[previous,-1],[next,1]],viewport=previous.parentElement;let currentPoint=1;
+ // Navigation stays at the unzoomed view positions, independently of camera pan/zoom.
+ const position=()=>{
+  const r=viewport.getBoundingClientRect(),scale=Math.max(1,r.width/384),sw=r.width/scale,sh=r.height/scale;
+  if(!sw||!sh)return;
+  for(const [button,direction] of buttons){const {x,y}=shoreWalkPose(currentPoint,direction);button.style.left=(direction<0?10:90)+'%';button.style.top=Math.max(14,Math.min(76,(y-(215-sh/2))/sh*100))+'%';}
+ };
+ new ResizeObserver(position).observe(viewport);
  for(const [button,direction] of buttons){const canvas=document.createElement('canvas');canvas.setAttribute('aria-hidden','true');const label=document.createElement('span');label.className='shore-walk-label';label.dataset.directLocale='true';button.replaceChildren(canvas,label)}
  return (state,lang)=>{
+  currentPoint=shorePoint(state);position();
   for(const [button,direction] of buttons){
    const canvas=button.querySelector('canvas'),point=shorePoint(state);if(canvas.dataset.point!==String(point)){footprints(canvas,shoreWalkPose(point,direction).angle);canvas.dataset.point=String(point)}
    const outside=shorePoint(state)+direction<0||shorePoint(state)+direction>2;
