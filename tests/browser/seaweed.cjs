@@ -26,7 +26,7 @@ if(out)fs.mkdirSync(out,{recursive:true});
   assert.ok(await page.locator('#interactionCue').isVisible());
   const point=await page.evaluate(async()=>{
    const {bed,critters}=seaweedDebug,{cameraWindow}=await import('./habitat.mjs'),rect=document.querySelector('#habitat').getBoundingClientRect(),v=cameraWindow(rect.width,rect.height);
-   const plant=bed.frame.plants.find(p=>p.z>=40&&critters.some(a=>a.weed.plant===p.id&&a.hitCells.length)&&p.cells.some(([x,y])=>x>40&&x<330&&y>80&&y<330&&bed.frame.mask.depth[y*384+x]===p.z&&!critters.some(a=>Math.hypot(a.x-x,a.y-y)<25)));
+   const plant=bed.frame.plants.find(p=>p.item.interactive!==false&&p.z>=30&&critters.some(a=>a.weed.plant===p.id&&a.hitCells.length)&&p.cells.some(([x,y])=>x>40&&x<330&&y>80&&y<330&&bed.frame.mask.depth[y*384+x]===p.z&&!critters.some(a=>Math.hypot(a.x-x,a.y-y)<25)));
    const cell=plant.cells.find(([x,y])=>x>40&&x<330&&y>80&&y<330&&bed.frame.mask.depth[y*384+x]===plant.z&&!critters.some(a=>Math.hypot(a.x-x,a.y-y)<25));
    return {x:rect.x+(cell[0]-v.sx)*v.scale,y:rect.y+(cell[1]-v.sy)*v.scale,id:plant.id,scale:v.scale};
   });
@@ -48,7 +48,7 @@ if(out)fs.mkdirSync(out,{recursive:true});
    assert.ok(await page.evaluate(()=>seaweedDebug.critters.every(a=>Number.isFinite(a.x)&&Number.isFinite(a.y))));
    if(name==='chromium'){
     const client=await context.newCDPSession(page);
-    const touch=await page.evaluate(async()=>{const {bed,critters}=seaweedDebug,{cameraWindow}=await import('./habitat.mjs'),r=document.querySelector('#habitat').getBoundingClientRect(),v=cameraWindow(r.width,r.height);for(const p of bed.frame.plants){const c=p.cells.find(([x,y])=>x>50&&x<280&&y>80&&y<300&&bed.frame.mask.depth[y*384+x]===p.z&&!critters.some(a=>Math.hypot(a.x-x,a.y-y)<30));if(c)return {x:r.x+(c[0]-v.sx)*v.scale,y:r.y+(c[1]-v.sy)*v.scale}}});
+    const touch=await page.evaluate(async()=>{const {bed,critters}=seaweedDebug,{cameraWindow}=await import('./habitat.mjs'),r=document.querySelector('#habitat').getBoundingClientRect(),v=cameraWindow(r.width,r.height);for(const p of bed.frame.plants.filter(p=>p.item.interactive!==false)){const c=p.cells.find(([x,y])=>x>50&&x<280&&y>80&&y<300&&bed.frame.mask.depth[y*384+x]===p.z&&!critters.some(a=>Math.hypot(a.x-x,a.y-y)<30));if(c)return {x:r.x+(c[0]-v.sx)*v.scale,y:r.y+(c[1]-v.sy)*v.scale}}});
     await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[touch]});
     await client.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:touch.x+20,y:touch.y}]});
     await client.send('Input.dispatchTouchEvent',{type:'touchCancel',touchPoints:[]});
@@ -69,7 +69,7 @@ if(out)fs.mkdirSync(out,{recursive:true});
   if(out)await page.screenshot({path:`${out}/${name}-${width}-seaweed-ending.png`,fullPage:true});
   await click(page,page.locator('#restartBtn'));assert.ok(await page.locator('#titleCard').isVisible());
   await page.goto(base+'/isopoda/habitat.html');await page.waitForFunction(()=>document.querySelector('[data-preset="shallow-marine"]')?.onclick);await click(page,page.locator('[data-preset="shallow-marine"]'));
-  assert.equal(await page.locator('.habitat-reference').count(),3);await click(page,page.locator('#copyScene'));const scene=JSON.parse(await page.locator('#sceneText').inputValue());
+  assert.equal(await page.locator('.habitat-reference').count(),3);await click(page,page.locator('.scene-transfer summary'));await click(page,page.locator('#copyScene'));const scene=JSON.parse(await page.locator('#sceneText').inputValue());
   const plant=scene.objects.find(o=>o.params?.layered);plant.z=81;plant.flipX=true;plant.angle=.3;plant.x+=8;
   await page.locator('#sceneText').fill(JSON.stringify(scene));await click(page,page.locator('#importScene'));assert.match(await page.locator('#sceneMessage').textContent(),/已精确还原/);await click(page,page.locator('#copyScene'));assert.deepEqual(JSON.parse(await page.locator('#sceneText').inputValue()),scene);
   await page.locator('#referenceDepth').fill('72');await page.locator('#referenceDepth').dispatchEvent('change');

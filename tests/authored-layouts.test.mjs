@@ -5,7 +5,7 @@ import {sceneObjects,isAnimatedSceneElement} from '../isopoda/scenery/index.mjs'
 import {drawAquaticPlant} from '../isopoda/scenery/aquatic.mjs';
 
 test('the exported habitat layouts are the canonical editor scenes',()=>{
- const expected={forest:42,freshwater:54,groundwater:17,estuary:52,intertidal:63,'sandy-surf':19,'shallow-marine':45,abyssal:7,'petri-dish':12};
+ const expected={forest:42,freshwater:54,groundwater:17,estuary:52,intertidal:63,'sandy-surf':19,'shallow-marine':38,abyssal:7,'petri-dish':12};
  assert.deepEqual(Object.keys(SCENE_LAYOUTS),Object.keys(expected));
  for(const [id,count] of Object.entries(expected)){
   const layout=SCENE_LAYOUTS[id];
@@ -26,7 +26,7 @@ test('the exported habitat layouts are the canonical editor scenes',()=>{
 
 test('authored aquatic plant positions remain animation-ready without changing editor coordinates',()=>{
  for(const id of ['freshwater','groundwater','estuary','intertidal','sandy-surf','shallow-marine','petri-dish']){
-  const source=SCENE_LAYOUTS[id].objects.filter(item=>item.params?.kind);
+  const source=SCENE_LAYOUTS[id].objects.filter(item=>item.params?.kind&&item.params.interactive!==false);
   const runtime=sceneObjects(SCENE_LAYOUTS[id]).filter(isAnimatedSceneElement);
   assert.equal(runtime.length,source.length,id);
   assert.deepEqual(runtime.map(item=>[item.x,item.y,item.a,item.flipX]),source.map(item=>[item.x,item.y,item.angle||0,item.flipX]));

@@ -55,11 +55,18 @@ export function drawKelp(g,geometry){
   const c=canvas.getContext('2d');c.clearRect(0,0,384,430);paint(c,geometry);g.drawImage(canvas,0,0);
  }else paint(g,geometry);
 }
-function paint(g,geometry){for(const [x,y,color] of geometry.cells){g.fillStyle=color;g.fillRect(x,y,1,1)}}
-export function kelpDepth(geometry,width=384,height=430){
- const depth=new Float32Array(width*height);depth.fill(-Infinity);
- const owners=new Int16Array(width*height);owners.fill(-1);
- geometry.forEach((plant,i)=>{for(const [x,y] of plant.cells)if(x>=0&&x<width&&y>=0&&y<height){const p=y*width+x;if(plant.z>=depth[p]){depth[p]=plant.z;owners[p]=i}}});
+function paint(g,geometry){
+ // Cells are unique, so grouping the palette preserves the exact painted pixels
+ // while avoiding thousands of Canvas fillStyle changes for every moving blade.
+ const colors=new Map();
+ for(const [x,y,color] of geometry.cells){let pixels=colors.get(color);if(!pixels){pixels=[];colors.set(color,pixels)}pixels.push(x,y)}
+ for(const [color,pixels] of colors){g.fillStyle=color;for(let i=0;i<pixels.length;i+=2)g.fillRect(pixels[i],pixels[i+1],1,1)}
+}
+export function kelpDepth(geometry,width=384,height=430,target=null,base=null,ownerOffset=0){
+ const depth=target?.depth??new Float32Array(width*height);
+ const owners=target?.owners??new Int16Array(width*height);
+ if(base){depth.set(base.depth);owners.set(base.owners)}else{depth.fill(-Infinity);owners.fill(-1)}
+ geometry.forEach((plant,i)=>{const owner=Array.isArray(ownerOffset)?ownerOffset[i]:i+ownerOffset;for(const [x,y] of plant.cells)if(x>=0&&x<width&&y>=0&&y<height){const p=y*width+x;if(plant.z>depth[p]||(plant.z===depth[p]&&owner>=owners[p])){depth[p]=plant.z;owners[p]=owner}}});
  return {depth,owners,width,height};
 }
 export function visibleKelpCell(mask,x,y,z){x=Math.round(x);y=Math.round(y);return x<0||y<0||x>=mask.width||y>=mask.height||mask.depth[y*mask.width+x]<=z}
@@ -67,7 +74,7 @@ export function hitKelp(frame,point){
  // A small touch margin applies to plants, never through the visible front leaf.
  for(let r=0;r<=3;r++)for(let dy=-r;dy<=r;dy++)for(let dx=-r;dx<=r;dx++){
   const x=Math.round(point.x)+dx,y=Math.round(point.y)+dy;
-  if(x>=0&&x<384&&y>=0&&y<430){const i=frame.mask.owners[y*384+x];if(i>=0)return frame.plants[i]}
+  if(x>=0&&x<384&&y>=0&&y<430){const i=frame.mask.owners[y*384+x];if(i>=0)return frame.plants[i].item.interactive===false?null:frame.plants[i]}
  }
  return null;
 }

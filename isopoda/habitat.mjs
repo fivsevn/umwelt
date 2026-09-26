@@ -86,7 +86,9 @@ function buildAquaticPlan(layout){
  for(const item of sceneObjects(layout).sort((a,b)=>(a.z||0)-(b.z||0))){
   if(isAnimatedSceneElement(item)){flush();steps.push({item});continue}
   if(!layerCanvas)[layerCanvas,layerCtx]=offscreen();
-  drawSceneElement(layerCtx,item);layerHasInk=true;
+  if(seaweed&&item.layered)drawKelp(layerCtx,seaweed.frame.byId.get(item.id));
+  else drawSceneElement(layerCtx,item);
+  layerHasInk=true;
  }
  flush();return {background,steps};
 }
