@@ -2,24 +2,62 @@ import {materialInk} from './grammar.mjs';
 import {shorePoint,shoreTide,shoreRain,shoreVisible} from '../data/habitats/estuary-shore.mjs';
 const px=(g,x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),w,h)};
 const noise=(x,y,s=57)=>{let n=Math.imul(x+s,374761393)^Math.imul(y+1,668265263);n=Math.imul(n^(n>>>13),1274126177);return (n^(n>>>16))>>>0};
-// One low bank fills the frame. No opposite bank, horizon or river-map channel.
+// Three distinct banks share the same tidal excursion, not the same terrain.
 export const shoreHeight=tide=>[246,194,296,336][tide];
-export function shoreLine(x,point=1,tide=0,level=shoreHeight(tide)){return level-x*.27+Math.sin((x+point*83)*.019)*13+(point===0?27:point===2?-25:0)}
-export function drawShoreBackground(g,{point=1,tide=0,rain=false,seed=467,level=shoreHeight(tide)}={}){
- for(let y=0;y<430;y+=2)for(let x=0;x<384;x+=2){
-  const edge=shoreLine(x,point,tide,level),distance=y-edge,q=noise(x>>1,y>>1,seed+point*53),broad=Math.sin(x*.025+y*.013)+Math.sin(y*.034-x*.009);
-  const high=shoreLine(x,point,1),wet=y>high-12;
-  let color=distance<0?(wet?(broad>.7?'#777159':'#686650'):(broad>.7?'#77765a':broad<-.9?'#4e5541':'#62664c')):distance<22?'#667566':distance<75?'#526e63':point===2?'#355b57':'#3d6057';
-  if(distance>0&&rain)color=distance<65?'#687361':'#536a5b';
-  if(distance<0&&q%27===0)color=wet?'#8b8365':'#858264';
-  px(g,x,y,2,2,materialInk(color,x,y,seed,'soil'));
+export function shoreLine(x,point=1,tide=0,level=shoreHeight(tide)){
+ if(point===0)return level+18-x*.12+Math.sin(x*.015)*28;
+ if(point===2)return level-30-x*.48+Math.sin(x*.014)*12;
+ return level-x*.27+Math.sin((x-45)*.017)*31;
+}
+export function shoreWalkPose(point,direction){
+ const x=direction<0?(point===2?130:82):point===1?244:286;
+ const y=shoreLine(x,point,1)-38;
+ const slope=(shoreLine(x+2,point,1)-shoreLine(x-2,point,1))/4;
+ return {x,y,angle:Math.atan2(slope,1)+(direction<0?Math.PI:0)};
+}
+export function shoreWaterType(x,y,point){
+ const boundary=(point===0?326:point===2?35:192)+Math.sin(y*.022)*[30,61,24][point]+Math.sin(y*.009)*18;
+ const edgeDither=(noise(x>>1,y>>1,71)%31)-15;
+ return x-boundary+edgeDither<0?'fresh':'sea';
+}
+function farBank(g,point,seed){
+ if(point!==0)return;
+ // Just the cropped tip of the opposite bank, never a second full landscape.
+ for(let x=222;x<384;x+=2)for(let y=370;y<430;y+=2){
+  const edge=426-(x-222)*.23+Math.sin(x*.033)*4;
+  if(y<edge)continue;
+  const d=y-edge,q=noise(x>>1,y>>1,seed);
+  px(g,x,y,2,2,d<5?'#858569':d<13?'#5b6650':q%9<2?'#6d7655':'#485e47');
  }
- // Quiet sediment grain and old water marks remain fixed as the tide moves.
+}
+export function drawShoreBackground(g,{point=1,tide=0,rain=false,seed=467,level=shoreHeight(tide)}={}){
+ const soils=[['#566044','#697154','#414f3c'],['#74715a','#858064','#575d48'],['#969076','#aaa084','#7c8067']][point];
+ for(let y=0;y<430;y+=2)for(let x=0;x<384;x+=2){
+  const edge=shoreLine(x,point,tide,level),distance=y-edge,q=noise(x>>1,y>>1,seed+point*53);
+  const broad=point===0?Math.sin(x*.042+y*.012)+Math.sin(y*.033):point===1?Math.sin(x*.022-y*.02)+Math.sin(y*.044+x*.008):Math.sin(y*.085+x*.029)*.7+Math.sin(x*.009)*.3;
+  const wet=y>shoreLine(x,point,1)-12;
+  let color=soils[broad>.65?1:broad<-.65?2:0];
+  if(distance<0){
+   if(wet)color=point===2?(broad>.2?'#85816c':'#757861'):(broad>.2?'#777159':'#656550');
+   // Root-dark hollows, branching mud tongues, or broad parallel sand runnels.
+   if(point===0&&y<170&&Math.abs(x-(84+Math.sin(y*.027)*23+y*.28))<3+Math.sin(y*.09)*2)color='#46563e';
+   if(point===1&&Math.abs(x-(140+Math.sin(y*.024)*58))<2+Math.sin(y*.07)&&y>100&&y<220)color='#595f50';
+   if(point===2&&wet&&Math.sin(y*.19+x*.07+Math.sin(x*.04))>.9&&q%4)color='#938d75';
+   if(q%31===0)color=wet?'#999073':soils[1];
+  }else{
+   const fresh=shoreWaterType(x,y,point)==='fresh';
+   const palette=fresh?['#858971','#697b63','#526e57']:['#73918a','#507e7a','#356a70'];
+   color=palette[distance<22?0:distance<70?1:2];
+   if(rain&&fresh)color=distance<65?'#7c836b':'#677960';
+  }
+  px(g,x,y,2,2,materialInk(color,x,y,seed+point*113,'soil'));
+ }
  for(let i=0;i<145;i++){
   const q=noise(i,39,seed+point*13),x=q%384,y=(q>>>10)%430;
-  if(y<shoreLine(x,point,tide,level))px(g,x,y,1+q%3,1,i%4?'#66664e':'#aaa07a');
+  if(y<shoreLine(x,point,tide,level))px(g,x,y,1+q%3,1,point===2?'#aaa287':i%4?'#60634c':'#aaa07a');
  }
- for(let x=5;x<380;x+=4){const y=shoreLine(x,point,1)-9;if(noise(x,3,point)%4)px(g,x,y,3,1,'#77775c')}
+ for(let x=5;x<380;x+=4){const y=shoreLine(x,point,1)-9;if(noise(x,3,point)%4)px(g,x,y,3,1,point===2?'#aca085':'#77775c')}
+ farBank(g,point,seed);
 }
 const obj=(id,type,x,y,scale,params={},angle=0,z=30)=>({id,type,x,y,scale,params,angle,flipX:false,z,seed:467+x});
 export function shoreLayout(point=1,tide=0,rain=false){
@@ -62,7 +100,7 @@ export function shoreGoby(s,time=0){
 export function drawShoreWater(g,s,time=0,reduced=false){
  const point=shorePoint(s),tide=shoreTide(s),t=time*(reduced?.65:1),dir=tide<2?-1:1,level=s.shoreLevel??shoreHeight(tide);
  // Shallow translucent water covers the lower portions of the fixed wood and stones.
- for(let x=0;x<384;x+=2){const y=shoreLine(x,point,tide,level);px(g,x,y,2,Math.max(1,430-Math.round(y)),'rgba(54,91,80,.19)')}
+ for(let x=0;x<384;x+=2){const y=shoreLine(x,point,tide,level);px(g,x,y,2,Math.max(1,430-Math.round(y)),'rgba(54,91,80,.07)')}
  for(let i=0;i<22;i++){
   const x=(i*67+dir*t*3+384)%384,y=shoreLine(x,point,tide,level)+14+(i*37)%171;
   px(g,x,y,4+i%5,1,'rgba(173,190,164,.27)');
@@ -83,4 +121,5 @@ export function drawShoreWater(g,s,time=0,reduced=false){
   if(t%18<12){const d=Math.sin((t%18)/12*Math.PI)*12;px(g,x+d,y-3,6,3,'#98906b');for(let i=0;i<3;i++){px(g,x+d-2,y-4+i*2+Math.round(Math.sin(t*5+i)),2,1,'#727657');px(g,x+d+6,y-4+i*2+Math.round(Math.sin(t*5+i)),2,1,'#727657')}}
   if(tide===3)for(let i=0;i<15;i++)px(g,207+i*2,238+Math.round(Math.sin(i*.6+t*.6)*2),1,1,'#545d49');
  }
+ farBank(g,point,467);
 }
