@@ -6,9 +6,9 @@ export const WATER_BACKGROUNDS=new Set(['freshwater','intertidal','shallow-marin
 export const WATER_DETAILS=new Set(['silt','rock-crack','algae-film','crustose','holdfast','abyssal-silt','nodule','sponge','sunken-wood']);
 const noise=(x,y,s=0)=>{let h=Math.imul((x+s)|0,374761393)^Math.imul(y|0,668265263);h=Math.imul(h^(h>>>13),1274126177);return (h^(h>>>16))>>>0};
 
-export function drawWaterBackground(g,{kind,seed=57}={}){
+export function drawWaterBackground(g,{kind,seed=57,originX=0,originY=0}={}){
  const w=g.canvas?.width||384,h=g.canvas?.height||430;
- for(let y=0;y<h;y+=2)for(let x=0;x<w;x+=2){
+ for(let y=originY;y<originY+h;y+=2)for(let x=originX;x<originX+w;x+=2){
   const broad=Math.sin(x*.023+y*.011+seed)+Math.sin(y*.029-x*.017)+Math.sin(x*.011-y*.007)*.6;
   const grain=noise(x>>3,y>>3,seed);let c;
   if(kind==='freshwater'){
@@ -29,7 +29,7 @@ export function drawWaterBackground(g,{kind,seed=57}={}){
    // Broad, faint sediment drifts preserve the abyssal negative space.
    c=broad>1?'#293536':broad<-.85?'#172528':'#213033';
   }
-  px(g,x,y,2,2,materialInk(c,x,y,seed,'soil'));
+  px(g,x-originX,y-originY,2,2,materialInk(c,x,y,seed,'soil'));
  }
  if(kind==='freshwater'){
   for(let i=0;i<100;i++){
