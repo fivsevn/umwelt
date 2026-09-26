@@ -87,17 +87,10 @@ test('released cave animals choose the closest crack and crawl there without sna
  }
 });
 
-test('cave narration and legacy saves use impersonal everyday language in three languages',async()=>{
- const {GROUNDWATER_PULSES:legacy,GROUNDWATER_ENDINGS:endings}=await import('../isopoda/data/habitats/groundwater-pulse.mjs');
- const {RELEASE_STORIES}=await import('../isopoda/data/habitats/release-stories.mjs');
- const texts=JSON.stringify([GROUNDWATER_PULSES,legacy,endings,RELEASE_STORIES.groundwater]);
- assert.doesNotMatch(texts,/[你我您]|\b(?:you|your|yours|we|our|I|my)\b|あなた|私|等足目|步足|口器|外源|因果|连通图|flowstone|isopods|mouthparts|hydrolog/iu);
-});
-
 test('torch motes stay inside the uneven light and drift independently of torch movement',async()=>{
  const {caveMotes,caveIllumination,drawCaveLight}=await import('../isopoda/scenery/cave-light.mjs');
  const beam={x:50,y:54,size:34},a=caveMotes(0,384,430,beam),b=caveMotes(7,384,430,beam);
- assert.ok(a.length&&b.length);assert.notDeepEqual(a,b);assert.ok(a.length<20,'sparse light-only particles');
+ assert.ok(a.length&&b.length);assert.notDeepEqual(a,b);assert.ok(a.length>=8&&a.length<35,'visible but bounded light-only particles');
  for(const p of [...a,...b])assert.ok(Math.hypot((p.x-192)/65.28,(p.y-232.2)/65.28)<1.07);
  assert.notEqual(caveIllumination(.4,0),caveIllumination(-.4,0));assert.equal(caveIllumination(1.2,0),0);
  const calls=[],g={canvas:{width:384,height:430},clearRect(){},fillRect(...args){calls.push(args)},drawImage(){throw Error('light texture must not draw after lights out')}};

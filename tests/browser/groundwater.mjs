@@ -24,6 +24,14 @@ for(const [name,type] of [['chromium',chromium],['webkit',webkit]]){
   const canvas=page.locator('#habitat'),mask=page.locator('.cave-observer-mask');
   assert.equal(await canvas.getAttribute('data-specimens'),'14');
   const before=await canvas.evaluate(e=>e.toDataURL());await page.waitForTimeout(1200);assert.notEqual(await canvas.evaluate(e=>e.toDataURL()),before,'simulation runs under reduced motion');
+  const light=page.locator('.cave-light');
+  for(const motion of ['reduce','no-preference','reduce']){
+   await page.emulateMedia({reducedMotion:motion});
+   const litBefore=await light.evaluate(c=>c.toDataURL()),animalsBefore=await canvas.evaluate(c=>c.toDataURL());
+   await page.waitForTimeout(1200);
+   assert.notEqual(await light.evaluate(c=>c.toDataURL()),litBefore,motion+' keeps torch motes moving');
+   assert.notEqual(await canvas.evaluate(c=>c.toDataURL()),animalsBefore,motion+' keeps animals and water moving');
+  }
   await page.click('#zoomIn');assert.equal(await mask.evaluate(e=>e.style.width),'38%');
   await page.click('#zoomOut');assert.equal(await mask.evaluate(e=>e.style.width),'34%');
   // Pointer capture and held directional input, not just a synthetic click.
@@ -42,7 +50,7 @@ for(const [name,type] of [['chromium',chromium],['webkit',webkit]]){
   if(output)await page.screenshot({path:`${output}/${name}-${width}-cave.png`,fullPage:true});
   for(let turn=0;turn<8;turn++){
    assert.equal(await page.locator('#dayLabel').textContent(),'Δh −'+[18.6,18.2,19.1,18.8,19.4,19.7,19.1,19.7][turn].toFixed(1)+' m');
-   assert.match(await page.locator('#activityLabel').textContent(),/渗水|涨水|来水|退水/);
+   assert.match(await page.locator('#activityLabel').textContent(),/渗水|涨水|携入|退水/);
    assert.doesNotMatch(await page.locator('#dayLabel').textContent(),/PULSE|脉冲/);
    await page.locator('#actions button').nth(turn===7?2:0).click();
    await page.reload();await page.waitForFunction(()=>document.querySelector('#continueBtn').onclick);await page.click('#continueBtn');
