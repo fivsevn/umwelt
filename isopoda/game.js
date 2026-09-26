@@ -1,3 +1,4 @@
+import {isopodNumbers} from './locales/isopod.mjs';
 import {isSeaweed,seaweedProgress} from './data/habitats/seaweed-observation.mjs';
 import {checkMicroscope,petriReady} from './scenery/petri.mjs';
 import {createPetriControls} from './petri-controls.mjs';
@@ -223,3 +224,20 @@ window.addEventListener('isopoda:languagechange',event=>{
 let fittingFrame;
 function fitObservation(){cancelAnimationFrame(fittingFrame);fittingFrame=requestAnimationFrame(()=>{const content=$('.window-content');if(!content.clientHeight)return;const side=matchMedia('(min-width:900px), (orientation:landscape)').matches;const room=side?Math.min(content.clientHeight,content.clientWidth*.59):Math.min(content.clientWidth,content.clientHeight-$('.window-story').getBoundingClientRect().height-4);content.style.setProperty('--scene-size',Math.max(0,Math.floor(room))+'px')})}
 new ResizeObserver(fitObservation).observe($('.window-content'));new ResizeObserver(fitObservation).observe($('.window-story'));window.addEventListener('resize',fitObservation);visualViewport?.addEventListener('resize',fitObservation);
+
+// Keep original human numerals so language changes can restore DOM-only readouts too.
+const numeralSources=new Map();
+function refreshNumerals(){
+ const fictional=getLanguage()==='isopod';
+ if(!fictional){for(const [node,{raw,encoded}] of numeralSources)if(node.isConnected&&node.data===encoded)node.data=raw;numeralSources.clear();return}
+ const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let node;
+ while(node=walker.nextNode()){
+  if(!/\d/.test(node.data)||node.parentElement.closest('script,style,input,textarea,select,[contenteditable]'))continue;
+  const raw=node.data,encoded=isopodNumbers(raw);numeralSources.set(node,{raw,encoded});node.data=encoded;
+ }
+ for(const node of numeralSources.keys())if(!node.isConnected)numeralSources.delete(node);
+}
+const numberObserver=new MutationObserver(refreshNumerals);
+numberObserver.observe(document.body,{subtree:true,childList:true,characterData:true});
+numberObserver.observe(document.documentElement,{attributes:true,attributeFilter:['data-ui-language']});
+refreshNumerals();

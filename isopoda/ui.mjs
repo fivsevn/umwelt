@@ -1,3 +1,4 @@
+import {isopodNumbers} from './locales/isopod.mjs';
 import {sceneInstrument} from './scene-readouts.mjs';
 import {isEstuaryObservation,estuaryInstrument} from './data/narrative/estuary.mjs';
 import {habitatConfig} from './habitats.mjs';
@@ -43,6 +44,6 @@ export function createInstrument(root){
   if(!rows)rows=isEstuaryObservation(state)?estuaryInstrument(state,getLanguage()):habitatConfig(state).metrics.map(key=>gameText('water:'+key,getLanguage())+' '+Math.round(state[key]));
   while(root.children.length<rows.length)root.append(document.createElement('span'));
   while(root.children.length>rows.length)root.lastElementChild.remove();
-  rows.forEach((text,i)=>{root.children[i].textContent=text;root.children[i].dataset.scale=i===3?'qualitative':'numeric'});
+  rows.forEach((text,i)=>{root.children[i].textContent=getLanguage()==='isopod'?isopodNumbers(text):text;root.children[i].dataset.scale=i===3?'qualitative':'numeric'});
  };
 }

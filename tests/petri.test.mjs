@@ -45,3 +45,8 @@ test('eyepiece dispersion and focal-plane halos alter edges while retaining an o
  for(let y=20;y<76;y++)for(let x=20;x<76;x++){const i=(y*w+x)*4;assert.equal(soft[i+3],255);if(Math.abs(soft[i]-soft[i+2])>15)fringes++}
  assert.ok(fringes>20);
 });
+test('waiting on either side of a choice keeps antenna phase alive, including locomotion pauses',()=>{
+ const s=createRun('uniramea',91,'petri-dish'),group=makeIndividuals(s.cohort);let pauses=0;
+ for(const stage of ['choice','feedback']){s.stage=stage;for(let i=0;i<1800;i++){const phase=group[0].phase;stepPetri(group,{state:s,time:i*.1,dt:.1});assert.ok(group[0].phase>phase);if(!group[0].moving)pauses++}}
+ assert.ok(pauses>0);
+});

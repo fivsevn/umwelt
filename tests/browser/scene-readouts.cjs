@@ -12,7 +12,7 @@ fs.mkdirSync(out,{recursive:true});
    await page.reload();await page.waitForFunction(()=>!!document.querySelector('#continueBtn')?.onclick);await page.locator('#continueBtn').click();await page.locator('#instruments span').first().waitFor();
    for(const lang of ['zh','en','ja','isopod']){
     await page.evaluate(async lang=>{const {setLanguage}=await import('/isopoda/i18n.mjs');setLanguage(lang)},lang);
-    const rows=await page.locator('#instruments>span').allTextContents();assert.equal(rows.length,4,id);for(const row of rows.slice(0,3))assert.match(row,/\d/);assert.doesNotMatch(rows[3],/\d/);
+    const rows=await page.locator('#instruments>span').allTextContents();assert.equal(rows.length,4,id);for(const row of rows.slice(0,3))assert.match(row,lang==='isopod'?/[▁-▇]/:/\d/);assert.doesNotMatch(rows[3],/\d/);
     const bounds=await page.evaluate(()=>{const box=document.querySelector('#instruments').getBoundingClientRect();return [...document.querySelectorAll('#instruments>span')].map(el=>{const r=el.getBoundingClientRect();return r.left>=box.left-1&&r.right<=box.right+1&&r.bottom<=box.bottom+1})});assert.ok(bounds.every(Boolean),`${engine} ${width} ${id} ${lang} clipping`);
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
     if(lang==='en'||lang==='zh')await page.screenshot({path:`${out}/${engine}-${width}-${id}-${lang}.png`});

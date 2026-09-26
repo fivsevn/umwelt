@@ -6,7 +6,7 @@ import {sandInstrument} from './data/habitats/sandy-observation.mjs';
 import {TIDE_LEVELS,TIDE_FLOWS,intertidalIndex} from './data/narrative/intertidal.mjs';
 import {microscope,isFocused} from './scenery/petri.mjs';
 import {habitatConfig} from './habitats.mjs';
-import {encodeIsopodText} from './locales/isopod.mjs';
+import {encodeIsopodText,isopodNumbers} from './locales/isopod.mjs';
 
 export const READOUT_WORDS={
  temp:['温度','Temp','温度'],waterTemp:['水温','Water temp','水温'],humidity:['相对湿度','RH','相対湿度'],vent:['通风','Airflow','通気'],
@@ -22,7 +22,7 @@ export const READOUT_WORDS={
  overview:['普通观察','Overview','全体観察'],focused:['合焦','In focus','合焦'],blurred:['失焦','Out of focus','ピンぼけ'],
  elapsed:['经过时间','Elapsed time','経過時間']
 };
-// Fictional labels; numerical values and SI units stay exact in every language.
+// Fictional labels and base-seven bar numerals are presentation only.
 const ISOPOD_LABELS={temp:'~o~',waterTemp:'~o~',humidity:'\\o/',vent:'<o>',flow:'~>',oxygen:'o+',salinity:'~*',connectivity:'~|~',seepage:'~v',input:'v+',power:'o×',focus:'o:',focusSetting:'o:',lamp:'o^',lampSetting:'o^',depth:'v',transmission:'|o^|',pressure:'>o<',wash:'~|',inundation:'~v~',gaps:'|~|',current:'~~>'};
 export const readoutText=(key,lang='zh')=>{const row=READOUT_WORDS[key];return lang==='isopod'?(ISOPOD_LABELS[key]||encodeIsopodText(row[0])):row[{zh:0,en:1,ja:2}[lang]??0]};
 export function freshwaterMoment(s){
@@ -34,7 +34,7 @@ export const FRESHWATER_HOURS=[0,.5,48,48.5,120,120.5,121,121.5,168,168.5];
 export const SAND_SECONDS=[0,8,17,25,34,43,51,60,69];
 export function sceneInstrument(s,lang='zh'){
  const word=k=>readoutText(k,lang),numeric=(key,value,unit='')=>{
-  return word(key)+' '+value+unit;
+  return word(key)+' '+(lang==='isopod'?isopodNumbers(String(value)+unit):value+unit);
  };
  const index=(key,value)=>numeric(key,Math.round(value),'/100');
  switch(s.habitatId||'terrestrial'){
