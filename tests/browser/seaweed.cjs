@@ -5,7 +5,7 @@ const {click}=require('../support/browser-controls.cjs');
 const name=process.env.BROWSER||'chromium',base=process.env.BASE_URL||'http://127.0.0.1:8876',out=process.env.QA_OUTPUT;
 if(out)fs.mkdirSync(out,{recursive:true});
 (async()=>{
- const browser=await (name==='webkit'?webkit:chromium).launch({headless:true,...(name==='chromium'?{executablePath:process.env.CHROME_PATH||'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'}:{})});
+ const browser=await (name==='webkit'?webkit:chromium).launch({headless:true,...(name==='chromium'&&(process.env.CHROME_PATH||fs.existsSync('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'))?{executablePath:process.env.CHROME_PATH||'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'}:{})});
  try{for(const [width,height] of [[320,568],[390,844],[1440,900]]){
   const context=await browser.newContext({viewport:{width,height},hasTouch:width<500}),page=await context.newPage(),errors=[],images=[];
   page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.resourceType()==='image')images.push(r.url())});
