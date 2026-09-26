@@ -27,6 +27,7 @@
 - [National Park Service](https://www.nps.gov/)
 - [NOAA](https://www.noaa.gov/)
 - [USGS](https://www.usgs.gov/)
+- [NASA](https://www.nasa.gov/)
 - [Japan Meteorological Agency](https://www.jma.go.jp/)
 - [Nikon MicroscopyU](https://www.microscopyu.com/)
 
@@ -35,6 +36,7 @@
 - Undescribed taxa, trade names, locality lines and captive lineages are presented as provisional where applicable and are not treated as formal taxonomic conclusions.
 - Humidity, activity tendencies and compatibility parameters in the game are simulation values, not husbandry advice or biological measurements.
 - Scale bars approximate real adult size; game proportions are adjusted for visual clarity.
+- All scenes are abstractions and simulations informed by reference material, not exact reconstructions of real places or complete ecological processes.
 
 **Fonts / Assets / Licenses**
 
