@@ -1,0 +1,15 @@
+import {AQUATIC_EXPANSION_SPECIES} from './aquatic-expansion.mjs';
+const p=structuredClone(AQUATIC_EXPANSION_SPECIES.find(p=>p.id==='hookeri'));
+const refs=['estuary-levii-bmig','estuary-levii-brackish'];
+const micro='石下、岩缝与汽水岸段；展示石边的短程爬行和停留，不将最大体长或运动参数当作典型实测值。 / Under stones and in crevices, including brackish shores; movement timing is authored.';
+Object.assign(p,{id:'levii',name:'Lekanesphaera levii',label:'Lekanesphaera levii',taxon:'Lekanesphaera levii',speed:.66,evidenceIds:refs});
+p.names={zhCN:p.taxon,zhAliases:[],zhNameType:'scientific_name_fallback',zhConfidence:'high',en:p.taxon,enNameType:'scientific_name',ja:p.taxon,jaAliases:[]};
+p.taxonomy={...p.taxonomy,genus:'Lekanesphaera',species:'levii',acceptedScientificName:p.taxon,authority:'(Argano & Ponticelli, 1981)',referenceTaxon:p.taxon,evidenceIds:refs};
+p.evidence={status:'literature_supported',claims:[{claim:micro,url:'https://www.marlin.ac.uk/species/detail/2211'}]};
+p.biogeography={...p.biogeography,evidenceIds:refs};p.provenance={...p.provenance,reviewed:'2026-09-27',habitatBasis:micro,url:'https://bmig.org.uk/species/lekanesphaera-levii'};
+p.profile={...p.profile,reportedMaximumLengthMm:12,microhabitat:[micro],scientificNotes:['雄体最大 12 mm、雌体最大 8 mm。平滑尾腹节、具锯齿的尾肢外枝；可靠鉴别需检查成熟个体第一步足刚毛。像素形态仅为示意。 / Male maximum 12 mm, female 8 mm; smooth pleotelson and serrate uropods; mature pereopod setation is needed for identification.'],evidenceIds:refs};
+p.notes=['石缝只露出一小段背面，边缘和石头的影子接在一起。','它停了很久。笔尖刚离开纸，那一小段才又往里挪。'];
+p.literature={lines:p.notes,basis:[{claim:micro,evidenceIds:refs}],themes:['shore','shelter','pause']};
+p.visual.morphologyKey='sphaeromatidLevii';p.visual.palette={...p.visual.palette,tergite:'#85806b',cephalon:'#79745f',pleotelson:'#85806b'};p.visual.patterns=[];p.visual.pleotelson={...p.visual.pleotelson,keel:false};p.visual.uropods={...p.visual.uropods,projection:.42};
+p.visual.provenance='BMIG smooth pleotelson and broad pill-isopod outline; fine uropod serrations and diagnostic setation omitted at pixel scale.';
+export const ESTUARY_EXPANSION_SPECIES=[p];

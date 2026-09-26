@@ -63,7 +63,7 @@ test('sand pool appends two evidenced species with distinct pixels and literary 
  const pool=HABITATS.find(h=>h.id==='sandy-surf').species,art=new Set();
  assert.equal(pool.length,5);
  for(const id of pool){const p=SPECIES.find(s=>s.id===id);assert.ok(p);art.add(JSON.stringify(pixelAnatomy(renderModel(p.visual,{seed:42,stage:'L'}))));for(const lang of ['zh','en','ja'])assert.equal(localizedAnnotationLines(p,lang,p.literature.lines).length,2)}
- assert.equal(art.size,5);assert.deepEqual(SPECIES.slice(-2).map(s=>s.id),['chiltoni','naylori']);
+ assert.equal(art.size,5);assert.deepEqual(SPECIES.slice(67,69).map(s=>s.id),['chiltoni','naylori']);
 });
 
 test('sand intervention follows intent, direct action and changed choices',()=>{

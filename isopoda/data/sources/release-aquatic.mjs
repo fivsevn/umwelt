@@ -1,4 +1,6 @@
 export const RELEASE_AQUATIC_SOURCES=[
+ {id:'estuary-levii-bmig',level:'A2',type:'TAXONOMY / MORPHOLOGY',title:'BMIG — Lekanesphaera levii',url:'https://bmig.org.uk/species/lekanesphaera-levii',supports:['levii.taxonomy','levii.size','levii.morphology','levii.stone-refuges']},
+ {id:'estuary-levii-brackish',level:'A2',type:'HABITAT',title:'MarLIN — Lekanesphaera rugicauda and related brackish-water species',url:'https://www.marlin.ac.uk/species/detail/2211',supports:['levii.brackish','rugicauda.refuges']},
  {id:'estuary-usgs-salt-front',level:'A1',type:'ESTUARINE HYDROLOGY',title:'USGS 2024 — Mount Hope Bay and Taunton River Estuary: salt intrusion',url:'https://pubs.usgs.gov/publication/sir20245049/full',supports:['estuary.tidal-front','estuary.river-discharge','estuary.vertical-stratification']},
  {id:'estuary-nasa-water-colour',level:'A2',type:'WATER OPTICS',title:'NASA 2020 — River Colors are Changing',url:'https://science.nasa.gov/earth/earth-observatory/river-colors-are-changing-147999/',supports:['estuary.water-colour-proxy']},
  {id:'sand-jones-1970',level:'A1',type:'BURROWING / HABITAT',title:'Jones 1970 — Factors affecting the distribution of Eurydice pulchra and E. affinis',url:'https://www.vliz.be/imisdocs/publications/ocrd/75297.pdf',supports:['pulchra.burrowing','affinis.burrowing','sandy-surf.sediment']},

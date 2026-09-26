@@ -92,6 +92,8 @@ test('game credits keep umbrella databases and literature platforms, not paper-l
   'https://www.noaa.gov/',
   'https://www.usgs.gov/',
   'https://www.nasa.gov/',
+  'https://www.marlin.ac.uk/',
+  'https://doris.ffessm.fr/',
   'https://www.jma.go.jp/',
   'https://www.microscopyu.com/'
  ];

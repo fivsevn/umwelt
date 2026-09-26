@@ -8,7 +8,7 @@ import {ESTUARY_STAGE_LAYOUTS,ESTUARY_ANCHORS,estuaryStageFilename,estuaryPoint,
 import {stepEstuary,drawEstuaryEvidence} from '../isopoda/scenery/estuary.mjs';
 import {importScene,exportScene,shareCode} from '../isopoda/scene-codec.mjs';
 
-const createRun=(...args)=>{const s=createCurrentRun(...args);delete s.estuaryShoreVersion;return s};
+const createRun=(...args)=>{const s=createCurrentRun(...args);delete s.estuaryShoreVersion;s.cohort=s.cohort.slice(0,7);return s};
 const reload=s=>migrateV4(JSON.parse(JSON.stringify(s)));
 const physical=s=>['salinity','flow','oxygen','cover','light','detritus','tide','algae'].map(k=>s[k]);
 

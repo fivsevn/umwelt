@@ -3,6 +3,8 @@ import {ADULT_SIZE_REFERENCES,adultSizeSourceId} from './data/specimen-sizes.mjs
 // Reference lengths are body-length anchors, not husbandry targets or strict morphometrics.
 // Strong literature measurements stay distinguishable from field-guide / hobby references.
 const SIZE_REFERENCE={
+ carinata:{range:[14,27],confidence:'specialist-reference-range',basis:'DORIS adult description, range midpoint for compressed display only'},
+ levii:{mm:12,confidence:'specialist-field-guide',basis:'BMIG male maximum, display anchor only'},
  ischiosetosa:{mm:5,confidence:'specialist-field-guide',basis:'BMIG female maximum; matches the Jaera albifrons display reference convention'},
  albifrons:{mm:5,confidence:'specialist-field-guide',basis:'BMIG female maximum; used as a compressed display anchor, not typical size'},
  hirsuta:{mm:3.5,confidence:'specialist-field-guide',basis:'BMIG female maximum for the female-form rendering proxy; male maximum is 4 mm'},

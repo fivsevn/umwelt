@@ -2,14 +2,14 @@ import {phenotypeFor} from '../../phenotypes.mjs';
 
 const TAXA=[
  {id:'hilgendorfii',taxon:'Asellus hilgendorfii',authority:'Bovallius, 1886',habitats:['freshwater'],suborder:'Asellota',family:'Asellidae',max:18,color:'#786b50',shape:'asellid',speed:.86,micro:'Surface freshwater in Japan; rivers, lakes, ponds and ditches; associated with fallen leaves and detritus.'},
- {id:'ischiosetosa',taxon:'Jaera ischiosetosa',authority:'Forsman, 1949',habitats:['intertidal','petri-dish'],suborder:'Asellota',family:'Janiridae',max:5,color:'#817b69',shape:'jaera',speed:.72,micro:'Sheltered intertidal shores, especially reduced-salinity patches under stones with freshwater runoff.'},
+ {id:'ischiosetosa',taxon:'Jaera ischiosetosa',authority:'Forsman, 1949',habitats:['intertidal','petri-dish','estuary'],suborder:'Asellota',family:'Janiridae',max:5,color:'#817b69',shape:'jaera',speed:.72,micro:'Sheltered intertidal shores, especially reduced-salinity patches under stones with freshwater runoff.'},
  {id:'bidentata',taxon:'Dynamene bidentata',authority:'(Adams, 1800)',habitats:['intertidal'],suborder:'Sphaeromatidea',family:'Sphaeromatidae',max:7,color:'#746f54',shape:'sphaeroma',speed:.68,micro:'Adults in shallow-water rock crevices or barnacle tests; juveniles intertidal among algae.'},
  {id:'linearis',taxon:'Idotea linearis',authority:'(Linnaeus, 1766)',habitats:['shallow-marine'],suborder:'Valvifera',family:'Idoteidae',max:40,color:'#687b4d',shape:'idotea-long',speed:1.02,micro:'Mainly sublittoral; shallow water on sandy shores, swimming or clinging to fine seaweeds and eelgrass.'},
  {id:'maculosa',taxon:'Janira maculosa',authority:'Leach, 1814',habitats:['shallow-marine','petri-dish'],suborder:'Asellota',family:'Janiridae',max:10,color:'#9a835d',shape:'janira',speed:.78,micro:'Lower intertidal to shallow sublittoral; under stones, among sponges and bryozoans, and in Laminaria holdfasts.'},
  {id:'hookeri',taxon:'Lekanesphaera hookeri',authority:'(Leach, 1814)',habitats:['estuary'],suborder:'Sphaeromatidea',family:'Sphaeromatidae',max:10.5,color:'#77745d',shape:'sphaeroma',speed:.70,micro:'Upper estuaries, river banks, ditches and channels; in mud, under stones and among estuarine vegetation.'},
  {id:'rugicauda',taxon:'Lekanesphaera rugicauda',authority:'(Leach, 1814)',habitats:['estuary'],suborder:'Sphaeromatidea',family:'Sphaeromatidae',max:10,color:'#6d705c',shape:'sphaeroma',speed:.74,micro:'Estuaries and saltmarsh pools; among seaweed, under driftwood and burrowed into muddy creek banks.'},
  {id:'chelipes',taxon:'Idotea chelipes',authority:'(Pallas, 1766)',habitats:['estuary'],suborder:'Valvifera',family:'Idoteidae',max:15,color:'#708252',shape:'idotea',speed:.96,micro:'Brackish estuaries and stream mouths; algae, pools, mudflats and salt-marsh stones.'},
- {id:'carinata',taxon:'Cyathura carinata',authority:'(Krøyer, 1847)',habitats:['estuary'],suborder:'Cymothoida',family:'Anthuridae',max:18,color:'#8a735d',shape:'anthurid',speed:.82,micro:'Typical brackish-water isopod, especially muddy estuarine sediments; documented across a broad low-salinity range.'}
+ {id:'carinata',taxon:'Cyathura carinata',authority:'(Krøyer, 1847)',habitats:['estuary'],suborder:'Cymothoida',family:'Anthuridae',max:27,color:'#a79b80',shape:'anthurid',speed:.82,micro:'Typical brackish-water isopod, especially muddy estuarine sediments; documented across a broad low-salinity range.'}
 ];
 
 const NOTES={
@@ -50,7 +50,7 @@ function visualFor(row){
   base.morphologyKey='janiridMaculosa';base.body={...base.body,length:1.02,width:.70,convexity:.12};base.antennae={...base.antennae,length:1.42,confidence:'species-character'};base.uropods={...base.uropods,projection:.78,visibility:1,confidence:'species-character'};base.legs={...base.legs,length:.52,visibility:.94};
  }
  if(row.shape==='anthurid'){
-  base.morphologyKey='anthuridEstuary';base.body={...base.body,length:1.62,width:.34,convexity:.10};base.cephalon={...base.cephalon,shape:'rounded-shield',width:.66,length:.64};base.antennae={...base.antennae,length:.72};base.pleon={...base.pleon,length:.24,width:.38,taper:.12};base.pleotelson={...base.pleotelson,lengthScale:1.25,widthScale:.72};base.uropods={...base.uropods,projection:.34,visibility:.9};base.legs={...base.legs,length:.45,visibility:.92};
+  base.morphologyKey='anthuridEstuary';base.body={...base.body,length:1.30,width:.28,convexity:.10};base.cephalon={...base.cephalon,shape:'rounded-shield',width:.66,length:.64};base.antennae={...base.antennae,length:.72};base.pleon={...base.pleon,length:.24,width:.38,taper:.12};base.pleotelson={...base.pleotelson,lengthScale:1.25,widthScale:.72};base.uropods={...base.uropods,projection:.34,visibility:.9};base.legs={...base.legs,length:.45,visibility:.92};
  }
  return base;
 }
