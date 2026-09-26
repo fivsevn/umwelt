@@ -1,6 +1,6 @@
 # Specimen size and raster review
 
-The archive now provides a small real-world adult-size ruler and a taped note for oversized specimens. Visual size remains compressed for the game; archive ruler lengths derive from the rendered head-to-pleotelson body extent, excluding antennae and uropods. Large outlines may intentionally cross the mount border. Notes are separate from scientific references and the specimen acquisition tag.
+The archive now provides a small real-world adult-size ruler and a taped note for oversized specimens. Visual size remains compressed for the game; archive ruler lengths derive from the rendered head-to-pleotelson body extent, excluding antennae and uropods. Large outlines may intentionally cross the mount border. Large specimens are tilted eight degrees around the centre pin. The taped note uses a smaller footprint and 7 px lettering; the ruler uses 6 px lettering. Notes are separate from scientific references and the specimen acquisition tag.
 
 Only supported adult-size references are eligible for the ruler. Adult-range midpoints are approximate illustration anchors, not population means. Maximum records and type-specimen measurements never supply a fallback. At this review, 15 of 69 specimens have eligible references; 54 display an explicit unresolved-size label. This is a data limitation, not an implicit maximum-to-average conversion. Exact source qualifications for newly added references are visible in the morphology laboratory. The game's existing compressed-size anchors are unchanged.
 
@@ -15,4 +15,4 @@ Validation:
 - `tests/browser/public-regression.cjs`: Chromium and WebKit, 320×568 / 390×844 / 1440×900, public routes, terrestrial/abyssal start, choices, reload, Credits.
 - `tests/browser/morphology-layout.cjs`: Chromium and WebKit, responsive specimen and reference-panel checks.
 - `tests/browser/habitat-lab.cjs`: Chromium, presets, scale, layers, transfers, rollback, downloads, responsive dragging, save isolation.
-- Actual magnificus habitat and archive screenshots reviewed. No production deployment is part of this branch.
+- Actual magnificus habitat and archive screenshots reviewed.
