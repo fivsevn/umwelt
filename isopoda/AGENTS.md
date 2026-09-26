@@ -2,6 +2,7 @@
 
 Read `docs/laboratories.md` before adding or moving scientific references.
 
+- Keep necessary general caveats as short bullets inside the existing **声明 / Notes / 注記 / o!** section only. Do not append explanatory paragraphs elsewhere, especially after the laboratory links. Detailed size methodology, gameplay, scientific or per-feature explanations belong in the relevant laboratory or developer documentation. A brief adult-size / artistic-adjustment note is allowed in that declaration section.
 - The game Credits lists umbrella database, publisher, journal or institution homepages only. Do not append paper citations, species detail links, habitat explanations, scientific paragraphs or per-feature bibliographies anywhere in `credits*.md`.
 - Species-specific papers and links belong to that specimen's **当前标本参考** at `/isopoda/morphology/`. Use the shared source registry and the specimen's evidence IDs; retain claim-to-source correspondence.
 - Habitat/background papers and links belong to **当前环境参考** at `/isopoda/habitat`, mapped by environment in `data/habitats/references.mjs`. State the supported feature and distinguish authored game parameters from evidence.
