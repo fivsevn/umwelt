@@ -1,3 +1,4 @@
+import {caveFocus} from '../../scenery/groundwater-sites.mjs';
 // One recharge episode, four phases, two observations per phase.
 // These are illustrative observations, not measured durations or proof of a hidden route.
 const option=(id,lens,label,text)=>({id,lens,label,text});
@@ -38,4 +39,4 @@ export const GROUNDWATER_OBSERVATIONS=[
  {id:'refuge',focus:[186,318],name:['退水 · 灯外','Receding flow · beyond the beam','減水 · 光の外'],
  prompt:['下方浅水仍在，个体在其中慢慢走动，时而藏到石缘后面。笔记里留下了几个入口、几处湿面和一些间隔。没有一张完整路线图。','Shallow water remains below. Animals move slowly within it, sometimes slipping behind an edge. Your notes hold entrances, wet patches, and intervals. No complete route map.','下には浅い水が残り、個体がゆっくり歩き、時には石縁へ隠れる。ノートに残ったのは入口、湿面、間隔。完全な経路図ではない。'],
  options:[option('finish-map','medium',['整理有证据的线','Keep the supported links','根拠のある線を整理する'],['你保留入口与推测的虚线。没有观察过的出口，不替它补上。','You keep entrances and inferred dotted links, without inventing an unobserved outlet.','入口と推測の破線を残し、未観察の出口は補わない。']),option('last-body','body',['再看一会儿','Watch a little longer','もう少し見る'],['步足仍在湿面上交替。记录即将结束，动作没有因此停下。','Legs still alternate on the wet surface. The record is ending; their activity does not stop for it.','湿面で歩脚が交互に動く。記録が終わっても、動きはそれに合わせて止まらない。']),option('lights-out','limit',['熄灭手电','Switch off the torch','ライトを消す'],['光圈消失。你不再看清那些身体，水和裂隙仍然在那里。','The beam disappears. You can no longer make out the bodies; water and fissures remain.','光が消える。身体は見分けられなくなるが、水も隙間もそこにある。'])]}
-];
+].map((observation,index)=>({...observation,focus:caveFocus(index)}));
