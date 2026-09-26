@@ -305,7 +305,7 @@ function syncControls(){
  $('#referenceDepthControl').hidden=currentPreset!=='shallow-marine';$('#referenceDepth').value=String(reference.depth??45);$('#estuaryPreview').setAttribute('aria-pressed',String(estuaryPreview));
  $('#estuaryPreview').textContent='FLOW · '+(estuaryPreview?'ON':'OFF');
  labShoreFocusControl.hidden=!(currentPreset==='estuary'&&state.backgroundParams?.shore);
- $('#estuaryPreviewControl span').textContent=state.backgroundParams?.shore?'选择岸段与潮位。FLOW 开启时按游戏规则显示群落，可出现空岸；关闭后可拖动比例参考标本。 / FLOW previews patchy game fauna; OFF restores the movable scale specimen.':'水流预览；旧版 P 木边 / Q 藻根。各时刻分别导出。 / Flow preview; export each observation separately.';
+ $('#estuaryPreviewControl span').textContent=currentPreset==='shallow-marine'?'预览海藻随水流摆动；关闭后回到静态编辑。 / Preview seaweed movement; switch OFF for static editing.':state.backgroundParams?.shore?'选择岸段与潮位。FLOW 开启时按游戏规则显示群落，可出现空岸；关闭后可拖动比例参考标本。 / FLOW previews patchy game fauna; OFF restores the movable scale specimen.':'水流预览；旧版 P 木边 / Q 藻根。各时刻分别导出。 / Flow preview; export each observation separately.';
  $('#freshwaterStageControl').hidden=currentPreset!=='freshwater';$('#freshwaterStage').value=String(currentFreshwaterStage);
  $('#toggleReference').setAttribute('aria-pressed',String(reference.visible));
  $('#toggleReference').textContent='GAME SCALE · '+(reference.visible?'ON':'OFF');

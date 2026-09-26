@@ -40,8 +40,10 @@ button:focus-visible{outline:1px solid #e0ddbd;outline-offset:2px}
 .asset-card[data-kind=background] canvas{background:#302a24}
 .asset-card b{display:block;font-size:9px;font-weight:400;color:#d8d7bc;overflow-wrap:anywhere}.asset-card span{display:block;font-size:7px;color:#839373;margin-top:3px}.asset-card small{display:block;font-size:7px;color:#68795a;margin-top:2px}
 .viewer-panel{display:grid;grid-template-rows:auto auto minmax(0,1fr) auto;overflow:hidden}
-.viewer-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 7px;border-bottom:1px solid var(--line2);flex-wrap:wrap}
-.viewer-head>div:first-child{display:grid}.viewer-head span{font-size:9px;color:#d1cba8}.viewer-head small{font-size:7px;color:#738464}
+.viewer-head{display:flex;align-items:center;justify-content:flex-start;gap:8px;padding:4px 7px;border-bottom:1px solid var(--line2);flex-wrap:wrap}
+.viewer-head>div:first-child{display:grid}
+.viewer-head>.material-stage-control{width:clamp(150px,20vw,220px)}
+.viewer-head>.viewer-actions{margin-left:auto}.viewer-head span{font-size:9px;color:#d1cba8}.viewer-head small{font-size:7px;color:#738464}
 .material-stage-control{display:grid;gap:2px;min-width:220px}
 .material-stage-control span{font-size:6px;color:#718163;letter-spacing:.06em}
 .material-stage-control select{font:inherit;border:1px solid #657557;background:#394631;color:#dedcc4;min-height:26px;padding:4px 6px;font-size:8px}
@@ -108,7 +110,9 @@ footer{display:flex;justify-content:space-between;gap:16px;padding:0 2px;color:#
 #habitatReferenceScope,#habitatReferenceLimits{font-size:9px;color:#93a280;margin:7px 9px;line-height:1.5;overflow-wrap:anywhere}
 #estuaryPreview{font:8px Pixel,monospace;min-height:26px;padding:4px 8px;border:1px solid #657557;background:#394631;color:var(--cream)}
 #estuaryPreview[aria-pressed=true]{background:#768467;border-color:#aeb89a}
-#estuaryPreviewControl{max-width:250px}
+#estuaryPreviewControl{width:100%;max-width:none;padding:8px 9px;margin:0;border-bottom:1px solid var(--line2)}
+#estuaryPreviewControl button,#estuaryPreviewControl select{width:100%;min-width:0}
+#estuaryPreviewControl[hidden]{display:none}
 button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible,a:focus-visible{outline:1px solid var(--cream);outline-offset:2px}
 @media(max-width:1120px){
  .lab{padding:8px;gap:8px}
