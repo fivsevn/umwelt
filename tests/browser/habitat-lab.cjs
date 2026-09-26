@@ -14,6 +14,11 @@ const base=process.env.BASE_URL||'http://127.0.0.1:8765';
  await page.goto(base+'/isopoda/habitat.html');
  await page.waitForFunction(()=>document.querySelectorAll('.asset-card').length>0);
  await page.evaluate(()=>document.fonts.ready);
+ assert.equal(await page.locator('.scene-transfer').getAttribute('open'),null);
+ assert.equal(await page.locator('#sceneText').isVisible(),false);
+ assert.equal(await page.locator('.inspector #toggleReference').count(),1);
+ assert.ok(await page.evaluate(()=>document.querySelector('[data-preset]').offsetHeight>document.querySelector('[data-category]').offsetHeight),'environment controls lead the hierarchy');
+ await page.locator('.scene-transfer summary').click();
  const originalStorage=await page.evaluate(()=>JSON.stringify({...localStorage}));
  const click=selector=>clickControl(page,selector);
  const snapshot=async()=>{await click('#copyScene');return JSON.parse(await page.locator('#sceneText').inputValue())};
@@ -99,20 +104,27 @@ const base=process.env.BASE_URL||'http://127.0.0.1:8765';
  await page.locator('#sceneFile').setInputFiles({name:'scene.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(changed))});
  await page.waitForFunction(()=>document.querySelector('#sceneFile').value==='');assert.deepEqual(await snapshot(),changed);
  // Dragging remains proportional at small sizes and ignores secondary pointers.
- for(const [width,height] of [[320,568],[390,844],[768,900],[1120,800],[1121,800],[1440,900]]){
+ for(const [width,height] of [[320,568],[390,844],[768,900],[1120,800],[1121,800],[1440,900],[1440,1400]]){
   await page.setViewportSize({width,height});await page.evaluate(()=>document.fonts.ready);
+  await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
   await page.waitForFunction(narrow=>document.querySelector('.scene-transfer').parentElement.className===(narrow?'workspace':'panel viewer-panel'),width<=1120);
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${width} overflow`);
   assert.equal(await page.locator('.scene-transfer').evaluate(e=>e.parentElement.className),width<=1120?'workspace':'panel viewer-panel');
   await click('.scene-transfer summary');assert.equal(await page.locator('#sceneText').isVisible(),false);await click('.scene-transfer summary');
   await page.locator('#scene').scrollIntoViewIfNeeded();
   const before=await snapshot();await page.locator('#scene').scrollIntoViewIfNeeded();
+  // WebKit may finish viewport-induced scrolling on the next pointer update.
+  await page.locator("#scene").hover();
+  assert.ok(await page.locator('#scene').evaluate(e=>{
+   const r=e.getBoundingClientRect(),shell=e.parentElement.getBoundingClientRect();
+   return Math.abs(r.width/r.height-384/430)<.003&&r.top>=shell.top&&r.bottom<=shell.bottom;
+  }),`${width} full proportional canvas`);
   p=await point(before.objects[1].x,before.objects[1].y);await page.mouse.move(p.x,p.y);await page.mouse.down();
   await page.locator('#scene').dispatchEvent('pointermove',{pointerId:999,clientX:0,clientY:0});
   const unaffected=await page.evaluate(()=>{document.querySelector('#copyScene').click();return JSON.parse(document.querySelector('#sceneText').value)});
   assert.equal(unaffected.objects[1].x,before.objects[1].x,'secondary pointer ignored');
   const end=await point(before.objects[1].x+8,before.objects[1].y+6);await page.mouse.move(end.x,end.y);await page.mouse.up();
-  const after=await snapshot();assert.ok(Math.abs(after.objects[1].x-before.objects[1].x-8)<1,`${width} proportional drag`);
+  const after=await snapshot();assert.ok(Math.abs(after.objects[1].x-before.objects[1].x-8)<1,`${width} proportional drag: ${before.objects[1].x} -> ${after.objects[1].x}`);
   if(process.env.QA_OUTPUT){fs.mkdirSync(process.env.QA_OUTPUT,{recursive:true});await page.screenshot({path:`${process.env.QA_OUTPUT}/habitat-${width}.png`,fullPage:true})}
  }
  console.log('PASS viewport and editor operations');
