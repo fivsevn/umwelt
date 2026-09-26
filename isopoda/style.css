@@ -247,3 +247,6 @@ html,body{height:100%;overflow:hidden}#game{height:100dvh;padding:6px 8px max(6p
  .species-card{min-height:0}
  .specimen-names{min-height:0;padding-bottom:8px}
 }
+
+#arrivalSpecimens.seaweed-samples,#endSpecimen.seaweed-samples{display:flex;justify-content:center;gap:clamp(18px,6vw,44px)}
+.seaweed-samples>.isopod{flex:0 1 96px}

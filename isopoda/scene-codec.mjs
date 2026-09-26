@@ -52,6 +52,8 @@ export function importScene(text,assets,defaultReference){
   return {id,assetId,x:number(o.x,192),y:number(o.y,215),a:number(o.angle??o.a,0),scale:number(o.scale,1,.05,4),...(o.flipX===true?{flipX:true}:{}),z:number(o.z,0),seed:number(o.seed,0,0,4294967295),...(o.params===undefined?{}:{params:params(o.params)})};
  });
  const r={...defaultReference,...data.reference};
+ if(data.reference?.depth===undefined)delete r.depth;
+ if(r.depth!==undefined)r.depth=number(r.depth,45,0,100);
  if(typeof r.species!=='string'||!['S','M','L'].includes(r.stage)||typeof r.visible!=='boolean')fail('标本参考参数无效');
  for(const k of ['x','y','a','seed'])r[k]=number(r[k],defaultReference[k],k==='seed'?0:-10000,k==='seed'?4294967295:10000);
  let nextId=1;while(ids.has('instance-'+nextId))nextId++;

@@ -9,7 +9,7 @@ const assert=require('node:assert/strict');
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.route('**/habitat.mjs*',async route=>{
   const response=await route.fetch();let body=await response.text();
-  body=body.replace('return {reset,stage,react,zoom,','if(canvas.id==="habitat")window.__habitatTest={actors:()=>critters,camera};\nreturn {reset,stage,react,zoom,');
+  body=body.replace('return {reset,stage,react,','if(canvas.id==="habitat")window.__habitatTest={actors:()=>critters,camera};\nreturn {reset,stage,react,');
   await route.fulfill({response,body});
  });
  await page.goto(process.env.ISOPODA_URL||'http://localhost:8874/isopoda/');

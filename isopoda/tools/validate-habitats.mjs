@@ -16,7 +16,7 @@ export function validateHabitats(habitats=HABITATS,species=SPECIES){
   check(text(habitat?.scene),at+': scene required');
   check(typeof habitat?.aquatic==='boolean',at+': aquatic must be boolean');
   check(Number.isInteger(habitat?.days)&&habitat.days>0,at+': days must be a positive integer');
-  const cohortSize=habitat?.cohortSize??7;check(([1,7].includes(cohortSize)||(habitat.id==='groundwater'&&cohortSize===14)),at+': unsupported cohort size');
+  const cohortSize=habitat?.cohortSize??7;check(([1,7].includes(cohortSize)||(habitat.id==='groundwater'&&cohortSize===14)||(habitat.id==='shallow-marine'&&cohortSize===18)),at+': unsupported cohort size');
   check(habitat?.defaults&&typeof habitat.defaults==='object'&&!Array.isArray(habitat.defaults),at+': defaults object required');
   for(const [key,value] of Object.entries(habitat?.defaults||{})){
    check(finite(value),at+': defaults.'+key+' must be finite');

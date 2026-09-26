@@ -1,3 +1,4 @@
+import {kelpGeometry,drawKelp,kelpDepth,visibleKelpCell} from './scenery/kelp-geometry.mjs';
 import {ESTUARY_STAGE_LAYOUTS,ESTUARY_STAGE_META,estuaryStageFilename,validateEstuaryLayout} from './scenery/estuary-stages.mjs';
 import {drawEstuaryWater,drawEstuaryEvidence} from './scenery/estuary.mjs';
 import {renderHabitatReferences} from './habitat-references.mjs';
@@ -17,7 +18,7 @@ const scene=$('#scene'),ctx=scene.getContext('2d');ctx.imageSmoothingEnabled=fal
 const reference={
  species:'dairy',stage:'M',x:226,y:286,a:-.34,seed:189,visible:true
 };
-let referenceHitCells=[];
+let referenceHitCells=[],seaweedMask=null,seaweedPlan=null;
 
 for(const p of SPECIES){
  const option=new Option(`${p.label||p.name||p.id} · ${p.taxon||p.id}${p.game?.referenceOnly?' · 参考标本':''}`,p.id);
@@ -291,7 +292,8 @@ function syncControls(){
  renderHabitatReferences(currentPreset);
  $('#referenceSpecies').value=reference.species;$('#referenceStage').value=reference.stage;
  $('#estuaryStageControl').hidden=currentPreset!=='estuary';$('#estuaryStage').value=String(currentEstuaryStage);
- $('#estuaryPreviewControl').hidden=currentPreset!=='estuary';$('#estuaryPreview').setAttribute('aria-pressed',String(estuaryPreview));
+ $('#estuaryPreviewControl').hidden=!['estuary','shallow-marine'].includes(currentPreset);
+ $('#referenceDepthControl').hidden=currentPreset!=='shallow-marine';$('#referenceDepth').value=String(reference.depth??45);$('#estuaryPreview').setAttribute('aria-pressed',String(estuaryPreview));
  $('#estuaryPreview').textContent='FLOW · '+(estuaryPreview?'ON':'OFF');
  $('#freshwaterStageControl').hidden=currentPreset!=='freshwater';$('#freshwaterStage').value=String(currentFreshwaterStage);
  $('#toggleReference').setAttribute('aria-pressed',String(reference.visible));
@@ -339,7 +341,7 @@ function drawObjectRaw(target,asset,item,preview=false){
  if(asset.category==='stone')return drawStone(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
  if(asset.category==='calcium')return drawCuttlebone(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
  if(p.detail)return withSoftWorldShadow(target,{alpha:.065,dy:1},()=>drawAquaticDetail(target,{...p,kind:p.detail,x,y,a,seed,scale:mult}));
- if(asset.category==='aquatic')return withSoftWorldShadow(target,{alpha:.075,dy:2},()=>drawAquaticPlant(target,{...p,x,y,a,seed,scale:mult}));
+ if(asset.category==='aquatic')return withSoftWorldShadow(target,{alpha:.075,dy:2},()=>drawAquaticPlant(target,{...p,x,y,a,seed,z:item.z,scale:mult}));
  if(asset.id.startsWith('twig')||p.type==='twig')return drawTwig(target,{...p,x,y,a,seed,length:(p.length||18)*mult});
  if(asset.id.startsWith('woodchip')||p.type==='chip')return drawWoodChip(target,{...p,x,y,a,seed,scale:(p.scale||1)*mult});
 }
@@ -365,6 +367,7 @@ function drawReferenceSpecimen(){
   for(const [x,y,color] of module.cells)source.set(x+','+y,color);
  const habitat=habitatConfig(currentPreset==='forest'?'terrestrial':currentPreset);
  referenceHitCells=sceneActorPixels(source,{...reference,model,habitatScale:habitat.actorScale||1});
+ if(seaweedMask)referenceHitCells=referenceHitCells.filter(([x,y])=>visibleKelpCell(seaweedMask,x,y,reference.depth??45));
  for(const [x,y,color] of referenceHitCells){ctx.fillStyle=color;ctx.fillRect(x,y,1,1)}
 }
 
@@ -394,9 +397,30 @@ function staticSceneLayer(){
  if(sceneLayerCache.size>8)sceneLayerCache.delete(sceneLayerCache.keys().next().value);
  return layer;
 }
+function drawSeaweedScene(){
+ const key=sceneLayerKey();
+ if(!seaweedPlan||seaweedPlan.key!==key){
+  const steps=[];let canvas=null,g=null;
+  const fresh=()=>{canvas=document.createElement('canvas');canvas.width=384;canvas.height=430;g=canvas.getContext('2d');g.imageSmoothingEnabled=false};
+  const flush=()=>{if(canvas)steps.push({canvas});canvas=null;g=null};
+  fresh();drawBackground(g,state.background,state.backgroundSeed,true);
+  for(const item of paintOrder()){
+   if(item.params?.layered){flush();steps.push({item});continue}
+   if(!canvas)fresh();drawObject(g,ASSET_BY_ID.get(item.assetId),item);
+  }
+  flush();seaweedPlan={key,steps};
+ }
+ const plants=[];
+ for(const step of seaweedPlan.steps){
+  if(step.canvas)ctx.drawImage(step.canvas,0,0);
+  else {const p=kelpGeometry({...step.item.params,...step.item},{time:previewTime});plants.push(p);drawKelp(ctx,p)}
+ }
+ seaweedMask=kelpDepth(plants);
+}
 function drawScene(){
  ctx.clearRect(0,0,scene.width,scene.height);
- ctx.drawImage(staticSceneLayer(),0,0);
+ seaweedMask=null;
+ if(currentPreset==='shallow-marine')drawSeaweedScene();else ctx.drawImage(staticSceneLayer(),0,0);
  if(currentPreset==='estuary'){const layout=exportScene(state,reference,ASSET_BY_ID);drawEstuaryWater(ctx,currentEstuaryStage,previewTime,layout,!estuaryPreview);drawEstuaryEvidence(ctx,{records:[]},layout)}
  drawReferenceSpecimen();
  const selected=state.items.find(i=>i.id===state.selected);
@@ -517,12 +541,13 @@ for(const button of document.querySelectorAll('[data-category]'))button.onclick=
 $('#resetScene').onclick=()=>loadPreset(currentPreset);
 for(const button of document.querySelectorAll('[data-preset]'))button.onclick=()=>{if(button.dataset.preset==='freshwater')currentFreshwaterStage=0;if(button.dataset.preset==='estuary')currentEstuaryStage=0;loadPreset(button.dataset.preset)};
 $('#estuaryStage').onchange=event=>{currentEstuaryStage=Number(event.target.value);loadPreset('estuary')};
-function previewTick(t){if(!estuaryPreview||currentPreset!=='estuary'){previewFrame=0;return}if(!document.hidden&&t-previewLast>80){previewTime=t/1000;drawScene();previewLast=t}previewFrame=requestAnimationFrame(previewTick)}
+function previewTick(t){if(!estuaryPreview||!['estuary','shallow-marine'].includes(currentPreset)){previewFrame=0;return}if(!document.hidden&&t-previewLast>80){previewTime=t/1000;drawScene();previewLast=t}previewFrame=requestAnimationFrame(previewTick)}
 $('#estuaryPreview').onclick=()=>{estuaryPreview=!estuaryPreview;if(matchMedia('(prefers-reduced-motion: reduce)').matches)estuaryPreview=false;if(estuaryPreview&&!previewFrame)previewFrame=requestAnimationFrame(previewTick);else if(!estuaryPreview){cancelAnimationFrame(previewFrame);previewFrame=0;previewTime=0;drawScene()}syncControls()};
 $('#freshwaterStage').onchange=event=>{currentFreshwaterStage=Math.max(0,Math.min(FRESHWATER_STAGE_LAYOUTS.length-1,Number(event.target.value)||0));loadPreset('freshwater')};
 $('#clearScene').onclick=()=>{state.items=[];state.selected=null;drawScene()};
 
 $('#referenceSpecies').onchange=event=>{reference.species=event.target.value;reference.seed=(reference.seed+31)>>>0;drawScene()};
+$('#referenceDepth').onchange=event=>{const value=Number(event.target.value);reference.depth=Number.isFinite(value)?Math.max(0,Math.min(100,value)):45;event.target.value=String(reference.depth);drawScene()};
 $('#referenceStage').onchange=event=>{reference.stage=event.target.value;drawScene()};
 $('#toggleReference').onclick=event=>{
  reference.visible=!reference.visible;
