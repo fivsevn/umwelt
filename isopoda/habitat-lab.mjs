@@ -376,7 +376,6 @@ function drawShoreFaunaPreview(){
  const visible=actors.filter(a=>!a.hidden),taxa=[...new Set(visible.map(a=>a.species))];
  scene.dataset.visibleTaxa=taxa.join(',');scene.dataset.visibleFauna=String(visible.length);
  $('#specimenReadout').textContent=`群落预览 · ${visible.length} / ${cohort.length} 可见 · ${taxa.length?taxa.map(id=>speciesById(id).taxon).join(' / '):'本次未见等足目'} · 停止 FLOW 可调整比例标本`;
- if(!reference.visible)return;
  for(const a of visible){
   const source=new Map();for(const module of pixelAnatomy(a.model,{posture:a.posture,phase:a.phase,moving:a.moving}))for(const [x,y,color] of module.cells)source.set(x+','+y,color);
   ctx.save();ctx.globalAlpha=1-(a.occlusion||0);
