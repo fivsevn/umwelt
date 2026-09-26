@@ -311,7 +311,7 @@ function drawHabitat(t){
   drawAbyssalSpotlight(ctx,critters[0]);
  }
  drawActors();
- if(seaweed){state.seaweedEvidence={...seaweed.events};if(globalThis.__ISOPODA_SEAWEED_DEBUG__)globalThis.__ISOPODA_SEAWEED_DEBUG__({bed:seaweed,critters})}
+ if(seaweed){state.seaweedEvidence={...seaweed.events};if(canvas.id==='habitat'&&globalThis.__ISOPODA_SEAWEED_DEBUG__)globalThis.__ISOPODA_SEAWEED_DEBUG__({bed:seaweed,critters})}
  if(isEstuaryObservation(state))drawEstuaryEvidence(ctx,state);
  present();
 }
