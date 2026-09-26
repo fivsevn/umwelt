@@ -55,7 +55,7 @@ test('aquatic plants move over time while their rooted base remains anchored',()
 test('shore objects stay identical through every tide and layout edits remain isolated',async()=>{
  const {shoreLayout}=await import('../isopoda/scenery/estuary-shore.mjs');
  for(let point=0;point<3;point++){
-  const base=shoreLayout(point,0);assert.equal(base.objects.length,[37,22,10][point]);
+  const base=shoreLayout(point,0);assert.equal(base.objects.length,[52,30,19][point]);
   for(let tide=0;tide<4;tide++){
    const layout=shoreLayout(point,tide,true);
    assert.deepEqual(layout.objects,base.objects);
