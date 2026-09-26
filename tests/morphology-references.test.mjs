@@ -89,7 +89,10 @@ test('game credits keep umbrella databases and literature platforms, not paper-l
   'https://www.persee.fr/',
   'https://digitalcommons.usf.edu/ijs/',
   'https://www.nps.gov/',
-  'https://www.noaa.gov/'
+  'https://www.noaa.gov/',
+  'https://www.usgs.gov/',
+  'https://www.jma.go.jp/',
+  'https://www.microscopyu.com/'
  ];
  for(const [url,startMark,endMark] of files){
   const body=readFileSync(new URL(url,import.meta.url),'utf8');
@@ -112,6 +115,6 @@ test('cave citations are attached to the exact specimens and environment they su
   const specimen=SPECIES.find(p=>p.id===id);for(const ref of refs)assert.ok(evidenceIds(specimen).has(ref),id+':'+ref);
  }
  for(const entry of Object.values(HABITAT_REFERENCES))for(const ref of entry.entries){assert.ok(sourceIds.has(ref.sourceId));assert.ok(ref.use&&ref.note)}
- assert.deepEqual(HABITAT_REFERENCES.groundwater.entries.map(r=>r.sourceId),['groundwater-recharge','groundwater-biofilm','groundwater-survey']);
+ assert.deepEqual(HABITAT_REFERENCES.groundwater.entries.map(r=>r.sourceId),['groundwater-recharge','groundwater-biofilm','groundwater-survey','scale-cave-darkness']);
  for(const species of SPECIES)assert.ok(!evidenceIds(species).has('groundwater-survey'),'survey source belongs to environment');
 });

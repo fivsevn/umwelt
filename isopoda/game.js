@@ -80,7 +80,7 @@ function refreshHeaderClock(){
  if($('#playView').hidden)return;
  const scale=environmentScale(state,getLanguage());
  const date=new Date(),time=String(date.getHours()).padStart(2,'0')+':'+String(date.getMinutes()).padStart(2,'0');
- const value=scale?.value||(getLanguage()==='isopod'?isopodWaveClock(date,time):formatShortDate(date)+' '+time);
+ const value=scale?.value||((state.habitatId==='terrestrial'||state.intertidalLegacy||state.habitatId==='shallow-marine')?clock():(getLanguage()==='isopod'?isopodWaveClock(date,time):formatShortDate(date)+' '+time));
  setWaveText($('#dayLabel'),value);$('#dayLabel').title=scale?.label||'';
 }
 setInterval(refreshHeaderClock,1000);
@@ -103,6 +103,8 @@ function render(){
  const nextTime=timeFor(state.seed,state.period===2?state.day+1:state.day,(state.period+1)%3);
  const nextTimeLabel=getLanguage()==='isopod'?isopodWaveTime(nextTime):nextTime;
  if(state.habitatId==='petri-dish'){setWaveText($('#nextBtn'),state.stage==='choice'?t('holdMoment'):state.day===3&&state.period===2?t('closeGently'):t('continueObservation'));
+ }else if(state.habitatId==='sandy-surf'){
+  setWaveText($('#nextBtn'),state.stage==='choice'?t('holdMoment'):state.day===3&&state.period===2?t('closeGently'):t('continueObservation'));
  }else if(isIntertidal(state)){
   setWaveText($('#nextBtn'),state.stage==='choice'?t('holdMoment'):intertidalIndex(state)===8?t('closeGently'):t('continueObservation'));
  }else if(isSeaweed(state)){

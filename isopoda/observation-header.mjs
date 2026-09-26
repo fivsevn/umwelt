@@ -1,3 +1,5 @@
+import {freshwaterMoment,FRESHWATER_HOURS,SAND_SECONDS,readoutText} from './scene-readouts.mjs';
+import {sandIndex} from './data/habitats/sandy-observation.mjs';
 import {isSeaweed,seaweedIndex,seaweedText,SEAWEED_CONDITIONS} from './data/habitats/seaweed-observation.mjs';
 import {abyssalDepth} from './data/habitats/abyssal-instruments.mjs';
 import {isIntertidal,intertidalText,intertidalTime} from './data/narrative/intertidal.mjs';
@@ -34,7 +36,8 @@ export function environmentScale(state,lang='zh'){
  // Cave surveys use distance, azimuth and inclination to locate stations:
  // https://www.nps.gov/jeca/learn/nature/surveying.htm
  if(state.habitatId==='groundwater'){const depth=[18.6,18.2,19.1,18.8,19.4,19.7,19.1,19.7][groundwaterObservationIndex(state)];return {value:lang==='isopod'?isopodWaveNumber(Math.round(depth*10),3):'Δh −'+depth.toFixed(1)+' m',label:localize(['观察点相对洞口高程（场景设定）','Observation point elevation relative to entrance (scene datum)','観察点の洞口からの比高（場面設定）'],lang)}};
- if(state.habitatId==='freshwater')return {value:lang==='isopod'?isopodWaveNumber(Math.round(state.temp*10),3):state.temp.toFixed(1)+' °C',label:localize(['水温','Water temperature','水温'],lang)};
+ if(state.habitatId==='freshwater'){const hours=FRESHWATER_HOURS[freshwaterMoment(state)];return {value:lang==='isopod'?isopodWaveNumber(hours*60,4):'+'+hours.toFixed(1)+' h',label:readoutText('elapsed',lang)}};
+ if(state.habitatId==='sandy-surf'){const seconds=SAND_SECONDS[sandIndex(state)];return {value:lang==='isopod'?isopodWaveNumber(seconds,3):'+'+String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0'),label:localize(['浪洗经过时间（分:秒）','Elapsed swash time (min:sec)','波の遡上の経過時間（分:秒）'],lang)}};
  if(state.habitatId==='abyssal')return abyssalDepth(state,lang);
  return null; // Dated environments retain their existing date and clock.
 }

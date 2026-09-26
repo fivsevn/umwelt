@@ -34,7 +34,7 @@ jobs:
       fail-fast: false
       matrix:
         browser: [chromium, webkit]
-        suite: [morphology-layout, habitat-lab, estuary, intertidal, public-regression, sandy-surf, seaweed]
+        suite: [morphology-layout, habitat-lab, estuary, intertidal, public-regression, sandy-surf, seaweed, scene-readouts]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
