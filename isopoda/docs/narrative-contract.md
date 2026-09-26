@@ -17,6 +17,6 @@ For a new pool, expose `TEXT_CATALOG` from a module under `data/narrative/`. Eac
 
 The old scanner omitted aquatic species: annotation membership now uses the shared registry. Six direct interaction-memory strings are already translated by the real `gameText` dynamic handler. Three exact sentence fragments are checked via complete translated samples. Internal PERIODS labels remain explicitly excluded. The unused MORNING pool and its 18 inactive warnings were removed.
 
-`giganteus` intentionally has no existing Asimov annotation entry. A named exemption preserves that current empty presentation and fails if it becomes stale. It is not permission to exempt future specimens. New missing locales/unknown annotations fail the check. The checker now covers 27 ordinary aquatic turns plus 15 abyssal nodes, including alternate and ending data. Chinese/Japanese strings may legitimately be identical when an authored locale row exists.
+Every specimen, including `giganteus`, requires authored English and Japanese Asimov notes. Missing locale entries and empty translated lines fail the check. The checker now covers 27 ordinary aquatic turns plus 15 abyssal nodes, including alternate and ending data. Chinese/Japanese strings may legitimately be identical when an authored locale row exists.
 
 Run `node isopoda/tools/check-i18n.mjs`, `node isopoda/tools/validate-narrative.mjs` and all Node tests before committing authored content.
