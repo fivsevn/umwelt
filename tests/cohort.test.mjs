@@ -23,3 +23,17 @@ test('direct handling becomes persistent observer memory without invalidating v4
  s.scene=null;assert.match(ensureScene(s).text,/你的手|原因|新痕/);s.scene=null;recordDirectInteraction(s,{type:'grab',specimen:'C',point:{x:140,y:180}});recordDirectInteraction(s,{type:'place',specimen:'C',point:{x:260,y:300}});assert.equal(s.directGrabs,1);assert.equal(s.directMoves,1);assert.ok(s.environment.scuffs.some(mark=>mark.direct&&mark.x===260&&mark.y===300));assert.match(directMemoryForDay(s),/个体 C/);assert.match(endingMemoryFor(s),/个体 C/);assert.ok(validRun(s));
  const restored=JSON.parse(JSON.stringify(s));assert.match(endingMemoryFor(restored),/放回另一个位置/);
 });
+
+test('cave samples contain one or two taxa with equal probability and retain their saved cohort',()=>{
+ const counts=[0,0],seen=new Set();
+ for(let seed=0;seed<10000;seed++){
+  const cohort=drawCohort({unlocked:[],draws:0},seed,'groundwater');
+  const taxa=[...new Set(cohort.map(c=>c.species))];
+  assert.ok(taxa.length===1||taxa.length===2);counts[taxa.length-1]++;
+  assert.equal(cohort.length,14);taxa.forEach(id=>seen.add(id));
+  assert.deepEqual(cohort,drawCohort({unlocked:[],draws:0},seed,'groundwater'));
+  if(seed<20){const state=createRun(taxa[0],seed,'groundwater');state.cohort=cohort;assert.ok(validRun(JSON.parse(JSON.stringify(state))))}
+ }
+ assert.ok(Math.abs(counts[0]/10000-.5)<.02,counts.join(','));
+ assert.equal(seen.size,SPECIES.filter(p=>p.game?.habitats?.includes('groundwater')).length);
+});

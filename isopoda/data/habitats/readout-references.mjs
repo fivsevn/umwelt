@@ -42,7 +42,7 @@ export const READOUT_REFERENCES={
    {
     "sourceId": "groundwater-recharge",
     "use": "水文连通、渗流与物质输入 / Connectivity, seepage and input / 水文的連結・浸透流・物質流入",
-    "note": "三个值均以 0–100 相对刻度表示：通水路径连续程度、相对渗流强度、外源物质输入强度，不是体积流量或质量浓度；定性状态为无日光，手电是局部人工光。/ Three 0–100 indices describe connected water paths, seepage strength and incoming material, not discharge or concentration. No daylight excludes the local torch. / 三つの0–100指標は水路の連結・浸透流・物質流入の相対強度で、流量や濃度ではない。日光なしでも局所照明は存在する。"
+    "note": "三个值均以 0–100 相对刻度表示：通水路径连续程度、相对渗流强度、外源物质输入强度，不是体积流量或质量浓度。/ Three 0–100 indices describe connected water paths, seepage strength and incoming material, not discharge or concentration. / 三つの0–100指標は水路の連結・浸透流・物質流入の相対強度で、流量や濃度ではない。"
    },
    {
     "sourceId": "scale-cave-darkness",
