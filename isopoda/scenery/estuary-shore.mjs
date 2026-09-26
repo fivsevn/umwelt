@@ -18,12 +18,6 @@ export function shoreWalkPose(point,direction){
  return {x,y,angle:Math.atan2(slope,1)+(direction<0?Math.PI:0)};
 }
 const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t)};
-const rgbCache=new Map();
-function mix(a,b,t){
- const rgb=c=>{if(!rgbCache.has(c))rgbCache.set(c,[1,3,5].map(i=>parseInt(c.slice(i,i+2),16)));return rgbCache.get(c)};
- const aa=rgb(a),bb=rgb(b),k=Math.round(Math.max(0,Math.min(1,t))*5)/5;
- return '#'+aa.map((v,i)=>Math.round(v+(bb[i]-v)*k).toString(16).padStart(2,'0')).join('');
-}
 export function shoreWaterBlend(x,y,point){
  const boundary=(point===0?326:point===2?35:192)+Math.sin(y*.022)*[30,61,24][point]+Math.sin(y*.009)*18;
  const eddy=Math.sin(x*.027+y*.018)*9+Math.sin(x*.011-y*.035)*7;
@@ -45,21 +39,25 @@ export function drawShoreBackground(g,{point=1,tide=0,rain=false,seed=467,level=
  for(let y=0;y<430;y+=2)for(let x=0;x<384;x+=2){
   const edge=shoreLine(x,point,tide,level),distance=y-edge,q=noise(x>>1,y>>1,seed+point*53);
   const broad=point===0?Math.sin(x*.042+y*.012)+Math.sin(y*.033):point===1?Math.sin(x*.022-y*.02)+Math.sin(y*.044+x*.008):Math.sin(y*.085+x*.029)*.7+Math.sin(x*.009)*.3;
+  const patch=Math.sin(Math.floor(x/8)*.73+Math.floor(y/6)*.51)*.22+Math.sin(x*.11-y*.15)*.12;
   const wet=y>shoreLine(x,point,1)-12;
-  let color=broad<0?mix(soils[0],soils[2],smooth(-broad/1.7)):mix(soils[0],soils[1],smooth(broad/1.7));
+  let color=broad+patch<-.45?soils[2]:broad+patch>.55?soils[1]:soils[0];
   if(distance<0){
-   if(wet){const wetInk=point===2?mix('#757861','#85816c',smooth((broad+1)/2)):mix('#656550','#777159',smooth((broad+1)/2));color=mix(color,wetInk,smooth((y-shoreLine(x,point,1)+12)/30));}
+   if(wet&&y-shoreLine(x,point,1)+12+patch*12>8)color=point===2?(broad+patch>0?'#85816c':'#757861'):(broad+patch>0?'#777159':'#595f4c');
    // Root-dark hollows, branching mud tongues, or broad parallel sand runnels.
    if(point===0&&y<170&&Math.abs(x-(84+Math.sin(y*.027)*23+y*.28))<3+Math.sin(y*.09)*2)color='#46563e';
    if(point===1&&Math.abs(x-(140+Math.sin(y*.024)*58))<2+Math.sin(y*.07)&&y>100&&y<220)color='#595f50';
    if(point===2&&wet&&Math.sin(y*.19+x*.07+Math.sin(x*.04))>.9&&q%4)color='#938d75';
    if(q%31===0)color=wet?'#999073':soils[1];
   }else{
-   const sea=shoreWaterBlend(x,y,point),depth=smooth((distance+((q%7)-3))/105);
-   const fresh=mix(rain?'#7c836b':'#858971',rain?'#677960':'#526e57',depth);
-   const marine=mix('#73918a','#356a70',depth);
-   color=mix(fresh,marine,sea);
-   color=mix(point===2?'#85816c':'#777159',color,smooth(distance/10));
+   // Opaque color shelves with broken edges, rather than stacked gradients.
+   const sea=shoreWaterBlend(x,y,point),d=distance+patch*20+Math.sin(x*.07-y*.04)*7;
+   const band=d<12?0:d<42?1:d<90?2:3;
+   const fresh=rain?['#89866b','#777f62','#61755b','#4c6852']:['#928b6c','#7b8263','#627957','#486a53'];
+   const marine=['#8b9077','#6e9084','#4f7e7b','#32676b'];
+   const mixed=['#8b896c','#74856c','#577965','#406e61'];
+   const seam=sea+patch*.18;
+   color=(seam<.38?fresh:seam>.62?marine:mixed)[band];
   }
   px(g,x,y,2,2,materialInk(color,x,y,seed+point*113,'soil'));
  }
@@ -113,13 +111,19 @@ export function drawShoreWater(g,s,time=0,reduced=false,animalTime=time){
   px(g,x,y,4+i%5,1,'rgba(173,190,164,.27)');
  }
  for(let x=0;x<384;x+=6){if(noise(x,11,point)%3===0)continue;const y=shoreLine(x,point,tide,level)+Math.sin(t*.65+x*.025)*1.5;px(g,x,y,4,1,'rgba(178,190,153,.40)')}
- // Long quiet gaps: one small school on incoming water; a resting goby on the ebb.
- const life=animalTime*(reduced?.65:1),cycle=life%32;
- if(tide<2&&point>0&&cycle<7){
+ // Small schools pass intermittently; routes stay below the current shoreline.
+ const life=animalTime*(reduced?.65:1),cycle=(life+point*4)%24;
+ if(cycle<9){
   const x=410-cycle*48;
-  for(let i=0;i<2;i++)fish(g,x+i*25,338+i*12+Math.sin(life*.8+i)*2,-1,false,life+i);
+  for(let i=0;i<3;i++){const fx=x+i*21,fy=Math.max(shoreLine(fx,point,tide,level)+24,342+i*10)+Math.sin(life*.8+i)*2;if(fy<418)fish(g,fx,fy,-1,false,life+i);}
  }
  const goby=shoreGoby(s,life);fish(g,goby.x,goby.y,goby.dir,true,life);
+ // Surface insects pause between short skates, leaving a broken wake.
+ for(let i=0;i<2;i++){
+  const phase=(life+i*5.3)%11,travel=Math.min(1,phase/2.4),x=90+i*125+Math.sin(travel*Math.PI*2)*12;
+  const y=shoreLine(x,point,tide,level)+38+i*14;
+  if(y<412){px(g,x,y,3,1,'#465b47');for(const side of [-1,1]){px(g,x-1,y+side*2,2,1,'#798e71');px(g,x+3,y+side*2,2,1,'#798e71');}if(phase<2.4){px(g,x-6,y-3,3,1,'#97a58b');px(g,x-6,y+3,3,1,'#97a58b');}}
+ }
  // A few reed fragments drift with the current, always inside the shallow water.
  for(let i=0;i<3;i++){const x=(83+i*107+dir*t*2+384)%384,y=shoreLine(x,point,tide,level)+28+i*18;px(g,x,y,4,1,'#8b9472');px(g,x+2,y+1,2,1,'#546d56')}
  if(tide>=2){
