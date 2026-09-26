@@ -1,5 +1,5 @@
 import {shoreFrontOffset} from './data/habitats/shore-hydrology.mjs';
-import {isShore,shorePoint,shoreTide,shoreRain} from './data/habitats/estuary-shore.mjs';
+import {isShore,shorePoint,shoreTide,shoreRain,shoreFauna} from './data/habitats/estuary-shore.mjs';
 import {shoreLayoutFor,shoreHeight,drawShoreBackground,drawShoreWater} from './scenery/estuary-shore.mjs';
 import {createSeaweedBed,seaweedFrame,stageSeaweed,stepSeaweed,beginSeaweedHold,moveSeaweedHold,endSeaweedHold,noteSeaweedVisibility} from './scenery/shallow-marine.mjs';
 import {drawKelp,hitKelp,visibleKelpCell} from './scenery/kelp-geometry.mjs';
@@ -144,7 +144,7 @@ function reset(options={}){
  seaweed=config.id==='shallow-marine'?createSeaweedBed(sceneObjects(layoutForHabitat(state))):null;
  if(seaweed)seaweedFrame(seaweed,{flow:state.flow,reduced});
  critters=empty?[]:makeIndividuals(state.cohort).map(c=>({...c,interaction:speciesById(c.species).interaction,model:renderModel(speciesById(c.species).visual,{stage:c.stage,seed:c.seed}),habitatScale:config.actorScale||1,pixels:new Map()}));
- canvas.dataset.specimens=String(critters.length);canvas.dataset.taxa=[...new Set(critters.map(c=>c.species))].join(',');
+ canvas.dataset.specimens=String(critters.length);canvas.dataset.taxa=[...new Set(critters.filter((c,i)=>!isShore(state)||shoreFauna(state)[i]?.visible).map(c=>c.species))].join(',');
  encounter=empty?null:encounterForScene(state.scene);
  if(config.dialogue&&critters[0]){const a=critters[0];a.x=196;a.y=246;a.a=-.18;a.activity='crawl';a.posture='normal';a.moving=false;a.hidden=false;a.occlusion=0}else stageIndividuals(critters,encounter,{initial:true});
  if(config.id==='sandy-surf'&&!empty){stageSand(critters,state);sandHoles=[]}
@@ -154,7 +154,7 @@ function reset(options={}){
  if(isEstuaryObservation(state)&&!empty)stepEstuary(critters,{state,time:0,reduced});
  if(!empty)placeSceneMolt(state.scene);drawHabitat(0);
 }
-function stage(scene){interaction.cancel();state=getState();syncCaveObserver();if(state.habitatId==='groundwater'){stageGroundwater(critters,state);beamHome()}encounter=encounterForScene(scene);if(!seaweed){elapsed=0;animalElapsed=0;if(shoreVisual)shoreVisual.time=0;}else {seaweed.events={attached:0,crossed:0,hidden:0,reappeared:0,plucked:0};state.seaweedEvidence={}}effect=null;shelterHeld=false;reactions.reset();if(!habitatConfig(state).dialogue&&!['sandy-surf','petri-dish','shallow-marine'].includes(state.habitatId))stageIndividuals(critters,encounter);if(state.habitatId==='sandy-surf')sandHoles=[];if(isEstuaryObservation(state))stepEstuary(critters,{state,time:0,reduced});placeSceneMolt(scene);if(encounter){[camera.x,camera.y]=encounter.place}drawHabitat(0)}
+function stage(scene){interaction.cancel();state=getState();syncCaveObserver();if(state.habitatId==='groundwater'){stageGroundwater(critters,state);beamHome()}encounter=encounterForScene(scene);if(!seaweed){elapsed=0;animalElapsed=0;if(shoreVisual)shoreVisual.time=0;}else {seaweed.events={attached:0,crossed:0,hidden:0,reappeared:0,plucked:0};state.seaweedEvidence={}}effect=null;shelterHeld=false;reactions.reset();if(!habitatConfig(state).dialogue&&!['sandy-surf','petri-dish','shallow-marine'].includes(state.habitatId))stageIndividuals(critters,encounter);if(state.habitatId==='sandy-surf')sandHoles=[];if(isEstuaryObservation(state))stepEstuary(critters,{state,time:0,reduced});if(isShore(state))canvas.dataset.taxa=[...new Set(critters.filter(a=>!a.hidden).map(a=>a.species))].join(',');placeSceneMolt(scene);if(encounter){[camera.x,camera.y]=encounter.place}drawHabitat(0)}
 function react(id){state=getState();if(isEstuaryObservation(state)){stepEstuary(critters,{state,time:animalElapsed,reduced});drawHabitat(performance.now());return}if(state.habitatId==='groundwater'){if(id==='film-dark'){beamMove(30,0)}else if(id!=='lights-out')beamHome();drawHabitat(performance.now());return}const point=actionFocus(id,state,encounter);const selected=[...critters].sort((a,b)=>Math.hypot(a.x-point.x,a.y-point.y)-Math.hypot(b.x-point.x,b.y-point.y)).slice(0,2).map(c=>c.id);effect={id,selected,mode:responseMode(id),start:elapsed,until:elapsed+10};drawHabitat(performance.now())}
 function heartBurst(){if(empty||!critters.length)return;reactions.burst(critters,'♡',elapsed);drawHabitat(performance.now())}
 function scopeVisible(){const m=microscope(getState()),a=critters[0];return !!a&&Math.hypot(a.x-m.x,a.y-m.y)<130/m.magnification}

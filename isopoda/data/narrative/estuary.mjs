@@ -1,4 +1,4 @@
-import {isShore,shoreScene,shoreEvidence,shoreText,shoreRecordLine,shorePoint,shoreTide,shoreProgress} from '../habitats/estuary-shore.mjs';
+import {isShore,shoreScene,shoreEvidence,shoreText,shoreRecordLine,shorePoint,shoreTide,shoreProgress,shoreEnding} from '../habitats/estuary-shore.mjs';
 import {encodeIsopodText,isopodWaveNumber} from '../../locales/isopod.mjs';
 
 // Authored observation frames, not measured salinities, animal preferences or tide timings.
@@ -129,7 +129,7 @@ export function estuaryRecordLine(record,lang='zh'){
  return lang==='isopod'?encodeIsopodText(line):line;
 }
 export function estuarySummary(records,lang='zh'){
- if(records.some(r=>r.evidence?.version===2))return shoreText('ending:body',lang);
+ if(records.some(r=>r.evidence?.version===2))return shoreText(shoreEnding({records}).body,lang);
  const entries=estuaryRecords({records}).filter(r=>ESTUARY_NODES.some(n=>n.id===r.evidence?.nodeId)).slice(0,6);
  return [text('ending:body',lang),...entries.map(r=>`${text(r.evidence?.nodeId+':name',lang)} — ${estuaryRecordLine(r,lang)}`)].join('\n\n');
 }

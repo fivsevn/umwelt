@@ -19,7 +19,7 @@ export function specimenSizePresentation(p){
  const modules=pixelAnatomy(model,{posture:'normal',moving:false});
  const body=modules.filter(m=>['cephalon','pleon','pleotelson'].includes(m.region)||/^p\d$/.test(m.region)).flatMap(m=>m.cells);
  const all=modules.flatMap(m=>m.cells),extent=cells=>Math.max(...cells.map(c=>c[0]))-Math.min(...cells.map(c=>c[0]))+1;
- const mm=typicalAdultLengthMm(p),mountScale=p.id==='giganteus'?2.9:2;
+ const mm=typicalAdultLengthMm(p),mountScale=p.id==='giganteus'?2.9:p.id==='carinata'?1.5:2;
  const pxPerCell=Math.round(80*model.growth.scale)/64*mountScale;
  const barMm=mm?[.1,.2,.5,1,2,5,10,20,50,100,200].reduce((best,n)=>Math.abs(n-mm/4)<Math.abs(best-mm/4)?n:best,.1):null;
  return {mm,mountScale,barMm,barPx:mm?extent(body)*pxPerCell*barMm/mm:null,oversized:extent(all)*pxPerCell>156||mm>=25||['bolivari','giganteus'].includes(p.id),giant:mm>=100};

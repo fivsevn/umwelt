@@ -1,8 +1,9 @@
+import {shoreFaunaSnapshot,SHORE_FAUNA_RULES} from '../data/habitats/shore-fauna.mjs';
 import {shoreFrontOffset,shoreMarineFraction} from '../data/habitats/shore-hydrology.mjs';
 import {SHORE_LAYOUTS} from './authored-shore-layouts.mjs';
 import {stepInteraction} from '../interaction.mjs';
 import {materialInk} from './grammar.mjs';
-import {shorePoint,shoreTide,shoreRain,shoreVisible} from '../data/habitats/estuary-shore.mjs';
+import {shorePoint,shoreTide,shoreRain,shoreIndex} from '../data/habitats/estuary-shore.mjs';
 const px=(g,x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),w,h)};
 const noise=(x,y,s=57)=>{let n=Math.imul(x+s,374761393)^Math.imul(y+1,668265263);n=Math.imul(n^(n>>>13),1274126177);return (n^(n>>>16))>>>0};
 // Three distinct banks share the same tidal excursion, not the same terrain.
@@ -92,19 +93,31 @@ export function shoreLayout(point=1,tide=0,rain=false){
 }
 const shoreObject=(point,id)=>SHORE_LAYOUTS[point].objects.find(o=>o.id===id);
 export const shoreLayoutFor=s=>shoreLayout(shorePoint(s),shoreTide(s),shoreRain(s));
-// Slow, legible travel around the shelter; the leading animal never disappears for a tide.
+// Seeded stop-and-go paths around real authored refuges. Pace is a game proxy.
 export function stepShore(group,{state,time=0,dt=0,reduced=false}){
- const point=shorePoint(state),tide=shoreTide(state),shelter=shoreObject(point,point===2?'shore-stone':'shore-wood'),anchor=[shelter.x,shelter.y],t=time*(reduced?.65:1);
+ const point=shorePoint(state),layout=SHORE_LAYOUTS[point],t=time*(reduced?.65:1);
+ const snapshot=shoreFaunaSnapshot(group,point,shoreIndex(state));
+ const local=group.some(a=>a.species)?group.filter((a,i)=>snapshot[i].visible):group.slice(0,4);
  for(const [i,a] of group.entries()){
-  const phase=t*.23+i*2.8+point*.45,rx=i?19:32,ry=i?6:10;
-  const x=anchor[0]+Math.cos(phase)*rx,y=anchor[1]+16+Math.sin(phase)*ry+(i?12:0),key=point+':'+tide;
-  if(a.shoreTrack?.key!==key)a.shoreTrack={key,dx:0,dy:0};
+  a.hidden=!local.includes(a);if(a.hidden)continue;
+  const slot=local.indexOf(a),seed=(a.seed??i)>>>0,id=a.species||'hookeri';
+  const refuge=SHORE_FAUNA_RULES[id]?.refuge,mud=refuge==='mud',stone=refuge==='stone',algae=refuge==='algae';
+  const candidates=layout.objects.filter(o=>stone?/stone/.test(o.type)&&o.y>shoreLine(o.x,point,1)-40:algae?/ulva|seagrass|sunken-wood/.test(o.type):mud?/mud-burrows|estuary-silt/.test(o.type)&&o.y>shoreLine(o.x,point,1)-25:/sunken-wood/.test(o.type));
+  const shelter=candidates[(seed+slot)%Math.max(1,candidates.length)]||shoreObject(point,'shore-wood');
+  const key=String(point);
+  if(a.shoreTrack?.key!==key)a.shoreTrack={key,dx:0,dy:0,clockOffset:0,lastTime:t};
+  if(t<a.shoreTrack.lastTime)a.shoreTrack.clockOffset+=a.shoreTrack.lastTime;
+  a.shoreTrack.lastTime=t;
+  const clock=t+a.shoreTrack.clockOffset,period=(mud?17:stone?12:10)+(seed%7),phase=clock+(seed%71)*.31,cycle=Math.floor(phase/period),u=(phase%period)/period;
+  const travel=mud?.36:stone?.56:.72,progress=smooth(Math.min(1,u/travel));
+  const radius=mud?9:stone?15:algae?30:24;
+  const target=n=>{const q=noise(n+1,slot+19,seed);return {x:shelter.x+((q%101)/50-1)*radius,y:shelter.y+10+((q>>>9)%101)/100*(mud?10:22)}};
+  const from=target(cycle),to=target(cycle+1),x=from.x+(to.x-from.x)*progress,y=from.y+(to.y-from.y)*progress;
   if(a.interactionState){a.shoreTrack.dx=a.x-x;a.shoreTrack.dy=a.y-y;if(stepInteraction(a,dt))continue}
-  a.hidden=i>1||(i===1&&tide<2);
-  a.x=Math.max(24,Math.min(355,x+a.shoreTrack.dx));a.y=Math.max(30,Math.min(400,y+a.shoreTrack.dy));
-  a.a=Math.atan2(Math.cos(phase)*ry,-Math.sin(phase)*rx);
-  a.occlusion=0;a.lift=0;a.posture='normal';a.activity='crawl';a.moving=true;
-  a.phase=(a.seed||i)*.1+t*3.2;a.habitatScale=1;
+  a.x=Math.max(22,Math.min(360,x+a.shoreTrack.dx));a.y=Math.max(30,Math.min(407,y+a.shoreTrack.dy));
+  a.a=Math.atan2(to.y-from.y,to.x-from.x);a.moving=u<travel;
+  a.occlusion=mud?(a.moving?.18:.48):0;a.lift=0;a.posture=mud&&!a.moving?'buried':'normal';a.activity=a.moving?'crawl':'rest';
+  a.phase=seed*.1+(a.moving?t*2.8:Math.floor(phase/period));a.habitatScale=1;
  }
 }
 function fish(g,x,y,dir=1,goby=false,t=0){

@@ -31,7 +31,7 @@ const name=process.env.BROWSER||'chromium',base=process.env.BASE_URL||'http://12
     }
     await page.locator('#nextBtn').click();
    }
-   assert.ok(await page.locator('#endCard').isVisible());assert.equal((await saved()).ending,'estuary-shore');assert.equal((await saved()).records.length,8);
+   assert.ok(await page.locator('#endCard').isVisible());assert.ok((await saved()).ending.startsWith('estuary-shore'));assert.equal((await saved()).records.length,8);
    await page.locator('#endingCatalogBtn').click();assert.ok(await page.locator('#drawer').isVisible());await page.locator('#closeDrawer').click();
    await page.locator('#restartBtn').click();await page.locator('#startBtn').click();await page.locator('#settleBtn').click();assert.equal((await saved()).records.length,0);
    const beforeLab=JSON.stringify(await saved());

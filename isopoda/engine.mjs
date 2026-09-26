@@ -295,6 +295,7 @@ export function migrateV4(old){
    if(s.stage==='choice'){s.scene=null;advanceWater(s)}
   }
  }
+ if(isShore(s)&&s.cohort?.length===7){const old=s.cohort;s.cohort=cohortFor(old[0].species,s.seed,12).map((c,i)=>i<7?old[i]:{...c,species:old[i%7].species})}
  if(isSeaweed(s)){s.day=1;s.period=0;s.seaweedEvidence={};if(s.stage==='choice')s.scene=null;if(s.cohort?.length===7){const old=s.cohort;s.cohort=cohortFor(old[0].species,s.seed,18).map((c,i)=>i<7?old[i]:{...c,species:old[i%7].species})}}
  if(s.habitatId==='freshwater'){
   // Freshwater now uses five untimed material observations instead of three dated days.

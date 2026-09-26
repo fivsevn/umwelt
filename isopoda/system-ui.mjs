@@ -24,7 +24,7 @@ function savedTaxa(){
 function currentTaxa(){
   const live=(document.querySelector('#habitat')?.dataset.taxa||'')
     .split(',').map(value=>value.trim()).filter(Boolean);
-  return live.length?live:savedTaxa();
+  return document.querySelector('#habitat')?.hasAttribute('data-taxa')?live:savedTaxa();
 }
 
 function updateSpeciesStatus(){
