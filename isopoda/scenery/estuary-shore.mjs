@@ -1,3 +1,4 @@
+import {stepInteraction} from '../interaction.mjs';
 import {materialInk} from './grammar.mjs';
 import {shorePoint,shoreTide,shoreRain,shoreVisible} from '../data/habitats/estuary-shore.mjs';
 const px=(g,x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),w,h)};
@@ -76,12 +77,15 @@ export function shoreLayout(point=1,tide=0,rain=false){
 }
 export const shoreLayoutFor=s=>shoreLayout(shorePoint(s),shoreTide(s),shoreRain(s));
 // Slow, legible travel around the shelter; the leading animal never disappears for a tide.
-export function stepShore(group,{state,time=0,reduced=false}){
+export function stepShore(group,{state,time=0,dt=0,reduced=false}){
  const point=shorePoint(state),tide=shoreTide(state),anchor=[[159,228],[177,222],[246,192]][point],t=time*(reduced?.65:1);
  for(const [i,a] of group.entries()){
   const phase=t*.23+i*2.8+point*.45,rx=i?19:32,ry=i?6:10;
+  const x=anchor[0]+Math.cos(phase)*rx,y=anchor[1]+16+Math.sin(phase)*ry+(i?12:0),key=point+':'+tide;
+  if(a.shoreTrack?.key!==key)a.shoreTrack={key,dx:0,dy:0};
+  if(a.interactionState){a.shoreTrack.dx=a.x-x;a.shoreTrack.dy=a.y-y;if(stepInteraction(a,dt))continue}
   a.hidden=i>1||(i===1&&tide<2);
-  a.x=anchor[0]+Math.cos(phase)*rx;a.y=anchor[1]+16+Math.sin(phase)*ry+(i?12:0);
+  a.x=Math.max(24,Math.min(355,x+a.shoreTrack.dx));a.y=Math.max(30,Math.min(400,y+a.shoreTrack.dy));
   a.a=Math.atan2(Math.cos(phase)*ry,-Math.sin(phase)*rx);
   a.occlusion=0;a.lift=0;a.posture='normal';a.activity='crawl';a.moving=true;
   a.phase=(a.seed||i)*.1+t*3.2;a.habitatScale=1;
