@@ -6,15 +6,17 @@ const name=process.env.BROWSER||'chromium',base=process.env.BASE_URL||'http://12
  try{
   const page=await browser.newPage({viewport:{width:390,height:844},reducedMotion:process.env.MOTION||'reduce'}),errors=[];
   page.on('pageerror',e=>errors.push(e.message));
+  await page.route('**/habitat.mjs*',async route=>{const response=await route.fetch();await route.fulfill({response,body:(await response.text()).replace('return {reset,stage,react,','if(canvas.id==="habitat")window.__shoreMotion=()=>critters;return {reset,stage,react,')})});
   await page.goto(base+'/isopoda/?habitat=estuary');await page.locator('#startBtn').click();await page.locator('#settleBtn').click();
   assert.match(await page.locator('#interactionCue').textContent(),/点岸上的脚印/);
   assert.doesNotMatch(await page.locator('#observation').textContent(),/点岸上的脚印/);
   const boxes=await Promise.all(['#observation','#interactionCue','#nextBtn'].map(id=>page.locator(id).boundingBox()));assert.ok(boxes[0].y+boxes[0].height<=boxes[1].y&&boxes[1].y+boxes[1].height<=boxes[2].y);
   await page.emulateMedia({reducedMotion:'no-preference'});await page.emulateMedia({reducedMotion:process.env.MOTION||'reduce'});
+  await page.locator('#speedFastBtn').click();
   const sample=()=>page.evaluate(async()=>{
    const c=document.querySelector('#habitat'),g=c.getContext('2d'),point=Number(c.dataset.shorePoint),scale=Math.max(1,c.width/384),sw=c.width/scale,sh=c.height/scale,sx=192-sw/2,sy=215-sh/2;
    const grab=(x,y,w,h)=>{const ax=Math.max(0,Math.round((x-sx)*scale)),ay=Math.max(0,Math.round((y-sy)*scale)),bw=Math.min(c.width-ax,Math.round(w*scale)),bh=Math.min(c.height-ay,Math.round(h*scale));return [...g.getImageData(ax,ay,bw,bh).data]};
-   const {shoreLayout}=await import('/isopoda/scenery/estuary-shore.mjs'),layout=shoreLayout(point),shelter=layout.objects.find(o=>o.id===(point===2?'shore-stone':'shore-wood')),reed=layout.objects.find(o=>o.id==='shore-reed-0');return {animal:grab(shelter.x-43,shelter.y-1,86,46),...(reed?{reeds:grab(reed.x-15,reed.y-45,30,40)}:{}),water:grab(217,300,90,55)};
+   const {shoreLayout}=await import('/isopoda/scenery/estuary-shore.mjs'),layout=shoreLayout(point),shelter=layout.objects.find(o=>o.id===(point===2?'shore-stone':'shore-wood')),reed=layout.objects.find(o=>o.id==='shore-reed-0');return {actors:window.__shoreMotion().filter(a=>!a.hidden).map(a=>({id:a.id,x:a.x,y:a.y})),...(reed?{reeds:grab(reed.x-15,reed.y-45,30,40)}:{}),water:grab(217,300,90,55)};
   });
   for(let tide=0;tide<4;tide++){
    for(let point=0;point<3;point++){
@@ -23,12 +25,13 @@ const name=process.env.BROWSER||'chromium',base=process.env.BASE_URL||'http://12
     assert.doesNotMatch(await page.locator('#observation').textContent(),/点岸上的脚印/g);
     const coordinate=await page.locator('#dayLabel').textContent(),before=await sample();
     await page.waitForTimeout(1800);const after=await sample();
-    for(const region of Object.keys(before)){const diff=before[region].reduce((n,v,i)=>n+(v!==after[region][i]),0);assert.ok(diff>9,`${name} point ${point}, tide ${tide}: ${region} must visibly animate (${diff} changed channels)`)}
+    if(before.actors.length)assert.ok(before.actors.some(a=>{const b=after.actors.find(b=>b.id===a.id);return b&&Math.hypot(b.x-a.x,b.y-a.y)>.1}),'visible animals resume movement across authored pauses');
+    for(const region of Object.keys(before).filter(key=>key!=='actors')){const diff=before[region].reduce((n,v,i)=>n+(v!==after[region][i]),0);assert.ok(diff>9,`${name} point ${point}, tide ${tide}: ${region} must visibly animate (${diff} changed channels)`)}
     assert.equal(await page.locator('#dayLabel').textContent(),coordinate);
    }
    await page.locator('#nextBtn').click();
   }
   await page.reload();await page.locator('#continueBtn').click();assert.doesNotMatch(await page.locator('#observation').textContent(),/点岸上的脚印/g);
-  assert.deepEqual(errors,[]);console.log(`${name} ${process.env.MOTION||'reduce'}: moving isopods, reeds and water fauna across all 12 shore states OK`);
+  assert.deepEqual(errors,[]);console.log(`${name} ${process.env.MOTION||'reduce'}: patchy stop-and-go isopods, reeds and water fauna across all 12 shore states OK`);
  }finally{await browser.close()}
 })().catch(e=>{console.error(e);process.exitCode=1});
