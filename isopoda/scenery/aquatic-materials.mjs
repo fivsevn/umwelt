@@ -6,6 +6,21 @@ export const WATER_BACKGROUNDS=new Set(['freshwater','intertidal','shallow-marin
 export const WATER_DETAILS=new Set(['silt','rock-crack','algae-film','crustose','holdfast','abyssal-silt','nodule','sponge','sunken-wood']);
 const noise=(x,y,s=0)=>{let h=Math.imul((x+s)|0,374761393)^Math.imul(y|0,668265263);h=Math.imul(h^(h>>>13),1274126177);return (h^(h>>>16))>>>0};
 
+// Non-periodic relief: distant sediment forms grow broader instead of repeating.
+function sedimentNoise(x,y,seed){
+ const ix=Math.floor(x),iy=Math.floor(y),fx=x-ix,fy=y-iy,sx=fx*fx*(3-2*fx),sy=fy*fy*(3-2*fy),n=(a,b)=>noise(a,b,seed)/4294967295;
+ return (n(ix,iy)*(1-sx)+n(ix+1,iy)*sx)*(1-sy)+(n(ix,iy+1)*(1-sx)+n(ix+1,iy+1)*sx)*sy;
+}
+function outerSediment(x,y,seed,base){
+ const outside=Math.hypot(Math.max(0,-x,x-384),Math.max(0,-y,y-430));if(!outside)return base;
+ const t=Math.min(1,outside/230),blend=t*t*(3-2*t),dx=x-192,dy=y-215,r=Math.hypot(dx,dy);
+ const stretch=1+Math.max(0,r-250)/850,u=192+dx/stretch,v=215+dy/stretch;
+ const warp=(sedimentNoise(u/510,v/510,seed+91)-.5)*210;
+ const relief=sedimentNoise((u+warp)/330,(v-warp*.6)/430,seed+137)*.78+sedimentNoise(u/150,v/210,seed+211)*.22;
+ const level=Math.max(0,Math.min(1,(relief-.2)/.65)),low=[18,29,32],high=[39,51,53];
+ return '#'+[1,3,5].map((i,k)=>Math.round(parseInt(base.slice(i,i+2),16)*(1-blend)+(low[k]+(high[k]-low[k])*level)*blend).toString(16).padStart(2,'0')).join('');
+}
+
 export function drawWaterBackground(g,{kind,seed=57,originX=0,originY=0}={}){
  const w=g.canvas?.width||384,h=g.canvas?.height||430;
  for(let y=originY;y<originY+h;y+=2)for(let x=originX;x<originX+w;x+=2){
@@ -28,6 +43,7 @@ export function drawWaterBackground(g,{kind,seed=57,originX=0,originY=0}={}){
   }else{
    // Broad, faint sediment drifts preserve the abyssal negative space.
    c=broad>1?'#293536':broad<-.85?'#172528':'#213033';
+   if(originX||originY)c=outerSediment(x,y,seed,c);
   }
   px(g,x-originX,y-originY,2,2,materialInk(c,x,y,seed,'soil'));
  }
