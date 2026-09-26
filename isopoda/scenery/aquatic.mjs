@@ -1,3 +1,4 @@
+import {kelpGeometry,drawKelp} from './kelp-geometry.mjs';
 import {stepPetri} from './petri.mjs';
 import {stepSand,sandShore} from './sandy-surf.mjs';
 import {isIntertidal} from '../data/narrative/intertidal.mjs';
@@ -107,6 +108,7 @@ export function drawAquaticBackground(g,{kind='freshwater',palette,seed=57}={}){
 
 const coastalPlantBuffers=new WeakMap();
 export function drawAquaticPlant(g,options={}){
+ if(options.layered&&options.kind==='kelp')return drawKelp(g,kelpGeometry(options,{time:options.time||0,motion:options.motion??1}));
  // As with the larger marine plants, apply the world shadow once per plant,
  // not thousands of times to its individual pixels (particularly costly in WebKit).
  if(!['seagrass','saltmarsh','ulva'].includes(options.kind)||typeof g.drawImage!=='function')return paintAquaticPlant(g,options);
