@@ -22,7 +22,7 @@ const name=process.env.BROWSER||'chromium',base=process.env.BASE_URL||'http://12
      assert.equal(await page.locator('#actions button').count(),0);
      assert.equal(await page.locator('#instruments [data-scale="numeric"]').count(),3);assert.equal(await page.locator('#instruments [data-scale="qualitative"]').count(),1);assert.match(await page.locator('#dayLabel').textContent(),/\([−\-\d.]+, [−\-\d.]+\) m/);
      assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
-     if(output&&turn===2&&point===1)await page.screenshot({path:path.join(output,`${name}-${width}-shore.png`),fullPage:true});
+     if(output&&turn===2)await page.screenshot({path:path.join(output,`${name}-${width}-shore-${point}.png`),fullPage:true});
     }
     if(turn===3){
      const before=await saved();await page.reload();await page.locator('#continueBtn').click();assert.deepEqual((await saved()).records,before.records);assert.equal((await saved()).shorePoint,2);
@@ -47,6 +47,7 @@ const name=process.env.BROWSER||'chromium',base=process.env.BASE_URL||'http://12
     const pending=page.waitForEvent('download');await page.locator('#downloadScene').click();const download=await pending;assert.equal(download.suggestedFilename(),`habitat-estuary-shore-${i-6}.json`);assert.deepEqual(JSON.parse(fs.readFileSync(await download.path(),'utf8')),data);
     await page.locator('#estuaryPreview').click();assert.equal(await page.locator('#estuaryPreview').getAttribute('aria-pressed'),'true');const before=await page.locator('#scene').evaluate(c=>c.toDataURL());await page.waitForTimeout(160);assert.notEqual(await page.locator('#scene').evaluate(c=>c.toDataURL()),before);await page.locator('#estuaryPreview').click();
    }
+   if(output&&width===1440){for(const index of [9,13,17]){await page.locator('#estuaryStage').selectOption(String(index));await page.locator('#clearScene').click();await page.locator('#scene').screenshot({path:path.join(output,`${name}-terrain-${(index-9)/4}.png`)});}}
    await page.locator('[data-preset="forest"]').click();assert.ok(await page.locator('#estuaryStageControl').isHidden());
    assert.equal(JSON.stringify(await saved()),beforeLab);
    await page.goto(base+'/isopoda/?habitat=freshwater');await page.locator('#startBtn').click();await page.locator('#settleBtn').click();assert.ok(await page.locator('#shorePrev').isHidden());assert.ok(await page.locator('#shoreNext').isHidden());assert.ok(await page.locator('#actions').isVisible());
