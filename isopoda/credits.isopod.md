@@ -52,3 +52,6 @@
 **[o: ...](https://umwelt.fivsevn.com/isopoda/morphology/)**
 
 **[~o~ ...](https://umwelt.fivsevn.com/isopoda/habitat)**
+
+
+↔ ≈ mm / cm · [ o ] ≠ [ O ] · ↔ ?

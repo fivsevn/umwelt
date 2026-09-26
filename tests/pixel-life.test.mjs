@@ -38,3 +38,13 @@ test('square camera uses one scale, crops at small widths and clamps drag to wor
  for(const size of [220,286,356,620])for(const zoom of [1,1.5,3])for(const x of [-900,190,999])for(const y of [-900,215,999]){const c=cameraWindow(size,size,zoom,x,y);assert.equal(c.sw,c.sh);assert.equal(c.scale*c.sw,size);assert.ok(c.sx>=-1e-9&&c.sy>=-1e-9&&c.sx+c.sw<=384+1e-9&&c.sy+c.sh<=430+1e-9)}
  assert.equal(cameraWindow(286,286).scale,1);assert.equal(cameraWindow(356,356).scale,1);assert.ok(cameraWindow(620,620).scale>1);
 });
+
+test('continuous scaled and rotated plates have no interior pinholes at intermediate sizes',()=>{
+ const source=new Map();for(let y=-12;y<=12;y++)for(let x=-12;x<=12;x++)source.set(x+','+y,'#cc7733');
+ const model={growth:{scale:1}};
+ for(const habitatScale of [1,1.2,1.4,1.8,2.1])for(const a of [0,.2,.7,1.2,2.4]){
+  const cells=sceneActorPixels(source,{model,habitatScale,a,x:100,y:100}),points=new Set(cells.map(([x,y])=>x+','+y));
+  // The centre of a solid plate must stay solid regardless of subpixel rotation/scale.
+  for(let y=97;y<=103;y++)for(let x=97;x<=103;x++)assert.ok(points.has(x+','+y),`hole at ${x},${y}; scale ${habitatScale}, angle ${a}`);
+ }
+});

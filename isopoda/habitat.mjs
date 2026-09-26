@@ -28,19 +28,24 @@ const SCENE_ACTOR_SCALE=ACTOR_SCALE,SCENE_OUTPUT_SCALE=1;
 export function sceneActorPixels(source,actor){
  const cells=new Map(),size=SCENE_ACTOR_SCALE*actor.model.growth.scale*(actor.habitatScale||1),ca=Math.cos(actor.a),sa=Math.sin(actor.a);
  const centerX=Math.round(actor.x),centerY=Math.round(actor.y+(actor.lift||0));
- const front=['under','gather'].includes(actor.activity);
- // Scaling used to move each source cell farther apart while still painting a single output
- // pixel. Large animals therefore turned into dotted clouds. Keep 1px cells at normal scale,
- // but rasterize a compact footprint when a habitat deliberately enlarges an animal.
- const footprint=size>1.45?Math.max(2,Math.ceil(size*.92)):1,offset=Math.floor(footprint/2);
- for(const [key,color] of source){
-  const comma=key.indexOf(','),sx=Number(key.slice(0,comma)),sy=Number(key.slice(comma+1));
-  if(actor.occlusion>0&&(front?sx>24-actor.occlusion*49:sx< -24+actor.occlusion*49))continue;
-  const ox=sx*size,oy=sy*size;
-  const x=Math.round(centerX+ox*ca-oy*sa),y=Math.round(centerY+ox*sa+oy*ca-(actor.sandRearLift||0)*Math.max(0,Math.min(1,(16-sx)/36)));
-  for(let yy=0;yy<footprint;yy++)for(let xx=0;xx<footprint;xx++){
-   const px=x+xx-offset,py=y+yy-offset;cells.set(px+','+py,[px,py,color]);
+ const front=['under','gather'].includes(actor.activity),rearLift=actor.sandRearLift||0;
+ // Inverse-sample the output lattice: forward scattering leaves holes even at 1.1x.
+ // Bounds include appendages; the sand lift is a piecewise affine shear in source x.
+ let radius=0;
+ for(const key of source.keys()){const [x,y]=key.split(',').map(Number);radius=Math.max(radius,Math.hypot(x,y)+1)}
+ radius=Math.ceil(radius*size+Math.abs(rearLift)+1);
+ for(let y=-radius;y<=radius;y++)for(let x=-radius;x<=radius;x++){
+  const projected=x*ca+y*sa;
+  let sx=projected/size;
+  if(rearLift){
+   const mid=(projected+rearLift*sa*16/36)/(size+rearLift*sa/36);
+   sx=mid>=16?projected/size:mid<=-20?(projected+rearLift*sa)/size:mid;
   }
+  const lift=rearLift*Math.max(0,Math.min(1,(16-sx)/36));
+  const sy=Math.round((-x*sa+(y+lift)*ca)/size);sx=Math.round(sx);
+  if(actor.occlusion>0&&(front?sx>24-actor.occlusion*49:sx< -24+actor.occlusion*49))continue;
+  const color=source.get(sx+','+sy);
+  if(color)cells.set((centerX+x)+','+(centerY+y),[centerX+x,centerY+y,color]);
  }
  return [...cells.values()];
 }

@@ -128,7 +128,7 @@ function normalizeReference(id,source,kind='project'){
  return {
   id,kind,short:source.title.split(' — ')[0]||source.title,
   citation:source.title,
-  note:['资料类型：'+(source.type||'REFERENCE'),source.supports?.length&&'支持字段：'+source.supports.join(' / ')].filter(Boolean).join(' · '),
+  note:['资料类型：'+(source.type||'REFERENCE'),source.note,source.supports?.length&&'支持字段：'+source.supports.join(' / ')].filter(Boolean).join(' · '),
   url:source.url
  };
 }
