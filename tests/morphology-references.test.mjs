@@ -91,6 +91,9 @@ test('game credits keep umbrella databases and literature platforms, not paper-l
   'https://www.nps.gov/',
   'https://www.noaa.gov/',
   'https://www.usgs.gov/',
+  'https://www.nasa.gov/',
+  'https://www.marlin.ac.uk/',
+  'https://doris.ffessm.fr/',
   'https://www.jma.go.jp/',
   'https://www.microscopyu.com/'
  ];
@@ -103,7 +106,7 @@ test('game credits keep umbrella databases and literature platforms, not paper-l
   assert.ok(start>=0&&end>start,url);
   const declarationEnd=body.indexOf('\n**',end+endMark.length);
   const declaration=body.slice(end+endMark.length,declarationEnd);
-  assert.equal(declaration.split(/\r?\n/).filter(line=>line.startsWith('- ')).length,3,url+': three concise declaration bullets');
+  assert.equal(declaration.split(/\r?\n/).filter(line=>line.startsWith('- ')).length,4,url+': four concise declaration bullets');
   assert.ok(declaration.length<600,url+': declarations must stay concise');
   const outsideDeclaration=body.slice(0,end)+body.slice(declarationEnd);
   assert.doesNotMatch(outsideDeclaration,/比例尺|体长|模拟层|饲养建议|縮尺|体長|シミュレーション|飼育指針|scale bars?|adult.size|population averages?|simulation values|husbandry advice|care advice/i,url+': caveats belong in declaration section only');

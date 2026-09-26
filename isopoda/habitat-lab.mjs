@@ -1,4 +1,5 @@
-import {shoreLayout,drawShoreBackground,drawShoreWater} from './scenery/estuary-shore.mjs';
+import {drawCohort} from './collection.mjs';
+import {shoreLayout,drawShoreBackground,drawShoreWater,stepShore} from './scenery/estuary-shore.mjs';
 import {shoreText} from './data/habitats/estuary-shore.mjs';
 import {kelpGeometry,drawKelp,kelpDepth,visibleKelpCell} from './scenery/kelp-geometry.mjs';
 import {ESTUARY_STAGE_LAYOUTS,ESTUARY_STAGE_META,estuaryStageFilename,validateEstuaryLayout} from './scenery/estuary-stages.mjs';
@@ -301,7 +302,7 @@ function syncControls(){
  $('#estuaryPreviewControl').hidden=!['estuary','shallow-marine'].includes(currentPreset);
  $('#referenceDepthControl').hidden=currentPreset!=='shallow-marine';$('#referenceDepth').value=String(reference.depth??45);$('#estuaryPreview').setAttribute('aria-pressed',String(estuaryPreview));
  $('#estuaryPreview').textContent='FLOW · '+(estuaryPreview?'ON':'OFF');
- $('#estuaryPreviewControl span').textContent=state.backgroundParams?.shore?'近岸原型：选择观察点与潮位，分别编辑、导出。 / Shore prototype: edit and export each bank and tide separately.':'水流预览；旧版 P 木边 / Q 藻根。各时刻分别导出。 / Flow preview; export each observation separately.';
+ $('#estuaryPreviewControl span').textContent=state.backgroundParams?.shore?'选择岸段与潮位。FLOW 开启时按游戏规则显示群落，可出现空岸；关闭后可拖动比例参考标本。 / FLOW previews patchy game fauna; OFF restores the movable scale specimen.':'水流预览；旧版 P 木边 / Q 藻根。各时刻分别导出。 / Flow preview; export each observation separately.';
  $('#freshwaterStageControl').hidden=currentPreset!=='freshwater';$('#freshwaterStage').value=String(currentFreshwaterStage);
  $('#toggleReference').setAttribute('aria-pressed',String(reference.visible));
  $('#toggleReference').textContent='GAME SCALE · '+(reference.visible?'ON':'OFF');
@@ -363,8 +364,28 @@ function drawObject(target,asset,item,preview=false){
  finally{target.restore()}
 }
 
+let shoreFaunaPreview=null;
+function drawShoreFaunaPreview(){
+ const key=String(state.backgroundSeed);
+ if(shoreFaunaPreview?.key!==key){
+  const cohort=drawCohort({unlocked:[],draws:0},state.backgroundSeed,'estuary');
+  shoreFaunaPreview={key,cohort,actors:cohort.map(c=>({...c,model:renderModel(speciesById(c.species).visual,{stage:c.stage,seed:c.seed})}))};
+ }
+ const {cohort,actors}=shoreFaunaPreview,s={...labShoreState(),cohort,seed:state.backgroundSeed};
+ stepShore(actors,{state:s,time:previewTime,layout:exportScene(state,reference,ASSET_BY_ID)});
+ const visible=actors.filter(a=>!a.hidden),taxa=[...new Set(visible.map(a=>a.species))];
+ scene.dataset.visibleTaxa=taxa.join(',');scene.dataset.visibleFauna=String(visible.length);
+ $('#specimenReadout').textContent=`群落预览 · ${visible.length} / ${cohort.length} 可见 · ${taxa.length?taxa.map(id=>speciesById(id).taxon).join(' / '):'本次未见等足目'} · 停止 FLOW 可调整比例标本`;
+ for(const a of visible){
+  const source=new Map();for(const module of pixelAnatomy(a.model,{posture:a.posture,phase:a.phase,moving:a.moving}))for(const [x,y,color] of module.cells)source.set(x+','+y,color);
+  ctx.save();ctx.globalAlpha=1-(a.occlusion||0);
+  for(const [x,y,color] of sceneActorPixels(source,{...a,habitatScale:habitatConfig('estuary').actorScale||1})){ctx.fillStyle=color;ctx.fillRect(x,y,1,1)}ctx.restore();
+ }
+}
 function drawReferenceSpecimen(){
  referenceHitCells=[];
+ if(currentPreset==='estuary'&&state.backgroundParams?.shore&&estuaryPreview)return drawShoreFaunaPreview();
+ delete scene.dataset.visibleTaxa;delete scene.dataset.visibleFauna;
  const species=speciesById(reference.species);
  const size=species.renderSize?.referenceMm;
  $('#specimenReadout').textContent=`${species.label||species.name||species.id} · ${reference.stage} · ${reference.visible?'当前环境游戏比例':'参考标本已隐藏'}${Number.isFinite(size)?` · ref ${size.toFixed(size<2?1:0)} mm`:''}`;

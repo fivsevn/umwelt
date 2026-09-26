@@ -1,6 +1,7 @@
 // Approximate adult reference lengths for archive rulers. Never infer a mean from a maximum.
 // Range midpoints are illustration anchors, not measured population means.
 export const ADULT_SIZE_REFERENCES={
+ carinata:{mm:20.5,url:'https://doris.ffessm.fr/ref/specie/5448',title:'DORIS — Cyathura carinata',basis:'Description reports adult lengths 14–27 mm; midpoint 20.5 mm is an illustration anchor, not a measured mean. Header gives a narrower approximate 14–25 mm range.',level:'A2'},
  giganteus:{mm:250,url:'https://pmc.ncbi.nlm.nih.gov/articles/PMC4304853/',title:'McClain et al. 2015 — Sizing ocean giants',basis:'Adult female mean 22.1 cm and male mean 27.7 cm; rounded midpoint 25 cm is an illustrative adult reference, not a pooled population mean.',level:'A1'},
  aquaticus:{mm:7,url:'https://link.springer.com/article/10.1007/s00265-026-03776-8',title:'Consistent behavioural variation in Asellus aquaticus does not correlate with individual metabolism (2026)',basis:'Study sample mean 7 mm (72 individuals from a pond near Lund); local sample reference, not a universal species mean.',level:'A1'},
  balthica:{mm:17,url:'https://www.marlin.ac.uk/species/detail/2087',title:'MarLIN — Idotea balthica',basis:'Male range 10–30 mm; female range 10–18 mm. Equal-sex midpoint of range midpoints is 17 mm; an illustrative reference, not a measured population mean.',level:'A2'},
