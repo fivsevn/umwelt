@@ -27,7 +27,7 @@ import assert from 'node:assert/strict';
    if(!a.hidden&&cell)return {id:a.id,x:r.left+(cell[0]+1-sx)*scale,y:r.top+(cell[1]+1-sy)*scale};
   }
  });}
- const snapshot=id=>page.evaluate(id=>{const a=window.__habitatTest.actors().find(a=>a.id===id);return {x:a.x,y:a.y,mode:a.interactionState?.mode,posture:a.posture,moving:a.moving}},id);
+ const snapshot=id=>page.evaluate(id=>{const a=window.__habitatTest.actors().find(a=>a.id===id);return {x:a.x,y:a.y,mode:a.interactionState?.mode,posture:a.posture,moving:a.moving,site:a.caveSite?.id}},id);
  const client=mobile?await page.context().newCDPSession(page):null;
  async function down(p){if(mobile)await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:p.x,y:p.y}]});else{await page.mouse.move(p.x,p.y);await page.mouse.down()}}
  async function move(p){if(mobile)await client.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:p.x,y:p.y}]});else await page.mouse.move(p.x,p.y)}
@@ -36,9 +36,16 @@ import assert from 'node:assert/strict';
  await down(p);await up();assert.equal((await snapshot(p.id)).mode,'defensive');
  p=await actorPoint();await down(p);await page.waitForTimeout(560);assert.equal((await snapshot(p.id)).mode,'grabbed');
  let before=await snapshot(p.id);await page.waitForTimeout(200);assert.deepEqual(await snapshot(p.id),before);
- await move({x:p.x+35,y:p.y+28});await up();
- let after=await snapshot(p.id);assert.equal(after.mode,'recovering');assert.ok(Math.hypot(after.x-before.x,after.y-before.y)>10);
- await page.waitForTimeout(1100);assert.equal((await snapshot(p.id)).mode,undefined);
+ const target=await page.evaluate(async id=>{
+  const {CAVE_SITES}=await import('./scenery/groundwater-sites.mjs');
+  const {camera,actors}=window.__habitatTest,a=actors().find(a=>a.id===id),r=document.querySelector('#habitat').getBoundingClientRect();
+  const scale=Math.max(1,r.width/384)*camera.zoom,sw=r.width/scale,sh=r.height/scale,sx=camera.x-sw/2,sy=camera.y-sh/2;
+  const candidates=CAVE_SITES.filter(o=>o.id!==a.caveSite.id&&o.x>sx+15&&o.x<sx+sw-15&&o.y>sy+15&&o.y<sy+sh-15).sort((b,c)=>Math.hypot(c.x-a.x,c.y-a.y)-Math.hypot(b.x-a.x,b.y-a.y));
+  const site=candidates[0];return {id:site.id,x:r.left+(site.x-sx)*scale,y:r.top+(site.y-sy)*scale,wx:site.x,wy:site.y};
+ },p.id);
+ await move(target);await up();
+ let after=await snapshot(p.id);assert.equal(after.mode,'recovering');assert.equal(after.site,target.id);assert.ok(Math.hypot(after.x-before.x,after.y-before.y)>10);
+ await page.waitForTimeout(1600);assert.equal((await snapshot(p.id)).mode,undefined);assert.equal((await snapshot(p.id)).site,target.id);assert.ok(Math.hypot((await snapshot(p.id)).x-target.wx,(await snapshot(p.id)).y-target.wy)<24,'stays by the newly chosen crack');
 
  p=await actorPoint();await down(p);await page.waitForTimeout(550);assert.equal((await snapshot(p.id)).mode,'grabbed');
  await move({x:1,y:1});await up();after=await snapshot(p.id);assert.ok(after.x>=24&&after.x<=355&&after.y>=30&&after.y<=400);
