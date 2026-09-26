@@ -1,3 +1,4 @@
+import {drawWaterBackground} from './scenery/aquatic-materials.mjs';
 import {createPetriOptics} from './scenery/petri-optics.mjs';
 import {microscope,beginPetriStep,noteMicroscopeAction,confinePetri} from './scenery/petri.mjs';
 import {stageSand,buriedAt,uncoverSand,drawSandMarks,sandVisibleCells,sandPose,sandShore} from './scenery/sandy-surf.mjs';
@@ -141,6 +142,7 @@ function scopeControl(action,value){
  if(action==='move')noteMicroscopeAction(state,'move',Math.hypot(m.x-before.x,m.y-before.y));
  onDirectInteraction({type:'microscope',visible:scopeVisible()});drawHabitat(performance.now());
 }
+const abyssFloor=document.createElement('canvas');let abyssFloorSeed=null;
 function present(){
  const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;
  const w=Math.max(80,Math.round(rect.width*SCENE_OUTPUT_SCALE)),h=Math.max(80,Math.round(rect.height*SCENE_OUTPUT_SCALE));
@@ -153,16 +155,18 @@ function present(){
 
  overlayCtx.clearRect(0,0,overlay.width,overlay.height);overlayCtx.drawImage(world,0,0);if(habitatConfig(state).id!=='groundwater'&&!isEstuaryObservation(state))drawReactionBubbles(overlayCtx,reactions.active,critters,elapsed,view,reduced);display.clearRect(0,0,w,h);
  if(state.habitatId==='abyssal'&&camera.zoom<1){
-  // Extend the existing seafloor into darkness without exposing the world's rectangle.
-  display.drawImage(sceneryCanvas,0,0,w,h);display.fillStyle='rgba(3,8,11,.96)';display.fillRect(0,0,w,h);
-  const a=critters[0],cx=a?.x??192,cy=a?.y??215,fade=1-camera.zoom;
-  const shade=overlayCtx.createRadialGradient(cx,cy,16,cx,cy,230);
-  shade.addColorStop(0,`rgba(3,8,11,${fade*.22})`);shade.addColorStop(.45,`rgba(3,8,11,${fade*.78})`);shade.addColorStop(1,`rgba(3,8,11,${fade})`);
-  overlayCtx.fillStyle=shade;overlayCtx.fillRect(0,0,384,430);
-  const edge=overlayCtx.createRadialGradient(192,215,45,192,215,190);edge.addColorStop(0,'#fff');edge.addColorStop(.55,'#fff');edge.addColorStop(1,'transparent');
-  overlayCtx.save();overlayCtx.globalCompositeOperation='destination-in';overlayCtx.fillStyle=edge;overlayCtx.fillRect(0,0,384,430);overlayCtx.restore();
+  // The same procedural sediment continues in world coordinates outside the authored patch.
+  const seed=layoutForHabitat(state).background.seed;
+  if(abyssFloorSeed!==seed){
+   abyssFloor.width=2304;abyssFloor.height=2580;const floor=abyssFloor.getContext('2d');
+   drawWaterBackground(floor,{kind:'abyssal',seed,originX:-960,originY:-1074});
+   floor.fillStyle='rgba(5,11,14,.10)';floor.fillRect(0,0,abyssFloor.width,abyssFloor.height);abyssFloorSeed=seed;
+  }
+  display.drawImage(abyssFloor,sx+960,sy+1074,sw,sh,0,0,w,h);
  }
+
  if(m){display.fillStyle='#19241f';display.fillRect(0,0,w,h)}display.drawImage(overlay,sx,sy,sw,sh,0,0,w,h);
+ if(state.habitatId==='abyssal'&&camera.zoom<1){display.fillStyle=`rgba(3,8,11,${(1-camera.zoom)*.52})`;display.fillRect(0,0,w,h)}
  if(m?.mode){
   if(lensCanvas.width!==w||lensCanvas.height!==h){lensCanvas.width=w;lensCanvas.height=h}
   lensCtx.imageSmoothingEnabled=false;lensCtx.clearRect(0,0,w,h);lensCtx.drawImage(world,sx,sy,sw,sh,0,0,w,h);
@@ -277,7 +281,7 @@ function drawHabitat(t){
 
  if(state.light<55&&!['abyssal','groundwater'].includes(config.id)){ctx.fillStyle=`rgba(15,27,21,${(55-state.light)/120})`;ctx.fillRect(0,0,w,h)}
  if(config.id==='abyssal'){ctx.fillStyle='rgba(5,11,14,.10)';ctx.fillRect(0,0,w,h)}
- ctx.strokeStyle='rgba(147,148,124,.55)';ctx.lineWidth=2;ctx.strokeRect(1,1,w-2,h-2);
+ if(config.id!=='abyssal'){ctx.strokeStyle='rgba(147,148,124,.55)';ctx.lineWidth=2;ctx.strokeRect(1,1,w-2,h-2);}
  if(isEstuaryObservation(state))drawEstuaryWater(ctx,estuaryIndex(state),elapsed,estuaryLayout(state),reduced);
  else if(aquatic)drawAquaticWater(ctx,state,reduced?elapsed*.65:elapsed,{drawPlants:false,observationEffect:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});
  if(config.id==='groundwater')drawGroundwaterEvidence(ctx,state);
