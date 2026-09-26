@@ -69,16 +69,21 @@ test('emerged barnacle refuges retain hirsuta while albifrons follows retained s
 });
 
 
-test('new rock-pool draws contain one or two taxa, never three, with seven persistent individuals',async()=>{
+test('new rock-pool draws always contrast emerged refuges with aquatic taxa, with seven persistent individuals',async()=>{
  const {drawCohort,drawSpecies,restoreCollection}=await import('../isopoda/collection.mjs');
  const allowed=new Set(habitatConfig('intertidal').species),counts=new Set();
  for(const unlocked of [[],[...allowed]])for(let seed=0;seed<1000;seed++){
   const c=drawCohort({unlocked,draws:seed},seed,'intertidal'),taxa=new Set(c.map(x=>x.species));
-  assert.equal(c.length,7);assert.ok(taxa.size>=1&&taxa.size<=2);counts.add(taxa.size);assert.ok(c.every(x=>allowed.has(x.species)));
+  assert.equal(c.length,7);assert.equal(taxa.size,2);assert.ok(taxa.has('hirsuta'));counts.add(taxa.size);assert.ok(c.every(x=>allowed.has(x.species)));
  }
- assert.deepEqual([...counts].sort(),[1,2]);
+ assert.deepEqual([...counts].sort(),[2]);
  // A previously saved three-taxon cohort is not silently redrawn on reload.
  const old=createRun('granulosa',92,'intertidal');old.cohort[1].species='serratum';old.cohort[2].species='pelagica';
  assert.deepEqual(migrateV4(old).cohort,old.cohort);
  assert.ok(Array.from({length:100},(_,seed)=>drawCohort({unlocked:[],draws:0},seed,'terrestrial')).some(c=>new Set(c.map(x=>x.species)).size===3));
+});
+test('accelerated low-tide bouts vary independently while aquatic animals remain submerged',()=>{
+ const s=createRun('granulosa',87,'intertidal'),group=makeIndividuals(s.cohort),destinations=new Set(),durations=new Set();
+ for(let i=0;i<1200;i++){stepIntertidal(group,{state:s,dt:.1,speed:4});for(const a of group){assert.ok(a.y>=intertidalSurface(s));const r=a.tideRoute;destinations.add(`${r.x.toFixed(1)},${r.y.toFixed(1)}`);durations.add(r.until.toFixed(2))}}
+ assert.ok(destinations.size>50);assert.ok(durations.size>50);
 });
