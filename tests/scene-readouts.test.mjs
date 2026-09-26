@@ -14,7 +14,7 @@ test('eight habitats retain three numeric scales and one qualitative state acros
    const scene=ensureScene(s);
    for(const lang of ['zh','en','ja','isopod']){
     const rows=sceneInstrument(s,lang);assert.equal(rows.length,4,h.id);
-    for(const text of rows.slice(0,3)){assert.match(text,/\d/,h.id);assert.doesNotMatch(text,/NaN|undefined/)}
+    for(const text of rows.slice(0,3)){assert.match(text,lang==='isopod'?/[▁-▇]/:/\d/,h.id);if(lang==='isopod')assert.doesNotMatch(text,/\d/);assert.doesNotMatch(text,/NaN|undefined/)}
     assert.doesNotMatch(rows[3],/\d/);assert.deepEqual(sceneInstrument(JSON.parse(JSON.stringify(s)),lang),rows);
     const clock=environmentScale(s,lang);if(clock&&lang==='en')times.add(clock.value);
    }

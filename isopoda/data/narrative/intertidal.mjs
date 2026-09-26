@@ -9,7 +9,7 @@ const local=(row,lang)=>lang==='isopod'?encodeIsopodText(row[0]):row[{zh:0,en:1,
 const row=(name,prompt,labels,replies)=>({name,prompt,options:labels.map((label,i)=>({label,text:replies[i]}))});
 export const INTERTIDAL_NODES=[
  row(['留下的浅水','Water left behind','残された浅水'],
- ['海退到石沿下面。几处湿面上仍有细小的动静，触角伸出去，又收回来。远处的石头看起来很近，中间却少了一段水。','The sea has slipped below the ledge. Small movements remain on a few wet surfaces; antennae reach out and withdraw. The next stone looks close; the water between is missing.','海が岩縁の下へ引いた。いくつかの湿った面で小さな動きが続き、触角が伸びては戻る。隣の石は近いのに、間の水が途切れている。'],
+ ['海退到石沿下面。一些身体留在水里的湿藻旁，另一些仍贴着露出水面的藤壶壳口。壳缝还湿着，同一条水线把两处动静分开了。','The sea slips below the ledge. Some bodies remain beside submerged weed; others hold at exposed barnacle openings. The crevices are still damp. One waterline separates the movements.','海が岩縁の下へ引いた。水中の藻に留まる身体と、水面から出たフジツボの殻口にいる身体。隙間はまだ湿っている。同じ水際が二つの動きを分けた。'],
  [['看近处的触角','Watch the antennae','近くの触角を見る'],['沿池边看一圈','Look around the pool','池の縁をたどる'],['记下这道低水线','Mark the low waterline','低い水際を記す']],
  [['触角一前一后扫过湿面，身体还留在阴影里。小小的活动没有停，只是挤进了更窄的地方。','Antennae sweep the damp surface in turn. The bodies stay in shade. Movement continues in a smaller space.','触角が交互に湿った面を探る。身体は陰に残る。狭い場所でも動きは続く。'],['池底还留着水，石脊却露出来了。此刻能走的地方，被几段干湿相接的边缘分开。','Water remains in the pool, but the ridges are exposed. Wet and dry edges divide the available routes.','池底には水が残り、岩の稜は露出している。乾湿の境が道を分ける。'],['你在纸上留下一道短线。它只是这一次退潮的位置。','You draw a short line: the position of this low tide.','紙に短い線を引く。今回の干潮の位置だけを示す線だ。']]),
  row(['水先到石缝','The first wet seam','先に濡れる割れ目'],
@@ -29,7 +29,7 @@ export const INTERTIDAL_NODES=[
  [['跟看一只经过的身体','Follow a passing body','通る個体を追う'],['留在原来的湿藻边','Stay by the first weed','最初の藻のそばに留まる'],['记下最宽的水面','Mark the widest water','広がった水を記す']],
  [['它经过较开阔的水，再贴到石侧。更大的空间里仍有停靠的地方。','It crosses open water and settles beside a stone. The wider space still offers places to grip.','開けた水を渡り、石の側面に寄る。広い場所にもつかまる面はある。'],['湿藻还在，却不再是唯一的去处。你留住的是观察位置，不是它们。','The weed remains, but is no longer the only place to go. You keep your viewpoint, not the animals.','藻は残るが、行き先は一つではない。留めたのは観察点だけだ。'],['这一次水面最宽。纸上的线没有说明下一只会去哪里。','This is the widest water in this cycle. The line cannot say where the next body will go.','今回もっとも広い水面を記す。次の個体の行き先は線にはない。']]),
  row(['回水穿过石口','Water returning','戻る流れ'],
- ['水面开始下移。石口的颗粒往外走，几只身体贴低，步足抓紧近处的表面。刚才敞开的水路，开始有了方向。','The water starts to fall. Particles move outward through the gap; several bodies lower themselves and grip nearby surfaces. The open passage gains a direction.','水面が下がり始める。隙間の粒が外へ流れ、個体は身を低くして面をつかむ。開いていた水路に向きが生まれる。'],
+ ['水面开始下移。石口的颗粒往外走，水里的身体沿着湿面退回低处。藤壶壳边的另一些没有跟下去，只在还湿着的缝口换了抓点。','The water starts to fall. Particles leave through the gap; submerged bodies follow wet surfaces downward. Others beside barnacle shells stay above, changing their grip at still-damp openings.','水面が下がり始める。粒が隙間から流れ、水中の身体は濡れた面を低い方へ戻る。フジツボの殻のそばでは、まだ湿った入口で脚の位置だけが変わった。'],
  [['看它怎样抓稳','Watch the grip','つかまる脚を見る'],['跟看退去的水','Follow the ebb','引く水を見る'],['回看刚才的通路','Return to the crossing','先ほどの道を見る']],
  [['身体贴近石面，触角还在动。停留不是画面静止，而是步足一直有所依靠。','The body stays close to stone while antennae move. Staying put still involves holding on.','身体は石に寄り、触角は動く。留まるにも脚の支えが続く。'],['细粒先越过石口，水仍连着两边。退潮还没有立刻关掉所有路。','Grains pass the gap first. Water still joins both sides; the ebb does not close every route at once.','先に粒が隙間を抜ける。水はまだ両側をつなぐ。すべての道が一度に閉じるわけではない。'],['那段路还在水下，经过的身体却更靠近边缘。','The route is still submerged, but passing bodies stay nearer its edges.','道はまだ水中にあるが、通る身体は縁に寄っている。']]),
  row(['石脊重新出现','The ridge returns','再び現れる岩の稜'],

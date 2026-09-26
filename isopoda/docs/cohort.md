@@ -14,4 +14,4 @@ The current catalog comes from `species-registry.mjs`; pagination uses its lengt
 
 Validation: `node --test tests/*.test.mjs`, plus browser arrival, seven-actor habitat, reload/continue, 21 observations, ending, collection pagination, and narrow-screen checks.
 
-Intertidal sets `maxTaxa:2`: new rock-pool draws contain one or two taxa, still seven individuals. The existing 30 percent single-taxon branch is retained; the other branches yield two taxa. Other habitats keep their previous draw distribution, and saved cohorts are not redrawn.
+Intertidal sets `maxTaxa:2`: new rock-pool draws contain hirsuta from emerged damp refuges plus one other aquatic taxon, still seven individuals. The aquatic draw prioritizes uncollected taxa. Other habitats keep their previous draw distribution, and saved cohorts are not redrawn.

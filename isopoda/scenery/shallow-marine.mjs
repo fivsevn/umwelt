@@ -22,9 +22,9 @@ export function stageSeaweed(group,bed){
  const plants=bed.frame.plants.filter(p=>p.item.interactive!==false).sort((a,b)=>a.item.y-b.item.y||a.item.x-b.item.x);
  group.forEach((a,i)=>{
   const plant=plants[Math.round(i*(plants.length-1)/Math.max(1,group.length-1))];if(!plant)return;
-  const surface=1+(i*3)%Math.max(1,plant.surfaces.length-1),t=.35+(i%3)*.14;
-  a.weed={plant:plant.id,surface,t,face:i%4===3?-1:1,mode:'cling',age:0,wait:3+i*.9,travel:null,visible:true};
-  const p=surfacePoint(plant.surfaces[surface],t);a.x=p.x;a.y=p.y;a.a=p.a;a.depth=plant.z+a.weed.face*.25;a.occlusion=0;a.hidden=false;
+  const surface=i%4===0?0:1+(i*3)%Math.max(1,plant.surfaces.length-1),t=.22+(i%5)*.13;
+  a.weed={plant:plant.id,surface,t,face:i%4===3?-1:1,tilt:[-.65,.48,Math.PI-.42,-.28,Math.PI+.6][i%5],mode:'cling',age:0,wait:3+i*.9,travel:null,visible:true};
+  const p=surfacePoint(plant.surfaces[surface],t);a.x=p.x;a.y=p.y;a.a=p.a+a.weed.tilt;a.depth=plant.z+a.weed.face*.25;a.occlusion=0;a.hidden=false;
  });
 }
 function closestSurface(frame,a,exclude=null,group=[]){
@@ -89,7 +89,7 @@ export function stepSeaweed(group,bed,{time,dt,reduced,flow=46}){
     }else{w.mode='cling';w.age=0;w.wait=3.5}
    }
   }
-  const p=surfacePoint(plant.surfaces[w.surface],w.t);a.x=p.x;a.y=p.y;a.a=turn(a.a,p.a+(w.direction===-1?Math.PI:0),dt*pace);a.depth=plant.z+w.face*.25;
+  const p=surfacePoint(plant.surfaces[w.surface],w.t);a.x=p.x;a.y=p.y;a.a=turn(a.a,p.a+(w.mode==='cling'?(w.tilt||0):(w.direction===-1?Math.PI:0)),dt*pace);a.depth=plant.z+w.face*.25;
   a.moving=w.mode==='crawl';a.activity=a.moving?'crawl':'cling';a.posture=a.moving?'normal':'probing';
  }
 }
