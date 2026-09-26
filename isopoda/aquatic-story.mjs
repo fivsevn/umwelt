@@ -1,3 +1,4 @@
+import {isShore,shoreText,SHORE_ENDING} from './data/habitats/estuary-shore.mjs';
 import {isSeaweed,seaweedScene,seaweedText,SEAWEED_ENDING} from './data/habitats/seaweed-observation.mjs';
 import {petriText,petriScene} from './data/habitats/petri-observation.mjs';
 import {sandText,sandScene,sandEndingKind} from './data/habitats/sandy-observation.mjs';
@@ -39,7 +40,7 @@ const freshwaterEndingIndex={care:0,calm:1,trace:2};
 const STANDARD_AQUATIC_ENDINGS=Object.keys(STORIES).flatMap(id=>['calm','care','trace'].map((kind,i)=>{const endingIndex=id==='freshwater'?freshwaterEndingIndex[kind]:i;return {id:`${id}-${kind}`,title:id==='sandy-surf'?`sand:ending:${kind}:title`:id==='freshwater'?`water:freshwater-material:ending:${endingIndex}:title`:`water:${kind}`,body:id==='sandy-surf'?`sand:ending:${kind}:body`:id==='freshwater'?`water:freshwater-material:ending:${endingIndex}:body`:`water:${id}:ending:${i}`,line:id==='sandy-surf'?`sand:ending:${kind}:line`:id==='freshwater'?`water:freshwater-material:ending:${endingIndex}:line`:'water:note'}}));
 export const ABYSSAL_ENDINGS=Object.keys(ABYSSAL_ENDING_DATA).map(id=>({id,title:`abyssal:ending:${id}:title`,body:`abyssal:ending:${id}:body`,line:`abyssal:ending:${id}:line`}));
 export const GROUNDWATER_PULSE_ENDINGS=Object.keys(GROUNDWATER_ENDINGS).map(id=>({id:`groundwater-${id}`,title:`groundwater:ending:${id}:title`,body:`groundwater:ending:${id}:body`,line:`groundwater:ending:${id}:line`}));
-export const AQUATIC_ENDINGS=[SEAWEED_ENDING,{id:'petri-dish-observed',title:'petri:ending:title',body:'petri:ending:body',line:'petri:ending:line'},{id:"intertidal-cycle",title:"intertidal:ending",body:"intertidal:body",line:"intertidal:line"},...STANDARD_AQUATIC_ENDINGS,...ABYSSAL_ENDINGS,...GROUNDWATER_PULSE_ENDINGS,ESTUARY_ENDING];
+export const AQUATIC_ENDINGS=[SHORE_ENDING,SEAWEED_ENDING,{id:'petri-dish-observed',title:'petri:ending:title',body:'petri:ending:body',line:'petri:ending:line'},{id:"intertidal-cycle",title:"intertidal:ending",body:"intertidal:body",line:"intertidal:line"},...STANDARD_AQUATIC_ENDINGS,...ABYSSAL_ENDINGS,...GROUNDWATER_PULSE_ENDINGS,ESTUARY_ENDING];
 
 const langIndex={zh:0,en:1,ja:2};
 function localizedRow(row,lang='zh'){
@@ -127,6 +128,7 @@ export function aquaticText(value,lang='zh'){
  if(text.startsWith('petri:'))return petriText(text,lang);
  if(text.startsWith('sand:'))return sandText(text,lang);
  if(text.startsWith('intertidal:'))return intertidalText(text,lang);
+ if(text.startsWith('estuary:v2:'))return shoreText(text,lang);
  if(text.startsWith('estuary:v1:'))return estuaryText(text,lang);
  if(text.startsWith('abyssal:'))return abyssalText(text,lang);
  if(text.startsWith('groundwater:'))return groundwaterPulseText(text,lang);
@@ -288,6 +290,7 @@ export function aquaticEnding(s){
  if(s.habitatId==='petri-dish')return AQUATIC_ENDINGS.find(e=>e.id==='petri-dish-observed');
  if(s.habitatId==='sandy-surf')return AQUATIC_ENDINGS.find(e=>e.id==='sandy-surf-'+sandEndingKind(s));
  if(isIntertidal(s))return {id:"intertidal-cycle",title:"intertidal:ending",body:"intertidal:body",line:"intertidal:line"};
+ if(isShore(s))return SHORE_ENDING;
  if(isEstuaryObservation(s))return ESTUARY_ENDING;
  if(habitatConfig(s).dialogue)return abyssalCompositeEnding(s);
  if(s.habitatId==='groundwater'){

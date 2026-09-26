@@ -1,3 +1,5 @@
+import {isShore,shorePoint,shoreTide} from './data/habitats/estuary-shore.mjs';
+import {shoreLayoutFor,shoreHeight,drawShoreBackground,drawShoreWater} from './scenery/estuary-shore.mjs';
 import {createSeaweedBed,seaweedFrame,stageSeaweed,stepSeaweed,beginSeaweedHold,moveSeaweedHold,endSeaweedHold,noteSeaweedVisibility} from './scenery/shallow-marine.mjs';
 import {drawKelp,hitKelp,visibleKelpCell} from './scenery/kelp-geometry.mjs';
 import {drawWaterBackground} from './scenery/aquatic-materials.mjs';
@@ -85,7 +87,7 @@ function offscreen(){
  const c=document.createElement('canvas');c.width=384;c.height=430;const g=c.getContext('2d');g.imageSmoothingEnabled=false;return [c,g];
 }
 function buildAquaticPlan(layout){
- const [background,backgroundCtx]=offscreen();drawSceneBackground(backgroundCtx,layout);
+ const [background,backgroundCtx]=offscreen();if(layout.background.params.shore)drawShoreBackground(backgroundCtx,layout.background.params);else drawSceneBackground(backgroundCtx,layout);
  const steps=[];let layerCanvas=null,layerCtx=null,layerHasInk=false;
  const flush=()=>{if(layerCanvas&&layerHasInk)steps.push({canvas:layerCanvas});layerCanvas=null;layerCtx=null;layerHasInk=false};
  for(const item of sceneObjects(layout).sort((a,b)=>(a.z||0)-(b.z||0))){
@@ -97,14 +99,24 @@ function buildAquaticPlan(layout){
  }
  flush();return {background,steps};
 }
+const [shoreCanvas,shoreCtx]=offscreen();let shorePaintKey='',shoreVisual=null;
 function drawAquaticLayout(time){
- const layout=isEstuaryObservation(state)?estuaryLayout(state):state.habitatId==='freshwater'?freshwaterLayout(state):layoutForHabitat(state),key=(state.habitatId||'freshwater')+':'+(layout.observationIndex??layout.materialStage??'base')+':'+layout.background.seed+':'+layout.objects.length;
+ const layout=isShore(state)?shoreLayoutFor(state):isEstuaryObservation(state)?estuaryLayout(state):state.habitatId==='freshwater'?freshwaterLayout(state):layoutForHabitat(state),key=(state.habitatId||'freshwater')+':'+(layout.observationIndex??layout.materialStage??'base')+':'+layout.background.seed+':'+layout.objects.length;
  if(!aquaticPlan||aquaticPlanKey!==key){aquaticPlan=buildAquaticPlan(layout);aquaticPlanKey=key}
- ctx.drawImage(aquaticPlan.background,0,0);
+ if(isShore(state)){
+  const point=shorePoint(state),target=shoreHeight(shoreTide(state));
+  if(!shoreVisual||shoreVisual.point!==point||empty)shoreVisual={point,level:target,time};
+  const dt=Math.max(0,Math.min(.15,time-shoreVisual.time));shoreVisual.time=time;
+  shoreVisual.level=reduced?target:shoreVisual.level+(target-shoreVisual.level)*Math.min(1,dt*4.5);
+  if(Math.abs(target-shoreVisual.level)<1)shoreVisual.level=target;
+  const level=Math.round(shoreVisual.level/2)*2,paintKey=key+':'+level;
+  if(shorePaintKey!==paintKey){drawShoreBackground(shoreCtx,{...layout.background.params,level});shorePaintKey=paintKey}
+  ctx.drawImage(shoreCanvas,0,0);
+ }else ctx.drawImage(aquaticPlan.background,0,0);
  for(const step of aquaticPlan.steps){
   if(step.canvas)ctx.drawImage(step.canvas,0,0);
   else if(seaweed&&step.item.layered)drawKelp(ctx,seaweed.frame.byId.get(step.item.id));
-  else drawSceneElement(ctx,step.item,{time,motion:reduced?.22:1});
+  else drawSceneElement(ctx,step.item,{time:isShore(state)?time*(reduced?.9:1.4):time,motion:isShore(state)?(reduced?.8:1.2):reduced?.22:1});
  }
 }
 let seaweed=null;
@@ -123,7 +135,7 @@ function placeSceneMolt(scene){
  actor.x=molt.x;actor.y=molt.y;actor.a=molt.a||0;actor.posture='molting';actor.molt=molt.phase||'posterior';actor.moving=false;actor.hidden=false;actor.occlusion=0;
 }
 function reset(options={}){
- interaction.cancel();state=getState();syncCaveObserver();empty=!!options.empty;layer.replaceChildren();elapsed=0;effect=null;shelterHeld=false;reactions.reset();
+ interaction.cancel();state=getState();shoreVisual=null;syncCaveObserver();empty=!!options.empty;layer.replaceChildren();elapsed=0;effect=null;shelterHeld=false;reactions.reset();
  const config=habitatConfig(state);
  seaweed=config.id==='shallow-marine'?createSeaweedBed(sceneObjects(layoutForHabitat(state))):null;
  if(seaweed)seaweedFrame(seaweed,{flow:state.flow,reduced});
@@ -165,6 +177,14 @@ function present(){
  const m=state.habitatId==='petri-dish'?microscope(state):null;
  const petriScale=Math.max(rect.width/384,rect.height/430)*(m?.mode?m.magnification:1);
  const view=m?{scale:petriScale,sw:rect.width/petriScale,sh:rect.height/petriScale,x:m.mode?m.x:192,y:m.mode?m.y:215,sx:(m.mode?m.x:192)-rect.width/petriScale/2,sy:(m.mode?m.y:215)-rect.height/petriScale/2}:cameraWindow(rect.width,rect.height,camera.zoom,camera.x,camera.y,state.habitatId==='abyssal'),{scale,sw,sh,sx,sy}=view;camera.x=view.x;camera.y=view.y;
+ if(canvas.id==='habitat'&&isShore(state)){
+  const anchors=[[78,185],[302,126]];
+  for(const [i,id] of ['shorePrev','shoreNext'].entries()){
+   const button=document.getElementById(id),[x,y]=anchors[i];
+   button.style.left=Math.max(15,Math.min(85,(x-sx)/sw*100))+'%';
+   button.style.top=Math.max(18,Math.min(76,(y-sy)/sh*100))+'%';
+  }
+ }
  if(m&&!m.mode){camera.zoom=1;camera.x=192;camera.y=215}
 
  overlayCtx.clearRect(0,0,overlay.width,overlay.height);overlayCtx.drawImage(world,0,0);if(habitatConfig(state).id!=='groundwater'&&!isEstuaryObservation(state))drawReactionBubbles(overlayCtx,reactions.active,seaweed?critters.filter(a=>a.hitCells?.length):critters,elapsed,view,reduced);display.clearRect(0,0,w,h);
@@ -309,7 +329,8 @@ function drawHabitat(t){
  if(state.light<55&&!['abyssal','groundwater'].includes(config.id)){ctx.fillStyle=`rgba(15,27,21,${(55-state.light)/120})`;ctx.fillRect(0,0,w,h)}
  if(config.id==='abyssal'){ctx.fillStyle='rgba(5,11,14,.10)';ctx.fillRect(0,0,w,h)}
  if(config.id!=='abyssal'){ctx.strokeStyle='rgba(147,148,124,.55)';ctx.lineWidth=2;ctx.strokeRect(1,1,w-2,h-2);}
- if(isEstuaryObservation(state))drawEstuaryWater(ctx,estuaryIndex(state),elapsed,estuaryLayout(state),reduced);
+ if(isShore(state)){drawShoreWater(ctx,{...state,shoreLevel:shoreVisual?.level},elapsed,reduced);canvas.dataset.shorePoint=String(shorePoint(state));canvas.dataset.shoreTide=String(shoreTide(state));}
+ else if(isEstuaryObservation(state))drawEstuaryWater(ctx,estuaryIndex(state),elapsed,estuaryLayout(state),reduced);
  else if(aquatic)drawAquaticWater(ctx,state,reduced?elapsed*.65:elapsed,{drawPlants:false,observationEffect:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});
  if(config.id==='groundwater')drawGroundwaterEvidence(ctx,state);
  if(config.id==='abyssal'){

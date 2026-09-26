@@ -7,7 +7,7 @@ const TAXA=[
  science:'BMIG 记录雄体最大 2.4 mm、雌体最大 5.0 mm；这些是分性别的最大值，不是所有成体的标准大小。 / Reported maxima: male 2.4 mm, female 5.0 mm; not typical adult lengths.',
  refs:['intertidal-albifrons-bmig']},
  {id:'hirsuta',taxon:'Campecopea hirsuta',authority:'(Montagu, 1804)',suborder:'Sphaeromatidea',family:'Sphaeromatidae',max:4,reference:3.5,color:'#777b62',speed:.56,
- micro:'受浪岩岸的海滨地衣、藤壶和岩缝，主要在中潮位至小潮高潮位之间，会随潮退露出空气；露出不等于可长期离开湿润庇护。 / Exposed-shore lichen, barnacles and crevices between mid-tide and neap high water; tidal emersion is not terrestrial independence.',
+ micro:'受浪岩岸的海滨地衣、藤壶和岩缝，主要在中潮位至小潮满潮位之间，会随潮退露出空气；露出不等于可长期离开湿润庇护。 / Exposed-shore lichen, barnacles and crevices between mid-tide and neap high water; tidal emersion is not terrestrial independence.',
  diagnosis:'尾肢仅具一枝；雄体第六胸节具有向后长突，雌体无此长突。游戏采用雌型示意，不用随机长突代表成长阶段。 / Single-branched uropods; male pereonite-6 process absent from the female-form proxy.',
  morphology:'短圆雌型轮廓、圆形尾腹节和单枝尾肢的保守示意。 / Compact female-form proxy with rounded pleotelson and single-branched uropods.',
  science:'BMIG 记录雄体最大 4.0 mm、雌体最大 3.5 mm。水盘中可观察到游动；不据此推断野外游动频率或陆上耐受时长。 / Maxima: male 4.0 mm, female 3.5 mm. Swimming in collection trays does not establish field frequency or emersion tolerance.',
