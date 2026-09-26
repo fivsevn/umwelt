@@ -66,6 +66,7 @@ export function createReactions(){
   notify(actor,cue,time){bubbles=bubbles.filter(b=>b.id!==actor.id);bubbles.push({id:actor.id,cue,priority:PRIORITY[cue],start:time,until:time+1.6})},
   update(group,{encounter,state,time,reaction}){
    bubbles=bubbles.filter(b=>time<b.until&&group.some(c=>c.id===b.id));
+   if(state.habitatId==='shallow-marine')return bubbles;
    const candidates=[];
    for(const c of group){
     const beach=state.habitatId==='sandy-surf';
