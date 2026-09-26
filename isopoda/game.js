@@ -187,6 +187,7 @@ $('#sourcesBtn').onclick=()=>{if(drawerMode==='sources'){drawerMode=referenceRet
 for(const [id,delta] of [['pagePrev',-1],['pageNext',1]])$('#'+id).onclick=()=>{const n=drawerMode==='catalog'?SPECIES.length:drawerMode==='endings'?ENDINGS.length:Math.max(1,state.records.length);page=(page+delta+n)%n;drawDrawer()};
 function refreshPreview(){
  const seed=4107;previewState=createRun('dairy',seed,selectedHabitat);previewState.cohort=[];
+ if(selectedHabitat==='freshwater')previewState.scene={materialStage:3};
  $('#titleCard .window-title span').textContent='ISOPODA / '+gameText('water:habitat:'+selectedHabitat,getLanguage());
  $('#habitatPrev').setAttribute('aria-label',gameText('water:prev',getLanguage()));$('#habitatNext').setAttribute('aria-label',gameText('water:next',getLanguage()));
  $('#titleCard').dataset.habitat=selectedHabitat;emptyHabitat.reset({empty:true});emptyHabitat.start();

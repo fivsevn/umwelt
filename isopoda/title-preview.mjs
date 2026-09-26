@@ -21,6 +21,8 @@ if(canvas){
  };
 
  const previewState={habitatId,seed:Number.isFinite(Number(saved?.seed))?Number(saved.seed):4107,scene:saved?.scene||null,records:Array.isArray(saved?.records)?saved.records:[],...config.defaults};
+ // The selector shows the suspended layout; it never changes a saved run.
+ if(habitatId==='freshwater')previewState.scene={materialStage:3};
  for(const key of Object.keys(config.defaults)){
   const value=Number(saved?.[key]);
   if(Number.isFinite(value))previewState[key]=value;
