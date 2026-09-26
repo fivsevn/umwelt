@@ -292,7 +292,11 @@ function drawHabitat(t){
  if(isEstuaryObservation(state))drawEstuaryWater(ctx,estuaryIndex(state),elapsed,estuaryLayout(state),reduced);
  else if(aquatic)drawAquaticWater(ctx,state,reduced?elapsed*.65:elapsed,{drawPlants:false,observationEffect:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});
  if(config.id==='groundwater')drawGroundwaterEvidence(ctx,state);
- if(config.id==='abyssal')drawAbyssalSpotlight(ctx,critters[0]);
+ if(config.id==='abyssal'){
+  // Keep the whole animal and its existing light inside the original observation area.
+  for(const a of critters){const dx=a.x-192,dy=a.y-215,r=Math.hypot(dx/64,dy/84);if(r>1){a.x=192+dx/r;a.y=215+dy/r;a.a=Math.atan2(-dy,-dx)}}
+  drawAbyssalSpotlight(ctx,critters[0]);
+ }
  drawActors();
  if(isEstuaryObservation(state))drawEstuaryEvidence(ctx,state);
  present();

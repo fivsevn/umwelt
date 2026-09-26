@@ -400,6 +400,10 @@ export function stepAquatic(group,{state:s,time,dt,reduced,reaction}){
    a.a+=Math.sin(time*.42+a.offset)*dt*.08*specimenPace*motionScale;
    continue;
   }
+  if(h.id==='abyssal'){
+   const dx=(a.x-192)/64,dy=(a.y-215)/84,r=Math.hypot(dx,dy);
+   if(r>.72&&Math.cos(a.a)*dx+Math.sin(a.a)*dy>0){const target=Math.atan2(215-a.y,192-a.x),turn=Math.atan2(Math.sin(target-a.a),Math.cos(target-a.a));a.a+=Math.sign(turn)*Math.min(Math.abs(turn),dt*speed*.7)}
+  }
   const flow=s.flow/100,rate=mode==='swim'?11:mode==='drift'?6.5:3.4;
   const steer=(Math.sin(time*.31+a.offset)+Math.sin(time*.13+a.id))*dt*(swimming?.34:.18)*specimenPace*motionScale;
   a.a+=steer;
