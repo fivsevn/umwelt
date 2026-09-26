@@ -1,13 +1,14 @@
+import {CAVE_SITES,caveFocusSite} from './groundwater-sites.mjs';
 import {stepInteraction} from '../interaction.mjs';
-import {GROUNDWATER_OBSERVATIONS,groundwaterObservationIndex} from '../data/habitats/groundwater-observation.mjs';
-export const CAVE_WET_PATCHES=[[199,94],[192,132],[205,232],[186,318]];
+import {groundwaterObservationIndex} from '../data/habitats/groundwater-observation.mjs';
+export const CAVE_WET_PATCHES=CAVE_SITES.map(o=>[o.x,o.y]);
 // Authored wet-surface paths are illustrative, never measured animal speeds or hidden tunnels.
 export function stageGroundwater(group,state){
- const index=groundwaterObservationIndex(state),focus=GROUNDWATER_OBSERVATIONS[index].focus;
+ const index=groundwaterObservationIndex(state);
  for(const a of group){
   a.caveTime=(a.id===0?0:(a.seed%100)/10);a.caveObservation=index;
-  const patch=CAVE_WET_PATCHES[(a.id+3)%CAVE_WET_PATCHES.length];
-  a.caveAnchor=a.id===0?focus:[patch[0]+((a.seed>>>3)%13)-6,patch[1]+((a.seed>>>8)%13)-6];
+  const site=a.id===0?caveFocusSite(index):CAVE_SITES[(a.id+3)%CAVE_SITES.length];
+  a.caveSite=site;a.caveAnchor=[site.x,site.y];
  }
  stepGroundwater(group,{state,dt:0,reduced:false,speed:1});
 }
@@ -22,7 +23,7 @@ export function stepGroundwater(group,{state,dt,reduced=false,speed=1}){
   const t=a.caveTime,focus=a.id===0,[cx,cy]=a.caveAnchor;
   // Asynchronous crawl/pause cycles; antenna and gait phases continue during a pause.
   const cycle=t%18,travel=cycle<6?cycle:cycle<9?6:cycle<15?cycle-3:12;
-  const angle=travel*Math.PI/6+(focus?0:a.offset),rx=focus?10:6+a.id%5,ry=focus?18:9+a.id%7;
+  const angle=travel*Math.PI/6+(focus?0:a.offset),rx=18*a.caveSite.scale,ry=3*a.caveSite.scale;
   a.x=cx+Math.sin(angle)*rx;a.y=cy+Math.cos(angle)*ry;
   a.a=Math.atan2(-Math.sin(angle)*ry,Math.cos(angle)*rx);
   a.moving=cycle<6||(cycle>=9&&cycle<15);a.activity='crawl';a.posture=a.moving?'normal':'probing';a.molt='none';a.hidden=false;a.occlusion=0;
@@ -30,10 +31,12 @@ export function stepGroundwater(group,{state,dt,reduced=false,speed=1}){
   if(focus&&[1,7].includes(index)){
    // Retreat behind this same stone lip, then emerge at the same opening.
    const q=(1-Math.cos(t*Math.PI/12))/2;
-   a.x=cx+3;a.y=cy+18-q*24;a.a=-Math.PI/2;a.occlusion=Math.max(0,(q-.45)/.55)*.92;
+   a.x=cx+(12-q*20)*a.caveSite.scale;a.y=cy;a.a=Math.PI;a.occlusion=Math.max(0,(q-.45)/.55)*.92;
    a.posture='emerging';a.activity='under';a.moving=true;
   }
   if(index===5&&cycle>=6&&cycle<9)a.posture='probing';
+  const rotation=(a.caveSite.angle||0)+(a.caveSite.flipX?Math.PI:0),ux=a.x-cx,uy=a.y-cy;
+  a.x=cx+ux*Math.cos(rotation)-uy*Math.sin(rotation);a.y=cy+ux*Math.sin(rotation)+uy*Math.cos(rotation);a.a+=rotation;
   if(a.caveDisplaced){
    const dx=a.x-previous.x,dy=a.y-previous.y,distance=Math.hypot(dx,dy),step=dt*speed*7;
    if(distance>step){a.x=previous.x+dx/distance*step;a.y=previous.y+dy/distance*step;a.a=Math.atan2(dy,dx);a.moving=true;a.posture='normal';a.occlusion=0}

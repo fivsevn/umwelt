@@ -339,7 +339,7 @@ function drawHabitat(t){
 function drawGroundwaterEvidence(g,s){
  const records=(Array.isArray(s.records)?s.records:[]).filter(record=>record.kind==='groundwater-pulse');
  if(!records.length)return;
- const nodes={a:[199,94],b:[204,232],c:[187,318],d:[111,153]};
+ const nodes={a:GROUNDWATER_OBSERVATIONS[1].focus,b:GROUNDWATER_OBSERVATIONS[2].focus,c:GROUNDWATER_OBSERVATIONS[7].focus,d:GROUNDWATER_OBSERVATIONS[0].focus};
  const mark=([x,y],strong=false)=>{
   const color=strong?'rgba(204,199,170,.72)':'rgba(177,178,153,.48)';
   px(g,x-3,y,7,1,color);px(g,x,y-3,1,7,color);

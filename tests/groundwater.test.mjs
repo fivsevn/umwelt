@@ -1,3 +1,4 @@
+import {GROUNDWATER_LAYOUT} from '../isopoda/scenery/authored-layouts.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createRun,ensureScene,choose,advance,migrateV4,validRun} from '../isopoda/engine.mjs';
@@ -61,10 +62,12 @@ test('old four-round cave saves retain feedback and progress into the expanded s
 test('cave animals keep moving gently on wet patches, including reduced-motion mode',()=>{
  for(const reduced of [false,true])for(let index=0;index<8;index++){
   const state=createRun('cavaticus',37,'groundwater');state.scene={observationIndex:index};const group=makeIndividuals(state.cohort);stageGroundwater(group,state);
+  const films=GROUNDWATER_LAYOUT.objects.filter(o=>o.type==='seep-film-01');
+  for(const a of group)assert.ok(films.some(o=>o.x===a.caveAnchor[0]&&o.y===a.caveAnchor[1]),'anchor follows an authored fissure');
   const initial=group.map(a=>[a.x,a.y]);let occluded=false,paused=false;
   for(let tick=0;tick<400;tick++){
    stepGroundwater(group,{state,dt:.1,reduced,speed:1});
-   for(const a of group){assert.ok(Number.isFinite(a.x)&&Number.isFinite(a.y));assert.equal(a.activity==='swim',false);assert.ok(Math.hypot(a.x-a.caveAnchor[0],a.y-a.caveAnchor[1])<24);occluded||=a.occlusion>.5;paused||=!a.moving}
+   for(const a of group){assert.ok(Number.isFinite(a.x)&&Number.isFinite(a.y));assert.equal(a.activity==='swim',false);const angle=a.caveSite.angle||0,across=-(a.x-a.caveSite.x)*Math.sin(angle)+(a.y-a.caveSite.y)*Math.cos(angle);assert.ok(Math.abs(across)<=3*a.caveSite.scale+1e-8,'crawl follows rotated wet film');assert.ok(Math.hypot(a.x-a.caveAnchor[0],a.y-a.caveAnchor[1])<24);occluded||=a.occlusion>.5;paused||=!a.moving}
   }
   assert.ok(group.some((a,i)=>Math.hypot(a.x-initial[i][0],a.y-initial[i][1])>2));assert.ok(paused);if([1,7].includes(index))assert.ok(occluded);
  }
