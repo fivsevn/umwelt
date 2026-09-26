@@ -27,7 +27,7 @@ const COPY={arrival:['这片藻丛里的等足目','Among these blades','この�
 export const SEAWEED_ENDING={id:'shallow-marine-observed',title:'kelp:ending',body:'kelp:body',line:'kelp:line'};
 export const isSeaweed=s=>s?.habitatId==='shallow-marine'&&s?.seaweedVersion===1;
 export const seaweedProgress=s=>(s.records||[]).filter(r=>r.kind==='seaweed-observation').length;
-export const seaweedIndex=s=>Math.min(8,Math.max(0,seaweedProgress(s)-(s.stage==='feedback'||s.stage==='ended'?1:0)));
+export const seaweedIndex=s=>Math.min(8,Math.max(0,s.seaweedVersion===1?seaweedProgress(s)-(s.stage==='feedback'||s.stage==='ended'?1:0):(s.day-1)*3+s.period));
 export function seaweedText(key,lang='zh'){
  const [,kind,i,field,n,event]=key.split(':');let value;
  if(kind==='node'){

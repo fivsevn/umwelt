@@ -1,9 +1,4 @@
-import {isSeaweed,seaweedInstrument} from './data/habitats/seaweed-observation.mjs';
-import {abyssalInstrument} from './data/habitats/abyssal-instruments.mjs';
-import {microscope} from './scenery/petri.mjs';
-import {petriText} from './data/habitats/petri-observation.mjs';
-import {sandInstrument} from './data/habitats/sandy-observation.mjs';
-import {isIntertidal,intertidalInstrument} from './data/narrative/intertidal.mjs';
+import {sceneInstrument} from './scene-readouts.mjs';
 import {isEstuaryObservation,estuaryInstrument} from './data/narrative/estuary.mjs';
 import {habitatConfig} from './habitats.mjs';
 import {gameText} from './locales/game.mjs';
@@ -28,12 +23,6 @@ const glyphs={
  draw:['000011000000','000011000000','001111110000','011000011000','110000001100','110110101100','110000001100','011111111000','001111110000'],
  switch:['000010000000','000011000000','111111100000','000011000000','000010000000','000000100000','000001100000','000011111110','000001100000','000000100000']
 };
-const meterCopy={
- zh:{temp:'温度',wet:'湿度',ventLow:'通风微弱',ventMid:'通风适中',ventHigh:'通风较强',lightLow:'微光',lightMid:'柔光',lightHigh:'明亮'},
- en:{temp:'TEMP',wet:'HUMIDITY',ventLow:'LOW AIRFLOW',ventMid:'AIRFLOW OK',ventHigh:'HIGH AIRFLOW',lightLow:'DIM',lightMid:'SOFT LIGHT',lightHigh:'BRIGHT'},
- ja:{temp:'温度',wet:'湿度',ventLow:'通気 弱',ventMid:'通気 中',ventHigh:'通気 強',lightLow:'微光',lightMid:'柔光',lightHigh:'明るい'},
- isopod:{temp:'~o~',wet:'\\o/',ventLow:'<o  ~',ventMid:'<o>',ventHigh:'~  o>',lightLow:'o^  -',lightMid:'o^',lightHigh:'o^  o*'}
-};
 export function pixelIcon(kind){
  if(kind==='joystick'){
   const base=document.createElement('span');base.className='torch-stick';base.setAttribute('aria-hidden','true');
@@ -47,6 +36,13 @@ export function pixelIcon(kind){
 }
 export function iconButton(button,kind,label){button.replaceChildren(pixelIcon(kind));button.setAttribute('aria-label',label);button.title=label}
 export function createInstrument(root){
- root.innerHTML='<span id="meterTemp"></span><span id="meterWet"></span><span id="simDetail"></span>';
- return state=>{if(isSeaweed(state)){seaweedInstrument(state,getLanguage()).forEach((label,i)=>root.children[i].textContent=label);return}if(state.habitatId==='abyssal'){abyssalInstrument(state,getLanguage()).forEach((label,i)=>root.children[i].textContent=label);return}if(state.habitatId==='petri-dish'){const m=microscope(state),t=k=>petriText(k,getLanguage());(m.mode?[t('power')+' '+m.magnification+'×',t('focusPosition')+' '+Math.round(m.focus),t('light')+' '+Math.round(m.light)+'%']:[t('overview'),t('power')+' 1×',t('individuals')+' 1']).forEach((label,i)=>root.children[i].textContent=label);return}if(state.habitatId==='sandy-surf'){sandInstrument(state,habitatConfig(state).tides,getLanguage()).forEach((label,i)=>root.children[i].textContent=label);return}if(isIntertidal(state)){intertidalInstrument(state,getLanguage()).forEach((label,i)=>root.children[i].textContent=label);return}if(isEstuaryObservation(state)){estuaryInstrument(state,getLanguage()).forEach((label,i)=>root.children[i].textContent=label);return}if(habitatConfig(state).aquatic){const nodes=[...root.children];habitatConfig(state).metrics.forEach((key,i)=>{nodes[i].textContent=gameText('water:'+key,getLanguage())+' '+Math.round(state[key])});return}const c=meterCopy[getLanguage()]||meterCopy.zh;root.querySelector('#meterTemp').textContent=c.temp+' '+state.temp.toFixed(1)+'°C';root.querySelector('#meterWet').textContent=c.wet+' '+Math.round(state.humidity)+'%';root.querySelector('#simDetail').textContent=(state.vent>75?c.ventHigh:state.vent<40?c.ventLow:c.ventMid)+' · '+(state.light<30?c.lightLow:state.light>65?c.lightHigh:c.lightMid)};
+ return state=>{
+  const layout=state.habitatId==='estuary'?'legacy':'scales';
+  if(root.dataset.layout!==layout){root.replaceChildren();root.dataset.layout=layout;if(layout==='legacy')root.innerHTML='<span id="meterTemp"></span><span id="meterWet"></span><span id="simDetail"></span>'}
+  let rows=sceneInstrument(state,getLanguage());
+  if(!rows)rows=isEstuaryObservation(state)?estuaryInstrument(state,getLanguage()):habitatConfig(state).metrics.map(key=>gameText('water:'+key,getLanguage())+' '+Math.round(state[key]));
+  while(root.children.length<rows.length)root.append(document.createElement('span'));
+  while(root.children.length>rows.length)root.lastElementChild.remove();
+  rows.forEach((text,i)=>{root.children[i].textContent=text;root.children[i].dataset.scale=i===3?'qualitative':'numeric'});
+ };
 }

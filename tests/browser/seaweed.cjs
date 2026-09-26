@@ -69,7 +69,7 @@ if(out)fs.mkdirSync(out,{recursive:true});
   if(out)await page.screenshot({path:`${out}/${name}-${width}-seaweed-ending.png`,fullPage:true});
   await click(page,page.locator('#restartBtn'));assert.ok(await page.locator('#titleCard').isVisible());
   await page.goto(base+'/isopoda/habitat.html');await page.waitForFunction(()=>document.querySelector('[data-preset="shallow-marine"]')?.onclick);await click(page,page.locator('[data-preset="shallow-marine"]'));
-  assert.equal(await page.locator('.habitat-reference').count(),3);await click(page,page.locator('.scene-transfer summary'));await click(page,page.locator('#copyScene'));const scene=JSON.parse(await page.locator('#sceneText').inputValue());
+  assert.equal(await page.locator('.habitat-reference').count(),4);await click(page,page.locator('.scene-transfer summary'));await click(page,page.locator('#copyScene'));const scene=JSON.parse(await page.locator('#sceneText').inputValue());
   const plant=scene.objects.find(o=>o.params?.layered);plant.z=81;plant.flipX=true;plant.angle=.3;plant.x+=8;
   await page.locator('#sceneText').fill(JSON.stringify(scene));await click(page,page.locator('#importScene'));assert.match(await page.locator('#sceneMessage').textContent(),/已精确还原/);await click(page,page.locator('#copyScene'));assert.deepEqual(JSON.parse(await page.locator('#sceneText').inputValue()),scene);
   await page.locator('#referenceDepth').fill('72');await page.locator('#referenceDepth').dispatchEvent('change');

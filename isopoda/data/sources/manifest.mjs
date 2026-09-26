@@ -1,3 +1,4 @@
+import {OBSERVATION_SCALE_SOURCES} from './observation-scales.mjs';
 import {SEAWEED_SOURCES} from './seaweed.mjs';
 import {SANDY_EXPANSION_SOURCES} from './sandy-expansion.mjs';
 import {INTERTIDAL_EXPANSION_SOURCES} from './intertidal-expansion.mjs';
@@ -19,7 +20,8 @@ export const SOURCE_GROUPS=Object.freeze([
  {id:'release-aquatic',rows:RELEASE_AQUATIC_SOURCES},
  {id:'intertidal-expansion',rows:INTERTIDAL_EXPANSION_SOURCES},
  {id:'sandy-expansion',rows:SANDY_EXPANSION_SOURCES},
- {id:'seaweed',rows:SEAWEED_SOURCES}
+ {id:'seaweed',rows:SEAWEED_SOURCES},
+ {id:'observation-scales',rows:OBSERVATION_SCALE_SOURCES}
 ]);
 export const RAW_SOURCES=SOURCE_GROUPS.flatMap(group=>group.rows);
 export {evidence,sourceDirectory,frameworkSources};
