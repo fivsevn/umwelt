@@ -25,7 +25,7 @@ export function placeIndividual(actor,point){
  actor.y=Math.max(30,Math.min(400,point.y));
 }
 // A single captured pointer owns either an animal gesture or the existing camera pan.
-export function bindPointerInteraction(canvas,{enabled,worldPoint,hitTest,objectHitTest=()=>null,pan,draw,report=()=>{},objectHoldStart=()=>{},objectHoldEnd=()=>{},groundTap=()=>{},digStart=()=>null,digEnd=()=>{}}){
+export function bindPointerInteraction(canvas,{enabled,worldPoint,hitTest,objectHitTest=()=>null,pan,draw,report=()=>{},objectHoldStart=()=>{},objectHoldEnd=()=>{},objectMove=()=>{},groundTap=()=>{},digStart=()=>null,digEnd=()=>{}}){
  let gesture=null,lastObjectTap=null;
  // Mobile Safari/Chrome must treat the habitat as a game surface, not selectable page content.
  canvas.style.touchAction='none';
@@ -66,6 +66,7 @@ export function bindPointerInteraction(canvas,{enabled,worldPoint,hitTest,object
    },dig?520:interactionConfig(actor).longPress);
    draw();
   }else if(object){
+   if(object.directDrag){g.objectHeld=true;objectHoldStart(object,point);draw();return}
    const now=performance.now(),previous=lastObjectTap;
    const doubled=previous&&previous.object.kind===object.kind&&now-previous.time<360&&Math.hypot(previous.x-point.x,previous.y-point.y)<20;
    if(doubled){
@@ -87,6 +88,7 @@ export function bindPointerInteraction(canvas,{enabled,worldPoint,hitTest,object
    if(g.grabbed){placeIndividual(g.actor,worldPoint(event));draw()}
    else if(distance>10){g.moved=true;clear()}
   }else if(g.object){
+   if(g.objectHeld)objectMove(g.object,worldPoint(event));
    if(!g.objectHeld&&distance>10){g.moved=true;clear();pan(event.clientX-g.x,event.clientY-g.y)}
   }else{
    if(distance>8)g.moved=true;

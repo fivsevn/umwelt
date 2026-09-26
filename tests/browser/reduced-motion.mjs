@@ -5,7 +5,7 @@ for(const [name,type] of [['chromium',chromium],['webkit',webkit]]){
  const browser=await type.launch({headless:true,...(name==='chromium'?{channel:'chrome'}:{})});
  try{
   const page=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'}),errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.route('**/habitat.mjs*',async route=>{const response=await route.fetch();const body=(await response.text()).replace('return {reset,stage,react,heartBurst,zoom,','if(canvas.id==="habitat")window.__motionTest=()=>({elapsed,reduced,actors:critters.map(a=>({x:a.x,y:a.y,phase:a.phase,visible:!a.hidden,cells:a.hitCells?.length||0}))});\nreturn {reset,stage,react,heartBurst,zoom,');await route.fulfill({response,body})});
+  await page.route('**/habitat.mjs*',async route=>{const response=await route.fetch();const body=(await response.text()).replace('return {reset,stage,react,','if(canvas.id==="habitat")window.__motionTest=()=>({elapsed,reduced,actors:critters.map(a=>({x:a.x,y:a.y,phase:a.phase,visible:!a.hidden,cells:a.hitCells?.length||0}))});\nreturn {reset,stage,react,');await route.fulfill({response,body})});
   await page.goto(base+'/isopoda/');await page.waitForFunction(()=>document.querySelector('#startBtn').onclick);
   const habitats=await page.evaluate(async()=>{const {HABITATS}=await import('./habitats.mjs');return HABITATS.map(h=>({id:h.id,species:h.species?.[0]||'dairy'}))});
   for(const habitat of habitats){

@@ -22,6 +22,7 @@ export function unlock(collection,id,date){if(!ids.has(id))return;if(!collection
 export function drawCohort(collection,seed,habitatId='terrestrial'){
  const habitatSpecies=SPECIES.filter(p=>eligibleSpecies(p,habitatId));
  const anchor=speciesById(drawSpecies(collection,seed,habitatId));
+ if(habitatId==='shallow-marine'){const pool=habitatSpecies.filter(p=>p.id!==anchor.id).sort((a,b)=>hash(seed,habitatSpecies.indexOf(a)+2001)-hash(seed,habitatSpecies.indexOf(b)+2001)),taxa=[anchor,...pool.slice(0,1+hash(seed,1901)%2)];return cohortFor(anchor.id,seed,habitatConfig(habitatId).cohortSize).map((c,i)=>({...c,species:taxa[i%taxa.length].id}))}
  if(habitatId==='groundwater'){const taxa=[anchor,...habitatSpecies.filter(p=>p.id!==anchor.id)];return cohortFor(anchor.id,seed,14).map((c,i)=>({...c,species:taxa[i%taxa.length].id,stage:i%3?'M':'L'}))}
  if((habitatConfig(habitatId).cohortSize||7)===1)return cohortFor(anchor.id,seed).slice(0,1).map(c=>({...c,stage:'L'}));
  const roll=hash(seed,1901)%100,n=Math.min(habitatConfig(habitatId).maxTaxa??3,roll<30?1:roll<75?2:3);

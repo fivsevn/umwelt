@@ -8,7 +8,7 @@ for(const [name,type] of [['chromium',chromium],['webkit',webkit]].filter(([name
  const browser=await type.launch({headless:true,...(name==='chromium'&&process.platform==='darwin'?{channel:'chrome'}:{})});
  try {for(const [width,height] of [[320,568],[390,844],[1440,900]]){
   const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'}),errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.route('**/habitat.mjs*',async route=>{const response=await route.fetch();const body=(await response.text()).replace('return {reset,stage,react,heartBurst,zoom,','if(canvas.id==="habitat")window.__motionTest=()=>({elapsed,reduced,actors:critters.map(a=>({x:a.x,y:a.y,phase:a.phase,visible:!a.hidden,cells:a.hitCells?.length||0}))});\nreturn {reset,stage,react,heartBurst,zoom,');await route.fulfill({response,body})});
+  await page.route('**/habitat.mjs*',async route=>{const response=await route.fetch();const body=(await response.text()).replace('return {reset,stage,react,','if(canvas.id==="habitat")window.__motionTest=()=>({elapsed,reduced,actors:critters.map(a=>({x:a.x,y:a.y,phase:a.phase,visible:!a.hidden,cells:a.hitCells?.length||0}))});\nreturn {reset,stage,react,');await route.fulfill({response,body})});
   await page.goto(base+'/isopoda/');await page.waitForFunction(()=>document.querySelector('#startBtn').onclick);
   await page.evaluate(async()=>{const {createRun}=await import('./engine.mjs');localStorage.setItem('isopoda-fugue-v4',JSON.stringify(createRun('granulosa',42,'intertidal')))});
   await page.reload();await click(page,'#continueBtn');
