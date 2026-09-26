@@ -99,3 +99,21 @@ test('interleaved emerged residents use all three barnacle patches and explore l
   for(const a of residents)assert.ok(a.y<intertidalSurface(s));
  }
 });
+
+test('authored barnacle additions enter seeded homes and high-water destination changes',()=>{
+ const homes=new Set(),visited=new Set();
+ for(let seed=0;seed<40;seed++){
+  const state=createRun('hirsuta',seed,'intertidal'),group=makeIndividuals(state.cohort);
+  stepIntertidal(group,{state,dt:.1});homes.add(group[0].tideRoute.anchor.id);
+  state.tide=94;
+  for(let i=0;i<600;i++){
+   const before=group.map(a=>[a.x,a.y]);stepIntertidal(group,{state,dt:.1,reduced:true});
+   for(const [j,a] of group.entries()){
+    visited.add(a.tideRoute.anchor.id);
+    assert.ok(Math.hypot(a.x-before[j][0],a.y-before[j][1])<3,'changes crawl continuously');
+   }
+  }
+ }
+ assert.ok(homes.size>3,'new exposed cluster can be a starting home');
+ assert.ok(visited.has('instance-31'));assert.ok(visited.has('instance-37'),'new lower cluster becomes available in high water');
+});

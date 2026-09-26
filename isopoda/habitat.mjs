@@ -120,7 +120,8 @@ function drawAquaticLayout(time){
  }
 }
 let seaweed=null;
-let state=getState(),critters=[],last=0,active=false,effect=null,frame=0,encounter=null,elapsed=0,empty=false,shelterHeld=false;
+// Environment and UI use real time; only animal motion uses the observation multiplier.
+let state=getState(),critters=[],last=0,active=false,effect=null,frame=0,encounter=null,elapsed=0,animalElapsed=0,empty=false,shelterHeld=false;
 const drawOptics=createPetriOptics();
 const lensCanvas=document.createElement('canvas'),lensCtx=lensCanvas.getContext('2d');
 const camera={zoom:1,x:192,y:215},motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
@@ -135,7 +136,7 @@ function placeSceneMolt(scene){
  actor.x=molt.x;actor.y=molt.y;actor.a=molt.a||0;actor.posture='molting';actor.molt=molt.phase||'posterior';actor.moving=false;actor.hidden=false;actor.occlusion=0;
 }
 function reset(options={}){
- interaction.cancel();state=getState();shoreVisual=null;syncCaveObserver();empty=!!options.empty;layer.replaceChildren();elapsed=0;effect=null;shelterHeld=false;reactions.reset();
+ interaction.cancel();state=getState();shoreVisual=null;syncCaveObserver();empty=!!options.empty;layer.replaceChildren();elapsed=0;animalElapsed=0;effect=null;shelterHeld=false;reactions.reset();
  const config=habitatConfig(state);
  seaweed=config.id==='shallow-marine'?createSeaweedBed(sceneObjects(layoutForHabitat(state))):null;
  if(seaweed)seaweedFrame(seaweed,{flow:state.flow,reduced});
@@ -150,8 +151,8 @@ function reset(options={}){
  if(isEstuaryObservation(state)&&!empty)stepEstuary(critters,{state,time:0,reduced});
  if(!empty)placeSceneMolt(state.scene);drawHabitat(0);
 }
-function stage(scene){interaction.cancel();state=getState();syncCaveObserver();if(state.habitatId==='groundwater'){stageGroundwater(critters,state);beamHome()}encounter=encounterForScene(scene);if(!seaweed)elapsed=0;else {seaweed.events={attached:0,crossed:0,hidden:0,reappeared:0,plucked:0};state.seaweedEvidence={}}effect=null;shelterHeld=false;reactions.reset();if(!habitatConfig(state).dialogue&&!['sandy-surf','petri-dish','shallow-marine'].includes(state.habitatId))stageIndividuals(critters,encounter);if(state.habitatId==='sandy-surf')sandHoles=[];if(isEstuaryObservation(state))stepEstuary(critters,{state,time:0,reduced});placeSceneMolt(scene);if(encounter){[camera.x,camera.y]=encounter.place}drawHabitat(0)}
-function react(id){state=getState();if(isEstuaryObservation(state)){stepEstuary(critters,{state,time:elapsed,reduced});drawHabitat(performance.now());return}if(state.habitatId==='groundwater'){if(id==='film-dark'){beamMove(30,0)}else if(id!=='lights-out')beamHome();drawHabitat(performance.now());return}const point=actionFocus(id,state,encounter);const selected=[...critters].sort((a,b)=>Math.hypot(a.x-point.x,a.y-point.y)-Math.hypot(b.x-point.x,b.y-point.y)).slice(0,2).map(c=>c.id);effect={id,selected,mode:responseMode(id),start:elapsed,until:elapsed+10};drawHabitat(performance.now())}
+function stage(scene){interaction.cancel();state=getState();syncCaveObserver();if(state.habitatId==='groundwater'){stageGroundwater(critters,state);beamHome()}encounter=encounterForScene(scene);if(!seaweed){elapsed=0;animalElapsed=0;}else {seaweed.events={attached:0,crossed:0,hidden:0,reappeared:0,plucked:0};state.seaweedEvidence={}}effect=null;shelterHeld=false;reactions.reset();if(!habitatConfig(state).dialogue&&!['sandy-surf','petri-dish','shallow-marine'].includes(state.habitatId))stageIndividuals(critters,encounter);if(state.habitatId==='sandy-surf')sandHoles=[];if(isEstuaryObservation(state))stepEstuary(critters,{state,time:0,reduced});placeSceneMolt(scene);if(encounter){[camera.x,camera.y]=encounter.place}drawHabitat(0)}
+function react(id){state=getState();if(isEstuaryObservation(state)){stepEstuary(critters,{state,time:animalElapsed,reduced});drawHabitat(performance.now());return}if(state.habitatId==='groundwater'){if(id==='film-dark'){beamMove(30,0)}else if(id!=='lights-out')beamHome();drawHabitat(performance.now());return}const point=actionFocus(id,state,encounter);const selected=[...critters].sort((a,b)=>Math.hypot(a.x-point.x,a.y-point.y)-Math.hypot(b.x-point.x,b.y-point.y)).slice(0,2).map(c=>c.id);effect={id,selected,mode:responseMode(id),start:elapsed,until:elapsed+10};drawHabitat(performance.now())}
 function heartBurst(){if(empty||!critters.length)return;reactions.burst(critters,'♡',elapsed);drawHabitat(performance.now())}
 function scopeVisible(){const m=microscope(getState()),a=critters[0];return !!a&&Math.hypot(a.x-m.x,a.y-m.y)<130/m.magnification}
 function scopeControl(action,value){
@@ -268,7 +269,7 @@ const interaction=bindPointerInteraction(canvas,{
  report:event=>{if(seaweed&&event.actor?.weed&&['grab','place'].includes(event.type)){event.actor.weed.mode='released';event.actor.weed.travel=null;event.actor.depth=200}onDirectInteraction({type:event.type,specimen:event.actor?.specimenId||null,point:event.point||null})}
 });
 canvas.addEventListener('wheel',e=>{e.preventDefault();if(habitatConfig(getState()).id==='petri-dish'){if(microscope(getState()).mode)scopeControl('zoom',e.deltaY<0?1:-1);return}if(habitatConfig(getState()).id==='groundwater')return;zoom(camera.zoom+(e.deltaY<0?.25:-.25));const label=document.querySelector('#zoomLevel');if(label)label.textContent=camera.zoom.toFixed(2).replace(/0$/,'')+'×'},{passive:false});
-function tick(t){if(!active)return;const beamDt=Math.min(.035,Math.max(0,(t-beam.last)/1000));beam.last=t;if(!document.hidden&&getState().habitatId==='groundwater'&&(beam.dx||beam.dy))beamMove(beam.dx*beamDt*42,beam.dy*beamDt*42);if(!document.hidden&&t-last>66){const dt=Math.min(.1,(t-last)/1000);state=getState();elapsed+=dt*(isShore(state)?Math.max(1,Math.min(64,Number(globalThis.__ISOPODA_HABITAT_SPEED__)||1)):1);if(seaweed){stepSeaweed(critters,seaweed,{time:elapsed,dt,reduced,flow:state.flow});state.seaweedEvidence={...seaweed.events}}else (isEstuaryObservation(state)?stepEstuary:habitatConfig(state).aquatic?stepAquatic:stepIndividuals)(critters,{encounter,state,time:elapsed,dt,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null,reduced});for(const a of critters){const source=seaweed?a.weed:a.sand;if(source?.cue){reactions.notify(a,source.cue,elapsed);delete source.cue}}reactions.update(critters,{encounter,state,time:elapsed,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});drawHabitat(t);last=t}frame=requestAnimationFrame(tick)}
+function tick(t){if(!active)return;const beamDt=Math.min(.035,Math.max(0,(t-beam.last)/1000));beam.last=t;if(!document.hidden&&getState().habitatId==='groundwater'&&(beam.dx||beam.dy))beamMove(beam.dx*beamDt*42,beam.dy*beamDt*42);if(!document.hidden&&t-last>66){const dt=Math.min(.1,(t-last)/1000);state=getState();elapsed+=dt;animalElapsed+=dt*Math.max(1,Math.min(64,Number(globalThis.__ISOPODA_HABITAT_SPEED__)||1));if(seaweed){stepSeaweed(critters,seaweed,{time:elapsed,dt,reduced,flow:state.flow});state.seaweedEvidence={...seaweed.events}}else (isEstuaryObservation(state)?stepEstuary:habitatConfig(state).aquatic?stepAquatic:stepIndividuals)(critters,{encounter,state,time:isEstuaryObservation(state)?animalElapsed:elapsed,animalTime:animalElapsed,dt,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null,reduced});for(const a of critters){const source=seaweed?a.weed:a.sand;if(source?.cue){reactions.notify(a,source.cue,elapsed);delete source.cue}}reactions.update(critters,{encounter,state,time:elapsed,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});drawHabitat(t);last=t}frame=requestAnimationFrame(tick)}
 function px(c,x,y,w,h,color){c.fillStyle=color;c.fillRect(Math.round(x),Math.round(y),Math.max(1,Math.round(w)),Math.max(1,Math.round(h)))}
 function drawHabitat(t){
  syncCaveObserver();
@@ -322,9 +323,9 @@ function drawHabitat(t){
  if(state.light<55&&!['abyssal','groundwater'].includes(config.id)){ctx.fillStyle=`rgba(15,27,21,${(55-state.light)/120})`;ctx.fillRect(0,0,w,h)}
  if(config.id==='abyssal'){ctx.fillStyle='rgba(5,11,14,.10)';ctx.fillRect(0,0,w,h)}
  if(config.id!=='abyssal'){ctx.strokeStyle='rgba(147,148,124,.55)';ctx.lineWidth=2;ctx.strokeRect(1,1,w-2,h-2);}
- if(isShore(state)){drawShoreWater(ctx,{...state,shoreLevel:shoreVisual?.level},elapsed,reduced);canvas.dataset.shorePoint=String(shorePoint(state));canvas.dataset.shoreTide=String(shoreTide(state));}
+ if(isShore(state)){drawShoreWater(ctx,{...state,shoreLevel:shoreVisual?.level},elapsed,reduced,animalElapsed);canvas.dataset.shorePoint=String(shorePoint(state));canvas.dataset.shoreTide=String(shoreTide(state));}
  else if(isEstuaryObservation(state))drawEstuaryWater(ctx,estuaryIndex(state),elapsed,estuaryLayout(state),reduced);
- else if(aquatic)drawAquaticWater(ctx,state,reduced?elapsed*.65:elapsed,{drawPlants:false,observationEffect:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});
+ else if(aquatic)drawAquaticWater(ctx,state,reduced?elapsed*.65:elapsed,{drawPlants:false,animalTime:reduced?animalElapsed*.65:animalElapsed,observationEffect:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});
  if(config.id==='groundwater')drawGroundwaterEvidence(ctx,state);
  if(config.id==='abyssal'){
   // Keep the whole animal and its existing light inside the original observation area.

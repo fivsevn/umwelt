@@ -22,9 +22,10 @@ export function confinePetri(a){
  a.hidden=false;a.occlusion=0;
 }
 export function stepPetri(group,{state,time,dt,reduced}){
+ const multiplier=Math.max(1,Math.min(64,Number(globalThis.__ISOPODA_HABITAT_SPEED__)||1));
  for(const a of group){
-  a.hidden=false;a.occlusion=0;a.molt='none';a.posture='normal';a.activity='crawl';a.moving=Math.sin(time*.71+a.offset)>-.78;a.posture=a.moving?'normal':'probing';a.phase+=dt*(a.moving?3:1.2);
-  if(a.moving){const speed=(reduced?.12:.32)*Math.min(4,Number(globalThis.__ISOPODA_HABITAT_SPEED__)||1);a.a+=Math.sin(time*.27+a.offset)*dt*.2;a.x+=Math.cos(a.a)*speed*dt;a.y+=Math.sin(a.a)*speed*dt}
+  a.hidden=false;a.occlusion=0;a.molt='none';a.posture='normal';a.activity='crawl';a.moving=Math.sin(time*.71+a.offset)>-.78;a.posture=a.moving?'normal':'probing';a.phase+=dt*multiplier*(a.moving?3:1.2);
+  if(a.moving){const speed=(reduced?.12:.32)*multiplier;a.a+=Math.sin(time*.27+a.offset)*dt*multiplier*.2;a.x+=Math.cos(a.a)*speed*dt;a.y+=Math.sin(a.a)*speed*dt}
   confinePetri(a);
  }
 }

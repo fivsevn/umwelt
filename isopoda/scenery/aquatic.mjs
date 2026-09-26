@@ -312,7 +312,7 @@ function drawFreshwaterObservationOverlay(g,s,time,effect){
  }
 }
 
-export function drawAquaticWater(g,s,time=0,{drawPlants=true,observationEffect=null}={}){
+export function drawAquaticWater(g,s,time=0,{drawPlants=true,observationEffect=null,animalTime=time}={}){
  const h=habitatConfig(s),surface=isIntertidal(s)?Math.round(intertidalSurface(s)):h.tides?Math.round(360-s.tide*3.35):0;
  if(h.id==='groundwater'){drawGroundwaterWater(g,s,time,pixel);return}
  if(h.id==='petri-dish'){
@@ -374,16 +374,17 @@ export function drawAquaticWater(g,s,time=0,{drawPlants=true,observationEffect=n
  const abyssal=h.id==='abyssal',freshwaterStage=h.id==='freshwater'?(Number.isInteger(s.scene?.materialStage)?s.scene.materialStage:0):-1,particles=abyssal?14+Math.round(s.detritus*.18):30+Math.round(s.detritus*.5)+(freshwaterStage===3?28:0),drift=abyssal?time*s.flow*.022:time*s.flow*.085;for(let i=0;i<particles;i++){const n=noise(i,37,s.seed),x=(n%384+drift)%384,y=surface+((n>>>12)%Math.max(1,430-surface));pixel(g,x,y,i%9===0?2:1,1,abyssal?(i%3?'#46595d':'#607176'):(i%3?'#889a79':'#b1bc95'))}
  if(freshwaterStage===3){for(let i=0;i<9;i++){const n=noise(i,397,s.seed),x=(n%420+time*(4.5+s.flow*.035))%420-18,y=55+((n>>>10)%320)+Math.sin(time*.42+i)*4,w=3+(n%6);pixel(g,x,y,w,2,i%3===0?'#6b5738':'#806846');if(i%2===0)pixel(g,x+1,y-1,Math.max(1,w-2),1,'#9a8155')}}
  if(s.light>45)for(let i=0;i<8;i++){const x=20+i*49+Math.round(Math.sin(time*.6+i)*5),y=35+(i*67)%340;pixel(g,x,y,18+i%3*6,1,'rgba(202,217,158,.23)');pixel(g,x+9,y+3,8,1,'rgba(202,217,158,.13)')}
- if(isIntertidal(s))drawIntertidalLife(g,s,time,pixel);
+ if(isIntertidal(s))drawIntertidalLife(g,s,animalTime,pixel);
  if(h.id==='freshwater')drawFreshwaterObservationOverlay(g,s,time,observationEffect);
 }
 
-export function stepAquatic(group,{state:s,time,dt,reduced,reaction}){
+export function stepAquatic(group,{state:s,time,animalTime=time,dt,reduced,reaction}){
  const h=habitatConfig(s),speed=Math.min(64,Math.max(1,Number(globalThis.__ISOPODA_HABITAT_SPEED__)||1)),motionScale=(reduced?.45:1)*(h.motionScale??1);
  if(isIntertidal(s)){stepIntertidal(group,{state:s,dt,reduced,speed});return}
- if(h.id==='petri-dish'){stepPetri(group,{state:s,time,dt,reduced});return}
+ if(h.id==='petri-dish'){stepPetri(group,{state:s,time:animalTime,dt,reduced});return}
  if(h.id==='sandy-surf'){stepSand(group,{state:s,time,dt,reduced});return}
  if(h.id==='groundwater'){stepGroundwater(group,{state:s,dt,reduced,speed});return}
+ time=animalTime;
  for(const a of group){if(stepInteraction(a,dt))continue;
   const custom=h.id==='freshwater'&&reaction?.selected?.includes(a.id)&&reaction.age<7?freshwaterReactionPlan(reaction.id,s,a,time):null;
   if(custom?.target){const dx=custom.target.x-a.x,dy=custom.target.y-a.y,dist=Math.hypot(dx,dy),arrived=dist<10,pace=(custom.activity==='drift'?8:4.8)*Math.max(.65,Math.min(1.4,(Number(a.speed)||.68)/.68))*motionScale;a.a=Math.atan2(dy,dx);a.moving=custom.stop? !arrived:dist>4;a.activity=custom.activity;a.posture=arrived?custom.posture:'normal';a.occlusion=arrived?(custom.occlusion||0):0;a.hidden=false;a.molt='none';a.phase+=dt*speed*(custom.activity==='drift'?7:4)*motionScale;if(a.moving&&dist>0){const travel=Math.min(dist,pace*dt*speed);a.x+=dx/dist*travel;a.y+=dy/dist*travel}a.x=Math.max(20,Math.min(362,a.x));a.y=Math.max(25,Math.min(405,a.y));continue}
