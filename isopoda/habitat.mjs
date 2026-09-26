@@ -1,5 +1,5 @@
 import {isShore,shorePoint,shoreTide} from './data/habitats/estuary-shore.mjs';
-import {shoreLayoutFor,shoreHeight,shoreWalkPose,drawShoreBackground,drawShoreWater} from './scenery/estuary-shore.mjs';
+import {shoreLayoutFor,shoreHeight,drawShoreBackground,drawShoreWater} from './scenery/estuary-shore.mjs';
 import {createSeaweedBed,seaweedFrame,stageSeaweed,stepSeaweed,beginSeaweedHold,moveSeaweedHold,endSeaweedHold,noteSeaweedVisibility} from './scenery/shallow-marine.mjs';
 import {drawKelp,hitKelp,visibleKelpCell} from './scenery/kelp-geometry.mjs';
 import {drawWaterBackground} from './scenery/aquatic-materials.mjs';
@@ -177,13 +177,7 @@ function present(){
  const m=state.habitatId==='petri-dish'?microscope(state):null;
  const petriScale=Math.max(rect.width/384,rect.height/430)*(m?.mode?m.magnification:1);
  const view=m?{scale:petriScale,sw:rect.width/petriScale,sh:rect.height/petriScale,x:m.mode?m.x:192,y:m.mode?m.y:215,sx:(m.mode?m.x:192)-rect.width/petriScale/2,sy:(m.mode?m.y:215)-rect.height/petriScale/2}:cameraWindow(rect.width,rect.height,camera.zoom,camera.x,camera.y,state.habitatId==='abyssal'),{scale,sw,sh,sx,sy}=view;camera.x=view.x;camera.y=view.y;
- if(canvas.id==='habitat'&&isShore(state)){
-  for(const [i,id] of ['shorePrev','shoreNext'].entries()){
-   const button=document.getElementById(id),{x,y}=shoreWalkPose(shorePoint(state),i?1:-1);
-   button.style.left=Math.max(15,Math.min(85,(x-sx)/sw*100))+'%';
-   button.style.top=Math.max(18,Math.min(76,(y-sy)/sh*100))+'%';
-  }
- }
+
  if(m&&!m.mode){camera.zoom=1;camera.x=192;camera.y=215}
 
  overlayCtx.clearRect(0,0,overlay.width,overlay.height);overlayCtx.drawImage(world,0,0);if(habitatConfig(state).id!=='groundwater'&&!isEstuaryObservation(state))drawReactionBubbles(overlayCtx,reactions.active,seaweed?critters.filter(a=>a.hitCells?.length):critters,elapsed,view,reduced);display.clearRect(0,0,w,h);
