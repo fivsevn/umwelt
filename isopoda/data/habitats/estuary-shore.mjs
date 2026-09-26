@@ -9,7 +9,7 @@ export const shoreTide=s=>shoreIndex(s)%4;
 export const shoreRain=s=>((s.seed>>>0)%7===0)&&shoreIndex(s)>=4&&shoreIndex(s)<=5;
 // The main animal stays observable beside shelter at every tide.
 export const shoreVisible=()=>true;
-export const SHORE_COORDINATES=Object.freeze([[-6,1.5],[0,0],[6,-1.5]]);
+export const SHORE_COORDINATES=Object.freeze([[-7.4,2.1],[0,0],[11.8,-3.6]]);
 export function shoreReadings(s){
  const point=shorePoint(s),tide=shoreTide(s),rain=shoreRain(s);
  return {depth:Math.max(.03,[.24,.46,.16,.06][tide]+point*.04),salinity:shoreLocalSalinity(point,tide,rain),flow:[3.6,.8,2.8,.4][tide]+point*.3,tide};
@@ -19,7 +19,7 @@ const rows={
  'point:0':['河侧','River side','川側'],'point:1':['汽水交界','Brackish edge','汽水の岸'],'point:2':['海侧','Sea side','海側'],
  'tide:0':['涨潮','Rising tide','上げ潮'],'tide:1':['满潮','High tide','満潮'],'tide:2':['退潮','Ebbing tide','下げ潮'],'tide:3':['低潮','Low tide','干潮'],
  'walk:0':['往河侧走','Walk riverward','川側へ歩く'],'walk:1':['往交界走','Walk to the edge','汽水の岸へ'],'walk:2':['往海侧走','Walk seaward','海側へ歩く'],
- 'position':['沿岸局部坐标（米）','Local bank coordinates (m)','岸辺の局所座標（m）'],
+ 'position':['沿岸局部坐标','Local bank coordinates','岸辺の局所座標'],
  'prev':['向河侧走','Walk riverward','川側へ'],'next':['向海侧走','Walk seaward','海側へ'],
  'intro':['河水与海水在这里碰面。你停在岸边，潮水正慢慢靠近。','River and sea meet here. You stop on the bank as the water slowly approaches.','川と海がここで出会う。岸辺で足を止めると、潮がゆっくり近づいてくる。'],
  'hint':['沿哪边再走走？点岸上的脚印换个地方，或留在这里，继续观察。按住等足目，可以轻轻捧起。','Which way will you wander? Click the footprints to move, or stay here and continue observing. Hold an isopod to gently pick it up.','どちらへ歩こう。岸の足跡を押して移動するか、ここで観察を続けよう。等脚類を長押しすると、そっと持ち上げられる。'],
