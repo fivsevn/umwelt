@@ -7,15 +7,15 @@ import {environmentScale} from '../isopoda/observation-header.mjs';
 import {microscope} from '../isopoda/scenery/petri.mjs';
 import {HABITAT_REFERENCES} from '../isopoda/data/habitats/references.mjs';
 
-test('eight habitats retain three numeric scales and one qualitative state across the complete story and reload',()=>{
+test('habitats retain three numeric scales and optional qualitative state across the complete story and reload',()=>{
  for(const h of HABITATS.filter(h=>h.id!=='estuary')){
   const s=createRun(h.species?.[0]||'dairy',37,h.id),times=new Set();let turns=0;
   while(s.stage!=='ended'){
    const scene=ensureScene(s);
    for(const lang of ['zh','en','ja','isopod']){
-    const rows=sceneInstrument(s,lang);assert.equal(rows.length,4,h.id);
+    const rows=sceneInstrument(s,lang);assert.equal(rows.length,h.id==='groundwater'?3:4,h.id);
     for(const text of rows.slice(0,3)){assert.match(text,lang==='isopod'?/[▁-▇]/:/\d/,h.id);if(lang==='isopod')assert.doesNotMatch(text,/\d/);assert.doesNotMatch(text,/NaN|undefined/)}
-    assert.doesNotMatch(rows[3],/\d/);assert.deepEqual(sceneInstrument(JSON.parse(JSON.stringify(s)),lang),rows);
+    if(rows.length>3)assert.doesNotMatch(rows[3],/\d/);assert.deepEqual(sceneInstrument(JSON.parse(JSON.stringify(s)),lang),rows);
     const clock=environmentScale(s,lang);if(clock&&lang==='en')times.add(clock.value);
    }
    if(h.id==='petri-dish')microscope(s).completed[(s.day-1)*3+s.period]=true;

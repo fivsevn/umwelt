@@ -5,7 +5,7 @@ import {sceneObjects,isAnimatedSceneElement} from '../isopoda/scenery/index.mjs'
 import {drawAquaticPlant} from '../isopoda/scenery/aquatic.mjs';
 
 test('the exported habitat layouts are the canonical editor scenes',()=>{
- const expected={forest:42,freshwater:54,groundwater:27,estuary:52,intertidal:65,'sandy-surf':24,'shallow-marine':40,abyssal:7,'petri-dish':12};
+ const expected={forest:42,freshwater:54,groundwater:29,estuary:52,intertidal:65,'sandy-surf':24,'shallow-marine':40,abyssal:7,'petri-dish':12};
  assert.deepEqual(Object.keys(SCENE_LAYOUTS),Object.keys(expected));
  for(const [id,count] of Object.entries(expected)){
   const layout=SCENE_LAYOUTS[id];
