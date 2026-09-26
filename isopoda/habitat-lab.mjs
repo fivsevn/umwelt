@@ -33,7 +33,9 @@ for(const [index,stage] of ESTUARY_STAGE_META.entries())$('#estuaryStage').appen
 const shoreLayouts=Array.from({length:12},(_,i)=>shoreLayout(Math.floor(i/4),i%4));
 const labEstuaryLayouts=[...ESTUARY_STAGE_LAYOUTS,...shoreLayouts];
 for(let i=0;i<12;i++)$('#estuaryStage').append(new Option('岸边 · '+shoreText('point:'+Math.floor(i/4))+' · '+shoreText('tide:'+i%4),String(i+6)));
-const labShoreState=()=>({shorePoint:state.backgroundParams.point,records:Array.from({length:state.backgroundParams.tide},()=>({evidence:{version:2}}))});
+let labShoreFocus='water';
+const labShoreFocusControl=document.createElement('select');labShoreFocusControl.id='estuaryFocus';labShoreFocusControl.setAttribute('aria-label','河口观察方式 / Estuary observation');labShoreFocusControl.append(new Option('沿水线观察 / Waterline','water'),new Option('留意遮蔽处 / Shelter','cover'));$('#estuaryPreviewControl').append(labShoreFocusControl);labShoreFocusControl.onchange=()=>{labShoreFocus=labShoreFocusControl.value;drawScene()};
+const labShoreState=()=>({shorePoint:state.backgroundParams.point,shoreFocus:labShoreFocus,shoreFocusTurn:state.backgroundParams.tide,stage:'choice',records:Array.from({length:state.backgroundParams.tide},()=>({evidence:{version:2}}))});
 for(const [index,stage] of FRESHWATER_STAGE_META.entries())$('#freshwaterStage').append(new Option(stage.label,String(index)));
 
 const ASSETS=[
@@ -302,6 +304,7 @@ function syncControls(){
  $('#estuaryPreviewControl').hidden=!['estuary','shallow-marine'].includes(currentPreset);
  $('#referenceDepthControl').hidden=currentPreset!=='shallow-marine';$('#referenceDepth').value=String(reference.depth??45);$('#estuaryPreview').setAttribute('aria-pressed',String(estuaryPreview));
  $('#estuaryPreview').textContent='FLOW · '+(estuaryPreview?'ON':'OFF');
+ labShoreFocusControl.hidden=!(currentPreset==='estuary'&&state.backgroundParams?.shore);
  $('#estuaryPreviewControl span').textContent=state.backgroundParams?.shore?'选择岸段与潮位。FLOW 开启时按游戏规则显示群落，可出现空岸；关闭后可拖动比例参考标本。 / FLOW previews patchy game fauna; OFF restores the movable scale specimen.':'水流预览；旧版 P 木边 / Q 藻根。各时刻分别导出。 / Flow preview; export each observation separately.';
  $('#freshwaterStageControl').hidden=currentPreset!=='freshwater';$('#freshwaterStage').value=String(currentFreshwaterStage);
  $('#toggleReference').setAttribute('aria-pressed',String(reference.visible));

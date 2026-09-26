@@ -29,7 +29,7 @@ const name=process.env.BROWSER||'chromium',base=process.env.BASE_URL||'http://12
     for(const region of Object.keys(before).filter(key=>key!=='actors')){const diff=before[region].reduce((n,v,i)=>n+(v!==after[region][i]),0);assert.ok(diff>9,`${name} point ${point}, tide ${tide}: ${region} must visibly animate (${diff} changed channels)`)}
     assert.equal(await page.locator('#dayLabel').textContent(),coordinate);
    }
-   await page.locator('#nextBtn').click();
+   await page.locator('#actions button').first().click();await page.locator('#nextBtn').click();
   }
   await page.reload();await page.locator('#continueBtn').click();assert.doesNotMatch(await page.locator('#observation').textContent(),/点岸上的脚印/g);
   assert.deepEqual(errors,[]);console.log(`${name} ${process.env.MOTION||'reduce'}: patchy stop-and-go isopods, reeds and water fauna across all 12 shore states OK`);

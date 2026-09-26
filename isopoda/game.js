@@ -95,7 +95,7 @@ function sceneNow(){
  if(state.stage==='choice'&&state.scene?.kind==='count')state.scene=null;
  const scene=ensureScene(state);if(!scene.encounter&&!habitatConfig(state).aquatic)scene.encounter=encounterFor(state).id;return scene;
 }
-function buttons(scene){$('#actions').hidden=isShore(state);$('#actions').replaceChildren();if(isShore(state))return;for(const o of scene.options){const b=document.createElement('button');b.className='action';b.dataset.directLocale='true';b.textContent=gameText(o.label,getLanguage());b.disabled=state.stage!=='choice'||(state.habitatId==='petri-dish'&&!petriReady(state));b.onclick=()=>act(o.id);$('#actions').append(b)}}
+function buttons(scene){$('#actions').hidden=false;$('#actions').replaceChildren();for(const o of scene.options){const b=document.createElement('button');b.className='action';b.dataset.directLocale='true';b.textContent=gameText(o.label,getLanguage());b.disabled=state.stage!=='choice'||(state.habitatId==='petri-dish'&&!petriReady(state));b.onclick=()=>act(o.id);$('#actions').append(b)}}
 function render(){
  const shore=isShore(state);shoreControls(state,getLanguage());
  if(state.habitatId==='petri-dish')checkMicroscope(state,habitat.scopeVisible());refreshPetri();
@@ -125,7 +125,7 @@ function render(){
   const completed=(Array.isArray(state.records)?state.records:[]).filter(record=>record.kind==='abyssal-dialogue').length;
   setWaveText($('#nextBtn'),state.stage==='choice'?t('holdMoment'):completed>=config.turns?t('closeGently'):t('continueObservation'));
  }else setWaveText($('#nextBtn'),state.stage==='choice'?t('holdMoment'):state.day===config.days&&state.period===2?t('closeGently'):t('later',{time:nextTimeLabel}));
- if(shore){$('#nextBtn').disabled=false;setWaveText($('#nextBtn'),shoreProgress(state)>=SHORE_TURNS-1?t('closeGently'):t('continueObservation'));}
+ if(shore){$('#nextBtn').disabled=state.stage!=='feedback';setWaveText($('#nextBtn'),state.stage==='choice'?t('holdMoment'):shoreProgress(state)>=SHORE_TURNS?t('closeGently'):t('continueObservation'));}
  buttons(scene);$('#miniView').replaceChildren();$('#miniView').hidden=true;
  if(state.stage==='choice'&&scene.kind==='count'){$('#miniView').hidden=false;for(let i=0;i<scene.count;i++)$('#miniView').append(makeBug(p,i))}
  if(lastScene!==scene.id){habitat.stage(scene);lastScene=scene.id}
@@ -141,7 +141,7 @@ function begin(){
  $('#playView').hidden=false;lastScene=null;sceneNow();habitat.reset();habitat.home();$('#zoomLevel').textContent=state.habitatId==='groundwater'?habitat.beamHome()+'%':'1×';refreshIconLabels();render();habitat.start();
 }
 function act(id){const option=ensureScene(state).options.find(o=>o.id===id);if(!choose(state,id))return;if(!state.interactionIntent)habitat.react(option?.animation||id);tone(130);render()}
-function next(){if(isShore(state)&&state.stage==='choice'){if(!choose(state,'shore-watch'))return;state.shoreIntroDone=true;state.shoreNotice=!!state.records.at(-1)?.evidence?.found;}if(!advance(state))return;tone(95);save();if(state.stage==='ended'){showEnd();return}render()}
+function next(){if(!advance(state))return;tone(95);save();if(state.stage==='ended'){showEnd();return}render()}
 function drawEndMolts(){
  const canvas=$('#endMolts'),panel=canvas?.closest('.molt-result-panel'),shells=Array.isArray(state.collectedShells)?state.collectedShells.slice(-8):[];if(!canvas)return;
  if(panel)panel.hidden=!shells.length;canvas.hidden=!shells.length;if(!shells.length)return;
