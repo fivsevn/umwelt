@@ -87,3 +87,15 @@ test('accelerated low-tide bouts vary independently while aquatic animals remain
  for(let i=0;i<1200;i++){stepIntertidal(group,{state:s,dt:.1,speed:4});for(const a of group){assert.ok(a.y>=intertidalSurface(s));const r=a.tideRoute;destinations.add(`${r.x.toFixed(1)},${r.y.toFixed(1)}`);durations.add(r.until.toFixed(2))}}
  assert.ok(destinations.size>50);assert.ok(durations.size>50);
 });
+
+
+test('interleaved emerged residents use all three barnacle patches and explore locally',async()=>{
+ const {drawCohort}=await import('../isopoda/collection.mjs');
+ for(const seed of [17,42,88,133]){
+  const s=createRun('hirsuta',seed,'intertidal');s.cohort=drawCohort({unlocked:[],draws:0},seed,'intertidal');
+  const group=makeIndividuals(s.cohort),residents=group.filter(a=>a.species==='hirsuta'),positions=residents.map(()=>[]);
+  for(let i=0;i<1000;i++){stepIntertidal(group,{state:s,dt:.1,speed:4});residents.forEach((a,j)=>positions[j].push([a.x,a.y]));assert.equal(new Set(residents.map(a=>a.tideRoute.anchor.id)).size,3)}
+  for(const path of positions){assert.ok(Math.max(...path.map(p=>p[0]))-Math.min(...path.map(p=>p[0]))>12);assert.ok(Math.max(...path.map(p=>p[1]))-Math.min(...path.map(p=>p[1]))>8)}
+  for(const a of residents)assert.ok(a.y<intertidalSurface(s));
+ }
+});
