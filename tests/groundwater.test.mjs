@@ -72,3 +72,34 @@ test('cave animals keep moving gently on wet patches, including reduced-motion m
   assert.ok(group.some((a,i)=>Math.hypot(a.x-initial[i][0],a.y-initial[i][1])>2));assert.ok(paused);if([1,7].includes(index))assert.ok(occluded);
  }
 });
+
+test('released cave animals choose the closest crack and crawl there without snapping back',async()=>{
+ const {settleGroundwater}=await import('../isopoda/scenery/groundwater.mjs');
+ const {holdIndividual}=await import('../isopoda/interaction.mjs');
+ for(const reduced of [false,true]){
+  const state=createRun('cavaticus',37,'groundwater'),group=makeIndividuals(state.cohort);stageGroundwater(group,state);
+  const a=group[0],old=a.caveSite,target=GROUNDWATER_LAYOUT.objects.filter(o=>o.type==='seep-film-01').find(o=>Math.hypot(o.x-old.x,o.y-old.y)>100);
+  a.x=target.x+8;a.y=target.y+6;const dropped=[a.x,a.y];settleGroundwater(a);holdIndividual(a,'recovering',800);
+  assert.equal(a.caveSite.id,target.id);stepGroundwater(group,{state,dt:.1,reduced,speed:1});assert.deepEqual([a.x,a.y],dropped);
+  for(let i=0;i<600;i++){const x=a.x,y=a.y,returning=a.caveDisplaced;stepGroundwater(group,{state,dt:.1,reduced,speed:1});assert.ok(Math.hypot(a.x-x,a.y-y)<=(returning?.701:1.1),'no release teleport');}
+  assert.equal(a.caveSite.id,target.id);assert.ok(Math.hypot(a.x-target.x,a.y-target.y)<22);
+  state.scene={observationIndex:1};stageGroundwater(group,state);assert.equal(a.caveSite.id,target.id,'next observation keeps the relocated refuge');
+ }
+});
+
+test('cave narration and legacy saves use impersonal everyday language in three languages',async()=>{
+ const {GROUNDWATER_PULSES:legacy,GROUNDWATER_ENDINGS:endings}=await import('../isopoda/data/habitats/groundwater-pulse.mjs');
+ const {RELEASE_STORIES}=await import('../isopoda/data/habitats/release-stories.mjs');
+ const texts=JSON.stringify([GROUNDWATER_PULSES,legacy,endings,RELEASE_STORIES.groundwater]);
+ assert.doesNotMatch(texts,/[你我您]|\b(?:you|your|yours|we|our|I|my)\b|あなた|私|等足目|步足|口器|外源|因果|连通图|flowstone|isopods|mouthparts|hydrolog/iu);
+});
+
+test('torch motes stay inside the uneven light and drift independently of torch movement',async()=>{
+ const {caveMotes,caveIllumination,drawCaveLight}=await import('../isopoda/scenery/cave-light.mjs');
+ const beam={x:50,y:54,size:34},a=caveMotes(0,384,430,beam),b=caveMotes(7,384,430,beam);
+ assert.ok(a.length&&b.length);assert.notDeepEqual(a,b);assert.ok(a.length<20,'sparse light-only particles');
+ for(const p of [...a,...b])assert.ok(Math.hypot((p.x-192)/65.28,(p.y-232.2)/65.28)<1.07);
+ assert.notEqual(caveIllumination(.4,0),caveIllumination(-.4,0));assert.equal(caveIllumination(1.2,0),0);
+ const calls=[],g={canvas:{width:384,height:430},clearRect(){},fillRect(...args){calls.push(args)},drawImage(){throw Error('light texture must not draw after lights out')}};
+ drawCaveLight(g,{},beam,7,true);assert.equal(calls.length,1,'lights out paints only darkness, no bright motes');
+});

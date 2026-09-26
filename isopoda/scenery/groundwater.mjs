@@ -2,13 +2,17 @@ import {CAVE_SITES,caveFocusSite} from './groundwater-sites.mjs';
 import {stepInteraction} from '../interaction.mjs';
 import {groundwaterObservationIndex} from '../data/habitats/groundwater-observation.mjs';
 export const CAVE_WET_PATCHES=CAVE_SITES.map(o=>[o.x,o.y]);
+export function settleGroundwater(actor){
+ const site=CAVE_SITES.reduce((nearest,site)=>Math.hypot(actor.x-site.x,actor.y-site.y)<Math.hypot(actor.x-nearest.x,actor.y-nearest.y)?site:nearest);
+ actor.caveSite=site;actor.caveAnchor=[site.x,site.y];actor.caveDisplaced=true;actor.caveRelocated=true;
+}
 // Authored wet-surface paths are illustrative, never measured animal speeds or hidden tunnels.
 export function stageGroundwater(group,state){
  const index=groundwaterObservationIndex(state);
  for(const a of group){
   a.caveTime=(a.id===0?0:(a.seed%100)/10);a.caveObservation=index;
-  const site=a.id===0?caveFocusSite(index):CAVE_SITES[(a.id+3)%CAVE_SITES.length];
-  a.caveSite=site;a.caveAnchor=[site.x,site.y];
+  const site=a.caveRelocated&&a.caveSite?a.caveSite:a.id===0?caveFocusSite(index):CAVE_SITES[(a.id+3)%CAVE_SITES.length];
+  a.caveSite=site;a.caveAnchor=[site.x,site.y];if(a.caveRelocated)a.caveDisplaced=true;
  }
  stepGroundwater(group,{state,dt:0,reduced:false,speed:1});
 }
@@ -45,6 +49,14 @@ export function stepGroundwater(group,{state,dt,reduced=false,speed=1}){
  }
 }
 export function drawGroundwaterWater(g,s,time,pixel){
+ // Sparse falling drops and broken pixel ripples follow the authored wet stone.
+ for(const [j,site] of CAVE_SITES.entries()){
+  const phase=(time*.23+j*.37)%1;
+  if(phase<.22)pixel(g,site.x+4,site.y-19+phase/ .22*16,1,2,'rgba(168,186,168,.23)');
+  else if(phase<.58){const r=Math.floor((phase-.22)*20),alpha=(.58-phase)*.45;
+   for(const side of [-1,1]){pixel(g,site.x+side*r,site.y,2,1,`rgba(164,182,165,${alpha})`);pixel(g,site.x+side*Math.max(0,r-2),site.y+2,1,1,`rgba(164,182,165,${alpha})`)}
+  }
+ }
  const index=groundwaterObservationIndex(s),seep=(s.seepage??36)/100,linked=index>=2&&index<=5;
  if(linked){
   // The visible water connection is distinct from the player's dashed inferred route.

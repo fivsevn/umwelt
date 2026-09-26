@@ -10,7 +10,8 @@ import {stageSand,buriedAt,uncoverSand,drawSandMarks,sandVisibleCells,sandPose,s
 import {isEstuaryObservation,estuaryIndex} from './data/narrative/estuary.mjs';
 import {estuaryLayout} from './scenery/estuary-stages.mjs';
 import {stepEstuary,drawEstuaryWater,drawEstuaryEvidence} from './scenery/estuary.mjs';
-import {stageGroundwater} from './scenery/groundwater.mjs';
+import {createCaveLightTexture,drawCaveLight} from './scenery/cave-light.mjs';
+import {stageGroundwater,settleGroundwater} from './scenery/groundwater.mjs';
 import {GROUNDWATER_OBSERVATIONS,groundwaterObservationIndex} from './data/habitats/groundwater-observation.mjs';
 import {habitatConfig} from './habitats.mjs';
 import {drawAquaticWater,stepAquatic} from './scenery/aquatic.mjs';
@@ -64,8 +65,15 @@ const ctx=world.getContext('2d');ctx.imageSmoothingEnabled=false;
 const viewport=canvas.closest('.habitat-viewport');
 const caveMask=canvas.id==='habitat'&&viewport?document.createElement('div'):null;
 if(caveMask){caveMask.className='cave-observer-mask';caveMask.hidden=true;caveMask.setAttribute('aria-hidden','true');viewport.append(caveMask)}
+const caveLight=caveMask?document.createElement('canvas'):null;let caveLightTexture=null;
+if(caveLight){caveLight.className='cave-light';caveLight.hidden=true;caveLight.setAttribute('aria-hidden','true');viewport.append(caveLight)}
+function paintCaveLight(){
+ if(!caveLight||caveLight.hidden)return;
+ if(!caveLightTexture)caveLightTexture=createCaveLightTexture(document);
+ drawCaveLight(caveLight.getContext('2d'),caveLightTexture,beam,elapsed,caveMask.dataset.lightsOut==='true');
+}
 const beam={x:50,y:54,size:34,dx:0,dy:0,last:0};
-function paintBeam(){if(!caveMask)return;caveMask.style.setProperty('--beam-x',beam.x+'%');caveMask.style.setProperty('--beam-y',beam.y+'%');caveMask.style.width=beam.size+'%'}
+function paintBeam(){if(!caveMask)return;caveMask.style.setProperty('--beam-x',beam.x+'%');caveMask.style.setProperty('--beam-y',beam.y+'%');caveMask.style.width=beam.size+'%';paintCaveLight()}
 function beamMove(dx,dy){beam.x=Math.max(0,Math.min(100,beam.x+dx));beam.y=Math.max(0,Math.min(100,beam.y+dy));paintBeam()}
 function beamResize(delta){beam.size=Math.max(18,Math.min(66,beam.size+delta));paintBeam();return beam.size}
 function beamHome(){
@@ -76,7 +84,7 @@ function beamHome(){
 function syncCaveObserver(){
  if(!caveMask||!viewport)return;
  const current=getState(),on=habitatConfig(current).id==='groundwater';
- caveMask.hidden=!on;viewport.classList.toggle('groundwater-observation',on);
+ caveMask.hidden=!on;caveLight.hidden=!on;viewport.classList.toggle('groundwater-observation',on);
  const last=Array.isArray(current.records)?current.records.at(-1):null;
  caveMask.dataset.lightsOut=String(on&&['feedback','ended'].includes(current.stage)&&last?.kind==='groundwater-pulse'&&last?.choice==='lights-out');
 }
@@ -215,6 +223,11 @@ function present(){
   drawOptics(display,lensCanvas,m);
  }
 
+ if(caveLight&&!caveLight.hidden){
+  const height=Math.round(384*rect.height/rect.width);
+  if(caveLight.width!==384||caveLight.height!==height){caveLight.width=384;caveLight.height=height}
+  paintCaveLight();
+ }
  layer.hidden=true;
 }
 function zoom(z){if(getState().habitatId==='petri-dish')return 1;camera.zoom=getState().habitatId==='abyssal'?Math.max(.25,Math.min(1,z)):Math.max(1,Math.min(3,z));present();return camera.zoom}
@@ -269,7 +282,7 @@ const interaction=bindPointerInteraction(canvas,{
   camera.x-=dx/scale;camera.y-=dy/scale;present();
  },
  draw:()=>drawHabitat(performance.now()),
- report:event=>{if(seaweed&&event.actor?.weed&&['grab','place'].includes(event.type)){event.actor.weed.mode='released';event.actor.weed.travel=null;event.actor.depth=200}onDirectInteraction({type:event.type,specimen:event.actor?.specimenId||null,point:event.point||null})}
+ report:event=>{if(getState().habitatId==='groundwater'&&event.type==='place'&&event.actor)settleGroundwater(event.actor);if(seaweed&&event.actor?.weed&&['grab','place'].includes(event.type)){event.actor.weed.mode='released';event.actor.weed.travel=null;event.actor.depth=200}onDirectInteraction({type:event.type,specimen:event.actor?.specimenId||null,point:event.point||null})}
 });
 canvas.addEventListener('wheel',e=>{e.preventDefault();if(habitatConfig(getState()).id==='petri-dish'){if(microscope(getState()).mode)scopeControl('zoom',e.deltaY<0?1:-1);return}if(habitatConfig(getState()).id==='groundwater')return;zoom(camera.zoom+(e.deltaY<0?.25:-.25));const label=document.querySelector('#zoomLevel');if(label)label.textContent=camera.zoom.toFixed(2).replace(/0$/,'')+'×'},{passive:false});
 function tick(t){if(!active)return;const beamDt=Math.min(.035,Math.max(0,(t-beam.last)/1000));beam.last=t;if(!document.hidden&&getState().habitatId==='groundwater'&&(beam.dx||beam.dy))beamMove(beam.dx*beamDt*42,beam.dy*beamDt*42);if(!document.hidden&&t-last>66){const dt=Math.min(.1,(t-last)/1000);state=getState();elapsed+=dt;animalElapsed+=dt*Math.max(1,Math.min(64,Number(globalThis.__ISOPODA_HABITAT_SPEED__)||1));if(seaweed){stepSeaweed(critters,seaweed,{time:elapsed,dt,reduced,flow:state.flow});state.seaweedEvidence={...seaweed.events}}else (isEstuaryObservation(state)?stepEstuary:habitatConfig(state).aquatic?stepAquatic:stepIndividuals)(critters,{encounter,state,time:isEstuaryObservation(state)?animalElapsed:elapsed,animalTime:animalElapsed,dt,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null,reduced});for(const a of critters){const source=seaweed?a.weed:a.sand;if(source?.cue){reactions.notify(a,source.cue,elapsed);delete source.cue}}reactions.update(critters,{encounter,state,time:elapsed,reaction:effect&&elapsed<effect.until?{...effect,age:elapsed-effect.start}:null});drawHabitat(t);last=t}frame=requestAnimationFrame(tick)}

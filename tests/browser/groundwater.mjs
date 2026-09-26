@@ -42,7 +42,7 @@ for(const [name,type] of [['chromium',chromium],['webkit',webkit]]){
   if(output)await page.screenshot({path:`${output}/${name}-${width}-cave.png`,fullPage:true});
   for(let turn=0;turn<8;turn++){
    assert.equal(await page.locator('#dayLabel').textContent(),'Δh −'+[18.6,18.2,19.1,18.8,19.4,19.7,19.1,19.7][turn].toFixed(1)+' m');
-   assert.match(await page.locator('#activityLabel').textContent(),/渗水|涨水|携入|退水/);
+   assert.match(await page.locator('#activityLabel').textContent(),/渗水|涨水|来水|退水/);
    assert.doesNotMatch(await page.locator('#dayLabel').textContent(),/PULSE|脉冲/);
    await page.locator('#actions button').nth(turn===7?2:0).click();
    await page.reload();await page.waitForFunction(()=>document.querySelector('#continueBtn').onclick);await page.click('#continueBtn');
