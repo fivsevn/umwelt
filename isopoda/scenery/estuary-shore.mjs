@@ -95,29 +95,83 @@ const shoreObject=(point,id)=>SHORE_LAYOUTS[point].objects.find(o=>o.id===id);
 export const shoreLayoutFor=s=>shoreLayout(shorePoint(s),shoreTide(s),shoreRain(s));
 // Seeded stop-and-go paths around real authored refuges. Pace is a game proxy.
 export function stepShore(group,{state,time=0,dt=0,reduced=false,layout:editedLayout}){
- const point=shorePoint(state),layout=editedLayout||SHORE_LAYOUTS[point],t=time*(reduced?.65:1);
+ const point=shorePoint(state),tide=shoreTide(state),index=shoreIndex(state),layout=editedLayout||SHORE_LAYOUTS[point],t=time*(reduced?.65:1);
+ const focus=state.shoreFocusTurn===index?state.shoreFocus:'water',objectiveKey=`${point}:${index}:${focus}:${state.stage==='feedback'?'selected':'preview'}`;
  const snapshot=shoreFaunaSnapshot(group,point,shoreIndex(state));
  const local=group.some(a=>a.species)?group.filter((a,i)=>snapshot[i].visible):group.slice(0,4);
+ const occupied=new Map(),refugeCounts=new Map(),homes=new Map();
+ for(const a of group.filter((a,i)=>snapshot[i].resident||!a.species)){
+  const refuge=SHORE_FAUNA_RULES[a.species]?.refuge||'wood';
+  const candidates=layout.objects.filter(o=>refuge==='stone'?/stone/.test(o.type)&&o.y>shoreLine(o.x,point,1)-40:refuge==='algae'?/ulva|seagrass|sunken-wood/.test(o.type):refuge==='mud'?/mud-burrows|estuary-silt/.test(o.type)&&o.y>shoreLine(o.x,point,1)-25:/sunken-wood/.test(o.type));
+  const order=refugeCounts.get(refuge)||0;refugeCounts.set(refuge,order+1);
+  const shelter=candidates[order%Math.max(1,candidates.length)]||layout.objects.find(o=>o.id==='shore-wood')||shoreObject(point,'shore-wood');
+  const slot=occupied.get(shelter.id)||0;occupied.set(shelter.id,slot+1);
+  const angle=slot*2.399963+(noise(Math.round(shelter.x),Math.round(shelter.y))%100)*.01,radius=24*Math.sqrt(slot+1);
+  const ox=Math.cos(angle)*radius,oy=18+Math.sin(angle)*radius*.65;
+  homes.set(a,{x:shelter.x+ox,y:shelter.y+oy,targets:(candidates.length?candidates:[shelter]).map(o=>({x:Math.max(22,Math.min(360,o.x+ox)),y:Math.max(30,Math.min(407,o.y+oy))}))});
+ }
  for(const [i,a] of group.entries()){
-  a.hidden=!local.includes(a);if(a.hidden)continue;
+  a.hidden=!local.includes(a);if(a.hidden){if(a.shoreTrack)a.shoreTrack.lastTime=t;continue;}
   const slot=local.indexOf(a),seed=(a.seed??i)>>>0,id=a.species||'hookeri';
   const refuge=SHORE_FAUNA_RULES[id]?.refuge,mud=refuge==='mud',stone=refuge==='stone',algae=refuge==='algae';
-  const candidates=layout.objects.filter(o=>stone?/stone/.test(o.type)&&o.y>shoreLine(o.x,point,1)-40:algae?/ulva|seagrass|sunken-wood/.test(o.type):mud?/mud-burrows|estuary-silt/.test(o.type)&&o.y>shoreLine(o.x,point,1)-25:/sunken-wood/.test(o.type));
-  const shelter=candidates[(seed+slot)%Math.max(1,candidates.length)]||layout.objects.find(o=>o.id==='shore-wood')||shoreObject(point,'shore-wood');
+  const shelter=homes.get(a);
   const key=String(point);
-  if(a.shoreTrack?.key!==key)a.shoreTrack={key,dx:0,dy:0,clockOffset:0,lastTime:t};
-  if(t<a.shoreTrack.lastTime)a.shoreTrack.clockOffset+=a.shoreTrack.lastTime;
-  a.shoreTrack.lastTime=t;
-  const clock=t+a.shoreTrack.clockOffset,period=(mud?17:stone?12:10)+(seed%7),phase=clock+(seed%71)*.31,cycle=Math.floor(phase/period),u=(phase%period)/period;
-  const travel=mud?.36:stone?.56:.72,progress=smooth(Math.min(1,u/travel));
-  const radius=mud?9:stone?15:algae?30:24;
-  const target=n=>{const q=noise(n+1,slot+19,seed);return {x:shelter.x+((q%101)/50-1)*radius,y:shelter.y+10+((q>>>9)%101)/100*(mud?10:22)}};
-  const from=target(cycle),to=target(cycle+1),x=from.x+(to.x-from.x)*progress,y=from.y+(to.y-from.y)*progress;
-  if(a.interactionState){a.shoreTrack.dx=a.x-x;a.shoreTrack.dy=a.y-y;if(stepInteraction(a,dt))continue}
-  a.x=Math.max(22,Math.min(360,x+a.shoreTrack.dx));a.y=Math.max(30,Math.min(407,y+a.shoreTrack.dy));
-  a.a=Math.atan2(to.y-from.y,to.x-from.x);a.moving=u<travel;
-  a.occlusion=mud?(a.moving?.18:.48):0;a.lift=0;a.posture=mud&&!a.moving?'buried':'normal';a.activity=a.moving?'crawl':'rest';
-  a.phase=seed*.1+(a.moving?t*2.8:Math.floor(phase/period));a.habitatScale=1;
+  if(a.shoreTrack?.key!==key)a.shoreTrack={key,x:Math.max(22,Math.min(360,shelter.x)),y:Math.max(30,Math.min(407,shelter.y)),heading:seed%628/100,clock:0,lastTime:t,serial:0,restUntil:(seed%13)*.17,goal:null};
+  const track=a.shoreTrack,elapsed=Math.max(0,Math.min(60,t-track.lastTime));track.lastTime=t;
+  const random=()=>noise(++track.serial,point+31,seed)/4294967296;
+  const objectiveFor=()=>{
+   const base=shelter.targets.slice().sort((a,b)=>Math.hypot(a.x-track.x,a.y-track.y)-Math.hypot(b.x-track.x,b.y-track.y))[0];
+   let x=base.x,y=base.y,kind='shelter';
+   if(focus!=='cover'){
+    if(tide===0){kind=mud?'mud-edge':'wet-edge';y+=mud?6:18;}
+    else if(tide===1){kind=algae?'cling-algae':mud?'tube-refuge':'lee-side';y+=mud?2:-10;}
+    else if(tide===2){kind=mud?'damp-mud':'follow-water';y=mud?y+8:Math.min(y+65,Math.max(y+20,shoreLine(x,point,tide)+5));}
+    else {kind=mud?'tube-refuge':'damp-cover';y+=mud?3:6;}
+   }
+   return {key:objectiveKey,x:Math.max(22,Math.min(360,x)),y:Math.max(30,Math.min(407,y)),kind,done:false};
+  };
+  if(track.objective?.key!==objectiveKey){track.objective=objectiveFor();track.goal=null;track.restUntil=track.clock;}
+
+  if(a.interactionState){
+   track.x=a.x;track.y=a.y;track.goal=null;track.objective=objectiveFor();track.clock+=elapsed;track.restUntil=track.clock+.6;track.placementUntil=track.clock+2;
+   if(stepInteraction(a,dt))continue;
+  }
+  const steps=Math.max(1,Math.ceil(elapsed/.2)),tick=elapsed/steps;
+  for(let frame=0;frame<steps;frame++){
+   track.clock+=tick;if(track.clock<track.restUntil)continue;
+   const distance=track.goal?Math.hypot(track.goal.x-track.x,track.goal.y-track.y):Infinity;
+   if(track.goal&&distance<5){if(!track.objective.done){track.objective.done=true;track.arrivedAt=track.clock;}track.goal=null;track.restUntil=track.clock+(mud?2:0.5)+random()*(mud?7:4);continue;}
+   if(!track.goal||track.clock>=track.replanAt){
+    const targets=shelter.targets.slice().sort((a,b)=>Math.hypot(a.x-track.x,a.y-track.y)-Math.hypot(b.x-track.x,b.y-track.y));
+    const near=track.objective.done?track.objective:targets[0],far=Math.hypot(near.x-track.x,near.y-track.y)>38;
+    const destination=!far&&targets.length>1&&random()<.22?targets[Math.min(targets.length-1,1+Math.floor(random()*2))]:near;
+    const angle=random()*Math.PI*2,radius=far?random()*5:(mud?4:9)+random()*(mud?8:23);
+    track.goal={x:Math.max(22,Math.min(360,destination.x+Math.cos(angle)*radius)),y:Math.max(30,Math.min(407,destination.y+Math.sin(angle)*radius*.65))};
+    if(!track.objective.done)track.goal={x:track.objective.x,y:track.objective.y};
+    track.intent=track.objective.done?(far?'seek-refuge':'explore'):track.objective.kind;track.speed=(mud?1.4:stone?2.3:algae?3.1:2.6)*(.65+random()*.7)*([1.1,.7,1.2,.65][tide]);track.replanAt=track.clock+9+random()*14;
+   }
+   const dx=track.goal.x-track.x,dy=track.goal.y-track.y,desired=Math.atan2(dy,dx)+Math.sin(track.clock*.8+seed)*.13;
+   const turn=Math.atan2(Math.sin(desired-track.heading),Math.cos(desired-track.heading));track.heading+=Math.max(-tick*2.4,Math.min(tick*2.4,turn));
+   const stride=Math.min(Math.hypot(dx,dy),track.speed*tick);
+   track.x=Math.max(22,Math.min(360,track.x+Math.cos(track.heading)*stride));track.y=Math.max(30,Math.min(407,track.y+Math.sin(track.heading)*stride));
+  }
+  a.x=track.x;a.y=track.y;a.a=track.heading;a.moving=track.clock>=track.restUntil&&!!track.goal;
+  const sheltered=track.objective.done&&(focus==='cover'||tide===1||tide===3);
+  a.occlusion=mud?(a.moving?.18:.48):sheltered?.3:0;a.lift=0;a.posture=mud&&!a.moving?'buried':sheltered&&!a.moving?'resting':'normal';a.activity=a.moving?track.intent:(sheltered?'sheltered':'rest');
+  a.phase=seed*.1+track.clock*2.8;a.habitatScale=1;
+
+ }
+ // Visual clearance between neighbours, without changing their observation site.
+ for(let pass=0;pass<8;pass++)for(let i=0;i<local.length;i++)for(let j=i+1;j<local.length;j++){
+  const a=local[i],b=local[j],dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy);if(d>=28)continue;
+  const ax=!!a.interactionState||(a.shoreTrack?.clock<a.shoreTrack?.placementUntil),bx=!!b.interactionState||(b.shoreTrack?.clock<b.shoreTrack?.placementUntil);if(ax&&bx)continue;
+  const nx=d>0?dx/d:1,ny=d>0?dy/d:0,shift=(28-d)/(ax||bx?1:2);
+  if(!ax){a.x=Math.max(22,Math.min(360,a.x-nx*shift));a.y=Math.max(30,Math.min(407,a.y-ny*shift))}
+  if(!bx){b.x=Math.max(22,Math.min(360,b.x+nx*shift));b.y=Math.max(30,Math.min(407,b.y+ny*shift))}
+ }
+ for(const a of local)if(a.shoreTrack&&!a.interactionState){
+  const track=a.shoreTrack;if(Math.hypot(track.x-a.x,track.y-a.y)>.5)track.goal=null;
+  track.x=a.x;track.y=a.y;
  }
 }
 function fish(g,x,y,dir=1,goby=false,t=0){

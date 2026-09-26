@@ -19,7 +19,7 @@ const name=process.env.BROWSER||'chromium',base=process.env.BASE_URL||'http://12
      let s=await saved();for(let walk=0;s.shorePoint!==point&&walk<3;walk++){await page.locator(point<s.shorePoint?'#shorePrev':'#shoreNext').click();s=await saved()}assert.equal(s.shorePoint,point)
      assert.equal(s.records.length,turn,'walking does not advance time');
      await page.waitForFunction(t=>document.querySelector('#habitat').dataset.shoreTide===String(t),turn%4);
-     assert.equal(await page.locator('#actions button').count(),0);
+     assert.equal(await page.locator('#actions button').count(),2);
      assert.equal(await page.locator('#instruments [data-scale="numeric"]').count(),3);assert.equal(await page.locator('#instruments [data-scale="qualitative"]').count(),1);assert.match(await page.locator('#dayLabel').textContent(),/^\([−\-\d.]+, [−\-\d.]+\)$/);
      assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
      if(output&&turn===2)await page.screenshot({path:path.join(output,`${name}-${width}-shore-${point}.png`),fullPage:true});
@@ -29,7 +29,7 @@ const name=process.env.BROWSER||'chromium',base=process.env.BASE_URL||'http://12
      for(const lang of ['en','ja','isopod','zh']){await page.locator(`[data-system-lang="${lang}"]`).click();assert.doesNotMatch(await page.locator('#observation').textContent(),/estuary:|undefined/)}
      await page.locator('#journalBtn').click();assert.doesNotMatch(await page.locator('#drawer').textContent(),/estuary:v[12]:|undefined|‰/);await page.locator('#closeDrawer').click();
     }
-    await page.locator('#nextBtn').click();
+    await page.locator('#actions button').first().click();await page.locator('#nextBtn').click();
    }
    assert.ok(await page.locator('#endCard').isVisible());assert.ok((await saved()).ending.startsWith('estuary-shore'));assert.equal((await saved()).records.length,8);
    await page.locator('#endingCatalogBtn').click();assert.ok(await page.locator('#drawer').isVisible());await page.locator('#closeDrawer').click();

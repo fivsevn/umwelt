@@ -1,4 +1,4 @@
-import {isShore} from './data/habitats/estuary-shore.mjs';
+import {isShore,shoreIndex} from './data/habitats/estuary-shore.mjs';
 import {isSeaweed,seaweedIndex,seaweedProgress,seaweedFeedback} from './data/habitats/seaweed-observation.mjs';
 import {petriReady} from './scenery/petri.mjs';
 import {isIntertidal} from './data/narrative/intertidal.mjs';
@@ -222,6 +222,7 @@ export function ensureScene(s){
 export function choose(s,id){
  if(s.habitatId==='petri-dish'&&!petriReady(s))return false;
  if(s.stage!=='choice')return false;const scene=ensureScene(s),o=scene.options.find(o=>o.id===id);if(!o)return false;
+ if(isShore(s)){s.shoreFocus=id==='shore-shelter'?'cover':'water';s.shoreFocusTurn=shoreIndex(s);s.shoreIntroDone=true;}
  const before=s.cohort.map(c=>habitatFit(s,c));if(!habitatConfig(s).aquatic)changeEnvironment(s,id);for(const [k,v] of Object.entries(o.delta))s[k]+=v;
  s.humidity=clamp(s.humidity,35,96);s.cover=clamp(s.cover,20,94);s.light=clamp(s.light,8,85);s.food=clamp(s.food,0,6);s.vent=clamp(s.vent,20,95);
  const after=s.cohort.map(c=>habitatFit(s,c));if(after.some((v,i)=>v>before[i]+.01)&&after.every((v,i)=>v>=before[i]-.01))s.care++;

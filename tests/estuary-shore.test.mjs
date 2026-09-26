@@ -17,7 +17,7 @@ test('all three banks share four tides; walking preserves time and a reload pres
     while(shorePoint(s)!==point)assert.ok(moveShore(s,point-shorePoint(s)));
     assert.equal(shoreProgress(s),turn);assert.equal(shoreTide(s),turn%4);
     s=migrateV4(JSON.parse(JSON.stringify(s)));assert.equal(shorePoint(s),point);
-    assert.equal(ensureScene(s).options.length,1);
+    assert.equal(ensureScene(s).options.length,2);
    }
    assert.ok(choose(s,'shore-watch'));assert.equal(choose(s,'shore-watch'),false);
    const record=s.records.at(-1);assert.equal(record.evidence.point,start);assert.equal(record.evidence.tide,turn%4);
