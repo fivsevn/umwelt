@@ -27,6 +27,9 @@
 - [National Park Service](https://www.nps.gov/)
 - [NOAA](https://www.noaa.gov/)
 - [USGS](https://www.usgs.gov/)
+- [NASA](https://www.nasa.gov/)
+- [MarLIN](https://www.marlin.ac.uk/)
+- [DORIS / FFESSM](https://doris.ffessm.fr/)
 - [Japan Meteorological Agency](https://www.jma.go.jp/)
 - [Nikon MicroscopyU](https://www.microscopyu.com/)
 
@@ -35,6 +38,7 @@
 - o?  o:  o#  =  taxonomy.
 - \o/  /o\  <o>  =  game.  o#  care advice.
 - ↔ ≈ mm / cm · [ o ] ≠ [ O ]
+- [ ~o~ ] = references → abstraction / simulation. ≠ exact places / complete ecology.
 
 **o: / =o=**
 

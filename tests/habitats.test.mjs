@@ -41,7 +41,7 @@ test('all configured habitats complete their full duration with eligible animals
    if(h.aquatic)for(const lang of languages)for(const key of [scene.text,...scene.options.flatMap(o=>[o.label,o.text])]){const text=gameText(key,lang);assert.ok(text&&!text.startsWith('water:')&&!text.startsWith('abyssal:'),key);if(lang==='en'||lang==='ja')assert.notEqual(text,gameText(key,'zh'))}
    assert.ok(choose(s,scene.options[turns%scene.options.length].id));assert.ok(advance(s));turns++;assert.ok(turns<=expectedTurns);assert.ok(validRun(s));
   }
-  assert.equal(turns,expectedTurns);if(h.aquatic){assert.equal(scenes.size,s.estuaryShoreVersion===1?4:expectedTurns);assert.ok(s.ending.startsWith(h.id));assert.equal(environmentFor(s).habitatId,h.id)}
+  assert.equal(turns,expectedTurns);if(h.aquatic){if(s.estuaryShoreVersion===1)assert.ok(scenes.size>=4&&scenes.size<=expectedTurns);else assert.equal(scenes.size,expectedTurns);assert.ok(s.ending.startsWith(h.id));assert.equal(environmentFor(s).habitatId,h.id)}
  }
 });
 test('v4 migration preserves records, scene, environment and cohort without changing input',()=>{

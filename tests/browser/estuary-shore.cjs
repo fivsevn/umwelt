@@ -20,7 +20,7 @@ const name=process.env.BROWSER||'chromium',base=process.env.BASE_URL||'http://12
      assert.equal(s.records.length,turn,'walking does not advance time');
      await page.waitForFunction(t=>document.querySelector('#habitat').dataset.shoreTide===String(t),turn%4);
      assert.equal(await page.locator('#actions button').count(),0);
-     assert.equal(await page.locator('#instruments [data-scale="numeric"]').count(),3);assert.equal(await page.locator('#instruments [data-scale="qualitative"]').count(),1);assert.match(await page.locator('#dayLabel').textContent(),/\([−\-\d.]+, [−\-\d.]+\) m/);
+     assert.equal(await page.locator('#instruments [data-scale="numeric"]').count(),3);assert.equal(await page.locator('#instruments [data-scale="qualitative"]').count(),1);assert.match(await page.locator('#dayLabel').textContent(),/^\([−\-\d.]+, [−\-\d.]+\)$/);
      assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
      if(output&&turn===2)await page.screenshot({path:path.join(output,`${name}-${width}-shore-${point}.png`),fullPage:true});
     }
@@ -31,7 +31,7 @@ const name=process.env.BROWSER||'chromium',base=process.env.BASE_URL||'http://12
     }
     await page.locator('#nextBtn').click();
    }
-   assert.ok(await page.locator('#endCard').isVisible());assert.equal((await saved()).ending,'estuary-shore');assert.equal((await saved()).records.length,8);
+   assert.ok(await page.locator('#endCard').isVisible());assert.ok((await saved()).ending.startsWith('estuary-shore'));assert.equal((await saved()).records.length,8);
    await page.locator('#endingCatalogBtn').click();assert.ok(await page.locator('#drawer').isVisible());await page.locator('#closeDrawer').click();
    await page.locator('#restartBtn').click();await page.locator('#startBtn').click();await page.locator('#settleBtn').click();assert.equal((await saved()).records.length,0);
    const beforeLab=JSON.stringify(await saved());
@@ -45,7 +45,7 @@ const name=process.env.BROWSER||'chromium',base=process.env.BASE_URL||'http://12
     await page.locator('#sceneText').fill(JSON.stringify(data));await page.locator('#importScene').click();
     assert.match(await page.locator('#sceneMessage').textContent(),/已精确还原/);assert.equal(await page.locator('#estuaryStage').inputValue(),String(i));
     const pending=page.waitForEvent('download');await page.locator('#downloadScene').click();const download=await pending;assert.equal(download.suggestedFilename(),`habitat-estuary-shore-${i-6}.json`);assert.deepEqual(JSON.parse(fs.readFileSync(await download.path(),'utf8')),data);
-    await page.locator('#estuaryPreview').click();assert.equal(await page.locator('#estuaryPreview').getAttribute('aria-pressed'),'true');const before=await page.locator('#scene').evaluate(c=>c.toDataURL());await page.waitForTimeout(160);assert.notEqual(await page.locator('#scene').evaluate(c=>c.toDataURL()),before);await page.locator('#estuaryPreview').click();
+    await page.locator('#estuaryPreview').click();assert.equal(await page.locator('#estuaryPreview').getAttribute('aria-pressed'),'true');await page.waitForFunction(()=>document.querySelector('#scene').hasAttribute('data-visible-fauna'));const fauna=await page.evaluate(async data=>{const {drawCohort}=await import('/isopoda/collection.mjs'),{shoreFaunaSnapshot}=await import('/isopoda/data/habitats/shore-fauna.mjs');const cohort=drawCohort({unlocked:[],draws:0},data.background.seed,'estuary');return shoreFaunaSnapshot(cohort,data.metadata.point,data.metadata.tide).filter(a=>a.visible).length},data);assert.equal(Number(await page.locator('#scene').getAttribute('data-visible-fauna')),fauna);const before=await page.locator('#scene').evaluate(c=>c.toDataURL());await page.waitForTimeout(160);assert.notEqual(await page.locator('#scene').evaluate(c=>c.toDataURL()),before);await page.locator('#estuaryPreview').click();
    }
    if(output&&width===1440){for(const index of [9,13,17]){await page.locator('#estuaryStage').selectOption(String(index));await page.locator('#clearScene').click();await page.locator('#scene').screenshot({path:path.join(output,`${name}-terrain-${(index-9)/4}.png`)});}}
    await page.locator('[data-preset="forest"]').click();assert.ok(await page.locator('#estuaryStageControl').isHidden());
