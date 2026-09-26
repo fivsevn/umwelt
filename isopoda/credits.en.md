@@ -26,6 +26,9 @@
 - [International Journal of Speleology](https://digitalcommons.usf.edu/ijs/)
 - [National Park Service](https://www.nps.gov/)
 - [NOAA](https://www.noaa.gov/)
+- [USGS](https://www.usgs.gov/)
+- [Japan Meteorological Agency](https://www.jma.go.jp/)
+- [Nikon MicroscopyU](https://www.microscopyu.com/)
 
 **Notes**
 

@@ -42,6 +42,7 @@ if(output)fs.mkdirSync(output,{recursive:true});
    const stored=await page.evaluate(()=>localStorage.getItem('isopoda-fugue-v4'));
    await page.goto(base+'/isopoda/habitat.html');await page.waitForFunction(()=>document.querySelector('[data-preset="estuary"]').onclick);
    await click(page,page.locator('[data-preset="estuary"]'));
+   await click(page,page.locator('.scene-transfer summary'));
    for(let i=0;i<6;i++){
     await page.locator('#estuaryStage').selectOption(String(i));
     await click(page,page.locator('#copyScene'));

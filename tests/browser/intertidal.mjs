@@ -51,7 +51,7 @@ for(const [name,type] of [['chromium',chromium],['webkit',webkit]].filter(([name
    await click(page,'#actions button:first-child');await page.reload();await click(page,'#continueBtn');
    assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('isopoda-fugue-v4')).cohort[0].species),id);
   }
-  await page.goto(base+'/isopoda/habitat.html');await page.waitForFunction(()=>document.querySelector('[data-preset="intertidal"]').onclick);await click(page,'[data-preset="intertidal"]');assert.equal(await page.locator('.habitat-reference').count(),5);
+  await page.goto(base+'/isopoda/habitat.html');await page.waitForFunction(()=>document.querySelector('[data-preset="intertidal"]').onclick);await click(page,'[data-preset="intertidal"]');assert.equal(await page.locator('.habitat-reference').count(),6);
   await page.goto(base+'/isopoda/morphology/');await page.waitForFunction(()=>document.querySelector('#speciesSelect').options.length>1);
   const id=await page.evaluate(async()=>{const {SPECIES}=await import('../species-registry.mjs');return String(SPECIES.findIndex(s=>s.id==='granulosa'))});await page.selectOption('#speciesSelect',id);assert.equal(await page.locator('.reference[data-ref="intertidal-naturalis-granulosa"] a').count(),1);
   for(const taxon of ['albifrons','hirsuta']){

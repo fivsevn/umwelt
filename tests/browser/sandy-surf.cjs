@@ -9,7 +9,7 @@ try{
   assert.equal(await page.locator('#interactionCue').isVisible(),false);assert.ok(!(await page.locator('#observation').innerText()).includes('按住'));
   if(mode!=='before')await page.locator('#actions button').nth(mode==='intervene'?0:1).click();
   assert.equal(await page.locator('#interactionCue').isVisible(),mode==='intervene');
-  if(mode==='intervene'){assert.match(await page.locator('#interactionCue').innerText(),/按住沙面/);assert.match(await page.locator('#nextBtn').innerText(),/稍后/)}
+  if(mode==='intervene'){assert.match(await page.locator('#interactionCue').innerText(),/按住沙面/);assert.match(await page.locator('#nextBtn').innerText(),/继续观察/)}
   await page.locator('#habitat').click({position:{x:12,y:16}});
   assert.match(await page.locator('#observation').innerText(),mode==='before'?/手先于选项/:mode==='decline'?/后来还是拨开/:/沙从指边落下/);
   assert.equal(await page.locator('#interactionCue').isVisible(),false);
@@ -22,7 +22,7 @@ try{
  await page.goto(base+'/isopoda/');await page.evaluate(async()=>{const {createRun}=await import('/isopoda/engine.mjs');const s=createRun('pulchra',42,'sandy-surf');s.arrivalPending=true;localStorage.setItem('isopoda-fugue-v4',JSON.stringify(s))});await page.reload();await page.locator('#continueBtn').click();assert.match(await page.locator('#arrivalCard').innerText(),/这片沙里的住客/);await page.screenshot({path:`${out}/${engine}-${width}-arrival.png`,fullPage:true});await page.locator('#settleBtn').click();
  const point=async id=>page.evaluate(id=>{const a=window.__sandTest.actors().find(a=>a.id===id),r=document.querySelector('#habitat').getBoundingClientRect(),v=window.__sandTest.view();return {x:r.left+(a.x-v.sx)*v.scale,y:r.top+(a.y-v.sy)*v.scale}},id);
  const snap=async id=>page.evaluate(id=>{const a=window.__sandTest.actors().find(a=>a.id===id);return {x:a.x,y:a.y,mode:a.interactionState?.mode,hidden:a.hidden,sand:{...a.sand}}},id);
- assert.match(await page.locator('#dayLabel').innerText(),/\d{2}\/\d{2} \d{2}:\d{2}/);assert.match(await page.locator('#instruments').innerText(),/浪位.*46/);
+ assert.match(await page.locator('#dayLabel').innerText(),/^\+00:00$/);assert.match(await page.locator('#instruments').innerText(),/浪位.*46/);
  assert.equal(await page.locator('#interactionCue').isVisible(),false);assert.ok(!(await page.locator('#observation').innerText()).includes('阿西莫夫'));
  const id=await page.evaluate(()=>window.__sandTest.actors().find(a=>a.hidden&&a.sand.quiet).id),p=await point(id),before=await snap(id);
  const client=engine==='chromium'&&width<500?await page.context().newCDPSession(page):null;
