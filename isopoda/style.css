@@ -217,12 +217,12 @@ html,body{height:100%;overflow:hidden}#game{height:100dvh;padding:6px 8px max(6p
 #arrivalSpecimens.cave-samples,#endSpecimen.cave-samples{grid-template-columns:repeat(4,minmax(0,1fr))}
 
 /* Illustrated torch; generous invisible hit areas around small embedded controls. */
-#boxFrame .groundwater-observation .zoom-tools{display:block;width:44px;height:102px;padding:0;left:11px;right:auto;bottom:10px;border:0;background:url('./assets/torch-control.svg') center/44px 102px no-repeat;box-shadow:none;image-rendering:pixelated}
+#boxFrame .groundwater-observation .zoom-tools{display:block;width:44px;height:114px;padding:0;left:11px;right:auto;bottom:10px;border:0;background:url('./assets/torch-control.svg') center/44px 114px no-repeat;box-shadow:none;image-rendering:pixelated}
 #boxFrame .groundwater-observation .zoom-tools:before,#boxFrame .groundwater-observation .zoom-tools:after{content:none}
 #boxFrame .groundwater-observation .zoom-tools button{position:absolute;left:0;display:grid;place-items:center;width:44px;min-width:44px;height:26px;min-height:26px;padding:0;border:0;background:none;color:#bdc9a5;box-shadow:none}
 #boxFrame .groundwater-observation #zoomIn{top:37px}
-#boxFrame .groundwater-observation #zoomReset{top:57px;width:44px;min-width:44px;height:26px;min-height:26px;touch-action:none;cursor:move}
-#boxFrame .groundwater-observation #zoomOut{top:77px}
+#boxFrame .groundwater-observation #zoomReset{top:61px;width:44px;min-width:44px;height:26px;min-height:26px;touch-action:none;cursor:move}
+#boxFrame .groundwater-observation #zoomOut{top:85px}
 #boxFrame .groundwater-observation #zoomIn .pixel-icon,#boxFrame .groundwater-observation #zoomOut .pixel-icon{transform:scale(.5);filter:drop-shadow(0 2px #344b30)}
 #boxFrame .groundwater-observation .torch-stick{width:14px;height:16px;background:#3e5638;box-shadow:inset 2px 2px #2d422d,inset -1px -1px #8a9d75;clip-path:polygon(3px 0,11px 0,11px 2px,14px 2px,14px 14px,11px 14px,11px 16px,3px 16px,3px 14px,0 14px,0 2px,3px 2px)}
 #boxFrame .groundwater-observation .torch-stick:before,#boxFrame .groundwater-observation .torch-stick:after{content:none}
