@@ -11,10 +11,10 @@ const name=process.env.BROWSER||'chromium',base=process.env.BASE_URL||'http://12
   assert.doesNotMatch(await page.locator('#observation').textContent(),/点岸上的脚印/);
   const boxes=await Promise.all(['#observation','#interactionCue','#nextBtn'].map(id=>page.locator(id).boundingBox()));assert.ok(boxes[0].y+boxes[0].height<=boxes[1].y&&boxes[1].y+boxes[1].height<=boxes[2].y);
   await page.emulateMedia({reducedMotion:'no-preference'});await page.emulateMedia({reducedMotion:process.env.MOTION||'reduce'});
-  const sample=()=>page.evaluate(()=>{
+  const sample=()=>page.evaluate(async()=>{
    const c=document.querySelector('#habitat'),g=c.getContext('2d'),point=Number(c.dataset.shorePoint),scale=Math.max(1,c.width/384),sw=c.width/scale,sh=c.height/scale,sx=192-sw/2,sy=215-sh/2;
    const grab=(x,y,w,h)=>{const ax=Math.max(0,Math.round((x-sx)*scale)),ay=Math.max(0,Math.round((y-sy)*scale)),bw=Math.min(c.width-ax,Math.round(w*scale)),bh=Math.min(c.height-ay,Math.round(h*scale));return [...g.getImageData(ax,ay,bw,bh).data]};
-   const [x,y]=[[159,228],[177,222],[246,192]][point];return {animal:grab(x-43,y-1,86,46),reeds:point===2?grab(90,20,50,65):grab(50,80,110,54),water:grab(217,300,90,55)};
+   const {shoreLayout}=await import('/isopoda/scenery/estuary-shore.mjs'),layout=shoreLayout(point),shelter=layout.objects.find(o=>o.id===(point===2?'shore-stone':'shore-wood')),reed=layout.objects.find(o=>o.id==='shore-reed-0');return {animal:grab(shelter.x-43,shelter.y-1,86,46),...(reed?{reeds:grab(reed.x-15,reed.y-45,30,40)}:{}),water:grab(217,300,90,55)};
   });
   for(let tide=0;tide<4;tide++){
    for(let point=0;point<3;point++){
@@ -23,7 +23,7 @@ const name=process.env.BROWSER||'chromium',base=process.env.BASE_URL||'http://12
     assert.doesNotMatch(await page.locator('#observation').textContent(),/点岸上的脚印/g);
     const coordinate=await page.locator('#dayLabel').textContent(),before=await sample();
     await page.waitForTimeout(1800);const after=await sample();
-    for(const region of ['animal','reeds','water']){const diff=before[region].reduce((n,v,i)=>n+(v!==after[region][i]),0);assert.ok(diff>9,`${name} point ${point}, tide ${tide}: ${region} must visibly animate (${diff} changed channels)`)}
+    for(const region of Object.keys(before)){const diff=before[region].reduce((n,v,i)=>n+(v!==after[region][i]),0);assert.ok(diff>9,`${name} point ${point}, tide ${tide}: ${region} must visibly animate (${diff} changed channels)`)}
     assert.equal(await page.locator('#dayLabel').textContent(),coordinate);
    }
    await page.locator('#nextBtn').click();

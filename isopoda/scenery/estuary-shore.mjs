@@ -1,3 +1,4 @@
+import {SHORE_LAYOUTS} from './authored-shore-layouts.mjs';
 import {stepInteraction} from '../interaction.mjs';
 import {materialInk} from './grammar.mjs';
 import {shorePoint,shoreTide,shoreRain,shoreVisible} from '../data/habitats/estuary-shore.mjs';
@@ -69,25 +70,18 @@ export function drawShoreBackground(g,{point=1,tide=0,rain=false,seed=467,level=
  for(let x=5;x<380;x+=4){const y=shoreLine(x,point,1)-9;if(noise(x,3,point)%4)px(g,x,y,3,1,point===2?'#aca085':'#77775c')}
  farBank(g,point,seed);
 }
-const obj=(id,type,x,y,scale,params={},angle=0,z=30)=>({id,type,x,y,scale,params,angle,flipX:false,z,seed:467+x});
 export function shoreLayout(point=1,tide=0,rain=false){
- const plants=point===0?[[65,132,1.1],[126,108,.9],[190,93,.8]]:point===1?[[65,130,1],[125,102,.85]]:[[113,76,.75]];
- const wood=[[159,228],[177,222],[102,171]][point],stone=[[285,190],[285,175],[246,192]][point];
- const objects=[
-  ...plants.map(([x,y,s],i)=>obj('shore-reed-'+i,'saltmarsh-tuft-02',x,y,s,{kind:'saltmarsh',height:72,flow:52},-.06,50)),
-  obj('shore-wood','sunken-wood-01',...wood,point===2?1.05:1.5,{labDetail:'sunken-wood'},-.26),
-  obj('shore-stone','stone-flat-01',...stone,1.22,{variant:1},.15),
-  obj('shore-small-stone','stone-small-01',stone[0]+25,stone[1]+16,.6,{variant:3},.2),
-  obj('shore-wrack','wrack-line-01',137,116,.75,{labDetail:'wrack-line'},-.22),
-  obj('shore-shells','shell-grit-01',point===2?253:237,point===2?228:253,.55,{detail:'shellgrit',count:9}),
-  obj('shore-holes','mud-burrows-01',point===2?161:104,point===2?174:242,.62,{labDetail:'mud-burrows'})
- ];
- return {version:1,canvas:{width:384,height:430},angleUnit:'radians',background:{type:'water-estuary',seed:467,params:{aquatic:true,kind:'estuary',shore:true,point,tide,rain}},objects,reference:{species:'hookeri',stage:'M',x:wood[0]+24,y:wood[1]+10,a:-.3,seed:189,visible:false},metadata:{habitat:'estuary',shore:true,point,tide},observationIndex:`shore-${point}-${tide}-${rain}`};
+ const layout=structuredClone(SHORE_LAYOUTS[point]);
+ Object.assign(layout.background.params,{point,tide,rain});
+ Object.assign(layout.metadata,{point,tide});
+ layout.observationIndex=`shore-${point}-${tide}-${rain}`;
+ return layout;
 }
+const shoreObject=(point,id)=>SHORE_LAYOUTS[point].objects.find(o=>o.id===id);
 export const shoreLayoutFor=s=>shoreLayout(shorePoint(s),shoreTide(s),shoreRain(s));
 // Slow, legible travel around the shelter; the leading animal never disappears for a tide.
 export function stepShore(group,{state,time=0,dt=0,reduced=false}){
- const point=shorePoint(state),tide=shoreTide(state),anchor=[[159,228],[177,222],[246,192]][point],t=time*(reduced?.65:1);
+ const point=shorePoint(state),tide=shoreTide(state),shelter=shoreObject(point,point===2?'shore-stone':'shore-wood'),anchor=[shelter.x,shelter.y],t=time*(reduced?.65:1);
  for(const [i,a] of group.entries()){
   const phase=t*.23+i*2.8+point*.45,rx=i?19:32,ry=i?6:10;
   const x=anchor[0]+Math.cos(phase)*rx,y=anchor[1]+16+Math.sin(phase)*ry+(i?12:0),key=point+':'+tide;
@@ -129,7 +123,7 @@ export function drawShoreWater(g,s,time=0,reduced=false){
  // A few reed fragments drift with the current, always inside the shallow water.
  for(let i=0;i<3;i++){const x=(83+i*107+dir*t*2+384)%384,y=shoreLine(x,point,tide,level)+28+i*18;px(g,x,y,4,1,'#8b9472');px(g,x+2,y+1,2,1,'#546d56')}
  if(tide>=2){
-  const x=point===2?161:104,y=point===2?174:242;
+  const hole=shoreObject(point,'shore-holes'),x=hole.x,y=hole.y;
   px(g,x,y,5,2,'#414b3c');
   if(t%18<12){const d=Math.sin((t%18)/12*Math.PI)*12;px(g,x+d,y-3,6,3,'#98906b');for(let i=0;i<3;i++){px(g,x+d-2,y-4+i*2+Math.round(Math.sin(t*5+i)),2,1,'#727657');px(g,x+d+6,y-4+i*2+Math.round(Math.sin(t*5+i)),2,1,'#727657')}}
   if(tide===3)for(let i=0;i<15;i++)px(g,207+i*2,238+Math.round(Math.sin(i*.6+t*.6)*2),1,1,'#545d49');

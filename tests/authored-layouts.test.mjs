@@ -5,7 +5,7 @@ import {sceneObjects,isAnimatedSceneElement} from '../isopoda/scenery/index.mjs'
 import {drawAquaticPlant} from '../isopoda/scenery/aquatic.mjs';
 
 test('the exported habitat layouts are the canonical editor scenes',()=>{
- const expected={forest:42,freshwater:54,groundwater:17,estuary:52,intertidal:63,'sandy-surf':19,'shallow-marine':38,abyssal:7,'petri-dish':12};
+ const expected={forest:42,freshwater:54,groundwater:27,estuary:52,intertidal:65,'sandy-surf':24,'shallow-marine':40,abyssal:7,'petri-dish':12};
  assert.deepEqual(Object.keys(SCENE_LAYOUTS),Object.keys(expected));
  for(const [id,count] of Object.entries(expected)){
   const layout=SCENE_LAYOUTS[id];
@@ -49,5 +49,20 @@ test('aquatic plants move over time while their rooted base remains anchored',()
   assert.notDeepEqual(a,b,kind+' should sway over time');
   const roots=calls=>calls.filter(c=>c[1]>=258&&c[1]<=263).map(c=>c.slice(0,4));
   assert.ok(roots(a).length>0&&roots(b).length>0,kind+' rooted base');
+ }
+});
+
+test('shore objects stay identical through every tide and layout edits remain isolated',async()=>{
+ const {shoreLayout}=await import('../isopoda/scenery/estuary-shore.mjs');
+ for(let point=0;point<3;point++){
+  const base=shoreLayout(point,0);assert.equal(base.objects.length,[37,22,10][point]);
+  for(let tide=0;tide<4;tide++){
+   const layout=shoreLayout(point,tide,true);
+   assert.deepEqual(layout.objects,base.objects);
+   assert.equal(layout.background.params.tide,tide);
+   assert.equal(layout.background.params.rain,true);
+   layout.objects[0].x=-999;
+   assert.deepEqual(shoreLayout(point,tide).objects,base.objects);
+  }
  }
 });
