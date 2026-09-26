@@ -29,7 +29,7 @@ export function observationTitle(state,scene,encounter,lang='zh'){
  return gameText(encounter?.title||scene.title,lang);
 }
 export function environmentScale(state,lang='zh'){
- if(isShore(state)){const [x,y]=SHORE_COORDINATES[state.shorePoint??1],coordinate=`(${x.toFixed(1)}, ${y.toFixed(1)}) m`;return {value:lang==='isopod'?isopodNumbers(coordinate):coordinate,label:shoreText('position',lang)}};
+ if(isShore(state)){const [x,y]=SHORE_COORDINATES[state.shorePoint??1],coordinate=`(${x.toFixed(1)}, ${y.toFixed(1)})`;return {value:lang==='isopod'?isopodNumbers(coordinate):coordinate,label:shoreText('position',lang)}};
  if(isSeaweed(state))return {value:lang==='isopod'?isopodWaveNumber(Number(SEAWEED_CONDITIONS[seaweedIndex(state)][0].replace(':','')),4):SEAWEED_CONDITIONS[seaweedIndex(state)][0],label:seaweedText('kelp:clock',lang)};
 
  if(isIntertidal(state))return {value:intertidalTime(state,lang),label:intertidalText('intertidal:elapsed',lang)};

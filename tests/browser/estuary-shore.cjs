@@ -20,7 +20,7 @@ const name=process.env.BROWSER||'chromium',base=process.env.BASE_URL||'http://12
      assert.equal(s.records.length,turn,'walking does not advance time');
      await page.waitForFunction(t=>document.querySelector('#habitat').dataset.shoreTide===String(t),turn%4);
      assert.equal(await page.locator('#actions button').count(),0);
-     assert.equal(await page.locator('#instruments [data-scale="numeric"]').count(),3);assert.equal(await page.locator('#instruments [data-scale="qualitative"]').count(),1);assert.match(await page.locator('#dayLabel').textContent(),/\([−\-\d.]+, [−\-\d.]+\) m/);
+     assert.equal(await page.locator('#instruments [data-scale="numeric"]').count(),3);assert.equal(await page.locator('#instruments [data-scale="qualitative"]').count(),1);assert.match(await page.locator('#dayLabel').textContent(),/^\([−\-\d.]+, [−\-\d.]+\)$/);
      assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
      if(output&&turn===2)await page.screenshot({path:path.join(output,`${name}-${width}-shore-${point}.png`),fullPage:true});
     }
