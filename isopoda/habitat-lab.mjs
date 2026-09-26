@@ -1,7 +1,7 @@
 import {shoreLayout,drawShoreBackground,drawShoreWater} from './scenery/estuary-shore.mjs';
 import {shoreText} from './data/habitats/estuary-shore.mjs';
 import {kelpGeometry,drawKelp,kelpDepth,visibleKelpCell} from './scenery/kelp-geometry.mjs';
-import {ESTUARY_STAGE_LAYOUTS,ESTUARY_STAGE_META,estuaryStageFilename,validateEstuaryLayout} from './scenery/estuary-stages.mjs';
+import {ESTUARY_STAGE_LAYOUTS,estuaryStageFilename,validateEstuaryLayout} from './scenery/estuary-stages.mjs';
 import {drawEstuaryWater,drawEstuaryEvidence} from './scenery/estuary.mjs';
 import {renderHabitatReferences} from './habitat-references.mjs';
 import {exportScene,importScene,shareCode} from './scene-codec.mjs';
@@ -28,7 +28,6 @@ for(const p of SPECIES){
 }
 $('#referenceSpecies').value=reference.species;
 $('#referenceStage').value=reference.stage;
-for(const [index,stage] of ESTUARY_STAGE_META.entries())$('#estuaryStage').append(new Option(stage.label,String(index)));
 const shoreLayouts=Array.from({length:12},(_,i)=>shoreLayout(Math.floor(i/4),i%4));
 const labEstuaryLayouts=[...ESTUARY_STAGE_LAYOUTS,...shoreLayouts];
 for(let i=0;i<12;i++)$('#estuaryStage').append(new Option('岸边 · '+shoreText('point:'+Math.floor(i/4))+' · '+shoreText('tide:'+i%4),String(i+6)));
