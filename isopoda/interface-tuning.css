@@ -44,24 +44,19 @@
 .habitat-library #catalogBtn,.scope-switch-frame :is(#scopeToggle,#scopeCenter){width:26px!important;min-width:26px!important;height:26px!important;min-height:26px!important;border-width:2px!important}
 .habitat-library #catalogBtn .pixel-icon,.scope-switch-frame :is(#scopeToggle,#scopeCenter) .pixel-icon{transform:scale(.94)!important;transform-origin:center!important;opacity:1!important}
 
-html,body{height:auto!important;min-height:100%;overflow:auto!important}
-body{min-height:100dvh}
-#game{height:auto!important;min-height:100dvh!important;padding:6px 8px max(28px,env(safe-area-inset-bottom))!important;background:transparent!important}
-.play-view{height:auto!important;min-height:0!important;flex:none!important;overflow:visible!important;width:100%}
-.play-view .box-frame:not(.maximized):not(:fullscreen){height:auto!important;max-height:none!important;overflow:hidden}
-.box-frame:not(.maximized):not(:fullscreen) .window-content{flex:none!important;height:auto!important;min-height:0!important;justify-content:flex-start!important;overflow:visible!important;gap:0!important}
-.box-frame:not(.maximized):not(:fullscreen) .window-story{height:auto!important;flex:none!important;margin:0!important;padding-top:3px!important}
-
-@media(max-width:899px) and (orientation:portrait){
-  .box-frame:not(.maximized):not(:fullscreen) .window-content{display:flex!important;flex-direction:column!important;align-items:stretch!important}
-  .box-frame:not(.maximized):not(:fullscreen) .window-content>.habitat-viewport{width:100%!important;height:auto!important;max-width:none!important;aspect-ratio:1!important;align-self:stretch!important}
-  .box-frame:not(.maximized):not(:fullscreen) .window-story{width:100%!important}
-}
-
+/* The observation is a fixed application surface; only prose scrolls. */
+html,body{height:100%;min-height:0;overflow:hidden;overscroll-behavior:none}
+body{position:fixed;inset:0;width:100%;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#game{height:100dvh;min-height:0;padding:6px 8px max(6px,env(safe-area-inset-bottom));overflow:hidden}
+#game .scope-dial,#game .scope-dial *,#game .scope-reset{touch-action:none}
+.play-view .box-frame{overflow:hidden}
+.window-content{justify-content:flex-start;gap:4px}
+.window-story{min-height:0}
+.window-story .record{min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+#game .window-story .record,#game .window-story .record *{touch-action:pan-y}
+.window-story .actions,.window-story .bottom-bar{flex-shrink:0}
 @media(min-width:900px),(orientation:landscape){
-  .box-frame:not(.maximized):not(:fullscreen) .window-content{display:flex!important;flex-direction:row!important;align-items:stretch!important;gap:6px!important}
-  .box-frame:not(.maximized):not(:fullscreen) .window-content>.habitat-viewport{width:59%!important;height:auto!important;max-width:59%!important;aspect-ratio:1!important;align-self:flex-start!important}
-  .box-frame:not(.maximized):not(:fullscreen) .window-story{width:40%!important;align-self:stretch!important}
+ .window-story .record{flex:1;max-height:none!important;overflow-y:auto}
 }
 
 @media(max-width:430px){
