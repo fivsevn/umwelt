@@ -32,6 +32,7 @@ const pause=ms=>new Promise(r=>setTimeout(r,ms));
  assert.deepEqual(await resumed.evaluate(()=>JSON.parse(localStorage.getItem('isopoda-fieldnotes-v1')).unlocked.slice().sort()),saved);
  await home.click('#systemButton');await home.click('[data-action=leave]');await home.click('#confirmAction');await stopped();await browser.close();
  for(let i=0;i<120;i++){if(!await fs.stat(exe).catch(()=>null)&&!await fs.stat(profile).catch(()=>null))break;await pause(500)}
+ console.log('Uninstall diagnostics:',await fs.readFile(path.join(profile,'uninstall-error.log'),'utf8').catch(()=>'(no error log)'));
  assert.equal(await fs.stat(exe).catch(()=>null),null,'Confirmed uninstall removes portable EXE');assert.equal(await fs.stat(profile).catch(()=>null),null,'Confirmed uninstall removes entire profile');
  assert.deepEqual(external,[]);assert.deepEqual(errors,[]);
  await fs.writeFile(path.join(out,'portable-results.json'),JSON.stringify({passed:true,platform:process.platform,checks:['actual single EXE launch','Unicode and spaced path','independent archive and notes','notes live update','offline four languages','restart persistence','uninstall cancellation','complete EXE and profile deletion'],errors},null,2));
