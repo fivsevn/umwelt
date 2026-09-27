@@ -1,0 +1,9 @@
+.audio-control{position:relative;display:inline-flex}
+.audio-panel{position:absolute;top:calc(100% + 5px);left:0;z-index:100;width:174px;display:grid;grid-template-columns:1fr auto;gap:8px;padding:10px;background:#b8bda2;color:#30442f;border:2px solid;border-color:#e2e2c8 #4a5d47 #4a5d47 #e2e2c8;box-shadow:3px 3px 0 #24322680;font-size:12px}
+.audio-panel[hidden]{display:none}
+.audio-panel strong{grid-column:1/-1;font-size:12px;font-weight:normal}
+.audio-panel input{min-width:0;width:100%;margin:0;accent-color:#536d61}
+.audio-panel output{align-self:center;min-width:4ch;text-align:right}
+.window-system-menu .audio-panel button{grid-column:1/-1;min-height:26px;width:100%;background:#c9cdb0;border:2px solid;border-color:#e2e2c8 #4a5d47 #4a5d47 #e2e2c8;color:#30442f}
+.audio-panel :focus-visible{outline:2px dotted #30442f;outline-offset:2px}
+.window-system-menu{overflow:visible;z-index:40}

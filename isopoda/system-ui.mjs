@@ -95,12 +95,7 @@ function init(){
     });
   });
 
-  const musicButton=document.querySelector('#musicBtn');
-  musicButton?.addEventListener('click',()=>{
-    const active=musicButton.getAttribute('aria-pressed')==='true';
-    musicButton.setAttribute('aria-pressed',String(!active));
-    musicButton.title=t('musicPlaceholder');
-  });
+
 }
 
 if(document.readyState==='complete')init();
