@@ -14,6 +14,23 @@ const assert=require('node:assert/strict'),fs=require('node:fs/promises'),os=req
  await game.click('#settleBtn');await fits('#boxFrame');await game.screenshot({path:path.join(out,'observation.png')});
  const archive=await nextWindow(()=>game.click('#catalogBtn'));await centered(archive);assert.equal(await game.locator('#drawer').evaluate(e=>e.open),false);assert.equal(await archive.locator('#drawer').evaluate(e=>e.open),true);assert.equal(await archive.locator('#nativeFrame').count(),0);
  const steps=await archive.evaluate(async()=>{const {SPECIES}=await import('umwelt://game/isopoda/species-registry.mjs');const c=JSON.parse(localStorage.getItem('isopoda-fieldnotes-v1'));const current=JSON.parse(localStorage.getItem('isopoda-catalog-specimen-v1'));const target=c.unlocked.find(id=>id!==current)||current;return (SPECIES.findIndex(p=>p.id===target)-SPECIES.findIndex(p=>p.id===current)+SPECIES.length)%SPECIES.length});for(let n=0;n<steps;n++)await archive.click('#pageNext');const specimen=await archive.evaluate(()=>localStorage.getItem('isopoda-catalog-specimen-v1'));await archive.screenshot({path:path.join(out,'independent-archive.png')});
+ const journal=await nextWindow(()=>game.click('#journalBtn'));await centered(journal);
+ assert.ok((await info(journal)).bounds.height<450,'Notebook must fit its contents');
+ await journal.screenshot({path:path.join(out,'notebook.png')});
+ const beforeNotes=await journal.locator('#drawerContent').innerText();
+ await game.locator('#actions button').first().click();await journal.waitForTimeout(300);
+ assert.notEqual(await journal.locator('#drawerContent').innerText(),beforeNotes,'Notebook follows a new record');
+ await archive.locator('#closeDrawer').focus();assert.equal(await archive.locator('#closeDrawer').evaluate(e=>getComputedStyle(e).outlineStyle),'none');
+ const count=app.windows().length;await game.click('#catalogBtn');await game.waitForTimeout(200);assert.equal(app.windows().length,count,'Reopening focuses the existing archive');
+ // Inject a new unlock through the shared storage channel, preserving the selected specimen and scroll.
+ const jump=await archive.evaluate(async()=>{const {SPECIES}=await import('umwelt://game/isopoda/species-registry.mjs');const c=JSON.parse(localStorage.getItem('isopoda-fieldnotes-v1')),id=JSON.parse(localStorage.getItem('isopoda-catalog-specimen-v1'));return (SPECIES.findIndex(p=>!c.unlocked.includes(p.id))-SPECIES.findIndex(p=>p.id===id)+SPECIES.length)%SPECIES.length});
+ for(let n=0;n<jump;n++)await archive.click('#pageNext');
+ const unknownBefore=await archive.locator('#drawerContent').innerText();
+ await game.evaluate(()=>{const key='isopoda-fieldnotes-v1',c=JSON.parse(localStorage.getItem(key)),id=JSON.parse(localStorage.getItem('isopoda-catalog-specimen-v1'));c.unlocked.push(id);localStorage.setItem(key,JSON.stringify(c))});
+ await archive.waitForTimeout(250);assert.notEqual(await archive.locator('#drawerContent').innerText(),unknownBefore,'Open archive reveals a newly collected specimen');
+ await archive.screenshot({path:path.join(out,'live-unlock.png')});
+ for(let n=0;n<jump;n++)await archive.click('#pagePrev');
+ await journal.click('#closeDrawer');
  // Moving the archive must not move its independent observation window.
  const original=(await info(game)).bounds;await app.evaluate(({BrowserWindow},url)=>{const w=BrowserWindow.getAllWindows().find(w=>w.webContents.getURL()===url);const [x,y]=w.getPosition();w.setPosition(x+90,y+20)},archive.url());assert.deepEqual((await info(game)).bounds,original);
  await game.click('#windowMaximize');await game.waitForTimeout(900);assert.equal(await app.evaluate(({BrowserWindow},url)=>BrowserWindow.getAllWindows().find(w=>w.webContents.getURL()===url).isFullScreen(),game.url()),true);

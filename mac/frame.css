@@ -41,3 +41,7 @@ html.umwelt-isopoda body{inset:0!important;background:#7f8974!important;scrollba
 .umwelt-tick body>#game{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-height:0!important;margin:0!important;padding:0!important}
 .umwelt-tick #game>nav{display:none}
 .umwelt-tick #ending{inset:40px 6px 6px}
+
+/* Notebook follows its authored content rather than the tall specimen viewer. */
+.umwelt-drawer #drawer[open][data-mode="journal"]{position:relative!important;inset:auto!important;height:auto!important;max-height:none!important}
+html.umwelt-native button:focus,html.umwelt-native a:focus{outline:none!important}

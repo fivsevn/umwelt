@@ -26,8 +26,9 @@ import {getLanguage,t,formatShortDate,speciesPrimaryName,isopodWaveNumber,isopod
 import {gameText} from './locales/game.mjs';
 const ENDINGS=[...LAND_ENDINGS,...AQUATIC_ENDINGS];
 const $=s=>document.querySelector(s),KEY='isopoda-fugue-v4',ARCHIVE='isopoda-fugue-endings-v3',COLLECTION='isopoda-fieldnotes-v1',DISCOVERIES='isopoda-interaction-discoveries-v1';
+const nativeDrawerMode=window.umweltNative?new URLSearchParams(location.search).get('nativeDrawer'):null;
 function read(key){try{return JSON.parse(localStorage.getItem(key))}catch{return null}}
-function write(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch{$('#storageNotice').hidden=false;$('#storageNotice').textContent=t('storageNotice')}}
+function write(key,value){if(nativeDrawerMode&&key!=='isopoda-catalog-specimen-v1')return;try{localStorage.setItem(key,JSON.stringify(value))}catch{$('#storageNotice').hidden=false;$('#storageNotice').textContent=t('storageNotice')}}
 const shoreControls=createShoreControls($('#shorePrev'),$('#shoreNext'));
 const stored=migrateV4(read(KEY))||migrateV3(read('isopoda-fugue-v3')),legacy=read('umwelt-isopod-v1');let hasRun=validRun(stored)||!!legacy;
 let state=validRun(stored)?stored:legacy?migrateLegacy(legacy,Date.now()>>>0):createRun('dairy',0);
@@ -204,7 +205,6 @@ function drawDrawer(){
  }else{$('#drawerTitle').textContent=t('sources');el.append(renderSources())}
  $('#pageNumber').textContent=total>1?String(page+1).padStart(2,'0'):'·';$('#pagePrev').disabled=total===1;$('#pageNext').disabled=total===1;iconButton($('#sourcesBtn'),drawerMode==='sources'?'book':'source',drawerMode==='sources'?t('sourceBack'):t('sources'));
 }
-const nativeDrawerMode=window.umweltNative?new URLSearchParams(location.search).get('nativeDrawer'):null;
 function openDrawer(mode){if(window.umweltNative&&!nativeDrawerMode){void window.umweltNative.openDrawer(mode);return}habitat.stop();drawerMode=mode;page=mode==='catalog'?(lastCatalogPage??Math.max(0,SPECIES.findIndex(p=>p.id===state.cohort[0].species&&collection.unlocked.includes(p.id)))):mode==='journal'?Math.max(0,state.records.length-1):Math.max(0,ENDINGS.findIndex(e=>e.id===state.ending));drawDrawer();nativeDrawerMode?$('#drawer').show():$('#drawer').showModal()}
 // CSS touch-action prevents mobile double-tap zoom while preserving pinch zoom; this also blocks browser dblclick fallback inside the game.
 $('#game').addEventListener('dblclick',event=>event.preventDefault(),{passive:false});
@@ -282,9 +282,19 @@ refreshNumerals();
 // Desktop archive windows share storage, while the observation continues independently.
 if(nativeDrawerMode){
  emptyHabitat.stop();habitat.stop();openDrawer(['catalog','journal','endings','sources'].includes(nativeDrawerMode)?nativeDrawerMode:'catalog');
+ let pendingSync=false;
+ function drawerSnapshot(){return JSON.stringify(drawerMode==='catalog'?[collection.unlocked,collection.acquired]:drawerMode==='journal'?[state.seed,state.habitatId,state.records]:drawerMode==='endings'?archives:null)}
  window.addEventListener('storage',event=>{
-  if(![KEY,ARCHIVE,COLLECTION].includes(event.key))return;
-  const saved=migrateV4(read(KEY));if(validRun(saved))state=saved;
-  collection=restoreCollection(read(COLLECTION),state,read(ARCHIVE)||[]);archives=read(ARCHIVE)||[];drawDrawer();
+  if(event.key!==null&&![KEY,ARCHIVE,COLLECTION].includes(event.key)||pendingSync)return;
+  pendingSync=true;
+  requestAnimationFrame(()=>{
+   pendingSync=false;const before=drawerSnapshot(),scroll=$('#drawerContent').scrollTop,oldSeed=state.seed;
+   const followLatest=drawerMode==='journal'&&page>=state.records.length-1;
+   const saved=migrateV4(read(KEY));if(validRun(saved))state=saved;
+   archives=read(ARCHIVE)||[];if(!Array.isArray(archives))archives=[];
+   collection=restoreCollection(read(COLLECTION),state,archives);
+   if(drawerMode==='journal'&&(followLatest||oldSeed!==state.seed))page=Math.max(0,state.records.length-1);
+   if(before!==drawerSnapshot()){drawDrawer();$('#drawerContent').scrollTop=scroll}
+  });
  });
 }
