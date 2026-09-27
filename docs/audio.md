@@ -20,8 +20,8 @@ visible. Use `set('master',{volume:0.5,muted:false})` for a future global contro
 UI updates and `getSettings()` for a copy. Reuse one engine per page.
 
 Tune `ambience()` for noise amplitude, 90 Hz high-pass / 650 Hz low-pass and
-1.2-second fade-in. Tune `play()` for triangle-wave pitch pairs, duration and
-peak gain (currently 0.065). Three gestures are click, confirm and back; the
+1.2-second fade-in. Tune `play()` for a low-pass noise key impact (0.48 gain), quieter return
+22 ms later (0.2 gain), and a 25 ms triangle body (0.16 peak gain). Three gestures are click, confirm and back; the
 page delegates button/link clicks to avoid duplicate effects from gameplay.
 Gain changes are smoothed; finished UI nodes disconnect. No external files,
 CDN dependencies or absolute asset URLs are used.
