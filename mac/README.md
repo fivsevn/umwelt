@@ -35,3 +35,8 @@ releases, unknown version tags and connection failures are reported separately.
 This local trial is ad-hoc signed, not Developer ID signed or Apple notarized.
 Public distribution needs the author's Apple Developer credentials.
 `UMWELT_TEST_USER_DATA` provides an isolated profile for desktop QA.
+
+Visual parity: web panels and native title controls import `window-controls.css`.
+Keep bevel colors, shadow and pressed offset shared. Native-only CSS is for window
+layout/drag regions and platform behavior, not an alternate visual theme.
+Verify with `mac/qa-chrome.cjs` against the local web server on port 8767.
