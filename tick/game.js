@@ -28,6 +28,7 @@
   const stars=Array.from({length:62},()=>({x:starRandom(),y:starRandom(),phase:starRandom()*6.28,period:8+starRandom()*5,brightness:.6+starRandom()*.4}));
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   let phase='search',x=.5,y=.5,drag=null,hover=false,radar=0,elapsed=0,last=0,feedback=0;
+  let hairImage=null,hairPixels=null,vascularCache=null;
   let explored=0,searchAge=0,dwell=0,reveal=0,heat=null,hairs=[],junction=null,vessels=[],nodes=[],fallAge=0;
   const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
   function place(px,py){
@@ -44,7 +45,7 @@
   function startFall(){stage('fall');fallAge=0;x=.5;y=.1;place(x*field.clientWidth,y*field.clientHeight);field.focus({preventScroll:true});}
   function startHair(){
     stage('hair');junction={x:.3+Math.random()*.4,y:.3+Math.random()*.4};
-    vessels=[];
+    vessels=[];vascularCache=null;
     let seed=9183;
     const rnd=()=>((seed=Math.imul(seed,1664525)+1013904223>>>0)/4294967296);
     nodes=[{x:.16,y:.13,z:.22},{x:.78,y:.16,z:.32},{x:.10,y:.76,z:.27},{x:.83,y:.83,z:.45},{x:.88,y:.44,z:.52},{x:.42,y:.09,z:.18},{x:.57,y:.88,z:.24},{x:.07,y:.42,z:.36},{x:.68,y:.30,z:.42},{...junction,z:1,main:true}];
@@ -81,6 +82,7 @@
       if(Math.random()>density)continue;
       hairs.push({x:a,y:b,length:75+Math.random()*75,lean:-11+Math.random()*22,light:Math.random(),phase:Math.random()*Math.PI*2,speed:.35+Math.random()*.4});
     }
+    prepareHair();
     x=.25;y=.5;place(x*field.clientWidth,y*field.clientHeight);tick.focus({preventScroll:true});
   }
   function finish(){
@@ -125,6 +127,98 @@
       const red=Math.round(116+core*99+highlight*25),green=Math.round(64+core*44+highlight*61),blue=Math.round(40+core*28+highlight*34);
       paint.fillStyle=`rgba(${red},${green},${blue},${Math.pow(v,.75)*alpha*(.55+noise*.2)})`;paint.fillRect(xx,yy,1,1);
     }
+  }
+
+  function renderVessels(paint,w,h,pulse){
+        for(const vessel of vessels){
+          const points=vessel.points;
+          for(let i=1;i<points.length;i++){
+            const proximity=Math.pow(1-i/points.length,3);
+            const trunk=vessel.width>1;
+            paint.lineWidth=Math.max(.3,vessel.width*(.12+.88*proximity))*(1+pulse*.06);
+            const opacity=(.12+pulse*.52)*(.5+vessel.z*.5)*(trunk?1.35:1);
+            const x0=points[i-1].x*w,y0=points[i-1].y*h,x1=points[i].x*w,y1=points[i].y*h;
+            const thickness=paint.lineWidth;
+            const depth=.6+vessel.z*.4;
+            if(trunk){
+              // Offset dark side grounds the vessel under the skin; a narrow ridge catches light.
+              paint.lineWidth=thickness+1.4;
+              paint.strokeStyle=`rgba(5,9,7,${.24+proximity*.15})`;
+              paint.beginPath();paint.moveTo(x0+1,y0+1.3);paint.lineTo(x1+1,y1+1.3);paint.stroke();
+            }
+            paint.lineWidth=thickness;
+            paint.strokeStyle=`rgba(132,65,55,${opacity*depth})`;
+            paint.beginPath();paint.moveTo(x0,y0);paint.lineTo(x1,y1);paint.stroke();
+            if(trunk&&thickness>1){
+              paint.lineWidth=Math.max(.35,thickness*.27);
+              paint.strokeStyle=`rgba(197,117,88,${opacity*.39})`;
+              paint.beginPath();paint.moveTo(x0-.35,y0-.45);paint.lineTo(x1-.35,y1-.45);paint.stroke();
+            }
+          }
+        }
+        // Smaller, dimmer distant junctions sit behind the main irregular hub.
+        for(const node of nodes){
+          const cx=node.x*w,cy=node.y*h,rx=node.main?9:3+node.z*5,ry=rx*.65;
+          for(let yy=-Math.ceil(ry);yy<=ry;yy++)for(let xx=-Math.ceil(rx);xx<=rx;xx++){
+            const theta=Math.atan2(yy/ry,xx/rx);
+            const d=Math.hypot(xx/rx,yy/ry)/(1+.12*Math.sin(theta*3+.7));
+            if(d>=1)continue;
+            const light=Math.max(0,Math.sqrt(1-d*d)*.7-xx*.025-yy*.045);
+            paint.fillStyle=`rgba(${Math.round(110+light*65)},${Math.round(54+light*37)},${Math.round(43+light*25)},${(1-d)*(.15+pulse*.85)*(.38+node.z*.62)})`;
+            paint.fillRect(Math.round(cx)+xx,Math.round(cy)+yy,1,1);
+          }
+        }
+  }
+  function prepareHair(){
+    const colors=['292d20','3b402c','505338','686747','817b55'].map(hex=>{const c=parseInt(hex,16);return (0xff000000|((c&255)<<16)|(c&65280)|(c>>>16))>>>0;});
+    const dither=[0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5];
+    for(const strand of hairs){
+      strand.rootWidth=strand.light>.6?3:2;
+      strand.samples=[];
+      for(let step=0;step<strand.length*4;step++){
+        const t=step/(strand.length*4),angle=t*Math.PI*.5;
+        const width=t<.3?strand.rootWidth:t<.7?2:1;
+        const pixels=new Uint32Array(width*2);
+        for(let column=0;column<pixels.length;column++){
+          const threshold=dither[(Math.floor(step/2)%4)*4+column%4]/16;
+          const across=column/Math.max(1,pixels.length-1);
+          const light=Math.max(0,Math.min(3.9,1.1+strand.light*.6+Math.sin(across*Math.PI)*1.5-t*.45));
+          const low=Math.floor(light),shade=low+(threshold<light-low?1:0);
+          if((column===pixels.length-1||t>.88)&&threshold>.68)continue;
+          pixels[column]=colors[shade];
+        }
+        strand.samples.push({dx:strand.length*(.55+.18*strand.light)*(1-Math.cos(angle))+strand.lean*.12*t*t,dy:-strand.length*Math.sin(angle),t,t2:t*t,pixels});
+      }
+    }
+  }
+  function drawHair(w,h,px,py){
+    const width=w*2,height=h*2;
+    if(!hairImage||hairImage.width!==width||hairImage.height!==height){
+      hairLayer.width=width;hairLayer.height=height;
+      hairImage=hairPaint.createImageData(width,height);hairPixels=new Uint32Array(hairImage.data.buffer);
+    }
+    hairPixels.fill(0);
+    for(const strand of hairs){
+      const a=strand.x*w,b=strand.y*h;
+      const sway=Math.sin(elapsed*strand.speed+strand.phase)*5+Math.sin(elapsed*.29+strand.phase*2);
+      const rootX=Math.round(a*2)-2,rootY=Math.round(b*2)-2;
+      for(let dy=0;dy<6;dy++){
+        const yy=rootY+dy;if(yy<0||yy>=height)continue;
+        for(let dx=0;dx<(strand.rootWidth+1)*2;dx++){const xx=rootX+dx;if(xx>=0&&xx<width)hairPixels[yy*width+xx]=0xff213535;}
+      }
+      for(const sample of strand.samples){
+        const baseX=a+sample.dx,baseY=b+sample.dy,yy=Math.round(baseY*2);
+        if(yy<0||yy>=height)continue;
+        const dx=baseX-px,dy=baseY-py;
+        const separation=Math.abs(dx)<30&&Math.abs(dy)<30?Math.max(0,1-Math.sqrt(dx*dx+dy*dy)/30)*16*sample.t:0;
+        const xx=Math.round((baseX+(sway+separation)*sample.t2)*2),row=yy*width;
+        for(let column=0;column<sample.pixels.length;column++){
+          const value=sample.pixels[column],dest=xx+column;
+          if(value&&dest>=0&&dest<width)hairPixels[row+dest]=value;
+        }
+      }
+    }
+    hairPaint.putImageData(hairImage,0,0);
   }
 
   function frame(now){
@@ -179,80 +273,15 @@
         // A slow, broad double pulse remains readable under reduced motion too.
         const beat=elapsed%2.8;
         const pulse=Math.exp(-Math.pow((beat-.65)/.32,2))+.34*Math.exp(-Math.pow((beat-1.22)/.38,2));
-        for(const vessel of vessels){
-          const points=vessel.points;
-          for(let i=1;i<points.length;i++){
-            const proximity=Math.pow(1-i/points.length,3);
-            const trunk=vessel.width>1;
-            paint.lineWidth=Math.max(.3,vessel.width*(.12+.88*proximity))*(1+pulse*.06);
-            const opacity=(.12+pulse*.52)*(.5+vessel.z*.5)*(trunk?1.35:1);
-            const x0=points[i-1].x*w,y0=points[i-1].y*h,x1=points[i].x*w,y1=points[i].y*h;
-            const thickness=paint.lineWidth;
-            const depth=.6+vessel.z*.4;
-            if(trunk){
-              // Offset dark side grounds the vessel under the skin; a narrow ridge catches light.
-              paint.lineWidth=thickness+1.4;
-              paint.strokeStyle=`rgba(5,9,7,${.24+proximity*.15})`;
-              paint.beginPath();paint.moveTo(x0+1,y0+1.3);paint.lineTo(x1+1,y1+1.3);paint.stroke();
-            }
-            paint.lineWidth=thickness;
-            paint.strokeStyle=`rgba(132,65,55,${opacity*depth})`;
-            paint.beginPath();paint.moveTo(x0,y0);paint.lineTo(x1,y1);paint.stroke();
-            if(trunk&&thickness>1){
-              paint.lineWidth=Math.max(.35,thickness*.27);
-              paint.strokeStyle=`rgba(197,117,88,${opacity*.39})`;
-              paint.beginPath();paint.moveTo(x0-.35,y0-.45);paint.lineTo(x1-.35,y1-.45);paint.stroke();
-            }
-          }
+        if(!vascularCache||vascularCache[0].width!==w||vascularCache[0].height!==h){
+          vascularCache=[0,1].map(level=>{const layer=document.createElement('canvas');layer.width=w;layer.height=h;renderVessels(layer.getContext('2d'),w,h,level);return layer;});
         }
-        // Smaller, dimmer distant junctions sit behind the main irregular hub.
-        for(const node of nodes){
-          const cx=node.x*w,cy=node.y*h,rx=node.main?9:3+node.z*5,ry=rx*.65;
-          for(let yy=-Math.ceil(ry);yy<=ry;yy++)for(let xx=-Math.ceil(rx);xx<=rx;xx++){
-            const theta=Math.atan2(yy/ry,xx/rx);
-            const d=Math.hypot(xx/rx,yy/ry)/(1+.12*Math.sin(theta*3+.7));
-            if(d>=1)continue;
-            const light=Math.max(0,Math.sqrt(1-d*d)*.7-xx*.025-yy*.045);
-            paint.fillStyle=`rgba(${Math.round(110+light*65)},${Math.round(54+light*37)},${Math.round(43+light*25)},${(1-d)*(.15+pulse*.85)*(.38+node.z*.62)})`;
-            paint.fillRect(Math.round(cx)+xx,Math.round(cy)+yy,1,1);
-          }
-        }
+        const mix=Math.min(1,pulse);
+        paint.globalAlpha=1-mix;paint.drawImage(vascularCache[0],0,0);
+        paint.globalAlpha=mix;paint.drawImage(vascularCache[1],0,0);paint.globalAlpha=1;
         paint.lineWidth=1;
         if(distance<13){dwell+=dt;if(dwell>.65)finish();}else dwell=0;
-        if(hairLayer.width!==w*2||hairLayer.height!==h*2){hairLayer.width=w*2;hairLayer.height=h*2;}
-        hairPaint.clearRect(0,0,w*2,h*2);
-        hairPaint.setTransform(2,0,0,2,0,0);
-        for(const strand of hairs){
-          const a=strand.x*w,b=strand.y*h;
-          const sway=Math.sin(elapsed*strand.speed+strand.phase)*5+Math.sin(elapsed*.29+strand.phase*2);
-          // Discrete pixel clusters: shaded root, curved body and a single-pixel tip.
-          const rootWidth=strand.light>.6?3:2;
-          const shades=['#292d20','#3b402c','#505338','#686747','#817b55'];
-          const dither=[0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5];
-          hairPaint.fillStyle='#353521';hairPaint.fillRect(Math.round(a*2)/2-1,Math.round(b*2)/2-1,rootWidth+1,3);
-          for(let step=0;step<strand.length*4;step++){
-            const t=step/(strand.length*4);
-            // A quarter-ellipse: upright at the root, sweeping right to a near-horizontal tip.
-            const angle=t*Math.PI*.5;
-            const reach=strand.length*(.55+.18*strand.light);
-            const baseY=b-strand.length*Math.sin(angle);
-            const baseX=a+reach*(1-Math.cos(angle))+strand.lean*.12*t*t;
-            const separation=Math.max(0,1-Math.hypot(baseX-px,baseY-py)/30)*16*t;
-            const xx=Math.round((baseX+(sway+separation)*t*t)*2)/2,yy=Math.round(baseY*2)/2;
-            const width=t<.3?rootWidth:t<.7?2:1;
-            // Dither in strand coordinates, so the texture follows the hair without flicker.
-            for(let column=0;column<width*2;column++){
-              const row=Math.floor(step/2),threshold=dither[(row%4)*4+column%4]/16;
-              const across=column/Math.max(1,width*2-1);
-              const light=Math.max(0,Math.min(3.9,1.1+strand.light*.6+Math.sin(across*Math.PI)*1.5-t*.45));
-              const low=Math.floor(light),shade=low+(threshold<light-low?1:0);
-              if((column===width*2-1||t>.88)&&threshold>.68)continue;
-              hairPaint.fillStyle=shades[shade];
-              hairPaint.fillRect(xx+column*.5,yy,.5,.5);
-            }
-          }
-        }
-        hairPaint.setTransform(1,0,0,1,0,0);
+        drawHair(w,h,px,py);
 
       }
     }
