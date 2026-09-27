@@ -32,6 +32,10 @@ for(const [key,value] of [['CFBundleExecutable','UMWELT'],['CFBundleName','UMWEL
  try{execFileSync('/usr/libexec/PlistBuddy',['-c',`Set :${key} ${value}`,join(contents,'Info.plist')],{stdio:'pipe'})}catch{execFileSync('/usr/libexec/PlistBuddy',['-c',`Add :${key} string ${value}`,join(contents,'Info.plist')])}
 }
 await writeFile(join(application,'BUILD.json'),JSON.stringify({version:appVersion,electron:version,arch,source:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),built:new Date().toISOString()},null,2));
+// Finder/iCloud metadata on copied source files must not enter the signed bundle.
+for(const attribute of ['com.apple.FinderInfo','com.apple.ResourceFork']){
+ try{execFileSync('xattr',['-dr',attribute,bundle],{stdio:'ignore'})}catch{}
+}
 execFileSync('codesign',['--force','--deep','--sign','-',bundle],{stdio:'inherit'});
 const release=join(output,`UMWELT-${appVersion}-mac-${arch}.zip`);await rm(release,{force:true});
 // The download contains exactly the application and a short guide at its root.
