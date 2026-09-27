@@ -48,3 +48,7 @@ html.umwelt-native body{position:absolute!important;inset:40px 6px 6px!important
 .umwelt-tick body>#game{position:absolute!important;inset:0!important;height:100%!important;min-height:0!important}
 .umwelt-tick #game>nav{display:none}
 .umwelt-tick #ending{inset:40px 6px 6px}
+/* Avoid an OS scrollbar taking a strip out of the pixel frame; capped windows still scroll. */
+.umwelt-isopoda body{scrollbar-width:none}
+.umwelt-isopoda body::-webkit-scrollbar{width:0;height:0}
+.umwelt-tick body{background:#101310!important}
