@@ -19,6 +19,7 @@ async function inspect(page,narrow){
   for(let i=1;i<order.length;i++)check(rect(q(order[i])).top>=rect(q(order[i-1])).bottom-1,order[i]+' overlaps / out of order');
   if(!narrow){check(rect(q('.layer-panel')).right<rect(q('.viewer')).left,'desktop left column');check(rect(q('.viewer')).right<rect(q('.inspector')).left,'desktop right column')}
   if(q('.references').open)within(q('.reference-list'),q('.references'),'reference list escapes border');
+  if(!narrow&&q('.references').open)check(Math.abs(rect(q('.references')).bottom-rect(q('.reference-list')).bottom-1)<1,'reference scroll area does not fill panel to bottom');
   if(narrow&&q('.references').open)for(const e of document.querySelectorAll('.reference'))within(e,q('.references'),'reference card escapes panel');
   if(q('.dossier').open){
    within(q('.dossier-body'),q('.dossier'),'dossier body escapes border');
@@ -50,7 +51,7 @@ async function settle(page){await page.evaluate(()=>new Promise(resolve=>request
  const browser=await engine.launch({headless:true,...(engine===chromium&&!process.env.CI?{channel:'chrome'}:{})});
  const page=await browser.newPage();const errors=[];
  page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400)errors.push(`${r.status()} ${r.url()}`)});
- const sizes=[[1440,900],[1440,600],[1121,900],[1120,900],[1024,768],[768,1024],[768,430],[430,932],[390,844],[320,640]];
+ const sizes=[[1440,1400],[1440,900],[1440,600],[1121,900],[1120,900],[1024,768],[768,1024],[768,430],[430,932],[390,844],[320,640]];
  if(output)fs.mkdirSync(output,{recursive:true});
  for(const [width,height] of sizes){
   await page.setViewportSize({width,height});await page.goto(base+'/isopoda/morphology/');
