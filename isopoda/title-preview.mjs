@@ -5,7 +5,7 @@ import {habitatConfig} from './habitats.mjs';
 import {freshwaterLayout} from './scenery/freshwater-stages.mjs';
 
 const canvas=document.querySelector('#emptyHabitat');
-if(canvas){
+if(canvas&&!(window.umweltNative&&new URLSearchParams(location.search).has('nativeDrawer'))){
  let saved=null;
  try{saved=JSON.parse(localStorage.getItem('isopoda-fugue-v4')||'null')}catch{}
 

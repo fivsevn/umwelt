@@ -14,14 +14,15 @@ const assert=require('node:assert/strict');
  for(const [lang,title] of [['zh-CN','环世界观测系统'],['en','UMWELT OBSERVATION SYSTEM'],['ja','環世界観測システム']]){
   assert.equal(await page.locator('.welcome h1').textContent(),'UMWELT');assert.equal(await page.locator('.welcome-links a').count(),2);
   assert.equal(await page.locator('html').getAttribute('lang'),lang);assert.equal(await page.title(),title);
-  for(const action of ['end','leave']){
+  assert.equal(await page.locator('#systemMenu button').count(),1);
+  for(const action of ['leave']){
    await page.click('#systemButton');await page.click(`[data-action=${action}]`);assert.equal(await page.locator('#systemDialog').evaluate(el=>el.open),true);
    await page.screenshot({path:`/tmp/homepage-${process.env.BROWSER||'chromium'}-${lang}-${action}.png`});
-   await page.click('#confirmAction');assert.equal(await page.locator('#closeHint').isVisible(),true);await page.click('#cancelAction');
+   await page.click('#cancelAction');assert.equal(await page.locator('#systemDialog').evaluate(el=>el.open),false);
   }
   await page.click('#languageButton');
  }
- assert.equal(await page.evaluate(()=>window.closeCalls),6);
+ assert.equal(await page.evaluate(()=>window.closeCalls),0);
  await page.click('#soundBtn');assert.equal(await page.locator('#soundBtn').getAttribute('aria-pressed'),'false');
  const muted=await page.evaluate(()=>window.audioSources.length);await page.click('#aboutButton');assert.equal(await page.evaluate(()=>window.audioSources.length),muted);
  await page.click('#soundBtn');await page.waitForTimeout(100);await page.click('#aboutButton');assert.ok(await page.evaluate(()=>window.audioSources.length)>muted);
@@ -29,5 +30,6 @@ const assert=require('node:assert/strict');
  await page.click('#systemButton');await page.keyboard.press('Escape');assert.equal(await page.locator('#systemMenu').isHidden(),true);
  await page.click('#languageButton');await page.reload();assert.equal(await page.locator('html').getAttribute('lang'),'en');
  for(const width of [1440,390,320]){await page.setViewportSize({width,height:900});await page.screenshot({path:`/tmp/homepage-${process.env.BROWSER||'chromium'}-${width}.png`});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));const a=await page.locator('#systemButton').boundingBox(),b=await page.locator('.tray').boundingBox();assert.ok(a.x+a.width<=b.x)}
- assert.deepEqual(errors,[]);console.log('Homepage passed: 3 languages, both dialogs, close attempts, mute and click sources, no ambience, persistence, midnight clock, keyboard and 3 widths.');await browser.close();
+ await page.click('#systemButton');await page.click('[data-action=leave]');await page.click('#confirmAction');await page.waitForURL('about:blank');
+ assert.deepEqual(errors,[]);console.log('Homepage passed: 3 languages, single leave dialog, cancel and exit fallback, mute, no ambience, persistence, midnight clock, keyboard and 3 widths.');await browser.close();
 })().catch(e=>{console.error(e);process.exit(1)});

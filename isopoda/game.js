@@ -27,6 +27,8 @@ import {gameText} from './locales/game.mjs';
 const ENDINGS=[...LAND_ENDINGS,...AQUATIC_ENDINGS];
 const $=s=>document.querySelector(s),KEY='isopoda-fugue-v4',ARCHIVE='isopoda-fugue-endings-v3',COLLECTION='isopoda-fieldnotes-v1',DISCOVERIES='isopoda-interaction-discoveries-v1';
 const nativeDrawerMode=window.umweltNative?new URLSearchParams(location.search).get('nativeDrawer'):null;
+// Detached references must never lay out or rasterize the hidden game selector.
+if(nativeDrawerMode)$('#titleCard').hidden=true;
 function read(key){try{return JSON.parse(localStorage.getItem(key))}catch{return null}}
 function write(key,value){if(nativeDrawerMode&&key!=='isopoda-catalog-specimen-v1')return;try{localStorage.setItem(key,JSON.stringify(value))}catch{$('#storageNotice').hidden=false;$('#storageNotice').textContent=t('storageNotice')}}
 const shoreControls=createShoreControls($('#shorePrev'),$('#shoreNext'));
@@ -227,6 +229,7 @@ $('#specimensTab').onclick=()=>{drawerMode='catalog';page=lastCatalogPage??Math.
 $('#sourcesBtn').onclick=()=>{if(drawerMode==='sources'){drawerMode=referenceReturn?.mode||'catalog';page=referenceReturn?.page||0}else{referenceReturn={mode:drawerMode,page};drawerMode='sources';page=0}drawDrawer()};
 for(const [id,delta] of [['pagePrev',-1],['pageNext',1]])$('#'+id).onclick=()=>{const n=drawerMode==='catalog'?SPECIES.length:drawerMode==='endings'?ENDINGS.length:Math.max(1,state.records.length);page=(page+delta+n)%n;drawDrawer()};
 function refreshPreview(){
+ if(nativeDrawerMode)return;
  const seed=4107;previewState=createRun('dairy',seed,selectedHabitat);previewState.cohort=[];
  if(selectedHabitat==='freshwater')previewState.scene={materialStage:3};
  $('#titleCard .window-title span').textContent='ISOPODA / '+gameText('water:habitat:'+selectedHabitat,getLanguage());
@@ -234,7 +237,7 @@ function refreshPreview(){
  $('#titleCard').dataset.habitat=selectedHabitat;emptyHabitat.reset({empty:true});emptyHabitat.start();
 }
 for(const [id,d] of [['habitatPrev',-1],['habitatNext',1]])$('#'+id).onclick=()=>{selectedHabitat=cycleHabitat(selectedHabitat,d);refreshPreview()};
-home();
+if(!nativeDrawerMode)home();
 
 // Window controls keep the run intact; closing returns to the saved home view.
 const habitatWindow=$('#boxFrame');

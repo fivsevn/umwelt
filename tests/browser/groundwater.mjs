@@ -11,7 +11,7 @@ for(const [name,type] of [['chromium',chromium],['webkit',webkit]]){
   await page.goto(base+'/isopoda/');await page.waitForFunction(()=>document.querySelector('#startBtn').onclick);
   await page.evaluate(async()=>{const {createRun}=await import('./engine.mjs'),{drawCohort}=await import('./collection.mjs');const s=createRun('cavaticus',37,'groundwater');s.cohort=drawCohort({unlocked:[],draws:0},37,'groundwater');s.arrivalPending=true;localStorage.setItem('isopoda-fugue-v4',JSON.stringify(s))});
   await page.reload();await page.waitForFunction(()=>document.querySelector('#continueBtn').onclick);await page.click('#continueBtn');
-  assert.equal(await page.locator('#arrivalCard .panel-caption').textContent(),'寻找样本');
+  assert.equal(await page.locator('#arrivalCard .panel-caption').textContent(),'带上手电筒。');
   assert.equal(await page.locator('#arrivalSpecimens .isopod').count(),await page.evaluate(()=>new Set(JSON.parse(localStorage.getItem('isopoda-fugue-v4')).cohort.map(c=>c.species)).size));
   assert.equal(await page.locator('#arrivalSpecimens figure').count(),0);
   assert.ok(await page.locator('#arrivalSpecimens').evaluate(e=>e.getBoundingClientRect().height<=80));

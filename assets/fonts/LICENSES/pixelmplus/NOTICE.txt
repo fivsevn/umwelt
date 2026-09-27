@@ -1,0 +1,11 @@
+PixelMplus12 Regular
+Copyright (C) 2013 itouhiro
+Copyright (C) 2002-2013 M+ FONTS PROJECT
+
+Source: https://github.com/itouhiro/PixelMplus
+Pinned revision: d89b95f04eeb95bf98bb09cb9234a2f99d186df5
+Original file: PixelMplus12-Regular.ttf
+License: M+ FONT LICENSE; see LICENSE_E in this directory.
+
+The original font is packaged as WOFF2 for local/offline use.
+Glyph outlines, character mapping and advance widths are unchanged.
