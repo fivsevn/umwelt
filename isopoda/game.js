@@ -262,7 +262,22 @@ window.addEventListener('isopoda:languagechange',event=>{
 
 // Fit the square scene around the live narrative, including feedback after a choice.
 let fittingFrame;
-function fitObservation(){cancelAnimationFrame(fittingFrame);fittingFrame=requestAnimationFrame(()=>{const content=$('.window-content');if(!content.clientHeight)return;const side=matchMedia('(min-width:900px), (orientation:landscape)').matches;const room=side?Math.min(content.clientHeight,content.clientWidth*.59):Math.min(content.clientWidth,content.clientHeight-$('.window-story').getBoundingClientRect().height-4);content.style.setProperty('--scene-size',Math.max(0,Math.floor(room))+'px')})}
+function fitObservation(){
+ cancelAnimationFrame(fittingFrame);
+ fittingFrame=requestAnimationFrame(()=>{
+  const content=$('.window-content'),story=$('.window-story'),record=story.querySelector('.record');
+  if(!content.clientHeight)return;
+  const side=matchMedia('(min-width:900px), (orientation:landscape)').matches;
+  if(!side){
+   // Reserve the choices and footer first; long translations scroll inside the record.
+   const controls=story.querySelector('.actions').offsetHeight+story.querySelector('.bottom-bar').offsetHeight+16;
+   const scene=Math.min(content.clientWidth,Math.max(0,content.clientHeight-controls-64));
+   record.style.maxHeight=Math.max(0,content.clientHeight-controls-scene)+'px';
+  }else record.style.removeProperty('max-height');
+  const room=side?Math.min(content.clientHeight,content.clientWidth*.59):Math.min(content.clientWidth,content.clientHeight-story.getBoundingClientRect().height-4);
+  content.style.setProperty('--scene-size',Math.max(0,Math.floor(room))+'px');
+ });
+}
 new ResizeObserver(fitObservation).observe($('.window-content'));new ResizeObserver(fitObservation).observe($('.window-story'));window.addEventListener('resize',fitObservation);visualViewport?.addEventListener('resize',fitObservation);
 
 // Keep original human numerals so language changes can restore DOM-only readouts too.
