@@ -1,11 +1,11 @@
 <!-- releases:start — 后续每次发布均更新此栏的版本、下载链接和简述；以下原有正文保持不变。 -->
 ## 下载与版本更新
 
-**[v0.1.5 · Mac 预发布版](https://github.com/fivsevn/umwelt/releases/tag/v0.1.5)** — 首个离线试玩版，支持本地存档、独立窗口与资料库实时同步，并优化场景切换。
+**[v0.1.5 · 桌面预发布版](https://github.com/fivsevn/umwelt/releases/tag/v0.1.5)** — 首个离线试玩版，支持本地存档、独立窗口与资料库实时同步，并优化场景切换。
 
-[下载 Mac 版（Apple Silicon）](https://github.com/fivsevn/umwelt/releases/download/v0.1.5/UMWELT-0.1.5-mac-arm64.zip) · [全部版本与更新说明](https://github.com/fivsevn/umwelt/releases)
+[下载 Mac 版（Apple Silicon）](https://github.com/fivsevn/umwelt/releases/download/v0.1.5/UMWELT-0.1.5-mac-arm64.zip) · [下载 Windows 版（x64）](https://github.com/fivsevn/umwelt/releases/download/v0.1.5/UMWELT-0.1.5-win-x64.zip) · [全部版本与更新说明](https://github.com/fivsevn/umwelt/releases)
 
-解压后只有 `UMWELT.app` 和 `README.txt`。目前仅提供 Apple Silicon Mac 版，尚未经过 Apple 公证；使用说明见包内 TXT。
+支持 Apple Silicon Mac 和 Windows 10 / 11 x64。解压后只有游戏程序（Mac 为 `UMWELT.app`，Windows 为 `UMWELT.exe`）和 `README.txt`。Mac 尚未经过 Apple 公证，Windows 尚未代码签名；使用说明见包内 TXT。
 <!-- releases:end -->
 
 ---
