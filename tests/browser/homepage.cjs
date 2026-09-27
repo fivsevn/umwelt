@@ -12,6 +12,7 @@ const assert=require('node:assert/strict');
  assert.equal(await page.locator('#desktopTime').textContent(),'00:00');assert.equal(await page.locator('#desktopDate').textContent(),'2026/09/28');
  await page.clock.resume();
  for(const [lang,title] of [['zh-CN','环世界观测系统'],['en','UMWELT OBSERVATION SYSTEM'],['ja','環世界観測システム']]){
+  assert.equal(await page.locator('.welcome h1').textContent(),'UMWELT');assert.equal(await page.locator('.welcome-links a').count(),2);
   assert.equal(await page.locator('html').getAttribute('lang'),lang);assert.equal(await page.title(),title);
   for(const action of ['end','leave']){
    await page.click('#systemButton');await page.click(`[data-action=${action}]`);assert.equal(await page.locator('#systemDialog').evaluate(el=>el.open),true);
