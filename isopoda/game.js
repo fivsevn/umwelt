@@ -1,3 +1,4 @@
+import './audio-ui.mjs';
 import {recordNaiguaDraw} from './rare-specimens.mjs';
 import {arrivalText,unlockedPetriSpecies} from './arrival.mjs';
 import {createShoreControls} from './shore-controls.mjs';
@@ -46,13 +47,13 @@ function mergeLearnedInteractions(target){
 mergeLearnedInteractions(state);
 let archives=read(ARCHIVE);if(!Array.isArray(archives))archives=[];archives=archives.filter(a=>a&&ENDINGS.some(e=>e.id===a.id));
 let collection=restoreCollection(read(COLLECTION),hasRun?state:null,archives);write(COLLECTION,collection);
-let playing=false,sound=false,audio,drawerMode='catalog',page=0,lastCatalogPage=null,lastScene=null,referenceReturn=null;
+let playing=false,drawerMode='catalog',page=0,lastCatalogPage=null,lastScene=null,referenceReturn=null;
 let lastInterfaceLanguage=getLanguage();
 const habitat=createHabitat($('#habitat'),$('#critters'),()=>state,event=>{if(!playing||state.stage==='ended')return;if(event.type==='microscope'){checkMicroscope(state,event.visible);save();render();return}const record=recordDirectInteraction(state,event);if(record){mergeLearnedInteractions(state);save();render()}});
 const refreshPetri=createPetriControls($('#habitat').closest('.habitat-viewport'),habitat,()=>state,getLanguage);
 const emptyHabitat=createHabitat($('#emptyHabitat'),$('#emptyCritters'),()=>previewState);
 const instrument=createInstrument($('#instruments'));
-function refreshIconLabels(){for(const [id,kind,label] of [['soundBtn','sound',sound?t('soundOff'):t('soundOn')],['catalogBtn','book',t('archive')],['sourcesBtn','source',t('sources')],['journalBtn','pencil',t('journal')],['zoomOut',state.habitatId==='groundwater'?'triangleDown':'minus',t(state.habitatId==='groundwater'?'beamSmaller':state.habitatId==='abyssal'?'pullBack':'zoomOut')],['zoomIn',state.habitatId==='groundwater'?'triangleUp':'plus',t(state.habitatId==='groundwater'?'beamLarger':state.habitatId==='abyssal'?'comeCloser':'zoomIn')],['zoomReset',state.habitatId==='groundwater'?'joystick':'center',t(state.habitatId==='groundwater'?'beamJoystick':'zoomReset')]])iconButton($('#'+id),kind,label)}
+function refreshIconLabels(){for(const [id,kind,label] of [['catalogBtn','book',t('archive')],['sourcesBtn','source',t('sources')],['journalBtn','pencil',t('journal')],['zoomOut',state.habitatId==='groundwater'?'triangleDown':'minus',t(state.habitatId==='groundwater'?'beamSmaller':state.habitatId==='abyssal'?'pullBack':'zoomOut')],['zoomIn',state.habitatId==='groundwater'?'triangleUp':'plus',t(state.habitatId==='groundwater'?'beamLarger':state.habitatId==='abyssal'?'comeCloser':'zoomIn')],['zoomReset',state.habitatId==='groundwater'?'joystick':'center',t(state.habitatId==='groundwater'?'beamJoystick':'zoomReset')]])iconButton($('#'+id),kind,label)}
 refreshIconLabels();
 function save(){write(KEY,state)}
 const ISOPOD_WAVES=['▁','▂','▃','▄','▅','▆','▇'];
@@ -161,7 +162,7 @@ function draw(){
  if(!dish){state.naiguaDrawMisses=misses;recordNaiguaDraw(collection,state.cohort);collection.draws++;}
  mergeLearnedInteractions(state);state.arrivalPending=true;hasRun=true;
  for(const id of runSpecies(state))unlock(collection,id,state.startedOn);
- write(COLLECTION,collection);save();begin();tone(130);
+ write(COLLECTION,collection);save();begin();
 }
 function begin(){
  if(!hasRun)return;emptyHabitat.stop();if(state.arrivalPending){arrival();return}
@@ -169,8 +170,8 @@ function begin(){
  if(state.stage==='ended'){showEnd();return}
  $('#playView').hidden=false;lastScene=null;sceneNow();habitat.reset();habitat.home();$('#zoomLevel').textContent=state.habitatId==='groundwater'?habitat.beamHome()+'%':'1×';refreshIconLabels();render();habitat.start();
 }
-function act(id){const option=ensureScene(state).options.find(o=>o.id===id);if(!choose(state,id))return;if(!state.interactionIntent)habitat.react(option?.animation||id);tone(130);render()}
-function next(){if(!advance(state))return;tone(95);save();if(state.stage==='ended'){showEnd();return}render()}
+function act(id){const option=ensureScene(state).options.find(o=>o.id===id);if(!choose(state,id))return;if(!state.interactionIntent)habitat.react(option?.animation||id);render()}
+function next(){if(!advance(state))return;save();if(state.stage==='ended'){showEnd();return}render()}
 function drawEndMolts(){
  const canvas=$('#endMolts'),panel=canvas?.closest('.molt-result-panel'),shells=Array.isArray(state.collectedShells)?state.collectedShells.slice(-8):[];if(!canvas)return;
  if(panel)panel.hidden=!shells.length;canvas.hidden=!shells.length;if(!shells.length)return;
@@ -189,7 +190,6 @@ function showEnd(){
  if(!archives.some(a=>a.run===state.seed)){archives.push({id:e.id,...(isEstuaryObservation(state)?{estuaryRecords:structuredClone(estuaryRecords(state))}:{}),run:state.seed,species:runSpecies(state),cohort:state.cohort,date:new Date().toLocaleDateString(),records:state.records.length,memory:endingMemoryFor(state),molts:(state.collectedShells||[]).map(shell=>({phase:shell.phase,specimen:shell.specimen}))});archives=archives.slice(-60);write(ARCHIVE,archives)}save();
 }
 function home(){playing=false;habitat.stop();$('#playView').hidden=true;$('#endCard').hidden=true;$('#arrivalCard').hidden=true;$('#titleCard').hidden=false;$('#dayLabel').textContent='';$('#startBtn').disabled=false;$('#continueBtn').hidden=!hasRun;$('#continueBtn').textContent=state.stage==='ended'?t('viewEnding'):t('continueObservation');refreshPreview()}
-function tone(freq){if(!sound)return;try{audio ||= new (window.AudioContext||window.webkitAudioContext)();audio.resume();const o=audio.createOscillator(),g=audio.createGain();o.type='triangle';o.frequency.value=freq;g.gain.setValueAtTime(.025,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.12);o.connect(g).connect(audio.destination);o.start();o.stop(audio.currentTime+.12)}catch{sound=false;$('#soundBtn').setAttribute('aria-pressed','false');$('#soundBtn').setAttribute('aria-label',t('soundUnavailable'))}}
 function paragraph(value,cls=''){const el=document.createElement('p');el.dataset.directLocale='true';el.textContent=gameText(value,getLanguage());el.className=cls;return el}
 function drawDrawer(){
  const el=$('#drawerContent');el.replaceChildren();el.scrollTop=0;let total=1;const sourcesOnly=drawerMode==='sources';$('#drawer').dataset.mode=drawerMode;$('#drawerTabs').hidden=sourcesOnly||drawerMode==='journal';$('#sourcesBtn').hidden=drawerMode==='journal';$('#pagePrev').parentElement.hidden=sourcesOnly;$('#specimensTab').setAttribute('aria-pressed',String(drawerMode==='catalog'));$('#endingsTab').setAttribute('aria-pressed',String(drawerMode==='endings'));
@@ -207,7 +207,6 @@ function openDrawer(mode){habitat.stop();drawerMode=mode;page=mode==='catalog'?(
 $('#game').addEventListener('dblclick',event=>event.preventDefault(),{passive:false});
 for(const [id,d] of [['shorePrev',-1],['shoreNext',1]])$('#'+id).onclick=()=>{if(moveShore(state,d)){habitat.home();$('#zoomLevel').textContent='1×';render()}};
 $('#startBtn').onclick=draw;$('#continueBtn').onclick=begin;$('#settleBtn').onclick=()=>{state.arrivalPending=false;save();begin()};$('#nextBtn').onclick=next;$('#restartBtn').onclick=home;
-$('#soundBtn').onclick=()=>{sound=!sound;$('#soundBtn').setAttribute('aria-pressed',String(sound));$('#soundBtn').setAttribute('aria-label',sound?t('soundOff'):t('soundOn'));$('#soundBtn').title=sound?t('soundOff'):t('soundOn');tone(120)};
 function adjustView(delta){$('#zoomLevel').textContent=state.habitatId==='groundwater'?habitat.beamResize(delta*8)+'%':habitat.zoomBy(state.habitatId==='abyssal'?delta/2:delta).toFixed(2).replace(/0$/,'')+'×'}
 $('#zoomIn').onclick=()=>adjustView(.5);$('#zoomOut').onclick=()=>adjustView(-.5);
 const stick=$('#zoomReset');let stickPointer=null,stickOrigin=null,stickDragged=false;
@@ -249,7 +248,6 @@ window.addEventListener('isopoda:languagechange',event=>{
  refreshIconLabels();
  if(!$('#titleCard').hidden){refreshPreview();if(enteredIsopod)emptyHabitat.heartBurst()}
  $('#continueBtn').textContent=state.stage==='ended'?t('viewEnding'):t('continueObservation');
- $('#soundBtn').setAttribute('aria-label',sound?t('soundOff'):t('soundOn'));$('#soundBtn').title=sound?t('soundOff'):t('soundOn');
  if(playing&&state.stage!=='ended'){render();if(enteredIsopod)habitat.heartBurst()}
  if($('#arrivalCard')&&!$('#arrivalCard').hidden)arrival();
  if($('#endCard')&&!$('#endCard').hidden)showEnd();
