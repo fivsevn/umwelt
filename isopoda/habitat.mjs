@@ -230,7 +230,7 @@ function present(){
   display.fillStyle=shade;display.fillRect(0,0,w,h);
  }
  if(state.habitatId==='abyssal'){
-  const actor=critters[0],avoid={x:((actor?.x??192)-sx)/sw*w,y:((actor?.y??215)-sy)/sh*h,rx:Math.max(w*.27,85*scale),ry:Math.max(h*.26,65*scale)};
+  const actor=critters[0],avoid={x:((actor?.x??192)-sx)/sw*w,y:((actor?.y??215)-sy)/sh*h,rx:Math.max(w*.23,74*scale),ry:Math.max(h*.22,57*scale)};
   drawAbyssalAtmosphere(display,{time:elapsed,seed:state.seed,width:w,height:h,reduced,avoid});
  }
  if(m?.mode){
