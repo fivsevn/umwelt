@@ -192,7 +192,7 @@
             if(trunk){
               // Offset dark side grounds the vessel under the skin; a narrow ridge catches light.
               paint.lineWidth=thickness+1.4;
-              paint.strokeStyle=`rgba(5,9,7,${.28+proximity*.18})`;
+              paint.strokeStyle=`rgba(5,9,7,${.24+proximity*.15})`;
               paint.beginPath();paint.moveTo(x0+1,y0+1.3);paint.lineTo(x1+1,y1+1.3);paint.stroke();
             }
             paint.lineWidth=thickness;
@@ -200,7 +200,7 @@
             paint.beginPath();paint.moveTo(x0,y0);paint.lineTo(x1,y1);paint.stroke();
             if(trunk&&thickness>1){
               paint.lineWidth=Math.max(.35,thickness*.27);
-              paint.strokeStyle=`rgba(197,117,88,${opacity*.46})`;
+              paint.strokeStyle=`rgba(197,117,88,${opacity*.39})`;
               paint.beginPath();paint.moveTo(x0-.35,y0-.45);paint.lineTo(x1-.35,y1-.45);paint.stroke();
             }
           }
@@ -213,7 +213,7 @@
             const d=Math.hypot(xx/rx,yy/ry)/(1+.12*Math.sin(theta*3+.7));
             if(d>=1)continue;
             const light=Math.max(0,Math.sqrt(1-d*d)*.7-xx*.025-yy*.045);
-            paint.fillStyle=`rgba(${Math.round(110+light*75)},${Math.round(54+light*42)},${Math.round(43+light*28)},${(1-d)*(.15+pulse*.85)*(.38+node.z*.62)})`;
+            paint.fillStyle=`rgba(${Math.round(110+light*65)},${Math.round(54+light*37)},${Math.round(43+light*25)},${(1-d)*(.15+pulse*.85)*(.38+node.z*.62)})`;
             paint.fillRect(Math.round(cx)+xx,Math.round(cy)+yy,1,1);
           }
         }
