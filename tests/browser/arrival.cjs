@@ -28,11 +28,11 @@ fs.mkdirSync(out,{recursive:true});
     if(lang==='zh')await page.screenshot({path:`${out}/${engine}-${width}-${id}.png`});
    }
    if(id==='petri-dish'){
-    const observed=[];
-    for(let i=0;i<unlockedBefore.length;i++){
-     const chosen=await page.locator('#arrivalSpecimens .isopod').getAttribute('data-species');observed.push(chosen);assert.ok(unlockedBefore.includes(chosen));await page.locator('#arrivalNext').click();
+    const observed=[],eligible=unlockedBefore.filter(id=>id!=='giganteus');
+    for(let i=0;i<eligible.length;i++){
+     const chosen=await page.locator('#arrivalSpecimens .isopod').getAttribute('data-species');observed.push(chosen);assert.ok(eligible.includes(chosen));await page.locator('#arrivalNext').click();
     }
-    assert.equal(new Set(observed).size,new Set(unlockedBefore).size);
+    assert.equal(new Set(observed).size,new Set(eligible).size);
     await page.locator('#arrivalPrev').click();const chosen=await page.locator('#arrivalSpecimens .isopod').getAttribute('data-species');
     await page.reload();await page.waitForFunction(()=>!!document.querySelector('#continueBtn')?.onclick);await page.locator('#continueBtn').click();assert.equal(await page.locator('#arrivalSpecimens .isopod').getAttribute('data-species'),chosen);
     assert.deepEqual(await page.evaluate(()=>JSON.parse(localStorage.getItem('isopoda-fieldnotes-v1')).unlocked),unlockedBefore);

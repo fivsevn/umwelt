@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createReactions,cueFor,bubbleLayout,drawReactionBubbles} from '../isopoda/reactions.mjs';
+import {createReactions,cueFor,bubbleLayout,drawReactionBubbles,PETRI_FACES,PETRI_FACE_DURATION,randomPetriFace} from '../isopoda/reactions.mjs';
 const actor=(id=0,extra={})=>({id,role:id,x:190,y:215,posture:'normal',occlusion:0,moving:true,...extra});
 const encounter={id:'meal',motion:'feed',actors:3,place:[190,215]};
 const context=(time,extra={})=>({time,encounter,state:{},...extra});
@@ -88,4 +88,18 @@ test('beach ambient bubbles are sparse and varied without hiding the language bu
  assert.ok(starts>5&&starts<100);
  assert.ok(cues.size>=5);
  r.burst(group,'♡',601);r.update(group,context(601.1,{encounter:null,state:{habitatId:'sandy-surf'}}));assert.equal(r.active.length,7);
+});
+
+test('microscope faces have five random outcomes and outlast ordinary cues',()=>{
+ assert.deepEqual([0,.2,.4,.6,.8].map(n=>randomPetriFace(()=>n)),PETRI_FACES);
+ const r=createReactions(),a=actor();r.burst([a],PETRI_FACES[0],0,PETRI_FACE_DURATION);
+ r.update([a],context(2.5));assert.equal(r.active[0].cue,PETRI_FACES[0]);
+ const calls=[],ctx={fillRect(...args){calls.push(args)}};
+ for(const cue of PETRI_FACES)drawReactionBubbles(ctx,[{id:0,cue,start:0}],[a],1,{sx:0,sy:0,sw:384,sh:430});
+ assert.ok(calls.length>0);r.update([a],context(3.3));assert.ok(!r.active.some(b=>PETRI_FACES.includes(b.cue)));
+});
+
+test('leaving the microscope clears faces immediately without clearing ordinary cues',()=>{
+ const r=createReactions(),a=actor();r.burst([a],PETRI_FACES[0],0,PETRI_FACE_DURATION);r.clearPetriFaces();assert.equal(r.active.length,0);
+ r.burst([a],'♡',0);r.clearPetriFaces();assert.equal(r.active[0].cue,'♡');
 });
