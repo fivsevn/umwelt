@@ -85,7 +85,7 @@ export function stepSeaweed(group,bed,{time,dt,reduced,flow=46}){
     const p=surfacePoint(plant.surfaces[w.surface],w.t);a.x=p.x;a.y=p.y;
     const target=closestSurface(bed.frame,a,plant.id,group);
     if(target&&target.distance<80&&Math.abs((bed.bends.get(plant.id)||0))<27){
-     w.mode='transfer';w.travel={...target,start:{x:a.x,y:a.y},age:0,duration:Math.max(1.2,target.distance/(a.species==='maculosa'?7:13)),depth:a.depth};
+     w.mode='transfer';w.travel={...target,start:{x:a.x,y:a.y},age:0,duration:Math.max(1.2,target.distance/((a.ecologySpecies||a.species)==='maculosa'?7:13)),depth:a.depth};
     }else{w.mode='cling';w.age=0;w.wait=3.5}
    }
   }

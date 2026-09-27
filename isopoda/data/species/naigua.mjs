@@ -1,12 +1,11 @@
 import {phenotypeFor} from '../../phenotypes.mjs';
-const visual=structuredClone(phenotypeFor('orange'));
+const visual=structuredClone(phenotypeFor('ducky'));
 visual.morphologyKey='naigua';
 visual.provenance='作者虚构的鼠妇；黄色身体与绿色大眼来自 meme 形象，形态结构使用共用鼠妇绘制器。';
-visual.body={...visual.body,length:1.10,width:1.05,convexity:.8};
-visual.cephalon={...visual.cephalon,shape:'rounded-shield',width:1,length:1,eyeSet:1.02,eyeScale:4,rolledEyeScale:4,scutellum:'none',eyeWhite:'#91bf70',eyePupil:'#080e08',mouthColor:'#76632b',mouthCorner:'#b59b45',mouthShadow:'#c1b35c',mouthLight:'#ffe78a'};
+visual.cephalon={...visual.cephalon,eyeSet:1.02,eyeScale:4,rolledEyeScale:4,scutellum:'none',eyeWhite:'#91bf70',eyePupil:'#080e08',mouthColor:'#76632b',mouthCorner:'#b59b45',mouthShadow:'#c1b35c',mouthLight:'#ffe78a'};
 visual.palette={...visual.palette,tergite:'#f6d45d',cephalon:'#f8db6c',epimera:'#ffe99b',pleon:'#efc94e',pleotelson:'#efcd59',uropods:'#e6c678',antennae:'#c4ad68',legs:'#a58f52',dark:'#9f8138',light:'#fff0a4'};
 visual.patterns=[];
-visual.conglobation={...visual.conglobation,ability:'full',smoothFace:true,frontFacing:true,eyesVisible:true,closure:1,antennaeHidden:true};
+visual.conglobation={...visual.conglobation,ability:'full',rolledWidth:1.05,smoothFace:true,frontFacing:true,eyesVisible:true,closure:1,antennaeHidden:true};
 for(const key of ['body','cephalon','pereon','pleon','pleotelson','uropods','antennae','legs','surface','conglobation']){visual[key].confidence='不详';if(visual[key].template)visual[key].template='不详';}
 export const NAIGUA={
  id:'naigua',name:'奶瓜虫',label:'Naigua',taxon:'不详',status:'神秘。名字已登记，来历不详。',

@@ -5,7 +5,7 @@ import {SPECIES} from '../isopoda/species-registry.mjs';
 import {makeIndividuals} from '../isopoda/behaviors.mjs';
 import {environmentFor,environmentTarget} from '../isopoda/environment.mjs?v=forest-10';
 test('cohort distribution, compatible unique taxa, unseen anchor and deterministic identities',()=>{
- const counts=[0,0,0];for(let seed=0;seed<10000;seed++){const c=restoreCollection(null,null),batch=drawCohort(c,seed);assert.deepEqual(batch,drawCohort(c,seed));assert.equal(batch.filter(c=>c.species!=='naigua').length,7);const taxa=[...new Set(batch.filter(c=>c.species!=='naigua').map(c=>c.species))];counts[taxa.length-1]++;assert.equal(new Set(batch.map(c=>c.seed)).size,batch.length)}
+ const counts=[0,0,0];for(let seed=0;seed<10000;seed++){const c=restoreCollection(null,null),batch=drawCohort(c,seed);assert.deepEqual(batch,drawCohort(c,seed));assert.equal(batch.length,7);const taxa=[...new Set(batch.map(c=>c.ecologySpecies||c.species))];counts[taxa.length-1]++;assert.equal(new Set(batch.map(c=>c.seed)).size,batch.length)}
  for(const [i,p] of [.30,.45,.25].entries())assert.ok(Math.abs(counts[i]/10000-p)<.025,counts.join(','));
  const playable=SPECIES.filter(s=>s.game?.habitatEligible!==false&&!s.game?.rare),c=restoreCollection(null,null);while(playable.some(s=>!c.unlocked.includes(s.id))){const b=drawCohort(c,c.draws+98);assert.ok(b.some(s=>!c.unlocked.includes(s.species)));for(const s of b)unlock(c,s.species);c.draws++}
 });

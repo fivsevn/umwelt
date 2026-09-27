@@ -22,14 +22,14 @@ export function stepIntertidal(group,{state:s,dt=0,reduced=false,speed=1}){
  const prior=waterLevels.get(s)??s.tide,level=prior+(s.tide-prior)*Math.min(1,dt*.8);waterLevels.set(s,level);
  const surface=intertidalSurface(s),top=Math.max(28,surface+12),wet=plants.filter(p=>p.y>top+18&&p.y<407),anchors=wet.length?wet:plants.slice(-2);
  const pace=(reduced?.55:1)*speed;
- const refugeResidents=group.filter(a=>a.species==='hirsuta');
+ const refugeResidents=group.filter(a=>(a.ecologySpecies||a.species)==='hirsuta');
  // Seeded homes include every exposed authored cluster, without stacking residents.
  const exposed=shells.filter(o=>o.y<surface-25);
  const homes=(exposed.length?exposed:shells).slice().sort((a,b)=>noise(a.seed,113,s.seed)-noise(b.seed,113,s.seed));
  for(const a of group){
   if(stepInteraction(a,dt))continue;
   a.tideClock=(a.tideClock??0)+dt*pace;const t=a.tideClock;
-  const upperRefuge=a.species==='hirsuta',stoneDweller=a.species==='albifrons';
+  const upperRefuge=(a.ecologySpecies||a.species)==='hirsuta',stoneDweller=(a.ecologySpecies||a.species)==='albifrons';
   const wetStones=stoneDweller?stones.filter(p=>p.y>top+18):[];
   // Cohort IDs are interleaved by species (0, 3, 6); rank residents instead of
   // taking ID modulo refuge count, which stacked all three on the same shell patch.
@@ -43,7 +43,7 @@ export function stepIntertidal(group,{state:s,dt=0,reduced=false,speed=1}){
    const bout=(route?.bout??0)+1,r=n=>noise(bout,n,(a.seed||0)+a.id*7919)/4294967296;
    const alternatives=upperRefuge&&level>=50?pool.filter(o=>o!==route?.anchor&&!refugeResidents.some(other=>other!==a&&other.tideRoute?.anchor===o)):[];
    const destinations=alternatives.length?alternatives:pool;
-   const anchor=destinations[Math.floor(r(11)*destinations.length)],swim=a.species==='granulosa'&&level>48&&r(29)<.3,cling=!swim&&r(37)<.55;
+   const anchor=destinations[Math.floor(r(11)*destinations.length)],swim=(a.ecologySpecies||a.species)==='granulosa'&&level>48&&r(29)<.3,cling=!swim&&r(37)<.55;
    const radius=swim?30:upperRefuge?Math.max(12,Math.min(20,anchor.scale*15)):cling?5:17,angle=r(43)*Math.PI*2;
    route=a.tideRoute={bout,anchor,swim,cling,until:t+2+r(53)*11,pauseUntil:t+r(61)*2.8,x:clamp(anchor.x+Math.cos(angle)*radius*(.35+.65*r(71)),22,362),y:clamp(anchor.y-8+Math.sin(angle)*radius*.7*(.35+.65*r(83)),floor,402),rate:.65+r(97)*.8};
    if(upperRefuge&&a.tideInitialized)route.until+=Math.hypot(route.x-a.x,route.y-a.y)/((cling?5:7)*Math.max(.6,a.speed/.68)*route.rate);

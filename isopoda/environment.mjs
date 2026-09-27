@@ -73,7 +73,7 @@ export function ageEnvironment(s){
 // Score available microhabitats separately for each animal; never average taxa.
 export function habitatFit(s,c){
  if(habitatConfig(s).aquatic)return s.oxygen*.4+s.cover*.2-Math.abs(s.flow-45)*.2;
- const e=environmentFor(s),p=speciesById(c.species||s.cohort?.[0]?.species||'dairy');
+ const e=environmentFor(s),p=speciesById(c.ecologySpecies||c.species||s.cohort?.[0]?.species||'dairy');
  const moisture=Math.min(Math.abs(Math.max(15,s.humidity-22)-p.wet),...e.wetZones.map(z=>Math.abs(z.moisture-p.wet)));
  const cover=Math.max(0,p.cover-s.cover-e.leaves.filter(l=>l.gap).length*3);
  return -moisture-cover*.4;
@@ -81,7 +81,7 @@ export function habitatFit(s,c){
 export function environmentTarget(s,c){
  if(habitatConfig(s).aquatic)return {x:180,y:240,kind:s.flow>65?'shelter':'edge'};
  const e=s.environment;if(!e)return null;
- const p=speciesById(c.species||s.cohort?.[0]?.species||'dairy'),i=Number.isInteger(c.id)?c.id:Math.max(0,'ABCDEFG'.indexOf(c.id));
+ const p=speciesById(c.ecologySpecies||c.species||s.cohort?.[0]?.species||'dairy'),i=Number.isInteger(c.id)?c.id:Math.max(0,'ABCDEFG'.indexOf(c.id));
  const dry=Math.max(15,s.humidity-22),z=e.wetZones.reduce((a,b)=>Math.abs(a.moisture-p.wet)<=Math.abs(b.moisture-p.wet)?a:b);
  if(e.disturbance||s.light>100-p.cover*.6)return {...e.shelter,kind:'shelter'};
  if(Math.abs(dry-p.wet)-Math.abs(z.moisture-p.wet)>12)return {x:z.x+8+i*3,y:90+i*42,kind:'wet'};
