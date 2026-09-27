@@ -45,7 +45,10 @@ if(output)fs.mkdirSync(output,{recursive:true});
    await click(page,page.locator('[data-preset="estuary"]'));
    await click(page,page.locator('.scene-transfer summary'));
    for(let i=0;i<6;i++){
-    await page.locator('#estuaryStage').selectOption(String(i));
+    // Legacy stages remain importable saves, but the selector now offers shore stages.
+    const legacy=await page.evaluate(async i=>{const {ESTUARY_STAGE_LAYOUTS}=await import('/isopoda/scenery/estuary-stages.mjs');return ESTUARY_STAGE_LAYOUTS[i]},i);
+    await page.locator('#sceneText').fill(JSON.stringify(legacy));await click(page,page.locator('#importScene'));
+    assert.match(await page.locator('#sceneMessage').textContent(),/已精确还原/);
     await click(page,page.locator('#copyScene'));
     const exported=JSON.parse(await page.locator('#sceneText').inputValue());
     assert.equal(exported.metadata.observationIndex,i);
@@ -56,7 +59,7 @@ if(output)fs.mkdirSync(output,{recursive:true});
     assert.equal(JSON.parse(await page.locator('#sceneText').inputValue()).objects.find(o=>o.id===anchor.id).x,anchor.x);
     exported.metadata.nodeId='not-a-stage';await page.locator('#sceneText').fill(JSON.stringify(exported));await click(page,page.locator('#importScene'));
     assert.match(await page.locator('#sceneMessage').textContent(),/原布局已保留/);
-    assert.equal(await page.locator('#estuaryStage').inputValue(),String(i));
+    await click(page,page.locator('#copyScene'));assert.equal(JSON.parse(await page.locator('#sceneText').inputValue()).metadata.observationIndex,i);
    }
    await click(page,page.locator('#resetScene'));await page.locator('#scene').scrollIntoViewIfNeeded();
    const box=await page.locator('#scene').boundingBox(),x=box.x+149/384*box.width,y=box.y+225/430*box.height;
