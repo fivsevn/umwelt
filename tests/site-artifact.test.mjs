@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {publicFile} from '../.github/scripts/prepare-site.mjs';
 test('artifact excludes maintenance files but preserves public routes, credits and fonts',()=>{
- for(const path of ['.github/scripts/prepare-site.mjs','.gitignore','docs/a.md','tests/a.mjs','isopoda/dev/a.html','isopoda/AGENTS.md','README_JA.md'])assert.equal(publicFile(path),false,path);
+ for(const path of ['.github/scripts/prepare-site.mjs','.gitignore','docs/a.md','mac/main.cjs','mac/UMWELT.icns','tests/a.mjs','isopoda/dev/a.html','isopoda/AGENTS.md','README_JA.md'])assert.equal(publicFile(path),false,path);
  for(const path of ['.nojekyll','CNAME','isopoda/credits.md','isopoda/habitat.html','isopoda/morphology/index.html','assets/fonts/font.woff2','isopoda/data/species/manifest.mjs'])assert.equal(publicFile(path),true,path);
 });
 import {mkdtemp,mkdir,writeFile,readFile,rm,access} from 'node:fs/promises';

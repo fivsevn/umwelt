@@ -1,0 +1,47 @@
+@import url("umwelt://game/window-controls.css");
+/* Native-only chrome. The page's decorative outer window becomes the OS window. */
+html.umwelt-native{height:100%!important;min-height:0!important;overflow:hidden!important;background:#7f8974!important}
+html.umwelt-native body{position:absolute!important;inset:40px 6px 6px!important;width:auto!important;height:auto!important;min-height:0!important;margin:0!important;overflow:auto!important}
+#nativeFrame{position:fixed;inset:0;z-index:2147483647;pointer-events:none;border:3px solid #c0c4aa;border-right-color:#344738;border-bottom-color:#344738;background:transparent;box-shadow:inset 0 0 0 3px #7f8974;box-sizing:border-box}
+#nativeTitlebar{position:absolute;top:3px;left:3px;right:3px;height:32px;box-sizing:border-box;display:flex;align-items:center;gap:6px;padding:3px 6px;background:#526e67;color:#e3e2c8;border-bottom:2px solid #354d45;font:12px Pixel,monospace;pointer-events:auto;-webkit-app-region:drag;user-select:none}
+#nativeCaption{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#nativeTitlebar .native-controls{display:flex;gap:3px;flex:none;-webkit-app-region:no-drag}
+#nativeTitlebar button{font:12px Pixel,monospace;cursor:pointer;-webkit-app-region:no-drag}
+#nativeTitlebar button:focus-visible{outline:2px dotted #e3e2c8;outline-offset:1px}
+#nativeTitlebar i{display:block;position:relative;width:10px;height:10px;font-style:normal}
+#nativeMinimize i:before{content:'';position:absolute;left:0;top:6px;width:10px;height:2px;background:currentColor}
+#nativeMaximize i{border:2px solid currentColor;box-sizing:border-box}
+#nativeClose i:before{content:'';position:absolute;top:0;left:0;width:2px;height:2px;background:currentColor;box-shadow:8px 0,2px 2px,6px 2px,4px 4px,2px 6px,6px 6px,0 8px,8px 8px}
+#nativeHome i{border:2px solid currentColor;box-sizing:border-box;box-shadow:inset 0 0 0 2px #b8bda2;background:currentColor}
+/* Homepage: its existing menu title now lives in the draggable app title bar. */
+.umwelt-native .desktop-menu{display:none}
+.umwelt-native .desktop{padding-top:18px;height:100%;min-height:0}
+.umwelt-native .taskbar{left:6px;right:6px;bottom:6px}
+.umwelt-native #forest{inset:40px 6px 6px;width:calc(100% - 12px);height:calc(100% - 46px)}
+#nativeTitlebar [hidden]{display:none!important}
+/* The authored webpage panel is the entire native ISOPODA window. */
+html.umwelt-isopoda body{inset:0!important;background:#7f8974!important;scrollbar-width:none}
+.umwelt-isopoda body::-webkit-scrollbar{width:0;height:0}
+.umwelt-isopoda body>#game{width:100%!important;margin:0!important;padding:0!important;min-height:0!important;height:auto!important;background:none!important}
+.umwelt-isopoda #game>.application-card,.umwelt-isopoda #boxFrame{margin:0!important;width:100%!important;max-width:none!important;min-height:0!important;max-height:none!important;height:auto!important;box-shadow:none!important}
+.umwelt-isopoda #game>.play-view{padding:0!important}
+.umwelt-isopoda #game>.launch-card .empty-box{width:100%!important;flex:none!important}
+.umwelt-isopoda .window-title,.umwelt-drawer #drawer>header,.umwelt-isopoda #arrivalCard>.result-panel>.panel-caption{-webkit-app-region:drag;user-select:none}
+.umwelt-isopoda .window-title :is(button,a),.umwelt-drawer #drawer>header button{-webkit-app-region:no-drag}
+@media(max-width:899px){
+ .umwelt-isopoda #boxFrame .window-content{display:flex!important;flex-direction:column!important;align-items:stretch!important}
+ .umwelt-isopoda #boxFrame .window-content>.habitat-viewport{width:100%!important;height:auto!important;max-width:none!important;aspect-ratio:1!important;align-self:stretch!important}
+ .umwelt-isopoda #boxFrame .window-story{width:100%!important}
+}
+/* A detached archive uses the same original dialog, without a dimmed parent or another title. */
+.umwelt-drawer #game>:not(#drawer){display:none!important}
+.umwelt-drawer #drawer[open]{position:fixed!important;inset:0!important;margin:0!important;width:100%!important;max-width:none!important;height:100dvh!important;max-height:none!important;box-shadow:none!important;display:flex!important}
+.umwelt-drawer #drawer::backdrop{display:none}
+.umwelt-tick body{background:#101310!important}
+.umwelt-tick body>#game{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-height:0!important;margin:0!important;padding:0!important}
+.umwelt-tick #game>nav{display:none}
+.umwelt-tick #ending{inset:40px 6px 6px}
+
+/* Notebook follows its authored content rather than the tall specimen viewer. */
+.umwelt-drawer #drawer[open][data-mode="journal"]{position:relative!important;inset:auto!important;height:auto!important;max-height:none!important}
+html.umwelt-native button:focus,html.umwelt-native a:focus{outline:none!important}
