@@ -96,3 +96,5 @@ const caveCopy={
  isopod:{beamSmaller:'o −',beamLarger:'o ＋',beamJoystick:'← o → ↑ ↓',findSamples:'o … o',caveSamplesNote:'o · o · o · o',caveCanvas:'o … ← o →'}
 };
 for(const [lang,copy] of Object.entries(caveCopy))Object.assign(UI_COPY[lang],copy);
+
+for(const [lang,labels] of Object.entries({zh:['上一个品种','下一个品种'],en:['Previous species','Next species'],ja:['前の種類','次の種類'],isopod:['o ←','→ o']}))Object.assign(UI_COPY[lang],{previousSpecies:labels[0],nextSpecies:labels[1]});

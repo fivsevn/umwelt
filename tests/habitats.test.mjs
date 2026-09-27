@@ -18,7 +18,7 @@ test('aquatic habitat order follows the fresh-to-deep-sea gradient',()=>{
 
 test('habitat layout downloads use stable descriptive scene filenames',()=>{
  const expected={
-  forest:'habitat-layout-forest-litter.json',
+  forest:'habitat-layout-terrarium.json',
   freshwater:'habitat-layout-freshwater-pool.json',
   groundwater:'habitat-layout-limestone-groundwater-cave.json',
   estuary:'habitat-layout-brackish-estuary.json',

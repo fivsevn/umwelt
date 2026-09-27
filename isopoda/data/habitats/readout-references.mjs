@@ -1,6 +1,6 @@
 export const READOUT_REFERENCES={
  "terrestrial": {
-  "scope": "腐殖层 / FOREST LITTER / 腐植層",
+  "scope": "饲养箱 / TERRARIUM / 飼育ケース",
   "entries": [
    {
     "sourceId": "scale-woodlice",
