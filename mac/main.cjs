@@ -4,6 +4,7 @@ const fs=require('node:fs/promises');
 const syncFs=require('node:fs');
 const {pathToFileURL}=require('node:url');
 const {checkRelease}=require('./updates.cjs');
+const {spawn}=require('node:child_process');
 const origin='umwelt://game';
 app.setName('UMWELT');
 app.setPath('userData',process.env.UMWELT_TEST_USER_DATA||path.join(app.getPath('appData'),'com.fivsevn.umwelt'));
@@ -92,20 +93,31 @@ if(!app.requestSingleInstanceLock())app.quit();else{
   ipcMain.handle('umwelt:quit',event=>{if(!trusted(event))throw Error('Untrusted caller');session.defaultSession.flushStorageData();app.quit()});
   ipcMain.handle('umwelt:uninstall',async event=>{
    const win=sender(event);if(!win)throw Error('Untrusted caller');
-   const bundle=path.resolve(process.execPath,'../../..');
-   if(!app.isPackaged||path.basename(bundle)!=='UMWELT.app')return {error:'Only the packaged UMWELT.app can be uninstalled.'};
+   const portable=process.platform==='win32'?process.env.PORTABLE_EXECUTABLE_FILE:null;
+   const bundle=portable||path.resolve(process.execPath,'../../..');
+   if(!app.isPackaged||(process.platform==='win32' ? !portable||!path.isAbsolute(portable)||path.basename(portable).toLowerCase()!=='umwelt.exe' : path.basename(bundle)!=='UMWELT.app'))return {error:'Only the packaged UMWELT application can be uninstalled.'};
    // The authored homepage confirmation is the final confirmation. Remove this
    // bundle and its private profile on quit, after windows and storage are closed.
    uninstallPaths=[bundle,app.getPath('userData')];
    session.defaultSession.flushStorageData();app.quit();return {removed:true};
   });
-  Menu.setApplicationMenu(Menu.buildFromTemplate([
+  Menu.setApplicationMenu(process.platform==='darwin'?Menu.buildFromTemplate([
    {label:'UMWELT',submenu:[{role:'about'},{type:'separator'},{label:'返回主页 / Home',click:()=>createWindow('/')},{label:'显示存档 / Show saved data',click:()=>shell.openPath(app.getPath('userData'))},{type:'separator'},{role:'quit'}]},
    {role:'editMenu'},{role:'viewMenu'},{label:'Window',submenu:[{role:'minimize'},{role:'close',accelerator:'CmdOrCtrl+W'},{type:'separator'},{role:'front'}]}
-  ]));
+  ]):null);
   createWindow();
  });
  app.on('window-all-closed',()=>app.quit());
- app.on('will-quit',()=>{if(uninstallPaths)for(const target of uninstallPaths)syncFs.rmSync(target,{recursive:true,force:true})});
+ app.on('will-quit',()=>{
+  if(!uninstallPaths)return;
+  if(process.platform!=='win32'){for(const target of uninstallPaths)syncFs.rmSync(target,{recursive:true,force:true});return}
+  // Windows locks running executables. A detached OS helper waits for the
+  // portable launcher to exit, then deletes only this EXE and our private data.
+  const literal=value=>"'"+value.replaceAll("'","''")+"'";
+  const [exe,profile]=uninstallPaths;
+  const script=`$ErrorActionPreference='Stop'; for($i=0;$i -lt 120;$i++){try{if(Test-Path -LiteralPath ${literal(exe)}){Remove-Item -LiteralPath ${literal(exe)} -Force}; if(Test-Path -LiteralPath ${literal(profile)}){Remove-Item -LiteralPath ${literal(profile)} -Recurse -Force}; break}catch{Start-Sleep -Seconds 1}}`;
+  const helper=path.join(process.env.SystemRoot||'C:\\Windows','System32','WindowsPowerShell','v1.0','powershell.exe');
+  spawn(helper,['-NoProfile','-NonInteractive','-EncodedCommand',Buffer.from(script,'utf16le').toString('base64')],{detached:true,stdio:'ignore',windowsHide:true}).unref();
+ });
  app.on('before-quit',()=>{if(app.isReady())session.defaultSession.flushStorageData()});
 }

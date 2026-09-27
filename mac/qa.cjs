@@ -3,7 +3,7 @@ const assert=require('node:assert/strict'),fs=require('node:fs/promises'),os=req
 (async()=>{
  const bundle=process.argv[2],profile=await fs.mkdtemp(path.join(os.tmpdir(),'umwelt-multi-qa-')),out=path.join(path.dirname(bundle),'qa');await fs.mkdir(out,{recursive:true});
  let app;const errors=[];
- async function launch(){app=await electron.launch({executablePath:path.join(bundle,'Contents/MacOS/UMWELT'),env:{...process.env,UMWELT_TEST_USER_DATA:profile}});const p=await app.firstWindow();p.on('pageerror',e=>errors.push(e.message));await p.waitForSelector('#nativeTitlebar');await p.waitForTimeout(300);return p}
+ async function launch(){app=await electron.launch({executablePath:process.platform==='win32'?bundle:path.join(bundle,'Contents/MacOS/UMWELT'),env:{...process.env,UMWELT_TEST_USER_DATA:profile}});const p=await app.firstWindow();p.on('pageerror',e=>errors.push(e.message));await p.waitForSelector('#nativeTitlebar');await p.waitForTimeout(300);return p}
  async function info(page){return app.evaluate(({BrowserWindow,screen},url)=>{const w=BrowserWindow.getAllWindows().find(w=>w.webContents.getURL()===url);return {bounds:w.getBounds(),resizable:w.isResizable(),visible:w.isVisible(),area:screen.getDisplayMatching(w.getBounds()).workArea}},page.url())}
  async function centered(page){const {bounds:b,area:a,resizable}=await info(page);assert.equal(resizable,false);assert.ok(Math.abs(b.x-(a.x+(a.width-b.width)/2))<3);assert.ok(Math.abs(b.y-(a.y+(a.height-b.height)/2))<3)}
  async function nextWindow(action){const promise=app.waitForEvent('window');await action();const p=await promise;p.on('pageerror',e=>errors.push(e.message));await p.waitForLoadState('networkidle');await p.waitForTimeout(250);return p}
