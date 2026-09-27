@@ -93,3 +93,9 @@ Petri refinement also checks equal archive/microscope button sizes, filled backg
 `browser/estuary-shore.cjs` covers the nearshore full flow and twelve laboratory layouts in Chromium and WebKit at 320, 390 and 1440 px. `browser/estuary-shore-motion.cjs` checks visible isopod, reed and water-fauna animation in all twelve point/tide combinations, coordinate stability and the one-time opening hint. Both use `BASE_URL`, `BROWSER`, and optionally `CHROME_PATH`.
 
 `browser/estuary-shore-interaction.cjs` verifies the live 1×/16×/64× clock, return to 1×, unchanged narrative tide, picking up and placing visible isopods at all three banks, no snap-back after release, and interrupted gestures. It runs mouse input in Chromium/WebKit and native touch in Chromium, with reduced motion enabled.
+
+## Legacy rendering harness limitation
+
+`rendering.browser.mjs` still includes a historical all-habitats loop which assumes every stage exposes a choice button immediately. Interactive observation gates no longer satisfy that assumption; a `Missing choice` result from that loop is not evidence of a production regression. Use the habitat-specific harnesses under `browser/` for those interactions, and `browser/public-regression.cjs` for baseline pixel/text/save comparisons. Its preceding scenery pixel comparison remains useful.
+
+`site-artifact.test.mjs` protects the tracked-file publication boundary and module preloads. `sprite-color-cache.test.mjs` compares the optimized sprite renderer against uncached color arithmetic across every species, pose and frame.

@@ -12,8 +12,10 @@ for(const [name,type] of [['chromium',chromium],['webkit',webkit]]){
    await page.emulateMedia({reducedMotion:'reduce'});
    await page.evaluate(async({id,species})=>{const {createRun}=await import('./engine.mjs');localStorage.setItem('isopoda-fugue-v4',JSON.stringify(createRun(species,37,id)))},habitat);
    await page.reload();await page.click('#continueBtn');await page.waitForTimeout(200);
-   const before=await page.evaluate(()=>window.__motionTest());assert.ok(before.actors.some(a=>a.visible&&a.cells>0),habitat.id+' visible specimens');
-   await page.waitForTimeout(1000);const after=await page.evaluate(()=>window.__motionTest());assert.ok(after.elapsed>before.elapsed+.4,habitat.id+' simulation advances');assert.notDeepEqual(after.actors,before.actors,habitat.id+' animals animate under reduce');
+   const before=await page.evaluate(()=>window.__motionTest());const visible=before.actors.some(a=>a.visible&&a.cells>0);
+   // River-mouth absence is an authored observation, not an animation failure.
+   if(habitat.id!=='estuary')assert.ok(visible,habitat.id+' visible specimens');
+   await page.waitForTimeout(1000);const after=await page.evaluate(()=>window.__motionTest());assert.ok(after.elapsed>before.elapsed+.4,habitat.id+' simulation advances');if(visible)assert.notDeepEqual(after.actors,before.actors,habitat.id+' animals animate under reduce');
    const emptyMotion=await page.evaluate(()=>window.__motionTest().elapsed);
    await page.emulateMedia({reducedMotion:'no-preference'});await page.waitForFunction(()=>!window.__motionTest().reduced);await page.waitForTimeout(200);
    await page.emulateMedia({reducedMotion:'reduce'});await page.waitForFunction(()=>window.__motionTest().reduced);await page.waitForTimeout(200);

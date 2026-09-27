@@ -5,7 +5,16 @@ export function stableHash(seed){let x=2166136261;for(const c of String(seed))x=
 export function resolvePalette(p){const v={...p};for(const [key,parent] of [['cephalon','tergite'],['epimera','tergite'],['pleon','tergite'],['pleotelson','pleon'],['uropods','pleotelson'],['antennae','epimera'],['legs','epimera']])v[key]??=v[parent];return v}
 const aliases={S:'juvenile',M:'subadult',L:'adult'};
 export function renderModel(visual,{stage='adult',condition='normal',seed=0,moving=false}={}){stage=aliases[stage]||stage;const growth=visual.stageProfiles?.[stage]||STAGES[stage]||STAGES.adult;const posture=typeof condition==='object'?condition.posture||'normal':condition;const molt=typeof condition==='object'?condition.molt||'none':condition.startsWith('molt-')?condition.slice(5):'none';return {visual,stage:STAGES[stage]?stage:'adult',growth,palette:resolvePalette(visual.palette),seed,variant:stableHash(seed)%4,posture,molt,moving:posture==='moving'||moving};}
-const mix=(a,b,t)=>{const rgb=c=>c.slice(1).match(/../g).map(x=>parseInt(x,16));return '#'+rgb(a).map((v,i)=>Math.round(v*(1-t)+rgb(b)[i]*t).toString(16).padStart(2,'0')).join('')};
+// Bounded, exact memoization: preserve arithmetic and rounding for every pixel.
+const mixedColors=new Map();
+const mix=(a,b,t)=>{
+ const key=a+':'+b+':'+t,cached=mixedColors.get(key);
+ if(cached!==undefined)return cached;
+ const rgb=c=>c.slice(1).match(/../g).map(x=>parseInt(x,16)),right=rgb(b);
+ const value='#'+rgb(a).map((v,i)=>Math.round(v*(1-t)+right[i]*t).toString(16).padStart(2,'0')).join('');
+ if(mixedColors.size>=4096)mixedColors.delete(mixedColors.keys().next().value);
+ mixedColors.set(key,value);return value;
+};
 function regionPalette(m,region,n){const p=m.palette;let base=p[region==='pereon'?'tergite':region]||p.tergite,edge=p.epimera,tip=edge;for(const r of m.visual.patterns){const c=p[r.color]||r.color||p.dark;if(r.type==='trizone'){base=p[r.colors[region==='cephalon'||region==='pereon'&&n<=2?0:region==='pereon'&&n<=5?1:2]];edge=base;tip=base}if(r.target==='epimera'){if(r.type==='epimeraTip')tip=c;else edge=tip=c}if([region,'body','any'].includes(r.target)&&(['solid','headMask','posteriorPatch'].includes(r.type)||r.type==='saddle'&&(r.segments||[3,4,5]).includes(n)||r.type==='segmentBand'&&(r.segments||[2,5]).includes(n)))base=c;}return {base,edge,tip};}
 function largeEyes(put,ct,x,separation,centerY=0,mouthAdvance=-1){
  const radius=Math.max(2,ct.eyeScale),bound=Math.ceil(radius);

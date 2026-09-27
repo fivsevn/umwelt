@@ -5,6 +5,7 @@ import {hash32} from './pixel.mjs';
 export const SCENERY_CELL=1;
 export const SCENERY_CLUSTER=2.75;
 export const ACTOR_SCALE=.88;
+const EDGE_NEIGHBORS=[[1,0],[-1,0],[0,1],[0,-1]];
 export function contains(points,x,y){
  let inside=false;
  for(let i=0,j=points.length-1;i<points.length;j=i++){
@@ -33,7 +34,7 @@ export function materialInk(fill,x,y,seed=0,material='grain'){
  const amount=material==='soil'?7:material==='stone'?10:material==='wood'?14:12;
  const key=fill+':'+amount;
  let ramp=textureRamps.get(key);
- if(!ramp){const base=rgb(fill);ramp=[hex(base.map((v,i)=>v-amount*[1,.88,.65][i])),fill,hex(base.map((v,i)=>v+amount*[1,.92,.68][i]))];textureRamps.set(key,ramp)}
+ if(!ramp){const base=rgb(fill);ramp=[hex(base.map((v,i)=>v-amount*[1,.88,.65][i])),fill,hex(base.map((v,i)=>v+amount*[1,.92,.68][i]))];if(textureRamps.size>=4096)textureRamps.delete(textureRamps.keys().next().value);textureRamps.set(key,ramp)}
  const row=(y/SCENERY_CLUSTER)|0,col=((x+(row&1))/SCENERY_CLUSTER)|0;
  // Small integer hash: this runs once for every scenery cell, so avoid the
  // general-purpose string hash and modulo-heavy path used by authored shapes.
@@ -56,7 +57,7 @@ export function paint(ctx,{x=0,y=0,a=0,scale=1,extent=90,inside,shade,edge=(u,v,
  }
  for(let yy=-r;yy<=r;yy+=cell)for(let xx=-r;xx<=r;xx+=cell){
   const [u,v]=sample(xx,yy);if(!inside(u,v))continue;
-  const border=edge&&[[1,0],[-1,0],[0,1],[0,-1]].some(([dx,dy])=>!inside(u+dx/scale,v+dy/scale));
+  const border=edge&&EDGE_NEIGHBORS.some(([dx,dy])=>!inside(u+dx/scale,v+dy/scale));
   // Natural pixel edges are slightly porous. Break a few outline cells so
   // silhouettes do not read like a vector sticker with a complete keyline.
   const broken=border&&roughness>0&&(hash32('rough-edge',Math.round(u/2),Math.round(v/2),Math.round(a*32))%100)<roughness*100;
