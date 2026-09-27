@@ -33,3 +33,10 @@ test('legacy giant dish saves keep progress with a dish-sized specimen',()=>{
  const restored=migrateV4(s);assert.ok(validRun(restored));assert.equal(restored.day,2);assert.equal(restored.cohort[0].species,'uniramea');assert.equal(s.cohort[0].species,'giganteus');
  assert.equal(createRun('giganteus',18,'abyssal').cohort[0].species,'giganteus');
 });
+
+test('Naigua is selectable in the cabinet only after collection unlock, regardless of misses',()=>{
+ for(const naiguaMisses of [0,7]){
+  assert.equal(unlockedPetriSpecies({unlocked:['dairy'],naiguaMisses}).includes('naigua'),false);
+  assert.equal(unlockedPetriSpecies({unlocked:['dairy','naigua'],naiguaMisses}).includes('naigua'),true);
+ }
+});

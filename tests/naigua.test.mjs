@@ -8,7 +8,7 @@ import {speciesById} from '../isopoda/species-registry.mjs';
 import {renderModel,pixelAnatomy} from '../isopoda/sprites.mjs';
 import {makeIndividuals} from '../isopoda/behaviors.mjs';
 import {holdIndividual,stepInteraction} from '../isopoda/interaction.mjs';
-test('rare naigua are ordinary persistent specimens, capped at two and excluded from deep sea',()=>{
+test('rare naigua are ordinary persistent specimens, capped at two and excluded from deep sea and cabinet draws',()=>{
  let encounters=0;const counts=new Set();
  for(let seed=0;seed<10000;seed++){
   const cohort=addRareSpecimens([],seed,'terrestrial');if(cohort.length){encounters++;counts.add(cohort.length)}
@@ -18,10 +18,10 @@ test('rare naigua are ordinary persistent specimens, capped at two and excluded 
  const seed=Array.from({length:1000},(_,i)=>i).find(seed=>addRareSpecimens([],seed,'terrestrial').length===2);
  for(const h of HABITATS){
   const cohort=drawCohort({unlocked:[],draws:0},seed,h.id),s=createRun(cohort[0].species,seed,h.id);s.cohort=cohort;
-  assert.equal(cohort.filter(c=>c.species==='naigua').length,h.id==='abyssal'?0:2);
+  assert.equal(cohort.filter(c=>c.species==='naigua').length,['abyssal','petri-dish'].includes(h.id)?0:2);
   assert.ok(validRun(s),h.id);assert.deepEqual(migrateV4(JSON.parse(JSON.stringify(s))).cohort,cohort);
-  const restored=restoreCollection(null,s);assert.equal(restored.unlocked.includes('naigua'),h.id!=='abyssal');
-  if(h.id!=='abyssal'){recordDirectInteraction(s,{type:'tap',specimen:cohort.at(-1).id,point:{x:100,y:100}});assert.equal(s.directRecords.at(-1).specimen,cohort.at(-1).id);s.cohort.push(...Array.from({length:3},(_,i)=>({...cohort.at(-1),id:String.fromCharCode(65+cohort.length+i)})));assert.equal(validRun(s),false)}
+  const restored=restoreCollection(null,s);assert.equal(restored.unlocked.includes('naigua'),!['abyssal','petri-dish'].includes(h.id));
+  if(!['abyssal','petri-dish'].includes(h.id)){recordDirectInteraction(s,{type:'tap',specimen:cohort.at(-1).id,point:{x:100,y:100}});assert.equal(s.directRecords.at(-1).specimen,cohort.at(-1).id);s.cohort.push(...Array.from({length:3},(_,i)=>({...cohort.at(-1),id:String.fromCharCode(65+cohort.length+i)})));assert.equal(validRun(s),false)}
  }
 });
 test('same morphology renderer and interaction state machine retain widely spaced eyes in both poses',()=>{
@@ -37,7 +37,7 @@ test('same morphology renderer and interaction state machine retain widely space
  const other=speciesById('orange');assert.ok(pixelAnatomy(renderModel(other.visual),{posture:'curled'}).every(p=>p.region!=='cephalon'));
 });
 
-test('seven misses guarantee exactly one on the next non-abyssal draw, repeatably and across reloads',async()=>{
+test('seven misses guarantee exactly one on the next outdoor non-abyssal draw, repeatably and across reloads',async()=>{
  const {recordNaiguaDraw}=await import('../isopoda/rare-specimens.mjs');
  const seed=Array.from({length:1000},(_,i)=>i).find(seed=>addRareSpecimens([],seed,'terrestrial').length===0);
  let collection=restoreCollection(null,null);
@@ -48,7 +48,8 @@ test('seven misses guarantee exactly one on the next non-abyssal draw, repeatabl
    recordNaiguaDraw(collection,cohort);collection=restoreCollection(JSON.parse(JSON.stringify(collection)),null);assert.equal(collection.naiguaMisses,i+1);
   }
   const deep=drawCohort(collection,seed,'abyssal');assert.equal(deep.some(c=>c.species==='naigua'),false);recordNaiguaDraw(collection,deep);assert.equal(collection.naiguaMisses,7);
-  const cohort=drawCohort(collection,seed,'petri-dish');assert.equal(cohort.filter(c=>c.species==='naigua').length,1);recordNaiguaDraw(collection,cohort);assert.equal(collection.naiguaMisses,0);
+  const dish=drawCohort(collection,seed,'petri-dish');assert.equal(dish.some(c=>c.species==='naigua'),false);assert.equal(collection.naiguaMisses,7);
+  const cohort=drawCohort(collection,seed,'freshwater');assert.equal(cohort.filter(c=>c.species==='naigua').length,1);recordNaiguaDraw(collection,cohort);assert.equal(collection.naiguaMisses,0);
  }
  const lucky=Array.from({length:1000},(_,i)=>i).find(seed=>addRareSpecimens([],seed,'terrestrial').length===2);
  collection.naiguaMisses=4;recordNaiguaDraw(collection,drawCohort(collection,lucky,'terrestrial'));assert.equal(collection.naiguaMisses,0);
@@ -93,4 +94,23 @@ test('guaranteed terrestrial naigua can occupy every arrival slot and remains st
   assert.deepEqual(cohort,addRareSpecimens(JSON.parse(JSON.stringify(cohort)),seed,'terrestrial',7));
  }
  assert.deepEqual([...positions].sort(),[0,1,2,3,4,5,6]);
+});
+
+test('cabinet draws never inject Naigua at random or at the guarantee threshold',()=>{
+ const base=createRun('dairy',18,'petri-dish').cohort;
+ for(const misses of [0,6,7,99])for(let seed=0;seed<1000;seed++)assert.deepEqual(addRareSpecimens(base,seed,'petri-dish',misses),base);
+ const selected=createRun('naigua',18,'petri-dish');
+ assert.equal(addRareSpecimens(selected.cohort,18,'petri-dish',7).length,1);
+ assert.equal(addRareSpecimens(selected.cohort,18,'petri-dish',7)[0].species,'naigua');
+});
+test('old cabinet visitors are removed while selection, notes and progress survive reload',()=>{
+ for(const arrivalPending of [true,false]){
+  const saved=createRun('dairy',18,'petri-dish');saved.arrivalPending=arrivalPending;saved.day=2;saved.records=[{kind:'test-preserved-note',text:'existing observation'}];
+  saved.cohort.push({id:'B',species:'naigua',seed:19,stage:'L'},{id:'C',species:'naigua',seed:20,stage:'L'});
+  assert.equal(validRun(saved),false);
+  const restored=migrateV4(saved);assert.ok(validRun(restored));assert.deepEqual(restored.cohort,[saved.cohort[0]]);
+  assert.equal(restored.day,2);assert.equal(restored.arrivalPending,arrivalPending);assert.deepEqual(restored.records,saved.records);
+  assert.equal(saved.cohort.length,3,'migration does not mutate the input');
+ }
+ const selected=migrateV4(createRun('naigua',18,'petri-dish'));assert.equal(selected.cohort[0].species,'naigua');assert.ok(validRun(selected));
 });
