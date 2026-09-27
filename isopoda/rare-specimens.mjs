@@ -7,7 +7,10 @@ export function addRareSpecimens(cohort,seed,habitatId,misses=0){
  if(habitatId==='abyssal'||(!guaranteed&&hash(seed,871)/4294967296>=NAIGUA_CHANCE))return cohort;
  const count=guaranteed?1:1+hash(seed,872)%2;
  if(habitatId==='terrestrial'&&cohort.length){
-  return cohort.map((c,i)=>i>=cohort.length-count?{...c,species:'naigua',ecologySpecies:c.ecologySpecies||c.species}:c);
+  const slots=cohort.map((_,i)=>i);
+  for(let i=slots.length-1;i>0;i--){const j=hash(seed,890+i)%(i+1);[slots[i],slots[j]]=[slots[j],slots[i]]}
+  const selected=new Set(slots.slice(0,count));
+  return cohort.map((c,i)=>selected.has(i)?{...c,species:'naigua',ecologySpecies:c.ecologySpecies||c.species}:c);
  }
  const tutor=cohort.find(c=>c.species!=='naigua');
  return [...cohort,...Array.from({length:count},(_,i)=>({id:String.fromCharCode(65+cohort.length+i),species:'naigua',...(tutor?{ecologySpecies:tutor.species}:{}),seed:hash(seed,880+i),stage:'L'}))];

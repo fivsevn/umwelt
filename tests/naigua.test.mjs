@@ -58,8 +58,8 @@ test('seven misses guarantee exactly one on the next non-abyssal draw, repeatabl
 test('terrestrial replacement keeps seven slots and inherits local ecology without changing morphology',async()=>{
  const {normalizeNaiguaCohort}=await import('../isopoda/rare-specimens.mjs');
  const base=createRun('orange',18).cohort,cohort=addRareSpecimens(base,18,'terrestrial',7);
- assert.equal(cohort.length,7);assert.deepEqual(cohort.map(c=>c.id),base.map(c=>c.id));assert.equal(cohort.at(-1).species,'naigua');assert.equal(cohort.at(-1).ecologySpecies,'orange');
- const a=makeIndividuals(cohort).at(-1),b=makeIndividuals(base).at(-1);assert.equal(a.speed,b.speed);assert.deepEqual(a.locomotion,b.locomotion);
+ assert.equal(cohort.length,7);assert.deepEqual(cohort.map(c=>c.id),base.map(c=>c.id));assert.equal(cohort.filter(c=>c.species==='naigua').length,1);assert.equal(cohort.find(c=>c.species==='naigua').ecologySpecies,'orange');
+ const index=cohort.findIndex(c=>c.species==='naigua'),a=makeIndividuals(cohort)[index],b=makeIndividuals(base)[index];assert.equal(a.speed,b.speed);assert.deepEqual(a.locomotion,b.locomotion);
  const old=[...base,{id:'H',species:'naigua',seed:8,stage:'L'},{id:'I',species:'naigua',seed:9,stage:'L'}];
  const fixed=normalizeNaiguaCohort(old,'terrestrial',true);assert.equal(fixed.length,7);assert.equal(fixed.filter(c=>c.species==='naigua').length,2);assert.deepEqual(fixed.map(c=>c.id),base.map(c=>c.id));
  assert.equal(normalizeNaiguaCohort(old,'terrestrial',false).length,9);
@@ -80,4 +80,17 @@ test('unfolded naigua uses ducky anatomy while its single size retains the appro
   assert.deepEqual(model.growth,adult.growth);
   for(const posture of ['normal','curled'])assert.deepEqual(pixelAnatomy(model,{posture}),pixelAnatomy(adult,{posture}));
  }
+});
+
+test('guaranteed terrestrial naigua can occupy every arrival slot and remains stable on reload',()=>{
+ const base=createRun('orange',18).cohort,positions=new Set();
+ for(let seed=0;seed<100;seed++){
+  const cohort=addRareSpecimens(base,seed,'terrestrial',7);
+  positions.add(cohort.findIndex(c=>c.species==='naigua'));
+  assert.equal(cohort.filter(c=>c.species==='naigua').length,1);
+  assert.deepEqual(cohort.map(c=>c.id),base.map(c=>c.id));
+  assert.deepEqual(cohort,addRareSpecimens(base,seed,'terrestrial',7));
+  assert.deepEqual(cohort,addRareSpecimens(JSON.parse(JSON.stringify(cohort)),seed,'terrestrial',7));
+ }
+ assert.deepEqual([...positions].sort(),[0,1,2,3,4,5,6]);
 });

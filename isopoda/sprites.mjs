@@ -18,9 +18,10 @@ function largeEyes(put,ct,x,separation,centerY=0,mouthAdvance=-1){
   for(let y=-1;y<=1;y++)put(x-1,centerY+y,ct.mouthCorner||ct.mouthColor);
   return;
  }
- if(ct.mouthColor)for(let y=-6;y<=6;y++){
-  const distance=Math.abs(y),depth=distance>=5?0:distance>=3?1:2;
-  const edge=x+mouthAdvance+depth,ink=distance===6?ct.mouthCorner:ct.mouthColor;
+ // Keep the original shallow smile, omitting its two raised outer corners.
+ if(ct.mouthColor)for(let y=-4;y<=4;y++){
+  const distance=Math.abs(y),depth=distance>=3?1:2;
+  const edge=x+mouthAdvance+depth,ink=distance>=3?(ct.mouthCorner||ct.mouthColor):ct.mouthColor;
   if(distance<3)put(edge-1,centerY+y,ct.mouthShadow||ct.mouthCorner);
   put(edge,centerY+y,ink);
   if(distance<3&&ct.mouthLight)put(edge+1,centerY+y,ct.mouthLight);
