@@ -1,3 +1,4 @@
+import {soundIcon} from '../assets/audio/sound-icon.mjs';
 import {isShore} from './data/habitats/estuary-shore.mjs';
 import {isopodNumbers} from './locales/isopod.mjs';
 import {sceneInstrument} from './scene-readouts.mjs';
@@ -20,12 +21,12 @@ const glyphs={
  center:['0001000', '0111110', '0101010', '1110111', '0101010', '0111110', '0001000'],
  leaf:['000000001100','000000111100','000011111100','000111101100','001111011000','001110111000','001101110000','000011100000','000110000000','001100000000'],
  book:['1101011', '1011101', '1010101', '1010101', '1110111', '0001000'],
- sound:['000010000000','000110001000','111110000100','111110100100','111110100100','111110000100','000110001000','000010000000'],
  source:['000111100000','001100110000','001000010000','000000110000','000001100000','000011000000','000011000000','000000000000','000011000000'],
  draw:['000011000000','000011000000','001111110000','011000011000','110000001100','110110101100','110000001100','011111111000','001111110000'],
  switch:['000010000000','000011000000','111111100000','000011000000','000010000000','000000100000','000001100000','000011111110','000001100000','000000100000']
 };
 export function pixelIcon(kind){
+ if(kind==='sound')return soundIcon();
  if(kind==='joystick'){
   const base=document.createElement('span');base.className='torch-stick';base.setAttribute('aria-hidden','true');
   const knob=document.createElement('span');knob.className='torch-stick-knob';base.append(knob);return base;

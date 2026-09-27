@@ -1,10 +1,16 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#273e34"><title>UMWELT / 桌面</title><link rel="icon" href="data:,"><link rel="preload" href="./assets/fonts/fusion-pixel-12px-monospaced-zh_hans.ttf.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high"><link rel="stylesheet" href="./style.css"><link rel="stylesheet" href="./window-system.css"></head><body>
-<canvas id="forest" aria-hidden="true"></canvas><header class="desktop-menu"><strong>UMWELT</strong><span>環世界観測システム</span><button id="aboutButton">About</button></header>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#273e34"><title>环世界观测系统</title><link rel="icon" href="data:,"><link rel="preload" href="./assets/fonts/fusion-pixel-12px-monospaced-zh_hans.ttf.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high"><link rel="stylesheet" href="./style.css"><link rel="stylesheet" href="./window-system.css"></head><body>
+<canvas id="forest" aria-hidden="true"></canvas><header class="desktop-menu"><strong data-copy="systemTitle">环世界观测系统</strong><button id="aboutButton" data-copy="about">关于</button></header>
 <main class="desktop">
 <div class="desktop-apps">
-<a class="desktop-icon tick-entry" href="./tick/"><span class="app-picture tick-picture" aria-hidden="true"><i></i></span><span>TICK.SYS<small>三个信号</small></span></a>
-<a class="desktop-icon" href="./isopoda/"><span class="app-picture isopoda-picture" aria-hidden="true"><i></i></span><span>ISOPODA.EXE<small>等足目赋格</small></span></a>
+<a class="desktop-icon tick-entry" href="./tick/"><span class="app-picture tick-picture" aria-hidden="true"><i></i></span><span>TICK.SYS<small data-copy="tick">三个信号</small></span></a>
+<a class="desktop-icon" href="./isopoda/"><span class="app-picture isopoda-picture" aria-hidden="true"><i></i></span><span>ISOPODA.EXE<small data-copy="isopoda">等足目赋格</small></span></a>
 </div>
-<section class="welcome" id="welcome"><header><span>UMWELT / ようこそ</span><button id="closeWelcome" aria-label="关闭欢迎窗口"><i class="window-glyph glyph-close" aria-hidden="true"></i></button></header><div class="welcome-body"><h1>UMWELT</h1><p>環世界</p></div></section></main>
-<footer class="taskbar"><span class="system-mark">▣ fivsevn.com</span><time id="desktopDate"></time></footer>
-<script src="./forest.js"></script><script>const welcome=document.querySelector('#welcome');document.querySelector('#closeWelcome').onclick=()=>welcome.hidden=true;document.querySelector('#aboutButton').onclick=()=>welcome.hidden=false;document.querySelector('#desktopDate').textContent=new Date().toLocaleDateString('zh-CN');</script></body></html>
+<section class="welcome" id="welcome"><header><span data-copy="welcome">UMWELT / 欢迎</span><button id="closeWelcome" aria-label="关闭欢迎窗口"><i class="window-glyph glyph-close" aria-hidden="true"></i></button></header><div class="welcome-body"><h1>UMWELT</h1><p data-copy="world">环世界</p></div></section></main>
+<footer class="taskbar">
+<button id="systemButton" class="system-button" aria-expanded="false" aria-controls="systemMenu"><span class="system-emblem" aria-hidden="true"></span><span data-copy="world">环世界</span></button>
+<a class="system-mark" href="https://fivsevn.com" target="_blank" rel="noopener">fivsevn.com</a>
+<div class="tray"><button id="languageButton">中</button><button id="soundBtn" aria-pressed="true"></button><time id="desktopDate"></time><time id="desktopTime"></time></div>
+<nav id="systemMenu" class="system-menu" hidden><button data-action="end" data-copy="endMenu">结束观察</button><button data-action="leave" data-copy="leaveMenu">离开环境</button></nav>
+</footer>
+<dialog id="systemDialog" aria-labelledby="dialogTitle" aria-describedby="dialogDetail"><header><h2 id="dialogTitle"></h2></header><div class="dialog-body"><p id="dialogDetail"></p><p id="closeHint" role="status" hidden></p></div><footer><button id="cancelAction" autofocus></button><button id="confirmAction"></button></footer></dialog>
+<script src="./forest.js"></script><script type="module" src="./desktop.mjs"></script></body></html>
