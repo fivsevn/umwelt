@@ -5,9 +5,16 @@ const copy={
  en:{repository:'Repository',author:'Author',systemTitle:'UMWELT OBSERVATION SYSTEM',world:'UMWELT',about:'About',welcome:'UMWELT / Welcome',tick:'Three signals',isopoda:'Isopoda Fugue',closeWelcome:'Close welcome window',language:'Language: English · Switch to 日本語',soundOn:'Sound effects on · Turn off',soundOff:'Sound effects off · Turn on',endMenu:'End observation',leaveMenu:'Leave environment',end:['End observation.','This world is unseen for a while.','Continue','End'],leave:['Leave environment.','Did a world that was never saved exist?','Stay','Leave'],closeHint:'You can close this tab now.'},
  ja:{repository:'リポジトリ',author:'作者のサイト',systemTitle:'環世界観測システム',world:'環世界',about:'このﾍﾟｰｼﾞについて',welcome:'UMWELT / ようこそ',tick:'三つの信号',isopoda:'等脚目のフーガ',closeWelcome:'ようこそウィンドウを閉じる',language:'言語：日本語 · 中文に切り替え',soundOn:'効果音オン · オフにする',soundOff:'効果音オフ · オンにする',endMenu:'観察を終える',leaveMenu:'環境を離れる',end:['観察を終える。','この世界は、しばらく見られなくなる。','続ける','終える'],leave:['環境を離れる。','保存されなかった世界は、存在したのだろうか？','残る','離れる'],closeHint:'このタブを閉じてください。'}
 };
+if(window.umweltNative){
+ copy.zh.leaveMenu='卸载环境';copy.zh.leave=['卸载环境。','一个没有被保存下来的世界，是否存在过？','留下','卸载'];
+ copy.en.leaveMenu='Uninstall environment';copy.en.leave=['Uninstall environment.','Did a world that was never saved exist?','Stay','Uninstall'];
+ copy.ja.leaveMenu='環境をアンインストール';copy.ja.leave=['環境をアンインストール。','保存されなかった世界は、存在したのだろうか？','残る','アンインストール'];
+}
 const $=id=>document.getElementById(id),languages=['zh','en','ja'];
 let language='zh',action='end';
 try{const saved=localStorage.getItem('umwelt-desktop-language');if(languages.includes(saved))language=saved}catch{}
+if(window.umweltNative){const update=document.createElement('button');update.dataset.action='updates';update.dataset.copy='updateMenu';$('systemMenu').append(update);copy.zh.updateMenu='查看更新';copy.en.updateMenu='Check for updates';copy.ja.updateMenu='更新を確認'}
+if(!window.umweltNative)document.querySelector('[data-action="leave"]')?.remove();
 const audio=createAudioEngine({ambienceEnabled:false});
 $('soundBtn').append(soundIcon());
 function soundActive(){const s=audio.getSettings();return !s.sfx.muted&&s.sfx.volume>0&&!s.master.muted&&s.master.volume>0}
@@ -22,11 +29,11 @@ $('languageButton').onclick=()=>{language=languages[(languages.indexOf(language)
 $('soundBtn').onclick=()=>{const active=soundActive();audio.set('sfx',{muted:active,...(!active&&audio.getSettings().sfx.volume===0?{volume:.45}:{})});if(!active){audio.set('master',{muted:false,...(audio.getSettings().master.volume===0?{volume:.8}:{})});void audio.unlock().then(()=>audio.play('click'))}};
 audio.subscribe(renderSound);
 $('systemButton').onclick=()=>{const opening=$('systemMenu').hidden;$('systemMenu').hidden=!opening;$('systemButton').setAttribute('aria-expanded',String(opening));if(opening)$('systemMenu').querySelector('button').focus()};
-$('systemMenu').onclick=event=>{const button=event.target.closest('[data-action]');if(!button)return;action=button.dataset.action;closeMenu();$('closeHint').hidden=true;renderDialog();$('systemDialog').showModal()};
+$('systemMenu').onclick=event=>{const button=event.target.closest('[data-action]');if(!button)return;action=button.dataset.action;closeMenu();if(action==='updates'){void window.umweltNative.checkUpdates();action='end';return;}$('closeHint').hidden=true;renderDialog();$('systemDialog').showModal()};
 $('cancelAction').onclick=()=>$('systemDialog').close();
 $('systemDialog').addEventListener('close',()=>$('systemButton').focus());
-// Browser placeholder for future native exit / uninstall adapters.
-$('confirmAction').onclick=()=>{window.close();$('closeHint').hidden=false};
+// The native shell keeps browser behavior unchanged on the public website.
+$('confirmAction').onclick=async()=>{if(window.umweltNative){if(action==='leave'){await window.umweltNative.uninstall();$('systemDialog').close()}else await window.umweltNative.quit();return}window.close();$('closeHint').hidden=false};
 document.addEventListener('pointerdown',event=>{if(event.isTrusted)void audio.unlock();if(!event.target.closest('#systemMenu,#systemButton'))closeMenu()});
 document.addEventListener('keydown',event=>{if(event.isTrusted)void audio.unlock();if(event.key==='Escape'&&!$('systemMenu').hidden){closeMenu();$('systemButton').focus()}if(event.target.closest('#systemMenu')&&['ArrowDown','ArrowUp','Home','End'].includes(event.key)){event.preventDefault();const buttons=[...$('systemMenu').querySelectorAll('button')],index=buttons.indexOf(document.activeElement);buttons[event.key==='Home'?0:event.key==='End'?buttons.length-1:(index+(event.key==='ArrowDown'?1:-1)+buttons.length)%buttons.length].focus()}});
 document.addEventListener('focusin',event=>{if(!event.target.closest('#systemMenu,#systemButton'))closeMenu()});

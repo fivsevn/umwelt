@@ -1,3 +1,4 @@
+@import url("./window-controls.css");
 /* Shared OS chrome. Title controls deliberately do not inherit toolbar icon sizing. */
 :root{--os-face:#b8bda2;--os-hi:#d5d7bd;--os-lo:#475e4e;--os-frame:#7f8974;--os-title:#526e67;--os-ink:#34483b}
 .welcome,.application-card,.play-view .box-frame,dialog{border:3px solid #c0c4aa;border-right-color:#344738;border-bottom-color:#344738;background:var(--os-frame);padding:3px;box-shadow:6px 6px #16271f}
