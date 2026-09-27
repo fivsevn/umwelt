@@ -18,7 +18,7 @@ function updateClock(){const now=new Date(),pad=n=>String(n).padStart(2,'0'),dat
 function closeMenu(){ $('systemMenu').hidden=true;$('systemButton').setAttribute('aria-expanded','false') }
 $('closeWelcome').onclick=()=>$('welcome').hidden=true;
 $('aboutButton').onclick=()=>$('welcome').hidden=false;
-$('languageButton').onclick=()=>{language=languages[(languages.indexOf(language)+1)%3];try{localStorage.setItem('umwelt-desktop-language',language)}catch{}render()};
+$('languageButton').onclick=()=>{language=languages[(languages.indexOf(language)+1)%3];try{localStorage.setItem('umwelt-desktop-language',language);localStorage.setItem('isopoda-ui-language-v1',language)}catch{}render()};
 $('soundBtn').onclick=()=>{const active=soundActive();audio.set('sfx',{muted:active,...(!active&&audio.getSettings().sfx.volume===0?{volume:.45}:{})});if(!active){audio.set('master',{muted:false,...(audio.getSettings().master.volume===0?{volume:.8}:{})});void audio.unlock().then(()=>audio.play('click'))}};
 audio.subscribe(renderSound);
 $('systemButton').onclick=()=>{const opening=$('systemMenu').hidden;$('systemMenu').hidden=!opening;$('systemButton').setAttribute('aria-expanded',String(opening));if(opening)$('systemMenu').querySelector('button').focus()};
@@ -32,5 +32,8 @@ document.addEventListener('keydown',event=>{if(event.isTrusted)void audio.unlock
 document.addEventListener('focusin',event=>{if(!event.target.closest('#systemMenu,#systemButton'))closeMenu()});
 document.addEventListener('click',event=>{const button=event.target.closest('button,a');if(event.isTrusted&&button&&!button.disabled)audio.play('click')},true);
 document.addEventListener('visibilitychange',()=>{updateClock();if(document.hidden){closeMenu();void audio.suspend()}else void audio.resume()});
-window.addEventListener('pagehide',()=>void audio.suspend());window.addEventListener('pageshow',()=>{updateClock();if(!document.hidden)void audio.resume()});
+document.querySelectorAll('.desktop-icon').forEach(link=>link.addEventListener('click',()=>{try{localStorage.setItem('isopoda-ui-language-v1',language)}catch{}}));
+function restoreLanguage(){try{const saved=localStorage.getItem('umwelt-desktop-language');if(languages.includes(saved))language=saved}catch{}render()}
+window.addEventListener('storage',event=>{if(event.key==='umwelt-desktop-language')restoreLanguage()});
+window.addEventListener('pagehide',()=>void audio.suspend());window.addEventListener('pageshow',()=>{restoreLanguage();updateClock();if(!document.hidden)void audio.resume()});
 render();updateClock();setInterval(updateClock,1000);

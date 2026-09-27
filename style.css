@@ -98,12 +98,12 @@ a:focus-visible,button:focus-visible{outline:2px dotted #ebebd0;outline-offset:3
 .system-menu{position:absolute;bottom:calc(100% + 2px);left:0;min-width:180px;padding:4px;background:var(--os-face);border:2px solid var(--os-hi);border-right-color:var(--os-lo);border-bottom-color:var(--os-lo);box-shadow:3px 3px #182e22}
 .system-menu button{display:block;width:100%;text-align:left;border:0;padding:10px}
 .system-menu button:hover,.system-menu button:focus-visible{background:var(--os-title);color:#e3e2c8}
-#systemDialog{width:min(440px,calc(100% - 32px));color:#e3e2c8;font:inherit}
+#systemDialog{width:max-content;max-width:calc(100% - 32px);color:#e3e2c8;font:inherit}
 #systemDialog::backdrop{background:#16271f88}
-.dialog-body{padding:18px 16px;line-height:1.8;background:#334a36;margin:5px;border:2px solid #506348;border-right-color:#c1c8a9;border-bottom-color:#c1c8a9}
+.dialog-body{padding:14px 16px;line-height:1.8;background:#334a36;margin:5px;border:2px solid #506348;border-right-color:#c1c8a9;border-bottom-color:#c1c8a9}
 .dialog-body p{margin:0}
 #closeHint{margin-top:14px;color:#b8c2a3}
-#systemDialog footer{justify-content:flex-end;gap:8px;padding:8px}
+#systemDialog footer{justify-content:center;gap:18px;padding:8px 14px}
 #systemDialog footer button{width:auto;min-width:72px;height:auto;padding:6px 12px}
 @media(max-width:520px){.taskbar .system-mark{display:none}.desktop-menu{gap:8px;padding:5px 8px}.desktop-menu strong{letter-spacing:0;font-size:10px}.desktop-menu button{max-width:100px;font-size:10px}.tray{gap:5px}.system-button{padding:5px 6px}.tray time{font-size:10px}}
 .welcome-links{display:grid;gap:12px;margin-top:22px}

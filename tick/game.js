@@ -8,6 +8,20 @@
   const aboutPanel = document.querySelector('#aboutPanel');
   const aboutClose = document.querySelector('#aboutClose');
 
+  let language='zh';
+  try{const saved=localStorage.getItem('umwelt-desktop-language');if(['zh','en','ja'].includes(saved))language=saved}catch{}
+  const copy={
+    '三个信号。':['Three signals.','三つの信号。'],'开始':['Begin','始める'],'错过信号。':['Signal missed.','信号を逃した。'],'重来':['Again','もう一度'],
+    '等待气味。':['Waiting for a scent.','匂いを待つ。'],'气味':['Scent','匂い'],'落下':['Drop','落ちる'],'坠落':['Falling','落下'],
+    '接触':['Contact','接触'],'爬行':['Crawl','這う'],'等待接触。':['Waiting for contact.','接触を待つ。'],'移动':['Moving','移動'],
+    '温度':['Warmth','温度'],'叮咬':['Bite','噛む'],'寻找温度。':['Seeking warmth.','温度を探す。'],'一个世界。':['A world.','一つの世界。'],
+    '返回 UMWELT':['Return to UMWELT','UMWELT に戻る'],'关于 UMWELT':['About UMWELT','UMWELT について'],'关闭':['Close','閉じる'],
+    '環世界':['Umwelt','環世界'],'对蜱虫而言，少数信号就是整个世界。':['For a tick, a few signals are the whole world.','マダニにとって、わずかな信号が世界のすべて。']
+  };
+  const t=text=>language==='zh'?text:(copy[text]?.[language==='en'?0:1]||text);
+  document.documentElement.lang=language==='zh'?'zh-CN':language;
+  for(const selector of ['#signal','#actionButton','#aboutTitle','.about-note']){const el=document.querySelector(selector);el.textContent=t(el.textContent)}
+  document.querySelectorAll('[aria-label]').forEach(el=>el.setAttribute('aria-label',t(el.getAttribute('aria-label'))));
   const timers = new Set();
   let phase = 'intro';
   let runId = 0;
@@ -27,7 +41,7 @@
   };
 
   const setAction = (label, enabled = true, cue = false) => {
-    action.textContent = label;
+    action.textContent = t(label);
     action.disabled = !enabled;
     action.classList.toggle('cue', cue);
   };
@@ -42,14 +56,14 @@
     phase = 'failed';
     rings.classList.remove('active');
     eyebrow.textContent = '—';
-    signal.textContent = '错过信号。';
+    signal.textContent = t('错过信号。');
     setAction('重来');
   };
 
   const armCue = (nextPhase, cueText, actionText, waitText, timeout = 4200) => {
     phase = `${nextPhase}-waiting`;
     eyebrow.textContent = '…';
-    signal.textContent = waitText;
+    signal.textContent = t(waitText);
     setAction('…', false);
 
     const thisRun = runId;
@@ -57,7 +71,7 @@
       if (thisRun !== runId) return;
       phase = nextPhase;
       eyebrow.textContent = nextPhase === 'touch' ? '02 / 03' : '03 / 03';
-      signal.textContent = cueText;
+      signal.textContent = t(cueText);
       setAction(actionText, true, true);
 
       later(() => {
@@ -72,7 +86,7 @@
     resetVisuals();
     phase = 'smell-waiting';
     eyebrow.textContent = '01 / 03';
-    signal.textContent = '等待气味。';
+    signal.textContent = t('等待气味。');
     setAction('…', false);
 
     const thisRun = runId;
@@ -80,7 +94,7 @@
       if (thisRun !== runId) return;
       phase = 'smell';
       rings.classList.add('active');
-      signal.textContent = '气味';
+      signal.textContent = t('气味');
       setAction('落下', true, true);
 
       later(() => {
@@ -95,7 +109,7 @@
     phase = 'falling';
     field.classList.add('falling');
     eyebrow.textContent = '…';
-    signal.textContent = '坠落';
+    signal.textContent = t('坠落');
     setAction('…', false);
 
     const thisRun = runId;
@@ -111,7 +125,7 @@
     clearTimers();
     phase = 'crawling';
     eyebrow.textContent = '02 / 03';
-    signal.textContent = '移动';
+    signal.textContent = t('移动');
     setAction('…', false);
 
     const thisRun = runId;
@@ -127,7 +141,7 @@
     phase = 'done';
     field.classList.add('done');
     eyebrow.textContent = '03 / 03';
-    signal.textContent = '一个世界。';
+    signal.textContent = t('一个世界。');
     setAction('重来');
   };
 
