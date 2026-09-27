@@ -24,3 +24,11 @@
 - [Morphology layout repair — 2026-09-23](morphology-layout-repair.md)
 - [Isopod Morphology & Pixel Renderer 规格](morphology-renderer-spec-umwelt-v2-2026-09-13.md)
 - [Reaction bubbles (GAME)](reaction-bubbles.md)
+
+## 2.0 前归档的阶段记录
+
+以下记录保留归档时原文，验收数量与实现描述不代表当前状态：
+
+- [河口岸边原型与阶段实现记录](estuary-shore-prototype.md)；当前维护入口见 [河口文档](../estuary.md)。
+- [浅海藻场实现与 2026-09-26 验收](seaweed-observation.md)；维护时同时阅读 [环境指南](../environments.md) 与 [存档兼容](../save-compat.md)。
+- [标本尺寸与栅格审查](specimen-size-review.md)；当前规则见 [形态渲染边界](../morphology-renderer.md) 与 [实验室契约](../laboratories.md)。
