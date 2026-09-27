@@ -286,6 +286,7 @@ export function migrateV3(old){if(!old||old.version!==3||!SPECIES.some(p=>p.id==
 export function migrateV4(old){
  if(!old||old.version!==4)return null;
  const s={...old,habitatId:old.habitatId??'terrestrial'};
+ if(s.habitatId==='petri-dish'&&s.cohort?.some(c=>c.species==='giganteus'))s.cohort=s.cohort.map(c=>c.species==='giganteus'?{...c,species:'uniramea'}:c);
  if(['sandy-surf','petri-dish'].includes(s.habitatId)&&s.stage==='choice')s.scene=null; // Keep completed notes; refresh the pending observation.
  if(s.habitatId==='intertidal'&&s.intertidalVersion!==1)s.intertidalLegacy=true;
  if(s.habitatId==='estuary'){

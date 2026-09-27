@@ -17,7 +17,7 @@ import {GROUNDWATER_OBSERVATIONS,groundwaterObservationIndex} from './data/habit
 import {habitatConfig} from './habitats.mjs';
 import {drawAquaticWater,stepAquatic} from './scenery/aquatic.mjs';
 import {bindPointerInteraction} from './interaction.mjs';
-import {createReactions,actionFocus,drawReactionBubbles} from './reactions.mjs';
+import {createReactions,actionFocus,drawReactionBubbles,randomPetriFace,PETRI_FACES,PETRI_FACE_DURATION} from './reactions.mjs';
 import {environmentFor} from './environment.mjs';
 import {makeIndividuals,stageIndividuals,stepIndividuals} from './behaviors-speed.mjs';
 import {encounterById,responseMode} from './encounters.mjs';
@@ -171,7 +171,7 @@ function scopeVisible(){const m=microscope(getState()),a=critters[0];return !!a&
 function scopeControl(action,value){
  state=getState();if(state.habitatId!=='petri-dish')return;
  const m=beginPetriStep(state),a=critters[0],before={...m};
- if(action==='toggle'){m.mode=!m.mode;if(m.mode&&a){m.x=a.x;m.y=a.y}}
+ if(action==='toggle'){m.mode=!m.mode;if(!m.mode)reactions.clearPetriFaces();if(m.mode&&a){m.x=a.x;m.y=a.y;reactions.burst([a],randomPetriFace(),elapsed,PETRI_FACE_DURATION)}}
  if(action==='zoom')m.magnification=Math.max(4,Math.min(32,m.magnification*(value>0?2:.5)));
  if(action==='focus')m.focus=Math.max(0,Math.min(100,Number(value)));
  if(action==='light'){if(Math.abs(m.light-value)>0)m.lights++;m.light=Math.max(10,Math.min(100,Number(value)))}
@@ -214,7 +214,7 @@ function present(){
 
  if(m&&!m.mode){camera.zoom=1;camera.x=192;camera.y=215}
 
- overlayCtx.clearRect(0,0,overlay.width,overlay.height);overlayCtx.drawImage(world,0,0);if(habitatConfig(state).id!=='groundwater'&&!isEstuaryObservation(state))drawReactionBubbles(overlayCtx,reactions.active,seaweed?critters.filter(a=>a.hitCells?.length):critters,elapsed,view,reduced);display.clearRect(0,0,w,h);
+ overlayCtx.clearRect(0,0,overlay.width,overlay.height);overlayCtx.drawImage(world,0,0);if(habitatConfig(state).id!=='groundwater'&&!isEstuaryObservation(state))drawReactionBubbles(overlayCtx,reactions.active.filter(b=>!PETRI_FACES.includes(b.cue)),seaweed?critters.filter(a=>a.hitCells?.length):critters,elapsed,view,reduced);display.clearRect(0,0,w,h);
  if(state.habitatId==='abyssal'&&camera.zoom<1){
   // The same procedural sediment continues in world coordinates outside the authored patch.
   display.drawImage(abyssFloor,sx+960,sy+1074,sw,sh,0,0,w,h);
@@ -241,6 +241,14 @@ function present(){
    for(const [x,y,color] of cells){lensCtx.fillStyle=color;lensCtx.fillRect(x,y,1,1)}
   }
   drawOptics(display,lensCanvas,m);
+  // Draw the playful cue after the optics, at a readable screen size at every power.
+  const faces=reactions.active.filter(b=>PETRI_FACES.includes(b.cue));
+  if(faces.length){
+   const projected=critters.map(a=>({...a,x:(a.x-sx)/sw*384,y:(a.y-sy)/sh*430,lift:0}));
+   display.save();display.scale(w/384,h/430);
+   drawReactionBubbles(display,faces,projected,elapsed,{sx:0,sy:0,sw:384,sh:430},reduced);
+   display.restore();
+  }
  }
 
  if(caveLight&&!caveLight.hidden){

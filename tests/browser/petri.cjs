@@ -9,7 +9,23 @@ for(const width of [320,390,1440]){
  await page.screenshot({path:`${out}/${engine}-${width}-overview.png`,fullPage:true});
  const next=async()=>{await page.locator('#actions button').first().click();await page.locator('#nextBtn').click()};
  const dial=async(id,value)=>{const el=page.locator(id),step=id==='#scopePower'?1:2;for(let n=0;n<55;n++){const now=Number(await el.getAttribute('aria-valuenow'));if(Math.abs(now-value)<step)break;await el.press(now<value?'ArrowRight':'ArrowLeft')}};
- await next();assert.equal(await page.locator('#actions button').first().isEnabled(),false);await page.locator('#scopeToggle').click();assert.equal(await page.locator('#actions button').first().isEnabled(),true);await next();
+ await next();assert.equal(await page.locator('#actions button').first().isEnabled(),false);await page.locator('#scopeToggle').click();assert.equal(await page.locator('#actions button').first().isEnabled(),true);
+ // Vertical wheel geometry, fine trackpad input, and discrete magnification detents.
+ const focus=page.locator('#scopeFocus'),power=page.locator('#scopePower');
+ const fb=await focus.boundingBox(),rb=await page.locator('#scopeCenter').boundingBox();
+ assert.ok(fb.height>fb.width);assert.equal(rb.width,fb.width);assert.equal(rb.height,rb.width);
+ assert.equal(await focus.getAttribute('aria-orientation'),'vertical');
+ const initial=Number(await focus.getAttribute('aria-valuenow'));
+ await focus.dispatchEvent('wheel',{deltaY:-1,deltaMode:0});
+ assert.equal(Number(await focus.getAttribute('aria-valuenow')),initial+.5);
+ await focus.dispatchEvent('wheel',{deltaY:1,deltaMode:0});
+ const startPower=await power.getAttribute('aria-valuenow');
+ await power.dispatchEvent('wheel',{deltaY:-12,deltaMode:0});assert.equal(await power.getAttribute('aria-valuenow'),startPower);
+ await power.dispatchEvent('wheel',{deltaY:-12,deltaMode:0});assert.equal(Number(await power.getAttribute('aria-valuenow')),Number(startPower)+1);
+ await power.press('ArrowDown');
+ await page.mouse.move(fb.x+fb.width/2,fb.y+fb.height/2);await page.mouse.down();await page.mouse.move(fb.x+fb.width/2+30,fb.y+fb.height/2);await page.mouse.up();
+ assert.equal(Number(await focus.getAttribute('aria-valuenow')),initial);
+ await next();
  assert.equal(await page.locator('#actions button').first().isEnabled(),false);
  if(width===390)await page.screenshot({path:`${out}/${engine}-defocused.png`,fullPage:true});
  const knob=await page.locator('#scopeFocus').boundingBox(),kp={x:knob.x+knob.width/2,y:knob.y+knob.height/2};

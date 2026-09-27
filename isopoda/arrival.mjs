@@ -1,3 +1,4 @@
+import {eligibleSpecies} from './habitats.mjs';
 import {encodeIsopodText} from './locales/isopod.mjs';
 import {SPECIES} from './species-registry.mjs';
 const preparations={
@@ -16,5 +17,5 @@ export function arrivalText(habitat,language='zh'){
 }
 export function unlockedPetriSpecies(collection){
  const unlocked=new Set(collection?.unlocked||[]);
- return SPECIES.filter(p=>unlocked.has(p.id)).map(p=>p.id);
+ return SPECIES.filter(p=>unlocked.has(p.id)&&eligibleSpecies(p,'petri-dish')).map(p=>p.id);
 }

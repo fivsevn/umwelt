@@ -1,5 +1,8 @@
 import {environmentTarget} from './environment.mjs';
 // GAME: reading cues for visible actions, never emotions or social cognition.
+export const PETRI_FACES=['(^_^)','(o_o)','(>_<)','(-_-)','(?_?)'];
+export const PETRI_FACE_DURATION=3.2;
+export const randomPetriFace=(random=Math.random)=>PETRI_FACES[Math.min(4,Math.floor(random()*5))];
 export const PRIORITY={'!!':5,'!':4,'◎':3,'?':2,'…':2,'♡':1,'~':1,'*':1,'o':1,'z':1};
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const ambientCue=(c,time)=>{
@@ -63,6 +66,7 @@ export function createReactions(){
    lastStart=time;
    return bubbles;
   },
+  clearPetriFaces(){bubbles=bubbles.filter(b=>!PETRI_FACES.includes(b.cue))},
   notify(actor,cue,time){bubbles=bubbles.filter(b=>b.id!==actor.id);bubbles.push({id:actor.id,cue,priority:PRIORITY[cue],start:time,until:time+1.6})},
   update(group,{encounter,state,time,reaction}){
    bubbles=bubbles.filter(b=>time<b.until&&group.some(c=>c.id===b.id));
@@ -110,15 +114,25 @@ const GLYPHS={
  'o':['01110','10001','10001','10001','01110'],
  'z':['1111','0010','0100','1111']
 };
+// Tiny bitmap characters keep the faces in the same pixel grid as other cues.
+const FACE_BITS={
+ '(':['01','10','10','10','01'],')':['10','01','01','01','10'],
+ '^':['010','101','000','000','000'],'_':['000','000','000','000','111'],
+ 'o':['000','111','101','111','000'],'>':['100','010','001','010','100'],
+ '<':['001','010','100','010','001'],'-':['000','000','111','000','000'],
+ '?':['110','001','010','000','010']
+};
+for(const face of PETRI_FACES)GLYPHS[face]=Array.from({length:5},(_,y)=>[...face].map(c=>FACE_BITS[c][y]).join('0'));
 export function bubbleLayout(actor,bubble,time,view,reduced=false){
- const w=bubble.cue==='!!'?21:18,h=15,p=2;
+ const w=PETRI_FACES.includes(bubble.cue)?GLYPHS[bubble.cue][0].length+8:bubble.cue==='!!'?21:18,h=15,p=2;
  const rise=reduced?0:Math.min(3,Math.floor((time-bubble.start)*4));
  const left=Math.ceil((Math.max(0,view.sx)+2)/p),right=Math.floor((Math.min(384,view.sx+view.sw)-2)/p);
  const top=Math.ceil((Math.max(0,view.sy)+2)/p),bottom=Math.floor((Math.min(430,view.sy+view.sh)-2)/p);
  const ax=Math.round(actor.x/p),ay=Math.round((actor.y+(actor.lift||0))/p);
  if(ax<left||ax>right||ay<top||ay>bottom||right-left<w+2||bottom-top<h+5)return null;
- const below=ay-13-h-rise<top;
- const x=clamp(ax-Math.floor(w/2),left,right-w-1),y=clamp(below?ay+11+rise:ay-13-h-rise,top+3,bottom-h-4);
+ const gap=PETRI_FACES.includes(bubble.cue)||actor.species==='giganteus'?6:0;
+ const below=ay-13-gap-h-rise<top;
+ const x=clamp(ax-Math.floor(w/2),left,right-w-1),y=clamp(below?ay+11+gap+rise:ay-13-gap-h-rise,top+3,bottom-h-4);
  return {x,y,w,h,below,tail:clamp(ax-x,4,w-5)};
 }
 export function drawReactionBubbles(ctx,bubbles,group,time,view,reduced=false){

@@ -235,10 +235,27 @@ html,body{height:100%;overflow:hidden}#game{height:100dvh;padding:6px 8px max(6p
 #boxFrame .groundwater-observation .zoom-tools{padding:0!important;border-width:0!important;left:11px!important}
 #boxFrame .groundwater-observation .zoom-tools button{width:44px!important;min-width:44px!important;height:26px!important;min-height:26px!important;border-width:0!important}
 
-/* The switch matches the archive; the compact optical controls share a face. */
-.petri-tools{position:absolute;z-index:6;left:8px;bottom:8px;display:flex;align-items:center;gap:3px;max-width:calc(100% - 60px);color:#d2d3b8}.scope-switch-frame{flex:none}.petri-tools #scopePanel{display:flex;align-items:center;gap:3px;background:none;border:0;padding:0;box-shadow:none;width:max-content;max-width:100%}.scope-dials{display:flex;gap:3px}.scope-knob{width:36px;text-align:center;font-size:10px;line-height:17px}.scope-dial{display:block;width:36px;min-width:36px;height:36px;min-height:36px;padding:3px;border:0;border-radius:0;background:repeating-conic-gradient(#243329 0deg 10deg,#839578 10deg 20deg);color:#d8d9b9;clip-path:polygon(25% 0,75% 0,75% 5%,90% 10%,95% 25%,100% 25%,100% 75%,95% 75%,90% 90%,75% 95%,75% 100%,25% 100%,25% 95%,10% 90%,5% 75%,0 75%,0 25%,5% 25%,10% 10%,25% 5%);touch-action:none;cursor:ns-resize;box-shadow:2px 2px #152d22}.dial-face{display:block;position:relative;width:100%;height:100%;background:#84967b;border:3px solid #adb99a;border-right-color:#425c43;border-bottom-color:#425c43;clip-path:polygon(18% 0,82% 0,100% 18%,100% 82%,82% 100%,18% 100%,0 82%,0 18%)}.dial-face{display:grid;place-items:center;color:#30492e}.dial-face .pixel-icon{pointer-events:none}.dial-face>i{position:absolute;left:calc(50% - 1px);top:calc(50% - 1px);width:2px;height:2px;background:transparent;transform:rotate(var(--dial-angle));box-shadow:0 -11px #d2d3af;pointer-events:none}.petri-tools button:focus-visible{outline:2px solid #ece1ad;outline-offset:2px}.scope-dial:focus-visible .dial-face{background:#a1b08d}
+/* Small vertical instrument wheels: only the tread moves, with no idle animation. */
+.petri-tools{position:absolute;z-index:6;left:8px;bottom:8px;display:flex;align-items:center;gap:5px;max-width:calc(100% - 60px);color:#d2d3b8}
+.scope-switch-frame{flex:none}
+.petri-tools #scopePanel{display:flex;align-items:center;gap:5px;background:none;border:0;padding:0;box-shadow:none;width:max-content;max-width:100%}
+.scope-dials{display:flex;gap:5px}.scope-knob{width:24px}
+.scope-dial,.petri-tools .scope-reset{position:relative;display:grid;place-items:center;width:24px;min-width:24px;height:50px;min-height:50px;padding:0;border:0;border-radius:0;background:url('./assets/scope-wheel.svg') center/24px 50px no-repeat;color:#c5ceab;box-shadow:none;image-rendering:pixelated;touch-action:none}
+.scope-dial{cursor:ns-resize;user-select:none}
+.wheel-well{position:relative;display:grid;place-items:center;overflow:hidden;width:18px;height:36px;background:#1c2d23;border:0;clip-path:polygon(2px 0,16px 0,16px 2px,18px 2px,18px 34px,16px 34px,16px 36px,2px 36px,2px 34px,0 34px,0 2px,2px 2px);pointer-events:none}
+.wheel-tread{position:absolute;inset:-130px 0;background:url('./assets/scope-tread.svg') 0 0/18px 5px repeat-y;transform:translateY(var(--wheel-travel,0px));transition:transform 110ms steps(5,end)}
+.wheel-well:after{content:"";position:absolute;inset:0;border-top:3px solid #17291f99;border-bottom:3px solid #17291f99;box-shadow:inset 0 3px #20362766,inset 0 -3px #20362766;pointer-events:none}
+.wheel-symbol{position:relative;z-index:1;display:grid;place-items:center;width:14px;height:14px;background:#819573;border-top:1px solid #b2bf96;border-bottom:1px solid #2c462e;color:#2b452d}
+.wheel-symbol .pixel-icon{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.5);transform-origin:center;pointer-events:none}
+.wheel-scale{display:none;position:absolute;left:50%;top:-5px;width:20px;height:3px;transform:translateX(-50%);background:repeating-linear-gradient(to right,#6e805f 0 2px,transparent 2px 6px)}
+[data-control="power"] .wheel-scale{display:block}.wheel-scale i{position:absolute;left:calc(var(--wheel-stop,0)*6px);width:2px;height:3px;background:#d2d3af}
+.scope-dial[data-control="power"] .wheel-tread{transition:transform 220ms steps(13,end)}
+.scope-dial.is-turning:not([data-control="power"]) .wheel-tread{transition:none}.scope-dial:hover .wheel-symbol{color:#182f20}.scope-dial.is-turning .wheel-symbol{background:#9cae89}
+.petri-tools button:focus-visible{outline:2px solid #ece1ad;outline-offset:2px}
+.petri-tools .scope-reset{height:24px;min-height:24px;background-size:24px 24px;cursor:pointer;flex:none;background-image:url('./assets/scope-reset.svg');color:#2b452d}
+.scope-reset .pixel-icon{transform:scale(.5)}.scope-reset:active .pixel-icon{transform:translateY(1px) scale(.5)}.scope-reset:focus-visible{border-color:#c5ceab}
+@media(prefers-reduced-motion:reduce){.wheel-tread,.scope-dial[data-control="power"] .wheel-tread{transition:none}}
 
-.petri-tools .scope-reset{width:30px;min-width:30px;height:30px;min-height:30px;padding:0;border-radius:0;box-shadow:none;cursor:pointer;flex:none}.scope-reset:active{background:#72866b}.scope-reset:focus-visible{background:#a1b08d}
 
 /* Let short name blocks release their spare space on narrow archive pages. */
 @media(max-width:600px){

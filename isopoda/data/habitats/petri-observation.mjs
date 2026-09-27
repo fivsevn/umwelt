@@ -1,7 +1,7 @@
 import {encodeIsopodText} from '../../locales/isopod.mjs';
 const copy={
  focusPosition:['焦位','Focus','焦点位置'],individuals:['个体','Specimens','個体'],
- power:['倍率','Power','倍率'],lowPower:['低倍','Low power','低倍率'],midPower:['中倍','Medium power','中倍率'],highPower:['高倍','High power','高倍率'],detailPower:['局部','Detail','部分'],low:['低','Low','低'],middle:['中','Middle','中'],high:['高','High','高'],turnDial:['上下拖动或滚动旋钮；方向键也可以调整','Drag or scroll the dial; arrow keys also adjust it','つまみをドラッグ、スクロール、または矢印キーで回す'],
+ power:['倍率','Power','倍率'],lowPower:['低倍','Low power','低倍率'],midPower:['中倍','Medium power','中倍率'],highPower:['高倍','High power','高倍率'],detailPower:['局部','Detail','部分'],low:['低','Low','低'],middle:['中','Middle','中'],high:['高','High','高'],turnDial:['上下拖动或滚动滚轮；方向键也可以调整','Drag vertically or scroll the wheel; arrow keys also adjust it','つまみをドラッグ、スクロール、または矢印キーで回す'],
 
  canvas:['培养皿中的一个等足目；目镜模式下可拖动或用方向键移动视野','One isopod in a dish; drag or use arrow keys to move the microscope field','皿の等脚類一匹。接眼ではドラッグや矢印キーで視野を動かす'],
  scope:['显微镜','Microscope','顕微鏡'],overview:['普通观察','Overview','通常観察'],lens:['目镜观察','Through the eyepiece','接眼観察'],focus:['对焦','Focus','ピント'],light:['照明','Light','照明'],center:['找回个体','Find specimen','個体を探す'],near:['近','Near','近'],far:['远','Far','遠'],clear:['清晰','Clear','明瞭'],soft:['离焦','Out of focus','ピンぼけ'],field:['视野','Field','視野'],cycle:['一皿观察','One dish of observations','一皿の観察'],arrival:['这一皿的个体','The specimen in this dish','この皿の一匹'],
