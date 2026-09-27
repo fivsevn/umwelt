@@ -5,7 +5,13 @@ const name=process.env.BROWSER||'chromium',base=process.env.BASE_URL||'http://12
 try{for(const habitat of ['terrestrial','freshwater','groundwater','estuary','intertidal','sandy-surf','shallow-marine','abyssal','petri-dish']){
  const p=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'}),errors=[];p.on('pageerror',e=>errors.push(e.message));
  await p.route('**/habitat.mjs*',async route=>{const response=await route.fetch(),body=(await response.text()).replace('return {reset,stage,react,','if(canvas.id==="habitat")window.__clockTest=()=>({environment:elapsed,animal:animalElapsed,plant:seaweed?.time,phase:critters.reduce((s,a)=>s+a.phase,0)});return {reset,stage,react,');await route.fulfill({response,body})});
- await p.goto(base+'/isopoda/?habitat='+habitat);await p.locator('#startBtn').click();await p.locator('#settleBtn').click();
+ await p.goto(base+'/isopoda/?habitat='+habitat);
+ if(habitat==='petri-dish'){
+  // The cabinet requires an unlocked specimen; seed an existing observation.
+  await p.evaluate(async()=>{const {createRun}=await import('./engine.mjs');const s=createRun('maculosa',44,'petri-dish');s.arrivalPending=true;localStorage.setItem('isopoda-fugue-v4',JSON.stringify(s))});
+  await p.reload();await p.locator('#continueBtn').click();
+ }else await p.locator('#startBtn').click();
+ await p.locator('#settleBtn').click();
  for(const [button,speed] of [[null,1],['#speedFastBtn',16],['#speedTurboBtn',64],['#speedTurboBtn',1]]){
   if(button)await p.locator(button).click();const a=await p.evaluate(()=>window.__clockTest());await p.waitForTimeout(800);await p.waitForFunction(start=>window.__clockTest().environment-start>.45,a.environment,{timeout:10000});const b=await p.evaluate(()=>window.__clockTest()),environment=b.environment-a.environment,animal=b.animal-a.animal;
   assert.ok(environment>.3&&environment<1.3,habitat+' environment remains real time '+environment);

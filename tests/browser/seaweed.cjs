@@ -13,7 +13,7 @@ if(out)fs.mkdirSync(out,{recursive:true});
   await page.goto(base+'/isopoda/?habitat=shallow-marine');await page.waitForFunction(()=>document.querySelector('#startBtn')?.onclick);
   assert.equal(await page.locator('#titleCard').getAttribute('data-habitat'),'shallow-marine');
   await click(page,page.locator('#startBtn'));await page.waitForSelector('#arrivalCard:not([hidden])');
-  const arrivalCount=await page.locator('#arrivalSpecimens .isopod').count();assert.ok([2,3].includes(arrivalCount));
+  const arrivalCount=await page.locator('#arrivalSpecimens .isopod').count();assert.equal(arrivalCount,await page.evaluate(()=>new Set(JSON.parse(localStorage.getItem('isopoda-fugue-v4')).cohort.map(a=>a.species)).size),'arrival shows each species, including rare visitors, once');
   assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('isopoda-fugue-v4')).cohort.length),18);
   if(out)await page.screenshot({path:`${out}/${name}-${width}-seaweed-arrival.png`,fullPage:true});
   await page.evaluate(async()=>{const {createRun}=await import('./engine.mjs'),{drawCohort,restoreCollection}=await import('./collection.mjs'),s=createRun('balthica',701,'shallow-marine');s.cohort=drawCohort(restoreCollection(null,null),701,'shallow-marine');localStorage.setItem('isopoda-fugue-v4',JSON.stringify(s))});
