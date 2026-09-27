@@ -36,3 +36,21 @@ test('same morphology renderer and interaction state machine retain widely space
  holdIndividual(actor,'defensive',2600);assert.equal(actor.posture,'curled');assert.ok(stepInteraction(actor,1));assert.equal(stepInteraction(actor,2),false);
  const other=speciesById('orange');assert.ok(pixelAnatomy(renderModel(other.visual),{posture:'curled'}).every(p=>p.region!=='cephalon'));
 });
+
+test('seven misses guarantee exactly one on the next non-abyssal draw, repeatably and across reloads',async()=>{
+ const {recordNaiguaDraw}=await import('../isopoda/rare-specimens.mjs');
+ const seed=Array.from({length:1000},(_,i)=>i).find(seed=>addRareSpecimens([],seed,'terrestrial').length===0);
+ let collection=restoreCollection(null,null);
+ for(let cycle=0;cycle<2;cycle++){
+  for(let i=0;i<7;i++){
+   const h=['terrestrial','freshwater','abyssal','groundwater','estuary','shallow-marine','intertidal'][i];
+   const cohort=drawCohort(collection,seed,h);assert.equal(cohort.some(c=>c.species==='naigua'),false);
+   recordNaiguaDraw(collection,cohort);collection=restoreCollection(JSON.parse(JSON.stringify(collection)),null);assert.equal(collection.naiguaMisses,i+1);
+  }
+  const deep=drawCohort(collection,seed,'abyssal');assert.equal(deep.some(c=>c.species==='naigua'),false);recordNaiguaDraw(collection,deep);assert.equal(collection.naiguaMisses,7);
+  const cohort=drawCohort(collection,seed,'petri-dish');assert.equal(cohort.filter(c=>c.species==='naigua').length,1);recordNaiguaDraw(collection,cohort);assert.equal(collection.naiguaMisses,0);
+ }
+ const lucky=Array.from({length:1000},(_,i)=>i).find(seed=>addRareSpecimens([],seed,'terrestrial').length===2);
+ collection.naiguaMisses=4;recordNaiguaDraw(collection,drawCohort(collection,lucky,'terrestrial'));assert.equal(collection.naiguaMisses,0);
+ assert.equal(addRareSpecimens([],lucky,'terrestrial',7).length,1);
+});

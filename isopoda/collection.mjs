@@ -14,13 +14,13 @@ export function restoreCollection(value,run,archives=[]){
  for(const item of archives)known.push(...(Array.isArray(item.species)?item.species.filter(id=>ids.has(id)):runSpecies(item)));
  const acquired={};for(const [id,date] of Object.entries(value?.acquired||{}))if(ids.has(id)&&/^\d{4}-\d{2}-\d{2}$/.test(date))acquired[id]=date;
  if(run?.startedOn)for(const id of runSpecies(run))if(!acquired[id])acquired[id]=run.startedOn;
- return {acquired,version:1,unlocked:[...new Set(known)],draws:Number.isInteger(value?.draws)&&value.draws>=0?value.draws:0,instrument:['round','twin','strip'].includes(value?.instrument)?value.instrument:'round'};
+ return {acquired,naiguaMisses:Number.isInteger(value?.naiguaMisses)&&value.naiguaMisses>=0?Math.min(7,value.naiguaMisses):0,version:1,unlocked:[...new Set(known)],draws:Number.isInteger(value?.draws)&&value.draws>=0?value.draws:0,instrument:['round','twin','strip'].includes(value?.instrument)?value.instrument:'round'};
 }
 export function drawSpecies(collection,seed,habitatId='terrestrial'){const habitatSpecies=SPECIES.filter(p=>eligibleSpecies(p,habitatId)&&!p.game?.rare);const unseen=habitatSpecies.filter(s=>!collection.unlocked.includes(s.id));const pool=unseen.length?unseen:habitatSpecies;return pool[hash(seed,collection.draws+901)%pool.length].id}
 export function unlock(collection,id,date){if(!ids.has(id))return;if(!collection.unlocked.includes(id))collection.unlocked.push(id);collection.acquired??={};if(date&&!collection.acquired[id])collection.acquired[id]=date}
 
 // Compatibility is a game envelope for this shared gradient, not husbandry advice.
-export function drawCohort(collection,seed,habitatId='terrestrial'){return addRareSpecimens(drawRegularCohort(collection,seed,habitatId),seed,habitatId)}
+export function drawCohort(collection,seed,habitatId='terrestrial'){return addRareSpecimens(drawRegularCohort(collection,seed,habitatId),seed,habitatId,collection.naiguaMisses)}
 function drawRegularCohort(collection,seed,habitatId='terrestrial'){
  const habitatSpecies=SPECIES.filter(p=>eligibleSpecies(p,habitatId)&&!p.game?.rare);
  const anchor=speciesById(drawSpecies(collection,seed,habitatId));
