@@ -1,0 +1,6 @@
+const {_electron:electron}=require(process.env.UMWELT_PLAYWRIGHT||'playwright');
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+(async()=>{const app=await electron.launch({executablePath:path.join(process.argv[2],'Contents/MacOS/UMWELT'),env:{...process.env,UMWELT_TEST_USER_DATA:fs.mkdtempSync('/tmp/umwelt-offline-')}});
+try{const external=[];await app.context().route(/^https?:/,route=>{external.push(route.request().url());return route.abort()});const home=await app.firstWindow();await home.waitForSelector('#nativeTitlebar');const next=app.waitForEvent('window');await home.click('a[href="./isopoda/"]');const game=await next;await game.waitForFunction(()=>!!document.querySelector('#startBtn').onclick);await game.click('#startBtn');await game.click('#settleBtn');
+for(const lang of ['en','ja','isopod','zh']){await game.click(`[data-system-lang="${lang}"]`);await game.evaluate(()=>document.fonts.ready);if(lang==='ja')assert.equal(await game.evaluate(()=>document.fonts.check('12px PixelMplus12')),true);assert.equal(await game.locator('html').getAttribute('data-ui-language'),lang)}
+assert.deepEqual(external,[]);console.log('PASS: all four game languages render without external asset requests, including the bundled Japanese font.');}finally{await app.close()}})().catch(e=>{console.error(e);process.exit(1)});

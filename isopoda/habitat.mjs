@@ -453,6 +453,6 @@ function drawMoltShell(shell,target=ctx){
   px(target,shell.x+ox*ca-oy*sa,shell.y+ox*sa+oy*ca,1,1,color);
  }
 }
-new ResizeObserver(()=>drawHabitat(0)).observe(canvas);
+new ResizeObserver(()=>{if(canvas.getClientRects().length&&canvas.clientWidth&&canvas.clientHeight)drawHabitat(0)}).observe(canvas);
 return {reset,stage,react,heartBurst,scopeControl,scopeVisible,zoom,beamResize,beamMove,beamHome,beamSteer:(dx,dy)=>{beam.dx=dx;beam.dy=dy},beamSize:()=>beam.size,zoomBy:d=>zoom(camera.zoom+d),home:()=>{camera.x=192;camera.y=215;return zoom(1)},start:()=>{if(!active){active=true;last=performance.now();beam.last=last;frame=requestAnimationFrame(tick)}},stop:()=>{beam.dx=0;beam.dy=0;interaction.cancel();active=false;cancelAnimationFrame(frame)},visible:()=>critters.filter(c=>!c.hidden).length};
 }

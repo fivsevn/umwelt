@@ -34,5 +34,10 @@ for(const [key,value] of [['CFBundleExecutable','UMWELT'],['CFBundleName','UMWEL
 await writeFile(join(application,'BUILD.json'),JSON.stringify({version:appVersion,electron:version,arch,source:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),built:new Date().toISOString()},null,2));
 execFileSync('codesign',['--force','--deep','--sign','-',bundle],{stdio:'inherit'});
 const release=join(output,`UMWELT-${appVersion}-mac-${arch}.zip`);await rm(release,{force:true});
-execFileSync('ditto',['-c','-k','--sequesterRsrc','--keepParent',bundle,release]);
+// The download contains exactly the application and a short guide at its root.
+await rm(stage,{recursive:true,force:true});await mkdir(stage);
+await copyFile(join(root,'mac/使用说明.txt'),join(output,'README.txt'));
+execFileSync('ditto',[bundle,join(stage,'UMWELT.app')]);
+await copyFile(join(output,'README.txt'),join(stage,'README.txt'));
+execFileSync('ditto',['-c','-k','--norsrc',stage,release]);
 await rm(stage,{recursive:true,force:true});console.log(JSON.stringify({bundle,release},null,2));
