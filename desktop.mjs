@@ -14,7 +14,7 @@ const $=id=>document.getElementById(id),languages=['zh','en','ja'];
 let language='zh',action='end';
 try{const saved=localStorage.getItem('umwelt-desktop-language');if(languages.includes(saved))language=saved}catch{}
 if(window.umweltNative){const update=document.createElement('button');update.dataset.action='updates';update.dataset.copy='updateMenu';$('systemMenu').append(update);copy.zh.updateMenu='查看更新';copy.en.updateMenu='Check for updates';copy.ja.updateMenu='更新を確認'}
-if(!window.umweltNative)document.querySelector('[data-action="leave"]')?.remove();
+if(!window.umweltNative)document.querySelector('[data-action="end"]')?.remove();
 const audio=createAudioEngine({ambienceEnabled:false});
 $('soundBtn').append(soundIcon());
 function soundActive(){const s=audio.getSettings();return !s.sfx.muted&&s.sfx.volume>0&&!s.master.muted&&s.master.volume>0}
@@ -33,7 +33,7 @@ $('systemMenu').onclick=event=>{const button=event.target.closest('[data-action]
 $('cancelAction').onclick=()=>$('systemDialog').close();
 $('systemDialog').addEventListener('close',()=>$('systemButton').focus());
 // The native shell keeps browser behavior unchanged on the public website.
-$('confirmAction').onclick=async()=>{if(window.umweltNative){if(action==='leave'){await window.umweltNative.uninstall();$('systemDialog').close()}else await window.umweltNative.quit();return}window.close();$('closeHint').hidden=false};
+$('confirmAction').onclick=async()=>{if(window.umweltNative){if(action==='leave'){await window.umweltNative.uninstall();$('systemDialog').close()}else await window.umweltNative.quit();return}window.close();setTimeout(()=>location.replace('about:blank'),100)};
 document.addEventListener('pointerdown',event=>{if(event.isTrusted)void audio.unlock();if(!event.target.closest('#systemMenu,#systemButton'))closeMenu()});
 document.addEventListener('keydown',event=>{if(event.isTrusted)void audio.unlock();if(event.key==='Escape'&&!$('systemMenu').hidden){closeMenu();$('systemButton').focus()}if(event.target.closest('#systemMenu')&&['ArrowDown','ArrowUp','Home','End'].includes(event.key)){event.preventDefault();const buttons=[...$('systemMenu').querySelectorAll('button')],index=buttons.indexOf(document.activeElement);buttons[event.key==='Home'?0:event.key==='End'?buttons.length-1:(index+(event.key==='ArrowDown'?1:-1)+buttons.length)%buttons.length].focus()}});
 document.addEventListener('focusin',event=>{if(!event.target.closest('#systemMenu,#systemButton'))closeMenu()});
