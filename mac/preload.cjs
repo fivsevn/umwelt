@@ -50,7 +50,8 @@ window.addEventListener('DOMContentLoaded',async()=>{
  const game=isopoda?document.querySelector('body>#game'):null;
  let ready=false,queued=false,lastHeight=0;
  function size(){
-  if(!game||drawer)return 700;
+  if(drawer)return Math.ceil(document.querySelector('#drawer')?.getBoundingClientRect().height||700);
+  if(!game)return 700;
   const active=[...game.children].find(el=>!el.hidden&&el.matches('.application-card,.play-view'));
   return Math.ceil((active?.id==='playView'?document.querySelector('#boxFrame'):active)?.getBoundingClientRect().height||480);
  }
@@ -58,6 +59,7 @@ window.addEventListener('DOMContentLoaded',async()=>{
   if(!ready||queued)return;queued=true;
   requestAnimationFrame(()=>{queued=false;const height=size();if(height!==lastHeight){lastHeight=height;void ipcRenderer.invoke('umwelt:fit',height)}});
  }
+ if(game&&drawer){new ResizeObserver(fit).observe(document.querySelector('#drawer'));new MutationObserver(fit).observe(document.querySelector('#drawer'),{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['data-mode']})}
  if(game&&!drawer){
   const observer=new ResizeObserver(fit);for(const el of game.querySelectorAll(':scope>.application-card,#boxFrame'))observer.observe(el);
   new MutationObserver(fit).observe(game,{subtree:true,attributes:true,attributeFilter:['hidden'],childList:true,characterData:true});

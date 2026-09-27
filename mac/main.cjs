@@ -62,12 +62,12 @@ if(!app.requestSingleInstanceLock())app.quit();else{
   });
   function fitWindow(w,height){
    if(w.isFullScreen())return;
-   const fixed={home:540,tick:650,drawer:700,reference:700};
+   const fixed={home:540,tick:650,reference:700};
    height=fixed[w.umweltKind]??height;
    if(!Number.isFinite(height)||height<60||height>10000)return;
    const area=screen.getDisplayMatching(w.getBounds()).workArea;
    const next=Math.min(Math.ceil(height),area.height);
-   if(Math.abs(w.getBounds().height-next)>1){w.setBounds({height:next});centerWindow(w)}
+   if(Math.abs(w.getBounds().height-next)>1){const b=w.getBounds();w.setBounds({height:next,y:Math.max(area.y,Math.min(area.y+area.height-next,Math.round(b.y+(b.height-next)/2)))})}
   }
   let checkingUpdates=false;
   ipcMain.handle('umwelt:updates',async event=>{

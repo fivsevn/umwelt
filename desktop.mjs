@@ -14,6 +14,7 @@ const $=id=>document.getElementById(id),languages=['zh','en','ja'];
 let language='zh',action='end';
 try{const saved=localStorage.getItem('umwelt-desktop-language');if(languages.includes(saved))language=saved}catch{}
 if(window.umweltNative){const update=document.createElement('button');update.dataset.action='updates';update.dataset.copy='updateMenu';$('systemMenu').append(update);copy.zh.updateMenu='查看更新';copy.en.updateMenu='Check for updates';copy.ja.updateMenu='更新を確認'}
+if(!window.umweltNative)document.querySelector('[data-action="end"]')?.remove();
 const audio=createAudioEngine({ambienceEnabled:false});
 $('soundBtn').append(soundIcon());
 function soundActive(){const s=audio.getSettings();return !s.sfx.muted&&s.sfx.volume>0&&!s.master.muted&&s.master.volume>0}
