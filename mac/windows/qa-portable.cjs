@@ -13,11 +13,11 @@ const pause=ms=>new Promise(r=>setTimeout(r,ms));
   let endpoint;for(let i=0;i<120;i++){try{endpoint=await (await fetch('http://127.0.0.1:9333/json/version')).json();break}catch{await pause(500)}}
   assert.ok(endpoint?.webSocketDebuggerUrl,'Packaged portable EXE must start');
   browser=await chromium.connectOverCDP(endpoint.webSocketDebuggerUrl);const context=browser.contexts()[0];
-  context.on('page',p=>p.on('pageerror',e=>errors.push(e.message)));
+  const watch=p=>p.on('pageerror',e=>{console.error('PAGE ERROR',e.message);errors.push(e.message)});context.pages().forEach(watch);context.on('page',watch);
   let home;for(let i=0;i<60;i++){home=context.pages().find(p=>p.url()==='umwelt://game/');if(home)break;await pause(250)}
   await home.waitForSelector('#nativeTitlebar');return {context,home};
  }
- async function stopped(){for(let i=0;i<120&&child.exitCode===null;i++)await pause(500);assert.notEqual(child.exitCode,null,'Portable launcher exits');await pause(500)}
+ async function stopped(){for(let i=0;i<120&&child.exitCode===null;i++)await pause(500);console.log('Cleanup trace',await fs.readFile(path.join(root,'cleanup-debug.log'),'utf8').catch(()=>'(none)'));assert.notEqual(child.exitCode,null,'Portable launcher exits');await pause(500)}
  let {context,home}=await start();const external=[];await context.route(/^https?:/,r=>{external.push(r.request().url());return r.abort()});
  const open=async(action)=>{const ready=context.waitForEvent('page');await action();const p=await ready;await p.waitForLoadState('networkidle');return p};
  const game=await open(()=>home.click('a[href="./isopoda/"]'));await game.click('#startBtn');await game.click('#settleBtn');
