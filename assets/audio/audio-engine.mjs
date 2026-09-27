@@ -1,7 +1,7 @@
 // Shared Web Audio mixer. No context is created until unlock() is called by a gesture.
 export const AUDIO_KEY='umwelt-audio-v1';
 export const DEFAULTS={master:{volume:0.8,muted:false},music:{volume:0.3,muted:false},sfx:{volume:0.45,muted:false}};
-export function createAudioEngine({storage,Context}={}){
+export function createAudioEngine({storage,Context,ambienceEnabled=true}={}){
  let settings=structuredClone(DEFAULTS),ctx,buses,unlocked=false,lastTone=-1;
  try{storage??=globalThis.localStorage;const saved=JSON.parse(storage.getItem(AUDIO_KEY));for(const key of Object.keys(settings)){const v=saved?.[key];if(Number.isFinite(v?.volume))settings[key].volume=Math.max(0,Math.min(1,v.volume));if(typeof v?.muted==='boolean')settings[key].muted=v.muted}}catch{}
  const listeners=new Set();
@@ -17,7 +17,7 @@ export function createAudioEngine({storage,Context}={}){
   source.connect(high).connect(low).connect(gain).connect(buses.music);source.start();gain.gain.setTargetAtTime(0.22,ctx.currentTime,1.2);
  }
  async function unlock(){
-  try{if(!ctx){const C=Context||globalThis.AudioContext||globalThis.webkitAudioContext;if(!C)return false;ctx=new C();buses={};for(const key of Object.keys(settings)){buses[key]=ctx.createGain();buses[key].gain.value=0}buses.music.connect(buses.master);buses.sfx.connect(buses.master);buses.master.connect(ctx.destination);apply();ambience()}
+  try{if(!ctx){const C=Context||globalThis.AudioContext||globalThis.webkitAudioContext;if(!C)return false;ctx=new C();buses={};for(const key of Object.keys(settings)){buses[key]=ctx.createGain();buses[key].gain.value=0}buses.music.connect(buses.master);buses.sfx.connect(buses.master);buses.master.connect(ctx.destination);apply();if(ambienceEnabled)ambience()}
    await ctx.resume();unlocked=ctx.state==='running';return unlocked;
   }catch{return false}
  }
