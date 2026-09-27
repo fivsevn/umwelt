@@ -25,8 +25,15 @@ export function createAudioEngine({storage,Context}={}){
  function play(kind='click'){
   if(!ctx||ctx.state!=='running'||settings.sfx.muted||settings.master.muted)return;
   const now=ctx.currentTime;if(now-lastTone<0.045)return;lastTone=now;
-  const [start,end,duration]=({click:[220,170,.045],confirm:[260,340,.075],back:[190,130,.065]})[kind]||[220,170,.045];
-  const osc=ctx.createOscillator(),gain=ctx.createGain();osc.type='triangle';osc.frequency.setValueAtTime(start,now);osc.frequency.exponentialRampToValueAtTime(end,now+duration);gain.gain.setValueAtTime(0,now);gain.gain.linearRampToValueAtTime(.065,now+.004);gain.gain.exponentialRampToValueAtTime(.0001,now+duration);osc.connect(gain).connect(buses.sfx);osc.onended=()=>{osc.disconnect();gain.disconnect()};osc.start(now);osc.stop(now+duration+.01);
+  // A plastic key impact followed by a quieter switch return, not a pitched beep.
+  const pitch=kind==='confirm'?1050:kind==='back'?750:900;
+  for(const [delay,level] of [[0,.48],[.022,.2]]){
+   const length=.026,buffer=ctx.createBuffer(1,Math.ceil(ctx.sampleRate*length),ctx.sampleRate),data=buffer.getChannelData(0);
+   for(let i=0;i<data.length;i++){const t=i/ctx.sampleRate;data[i]=(Math.random()*2-1)*Math.exp(-t/0.0045)}
+   const source=ctx.createBufferSource(),filter=ctx.createBiquadFilter(),gain=ctx.createGain();source.buffer=buffer;filter.type='lowpass';filter.frequency.value=2400;filter.Q.value=.5;gain.gain.value=level;
+   source.connect(filter).connect(gain).connect(buses.sfx);source.onended=()=>{source.disconnect();filter.disconnect();gain.disconnect()};source.start(now+delay);
+  }
+  const osc=ctx.createOscillator(),gain=ctx.createGain();osc.type='triangle';osc.frequency.setValueAtTime(pitch,now);osc.frequency.exponentialRampToValueAtTime(180,now+.018);gain.gain.setValueAtTime(0,now);gain.gain.linearRampToValueAtTime(.16,now+.001);gain.gain.exponentialRampToValueAtTime(.0001,now+.025);osc.connect(gain).connect(buses.sfx);osc.onended=()=>{osc.disconnect();gain.disconnect()};osc.start(now);osc.stop(now+.03);
  }
  return {unlock,play,set,getSettings:()=>structuredClone(settings),subscribe(fn){listeners.add(fn);return()=>listeners.delete(fn)},async suspend(){try{await ctx?.suspend()}catch{}},async resume(){if(unlocked)return unlock()},get state(){return ctx?.state||'locked'}};
 }
