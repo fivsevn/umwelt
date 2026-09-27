@@ -130,7 +130,7 @@ export function bubbleLayout(actor,bubble,time,view,reduced=false){
  const top=Math.ceil((Math.max(0,view.sy)+2)/p),bottom=Math.floor((Math.min(430,view.sy+view.sh)-2)/p);
  const ax=Math.round(actor.x/p),ay=Math.round((actor.y+(actor.lift||0))/p);
  if(ax<left||ax>right||ay<top||ay>bottom||right-left<w+2||bottom-top<h+5)return null;
- const gap=PETRI_FACES.includes(bubble.cue)||actor.species==='giganteus'?6:0;
+ const gap=PETRI_FACES.includes(bubble.cue)||actor.species==='giganteus'?10:0;
  const below=ay-13-gap-h-rise<top;
  const x=clamp(ax-Math.floor(w/2),left,right-w-1),y=clamp(below?ay+11+gap+rise:ay-13-gap-h-rise,top+3,bottom-h-4);
  return {x,y,w,h,below,tail:clamp(ax-x,4,w-5)};
