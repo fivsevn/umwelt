@@ -12,5 +12,5 @@
 <div class="tray"><button id="languageButton">中</button><button id="soundBtn" aria-pressed="true"></button><time id="desktopDate"></time><time id="desktopTime"></time></div>
 <nav id="systemMenu" class="system-menu" hidden><button data-action="end" data-copy="endMenu">结束观察</button><button data-action="leave" data-copy="leaveMenu">离开环境</button></nav>
 </footer>
-<dialog id="systemDialog" aria-labelledby="dialogTitle" aria-describedby="dialogDetail"><header><h2 id="dialogTitle"></h2></header><div class="dialog-body"><p id="dialogDetail"></p><p id="closeHint" role="status" hidden></p></div><footer><button id="cancelAction" autofocus></button><button id="confirmAction"></button></footer></dialog>
+<dialog id="systemDialog" aria-labelledby="dialogTitle" aria-describedby="dialogDetail"><header><h2 id="dialogTitle" tabindex="-1" autofocus></h2></header><div class="dialog-body"><p id="dialogDetail"></p><p id="closeHint" role="status" hidden></p></div><footer><button id="cancelAction"></button><button id="confirmAction"></button></footer></dialog>
 <script src="./forest.js"></script><script type="module" src="./desktop.mjs"></script></body></html>
