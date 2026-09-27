@@ -18,6 +18,16 @@ function sender(event){const w=BrowserWindow.fromWebContents(event.sender);retur
 function trusted(event){return !!sender(event)}
 function centerWindow(w){const area=screen.getDisplayMatching(w.getBounds()).workArea;const [width,height]=w.getSize();w.setPosition(Math.round(area.x+(area.width-width)/2),Math.round(area.y+(area.height-height)/2))}
 async function external(url){if(/^https?:\/\//.test(url))await shell.openExternal(url)}
+
+async function scheduleWindowsUninstall(exe,profile){
+ const literal=value=>"'"+value.replaceAll("'","''")+"'";
+ // Launch before quitting and outside the portable extraction directory. The
+ // launcher deletes that directory as soon as Electron exits.
+ const script=`$ErrorActionPreference='Stop'; while(Get-Process -Id ${process.pid} -ErrorAction SilentlyContinue){Start-Sleep -Milliseconds 200}; for($i=0;$i -lt 120;$i++){try{if(Test-Path -LiteralPath ${literal(exe)}){Remove-Item -LiteralPath ${literal(exe)} -Force}; if(Test-Path -LiteralPath ${literal(profile)}){Remove-Item -LiteralPath ${literal(profile)} -Recurse -Force}; break}catch{if(Test-Path -LiteralPath ${literal(profile)}){Add-Content -LiteralPath ${literal(path.join(profile,'uninstall-error.log'))} -Value $_ -ErrorAction SilentlyContinue}; Start-Sleep -Seconds 1}}`;
+ const helper=path.join(process.env.SystemRoot||'C:\\Windows','System32','WindowsPowerShell','v1.0','powershell.exe');
+ const child=spawn(helper,['-NoProfile','-NonInteractive','-EncodedCommand',Buffer.from(script,'utf16le').toString('base64')],{cwd:app.getPath('temp'),detached:true,stdio:'ignore',windowsHide:true});
+ await new Promise((resolve,reject)=>{child.once('spawn',resolve);child.once('error',reject)});child.unref();
+}
 function createWindow(route='/'){
  const url=new URL(route,origin),drawer=url.searchParams.get('nativeDrawer');
  const kind=url.pathname==='/'?'home':drawer?'drawer':url.pathname==='/isopoda/'?'isopoda':url.pathname.startsWith('/tick/')?'tick':'reference';
@@ -98,7 +108,8 @@ if(!app.requestSingleInstanceLock())app.quit();else{
    if(!app.isPackaged||(process.platform==='win32' ? !portable||!path.isAbsolute(portable)||path.basename(portable).toLowerCase()!=='umwelt.exe' : path.basename(bundle)!=='UMWELT.app'))return {error:'Only the packaged UMWELT application can be uninstalled.'};
    // The authored homepage confirmation is the final confirmation. Remove this
    // bundle and its private profile on quit, after windows and storage are closed.
-   uninstallPaths=[bundle,app.getPath('userData')];
+   if(process.platform==='win32')await scheduleWindowsUninstall(bundle,app.getPath('userData'));
+   else uninstallPaths=[bundle,app.getPath('userData')];
    session.defaultSession.flushStorageData();app.quit();return {removed:true};
   });
   Menu.setApplicationMenu(process.platform==='darwin'?Menu.buildFromTemplate([
@@ -108,16 +119,6 @@ if(!app.requestSingleInstanceLock())app.quit();else{
   createWindow();
  });
  app.on('window-all-closed',()=>app.quit());
- app.on('will-quit',()=>{
-  if(!uninstallPaths)return;
-  if(process.platform!=='win32'){for(const target of uninstallPaths)syncFs.rmSync(target,{recursive:true,force:true});return}
-  // Windows locks running executables. A detached OS helper waits for the
-  // portable launcher to exit, then deletes only this EXE and our private data.
-  const literal=value=>"'"+value.replaceAll("'","''")+"'";
-  const [exe,profile]=uninstallPaths;
-  const script=`$ErrorActionPreference='Stop'; for($i=0;$i -lt 120;$i++){try{if(Test-Path -LiteralPath ${literal(exe)}){Remove-Item -LiteralPath ${literal(exe)} -Force}; if(Test-Path -LiteralPath ${literal(profile)}){Remove-Item -LiteralPath ${literal(profile)} -Recurse -Force}; break}catch{Start-Sleep -Seconds 1}}`;
-  const helper=path.join(process.env.SystemRoot||'C:\\Windows','System32','WindowsPowerShell','v1.0','powershell.exe');
-  spawn(helper,['-NoProfile','-NonInteractive','-EncodedCommand',Buffer.from(script,'utf16le').toString('base64')],{detached:true,stdio:'ignore',windowsHide:true}).unref();
- });
+ app.on('will-quit',()=>{if(uninstallPaths)for(const target of uninstallPaths)syncFs.rmSync(target,{recursive:true,force:true})});
  app.on('before-quit',()=>{if(app.isReady())session.defaultSession.flushStorageData()});
 }
