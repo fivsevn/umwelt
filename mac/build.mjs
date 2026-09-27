@@ -25,7 +25,7 @@ execFileSync('mv',[join(bundle,'Contents/MacOS/Electron'),join(bundle,'Contents/
 const contents=join(bundle,'Contents'),resources=join(contents,'Resources'),application=join(resources,'app');
 await copyFile(join(root,'mac/UMWELT.icns'),join(resources,'electron.icns'));
 await rm(join(resources,'default_app.asar'),{force:true});await mkdir(application);
-for(const name of ['package.json','main.cjs','preload.cjs','frame.css','updates.cjs'])await copyFile(join(root,'mac',name),join(application,name));
+for(const name of ['package.json','main.cjs','preload.cjs','frame.css','updates.cjs','windows-uninstall.cjs'])await copyFile(join(root,'mac',name),join(application,name));
 await prepareSite(root,join(application,'site'));
 execFileSync('/usr/libexec/PlistBuddy',['-c','Set :CFBundleIdentifier com.fivsevn.umwelt',join(contents,'Info.plist')]);
 for(const [key,value] of [['CFBundleExecutable','UMWELT'],['CFBundleName','UMWELT'],['CFBundleDisplayName','UMWELT'],['CFBundleShortVersionString',appVersion],['CFBundleVersion',appVersion],['NSHumanReadableCopyright','五月七日 · fivsevn.com']]){
