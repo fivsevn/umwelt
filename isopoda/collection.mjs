@@ -22,7 +22,7 @@ export function unlock(collection,id,date){if(!ids.has(id))return;if(!collection
 export function drawCohort(collection,seed,habitatId='terrestrial'){
  const habitatSpecies=SPECIES.filter(p=>eligibleSpecies(p,habitatId));
  const anchor=speciesById(drawSpecies(collection,seed,habitatId));
- if(['shallow-marine','estuary'].includes(habitatId)){const pool=habitatSpecies.filter(p=>p.id!==anchor.id).sort((a,b)=>hash(seed,habitatSpecies.indexOf(a)+2001)-hash(seed,habitatSpecies.indexOf(b)+2001)),taxa=[anchor,...pool.slice(0,1+hash(seed,1901)%2)];return cohortFor(anchor.id,seed,habitatConfig(habitatId).cohortSize).map((c,i)=>({...c,species:taxa[i%taxa.length].id}))}
+ if(['freshwater','shallow-marine','estuary'].includes(habitatId)){const pool=habitatSpecies.filter(p=>p.id!==anchor.id).sort((a,b)=>hash(seed,habitatSpecies.indexOf(a)+2001)-hash(seed,habitatSpecies.indexOf(b)+2001)),taxa=[anchor,...pool.slice(0,1+hash(seed,1901)%2)];return cohortFor(anchor.id,seed,habitatConfig(habitatId).cohortSize).map((c,i)=>({...c,species:taxa[i%taxa.length].id}))}
  if(habitatId==='intertidal'){const wet=habitatSpecies.filter(p=>p.id!=='hirsuta'),unseen=wet.filter(p=>!collection.unlocked.includes(p.id)),pool=unseen.length?unseen:wet,water=pool[hash(seed,collection.draws+1903)%pool.length].id;return cohortFor('hirsuta',seed).map((c,i)=>({...c,species:i%3===0?'hirsuta':water}))}
  if(habitatId==='groundwater'){const pool=habitatSpecies.filter(p=>p.id!==anchor.id),taxa=[anchor,...(hash(seed,1901)%2?[pool[hash(seed,2001)%pool.length]]:[])];return cohortFor(anchor.id,seed,14).map((c,i)=>({...c,species:taxa[i%taxa.length].id,stage:i%3?'M':'L'}))}
  if((habitatConfig(habitatId).cohortSize||7)===1)return cohortFor(anchor.id,seed).slice(0,1).map(c=>({...c,stage:'L'}));

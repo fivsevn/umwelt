@@ -260,3 +260,13 @@ html,body{height:100%;overflow:hidden}#game{height:100dvh;padding:6px 8px max(6p
 .oversized-specimen .specimen-mount .isopod{transform:rotate(-82deg) scale(var(--mount-scale,2));transform-origin:center}
 
 .giant-specimen .specimen-mount{margin-top:45px;margin-bottom:48px}
+
+/* Arrival cards show one centered portrait per taxon outside the enclosure. */
+.arrival-specimen-row{position:relative;width:100%}
+#arrivalSpecimens.arrival-samples{display:flex;align-items:center;justify-content:center;gap:clamp(14px,5vw,30px);padding:0 38px}
+#arrivalSpecimens.arrival-samples>.isopod{flex:0 1 72px;width:72px!important;max-width:72px;min-width:0}
+#game .arrival-specimen-row>.pixel-nav-button{position:absolute;top:50%;transform:translateY(-50%);z-index:1;width:28px;height:28px;padding:0}
+#arrivalPrev{left:6px}#arrivalNext{right:6px}
+
+#game .arrival-specimen-row>button[hidden]{display:none!important}
+#game .arrival-specimen-row>button:active:not(:disabled){transform:translate(1px,calc(-50% + 1px))}

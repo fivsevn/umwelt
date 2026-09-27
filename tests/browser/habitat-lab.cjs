@@ -38,7 +38,7 @@ const base=process.env.BASE_URL||'http://127.0.0.1:8765';
   await click('[data-preset="forest"]');await restore(data);
   assert.equal(await active(),preset,'import synchronizes preset: '+await page.locator('#sceneMessage').innerText());assert.deepEqual(await snapshot(),data);
   await click('#copyShare');const share=await page.locator('#sceneText').inputValue();await restore(share);assert.deepEqual(await snapshot(),data);
-  const names={forest:'forest-litter',freshwater:'freshwater-pool',groundwater:'limestone-groundwater-cave',estuary:'brackish-estuary',intertidal:'intertidal-rock-pool','sandy-surf':'sandy-surf-zone','shallow-marine':'nearshore-seaweed-bed',abyssal:'abyssal-plain','petri-dish':'asimovs-dish'};
+  const names={forest:'terrarium',freshwater:'freshwater-pool',groundwater:'limestone-groundwater-cave',estuary:'brackish-estuary',intertidal:'intertidal-rock-pool','sandy-surf':'sandy-surf-zone','shallow-marine':'nearshore-seaweed-bed',abyssal:'abyssal-plain','petri-dish':'asimovs-dish'};
   const sceneDownload=preset+' download';
   const pendingDownload=page.waitForEvent('download');await click('#downloadScene');const exported=await pendingDownload;
   assert.equal(exported.suggestedFilename(),preset==='estuary'?'habitat-estuary-shore-4.json':preset==='freshwater'?'habitat-layout-freshwater-pool-stage-01-leaf.json':`habitat-layout-${names[preset]}.json`,sceneDownload);

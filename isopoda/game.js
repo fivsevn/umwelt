@@ -1,3 +1,4 @@
+import {arrivalText,unlockedPetriSpecies} from './arrival.mjs';
 import {createShoreControls} from './shore-controls.mjs';
 import {isShore,shoreText,shorePoint,shoreProgress,shoreRain,moveShore,SHORE_TURNS} from './data/habitats/estuary-shore.mjs';
 import {isopodNumbers} from './locales/isopod.mjs';
@@ -132,8 +133,33 @@ function render(){
  instrument(state);save();
 }
 function batchBugs(unique=false){return (unique?state.cohort.filter((c,i,all)=>all.findIndex(o=>o.species===c.species)===i):state.cohort).map(c=>{const bug=makeIsopod(speciesById(c.species),{seed:c.seed,stage:c.stage});bug.dataset.specimen=c.id;bug.dataset.species=c.species;bug.title=`${c.id} · ${speciesPrimaryName(speciesById(c.species))}`;return bug})}
-function arrival(){$('#settleBtn').textContent=state.habitatId==='sandy-surf'?gameText('sand:start',getLanguage()):t('startObservation');playing=false;habitat.stop();$('#titleCard').hidden=true;$('#playView').hidden=true;$('#endCard').hidden=true;$('#arrivalCard').hidden=false;$('#dayLabel').textContent='';$('#arrivalCard .panel-caption').textContent=isSeaweed(state)?gameText('kelp:arrival',getLanguage()):state.habitatId==='petri-dish'?gameText('petri:arrival',getLanguage()):state.habitatId==='sandy-surf'?gameText('sand:arrival',getLanguage()):isShore(state)?shoreText('arrival',getLanguage()):t(state.habitatId==='groundwater'?'findSamples':'waitingSpecimens');$('#arrivalSpecimens').classList.toggle('cave-samples',state.habitatId==='groundwater');$('#arrivalSpecimens').classList.toggle('seaweed-samples',isSeaweed(state)||isShore(state));$('#arrivalSpecimens').replaceChildren(...batchBugs(state.habitatId==='groundwater'||isSeaweed(state)||isShore(state)))}
-function draw(){if($('#startBtn').disabled)return;$('#startBtn').disabled=true;const seed=Date.now()>>>0,cohort=drawCohort(collection,seed,selectedHabitat);state=createRun(cohort[0].species,seed,selectedHabitat);state.cohort=cohort;mergeLearnedInteractions(state);state.arrivalPending=true;hasRun=true;collection.draws++;for(const id of runSpecies(state))unlock(collection,id,state.startedOn);write(COLLECTION,collection);save();begin();tone(130)}
+function arrival(){
+ $('#settleBtn').textContent=t('startObservation');playing=false;habitat.stop();
+ $('#titleCard').hidden=true;$('#playView').hidden=true;$('#endCard').hidden=true;$('#arrivalCard').hidden=false;$('#dayLabel').textContent='';
+ $('#arrivalCard .panel-caption').textContent=arrivalText(state.habitatId,getLanguage())||t('waitingSpecimens');
+ const dish=state.habitatId==='petri-dish',pool=dish?unlockedPetriSpecies(collection):[];
+ $('#arrivalSpecimens').className=state.habitatId==='terrestrial'?'':'arrival-samples';
+ $('#arrivalSpecimens').replaceChildren(...batchBugs(state.habitatId!=='terrestrial'));
+ for(const [id,direction,key] of [['arrivalPrev',-1,'previousSpecies'],['arrivalNext',1,'nextSpecies']]){
+  const button=$('#'+id);button.hidden=!dish;button.disabled=pool.length<2;button.setAttribute('aria-label',t(key));
+  button.onclick=()=>{
+   const index=pool.indexOf(state.cohort[0].species),species=pool[(index+direction+pool.length)%pool.length];
+   state=createRun(species,state.seed,'petri-dish');state.arrivalPending=true;mergeLearnedInteractions(state);save();arrival();button.focus();
+  };
+ }
+}
+function draw(){
+ if($('#startBtn').disabled)return;
+ const dish=selectedHabitat==='petri-dish',pool=dish?unlockedPetriSpecies(collection):[];
+ if(dish&&!pool.length)return;
+ $('#startBtn').disabled=true;const seed=Date.now()>>>0;
+ if(dish){state=createRun(pool[0],seed,selectedHabitat)}else{
+  const cohort=drawCohort(collection,seed,selectedHabitat);state=createRun(cohort[0].species,seed,selectedHabitat);state.cohort=cohort;
+ }
+ mergeLearnedInteractions(state);state.arrivalPending=true;hasRun=true;collection.draws++;
+ if(!dish)for(const id of runSpecies(state))unlock(collection,id,state.startedOn);
+ write(COLLECTION,collection);save();begin();tone(130);
+}
 function begin(){
  if(!hasRun)return;emptyHabitat.stop();if(state.arrivalPending){arrival();return}
  $('#titleCard').hidden=true;$('#arrivalCard').hidden=true;$('#endCard').hidden=true;$('#habitatLibrary').append($('#catalogBtn'));playing=true;

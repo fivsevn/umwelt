@@ -8,7 +8,7 @@
 
 上线前环境数量冻结为以下顺序；除修正资料、视觉和布局外，不再横向新增自然环境：
 
-1. `terrestrial` — 腐殖层
+1. `terrestrial` — 饲养箱
 2. `freshwater` — 淡水腐殖池
 3. `groundwater` — 地下水·石灰岩洞穴
 4. `estuary` — 河口汽水带
