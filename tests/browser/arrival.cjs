@@ -15,7 +15,8 @@ fs.mkdirSync(out,{recursive:true});
    const unlockedBefore=await page.evaluate(()=>JSON.parse(localStorage.getItem('isopoda-fieldnotes-v1')).unlocked);
    await page.locator('#startBtn').click();await page.locator('#arrivalCard').waitFor();
    const species=await page.locator('#arrivalSpecimens .isopod').evaluateAll(els=>els.map(e=>e.dataset.species));
-   if(id==='terrestrial')assert.equal(species.filter(id=>id!=='naigua').length,7);else assert.equal(species.length,new Set(species).size);
+   if(id==='terrestrial')assert.equal(species.length,7);else assert.equal(species.filter(s=>s!=='naigua').length,new Set(species.filter(s=>s!=='naigua')).size);
+   if(id==='terrestrial')assert.ok(await page.locator('#arrivalSpecimens .isopod').evaluateAll(els=>new Set(els.map(e=>Math.round(e.getBoundingClientRect().top))).size===1),'terrestrial arrival stays on one row');
    assert.equal(await page.locator('#arrivalNext').isVisible(),id==='petri-dish');
    if(id==='petri-dish')assert.ok(await page.evaluate(()=>{const row=document.querySelector('.arrival-specimen-row').getBoundingClientRect(),prev=document.querySelector('#arrivalPrev').getBoundingClientRect(),next=document.querySelector('#arrivalNext').getBoundingClientRect();return prev.right<next.left&&Math.abs((prev.top+prev.bottom-row.top-row.bottom)/2)<2&&Math.abs(prev.top-next.top)<2}));
    if(id==='freshwater')assert.ok([2,3].includes(species.filter(id=>id!=='naigua').length));
@@ -30,12 +31,12 @@ fs.mkdirSync(out,{recursive:true});
    if(id==='petri-dish'){
     const observed=[],eligible=unlockedBefore.filter(id=>id!=='giganteus');
     for(let i=0;i<eligible.length;i++){
-     const chosen=await page.locator('#arrivalSpecimens .isopod').getAttribute('data-species');observed.push(chosen);assert.ok(eligible.includes(chosen));await page.locator('#arrivalNext').click();
+     const chosen=await page.locator('#arrivalSpecimens .isopod').first().getAttribute('data-species');observed.push(chosen);assert.ok(eligible.includes(chosen));await page.locator('#arrivalNext').click();
     }
     assert.equal(new Set(observed).size,new Set(eligible).size);
-    await page.locator('#arrivalPrev').click();const chosen=await page.locator('#arrivalSpecimens .isopod').getAttribute('data-species');
-    await page.reload();await page.waitForFunction(()=>!!document.querySelector('#continueBtn')?.onclick);await page.locator('#continueBtn').click();assert.equal(await page.locator('#arrivalSpecimens .isopod').getAttribute('data-species'),chosen);
-    assert.deepEqual(await page.evaluate(()=>JSON.parse(localStorage.getItem('isopoda-fieldnotes-v1')).unlocked),unlockedBefore);
+    await page.locator('#arrivalPrev').click();const chosen=await page.locator('#arrivalSpecimens .isopod').first().getAttribute('data-species');
+    await page.reload();await page.waitForFunction(()=>!!document.querySelector('#continueBtn')?.onclick);await page.locator('#continueBtn').click();assert.equal(await page.locator('#arrivalSpecimens .isopod').first().getAttribute('data-species'),chosen);
+    assert.deepEqual(await page.evaluate(()=>JSON.parse(localStorage.getItem('isopoda-fieldnotes-v1')).unlocked.filter(id=>id!=='naigua')),unlockedBefore.filter(id=>id!=='naigua'));
    }
    await page.locator('#settleBtn').click();await page.locator('#playView').waitFor();
    if(id==='freshwater')assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('isopoda-fugue-v4')).scene.materialStage),0);

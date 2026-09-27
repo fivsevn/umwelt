@@ -101,7 +101,7 @@ export function stepShore(group,{state,time=0,dt=0,reduced=false,layout:editedLa
  const local=group.some(a=>a.species)?group.filter((a,i)=>snapshot[i].visible):group.slice(0,4);
  const occupied=new Map(),refugeCounts=new Map(),homes=new Map();
  for(const a of group.filter((a,i)=>snapshot[i].resident||!a.species)){
-  const refuge=SHORE_FAUNA_RULES[a.species]?.refuge||'wood';
+  const refuge=SHORE_FAUNA_RULES[a.ecologySpecies||a.species]?.refuge||'wood';
   const candidates=layout.objects.filter(o=>refuge==='stone'?/stone/.test(o.type)&&o.y>shoreLine(o.x,point,1)-40:refuge==='algae'?/ulva|seagrass|sunken-wood/.test(o.type):refuge==='mud'?/mud-burrows|estuary-silt/.test(o.type)&&o.y>shoreLine(o.x,point,1)-25:/sunken-wood/.test(o.type));
   const order=refugeCounts.get(refuge)||0;refugeCounts.set(refuge,order+1);
   const shelter=candidates[order%Math.max(1,candidates.length)]||layout.objects.find(o=>o.id==='shore-wood')||shoreObject(point,'shore-wood');

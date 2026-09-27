@@ -1,4 +1,4 @@
-import {validCohortSize} from './rare-specimens.mjs';
+import {validCohortSize,normalizeNaiguaCohort} from './rare-specimens.mjs';
 import {isShore,shoreIndex} from './data/habitats/estuary-shore.mjs';
 import {isSeaweed,seaweedIndex,seaweedProgress,seaweedFeedback} from './data/habitats/seaweed-observation.mjs';
 import {petriReady} from './scenery/petri.mjs';
@@ -287,6 +287,7 @@ export function migrateV3(old){if(!old||old.version!==3||!SPECIES.some(p=>p.id==
 export function migrateV4(old){
  if(!old||old.version!==4)return null;
  const s={...old,habitatId:old.habitatId??'terrestrial'};
+ s.cohort=normalizeNaiguaCohort(s.cohort,s.habitatId,s.arrivalPending);
  if(s.habitatId==='petri-dish'&&s.cohort?.some(c=>c.species==='giganteus'))s.cohort=s.cohort.map(c=>c.species==='giganteus'?{...c,species:'uniramea'}:c);
  if(['sandy-surf','petri-dish'].includes(s.habitatId)&&s.stage==='choice')s.scene=null; // Keep completed notes; refresh the pending observation.
  if(s.habitatId==='intertidal'&&s.intertidalVersion!==1)s.intertidalLegacy=true;

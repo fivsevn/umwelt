@@ -37,9 +37,9 @@ function ambientTarget(action,state,c,slot){
 // Keep within-individual pace variation narrow enough that species-level locomotion remains visible.
 // The species speed field is animation/game tuning, not a measured mm/s value.
 export function makeIndividuals(seed,speed=.68){return (Array.isArray(seed)?seed:cohortFor('dairy',seed)).map((specimen,id)=>{
- const h=stableHash(specimen.seed),stage=specimen.stage,p=speciesById(specimen.species),locomotion=p.locomotion?.simulation||{};
+ const h=stableHash(specimen.seed),stage=specimen.stage,p=speciesById(specimen.ecologySpecies||specimen.species),locomotion=p.locomotion?.simulation||{};
  const individualPace=.90+(h>>>12)%21/100;
- return {id,specimenId:specimen.id,species:specimen.species,seed:specimen.seed,x:55+h%260,y:65+(h>>>8)%290,a:(h%628)/100,
+ return {id,specimenId:specimen.id,species:specimen.species,ecologySpecies:specimen.ecologySpecies,seed:specimen.seed,x:55+h%260,y:65+(h>>>8)%290,a:(h%628)/100,
   speed:individualPace*speed*(Number(locomotion.cruise)||p.speed||.8),locomotion,
   size:.94+(h>>>18)%13/100,stage,alertness:.25+(h>>>16)%60/100,pause:2+(h>>>20)%5,offset:h%190/10,hidden:false,posture:'normal',moving:false,molt:'none',occlusion:0,phase:0,gaitPhase:h%4,traits:behaviorTraits(specimen.seed),ambientSlot:-1,ambientAction:null};
 })}
