@@ -7,6 +7,16 @@ const base=process.env.BASE_URL||'http://127.0.0.1:8765',output=process.env.QA_O
  const page=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
  const engine=process.env.BROWSER||'chrome';
  await page.goto(base+'/isopoda/morphology/?species=naigua');await page.waitForSelector('#stage canvas');
+ const preserved=await page.evaluate(async()=>{
+  const {pixelAnatomy,renderModel}=await import('/isopoda/sprites.mjs'),{speciesById}=await import('/isopoda/species-registry.mjs'),{sceneActorPixels}=await import('/isopoda/habitat.mjs');
+  const model=renderModel(speciesById('naigua').visual),source=new Map();
+  for(const part of pixelAnatomy(model,{posture:'curled'}))for(const [x,y,color] of part.cells)source.set(x+','+y,color);
+  return [.4,1,1.2].map(habitatScale=>{
+   const cells=sceneActorPixels(source,{model,posture:'curled',x:0,y:0,a:1.7,habitatScale});
+   return cells.length===source.size&&cells.every(([x,y,color])=>source.get(x+','+y)===color);
+  });
+ });
+ assert.deepEqual(preserved,[true,true,true],'curled face retains every source pixel across scene scales');
  assert.match(await page.locator('#specimenName').innerText(),/奶瓜虫/);assert.equal(await page.locator('#rollMode').innerText(),'FULL');
  await page.locator('#specimenDossier summary').click();assert.match(await page.locator('#dossierBody').innerText(),/不详/);
  assert.equal(await page.locator('#referenceList .reference').count(),0);
