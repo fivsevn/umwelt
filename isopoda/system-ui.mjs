@@ -100,3 +100,5 @@ function init(){
 
 if(document.readyState==='complete')init();
 else window.addEventListener('load',init,{once:true});
+
+window.addEventListener('pageshow',event=>{if(!event.persisted)return;try{const saved=localStorage.getItem('isopoda-ui-language-v1');if(LANGS.includes(saved)&&saved!==interfaceLanguage)setInterfaceLanguage(saved)}catch{}});

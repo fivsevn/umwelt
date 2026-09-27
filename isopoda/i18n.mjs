@@ -45,7 +45,7 @@ export function applyStaticTranslations(){
 
 export function setLanguage(next,{announce=true}={}){
  const value=normalize(next);I18N_STATE.language=value;
- try{localStorage.setItem(STORAGE_KEY,value)}catch{}
+ try{localStorage.setItem(STORAGE_KEY,value);localStorage.setItem('umwelt-desktop-language',value==='isopod'?'zh':value)}catch{}
  applyStaticTranslations();
  if(announce)window.dispatchEvent(new CustomEvent('isopoda:languagechange',{detail:{language:value}}));
  return value;
