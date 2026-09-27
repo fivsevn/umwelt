@@ -1,0 +1,76 @@
+name: Windows preview build and QA
+on:
+  push:
+    branches: [main]
+    paths: ['mac/**', '.github/workflows/windows-preview.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: windows-preview
+  cancel-in-progress: false
+jobs:
+  build-test:
+    runs-on: windows-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install pinned build and test tools
+        working-directory: mac/windows
+        run: npm install --ignore-scripts --no-audit --no-fund
+      - name: Verify game contracts
+        run: node isopoda/tools/check-all.mjs
+      - name: Build single EXE
+        run: node mac/windows/build.mjs
+      - name: Test native windows, synchronization and persistence
+        shell: pwsh
+        run: |
+          $env:UMWELT_PLAYWRIGHT = "$pwd/mac/windows/node_modules/playwright"
+          node mac/qa.cjs "$pwd/_windows/build/win-unpacked/UMWELT.exe"
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          node mac/qa-offline.cjs "$pwd/_windows/build/win-unpacked/UMWELT.exe"
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          $env:QA_OUTPUT = "$pwd/_windows/qa/tick"
+          node mac/qa-tick.cjs "$pwd/_windows/build/win-unpacked/UMWELT.exe"
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Test actual portable EXE and uninstall
+        run: node mac/windows/qa-portable.cjs _windows/release/UMWELT.exe
+      - name: Package tested EXE and TXT only
+        shell: pwsh
+        run: |
+          Compress-Archive -Path _windows/release/UMWELT.exe,_windows/release/README.txt -DestinationPath _windows/UMWELT-0.1.5-win-x64.zip
+          $hash = (Get-FileHash _windows/UMWELT-0.1.5-win-x64.zip -Algorithm SHA256).Hash.ToLower()
+          "$hash  UMWELT-0.1.5-win-x64.zip" | Out-File _windows/SHA256SUMS-win.txt -Encoding utf8
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: windows-qa
+          path: |
+            _windows/qa
+            _windows/build/win-unpacked/qa
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-release
+          path: |
+            _windows/UMWELT-0.1.5-win-x64.zip
+            _windows/SHA256SUMS-win.txt
+  publish:
+    needs: build-test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: windows-release
+          path: release
+      - name: Attach verified Windows package to existing preview
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          test "$(gh release view v0.1.5 --json isPrerelease --jq .isPrerelease)" = true
+          gh release upload v0.1.5 release/UMWELT-0.1.5-win-x64.zip release/SHA256SUMS-win.txt

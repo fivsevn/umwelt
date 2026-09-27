@@ -40,3 +40,14 @@ Visual parity: web panels and native title controls import `window-controls.css`
 Keep bevel colors, shadow and pressed offset shared. Native-only CSS is for window
 layout/drag regions and platform behavior, not an alternate visual theme.
 Verify with `mac/qa-chrome.cjs` against the local web server on port 8767.
+
+## Windows preview
+
+The same desktop runtime is packaged by `mac/windows/build.mjs` on Windows.
+`mac/windows/package.json` pins the build/test tools. The Windows Actions workflow
+runs the shared native-window suite, offline languages and full TICK loop, then
+launches the actual portable EXE from a spaced/non-ASCII path, verifies saved
+records across a restart and confirms complete uninstall on a disposable copy.
+Only after all checks pass does it attach the ZIP to the existing v0.1.5 preview.
+The ZIP has exactly UMWELT.exe and README.txt. Runtime files extract temporarily;
+persistent saves live in %APPDATA%/com.fivsevn.umwelt. The portable EXE is unsigned.
