@@ -47,7 +47,9 @@ function mergeLearnedInteractions(target){
 mergeLearnedInteractions(state);
 let archives=read(ARCHIVE);if(!Array.isArray(archives))archives=[];archives=archives.filter(a=>a&&ENDINGS.some(e=>e.id===a.id));
 let collection=restoreCollection(read(COLLECTION),hasRun?state:null,archives);write(COLLECTION,collection);
-let playing=false,drawerMode='catalog',page=0,lastCatalogPage=null,lastScene=null,referenceReturn=null;
+const CATALOG_POSITION='isopoda-catalog-specimen-v1';
+const rememberedCatalogPage=SPECIES.findIndex(p=>p.id===read(CATALOG_POSITION));
+let playing=false,drawerMode='catalog',page=0,lastCatalogPage=rememberedCatalogPage<0?null:rememberedCatalogPage,lastScene=null,referenceReturn=null;
 let lastInterfaceLanguage=getLanguage();
 const habitat=createHabitat($('#habitat'),$('#critters'),()=>state,event=>{if(!playing||state.stage==='ended')return;if(event.type==='microscope'){checkMicroscope(state,event.visible);save();render();return}const record=recordDirectInteraction(state,event);if(record){mergeLearnedInteractions(state);save();render()}});
 const refreshPetri=createPetriControls($('#habitat').closest('.habitat-viewport'),habitat,()=>state,getLanguage);
@@ -194,7 +196,7 @@ function paragraph(value,cls=''){const el=document.createElement('p');el.dataset
 function drawDrawer(){
  const el=$('#drawerContent');el.replaceChildren();el.scrollTop=0;let total=1;const sourcesOnly=drawerMode==='sources';$('#drawer').dataset.mode=drawerMode;$('#drawerTabs').hidden=sourcesOnly||drawerMode==='journal';$('#sourcesBtn').hidden=drawerMode==='journal';$('#pagePrev').parentElement.hidden=sourcesOnly;$('#specimensTab').setAttribute('aria-pressed',String(drawerMode==='catalog'));$('#endingsTab').setAttribute('aria-pressed',String(drawerMode==='endings'));
  if(drawerMode==='catalog'){
-  total=SPECIES.length;page=(page+total)%total;lastCatalogPage=page;const p=SPECIES[page],known=collection.unlocked.includes(p.id);$('#drawerTitle').textContent=t('archive');el.append(renderCatalog(p,{unlocked:known,collectedOn:collection.acquired?.[p.id]}));
+  total=SPECIES.length;page=(page+total)%total;lastCatalogPage=page;write(CATALOG_POSITION,SPECIES[page].id);const p=SPECIES[page],known=collection.unlocked.includes(p.id);$('#drawerTitle').textContent=t('archive');el.append(renderCatalog(p,{unlocked:known,collectedOn:collection.acquired?.[p.id]}));
  }else if(drawerMode==='endings'){
   total=ENDINGS.length;page=(page+total)%total;const e=ENDINGS[page],saved=archives.some(a=>a.id===e.id);$('#drawerTitle').textContent=t('archive');const note=document.createElement('article');note.className='ending-note';if(saved){const h=document.createElement('h3');h.dataset.directLocale='true';h.textContent=gameText(e.title,getLanguage());note.append(h,paragraph(gameText(e.body,getLanguage())),paragraph(gameText(e.line,getLanguage()),'last-line'));const batches=archives.filter(a=>a.id===e.id);for(const a of batches){if(Array.isArray(a.estuaryRecords))note.append(paragraph(estuarySummary(a.estuaryRecords,getLanguage()),'ending-memory'));const taxa=Array.isArray(a.species)?a.species:[a.species];if(a.memory)note.append(paragraph(a.memory,'ending-memory'));note.append(paragraph(`${a.date} · ${taxa.map(id=>speciesPrimaryName(speciesById(id))).join(' / ')}`,'faint'))}}else{note.classList.add('unseen');const h=document.createElement('h3');h.innerHTML='&nbsp;';note.append(h,paragraph('','ending-space'),paragraph(t('emptyEnding'),'last-line'))}el.append(note);
  }else if(drawerMode==='journal'){
