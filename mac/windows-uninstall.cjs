@@ -11,14 +11,15 @@ async function scheduleWindowsUninstall(exe,profile,pid,cwd){
  fs.rmSync(ready,{force:true});
  const literal=value=>"'"+value.replaceAll("'","''")+"'";
  const script=cleanupScript(exe,profile,pid).replace("Write-Output 'UMWELT_READY'",`[System.IO.File]::WriteAllText(${literal(ready)},'ready')`);
- // A hidden detached PowerShell can silently exit without executing its command.
- // No inherited pipes: the cleanup must outlive the application process.
- const child=spawn(helperPath(),['-NoProfile','-NonInteractive','-EncodedCommand',Buffer.from(script,'utf16le').toString('base64')],{cwd,detached:false,stdio:'ignore',windowsHide:true});
+ // A hidden console wrapper gives PowerShell a console and lets cleanup outlive
+ // the application's process job. Only base64 data enters the fixed command.
+ const command='start "" /b "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -NoProfile -NonInteractive -EncodedCommand '+Buffer.from(script,'utf16le').toString('base64');
+ const child=spawn(path.join(process.env.SystemRoot||'C:\\Windows','System32','cmd.exe'),['/d','/s','/c',command],{cwd,detached:false,stdio:'ignore',windowsHide:true,windowsVerbatimArguments:true});
  let failure;child.once('error',error=>{failure=error});
  for(let i=0;i<150;i++){
   if(fs.existsSync(ready)){child.unref();return}
   if(failure)throw failure;
-  if(child.exitCode!==null)throw Error('Windows cleanup exited before readiness: '+child.exitCode);
+  if(child.exitCode!==null&&child.exitCode!==0)throw Error('Windows cleanup exited before readiness: '+child.exitCode);
   await new Promise(resolve=>setTimeout(resolve,100));
  }
  child.kill();throw Error('Windows cleanup did not become ready');
