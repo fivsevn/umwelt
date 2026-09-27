@@ -65,12 +65,19 @@ test('terrestrial replacement keeps seven slots and inherits local ecology witho
  assert.equal(normalizeNaiguaCohort(old,'terrestrial',false).length,9);
  assert.equal(addRareSpecimens([{id:'A',species:'naigua',seed:1,stage:'L'}],18,'petri-dish')[0].ecologySpecies,'uniramea');
 });
-test('unfolded naigua uses ducky anatomy while curled sizes retain their approved width',()=>{
+test('unfolded naigua uses ducky anatomy while its single size retains the approved adult face',()=>{
  const v=speciesById('naigua').visual,duck=speciesById('ducky').visual;
  assert.deepEqual({...v.body,confidence:undefined},{...duck.body,confidence:undefined});
- for(const key of ['pereon','pleon','pleotelson','uropods','antennae','legs','surface','stageProfiles']){
+ for(const key of ['pereon','pleon','pleotelson','uropods','antennae','legs','surface']){
   const clean=value=>JSON.parse(JSON.stringify(value,(key,value)=>['confidence','template'].includes(key)?undefined:value));
   assert.deepEqual(clean(v[key]),clean(duck[key]),key);
  }
  assert.equal(v.conglobation.rolledWidth,1.05);
+ const adult=renderModel(v,{stage:'L',seed:12});
+ assert.deepEqual(adult.growth,duck.stageProfiles.adult);
+ for(const stage of ['S','M','L','juvenile','subadult','adult']){
+  const model=renderModel(v,{stage,seed:12});
+  assert.deepEqual(model.growth,adult.growth);
+  for(const posture of ['normal','curled'])assert.deepEqual(pixelAnatomy(model,{posture}),pixelAnatomy(adult,{posture}));
+ }
 });

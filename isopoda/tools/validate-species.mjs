@@ -30,7 +30,8 @@ export function validateSpecies(specimens=SPECIES,sourceRows=sources,habitats=HA
   check(Array.isArray(v.patterns),`${at}: patterns required`);
   check(['full','partial','none','unknown'].includes(v.conglobation?.ability),`${at}: conglobation ability`);
   const scales=['juvenile','subadult','adult'].map(k=>v.stageProfiles?.[k]?.scale);
-  check(scales.every(x=>Number.isFinite(x)&&x>0)&&scales[0]<scales[1]&&scales[1]<scales[2],`${at}: growth scales`);
+  const validGrowth=p.id==='naigua'&&p.fictional?scales.every(x=>x===scales[2]):scales[0]<scales[1]&&scales[1]<scales[2];
+  check(scales.every(x=>Number.isFinite(x)&&x>0)&&validGrowth,`${at}: growth scales`);
   check(nonempty(v.palette?.tergite)&&nonempty(v.palette?.dark)&&nonempty(v.palette?.light),`${at}: core palette`);
   if(p.game?.referenceOnly)check(p.game.habitatEligible===false&&!p.game.habitats?.length,`${at}: reference-only eligibility`);
   for(const id of p.game?.habitats||[])check(habitatIds.has(id)&&habitats.find(h=>h.id===id)?.species?.includes(at),`${at}: habitat backlink ${id}`);
