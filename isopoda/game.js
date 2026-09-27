@@ -204,7 +204,8 @@ function drawDrawer(){
  }else{$('#drawerTitle').textContent=t('sources');el.append(renderSources())}
  $('#pageNumber').textContent=total>1?String(page+1).padStart(2,'0'):'·';$('#pagePrev').disabled=total===1;$('#pageNext').disabled=total===1;iconButton($('#sourcesBtn'),drawerMode==='sources'?'book':'source',drawerMode==='sources'?t('sourceBack'):t('sources'));
 }
-function openDrawer(mode){habitat.stop();drawerMode=mode;page=mode==='catalog'?(lastCatalogPage??Math.max(0,SPECIES.findIndex(p=>p.id===state.cohort[0].species&&collection.unlocked.includes(p.id)))):mode==='journal'?Math.max(0,state.records.length-1):Math.max(0,ENDINGS.findIndex(e=>e.id===state.ending));drawDrawer();$('#drawer').showModal()}
+const nativeDrawerMode=window.umweltNative?new URLSearchParams(location.search).get('nativeDrawer'):null;
+function openDrawer(mode){if(window.umweltNative&&!nativeDrawerMode){void window.umweltNative.openDrawer(mode);return}habitat.stop();drawerMode=mode;page=mode==='catalog'?(lastCatalogPage??Math.max(0,SPECIES.findIndex(p=>p.id===state.cohort[0].species&&collection.unlocked.includes(p.id)))):mode==='journal'?Math.max(0,state.records.length-1):Math.max(0,ENDINGS.findIndex(e=>e.id===state.ending));drawDrawer();nativeDrawerMode?$('#drawer').show():$('#drawer').showModal()}
 // CSS touch-action prevents mobile double-tap zoom while preserving pinch zoom; this also blocks browser dblclick fallback inside the game.
 $('#game').addEventListener('dblclick',event=>event.preventDefault(),{passive:false});
 for(const [id,d] of [['shorePrev',-1],['shoreNext',1]])$('#'+id).onclick=()=>{if(moveShore(state,d)){habitat.home();$('#zoomLevel').textContent='1×';render()}};
@@ -277,3 +278,13 @@ const numberObserver=new MutationObserver(refreshNumerals);
 numberObserver.observe(document.body,{subtree:true,childList:true,characterData:true});
 numberObserver.observe(document.documentElement,{attributes:true,attributeFilter:['data-ui-language']});
 refreshNumerals();
+
+// Desktop archive windows share storage, while the observation continues independently.
+if(nativeDrawerMode){
+ emptyHabitat.stop();habitat.stop();openDrawer(['catalog','journal','endings','sources'].includes(nativeDrawerMode)?nativeDrawerMode:'catalog');
+ window.addEventListener('storage',event=>{
+  if(![KEY,ARCHIVE,COLLECTION].includes(event.key))return;
+  const saved=migrateV4(read(KEY));if(validRun(saved))state=saved;
+  collection=restoreCollection(read(COLLECTION),state,read(ARCHIVE)||[]);archives=read(ARCHIVE)||[];drawDrawer();
+ });
+}

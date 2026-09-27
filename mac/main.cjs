@@ -1,24 +1,43 @@
 const {app,BrowserWindow,protocol,net,screen,session,ipcMain,shell,dialog,Menu}=require('electron');
 const path=require('node:path');
 const fs=require('node:fs/promises');
+const syncFs=require('node:fs');
 const {pathToFileURL}=require('node:url');
 const {checkRelease}=require('./updates.cjs');
 const origin='umwelt://game';
 app.setName('UMWELT');
 app.setPath('userData',process.env.UMWELT_TEST_USER_DATA||path.join(app.getPath('appData'),'com.fivsevn.umwelt'));
+app.setPath('crashDumps',path.join(app.getPath('userData'),'Crashpad'));
+app.setAppLogsPath(path.join(app.getPath('userData'),'logs'));
+let uninstallPaths=null;
 protocol.registerSchemesAsPrivileged([{scheme:'umwelt',privileges:{standard:true,secure:true,supportFetchAPI:true,stream:true}}]);
 let win;
-function trusted(event){return event.sender===win?.webContents&&event.senderFrame===win.webContents.mainFrame&&event.senderFrame.url.startsWith(origin+'/')}
+const windows=new Map();
+function sender(event){const w=BrowserWindow.fromWebContents(event.sender);return w&&[...windows.values()].includes(w)&&event.senderFrame===w.webContents.mainFrame&&event.senderFrame.url.startsWith(origin+'/')?w:null}
+function trusted(event){return !!sender(event)}
+function centerWindow(w){const area=screen.getDisplayMatching(w.getBounds()).workArea;const [width,height]=w.getSize();w.setPosition(Math.round(area.x+(area.width-width)/2),Math.round(area.y+(area.height-height)/2))}
 async function external(url){if(/^https?:\/\//.test(url))await shell.openExternal(url)}
-function createWindow(){
- win=new BrowserWindow({width:390,height:760,useContentSize:true,frame:false,roundedCorners:false,minWidth:360,minHeight:120,title:'UMWELT',backgroundColor:'#273e34',webPreferences:{preload:path.join(__dirname,'preload.cjs'),contextIsolation:true,nodeIntegration:false,sandbox:true}});
- win.webContents.setWindowOpenHandler(({url})=>{if(url.startsWith(origin+'/'))void win.loadURL(url);else void external(url);return {action:'deny'}});
- win.webContents.on('will-navigate',(event,url)=>{if(!url.startsWith(origin+'/')){event.preventDefault();void external(url)}});
- win.on('close',()=>session.defaultSession.flushStorageData());
- win.loadURL(origin+'/');
+function createWindow(route='/'){
+ const url=new URL(route,origin),drawer=url.searchParams.get('nativeDrawer');
+ const kind=url.pathname==='/'?'home':drawer?'drawer':url.pathname==='/isopoda/'?'isopoda':url.pathname.startsWith('/tick/')?'tick':'reference';
+ const key=kind==='reference'?url.pathname:kind==='drawer'?'drawer:'+drawer:kind;
+ const existing=windows.get(key);if(existing&&!existing.isDestroyed()){if(existing.isMinimized())existing.restore();if(existing.umweltReady){existing.show();existing.focus()}return existing}
+ const [width,height]=kind==='home'?[720,540]:kind==='reference'?[900,700]:kind==='drawer'?[390,700]:kind==='tick'?[390,650]:[390,480];
+ const w=new BrowserWindow({width,height,show:false,useContentSize:true,frame:false,roundedCorners:false,resizable:false,maximizable:false,fullscreenable:true,title:'UMWELT',backgroundColor:'#273e34',webPreferences:{preload:path.join(__dirname,'preload.cjs'),contextIsolation:true,nodeIntegration:false,sandbox:true}});
+ w.umweltKind=kind;w.umweltReady=false;windows.set(key,w);if(kind==='home')win=w;
+ centerWindow(w);
+ w.webContents.setWindowOpenHandler(({url})=>{if(url.startsWith(origin+'/'))createWindow(url);else void external(url);return {action:'deny'}});
+ w.webContents.on('will-navigate',(event,next)=>{
+  if(!next.startsWith(origin+'/')){event.preventDefault();void external(next);return}
+  if(next!==w.webContents.getURL()){event.preventDefault();createWindow(next);if(new URL(next).pathname==='/'&&kind!=='home')w.close()}
+ });
+ w.on('close',()=>session.defaultSession.flushStorageData());
+ w.on('closed',()=>{windows.delete(key);if(win===w)win=null});
+ w.on('leave-full-screen',()=>w.webContents.send('umwelt:refit'));
+ w.loadURL(url.href);return w;
 }
 if(!app.requestSingleInstanceLock())app.quit();else{
- app.on('second-instance',()=>{if(win){if(win.isMinimized())win.restore();win.focus()}});
+ app.on('second-instance',()=>createWindow('/'));
  app.whenReady().then(()=>{
   const root=path.join(__dirname,'site');
   protocol.handle('umwelt',async request=>{
@@ -32,9 +51,27 @@ if(!app.requestSingleInstanceLock())app.quit();else{
    }catch{return new Response('Not found',{status:404})}
   });
   session.defaultSession.setPermissionRequestHandler((_wc,_permission,callback)=>callback(false));
+  ipcMain.handle('umwelt:open',(event,route)=>{
+   if(!trusted(event)||typeof route!=='string')throw Error('Untrusted route');
+   const url=new URL(route,origin);if(url.protocol!=='umwelt:'||url.host!=='game')throw Error('Invalid route');
+   createWindow(url.href);
+  });
+  ipcMain.handle('umwelt:ready',(event,height)=>{
+   const w=sender(event);if(!w)return;
+   fitWindow(w,height);if(!w.umweltReady){w.umweltReady=true;centerWindow(w);w.show()}
+  });
+  function fitWindow(w,height){
+   if(w.isFullScreen())return;
+   const fixed={home:540,tick:650,drawer:700,reference:700};
+   height=fixed[w.umweltKind]??height;
+   if(!Number.isFinite(height)||height<60||height>10000)return;
+   const area=screen.getDisplayMatching(w.getBounds()).workArea;
+   const next=Math.min(Math.ceil(height),area.height);
+   if(Math.abs(w.getBounds().height-next)>1){w.setBounds({height:next});centerWindow(w)}
+  }
   let checkingUpdates=false;
   ipcMain.handle('umwelt:updates',async event=>{
-   if(!trusted(event))throw Error('Untrusted caller');if(checkingUpdates)return;
+   const win=sender(event);if(!win)throw Error('Untrusted caller');if(checkingUpdates)return;
    checkingUpdates=true;
    try{
     const result=await checkRelease(app.getVersion());
@@ -45,39 +82,30 @@ if(!app.requestSingleInstanceLock())app.quit();else{
    }catch(error){await dialog.showMessageBox(win,{type:'warning',title:'查看更新',message:'暂时无法检查更新。',detail:'请检查网络后重试。\n'+error.message});return {status:'error'}}
    finally{checkingUpdates=false}
   });
-  ipcMain.handle('umwelt:fit',(event,height)=>{
-   if(!trusted(event)||!Number.isFinite(height)||height<100||height>10000)return;
-   if(win.isMaximized()||win.isFullScreen())return;
-   const bounds=win.getBounds(),area=screen.getDisplayMatching(bounds).workArea;
-   const next=Math.min(Math.ceil(height),area.height);
-   if(Math.abs(bounds.height-next)>1)win.setBounds({height:next,y:Math.max(area.y,Math.min(bounds.y,area.y+area.height-next))});
-  });
+  ipcMain.handle('umwelt:fit',(event,height)=>{const w=sender(event);if(w)fitWindow(w,height)});
   ipcMain.handle('umwelt:window',(event,action)=>{
-   if(!trusted(event))throw Error('Untrusted caller');
-   if(action==='minimize')win.minimize();
-   else if(action==='maximize'){if(win.isMaximized())win.unmaximize();else win.maximize()}
-   else if(action==='close')win.close();
+   const w=sender(event);if(!w)throw Error('Untrusted caller');
+   if(action==='minimize')w.minimize();
+   else if(action==='maximize')w.setFullScreen(!w.isFullScreen());
+   else if(action==='close')w.close();
   });
   ipcMain.handle('umwelt:quit',event=>{if(!trusted(event))throw Error('Untrusted caller');session.defaultSession.flushStorageData();app.quit()});
   ipcMain.handle('umwelt:uninstall',async event=>{
-   if(!trusted(event))throw Error('Untrusted caller');
+   const win=sender(event);if(!win)throw Error('Untrusted caller');
    const bundle=path.resolve(process.execPath,'../../..');
    if(!app.isPackaged||path.basename(bundle)!=='UMWELT.app')return {error:'Only the packaged UMWELT.app can be uninstalled.'};
-   const choice=await dialog.showMessageBox(win,{type:'warning',title:'卸载 UMWELT / Uninstall',message:'将 UMWELT 移到废纸篓？',detail:'默认保留图鉴和观察记录，重新安装后可以继续。勾选下方选项才会同时移除存档。',buttons:['取消 / Cancel','卸载 / Uninstall'],defaultId:0,cancelId:0,checkboxLabel:'同时移除图鉴和观察记录 / Remove saved data',checkboxChecked:false});
-   if(choice.response!==1)return {cancelled:true};
-   try{
-    session.defaultSession.flushStorageData();
-    await shell.trashItem(bundle);
-    if(choice.checkboxChecked)await shell.trashItem(app.getPath('userData'));
-    app.quit();return {removed:true};
-   }catch(error){await dialog.showMessageBox(win,{type:'error',message:'卸载未完成 / Uninstall incomplete',detail:error.message});return {error:error.message}}
+   // The authored homepage confirmation is the final confirmation. Remove this
+   // bundle and its private profile on quit, after windows and storage are closed.
+   uninstallPaths=[bundle,app.getPath('userData')];
+   session.defaultSession.flushStorageData();app.quit();return {removed:true};
   });
   Menu.setApplicationMenu(Menu.buildFromTemplate([
-   {label:'UMWELT',submenu:[{role:'about'},{type:'separator'},{label:'返回主页 / Home',click:()=>win?.loadURL(origin+'/')},{label:'显示存档 / Show saved data',click:()=>shell.openPath(app.getPath('userData'))},{type:'separator'},{role:'quit'}]},
-   {role:'editMenu'},{role:'viewMenu'},{role:'windowMenu'}
+   {label:'UMWELT',submenu:[{role:'about'},{type:'separator'},{label:'返回主页 / Home',click:()=>createWindow('/')},{label:'显示存档 / Show saved data',click:()=>shell.openPath(app.getPath('userData'))},{type:'separator'},{role:'quit'}]},
+   {role:'editMenu'},{role:'viewMenu'},{label:'Window',submenu:[{role:'minimize'},{role:'close',accelerator:'CmdOrCtrl+W'},{type:'separator'},{role:'front'}]}
   ]));
   createWindow();
  });
  app.on('window-all-closed',()=>app.quit());
+ app.on('will-quit',()=>{if(uninstallPaths)for(const target of uninstallPaths)syncFs.rmSync(target,{recursive:true,force:true})});
  app.on('before-quit',()=>{if(app.isReady())session.defaultSession.flushStorageData()});
 }

@@ -18,37 +18,26 @@ html.umwelt-native body{position:absolute!important;inset:40px 6px 6px!important
 .umwelt-native .desktop{padding-top:18px;height:100%;min-height:0}
 .umwelt-native .taskbar{left:6px;right:6px;bottom:6px}
 .umwelt-native #forest{inset:40px 6px 6px;width:calc(100% - 12px);height:calc(100% - 46px)}
-/* ISOPODA: remove the redundant decorative outer border and title, keeping panels/dialogs. */
-.umwelt-native body>#game{width:100%!important;margin:0!important;padding:0!important;min-height:100%!important}
-.umwelt-native #game>.application-card,.umwelt-native #boxFrame{border:0!important;box-shadow:none!important;padding:0!important;margin:0!important;width:100%!important;max-width:none!important;min-height:0}
-.umwelt-native #game>.application-card>.window-title,.umwelt-native #boxFrame>.window-title{display:none!important}
-.umwelt-native #game>.play-view{padding:0!important}
-.umwelt-native #game>.launch-card{min-height:100%!important}
-.umwelt-native #game>.arrival-card,.umwelt-native #game>.end-card{padding:8px!important}
-.umwelt-native #game .launch-close{display:none!important}
-/* TICK also sits inside the same real window, with its own content kept intact. */
-.umwelt-native body>#game.game{position:relative!important;inset:auto!important;height:100%!important;min-height:0!important;padding:8px 12px 12px!important}
-.umwelt-native .topbar{flex-basis:26px}
-/* Keep archive dialogs within the framed content area. */
-.umwelt-native dialog{max-width:calc(100vw - 28px);max-height:calc(100dvh - 68px)}
-
 #nativeTitlebar [hidden]{display:none!important}
-/* Fit the native window to each authored ISOPODA panel, never to an empty viewport. */
-.umwelt-isopoda body{background:#7f8974!important}
-.umwelt-isopoda body>#game{min-height:0!important;height:auto!important;background:none!important}
-.umwelt-native #game>.application-card,.umwelt-native #game>.launch-card{min-height:0!important;max-height:none!important;height:auto!important;overflow:visible!important}
-.umwelt-native #game>.launch-card .empty-box{width:100%!important;flex:none!important}
-.umwelt-native #game>.launch-card .title-links{flex:none!important}
+/* The authored webpage panel is the entire native ISOPODA window. */
+html.umwelt-isopoda body{inset:0!important;background:#7f8974!important;scrollbar-width:none}
+.umwelt-isopoda body::-webkit-scrollbar{width:0;height:0}
+.umwelt-isopoda body>#game{width:100%!important;margin:0!important;padding:0!important;min-height:0!important;height:auto!important;background:none!important}
+.umwelt-isopoda #game>.application-card,.umwelt-isopoda #boxFrame{margin:0!important;width:100%!important;max-width:none!important;min-height:0!important;max-height:none!important;height:auto!important;box-shadow:none!important}
+.umwelt-isopoda #game>.play-view{padding:0!important}
+.umwelt-isopoda #game>.launch-card .empty-box{width:100%!important;flex:none!important}
+.umwelt-isopoda .window-title,.umwelt-drawer #drawer>header,.umwelt-isopoda #arrivalCard>.result-panel>.panel-caption{-webkit-app-region:drag;user-select:none}
+.umwelt-isopoda .window-title :is(button,a),.umwelt-drawer #drawer>header button{-webkit-app-region:no-drag}
 @media(max-width:899px){
- .umwelt-native #boxFrame .window-content{display:flex!important;flex-direction:column!important;align-items:stretch!important}
- .umwelt-native #boxFrame .window-content>.habitat-viewport{width:100%!important;height:auto!important;max-width:none!important;aspect-ratio:1!important;align-self:stretch!important}
- .umwelt-native #boxFrame .window-story{width:100%!important}
+ .umwelt-isopoda #boxFrame .window-content{display:flex!important;flex-direction:column!important;align-items:stretch!important}
+ .umwelt-isopoda #boxFrame .window-content>.habitat-viewport{width:100%!important;height:auto!important;max-width:none!important;aspect-ratio:1!important;align-self:stretch!important}
+ .umwelt-isopoda #boxFrame .window-story{width:100%!important}
 }
-
-.umwelt-tick body>#game{position:absolute!important;inset:0!important;height:100%!important;min-height:0!important}
+/* A detached archive uses the same original dialog, without a dimmed parent or another title. */
+.umwelt-drawer #game>:not(#drawer){display:none!important}
+.umwelt-drawer #drawer[open]{position:fixed!important;inset:0!important;margin:0!important;width:100%!important;max-width:none!important;height:100dvh!important;max-height:none!important;box-shadow:none!important;display:flex!important}
+.umwelt-drawer #drawer::backdrop{display:none}
+.umwelt-tick body{background:#101310!important}
+.umwelt-tick body>#game{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-height:0!important;margin:0!important;padding:0!important}
 .umwelt-tick #game>nav{display:none}
 .umwelt-tick #ending{inset:40px 6px 6px}
-/* Avoid an OS scrollbar taking a strip out of the pixel frame; capped windows still scroll. */
-.umwelt-isopoda body{scrollbar-width:none}
-.umwelt-isopoda body::-webkit-scrollbar{width:0;height:0}
-.umwelt-tick body{background:#101310!important}

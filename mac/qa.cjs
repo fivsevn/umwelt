@@ -1,48 +1,27 @@
-// UMWELT_PLAYWRIGHT=/absolute/path/to/playwright node mac/qa.cjs /path/UMWELT.app
 const {_electron:electron}=require(process.env.UMWELT_PLAYWRIGHT||'playwright');
-const assert=require('node:assert/strict');
-const fs=require('node:fs/promises');
-const os=require('node:os');const path=require('node:path');
+const assert=require('node:assert/strict'),fs=require('node:fs/promises'),os=require('node:os'),path=require('node:path');
 (async()=>{
- const bundle=process.argv[2];const profile=await fs.mkdtemp(path.join(os.tmpdir(),'umwelt-mac-qa-'));
- const evidence=path.join(path.dirname(bundle),'qa');await fs.mkdir(evidence,{recursive:true});
- let app,page;const errors=[];
- async function launch(){app=await electron.launch({executablePath:path.join(bundle,'Contents/MacOS/UMWELT'),env:{...process.env,UMWELT_TEST_USER_DATA:profile}});page=await app.firstWindow();page.on('pageerror',e=>errors.push(e.message));await page.waitForSelector('#systemButton');}
- await launch();await page.waitForSelector('#nativeTitlebar');
- const bounds=await app.evaluate(({BrowserWindow})=>{const w=BrowserWindow.getAllWindows()[0];return {window:w.getBounds(),content:w.getContentBounds()}});assert.deepEqual(bounds.window,bounds.content);assert.equal(bounds.content.width,390);
- await page.click('#nativeMinimize');await new Promise(r=>setTimeout(r,250));assert.equal(await app.evaluate(({BrowserWindow})=>BrowserWindow.getAllWindows()[0].isMinimized()),true);await app.evaluate(({BrowserWindow})=>{const w=BrowserWindow.getAllWindows()[0];w.restore();w.focus()});
- await page.click('#nativeMaximize');await new Promise(r=>setTimeout(r,350));assert.equal(await app.evaluate(({BrowserWindow})=>BrowserWindow.getAllWindows()[0].isMaximized()),true);await page.click('#nativeMaximize');await new Promise(r=>setTimeout(r,350));
- await page.screenshot({path:path.join(evidence,'01-home.png')});
- await page.click('a[href="./isopoda/"]');
- async function fitCheck(selector,name){await page.waitForTimeout(350);const box=await page.locator(selector).boundingBox();const size=await app.evaluate(({BrowserWindow})=>BrowserWindow.getAllWindows()[0].getContentSize());assert.ok(Math.abs(size[1]-(box.height+46))<3,`${name}: window ${size[1]}, content ${box.height}`);await page.screenshot({path:path.join(evidence,name+'.png')});console.log(name,size)}
- await fitCheck('#titleCard','06-fit-selector');await page.click('#startBtn');await fitCheck('#arrivalCard','07-fit-arrival');await page.click('#settleBtn');await fitCheck('#boxFrame','08-fit-observation');
- await page.screenshot({path:path.join(evidence,'05-retro-game.png')});
- assert.equal(await page.locator('#boxFrame>.window-title').isVisible(),false);
- assert.ok(await page.locator('#nativeCaption').innerText());
- await page.click('#catalogBtn');
- const steps=await page.evaluate(async()=>{const {SPECIES}=await import('umwelt://game/isopoda/species-registry.mjs');const current=JSON.parse(localStorage.getItem('isopoda-catalog-specimen-v1'));const unlocked=JSON.parse(localStorage.getItem('isopoda-fieldnotes-v1')).unlocked;const target=unlocked.find(id=>id!==current)||current;return (SPECIES.findIndex(p=>p.id===target)-SPECIES.findIndex(p=>p.id===current)+SPECIES.length)%SPECIES.length});
- for(let i=0;i<steps;i++)await page.click('#pageNext');
- const before=await page.evaluate(()=>({collection:localStorage.getItem('isopoda-fieldnotes-v1'),position:localStorage.getItem('isopoda-catalog-specimen-v1'),run:localStorage.getItem('isopoda-fugue-v4'),text:document.querySelector('#drawerContent').innerText}));
- assert.ok(JSON.parse(before.collection).unlocked.length>0);assert.ok(before.position);
- await page.screenshot({path:path.join(evidence,'02-catalog-before.png')});
- await page.click('#closeDrawer');await page.click('#nativeClose');await app.close();
- await launch();await page.click('a[href="./isopoda/"]');await page.waitForSelector('#continueBtn');
- const stored=await page.evaluate(()=>({collection:localStorage.getItem('isopoda-fieldnotes-v1'),position:localStorage.getItem('isopoda-catalog-specimen-v1'),run:localStorage.getItem('isopoda-fugue-v4')}));
- assert.equal(stored.collection,before.collection);assert.equal(stored.position,before.position);assert.equal(stored.run,before.run);
- await page.click('#continueBtn');await page.click('#catalogBtn');
- assert.equal(await page.locator('#drawerContent').innerText(),before.text);
- await page.screenshot({path:path.join(evidence,'03-catalog-after.png')});
- // Follow the actual archive's reference route if present.
- const links=await page.locator('#drawerContent a').evaluateAll(els=>els.map(e=>e.getAttribute('href')));
- await page.goto('umwelt://game/isopoda/morphology/');await page.waitForLoadState('networkidle');await page.screenshot({path:path.join(evidence,'04-morphology.png')});
- await page.goto('umwelt://game/tick/');await page.waitForLoadState('networkidle');await page.waitForSelector('#senses');assert.equal(await page.locator('#actionButton').count(),0);await page.screenshot({path:path.join(evidence,'09-latest-tick.png')});
- await page.goto('umwelt://game/');await page.click('#systemButton');assert.equal(await page.locator('[data-action=updates]').innerText(),'查看更新');assert.equal(await page.locator('[data-action="leave"]').innerText(),'卸载环境');
- await page.click('[data-action="leave"]');await page.click('#cancelAction');assert.equal(await page.locator('#systemDialog').isVisible(),false);
- // Exercise native cancellation, leaving this distributable untouched.
- await app.evaluate(({dialog})=>{dialog.showMessageBox=async()=>({response:0,checkboxChecked:false})});
- assert.deepEqual(await page.evaluate(()=>window.umweltNative.uninstall()),{cancelled:true});const update=await page.evaluate(()=>window.umweltNative.checkUpdates());assert.equal(update.current,'0.1.1');assert.notEqual(update.status,'error');console.log('Live GitHub update check:',update.status);
- await page.click('#systemButton');await page.click('[data-action="end"]');await page.click('#confirmAction');await app.close();
- assert.deepEqual(errors,[]);
- await fs.writeFile(path.join(evidence,'results.json'),JSON.stringify({passed:true,profile,collection:JSON.parse(before.collection),lastSpecimen:JSON.parse(before.position),checks:['frameless window matches content bounds','pixel minimize and maximize/restore work','pixel close exits with saves preserved','real collection persists','active observation persists','last catalog specimen and visible content persist across process relaunch','morphology and TICK load offline','uninstall menu and native cancellation','home menu quits application'],links,errors},null,2));
- console.log('PASS: real app relaunch, collection, catalog position, routes, uninstall cancellation, quit.');
+ const bundle=process.argv[2],profile=await fs.mkdtemp(path.join(os.tmpdir(),'umwelt-multi-qa-')),out=path.join(path.dirname(bundle),'qa');await fs.mkdir(out,{recursive:true});
+ let app;const errors=[];
+ async function launch(){app=await electron.launch({executablePath:path.join(bundle,'Contents/MacOS/UMWELT'),env:{...process.env,UMWELT_TEST_USER_DATA:profile}});const p=await app.firstWindow();p.on('pageerror',e=>errors.push(e.message));await p.waitForSelector('#nativeTitlebar');await p.waitForTimeout(300);return p}
+ async function info(page){return app.evaluate(({BrowserWindow,screen},url)=>{const w=BrowserWindow.getAllWindows().find(w=>w.webContents.getURL()===url);return {bounds:w.getBounds(),resizable:w.isResizable(),visible:w.isVisible(),area:screen.getDisplayMatching(w.getBounds()).workArea}},page.url())}
+ async function centered(page){const {bounds:b,area:a,resizable}=await info(page);assert.equal(resizable,false);assert.ok(Math.abs(b.x-(a.x+(a.width-b.width)/2))<3);assert.ok(Math.abs(b.y-(a.y+(a.height-b.height)/2))<3)}
+ async function nextWindow(action){const promise=app.waitForEvent('window');await action();const p=await promise;p.on('pageerror',e=>errors.push(e.message));await p.waitForLoadState('networkidle');await p.waitForTimeout(250);return p}
+ let home=await launch();await centered(home);assert.equal((await info(home)).bounds.width,720);assert.equal((await info(home)).bounds.height,540);await home.screenshot({path:path.join(out,'home.png')});
+ const game=await nextWindow(()=>home.click('a[href="./isopoda/"]'));assert.equal(home.url(),'umwelt://game/');await centered(game);assert.equal(await game.locator('#nativeFrame').count(),0);await game.screenshot({path:path.join(out,'selector.png')});
+ async function fits(selector){await game.waitForTimeout(350);const box=await game.locator(selector).boundingBox();const i=await info(game);assert.ok(box.y<1,'Panel must start at the real window top');assert.ok(Math.abs(box.height-i.bounds.height)<3,JSON.stringify({box,window:i.bounds}));await centered(game)}
+ await fits('#titleCard');await game.click('#startBtn');await fits('#arrivalCard');assert.equal(await game.locator('.window-title:visible').count(),0);assert.equal(await game.locator('#nativeTitlebar').count(),0);await game.screenshot({path:path.join(out,'arrival.png')});
+ await game.click('#settleBtn');await fits('#boxFrame');await game.screenshot({path:path.join(out,'observation.png')});
+ const archive=await nextWindow(()=>game.click('#catalogBtn'));await centered(archive);assert.equal(await game.locator('#drawer').evaluate(e=>e.open),false);assert.equal(await archive.locator('#drawer').evaluate(e=>e.open),true);assert.equal(await archive.locator('#nativeFrame').count(),0);
+ const steps=await archive.evaluate(async()=>{const {SPECIES}=await import('umwelt://game/isopoda/species-registry.mjs');const c=JSON.parse(localStorage.getItem('isopoda-fieldnotes-v1'));const current=JSON.parse(localStorage.getItem('isopoda-catalog-specimen-v1'));const target=c.unlocked.find(id=>id!==current)||current;return (SPECIES.findIndex(p=>p.id===target)-SPECIES.findIndex(p=>p.id===current)+SPECIES.length)%SPECIES.length});for(let n=0;n<steps;n++)await archive.click('#pageNext');const specimen=await archive.evaluate(()=>localStorage.getItem('isopoda-catalog-specimen-v1'));await archive.screenshot({path:path.join(out,'independent-archive.png')});
+ // Moving the archive must not move its independent observation window.
+ const original=(await info(game)).bounds;await app.evaluate(({BrowserWindow},url)=>{const w=BrowserWindow.getAllWindows().find(w=>w.webContents.getURL()===url);const [x,y]=w.getPosition();w.setPosition(x+90,y+20)},archive.url());assert.deepEqual((await info(game)).bounds,original);
+ await game.click('#windowMaximize');await game.waitForTimeout(900);assert.equal(await app.evaluate(({BrowserWindow},url)=>BrowserWindow.getAllWindows().find(w=>w.webContents.getURL()===url).isFullScreen(),game.url()),true);
+ await game.click('#windowMaximize');await game.waitForTimeout(900);await fits('#boxFrame');
+ await game.click('#windowClose');assert.equal(await archive.isClosed(),false);await archive.click('#pageNext');await archive.click('#pagePrev');assert.equal(await archive.evaluate(()=>localStorage.getItem('isopoda-catalog-specimen-v1')),specimen);await archive.click('#closeDrawer');
+ const reopened=await nextWindow(()=>home.click('a[href="./isopoda/"]'));await reopened.waitForSelector('#continueBtn');await reopened.click('#continueBtn');const archive2=await nextWindow(()=>reopened.click('#catalogBtn'));assert.equal(await archive2.evaluate(()=>localStorage.getItem('isopoda-catalog-specimen-v1')),specimen);
+ await app.close();home=await launch();const g2=await nextWindow(()=>home.click('a[href="./isopoda/"]'));await g2.waitForSelector('#continueBtn');assert.equal(await g2.evaluate(()=>localStorage.getItem('isopoda-catalog-specimen-v1')),specimen);
+ const tick=await nextWindow(()=>home.click('a[href="./tick/"]'));await tick.waitForSelector('#senses');await centered(tick);await tick.screenshot({path:path.join(out,'latest-tick.png')});
+ await home.click('#systemButton');assert.equal(await home.locator('[data-action=leave]').innerText(),'卸载环境');assert.equal(await home.locator('[data-action=updates]').innerText(),'查看更新');await home.click('[data-action=leave]');await home.screenshot({path:path.join(out,'uninstall-confirmation.png')});await home.click('#cancelAction');
+ await app.close();assert.deepEqual(errors,[]);await fs.writeFile(path.join(out,'results.json'),JSON.stringify({passed:true,profile,specimen,checks:['fixed centered desktop and game windows','authored arrival panel without extra title','content fits without background','independent movable archive','observation and archive close independently','fullscreen and small-window restore','saved catalog persists through process restart','latest TICK','uninstall confirmation cancels'],errors},null,2));console.log('PASS: independent fixed centered windows, original panel styling, fullscreen, persistence, latest TICK.');
 })().catch(e=>{console.error(e);process.exit(1)});
