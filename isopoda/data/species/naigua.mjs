@@ -1,6 +1,8 @@
 import {phenotypeFor} from '../../phenotypes.mjs';
 const visual=structuredClone(phenotypeFor('ducky'));
 visual.morphologyKey='naigua';
+// Keep the approved adult proportions, including the curled face, at every stage.
+for(const stage of Object.keys(visual.stageProfiles))visual.stageProfiles[stage]={...visual.stageProfiles.adult};
 visual.provenance='作者虚构的鼠妇；黄色身体与绿色大眼来自 meme 形象，形态结构使用共用鼠妇绘制器。';
 visual.cephalon={...visual.cephalon,eyeSet:1.02,eyeScale:4,rolledEyeScale:4,scutellum:'none',eyeWhite:'#91bf70',eyePupil:'#080e08',mouthColor:'#76632b',mouthCorner:'#b59b45',mouthShadow:'#c1b35c',mouthLight:'#ffe78a'};
 visual.palette={...visual.palette,tergite:'#f6d45d',cephalon:'#f8db6c',epimera:'#ffe99b',pleon:'#efc94e',pleotelson:'#efcd59',uropods:'#e6c678',antennae:'#c4ad68',legs:'#a58f52',dark:'#9f8138',light:'#fff0a4'};
