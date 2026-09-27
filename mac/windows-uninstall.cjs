@@ -6,14 +6,15 @@ function cleanupScript(exe,profile,pid){
 }
 function helperPath(){return path.join(process.env.SystemRoot||'C:\\Windows','System32','WindowsPowerShell','v1.0','powershell.exe')}
 async function scheduleWindowsUninstall(exe,profile,pid,cwd){
- const script=cleanupScript(exe,profile,pid);
+ const log=message=>{if(process.env.UMWELT_TEST_USER_DATA)require('node:fs').appendFileSync(path.join(path.dirname(profile),'cleanup-debug.log'),message+'\n')};
+ const script=cleanupScript(exe,profile,pid);log(JSON.stringify({exe,profile,pid,cwd,helper:helperPath(),script}));
  const child=spawn(helperPath(),['-NoProfile','-NonInteractive','-EncodedCommand',Buffer.from(script,'utf16le').toString('base64')],{cwd,detached:true,stdio:['ignore','pipe','pipe'],windowsHide:true});
  await new Promise((resolve,reject)=>{
-  let output='',errors='';const timer=setTimeout(()=>reject(Error('Windows cleanup did not become ready: '+errors)),15000);
-  child.stdout.on('data',data=>{output+=data;if(output.includes('UMWELT_READY')){clearTimeout(timer);resolve()}});
-  child.stderr.on('data',data=>errors+=data);
-  child.once('error',error=>{clearTimeout(timer);reject(error)});
-  child.once('exit',code=>{clearTimeout(timer);reject(Error('Windows cleanup exited '+code+': '+errors))});
+  let output='',errors='';const timer=setTimeout(()=>{log('TIMEOUT '+errors);child.kill();reject(Error('Windows cleanup did not become ready: '+errors))},15000);
+  child.stdout.on('data',data=>{log('STDOUT '+data);output+=data;if(output.includes('UMWELT_READY')){clearTimeout(timer);resolve()}});
+  child.stderr.on('data',data=>{log('STDERR '+data);errors+=data});
+  child.once('error',error=>{log('ERROR '+error);clearTimeout(timer);reject(error)});
+  child.once('exit',code=>{log('EXIT '+code);clearTimeout(timer);reject(Error('Windows cleanup exited '+code+': '+errors))});
  });
  child.stdout.destroy();child.stderr.destroy();child.unref();
 }
