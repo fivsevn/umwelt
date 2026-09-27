@@ -1,6 +1,6 @@
 # ISOPODA 开发文档导航
 
-这里是游戏维护与内容扩展的唯一文档入口。先按任务选指南，再查对应契约；运行代码决定当前实际行为，指南不代表功能已经实现。此次整理只涉及开发文档，下一轮再添加内容。
+这里是 ISOPODA 维护与内容扩展的文档入口。先按任务选指南，再查对应契约；运行代码决定当前实际行为，指南不代表功能已经实现。仓库共用维护事项见 [项目级文档](../../docs/README.md)。
 
 科学资料先按 [姐妹实验室参考资料归属](laboratories.md#参考资料归属全游戏统一原则) 分配：Credits 仅主页，具体文章进入对应标本或环境。
 
@@ -10,7 +10,7 @@
 | --- | --- | --- |
 | 添加鼠妇品种、培养线或参考标本 | [扩展工作流：品种](expansion-guide.md#品种与标本) | [物种数据契约](species-data-contract.md)、[形态边界](morphology-renderer.md) |
 | 添加环境、布景或生态指标 | [环境扩展指南](environments.md) | [群体模型](cohort.md)、[存档兼容](save-compat.md) |
-| 精修河口观察与导入六阶段布景 | [河口汽水带](estuary.md) | [实验室契约](laboratories.md)、[存档兼容](save-compat.md) |
+| 维护河口观察与旧六阶段布景 | [河口汽水带](estuary.md) | [实验室契约](laboratories.md)、[存档兼容](save-compat.md) |
 | 添加事件、内容或结局 | [扩展工作流：叙事](expansion-guide.md#游戏内容与结局) | [内容地图](content-map.md)、[叙事契约](narrative-contract.md) |
 | 添加一种语言 | [语言扩展指南](languages.md) | [本地化模块](../locales/README.md)、[叙事契约](narrative-contract.md) |
 | 添加动画动作或交互反应 | [动作扩展指南](animation.md) | [形态边界](morphology-renderer.md)、[运动研究](../data/locomotion/README.md) |
@@ -37,5 +37,5 @@
 1. 当前契约放在本目录；操作指南引用契约，不再复制完整字段定义或存档键表。
 2. 模块目录的 README 只解释该模块，并链接回本入口。提案使用 [模板](templates/expansion-proposal.md)，明确标为待实施；不要用占位数据注册尚未完成的内容。
 3. 已完成的阶段记录及旧设计放入 [历史索引](reference/README.md)。历史文档不随当前代码重写，也不能替代当前契约。
-4. 不新建仓库根目录 `docs/` 作为第二套 ISOPODA 文档。公开 Credits、字体许可、来源数据具有运行或授权用途，不能当作开发文档移动或删减。
+4. 仓库根目录 `docs/` 只维护项目共用事项，不复制 ISOPODA 契约。公开 Credits、字体许可、来源数据具有运行或授权用途，不能当作开发文档移动或删减。
 5. 只整理文档时，保持运行文件、素材、配置、发布脚本和已有测试不变；执行 [文档整理验证](deployment.md#文档整理的零前端变化验证)。

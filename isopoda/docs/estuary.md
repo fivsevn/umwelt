@@ -2,6 +2,10 @@
 
 [返回文档导航](README.md) · [环境指南](environments.md) · [实验室契约](laboratories.md)
 
+## 文档适用范围
+
+本页保留六阶段 `estuary-observation` 的兼容与布局维护说明；下文“新局”和实验室菜单描述属于该版本，不代表当前默认入口。当前新局使用岸边观察（`estuaryShoreVersion: 1`）；阶段实现经过另行迭代，见 [归档记录](reference/estuary-shore-prototype.md)。维护时以运行代码、[存档兼容](save-compat.md) 和 [实验室契约](laboratories.md) 为准；下文旧 FLOW 减少动态描述也不应覆盖现行约定。
+
 ## 运行边界
 
 新局采用 `estuary-observation`：落点、来水改变、与原点分开、转流、条件回撤、重访，共六次三选一。没有晨午夜，没有倒计时。守住原点记录 P 水样；跟随轮廓记录可见路线；对照两处记录 P/Q 水样。选择不改变盐度、水流或动物运动。上一轮的选择改变下一轮的记录背景，未采集的证据保持缺失。
