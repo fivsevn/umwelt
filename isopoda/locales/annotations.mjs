@@ -1,6 +1,11 @@
 import {encodeIsopodText} from './isopod.mjs';
 
 const copy={
+  naigua:{
+    zh:['你给它留了一行。它没有解释自己，只是在那一行旁边走过去。','你只是怕了。'],
+    en:['You leave it a line on the page. It offers no explanation, only walks past it.','You were just afraid.'],
+    ja:['一行ぶん空けておいた。説明はなく、その脇を歩いていった。','あなたはただ怖かっただけだ。']
+  },
   levii:{zh:['石缝只露出一小段背面，边缘和石头的影子接在一起。','它停了很久。笔尖刚离开纸，那一小段才又往里挪。'],en:['Only a small curve of its back shows in the crack, meeting the shadow of the stone.','It stays still. Just as the pencil leaves the page, the curve moves farther inside.'],ja:['石の隙間に背中が少しだけ見え、縁が石の影につながる。','長く止まっていた。鉛筆が紙から離れると、その小さな背が奥へ動いた。']},
   giganteus:{
     zh:['两次移动之间隔了很久。','第一处和第二处都被记下，中间的部分却只留下了一段时间。'],

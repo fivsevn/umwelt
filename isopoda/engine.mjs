@@ -1,3 +1,4 @@
+import {validCohortSize} from './rare-specimens.mjs';
 import {isShore,shoreIndex} from './data/habitats/estuary-shore.mjs';
 import {isSeaweed,seaweedIndex,seaweedProgress,seaweedFeedback} from './data/habitats/seaweed-observation.mjs';
 import {petriReady} from './scenery/petri.mjs';
@@ -110,7 +111,7 @@ export function endingMemoryFor(s){
  if(r.type==='ground')return '这七天里，你曾让土面发生过短促的震动。几条路线从那里重新开始。';
  return `这七天里，你曾碰过${who}。它收紧过身体，后来又重新展开。`;
 }
-export function validRun(s){const h=habitatConfig(s),count=h.cohortSize||7;return !!(s&&s.version===VERSION&&Array.isArray(s.cohort)&&s.cohort.length===count&&s.cohort.every((c,i)=>c.id===String.fromCharCode(65+i)&&SPECIES.some(p=>p.id===c.species&&eligibleSpecies(p,s.habitatId))&&Number.isInteger(c.seed)&&['S','M','L'].includes(c.stage))&&Number.isInteger(s.day)&&s.day>=1&&s.day<=h.days&&(s.habitatId==null||HABITATS.some(h=>h.id===s.habitatId))&&(!h.aquatic||Object.keys(h.defaults).every(k=>Number.isFinite(s[k])))&&Number.isInteger(s.period)&&s.period>=0&&s.period<=2&&['choice','feedback','ended'].includes(s.stage)&&Array.isArray(s.records)&&['seed','humidity','temp','vent','light','cover','food','interventions','quiet','accuracy','maps','labels','care'].every(k=>Number.isFinite(s[k])))}
+export function validRun(s){const h=habitatConfig(s),count=h.cohortSize||7;return !!(s&&s.version===VERSION&&Array.isArray(s.cohort)&&validCohortSize(s.cohort,count,s.habitatId)&&s.cohort.every((c,i)=>c.id===String.fromCharCode(65+i)&&SPECIES.some(p=>p.id===c.species&&eligibleSpecies(p,s.habitatId))&&Number.isInteger(c.seed)&&['S','M','L'].includes(c.stage))&&Number.isInteger(s.day)&&s.day>=1&&s.day<=h.days&&(s.habitatId==null||HABITATS.some(h=>h.id===s.habitatId))&&(!h.aquatic||Object.keys(h.defaults).every(k=>Number.isFinite(s[k])))&&Number.isInteger(s.period)&&s.period>=0&&s.period<=2&&['choice','feedback','ended'].includes(s.stage)&&Array.isArray(s.records)&&['seed','humidity','temp','vent','light','cover','food','interventions','quiet','accuracy','maps','labels','care'].every(k=>Number.isFinite(s[k])))}
 export function timeFor(seed,day,period){
  const starts=[6*60,13*60,20*60],spans=[5*60,5*60,4*60];
  const minute=starts[period]+((hash(seed,period+71)+(day-1)*47)%spans[period]);

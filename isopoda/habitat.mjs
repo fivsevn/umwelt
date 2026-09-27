@@ -31,7 +31,7 @@ export const SCENE_PIXEL=1;
 const SCENE_ACTOR_SCALE=ACTOR_SCALE,SCENE_OUTPUT_SCALE=1;
 
 export function sceneActorPixels(source,actor){
- const cells=new Map(),size=SCENE_ACTOR_SCALE*actor.model.growth.scale*(actor.habitatScale||1),ca=Math.cos(actor.a),sa=Math.sin(actor.a);
+ const cells=new Map(),size=SCENE_ACTOR_SCALE*actor.model.growth.scale*(actor.habitatScale||1),angle=actor.posture==='curled'&&actor.model.visual.conglobation.frontFacing?0:actor.a,ca=Math.cos(angle),sa=Math.sin(angle);
  const centerX=Math.round(actor.x),centerY=Math.round(actor.y+(actor.lift||0));
  const front=['under','gather'].includes(actor.activity),rearLift=actor.sandRearLift||0;
  // Inverse-sample the output lattice: forward scattering leaves holes even at 1.1x.

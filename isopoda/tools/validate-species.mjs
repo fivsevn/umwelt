@@ -18,7 +18,7 @@ export function validateSpecies(specimens=SPECIES,sourceRows=sources,habitats=HA
   for(const key of ['wet','cover'])check(p[key]<=100,`${at}: ${key} exceeds 100`);
   const lines=p.notes||p.literature?.lines;check(Array.isArray(lines)&&lines.length>0&&lines.every(nonempty),`${at}: notes or literature.lines required`);
   const t=p.taxonomy||{};
-  check(t.order==='Isopoda'&&nonempty(t.genus)&&nonempty(t.speciesStatus),`${at}: taxonomy boundary`);
+  check(t.order==='Isopoda'&&(nonempty(t.genus)||(p.fictional===true&&t.speciesStatus==='fictional'&&t.genus===null&&t.acceptedScientificName===null))&&nonempty(t.speciesStatus),`${at}: taxonomy boundary`);
   if(t.speciesStatus==='accepted_species')check(nonempty(t.acceptedScientificName)&&nonempty(t.species),`${at}: accepted species needs scientific name`);
   if(['unresolved','undescribed_or_unresolved'].includes(t.speciesStatus))check(t.acceptedScientificName===null,`${at}: unresolved trade identity must not become accepted taxonomy`);
   check(nonempty(p.evidence?.status)&&Array.isArray(p.evidence?.claims),`${at}: evidence status/claims required`);

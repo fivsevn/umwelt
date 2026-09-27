@@ -1,3 +1,4 @@
+import {addRareSpecimens} from './rare-specimens.mjs';
 import {eligibleSpecies,habitatConfig} from './habitats.mjs';
 import {SPECIES,speciesById} from './species-registry.mjs';
 import {hash,cohortFor,runSpecies} from './engine.mjs';
@@ -15,12 +16,13 @@ export function restoreCollection(value,run,archives=[]){
  if(run?.startedOn)for(const id of runSpecies(run))if(!acquired[id])acquired[id]=run.startedOn;
  return {acquired,version:1,unlocked:[...new Set(known)],draws:Number.isInteger(value?.draws)&&value.draws>=0?value.draws:0,instrument:['round','twin','strip'].includes(value?.instrument)?value.instrument:'round'};
 }
-export function drawSpecies(collection,seed,habitatId='terrestrial'){const habitatSpecies=SPECIES.filter(p=>eligibleSpecies(p,habitatId));const unseen=habitatSpecies.filter(s=>!collection.unlocked.includes(s.id));const pool=unseen.length?unseen:habitatSpecies;return pool[hash(seed,collection.draws+901)%pool.length].id}
+export function drawSpecies(collection,seed,habitatId='terrestrial'){const habitatSpecies=SPECIES.filter(p=>eligibleSpecies(p,habitatId)&&!p.game?.rare);const unseen=habitatSpecies.filter(s=>!collection.unlocked.includes(s.id));const pool=unseen.length?unseen:habitatSpecies;return pool[hash(seed,collection.draws+901)%pool.length].id}
 export function unlock(collection,id,date){if(!ids.has(id))return;if(!collection.unlocked.includes(id))collection.unlocked.push(id);collection.acquired??={};if(date&&!collection.acquired[id])collection.acquired[id]=date}
 
 // Compatibility is a game envelope for this shared gradient, not husbandry advice.
-export function drawCohort(collection,seed,habitatId='terrestrial'){
- const habitatSpecies=SPECIES.filter(p=>eligibleSpecies(p,habitatId));
+export function drawCohort(collection,seed,habitatId='terrestrial'){return addRareSpecimens(drawRegularCohort(collection,seed,habitatId),seed,habitatId)}
+function drawRegularCohort(collection,seed,habitatId='terrestrial'){
+ const habitatSpecies=SPECIES.filter(p=>eligibleSpecies(p,habitatId)&&!p.game?.rare);
  const anchor=speciesById(drawSpecies(collection,seed,habitatId));
  if(['freshwater','shallow-marine','estuary'].includes(habitatId)){const pool=habitatSpecies.filter(p=>p.id!==anchor.id).sort((a,b)=>hash(seed,habitatSpecies.indexOf(a)+2001)-hash(seed,habitatSpecies.indexOf(b)+2001)),taxa=[anchor,...pool.slice(0,1+hash(seed,1901)%2)];return cohortFor(anchor.id,seed,habitatConfig(habitatId).cohortSize).map((c,i)=>({...c,species:taxa[i%taxa.length].id}))}
  if(habitatId==='intertidal'){const wet=habitatSpecies.filter(p=>p.id!=='hirsuta'),unseen=wet.filter(p=>!collection.unlocked.includes(p.id)),pool=unseen.length?unseen:wet,water=pool[hash(seed,collection.draws+1903)%pool.length].id;return cohortFor('hirsuta',seed).map((c,i)=>({...c,species:i%3===0?'hirsuta':water}))}

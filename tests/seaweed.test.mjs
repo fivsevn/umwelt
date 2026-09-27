@@ -58,7 +58,7 @@ test('a declared parting is not reported as performed before a drag',()=>{
 test('seaweed draws two or three taxa, spreads eighteen animals and preserves old cohorts',()=>{
  const collection=restoreCollection(null,null);
  for(let seed=0;seed<80;seed++){
-  const cohort=drawCohort(collection,seed,'shallow-marine');assert.equal(cohort.length,18);assert.ok([2,3].includes(new Set(cohort.map(c=>c.species)).size));
+  const cohort=drawCohort(collection,seed,'shallow-marine');assert.equal(cohort.filter(c=>c.species!=='naigua').length,18);assert.ok([2,3].includes(new Set(cohort.filter(c=>c.species!=='naigua').map(c=>c.species)).size));
   const run=createRun(cohort[0].species,seed,'shallow-marine');run.cohort=cohort;assert.ok(validRun(run));
  }
  const run=createRun('balthica',1,'shallow-marine');run.cohort=run.cohort.slice(0,7);const original=structuredClone(run.cohort),copy=migrateV4(run);assert.equal(copy.cohort.length,18);assert.deepEqual(copy.cohort.slice(0,7),original);

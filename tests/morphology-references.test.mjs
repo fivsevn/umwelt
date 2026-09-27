@@ -25,6 +25,7 @@ test('morphology wiki resolves species-level evidence for every registry specime
  assert.doesNotMatch(template,/SPECIES_REFS\[species\.id\]\|\|\['shultz2018'\]/);
  const wikiIds=new Set(WIKI_SOURCES.map(source=>source.id));
  for(const species of SPECIES){
+  if(species.fictional){assert.equal(species.taxonomy.acceptedScientificName,null);assert.deepEqual(species.evidenceIds,[]);continue}
   const mapped=[...evidenceIds(species)].filter(id=>sourceIds.has(id));
   const motion=locomotionSourceIds(species.locomotion);
   const wiki=(WIKI_SOURCE_IDS_BY_SPECIES[species.id]||[]).filter(id=>wikiIds.has(id));
