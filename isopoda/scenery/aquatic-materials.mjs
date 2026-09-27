@@ -21,9 +21,9 @@ function outerSediment(x,y,seed,base){
  return '#'+[1,3,5].map((i,k)=>Math.round(parseInt(base.slice(i,i+2),16)*(1-blend)+(low[k]+(high[k]-low[k])*level)*blend).toString(16).padStart(2,'0')).join('');
 }
 
-export function drawWaterBackground(g,{kind,seed=57,originX=0,originY=0}={}){
+export function drawWaterBackground(g,{kind,seed=57,originX=0,originY=0,step=2,rowStart=0,rowEnd=null,details=true}={}){
  const w=g.canvas?.width||384,h=g.canvas?.height||430;
- for(let y=originY;y<originY+h;y+=2)for(let x=originX;x<originX+w;x+=2){
+ for(let y=originY+rowStart;y<originY+(rowEnd??h);y+=step)for(let x=originX;x<originX+w;x+=step){
   const broad=Math.sin(x*.023+y*.011+seed)+Math.sin(y*.029-x*.017)+Math.sin(x*.011-y*.007)*.6;
   const grain=noise(x>>3,y>>3,seed);let c;
   if(kind==='freshwater'){
@@ -48,8 +48,9 @@ export function drawWaterBackground(g,{kind,seed=57,originX=0,originY=0}={}){
    c='#'+[23+tone*18,36+tone*17,39+tone*15].map(v=>Math.round(v).toString(16).padStart(2,'0')).join('');
    if(originX||originY)c=outerSediment(x,y,seed,c);
   }
-  px(g,x-originX,y-originY,2,2,materialInk(c,x,y,seed,'soil'));
+  px(g,x-originX,y-originY,step,step,materialInk(c,x,y,seed,'soil'));
  }
+ if(!details)return;
  if(kind==='freshwater'){
   for(let i=0;i<100;i++){
    const q=noise(i,13,seed),x=q%w,y=(q>>>10)%h;
