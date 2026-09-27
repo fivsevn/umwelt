@@ -3,8 +3,10 @@
 <header>俯视投影 · <span id="speciesCount">—</span> 品种 / 姿态 / 朝向 <button id="play">播放 / 暂停</button><input id="phase" type="range" min="0" max="3" value="0"></header><main></main>
 <script type="module">
 import {SPECIES} from '../../species-registry.mjs';import {makeIsopod,setIsopodState} from '../../sprites.mjs';
-document.querySelector('#speciesCount').textContent=SPECIES.length;
+const requested=new URLSearchParams(location.search).get('species');
+const specimens=requested?SPECIES.filter(s=>s.id===requested):SPECIES;
+document.querySelector('#speciesCount').textContent=specimens.length;
 const states=[['静止','resting',0],['行走','normal',0],['斜向','normal',Math.PI/4],['转身','turning',Math.PI/2],['探查','probing',0],['梳理','grooming',0],['卷曲','curled',0],['后半蜕皮','molting',0],['钻出','emerging',Math.PI]];
-const bugs=[];for(const species of SPECIES){const row=document.createElement('section');row.innerHTML='<label>'+species.id+(species.game?.referenceOnly?' · REF':'')+'</label>';for(const [name,posture,angle] of states){const box=document.createElement('article');box.textContent=name;const bug=makeIsopod(species,{seed:189});box.append(bug);row.append(box);bugs.push([bug,{posture,angle,moving:posture==='normal',molt:posture==='molting'?'posterior':'none'}])}document.querySelector('main').append(row)}
+const bugs=[];for(const species of specimens){const row=document.createElement('section');row.id=species.id;row.innerHTML='<label>'+species.name+'<br>'+species.id+(species.game?.referenceOnly?' · REF':'')+'</label>';for(const [name,posture,angle] of states){const box=document.createElement('article');box.textContent=name;const bug=makeIsopod(species,{seed:189});box.append(bug);row.append(box);bugs.push([bug,{posture,angle,moving:posture==='normal',molt:posture==='molting'?'posterior':'none'}])}document.querySelector('main').append(row)}
 let running=false;function draw(phase){for(const [bug,state] of bugs)setIsopodState(bug,{...state,phase})}document.querySelector('#phase').oninput=e=>draw(+e.target.value);document.querySelector('#play').onclick=()=>running=!running;setInterval(()=>{if(running){const input=document.querySelector('#phase');input.value=(+input.value+1)%4;draw(+input.value)}},350);draw(0);
 </script>

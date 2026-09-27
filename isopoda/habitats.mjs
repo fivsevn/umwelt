@@ -24,7 +24,7 @@ export function habitatLayoutFilename(value){
  const slug=String(h.names?.[1]||fallback).toLowerCase().replace(/['’]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')||fallback;
  return `habitat-layout-${slug}.json`;
 }
-export function eligibleSpecies(p,id='terrestrial'){const h=habitatConfig(id);if(h.id==='petri-dish')return p.id!=='giganteus';return h.species?h.species.includes(p.id):p.game?.habitatEligible!==false}
+export function eligibleSpecies(p,id='terrestrial'){const h=habitatConfig(id);if(p.game?.rare)return h.id!=='abyssal';if(h.id==='petri-dish')return p.id!=='giganteus';return h.species?h.species.includes(p.id):p.game?.habitatEligible!==false}
 export function cycleHabitat(id,direction){return HABITATS[(HABITATS.findIndex(h=>h.id===id)+direction+HABITATS.length)%HABITATS.length].id}
 export function advanceWater(s){const h=habitatConfig(s);if(!h.aquatic)return;const turn=(s.day-1)*3+s.period;
  if(isIntertidal(s)){const i=intertidalIndex(s);s.tide=TIDE_LEVELS[i];s.flow=TIDE_FLOWS[i];s.salinity=34;s.light=62;return}

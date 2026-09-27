@@ -1,3 +1,4 @@
+import {addRareSpecimens} from './rare-specimens.mjs';
 import {arrivalText,unlockedPetriSpecies} from './arrival.mjs';
 import {createShoreControls} from './shore-controls.mjs';
 import {isShore,shoreText,shorePoint,shoreProgress,shoreRain,moveShore,SHORE_TURNS} from './data/habitats/estuary-shore.mjs';
@@ -144,7 +145,7 @@ function arrival(){
   const button=$('#'+id);button.hidden=!dish;button.disabled=pool.length<2;button.setAttribute('aria-label',t(key));
   button.onclick=()=>{
    const index=pool.indexOf(state.cohort[0].species),species=pool[(index+direction+pool.length)%pool.length];
-   state=createRun(species,state.seed,'petri-dish');state.arrivalPending=true;mergeLearnedInteractions(state);save();arrival();button.focus();
+   state=createRun(species,state.seed,'petri-dish');state.cohort=addRareSpecimens(state.cohort,state.seed,'petri-dish');state.arrivalPending=true;mergeLearnedInteractions(state);save();arrival();button.focus();
   };
  }
 }
@@ -153,11 +154,11 @@ function draw(){
  const dish=selectedHabitat==='petri-dish',pool=dish?unlockedPetriSpecies(collection):[];
  if(dish&&!pool.length)return;
  $('#startBtn').disabled=true;const seed=Date.now()>>>0;
- if(dish){state=createRun(pool[0],seed,selectedHabitat)}else{
+ if(dish){state=createRun(pool[0],seed,selectedHabitat);state.cohort=addRareSpecimens(state.cohort,seed,selectedHabitat)}else{
   const cohort=drawCohort(collection,seed,selectedHabitat);state=createRun(cohort[0].species,seed,selectedHabitat);state.cohort=cohort;
  }
  mergeLearnedInteractions(state);state.arrivalPending=true;hasRun=true;collection.draws++;
- if(!dish)for(const id of runSpecies(state))unlock(collection,id,state.startedOn);
+ for(const id of runSpecies(state))unlock(collection,id,state.startedOn);
  write(COLLECTION,collection);save();begin();tone(130);
 }
 function begin(){

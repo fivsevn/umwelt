@@ -1,3 +1,4 @@
+import {NAIGUA} from './naigua.mjs';
 import {ESTUARY_EXPANSION_SPECIES} from './estuary-expansion.mjs';
 import {SANDY_EXPANSION_SPECIES} from './sandy-expansion.mjs';
 import {INTERTIDAL_EXPANSION_SPECIES} from './intertidal-expansion.mjs';
@@ -27,6 +28,7 @@ export const SPECIES_GROUPS=Object.freeze([
  {id:'release-aquatic',rows:RELEASE_AQUATIC_SPECIES},
  {id:'intertidal-expansion',rows:INTERTIDAL_EXPANSION_SPECIES},
  {id:'sandy-expansion',rows:SANDY_EXPANSION_SPECIES},
- {id:'estuary-expansion',rows:ESTUARY_EXPANSION_SPECIES}
+ {id:'estuary-expansion',rows:ESTUARY_EXPANSION_SPECIES},
+ {id:'naigua',rows:[NAIGUA]}
 ]);
 export const RAW_SPECIES=SPECIES_GROUPS.flatMap(group=>group.rows);

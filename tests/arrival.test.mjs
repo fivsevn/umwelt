@@ -8,8 +8,8 @@ import {HABITATS} from '../isopoda/habitats.mjs';
 test('freshwater draws two or three taxa without changing the seven-animal cohort',()=>{
  const counts=new Set();
  for(let seed=0;seed<300;seed++){
-  const cohort=drawCohort(restoreCollection(null,null),seed,'freshwater'),taxa=new Set(cohort.map(c=>c.species));
-  assert.ok(taxa.size===2||taxa.size===3);counts.add(taxa.size);assert.equal(cohort.length,7);
+  const cohort=drawCohort(restoreCollection(null,null),seed,'freshwater'),taxa=new Set(cohort.filter(c=>c.species!=='naigua').map(c=>c.species));
+  assert.ok(taxa.size===2||taxa.size===3);counts.add(taxa.size);assert.equal(cohort.filter(c=>c.species!=='naigua').length,7);
   const s=createRun(cohort[0].species,seed,'freshwater');s.cohort=cohort;assert.ok(validRun(s));assert.equal(ensureScene(s).materialStage,0);
  }
  assert.equal(counts.size,2);

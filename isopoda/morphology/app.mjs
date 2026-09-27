@@ -133,6 +133,7 @@ function normalizeReference(id,source,kind='project'){
  };
 }
 function referenceRowsFor(species){
+ if(species.fictional)return [];
  const rows=[];
  for(const id of SPECIES_REFS[species.id]||[]){
   const row=normalizeReference(id,REFERENCES[id],'static');if(row)rows.push(row);
@@ -164,7 +165,7 @@ function referenceRowsFor(species){
  });
 }
 
-let speciesIndex=Math.max(0,SPECIES.findIndex(s=>s.id==='coros'));
+let speciesIndex=Math.max(0,SPECIES.findIndex(s=>s.id===(new URLSearchParams(location.search).get('species')||'coros')));
 let species=null,model=null,anatomy=[],layers=[];
 let locked=null,currentKey='body';
 
@@ -269,11 +270,11 @@ function renderDossier(){
  dossierBody.replaceChildren();
  const t=species.taxonomy||{},p=species.profile||{},b=species.biogeography||{};
  const taxonomy=[t.kingdom,t.phylum,t.class,t.order,t.suborder,t.family,t.genus,t.species].filter(Boolean).join(' › ');
- addDossierRow('CLASSIFICATION / 分类',taxonomy||species.taxon||'当前未解析到正式分类层级。');
+ addDossierRow('CLASSIFICATION / 分类',(species.fictional?'不详':taxonomy)||species.taxon||'当前未解析到正式分类层级。');
  addDossierRow('STATUS / 鉴定状态',species.status||p.diagnosticNotes?.[0]);
  addDossierRow('MORPHOLOGY / 显著形态',p.notableMorphology?.[0]);
  addDossierRow('DIAGNOSTIC NOTE / 诊断备注',p.diagnosticNotes?.[0]!==species.status?p.diagnosticNotes?.[0]:null);
- const size=species.renderSize?.referenceMm;if(size)addDossierRow('BODY SIZE / 体型参考',`成年体长参考约 ${size} mm · 游戏显示缩放 ${species.renderSize.scale.toFixed(2)}×`);
+ const size=species.renderSize?.referenceMm;if(species.fictional)addDossierRow('BODY SIZE / 体型参考','不详');if(size)addDossierRow('BODY SIZE / 体型参考',`成年体长参考约 ${size} mm · 游戏显示缩放 ${species.renderSize.scale.toFixed(2)}×`);
  const dossierText=value=>{
   if(value===null||value===undefined||value==='')return '';
   if(Array.isArray(value))return value.map(dossierText).filter(Boolean).join(' / ');

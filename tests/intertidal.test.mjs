@@ -73,7 +73,7 @@ test('new rock-pool draws always contrast emerged refuges with aquatic taxa, wit
  const {drawCohort,drawSpecies,restoreCollection}=await import('../isopoda/collection.mjs');
  const allowed=new Set(habitatConfig('intertidal').species),counts=new Set();
  for(const unlocked of [[],[...allowed]])for(let seed=0;seed<1000;seed++){
-  const c=drawCohort({unlocked,draws:seed},seed,'intertidal'),taxa=new Set(c.map(x=>x.species));
+  const c=drawCohort({unlocked,draws:seed},seed,'intertidal').filter(c=>c.species!=='naigua'),taxa=new Set(c.map(x=>x.species));
   assert.equal(c.length,7);assert.equal(taxa.size,2);assert.ok(taxa.has('hirsuta'));counts.add(taxa.size);assert.ok(c.every(x=>allowed.has(x.species)));
  }
  assert.deepEqual([...counts].sort(),[2]);

@@ -15,10 +15,10 @@ fs.mkdirSync(out,{recursive:true});
    const unlockedBefore=await page.evaluate(()=>JSON.parse(localStorage.getItem('isopoda-fieldnotes-v1')).unlocked);
    await page.locator('#startBtn').click();await page.locator('#arrivalCard').waitFor();
    const species=await page.locator('#arrivalSpecimens .isopod').evaluateAll(els=>els.map(e=>e.dataset.species));
-   if(id==='terrestrial')assert.equal(species.length,7);else assert.equal(species.length,new Set(species).size);
+   if(id==='terrestrial')assert.equal(species.filter(id=>id!=='naigua').length,7);else assert.equal(species.length,new Set(species).size);
    assert.equal(await page.locator('#arrivalNext').isVisible(),id==='petri-dish');
    if(id==='petri-dish')assert.ok(await page.evaluate(()=>{const row=document.querySelector('.arrival-specimen-row').getBoundingClientRect(),prev=document.querySelector('#arrivalPrev').getBoundingClientRect(),next=document.querySelector('#arrivalNext').getBoundingClientRect();return prev.right<next.left&&Math.abs((prev.top+prev.bottom-row.top-row.bottom)/2)<2&&Math.abs(prev.top-next.top)<2}));
-   if(id==='freshwater')assert.ok(species.length===2||species.length===3);
+   if(id==='freshwater')assert.ok([2,3].includes(species.filter(id=>id!=='naigua').length));
    const centered=await page.evaluate(()=>{const els=[...document.querySelectorAll('#arrivalSpecimens .isopod')],box=document.querySelector('#arrivalSpecimens').getBoundingClientRect(),first=els[0].getBoundingClientRect(),last=els.at(-1).getBoundingClientRect();return Math.abs((first.left+last.right)/2-(box.left+box.right)/2)<2});assert.ok(centered,`${id} centered`);
    for(const lang of ['zh','en','ja','isopod']){
     await page.evaluate(async lang=>{(await import('/isopoda/i18n.mjs')).setLanguage(lang)},lang);

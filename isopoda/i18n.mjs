@@ -83,7 +83,7 @@ export function speciesPrimaryName(species,lang=I18N_STATE.language){
  if(lang==='isopod')return `o / ${scientificName(species)}`;
  if(lang==='en'){
   if(species.trade?.tradeName)return species.trade.tradeName;
-  if(species.names?.en&&['vernacular','hobby_vernacular','trade_name','taxon_label'].includes(species.names.enNameType))return species.names.en;
+  if(species.names?.en&&['vernacular','hobby_vernacular','trade_name','taxon_label','fictional'].includes(species.names.enNameType))return species.names.en;
   return scientificName(species);
  }
  if(species.names?.ja)return species.names.ja;
