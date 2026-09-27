@@ -26,8 +26,11 @@ import {getLanguage,t,formatShortDate,speciesPrimaryName,isopodWaveNumber,isopod
 import {gameText} from './locales/game.mjs';
 const ENDINGS=[...LAND_ENDINGS,...AQUATIC_ENDINGS];
 const $=s=>document.querySelector(s),KEY='isopoda-fugue-v4',ARCHIVE='isopoda-fugue-endings-v3',COLLECTION='isopoda-fieldnotes-v1',DISCOVERIES='isopoda-interaction-discoveries-v1';
+const nativeDrawerMode=window.umweltNative?new URLSearchParams(location.search).get('nativeDrawer'):null;
+// Detached references must never lay out or rasterize the hidden game selector.
+if(nativeDrawerMode)$('#titleCard').hidden=true;
 function read(key){try{return JSON.parse(localStorage.getItem(key))}catch{return null}}
-function write(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch{$('#storageNotice').hidden=false;$('#storageNotice').textContent=t('storageNotice')}}
+function write(key,value){if(nativeDrawerMode&&key!=='isopoda-catalog-specimen-v1')return;try{localStorage.setItem(key,JSON.stringify(value))}catch{$('#storageNotice').hidden=false;$('#storageNotice').textContent=t('storageNotice')}}
 const shoreControls=createShoreControls($('#shorePrev'),$('#shoreNext'));
 const stored=migrateV4(read(KEY))||migrateV3(read('isopoda-fugue-v3')),legacy=read('umwelt-isopod-v1');let hasRun=validRun(stored)||!!legacy;
 let state=validRun(stored)?stored:legacy?migrateLegacy(legacy,Date.now()>>>0):createRun('dairy',0);
@@ -47,7 +50,9 @@ function mergeLearnedInteractions(target){
 mergeLearnedInteractions(state);
 let archives=read(ARCHIVE);if(!Array.isArray(archives))archives=[];archives=archives.filter(a=>a&&ENDINGS.some(e=>e.id===a.id));
 let collection=restoreCollection(read(COLLECTION),hasRun?state:null,archives);write(COLLECTION,collection);
-let playing=false,drawerMode='catalog',page=0,lastCatalogPage=null,lastScene=null,referenceReturn=null;
+const CATALOG_POSITION='isopoda-catalog-specimen-v1';
+const rememberedCatalogPage=SPECIES.findIndex(p=>p.id===read(CATALOG_POSITION));
+let playing=false,drawerMode='catalog',page=0,lastCatalogPage=rememberedCatalogPage<0?null:rememberedCatalogPage,lastScene=null,referenceReturn=null;
 let lastInterfaceLanguage=getLanguage();
 const habitat=createHabitat($('#habitat'),$('#critters'),()=>state,event=>{if(!playing||state.stage==='ended')return;if(event.type==='microscope'){checkMicroscope(state,event.visible);save();render();return}const record=recordDirectInteraction(state,event);if(record){mergeLearnedInteractions(state);save();render()}});
 const refreshPetri=createPetriControls($('#habitat').closest('.habitat-viewport'),habitat,()=>state,getLanguage);
@@ -194,7 +199,7 @@ function paragraph(value,cls=''){const el=document.createElement('p');el.dataset
 function drawDrawer(){
  const el=$('#drawerContent');el.replaceChildren();el.scrollTop=0;let total=1;const sourcesOnly=drawerMode==='sources';$('#drawer').dataset.mode=drawerMode;$('#drawerTabs').hidden=sourcesOnly||drawerMode==='journal';$('#sourcesBtn').hidden=drawerMode==='journal';$('#pagePrev').parentElement.hidden=sourcesOnly;$('#specimensTab').setAttribute('aria-pressed',String(drawerMode==='catalog'));$('#endingsTab').setAttribute('aria-pressed',String(drawerMode==='endings'));
  if(drawerMode==='catalog'){
-  total=SPECIES.length;page=(page+total)%total;lastCatalogPage=page;const p=SPECIES[page],known=collection.unlocked.includes(p.id);$('#drawerTitle').textContent=t('archive');el.append(renderCatalog(p,{unlocked:known,collectedOn:collection.acquired?.[p.id]}));
+  total=SPECIES.length;page=(page+total)%total;lastCatalogPage=page;write(CATALOG_POSITION,SPECIES[page].id);const p=SPECIES[page],known=collection.unlocked.includes(p.id);$('#drawerTitle').textContent=t('archive');el.append(renderCatalog(p,{unlocked:known,collectedOn:collection.acquired?.[p.id]}));
  }else if(drawerMode==='endings'){
   total=ENDINGS.length;page=(page+total)%total;const e=ENDINGS[page],saved=archives.some(a=>a.id===e.id);$('#drawerTitle').textContent=t('archive');const note=document.createElement('article');note.className='ending-note';if(saved){const h=document.createElement('h3');h.dataset.directLocale='true';h.textContent=gameText(e.title,getLanguage());note.append(h,paragraph(gameText(e.body,getLanguage())),paragraph(gameText(e.line,getLanguage()),'last-line'));const batches=archives.filter(a=>a.id===e.id);for(const a of batches){if(Array.isArray(a.estuaryRecords))note.append(paragraph(estuarySummary(a.estuaryRecords,getLanguage()),'ending-memory'));const taxa=Array.isArray(a.species)?a.species:[a.species];if(a.memory)note.append(paragraph(a.memory,'ending-memory'));note.append(paragraph(`${a.date} · ${taxa.map(id=>speciesPrimaryName(speciesById(id))).join(' / ')}`,'faint'))}}else{note.classList.add('unseen');const h=document.createElement('h3');h.innerHTML='&nbsp;';note.append(h,paragraph('','ending-space'),paragraph(t('emptyEnding'),'last-line'))}el.append(note);
  }else if(drawerMode==='journal'){
@@ -202,7 +207,7 @@ function drawDrawer(){
  }else{$('#drawerTitle').textContent=t('sources');el.append(renderSources())}
  $('#pageNumber').textContent=total>1?String(page+1).padStart(2,'0'):'·';$('#pagePrev').disabled=total===1;$('#pageNext').disabled=total===1;iconButton($('#sourcesBtn'),drawerMode==='sources'?'book':'source',drawerMode==='sources'?t('sourceBack'):t('sources'));
 }
-function openDrawer(mode){habitat.stop();drawerMode=mode;page=mode==='catalog'?(lastCatalogPage??Math.max(0,SPECIES.findIndex(p=>p.id===state.cohort[0].species&&collection.unlocked.includes(p.id)))):mode==='journal'?Math.max(0,state.records.length-1):Math.max(0,ENDINGS.findIndex(e=>e.id===state.ending));drawDrawer();$('#drawer').showModal()}
+function openDrawer(mode){if(window.umweltNative&&!nativeDrawerMode){void window.umweltNative.openDrawer(mode);return}habitat.stop();drawerMode=mode;page=mode==='catalog'?(lastCatalogPage??Math.max(0,SPECIES.findIndex(p=>p.id===state.cohort[0].species&&collection.unlocked.includes(p.id)))):mode==='journal'?Math.max(0,state.records.length-1):Math.max(0,ENDINGS.findIndex(e=>e.id===state.ending));drawDrawer();nativeDrawerMode?$('#drawer').show():$('#drawer').showModal()}
 // CSS touch-action prevents mobile double-tap zoom while preserving pinch zoom; this also blocks browser dblclick fallback inside the game.
 $('#game').addEventListener('dblclick',event=>event.preventDefault(),{passive:false});
 for(const [id,d] of [['shorePrev',-1],['shoreNext',1]])$('#'+id).onclick=()=>{if(moveShore(state,d)){habitat.home();$('#zoomLevel').textContent='1×';render()}};
@@ -224,6 +229,7 @@ $('#specimensTab').onclick=()=>{drawerMode='catalog';page=lastCatalogPage??Math.
 $('#sourcesBtn').onclick=()=>{if(drawerMode==='sources'){drawerMode=referenceReturn?.mode||'catalog';page=referenceReturn?.page||0}else{referenceReturn={mode:drawerMode,page};drawerMode='sources';page=0}drawDrawer()};
 for(const [id,delta] of [['pagePrev',-1],['pageNext',1]])$('#'+id).onclick=()=>{const n=drawerMode==='catalog'?SPECIES.length:drawerMode==='endings'?ENDINGS.length:Math.max(1,state.records.length);page=(page+delta+n)%n;drawDrawer()};
 function refreshPreview(){
+ if(nativeDrawerMode)return;
  const seed=4107;previewState=createRun('dairy',seed,selectedHabitat);previewState.cohort=[];
  if(selectedHabitat==='freshwater')previewState.scene={materialStage:3};
  $('#titleCard .window-title span').textContent='ISOPODA / '+gameText('water:habitat:'+selectedHabitat,getLanguage());
@@ -231,7 +237,7 @@ function refreshPreview(){
  $('#titleCard').dataset.habitat=selectedHabitat;emptyHabitat.reset({empty:true});emptyHabitat.start();
 }
 for(const [id,d] of [['habitatPrev',-1],['habitatNext',1]])$('#'+id).onclick=()=>{selectedHabitat=cycleHabitat(selectedHabitat,d);refreshPreview()};
-home();
+if(!nativeDrawerMode)home();
 
 // Window controls keep the run intact; closing returns to the saved home view.
 const habitatWindow=$('#boxFrame');
@@ -275,3 +281,23 @@ const numberObserver=new MutationObserver(refreshNumerals);
 numberObserver.observe(document.body,{subtree:true,childList:true,characterData:true});
 numberObserver.observe(document.documentElement,{attributes:true,attributeFilter:['data-ui-language']});
 refreshNumerals();
+
+// Desktop archive windows share storage, while the observation continues independently.
+if(nativeDrawerMode){
+ emptyHabitat.stop();habitat.stop();openDrawer(['catalog','journal','endings','sources'].includes(nativeDrawerMode)?nativeDrawerMode:'catalog');
+ let pendingSync=false;
+ function drawerSnapshot(){return JSON.stringify(drawerMode==='catalog'?[collection.unlocked,collection.acquired]:drawerMode==='journal'?[state.seed,state.habitatId,state.records]:drawerMode==='endings'?archives:null)}
+ window.addEventListener('storage',event=>{
+  if(event.key!==null&&![KEY,ARCHIVE,COLLECTION].includes(event.key)||pendingSync)return;
+  pendingSync=true;
+  requestAnimationFrame(()=>{
+   pendingSync=false;const before=drawerSnapshot(),scroll=$('#drawerContent').scrollTop,oldSeed=state.seed;
+   const followLatest=drawerMode==='journal'&&page>=state.records.length-1;
+   const saved=migrateV4(read(KEY));if(validRun(saved))state=saved;
+   archives=read(ARCHIVE)||[];if(!Array.isArray(archives))archives=[];
+   collection=restoreCollection(read(COLLECTION),state,archives);
+   if(drawerMode==='journal'&&(followLatest||oldSeed!==state.seed))page=Math.max(0,state.records.length-1);
+   if(before!==drawerSnapshot()){drawDrawer();$('#drawerContent').scrollTop=scroll}
+  });
+ });
+}

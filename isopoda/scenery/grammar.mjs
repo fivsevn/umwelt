@@ -9,8 +9,10 @@ const EDGE_NEIGHBORS=[[1,0],[-1,0],[0,1],[0,-1]];
 export function contains(points,x,y){
  let inside=false;
  for(let i=0,j=points.length-1;i<points.length;j=i++){
-  const [ax,ay]=points[i],[bx,by]=points[j];
-  if((ay>y)!==(by>y)&&x<(bx-ax)*(y-ay)/(by-ay)+ax)inside=!inside;
+  const a=points[i],b=points[j],ay=a[1],by=b[1];
+  // Most edges do not cross this scanline. Avoid destructuring every vertex
+  // for every pixel (including all the rejected edges). Keep the same ray test.
+  if((ay>y)!==(by>y)&&x<(b[0]-a[0])*(y-ay)/(by-ay)+a[0])inside=!inside;
  }
  return inside;
 }
