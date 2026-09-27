@@ -12,7 +12,7 @@ for(const file of ['package.json','main.cjs','preload.cjs','frame.css','updates.
 await prepareSite(root,join(stage,'site'));
 const version=JSON.parse(await readFile(join(stage,'package.json'),'utf8')).version;
 await writeFile(join(stage,'BUILD.json'),JSON.stringify({version,platform:'win32',arch:'x64',source:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim()},null,2));
-await builder.build({targets:builder.Platform.WINDOWS.createTarget(['portable'],builder.Arch.x64),config:{
+await builder.build({projectDir:stage,publish:'never',targets:builder.Platform.WINDOWS.createTarget(['portable'],builder.Arch.x64),config:{
  appId:'com.fivsevn.umwelt',productName:'UMWELT',electronVersion:'44.4.5',
  directories:{app:stage,output:join(output,'build')},asar:true,npmRebuild:false,
  files:['**/*'],extraMetadata:{description:'UMWELT — 环世界',author:'五月七日 · fivsevn.com'},

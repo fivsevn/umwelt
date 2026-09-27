@@ -74,3 +74,12 @@ jobs:
         run: |
           test "$(gh release view v0.1.5 --json isPrerelease --jq .isPrerelease)" = true
           gh release upload v0.1.5 release/UMWELT-0.1.5-win-x64.zip release/SHA256SUMS-win.txt
+          gh release view v0.1.5 --json body --jq .body > release/notes.md
+          python - <<'PYTHON'
+          from pathlib import Path
+          p=Path('release/notes.md')
+          s=p.read_text().replace('Windows 版暂未提供。','')
+          s+='\n\n### Windows 版\n\n新增 Windows 10 / 11 x64 便携版：下载 UMWELT-0.1.5-win-x64.zip，解压后为 UMWELT.exe 和 README.txt。与 Mac 版共用游戏内容、界面和存档逻辑。\n\n已在 GitHub Windows 测试机运行多窗口、资料库/笔记同步、存档重启、离线四语言、TICK 完整流程及实际 EXE 的卸载清理测试。测试记录：https://github.com/fivsevn/umwelt/actions/runs/${{ github.run_id }} 。\n\nWindows 包尚未代码签名，系统可能提示未知发布者；首次启动会临时解包，可能稍慢。\n'
+          p.write_text(s)
+          PYTHON
+          gh release edit v0.1.5 --notes-file release/notes.md
