@@ -12,10 +12,10 @@ The font subset explicitly retains `凝吃址铺`, the four characters unique to
 
 ## 文档整理的零前端变化验证
 
-纯文档整理只修改开发 README 或 `isopoda/docs/`；不能把所有 Markdown 都当作开发文档：`credits*.md` 会由游戏加载，必须保留。字体许可和来源数据也不属于可随意清理的笔记。
+纯文档整理只修改开发文档（如 `docs/`、`isopoda/docs/` 和获准修改的开发 README）；不能把所有 Markdown 都当作开发文档：`credits*.md` 会由游戏加载，必须保留。字体许可和来源数据也不属于可随意清理的笔记。
 
 1. 固定整理前的提交作为 baseline，检查 diff 中只有预期的开发文档路径；检查运行文件、素材、测试及工作流均未变动。
-2. 用本仓库 `.github/workflows/pages.yml` 的同一组 rsync 排除项分别准备 baseline 与工作树的临时发布目录。逐个比较路径和文件字节（含隐藏文件），应完全一致；不要在源码目录执行资源盖章。
+2. 用当前 `.github/scripts/prepare-site.mjs` 分别从 baseline 与工作树准备站点外的全新临时发布目录；该脚本使用 `git ls-files` 和 `publicFile()` 发布筛选规则，并生成 modulepreload。工作树新增或移动文档须先暂存，使文件清单对应待提交结果。逐个比较路径和文件字节（含隐藏文件），应完全一致；不要在源码目录执行资源盖章。
 3. 运行 `node isopoda/tools/check-all.mjs`，检查文档的相对链接和命令入口。纯文档变更无需新增实现镜像式测试。
 4. 若发布输入不一致，就不能宣称零前端变化；查清差异，涉及运行文件时补充浏览器基线比较。
 
