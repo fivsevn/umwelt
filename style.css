@@ -116,10 +116,3 @@ a:focus-visible,button:focus-visible{outline:2px dotted #ebebd0;outline-offset:3
 /* Open confirmations without preferring either action. Keyboard navigation stays visible. */
 #dialogTitle:focus{outline:none}
 .system-menu button+button{border-top:1px solid var(--os-lo);box-shadow:inset 0 1px var(--os-hi);margin-top:2px;padding-top:10px}
-
-/* Lighter homepage window bevels, retaining the pixel highlight and shade. */
-body:has(.desktop) .welcome,body:has(.desktop) #systemDialog{border-width:2px;padding:2px;box-shadow:3px 3px #16271f}
-body:has(.desktop) .welcome-body,body:has(.desktop) .dialog-body{border-width:1px}
-body:has(.desktop) .welcome header,body:has(.desktop) #systemDialog header{border-bottom-width:1px}
-body:has(.desktop) .welcome header button,body:has(.desktop) #systemDialog footer button{border-width:1px}
-body:has(.desktop) #systemDialog footer{border-top-width:1px}

@@ -28,7 +28,7 @@ await rm(join(resources,'default_app.asar'),{force:true});await mkdir(applicatio
 for(const name of ['package.json','main.cjs','preload.cjs','frame.css','updates.cjs'])await copyFile(join(root,'mac',name),join(application,name));
 await prepareSite(root,join(application,'site'));
 execFileSync('/usr/libexec/PlistBuddy',['-c','Set :CFBundleIdentifier com.fivsevn.umwelt',join(contents,'Info.plist')]);
-for(const [key,value] of [['CFBundleExecutable','UMWELT'],['CFBundleName','UMWELT'],['CFBundleDisplayName','UMWELT'],['CFBundleShortVersionString',appVersion],['CFBundleVersion','2'],['NSHumanReadableCopyright','五月七日 · fivsevn.com']]){
+for(const [key,value] of [['CFBundleExecutable','UMWELT'],['CFBundleName','UMWELT'],['CFBundleDisplayName','UMWELT'],['CFBundleShortVersionString',appVersion],['CFBundleVersion',appVersion],['NSHumanReadableCopyright','五月七日 · fivsevn.com']]){
  try{execFileSync('/usr/libexec/PlistBuddy',['-c',`Set :${key} ${value}`,join(contents,'Info.plist')],{stdio:'pipe'})}catch{execFileSync('/usr/libexec/PlistBuddy',['-c',`Add :${key} string ${value}`,join(contents,'Info.plist')])}
 }
 await writeFile(join(application,'BUILD.json'),JSON.stringify({version:appVersion,electron:version,arch,source:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),built:new Date().toISOString()},null,2));
