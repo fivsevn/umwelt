@@ -3,6 +3,7 @@ import {isShore,shorePoint,shoreTide,shoreRain,shoreFauna} from './data/habitats
 import {shoreLayoutFor,shoreHeight,drawShoreBackground,drawShoreWater} from './scenery/estuary-shore.mjs';
 import {createSeaweedBed,seaweedFrame,stageSeaweed,stepSeaweed,beginSeaweedHold,moveSeaweedHold,endSeaweedHold,noteSeaweedVisibility} from './scenery/shallow-marine.mjs';
 import {drawKelp,hitKelp,visibleKelpCell} from './scenery/kelp-geometry.mjs';
+import {drawAbyssalAtmosphere} from './scenery/abyssal-atmosphere.mjs';
 import {drawWaterBackground} from './scenery/aquatic-materials.mjs';
 import {createPetriOptics} from './scenery/petri-optics.mjs';
 import {microscope,beginPetriStep,noteMicroscopeAction,confinePetri} from './scenery/petri.mjs';
@@ -149,6 +150,7 @@ function placeSceneMolt(scene){
 function reset(options={}){
  interaction.cancel();state=getState();shoreVisual=null;syncCaveObserver();empty=!!options.empty;layer.replaceChildren();elapsed=0;animalElapsed=0;effect=null;shelterHeld=false;reactions.reset();
  const config=habitatConfig(state);
+ if(config.id==='abyssal')prepareAbyssFloor();
  seaweed=config.id==='shallow-marine'?createSeaweedBed(sceneObjects(layoutForHabitat(state))):null;
  if(seaweed)seaweedFrame(seaweed,{flow:state.flow,reduced});
  critters=empty?[]:makeIndividuals(state.cohort).map(c=>({...c,interaction:speciesById(c.species).interaction,model:renderModel(speciesById(c.species).visual,{stage:c.stage,seed:c.seed}),habitatScale:config.actorScale||1,pixels:new Map()}));
@@ -180,7 +182,27 @@ function scopeControl(action,value){
  if(action==='move')noteMicroscopeAction(state,'move',Math.hypot(m.x-before.x,m.y-before.y));
  onDirectInteraction({type:'microscope',visible:scopeVisible()});drawHabitat(performance.now());
 }
-const abyssFloor=document.createElement('canvas');let abyssFloorSeed=null;
+const abyssFloor=document.createElement('canvas');let abyssFloorSeed=null,abyssFloorTimer=null;
+function prepareAbyssFloor(){
+ const seed=layoutForHabitat(state).background.seed;
+ if(abyssFloorSeed===seed)return;
+ clearTimeout(abyssFloorTimer);abyssFloorSeed=seed;
+ abyssFloor.width=2304;abyssFloor.height=2580;
+ const floor=abyssFloor.getContext('2d'),options={kind:'abyssal',seed,originX:-960,originY:-1074};
+ // A cheap full extent is ready before any zoom; refine in small yielding slices.
+ // No sediment generation ever runs in the zoom button's event handler.
+ drawWaterBackground(floor,{...options,step:16,details:false});
+ floor.fillStyle='rgba(5,11,14,.10)';floor.fillRect(0,0,2304,2580);
+ let row=0;
+ const refine=()=>{
+  const end=Math.min(row+8,2580);
+  drawWaterBackground(floor,{...options,rowStart:row,rowEnd:end,details:end===2580});
+  floor.fillStyle='rgba(5,11,14,.10)';floor.fillRect(0,row,2304,end-row);
+  row=end;
+  if(row<2580)abyssFloorTimer=setTimeout(refine,0);
+ };
+ abyssFloorTimer=setTimeout(refine,0);
+}
 function present(){
  const rect=canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;
  const w=Math.max(80,Math.round(rect.width*SCENE_OUTPUT_SCALE)),h=Math.max(80,Math.round(rect.height*SCENE_OUTPUT_SCALE));
@@ -195,12 +217,6 @@ function present(){
  overlayCtx.clearRect(0,0,overlay.width,overlay.height);overlayCtx.drawImage(world,0,0);if(habitatConfig(state).id!=='groundwater'&&!isEstuaryObservation(state))drawReactionBubbles(overlayCtx,reactions.active,seaweed?critters.filter(a=>a.hitCells?.length):critters,elapsed,view,reduced);display.clearRect(0,0,w,h);
  if(state.habitatId==='abyssal'&&camera.zoom<1){
   // The same procedural sediment continues in world coordinates outside the authored patch.
-  const seed=layoutForHabitat(state).background.seed;
-  if(abyssFloorSeed!==seed){
-   abyssFloor.width=2304;abyssFloor.height=2580;const floor=abyssFloor.getContext('2d');
-   drawWaterBackground(floor,{kind:'abyssal',seed,originX:-960,originY:-1074});
-   floor.fillStyle='rgba(5,11,14,.10)';floor.fillRect(0,0,abyssFloor.width,abyssFloor.height);abyssFloorSeed=seed;
-  }
   display.drawImage(abyssFloor,sx+960,sy+1074,sw,sh,0,0,w,h);
  }
 
@@ -212,6 +228,10 @@ function present(){
   const shade=display.createRadialGradient(cx,cy,0,cx,cy,Math.hypot(w,h)*.64);
   for(const [stop,opacity] of [[0,.18],[.18,.25],[.4,.48],[.65,.72],[1,.88]])shade.addColorStop(stop,`rgba(3,8,11,${opacity*distance})`);
   display.fillStyle=shade;display.fillRect(0,0,w,h);
+ }
+ if(state.habitatId==='abyssal'){
+  const actor=critters[0],avoid={x:((actor?.x??192)-sx)/sw*w,y:((actor?.y??215)-sy)/sh*h,rx:Math.max(w*.27,85*scale),ry:Math.max(h*.26,65*scale)};
+  drawAbyssalAtmosphere(display,{time:elapsed,seed:state.seed,width:w,height:h,reduced,avoid});
  }
  if(m?.mode){
   if(lensCanvas.width!==w||lensCanvas.height!==h){lensCanvas.width=w;lensCanvas.height=h}
