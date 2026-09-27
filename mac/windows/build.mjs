@@ -8,7 +8,7 @@ if(process.platform!=='win32')throw Error('Build and test this package on Window
 const root=fileURLToPath(new URL('../../',import.meta.url));
 const output=resolve(process.argv[2]||join(root,'_windows')),stage=join(output,'app');
 await rm(stage,{recursive:true,force:true});await mkdir(stage,{recursive:true});
-for(const file of ['package.json','main.cjs','preload.cjs','frame.css','updates.cjs'])await copyFile(join(root,'mac',file),join(stage,file));
+for(const file of ['package.json','main.cjs','preload.cjs','frame.css','updates.cjs','windows-uninstall.cjs'])await copyFile(join(root,'mac',file),join(stage,file));
 await prepareSite(root,join(stage,'site'));
 const version=JSON.parse(await readFile(join(stage,'package.json'),'utf8')).version;
 await writeFile(join(stage,'BUILD.json'),JSON.stringify({version,platform:'win32',arch:'x64',source:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim()},null,2));
