@@ -62,9 +62,15 @@ button:focus-visible,select:focus-visible,summary:focus-visible,a:focus-visible{
 .dossier[open] summary,.references[open] summary{border-bottom:1px solid #4d5d41}.dossier-body{padding:5px;display:grid;gap:4px;overflow-wrap:anywhere}.dossier-row{padding:8px 9px;border:1px solid #3f4e35;background:#273222}.dossier-row b{font-size:8px;font-weight:400;color:#aeb99a}.dossier-row p,.dossier-row blockquote{font-size:9px;color:#93a280;margin:3px 0 0;line-height:1.5}
 .references{display:block}.references:not([open]){align-self:start}
 /* Bound only the document list on desktop. Panel chrome and siblings never shrink. */
-.reference-list{max-height:clamp(260px,46dvh,620px);overflow:auto;padding:5px;display:grid;grid-auto-rows:max-content;align-content:start;gap:4px;scrollbar-width:thin;scrollbar-color:#657451 #293325}
+.reference-list{overflow:auto;padding:5px;display:grid;grid-auto-rows:max-content;align-content:start;gap:4px;scrollbar-width:thin;scrollbar-color:#657451 #293325}
 .reference{padding:8px 9px;border:1px solid #3f4e35;background:#273222;color:#8d9c7b;overflow-wrap:anywhere}.reference.is-relevant{border-color:#9b9f76;background:#313c2a}.reference b{display:block;font-weight:400;color:#b6c09e;font-size:9px}.reference cite{display:block;color:#c6c8ab;font-style:normal;line-height:1.45;margin:1px 0;font-size:9px}.reference p{font-size:9px;line-height:1.5;margin:4px 0;color:#93a280}.reference p span{color:#b7c49f}.reference a{display:inline-block;font-size:8px;text-decoration:none;color:#c8bd8d;margin-top:3px}.reference a:hover{text-decoration:underline}
 .footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px 20px;color:#718163;font-size:9px;padding:0 2px;line-height:1.4}
+/* Fill the actual desktop grid cell instead of capping the list at 46dvh. */
+@media(min-width:1121px){
+ .references{position:relative}
+ .references[open]{min-height:310px}
+ .references[open] .reference-list{position:absolute;inset:var(--reference-summary-height,48px) 0 0}
+}
 /* The sole composition breakpoint. DOM order equals the narrow reading order. */
 @media(max-width:1120px){
  .anatomy-app{padding:8px;gap:8px}

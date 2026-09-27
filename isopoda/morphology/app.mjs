@@ -386,3 +386,8 @@ const speciesCount=SPECIES.length;
 document.querySelector('.lab-code').textContent=`ASIMOV / ISOPODA · MORPHOLOGY ARRAY ${speciesCount}`;
 document.querySelector('.lab-status small').textContent=`${speciesCount} specimens · 64 px dorsal morphology`;
 renderSpecies(speciesIndex);
+
+// The summary may wrap after resize or a specimen change; keep its full height above the scroll area.
+const referencesPanel=document.querySelector('.references');
+const referencesHeading=referencesPanel.querySelector('summary');
+new ResizeObserver(()=>referencesPanel.style.setProperty('--reference-summary-height',`${referencesHeading.getBoundingClientRect().height}px`)).observe(referencesHeading);
