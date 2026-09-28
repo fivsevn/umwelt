@@ -260,25 +260,22 @@ window.addEventListener('isopoda:languagechange',event=>{
  if($('#drawer').open)drawDrawer();
 });
 
-// Fit the square scene around the live narrative, including feedback after a choice.
+// Reserve a stable prose area; narrative length must not resize the scene.
 let fittingFrame;
 function fitObservation(){
  cancelAnimationFrame(fittingFrame);
  fittingFrame=requestAnimationFrame(()=>{
-  const content=$('.window-content'),story=$('.window-story'),record=story.querySelector('.record');
+  const content=$('.window-content'),story=$('.window-story');
   if(!content.clientHeight)return;
   const side=matchMedia('(min-width:900px), (orientation:landscape)').matches;
-  if(!side){
-   // Reserve the choices and footer first; long translations scroll inside the record.
-   const controls=story.querySelector('.actions').offsetHeight+story.querySelector('.bottom-bar').offsetHeight+16;
-   const scene=Math.min(content.clientWidth,Math.max(0,content.clientHeight-controls-64));
-   record.style.maxHeight=Math.max(0,content.clientHeight-controls-scene)+'px';
-  }else record.style.removeProperty('max-height');
-  const room=side?Math.min(content.clientHeight,content.clientWidth*.59):Math.min(content.clientWidth,content.clientHeight-story.getBoundingClientRect().height-4);
+  const fixed=[...story.children].filter(el=>!el.classList.contains('record')&&!el.hidden);
+  const layout=getComputedStyle(story);
+  const controls=fixed.reduce((height,el)=>height+el.getBoundingClientRect().height,0)+fixed.length*parseFloat(layout.rowGap)+parseFloat(layout.paddingTop)+parseFloat(layout.paddingBottom)+8;
+  const room=side?Math.min(content.clientHeight,content.clientWidth*.59):Math.min(content.clientWidth,Math.max(0,content.clientHeight-controls-64));
   content.style.setProperty('--scene-size',Math.max(0,Math.floor(room))+'px');
  });
 }
-new ResizeObserver(fitObservation).observe($('.window-content'));new ResizeObserver(fitObservation).observe($('.window-story'));window.addEventListener('resize',fitObservation);visualViewport?.addEventListener('resize',fitObservation);
+new ResizeObserver(fitObservation).observe($('.window-content'));new ResizeObserver(fitObservation).observe($('.window-story'));new ResizeObserver(fitObservation).observe($('#actions'));new ResizeObserver(fitObservation).observe($('#interactionCue'));window.addEventListener('resize',fitObservation);visualViewport?.addEventListener('resize',fitObservation);
 
 // Keep original human numerals so language changes can restore DOM-only readouts too.
 const numeralSources=new Map();
