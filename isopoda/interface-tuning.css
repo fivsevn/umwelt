@@ -51,11 +51,15 @@ body{position:fixed;inset:0;width:100%;-webkit-user-select:none;user-select:none
 #game .scope-dial,#game .scope-dial *,#game .scope-reset{touch-action:none}
 .play-view .box-frame{overflow:hidden}
 .window-content{justify-content:flex-start;gap:4px}
+/* Keep the camera surface full-width when vertical space is limited.
+   Its height is fitted separately; the camera crops and remains draggable. */
+#boxFrame .window-content>.habitat-viewport{width:100%!important;aspect-ratio:auto;align-self:stretch}
 .window-story{min-height:0;flex:1}
 .window-story .record{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 #game .window-story .record,#game .window-story .record *{touch-action:pan-y}
 .window-story .actions,.window-story .bottom-bar{flex-shrink:0}
 @media(min-width:900px),(orientation:landscape){
+ #boxFrame .window-content>.habitat-viewport{width:59%!important;flex-shrink:0;align-self:center}
  .window-story .record{flex:1;max-height:none!important;overflow-y:auto}
 }
 
