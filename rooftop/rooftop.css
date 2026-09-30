@@ -243,3 +243,28 @@ body.garage button,body.garage button:hover,body.garage button:active,body.garag
 .garage .asset-grid .asset-card{position:relative;overflow:visible;box-shadow:none}
 .garage .asset-grid .asset-card::after{content:"";position:absolute;left:0;right:-8px;bottom:-6px;height:3px;background:#717b66;box-shadow:0 2px 0 #26342b;pointer-events:none}
 .garage .workspace .canvas-wrap{border:0;outline:0;box-shadow:4px 4px 0 #26332b55}
+
+.garage .canvas-wrap #positionText{background:none;padding:0;color:#424f43}
+.garage .note-column>.inspector{border:0;background:var(--ui-panel);box-shadow:3px 4px 0 #26332b45;padding:10px;flex:none}
+.note-column .inspector .section-title{margin:0 0 8px}.note-column .inspector h2{margin:0;font-size:12px}
+.note-column #objectControls{display:flex;align-items:center;flex-wrap:wrap;gap:8px}.note-column #objectControls[hidden]{display:none}
+.note-column #objectControls .control-row:first-child,.note-column .inspector .hint{display:none}
+.note-column .inspector .control-row{margin:0;flex-wrap:nowrap;gap:5px}.note-column .inspector .control-row button{padding:5px 7px;font-size:11px}
+.note-column .size-control{margin:0;background:none;border:0;padding:0}.note-column .size-control>div{display:flex;gap:5px;margin:0}.note-column .size-control button{min-width:28px;height:28px;padding:4px;font-size:16px}
+@media(max-width:900px){
+ .garage .workspace>.inspector{padding:10px 12px}
+ .garage .workspace #objectControls{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:8px}
+ .garage .workspace #objectControls[hidden]{display:none}
+ .workspace #objectControls .control-row:first-child{display:none}
+ .workspace .size-control{width:auto;flex:none;gap:0}
+ .workspace .size-control>div{flex:none;gap:5px}
+ .workspace .inspector .control-row:last-child{display:flex;gap:5px}
+ .workspace .inspector .control-row button{width:auto;height:28px;padding:5px 8px;font-size:11px}
+ .workspace .size-control button{width:28px;height:28px;padding:4px}
+}
+/* The footer's compact control size is shared across the garage. */
+body.garage button:not(.asset-card),body.garage .transfer summary{font-size:11px;line-height:1.5;padding:5px 7px;min-height:26px;height:auto}
+body.garage .size-control button{width:28px;min-width:28px;padding:5px 7px;font-size:11px;line-height:1.5}
+body.garage .categories button{font-size:11px;padding:5px 7px}
+body.garage .asset-card{font-size:11px}
+body.garage input,body.garage select{font-size:11px}
