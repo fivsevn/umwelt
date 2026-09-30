@@ -279,3 +279,6 @@ body.garage input,body.garage select{font-size:11px}
 body.garage button:not(.asset-card),body.garage .transfer summary{padding:3px 7px;min-height:22px;height:auto;line-height:1.45}
 body.garage .size-control button{padding:3px 7px;width:25px;min-width:25px;height:auto}
 .garage .workspace-status #weatherStatus,.garage .workspace-status #message{padding:3px 7px;line-height:1.45}
+/* The right column scrolls as a whole; none of its modules may shrink. */
+.garage .note-column>*{flex-shrink:0}
+.garage .note-column .arrange-controls{flex:none}
