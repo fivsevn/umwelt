@@ -35,3 +35,5 @@ body.garage{background-color:#555b55;background-image:linear-gradient(#3e464440 
 .size-control>div{display:flex;align-items:center;gap:10px;margin-top:7px}
 .size-control input{flex:1;min-width:50px;accent-color:#bc914b;cursor:pointer}
 .size-control button{min-width:34px;padding:6px;font-size:18px;line-height:1}
+
+.weather-controls{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:0 auto 12px;max-width:790px;font-size:12px;line-height:1.5}.weather-controls label{display:flex;align-items:center;gap:7px}.weather-controls select{padding:5px 7px;min-width:85px}.weather-controls p{margin:0;color:#d0c7ad;flex-basis:100%;font-size:11px}.weather-card{max-width:260px;overflow-wrap:anywhere}@media(max-width:550px){.weather-controls{gap:6px 10px}.weather-controls p{font-size:11px}.weather-card{max-width:230px}}

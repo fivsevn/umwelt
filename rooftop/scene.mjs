@@ -41,6 +41,15 @@ export function paintBase(c,scene,{uprightCity=false,includeCity=true}={}){c.cle
  for(let y=64;y<484;y+=24)for(let x=112;x<540;x+=32){rect(c,x,y,31,23,['#a29f8c','#aaa593','#999989','#a7a390'][Math.floor(rng()*4)]);rect(c,x,y,32,1,'#b4ae9b');rect(c,x+31,y+1,1,23,'#8f9283')}
  for(let i=0;i<2400;i++){const x=112+Math.floor(rng()*430),y=60+Math.floor(rng()*430);rect(c,x,y,rng()<.25?3:2,2,rng()<.5?'#b1ad99':'#969887')}
  for(let i=0;i<65;i++){const x=144+Math.floor(rng()*318),y=100+Math.floor(rng()*359);line(c,x,y,x+Math.floor(rng()*18),y+Math.floor(rng()*12),'#84897e');rect(c,x+1,y+2,2,1,'#c0b9a4')}
+ // Small repair pours overlap the old surface; edges are intact, not rubble.
+ const repairs=scene==='north'?[[208,215,45,30],[306,282,56,33],[282,126,36,26],[412,371,25,35]]:[[198,267,50,29],[367,291,57,25]];
+ for(const [x,y,w,h] of repairs){polygon(c,[[x+3,y],[x+w-4,y+2],[x+w,y+h-5],[x+w-7,y+h],[x+1,y+h-2],[x,y+5]],'#a2a399');
+  for(let yy=3;yy<h-3;yy+=4){line(c,x+3+(yy%3),y+yy,x+w-6,y+yy-1,yy%8?'#a9aa9d':'#979d91');rect(c,x+w-8,y+yy,2,1,'#b1b0a0')}
+  line(c,x+3,y+h-2,x+w-9,y+h,'#94998c');line(c,x+5,y+1,x+w-7,y+2,'#b4b2a3');}
+ const cracks=scene==='north'?[[228,191,13,7],[332,247,17,8],[386,321,10,-8],[444,411,-7,13]]:[[256,308,17,6],[443,268,-12,7]];
+ for(const [x,y,dx,dy] of cracks){line(c,x,y,x+dx*.48,y+dy*.4,'#8e958a');line(c,x+dx*.48,y+dy*.4,x+dx,y+dy,'#92988c');line(c,x+dx*.48,y+dy*.4,x+dx*.25,y+dy*.8,'#999e91')}
+ // A seven-pixel circular grate sits just inside the upper terrace corner.
+ const [drainX,drainY]=scene==='north'?[282,147]:[492,332];oval(c,drainX,drainY,4,3,'#b4b29e');oval(c,drainX,drainY,3,3,'#69746b');oval(c,drainX,drainY,2,2,'#818c7c');for(const dx of [-1,1])line(c,drainX+dx,drainY-1,drainX+dx,drainY+1,'#515f58');rect(c,drainX-1,drainY-3,3,1,'#c0bdab');
  c.restore();
  // Low concrete parapets, pale caps, worn wall faces and occasional moss.
  for(let i=0;i<points.length;i++){const a=points[i],b=points[(i+1)%points.length];if(a[1]===b[1]){const x=Math.min(a[0],b[0]),w=Math.abs(a[0]-b[0]);rect(c,x,a[1]-7,w,7,'#c2baa3');rect(c,x,a[1],w,7,'#727b70');rect(c,x,a[1]-7,w,2,'#d0c7ae');for(let j=x+8;j<x+w-6;j+=23)rect(c,j,a[1]+1,3,4,'#858b78')}else{const y=Math.min(a[1],b[1]),h=Math.abs(a[1]-b[1]);rect(c,a[0]-6,y,7,h,'#bdb59e');rect(c,a[0]+1,y,4,h,'#70796d');rect(c,a[0]-6,y,2,h,'#d0c7ae')};}
@@ -54,6 +63,9 @@ export function paintBase(c,scene,{uprightCity=false,includeCity=true}={}){c.cle
  rect(c,129,210,382,10,'#97a6a0');rect(c,129,207,382,3,'#d1ccba');for(let x=133;x<515;x+=64){rect(c,x,205,3,18,'#616f6a');rect(c,x+4,213,50,1,'#bfc8ba')}
  rect(c,128,348,384,9,'#7d8478');rect(c,145,346,266,4,'#c8c4ae');for(let x=148;x<411;x+=66){rect(c,x,341,3,14,'#d3d0bf');rect(c,x+4,342,58,2,'#94a4a0')};rect(c,420,346,57,9,'#5d6257');rect(c,424,347,49,2,'#c0bca5');
  }
+ // Only a few rail joints and exposed edges carry small rusty chips.
+ if(scene==='north'){for(const [x,y] of [[288,69],[344,69],[387,77],[461,191],[461,240]]){rect(c,x,y,2,2,'#90725a');rect(c,x+1,y+2,1,2,'#a1876c')}}
+ else for(const x of [197,389,456]){rect(c,x,209,3,1,'#9a7c64');rect(c,x+1,210,1,2,'#836b57')}
  paintDoor(c,scene);
 }
 function pot(c,x,y,size=16,col=P.terra){rect(c,x-size/2+2,y-3,size-4,8,col);rect(c,x-size/2+4,y+5,size-8,2,'#513d2d');oval(c,x,y-4,size/2|0,4,P.rim);oval(c,x,y-5,(size/2-2)|0,2,P.soil);rect(c,x-size/2+3,y-1,2,5,'#ac7846')}
@@ -85,13 +97,15 @@ function paintObjectPixels(c,o,time=0,selected=false){const a=asset(o.type);c.sa
  c.restore();if(selected){const d=dimensions(o);c.strokeStyle='#b8ac83';c.lineWidth=1;c.strokeRect(Math.round(o.x-d.w/2)-3.5,Math.round(o.y-d.h/2)-3.5,Math.round(d.w)+7,Math.round(d.h)+7);for(const [x,y] of [[-1,-1],[1,-1],[-1,1],[1,1]])rect(c,o.x+x*(d.w/2+3)-1,o.y+y*(d.h/2+3)-1,3,3,'#c5bc9a')}}
 // Raster bounds keep the small contact shadow beneath the actual artwork after any turn.
 const objectSprites=new Map();
-export function paintObject(c,o,time=0,selected=false){
+export function paintObject(c,o,time=0,selected=false,weather=null){
  const a=asset(o.type),key=o.type+':'+(o.pot||''),dynamic=['fish','pond'].includes(o.type);let entry=dynamic?null:objectSprites.get(key);
  if(!entry){const sprite=typeof OffscreenCanvas!=='undefined'?new OffscreenCanvas(a.w+32,a.h+32):document.createElement('canvas');sprite.width=a.w+32;sprite.height=a.h+32;const context=sprite.getContext('2d');paintObjectPixels(context,{type:o.type,pot:o.pot,x:sprite.width/2,y:sprite.height/2,rotation:0,scale:1},time);const pixels=context.getImageData(0,0,sprite.width,sprite.height).data;let x0=sprite.width,y0=sprite.height,x1=0,y1=0;for(let y=0;y<sprite.height;y++)for(let x=0;x<sprite.width;x++)if(pixels[(y*sprite.width+x)*4+3]){x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y)}entry={sprite,bounds:[x0-sprite.width/2,y0-sprite.height/2,x1-sprite.width/2,y1-sprite.height/2]};if(!dynamic){if(objectSprites.size>=256)objectSprites.delete(objectSprites.keys().next().value);objectSprites.set(key,entry)}}
  c.save();c.translate(Math.round(o.x),Math.round(o.y));const world=c.getTransform(),angle=Math.atan2(world.b,world.a),turn=angle+o.rotation*Math.PI/180,[x0,y0,x1,y1]=entry.bounds;
  const corners=[[x0,y0],[x1,y0],[x0,y1],[x1,y1]].map(([x,y])=>[x*Math.cos(turn)-y*Math.sin(turn),x*Math.sin(turn)+y*Math.cos(turn)]),xs=corners.map(p=>p[0]),ys=corners.map(p=>p[1]);
- c.save();c.rotate(-angle);c.scale(o.scale,o.scale);oval(c,(Math.min(...xs)+Math.max(...xs))/2,Math.round(Math.max(...ys))+2,Math.max(2,Math.round((Math.max(...xs)-Math.min(...xs))*.28)),1,'rgba(25,35,27,.16)');c.restore();
- c.rotate(o.rotation*Math.PI/180);c.scale(o.scale,o.scale);c.imageSmoothingEnabled=false;c.drawImage(entry.sprite,-entry.sprite.width/2,-entry.sprite.height/2);c.restore();
+ c.save();c.rotate(-angle);c.scale(o.scale,o.scale);const footX=(Math.min(...xs)+Math.max(...xs))/2,footY=Math.round(Math.max(...ys))+2,shadowWidth=Math.max(2,Math.round((Math.max(...xs)-Math.min(...xs))*.28));
+ if(weather?.sun>.05){oval(c,footX+2,footY+1,shadowWidth+2,2,`rgba(35,44,37,${weather.sun*.08})`)}
+ oval(c,footX,footY,shadowWidth,1,`rgba(25,35,27,${weather?.night>.5?.1:.16})`);c.restore();
+ c.rotate(o.rotation*Math.PI/180);c.scale(o.scale,o.scale);c.imageSmoothingEnabled=false;if(a.plant&&weather)paintPlant(c,o,{time,wind:weather.wind});else c.drawImage(entry.sprite,-entry.sprite.width/2,-entry.sprite.height/2);c.restore();
  if(selected){const d=dimensions(o);c.strokeStyle='#d8c37a';c.lineWidth=1;c.strokeRect(Math.round(o.x-d.w/2)-3.5,Math.round(o.y-d.h/2)-3.5,Math.round(d.w)+7,Math.round(d.h)+7);for(const [x,y] of [[-1,-1],[1,-1],[-1,1],[1,1]])rect(c,o.x+x*(d.w/2+3)-1,o.y+y*(d.h/2+3)-1,3,3,'#e4d6a4')}
 }
 export function paintPerson(c,p,time){const x=Math.round(p.x),y=Math.round(p.y),step=p.state==='walk'?Math.floor(time*7)%2:0;oval(c,x,y+1,6,2,'#5a6a44');rect(c,x-3,y-6,3,6-step,'#2d4438');rect(c,x+1,y-6+step,3,6-step,'#2d4438');rect(c,x-4,y-13,8,8,'#818349');rect(c,x-2,y-12,4,6,'#b5af53');rect(c,x-5,y-18,10,6,'#c89941');rect(c,x-6,y-19,12,3,'#9e7f39');rect(c,x-3,y-21,6,3,'#d1b15f');rect(c,x+4,y-10,2,5,'#ca874a');rect(c,x-6,y-10,2,5,'#ca874a');if(p.state==='water'){rect(c,x+5,y-10,6,5,'#417f6b');rect(c,x+10,y-10,4,2,'#509577');for(let i=0;i<3;i++)rect(c,x+14+i,y-6+(Math.floor(time*8)+i)%8,1,2,'#9cce7f')}if(p.state==='sweep'){line(c,x+5,y-9,x+10+Math.sin(time*4)*3,y+2,'#a68938',1);rect(c,x+7+Math.sin(time*4)*3,y+2,7,3,'#c2a239')}if(p.state==='tend'){rect(c,x+5,y-10+Math.sin(time*3)*2,3,2,'#ca874a')}
