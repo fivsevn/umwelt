@@ -292,3 +292,10 @@ body.garage button:not(.asset-card),body.garage .transfer summary{height:20px!im
  .garage .catalog>h2,.garage .catalog>input,.garage .catalog>.categories{flex:none}
  .garage .catalog .asset-grid{flex:1;min-height:0;max-height:none;overflow-y:auto;overflow-x:hidden;padding-right:8px;align-content:start}
 }
+/* Pixel glyphs sit high in the font box: lower them within the shared card. */
+body.garage button:not(.asset-card),body.garage .transfer summary{padding:4px 7px 0!important;line-height:16px!important}
+body.garage #preview{height:30px!important;min-height:30px!important;padding:7px 14px 3px!important;background:#a7b39a;color:#303d32;gap:4px}
+body.garage #preview:hover{background:#bdc6ad;color:#303d32}
+body.garage button[hidden]{display:none!important}
+.garage .inspector #objectControls{margin-left:auto}
+.garage .inspector .section-title{min-width:0}
