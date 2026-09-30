@@ -234,3 +234,5 @@ body.garage{background-color:#555b55;background-image:linear-gradient(#3e464440 
 .garage button,.garage button:hover,.garage button[aria-pressed=true],.garage .transfer summary{border-color:transparent;box-shadow:1px 2px 0 #26332b40}
 .garage .canvas-wrap #positionText{position:absolute;top:7px;left:8px;z-index:2;font-size:9px;line-height:1.4;color:#424f43;background:#e6e2d0b8;padding:2px 4px;pointer-events:none;white-space:nowrap}
 .garage #positionText[hidden],.garage #scaleValue[hidden]{display:none}
+/* No bevel or outline in any garage button state. */
+body.garage button,body.garage button:hover,body.garage button:active,body.garage button[aria-pressed],body.garage .transfer summary{border:0!important;box-shadow:0 2px 0 #26332b35}
