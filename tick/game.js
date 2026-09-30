@@ -1,3 +1,4 @@
+import {drawTick} from './sprite.mjs';
 (() => {
   const tick=document.querySelector('#tick'),field=document.querySelector('#field');
   const ending=document.querySelector('#ending'),exit=document.querySelector('#exitTick');
@@ -11,18 +12,7 @@
   document.documentElement.lang=language==='zh'?'zh-CN':language;
   document.querySelector('#aboutTitle').textContent=copy[0];document.querySelector('.note').textContent=copy[1];
   [tick,document.querySelector('nav a'),exit].forEach((el,i)=>el.setAttribute('aria-label',copy[i+2]));
-  function draw(moving = false, ctx = tickContext, clock = 0) {
-    ctx.clearRect(0,0,28,28);
-    ctx.save();ctx.translate(0,Math.round(Math.sin(clock*1.8)*.65));
-    ctx.strokeStyle = '#879077';
-    for (const side of [-1,1]) for (let i=0;i<4;i++) {
-      const y=10+i*2, bend=Math.round(Math.sin(clock*(moving?7:2.5)+i*1.7+side)* (moving?2:1));
-      ctx.beginPath();ctx.moveTo(14+side*2,y);ctx.lineTo(14+side*5,y+(i<2?-1:1));ctx.lineTo(14+side*7,y+(i<2?-3:3)+bend);ctx.stroke();
-    }
-    ctx.fillStyle='#a8ae93';ctx.fillRect(11,9,6,10);ctx.fillRect(12,8,4,12);
-    ctx.fillStyle='#bdc2a7';ctx.fillRect(12,10,2,6);
-    ctx.fillStyle='#7c876f';ctx.fillRect(13,6,2,3);ctx.restore();
-  }
+  const draw=(moving=false,ctx=tickContext,clock=0)=>drawTick(ctx,{moving,clock});
   let starSeed=74119;
   const starRandom=()=>((starSeed=Math.imul(starSeed,1664525)+1013904223>>>0)/4294967296);
   const stars=Array.from({length:62},()=>({x:starRandom(),y:starRandom(),phase:starRandom()*6.28,period:8+starRandom()*5,brightness:.6+starRandom()*.4}));

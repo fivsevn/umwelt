@@ -118,5 +118,10 @@ a:focus-visible,button:focus-visible{outline:2px dotted #ebebd0;outline-offset:3
 .system-menu button+button{border-top:1px solid var(--os-lo);box-shadow:inset 0 1px var(--os-hi);margin-top:2px;padding-top:10px}
 
 .rooftop-picture{background:#a5a38a!important;position:relative;image-rendering:pixelated}.rooftop-picture:before{content:"";position:absolute;left:10px;top:31px;width:29px;height:5px;background:#d1c6a8;box-shadow:0 5px #727a62}.rooftop-picture i{position:absolute;left:22px;top:14px;width:6px;height:15px;background:#667846;box-shadow:-5px 5px #7c8a51,5px 7px #52633c}.rooftop-picture i:after{content:"";position:absolute;left:-4px;top:17px;width:14px;height:9px;background:#98745b;box-shadow:0 -3px #bd9776}
-/* Keep all three launchers above the welcome window on narrow screens. */
-@media(max-width:520px){.desktop-apps{flex-direction:row;gap:4px;align-items:flex-start}.desktop-icon{flex:1;min-width:0;width:auto;font-size:11px}}
+/* All viewports retain the desktop's vertical launcher column. */
+.desktop-apps{width:140px;max-height:100%;overflow:auto;padding-bottom:6px}
+.app-picture canvas{display:block;image-rendering:pixelated;pointer-events:none}
+.tick-picture canvas{width:42px;height:42px}
+.isopoda-picture canvas{width:48px;height:48px}
+@media(max-width:700px){.welcome{left:auto;right:12px;width:calc(100% - 158px);max-width:350px;top:50%;transform:translateY(-50%)}.welcome-body{padding:18px 10px}.welcome h1{font-size:24px;letter-spacing:1px}.welcome .welcome-links a{flex-wrap:wrap;overflow-wrap:anywhere}.welcome .short-url{max-width:100%;overflow-wrap:anywhere}}
+@media(max-height:600px){.desktop-apps{gap:12px}.desktop-icon{gap:6px}.app-picture{width:48px;height:48px}.isopoda-picture canvas{width:40px;height:40px}}

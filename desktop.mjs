@@ -1,9 +1,10 @@
+import {paintDesktopIcons} from './desktop-icons.mjs';
 import {createAudioEngine} from './assets/audio/audio-engine.mjs';
 import {soundIcon} from './assets/audio/sound-icon.mjs';
 const copy={
  zh:{repository:'项目仓库',author:'作者主页',systemTitle:'环世界观测系统',world:'环世界',about:'关于',welcome:'UMWELT / 欢迎',tick:'三个信号',rooftop:'花农时代',isopoda:'等足目赋格',closeWelcome:'关闭欢迎窗口',language:'语言：中文 · 切换为 English',soundOn:'音效已开启 · 关闭音效',soundOff:'音效已关闭 · 开启音效',endMenu:'结束观察',leaveMenu:'离开环境',end:['结束观察。','这个世界暂时不被看见。','继续','结束'],leave:['离开环境。','一个没有被保存下来的世界，是否存在过？','留下','离开'],closeHint:'可以关闭这个标签页了。'},
- en:{repository:'Repository',author:'Author',systemTitle:'UMWELT OBSERVATION SYSTEM',world:'UMWELT',about:'About',welcome:'UMWELT / Welcome',tick:'Three signals',rooftop:'Rooftop Days',isopoda:'Isopoda Fugue',closeWelcome:'Close welcome window',language:'Language: English · Switch to 日本語',soundOn:'Sound effects on · Turn off',soundOff:'Sound effects off · Turn on',endMenu:'End observation',leaveMenu:'Leave environment',end:['End observation.','This world is unseen for a while.','Continue','End'],leave:['Leave environment.','Did a world that was never saved exist?','Stay','Leave'],closeHint:'You can close this tab now.'},
- ja:{repository:'リポジトリ',author:'作者のサイト',systemTitle:'環世界観測システム',world:'環世界',about:'このﾍﾟｰｼﾞについて',welcome:'UMWELT / ようこそ',tick:'三つの信号',rooftop:'屋上の日々',isopoda:'等脚目のフーガ',closeWelcome:'ようこそウィンドウを閉じる',language:'言語：日本語 · 中文に切り替え',soundOn:'効果音オン · オフにする',soundOff:'効果音オフ · オンにする',endMenu:'観察を終える',leaveMenu:'環境を離れる',end:['観察を終える。','この世界は、しばらく見られなくなる。','続ける','終える'],leave:['環境を離れる。','保存されなかった世界は、存在したのだろうか？','残る','離れる'],closeHint:'このタブを閉じてください。'}
+ en:{repository:'Repository',author:'Author',systemTitle:'UMWELT OBSERVATION SYSTEM',world:'UMWELT',about:'About',welcome:'UMWELT / Welcome',tick:'Three signals',rooftop:'Horticultural Era',isopoda:'Isopoda Fugue',closeWelcome:'Close welcome window',language:'Language: English · Switch to 日本語',soundOn:'Sound effects on · Turn off',soundOff:'Sound effects off · Turn on',endMenu:'End observation',leaveMenu:'Leave environment',end:['End observation.','This world is unseen for a while.','Continue','End'],leave:['Leave environment.','Did a world that was never saved exist?','Stay','Leave'],closeHint:'You can close this tab now.'},
+ ja:{repository:'リポジトリ',author:'作者のサイト',systemTitle:'環世界観測システム',world:'環世界',about:'このﾍﾟｰｼﾞについて',welcome:'UMWELT / ようこそ',tick:'三つの信号',rooftop:'園芸時代',isopoda:'等脚目のフーガ',closeWelcome:'ようこそウィンドウを閉じる',language:'言語：日本語 · 中文に切り替え',soundOn:'効果音オン · オフにする',soundOff:'効果音オフ · オンにする',endMenu:'観察を終える',leaveMenu:'環境を離れる',end:['観察を終える。','この世界は、しばらく見られなくなる。','続ける','終える'],leave:['環境を離れる。','保存されなかった世界は、存在したのだろうか？','残る','離れる'],closeHint:'このタブを閉じてください。'}
 };
 if(window.umweltNative){
  copy.zh.leaveMenu='卸载环境';copy.zh.leave=['卸载环境。','一个没有被保存下来的世界，是否存在过？','留下','卸载'];
@@ -44,3 +45,5 @@ function restoreLanguage(){try{const saved=localStorage.getItem('umwelt-desktop-
 window.addEventListener('storage',event=>{if(event.key==='umwelt-desktop-language')restoreLanguage()});
 window.addEventListener('pagehide',()=>void audio.suspend());window.addEventListener('pageshow',()=>{restoreLanguage();updateClock();if(!document.hidden)void audio.resume()});
 render();updateClock();setInterval(updateClock,1000);
+
+paintDesktopIcons();
