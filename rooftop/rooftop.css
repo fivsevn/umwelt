@@ -120,3 +120,28 @@ body.garage{background-color:#555b55;background-image:linear-gradient(#3e464440 
 }
 
 .upstairs-arrow{display:inline-block;width:14px;height:13px;position:relative;margin-left:5px;vertical-align:-1px}.upstairs-arrow::before{content:"";position:absolute;left:0;bottom:1px;width:10px;height:10px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;border-bottom-right-radius:4px}.upstairs-arrow::after{content:"";position:absolute;right:0;top:0;width:6px;height:6px;border-top:2px solid currentColor;border-left:2px solid currentColor;transform:rotate(45deg)}
+/* Shared alignment for the garage's control modules. */
+.garage .workspace-toolbar{display:grid;grid-template-columns:auto 1fr auto auto;gap:0;padding:8px 0;align-items:center}
+.garage .workspace-toolbar>.tool-group,.garage .workspace-toolbar>.layout-transfer{padding:0 12px;margin:0;min-height:30px;justify-content:center}
+.garage .workspace-toolbar>*+*{border-left:1px solid #78826c}
+.garage .workspace-toolbar .tool-options{gap:14px}
+.garage .arrange-controls{padding:10px 12px;gap:16px}
+.garage .arrange-controls .weather-controls{border-left:1px solid #78826c;padding-left:16px}
+.garage .workspace>.inspector{justify-content:space-between;gap:12px;padding:10px 12px}
+.garage .workspace #objectControls{gap:18px;flex:0 1 auto}
+@media(max-width:900px){
+ .garage .arrange-controls{gap:12px;padding:12px}
+ .garage .arrange-controls .weather-controls{border-left:0;border-top:1px solid #78826c;padding:12px 0 0;gap:12px}
+ .garage .workspace>.inspector{padding:12px}
+ .garage .workspace #objectControls{gap:12px}
+ .garage .workspace-toolbar{grid-template-columns:1fr 1fr;padding:0;gap:0}
+ .garage .workspace-toolbar>.tool-group,.garage .workspace-toolbar>.layout-transfer{padding:10px;min-height:50px}
+ .garage .workspace-toolbar>*+*{border-left:0}
+ .garage .workspace-toolbar>:nth-child(even){border-left:1px solid #78826c}
+ .garage .workspace-toolbar>:nth-child(n+3){border-top:1px solid #78826c}
+ .garage .workspace-toolbar .tool-options{gap:4px;justify-content:space-between}
+ .garage .workspace-toolbar .layout-transfer{justify-content:stretch}
+ .garage .workspace-toolbar .layout-transfer>#export{flex:1}
+ .garage .workspace-toolbar .tool-history,.garage .workspace-toolbar .tool-reset{gap:6px}
+}
+@media(min-width:901px){.garage .workspace>.inspector{height:50px;min-height:50px}}
