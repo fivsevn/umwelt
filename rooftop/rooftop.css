@@ -236,3 +236,6 @@ body.garage{background-color:#555b55;background-image:linear-gradient(#3e464440 
 .garage #positionText[hidden],.garage #scaleValue[hidden]{display:none}
 /* No bevel or outline in any garage button state. */
 body.garage button,body.garage button:hover,body.garage button:active,body.garage button[aria-pressed],body.garage .transfer summary{border:0!important;box-shadow:0 2px 0 #26332b35}
+.garage .catalog,.garage .note-column,.garage .notebook,.garage .asset-grid{scrollbar-width:thin}
+.garage .catalog::-webkit-scrollbar,.garage .note-column::-webkit-scrollbar,.garage .notebook::-webkit-scrollbar,.garage .asset-grid::-webkit-scrollbar{width:6px;height:6px}
+.garage .catalog::-webkit-scrollbar-thumb,.garage .note-column::-webkit-scrollbar-thumb,.garage .notebook::-webkit-scrollbar-thumb,.garage .asset-grid::-webkit-scrollbar-thumb{background:#92967c;border-radius:3px}
