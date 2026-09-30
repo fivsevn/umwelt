@@ -145,3 +145,36 @@ body.garage{background-color:#555b55;background-image:linear-gradient(#3e464440 
  .garage .workspace-toolbar .tool-history,.garage .workspace-toolbar .tool-reset{gap:6px}
 }
 @media(min-width:901px){.garage .workspace>.inspector{height:50px;min-height:50px}}
+@media(min-width:901px){
+ .garage .editor-layout{max-width:2200px;grid-template-columns:240px minmax(0,1fr) 280px;gap:16px;padding:16px}
+ .garage .workspace{grid-column:2;grid-row:1;container-type:inline-size}
+ .garage .studio{display:contents}
+ .garage .catalog{grid-column:1;grid-row:1;max-height:calc(100dvh - 94px);overflow:auto;scrollbar-color:#92967c #343f38;position:sticky;top:16px}
+ .garage .notebook{grid-column:3;grid-row:1;max-height:calc(100dvh - 94px);overflow:auto;scrollbar-color:#92967c #c6bea6;position:sticky;top:16px;box-shadow:none;padding:14px}
+ .garage .catalog .asset-grid{grid-template-columns:repeat(2,minmax(0,1fr));max-height:none;min-height:0;padding:0;gap:8px}
+ .garage .catalog h2 small{display:block;margin-top:6px;line-height:1.5;font-size:11px}
+ .garage .catalog .categories{gap:5px}
+ .garage .catalog .asset-card{min-width:0}
+}
+@container(max-width:780px){
+ .garage .workspace>.inspector{height:142px;display:block;overflow:visible;padding:10px}
+ .workspace .inspector .section-title{justify-content:space-between;margin-bottom:10px}
+ .garage .workspace #objectControls{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+ .garage .workspace #objectControls[hidden]{display:none}
+ .workspace .inspector .control-row:first-child{display:flex}
+ .workspace .inspector .control-row:first-child label{flex:1}
+ .workspace .inspector .control-row input{width:100%}
+ .workspace .size-control{min-width:0}
+ .workspace .size-control input{width:50px;min-width:30px}
+ .workspace .inspector .control-row:last-child{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr)}
+ .garage .workspace-toolbar{grid-template-columns:1fr 1fr;padding:0}
+ .garage .workspace-toolbar>.tool-group,.garage .workspace-toolbar>.layout-transfer{padding:9px;min-height:48px}
+ .garage .workspace-toolbar>*+*{border-left:0}
+ .garage .workspace-toolbar>:nth-child(even){border-left:1px solid #78826c}
+ .garage .workspace-toolbar>:nth-child(n+3){border-top:1px solid #78826c}
+ .garage .workspace-toolbar .tool-options{gap:5px}
+ .garage .arrange-controls{gap:8px;padding:10px}
+ .garage .arrange-controls .weather-controls{padding-left:8px;gap:6px}
+ .garage .arrange-controls .weather-controls select{min-width:65px}
+}
+@media(max-width:900px){.garage .studio .catalog{order:0}.garage .studio .notebook{order:1}}
