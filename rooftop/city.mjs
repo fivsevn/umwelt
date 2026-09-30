@@ -4,7 +4,7 @@ const random=seed=>()=>{seed=(seed*1664525+1013904223)>>>0;return seed/429496729
 const rect=(c,x,y,w,h,color)=>{c.fillStyle=color;c.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h))};
 const overlaps=(a,b,pad=0)=>a[0]<b[0]+b[2]+pad&&a[0]+a[2]+pad>b[0]&&a[1]<b[1]+b[3]+pad&&a[1]+a[3]+pad>b[1];
 export function buildingWindows(w,h){const cols=Math.max(1,Math.floor((w-16)/23)),rows=Math.max(1,Math.floor((h-42)/26)),left=Math.floor((w-(cols-1)*23-13)/2);return Array.from({length:rows},(_,row)=>Array.from({length:cols},(_,col)=>({x:left+col*23,y:35+row*26}))).flat()}
-function building(c,block,seed,upright){let [x,y,w,h]=block;const rng=random(seed);c.save();if(upright){c.translate(x+w/2,y+h/2);c.rotate(-Math.PI/2);[w,h]=[h,w];x=-w/2;y=-h/2}
+function building(c,block,seed){let [x,y,w,h]=block;const rng=random(seed);c.save();
  rect(c,x+6,y+10,w,h,'#929a8f');rect(c,x,y,w,h,'#afb0a1');rect(c,x+w-4,y,4,h,'#9ca596');rect(c,x,y+h-3,w,3,'#a5ab9b');
  // Wear stays on the wall, behind the windows, with an intact building silhouette.
  for(let i=0;i<100;i++)rect(c,x+3+rng()*(w-8),y+30+rng()*(h-35),2,2,rng()<.5?'#b9b9a7':'#a3aa99');
@@ -18,12 +18,12 @@ function building(c,block,seed,upright){let [x,y,w,h]=block;const rng=random(see
  if(wy+25<y+h-5&&rng()<.28){rect(c,wx+1,wy+20,12,5,'#c2c1ac');rect(c,wx+3,wy+21,7,2,'#9ba696')}}c.restore()}
 function cityBlocks(bounds){const blocks=BLOCKS.map((b,i)=>({block:b,seed:1826+i*7919}));for(let row=Math.floor(bounds.y/160)-1;row<=Math.ceil((bounds.y+bounds.h)/160);row++)for(let col=Math.floor(bounds.x/176)-1;col<=Math.ceil((bounds.x+bounds.w)/176);col++){const seed=(row*8147+col*1901+1826)>>>0,rng=random(seed),block=[col*176+Math.floor(rng()*18),row*160+Math.floor(rng()*20),96+Math.floor(rng()*38),89+Math.floor(rng()*25)];const [x,y,w,h]=block;if(x+w/2>=0&&x+w/2<=640&&y+h/2>=0&&y+h/2<=520)continue;if(BLOCKS.some(b=>overlaps(block,b,18))||overlaps(block,[112,56,384,432],20))continue;blocks.push({block,seed})}
 return blocks;}
-export function paintCity(c,bounds,{uprightCity=false,sky=true}={}){if(sky)rect(c,bounds.x,bounds.y,bounds.w,bounds.h,'#bdc2ca');const blocks=cityBlocks(bounds);
- for(const {block,seed} of blocks)if(overlaps(block,[bounds.x-20,bounds.y-20,bounds.w+40,bounds.h+40]))building(c,block,seed,uprightCity);
+export function paintCity(c,bounds,{sky=true}={}){if(sky)rect(c,bounds.x,bounds.y,bounds.w,bounds.h,'#bdc2ca');const blocks=cityBlocks(bounds);
+ for(const {block,seed} of blocks)if(overlaps(block,[bounds.x-20,bounds.y-20,bounds.w+40,bounds.h+40]))building(c,block,seed);
  const rng=random(1987);for(let i=0;i<100;i++)rect(c,38+rng()*70,318+rng()*53,3+rng()*4,3+rng()*4,['#8c987e','#a1aa8d','#819279'][Math.floor(rng()*3)]);
 }
 
 // The same deterministic window sample is used at every hour: late-night lights
 // are a subset of the evening lights, so homes go dark without shuffling rooms.
-export function litWindows(bounds,lamps,{uprightCity=false}={}){const result=[];for(const {block,seed} of cityBlocks(bounds)){let [x,y,w,h]=block;const turned=uprightCity;if(turned)[w,h]=[h,w];let index=0;for(const win of buildingWindows(w,h)){const value=(((seed+ ++index*1103515245)>>>0)%1000)/1000;if(value>=lamps)continue;const world=turned?{x:block[0]+block[2]/2+win.y-h/2,y:block[1]+block[3]/2-win.x+w/2}:{x:x+win.x,y:y+win.y};result.push({...world,seed,index,turned,block,local:win,w,h})}}return result}
-export function paintCityLights(c,bounds,lamps,options={}){if(lamps<.001)return;for(const win of litWindows(bounds,lamps,options)){c.save();if(win.turned){c.translate(win.block[0]+win.block[2]/2,win.block[1]+win.block[3]/2);c.rotate(-Math.PI/2);c.translate(-win.w/2,-win.h/2)}else c.translate(win.block[0],win.block[1]);const {x,y}=win.local;const tone=win.index%3?'#bbb18b':'#a6b5aa';c.globalAlpha=.1;rect(c,x-3,y-2,19,21,tone);c.globalAlpha=.85;rect(c,x+2,y+2,4,12,tone);rect(c,x+8,y+2,3,12,win.index%4?'#ad9c74':'#c4b699');rect(c,x+3,y+4,3,1,'#d0c5a0');rect(c,x+9,y+10,2,4,'#8a805e');c.restore()}}
+export function litWindows(bounds,lamps){const result=[];for(const {block,seed} of cityBlocks(bounds)){const [x,y,w,h]=block;let index=0;for(const win of buildingWindows(w,h)){const value=(((seed+ ++index*1103515245)>>>0)%1000)/1000;if(value>=lamps)continue;result.push({x:x+win.x,y:y+win.y,seed,index,block,local:win,w,h})}}return result}
+export function paintCityLights(c,bounds,lamps,options={}){if(lamps<.001)return;for(const win of litWindows(bounds,lamps,options)){c.save();c.translate(win.block[0],win.block[1]);const {x,y}=win.local;const tone=win.index%3?'#bbb18b':'#a6b5aa';c.globalAlpha=.1;rect(c,x-3,y-2,19,21,tone);c.globalAlpha=.85;rect(c,x+2,y+2,4,12,tone);rect(c,x+8,y+2,3,12,win.index%4?'#ad9c74':'#c4b699');rect(c,x+3,y+4,3,1,'#d0c5a0');rect(c,x+9,y+10,2,4,'#8a805e');c.restore()}}
