@@ -26,13 +26,13 @@
 | 仙人掌 | 短毛丸 / Echinopsis subdenudata | 圆钝纵棱上点缀白色绒毛刺座，刺短而稀疏。 | [NParks 植物图鉴](https://www.nparks.gov.sg/florafaunaweb/flora/5/9/5908) · [日本 PUKUBOOK 名称对照](https://pukubook.jp/detail/Echinopsis_subdenudata) |
 | 仙人掌 | 白檀 / Echinopsis chamaecereus | 短而细的花生状茎贴近盆沿分枝，开朱红色花。 | [RHS 植物图鉴](https://www.rhs.org.uk/plants/31628/echinopsis-chamaecereus/details) · [日本 PUKUBOOK 名称对照](https://pukubook.jp/detail/Echinopsis_chamaecereus) |
 | 仙人掌 | 英冠玉 / Parodia magnifica | 蓝绿色球体有深纵棱，细黄刺沿棱排列，花为淡黄色。 | [RHS 植物图鉴](https://www.rhs.org.uk/plants/236185/parodia-magnifica/details) · [日本 PUKUBOOK 名称对照](https://pukubook.jp/detail/Parodia_magnifica) |
-| 仙人掌 | 金晃丸 / Parodia lenninghausii | 顶端圆钝的直立柱体覆金黄色细刺；旧名常写作 leninghausii。 | [植物园 / 植物专门图鉴](https://www.ruthbancroftgarden.org/plants/parodia-leninghausi/) · [日本 PUKUBOOK 名称对照](https://pukubook.jp/detail/Parodia_lenninghausii) |
+| 仙人掌 | 金晃丸 / Parodia lenninghausii | 顶端圆钝的直立柱体覆金黄色细刺；旧名常写作 leninghausii。 | [植物园 / 植物专门图鉴](https://www.ruthbancroftgarden.org/plants/parodia-leninghausi/) · [日本 PUKUBOOK 名称对照](https://pukubook.jp/detail/Parodia_leninghausii) |
 | 仙人掌 | 宝山 / Rebutia minuscula | 小球沿盆面密集分生，鲜红花从球体侧面长出。 | [RHS 植物图鉴](https://www.rhs.org.uk/plants/14412/rebutia-minuscula/details) · [日本 PUKUBOOK 名称对照](https://pukubook.jp/detail/Rebutia_minuscula) |
 | 仙人掌 | 日出 / Ferocactus latispinus | 粗棱圆球配扁宽的红褐中心刺，中心刺弯曲成钩。 | [RHS 植物图鉴](https://www.rhs.org.uk/plants/116144/ferocactus-latispinus/details) · [日本 PUKUBOOK 名称对照](https://pukubook.jp/detail/Ferocactus_latispinus) |
 | 仙人掌 | 多棱玉 / Stenocactus multicostatus | 许多细密波浪形棱挤在球面，棱脊间隔长出刺座。 | [RHS 植物图鉴](https://www.rhs.org.uk/plants/327544/stenocactus-multicostatus/details) · [日本 PUKUBOOK 名称对照](https://pukubook.jp/detail/Stenocactus_multicostatus) |
 | 仙人掌 | 老翁柱 / Cephalocereus senilis | 直立柱体外有长白毛；毛下面仍有硬刺。 | [NC State 植物图鉴](https://plants.ces.ncsu.edu/plants/cephalocereus-senilis/) · [日本 PUKUBOOK 名称对照](https://pukubook.jp/detail/Cephalocereus_senilis) |
 | 仙人掌 | 蟹爪兰 / Schlumbergera truncata | 扁平分节茎的边缘带尖齿，末端悬着不对称的花。 | [NC State 植物图鉴](https://plants.ces.ncsu.edu/plants/schlumbergera-truncata/) · [日本 PUKUBOOK 名称对照](https://pukubook.jp/detail/Schlumbergera_truncata) |
-| 仙人掌 | 鱼骨令箭 / Disocactus anguliger | 扁茎边缘深裂成圆钝锯齿，沿枝条左右交替。 | [植物园 / 植物专门图鉴](https://www.rhs.org.uk/plants/278576/epiphyllum-anguliger/details) · [日本 PUKUBOOK 名称对照](https://pukubook.jp/detail/Disocactus_anguliger) |
+| 仙人掌 | 鱼骨令箭 / Disocactus anguliger | 扁茎边缘深裂成圆钝锯齿，沿枝条左右交替。 | [植物园 / 植物专门图鉴](https://www.rhs.org.uk/plants/278576/epiphyllum-anguliger/details) · [日本 PUKUBOOK 名称对照](https://pukubook.jp/detail/Epiphyllum_anguliger) |
 | 仙人掌 | 丝苇 / Rhipsalis baccifera | 细圆筒茎不断分叉下垂，茎端有小白色浆果。 | [NC State 植物图鉴](https://plants.ces.ncsu.edu/plants/rhipsalis-baccifera/) · [日本 PUKUBOOK 名称对照](https://pukubook.jp/detail/Rhipsalis_baccifera) |
 | 多肉 | 日轮玉 / Lithops aucampiae | 一对合生厚叶中央留裂缝，赤褐色平顶上有深色窗纹。 | [RHS 植物图鉴](https://www.rhs.org.uk/plants/10357/lithops-aucampiae/details) · [日本 PUKUBOOK 名称对照](https://pukubook.jp/detail/Lithops_aucampiae) |
 | 多肉 | 紫勋 / Lithops lesliei | 一对低矮厚叶呈橄榄褐色，顶部窗口散布分枝状斑纹。 | [RHS 植物图鉴](https://www.rhs.org.uk/plants/10367/lithops-lesliei/details) · [日本 PUKUBOOK 名称对照](https://pukubook.jp/detail/Lithops_lesliei) |
@@ -78,3 +78,5 @@
 模块：`botany-expansion.mjs` 为资料与品种，`plant-expansion-art.mjs` 为新增形态，`objects.mjs` 为物件与灯光，`scene.mjs` 为统一目录和承重点验证。旧植物、家具和花盆模块保留职责，不删除既有存档引用的物件。
 
 清理了 scene 中已被独立绘制模块替代的旧植物与器物分支，避免新增物件误落到泛用植物占位图。植物阴影现在根据盆底而非垂枝末端定位；在部分旋转或垂枝覆盖时，短阴影可能被物件自身遮住。
+
+日文资料按具体物种页核对标题：银手指对应銀手毬，金手指保留金手毬／黄金司，多棱玉对应千波万波。金晃丸与鱼骨令箭的日本来源使用旧名页面，学名栏保留现用属名。
