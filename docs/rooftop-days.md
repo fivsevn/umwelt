@@ -25,3 +25,5 @@ The south balcony door returns to the north terrace. On the north terrace, the s
 Observation cards form a fixed lower-left vertical stack, with each temporary status in its own card. Narrow screens use a closer camera and pointer dragging pans the world independently of cards. The desktop welcome window remains centered over the launchers.
 
 The observer camera supports cursor-anchored wheel zoom and native two-finger pinch, with single-pointer pan. These gestures change only world coordinates; cards stay at fixed CSS dimensions. The south balcony observation rotates clockwise 90 degrees (door on the left), while garage layout coordinates remain unchanged. Desktop entry centers the terrace; mobile opens a closer view.
+
+Both observation cameras open at the full-garden fit scale. Zoom is clamped to 1–2.5 times that fit; panning is restricted to the garden bounds, and axes that already show the whole garden remain centered. Scene entry resets its view. Dongdong is painted upright in south observation, counteracting the map rotation at his foot position.
