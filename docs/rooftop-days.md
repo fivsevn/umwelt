@@ -20,4 +20,6 @@ For the final arrangement, validate an exported layout and adopt its coordinates
 
 `tests/browser/rooftop.cjs` checks the desktop entry, north/south routes, door navigation, random presence and errands, visible movement, live reduced-motion changes, reaching tasks, empty scene, dragging, undo/redo, transforms, persistence, JSON round trip, rejection of invalid import, preview, initial rendering and mobile overflow. Run with the repository's Playwright setup; set `BASE_URL`, `BROWSER` and an existing `QA_OUTPUT` directory.
 
-The south balcony door returns to the north terrace. On the north terrace, the separate lower-left card “世界不止眼前这一处。” links back to the Umwelt desktop. Desktop insect artwork is centered by its occupied pixel bounds, keeping its existing size.
+The south balcony door returns to the north terrace. On the north terrace, the separate lower-left card “去别处走走。” links back to the Umwelt desktop. Desktop insect artwork is centered by its occupied pixel bounds, keeping its existing size.
+
+Observation cards form a fixed lower-left vertical stack, with each temporary status in its own card. Narrow screens use a closer camera and pointer dragging pans the world independently of cards. The desktop welcome window remains centered over the launchers.
