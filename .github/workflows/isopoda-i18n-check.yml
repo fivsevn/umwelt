@@ -51,6 +51,7 @@ jobs:
             --exclude '_fontcheck/' \
             --exclude 'README*.md' \
             --exclude 'docs/' \
+            --exclude 'mac/' \
             --exclude 'tests/' \
             --exclude 'isopoda/tools/' \
             --exclude 'isopoda/dev/' \
