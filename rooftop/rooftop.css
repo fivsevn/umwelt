@@ -178,3 +178,38 @@ body.garage{background-color:#555b55;background-image:linear-gradient(#3e464440 
  .garage .arrange-controls .weather-controls select{min-width:65px}
 }
 @media(max-width:900px){.garage .studio .catalog{order:0}.garage .studio .notebook{order:1}}
+@media(min-width:901px){
+ .garage .workspace-toolbar{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:8px 12px;padding:8px 10px}
+ .garage .workspace-toolbar>.tool-group,.garage .workspace-toolbar>.layout-transfer{padding:0;min-height:28px;justify-content:flex-start;border:0}
+ .garage .workspace-toolbar .tool-options{gap:7px}
+ .garage .workspace-toolbar .layout-transfer{margin-left:auto;gap:6px}
+ .garage .workspace-toolbar button,.garage .workspace-toolbar .transfer summary{padding:5px 7px;font-size:11px}
+ .garage .workspace-toolbar label{font-size:11px;gap:2px}
+}
+.workspace .inspector #count{display:none}
+@media(min-width:901px){
+ .garage .workspace>.inspector{height:auto;min-height:44px;display:flex;flex-wrap:wrap;justify-content:flex-start;gap:8px;padding:8px 10px}
+ .workspace .inspector .section-title{margin:0}
+ .garage .workspace #objectControls{display:flex;flex-wrap:wrap;gap:8px}
+ .garage .workspace #objectControls[hidden]{display:none}
+ .workspace .inspector .control-row:first-child,.workspace .inspector .control-row:last-child{display:flex;gap:5px}
+ .workspace .inspector .control-row:first-child label{flex:none}
+ .workspace .inspector .control-row input{width:48px}
+ .workspace .size-control{gap:5px}
+ .workspace .size-control input{width:52px;min-width:52px}
+ .workspace .inspector .control-row button{padding:5px 6px;font-size:11px}
+}
+
+@media(min-width:901px){
+ .garage .note-column{grid-column:3;grid-row:1;position:sticky;top:16px;max-height:calc(100dvh - 94px);overflow:auto;scrollbar-color:#92967c #343f38;display:flex;flex-direction:column;gap:12px}
+ .garage .note-column .notebook{position:static;max-height:none;overflow:visible;flex:none}
+ .garage .note-column .arrange-controls{display:grid;grid-template-columns:1fr;margin:0;padding:10px;gap:10px}
+ .garage .note-column .scene-tabs{display:grid;grid-template-columns:1fr 1fr}
+ .garage .note-column .weather-controls{display:grid;grid-template-columns:1fr;border-left:0;border-top:1px solid #78826c;padding:10px 0 0;gap:8px}
+ .garage .note-column .weather-controls label{justify-content:space-between}
+ .garage .note-column .weather-controls select{width:180px}
+ .garage .workspace>.inspector{min-height:46px}
+}
+@media(max-width:900px){.garage .studio .note-column{order:1;min-width:0}}
+
+#rerollPlant{margin:4px 0 2px;padding:6px 10px;font-size:12px}
