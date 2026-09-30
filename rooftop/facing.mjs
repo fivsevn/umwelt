@@ -6,8 +6,8 @@ export function facingKind(a){if(FLAT.has(a.shape||a.id))return 'flat';if(a.id i
 // Model dimensions are independent of the old catalogue preview rectangle.
 // Shelf depth follows open garden shelving proportions; screen depth is foreshortened.
 const DEPTH={shelf:32,woodshelf:29,tierstand:28,ladderstand:26,wallrack:20,plantcart:28,pottingbench:32,gardenbench:26,foldingchair:22,storagechest:29,trellis:12,table:32,bench:24,stool:18,wirestand:32,coveredstand:32,foamstand:28,basketstand:22,lowplatform:28,sink:42,basin:46,terrarium:32,wardcase:28,fish:28,fishbox:29,seedtray:23,foambox:28,crate:24,redbox:23,mossbox:27,moss:22,wirebasket:23,drying:23};
-const LIFT={sink:13,basin:14};
-export function facingModel(a,rotation){const height=LIFT[a.id]??HEIGHT[a.id]??0,turn=rotation%180!==0,depth=DEPTH[a.id]??Math.max(14,a.w*.55),width=a.w,anchor=height/2;return {height,width,depth,length:width,anchor,turn,rotation,foreshorten:.38};}
+const LIFT={sink:7,basin:8};
+export function facingModel(a,rotation){const height=LIFT[a.id]??HEIGHT[a.id]??0,turn=rotation%180!==0,depth=['sink','basin'].includes(a.id)?(a.h-height)/.7:DEPTH[a.id]??Math.max(14,a.w*.55),width=a.w,anchor=height/2;return {height,width,depth,length:width,anchor,turn,rotation,foreshorten:.7};}
 export function projectedPoint(model,u,v,z=0){v+=model.vOffset||0;const r=model.rotation*Math.PI/180;return [Math.round(u*Math.cos(r)-v*Math.sin(r)),Math.round((u*Math.sin(r)+v*Math.cos(r))*(model.foreshorten??.38)+model.anchor-z)]}
 export function facingBounds(a,rotation){const kind=facingKind(a),turn=rotation%180!==0;if(a.plant||kind==='flat'){const symmetric=['lid','hose'].includes(a.shape||a.id),w=turn&&!symmetric?a.h/(a.plant?1:.6):a.w,h=turn&&!symmetric?a.w*(a.plant?1:.6):a.h;return {left:-w/2,right:w/2,top:-h/2,bottom:h/2}}if(kind==='volume'){const m=facingModel(a,rotation),w=turn?m.depth:m.width,d=(turn?m.width:m.depth)*m.foreshorten;return {left:-w/2-2,right:w/2+2,top:m.anchor-d/2-m.height-(['sink','basin'].includes(a.id)?7:a.id==='wardcase'?5:a.id==='coveredstand'?2:0),bottom:m.anchor+d/2+2}}
  const side=turn,t=a.shape||a.id,w=side&&t==='thermo'?6:side&&t==='bag'?14:a.w;
