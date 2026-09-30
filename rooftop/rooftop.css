@@ -299,3 +299,4 @@ body.garage #preview:hover{background:#bdc6ad;color:#303d32}
 body.garage button[hidden]{display:none!important}
 .garage .inspector #objectControls{margin-left:auto}
 .garage .inspector .section-title{min-width:0}
+body.garage .size-control button{width:20px!important;min-width:20px!important;height:20px!important;flex:0 0 20px;padding:4px 0 0!important}
