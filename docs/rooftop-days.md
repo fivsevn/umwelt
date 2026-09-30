@@ -1,6 +1,8 @@
-# Rooftop Days / 花农时代
+# Horticultural Era / 花农时代
 
-First visual prototype. `/rooftop/` is the observation page; `/rooftop/arrange/` is the layout studio. Everything is drawn by integer canvas primitives; there are no raster scenery assets, libraries, or network services.
+The observation fills the viewport. A door on the north entrance passage leads to the south balcony; its sliding door returns to the desktop. Dongdong is automatically present or out on a randomly selected errand, without visitor controls. When present there is no presence label; only the wind card remains.
+
+Visual prototype. `/rooftop/` is the observation page; `/rooftop/arrange/` is 东东的车库 (the layout studio). Everything is drawn by integer canvas primitives; there are no raster scenery assets, libraries, or network services.
 
 ## Reference geometry
 
@@ -16,4 +18,4 @@ For the final arrangement, validate an exported layout and adopt its coordinates
 
 ## Verification
 
-`tests/browser/rooftop.cjs` checks the desktop entry, north/south routes, visible movement, live reduced-motion changes, reaching tasks, empty scene, dragging, undo/redo, transforms, persistence, JSON round trip, rejection of invalid import, preview, initial rendering and mobile overflow. Run with the repository's Playwright setup; set `BASE_URL`, `BROWSER` and an existing `QA_OUTPUT` directory.
+`tests/browser/rooftop.cjs` checks the desktop entry, north/south routes, door navigation, random presence and errands, visible movement, live reduced-motion changes, reaching tasks, empty scene, dragging, undo/redo, transforms, persistence, JSON round trip, rejection of invalid import, preview, initial rendering and mobile overflow. Run with the repository's Playwright setup; set `BASE_URL`, `BROWSER` and an existing `QA_OUTPUT` directory.
