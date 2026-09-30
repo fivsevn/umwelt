@@ -270,3 +270,12 @@ body.garage .asset-card{font-size:11px}
 body.garage input,body.garage select{font-size:11px}
 /* The shelf column owns scrolling; its item grid never scrolls independently. */
 @media(min-width:901px){.garage .catalog .asset-grid{overflow:visible;max-height:none;padding-right:8px}}
+.garage #count{display:none}
+.garage .inspector,.garage .workspace>.inspector,.garage .note-column>.inspector{display:flex;align-items:center;flex-wrap:wrap;gap:6px;padding:6px 8px;min-height:32px}
+.garage .inspector .section-title{margin:0;flex:none}
+.garage .inspector #objectControls{display:flex;align-items:center;flex-wrap:nowrap;gap:6px;margin:0;flex:none}
+.garage .inspector #objectControls[hidden]{display:none}
+.garage .inspector .control-row{gap:4px}
+body.garage button:not(.asset-card),body.garage .transfer summary{padding:3px 7px;min-height:22px;height:auto;line-height:1.45}
+body.garage .size-control button{padding:3px 7px;width:25px;min-width:25px;height:auto}
+.garage .workspace-status #weatherStatus,.garage .workspace-status #message{padding:3px 7px;line-height:1.45}
