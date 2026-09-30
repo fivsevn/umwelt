@@ -1,7 +1,7 @@
 // Furniture shares a small material palette, while gaps expose the roof beneath it.
 export const FURNITURE=[
  ['tierstand','三层铁花架',48,38],['ladderstand','梯形木花架',38,48],['wallrack','窄高格花架',30,54],['plantcart','带轮花车',46,32],['pottingbench','带抽屉换盆台',60,38],['gardenbench','靠背长凳',58,32],['bistrotable','圆形铁桌',36,32],['foldingchair','折叠木椅',25,33],['storagechest','户外储物箱',48,30],['trellis','攀藤格栅',38,52]
-].map(([id,name,w,h])=>({id,name,w,h,category:'家具',furniture:true}));
+].map(([id,name,w,h])=>({id,name,w,h,category:'家具',furniture:true,note:'北天台实物与日常园艺家具：木板留有纹理，铁件保留网格、连接点和支脚。',care:'放在稳固平面上；花架可承托盆底。',sources:[]}));
 const WOOD={edge:'#70614f',side:'#70614d',face:'#8d7a5f',light:'#a59478',grain:'#7e7059'},METAL={edge:'#525a4e',side:'#4f584e',face:'#6c7465',light:'#929584',grain:'#5a6252'};
 const rect=(c,x,y,w,h,col)=>{c.fillStyle=col;c.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h))};
 function line(c,x,y,xx,yy,col){const n=Math.max(Math.abs(xx-x),Math.abs(yy-y),1);for(let i=0;i<=n;i++)rect(c,x+(xx-x)*i/n,y+(yy-y)*i/n,1,1,col)}

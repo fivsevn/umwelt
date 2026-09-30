@@ -1,3 +1,4 @@
+import {EXPANSION} from './botany-expansion.mjs';
 // Reviewed botanical profiles and pixel-art vessel designs. See docs/rooftop-notebook.md.
 export const PLANTS=[
   {
@@ -2998,6 +2999,7 @@ export const POTS=[
     ]
   }
 ];
+PLANTS.push(...EXPANSION);
 export const plant=id=>PLANTS.find(p=>p.id===id);
 export const vessel=id=>POTS.find(p=>p.id===id);
 export const allowedPots=id=>{const p=plant(id);return p?POTS.filter(v=>p.containers.includes(v.id)):[]};
