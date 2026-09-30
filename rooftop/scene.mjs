@@ -1,4 +1,5 @@
-import {facingKind,facingBounds,paintFacing} from './facing.mjs';
+import {objectReferences} from './object-references.mjs';
+import {facingKind,facingBounds,paintFacing,hasForeground,paintFacingForeground} from './facing.mjs';
 import {OBJECTS,LEGACY_DETAILS,paintDetail} from './objects.mjs';
 import {plantSeed} from './plant-seed.mjs';
 import {paintCity} from './city.mjs';
@@ -13,6 +14,7 @@ const LEGACY_ASSETS=[
  ['barrel','金琥','仙人掌',24,24],['column','柱状仙人掌','仙人掌',18,23],['bunny','兔耳仙人掌','仙人掌',19,20],['cluster','群生仙人掌','仙人掌',25,21],['trailing','猴尾柱','仙人掌',24,30],['aloe','芦荟','多肉',26,23],['rosette','莲座多肉','多肉',20,19],['pink','粉色石莲','多肉',20,18],['jade','玉树','多肉',25,26],['sedum','景天拼盆','多肉',30,20],['mint','薄荷','草木',24,22],['rosemary','迷迭香','草木',20,26],['fern','蕨类','草木',28,25],['broadleaf','大叶植物','草木',30,28],['yucca','丝兰','草木',32,36],['vine','垂藤','草木',23,28],['flower','季节小花','草木',22,24],['grass','葱与细叶草','草木',20,23],['moss','苔藓浅盘','苔藓与水',28,17],['mossbox','白色苔藓箱','苔藓与水',36,21],['fish','小鱼缸','苔藓与水',36,25],['pond','圆水盆','苔藓与水',31,25],['terrarium','蓝框保湿柜','器具',66,35],['shelf','黑色花架','器具',64,28],['woodshelf','木阶花架','器具',52,40],['bench','木凳','器具',40,19],['sink','不锈钢水槽','器具',52,29],['basin','蓝色水池台','器具',64,32],['table','工作台','器具',58,30],['drying','折叠晾衣架','器具',28,66],['watering','浇水壶','小物',16,18],['bucket','水桶','小物',19,21],['crate','蓝色收纳箱','小物',30,22],['redbox','红色方盆','小物',28,22],['pot','空陶盆','小物',20,18],['tools','园艺工具','小物',25,15],['hose','盘管','小物',25,23],['stool','小板凳','小物',20,18]
 ].map(([id,name,category,w,h])=>({id,name,category,w,h}));
 export const ASSETS=[...PLANTS.map(p=>({...p,plant:true})),...LEGACY_ASSETS.filter(a=>!plant(a.id)).map(a=>({...a,note:'北天台日常园艺物件，按实物结构绘制。',care:'放在稳固平面上，留出日常使用空间。',sources:[],...LEGACY_DETAILS[a.id],...(['shelf','woodshelf','bench','table','stool'].includes(a.id)?{furniture:true,category:'家具'}:{})})),...FURNITURE,...OBJECTS,...POTS.map(p=>({id:'vessel-'+p.id,name:p.name,category:'花盆',w:32,h:24,vessel:p.id}))];
+for(const a of ASSETS)if(!a.plant){const refs=[...(a.sources||[]),...(a.vessel?(vessel(a.vessel).sources||[]):[]),...objectReferences(a)];a.sources=refs.filter((r,i)=>refs.findIndex(other=>other.url===r.url)===i)}
 // Catalogue lookup is shared by rendering, placement and save validation.
 const assetIndex=new Map(ASSETS.map(a=>[a.id,a]));
 export const asset=id=>assetIndex.get(id);
@@ -43,6 +45,10 @@ export function validateLayout(data){
  const objects=clean.scenes[scene];for(let i=0;i<objects.length;i++){const o=objects[i];if(fits(scene,o,objects))continue;const legacy=LEGACY_ASSETS.find(a=>a.id===o.type),old=list[i];if((data.version===1&&scene==='south')||(plant(o.type)&&legacy&&old.pot===undefined&&fitsFootprint(scene,o,legacy))){const next=resizedObject(scene,o,o.scale,objects);if(next){Object.assign(o,next);continue}}throw Error('有物件的承重点超出了阳台或花架边界');}
  }return clean;
 }
+export function foregroundObjects(objects){return objects.filter(o=>hasForeground(asset(o.type)))}
+export function plantOccluders(o,objects){if(!asset(o.type).plant)return [];const points=contactPoints(o),x=points.reduce((sum,p)=>sum+p[0],0)/points.length,y=Math.max(...points.map(p=>p[1]));return objects.filter(s=>{if(!hasForeground(asset(s.type)))return false;const b=displayBounds(s);return x>=s.x+b.left+2&&x<=s.x+b.right-2&&y>=s.y+b.top+2&&y<=s.y+b.bottom-2})}
+export function paintPlantOccluders(c,o,objects){const frames=plantOccluders(o,objects);if(!frames.length)return;const b=displayBounds(o);c.save();c.beginPath();c.rect(o.x+b.left-2,o.y+b.top-2,b.right-b.left+4,b.bottom-b.top+4);c.clip();for(const s of frames){c.save();c.translate(Math.round(s.x),Math.round(s.y));c.scale(s.scale,s.scale);paintFacingForeground(c,asset(s.type),s.rotation);c.restore()}c.restore()}
+
 export function random(seed){let v=seed|0;return()=>{v=(Math.imul(v,1664525)+1013904223)|0;return (v>>>0)/4294967296}}
 const rect=(c,x,y,w,h,col)=>{c.fillStyle=col;c.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h))};
 function oval(c,x,y,rx,ry,col){for(let j=-ry;j<=ry;j++){const span=Math.floor(rx*Math.sqrt(Math.max(0,1-j*j/(ry*ry))));rect(c,x-span,y+j,span*2+1,1,col)}}
@@ -90,13 +96,14 @@ export function paintBase(c,scene,{includeCity=true}={}){c.clearRect(0,0,640,520
  else for(const y of [162,322,377]){rect(c,359,y,1,3,'#9a7c64');rect(c,357,y+1,2,1,'#836b57')}
  paintDoor(c,scene);
 }
+function paintGroundDetail(c,a,rotation,time){if(!rotation){paintDetail(c,a,time);return}const size=Math.ceil((Math.max(a.w,a.h)+32)/2)*2,cv=typeof OffscreenCanvas!=='undefined'?new OffscreenCanvas(size,size):document.createElement('canvas');cv.width=cv.height=size;const source=cv.getContext('2d');source.translate(size/2,size/2);paintDetail(source,a,time);const d=source.getImageData(0,0,size,size).data,r=rotation*Math.PI/180,cos=Math.round(Math.cos(r)),sin=Math.round(Math.sin(r));for(let y=0;y<size;y++)for(let x=0;x<size;x++){const i=(y*size+x)*4;if(!d[i+3])continue;const u=x-size/2,v=y-size/2;c.fillStyle=`rgb(${d[i]},${d[i+1]},${d[i+2]})`;c.fillRect(Math.round(u*cos-v/.6*sin),Math.round(u*.6*sin+v*cos),sin?2:1,1)}}
 function paintObjectPixels(c,o,time=0,selected=false){const a=asset(o.type);c.save();c.translate(Math.round(o.x),Math.round(o.y));c.scale(o.scale,o.scale);
  if(a.plant){c.rotate(o.rotation*Math.PI/180);paintPlant(c,o)}
- else if(facingKind(a)==='flat'){c.rotate(o.rotation*Math.PI/180);paintDetail(c,a,time)}
+ else if(facingKind(a)==='flat'){if(['lid','hose'].includes(a.shape||a.id))paintDetail(c,{...a,rotation:o.rotation},time);else paintGroundDetail(c,a,o.rotation,time)}
  else if(paintFacing(c,a,o.rotation,time)){}
  else if(paintDetail(c,{...a,rotation:o.rotation},time)){}
  else if(a.furniture)paintFurniture(c,o.type,a.w,a.h);
- else if(a.vessel){const v=vessel(a.vessel);paintVessel(c,o.rotation===180?{...v,pattern:'plain'}:v,0,28)}
+ else if(a.vessel){const v=vessel(a.vessel);paintVessel(c,v,0,['oval','box','mokko'].includes(v.shape)&&o.rotation%180?20:28)}
  else if(o.type==='drying'){for(const x of [-10,10]){rect(c,x,-30,2,60,'#58685a');rect(c,x+1,-30,1,60,'#96a080')}for(const y of [-29,27]){rect(c,-14,y,28,3,'#83957a');rect(c,-14,y+2,28,1,'#5f675b')}line(c,-9,-27,10,26,'#6e7d67');line(c,10,-27,-9,26,'#8d9d7d');for(let y=-22;y<23;y+=7)rect(c,-11,y,24,1,'#7f9173')}
  else throw Error('缺少物件绘制：'+o.type);
  c.restore();if(selected){const d=dimensions(o);c.strokeStyle='#b8ac83';c.lineWidth=1;c.strokeRect(Math.round(o.x-d.w/2)-3.5,Math.round(o.y-d.h/2)-3.5,Math.round(d.w)+7,Math.round(d.h)+7);for(const [x,y] of [[-1,-1],[1,-1],[-1,1],[1,1]])rect(c,o.x+x*(d.w/2+3)-1,o.y+y*(d.h/2+3)-1,3,3,'#c5bc9a')}
@@ -105,7 +112,7 @@ function paintObjectPixels(c,o,time=0,selected=false){const a=asset(o.type);c.sa
 const objectSprites=new Map();
 export function paintObject(c,o,time=0,selected=false,weather=null){
  const a=asset(o.type),key=o.type+':'+(o.pot||'')+':'+(o.seed??'preview')+':'+(a.plant?0:o.rotation),dynamic=a.aquarium;let entry=dynamic?null:objectSprites.get(key);
- if(!entry){const sprite=typeof OffscreenCanvas!=='undefined'?new OffscreenCanvas(Math.max(a.w,a.h)+32,Math.max(a.w,a.h)+32):document.createElement('canvas');sprite.width=Math.max(a.w,a.h)+32;sprite.height=Math.max(a.w,a.h)+32;const context=sprite.getContext('2d');paintObjectPixels(context,{type:o.type,pot:o.pot,seed:o.seed,x:sprite.width/2,y:sprite.height/2,rotation:a.plant?0:o.rotation,scale:1},time);const pixels=context.getImageData(0,0,sprite.width,sprite.height).data;let x0=sprite.width,y0=sprite.height,x1=0,y1=0;for(let y=0;y<sprite.height;y++)for(let x=0;x<sprite.width;x++)if(pixels[(y*sprite.width+x)*4+3]){x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y)}entry={sprite,bounds:[x0-sprite.width/2,y0-sprite.height/2,x1-sprite.width/2,y1-sprite.height/2]};if(!dynamic){if(objectSprites.size>=768)objectSprites.delete(objectSprites.keys().next().value);objectSprites.set(key,entry)}}
+ if(!entry){const b=facingBounds(a,a.plant?0:o.rotation),size=a.plant?Math.max(a.w,a.h)+32:Math.ceil(Math.max(a.w,a.h,...Object.values(b).map(v=>Math.abs(v)*2))+24),sprite=typeof OffscreenCanvas!=='undefined'?new OffscreenCanvas(size,size):document.createElement('canvas');sprite.width=size;sprite.height=size;const context=sprite.getContext('2d');paintObjectPixels(context,{type:o.type,pot:o.pot,seed:o.seed,x:sprite.width/2,y:sprite.height/2,rotation:a.plant?0:o.rotation,scale:1},time);const pixels=context.getImageData(0,0,sprite.width,sprite.height).data;let x0=sprite.width,y0=sprite.height,x1=0,y1=0;for(let y=0;y<sprite.height;y++)for(let x=0;x<sprite.width;x++)if(pixels[(y*sprite.width+x)*4+3]){x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y)}entry={sprite,bounds:[x0-sprite.width/2,y0-sprite.height/2,x1-sprite.width/2,y1-sprite.height/2]};if(!dynamic){if(objectSprites.size>=768)objectSprites.delete(objectSprites.keys().next().value);objectSprites.set(key,entry)}}
  c.save();c.translate(Math.round(o.x),Math.round(o.y));const world=c.getTransform(),angle=Math.atan2(world.b,world.a),turn=angle+(a.plant?o.rotation:0)*Math.PI/180,[x0,y0,x1,y1]=entry.bounds;
  const contact=a.plant?plantContact(o):null,shadowCorners=contact?[[contact.left,contact.top],[contact.right,contact.top],[contact.left,contact.bottom],[contact.right,contact.bottom]]:[[x0,y0],[x1,y0],[x0,y1],[x1,y1]];
  const corners=shadowCorners.map(([x,y])=>[x*Math.cos(turn)-y*Math.sin(turn),x*Math.sin(turn)+y*Math.cos(turn)]),xs=corners.map(p=>p[0]),ys=corners.map(p=>p[1]);

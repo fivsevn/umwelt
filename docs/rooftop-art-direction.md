@@ -36,3 +36,5 @@ Plants carry a persistent unsigned 32-bit seed. New additions and copies get the
 `rooftop/facing.mjs` 管理方向投影与绘制范围，`objects.mjs` 管理小物背面与灯具方向。点击区域及选择框采用对应视图的显示范围；旧布局的坐标、占地和承托规则保持兼容。灯光跟随灯头与灯泡的位置。
 
 方向回归：`tests/browser/rooftop-facing.cjs` 检查四面水槽、竖直支脚、独立缓存、后壳、侧面晾衣架选中及保存恢复；与扩容回归一并在 Chromium 和 WebKit 验证。
+
+本轮统一四面的宽、深、高，修正侧面层板过薄与蓝水池台面出现条纹的问题。开放架体的前景立柱、横梁和背部斜撑参与植物遮挡；柜子背板与侧遮雨布参与面遮挡。结构资料、适用物件和观察依据见 [物件四面绘制记录](rooftop-object-views.md)。四面使用同一材质定义，木阶花架按实际台阶前低后高绘制，圆形盆盖与盘管保持固定视角下的轮廓。
