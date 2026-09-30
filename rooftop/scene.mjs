@@ -1,3 +1,4 @@
+import {facingKind,facingBounds,paintFacing} from './facing.mjs';
 import {OBJECTS,LEGACY_DETAILS,paintDetail} from './objects.mjs';
 import {plantSeed} from './plant-seed.mjs';
 import {paintCity} from './city.mjs';
@@ -19,6 +20,7 @@ const obj=(type,x,y,extra={})=>({id:crypto.randomUUID(),type,x,y,rotation:0,scal
 export function initialLayout(){return {version:VERSION,scenes:{north:[obj('woodshelf',322,118),obj('yucca',295,110),obj('mossbox',350,98),obj('mint',374,109),obj('sink',287,166),obj('barrel',378,174,{scale:1.3}),obj('shelf',431,182,{rotation:90}),obj('column',438,172),obj('cluster',434,180),obj('trailing',439,213),obj('shelf',180,196,{rotation:90}),obj('barrel',167,169),obj('bunny',175,196),obj('aloe',173,230),obj('terrarium',189,275),obj('vine',168,280),obj('table',204,314),obj('moss',203,310),obj('redbox',184,301),obj('basin',343,315),obj('hose',348,312),obj('crate',310,316),obj('pond',237,269),obj('fish',390,280),obj('woodshelf',420,274),obj('pink',407,259),obj('rosette',433,273),obj('sedum',420,294),obj('fern',252,168),obj('mossbox',330,169),obj('vine',363,185),obj('watering',362,292),obj('stool',280,307),obj('pot',442,377)],south:[obj('shelf',329,247,{rotation:90}),obj('rosette',324,228),obj('pink',324,247),obj('mint',324,265),obj('drying',288,400,{rotation:90}),obj('moss',317,152),obj('column',318,134),obj('fish',319,312),obj('watering',242,339)]}}}
 export function inside(scene,x,y,margin=0){const pts=SCENES[scene].points;let hit=false;for(let i=0,j=pts.length-1;i<pts.length;j=i++){const [xi,yi]=pts[i],[xj,yj]=pts[j];if((yi>y)!==(yj>y)&&x<(xj-xi)*(y-yi)/(yj-yi)+xi)hit=!hit}if(!hit)return false;if(margin)return [[margin,0],[-margin,0],[0,margin],[0,-margin]].every(([dx,dy])=>inside(scene,x+dx,y+dy));return true}
 export function dimensions(o){const a=asset(o.type),turn=o.rotation%180!==0;return {w:(turn?a.h:a.w)*o.scale,h:(turn?a.w:a.h)*o.scale}}
+export function displayBounds(o){const b=facingBounds(asset(o.type),o.rotation);return Object.fromEntries(Object.entries(b).map(([key,value])=>[key,value*o.scale]))}
 const SUPPORTS=new Set(['shelf','woodshelf','tierstand','ladderstand','wallrack','plantcart','pottingbench','table','wirestand','coveredstand','lowplatform','foamstand']);
 function worldPoint(o,x,y){const a=o.rotation*Math.PI/180;return [o.x+(x*Math.cos(a)-y*Math.sin(a))*o.scale,o.y+(x*Math.sin(a)+y*Math.cos(a))*o.scale]}
 function stripPoints(o,box){const pts=[];for(const y of [box.top,box.bottom])for(let x=box.left;x<=box.right;x+=2)pts.push(worldPoint(o,x,y));for(let y=box.top;y<=box.bottom;y+=2)for(const x of [box.left,box.right])pts.push(worldPoint(o,x,y));pts.push(worldPoint(o,box.right,box.top),worldPoint(o,box.right,box.bottom));return pts}
@@ -88,11 +90,13 @@ export function paintBase(c,scene,{includeCity=true}={}){c.clearRect(0,0,640,520
  else for(const y of [162,322,377]){rect(c,359,y,1,3,'#9a7c64');rect(c,357,y+1,2,1,'#836b57')}
  paintDoor(c,scene);
 }
-function paintObjectPixels(c,o,time=0,selected=false){const a=asset(o.type);c.save();c.translate(Math.round(o.x),Math.round(o.y));c.rotate(o.rotation*Math.PI/180);c.scale(o.scale,o.scale);
- if(a.plant)paintPlant(c,o);
- else if(paintDetail(c,a,time)){}
+function paintObjectPixels(c,o,time=0,selected=false){const a=asset(o.type);c.save();c.translate(Math.round(o.x),Math.round(o.y));c.scale(o.scale,o.scale);
+ if(a.plant){c.rotate(o.rotation*Math.PI/180);paintPlant(c,o)}
+ else if(facingKind(a)==='flat'){c.rotate(o.rotation*Math.PI/180);paintDetail(c,a,time)}
+ else if(paintFacing(c,a,o.rotation,time)){}
+ else if(paintDetail(c,{...a,rotation:o.rotation},time)){}
  else if(a.furniture)paintFurniture(c,o.type,a.w,a.h);
- else if(a.vessel)paintVessel(c,vessel(a.vessel),0,28);
+ else if(a.vessel){const v=vessel(a.vessel);paintVessel(c,o.rotation===180?{...v,pattern:'plain'}:v,0,28)}
  else if(o.type==='drying'){for(const x of [-10,10]){rect(c,x,-30,2,60,'#58685a');rect(c,x+1,-30,1,60,'#96a080')}for(const y of [-29,27]){rect(c,-14,y,28,3,'#83957a');rect(c,-14,y+2,28,1,'#5f675b')}line(c,-9,-27,10,26,'#6e7d67');line(c,10,-27,-9,26,'#8d9d7d');for(let y=-22;y<23;y+=7)rect(c,-11,y,24,1,'#7f9173')}
  else throw Error('缺少物件绘制：'+o.type);
  c.restore();if(selected){const d=dimensions(o);c.strokeStyle='#b8ac83';c.lineWidth=1;c.strokeRect(Math.round(o.x-d.w/2)-3.5,Math.round(o.y-d.h/2)-3.5,Math.round(d.w)+7,Math.round(d.h)+7);for(const [x,y] of [[-1,-1],[1,-1],[-1,1],[1,1]])rect(c,o.x+x*(d.w/2+3)-1,o.y+y*(d.h/2+3)-1,3,3,'#c5bc9a')}
@@ -100,16 +104,17 @@ function paintObjectPixels(c,o,time=0,selected=false){const a=asset(o.type);c.sa
 // Raster bounds keep the small contact shadow beneath the actual artwork after any turn.
 const objectSprites=new Map();
 export function paintObject(c,o,time=0,selected=false,weather=null){
- const a=asset(o.type),key=o.type+':'+(o.pot||'')+':'+(o.seed??'preview'),dynamic=a.aquarium;let entry=dynamic?null:objectSprites.get(key);
- if(!entry){const sprite=typeof OffscreenCanvas!=='undefined'?new OffscreenCanvas(a.w+32,a.h+32):document.createElement('canvas');sprite.width=a.w+32;sprite.height=a.h+32;const context=sprite.getContext('2d');paintObjectPixels(context,{type:o.type,pot:o.pot,seed:o.seed,x:sprite.width/2,y:sprite.height/2,rotation:0,scale:1},time);const pixels=context.getImageData(0,0,sprite.width,sprite.height).data;let x0=sprite.width,y0=sprite.height,x1=0,y1=0;for(let y=0;y<sprite.height;y++)for(let x=0;x<sprite.width;x++)if(pixels[(y*sprite.width+x)*4+3]){x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y)}entry={sprite,bounds:[x0-sprite.width/2,y0-sprite.height/2,x1-sprite.width/2,y1-sprite.height/2]};if(!dynamic){if(objectSprites.size>=768)objectSprites.delete(objectSprites.keys().next().value);objectSprites.set(key,entry)}}
- c.save();c.translate(Math.round(o.x),Math.round(o.y));const world=c.getTransform(),angle=Math.atan2(world.b,world.a),turn=angle+o.rotation*Math.PI/180,[x0,y0,x1,y1]=entry.bounds;
+ const a=asset(o.type),key=o.type+':'+(o.pot||'')+':'+(o.seed??'preview')+':'+(a.plant?0:o.rotation),dynamic=a.aquarium;let entry=dynamic?null:objectSprites.get(key);
+ if(!entry){const sprite=typeof OffscreenCanvas!=='undefined'?new OffscreenCanvas(Math.max(a.w,a.h)+32,Math.max(a.w,a.h)+32):document.createElement('canvas');sprite.width=Math.max(a.w,a.h)+32;sprite.height=Math.max(a.w,a.h)+32;const context=sprite.getContext('2d');paintObjectPixels(context,{type:o.type,pot:o.pot,seed:o.seed,x:sprite.width/2,y:sprite.height/2,rotation:a.plant?0:o.rotation,scale:1},time);const pixels=context.getImageData(0,0,sprite.width,sprite.height).data;let x0=sprite.width,y0=sprite.height,x1=0,y1=0;for(let y=0;y<sprite.height;y++)for(let x=0;x<sprite.width;x++)if(pixels[(y*sprite.width+x)*4+3]){x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y)}entry={sprite,bounds:[x0-sprite.width/2,y0-sprite.height/2,x1-sprite.width/2,y1-sprite.height/2]};if(!dynamic){if(objectSprites.size>=768)objectSprites.delete(objectSprites.keys().next().value);objectSprites.set(key,entry)}}
+ c.save();c.translate(Math.round(o.x),Math.round(o.y));const world=c.getTransform(),angle=Math.atan2(world.b,world.a),turn=angle+(a.plant?o.rotation:0)*Math.PI/180,[x0,y0,x1,y1]=entry.bounds;
  const contact=a.plant?plantContact(o):null,shadowCorners=contact?[[contact.left,contact.top],[contact.right,contact.top],[contact.left,contact.bottom],[contact.right,contact.bottom]]:[[x0,y0],[x1,y0],[x0,y1],[x1,y1]];
  const corners=shadowCorners.map(([x,y])=>[x*Math.cos(turn)-y*Math.sin(turn),x*Math.sin(turn)+y*Math.cos(turn)]),xs=corners.map(p=>p[0]),ys=corners.map(p=>p[1]);
  c.save();c.rotate(-angle);c.scale(o.scale,o.scale);const footX=(Math.min(...xs)+Math.max(...xs))/2,footY=Math.round(Math.max(...ys))+2,shadowWidth=Math.max(2,Math.round((Math.max(...xs)-Math.min(...xs))*.28));
  if(weather?.sun>.05){oval(c,footX+2,footY+1,shadowWidth+2,2,`rgba(35,44,37,${weather.sun*.08})`)}
  oval(c,footX,footY,shadowWidth,1,`rgba(25,35,27,${weather?.night>.5?.1:.16})`);c.restore();
- c.rotate(o.rotation*Math.PI/180);c.scale(o.scale,o.scale);c.imageSmoothingEnabled=false;if(a.plant&&weather)paintPlant(c,o,{time,wind:weather.wind});else c.drawImage(entry.sprite,-entry.sprite.width/2,-entry.sprite.height/2);c.restore();
- if(selected){const d=dimensions(o);c.strokeStyle='#d8c37a';c.lineWidth=1;c.strokeRect(Math.round(o.x-d.w/2)-3.5,Math.round(o.y-d.h/2)-3.5,Math.round(d.w)+7,Math.round(d.h)+7);for(const [x,y] of [[-1,-1],[1,-1],[-1,1],[1,1]])rect(c,o.x+x*(d.w/2+3)-1,o.y+y*(d.h/2+3)-1,3,3,'#e4d6a4')}
+ if(a.plant)c.rotate(o.rotation*Math.PI/180);c.scale(o.scale,o.scale);c.imageSmoothingEnabled=false;if(a.plant&&weather)paintPlant(c,o,{time,wind:weather.wind});else c.drawImage(entry.sprite,-entry.sprite.width/2,-entry.sprite.height/2);c.restore();
+ if(selected){const b=displayBounds(o);c.strokeStyle='#d8c37a';c.lineWidth=1;c.strokeRect(Math.round(o.x+b.left)-3.5,Math.round(o.y+b.top)-3.5,Math.round(b.right-b.left)+7,Math.round(b.bottom-b.top)+7);for(const [x,y] of [[b.left,b.top],[b.right,b.top],[b.left,b.bottom],[b.right,b.bottom]])rect(c,o.x+x-1+(x===b.left?-3:3),o.y+y-1+(y===b.top?-3:3),3,3,'#e4d6a4')}
+
 }
 export function paintPerson(c,p,time){const x=Math.round(p.x),y=Math.round(p.y),step=p.state==='walk'?Math.floor(time*7)%2:0;oval(c,x,y+1,6,2,'#5a6a44');rect(c,x-3,y-6,3,6-step,'#2d4438');rect(c,x+1,y-6+step,3,6-step,'#2d4438');rect(c,x-4,y-13,8,8,'#818349');rect(c,x-2,y-12,4,6,'#b5af53');rect(c,x-5,y-18,10,6,'#c89941');rect(c,x-6,y-19,12,3,'#9e7f39');rect(c,x-3,y-21,6,3,'#d1b15f');rect(c,x+4,y-10,2,5,'#ca874a');rect(c,x-6,y-10,2,5,'#ca874a');if(p.state==='water'){rect(c,x+5,y-10,6,5,'#417f6b');rect(c,x+10,y-10,4,2,'#509577');for(let i=0;i<3;i++)rect(c,x+14+i,y-6+(Math.floor(time*8)+i)%8,1,2,'#9cce7f')}if(p.state==='sweep'){line(c,x+5,y-9,x+10+Math.sin(time*4)*3,y+2,'#a68938',1);rect(c,x+7+Math.sin(time*4)*3,y+2,7,3,'#c2a239')}if(p.state==='tend'){rect(c,x+5,y-10+Math.sin(time*3)*2,3,2,'#ca874a')}
 }
