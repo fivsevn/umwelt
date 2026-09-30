@@ -1,0 +1,32 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {restoreCollection} from '../isopoda/collection.mjs';
+import {habitatLock,habitatLockText} from '../isopoda/arrival.mjs';
+import {createRun} from '../isopoda/engine.mjs';
+test('first observation must finish before dish entry; beach completion unlocks deep sea',()=>{
+ const fresh=restoreCollection(null,null,[]);
+ assert.equal(habitatLock('petri-dish',fresh),'observation');
+ assert.equal(habitatLock('abyssal',fresh),'beach');
+ assert.equal(habitatLock('terrestrial',fresh),null);
+ assert.equal(habitatLock('groundwater',fresh),'flashlight');
+ const run=createRun('dairy',42);
+ assert.equal(habitatLock('petri-dish',restoreCollection(fresh,run)),'observation');
+ run.stage='ended';const done=restoreCollection(fresh,run);
+ assert.equal(habitatLock('petri-dish',done),null);
+ assert.equal(habitatLock('groundwater',done),null);
+ assert.equal(habitatLock('abyssal',done),'beach');
+ const beach=createRun('uniramea',43,'sandy-surf');
+ assert.equal(habitatLock('abyssal',restoreCollection(done,beach)),'beach');
+ beach.stage='ended';const unlocked=restoreCollection(done,beach);
+ assert.equal(habitatLock('abyssal',unlocked),null);
+ assert.equal(habitatLock('abyssal',restoreCollection(JSON.parse(JSON.stringify(unlocked)),null)),null);
+});
+test('old ending archives restore progress without treating a draw as completion',()=>{
+ const old=restoreCollection(null,null,[{id:'sandy-surf-calm',species:['uniramea']}]);
+ assert.equal(habitatLock('abyssal',old),null);
+ assert.equal(habitatLock('groundwater',old),'flashlight');
+ assert.equal(habitatLock('groundwater',restoreCollection(null,null,[{id:'ordinary',species:['dairy']}])),null);
+ assert.equal(habitatLock('petri-dish',old),null);
+ assert.equal(habitatLock('petri-dish',{completedObservation:true,unlocked:['giganteus']}),'observation');
+ for(const lang of ['zh','en','ja','isopod'])assert.ok(habitatLockText('beach',lang));
+});

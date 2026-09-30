@@ -19,3 +19,15 @@ export function unlockedPetriSpecies(collection){
  const unlocked=new Set(collection?.unlocked||[]);
  return SPECIES.filter(p=>unlocked.has(p.id)&&eligibleSpecies(p,'petri-dish')).map(p=>p.id);
 }
+
+// Keep the scene preview available while the observation itself is locked.
+export function habitatLock(habitat,collection){
+ if(habitat==='groundwater'&&!collection?.completedHabitats?.includes('terrestrial'))return 'flashlight';
+ if(habitat==='abyssal'&&!collection?.completedHabitats?.includes('sandy-surf'))return 'beach';
+ if(habitat==='petri-dish'&&(!collection?.completedObservation||!unlockedPetriSpecies(collection).length))return 'observation';
+ return null;
+}
+export function habitatLockText(lock,language='zh'){
+ const row=lock==='flashlight'?['手电筒还在充电','The flashlight is still charging','懐中電灯はまだ充電中']:lock==='beach'?['先去沙滩看看','Visit the beach first','まず砂浜をのぞいてみる']:['先完成一次观察','Complete an observation first','まず一度観察を終える'];
+ return language==='isopod'?encodeIsopodText(row[0]):row[{zh:0,en:1,ja:2}[language]??0];
+}

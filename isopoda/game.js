@@ -1,6 +1,6 @@
 import './audio-ui.mjs';
 import {recordNaiguaDraw} from './rare-specimens.mjs';
-import {arrivalText,unlockedPetriSpecies} from './arrival.mjs';
+import {arrivalText,unlockedPetriSpecies,habitatLock,habitatLockText} from './arrival.mjs';
 import {createShoreControls} from './shore-controls.mjs';
 import {isShore,shoreText,shorePoint,shoreProgress,shoreRain,moveShore,SHORE_TURNS} from './data/habitats/estuary-shore.mjs';
 import {isopodNumbers} from './locales/isopod.mjs';
@@ -156,7 +156,7 @@ function arrival(){
  }
 }
 function draw(){
- if($('#startBtn').disabled)return;
+ if($('#startBtn').disabled||habitatLock(selectedHabitat,collection))return;
  const dish=selectedHabitat==='petri-dish',pool=dish?unlockedPetriSpecies(collection):[];
  if(dish&&!pool.length)return;
  $('#startBtn').disabled=true;const seed=Date.now()>>>0,misses=collection.naiguaMisses||0;
@@ -192,7 +192,8 @@ function drawEndMolts(){
 function showEnd(){
  habitat.stop();$('#playView').hidden=true;$('#arrivalCard').hidden=true;$('#endCard').hidden=false;$('#dayLabel').textContent='';const e=ENDINGS.find(e=>e.id===state.ending)||ENDINGS[5];setWaveText($('#endingTime'),clock());for(const id of ['endingTitle','endingBody','endingLine'])$('#'+id).dataset.directLocale='true';$('#endingTitle').textContent=gameText(e.title,getLanguage());$('#endingBody').textContent=isEstuaryObservation(state)?estuarySummary(state.records,getLanguage()):gameText(e.body,getLanguage());$('#endingLine').textContent=gameText(e.line,getLanguage());const endConfig=habitatConfig(state);$('#endCard .ending-date span:last-child').textContent=isSeaweed(state)?gameText('kelp:cycle',getLanguage()):state.habitatId==='petri-dish'?gameText('petri:cycle',getLanguage()):state.habitatId==='sandy-surf'?gameText('sand:cycle',getLanguage()):isIntertidal(state)?gameText('intertidal:cycle',getLanguage()):isShore(state)?shoreText('cycle',getLanguage()):isEstuaryObservation(state)?gameText('estuary:v1:cycle',getLanguage()):endConfig.sequence==='freshwater-material'?gameText('water:observations5',getLanguage()):endConfig.sequence==='groundwater-pulse'?gameText(state.records.some(r=>Number.isInteger(r.observationIndex))?'water:pulses4':'water:observations4',getLanguage()):endConfig.dialogue?gameText('water:abyssalRound',getLanguage()):endConfig.aquatic?gameText('water:days3',getLanguage()):t('sevenDayObservation');$('#endSpecimen').classList.toggle('cave-samples',state.habitatId==='groundwater');$('#endSpecimen').classList.toggle('seaweed-samples',isSeaweed(state)||isShore(state));$('#endSpecimen').replaceChildren(...batchBugs(state.habitatId==='groundwater'||isSeaweed(state)||isShore(state))); drawEndMolts();
 
- if(!archives.some(a=>a.run===state.seed)){archives.push({id:e.id,...(isEstuaryObservation(state)?{estuaryRecords:structuredClone(estuaryRecords(state))}:{}),run:state.seed,species:runSpecies(state),cohort:state.cohort,date:new Date().toLocaleDateString(),records:state.records.length,memory:endingMemoryFor(state),molts:(state.collectedShells||[]).map(shell=>({phase:shell.phase,specimen:shell.specimen}))});archives=archives.slice(-60);write(ARCHIVE,archives)}save();
+ collection.completedObservation=true;collection.completedHabitats=[...new Set([...(collection.completedHabitats||[]),state.habitatId||'terrestrial'])];write(COLLECTION,collection);
+ if(!archives.some(a=>a.run===state.seed)){archives.push({id:e.id,habitatId:state.habitatId||'terrestrial',...(isEstuaryObservation(state)?{estuaryRecords:structuredClone(estuaryRecords(state))}:{}),run:state.seed,species:runSpecies(state),cohort:state.cohort,date:new Date().toLocaleDateString(),records:state.records.length,memory:endingMemoryFor(state),molts:(state.collectedShells||[]).map(shell=>({phase:shell.phase,specimen:shell.specimen}))});archives=archives.slice(-60);write(ARCHIVE,archives)}save();
 }
 function home(){playing=false;habitat.stop();$('#playView').hidden=true;$('#endCard').hidden=true;$('#arrivalCard').hidden=true;$('#titleCard').hidden=false;$('#dayLabel').textContent='';$('#startBtn').disabled=false;$('#continueBtn').hidden=!hasRun;$('#continueBtn').textContent=state.stage==='ended'?t('viewEnding'):t('continueObservation');refreshPreview()}
 function paragraph(value,cls=''){const el=document.createElement('p');el.dataset.directLocale='true';el.textContent=gameText(value,getLanguage());el.className=cls;return el}
@@ -230,6 +231,7 @@ $('#sourcesBtn').onclick=()=>{if(drawerMode==='sources'){drawerMode=referenceRet
 for(const [id,delta] of [['pagePrev',-1],['pageNext',1]])$('#'+id).onclick=()=>{const n=drawerMode==='catalog'?SPECIES.length:drawerMode==='endings'?ENDINGS.length:Math.max(1,state.records.length);page=(page+delta+n)%n;drawDrawer()};
 function refreshPreview(){
  if(nativeDrawerMode)return;
+ const lock=habitatLock(selectedHabitat,collection);$('#startBtn').disabled=!!lock;setWaveText($('#startBtn'),lock?habitatLockText(lock,getLanguage()):t('newObservation'));
  const seed=4107;previewState=createRun('dairy',seed,selectedHabitat);previewState.cohort=[];
  if(selectedHabitat==='freshwater')previewState.scene={materialStage:3};
  $('#titleCard .window-title span').textContent='ISOPODA / '+gameText('water:habitat:'+selectedHabitat,getLanguage());
