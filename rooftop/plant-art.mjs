@@ -4,16 +4,50 @@ const pixel=(c,x,y,w,h,col)=>{c.fillStyle=col;c.fillRect(Math.round(x),Math.roun
 function line(c,x0,y0,x1,y1,col,width=1){x0=Math.round(x0);y0=Math.round(y0);x1=Math.round(x1);y1=Math.round(y1);const dx=Math.abs(x1-x0),sx=x0<x1?1:-1,dy=-Math.abs(y1-y0),sy=y0<y1?1:-1;let err=dx+dy;for(;;){pixel(c,x0-Math.floor(width/2),y0-Math.floor(width/2),width,width,col);if(x0===x1&&y0===y1)break;const e=2*err;if(e>=dy){err+=dy;x0+=sx}if(e<=dx){err+=dx;y0+=sy}}}
 function oval(c,x,y,rx,ry,col){for(let yy=-ry;yy<=ry;yy++){const span=Math.floor(rx*Math.sqrt(Math.max(0,1-yy*yy/(ry*ry||1))));pixel(c,x-span,y+yy,span*2+1,1,col)}}
 function polygon(c,pts,col){const xs=pts.map(p=>p[0]),ys=pts.map(p=>p[1]);for(let y=Math.floor(Math.min(...ys));y<=Math.ceil(Math.max(...ys));y++)for(let x=Math.floor(Math.min(...xs));x<=Math.ceil(Math.max(...xs));x++){let inside=false;for(let i=0,j=pts.length-1;i<pts.length;j=i++){const a=pts[i],b=pts[j];if((a[1]>y)!==(b[1]>y)&&x<(b[0]-a[0])*(y-a[1])/(b[1]-a[1])+a[0])inside=!inside}if(inside)pixel(c,x,y,1,1,col)}}
-function shade(hex,delta){return '#'+hex.slice(1).match(/../g).map(v=>Math.max(0,Math.min(255,parseInt(v,16)+delta)).toString(16).padStart(2,'0')).join('')}
-function leaf(c,x,y,dx,dy,width,col,serrate=false){const len=Math.hypot(dx,dy)||1,nx=-dy/len,ny=dx/len;polygon(c,[[x,y],[x+dx*.38+nx*width,y+dy*.38+ny*width],[x+dx,y+dy],[x+dx*.52-nx*width,y+dy*.52-ny*width]],shade(col,-20));polygon(c,[[x,y],[x+dx*.35+nx*(width-1),y+dy*.35+ny*(width-1)],[x+dx,y+dy],[x+dx*.5,y+dy*.5]],col);line(c,x,y,x+dx*.85,y+dy*.85,shade(col,25));if(serrate)for(let t=.3;t<.75;t+=.2){pixel(c,x+dx*t+nx*width*.65,y+dy*t+ny*width*.65,1,1,col);pixel(c,x+dx*t-nx*width*.65,y+dy*t-ny*width*.65,1,1,col)}}
-function flower(c,x,y,col,size=3,petals=5){for(let i=0;i<petals;i++){const a=i*Math.PI*2/petals;oval(c,x+Math.round(Math.cos(a)*size*.7),y+Math.round(Math.sin(a)*size*.55),Math.max(1,size-1),Math.max(1,size-1),i%2?col:shade(col,15))}pixel(c,x,y,2,2,'#dfc883')}
-export function paintVessel(c,v,y=7,size=24){v=v||vessel('terra');const half=Math.floor(size/2),shallow=v.shape==='shallow',box=v.shape==='box',height=shallow?4:v.shape==='deep'?12:9;
- if(box){pixel(c,-half,y-3,size,height,v.ink);pixel(c,-half+1,y-2,size-2,height-2,v.color);pixel(c,-half,y-4,size,3,v.rim);pixel(c,-half+2,y-3,size-4,2,'#504b3d');pixel(c,-half+2,y+1,1,3,shade(v.color,15));for(let x=-half+4;x<half-2;x+=5)pixel(c,x,y+height-5,1,1,shade(v.color,-18));return}
- const lower=shallow?half-2:half-4;
- polygon(c,[[-half,y-3],[half+1,y-3],[lower+1,y+height-3],[-lower,y+height-3]],v.ink);
- polygon(c,[[-half+1,y-3],[half,y-3],[lower,y+height-4],[-lower+1,y+height-4]],v.color);
- for(let yy=0;yy<height-4;yy++)pixel(c,-half+2+Math.floor(yy*.35),y+yy,2,1,shade(v.color,20));
- oval(c,0,y-4,half,3,v.rim);oval(c,0,y-5,half-2,2,'#514a3d');line(c,-lower+2,y+height-4,lower-2,y+height-4,shade(v.ink,8));
+function shade(hex,delta){const rgb=hex.slice(1).match(/../g).map(v=>parseInt(v,16)),[r,g,b]=rgb,green=g>r*1.05&&g>b*1.05,purple=b>g*1.04&&r>g*1.04,blue=b>r*1.07;
+ const target=delta<0?(green?[19,53,34]:purple?[48,27,56]:blue?[25,48,61]:[57,36,24]):(green?[190,202,79]:purple?[205,147,173]:blue?[157,190,157]:[238,194,103]);const strength=Math.min(.82,Math.abs(delta)/(delta<0?52:66));return '#'+rgb.map((v,i)=>Math.round(v+(target[i]-v)*strength).toString(16).padStart(2,'0')).join('')}
+
+function leaf(c,x,y,dx,dy,width,col,serrate=false){const len=Math.hypot(dx,dy)||1,nx=-dy/len,ny=dx/len;polygon(c,[[x,y],[x+dx*.38+nx*width,y+dy*.38+ny*width],[x+dx,y+dy],[x+dx*.52-nx*width,y+dy*.52-ny*width]],shade(col,-32));polygon(c,[[x,y],[x+dx*.35+nx*(width-1),y+dy*.35+ny*(width-1)],[x+dx,y+dy],[x+dx*.5,y+dy*.5]],col);line(c,x,y,x+dx*.7,y+dy*.7,shade(col,16));pixel(c,x+dx*.55+nx*(width-1),y+dy*.55+ny*(width-1),1,1,shade(col,31));if(width>=3){line(c,x+dx*.34,y+dy*.34,x+dx*.48-nx*width*.55,y+dy*.48-ny*width*.55,shade(col,-14));}if(serrate)for(let t=.3;t<.75;t+=.2){pixel(c,x+dx*t+nx*width*.65,y+dy*t+ny*width*.65,1,1,col);pixel(c,x+dx*t-nx*width*.65,y+dy*t-ny*width*.65,1,1,col)}}
+function flower(c,x,y,col,size=3,petals=5){for(let i=0;i<petals;i++){const a=i*Math.PI*2/petals;oval(c,x+Math.round(Math.cos(a)*size*.7),y+Math.round(Math.sin(a)*size*.55),Math.max(1,size-1),Math.max(1,size-1),i%2?shade(col,-10):col)}pixel(c,x-1,y,3,2,shade(col,-30));pixel(c,x,y,1,1,'#e8b849')}
+// Each profile changes the silhouette, mouth, belly, foot and rim independently.
+const vesselProfiles={
+ round:{h:9,rows:[[0,1],[1,.68]]}, deep:{h:12,rows:[[0,1],[1,.75]]},
+ shallow:{h:4,rows:[[0,1],[1,.8]]}, basket:{h:9,rows:[[0,1],[.45,.95],[1,.6]]}, bag:{h:10,rows:[[0,.92],[.7,1],[1,.87]]},
+ oval:{h:7,rows:[[0,1],[.6,.95],[1,.7]],feet:true},
+ bowl:{h:9,rows:[[0,1],[.35,.97],[.7,.78],[1,.46]],foot:true},
+ jar:{h:11,mouth:.7,rows:[[0,.7],[.25,.94],[.55,1],[.85,.83],[1,.55]],foot:true},
+ flare:{h:9,rows:[[0,1],[.3,.85],[1,.52]],flutes:true},
+ cylinder:{h:11,rows:[[0,.9],[.9,.9],[1,.83]],band:true},
+ square:{h:9,rows:[[0,1],[.8,.86],[1,.8]],square:true,feet:true},
+ mokko:{h:6,rows:[[0,1],[.4,.94],[1,.65]],lobes:4,foot:true},
+ scallop:{h:8,rows:[[0,1],[.5,.86],[1,.5]],lobes:8,foot:true},
+ footed:{h:7,rows:[[0,1],[.5,.8],[1,.48]],foot:true},
+ cup:{h:11,mouth:.83,rows:[[0,.83],[.65,.71],[1,.58]],foot:true},
+ pedestal:{h:6,rows:[[0,1],[.6,.76],[1,.36]],lobes:8,pedestal:true},
+ rolled:{h:9,rows:[[0,1],[.5,.94],[1,.58]],rolled:true,foot:true},
+ faceted:{h:11,mouth:.77,rows:[[0,.77],[.3,1],[.7,.95],[1,.58]],facets:true},
+ irregular:{h:9,rows:[[0,.94],[.35,1],[1,.65]],irregular:true}
+};
+export function paintVessel(c,v,y=7,size=24){v=v||vessel('terra');const half=Math.floor(size/2),profile=vesselProfiles[v.shape]||vesselProfiles.round,height=profile.h;
+ if(v.shape==='box'){pixel(c,-half,y-3,size,height,v.ink);pixel(c,-half+1,y-2,size-2,height-2,v.color);pixel(c,-half,y-4,size,3,v.rim);pixel(c,-half+2,y-3,size-4,2,'#342c1d');pixel(c,half-5,y-1,4,height-3,shade(v.color,-25));pixel(c,-half+2,y+1,1,3,shade(v.color,22));for(let x=-half+4;x<half-2;x+=5)pixel(c,x,y+height-5,1,1,shade(v.color,-18));return}
+ const top=y-3,base=top+height,rows=profile.rows;
+ // Scanline contour leaves genuinely transparent corners and gaps between the feet.
+ for(let row=0;row<height;row++){const t=row/(height-1);let k=1;while(k<rows.length-1&&t>rows[k][0])k++;const [t0,r0]=rows[k-1],[t1,r1]=rows[k],radius=Math.round(half*(r0+(r1-r0)*(t-t0)/(t1-t0))),offset=profile.irregular?(row<3?-1:row>6?1:0):0;
+  pixel(c,-radius+offset,top+row,radius*2+1,1,v.ink);pixel(c,-radius+1+offset,top+row,radius*2-1,1,v.color);
+  pixel(c,Math.max(1,radius-4)+offset,top+row,Math.min(4,radius-1),1,shade(v.color,-25));if(row<height-2)pixel(c,-radius+2+offset,top+row,2,1,shade(v.color,19));
+  if(profile.facets){pixel(c,-Math.round(radius*.35),top+row,2,1,shade(v.color,8));pixel(c,Math.round(radius*.3),top+row,1,1,shade(v.color,-17));}
+  if(profile.flutes)for(let x=-radius+5;x<radius-3;x+=4)pixel(c,x,top+row,1,1,shade(v.color,-13));
+ }
+ const lower=Math.round(half*rows.at(-1)[1]);line(c,-lower+1,base-1,lower-1,base-1,shade(v.color,-24));
+ if(profile.feet){for(const x of [-lower+1,lower-4]){pixel(c,x,base,3,2,v.ink);pixel(c,x,base,2,1,shade(v.color,12))}}
+ else if(profile.foot||profile.pedestal){const foot=profile.pedestal?4:Math.max(3,lower-1);pixel(c,-foot,base,foot*2+1,profile.pedestal?3:2,v.ink);line(c,-foot+1,base,foot-1,base,shade(v.color,8));if(profile.pedestal)line(c,-foot-2,base+2,foot+2,base+2,v.rim)}
+ const mouth=Math.round(half*(profile.mouth||1)),mouthY=y-5;
+ if(profile.square){pixel(c,-mouth,mouthY-2,mouth*2+1,5,shade(v.rim,-20));pixel(c,-mouth,mouthY-2,mouth*2+1,2,v.rim);pixel(c,-mouth+2,mouthY,mouth*2-3,2,'#342c1d');line(c,-mouth+1,mouthY-2,-1,mouthY-2,shade(v.rim,22));line(c,-mouth,mouthY+2,mouth,mouthY+2,v.rim)}
+ else {oval(c,profile.irregular?-1:0,mouthY+1,mouth,profile.rolled?4:3,shade(v.rim,-20));oval(c,profile.irregular?-1:0,mouthY,mouth,profile.rolled?3:2,v.rim);
+  if(profile.lobes){for(let i=0;i<profile.lobes;i++){const angle=i*Math.PI*2/profile.lobes;oval(c,Math.cos(angle)*(mouth-1),mouthY+Math.sin(angle)*2,profile.lobes===4?3:2,1,v.rim)} }
+  oval(c,profile.irregular?-1:0,mouthY,mouth-2,1,'#342c1d');line(c,-mouth+2,mouthY-1,-2,mouthY-1,shade(v.rim,22));
+ }
+ if(profile.band)line(c,-half+2,y+3,half-2,y+3,shade(v.color,-18));
  // A small, readable ornament on the front face, not a texture over the entire object.
  const ink=v.ink,front=y+1;
  if(v.pattern==='blue'||v.pattern==='grass'){line(c,-5,front+3,4,front-1,ink);for(const x of [-5,-1,3]){pixel(c,x,front,2,1,ink);pixel(c,x+2,front+2,2,1,ink)}}
