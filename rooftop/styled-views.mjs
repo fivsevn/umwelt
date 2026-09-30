@@ -1,0 +1,11 @@
+// Directional views use the accepted rooftop pixel painters, not elevation silhouettes.
+import {paintFurniture} from './furniture.mjs';
+import {paintDetail} from './objects.mjs';
+const fixtures=new Set(['shelf','woodshelf','tierstand','ladderstand','wallrack','plantcart','pottingbench','gardenbench','foldingchair','storagechest','table','bench','stool','wirestand','coveredstand','foamstand','basketstand','lowplatform','terrarium','wardcase','seedtray','foambox','crate','redbox','moss','mossbox','fish','fishbox','wirebasket']);
+export function styledView(a,rotation){if(!fixtures.has(a.id))return null;const side=rotation%180!==0,w=side?Math.round(Math.max(22,a.w*.58)):a.w,h=side?Math.round(Math.max(a.h,a.w*.72)):a.h;return {w,h,side,rotation}}
+export function paintStyledView(c,a,rotation,time){const d=styledView(a,rotation);if(!d||!rotation)return false;const view={...a,w:d.w,h:d.h,rotation:0,viewRotation:rotation};if(a.furniture&&!a.detail)paintFurniture(c,a.id,d.w,d.h,{rotation});else paintDetail(c,view,time);return true}
+export function paintStyledForeground(c,a,rotation){const d=styledView(a,rotation);if(!d)return false;const wooden=['woodshelf','ladderstand','pottingbench','gardenbench','foldingchair','table','bench','stool','lowplatform','foamstand','wardcase'].includes(a.id),black=['shelf','wirestand','coveredstand'].includes(a.id),edge=wooden?'#70614d':black?'#303b36':'#4e5b57',light=wooden?'#8d7a5f':black?'#536057':'#758079',x=-Math.floor(d.w/2),y=-Math.floor(d.h/2),px=(xx,yy,w,h,col)=>{c.fillStyle=col;c.fillRect(Math.round(xx),Math.round(yy),w,h)},line=(ax,ay,bx,by,col)=>{const n=Math.max(Math.abs(bx-ax),Math.abs(by-ay),1);for(let i=0;i<=n;i++)px(ax+(bx-ax)*i/n,ay+(by-ay)*i/n,1,1,col)};
+ for(const xx of [x+1,x+d.w-4]){px(xx,y,2,d.h,edge);px(xx,y+2,1,d.h-4,light)}
+ if(rotation===180&&['shelf','woodshelf','tierstand','ladderstand','wallrack','wirestand','coveredstand'].includes(a.id)){line(x+4,y+4,x+d.w-5,y+d.h-5,edge);line(x+d.w-5,y+4,x+4,y+d.h-5,light)}
+ if(rotation===180&&['terrarium','wardcase'].includes(a.id)){px(x+3,y+d.h*.48,d.w-6,Math.round(d.h*.38),'#647e78');for(let xx=x+5;xx<x+d.w-4;xx+=6)px(xx,y+d.h*.48,1,Math.round(d.h*.38),'#7f9584')}
+ return true}
