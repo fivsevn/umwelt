@@ -1,4 +1,3 @@
-import {paintDesktopIcons} from './desktop-icons.mjs';
 import {createAudioEngine} from './assets/audio/audio-engine.mjs';
 import {soundIcon} from './assets/audio/sound-icon.mjs';
 const copy={
@@ -45,5 +44,3 @@ function restoreLanguage(){try{const saved=localStorage.getItem('umwelt-desktop-
 window.addEventListener('storage',event=>{if(event.key==='umwelt-desktop-language')restoreLanguage()});
 window.addEventListener('pagehide',()=>void audio.suspend());window.addEventListener('pageshow',()=>{restoreLanguage();updateClock();if(!document.hidden)void audio.resume()});
 render();updateClock();setInterval(updateClock,1000);
-
-paintDesktopIcons();

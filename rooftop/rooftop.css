@@ -90,3 +90,33 @@ body.garage{background-color:#555b55;background-image:linear-gradient(#3e464440 
 .layout-transfer .transfer-body{position:absolute;bottom:calc(100% + 10px);right:0;width:300px;padding:14px;background:#424e45;border:1px solid #828e77;box-shadow:3px 3px #26342b}
 .layout-transfer [hidden]{display:none}
 @media(max-width:550px){.layout-transfer .transfer-body{width:min(300px,calc(100vw - 40px))}}
+
+/* Two arrangements only: a wide studio or a stacked narrow studio. */
+.garage .arrange-controls{border:1px solid var(--ui-line);background:var(--ui-panel);padding:8px 10px;min-height:44px;margin-bottom:8px}
+.garage .arrange-controls .weather-controls{gap:12px}
+.garage .workspace-toolbar{gap:14px;justify-content:flex-start}
+.tool-group{display:flex;align-items:center;gap:6px;flex:none;white-space:nowrap}
+.garage .workspace-toolbar .tool-options label{margin:0}.garage .workspace-toolbar .layout-transfer{margin-left:auto;gap:6px}
+@media(max-width:900px){
+ .garage .studio{display:flex;flex-direction:column;gap:12px}
+ .garage .arrange-controls{display:grid;grid-template-columns:1fr;gap:10px;padding:10px}
+ .garage .arrange-controls .scene-tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+ .garage .arrange-controls .weather-controls{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%}
+ .garage .arrange-controls .weather-controls label{min-width:0;gap:6px}.garage .arrange-controls select{flex:1;width:100%;min-width:0}
+ .garage .workspace>.inspector{display:block;overflow:visible;padding:10px}
+ .workspace .inspector .section-title{justify-content:space-between;white-space:normal;margin:0;gap:10px}
+ .workspace .inspector h2{overflow-wrap:anywhere;line-height:1.5}
+ .workspace #objectControls{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}
+ .workspace #objectControls[hidden]{display:none}
+ .workspace .inspector .control-row:first-child{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+ .workspace .inspector .control-row label{display:flex;width:100%}.workspace .inspector .control-row input{width:100%;flex:1}
+ .workspace .size-control{width:100%;gap:10px}.workspace .size-control>div{flex:1}.workspace .size-control input{width:auto;min-width:40px;flex:1}
+ .workspace .inspector .control-row:last-child{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.workspace .inspector .control-row button{width:100%;height:30px}
+ .garage .workspace-toolbar{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px;padding:10px}
+ .tool-group{min-width:0;gap:6px}.tool-history,.tool-reset{display:grid;grid-template-columns:1fr 1fr}
+ .garage .workspace-toolbar .tool-options{justify-content:space-between;gap:3px}.garage .workspace-toolbar .layout-transfer{margin-left:0;justify-content:flex-end;min-width:0}
+ .garage .workspace-toolbar button,.layout-transfer .transfer summary{padding:5px 7px;font-size:11px}
+ .garage .workspace-toolbar .tool-options label{font-size:11px;gap:2px}
+}
+
+.upstairs-arrow{display:inline-block;width:14px;height:13px;position:relative;margin-left:5px;vertical-align:-1px}.upstairs-arrow::before{content:"";position:absolute;left:0;bottom:1px;width:10px;height:10px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;border-bottom-right-radius:4px}.upstairs-arrow::after{content:"";position:absolute;right:0;top:0;width:6px;height:6px;border-top:2px solid currentColor;border-left:2px solid currentColor;transform:rotate(45deg)}
