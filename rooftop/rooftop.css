@@ -239,3 +239,6 @@ body.garage button,body.garage button:hover,body.garage button:active,body.garag
 .garage .catalog,.garage .note-column,.garage .notebook,.garage .asset-grid{scrollbar-width:thin}
 .garage .catalog::-webkit-scrollbar,.garage .note-column::-webkit-scrollbar,.garage .notebook::-webkit-scrollbar,.garage .asset-grid::-webkit-scrollbar{width:6px;height:6px}
 .garage .catalog::-webkit-scrollbar-thumb,.garage .note-column::-webkit-scrollbar-thumb,.garage .notebook::-webkit-scrollbar-thumb,.garage .asset-grid::-webkit-scrollbar-thumb{background:#92967c;border-radius:3px}
+.garage .asset-grid{background:none;row-gap:10px;padding-bottom:8px}
+.garage .asset-grid .asset-card{position:relative;overflow:visible;box-shadow:none}
+.garage .asset-grid .asset-card::after{content:"";position:absolute;left:0;right:-8px;bottom:-6px;height:3px;background:#717b66;box-shadow:0 2px 0 #26342b;pointer-events:none}
