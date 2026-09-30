@@ -23,3 +23,5 @@ For the final arrangement, validate an exported layout and adopt its coordinates
 The south balcony door returns to the north terrace. On the north terrace, the separate lower-left card “去别处走走。” links back to the Umwelt desktop. Desktop insect artwork is centered by its occupied pixel bounds, keeping its existing size.
 
 Observation cards form a fixed lower-left vertical stack, with each temporary status in its own card. Narrow screens use a closer camera and pointer dragging pans the world independently of cards. The desktop welcome window remains centered over the launchers.
+
+The observer camera supports cursor-anchored wheel zoom and native two-finger pinch, with single-pointer pan. These gestures change only world coordinates; cards stay at fixed CSS dimensions. The south balcony observation rotates clockwise 90 degrees (door on the left), while garage layout coordinates remain unchanged. Desktop entry centers the terrace; mobile opens a closer view.
