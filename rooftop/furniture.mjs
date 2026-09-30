@@ -2,7 +2,7 @@
 export const FURNITURE=[
  ['tierstand','三层铁花架',48,38],['ladderstand','梯形木花架',38,48],['wallrack','窄高格花架',30,54],['plantcart','带轮花车',46,32],['pottingbench','带抽屉换盆台',60,38],['gardenbench','靠背长凳',58,32],['bistrotable','圆形铁桌',36,32],['foldingchair','折叠木椅',25,33],['storagechest','户外储物箱',48,30],['trellis','攀藤格栅',38,52]
 ].map(([id,name,w,h])=>({id,name,w,h,category:'家具',furniture:true}));
-const WOOD={edge:'#736149',side:'#746147',face:'#927957',light:'#aa9370',grain:'#817052'},METAL={edge:'#515b4b',side:'#4d594c',face:'#6b7561',light:'#919680',grain:'#59634e'};
+const WOOD={edge:'#70614f',side:'#70614d',face:'#8d7a5f',light:'#a59478',grain:'#7e7059'},METAL={edge:'#525a4e',side:'#4f584e',face:'#6c7465',light:'#929584',grain:'#5a6252'};
 const rect=(c,x,y,w,h,col)=>{c.fillStyle=col;c.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h))};
 function line(c,x,y,xx,yy,col){const n=Math.max(Math.abs(xx-x),Math.abs(yy-y),1);for(let i=0;i<=n;i++)rect(c,x+(xx-x)*i/n,y+(yy-y)*i/n,1,1,col)}
 function oval(c,x,y,rx,ry,col){for(let j=-ry;j<=ry;j++){const span=Math.floor(rx*Math.sqrt(Math.max(0,1-j*j/(ry*ry))));rect(c,x-span,y+j,span*2+1,1,col)}}
@@ -18,7 +18,7 @@ export function paintFurniture(c,t,w,h){const m=['shelf','tierstand','wallrack',
  }
  if(t==='trellis'){post(c,x+1,y,h,m);post(c,x+w-4,y,h,m);for(let yy=y+2;yy<y+h-5;yy+=8)line(c,x+3,yy,x+w-4,yy,m.face);for(let xx=x+7;xx<x+w-5;xx+=8){line(c,xx,y+2,xx,y+h-5,m.side);rect(c,xx,y+2,1,2,m.light)}return}
  if(t==='bistrotable'){for(const xx of [-9,8])post(c,xx,0,h/2-1,m);line(c,-9,8,9,1,m.side);line(c,8,8,-8,1,m.side);oval(c,0,-4,w/2-1,9,m.edge);oval(c,0,-6,w/2-2,8,m.face);oval(c,0,-7,w/2-4,6,m.side);for(let xx=-10;xx<=10;xx+=5)line(c,xx,-11,xx,-3,m.face);for(let yy=-10;yy<=-3;yy+=3)line(c,-10,yy,10,yy,m.face);line(c,-8,-13,4,-13,m.light);return}
- if(t==='foldingchair'){line(c,x+4,y+3,x+w-5,y+h-2,m.edge);line(c,x+w-5,y+3,x+4,y+h-2,m.edge);post(c,x+3,y,h-3,m);post(c,x+w-6,y,h-3,m);for(let i=0;i<2;i++)plank(c,x+2,y+2+i*5,w-4,5,m,i);for(let i=0;i<2;i++)plank(c,x+1,y+h/2+i*4,w-2,5,m,i);rect(c,x+4,y+h/2,1,1,'#b3b898');return}
+ if(t==='foldingchair'){line(c,x+4,y+3,x+w-5,y+h-2,m.edge);line(c,x+w-5,y+3,x+4,y+h-2,m.edge);post(c,x+3,y,h-3,m);post(c,x+w-6,y,h-3,m);for(let i=0;i<2;i++)plank(c,x+2,y+2+i*5,w-4,5,m,i);for(let i=0;i<2;i++)plank(c,x+1,y+h/2+i*4,w-2,5,m,i);rect(c,x+4,y+h/2,1,1,'#b3b79e');return}
  if(t==='storagechest'){rect(c,x,y+5,w,h-7,m.edge);rect(c,x+2,y+7,w-4,h-11,m.side);for(let yy=y+7;yy<y+h-5;yy+=5)plank(c,x+2,yy,w-4,5,m,yy);plank(c,x,y+1,w,7,m);for(const xx of [x+7,x+w-10]){rect(c,xx,y+1,3,5,METAL.edge);rect(c,xx,y+2,1,2,METAL.light)}rect(c,-3,y+10,6,3,METAL.edge);rect(c,-2,y+10,4,1,METAL.light);return}
  const cart=t==='plantcart',work=t==='pottingbench',back=t==='gardenbench',table=t==='table'||work,seatY=back?y+13:work?y+9:y+2;
  for(const xx of [x+3,x+w-6])post(c,xx,seatY+3,y+h-seatY-3,m);
