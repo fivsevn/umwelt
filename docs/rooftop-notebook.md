@@ -89,7 +89,7 @@ Restrictions are intentionally conservative for the depicted specimen size. They
 
 ## Rendering and persistence
 
-- All objects are drawn into transparent pixel sprites. A short translucent contact shadow is positioned using the actual raster bounds and the screen orientation. Rotating objects and the south balcony never rotates the shadow upward.
+- All objects are drawn into transparent pixel sprites. A short translucent contact shadow is positioned using the actual raster bounds and the screen orientation. Rotating an object never moves its contact shadow above its artwork. Both maps use native upright coordinates.
 - Static sprites and plant/vessel variants use bounded caches. Fish and water animations are refreshed.
 - Version 1 layouts remain readable. Valid legacy edge placements with no explicit vessel move minimally inward when their refined footprint needs more room. Truly invalid coordinates and incompatible vessel IDs are rejected.
 - Undo/redo, duplication, local persistence, import/export and the upstairs local-layout preview retain vessels. A first vessel change can be undone back to the original default.
