@@ -242,3 +242,4 @@ body.garage button,body.garage button:hover,body.garage button:active,body.garag
 .garage .asset-grid{background:none;row-gap:10px;padding-bottom:8px}
 .garage .asset-grid .asset-card{position:relative;overflow:visible;box-shadow:none}
 .garage .asset-grid .asset-card::after{content:"";position:absolute;left:0;right:-8px;bottom:-6px;height:3px;background:#717b66;box-shadow:0 2px 0 #26342b;pointer-events:none}
+.garage .workspace .canvas-wrap{border:0;outline:0;box-shadow:4px 4px 0 #26332b55}
