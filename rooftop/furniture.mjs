@@ -2,12 +2,12 @@
 export const FURNITURE=[
  ['tierstand','三层铁花架',48,38],['ladderstand','梯形木花架',38,48],['wallrack','窄高格花架',30,54],['plantcart','带轮花车',46,32],['pottingbench','带抽屉换盆台',60,38],['gardenbench','靠背长凳',58,32],['bistrotable','圆形铁桌',36,32],['foldingchair','折叠木椅',25,33],['storagechest','户外储物箱',48,30],['trellis','攀藤格栅',38,52]
 ].map(([id,name,w,h])=>({id,name,w,h,category:'家具',furniture:true}));
-const WOOD={edge:'#3c2a20',side:'#65432b',face:'#987044',light:'#b58c4f',grain:'#79502f'},METAL={edge:'#152b28',side:'#23433b',face:'#496855',light:'#879575',grain:'#2d4c41'};
+const WOOD={edge:'#736149',side:'#746147',face:'#927957',light:'#aa9370',grain:'#817052'},METAL={edge:'#515b4b',side:'#4d594c',face:'#6b7561',light:'#919680',grain:'#59634e'};
 const rect=(c,x,y,w,h,col)=>{c.fillStyle=col;c.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h))};
 function line(c,x,y,xx,yy,col){const n=Math.max(Math.abs(xx-x),Math.abs(yy-y),1);for(let i=0;i<=n;i++)rect(c,x+(xx-x)*i/n,y+(yy-y)*i/n,1,1,col)}
 function oval(c,x,y,rx,ry,col){for(let j=-ry;j<=ry;j++){const span=Math.floor(rx*Math.sqrt(Math.max(0,1-j*j/(ry*ry))));rect(c,x-span,y+j,span*2+1,1,col)}}
-function plank(c,x,y,w,h,m,seed=0){rect(c,x,y,w,h,m.edge);rect(c,x+1,y+1,w-2,h-3,m.face);rect(c,x+1,y+1,w-3,1,m.light);rect(c,x+1,y+h-2,w-2,1,m.side);if(w>12){line(c,x+5,y+3,x+Math.min(w-4,17+seed%9),y+3,m.grain);rect(c,x+w-5,y+2,1,1,m.edge);rect(c,x+3,y+2,1,1,m.edge)}}
-function post(c,x,y,h,m){rect(c,x,y,3,h,m.edge);rect(c,x,y+1,1,h-2,m.light);rect(c,x+1,y+1,1,h-2,m.side)}
+function plank(c,x,y,w,h,m,seed=0){rect(c,x,y,w,h,m.face);rect(c,x,y+h-2,w,2,m.side);rect(c,x+2,y,w-4,1,m.light);if(w>12){line(c,x+5,y+2,x+Math.min(w-4,17+seed%9),y+2,m.grain);rect(c,x+w-5,y+2,1,1,m.side);rect(c,x+3,y+2,1,1,m.side);for(let xx=x+9+(seed%3);xx<x+w-4;xx+=13){rect(c,xx,y+1,3,1,m.grain);rect(c,xx+2,y+h-3,2,1,m.light)}}}
+function post(c,x,y,h,m){rect(c,x,y,3,h,m.side);rect(c,x,y+2,2,h-4,m.face);for(let yy=y+4;yy<y+h-4;yy+=9)rect(c,x,yy,2,2,m.light)}
 export function paintFurniture(c,t,w,h){const m=['shelf','tierstand','wallrack','plantcart','bistrotable','trellis'].includes(t)?METAL:WOOD,x=-Math.floor(w/2),y=-Math.floor(h/2);
  if(['shelf','woodshelf','tierstand','ladderstand','wallrack'].includes(t)){
   const tiers=t==='wallrack'?4:3,step=(h-9)/tiers,ladder=t==='ladderstand',wood=t==='woodshelf'||ladder;
