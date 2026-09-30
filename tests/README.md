@@ -99,3 +99,5 @@ Petri refinement also checks equal archive/microscope button sizes, filled backg
 `rendering.browser.mjs` still includes a historical all-habitats loop which assumes every stage exposes a choice button immediately. Interactive observation gates no longer satisfy that assumption; a `Missing choice` result from that loop is not evidence of a production regression. Use the habitat-specific harnesses under `browser/` for those interactions, and `browser/public-regression.cjs` for baseline pixel/text/save comparisons. Its preceding scenery pixel comparison remains useful.
 
 `site-artifact.test.mjs` protects the tracked-file publication boundary and module preloads. `sprite-color-cache.test.mjs` compares the optimized sprite renderer against uncached color arithmetic across every species, pose and frame.
+
+天台无视觉变化维护使用 `browser/rooftop-maintenance.cjs`；模块职责与对比运行方式见 [天台维护指南](../docs/rooftop-maintenance.md)。
