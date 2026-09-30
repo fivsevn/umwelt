@@ -2,7 +2,7 @@
 
 The approved direction is the first supplied reference (IMG_2252): neighbouring olive, khaki and earthy colour clusters, visible material planes, and dark occlusion inside foliage. Reference images guide technique only; do not copy their compositions or artwork.
 
-- Keep the existing rooftop, city and garage backgrounds unchanged.
+- During plant/pot palette work, keep the rooftop, city and garage backgrounds unchanged. The later weather brief explicitly authorizes sky, city detail, surface repairs, rust and a small corner drain. Preserve the base palette and intact architecture while adding these features.
 - Block in silhouettes with the material midtone. Do not wrap leaves, cactus pads, pots or furniture in a continuous dark contour.
 - Shift hue across each ramp: warmer muted highlights, cooler/olive shadows. Retain plant-specific blue, burgundy and flower colours.
 - Separate overlapping leaves with small connected shadow planes. Give neighbouring leaves different values according to their position.
@@ -18,3 +18,9 @@ The approved direction is the first supplied reference (IMG_2252): neighbouring 
 - [Raymond Schlitter: Pixelblog 1 — Color Palettes](https://www.slynyrd.com/blog/2018/1/10/pixelblog-1-color-palettes): hue shifts, saturation and relative contrast within colour ramps.
 
 Botanical observations are grounded in the source links stored on each plant profile. This revision also checks the jade plant, spearmint and Boston fern against their NC State Extension profiles.
+
+## Weather (2026-10-01)
+
+The garage offers seven weather conditions and five time phases plus automatic options. Its choice persists separately from the layout. The public scene selects weather independently at entry and changes gently every eight minutes; its time phase follows the local device clock. These are ambient simulations, not live forecasts.
+
+Foliage and vessels are separate cached layers. Wind shifts only foliage in integer pixel groups; succulents stay substantially rigid. Rain falls down the screen even on the rotated south view; ripples and wet surface marks follow the roof. Night lights reuse deterministic room samples so late-night lights are a subset of early-night lights.

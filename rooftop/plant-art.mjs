@@ -1,4 +1,5 @@
 import {plant,vessel} from './botany.mjs';
+import {foliageOffset} from './weather.mjs';
 // Pixels are rasterized on a logical grid, including curved leaves. No antialiased paths.
 const pixel=(c,x,y,w,h,col)=>{c.fillStyle=col;c.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h))};
 function line(c,x0,y0,x1,y1,col,width=1){x0=Math.round(x0);y0=Math.round(y0);x1=Math.round(x1);y1=Math.round(y1);const dx=Math.abs(x1-x0),sx=x0<x1?1:-1,dy=-Math.abs(y1-y0),sy=y0<y1?1:-1;let err=dx+dy;for(;;){pixel(c,x0-Math.floor(width/2),y0-Math.floor(width/2),width,width,col);if(x0===x1&&y0===y1)break;const e=2*err;if(e>=dy){err+=dy;x0+=sx}if(e<=dx){err+=dx;y0+=sy}}}
@@ -74,10 +75,10 @@ export function paintVessel(c,v,y=7,size=24){v=v||vessel('terra');v={...v,ink:mi
  if(v.shape==='basket'){for(let x=-8;x<9;x+=4)line(c,x,front,x-2,front+4,shade(v.color,-25));line(c,-9,y-3,-5,y-10,ink);line(c,9,y-3,5,y-10,ink)}
  if(v.shape==='bag'){pixel(c,-half+2,front,2,4,shade(v.color,-22));pixel(c,half-3,front,2,4,shade(v.color,-22));line(c,-8,y-3,-5,y-8,v.rim);line(c,8,y-3,5,y-8,v.rim)}
 }
-function paintPlantPixels(c,o){const p=plant(o.type),v=vessel(o.pot||p.defaultPot),col=p.leaf,dark=shade(col,-29),light=shade(col,21),f=p.form,fc=p.flower;
+function paintPlantPixels(c,o,layer=null){const p=plant(o.type),v=vessel(o.pot||p.defaultPot),col=p.leaf,dark=shade(col,-29),light=shade(col,21),f=p.form,fc=p.flower;
  const y=p.h/2-10; // Every plant fits its declared transparent footprint.
  const potY=['tails','ivy','fuchsia'].includes(f)?1:y;
- paintVessel(c,v,potY,v.shape==='box'?28:v.shape==='deep'?28:24);
+ if(layer!=='foliage')paintVessel(c,v,potY,v.shape==='box'?28:v.shape==='deep'?28:24);if(layer==='pot')return;
  c.save();c.translate(0,potY-6);
  if(f==='barrel'||f==='cluster'){
   const centers=f==='cluster'?[[-6,-4,6],[5,-3,6],[0,-11,6]]:[[0,-7,11]];
@@ -149,4 +150,10 @@ function paintPlantPixels(c,o){const p=plant(o.type),v=vessel(o.pot||p.defaultPo
 }
 
 const sprites=new Map();
-export function paintPlant(c,o){const p=plant(o.type),key=o.type+':'+(o.pot||p.defaultPot);let sprite=sprites.get(key);if(!sprite){sprite=typeof OffscreenCanvas!=='undefined'?new OffscreenCanvas(p.w+4,p.h+4):document.createElement('canvas');sprite.width=p.w+4;sprite.height=p.h+4;const ctx=sprite.getContext('2d');ctx.translate(sprite.width/2,sprite.height/2);paintPlantPixels(ctx,o);if(sprites.size>=256)sprites.delete(sprites.keys().next().value);sprites.set(key,sprite)}c.imageSmoothingEnabled=false;c.drawImage(sprite,-sprite.width/2,-sprite.height/2);}
+export function paintPlant(c,o,motion=null){const p=plant(o.type),key=o.type+':'+(o.pot||p.defaultPot);let entry=sprites.get(key);if(!entry){const make=layer=>{const cv=typeof OffscreenCanvas!=='undefined'?new OffscreenCanvas(p.w+8,p.h+8):document.createElement('canvas');cv.width=p.w+8;cv.height=p.h+8;const ctx=cv.getContext('2d');ctx.translate(cv.width/2,cv.height/2);paintPlantPixels(ctx,o,layer);return cv};entry={pot:make('pot'),leaves:make('foliage')};if(sprites.size>=256)sprites.delete(sprites.keys().next().value);sprites.set(key,entry)}
+ c.imageSmoothingEnabled=false;const {pot,leaves}=entry;c.drawImage(pot,-pot.width/2,-pot.height/2);
+ if(!motion){c.drawImage(leaves,-leaves.width/2,-leaves.height/2);return}
+ const anchor=['tails','ivy','fuchsia'].includes(p.form)?-5:p.h/2-16,seed=o.x*.04+o.y*.07+p.id.length;
+ // Only foliage moves. Three-row groups keep pixel clusters together and the pot fixed.
+ for(let row=0;row<leaves.height;row+=3){const shift=foliageOffset(row-leaves.height/2,anchor,motion.time,motion.wind,p.form,seed);c.drawImage(leaves,0,row,leaves.width,Math.min(3,leaves.height-row),-leaves.width/2+shift,row-leaves.height/2,leaves.width,Math.min(3,leaves.height-row))}
+}
