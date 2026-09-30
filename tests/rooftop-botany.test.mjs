@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {PLANTS,POTS,allowedPots} from '../rooftop/botany.mjs';
 import {ASSETS,initialLayout,validateLayout,fits} from '../rooftop/scene.mjs';
-const one=(type,pot,patch={})=>({version:2,scenes:{north:[{id:'p',type,x:312,y:240,rotation:0,scale:1,...(pot?{pot}:{}),...patch}],south:[]}});
+const one=(type,pot,patch={})=>({version:2,scenes:{north:[{id:'p',type,x:312,y:240,rotation:0,scale:1,seed:123,...(pot?{pot}:{}),...patch}],south:[]}});
 test('curated catalogue has distinct identities and reviewed references',()=>{assert.ok(PLANTS.length>=50);assert.ok(POTS.filter(p=>p.kind==='ceramic').length>=20);assert.equal(new Set(ASSETS.map(a=>a.id)).size,ASSETS.length);for(const p of PLANTS){assert.ok(p.scientific&&p.care&&p.note&&p.sources.length);assert.ok(allowedPots(p.id).some(v=>v.id===p.defaultPot));for(const s of p.sources)assert.equal(new URL(s.url).protocol,'https:')}});
 test('food boxes and deep root restrictions are enforced',()=>{for(const id of ['mint','grass','strawberry'])assert.ok(allowedPots(id).some(p=>p.id==='foam'));assert.ok(!allowedPots('blueberry').some(p=>p.id==='foam'||p.id==='shallow'));assert.ok(!allowedPots('barrel').some(p=>p.id==='foam'));assert.throws(()=>validateLayout(one('blueberry','foam')),/花盆/);assert.throws(()=>validateLayout(one('fish','terra')),/花盆/)});
 test('chosen vessel survives serialization and all four rotations',()=>{for(const rotation of [0,90,180,270]){const l=one('mint','foam',{rotation});assert.deepEqual(validateLayout(JSON.parse(JSON.stringify(l))),l)}});
