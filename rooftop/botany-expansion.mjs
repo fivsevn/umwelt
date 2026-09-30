@@ -121,7 +121,7 @@ export const EXPANSION=[
     "id": "new-elongata",
     "name": "金手指",
     "scientific": "Mammillaria elongata",
-    "ja": "黄金司",
+    "ja": "金手毬 / 黄金司",
     "aliases": "金手指",
     "category": "仙人掌",
     "form": "exp-fingers",
@@ -199,7 +199,7 @@ export const EXPANSION=[
     "id": "new-gracilis",
     "name": "银手指",
     "scientific": "Mammillaria gracilis",
-    "ja": "白鳥丸",
+    "ja": "銀手毬",
     "aliases": "银手指",
     "category": "仙人掌",
     "form": "exp-thimbles",
@@ -238,7 +238,7 @@ export const EXPANSION=[
     "id": "new-spinosissima",
     "name": "赤刺玉",
     "scientific": "Mammillaria spinosissima",
-    "ja": "猩々丸",
+    "ja": "栗実丸 / 猩々丸",
     "aliases": "赤刺玉",
     "category": "仙人掌",
     "form": "exp-redcolumn",
@@ -491,7 +491,7 @@ export const EXPANSION=[
       },
       {
         "label": "日本 PUKUBOOK 名称对照",
-        "url": "https://pukubook.jp/detail/Parodia_lenninghausii"
+        "url": "https://pukubook.jp/detail/Parodia_leninghausii"
       },
       {
         "label": "Kew POWO · 学名与异名",
@@ -554,7 +554,7 @@ export const EXPANSION=[
     "id": "new-latispinus",
     "name": "日出",
     "scientific": "Ferocactus latispinus",
-    "ja": "日出",
+    "ja": "日の出丸",
     "aliases": "日出",
     "category": "仙人掌",
     "form": "exp-hooked",
@@ -593,7 +593,7 @@ export const EXPANSION=[
     "id": "new-multicostatus",
     "name": "多棱玉",
     "scientific": "Stenocactus multicostatus",
-    "ja": "多稜玉",
+    "ja": "千波万波",
     "aliases": "多棱玉",
     "category": "仙人掌",
     "form": "exp-wavy",
@@ -729,7 +729,7 @@ export const EXPANSION=[
       },
       {
         "label": "日本 PUKUBOOK 名称对照",
-        "url": "https://pukubook.jp/detail/Disocactus_anguliger"
+        "url": "https://pukubook.jp/detail/Epiphyllum_anguliger"
       }
     ],
     "containers": [
@@ -749,7 +749,7 @@ export const EXPANSION=[
     "id": "new-baccifera",
     "name": "丝苇",
     "scientific": "Rhipsalis baccifera",
-    "ja": "リプサリス",
+    "ja": "糸葦",
     "aliases": "丝苇",
     "category": "仙人掌",
     "form": "exp-threads",
@@ -866,7 +866,7 @@ export const EXPANSION=[
     "id": "new-rhopalophylla",
     "name": "五十铃玉",
     "scientific": "Fenestraria rhopalophylla",
-    "ja": "五十鈴玉",
+    "ja": "群玉",
     "aliases": "五十铃玉",
     "category": "多肉",
     "form": "exp-windows",
@@ -983,7 +983,7 @@ export const EXPANSION=[
     "id": "new-cooperi",
     "name": "玉露",
     "scientific": "Haworthia cooperi",
-    "ja": "玉露",
+    "ja": "クーペリー / 玉露系",
     "aliases": "玉露",
     "category": "多肉",
     "form": "exp-bubble",
@@ -1451,7 +1451,7 @@ export const EXPANSION=[
     "id": "new-cristatus",
     "name": "天锦章",
     "scientific": "Adromischus cristatus",
-    "ja": "天錦章",
+    "ja": "楊貴妃の扇 / 天錦章",
     "aliases": "天锦章",
     "category": "多肉",
     "form": "exp-crinkle",
