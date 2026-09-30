@@ -29,3 +29,5 @@ The observer camera supports cursor-anchored wheel zoom and native two-finger pi
 North opens at 1.7 times the full-garden fit scale, focused toward the right main garden; south opens at the full-garden fit scale. Zoom is clamped to 1–2.5 times that fit; panning is restricted to the garden bounds, and axes that already show the whole garden remain centered. Scene entry resets its view. Dongdong is painted upright in south observation, counteracting the map rotation at his foot position.
 
 South observation treats the vertical balcony as its normal map orientation. City buildings, including extended background blocks, are rendered upright within their existing footprints, with roofs above vertical windows.
+
+Background buildings now share a continuous city renderer across the old 640 × 520 tile boundary. Window rows stay within wall margins, roof edges remain complete, weathering is painted behind windows, and extension blocks avoid overlapping the existing city footprints. Both observation and garage use the same buildings.

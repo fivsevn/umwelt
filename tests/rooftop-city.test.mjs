@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {buildingWindows} from '../rooftop/city.mjs';
+test('all windows and sills stay inside wall margins in both map orientations',()=>{for(const [w,h] of [[130,105],[106,77],[173,127],[137,145],[150,121],[108,126],[181,133],[177,147],[96,89],[134,114]])for(const [width,height] of [[w,h],[h,w]])for(const p of buildingWindows(width,height)){assert.ok(p.x-2>=3);assert.ok(p.x+15<=width-3);assert.ok(p.y>=35);assert.ok(p.y+18<=height-5)}});
