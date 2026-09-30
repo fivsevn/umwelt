@@ -1,3 +1,4 @@
+import {paintCity} from './city.mjs';
 // All scenery is painted on an integer canvas. No bitmap assets or external dependencies.
 export const VERSION=1;
 export const DOORS={north:{x:400,y:406,w:14,h:34,label:'进入南阳台'},south:{x:448,y:347,w:58,h:16,label:'进入北天台'}};
@@ -18,14 +19,15 @@ const rect=(c,x,y,w,h,col)=>{c.fillStyle=col;c.fillRect(Math.round(x),Math.round
 function oval(c,x,y,rx,ry,col){for(let j=-ry;j<=ry;j++){const span=Math.floor(rx*Math.sqrt(Math.max(0,1-j*j/(ry*ry))));rect(c,x-span,y+j,span*2+1,1,col)}}
 function line(c,x,y,xx,yy,col,width=1){const n=Math.max(Math.abs(xx-x),Math.abs(yy-y));for(let i=0;i<=n;i++)rect(c,x+(xx-x)*i/n,y+(yy-y)*i/n,width,width,col)}
 function polygon(c,points,col){c.fillStyle=col;c.beginPath();points.forEach(([x,y],i)=>i?c.lineTo(x,y):c.moveTo(x,y));c.closePath();c.fill()}
-export function paintBase(c,scene,{uprightCity=false}={}){c.clearRect(0,0,640,520);rect(c,0,0,640,520,P.sky);const rng=random(1826);
- // Quiet city blocks below the roof, drawn at the same pixel resolution.
+export function paintBase(c,scene,{uprightCity=false,includeCity=true}={}){c.clearRect(0,0,640,520);rect(c,0,0,640,520,P.sky);const rng=random(1826);
+ // Retain the original random sequence for the approved terrace wear pattern.
+ // The continuous city layer below replaces this legacy tile backdrop.
  const blocks=[[-20,-20,130,105],[145,-18,106,77],[429,-29,173,127],[-35,162,137,145],[516,173,150,121],[22,385,108,126],[154,394,181,133],[495,368,177,147]];
  for(const block of blocks){let [x,y,w,h]=block;c.save();if(uprightCity){c.translate(x+w/2,y+h/2);c.rotate(-Math.PI/2);[w,h]=[h,w];x=-w/2;y=-h/2;}rect(c,x+7,y+12,w,h,'#8b9185');rect(c,x,y,w,h,'#aaa998');rect(c,x-3,y-7,w+6,34,'#737a6c');for(let k=0;k<6;k++){rect(c,x-2,y-6+k*5,w+4,1,'#969b88');for(let j=0;j<w;j+=17)rect(c,x+j,y-6+k*5,1,4,'#636c60')}for(let a=0;a<Math.floor(w/23);a++)for(let b=0;b<Math.floor((h-28)/26);b++){const wx=x+10+a*23,wy=y+37+b*26;rect(c,wx,wy,13,16,'#7f8c85');rect(c,wx+2,wy+1,4,13,'#b2b9a3');rect(c,wx+8,wy+1,1,13,'#d0cbb5');rect(c,wx-2,wy+16,17,2,'#c0b99e');if(rng()<.3){rect(c,wx+3,wy+20,12,6,'#c6c1a9');rect(c,wx+5,wy+21,6,3,'#969f8d')}}for(let i=0;i<140;i++)rect(c,x+rng()*w,y+30+rng()*(h-30),2,2,rng()<.5?'#b5b29d':'#989e8c');c.restore();}
  // Small patches of vegetation between neighboring buildings.
  for(let i=0;i<160;i++){const x=38+rng()*70,y=318+rng()*53;rect(c,x,y,3+rng()*5,3+rng()*4,['#7c8866','#929e75','#68795e'][Math.floor(rng()*3)])}
  // Atmospheric veil keeps the balcony foreground readable.
- c.fillStyle='#bec1c3';c.globalAlpha=.22;c.fillRect(0,0,640,520);c.globalAlpha=1;
+ c.fillStyle='#bec1c3';c.globalAlpha=.22;c.fillRect(0,0,640,520);c.globalAlpha=1;c.clearRect(0,0,640,520);if(includeCity)paintCity(c,{x:0,y:0,w:640,h:520},{uprightCity});
  const points=SCENES[scene].points;polygon(c,points.map(([x,y])=>[x+7,y+15]),'#777e78');polygon(c,points,'#a19e8b');
  c.save();c.beginPath();points.forEach(([x,y],i)=>i?c.lineTo(x,y):c.moveTo(x,y));c.closePath();c.clip();
  for(let y=64;y<484;y+=24)for(let x=112;x<540;x+=32){rect(c,x,y,31,23,['#a29f8c','#aaa593','#999989','#a7a390'][Math.floor(rng()*4)]);rect(c,x,y,32,1,'#b4ae9b');rect(c,x+31,y+1,1,23,'#8f9283')}
@@ -77,4 +79,4 @@ export function makeWalker(scene,objects){const cell=8,cols=80,rows=65;let route
 
 export function paintDoor(c,scene){const d=DOORS[scene];if(scene==='north'){rect(c,d.x-8,d.y-18,17,37,'#484e40');rect(c,d.x-6,d.y-16,12,33,'#b7aa8d');rect(c,d.x-4,d.y-14,9,29,'#766951');rect(c,d.x-3,d.y-12,3,25,'#958464');rect(c,d.x+2,d.y-12,1,25,'#5b5745');rect(c,d.x+3,d.y+4,2,3,'#d4bd80');rect(c,d.x-8,d.y+17,18,2,'#c3b89b')}else{rect(c,d.x-31,d.y-8,62,18,'#4b5143');rect(c,d.x-28,d.y-6,56,14,'#b3a58a');rect(c,d.x-25,d.y-4,50,10,'#766951');for(let x=d.x-24;x<d.x+24;x+=8)rect(c,x,d.y-3,1,8,'#998665');rect(c,d.x+19,d.y-2,3,2,'#d4bd80');rect(c,d.x-30,d.y+9,61,2,'#c8bba0')}}
 // Extend the city outside the original scene tile for edge-to-edge viewports.
-export function paintSurroundings(c,bounds,{uprightCity=false}={}){rect(c,bounds.x,bounds.y,bounds.w,bounds.h,'#bdc2ca');c.save();c.beginPath();c.rect(bounds.x,bounds.y,bounds.w,bounds.h);c.rect(0,0,640,520);c.clip('evenodd');for(let row=Math.floor(bounds.y/160)-1;row<Math.ceil((bounds.y+bounds.h)/160)+1;row++)for(let col=Math.floor(bounds.x/176)-1;col<Math.ceil((bounds.x+bounds.w)/176)+1;col++){const rng=random(row*8147+col*1901+1826);let x=col*176+Math.floor(rng()*18),y=row*160+Math.floor(rng()*20),w=96+Math.floor(rng()*38),h=89+Math.floor(rng()*25);c.save();if(uprightCity){c.translate(x+w/2,y+h/2);c.rotate(-Math.PI/2);[w,h]=[h,w];x=-w/2;y=-h/2;}rect(c,x+5,y+7,w,h,'#a1a79d');rect(c,x,y,w,h,'#b0b3a3');rect(c,x-3,y-5,w+6,25,'#90998d');for(let k=0;k<5;k++)rect(c,x-2,y-4+k*5,w+4,1,'#a8ae9d');for(let a=0;a<Math.floor(w/23);a++)for(let b=0;b<2;b++){const wx=x+9+a*23,wy=y+35+b*25;rect(c,wx,wy,12,14,'#9aa59b');rect(c,wx+2,wy+1,3,11,'#c0c5b3');rect(c,wx-1,wy+14,14,2,'#ccc7b1')}for(let i=0;i<80;i++)rect(c,x+rng()*w,y+30+rng()*(h-30),2,2,'#bbbda9');c.restore()}c.restore()}
+export function paintSurroundings(c,bounds,options){paintCity(c,bounds,options)}
