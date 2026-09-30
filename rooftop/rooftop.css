@@ -269,4 +269,4 @@ body.garage .categories button{font-size:11px;padding:5px 7px}
 body.garage .asset-card{font-size:11px}
 body.garage input,body.garage select{font-size:11px}
 /* The shelf column owns scrolling; its item grid never scrolls independently. */
-.garage .catalog .asset-grid{overflow:visible;max-height:none;padding-right:8px}
+@media(min-width:901px){.garage .catalog .asset-grid{overflow:visible;max-height:none;padding-right:8px}}
