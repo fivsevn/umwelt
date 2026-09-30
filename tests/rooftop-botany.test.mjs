@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {PLANTS,POTS,allowedPots} from '../rooftop/botany.mjs';
+import {ASSETS,initialLayout,validateLayout,fits} from '../rooftop/scene.mjs';
+const one=(type,pot,patch={})=>({version:1,scenes:{north:[{id:'p',type,x:312,y:240,rotation:0,scale:1,...(pot?{pot}:{}),...patch}],south:[]}});
+test('curated catalogue has distinct identities and reviewed references',()=>{assert.ok(PLANTS.length>=50);assert.ok(POTS.filter(p=>p.kind==='ceramic').length>=20);assert.equal(new Set(ASSETS.map(a=>a.id)).size,ASSETS.length);for(const p of PLANTS){assert.ok(p.scientific&&p.care&&p.note&&p.sources.length);assert.ok(allowedPots(p.id).some(v=>v.id===p.defaultPot));for(const s of p.sources)assert.equal(new URL(s.url).protocol,'https:')}});
+test('food boxes and deep root restrictions are enforced',()=>{for(const id of ['mint','grass','strawberry'])assert.ok(allowedPots(id).some(p=>p.id==='foam'));assert.ok(!allowedPots('blueberry').some(p=>p.id==='foam'||p.id==='shallow'));assert.ok(!allowedPots('barrel').some(p=>p.id==='foam'));assert.throws(()=>validateLayout(one('blueberry','foam')),/花盆/);assert.throws(()=>validateLayout(one('fish','terra')),/花盆/)});
+test('chosen vessel survives serialization and all four rotations',()=>{for(const rotation of [0,90,180,270]){const l=one('mint','foam',{rotation});assert.deepEqual(validateLayout(JSON.parse(JSON.stringify(l))),l)}});
+test('current initial scene footprints fit without migration',()=>{const l=initialLayout();assert.deepEqual(validateLayout(l),l);for(const scene of ['north','south'])for(const o of l.scenes[scene])assert.ok(fits(scene,o))});
+test('valid old edge placements migrate minimally and remain stable',()=>{for(const [type,x,y,scale] of [['barrel',378,164,1.3],['column',441,165,1]]){const old=one(type,null,{x,y,scale});const migrated=validateLayout(old);const o=migrated.scenes.north[0];assert.ok(fits('north',o));assert.ok(Math.hypot(o.x-x,o.y-y)<16);assert.deepEqual(validateLayout(migrated),migrated)}assert.throws(()=>validateLayout(one('mint',null,{x:0,y:0})),/边界/)});
