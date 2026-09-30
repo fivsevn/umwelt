@@ -214,3 +214,6 @@ HTTP requests checked on 2026-09-30. This records access, not a guarantee of fut
 - [Cleistocactus colademononis](https://www.rhs.org.uk/plants/327556/cleistocactus-colademononis/details) — HTTP 200
 - [Echinocactus grusonii | golden barrel cactus](https://www.rhs.org.uk/plants/6253/echinocactus-grusonii/details) — HTTP 200
 - [Vegetables in Containers | RHS Advice](https://www.rhs.org.uk/vegetables/containers) — HTTP 200
+
+
+新增52种植物、北天台杂物与有出处的器物见 [目录扩充与绘制依据](rooftop-expansion.md)。线上手帐可直接打开各条资料链接。
