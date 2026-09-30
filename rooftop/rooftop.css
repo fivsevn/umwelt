@@ -224,3 +224,8 @@ body.garage{background-color:#555b55;background-image:linear-gradient(#3e464440 
 .garage .weather-controls .person-toggle{justify-content:flex-start;gap:5px;grid-column:1/-1}
 
 #grid[hidden]{display:none}
+/* Modules use colour and a short grounded shadow instead of outlines. */
+.garage .catalog,.garage .notebook,.garage .arrange-controls,.garage .workspace>.inspector,.garage .workspace-toolbar{border-color:transparent;outline:0;box-shadow:3px 4px 0 #26332b45}
+.garage .workspace .canvas-wrap{border-color:transparent;outline:0;background:#455248;box-shadow:3px 4px 0 #26332b55}
+.garage .arrange-controls .weather-controls,.garage .note-column .weather-controls,.garage .workspace-toolbar>*+*{border-color:transparent}
+.garage .topbar{border-bottom-color:transparent;box-shadow:0 3px 0 #26332b35}
