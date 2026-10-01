@@ -4,8 +4,8 @@ body.observation{width:100%;height:100%;overflow:hidden;background:#bdc2ca}
 .roof-world{position:fixed;inset:0;margin:0;padding:0;overflow:hidden}
 .observation #garden{width:100%;height:100%;border:0;outline:0;box-shadow:none;touch-action:manipulation}
 .scene-door{position:absolute;background:transparent!important;border:0!important;box-shadow:none!important;padding:0;cursor:pointer;outline-offset:-4px}
-.scene-door:hover:after,.scene-door:focus-visible:after{content:"";position:absolute;inset:7px;border:1px solid #e1d4ad;background:#e1d4ad18;pointer-events:none}
-.scene-door:focus-visible{outline:1px dashed #efdfb6}
+.scene-door:hover:after,.scene-door:focus-visible:after{content:none}
+.scene-door:focus-visible{outline:none}
 .weather-card{position:absolute;left:max(16px,env(safe-area-inset-left));bottom:max(16px,env(safe-area-inset-bottom));max-width:calc(100% - 32px);padding:11px 14px;color:#4f5946;background:#e6e2d0df;box-shadow:3px 3px #707b6440;font-size:12px;line-height:1.7;pointer-events:none}
 .weather-card p{margin:0}.weather-card p+p{margin-top:5px;color:#72785e}
 /* Dongdong's garage: brick walls, a workbench and stocked metal shelves. */
