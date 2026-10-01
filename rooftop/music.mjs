@@ -69,7 +69,7 @@ export function attachGardenMusic(button) {
     }
   }
   function label() {
-    button.textContent = '隔壁的音乐。';
+    button.textContent = enabled ? '关上窗，先不听了。' : '听听隔壁的音乐。';
     button.setAttribute('aria-label', enabled ? '隔壁的音乐，正在播放，点击关闭' : '隔壁的音乐，已关闭，点击开启');
     button.title = enabled ? '关闭音乐' : '开启音乐';
     button.setAttribute('aria-pressed', String(enabled));
