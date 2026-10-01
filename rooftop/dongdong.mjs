@@ -1,6 +1,6 @@
 // Dongdong: short chestnut hair, bare arms and a quiet, straight-cut dress.
 // All poses share the rooftop's fixed overhead camera and muted pixel palette.
-const PERSON_SCALE=1.3;
+const PERSON_SCALE=1.5;
 const palette={hair:'#685044',hairShade:'#4f4038',hairLight:'#856652',skin:'#bba387',skinShade:'#9e876f',dress:'#778578',dressShade:'#5c6d61',dressLight:'#94a08b',shoe:'#424b40'};
 export function paintDongdong(c,p,time){const x=Math.round(p.x),y=Math.round(p.y),walk=p.state==='walk',step=walk?Math.floor(time*6)%2:0,north=p.facing==='north',side=p.facing==='east'||p.facing==='west',sign=p.facing==='west'?-1:1,bend=['prune','inspect','tend'].includes(p.state)?1:0,sway=walk?step:0;const r=(xx,yy,w,h,color)=>{c.fillStyle=color;const left=Math.round(xx*PERSON_SCALE),top=Math.round(yy*PERSON_SCALE);c.fillRect(x+left,y+top,Math.round((xx+w)*PERSON_SCALE)-left,Math.round((yy+h)*PERSON_SCALE)-top)},line=(ax,ay,bx,by,color)=>{const n=Math.max(Math.abs(bx-ax),Math.abs(by-ay),1);for(let i=0;i<=n;i++)r(ax+(bx-ax)*i/n,ay+(by-ay)*i/n,1,1,color)};
  r(-5,0,10,2,'#56634e');r(-3,-5+step,2,5-step,palette.skinShade);r(1,-5-step,2,5+step,palette.skin);r(-3,-1+step,3,2,palette.shoe);r(1,-1-step,3,2,palette.shoe);
