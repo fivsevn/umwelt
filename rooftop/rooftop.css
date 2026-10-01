@@ -303,8 +303,58 @@ body.garage .size-control button{width:20px!important;min-width:20px!important;h
 
 /* All lower-left cards share the same compact, translucent surface. */
 .corner-cards{gap:4px}
-.corner-cards .world-card{padding:3px 10px;border:0;border-radius:0;background:#b9b8a86b;color:#333e32;box-shadow:2px 2px #49554118;font:12px Pixel,monospace;line-height:1.5;text-align:left;margin:0;max-width:260px}
+.corner-cards .world-card,.garage .workspace-status #weatherStatus,.garage .workspace-status #message{padding:3px 10px;border:0;border-radius:0;background:#b9b8a86b;color:#333e32;box-shadow:2px 2px #49554118;font:12px Pixel,monospace;line-height:1.5;text-align:left;margin:0;max-width:260px}
 .corner-cards a.world-card:hover,.corner-cards button.world-card:hover{background:#cac8b780;color:#333e32}
 .corner-cards button.world-card[aria-pressed=true]{background:#b9b8a86b;color:#333e32}
 .corner-cards .status-card[hidden]{display:none}
-@media(max-width:550px){.corner-cards .world-card{padding:3px 9px;max-width:230px}.corner-cards{gap:4px}}
+@media(max-width:550px){.corner-cards .world-card,.garage .workspace-status #weatherStatus,.garage .workspace-status #message{padding:3px 9px;max-width:230px}.corner-cards{gap:4px}}
+
+/* A single vertical shelf, without overflowing labels or shelf rails. */
+.garage .catalog,.garage .asset-grid,.garage .asset-card{min-width:0}
+.garage .catalog{overflow-x:hidden}
+.garage .catalog .asset-grid{overflow-x:hidden;overflow-y:auto;touch-action:pan-y;overscroll-behavior-x:none;grid-template-columns:repeat(2,minmax(0,1fr));padding:0 0 7px;gap:9px 6px}
+.garage .asset-grid .asset-card{overflow:hidden;padding:5px 3px;align-items:center;justify-content:center;text-align:center;min-width:0}
+.garage .asset-card span{display:block;width:100%;text-align:center;overflow-wrap:anywhere;line-height:1.5}
+.garage .asset-grid .asset-card::after{right:0;box-shadow:none}
+.garage .asset-card canvas{max-width:100%;flex:none}
+/* Explicit line boxes avoid the old platform-dependent padding offsets. */
+body.garage button:not(.asset-card),body.garage .transfer summary{height:24px!important;min-height:24px!important;padding:0 7px!important;line-height:24px!important;align-items:center;justify-content:center;text-align:center;border-radius:0}
+body.garage .size-control button{width:24px!important;min-width:24px!important;flex-basis:24px;height:24px!important;padding:0!important}
+body.garage select{height:26px;padding:0 23px 0 7px;line-height:normal;border-radius:0;appearance:none;background-image:linear-gradient(45deg,transparent 50%,#59664e 50%),linear-gradient(135deg,#59664e 50%,transparent 50%);background-position:calc(100% - 11px) 11px,calc(100% - 7px) 11px;background-size:4px 4px;background-repeat:no-repeat}
+body.garage #preview{display:inline-flex;align-items:center;justify-content:center;height:28px;min-height:28px;padding:0 10px;line-height:28px;font-size:11px;background:#a7b39a;color:#303d32;text-decoration:none;gap:4px}
+.garage .workspace-status{gap:4px;left:16px;bottom:16px}
+.garage .workspace-status #message{margin-top:0!important;text-align:left}
+@media(max-width:900px){
+ .garage .topbar{height:48px;padding:8px 12px}
+ .garage .editor-layout{padding:10px;gap:12px}
+ .garage .arrange-controls{padding:7px 8px;gap:6px;margin-bottom:6px;min-height:0}
+ .garage .arrange-controls .scene-tabs{gap:5px}
+ .garage .arrange-controls .weather-controls{padding:0;margin:0;gap:6px 10px;border:0;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;align-items:center}
+ .garage .arrange-controls .weather-controls label{gap:4px;white-space:nowrap;font-size:11px}
+ .garage .weather-controls .person-toggle{grid-column:auto;gap:3px}
+ .garage .person-toggle input{margin:0;width:14px;height:14px}
+ .garage .workspace>.inspector{min-height:32px;height:auto;padding:4px 7px;gap:5px;display:flex;flex-wrap:nowrap}
+ .garage .workspace .inspector h2{font-size:11px;line-height:1.5}
+ .garage .workspace #objectControls{gap:4px;margin:0}
+ .garage .workspace .size-control,.garage .workspace .size-control>div{gap:4px;margin:0}
+ .garage .workspace .inspector .control-row:last-child{gap:4px}
+ .garage .workspace-toolbar{padding:6px 7px;gap:6px;align-items:center}
+ .garage .workspace-toolbar>.tool-group,.garage .workspace-toolbar>.layout-transfer{min-height:24px;padding:0;border:0}
+ .garage .workspace-toolbar .tool-options{width:auto;min-height:24px}
+ .garage .workspace-toolbar .tool-options label{font-size:11px;margin:0;gap:4px}
+ .garage .workspace-toolbar .tool-options input{margin:0;width:14px;height:14px}
+ .garage .workspace-toolbar .layout-transfer{margin-left:auto;gap:5px}
+ .garage .catalog{padding:10px 8px 8px}
+ .garage .catalog h2{font-size:14px;margin-bottom:7px;line-height:1.5}
+ .garage .catalog #search{height:30px;padding:3px 7px;margin-bottom:7px;border-radius:0}
+ .garage .categories{gap:4px;margin-bottom:8px}
+ .garage .catalog .asset-grid{grid-template-columns:repeat(4,minmax(0,1fr));max-height:420px}
+ .garage .asset-grid .asset-card{min-height:87px;gap:3px;font-size:10px}
+ .garage .notebook{padding:10px}
+}
+@media(max-width:550px){.garage .workspace-status{left:12px;bottom:12px}.garage .topbar h1{font-size:15px}}
+@media(max-width:360px){.garage .arrange-controls .weather-controls{gap:5px}.garage .catalog .asset-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+.garage .workspace>.inspector{height:auto;min-height:32px}
+
+.garage .note-column .weather-controls .person-toggle{justify-content:flex-start;gap:5px}
