@@ -302,9 +302,9 @@ body.garage button[hidden]{display:none!important}
 body.garage .size-control button{width:20px!important;min-width:20px!important;height:20px!important;flex:0 0 20px;padding:4px 0 0!important}
 
 /* All lower-left cards share the same compact, translucent surface. */
-.corner-cards{gap:5px}
-.corner-cards .world-card{padding:6px 11px;border:0;border-radius:0;background:#e6e2d0b8;color:#4f5946;box-shadow:2px 2px #707b6426;font:12px Pixel,monospace;line-height:1.6;text-align:left;margin:0;max-width:260px}
-.corner-cards a.world-card:hover,.corner-cards button.world-card:hover{background:#eee9d9cc;color:#4f5946}
-.corner-cards button.world-card[aria-pressed=true]{background:#e6e2d0b8;color:#4f5946}
+.corner-cards{gap:4px}
+.corner-cards .world-card{padding:3px 10px;border:0;border-radius:0;background:#b9b8a86b;color:#333e32;box-shadow:2px 2px #49554118;font:12px Pixel,monospace;line-height:1.5;text-align:left;margin:0;max-width:260px}
+.corner-cards a.world-card:hover,.corner-cards button.world-card:hover{background:#cac8b780;color:#333e32}
+.corner-cards button.world-card[aria-pressed=true]{background:#b9b8a86b;color:#333e32}
 .corner-cards .status-card[hidden]{display:none}
-@media(max-width:550px){.corner-cards .world-card{padding:5px 10px;max-width:230px}.corner-cards{gap:4px}}
+@media(max-width:550px){.corner-cards .world-card{padding:3px 9px;max-width:230px}.corner-cards{gap:4px}}
