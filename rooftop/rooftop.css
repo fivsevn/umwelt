@@ -300,3 +300,5 @@ body.garage button[hidden]{display:none!important}
 .garage .inspector #objectControls{margin-left:auto}
 .garage .inspector .section-title{min-width:0}
 body.garage .size-control button{width:20px!important;min-width:20px!important;height:20px!important;flex:0 0 20px;padding:4px 0 0!important}
+
+.music-toggle{pointer-events:auto;display:block;margin-top:7px;padding:3px 8px;border:1px solid #92977d;background:#f0ebda;color:#4f5946;font:inherit;line-height:1.5;cursor:pointer}.music-toggle:hover{background:#faf5e5}.music-toggle:focus-visible{outline:2px solid #596b4b;outline-offset:3px}.music-toggle[aria-pressed="true"]{background:#d8dfc7}
