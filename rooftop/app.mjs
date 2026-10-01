@@ -1,3 +1,4 @@
+import {attachGardenMusic} from './music.mjs';
 import {paintObjectLights} from './objects.mjs';
 import {plantSeed} from './plant-seed.mjs';
 import {WEATHER,TIMES,timeOfDay,makeWeather,paintSky,paintLighting,paintRain,paintWetRoof,paintSunShadows,paintDistanceFog} from './weather.mjs';
@@ -8,6 +9,7 @@ import {makeResident} from './resident.mjs';
 import {SCENES,DOORS,ASSETS,asset,initialLayout,paintBase,paintSurroundings,paintDoor,paintObject,paintPlantOccluders,foregroundObjects,paintPerson,makeWalker,dimensions,displayBounds,contactPoints,resizedObject,inside,fits,supportedLayout,validateLayout} from './scene.mjs';
 const $=id=>document.getElementById(id),editor=document.body.classList.contains('editor'),KEY='umwelt-rooftop-layout-v1';let scene=new URLSearchParams(location.search).get('scene')==='south'?'south':'north',layout=initialLayout(),selected=null,history=[],future=[],category='全部',drag=null,showPerson=true;
 try{if(editor||new URLSearchParams(location.search).get('layout')==='local'){const stored=localStorage.getItem(KEY);if(stored)layout=validateLayout(JSON.parse(stored));}}catch{if(editor)$('message').textContent='本机布局无法读取，已恢复初始陈列。'}
+if(!editor)attachGardenMusic($('musicToggle'));
 const canvas=$('garden'),display=canvas.getContext('2d'),materialFrame=document.createElement('canvas'),ctx=materialFrame.getContext('2d'),base=document.createElement('canvas');base.width=640;base.height=520;const baseCtx=base.getContext('2d');let walker;const cameras={north:{x:96,y:48,w:416,h:440},south:{x:76,y:44,w:416,h:440}};let camera=cameras[scene];const pans={north:{x:0,y:0},south:{x:0,y:0}};let panDrag=null;const zooms={north:1,south:1},pointers=new Map();let pinch=null;const backdrop=document.createElement('canvas'),resident=editor?null:makeResident(Math.random,{phase:()=>timeOfDay(new Date().getHours()+new Date().getMinutes()/60)});if(resident)showPerson=resident.present;
 const WEATHER_KEY='umwelt-rooftop-weather-v1';let weatherChoices={condition:'clear',phase:'day'};
 if(editor)try{weatherChoices=JSON.parse(localStorage.getItem(WEATHER_KEY))||weatherChoices}catch{}
