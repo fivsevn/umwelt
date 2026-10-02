@@ -216,4 +216,4 @@ HTTP requests checked on 2026-09-30. This records access, not a guarantee of fut
 - [Vegetables in Containers | RHS Advice](https://www.rhs.org.uk/vegetables/containers) — HTTP 200
 
 
-新增52种植物、北天台杂物与有出处的器物见 [目录扩充与绘制依据](rooftop-expansion.md)。线上手帐可直接打开各条资料链接。
+新增52种植物、北天台杂物与有出处的器物见 [目录扩充与绘制依据](reference/rooftop-expansion.md)。线上手帐可直接打开各条资料链接。
