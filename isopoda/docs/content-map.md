@@ -19,7 +19,7 @@ This document is the development entry point for authored content. It separates 
 
 - The unused `content.mjs:MORNING` export was removed after checking runtime, save migrations and tests for consumers. Its original text remains in Git history (pre-cleanup main `08a3613`). Do not recreate it.
 
-## Ordinary aquatic three-day runs
+## Aquatic routing and legacy three-day pools
 
 - `aquatic-story.mjs` — routing, stable text keys, endings and state-to-story selection.
 - `data/habitats/stories.mjs` — core three-day aquatic turns.
@@ -28,6 +28,12 @@ This document is the development entry point for authored content. It separates 
 - `habitats.mjs` — habitat configuration, eligible species, duration, metrics and stable habitat IDs.
 
 When expanding aquatic content, add authored rows to the habitat data modules and keep `aquatic-story.mjs` focused on routing. New habitat definitions must also satisfy `tools/validate-habitats.mjs`.
+
+## Current habitat-specific observations
+
+- `data/habitats/groundwater-observation.mjs` — eight current cave observations, phase metrics and focus points; `scenery/groundwater.mjs` supplies wet-surface motion. `data/habitats/groundwater-pulse.mjs` retains the pulse text and endings used by routing.
+- `data/habitats/estuary-shore.mjs` — current shore observation. `data/narrative/estuary.mjs` and `scenery/estuary-stages.mjs` retain six-frame compatibility; see [estuary maintenance](estuary.md).
+- Habitat-specific sequences and legacy flags are selected by `habitats.mjs`, `engine.mjs` and `aquatic-story.mjs`; the shared three-day pools above are not a universal description of current new runs. Read [save compatibility](save-compat.md) before changing indexed text or sequence routing.
 
 ## Abyssal single observation
 
@@ -70,6 +76,3 @@ Visible active terrestrial source strings must be represented in the locale tabl
 4. Add EN/JA coverage in the same change where required.
 5. Add or update tests when a new condition, habitat, ending branch or species eligibility rule is introduced.
 6. Run `node isopoda/tools/check-all.mjs` plus the relevant browser regression harnesses.
-
-
-- `data/habitats/groundwater-observation.mjs` — eight current cave observations, phase metrics and focus points; `scenery/groundwater.mjs` supplies the corresponding wet-surface motion.

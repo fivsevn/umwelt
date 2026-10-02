@@ -25,7 +25,7 @@
 - [运行边界与公开页面](../README.md)：主页、游戏、两个实验室与稳定性规则。
 - [内容地图](content-map.md)：现有内容的唯一维护位置。
 - [物种数据契约](species-data-contract.md)：注册、来源、形态代理与环境资格。
-- [群体模型](cohort.md)：普通环境七只、深海一只及身份连续性。
+- [群体模型](cohort.md)：各生境的当前群体数量、历史存档与身份连续性。
 - [存档兼容](save-compat.md)：存储键、稳定 ID、索引与迁移边界。
 - [叙事契约](narrative-contract.md)：文字键、现有三语结构及验证范围。
 - [形态渲染边界](morphology-renderer.md)：可表达的形态与证据限制。
