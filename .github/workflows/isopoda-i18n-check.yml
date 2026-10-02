@@ -6,6 +6,7 @@ on:
     paths:
       - 'isopoda/**'
       - 'tick/**'
+      - 'rooftop/**'
       - 'index.html'
       - 'assets/fonts/**'
       - 'tests/**'
@@ -16,6 +17,7 @@ on:
     paths:
       - 'isopoda/**'
       - 'tick/**'
+      - 'rooftop/**'
       - 'index.html'
       - 'assets/fonts/**'
       - 'tests/**'
@@ -42,21 +44,7 @@ jobs:
         run: python -m pip install --disable-pip-version-check "fonttools>=4.55,<5" "brotli>=1.1,<2"
       - name: Check deploy font subset
         run: |
-          mkdir -p _fontcheck
-          rsync -a --delete \
-            --exclude '.git/' \
-            --exclude '.github/' \
-            --exclude '.gitignore' \
-            --exclude '_site/' \
-            --exclude '_fontcheck/' \
-            --exclude 'README*.md' \
-            --exclude 'docs/' \
-            --exclude 'mac/' \
-            --exclude 'tests/' \
-            --exclude 'isopoda/tools/' \
-            --exclude 'isopoda/dev/' \
-            --exclude 'isopoda/docs/' \
-            ./ _fontcheck/
+          node .github/scripts/prepare-site.mjs _fontcheck
           python .github/scripts/subset-font.py \
             --scan-root _fontcheck \
             --font _fontcheck/assets/fonts/fusion-pixel-12px-monospaced-zh_hans.ttf.woff2

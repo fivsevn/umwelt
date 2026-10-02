@@ -1,62 +1,789 @@
 // Everyday furniture follows the user's North Roof photographs. Historical designs cite museum records.
-const photo='北天台实物参考：保留结构、材料与少量使用痕迹。';
-const met=(id,label)=>({label,url:'https://www.metmuseum.org/art/collection/search/'+id});
-export const OBJECTS=[
- ['wirestand','宽网格铁架','家具',58,44,'mesh'],['foamstand','泡沫箱木台','家具',46,32,'foamstand'],['basketstand','白色篮架','家具',28,40,'baskets'],['coveredstand','带遮雨布花架','家具',52,44,'covered'],['lowplatform','旧木板矮台','家具',48,24,'platform'],['ceramicseat','青花莲塘瓷墩','家具',28,32,'seat'],
- ['wardcase','沃德玻璃箱','器具',44,35,'ward'],['enamelbowl','白搪瓷高脚盆','器具',29,25,'bowl'],['browncover','陶盆保湿罩','器具',32,28,'cloche'],['seedtray','育苗浅盘','器具',34,19,'tray'],['foambox','泡沫栽培箱','器具',38,23,'foam'],['thermometer','温湿度表','器具',15,32,'thermo'],['strainer','网眼滤盆','器具',23,20,'sieve'],
- ['wirebasket','白色铁丝篮','小物',30,19,'basket'],['towel','旧毛巾','小物',24,15,'towel'],['soilbag','园艺土袋','小物',23,23,'bag'],['labels','植物标签','小物',18,17,'labels'],['gloves','工作手套','小物',21,19,'gloves'],['brush','长柄刷','小物',26,14,'brush'],['lid','蓝色盆盖','小物',27,17,'lid'],['sprayer','手压喷壶','小物',18,24,'sprayer'],
- ['medakabowl','青鳉陶缸','小鱼',35,27,'medaka'],['goldfishbowl','金鱼搪瓷盆','小鱼',38,27,'goldfish'],['fishbox','蓝色周转鱼箱','小鱼',39,25,'fishbox'],
- ['solarlamp','太阳能庭院灯','灯具',16,30,'solar'],['tasklamp','搪瓷工作灯','灯具',23,30,'task'],['tinlantern','穿孔锡灯笼','灯具',21,31,'tin'],['stringlights','花架灯串','灯具',48,27,'string']
-].map(([id,name,category,w,h,shape])=>({id,name,category,w,h,shape,detail:true,furniture:category==='家具',aquarium:category==='小鱼',light:category==='灯具',note:photo,care:category==='灯具'?'入夜后自动亮起，天亮后熄灭。':category==='小鱼'?'鱼在水面下游动。现实饲养需注意遮阴、溶氧和水质。':'日常园艺物件，可在天台上自由摆放。',sources:[]}));
-Object.assign(OBJECTS.find(a=>a.id==='ceramicseat'),{note:'参考大都会博物馆明代景德镇青花莲塘纹瓷座墩：鼓形轮廓、上下凸点环和莲塘纹饰。像素转译，并非精确复制。',sources:[met(50483,'Met · 16世纪青花莲塘瓷墩')],care:'陶瓷座墩，放在稳固平面上。'});
-Object.assign(OBJECTS.find(a=>a.id==='tinlantern'),{note:'参考 Met 藏1700—1900年锡灯笼：金属筒体、穿孔透光、提环与帽形顶部。游戏中以电光点亮。',sources:[met(4734,'Met · 穿孔锡灯笼')],care:'夜晚自动点亮；穿孔在筒面形成小光点。'});
-Object.assign(OBJECTS.find(a=>a.id==='wardcase'),{note:'参考 Kew 的沃德箱史料：木框玻璃箱保护长途运输的植物，凝结水帮助维持湿度。此处保留斜顶、框条和透明玻璃。',sources:[{label:'Kew · 沃德箱与植物运输史',url:'https://www.kew.org/read-and-watch/the-wardian-case-a-history-of-plant-transportation'}],care:'展示园艺史中的玻璃箱形式；通风与控湿仍需按植物调整。'});
-export const LEGACY_DETAILS={
- moss:{category:'苔藓',note:'浅盘中展示柏枝藓的羽状群落；与新增物种盆栽分开保留旧布局。',scientific:'Hypnum cupressiforme',sources:[{label:'BIBS · 柏枝藓',url:'https://www.bibsbryology.org/learning/species-finder/hypnum-cupressiforme/'}]},
- mossbox:{category:'苔藓',scientific:'Hypnum cupressiforme',note:'泡沫箱内展示柏枝藓的羽状群落，箱边留有轻微水渍。',sources:[{label:'BIBS · 柏枝藓',url:'https://www.bibsbryology.org/learning/species-finder/hypnum-cupressiforme/'}]},
- fish:{category:'小鱼',aquarium:true},pond:{category:'小鱼',aquarium:true,name:'小鱼圆水盆'},redbox:{category:'花盆'},pot:{category:'花盆'},
- terrarium:{note:'根据北天台蓝框柜绘制：金属框、弯曲透明门罩、把手与底部托盘。'},basin:{note:'根据北天台蓝色洗手池台绘制：椭圆池盆、银色龙头与台下支脚。'}
+const photo = "北天台实物参考：保留结构、材料与少量使用痕迹。";
+const met = (id, label) => ({
+  label,
+  url: "https://www.metmuseum.org/art/collection/search/" + id,
+});
+export const OBJECTS = [
+  ["wirestand", "宽网格铁架", "家具", 58, 44, "mesh"],
+  ["foamstand", "泡沫箱木台", "家具", 46, 32, "foamstand"],
+  ["basketstand", "白色篮架", "家具", 28, 40, "baskets"],
+  ["coveredstand", "带遮雨布花架", "家具", 52, 44, "covered"],
+  ["lowplatform", "旧木板矮台", "家具", 48, 24, "platform"],
+  ["ceramicseat", "青花莲塘瓷墩", "家具", 28, 32, "seat"],
+  ["wardcase", "沃德玻璃箱", "器具", 44, 35, "ward"],
+  ["enamelbowl", "白搪瓷高脚盆", "器具", 29, 25, "bowl"],
+  ["browncover", "陶盆保湿罩", "器具", 32, 28, "cloche"],
+  ["seedtray", "育苗浅盘", "器具", 34, 19, "tray"],
+  ["foambox", "泡沫栽培箱", "器具", 38, 23, "foam"],
+  ["thermometer", "温湿度表", "器具", 15, 32, "thermo"],
+  ["strainer", "网眼滤盆", "器具", 23, 20, "sieve"],
+  ["wirebasket", "白色铁丝篮", "小物", 30, 19, "basket"],
+  ["towel", "旧毛巾", "小物", 24, 15, "towel"],
+  ["soilbag", "园艺土袋", "小物", 23, 23, "bag"],
+  ["labels", "植物标签", "小物", 18, 17, "labels"],
+  ["gloves", "工作手套", "小物", 21, 19, "gloves"],
+  ["brush", "长柄刷", "小物", 26, 14, "brush"],
+  ["lid", "蓝色盆盖", "小物", 27, 17, "lid"],
+  ["sprayer", "手压喷壶", "小物", 18, 24, "sprayer"],
+  ["medakabowl", "青鳉陶缸", "小鱼", 35, 27, "medaka"],
+  ["goldfishbowl", "金鱼搪瓷盆", "小鱼", 38, 27, "goldfish"],
+  ["fishbox", "蓝色周转鱼箱", "小鱼", 39, 25, "fishbox"],
+  ["solarlamp", "太阳能庭院灯", "灯具", 16, 30, "solar"],
+  ["tasklamp", "搪瓷工作灯", "灯具", 23, 30, "task"],
+  ["tinlantern", "穿孔锡灯笼", "灯具", 21, 31, "tin"],
+  ["stringlights", "花架灯串", "灯具", 48, 27, "string"],
+].map(([id, name, category, w, h, shape]) => ({
+  id,
+  name,
+  category,
+  w,
+  h,
+  shape,
+  detail: true,
+  furniture: category === "家具",
+  aquarium: category === "小鱼",
+  light: category === "灯具",
+  note: photo,
+  care:
+    category === "灯具"
+      ? "入夜后自动亮起，天亮后熄灭。"
+      : category === "小鱼"
+        ? "鱼在水面下游动。现实饲养需注意遮阴、溶氧和水质。"
+        : "日常园艺物件，可在天台上自由摆放。",
+  sources: [],
+}));
+Object.assign(
+  OBJECTS.find((a) => a.id === "ceramicseat"),
+  {
+    note: "参考大都会博物馆明代景德镇青花莲塘纹瓷座墩：鼓形轮廓、上下凸点环和莲塘纹饰。像素转译，并非精确复制。",
+    sources: [met(50483, "Met · 16世纪青花莲塘瓷墩")],
+    care: "陶瓷座墩，放在稳固平面上。",
+  },
+);
+Object.assign(
+  OBJECTS.find((a) => a.id === "tinlantern"),
+  {
+    note: "参考 Met 藏1700—1900年锡灯笼：金属筒体、穿孔透光、提环与帽形顶部。游戏中以电光点亮。",
+    sources: [met(4734, "Met · 穿孔锡灯笼")],
+    care: "夜晚自动点亮；穿孔在筒面形成小光点。",
+  },
+);
+Object.assign(
+  OBJECTS.find((a) => a.id === "wardcase"),
+  {
+    note: "参考 Kew 的沃德箱史料：木框玻璃箱保护长途运输的植物，凝结水帮助维持湿度。此处保留斜顶、框条和透明玻璃。",
+    sources: [
+      {
+        label: "Kew · 沃德箱与植物运输史",
+        url: "https://www.kew.org/read-and-watch/the-wardian-case-a-history-of-plant-transportation",
+      },
+    ],
+    care: "展示园艺史中的玻璃箱形式；通风与控湿仍需按植物调整。",
+  },
+);
+export const LEGACY_DETAILS = {
+  moss: {
+    category: "苔藓",
+    note: "浅盘中展示柏枝藓的羽状群落；与新增物种盆栽分开保留旧布局。",
+    scientific: "Hypnum cupressiforme",
+    sources: [
+      {
+        label: "BIBS · 柏枝藓",
+        url: "https://www.bibsbryology.org/learning/species-finder/hypnum-cupressiforme/",
+      },
+    ],
+  },
+  mossbox: {
+    category: "苔藓",
+    scientific: "Hypnum cupressiforme",
+    note: "泡沫箱内展示柏枝藓的羽状群落，箱边留有轻微水渍。",
+    sources: [
+      {
+        label: "BIBS · 柏枝藓",
+        url: "https://www.bibsbryology.org/learning/species-finder/hypnum-cupressiforme/",
+      },
+    ],
+  },
+  fish: { category: "小鱼", aquarium: true },
+  pond: { category: "小鱼", aquarium: true, name: "小鱼圆水盆" },
+  redbox: { category: "花盆" },
+  pot: { category: "花盆" },
+  terrarium: {
+    note: "根据北天台蓝框柜绘制：金属框、弯曲透明门罩、把手与底部托盘。",
+  },
+  basin: { note: "根据北天台蓝色洗手池台绘制：椭圆池盆、银色龙头与台下支脚。" },
 };
-const px=(c,x,y,w,h,col)=>{c.fillStyle=col;c.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h))};
-function line(c,x,y,xx,yy,col,w=1){const n=Math.max(1,Math.abs(xx-x),Math.abs(yy-y));for(let i=0;i<=n;i++)px(c,x+(xx-x)*i/n,y+(yy-y)*i/n,w,w,col)}
-function oval(c,x,y,rx,ry,col){for(let j=-ry;j<=ry;j++){const n=Math.floor(rx*Math.sqrt(Math.max(0,1-j*j/(ry*ry))));px(c,x-n,y+j,n*2+1,1,col)}}
-const M={dark:'#4e5b57',mid:'#758079',light:'#b4b7a5',blue:'#577f82',wood:'#8b775e',edge:'#675744',white:'#c4c4ad',soil:'#615847'};
-function shelf(c,w,h,covered=false){for(const x of [-w/2+2,w/2-4]){px(c,x,-h/2,2,h,M.dark);px(c,x,-h/2+2,1,h-4,M.mid);px(c,x-1,h/2-2,4,2,M.dark)}for(let y=-h/2+4;y<h/2-3;y+=13){line(c,-w/2+3,y,w/2-4,y,M.mid,2);for(let x=-w/2+5;x<w/2-3;x+=5){line(c,x,y-2,x+3,y+2,M.dark);line(c,x+3,y-2,x,y+2,M.mid)}line(c,-w/2+3,y-3,w/2-4,y-3,M.light)}if(covered){px(c,-w/2-2,-h/2-2,w+4,4,'#afb49f');for(let x=-w/2;x<w/2;x+=6)line(c,x,-h/2-2,x+4,-h/2+1,'#bfc2ac');px(c,w/2-3,-h/2+1,4,h-8,'#a2aa96')}}
-function bowl(c,w,h,blue=false,pedestal=false){oval(c,0,0,w/2-1,h/2-3,blue?M.blue:M.white);oval(c,0,-3,w/2-1,h/2-6,M.dark);oval(c,0,-4,w/2-3,h/2-7,blue?'#6f9692':'#a7b1a0');line(c,-w/2+4,-h/2+4,4,-h/2+4,'#d0cdb7');if(pedestal){px(c,-4,h/2-4,8,5,M.white);oval(c,0,h/2,6,1,M.mid)}for(const [x,y] of [[-9,3],[7,4],[-3,7]])px(c,x,y,2,1,'#919783')}
-function glass(c,w,h){oval(c,0,-3,w/2-1,h/2-2,'#798c80');oval(c,0,-4,w/2-3,h/2-4,'#899c8a');line(c,-w/2+5,0,-w/2+7,-h/2+5,'#b7c4b1');line(c,-w/2+7,-h/2+5,-2,-h/2+2,'#bdc7b4');for(let i=0;i<12;i++)px(c,i*7%(w-8)-w/2+4,i*11%(h-10)-h/2+5,1,1,'#a9b8a4');oval(c,0,h/2-4,w/2-2,2,M.light)}
-export function paintDetail(c,a,time=0){const t=a.shape||a.id,w=a.w,h=a.h,x=-w/2,y=-h/2;
- if(t==='teaset'){px(c,-15,-6,30,13,'#87765c');px(c,-14,-6,28,2,'#ac9876');oval(c,-3,0,6,4,'#b5ab87');px(c,-5,-7,5,2,'#d7cbaa');px(c,-1,-8,2,2,'#817050');line(c,2,-2,7,-5,'#b5ab87',2);for(const xx of [-11,10]){oval(c,xx,2,3,2,'#d2c7a8');px(c,xx-1,0,2,1,'#70614a')}return true}
- if(t==='pigbowl'){oval(c,0,2,9,4,'#9a8e77');oval(c,0,0,8,3,'#c6b89a');oval(c,0,0,6,2,'#8c785d');for(let i=0;i<5;i++)px(c,-4+i*2,i%2-1,1,1,'#c7b47d');return true}
- if(t==='moss'||t==='mossbox'){if(t==='mossbox'){px(c,x,y+2,w,h-5,M.white);px(c,x+2,y+4,w-4,h-10,M.soil);line(c,x,y+2,w/2-1,y+2,'#d0cdb6');for(let i=0;i<8;i++)px(c,x+3+i*4,h/2-5,1,2,'#aab39b')}else{oval(c,0,2,w/2-1,h/2-3,'#998a6a');oval(c,0,0,w/2-3,h/2-5,M.soil)}for(let i=0;i<7;i++){const xx=x+5+i*(w-10)/7,yy=i%3;line(c,xx,yy+3,xx+3,yy-5,'#81976e');for(let j=0;j<4;j++){line(c,xx+j*.6,yy-j,xx+j*.6-3,yy-j-2,'#9caa81');line(c,xx+j*.6,yy-j,xx+j*.6+3,yy-j-2,'#829b72')}}return true}
- if(a.aquarium){paintAquarium(c,a,time);return true}
- if(a.light){paintLamp(c,a);return true}
- if(a.rotation&&paintUprightSide(c,a))return true;
- if(t==='mesh'||t==='covered'){const saved={...M};Object.assign(M,{dark:'#27322e',mid:'#435047',light:'#657267'});shelf(c,w,h,t==='covered');Object.assign(M,saved);return true}
- if(t==='platform'||t==='foamstand'){for(const xx of [x+4,-x-6])px(c,xx,1,3,h/2-1,M.edge);for(let yy=y+2;yy<3;yy+=5){px(c,x,yy,w,4,M.wood);line(c,x+3,yy,w/2-4,yy,'#a49174');for(let xx=x+9;xx<w/2-3;xx+=13)px(c,xx,yy+2,4,1,M.edge)}if(t==='foamstand'){px(c,x+5,y+1,w-10,12,M.white);px(c,x+7,y+3,w-14,3,M.soil);for(let xx=x+9;xx<w/2-8;xx+=6)px(c,xx,y+7,2,1,'#aab39c')}return true}
- if(t==='baskets'||t==='basket'){if(t==='baskets')for(const xx of [-9,9])line(c,xx,y,xx,h/2,M.mid);const ys=t==='baskets'?[y+4,y+17,y+30]:[y+2];for(const yy of ys){for(let xx=x+3;xx<w/2-2;xx+=4)line(c,xx,yy,xx+1,yy+9,M.white);line(c,x+1,yy,w/2-1,yy,M.white,2);line(c,x+3,yy+9,w/2-3,yy+9,M.mid);line(c,x+2,yy,x+3,yy+9,M.white);line(c,w/2-2,yy,w/2-3,yy+9,M.white)}return true}
- if(t==='seat'){oval(c,0,0,12,13,'#9fa998');oval(c,-1,-1,11,12,'#c3c7b5');for(const yy of [-9,9]){line(c,-8,yy,8,yy,'#637d80');for(let xx=-8;xx<=8;xx+=3)px(c,xx,yy+2,1,1,'#899b99')}oval(c,0,-13,9,2,M.white);oval(c,0,12,9,1,M.mid);for(const xx of [-6,1,6]){line(c,xx,5,xx-2,-2,'#69838a');oval(c,xx-2,-3,2,1,'#69838a');px(c,xx,2,2,1,'#728b90')}return true}
- if(t==='ward'){px(c,x,y+10,w,h-13,M.wood);px(c,x+3,y+12,w-6,h-18,'#839785');line(c,x,y+10,0,y,M.edge,2);line(c,0,y,w/2,y+10,M.edge,2);line(c,x+3,y+10,0,y+3,'#bbc2ab');for(const xx of [x+2,-1,w/2-3]){px(c,xx,y+10,2,h-14,M.edge);px(c,xx+1,y+12,1,h-19,M.light)}px(c,x,h/2-5,w,3,M.edge);for(let i=0;i<9;i++)line(c,i*11%(w-10)+x+5,6,i*11%(w-10)+x+3,-3,'#627a58',2);return true}
- if(t==='bowl'){bowl(c,w,h,false,true);return true}
- if(t==='cloche'){bowl(c,w,18);glass(c,w-4,h-4);return true}
- if(t==='tray'||t==='foam'||t==='crate'||t==='redbox'||t==='foambox'){const white=t==='foam'||t==='foambox',color=white?M.white:t==='redbox'?'#976e63':M.blue;px(c,x,y+1,w,h-4,M.dark);px(c,x+1,y+1,w-2,h-5,color);px(c,x+3,y+3,w-6,h-10,M.soil);line(c,x+2,y+1,w/2-3,y+1,white?'#d2d0ba':'#8da5a0');for(let xx=x+4;xx<w/2-3;xx+=6){px(c,xx,h/2-7,2,3,white?'#acb49d':'#7b9691');if(t==='tray')line(c,xx,y+4,xx,h/2-8,M.edge)}if(white)for(let i=0;i<12;i++)px(c,x+3+i*7%(w-6),h/2-6+i%3,1,1,'#a4aa94');return true}
- if(t==='thermo'){px(c,-6,y+1,12,h-2,M.blue);px(c,-5,y+2,10,h-12,M.white);line(c,-2,y+4,-2,3,M.mid);line(c,2,y+4,2,3,M.mid);for(let yy=y+5;yy<4;yy+=3){px(c,-4,yy,2,1,M.dark);px(c,2,yy,2,1,M.dark)}px(c,-2,-3,1,6,'#9b7969');oval(c,0,h/2-6,4,4,'#b5b8a5');line(c,0,h/2-6,2,h/2-8,M.dark);return true}
- if(t==='sieve'){oval(c,0,1,10,7,M.mid);oval(c,0,-1,9,6,M.light);oval(c,0,-1,7,4,M.dark);for(let xx=-6;xx<=6;xx+=3)line(c,xx,-3,xx,2,M.mid);for(let yy=-3;yy<=2;yy+=2)line(c,-5,yy,5,yy,M.light);line(c,-9,0,-12,-3,M.mid);line(c,9,0,12,-3,M.mid);return true}
- if(t==='terrarium'){shelf(c,w,h);px(c,x+3,y+5,w-6,h-14,'#647e78');for(const xx of (a.viewRotation%180?[x+5]:[x+5,2])){px(c,xx,y+6,(a.viewRotation%180?w-12:w/2-9),h-17,'#8a9f8d');for(let j=0;j<3;j++)line(c,xx+4+j*6,5,xx+3+j*6,-5,'#617b58',2);line(c,xx+2,y+7,xx+3,8,'#b5c2ae');line(c,xx+4,y+7,xx+w/2-12,y+6,'#a5b8a5');px(c,xx+8,0,7,2,'#bcc5b2');px(c,xx+9,-1,5,1,'#d0d1bb')}if(!a.viewRotation||a.viewRotation%180===0)px(c,-1,y,2,h-4,M.blue);for(const xx of [x+1,w/2-3]){px(c,xx,y+2,2,h-7,'#55797b');px(c,xx,y+3,1,h-9,'#78918a')}line(c,x+4,y+3,-2,y+2,'#a7b7a5');line(c,3,y+2,w/2-5,y+3,'#b7c3ad');for(const u of (a.viewRotation%180?[x+8,x+18]:[x+9,x+19,7,17])){px(c,u,5,4,2,'#7d7056');px(c,u+1,7,2,1,'#645f4d');px(c,u+2,1,2,2,'#789469');px(c,u,-2,2,1,'#91a57d')}if(a.viewRotation===180){px(c,x+4,y+6,w-8,h-14,'#647e78');for(let xx=x+6;xx<w/2-4;xx+=6){line(c,xx,y+7,xx,h/2-8,'#82998b');px(c,xx,y+8,1,2,'#a5b8a5')}}px(c,x,h/2-5,w,3,M.dark);return true}
- if(t==='sink'||t==='basin'){const steel=t==='sink';px(c,x,y+3,w,h-7,steel?M.mid:M.white);line(c,x+1,y+3,w/2-2,y+3,'#ceceba');oval(c,steel?5:0,-1,steel?12:19,8,steel?M.dark:M.blue);oval(c,steel?5:0,-2,steel?10:17,6,steel?'#929d91':'#71928b');oval(c,steel?5:0,1,2,1,M.dark);if(steel)for(let yy=y+6;yy<h/2-6;yy+=3)line(c,x+3,yy,x+13,yy,M.light);px(c,1,y-2,3,9,M.dark);line(c,2,y-2,10,y-2,M.light,2);px(c,9,y-1,2,4,M.mid);for(const xx of [x+3,w/2-6]){px(c,xx,h/2-4,3,4,M.dark);px(c,xx,h/2-3,1,3,M.mid)}return true}
- if(t==='watering'||t==='bucket'||t==='pot'||t==='sprayer'){const small=t==='watering',r=t==='pot'?9:6;oval(c,0,2,r,small?5:7,t==='bucket'?M.mid:'#947a61');oval(c,0,-4,r,2,M.light);oval(c,0,-4,r-2,1,M.soil);line(c,-r+2,-1,-r+2,5,'#b7a084');if(small){line(c,-5,1,-10,-5,M.wood,3);line(c,-11,-5,-8,-7,M.light);line(c,5,-4,8,-3,M.mid);line(c,8,-3,8,3,M.mid);line(c,8,3,5,4,M.mid)}else if(t==='bucket'){line(c,-5,-4,-3,-10,M.light);line(c,-3,-10,4,-10,M.light);line(c,4,-10,6,-4,M.light)}else if(t==='sprayer'){px(c,-2,-10,4,7,M.mid);px(c,-4,-11,9,2,M.light);px(c,4,-10,4,2,M.mid)}return true}
- if(t==='hose'){for(let r=10;r>=3;r-=2){oval(c,0,0,r,Math.max(1,r-2),r%4?'#68877a':'#456a63');oval(c,0,-1,r-1,Math.max(1,r-3),'#52665b')}line(c,9,1,11,8,'#6e9987',2);px(c,10,8,3,3,'#a38363');px(c,10,11,3,1,M.light);return true}
- if(t==='tools'||t==='brush'){line(c,x+3,5,w/2-5,-4,M.wood,2);px(c,w/2-7,-7,5,4,M.mid);line(c,w/2-6,-7,w/2-3,-7,M.light);if(t==='brush'){for(let yy=-6;yy<-2;yy++)px(c,w/2-4,yy,3,1,'#a9a78e')}else{line(c,-5,-5,7,5,M.edge,2);px(c,-8,-8,6,5,M.mid);line(c,-7,-8,-3,-8,M.light);oval(c,7,5,2,1,M.wood)}return true}
- if(t==='towel'){for(let yy=y+1;yy<h/2-1;yy++){const inset=yy%4===0?1:0;px(c,x+inset,yy,w-3,1,yy%5?'#a2b3a4':'#82998f')}line(c,x+5,y+3,x+9,h/2-2,'#bfccb9');for(let xx=x+2;xx<w/2-2;xx+=3)px(c,xx,h/2-1,1,1,'#b8c4b1');return true}
- if(t==='bag'){px(c,x+3,y+2,w-6,h-4,'#b6b59e');line(c,x+3,y+3,w/2-4,y+3,M.light);px(c,x+5,y+7,w-10,7,'#7a8b68');line(c,x+6,h/2-5,w/2-4,h/2-3,'#969d84');return true}
- if(t==='labels'){for(const xx of [-5,0,5]){line(c,xx,-2,xx,h/2,M.wood);px(c,xx-2,y+1,4,8,M.white);line(c,xx-1,y+4,xx+1,y+4,M.mid)}return true}
- if(t==='gloves'){for(const xx of [-5,4]){px(c,xx-3,-2,6,8,'#aaa58b');for(let j=0;j<3;j++)px(c,xx-3+j*2,-7+j%2,1,7,'#b9b49b');line(c,xx-3,1,xx-5,-2,'#b9b49b',2);px(c,xx-3,6,6,2,M.blue)}return true}
- if(t==='lid'){oval(c,0,0,12,6,M.blue);oval(c,0,-1,10,4,'#789897');oval(c,0,-1,3,1,M.dark);line(c,-7,-3,4,-3,'#a8b9ae');return true}
- return false;
+const px = (c, x, y, w, h, col) => {
+  c.fillStyle = col;
+  c.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h));
+};
+function line(c, x, y, xx, yy, col, w = 1) {
+  const n = Math.max(1, Math.abs(xx - x), Math.abs(yy - y));
+  for (let i = 0; i <= n; i++)
+    px(c, x + ((xx - x) * i) / n, y + ((yy - y) * i) / n, w, w, col);
 }
-function paintAquarium(c,a,time){const round=['pond','medaka','goldfish'].includes(a.shape||a.id),w=a.w,h=a.h;if(round){bowl(c,w,h,a.shape==='medaka');oval(c,0,-3,w/2-4,h/2-7,'#658b7c')}else{px(c,-w/2,-h/2,w,h-3,M.dark);px(c,-w/2+2,-h/2+2,w-4,h-7,'#719589');px(c,-w/2+3,-h/2+4,w-6,h-11,'#507c73');line(c,-w/2+2,-h/2+2,w/2-3,-h/2+2,M.light);px(c,-w/2+3,-h/2+4,1,h-11,'#b9c7b0');px(c,-w/2,h/2-5,w,2,M.mid)}for(let i=0;i<3;i++){const x=Math.round(Math.sin(time*.5+i*2)*Math.max(4,w/2-10)),y=Math.round(Math.cos(time*.3+i)*3)-2,dir=Math.cos(time*.5+i*2)>0?1:-1,gold=a.shape==='goldfish',ink=gold?'#c6a081':'#b8bd99';oval(c,x,y,gold?3:2,1,ink);line(c,x-dir*2,y,x-dir*4,y-1,gold?'#b48c6f':'#96a995');px(c,x+dir*2,y-1,1,1,'#465b52');if(gold)px(c,x-1,y-2,2,1,'#d1b29b')}for(const [x,y] of [[-7,4],[8,5]]){line(c,x,y,x-2,y-5,'#78986f');px(c,x-2,y-5,3,1,'#92aa80')}line(c,-5,-h/2+6,4,-h/2+6,'#a3b5a3')}
+function oval(c, x, y, rx, ry, col) {
+  for (let j = -ry; j <= ry; j++) {
+    const n = Math.floor(rx * Math.sqrt(Math.max(0, 1 - (j * j) / (ry * ry))));
+    px(c, x - n, y + j, n * 2 + 1, 1, col);
+  }
+}
+const M = {
+  dark: "#4e5b57",
+  mid: "#758079",
+  light: "#b4b7a5",
+  blue: "#577f82",
+  wood: "#8b775e",
+  edge: "#675744",
+  white: "#c4c4ad",
+  soil: "#615847",
+};
+function shelf(c, w, h, covered = false) {
+  for (const x of [-w / 2 + 2, w / 2 - 4]) {
+    px(c, x, -h / 2, 2, h, M.dark);
+    px(c, x, -h / 2 + 2, 1, h - 4, M.mid);
+    px(c, x - 1, h / 2 - 2, 4, 2, M.dark);
+  }
+  for (let y = -h / 2 + 4; y < h / 2 - 3; y += 13) {
+    line(c, -w / 2 + 3, y, w / 2 - 4, y, M.mid, 2);
+    for (let x = -w / 2 + 5; x < w / 2 - 3; x += 5) {
+      line(c, x, y - 2, x + 3, y + 2, M.dark);
+      line(c, x + 3, y - 2, x, y + 2, M.mid);
+    }
+    line(c, -w / 2 + 3, y - 3, w / 2 - 4, y - 3, M.light);
+  }
+  if (covered) {
+    px(c, -w / 2 - 2, -h / 2 - 2, w + 4, 4, "#afb49f");
+    for (let x = -w / 2; x < w / 2; x += 6)
+      line(c, x, -h / 2 - 2, x + 4, -h / 2 + 1, "#bfc2ac");
+    px(c, w / 2 - 3, -h / 2 + 1, 4, h - 8, "#a2aa96");
+  }
+}
+function bowl(c, w, h, blue = false, pedestal = false) {
+  oval(c, 0, 0, w / 2 - 1, h / 2 - 3, blue ? M.blue : M.white);
+  oval(c, 0, -3, w / 2 - 1, h / 2 - 6, M.dark);
+  oval(c, 0, -4, w / 2 - 3, h / 2 - 7, blue ? "#6f9692" : "#a7b1a0");
+  line(c, -w / 2 + 4, -h / 2 + 4, 4, -h / 2 + 4, "#d0cdb7");
+  if (pedestal) {
+    px(c, -4, h / 2 - 4, 8, 5, M.white);
+    oval(c, 0, h / 2, 6, 1, M.mid);
+  }
+  for (const [x, y] of [
+    [-9, 3],
+    [7, 4],
+    [-3, 7],
+  ])
+    px(c, x, y, 2, 1, "#919783");
+}
+function glass(c, w, h) {
+  oval(c, 0, -3, w / 2 - 1, h / 2 - 2, "#798c80");
+  oval(c, 0, -4, w / 2 - 3, h / 2 - 4, "#899c8a");
+  line(c, -w / 2 + 5, 0, -w / 2 + 7, -h / 2 + 5, "#b7c4b1");
+  line(c, -w / 2 + 7, -h / 2 + 5, -2, -h / 2 + 2, "#bdc7b4");
+  for (let i = 0; i < 12; i++)
+    px(
+      c,
+      ((i * 7) % (w - 8)) - w / 2 + 4,
+      ((i * 11) % (h - 10)) - h / 2 + 5,
+      1,
+      1,
+      "#a9b8a4",
+    );
+  oval(c, 0, h / 2 - 4, w / 2 - 2, 2, M.light);
+}
+export function paintDetail(c, a, time = 0) {
+  const t = a.shape || a.id,
+    w = a.w,
+    h = a.h,
+    x = -w / 2,
+    y = -h / 2;
+  if (t === "teaset") {
+    px(c, -15, -6, 30, 13, "#87765c");
+    px(c, -14, -6, 28, 2, "#ac9876");
+    oval(c, -3, 0, 6, 4, "#b5ab87");
+    px(c, -5, -7, 5, 2, "#d7cbaa");
+    px(c, -1, -8, 2, 2, "#817050");
+    line(c, 2, -2, 7, -5, "#b5ab87", 2);
+    for (const xx of [-11, 10]) {
+      oval(c, xx, 2, 3, 2, "#d2c7a8");
+      px(c, xx - 1, 0, 2, 1, "#70614a");
+    }
+    return true;
+  }
+  if (t === "pigbowl") {
+    oval(c, 0, 2, 9, 4, "#9a8e77");
+    oval(c, 0, 0, 8, 3, "#c6b89a");
+    oval(c, 0, 0, 6, 2, "#8c785d");
+    for (let i = 0; i < 5; i++) px(c, -4 + i * 2, (i % 2) - 1, 1, 1, "#c7b47d");
+    return true;
+  }
+  if (t === "moss" || t === "mossbox") {
+    if (t === "mossbox") {
+      px(c, x, y + 2, w, h - 5, M.white);
+      px(c, x + 2, y + 4, w - 4, h - 10, M.soil);
+      line(c, x, y + 2, w / 2 - 1, y + 2, "#d0cdb6");
+      for (let i = 0; i < 8; i++)
+        px(c, x + 3 + i * 4, h / 2 - 5, 1, 2, "#aab39b");
+    } else {
+      oval(c, 0, 2, w / 2 - 1, h / 2 - 3, "#998a6a");
+      oval(c, 0, 0, w / 2 - 3, h / 2 - 5, M.soil);
+    }
+    for (let i = 0; i < 7; i++) {
+      const xx = x + 5 + (i * (w - 10)) / 7,
+        yy = i % 3;
+      line(c, xx, yy + 3, xx + 3, yy - 5, "#81976e");
+      for (let j = 0; j < 4; j++) {
+        line(c, xx + j * 0.6, yy - j, xx + j * 0.6 - 3, yy - j - 2, "#9caa81");
+        line(c, xx + j * 0.6, yy - j, xx + j * 0.6 + 3, yy - j - 2, "#829b72");
+      }
+    }
+    return true;
+  }
+  if (a.aquarium) {
+    paintAquarium(c, a, time);
+    return true;
+  }
+  if (a.light) {
+    paintLamp(c, a);
+    return true;
+  }
+  if (a.rotation && paintUprightSide(c, a)) return true;
+  if (t === "mesh" || t === "covered") {
+    const saved = { ...M };
+    Object.assign(M, { dark: "#27322e", mid: "#435047", light: "#657267" });
+    shelf(c, w, h, t === "covered");
+    Object.assign(M, saved);
+    return true;
+  }
+  if (t === "platform" || t === "foamstand") {
+    for (const xx of [x + 4, -x - 6]) px(c, xx, 1, 3, h / 2 - 1, M.edge);
+    for (let yy = y + 2; yy < 3; yy += 5) {
+      px(c, x, yy, w, 4, M.wood);
+      line(c, x + 3, yy, w / 2 - 4, yy, "#a49174");
+      for (let xx = x + 9; xx < w / 2 - 3; xx += 13)
+        px(c, xx, yy + 2, 4, 1, M.edge);
+    }
+    if (t === "foamstand") {
+      px(c, x + 5, y + 1, w - 10, 12, M.white);
+      px(c, x + 7, y + 3, w - 14, 3, M.soil);
+      for (let xx = x + 9; xx < w / 2 - 8; xx += 6)
+        px(c, xx, y + 7, 2, 1, "#aab39c");
+    }
+    return true;
+  }
+  if (t === "baskets" || t === "basket") {
+    if (t === "baskets")
+      for (const xx of [-9, 9]) line(c, xx, y, xx, h / 2, M.mid);
+    const ys = t === "baskets" ? [y + 4, y + 17, y + 30] : [y + 2];
+    for (const yy of ys) {
+      for (let xx = x + 3; xx < w / 2 - 2; xx += 4)
+        line(c, xx, yy, xx + 1, yy + 9, M.white);
+      line(c, x + 1, yy, w / 2 - 1, yy, M.white, 2);
+      line(c, x + 3, yy + 9, w / 2 - 3, yy + 9, M.mid);
+      line(c, x + 2, yy, x + 3, yy + 9, M.white);
+      line(c, w / 2 - 2, yy, w / 2 - 3, yy + 9, M.white);
+    }
+    return true;
+  }
+  if (t === "seat") {
+    oval(c, 0, 0, 12, 13, "#9fa998");
+    oval(c, -1, -1, 11, 12, "#c3c7b5");
+    for (const yy of [-9, 9]) {
+      line(c, -8, yy, 8, yy, "#637d80");
+      for (let xx = -8; xx <= 8; xx += 3) px(c, xx, yy + 2, 1, 1, "#899b99");
+    }
+    oval(c, 0, -13, 9, 2, M.white);
+    oval(c, 0, 12, 9, 1, M.mid);
+    for (const xx of [-6, 1, 6]) {
+      line(c, xx, 5, xx - 2, -2, "#69838a");
+      oval(c, xx - 2, -3, 2, 1, "#69838a");
+      px(c, xx, 2, 2, 1, "#728b90");
+    }
+    return true;
+  }
+  if (t === "ward") {
+    px(c, x, y + 10, w, h - 13, M.wood);
+    px(c, x + 3, y + 12, w - 6, h - 18, "#839785");
+    line(c, x, y + 10, 0, y, M.edge, 2);
+    line(c, 0, y, w / 2, y + 10, M.edge, 2);
+    line(c, x + 3, y + 10, 0, y + 3, "#bbc2ab");
+    for (const xx of [x + 2, -1, w / 2 - 3]) {
+      px(c, xx, y + 10, 2, h - 14, M.edge);
+      px(c, xx + 1, y + 12, 1, h - 19, M.light);
+    }
+    px(c, x, h / 2 - 5, w, 3, M.edge);
+    for (let i = 0; i < 9; i++)
+      line(
+        c,
+        ((i * 11) % (w - 10)) + x + 5,
+        6,
+        ((i * 11) % (w - 10)) + x + 3,
+        -3,
+        "#627a58",
+        2,
+      );
+    return true;
+  }
+  if (t === "bowl") {
+    bowl(c, w, h, false, true);
+    return true;
+  }
+  if (t === "cloche") {
+    bowl(c, w, 18);
+    glass(c, w - 4, h - 4);
+    return true;
+  }
+  if (
+    t === "tray" ||
+    t === "foam" ||
+    t === "crate" ||
+    t === "redbox" ||
+    t === "foambox"
+  ) {
+    const white = t === "foam" || t === "foambox",
+      color = white ? M.white : t === "redbox" ? "#976e63" : M.blue;
+    px(c, x, y + 1, w, h - 4, M.dark);
+    px(c, x + 1, y + 1, w - 2, h - 5, color);
+    px(c, x + 3, y + 3, w - 6, h - 10, M.soil);
+    line(c, x + 2, y + 1, w / 2 - 3, y + 1, white ? "#d2d0ba" : "#8da5a0");
+    for (let xx = x + 4; xx < w / 2 - 3; xx += 6) {
+      px(c, xx, h / 2 - 7, 2, 3, white ? "#acb49d" : "#7b9691");
+      if (t === "tray") line(c, xx, y + 4, xx, h / 2 - 8, M.edge);
+    }
+    if (white)
+      for (let i = 0; i < 12; i++)
+        px(
+          c,
+          x + 3 + ((i * 7) % (w - 6)),
+          h / 2 - 6 + (i % 3),
+          1,
+          1,
+          "#a4aa94",
+        );
+    return true;
+  }
+  if (t === "thermo") {
+    px(c, -6, y + 1, 12, h - 2, M.blue);
+    px(c, -5, y + 2, 10, h - 12, M.white);
+    line(c, -2, y + 4, -2, 3, M.mid);
+    line(c, 2, y + 4, 2, 3, M.mid);
+    for (let yy = y + 5; yy < 4; yy += 3) {
+      px(c, -4, yy, 2, 1, M.dark);
+      px(c, 2, yy, 2, 1, M.dark);
+    }
+    px(c, -2, -3, 1, 6, "#9b7969");
+    oval(c, 0, h / 2 - 6, 4, 4, "#b5b8a5");
+    line(c, 0, h / 2 - 6, 2, h / 2 - 8, M.dark);
+    return true;
+  }
+  if (t === "sieve") {
+    oval(c, 0, 1, 10, 7, M.mid);
+    oval(c, 0, -1, 9, 6, M.light);
+    oval(c, 0, -1, 7, 4, M.dark);
+    for (let xx = -6; xx <= 6; xx += 3) line(c, xx, -3, xx, 2, M.mid);
+    for (let yy = -3; yy <= 2; yy += 2) line(c, -5, yy, 5, yy, M.light);
+    line(c, -9, 0, -12, -3, M.mid);
+    line(c, 9, 0, 12, -3, M.mid);
+    return true;
+  }
+  if (t === "terrarium") {
+    shelf(c, w, h);
+    px(c, x + 3, y + 5, w - 6, h - 14, "#647e78");
+    for (const xx of a.viewRotation % 180 ? [x + 5] : [x + 5, 2]) {
+      px(
+        c,
+        xx,
+        y + 6,
+        a.viewRotation % 180 ? w - 12 : w / 2 - 9,
+        h - 17,
+        "#8a9f8d",
+      );
+      for (let j = 0; j < 3; j++)
+        line(c, xx + 4 + j * 6, 5, xx + 3 + j * 6, -5, "#617b58", 2);
+      line(c, xx + 2, y + 7, xx + 3, 8, "#b5c2ae");
+      line(c, xx + 4, y + 7, xx + w / 2 - 12, y + 6, "#a5b8a5");
+      px(c, xx + 8, 0, 7, 2, "#bcc5b2");
+      px(c, xx + 9, -1, 5, 1, "#d0d1bb");
+    }
+    if (!a.viewRotation || a.viewRotation % 180 === 0)
+      px(c, -1, y, 2, h - 4, M.blue);
+    for (const xx of [x + 1, w / 2 - 3]) {
+      px(c, xx, y + 2, 2, h - 7, "#55797b");
+      px(c, xx, y + 3, 1, h - 9, "#78918a");
+    }
+    line(c, x + 4, y + 3, -2, y + 2, "#a7b7a5");
+    line(c, 3, y + 2, w / 2 - 5, y + 3, "#b7c3ad");
+    for (const u of a.viewRotation % 180
+      ? [x + 8, x + 18]
+      : [x + 9, x + 19, 7, 17]) {
+      px(c, u, 5, 4, 2, "#7d7056");
+      px(c, u + 1, 7, 2, 1, "#645f4d");
+      px(c, u + 2, 1, 2, 2, "#789469");
+      px(c, u, -2, 2, 1, "#91a57d");
+    }
+    if (a.viewRotation === 180) {
+      px(c, x + 4, y + 6, w - 8, h - 14, "#647e78");
+      for (let xx = x + 6; xx < w / 2 - 4; xx += 6) {
+        line(c, xx, y + 7, xx, h / 2 - 8, "#82998b");
+        px(c, xx, y + 8, 1, 2, "#a5b8a5");
+      }
+    }
+    px(c, x, h / 2 - 5, w, 3, M.dark);
+    return true;
+  }
+  if (t === "sink" || t === "basin") {
+    const steel = t === "sink";
+    px(c, x, y + 3, w, h - 7, steel ? M.mid : M.white);
+    line(c, x + 1, y + 3, w / 2 - 2, y + 3, "#ceceba");
+    oval(c, steel ? 5 : 0, -1, steel ? 12 : 19, 8, steel ? M.dark : M.blue);
+    oval(
+      c,
+      steel ? 5 : 0,
+      -2,
+      steel ? 10 : 17,
+      6,
+      steel ? "#929d91" : "#71928b",
+    );
+    oval(c, steel ? 5 : 0, 1, 2, 1, M.dark);
+    if (steel)
+      for (let yy = y + 6; yy < h / 2 - 6; yy += 3)
+        line(c, x + 3, yy, x + 13, yy, M.light);
+    px(c, 1, y - 2, 3, 9, M.dark);
+    line(c, 2, y - 2, 10, y - 2, M.light, 2);
+    px(c, 9, y - 1, 2, 4, M.mid);
+    for (const xx of [x + 3, w / 2 - 6]) {
+      px(c, xx, h / 2 - 4, 3, 4, M.dark);
+      px(c, xx, h / 2 - 3, 1, 3, M.mid);
+    }
+    return true;
+  }
+  if (t === "watering" || t === "bucket" || t === "pot" || t === "sprayer") {
+    const small = t === "watering",
+      r = t === "pot" ? 9 : 6;
+    oval(c, 0, 2, r, small ? 5 : 7, t === "bucket" ? M.mid : "#947a61");
+    oval(c, 0, -4, r, 2, M.light);
+    oval(c, 0, -4, r - 2, 1, M.soil);
+    line(c, -r + 2, -1, -r + 2, 5, "#b7a084");
+    if (small) {
+      line(c, -5, 1, -10, -5, M.wood, 3);
+      line(c, -11, -5, -8, -7, M.light);
+      line(c, 5, -4, 8, -3, M.mid);
+      line(c, 8, -3, 8, 3, M.mid);
+      line(c, 8, 3, 5, 4, M.mid);
+    } else if (t === "bucket") {
+      line(c, -5, -4, -3, -10, M.light);
+      line(c, -3, -10, 4, -10, M.light);
+      line(c, 4, -10, 6, -4, M.light);
+    } else if (t === "sprayer") {
+      px(c, -2, -10, 4, 7, M.mid);
+      px(c, -4, -11, 9, 2, M.light);
+      px(c, 4, -10, 4, 2, M.mid);
+    }
+    return true;
+  }
+  if (t === "hose") {
+    for (let r = 10; r >= 3; r -= 2) {
+      oval(c, 0, 0, r, Math.max(1, r - 2), r % 4 ? "#68877a" : "#456a63");
+      oval(c, 0, -1, r - 1, Math.max(1, r - 3), "#52665b");
+    }
+    line(c, 9, 1, 11, 8, "#6e9987", 2);
+    px(c, 10, 8, 3, 3, "#a38363");
+    px(c, 10, 11, 3, 1, M.light);
+    return true;
+  }
+  if (t === "tools" || t === "brush") {
+    line(c, x + 3, 5, w / 2 - 5, -4, M.wood, 2);
+    px(c, w / 2 - 7, -7, 5, 4, M.mid);
+    line(c, w / 2 - 6, -7, w / 2 - 3, -7, M.light);
+    if (t === "brush") {
+      for (let yy = -6; yy < -2; yy++) px(c, w / 2 - 4, yy, 3, 1, "#a9a78e");
+    } else {
+      line(c, -5, -5, 7, 5, M.edge, 2);
+      px(c, -8, -8, 6, 5, M.mid);
+      line(c, -7, -8, -3, -8, M.light);
+      oval(c, 7, 5, 2, 1, M.wood);
+    }
+    return true;
+  }
+  if (t === "towel") {
+    for (let yy = y + 1; yy < h / 2 - 1; yy++) {
+      const inset = yy % 4 === 0 ? 1 : 0;
+      px(c, x + inset, yy, w - 3, 1, yy % 5 ? "#a2b3a4" : "#82998f");
+    }
+    line(c, x + 5, y + 3, x + 9, h / 2 - 2, "#bfccb9");
+    for (let xx = x + 2; xx < w / 2 - 2; xx += 3)
+      px(c, xx, h / 2 - 1, 1, 1, "#b8c4b1");
+    return true;
+  }
+  if (t === "bag") {
+    px(c, x + 3, y + 2, w - 6, h - 4, "#b6b59e");
+    line(c, x + 3, y + 3, w / 2 - 4, y + 3, M.light);
+    px(c, x + 5, y + 7, w - 10, 7, "#7a8b68");
+    line(c, x + 6, h / 2 - 5, w / 2 - 4, h / 2 - 3, "#969d84");
+    return true;
+  }
+  if (t === "labels") {
+    for (const xx of [-5, 0, 5]) {
+      line(c, xx, -2, xx, h / 2, M.wood);
+      px(c, xx - 2, y + 1, 4, 8, M.white);
+      line(c, xx - 1, y + 4, xx + 1, y + 4, M.mid);
+    }
+    return true;
+  }
+  if (t === "gloves") {
+    for (const xx of [-5, 4]) {
+      px(c, xx - 3, -2, 6, 8, "#aaa58b");
+      for (let j = 0; j < 3; j++)
+        px(c, xx - 3 + j * 2, -7 + (j % 2), 1, 7, "#b9b49b");
+      line(c, xx - 3, 1, xx - 5, -2, "#b9b49b", 2);
+      px(c, xx - 3, 6, 6, 2, M.blue);
+    }
+    return true;
+  }
+  if (t === "lid") {
+    oval(c, 0, 0, 12, 6, M.blue);
+    oval(c, 0, -1, 10, 4, "#789897");
+    oval(c, 0, -1, 3, 1, M.dark);
+    line(c, -7, -3, 4, -3, "#a8b9ae");
+    return true;
+  }
+  return false;
+}
+function paintAquarium(c, a, time) {
+  const round = ["pond", "medaka", "goldfish"].includes(a.shape || a.id),
+    w = a.w,
+    h = a.h;
+  if (round) {
+    bowl(c, w, h, a.shape === "medaka");
+    oval(c, 0, -3, w / 2 - 4, h / 2 - 7, "#658b7c");
+  } else {
+    px(c, -w / 2, -h / 2, w, h - 3, M.dark);
+    px(c, -w / 2 + 2, -h / 2 + 2, w - 4, h - 7, "#719589");
+    px(c, -w / 2 + 3, -h / 2 + 4, w - 6, h - 11, "#507c73");
+    line(c, -w / 2 + 2, -h / 2 + 2, w / 2 - 3, -h / 2 + 2, M.light);
+    px(c, -w / 2 + 3, -h / 2 + 4, 1, h - 11, "#b9c7b0");
+    px(c, -w / 2, h / 2 - 5, w, 2, M.mid);
+  }
+  for (let i = 0; i < 3; i++) {
+    const x = Math.round(
+        Math.sin(time * 0.5 + i * 2) * Math.max(4, w / 2 - 10),
+      ),
+      y = Math.round(Math.cos(time * 0.3 + i) * 3) - 2,
+      dir = Math.cos(time * 0.5 + i * 2) > 0 ? 1 : -1,
+      gold = a.shape === "goldfish",
+      ink = gold ? "#c6a081" : "#b8bd99";
+    oval(c, x, y, gold ? 3 : 2, 1, ink);
+    line(c, x - dir * 2, y, x - dir * 4, y - 1, gold ? "#b48c6f" : "#96a995");
+    px(c, x + dir * 2, y - 1, 1, 1, "#465b52");
+    if (gold) px(c, x - 1, y - 2, 2, 1, "#d1b29b");
+  }
+  for (const [x, y] of [
+    [-7, 4],
+    [8, 5],
+  ]) {
+    line(c, x, y, x - 2, y - 5, "#78986f");
+    px(c, x - 2, y - 5, 3, 1, "#92aa80");
+  }
+  line(c, -5, -h / 2 + 6, 4, -h / 2 + 6, "#a3b5a3");
+}
 // Light anchors turn on the roof plane, while lamp stems and hanging bulbs stay vertical.
-export function lampPoints(a,rotation=0){const angle=rotation*Math.PI/180;if(a.shape==='string')return [-16,-8,0,8,16].map(u=>[Math.round(u*Math.cos(angle)),Math.round(u*Math.sin(angle)*.5-3+4*(1-(u/22)**2))]);if(a.shape==='task')return [[Math.round(6*Math.cos(angle)),Math.round(-7+3*Math.sin(angle))]];return a.shape==='solar'?[[0,-5]]:[[0,1]]}
-function paintLamp(c,a){const t=a.shape,angle=(a.rotation||0)*Math.PI/180;if(t==='string'){const posts=[-22,22].map(u=>[Math.round(u*Math.cos(angle)),Math.round(13+u*Math.sin(angle)*.5)]);for(const [x,y] of posts)px(c,x,y-23,2,23,M.dark);const points=lampPoints(a,a.rotation);const wire=[...posts.map(([x,y])=>[x,y-21]),...points.map(([x,y])=>[x,y-5])].sort((a,b)=>a[0]-b[0]||a[1]-b[1]);for(let i=1;i<wire.length;i++)line(c,...wire[i-1],...wire[i],M.mid);for(const [x,y] of points){line(c,x,y-5,x,y-2,M.dark);oval(c,x,y,2,2,'#b6b396')}return}if(t==='solar'){px(c,-1,-2,2,16,M.dark);px(c,-5,-12,10,3,M.dark);px(c,-4,-11,8,1,'#71848b');px(c,-3,-8,6,7,'#b1b398');px(c,-4,-1,8,2,M.mid);return}if(t==='task'){const [x,y]=lampPoints(a,a.rotation)[0],side=(a.rotation||0)%180!==0,rx=side?3:6;oval(c,0,12,8,2,M.dark);line(c,0,10,0,-1,M.mid,2);line(c,0,-1,x,y-3,M.light,2);oval(c,x,y-3,rx,3,'#758e83');px(c,x-rx+1,y-2,rx*2-1,2,'#a3af95');return}oval(c,0,-12,4,2,M.mid);line(c,-4,-12,-4,-9,M.mid);line(c,4,-12,4,-9,M.mid);for(let y=-8;y<10;y++){const half=y<-5?9+y:7;px(c,-half,y,half*2,1,y%3?M.mid:M.dark)}for(let y=-3;y<7;y+=3)for(let x=-4;x<=4;x+=4)px(c,x,y,1,1,'#b7b497');px(c,-8,10,16,2,M.dark)}
-function paintUprightSide(c,a){const t=a.shape||a.id,r=a.rotation,w=a.w,h=a.h,side=r%180!==0;if(t==='thermo'){if(side){px(c,-3,-h/2+1,6,h-2,M.dark);px(c,-2,-h/2+2,4,h-4,M.mid)}else{px(c,-6,-h/2+1,12,h-2,M.blue);px(c,-4,-h/2+3,8,h-6,M.mid);for(const yy of [-h/2+5,h/2-5])px(c,-1,yy,2,1,M.light);px(c,-2,-h/2+7,4,3,M.dark)}return true}if(['watering','bucket','sprayer'].includes(t)){const rr=t==='watering'?6:7;oval(c,0,2,rr,7,t==='bucket'?M.mid:'#947a61');oval(c,0,-4,rr,2,M.light);oval(c,0,-4,rr-2,1,M.soil);line(c,-rr+2,-1,-rr+2,5,'#b7a084');if(t==='watering'){const sign=r===180?-1:1;if(side){const toward=r===270;line(c,0,0,0,toward?6:-8,M.wood,3);px(c,-2,toward?6:-9,4,2,M.light);if(!toward){line(c,-5,-4,-8,-3,M.mid);line(c,-8,-3,-8,3,M.mid)}else line(c,-2,-6,2,-6,M.mid)}else{line(c,sign*-5,1,sign*-10,-5,M.wood,3);line(c,sign*-11,-5,sign*-8,-7,M.light);line(c,sign*5,-4,sign*8,-3,M.mid);line(c,sign*8,-3,sign*8,3,M.mid)}}else if(t==='bucket'){if(side){line(c,-1,-4,-1,-10,M.light);line(c,1,-4,1,-10,M.mid)}else{line(c,-5,-4,-3,-10,M.light);line(c,-3,-10,4,-10,M.light);line(c,4,-10,6,-4,M.light)}}else{px(c,-2,-10,4,7,M.mid);px(c,-4,-11,9,2,M.light);if(side)px(c,-1,r===90?-12:-8,3,2,M.mid);else px(c,r===180?-8:4,-10,4,2,M.mid)}return true}if(t==='labels'){for(const u of [-5,0,5]){const xx=Math.round(u*Math.cos(r*Math.PI/180)),yy=Math.round(u*Math.sin(r*Math.PI/180)*.38);line(c,xx,yy-2,xx,yy+h/2,M.wood);px(c,xx-(side?1:2),yy-h/2+1,side?2:4,8,M.white);if(r!==180&&!side)line(c,xx-1,yy-h/2+4,xx+1,yy-h/2+4,M.mid)}return true}if(t==='hose'){for(let rr=10;rr>=3;rr-=2){oval(c,0,0,rr,Math.max(1,rr-2),rr%4?'#68877a':'#456a63');oval(c,0,-1,rr-1,Math.max(1,rr-3),'#52665b')}const angle=r*Math.PI/180,x=Math.round(11*Math.cos(angle)),y=Math.round(8*Math.sin(angle));line(c,Math.round(9*Math.cos(angle)),Math.round(6*Math.sin(angle)),x,y,'#6e9987',2);px(c,x-1,y,3,3,'#a38363');return true}if(t==='bag'&&side){px(c,-7,-h/2+2,14,h-4,'#a5ab94');line(c,-4,-h/2+3,-4,h/2-3,'#c2c2ab');line(c,4,-h/2+4,4,h/2-4,'#8f9880');return true}if(t==='bag'&&r===180){px(c,-w/2+3,-h/2+2,w-6,h-4,'#b6b59e');line(c,0,-h/2+3,0,h/2-3,'#969d84');line(c,-w/2+4,h/2-4,w/2-4,h/2-4,M.light);return true}return false;}
-export function lampPower(state){return Math.max(0,Math.min(1,(state.night-.12)/.45))}
-export function paintObjectLights(c,objects,lookup,state){const power=lampPower(state);if(!power)return;c.save();for(const o of objects){const a=lookup(o.type);if(!a?.light)continue;c.save();c.translate(o.x,o.y);c.scale(o.scale,o.scale);const points=lampPoints(a,o.rotation);for(const [x,y] of points){for(let r=10;r>=4;r-=3){c.globalAlpha=power*(r===4?.12:.035);oval(c,x,y,r,Math.round(r*.7),'#d7bd84')}c.globalAlpha=power;px(c,x-1,y-1,3,3,'#ead4a4');px(c,x,y,1,1,'#f4e5bf')}if(a.shape==='tin'){c.globalAlpha=power;for(let y=-3;y<7;y+=3)for(let x=-4;x<=4;x+=4)px(c,x,y,1,1,'#e9ce98')}c.restore()}c.restore()}
+export function lampPoints(a, rotation = 0) {
+  const angle = (rotation * Math.PI) / 180;
+  if (a.shape === "string")
+    return [-16, -8, 0, 8, 16].map((u) => [
+      Math.round(u * Math.cos(angle)),
+      Math.round(u * Math.sin(angle) * 0.5 - 3 + 4 * (1 - (u / 22) ** 2)),
+    ]);
+  if (a.shape === "task")
+    return [
+      [Math.round(6 * Math.cos(angle)), Math.round(-7 + 3 * Math.sin(angle))],
+    ];
+  return a.shape === "solar" ? [[0, -5]] : [[0, 1]];
+}
+function paintLamp(c, a) {
+  const t = a.shape,
+    angle = ((a.rotation || 0) * Math.PI) / 180;
+  if (t === "string") {
+    const posts = [-22, 22].map((u) => [
+      Math.round(u * Math.cos(angle)),
+      Math.round(13 + u * Math.sin(angle) * 0.5),
+    ]);
+    for (const [x, y] of posts) px(c, x, y - 23, 2, 23, M.dark);
+    const points = lampPoints(a, a.rotation);
+    const wire = [
+      ...posts.map(([x, y]) => [x, y - 21]),
+      ...points.map(([x, y]) => [x, y - 5]),
+    ].sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+    for (let i = 1; i < wire.length; i++)
+      line(c, ...wire[i - 1], ...wire[i], M.mid);
+    for (const [x, y] of points) {
+      line(c, x, y - 5, x, y - 2, M.dark);
+      oval(c, x, y, 2, 2, "#b6b396");
+    }
+    return;
+  }
+  if (t === "solar") {
+    px(c, -1, -2, 2, 16, M.dark);
+    px(c, -5, -12, 10, 3, M.dark);
+    px(c, -4, -11, 8, 1, "#71848b");
+    px(c, -3, -8, 6, 7, "#b1b398");
+    px(c, -4, -1, 8, 2, M.mid);
+    return;
+  }
+  if (t === "task") {
+    const [x, y] = lampPoints(a, a.rotation)[0],
+      side = (a.rotation || 0) % 180 !== 0,
+      rx = side ? 3 : 6;
+    oval(c, 0, 12, 8, 2, M.dark);
+    line(c, 0, 10, 0, -1, M.mid, 2);
+    line(c, 0, -1, x, y - 3, M.light, 2);
+    oval(c, x, y - 3, rx, 3, "#758e83");
+    px(c, x - rx + 1, y - 2, rx * 2 - 1, 2, "#a3af95");
+    return;
+  }
+  oval(c, 0, -12, 4, 2, M.mid);
+  line(c, -4, -12, -4, -9, M.mid);
+  line(c, 4, -12, 4, -9, M.mid);
+  for (let y = -8; y < 10; y++) {
+    const half = y < -5 ? 9 + y : 7;
+    px(c, -half, y, half * 2, 1, y % 3 ? M.mid : M.dark);
+  }
+  for (let y = -3; y < 7; y += 3)
+    for (let x = -4; x <= 4; x += 4) px(c, x, y, 1, 1, "#b7b497");
+  px(c, -8, 10, 16, 2, M.dark);
+}
+function paintUprightSide(c, a) {
+  const t = a.shape || a.id,
+    r = a.rotation,
+    w = a.w,
+    h = a.h,
+    side = r % 180 !== 0;
+  if (t === "thermo") {
+    if (side) {
+      px(c, -3, -h / 2 + 1, 6, h - 2, M.dark);
+      px(c, -2, -h / 2 + 2, 4, h - 4, M.mid);
+    } else {
+      px(c, -6, -h / 2 + 1, 12, h - 2, M.blue);
+      px(c, -4, -h / 2 + 3, 8, h - 6, M.mid);
+      for (const yy of [-h / 2 + 5, h / 2 - 5]) px(c, -1, yy, 2, 1, M.light);
+      px(c, -2, -h / 2 + 7, 4, 3, M.dark);
+    }
+    return true;
+  }
+  if (["watering", "bucket", "sprayer"].includes(t)) {
+    const rr = t === "watering" ? 6 : 7;
+    oval(c, 0, 2, rr, 7, t === "bucket" ? M.mid : "#947a61");
+    oval(c, 0, -4, rr, 2, M.light);
+    oval(c, 0, -4, rr - 2, 1, M.soil);
+    line(c, -rr + 2, -1, -rr + 2, 5, "#b7a084");
+    if (t === "watering") {
+      const sign = r === 180 ? -1 : 1;
+      if (side) {
+        const toward = r === 270;
+        line(c, 0, 0, 0, toward ? 6 : -8, M.wood, 3);
+        px(c, -2, toward ? 6 : -9, 4, 2, M.light);
+        if (!toward) {
+          line(c, -5, -4, -8, -3, M.mid);
+          line(c, -8, -3, -8, 3, M.mid);
+        } else line(c, -2, -6, 2, -6, M.mid);
+      } else {
+        line(c, sign * -5, 1, sign * -10, -5, M.wood, 3);
+        line(c, sign * -11, -5, sign * -8, -7, M.light);
+        line(c, sign * 5, -4, sign * 8, -3, M.mid);
+        line(c, sign * 8, -3, sign * 8, 3, M.mid);
+      }
+    } else if (t === "bucket") {
+      if (side) {
+        line(c, -1, -4, -1, -10, M.light);
+        line(c, 1, -4, 1, -10, M.mid);
+      } else {
+        line(c, -5, -4, -3, -10, M.light);
+        line(c, -3, -10, 4, -10, M.light);
+        line(c, 4, -10, 6, -4, M.light);
+      }
+    } else {
+      px(c, -2, -10, 4, 7, M.mid);
+      px(c, -4, -11, 9, 2, M.light);
+      if (side) px(c, -1, r === 90 ? -12 : -8, 3, 2, M.mid);
+      else px(c, r === 180 ? -8 : 4, -10, 4, 2, M.mid);
+    }
+    return true;
+  }
+  if (t === "labels") {
+    for (const u of [-5, 0, 5]) {
+      const xx = Math.round(u * Math.cos((r * Math.PI) / 180)),
+        yy = Math.round(u * Math.sin((r * Math.PI) / 180) * 0.38);
+      line(c, xx, yy - 2, xx, yy + h / 2, M.wood);
+      px(c, xx - (side ? 1 : 2), yy - h / 2 + 1, side ? 2 : 4, 8, M.white);
+      if (r !== 180 && !side)
+        line(c, xx - 1, yy - h / 2 + 4, xx + 1, yy - h / 2 + 4, M.mid);
+    }
+    return true;
+  }
+  if (t === "hose") {
+    for (let rr = 10; rr >= 3; rr -= 2) {
+      oval(c, 0, 0, rr, Math.max(1, rr - 2), rr % 4 ? "#68877a" : "#456a63");
+      oval(c, 0, -1, rr - 1, Math.max(1, rr - 3), "#52665b");
+    }
+    const angle = (r * Math.PI) / 180,
+      x = Math.round(11 * Math.cos(angle)),
+      y = Math.round(8 * Math.sin(angle));
+    line(
+      c,
+      Math.round(9 * Math.cos(angle)),
+      Math.round(6 * Math.sin(angle)),
+      x,
+      y,
+      "#6e9987",
+      2,
+    );
+    px(c, x - 1, y, 3, 3, "#a38363");
+    return true;
+  }
+  if (t === "bag" && side) {
+    px(c, -7, -h / 2 + 2, 14, h - 4, "#a5ab94");
+    line(c, -4, -h / 2 + 3, -4, h / 2 - 3, "#c2c2ab");
+    line(c, 4, -h / 2 + 4, 4, h / 2 - 4, "#8f9880");
+    return true;
+  }
+  if (t === "bag" && r === 180) {
+    px(c, -w / 2 + 3, -h / 2 + 2, w - 6, h - 4, "#b6b59e");
+    line(c, 0, -h / 2 + 3, 0, h / 2 - 3, "#969d84");
+    line(c, -w / 2 + 4, h / 2 - 4, w / 2 - 4, h / 2 - 4, M.light);
+    return true;
+  }
+  return false;
+}
+export function lampPower(state) {
+  return Math.max(0, Math.min(1, (state.night - 0.12) / 0.45));
+}
+export function paintObjectLights(c, objects, lookup, state) {
+  const power = lampPower(state);
+  if (!power) return;
+  c.save();
+  for (const o of objects) {
+    const a = lookup(o.type);
+    if (!a?.light) continue;
+    c.save();
+    c.translate(o.x, o.y);
+    c.scale(o.scale, o.scale);
+    const points = lampPoints(a, o.rotation);
+    for (const [x, y] of points) {
+      for (let r = 10; r >= 4; r -= 3) {
+        c.globalAlpha = power * (r === 4 ? 0.12 : 0.035);
+        oval(c, x, y, r, Math.round(r * 0.7), "#d7bd84");
+      }
+      c.globalAlpha = power;
+      px(c, x - 1, y - 1, 3, 3, "#ead4a4");
+      px(c, x, y, 1, 1, "#f4e5bf");
+    }
+    if (a.shape === "tin") {
+      c.globalAlpha = power;
+      for (let y = -3; y < 7; y += 3)
+        for (let x = -4; x <= 4; x += 4) px(c, x, y, 1, 1, "#e9ce98");
+    }
+    c.restore();
+  }
+  c.restore();
+}

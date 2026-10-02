@@ -1,57 +1,780 @@
 // Weather is a local scene clock, not a request to an external forecast service.
-export const WEATHER=[{id:'clear',name:'晴朗',wind:.32,rain:0,cloud:.2,fog:0,tint:'#c8ba91',shade:.025},{id:'cloudy',name:'多云',wind:.55,rain:0,cloud:.6,fog:0,tint:'#737c7c',shade:.065},{id:'overcast',name:'阴天',wind:.65,rain:0,cloud:1,fog:.05,tint:'#67777e',shade:.14},{id:'rain',name:'小雨',wind:.8,rain:.45,cloud:1,fog:.08,tint:'#506779',shade:.23},{id:'heavy',name:'大雨',wind:1.45,rain:1,cloud:1,fog:.1,tint:'#374e60',shade:.36},{id:'wind',name:'有风',wind:2.1,rain:0,cloud:.48,fog:0,tint:'#7b8073',shade:.06},{id:'mist',name:'薄雾',wind:.23,rain:0,cloud:.65,fog:.32,tint:'#9da6a0',shade:.1}];
-export const TIMES=[{id:'dawn',name:'清晨',sky:'#b7bbc4',night:.16,tint:'#baaa99',lamps:.08},{id:'morning',name:'上午',sky:'#bbc1ca',night:0,tint:'#b5bcb5',lamps:0},{id:'day',name:'中午',sky:'#bdc2cc',night:0,tint:'#abb8bc',lamps:0},{id:'afternoon',name:'下午',sky:'#bfc0c5',night:0,tint:'#bdb397',lamps:0},{id:'dusk',name:'黄昏',sky:'#b5aaa1',night:.25,tint:'#9b7765',lamps:.26},{id:'evening',name:'前半夜',sky:'#707888',night:.68,tint:'#1b2b43',lamps:.42},{id:'late',name:'后半夜',sky:'#5b6577',night:.82,tint:'#101b30',lamps:.045}];
-export function timeOfDay(hour){return hour<5?'late':hour<8?'dawn':hour<11?'morning':hour<14?'day':hour<17?'afternoon':hour<19?'dusk':hour<24?'evening':'late'}
-export function automaticWeather(milliseconds){const sequence=['clear','cloudy','wind','overcast','rain','cloudy','mist','clear','heavy','overcast'];return sequence[((Math.floor(milliseconds/720000)%sequence.length)+sequence.length)%sequence.length]}
-const hex=c=>c.match(/[a-f\d]{2}/gi).map(v=>parseInt(v,16));
-export function blendColor(a,b,t){const aa=hex(a),bb=hex(b);return '#'+aa.map((v,i)=>Math.round(v+(bb[i]-v)*t).toString(16).padStart(2,'0')).join('')}
-export function weatherProfile(condition,phase){const w=WEATHER.find(w=>w.id===condition)||WEATHER[0],p=TIMES.find(p=>p.id===phase)||TIMES.find(p=>p.id==='day');return {...w,condition:w.id,phase:p.id,period:p.name,sky:blendColor(p.sky,w.id==='clear'?p.sky:'#959ea5',p.night>.5?.12:.24),wetness:w.rain,night:p.night,lamps:p.lamps,lightTint:blendColor(w.tint,p.tint,p.night>.5?1:p.night>.01?.72:0),lightAmount:Math.min(.82,p.night+w.shade*(1-p.night)),sun:w.id==='clear'?Math.max(0,1-p.night*1.5):w.id==='cloudy'?.35:0}}
-export function makeWeather({condition='auto',phase='auto',now=()=>new Date()}={}){let choices={condition:WEATHER.some(w=>w.id===condition)?condition:'auto',phase:TIMES.some(p=>p.id===phase)?phase:'auto'},current=null,target=null;
- function resolve(){const date=now();return weatherProfile(choices.condition==='auto'?automaticWeather(date.getTime()):choices.condition,choices.phase==='auto'?timeOfDay(date.getHours()+date.getMinutes()/60):choices.phase)}
- target=resolve();current={...target};const colours={sky:hex(current.sky),lightTint:hex(current.lightTint)};return {get choices(){return {...choices}},get state(){return {...current}},set(key,value){if(key==='condition')choices.condition=value==='auto'||WEATHER.some(w=>w.id===value)?value:'auto';if(key==='phase')choices.phase=value==='auto'||TIMES.some(p=>p.id===value)?value:'auto';target=resolve()},update(dt){target=resolve();const t=Math.min(1,dt*2.8);current.wetness+=(target.rain-current.wetness)*Math.min(1,dt*(target.rain>current.wetness?.4:.04));for(const key of ['wind','rain','cloud','fog','night','lamps','lightAmount','sun'])current[key]+=(target[key]-current[key])*t;for(const key of ['sky','lightTint']){const next=hex(target[key]);colours[key]=colours[key].map((v,i)=>v+(next[i]-v)*t);current[key]='#'+colours[key].map(v=>Math.round(v).toString(16).padStart(2,'0')).join('');}for(const key of ['condition','phase','period','name'])current[key]=target[key];return {...current}}}}
-export function plantFlexibility(form){if(form.startsWith('exp-'))return ['exp-segments','exp-fishbone','exp-threads','exp-beadtail'].includes(form)?.7:['exp-swept','exp-feather','exp-fern-moss','exp-stars','exp-redstars','exp-bent','exp-broad-moss','exp-two-row','exp-sphagnum'].includes(form)?.4:.12;return ['barrel','cluster','column','pads','rosette','jade','beads','snake','agave','zebra'].includes(form)?.12:['fern','ivy','tails','spider','herb','tiny','needles','spikes','onion','parsley','cosmos'].includes(form)?1:.65}
-export function foliageOffset(y,anchor,time,wind,form,seed){const height=Math.min(1,Math.abs(y-anchor)/24),flex=plantFlexibility(form),gust=Math.sin(time*1.35+seed*.37)*.7+Math.sin(time*2.6+seed*.61)*.3;return Math.round(gust*wind*flex*height*2.15)}
-const px=(c,x,y,w,h,col)=>{c.fillStyle=col;c.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h))};
-const wrap=(v,n)=>((v%n)+n)%n;
-export function paintSky(c,bounds,state,time,{reduced=false}={}){const {x,y,w,h}=bounds;px(c,x,y,w,h,state.sky);const night=state.night>.45,cloudColor=blendColor(state.sky,night?'#9ba4b0':'#e2dfd4',night?.12:.6);
- if(night){for(let i=0;i<25;i++){const xx=x+wrap(i*137+53,w),yy=y+wrap(i*79+17,h);if(i/25>state.cloud*.7)px(c,xx,yy,1,1,blendColor(state.sky,'#c5c6bc',.55))}if(state.cloud<.8){px(c,x+w*.73,y+h*.13,5,7,'#b7bdba');px(c,x+w*.73+3,y+h*.13,4,5,state.sky)}}
- // Distant thin strands move more slowly than the nearer cloud masses.
- for(let i=0;i<7;i++){const xx=x+wrap(i*131+time*(.18+state.wind*.2),w+90)-45,yy=y+wrap(i*67+39,h);const strand=blendColor(state.sky,cloudColor,night?.22:.32);px(c,xx,yy,27+i%3*13,1,strand);px(c,xx+9,yy+1,22+i%2*17,1,strand)}
- if(state.fog>.12){for(let i=0;i<5;i++){const xx=x+wrap(i*113+time*.45,w+170)-100,yy=y+wrap(i*83+61,h),tone=blendColor(state.sky,cloudColor,.22);px(c,xx,yy,120+i%2*35,3,tone);px(c,xx+24,yy-2,71,2,tone)}}
- const count=reduced?7:13;for(let i=0;i<count;i++){if(i/count>Math.max(.32,state.cloud))continue;const span=34+(i%4)*15,xx=x+wrap(i*89+time*(.5+state.wind*.65),w+span+40)-span,yy=y+wrap(i*53+17,h),tall=i%3===1?1.4:i%3===2?.65:1,tone=blendColor(state.sky,cloudColor,.72+(i%3)*.09);
-  for(let row=0;row<14;row++){const left=[12,9,8,5,4,1,0,0,2,4,6,10,14,19][row],right=[20,24,29,34,37,39,40,39,38,35,32,29,25,21][row];px(c,xx+left*span/40,yy+row*tall,(right-left)*span/40,Math.ceil(tall),row>9?blendColor(state.sky,tone,.55):tone)}
-  px(c,xx+span*.25,yy+4*tall,span*.22,Math.ceil(3*tall),blendColor(tone,'#f2e9cf',night?.025:.16));px(c,xx+span*.57,yy+8*tall,span*.18,Math.ceil(2*tall),blendColor(state.sky,tone,.67));}
- // Small flocks pass through the open air, hidden naturally behind the city and roof.
- if(!night&&['clear','cloudy','wind'].includes(state.condition)&&state.rain<.2){const pass=Math.floor(time/65),travel=wrap(time,65)*(7+state.wind*2);for(let i=0;i<3+pass%2;i++){const xx=x+travel-20-i*11,yy=y+h*(.14+(pass%3)*.14)+i*4+Math.sin(time*.65+i)*2,flap=Math.floor(time*3+i)%3,ink=blendColor(state.sky,'#414b49',.8);px(c,xx,yy,2,1,ink);px(c,xx-2,yy-(flap?2:0),2,1,ink);px(c,xx+2,yy-(flap?2:0),2,1,ink)}}
+export const WEATHER = [
+  {
+    id: "clear",
+    name: "晴朗",
+    wind: 0.32,
+    rain: 0,
+    cloud: 0.2,
+    fog: 0,
+    tint: "#c8ba91",
+    shade: 0.025,
+  },
+  {
+    id: "cloudy",
+    name: "多云",
+    wind: 0.55,
+    rain: 0,
+    cloud: 0.6,
+    fog: 0,
+    tint: "#737c7c",
+    shade: 0.065,
+  },
+  {
+    id: "overcast",
+    name: "阴天",
+    wind: 0.65,
+    rain: 0,
+    cloud: 1,
+    fog: 0.05,
+    tint: "#67777e",
+    shade: 0.14,
+  },
+  {
+    id: "rain",
+    name: "小雨",
+    wind: 0.8,
+    rain: 0.45,
+    cloud: 1,
+    fog: 0.08,
+    tint: "#506779",
+    shade: 0.23,
+  },
+  {
+    id: "heavy",
+    name: "大雨",
+    wind: 1.45,
+    rain: 1,
+    cloud: 1,
+    fog: 0.1,
+    tint: "#374e60",
+    shade: 0.36,
+  },
+  {
+    id: "wind",
+    name: "有风",
+    wind: 2.1,
+    rain: 0,
+    cloud: 0.48,
+    fog: 0,
+    tint: "#7b8073",
+    shade: 0.06,
+  },
+  {
+    id: "mist",
+    name: "薄雾",
+    wind: 0.23,
+    rain: 0,
+    cloud: 0.65,
+    fog: 0.32,
+    tint: "#9da6a0",
+    shade: 0.1,
+  },
+];
+export const TIMES = [
+  {
+    id: "dawn",
+    name: "清晨",
+    sky: "#b7bbc4",
+    night: 0.16,
+    tint: "#baaa99",
+    lamps: 0.08,
+  },
+  {
+    id: "morning",
+    name: "上午",
+    sky: "#bbc1ca",
+    night: 0,
+    tint: "#b5bcb5",
+    lamps: 0,
+  },
+  {
+    id: "day",
+    name: "中午",
+    sky: "#bdc2cc",
+    night: 0,
+    tint: "#abb8bc",
+    lamps: 0,
+  },
+  {
+    id: "afternoon",
+    name: "下午",
+    sky: "#bfc0c5",
+    night: 0,
+    tint: "#bdb397",
+    lamps: 0,
+  },
+  {
+    id: "dusk",
+    name: "黄昏",
+    sky: "#b5aaa1",
+    night: 0.25,
+    tint: "#9b7765",
+    lamps: 0.26,
+  },
+  {
+    id: "evening",
+    name: "前半夜",
+    sky: "#707888",
+    night: 0.68,
+    tint: "#1b2b43",
+    lamps: 0.42,
+  },
+  {
+    id: "late",
+    name: "后半夜",
+    sky: "#5b6577",
+    night: 0.82,
+    tint: "#101b30",
+    lamps: 0.045,
+  },
+];
+export function timeOfDay(hour) {
+  return hour < 5
+    ? "late"
+    : hour < 8
+      ? "dawn"
+      : hour < 11
+        ? "morning"
+        : hour < 14
+          ? "day"
+          : hour < 17
+            ? "afternoon"
+            : hour < 19
+              ? "dusk"
+              : hour < 24
+                ? "evening"
+                : "late";
+}
+export function automaticWeather(milliseconds) {
+  const sequence = [
+    "clear",
+    "cloudy",
+    "wind",
+    "overcast",
+    "rain",
+    "cloudy",
+    "mist",
+    "clear",
+    "heavy",
+    "overcast",
+  ];
+  return sequence[
+    ((Math.floor(milliseconds / 720000) % sequence.length) + sequence.length) %
+      sequence.length
+  ];
+}
+const hex = (c) => c.match(/[a-f\d]{2}/gi).map((v) => parseInt(v, 16));
+export function blendColor(a, b, t) {
+  const aa = hex(a),
+    bb = hex(b);
+  return (
+    "#" +
+    aa
+      .map((v, i) =>
+        Math.round(v + (bb[i] - v) * t)
+          .toString(16)
+          .padStart(2, "0"),
+      )
+      .join("")
+  );
+}
+export function weatherProfile(condition, phase) {
+  const w = WEATHER.find((w) => w.id === condition) || WEATHER[0],
+    p = TIMES.find((p) => p.id === phase) || TIMES.find((p) => p.id === "day");
+  return {
+    ...w,
+    condition: w.id,
+    phase: p.id,
+    period: p.name,
+    sky: blendColor(
+      p.sky,
+      w.id === "clear" ? p.sky : "#959ea5",
+      p.night > 0.5 ? 0.12 : 0.24,
+    ),
+    wetness: w.rain,
+    night: p.night,
+    lamps: p.lamps,
+    lightTint: blendColor(
+      w.tint,
+      p.tint,
+      p.night > 0.5 ? 1 : p.night > 0.01 ? 0.72 : 0,
+    ),
+    lightAmount: Math.min(0.82, p.night + w.shade * (1 - p.night)),
+    sun:
+      w.id === "clear"
+        ? Math.max(0, 1 - p.night * 1.5)
+        : w.id === "cloudy"
+          ? 0.35
+          : 0,
+  };
+}
+export function makeWeather({
+  condition = "auto",
+  phase = "auto",
+  now = () => new Date(),
+} = {}) {
+  let choices = {
+      condition: WEATHER.some((w) => w.id === condition) ? condition : "auto",
+      phase: TIMES.some((p) => p.id === phase) ? phase : "auto",
+    },
+    current = null,
+    target = null;
+  function resolve() {
+    const date = now();
+    return weatherProfile(
+      choices.condition === "auto"
+        ? automaticWeather(date.getTime())
+        : choices.condition,
+      choices.phase === "auto"
+        ? timeOfDay(date.getHours() + date.getMinutes() / 60)
+        : choices.phase,
+    );
+  }
+  target = resolve();
+  current = { ...target };
+  const colours = { sky: hex(current.sky), lightTint: hex(current.lightTint) };
+  return {
+    get choices() {
+      return { ...choices };
+    },
+    get state() {
+      return { ...current };
+    },
+    set(key, value) {
+      if (key === "condition")
+        choices.condition =
+          value === "auto" || WEATHER.some((w) => w.id === value)
+            ? value
+            : "auto";
+      if (key === "phase")
+        choices.phase =
+          value === "auto" || TIMES.some((p) => p.id === value)
+            ? value
+            : "auto";
+      target = resolve();
+    },
+    update(dt) {
+      target = resolve();
+      const t = Math.min(1, dt * 2.8);
+      current.wetness +=
+        (target.rain - current.wetness) *
+        Math.min(1, dt * (target.rain > current.wetness ? 0.4 : 0.04));
+      for (const key of [
+        "wind",
+        "rain",
+        "cloud",
+        "fog",
+        "night",
+        "lamps",
+        "lightAmount",
+        "sun",
+      ])
+        current[key] += (target[key] - current[key]) * t;
+      for (const key of ["sky", "lightTint"]) {
+        const next = hex(target[key]);
+        colours[key] = colours[key].map((v, i) => v + (next[i] - v) * t);
+        current[key] =
+          "#" +
+          colours[key]
+            .map((v) => Math.round(v).toString(16).padStart(2, "0"))
+            .join("");
+      }
+      for (const key of ["condition", "phase", "period", "name"])
+        current[key] = target[key];
+      return { ...current };
+    },
+  };
+}
+export function plantFlexibility(form) {
+  if (form.startsWith("exp-"))
+    return [
+      "exp-segments",
+      "exp-fishbone",
+      "exp-threads",
+      "exp-beadtail",
+    ].includes(form)
+      ? 0.7
+      : [
+            "exp-swept",
+            "exp-feather",
+            "exp-fern-moss",
+            "exp-stars",
+            "exp-redstars",
+            "exp-bent",
+            "exp-broad-moss",
+            "exp-two-row",
+            "exp-sphagnum",
+          ].includes(form)
+        ? 0.4
+        : 0.12;
+  return [
+    "barrel",
+    "cluster",
+    "column",
+    "pads",
+    "rosette",
+    "jade",
+    "beads",
+    "snake",
+    "agave",
+    "zebra",
+  ].includes(form)
+    ? 0.12
+    : [
+          "fern",
+          "ivy",
+          "tails",
+          "spider",
+          "herb",
+          "tiny",
+          "needles",
+          "spikes",
+          "onion",
+          "parsley",
+          "cosmos",
+        ].includes(form)
+      ? 1
+      : 0.65;
+}
+export function foliageOffset(y, anchor, time, wind, form, seed) {
+  const height = Math.min(1, Math.abs(y - anchor) / 24),
+    flex = plantFlexibility(form),
+    gust =
+      Math.sin(time * 1.35 + seed * 0.37) * 0.7 +
+      Math.sin(time * 2.6 + seed * 0.61) * 0.3;
+  return Math.round(gust * wind * flex * height * 2.15);
+}
+const px = (c, x, y, w, h, col) => {
+  c.fillStyle = col;
+  c.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h));
+};
+const wrap = (v, n) => ((v % n) + n) % n;
+export function paintSky(c, bounds, state, time, { reduced = false } = {}) {
+  const { x, y, w, h } = bounds;
+  px(c, x, y, w, h, state.sky);
+  const night = state.night > 0.45,
+    cloudColor = blendColor(
+      state.sky,
+      night ? "#9ba4b0" : "#e2dfd4",
+      night ? 0.12 : 0.6,
+    );
+  if (night) {
+    for (let i = 0; i < 25; i++) {
+      const xx = x + wrap(i * 137 + 53, w),
+        yy = y + wrap(i * 79 + 17, h);
+      if (i / 25 > state.cloud * 0.7)
+        px(c, xx, yy, 1, 1, blendColor(state.sky, "#c5c6bc", 0.55));
+    }
+    if (state.cloud < 0.8) {
+      px(c, x + w * 0.73, y + h * 0.13, 5, 7, "#b7bdba");
+      px(c, x + w * 0.73 + 3, y + h * 0.13, 4, 5, state.sky);
+    }
+  }
+  // Distant thin strands move more slowly than the nearer cloud masses.
+  for (let i = 0; i < 7; i++) {
+    const xx =
+        x + wrap(i * 131 + time * (0.18 + state.wind * 0.2), w + 90) - 45,
+      yy = y + wrap(i * 67 + 39, h);
+    const strand = blendColor(state.sky, cloudColor, night ? 0.22 : 0.32);
+    px(c, xx, yy, 27 + (i % 3) * 13, 1, strand);
+    px(c, xx + 9, yy + 1, 22 + (i % 2) * 17, 1, strand);
+  }
+  if (state.fog > 0.12) {
+    for (let i = 0; i < 5; i++) {
+      const xx = x + wrap(i * 113 + time * 0.45, w + 170) - 100,
+        yy = y + wrap(i * 83 + 61, h),
+        tone = blendColor(state.sky, cloudColor, 0.22);
+      px(c, xx, yy, 120 + (i % 2) * 35, 3, tone);
+      px(c, xx + 24, yy - 2, 71, 2, tone);
+    }
+  }
+  const count = reduced ? 7 : 13;
+  for (let i = 0; i < count; i++) {
+    if (i / count > Math.max(0.32, state.cloud)) continue;
+    const span = 34 + (i % 4) * 15,
+      xx =
+        x +
+        wrap(i * 89 + time * (0.5 + state.wind * 0.65), w + span + 40) -
+        span,
+      yy = y + wrap(i * 53 + 17, h),
+      tall = i % 3 === 1 ? 1.4 : i % 3 === 2 ? 0.65 : 1,
+      tone = blendColor(state.sky, cloudColor, 0.72 + (i % 3) * 0.09);
+    for (let row = 0; row < 14; row++) {
+      const left = [12, 9, 8, 5, 4, 1, 0, 0, 2, 4, 6, 10, 14, 19][row],
+        right = [20, 24, 29, 34, 37, 39, 40, 39, 38, 35, 32, 29, 25, 21][row];
+      px(
+        c,
+        xx + (left * span) / 40,
+        yy + row * tall,
+        ((right - left) * span) / 40,
+        Math.ceil(tall),
+        row > 9 ? blendColor(state.sky, tone, 0.55) : tone,
+      );
+    }
+    px(
+      c,
+      xx + span * 0.25,
+      yy + 4 * tall,
+      span * 0.22,
+      Math.ceil(3 * tall),
+      blendColor(tone, "#f2e9cf", night ? 0.025 : 0.16),
+    );
+    px(
+      c,
+      xx + span * 0.57,
+      yy + 8 * tall,
+      span * 0.18,
+      Math.ceil(2 * tall),
+      blendColor(state.sky, tone, 0.67),
+    );
+  }
+  // Small flocks pass through the open air, hidden naturally behind the city and roof.
+  if (
+    !night &&
+    ["clear", "cloudy", "wind"].includes(state.condition) &&
+    state.rain < 0.2
+  ) {
+    const pass = Math.floor(time / 65),
+      travel = wrap(time, 65) * (7 + state.wind * 2);
+    for (let i = 0; i < 3 + (pass % 2); i++) {
+      const xx = x + travel - 20 - i * 11,
+        yy =
+          y +
+          h * (0.14 + (pass % 3) * 0.14) +
+          i * 4 +
+          Math.sin(time * 0.65 + i) * 2,
+        flap = Math.floor(time * 3 + i) % 3,
+        ink = blendColor(state.sky, "#414b49", 0.8);
+      px(c, xx, yy, 2, 1, ink);
+      px(c, xx - 2, yy - (flap ? 2 : 0), 2, 1, ink);
+      px(c, xx + 2, yy - (flap ? 2 : 0), 2, 1, ink);
+    }
+  }
 }
 // Only the distant architecture is softened; the roof is drawn afterwards.
-export function paintDistanceFog(c,w,h,state){if(state.fog<.12)return;const pixels=c.getImageData(0,0,w,h),data=pixels.data,sky=hex(state.sky),amount=Math.min(.7,state.fog*1.9);for(let i=0;i<data.length;i+=4){if(!data[i+3])continue;for(let j=0;j<3;j++)data[i+j]=Math.round(data[i+j]*(1-amount)+sky[j]*amount)}c.putImageData(pixels,0,0)}
-export function paintLighting(c,w,h,state,time,options){recolorMaterials(c,w,h,state,time,options)}
-export function paintRain(c,w,h,state,time,{reduced=false}={}){if(state.rain<.02)return;c.save();const count=Math.round((reduced?60:106)*state.rain),col=state.night>.5?'#879bae':'#b7c4c6';
- for(let i=0;i<count;i++){const cycle=wrap(time*(1.6+state.rain*.7)+i*.618,1),x=wrap(i*137+cycle*state.wind*9,w+12)-6,y=wrap(i*71+cycle*(h+18),h+18)-9,len=3+Math.floor(state.rain*3)+(i%3===0?1:0);c.globalAlpha=.24+(i%4)*.06;for(let j=0;j<len;j++)px(c,x+j*state.wind*.35,y+j,1,1,col)}c.restore()}
-function puddlePath(c,x,y,rx,ry){c.beginPath();const pts=[[-1,-.2],[-.85,-.6],[-.4,-.7],[-.15,-1],[.25,-.8],[.65,-.55],[1,-.3],[.88,.3],[.5,.8],[.15,.65],[-.25,1],[-.65,.65],[-1,.3]];pts.forEach(([xx,yy],i)=>i?c.lineTo(Math.round(x+xx*rx),Math.round(y+yy*ry)):c.moveTo(Math.round(x+xx*rx),Math.round(y+yy*ry)));c.closePath();}
-export function paintWetRoof(c,points,state,time,{objects=[],reflect=null}={}){if(Math.max(state.rain,state.wetness||0)<.02)return;c.save();c.beginPath();points.forEach(([x,y],i)=>i?c.lineTo(x,y):c.moveTo(x,y));c.closePath();c.clip();const north=points.length>4,pools=north?[[237,209,29,12],[315,246,28,12],[375,293,33,12],[298,148,17,6],[432,422,17,12],[193,319,24,6]]:[[280,182,15,28],[259,302,14,27],[238,399,7,12]];
- for(const [x,y,rx,ry]of pools){const water=state.rain*.65+(state.wetness||0)*.35,size=.28+water*.88,ww=rx*size,hh=ry*size;puddlePath(c,x,y,ww,hh);c.fillStyle=blendColor('#747c75',state.sky,.37);c.globalAlpha=.5+water*.26;c.fill();c.save();c.clip();c.globalAlpha=.4;px(c,x-ww,y-hh*.25,ww*2,2,blendColor(state.sky,'#d1cebb',.25));px(c,x-ww*.65,y+hh*.45,ww*1.2,1,'#a5b2b1');
-  if(reflect){const nearby=objects.filter(o=>Math.hypot(o.x-x,o.y-y)<70).sort((a,b)=>Math.hypot(a.x-x,a.y-y)-Math.hypot(b.x-x,b.y-y)).slice(0,2);for(const o of nearby){c.save();c.globalAlpha=.26;c.translate(o.x,y-2);c.scale(1,-.52);reflect(c,{...o,x:0,y:0});c.restore()}}
-  for(let k=0;k<3;k++){const age=wrap(time*(.7+state.rain)+k*.37+x*.01,1),cx=x+(k-1)*ww*.35,cy=y+(k%2?1:-1)*hh*.2;c.globalAlpha=(1-age)*(.15+state.rain*.4);const r=1+Math.floor(age*ww*.3);px(c,cx-r,cy,r*2,1,'#afbebd');px(c,cx-r*.6,cy+2,r*1.2,1,'#899e9d')}c.restore();c.globalAlpha=.55;px(c,x-ww*.4,y+hh,ww*.55,1,'#657976');}
- // Raindrops end on the roof; short crown splashes and runnels lead to the grate.
- for(let i=0;i<Math.round(state.rain*30);i++){const x=north?160+wrap(i*83,280):232+wrap(i*83,104),y=north?155+wrap(i*47,171):120+wrap(i*47,288),age=wrap(time*(1.8+state.rain)+i*.73,1);if(age>.3)continue;c.globalAlpha=.45*(1-age/.3);px(c,x-2,y-1,1,1,'#bcc8c3');px(c,x+2,y,1,1,'#b5c6c1');px(c,x,y+1,2,1,'#879d98')}
- const dx=north?282:236,dy=north?147:407;c.globalAlpha=state.rain*.5;for(let i=0;i<11;i++){const pos=wrap(time*6+i,11);px(c,dx+3+pos,dy+2+Math.floor(pos*.35),2,1,'#8caaa9')}c.restore()}
+export function paintDistanceFog(c, w, h, state) {
+  if (state.fog < 0.12) return;
+  const pixels = c.getImageData(0, 0, w, h),
+    data = pixels.data,
+    sky = hex(state.sky),
+    amount = Math.min(0.7, state.fog * 1.9);
+  for (let i = 0; i < data.length; i += 4) {
+    if (!data[i + 3]) continue;
+    for (let j = 0; j < 3; j++)
+      data[i + j] = Math.round(data[i + j] * (1 - amount) + sky[j] * amount);
+  }
+  c.putImageData(pixels, 0, 0);
+}
+export function paintLighting(c, w, h, state, time, options) {
+  recolorMaterials(c, w, h, state, time, options);
+}
+export function paintRain(c, w, h, state, time, { reduced = false } = {}) {
+  if (state.rain < 0.02) return;
+  c.save();
+  const count = Math.round((reduced ? 60 : 106) * state.rain),
+    col = state.night > 0.5 ? "#879bae" : "#b7c4c6";
+  for (let i = 0; i < count; i++) {
+    const cycle = wrap(time * (1.6 + state.rain * 0.7) + i * 0.618, 1),
+      x = wrap(i * 137 + cycle * state.wind * 9, w + 12) - 6,
+      y = wrap(i * 71 + cycle * (h + 18), h + 18) - 9,
+      len = 3 + Math.floor(state.rain * 3) + (i % 3 === 0 ? 1 : 0);
+    c.globalAlpha = 0.24 + (i % 4) * 0.06;
+    for (let j = 0; j < len; j++)
+      px(c, x + j * state.wind * 0.35, y + j, 1, 1, col);
+  }
+  c.restore();
+}
+function puddlePath(c, x, y, rx, ry) {
+  c.beginPath();
+  const pts = [
+    [-1, -0.2],
+    [-0.85, -0.6],
+    [-0.4, -0.7],
+    [-0.15, -1],
+    [0.25, -0.8],
+    [0.65, -0.55],
+    [1, -0.3],
+    [0.88, 0.3],
+    [0.5, 0.8],
+    [0.15, 0.65],
+    [-0.25, 1],
+    [-0.65, 0.65],
+    [-1, 0.3],
+  ];
+  pts.forEach(([xx, yy], i) =>
+    i
+      ? c.lineTo(Math.round(x + xx * rx), Math.round(y + yy * ry))
+      : c.moveTo(Math.round(x + xx * rx), Math.round(y + yy * ry)),
+  );
+  c.closePath();
+}
+export function paintWetRoof(
+  c,
+  points,
+  state,
+  time,
+  { objects = [], reflect = null } = {},
+) {
+  if (Math.max(state.rain, state.wetness || 0) < 0.02) return;
+  c.save();
+  c.beginPath();
+  points.forEach(([x, y], i) => (i ? c.lineTo(x, y) : c.moveTo(x, y)));
+  c.closePath();
+  c.clip();
+  const north = points.length > 4,
+    pools = north
+      ? [
+          [237, 209, 29, 12],
+          [315, 246, 28, 12],
+          [375, 293, 33, 12],
+          [298, 148, 17, 6],
+          [432, 422, 17, 12],
+          [193, 319, 24, 6],
+        ]
+      : [
+          [280, 182, 15, 28],
+          [259, 302, 14, 27],
+          [238, 399, 7, 12],
+        ];
+  for (const [x, y, rx, ry] of pools) {
+    const water = state.rain * 0.65 + (state.wetness || 0) * 0.35,
+      size = 0.28 + water * 0.88,
+      ww = rx * size,
+      hh = ry * size;
+    puddlePath(c, x, y, ww, hh);
+    c.fillStyle = blendColor("#747c75", state.sky, 0.37);
+    c.globalAlpha = 0.5 + water * 0.26;
+    c.fill();
+    c.save();
+    c.clip();
+    c.globalAlpha = 0.4;
+    px(
+      c,
+      x - ww,
+      y - hh * 0.25,
+      ww * 2,
+      2,
+      blendColor(state.sky, "#d1cebb", 0.25),
+    );
+    px(c, x - ww * 0.65, y + hh * 0.45, ww * 1.2, 1, "#a5b2b1");
+    if (reflect) {
+      const nearby = objects
+        .filter((o) => Math.hypot(o.x - x, o.y - y) < 70)
+        .sort(
+          (a, b) => Math.hypot(a.x - x, a.y - y) - Math.hypot(b.x - x, b.y - y),
+        )
+        .slice(0, 2);
+      for (const o of nearby) {
+        c.save();
+        c.globalAlpha = 0.26;
+        c.translate(o.x, y - 2);
+        c.scale(1, -0.52);
+        reflect(c, { ...o, x: 0, y: 0 });
+        c.restore();
+      }
+    }
+    for (let k = 0; k < 3; k++) {
+      const age = wrap(time * (0.7 + state.rain) + k * 0.37 + x * 0.01, 1),
+        cx = x + (k - 1) * ww * 0.35,
+        cy = y + (k % 2 ? 1 : -1) * hh * 0.2;
+      c.globalAlpha = (1 - age) * (0.15 + state.rain * 0.4);
+      const r = 1 + Math.floor(age * ww * 0.3);
+      px(c, cx - r, cy, r * 2, 1, "#afbebd");
+      px(c, cx - r * 0.6, cy + 2, r * 1.2, 1, "#899e9d");
+    }
+    c.restore();
+    c.globalAlpha = 0.55;
+    px(c, x - ww * 0.4, y + hh, ww * 0.55, 1, "#657976");
+  }
+  // Raindrops end on the roof; short crown splashes and runnels lead to the grate.
+  for (let i = 0; i < Math.round(state.rain * 30); i++) {
+    const x = north ? 160 + wrap(i * 83, 280) : 232 + wrap(i * 83, 104),
+      y = north ? 155 + wrap(i * 47, 171) : 120 + wrap(i * 47, 288),
+      age = wrap(time * (1.8 + state.rain) + i * 0.73, 1);
+    if (age > 0.3) continue;
+    c.globalAlpha = 0.45 * (1 - age / 0.3);
+    px(c, x - 2, y - 1, 1, 1, "#bcc8c3");
+    px(c, x + 2, y, 1, 1, "#b5c6c1");
+    px(c, x, y + 1, 2, 1, "#879d98");
+  }
+  const dx = north ? 282 : 236,
+    dy = north ? 147 : 407;
+  c.globalAlpha = state.rain * 0.5;
+  for (let i = 0; i < 11; i++) {
+    const pos = wrap(time * 6 + i, 11);
+    px(c, dx + 3 + pos, dy + 2 + Math.floor(pos * 0.35), 2, 1, "#8caaa9");
+  }
+  c.restore();
+}
 
 // Material colour responds to illumination; transparent sky pixels are never veiled.
-const lightCache=new Map();
-export function materialColor(r,g,b,state,exposure=1){const night=state.night,twilight=state.phase==='dusk',dawn=state.phase==='dawn',wet=state.rain;let scale=[1,1,1];
- if(night>.45){const late=state.phase==='late';scale=late?[.43,.52,.72]:[.58,.67,.88];scale=scale.map((v,i)=>v+exposure*[.09,.085,.07][i]);}
- else if(twilight){scale=[.74+exposure*.56,.82+exposure*.24,.86-exposure*.19];}
- else if(dawn){scale=[.91+exposure*.19,.95+exposure*.08,.99-exposure*.14];}
- else if(state.phase==='morning')scale=[.98+exposure*.065,.99+exposure*.035,1.01-exposure*.055];
- else if(state.phase==='afternoon')scale=[.97+exposure*.095,.98+exposure*.04,.99-exposure*.065];
- else scale=[.96+exposure*.055,.985+exposure*.028,1.01-exposure*.045];
- const rainScale=[1-wet*.15,1-wet*.085,1-wet*.035],gray=r*.2126+g*.7152+b*.0722,values=[r,g,b].map((v,i)=>(v*.94+gray*.06)*scale[i]*rainScale[i]);return values.map(v=>Math.max(0,Math.min(255,Math.round(v))));}
-export function lightExposure(x,y,state,time){if(state.night>.45)return x+y*.4>330?.55:.2;if(state.phase==='dusk'||state.phase==='dawn')return .72;return .8-(state.cloud>.4&&Math.sin((x+y)*.008-time*.035)>.65?.18:0)}
-export function recolorMaterials(c,w,h,state,time,{camera={x:0,y:0}}={}){const pixels=c.getImageData(0,0,w,h),data=pixels.data;const key=state.condition+':'+state.phase+':'+Math.round(state.rain*12)+':'+Math.round(state.night*16);let ramps=lightCache.get(key);if(!ramps){ramps=Array.from({length:9},()=>new Map());if(lightCache.size>36)lightCache.clear();lightCache.set(key,ramps)}
- for(let y=0;y<h;y++)for(let x=0;x<w;x++){const i=(y*w+x)*4;if(!data[i+3])continue;const wx=x+camera.x,wy=y+camera.y,level=Math.round(lightExposure(wx,wy,state,time)*8),map=ramps[level],rgb=(data[i]<<16)|(data[i+1]<<8)|data[i+2];let color=map.get(rgb);if(!color){color=materialColor(data[i],data[i+1],data[i+2],state,level/8);map.set(rgb,color)}data[i]=color[0];data[i+1]=color[1];data[i+2]=color[2];}c.putImageData(pixels,0,0);}
-export function paintSunShadows(c,points,objects,state,{scene='north'}={}){if(state.sun<.1||state.night>.45)return;c.save();c.beginPath();points.forEach(([x,y],i)=>i?c.lineTo(x,y):c.moveTo(x,y));c.closePath();c.clip();const vector=shadowVector(state.phase,scene),length=Math.hypot(vector.x,vector.y);c.globalAlpha=state.sun*(state.phase==='dusk'?.32:.19);c.fillStyle='#414d42';for(const o of objects){const height=o.height||24,spread=o.width||20,dx=vector.x*Math.min(1.6,height/30)*o.scale,dy=vector.y*Math.min(1.6,height/30)*o.scale,x=o.x,y=o.y+height*o.scale*.28;c.beginPath();c.moveTo(x-spread*.23*o.scale,y);c.lineTo(x+spread*.23*o.scale,y);c.lineTo(x+spread*.27*o.scale+dx,y+dy);c.lineTo(x-spread*.2*o.scale+dx,y+dy);c.closePath();c.fill()}for(let i=0;i<points.length;i++){const [x,y]=points[i],[xx,yy]=points[(i+1)%points.length];if(y===yy){for(let j=Math.min(x,xx)+9;j<Math.max(x,xx);j+=26){c.beginPath();c.moveTo(j,y+1);c.lineTo(j+2,y+1);c.lineTo(j+vector.x*.5+2,y+vector.y*.5);c.lineTo(j+vector.x*.5,y+vector.y*.5);c.closePath();c.fill()}}}c.restore()}
+const lightCache = new Map();
+export function materialColor(r, g, b, state, exposure = 1) {
+  const night = state.night,
+    twilight = state.phase === "dusk",
+    dawn = state.phase === "dawn",
+    wet = state.rain;
+  let scale = [1, 1, 1];
+  if (night > 0.45) {
+    const late = state.phase === "late";
+    scale = late ? [0.43, 0.52, 0.72] : [0.58, 0.67, 0.88];
+    scale = scale.map((v, i) => v + exposure * [0.09, 0.085, 0.07][i]);
+  } else if (twilight) {
+    scale = [
+      0.74 + exposure * 0.56,
+      0.82 + exposure * 0.24,
+      0.86 - exposure * 0.19,
+    ];
+  } else if (dawn) {
+    scale = [
+      0.91 + exposure * 0.19,
+      0.95 + exposure * 0.08,
+      0.99 - exposure * 0.14,
+    ];
+  } else if (state.phase === "morning")
+    scale = [
+      0.98 + exposure * 0.065,
+      0.99 + exposure * 0.035,
+      1.01 - exposure * 0.055,
+    ];
+  else if (state.phase === "afternoon")
+    scale = [
+      0.97 + exposure * 0.095,
+      0.98 + exposure * 0.04,
+      0.99 - exposure * 0.065,
+    ];
+  else
+    scale = [
+      0.96 + exposure * 0.055,
+      0.985 + exposure * 0.028,
+      1.01 - exposure * 0.045,
+    ];
+  const rainScale = [1 - wet * 0.15, 1 - wet * 0.085, 1 - wet * 0.035],
+    gray = r * 0.2126 + g * 0.7152 + b * 0.0722,
+    values = [r, g, b].map(
+      (v, i) => (v * 0.94 + gray * 0.06) * scale[i] * rainScale[i],
+    );
+  return values.map((v) => Math.max(0, Math.min(255, Math.round(v))));
+}
+export function lightExposure(x, y, state, time) {
+  if (state.night > 0.45) return x + y * 0.4 > 330 ? 0.55 : 0.2;
+  if (state.phase === "dusk" || state.phase === "dawn") return 0.72;
+  return (
+    0.8 -
+    (state.cloud > 0.4 && Math.sin((x + y) * 0.008 - time * 0.035) > 0.65
+      ? 0.18
+      : 0)
+  );
+}
+export function recolorMaterials(
+  c,
+  w,
+  h,
+  state,
+  time,
+  { camera = { x: 0, y: 0 } } = {},
+) {
+  const pixels = c.getImageData(0, 0, w, h),
+    data = pixels.data;
+  const key =
+    state.condition +
+    ":" +
+    state.phase +
+    ":" +
+    Math.round(state.rain * 12) +
+    ":" +
+    Math.round(state.night * 16);
+  let ramps = lightCache.get(key);
+  if (!ramps) {
+    ramps = Array.from({ length: 9 }, () => new Map());
+    if (lightCache.size > 36) lightCache.clear();
+    lightCache.set(key, ramps);
+  }
+  for (let y = 0; y < h; y++)
+    for (let x = 0; x < w; x++) {
+      const i = (y * w + x) * 4;
+      if (!data[i + 3]) continue;
+      const wx = x + camera.x,
+        wy = y + camera.y,
+        level = Math.round(lightExposure(wx, wy, state, time) * 8),
+        map = ramps[level],
+        rgb = (data[i] << 16) | (data[i + 1] << 8) | data[i + 2];
+      let color = map.get(rgb);
+      if (!color) {
+        color = materialColor(
+          data[i],
+          data[i + 1],
+          data[i + 2],
+          state,
+          level / 8,
+        );
+        map.set(rgb, color);
+      }
+      data[i] = color[0];
+      data[i + 1] = color[1];
+      data[i + 2] = color[2];
+    }
+  c.putImageData(pixels, 0, 0);
+}
+export function paintSunShadows(
+  c,
+  points,
+  objects,
+  state,
+  { scene = "north" } = {},
+) {
+  if (state.sun < 0.1 || state.night > 0.45) return;
+  c.save();
+  c.beginPath();
+  points.forEach(([x, y], i) => (i ? c.lineTo(x, y) : c.moveTo(x, y)));
+  c.closePath();
+  c.clip();
+  const vector = shadowVector(state.phase, scene),
+    length = Math.hypot(vector.x, vector.y);
+  c.globalAlpha = state.sun * (state.phase === "dusk" ? 0.32 : 0.19);
+  c.fillStyle = "#414d42";
+  for (const o of objects) {
+    const height = o.height || 24,
+      spread = o.width || 20,
+      dx = vector.x * Math.min(1.6, height / 30) * o.scale,
+      dy = vector.y * Math.min(1.6, height / 30) * o.scale,
+      x = o.x,
+      y = o.y + height * o.scale * 0.28;
+    c.beginPath();
+    c.moveTo(x - spread * 0.23 * o.scale, y);
+    c.lineTo(x + spread * 0.23 * o.scale, y);
+    c.lineTo(x + spread * 0.27 * o.scale + dx, y + dy);
+    c.lineTo(x - spread * 0.2 * o.scale + dx, y + dy);
+    c.closePath();
+    c.fill();
+  }
+  for (let i = 0; i < points.length; i++) {
+    const [x, y] = points[i],
+      [xx, yy] = points[(i + 1) % points.length];
+    if (y === yy) {
+      for (let j = Math.min(x, xx) + 9; j < Math.max(x, xx); j += 26) {
+        c.beginPath();
+        c.moveTo(j, y + 1);
+        c.lineTo(j + 2, y + 1);
+        c.lineTo(j + vector.x * 0.5 + 2, y + vector.y * 0.5);
+        c.lineTo(j + vector.x * 0.5, y + vector.y * 0.5);
+        c.closePath();
+        c.fill();
+      }
+    }
+  }
+  c.restore();
+}
 
 // North points up on the roof; east points up on the south balcony.
-export function shadowVector(phase,scene='north'){const [x,y]=({dawn:[-18,9],morning:[-9,-4],day:[0,-3],afternoon:[10,-4],dusk:[22,11]})[phase]||[0,0];return scene==='south'?{x:y,y:-x}:{x,y}}
+export function shadowVector(phase, scene = "north") {
+  const [x, y] = {
+    dawn: [-18, 9],
+    morning: [-9, -4],
+    day: [0, -3],
+    afternoon: [10, -4],
+    dusk: [22, 11],
+  }[phase] || [0, 0];
+  return scene === "south" ? { x: y, y: -x } : { x, y };
+}

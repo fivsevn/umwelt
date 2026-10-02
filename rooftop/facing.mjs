@@ -1,52 +1,704 @@
 // Turning around the vertical axis never rotates gravity or the viewer.
 // A model's depth turns on the roof plane; its height remains a screen-vertical extrusion.
-const FLAT=new Set(['tools','hose','towel','brush','lid','gloves']);
-const HEIGHT={shelf:32,woodshelf:34,tierstand:38,ladderstand:38,wallrack:44,plantcart:22,pottingbench:28,gardenbench:22,foldingchair:26,storagechest:22,trellis:46,table:16,bench:10,stool:12,wirestand:40,coveredstand:40,foamstand:20,basketstand:32,lowplatform:12,sink:7,basin:8,terrarium:25,wardcase:25,fish:8,fishbox:8,seedtray:4,foambox:8,crate:8,redbox:6,mossbox:6,moss:3,wirebasket:8,drying:54};
-export function facingKind(a){if(FLAT.has(a.shape||a.id))return 'flat';if(a.id in HEIGHT)return 'volume';return 'upright'}
+const FLAT = new Set(["tools", "hose", "towel", "brush", "lid", "gloves"]);
+const HEIGHT = {
+  shelf: 32,
+  woodshelf: 34,
+  tierstand: 38,
+  ladderstand: 38,
+  wallrack: 44,
+  plantcart: 22,
+  pottingbench: 28,
+  gardenbench: 22,
+  foldingchair: 26,
+  storagechest: 22,
+  trellis: 46,
+  table: 16,
+  bench: 10,
+  stool: 12,
+  wirestand: 40,
+  coveredstand: 40,
+  foamstand: 20,
+  basketstand: 32,
+  lowplatform: 12,
+  sink: 7,
+  basin: 8,
+  terrarium: 25,
+  wardcase: 25,
+  fish: 8,
+  fishbox: 8,
+  seedtray: 4,
+  foambox: 8,
+  crate: 8,
+  redbox: 6,
+  mossbox: 6,
+  moss: 3,
+  wirebasket: 8,
+  drying: 54,
+};
+export function facingKind(a) {
+  if (FLAT.has(a.shape || a.id)) return "flat";
+  if (a.id in HEIGHT) return "volume";
+  return "upright";
+}
 // Model dimensions are independent of the old catalogue preview rectangle.
 // Shelf depth follows open garden shelving proportions; screen depth is foreshortened.
-const DEPTH={shelf:32,woodshelf:29,tierstand:28,ladderstand:26,wallrack:20,plantcart:28,pottingbench:32,gardenbench:26,foldingchair:22,storagechest:29,trellis:12,table:32,bench:24,stool:18,wirestand:32,coveredstand:32,foamstand:28,basketstand:22,lowplatform:28,sink:42,basin:46,terrarium:32,wardcase:28,fish:28,fishbox:29,seedtray:23,foambox:28,crate:24,redbox:23,mossbox:27,moss:22,wirebasket:23,drying:23};
-const LIFT={sink:7,basin:8};
-export function facingModel(a,rotation){const height=LIFT[a.id]??HEIGHT[a.id]??0,turn=rotation%180!==0,depth=['sink','basin'].includes(a.id)?(a.h-height)/.7:DEPTH[a.id]??Math.max(14,a.w*.55),width=a.w,anchor=height/2;return {height,width,depth,length:width,anchor,turn,rotation,foreshorten:.7};}
-export function projectedPoint(model,u,v,z=0){v+=model.vOffset||0;const r=model.rotation*Math.PI/180;return [Math.round(u*Math.cos(r)-v*Math.sin(r)),Math.round((u*Math.sin(r)+v*Math.cos(r))*(model.foreshorten??.38)+model.anchor-z)]}
-export function facingBounds(a,rotation){const kind=facingKind(a),turn=rotation%180!==0;if(a.plant||kind==='flat'){const symmetric=['lid','hose'].includes(a.shape||a.id),w=turn&&!symmetric?a.h/(a.plant?1:.6):a.w,h=turn&&!symmetric?a.w*(a.plant?1:.6):a.h;return {left:-w/2,right:w/2,top:-h/2,bottom:h/2}}if(kind==='volume'){const m=facingModel(a,rotation),w=turn?m.depth:m.width,d=(turn?m.width:m.depth)*m.foreshorten;return {left:-w/2-2,right:w/2+2,top:m.anchor-d/2-m.height-(['sink','basin'].includes(a.id)?7:a.id==='wardcase'?5:a.id==='coveredstand'?2:0),bottom:m.anchor+d/2+2}}
- const side=turn,t=a.shape||a.id,w=side&&t==='thermo'?6:side&&t==='bag'?14:a.w;
- if(t==='string'&&side)return {left:-5,right:5,top:-21,bottom:24};return {left:-w/2,right:w/2,top:-a.h/2,bottom:a.h/2};}
-const px=(c,x,y,w,h,col)=>{c.fillStyle=col;c.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h))};
-function line(c,x,y,xx,yy,col,w=1){const n=Math.max(1,Math.abs(xx-x),Math.abs(yy-y));for(let i=0;i<=n;i++)px(c,x+(xx-x)*i/n,y+(yy-y)*i/n,w,w,col)}
-function polygon(c,points,col){for(let y=Math.min(...points.map(p=>p[1]));y<=Math.max(...points.map(p=>p[1]));y++){const xs=[];for(let i=0;i<points.length;i++){const a=points[i],b=points[(i+1)%points.length];if((a[1]<=y&&b[1]>y)||(b[1]<=y&&a[1]>y))xs.push(a[0]+(y-a[1])*(b[0]-a[0])/(b[1]-a[1]))}xs.sort((a,b)=>a-b);for(let i=0;i+1<xs.length;i+=2)px(c,Math.ceil(xs[i]),y,Math.floor(xs[i+1])-Math.ceil(xs[i])+1,1,col)}}
-const metal={edge:'#4e5b57',face:'#758079',light:'#b4b7a5'},wood={edge:'#675744',face:'#8b775e',light:'#a59478'};
-function boxPlane(c,m,z,col,inset=0){const w=m.width/2-inset,d=m.depth/2-inset;const pts=[[-w,-d],[w,-d],[w,d],[-w,d]].map(([u,v])=>projectedPoint(m,u,v,z));polygon(c,pts,col);return pts}
-function beam(c,m,u,v,z0,z1,col,w=2){const a=projectedPoint(m,u,v,z0),b=projectedPoint(m,u,v,z1);line(c,...a,...b,col,w)}
-function deck(c,m,z,palette,mesh=false,smooth=false){const pts=boxPlane(c,m,z,mesh?'#00000000':palette.face,2);for(let i=0;i<4;i++){const a=pts[i],b=pts[(i+1)%4];line(c,...a,...b,a[1]===Math.max(...pts.map(p=>p[1]))&&b[1]===a[1]?palette.edge:palette.light,2)}if(mesh){for(let u=-m.width/2+7;u<m.width/2-5;u+=6){const a=projectedPoint(m,u,-m.depth/2+3,z),b=projectedPoint(m,u,m.depth/2-3,z);line(c,...a,...b,palette.edge)}for(let v=-m.depth/2+5;v<m.depth/2-3;v+=4){const a=projectedPoint(m,-m.width/2+3,v,z),b=projectedPoint(m,m.width/2-3,v,z);line(c,...a,...b,palette.light)}}else if(!smooth)for(let u=-m.width/2+8;u<m.width/2-5;u+=9){const a=projectedPoint(m,u,-m.depth/2+3,z),b=projectedPoint(m,u,m.depth/2-3,z);line(c,...a,...b,palette.edge)}}
-function topEllipse(c,m,u,v,rx,ry,z,col){for(let y=-ry;y<=ry;y++){const n=Math.floor(rx*Math.sqrt(Math.max(0,1-y*y/(ry*ry))));for(let x=-n;x<=n;x++){const p=projectedPoint(m,u+x,v+y,z);px(c,...p,1,1,col)}}}
-function legs(c,m,palette){for(const u of [-m.width/2+3,m.width/2-5])for(const v of [-m.depth/2+2,m.depth/2-3]){beam(c,m,u,v,0,m.height,palette.edge,2);beam(c,m,u,v,0,m.height-2,palette.face,1)}}
-function sink(c,a,m){const steel=a.id==='sink',p=steel?metal:{...metal,face:'#c4c4ad'};legs(c,m,p);deck(c,m,m.height,p,false,true);const bx=steel?5:0,by=-1;topEllipse(c,m,bx,by,steel?12:19,Math.min(steel?14:17,m.depth/2-2),m.height,steel?metal.edge:'#577f82');topEllipse(c,m,bx,by,steel?10:17,Math.min(steel?12:15,m.depth/2-3),m.height,steel?'#929d91':'#71928b');topEllipse(c,m,bx,by+2,2,1,m.height,metal.edge);if(steel)for(let v=-m.depth/2+3;v<m.depth/2-3;v+=3){const p=projectedPoint(m,-m.width/2+4,v,m.height),q=projectedPoint(m,-m.width/2+14,v,m.height);line(c,...p,...q,metal.light)}
- // Faucet anchor turns with the deck. Its riser remains vertical in every view.
- const f=projectedPoint(m,2,-m.depth/2+1,m.height),spout=projectedPoint(m,10,-m.depth/2+1,m.height);line(c,f[0],f[1],f[0],f[1]-7,metal.edge,3);line(c,f[0]+1,f[1]-7,spout[0]+1,spout[1]-7,metal.light,2);line(c,spout[0],spout[1]-7,spout[0],spout[1]-4,metal.face,2);
+const DEPTH = {
+  shelf: 32,
+  woodshelf: 29,
+  tierstand: 28,
+  ladderstand: 26,
+  wallrack: 20,
+  plantcart: 28,
+  pottingbench: 32,
+  gardenbench: 26,
+  foldingchair: 22,
+  storagechest: 29,
+  trellis: 12,
+  table: 32,
+  bench: 24,
+  stool: 18,
+  wirestand: 32,
+  coveredstand: 32,
+  foamstand: 28,
+  basketstand: 22,
+  lowplatform: 28,
+  sink: 42,
+  basin: 46,
+  terrarium: 32,
+  wardcase: 28,
+  fish: 28,
+  fishbox: 29,
+  seedtray: 23,
+  foambox: 28,
+  crate: 24,
+  redbox: 23,
+  mossbox: 27,
+  moss: 22,
+  wirebasket: 23,
+  drying: 23,
+};
+const LIFT = { sink: 7, basin: 8 };
+export function facingModel(a, rotation) {
+  const height = LIFT[a.id] ?? HEIGHT[a.id] ?? 0,
+    turn = rotation % 180 !== 0,
+    depth = ["sink", "basin"].includes(a.id)
+      ? (a.h - height) / 0.7
+      : (DEPTH[a.id] ?? Math.max(14, a.w * 0.55)),
+    width = a.w,
+    anchor = height / 2;
+  return {
+    height,
+    width,
+    depth,
+    length: width,
+    anchor,
+    turn,
+    rotation,
+    foreshorten: 0.7,
+  };
 }
-function stand(c,a,m){const wooden=['woodshelf','ladderstand','foamstand','lowplatform','table','bench','stool','pottingbench','gardenbench','foldingchair','storagechest'].includes(a.id),p=a.id==='basketstand'?{edge:'#89988a',face:'#c4c4ad',light:'#d0ceba'}:wooden?wood:metal,shelves=['shelf','woodshelf','tierstand','ladderstand','wallrack','wirestand','coveredstand','basketstand','plantcart'].includes(a.id);if(a.id!=='woodshelf')legs(c,m,p);
- if(a.id==='woodshelf'){for(let i=0;i<3;i++){const v=m.depth/2-(i+.5)*m.depth/3,z=3+i*(m.height-3)/2;for(const u of [-m.width/2+3,m.width/2-5])beam(c,m,u,v,0,z,p.edge,2);deck(c,{...m,depth:m.depth/3+3,vOffset:v},z,p)}return}
- if(shelves){const n=a.id==='wallrack'?4:3;for(let i=0;i<n;i++)deck(c,a.id==='ladderstand'?{...m,width:m.width-i*4}:m,3+i*(m.height-3)/(n-1),p,!wooden);if([180,270].includes(m.rotation)){const a1=projectedPoint(m,-m.width/2+3,-m.depth/2+2,3),b=projectedPoint(m,m.width/2-4,-m.depth/2+2,m.height-2);line(c,...a1,...b,p.edge);const aa=projectedPoint(m,m.width/2-4,-m.depth/2+2,3),bb=projectedPoint(m,-m.width/2+3,-m.depth/2+2,m.height-2);line(c,...aa,...bb,p.face)}if(a.id==='plantcart')for(const u of [-m.width/2+3,m.width/2-5])for(const v of [-m.depth/2+2,m.depth/2-3]){const pt=projectedPoint(m,u,v,0);px(c,pt[0]-1,pt[1],4,3,metal.edge);px(c,pt[0],pt[1]+1,2,1,metal.light)}if(a.id==='coveredstand'){deck(c,m,m.height+2,{edge:'#98a28f',face:'#afb49f',light:'#c0c4ae'});if(m.rotation===270){const pts=[[m.width/2,-m.depth/2,2],[m.width/2,m.depth/2,2],[m.width/2,m.depth/2,m.height],[m.width/2,-m.depth/2,m.height]].map(([u,v,z])=>projectedPoint(m,u,v,z));polygon(c,pts,'#a2aa96')}}return}
- if(a.id==='drying'||a.id==='trellis'){for(let z=3;z<=m.height;z+=7){const aa=projectedPoint(m,-m.width/2+2,0,z),bb=projectedPoint(m,m.width/2-2,0,z);line(c,...aa,...bb,metal.face)}return}
- if(['gardenbench','foldingchair','pottingbench'].includes(a.id)){const seat=m.height*(a.id==='pottingbench'?.68:.45);deck(c,m,seat,p);for(const u of [-m.width/2+3,m.width/2-5])beam(c,m,u,-m.depth/2+2,seat,m.height,p.edge);for(let z=seat+5;z<m.height;z+=5){const aa=projectedPoint(m,-m.width/2+2,-m.depth/2+2,z),bb=projectedPoint(m,m.width/2-3,-m.depth/2+2,z);line(c,...aa,...bb,p.face,3)}if(a.id==='pottingbench'&&m.rotation===0){const aa=projectedPoint(m,-m.width/2+5,m.depth/2-2,seat-6),bb=projectedPoint(m,m.width/2-5,m.depth/2-2,seat-6);line(c,...aa,...bb,p.face,5);const handle=projectedPoint(m,0,m.depth/2-1,seat-5);line(c,handle[0]-3,handle[1],handle[0]+3,handle[1],metal.light)}if(m.rotation===180){for(const u of [-m.width/2+7,m.width/2-8])beam(c,m,u,-m.depth/2+1,seat,m.height,p.edge,2)}else if(a.id==='pottingbench'&&m.rotation===270){const aa=projectedPoint(m,0,m.depth/2,seat-3);px(c,aa[0]-2,aa[1],4,1,metal.light)}return}
- if(a.id==='storagechest'){solidBox(c,a,m,p);return}deck(c,m,m.height,p,a.id==='bistrotable');if(a.id==='foamstand')solidBox(c,{...a,id:'foambox'}, {...m,height:m.height+3}, {edge:'#a0aa96',face:'#c4c4ad',light:'#d0ceba'});
+export function projectedPoint(model, u, v, z = 0) {
+  v += model.vOffset || 0;
+  const r = (model.rotation * Math.PI) / 180;
+  return [
+    Math.round(u * Math.cos(r) - v * Math.sin(r)),
+    Math.round(
+      (u * Math.sin(r) + v * Math.cos(r)) * (model.foreshorten ?? 0.38) +
+        model.anchor -
+        z,
+    ),
+  ];
 }
-function solidBox(c,a,m,p){const floor=boxPlane(c,m,0,p.edge),top=[[-m.width/2,-m.depth/2],[m.width/2,-m.depth/2],[m.width/2,m.depth/2],[-m.width/2,m.depth/2]].map(([u,v])=>projectedPoint(m,u,v,m.height));for(let i=0;i<4;i++){const j=(i+1)%4;if(floor[i][1]===floor[j][1]&&floor[i][1]===Math.max(...floor.map(p=>p[1])))polygon(c,[floor[i],floor[j],top[j],top[i]],p.face)}boxPlane(c,m,m.height,p.light);boxPlane(c,{...m,width:m.width-5,depth:Math.max(2,m.depth-5)},m.height,a.aquarium?'#577e74':a.id==='storagechest'?p.face:['moss','mossbox','seedtray','foambox'].includes(a.id)?'#615847':a.id==='redbox'?'#695b4b':'#435e5b');if(['crate','fishbox','foambox','storagechest'].includes(a.id)){const corners=[[-m.width/2,-m.depth/2],[m.width/2,-m.depth/2],[m.width/2,m.depth/2],[-m.width/2,m.depth/2]].sort((a,b)=>projectedPoint(m,...b)[1]-projectedPoint(m,...a)[1]).slice(0,2);for(let i=1;i<6;i++){const u=corners[0][0]+(corners[1][0]-corners[0][0])*i/6,v=corners[0][1]+(corners[1][1]-corners[0][1])*i/6;beam(c,m,u,v,1,m.height-2,p.edge,1)}const mid=projectedPoint(m,(corners[0][0]+corners[1][0])/2,(corners[0][1]+corners[1][1])/2,m.height*.6);if(a.id!=='storagechest')line(c,mid[0]-3,mid[1],mid[0]+3,mid[1],p.edge)}if(a.id==='storagechest'&&m.rotation!==180){const face=projectedPoint(m,0,m.depth/2,m.height*.55);px(c,face[0]-2,face[1],5,2,metal.edge)}}
-function cabinet(c,a,m){const p=a.id==='wardcase'?wood:metal;legs(c,m,p);deck(c,m,2,p);const corners=[[-m.width/2+3,-m.depth/2+2],[m.width/2-4,-m.depth/2+2],[m.width/2-4,m.depth/2-3],[-m.width/2+3,m.depth/2-3]];for(let i=0;i<4;i++){const j=(i+1)%4,a0=projectedPoint(m,...corners[i],2),b0=projectedPoint(m,...corners[j],2),a1=projectedPoint(m,...corners[i],m.height-2),b1=projectedPoint(m,...corners[j],m.height-2);polygon(c,[a0,b0,b1,a1],m.rotation===180?'#687c70':'#91a18b');line(c,...a1,...b1,p.light);beam(c,m,...corners[i],2,m.height,p.edge,2)}if(m.rotation===180){for(let u=-m.width/2+7;u<m.width/2-3;u+=7)beam(c,m,u,-m.depth/2+2,3,m.height-3,'#7f8c79',1)}else{for(let i=0;i<3;i++){const g=projectedPoint(m,-m.width/2+8+i*9,0,5);line(c,g[0],g[1],g[0]+2,g[1]-7,'#627b59',2)}const handle=projectedPoint(m,m.width/2-5,0,m.height/2);line(c,handle[0]-2,handle[1],handle[0]+2,handle[1],metal.light,2)}if(a.id==='wardcase'){const w=m.width/2,d=m.depth/2;for(const side of [-1,1]){const pts=[[side*w,-d,m.height],[side*w,d,m.height],[0,d,m.height+5],[0,-d,m.height+5]].map(([u,v,z])=>projectedPoint(m,u,v,z));polygon(c,pts,'#a7b29b');for(let i=0;i<4;i++)line(c,...pts[i],...pts[(i+1)%4],p.edge,2)}}else {deck(c,m,m.height,p,false,true);if(m.rotation===0){beam(c,m,0,m.depth/2-3,2,m.height,p.edge,2);for(const u of [-4,4]){const h=projectedPoint(m,u,m.depth/2-3,m.height*.5);line(c,h[0],h[1]-2,h[0],h[1]+2,p.light)}}}}
-export function paintFacing(c,a,rotation,time=0){if(facingKind(a)!=='volume')return false;const m=facingModel(a,rotation);if(['sink','basin'].includes(a.id))sink(c,a,m);else if(['terrarium','wardcase'].includes(a.id))cabinet(c,a,m);else if(a.id==='wirebasket'){const p={edge:'#89988a',face:'#c4c4ad',light:'#d0ceba'};legs(c,m,p);for(const z of [0,m.height]){const pts=boxPlane(c,m,z,'#00000000');for(let i=0;i<4;i++)line(c,...pts[i],...pts[(i+1)%4],p.face)}for(let u=-m.width/2+5;u<m.width/2-3;u+=4)for(const v of [-m.depth/2,m.depth/2])beam(c,m,u,v,0,m.height,p.face,1)}else if(a.furniture||a.id==='drying')stand(c,a,m);else{const p=['foambox','mossbox'].includes(a.id)?{edge:'#a0aa96',face:'#c4c4ad',light:'#d0ceba'}:a.id==='redbox'?{edge:'#6d5148',face:'#976e63',light:'#b18b78'}:{...metal,face:'#577f82'};solidBox(c,a,m,p);if(a.aquarium)for(let i=0;i<3;i++){const pt=projectedPoint(m,Math.sin(time*.5+i*2)*(m.width/2-8),Math.cos(time*.3+i)*Math.max(1,m.depth/2-3),m.height);px(c,pt[0]-1,pt[1],3,1,'#b8bd99');px(c,pt[0]-3,pt[1]-1,2,1,'#96a995')}if(['moss','mossbox'].includes(a.id))for(let i=0;i<16;i++){const pt=projectedPoint(m,i*7%(m.width-8)-m.width/2+4,i*11%Math.max(2,m.depth-4)-m.depth/2+2,m.height);line(c,pt[0],pt[1],pt[0]+1,pt[1]-3,'#899f76');px(c,pt[0]-2,pt[1]-2,4,1,'#a0ae85')}}return true;}
+export function facingBounds(a, rotation) {
+  const kind = facingKind(a),
+    turn = rotation % 180 !== 0;
+  if (a.plant || kind === "flat") {
+    const symmetric = ["lid", "hose"].includes(a.shape || a.id),
+      w = turn && !symmetric ? a.h / (a.plant ? 1 : 0.6) : a.w,
+      h = turn && !symmetric ? a.w * (a.plant ? 1 : 0.6) : a.h;
+    return { left: -w / 2, right: w / 2, top: -h / 2, bottom: h / 2 };
+  }
+  if (kind === "volume") {
+    const m = facingModel(a, rotation),
+      w = turn ? m.depth : m.width,
+      d = (turn ? m.width : m.depth) * m.foreshorten;
+    return {
+      left: -w / 2 - 2,
+      right: w / 2 + 2,
+      top:
+        m.anchor -
+        d / 2 -
+        m.height -
+        (["sink", "basin"].includes(a.id)
+          ? 7
+          : a.id === "wardcase"
+            ? 5
+            : a.id === "coveredstand"
+              ? 2
+              : 0),
+      bottom: m.anchor + d / 2 + 2,
+    };
+  }
+  const side = turn,
+    t = a.shape || a.id,
+    w = side && t === "thermo" ? 6 : side && t === "bag" ? 14 : a.w;
+  if (t === "string" && side)
+    return { left: -5, right: 5, top: -21, bottom: 24 };
+  return { left: -w / 2, right: w / 2, top: -a.h / 2, bottom: a.h / 2 };
+}
+const px = (c, x, y, w, h, col) => {
+  c.fillStyle = col;
+  c.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h));
+};
+function line(c, x, y, xx, yy, col, w = 1) {
+  const n = Math.max(1, Math.abs(xx - x), Math.abs(yy - y));
+  for (let i = 0; i <= n; i++)
+    px(c, x + ((xx - x) * i) / n, y + ((yy - y) * i) / n, w, w, col);
+}
+function polygon(c, points, col) {
+  for (
+    let y = Math.min(...points.map((p) => p[1]));
+    y <= Math.max(...points.map((p) => p[1]));
+    y++
+  ) {
+    const xs = [];
+    for (let i = 0; i < points.length; i++) {
+      const a = points[i],
+        b = points[(i + 1) % points.length];
+      if ((a[1] <= y && b[1] > y) || (b[1] <= y && a[1] > y))
+        xs.push(a[0] + ((y - a[1]) * (b[0] - a[0])) / (b[1] - a[1]));
+    }
+    xs.sort((a, b) => a - b);
+    for (let i = 0; i + 1 < xs.length; i += 2)
+      px(
+        c,
+        Math.ceil(xs[i]),
+        y,
+        Math.floor(xs[i + 1]) - Math.ceil(xs[i]) + 1,
+        1,
+        col,
+      );
+  }
+}
+const metal = { edge: "#4e5b57", face: "#758079", light: "#b4b7a5" },
+  wood = { edge: "#675744", face: "#8b775e", light: "#a59478" };
+function boxPlane(c, m, z, col, inset = 0) {
+  const w = m.width / 2 - inset,
+    d = m.depth / 2 - inset;
+  const pts = [
+    [-w, -d],
+    [w, -d],
+    [w, d],
+    [-w, d],
+  ].map(([u, v]) => projectedPoint(m, u, v, z));
+  polygon(c, pts, col);
+  return pts;
+}
+function beam(c, m, u, v, z0, z1, col, w = 2) {
+  const a = projectedPoint(m, u, v, z0),
+    b = projectedPoint(m, u, v, z1);
+  line(c, ...a, ...b, col, w);
+}
+function deck(c, m, z, palette, mesh = false, smooth = false) {
+  const pts = boxPlane(c, m, z, mesh ? "#00000000" : palette.face, 2);
+  for (let i = 0; i < 4; i++) {
+    const a = pts[i],
+      b = pts[(i + 1) % 4];
+    line(
+      c,
+      ...a,
+      ...b,
+      a[1] === Math.max(...pts.map((p) => p[1])) && b[1] === a[1]
+        ? palette.edge
+        : palette.light,
+      2,
+    );
+  }
+  if (mesh) {
+    for (let u = -m.width / 2 + 7; u < m.width / 2 - 5; u += 6) {
+      const a = projectedPoint(m, u, -m.depth / 2 + 3, z),
+        b = projectedPoint(m, u, m.depth / 2 - 3, z);
+      line(c, ...a, ...b, palette.edge);
+    }
+    for (let v = -m.depth / 2 + 5; v < m.depth / 2 - 3; v += 4) {
+      const a = projectedPoint(m, -m.width / 2 + 3, v, z),
+        b = projectedPoint(m, m.width / 2 - 3, v, z);
+      line(c, ...a, ...b, palette.light);
+    }
+  } else if (!smooth)
+    for (let u = -m.width / 2 + 8; u < m.width / 2 - 5; u += 9) {
+      const a = projectedPoint(m, u, -m.depth / 2 + 3, z),
+        b = projectedPoint(m, u, m.depth / 2 - 3, z);
+      line(c, ...a, ...b, palette.edge);
+    }
+}
+function topEllipse(c, m, u, v, rx, ry, z, col) {
+  for (let y = -ry; y <= ry; y++) {
+    const n = Math.floor(rx * Math.sqrt(Math.max(0, 1 - (y * y) / (ry * ry))));
+    for (let x = -n; x <= n; x++) {
+      const p = projectedPoint(m, u + x, v + y, z);
+      px(c, ...p, 1, 1, col);
+    }
+  }
+}
+function legs(c, m, palette) {
+  for (const u of [-m.width / 2 + 3, m.width / 2 - 5])
+    for (const v of [-m.depth / 2 + 2, m.depth / 2 - 3]) {
+      beam(c, m, u, v, 0, m.height, palette.edge, 2);
+      beam(c, m, u, v, 0, m.height - 2, palette.face, 1);
+    }
+}
+function sink(c, a, m) {
+  const steel = a.id === "sink",
+    p = steel ? metal : { ...metal, face: "#c4c4ad" };
+  legs(c, m, p);
+  deck(c, m, m.height, p, false, true);
+  const bx = steel ? 5 : 0,
+    by = -1;
+  topEllipse(
+    c,
+    m,
+    bx,
+    by,
+    steel ? 12 : 19,
+    Math.min(steel ? 14 : 17, m.depth / 2 - 2),
+    m.height,
+    steel ? metal.edge : "#577f82",
+  );
+  topEllipse(
+    c,
+    m,
+    bx,
+    by,
+    steel ? 10 : 17,
+    Math.min(steel ? 12 : 15, m.depth / 2 - 3),
+    m.height,
+    steel ? "#929d91" : "#71928b",
+  );
+  topEllipse(c, m, bx, by + 2, 2, 1, m.height, metal.edge);
+  if (steel)
+    for (let v = -m.depth / 2 + 3; v < m.depth / 2 - 3; v += 3) {
+      const p = projectedPoint(m, -m.width / 2 + 4, v, m.height),
+        q = projectedPoint(m, -m.width / 2 + 14, v, m.height);
+      line(c, ...p, ...q, metal.light);
+    }
+  // Faucet anchor turns with the deck. Its riser remains vertical in every view.
+  const f = projectedPoint(m, 2, -m.depth / 2 + 1, m.height),
+    spout = projectedPoint(m, 10, -m.depth / 2 + 1, m.height);
+  line(c, f[0], f[1], f[0], f[1] - 7, metal.edge, 3);
+  line(c, f[0] + 1, f[1] - 7, spout[0] + 1, spout[1] - 7, metal.light, 2);
+  line(c, spout[0], spout[1] - 7, spout[0], spout[1] - 4, metal.face, 2);
+}
+function stand(c, a, m) {
+  const wooden = [
+      "woodshelf",
+      "ladderstand",
+      "foamstand",
+      "lowplatform",
+      "table",
+      "bench",
+      "stool",
+      "pottingbench",
+      "gardenbench",
+      "foldingchair",
+      "storagechest",
+    ].includes(a.id),
+    p =
+      a.id === "basketstand"
+        ? { edge: "#89988a", face: "#c4c4ad", light: "#d0ceba" }
+        : wooden
+          ? wood
+          : metal,
+    shelves = [
+      "shelf",
+      "woodshelf",
+      "tierstand",
+      "ladderstand",
+      "wallrack",
+      "wirestand",
+      "coveredstand",
+      "basketstand",
+      "plantcart",
+    ].includes(a.id);
+  if (a.id !== "woodshelf") legs(c, m, p);
+  if (a.id === "woodshelf") {
+    for (let i = 0; i < 3; i++) {
+      const v = m.depth / 2 - ((i + 0.5) * m.depth) / 3,
+        z = 3 + (i * (m.height - 3)) / 2;
+      for (const u of [-m.width / 2 + 3, m.width / 2 - 5])
+        beam(c, m, u, v, 0, z, p.edge, 2);
+      deck(c, { ...m, depth: m.depth / 3 + 3, vOffset: v }, z, p);
+    }
+    return;
+  }
+  if (shelves) {
+    const n = a.id === "wallrack" ? 4 : 3;
+    for (let i = 0; i < n; i++)
+      deck(
+        c,
+        a.id === "ladderstand" ? { ...m, width: m.width - i * 4 } : m,
+        3 + (i * (m.height - 3)) / (n - 1),
+        p,
+        !wooden,
+      );
+    if ([180, 270].includes(m.rotation)) {
+      const a1 = projectedPoint(m, -m.width / 2 + 3, -m.depth / 2 + 2, 3),
+        b = projectedPoint(m, m.width / 2 - 4, -m.depth / 2 + 2, m.height - 2);
+      line(c, ...a1, ...b, p.edge);
+      const aa = projectedPoint(m, m.width / 2 - 4, -m.depth / 2 + 2, 3),
+        bb = projectedPoint(
+          m,
+          -m.width / 2 + 3,
+          -m.depth / 2 + 2,
+          m.height - 2,
+        );
+      line(c, ...aa, ...bb, p.face);
+    }
+    if (a.id === "plantcart")
+      for (const u of [-m.width / 2 + 3, m.width / 2 - 5])
+        for (const v of [-m.depth / 2 + 2, m.depth / 2 - 3]) {
+          const pt = projectedPoint(m, u, v, 0);
+          px(c, pt[0] - 1, pt[1], 4, 3, metal.edge);
+          px(c, pt[0], pt[1] + 1, 2, 1, metal.light);
+        }
+    if (a.id === "coveredstand") {
+      deck(c, m, m.height + 2, {
+        edge: "#98a28f",
+        face: "#afb49f",
+        light: "#c0c4ae",
+      });
+      if (m.rotation === 270) {
+        const pts = [
+          [m.width / 2, -m.depth / 2, 2],
+          [m.width / 2, m.depth / 2, 2],
+          [m.width / 2, m.depth / 2, m.height],
+          [m.width / 2, -m.depth / 2, m.height],
+        ].map(([u, v, z]) => projectedPoint(m, u, v, z));
+        polygon(c, pts, "#a2aa96");
+      }
+    }
+    return;
+  }
+  if (a.id === "drying" || a.id === "trellis") {
+    for (let z = 3; z <= m.height; z += 7) {
+      const aa = projectedPoint(m, -m.width / 2 + 2, 0, z),
+        bb = projectedPoint(m, m.width / 2 - 2, 0, z);
+      line(c, ...aa, ...bb, metal.face);
+    }
+    return;
+  }
+  if (["gardenbench", "foldingchair", "pottingbench"].includes(a.id)) {
+    const seat = m.height * (a.id === "pottingbench" ? 0.68 : 0.45);
+    deck(c, m, seat, p);
+    for (const u of [-m.width / 2 + 3, m.width / 2 - 5])
+      beam(c, m, u, -m.depth / 2 + 2, seat, m.height, p.edge);
+    for (let z = seat + 5; z < m.height; z += 5) {
+      const aa = projectedPoint(m, -m.width / 2 + 2, -m.depth / 2 + 2, z),
+        bb = projectedPoint(m, m.width / 2 - 3, -m.depth / 2 + 2, z);
+      line(c, ...aa, ...bb, p.face, 3);
+    }
+    if (a.id === "pottingbench" && m.rotation === 0) {
+      const aa = projectedPoint(m, -m.width / 2 + 5, m.depth / 2 - 2, seat - 6),
+        bb = projectedPoint(m, m.width / 2 - 5, m.depth / 2 - 2, seat - 6);
+      line(c, ...aa, ...bb, p.face, 5);
+      const handle = projectedPoint(m, 0, m.depth / 2 - 1, seat - 5);
+      line(c, handle[0] - 3, handle[1], handle[0] + 3, handle[1], metal.light);
+    }
+    if (m.rotation === 180) {
+      for (const u of [-m.width / 2 + 7, m.width / 2 - 8])
+        beam(c, m, u, -m.depth / 2 + 1, seat, m.height, p.edge, 2);
+    } else if (a.id === "pottingbench" && m.rotation === 270) {
+      const aa = projectedPoint(m, 0, m.depth / 2, seat - 3);
+      px(c, aa[0] - 2, aa[1], 4, 1, metal.light);
+    }
+    return;
+  }
+  if (a.id === "storagechest") {
+    solidBox(c, a, m, p);
+    return;
+  }
+  deck(c, m, m.height, p, a.id === "bistrotable");
+  if (a.id === "foamstand")
+    solidBox(
+      c,
+      { ...a, id: "foambox" },
+      { ...m, height: m.height + 3 },
+      { edge: "#a0aa96", face: "#c4c4ad", light: "#d0ceba" },
+    );
+}
+function solidBox(c, a, m, p) {
+  const floor = boxPlane(c, m, 0, p.edge),
+    top = [
+      [-m.width / 2, -m.depth / 2],
+      [m.width / 2, -m.depth / 2],
+      [m.width / 2, m.depth / 2],
+      [-m.width / 2, m.depth / 2],
+    ].map(([u, v]) => projectedPoint(m, u, v, m.height));
+  for (let i = 0; i < 4; i++) {
+    const j = (i + 1) % 4;
+    if (
+      floor[i][1] === floor[j][1] &&
+      floor[i][1] === Math.max(...floor.map((p) => p[1]))
+    )
+      polygon(c, [floor[i], floor[j], top[j], top[i]], p.face);
+  }
+  boxPlane(c, m, m.height, p.light);
+  boxPlane(
+    c,
+    { ...m, width: m.width - 5, depth: Math.max(2, m.depth - 5) },
+    m.height,
+    a.aquarium
+      ? "#577e74"
+      : a.id === "storagechest"
+        ? p.face
+        : ["moss", "mossbox", "seedtray", "foambox"].includes(a.id)
+          ? "#615847"
+          : a.id === "redbox"
+            ? "#695b4b"
+            : "#435e5b",
+  );
+  if (["crate", "fishbox", "foambox", "storagechest"].includes(a.id)) {
+    const corners = [
+      [-m.width / 2, -m.depth / 2],
+      [m.width / 2, -m.depth / 2],
+      [m.width / 2, m.depth / 2],
+      [-m.width / 2, m.depth / 2],
+    ]
+      .sort((a, b) => projectedPoint(m, ...b)[1] - projectedPoint(m, ...a)[1])
+      .slice(0, 2);
+    for (let i = 1; i < 6; i++) {
+      const u = corners[0][0] + ((corners[1][0] - corners[0][0]) * i) / 6,
+        v = corners[0][1] + ((corners[1][1] - corners[0][1]) * i) / 6;
+      beam(c, m, u, v, 1, m.height - 2, p.edge, 1);
+    }
+    const mid = projectedPoint(
+      m,
+      (corners[0][0] + corners[1][0]) / 2,
+      (corners[0][1] + corners[1][1]) / 2,
+      m.height * 0.6,
+    );
+    if (a.id !== "storagechest")
+      line(c, mid[0] - 3, mid[1], mid[0] + 3, mid[1], p.edge);
+  }
+  if (a.id === "storagechest" && m.rotation !== 180) {
+    const face = projectedPoint(m, 0, m.depth / 2, m.height * 0.55);
+    px(c, face[0] - 2, face[1], 5, 2, metal.edge);
+  }
+}
+function cabinet(c, a, m) {
+  const p = a.id === "wardcase" ? wood : metal;
+  legs(c, m, p);
+  deck(c, m, 2, p);
+  const corners = [
+    [-m.width / 2 + 3, -m.depth / 2 + 2],
+    [m.width / 2 - 4, -m.depth / 2 + 2],
+    [m.width / 2 - 4, m.depth / 2 - 3],
+    [-m.width / 2 + 3, m.depth / 2 - 3],
+  ];
+  for (let i = 0; i < 4; i++) {
+    const j = (i + 1) % 4,
+      a0 = projectedPoint(m, ...corners[i], 2),
+      b0 = projectedPoint(m, ...corners[j], 2),
+      a1 = projectedPoint(m, ...corners[i], m.height - 2),
+      b1 = projectedPoint(m, ...corners[j], m.height - 2);
+    polygon(c, [a0, b0, b1, a1], m.rotation === 180 ? "#687c70" : "#91a18b");
+    line(c, ...a1, ...b1, p.light);
+    beam(c, m, ...corners[i], 2, m.height, p.edge, 2);
+  }
+  if (m.rotation === 180) {
+    for (let u = -m.width / 2 + 7; u < m.width / 2 - 3; u += 7)
+      beam(c, m, u, -m.depth / 2 + 2, 3, m.height - 3, "#7f8c79", 1);
+  } else {
+    for (let i = 0; i < 3; i++) {
+      const g = projectedPoint(m, -m.width / 2 + 8 + i * 9, 0, 5);
+      line(c, g[0], g[1], g[0] + 2, g[1] - 7, "#627b59", 2);
+    }
+    const handle = projectedPoint(m, m.width / 2 - 5, 0, m.height / 2);
+    line(c, handle[0] - 2, handle[1], handle[0] + 2, handle[1], metal.light, 2);
+  }
+  if (a.id === "wardcase") {
+    const w = m.width / 2,
+      d = m.depth / 2;
+    for (const side of [-1, 1]) {
+      const pts = [
+        [side * w, -d, m.height],
+        [side * w, d, m.height],
+        [0, d, m.height + 5],
+        [0, -d, m.height + 5],
+      ].map(([u, v, z]) => projectedPoint(m, u, v, z));
+      polygon(c, pts, "#a7b29b");
+      for (let i = 0; i < 4; i++)
+        line(c, ...pts[i], ...pts[(i + 1) % 4], p.edge, 2);
+    }
+  } else {
+    deck(c, m, m.height, p, false, true);
+    if (m.rotation === 0) {
+      beam(c, m, 0, m.depth / 2 - 3, 2, m.height, p.edge, 2);
+      for (const u of [-4, 4]) {
+        const h = projectedPoint(m, u, m.depth / 2 - 3, m.height * 0.5);
+        line(c, h[0], h[1] - 2, h[0], h[1] + 2, p.light);
+      }
+    }
+  }
+}
+export function paintFacing(c, a, rotation, time = 0) {
+  if (facingKind(a) !== "volume") return false;
+  const m = facingModel(a, rotation);
+  if (["sink", "basin"].includes(a.id)) sink(c, a, m);
+  else if (["terrarium", "wardcase"].includes(a.id)) cabinet(c, a, m);
+  else if (a.id === "wirebasket") {
+    const p = { edge: "#89988a", face: "#c4c4ad", light: "#d0ceba" };
+    legs(c, m, p);
+    for (const z of [0, m.height]) {
+      const pts = boxPlane(c, m, z, "#00000000");
+      for (let i = 0; i < 4; i++)
+        line(c, ...pts[i], ...pts[(i + 1) % 4], p.face);
+    }
+    for (let u = -m.width / 2 + 5; u < m.width / 2 - 3; u += 4)
+      for (const v of [-m.depth / 2, m.depth / 2])
+        beam(c, m, u, v, 0, m.height, p.face, 1);
+  } else if (a.furniture || a.id === "drying") stand(c, a, m);
+  else {
+    const p = ["foambox", "mossbox"].includes(a.id)
+      ? { edge: "#a0aa96", face: "#c4c4ad", light: "#d0ceba" }
+      : a.id === "redbox"
+        ? { edge: "#6d5148", face: "#976e63", light: "#b18b78" }
+        : { ...metal, face: "#577f82" };
+    solidBox(c, a, m, p);
+    if (a.aquarium)
+      for (let i = 0; i < 3; i++) {
+        const pt = projectedPoint(
+          m,
+          Math.sin(time * 0.5 + i * 2) * (m.width / 2 - 8),
+          Math.cos(time * 0.3 + i) * Math.max(1, m.depth / 2 - 3),
+          m.height,
+        );
+        px(c, pt[0] - 1, pt[1], 3, 1, "#b8bd99");
+        px(c, pt[0] - 3, pt[1] - 1, 2, 1, "#96a995");
+      }
+    if (["moss", "mossbox"].includes(a.id))
+      for (let i = 0; i < 16; i++) {
+        const pt = projectedPoint(
+          m,
+          ((i * 7) % (m.width - 8)) - m.width / 2 + 4,
+          ((i * 11) % Math.max(2, m.depth - 4)) - m.depth / 2 + 2,
+          m.height,
+        );
+        line(c, pt[0], pt[1], pt[0] + 1, pt[1] - 3, "#899f76");
+        px(c, pt[0] - 2, pt[1] - 2, 4, 1, "#a0ae85");
+      }
+  }
+  return true;
+}
 
 // Foreground geometry is drawn only over a plant resting within the fixture.
 // Open frames mask pixels at their posts/braces, never erase a whole plant rectangle.
-const FRAMES=new Set(['shelf','woodshelf','tierstand','ladderstand','wallrack','wirestand','coveredstand','basketstand','plantcart','terrarium','wardcase','trellis','pottingbench','gardenbench','foldingchair']);
-export function hasForeground(a){return FRAMES.has(a.id)}
-export function paintFacingForeground(c,a,rotation){if(!hasForeground(a))return;const m=facingModel(a,rotation),p=['woodshelf','ladderstand','wardcase','pottingbench','gardenbench','foldingchair'].includes(a.id)?wood:metal;
- const corners=[[-m.width/2+3,-m.depth/2+2],[m.width/2-4,-m.depth/2+2],[m.width/2-4,m.depth/2-3],[-m.width/2+3,m.depth/2-3]];
- const near=corners.map(([u,v])=>({u,v,y:projectedPoint(m,u,v)[1]})).sort((a,b)=>b.y-a.y).slice(0,2);
- if(['terrarium','wardcase'].includes(a.id)&&rotation===180){const [a0,b0]=near.map(p=>projectedPoint(m,p.u,p.v,2)),[a1,b1]=near.map(p=>projectedPoint(m,p.u,p.v,m.height-2));polygon(c,[a0,b0,b1,a1],'#687c70');for(let u=-m.width/2+7;u<m.width/2-3;u+=7)beam(c,m,u,-m.depth/2+2,3,m.height-3,'#7f8c79');}
- for(const {u,v}of near){const height=a.id==='woodshelf'&&v>0?4:m.height;beam(c,m,u,v,0,height,p.edge,2);beam(c,m,u,v,1,Math.max(1,height-2),p.face,1)}
- if(!['terrarium','wardcase','trellis','pottingbench','gardenbench','foldingchair','woodshelf'].includes(a.id)){const n=a.id==='wallrack'?4:3;for(let i=0;i<n;i++){const z=3+i*(m.height-3)/(n-1),aa=projectedPoint(m,near[0].u,near[0].v,z),bb=projectedPoint(m,near[1].u,near[1].v,z);line(c,...aa,...bb,p.edge,2)}}
- const backVisible=rotation===180;if(backVisible&&a.id!=='woodshelf'){const left=projectedPoint(m,-m.width/2+3,-m.depth/2+2,3),right=projectedPoint(m,m.width/2-4,-m.depth/2+2,m.height-2);line(c,...left,...right,p.edge);const aa=projectedPoint(m,m.width/2-4,-m.depth/2+2,3),bb=projectedPoint(m,-m.width/2+3,-m.depth/2+2,m.height-2);line(c,...aa,...bb,p.face)}
- if(['pottingbench','gardenbench','foldingchair'].includes(a.id)&&backVisible){for(let z=m.height*.45+5;z<m.height;z+=5){const aa=projectedPoint(m,-m.width/2+2,-m.depth/2+2,z),bb=projectedPoint(m,m.width/2-3,-m.depth/2+2,z);line(c,...aa,...bb,p.face,3)}}
- if(a.id==='coveredstand'&&rotation===270){const pts=[[m.width/2,-m.depth/2,2],[m.width/2,m.depth/2,2],[m.width/2,m.depth/2,m.height],[m.width/2,-m.depth/2,m.height]].map(([u,v,z])=>projectedPoint(m,u,v,z));polygon(c,pts,'#a2aa96')}
+const FRAMES = new Set([
+  "shelf",
+  "woodshelf",
+  "tierstand",
+  "ladderstand",
+  "wallrack",
+  "wirestand",
+  "coveredstand",
+  "basketstand",
+  "plantcart",
+  "terrarium",
+  "wardcase",
+  "trellis",
+  "pottingbench",
+  "gardenbench",
+  "foldingchair",
+]);
+export function hasForeground(a) {
+  return FRAMES.has(a.id);
+}
+export function paintFacingForeground(c, a, rotation) {
+  if (!hasForeground(a)) return;
+  const m = facingModel(a, rotation),
+    p = [
+      "woodshelf",
+      "ladderstand",
+      "wardcase",
+      "pottingbench",
+      "gardenbench",
+      "foldingchair",
+    ].includes(a.id)
+      ? wood
+      : metal;
+  const corners = [
+    [-m.width / 2 + 3, -m.depth / 2 + 2],
+    [m.width / 2 - 4, -m.depth / 2 + 2],
+    [m.width / 2 - 4, m.depth / 2 - 3],
+    [-m.width / 2 + 3, m.depth / 2 - 3],
+  ];
+  const near = corners
+    .map(([u, v]) => ({ u, v, y: projectedPoint(m, u, v)[1] }))
+    .sort((a, b) => b.y - a.y)
+    .slice(0, 2);
+  if (["terrarium", "wardcase"].includes(a.id) && rotation === 180) {
+    const [a0, b0] = near.map((p) => projectedPoint(m, p.u, p.v, 2)),
+      [a1, b1] = near.map((p) => projectedPoint(m, p.u, p.v, m.height - 2));
+    polygon(c, [a0, b0, b1, a1], "#687c70");
+    for (let u = -m.width / 2 + 7; u < m.width / 2 - 3; u += 7)
+      beam(c, m, u, -m.depth / 2 + 2, 3, m.height - 3, "#7f8c79");
+  }
+  for (const { u, v } of near) {
+    const height = a.id === "woodshelf" && v > 0 ? 4 : m.height;
+    beam(c, m, u, v, 0, height, p.edge, 2);
+    beam(c, m, u, v, 1, Math.max(1, height - 2), p.face, 1);
+  }
+  if (
+    ![
+      "terrarium",
+      "wardcase",
+      "trellis",
+      "pottingbench",
+      "gardenbench",
+      "foldingchair",
+      "woodshelf",
+    ].includes(a.id)
+  ) {
+    const n = a.id === "wallrack" ? 4 : 3;
+    for (let i = 0; i < n; i++) {
+      const z = 3 + (i * (m.height - 3)) / (n - 1),
+        aa = projectedPoint(m, near[0].u, near[0].v, z),
+        bb = projectedPoint(m, near[1].u, near[1].v, z);
+      line(c, ...aa, ...bb, p.edge, 2);
+    }
+  }
+  const backVisible = rotation === 180;
+  if (backVisible && a.id !== "woodshelf") {
+    const left = projectedPoint(m, -m.width / 2 + 3, -m.depth / 2 + 2, 3),
+      right = projectedPoint(
+        m,
+        m.width / 2 - 4,
+        -m.depth / 2 + 2,
+        m.height - 2,
+      );
+    line(c, ...left, ...right, p.edge);
+    const aa = projectedPoint(m, m.width / 2 - 4, -m.depth / 2 + 2, 3),
+      bb = projectedPoint(m, -m.width / 2 + 3, -m.depth / 2 + 2, m.height - 2);
+    line(c, ...aa, ...bb, p.face);
+  }
+  if (
+    ["pottingbench", "gardenbench", "foldingchair"].includes(a.id) &&
+    backVisible
+  ) {
+    for (let z = m.height * 0.45 + 5; z < m.height; z += 5) {
+      const aa = projectedPoint(m, -m.width / 2 + 2, -m.depth / 2 + 2, z),
+        bb = projectedPoint(m, m.width / 2 - 3, -m.depth / 2 + 2, z);
+      line(c, ...aa, ...bb, p.face, 3);
+    }
+  }
+  if (a.id === "coveredstand" && rotation === 270) {
+    const pts = [
+      [m.width / 2, -m.depth / 2, 2],
+      [m.width / 2, m.depth / 2, 2],
+      [m.width / 2, m.depth / 2, m.height],
+      [m.width / 2, -m.depth / 2, m.height],
+    ].map(([u, v, z]) => projectedPoint(m, u, v, z));
+    polygon(c, pts, "#a2aa96");
+  }
 }

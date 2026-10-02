@@ -1,97 +1,1187 @@
-import {attachCardFeed} from './card-feed.mjs';
-import {paintPig} from './wardrobe.mjs';
-import {attachGardenMusic} from './music.mjs';
-import {paintObjectLights} from './objects.mjs';
-import {plantSeed} from './plant-seed.mjs';
-import {WEATHER,TIMES,timeOfDay,makeWeather,paintSky,paintLighting,paintRain,paintWetRoof,paintSunShadows,paintDistanceFog} from './weather.mjs';
-import {paintCityLights} from './city.mjs';
-import {PLANTS,POTS,plant,vessel,allowedPots} from './botany.mjs';
-import {gardenCamera} from './camera.mjs';
-import {makeResident} from './resident.mjs';
-import {SCENES,DOORS,ASSETS,asset,initialLayout,paintBase,paintSurroundings,paintDoor,paintObject,paintPlantOccluders,foregroundObjects,paintPerson,makeWalker,dimensions,displayBounds,contactPoints,resizedObject,inside,fits,supportedLayout,validateLayout,roomFeet} from './scene.mjs';
-const $=id=>document.getElementById(id),editor=document.body.classList.contains('editor'),KEY='umwelt-rooftop-layout-v1';let scene=editor&&new URLSearchParams(location.search).get('scene')==='room'?'room':new URLSearchParams(location.search).get('scene')==='south'?'south':'north',layout=initialLayout(),selected=null,history=[],future=[],category='全部',drag=null,showPerson=true;
-try{if(editor||new URLSearchParams(location.search).get('layout')==='local'){const stored=localStorage.getItem(KEY);if(stored)layout=validateLayout(JSON.parse(stored));}}catch{if(editor)$('message').textContent='本机布局无法读取，已恢复初始陈列。'}
-if(!editor)attachGardenMusic($('musicToggle'));
-const canvas=$('garden'),display=canvas.getContext('2d'),materialFrame=document.createElement('canvas'),ctx=materialFrame.getContext('2d'),base=document.createElement('canvas');base.width=640;base.height=520;const baseCtx=base.getContext('2d');let walker,pigWalker;const cameras={room:{x:196,y:56,w:208,h:288},north:{x:96,y:48,w:416,h:440},south:{x:76,y:44,w:416,h:440}};let camera=cameras[scene];const pans={room:{x:0,y:0},north:{x:0,y:0},south:{x:0,y:0}};let panDrag=null;const zooms={room:1,north:1,south:1},pointers=new Map();let pinch=null;const backdrop=document.createElement('canvas'),resident=editor?null:makeResident(Math.random,{phase:()=>timeOfDay(new Date().getHours()+new Date().getMinutes()/60)});if(resident)showPerson=resident.present;
-const WEATHER_KEY='umwelt-rooftop-weather-v1';let weatherChoices={condition:'clear',phase:'day'};
-if(editor)try{weatherChoices=JSON.parse(localStorage.getItem(WEATHER_KEY))||weatherChoices}catch{}
-const weather=makeWeather(editor?weatherChoices:{condition:WEATHER[Math.floor(Math.random()*WEATHER.length)].id,phase:'auto'});let atmosphere=weather.state,weatherAge=0,reduced=matchMedia('(prefers-reduced-motion: reduce)').matches,cityBounds;
-matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',e=>{reduced=e.matches});
-if(editor){for(const [id,key,values] of [['weatherSelect','condition',WEATHER],['timeSelect','phase',TIMES]]){const select=$(id);for(const item of values){const option=document.createElement('option');option.value=item.id;option.textContent=item.name;select.append(option)}select.value=weather.choices[key];select.onchange=()=>{weather.set(key,select.value);try{localStorage.setItem(WEATHER_KEY,JSON.stringify(weather.choices))}catch{}}}}
-function weatherCaption(){const night=atmosphere.phase==='late'?'窗灯渐少，楼群安静下来。':atmosphere.phase==='evening'?'还有几扇窗亮着。':atmosphere.phase==='dawn'?'天亮了，几扇窗还没有熄灯。':atmosphere.phase==='dusk'?'窗灯先于天空亮起来。':{clear:'墙角的影子慢慢挪。',cloudy:'云影从楼群之间经过。',overcast:'光散在叶片上。',rain:'雨点落在盆沿和地面。',heavy:'水沿修补过的地面流向下水口。',wind:'风从楼群之间吹过。',mist:'远处的楼房隐在薄雾里。'}[atmosphere.condition];const text=night;if($('weatherStatus').textContent!==text)$('weatherStatus').textContent=text;}
-const objects=()=>layout.scenes[scene],selection=()=>objects().find(o=>o.id===selected);function save(){try{localStorage.setItem(KEY,JSON.stringify(layout))}catch{message('本机存储不可用，请导出 JSON 保存。')}}
-function message(text){if(editor)$('message').textContent=text}function checkpoint(){history.push(JSON.stringify(layout));if(history.length>80)history.shift();future=[];buttons()}
-function buttons(){if(!editor)return;$('undo').disabled=!history.length;$('redo').disabled=!future.length;$('count').textContent=objects().length+' 件';const o=selection();$('selectedName').textContent=o?asset(o.type).name:'挑一件东西';$('objectControls').hidden=!o;$('positionText').hidden=!o;if(o){$('posX').value=o.x;$('posY').value=o.y;$('positionText').textContent='X '+Math.round(o.x)+'  Y '+Math.round(o.y);$('scale').value=o.scale;$('scaleValue').textContent=Math.round(o.scale*100)+'%';}notebook(o);}
-function rebuild(){if(editor)document.body.classList.toggle('room-edit',scene==='room');if(!editor){zooms[scene]=scene==='north'?1.7:1;pans[scene]=scene==='north'?{x:56,y:-20}:{x:0,y:0};pointers.clear();panDrag=null;pinch=null;}for(const b of document.querySelectorAll('[data-scene]'))b.setAttribute('aria-pressed',String(b.dataset.scene===scene));camera=cameras[scene];fitView();paintBase(baseCtx,scene,{includeCity:false});walker=makeWalker(scene,objects);pigWalker=makeWalker(scene,objects,{visits:7});walker.randomize();pigWalker.randomize();selected=null;buttons();syncPresence();render()}
-function changed(){save();buttons();walker.reset()}
-function commitMove(o,patch){if(Object.entries(patch).every(([key,value])=>o[key]===value))return true;const before={...o};Object.assign(o,patch);if(!supportedLayout(scene,objects())){Object.assign(o,before);message('这里超出了阳台边界。');buttons();return false}checkpointBefore(before,o);changed();return true}
-function checkpointBefore(before,o){const after={...o};for(const key of Object.keys(o))if(!(key in before))delete o[key];Object.assign(o,before);checkpoint();Object.assign(o,after)}
-function findSpace(type,around){const a=asset(type),origin=around||{x:scene==='north'?310:284,y:scene==='north'?240:264};const candidates=[];for(let y=80;y<470;y+=8)for(let x=136;x<516;x+=8){const o={type,x,y,rotation:0,scale:1};if(fits(scene,o,objects()))candidates.push(o)}candidates.sort((a,b)=>Math.hypot(a.x-origin.x,a.y-origin.y)-Math.hypot(b.x-origin.x,b.y-origin.y));return candidates.find(o=>!objects().some(p=>{const d=dimensions(p);return Math.abs(o.x-p.x)<(a.w+d.w)/2+2&&Math.abs(o.y-p.y)<(a.h+d.h)/2+2}))||candidates[0]}
-function add(type,source){const pos=findSpace(type,source);if(!pos){message('这个物件放不进当前阳台。');return}const o=source?{...source,x:pos.x,y:pos.y,id:crypto.randomUUID()}:{...pos,id:crypto.randomUUID()};if(plant(o.type))o.seed=plantSeed(o.id);if(!fits(scene,o,objects())){o.rotation=0;o.scale=1;}if(objects().length>=400){message('每个阳台最多 400 件物件。');return}checkpoint();objects().push(o);selected=o.id;changed();message('拿出了 '+asset(type).name+'，拖动即可放到天台上。')}
-function remove(){const o=selection();if(!o)return;const next=objects().filter(p=>p.id!==o.id);if(!supportedLayout(scene,next)){message('先把架上探出边缘的花盆移回天台，再收起这个架子。');return}checkpoint();layout.scenes[scene]=next;selected=null;changed()}
-function rotate(){const o=selection();if(o)commitMove(o,{rotation:(o.rotation+90)%360})}
-
-let notebookKey='';
-function notebook(o){
- const p=o&&plant(o.type),a=o&&asset(o.type),v=o&&vessel(a.vessel),key=o?o.id+':'+o.type+':'+(o.seed||0)+':'+(o.pot||p?.defaultPot||''):'empty';
- if(key===notebookKey)return;notebookKey=key;document.querySelector('.notebook details').open=false;
- $('notebookBody').hidden=!o;$('notebookEmpty').hidden=!!o;$('vesselControls').hidden=!p;
- if(!o)return;
- const info=p||v||a;$('noteName').textContent=info.name;$('noteLatin').textContent=p?p.scientific:info.scientific||info.ja||a.category;
- $('noteAliases').textContent=p?p.ja+' / '+p.aliases:v?'园艺盆 · '+(v.kind==='ceramic'?'产地风格转译':'有排水孔'):'天台物件 · '+a.category;
- $('noteShape').textContent=info.note;$('noteCare').textContent=p?p.care:v?'陶瓷风格转译成有排水孔的园艺盆，并非特定窑场商品的复刻。':info.care||'放在稳固平面上。';
- const preview=$('notePreview');preview.getContext('2d').clearRect(0,0,96,96);paintObject(preview.getContext('2d'),{type:o.type,pot:o.pot,seed:o.seed,x:48,y:48,rotation:0,scale:p?1.7:2});
- $('noteSources').replaceChildren();const sources=[...new Map([...(info.sources||[]),...(p?vessel(o.pot||p.defaultPot).sources:[])].map(source=>[source.url,source])).values()];for(const source of sources){const li=document.createElement('li'),a=document.createElement('a');a.textContent=source.label;a.href=source.url;a.target='_blank';a.rel='noopener noreferrer';li.append(a);$('noteSources').append(li)}
- if(p){$('potSelect').replaceChildren();for(const pot of allowedPots(o.type)){const option=document.createElement('option');option.value=pot.id;option.textContent=pot.name+(pot.shapeLabel?' · '+pot.shapeLabel:'');$('potSelect').append(option)}$('potSelect').value=o.pot||p.defaultPot;$('potReason').textContent=p.containerNote;vesselNote(o.pot||p.defaultPot)}
+import { readLayout, writeLayout } from "./layout-storage.mjs";
+import { createEditHistory } from "./edit-history.mjs";
+import { attachCardFeed } from "./card-feed.mjs";
+import { paintPig } from "./wardrobe.mjs";
+import { attachGardenMusic } from "./music.mjs";
+import { paintObjectLights } from "./objects.mjs";
+import { plantSeed } from "./plant-seed.mjs";
+import {
+  WEATHER,
+  TIMES,
+  timeOfDay,
+  makeWeather,
+  paintSky,
+  paintLighting,
+  paintRain,
+  paintWetRoof,
+  paintSunShadows,
+  paintDistanceFog,
+} from "./weather.mjs";
+import { paintCityLights } from "./city.mjs";
+import { PLANTS, POTS, plant, vessel, allowedPots } from "./botany.mjs";
+import { gardenCamera } from "./camera.mjs";
+import { makeResident } from "./resident.mjs";
+import {
+  SCENES,
+  DOORS,
+  ASSETS,
+  asset,
+  initialLayout,
+  paintBase,
+  paintSurroundings,
+  paintDoor,
+  paintObject,
+  paintPlantOccluders,
+  foregroundObjects,
+  paintPerson,
+  makeWalker,
+  dimensions,
+  displayBounds,
+  contactPoints,
+  resizedObject,
+  inside,
+  fits,
+  supportedLayout,
+  validateLayout,
+  roomFeet,
+} from "./scene.mjs";
+const $ = (id) => document.getElementById(id),
+  editor = document.body.classList.contains("editor");
+const edits = createEditHistory();
+let scene =
+    editor && new URLSearchParams(location.search).get("scene") === "room"
+      ? "room"
+      : new URLSearchParams(location.search).get("scene") === "south"
+        ? "south"
+        : "north",
+  layout = initialLayout(),
+  selected = null,
+  category = "全部",
+  drag = null,
+  showPerson = true;
+try {
+  if (
+    editor ||
+    new URLSearchParams(location.search).get("layout") === "local"
+  ) {
+    layout = readLayout();
+  }
+} catch {
+  if (editor) $("message").textContent = "本机布局无法读取，已恢复初始陈列。";
 }
-function vesselNote(id){$('vesselNote').textContent=vessel(id).note;}
-
-function catalog(){const q=$('search').value.trim().toLowerCase();$('assets').replaceChildren();for(const a of ASSETS.filter(a=>(category==='全部'||a.category===category)&&(!q||[a.name,a.scientific,a.ja,a.aliases].filter(Boolean).join(' ').toLowerCase().includes(q)))){const button=document.createElement('button');button.className='asset-card';button.dataset.asset=a.id;button.title='添加'+a.name;const preview=document.createElement('canvas');preview.width=64;preview.height=64;paintObject(preview.getContext('2d'),{type:a.id,x:32,y:32,scale:a.w>52?.75:a.plant?1.15:1,rotation:0});const name=document.createElement('span');name.textContent=a.name;button.append(preview,name);button.onclick=()=>add(a.id);$('assets').append(button)}$('assetCount').textContent=PLANTS.length+' 种植物 · '+POTS.length+' 种花盆 · '+ASSETS.filter(a=>a.furniture).length+' 种家具';}
-function coords(e){const r=canvas.getBoundingClientRect(),x=(e.clientX-r.left)*camera.w/r.width+camera.x,y=(e.clientY-r.top)*camera.h/r.height+camera.y;return {x,y}}function hit(pos){return [...objects()].sort((a,b)=>b.y-a.y).find(o=>{const b=displayBounds(o);return pos.x>=o.x+b.left-4&&pos.x<=o.x+b.right+4&&pos.y>=o.y+b.top-4&&pos.y<=o.y+b.bottom+4})}
-for(const button of document.querySelectorAll('[data-scene]'))button.onclick=()=>{if(editor)document.querySelector('.transfer').open=false;scene=button.dataset.scene;for(const b of document.querySelectorAll('[data-scene]'))b.setAttribute('aria-pressed',String(b===button));rebuild()};
-if(editor){
- document.addEventListener('pointerdown',e=>{if(!e.target.closest('.layout-transfer'))document.querySelector('.transfer').open=false});
- for(const name of ['全部','仙人掌','多肉','观叶','香草','藤蔓','花卉','蔬果','苔藓','小鱼','家具','器具','小物','花盆','灯具']){const button=document.createElement('button');button.textContent=name;button.setAttribute('aria-pressed',String(name===category));button.onclick=()=>{category=name;for(const b of $('categories').children)b.setAttribute('aria-pressed',String(b===button));catalog()};$('categories').append(button)}
- $('rerollPlant').onclick=()=>{const o=selection();if(o&&plant(o.type)){commitMove(o,{seed:plantSeed(crypto.randomUUID())});message('已换一个株形。')}};$('search').oninput=catalog;catalog();$('potSelect').onchange=()=>{const o=selection();if(o&&allowedPots(o.type).some(p=>p.id===$('potSelect').value))commitMove(o,{pot:$('potSelect').value})};
- canvas.onpointerdown=e=>{if(e.button!==0||drag)return;const pos=coords(e),o=hit(pos);selected=o?.id||null;buttons();canvas.focus({preventScroll:true});if(o){drag={id:o.id,pointerId:e.pointerId,dx:pos.x-o.x,dy:pos.y-o.y,before:JSON.stringify(layout)};canvas.setPointerCapture(e.pointerId)}};
- canvas.onpointermove=e=>{if(!drag||e.pointerId!==drag.pointerId)return;const o=selection();if(!o)return;const pos=coords(e),step=$('snap').checked?4:1,patch={x:Math.round((pos.x-drag.dx)/step)*step,y:Math.round((pos.y-drag.dy)/step)*step},test={...o,...patch};if(scene==='room'&&asset(o.type).furniture){const feet=roomFeet(test),top=Math.min(...feet.map(p=>p[1]));if(top<104&&top>=80){patch.y+=104-top;test.y=patch.y}}if(supportedLayout(scene,objects().map(p=>p.id===o.id?test:p))){Object.assign(o,patch);buttons()}};
- const finish=e=>{if(!drag||e.pointerId!==drag.pointerId)return;const snapshot=drag.before;drag=null;if(snapshot!==JSON.stringify(layout)){history.push(snapshot);if(history.length>80)history.shift();future=[];changed();message('已经放好。')}};canvas.onpointerup=finish;canvas.onpointercancel=finish;canvas.onlostpointercapture=finish;
- $('rotate').onclick=rotate;$('remove').onclick=remove;$('duplicate').onclick=()=>{const o=selection();if(o)add(o.type,o)};
- function resize(scale){const o=selection();if(!o)return;const next=resizedObject(scene,o,Math.round(Math.max(.5,Math.min(2,scale))*100)/100,objects());if(!next){message('这里容不下这个尺寸，先移到更宽的地方再放大。');buttons();return}const moved=next.x!==o.x||next.y!==o.y;if(!commitMove(o,{scale:next.scale,x:next.x,y:next.y}))return;message('大小 '+Math.round(next.scale*100)+'%'+(moved?'，稍向内挪了一点。':'。'));}
- $('scale').onchange=()=>resize(Number($('scale').value));$('scaleDown').onclick=()=>resize((selection()?.scale||1)-.1);$('scaleUp').onclick=()=>resize((selection()?.scale||1)+.1);
- for(const id of ['posX','posY'])$(id).onchange=()=>{const o=selection();if(o)commitMove(o,{[id==='posX'?'x':'y']:Number($(id).value)})};
- $('undo').onclick=()=>{if(!history.length)return;future.push(JSON.stringify(layout));const previous=selected;layout=JSON.parse(history.pop());rebuild();selected=previous;buttons();save()};$('redo').onclick=()=>{if(!future.length)return;history.push(JSON.stringify(layout));const previous=selected;layout=JSON.parse(future.pop());rebuild();selected=previous;buttons();save()};
- $('clear').onclick=()=>{checkpoint();layout.scenes[scene]=[];selected=null;changed();message('天台腾空了，可以从架上重新挑东西。')};$('restore').onclick=()=>{checkpoint();layout.scenes[scene]=initialLayout().scenes[scene];selected=null;changed();message('已恢复此阳台的初始陈列。')};$('person').onchange=()=>showPerson=$('person').checked;
- $('preview').onclick=()=>{save();$('preview').href='https://umwelt.fivsevn.com/rooftop/'};
- const load=text=>{try{const imported=validateLayout(JSON.parse(text));checkpoint();layout=imported;rebuild();save();message('已导入北天台和南阳台的布局。')}catch(e){message('导入失败：'+e.message)}};
- $('export').onclick=()=>{const text=JSON.stringify(layout,null,2);$('layoutText').value=text;const url=URL.createObjectURL(new Blob([text],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='horticultural-era-rooftop-layout.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);message('已导出北天台和南阳台的布局 JSON 文件。')};$('importButton').onclick=()=>$('importFile').click();$('importFile').onchange=async()=>{const file=$('importFile').files[0];try{if(file)load(await file.text())}catch(e){message('导入失败：'+e.message)}finally{$('importFile').value=''}};$('importText').onclick=()=>load($('layoutText').value);
- document.addEventListener('keydown',e=>{if(e.target.matches('input,select,textarea'))return;const o=selection();if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='z'){e.preventDefault();$(e.shiftKey?'redo':'undo').click();return}if(!o)return;const delta={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]}[e.key];if(delta){e.preventDefault();commitMove(o,{x:o.x+delta[0]*(e.shiftKey?8:1),y:o.y+delta[1]*(e.shiftKey?8:1)})}if(e.key.toLowerCase()==='r')rotate();if(['Delete','Backspace'].includes(e.key)){e.preventDefault();remove()}});
-}else{
- $('sceneDoor').onclick=()=>{scene=scene==='south'?'north':'south';const url=new URL(location.href);url.searchParams.set('scene',scene);historyNavigation.pushState(null,'',url);rebuild()};
- window.addEventListener('popstate',()=>{scene=new URLSearchParams(location.search).get('scene')==='south'?'south':'north';rebuild()});
- const clampPan=()=>{pans[scene]=gardenCamera(scene,innerWidth,innerHeight,zooms[scene],pans[scene]).pan};
- const zoomAt=(factor,point,world=coords(point))=>{zooms[scene]=Math.max(1,Math.min(2.5,zooms[scene]*factor));fitView();const after=coords(point);pans[scene].x+=world.x-after.x;pans[scene].y+=world.y-after.y;clampPan();fitView();render()};
- const beginGesture=()=>{const ps=[...pointers.values()];if(ps.length>=2){const a=ps[0],b=ps[1],center={clientX:(a.clientX+b.clientX)/2,clientY:(a.clientY+b.clientY)/2};pinch={distance:Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY),world:coords(center)};panDrag=null}else if(ps.length===1){const e=ps[0];pinch=null;panDrag={x:e.clientX,y:e.clientY,origin:{...pans[scene]},camera:{...camera}}}else{panDrag=null;pinch=null}};
- canvas.onpointerdown=e=>{if(e.button!==0)return;pointers.set(e.pointerId,{clientX:e.clientX,clientY:e.clientY});canvas.setPointerCapture(e.pointerId);beginGesture()};
- canvas.onpointermove=e=>{if(!pointers.has(e.pointerId))return;pointers.set(e.pointerId,{clientX:e.clientX,clientY:e.clientY});if(pinch&&pointers.size>=2){const [a,b]=[...pointers.values()],distance=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);if(distance>0&&pinch.distance>0)zoomAt(distance/pinch.distance,{clientX:(a.clientX+b.clientX)/2,clientY:(a.clientY+b.clientY)/2},pinch.world);pinch.distance=distance}else if(panDrag){const rect=canvas.getBoundingClientRect();pans[scene]={x:panDrag.origin.x-(e.clientX-panDrag.x)*panDrag.camera.w/rect.width,y:panDrag.origin.y-(e.clientY-panDrag.y)*panDrag.camera.h/rect.height};clampPan();fitView();render()}};
- const finishPan=e=>{pointers.delete(e.pointerId);beginGesture()};canvas.onpointerup=finishPan;canvas.onpointercancel=finishPan;canvas.onlostpointercapture=finishPan;
- canvas.addEventListener('wheel',e=>{e.preventDefault();zoomAt(Math.exp(-e.deltaY*.0015),e)},{passive:false});
- window.addEventListener('resize',()=>{fitView();render()});
+if (!editor) attachGardenMusic($("musicToggle"));
+const canvas = $("garden"),
+  display = canvas.getContext("2d"),
+  materialFrame = document.createElement("canvas"),
+  ctx = materialFrame.getContext("2d"),
+  base = document.createElement("canvas");
+base.width = 640;
+base.height = 520;
+const baseCtx = base.getContext("2d");
+let walker, pigWalker;
+const cameras = {
+  room: { x: 196, y: 56, w: 208, h: 288 },
+  north: { x: 96, y: 48, w: 416, h: 440 },
+  south: { x: 76, y: 44, w: 416, h: 440 },
+};
+let camera = cameras[scene];
+const pans = {
+  room: { x: 0, y: 0 },
+  north: { x: 0, y: 0 },
+  south: { x: 0, y: 0 },
+};
+let panDrag = null;
+const zooms = { room: 1, north: 1, south: 1 },
+  pointers = new Map();
+let pinch = null;
+const backdrop = document.createElement("canvas"),
+  resident = editor
+    ? null
+    : makeResident(Math.random, {
+        phase: () =>
+          timeOfDay(new Date().getHours() + new Date().getMinutes() / 60),
+      });
+if (resident) showPerson = resident.present;
+const WEATHER_KEY = "umwelt-rooftop-weather-v1";
+let weatherChoices = { condition: "clear", phase: "day" };
+if (editor)
+  try {
+    weatherChoices =
+      JSON.parse(localStorage.getItem(WEATHER_KEY)) || weatherChoices;
+  } catch {}
+const weather = makeWeather(
+  editor
+    ? weatherChoices
+    : {
+        condition: WEATHER[Math.floor(Math.random() * WEATHER.length)].id,
+        phase: "auto",
+      },
+);
+let atmosphere = weather.state,
+  weatherAge = 0,
+  reduced = matchMedia("(prefers-reduced-motion: reduce)").matches,
+  cityBounds;
+matchMedia("(prefers-reduced-motion: reduce)").addEventListener(
+  "change",
+  (e) => {
+    reduced = e.matches;
+  },
+);
+if (editor) {
+  for (const [id, key, values] of [
+    ["weatherSelect", "condition", WEATHER],
+    ["timeSelect", "phase", TIMES],
+  ]) {
+    const select = $(id);
+    for (const item of values) {
+      const option = document.createElement("option");
+      option.value = item.id;
+      option.textContent = item.name;
+      select.append(option);
+    }
+    select.value = weather.choices[key];
+    select.onchange = () => {
+      weather.set(key, select.value);
+      try {
+        localStorage.setItem(WEATHER_KEY, JSON.stringify(weather.choices));
+      } catch {}
+    };
+  }
 }
-const historyNavigation=window.history;
-function fitView(){if(editor){canvas.width=camera.w;canvas.height=camera.h;}else{const view=gardenCamera(scene,innerWidth,innerHeight,zooms[scene],pans[scene]);camera=view.camera;pans[scene]=view.pan;}canvas.width=camera.w;canvas.height=camera.h;if(editor)canvas.parentElement.style.setProperty('--scene-ratio',camera.w/camera.h);materialFrame.width=camera.w;materialFrame.height=camera.h;backdrop.width=camera.w;backdrop.height=camera.h;const bg=backdrop.getContext('2d');bg.translate(-camera.x,-camera.y);cityBounds={...camera};if(scene!=='room')paintSurroundings(bg,cityBounds,{scene,sky:false});if(editor)return;const d=DOORS[scene],door=$('sceneDoor'),rect=canvas.getBoundingClientRect(),sx=rect.width/camera.w,sy=rect.height/camera.h,w=Math.max(44,(d.w+16)*sx),h=Math.max(44,(d.h+12)*sy);Object.assign(door.style,{left:((d.x-camera.x)*sx-w/2)+'px',top:((d.y-camera.y)*sy-h/2)+'px',width:w+'px',height:h+'px'});door.setAttribute('aria-label',d.label);door.title=d.label;}
-function syncPresence(){if(editor)return;$('roomCard').href='./room/?scene='+scene;$('garageCard').href='./arrange/?scene='+scene;if(!resident.present)$('dongdongStatus').textContent=resident.status;canvas.setAttribute('aria-label',SCENES[scene].name+'，'+(resident.present?'东东正在照料植物':resident.status));}
+function weatherCaption() {
+  const night =
+    atmosphere.phase === "late"
+      ? "窗灯渐少，楼群安静下来。"
+      : atmosphere.phase === "evening"
+        ? "还有几扇窗亮着。"
+        : atmosphere.phase === "dawn"
+          ? "天亮了，几扇窗还没有熄灯。"
+          : atmosphere.phase === "dusk"
+            ? "窗灯先于天空亮起来。"
+            : {
+                clear: "墙角的影子慢慢挪。",
+                cloudy: "云影从楼群之间经过。",
+                overcast: "光散在叶片上。",
+                rain: "雨点落在盆沿和地面。",
+                heavy: "水沿修补过的地面流向下水口。",
+                wind: "风从楼群之间吹过。",
+                mist: "远处的楼房隐在薄雾里。",
+              }[atmosphere.condition];
+  const text = night;
+  if ($("weatherStatus").textContent !== text)
+    $("weatherStatus").textContent = text;
+}
+const objects = () => layout.scenes[scene],
+  selection = () => objects().find((o) => o.id === selected);
+function save() {
+  try {
+    writeLayout(layout);
+  } catch {
+    message("本机存储不可用，请导出 JSON 保存。");
+  }
+}
+function message(text) {
+  if (editor) $("message").textContent = text;
+}
+function checkpoint() {
+  edits.checkpoint(JSON.stringify(layout));
+  buttons();
+}
+function buttons() {
+  if (!editor) return;
+  $("undo").disabled = !edits.canUndo;
+  $("redo").disabled = !edits.canRedo;
+  $("count").textContent = objects().length + " 件";
+  const o = selection();
+  $("selectedName").textContent = o ? asset(o.type).name : "挑一件东西";
+  $("objectControls").hidden = !o;
+  $("positionText").hidden = !o;
+  if (o) {
+    $("posX").value = o.x;
+    $("posY").value = o.y;
+    $("positionText").textContent =
+      "X " + Math.round(o.x) + "  Y " + Math.round(o.y);
+    $("scale").value = o.scale;
+    $("scaleValue").textContent = Math.round(o.scale * 100) + "%";
+  }
+  notebook(o);
+}
+function rebuild() {
+  if (editor) document.body.classList.toggle("room-edit", scene === "room");
+  if (!editor) {
+    zooms[scene] = scene === "north" ? 1.7 : 1;
+    pans[scene] = scene === "north" ? { x: 56, y: -20 } : { x: 0, y: 0 };
+    pointers.clear();
+    panDrag = null;
+    pinch = null;
+  }
+  for (const b of document.querySelectorAll("[data-scene]"))
+    b.setAttribute("aria-pressed", String(b.dataset.scene === scene));
+  camera = cameras[scene];
+  fitView();
+  paintBase(baseCtx, scene, { includeCity: false });
+  walker = makeWalker(scene, objects);
+  pigWalker = makeWalker(scene, objects, { visits: 7 });
+  walker.randomize();
+  pigWalker.randomize();
+  selected = null;
+  buttons();
+  syncPresence();
+  render();
+}
+function changed() {
+  save();
+  buttons();
+  walker.reset();
+}
+function commitMove(o, patch) {
+  if (Object.entries(patch).every(([key, value]) => o[key] === value))
+    return true;
+  const before = { ...o };
+  Object.assign(o, patch);
+  if (!supportedLayout(scene, objects())) {
+    Object.assign(o, before);
+    message("这里超出了阳台边界。");
+    buttons();
+    return false;
+  }
+  checkpointBefore(before, o);
+  changed();
+  return true;
+}
+function checkpointBefore(before, o) {
+  const after = { ...o };
+  for (const key of Object.keys(o)) if (!(key in before)) delete o[key];
+  Object.assign(o, before);
+  checkpoint();
+  Object.assign(o, after);
+}
+function findSpace(type, around) {
+  const a = asset(type),
+    origin = around || {
+      x: scene === "north" ? 310 : 284,
+      y: scene === "north" ? 240 : 264,
+    };
+  const candidates = [];
+  for (let y = 80; y < 470; y += 8)
+    for (let x = 136; x < 516; x += 8) {
+      const o = { type, x, y, rotation: 0, scale: 1 };
+      if (fits(scene, o, objects())) candidates.push(o);
+    }
+  candidates.sort(
+    (a, b) =>
+      Math.hypot(a.x - origin.x, a.y - origin.y) -
+      Math.hypot(b.x - origin.x, b.y - origin.y),
+  );
+  return (
+    candidates.find(
+      (o) =>
+        !objects().some((p) => {
+          const d = dimensions(p);
+          return (
+            Math.abs(o.x - p.x) < (a.w + d.w) / 2 + 2 &&
+            Math.abs(o.y - p.y) < (a.h + d.h) / 2 + 2
+          );
+        }),
+    ) || candidates[0]
+  );
+}
+function add(type, source) {
+  const pos = findSpace(type, source);
+  if (!pos) {
+    message("这个物件放不进当前阳台。");
+    return;
+  }
+  const o = source
+    ? { ...source, x: pos.x, y: pos.y, id: crypto.randomUUID() }
+    : { ...pos, id: crypto.randomUUID() };
+  if (plant(o.type)) o.seed = plantSeed(o.id);
+  if (!fits(scene, o, objects())) {
+    o.rotation = 0;
+    o.scale = 1;
+  }
+  if (objects().length >= 400) {
+    message("每个阳台最多 400 件物件。");
+    return;
+  }
+  checkpoint();
+  objects().push(o);
+  selected = o.id;
+  changed();
+  message("拿出了 " + asset(type).name + "，拖动即可放到天台上。");
+}
+function remove() {
+  const o = selection();
+  if (!o) return;
+  const next = objects().filter((p) => p.id !== o.id);
+  if (!supportedLayout(scene, next)) {
+    message("先把架上探出边缘的花盆移回天台，再收起这个架子。");
+    return;
+  }
+  checkpoint();
+  layout.scenes[scene] = next;
+  selected = null;
+  changed();
+}
+function rotate() {
+  const o = selection();
+  if (o) commitMove(o, { rotation: (o.rotation + 90) % 360 });
+}
 
-let doorOpen=false;
-if(!editor){const door=$('sceneDoor');door.onpointerenter=()=>{doorOpen=true;render()};door.onpointerleave=()=>{doorOpen=false;render()};door.onfocus=()=>{doorOpen=true;render()};door.onblur=()=>{doorOpen=false;render()}}
-let last=performance.now(),time=0,drawAt=0;
-function render(){if(scene==='room'){display.clearRect(0,0,canvas.width,canvas.height);display.imageSmoothingEnabled=false;display.save();display.translate(-camera.x,-camera.y);display.drawImage(base,0,0);const items=objects().map(o=>({y:o.y-(asset(o.type).furniture?dimensions(o).h/2:0),o}));if(showPerson)items.push({y:walker.person.y,p:walker.person});items.push({y:pigWalker.person.y,pig:pigWalker.person});items.sort((a,b)=>a.y-b.y);for(const item of items)if(item.o)paintObject(display,item.o,time,item.o.id===selected);else if(item.p)paintPerson(display,item.p,time);else paintPig(display,item.pig,time);display.restore();$('weatherStatus').textContent='窗外的声音隔着一层玻璃。';return}ctx.clearRect(0,0,canvas.width,canvas.height);ctx.imageSmoothingEnabled=false;display.imageSmoothingEnabled=false;paintSky(display,{x:0,y:0,w:canvas.width,h:canvas.height},atmosphere,time,{reduced});ctx.drawImage(backdrop,0,0);paintDistanceFog(ctx,canvas.width,canvas.height,atmosphere);ctx.save();ctx.translate(-camera.x,-camera.y);ctx.drawImage(base,0,0);paintWetRoof(ctx,SCENES[scene].points,atmosphere,time,{objects:objects(),reflect:(c,o)=>paintObject(c,o,time)});paintSunShadows(ctx,SCENES[scene].points,objects().map(o=>({...o,width:asset(o.type).w,height:asset(o.type).h})),atmosphere,{scene});if(editor&&$('grid').checked){ctx.fillStyle='#747e6338';for(let y=80;y<470;y+=8)for(let x=136;x<520;x+=8)if(inside(scene,x,y))ctx.fillRect(x,y,1,1)}const sprites=objects().map(o=>({y:asset(o.type).plant?Math.max(...contactPoints(o).map(p=>p[1])):o.y-((asset(o.type).furniture||['shelf','woodshelf','table','bench','sink','basin','terrarium','stool'].includes(o.type))?dimensions(o).h/2:0),object:o}));const pig= pigWalker.person;sprites.push({y:pig.y,pig});if(showPerson)sprites.push({y:walker.person.y,person:walker.person});sprites.sort((a,b)=>a.y-b.y);const foreground=foregroundObjects(objects());for(const s of sprites)if(s.object){paintObject(ctx,s.object,time,s.object.id===selected,atmosphere);paintPlantOccluders(ctx,s.object,foreground)}else if(s.pig)paintPig(ctx,s.pig,time);else paintPerson(ctx,s.person,time);if(!editor)paintDoor(ctx,scene,doorOpen);ctx.restore();paintLighting(ctx,canvas.width,canvas.height,atmosphere,time,{camera});display.drawImage(materialFrame,0,0);display.save();display.translate(-camera.x,-camera.y);paintObjectLights(display,objects(),asset,atmosphere);display.restore();
- display.save();display.translate(-camera.x,-camera.y);
- display.beginPath();display.rect(cityBounds.x-20,cityBounds.y-20,cityBounds.w+40,cityBounds.h+40);SCENES[scene].points.forEach(([x,y],i)=>i?display.lineTo(x,y):display.moveTo(x,y));display.closePath();display.clip('evenodd');paintCityLights(display,cityBounds,atmosphere.lamps,{scene});display.restore();paintRain(display,canvas.width,canvas.height,atmosphere,time,{reduced});weatherCaption();}
-function frame(now){const dt=Math.min((now-last)/1000,.1);last=now;time+=dt;if(cardFeed)cardFeed.update(time);weatherAge+=dt;if(!editor&&weatherAge>480){weatherAge=0;const options=WEATHER.filter(w=>w.id!==weather.choices.condition);weather.set('condition',options[Math.floor(Math.random()*options.length)].id)}atmosphere=weather.update(dt);if(resident&&resident.update(dt)){showPerson=resident.present;syncPresence();if(showPerson)walker.arrive()}if(showPerson)walker.update(dt);pigWalker.update(dt*.8);if(now-drawAt>50){drawAt=now;render()}requestAnimationFrame(frame)}
-if(editor){const switches=document.querySelector('.arrange-controls'),note=document.querySelector('.notebook'),column=document.createElement('div');column.className='note-column';note.before(column);column.append(note);const inspector=document.querySelector('.inspector');const placeSwitches=()=>{if(innerWidth>900){column.prepend(switches);note.before(inspector)}else{const workspace=document.querySelector('.workspace');workspace.prepend(inspector);workspace.prepend(switches)}};placeSwitches();window.addEventListener('resize',placeSwitches)}
+let notebookKey = "";
+function notebook(o) {
+  const p = o && plant(o.type),
+    a = o && asset(o.type),
+    v = o && vessel(a.vessel),
+    key = o
+      ? o.id +
+        ":" +
+        o.type +
+        ":" +
+        (o.seed || 0) +
+        ":" +
+        (o.pot || p?.defaultPot || "")
+      : "empty";
+  if (key === notebookKey) return;
+  notebookKey = key;
+  document.querySelector(".notebook details").open = false;
+  $("notebookBody").hidden = !o;
+  $("notebookEmpty").hidden = !!o;
+  $("vesselControls").hidden = !p;
+  if (!o) return;
+  const info = p || v || a;
+  $("noteName").textContent = info.name;
+  $("noteLatin").textContent = p
+    ? p.scientific
+    : info.scientific || info.ja || a.category;
+  $("noteAliases").textContent = p
+    ? p.ja + " / " + p.aliases
+    : v
+      ? "园艺盆 · " + (v.kind === "ceramic" ? "产地风格转译" : "有排水孔")
+      : "天台物件 · " + a.category;
+  $("noteShape").textContent = info.note;
+  $("noteCare").textContent = p
+    ? p.care
+    : v
+      ? "陶瓷风格转译成有排水孔的园艺盆，并非特定窑场商品的复刻。"
+      : info.care || "放在稳固平面上。";
+  const preview = $("notePreview");
+  preview.getContext("2d").clearRect(0, 0, 96, 96);
+  paintObject(preview.getContext("2d"), {
+    type: o.type,
+    pot: o.pot,
+    seed: o.seed,
+    x: 48,
+    y: 48,
+    rotation: 0,
+    scale: p ? 1.7 : 2,
+  });
+  $("noteSources").replaceChildren();
+  const sources = [
+    ...new Map(
+      [
+        ...(info.sources || []),
+        ...(p ? vessel(o.pot || p.defaultPot).sources : []),
+      ].map((source) => [source.url, source]),
+    ).values(),
+  ];
+  for (const source of sources) {
+    const li = document.createElement("li"),
+      a = document.createElement("a");
+    a.textContent = source.label;
+    a.href = source.url;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    li.append(a);
+    $("noteSources").append(li);
+  }
+  if (p) {
+    $("potSelect").replaceChildren();
+    for (const pot of allowedPots(o.type)) {
+      const option = document.createElement("option");
+      option.value = pot.id;
+      option.textContent =
+        pot.name + (pot.shapeLabel ? " · " + pot.shapeLabel : "");
+      $("potSelect").append(option);
+    }
+    $("potSelect").value = o.pot || p.defaultPot;
+    $("potReason").textContent = p.containerNote;
+    vesselNote(o.pot || p.defaultPot);
+  }
+}
+function vesselNote(id) {
+  $("vesselNote").textContent = vessel(id).note;
+}
+
+function catalog() {
+  const q = $("search").value.trim().toLowerCase();
+  $("assets").replaceChildren();
+  for (const a of ASSETS.filter(
+    (a) =>
+      (category === "全部" || a.category === category) &&
+      (!q ||
+        [a.name, a.scientific, a.ja, a.aliases]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase()
+          .includes(q)),
+  )) {
+    const button = document.createElement("button");
+    button.className = "asset-card";
+    button.dataset.asset = a.id;
+    button.title = "添加" + a.name;
+    const preview = document.createElement("canvas");
+    preview.width = 64;
+    preview.height = 64;
+    paintObject(preview.getContext("2d"), {
+      type: a.id,
+      x: 32,
+      y: 32,
+      scale: a.w > 52 ? 0.75 : a.plant ? 1.15 : 1,
+      rotation: 0,
+    });
+    const name = document.createElement("span");
+    name.textContent = a.name;
+    button.append(preview, name);
+    button.onclick = () => add(a.id);
+    $("assets").append(button);
+  }
+  $("assetCount").textContent =
+    PLANTS.length +
+    " 种植物 · " +
+    POTS.length +
+    " 种花盆 · " +
+    ASSETS.filter((a) => a.furniture).length +
+    " 种家具";
+}
+function coords(e) {
+  const r = canvas.getBoundingClientRect(),
+    x = ((e.clientX - r.left) * camera.w) / r.width + camera.x,
+    y = ((e.clientY - r.top) * camera.h) / r.height + camera.y;
+  return { x, y };
+}
+function hit(pos) {
+  return [...objects()]
+    .sort((a, b) => b.y - a.y)
+    .find((o) => {
+      const b = displayBounds(o);
+      return (
+        pos.x >= o.x + b.left - 4 &&
+        pos.x <= o.x + b.right + 4 &&
+        pos.y >= o.y + b.top - 4 &&
+        pos.y <= o.y + b.bottom + 4
+      );
+    });
+}
+for (const button of document.querySelectorAll("[data-scene]"))
+  button.onclick = () => {
+    if (editor) document.querySelector(".transfer").open = false;
+    scene = button.dataset.scene;
+    for (const b of document.querySelectorAll("[data-scene]"))
+      b.setAttribute("aria-pressed", String(b === button));
+    rebuild();
+  };
+if (editor) {
+  document.addEventListener("pointerdown", (e) => {
+    if (!e.target.closest(".layout-transfer"))
+      document.querySelector(".transfer").open = false;
+  });
+  for (const name of [
+    "全部",
+    "仙人掌",
+    "多肉",
+    "观叶",
+    "香草",
+    "藤蔓",
+    "花卉",
+    "蔬果",
+    "苔藓",
+    "小鱼",
+    "家具",
+    "器具",
+    "小物",
+    "花盆",
+    "灯具",
+  ]) {
+    const button = document.createElement("button");
+    button.textContent = name;
+    button.setAttribute("aria-pressed", String(name === category));
+    button.onclick = () => {
+      category = name;
+      for (const b of $("categories").children)
+        b.setAttribute("aria-pressed", String(b === button));
+      catalog();
+    };
+    $("categories").append(button);
+  }
+  $("rerollPlant").onclick = () => {
+    const o = selection();
+    if (o && plant(o.type)) {
+      commitMove(o, { seed: plantSeed(crypto.randomUUID()) });
+      message("已换一个株形。");
+    }
+  };
+  $("search").oninput = catalog;
+  catalog();
+  $("potSelect").onchange = () => {
+    const o = selection();
+    if (o && allowedPots(o.type).some((p) => p.id === $("potSelect").value))
+      commitMove(o, { pot: $("potSelect").value });
+  };
+  canvas.onpointerdown = (e) => {
+    if (e.button !== 0 || drag) return;
+    const pos = coords(e),
+      o = hit(pos);
+    selected = o?.id || null;
+    buttons();
+    canvas.focus({ preventScroll: true });
+    if (o) {
+      drag = {
+        id: o.id,
+        pointerId: e.pointerId,
+        dx: pos.x - o.x,
+        dy: pos.y - o.y,
+        before: JSON.stringify(layout),
+      };
+      canvas.setPointerCapture(e.pointerId);
+    }
+  };
+  canvas.onpointermove = (e) => {
+    if (!drag || e.pointerId !== drag.pointerId) return;
+    const o = selection();
+    if (!o) return;
+    const pos = coords(e),
+      step = $("snap").checked ? 4 : 1,
+      patch = {
+        x: Math.round((pos.x - drag.dx) / step) * step,
+        y: Math.round((pos.y - drag.dy) / step) * step,
+      },
+      test = { ...o, ...patch };
+    if (scene === "room" && asset(o.type).furniture) {
+      const feet = roomFeet(test),
+        top = Math.min(...feet.map((p) => p[1]));
+      if (top < 104 && top >= 80) {
+        patch.y += 104 - top;
+        test.y = patch.y;
+      }
+    }
+    if (
+      supportedLayout(
+        scene,
+        objects().map((p) => (p.id === o.id ? test : p)),
+      )
+    ) {
+      Object.assign(o, patch);
+      buttons();
+    }
+  };
+  const finish = (e) => {
+    if (!drag || e.pointerId !== drag.pointerId) return;
+    const snapshot = drag.before;
+    drag = null;
+    if (snapshot !== JSON.stringify(layout)) {
+      edits.checkpoint(snapshot);
+      changed();
+      message("已经放好。");
+    }
+  };
+  canvas.onpointerup = finish;
+  canvas.onpointercancel = finish;
+  canvas.onlostpointercapture = finish;
+  $("rotate").onclick = rotate;
+  $("remove").onclick = remove;
+  $("duplicate").onclick = () => {
+    const o = selection();
+    if (o) add(o.type, o);
+  };
+  function resize(scale) {
+    const o = selection();
+    if (!o) return;
+    const next = resizedObject(
+      scene,
+      o,
+      Math.round(Math.max(0.5, Math.min(2, scale)) * 100) / 100,
+      objects(),
+    );
+    if (!next) {
+      message("这里容不下这个尺寸，先移到更宽的地方再放大。");
+      buttons();
+      return;
+    }
+    const moved = next.x !== o.x || next.y !== o.y;
+    if (!commitMove(o, { scale: next.scale, x: next.x, y: next.y })) return;
+    message(
+      "大小 " +
+        Math.round(next.scale * 100) +
+        "%" +
+        (moved ? "，稍向内挪了一点。" : "。"),
+    );
+  }
+  $("scale").onchange = () => resize(Number($("scale").value));
+  $("scaleDown").onclick = () => resize((selection()?.scale || 1) - 0.1);
+  $("scaleUp").onclick = () => resize((selection()?.scale || 1) + 0.1);
+  for (const id of ["posX", "posY"])
+    $(id).onchange = () => {
+      const o = selection();
+      if (o)
+        commitMove(o, { [id === "posX" ? "x" : "y"]: Number($(id).value) });
+    };
+  $("undo").onclick = () => {
+    if (!edits.canUndo) return;
+    const previous = selected;
+    layout = edits.undo(layout);
+    rebuild();
+    selected = previous;
+    buttons();
+    save();
+  };
+  $("redo").onclick = () => {
+    if (!edits.canRedo) return;
+    const previous = selected;
+    layout = edits.redo(layout);
+    rebuild();
+    selected = previous;
+    buttons();
+    save();
+  };
+  $("clear").onclick = () => {
+    checkpoint();
+    layout.scenes[scene] = [];
+    selected = null;
+    changed();
+    message("天台腾空了，可以从架上重新挑东西。");
+  };
+  $("restore").onclick = () => {
+    checkpoint();
+    layout.scenes[scene] = initialLayout().scenes[scene];
+    selected = null;
+    changed();
+    message("已恢复此阳台的初始陈列。");
+  };
+  $("person").onchange = () => (showPerson = $("person").checked);
+  $("preview").onclick = () => {
+    save();
+    $("preview").href = "https://umwelt.fivsevn.com/rooftop/";
+  };
+  const load = (text) => {
+    try {
+      const imported = validateLayout(JSON.parse(text));
+      checkpoint();
+      layout = imported;
+      rebuild();
+      save();
+      message("已导入北天台和南阳台的布局。");
+    } catch (e) {
+      message("导入失败：" + e.message);
+    }
+  };
+  $("export").onclick = () => {
+    const text = JSON.stringify(layout, null, 2);
+    $("layoutText").value = text;
+    const url = URL.createObjectURL(
+        new Blob([text], { type: "application/json" }),
+      ),
+      a = document.createElement("a");
+    a.href = url;
+    a.download = "horticultural-era-rooftop-layout.json";
+    document.body.append(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 10000);
+    message("已导出北天台和南阳台的布局 JSON 文件。");
+  };
+  $("importButton").onclick = () => $("importFile").click();
+  $("importFile").onchange = async () => {
+    const file = $("importFile").files[0];
+    try {
+      if (file) load(await file.text());
+    } catch (e) {
+      message("导入失败：" + e.message);
+    } finally {
+      $("importFile").value = "";
+    }
+  };
+  $("importText").onclick = () => load($("layoutText").value);
+  document.addEventListener("keydown", (e) => {
+    if (e.target.matches("input,select,textarea")) return;
+    const o = selection();
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "z") {
+      e.preventDefault();
+      $(e.shiftKey ? "redo" : "undo").click();
+      return;
+    }
+    if (!o) return;
+    const delta = {
+      ArrowLeft: [-1, 0],
+      ArrowRight: [1, 0],
+      ArrowUp: [0, -1],
+      ArrowDown: [0, 1],
+    }[e.key];
+    if (delta) {
+      e.preventDefault();
+      commitMove(o, {
+        x: o.x + delta[0] * (e.shiftKey ? 8 : 1),
+        y: o.y + delta[1] * (e.shiftKey ? 8 : 1),
+      });
+    }
+    if (e.key.toLowerCase() === "r") rotate();
+    if (["Delete", "Backspace"].includes(e.key)) {
+      e.preventDefault();
+      remove();
+    }
+  });
+} else {
+  $("sceneDoor").onclick = () => {
+    scene = scene === "south" ? "north" : "south";
+    const url = new URL(location.href);
+    url.searchParams.set("scene", scene);
+    historyNavigation.pushState(null, "", url);
+    rebuild();
+  };
+  window.addEventListener("popstate", () => {
+    scene =
+      new URLSearchParams(location.search).get("scene") === "south"
+        ? "south"
+        : "north";
+    rebuild();
+  });
+  const clampPan = () => {
+    pans[scene] = gardenCamera(
+      scene,
+      innerWidth,
+      innerHeight,
+      zooms[scene],
+      pans[scene],
+    ).pan;
+  };
+  const zoomAt = (factor, point, world = coords(point)) => {
+    zooms[scene] = Math.max(1, Math.min(2.5, zooms[scene] * factor));
+    fitView();
+    const after = coords(point);
+    pans[scene].x += world.x - after.x;
+    pans[scene].y += world.y - after.y;
+    clampPan();
+    fitView();
+    render();
+  };
+  const beginGesture = () => {
+    const ps = [...pointers.values()];
+    if (ps.length >= 2) {
+      const a = ps[0],
+        b = ps[1],
+        center = {
+          clientX: (a.clientX + b.clientX) / 2,
+          clientY: (a.clientY + b.clientY) / 2,
+        };
+      pinch = {
+        distance: Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY),
+        world: coords(center),
+      };
+      panDrag = null;
+    } else if (ps.length === 1) {
+      const e = ps[0];
+      pinch = null;
+      panDrag = {
+        x: e.clientX,
+        y: e.clientY,
+        origin: { ...pans[scene] },
+        camera: { ...camera },
+      };
+    } else {
+      panDrag = null;
+      pinch = null;
+    }
+  };
+  canvas.onpointerdown = (e) => {
+    if (e.button !== 0) return;
+    pointers.set(e.pointerId, { clientX: e.clientX, clientY: e.clientY });
+    canvas.setPointerCapture(e.pointerId);
+    beginGesture();
+  };
+  canvas.onpointermove = (e) => {
+    if (!pointers.has(e.pointerId)) return;
+    pointers.set(e.pointerId, { clientX: e.clientX, clientY: e.clientY });
+    if (pinch && pointers.size >= 2) {
+      const [a, b] = [...pointers.values()],
+        distance = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+      if (distance > 0 && pinch.distance > 0)
+        zoomAt(
+          distance / pinch.distance,
+          {
+            clientX: (a.clientX + b.clientX) / 2,
+            clientY: (a.clientY + b.clientY) / 2,
+          },
+          pinch.world,
+        );
+      pinch.distance = distance;
+    } else if (panDrag) {
+      const rect = canvas.getBoundingClientRect();
+      pans[scene] = {
+        x:
+          panDrag.origin.x -
+          ((e.clientX - panDrag.x) * panDrag.camera.w) / rect.width,
+        y:
+          panDrag.origin.y -
+          ((e.clientY - panDrag.y) * panDrag.camera.h) / rect.height,
+      };
+      clampPan();
+      fitView();
+      render();
+    }
+  };
+  const finishPan = (e) => {
+    pointers.delete(e.pointerId);
+    beginGesture();
+  };
+  canvas.onpointerup = finishPan;
+  canvas.onpointercancel = finishPan;
+  canvas.onlostpointercapture = finishPan;
+  canvas.addEventListener(
+    "wheel",
+    (e) => {
+      e.preventDefault();
+      zoomAt(Math.exp(-e.deltaY * 0.0015), e);
+    },
+    { passive: false },
+  );
+  window.addEventListener("resize", () => {
+    fitView();
+    render();
+  });
+}
+const historyNavigation = window.history;
+function fitView() {
+  if (editor) {
+    canvas.width = camera.w;
+    canvas.height = camera.h;
+  } else {
+    const view = gardenCamera(
+      scene,
+      innerWidth,
+      innerHeight,
+      zooms[scene],
+      pans[scene],
+    );
+    camera = view.camera;
+    pans[scene] = view.pan;
+  }
+  canvas.width = camera.w;
+  canvas.height = camera.h;
+  if (editor)
+    canvas.parentElement.style.setProperty(
+      "--scene-ratio",
+      camera.w / camera.h,
+    );
+  materialFrame.width = camera.w;
+  materialFrame.height = camera.h;
+  backdrop.width = camera.w;
+  backdrop.height = camera.h;
+  const bg = backdrop.getContext("2d");
+  bg.translate(-camera.x, -camera.y);
+  cityBounds = { ...camera };
+  if (scene !== "room")
+    paintSurroundings(bg, cityBounds, { scene, sky: false });
+  if (editor) return;
+  const d = DOORS[scene],
+    door = $("sceneDoor"),
+    rect = canvas.getBoundingClientRect(),
+    sx = rect.width / camera.w,
+    sy = rect.height / camera.h,
+    w = Math.max(44, (d.w + 16) * sx),
+    h = Math.max(44, (d.h + 12) * sy);
+  Object.assign(door.style, {
+    left: (d.x - camera.x) * sx - w / 2 + "px",
+    top: (d.y - camera.y) * sy - h / 2 + "px",
+    width: w + "px",
+    height: h + "px",
+  });
+  door.setAttribute("aria-label", d.label);
+  door.title = d.label;
+}
+function syncPresence() {
+  if (editor) return;
+  $("roomCard").href = "./room/?scene=" + scene;
+  $("garageCard").href = "./arrange/?scene=" + scene;
+  if (!resident.present) $("dongdongStatus").textContent = resident.status;
+  canvas.setAttribute(
+    "aria-label",
+    SCENES[scene].name +
+      "，" +
+      (resident.present ? "东东正在照料植物" : resident.status),
+  );
+}
+
+let doorOpen = false;
+if (!editor) {
+  const door = $("sceneDoor");
+  door.onpointerenter = () => {
+    doorOpen = true;
+    render();
+  };
+  door.onpointerleave = () => {
+    doorOpen = false;
+    render();
+  };
+  door.onfocus = () => {
+    doorOpen = true;
+    render();
+  };
+  door.onblur = () => {
+    doorOpen = false;
+    render();
+  };
+}
+let last = performance.now(),
+  time = 0,
+  drawAt = 0;
+function render() {
+  if (scene === "room") {
+    display.clearRect(0, 0, canvas.width, canvas.height);
+    display.imageSmoothingEnabled = false;
+    display.save();
+    display.translate(-camera.x, -camera.y);
+    display.drawImage(base, 0, 0);
+    const items = objects().map((o) => ({
+      y: o.y - (asset(o.type).furniture ? dimensions(o).h / 2 : 0),
+      o,
+    }));
+    if (showPerson) items.push({ y: walker.person.y, p: walker.person });
+    items.push({ y: pigWalker.person.y, pig: pigWalker.person });
+    items.sort((a, b) => a.y - b.y);
+    for (const item of items)
+      if (item.o) paintObject(display, item.o, time, item.o.id === selected);
+      else if (item.p) paintPerson(display, item.p, time);
+      else paintPig(display, item.pig, time);
+    display.restore();
+    $("weatherStatus").textContent = "窗外的声音隔着一层玻璃。";
+    return;
+  }
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.imageSmoothingEnabled = false;
+  display.imageSmoothingEnabled = false;
+  paintSky(
+    display,
+    { x: 0, y: 0, w: canvas.width, h: canvas.height },
+    atmosphere,
+    time,
+    { reduced },
+  );
+  ctx.drawImage(backdrop, 0, 0);
+  paintDistanceFog(ctx, canvas.width, canvas.height, atmosphere);
+  ctx.save();
+  ctx.translate(-camera.x, -camera.y);
+  ctx.drawImage(base, 0, 0);
+  paintWetRoof(ctx, SCENES[scene].points, atmosphere, time, {
+    objects: objects(),
+    reflect: (c, o) => paintObject(c, o, time),
+  });
+  paintSunShadows(
+    ctx,
+    SCENES[scene].points,
+    objects().map((o) => ({
+      ...o,
+      width: asset(o.type).w,
+      height: asset(o.type).h,
+    })),
+    atmosphere,
+    { scene },
+  );
+  if (editor && $("grid").checked) {
+    ctx.fillStyle = "#747e6338";
+    for (let y = 80; y < 470; y += 8)
+      for (let x = 136; x < 520; x += 8)
+        if (inside(scene, x, y)) ctx.fillRect(x, y, 1, 1);
+  }
+  const sprites = objects().map((o) => ({
+    y: asset(o.type).plant
+      ? Math.max(...contactPoints(o).map((p) => p[1]))
+      : o.y -
+        (asset(o.type).furniture ||
+        [
+          "shelf",
+          "woodshelf",
+          "table",
+          "bench",
+          "sink",
+          "basin",
+          "terrarium",
+          "stool",
+        ].includes(o.type)
+          ? dimensions(o).h / 2
+          : 0),
+    object: o,
+  }));
+  const pig = pigWalker.person;
+  sprites.push({ y: pig.y, pig });
+  if (showPerson) sprites.push({ y: walker.person.y, person: walker.person });
+  sprites.sort((a, b) => a.y - b.y);
+  const foreground = foregroundObjects(objects());
+  for (const s of sprites)
+    if (s.object) {
+      paintObject(ctx, s.object, time, s.object.id === selected, atmosphere);
+      paintPlantOccluders(ctx, s.object, foreground);
+    } else if (s.pig) paintPig(ctx, s.pig, time);
+    else paintPerson(ctx, s.person, time);
+  if (!editor) paintDoor(ctx, scene, doorOpen);
+  ctx.restore();
+  paintLighting(ctx, canvas.width, canvas.height, atmosphere, time, { camera });
+  display.drawImage(materialFrame, 0, 0);
+  display.save();
+  display.translate(-camera.x, -camera.y);
+  paintObjectLights(display, objects(), asset, atmosphere);
+  display.restore();
+  display.save();
+  display.translate(-camera.x, -camera.y);
+  display.beginPath();
+  display.rect(
+    cityBounds.x - 20,
+    cityBounds.y - 20,
+    cityBounds.w + 40,
+    cityBounds.h + 40,
+  );
+  SCENES[scene].points.forEach(([x, y], i) =>
+    i ? display.lineTo(x, y) : display.moveTo(x, y),
+  );
+  display.closePath();
+  display.clip("evenodd");
+  paintCityLights(display, cityBounds, atmosphere.lamps, { scene });
+  display.restore();
+  paintRain(display, canvas.width, canvas.height, atmosphere, time, {
+    reduced,
+  });
+  weatherCaption();
+}
+function frame(now) {
+  const dt = Math.min((now - last) / 1000, 0.1);
+  last = now;
+  time += dt;
+  if (cardFeed) cardFeed.update(time);
+  weatherAge += dt;
+  if (!editor && weatherAge > 480) {
+    weatherAge = 0;
+    const options = WEATHER.filter((w) => w.id !== weather.choices.condition);
+    weather.set(
+      "condition",
+      options[Math.floor(Math.random() * options.length)].id,
+    );
+  }
+  atmosphere = weather.update(dt);
+  if (resident && resident.update(dt)) {
+    showPerson = resident.present;
+    syncPresence();
+    if (showPerson) walker.arrive();
+  }
+  if (showPerson) walker.update(dt);
+  pigWalker.update(dt * 0.8);
+  if (now - drawAt > 50) {
+    drawAt = now;
+    render();
+  }
+  requestAnimationFrame(frame);
+}
+if (editor) {
+  const switches = document.querySelector(".arrange-controls"),
+    note = document.querySelector(".notebook"),
+    column = document.createElement("div");
+  column.className = "note-column";
+  note.before(column);
+  column.append(note);
+  const inspector = document.querySelector(".inspector");
+  const placeSwitches = () => {
+    if (innerWidth > 900) {
+      column.prepend(switches);
+      note.before(inspector);
+    } else {
+      const workspace = document.querySelector(".workspace");
+      workspace.prepend(inspector);
+      workspace.prepend(switches);
+    }
+  };
+  placeSwitches();
+  window.addEventListener("resize", placeSwitches);
+}
 // Reserve the measured controls and page chrome, including wrapped toolbars.
-if(editor){const workspace=document.querySelector('.workspace'),wrap=canvas.parentElement,layoutRoot=document.querySelector('.editor-layout');const fitEditorHeight=()=>{if(innerWidth<=900){workspace.style.removeProperty('--scene-height');return}const top=document.querySelector('.topbar').getBoundingClientRect().bottom,padding=getComputedStyle(layoutRoot);let occupied=top+parseFloat(padding.paddingTop)+parseFloat(padding.paddingBottom)+12;for(const child of workspace.children)if(child!==wrap){const style=getComputedStyle(child);occupied+=child.getBoundingClientRect().height+parseFloat(style.marginTop)+parseFloat(style.marginBottom)}workspace.style.setProperty('--scene-height',Math.max(100,innerHeight-occupied)+'px')};const sizing=new ResizeObserver(fitEditorHeight);for(const el of [document.querySelector('.topbar'),...workspace.children])if(el!==wrap)sizing.observe(el);window.addEventListener('resize',fitEditorHeight);document.fonts.ready.then(fitEditorHeight);fitEditorHeight()}
-let cardFeed=null;rebuild();if(!editor)cardFeed=attachCardFeed(document.querySelector('.corner-cards'),{scene:()=>scene,presence:()=>resident});requestAnimationFrame(frame);
+if (editor) {
+  const workspace = document.querySelector(".workspace"),
+    wrap = canvas.parentElement,
+    layoutRoot = document.querySelector(".editor-layout");
+  const fitEditorHeight = () => {
+    if (innerWidth <= 900) {
+      workspace.style.removeProperty("--scene-height");
+      return;
+    }
+    const top = document
+        .querySelector(".topbar")
+        .getBoundingClientRect().bottom,
+      padding = getComputedStyle(layoutRoot);
+    let occupied =
+      top +
+      parseFloat(padding.paddingTop) +
+      parseFloat(padding.paddingBottom) +
+      12;
+    for (const child of workspace.children)
+      if (child !== wrap) {
+        const style = getComputedStyle(child);
+        occupied +=
+          child.getBoundingClientRect().height +
+          parseFloat(style.marginTop) +
+          parseFloat(style.marginBottom);
+      }
+    workspace.style.setProperty(
+      "--scene-height",
+      Math.max(100, innerHeight - occupied) + "px",
+    );
+  };
+  const sizing = new ResizeObserver(fitEditorHeight);
+  for (const el of [document.querySelector(".topbar"), ...workspace.children])
+    if (el !== wrap) sizing.observe(el);
+  window.addEventListener("resize", fitEditorHeight);
+  document.fonts.ready.then(fitEditorHeight);
+  fitEditorHeight();
+}
+let cardFeed = null;
+rebuild();
+if (!editor)
+  cardFeed = attachCardFeed(document.querySelector(".corner-cards"), {
+    scene: () => scene,
+    presence: () => resident,
+  });
+requestAnimationFrame(frame);
 // Read-only runtime state also makes movement and layout behavior inspectable during QA.
-window.rooftop={get weather(){return {...weather.state,choices:weather.choices,elapsed:time,reduced}},get scene(){return scene},get layout(){return structuredClone(layout)},get person(){return {...walker.person}},get pig(){return {...pigWalker.person}},get selected(){return selected},get presence(){return resident?{present:resident.present,status:resident.status,remaining:resident.remaining}:null},get camera(){return {...camera}}};
+window.rooftop = {
+  get weather() {
+    return {
+      ...weather.state,
+      choices: weather.choices,
+      elapsed: time,
+      reduced,
+    };
+  },
+  get scene() {
+    return scene;
+  },
+  get layout() {
+    return structuredClone(layout);
+  },
+  get person() {
+    return { ...walker.person };
+  },
+  get pig() {
+    return { ...pigWalker.person };
+  },
+  get selected() {
+    return selected;
+  },
+  get presence() {
+    return resident
+      ? {
+          present: resident.present,
+          status: resident.status,
+          remaining: resident.remaining,
+        }
+      : null;
+  },
+  get camera() {
+    return { ...camera };
+  },
+};
