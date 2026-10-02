@@ -1,25 +1,20 @@
-/* The room shares the garage shell, typography, cards and upstairs link. */
+/* Room controls inherit garage typography, category buttons and panel spacing. */
 body.bedroom{overflow:auto;background-color:#aaa58e;background-image:linear-gradient(#777e6a14 1px,transparent 1px),linear-gradient(90deg,#777e6a14 1px,transparent 1px);background-size:32px 32px}
-.garage.bedroom .editor-layout{grid-template-columns:minmax(0,1fr) 340px;max-width:2200px;gap:16px;padding:16px}
+.garage.bedroom .editor-layout{grid-template-columns:minmax(0,1fr) 340px;max-width:1040px;gap:16px;padding:16px}
 .garage.bedroom .workspace{grid-column:1;grid-row:1;container-type:normal}
 .garage.bedroom .note-column{grid-column:2;grid-row:1;display:flex;flex-direction:column;gap:12px;min-width:0;max-height:none;overflow:visible}
-.garage.bedroom .workspace .canvas-wrap{max-width:none;position:relative;margin:0;border:0}
+.garage.bedroom .workspace .canvas-wrap{width:min(100%,340px);position:relative;margin:0 auto;border:0}
 .bedroom #room{display:block;width:100%;height:auto;image-rendering:pixelated}
 .garage.bedroom .workspace-status{left:16px;bottom:16px;max-width:calc(100% - 32px)}
-.garage.bedroom .room-wardrobe,.garage.bedroom .room-activities{display:block;padding:10px;margin:0;background:var(--ui-panel);color:var(--ui-ink);box-shadow:3px 4px #26332b45}
-.bedroom h2{font-size:14px;font-weight:400;margin:0 0 8px}.bedroom .choices{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}.bedroom .choices:last-child{margin-bottom:0}
-.garage.bedroom button{background:#c2b796;color:#384637;font-size:12px}.garage.bedroom button[aria-pressed=true]{background:#465846;color:#eee3c5}
-.garage.bedroom .notebook{position:static;max-height:none;padding:14px;margin:0}.bedroom .note{font-size:12px;line-height:1.9;margin:0}.bedroom label{font-size:12px;display:flex;gap:8px;align-items:center}
+.garage.bedroom .room-panel{grid-column:auto;grid-row:auto;position:static;height:auto;max-height:none;overflow:visible;display:block;margin:0;flex:none}
+.bedroom .room-panel .categories:last-child{margin-bottom:0}
+.garage.bedroom .notebook{position:static;max-height:none;margin:0}
+.bedroom .room-activities label{display:flex;gap:8px;align-items:center;font-size:11px}
+.garage.bedroom .room-transfer{justify-content:flex-end;background:var(--ui-panel);padding:6px 7px;min-height:36px;box-shadow:3px 4px #26332b45}
+.bedroom .room-transfer .layout-transfer{margin-left:auto;display:flex;gap:6px;align-items:center}
+.bedroom .room-transfer .transfer{padding:0;border:0;position:relative}
+.bedroom .room-transfer summary{background:#c2b796;color:#384637;cursor:pointer}
+.bedroom .room-transfer .transfer-body{position:absolute;right:0;bottom:calc(100% + 8px);width:230px;padding:10px;background:var(--ui-panel);color:var(--ui-ink);box-shadow:3px 4px #26332b55;line-height:1.7;z-index:3}
+.bedroom .room-transfer .transfer-body p{font-size:12px;margin:0 0 8px}
 @media(max-width:900px){.garage.bedroom .editor-layout{grid-template-columns:minmax(0,1fr) 280px;padding:10px;gap:12px}}
-@media(max-width:650px){.garage.bedroom .editor-layout{grid-template-columns:1fr}.garage.bedroom .note-column{grid-column:1;grid-row:2}.garage.bedroom .workspace-status{left:12px;bottom:12px}.bedroom .choices{gap:6px}}
-.garage.bedroom .workspace .canvas-wrap{width:100%}
-
-.garage.bedroom .editor-layout{grid-template-columns:minmax(0,1fr) 340px;max-width:1040px}.garage.bedroom .workspace .canvas-wrap{width:min(100%,calc((100dvh - 140px)*208/288));margin:0 auto}.bedroom .workspace-toolbar a{font-size:12px;text-decoration:none;padding:3px 8px;background:#c2b796;color:#384637}.bedroom .workspace-toolbar{justify-content:center}@media(max-width:650px){.garage.bedroom .editor-layout{grid-template-columns:1fr}.garage.bedroom .workspace .canvas-wrap{width:min(100%,280px)}}
-.garage.bedroom .workspace-toolbar{background:transparent;border:0;box-shadow:none;min-height:0;padding:0}.bedroom .workspace-toolbar a{background:#d0cebae6;box-shadow:2px 3px #46533b55}
-
-.garage.bedroom .workspace .canvas-wrap{width:min(100%,340px)}
-
-
-.garage.bedroom .room-transfer{justify-content:flex-end;background:var(--ui-panel);padding:6px 7px;min-height:36px;box-shadow:3px 4px #26332b45}.bedroom .room-transfer .layout-transfer{margin-left:auto;display:flex;gap:6px;align-items:center}.bedroom .room-transfer .transfer{padding:0;border:0;position:relative}.bedroom .room-transfer summary{background:#c2b796;color:#384637;cursor:pointer}.bedroom .room-transfer .transfer-body{position:absolute;right:0;bottom:calc(100% + 8px);width:230px;padding:10px;background:var(--ui-panel);color:var(--ui-ink);box-shadow:3px 4px #26332b55;line-height:1.7;z-index:3}.bedroom .room-transfer .transfer-body p{font-size:12px;margin:0 0 8px}
-
-.garage.bedroom .room-wardrobe,.garage.bedroom .room-activities{background:#303e36;padding:10px}.bedroom .choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:14px;max-height:220px;overflow:auto;scrollbar-width:thin;scrollbar-color:#92967c #343f38;padding-right:4px}.garage.bedroom button.asset-card{height:auto!important;min-height:88px!important;padding:5px 3px!important;line-height:1.5!important;background:#56624f;color:#eee3c5;display:flex;flex-direction:column;gap:3px;justify-content:center;align-items:center}.bedroom .asset-card canvas{width:64px;height:64px}.bedroom .asset-card span{font-size:12px;line-height:1.5}.garage.bedroom button.asset-card[aria-pressed=true]{background:#7b8467;color:#f1e6c9}.bedroom #activities{max-height:280px}.bedroom .note-column{scrollbar-width:thin}@media(min-width:651px){.garage.bedroom .note-column{max-height:calc(100dvh - 90px);overflow:auto;padding:0 4px 6px 0}.garage.bedroom .workspace{position:sticky;top:16px}}
+@media(max-width:650px){.garage.bedroom .editor-layout{grid-template-columns:1fr}.garage.bedroom .note-column{grid-column:1;grid-row:2}.garage.bedroom .workspace-status{left:12px;bottom:12px}.garage.bedroom .workspace .canvas-wrap{width:min(100%,280px)}}
