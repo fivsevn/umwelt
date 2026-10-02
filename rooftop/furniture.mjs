@@ -1,5 +1,6 @@
 // Furniture shares a small material palette, while gaps expose the roof beneath it.
 export const FURNITURE=[
+ ['room-bed','木床与薄被',46,62],['room-wardrobe','双门衣柜',44,52],['room-dresser','三屉斗柜',42,35],['room-armchair','布面小扶手椅',32,34],
  ['tierstand','三层铁花架',48,38],['ladderstand','梯形木花架',38,48],['wallrack','窄高格花架',30,54],['plantcart','带轮花车',46,32],['pottingbench','带抽屉换盆台',60,38],['gardenbench','靠背长凳',58,32],['bistrotable','圆形铁桌',36,32],['foldingchair','折叠木椅',25,33],['storagechest','户外储物箱',48,30],['trellis','攀藤格栅',38,52]
 ].map(([id,name,w,h])=>({id,name,w,h,category:'家具',furniture:true,note:'北天台实物与日常园艺家具：木板留有纹理，铁件保留网格、连接点和支脚。',care:'放在稳固平面上；花架可承托盆底。',sources:[]}));
 const WOOD={edge:'#70614f',side:'#70614d',face:'#8d7a5f',light:'#a59478',grain:'#7e7059'},METAL={edge:'#525a4e',side:'#4f584e',face:'#6c7465',light:'#929584',grain:'#5a6252'};
@@ -10,6 +11,12 @@ function plank(c,x,y,w,h,m,seed=0){rect(c,x,y,w,h,m.face);rect(c,x,y+h-2,w,2,m.s
 function post(c,x,y,h,m){rect(c,x,y,3,h,m.side);rect(c,x,y+2,2,h-4,m.face);for(let yy=y+4;yy<y+h-4;yy+=9){rect(c,x,yy,1,1,m.light);rect(c,x+1,yy+1,1,1,m.grain)}}
 const BLACK={edge:'#27322e',side:'#303b36',face:'#435047',light:'#657267',grain:'#35433a'};
 export function paintFurniture(c,t,w,h,{rotation=0}={}){const m=t==='shelf'?BLACK:['shelf','tierstand','wallrack','plantcart','bistrotable','trellis'].includes(t)?METAL:WOOD,x=-Math.floor(w/2),y=-Math.floor(h/2);
+ if(t.startsWith('room-')){const side=rotation%180!==0,rear=rotation===180;
+  if(t==='room-bed'){for(const xx of [x+3,x+w-6])post(c,xx,y+8,h-7,m);plank(c,x,y,w,7,m);rect(c,x+4,y+7,w-8,h-13,'#c9bea1');rect(c,x+7,y+10,w-14,9,'#e1d3b3');rect(c,x+4,y+23,w-8,h-29,'#82917c');for(let yy=y+25;yy<y+h-9;yy++)for(let xx=x+5;xx<x+w-5;xx++)if((xx+yy)%4===0)rect(c,xx,yy,1,1,'#9ba78b');plank(c,x,y+h-7,w,5,m);return}
+  if(t==='room-armchair'){for(const xx of [x+3,x+w-6])post(c,xx,y+h-7,7,m);rect(c,x+3,y+4,w-6,h-10,'#6c7e70');rect(c,x+5,y+6,w-10,10,'#91a08a');rect(c,x+5,y+17,w-10,h-24,'#a1aa90');for(const xx of [x+1,x+w-5])plank(c,xx,y+12,4,h-17,m);if(side)rect(c,rotation===90?x+3:x+w-8,y+3,5,h-12,'#778b7a');return}
+  for(const xx of [x+3,x+w-6])post(c,xx,y+h-7,7,m);rect(c,x,y+3,w,h-10,m.side);plank(c,x,y,w,5,m);if(rear||side){for(let yy=y+6;yy<y+h-8;yy+=6)plank(c,x+2,yy,w-4,6,m,yy);return}
+  if(t==='room-wardrobe'){for(const xx of [x+2,1]){rect(c,xx,y+5,w/2-3,h-14,m.face);rect(c,xx+2,y+8,w/2-7,h-20,'#9b8768')}for(const xx of [-4,2])rect(c,xx,y+h*.55,2,3,'#c6b386');line(c,0,y+5,0,y+h-9,m.edge)}else for(let i=0;i<3;i++){plank(c,x+2,y+5+i*(h-13)/3,w-4,(h-13)/3,m,i);rect(c,-3,y+7+i*(h-13)/3,6,2,'#b9ad8b')}return
+ }
  if(['shelf','woodshelf','tierstand','ladderstand','wallrack'].includes(t)){
   const tiers=t==='wallrack'?4:3,step=(h-9)/tiers,ladder=t==='ladderstand',wood=t==='woodshelf'||ladder;
   if(ladder){line(c,x+9,y,x+2,y+h-2,m.edge);line(c,-x-10,y,-x-3,y+h-2,m.edge);line(c,x+10,y,x+3,y+h-2,m.light);line(c,-x-9,y,-x-2,y+h-2,m.side)}
