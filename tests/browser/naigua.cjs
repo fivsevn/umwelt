@@ -51,7 +51,7 @@ const base=process.env.BASE_URL||'http://127.0.0.1:8765',output=process.env.QA_O
  // Cabinet selection must never perform either a random or guaranteed draw.
  const collectionKey='isopoda-fieldnotes-v1',runKey='isopoda-fugue-v4';
  for(const unlocked of [false,true])for(const misses of [0,7]){
-  await page.evaluate(({unlocked,misses,collectionKey})=>{localStorage.clear();localStorage.setItem(collectionKey,JSON.stringify({version:1,unlocked:['dairy','orange',...(unlocked?['naigua']:[])],draws:12,naiguaMisses:misses,acquired:{}}))},{unlocked,misses,collectionKey});
+  await page.evaluate(({unlocked,misses,collectionKey})=>{localStorage.clear();localStorage.setItem(collectionKey,JSON.stringify({version:1,completedObservation:true,unlocked:['dairy','orange',...(unlocked?['naigua']:[])],draws:12,naiguaMisses:misses,acquired:{}}))},{unlocked,misses,collectionKey});
   await page.goto(base+'/isopoda/?habitat=petri-dish');await page.waitForFunction(()=>document.querySelector('#startBtn')?.onclick);
   const before=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),collectionKey);
   const pool=await page.evaluate(async collection=>{const {unlockedPetriSpecies}=await import('/isopoda/arrival.mjs');return unlockedPetriSpecies(collection)},before);

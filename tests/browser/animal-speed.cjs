@@ -1,3 +1,4 @@
+const {completedPrerequisites}=require('../support/observation-fixtures.cjs');
 const assert=require('node:assert/strict');
 const {chromium,webkit}=require('playwright');
 const name=process.env.BROWSER||'chromium',base=process.env.BASE_URL||'http://127.0.0.1:8873';
@@ -6,6 +7,8 @@ try{for(const habitat of ['terrestrial','freshwater','groundwater','estuary','in
  const p=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'}),errors=[];p.on('pageerror',e=>errors.push(e.message));
  await p.route('**/habitat.mjs*',async route=>{const response=await route.fetch(),body=(await response.text()).replace('return {reset,stage,react,','if(canvas.id==="habitat")window.__clockTest=()=>({environment:elapsed,animal:animalElapsed,plant:seaweed?.time,phase:critters.reduce((s,a)=>s+a.phase,0)});return {reset,stage,react,');await route.fulfill({response,body})});
  await p.goto(base+'/isopoda/?habitat='+habitat);
+ await completedPrerequisites(p);await p.reload();await p.waitForFunction(()=>!!document.querySelector('#startBtn')?.onclick);
+
  if(habitat==='petri-dish'){
   // The cabinet requires an unlocked specimen; seed an existing observation.
   await p.evaluate(async()=>{const {createRun}=await import('./engine.mjs');const s=createRun('maculosa',44,'petri-dish');s.arrivalPending=true;localStorage.setItem('isopoda-fugue-v4',JSON.stringify(s))});

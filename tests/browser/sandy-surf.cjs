@@ -24,7 +24,8 @@ try{
  const snap=async id=>page.evaluate(id=>{const a=window.__sandTest.actors().find(a=>a.id===id);return {x:a.x,y:a.y,mode:a.interactionState?.mode,hidden:a.hidden,sand:{...a.sand}}},id);
  assert.match(await page.locator('#dayLabel').innerText(),/^\+00:00$/);assert.match(await page.locator('#instruments').innerText(),/浪位.*46/);
  assert.equal(await page.locator('#interactionCue').isVisible(),false);assert.ok(!(await page.locator('#observation').innerText()).includes('阿西莫夫'));
- const id=await page.evaluate(()=>window.__sandTest.actors().find(a=>a.hidden&&a.sand.quiet).id),p=await point(id),before=await snap(id);
+ await page.locator('#habitat').scrollIntoViewIfNeeded();
+ const id=await page.evaluate(()=>{const r=document.querySelector('#habitat').getBoundingClientRect(),v=__sandTest.view();return __sandTest.actors().find(a=>{const x=r.left+(a.x-v.sx)*v.scale,y=r.top+(a.y-v.sy)*v.scale;return a.hidden&&a.sand.quiet&&x>10&&x<innerWidth-10&&y>10&&y<innerHeight-10})?.id}),p=await point(id),before=await snap(id);
  const client=engine==='chromium'&&width<500?await page.context().newCDPSession(page):null;
  const down=async p=>{if(client)await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[p]});else{await page.mouse.move(p.x,p.y);await page.mouse.down()}};
  const move=async p=>{if(client)await client.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[p]});else await page.mouse.move(p.x,p.y)};

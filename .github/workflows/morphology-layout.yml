@@ -3,25 +3,29 @@ on:
   pull_request:
     paths:
       - 'isopoda/**'
-      - 'assets/fonts/**'
+      - 'assets/**'
+      - 'desktop*.mjs'
+      - 'forest.js'
       - 'index.html'
       - '*.css'
       - '.github/scripts/stamp-assets.mjs'
       - 'tests/browser/*.cjs'
       - 'tests/browser/*.mjs'
-      - 'tests/support/browser-controls.cjs'
+      - 'tests/support/**'
       - '.github/workflows/morphology-layout.yml'
   push:
     branches: [main]
     paths:
       - 'isopoda/**'
-      - 'assets/fonts/**'
+      - 'assets/**'
+      - 'desktop*.mjs'
+      - 'forest.js'
       - 'index.html'
       - '*.css'
       - '.github/scripts/stamp-assets.mjs'
       - 'tests/browser/*.cjs'
       - 'tests/browser/*.mjs'
-      - 'tests/support/browser-controls.cjs'
+      - 'tests/support/**'
       - '.github/workflows/morphology-layout.yml'
   workflow_dispatch:
 permissions:
@@ -34,7 +38,7 @@ jobs:
       fail-fast: false
       matrix:
         browser: [chromium, webkit]
-        suite: [morphology-layout, habitat-lab, estuary, estuary-shore, estuary-fauna-story, estuary-shore-motion, estuary-shore-interaction, animal-speed, intertidal, public-regression, sandy-surf, seaweed, scene-readouts, arrival, naigua]
+        suite: [morphology-layout, habitat-lab, estuary, estuary-shore, estuary-fauna-story, estuary-shore-motion, estuary-shore-interaction, animal-speed, intertidal, public-regression, sandy-surf, seaweed, scene-readouts, arrival, naigua, entry-gates]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

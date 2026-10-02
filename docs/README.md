@@ -2,6 +2,7 @@
 
 这里维护仓库共用事项；游戏专属契约仍在 [ISOPODA 文档导航](../isopoda/docs/README.md)，不在本目录复制。
 
+- [全项目维护入口](maintenance.md)：模块边界、CI 归属、观察前置条件和零前端变化验证。
 - [共享音频](audio.md)：音频接口、设置与验证。
 - [验证与发布](../isopoda/docs/deployment.md)：现有发布边界、字体与资源版本，以及纯文档变更验证。
 - [测试入口](../tests/README.md)：统一检查与浏览器回归。
