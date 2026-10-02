@@ -1,23 +1,20 @@
 // Shared Web Audio mixer. No context is created until unlock() is called by a gesture.
 export const AUDIO_KEY='umwelt-audio-v1';
 export const DEFAULTS={master:{volume:0.8,muted:false},music:{volume:0.3,muted:false},sfx:{volume:0.45,muted:false}};
-export function createAudioEngine({storage,Context,ambienceEnabled=true}={}){
+export function createAudioEngine({storage,Context,music}={}){
  let settings=structuredClone(DEFAULTS),ctx,buses,unlocked=false,lastTone=-1;
  try{storage??=globalThis.localStorage;const saved=JSON.parse(storage.getItem(AUDIO_KEY));for(const key of Object.keys(settings)){const v=saved?.[key];if(Number.isFinite(v?.volume))settings[key].volume=Math.max(0,Math.min(1,v.volume));if(typeof v?.muted==='boolean')settings[key].muted=v.muted}}catch{}
  const listeners=new Set();
+ globalThis.addEventListener?.('storage',event=>{
+  if(event.key!==AUDIO_KEY||event.storageArea!==storage)return;
+  try{const saved=JSON.parse(event.newValue);for(const key of Object.keys(settings)){
+   const value=saved?.[key];if(Number.isFinite(value?.volume))settings[key].volume=Math.max(0,Math.min(1,value.volume));if(typeof value?.muted==='boolean')settings[key].muted=value.muted;
+  }apply();listeners.forEach(fn=>fn())}catch{}
+ });
  const ramp=(node,value)=>{node.gain.cancelScheduledValues(ctx.currentTime);node.gain.setTargetAtTime(value,ctx.currentTime,0.045)};
  function apply(){if(buses)for(const key of Object.keys(settings))ramp(buses[key],settings[key].muted?0:settings[key].volume)}
- function ambience(){
-  // A loop of smoothed noise, with matching endpoints; no whistles or random pitches.
-  const buffer=ctx.createBuffer(1,ctx.sampleRate*8,ctx.sampleRate),data=buffer.getChannelData(0);let brown=0;
-  for(let i=0;i<data.length;i++){brown=(brown+0.018*(Math.random()*2-1))/1.018;data[i]=brown}
-  const delta=data[data.length-1]-data[0];for(let i=0;i<data.length;i++)data[i]-=delta*i/(data.length-1);
-  const source=ctx.createBufferSource(),low=ctx.createBiquadFilter(),high=ctx.createBiquadFilter(),gain=ctx.createGain();
-  source.buffer=buffer;source.loop=true;low.type='lowpass';low.frequency.value=650;high.type='highpass';high.frequency.value=90;gain.gain.value=0;
-  source.connect(high).connect(low).connect(gain).connect(buses.music);source.start();gain.gain.setTargetAtTime(0.22,ctx.currentTime,1.2);
- }
  async function unlock(){
-  try{if(!ctx){const C=Context||globalThis.AudioContext||globalThis.webkitAudioContext;if(!C)return false;ctx=new C();buses={};for(const key of Object.keys(settings)){buses[key]=ctx.createGain();buses[key].gain.value=0}buses.music.connect(buses.master);buses.sfx.connect(buses.master);buses.master.connect(ctx.destination);apply();if(ambienceEnabled)ambience()}
+  try{if(!ctx){const C=Context||globalThis.AudioContext||globalThis.webkitAudioContext;if(!C)return false;ctx=new C();buses={};for(const key of Object.keys(settings)){buses[key]=ctx.createGain();buses[key].gain.value=0}buses.music.connect(buses.master);buses.sfx.connect(buses.master);buses.master.connect(ctx.destination);apply();music?.(ctx,buses.music)}
    await ctx.resume();unlocked=ctx.state==='running';return unlocked;
   }catch{return false}
  }

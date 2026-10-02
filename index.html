@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#273e34"><title>环世界观测系统</title><link rel="icon" href="data:,"><link rel="preload" href="./assets/fonts/fusion-pixel-12px-monospaced-zh_hans.ttf.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high"><link rel="stylesheet" href="./style.css"><link rel="stylesheet" href="./window-system.css"></head><body>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#273e34"><title>环世界观测系统</title><link rel="icon" href="data:,"><link rel="preload" href="./assets/fonts/fusion-pixel-12px-monospaced-zh_hans.ttf.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high"><link rel="stylesheet" href="./style.css"><link rel="stylesheet" href="./window-system.css"><link rel="stylesheet" href="./assets/audio/controls.css"></head><body>
 <canvas id="forest" aria-hidden="true"></canvas><header class="desktop-menu"><strong data-copy="systemTitle">环世界观测系统</strong><button id="aboutButton" data-copy="about">关于</button></header>
 <main class="desktop">
 <div class="desktop-apps">
@@ -10,7 +10,7 @@
 <footer class="taskbar">
 <button id="systemButton" class="system-button" aria-expanded="false" aria-controls="systemMenu"><span class="system-emblem" aria-hidden="true"></span><span data-copy="world">环世界</span></button>
 
-<div class="tray"><button id="languageButton">中</button><button id="soundBtn" aria-pressed="true"></button><time id="desktopDate"></time><time id="desktopTime"></time></div>
+<div class="tray"><span class="tray-controls"><button id="languageButton">中</button><button id="musicBtn" type="button"></button><button id="soundBtn" aria-pressed="true"></button></span><time id="desktopDate"></time><time id="desktopTime"></time></div>
 <nav id="systemMenu" class="system-menu" hidden><button data-action="end" data-copy="endMenu">结束观察</button><button data-action="leave" data-copy="leaveMenu">离开环境</button></nav>
 </footer>
 <dialog id="systemDialog" aria-labelledby="dialogTitle" aria-describedby="dialogDetail"><header><h2 id="dialogTitle" tabindex="-1" autofocus></h2></header><div class="dialog-body"><p id="dialogDetail"></p><p id="closeHint" role="status" hidden></p></div><footer><button id="cancelAction"></button><button id="confirmAction"></button></footer></dialog>

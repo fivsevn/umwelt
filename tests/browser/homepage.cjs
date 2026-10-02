@@ -24,9 +24,9 @@ const assert=require('node:assert/strict');
   await page.click('#languageButton');
  }
  assert.equal(await page.evaluate(()=>window.closeCalls),0);
- await page.click('#soundBtn');assert.equal(await page.locator('#soundBtn').getAttribute('aria-pressed'),'false');
- const muted=await page.evaluate(()=>window.audioSources.length);await page.click('#aboutButton');assert.equal(await page.evaluate(()=>window.audioSources.length),muted);
- await page.click('#soundBtn');await page.waitForTimeout(100);await page.click('#aboutButton');assert.ok(await page.evaluate(()=>window.audioSources.length)>muted);
+ await page.click('#soundBtn');await page.locator('#soundBtnPanel input').fill('0');assert.equal(await page.locator('#soundBtn').getAttribute('aria-pressed'),'false');
+ await page.click('#musicBtn');await page.locator('#musicBtnPanel input').fill('0');const muted=await page.evaluate(()=>window.audioSources.length);await page.click('#aboutButton');assert.equal(await page.evaluate(()=>window.audioSources.length),muted);
+ await page.click('#soundBtn');await page.locator('#soundBtnPanel input').fill('45');await page.waitForTimeout(100);await page.click('#aboutButton');assert.ok(await page.evaluate(()=>window.audioSources.length)>muted);
  assert.equal(await page.evaluate(()=>window.audioSources.some(s=>s.loop)),false);
  await page.click('#systemButton');await page.keyboard.press('Escape');assert.equal(await page.locator('#systemMenu').isHidden(),true);
  await page.click('#languageButton');await page.reload();assert.equal(await page.locator('html').getAttribute('lang'),'en');

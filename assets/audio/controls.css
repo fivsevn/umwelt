@@ -1,0 +1,26 @@
+.audio-control{position:relative;display:inline-flex;align-items:center;flex:none}
+.audio-panel{position:absolute;top:calc(100% + 5px);left:50%;transform:translateX(-50%);z-index:100;width:34px;height:126px;box-sizing:border-box;padding:5px 4px;}
+/* Reuse the observation choices' raised surface for both audio popovers. */
+.audio-panel{background:#b5bba0;color:#30442f;border:2px solid;border-color:var(--os-hi) var(--os-lo) var(--os-lo) var(--os-hi);box-shadow:1px 1px 0 #1b2a20}
+.audio-panel[hidden]{display:none}
+.audio-slider{position:relative;width:22px;height:112px;--volume:0%}
+.audio-slider::before{content:'';position:absolute;inset:5px 3px;clip-path:polygon(0 0,100% 0,50% 100%);background:linear-gradient(to top,#536d61 0 var(--volume),#939e82 var(--volume) 100%)}
+.audio-slider input[type=range]{position:relative;display:block;appearance:none;-webkit-appearance:none;writing-mode:vertical-lr;direction:rtl;width:22px;height:112px;min-width:0;margin:0;padding:0;border:0;border-radius:0;background:transparent;cursor:pointer;touch-action:none}
+.audio-slider input::-webkit-slider-runnable-track{width:22px;background:transparent;border:0}
+.audio-slider input::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:22px;height:9px;margin:0;border:2px solid;border-color:#e2e2c8 #4a5d47 #4a5d47 #e2e2c8;border-radius:0;background:linear-gradient(#b5bba0 0 40%,#78886b 40% 50%,#d0d2b3 50% 65%,#b5bba0 65%);box-shadow:1px 1px 0 #4a5d47}
+.audio-slider input::-moz-range-track{width:22px;background:transparent;border:0}
+.audio-slider input::-moz-range-thumb{box-sizing:border-box;width:22px;height:9px;border:2px solid;border-color:#e2e2c8 #4a5d47 #4a5d47 #e2e2c8;border-radius:0;background:#b5bba0}
+.audio-slider input:focus-visible{outline:1px dotted #30442f;outline-offset:3px}
+.audio-control>button .pixel-icon{position:relative;display:inline-block;transform:none!important}
+.audio-control .pixel-icon i{position:absolute;display:block;left:0;top:0}
+
+.tray .audio-panel{top:auto;bottom:calc(100% + 7px)}
+
+.window-system-menu{overflow:visible;z-index:40}
+
+
+/* Both toolbars express volume only through the icon's contrast. */
+.audio-control>button:is(#musicBtn,#soundBtn){background:transparent!important;color:#40513f!important;border:0!important;box-shadow:none!important;opacity:1!important;transform:translate(0,0)!important}
+.audio-control>button:is(#musicBtn,#soundBtn)[aria-pressed=false]{opacity:.48!important}
+
+.audio-control>button:is(#musicBtn,#soundBtn):active:not(:disabled){transform:translate(1px,1px)!important}
