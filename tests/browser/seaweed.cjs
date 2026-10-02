@@ -14,7 +14,7 @@ if(out)fs.mkdirSync(out,{recursive:true});
   assert.equal(await page.locator('#titleCard').getAttribute('data-habitat'),'shallow-marine');
   await click(page,page.locator('#startBtn'));await page.waitForSelector('#arrivalCard:not([hidden])');
   const arrivalCount=await page.locator('#arrivalSpecimens .isopod').count();assert.equal(arrivalCount,await page.evaluate(()=>new Set(JSON.parse(localStorage.getItem('isopoda-fugue-v4')).cohort.map(a=>a.species)).size),'arrival shows each species, including rare visitors, once');
-  assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('isopoda-fugue-v4')).cohort.length),18);
+  assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('isopoda-fugue-v4')).cohort.filter(a=>a.species!=='naigua').length),18);
   if(out)await page.screenshot({path:`${out}/${name}-${width}-seaweed-arrival.png`,fullPage:true});
   await page.evaluate(async()=>{const {createRun}=await import('./engine.mjs'),{drawCohort,restoreCollection}=await import('./collection.mjs'),s=createRun('balthica',701,'shallow-marine');s.cohort=drawCohort(restoreCollection(null,null),701,'shallow-marine');localStorage.setItem('isopoda-fugue-v4',JSON.stringify(s))});
   await page.reload();await page.waitForFunction(()=>document.querySelector('#continueBtn')?.onclick);await click(page,page.locator('#continueBtn'));
@@ -24,10 +24,12 @@ if(out)fs.mkdirSync(out,{recursive:true});
   // The second exchange introduces the gesture through the shared humus cue.
   await click(page,page.locator('#actions button').first());await click(page,page.locator('#nextBtn'));await click(page,page.locator('#actions button').first());
   assert.ok(await page.locator('#interactionCue').isVisible());
+  await page.locator("#habitat").scrollIntoViewIfNeeded();
   const point=await page.evaluate(async()=>{
    const {bed,critters}=seaweedDebug,{cameraWindow}=await import('./habitat.mjs'),rect=document.querySelector('#habitat').getBoundingClientRect(),v=cameraWindow(rect.width,rect.height);
-   const plant=bed.frame.plants.find(p=>p.item.interactive!==false&&p.z>=30&&critters.some(a=>a.weed.plant===p.id&&a.hitCells.length)&&p.cells.some(([x,y])=>x>40&&x<330&&y>80&&y<330&&bed.frame.mask.depth[y*384+x]===p.z&&!critters.some(a=>Math.hypot(a.x-x,a.y-y)<25)));
-   const cell=plant.cells.find(([x,y])=>x>40&&x<330&&y>80&&y<330&&bed.frame.mask.depth[y*384+x]===plant.z&&!critters.some(a=>Math.hypot(a.x-x,a.y-y)<25));
+   const visible=(x,y)=>{const sx=rect.x+(x-v.sx)*v.scale,sy=rect.y+(y-v.sy)*v.scale;return sx>8&&sx<innerWidth-8&&sy>8&&sy<innerHeight-8};
+   const plant=bed.frame.plants.find(p=>p.item.interactive!==false&&p.z>=30&&critters.some(a=>a.weed.plant===p.id&&a.hitCells.length)&&p.cells.some(([x,y])=>visible(x,y)&&x>40&&x<330&&y>80&&y<330&&bed.frame.mask.depth[y*384+x]===p.z&&!critters.some(a=>Math.hypot(a.x-x,a.y-y)<25)));
+   const cell=plant.cells.find(([x,y])=>visible(x,y)&&x>40&&x<330&&y>80&&y<330&&bed.frame.mask.depth[y*384+x]===plant.z&&!critters.some(a=>Math.hypot(a.x-x,a.y-y)<25));
    return {x:rect.x+(cell[0]-v.sx)*v.scale,y:rect.y+(cell[1]-v.sy)*v.scale,id:plant.id,scale:v.scale};
   });
   await page.mouse.move(point.x,point.y);await page.mouse.down();

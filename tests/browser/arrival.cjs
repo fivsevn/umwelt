@@ -1,3 +1,4 @@
+const {completedPrerequisites}=require('../support/observation-fixtures.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs');
 const {chromium,webkit}=require('playwright');
 const base=process.env.BASE_URL||'http://127.0.0.1:8897',engine=process.env.BROWSER||'chromium',out=process.env.QA_OUTPUT||'/tmp/arrival-qa';
@@ -8,6 +9,8 @@ fs.mkdirSync(out,{recursive:true});
   const page=await browser.newPage({viewport:{width,height:width<500?844:1000}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
   for(const id of ['terrestrial','freshwater','groundwater','estuary','intertidal','sandy-surf','shallow-marine','abyssal','petri-dish']){
    await page.goto(base+'/isopoda/?habitat='+id);await page.waitForFunction(()=>!!document.querySelector('#startBtn')?.onclick);
+ await completedPrerequisites(page);await page.reload();await page.waitForFunction(()=>!!document.querySelector('#startBtn')?.onclick);
+
    if(id==='petri-dish'){
     await page.evaluate(()=>{const c=JSON.parse(localStorage.getItem('isopoda-fieldnotes-v1'));c.unlocked.push('dairy','giganteus');localStorage.setItem('isopoda-fieldnotes-v1',JSON.stringify(c))});
     await page.reload();await page.waitForFunction(()=>!!document.querySelector('#startBtn')?.onclick);

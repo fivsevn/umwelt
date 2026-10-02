@@ -4,6 +4,26 @@ import {constants} from 'node:fs';
 const root=new URL('../../',import.meta.url);
 const required=[
  'index.html',
+ 'desktop.mjs',
+ 'desktop-icons.mjs',
+ 'forest.js',
+ 'style.css',
+ 'window-controls.css',
+ 'window-system.css',
+ 'assets/audio/audio-engine.mjs',
+ 'assets/audio/sound-icon.mjs',
+ 'tick/index.html',
+ 'tick/game.js',
+ 'tick/sprite.mjs',
+ 'tick/style.css',
+ 'rooftop/index.html',
+ 'rooftop/app.mjs',
+ 'rooftop/scene.mjs',
+ 'rooftop/rooftop.css',
+ 'rooftop/arrange/index.html',
+ 'rooftop/room/index.html',
+ 'rooftop/room/room.mjs',
+ 'rooftop/room/room.css',
  'isopoda/index.html',
  'isopoda/game.js',
  'isopoda/style.css',
@@ -24,6 +44,13 @@ for(const path of required){
  catch{errors.push(`missing public runtime file: ${path}`)}
 }
 const read=path=>readFile(new URL(path,root),'utf8');
+for(const [path,dependencies] of [
+ ['index.html',['./desktop.mjs','./forest.js','./isopoda/','./tick/','./rooftop/']],
+ ['tick/index.html',['./game.js','./style.css']],
+ ['rooftop/index.html',['./app.mjs','./rooftop.css']],
+ ['rooftop/arrange/index.html',['../app.mjs','../rooftop.css']],
+ ['rooftop/room/index.html',['./room.mjs','./room.css']]
+]){const source=await read(path);for(const dependency of dependencies)if(!source.includes(dependency))errors.push(`${path}: missing ${dependency}`)}
 const game=await read('isopoda/index.html');
 const morphology=await read('isopoda/morphology/index.html');
 const morphologyApp=await read('isopoda/morphology/app.mjs');
@@ -45,4 +72,4 @@ for(const source of [morphology,morphologyApp]){
 if(errors.length){
  for(const error of errors)console.error(`[public-surface] ${error}`);
  process.exitCode=1;
-}else console.log(`[public-surface] OK — ${required.length} required runtime files and 3 ISOPODA public entry surfaces verified.`);
+}else console.log(`[public-surface] OK — ${required.length} required runtime files and all game entries and shared desktop/audio runtime verified.`);

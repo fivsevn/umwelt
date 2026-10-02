@@ -1,3 +1,4 @@
+const {completedPrerequisites}=require('../support/observation-fixtures.cjs');
 // BROWSER=webkit BASE_URL=... COMPARE_URL=... QA_OUTPUT=/tmp/qa node this-file
 // Deterministic frame stepping is test-only; production timing and assets are untouched.
 const assert=require('node:assert/strict');
@@ -50,6 +51,7 @@ async function capture(run,label){
    runs=await Promise.all([base,...(compare?[compare]:[])].map(url=>setup(browser,url,size)));
    for(const r of runs){
     await r.page.goto(r.url+'/isopoda/');await r.page.waitForFunction(()=>!!document.querySelector('#habitatNext')?.onclick);await settle(r.page);
+    if(habitat==='abyssal'){await completedPrerequisites(r.page);await r.page.reload();await r.page.waitForFunction(()=>!!document.querySelector('#habitatNext')?.onclick);await settle(r.page)}
     const steps=await r.page.evaluate(async id=>{const {HABITATS}=await import('/isopoda/habitats.mjs');return HABITATS.findIndex(h=>h.id===id)},habitat);
     assert.ok(steps>=0,`known habitat: ${habitat}`);
     for(let i=0;i<steps;i++)await click(r.page,'#habitatNext');

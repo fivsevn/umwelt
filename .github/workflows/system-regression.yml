@@ -1,0 +1,78 @@
+name: Desktop and TICK regression
+on:
+  push:
+    branches: [main]
+    paths:
+      [
+        "desktop*.mjs",
+        "forest.js",
+        "*.css",
+        "index.html",
+        "assets/**",
+        "tick/**",
+        "isopoda/system-ui.mjs",
+        "isopoda/i18n.mjs",
+        "tests/browser/homepage*.cjs",
+        "tests/browser/tick-motion.cjs",
+        "tests/browser/audio-controls.cjs",
+        ".github/workflows/system-regression.yml",
+      ]
+  pull_request:
+    paths:
+      [
+        "desktop*.mjs",
+        "forest.js",
+        "*.css",
+        "index.html",
+        "assets/**",
+        "tick/**",
+        "isopoda/system-ui.mjs",
+        "isopoda/i18n.mjs",
+        "tests/browser/homepage*.cjs",
+        "tests/browser/tick-motion.cjs",
+        "tests/browser/audio-controls.cjs",
+        ".github/workflows/system-regression.yml",
+      ]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, webkit]
+        suite: [homepage, homepage-language, tick-motion, audio-controls]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install browser tooling
+        run: |
+          npm install --prefix "$RUNNER_TEMP/system-browser" --no-package-lock --no-save playwright@1.62.1
+          "$RUNNER_TEMP/system-browser/node_modules/.bin/playwright" install --with-deps ${{ matrix.browser }}
+      - name: Check system interactions
+        env:
+          BROWSER: ${{ matrix.browser }}
+          BASE_URL: http://127.0.0.1:8783
+          NODE_PATH: ${{ runner.temp }}/system-browser/node_modules
+          QA_OUTPUT: ${{ runner.temp }}/system-screenshots
+        run: |
+          mkdir -p "$QA_OUTPUT"
+          python3 -m http.server 8783 --bind 127.0.0.1 > "$RUNNER_TEMP/system-server.log" 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID"' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent "$BASE_URL/" > /dev/null; then break; fi
+            sleep 1
+          done
+          node "tests/browser/${{ matrix.suite }}.cjs"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ${{ matrix.suite }}-${{ matrix.browser }}
+          path: ${{ runner.temp }}/system-screenshots
+          retention-days: 14
