@@ -20,7 +20,7 @@
 
 
 /* Both toolbars express volume only through the icon's contrast. */
-.audio-control>button:is(#musicBtn,#soundBtn){background:transparent!important;color:#40513f!important;border:0!important;box-shadow:none!important;opacity:1!important;transform:translate(0,0)!important}
-.audio-control>button:is(#musicBtn,#soundBtn)[aria-pressed=false]{opacity:.48!important}
+.audio-control>button:is(#musicBtn,#soundBtn){background:transparent!important;color:#263e2b!important;border:0!important;box-shadow:none!important;opacity:1!important;transform:translate(0,0)!important}
+.audio-control>button:is(#musicBtn,#soundBtn)[aria-pressed=false]{color:#879078!important;opacity:1!important}
 
 .audio-control>button:is(#musicBtn,#soundBtn):active:not(:disabled){transform:translate(1px,1px)!important}
