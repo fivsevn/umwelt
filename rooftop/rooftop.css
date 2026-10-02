@@ -358,3 +358,5 @@ body.garage #preview{display:inline-flex;align-items:center;justify-content:cent
 .garage .workspace>.inspector{height:auto;min-height:32px}
 
 .garage .note-column .weather-controls .person-toggle{justify-content:flex-start;gap:5px}
+
+@media (orientation:landscape) and (min-width:700px){.observation .corner-cards .world-card{font-size:14px;line-height:1.7;padding:12px 16px;max-width:340px}.observation .corner-cards{max-width:360px}}
