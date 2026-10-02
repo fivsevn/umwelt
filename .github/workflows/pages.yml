@@ -37,7 +37,8 @@ jobs:
       - uses: actions/configure-pages@v5
 
       - name: Install font subsetting tools
-        run: python -m pip install --disable-pip-version-check "fonttools>=4.55,<5" "brotli>=1.1,<2"
+        timeout-minutes: 3
+        run: python -m pip install --disable-pip-version-check --timeout 30 --retries 2 "fonttools>=4.55,<5" "brotli>=1.1,<2"
 
       - name: Prepare Pages artifact
         run: node .github/scripts/prepare-site.mjs _site
@@ -51,15 +52,20 @@ jobs:
       - name: Stamp deployed asset URLs with commit SHA
         run: node .github/scripts/stamp-assets.mjs _site "$GITHUB_SHA"
 
+      - name: Prepare preinstalled browser environment
+        timeout-minutes: 3
+        run: |
+          npm install --prefix "$RUNNER_TEMP/artifact-browser" --no-package-lock --no-save --no-audit --no-fund --fetch-timeout=30000 --fetch-retries=2 playwright@1.62.1
+          docker pull mcr.microsoft.com/playwright:v1.62.1-noble
+
       - name: Check the final artifact in Chromium and WebKit
+        timeout-minutes: 4
         env:
           NODE_PATH: ${{ runner.temp }}/artifact-browser/node_modules
           BASE_URL: http://127.0.0.1:8794
           QA_OUTPUT: ${{ runner.temp }}/artifact-screenshots
           EXPECTED_SHA: ${{ github.sha }}
         run: |
-          npm install --prefix "$RUNNER_TEMP/artifact-browser" --no-package-lock --no-save playwright@1.62.1
-          "$RUNNER_TEMP/artifact-browser/node_modules/.bin/playwright" install --with-deps chromium webkit
           python3 -m http.server 8794 --bind 127.0.0.1 --directory _site > "$RUNNER_TEMP/artifact-server.log" 2>&1 &
           SERVER_PID=$!
           trap 'kill "$SERVER_PID"' EXIT
@@ -67,7 +73,14 @@ jobs:
             if curl --fail --silent "$BASE_URL/" > /dev/null; then break; fi
             sleep 1
           done
-          node tests/browser/published-artifact.cjs
+          docker run --rm --network host --ipc host \
+            --volume "$GITHUB_WORKSPACE:/repo:ro" \
+            --volume "$RUNNER_TEMP:/qa" --workdir /repo \
+            --env NODE_PATH=/qa/artifact-browser/node_modules \
+            --env BASE_URL="$BASE_URL" --env EXPECTED_SHA="$EXPECTED_SHA" \
+            --env QA_OUTPUT=/qa/artifact-screenshots \
+            mcr.microsoft.com/playwright:v1.62.1-noble \
+            node tests/browser/published-artifact.cjs
 
       - uses: actions/upload-artifact@v4
         if: always()

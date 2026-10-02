@@ -5,7 +5,7 @@ const assert = require("node:assert/strict");
   const engine = process.env.BROWSER || "chromium",
     b = await (engine === "webkit" ? webkit : chromium).launch({
       headless: true,
-      ...(engine === "chromium" ? { channel: "chrome" } : {}),
+      ...(engine === "chromium" && !process.env.CI ? { channel: "chrome" } : {}),
     }),
     p = await b.newPage({ viewport: { width: 1600, height: 1100 } }),
     errors = [];
