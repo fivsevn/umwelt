@@ -1,8 +1,8 @@
 /* Room controls inherit garage typography, category buttons and panel spacing. */
 body.bedroom{overflow:auto;background-color:#aaa58e;background-image:linear-gradient(#777e6a14 1px,transparent 1px),linear-gradient(90deg,#777e6a14 1px,transparent 1px);background-size:32px 32px}
-.garage.bedroom .editor-layout{grid-template-columns:minmax(0,1fr) 340px;max-width:1040px;gap:16px;padding:16px}
-.garage.bedroom .workspace{grid-column:1;grid-row:1;container-type:normal}
-.garage.bedroom .note-column{grid-column:2;grid-row:1;display:flex;flex-direction:column;gap:12px;min-width:0;max-height:none;overflow:visible}
+.garage.bedroom .editor-layout{grid-template-columns:240px minmax(0,1fr) 280px;max-width:2200px;gap:16px;padding:16px}
+.garage.bedroom .workspace{grid-column:2;grid-row:1;container-type:normal}
+.garage.bedroom .note-column{grid-column:3;grid-row:1;display:flex;flex-direction:column;gap:12px;min-width:0;max-height:none;overflow:visible}
 .garage.bedroom .workspace .canvas-wrap{width:min(100%,340px);position:relative;margin:0 auto;border:0}
 .bedroom #room{display:block;width:100%;height:auto;image-rendering:pixelated}
 .garage.bedroom .workspace-status{left:16px;bottom:16px;max-width:calc(100% - 32px)}
@@ -16,5 +16,23 @@ body.bedroom{overflow:auto;background-color:#aaa58e;background-image:linear-grad
 .bedroom .room-transfer summary{background:#c2b796;color:#384637;cursor:pointer}
 .bedroom .room-transfer .transfer-body{position:absolute;right:0;bottom:calc(100% + 8px);width:230px;padding:10px;background:var(--ui-panel);color:var(--ui-ink);box-shadow:3px 4px #26332b55;line-height:1.7;z-index:3}
 .bedroom .room-transfer .transfer-body p{font-size:12px;margin:0 0 8px}
-@media(max-width:900px){.garage.bedroom .editor-layout{grid-template-columns:minmax(0,1fr) 280px;padding:10px;gap:12px}}
-@media(max-width:650px){.garage.bedroom .editor-layout{grid-template-columns:1fr}.garage.bedroom .note-column{grid-column:1;grid-row:2}.garage.bedroom .workspace-status{left:12px;bottom:12px}.garage.bedroom .workspace .canvas-wrap{width:min(100%,280px)}}
+
+.garage.bedroom .room-wardrobe{grid-column:1;grid-row:1;position:sticky;top:16px;max-height:calc(100dvh - 94px);overflow-y:auto}
+.bedroom .wardrobe-groups{display:grid;gap:6px;margin-bottom:16px}
+.bedroom .wardrobe-groups:last-child{margin-bottom:0}
+.bedroom .wardrobe-card{background:#465249;border:1px solid #78826c;color:#e5d6b1}
+.bedroom .wardrobe-card summary{cursor:pointer;padding:7px 8px;font-size:12px;line-height:1.5}
+.bedroom .wardrobe-card.has-selection summary{color:#fff0ce}
+.bedroom .wardrobe-card[open] summary{border-bottom:1px solid #78826c}
+.bedroom .wardrobe-colors{padding:8px;gap:5px;margin:0}
+.garage.bedroom .note-column{position:sticky;top:16px;max-height:calc(100dvh - 94px);overflow-y:auto}
+@media(max-width:900px){
+ .garage.bedroom .editor-layout{grid-template-columns:1fr;padding:10px;gap:12px}
+ .garage.bedroom .workspace{grid-column:1;grid-row:1}
+ .garage.bedroom .room-wardrobe{grid-column:1;grid-row:2;position:static;max-height:none}
+ .garage.bedroom .note-column{grid-column:1;grid-row:3;position:static;max-height:none}
+ .bedroom .wardrobe-groups{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
+}
+@media(max-width:550px){.garage.bedroom .workspace-status{left:12px;bottom:12px}.garage.bedroom .workspace .canvas-wrap{width:min(100%,280px)}}
+
+.bedroom .pig-activity-title{margin-top:14px}
