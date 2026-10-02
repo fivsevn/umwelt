@@ -5,7 +5,7 @@ const engine = process.env.BROWSER || "chromium";
 (async () => {
   const browser = await (engine === "webkit" ? webkit : chromium).launch({
     headless: true,
-    ...(engine === "chromium" ? { channel: "chrome" } : {}),
+    ...(engine === "chromium" && !process.env.CI ? { channel: "chrome" } : {}),
   });
   try {
     const context = await browser.newContext(),

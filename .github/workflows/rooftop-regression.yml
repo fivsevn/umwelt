@@ -19,6 +19,9 @@ permissions:
 jobs:
   browser:
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.62.1-noble
+      options: --ipc=host
     timeout-minutes: 12
     strategy:
       fail-fast: false
@@ -31,9 +34,9 @@ jobs:
         with:
           node-version: "22"
       - name: Install browser tooling
+        timeout-minutes: 3
         run: |
-          npm install --prefix "$RUNNER_TEMP/rooftop-browser" --no-package-lock --no-save playwright@1.62.1
-          "$RUNNER_TEMP/rooftop-browser/node_modules/.bin/playwright" install --with-deps ${{ matrix.browser }}
+          npm install --prefix "$RUNNER_TEMP/rooftop-browser" --no-package-lock --no-save --no-audit --no-fund --fetch-timeout=30000 --fetch-retries=2 playwright@1.62.1
       - name: Check scenes, editing and room persistence
         env:
           BROWSER: ${{ matrix.browser }}

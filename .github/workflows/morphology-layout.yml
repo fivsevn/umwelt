@@ -51,7 +51,7 @@ jobs:
       - name: Install browser tooling
         timeout-minutes: 3
         run: |
-          npm install --prefix "$RUNNER_TEMP/morphology-browser" --no-package-lock --no-save --no-audit --no-fund playwright@1.62.1
+          npm install --prefix "$RUNNER_TEMP/morphology-browser" --no-package-lock --no-save --no-audit --no-fund --fetch-timeout=30000 --fetch-retries=2 playwright@1.62.1
       - name: Check responsive layout and interactions
         env:
           BROWSER: ${{ matrix.browser }}
