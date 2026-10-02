@@ -51,6 +51,31 @@ jobs:
       - name: Stamp deployed asset URLs with commit SHA
         run: node .github/scripts/stamp-assets.mjs _site "$GITHUB_SHA"
 
+      - name: Check the final artifact in Chromium and WebKit
+        env:
+          NODE_PATH: ${{ runner.temp }}/artifact-browser/node_modules
+          BASE_URL: http://127.0.0.1:8794
+          QA_OUTPUT: ${{ runner.temp }}/artifact-screenshots
+          EXPECTED_SHA: ${{ github.sha }}
+        run: |
+          npm install --prefix "$RUNNER_TEMP/artifact-browser" --no-package-lock --no-save playwright@1.62.1
+          "$RUNNER_TEMP/artifact-browser/node_modules/.bin/playwright" install --with-deps chromium webkit
+          python3 -m http.server 8794 --bind 127.0.0.1 --directory _site > "$RUNNER_TEMP/artifact-server.log" 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID"' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent "$BASE_URL/" > /dev/null; then break; fi
+            sleep 1
+          done
+          node tests/browser/published-artifact.cjs
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: published-artifact-screenshots
+          path: ${{ runner.temp }}/artifact-screenshots
+          retention-days: 14
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
