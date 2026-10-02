@@ -11,7 +11,11 @@ export function soundIcon(){
 export function musicIcon(){
  const rows=['00010000','00011000','00011100','00010110','00010010','00010010','00010100','00010000','01110000','11110000','11100000','01000000'];
  const el=document.createElement('span');el.className='pixel-icon music-glyph';el.setAttribute('aria-hidden','true');el.style.width='8px';el.style.height='12px';
- const bit=document.createElement('i'),cells=[];bit.style.width=bit.style.height='1px';
- rows.forEach((row,y)=>[...row].forEach((cell,x)=>{if(cell==='1')cells.push(`${x}px ${y}px 0 currentColor`)}));
- bit.style.boxShadow=cells.join(',');el.append(bit);return el;
+ // Keep the approved pixels, but rasterize them together instead of individual
+ // one-pixel CSS shadows, which can be fragmented by Safari's scaled painting.
+ const canvas=document.createElement('canvas');canvas.width=8;canvas.height=12;
+ canvas.style.cssText='display:block;width:8px;height:12px;image-rendering:pixelated';
+ el.append(canvas);
+ el.paint=color=>{const ctx=canvas.getContext('2d');if(!ctx)return;ctx.clearRect(0,0,8,12);ctx.fillStyle=color;rows.forEach((row,y)=>[...row].forEach((cell,x)=>{if(cell==='1')ctx.fillRect(x,y,1,1)}))};
+ return el;
 }
