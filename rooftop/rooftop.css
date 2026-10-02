@@ -359,4 +359,8 @@ body.garage #preview{display:inline-flex;align-items:center;justify-content:cent
 
 .garage .note-column .weather-controls .person-toggle{justify-content:flex-start;gap:5px}
 
-@media (orientation:landscape) and (min-width:700px){.observation .corner-cards .world-card{font-size:14px;line-height:1.7;padding:12px 16px;max-width:340px}.observation .corner-cards{max-width:360px}}
+@media (orientation:landscape) and (min-width:700px){.observation .corner-cards{zoom:1.1666667}}
+/* Keep the established compact proportions, with a clearer paper surface. */
+.corner-cards .world-card,.garage .workspace-status .world-card{background:#d0cebae6;box-shadow:2px 3px 0 #46533b55}
+.corner-cards a.world-card:hover,.corner-cards button.world-card:hover{background:#ddd8c2f2}
+.corner-cards button.world-card[aria-pressed=true]{background:#c5ccb5eb}
