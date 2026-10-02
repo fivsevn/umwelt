@@ -13,3 +13,6 @@ body.bedroom{overflow:auto;background-color:#aaa58e;background-image:linear-grad
 @media(max-width:900px){.garage.bedroom .editor-layout{grid-template-columns:minmax(0,1fr) 280px;padding:10px;gap:12px}}
 @media(max-width:650px){.garage.bedroom .editor-layout{grid-template-columns:1fr}.garage.bedroom .note-column{grid-column:1;grid-row:2}.garage.bedroom .workspace-status{left:12px;bottom:12px}.bedroom .choices{gap:6px}}
 .garage.bedroom .workspace .canvas-wrap{width:100%}
+
+.garage.bedroom .editor-layout{grid-template-columns:minmax(0,1fr) 340px;max-width:1040px}.garage.bedroom .workspace .canvas-wrap{width:min(100%,calc((100dvh - 140px)*208/384));margin:0 auto}.bedroom .workspace-toolbar a{font-size:12px;text-decoration:none;padding:3px 8px;background:#c2b796;color:#384637}.bedroom .workspace-toolbar{justify-content:center}@media(max-width:650px){.garage.bedroom .editor-layout{grid-template-columns:1fr}.garage.bedroom .workspace .canvas-wrap{width:min(100%,280px)}}
+.garage.bedroom .workspace-toolbar{background:transparent;border:0;box-shadow:none;min-height:0;padding:0}.bedroom .workspace-toolbar a{background:#d0cebae6;box-shadow:2px 3px #46533b55}
