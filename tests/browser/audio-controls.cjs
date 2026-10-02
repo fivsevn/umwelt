@@ -1,11 +1,27 @@
 const qaOutput=process.env.QA_OUTPUT||'/tmp';require('node:fs').mkdirSync(qaOutput,{recursive:true});
 const assert=require('node:assert/strict');
 const {chromium,webkit}=require('playwright');
-(async()=>{for(const type of process.env.BROWSER?[{chromium,webkit}[process.env.BROWSER]]:[chromium,webkit]){const browser=await type.launch({headless:true,...(type===chromium?{...(process.env.CHROME_PATH?{executablePath:process.env.CHROME_PATH}:{})}:{...(process.env.WEBKIT_PATH?{executablePath:process.env.WEBKIT_PATH}:{})})});try{const page=await browser.newPage({viewport:{width:390,height:844}}),errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto((process.env.BASE_URL||'http://127.0.0.1:8878')+'/isopoda/');
-const state=()=>page.evaluate(async()=> (await import('./audio-ui.mjs')).audioEngine.state);
-assert.equal(await state(),'locked');await page.locator('#startBtn').click();await page.locator('#settleBtn').click();await page.waitForFunction(async()=> (await import('./audio-ui.mjs')).audioEngine.state==='running');
-await page.locator('#musicBtn').click();await page.locator('#musicBtnPanel input').fill('17');await page.locator('#musicBtnPanel button').click();await page.locator('#soundBtn').click();assert.equal(await page.locator('#musicBtnPanel').isVisible(),false);await page.locator('#soundBtnPanel input').fill('62');await page.keyboard.press('Escape');assert.equal(await page.locator('#soundBtn').evaluate(e=>e===document.activeElement),true);
-let settings=await page.evaluate(()=>JSON.parse(localStorage.getItem('umwelt-audio-v1')));assert.equal(settings.music.volume,.17);assert.equal(settings.music.muted,true);assert.equal(settings.sfx.volume,.62);assert.equal(settings.sfx.muted,false);
-await page.reload();assert.equal(await state(),'locked');await page.locator('#continueBtn').click();await page.locator('#musicBtn').click();assert.equal(await page.locator('#musicBtnPanel input').inputValue(),'17');assert.equal(await page.locator('#musicBtnPanel button').getAttribute('aria-pressed'),'true');
-await page.locator('[data-system-lang="en"]').click();await page.locator('#soundBtn').click();assert.equal(await page.locator('#soundBtnPanel strong').textContent(),'Sound effects');const box=await page.locator('#soundBtnPanel').boundingBox();assert.ok(box.x>=0&&box.x+box.width<=390);assert.equal(await page.locator('#soundBtnPanel button').evaluate(el=>{const r=el.getBoundingClientRect();return document.elementFromPoint(r.x+r.width/2,r.y+r.height/2)===el}),true,'mute control is not clipped');await page.screenshot({path:`${qaOutput}/umwelt-audio-${type.name()}.png`});
-await page.evaluate(async()=>{const a=(await import('./audio-ui.mjs')).audioEngine;await a.suspend()});assert.equal(await state(),'suspended');await page.locator('#soundBtn').click();await page.waitForFunction(async()=> (await import('./audio-ui.mjs')).audioEngine.state==='running');assert.deepEqual(errors,[]);console.log(type.name()+' audio controls passed');}finally{await browser.close()}}})().catch(e=>{console.error(e);process.exit(1)});
+(async()=>{for(const type of process.env.BROWSER?[{chromium,webkit}[process.env.BROWSER]]:[chromium,webkit]){
+ const browser=await type.launch({headless:true,...(type===chromium?{...(process.env.CHROME_PATH?{executablePath:process.env.CHROME_PATH}:{})}:{...(process.env.WEBKIT_PATH?{executablePath:process.env.WEBKIT_PATH}:{})})});
+ try{const page=await browser.newPage({viewport:{width:390,height:844}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
+ const base=process.env.BASE_URL||'http://127.0.0.1:8878';
+ for(const route of ['/isopoda/','/']){
+  await page.goto(base+route);if(route.includes('isopoda')){await page.locator('#startBtn').click();await page.locator('#settleBtn').click()}
+  for(const id of ['musicBtn','soundBtn']){
+   await page.locator('#'+id).click();const panel=page.locator('#'+id+'Panel'),range=panel.locator('input');
+   assert.equal(await panel.innerText(),'');assert.equal(await panel.locator('button,strong,output').count(),0);
+   assert.equal(await page.locator('#'+id).getAttribute('title'),null);
+   const box=await range.boundingBox();assert.ok(box.height>box.width*3);
+   // Exercise actual vertical pointer input: top loud, bottom silent.
+   await page.mouse.click(box.x+box.width/2,box.y+box.height-2);assert.equal(await range.inputValue(),'0');assert.equal(await page.locator('#'+id).getAttribute('aria-pressed'),'false');
+   await page.mouse.click(box.x+box.width/2,box.y+2);assert.equal(await range.inputValue(),'100');assert.equal(await page.locator('#'+id).getAttribute('aria-pressed'),'true');
+   await range.fill('17');const channel=id==='musicBtn'?'music':'sfx';let s=await page.evaluate(()=>JSON.parse(localStorage.getItem('umwelt-audio-v1')));assert.equal(s[channel].volume,.17);assert.equal(s[channel].muted,false);
+   await page.screenshot({path:`${qaOutput}/audio-${route==='/'?'desktop':'game'}-${id}-${type.name()}.png`});
+   await page.keyboard.press('Escape');assert.equal(await panel.isVisible(),false);assert.equal(await page.locator('#'+id).evaluate(e=>e===document.activeElement),true);
+  }
+  for(const width of [320,390,1440]){await page.setViewportSize({width,height:844});await page.locator('#musicBtn').click();let box=await page.locator('#musicBtnPanel').boundingBox();assert.ok(box.x>=0&&box.y>=0&&box.x+box.width<=width&&box.y+box.height<=844);await page.keyboard.press('Escape')}
+  await page.setViewportSize({width:390,height:844});
+ }
+ assert.deepEqual(errors,[]);console.log(type.name()+' shared vertical audio controls passed');
+ }finally{await browser.close()}
+}})().catch(e=>{console.error(e);process.exit(1)});
