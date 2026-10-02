@@ -15,6 +15,10 @@ const {chromium,webkit}=require('playwright');
    // Exercise actual vertical pointer input: top loud, bottom silent.
    await page.mouse.click(box.x+box.width/2,box.y+box.height-2);assert.equal(await range.inputValue(),'0');assert.equal(await page.locator('#'+id).getAttribute('aria-pressed'),'false');
    await page.mouse.click(box.x+box.width/2,box.y+2);assert.equal(await range.inputValue(),'100');assert.equal(await page.locator('#'+id).getAttribute('aria-pressed'),'true');
+   if(id==='musicBtn'){
+    const pixels=await page.locator('#musicBtn canvas').evaluate(canvas=>{const data=canvas.getContext('2d').getImageData(0,0,8,12).data;let painted=0;for(let i=0;i<data.length;i+=4){if(data[i+3]){if(data[i]!==64||data[i+1]!==81||data[i+2]!==63||data[i+3]!==255)throw Error('music pixels do not match effects ink');painted++}}return painted});
+    assert.equal(pixels,27);
+   }
    await range.fill('17');const channel=id==='musicBtn'?'music':'sfx';let s=await page.evaluate(()=>JSON.parse(localStorage.getItem('umwelt-audio-v1')));assert.equal(s[channel].volume,.17);assert.equal(s[channel].muted,false);
    await page.screenshot({path:`${qaOutput}/audio-${route==='/'?'desktop':'game'}-${id}-${type.name()}.png`});
    await page.keyboard.press('Escape');assert.equal(await panel.isVisible(),false);assert.equal(await page.locator('#'+id).evaluate(e=>e===document.activeElement),true);
