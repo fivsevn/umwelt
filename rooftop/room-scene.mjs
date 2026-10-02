@@ -7,4 +7,3 @@ px(272,74,56,27,'#6b7567');px(275,77,50,21,'#9cae9f');for(let y=78;y<98;y+=4){px
 // A quiet timber doorway sits in the left wall, clear of the window.
 px(214,248,17,54,'#555e4d');px(216,250,13,50,'#b5a17d');px(218,252,9,46,'#8e7d60');px(219,253,7,1,'#c0ab84');px(219,254,1,42,'#aa9570');px(225,254,1,42,'#73654f');for(let y=257;y<295;y+=9){px(220,y,5,1,'#b49d76');px(220,y+1,5,1,'#7e6f55')}for(let y=254;y<296;y++)if(y%3===0)px(222+(y%2),y,1,1,'#a38d68');px(224,278,2,3,'#d3ba7f');px(224,279,1,1,'#ede0ab');px(214,301,18,2,'#c9bc9a');px(215,303,16,1,'#8f846b');}
 
-export const INDOOR_FURNITURE=['table','bench','stool','woodshelf','foldingchair','gardenbench','storagechest','bistrotable','teaset','pigbowl','tasklamp','towel','wardcase'];
