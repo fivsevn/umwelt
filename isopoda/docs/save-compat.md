@@ -12,7 +12,7 @@ Current behavior is implemented by `engine.mjs`, `game.js`, `collection.mjs` and
 | `isopoda-interaction-discoveries-v1` | Interaction discoveries |
 | `isopoda-ui-language-v1` | Language preference |
 
-Stable identity includes species IDs, habitat IDs, cohort A–G identities (A only for abyssal), seeds/stages, ending IDs, encounter/option IDs and recorded content keys. The v3 migration preserves progress, records, feedback, environment and endings while reconstructing the cohort; current v4 restoration is habitat-aware. Single-species legacy archive entries and newer species arrays both contribute collection membership.
+Stable identity includes species IDs, habitat IDs, sequential cohort identities (A–G for seven-animal cohorts, A for single-animal cohorts, and longer sequences for expanded habitats), seeds/stages, ending IDs, encounter/option IDs and recorded content keys. The v3 migration preserves progress, records, feedback, environment and endings while reconstructing the cohort; current v4 restoration is habitat-aware. Single-species legacy archive entries and newer species arrays both contribute collection membership. Current and legacy cohort counts are listed in [the cohort guide](cohort.md); habitat version flags must remain part of restoration.
 
 Aquatic `water:<habitat>:turn:<index>:<field>` and alternate keys include positional indices. Abyssal text keys include node IDs and option indices; choices also retain option IDs. Reordering or inserting into existing indexed rows can reinterpret saved feedback, even if the text is unchanged. Treat index positions as stable IDs: append to a new versioned pool or supply a tested migration, never silently reshuffle. Presentation-order maps are distinct from authored option identity.
 
