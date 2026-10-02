@@ -31,3 +31,9 @@
 仅修改开发工具、工作流、文档和测试时，用 `prepare-site.mjs` 分别准备基线与工作树发布目录，比较文件清单和每个文件字节。相等表示部署输入未变；正常 SHA 版本标记仍随提交变化。开发材料中的 Markdown 与运行时 Credits、来源数据和字体许可必须区分。
 
 更多入口：[测试说明](../tests/README.md)、[部署约定](../isopoda/docs/deployment.md)、[花农时代维护](rooftop-maintenance.md)。
+
+## 发布前浏览器关卡
+
+Pages 在 prepare-site、字体子集和 SHA 标记完成后，从最终 `_site` 启动服务。`published-artifact.cjs` 用 Chromium/WebKit 在桌面与手机宽度检查九个入口、实际页面控件、资源与运行错误，以及页面资源的提交版本。关卡失败则不上传和部署成品。
+
+花农时代公开南北阳台与房间的四档宽度检查不再依赖 COMPARE_URL；该变量仅额外开启基线像素比对。声音面板、共享 UI 和 locales 修改会触发系统回归。

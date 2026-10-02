@@ -18,7 +18,7 @@ const base = process.env.BASE_URL || "http://127.0.0.1:8773",
 (async () => {
   const browser = await (engine === "webkit" ? webkit : chromium).launch({
     headless: true,
-    ...(engine === "chromium" ? { channel: "chrome" } : {}),
+    ...(engine === "chromium" && !process.env.CI ? { channel: "chrome" } : {}),
   });
   try {
     const errors = [],
@@ -121,27 +121,42 @@ const base = process.env.BASE_URL || "http://127.0.0.1:8773",
           comparisons += 2;
         }
       }
-    if (reference)
-      for (const width of [1600, 1100, 900, 390])
-        for (const route of [
-          "/rooftop/?scene=north",
-          "/rooftop/?scene=south",
-          "/rooftop/room/",
+    for (const width of [1600, 1100, 900, 390])
+      for (const route of [
+        "/rooftop/?scene=north",
+        "/rooftop/?scene=south",
+        "/rooftop/room/",
+      ]) {
+        for (const [p, url] of [
+          [page, base],
+          ...(reference ? [[reference, compare]] : []),
         ]) {
-          for (const [p, url] of [
-            [page, base],
-            [reference, compare],
-          ]) {
-            await p.setViewportSize({ width, height: 844 });
-            await p.goto(url + route);
-            await p.waitForFunction(() => window.rooftop || window.room);
-            await p.evaluate(() => document.fonts.ready);
-            await p.evaluate(() => {
-              stepFrames(1000);
-              stepFrames(2000);
-            });
-            await p.waitForTimeout(200);
-          }
+          await p.setViewportSize({ width, height: 844 });
+          await p.goto(url + route);
+          await p.waitForFunction(() => window.rooftop || window.room);
+          await p.evaluate(() => document.fonts.ready);
+          await p.evaluate(() => {
+            stepFrames(1000);
+            stepFrames(2000);
+          });
+          await p.waitForTimeout(200);
+        }
+        assert.ok(
+          await page.locator("canvas").first().isVisible(),
+          route + " visible scene",
+        );
+        assert.ok(
+          await page.evaluate(
+            () => document.documentElement.scrollWidth <= innerWidth,
+          ),
+          route + " no horizontal overflow",
+        );
+        if (process.env.QA_OUTPUT)
+          await page.screenshot({
+            path: `${process.env.QA_OUTPUT}/public-${width}-${route.includes("room") ? "room" : route.includes("south") ? "south" : "north"}-${engine}.png`,
+            fullPage: true,
+          });
+        if (reference) {
           assert.equal(
             await page.locator("body").innerText(),
             await reference.locator("body").innerText(),
@@ -150,6 +165,7 @@ const base = process.env.BASE_URL || "http://127.0.0.1:8773",
           await equalPixels(page, reference, width + " " + route + " pixels");
           comparisons++;
         }
+      }
     await page.setViewportSize({ width: 1600, height: 1100 });
     await page.goto(base + "/rooftop/arrange/");
     await page.waitForFunction(() => window.rooftop);
@@ -176,13 +192,11 @@ const base = process.env.BASE_URL || "http://127.0.0.1:8773",
       y = box.y + ((o.y - camera.y) * box.height) / camera.h;
     await page.mouse.move(x, y);
     await page.mouse.down();
-    await page
-      .locator("#garden")
-      .dispatchEvent("pointermove", {
-        pointerId: 42,
-        clientX: x + 40,
-        clientY: y + 20,
-      });
+    await page.locator("#garden").dispatchEvent("pointermove", {
+      pointerId: 42,
+      clientX: x + 40,
+      clientY: y + 20,
+    });
     assert.deepEqual(
       await page.evaluate(() => rooftop.layout),
       original,
@@ -223,13 +237,11 @@ const base = process.env.BASE_URL || "http://127.0.0.1:8773",
         throw Error("read failure");
       };
     });
-    await page
-      .locator("#importFile")
-      .setInputFiles({
-        name: "layout.json",
-        mimeType: "application/json",
-        buffer: Buffer.from("{}"),
-      });
+    await page.locator("#importFile").setInputFiles({
+      name: "layout.json",
+      mimeType: "application/json",
+      buffer: Buffer.from("{}"),
+    });
     await page.waitForFunction(() =>
       document.querySelector("#message").textContent.includes("read failure"),
     );

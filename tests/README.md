@@ -111,3 +111,5 @@ Petri refinement also checks equal archive/microscope button sizes, filled backg
 `system-regression.yml` runs homepage, cross-game language, TICK and shared audio checks in Chromium/WebKit. `entry-gates.cjs` starts with empty storage, verifies locked entries in four languages, then completes land and beach observations through the real UI and verifies persistent unlocks. Existing unlocked-scene suites use `support/observation-fixtures.cjs`; this test fixture never enables controls or changes production rules.
 
 Sand and kelp pointer checks scroll the canvas into view before selecting a visible coordinate. Ordinary cohort counts are checked independently of rare visitors. Use `QA_OUTPUT` outside the repository for screenshots.
+
+最终发布成品检查：`BASE_URL=http://127.0.0.1:8794 EXPECTED_SHA=<完整提交SHA> node tests/browser/published-artifact.cjs`。服务根目录必须是完成字体子集和资源版本标记的发布目录；Pages 工作流自动运行 Chromium 与 WebKit，并保存截图。
