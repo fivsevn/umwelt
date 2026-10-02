@@ -6,8 +6,8 @@ body.bedroom{overflow:auto;background-color:#aaa58e;background-image:linear-grad
 .garage.bedroom .workspace .canvas-wrap{max-width:none;position:relative;margin:0;border:0}
 .bedroom #room{display:block;width:100%;height:auto;image-rendering:pixelated}
 .garage.bedroom .workspace-status{left:16px;bottom:16px;max-width:calc(100% - 32px)}
-.garage.bedroom .room-wardrobe,.garage.bedroom .room-activities{display:block;padding:12px;margin:0;background:#727b67;color:#f0e6cb;box-shadow:3px 4px #26332b45}
-.bedroom h2{font-size:14px;font-weight:400;margin:0 0 12px}.bedroom .choices{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}.bedroom .choices:last-child{margin-bottom:0}
+.garage.bedroom .room-wardrobe,.garage.bedroom .room-activities{display:block;padding:10px;margin:0;background:var(--ui-panel);color:var(--ui-ink);box-shadow:3px 4px #26332b45}
+.bedroom h2{font-size:14px;font-weight:400;margin:0 0 8px}.bedroom .choices{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}.bedroom .choices:last-child{margin-bottom:0}
 .garage.bedroom button{background:#c2b796;color:#384637;font-size:12px}.garage.bedroom button[aria-pressed=true]{background:#465846;color:#eee3c5}
 .garage.bedroom .notebook{position:static;max-height:none;padding:14px;margin:0}.bedroom .note{font-size:12px;line-height:1.9;margin:0}.bedroom label{font-size:12px;display:flex;gap:8px;align-items:center}
 @media(max-width:900px){.garage.bedroom .editor-layout{grid-template-columns:minmax(0,1fr) 280px;padding:10px;gap:12px}}
