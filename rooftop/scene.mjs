@@ -1,3 +1,4 @@
+import {ROOM_LAYOUT,paintRoomBase} from './room-scene.mjs';
 import {INITIAL_LAYOUT} from './initial-layout.mjs';
 import {paintDongdong} from './dongdong.mjs';
 import {styledView,paintStyledView,paintStyledForeground} from './styled-views.mjs';
@@ -12,7 +13,7 @@ import {FURNITURE,paintFurniture} from './furniture.mjs';
 // All scenery is painted on an integer canvas. No bitmap assets or external dependencies.
 export const VERSION=2;
 export const DOORS={north:{x:400,y:406,w:14,h:34,label:'进入南阳台'},south:{x:221,y:371,w:16,h:58,label:'进入北天台'}};
-export const SCENES={north:{name:'北天台',label:'NORTH ROOF',points:[[144,144],[272,144],[272,80],[400,80],[400,144],[464,144],[464,464],[400,464],[400,336],[144,336]],spawn:[432,432]},south:{name:'南阳台',label:'SOUTH BALCONY',points:[[220,104],[348,104],[348,424],[220,424]],spawn:[246,376]}};
+export const SCENES={room:{name:'东东的房间',label:'DONGDONG’S ROOM',points:[[220,104],[380,104],[380,424],[220,424]],spawn:[300,350]},north:{name:'北天台',label:'NORTH ROOF',points:[[144,144],[272,144],[272,80],[400,80],[400,144],[464,144],[464,464],[400,464],[400,336],[144,336]],spawn:[432,432]},south:{name:'南阳台',label:'SOUTH BALCONY',points:[[220,104],[348,104],[348,424],[220,424]],spawn:[246,376]}};
 const LEGACY_ASSETS=[
  ['barrel','金琥','仙人掌',24,24],['column','柱状仙人掌','仙人掌',18,23],['bunny','兔耳仙人掌','仙人掌',19,20],['cluster','群生仙人掌','仙人掌',25,21],['trailing','猴尾柱','仙人掌',24,30],['aloe','芦荟','多肉',26,23],['rosette','莲座多肉','多肉',20,19],['pink','粉色石莲','多肉',20,18],['jade','玉树','多肉',25,26],['sedum','景天拼盆','多肉',30,20],['mint','薄荷','草木',24,22],['rosemary','迷迭香','草木',20,26],['fern','蕨类','草木',28,25],['broadleaf','大叶植物','草木',30,28],['yucca','丝兰','草木',32,36],['vine','垂藤','草木',23,28],['flower','季节小花','草木',22,24],['grass','葱与细叶草','草木',20,23],['moss','苔藓浅盘','苔藓与水',28,17],['mossbox','白色苔藓箱','苔藓与水',36,21],['fish','小鱼缸','苔藓与水',36,25],['pond','圆水盆','苔藓与水',31,25],['terrarium','蓝框保湿柜','器具',66,35],['shelf','黑色花架','器具',64,28],['woodshelf','木阶花架','器具',52,40],['bench','木凳','器具',40,19],['sink','不锈钢水槽','器具',52,29],['basin','蓝色水池台','器具',64,32],['table','工作台','器具',58,30],['drying','折叠晾衣架','器具',28,66],['watering','浇水壶','小物',16,18],['bucket','水桶','小物',19,21],['crate','蓝色收纳箱','小物',30,22],['redbox','红色方盆','小物',28,22],['pot','空陶盆','小物',20,18],['tools','园艺工具','小物',25,15],['hose','盘管','小物',25,23],['teaset','一套茶具','小物',30,18],['pigbowl','小猪的饭碗','小物',18,12],['stool','小板凳','小物',20,18]
 ].map(([id,name,category,w,h])=>({id,name,category,w,h}));
@@ -21,7 +22,7 @@ for(const a of ASSETS)if(!a.plant){const refs=[...(a.sources||[]),...(a.vessel?(
 // Catalogue lookup is shared by rendering, placement and save validation.
 const assetIndex=new Map(ASSETS.map(a=>[a.id,a]));
 export const asset=id=>assetIndex.get(id);
-export function initialLayout(){return structuredClone(INITIAL_LAYOUT)}
+export function initialLayout(){const layout=structuredClone(INITIAL_LAYOUT);layout.scenes.room=structuredClone(ROOM_LAYOUT);return layout}
 export function inside(scene,x,y,margin=0){const pts=SCENES[scene].points;let hit=false;for(let i=0,j=pts.length-1;i<pts.length;j=i++){const [xi,yi]=pts[i],[xj,yj]=pts[j];if((yi>y)!==(yj>y)&&x<(xj-xi)*(y-yi)/(yj-yi)+xi)hit=!hit}if(!hit)return false;if(margin)return [[margin,0],[-margin,0],[0,margin],[0,-margin]].every(([dx,dy])=>inside(scene,x+dx,y+dy));return true}
 export function dimensions(o){const a=asset(o.type),turn=o.rotation%180!==0;return {w:(turn?a.h:a.w)*o.scale,h:(turn?a.w:a.h)*o.scale}}
 export function displayBounds(o){const a=asset(o.type),d=styledView(a,o.rotation),b=d?{left:-d.w/2,right:d.w/2,top:-d.h/2-3,bottom:d.h/2+2}:facingBounds(a,o.rotation);return Object.fromEntries(Object.entries(b).map(([key,value])=>[key,value*o.scale]))}
@@ -39,7 +40,7 @@ export function resizedObject(scene,o,scale,objects=[]){if(!Number.isFinite(scal
 function fitsFootprint(scene,o,a){const turn=o.rotation%180!==0,w=(turn?a.h:a.w)*o.scale,h=(turn?a.w:a.h)*o.scale;return [[-w/2,-h/2],[w/2,-h/2],[-w/2,h/2],[w/2,h/2]].every(([dx,dy])=>inside(scene,o.x+dx,o.y+dy,3));}
 export function validateLayout(data){
  if(!data||![1,VERSION].includes(data.version)||!data.scenes)throw Error('布局版本不正确');const clean={version:VERSION,scenes:{}};
- for(const scene of Object.keys(SCENES)){const list=data.scenes[scene];if(!Array.isArray(list)||list.length>400)throw Error('每个场景最多 400 件物件');const ids=new Set();
+ for(const scene of Object.keys(SCENES)){const list=data.scenes[scene]??(scene==='room'?structuredClone(ROOM_LAYOUT):undefined);if(!Array.isArray(list)||list.length>400)throw Error('每个场景最多 400 件物件');const ids=new Set();
  clean.scenes[scene]=list.map(raw=>{let o=raw;if(data.version===1&&scene==='south'&&o&&Number.isFinite(o.x)&&Number.isFinite(o.y))o={...o,x:568-o.y,y:Math.round((o.x-320)*5/6+264),rotation:asset(o.type)?.plant?o.rotation:(o.rotation+90)%360};
  if(!o||typeof o.id!=='string'||!o.id||ids.has(o.id)||!asset(o.type)||![o.x,o.y,o.scale,o.rotation].every(Number.isFinite)||o.scale<.5||o.scale>2||![0,90,180,270].includes(o.rotation))throw Error('物件数据不正确');ids.add(o.id);
  const next={id:o.id,type:o.type,x:o.x,y:o.y,scale:o.scale,rotation:o.rotation};const p=plant(o.type);if(p){if(o.seed!==undefined&&(!Number.isInteger(o.seed)||o.seed<0||o.seed>4294967295))throw Error('植物 seed 不正确');next.seed=o.seed??plantSeed(o.id)}
@@ -57,7 +58,7 @@ function oval(c,x,y,rx,ry,col){for(let j=-ry;j<=ry;j++){const span=Math.floor(rx
 function line(c,x,y,xx,yy,col,width=1){const n=Math.max(Math.abs(xx-x),Math.abs(yy-y));for(let i=0;i<=n;i++)rect(c,x+(xx-x)*i/n,y+(yy-y)*i/n,width,width,col)}
 function polygon(c,points,col){c.fillStyle=col;c.beginPath();points.forEach(([x,y],i)=>i?c.lineTo(x,y):c.moveTo(x,y));c.closePath();c.fill()}
 const BACKGROUND={ink:'#363b33',deep:'#454a35',olive:'#656c42',leaf:'#808653',light:'#a2a372',cream:'#c0b9a0',soil:'#575044',terra:'#8d6852',rim:'#b58e70',metal:'#4b5451',sky:'#bdc2cc'};
-export function paintBase(c,scene,{includeCity=true}={}){c.clearRect(0,0,640,520);rect(c,0,0,640,520,BACKGROUND.sky);const rng=random(1826);
+export function paintBase(c,scene,{includeCity=true}={}){c.clearRect(0,0,640,520);if(scene==='room'){paintRoomBase(c);return}rect(c,0,0,640,520,BACKGROUND.sky);const rng=random(1826);
  // Retain the original random sequence for the approved terrace wear pattern.
  // The continuous city layer below replaces this legacy tile backdrop.
  const blocks=[[-20,-20,130,105],[145,-18,106,77],[429,-29,173,127],[-35,162,137,145],[516,173,150,121],[22,385,108,126],[154,394,181,133],[495,368,177,147]];
