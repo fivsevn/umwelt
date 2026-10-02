@@ -21,7 +21,7 @@ for(const a of ASSETS)if(!a.plant){const refs=[...(a.sources||[]),...(a.vessel?(
 // Catalogue lookup is shared by rendering, placement and save validation.
 const assetIndex=new Map(ASSETS.map(a=>[a.id,a]));
 export const asset=id=>assetIndex.get(id);
-export function initialLayout(){const layout=structuredClone(INITIAL_LAYOUT);layout.scenes.south.push({type:'teaset',x:300,y:342,rotation:0,scale:1,id:'south-tea-set'},{type:'pigbowl',x:268,y:350,rotation:0,scale:1,id:'south-pig-bowl'});return layout}
+export function initialLayout(){return structuredClone(INITIAL_LAYOUT)}
 export function inside(scene,x,y,margin=0){const pts=SCENES[scene].points;let hit=false;for(let i=0,j=pts.length-1;i<pts.length;j=i++){const [xi,yi]=pts[i],[xj,yj]=pts[j];if((yi>y)!==(yj>y)&&x<(xj-xi)*(y-yi)/(yj-yi)+xi)hit=!hit}if(!hit)return false;if(margin)return [[margin,0],[-margin,0],[0,margin],[0,-margin]].every(([dx,dy])=>inside(scene,x+dx,y+dy));return true}
 export function dimensions(o){const a=asset(o.type),turn=o.rotation%180!==0;return {w:(turn?a.h:a.w)*o.scale,h:(turn?a.w:a.h)*o.scale}}
 export function displayBounds(o){const a=asset(o.type),d=styledView(a,o.rotation),b=d?{left:-d.w/2,right:d.w/2,top:-d.h/2-3,bottom:d.h/2+2}:facingBounds(a,o.rotation);return Object.fromEntries(Object.entries(b).map(([key,value])=>[key,value*o.scale]))}
