@@ -2,7 +2,7 @@ import {paintBase,paintObject,initialLayout,validateLayout,asset,dimensions} fro
 import {paintDongdong} from '../dongdong.mjs';
 import {paintPig,wardrobe,dress,OUTFITS,DECORATIONS,ACTIVITIES} from '../wardrobe.mjs';
 const $=id=>document.getElementById(id),canvas=$('room'),c=canvas.getContext('2d');let activity='rest';
-$('preview').href='../?scene=north';
+$('preview').href='https://umwelt.fivsevn.com/rooftop/';
 function choices(id,items,current,select){for(const [key,value] of Object.entries(items)){const b=document.createElement('button');b.type='button';b.textContent=Array.isArray(value)?value[0]:value;b.dataset.value=key;b.setAttribute('aria-pressed',String(key===current()));b.onclick=()=>{select(key);for(const child of $(id).children)child.setAttribute('aria-pressed',String(child===b));$('caption').textContent=id==='activities'?'东东正在'+ACTIVITIES[key]+'。':id==='outfits'?'换好了，穿着'+OUTFITS[key][0]+'上楼。':'小猪的装饰：'+DECORATIONS[key]+'。'};$(id).append(b)}}
 choices('outfits',OUTFITS,()=>wardrobe.outfit,key=>dress('outfit',key));choices('decorations',DECORATIONS,()=>wardrobe.pig,key=>dress('pig',key));choices('activities',ACTIVITIES,()=>activity,key=>activity=key);
 const px=(x,y,w,h,col)=>{c.fillStyle=col;c.fillRect(x,y,w,h)};
