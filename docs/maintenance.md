@@ -37,3 +37,5 @@
 Pages 在 prepare-site、字体子集和 SHA 标记完成后，从最终 `_site` 启动服务。`published-artifact.cjs` 用 Chromium/WebKit 在桌面与手机宽度检查九个入口、实际页面控件、资源与运行错误，以及页面资源的提交版本。关卡失败则不上传和部署成品。
 
 花农时代公开南北阳台与房间的四档宽度检查不再依赖 COMPARE_URL；该变量仅额外开启基线像素比对。声音面板、共享 UI 和 locales 修改会触发系统回归。
+
+等足目场景矩阵使用 `mcr.microsoft.com/playwright:v1.62.1-noble` 的预装浏览器和系统依赖；npm Playwright 必须保持相同版本。避免每个任务通过 Ubuntu 软件源重新下载依赖，工具包安装单独限制为三分钟；游戏测试仍保留原有十二分钟任务上限。
