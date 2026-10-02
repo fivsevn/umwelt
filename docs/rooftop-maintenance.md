@@ -14,7 +14,9 @@
 
 ## 文件职责
 
-- `app.mjs`：页面初始化、编辑历史、拖动、导入导出与持久化。
+- `app.mjs`：页面初始化、拖动、导入导出与交互协调。
+- `edit-history.mjs`：编辑快照、80 步历史上限与撤销重做。
+- `layout-storage.mjs`：共享布局存储键、读取验证与写入；错误反馈仍由各页面负责。
 - `scene.mjs`：目录汇合、布局版本验证与迁移、边界、场景和物件绘制分发。
 - `botany.mjs` / `plant-art.mjs` / `plant-seed.mjs`：植物与容器数据、绘制、稳定株形。
 - `furniture.mjs`：家具定义与绘制。
@@ -42,10 +44,20 @@ BROWSER=webkit BASE_URL=http://127.0.0.1:8773 COMPARE_URL=http://127.0.0.1:8774 
 
 测试截图、临时对比站点和检查日志放在仓库之外；`docs/` 与 `tests/` 不进入发布产物。
 
-结构与存档检查还可运行 `node --test tests/rooftop*.test.mjs`。浏览器脚本按任务选择：`rooftop-expansion.cjs` 检查目录、手帐、承托与导入导出，`rooftop-facing.cjs` 检查物件四面，`rooftop-garage-layout.cjs` 检查车库排布。脚本存在不表示已在当前提交运行；当前浏览器 CI 的触发路径和执行矩阵未覆盖天台专用回归。
+结构与存档检查还可运行 `node --test tests/rooftop*.test.mjs`。浏览器脚本按任务选择：`rooftop-expansion.cjs` 检查目录、手帐、承托与导入导出，`rooftop-facing.cjs` 检查物件四面，`rooftop-garage-layout.cjs` 检查车库排布。脚本存在不表示已在当前提交运行。`rooftop-regression.yml` 在 Chromium / WebKit 运行维护、车库布局和房间回归；结构检查的触发路径也包含 `rooftop/**`。
 
 仅整理文档时执行 [零前端变化验证](../isopoda/docs/deployment.md#文档整理的零前端变化验证)，不借整理修改运行代码或测试。
 
 ## 资料与阶段记录
 
 [手帐资料](rooftop-notebook.md)、[绘制方向](rooftop-art-direction.md) 和 [四面结构参考](rooftop-object-views.md) 保留绘制与来源依据。早期双场景说明及目录扩容数量见 [历史索引](reference/README.md)；当前物件、场景及兼容行为以运行模块为准。
+
+## 零前端变化维护
+
+运行模块使用统一的展开格式，避免把多项职责压在一行。仅格式化的模块不得改变目录数据、绘制参数或字符串。提取公共模块时保留调用时序、异常边界与存档序列化；不同页面原有的深度排序暂不合并，以免改变遮挡。
+
+`rooftop-maintenance.cjs` 的 `COMPARE_URL` 对照包含四种宽度、三个车库场景，以及公开北天台、南阳台和房间，共 36 组画面。固定时钟、随机数和动画帧只作用于测试环境，同时比较可见文字与编辑布局。正常动画、活动与响应式交互由独立回归验证。
+
+`rooftop-room.cjs` 覆盖房间撤销重做、阳台数据隔离、跨页面布局同步、换装与活动反馈、房间导入导出、失败回滚、刷新和窄屏布局。换装仍保留每次刷新随机换一套的现有规则。
+
+后续功能事项：统一历史导航的三场景解析、让布局传输提示明确包含房间、考虑用显式字段替代衣柜中文名称截取。它们会改变现有行为或文字，不能混入零变化维护。
