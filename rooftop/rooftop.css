@@ -364,3 +364,4 @@ body.garage #preview{display:inline-flex;align-items:center;justify-content:cent
 .corner-cards .world-card,.garage .workspace-status .world-card{background:#d0cebae6;box-shadow:2px 3px 0 #46533b55}
 .corner-cards a.world-card:hover,.corner-cards button.world-card:hover{background:#ddd8c2f2}
 .corner-cards button.world-card[aria-pressed=true]{background:#c5ccb5eb}
+.garage .workspace-status .world-card{padding:3px 10px;font:12px Pixel,monospace;line-height:1.5;margin:0;max-width:260px}
