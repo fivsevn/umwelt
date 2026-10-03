@@ -46,6 +46,30 @@ const routes = [
           );
           await page.locator(selector).first().waitFor({ state: "visible" });
           await page.evaluate(() => document.fonts.ready);
+          if (
+            engine === chromium &&
+            route.startsWith("/rooftop/") &&
+            route !== "/rooftop/3d/"
+          ) {
+            await page.waitForFunction(
+              () =>
+                window.rooftop?.graphics?.drawCalls > 0 ||
+                window.room?.graphics?.drawCalls > 0,
+            );
+            const graphics = await page.evaluate(
+              () => window.rooftop?.graphics || window.room.graphics,
+            );
+            assert.equal(graphics.catalog, 289);
+            assert.ok(graphics.instances > 0);
+            assert.equal(
+              graphics.controls,
+              route.includes("arrange")
+                ? "edit"
+                : route.includes("room")
+                  ? "orbit"
+                  : "fixed",
+            );
+          }
           if (route === "/rooftop/3d/") {
             await page.waitForFunction(
               () =>

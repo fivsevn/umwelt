@@ -6,7 +6,7 @@ import {
   paintStyledView,
   paintStyledForeground,
 } from "./styled-views.mjs";
-import { objectReferences } from "./object-references.mjs";
+import { objectReferences, MODEL_REFERENCES } from "./object-references.mjs";
 import {
   facingKind,
   facingBounds,
@@ -136,6 +136,7 @@ export const ASSETS = [
 ];
 for (const a of ASSETS)
   if (!a.plant) {
+    if(MODEL_REFERENCES[a.id])a.note=MODEL_REFERENCES[a.id].note+" 参考真实器物结构作像素转译，配色与尺寸沿用游戏。";
     const refs = [
       ...(a.sources || []),
       ...(a.vessel ? vessel(a.vessel).sources || [] : []),
