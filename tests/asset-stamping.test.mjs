@@ -12,10 +12,12 @@ test('deployment versions the complete graph, preserves routes and is idempotent
    'index.html':'<a href="/isopoda/">game</a><link href="./style.css?v=old"><script src="./sub/app.mjs"></script>',
    'style.css':"a{background:url('./image.png#pixel')}@font-face{src:url(font.woff2)}",
    'sub/app.mjs':"import '../shared.mjs'; export {x} from '../shared.mjs?mode=test#x'; const f='credits.md'; const u='https://example.com/a.js';",
+   'vendor.js':String.raw`const pattern = '\\[\\]\\.:\\/';`,
    'shared.mjs':'export const x=1;', 'sub/credits.md':'unchanged copy','image.png':'bytes','font.woff2':'bytes'
   };
   for(const [p,s] of Object.entries(files))await writeFile(join(root,p),s);
   await stampAssets(root,sha);
+  assert.equal(await readFile(join(root,'vendor.js'),'utf8'),files['vendor.js']);
   const first=await readFile(join(root,'sub/app.mjs'),'utf8');
   assert.ok(first.includes(`../shared.mjs?v=${sha}`));
   assert.ok(first.includes(`../shared.mjs?mode=test&v=${sha}#x`));

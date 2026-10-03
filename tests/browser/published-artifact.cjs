@@ -12,13 +12,19 @@ const routes = [
   ["/isopoda/habitat.html", "#assetList button"],
   ["/rooftop/?scene=north", "#garden"],
   ["/rooftop/?scene=south", "#garden"],
+  ["/rooftop/3d/", "#garden"],
   ["/rooftop/arrange/", "[data-asset=mint]"],
   ["/rooftop/room/", "canvas"],
 ];
 (async () => {
   await fs.mkdir(output, { recursive: true });
   for (const engine of [chromium, webkit]) {
-    const browser = await engine.launch({ headless: true });
+    const browser = await engine.launch({
+      headless: true,
+      ...(engine === chromium
+        ? { args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader"] }
+        : {}),
+    });
     try {
       const page = await browser.newPage();
       const errors = [];
@@ -34,9 +40,60 @@ const routes = [
         await page.setViewportSize({ width, height: 900 });
         for (const [index, [route, selector]] of routes.entries()) {
           const response = await page.goto(base + route);
-          assert.ok(response.ok() || response.status() === 304, route + " document status " + response.status());
+          assert.ok(
+            response.ok() || response.status() === 304,
+            route + " document status " + response.status(),
+          );
           await page.locator(selector).first().waitFor({ state: "visible" });
           await page.evaluate(() => document.fonts.ready);
+          if (route === "/rooftop/3d/") {
+            await page.waitForFunction(
+              () =>
+                window.rooftop3d?.drawCalls > 0 ||
+                document.querySelector('[role="alert"]'),
+            );
+            const rendered = await page.evaluate(() =>
+              Boolean(window.rooftop3d?.drawCalls),
+            );
+            if (engine === chromium)
+              assert.ok(rendered, "3D must render with software WebGL");
+            if (rendered) {
+              const initial = await page.evaluate(() => ({
+                scene: rooftop.scene,
+                north: rooftop.layout.scenes.north.length,
+                south: rooftop.layout.scenes.south.length,
+                theta: rooftop3d.view.theta,
+              }));
+              assert.equal(initial.north, 95);
+              assert.equal(initial.south, 10);
+              assert.equal(
+                await page.locator(".topbar,.scene-tabs,.tools").count(),
+                0,
+              );
+              await page.locator("#garden").focus();
+              await page.keyboard.press("ArrowRight");
+              await page.waitForFunction(
+                (theta) => rooftop3d.view.theta > theta + 0.05,
+                initial.theta,
+              );
+              await page
+                .getByRole("button", { name: "进入南阳台", exact: true })
+                .click();
+              await page.waitForFunction(
+                () => rooftop.scene === "south" && rooftop3d.scene === "south",
+              );
+              assert.equal(
+                await page.locator("#garageCard").getAttribute("href"),
+                "../arrange/?scene=south",
+              );
+              await page
+                .getByRole("button", { name: "进入北天台", exact: true })
+                .click();
+              await page.waitForFunction(
+                () => rooftop.scene === "north" && rooftop3d.scene === "north",
+              );
+            }
+          }
           await page.waitForTimeout(250);
           if (process.env.EXPECTED_SHA) {
             const urls = await page
@@ -61,7 +118,7 @@ const routes = [
           );
         }
       }
-      console.log(engine.name() + ": 18 final artifact entry checks passed");
+      console.log(engine.name() + ": 20 final artifact entry checks passed");
     } finally {
       await browser.close();
     }
