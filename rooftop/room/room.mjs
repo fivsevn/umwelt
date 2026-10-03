@@ -1,3 +1,5 @@
+import { createGardenRenderer } from "../3d/scene3d.mjs";
+import { makeWeather } from "../weather.mjs";
 import { readLayout, writeLayout } from "../layout-storage.mjs";
 import {
   paintBase,
@@ -19,7 +21,14 @@ import {
 } from "../wardrobe.mjs";
 const $ = (id) => document.getElementById(id),
   canvas = $("room"),
-  c = canvas.getContext("2d");
+  roomStage = canvas.parentElement;
+let c = null;
+let room3d = null;
+const indoorWeather = makeWeather({ condition: "clear", phase: "auto" });
+roomStage.style.aspectRatio = "208 / 288";
+canvas.style.height = "100%";
+canvas.style.touchAction = "none";
+canvas.tabIndex = 0;
 let activity = "rest",
   pigActivity = "rest";
 $("preview").href = "https://umwelt.fivsevn.com/rooftop/";
@@ -167,14 +176,57 @@ loadRoom();
 addEventListener("storage", loadRoom);
 addEventListener("pageshow", loadRoom);
 addEventListener("focus", loadRoom);
-canvas.width = 208;
-canvas.height = 288;
+
 const floor = document.createElement("canvas");
 floor.width = 640;
 floor.height = 520;
 paintBase(floor.getContext("2d"), "room");
+let lastFrame = 0;
+try {
+  room3d = createGardenRenderer(canvas, roomLayout, null, {
+    scene: "room",
+    controls: "orbit",
+  });
+} catch (error) {
+  if (!/context|WebGL/i.test(error.message)) throw error;
+  c = canvas.getContext("2d");
+  canvas.width = 208;
+  canvas.height = 288;
+}
 function frame(ms) {
+  if (ms - lastFrame < 33) {
+    requestAnimationFrame(frame);
+    return;
+  }
+  const dt = Math.min(0.1, (ms - lastFrame) / 1000);
+  lastFrame = ms;
   const t = ms / 1000;
+  if (room3d) {
+    room3d.syncLayout(roomLayout);
+    room3d.draw({
+      time: t,
+      dt,
+      atmosphere: indoorWeather.update(dt),
+      present: !!personPoint,
+      person: {
+        x: personPoint?.[0] || 300,
+        y: personPoint?.[1] || 240,
+        state: activity,
+        facing: $("facing").value,
+        task: ACTIVITIES[activity],
+      },
+      pig: {
+        x: pigPoint?.[0] || 260,
+        y: pigPoint?.[1] || 260,
+        state: pigActivity,
+        facing: "east",
+      },
+      doorOpen: false,
+      reduced: matchMedia("(prefers-reduced-motion: reduce)").matches,
+    });
+    requestAnimationFrame(frame);
+    return;
+  }
   c.imageSmoothingEnabled = false;
   c.clearRect(0, 0, 208, 288);
   c.save();
@@ -214,6 +266,9 @@ function frame(ms) {
 }
 requestAnimationFrame(frame);
 window.room = {
+  get graphics() {
+    return room3d?.stats;
+  },
   get outfit() {
     return wardrobe.outfit;
   },

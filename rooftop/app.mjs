@@ -1,3 +1,4 @@
+import { createGardenRenderer } from "./3d/scene3d.mjs";
 import { readLayout, writeLayout } from "./layout-storage.mjs";
 import { createEditHistory } from "./edit-history.mjs";
 import { attachCardFeed } from "./card-feed.mjs";
@@ -70,8 +71,19 @@ try {
   if (editor) $("message").textContent = "本机布局无法读取，已恢复初始陈列。";
 }
 if (!editor) attachGardenMusic($("musicToggle"));
-const canvas = $("garden"),
-  display = canvas.getContext("2d"),
+let garden3d = null;
+const canvas = $("garden");
+try {
+  garden3d = createGardenRenderer(
+    canvas,
+    layout,
+    editor ? null : $("sceneDoor"),
+    { scene, controls: editor ? "edit" : "fixed", selected: () => selected },
+  );
+} catch (error) {
+  if (!/context|WebGL/i.test(error.message)) throw error;
+}
+const display = garden3d ? null : canvas.getContext("2d"),
   materialFrame = document.createElement("canvas"),
   ctx = materialFrame.getContext("2d"),
   base = document.createElement("canvas");
@@ -208,6 +220,10 @@ function buttons() {
 }
 function rebuild() {
   if (editor) document.body.classList.toggle("room-edit", scene === "room");
+  if (garden3d) {
+    garden3d.syncLayout(layout);
+    garden3d.setScene(scene);
+  }
   if (!editor) {
     zooms[scene] = scene === "north" ? 1.7 : 1;
     pans[scene] = scene === "north" ? { x: 56, y: -20 } : { x: 0, y: 0 };
@@ -230,6 +246,7 @@ function rebuild() {
   render();
 }
 function changed() {
+  garden3d?.syncLayout(layout);
   save();
   buttons();
   walker.reset();
@@ -382,6 +399,10 @@ function notebook(o) {
     rotation: 0,
     scale: p ? 1.7 : a.weapon ? Math.min(2, 80 / a.w) : 2,
   });
+  if (garden3d) {
+    preview.getContext("2d").clearRect(0, 0, 96, 96);
+    garden3d.thumbnail(o, preview);
+  }
   $("noteSources").replaceChildren();
   const sources = [
     ...new Map(
@@ -439,13 +460,19 @@ function catalog() {
     const preview = document.createElement("canvas");
     preview.width = 64;
     preview.height = 64;
-    paintObject(preview.getContext("2d"), {
+    const sprite = {
       type: a.id,
       x: 32,
       y: 32,
       scale: a.w > 52 ? 0.75 : a.plant ? 1.15 : 1,
       rotation: 0,
-    });
+    };
+    paintObject(preview.getContext("2d"), sprite);
+    if (garden3d)
+      queueMicrotask(() => {
+        preview.getContext("2d").clearRect(0, 0, 64, 64);
+        garden3d.thumbnail(sprite, preview);
+      });
     const name = document.createElement("span");
     name.textContent = a.name;
     button.append(preview, name);
@@ -454,6 +481,8 @@ function catalog() {
   }
 }
 function coords(e) {
+  if (garden3d)
+    return garden3d.groundPoint(e.clientX, e.clientY) || { x: 0, y: 0 };
   const r = canvas.getBoundingClientRect(),
     x = ((e.clientX - r.left) * camera.w) / r.width + camera.x,
     y = ((e.clientY - r.top) * camera.h) / r.height + camera.y;
@@ -530,9 +559,18 @@ if (editor) {
       commitMove(o, { pot: $("potSelect").value });
   };
   canvas.onpointerdown = (e) => {
+    if (drag && garden3d?.gesturing) {
+      const snapshot = drag.before;
+      drag = null;
+      if (snapshot !== JSON.stringify(layout)) {
+        edits.checkpoint(snapshot);
+        changed();
+      }
+      return;
+    }
     if (e.button !== 0 || drag) return;
     const pos = coords(e),
-      o = hit(pos);
+      o = garden3d ? garden3d.pick(e.clientX, e.clientY) : hit(pos);
     selected = o?.id || null;
     buttons();
     canvas.focus({ preventScroll: true });
@@ -548,7 +586,7 @@ if (editor) {
     }
   };
   canvas.onpointermove = (e) => {
-    if (!drag || e.pointerId !== drag.pointerId) return;
+    if (!drag || e.pointerId !== drag.pointerId || garden3d?.gesturing) return;
     const o = selection();
     if (!o) return;
     const pos = coords(e),
@@ -573,6 +611,7 @@ if (editor) {
       )
     ) {
       Object.assign(o, patch);
+      garden3d?.syncLayout(layout);
       buttons();
     }
   };
@@ -746,112 +785,131 @@ if (editor) {
         : "north";
     rebuild();
   });
-  const clampPan = () => {
-    pans[scene] = gardenCamera(
-      scene,
-      innerWidth,
-      innerHeight,
-      zooms[scene],
-      pans[scene],
-    ).pan;
-  };
-  const zoomAt = (factor, point, world = coords(point)) => {
-    zooms[scene] = Math.max(1, Math.min(2.5, zooms[scene] * factor));
-    fitView();
-    const after = coords(point);
-    pans[scene].x += world.x - after.x;
-    pans[scene].y += world.y - after.y;
-    clampPan();
-    fitView();
-    render();
-  };
-  const beginGesture = () => {
-    const ps = [...pointers.values()];
-    if (ps.length >= 2) {
-      const a = ps[0],
-        b = ps[1],
-        center = {
-          clientX: (a.clientX + b.clientX) / 2,
-          clientY: (a.clientY + b.clientY) / 2,
-        };
-      pinch = {
-        distance: Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY),
-        world: coords(center),
-      };
-      panDrag = null;
-    } else if (ps.length === 1) {
-      const e = ps[0];
-      pinch = null;
-      panDrag = {
-        x: e.clientX,
-        y: e.clientY,
-        origin: { ...pans[scene] },
-        camera: { ...camera },
-      };
-    } else {
-      panDrag = null;
-      pinch = null;
-    }
-  };
-  canvas.onpointerdown = (e) => {
-    if (e.button !== 0) return;
-    pointers.set(e.pointerId, { clientX: e.clientX, clientY: e.clientY });
-    canvas.setPointerCapture(e.pointerId);
-    beginGesture();
-  };
-  canvas.onpointermove = (e) => {
-    if (!pointers.has(e.pointerId)) return;
-    pointers.set(e.pointerId, { clientX: e.clientX, clientY: e.clientY });
-    if (pinch && pointers.size >= 2) {
-      const [a, b] = [...pointers.values()],
-        distance = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
-      if (distance > 0 && pinch.distance > 0)
-        zoomAt(
-          distance / pinch.distance,
-          {
-            clientX: (a.clientX + b.clientX) / 2,
-            clientY: (a.clientY + b.clientY) / 2,
-          },
-          pinch.world,
-        );
-      pinch.distance = distance;
-    } else if (panDrag) {
-      const rect = canvas.getBoundingClientRect();
-      pans[scene] = {
-        x:
-          panDrag.origin.x -
-          ((e.clientX - panDrag.x) * panDrag.camera.w) / rect.width,
-        y:
-          panDrag.origin.y -
-          ((e.clientY - panDrag.y) * panDrag.camera.h) / rect.height,
-      };
+  if (!garden3d) {
+    const clampPan = () => {
+      pans[scene] = gardenCamera(
+        scene,
+        innerWidth,
+        innerHeight,
+        zooms[scene],
+        pans[scene],
+      ).pan;
+    };
+    const zoomAt = (factor, point, world = coords(point)) => {
+      zooms[scene] = Math.max(1, Math.min(2.5, zooms[scene] * factor));
+      fitView();
+      const after = coords(point);
+      pans[scene].x += world.x - after.x;
+      pans[scene].y += world.y - after.y;
       clampPan();
       fitView();
       render();
-    }
-  };
-  const finishPan = (e) => {
-    pointers.delete(e.pointerId);
-    beginGesture();
-  };
-  canvas.onpointerup = finishPan;
-  canvas.onpointercancel = finishPan;
-  canvas.onlostpointercapture = finishPan;
-  canvas.addEventListener(
-    "wheel",
-    (e) => {
-      e.preventDefault();
-      zoomAt(Math.exp(-e.deltaY * 0.0015), e);
-    },
-    { passive: false },
-  );
-  window.addEventListener("resize", () => {
-    fitView();
-    render();
-  });
+    };
+    const beginGesture = () => {
+      const ps = [...pointers.values()];
+      if (ps.length >= 2) {
+        const a = ps[0],
+          b = ps[1],
+          center = {
+            clientX: (a.clientX + b.clientX) / 2,
+            clientY: (a.clientY + b.clientY) / 2,
+          };
+        pinch = {
+          distance: Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY),
+          world: coords(center),
+        };
+        panDrag = null;
+      } else if (ps.length === 1) {
+        const e = ps[0];
+        pinch = null;
+        panDrag = {
+          x: e.clientX,
+          y: e.clientY,
+          origin: { ...pans[scene] },
+          camera: { ...camera },
+        };
+      } else {
+        panDrag = null;
+        pinch = null;
+      }
+    };
+    canvas.onpointerdown = (e) => {
+      if (e.button !== 0) return;
+      pointers.set(e.pointerId, { clientX: e.clientX, clientY: e.clientY });
+      canvas.setPointerCapture(e.pointerId);
+      beginGesture();
+    };
+    canvas.onpointermove = (e) => {
+      if (!pointers.has(e.pointerId)) return;
+      pointers.set(e.pointerId, { clientX: e.clientX, clientY: e.clientY });
+      if (pinch && pointers.size >= 2) {
+        const [a, b] = [...pointers.values()],
+          distance = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+        if (distance > 0 && pinch.distance > 0)
+          zoomAt(
+            distance / pinch.distance,
+            {
+              clientX: (a.clientX + b.clientX) / 2,
+              clientY: (a.clientY + b.clientY) / 2,
+            },
+            pinch.world,
+          );
+        pinch.distance = distance;
+      } else if (panDrag) {
+        const rect = canvas.getBoundingClientRect();
+        pans[scene] = {
+          x:
+            panDrag.origin.x -
+            ((e.clientX - panDrag.x) * panDrag.camera.w) / rect.width,
+          y:
+            panDrag.origin.y -
+            ((e.clientY - panDrag.y) * panDrag.camera.h) / rect.height,
+        };
+        clampPan();
+        fitView();
+        render();
+      }
+    };
+    const finishPan = (e) => {
+      pointers.delete(e.pointerId);
+      beginGesture();
+    };
+    canvas.onpointerup = finishPan;
+    canvas.onpointercancel = finishPan;
+    canvas.onlostpointercapture = finishPan;
+    canvas.addEventListener(
+      "wheel",
+      (e) => {
+        e.preventDefault();
+        zoomAt(Math.exp(-e.deltaY * 0.0015), e);
+      },
+      { passive: false },
+    );
+    window.addEventListener("resize", () => {
+      fitView();
+      render();
+    });
+  }
 }
 const historyNavigation = window.history;
 function fitView() {
+  if (garden3d) {
+    if (editor) {
+      canvas.parentElement.style.setProperty(
+        "--scene-ratio",
+        camera.w / camera.h,
+      );
+      canvas.parentElement.style.aspectRatio = camera.w + " / " + camera.h;
+      canvas.style.height = "100%";
+    }
+    garden3d.resize();
+    if (!editor) {
+      const door = $("sceneDoor");
+      door.setAttribute("aria-label", DOORS[scene].label);
+      door.title = DOORS[scene].label;
+    }
+    return;
+  }
   if (editor) {
     canvas.width = camera.w;
     canvas.height = camera.h;
@@ -936,6 +994,23 @@ let last = performance.now(),
   time = 0,
   drawAt = 0;
 function render() {
+  if (garden3d) {
+    garden3d.draw({
+      time,
+      dt: 0.05,
+      atmosphere,
+      person: walker.person,
+      pig: pigWalker.person,
+      present: showPerson,
+      doorOpen: doorOpen,
+      selected,
+      reduced,
+    });
+    if (scene === "room")
+      $("weatherStatus").textContent = "窗外的声音隔着一层玻璃。";
+    else weatherCaption();
+    return;
+  }
   if (scene === "room") {
     display.clearRect(0, 0, canvas.width, canvas.height);
     display.imageSmoothingEnabled = false;
@@ -1074,7 +1149,7 @@ function frame(now) {
   }
   if (showPerson) walker.update(dt);
   pigWalker.update(dt * 0.8);
-  if (now - drawAt > 50) {
+  if (now - drawAt > (garden3d ? 33 : 50)) {
     drawAt = now;
     render();
   }
@@ -1181,6 +1256,12 @@ window.rooftop = {
           remaining: resident.remaining,
         }
       : null;
+  },
+  get modelRenderer() {
+    return garden3d;
+  },
+  get graphics() {
+    return garden3d?.stats || { controls: "2d-fallback" };
   },
   get camera() {
     return { ...camera };

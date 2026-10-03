@@ -3,7 +3,7 @@ const { chromium, webkit } = require('playwright');
 const base = process.env.BASE_URL || 'http://127.0.0.1:8773';
 const engine = process.env.BROWSER || 'chromium';
 (async () => {
-  const browser = await (engine === 'webkit' ? webkit : chromium).launch({headless:true,...(engine === 'chromium' && !process.env.CI ? {channel:'chrome'} : {})});
+  const browser = await (engine === 'webkit' ? webkit : chromium).launch({headless:true,...(engine === "chromium" ? {args:["--use-angle=swiftshader","--enable-unsafe-swiftshader"]} : {}),...(engine === 'chromium' && !process.env.CI ? {channel:'chrome'} : {})});
   try {
     for (const width of [1440,390]) for (const reducedMotion of ['no-preference','reduce']) {
       const page = await browser.newPage({viewport:{width,height:900},reducedMotion});

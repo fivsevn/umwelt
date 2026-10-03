@@ -18,6 +18,9 @@ const base = process.env.BASE_URL || "http://127.0.0.1:8773",
 (async () => {
   const browser = await (engine === "webkit" ? webkit : chromium).launch({
     headless: true,
+    ...(engine === "chromium"
+      ? { args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader"] }
+      : {}),
     ...(engine === "chromium" && !process.env.CI ? { channel: "chrome" } : {}),
   });
   try {
@@ -188,8 +191,15 @@ const base = process.env.BASE_URL || "http://127.0.0.1:8773",
       o = original.scenes.north[0],
       camera = await page.evaluate(() => rooftop.camera),
       box = await page.locator("#garden").boundingBox();
-    const x = box.x + ((o.x - camera.x) * box.width) / camera.w,
-      y = box.y + ((o.y - camera.y) * box.height) / camera.h;
+    const projected = await page.evaluate(
+      (id) => rooftop.modelRenderer?.projectObject(id),
+      o.id,
+    );
+    const x =
+        projected?.clientX ?? box.x + ((o.x - camera.x) * box.width) / camera.w,
+      y =
+        projected?.clientY ??
+        box.y + ((o.y - camera.y) * box.height) / camera.h;
     await page.mouse.move(x, y);
     await page.mouse.down();
     await page.locator("#garden").dispatchEvent("pointermove", {

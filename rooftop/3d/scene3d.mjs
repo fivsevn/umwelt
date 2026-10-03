@@ -1,11 +1,16 @@
-import { SCENES, paintBase } from "../scene.mjs";
+import { SCENES, paintBase, asset, ASSETS } from "../scene.mjs";
 import { PLANTS, POTS } from "../botany.mjs";
 import { plantContact } from "../plant-art.mjs";
+import { buildFoliage } from "./plant-models.mjs";
+import { buildVessel } from "./vessel-models.mjs";
+import { buildObject, OBJECT_DIMENSIONS } from "./object-models.mjs";
 import { OUTFITS, DECORATIONS, wardrobe } from "../wardrobe.mjs";
 
 // This renderer consumes the same initial layout and botanical palette as the 2D game.
 // Only the canvas changes; the observer's cards, clock, weather and residents are shared.
-export function createGardenRenderer(canvas, layout, doorButton) {
+export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
+  const controls = options.controls || "orbit";
+  const editable = controls === "edit";
   const T = window.THREE;
   if (!T) throw new Error("Three.js 未能加载");
   const D = {
@@ -14,6 +19,7 @@ export function createGardenRenderer(canvas, layout, doorButton) {
     layout: {
       north: layout.scenes.north.map(withContact),
       south: layout.scenes.south.map(withContact),
+      room: (layout.scenes.room || []).map(withContact),
     },
   };
   function withContact(o) {
@@ -24,7 +30,7 @@ export function createGardenRenderer(canvas, layout, doorButton) {
   const renderer = new T.WebGLRenderer({
     canvas,
     antialias: false,
-    alpha: false,
+    alpha: true,
     powerPreference: "default",
   });
   renderer.setPixelRatio(1);
@@ -131,8 +137,13 @@ export function createGardenRenderer(canvas, layout, doorButton) {
         color: kind === "plain" || kind === "leaf" ? c : "#ffffff",
         map: kind === "plain" || kind === "leaf" ? null : pixelTexture(kind, c),
       });
-      if (kind === "leaf")
-        m.onBeforeCompile = (shader) => {
+      m.userData.kind = kind;
+      m.onBeforeCompile = (shader) => {
+        shader.fragmentShader = shader.fragmentShader.replace(
+          "#include <dithering_fragment>",
+          "float grain = mod(gl_FragCoord.x + mod(gl_FragCoord.y, 2.0), 2.0) * .35; gl_FragColor.rgb = floor(gl_FragColor.rgb * 24.0 + grain) / 24.0;",
+        );
+        if (kind === "leaf") {
           shader.uniforms.leafTime = windTime;
           shader.uniforms.leafWind = windPower;
           shader.vertexShader =
@@ -142,7 +153,8 @@ export function createGardenRenderer(canvas, layout, doorButton) {
             "#include <begin_vertex>",
             "#include <begin_vertex>\n#ifdef USE_INSTANCING\ntransformed.x += sin(leafTime * 1.8 + instanceMatrix[3].x * 1.5 + instanceMatrix[3].z) * leafWind * .18 * max(0.0, instanceMatrix[3].y - .3);\n#endif",
           );
-        };
+        }
+      };
       materialCache.set(key, m);
     }
     return materialCache.get(key);
@@ -169,6 +181,7 @@ export function createGardenRenderer(canvas, layout, doorButton) {
       w,
       h,
       d,
+      color: c,
       m: mat(c, isFoliage(g) ? "leaf" : kind),
       geo: cube,
       rx,
@@ -176,7 +189,7 @@ export function createGardenRenderer(canvas, layout, doorButton) {
       rz,
     });
   }
-  function cyl(g, x, y, z, rt, rb, h, c, n = 12) {
+  function cyl(g, x, y, z, rt, rb, h, c, n = 12, kind = "plain") {
     const key = [rt, rb, h, n].join(",");
     let geo = cylinderCache.get(key);
     if (!geo) {
@@ -191,7 +204,8 @@ export function createGardenRenderer(canvas, layout, doorButton) {
       w: 1,
       h: 1,
       d: 1,
-      m: mat(c),
+      color: c,
+      m: mat(c, kind),
       geo,
       rx: 0,
       ry: 0,
@@ -282,482 +296,29 @@ export function createGardenRenderer(canvas, layout, doorButton) {
   }
   const plants = new Map(D.plants.map((o) => [o.id, o])),
     pots = new Map(D.pots.map((o) => [o.id, o]));
-  function pot(g, id, r = 0.46, h = 0.38) {
-    const p = pots.get(id) || {
-      color: "#8d6045",
-      rim: "#b08158",
-      shape: "round",
-    };
-    if (["box", "basket", "bag"].includes(p.shape)) {
-      box(g, 0, h / 2, 0, r * 1.9, h, r * 1.5, p.color, "clay");
-      box(g, 0, h - 0.025, 0, r * 2.02, 0.1, r * 1.62, p.rim);
-      box(g, 0, h + 0.029, 0, r * 1.7, 0.045, r * 1.29, P.soil);
-      if (p.shape === "box") {
-        for (const x of [-r * 0.98, r * 0.98])
-          box(g, x, h * 0.5, 0, 0.07, h * 0.65, r * 1.45, p.rim);
-      }
-    } else {
-      const shallow = ["shallow", "oval"].includes(p.shape);
-      h *= shallow ? 0.62 : 1;
-      cyl(g, 0, h / 2, 0, r * 0.98, r * 0.72, h, p.color, 16);
-      for (let j = 0; j < 8; j++) {
-        const a = (j * Math.PI) / 4;
-        box(
-          g,
-          Math.sin(a) * r * 0.86,
-          h * 0.56,
-          Math.cos(a) * r * 0.86,
-          0.045,
-          h * 0.4,
-          0.025,
-          shade(p.color, j % 2 ? 1.07 : 0.93),
-          "plain",
-          0,
-          a,
-          0,
-        );
-      }
-      cyl(g, 0, h - 0.035, 0, r * 1.09, r * 1.09, 0.13, p.rim);
-      cyl(g, 0, h + 0.035, 0, r * 0.91, r * 0.91, 0.04, P.soil);
-      cyl(g, 0, 0.035, 0, r * 0.76, r * 0.78, 0.08, shade(p.color, 0.77));
-      if (id === "imari" || id === "arita" || id === "mino" || id === "tobe") {
-        for (let i = 0; i < 12; i++) {
-          let a = (i * Math.PI) / 6;
-          box(
-            g,
-            Math.sin(a) * r * 0.95,
-            h * 0.56,
-            Math.cos(a) * r * 0.95,
-            0.09,
-            0.14,
-            0.07,
-            "#577687",
-            "plain",
-            0,
-            a,
-            0,
-          );
-        }
-      }
-    }
-    return h;
+  function pot(g, id, r = 0.46, h = 0.38, empty = false) {
+    const p = pots.get(id) || pots.get("terra");
+    return buildVessel({ box, beam, shade }, g, p, r, h, { empty });
   }
   function makePlant(parent, o) {
     const p = plants.get(o.type),
-      g = group(parent),
-      r = rng(o.seed || 1835),
-      form = p.form || "herb",
-      color = p.leaf || "#72815a",
-      flower = p.flower || "#bcb09b";
-    const big = o.type === "barrel";
-    const radius = big ? 0.67 : Math.min(0.65, (p.w || 24) / 64 + 0.07);
-    let height = pot(g, o.pot || p.defaultPot, radius, big ? 0.5 : 0.38);
+      g = group(parent);
+    g.scale.setScalar(o.scale * (o.type === "barrel" ? 1.15 : 1.38));
+    g.rotation.y = (-o.rotation * Math.PI) / 180;
+    const radius =
+      o.type === "barrel" ? 0.67 : Math.min(0.65, (p.w || 24) / 64 + 0.07);
+    const height = pot(
+      g,
+      o.pot || p.defaultPot,
+      radius,
+      o.type === "barrel" ? 0.5 : 0.38,
+    );
     const fol = group(g, 0, height, 0);
     fol.userData.foliage = true;
-    g.scale.setScalar(o.scale * (big ? 1.15 : 1.38));
-    const cactus =
-      /barrel|column|pads|cluster|exp-(star|flatstar|ribbed|woolball|redcolumn|chin|chinflower|smooth|bluebarrel|goldcolumn|offsets|hooked|haircolumn|thimbles|peanuts|multicost|wavy)/.test(
-        form,
-      );
-    if (form === "exp-stones" || form === "exp-splitrock") {
-      for (const x of [-0.22, 0.22]) {
-        ellipsoid(
-          fol,
-          x,
-          0.22,
-          0,
-          0.27,
-          0.22,
-          0.32,
-          color,
-          0.08,
-          o.seed + x * 100,
-        );
-        box(fol, x, 0.44, 0, 0.25, 0.03, 0.3, shade(color, 1.15));
-        for (let k = 0; k < 8; k++)
-          box(
-            fol,
-            x + (r() - 0.5) * 0.25,
-            0.461,
-            (r() - 0.5) * 0.24,
-            0.03,
-            0.02,
-            0.035,
-            shade(color, 0.68),
-          );
-      }
-      box(fol, 0, 0.3, 0, 0.025, 0.3, 0.35, shade(color, 0.55));
-    } else if (form === "pads") {
-      ellipsoid(fol, 0, 0.3, 0, 0.23, 0.3, 0.11, color, 0.08, o.seed);
-      for (const x of [-0.23, 0.23]) {
-        ellipsoid(fol, x, 0.78, 0, 0.25, 0.4, 0.1, color, 0.08, o.seed + 2);
-        for (let j = 0; j < 7; j++)
-          box(
-            fol,
-            x + (r() - 0.5) * 0.33,
-            0.5 + r() * 0.54,
-            0.115,
-            0.04,
-            0.035,
-            0.03,
-            "#d4cda7",
-          );
-      }
-    } else if (form === "exp-scales") {
-      for (let k = 0; k < 7; k++) {
-        const a = k * 2.4,
-          h = 0.65 + r() * 0.65;
-        for (let j = 0; j < h / 0.09; j++) {
-          const yy = j * 0.09;
-          box(
-            fol,
-            Math.cos(a) * (0.13 + yy * 0.13),
-            yy,
-            Math.sin(a) * (0.13 + yy * 0.13),
-            0.13,
-            0.08,
-            0.13,
-            j % 3 ? color : shade(color, 1.15),
-          );
-        }
-      }
-    } else if (form === "oxalis") {
-      for (let k = 0; k < 7; k++) {
-        const a = k * 2.4,
-          x = Math.cos(a) * 0.43,
-          z = Math.sin(a) * 0.43,
-          yy = 0.45 + r() * 0.35;
-        beam(fol, [0, 0, 0], [x, yy, z], 0.035, shade(color, 0.7));
-        for (let j = 0; j < 3; j++) {
-          const aa = j * 2.094 + a;
-          leaf(
-            fol,
-            [x, yy, z],
-            [x + Math.cos(aa) * 0.26, yy + 0.03, z + Math.sin(aa) * 0.26],
-            0.2,
-            color,
-          );
-        }
-      }
-    } else if (form === "exp-felt") {
-      for (let k = 0; k < 5; k++) {
-        const a = k * 2.4,
-          yy = 0.45 + k * 0.13;
-        beam(
-          fol,
-          [0, 0, 0],
-          [Math.cos(a) * 0.2, yy, Math.sin(a) * 0.2],
-          0.07,
-          "#75806b",
-        );
-        leaf(
-          fol,
-          [0, yy - 0.12, 0],
-          [Math.cos(a) * 0.55, yy + 0.14, Math.sin(a) * 0.55],
-          0.27,
-          color,
-        );
-        box(
-          fol,
-          Math.cos(a) * 0.53,
-          yy + 0.14,
-          Math.sin(a) * 0.53,
-          0.1,
-          0.08,
-          0.08,
-          "#7d7161",
-        );
-      }
-    } else if (cactus) {
-      const isTall = /column/.test(form),
-        isCluster = /cluster|offsets|thimbles|peanuts/.test(form);
-      let count = isCluster ? 5 : 1;
-      for (let k = 0; k < count; k++) {
-        const a = k * 2.4,
-          cx = count > 1 ? Math.cos(a) * 0.32 : 0,
-          cz = count > 1 ? Math.sin(a) * 0.3 : 0,
-          cr = count > 1 ? 0.27 : big ? 0.74 : 0.43,
-          cy = isTall ? 0.76 : cr;
-        ellipsoid(
-          fol,
-          cx,
-          cy,
-          cz,
-          cr,
-          cy,
-          cr,
-          color,
-          big ? 0.125 : 0.1,
-          123 + k,
-        );
-        for (let i = 0; i < 12; i++) {
-          const theta = (i * Math.PI) / 6;
-          for (let j = 0; j < 5; j++) {
-            const yy = 0.12 + j * ((cy * 1.75) / 5),
-              rr = cr * Math.sqrt(Math.max(0, 1 - ((yy - cy) / cy) ** 2));
-            box(
-              fol,
-              cx + Math.sin(theta) * rr,
-              yy,
-              cz + Math.cos(theta) * rr,
-              0.045,
-              0.065,
-              0.045,
-              i % 3 === 0 ? "#e0d3a0" : "#b3b685",
-            );
-          }
-        }
-        if (form.includes("flower")) bloom(fol, cx, cy * 2 + 0.1, cz, flower);
-      }
-      if (form === "pads") {
-        for (let k = 0; k < 3; k++)
-          ellipsoid(
-            fol,
-            (k - 1) * 0.35,
-            0.55 + Math.abs(k - 1) * 0.48,
-            0,
-            0.26,
-            0.4,
-            0.13,
-            color,
-            0.09,
-            424 + k,
-          );
-      }
-    } else if (
-      /rosette|swords|spikes|agave|zebra|exp-(triangle|ridged|pointed|powder|velvet|paws|crinkle|fan|paddles|windows|jaws)|lettuce/.test(
-        form,
-      )
-    ) {
-      const count = /swords|spikes|agave/.test(form) ? 11 : 16;
-      for (let k = 0; k < count; k++) {
-        const a = k * 2.4,
-          len = 0.5 + r() * 0.45,
-          outer = k % 2 === 0;
-        leaf(
-          fol,
-          [0, 0.07, 0],
-          [
-            Math.cos(a) * len,
-            (outer ? 0.28 : 0.55) + r() * 0.22,
-            Math.sin(a) * len,
-          ],
-          0.22,
-          color,
-        );
-        if (/zebra|ridged|jaws/.test(form))
-          for (let j = 2; j < 7; j++) {
-            const t = j / 7;
-            box(
-              fol,
-              Math.cos(a) * len * t,
-              (outer ? 0.28 : 0.55) * t + 0.07,
-              Math.sin(a) * len * t,
-              0.085,
-              0.025,
-              0.085,
-              form === "exp-jaws" ? "#c4c6a4" : "#b2c1a0",
-            );
-          }
-      }
-      if (form === "lettuce")
-        ellipsoid(fol, 0, 0.36, 0, 0.55, 0.36, 0.55, color, 0.12, 121);
-    } else if (/snake|onion|needles|spider/.test(form)) {
-      for (let k = 0; k < 14; k++) {
-        const a = k * 2.4,
-          tall = form === "snake" ? 1.3 : form === "onion" ? 0.85 : 1;
-        leaf(
-          fol,
-          [Math.cos(a) * 0.15, 0, Math.sin(a) * 0.15],
-          [
-            Math.cos(a) * (0.35 + r() * 0.45),
-            tall * (0.6 + r() * 0.4),
-            Math.sin(a) * (0.35 + r() * 0.45),
-          ],
-          form === "snake" ? 0.18 : 0.09,
-          color,
-        );
-      }
-    } else if (form === "exp-feather") {
-      for (let k = 0; k < 38; k++) {
-        const a = r() * 6.28,
-          rad = Math.sqrt(r()) * 0.59,
-          xx = Math.cos(a) * rad,
-          zz = Math.sin(a) * rad;
-        box(fol, xx, 0.08, zz, 0.15, 0.12, 0.14, color);
-        for (let j = 0; j < 3; j++)
-          box(
-            fol,
-            xx + 0.07 * j,
-            0.13 + 0.026 * j,
-            zz,
-            0.08,
-            0.035,
-            0.16,
-            j % 2 ? shade(color, 1.15) : color,
-          );
-      }
-    } else if (/fern|parsley/.test(form)) {
-      for (let k = 0; k < 9; k++) {
-        const a = k * 2.4,
-          rad = 0.6 + r() * 0.32,
-          tip = [Math.cos(a) * rad, 0.25 + r() * 0.75, Math.sin(a) * rad];
-        leaf(fol, [0, 0, 0], tip, 0.06, shade(color, 0.8));
-        for (let j = 1; j < 7; j++) {
-          const t = j / 7,
-            c = [tip[0] * t, tip[1] * t + 0.12, tip[2] * t],
-            size = 0.21 * Math.sin(Math.PI * t);
-          for (const s of [-1, 1])
-            leaf(
-              fol,
-              c,
-              [
-                c[0] + Math.sin(a) * size * s,
-                c[1] + 0.04,
-                c[2] - Math.cos(a) * size * s,
-              ],
-              0.085,
-              j % 2 ? color : shade(color, 1.15),
-            );
-        }
-      }
-    } else if (form === "beads") {
-      for (let k = 0; k < 10; k++) {
-        const a = k * 2.4,
-          xx = Math.cos(a) * 0.35,
-          zz = Math.sin(a) * 0.35;
-        for (let j = 0; j < 5; j++) {
-          const yy = j * 0.11;
-          box(
-            fol,
-            xx,
-            yy,
-            zz,
-            0.15,
-            0.13,
-            0.16,
-            j % 2 ? color : shade(color, 1.12),
-          );
-        }
-      }
-    } else if (/tails|ivy|beadtail|threads|segments|fishbone/.test(form)) {
-      for (let k = 0; k < 7; k++) {
-        const a = k * 2.4,
-          len = 1 + r() * 0.8;
-        for (let j = 0; j < 10; j++) {
-          const t = j / 10,
-            x = Math.cos(a) * (0.15 + Math.sin(t * 2) * 0.55),
-            z = Math.sin(a) * (0.15 + Math.sin(t * 2) * 0.55),
-            y = 0.3 + Math.sin(t * 3) * 0.15 - t * len;
-          box(
-            fol,
-            x,
-            y,
-            z,
-            0.17,
-            0.16,
-            0.16,
-            j % 3 === 0 ? shade(color, 1.15) : color,
-          );
-        }
-      }
-    } else if (
-      /moss|tiny|exp-(cushion|stars|redstars|silver|hairpoints|bent|sphagnum|two-row)/.test(
-        form,
-      )
-    ) {
-      for (let k = 0; k < 35; k++) {
-        const a = r() * 6.28,
-          rad = Math.sqrt(r()) * 0.58;
-        box(
-          fol,
-          Math.cos(a) * rad,
-          0.08 + r() * 0.13,
-          Math.sin(a) * rad,
-          0.15,
-          0.12,
-          0.15,
-          k % 4 ? color : shade(color, 1.17),
-        );
-      }
-    } else {
-      const broad = /split|hosta|round|hydrangea/.test(form),
-        height = /jade|berries|rose|bougainvillea|exp-tree|tomato/.test(form)
-          ? 1.2
-          : 0.75;
-      for (let k = 0; k < 9; k++) {
-        const a = k * 2.4,
-          rad = 0.35 + r() * 0.4,
-          yy = 0.3 + r() * height;
-        const tip = [Math.cos(a) * rad, yy, Math.sin(a) * rad];
-        beam(fol, [0, 0, 0], tip, 0.05, shade(color, 0.68));
-        if (broad) {
-          leaf(fol, [tip[0] * 0.4, yy * 0.7, tip[2] * 0.4], tip, 0.34, color);
-        } else {
-          ellipsoid(fol, ...tip, 0.18, 0.16, 0.18, color, 0.09, 312 + k);
-        }
-        if (
-          /flower|trumpet|marigold|daisy|cosmos|pansy|rose|camellia|round|bougainvillea|kalanchoe|fuchsia|gardenia|jasmine/.test(
-            form,
-          ) &&
-          k % 2 === 0
-        )
-          bloom(fol, tip[0], tip[1] + 0.16, tip[2], flower);
-        if (/berries|tomato|strawberry/.test(form) && k % 3 === 0) {
-          box(
-            fol,
-            tip[0] + 0.1,
-            tip[1] - 0.1,
-            tip[2],
-            0.13,
-            0.14,
-            0.12,
-            flower,
-          );
-          box(
-            fol,
-            tip[0] - 0.03,
-            tip[1] - 0.13,
-            tip[2] + 0.12,
-            0.12,
-            0.13,
-            0.11,
-            flower,
-          );
-        }
-        if (/coleus/.test(form)) {
-          leaf(fol, [tip[0] * 0.6, yy * 0.8, tip[2] * 0.6], tip, 0.2, flower);
-        }
-        if (/herb|coleus|shiso/.test(form)) {
-          leaf(fol, [0, 0.25, 0], tip, 0.24, color);
-        }
-      }
-    }
+    buildFoliage({ box, beam, ellipsoid, group, shade, rng }, fol, p, o);
     return g;
   }
-  // Everyday objects: proportions derived from the original model footprint and height table.
-  const dims = {
-    shelf: [64, 32, 32],
-    woodshelf: [52, 29, 34],
-    tierstand: [48, 28, 38],
-    ladderstand: [38, 26, 38],
-    wirestand: [58, 32, 40],
-    coveredstand: [52, 32, 40],
-    foamstand: [46, 28, 20],
-    basketstand: [28, 22, 32],
-    lowplatform: [48, 28, 12],
-    plantcart: [46, 28, 22],
-    storagechest: [48, 29, 22],
-    pottingbench: [60, 32, 28],
-    bench: [40, 24, 10],
-    stool: [20, 18, 12],
-    bistrotable: [36, 26, 22],
-    terrarium: [66, 32, 25],
-    fish: [36, 28, 12],
-    basin: [64, 46, 13],
-    sink: [52, 42, 17],
-    drying: [28, 23, 54],
-  };
+  const dims = OBJECT_DIMENSIONS;
   function stand(g, w, d, h, type) {
     const wooden =
         /woodshelf|ladderstand|foamstand|lowplatform|bench|stool|pottingbench/.test(
@@ -849,20 +410,18 @@ export function createGardenRenderer(canvas, layout, doorButton) {
         P.metalDark,
       );
     if (type === "coveredstand") {
-      box(
-        g,
-        0,
-        h + 0.28,
-        0,
-        w * 1.1,
-        0.09,
-        d * 1.12,
-        "#b7b8a4",
-        "cloth",
-        0.05,
-        0,
-        0,
+      const cover = new T.Mesh(
+        new T.BoxGeometry(w * 1.05, h + 0.23, d * 1.08),
+        new T.MeshLambertMaterial({
+          color: "#bac6ae",
+          transparent: true,
+          opacity: 0.14,
+          depthWrite: false,
+          side: T.DoubleSide,
+        }),
       );
+      cover.position.y = h * 0.5 + 0.07;
+      g.add(cover);
       for (const x of [-w * 0.5, w * 0.5])
         box(g, x, h + 0.15, 0, 0.07, 0.4, 0.07, P.metal);
     }
@@ -1070,204 +629,28 @@ export function createGardenRenderer(canvas, layout, doorButton) {
         "#b9c3a7",
       );
   }
+  function modelApi() {
+    return {
+      T,
+      box,
+      cyl,
+      beam,
+      group,
+      ellipsoid,
+      shade,
+      P,
+      stand,
+      basin,
+      terrarium,
+      waterBowl,
+      makePot: pot,
+    };
+  }
   function makeObject(parent, o) {
-    const g = group(parent),
-      type = o.type,
-      dd = dims[type] || [26, 20, 18],
-      w = dd[0] / 16,
-      d = dd[1] / 16,
-      h = dd[2] / 16;
+    const g = group(parent);
     g.scale.setScalar(o.scale);
     g.rotation.y = (-o.rotation * Math.PI) / 180;
-    if (/shelf|stand|platform|bench|stool|plantcart/.test(type))
-      stand(g, w, d, h, type);
-    else if (type === "basin" || type === "sink") basin(g, w, d, h, type);
-    else if (type === "terrarium") terrarium(g, w, d, h);
-    else if (type === "storagechest") {
-      box(g, 0, h * 0.45, 0, w, h * 0.9, d, P.wood, "wood");
-      for (let i = 0; i < 5; i++)
-        box(
-          g,
-          0,
-          h + 0.025,
-          -d * 0.43 + i * d * 0.215,
-          w * 1.02,
-          0.1,
-          d * 0.19,
-          P.woodDark,
-          "wood",
-        );
-      for (const x of [-w * 0.38, w * 0.38])
-        box(g, x, h * 0.5, d * 0.51, 0.08, h * 0.7, 0.05, P.metalDark);
-    } else if (type === "bistrotable") {
-      cyl(g, 0, h - 0.03, 0, w * 0.5, w * 0.5, 0.09, P.metal, 16);
-      for (let i = 0; i < 3; i++) {
-        const a = i * 2.094;
-        beam(
-          g,
-          [Math.sin(a) * w * 0.27, 0.02, Math.cos(a) * w * 0.27],
-          [Math.sin(a) * w * 0.14, h, Math.cos(a) * w * 0.14],
-          0.055,
-          P.metalDark,
-        );
-      }
-      box(g, 0, h, 0.2, 0.25, 0.025, 0.25, P.white);
-    } else if (type === "medakabowl" || type === "pond") waterBowl(g, 1, 0.62);
-    else if (type === "fish") {
-      box(g, 0, 0.38, 0, w, 0.65, d, P.blue, "metal");
-      box(g, 0, 0.73, 0, w * 0.87, 0.03, d * 0.82, "#86a69c");
-      for (let i = 0; i < 4; i++)
-        box(
-          g,
-          -w * 0.3 + i * w * 0.2,
-          0.755,
-          ((i % 2) - 0.5) * 0.3,
-          0.19,
-          0.04,
-          0.065,
-          "#d4c5a4",
-        );
-    } else if (type === "drying") {
-      for (const x of [-0.7, 0.7]) {
-        beam(g, [x, 0, -0.65], [x, 2.25, 0.55], 0.065, P.metalLight);
-        beam(g, [x, 0, 0.65], [x, 2.25, -0.55], 0.065, P.metalLight);
-      }
-      for (let i = 0; i < 8; i++)
-        box(g, 0, 2.25, -0.55 + i * 0.157, 1.55, 0.045, 0.035, P.metalLight);
-      for (let i = 0; i < 6; i++)
-        box(
-          g,
-          -0.62 + i * 0.23,
-          1.1,
-          -0.13,
-          0.18,
-          1.7,
-          0.028,
-          "#acb7b5",
-          "cloth",
-        );
-    } else if (type === "watering") {
-      cyl(g, 0, 0.34, 0, 0.4, 0.35, 0.65, "#7b8272");
-      beam(g, [0.2, 0.2, 0], [0.76, 0.56, 0], 0.12, "#869080");
-      box(g, 0.8, 0.6, 0, 0.16, 0.1, 0.16, P.metalLight);
-      beam(g, [-0.32, 0.65, 0], [-0.48, 0.84, 0], 0.07, P.metal);
-      beam(g, [-0.48, 0.84, 0], [0.1, 0.84, 0], 0.07, P.metal);
-    } else if (type === "bucket") {
-      cyl(g, 0, 0.4, 0, 0.44, 0.34, 0.74, "#758681");
-      cyl(g, 0, 0.77, 0, 0.46, 0.46, 0.07, "#a7b5a7");
-      cyl(g, 0, 0.795, 0, 0.39, 0.39, 0.025, "#46574f");
-      beam(g, [-0.45, 0.68, 0], [-0.36, 1.04, 0], 0.045, P.metalLight);
-      beam(g, [-0.36, 1.04, 0], [0.36, 1.04, 0], 0.045, P.metalLight);
-      beam(g, [0.36, 1.04, 0], [0.45, 0.68, 0], 0.045, P.metalLight);
-    } else if (type === "hose") {
-      for (let k = 0; k < 3; k++)
-        for (let i = 0; i < 32; i++) {
-          const a = (i * Math.PI) / 16,
-            rad = 0.57 - k * 0.11;
-          box(
-            g,
-            Math.cos(a) * rad,
-            0.06,
-            Math.sin(a) * rad,
-            0.13,
-            0.1,
-            0.13,
-            "#47655b",
-          );
-        }
-      box(g, 0.63, 0.1, 0, 0.12, 0.12, 0.36, "#819d84");
-    } else if (type === "soilbag") {
-      box(g, 0, 0.42, 0, 0.95, 0.8, 0.65, "#b4b8a1", "cloth");
-      box(g, 0, 0.45, 0.34, 0.63, 0.37, 0.018, "#70846b");
-      box(g, 0, 0.89, 0, 0.73, 0.08, 0.54, "#c6c5a9");
-      box(g, 0, 0.27, 0.356, 0.35, 0.028, 0.02, "#d3cfb2");
-    } else if (type === "crate" || type === "foambox") {
-      const c = type === "crate" ? P.blue : P.white;
-      box(g, 0, 0.05, 0, 1.65, 0.1, 1.15, c);
-      for (const x of [-0.79, 0.79])
-        box(g, x, 0.38, 0, 0.1, 0.68, 1.15, c, "clay");
-      for (const z of [-0.52, 0.52])
-        box(g, 0, 0.38, z, 1.65, 0.68, 0.1, c, "clay");
-      box(
-        g,
-        0,
-        0.6,
-        0,
-        1.48,
-        0.035,
-        0.95,
-        type === "crate" ? "#647d77" : "#708460",
-      );
-    } else if (type === "browncover") {
-      ellipsoid(g, 0, 0.23, 0, 0.45, 0.23, 0.45, "#9d8d69", 0.09, 431);
-    } else if (type === "lid" || type === "strainer" || type === "pigbowl") {
-      cyl(
-        g,
-        0,
-        0.09,
-        0,
-        0.44,
-        0.38,
-        0.16,
-        type === "pigbowl" ? "#bdb593" : P.blue,
-        12,
-      );
-      cyl(
-        g,
-        0,
-        0.18,
-        0,
-        0.34,
-        0.34,
-        0.02,
-        type === "pigbowl" ? "#8b7f5f" : "#819f96",
-        12,
-      );
-    } else if (type === "towel") {
-      box(g, 0, 0.035, 0, 0.8, 0.05, 0.5, "#b8bba9", "cloth");
-      for (let i = 0; i < 6; i++)
-        box(g, -0.35 + i * 0.14, 0.07, 0, 0.045, 0.035, 0.5, "#99a3a0");
-    } else if (type === "brush" || type === "tools") {
-      box(g, 0, 0.06, 0, 0.08, 0.09, 1.05, "#8f7a59", "wood");
-      box(g, 0, 0.11, 0.48, 0.37, 0.16, 0.24, "#a99975");
-      if (type === "tools") box(g, 0.32, 0.06, 0, 0.07, 0.08, 0.9, "#967652");
-    } else if (type === "sprayer") {
-      cyl(g, 0, 0.35, 0, 0.22, 0.24, 0.58, "#a5b7a5", 8);
-      box(g, 0, 0.68, 0, 0.31, 0.14, 0.16, P.blue);
-      box(g, 0.17, 0.71, 0, 0.23, 0.07, 0.11, P.white);
-    } else if (type === "thermometer") {
-      box(g, 0, 0.86, 0, 0.36, 1.6, 0.12, P.white);
-      box(g, -0.04, 0.94, 0.075, 0.04, 1.18, 0.025, P.blueDark);
-      for (let i = 0; i < 9; i++)
-        box(g, 0.06, 0.4 + i * 0.12, 0.08, 0.1, 0.02, 0.015, "#7c8775");
-    } else if (type === "teaset") {
-      cyl(g, 0, 0.14, 0, 0.23, 0.24, 0.26, P.white, 10);
-      box(g, 0.25, 0.18, 0, 0.13, 0.08, 0.12, P.white);
-      for (const x of [-0.4, 0.4])
-        cyl(g, x, 0.1, 0.14, 0.1, 0.1, 0.16, P.white, 8);
-    } else if (type === "gloves") {
-      for (const x of [-0.18, 0.18]) {
-        box(g, x, 0.07, 0, 0.2, 0.13, 0.35, "#bcb693", "cloth");
-        for (let i = 0; i < 3; i++)
-          box(
-            g,
-            x - 0.075 + i * 0.065,
-            0.06,
-            0.24,
-            0.045,
-            0.09,
-            0.2,
-            "#bcb693",
-          );
-      }
-    } else if (type === "labels") {
-      for (let i = 0; i < 4; i++) {
-        box(g, -0.25 + i * 0.17, 0.24, 0, 0.035, 0.45, 0.03, "#aaa785");
-        box(g, -0.25 + i * 0.17, 0.44, 0, 0.13, 0.18, 0.05, P.white);
-      }
-    } else {
-      box(g, 0, h * 0.3, 0, w * 0.7, h * 0.6, d * 0.7, P.wood, "wood");
-    }
+    buildObject(modelApi(), g, asset(o.type), o);
     return g;
   }
   function polygonShape(points) {
@@ -1290,12 +673,19 @@ export function createGardenRenderer(canvas, layout, doorButton) {
   const sourcePolygons = {
     north: SCENES.north.points,
     south: SCENES.south.points,
+    room: SCENES.room.points,
   };
   const coords = (name, x, y) =>
     name === "north"
       ? [(x - 304) / 16, (y - 272) / 16]
-      : [(x - 284) / 16, (y - 264) / 16];
+      : name === "room"
+        ? [(x - 300) / 16, (y - 216) / 16]
+        : [(x - 284) / 16, (y - 264) / 16];
   function roof(parent, name) {
+    if (name === "room") {
+      roomShell(parent);
+      return;
+    }
     const points = sourcePolygons[name].map((p) => coords(name, ...p)),
       shape = polygonShape(points);
     const geo = new T.ExtrudeGeometry(shape, {
@@ -1489,30 +879,97 @@ export function createGardenRenderer(canvas, layout, doorButton) {
     box(hinge, 0.8, 1.18, 0.18, 0.055, 0.16, 0.06, P.cap);
     doors[name] = { hinge, frame };
   }
+  // Clothing and poses follow the game's existing authored pixel designs in wardrobe/dongdong.
   function resident(parent, name) {
     const g = group(parent);
     g.userData.animated = true;
-    const outfit = OUTFITS[wardrobe.outfit] || OUTFITS.sage;
-    box(g, 0, 1.1, 0, 0.49, 0.7, 0.32, outfit[1], "cloth");
-    if (outfit[4] === "overall") {
-      for (const x of [-0.17, 0.17])
-        box(g, x, 0.65, 0, 0.23, 0.5, 0.28, outfit[2]);
+    const body = group(g);
+    body.userData.animated = true;
+    const [, color, dark, light, kind] =
+      OUTFITS[wardrobe.outfit] || OUTFITS.sage;
+    box(body, 0, 1.1, 0, 0.49, 0.7, 0.32, color, "cloth");
+    if (kind === "overall") {
+      for (const x of [-0.17, 0.17]) {
+        box(body, x, 0.65, 0, 0.23, 0.5, 0.28, color, "cloth");
+        box(body, x, 1.31, 0.19, 0.055, 0.38, 0.035, light);
+      }
+      box(body, 0, 1.03, 0.18, 0.34, 0.32, 0.035, dark);
     } else {
-      box(g, 0, 0.79, 0, 0.65, 0.3, 0.4, outfit[1]);
-      for (const x of [-0.28, 0.28])
-        box(g, x, 0.85, 0, 0.08, 0.26, 0.38, outfit[2]);
-    }
-    if (/stripe|check/.test(outfit[4]))
       for (let j = 0; j < 5; j++)
-        box(g, 0, 0.75 + j * 0.13, 0.205, 0.56, 0.035, 0.015, outfit[3]);
-    if (/apron|pocket/.test(outfit[4]))
-      box(g, 0, 1, 0.18, 0.3, 0.32, 0.03, outfit[3]);
-    box(g, 0, 1.78, 0, 0.44, 0.47, 0.37, "#bba387");
-    box(g, 0, 2.04, 0, 0.49, 0.16, 0.41, "#685044");
-    box(g, -0.23, 1.88, 0, 0.1, 0.35, 0.4, "#4f4038");
-    box(g, 0.2, 1.92, -0.08, 0.09, 0.25, 0.28, "#685044");
+        box(
+          body,
+          0,
+          0.66 + j * 0.06,
+          0,
+          0.63 - j * 0.027,
+          0.07,
+          0.4 - j * 0.012,
+          j === 0 ? dark : color,
+          "cloth",
+        );
+      for (const x of [-0.28, 0.28])
+        box(body, x, 0.85, 0, 0.08, 0.26, 0.38, dark, "cloth");
+    }
+    if (kind === "stripe" || kind === "check")
+      for (const z of [-0.185, 0.185])
+        for (let j = 0; j < 5; j++) {
+          if (kind === "stripe")
+            box(body, 0, 0.79 + j * 0.13, z, 0.5, 0.033, 0.023, light);
+          else
+            for (let k = 0; k < 4; k++)
+              box(
+                body,
+                -0.19 + k * 0.13,
+                0.8 + j * 0.12,
+                z,
+                0.052,
+                0.052,
+                0.023,
+                light,
+              );
+        }
+    if (kind === "apron") {
+      box(body, 0, 1.04, 0.19, 0.34, 0.55, 0.035, light, "cloth");
+      box(body, 0, 1, 0.212, 0.37, 0.035, 0.025, dark);
+      for (const x of [-0.2, 0.2])
+        box(body, x, 1.41, 0.04, 0.045, 0.17, 0.31, light);
+      for (const x of [-0.11, 0.11])
+        box(body, x, 1, -0.19, 0.16, 0.085, 0.065, light);
+      box(body, 0, 0.9, 0.22, 0.18, 0.09, 0.018, color);
+    }
+    if (kind === "pocket")
+      for (const x of [-0.145, 0.145]) {
+        box(body, x, 1.02, 0.18, 0.17, 0.17, 0.055, dark);
+        box(body, x, 1.11, 0.21, 0.17, 0.024, 0.023, light);
+        box(body, x, 0.85, -0.185, 0.14, 0.13, 0.025, dark);
+      }
+    if (kind === "jacket") {
+      box(body, 0, 1.11, 0.183, 0.065, 0.64, 0.025, dark);
+      for (const x of [-0.09, 0.09])
+        box(
+          body,
+          x,
+          1.39,
+          0.19,
+          0.07,
+          0.19,
+          0.055,
+          light,
+          "cloth",
+          0,
+          0,
+          x < 0 ? -0.35 : 0.35,
+        );
+      for (let j = 0; j < 4; j++)
+        box(body, 0, 0.92 + j * 0.11, 0.209, 0.025, 0.025, 0.025, light);
+    }
+    box(body, 0, 1.78, 0, 0.44, 0.47, 0.37, "#bba387");
+    box(body, 0, 2.04, 0, 0.49, 0.16, 0.41, "#685044");
+    box(body, -0.23, 1.88, 0, 0.1, 0.35, 0.4, "#4f4038");
+    box(body, 0.2, 1.92, -0.08, 0.09, 0.25, 0.28, "#685044");
+    box(body, 0, 1.86, -0.18, 0.4, 0.24, 0.065, "#685044");
     for (const x of [-0.1, 0.1])
-      box(g, x, 1.79, 0.195, 0.045, 0.045, 0.025, "#4c5147");
+      box(body, x, 1.79, 0.195, 0.045, 0.045, 0.025, "#4c5147");
     const legs = [];
     for (const x of [-0.16, 0.16]) {
       const leg = group(g, x, 0.4, 0);
@@ -1523,18 +980,95 @@ export function createGardenRenderer(canvas, layout, doorButton) {
     }
     const arms = [];
     for (const x of [-0.33, 0.33]) {
-      const arm = group(g, x, 1.38, 0);
+      const arm = group(body, x, 1.38, 0);
       arm.userData.animated = true;
-      box(arm, 0, -0.18, 0, 0.14, 0.38, 0.15, "#bba387");
+      if (kind === "jacket")
+        box(arm, 0, -0.14, 0, 0.19, 0.34, 0.21, color, "cloth");
+      box(arm, 0, -0.25, 0, 0.14, 0.27, 0.15, "#bba387");
       box(arm, 0, -0.42, 0.01, 0.13, 0.14, 0.14, "#bba387");
       arms.push(arm);
     }
-    const tool = group(g, 0.43, 0.92, 0.26);
-    tool.userData.animated = true;
-    tool.visible = false;
-    cyl(tool, 0, 0, 0, 0.18, 0.19, 0.3, "#879480", 10);
-    beam(tool, [0.15, 0, 0], [0.32, 0.13, 0], 0.045, "#99a58c");
-    actors[name] = { person: g, legs, arms, tool };
+    const tools = {};
+    for (const kind of [
+      "water",
+      "sweep",
+      "prune",
+      "tend",
+      "wipe",
+      "wash",
+      "tea",
+      "feed",
+    ]) {
+      const tool = group(arms[1], 0, -0.43, 0.06);
+      tool.userData.animated = true;
+      tool.visible = false;
+      tools[kind] = tool;
+      if (kind === "water") {
+        const can = group(tool, 0.1, -0.05, 0.03);
+        can.scale.setScalar(0.4);
+        buildObject(modelApi(), can, asset("watering"), {});
+      }
+      if (kind === "sweep") {
+        beam(tool, [0, 0.08, 0], [0.15, -0.83, 0.24], 0.035, P.wood);
+        box(tool, 0.15, -0.84, 0.24, 0.34, 0.12, 0.15, "#a49473");
+        for (let j = 0; j < 7; j++)
+          box(
+            tool,
+            0.015 + j * 0.044,
+            -0.94,
+            0.24,
+            0.026,
+            0.11,
+            0.15,
+            "#786952",
+          );
+      }
+      if (kind === "prune") {
+        for (const v of [-1, 1]) {
+          beam(
+            tool,
+            [v * 0.055, -0.07, 0],
+            [-v * 0.09, 0.16, 0.03],
+            0.025,
+            P.metalLight,
+          );
+          box(tool, v * 0.055, -0.08, 0, 0.07, 0.08, 0.025, P.blueDark);
+        }
+      }
+      if (kind === "tend") {
+        box(tool, 0, 0.07, 0, 0.04, 0.2, 0.04, P.wood);
+        box(tool, 0, -0.08, 0.03, 0.11, 0.13, 0.045, P.metalLight);
+      }
+      if (kind === "wipe")
+        box(tool, 0, -0.05, 0.04, 0.25, 0.035, 0.17, "#a4b3a7", "cloth");
+      if (kind === "tea" || kind === "feed") {
+        cyl(
+          tool,
+          0,
+          -0.025,
+          0.09,
+          kind === "tea" ? 0.1 : 0.16,
+          0.085,
+          0.12,
+          P.white,
+          12,
+        );
+        cyl(tool, 0, 0.04, 0.09, 0.075, 0.075, 0.014, "#756956", 12);
+      }
+      if (kind === "wash" || kind === "water")
+        for (let j = 0; j < 5; j++)
+          box(
+            tool,
+            0.27 + j * 0.04,
+            -0.15 - j * 0.1,
+            0.02,
+            0.025,
+            0.055,
+            0.025,
+            "#a8c0be",
+          );
+    }
+    actors[name] = { person: g, body, legs, arms, tools };
   }
   function pig(parent, name) {
     const g = group(parent);
@@ -1555,27 +1089,73 @@ export function createGardenRenderer(canvas, layout, doorButton) {
     if (decoration) {
       const col = wardrobe.pig.includes("clay")
         ? "#ae8270"
-        : wardrobe.pig.includes("cream")
+        : wardrobe.pig.includes("cream") || wardrobe.pig === "flower"
           ? "#c3b994"
           : wardrobe.pig.includes("berry") || wardrobe.pig === "ribbon"
             ? "#986e7c"
             : wardrobe.pig.includes("blue") || wardrobe.pig === "scarf"
               ? "#788d9b"
               : "#778578";
-      if (/cap|bonnet/.test(wardrobe.pig)) {
+      const kind = wardrobe.pig.split("-")[0];
+      if (kind === "cap" || kind === "bonnet") {
         box(g, 0, 0.76, 0.3, 0.4, 0.12, 0.32, col);
         box(g, 0, 0.84, 0.29, 0.25, 0.15, 0.23, col);
-      } else if (wardrobe.pig.startsWith("vest")) {
+        if (kind === "bonnet") {
+          for (let k = 0; k < 12; k++) {
+            const a = (k * Math.PI) / 6;
+            box(
+              g,
+              Math.cos(a) * 0.22,
+              0.76,
+              0.3 + Math.sin(a) * 0.18,
+              0.075,
+              0.08,
+              0.07,
+              "#ddd3b5",
+            );
+          }
+          for (const x of [-0.16, 0.16])
+            box(g, x, 0.57, 0.43, 0.03, 0.23, 0.035, col);
+        } else box(g, 0, 0.77, 0.51, 0.34, 0.04, 0.14, col);
+      } else if (kind === "vest") {
         box(g, 0, 0.57, 0, 0.38, 0.14, 0.56, col);
         for (const x of [-0.18, 0.18])
           box(g, x, 0.44, 0, 0.06, 0.24, 0.56, col);
-      } else if (/ribbon|flower/.test(wardrobe.pig)) {
-        box(g, 0, 0.7, 0.29, 0.12, 0.13, 0.11, col);
-        for (const x of [-0.13, 0.13])
-          box(g, x, 0.71, 0.29, 0.14, 0.17, 0.08, col);
+        box(g, 0, 0.5, 0.29, 0.24, 0.24, 0.05, col);
+        for (let j = 0; j < 3; j++)
+          box(g, 0, 0.44 + j * 0.055, 0.32, 0.025, 0.025, 0.025, "#c8c2a4");
+      } else if (kind === "ribbon") {
+        box(g, 0, 0.72, 0.29, 0.08, 0.11, 0.08, col);
+        for (const x of [-0.13, 0.13]) {
+          box(g, x, 0.73, 0.29, 0.16, 0.16, 0.065, col);
+          box(g, x * 0.4, 0.62, 0.3, 0.065, 0.15, 0.04, col);
+        }
+      } else if (kind === "flower") {
+        for (let k = 0; k < 5; k++) {
+          const a = (k * 6.283) / 5;
+          box(
+            g,
+            Math.cos(a) * 0.12,
+            0.75 + Math.sin(a) * 0.12,
+            0.38,
+            0.11,
+            0.11,
+            0.06,
+            col,
+          );
+        }
+        box(g, 0, 0.75, 0.42, 0.065, 0.065, 0.03, "#ccb473");
       } else {
-        box(g, 0, 0.4, 0.21, 0.4, 0.14, 0.08, col);
-        box(g, 0.08, 0.38, 0.29, 0.14, 0.16, 0.08, col);
+        for (const x of [-0.2, 0.2])
+          box(g, x, 0.45, 0.18, 0.045, 0.1, 0.32, col);
+        box(g, 0, 0.44, 0.34, 0.4, 0.09, 0.055, col);
+        if (kind === "bell") {
+          cyl(g, 0, 0.32, 0.39, 0.055, 0.075, 0.12, "#bfa46e", 8);
+          box(g, 0, 0.25, 0.39, 0.022, 0.025, 0.022, "#715f43");
+        } else {
+          box(g, 0.07, 0.36, 0.39, 0.15, 0.19, 0.055, col);
+          box(g, 0.04, 0.46, 0.37, 0.09, 0.08, 0.08, col);
+        }
       }
     }
     actors[name].pig = g;
@@ -1621,29 +1201,118 @@ export function createGardenRenderer(canvas, layout, doorButton) {
     }
     return best ? best.y : 0;
   }
+  const objectRoots = { north: new Map(), south: new Map(), room: new Map() };
+  function objectPosition(name, o, list) {
+    const contact = plants.has(o.type) ? withContact(o) : o;
+    const [x, z] = coords(name, o.x, o.y + (contact.contactY || 0));
+    const y =
+      plants.has(o.type) ||
+      ["teaset", "labels", "tools", "tasklamp"].includes(o.type)
+        ? supportHeight(contact, list)
+        : 0;
+    return new T.Vector3(x, y + 0.02, z);
+  }
+  function addModel(name, o, list) {
+    const anchor = group(groups[name]);
+    anchor.position.copy(objectPosition(name, o, list));
+    anchor.userData.animated = true;
+    anchor.userData.objectId = o.id;
+    anchor.userData.signature = JSON.stringify([
+      o.type,
+      o.rotation,
+      o.scale,
+      o.pot,
+      o.seed,
+    ]);
+    (plants.has(o.type) ? makePlant : makeObject)(anchor, o);
+    objectRoots[name].set(o.id, anchor);
+    return anchor;
+  }
   function build(name) {
+    if (groups[name]) return groups[name];
     const root = group(scene);
     root.name = name;
     groups[name] = root;
     roof(root, name);
     const list = D.layout[name];
-    for (const o of list) {
-      const isPlant = plants.has(o.type),
-        contact = isPlant ? { ...o, y: o.y + (o.contactY || 0) } : o;
-      const [x, z] = coords(name, contact.x, contact.y),
-        anchor = group(root, x, 0.02, z);
-      if (isPlant) {
-        anchor.position.y += supportHeight(contact, list);
-        makePlant(anchor, o);
-      } else {
-        if (["teaset"].includes(o.type))
-          anchor.position.y += supportHeight(o, list);
-        makeObject(anchor, o);
-      }
-    }
+    for (const o of list) addModel(name, o, list);
     resident(root, name);
     pig(root, name);
     return root;
+  }
+  function release(root) {
+    root.removeFromParent();
+    const owned = new Set();
+    root.traverse((n) => {
+      if (n.isInstancedMesh) {
+        owned.add(n);
+        n.dispose();
+      } else if (n.isMesh) {
+        n.geometry?.dispose();
+        if (![...materialCache.values()].includes(n.material))
+          n.material?.dispose();
+      }
+    });
+    batches = batches.filter((b) => !owned.has(b));
+    waterAnimations = waterAnimations.filter((f) => {
+      for (let p = f.g; p; p = p.parent) if (p === root) return false;
+      return true;
+    });
+  }
+  let layoutKey = JSON.stringify(layout.scenes);
+  function syncLayout(next) {
+    const key = JSON.stringify(next.scenes);
+    if (key === layoutKey) return;
+    layoutKey = key;
+    layout = next;
+    for (const name of ["north", "south", "room"]) {
+      D.layout[name] = (next.scenes[name] || []).map(withContact);
+      if (!groups[name]) continue;
+      const list = D.layout[name],
+        roots = objectRoots[name],
+        ids = new Set(list.map((o) => o.id));
+      for (const [id, root] of roots)
+        if (!ids.has(id)) {
+          release(root);
+          roots.delete(id);
+        }
+      for (const o of list) {
+        const signature = JSON.stringify([
+          o.type,
+          o.rotation,
+          o.scale,
+          o.pot,
+          o.seed,
+        ]);
+        let root = roots.get(o.id);
+        if (root && root.userData.signature !== signature) {
+          release(root);
+          roots.delete(o.id);
+          root = null;
+        }
+        if (!root) root = addModel(name, o, list);
+        root.position.copy(objectPosition(name, o, list));
+      }
+    }
+    if (primitives.length) compileInstances();
+    renderer.shadowMap.needsUpdate = true;
+  }
+  function roomShell(root) {
+    const w = 10,
+      d = 14;
+    box(root, 0, -0.13, 0, w, 0.25, d, "#b4a991", "wood");
+    box(root, 0, 1.25, -d / 2, w, 2.5, 0.15, "#c6bea4", "wall");
+    box(root, -w / 2, 1.25, 0, 0.15, 2.5, d, "#b7ae95", "wall");
+    box(root, w / 2, 0.23, 0, 0.15, 0.45, d, "#b7ae95", "wall");
+    for (let z = -6.9; z < 7; z += 1)
+      box(root, 0, 0.003, z, w, 0.015, 0.025, "#988e76");
+    box(root, 0, 1.57, -6.9, 3.4, 1.5, 0.045, "#7f968a");
+    for (const x of [-1.75, 0, 1.75])
+      box(root, x, 1.57, -6.86, 0.065, 1.6, 0.055, "#d0cfad");
+    box(root, 0, 1.57, -6.85, 3.5, 0.065, 0.055, "#d0cfad");
+    for (let k = 0; k < 7; k++)
+      box(root, 0, 1.04 + k * 0.19, -6.82, 3.5, 0.035, 0.025, "#b9c3a6");
+    door(root, "room", -4.9, 4, -Math.PI / 2);
   }
   // Instanced geometry keeps thousands of voxel clusters inexpensive and fully three dimensional.
   function compileInstances() {
@@ -1656,6 +1325,7 @@ export function createGardenRenderer(canvas, layout, doorButton) {
       dummy.scale.set(p.w, p.h, p.d);
       dummy.rotation.set(p.rx, p.ry, p.rz);
       dummy.updateMatrix();
+      p.g.updateWorldMatrix(true, false);
       worldMat.multiplyMatrices(p.g.matrixWorld, dummy.matrix);
       let root = p.g;
       while (root.parent && root.parent !== scene && !root.userData.animated)
@@ -1663,19 +1333,26 @@ export function createGardenRenderer(canvas, layout, doorButton) {
       const cast =
         root.name !== "city" &&
         !(p.geo === cube && Math.min(p.w, p.h, p.d) < 0.065);
-      const key = root.uuid + "|" + p.m.uuid + "|" + p.geo.uuid + "|" + cast;
+      const m = p.m.userData.window
+        ? p.m
+        : mat("#ffffff", p.m.userData.kind || "plain");
+      const key = root.uuid + "|" + m.uuid + "|" + p.geo.uuid + "|" + cast;
       let b = buckets.get(key);
       if (!b) {
-        b = { root, m: p.m, geo: p.geo, cast, matrices: [] };
+        b = { root, m, geo: p.geo, cast, matrices: [], colors: [] };
         buckets.set(key, b);
       }
       b.matrices.push(worldMat.clone());
+      b.colors.push(p.m.userData.window ? "#ffffff" : p.color);
     }
     for (const b of buckets.values()) {
       const inst = new T.InstancedMesh(b.geo, b.m, b.matrices.length);
       const inv = b.root.matrixWorld.clone().invert();
-      b.matrices.forEach((m, i) =>
-        inst.setMatrixAt(i, new T.Matrix4().multiplyMatrices(inv, m)),
+      b.matrices.forEach(
+        (m, i) => (
+          inst.setMatrixAt(i, new T.Matrix4().multiplyMatrices(inv, m)),
+          inst.setColorAt(i, new T.Color(b.colors[i]))
+        ),
       );
       inst.castShadow = b.cast;
       inst.receiveShadow = b.root.name !== "city";
@@ -1704,6 +1381,7 @@ export function createGardenRenderer(canvas, layout, doorButton) {
       "#718988",
     ][variant % 7];
     const m = mat(color);
+    m.userData.window = true;
     if (!windowMats.includes(m)) windowMats.push(m);
     box(g, 0, 0, 0.066, w, h, 0.055, color);
     box(g, 0, 0, 0.103, 0.05, h, 0.04, "#c1c4af");
@@ -1852,8 +1530,7 @@ export function createGardenRenderer(canvas, layout, doorButton) {
     box(lanes, 10 + i * 0.55, 0.55, 17, 0.1, 1, 0.1, "#788981");
     box(lanes, 10 + i * 0.55, 1.12, 17, 0.52, 0.045, 0.1, "#9fad98");
   }
-  build("north");
-  build("south");
+  build(options.scene || "north");
   compileInstances();
   let current = "north",
     view = { theta: -0.12, phi: 1.15, zoom: 1 },
@@ -1866,15 +1543,24 @@ export function createGardenRenderer(canvas, layout, doorButton) {
     doorProgress = 0;
   function reset(name) {
     current = name;
-    groups.north.visible = name === "north";
-    groups.south.visible = name === "south";
-    wanted.theta = name === "north" ? -0.12 : -0.25;
-    wanted.phi = 1.15;
-    wanted.zoom = innerWidth < 640 ? 1.06 : 1.22;
+    build(name);
+    if (primitives.length) compileInstances();
+    for (const [key, g] of Object.entries(groups)) g.visible = key === name;
+    city.visible = name !== "room";
+    wanted.theta =
+      controls === "fixed"
+        ? 0
+        : name === "north"
+          ? -0.12
+          : name === "room"
+            ? -0.18
+            : -0.25;
+    wanted.phi = controls === "fixed" ? 1.05 : name === "room" ? 1.08 : 1.15;
+    wanted.zoom = name === "room" ? 1.07 : innerWidth < 640 ? 1.06 : 1.22;
     desiredTarget.set(
       name === "north" ? 0 : -0.4,
       0.2,
-      name === "north" ? -2.35 : 0,
+      name === "north" ? -2.35 : name === "room" ? -0.8 : 0,
     );
     Object.assign(view, wanted);
     target.copy(desiredTarget);
@@ -1886,11 +1572,16 @@ export function createGardenRenderer(canvas, layout, doorButton) {
     resize();
   }
   function resize() {
-    // Fixed finer pixels: 1.35 CSS pixels, independent of device pixel density.
+    // Fine fixed pixel grid, independent of Retina/device density.
     const w = canvas.clientWidth || innerWidth,
       h = canvas.clientHeight || innerHeight;
-    renderer.setSize(Math.ceil(w / 1.35), Math.ceil(h / 1.35), false);
-    const height = w < 640 ? Math.max(28, (21 * h) / w) : 27;
+    renderer.setSize(Math.ceil(w / 1.2), Math.ceil(h / 1.2), false);
+    const height =
+      current === "room"
+        ? Math.max(18, (14 * h) / w)
+        : w < 640
+          ? Math.max(28, (21 * h) / w)
+          : 27;
     camera.top = height / 2;
     camera.bottom = -height / 2;
     camera.left = (-height * w) / h / 2;
@@ -1909,7 +1600,13 @@ export function createGardenRenderer(canvas, layout, doorButton) {
     if (e.button !== 0 && e.pointerType === "mouse") return;
     canvas.focus({ preventScroll: true });
     canvas.setPointerCapture(e.pointerId);
-    pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (controls === "none") return;
+    const object = editable && pick(e.clientX, e.clientY);
+    pointers.set(e.pointerId, {
+      x: e.clientX,
+      y: e.clientY,
+      object: object?.id,
+    });
     lastDistance = distance();
   });
   canvas.addEventListener("pointermove", (e) => {
@@ -1917,12 +1614,28 @@ export function createGardenRenderer(canvas, layout, doorButton) {
     const old = pointers.get(e.pointerId),
       dx = e.clientX - old.x,
       dy = e.clientY - old.y;
-    pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (controls === "none") return;
+    const object = editable && pick(e.clientX, e.clientY);
+    pointers.set(e.pointerId, {
+      x: e.clientX,
+      y: e.clientY,
+      object: object?.id,
+    });
     if (pointers.size === 2) {
       const d = distance();
       if (d && lastDistance) zoom(Math.log(d / lastDistance));
       lastDistance = d;
-    } else {
+    } else if (controls === "fixed") {
+      desiredTarget.x -=
+        (dx * (camera.right - camera.left)) / view.zoom / canvas.clientWidth;
+      desiredTarget.z -=
+        (dy * (camera.top - camera.bottom)) /
+        view.zoom /
+        canvas.clientHeight /
+        Math.sin(view.phi);
+      desiredTarget.x = T.MathUtils.clamp(desiredTarget.x, -6, 6);
+      desiredTarget.z = T.MathUtils.clamp(desiredTarget.z, -8, 8);
+    } else if (!old.object) {
       wanted.theta -= dx * 0.006;
       wanted.phi = T.MathUtils.clamp(wanted.phi + dy * 0.005, 0.35, 1.49);
     }
@@ -1952,7 +1665,8 @@ export function createGardenRenderer(canvas, layout, doorButton) {
       "=",
       "Home",
     ];
-    if (!keys.includes(e.key)) return;
+    if (editable || controls === "none" || !keys.includes(e.key)) return;
+    if (controls === "fixed" && e.key.startsWith("Arrow")) return;
     e.preventDefault();
     if (e.key === "ArrowLeft") wanted.theta -= 0.14;
     if (e.key === "ArrowRight") wanted.theta += 0.14;
@@ -1979,7 +1693,7 @@ export function createGardenRenderer(canvas, layout, doorButton) {
   rain.frustumCulled = false;
   scene.add(rain);
   const puddles = {};
-  for (const name of ["north", "south"]) {
+  for (const name of ["north", "south", "room"]) {
     const list =
       name === "north"
         ? [
@@ -1992,7 +1706,8 @@ export function createGardenRenderer(canvas, layout, doorButton) {
             [235, 395, 0.6, 0.32],
             [300, 310, 0.55, 0.3],
           ];
-    const g = group(groups[name]);
+    const g = group(scene);
+    g.visible = false;
     const m = new T.MeshLambertMaterial({
       color: "#718b86",
       transparent: true,
@@ -2043,6 +1758,7 @@ export function createGardenRenderer(canvas, layout, doorButton) {
   scene.add(cloudShadow);
   const projected = new T.Vector3();
   function positionDoor() {
+    if (!doorButton) return;
     const frame = doors[current].frame,
       rect = canvas.getBoundingClientRect(),
       points = [];
@@ -2088,21 +1804,53 @@ export function createGardenRenderer(canvas, layout, doorButton) {
     update(a.person, person);
     update(a.pig, pig);
     const walk = person.state === "walk" ? Math.sin(time * 8) * 0.28 : 0;
-    a.legs.forEach((g, i) => (g.rotation.x = (i ? -1 : 1) * walk));
+    const action =
+      person.state === "care"
+        ? /水/.test(person.task)
+          ? "water"
+          : /修/.test(person.task)
+            ? "prune"
+            : /擦/.test(person.task)
+              ? "wipe"
+              : /扫/.test(person.task)
+                ? "sweep"
+                : "tend"
+        : person.state;
+    const seated = ["sit", "tea"].includes(action),
+      working = [
+        "water",
+        "sweep",
+        "prune",
+        "tend",
+        "wipe",
+        "inspect",
+        "wash",
+        "feed",
+      ].includes(action);
+    a.person.position.y -= seated ? 0.24 : 0;
+    a.body.rotation.x = ["prune", "tend", "feed", "inspect"].includes(action)
+      ? 0.2
+      : 0;
+    a.legs.forEach(
+      (g, i) => (g.rotation.x = seated ? -1.15 : (i ? -1 : 1) * walk),
+    );
     a.arms.forEach(
       (g, i) =>
-        (g.rotation.x =
-          person.state === "care"
-            ? -0.65 + Math.sin(time * 3) * 0.08
+        (g.rotation.x = working
+          ? -0.7 + Math.sin(time * 3) * (action === "sweep" ? 0.25 : 0.08)
+          : action === "tea" && i === 1
+            ? -1.4 + Math.sin(time * 1.5) * 0.3
             : (i ? 1 : -1) * walk * 0.7),
     );
-    a.tool.visible = person.state === "care" && /水/.test(person.task);
+    for (const [key, tool] of Object.entries(a.tools))
+      tool.visible = key === action;
     a.pig.position.y +=
       pig.state === "walk" ? Math.abs(Math.sin(time * 9)) * 0.035 : 0;
   }
   function draw({
     time,
     dt,
+    selected,
     atmosphere: a,
     person,
     pig,
@@ -2110,6 +1858,8 @@ export function createGardenRenderer(canvas, layout, doorButton) {
     doorOpen,
     reduced,
   }) {
+    updateWardrobe();
+    resizeIfNeeded();
     const speed = reduced ? 1 : 1 - Math.exp(-dt * 14);
     for (const key of ["theta", "phi", "zoom"])
       view[key] += (wanted[key] - view[key]) * speed;
@@ -2142,7 +1892,12 @@ export function createGardenRenderer(canvas, layout, doorButton) {
             ? "#c7d0cf"
             : "#e7ecdf",
     );
-    hemi.intensity = 1.75 - a.lightAmount * 1.12;
+    for (const m of materialCache.values())
+      if (m.userData.kind === "light") {
+        m.emissive.set("#edc783");
+        m.emissiveIntensity = (a.lamps || 0) * 0.85;
+      }
+    hemi.intensity = current === "room" ? 1.4 : 1.75 - a.lightAmount * 1.12;
     hemi.groundColor.set(a.night > 0.5 ? "#566d79" : "#9ea795");
     sun.color.set(
       a.phase === "dusk"
@@ -2151,7 +1906,7 @@ export function createGardenRenderer(canvas, layout, doorButton) {
           ? "#d5beb0"
           : "#e8e6ca",
     );
-    sun.intensity = 0.25 + a.sun * 0.9;
+    sun.intensity = current === "room" ? 0.85 : 0.25 + a.sun * 0.9;
     sun.position.set(-22, a.phase === "dusk" ? 15 : 36, -14);
     windowMats.forEach((m, i) => {
       const lit = (i % 7) / 7 < a.lamps;
@@ -2163,13 +1918,15 @@ export function createGardenRenderer(canvas, layout, doorButton) {
       f.g.position.z = f.baseZ + Math.cos(time * 0.16 + f.phase) * f.r * 0.25;
       f.g.rotation.y = Math.cos(time * 0.2 + f.phase) * 0.4;
     }
+    for (const [name, p] of Object.entries(puddles))
+      p.g.visible = name === current && current !== "room";
     puddles[current].m.opacity = a.wetness * 0.55;
     puddles[current].rippleMat.opacity = a.rain * 0.55;
     puddles[current].rippleList.forEach((l, i) => {
       const t = (time * 1.1 + i * 0.23) % 1;
       l.scale.setScalar(0.1 + t * 0.47);
     });
-    rain.visible = a.rain > 0.01;
+    rain.visible = current !== "room" && a.rain > 0.01;
     rainMat.opacity = 0.2 + a.rain * 0.35;
     if (rain.visible) {
       const count = Math.floor(drops * a.rain);
@@ -2198,18 +1955,212 @@ export function createGardenRenderer(canvas, layout, doorButton) {
     }
     scene.updateMatrixWorld();
     positionDoor();
+    const chosen = selected && objectRoots[current].get(selected);
+    selectionBox.visible = !!chosen;
+    if (chosen) {
+      selectionBox.box.setFromObject(chosen);
+      selectionBox.updateMatrixWorld(true);
+    }
     renderer.render(scene, camera);
   }
-  reset("north");
+  const raycaster = new T.Raycaster(),
+    ndc = new T.Vector2(),
+    floorPlane = new T.Plane(new T.Vector3(0, 1, 0), 0);
+  const selectionBox = new T.Box3Helper(new T.Box3(), 0xd6c38b);
+  scene.add(selectionBox);
+  selectionBox.visible = false;
+  let wardrobeKey = JSON.stringify(wardrobe),
+    lastSize = "";
+  function resizeIfNeeded() {
+    const key = canvas.clientWidth + ":" + canvas.clientHeight + ":" + current;
+    if (lastSize !== key) {
+      lastSize = key;
+      resize();
+    }
+  }
+  function ray(x, y) {
+    const rect = canvas.getBoundingClientRect();
+    ndc.set(
+      ((x - rect.left) / rect.width) * 2 - 1,
+      1 - ((y - rect.top) / rect.height) * 2,
+    );
+    raycaster.setFromCamera(ndc, camera);
+  }
+  function groundPoint(x, y) {
+    ray(x, y);
+    const v = new T.Vector3();
+    if (!raycaster.ray.intersectPlane(floorPlane, v)) return null;
+    const center =
+      current === "north"
+        ? [304, 272]
+        : current === "room"
+          ? [300, 216]
+          : [284, 264];
+    return { x: v.x * 16 + center[0], y: v.z * 16 + center[1] };
+  }
+  function pick(x, y) {
+    ray(x, y);
+    const hits = raycaster.intersectObjects(
+      [...objectRoots[current].values()],
+      true,
+    );
+    for (const hit of hits) {
+      let n = hit.object;
+      while (n && !n.userData.objectId) n = n.parent;
+      if (n) return D.layout[current].find((o) => o.id === n.userData.objectId);
+    }
+    return null;
+  }
+  function projectObject(id) {
+    const root = objectRoots[current].get(id);
+    if (!root) return null;
+    const rect = canvas.getBoundingClientRect();
+    const b = new T.Box3().setFromObject(root),
+      v = b.getCenter(new T.Vector3()).project(camera);
+    return {
+      clientX: rect.left + (v.x * 0.5 + 0.5) * rect.width,
+      clientY: rect.top + (0.5 - v.y * 0.5) * rect.height,
+    };
+  }
+  function updateWardrobe() {
+    const key = JSON.stringify(wardrobe);
+    if (key === wardrobeKey) return;
+    wardrobeKey = key;
+    for (const name of Object.keys(groups)) {
+      release(actors[name].person);
+      release(actors[name].pig);
+      resident(groups[name], name);
+      pig(groups[name], name);
+    }
+    compileInstances();
+    renderer.shadowMap.needsUpdate = true;
+  }
+  const spriteCache = new Map(),
+    catalogInfo = new Map();
+  function thumbnail(o, output) {
+    const a = asset(o.type),
+      key = JSON.stringify([
+        o.type,
+        o.pot,
+        o.seed || 1835,
+        output.width,
+        output.height,
+      ]);
+    if (spriteCache.has(key)) {
+      output.getContext("2d").drawImage(spriteCache.get(key), 0, 0);
+      return;
+    }
+    const stage = new T.Scene(),
+      g = group(stage);
+    g.userData.animated = true;
+    const start = batches.length;
+    (a.plant ? makePlant : makeObject)(g, { ...o, rotation: 0, scale: 1 });
+    compileInstances();
+    stage.add(new T.HemisphereLight("#eee8d6", "#78846d", 2));
+    const light = new T.DirectionalLight("#f4e7c6", 1.2);
+    light.position.set(-5, 8, 5);
+    stage.add(light);
+    const bounds = new T.Box3().setFromObject(g),
+      size = bounds.getSize(new T.Vector3()),
+      center = bounds.getCenter(new T.Vector3());
+    catalogInfo.set(o.type, {
+      type: o.type,
+      extent: [size.x, size.y, size.z],
+      instances: batches.slice(start).reduce((n, b) => n + b.count, 0),
+      sourceCount:
+        a.plant?.sources?.length ||
+        a.weapon?.sources?.length ||
+        a.sources?.length ||
+        0,
+    });
+    const span = Math.max(size.x, size.z, size.y) * 1.18,
+      cam = new T.OrthographicCamera(
+        -span / 2,
+        span / 2,
+        span / 2,
+        -span / 2,
+        0.1,
+        50,
+      );
+    cam.position.copy(center).add(new T.Vector3(4, 6, 8));
+    cam.lookAt(center);
+    const oldColor = renderer.getClearColor(new T.Color()).clone(),
+      oldAlpha = renderer.getClearAlpha();
+    const target = new T.WebGLRenderTarget(output.width, output.height, {
+      minFilter: T.NearestFilter,
+      magFilter: T.NearestFilter,
+    });
+    target.texture.colorSpace = T.SRGBColorSpace;
+    const previous = renderer.getRenderTarget();
+    renderer.setRenderTarget(target);
+    renderer.setClearColor(0, 0);
+    renderer.render(stage, cam);
+    const pixels = new Uint8Array(output.width * output.height * 4);
+    renderer.readRenderTargetPixels(
+      target,
+      0,
+      0,
+      output.width,
+      output.height,
+      pixels,
+    );
+    const copy = document.createElement("canvas");
+    copy.width = output.width;
+    copy.height = output.height;
+    const image = copy
+        .getContext("2d")
+        .createImageData(output.width, output.height),
+      row = output.width * 4;
+    for (let y = 0; y < output.height; y++)
+      image.data.set(
+        pixels.subarray(
+          (output.height - 1 - y) * row,
+          (output.height - y) * row,
+        ),
+        y * row,
+      );
+    copy.getContext("2d").putImageData(image, 0, 0);
+    spriteCache.set(key, copy);
+    output.getContext("2d").drawImage(copy, 0, 0);
+    renderer.setRenderTarget(previous);
+    target.dispose();
+    release(g);
+    batches.length = Math.min(start, batches.length);
+    renderer.setClearColor(oldColor, oldAlpha);
+    return copy;
+  }
+  reset(options.scene || "north");
   return {
     setScene: reset,
+    syncLayout,
+    resize,
+    groundPoint,
+    pick,
+    projectObject,
+    thumbnail,
+    catalogModel(type) {
+      if (!catalogInfo.has(type)) {
+        const output = document.createElement("canvas");
+        output.width = output.height = 32;
+        thumbnail({ type, seed: 1835 }, output);
+      }
+      return catalogInfo.get(type);
+    },
+    get gesturing() {
+      return pointers.size > 1;
+    },
     draw,
     get stats() {
       return {
         scene: current,
         view: { ...view },
         wanted: { ...wanted },
-        pixels: 1.35,
+        pixels: 1.2,
+        controls,
+        selectedModel: options.selected?.() || null,
+        wardrobe: { ...wardrobe },
+        modelIds: [...objectRoots[current].keys()],
+        catalog: ASSETS.length,
         objects: D.layout[current].length,
         instances: batches.reduce((n, b) => n + b.count, 0),
         drawCalls: renderer.info.render.calls,
