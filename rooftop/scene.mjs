@@ -20,6 +20,7 @@ import { paintCity } from "./city.mjs";
 import { PLANTS, POTS, plant, vessel } from "./botany.mjs";
 import { paintPlant, paintVessel, plantContact } from "./plant-art.mjs";
 import { FURNITURE, paintFurniture } from "./furniture.mjs";
+import { WEAPONS, paintWeapon } from "./weapons.mjs";
 // All scenery is painted on an integer canvas. No bitmap assets or external dependencies.
 export const VERSION = 2;
 export const DOORS = {
@@ -123,6 +124,7 @@ export const ASSETS = [
   })),
   ...FURNITURE,
   ...OBJECTS,
+  ...WEAPONS,
   ...POTS.map((p) => ({
     id: "vessel-" + p.id,
     name: p.name,
@@ -764,7 +766,8 @@ export function paintBase(c, scene, { includeCity = true } = {}) {
 }
 function paintGroundDetail(c, a, rotation, time) {
   if (!rotation) {
-    paintDetail(c, a, time);
+    if (a.weapon) paintWeapon(c, a);
+    else paintDetail(c, a, time);
     return;
   }
   const size = Math.ceil((Math.max(a.w, a.h) + 32) / 2) * 2,
@@ -775,7 +778,8 @@ function paintGroundDetail(c, a, rotation, time) {
   cv.width = cv.height = size;
   const source = cv.getContext("2d");
   source.translate(size / 2, size / 2);
-  paintDetail(source, a, time);
+  if (a.weapon) paintWeapon(source, a);
+  else paintDetail(source, a, time);
   const d = source.getImageData(0, 0, size, size).data,
     r = (rotation * Math.PI) / 180,
     cos = Math.round(Math.cos(r)),
@@ -786,7 +790,9 @@ function paintGroundDetail(c, a, rotation, time) {
       if (!d[i + 3]) continue;
       const u = x - size / 2,
         v = y - size / 2;
-      c.fillStyle = `rgb(${d[i]},${d[i + 1]},${d[i + 2]})`;
+      c.fillStyle = a.weapon
+        ? `rgba(${d[i]},${d[i + 1]},${d[i + 2]},${d[i + 3] / 255})`
+        : `rgb(${d[i]},${d[i + 1]},${d[i + 2]})`;
       c.fillRect(
         Math.round(u * cos - (v / 0.6) * sin),
         Math.round(u * 0.6 * sin + v * cos),

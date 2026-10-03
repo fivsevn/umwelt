@@ -37,7 +37,7 @@ const HEIGHT = {
   drying: 54,
 };
 export function facingKind(a) {
-  if (FLAT.has(a.shape || a.id)) return "flat";
+  if (a.weapon || FLAT.has(a.shape || a.id)) return "flat";
   if (a.id in HEIGHT) return "volume";
   return "upright";
 }
