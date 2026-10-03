@@ -30,12 +30,12 @@ const engine = process.env.BROWSER || "chromium";
       }
       return {hashes,counts,badBounds};
     });
-    assert.equal(render.hashes.length,50);
-    assert.equal(new Set(render.hashes.map(v=>v[1])).size,50,"Each object needs its own drawing");
+    assert.equal(render.hashes.length,86);
+    assert.equal(new Set(render.hashes.map(v=>v[1])).size,86,"Each object needs its own drawing");
     assert.ok(render.counts.every(n=>n>40),"Every object paints at every facing");
     assert.deepEqual(render.badBounds,[],"Drawings fit placement and selection bounds");
     await page.locator("#clear").click();
-    for(const [category, count] of [["枪械",30],["武器",20]]) {
+    for(const [category, count] of [["枪械",66],["武器",20]]) {
       await page.locator("#categories button").filter({hasText:new RegExp("^"+category+"$")}).click();
       assert.equal(await page.locator("#assets button").count(),count);
       const ids=await page.locator("#assets button").evaluateAll(nodes=>nodes.map(n=>n.dataset.asset));
@@ -51,6 +51,17 @@ const engine = process.env.BROWSER || "chromium";
         assert.equal(await page.locator("#vesselControls").isVisible(),false);
       }
     }
+    await page.locator("#categories button").filter({hasText:/^枪械$/}).click();
+    await page.locator("#search").fill("格洛克");
+    assert.equal(await page.locator("#assets button").count(),6);
+    const glocks=["17","19","26","34","43","43x"];
+    for(const model of glocks){
+      await page.locator(`[data-asset="weapon-glock-${model}"]`).click();
+      assert.match(await page.locator("#noteName").innerText(),/格洛克/);
+      await page.locator(".notebook details summary").click();
+      assert.ok((await page.locator("#noteSources a").getAttribute("href")).startsWith("https://eu.glock.com/en/products/pistols/"));
+    }
+    await page.locator("#search").fill("");
     const before=await page.evaluate(()=>rooftop.layout);
     await page.locator("#rotate").click();
     assert.equal((await page.evaluate(()=>rooftop.layout.scenes.north.at(-1))).rotation,90);
@@ -73,6 +84,6 @@ const engine = process.env.BROWSER || "chromium";
       if(output)await page.screenshot({path:output+"/weapons-"+width+"-"+engine+".png",fullPage:true});
     }
     const room=await context.newPage();await room.goto(base+"/rooftop/room/");await room.waitForFunction(()=>window.room);
-    assert.deepEqual(errors,[]);console.log(engine+" weapons: 50 drawings, 200 facings, notebook, placement, export, reload and mobile passed");
+    assert.deepEqual(errors,[]);console.log(engine+" weapons: 86 drawings, 344 facings, notebook, placement, export, reload and mobile passed");
   } finally {await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1);});

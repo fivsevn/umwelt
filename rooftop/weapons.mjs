@@ -1,3 +1,4 @@
+import { FIREARMS, paintAdditionalFirearm } from "./firearms.mjs";
 // Museum references describe identity, period and form. Each sprite is an original pixel translation.
 const met = (id) => ({ label: "大都会艺术博物馆 · 藏品记录", url: `https://www.metmuseum.org/art/collection/search/${id}` });
 const nam = (id) => ({ label: "英国国家陆军博物馆 · 藏品记录", url: `https://collection.nam.ac.uk/detail.php?acc=${id}` });
@@ -59,7 +60,7 @@ const arms = [
   ["crossbow", "欧洲木弩", "European crossbow", "欧洲", "历史藏品式样", "crossbow", "长木身前端横着一张弓，弦收拢成三角轮廓，头部留出小环。弩身的暗木色、弓片和浅色弦在俯视角度里分得很清楚。", { label: "意大利VIVE博物馆 · 弩藏品", url: "https://vive.cultura.gov.it/en/catalog/crossbow" }],
   ["longbow", "英国长弓", "English longbow · replica", "英国", "1893年入藏复原件", "longbow", "一根窄木弓拉成长弧，两端由浅色弦相连，中间缠着深色握带。参考博物馆的历史长弓复原件，保持朴素木纹。", prm("europe", "arms-and-armour-europe-171")],
 ];
-export const WEAPONS = [...guns.map((a) => [a, "枪械"]), ...arms.map((a) => [a, "武器"])].map(([row, category]) => {
+const ORIGINAL_WEAPONS = [...guns.map((a) => [a, "枪械"]), ...arms.map((a) => [a, "武器"])].map(([row, category]) => {
   const [key, name, scientific, origin, era, profile, note, source] = row;
   const pistol = /^(wheellock|flintlock|duelling|colt-|webley|mauser-c96|luger|m1911|nambu)/.test(profile);
   const compact = ["stiletto", "kukri", "tanto", "kris", "katar"].includes(profile);
@@ -71,6 +72,7 @@ export const WEAPONS = [...guns.map((a) => [a, "枪械"]), ...arms.map((a) => [a
     note, sources: [source],
   };
 });
+export const WEAPONS = [...ORIGINAL_WEAPONS, ...FIREARMS];
 const C = { dark: "#414d47", metal: "#69746b", light: "#a5ad9b", edge: "#c0c3a9", wood: "#8e7358", woodDark: "#665443", woodLight: "#a18a69", brass: "#b0a06c", cloth: "#697a64" };
 // Integer scanlines avoid antialiasing; these silhouettes share the roof's muted palette.
 function polygon(c, points, color) {
@@ -97,6 +99,7 @@ function draw(c, a, shadow) {
   const l = (x,y,xx,yy,key="metal",w=1) => pixels(c,x,y,xx,yy,col(key),w);
   const loop = (x,y,w,h,key="dark") => { r(x,y,w,1,key);r(x,y+h-1,w,1,key);r(x,y,1,h,key);r(x+w-1,y,1,h,key); };
   const grip = (x,y,w,h,key="wood") => { poly([[x,y],[x+w,y],[x+w-2,y+h],[x-3,y+h]],key);for(let j=2;j<h;j+=3)r(x-1,y+j,w,1,"woodDark"); };
+  if (paintAdditionalFirearm(a, {r,poly,l,loop,grip})) return;
   if (a.category === "枪械") {
     if (["wheellock","flintlock","duelling"].includes(p)) {
       const long = p==="duelling";
