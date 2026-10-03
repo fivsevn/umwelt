@@ -24,15 +24,6 @@ function localized(value,lang){
   const suffix=value.slice('Epilogue - '.length),translated=gameText(suffix,lang);
   if(translated!==suffix)return `Epilogue - ${translated}`;
  }
- // Midday copy is composed as: encounter observation + space + interactive prompt.
- // The route prompt itself contains spaces around the specimen id, so translate the
- // known encounter prefix first and then pass the remainder through the dynamic rules.
- const firstSpace=value.indexOf(' ');
- if(firstSpace>0){
-  const head=value.slice(0,firstSpace),tail=value.slice(firstSpace+1);
-  const localHead=gameText(head,lang),localTail=gameText(tail,lang);
-  if(localHead!==head||localTail!==tail)return `${localHead} ${localTail}`;
- }
  return value;
 }
 

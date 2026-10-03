@@ -402,16 +402,27 @@ function dynamic(value,lang){
  return null;
 }
 
+function authoredText(value,lang){
+ const direct=table.get(value)?.[lang];if(direct)return direct;
+ const generated=dynamic(value,lang);if(generated)return generated;
+ // Scene and saved-memory prose join complete authored sentences with spaces.
+ // Specimen prompts also contain spaces, so only split at a boundary where both
+ // sides are recognized. Keep dynamic prompts intact and unknown text unchanged.
+ for(const separator of value.matchAll(/ +/g)){
+  const head=value.slice(0,separator.index),tail=value.slice(separator.index+separator[0].length);
+  const translatedHead=table.get(head)?.[lang]||dynamic(head,lang);
+  if(!translatedHead)continue;
+  const translatedTail=authoredText(tail,lang);
+  if(translatedTail!==null)return translatedHead+separator[0]+translatedTail;
+ }
+ return null;
+}
+
 export function gameText(value,lang='zh'){
  if(value==null)return '';
  const water=aquaticText(value,lang);if(water!==null)return water;
  value=String(value);
  if(lang==='zh')return value;
  if(lang==='isopod')return encodeIsopodText(value);
- const direct=table.get(value)?.[lang];if(direct)return direct;
- const generated=dynamic(value,lang);if(generated)return generated;
- // Midday scenes concatenate one encounter observation and one prompt with a space.
- // Route prompts are handled above because they contain their own spaces around the specimen id.
- const parts=value.split(' ');if(parts.length===2){const a=table.get(parts[0])?.[lang],b=table.get(parts[1])?.[lang];if(a&&b)return `${a} ${b}`;}
- return value;
+ return authoredText(value,lang)??value;
 }

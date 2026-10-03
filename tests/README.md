@@ -62,6 +62,8 @@ BROWSER=webkit BASE_URL=http://127.0.0.1:8765 COMPARE_URL=http://127.0.0.1:8766 
 
 Use `QA_OUTPUT` outside the site for screenshots. The existing morphology workflow runs both harnesses in each browser. `data-contracts.test.mjs` adds schema, narrative and invalid-input checks; `asset-stamping.test.mjs` covers the deployment URL transform. Existing compatibility tests remain in place.
 
+`browser/game-locales.cjs` exercises composed terrestrial observations, dynamic specimen prompts and evening movement memories in four languages at 320, 390 and 1440 pixels in Chromium and WebKit. It checks feedback, saved-run reload, journal copy, a full seven-day observation and restart. Run with `BASE_URL`, `BROWSER` and optional `QA_OUTPUT`. `game-locales.test.mjs` checks all seven days across seeded branches and every evening variant paired with specimen memories.
+
 
 ## Habitat lab editor regression
 
