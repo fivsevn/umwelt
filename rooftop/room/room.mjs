@@ -49,60 +49,79 @@ function choices(id, items, current, select) {
 const wardrobeViews = [];
 function groupedChoices(id, items, current, select) {
   const root = $(id);
-  root.className = "wardrobe-groups";
+  root.className = "wardrobe-catalog";
   const groups = new Map();
+  const kinds = new Map();
   for (const [key, value] of Object.entries(items)) {
-    const label = Array.isArray(value) ? value[0] : value,
-      kind = label.slice(2);
+    const label = Array.isArray(value) ? value[0] : value;
+    const kind = label.slice(2);
     if (!groups.has(kind)) groups.set(kind, []);
-    groups.get(kind).push([key, label.slice(0, 2)]);
+    groups.get(kind).push([key, label]);
+    kinds.set(key, kind);
   }
-  for (const [kind, variants] of groups) {
-    const card = document.createElement("details");
-    card.className = "wardrobe-card";
-    const title = document.createElement("summary");
-    title.textContent = kind;
-    card.append(title);
-    const colors = document.createElement("div");
-    colors.className = "categories wardrobe-colors";
-    for (const [key, color] of variants) {
-      const b = document.createElement("button");
-      b.type = "button";
-      b.textContent = color;
-      b.dataset.value = key;
-      b.setAttribute("aria-label", color + kind);
-      b.onclick = () => {
+  let category = kinds.get(current()) || groups.keys().next().value;
+  const categories = document.createElement("div");
+  categories.className = "categories wardrobe-categories";
+  categories.setAttribute(
+    "aria-label",
+    id === "outfits" ? "衣服种类" : "配饰种类",
+  );
+  const options = document.createElement("div");
+  options.id = id + "Options";
+  options.className = "asset-grid wardrobe-options";
+  for (const kind of groups.keys()) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = kind;
+    button.dataset.category = kind;
+    button.setAttribute("aria-controls", options.id);
+    button.onclick = () => {
+      category = kind;
+      render();
+    };
+    categories.append(button);
+  }
+  root.replaceChildren(categories, options);
+  function updateSelection() {
+    for (const button of options.children)
+      button.setAttribute(
+        "aria-pressed",
+        String(button.dataset.value === current()),
+      );
+  }
+  function render() {
+    for (const button of categories.children)
+      button.setAttribute(
+        "aria-pressed",
+        String(button.dataset.category === category),
+      );
+    options.setAttribute("aria-label", category + "的全部选项");
+    options.replaceChildren();
+    for (const [key, label] of groups.get(category)) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "asset-card wardrobe-option";
+      button.dataset.value = key;
+      const name = document.createElement("span");
+      name.textContent = label;
+      button.append(name);
+      button.onclick = () => {
         select(key);
-        sync();
+        updateSelection();
         $("caption").textContent =
           id === "outfits"
             ? "换好了，穿着" + OUTFITS[key][0] + "上楼。"
             : "小猪的装饰：" + DECORATIONS[key] + "。";
       };
-      colors.append(b);
+      options.append(button);
     }
-    card.append(colors);
-    card.addEventListener("toggle", () => {
-      if (card.open)
-        for (const other of root.children)
-          if (other !== card) other.open = false;
-    });
-    root.append(card);
+    updateSelection();
   }
-  function sync() {
-    for (const card of root.children) {
-      let selected = false;
-      for (const b of card.querySelectorAll("button")) {
-        const active = b.dataset.value === current();
-        b.setAttribute("aria-pressed", String(active));
-        selected ||= active;
-      }
-      card.classList.toggle("has-selection", selected);
-      card.open = selected;
-    }
-  }
-  wardrobeViews.push(sync);
-  sync();
+  wardrobeViews.push(() => {
+    category = kinds.get(current());
+    render();
+  });
+  render();
 }
 groupedChoices(
   "outfits",

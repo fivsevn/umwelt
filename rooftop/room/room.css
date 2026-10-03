@@ -18,20 +18,20 @@ body.bedroom{overflow:auto;background-color:#aaa58e;background-image:linear-grad
 .bedroom .room-transfer .transfer-body p{font-size:12px;margin:0 0 8px}
 
 .garage.bedroom .room-wardrobe{grid-column:1;grid-row:1;position:sticky;top:16px;max-height:calc(100dvh - 94px);overflow-y:auto}
-.bedroom .wardrobe-groups{display:grid;gap:6px;margin-bottom:16px}
-.bedroom .wardrobe-groups:last-child{margin-bottom:0}
-.bedroom .wardrobe-card{background:#465249;border:1px solid #78826c;color:#e5d6b1}
-.bedroom .wardrobe-card summary{cursor:pointer;padding:7px 8px;font-size:12px;line-height:1.5}
-.bedroom .wardrobe-card.has-selection summary{color:#fff0ce}
-.bedroom .wardrobe-card[open] summary{border-bottom:1px solid #78826c}
-.bedroom .wardrobe-colors{padding:8px;gap:5px;margin:0}
+.bedroom .wardrobe-catalog{margin-bottom:18px;min-width:0}
+.bedroom .wardrobe-catalog:last-child{margin-bottom:0}
+.garage.bedroom .wardrobe-categories{gap:4px;margin-bottom:8px}
+.garage.bedroom .wardrobe-options{grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;max-height:none;overflow:visible;background:none;padding:0}
+.garage.bedroom .wardrobe-options .wardrobe-option{min-height:34px;padding:6px 5px;font-size:11px;line-height:1.5;background:#535e4b;color:#e4dcc4}
+.garage.bedroom .wardrobe-options .wardrobe-option::after{display:none}
+.garage.bedroom .wardrobe-options .wardrobe-option:hover{background:#788064;color:#fff0ce}
+.garage.bedroom .wardrobe-options .wardrobe-option[aria-pressed=true]{background:#788064;color:#fff0ce;box-shadow:inset 0 0 0 1px #b6bea0!important}
 .garage.bedroom .note-column{position:sticky;top:16px;max-height:calc(100dvh - 94px);overflow-y:auto}
 @media(max-width:900px){
  .garage.bedroom .editor-layout{grid-template-columns:1fr;padding:10px;gap:12px}
  .garage.bedroom .workspace{grid-column:1;grid-row:1}
  .garage.bedroom .room-wardrobe{grid-column:1;grid-row:2;position:static;max-height:none}
  .garage.bedroom .note-column{grid-column:1;grid-row:3;position:static;max-height:none}
- .bedroom .wardrobe-groups{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
 }
 @media(max-width:550px){.garage.bedroom .workspace-status{left:12px;bottom:12px}.garage.bedroom .workspace .canvas-wrap{width:min(100%,280px)}}
 
