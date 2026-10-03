@@ -18,7 +18,7 @@ import {
   paintDistanceFog,
 } from "./weather.mjs";
 import { paintCityLights } from "./city.mjs";
-import { PLANTS, POTS, plant, vessel, allowedPots } from "./botany.mjs";
+import { plant, vessel, allowedPots } from "./botany.mjs";
 import { gardenCamera } from "./camera.mjs";
 import { makeResident } from "./resident.mjs";
 import {
@@ -358,8 +358,14 @@ function notebook(o) {
     ? p.ja + " / " + p.aliases
     : v
       ? "园艺盆 · " + (v.kind === "ceramic" ? "产地风格转译" : "有排水孔")
-      : "天台物件 · " + a.category;
+      : a.weapon
+        ? `${a.origin} · ${a.era}`
+        : "天台物件 · " + a.category;
   $("noteShape").textContent = info.note;
+  $("noteCare").hidden = Boolean(a.weapon);
+  document.querySelector(".note-foot").textContent = a.weapon
+    ? "年代按参考藏品或型式记录，器物细节可能因产地与版本而不同。"
+    : "养法按品种与当地季节调整。花果是辨识用的画面，不代表全年同时出现。";
   $("noteCare").textContent = p
     ? p.care
     : v
@@ -374,7 +380,7 @@ function notebook(o) {
     x: 48,
     y: 48,
     rotation: 0,
-    scale: p ? 1.7 : 2,
+    scale: p ? 1.7 : a.weapon ? Math.min(2, 80 / a.w) : 2,
   });
   $("noteSources").replaceChildren();
   const sources = [
@@ -446,13 +452,6 @@ function catalog() {
     button.onclick = () => add(a.id);
     $("assets").append(button);
   }
-  $("assetCount").textContent =
-    PLANTS.length +
-    " 种植物 · " +
-    POTS.length +
-    " 种花盆 · " +
-    ASSETS.filter((a) => a.furniture).length +
-    " 种家具";
 }
 function coords(e) {
   const r = canvas.getBoundingClientRect(),
@@ -502,6 +501,8 @@ if (editor) {
     "小物",
     "花盆",
     "灯具",
+    "枪械",
+    "武器",
   ]) {
     const button = document.createElement("button");
     button.textContent = name;

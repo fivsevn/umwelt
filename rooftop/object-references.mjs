@@ -100,7 +100,7 @@ const groups = [
   [["thermometer"], meter],
 ];
 export function objectReferences(a) {
-  if (a.plant) return [];
+  if (a.plant || a.weapon) return [];
   const group = groups.find(([ids]) => ids.includes(a.id));
   return group ? [photos, group[1]] : [photos];
 }
