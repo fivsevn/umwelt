@@ -104,6 +104,15 @@ const engine = process.env.BROWSER || "chromium",
         theta,
         "homepage keeps fixed projection",
       );
+      const wind = await page.evaluate(() => rooftop.graphics.foliageMotion);
+      assert.ok(wind.programs > 0, "foliage uses a compiled wind shader");
+      assert.ok(wind.strength > 0);
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await page.waitForFunction(
+        (t) => rooftop.graphics.foliageMotion.time > t + 0.05,
+        wind.time,
+      );
+      await page.emulateMedia({ reducedMotion: "no-preference" });
       assert.equal(
         await page.evaluate(() => rooftop.graphics.controls),
         "fixed",

@@ -134,16 +134,21 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     const key = c + kind;
     if (!materialCache.has(key)) {
       const m = new T.MeshLambertMaterial({
-        color: kind === "plain" || kind === "leaf" ? c : "#ffffff",
-        map: kind === "plain" || kind === "leaf" ? null : pixelTexture(kind, c),
+        color: kind === "plain" || kind.startsWith("leaf") ? c : "#ffffff",
+        map:
+          kind === "plain" || kind.startsWith("leaf")
+            ? null
+            : pixelTexture(kind, c),
       });
       m.userData.kind = kind;
+      m.customProgramCacheKey = () =>
+        "pixel-" + (kind.startsWith("leaf") ? "wind-" + kind : "static");
       m.onBeforeCompile = (shader) => {
         shader.fragmentShader = shader.fragmentShader.replace(
           "#include <dithering_fragment>",
           "float grain = mod(gl_FragCoord.x + mod(gl_FragCoord.y, 2.0), 2.0) * .35; gl_FragColor.rgb = floor(gl_FragColor.rgb * 24.0 + grain) / 24.0;",
         );
-        if (kind === "leaf") {
+        if (kind.startsWith("leaf")) {
           shader.uniforms.leafTime = windTime;
           shader.uniforms.leafWind = windPower;
           shader.vertexShader =
@@ -151,7 +156,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
             shader.vertexShader;
           shader.vertexShader = shader.vertexShader.replace(
             "#include <begin_vertex>",
-            "#include <begin_vertex>\n#ifdef USE_INSTANCING\ntransformed.x += sin(leafTime * 1.8 + instanceMatrix[3].x * 1.5 + instanceMatrix[3].z) * leafWind * .18 * max(0.0, instanceMatrix[3].y - .3);\n#endif",
+            `#include <begin_vertex>\n#ifdef USE_INSTANCING\ntransformed.x += sin(leafTime * 1.8 + instanceMatrix[3].x * 1.5 + instanceMatrix[3].z) * leafWind * ${kind === "leafRigid" ? ".012" : ".07"} * max(0.0, instanceMatrix[3].y - .3);\n#endif`,
           );
         }
       };
@@ -160,7 +165,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     return materialCache.get(key);
   }
   function isFoliage(g) {
-    for (let p = g; p; p = p.parent) if (p.userData.foliage) return true;
+    for (let p = g; p; p = p.parent)
+      if (p.userData.foliage) return p.userData.foliage;
     return false;
   }
   const cube = new T.BoxGeometry(1, 1, 1),
@@ -182,7 +188,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       h,
       d,
       color: c,
-      m: mat(c, isFoliage(g) ? "leaf" : kind),
+      m: mat(c, isFoliage(g) || kind),
       geo: cube,
       rx,
       ry,
@@ -314,7 +320,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       o.type === "barrel" ? 0.5 : 0.38,
     );
     const fol = group(g, 0, height, 0);
-    fol.userData.foliage = true;
+    fol.userData.foliage = p.family === "dry" ? "leafRigid" : "leaf";
     buildFoliage({ box, beam, ellipsoid, group, shade, rng }, fol, p, o);
     return g;
   }
@@ -1878,7 +1884,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     doors[current].hinge.rotation.y = -doorProgress * 0.58;
     updateActor(pig, person, present, time);
     windTime.value = time;
-    windPower.value = a.wind;
+    windPower.value = current === "room" ? 0 : a.wind;
     renderer.setClearColor(a.sky);
     scene.fog.color.set(a.sky);
     scene.fog.near = 52 - a.fog * 12;
@@ -2156,6 +2162,13 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         view: { ...view },
         wanted: { ...wanted },
         pixels: 1.2,
+        foliageMotion: {
+          time: windTime.value,
+          strength: windPower.value,
+          programs: (renderer.info.programs || []).filter((p) =>
+            p.cacheKey.includes("pixel-wind"),
+          ).length,
+        },
         controls,
         selectedModel: options.selected?.() || null,
         wardrobe: { ...wardrobe },
