@@ -16,9 +16,12 @@ export async function stampAssets(directory,sha){
   for(const m of matches.reverse()){
    const url=m[2]||m[3];
    if(/^(?:[a-z][\w+.-]*:|\/\/|#)/i.test(url)||url.includes('${'))continue;
+   // Vendor bundles contain quoted regular expressions that are not URLs.
+   // Filter for asset-like paths before parsing arbitrary JavaScript strings.
+   const path=url.split(/[?#]/)[0];
+   if(!/\.(?:m?js|css|woff2?|ttf|png|svg|jpe?g|webp|gif|ico|md)$/.test(path))continue;
    const parsed=new URL(url,'https://assets.invalid/');
    if(!/\.(?:m?js|css|woff2?|ttf|png|svg|jpe?g|webp|gif|ico|md)$/.test(parsed.pathname))continue;
-   const path=url.split(/[?#]/)[0];
    const target=path.startsWith('/')?resolve(root,'.'+path):resolve(dirname(file),path);
    if(relative(root,target).startsWith('..'))throw new Error(`Asset escapes artifact: ${url}`);
    // Bare strings can be copy or filename fragments; only real files are asset URLs.
