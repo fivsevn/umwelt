@@ -52,13 +52,26 @@ const engine = process.env.BROWSER || "chromium";
     await room.waitForFunction(() => room.layout.length === 0);
     await page.keyboard.press("Control+z");
     await room.waitForFunction(() => room.layout.length === 18);
-    const group = room
-      .locator("#outfits details")
-      .filter({ has: room.locator("button[data-value=blue]") });
-    if (!(await group.evaluate((el) => el.open)))
-      await group.locator("summary").click();
+    assert.equal(await room.locator(".wardrobe-catalog details, .wardrobe-catalog canvas, .wardrobe-catalog input").count(), 0);
+    assert.equal(await room.locator("#outfits [data-category]").count(), 7);
+    assert.equal(await room.locator("#decorations [data-category]").count(), 7);
+    const outfitBeforeBrowsing = await room.evaluate(() => window.room.outfit);
+    for (const kind of ["背心裙", "围裙", "背带裤", "条纹裙", "格子裙", "短外套", "口袋工作服"]) {
+      await room.locator(`#outfits [data-category="${kind}"]`).click();
+      assert.equal(await room.locator("#outfitsOptions button").count(), 5);
+      assert.ok((await room.locator("#outfitsOptions button").allTextContents()).every(label => label.endsWith(kind)));
+      assert.equal(await room.evaluate(() => window.room.outfit), outfitBeforeBrowsing);
+    }
+    await room.locator('#outfits [data-category="背心裙"]').click();
     await room.locator("#outfits button[data-value=blue]").click();
     assert.equal(await room.evaluate(() => window.room.outfit), "blue");
+    assert.equal(await room.locator("#outfitsOptions [aria-pressed=true]").getAttribute("data-value"), "blue");
+    assert.equal(await room.evaluate(() => JSON.parse(localStorage.getItem("umwelt-dongdong-wardrobe-v1")).outfit), "blue");
+    await room.locator('#decorations [data-category="铃铛项圈"]').click();
+    assert.equal(await room.locator("#decorationsOptions button").count(), 5);
+    await room.locator('#decorationsOptions [data-value="bell-cream"]').click();
+    assert.equal(await room.evaluate(() => window.room.pig), "bell-cream");
+    assert.equal(await room.locator("#decorationsOptions [aria-pressed=true]").getAttribute("data-value"), "bell-cream");
     await room.locator("#activities button[data-value=tea]").click();
     assert.equal(await room.evaluate(() => window.room.activity), "tea");
     assert.match(await room.locator("#caption").innerText(), /喝茶/);
@@ -70,11 +83,17 @@ const engine = process.env.BROWSER || "chromium";
       data = JSON.parse(await fs.readFile(await file.path(), "utf8"));
     assert.deepEqual(data.objects, initial.scenes.room);
     assert.equal(data.wardrobe.outfit, "blue");
+    assert.equal(data.wardrobe.pig, "bell-cream");
+    await room.locator('#outfits [data-category="围裙"]').click();
+    await room.locator('#outfitsOptions [data-value="apron-sage"]').click();
+    await room.locator('#decorations [data-category="小领巾"]').click();
+    await room.locator('#decorationsOptions [data-value="scarf-sage"]').click();
     await room.locator("#roomFile").setInputFiles({
       name: "invalid.json",
       mimeType: "application/json",
       buffer: Buffer.from("{}"),
     });
+    await room.waitForFunction(() => document.querySelector("#caption").textContent.includes("无法导入"));
     assert.match(await room.locator("#caption").innerText(), /无法导入/);
     assert.deepEqual(
       await room.evaluate(() => room.layout),
@@ -94,13 +113,23 @@ const engine = process.env.BROWSER || "chromium";
       initial.scenes.room,
     );
     assert.equal(await room.evaluate(() => room.outfit), "blue");
-    for (const width of [1600, 900, 390]) {
+    assert.equal(await room.locator("#outfits .wardrobe-categories [aria-pressed=true]").innerText(), "背心裙");
+    assert.equal(await room.locator("#outfitsOptions [aria-pressed=true]").getAttribute("data-value"), "blue");
+    assert.equal(await room.locator("#decorations .wardrobe-categories [aria-pressed=true]").innerText(), "铃铛项圈");
+    assert.equal(await room.locator("#decorationsOptions [aria-pressed=true]").getAttribute("data-value"), "bell-cream");
+    for (const width of [1600, 900, 390, 320]) {
       await room.setViewportSize({ width, height: 844 });
       assert.ok(
         await room.evaluate(
           () => document.documentElement.scrollWidth <= innerWidth,
         ),
       );
+      await room.locator('#outfits [data-category="口袋工作服"]').click();
+      await room.locator('#outfitsOptions [data-value="pocket-berry"]').click();
+      assert.equal(await room.evaluate(() => window.room.outfit), "pocket-berry");
+      await room.locator('#decorations [data-category="花边帽"]').click();
+      await room.locator('#decorationsOptions [data-value="bonnet-blue"]').click();
+      assert.equal(await room.evaluate(() => window.room.pig), "bonnet-blue");
       if (process.env.QA_OUTPUT)
         await room.screenshot({
           path:
