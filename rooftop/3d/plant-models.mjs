@@ -15,6 +15,20 @@ export function buildFoliage(api, g, p, o) {
   if (!PLANT_FORMS.has(f)) throw Error("未定义植物结构：" + f);
   const v = (a, rad, y) => [Math.cos(a) * rad, y, Math.sin(a) * rad];
   const leaf = (start, end, width, col = c, teeth = false) => {
+    if (api.blade) {
+      api.blade(
+        g,
+        start,
+        end,
+        width,
+        col,
+        teeth,
+        /rosette|jade|kalanchoe|exp-(triangle|ridged|pointed|powder|velvet|paws|crinkle|paddles|jaws|tree)/.test(
+          f,
+        ),
+      );
+      return;
+    }
     const n = Math.max(
       4,
       Math.ceil(Math.hypot(...end.map((q, i) => q - start[i])) / 0.055),
@@ -99,6 +113,24 @@ export function buildFoliage(api, g, p, o) {
                 ? 0.4
                 : rad * 1.9) *
           (1 + (r() - 0.5) * 0.15);
+      if (api.cactusBody) {
+        api.cactusBody(g, xx, zz, rad, h, ribCount, tall, c, f);
+        if (/chinflower|offsets|peanuts/.test(f))
+          blossom(xx, h + 0.025, zz, flower, 7, 0.12, 2);
+        if (/woolball|cluster|redcolumn/.test(f))
+          for (let j = 0; j < 7; j++) {
+            const angle = j * 0.897;
+            blossom(
+              xx + Math.cos(angle) * rad * 0.68,
+              h * 0.86,
+              zz + Math.sin(angle) * rad * 0.68,
+              flower,
+              5,
+              0.07,
+            );
+          }
+        continue;
+      }
       for (let yy = 0.025; yy < h; yy += 0.065) {
         const bulb = tall
           ? Math.sqrt(Math.max(0.08, 1 - ((yy - h * 0.47) / (h * 0.57)) ** 4))

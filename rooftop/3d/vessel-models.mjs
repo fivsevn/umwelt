@@ -41,6 +41,104 @@ export function buildVessel(
     if (s === "irregular") rr *= 1 + 0.07 * Math.sin(a * 3 + 1.4);
     return rr;
   };
+  if (api.profile && !/box|square|bag/.test(s)) {
+    const top = by + h,
+      sides = s === "faceted" ? 8 : /scallop|mokko/.test(s) ? 16 : 12;
+    const shape = /oval|mokko|scallop|irregular/.test(s) ? s : "round";
+    const rr = (t) => rad(t, 0),
+      thick = 0.055;
+    // A single closed pottery shell includes the inner wall, bottom and real drain hole.
+    api.profile(
+      g,
+      [
+        [rr(0), by + 0.025],
+        [rr(0.25), by + h * 0.25],
+        [rr(0.65), by + h * 0.65],
+        [rr(1), top - 0.025],
+        [rr(1) - thick, top - 0.025],
+        [rr(0.65) - thick, by + h * 0.65],
+        [rr(0) - thick, by + 0.09],
+        [0.055, by + 0.09],
+        [0.055, by + 0.025],
+        [rr(0), by + 0.025],
+      ],
+      sides,
+      color,
+      p.pattern === "plain" ? "clay" : "pot-" + p.pattern,
+      shape,
+    );
+    api.profile(
+      g,
+      [
+        [rr(1) - 0.065, top - 0.035],
+        [rr(1) + 0.035, top - 0.035],
+        [rr(1) + 0.035, top + 0.035],
+        [rr(1) - 0.065, top + 0.035],
+        [rr(1) - 0.065, top - 0.035],
+      ],
+      sides,
+      rim,
+      "clay",
+      shape,
+    );
+    if (foot) {
+      if (/oval|mokko|scallop/.test(s)) {
+        for (const x of [-r * 0.43, r * 0.43])
+          for (const z of [-r * 0.32, r * 0.32])
+            box(
+              g,
+              x,
+              by * 0.42,
+              z,
+              0.16,
+              Math.max(0.06, by * 0.84),
+              0.14,
+              ink,
+              "clay",
+            );
+      } else
+        api.profile(
+          g,
+          [
+            [r * 0.48, 0],
+            [r * 0.57, 0.02],
+            [r * 0.55, by + 0.02],
+            [r * 0.45, by + 0.02],
+            [r * 0.45, 0],
+            [r * 0.48, 0],
+          ],
+          sides,
+          ink,
+          "clay",
+          shape,
+        );
+    }
+    if (!empty)
+      api.profile(
+        g,
+        [
+          [0.001, top - 0.06],
+          [rr(1) - 0.065, top - 0.06],
+          [rr(1) - 0.065, top - 0.04],
+          [0.001, top - 0.04],
+          [0.001, top - 0.06],
+        ],
+        sides,
+        "#57432c",
+        "soil",
+        shape,
+      );
+    if (s === "basket")
+      for (const a of [0, 2.094, 4.189])
+        beam(
+          g,
+          [Math.cos(a) * r, top, Math.sin(a) * r],
+          [0, top + r * 1.45, 0],
+          0.027,
+          "#637268",
+        );
+    return top;
+  }
   if (/box|square|bag/.test(s)) {
     const w = r * (p.id === "trough" ? 3.1 : 1.95),
       d = r * (p.id === "trough" ? 1.32 : 1.55),

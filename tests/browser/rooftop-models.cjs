@@ -22,6 +22,21 @@ const engine = process.env.BROWSER || "chromium",
     if (engine === "chromium")
       assert.ok(webgl, "software WebGL must create models");
     if (webgl) {
+      await page.waitForFunction(()=>rooftop.graphics.foliageMotion.time>0.1);
+      const style = await page.evaluate(() => rooftop.graphics);
+      assert.equal(style.style, "painted-lowpoly-v1");
+      assert.ok(style.textures >= 20, "shared painted material library");
+      assert.ok(
+        style.drawCalls < 1000,
+        "leaves reuse surfaces rather than one draw per leaf",
+      );
+      assert.ok(
+        style.surfaces < 200,
+        "shared low-poly geometry on initial roof",
+      );
+      assert.equal(style.neighborhood.buildings, 8);
+      assert.equal(style.neighborhood.shelters, 1);
+      assert.ok(style.groundY < -18, "six storeys meet community ground");
       const audit = await page.evaluate(async () => {
         const { ASSETS } = await import("/rooftop/scene.mjs"),
           renderer = rooftop.modelRenderer;

@@ -144,6 +144,26 @@ export function buildObject(api, g, a, o) {
       box(g, 0, height * 0.8, 0, ww - 0.15, 0.035, dep - 0.15, P.soil, "soil");
   };
   const hollowBowl = (rad, height, col) => {
+    if (api.profile) {
+      api.profile(
+        g,
+        [
+          [0.01, 0],
+          [0.66, 0],
+          [0.99, 0.88],
+          [1.03, 1],
+          [0.89, 1],
+          [0.86, 0.85],
+          [0.58, 0.16],
+          [0.01, 0.16],
+          [0.01, 0],
+        ].map(([r, y]) => [r * rad, y * height]),
+        12,
+        col,
+        "metal",
+      );
+      return;
+    }
     const layers = Math.ceil(height / 0.06);
     for (let k = 0; k < layers; k++) {
       const t = (k + 0.5) / layers,
@@ -914,7 +934,7 @@ export function buildObject(api, g, a, o) {
 // Collection pieces retain the museum/official side profile, then get a rounded,
 // material-dependent thickness. They are inert decorative objects, resting flat.
 export function buildCollectionModel(api, g, a) {
-  const { box, shade } = api,
+  const { box } = api,
     canvas = document.createElement("canvas");
   canvas.width = 112;
   canvas.height = 72;
@@ -934,27 +954,31 @@ export function buildCollectionModel(api, g, a) {
           .join("");
       const warm = pixels[i] > pixels[i + 1] * 1.09,
         half = warm ? 0.12 : a.firearmArt?.slim ? 0.075 : 0.095;
+      // Contiguous equal-colour runs preserve the sourced silhouette while removing
+      // the old raised checkerboard of individual voxel caps.
+      let end = x + 1;
+      while (end < 112) {
+        const next = (y * 112 + end) * 4;
+        if (
+          pixels[next + 3] < 100 ||
+          pixels[next] !== pixels[i] ||
+          pixels[next + 1] !== pixels[i + 1] ||
+          pixels[next + 2] !== pixels[i + 2]
+        )
+          break;
+        end++;
+      }
       box(
         g,
-        (x - 56) * size,
+        ((x + end - 1) / 2 - 56) * size,
         half + 0.04,
         (y - 36) * size,
-        size,
+        (end - x) * size,
         half * 2,
         size,
         color,
         warm ? "wood" : "metal",
       );
-      if (x % 3 === 0)
-        box(
-          g,
-          (x - 56) * size,
-          half * 2 + 0.045,
-          (y - 36) * size,
-          size * 0.8,
-          0.025,
-          size * 0.8,
-          shade(color, 1.08),
-        );
+      x = end - 1;
     }
 }
