@@ -1,9 +1,16 @@
-import { SCENES, paintBase, asset, ASSETS } from "../scene.mjs";
+import { SCENES, asset, ASSETS } from "../scene.mjs";
 import { PLANTS, POTS } from "../botany.mjs";
 import { plantContact } from "../plant-art.mjs";
 import { buildFoliage } from "./plant-models.mjs";
 import { buildVessel } from "./vessel-models.mjs";
 import { buildObject, OBJECT_DIMENSIONS } from "./object-models.mjs";
+import {
+  PIXEL_STYLE,
+  createPixelMaterials,
+  paintPixels,
+} from "./pixel-materials.mjs";
+import { latheSurface, leafSurface } from "./model-surfaces.mjs";
+import { buildNeighborhood } from "./neighborhood.mjs";
 import { OUTFITS, DECORATIONS, wardrobe } from "../wardrobe.mjs";
 
 // This renderer consumes the same initial layout and botanical palette as the 2D game.
@@ -60,25 +67,13 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   sun.shadow.normalBias = 0.02;
   scene.add(sun);
   scene.add(sun.target);
-  const P = {
-    metal: "#59675b",
-    metalLight: "#8f9a87",
-    metalDark: "#424d44",
-    wood: "#8d7a5f",
-    woodLight: "#a59478",
-    woodDark: "#70614f",
-    white: "#c5c6ae",
-    blue: "#577f82",
-    blueDark: "#3d606b",
-    soil: "#5f5140",
-    tile: "#a29f8c",
-    wall: "#bdb59e",
-    cap: "#d0c7ae",
-  };
-  const materialCache = new Map(),
-    texCache = new Map(),
-    windTime = { value: 0 },
+  const P = PIXEL_STYLE.palette;
+  const windTime = { value: 0 },
     windPower = { value: 0 };
+  const style = createPixelMaterials(T, windTime, windPower);
+  const materialCache = style.cache,
+    texCache = style.textures,
+    mat = style.mat;
   let primitives = [],
     batches = [],
     groups = {},
@@ -97,72 +92,6 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     const n = new T.Color(c);
     n.multiplyScalar(v);
     return "#" + n.getHexString();
-  }
-  function pixelTexture(kind, color) {
-    const key = kind + color;
-    if (texCache.has(key)) return texCache.get(key);
-    const c = document.createElement("canvas");
-    c.width = c.height = 32;
-    const ctx = c.getContext("2d"),
-      r = rng(1356 + kind.length);
-    ctx.fillStyle = color;
-    ctx.fillRect(0, 0, 32, 32);
-    for (let i = 0; i < 100; i++) {
-      ctx.fillStyle = shade(color, 0.85 + r() * 0.29);
-      const x = Math.floor(r() * 32),
-        y = Math.floor(r() * 32);
-      ctx.fillRect(
-        x,
-        y,
-        kind === "wood" ? 3 + Math.floor(r() * 7) : 1 + (r() > 0.7 ? 1 : 0),
-        1,
-      );
-    }
-    if (kind === "wood") {
-      ctx.fillStyle = shade(color, 0.7);
-      ctx.fillRect(9, 17, 4, 1);
-      ctx.fillRect(11, 18, 2, 1);
-    }
-    const tex = new T.CanvasTexture(c);
-    tex.magFilter = tex.minFilter = T.NearestFilter;
-    tex.generateMipmaps = false;
-    tex.colorSpace = T.SRGBColorSpace;
-    texCache.set(key, tex);
-    return tex;
-  }
-  function mat(c, kind = "plain") {
-    const key = c + kind;
-    if (!materialCache.has(key)) {
-      const m = new T.MeshLambertMaterial({
-        color: kind === "plain" || kind.startsWith("leaf") ? c : "#ffffff",
-        map:
-          kind === "plain" || kind.startsWith("leaf")
-            ? null
-            : pixelTexture(kind, c),
-      });
-      m.userData.kind = kind;
-      m.customProgramCacheKey = () =>
-        "pixel-" + (kind.startsWith("leaf") ? "wind-" + kind : "static");
-      m.onBeforeCompile = (shader) => {
-        shader.fragmentShader = shader.fragmentShader.replace(
-          "#include <dithering_fragment>",
-          "float grain = mod(gl_FragCoord.x + mod(gl_FragCoord.y, 2.0), 2.0) * .35; gl_FragColor.rgb = floor(gl_FragColor.rgb * 24.0 + grain) / 24.0;",
-        );
-        if (kind.startsWith("leaf")) {
-          shader.uniforms.leafTime = windTime;
-          shader.uniforms.leafWind = windPower;
-          shader.vertexShader =
-            "uniform float leafTime; uniform float leafWind;\n" +
-            shader.vertexShader;
-          shader.vertexShader = shader.vertexShader.replace(
-            "#include <begin_vertex>",
-            `#include <begin_vertex>\n#ifdef USE_INSTANCING\ntransformed.x += sin(leafTime * 1.8 + instanceMatrix[3].x * 1.5 + instanceMatrix[3].z) * leafWind * ${kind === "leafRigid" ? ".012" : ".07"} * max(0.0, instanceMatrix[3].y - .3);\n#endif`,
-          );
-        }
-      };
-      materialCache.set(key, m);
-    }
-    return materialCache.get(key);
   }
   function isFoliage(g) {
     for (let p = g; p; p = p.parent)
@@ -241,48 +170,170 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       e.z,
     );
   }
-  function ellipsoid(g, x, y, z, rx, ry, rz, color, step = 0.115, seed = 1) {
-    const r = rng(seed),
-      ramp = [shade(color, 0.73), shade(color, 0.9), color, shade(color, 1.14)];
-    for (let yy = -ry; yy <= ry; yy += step)
-      for (let xx = -rx; xx <= rx; xx += step)
-        for (let zz = -rz; zz <= rz; zz += step) {
-          const norm =
-            (xx * xx) / (rx * rx) +
-            (yy * yy) / (ry * ry) +
-            (zz * zz) / (rz * rz);
-          if (
-            norm <= 1 &&
-            norm > Math.max(0, 1 - (step * 3) / Math.min(rx, ry, rz))
-          ) {
-            const index = Math.min(
-              3,
-              Math.floor(r() * 3 + (yy / ry > 0.3 ? 0.8 : 0)),
-            );
-            box(g, x + xx, y + yy, z + zz, step, step, step, ramp[index]);
-          }
-        }
+  const surfaceCache = new Map();
+  const roundGeo = new T.SphereGeometry(1, 10, 6).toNonIndexed();
+  roundGeo.computeVertexNormals();
+  function surface(g, geo, x, y, z, w, h, d, color, kind = "paint") {
+    primitives.push({
+      g,
+      x,
+      y,
+      z,
+      w,
+      h,
+      d,
+      color,
+      m: mat(color, kind === "cactus" ? kind : isFoliage(g) || kind),
+      geo,
+      rx: 0,
+      ry: 0,
+      rz: 0,
+    });
+  }
+  function ellipsoid(g, x, y, z, rx, ry, rz, color, kind = "paint") {
+    surface(
+      g,
+      roundGeo,
+      x,
+      y,
+      z,
+      rx,
+      ry,
+      rz,
+      color,
+      isFoliage(g) || (typeof kind === "string" ? kind : "paint"),
+    );
+  }
+  function profile(
+    g,
+    points,
+    sides,
+    color,
+    kind = "clay",
+    shape = "round",
+    ribs = 0,
+  ) {
+    const key = JSON.stringify([points, sides, shape, ribs]);
+    if (!surfaceCache.has(key))
+      surfaceCache.set(key, latheSurface(T, points, sides, shape, ribs));
+    surface(g, surfaceCache.get(key), 0, 0, 0, 1, 1, 1, color, kind);
+  }
+  function blade(g, start, end, width, color, teeth = false, fleshy = false) {
+    const key = "blade:" + teeth + ":" + fleshy;
+    if (!surfaceCache.has(key))
+      surfaceCache.set(
+        key,
+        leafSurface(T, [0, 0, 0], [0, 0, 1], 1, teeth, fleshy),
+      );
+    const v = new T.Vector3(...end).sub(new T.Vector3(...start)),
+      length = Math.max(0.001, v.length());
+    const side = new T.Vector3(v.z, 0, -v.x);
+    if (side.lengthSq() < 0.001) side.set(1, 0, 0);
+    side.normalize();
+    const normal = v.clone().cross(side).normalize(),
+      leaf = group(g, ...start);
+    leaf.quaternion.setFromRotationMatrix(
+      new T.Matrix4().makeBasis(side, normal, v.normalize()),
+    );
+    leaf.scale.set(width, length, length);
+    surface(
+      leaf,
+      surfaceCache.get(key),
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      color,
+      isFoliage(g) || "leaf",
+    );
+  }
+  function cactusBody(g, x, z, radius, height, ribs, tall, color, form = "") {
+    const plant = group(g, x, 0, z),
+      rr = radius;
+    const shell = group(plant);
+    shell.scale.set(radius, height, radius);
+    const points = tall
+      ? [
+          [0, 0],
+          [0.78, 0.025],
+          [1, 0.16],
+          [1, 0.66],
+          [0.87, 0.89],
+          [0.24, 1],
+          [0, 1],
+        ]
+      : [
+          [0, 0],
+          [0.57, 0.06],
+          [0.94, 0.28],
+          [1, 0.53],
+          [0.85, 0.81],
+          [0.25, 1],
+          [0, 1],
+        ];
+    profile(
+      shell,
+      points,
+      Math.max(6, ribs * 2),
+      color,
+      "cactus",
+      "round",
+      ribs,
+    );
+    // Raised areoles/thorns remain geometry; rib shading is painted into the surface.
+    for (let k = 0; k < ribs; k++)
+      for (let j = 1; j < 4; j++) {
+        const a = (k * Math.PI * 2) / ribs,
+          yy = (height * j) / 4;
+        const rad =
+          rr *
+          (tall
+            ? 1
+            : Math.sqrt(
+                Math.max(0.1, 1 - ((yy - height * 0.5) / (height * 0.53)) ** 2),
+              ));
+        const wool = /wool|hair|cluster/.test(form),
+          hook = /hooked/.test(form),
+          ink = hook ? "#a57357" : wool ? "#d9d7b7" : "#e0d0a3";
+        box(
+          plant,
+          Math.cos(a) * (rad + 0.026),
+          yy,
+          Math.sin(a) * (rad + 0.026),
+          wool ? 0.06 : 0.033,
+          wool ? 0.12 : 0.044,
+          0.033,
+          ink,
+        );
+        if (k % 2 === 0 && !/star|smooth|chin/.test(form))
+          beam(
+            plant,
+            [Math.cos(a) * rad, yy, Math.sin(a) * rad],
+            [
+              Math.cos(a) * (rad + 0.09),
+              yy + 0.025,
+              Math.sin(a) * (rad + 0.09),
+            ],
+            0.016,
+            ink,
+          );
+        if (hook && k % 2 === 0)
+          box(
+            plant,
+            Math.cos(a) * (rad + 0.09),
+            yy - 0.015,
+            Math.sin(a) * (rad + 0.09),
+            0.025,
+            0.06,
+            0.025,
+            ink,
+          );
+      }
   }
   function leaf(g, start, end, width, color) {
-    const a = new T.Vector3(...start),
-      b = new T.Vector3(...end),
-      d = b.clone().sub(a),
-      n = Math.max(3, Math.ceil(d.length() / 0.11));
-    for (let i = 0; i < n; i++) {
-      const t = i / n,
-        pt = a.clone().addScaledVector(d, t);
-      const w = Math.max(0.055, width * Math.sin(Math.PI * (0.15 + t * 0.85)));
-      box(
-        g,
-        pt.x,
-        pt.y,
-        pt.z,
-        w,
-        0.09,
-        w * 0.5,
-        i % 4 === 0 ? shade(color, 1.14) : color,
-      );
-    }
+    blade(g, start, end, width, color);
   }
   function bloom(g, x, y, z, color) {
     box(g, x, y, z, 0.1, 0.13, 0.1, "#d6ba70");
@@ -304,7 +355,9 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     pots = new Map(D.pots.map((o) => [o.id, o]));
   function pot(g, id, r = 0.46, h = 0.38, empty = false) {
     const p = pots.get(id) || pots.get("terra");
-    return buildVessel({ box, beam, shade }, g, p, r, h, { empty });
+    return buildVessel({ box, beam, shade, profile, group }, g, p, r, h, {
+      empty,
+    });
   }
   function makePlant(parent, o) {
     const p = plants.get(o.type),
@@ -321,7 +374,12 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     );
     const fol = group(g, 0, height, 0);
     fol.userData.foliage = p.family === "dry" ? "leafRigid" : "leaf";
-    buildFoliage({ box, beam, ellipsoid, group, shade, rng }, fol, p, o);
+    buildFoliage(
+      { box, beam, ellipsoid, group, shade, rng, blade, cactusBody },
+      fol,
+      p,
+      o,
+    );
     return g;
   }
   const dims = OBJECT_DIMENSIONS;
@@ -483,34 +541,26 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       rx = steel ? w * 0.24 : w * 0.31,
       rz = d * 0.35;
     // Open tray: the recessed bowl has a bottom and sides, never a disk over a solid lid.
-    const n = 28,
-      bowl = group(g, bx, hh - 0.06, 0);
-    for (let i = 0; i < n; i++) {
-      const a = (i * Math.PI * 2) / n,
-        aa = ((i + 1) * Math.PI * 2) / n;
-      beam(
-        bowl,
-        [Math.cos(a) * rx, 0, Math.sin(a) * rz],
-        [Math.cos(aa) * rx, 0, Math.sin(aa) * rz],
-        0.08,
-        steel ? "#c6d0c1" : "#577f82",
-        0.11,
-      );
-      box(
-        bowl,
-        Math.cos(a) * rx * 0.93,
-        -0.12,
-        Math.sin(a) * rz * 0.93,
-        0.1,
-        0.25,
-        0.1,
-        steel ? "#869a91" : "#416e77",
-      );
-    }
-    const bottom = group(bowl, 0, -0.23, 0);
-    bottom.scale.set(rx * 0.89, 1, rz * 0.89);
-    cyl(bottom, 0, 0, 0, 1, 1, 0.045, steel ? "#929d91" : "#71928b", 28);
-    cyl(bowl, 0, -0.194, 0, 0.085, 0.085, 0.018, "#435952", 12);
+    const bowl = group(g, bx, hh - 0.3, 0);
+    const shell = group(bowl);
+    shell.scale.set(rx, 1, rz);
+    profile(
+      shell,
+      [
+        [0.06, 0],
+        [0.76, 0],
+        [0.98, 0.21],
+        [1, 0.26],
+        [0.89, 0.26],
+        [0.71, 0.055],
+        [0.06, 0.055],
+        [0.06, 0],
+      ],
+      12,
+      steel ? "#a8b3a9" : "#57858b",
+      "metal",
+    );
+    cyl(bowl, 0, 0.046, 0, 0.085, 0.085, 0.018, "#435952", 12);
     // A steel drainboard occupies the left half; the blue fixture has a wide ivory rim.
     if (steel) {
       box(g, -w * 0.28, hh - 0.03, 0, w * 0.42, 0.085, d, top, "metal");
@@ -602,9 +652,24 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   }
 
   function waterBowl(g, r, h) {
-    cyl(g, 0, h * 0.42, 0, r, r * 0.63, h * 0.83, P.blueDark, 16);
-    cyl(g, 0, h * 0.88, 0, r * 1.04, r * 1.04, 0.1, P.blue, 16);
-    cyl(g, 0, h * 0.92, 0, r * 0.91, r * 0.91, 0.035, "#789d93", 16);
+    profile(
+      g,
+      [
+        [0.02, 0],
+        [0.64, 0],
+        [1, 0.8],
+        [1.04, 0.98],
+        [0.91, 0.98],
+        [0.87, 0.83],
+        [0.59, 0.15],
+        [0.02, 0.15],
+        [0.02, 0],
+      ].map(([rr, y]) => [rr * r, y * h]),
+      12,
+      P.blue,
+      "metal",
+    );
+    cyl(g, 0, h * 0.84, 0, r * 0.88, r * 0.88, 0.025, "#789d93", 12);
     for (let i = 0; i < 4; i++) {
       const f = group(
         g,
@@ -643,6 +708,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       beam,
       group,
       ellipsoid,
+      profile,
       shade,
       P,
       stand,
@@ -669,7 +735,39 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     const c = document.createElement("canvas");
     c.width = 640;
     c.height = 520;
-    paintBase(c.getContext("2d"), name, { includeCity: false });
+    const ctx = c.getContext("2d"),
+      tile = document.createElement("canvas");
+    tile.width = tile.height = 64;
+    paintPixels(tile.getContext("2d"), "wall", "#c8c3b2");
+    for (let y = 0; y < 520; y += 64)
+      for (let x = 0; x < 640; x += 64) ctx.drawImage(tile, x, y);
+    for (let y = 0; y < 520; y += 16) {
+      ctx.fillStyle = "#8f9187";
+      ctx.fillRect(0, y, 640, 1);
+      ctx.fillStyle = "#d3d0bc";
+      ctx.fillRect(0, y + 1, 640, 1);
+    }
+    for (let x = 0; x < 640; x += 16) {
+      ctx.fillStyle = "#95988a";
+      ctx.fillRect(x, 0, 1, 520);
+    }
+    // Low-frequency worn paving and corner cracks; no white-noise flecks.
+    for (const [x, y] of [
+      [180, 194],
+      [268, 180],
+      [350, 276],
+      [210, 310],
+      [422, 292],
+      [368, 362],
+    ]) {
+      ctx.fillStyle = "#adaf9d";
+      ctx.fillRect(x, y, 10, 3);
+      ctx.fillRect(x + 3, y - 2, 5, 7);
+      ctx.fillStyle = "#858e7f";
+      ctx.fillRect(x + 12, y + 5, 5, 1);
+      ctx.fillRect(x + 16, y + 6, 1, 3);
+      ctx.fillRect(x + 17, y + 8, 4, 1);
+    }
     const tex = new T.CanvasTexture(c);
     tex.magFilter = tex.minFilter = T.NearestFilter;
     tex.generateMipmaps = false;
@@ -700,7 +798,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       steps: 1,
     });
     geo.rotateX(Math.PI / 2);
-    const slab = new T.Mesh(geo, mat("#939587", "wall"));
+    const slab = new T.Mesh(geo, mat("#c1bfb0", "wall"));
     slab.position.y = -0.1;
     slab.castShadow = slab.receiveShadow = true;
     parent.add(slab);
@@ -807,6 +905,14 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       }
       // Six storeys continue from the terrace all the way to the shared ground.
       const outward = new T.Vector2(b[1] - a[1], a[0] - b[0]).normalize();
+      if (len > 5)
+        for (const k of [0.55, len - 0.55]) {
+          const xx = a[0] + ((b[0] - a[0]) * k) / len + outward.x * 0.17;
+          const zz = a[1] + ((b[1] - a[1]) * k) / len + outward.y * 0.17;
+          box(parent, xx, -8.85, zz, 0.08, 18.3, 0.08, "#879b94", "metal");
+          for (let y = -1.2; y > -18; y -= 3)
+            box(parent, xx, y, zz, 0.16, 0.05, 0.16, "#b1bbae", "metal");
+        }
       for (let floor = 0; floor < 6; floor++) {
         const yy = -1.65 - floor * 3;
         for (let k = 1.5; k < len - 1; k += 3.1) {
@@ -877,12 +983,11 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     box(frame, 0, 0.06, 0.12, 1.5, 0.12, 0.7, "#bbb49c");
     const hinge = group(frame, -0.51, 0, 0);
     hinge.userData.animated = true;
-    box(hinge, 0.51, 1.25, 0, 1.02, 2.5, 0.16, P.metalDark, "wood");
-    box(hinge, 0.51, 1.27, 0.095, 0.8, 2.26, 0.05, "#7a8271", "wood");
-    box(hinge, 0.51, 1.27, 0.132, 0.59, 1.86, 0.03, "#626f62");
-    for (let j = 0; j < 5; j++)
-      box(hinge, 0.51, 0.51 + j * 0.36, 0.152, 0.55, 0.025, 0.025, "#8d9781");
-    box(hinge, 0.8, 1.18, 0.18, 0.055, 0.16, 0.06, P.cap);
+    box(hinge, 0.51, 1.25, 0, 1.02, 2.5, 0.16, "#455962", "metal");
+    box(hinge, 0.51, 1.27, 0.094, 0.86, 2.27, 0.025, "#ffffff", "panel-door");
+    for (const xx of [0.035, 0.985])
+      box(hinge, xx, 1.25, 0.09, 0.045, 2.4, 0.025, "#7c8e8f", "metal");
+    box(hinge, 0.81, 1.19, 0.139, 0.055, 0.17, 0.045, "#b4baac", "metal");
     doors[name] = { hinge, frame };
   }
   // Clothing and poses follow the game's existing authored pixel designs in wardrobe/dongdong.
@@ -1320,7 +1425,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       box(root, 0, 1.04 + k * 0.19, -6.82, 3.5, 0.035, 0.025, "#b9c3a6");
     door(root, "room", -4.9, 4, -Math.PI / 2);
   }
-  // Instanced geometry keeps thousands of voxel clusters inexpensive and fully three dimensional.
+  // Batch the painted surfaces and structural pieces without duplicating draw calls.
   function compileInstances() {
     scene.updateMatrixWorld(true);
     const buckets = new Map(),
@@ -1376,166 +1481,79 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   function facadeWindow(parent, x, y, z, angle, w, h, variant) {
     const g = group(parent, x, y, z);
     g.rotation.y = angle;
-    box(g, 0, 0, 0, w + 0.16, h + 0.15, 0.1, "#9da899");
+    box(g, 0, 0, 0, w + 0.18, h + 0.2, 0.12, "#a7aca1", "metal");
     const color = [
-      "#6d8584",
-      "#78948e",
-      "#b4bbaa",
-      "#8b9d8e",
-      "#748e88",
-      "#b7b492",
-      "#718988",
+      "#a1aaa0",
+      "#829697",
+      "#b1b5a4",
+      "#849792",
+      "#99aaa6",
+      "#b1b4a1",
+      "#a2ada1",
     ][variant % 7];
-    const m = mat(color);
+    const m = mat(color, "panel-glass");
     m.userData.window = true;
     if (!windowMats.includes(m)) windowMats.push(m);
-    box(g, 0, 0, 0.066, w, h, 0.055, color);
-    box(g, 0, 0, 0.103, 0.05, h, 0.04, "#c1c4af");
-    box(g, 0, -h * 0.2, 0.102, w, 0.045, 0.04, "#bec2ac");
-    box(g, 0, -h / 2 - 0.08, 0.16, w + 0.22, 0.13, 0.32, "#b8bba7");
-    if (variant % 5 === 0) {
-      box(g, w * 0.55, -h * 0.4, 0.12, 0.47, 0.35, 0.28, "#b3b7a7");
-      for (let j = 0; j < 3; j++)
-        box(
-          g,
-          w * 0.55,
-          -h * 0.5 + j * 0.08,
-          0.275,
-          0.35,
-          0.025,
-          0.02,
-          "#7d8980",
-        );
-    }
-  }
-  function building(x, z, w, d, floors, seed) {
-    const g = group(city, x, groundY, z),
-      h = floors * 3,
-      r = rng(seed);
-    box(g, 0, h / 2, 0, w, h, d, "#a6afa4", "wall");
-    box(g, 0, h + 0.06, 0, w + 0.35, 0.28, d + 0.35, "#97a698", "wall");
-    for (let yy = 1.45; yy < h; yy += 3) {
-      for (let xx = -w / 2 + 1.5; xx < w / 2 - 0.8; xx += 2.8) {
-        facadeWindow(g, xx, yy, d / 2, 0, 1.3, 1.55, Math.floor(r() * 7));
-        facadeWindow(
-          g,
-          xx,
-          yy,
-          -d / 2,
-          Math.PI,
-          1.3,
-          1.55,
-          Math.floor(r() * 7),
-        );
-      }
-      for (let zz = -d / 2 + 1.5; zz < d / 2 - 0.8; zz += 2.8) {
-        facadeWindow(
-          g,
-          w / 2,
-          yy,
-          zz,
-          Math.PI / 2,
-          1.25,
-          1.55,
-          Math.floor(r() * 7),
-        );
-        facadeWindow(
-          g,
-          -w / 2,
-          yy,
-          zz,
-          -Math.PI / 2,
-          1.25,
-          1.55,
-          Math.floor(r() * 7),
-        );
-      }
-      box(g, 0, yy - 1.43, d / 2 + 0.04, w, 0.06, 0.07, "#bbc0ae");
-    }
-    // Soft tiled roof with shallow pitch and a stairwell rather than disconnected slabs.
-    for (let zz = -d * 0.5; zz < d * 0.51; zz += 0.35)
+    box(g, 0, 0, 0.07, w, h, 0.038, color, "panel-glass");
+    box(g, 0, 0, 0.106, 0.05, h + 0.06, 0.042, "#d1d2bf", "metal");
+    box(g, 0, -h * 0.13, 0.107, w, 0.04, 0.04, "#c9cebd", "metal");
+    for (const sx of [-1, 1])
       box(
         g,
+        sx * (w * 0.5 + 0.032),
         0,
-        h + 0.25 + (0.5 - Math.abs(zz / d)) * 0.7,
-        zz,
-        w + 0.3,
-        0.09,
-        0.34,
-        "#6f8076",
-        "wall",
+        0.073,
+        0.06,
+        h + 0.11,
+        0.04,
+        "#d2d0bc",
+        "metal",
       );
-    box(g, -w * 0.18, h + 0.45, -d * 0.22, 1.6, 0.9, 1.3, "#a2ad9a", "wall");
-    box(g, -w * 0.18, h + 0.94, -d * 0.22, 1.8, 0.12, 1.5, "#859682");
-    box(g, 0, 0.8, d / 2 + 0.04, 0.9, 1.6, 0.08, "#526a60");
-    box(g, 0, 1.65, d / 2 + 0.4, 1.8, 0.12, 0.9, "#9daa97");
-  }
-  [
-    [-22, -20, 11, 10, 6],
-    [-5, -29, 13, 8, 6],
-    [20, -23, 13, 10, 6],
-    [-23, 2, 10, 13, 5],
-    [25, 3, 12, 14, 6],
-    [-23, 23, 13, 10, 6],
-    [-4, 28, 15, 10, 5],
-    [22, 28, 14, 10, 6],
-  ].forEach((v, i) => building(...v, 876 + i));
-  const ground = new T.Mesh(
-    new T.PlaneGeometry(240, 240),
-    mat("#939d8e", "wall"),
-  );
-  ground.rotation.x = -Math.PI / 2;
-  ground.position.y = groundY - 0.05;
-  ground.receiveShadow = true;
-  scene.add(ground);
-  // Community lanes, kerbs, planted strips, bicycle shelter and a few parked cars.
-  const lanes = group(city, 0, groundY + 0.03, 0);
-  for (const x of [-15, 16]) {
-    box(lanes, x, 0, 0, 5, 0.055, 100, "#89968e", "wall");
-    for (const side of [-1, 1])
-      box(lanes, x + side * 2.6, 0.08, 0, 0.25, 0.13, 100, "#b5b9a5");
-  }
-  for (const z of [-15, 17]) {
-    box(lanes, 0, 0.02, z, 100, 0.06, 4.5, "#89968e", "wall");
-    for (const side of [-1, 1])
-      box(lanes, 0, 0.08, z + side * 2.35, 100, 0.13, 0.25, "#b5b9a5");
-  }
-  for (let k = 0; k < 22; k++) {
-    const x = k % 2 ? 19 : -18,
-      z = -32 + Math.floor(k / 2) * 6;
-    box(lanes, x, 0.08, z, 1.7, 0.12, 3.5, "#708467", "wall");
-    box(lanes, x, 1, z, 0.12, 1.9, 0.12, "#6b6b52");
-    // Stepped blocks keep the greenery pixel-like without costly micro-voxels.
-    for (let j = 0; j < 5; j++)
+    box(g, 0, -h / 2 - 0.1, 0.13, w + 0.29, 0.16, 0.32, "#c3c2af", "wall");
+    box(g, 0, h / 2 + 0.09, 0.045, w + 0.22, 0.1, 0.18, "#d1ceb9", "wall");
+    if (variant % 4 === 0) {
       box(
-        lanes,
-        x + Math.sin(j * 2.4) * 0.43,
-        2.2 + Math.cos(j) * 0.23,
-        z + Math.cos(j * 2.4) * 0.43,
-        1.0,
-        0.8,
-        1.0,
-        j % 2 ? "#788b6c" : "#5f7b66",
+        g,
+        w * 0.5 + 0.41,
+        -h * 0.31,
+        0.14,
+        0.66,
+        0.5,
+        0.37,
+        "#c6c9bc",
+        "metal",
       );
+      box(
+        g,
+        w * 0.5 + 0.41,
+        -h * 0.31,
+        0.337,
+        0.6,
+        0.45,
+        0.017,
+        "#ffffff",
+        "panel-ac",
+      );
+      for (const sx of [-1, 1])
+        box(
+          g,
+          w * 0.5 + 0.41 + sx * 0.22,
+          -h * 0.5 - 0.07,
+          0.14,
+          0.055,
+          0.075,
+          0.5,
+          "#546967",
+          "metal",
+        );
+    }
   }
-  for (let k = 0; k < 6; k++) {
-    const g = group(lanes, k % 2 ? -14 : 15, 0.1, -12 + k * 5);
-    g.rotation.y = Math.PI / 2;
-    const c = ["#a6b8ac", "#697e7c", "#b7aa90"][k % 3];
-    box(g, 0, 0.4, 0, 1.2, 0.52, 2.25, c);
-    box(g, 0, 0.8, -0.13, 1.05, 0.45, 1.16, c);
-    box(g, 0, 0.82, 0.48, 0.93, 0.28, 0.035, "#496865");
-    box(g, 0, 0.82, -0.73, 0.93, 0.28, 0.035, "#496865");
-    for (const x of [-0.61, 0.61])
-      for (const z of [-0.68, 0.68])
-        box(g, x, 0.22, z, 0.12, 0.36, 0.36, "#485750");
-  }
-  box(lanes, -10, 0.55, 17, 6, 0.9, 2.2, "#879782", "wall");
-  box(lanes, -10, 1.1, 17, 6.3, 0.14, 2.4, "#bcc2ab");
-  for (let i = 0; i < 4; i++) {
-    box(lanes, 10 + i * 0.55, 0.55, 17, 0.1, 1, 0.1, "#788981");
-    box(lanes, 10 + i * 0.55, 1.12, 17, 0.52, 0.045, 0.1, "#9fad98");
-  }
+  const neighborhood = buildNeighborhood(
+    { T, box, beam, cyl, ellipsoid, group, mat, P },
+    city,
+    groundY,
+    facadeWindow,
+  );
   build(options.scene || "north");
   compileInstances();
   let current = "north",
@@ -1904,7 +1922,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         m.emissiveIntensity = (a.lamps || 0) * 0.85;
       }
     hemi.intensity = current === "room" ? 1.4 : 1.75 - a.lightAmount * 1.12;
-    hemi.groundColor.set(a.night > 0.5 ? "#566d79" : "#9ea795");
+    hemi.groundColor.set(a.night > 0.5 ? "#4a5969" : "#9b8d76");
     sun.color.set(
       a.phase === "dusk"
         ? "#ddae87"
@@ -2062,8 +2080,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     const start = batches.length;
     (a.plant ? makePlant : makeObject)(g, { ...o, rotation: 0, scale: 1 });
     compileInstances();
-    stage.add(new T.HemisphereLight("#eee8d6", "#78846d", 2));
-    const light = new T.DirectionalLight("#f4e7c6", 1.2);
+    stage.add(new T.HemisphereLight("#fff1d7", "#686156", 1.55));
+    const light = new T.DirectionalLight("#fff4d5", 1.1);
     light.position.set(-5, 8, 5);
     stage.add(light);
     const bounds = new T.Box3().setFromObject(g),
@@ -2161,7 +2179,10 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         scene: current,
         view: { ...view },
         wanted: { ...wanted },
-        pixels: 1.2,
+        pixels: PIXEL_STYLE.renderScale,
+        style: PIXEL_STYLE.id,
+        textures: texCache.size,
+        surfaces: surfaceCache.size,
         foliageMotion: {
           time: windTime.value,
           strength: windPower.value,
@@ -2180,6 +2201,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         triangles: renderer.info.render.triangles,
         groundY,
         storeys: 6,
+        neighborhood,
         buffer: [canvas.width, canvas.height],
       };
     },
