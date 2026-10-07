@@ -24,7 +24,7 @@ export function finishObject(api, g, type, w, d, h) {
   if (["table", "bench", "stool", "gardenbench", "foldingchair"].includes(type)) {
     const y = type === "gardenbench" ? h*.50 : type === "foldingchair" ? h*.52 : h;
     for (const z of [-d*.43, d*.43])
-      box(g, 0, y-.15, z, w*.93, .16, .075, type==="gardenbench"?"#263b41":P.woodDark, type==="gardenbench"?"metal":"wood");
+      box(g, 0, y-.15, z, w*.93, .16, .075, P.woodDark, "wood");
     for (const x of [-w*.43, w*.43])
       for (const z of [-d*.40, d*.40])
         box(g, x, y+.058, z, .036, .014, .036, "#c2ad80", "metal");
