@@ -8,7 +8,9 @@ import {
   pixelPainting,
   TEXTURE_KINDS,
   pigmentPalette,
+  createPixelMaterials,
 } from "../rooftop/3d/pixel-materials.mjs";
+import { surfaceSeed, soilParticles } from "../rooftop/3d/surface-variation.mjs";
 import { recessedBowlGeometry, roundedRectangle } from "../rooftop/3d/washstation.mjs";
 import { soilBagGeometry } from "../rooftop/3d/soft-goods.mjs";
 import { buildVessel } from "../rooftop/3d/vessel-models.mjs";
@@ -134,7 +136,7 @@ test("sun-facing leaf panels have outward normals above their midrib", () => {
     const p=g.attributes.position, n=g.attributes.normal;
     for(let j=0;j<p.count;j+=3) {
       const z=(p.getZ(j)+p.getZ(j+1)+p.getZ(j+2))/3;
-      const upper = [j,j+1,j+2].every(k => p.getY(k) > Math.sin(p.getZ(k)*Math.PI)*(fleshy?.11:.075)+.001);
+      const upper = [j,j+1,j+2].every(k => p.getY(k) > Math.sin(p.getZ(k)*Math.PI)*(fleshy?.11:.035)+.001);
       if(upper && z>.15 && z<.85)
         assert.ok(n.getY(j)>0, "upper faces receive light");
     }
@@ -160,6 +162,43 @@ test("paint uses the selected base pigment once and preserves ceramic motif colo
   assert.notEqual(wood[0],wood[4]);
   const pot=pigmentPalette("pot-blue","#d6cdb7");
   assert.equal(pot[5],pixelPainting("pot-blue").ramp[5]);
+});
+
+test("living and manufactured surfaces use distinct shadow and highlight pigments",()=>{
+  const tint="#71875a",leaf=pigmentPalette("leaf",tint),metal=pigmentPalette("metal",tint);
+  assert.equal(leaf[3],tint);assert.equal(metal[3],tint);
+  assert.notEqual(leaf[0],metal[0]);assert.notEqual(leaf[4],metal[4]);
+  const green=hex=>parseInt(hex.slice(3,5),16),blue=hex=>parseInt(hex.slice(5,7),16);
+  assert.ok(green(leaf[4])-blue(leaf[4])>green(metal[4])-blue(metal[4]),"leaf highlights keep their yellow-green pigment");
+});
+
+test("seeded soil stays inside the soil opening and varies without moving the pot",()=>{
+  for(const options of [{dry:true},{rectangular:true,trough:true},{}]) {
+    const a=soilParticles(.6,7182,options),b=soilParticles(.6,49113,options);
+    assert.deepEqual(a,soilParticles(.6,7182,options));assert.notDeepEqual(a,b);
+    assert.ok(a.length<=34);assert.notEqual(surfaceSeed(7182),surfaceSeed(49113));
+    for(const p of a) {
+      assert.ok(p.height>0 && p.height<.025);
+      assert.ok(Math.abs(p.x)+p.size<.6*(options.trough?1.5:1));
+      assert.ok(Math.abs(p.z)+p.size<.6*(options.trough?.62:1));
+    }
+  }
+});
+
+test("the GPU selects paint after instance color exactly once and separates material programs",()=>{
+  const saved=globalThis.document;
+  globalThis.document={createElement:()=>({getContext:()=>({clearRect(){},fillRect(){}})})};
+  try {
+    const materials=createPixelMaterials(T,{value:0},{value:0});
+    const clay=materials.mat('#b0714e','vessel-terra'),leaf=materials.mat('#71875a','leaf');
+    assert.notEqual(clay.customProgramCacheKey(),leaf.customProgramCacheKey());
+    assert.notEqual(clay.customProgramCacheKey(),materials.mat('#ffffff','enamel').customProgramCacheKey());
+    const shader={vertexShader:'#include <begin_vertex>',fragmentShader:'#include <map_fragment>\n#include <color_fragment>\n#include <dithering_fragment>',uniforms:{}};
+    clay.onBeforeCompile(shader);
+    assert.equal(shader.fragmentShader.match(/diffuseColor\.rgb \*= vColor/g).length,1);
+    assert.ok(shader.fragmentShader.indexOf('diffuseColor.rgb *= vColor')<shader.fragmentShader.indexOf('float gray'));
+    assert.ok(shader.vertexShader.includes('vPaintSeed=paintSeed'));
+  } finally {globalThis.document=saved;}
 });
 
 test("soft soil packaging is a closed outward-facing bag with a pinched mouth",()=>{

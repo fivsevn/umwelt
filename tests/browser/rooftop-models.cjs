@@ -24,7 +24,7 @@ const engine = process.env.BROWSER || "chromium",
     if (webgl) {
       await page.waitForFunction(()=>rooftop.graphics.foliageMotion.time>0.1);
       const style = await page.evaluate(() => rooftop.graphics);
-      assert.equal(style.style, "painted-lowpoly-v1");
+      assert.equal(style.style, "painted-lowpoly-v2");
       assert.ok(style.textures >= 20, "shared painted material library");
       assert.ok(
         style.drawCalls < 1000,
@@ -52,10 +52,18 @@ const engine = process.env.BROWSER || "chromium",
           for (let i = 3; i < pixels.length; i += 4) if (pixels[i]) painted++;
           if (painted < 8) empty.push(a.id);
         }
-        return { records, empty, before, after: rooftop.graphics.buffer };
+        const seedHashes = [2472093529, 1029384756].map(seed => {
+          const c = document.createElement("canvas");
+          c.width = c.height = 128;
+          renderer.thumbnail({ type: "basil", seed }, c);
+          return Array.from(c.getContext("2d").getImageData(0, 0, 128, 128).data)
+            .reduce((hash, value) => Math.imul(hash ^ value, 16777619) >>> 0, 2166136261);
+        });
+        return { records, empty, seedHashes, before, after: rooftop.graphics.buffer };
       });
       assert.equal(audit.records.length, 305);
       assert.deepEqual(audit.empty, []);
+      assert.notEqual(audit.seedHashes[0], audit.seedHashes[1], "different seeds visibly vary the plant and pot portrait");
       assert.deepEqual(
         audit.before,
         audit.after,
@@ -112,6 +120,14 @@ const engine = process.env.BROWSER || "chromium",
       await page.locator("#remove").click();
       assert.equal((await page.evaluate(()=>rooftop.layout.scenes.north)).length,2,"occupied rack cannot leave floating contents");
       await page.reload();await page.waitForFunction(()=>window.rooftop);
+      const refreshedSeedHash = await page.evaluate(() => {
+        const c = document.createElement("canvas");
+        c.width = c.height = 128;
+        rooftop.modelRenderer.thumbnail({ type: "basil", seed: 2472093529 }, c);
+        return Array.from(c.getContext("2d").getImageData(0, 0, 128, 128).data)
+          .reduce((hash, value) => Math.imul(hash ^ value, 16777619) >>> 0, 2166136261);
+      });
+      assert.equal(refreshedSeedHash, audit.seedHashes[0], "the same seed has identical pigment and soil across reloads and scene wind");
       assert.deepEqual(await page.evaluate(()=>rooftop.layout.scenes.north),rotated,"explicit middle tier survives reload");
       await page.locator("#clear").click();
       const addAsset=async(query,type)=>{
