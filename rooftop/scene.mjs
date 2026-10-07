@@ -1,3 +1,4 @@
+import { BALCONY_EXTRAS, paintBalconyExtra } from "./balcony-extras.mjs";
 import { ROOM_LAYOUT, paintRoomBase } from "./room-scene.mjs";
 import { INITIAL_LAYOUT } from "./initial-layout.mjs";
 import { paintDongdong } from "./dongdong.mjs";
@@ -124,11 +125,13 @@ export const ASSETS = [
   })),
   ...FURNITURE,
   ...OBJECTS,
+  ...BALCONY_EXTRAS,
   ...WEAPONS,
   ...POTS.map((p) => ({
     id: "vessel-" + p.id,
     name: p.name,
-    category: "花盆",
+    category: p.kind === "decorative" ? "器具" : "花盆",
+    note: p.note,
     w: 32,
     h: 24,
     vessel: p.id,
@@ -136,7 +139,7 @@ export const ASSETS = [
 ];
 for (const a of ASSETS)
   if (!a.plant) {
-    if(MODEL_REFERENCES[a.id])a.note=MODEL_REFERENCES[a.id].note+" 参考真实器物结构作像素转译，配色与尺寸沿用游戏。";
+    if(MODEL_REFERENCES[a.id])a.note=MODEL_REFERENCES[a.id].note+" 参考真实器物结构作像素转译，按阳台陈列调整比例。";
     const refs = [
       ...(a.sources || []),
       ...(a.vessel ? vessel(a.vessel).sources || [] : []),
@@ -195,6 +198,7 @@ export function displayBounds(o) {
   );
 }
 const SUPPORTS = new Set([
+  "stepstool",
   "shelf",
   "woodshelf",
   "tierstand",
@@ -810,6 +814,7 @@ function paintObjectPixels(c, o, time = 0, selected = false) {
   if (a.plant) {
     c.rotate((o.rotation * Math.PI) / 180);
     paintPlant(c, o);
+  } else if (paintBalconyExtra(c, a)) {
   } else if (facingKind(a) === "flat") {
     if (["lid", "hose"].includes(a.shape || a.id))
       paintDetail(c, { ...a, rotation: o.rotation }, time);

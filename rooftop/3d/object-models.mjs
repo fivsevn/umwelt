@@ -1,4 +1,10 @@
+import { BALCONY_EXTRAS } from "../balcony-extras.mjs";
+import { buildBalconyExtra } from "./balcony-models.mjs";
 import { paintWeapon } from "../weapons.mjs";
+import { buildSoilBag } from "./soft-goods.mjs";
+import { buildGlassCase } from "./glass-cases.mjs";
+import { buildGardenTool } from "./garden-tools.mjs";
+import { finishObject } from "./object-finish.mjs";
 
 // Width/depth/height in legacy layout units. Real references determine construction;
 // scene scale remains compatible with existing saves, rather than claiming exact replicas.
@@ -11,8 +17,8 @@ export const OBJECT_DIMENSIONS = {
   shelf: [64, 32, 32],
   woodshelf: [52, 29, 34],
   bench: [40, 24, 10],
-  sink: [52, 42, 17],
-  basin: [64, 46, 13],
+  sink: [52, 42, 31],
+  basin: [64, 46, 28],
   table: [58, 32, 24],
   drying: [28, 23, 54],
   watering: [20, 13, 18],
@@ -69,6 +75,8 @@ export const OBJECT_DIMENSIONS = {
   stringlights: [48, 12, 27],
 };
 
+for (const a of BALCONY_EXTRAS) OBJECT_DIMENSIONS[a.id] = a.dimensions;
+
 export function buildObject(api, g, a, o) {
   const {
     T,
@@ -83,6 +91,8 @@ export function buildObject(api, g, a, o) {
     basin,
     terrarium,
     waterBowl,
+    fishSchool,
+    waterSurface,
     makePot,
   } = api;
   if (a.weapon) {
@@ -97,6 +107,9 @@ export function buildObject(api, g, a, o) {
   if (!dd) throw Error("物件尚无结构模型：" + a.id);
   const [w, d, h] = dd.map((n) => n / 16),
     type = a.id;
+  if (buildBalconyExtra(api,g,type,w,d,h)) return;
+  if (buildGardenTool(api,g,type)) return;
+  if (["terrarium","wardcase"].includes(type)) {buildGlassCase(api,g,type,w,d,h);return;}
   const slats = (y, width = w, depth = d, col = P.wood) => {
     for (let j = 0; j < 6; j++)
       box(
@@ -134,16 +147,16 @@ export function buildObject(api, g, a, o) {
       );
     }
   };
-  const tray = (ww, dep, height, col, soil = false) => {
-    box(g, 0, 0.035, 0, ww, 0.07, dep, col, "metal");
+  const tray = (ww, dep, height, col, soil = false, kind = "metal") => {
+    box(g, 0, 0.035, 0, ww, 0.07, dep, col, kind);
     for (const x of [-ww * 0.5, ww * 0.5])
-      box(g, x, height * 0.5, 0, 0.075, height, dep, col);
+      box(g, x, height * 0.5, 0, 0.075, height, dep, col,kind);
     for (const z of [-dep * 0.5, dep * 0.5])
-      box(g, 0, height * 0.5, z, ww, height, 0.075, col);
+      box(g, 0, height * 0.5, z, ww, height, 0.075, col,kind);
     if (soil)
       box(g, 0, height * 0.8, 0, ww - 0.15, 0.035, dep - 0.15, P.soil, "soil");
   };
-  const hollowBowl = (rad, height, col) => {
+  const hollowBowl = (rad, height, col, kind = "metal") => {
     if (api.profile) {
       api.profile(
         g,
@@ -160,7 +173,7 @@ export function buildObject(api, g, a, o) {
         ].map(([r, y]) => [r * rad, y * height]),
         12,
         col,
-        "metal",
+        kind,
       );
       return;
     }
@@ -230,7 +243,9 @@ export function buildObject(api, g, a, o) {
     }
     for (const x of [-w * 0.42, w * 0.42])
       for (const z of [-d * 0.37, d * 0.37]) {
-        box(g, x, 0.12, z, 0.15, 0.22, 0.21, "#46574f");
+        const wheel=group(g,x,.14,z);wheel.rotation.z=Math.PI/2;
+        cyl(wheel,0,0,0,.12,.12,.08,"#455c57",16,"metal");
+        cyl(wheel,0,.045,0,.038,.038,.012,P.metalLight,8,"metal");
         box(g, x, 0.31, z, 0.06, 0.18, 0.07, P.metalLight);
       }
     for (const z of [-d * 0.42, d * 0.42])
@@ -315,7 +330,7 @@ export function buildObject(api, g, a, o) {
     for (const x of [-w * 0.45, w * 0.45])
       beam(g, [x, 0, d * 0.4], [x, h * 0.22, 0], 0.1, P.woodDark);
   } else if (type === "storagechest") {
-    tray(w, d, h, P.wood);
+    tray(w, d, h, P.wood, false, "wood");
     slats(h + 0.03, w * 1.03, d * 1.03);
     for (let j = 0; j < 6; j++)
       for (const z of [-d * 0.51, d * 0.51])
@@ -427,51 +442,13 @@ export function buildObject(api, g, a, o) {
         for (const y of [h * 0.76, h * 0.88])
           box(g, x, y, -d * 0.25, 0.035, 0.035, 0.035, "#5a6d5d");
     }
-  } else if (type === "wardcase") {
-    tray(w, d, 0.17, P.wood);
-    const glass = new T.Mesh(
-      new T.BoxGeometry(w * 0.9, h * 0.61, d * 0.88),
-      new T.MeshLambertMaterial({
-        color: "#a4b8ab",
-        transparent: true,
-        opacity: 0.18,
-        depthWrite: false,
-      }),
-    );
-    glass.position.y = h * 0.41;
-    g.add(glass);
-    for (const x of [-w * 0.47, w * 0.47])
-      for (const z of [-d * 0.46, d * 0.46])
-        box(g, x, h * 0.4, z, 0.065, h * 0.7, 0.065, P.woodDark);
-    for (const z of [-d * 0.46, d * 0.46])
-      box(g, 0, h * 0.75, z, w, 0.06, 0.06, P.woodDark);
-    for (const x of [-w * 0.47, 0, w * 0.47]) {
-      beam(g, [x, h * 0.75, -d * 0.46], [x, h, 0], 0.06, P.woodDark);
-      beam(g, [x, h, 0], [x, h * 0.75, d * 0.46], 0.06, P.woodDark);
-    }
-    box(g, 0, h, 0, w, 0.06, 0.06, P.woodDark);
-    box(g, 0, h * 0.39, d * 0.48, 0.17, 0.07, 0.06, P.metal);
   } else if (type === "ceramicseat") {
-    for (let j = 0; j < 12; j++) {
-      const t = (j + 0.5) / 12,
-        rad = w * (0.34 + 0.14 * Math.sin(Math.PI * t));
-      ring(rad, t * h, "#c5c6b3", 0.085);
-      if (j % 3 === 0)
-        for (let k = 0; k < 16; k++) {
-          const a = (k * Math.PI) / 8;
-          box(
-            g,
-            Math.cos(a) * (rad + 0.02),
-            t * h,
-            Math.sin(a) * (rad + 0.02),
-            0.05,
-            0.07,
-            0.05,
-            "#577687",
-          );
-        }
-    }
-    cyl(g, 0, h, 0, w * 0.35, w * 0.35, 0.07, P.white, 20);
+    api.profile(g, [[.001,0],[w*.31,0],[w*.38,h*.07],[w*.46,h*.28],
+      [w*.48,h*.61],[w*.39,h*.92],[w*.34,h],[.001,h],[.001,0]],
+      16, "#d3cebb", "pot-blue");
+    cyl(g,0,h+.025,0,w*.355,w*.355,.065,P.white,16,"enamel");
+    for (const y of [h*.10,h*.86])
+      ring(w*(y<h*.5?.38:.40),y,"#577887",.040);
   } else if (
     [
       "pond",
@@ -490,34 +467,24 @@ export function buildObject(api, g, a, o) {
           : type === "pigbowl"
             ? "#b9ad8a"
             : P.blue;
-    hollowBowl(w * 0.47, h * 0.8, col);
-    if (type === "strainer")
-      for (let x = -w * 0.32; x < w * 0.33; x += 0.1)
-        for (let z = -d * 0.32; z < d * 0.33; z += 0.1)
-          if (Math.hypot(x, z) < w * 0.32)
-            box(g, x, 0.074, z, 0.023, 0.016, 0.023, "#b9c2ad");
-          else if (type === "pigbowl")
-            cyl(g, 0, h * 0.42, 0, w * 0.32, w * 0.32, 0.035, "#8b7f5f", 16);
-          else if (type === "enamelbowl") {
-            cyl(g, 0, 0.1, 0, w * 0.24, w * 0.3, 0.16, P.white, 16);
-          } else {
-            cyl(g, 0, h * 0.73, 0, w * 0.41, w * 0.41, 0.025, "#789d93", 20);
-            // Keep fish animation in its own group and correct water level.
-            const fishes = group(g, 0, h * 0.74, 0);
-            fishes.scale.set(0.58, 0.09, 0.58);
-            waterBowl(fishes, w * 0.59, 0.2);
-            for (let k = 0; k < (type === "goldfishbowl" ? 3 : 5); k++)
-              box(
-                g,
-                (k - 2) * w * 0.105,
-                h * 0.755,
-                ((k % 2) - 0.5) * d * 0.2,
-                0.12,
-                0.024,
-                0.045,
-                type === "goldfishbowl" ? "#bf8d69" : "#c8b99b",
-              );
-          }
+    if (["pond", "medakabowl", "goldfishbowl"].includes(type)) {
+      waterBowl(g, w * .47, h * .8, type);
+    } else {
+      hollowBowl(w * .47, h * .8, col, "enamel");
+      ring(w * .47, h * .8, type === "enamelbowl" ? P.blueDark : P.metalLight, .055);
+      if (type === "strainer") {
+        for (let x = -w*.32; x < w*.33; x += .10)
+          for (let z = -d*.32; z < d*.33; z += .10)
+            if (Math.hypot(x,z) < w*.32)
+              box(g, x, .074, z, .03, .016, .03, P.metalDark);
+      } else if (type === "pigbowl") {
+        cyl(g, 0, h*.42, 0, w*.32, w*.32, .035, "#8b7f5f", 16, "soil");
+        for (let j=0;j<9;j++)
+          ellipsoid(g, Math.sin(j*2.4)*w*.22, h*.45, Math.cos(j*2.4)*d*.19, .035,.025,.035,"#b19a6a");
+      } else if (type === "enamelbowl") {
+        cyl(g, 0, .1, 0, w*.24, w*.30, .16, P.white, 12, "enamel");
+      }
+    }
   } else if (
     [
       "crate",
@@ -552,18 +519,10 @@ export function buildObject(api, g, a, o) {
       }
     }
     if (/fish/.test(type)) {
-      box(g, 0, h * 0.83, 0, w * 0.87, 0.022, d * 0.82, "#86a69c");
-      for (let k = 0; k < 5; k++)
-        box(
-          g,
-          (k - 2) * w * 0.13,
-          h * 0.85,
-          ((k % 2) - 0.5) * 0.25,
-          0.13,
-          0.03,
-          0.045,
-          "#cab698",
-        );
+      waterSurface(g, w*.87, d*.82, h*.83);
+      fishSchool(g, w*.8, d*.76, h*.83);
+      for (const z of [-d*.47, d*.47])
+        box(g, 0, h, z, w, .035, .08, P.blueDark, "metal");
     }
     if (type === "seedtray")
       for (let x = -2; x < 3; x++)
@@ -591,28 +550,30 @@ export function buildObject(api, g, a, o) {
         }
     if (type === "mossbox")
       for (let k = 0; k < 30; k++)
-        box(
+        ellipsoid(
           g,
           Math.sin(k * 2.4) * w * 0.4,
           h + 0.045,
           Math.cos(k * 1.3) * d * 0.39,
+          0.11,
           0.08,
-          0.08,
-          0.08,
+          0.10,
           k % 3 ? "#6b815d" : "#8b9b72",
+          "canopy",
         );
   } else if (type === "moss") {
     hollowBowl(w * 0.45, 0.16, "#8d7454");
     for (let k = 0; k < 45; k++)
-      box(
+      ellipsoid(
         g,
         Math.sin(k * 2.4) * w * 0.4,
         0.2,
         Math.cos(k * 1.3) * d * 0.39,
-        0.07,
-        0.08,
-        0.07,
+        0.14,
+        0.09,
+        0.12,
         k % 3 ? "#6b815d" : "#8b9b72",
+        "canopy",
       );
   } else if (type === "pot") makePot(g, "terra", w * 0.45, h, true);
   else if (type === "wirebasket") {
@@ -673,51 +634,6 @@ export function buildObject(api, g, a, o) {
         "#aeb8ab",
         "cloth",
       );
-  } else if (type === "watering") {
-    hollowBowl(0.34, 0.5, "#a18a70");
-    cyl(g, 0, 0.45, 0, 0.32, 0.32, 0.08, "#a18a70", 16);
-    beam(g, [0.25, 0.17, 0], [0.65, 0.42, 0], 0.09, "#a18a70");
-    beam(g, [0.65, 0.42, 0], [0.81, 0.63, 0], 0.065, "#b09b7e");
-    box(g, 0.82, 0.63, 0, 0.1, 0.055, 0.12, P.metalLight);
-    for (const [aa, bb] of [
-      [
-        [-0.25, 0.4, 0],
-        [-0.48, 0.53, 0],
-      ],
-      [
-        [-0.48, 0.53, 0],
-        [-0.4, 0.72, 0],
-      ],
-      [
-        [-0.4, 0.72, 0],
-        [0, 0.72, 0],
-      ],
-      [
-        [0, 0.72, 0],
-        [0.18, 0.5, 0],
-      ],
-    ])
-      beam(g, aa, bb, 0.055, "#9b8066");
-    box(g, 0, 0.5, 0, 0.13, 0.022, 0.14, "#534f41");
-  } else if (type === "bucket") {
-    hollowBowl(0.43, 0.68, "#88998b");
-    for (let j = 0; j < 8; j++) {
-      const a = (j * Math.PI) / 4;
-      box(
-        g,
-        Math.cos(a) * 0.39,
-        0.34,
-        Math.sin(a) * 0.39,
-        0.025,
-        0.47,
-        0.025,
-        "#a6b5a2",
-      );
-    }
-    for (const s of [-1, 1])
-      beam(g, [s * 0.43, 0.56, 0], [s * 0.32, 0.96, 0], 0.036, P.metalLight);
-    beam(g, [-0.32, 0.96, 0], [0.32, 0.96, 0], 0.036, P.metalLight);
-    box(g, 0, 0.96, 0, 0.23, 0.06, 0.075, P.wood);
   } else if (type === "hose") {
     for (let k = 0; k < 4; k++)
       ring(w * (0.45 - k * 0.085), 0.055, "#47655b", 0.085);
@@ -746,7 +662,7 @@ export function buildObject(api, g, a, o) {
         );
     }
   } else if (type === "teaset") {
-    tray(w, d, 0.075, P.woodLight);
+    tray(w, d, 0.075, P.woodLight, false, "wood");
     ellipsoid(g, -0.1, 0.24, 0, 0.25, 0.18, 0.24, P.white, 0.05, 12);
     cyl(g, -0.1, 0.39, 0, 0.2, 0.2, 0.025, P.white, 12);
     box(g, -0.1, 0.44, 0, 0.075, 0.07, 0.075, P.woodDark);
@@ -758,21 +674,7 @@ export function buildObject(api, g, a, o) {
       hollowCup(x, 0.15, 0.24);
     }
   } else if (type === "soilbag") {
-    box(g, 0, h * 0.47, 0, w * 0.85, h * 0.86, d * 0.88, "#b1b59b", "cloth");
-    box(g, 0, h * 0.95, 0, w * 0.72, 0.085, d * 0.76, "#c9c7ac");
-    box(g, 0, h * 0.5, d * 0.46, w * 0.64, h * 0.32, 0.025, "#748366");
-    for (let j = 0; j < 4; j++)
-      box(
-        g,
-        0,
-        h * (0.39 + j * 0.06),
-        d * 0.485,
-        w * 0.42,
-        0.017,
-        0.014,
-        "#c9c7ac",
-      );
-    box(g, -w * 0.38, h * 0.5, 0, 0.035, h * 0.8, d * 0.9, "#969c81");
+    buildSoilBag(api,g,w,d,h);
   } else if (type === "towel") {
     box(g, 0, 0.04, 0, w, 0.075, d, "#b7bba7", "cloth");
     for (let j = 0; j < 6; j++)
@@ -833,15 +735,6 @@ export function buildObject(api, g, a, o) {
     cyl(g, 0, 0.065, 0, w * 0.47, w * 0.47, 0.09, P.blue, 24);
     ring(w * 0.47, 0.1, P.blueDark);
     box(g, 0, 0.14, 0, 0.23, 0.055, 0.08, P.blueDark);
-  } else if (type === "sprayer") {
-    hollowBowl(0.32, 0.77, "#9ba995");
-    cyl(g, 0, 0.82, 0, 0.2, 0.26, 0.17, P.blueDark, 12);
-    box(g, 0, 1.06, 0, 0.28, 0.055, 0.12, P.blueDark);
-    beam(g, [0, 0.9, 0], [0, 1.07, 0], 0.045, P.metalLight);
-    beam(g, [0.18, 0.87, 0], [0.44, 0.92, 0], 0.055, P.metalLight);
-    box(g, -0.26, 0.85, 0, 0.11, 0.25, 0.09, P.blueDark);
-    box(g, -0.14, 0.97, 0, 0.24, 0.055, 0.09, P.blueDark);
-    box(g, 0, 0.45, 0.322, 0.045, 0.38, 0.018, "#bbc3ad");
   } else if (type === "thermometer") {
     const dial = group(g, 0, h * 0.63, 0);
     dial.rotation.x = Math.PI / 2;
@@ -925,6 +818,7 @@ export function buildObject(api, g, a, o) {
       }
     }
   } else throw Error("物件缺少构造：" + type);
+  finishObject(api, g, type, w, d, h);
   function hollowCup(x, y, z) {
     cyl(g, x, y, z, 0.12, 0.095, 0.18, P.white, 12);
     cyl(g, x, y + 0.095, z, 0.09, 0.09, 0.018, "#756956", 12);

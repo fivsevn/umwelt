@@ -15,6 +15,7 @@ export function buildFoliage(api, g, p, o) {
   if (!PLANT_FORMS.has(f)) throw Error("未定义植物结构：" + f);
   const v = (a, rad, y) => [Math.cos(a) * rad, y, Math.sin(a) * rad];
   const leaf = (start, end, width, col = c, teeth = false) => {
+    col = shade(col, [.91,.97,1.04,1.10][Math.floor(r()*4)]);
     if (api.blade) {
       api.blade(
         g,
@@ -66,15 +67,14 @@ export function buildFoliage(api, g, p, o) {
       for (let k = 0; k < petals; k++) {
         const a = (k * 6.283) / petals + layer * 0.4,
           rr = rad * (1 - layer / (layers + 1));
-        box(
+        ellipsoid(
           g,
           x + Math.cos(a) * rr,
           y + layer * 0.035,
           z + Math.sin(a) * rr,
-          rr * 0.95,
-          0.07,
-          rr * 0.85,
+          rr * .59, .045, rr * .54,
           layer % 2 ? shade(col, 1.12) : col,
+          "petal",
         );
       }
     box(g, x, y + 0.025 + layers * 0.025, z, 0.075, 0.055, 0.075, "#cbb072");
@@ -319,56 +319,32 @@ export function buildFoliage(api, g, p, o) {
     return;
   }
   if (/tails|ivy|exp-(beadtail|threads|segments|fishbone)/.test(f)) {
-    for (let k = 0; k < 6; k++) {
-      const a = k * 2.4,
-        len = 0.9 + r() * 0.65;
-      for (let j = 0; j < 18; j++) {
-        const t = j / 18,
-          q = v(
-            a,
-            0.18 + Math.sin(t * 2) * 0.43,
-            0.18 + Math.sin(t * 3) * 0.13 - t * len,
-          );
-        box(g, ...q, 0.048, 0.072, 0.048, shade(c, 0.85));
-        if (f === "tails")
-          for (const s of [-1, 1])
-            box(g, q[0] + s * 0.045, q[1], q[2], 0.02, 0.1, 0.02, "#d3d0b6");
-        else if (/threads/.test(f)) {
-          if (j % 6 === 0) box(g, ...q, 0.07, 0.07, 0.07, "#d2ceb7");
-        } else if (/segments|fishbone/.test(f))
-          leaf(
-            q,
-            [
-              q[0] + Math.cos(a + 1.57) * 0.16,
-              q[1] + 0.08,
-              q[2] + Math.sin(a + 1.57) * 0.16,
-            ],
-            0.15,
-            c,
-            /fishbone/.test(f),
-          );
-        else if (/beadtail/.test(f))
-          for (const s of [-1, 1])
-            ellipsoid(
-              g,
-              q[0] + s * 0.065,
-              q[1],
-              q[2],
-              0.075,
-              0.05,
-              0.065,
-              c,
-              0.043,
-              4,
-            );
-        else if (j % 3 === 0)
-          for (const s of [-1, 1])
-            leaf(q, [q[0] + s * 0.19, q[1] + 0.09, q[2] + 0.08], 0.19, c);
+    const potRadius=o.potRadius||.6;
+    for(let k=0;k<6;k++) {
+      const a=k*2.4,len=.66+r()*.68,root=.12+r()*.09;
+      const point=t=>{
+        // Cross above the lip before bending down beyond the side wall.
+        const reach=t<.34?root+(potRadius+.18-root)*t/.34:potRadius+.18+.10*Math.sin((t-.34)*3);
+        const yy=t<.34?.025+.24*Math.sin(t/.34*Math.PI*.5):.265-((t-.34)/.66)**1.3*len;
+        const y=Math.max(yy,o.floorAt?.(Math.cos(a)*reach,Math.sin(a)*reach)??-Infinity);
+        return v(a,reach,y);
+      };
+      let prev=point(0);
+      for(let j=1;j<=28;j++) {
+        const t=j/28,q=point(t);beam(g,prev,q,.025,shade(c,.84));prev=q;
+        if(/beadtail/.test(f))for(let side=0;side<3;side++) {
+          const aa=a+side*2.094+j*.63;
+          ellipsoid(g,q[0]+Math.cos(aa)*.073,q[1]+Math.sin(aa)*.039,q[2]+Math.sin(aa)*.073,.069,.048,.071,shade(c,[1.05,.92,1.14][(j+side)%3]),'leafRigid');
+        } else if(/threads/.test(f)) {
+          if(j%7===0)ellipsoid(g,...q,.028,.028,.028,'#d2ceb7','petal');
+        } else if(f==='tails') {
+          for(const side of[-1,1])leaf(q,[q[0]+Math.cos(a+1.57)*side*.12,q[1]+.04,q[2]+Math.sin(a+1.57)*side*.12],.055,c);
+        } else if(j%2===0)for(const side of[-1,1]) {
+          const width=/fishbone/.test(f)?.20:/segments/.test(f)?.18:.14;
+          leaf(q,[q[0]+Math.cos(a+1.57)*side*width,q[1]+.065,q[2]+Math.sin(a+1.57)*side*width],width,c,/fishbone/.test(f));
+        }
       }
-      if (f === "exp-segments") {
-        const q = v(a, 0.58, -len * 0.7);
-        blossom(...q, flower, 6, 0.12, 2);
-      }
+      if(f==='exp-segments')blossom(...point(1),flower,6,.12,2);
     }
     return;
   }
@@ -380,7 +356,9 @@ export function buildFoliage(api, g, p, o) {
   ) {
     const feather = /feather|fern-moss|two-row/.test(f),
       star = /stars|sphagnum/.test(f);
-    for (let k = 0; k < 42; k++) {
+    for(let j=0;j<62;j++){const a=j*2.4,rr=Math.sqrt((j+.5)/62)*.49;
+      ellipsoid(g,Math.cos(a)*rr,.035+(1-rr)*.035,Math.sin(a)*rr,.086,.039,.080,shade(c,[.90,1,1.13][j%3]),"canopy");}
+    for (let k = 0; k < 72; k++) {
       const a = r() * 6.283,
         rad = Math.sqrt(r()) * 0.52,
         x = Math.cos(a) * rad,
@@ -601,12 +579,17 @@ export function buildFoliage(api, g, p, o) {
     return;
   }
   if (f === "beads") {
-    for (let k = 0; k < 8; k++) {
-      const a = k * 2.4;
-      for (let j = 0; j < 5; j++) {
-        const q = v(a, 0.23 + j * 0.015, j * 0.09);
-        ellipsoid(g, ...q, 0.09, 0.07, 0.085, c, 0.046, k);
-      }
+    const pink=p.id==='pink';
+    if(pink)for(let j=0;j<22;j++){
+      const a=j*2.399,t=j/22,rr=.16+.31*(1-t),q=v(a,rr,.12+.25*t);
+      const l=group(g,...q);l.rotation.z=Math.cos(a)*.65;l.rotation.x=-Math.sin(a)*.65;
+      ellipsoid(l,0,.018,0,.105,.18,.105,shade(c,[.91,1.03,1.14][j%3]),'leafRigid');
+    } else for(let k=0;k<6;k++){
+      const a=k*2.4,height=.23+r()*.29,q=v(a,.18+r()*.1,height);
+      beam(g,[0,.01,0],q,.024,shade(c,.8));
+      for(let j=0;j<13;j++){const aa=j*2.399,t=.20+j/16;
+        ellipsoid(g,q[0]*t+Math.cos(aa)*.067,height*t,q[2]*t+Math.sin(aa)*.067,.054,.086,.054,
+          j>9?'#a58d67':shade(c,[.92,1.08,1][j%3]),'leafRigid');}
     }
     return;
   }

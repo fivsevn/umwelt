@@ -43,7 +43,7 @@ function recording() {
   return { api, parts };
 }
 test("every catalog item retains references and has a defined 3D construction", () => {
-  assert.equal(ASSETS.length, 289);
+  assert.equal(ASSETS.length, 305);
   for (const a of ASSETS) {
     assert.ok(a.sources?.length, a.id + " reference");
     if (a.plant) assert.ok(PLANT_FORMS.has(a.form), a.id);

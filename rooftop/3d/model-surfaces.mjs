@@ -3,9 +3,14 @@ export function latheSurface(T, points, sides = 12, shape = "round", ribs = 0) {
   const positions = [],
     indices = [],
     uvs = [];
+  const low = Math.min(...points.map(p=>p[1])), high = Math.max(...points.map(p=>p[1]));
   const radius = (r, a, k) =>
     r *
-    (shape === "mokko"
+    (shape === "square"
+      ? 1 / Math.max(Math.abs(Math.cos(a)), Math.abs(Math.sin(a))) * .82
+      : shape === "fluted"
+        ? 1 + .025 * (k % 2 ? -1 : 1)
+        : shape === "mokko"
       ? 1 + 0.12 * Math.cos(a * 4)
       : shape === "scallop"
         ? 1 + 0.055 * Math.cos(a * 10)
@@ -23,7 +28,9 @@ export function latheSurface(T, points, sides = 12, shape = "round", ribs = 0) {
         points[j][1],
         Math.sin(a) * rr * (shape === "oval" ? 0.76 : 1),
       );
-      uvs.push(k / sides, j / (points.length - 1));
+      // Exterior wall uses the full painted height; the closed inner wall must
+      // not consume the majority of the exterior's texture coordinates.
+      uvs.push(k / sides, points[j][2] ?? ((points[j][1]-low) / Math.max(.001,high-low)));
     }
   for (let j = 0; j < points.length - 1; j++)
     for (let k = 0; k < sides; k++) {
@@ -41,94 +48,51 @@ export function latheSurface(T, points, sides = 12, shape = "round", ribs = 0) {
   return flat;
 }
 
-export function leafSurface(
-  T,
-  start,
-  end,
-  width,
-  teeth = false,
-  fleshy = false,
-) {
-  const v = new T.Vector3(...end).sub(new T.Vector3(...start)),
-    length = v.length();
+export function leafSurface(T, start, end, width, teeth = false, fleshy = false) {
+  const v = new T.Vector3(...end).sub(new T.Vector3(...start)), length = v.length();
   const side = new T.Vector3(-v.z, 0, v.x);
-  if (side.lengthSq() < 0.001) side.set(1, 0, 0);
+  if (side.lengthSq() < .001) side.set(1, 0, 0);
   side.normalize();
   const normal = side.clone().cross(v).normalize();
-  const positions = [],
-    uvs = [],
-    indices = [],
-    n = 5;
+  const positions = [], uvs = [], indices = [], n = 6, stride = 6;
   for (let j = 0; j <= n; j++) {
-    const t = j / n,
-      mid = new T.Vector3(...start).addScaledVector(v, t);
-    mid.y += Math.sin(t * Math.PI) * length * 0.08;
-    const w =
-      Math.max(0.008, width * Math.sin(Math.PI * (0.04 + 0.96 * t)) * 0.5) *
-      (teeth && j % 2 ? 0.83 : 1);
-    const thickness = fleshy ? 0.045 + 0.045 * Math.sin(t * Math.PI) : 0.018;
-    for (const [s, yy] of [
-      [-1, thickness],
-      [1, thickness],
-      [-1, -thickness],
-      [1, -thickness],
-    ]) {
-      const p = mid
-        .clone()
-        .addScaledVector(side, s * w)
-        .addScaledVector(normal, yy);
-      positions.push(p.x, p.y, p.z);
-      uvs.push((s + 1) / 2, t);
+    const t = j / n, bend = Math.sin(t*Math.PI),
+      mid = new T.Vector3(...start).addScaledVector(v,t);
+    mid.y += bend * length * (fleshy ? .11 : .075);
+    const w = Math.max(.008, width * Math.sin(Math.PI*(.025+.975*t))*.5)
+      * (teeth && j%2 ? .85 : 1);
+    const edge = fleshy ? .022 + .016*bend : .008,
+      ridge = fleshy ? .045 + .075*bend : .016 + .029*bend;
+    for (const [x,y] of [[-1,edge],[0,ridge],[1,edge],[-1,-edge],[0,-ridge*.55],[1,-edge]]) {
+      const p = mid.clone().addScaledVector(side,x*w).addScaledVector(normal,y);
+      positions.push(p.x,p.y,p.z); uvs.push((x+1)/2,t);
     }
   }
-  for (let j = 0; j < n; j++) {
-    const a = j * 4,
-      b = a + 4;
-    indices.push(
-      a,
-      b,
-      a + 1,
-      a + 1,
-      b,
-      b + 1,
-      a + 2,
-      a + 3,
-      b + 2,
-      a + 3,
-      b + 3,
-      b + 2,
-      a,
-      a + 2,
-      b,
-      a + 2,
-      b + 2,
-      b,
-      a + 1,
-      b + 1,
-      a + 3,
-      a + 3,
-      b + 1,
-      b + 3,
-    );
+  for(let j=0;j<n;j++) {
+    const a=j*stride,b=a+stride;
+    for(let k=0;k<2;k++) {
+      indices.push(a+k,b+k,a+k+1,a+k+1,b+k,b+k+1);
+      indices.push(a+k+3,a+k+4,b+k+3,a+k+4,b+k+4,b+k+3);
+    }
+    indices.push(a,a+3,b,a+3,b+3,b, a+2,b+2,a+5,a+5,b+2,b+5);
   }
-  indices.push(
-    0,
-    1,
-    2,
-    1,
-    3,
-    2,
-    n * 4,
-    n * 4 + 2,
-    n * 4 + 1,
-    n * 4 + 1,
-    n * 4 + 2,
-    n * 4 + 3,
-  );
-  const g = new T.BufferGeometry();
-  g.setAttribute("position", new T.Float32BufferAttribute(positions, 3));
-  g.setAttribute("uv", new T.Float32BufferAttribute(uvs, 2));
-  g.setIndex(indices);
-  g.computeVertexNormals();
-  return g;
+  for(const [base,flip] of [[0,false],[n*stride,true]]) {
+    for(const tri of [[0,1,3],[1,4,3],[1,2,4],[2,5,4]]) {
+      const t=flip?[tri[0],tri[2],tri[1]]:tri;
+      indices.push(...t.map(k=>base+k));
+    }
+  }
+  const g=new T.BufferGeometry();
+  // The cross-leaf basis points toward -X; reverse winding so upper faces
+  // receive the sun and the closed underside faces away from it.
+  for (let j=0;j<indices.length;j+=3) [indices[j+1],indices[j+2]]=[indices[j+2],indices[j+1]];
+  g.setAttribute("position",new T.Float32BufferAttribute(positions,3));
+  g.setAttribute("uv",new T.Float32BufferAttribute(uvs,2));g.setIndex(indices);
+  const flat=g.toNonIndexed();g.dispose();flat.computeVertexNormals();return flat;
+}
+
+// A narrow three-dimensional bevel catches the light on mouldings and boards.
+export function beveledBoxSurface(T) {
+ const shape=new T.Shape();shape.moveTo(-.482,-.482);shape.lineTo(.482,-.482);shape.lineTo(.482,.482);shape.lineTo(-.482,.482);shape.closePath();
+ const geo=new T.ExtrudeGeometry(shape,{depth:.964,steps:1,curveSegments:1,bevelEnabled:true,bevelSegments:1,bevelSize:.018,bevelThickness:.018});geo.translate(0,0,-.482);geo.computeVertexNormals();return geo;
 }

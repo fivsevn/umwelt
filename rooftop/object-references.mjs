@@ -1,3 +1,4 @@
+import { BALCONY_EXTRAS } from "./balcony-extras.mjs";
 // Source-backed construction analogues; colours and saved footprints remain authored game choices.
 const ref = (label, url) => ({ label, url });
 const R = {
@@ -223,6 +224,7 @@ export const MODEL_REFERENCES = Object.fromEntries(
     ids.split(" ").map((id) => [id, { sources: [R[key]], note }]),
   ),
 );
+for (const a of BALCONY_EXTRAS) MODEL_REFERENCES[a.id] = {sources: a.sources, note: a.note};
 export function objectReferences(a) {
   return a.plant || a.weapon || a.vessel
     ? []

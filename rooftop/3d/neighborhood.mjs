@@ -27,7 +27,7 @@ export const NEIGHBORHOOD_SOURCES = [
 
 export function buildNeighborhood(api, city, groundY, window) {
   const { T, box, beam, cyl, ellipsoid, group, mat, P } = api;
-  const colors = ["#d1ccba", "#c9c5b5", "#d8d2c1", "#c7c4b4"];
+  const colors = ["#bcbba9", "#b5bcaf", "#c8b8a4", "#b7b5aa"];
   const ac = (parent, x, y, z, angle = 0) => {
     const g = group(parent, x, y, z);
     g.rotation.y = angle;
@@ -70,11 +70,11 @@ export function buildNeighborhood(api, city, groundY, window) {
         w + 0.56,
         0.16,
         half,
-        "#707d7b",
+        "#587574",
         "roof",
         s * a,
       );
-    box(g, 0, h + pitch + 0.06, 0, w + 0.64, 0.16, 0.27, "#87928a", "roof");
+    box(g, 0, h + pitch + 0.06, 0, w + 0.64, 0.16, 0.27, "#839a8d", "roof");
     gable(g, -w / 2 - 0.015, h, d, pitch, -Math.PI / 2, color);
     gable(g, w / 2 + 0.015, h, d, pitch, Math.PI / 2, color);
     for (const side of [-1, 1])
@@ -89,6 +89,18 @@ export function buildNeighborhood(api, city, groundY, window) {
         "#e1dac6",
         "wall",
       );
+    for (const side of [-1, 1]) {
+      // Folded metal eaves, stepped ridge ends and visible chimney flashing.
+      box(g, 0, h-.20, side*(d/2+.22), w+.66, .12, .16, "#506a69", "metal");
+      for (const x of [-w*.47, w*.47]) {
+        box(g, x, h+pitch+.08, 0, .23, .20, .32, "#8c9b8b", "roof");
+        box(g, x, h*.06, side*d*.503, .13, h*.12, .06, "#a1a693", "wall");
+      }
+    }
+    const chimney = group(g, -w*.27, h+pitch*.72, -.74);
+    box(chimney, 0, .44, 0, .55, 1.0, .62, "#9e8c75", "brick");
+    box(chimney, 0, .98, 0, .71, .12, .78, "#c1baa3", "wall");
+    box(chimney, 0, 1.045, 0, .37, .015, .43, "#4a5755");
     // Facades alternate normal windows and projecting enclosed balconies.
     const bays = Math.max(2, Math.floor(w / 3.7));
     for (let floor = 0; floor < floors; floor++) {
