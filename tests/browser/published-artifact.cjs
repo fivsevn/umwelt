@@ -1,6 +1,8 @@
 // Run against prepare-site + subset-font + stamp-assets output, never the source server.
 const assert = require("node:assert/strict");
 const fs = require("node:fs/promises");
+const path = require("node:path");
+const { pathToFileURL } = require("node:url");
 const { chromium, webkit } = require("playwright");
 const base = process.env.BASE_URL || "http://127.0.0.1:8794";
 const output = process.env.QA_OUTPUT || "/tmp/umwelt-artifact-screenshots";
@@ -17,6 +19,10 @@ const routes = [
   ["/rooftop/room/", "canvas"],
 ];
 (async () => {
+  const { initialLayout } = await import(
+    pathToFileURL(path.resolve(__dirname, "../../rooftop/initial-layout.mjs")).href
+  );
+  const authoredLayout = initialLayout();
   await fs.mkdir(output, { recursive: true });
   for (const engine of [chromium, webkit]) {
     const browser = await engine.launch({
@@ -84,12 +90,10 @@ const routes = [
             if (rendered) {
               const initial = await page.evaluate(() => ({
                 scene: rooftop.scene,
-                north: rooftop.layout.scenes.north.length,
-                south: rooftop.layout.scenes.south.length,
+                layout: rooftop.layout,
                 theta: rooftop3d.view.theta,
               }));
-              assert.equal(initial.north, 47);
-              assert.equal(initial.south, 16);
+              assert.deepEqual(initial.layout, authoredLayout);
               assert.equal(
                 await page.locator(".topbar,.scene-tabs,.tools").count(),
                 0,
