@@ -19,10 +19,9 @@ const routes = [
   ["/rooftop/room/", "canvas"],
 ];
 (async () => {
-  const { initialLayout } = await import(
+  const { INITIAL_LAYOUT: authoredLayout } = await import(
     pathToFileURL(path.resolve(__dirname, "../../rooftop/initial-layout.mjs")).href
   );
-  const authoredLayout = initialLayout();
   await fs.mkdir(output, { recursive: true });
   for (const engine of [chromium, webkit]) {
     const browser = await engine.launch({
