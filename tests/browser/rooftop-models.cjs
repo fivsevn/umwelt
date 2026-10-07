@@ -76,10 +76,12 @@ const engine = process.env.BROWSER || "chromium",
       await page.locator("#search").fill("工作手套");
       await page.locator("[data-asset=gloves]").click();
       await page.locator("#supportParent").selectOption({label:"三层铁花架"});
+      const stableBuilds=await page.evaluate(()=>rooftop.graphics.modelBuilds);
       for(const surface of ["lower","upper","middle"]) {
         await page.locator("#supportLevel").selectOption(surface);
         assert.equal(await page.evaluate(()=>rooftop.layout.scenes.north.at(-1).support.surface),surface);
       }
+      assert.equal(await page.evaluate(()=>rooftop.graphics.modelBuilds),stableBuilds,"switching tiers reuses object geometry");
       const stableTier=await page.evaluate(async()=>{
         const {resolveSupports}=await import('/rooftop/3d/spatial-layout.mjs');
         const child=rooftop.layout.scenes.north.at(-1),renderer=rooftop.modelRenderer,
@@ -103,6 +105,10 @@ const engine = process.env.BROWSER || "chromium",
       const rotated=await page.evaluate(()=>rooftop.layout.scenes.north);
       assert.equal(rotated[1].rotation,90);
       assert.equal(rotated[1].support.surface,"middle");
+      await page.locator("#scaleUp").click();
+      await page.locator("#scaleDown").click();
+      assert.deepEqual(await page.evaluate(()=>rooftop.layout.scenes.north),rotated);
+      assert.equal(await page.evaluate(()=>rooftop.graphics.modelBuilds),stableBuilds,"moving, rotating and scaling furniture reuse geometry");
       await page.locator("#remove").click();
       assert.equal((await page.evaluate(()=>rooftop.layout.scenes.north)).length,2,"occupied rack cannot leave floating contents");
       await page.reload();await page.waitForFunction(()=>window.rooftop);
@@ -152,11 +158,20 @@ const engine = process.env.BROWSER || "chromium",
       const theta = await page.evaluate(() => rooftop.graphics.view.theta);
       await page.locator("#garden").focus();
       await page.keyboard.press("ArrowRight");
-      assert.equal(
-        await page.evaluate(() => rooftop.graphics.view.theta),
-        theta,
-        "homepage keeps fixed projection",
-      );
+      await page.waitForFunction(t=>rooftop.graphics.view.theta>t+.05,theta);
+      const homepageLayout=await page.evaluate(()=>rooftop.layout),
+        homepageBuilds=await page.evaluate(()=>rooftop.graphics.modelBuilds),
+        beforeDrag=await page.evaluate(()=>rooftop.graphics.wanted.theta),
+        stage=await page.locator("#garden").boundingBox();
+      await page.mouse.move(stage.x+stage.width*.75,stage.y+stage.height*.4);
+      await page.mouse.down();
+      await page.mouse.move(stage.x+stage.width*.65,stage.y+stage.height*.45,{steps:6});
+      await page.mouse.up();
+      await page.waitForFunction(t=>rooftop.graphics.view.theta>t+.1,beforeDrag);
+      assert.deepEqual(await page.evaluate(()=>rooftop.layout),homepageLayout,"homepage orbit never changes placements");
+      assert.equal(await page.evaluate(()=>rooftop.graphics.modelBuilds),homepageBuilds,"orbit does not rebuild models");
+      await page.locator("#garden").press("Home");
+      assert.deepEqual(await page.evaluate(()=>rooftop.graphics.wanted),{theta:-.34,phi:.87,zoom:1.22});
       const wind = await page.evaluate(() => rooftop.graphics.foliageMotion);
       assert.ok(wind.programs > 0, "foliage uses a compiled wind shader");
       assert.ok(wind.strength > 0);
@@ -168,7 +183,7 @@ const engine = process.env.BROWSER || "chromium",
       await page.emulateMedia({ reducedMotion: "no-preference" });
       assert.equal(
         await page.evaluate(() => rooftop.graphics.controls),
-        "fixed",
+        "orbit",
       );
       await page
         .getByRole("button", { name: "进入南阳台", exact: true })

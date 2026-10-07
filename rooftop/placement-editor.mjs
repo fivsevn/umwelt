@@ -1,22 +1,24 @@
-import { resolveSupports, supportSurfaces, placementKind, placeOnSurface, supportedIds } from './3d/spatial-layout.mjs';
+import { supportSurfaces, placementKind, placeOnSurface, createPlacementContext } from './3d/spatial-layout.mjs';
 
 // The controls and ray-based dragging consume the same surface IDs. Persisting
 // an ID keeps a chosen tier stable after reload, translation and rotation.
 export function createPlacementEditor({element,objects,selection,name,move,message}) {
   const parentSelect=element.querySelector('#supportParent'),levelSelect=element.querySelector('#supportLevel');
-  let choices=new Map(),current=null;
+  let choices=new Map(),current=null,previewKey='',currentRelation=null;
   function option(select,value,label){const o=document.createElement('option');o.value=value;o.textContent=label;select.append(o)}
   function update() {
     const child=selection(),list=objects();
     parentSelect.replaceChildren();levelSelect.replaceChildren();choices=new Map();current=child;
+    currentRelation=null;previewKey='';
     option(parentSelect,'','地面');
     const portable=child&&placementKind(child.type).portable;
     parentSelect.disabled=!portable;
     if(portable) {
-      const excluded=supportedIds(list,child.id),relations=resolveSupports(list),counts=new Map(),relation=relations.get(child.id);
+      const context=createPlacementContext(list,child.id),{excluded,relations}=context,counts=new Map(),relation=relations.get(child.id);
+      currentRelation=relation;
       for(const parent of list) {
         if(excluded.has(parent.id)||relations.get(parent.id)?.invalid)continue;
-        const surfaces=supportSurfaces(parent).filter(surface=>(relation?.parentId===parent.id&&relation.surfaceId===surface.id)||placeOnSurface(list,child.id,parent.id,surface.id));
+        const surfaces=context.surfaces.get(parent.id).filter(surface=>(relation?.parentId===parent.id&&relation.surfaceId===surface.id)||placeOnSurface(list,child.id,parent.id,surface.id,context));
         if(!surfaces.length)continue;
         const label=name(parent.type),n=(counts.get(label)||0)+1;counts.set(label,n);
         choices.set(parent.id,surfaces);option(parentSelect,parent.id,label+(n>1?' '+n:''));
@@ -29,6 +31,25 @@ export function createPlacementEditor({element,objects,selection,name,move,messa
     }
     if(!levelSelect.options.length)option(levelSelect,'','—');
     levelSelect.disabled=!parentSelect.value;
+    previewKey=parentSelect.value+':'+levelSelect.value;
+  }
+  // Pointer capture owns the drag, so refresh only the visible binding. The
+  // complete list of available places is rebuilt once after the drop.
+  function preview(child) {
+    const binding=child.support===undefined?currentRelation:child.support;
+    const parentId=binding?.id||binding?.parentId||'',surfaceId=binding?.surface||binding?.surfaceId||'';
+    const key=parentId+':'+surfaceId;if(key===previewKey)return;
+    previewKey=key;
+    const parent=parentId&&objects().find(o=>o.id===parentId);
+    if(parent && ![...parentSelect.options].some(o=>o.value===parentId))option(parentSelect,parentId,name(parent.type));
+    parentSelect.value=parentId;
+    levelSelect.replaceChildren();
+    const surfaces=parent?supportSurfaces(parent):[];
+    const allowed=choices.get(parentId)||[];
+    for(const surface of surfaces)if(surface.id===surfaceId||allowed.some(s=>s.id===surface.id))option(levelSelect,surface.id,surface.label);
+    if(!levelSelect.options.length)option(levelSelect,'','—');
+    levelSelect.value=surfaceId;
+    levelSelect.disabled=!parentId;
   }
   function place(parentId,surfaceId) {
     if(!current)return;
@@ -41,5 +62,5 @@ export function createPlacementEditor({element,objects,selection,name,move,messa
   }
   parentSelect.onchange=()=>place(parentSelect.value,choices.get(parentSelect.value)?.[0].id);
   levelSelect.onchange=()=>place(parentSelect.value,levelSelect.value);
-  return {update};
+  return {update,preview};
 }

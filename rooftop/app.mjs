@@ -61,6 +61,8 @@ let scene =
   category = "全部",
   drag = null,
   showPerson = true;
+let flushDrag = null;
+const dragPerformance = {updates:0,totalMs:0,maxMs:0};
 try {
   if (
     editor ||
@@ -79,7 +81,7 @@ try {
     canvas,
     layout,
     editor ? null : $("sceneDoor"),
-    { scene, controls: editor ? "edit" : "fixed", selected: () => selected },
+    { scene, controls: editor ? "edit" : "orbit", initialTheta: editor ? undefined : -.34, selected: () => selected },
   );
 } catch (error) {
   if (!/context|WebGL/i.test(error.message)) throw error;
@@ -210,15 +212,17 @@ function buttons() {
   $("objectControls").hidden = !o;
   $("positionText").hidden = !o;
   if (o) {
-    $("posX").value = o.x;
-    $("posY").value = o.y;
-    $("positionText").textContent =
-      "X " + Math.round(o.x) + "  Y " + Math.round(o.y);
+    positionFields(o);
     $("scale").value = o.scale;
     $("scaleValue").textContent = Math.round(o.scale * 100) + "%";
   }
   placementEditor?.update();
   notebook(o);
+}
+function positionFields(o) {
+  $("posX").value=o.x;$("posY").value=o.y;
+  const text="X "+Math.round(o.x)+"  Y "+Math.round(o.y);
+  if($("positionText").textContent!==text)$("positionText").textContent=text;
 }
 function rebuild() {
   if (editor) document.body.classList.toggle("room-edit", scene === "room");
@@ -567,6 +571,13 @@ if (editor) {
   };
   canvas.onpointermove = (e) => {
     if (!drag || e.pointerId !== drag.pointerId || garden3d?.gesturing) return;
+    drag.pending={clientX:e.clientX,clientY:e.clientY};
+  };
+  flushDrag = () => {
+    if(!drag?.pending)return;
+    const e=drag.pending;drag.pending=null;
+    const start=performance.now();
+    try {
     const o = selection();
     if (!o) return;
     const target=garden3d?garden3d.placementAt(e.clientX,e.clientY,o,drag.excluded,{x:drag.dx,y:drag.dy}):{x:coords(e).x-drag.dx,y:coords(e).y-drag.dy,support:null};
@@ -575,25 +586,33 @@ if (editor) {
     const patch={x:Math.round(target.x/step)*step,y:Math.round(target.y/step)*step,support:target.support};
     // Quantisation must not push a pot outside a narrow shelf or a wall contact.
     let next=movedArrangement(objects(),o.id,patch);
-    if(!supportedLayout(scene,next)) {
+    let valid=supportedLayout(scene,next);
+    if(!valid) {
       patch.x=target.x;patch.y=target.y;
       next=movedArrangement(objects(),o.id,patch);
+      valid=supportedLayout(scene,next);
     }
-    if (supportedLayout(scene,next) && clearContainerWalls(next,new Set(next.filter((p,i)=>p!==objects()[i]).map(p=>p.id)))) {
+    if (valid && clearContainerWalls(next,new Set(next.filter((p,i)=>p!==objects()[i]).map(p=>p.id)))) {
       next.forEach((p,i)=>Object.assign(objects()[i],p));
       garden3d?.syncLayout(layout);
-      buttons();
+      positionFields(o);
+      placementEditor.preview(o);
+    }
+    } finally {
+      const ms=performance.now()-start;
+      dragPerformance.updates++;dragPerformance.totalMs+=ms;dragPerformance.maxMs=Math.max(dragPerformance.maxMs,ms);
     }
   };
   const finish = (e) => {
     if (!drag || e.pointerId !== drag.pointerId) return;
+    flushDrag();
     const snapshot = drag.before;
     drag = null;
     if (snapshot !== JSON.stringify(layout)) {
       edits.checkpoint(snapshot);
       changed();
       message("已经放好。");
-    }
+    } else buttons();
   };
   canvas.onpointerup = finish;
   canvas.onpointercancel = finish;
@@ -865,11 +884,12 @@ const historyNavigation = window.history;
 function fitView() {
   if (garden3d) {
     if (editor) {
+      const ratio=scene==="room"?(innerWidth<640?1/1.12:4/3):camera.w/camera.h;
       canvas.parentElement.style.setProperty(
         "--scene-ratio",
-        camera.w / camera.h,
+        ratio,
       );
-      canvas.parentElement.style.aspectRatio = camera.w + " / " + camera.h;
+      canvas.parentElement.style.aspectRatio = String(ratio);
       canvas.style.height = "100%";
     }
     garden3d.resize();
@@ -962,12 +982,14 @@ if (!editor) {
 }
 let last = performance.now(),
   time = 0,
-  drawAt = 0;
+  drawAt = 0,
+  renderedAt = 0;
 function render() {
   if (garden3d) {
+    const dt=Math.min(.1,Math.max(1/120,time-renderedAt));renderedAt=time;
     garden3d.draw({
       time,
-      dt: 0.05,
+      dt,
       atmosphere,
       person: walker.person,
       pig: pigWalker.person,
@@ -1119,8 +1141,10 @@ function frame(now) {
   }
   if (showPerson) walker.update(dt);
   pigWalker.update(dt * 0.8);
-  if (now - drawAt > (garden3d ? 33 : 50)) {
+  const drawInterval=garden3d?(garden3d.interacting?16:33):50;
+  if (now - drawAt > drawInterval) {
     drawAt = now;
+    flushDrag?.();
     render();
   }
   requestAnimationFrame(frame);
@@ -1185,6 +1209,7 @@ if (editor) {
   document.fonts.ready.then(fitEditorHeight);
   fitEditorHeight();
 }
+if(garden3d)window.addEventListener("resize",fitView);
 let cardFeed = null;
 rebuild();
 if (!editor)
@@ -1195,6 +1220,7 @@ if (!editor)
 requestAnimationFrame(frame);
 // Read-only runtime state also makes movement and layout behavior inspectable during QA.
 window.rooftop = {
+  get placementPerformance() {return {...dragPerformance,pending:!!drag?.pending}},
   get weather() {
     return {
       ...weather.state,
