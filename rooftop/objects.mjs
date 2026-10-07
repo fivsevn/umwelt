@@ -264,12 +264,7 @@ export function paintDetail(c, a, time = 0) {
       for (let xx = x + 9; xx < w / 2 - 3; xx += 13)
         px(c, xx, yy + 2, 4, 1, M.edge);
     }
-    if (t === "foamstand") {
-      px(c, x + 5, y + 1, w - 10, 12, M.white);
-      px(c, x + 7, y + 3, w - 14, 3, M.soil);
-      for (let xx = x + 9; xx < w / 2 - 8; xx += 6)
-        px(c, xx, y + 7, 2, 1, "#aab39c");
-    }
+
     return true;
   }
   if (t === "baskets" || t === "basket") {

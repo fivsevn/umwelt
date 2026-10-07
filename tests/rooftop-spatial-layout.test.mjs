@@ -106,7 +106,8 @@ test('the whole catalogue has finite physical bounds and unique scaled surface I
   for(const key of ['w','d','h','groundW','groundD'])assert.ok(bounds[key]>0&&Number.isFinite(bounds[key]),a.id+' '+key);
   assert.equal(new Set(surfaces.map(s=>s.id)).size,surfaces.length,a.id);
   for(const surface of surfaces)for(const key of ['y','w','d'])assert.ok(Number.isFinite(surface[key])&&surface[key]>0,a.id+' '+key);
-  if(a.placement.kind==='furniture')assert.equal(placementKind(a.id).portable,false);
+  assert.equal(placementKind(a.id).portable,true,'placement is governed by geometry, not categories');
+  assert.equal(surfaces.length>0,a.placement.bearing,a.id+' bearing role matches its planes');
  }
 });
 test('short plants fit a middle tier while taller seeded crowns clear only the top',async()=>{
@@ -167,4 +168,138 @@ test('shared placement snapshots preserve free-space, headroom and cycle decisio
  assert.ok(next);assert.notEqual(next.x,occupied.x);
  assert.equal(placeOnSurface(list,'tall','rack','middle',createPlacementContext(list,'tall')),null);
  assert.equal(placeOnSurface(list,'rack','tray','inside',createPlacementContext(list,'rack')),null);
+});
+
+test('catalogue roles are exhaustive, ordered, and match actual bearing geometry',async()=>{
+ const {ASSETS,CATALOG_CATEGORIES}=await import('../rooftop/scene.mjs');
+ const {SPACE_GROUPS,placementKind}=await import('../rooftop/3d/placement-profiles.mjs');
+ assert.equal(new Set(SPACE_GROUPS.flatMap(g=>g.types)).size,ASSETS.length);
+ assert.equal(ASSETS.filter(a=>a.placement.bearing).length,76);
+ assert.ok(ASSETS.slice(0,110).every(a=>a.plant));
+ assert.ok(ASSETS.slice(110,186).every(a=>a.placement.bearing));
+ assert.ok(ASSETS.slice(186).every(a=>!a.placement.bearing));
+ assert.deepEqual(CATALOG_CATEGORIES.slice(9,16),['花架','桌椅与台面','柜床与箱桶','水池台','玻璃罩与保湿柜','空容器','花盆与花器']);
+ for(const a of ASSETS)assert.equal(supportSurfaces({type:a.id}).length>0,a.placement.bearing,a.id);
+ assert.throws(()=>placementKind('new-furniture-without-a-definition'),/缺少空间定义/);
+});
+test('an A object can stand on another A object when its real footprint fits',async()=>{
+ const {placeOnSurface}=await import('../rooftop/3d/spatial-layout.mjs');
+ for(const type of ['wardcase','bucket','vessel-antique-shino','stool','lowplatform','room-dresser']) {
+  const table=o('t','table',300,240,2),child={...o('child',type,360,280,.5),support:null};
+  const placed=placeOnSurface([table,child],'child','t','top');assert.ok(placed,type);
+  assert.equal(resolveSupports([table,placed]).get('child').parentId,'t');
+ }
+});
+test('filled cultivation and aquatic objects never expose phantom interiors',async()=>{
+ const {placementKind}=await import('../rooftop/3d/spatial-layout.mjs');
+ for(const type of ['moss','mossbox','seedtray','foambox','fish','pond','medakabowl','goldfishbowl','fishbox','pigbowl']) {
+  assert.deepEqual(supportSurfaces(o('full',type)),[],type);
+  assert.equal(placementKind(type).bearing,false,type);
+ }
+ assert.equal(supportSurfaces(o('platform','foamstand'))[0].id,'top');
+});
+test('the complete washstation counter excludes the opening; its bowl has a single central landing',async()=>{
+ const {placeOnSurface,placementSpaces}=await import('../rooftop/3d/spatial-layout.mjs');
+ for(const type of ['sink','basin']) {
+  const parent=o('s',type,300,240),tool={...o('g','gloves',350,260,.5),support:null};
+  assert.deepEqual(supportSurfaces(parent).map(s=>s.id),['counter','inside']);
+  assert.ok(placementSpaces(parent).some(s=>s.id==='under'));
+  const counter=placeOnSurface([parent,tool],'g','s','counter');assert.ok(counter,type+' counter');
+  assert.ok(fitsSurface(counter,parent,supportSurfaces(parent)[0]));
+  const centre=placeOnSurface([parent,tool],'g','s','inside');assert.ok(centre);
+  assert.equal(placeOnSurface([parent,centre,o('other','gloves',350,260,.5)],'other','s','inside'),null);
+  assert.equal(fitsSurface({...centre,x:centre.x+2},parent,supportSurfaces(parent)[1]),false);
+ }
+});
+test('under-table ground is independent while objects on a real lower board are carried',async()=>{
+ const {placeOnSurface,groundArea,clearPlacement}=await import('../rooftop/3d/spatial-layout.mjs');
+ const table=o('table','table',300,240),tool={...o('tool','gloves',350,270,.5),support:null};
+ const under=placeOnSurface([table,tool],'tool','table','under');assert.ok(under);
+ assert.equal(under.support,null);assert.equal(resolveSupports([table,under]).get('tool').height,0);
+ assert.deepEqual(groundArea([table,under],under),{parentId:'table',surfaceId:'under'});
+ const moved=movedArrangement([table,under],'table',{x:340,y:290});
+ assert.deepEqual(moved[1],under);assert.ok(clearPlacement(moved,new Set(['table'])));
+ const rack=o('rack','tierstand',300,240),lower=placeOnSurface([rack,tool],'tool','rack','lower');
+ assert.ok(lower);assert.ok(resolveSupports([rack,lower]).get('tool').height>0);
+ assert.notEqual(movedArrangement([rack,lower],'rack',{x:340})[1].x,lower.x);
+});
+test('under-furniture placement respects ceiling, feet and plumbing for every orientation',async()=>{
+ const {placeOnSurface,placementSpaces,clearPlacement}=await import('../rooftop/3d/spatial-layout.mjs');
+ for(const type of ['table','pottingbench','gardenbench','room-bed','room-dresser','sink','basin'])for(const rotation of [0,90,180,270]) {
+  const parent=o('a',type,300,240,1,rotation),tool={...o('b','gloves',370,280,.5),support:null};
+  const under=placeOnSurface([parent,tool],'b','a','under');assert.ok(under,type+' '+rotation);
+  assert.ok(clearPlacement([parent,under],new Set(['b'])),type);
+  assert.equal(placeOnSurface([parent,o('tall','column',370,280)],'tall','a','under'),null);
+  const space=placementSpaces(parent).find(s=>s.id==='under');
+  assert.equal(fitsSurface({...under,x:parent.x+50},parent,space),false);
+ }
+});
+test('drag-style patches reject rigid overlaps on a tier, even when both individually fit',async()=>{
+ const {placeOnSurface,clearPlacement}=await import('../rooftop/3d/spatial-layout.mjs');
+ const rack=o('a','shelf',300,240),first=placeOnSurface([rack,o('b','gloves',360,280,.5)],'b','a','middle');
+ const second={...first,id:'c'};
+ assert.equal(clearPlacement([rack,first,second],new Set(['c'])),false);
+ const separate=placeOnSurface([rack,first,{...second,support:null,x:370}],'c','a','middle');
+ assert.ok(separate);assert.equal(clearPlacement([rack,first,separate],new Set(['c'])),true);
+});
+test('new spatial bindings survive save validation without attaching the ground to furniture',async()=>{
+ const {validateLayout}=await import('../rooftop/scene.mjs');
+ const {placeOnSurface}=await import('../rooftop/3d/spatial-layout.mjs');
+ const table=o('a','table',300,240),tool={...o('b','gloves',370,280,.5),support:null};
+ const under=placeOnSurface([table,tool],'b','a','under');
+ const data={version:2,roomVersion:2,spaceVersion:1,scenes:{north:[table,under],south:[],room:[]}};
+ assert.deepEqual(validateLayout(data),data);
+ const oldSink=o('sink','sink',300,240),edge={...o('edge','gloves',300,260,.5),support:{id:'sink',surface:'front'}};
+ const migrated=validateLayout({...data,scenes:{north:[oldSink,edge],south:[],room:[]}});
+ assert.equal(migrated.scenes.north[1].support.surface,'counter');
+ assert.deepEqual(validateLayout(migrated),migrated);
+});
+test('opaque table tops cannot trap ground objects: access and carrying stay distinct',async()=>{
+ const {placeOnSurface,accessibleContents,supportedIds}=await import('../rooftop/3d/spatial-layout.mjs');
+ const table=o('a','table',300,240),tool={...o('b','gloves',370,280,.5),support:null},under=placeOnSurface([table,tool],'b','a','under');
+ assert.deepEqual(accessibleContents([table,under],'a'),[{id:'b',ground:true}]);
+ assert.deepEqual([...supportedIds([table,under],'a')],['a']);
+ const top=placeOnSurface([table,under,o('c','brush',370,290,.5)],'c','a','top');
+ assert.deepEqual(accessibleContents([table,under,top],'a'),[{id:'c',ground:false},{id:'b',ground:true}]);
+});
+test('a tall grounded plant must still clear the table above its pot',async()=>{
+ const {clearPlacement}=await import('../rooftop/3d/spatial-layout.mjs');
+ const table=o('a','table',300,240),plant={...o('b','column',300,240,.5),support:null};plant.y-=contactOffset(plant);
+ assert.equal(clearPlacement([table,plant],new Set(['b'])),false);
+});
+test('nested empty holders clear every ancestor cavity instead of being blocked by its outside wall',async()=>{
+ const {placeOnSurface,clearPlacement}=await import('../rooftop/3d/spatial-layout.mjs');
+ const outer=o('a','crate',300,240,2),inner=placeOnSurface([outer,o('b','crate',370,280,.75)],'b','a','inside');
+ assert.ok(inner);
+ const tool=placeOnSurface([outer,inner,o('c','gloves',370,280,.5)],'c','b','inside');
+ assert.ok(tool);assert.equal(clearPlacement([outer,inner,tool],new Set(['c'])),true);
+ const moved=movedArrangement([outer,inner,tool],'a',{x:340,y:270,rotation:90});
+ assert.equal(clearPlacement(moved,new Set(['a','b','c'])),true);
+});
+test('closed barrel lids and every furniture group retain a real usable top',async()=>{
+ const {ASSETS}=await import('../rooftop/scene.mjs');
+ const {placeOnSurface}=await import('../rooftop/3d/spatial-layout.mjs');
+ for(const asset of ASSETS.filter(a=>a.placement.role==='furniture')) {
+  const parent=o('a',asset.id,300,240,2),tool=o('b','gloves',380,300,.5);
+  assert.ok(supportSurfaces(parent).some(s=>placeOnSurface([parent,tool],'b','a',s.id)),asset.id);
+ }
+});
+test('ordinary default-size pots and props fit every wooden stair tread',async()=>{
+ const {placeOnSurface,clearPlacement}=await import('../rooftop/3d/spatial-layout.mjs');
+ for(const type of ['woodshelf','ladderstand'])for(const item of ['barrel','rosette','mint','gloves','crate','new-aucampiae'])for(const tier of ['lower','middle','upper']) {
+  const rack=o('r',type,312,240),child={...o('p',item,400,300),support:null};
+  const placed=placeOnSurface([rack,child],'p','r',tier);assert.ok(placed,type+' '+item+' '+tier);
+  assert.ok(clearPlacement([rack,placed],new Set(['p'])));
+ }
+});
+test('enlarged wooden stairs migrate old explicit tiers once and preserve nested item identities',async()=>{
+ const {validateLayout}=await import('../rooftop/scene.mjs');
+ const rack={...o('r','woodshelf',300,126),support:null},tool={...o('p','gloves',300,126+29/3,.5),support:{id:'r',surface:'lower'}};
+ const old={version:2,roomVersion:2,scenes:{north:[],south:[],room:[rack,tool]}};
+ const next=validateLayout(old);
+ assert.equal(next.spaceVersion,1);assert.equal(next.scenes.room[1].id,'p');
+ assert.equal(next.scenes.room[1].support.surface,'lower');
+ assert.ok(next.scenes.room[0].y>rack.y);
+ assert.deepEqual(validateLayout(next),next);
+ assert.equal(old.scenes.room[0].y,126);
 });

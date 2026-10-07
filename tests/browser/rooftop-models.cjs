@@ -114,6 +114,79 @@ const engine = process.env.BROWSER || "chromium",
       await page.reload();await page.waitForFunction(()=>window.rooftop);
       assert.deepEqual(await page.evaluate(()=>rooftop.layout.scenes.north),rotated,"explicit middle tier survives reload");
       await page.locator("#clear").click();
+      const addAsset=async(query,type)=>{
+        await page.locator('#search').fill(query);await page.locator('[data-asset='+type+']').click();
+      };
+      const clickModel=async(type)=>{
+        const point=await page.evaluate(type=>{const o=rooftop.layout.scenes.north.find(o=>o.type===type);return rooftop.modelRenderer.projectObject(o.id)},type);
+        await page.mouse.click(point.clientX,point.clientY);
+      };
+      const small=async()=>{for(let i=0;i<5;i++)await page.locator('#scaleDown').click()};
+      const categories=await page.locator('#categories button').allTextContents();
+      assert.deepEqual(categories.slice(1,9),['仙人掌','多肉','香草','观叶','藤蔓','花卉','蔬果','苔藓']);
+      assert.deepEqual(categories.slice(9,16),['花架','桌椅与台面','柜床与箱桶','水池台','玻璃罩与保湿柜','空容器','花盆与花器']);
+      // Transparent glass and an explicit retrieval path both preserve selection.
+      await addAsset('沃德','wardcase');
+      await addAsset('日轮玉','new-aucampiae');await small();
+      await page.locator('#supportParent').selectOption({label:'沃德玻璃箱'});
+      const glassPlant=await page.evaluate(()=>rooftop.layout.scenes.north.at(-1));
+      await clickModel('new-aucampiae');
+      assert.equal(await page.evaluate(()=>rooftop.selected),glassPlant.id,'glass must pass picking through to the plant');
+      await clickModel('wardcase');
+      assert.equal(await page.locator('#contentsControl').isVisible(),true);
+      await page.locator('#contentsSelect').selectOption(glassPlant.id);
+      await page.locator('#remove').click();await clickModel('wardcase');await page.locator('#remove').click();
+      assert.equal((await page.evaluate(()=>rooftop.layout.scenes.north)).length,0,'contents and glass case can both be recovered');
+      // Ground access under opaque furniture is not a support dependency.
+      await addAsset('工作台','table');await addAsset('工作手套','gloves');await small();
+      await page.locator('#supportParent').selectOption({label:'工作台'});
+      await page.locator('#supportLevel').selectOption('under');
+      const underGround=await page.evaluate(()=>rooftop.layout.scenes.north.at(-1));
+      assert.equal(underGround.support,null);
+      await clickModel('table');
+      assert.ok((await page.locator('#contentsSelect option').allTextContents()).some(t=>t==='下方地面 · 工作手套'));
+      const tablePoint=await page.evaluate(()=>rooftop.modelRenderer.projectObject(rooftop.layout.scenes.north[0].id));
+      await page.mouse.move(tablePoint.clientX,tablePoint.clientY);await page.mouse.down();
+      await page.mouse.move(tablePoint.clientX+55,tablePoint.clientY+25,{steps:5});await page.mouse.up();
+      assert.deepEqual(await page.evaluate(()=>rooftop.layout.scenes.north.at(-1)),underGround,'moving the table leaves the floor item stationary');
+      await page.reload();await page.waitForFunction(()=>window.rooftop);
+      assert.deepEqual(await page.evaluate(()=>rooftop.layout.scenes.north.at(-1)),underGround);
+      await page.locator('#clear').click();
+      // Both washstations expose a continuous perforated deck and one bowl point.
+      for(const [query,type] of [['不锈钢水槽','sink'],['蓝色水池台','basin']]) {
+        await addAsset(query,type);await addAsset('红柄园艺剪','pruning-shears');await small();
+        await page.locator('#supportParent').selectOption({label:query});
+        for(const surface of ['counter','inside','under']) {
+          await page.locator('#supportLevel').selectOption(surface);
+          const child=await page.evaluate(()=>rooftop.layout.scenes.north.at(-1));
+          assert.equal(child.support?.surface||null,surface==='under'?null:surface);
+        }
+        await page.locator('#clear').click();
+      }
+      // The stair treads must fit ordinary default-size pots, not only tiny props.
+      for(const [query,type] of [['木阶花架','woodshelf'],['梯形木花架','ladderstand']]) {
+        await addAsset(query,type);await addAsset('金琥','barrel');
+        await page.locator('#supportParent').selectOption({label:query});
+        for(const surface of ['lower','upper','middle']) {
+          await page.locator('#supportLevel').selectOption(surface);
+          assert.equal(await page.evaluate(()=>rooftop.layout.scenes.north.at(-1).support.surface),surface);
+        }
+        const stairs=await page.evaluate(()=>rooftop.layout.scenes.north);
+        await page.reload();await page.waitForFunction(()=>window.rooftop);
+        assert.deepEqual(await page.evaluate(()=>rooftop.layout.scenes.north),stairs);
+        await page.locator('#clear').click();
+      }
+      // A holder can be nested on a middle tier and still hold another object.
+      await addAsset('宽网格铁架','wirestand');await addAsset('蓝色收纳箱','crate');await small();
+      await page.locator('#supportParent').selectOption({label:'宽网格铁架'});
+      await page.locator('#supportLevel').selectOption('middle');
+      await addAsset('红柄园艺剪','pruning-shears');await small();
+      await page.locator('#supportParent').selectOption({label:'蓝色收纳箱'});
+      const nested=await page.evaluate(()=>rooftop.layout.scenes.north);
+      assert.equal(nested[1].support.surface,'middle');assert.equal(nested[2].support.id,nested[1].id);
+      await page.reload();await page.waitForFunction(()=>window.rooftop);
+      assert.deepEqual(await page.evaluate(()=>rooftop.layout.scenes.north),nested);
+      await page.locator('#clear').click();
       await page.locator("#search").fill("量天尺");
       await page.locator("[data-asset=column]").click();
       await page.locator("#potSelect").selectOption("growbag");

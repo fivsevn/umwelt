@@ -1,4 +1,4 @@
-import { supportSurfaces, placementKind, placeOnSurface, createPlacementContext } from './3d/spatial-layout.mjs';
+import { placementSpaces, groundArea, placeOnSurface, createPlacementContext } from './3d/spatial-layout.mjs';
 
 // The controls and ray-based dragging consume the same surface IDs. Persisting
 // an ID keeps a chosen tier stable after reload, translation and rotation.
@@ -11,11 +11,11 @@ export function createPlacementEditor({element,objects,selection,name,move,messa
     parentSelect.replaceChildren();levelSelect.replaceChildren();choices=new Map();current=child;
     currentRelation=null;previewKey='';
     option(parentSelect,'','地面');
-    const portable=child&&placementKind(child.type).portable;
+    const portable=!!child;
     parentSelect.disabled=!portable;
     if(portable) {
       const context=createPlacementContext(list,child.id),{excluded,relations}=context,counts=new Map(),relation=relations.get(child.id);
-      currentRelation=relation;
+      currentRelation=relation?.parentId?relation:groundArea(list,child,relations);
       for(const parent of list) {
         if(excluded.has(parent.id)||relations.get(parent.id)?.invalid)continue;
         const surfaces=context.surfaces.get(parent.id).filter(surface=>(relation?.parentId===parent.id&&relation.surfaceId===surface.id)||placeOnSurface(list,child.id,parent.id,surface.id,context));
@@ -23,10 +23,10 @@ export function createPlacementEditor({element,objects,selection,name,move,messa
         const label=name(parent.type),n=(counts.get(label)||0)+1;counts.set(label,n);
         choices.set(parent.id,surfaces);option(parentSelect,parent.id,label+(n>1?' '+n:''));
       }
-      if(choices.has(relation?.parentId)) {
-        parentSelect.value=relation.parentId;
-        for(const surface of choices.get(relation.parentId))option(levelSelect,surface.id,surface.label);
-        levelSelect.value=relation.surfaceId;
+      if(choices.has(currentRelation?.parentId)) {
+        parentSelect.value=currentRelation.parentId;
+        for(const surface of choices.get(currentRelation.parentId))option(levelSelect,surface.id,surface.label);
+        levelSelect.value=currentRelation.surfaceId;
       }
     }
     if(!levelSelect.options.length)option(levelSelect,'','—');
@@ -36,7 +36,7 @@ export function createPlacementEditor({element,objects,selection,name,move,messa
   // Pointer capture owns the drag, so refresh only the visible binding. The
   // complete list of available places is rebuilt once after the drop.
   function preview(child) {
-    const binding=child.support===undefined?currentRelation:child.support;
+    const binding=child.support||groundArea(objects(),child)|| (child.support===undefined?currentRelation:null);
     const parentId=binding?.id||binding?.parentId||'',surfaceId=binding?.surface||binding?.surfaceId||'';
     const key=parentId+':'+surfaceId;if(key===previewKey)return;
     previewKey=key;
@@ -44,7 +44,7 @@ export function createPlacementEditor({element,objects,selection,name,move,messa
     if(parent && ![...parentSelect.options].some(o=>o.value===parentId))option(parentSelect,parentId,name(parent.type));
     parentSelect.value=parentId;
     levelSelect.replaceChildren();
-    const surfaces=parent?supportSurfaces(parent):[];
+    const surfaces=parent?placementSpaces(parent):[];
     const allowed=choices.get(parentId)||[];
     for(const surface of surfaces)if(surface.id===surfaceId||allowed.some(s=>s.id===surface.id))option(levelSelect,surface.id,surface.label);
     if(!levelSelect.options.length)option(levelSelect,'','—');
@@ -55,7 +55,7 @@ export function createPlacementEditor({element,objects,selection,name,move,messa
     if(!current)return;
     const next=parentId?placeOnSurface(objects(),current.id,parentId,surfaceId):{...current,support:null};
     if(next&&move(current,{x:next.x,y:next.y,support:next.support})) {
-      const surface=parentId&&supportSurfaces(objects().find(p=>p.id===parentId)).find(s=>s.id===surfaceId);
+      const surface=parentId&&placementSpaces(objects().find(p=>p.id===parentId)).find(s=>s.id===surfaceId);
       message(parentId?'已放到'+name(objects().find(p=>p.id===parentId).type)+'的'+surface.label+'。':'已放到地面。');
     }
     update();

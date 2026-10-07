@@ -1,4 +1,4 @@
-import { placementKind, physicalFootprint, resolveSupports, contactOffset, movedArrangement } from "./3d/spatial-layout.mjs";
+import { placementKind, physicalFootprint, resolveSupports, contactOffset, movedArrangement, supportSurfaces, placeOnSurface } from "./3d/spatial-layout.mjs";
 import { BALCONY_EXTRAS, paintBalconyExtra } from "./balcony-extras.mjs";
 import { paintRoomBase } from "./room-scene.mjs";
 import { INITIAL_LAYOUT } from "./initial-layout.mjs";
@@ -153,13 +153,15 @@ for (const a of ASSETS)
 // Space roles are assigned once, independently from historical drawing labels.
 for (const a of ASSETS) {
   a.placement = placementKind(a.id);
-  if (!a.plant && !a.weapon) a.category = a.placement.category;
+  if (!a.plant) a.category = a.placement.category;
 }
+ASSETS.sort((a,b)=>Number(!!b.plant)-Number(!!a.plant)||a.placement.order-b.placement.order);
+export const CATALOG_CATEGORIES=['全部',...new Set(ASSETS.map(a=>a.category))];
 // Catalogue lookup is shared by rendering, placement and save validation.
 const assetIndex = new Map(ASSETS.map((a) => [a.id, a]));
 export const asset = (id) => assetIndex.get(id);
 export function initialLayout() {
-  return structuredClone(INITIAL_LAYOUT);
+  return {...structuredClone(INITIAL_LAYOUT),spaceVersion:1};
 }
 export function inside(scene, x, y, margin = 0) {
   const pts = SCENES[scene].points;
@@ -238,13 +240,13 @@ export function supportedLayout(scene,objects) {
   return objects.every(o=>resolvedFits(scene,o,objects,relations));
 }
 // A larger object may need a small inward nudge to keep its whole footprint on the roof.
-export function resizedObject(scene, o, scale, objects = []) {
+export function resizedObject(scene, o, scale, objects = [], radius=32) {
   if (!Number.isFinite(scale) || scale < 0.5 || scale > 2) return null;
   const next = { ...o, scale };
   if (fits(scene, next, objects)) return next;
   const offsets = [];
-  for (let dy = -32; dy <= 32; dy++)
-    for (let dx = -32; dx <= 32; dx++) offsets.push([dx, dy]);
+  for (let dy = -radius; dy <= radius; dy++)
+    for (let dx = -radius; dx <= radius; dx++) offsets.push([dx, dy]);
   offsets.sort((a, b) => a[0] * a[0] + a[1] * a[1] - b[0] * b[0] - b[1] * b[1]);
   for (const [dx, dy] of offsets) {
     const candidate = { ...next, x: o.x + dx, y: o.y + dy };
@@ -277,10 +279,56 @@ function migrateLegacyContacts(scene, objects) {
     for (let j = 0; j < objects.length; j++) objects[j] = migrated[j];
   }
 }
+// The old 2D-derived stair treads were only 10 px deep. The new geometry can
+// carry ordinary pots. Migrate explicit tier contacts once and nudge/resize only
+// these enlarged roots when an old edge placement no longer fits.
+function migrateStairFurniture(scene,objects) {
+  for(const parent of objects.filter(o=>['woodshelf','ladderstand'].includes(o.type))) {
+    const oldDepth=parent.type==='woodshelf'?29:26,newDepth=84;
+    for(const child of objects.filter(o=>o.support?.id===parent.id)) {
+      const level={lower:1,middle:0,upper:-1}[child.support.surface];if(level===undefined)continue;
+      const delta=(newDepth-oldDepth)/3*parent.scale*level,a=parent.rotation*Math.PI/180;
+      const ids=new Set([child.id]);let added=true;
+      while(added){added=false;for(const o of objects)if(ids.has(o.support?.id)&&!ids.has(o.id)){ids.add(o.id);added=true}}
+      for(const o of objects)if(ids.has(o.id)){o.x-=Math.sin(a)*delta;o.y+=Math.cos(a)*delta}
+    }
+    if(fits(scene,parent,objects))continue;
+    let next=resizedObject(scene,parent,parent.scale,objects,64);
+    for(let scale=parent.scale-.05;!next&&scale>=.5;scale-=.05)next=resizedObject(scene,parent,Math.round(scale*100)/100,objects,64);
+    if(next) {
+      const moved=movedArrangement(objects,parent.id,{x:next.x,y:next.y,scale:next.scale});
+      moved.forEach((o,i)=>objects[i]=o);
+    }
+  }
+}
+function migrateSpaceBindings(scene,objects) {
+  const filled=new Set(['fish','pond','moss','mossbox','seedtray','foambox','medakabowl','goldfishbowl','fishbox']);
+  for(let i=0;i<objects.length;i++) {
+    const o=objects[i];if(!o.support)continue;
+    const parent=objects.find(p=>p.id===o.support.id);if(!parent)continue;
+    if(['sink','basin'].includes(parent.type)&&['front','back'].includes(o.support.surface)) {
+      const next=placeOnSurface(objects,o.id,parent.id,'counter');
+      if(next)objects[i]=next;
+    } else if(parent.type==='foamstand'&&o.support.surface==='soil') {
+      const next=placeOnSurface(objects,o.id,parent.id,'top');if(next)objects[i]=next;
+    } else if(filled.has(parent.type)&&!supportSurfaces(parent).length) {
+      // Earlier releases offered the already filled surface as an empty cavity.
+      // Rehome that individual item; never reset the rest of a user's layout.
+      const grand=parent.support;
+      const next=grand&&placeOnSurface(objects,o.id,grand.id,grand.surface);
+      if(next)objects[i]=next;
+      else {
+        const own=physicalFootprint(o),body=physicalFootprint(parent),distance=(own.groundW+body.groundW)*8+3;
+        const candidate={...o,x:parent.x+distance,support:null};
+        objects[i]=resizedObject(scene,candidate,o.scale,objects)||{...o,support:null};
+      }
+    }
+  }
+}
 export function validateLayout(data) {
   if (!data || ![1, VERSION].includes(data.version) || !data.scenes)
     throw Error("布局版本不正确");
-  const clean = { version: VERSION, roomVersion: 2, scenes: {} };
+  const clean = { version: VERSION, roomVersion: 2, spaceVersion:1, scenes: {} };
   for (const scene of Object.keys(SCENES)) {
     const list =
       data.scenes[scene] ??
@@ -363,6 +411,8 @@ export function validateLayout(data) {
       return next;
     });
     const objects = clean.scenes[scene];
+    if(data.spaceVersion!==1)migrateStairFurniture(scene,objects);
+    migrateSpaceBindings(scene,objects);
     migrateLegacyContacts(scene,objects);
     for (let i = 0; i < objects.length; i++) {
       const o = objects[i];

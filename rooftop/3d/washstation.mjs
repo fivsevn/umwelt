@@ -1,3 +1,7 @@
+export function washstationSpec(w,d,h,type) {
+  return {top:h*.94,bx:type==='sink'?w*.19:0,bw:type==='sink'?w*.48:w*.72,bd:d*.68,depth:Math.min(.45,h*.53)};
+}
+
 // A continuous counter with a real opening, a closed bowl and visible plumbing.
 // All outlines and surface pixels are constructed here; no image/model assets.
 export function roundedRectangle(w, d, radius, cx = 0, cz = 0) {
@@ -44,10 +48,7 @@ export function recessedBowlGeometry(T, w, d, depth, cx = 0, oval=false) {
 
 export function buildWashstation(api, g, w, d, h, type) {
   const { T, box, cyl, beam, group, mat, P } = api;
-  const steel = type === "sink", top = h * .94,
-    bx = steel ? w * .19 : 0,
-    bw = steel ? w * .48 : w * .72,
-    bd = d * .68, depth = Math.min(.45, h * .53),
+  const steel = type === "sink", {top,bx,bw,bd,depth}=washstationSpec(w,d,h,type),
     paint = steel ? "#a6b0ad" : "#c9c9b5",
     inner = steel ? "#929f9e" : "#658c91";
   const shape = new T.Shape();
