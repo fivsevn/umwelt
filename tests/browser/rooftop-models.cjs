@@ -12,7 +12,9 @@ const engine = process.env.BROWSER || "chromium",
   });
   try {
     const page = await browser.newPage({
-        viewport: { width: 1600, height: 1000 },
+        // This suite exercises geometry and picking with software WebGL.
+        // Separate layout/artifact suites retain wide and mobile coverage.
+        viewport: { width: 1280, height: 800 },
       }),
       errors = [];
     page.on("pageerror", (e) => errors.push(e.message));
