@@ -80,6 +80,14 @@ const engine = process.env.BROWSER || "chromium",
         await page.locator("#supportLevel").selectOption(surface);
         assert.equal(await page.evaluate(()=>rooftop.layout.scenes.north.at(-1).support.surface),surface);
       }
+      const stableTier=await page.evaluate(async()=>{
+        const {resolveSupports}=await import('/rooftop/3d/spatial-layout.mjs');
+        const child=rooftop.layout.scenes.north.at(-1),renderer=rooftop.modelRenderer,
+          point=renderer.projectObject(child.id),height=resolveSupports(rooftop.layout.scenes.north).get(child.id).height,
+          anchor=renderer.pointAtHeight(point.clientX,point.clientY,height);
+        return renderer.placementAt(point.clientX+2,point.clientY+1,child,new Set([child.id]),{x:anchor.x-child.x,y:anchor.y-child.y})?.support.surface;
+      });
+      assert.equal(stableTier,'middle','small adjustments preserve the explicitly selected tier');
       const arrangement=await page.evaluate(()=>rooftop.layout.scenes.north),
         cameraBefore=await page.evaluate(()=>rooftop.graphics.wanted),
         rackPoint=await page.evaluate(id=>rooftop.modelRenderer.projectObject(id),arrangement[0].id);

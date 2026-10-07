@@ -1960,19 +1960,20 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   }
   const groundPoint = (x,y)=>pointAtHeight(x,y,0);
   function placementAt(x,y,child,excluded=new Set(),offset={x:0,y:0}) {
-    const list=D.layout[current],relations=resolveSupports(list),candidates=[];
+    const list=D.layout[current],relations=resolveSupports(list),binding=relations.get(child.id),candidates=[];
     if(placementKind(child.type).portable)for(const parent of list) {
       if(excluded.has(parent.id)||relations.get(parent.id)?.invalid)continue;
       for(const surface of supportSurfaces(parent)) {
         const height=(relations.get(parent.id)?.height||0)+surface.y;
         const point=pointAtHeight(x,y,height);if(!point)continue;
         const next={...child,x:point.x-offset.x,y:point.y-offset.y,support:{id:parent.id,surface:surface.id}};
-        if(fitsSurface(next,parent,surface))candidates.push({next,height});
+        if(fitsSurface(next,parent,surface))candidates.push({next,height,current:binding?.parentId===parent.id&&binding.surfaceId===surface.id});
       }
     }
-    // The closest visible horizontal surface is the one struck first by the
-    // downward camera ray; lower tiers stay reachable in front of the tier above.
-    candidates.sort((a,b)=>b.height-a.height);
+    // A selected tier stays stable while dragging within its bearing area,
+    // including steep camera angles where higher tiers project onto the same spot.
+    // Otherwise the closest horizontal surface is struck first by the camera ray.
+    candidates.sort((a,b)=>Number(b.current)-Number(a.current)||b.height-a.height);
     if(candidates.length)return candidates[0].next;
     const point=groundPoint(x,y);
     return point?{...child,x:point.x-offset.x,y:point.y-offset.y,support:null}:null;
