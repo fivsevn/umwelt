@@ -25,6 +25,8 @@ import { OUTFITS, DECORATIONS, wardrobe } from "../wardrobe.mjs";
 export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   const controls = options.controls || "orbit";
   const editable = controls === "edit";
+  if(controls!=="none")canvas.tabIndex=0;
+  if(!editable&&controls==="orbit")canvas.title="拖动转动视角，滚轮或双指缩放，方向键旋转，Home 复位";
   const T = window.THREE;
   if (!T) throw new Error("Three.js 未能加载");
   const D = {

@@ -155,6 +155,7 @@ const engine = process.env.BROWSER || "chromium",
       });
       await page.goto(base + "/rooftop/");
       await page.waitForFunction(() => rooftop.graphics?.drawCalls > 0);
+      assert.equal(await page.locator("#garden").getAttribute("tabindex"),"0","3D observation canvas accepts keyboard focus");
       const theta = await page.evaluate(() => rooftop.graphics.view.theta);
       await page.locator("#garden").focus();
       await page.keyboard.press("ArrowRight");
@@ -170,6 +171,9 @@ const engine = process.env.BROWSER || "chromium",
       await page.waitForFunction(t=>rooftop.graphics.view.theta>t+.1,beforeDrag);
       assert.deepEqual(await page.evaluate(()=>rooftop.layout),homepageLayout,"homepage orbit never changes placements");
       assert.equal(await page.evaluate(()=>rooftop.graphics.modelBuilds),homepageBuilds,"orbit does not rebuild models");
+      await page.mouse.wheel(0,-130);
+      await page.waitForFunction(()=>rooftop.graphics.view.zoom>1.25);
+      assert.ok(await page.evaluate(()=>rooftop.graphics.wanted.zoom<=1.85));
       await page.locator("#garden").press("Home");
       assert.deepEqual(await page.evaluate(()=>rooftop.graphics.wanted),{theta:-.34,phi:.87,zoom:1.22});
       const wind = await page.evaluate(() => rooftop.graphics.foliageMotion);
