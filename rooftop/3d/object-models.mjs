@@ -188,10 +188,12 @@ export function buildObject(api, g, a, o) {
   } else if (type === "sink" || type === "basin") basin(g, w, d, h, type);
   else if (type === "terrarium") terrarium(g, w, d, h);
   else if (type === "gardenbench") {
-    legs(h * 0.48);
-    slats(h * 0.5, w, d);
+    const teal="#28787b", frame="#273740";
+    for(const x of[-w*.43,w*.43])for(const z of[-d*.4,d*.4])
+      box(g,x,h*.24,z,.12,h*.48,.12,frame,"metal");
+    slats(h * 0.5, w, d,teal);
     for (const x of [-w * 0.46, w * 0.46])
-      box(g, x, h * 0.7, -d * 0.44, 0.12, h * 0.62, 0.11, P.woodDark, "wood");
+      box(g, x, h * 0.7, -d * 0.44, 0.12, h * 0.62, 0.11, frame, "metal");
     for (let j = 0; j < 4; j++)
       box(
         g,
@@ -201,11 +203,11 @@ export function buildObject(api, g, a, o) {
         w,
         0.1,
         0.12,
-        P.wood,
+        teal,
         "wood",
       );
     for (const x of [-w * 0.46, w * 0.46])
-      box(g, x, h * 0.66, 0, 0.12, 0.09, d * 0.82, P.woodDark, "wood");
+      box(g, x, h * 0.66, 0, 0.12, 0.09, d * 0.82, frame, "metal");
   } else if (type === "foldingchair") {
     for (const x of [-w * 0.42, w * 0.42]) {
       beam(g, [x, 0.04, -d * 0.44], [x, h * 0.59, d * 0.31], 0.09, P.woodDark);

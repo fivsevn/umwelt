@@ -3,28 +3,28 @@ import { referencePainting, paintTargets } from "./paint-recipes.mjs";
 // Original pixel painting recipes, informed by the user's low-poly reference sheets.
 // Material information lives in integer texels, never screen-space noise or copied art.
 export const PIXEL_STYLE = {
-  id: "painted-lowpoly-v2",
+  id: "painted-lowpoly-v3",
   textureSize: 64,
   texelsPerUnit: 16,
   renderScale: 1,
   palette: {
-    metal: "#63757a",
-    metalLight: "#b1bdb4",
-    metalDark: "#303e49",
-    wood: "#9c703f",
-    woodLight: "#d6a66d",
-    woodDark: "#563827",
-    white: "#ddd4bd",
-    blue: "#507e87",
-    blueDark: "#2f4758",
+    metal: "#607c88",
+    metalLight: "#c2cfd0",
+    metalDark: "#26323e",
+    wood: "#b7834c",
+    woodLight: "#d5a66c",
+    woodDark: "#5c392a",
+    white: "#e5e4dc",
+    blue: "#3f88b1",
+    blueDark: "#274866",
     soil: "#50402d",
-    tile: "#b6ad98",
-    wall: "#c4bfaa",
-    cap: "#d8cfb8",
+    tile: "#c1c2b4",
+    wall: "#cfcec2",
+    cap: "#e0ddd0",
   },
 };
 
-export const PAINT_STEPS = [-.64,-.39,-.19,0,.33];
+export const PAINT_STEPS = [-.85,-.55,-.28,0,.48];
 
 export const TEXTURE_KINDS = [
   "wood",
@@ -48,6 +48,7 @@ export const TEXTURE_KINDS = [
   "panel-glass",
   "panel-label",
   "panel-sign",
+  "livery-car",
   "water",
   "enamel",
   "wicker",
@@ -64,7 +65,14 @@ export function pixelPainting(kind) {
   let ramp = ["#51555c", "#747880", "#999b9c", "#bec0bb", "#e6e4d5"];
   const size = 64;
   add(0,0,size,size,3);
-  if (kind.startsWith("pot-")) {
+  if (kind === "livery-car") {
+    ramp=["#000000","#404040","#808080","#bfbfbf","#ffffff","#b6c7cc","#283440"];
+    add(0,0,64,64,3);add(0,0,64,2,4);add(0,57,64,4,1);
+    add(0,60,64,2,5);add(0,63,64,1,6);
+    add(32,2,1,55,1);add(33,3,1,52,4);
+    for(const x of[6,39]) {add(x,13,10,3,1);add(x,12,10,1,5);}
+    add(8,29,18,7,2);add(11,36,11,2,2);add(39,36,17,4,2);
+  } else if (kind.startsWith("pot-")) {
     ramp = [
       "#665247",
       "#938575",
@@ -107,7 +115,7 @@ export function pixelPainting(kind) {
     for(let j=0;j<8;j++){add(9+j*6,4,3,1,2);add(9+j*6,57,3,1,2)}
     add(0,52,64,1,4);add(0,54,64,2,2);
   } else if (kind.includes("glass")) {
-    ramp = ["#202b30", "#334749", "#557074", "#8baba6", "#c0cbc0"];
+    ramp = ["#17292c", "#253b3f", "#476467", "#82a2a5", "#cad8d8"];
     add(0, 0, 64, 64, 0);
     add(2, 2, 60, 60, 1);
     add(2, 2, 60, 2, 2);
@@ -119,7 +127,7 @@ export function pixelPainting(kind) {
     }
     add(4, 57, 56, 2, 0);
   } else if (kind === "panel-ac") {
-    ramp = ["#565a59", "#848982", "#afafa0", "#d1d0be", "#eee8d2"];
+    ramp = ["#5d5556", "#8f8281", "#b4a7a5", "#d1c8c4", "#eeebe6", "#9b564d"];
     add(0, 0, 64, 64, 1);
     add(2, 2, 60, 58, 3);
     add(3, 3, 57, 2, 4);
@@ -140,7 +148,7 @@ export function pixelPainting(kind) {
         else if (r < 3) add(x + 8, y + 12, 1, 1, 4);
       }
     add(46, 10, 10, 3, 4);
-    add(47, 18, 4, 3, 1);
+    add(47, 18, 4, 3, 5);
     add(53, 18, 3, 3, 1);
     for (let y = 31; y < 45; y += 3) add(47, y, 10, 1, 1);
     add(7, 51, 48, 2, 2);
@@ -148,7 +156,7 @@ export function pixelPainting(kind) {
     add(8, 60, 8, 4, 0);
     add(48, 60, 8, 4, 0);
   } else if (kind === "panel-door") {
-    ramp = ["#252e34", "#454f55", "#737e80", "#a6aba1", "#d5d0b8"];
+    ramp = ["#17222d", "#2b3e52", "#4b657c", "#8a9ca9", "#c8d1d2"];
     add(0, 0, 64, 64, 1);
     add(2, 2, 60, 60, 2);
     add(5, 4, 54, 56, 1);
@@ -187,14 +195,16 @@ export function pigmentPalette(kind, tint, ramp = pixelPainting(kind).ramp) {
   if (!tint || kind.startsWith("panel-") || kind === "glass" || kind === "light")
     return ramp;
   const rgb = [1, 3, 5].map((i) => parseInt(tint.slice(i, i + 2), 16));
-  const [shadow, highlight] = paintTargets(kind).map(hex=>[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16)));
-  const steps = PAINT_STEPS;
+  const linear = n => n <= .04045 ? n / 12.92 : ((n + .055) / 1.055) ** 2.4;
+  const srgb = n => n <= .0031308 ? n * 12.92 : 1.055 * Math.max(0,n) ** (1 / 2.4) - .055;
+  const base = rgb.map(n=>linear(n/255));
+  const [shadow, highlight] = paintTargets(kind).map(hex=>[1,3,5].map(i=>linear(parseInt(hex.slice(i,i+2),16)/255)));
+  const low=base.map((n,k)=>n*.12+shadow[k]*.03);
+  const high=base.map((n,k)=>n*.68+highlight[k]*.32);
   return ramp.map((hex, i) => {
-    // Blue/red/green painted motifs on ceramics keep their own pigments.
     if (i >= 5) return hex;
-    const amount = steps[i], target = amount < 0 ? shadow : highlight;
-    return "#" + rgb.map((n, k) => Math.round(n + (target[k] - n) * Math.abs(amount))
-      .toString(16).padStart(2, "0")).join("");
+    const amount=PAINT_STEPS[i],target=amount<0?low:high;
+    return '#' + base.map((n,k)=>Math.round(Math.min(1,Math.max(0,srgb(n+(target[k]-n)*Math.abs(amount))))*255).toString(16).padStart(2,'0')).join('');
   });
 }
 
@@ -233,7 +243,7 @@ export function createPixelMaterials(T, windTime, windPower) {
     const key = color + ":" + kind;
     if (cache.has(key)) return cache.get(key);
     const wind = kind.startsWith("leaf") || kind === "cactus",
-      panel = kind.startsWith("panel-") || kind.startsWith("pot-") || kind.startsWith("vessel-") ||
+      panel = kind.startsWith("livery-") || kind.startsWith("panel-") || kind.startsWith("pot-") || kind.startsWith("vessel-") ||
         kind.startsWith("leaf") || kind === "cactus" || kind === "enamel" || kind === "bag";
     const dedicated = kind.startsWith("panel-") || kind === "glass" || kind === "light";
     const m = new T.MeshLambertMaterial({
@@ -244,7 +254,7 @@ export function createPixelMaterials(T, windTime, windPower) {
     m.userData.kind = kind;
     m.defaultAttributeValues={...m.defaultAttributeValues,paintBox:[0],paintSeed:[0],paintShadePositive:[0,0,0],paintShadeNegative:[0,0,0]};
     m.customProgramCacheKey = () =>
-      "pixel-v2-" +
+      "pixel-v3-" +
       (wind ? "wind-" + kind : "static") +
       (panel ? "-panel" : "-surface") + (dedicated ? "-illustrated" : "-pigment") + (kind === "wood" ? "-grain" : "") + (/leaf|canopy|cactus|petal/.test(kind) ? "-organic" : "") + (kind.startsWith("vessel-") ? "-wrapped-vessel" : "") + (/vessel|clay|soil/.test(kind) ? "-patina" : "");
     m.onBeforeCompile = (shader) => {
@@ -274,12 +284,14 @@ export function createPixelMaterials(T, windTime, windPower) {
 float gray = painted.r;
 float ink = gray < .025 ? ${PAINT_STEPS[0].toFixed(2)} : gray < .13 ? ${PAINT_STEPS[1].toFixed(2)} : gray < .36 ? ${PAINT_STEPS[2].toFixed(2)} : gray < .75 ? 0.0 : ${PAINT_STEPS[4].toFixed(2)};
 float chroma = max(max(painted.r,painted.g),painted.b)-min(min(painted.r,painted.g),painted.b);
-diffuseColor.rgb = chroma > .025 ? painted.rgb : mix(diffuseColor.rgb, ink < 0.0 ? paintShadow : paintHighlight, abs(ink));`;
+vec3 lowPigment=diffuseColor.rgb*.12+paintShadow*.03;
+vec3 highPigment=mix(diffuseColor.rgb,paintHighlight,.32);
+diffuseColor.rgb = chroma > .025 ? painted.rgb : mix(diffuseColor.rgb, ink < 0.0 ? lowPigment : highPigment, abs(ink));`;
       shader.fragmentShader = shader.fragmentShader.replace(
         "#include <map_fragment>",
         T.ShaderChunk.color_fragment + "\n" + (panel
           ? `#ifdef USE_MAP\nvec2 paintedUv=vMapUv; ${kind.startsWith("vessel-") ? "paintedUv.x+=vPaintSeed;" : ""} vec4 painted = texture2D(map,paintedUv); ${pigment}\n#endif`
-          : `#ifdef USE_MAP\nvec3 axis=abs(vPaintNormal);\nvec2 surface=axis.x>axis.y&&axis.x>axis.z?vPaintPosition.zy:axis.y>axis.z?vPaintPosition.xz:vPaintPosition.xy;\n${kind === "wood" ? "vec2 span=axis.x>axis.y&&axis.x>axis.z?vPaintScale.zy:axis.y>axis.z?vPaintScale.xz:vPaintScale.xy; if(vPaintScale.y>max(vPaintScale.x,vPaintScale.z)||vPaintScale.z>max(vPaintScale.x,vPaintScale.y)){surface=surface.yx;span=span.yx;} surface.y=surface.y/max(span.y,.02)*.82+.5+vPaintPhase.y; surface.x+=vPaintPhase.x;" : ""}\nsurface+=vec2(vPaintSeed*4.0,fract(vPaintSeed*17.0)*4.0); vec4 painted=texture2D(map,surface/4.0); ${pigment}\n#endif`),
+          : `#ifdef USE_MAP\nvec3 axis=abs(vPaintNormal);\nvec2 surface=axis.x>axis.y&&axis.x>axis.z?vPaintPosition.zy:axis.y>axis.z?vPaintPosition.xz:vPaintPosition.xy;\n${kind === "wood" ? "vec2 span=axis.x>axis.y&&axis.x>axis.z?vPaintScale.zy:axis.y>axis.z?vPaintScale.xz:vPaintScale.xy; if(vPaintScale.y>max(vPaintScale.x,vPaintScale.z)||vPaintScale.z>max(vPaintScale.x,vPaintScale.y)){surface=surface.yx;span=span.yx;} surface.y=surface.y/max(span.y,.02)*.68+.5+vPaintPhase.y; surface.x+=vPaintPhase.x;" : ""}\nsurface+=vec2(vPaintSeed*4.0,${kind === "wood" ? "floor(vPaintSeed*4.0)" : "fract(vPaintSeed*17.0)*4.0"}); vec4 painted=texture2D(map,surface/4.0); ${pigment}\n#endif`),
       );
       // Geometry-led edge paint and contact shadow. Broad planes stay legible;
       // selected texels interrupt the edge highlight like the painted references.
@@ -290,7 +302,7 @@ diffuseColor.rgb = chroma > .025 ? painted.rgb : mix(diffuseColor.rgb, ink < 0.0
 // Stable firing/soil variation shares textures and does not rebuild when moving.
 ${/vessel|clay|soil/.test(kind) ? "float patina=(vPaintSeed-.5)*.20; diffuseColor.rgb*=vec3(1.0+patina,1.0+patina*.5,1.0-patina*.22);" : ""}
 // Baked plane separation complements the real sun; turning the object keeps its paint.
-float facePaint = vPaintNormal.y > .7 ? 1.02 : vPaintNormal.y < -.7 ? .67 : .83 + vPaintNormal.x*.09 + vPaintNormal.z*.04;
+float facePaint = vPaintNormal.y > .7 ? 1.0 : vPaintNormal.y < -.7 ? .55 : .86 + vPaintNormal.x*.09 + vPaintNormal.z*.035;
 diffuseColor.rgb *= ${/leaf|canopy|cactus|petal/.test(kind) ? "mix(.93,1.04,max(0.0,vPaintNormal.y))" : "facePaint"};
 if(vPaintIsBox>.5) {
  vec3 face=abs(vPaintNormal), distance=(vec3(.5)-abs(vPaintUnit))*vPaintScale;
@@ -299,7 +311,7 @@ if(vPaintIsBox>.5) {
  float faceSpan=face.x>face.y&&face.x>face.z?min(vPaintScale.y,vPaintScale.z):face.y>face.z?min(vPaintScale.x,vPaintScale.z):min(vPaintScale.x,vPaintScale.y);
  lip*=faceSpan<.075?.30:1.0;
  float interrupted=mod(floor(vPaintPosition.x*19.0)+floor(vPaintPosition.y*23.0)+floor(vPaintPosition.z*17.0),7.0)>1.0?1.0:.42;
- diffuseColor.rgb=mix(diffuseColor.rgb,paintHighlight,lip*interrupted*.19);
+ diffuseColor.rgb=mix(diffuseColor.rgb,mix(diffuseColor.rgb,paintHighlight,.28),lip*interrupted*.48);
  float contact=dot(max(vPaintNormal,vec3(0.0)),vContactPositive)+dot(max(-vPaintNormal,vec3(0.0)),vContactNegative);
  diffuseColor.rgb*=1.0-contact*.32;
 }`);

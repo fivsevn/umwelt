@@ -1,3 +1,4 @@
+import { buildStreetCar, buildStreetLantern } from "./street-models.mjs";
 // Guoliyuan's published street photographs inform the architectural vocabulary.
 // Placement is a composed neighbourhood, not a surveyed reconstruction of block 92.
 export const NEIGHBORHOOD_BUILDINGS = [
@@ -27,11 +28,11 @@ export const NEIGHBORHOOD_SOURCES = [
 
 export function buildNeighborhood(api, city, groundY, window) {
   const { T, box, beam, cyl, ellipsoid, group, mat, P } = api;
-  const colors = ["#bcbba9", "#b5bcaf", "#c8b8a4", "#b7b5aa"];
+  const colors = ["#c9c8be", "#b7c6be", "#d6c4b2", "#bcbfc0"];
   const ac = (parent, x, y, z, angle = 0) => {
     const g = group(parent, x, y, z);
     g.rotation.y = angle;
-    box(g, 0, 0, 0, 0.78, 0.56, 0.38, "#cbcbbb", "metal");
+    box(g, 0, 0, 0, 0.78, 0.56, 0.38, "#ded9d6", "enamel");
     box(g, 0, 0, 0.205, 0.74, 0.52, 0.015, "#ffffff", "panel-ac");
     for (const x of [-0.25, 0.25]) {
       box(g, x, -0.34, 0.04, 0.06, 0.18, 0.34, "#4e5c64", "metal");
@@ -263,7 +264,8 @@ export function buildNeighborhood(api, city, groundY, window) {
   ground.rotation.x = -Math.PI / 2;
   ground.position.y = groundY - 0.06;
   ground.receiveShadow = true;
-  city.parent.add(ground);
+  ground.name = "neighborhood-ground";
+  city.add(ground);
   const street = group(city, 0, groundY + 0.015, 0);
   for (const x of [-15.4, 16.3]) {
     box(street, x, 0, 0, 3.6, 0.06, 110, "#777d7d", "asphalt");
@@ -290,13 +292,13 @@ export function buildNeighborhood(api, city, groundY, window) {
       const a=j*2.399,rr=Math.sqrt((j+.5)/28)*1.35;
       if(j<5)beam(street,[x,2.9,z],[x+Math.cos(a)*rr,3.55,z+Math.sin(a)*rr],.065,'#63533e');
       box(street,x+Math.cos(a)*rr,3.35+.65*(1-rr/1.5)+Math.sin(j*1.7)*.19,z+Math.sin(a)*rr,
-        .69+j%3*.11,.055,.65+j%4*.085,['#496530','#708749','#8da050','#597735'][j%4],
+        .69+j%3*.11,.055,.65+j%4*.085,['#3f6e35','#659541','#8db64f','#538737'][j%4],
         'canopy',Math.sin(a)*.35,a,Math.cos(a)*.30);
     }
     for(let j=0;j<12;j++) {
       const a=j*2.399,rr=.4+j%3*.12;
       box(street,x+Math.cos(a)*rr,.60+Math.sin(j)*.12,z+.8+Math.sin(a)*rr,
-        .52,.055,.43,['#59743b','#839449','#476433'][j%3],'canopy',Math.sin(a)*.24,a,Math.cos(a)*.28);
+        .52,.055,.43,['#5f9637','#88b845','#477a32'][j%3],'canopy',Math.sin(a)*.24,a,Math.cos(a)*.28);
     }
   }
   function car(x, z, angle, index) {
@@ -305,24 +307,7 @@ export function buildNeighborhood(api, city, groundY, window) {
     const color = ["#d4d4c5", "#628290", "#a06b5b", "#bcb49c", "#4b626c"][
       index % 5
     ];
-    box(g, 0, 0.42, 0, 1.72, 0.53, 3.44, color, "metal");
-    box(g, 0, 0.79, -0.1, 1.48, 0.45, 1.9, color, "metal");
-    box(g, 0, 0.84, 0.86, 1.34, 0.41, 0.025, "#ffffff", "panel-glass", -0.32);
-    box(g, 0, 0.87, -1.03, 1.32, 0.4, 0.025, "#ffffff", "panel-glass", 0.35);
-    for (const s of [-1, 1]) {
-      box(g, s * 0.746, 0.87, -0.13, 0.025, 0.35, 1.54, "#789394", "glass");
-      box(g, s * 0.77, 0.86, -0.12, 0.028, 0.42, 0.07, "#456371", "metal");
-      for (const zz of [-0.95, 0.96]) {
-        const wheel = group(g, s * 0.84, 0.21, zz);
-        wheel.rotation.z = Math.PI / 2;
-        cyl(wheel, 0, 0, 0, 0.28, 0.28, 0.16, "#30393d", 10, "metal");
-        cyl(wheel, 0, 0.091, 0, 0.13, 0.13, 0.025, "#8d989a", 8, "metal");
-      }
-      box(g, s * 0.64, 0.49, 1.747, 0.26, 0.11, 0.025, "#d9d4b3", "light");
-      box(g, s * 0.67, 0.5, -1.747, 0.21, 0.09, 0.025, "#8d4e3e", "paint");
-    }
-    box(g, 0, 0.3, 1.755, 1.38, 0.1, 0.06, "#606d72", "metal");
-    box(g, 0, 0.41, 1.79, 0.41, 0.1, 0.025, "#64818c", "metal");
+    buildStreetCar(api,g,color);
   }
   for (let i = 0; i < 7; i++) {
     const x = i % 2 ? -16.6 : 17.4,
@@ -381,11 +366,7 @@ export function buildNeighborhood(api, city, groundY, window) {
   for (const x of [-18.6, 19.1])
     for (const z of [-11, 10]) {
       const lamp = group(street, x, 0, z);
-      cyl(lamp, 0, 1.9, 0, 0.045, 0.075, 3.8, "#6d8187", 8, "metal");
-      beam(lamp, [0, 3.8, 0], [0.8, 3.98, 0], 0.06, "#85999a");
-      box(lamp, 0.8, 3.93, 0, 0.48, 0.13, 0.25, "#5b737c", "metal");
-      box(lamp, 0.8, 3.86, 0, 0.37, 0.025, 0.17, "#d7c797", "light");
-      box(lamp, 0, 0.32, 0, 0.26, 0.64, 0.25, "#727e7d", "metal");
+      buildStreetLantern(api,lamp);
     }
   for (let i = 0; i < 4; i++) {
     const g = group(street, 9.5 + i * 0.65, 0, 19.5);
@@ -405,9 +386,9 @@ export function buildNeighborhood(api, city, groundY, window) {
   }
   const bench = group(street, 11.2, 0.02, -17.7);
   for (let j = 0; j < 4; j++)
-    box(bench, 0, 0.72, -0.35 + j * 0.22, 2.8, 0.095, 0.18, P.wood, "wood");
+    box(bench, 0, 0.72, -0.35 + j * 0.22, 2.8, 0.095, 0.18, "#267f82", "wood");
   for (let j = 0; j < 3; j++)
-    box(bench, 0, 1.08 + j * 0.15, -0.47, 2.8, 0.12, 0.08, P.wood, "wood");
+    box(bench, 0, 1.08 + j * 0.15, -0.47, 2.8, 0.12, 0.08, "#267f82", "wood");
   for (const x of [-1.08, 1.08]) {
     box(bench, x, 0.35, 0, 0.12, 0.7, 0.82, P.metalDark, "metal");
     box(bench, x, 1, -0.48, 0.08, 1.35, 0.08, P.metalDark, "metal");

@@ -49,8 +49,8 @@ export function recessedBowlGeometry(T, w, d, depth, cx = 0, oval=false) {
 export function buildWashstation(api, g, w, d, h, type) {
   const { T, box, cyl, beam, group, mat, P } = api;
   const steel = type === "sink", {top,bx,bw,bd,depth}=washstationSpec(w,d,h,type),
-    paint = steel ? "#a6b0ad" : "#c9c9b5",
-    inner = steel ? "#929f9e" : "#658c91";
+    paint = steel ? "#bac7cd" : "#e3e5dc",
+    inner = steel ? "#829ca7" : "#4388a8";
   const shape = new T.Shape();
   shape.setFromPoints(roundedRectangle(w, d, .09).map(([x, z]) => new T.Vector2(x, z)));
   const hole = new T.Path();

@@ -10,11 +10,11 @@ export const PAINT_RAMPS = {
 
 export function paintTargets(kind) {
   if (/leaf|canopy|cactus/.test(kind)) return ['#233b32','#d0d987'];
-  if (/wood|wicker|bag/.test(kind)) return ['#3a2928','#ecc88f'];
-  if (/metal|water|glass/.test(kind)) return ['#273341','#d0dbd0'];
-  if (/clay|vessel|pot-/.test(kind)) return ['#502e29','#f2dbb4'];
+  if (/wood|wicker|bag/.test(kind)) return ['#302a30','#f3d5a2'];
+  if (/metal|water|glass/.test(kind)) return ['#273341','#e3edf0'];
+  if (/clay|vessel|pot-/.test(kind)) return ['#392b30','#f8e6cd'];
   if (kind==='soil') return ['#292820','#b4a17b'];
-  return ['#343d44','#eee2c1'];
+  return ['#343d44','#f0efeb'];
 }
 
 export function referencePainting(kind) {
@@ -32,45 +32,28 @@ export function referencePainting(kind) {
     add(x+3,y+h,Math.max(1,w-7),2,ink);
   };
   if(kind==='wood') {
-    // Uneven broad grain, end joins and dark rebates; the grain never reads as wire mesh.
+    // One band describes ONE real board. Gaps and rebates belong to geometry,
+    // never to a repeated picture of several boards pasted on every face.
     for(let row=0;row<4;row++) {
       const y=row*16;
-      add(0,y,64,1,0);add(0,y+1,64,1,4);add(0,y+14,64,2,1);
-      const join=[11,43,25,57][row];add(join,y+2,1,12,1);
-      cluster((row*17+3)%47,y+5,15,3,2);
-      cluster((row*13+27)%47,y+9,17,2,row%2?2:1);
-      add((row*11+7)%45,y+3,19,1,4);
-      add((row*7+33)%51,y+12,12,1,2);
-    }
-    for(const [x,y] of [[24,9],[46,40]]) {
-      add(x-4,y,9,1,1);add(x-2,y+1,5,2,0);
-      add(x-6,y+3,13,1,2);add(x-2,y+4,7,1,4);
+      add(5+row*7,y+5,22-row*2,4,2);
+      add(8+row*7,y+7,15-row,2,2);
+      add(34-row*5,y+11,17,2,2);
+      add(7+row*11,y+2,9,1,4);
+      if(row===1) {add(40,y+8,5,1,1);add(39,y+9,8,1,2);}
+      if(row===3) {add(14,y+12,6,1,1);add(12,y+13,11,1,2);}
     }
   } else if(kind==='metal'||kind==='paint'||kind==='enamel') {
-    add(0,0,64,2,4);add(0,62,64,2,1);
-    add(0,2,2,60,2);add(61,3,2,59,1);
-    cluster(5,5,18,4,4);cluster(34,18,16,7,2);
-    cluster(12,41,24,5,2);cluster(40,53,12,3,4);
-    if(kind==='metal') {
-      add(27,0,2,64,1);add(29,0,1,64,4);
-      for(const [x,y] of [[7,22],[54,42]]) {
-        add(x,y,3,3,0);add(x,y,2,1,4);add(x+3,y+2,3,1,2);
-      }
-    }
-    if(kind==='enamel') {
-      for(const [x,y] of [[1,14],[58,46],[22,61]]) {
-        add(x,y,5,2,0);add(x+2,y-1,4,1,2);
-      }
-    }
+    // Clean enamelled panels; scratches are sparse. Rivets, seams, handles and
+    // recesses are actual parts, so arbitrary repeated seams are not painted here.
+    add(6,12,13,2,4);add(40,43,11,3,2);
+    add(43,46,6,1,2);
+    if(kind==='metal') {add(17,52,6,1,4);add(51,9,3,1,2);}
+    if(kind==='enamel') {add(2,59,5,2,1);add(3,58,3,1,2);}
   } else if(kind==='wall') {
-    // Large plaster repairs and the quiet area between them, rather than peppered noise.
-    cluster(3,12,17,8,2);cluster(39,35,23,7,2);cluster(22,56,16,4,2);
-    add(7,17,10,2,1);add(43,40,13,2,1);
-    add(27,5,14,2,4);add(46,12,10,3,4);
-    add(30,23,1,7,1);add(31,30,3,1,1);add(33,31,1,6,1);
-    for(const [x,y] of [[14,29],[49,51],[21,48]]) {
-      add(x,y,3,1,2);add(x+2,y+1,2,1,3);
-    }
+    // Quiet plaster, with only isolated chips; broad masonry shade is lighting.
+    cluster(8,41,9,3,2);cluster(45,11,8,2,2);
+    add(30,58,6,1,4);add(17,44,2,1,1);
   } else if(kind==='brick'||kind==='roof') {
     const bw=kind==='roof'?8:16,bh=kind==='roof'?12:8;
     for(let row=0,y=0;y<64;row++,y+=bh)for(let x=-(row%2)*bw/2,k=0;x<64;x+=bw,k++) {
@@ -104,10 +87,10 @@ export function referencePainting(kind) {
       for(let y=5;y<64;y+=16){add(x+10,y,3,3,4);add(x+11,y+3,1,3,1);}
     }
   } else if(kind==='cloth') {
-    cluster(3,6,15,17,4);cluster(38,35,20,12,2);cluster(19,52,16,8,1);
-    for(let x=0;x<64;x+=16){add(x,0,2,64,2);add(x+2,0,1,64,4);}
-    for(let y=0;y<64;y+=16)add(0,y,64,2,2);
-    add(5,4,54,1,4);add(4,58,55,2,1);
+    // Broad folds, no fine wire-like grid over bedding and cushions.
+    add(7,8,14,5,4);add(10,13,8,2,4);
+    add(42,37,13,7,2);add(44,44,8,2,2);
+    add(19,54,17,2,2);
   } else if(kind==='wicker') {
     for(let y=0;y<64;y+=8)for(let x=0;x<64;x+=8) {
       add(x,y,7,7,(x+y)%16?2:3);add(x,y,6,2,4);
@@ -141,15 +124,14 @@ export function referencePainting(kind) {
 }
 
 export function paintPaving(ctx,width,height) {
-  const colors=['#bbb6a4','#c8c0a9','#b8b6a6','#c5bba4','#bfbca9','#afaf9f'];
+  const colors=['#c5c4b5','#d1cdbd','#bfbfb3','#ccc8b9','#c8c8bc','#b7bcb2'];
   for(let y=0;y<height;y+=16)for(let x=0;x<width;x+=16) {
     const cell=x/16*11+y/16*7;
-    ctx.fillStyle='#777d74';ctx.fillRect(x,y,16,16);
+    ctx.fillStyle='#838d87';ctx.fillRect(x,y,16,16);
     ctx.fillStyle=colors[cell%colors.length];ctx.fillRect(x+1,y+1,15,15);
-    ctx.fillStyle='#d6ccb2';ctx.fillRect(x+1,y+1,14,1);
-    ctx.fillStyle='#999b88';ctx.fillRect(x+14,y+3,1,12);
-    if(cell%4===0){ctx.fillStyle='#a9ab97';ctx.fillRect(x+3,y+7,6,3);ctx.fillRect(x+5,y+5,3,2);}
-    if(cell%7===0){ctx.fillStyle='#d0c7ad';ctx.fillRect(x+8,y+3,4,2);ctx.fillRect(x+10,y+5,3,2);}
-    if(cell%17===0){ctx.fillStyle='#7f8975';ctx.fillRect(x,y+10,2,4);ctx.fillRect(x+1,y+12,3,3);}
+    ctx.fillStyle='#e0ded1';ctx.fillRect(x+1,y+1,14,1);
+    ctx.fillStyle='#a7aea1';ctx.fillRect(x+14,y+3,1,12);
+    if(cell%7===0){ctx.fillStyle='#b6bbab';ctx.fillRect(x+3,y+10,5,2);}
+    if(cell%17===0){ctx.fillStyle='#70856c';ctx.fillRect(x,y+10,2,4);ctx.fillRect(x+1,y+12,3,3);}
   }
 }
