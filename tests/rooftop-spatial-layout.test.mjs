@@ -70,6 +70,25 @@ test('explicit ground placement does not silently snap back to a nearby shelf',(
  const rack=o('rack','shelf'),tool={...o('tool','gloves'),support:null};
  assert.equal(resolveSupports([rack,tool]).get('tool').height,0);
 });
+test('legacy edge contacts migrate minimally and carry a shelf arrangement without losing its tiers',async()=>{
+ const {validateLayout,initialLayout}=await import('../rooftop/scene.mjs');
+ const parsley={...o('parsley','parsley',320,76,.6),seed:2762693746};
+ const rack=o('rack','tierstand',352,96),plant={...o('plant','new-cooperi',340,92,.5),seed:2839102273,pot:'mashiko'};
+ const old={version:2,roomVersion:2,scenes:{north:[parsley],south:[],room:[rack,plant]}},copy=structuredClone(old);
+ const before=resolveSupports(old.scenes.room).get('plant');
+ const migrated=validateLayout(old),[movedRack,movedPlant]=migrated.scenes.room;
+ assert.deepEqual(old,copy);
+ assert.equal(migrated.scenes.north[0].y,77);
+ assert.equal(migrated.scenes.north[0].seed,parsley.seed);
+ assert.equal(movedPlant.x-movedRack.x,plant.x-rack.x);
+ assert.equal(movedPlant.y-movedRack.y,plant.y-rack.y);
+ assert.deepEqual(movedPlant.support,{id:rack.id,surface:before.surfaceId});
+ assert.equal(resolveSupports(migrated.scenes.room).get('plant').height,before.height);
+ assert.deepEqual(validateLayout(migrated),migrated);
+ assert.deepEqual(validateLayout(initialLayout()),initialLayout());
+ assert.throws(()=>validateLayout({...old,scenes:{...old.scenes,north:[{...parsley,support:null}]}}),/承重点/);
+ assert.throws(()=>validateLayout({...old,scenes:{...old.scenes,north:[{...parsley,y:40}]}}),/承重点/);
+});
 test('dangling parents, missing tier IDs and circular support chains are rejected',async()=>{
  const {validateLayout}=await import('../rooftop/scene.mjs');
  const validate=north=>validateLayout({version:2,roomVersion:2,scenes:{north,south:[],room:[]}});

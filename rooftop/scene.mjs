@@ -1,4 +1,4 @@
-import { placementKind, physicalFootprint, resolveSupports, contactOffset } from "./3d/spatial-layout.mjs";
+import { placementKind, physicalFootprint, resolveSupports, contactOffset, movedArrangement } from "./3d/spatial-layout.mjs";
 import { BALCONY_EXTRAS, paintBalconyExtra } from "./balcony-extras.mjs";
 import { paintRoomBase } from "./room-scene.mjs";
 import { INITIAL_LAYOUT } from "./initial-layout.mjs";
@@ -263,6 +263,20 @@ function fitsFootprint(scene, o, a) {
     [w / 2, h / 2],
   ].every(([dx, dy]) => inside(scene, o.x + dx, o.y + dy, 3));
 }
+// Older saves had no explicit bearing relationship and used a smaller floor
+// contact. Move only legacy roots, carrying their inferred contents together.
+function migrateLegacyContacts(scene, objects) {
+  const relations = resolveSupports(objects);
+  for (let i = 0; i < objects.length; i++) {
+    const o = objects[i];
+    if (o.support !== undefined || relations.get(o.id)?.parentId || groundFits(scene,o)) continue;
+    const next = resizedObject(scene,o,o.scale,objects);
+    const limit = scene === "room" ? 32 : 8;
+    if (!next || Math.hypot(next.x-o.x,next.y-o.y) > limit) continue;
+    const migrated = movedArrangement(objects,o.id,{x:next.x,y:next.y});
+    for (let j = 0; j < objects.length; j++) objects[j] = migrated[j];
+  }
+}
 export function validateLayout(data) {
   if (!data || ![1, VERSION].includes(data.version) || !data.scenes)
     throw Error("布局版本不正确");
@@ -349,13 +363,10 @@ export function validateLayout(data) {
       return next;
     });
     const objects = clean.scenes[scene];
+    migrateLegacyContacts(scene,objects);
     for (let i = 0; i < objects.length; i++) {
       const o = objects[i];
       if (fits(scene, o, objects)) continue;
-      if (scene === "room" && o.support === undefined) {
-        const migrated = resizedObject(scene,o,o.scale,objects);
-        if (migrated) {Object.assign(o,migrated);continue;}
-      }
       const legacy = LEGACY_ASSETS.find((a) => a.id === o.type),
         old = list[i];
       if (
