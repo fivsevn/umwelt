@@ -52,7 +52,10 @@ const engine = process.env.BROWSER || "chromium";
     await page.locator("#clear").click();
     await room.waitForFunction(() => room.layout.length === 0);
     await page.keyboard.press("Control+z");
-    await room.waitForFunction(() => room.layout.length === 5);
+    await room.waitForFunction(
+      (count) => window.room.layout.length === count,
+      initial.scenes.room.length,
+    );
     assert.equal(await room.locator(".wardrobe-catalog details, .wardrobe-catalog canvas, .wardrobe-catalog input").count(), 0);
     assert.equal(await room.locator("#outfits [data-category]").count(), 7);
     assert.equal(await room.locator("#decorations [data-category]").count(), 7);
