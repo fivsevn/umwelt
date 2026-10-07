@@ -152,3 +152,19 @@ test('covered racks reject contents taller than the clear space beneath the hood
  assert.equal(placeOnSurface([rack,plant],'p','rack','upper'),null);
  assert.ok(placeOnSurface([rack,tool],'tool','rack','upper'));
 });
+
+test('shared placement snapshots preserve free-space, headroom and cycle decisions',async()=>{
+ const {createPlacementContext,placeOnSurface}=await import('../rooftop/3d/spatial-layout.mjs');
+ const rack=o('rack','wirestand'),sink=o('sink','sink',64,0),tray={...o('tray','seedtray',0,0,.5),support:{id:'rack',surface:'middle'}},
+   small=o('small','gloves',0,0,.5),tall=o('tall','column',0,0,1),occupied=placeOnSurface([rack,small],'small','rack','middle');
+ const list=[rack,sink,tray,occupied,tall,o('next','gloves',0,0,.5)];
+ for(const child of list) {
+  const context=createPlacementContext(list,child.id);
+  for(const parent of list)for(const surface of supportSurfaces(parent))
+   assert.deepEqual(placeOnSurface(list,child.id,parent.id,surface.id,context),placeOnSurface(list,child.id,parent.id,surface.id),child.id+' / '+parent.id+' / '+surface.id);
+ }
+ const next=placeOnSurface(list,'next','rack','middle',createPlacementContext(list,'next'));
+ assert.ok(next);assert.notEqual(next.x,occupied.x);
+ assert.equal(placeOnSurface(list,'tall','rack','middle',createPlacementContext(list,'tall')),null);
+ assert.equal(placeOnSurface(list,'rack','tray','inside',createPlacementContext(list,'rack')),null);
+});

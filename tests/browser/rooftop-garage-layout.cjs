@@ -74,6 +74,12 @@ const assert = require("node:assert/strict");
   assert.equal(await p.locator(".workspace-toolbar #export").count(), 1);
   assert.equal(await p.locator(".topbar #preview").count(), 1);
   await p.screenshot({ path: out + "/garage-south-native-" + engine + ".png" });
+  await p.locator("[data-scene=room]").click();
+  await p.waitForTimeout(100);
+  const roomFrame=await p.locator("#garden").boundingBox();
+  assert.ok(roomFrame.width>600,"garage room uses the workspace instead of a 340px card");
+  assert.ok(Math.abs(roomFrame.width/roomFrame.height-4/3)<.02);
+  assert.ok(roomFrame.y+roomFrame.height<1100);
   await p.locator("[data-scene=north]").click();
   await p.locator("[data-asset=barrel]").click();
   await p.locator("#scaleUp").click();
@@ -103,6 +109,11 @@ const assert = require("node:assert/strict");
       fullPage: true,
     });
   }
+  await p.locator("[data-scene=room]").click();
+  assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  const narrowRoom=await p.locator("#garden").boundingBox();
+  assert.ok(narrowRoom.width>300&&narrowRoom.width<=390);
+  assert.ok(Math.abs(narrowRoom.height/narrowRoom.width-1.12)<.02);
   assert.deepEqual(errors, []);
   await b.close();
   console.log(engine + " layout passed");

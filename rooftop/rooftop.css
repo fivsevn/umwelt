@@ -367,7 +367,9 @@ body.garage #preview{display:inline-flex;align-items:center;justify-content:cent
 .garage .workspace-status .world-card{padding:3px 10px;font:12px Pixel,monospace;line-height:1.5;margin:0;max-width:260px}
 
 
-.garage.room-edit .workspace .canvas-wrap{width:min(100%,340px)}
+.garage.room-edit .workspace{--scene-ratio:1.3333333}
+.garage.room-edit .workspace .canvas-wrap{aspect-ratio:4/3}
+.garage.room-edit .workspace #garden{height:100%;aspect-ratio:auto}
 .garage .scene-tabs{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;width:100%;gap:4px!important}.garage .scene-tabs button{white-space:nowrap;min-width:0;padding:0 4px!important;font-size:11px}
 
 /* Scale the complete compact card group, preserving its internal proportions. */

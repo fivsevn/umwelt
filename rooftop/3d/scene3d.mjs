@@ -16,6 +16,7 @@ import { buildNeighborhood } from "./neighborhood.mjs";
 import { buildWashstation } from "./washstation.mjs";
 import { resolveSupports, supportSurfaces, localPoint, fitsSurface, placementKind } from "./spatial-layout.mjs";
 import { modelRandom as rng } from "./model-random.mjs";
+import { drawingBufferSize } from "./render-budget.mjs";
 import { populateWater } from "./water-life.mjs";
 import { OUTFITS, DECORATIONS, wardrobe } from "../wardrobe.mjs";
 
@@ -363,6 +364,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   function makePlant(parent, o) {
     const p = plants.get(o.type),
       g = group(parent);
+    g.userData.animated=true;
     g.scale.setScalar(o.scale * (o.type === "barrel" ? 1.15 : 1.38));
     g.rotation.y = (-o.rotation * Math.PI) / 180;
     const spec = plantPotSpec(p), radius = spec.radius;
@@ -678,6 +680,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   }
   function makeObject(parent, o) {
     const g = group(parent);
+    g.userData.animated=true;
     g.scale.setScalar(o.scale);
     g.rotation.y = (-o.rotation * Math.PI) / 180;
     buildObject(modelApi(), g, asset(o.type), o);
@@ -1230,30 +1233,45 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     actors[name].pig = g;
   }
   const objectRoots = { north: new Map(), south: new Map(), room: new Map() };
+  let modelBuilds=0;
   const supportCache = new WeakMap();
+  function relationsFor(list) {
+    if(!supportCache.has(list))supportCache.set(list,resolveSupports(list));
+    return supportCache.get(list);
+  }
   function objectPosition(name, o, list) {
     const contact = plants.has(o.type) ? withContact(o) : o;
     const [x,z] = coords(name,o.x,o.y+(contact.contactY||0));
-    if(!supportCache.has(list)) supportCache.set(list,resolveSupports(list));
-    const placement=supportCache.get(list).get(o.id);
+    const placement=relationsFor(list).get(o.id);
     return new T.Vector3(x,(placement?.height||0)+.02,z);
+  }
+  function geometrySignature(o,list) {
+    const shape=[o.type,o.pot,o.seed];
+    // Hanging foliage is clipped against the actual floor and shelf edge. Its
+    // clipping envelope changes geometry; ordinary transforms never do.
+    if(/tails|ivy|exp-(beadtail|threads|segments|fishbone)/.test(plants.get(o.type)?.form||'')) {
+      const relation=relationsFor(list).get(o.id),parent=list.find(p=>p.id===relation?.parentId),q=parent&&localPoint(o,parent);
+      shape.push(((relation?.height||0)+.02)/o.scale,parent?.type,parent?.scale,relation?.surfaceId,q?.x,q?.z,((o.rotation||0)-(parent?.rotation||0)+360)%360);
+    }
+    return JSON.stringify(shape);
+  }
+  function modelPlacement(name,anchor,o,list) {
+    anchor.position.copy(objectPosition(name,o,list));
+    const placement=relationsFor(list).get(o.id);
+    anchor.userData.support=placement?.parentId?{...placement,parent:list.find(p=>p.id===placement.parentId)}:null;
+    anchor.userData.model.scale.setScalar(o.scale*(plants.has(o.type)?(o.type==='barrel'?1.15:1.38):1));
+    anchor.userData.model.rotation.y=-(o.rotation||0)*Math.PI/180;
   }
   function addModel(name, o, list) {
     const anchor = group(groups[name]);
     anchor.position.copy(objectPosition(name, o, list));
     anchor.userData.animated = true;
     anchor.userData.objectId = o.id;
-    anchor.userData.signature = JSON.stringify([
-      o.type,
-      o.rotation,
-      o.scale,
-      o.pot,
-      o.seed,
-      anchor.position.y,
-    ]);
+    anchor.userData.signature = geometrySignature(o,list);
     const placement=supportCache.get(list)?.get(o.id);
     anchor.userData.support=placement?.parentId ? {...placement,parent:list.find(p=>p.id===placement.parentId)} : null;
-    (plants.has(o.type) ? makePlant : makeObject)(anchor, o);
+    anchor.userData.model=(plants.has(o.type) ? makePlant : makeObject)(anchor, o);
+    modelBuilds++;
     objectRoots[name].set(o.id, anchor);
     return anchor;
   }
@@ -1309,14 +1327,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
           roots.delete(id);
         }
       for (const o of list) {
-        const signature = JSON.stringify([
-          o.type,
-          o.rotation,
-          o.scale,
-          o.pot,
-          o.seed,
-          objectPosition(name,o,list).y,
-        ]);
+        const signature = geometrySignature(o,list);
         let root = roots.get(o.id);
         if (root && root.userData.signature !== signature) {
           release(root);
@@ -1324,7 +1335,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
           root = null;
         }
         if (!root) root = addModel(name, o, list);
-        root.position.copy(objectPosition(name, o, list));
+        modelPlacement(name,root,o,list);
       }
     }
     if (primitives.length) compileInstances();
@@ -1506,14 +1517,14 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     if (primitives.length) compileInstances();
     for (const [key, g] of Object.entries(groups)) g.visible = key === name;
     city.visible = name !== "room";
-    wanted.theta =
+    wanted.theta = options.initialTheta ?? (
       controls === "fixed"
         ? -0.34
         : name === "north"
           ? -0.12
           : name === "room"
             ? -0.18
-            : -0.25;
+            : -0.25);
     wanted.phi = controls === "fixed" ? .87 : name === "room" ? .90 : .87;
     wanted.zoom = name === "room" ? 1.07 : innerWidth < 640 ? (name === "south" ? 1.24 : 1.14) : 1.22;
     desiredTarget.set(
@@ -1534,7 +1545,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     // Fine fixed pixel grid, independent of Retina/device density.
     const w = canvas.clientWidth || innerWidth,
       h = canvas.clientHeight || innerHeight;
-    renderer.setSize(Math.ceil(w / PIXEL_STYLE.renderScale), Math.ceil(h / PIXEL_STYLE.renderScale), false);
+    const [bufferW,bufferH]=drawingBufferSize(w/PIXEL_STYLE.renderScale,h/PIXEL_STYLE.renderScale);
+    renderer.setSize(bufferW,bufferH,false);
     const height =
       current === "room"
         ? Math.max(15.5, (13.8 * h) / w)
@@ -1960,7 +1972,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   }
   const groundPoint = (x,y)=>pointAtHeight(x,y,0);
   function placementAt(x,y,child,excluded=new Set(),offset={x:0,y:0}) {
-    const list=D.layout[current],relations=resolveSupports(list),binding=relations.get(child.id),candidates=[];
+    const list=D.layout[current],relations=relationsFor(list),binding=relations.get(child.id),candidates=[];
     if(placementKind(child.type).portable)for(const parent of list) {
       if(excluded.has(parent.id)||relations.get(parent.id)?.invalid)continue;
       for(const surface of supportSurfaces(parent)) {
@@ -2131,6 +2143,9 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     get gesturing() {
       return pointers.size > 1 && ![...pointers.values()].some(p=>p.object);
     },
+    get interacting() {
+      return pointers.size>0||['theta','phi','zoom'].some(k=>Math.abs(wanted[k]-view[k])>.001)||target.distanceToSquared(desiredTarget)>.000001;
+    },
     draw,
     get stats() {
       return {
@@ -2154,6 +2169,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         modelIds: [...objectRoots[current].keys()],
         catalog: ASSETS.length,
         objects: D.layout[current].length,
+        modelBuilds,
         instances: batches.reduce((n, b) => n + b.count, 0),
         drawCalls: renderer.info.render.calls,
         triangles: renderer.info.render.triangles,
