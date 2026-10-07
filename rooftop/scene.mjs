@@ -1,5 +1,6 @@
+import { placementKind, physicalFootprint, resolveSupports, contactOffset } from "./3d/spatial-layout.mjs";
 import { BALCONY_EXTRAS, paintBalconyExtra } from "./balcony-extras.mjs";
-import { ROOM_LAYOUT, paintRoomBase } from "./room-scene.mjs";
+import { paintRoomBase } from "./room-scene.mjs";
 import { INITIAL_LAYOUT } from "./initial-layout.mjs";
 import { paintDongdong } from "./dongdong.mjs";
 import {
@@ -123,10 +124,10 @@ export const ASSETS = [
       ? { furniture: true, category: "家具" }
       : {}),
   })),
-  ...FURNITURE,
-  ...OBJECTS,
-  ...BALCONY_EXTRAS,
-  ...WEAPONS,
+  ...FURNITURE.map(a=>({...a})),
+  ...OBJECTS.map(a=>({...a})),
+  ...BALCONY_EXTRAS.map(a=>({...a})),
+  ...WEAPONS.map(a=>({...a})),
   ...POTS.map((p) => ({
     id: "vessel-" + p.id,
     name: p.name,
@@ -149,14 +150,16 @@ for (const a of ASSETS)
       (r, i) => refs.findIndex((other) => other.url === r.url) === i,
     );
   }
+// Space roles are assigned once, independently from historical drawing labels.
+for (const a of ASSETS) {
+  a.placement = placementKind(a.id);
+  if (!a.plant && !a.weapon) a.category = a.placement.category;
+}
 // Catalogue lookup is shared by rendering, placement and save validation.
 const assetIndex = new Map(ASSETS.map((a) => [a.id, a]));
 export const asset = (id) => assetIndex.get(id);
 export function initialLayout() {
-  const layout = structuredClone(INITIAL_LAYOUT);
-  layout.scenes.room = structuredClone(ROOM_LAYOUT);
-  layout.roomVersion = 2;
-  return layout;
+  return structuredClone(INITIAL_LAYOUT);
 }
 export function inside(scene, x, y, margin = 0) {
   const pts = SCENES[scene].points;
@@ -164,6 +167,10 @@ export function inside(scene, x, y, margin = 0) {
   for (let i = 0, j = pts.length - 1; i < pts.length; j = i++) {
     const [xi, yi] = pts[i],
       [xj, yj] = pts[j];
+    if (!margin) {
+      const t=Math.max(0,Math.min(1,((x-xi)*(xj-xi)+(y-yi)*(yj-yi))/((xj-xi)**2+(yj-yi)**2)));
+      if(Math.hypot(x-xi-t*(xj-xi),y-yi-t*(yj-yi))<.01)return true;
+    }
     if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi)
       hit = !hit;
   }
@@ -197,96 +204,38 @@ export function displayBounds(o) {
     Object.entries(b).map(([key, value]) => [key, value * o.scale]),
   );
 }
-const SUPPORTS = new Set([
-  "stepstool",
-  "shelf",
-  "woodshelf",
-  "tierstand",
-  "ladderstand",
-  "wallrack",
-  "plantcart",
-  "pottingbench",
-  "table",
-  "wirestand",
-  "coveredstand",
-  "lowplatform",
-  "foamstand",
-]);
-function worldPoint(o, x, y) {
-  const a = (o.rotation * Math.PI) / 180;
-  return [
-    o.x + (x * Math.cos(a) - y * Math.sin(a)) * o.scale,
-    o.y + (x * Math.sin(a) + y * Math.cos(a)) * o.scale,
-  ];
+function bearingPoints(o) {
+  const p = physicalFootprint(o), a = (o.rotation||0)*Math.PI/180;
+  const w = p.groundW*16, d = p.groundD*16, points=[];
+  const point = (x,z) => [o.x+x*Math.cos(a)-z*Math.sin(a), o.y+contactOffset(o)+x*Math.sin(a)+z*Math.cos(a)];
+  if(p.circle)return Array.from({length:32},(_,i)=>point(Math.cos(i*Math.PI/16)*w/2,Math.sin(i*Math.PI/16)*d/2));
+  for(const z of [-d/2,d/2])for(let x=-w/2;x<=w/2;x+=2)points.push(point(x,z));
+  for(const x of [-w/2,w/2])for(let z=-d/2;z<=d/2;z+=2)points.push(point(x,z));
+  points.push(point(w/2,d/2));return points;
 }
-function stripPoints(o, box) {
-  const pts = [];
-  for (const y of [box.top, box.bottom])
-    for (let x = box.left; x <= box.right; x += 2)
-      pts.push(worldPoint(o, x, y));
-  for (let y = box.top; y <= box.bottom; y += 2)
-    for (const x of [box.left, box.right]) pts.push(worldPoint(o, x, y));
-  pts.push(
-    worldPoint(o, box.right, box.top),
-    worldPoint(o, box.right, box.bottom),
-  );
-  return pts;
+export const contactPoints = bearingPoints;
+export const roomFeet = bearingPoints;
+function groundFits(scene,o) {
+  return bearingPoints(o).every(([x,y])=>inside(scene,x,y));
 }
-export function contactPoints(o) {
-  const a = asset(o.type);
-  if (a.plant) return stripPoints(o, plantContact(o));
-  const inset = SUPPORTS.has(o.type) ? Math.min(8, a.w * 0.15) : 0;
-  return stripPoints(o, {
-    left: -a.w / 2 + inset,
-    right: a.w / 2 - inset,
-    top: -a.h / 2 + (SUPPORTS.has(o.type) ? Math.min(6, a.h * 0.15) : 0),
-    bottom: a.h / 2 - (SUPPORTS.has(o.type) ? Math.min(6, a.h * 0.15) : 0),
-  });
+function resolvedFits(scene,o,objects,relations) {
+  const relation=relations.get(o.id);
+  if(relation?.invalid)return false;
+  if(relation?.parentId) {
+    const parent=objects.find(p=>p.id===relation.parentId);
+    return parent && resolvedFits(scene,parent,objects,relations);
+  }
+  return groundFits(scene,o);
 }
-export function roomFeet(o) {
-  const a = asset(o.type),
-    b = displayBounds(o),
-    inset = Math.min(4 * o.scale, (b.right - b.left) / 6);
-  return [
-    [o.x + b.left + inset, o.y + b.bottom - 8 * o.scale],
-    [o.x + b.right - inset, o.y + b.bottom - 8 * o.scale],
-    [o.x + b.left + inset, o.y + b.bottom - 2 * o.scale],
-    [o.x + b.right - inset, o.y + b.bottom - 2 * o.scale],
-  ];
+export function fits(scene,o,objects=[]) {
+  if(!asset(o.type))return false;
+  if(!o.support && groundFits(scene,o))return true;
+  const list=[...objects.filter(p=>p.id!==o.id),o];
+  return resolvedFits(scene,o,list,resolveSupports(list));
 }
-function groundFits(scene, o) {
-  if (scene === "room" && asset(o.type).furniture)
-    return roomFeet(o).every(
-      ([x, y]) => x >= 220 && x <= 380 && y >= 104 && y <= 328,
-    );
-  return contactPoints(o).every(([x, y]) =>
-    inside(scene, x, y, asset(o.type).plant ? 1 : 2),
-  );
-}
-function surfaceContains(shelf, x, y) {
-  const a = asset(shelf.type),
-    angle = (-shelf.rotation * Math.PI) / 180,
-    dx = (x - shelf.x) / shelf.scale,
-    dy = (y - shelf.y) / shelf.scale,
-    lx = dx * Math.cos(angle) - dy * Math.sin(angle),
-    ly = dx * Math.sin(angle) + dy * Math.cos(angle);
-  return Math.abs(lx) <= a.w / 2 - 3 && Math.abs(ly) <= a.h / 2 - 3;
-}
-export function fits(scene, o, objects = []) {
-  if (!asset(o.type)) return false;
-  if (groundFits(scene, o)) return true;
-  if (!asset(o.type).plant) return false;
-  return objects.some(
-    (shelf) =>
-      shelf.id !== o.id &&
-      SUPPORTS.has(shelf.type) &&
-      groundFits(scene, shelf) &&
-      contactPoints(o).every(([x, y]) => surfaceContains(shelf, x, y)),
-  );
-}
-// Prevent moving or deleting the sole support out from under a plant.
-export function supportedLayout(scene, objects) {
-  return objects.every((o) => fits(scene, o, objects));
+export function supportedLayout(scene,objects) {
+  const relations=resolveSupports(objects);
+  return objects.every(o=>resolvedFits(scene,o,objects,relations));
 }
 // A larger object may need a small inward nudge to keep its whole footprint on the roof.
 export function resizedObject(scene, o, scale, objects = []) {
@@ -321,7 +270,7 @@ export function validateLayout(data) {
   for (const scene of Object.keys(SCENES)) {
     const list =
       data.scenes[scene] ??
-      (scene === "room" ? structuredClone(ROOM_LAYOUT) : undefined);
+      (scene === "room" ? structuredClone(INITIAL_LAYOUT.scenes.room) : undefined);
     if (!Array.isArray(list) || list.length > 400)
       throw Error("每个场景最多 400 件物件");
     const ids = new Set();
@@ -391,12 +340,22 @@ export function validateLayout(data) {
           throw Error("花盆不适合这株植物");
         next.pot = o.pot;
       }
+      if (o.support === null) next.support = null;
+      else if (o.support !== undefined) {
+        if (!o.support || typeof o.support.id !== "string" || typeof o.support.surface !== "string")
+          throw Error("承放位置数据不正确");
+        next.support = {id:o.support.id,surface:o.support.surface};
+      }
       return next;
     });
     const objects = clean.scenes[scene];
     for (let i = 0; i < objects.length; i++) {
       const o = objects[i];
       if (fits(scene, o, objects)) continue;
+      if (scene === "room" && o.support === undefined) {
+        const migrated = resizedObject(scene,o,o.scale,objects);
+        if (migrated) {Object.assign(o,migrated);continue;}
+      }
       const legacy = LEGACY_ASSETS.find((a) => a.id === o.type),
         old = list[i];
       if (

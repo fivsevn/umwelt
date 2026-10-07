@@ -52,7 +52,7 @@ const engine = process.env.BROWSER || "chromium";
     await page.locator("#clear").click();
     await room.waitForFunction(() => room.layout.length === 0);
     await page.keyboard.press("Control+z");
-    await room.waitForFunction(() => room.layout.length === 18);
+    await room.waitForFunction(() => room.layout.length === 5);
     assert.equal(await room.locator(".wardrobe-catalog details, .wardrobe-catalog canvas, .wardrobe-catalog input").count(), 0);
     assert.equal(await room.locator("#outfits [data-category]").count(), 7);
     assert.equal(await room.locator("#decorations [data-category]").count(), 7);
@@ -120,6 +120,7 @@ const engine = process.env.BROWSER || "chromium";
     assert.equal(await room.locator("#decorationsOptions [aria-pressed=true]").getAttribute("data-value"), "bell-cream");
     for (const width of [1600, 900, 390, 320]) {
       await room.setViewportSize({ width, height: 844 });
+      if(width===1600)assert.ok((await room.locator('#room').boundingBox()).width>=600,'room should use the available central column');
       assert.ok(
         await room.evaluate(
           () => document.documentElement.scrollWidth <= innerWidth,

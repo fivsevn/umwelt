@@ -88,8 +88,8 @@ const routes = [
                 south: rooftop.layout.scenes.south.length,
                 theta: rooftop3d.view.theta,
               }));
-              assert.equal(initial.north, 95);
-              assert.equal(initial.south, 10);
+              assert.equal(initial.north, 47);
+              assert.equal(initial.south, 16);
               assert.equal(
                 await page.locator(".topbar,.scene-tabs,.tools").count(),
                 0,

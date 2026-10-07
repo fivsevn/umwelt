@@ -378,3 +378,10 @@ body.garage #preview{display:inline-flex;align-items:center;justify-content:cent
 .corner-cards .world-card{background:#cec7acb8;color:#3d4939;box-shadow:2px 3px #53604b55}.corner-cards a.world-card,.corner-cards button.world-card{background:#8e9279b3;color:#263b30}.corner-cards a.world-card:hover,.corner-cards button.world-card:hover{background:#b2b59bd6;color:#25372c}.corner-cards button.world-card[aria-pressed=true]{background:#7e8975c9;color:#f0e5c9}.corner-cards .world-card[hidden]{display:none!important}.corner-cards .feed-enter{animation:feed-enter .5s ease-out both}@keyframes feed-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 /* Updated feed cards still reveal when reduced motion is enabled. */
 @media(prefers-reduced-motion:reduce){.corner-cards .feed-enter{animation:card-reveal .3s ease-out both}}
+
+/* Placement has a stable row so selection never shifts the drag canvas. */
+.placement-controls{display:flex;align-items:center;gap:12px;min-height:40px;margin:0 0 8px;font-size:11px;color:var(--ui-ink,#454b3b)}
+.placement-controls label{display:flex;align-items:center;gap:6px;min-width:0}
+.placement-controls select{max-width:210px;height:28px;padding:3px 6px;font-size:11px}
+.placement-controls select:disabled{opacity:.65}
+@media(max-width:550px){.placement-controls{gap:8px}.placement-controls label:first-child{flex:1}.placement-controls #supportParent{width:100%;max-width:none}.placement-controls #supportLevel{width:90px}}

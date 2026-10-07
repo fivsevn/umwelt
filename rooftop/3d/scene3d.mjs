@@ -14,7 +14,8 @@ import {
 import { latheSurface, leafSurface, beveledBoxSurface } from "./model-surfaces.mjs";
 import { buildNeighborhood } from "./neighborhood.mjs";
 import { buildWashstation } from "./washstation.mjs";
-import { resolveSupports, supportSurfaces, localPoint } from "./spatial-layout.mjs";
+import { resolveSupports, supportSurfaces, localPoint, fitsSurface, placementKind } from "./spatial-layout.mjs";
+import { modelRandom as rng } from "./model-random.mjs";
 import { populateWater } from "./water-life.mjs";
 import { OUTFITS, DECORATIONS, wardrobe } from "../wardrobe.mjs";
 
@@ -87,13 +88,6 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     foliage = [],
     waterAnimations = [],
     objectMotion = [];
-  function rng(seed) {
-    let s = seed >>> 0;
-    return () => {
-      s = (Math.imul(s, 1664525) + 1013904223) >>> 0;
-      return s / 4294967296;
-    };
-  }
   function shade(c, v) {
     const n = new T.Color(c);
     n.multiplyScalar(v);
@@ -417,9 +411,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       thick = wooden ? 0.14 : 0.075;
     if (type === "woodshelf" || type === "ladderstand") {
       for (let level = 0; level < 3; level++) {
-        const yy = 0.18 + (level * (h - 0.24)) / 2,
-          zz = d / 2 - ((level + 0.5) * d) / 3;
-        const ww = w - (type === "ladderstand" ? level * 0.18 : 0);
+        const surface = supportSurfaces({type})[level];
+        const yy = surface.y - surface.thickness / 2, zz = surface.z, ww = surface.w;
         for (const xx of [-ww * 0.46, ww * 0.46])
           box(g, xx, yy / 2, zz, 0.11, yy, 0.11, P.woodDark, "wood");
         for (let slat = 0; slat < 3; slat++)
@@ -439,10 +432,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         beam(g, [xx, 0.05, d * 0.47], [xx, h, -d * 0.45], 0.1, P.woodDark);
       return;
     }
-    const levels =
-      /shelf|stand/.test(type) && !["foamstand", "lowplatform"].includes(type)
-        ? [0.18, h * 0.52, h * 0.92]
-        : [h * 0.94];
+    const levels = type === "foamstand" ? [h*.94] : supportSurfaces({type}).filter(s=>!s.container).map(s=>s.y-(s.thickness||.11)/2);
     for (const x of [-w * 0.45, w * 0.45])
       for (const z of [-d * 0.43, d * 0.43]) {
         box(
@@ -1547,7 +1537,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     renderer.setSize(Math.ceil(w / PIXEL_STYLE.renderScale), Math.ceil(h / PIXEL_STYLE.renderScale), false);
     const height =
       current === "room"
-        ? Math.max(18, (14 * h) / w)
+        ? Math.max(15.5, (13.8 * h) / w)
         : w < 640
           ? Math.max(28, ((current === "south" ? 21 : 29) * h) / w)
           : 27;
@@ -1584,12 +1574,10 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       dx = e.clientX - old.x,
       dy = e.clientY - old.y;
     if (controls === "none") return;
-    const object = editable && pick(e.clientX, e.clientY);
-    pointers.set(e.pointerId, {
-      x: e.clientX,
-      y: e.clientY,
-      object: object?.id,
-    });
+    pointers.set(e.pointerId, {...old, x:e.clientX, y:e.clientY});
+    // Gesture ownership is fixed on pointerdown, even after the object moves
+    // out from under the pointer or a second finger touches the canvas.
+    if ([...pointers.values()].some(p=>p.object)) return;
     if (pointers.size === 2) {
       const d = distance();
       if (d && lastDistance) zoom(Math.log(d / lastDistance));
@@ -1618,7 +1606,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     "wheel",
     (e) => {
       e.preventDefault();
-      zoom(-T.MathUtils.clamp(e.deltaY, -130, 130) * 0.0015);
+      if (![...pointers.values()].some(p=>p.object))
+        zoom(-T.MathUtils.clamp(e.deltaY, -130, 130) * 0.0015);
     },
     { passive: false },
   );
@@ -1956,9 +1945,10 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     );
     raycaster.setFromCamera(ndc, camera);
   }
-  function groundPoint(x, y) {
+  function pointAtHeight(x, y, height = 0) {
     ray(x, y);
     const v = new T.Vector3();
+    floorPlane.constant = -height;
     if (!raycaster.ray.intersectPlane(floorPlane, v)) return null;
     const center =
       current === "north"
@@ -1967,6 +1957,25 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
           ? [300, 216]
           : [284, 264];
     return { x: v.x * 16 + center[0], y: v.z * 16 + center[1] };
+  }
+  const groundPoint = (x,y)=>pointAtHeight(x,y,0);
+  function placementAt(x,y,child,excluded=new Set(),offset={x:0,y:0}) {
+    const list=D.layout[current],relations=resolveSupports(list),candidates=[];
+    if(placementKind(child.type).portable)for(const parent of list) {
+      if(excluded.has(parent.id)||relations.get(parent.id)?.invalid)continue;
+      for(const surface of supportSurfaces(parent)) {
+        const height=(relations.get(parent.id)?.height||0)+surface.y;
+        const point=pointAtHeight(x,y,height);if(!point)continue;
+        const next={...child,x:point.x-offset.x,y:point.y-offset.y,support:{id:parent.id,surface:surface.id}};
+        if(fitsSurface(next,parent,surface))candidates.push({next,height});
+      }
+    }
+    // The closest visible horizontal surface is the one struck first by the
+    // downward camera ray; lower tiers stay reachable in front of the tier above.
+    candidates.sort((a,b)=>b.height-a.height);
+    if(candidates.length)return candidates[0].next;
+    const point=groundPoint(x,y);
+    return point?{...child,x:point.x-offset.x,y:point.y-offset.y,support:null}:null;
   }
   function pick(x, y) {
     ray(x, y);
@@ -2105,6 +2114,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     syncLayout,
     resize,
     groundPoint,
+    pointAtHeight,
+    placementAt,
     pick,
     projectObject,
     thumbnail,
@@ -2117,7 +2128,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       return catalogInfo.get(type);
     },
     get gesturing() {
-      return pointers.size > 1;
+      return pointers.size > 1 && ![...pointers.values()].some(p=>p.object);
     },
     draw,
     get stats() {

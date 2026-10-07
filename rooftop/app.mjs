@@ -1,4 +1,5 @@
-import { movedArrangement, clearContainerWalls } from "./3d/spatial-layout.mjs";
+import { movedArrangement, clearContainerWalls, resolveSupports, supportedIds } from "./3d/spatial-layout.mjs";
+import { createPlacementEditor } from "./placement-editor.mjs";
 import { createGardenRenderer } from "./3d/scene3d.mjs";
 import { readLayout, writeLayout } from "./layout-storage.mjs";
 import { createEditHistory } from "./edit-history.mjs";
@@ -45,7 +46,6 @@ import {
   fits,
   supportedLayout,
   validateLayout,
-  roomFeet,
 } from "./scene.mjs";
 const $ = (id) => document.getElementById(id),
   editor = document.body.classList.contains("editor");
@@ -72,7 +72,7 @@ try {
   if (editor) $("message").textContent = "本机布局无法读取，已恢复初始陈列。";
 }
 if (!editor) attachGardenMusic($("musicToggle"));
-let garden3d = null;
+let garden3d = null, placementEditor = null;
 const canvas = $("garden");
 try {
   garden3d = createGardenRenderer(
@@ -217,6 +217,7 @@ function buttons() {
     $("scale").value = o.scale;
     $("scaleValue").textContent = Math.round(o.scale * 100) + "%";
   }
+  placementEditor?.update();
   notebook(o);
 }
 function rebuild() {
@@ -255,7 +256,7 @@ function changed() {
 function commitMove(o, patch) {
   if(Object.entries(patch).every(([key,value])=>o[key]===value))return true;
   const next=movedArrangement(objects(),o.id,patch);
-  if(!supportedLayout(scene,next)){message("这里超出了阳台边界。");buttons();return false;}
+  if(!supportedLayout(scene,next)){message("这里放不稳，检查层间高度、支撑范围或阳台边界。");buttons();return false;}
   if(!clearContainerWalls(next,new Set(next.filter((p,i)=>p!==objects()[i]).map(p=>p.id)))){message("这里放不下这个器物，移到旁边或换一只小盆。");buttons();return false;}
   checkpoint();
   next.forEach((p,i)=>Object.assign(objects()[i],p));
@@ -271,7 +272,7 @@ function findSpace(type, around) {
   const candidates = [];
   for (let y = 80; y < 470; y += 8)
     for (let x = 136; x < 516; x += 8) {
-      const o = { type, x, y, rotation: 0, scale: 1 };
+      const o = { type, x, y, rotation: 0, scale: 1, support:null };
       if (fits(scene, o, objects())) candidates.push(o);
     }
   candidates.sort(
@@ -301,6 +302,7 @@ function add(type, source) {
   const o = source
     ? { ...source, x: pos.x, y: pos.y, id: crypto.randomUUID() }
     : { ...pos, id: crypto.randomUUID() };
+  o.support=null;
   if (plant(o.type)) o.seed = plantSeed(o.id);
   if (!fits(scene, o, objects())) {
     o.rotation = 0;
@@ -319,9 +321,13 @@ function add(type, source) {
 function remove() {
   const o = selection();
   if (!o) return;
+  if(supportedIds(objects(),o.id).size>1) {
+    message("先把上面的东西移开，再收起这件家具。");
+    return;
+  }
   const next = objects().filter((p) => p.id !== o.id);
   if (!supportedLayout(scene, next)) {
-    message("先把架上探出边缘的花盆移回天台，再收起这个架子。");
+    message("这里的物件还需要支撑，先调整承放位置。");
     return;
   }
   checkpoint();
@@ -469,9 +475,9 @@ function catalog() {
     $("assets").append(button);
   }
 }
-function coords(e) {
+function coords(e,height=0) {
   if (garden3d)
-    return garden3d.groundPoint(e.clientX, e.clientY) || { x: 0, y: 0 };
+    return garden3d.pointAtHeight(e.clientX, e.clientY,height) || { x: 0, y: 0 };
   const r = canvas.getBoundingClientRect(),
     x = ((e.clientX - r.left) * camera.w) / r.width + camera.x,
     y = ((e.clientY - r.top) * camera.h) / r.height + camera.y;
@@ -503,25 +509,8 @@ if (editor) {
     if (!e.target.closest(".layout-transfer"))
       document.querySelector(".transfer").open = false;
   });
-  for (const name of [
-    "全部",
-    "仙人掌",
-    "多肉",
-    "观叶",
-    "香草",
-    "藤蔓",
-    "花卉",
-    "蔬果",
-    "苔藓",
-    "小鱼",
-    "家具",
-    "器具",
-    "小物",
-    "花盆",
-    "灯具",
-    "枪械",
-    "武器",
-  ]) {
+  placementEditor = createPlacementEditor({element:$("placementControls"),objects,selection,name:type=>asset(type).name,move:commitMove,message});
+  for (const name of ["全部",...new Set(ASSETS.map(a=>a.category))]) {
     const button = document.createElement("button");
     button.textContent = name;
     button.setAttribute("aria-pressed", String(name === category));
@@ -558,8 +547,9 @@ if (editor) {
       return;
     }
     if (e.button !== 0 || drag) return;
-    const pos = coords(e),
-      o = garden3d ? garden3d.pick(e.clientX, e.clientY) : hit(pos);
+    const o = garden3d ? garden3d.pick(e.clientX, e.clientY) : hit(coords(e));
+    const height=o?(resolveSupports(objects()).get(o.id)?.height||0):0;
+    const pos=coords(e,height);
     selected = o?.id || null;
     buttons();
     canvas.focus({ preventScroll: true });
@@ -570,6 +560,7 @@ if (editor) {
         dx: pos.x - o.x,
         dy: pos.y - o.y,
         before: JSON.stringify(layout),
+        excluded:supportedIds(objects(),o.id),
       };
       canvas.setPointerCapture(e.pointerId);
     }
@@ -578,22 +569,16 @@ if (editor) {
     if (!drag || e.pointerId !== drag.pointerId || garden3d?.gesturing) return;
     const o = selection();
     if (!o) return;
-    const pos = coords(e),
-      step = $("snap").checked ? 4 : 1,
-      patch = {
-        x: Math.round((pos.x - drag.dx) / step) * step,
-        y: Math.round((pos.y - drag.dy) / step) * step,
-      },
-      test = { ...o, ...patch };
-    if (scene === "room" && asset(o.type).furniture) {
-      const feet = roomFeet(test),
-        top = Math.min(...feet.map((p) => p[1]));
-      if (top < 104 && top >= 80) {
-        patch.y += 104 - top;
-        test.y = patch.y;
-      }
+    const target=garden3d?garden3d.placementAt(e.clientX,e.clientY,o,drag.excluded,{x:drag.dx,y:drag.dy}):{x:coords(e).x-drag.dx,y:coords(e).y-drag.dy,support:null};
+    if(!target)return;
+    const step=$("snap").checked?4:1;
+    const patch={x:Math.round(target.x/step)*step,y:Math.round(target.y/step)*step,support:target.support};
+    // Quantisation must not push a pot outside a narrow shelf or a wall contact.
+    let next=movedArrangement(objects(),o.id,patch);
+    if(!supportedLayout(scene,next)) {
+      patch.x=target.x;patch.y=target.y;
+      next=movedArrangement(objects(),o.id,patch);
     }
-    const next=movedArrangement(objects(),o.id,patch);
     if (supportedLayout(scene,next) && clearContainerWalls(next,new Set(next.filter((p,i)=>p!==objects()[i]).map(p=>p.id)))) {
       next.forEach((p,i)=>Object.assign(objects()[i],p));
       garden3d?.syncLayout(layout);

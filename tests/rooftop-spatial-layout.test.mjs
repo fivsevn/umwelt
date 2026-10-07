@@ -52,3 +52,84 @@ test('a rigid pot cannot be dropped through the wall of a smaller container',()=
  tray.scale=1;assert.equal(clearContainerWalls([table,tray,plant],new Set(['p'])),true);assert.equal(resolveSupports([table,tray,plant]).get('p').parentId,'c');
  plant.x=40;assert.equal(clearContainerWalls([table,tray,plant],new Set(['p'])),true);
 });
+
+test('each tier has a persistent identity; a chosen middle tier survives nested transforms and validation',async()=>{
+ const {placeOnSurface}=await import('../rooftop/3d/spatial-layout.mjs');
+ const {validateLayout}=await import('../rooftop/scene.mjs');
+ const list=[o('rack','tierstand',312,240),o('tool','gloves',312,240,.5)];
+ const placed=placeOnSurface(list,'tool','rack','middle');assert.ok(placed);
+ list[1]=placed;
+ assert.equal(resolveSupports(list).get('tool').surfaceId,'middle');
+ const moved=movedArrangement(list,'rack',{x:330,y:270,rotation:90});
+ assert.equal(resolveSupports(moved).get('tool').height,supportSurfaces(moved[0])[1].y);
+ const saved=validateLayout({version:2,roomVersion:2,scenes:{north:moved,south:[],room:[]}});
+ assert.deepEqual(saved.scenes.north,moved);
+ assert.equal(resolveSupports(saved.scenes.north).get('tool').surfaceId,'middle');
+});
+test('explicit ground placement does not silently snap back to a nearby shelf',()=>{
+ const rack=o('rack','shelf'),tool={...o('tool','gloves'),support:null};
+ assert.equal(resolveSupports([rack,tool]).get('tool').height,0);
+});
+test('dangling parents, missing tier IDs and circular support chains are rejected',async()=>{
+ const {validateLayout}=await import('../rooftop/scene.mjs');
+ const validate=north=>validateLayout({version:2,roomVersion:2,scenes:{north,south:[],room:[]}});
+ const tool={...o('tool','gloves',312,240,.5),support:{id:'missing',surface:'top'}};
+ assert.throws(()=>validate([tool]),/承重点/);
+ assert.throws(()=>validate([{...tool,support:{id:'rack',surface:'fifth'}},o('rack','shelf',312,240)]),/承重点/);
+ const a={...o('a','crate',312,240),support:{id:'b',surface:'inside'}},b={...o('b','crate',312,240),support:{id:'a',surface:'inside'}};
+ assert.throws(()=>validate([a,b]),/承重点/);
+});
+test('the whole catalogue has finite physical bounds and unique scaled surface IDs',async()=>{
+ const {ASSETS}=await import('../rooftop/scene.mjs');
+ const {physicalFootprint,placementKind}=await import('../rooftop/3d/spatial-layout.mjs');
+ for(const a of ASSETS)for(const scale of [.5,1,2]) {
+  const object={type:a.id,scale,seed:1835},bounds=physicalFootprint(object),surfaces=supportSurfaces(object);
+  for(const key of ['w','d','h','groundW','groundD'])assert.ok(bounds[key]>0&&Number.isFinite(bounds[key]),a.id+' '+key);
+  assert.equal(new Set(surfaces.map(s=>s.id)).size,surfaces.length,a.id);
+  for(const surface of surfaces)for(const key of ['y','w','d'])assert.ok(Number.isFinite(surface[key])&&surface[key]>0,a.id+' '+key);
+  if(a.placement.kind==='furniture')assert.equal(placementKind(a.id).portable,false);
+ }
+});
+test('short plants fit a middle tier while taller seeded crowns clear only the top',async()=>{
+ const {placeOnSurface}=await import('../rooftop/3d/spatial-layout.mjs');
+ const rack=o('rack','wirestand'),short=o('short','new-lesliei',0,0,.5),tall=o('tall','column',0,0,1);
+ assert.ok(placeOnSurface([rack,short],'short','rack','middle'));
+ assert.equal(placeOnSurface([rack,tall],'tall','rack','middle'),null);
+ assert.ok(placeOnSurface([rack,tall],'tall','rack','upper'));
+});
+test('deep containers rest contents on their floor, leaving the rim and counter separate',async()=>{
+ const {placeOnSurface}=await import('../rooftop/3d/spatial-layout.mjs');
+ const basin=o('sink','sink'),tool=o('tool','gloves',0,0,.5);
+ for(const id of ['inside','counter']) {
+  const placed=placeOnSurface([basin,tool],'tool','sink',id);assert.ok(placed);
+  assert.equal(resolveSupports([basin,placed]).get('tool').height,supportSurfaces(basin).find(s=>s.id===id).y);
+ }
+ assert.ok(supportSurfaces(basin).find(s=>s.id==='inside').y<supportSurfaces(basin).find(s=>s.id==='counter').y-.3);
+ const vessel=o('v','vessel-antique-shino'),small=o('small','pruning-shears',0,0,.5);
+ assert.ok(supportSurfaces(vessel).length,'empty ceramics expose their actual cavity');
+});
+test('flat furniture and its contents can be placed flush with a straight wall in every orientation',async()=>{
+ const {physicalFootprint}=await import('../rooftop/3d/spatial-layout.mjs');
+ const {fits,contactPoints}=await import('../rooftop/scene.mjs');
+ for(const type of ['shelf','wirestand','table','room-bed','room-wardrobe','storagechest'])for(const rotation of [0,90,180,270]) {
+  const object=o('wall',type,300,216,1,rotation),bounds=physicalFootprint(object);
+  object.x=220+(rotation%180?bounds.groundD:bounds.groundW)*8;
+  assert.ok(fits('room',object),type+' '+rotation);
+  assert.ok(Math.abs(Math.min(...contactPoints(object).map(p=>p[0]))-220)<1e-6);
+ }
+});
+
+test('placing another small item chooses free bearing space rather than overlapping rigid bases',async()=>{
+ const {placeOnSurface}=await import('../rooftop/3d/spatial-layout.mjs');
+ const rack=o('rack','wirestand'),a=o('a','gloves',0,0,.5),b=o('b','gloves',0,0,.5);
+ const first=placeOnSurface([rack,a],'a','rack','middle');
+ const second=placeOnSurface([rack,first,b],'b','rack','middle');
+ assert.ok(second);assert.notEqual(second.x,first.x);
+ assert.ok(fitsSurface(second,rack,supportSurfaces(rack)[1]));
+});
+test('covered racks reject contents taller than the clear space beneath the hood',async()=>{
+ const {placeOnSurface}=await import('../rooftop/3d/spatial-layout.mjs');
+ const rack=o('rack','coveredstand'),plant=o('p','column',0,0,.5),tool=o('tool','gloves',0,0,.5);
+ assert.equal(placeOnSurface([rack,plant],'p','rack','upper'),null);
+ assert.ok(placeOnSurface([rack,tool],'tool','rack','upper'));
+});

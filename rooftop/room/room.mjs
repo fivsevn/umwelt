@@ -20,12 +20,11 @@ import {
   ACTIVITIES,
 } from "../wardrobe.mjs";
 const $ = (id) => document.getElementById(id),
-  canvas = $("room"),
-  roomStage = canvas.parentElement;
+  canvas = $("room");
 let c = null;
 let room3d = null;
 const indoorWeather = makeWeather({ condition: "clear", phase: "auto" });
-roomStage.style.aspectRatio = "208 / 288";
+
 canvas.style.height = "100%";
 canvas.style.touchAction = "none";
 canvas.tabIndex = 0;
