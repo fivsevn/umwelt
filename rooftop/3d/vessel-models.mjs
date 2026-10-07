@@ -4,6 +4,15 @@ export function vesselDimensions(p,r=.46,height=.38) {
  const art=VESSEL_ART[p.id];
  return art?{r,h:r*art.height,foot:r*(art.foot||0),art}:{r,h:height*(p.shape==='bag'?1.3:1),foot:0,art:null};
 }
+// The clear interior is shared by placement and the hollow vessel construction.
+export function vesselInterior(p,r=.46,height=.38) {
+ const {h,foot,art}=vesselDimensions(p,r,height);
+ const floor=art?foot+Math.min(.055,h*.25):.08;
+ if(/box|bag/.test(p.shape))return {y:floor,w:r*(p.id==='trough'?3.1:1.95)-.18,d:r*(p.id==='trough'?1.32:1.55)-.18,rim:h,shape:'rect'};
+ const thick=r*(art?.rolled?.095:p.id==='plastic'?.045:.065);
+ const radius=r*(art?Math.min(...art.profile.map(q=>q[0])):.65)-thick;
+ return {y:floor,w:radius*2,d:radius*2*(art?.shape==='oval'?.76:1),rim:h+foot,shape:art?.shape==='square'?'rect':'ellipse'};
+}
 export function buildVessel(api,g,p,r=.46,height=.38,{empty=false}={}) {
  if(!VESSEL_SHAPES.has(p.shape))throw Error('未定义花盆器形：'+p.shape);
  const {box,beam,shade}=api,{h,foot,art}=vesselDimensions(p,r,height);
@@ -11,7 +20,7 @@ export function buildVessel(api,g,p,r=.46,height=.38,{empty=false}={}) {
  const kind=art?'vessel-'+p.id:p.shape==='bag'?'cloth':'enamel';
  if(art && api.profile) {
    const points=art.profile.map(([rr,y])=>[r*rr,foot+y*h,.16+y*.72]);
-   const last=art.profile.at(-1)[0]*r,thick=r*(art.rolled?.095:p.id==='plastic'?.045:.065),floor=foot+Math.min(.055,h*.25);
+   const last=art.profile.at(-1)[0]*r,thick=r*(art.rolled?.095:p.id==='plastic'?.045:.065),floor=vesselInterior(p,r,height).y;
    // Interior UVs select quiet glaze, never a duplicate of the exterior pattern.
    const innerUV=y=>art.interiorPaint ? .16+y*.72 : .02;
    points.push([last-thick,top,innerUV(1)]);

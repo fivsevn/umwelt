@@ -69,6 +69,36 @@ const engine = process.env.BROWSER || "chromium",
         );
         assert.ok(model.sourceCount > 0, model.type + " sources");
       }
+      // Real controls, picking and dragging verify the shared placement contract.
+      await page.locator("#clear").click();
+      await page.locator("#search").fill("三层铁花架");
+      await page.locator("[data-asset=tierstand]").click();
+      await page.locator("#search").fill("工作手套");
+      await page.locator("[data-asset=gloves]").click();
+      await page.locator("#supportParent").selectOption({label:"三层铁花架"});
+      for(const surface of ["lower","upper","middle"]) {
+        await page.locator("#supportLevel").selectOption(surface);
+        assert.equal(await page.evaluate(()=>rooftop.layout.scenes.north.at(-1).support.surface),surface);
+      }
+      const arrangement=await page.evaluate(()=>rooftop.layout.scenes.north),
+        cameraBefore=await page.evaluate(()=>rooftop.graphics.wanted),
+        rackPoint=await page.evaluate(id=>rooftop.modelRenderer.projectObject(id),arrangement[0].id);
+      await page.mouse.move(rackPoint.clientX,rackPoint.clientY);
+      await page.mouse.down();
+      await page.mouse.move(rackPoint.clientX+55,rackPoint.clientY+25,{steps:5});
+      await page.mouse.up();
+      const carried=await page.evaluate(()=>rooftop.layout.scenes.north);
+      assert.notEqual(carried[0].x,arrangement[0].x);
+      assert.equal(carried[1].x-carried[0].x,arrangement[1].x-arrangement[0].x);
+      assert.deepEqual(await page.evaluate(()=>rooftop.graphics.wanted),cameraBefore,"object drag cannot orbit or pan the background");
+      await page.locator("#rotate").click();
+      const rotated=await page.evaluate(()=>rooftop.layout.scenes.north);
+      assert.equal(rotated[1].rotation,90);
+      assert.equal(rotated[1].support.surface,"middle");
+      await page.locator("#remove").click();
+      assert.equal((await page.evaluate(()=>rooftop.layout.scenes.north)).length,2,"occupied rack cannot leave floating contents");
+      await page.reload();await page.waitForFunction(()=>window.rooftop);
+      assert.deepEqual(await page.evaluate(()=>rooftop.layout.scenes.north),rotated,"explicit middle tier survives reload");
       await page.locator("#clear").click();
       await page.locator("#search").fill("量天尺");
       await page.locator("[data-asset=column]").click();
@@ -187,7 +217,7 @@ const engine = process.env.BROWSER || "chromium",
         browser: engine,
         webgl,
         checked: webgl
-          ? "305 actual models, rendered sprites, edit/undo/save, fixed observer, wardrobe families"
+          ? "305 actual models, tier selection, carried contents, drag camera ownership, reload, edit/undo, wardrobe families"
           : "2D fallback available",
       }),
     );

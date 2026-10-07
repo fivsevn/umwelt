@@ -1,81 +1,13 @@
-import { BALCONY_EXTRAS } from "../balcony-extras.mjs";
 import { buildBalconyExtra } from "./balcony-models.mjs";
+import { supportSurfaces } from "./placement-profiles.mjs";
 import { paintWeapon } from "../weapons.mjs";
 import { buildSoilBag } from "./soft-goods.mjs";
 import { buildGlassCase } from "./glass-cases.mjs";
 import { buildGardenTool } from "./garden-tools.mjs";
 import { finishObject } from "./object-finish.mjs";
 
-// Width/depth/height in legacy layout units. Real references determine construction;
-// scene scale remains compatible with existing saves, rather than claiming exact replicas.
-export const OBJECT_DIMENSIONS = {
-  moss: [28, 23, 7],
-  mossbox: [36, 24, 12],
-  fish: [36, 25, 16],
-  pond: [31, 31, 12],
-  terrarium: [66, 32, 25],
-  shelf: [64, 32, 32],
-  woodshelf: [52, 29, 34],
-  bench: [40, 24, 10],
-  sink: [52, 42, 31],
-  basin: [64, 46, 28],
-  table: [58, 32, 24],
-  drying: [28, 23, 54],
-  watering: [20, 13, 18],
-  bucket: [18, 18, 20],
-  crate: [30, 22, 14],
-  redbox: [28, 24, 14],
-  pot: [20, 20, 15],
-  tools: [25, 17, 4],
-  hose: [25, 25, 3],
-  teaset: [30, 20, 10],
-  pigbowl: [18, 18, 5],
-  stool: [20, 18, 12],
-  "room-bed": [46, 62, 24],
-  "room-wardrobe": [44, 24, 52],
-  "room-dresser": [42, 23, 28],
-  "room-armchair": [32, 30, 34],
-  tierstand: [48, 28, 38],
-  ladderstand: [38, 26, 38],
-  wallrack: [30, 22, 54],
-  plantcart: [46, 28, 32],
-  pottingbench: [60, 32, 28],
-  gardenbench: [58, 25, 32],
-  bistrotable: [36, 36, 22],
-  foldingchair: [25, 26, 33],
-  storagechest: [48, 29, 22],
-  trellis: [38, 14, 52],
-  wirestand: [58, 32, 40],
-  foamstand: [46, 28, 20],
-  basketstand: [28, 22, 32],
-  coveredstand: [52, 32, 40],
-  lowplatform: [48, 28, 12],
-  ceramicseat: [28, 28, 29],
-  wardcase: [44, 27, 35],
-  enamelbowl: [29, 29, 17],
-  browncover: [32, 32, 23],
-  seedtray: [34, 22, 5],
-  foambox: [38, 25, 16],
-  thermometer: [15, 6, 24],
-  strainer: [23, 23, 8],
-  wirebasket: [30, 23, 13],
-  towel: [24, 17, 2],
-  soilbag: [23, 16, 23],
-  labels: [18, 12, 17],
-  gloves: [21, 19, 3],
-  brush: [26, 10, 5],
-  lid: [27, 27, 3],
-  sprayer: [18, 15, 24],
-  medakabowl: [35, 35, 19],
-  goldfishbowl: [38, 38, 14],
-  fishbox: [39, 29, 19],
-  solarlamp: [16, 16, 30],
-  tasklamp: [23, 17, 30],
-  tinlantern: [21, 21, 31],
-  stringlights: [48, 12, 27],
-};
-
-for (const a of BALCONY_EXTRAS) OBJECT_DIMENSIONS[a.id] = a.dimensions;
+import { OBJECT_DIMENSIONS } from "./object-dimensions.mjs";
+export { OBJECT_DIMENSIONS } from "./object-dimensions.mjs";
 
 export function buildObject(api, g, a, o) {
   const {
@@ -205,7 +137,8 @@ export function buildObject(api, g, a, o) {
   ) {
     stand(g, w, d, h, type);
     if (type === "basketstand")
-      for (const y of [0.18, h * 0.52, h * 0.92]) {
+      for (const surface of supportSurfaces({type})) {
+        const y = surface.y - surface.thickness/2;
         for (const z of [-d * 0.46, d * 0.46]) {
           box(g, 0, y + 0.2, z, w, 0.04, 0.04, P.white);
           for (let j = 0; j < 8; j++)
@@ -234,7 +167,8 @@ export function buildObject(api, g, a, o) {
     for (const x of [-w * 0.43, w * 0.43])
       for (const z of [-d * 0.4, d * 0.4])
         box(g, x, h * 0.5, z, 0.065, h, 0.065, P.metalDark);
-    for (const y of [h * 0.13, h * 0.51, h * 0.9]) {
+    for (const surface of supportSurfaces({type})) {
+      const y = surface.y - surface.thickness/2;
       box(g, 0, y, 0, w, 0.06, d, P.metal, "metal");
       for (const x of [-w * 0.5, w * 0.5])
         box(g, x, y + 0.07, 0, 0.045, 0.14, d, P.metal);

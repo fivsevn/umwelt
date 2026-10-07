@@ -1,9 +1,9 @@
 /* Room controls inherit garage typography, category buttons and panel spacing. */
 body.bedroom{overflow:auto;background-color:#aaa58e;background-image:linear-gradient(#777e6a14 1px,transparent 1px),linear-gradient(90deg,#777e6a14 1px,transparent 1px);background-size:32px 32px}
-.garage.bedroom .editor-layout{grid-template-columns:240px minmax(0,1fr) 280px;max-width:2200px;gap:16px;padding:16px}
+.garage.bedroom .editor-layout{grid-template-columns:200px minmax(0,1fr) 240px;max-width:2200px;gap:16px;padding:16px}
 .garage.bedroom .workspace{grid-column:2;grid-row:1;container-type:normal}
 .garage.bedroom .note-column{grid-column:3;grid-row:1;display:flex;flex-direction:column;gap:12px;min-width:0;max-height:none;overflow:visible}
-.garage.bedroom .workspace .canvas-wrap{width:min(100%,340px);position:relative;margin:0 auto;border:0}
+.garage.bedroom .workspace .canvas-wrap{width:min(100%,760px);aspect-ratio:4/3;position:relative;margin:0 auto;border:0}
 .bedroom #room{display:block;width:100%;height:auto;image-rendering:pixelated}
 .garage.bedroom .workspace-status{left:16px;bottom:16px;max-width:calc(100% - 32px)}
 .garage.bedroom .room-panel{grid-column:auto;grid-row:auto;position:static;height:auto;max-height:none;overflow:visible;display:block;margin:0;flex:none}
@@ -33,6 +33,6 @@ body.bedroom{overflow:auto;background-color:#aaa58e;background-image:linear-grad
  .garage.bedroom .room-wardrobe{grid-column:1;grid-row:2;position:static;max-height:none}
  .garage.bedroom .note-column{grid-column:1;grid-row:3;position:static;max-height:none}
 }
-@media(max-width:550px){.garage.bedroom .workspace-status{left:12px;bottom:12px}.garage.bedroom .workspace .canvas-wrap{width:min(100%,280px)}}
+@media(max-width:550px){.garage.bedroom .workspace-status{left:12px;bottom:12px}.garage.bedroom .workspace .canvas-wrap{width:100%;aspect-ratio:1/1.15}}
 
 .bedroom .pig-activity-title{margin-top:14px}
