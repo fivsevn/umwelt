@@ -31,8 +31,8 @@ const engine = process.env.BROWSER || "chromium",
         "leaves reuse surfaces rather than one draw per leaf",
       );
       assert.ok(
-        style.surfaces < 200,
-        "shared low-poly geometry on initial roof",
+        style.surfaces < 260,
+        "bounded shared surfaces including the expanded vessel profiles",
       );
       assert.equal(style.neighborhood.buildings, 8);
       assert.equal(style.neighborhood.shelters, 1);
@@ -54,7 +54,7 @@ const engine = process.env.BROWSER || "chromium",
         }
         return { records, empty, before, after: rooftop.graphics.buffer };
       });
-      assert.equal(audit.records.length, 289);
+      assert.equal(audit.records.length, 305);
       assert.deepEqual(audit.empty, []);
       assert.deepEqual(
         audit.before,
@@ -187,7 +187,7 @@ const engine = process.env.BROWSER || "chromium",
         browser: engine,
         webgl,
         checked: webgl
-          ? "289 actual models, rendered sprites, edit/undo/save, fixed observer, wardrobe families"
+          ? "305 actual models, rendered sprites, edit/undo/save, fixed observer, wardrobe families"
           : "2D fallback available",
       }),
     );

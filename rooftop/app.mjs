@@ -1,3 +1,4 @@
+import { movedArrangement, clearContainerWalls } from "./3d/spatial-layout.mjs";
 import { createGardenRenderer } from "./3d/scene3d.mjs";
 import { readLayout, writeLayout } from "./layout-storage.mjs";
 import { createEditHistory } from "./edit-history.mjs";
@@ -252,27 +253,15 @@ function changed() {
   walker.reset();
 }
 function commitMove(o, patch) {
-  if (Object.entries(patch).every(([key, value]) => o[key] === value))
-    return true;
-  const before = { ...o };
-  Object.assign(o, patch);
-  if (!supportedLayout(scene, objects())) {
-    Object.assign(o, before);
-    message("这里超出了阳台边界。");
-    buttons();
-    return false;
-  }
-  checkpointBefore(before, o);
-  changed();
-  return true;
-}
-function checkpointBefore(before, o) {
-  const after = { ...o };
-  for (const key of Object.keys(o)) if (!(key in before)) delete o[key];
-  Object.assign(o, before);
+  if(Object.entries(patch).every(([key,value])=>o[key]===value))return true;
+  const next=movedArrangement(objects(),o.id,patch);
+  if(!supportedLayout(scene,next)){message("这里超出了阳台边界。");buttons();return false;}
+  if(!clearContainerWalls(next,new Set(next.filter((p,i)=>p!==objects()[i]).map(p=>p.id)))){message("这里放不下这个器物，移到旁边或换一只小盆。");buttons();return false;}
   checkpoint();
-  Object.assign(o, after);
+  next.forEach((p,i)=>Object.assign(objects()[i],p));
+  changed();return true;
 }
+
 function findSpace(type, around) {
   const a = asset(type),
     origin = around || {
@@ -604,13 +593,9 @@ if (editor) {
         test.y = patch.y;
       }
     }
-    if (
-      supportedLayout(
-        scene,
-        objects().map((p) => (p.id === o.id ? test : p)),
-      )
-    ) {
-      Object.assign(o, patch);
+    const next=movedArrangement(objects(),o.id,patch);
+    if (supportedLayout(scene,next) && clearContainerWalls(next,new Set(next.filter((p,i)=>p!==objects()[i]).map(p=>p.id)))) {
+      next.forEach((p,i)=>Object.assign(objects()[i],p));
       garden3d?.syncLayout(layout);
       buttons();
     }

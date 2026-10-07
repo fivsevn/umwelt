@@ -1,3 +1,4 @@
+import { ANTIQUE_VESSELS, ANTIQUE_PLANT_POTS } from "./antique-vessels.mjs";
 import { EXPANSION } from "./botany-expansion.mjs";
 // Reviewed botanical profiles and pixel-art vessel designs. See docs/rooftop-notebook.md.
 export const PLANTS = [
@@ -2876,7 +2877,9 @@ export const POTS = [
     ],
   },
 ];
+POTS.push(...ANTIQUE_VESSELS);
 PLANTS.push(...EXPANSION);
+for (const p of PLANTS) if (p.containers.some(id => ["shallow", "karatsu", "kutani", "arita", "mino"].includes(id))) p.containers.push(...ANTIQUE_PLANT_POTS);
 export const plant = (id) => PLANTS.find((p) => p.id === id);
 export const vessel = (id) => POTS.find((p) => p.id === id);
 export const allowedPots = (id) => {
