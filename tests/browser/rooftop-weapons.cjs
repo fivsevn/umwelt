@@ -49,6 +49,10 @@ const engine = process.env.BROWSER || "chromium";
         await page.locator(".notebook details summary").click();
         assert.equal(await page.locator("#noteSources a").count(),1);
         assert.equal(await page.locator("#vesselControls").isVisible(),false);
+        // Each catalogue item is exercised in available physical space. A roof
+        // cannot accommodate all 86 full-size bodies simultaneously.
+        await page.locator('#remove').click();
+        assert.equal((await page.evaluate(()=>rooftop.layout.scenes.north)).length,0);
       }
     }
     await page.locator("#categories button").filter({hasText:/^枪械$/}).click();
@@ -60,6 +64,7 @@ const engine = process.env.BROWSER || "chromium";
       assert.match(await page.locator("#noteName").innerText(),/格洛克/);
       await page.locator(".notebook details summary").click();
       assert.ok((await page.locator("#noteSources a").getAttribute("href")).startsWith("https://eu.glock.com/en/products/pistols/"));
+      if(model!==glocks.at(-1))await page.locator('#remove').click();
     }
     await page.locator("#search").fill("");
     const before=await page.evaluate(()=>rooftop.layout);

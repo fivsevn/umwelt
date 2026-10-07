@@ -1,4 +1,4 @@
-import { placementKind, physicalFootprint, resolveSupports, contactOffset, movedArrangement, supportSurfaces, placeOnSurface } from "./3d/spatial-layout.mjs";
+import { placementKind, physicalFootprint, resolveSupports, contactOffset, movedArrangement, supportSurfaces, placeOnSurface, clearPlacement, createPlacementContext } from "./3d/spatial-layout.mjs";
 import { BALCONY_EXTRAS, paintBalconyExtra } from "./balcony-extras.mjs";
 import { paintRoomBase } from "./room-scene.mjs";
 import { INITIAL_LAYOUT } from "./initial-layout.mjs";
@@ -238,6 +238,25 @@ export function fits(scene,o,objects=[]) {
 export function supportedLayout(scene,objects) {
   const relations=resolveSupports(objects);
   return objects.every(o=>resolvedFits(scene,o,objects,relations));
+}
+// New objects use the same physical space as later edits, including the floor
+// under furniture. Prefer a little breathing room; never spawn through a body.
+export function findGroundPlacement(scene,object,objects,origin) {
+  const points=[];
+  for(let y=80;y<470;y+=8)for(let x=136;x<516;x+=8)points.push({x,y});
+  points.sort((a,b)=>(a.x-origin.x)**2+(a.y-origin.y)**2-(b.x-origin.x)**2-(b.y-origin.y)**2);
+  const relations=resolveSupports(objects);relations.set(object.id,{height:0});
+  for(const padding of [1.1,1]) {
+    const probe={...object,scale:Math.min(2,object.scale*padding),support:null};
+    const list=[...objects,probe],context=createPlacementContext(list,probe.id,relations);
+    for(const point of points) {
+      const candidate={...probe,...point};
+      if(!groundFits(scene,candidate))continue;
+      list[list.length-1]=candidate;
+      if(clearPlacement(list,new Set([probe.id]),relations,context))return {...object,...point,support:null};
+    }
+  }
+  return null;
 }
 // A larger object may need a small inward nudge to keep its whole footprint on the roof.
 export function resizedObject(scene, o, scale, objects = [], radius=32) {

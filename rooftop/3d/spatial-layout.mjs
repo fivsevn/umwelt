@@ -124,8 +124,7 @@ function surfaceBounds(child,parent,surface,p=physicalFootprint(child)) {
 }
 // Reuse one snapshot when the picker checks many parents and levels. Never keep
 // this context after changing the layout; positions and occupied space may change.
-export function createPlacementContext(list,id) {
-  const relations=resolveSupports(list);
+export function createPlacementContext(list,id,relations=resolveSupports(list)) {
   return {relations,index:new Map(list.map(o=>[o.id,o])),excluded:supportedIds(list,id,relations),footprints:new Map(list.map(o=>[o.id,physicalFootprint(o)])),surfaces:new Map(list.map(o=>[o.id,placementSpaces(o)])),parts:new Map(list.map(o=>[o.id,spaceObstacles(o)]))};
 }
 export function placeOnSurface(list,id,parentId,surfaceId,context=createPlacementContext(list,id)) {
@@ -134,11 +133,19 @@ export function placeOnSurface(list,id,parentId,surfaceId,context=createPlacemen
   const surface=context.surfaces.get(parentId).find(s=>s.id===surfaceId);if(!surface)return null;
   if(surface.bearing==='ground'&&context.relations.get(parentId)?.height!==0)return null;
   const footprint=context.footprints.get(id),relations=context.relations;
+  // Reject impossible sizes before scanning points on every shelf and cavity.
+  // This matters for large pots in a catalogue full of smaller empty vessels.
+  const envelope=projectedBounds(child,parent,footprint,surface.container||surface.bearing==='ground');
+  if(envelope.w>surface.w+.03||envelope.d>surface.d+.03||footprint.h>surface.ceiling+.025)return null;
   const occupied=list.filter(o=>!context.excluded.has(o.id)&&
     (surface.bearing==='ground'? o.id!==parentId&&!relations.get(o.id)?.parentId&&placementKind(o.type).role!=='furniture':relations.get(o.id)?.parentId===parentId&&relations.get(o.id)?.surfaceId===surfaceId))
     .map(o=>surfaceBounds(o,parent,surface,context.footprints.get(o.id)));
   const offsets=[[0,0]];
-  if(!surface.point)for(let z=-surface.d/2;z<=surface.d/2;z+=.125)for(let x=-surface.w/2;x<=surface.w/2;x+=.125)offsets.push([x,z]);
+  if(!surface.point) {
+    const step=.125,minX=Math.max(0,Math.ceil((envelope.w/2-.015)/step)),maxX=Math.floor((surface.w-envelope.w/2+.015)/step);
+    const minZ=Math.max(0,Math.ceil((envelope.d/2-.015)/step)),maxZ=Math.floor((surface.d-envelope.d/2+.015)/step);
+    for(let iz=minZ;iz<=maxZ;iz++)for(let ix=minX;ix<=maxX;ix++)offsets.push([-surface.w/2+ix*step,-surface.d/2+iz*step]);
+  }
   offsets.sort((a,b)=>a[0]**2+a[1]**2-b[0]**2-b[1]**2||b[1]-a[1]);
   for(const [x,z]of offsets) {
     const centre=surfacePoint(parent,{...surface,x:(surface.x||0)+x,z:(surface.z||0)+z});

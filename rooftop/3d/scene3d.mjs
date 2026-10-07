@@ -1969,10 +1969,10 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   const groundPoint = (x,y)=>pointAtHeight(x,y,0);
   function placementAt(x,y,child,excluded=new Set(),offset={x:0,y:0}) {
     const list=D.layout[current],relations=relationsFor(list),binding=relations.get(child.id)?.parentId?relations.get(child.id):groundArea(list,child,relations),candidates=[];
-    const context=createPlacementContext(list,child.id);
+    const context=createPlacementContext(list,child.id,relations);
     for(const parent of list) {
       if(excluded.has(parent.id)||relations.get(parent.id)?.invalid)continue;
-      for(const surface of placementSpaces(parent)) {
+      for(const surface of context.surfaces.get(parent.id)) {
         if(surface.bearing==='ground'&&relations.get(parent.id)?.height!==0)continue;
         const height=(relations.get(parent.id)?.height||0)+surface.y;
         const point=pointAtHeight(x,y,height);if(!point)continue;
@@ -1982,7 +1982,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
           if(Math.hypot(next.x-centre.x,next.y+contactOffset(child)-centre.y)>Math.min(surface.w,surface.d)*8)continue;
           next={...next,x:centre.x,y:centre.y-contactOffset(child)};
         }
-        if(fitsSurface(next,parent,surface))candidates.push({next,height,current:binding?.parentId===parent.id&&binding.surfaceId===surface.id});
+        if(fitsSurface(next,parent,surface,{footprint:context.footprints.get(child.id)}))candidates.push({next,height,current:binding?.parentId===parent.id&&binding.surfaceId===surface.id});
       }
     }
     // A selected tier stays stable while dragging within its bearing area,

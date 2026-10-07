@@ -303,3 +303,21 @@ test('enlarged wooden stairs migrate old explicit tiers once and preserve nested
  assert.deepEqual(validateLayout(next),next);
  assert.equal(old.scenes.room[0].y,126);
 });
+
+test('taking out an object finds real unoccupied ground and leaves room for an ordinary resize',async()=>{
+ const {initialLayout,findGroundPlacement,supportedLayout}=await import('../rooftop/scene.mjs');
+ const {clearPlacement}=await import('../rooftop/3d/spatial-layout.mjs');
+ const layout=initialLayout();
+ for(const scene of ['north','south','room']) {
+  const list=layout.scenes[scene],origin={x:scene==='north'?310:284,y:scene==='north'?240:264};
+  const child={...o('new-pot','barrel'),seed:123,support:null};
+  const placed=findGroundPlacement(scene,child,list,origin);
+  assert.ok(placed,scene);assert.equal(placed.support,null);
+  assert.equal(placed.seed,123);
+  const enlarged={...placed,scale:1.1},next=[...list,enlarged];
+  assert.ok(supportedLayout(scene,next),scene);
+  assert.ok(clearPlacement(next,new Set([enlarged.id])),scene);
+ }
+ const crowded=[{...o('blocking-chest','storagechest',300,240,20),support:null}];
+ assert.equal(findGroundPlacement('room',{...o('new','gloves'),support:null},crowded,{x:284,y:264}),null,'a full room must not fall back to a colliding position');
+});
