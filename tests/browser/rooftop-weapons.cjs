@@ -35,7 +35,7 @@ const engine = process.env.BROWSER || "chromium";
     assert.ok(render.counts.every(n=>n>40),"Every object paints at every facing");
     assert.deepEqual(render.badBounds,[],"Drawings fit placement and selection bounds");
     await page.locator("#clear").click();
-    for(const [category, count] of [["枪械",66],["武器",20]]) {
+    for(const [category, count] of [["枪械",66],["其他兵器",20]]) {
       await page.locator("#categories button").filter({hasText:new RegExp("^"+category+"$")}).click();
       assert.equal(await page.locator("#assets button").count(),count);
       const ids=await page.locator("#assets button").evaluateAll(nodes=>nodes.map(n=>n.dataset.asset));

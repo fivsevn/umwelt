@@ -1,4 +1,4 @@
-import { movedArrangement, clearContainerWalls, resolveSupports, supportedIds } from "./3d/spatial-layout.mjs";
+import { movedArrangement, clearPlacement, resolveSupports, supportedIds, accessibleContents } from "./3d/spatial-layout.mjs";
 import { createPlacementEditor } from "./placement-editor.mjs";
 import { createGardenRenderer } from "./3d/scene3d.mjs";
 import { readLayout, writeLayout } from "./layout-storage.mjs";
@@ -28,6 +28,7 @@ import {
   SCENES,
   DOORS,
   ASSETS,
+  CATALOG_CATEGORIES,
   asset,
   initialLayout,
   paintBase,
@@ -209,6 +210,14 @@ function buttons() {
   $("count").textContent = objects().length + " 件";
   const o = selection();
   $("selectedName").textContent = o ? asset(o.type).name : "挑一件东西";
+  if(editor) {
+    const picker=$('contentsSelect'),contents=o?accessibleContents(objects(),o.id):[];
+    $('contentsControl').hidden=!contents.length;picker.replaceChildren();
+    const placeholder=document.createElement('option');placeholder.value='';placeholder.textContent='选择上面或里面的东西';picker.append(placeholder);
+    for(const {id,ground} of contents) {
+      const child=objects().find(p=>p.id===id),option=document.createElement('option');option.value=id;option.textContent=(ground?'下方地面 · ':'')+asset(child.type).name;picker.append(option);
+    }
+  }
   $("objectControls").hidden = !o;
   $("positionText").hidden = !o;
   if (o) {
@@ -261,7 +270,7 @@ function commitMove(o, patch) {
   if(Object.entries(patch).every(([key,value])=>o[key]===value))return true;
   const next=movedArrangement(objects(),o.id,patch);
   if(!supportedLayout(scene,next)){message("这里放不稳，检查层间高度、支撑范围或阳台边界。");buttons();return false;}
-  if(!clearContainerWalls(next,new Set(next.filter((p,i)=>p!==objects()[i]).map(p=>p.id)))){message("这里放不下这个器物，移到旁边或换一只小盆。");buttons();return false;}
+  if(!clearPlacement(next,new Set(next.filter((p,i)=>p!==objects()[i]).map(p=>p.id)))){message("这里放不下这个器物，移到旁边或换一只小盆。");buttons();return false;}
   checkpoint();
   next.forEach((p,i)=>Object.assign(objects()[i],p));
   changed();return true;
@@ -514,7 +523,7 @@ if (editor) {
       document.querySelector(".transfer").open = false;
   });
   placementEditor = createPlacementEditor({element:$("placementControls"),objects,selection,name:type=>asset(type).name,move:commitMove,message});
-  for (const name of ["全部",...new Set(ASSETS.map(a=>a.category))]) {
+  for (const name of CATALOG_CATEGORIES) {
     const button = document.createElement("button");
     button.textContent = name;
     button.setAttribute("aria-pressed", String(name === category));
@@ -592,7 +601,7 @@ if (editor) {
       next=movedArrangement(objects(),o.id,patch);
       valid=supportedLayout(scene,next);
     }
-    if (valid && clearContainerWalls(next,new Set(next.filter((p,i)=>p!==objects()[i]).map(p=>p.id)))) {
+    if (valid && clearPlacement(next,new Set(next.filter((p,i)=>p!==objects()[i]).map(p=>p.id)))) {
       next.forEach((p,i)=>Object.assign(objects()[i],p));
       garden3d?.syncLayout(layout);
       positionFields(o);
@@ -619,6 +628,7 @@ if (editor) {
   canvas.onlostpointercapture = finish;
   $("rotate").onclick = rotate;
   $("remove").onclick = remove;
+  $("contentsSelect").onchange=()=>{selected=$("contentsSelect").value||selected;buttons();};
   $("duplicate").onclick = () => {
     const o = selection();
     if (o) add(o.type, o);

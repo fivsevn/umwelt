@@ -14,7 +14,7 @@ import {
 import { latheSurface, leafSurface, beveledBoxSurface } from "./model-surfaces.mjs";
 import { buildNeighborhood } from "./neighborhood.mjs";
 import { buildWashstation } from "./washstation.mjs";
-import { resolveSupports, supportSurfaces, localPoint, fitsSurface, placementKind } from "./spatial-layout.mjs";
+import { resolveSupports, supportSurfaces, localPoint, fitsSurface, placementSpaces, groundArea, surfacePoint, contactOffset, clearPlacement, createPlacementContext } from "./spatial-layout.mjs";
 import { modelRandom as rng } from "./model-random.mjs";
 import { drawingBufferSize } from "./render-budget.mjs";
 import { populateWater } from "./water-life.mjs";
@@ -436,7 +436,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         beam(g, [xx, 0.05, d * 0.47], [xx, h, -d * 0.45], 0.1, P.woodDark);
       return;
     }
-    const levels = type === "foamstand" ? [h*.94] : supportSurfaces({type}).filter(s=>!s.container).map(s=>s.y-(s.thickness||.11)/2);
+    const levels = supportSurfaces({type}).filter(s=>!s.container).map(s=>s.y-(s.thickness||.11)/2);
     for (const x of [-w * 0.45, w * 0.45])
       for (const z of [-d * 0.43, d * 0.43]) {
         box(
@@ -519,12 +519,6 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       for (const x of [-w * 0.47, w * 0.47])
         box(g, x, h + 0.3, -d * 0.46, 0.12, 0.64, 0.12, P.woodDark, "wood");
       box(g, 0, h + 0.53, -d * 0.46, w, 0.25, 0.1, P.wood, "wood");
-    }
-    if (type === "foamstand") {
-      box(g,0,h+.06,0,w*.82,.10,d*.82,P.white,"enamel");
-      for(const x of[-w*.40,w*.40])box(g,x,h+.25,0,.075,.38,d*.82,P.white,"enamel");
-      for(const z of[-d*.40,d*.40])box(g,0,h+.25,z,w*.82,.38,.075,P.white,"enamel");
-      box(g, 0, h + 0.46, 0, w * 0.73, 0.02, d * 0.7, P.soil);
     }
     if (type === "plantcart") {
       for (const x of [-w * 0.42, w * 0.42])
@@ -1974,13 +1968,20 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   }
   const groundPoint = (x,y)=>pointAtHeight(x,y,0);
   function placementAt(x,y,child,excluded=new Set(),offset={x:0,y:0}) {
-    const list=D.layout[current],relations=relationsFor(list),binding=relations.get(child.id),candidates=[];
-    if(placementKind(child.type).portable)for(const parent of list) {
+    const list=D.layout[current],relations=relationsFor(list),binding=relations.get(child.id)?.parentId?relations.get(child.id):groundArea(list,child,relations),candidates=[];
+    const context=createPlacementContext(list,child.id);
+    for(const parent of list) {
       if(excluded.has(parent.id)||relations.get(parent.id)?.invalid)continue;
-      for(const surface of supportSurfaces(parent)) {
+      for(const surface of placementSpaces(parent)) {
+        if(surface.bearing==='ground'&&relations.get(parent.id)?.height!==0)continue;
         const height=(relations.get(parent.id)?.height||0)+surface.y;
         const point=pointAtHeight(x,y,height);if(!point)continue;
-        const next={...child,x:point.x-offset.x,y:point.y-offset.y,support:{id:parent.id,surface:surface.id}};
+        let next={...child,x:point.x-offset.x,y:point.y-offset.y,support:surface.bearing==='ground'?null:{id:parent.id,surface:surface.id}};
+        if(surface.point) {
+          const centre=surfacePoint(parent,surface);
+          if(Math.hypot(next.x-centre.x,next.y+contactOffset(child)-centre.y)>Math.min(surface.w,surface.d)*8)continue;
+          next={...next,x:centre.x,y:centre.y-contactOffset(child)};
+        }
         if(fitsSurface(next,parent,surface))candidates.push({next,height,current:binding?.parentId===parent.id&&binding.surfaceId===surface.id});
       }
     }
@@ -1988,7 +1989,11 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     // including steep camera angles where higher tiers project onto the same spot.
     // Otherwise the closest horizontal surface is struck first by the camera ray.
     candidates.sort((a,b)=>Number(b.current)-Number(a.current)||b.height-a.height);
-    if(candidates.length)return candidates[0].next;
+    for(const candidate of candidates) {
+      const next=candidate.next,proposed=list.map(o=>o.id===child.id?next:o),updated=new Map(relations);
+      updated.set(child.id,next.support?{height:candidate.height,parentId:next.support.id,surfaceId:next.support.surface,container:context.surfaces.get(next.support.id).find(s=>s.id===next.support.surface).container}:{height:0});
+      if(clearPlacement(proposed,new Set([child.id]),updated,context))return next;
+    }
     const point=groundPoint(x,y);
     return point?{...child,x:point.x-offset.x,y:point.y-offset.y,support:null}:null;
   }
@@ -1998,12 +2003,15 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       [...objectRoots[current].values()],
       true,
     );
+    const owner=hit=>{let n=hit.object;while(n&&!n.userData.objectId)n=n.parent;return n&&D.layout[current].find(o=>o.id===n.userData.objectId)};
     for (const hit of hits) {
+      const materials=Array.isArray(hit.object.material)?hit.object.material:[hit.object.material];
+      if(materials.every(m=>m?.transparent&&m.opacity<.45))continue;
       let n = hit.object;
       while (n && !n.userData.objectId) n = n.parent;
       if (n) return D.layout[current].find((o) => o.id === n.userData.objectId);
     }
-    return null;
+    return hits.length?owner(hits[0]):null;
   }
   function projectObject(id) {
     const root = objectRoots[current].get(id);
