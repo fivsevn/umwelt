@@ -31,6 +31,7 @@ import {
   CATALOG_CATEGORIES,
   asset,
   initialLayout,
+  findGroundPlacement,
   paintBase,
   paintSurroundings,
   paintDoor,
@@ -276,51 +277,16 @@ function commitMove(o, patch) {
   changed();return true;
 }
 
-function findSpace(type, around) {
-  const a = asset(type),
-    origin = around || {
-      x: scene === "north" ? 310 : 284,
-      y: scene === "north" ? 240 : 264,
-    };
-  const candidates = [];
-  for (let y = 80; y < 470; y += 8)
-    for (let x = 136; x < 516; x += 8) {
-      const o = { type, x, y, rotation: 0, scale: 1, support:null };
-      if (fits(scene, o, objects())) candidates.push(o);
-    }
-  candidates.sort(
-    (a, b) =>
-      Math.hypot(a.x - origin.x, a.y - origin.y) -
-      Math.hypot(b.x - origin.x, b.y - origin.y),
-  );
-  return (
-    candidates.find(
-      (o) =>
-        !objects().some((p) => {
-          const d = dimensions(p);
-          return (
-            Math.abs(o.x - p.x) < (a.w + d.w) / 2 + 2 &&
-            Math.abs(o.y - p.y) < (a.h + d.h) / 2 + 2
-          );
-        }),
-    ) || candidates[0]
-  );
-}
 function add(type, source) {
-  const pos = findSpace(type, source);
+  const origin=source||{x:scene==='north'?310:284,y:scene==='north'?240:264};
+  const object={...(source||{type,rotation:0,scale:1}),id:crypto.randomUUID(),support:null};
+  if(plant(type))object.seed=plantSeed(object.id);
+  const pos = findGroundPlacement(scene,object,objects(),origin);
   if (!pos) {
     message("这个物件放不进当前阳台。");
     return;
   }
-  const o = source
-    ? { ...source, x: pos.x, y: pos.y, id: crypto.randomUUID() }
-    : { ...pos, id: crypto.randomUUID() };
-  o.support=null;
-  if (plant(o.type)) o.seed = plantSeed(o.id);
-  if (!fits(scene, o, objects())) {
-    o.rotation = 0;
-    o.scale = 1;
-  }
+  const o=pos;
   if (objects().length >= 400) {
     message("每个阳台最多 400 件物件。");
     return;
