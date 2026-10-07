@@ -54,15 +54,18 @@ export function leafSurface(T, start, end, width, teeth = false, fleshy = false)
   if (side.lengthSq() < .001) side.set(1, 0, 0);
   side.normalize();
   const normal = side.clone().cross(v).normalize();
-  const positions = [], uvs = [], indices = [], n = 6, stride = 6;
+  const split = teeth === 'split';
+  const positions = [], uvs = [], indices = [], n = split ? 14 : fleshy ? 6 : 8, stride = 6;
   for (let j = 0; j <= n; j++) {
     const t = j / n, bend = Math.sin(t*Math.PI),
       mid = new T.Vector3(...start).addScaledVector(v,t);
-    mid.y += bend * length * (fleshy ? .11 : .075);
-    const w = Math.max(.008, width * Math.sin(Math.PI*(.025+.975*t))*.5)
-      * (teeth && j%2 ? .85 : 1);
-    const edge = fleshy ? .022 + .016*bend : .008,
-      ridge = fleshy ? .045 + .075*bend : .016 + .029*bend;
+    mid.y += bend * length * (fleshy ? .11 : .035);
+    const silhouette = split ? [.14,.48,.76,.30,.95,.34,1,.32,.93,.35,.79,.30,.56,.32,.04][j]
+      : fleshy ? Math.sin(Math.PI*(.025+.975*t)) : [.08,.48,.75,.96,1,.88,.64,.32,.04][j];
+    const w = Math.max(.008, width * silhouette*.5)
+      * (teeth && !split && j%2 ? .85 : 1);
+    const edge = fleshy ? .022 + .016*bend : .0035,
+      ridge = fleshy ? .045 + .075*bend : .005 + .008*bend;
     for (const [x,y] of [[-1,edge],[0,ridge],[1,edge],[-1,-edge],[0,-ridge*.55],[1,-edge]]) {
       const p = mid.clone().addScaledVector(side,x*w).addScaledVector(normal,y);
       positions.push(p.x,p.y,p.z); uvs.push((x+1)/2,t);

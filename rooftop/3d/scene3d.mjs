@@ -1,3 +1,4 @@
+import { surfaceSeed, soilParticles } from "./surface-variation.mjs";
 import { cubeContactPaint } from "./contact-paint.mjs";
 import { SCENES, asset, ASSETS } from "../scene.mjs";
 import { PLANTS, POTS } from "../botany.mjs";
@@ -9,7 +10,6 @@ import { buildObject, OBJECT_DIMENSIONS } from "./object-models.mjs";
 import {
   PIXEL_STYLE,
   createPixelMaterials,
-  paintPixels,
 } from "./pixel-materials.mjs";
 import { latheSurface, leafSurface, beveledBoxSurface } from "./model-surfaces.mjs";
 import { buildNeighborhood } from "./neighborhood.mjs";
@@ -17,6 +17,7 @@ import { buildWashstation } from "./washstation.mjs";
 import { resolveSupports, supportSurfaces, localPoint, fitsSurface, placementSpaces, groundArea, surfacePoint, contactOffset, clearPlacement, createPlacementContext } from "./spatial-layout.mjs";
 import { modelRandom as rng } from "./model-random.mjs";
 import { drawingBufferSize } from "./render-budget.mjs";
+import { paintPaving } from "./paint-recipes.mjs";
 import { populateWater } from "./water-life.mjs";
 import { OUTFITS, DECORATIONS, wardrobe } from "../wardrobe.mjs";
 
@@ -151,7 +152,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       rz: 0,
     });
   }
-  function beam(g, a, b, width, color, depth = width) {
+  function beam(g, a, b, width, color, depth = width, kind = "plain") {
     const v = new T.Vector3(...b).sub(new T.Vector3(...a)),
       mid = new T.Vector3(...a).add(new T.Vector3(...b)).multiplyScalar(0.5);
     const q = new T.Quaternion().setFromUnitVectors(
@@ -168,14 +169,14 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       v.length(),
       depth,
       color,
-      "plain",
+      kind,
       e.x,
       e.y,
       e.z,
     );
   }
   const surfaceCache = new Map();
-  const roundGeo = new T.SphereGeometry(1, 16, 10).toNonIndexed();
+  const roundGeo = new T.SphereGeometry(1, 10, 7).toNonIndexed();
   roundGeo.computeVertexNormals();
   function surface(g, geo, x, y, z, w, h, d, color, kind = "paint") {
     primitives.push({
@@ -195,6 +196,10 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     });
   }
   function ellipsoid(g, x, y, z, rx, ry, rz, color, kind = "paint") {
+    if (kind === "petal") {
+      box(g,x,y,z,rx*2,ry*2,rz*2,color,"petal");
+      return;
+    }
     surface(
       g,
       roundGeo,
@@ -367,6 +372,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     const p = plants.get(o.type),
       g = group(parent);
     g.userData.animated=true;
+    g.userData.paintSeed=surfaceSeed(o.seed);
     g.scale.setScalar(o.scale * (o.type === "barrel" ? 1.15 : 1.38));
     g.rotation.y = (-o.rotation * Math.PI) / 180;
     const spec = plantPotSpec(p), radius = spec.radius;
@@ -377,7 +383,12 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       spec.height,
     );
     const fol = group(g, 0, height - .044, 0);
-    if(spec.grit)for(let j=0;j<17;j++){const a=j*2.4,rr=radius*(.43+.32*(j%5)/5);ellipsoid(g,Math.cos(a)*rr,height-.022,Math.sin(a)*rr,.025,.013,.023,j%3?"#bdac89":"#a49780","soil");}
+    const planter=pots.get(o.pot||p.defaultPot)||pots.get("terra");
+    for(const particle of soilParticles(radius,o.seed,{dry:spec.grit,
+      rectangular:/box|bag/.test(planter.shape),trough:planter.id==='trough'})) {
+      ellipsoid(g,particle.x,height-.038,particle.z,particle.size,particle.height,
+        particle.size*(.67+surfaceSeed(o.seed+Math.round(particle.x*1000))*.4),particle.color,"soil");
+    }
     fol.userData.foliage = p.family === "dry" ? "leafRigid" : "leaf";
     buildFoliage(
       { box, beam, ellipsoid, group, shade, rng, blade, cactusBody },
@@ -428,12 +439,12 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
             ww,
             0.1,
             d * 0.11,
-            P.wood,
+            shade(P.wood,[1,.91,1.08][slat]),
             "wood",
           );
       }
       for (const xx of [-w * 0.46, w * 0.46])
-        beam(g, [xx, 0.05, d * 0.47], [xx, h, -d * 0.45], 0.1, P.woodDark);
+        beam(g, [xx, 0.05, d * 0.47], [xx, h, -d * 0.45], 0.1, P.woodDark, .1, "wood");
       return;
     }
     const levels = supportSurfaces({type}).filter(s=>!s.container).map(s=>s.y-(s.thickness||.11)/2);
@@ -457,10 +468,10 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         for (let i = 0; i < 4; i++)
           box(g, 0, yy, -d * 0.42 + i * d * 0.28, w, 0.11, d * 0.22, c, "wood");
       } else {
-        box(g, 0, yy, -d * 0.46, w, 0.075, 0.09, c);
-        box(g, 0, yy, d * 0.46, w, 0.075, 0.09, c);
+        box(g, 0, yy, -d * 0.46, w, 0.075, 0.09, c, ck);
+        box(g, 0, yy, d * 0.46, w, 0.075, 0.09, c, ck);
         for (const x of [-w * 0.48, w * 0.48])
-          box(g, x, yy, 0, 0.075, 0.075, d, c);
+          box(g, x, yy, 0, 0.075, 0.075, d, c, ck);
         for (let i = 0; i < Math.round(w / 0.38); i++)
           box(
             g,
@@ -470,10 +481,11 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
             0.04,
             0.04,
             d * 0.88,
-            P.metalLight,
+            shade(c,1.22),
+            "metal",
           );
         for (let j = 0; j < Math.round(d / 0.38); j++)
-          box(g, 0, yy, -d * 0.4 + j * 0.38, w * 0.9, 0.04, 0.04, P.metal);
+          box(g, 0, yy, -d * 0.4 + j * 0.38, w * 0.9, 0.04, 0.04, shade(c,1.10), "metal");
       }
     }
     if (/shelf|tierstand|wirestand|coveredstand|plantcart/.test(type))
@@ -677,6 +689,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   function makeObject(parent, o) {
     const g = group(parent);
     g.userData.animated=true;
+    g.userData.paintSeed=surfaceSeed(o.seed);
     g.scale.setScalar(o.scale);
     g.rotation.y = (-o.rotation * Math.PI) / 180;
     buildObject(modelApi(), g, asset(o.type), o);
@@ -692,22 +705,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     const c = document.createElement("canvas");
     c.width = 640;
     c.height = 520;
-    const ctx = c.getContext("2d"),
-      tile = document.createElement("canvas");
-    tile.width = tile.height = 64;
-    paintPixels(tile.getContext("2d"), "wall", "#c8c3b2");
-    for (let y = 0; y < 520; y += 64)
-      for (let x = 0; x < 640; x += 64) ctx.drawImage(tile, x, y);
-    for (let y = 0; y < 520; y += 16) {
-      ctx.fillStyle = "#8f9187";
-      ctx.fillRect(0, y, 640, 1);
-      ctx.fillStyle = "#d3d0bc";
-      ctx.fillRect(0, y + 1, 640, 1);
-    }
-    for (let x = 0; x < 640; x += 16) {
-      ctx.fillStyle = "#95988a";
-      ctx.fillRect(x, 0, 1, 520);
-    }
+    const ctx = c.getContext("2d");
+    paintPaving(ctx,c.width,c.height);
     // Low-frequency worn paving and corner cracks; no white-noise flecks.
     for (const [x, y] of [
       [180, 194],
@@ -1344,8 +1343,10 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     box(root, 0, 1.25, -d / 2, w, 2.5, 0.15, "#c6bea4", "wall");
     box(root, -w / 2, 1.25, 0, 0.15, 2.5, d, "#b7ae95", "wall");
     box(root, w / 2, 0.23, 0, 0.15, 0.45, d, "#b7ae95", "wall");
-    for (let z = -6.9; z < 7; z += 1)
-      box(root, 0, 0.003, z, w, 0.015, 0.025, "#988e76");
+    for (let j=0,z=-6.5; z<7; j++,z+=1) {
+      box(root,0,.003,z,w,.015,.975,["#b09a75","#ba9e75","#a98e68","#b89c71"][j%4],"wood");
+      box(root,0,.003,z-.495,w,.015,.025,"#736449","wood");
+    }
     box(root, 0, 1.57, -6.9, 3.4, 1.5, 0.045, "#7f968a");
     for (const x of [-1.75, 0, 1.75])
       box(root, x, 1.57, -6.86, 0.065, 1.6, 0.055, "#d0cfad");
@@ -1383,9 +1384,12 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       const key = root.uuid + "|" + m.uuid + "|" + p.geo.uuid + "|" + cast;
       let b = buckets.get(key);
       if (!b) {
-        b = { root, m, geo: p.geo, cast, matrices: [], colors: [], parts: [] };
+        b = { root, m, geo: p.geo, cast, matrices: [], colors: [], parts: [], seeds: [] };
         buckets.set(key, b);
       }
+      let painted=p.g;
+      while(painted.parent && painted.userData.paintSeed===undefined)painted=painted.parent;
+      b.seeds.push(painted.userData.paintSeed||0);
       b.parts.push(p);
       b.matrices.push(worldMat.clone());
       b.colors.push(p.m.userData.window ? "#ffffff" : p.color);
@@ -1393,9 +1397,16 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     const contacts = new Map();
     for (const [root, parts] of contactGroups) if(root.name!=="city") for(const [p,mask] of cubeContactPaint(T,parts,cube)) contacts.set(p,mask);
     for (const b of buckets.values()) {
-      const geo=b.geo===cube ? cube.clone() : b.geo;
+      const geo = new T.BufferGeometry();
+      // Share immutable CPU arrays, but own the GPU attributes: disposing a
+      // catalogue portrait must not delete buffers used by the live scene.
+      if(b.geo.index)geo.setIndex(new T.BufferAttribute(b.geo.index.array,1));
+      for(const [name,attribute] of Object.entries(b.geo.attributes))
+        geo.setAttribute(name,new T.BufferAttribute(attribute.array,attribute.itemSize,attribute.normalized));
+      geo.boundingBox=b.geo.boundingBox;geo.boundingSphere=b.geo.boundingSphere;
+      geo.userData.transient=true;
+      geo.setAttribute("paintSeed",new T.InstancedBufferAttribute(new Float32Array(b.seeds),1));
       if(b.geo===cube) {
-        geo.userData.transient=true;
         geo.setAttribute("paintShadePositive",new T.InstancedBufferAttribute(new Float32Array(b.parts.flatMap(p=>contacts.get(p)?.positive||[0,0,0])),3));
         geo.setAttribute("paintShadeNegative",new T.InstancedBufferAttribute(new Float32Array(b.parts.flatMap(p=>contacts.get(p)?.negative||[0,0,0])),3));
       }
@@ -1864,16 +1875,16 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         m.emissive.set("#edc783");
         m.emissiveIntensity = (a.lamps || 0) * 0.85;
       }
-    hemi.intensity = current === "room" ? 1.05 : 1.05 - a.lightAmount * .40;
-    hemi.groundColor.set(a.night > 0.5 ? "#738395" : "#b2a890");
+    hemi.intensity = current === "room" ? .66 : .74 - a.lightAmount * .26;
+    hemi.groundColor.set(a.night > 0.5 ? "#64758a" : "#7b827a");
     sun.color.set(
       a.phase === "dusk"
         ? "#ddae87"
         : a.phase === "dawn"
           ? "#d5beb0"
-          : "#e8e6ca",
+          : "#ffe5b9",
     );
-    sun.intensity = current === "room" ? .95 : .12 + a.sun * 1.20;
+    sun.intensity = current === "room" ? 1.85 : .18 + a.sun * 2.15;
     sun.position.set(-22, a.phase === "dusk" ? 15 : 36, -14);
     windowMats.forEach((m, i) => {
       const lit = (i % 7) / 7 < a.lamps;
@@ -2058,8 +2069,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     const start = batches.length;
     (a.plant ? makePlant : makeObject)(g, { ...o, rotation: 0, scale: 1 });
     compileInstances();
-    stage.add(new T.HemisphereLight("#fff1d7", "#727e80", .95));
-    const light = new T.DirectionalLight("#fff4df", 1.32);
+    stage.add(new T.HemisphereLight("#eef0e9", "#566573", .66));
+    const light = new T.DirectionalLight("#fff0d4", 2.15);
     light.position.set(-8, 11, 5);
     stage.add(light);
     const bounds = new T.Box3().setFromObject(g),
@@ -2096,7 +2107,16 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     const previous = renderer.getRenderTarget();
     renderer.setRenderTarget(target);
     renderer.setClearColor(0, 0);
-    renderer.render(stage, cam);
+    // A seed's catalogue portrait must not depend on the live scene's breeze.
+    const sceneWindTime = windTime.value,
+      sceneWindPower = windPower.value;
+    windTime.value = windPower.value = 0;
+    try {
+      renderer.render(stage, cam);
+    } finally {
+      windTime.value = sceneWindTime;
+      windPower.value = sceneWindPower;
+    }
     const pixels = new Uint8Array(output.width * output.height * 4);
     renderer.readRenderTargetPixels(
       target,
@@ -2170,7 +2190,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
           time: windTime.value,
           strength: windPower.value,
           programs: (renderer.info.programs || []).filter((p) =>
-            p.cacheKey.includes("pixel-wind"),
+            p.cacheKey.includes("wind-"),
           ).length,
         },
         controls,

@@ -49,6 +49,16 @@ export function vesselPainting(id) {
  for(let x=0;x<64;x+=2) for(let y=12;y<56;y+=2)
    if((x*3+y*7)%31<3) add(x,y,1,1,y>42?2:4);
  add(0,51,64,1,2); add(0,53,64,1,1);
+ // Firing clouds, throwing rings and rim wear on unglazed pottery. Large marks
+ // describe the curved surface; the tiny dots above are only its fine grain.
+ if(['terra','deep','shallow','tokoname','bizen','echizen'].includes(id)) {
+   for(const [x,y,w,h,ink] of [[3,18,12,7,2],[28,30,18,9,2],[48,17,13,5,4],
+     [9,43,17,5,1],[37,46,15,4,2],[19,21,16,2,4],[2,36,10,2,4]]) {
+     add(x,y,w,h,ink);add(x+3,y-2,Math.max(2,w-7),2,ink);
+   }
+   add(0,13,64,1,4);add(0,15,64,1,2);
+   for(let x=0;x<64;x+=16){add(x+3,26,10,1,2);add(x+5,40,9,1,2);}
+ }
  const path=(pts,ink,width=1)=>{for(let j=1;j<pts.length;j++){
    const [x,y]=pts[j-1],[xx,yy]=pts[j],n=Math.max(Math.abs(xx-x),Math.abs(yy-y));
    for(let k=0;k<=n;k++) add(Math.round(x+(xx-x)*k/Math.max(1,n)),Math.round(y+(yy-y)*k/Math.max(1,n)),width,width,ink);

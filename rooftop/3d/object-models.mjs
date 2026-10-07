@@ -52,7 +52,7 @@ export function buildObject(api, g, a, o) {
         width,
         0.1,
         depth * 0.145,
-        col,
+        shade(col,[1,.94,1.07,.98,1.03,.91][j]),
         "wood",
       );
   };

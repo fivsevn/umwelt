@@ -1,27 +1,30 @@
 import { vesselPainting } from "./vessel-art.mjs";
+import { referencePainting, paintTargets } from "./paint-recipes.mjs";
 // Original pixel painting recipes, informed by the user's low-poly reference sheets.
 // Material information lives in integer texels, never screen-space noise or copied art.
 export const PIXEL_STYLE = {
-  id: "painted-lowpoly-v1",
+  id: "painted-lowpoly-v2",
   textureSize: 64,
   texelsPerUnit: 16,
   renderScale: 1,
   palette: {
-    metal: "#59656a",
-    metalLight: "#9ca9a7",
-    metalDark: "#354248",
-    wood: "#89663e",
-    woodLight: "#c09a61",
-    woodDark: "#57452f",
-    white: "#d6cdb7",
-    blue: "#557d81",
-    blueDark: "#344e58",
+    metal: "#63757a",
+    metalLight: "#b1bdb4",
+    metalDark: "#303e49",
+    wood: "#9c703f",
+    woodLight: "#d6a66d",
+    woodDark: "#563827",
+    white: "#ddd4bd",
+    blue: "#507e87",
+    blueDark: "#2f4758",
     soil: "#50402d",
     tile: "#b6ad98",
     wall: "#c4bfaa",
     cap: "#d8cfb8",
   },
 };
+
+export const PAINT_STEPS = [-.64,-.39,-.19,0,.33];
 
 export const TEXTURE_KINDS = [
   "wood",
@@ -49,112 +52,19 @@ export const TEXTURE_KINDS = [
   "enamel",
   "wicker",
   "bag",
+  "petal",
 ];
 
 // [x, y, width, height, palette index]. Clusters are intentional shapes and seams.
 export function pixelPainting(kind) {
   if (kind.startsWith("vessel-")) return vesselPainting(kind.slice(7));
-  const commands = [],
-    add = (x, y, w, h, ink) => commands.push([x, y, w, h, ink]);
-  let ramp = ["#51555c", "#747880", "#999b9c", "#bec0bb", "#e6e4d5"],
-    size = 64;
-  add(0, 0, size, size, 3);
-  if (kind === "wood") {
-    ramp = ["#4d4337", "#77684e", "#a49372", "#d1bf94", "#f0dbac"];
-    for (let y = 0; y < 64; y += 16) {
-      add(0, y, 64, 1, 0);
-      add(0, y + 1, 64, 1, 4);
-      add(0, y + 14, 64, 2, 1);
-      for (let j = 0; j < 7; j++) {
-        const x = (j * 19 + y * 3) % 64,
-          yy = y + 3 + ((j * 5) % 9);
-        add(x, yy, 7 + ((j * 3) % 14), 1, j % 3 === 0 ? 4 : 2);
-        if (j % 2) add(x + 2, yy + 1, 5, 1, 1);
-      }
-    }
-    for (const [x, y] of [
-      [18, 8],
-      [47, 39],
-    ]) {
-      add(x, y, 7, 1, 1);
-      add(x - 2, y + 1, 11, 1, 2);
-      add(x + 1, y + 2, 4, 1, 0);
-      add(x - 3, y + 3, 13, 1, 4);
-      add(x, y + 4, 7, 1, 2);
-    }
-    add(7, 16, 1, 16, 1);
-    add(42, 32, 1, 16, 1);
-    add(56, 48, 1, 16, 1);
-    // Broad grain clusters survive the game's viewing distance.
-    add(4, 4, 13, 3, 2); add(22, 7, 23, 2, 1);
-    add(0, 21, 18, 3, 2); add(36, 36, 24, 3, 2);
-    add(11, 54, 16, 2, 1); add(37, 59, 11, 2, 4);
-  } else if (kind === "brick" || kind === "roof") {
-    ramp =
-      kind === "brick"
-        ? ["#675952", "#948578", "#b3a090", "#d3b9a2", "#eed3b3"]
-        : ["#3a4b51", "#637f80", "#8ca7a1", "#b4c5b4", "#d4dfc8"];
-    const bw = kind === "brick" ? 16 : 8,
-      bh = kind === "brick" ? 8 : 12;
-    for (let row = 0, y = 0; y < 64; row++, y += bh) {
-      add(0, y, 64, 1, 0);
-      for (let x = (-(row % 2) * bw) / 2, k = 0; x < 64; x += bw, k++) {
-        add(x + 1, y + 1, bw - 2, bh - 2, 2 + ((k + row) % 2));
-        add(x + 1, y + 1, bw - 2, 1, 4);
-        add(x + bw - 1, y + 1, 1, bh - 1, 0);
-        add(x + 2, y + bh - 2, bw - 3, 1, 1);
-        if ((row + k) % 3 === 0) add(x + 4, y + 3, 4, 2, 1);
-      }
-    }
-  } else if (kind === "wall") {
-    ramp = ["#70776c", "#989c8b", "#b9bbaa", "#dddfce", "#f6f1da"];
-    for (const [x, y, w, h] of [
-      [4, 13, 11, 3],
-      [8, 16, 5, 2],
-      [45, 8, 8, 2],
-      [51, 10, 5, 3],
-      [33, 44, 14, 3],
-      [30, 47, 5, 3],
-      [52, 52, 12, 2],
-      [0, 52, 3, 2],
-      [18, 32, 6, 2],
-      [21, 34, 3, 4],
-    ]) {
-      add(x, y, w, h, 2);
-      add(x + 2, y + 1, Math.max(2, w - 5), 1, 1);
-    }
-    add(35, 2, 1, 8, 2);
-    add(36, 9, 2, 1, 2);
-    add(38, 10, 1, 5, 2);
-    add(10, 55, 1, 3, 1);
-    add(11, 58, 3, 1, 1);
-    add(13, 59, 1, 5, 1);
-    for (const [x, y] of [
-      [24, 7],
-      [4, 37],
-      [56, 25],
-      [42, 61],
-    ])
-      add(x, y, 4, 1, 4);
-  } else if (kind === "metal") {
-    for (const [x, y, w, h] of [
-      [3, 5, 10, 2],
-      [5, 7, 4, 2],
-      [39, 14, 16, 1],
-      [45, 15, 4, 2],
-      [15, 36, 9, 2],
-      [17, 38, 3, 2],
-      [48, 52, 12, 2],
-    ]) {
-      add(x, y, w, h, 2);
-      add(x + 1, y + 1, Math.max(1, w - 4), 1, 4);
-    }
-    add(29, 0, 1, 64, 2);
-    add(30, 0, 1, 64, 4);
-    add(8, 26, 2, 2, 1);
-    add(9, 27, 2, 1, 4);
-    add(55, 45, 2, 2, 1);
-  } else if (kind.startsWith("pot-")) {
+  const recipe = referencePainting(kind);
+  if (recipe) return recipe;
+  const commands = [], add = (x,y,w,h,ink) => commands.push([x,y,w,h,ink]);
+  let ramp = ["#51555c", "#747880", "#999b9c", "#bec0bb", "#e6e4d5"];
+  const size = 64;
+  add(0,0,size,size,3);
+  if (kind.startsWith("pot-")) {
     ramp = [
       "#665247",
       "#938575",
@@ -189,61 +99,6 @@ export function pixelPainting(kind) {
         add(x + 6, 30, 4, 2, 1);
       }
     }
-  } else if (kind === "clay") {
-    ramp = ["#77635b", "#9d8877", "#c3ae94", "#e4d2b6", "#fff0d1"];
-    add(0, 6, 64, 2, 2);
-    add(0, 8, 64, 1, 4);
-    add(0, 52, 64, 2, 1);
-    add(0, 54, 64, 1, 4);
-    for (const [x, y] of [
-      [9, 24],
-      [36, 37],
-      [51, 18],
-    ]) {
-      add(x, y, 5, 2, 2);
-      add(x + 1, y + 2, 2, 1, 1);
-      add(x + 5, y - 1, 3, 1, 4);
-    }
-  } else if (kind === "soil" || kind === "asphalt") {
-    ramp = ["#626360", "#848680", "#a5a89d", "#c6c8bb", "#e1dfcc"];
-    for (let j = 0; j < 34; j++) {
-      const x = (j * 23 + 3) % 64,
-        y = (j * 17 + 11) % 64;
-      add(x, y, 2 + (j % 3), 1 + (j % 2), j % 5);
-      if (j % 4 === 0) add(x + 1, y + 1, 2, 1, 2);
-    }
-    if (kind === "asphalt") {
-      add(4, 45, 20, 1, 1);
-      add(23, 43, 1, 3, 1);
-      add(24, 42, 8, 1, 1);
-    }
-  } else if (kind === "water") {
-    add(0, 0, 64, 64, 2);
-    for (const [x, y, w] of [[4, 12, 18], [28, 34, 24], [9, 52, 13]]) {
-      add(x, y, w, 2, 3);
-      add(x + 3, y + 2, w - 7, 1, 4);
-      add(x + w, y - 1, 4, 1, 1);
-    }
-  } else if (kind === "enamel") {
-    add(0, 0, 64, 64, 3);
-    add(0, 0, 64, 3, 4);
-    for (const [x, y] of [[3, 15], [51, 46], [29, 60]]) {
-      add(x, y, 3, 2, 0);
-      add(x + 1, y - 1, 3, 1, 2);
-    }
-  } else if (kind === "wicker") {
-    for (let y = 0; y < 64; y += 8)
-      for (let x = 0; x < 64; x += 8) {
-        add(x, y, 7, 7, (x + y) % 16 ? 2 : 3);
-        add(x, y, 6, 1, 4);
-        add(x + 6, y + 1, 1, 6, 0);
-        add(x + 1, y + 6, 5, 1, 1);
-      }
-  } else if (kind === "paint") {
-    // Quiet planes let the modeled construction carry the small objects.
-    add(0, 0, 64, 64, 3);
-    add(8, 17, 6, 2, 2);
-    add(38, 46, 9, 2, 4);
   } else if (kind === "bag") {
     ramp=["#000000","#404040","#808080","#bfbfbf","#ffffff","#627959","#cdd0ad"];
     add(0,0,64,64,3);add(5,8,2,49,2);add(56,11,2,46,2);
@@ -251,55 +106,6 @@ export function pixelPainting(kind) {
     for(let y=33;y<44;y+=4){add(14,y,31,1,6);add(13,y+1,17,1,6)}
     for(let j=0;j<8;j++){add(9+j*6,4,3,1,2);add(9+j*6,57,3,1,2)}
     add(0,52,64,1,4);add(0,54,64,2,2);
-  } else if (kind === "cloth") {
-    for (let x = 0; x < 64; x += 16) {
-      add(x, 0, 1, 64, 2);
-      add(x + 1, 0, 1, 64, 4);
-    }
-    for (let y = 0; y < 64; y += 16) add(0, y, 64, 1, 2);
-    add(7, 7, 1, 10, 4);
-    add(55, 39, 1, 14, 1);
-  } else if (
-    kind.startsWith("leaf") ||
-    kind === "canopy" ||
-    kind === "cactus"
-  ) {
-    ramp = ["#72767a", "#999c9e", "#bec0b8", "#dddccc", "#f3ebd6"];
-    add(0, 0, 64, 64, 2);
-    if (kind === "cactus") {
-      for (let x = 0; x < 64; x += 12) {
-        add(x, 0, 2, 64, 0);
-        add(x + 2, 0, 2, 64, 3);
-        for (let y = 4; y < 64; y += 10) {
-          add(x + 3, y, 2, 2, 4);
-          add(x + 4, y + 1, 1, 3, 3);
-        }
-      }
-    } else if (kind.startsWith("leaf")) {
-      add(0, 0, 31, 64, 2);
-      add(33, 0, 31, 64, 3);
-      add(30, 0, 2, 64, 1);
-      add(32, 0, 1, 64, 4);
-      for (let y = 10; y < 59; y += 14)
-        for (let j = 0; j < 6; j++) {
-          add(28 - j * 4, y + j * 2, 4, 1, 1);
-          add(35 + j * 4, y + j * 2, 4, 1, 2);
-        }
-      add(8, 49, 8, 3, 3);
-      add(45, 17, 8, 2, 4);
-    } else {
-      for (let j = 0; j < 18; j++) {
-        const x = (j * 19 + 7) % 64,
-          y = (j * 13 + 3) % 64;
-        add(x, y, 4 + (j % 4), 3, j % 3 === 0 ? 0 : 3);
-        add(x + 2, y + 3, 3, 2, 1);
-        add(x + 1, y, 3, 1, 4);
-      }
-      if (kind === "leaf") {
-        add(30, 0, 2, 64, 1);
-        add(32, 0, 1, 64, 3);
-      }
-    }
   } else if (kind.includes("glass")) {
     ramp = ["#202b30", "#334749", "#557074", "#8baba6", "#c0cbc0"];
     add(0, 0, 64, 64, 0);
@@ -372,12 +178,7 @@ export function pixelPainting(kind) {
     add(7, 0, 4, 64, 3);
     add(12, 0, 1, 64, 4);
   }
-  if (!kind.startsWith("panel-") && !["glass","light","soil","asphalt"].includes(kind)) {
-    for(let j=0;j<16;j++){const x=(j*13+7)%64,y=(j*19+5)%64;
-      if(!kind.startsWith("leaf") || Math.abs(x-32)>5) {add(x,y,1,1,j%3?2:4);if(j%4===0)add(x+1,y+1,1,1,3);}
-    }
-  }
-  return { size, ramp, commands };
+  return {size,ramp,commands};
 }
 
 // The pigment is selected once, before lighting. Multiplying a brown mesh by a
@@ -386,8 +187,8 @@ export function pigmentPalette(kind, tint, ramp = pixelPainting(kind).ramp) {
   if (!tint || kind.startsWith("panel-") || kind === "glass" || kind === "light")
     return ramp;
   const rgb = [1, 3, 5].map((i) => parseInt(tint.slice(i, i + 2), 16));
-  const shadow = [40, 48, 48], highlight = [232, 223, 197];
-  const steps = [-0.53, -0.28, -0.10, 0, 0.32];
+  const [shadow, highlight] = paintTargets(kind).map(hex=>[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16)));
+  const steps = PAINT_STEPS;
   return ramp.map((hex, i) => {
     // Blue/red/green painted motifs on ceramics keep their own pigments.
     if (i >= 5) return hex;
@@ -441,19 +242,22 @@ export function createPixelMaterials(T, windTime, windPower) {
       flatShading: true,
     });
     m.userData.kind = kind;
-    m.defaultAttributeValues={...m.defaultAttributeValues,paintBox:[0],paintShadePositive:[0,0,0],paintShadeNegative:[0,0,0]};
+    m.defaultAttributeValues={...m.defaultAttributeValues,paintBox:[0],paintSeed:[0],paintShadePositive:[0,0,0],paintShadeNegative:[0,0,0]};
     m.customProgramCacheKey = () =>
-      "pixel-" +
+      "pixel-v2-" +
       (wind ? "wind-" + kind : "static") +
-      (panel ? "-panel" : "-surface") + (dedicated ? "-illustrated" : "-pigment") + (kind === "wood" ? "-grain" : "");
+      (panel ? "-panel" : "-surface") + (dedicated ? "-illustrated" : "-pigment") + (kind === "wood" ? "-grain" : "") + (/leaf|canopy|cactus|petal/.test(kind) ? "-organic" : "") + (kind.startsWith("vessel-") ? "-wrapped-vessel" : "") + (/vessel|clay|soil/.test(kind) ? "-patina" : "");
     m.onBeforeCompile = (shader) => {
       shader.vertexShader =
-        "attribute float paintBox; attribute vec3 paintShadePositive; attribute vec3 paintShadeNegative; varying float vPaintIsBox; varying vec3 vPaintUnit; varying vec3 vPaintScale; varying vec3 vContactPositive; varying vec3 vContactNegative; varying vec3 vPaintPosition; varying vec3 vPaintNormal;\n" +
+        "attribute float paintBox; attribute float paintSeed; attribute vec3 paintShadePositive; attribute vec3 paintShadeNegative; varying float vPaintIsBox; varying vec3 vPaintUnit; varying vec3 vPaintScale; varying vec3 vContactPositive; varying vec3 vContactNegative; varying vec3 vPaintPosition; varying vec3 vPaintNormal; varying vec2 vPaintPhase; varying float vPaintSeed;\n" +
         shader.vertexShader;
       shader.fragmentShader =
-        "varying float vPaintIsBox; varying vec3 vPaintUnit; varying vec3 vPaintScale; varying vec3 vContactPositive; varying vec3 vContactNegative; varying vec3 vPaintPosition; varying vec3 vPaintNormal;\n" +
+        "uniform vec3 paintShadow; uniform vec3 paintHighlight; varying float vPaintIsBox; varying vec3 vPaintUnit; varying vec3 vPaintScale; varying vec3 vContactPositive; varying vec3 vContactNegative; varying vec3 vPaintPosition; varying vec3 vPaintNormal; varying vec2 vPaintPhase; varying float vPaintSeed;\n" +
         shader.fragmentShader;
-      let position = `#include <begin_vertex>\nvec3 paintScale = vec3(1.0);\n#ifdef USE_INSTANCING\npaintScale = vec3(length(instanceMatrix[0].xyz),length(instanceMatrix[1].xyz),length(instanceMatrix[2].xyz));\n#endif\nvPaintPosition=position*paintScale; vPaintNormal=normal; vPaintUnit=position; vPaintIsBox=paintBox; vPaintScale=paintScale; vContactPositive=paintShadePositive; vContactNegative=paintShadeNegative;`;
+      const targets=paintTargets(kind);
+      shader.uniforms.paintShadow={value:new T.Color(targets[0])};
+      shader.uniforms.paintHighlight={value:new T.Color(targets[1])};
+      let position = `#include <begin_vertex>\nvec3 paintScale = vec3(1.0);\n#ifdef USE_INSTANCING\npaintScale = vec3(length(instanceMatrix[0].xyz),length(instanceMatrix[1].xyz),length(instanceMatrix[2].xyz));\n#endif\nvPaintSeed=paintSeed; vPaintPhase=vec2(0.0);\n#ifdef USE_INSTANCING\nvPaintPhase=vec2(fract(instanceMatrix[3].x*.173+instanceMatrix[3].z*.317),floor(mod(abs(instanceMatrix[3].y*7.0+instanceMatrix[3].x*3.0+instanceMatrix[3].z*5.0),4.0)))*vec2(4.0,1.0);\n#endif\nvPaintPosition=position*paintScale; vPaintNormal=normal; vPaintUnit=position; vPaintIsBox=paintBox; vPaintScale=paintScale; vContactPositive=paintShadePositive; vContactNegative=paintShadeNegative;`;
       if (wind) {
         shader.uniforms.leafTime = windTime;
         shader.uniforms.leafWind = windPower;
@@ -466,38 +270,42 @@ export function createPixelMaterials(T, windTime, windPower) {
         "#include <begin_vertex>",
         position,
       );
-      const pigment = dedicated ? "diffuseColor.rgb = painted.rgb; diffuseColor.a *= painted.a;" : `
+      const pigment = dedicated ? "diffuseColor.rgb *= painted.rgb; diffuseColor.a *= painted.a;" : `
 float gray = painted.r;
-float ink = gray < .025 ? -.53 : gray < .13 ? -.28 : gray < .36 ? -.10 : gray < .75 ? 0.0 : .32;
+float ink = gray < .025 ? ${PAINT_STEPS[0].toFixed(2)} : gray < .13 ? ${PAINT_STEPS[1].toFixed(2)} : gray < .36 ? ${PAINT_STEPS[2].toFixed(2)} : gray < .75 ? 0.0 : ${PAINT_STEPS[4].toFixed(2)};
 float chroma = max(max(painted.r,painted.g),painted.b)-min(min(painted.r,painted.g),painted.b);
-diffuseColor.rgb = chroma > .025 ? painted.rgb : mix(diffuseColor.rgb, ink < 0.0 ? vec3(.0212,.0296,.0296) : vec3(.807,.738,.558), abs(ink));`;
+diffuseColor.rgb = chroma > .025 ? painted.rgb : mix(diffuseColor.rgb, ink < 0.0 ? paintShadow : paintHighlight, abs(ink));`;
       shader.fragmentShader = shader.fragmentShader.replace(
         "#include <map_fragment>",
-        panel
-          ? `#ifdef USE_MAP\nvec4 painted = texture2D(map,vMapUv); ${pigment}\n#endif`
-          : `#ifdef USE_MAP\nvec3 axis=abs(vPaintNormal);\nvec2 surface=axis.x>axis.y&&axis.x>axis.z?vPaintPosition.zy:axis.y>axis.z?vPaintPosition.xz:vPaintPosition.xy;\n${kind === "wood" ? "if(vPaintScale.y>max(vPaintScale.x,vPaintScale.z)||vPaintScale.z>max(vPaintScale.x,vPaintScale.y))surface=surface.yx;" : ""}\nvec4 painted=texture2D(map,surface/4.0); ${pigment}\n#endif`,
+        T.ShaderChunk.color_fragment + "\n" + (panel
+          ? `#ifdef USE_MAP\nvec2 paintedUv=vMapUv; ${kind.startsWith("vessel-") ? "paintedUv.x+=vPaintSeed;" : ""} vec4 painted = texture2D(map,paintedUv); ${pigment}\n#endif`
+          : `#ifdef USE_MAP\nvec3 axis=abs(vPaintNormal);\nvec2 surface=axis.x>axis.y&&axis.x>axis.z?vPaintPosition.zy:axis.y>axis.z?vPaintPosition.xz:vPaintPosition.xy;\n${kind === "wood" ? "vec2 span=axis.x>axis.y&&axis.x>axis.z?vPaintScale.zy:axis.y>axis.z?vPaintScale.xz:vPaintScale.xy; if(vPaintScale.y>max(vPaintScale.x,vPaintScale.z)||vPaintScale.z>max(vPaintScale.x,vPaintScale.y)){surface=surface.yx;span=span.yx;} surface.y=surface.y/max(span.y,.02)*.82+.5+vPaintPhase.y; surface.x+=vPaintPhase.x;" : ""}\nsurface+=vec2(vPaintSeed*4.0,fract(vPaintSeed*17.0)*4.0); vec4 painted=texture2D(map,surface/4.0); ${pigment}\n#endif`),
       );
       // Geometry-led edge paint and contact shadow. Broad planes stay legible;
       // selected texels interrupt the edge highlight like the painted references.
-      shader.fragmentShader = shader.fragmentShader.replace("#include <color_fragment>", `#include <color_fragment>
+      // Lambert samples its map before the stock instance-color chunk. Selecting
+      // pigment from white and multiplying the instance afterward tinted ceramic
+      // drawings and turned terracotta olive. Apply the instance exactly once first.
+      shader.fragmentShader = shader.fragmentShader.replace("#include <color_fragment>", `
+// Stable firing/soil variation shares textures and does not rebuild when moving.
+${/vessel|clay|soil/.test(kind) ? "float patina=(vPaintSeed-.5)*.20; diffuseColor.rgb*=vec3(1.0+patina,1.0+patina*.5,1.0-patina*.22);" : ""}
+// Baked plane separation complements the real sun; turning the object keeps its paint.
+float facePaint = vPaintNormal.y > .7 ? 1.02 : vPaintNormal.y < -.7 ? .67 : .83 + vPaintNormal.x*.09 + vPaintNormal.z*.04;
+diffuseColor.rgb *= ${/leaf|canopy|cactus|petal/.test(kind) ? "mix(.93,1.04,max(0.0,vPaintNormal.y))" : "facePaint"};
 if(vPaintIsBox>.5) {
  vec3 face=abs(vPaintNormal), distance=(vec3(.5)-abs(vPaintUnit))*vPaintScale;
  float edge=face.x>face.y&&face.x>face.z?min(distance.y,distance.z):face.y>face.z?min(distance.x,distance.z):min(distance.x,distance.y);
- float lip=(1.0-smoothstep(.007,.035,edge));
+ float lip=(1.0-smoothstep(.005,.018,edge));
+ float faceSpan=face.x>face.y&&face.x>face.z?min(vPaintScale.y,vPaintScale.z):face.y>face.z?min(vPaintScale.x,vPaintScale.z):min(vPaintScale.x,vPaintScale.y);
+ lip*=faceSpan<.075?.30:1.0;
  float interrupted=mod(floor(vPaintPosition.x*19.0)+floor(vPaintPosition.y*23.0)+floor(vPaintPosition.z*17.0),7.0)>1.0?1.0:.42;
- diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.70,.63,.46),lip*interrupted*.14);
+ diffuseColor.rgb=mix(diffuseColor.rgb,paintHighlight,lip*interrupted*.19);
  float contact=dot(max(vPaintNormal,vec3(0.0)),vContactPositive)+dot(max(-vPaintNormal,vec3(0.0)),vContactNegative);
  diffuseColor.rgb*=1.0-contact*.32;
 }`);
-      // Fine output pixels; all texture detail remains attached to the model when rotated.
-      shader.fragmentShader = shader.fragmentShader.replace(
-        "#include <dithering_fragment>",
-        `vec3 axisD=abs(vPaintNormal);
-vec2 dpos=axisD.y>axisD.x&&axisD.y>axisD.z?vPaintPosition.xz:axisD.x>axisD.z?vPaintPosition.zy:vPaintPosition.xy;
-vec2 dcell=mod(floor(dpos*32.0),4.0);
-float dither=(mod(dcell.x+2.0*dcell.y,4.0)*4.0+mod(2.0*dcell.x+dcell.y,4.0))/16.0-.5;
-gl_FragColor.rgb=floor(gl_FragColor.rgb*47.0+.5+dither*.68)/47.0;`,
-      );
+      // Keep the five painted pigments, but do not round the final framebuffer.
+      // sRGB thumbnail targets encode after the shader; rounding linear RGB there
+      // clipped weak green/blue channels and made shaded clay red or leaves black.
     };
     cache.set(key, m);
     return m;

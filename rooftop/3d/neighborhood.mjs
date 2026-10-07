@@ -284,32 +284,20 @@ export function buildNeighborhood(api, city, groundY, window) {
     box(street, x, 0.15, z, 2.4, 0.31, 2.6, "#aba996", "wall");
     box(street, x, 0.315, z, 2.18, 0.035, 2.38, "#5c6350", "soil");
     beam(street, [x, 0, z], [x - 0.09, 3.4, z + 0.07], 0.15, "#69573f");
-    for (let j = 0; j < 5; j++) {
-      const a = j * 2.399;
-      ellipsoid(
-        street,
-        x + Math.cos(a) * 0.56,
-        3.45 + Math.sin(j) * 0.25,
-        z + Math.sin(a) * 0.54,
-        1.0,
-        0.9,
-        1.1,
-        j % 2 ? "#6b8257" : "#486853",
-        "canopy",
-      );
+    // Intersecting thin clusters leave small holes between branches, like the
+    // reference foliage. Reusing boxes avoids transparent sorting and extra shaders.
+    for(let j=0;j<28;j++) {
+      const a=j*2.399,rr=Math.sqrt((j+.5)/28)*1.35;
+      if(j<5)beam(street,[x,2.9,z],[x+Math.cos(a)*rr,3.55,z+Math.sin(a)*rr],.065,'#63533e');
+      box(street,x+Math.cos(a)*rr,3.35+.65*(1-rr/1.5)+Math.sin(j*1.7)*.19,z+Math.sin(a)*rr,
+        .69+j%3*.11,.055,.65+j%4*.085,['#496530','#708749','#8da050','#597735'][j%4],
+        'canopy',Math.sin(a)*.35,a,Math.cos(a)*.30);
     }
-    for (let j = 0; j < 3; j++)
-      ellipsoid(
-        street,
-        x - 0.74 + j * 0.74,
-        0.63,
-        z + 0.8,
-        0.45,
-        0.36,
-        0.39,
-        "#637550",
-        "canopy",
-      );
+    for(let j=0;j<12;j++) {
+      const a=j*2.399,rr=.4+j%3*.12;
+      box(street,x+Math.cos(a)*rr,.60+Math.sin(j)*.12,z+.8+Math.sin(a)*rr,
+        .52,.055,.43,['#59743b','#839449','#476433'][j%3],'canopy',Math.sin(a)*.24,a,Math.cos(a)*.28);
+    }
   }
   function car(x, z, angle, index) {
     const g = group(street, x, 0.14, z);

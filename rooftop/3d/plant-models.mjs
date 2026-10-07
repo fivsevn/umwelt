@@ -320,6 +320,12 @@ export function buildFoliage(api, g, p, o) {
   }
   if (/tails|ivy|exp-(beadtail|threads|segments|fishbone)/.test(f)) {
     const potRadius=o.potRadius||.6;
+    if (f === "ivy") for(let k=0;k<22;k++) {
+      const a=k*2.399, radius=potRadius*(.25+.60*((k%7)/7)),
+        start=v(a,radius*.55,.035),tip=v(a,radius,.10+(k%3)*.09);
+      beam(g,start,tip,.016,shade(c,.76));
+      leaf(start,tip,.17,c,true);
+    }
     for(let k=0;k<6;k++) {
       const a=k*2.4,len=.66+r()*.68,root=.12+r()*.09;
       const point=t=>{
@@ -478,8 +484,8 @@ export function buildFoliage(api, g, p, o) {
     return;
   }
   if (/fern|parsley|cosmos|marigold/.test(f)) {
-    for (let k = 0; k < 8; k++) {
-      const a = k * 2.4,
+    for (let k = 0; k < (f === "fern" ? 13 : 10); k++) {
+      const a = k * 2.399,
         q = v(a, 0.65, 0.32 + r() * 0.5);
       beam(g, [0, 0, 0], q, 0.024, c);
       for (let j = 1; j < 8; j++)
@@ -493,7 +499,7 @@ export function buildFoliage(api, g, p, o) {
               q[1] * t + 0.045,
               q[2] * t - Math.cos(a) * rad * s,
             ],
-            f === "cosmos" ? 0.028 : 0.07,
+            f === "cosmos" ? 0.028 : f === "fern" ? .095 : .085,
             c,
           );
         }
@@ -593,52 +599,45 @@ export function buildFoliage(api, g, p, o) {
     }
     return;
   }
+  if (f === 'split') {
+    for(let k=0;k<8;k++) {
+      const a=k*2.399, h=.42+r()*.32, petiole=v(a,.23+r()*.16,h);
+      beam(g,[0,.015,0],petiole,.026,shade(c,.68));
+      leaf(petiole,[petiole[0]+Math.cos(a)*.43,h-.06,
+        petiole[2]+Math.sin(a)*.43],.43,c,'split');
+    }
+    return;
+  }
   const tall =
       /berries|tomato|rose|camellia|gardenia|hibiscus|bougainvillea|jasmine/.test(
         f,
       ),
     broad = /split|hosta|hydrangea|round|coleus/.test(f);
-  // Opposite leaves for herbs; basal leaves for hosta; woody branching for shrubs.
-  for (let k = 0; k < 8; k++) {
-    const a = k * 2.4,
+  // Leaves occupy several nodes along each stem. The gaps, opposite pairs and
+  // basal rosettes remain species-specific; density never comes from a solid ball.
+  const basal = /hosta|round|radish/.test(f);
+  for (let k = 0; k < (basal ? 10 : 9); k++) {
+    const a = k * 2.399,
       h = (tall ? 0.8 : 0.43) + r() * (tall ? 0.45 : 0.22),
       q = v(a, 0.36 + r() * 0.16, h),
-      base = [0, tall ? 0.22 : 0, 0];
-    beam(g, base, q, 0.028, tall ? "#8b785d" : shade(c, 0.8));
-    const pairs = f === "strawberry" ? 3 : 2;
-    for (let j = 0; j < pairs; j++) {
-      const aa = a + (j * 6.283) / pairs,
-        tip = [
-          q[0] + Math.cos(aa) * 0.22,
-          q[1] - 0.07,
-          q[2] + Math.sin(aa) * 0.22,
-        ];
-      leaf(
-        q.map((x, i) => (i === 1 ? x * 0.73 : x * 0.65)),
-        tip,
-        broad ? 0.32 : 0.19,
-        c,
-        /herb|strawberry|coleus|rose/.test(f),
-      );
-      if (f === "coleus")
-        leaf(
-          q.map((x) => x * 0.75),
-          tip,
-          0.13,
-          flower,
-        );
-      if (f === "split")
-        for (let t = 0; t < 3; t++)
-          box(
-            g,
-            tip[0] + t * 0.025,
-            tip[1],
-            tip[2] + 0.065,
-            0.055,
-            0.025,
-            0.06,
-            shade(c, 0.67),
-          );
+      root = v(a, basal ? .05 : .10 + (k % 3)*.045, 0),
+      base = tall ? [root[0], .16, root[2]] : root;
+    beam(g, base, q, tall ? .031 : .022, tall ? "#806343" : shade(c, 0.72));
+    const nodes = basal || f === "strawberry" ? 1 : tall ? 3 : 4;
+    for (let node=0; node<nodes; node++) {
+      const t = basal ? .20 : f === "strawberry" ? .70 : .28 + node*.19,
+        origin = base.map((x,i)=>x+(q[i]-x)*t),
+        pairs = f === "strawberry" ? 3 : basal ? 1 : 2;
+      for (let j=0; j<pairs; j++) {
+        const aa = a + node*.52 + j*Math.PI*2/pairs,
+          length = basal ? .42 : .23 + (nodes-node)*.016,
+          tip = [origin[0]+Math.cos(aa)*length,
+            basal ? h : origin[1]+.08+(node%2)*.025,
+            origin[2]+Math.sin(aa)*length];
+        leaf(origin, tip, broad ? .29 : f === "strawberry" ? .19 : .17, c,
+          /herb|strawberry|coleus|rose/.test(f));
+        if (f === "coleus") leaf(origin, tip, .095, flower);
+      }
     }
     if (
       k % 2 === 0 &&
