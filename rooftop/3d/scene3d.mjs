@@ -1502,7 +1502,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     }
   }
   const neighborhood = buildNeighborhood(
-    { T, box, beam, cyl, ellipsoid, group, mat, P },
+    { T, box, beam, cyl, ellipsoid, group, mat, P, surface },
     city,
     groundY,
     facadeWindow,
@@ -1859,8 +1859,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     windPower.value = current === "room" ? 0 : a.wind;
     renderer.setClearColor(a.sky);
     scene.fog.color.set(a.sky);
-    scene.fog.near = 52 - a.fog * 12;
-    scene.fog.far = 150 - a.fog * 150;
+    scene.fog.near = 64 - a.fog * 5;
+    scene.fog.far = 175 - a.fog * 125;
     hemi.color.set(
       a.night > 0.5
         ? "#a5b7d2"
@@ -1868,23 +1868,23 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
           ? "#b8c4d2"
           : a.cloud > 0.7
             ? "#c7d0cf"
-            : "#e7ecdf",
+            : "#eff3f7",
     );
     for (const m of materialCache.values())
       if (m.userData.kind === "light") {
         m.emissive.set("#edc783");
         m.emissiveIntensity = (a.lamps || 0) * 0.85;
       }
-    hemi.intensity = current === "room" ? .66 : .74 - a.lightAmount * .26;
-    hemi.groundColor.set(a.night > 0.5 ? "#64758a" : "#7b827a");
+    hemi.intensity = current === "room" ? .92 : 1.04 - a.lightAmount * .25;
+    hemi.groundColor.set(a.night > 0.5 ? "#596c90" : "#718398");
     sun.color.set(
       a.phase === "dusk"
         ? "#ddae87"
         : a.phase === "dawn"
           ? "#d5beb0"
-          : "#ffe5b9",
+          : "#fff5e6",
     );
-    sun.intensity = current === "room" ? 1.85 : .18 + a.sun * 2.15;
+    sun.intensity = current === "room" ? 2.0 : .18 + a.sun * 2.2;
     sun.position.set(-22, a.phase === "dusk" ? 15 : 36, -14);
     windowMats.forEach((m, i) => {
       const lit = (i % 7) / 7 < a.lamps;
@@ -2069,8 +2069,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     const start = batches.length;
     (a.plant ? makePlant : makeObject)(g, { ...o, rotation: 0, scale: 1 });
     compileInstances();
-    stage.add(new T.HemisphereLight("#eef0e9", "#566573", .66));
-    const light = new T.DirectionalLight("#fff0d4", 2.15);
+    stage.add(new T.HemisphereLight("#ffffff", "#7b8a99", .95));
+    const light = new T.DirectionalLight("#ffffff", 2.30);
     light.position.set(-8, 11, 5);
     stage.add(light);
     const bounds = new T.Box3().setFromObject(g),

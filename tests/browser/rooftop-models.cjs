@@ -26,7 +26,7 @@ const engine = process.env.BROWSER || "chromium",
     if (webgl) {
       await page.waitForFunction(()=>rooftop.graphics.foliageMotion.time>0.1);
       const style = await page.evaluate(() => rooftop.graphics);
-      assert.equal(style.style, "painted-lowpoly-v2");
+      assert.equal(style.style, "painted-lowpoly-v3");
       assert.ok(style.textures >= 20, "shared painted material library");
       assert.ok(
         style.drawCalls < 1000,

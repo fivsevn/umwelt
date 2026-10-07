@@ -11,6 +11,8 @@ import {
   createPixelMaterials,
 } from "../rooftop/3d/pixel-materials.mjs";
 import { surfaceSeed, soilParticles } from "../rooftop/3d/surface-variation.mjs";
+import { carShell, buildStreetCar, buildStreetLantern } from "../rooftop/3d/street-models.mjs";
+import { buildNeighborhood } from "../rooftop/3d/neighborhood.mjs";
 import { recessedBowlGeometry, roundedRectangle } from "../rooftop/3d/washstation.mjs";
 import { soilBagGeometry } from "../rooftop/3d/soft-goods.mjs";
 import { buildVessel } from "../rooftop/3d/vessel-models.mjs";
@@ -214,4 +216,67 @@ test("bevelled construction parts remain closed and keep their exact placement b
 test("contact paint darkens an enclosed face and stays clear on exposed faces",()=>{
  const cube=new T.BoxGeometry(1,1,1),m={userData:{kind:"wood"}},part={geo:cube,m,matrix:new T.Matrix4()},over={geo:cube,m,matrix:new T.Matrix4().makeTranslation(0,1.015,0)};
  const masks=cubeContactPaint(T,[part,over],cube);assert.equal(masks.get(part).positive[1],1);assert.equal(masks.get(part).negative[1],0);assert.equal(masks.get(part).positive[0],0);assert.equal(masks.get(over).negative[1],1);
+});
+
+test("shaded blue paint retains its hue and white enamel stays neutral",()=>{
+ const channels=hex=>[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16));
+ for(const hex of pigmentPalette('metal','#398db5')) {
+   const [r,g,b]=channels(hex);assert.ok(b>g&&g>r,'blue is not replaced by a shared gray shadow');
+ }
+ const [r,g,b]=channels(pigmentPalette('enamel','#e8e8e8')[4]);
+ assert.ok(Math.max(r,g,b)-Math.min(r,g,b)<5,'white highlight does not become yellow');
+});
+
+test("manufactured surfaces keep quiet paint between structural details",()=>{
+ for(const [kind,min]of[['metal',.95],['paint',.96],['enamel',.94],['wood',.73]]) {
+   const pixels=new Uint8Array(4096),recipe=pixelPainting(kind);
+   for(const [x,y,w,h,ink]of recipe.commands)for(let yy=Math.max(0,y);yy<Math.min(64,y+h);yy++)
+     for(let xx=Math.max(0,x);xx<Math.min(64,x+w);xx++)pixels[yy*64+xx]=ink;
+   assert.ok(pixels.filter(n=>n===3).length/4096>=min,kind+' preserves the broad base plane');
+ }
+});
+
+test("faceted car shells are closed, outward facing and bounded",()=>{
+ const rings=[[1.61,.19,1.69,-1.69],[1.76,.32,1.74,-1.74],[1.73,.58,1.67,-1.65],[1.55,.66,1.40,-1.47]];
+ const g=carShell(T,rings);closed(g,'street car');
+ const p=g.attributes.position,n=g.attributes.normal;
+ const middle=new T.Vector3(0,.43,0);
+ for(let j=0;j<p.count;j+=3) {
+   const center=new T.Vector3();for(let k=0;k<3;k++)center.add(new T.Vector3().fromBufferAttribute(p,j+k));
+   center.divideScalar(3).sub(middle);
+   assert.ok(center.dot(new T.Vector3().fromBufferAttribute(n,j))>0,'shell normal is outward');
+ }
+});
+
+test("street props have independent glass, fittings and bounded detail counts",()=>{
+ const parts=[],surfaces=[],kinds=new Set(),root=new T.Group();
+ const api={T,P:{metalDark:'#26323e'},surface:(parent,geometry,x,y,z,w,h,d,color,kind)=>{kinds.add(kind);surfaces.push(geometry);},
+   box:(...p)=>parts.push(p),cyl:(...p)=>parts.push(p),beam:(...p)=>parts.push(p),
+   group:(parent,x=0,y=0,z=0)=>{const g=new T.Group();g.position.set(x,y,z);parent.add(g);return g;}};
+ buildStreetCar(api,root,'#b6a090');buildStreetLantern(api,root);
+ assert.ok(kinds.has('panel-glass'));assert.ok(kinds.has('livery-car'));
+ assert.ok(parts.length<110,'fittings do not grow into a voxel shell');
+ assert.equal(surfaces.length,10,'body, roof, six panes and two door panels');
+});
+
+test("cars with different paint reuse the same immutable surfaces for city batching",()=>{
+ const records=[],root=new T.Group();
+ const api={T,P:{metalDark:'#26323e'},box(){},cyl(){},beam(){},
+   surface:(parent,geometry,x,y,z,w,h,d,color,kind)=>records.push({geometry,color,kind}),
+   group:(parent,x=0,y=0,z=0)=>{const g=new T.Group();g.position.set(x,y,z);parent.add(g);return g;}};
+ buildStreetCar(api,root,'#b6a090');buildStreetCar(api,root,'#48899d');
+ assert.equal(records.length,20);assert.equal(new Set(records.map(r=>r.geometry)).size,9);
+ for(let j=0;j<10;j++)assert.equal(records[j].geometry,records[j+10].geometry);
+ assert.notEqual(records[0].color,records[10].color);
+});
+
+test("the outdoor ground belongs to the city hidden by the indoor view",()=>{
+ const scene=new T.Scene(),city=new T.Group();scene.add(city);
+ const api={T,P:{metalDark:'#26323e',wood:'#b7834c'},box(){},cyl(){},beam(){},ellipsoid(){},surface(){},
+   mat:color=>new T.MeshBasicMaterial({color}),
+   group:(parent,x=0,y=0,z=0)=>{const g=new T.Group();g.position.set(x,y,z);parent.add(g);return g;}};
+ buildNeighborhood(api,city,-18.15,()=>{});
+ const ground=city.getObjectByName('neighborhood-ground');
+ assert.ok(ground);assert.equal(ground.parent,city);
+ assert.equal(scene.children.length,1,'room does not retain a separate outdoor ground');
 });
