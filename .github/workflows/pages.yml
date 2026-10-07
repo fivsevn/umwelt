@@ -59,7 +59,8 @@ jobs:
           docker pull mcr.microsoft.com/playwright:v1.62.1-noble
 
       - name: Check the final artifact in Chromium and WebKit
-        timeout-minutes: 4
+        # Forty desktop/mobile entries run serially, including software WebGL.
+        timeout-minutes: 6
         env:
           NODE_PATH: ${{ runner.temp }}/artifact-browser/node_modules
           BASE_URL: http://127.0.0.1:8794
