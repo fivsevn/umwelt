@@ -59,7 +59,7 @@ const routes = [
             const graphics = await page.evaluate(
               () => window.rooftop?.graphics || window.room.graphics,
             );
-            assert.equal(graphics.catalog, 289);
+            assert.equal(graphics.catalog, 305);
             assert.ok(graphics.instances > 0);
             assert.equal(
               graphics.controls,
