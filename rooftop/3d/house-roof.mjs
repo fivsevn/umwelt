@@ -1,7 +1,7 @@
 import { HOUSE, terracePoint } from "../house-structure.mjs";
 // The same ridge, eaves and paint seed are viewed from opposite local frames.
 export function buildHouseRoof(api, parent, scene) {
-  const { T, group, box, beam, mat } = api;
+  const { T, group, box, beam, mat, window } = api;
   const g = group(parent);
   const r = HOUSE.roof;
   const vertices = [
@@ -40,6 +40,48 @@ export function buildHouseRoof(api, parent, scene) {
     const [lx, lz] = terracePoint(scene, x, z);
     return [lx, y, lz];
   };
+  const body = group(
+    g,
+    ...local(r.x + r.width / 2, (HOUSE.base - 0.38) / 2, r.z + r.depth / 2),
+  );
+  body.rotation.y = scene === "south" ? Math.PI / 2 : 0;
+  box(body, 0, 0, 0, r.width, -0.38 - HOUSE.base, r.depth, "#c0bbb0", "wall");
+  // Real gable ends close the roof; the house continues down to the street.
+  for (const x of [r.x, r.x + r.width]) {
+    const positions = [
+      local(x, r.eave, r.z),
+      local(x, r.eave, r.z + r.depth),
+      local(x, r.ridge, r.z + r.depth / 2),
+    ];
+    const end = new T.BufferGeometry();
+    end.setAttribute(
+      "position",
+      new T.Float32BufferAttribute(positions.flat(), 3),
+    );
+    end.computeVertexNormals();
+    const wall = mat("#c0bbb0", "wall").clone();
+    wall.onBeforeCompile = mat("#c0bbb0", "wall").onBeforeCompile;
+    wall.customProgramCacheKey = mat("#c0bbb0", "wall").customProgramCacheKey;
+    wall.defaultAttributeValues = mat("#c0bbb0", "wall").defaultAttributeValues;
+    wall.side = T.DoubleSide;
+    const mesh = new T.Mesh(end, wall);
+    mesh.castShadow = mesh.receiveShadow = true;
+    g.add(mesh);
+  }
+  if (window)
+    for (let floor = 0; floor < 6; floor++)
+      for (const z of [r.z, r.z + r.depth])
+        for (let x = r.x + 2.2; x < r.x + r.width - 1; x += 4.8) {
+          const p = local(x, -3 - floor * 5.6, z + (z === r.z ? -0.04 : 0.04));
+          window(
+            g,
+            ...p,
+            (z === r.z ? Math.PI : 0) + (scene === "south" ? Math.PI / 2 : 0),
+            2.9,
+            2.6,
+            floor % 7,
+          );
+        }
   for (const z of [r.z - 0.3, r.z + r.depth + 0.3]) {
     beam(
       g,
@@ -95,9 +137,9 @@ export function buildHouseRoof(api, parent, scene) {
     const patch = group(g, ...local(x, y + 0.018, z));
     patch.rotation.y = scene === "south" ? Math.PI / 2 : 0;
     patch.rotation.x =
-      z < 14
-        ? -Math.atan((r.ridge - r.eave) / 10.3)
-        : Math.atan((r.ridge - r.eave) / 10.3);
+      z < r.z + r.depth / 2
+        ? -Math.atan((r.ridge - r.eave) / (r.depth / 2 + 0.3))
+        : Math.atan((r.ridge - r.eave) / (r.depth / 2 + 0.3));
     box(patch, 0, 0, 0, 0.5, 0.018, 0.95, "#85807a", "roof");
   }
   g.userData.house = HOUSE.id;

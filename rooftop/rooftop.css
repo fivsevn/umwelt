@@ -397,3 +397,29 @@ canvas[data-renderer="3d"]{image-rendering:auto}
 .observation-notebook{position:absolute;right:max(16px,env(safe-area-inset-right));top:max(16px,env(safe-area-inset-top));width:290px;max-width:calc(100% - 32px);max-height:calc(100dvh - 32px);overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;z-index:5;box-shadow:3px 3px #343b3450}
 .observation-notebook[hidden]{display:none}.notebook-title{display:flex;align-items:center;gap:12px;border-bottom:1px dashed #9da181;margin-bottom:8px}.notebook-title h2{flex:1;border:0;padding:0;margin:0}.notebook-title button{padding:3px 9px;box-shadow:none;background:transparent;border:0;font-size:20px}
 @media(max-width:550px){.observation-notebook{top:12px;right:12px;width:260px;max-height:44dvh;padding:12px}.action-card{max-width:250px}}
+
+.observation .view-controls {
+  position: fixed;
+  z-index: 6;
+  left: max(8px, env(safe-area-inset-left));
+  top: max(8px, env(safe-area-inset-top));
+  display: flex;
+  gap: 2px;
+  padding: 2px;
+  background: #babaa9b8;
+}
+.observation .view-controls[hidden] {
+  display: none;
+}
+.observation .view-controls button {
+  min-height: 30px;
+  min-width: 36px;
+  padding: 3px 6px;
+  border: 0;
+  background: transparent;
+  font-size: 11px;
+}
+.observation .view-controls button[aria-pressed="true"] {
+  background: #4e5a4c;
+  color: #e0dbc3;
+}

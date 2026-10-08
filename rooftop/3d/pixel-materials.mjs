@@ -394,6 +394,37 @@ export function paintPixels(ctx, kind, tint, encode = false) {
     : pigmentPalette(kind, tint, ramp);
   ctx.clearRect(0, 0, drawing.width || size, drawing.height || size);
   ctx.imageSmoothingEnabled = false;
+  if (
+    ctx.createImageData &&
+    ctx.putImageData &&
+    palette.every((hex) => /^#[0-9a-f]{6}$/i.test(hex)) &&
+    commands.every((c) => c.slice(0, 4).every(Number.isInteger))
+  ) {
+    const width = drawing.width || size,
+      height = drawing.height || size;
+    const data = ctx.createImageData(width, height),
+      pixels = new Uint32Array(data.data.buffer);
+    const little =
+      new Uint8Array(new Uint32Array([0x01020304]).buffer)[0] === 4;
+    const inks = palette.map((hex) => {
+      const n = parseInt(hex.slice(1), 16),
+        r = n >>> 16,
+        g = (n >>> 8) & 255,
+        b = n & 255;
+      return little
+        ? ((255 << 24) | (b << 16) | (g << 8) | r) >>> 0
+        : ((r << 24) | (g << 16) | (b << 8) | 255) >>> 0;
+    });
+    for (const [x, y, w, h, ink] of commands) {
+      const left = Math.max(0, x),
+        right = Math.min(width, x + w);
+      if (right <= left) continue;
+      for (let row = Math.max(0, y); row < Math.min(height, y + h); row++)
+        pixels.fill(inks[ink], row * width + left, row * width + right);
+    }
+    ctx.putImageData(data, 0, 0);
+    return;
+  }
   for (const [x, y, w, h, ink] of commands) {
     ctx.fillStyle = palette[ink];
     ctx.fillRect(x, y, w, h);
@@ -407,7 +438,8 @@ export function createPixelMaterials(
   surfaceWeather = { wet: { value: 0 }, rain: { value: 0 } },
 ) {
   const cache = new Map(),
-    textures = new Map();
+    textures = new Map(),
+    programs = new Map();
   function texture(kind) {
     if (textures.has(kind)) return textures.get(kind);
     const c = document.createElement("canvas");
@@ -468,27 +500,6 @@ export function createPixelMaterials(
       paintShadePositive: [0, 0, 0],
       paintShadeNegative: [0, 0, 0],
     };
-    m.customProgramCacheKey = () =>
-      "pixel-metric-v6-" +
-      kind +
-      "-" +
-      (wind ? "wind-" + kind : "static") +
-      (faces
-        ? "-faces-" + kind
-        : materialBase === "round-metal"
-          ? "-round"
-          : panel
-            ? "-panel"
-            : "-surface") +
-      (dedicated ? "-illustrated" : "-pigment") +
-      (kind === "wood" ? "-grain" : "") +
-      (/leaf|canopy|cactus|petal/.test(kind) ? "-organic" : "") +
-      (kind.startsWith("vessel-antique-")
-        ? "-museum-planar-interior-" + kind
-        : kind.startsWith("vessel-")
-          ? "-wrapped-vessel"
-          : "") +
-      (/vessel|clay|soil/.test(kind) ? "-patina" : "");
     m.onBeforeCompile = (shader) => {
       shader.vertexShader =
         "attribute vec2 paintInteriorUv; varying vec2 vPaintInteriorUv; attribute float paintBox; attribute float paintSeed; attribute float paintVariant; attribute vec3 paintShadePositive; attribute vec3 paintShadeNegative; varying float vPaintIsBox; varying vec3 vPaintUnit; varying vec3 vPaintScale; varying vec3 vContactPositive; varying vec3 vContactNegative; varying vec3 vPaintPosition; varying vec3 vPaintNormal; varying vec2 vPaintPhase; varying float vPaintSeed; varying float vPaintVariant;\n" +
@@ -678,6 +689,21 @@ if(vPaintIsBox>.5) {
       // sRGB thumbnail targets encode after the shader; rounding linear RGB there
       // clipped weak green/blue channels and made shaded clay red or leaves black.
     };
+    // Different drawings and pigments often use exactly the same GPU code.
+    // Compare the complete generated source, so sharing cannot merge distinct
+    // wetness, wind or atlas branches. Uniforms and textures remain per material.
+    const probe = {
+      vertexShader: T.ShaderLib.lambert.vertexShader,
+      fragmentShader: T.ShaderLib.lambert.fragmentShader,
+      uniforms: {},
+    };
+    m.onBeforeCompile(probe);
+    const source =
+      probe.vertexShader + "\n---fragment---\n" + probe.fragmentShader;
+    if (!programs.has(source)) programs.set(source, programs.size);
+    const programKey =
+      "pixel-metric-v7-" + (wind ? "wind-" : "static-") + programs.get(source);
+    m.customProgramCacheKey = () => programKey;
     cache.set(key, m);
     return m;
   }

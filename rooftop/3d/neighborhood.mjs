@@ -3,9 +3,9 @@ import { buildStreetCar, buildStreetLantern } from "./street-models.mjs";
 // Guoliyuan's published street photographs inform the architectural vocabulary.
 // Placement is a composed neighbourhood, not a surveyed reconstruction of block 92.
 export const NEIGHBORHOOD_BUILDINGS = [
-  [-10, -29, 36, 10, 6],
-  [31, 3, 34, 11, 6],
-  [-26, 27, 32, 10, 5],
+  [-5, -56, 48, 11, 6],
+  [2, 104, 52, 11, 6],
+  [122, 24, 42, 11, 6],
 ];
 export const NEIGHBORHOOD_SOURCES = [
   [
@@ -66,6 +66,7 @@ export function buildNeighborhood(api, city, groundY, window) {
     const g = group(city, x, groundY, z),
       h = floors * 3,
       color = colors[index % 4];
+    g.scale.setScalar(2);
     g.userData.paintSeed = surfaceSeed(9173 + index * 719);
     g.userData.weathered = true;
     // Beige plaster, a darker plinth and real pitched roofs distinguish old walk-ups.
@@ -353,7 +354,7 @@ export function buildNeighborhood(api, city, groundY, window) {
   }
   NEIGHBORHOOD_BUILDINGS.forEach((b, i) => building(...b, i));
   const ground = new T.Mesh(
-    new T.PlaneGeometry(240, 240),
+    new T.PlaneGeometry(360, 300),
     mat("#aaa697", "asphalt"),
   );
   ground.rotation.x = -Math.PI / 2;
@@ -364,38 +365,48 @@ export function buildNeighborhood(api, city, groundY, window) {
   const street = group(city, 0, groundY + 0.015, 0);
   street.userData.paintSeed = surfaceSeed(43179);
   street.userData.weathered = true;
-  for (const x of [-15.4, 16.3]) {
-    box(street, x, 0, 0, 3.6, 0.06, 110, "#777d7d", "asphalt");
+  for (const x of [16.3]) {
+    box(street, x, 0, 18, 3.6, 0.06, 114, "#777d7d", "asphalt");
     for (const side of [-1, 1]) {
-      box(street, x + side * 1.95, 0.07, 0, 0.25, 0.15, 110, "#c3c2b0", "wall");
-      box(street, x + side * 2.9, 0.04, 0, 1.55, 0.07, 104, "#a3a898", "wall");
+      box(
+        street,
+        x + side * 1.95,
+        0.07,
+        18,
+        0.25,
+        0.15,
+        114,
+        "#c3c2b0",
+        "wall",
+      );
+      box(street, x + side * 2.9, 0.04, 18, 1.55, 0.07, 114, "#a3a898", "wall");
     }
   }
-  for (const z of [-16.6, 18.2]) {
-    box(street, 0, 0.045, z, 98, 0.08, 4.2, "#767c7d", "asphalt");
+  for (const z of [-30, 78]) {
+    box(street, -43, 0.045, z, 130, 0.08, 6.2, "#767c7d", "asphalt");
     for (const s of [-1, 1])
-      box(street, 0, 0.08, z + s * 2.25, 98, 0.16, 0.25, "#c0c1b0", "wall");
+      box(street, -43, 0.08, z + s * 3.25, 130, 0.16, 0.25, "#c0c1b0", "wall");
   }
   // Mature planting is clustered between buildings, leaving the lanes readable.
   const treeSites = [
-    [-19, -32],
-    [-19.6, -23],
-    [-20, -7],
-    [-21, 3],
-    [-20, 11],
-    [-18.9, 28],
-    [-20.5, 38],
-    [20.6, -28],
-    [21.7, -19],
+    [-80, -24],
+    [-61, -25],
+    [-44, -23],
+    [-21, -25],
+    [-6, -24],
+    [-76, 64],
+    [-54, 65],
+    [-31, 64],
+    [-9, 65],
+    [21.7, -34],
+    [21.1, -19],
     [20.1, -6],
     [22, 7],
     [21.1, 16],
     [20, 30],
     [21.5, 39],
-    [-9, 23],
-    [8, -22],
-    [-5, -24],
-    [12, 27],
+    [22, 62],
+    [20.5, 78],
   ];
   for (let i = 0; i < treeSites.length; i++) {
     const x = treeSites[i][0] + (surfaceSeed(719 * i + 37) - 0.5) * 0.5,
@@ -478,7 +489,7 @@ export function buildNeighborhood(api, city, groundY, window) {
     buildStreetCar(api, g, color);
   }
   for (let i = 0; i < 7; i++) {
-    const x = i % 2 ? -16.6 : 17.4,
+    const x = i % 2 ? 14.9 : 17.4,
       z = -12 + Math.floor(i / 2) * 7.7;
     car(x, z, Math.PI, i);
     for (const dx of [-1, 1])
@@ -522,7 +533,7 @@ export function buildNeighborhood(api, city, groundY, window) {
     beam(g, [0, 0.15, -0.1], [0.22, -0.19, -0.23], 0.025, "#4c5d5f");
   }
   // Blue charging shelter, bicycles and scooters recall the small community lanes.
-  const shelter = group(street, -9.8, 0, 18.9);
+  const shelter = group(street, -18, 0, 64);
   box(shelter, 0, 0.08, 0, 7.4, 0.16, 2.7, "#b9bbab", "wall");
   for (const x of [-3.55, 3.55])
     for (const z of [-1.15, 1.15])
@@ -531,13 +542,13 @@ export function buildNeighborhood(api, city, groundY, window) {
   for (let i = 0; i < 7; i++)
     bicycle(shelter, -2.9 + i * 0.87, 0.05, i, i % 3 === 0);
   for (let i = 0; i < 4; i++) bicycle(street, 13.5, 10 + i * 0.85, i, true);
-  for (const x of [-18.6, 19.1])
+  for (const x of [12.8, 19.1])
     for (const z of [-11, 10]) {
       const lamp = group(street, x, 0, z);
       buildStreetLantern(api, lamp);
     }
   for (let i = 0; i < 4; i++) {
-    const g = group(street, 9.5 + i * 0.65, 0, 19.5);
+    const g = group(street, 10 + i * 0.65, 0, 64);
     box(
       g,
       0,
@@ -552,7 +563,7 @@ export function buildNeighborhood(api, city, groundY, window) {
     box(g, 0, 1.04, 0, 0.59, 0.11, 0.67, "#535e5c", "metal", -0.1);
     box(g, 0, 0.63, 0.308, 0.33, 0.31, 0.016, "#c3c7b8", "panel-label");
   }
-  const bench = group(street, 11.2, 0.02, -17.7);
+  const bench = group(street, 9.5, 0.02, -24);
   for (let j = 0; j < 4; j++)
     box(bench, 0, 0.72, -0.35 + j * 0.22, 2.8, 0.095, 0.18, "#267f82", "wood");
   for (let j = 0; j < 3; j++)
@@ -563,9 +574,9 @@ export function buildNeighborhood(api, city, groundY, window) {
   }
   // Drain covers and faded curb marks keep the ground from being a generic flat sheet.
   for (const [x, z] of [
-    [-15, -8],
+    [15, -8],
     [16, -8],
-    [-14, 16],
+    [14, 16],
     [16, 16],
   ]) {
     box(street, x, 0.066, z, 0.75, 0.025, 0.42, "#455756", "metal");

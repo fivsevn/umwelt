@@ -11,7 +11,7 @@ const engine = process.env.BROWSER || "chromium",
       : {}),
   });
   try {
-    const page = await browser.newPage({
+    let page = await browser.newPage({
         viewport: { width: 1280, height: 800 },
       }),
       errors = [];
@@ -32,14 +32,70 @@ const engine = process.env.BROWSER || "chromium",
       );
       const cv = page.locator("#garden");
       await cv.focus();
+      const initialTheta = await page.evaluate(
+        () => rooftop.graphics.wanted.theta,
+      );
+      for (let turn = 0; turn < 24; turn++) {
+        await cv.press("ArrowRight");
+        await cv.press("ArrowRight");
+        await page.waitForFunction(
+          () =>
+            Math.abs(
+              rooftop.graphics.view.theta - rooftop.graphics.wanted.theta,
+            ) < 0.02,
+        );
+        assert.ok(
+          !(
+            await page.evaluate(() => rooftop.graphics.visibleTerraces)
+          ).includes(scene === "north" ? "south" : "north"),
+          "the real roof keeps the other balcony out of view throughout a full turn",
+        );
+      }
+      assert.ok(
+        (await page.evaluate(() => rooftop.graphics.wanted.theta)) -
+          initialTheta >
+          Math.PI * 2,
+      );
+      await cv.press("Home");
+      await page.getByRole("button", { name: "移动画面", exact: true }).click();
+      const minTarget = await page.evaluate(() => rooftop.graphics.target);
+      const minBox = await cv.boundingBox();
+      await page.mouse.move(minBox.width * 0.7, minBox.height * 0.4);
+      await page.mouse.down();
+      await page.mouse.move(minBox.width * 0.7, minBox.height * 0.6, {
+        steps: 8,
+      });
+      await page.mouse.up();
+      await page.waitForFunction(
+        (p) =>
+          Math.hypot(
+            rooftop.graphics.target[0] - p[0],
+            rooftop.graphics.target[2] - p[2],
+          ) > 0.5,
+        minTarget,
+      );
+      await page.getByRole("button", { name: "转动画面", exact: true }).click();
+      await cv.press("Home");
       for (let i = 0; i < 12; i++) await page.keyboard.press("-");
-      assert.equal(await page.evaluate(() => rooftop.graphics.wanted.zoom), 1);
-      for (let i = 0; i < 16; i++) await page.keyboard.press("+");
-      await page.waitForFunction(() => rooftop.graphics.view.zoom > 3.4);
       assert.equal(
         await page.evaluate(() => rooftop.graphics.wanted.zoom),
-        3.5,
+        1.8,
       );
+      for (let i = 0; i < 16; i++) await page.keyboard.press("+");
+      await page.waitForFunction(() => rooftop.graphics.view.zoom > 4.4);
+      assert.equal(
+        await page.evaluate(() => rooftop.graphics.wanted.zoom),
+        4.5,
+      );
+      assert.equal(
+        await page.evaluate(() => rooftop.graphics.navigationMode),
+        "rotate",
+      );
+      assert.deepEqual(
+        await page.evaluate(() => rooftop.graphics.mountedTerraces),
+        ["north", "south"],
+      );
+      await page.getByRole("button", { name: "移动画面", exact: true }).click();
       const start = await page.evaluate(() => rooftop.graphics.target);
       const b = await cv.boundingBox();
       await page.mouse.move(b.width * 0.7, b.height * 0.5);
@@ -62,12 +118,13 @@ const engine = process.env.BROWSER || "chromium",
       const beforeReset = await page.evaluate(
         () => rooftop.graphics.performance.frames,
       );
+      await page.getByRole("button", { name: "转动画面", exact: true }).click();
       await cv.press("Home");
       // Reset assigns the desired view immediately. Wait for a drawn frame so
       // projection and picking also use that view on a slow software renderer.
       await page.waitForFunction(
         (frames) =>
-          rooftop.graphics.view.zoom === 1 &&
+          rooftop.graphics.view.zoom === 1.8 &&
           rooftop.graphics.performance.frames > frames + 1,
         beforeReset,
       );
@@ -146,6 +203,11 @@ const engine = process.env.BROWSER || "chromium",
           exact: true,
         })
         .click();
+      await page.waitForFunction(
+        () =>
+          rooftop.graphics.visibleTerraces.length === 1 &&
+          rooftop.graphics.visibleTerraces[0] === rooftop.scene,
+      );
       assert.equal(
         await page.evaluate(() => rooftop.scene),
         scene === "north" ? "south" : "north",
@@ -155,16 +217,123 @@ const engine = process.env.BROWSER || "chromium",
         [scene === "north" ? "south" : "north"],
       );
     }
-    await page.setViewportSize({ width: 390, height: 844 });
+    await page.close();
+    page = await browser.newPage({
+      viewport: { width: 390, height: 844 },
+      hasTouch: true,
+      isMobile: true,
+    });
+    page.on("pageerror", (e) => errors.push(e.message));
     await page.goto(base + "/rooftop/?scene=south&weather=heavy");
     await page.waitForFunction(() => rooftop.graphics?.drawCalls > 0);
-    assert.equal(await page.evaluate(() => rooftop.graphics.view.zoom), 1);
+    assert.equal(await page.evaluate(() => rooftop.graphics.view.zoom), 1.8);
     assert.equal(
       await page.evaluate(
         () => document.documentElement.scrollWidth > innerWidth,
       ),
       false,
     );
+    const initialPhoneLayout = await page.evaluate(() => rooftop.layout);
+    const rotateButton = page.getByRole("button", {
+        name: "转动画面",
+        exact: true,
+      }),
+      moveButton = page.getByRole("button", { name: "移动画面", exact: true });
+    if (engine === "chromium") {
+      const touch = await page.context().newCDPSession(page);
+      const gesture = async (points, end) => {
+        await touch.send("Input.dispatchTouchEvent", {
+          type: "touchStart",
+          touchPoints: points,
+        });
+        for (let i = 1; i <= 6; i++)
+          await touch.send("Input.dispatchTouchEvent", {
+            type: "touchMove",
+            touchPoints: points.map((p, j) => ({
+              ...p,
+              x: p.x + ((end[j].x - p.x) * i) / 6,
+              y: p.y + ((end[j].y - p.y) * i) / 6,
+            })),
+          });
+        await touch.send("Input.dispatchTouchEvent", {
+          type: "touchEnd",
+          touchPoints: [],
+        });
+      };
+      const before = await page.evaluate(() => rooftop.graphics.wanted.theta);
+      await gesture([{ x: 230, y: 400, id: 1 }], [{ x: 190, y: 415 }]);
+      assert.ok(
+        Math.abs(
+          (await page.evaluate(() => rooftop.graphics.wanted.theta)) - before,
+        ) > 0.1,
+        "one finger rotates without a keyboard",
+      );
+      const move = await moveButton.boundingBox();
+      await page.touchscreen.tap(
+        move.x + move.width / 2,
+        move.y + move.height / 2,
+      );
+      assert.equal(await moveButton.getAttribute("aria-pressed"), "true");
+      const target = await page.evaluate(() => rooftop.graphics.target);
+      await gesture([{ x: 210, y: 380, id: 1 }], [{ x: 210, y: 470 }]);
+      await page.waitForFunction(
+        (p) =>
+          Math.hypot(
+            rooftop.graphics.target[0] - p[0],
+            rooftop.graphics.target[2] - p[2],
+          ) > 0.1,
+        target,
+      );
+      const rotation = await rotateButton.boundingBox();
+      await page.touchscreen.tap(
+        rotation.x + rotation.width / 2,
+        rotation.y + rotation.height / 2,
+      );
+      const beforePinch = await page.evaluate(() => rooftop.graphics.wanted);
+      await gesture(
+        [
+          { x: 120, y: 350, id: 1 },
+          { x: 260, y: 350, id: 2 },
+        ],
+        [
+          { x: 90, y: 345 },
+          { x: 290, y: 355 },
+        ],
+      );
+      assert.ok(
+        (await page.evaluate(() => rooftop.graphics.wanted.zoom)) >
+          beforePinch.zoom + 0.2,
+        "two fingers zoom",
+      );
+      assert.equal(
+        await page.evaluate(() => rooftop.graphics.wanted.theta),
+        beforePinch.theta,
+        "pinch never rotates",
+      );
+      assert.equal(
+        await page.locator(".observation-notebook").isVisible(),
+        false,
+      );
+      await touch.detach();
+    } else {
+      const move = await moveButton.boundingBox();
+      await page.touchscreen.tap(
+        move.x + move.width / 2,
+        move.y + move.height / 2,
+      );
+      assert.equal(await moveButton.getAttribute("aria-pressed"), "true");
+      const rotate = await rotateButton.boundingBox();
+      await page.touchscreen.tap(
+        rotate.x + rotate.width / 2,
+        rotate.y + rotate.height / 2,
+      );
+      assert.equal(await rotateButton.getAttribute("aria-pressed"), "true");
+    }
+    assert.deepEqual(
+      await page.evaluate(() => rooftop.layout),
+      initialPhoneLayout,
+    );
+    await page.getByRole("button", { name: "复位画面", exact: true }).click();
     const out = process.env.QA_OUTPUT || "/tmp/rooftop-observation";
     await fs.mkdir(out, { recursive: true });
     await page.screenshot({ path: out + "/observation-" + engine + ".png" });
