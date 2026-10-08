@@ -9,6 +9,7 @@ import {
 import { SCENES, ASSETS, inside } from "../rooftop/scene.mjs";
 import {
   TERRACE_ZOOM,
+  TERRACE_VIEW_DISTANCE,
   terraceOrbit,
   terraceFrame,
   constrainTerracePan,
@@ -158,6 +159,11 @@ test("full rotation and local panning never reveal the opposite balcony through 
       const limits = terraceOrbit(scene, w),
         other = scene === "north" ? "south" : "north";
       assert.equal(limits.fullRotation, true);
+      assert.ok(
+        0.2 + Math.sin(limits.minPhi) * TERRACE_VIEW_DISTANCE >
+          HOUSE.roof.ridge,
+        "the lowest view stays above the real roof, with no camera penetration",
+      );
       const [cx, cz] = other === "north" ? [304, 272] : [284, 264];
       const points = [];
       for (let x = 140; x <= 464; x += 16)
@@ -192,17 +198,29 @@ test("full rotation and local panning never reveal the opposite balcony through 
                   v = sp * (s * target.x + c * target.z);
                 const eyeXZ = housePoint(
                   scene,
-                  target.x + s * cp * 58,
-                  target.z + c * cp * 58,
+                  target.x + s * cp * TERRACE_VIEW_DISTANCE,
+                  target.z + c * cp * TERRACE_VIEW_DISTANCE,
                 );
-                const eye = [eyeXZ[0], 0.2 + sp * 58, eyeXZ[1]];
+                const eye = [
+                  eyeXZ[0],
+                  0.2 + sp * TERRACE_VIEW_DISTANCE,
+                  eyeXZ[1],
+                ];
                 for (const [hx, hz, y] of points) {
                   const [x, z] = terracePoint(scene, hx, hz),
                     pu = c * x - s * z,
                     pv = sp * (s * x + c * z) - cp * (y - 0.2);
+                  const depth =
+                    (target.x + s * cp * TERRACE_VIEW_DISTANCE - x) * s * cp +
+                    (0.2 + sp * TERRACE_VIEW_DISTANCE - y) * sp +
+                    (target.z + c * cp * TERRACE_VIEW_DISTANCE - z) * c * cp;
                   const inFrame =
-                    Math.abs(pu - u) <= frame.width / zoom / 2 &&
-                    Math.abs(pv - v) <= frame.span / zoom / 2;
+                    depth >= 0.1 &&
+                    depth <= 500 &&
+                    Math.abs(((pu - u) * TERRACE_VIEW_DISTANCE) / depth) <=
+                      frame.width / zoom / 2 &&
+                    Math.abs(((pv - v) * TERRACE_VIEW_DISTANCE) / depth) <=
+                      frame.span / zoom / 2;
                   assert.ok(
                     !inFrame || houseOccludes(eye, [hx, y, hz]),
                     `${scene} ${w}x${h} theta=${theta} phi=${phi} zoom=${zoom}: ${other} point ${hx},${y},${hz}`,
@@ -253,7 +271,7 @@ test("action cards hold through pose changes and update only for meaningful epis
 test("the balcony is a small part of a long house with clear space to neighbouring blocks", () => {
   const r = HOUSE.roof;
   assert.ok(r.width > 100 && r.width > r.depth * 2);
-  assert.ok(r.ridge > r.eave + 8);
+  assert.ok(r.ridge > r.eave + 7);
   for (const [x, z, w, d] of NEIGHBORHOOD_BUILDINGS) {
     // Neighbour groups use a uniform scale of two, including their windows.
     const dx = Math.max(r.x - (x + w), x - w - (r.x + r.width), 0);

@@ -1,14 +1,15 @@
 import { SCENES } from "../scene.mjs";
 
+export const TERRACE_VIEW_DISTANCE = 46;
 export const TERRACE_ZOOM = { min: 1.8, max: 4.5 };
 export function terraceOrbit(scene, width) {
   const theta = scene === "south" && width >= 640 ? -Math.PI / 2 + 0.34 : -0.12;
   return {
     theta,
     fullRotation: true,
-    minPhi: 0.45,
+    minPhi: 0.18,
     maxPhi: 1.35,
-    phi: 0.55,
+    phi: 0.35,
   };
 }
 const centre = { north: [304, 272], south: [284, 264] };

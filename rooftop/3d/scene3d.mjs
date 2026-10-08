@@ -2,6 +2,7 @@ import { HOUSE, housePoint, houseOccludes } from "../house-structure.mjs";
 import { buildHouseRoof } from "./house-roof.mjs";
 import {
   TERRACE_ZOOM,
+  TERRACE_VIEW_DISTANCE,
   terraceOrbit,
   terraceFrame,
   constrainTerracePan,
@@ -92,7 +93,10 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   renderer.shadowMap.type = T.BasicShadowMap;
   renderer.setClearColor("#bdc2c5");
   const scene = new T.Scene(),
-    camera = new T.OrthographicCamera(-20, 20, 20, -20, 0.1, 500);
+    camera =
+      controls === "pan"
+        ? new T.PerspectiveCamera(40, 1, 0.1, 500)
+        : new T.OrthographicCamera(-20, 20, 20, -20, 0.1, 500);
   scene.fog = new T.Fog("#bdc2c5", 48, 130);
   const hemi = new T.HemisphereLight("#f3f2e9", "#a0aaa4", 2.0);
   scene.add(hemi);
@@ -1807,6 +1811,12 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     camera.bottom = -height / 2;
     camera.left = (-height * w) / h / 2;
     camera.right = (height * w) / h / 2;
+    if (camera.isPerspectiveCamera) {
+      camera.aspect = w / h;
+      camera.fov = T.MathUtils.radToDeg(
+        2 * Math.atan(height / (2 * TERRACE_VIEW_DISTANCE)),
+      );
+    }
     camera.updateProjectionMatrix();
     renderer.shadowMap.needsUpdate = true;
   }
@@ -1957,7 +1967,11 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     if (e.key === "ArrowLeft") wanted.theta -= 0.14;
     if (e.key === "ArrowRight") wanted.theta += 0.14;
     if (e.key === "ArrowUp") wanted.phi = Math.min(1.49, wanted.phi + 0.1);
-    if (e.key === "ArrowDown") wanted.phi = Math.max(0.35, wanted.phi - 0.1);
+    if (e.key === "ArrowDown")
+      wanted.phi = Math.max(
+        current !== "room" && !editable ? orbitLimits.minPhi : 0.35,
+        wanted.phi - 0.1,
+      );
     if (current !== "room") {
       wanted.phi = T.MathUtils.clamp(
         wanted.phi,
@@ -2176,7 +2190,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     for (const key of ["theta", "phi", "zoom"])
       view[key] += (wanted[key] - view[key]) * speed;
     target.lerp(desiredTarget, speed);
-    const radius = 58;
+    const radius = camera.isPerspectiveCamera ? TERRACE_VIEW_DISTANCE : 58;
     camera.position.set(
       target.x + Math.sin(view.theta) * Math.cos(view.phi) * radius,
       target.y + Math.sin(view.phi) * radius,
@@ -2388,6 +2402,17 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         ? hit.object.material
         : [hit.object.material];
       if (materials.every((m) => m?.transparent && m.opacity < 0.45)) continue;
+      if (!editable && current !== "room") {
+        const eye = housePoint(current, camera.position.x, camera.position.z),
+          point = housePoint(current, hit.point.x, hit.point.z);
+        if (
+          houseOccludes(
+            [eye[0], camera.position.y, eye[1]],
+            [point[0], hit.point.y, point[1]],
+          )
+        )
+          return null;
+      }
       let n = hit.object;
       while (n && !n.userData.objectId) n = n.parent;
       if (n) return D.layout[current].find((o) => o.id === n.userData.objectId);
@@ -2615,6 +2640,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         },
         controls,
         navigationMode,
+        projection: camera.isPerspectiveCamera ? "perspective" : "orthographic",
         orbitLimits,
         programs: renderer.info.programs?.length || 0,
         selectedModel: options.selected?.() || null,

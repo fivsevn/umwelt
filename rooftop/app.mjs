@@ -500,11 +500,12 @@ if (!editor) {
     touching.delete(e.pointerId);
     down = null;
   });
-  canvas.addEventListener("pointercancel", (e) => {
-    touching.delete(e.pointerId);
-    down = null;
-    clearTimeout(timer);
-  });
+  for (const event of ["pointercancel", "lostpointercapture"])
+    canvas.addEventListener(event, (e) => {
+      touching.delete(e.pointerId);
+      down = null;
+      clearTimeout(timer);
+    });
   note.addEventListener("pointerenter", () => clearTimeout(timer));
   note.addEventListener("pointerleave", () => {
     if (!pinned)

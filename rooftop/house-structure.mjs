@@ -2,11 +2,11 @@
 // to one continuous residential block; both terraces are rendered in public views.
 export const HOUSE = Object.freeze({
   id: "dongdong-home",
-  roof: { x: -102, z: 4, width: 108, depth: 48, eave: 0.15, ridge: 9.4 },
+  roof: { x: -106, z: 4, width: 120, depth: 52, eave: 0.15, ridge: 8.2 },
   base: -36.15,
   terraces: {
     north: { rotation: 0, origin: [0, 0] },
-    south: { rotation: -Math.PI / 2, origin: [0, 56] },
+    south: { rotation: -Math.PI / 2, origin: [0, 60] },
   },
 });
 export function housePoint(scene, x, z) {
