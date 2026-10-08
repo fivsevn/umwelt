@@ -11,7 +11,7 @@ export function createAtmosphere(
   T,
   scene,
   renderer,
-  { coords, hemi, sun, materialCache, windowMats },
+  { coords, hemi, sun, materialCache, windowMats, software = false },
 ) {
   const moon = new T.DirectionalLight("#adc4e7", 0);
   moon.position.set(-16, 36, 14);
@@ -26,7 +26,7 @@ export function createAtmosphere(
   sun.castShadow = true;
   sun.shadow.autoUpdate = false;
   roomLamp.shadow.autoUpdate = false;
-  roomLamp.shadow.mapSize.set(512, 512);
+  roomLamp.shadow.mapSize.set(software ? 256 : 512, software ? 256 : 512);
   roomLamp.shadow.bias = -0.001;
   scene.add(porch, roomLamp, roomLamp.target);
   const skyUniforms = {

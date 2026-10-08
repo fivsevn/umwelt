@@ -1,4 +1,5 @@
 import { atmosphereCaption } from "./atmosphere.mjs";
+import { createCatalogPreviews } from "./catalog-previews.mjs";
 import {
   movedArrangement,
   clearPlacement,
@@ -453,8 +454,17 @@ function vesselNote(id) {
   $("vesselNote").textContent = vessel(id).note;
 }
 
+const catalogPreviews = editor
+  ? createCatalogPreviews($("assets"), (sprite, preview) => {
+      if (!garden3d) return;
+      preview.getContext("2d").clearRect(0, 0, 64, 64);
+      garden3d.thumbnail(sprite, preview);
+      preview.dataset.renderer = "3d";
+    })
+  : null;
 function catalog() {
   const q = $("search").value.trim().toLowerCase();
+  catalogPreviews.reset();
   $("assets").replaceChildren();
   for (const a of ASSETS.filter(
     (a) =>
@@ -481,11 +491,7 @@ function catalog() {
       rotation: 0,
     };
     paintObject(preview.getContext("2d"), sprite);
-    if (garden3d)
-      queueMicrotask(() => {
-        preview.getContext("2d").clearRect(0, 0, 64, 64);
-        garden3d.thumbnail(sprite, preview);
-      });
+    if (garden3d) catalogPreviews.observe(preview, sprite);
     const name = document.createElement("span");
     name.textContent = a.name;
     button.append(preview, name);

@@ -778,6 +778,11 @@ test("the GPU selects paint after instance color exactly once and separates mate
     const materials = createPixelMaterials(T, { value: 0 }, { value: 0 });
     const clay = materials.mat("#b0714e", "vessel-terra"),
       leaf = materials.mat("#71875a", "leaf");
+    assert.notEqual(
+      materials.mat("#50402d", "soil").customProgramCacheKey(),
+      materials.mat("#ae6c48", "clay").customProgramCacheKey(),
+      "different wetness and pigment shader branches cannot share a program",
+    );
     assert.notEqual(clay.customProgramCacheKey(), leaf.customProgramCacheKey());
     assert.notEqual(
       clay.customProgramCacheKey(),

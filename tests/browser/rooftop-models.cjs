@@ -24,10 +24,17 @@ const engine = process.env.BROWSER || "chromium",
     if (engine === "chromium")
       assert.ok(webgl, "software WebGL must create models");
     if (webgl) {
+      await page.waitForFunction(() =>
+        document.querySelector('#assets canvas[data-renderer="3d"]'),
+      );
       await page.waitForFunction(
         () => rooftop.graphics.foliageMotion.time > 0.1,
       );
       const style = await page.evaluate(() => rooftop.graphics);
+      assert.ok(
+        style.cataloguePreviews < style.catalog,
+        "initial shelf does not rasterize the entire catalogue",
+      );
       assert.equal(style.style, "painted-materials-v6");
       assert.ok(style.textures >= 20, "shared painted material library");
       assert.ok(
