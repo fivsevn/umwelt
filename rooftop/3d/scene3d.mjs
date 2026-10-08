@@ -2175,7 +2175,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     skippedFrames = 0;
   let frameCount = 0,
     frameCursor = 0,
-    selectionKey = "";
+    selectionKey = "",
+    lastDrawAt = null;
   function draw({
     time,
     dt,
@@ -2198,9 +2199,16 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       pendingGPU = null;
     }
     const frameStart = performance.now();
+    // Camera response follows elapsed time between rendered frames, including
+    // GPU backpressure. Discarded submissions must not slow down navigation.
+    const motionDt =
+      lastDrawAt === null
+        ? dt
+        : Math.min(0.25, Math.max(0, (frameStart - lastDrawAt) / 1000));
+    lastDrawAt = frameStart;
     updateWardrobe();
     resizeIfNeeded();
-    const speed = reduced ? 1 : 1 - Math.exp(-dt * 14);
+    const speed = reduced ? 1 : 1 - Math.exp(-motionDt * 14);
     for (const key of ["theta", "phi", "zoom"])
       view[key] += (wanted[key] - view[key]) * speed;
     target.lerp(desiredTarget, speed);

@@ -10,11 +10,12 @@ const engine = process.env.BROWSER || "chromium",
       ? { args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader"] }
       : {}),
   });
+  let page;
   try {
-    let page = await browser.newPage({
-        viewport: { width: 1280, height: 800 },
-      }),
-      errors = [];
+    page = await browser.newPage({
+      viewport: { width: 1280, height: 800 },
+    });
+    const errors = [];
     page.on("pageerror", (e) => errors.push(e.message));
     for (const scene of ["north", "south"]) {
       await page.goto(
@@ -426,6 +427,27 @@ const engine = process.env.BROWSER || "chromium",
       engine +
         " observation: bounded north/south camera, zoom, pan, unchanged layouts, hover/click/source notebook, rain actions and mobile passed",
     );
+  } catch (error) {
+    if (page) {
+      console.error(
+        "observation state",
+        await page
+          .evaluate(() => ({
+            scene: rooftop.scene,
+            view: rooftop.graphics?.view,
+            wanted: rooftop.graphics?.wanted,
+            performance: rooftop.graphics?.performance,
+            mode: rooftop.graphics?.navigationMode,
+          }))
+          .catch(() => "page unavailable"),
+      );
+      const out = process.env.QA_OUTPUT || "/tmp/rooftop-observation";
+      await fs.mkdir(out, { recursive: true });
+      await page
+        .screenshot({ path: out + "/failure-" + engine + ".png" })
+        .catch(() => {});
+    }
+    throw error;
   } finally {
     await browser.close();
   }
