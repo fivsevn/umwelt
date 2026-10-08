@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { ASSETS } from "../rooftop/scene.mjs";
+import { ASSETS, initialLayout, validateLayout } from "../rooftop/scene.mjs";
 import { PLANTS, POTS } from "../rooftop/botany.mjs";
 import { MODEL_REFERENCES } from "../rooftop/object-references.mjs";
 import { OBJECT_DIMENSIONS } from "../rooftop/3d/object-models.mjs";
@@ -42,8 +42,55 @@ function recording() {
   };
   return { api, parts };
 }
+test("removed cloche disappears without resetting old layouts or deleting its contents", () => {
+  assert.ok(!ASSETS.some((a) => a.id === "browncover"));
+  const layout = initialLayout(),
+    original = structuredClone(layout);
+  layout.scenes.north.push({
+    id: "retired-cover",
+    type: "browncover",
+    x: 312,
+    y: 240,
+    rotation: 0,
+    scale: 1,
+  });
+  assert.deepEqual(validateLayout(layout), original);
+  const old = {
+    version: 2,
+    spaceVersion: 1,
+    roomVersion: 2,
+    scenes: {
+      north: [
+        {
+          id: "cover",
+          type: "browncover",
+          x: 312,
+          y: 240,
+          rotation: 0,
+          scale: 1,
+        },
+        {
+          id: "kept-gloves",
+          type: "gloves",
+          x: 312,
+          y: 240,
+          rotation: 0,
+          scale: 0.5,
+          support: { id: "cover", surface: "inside" },
+        },
+      ],
+      south: [],
+      room: [],
+    },
+  };
+  const migrated = validateLayout(old);
+  assert.equal(migrated.scenes.north.length, 1);
+  assert.equal(migrated.scenes.north[0].id, "kept-gloves");
+  assert.equal(migrated.scenes.north[0].support, null);
+  assert.deepEqual(validateLayout(migrated), migrated);
+});
 test("every catalog item retains references and has a defined 3D construction", () => {
-  assert.equal(ASSETS.length, 305);
+  assert.equal(ASSETS.length, 304);
   for (const a of ASSETS) {
     assert.ok(a.sources?.length, a.id + " reference");
     if (a.plant) assert.ok(PLANT_FORMS.has(a.form), a.id);

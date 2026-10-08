@@ -13,7 +13,6 @@ export const OBJECTS = [
   ["ceramicseat", "青花莲塘瓷墩", "家具", 28, 32, "seat"],
   ["wardcase", "沃德玻璃箱", "器具", 44, 35, "ward"],
   ["enamelbowl", "白搪瓷高脚盆", "器具", 29, 25, "bowl"],
-  ["browncover", "陶盆保湿罩", "器具", 32, 28, "cloche"],
   ["seedtray", "育苗浅盘", "器具", 34, 19, "tray"],
   ["foambox", "泡沫栽培箱", "器具", 38, 23, "foam"],
   ["thermometer", "温湿度表", "器具", 15, 32, "thermo"],
@@ -324,11 +323,6 @@ export function paintDetail(c, a, time = 0) {
     bowl(c, w, h, false, true);
     return true;
   }
-  if (t === "cloche") {
-    bowl(c, w, 18);
-    glass(c, w - 4, h - 4);
-    return true;
-  }
   if (
     t === "tray" ||
     t === "foam" ||
@@ -552,6 +546,12 @@ function paintAquarium(c, a, time) {
   if (round) {
     bowl(c, w, h, a.shape === "medaka");
     oval(c, 0, -3, w / 2 - 4, h / 2 - 7, "#658b7c");
+  } else if (a.id === "fish") {
+    px(c, -w / 2, -h / 2, w, h - 3, "rgba(174,205,201,.25)");
+    px(c, -w / 2 + 2, -h / 2 + 5, w - 4, h - 10, "rgba(101,154,150,.40)");
+    for (const x of [-w / 2, w / 2 - 1]) px(c, x, -h / 2, 1, h - 3, "#a5bab2");
+    for (const y of [-h / 2, h / 2 - 5]) px(c, -w / 2, y, w, 1, "#a5bab2");
+    px(c, -w / 2 + 4, -h / 2 + 5, 1, 3, "#d2e3d7");
   } else {
     px(c, -w / 2, -h / 2, w, h - 3, M.dark);
     px(c, -w / 2 + 2, -h / 2 + 2, w - 4, h - 7, "#719589");

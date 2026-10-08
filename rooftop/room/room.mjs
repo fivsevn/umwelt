@@ -23,7 +23,10 @@ const $ = (id) => document.getElementById(id),
   canvas = $("room");
 let c = null;
 let room3d = null;
-const indoorWeather = makeWeather({ condition: "clear", phase: "auto" });
+const indoorWeather = makeWeather({
+  condition: new URLSearchParams(location.search).get("weather") || "auto",
+  phase: "auto",
+});
 
 canvas.style.height = "100%";
 canvas.style.touchAction = "none";
@@ -169,7 +172,14 @@ function loadRoom() {
     roomLayout = initialLayout();
   }
   personPoint = freeActorPoint("room", roomLayout.scenes.room, 300, 240);
-  pigPoint = freeActorPoint("room", roomLayout.scenes.room, 260, 260);
+  pigPoint = freeActorPoint(
+    "room",
+    roomLayout.scenes.room,
+    260,
+    260,
+    { radius: 0.76, height: 1.0 },
+    personPoint ? [{ x: personPoint[0], y: personPoint[1], radius: 0.48 }] : [],
+  );
 }
 loadRoom();
 addEventListener("storage", loadRoom);
@@ -193,7 +203,7 @@ try {
   canvas.height = 288;
 }
 function frame(ms) {
-  if (ms - lastFrame < 33) {
+  if (ms - lastFrame < (room3d?.interacting ? 16 : 33)) {
     requestAnimationFrame(frame);
     return;
   }
@@ -332,7 +342,16 @@ $("roomFile").onchange = async () => {
     dress("pig", data.wardrobe.pig);
     roomLayout = next;
     personPoint = freeActorPoint("room", next.scenes.room, 300, 240);
-    pigPoint = freeActorPoint("room", next.scenes.room, 260, 260);
+    pigPoint = freeActorPoint(
+      "room",
+      next.scenes.room,
+      260,
+      260,
+      { radius: 0.76, height: 1.0 },
+      personPoint
+        ? [{ x: personPoint[0], y: personPoint[1], radius: 0.48 }]
+        : [],
+    );
     for (const sync of wardrobeViews) sync();
     document.querySelector(".transfer").open = false;
     $("caption").textContent = "房间和换装已恢复。";

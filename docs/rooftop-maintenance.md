@@ -24,10 +24,24 @@
 - `room/room.mjs` / `wardrobe.mjs` / `card-feed.mjs`：房间活动、服装绘制与提示卡。
 - `facing.mjs` / `styled-views.mjs` / `objects.mjs`：物件方向、材质绘制与小物目录。
 - `object-references.mjs`：物件手帐的资料归属。
-- `camera.mjs` / `city.mjs` / `weather.mjs` / `resident.mjs`：镜头、周边楼群、天气与人物。
+- `weather.mjs`：天气选择、平滑过渡与湿润历史；`atmosphere.mjs`：共享时间光照、风和闪电配置；`precipitation.mjs`：雨型和随生命周期更新的落点。
+- `resident.mjs`：东东外出节奏；`resident-weather.mjs`：天气动作池；`actor-space.mjs`：从共享承放结构派生人物实际身体通行空间。路径网格按布局缓存，编辑后清除。
+- `3d/scene3d.mjs`：场景、实例批次、缓存模型、镜头与编辑投影。`3d/atmosphere.mjs`：缓存的天空、灯光、雨线、积水和雨点缓冲；`3d/residents.mjs`：身体、衣服和装饰模型；`3d/resident-paintings.mjs`：皮肤、头发与布料绘制。
+- `3d/pixel-materials.mjs`：统一像素尺度、材质缓存和天气参数；`3d/environment-paintings.mjs`：建筑与铺地绘制；`3d/weathering.mjs`：局部做旧；`3d/soil-surface.mjs`：弧面盆土；`3d/antique-paintings.mjs`：资料校准的古董陶器图案。
+- `3d/neighborhood.mjs`：周边楼群、道路、绿化与资料归属；`camera.mjs` / `city.mjs`：2D 回退镜头与周边绘制。
 - `arrange/index.html` / `rooftop.css`：布置页面结构与样式。
 
 扩容植物从 `botany.mjs` 和 `plant-art.mjs` 入手，家具从 `furniture.mjs` 入手。保留旧 ID、植物容器限制、seed、旋转和缩放序列化约定；当前上限仍为每场景 400 件。`scene.mjs` 中的旧物件尺寸用于历史存档迁移，不能作为重复目录删除。
+
+## 性能与缓存
+
+几何只在物件类型、容器、seed 或需要重新裁切的垂吊植物结构改变时重建。移动、转向、缩放、天气和换时刻复用模型；衣服改变仅重建角色。从天台打开房间时，房间链接传递当前天气，时刻继续遵循本机时间。
+
+固定群组和实例的本地矩阵冻结，人物关节、编辑物件和风动部件继续更新。
+
+雨线和雨点使用预分配缓冲，积水和表面湿润使用共享参数。保持灯光和阴影的着色程序结构固定，用强度和阴影更新开关改变天气，避免切换时刻重新编译数百个材质。阴影按 0.22 秒更新；选择框只在物件改变时重新计算。静止场景约 30 帧绘制，操作镜头时提高更新频率，大屏限制绘制缓冲总面积。目录预览临时关闭天气参数，绘制完成后恢复。
+
+`graphics.performance` 提供最近 90 次绘制的 p95 与最后一次耗时，含提交开销，不代表 GPU 完整时间或所有设备的保证。性能验证应包括密集陈列、切换时刻、台风、镜头转动和实际拖动；同时检查纹理、模型与缓冲数量不会随持续运行增长。
 
 ## 验证
 
@@ -43,6 +57,8 @@ BROWSER=webkit BASE_URL=http://127.0.0.1:8773 COMPARE_URL=http://127.0.0.1:8774 
 `rooftop-garage-layout.cjs` 检查实际响应式排布，`rooftop-plant-seed.cjs` 检查株形与复制后存档。部分早期浏览器脚本直接点击已隐藏的撤销按钮；这些检查应使用现有 Ctrl/Cmd+Z 与 Shift+Z 快捷键，无需改变前端来配合测试。
 
 测试截图、临时对比站点和检查日志放在仓库之外；`docs/` 与 `tests/` 不进入发布产物。
+
+`rooftop-atmosphere.test.mjs` 检查 63 种光照组合、四种雨的落点更新、减少动态下的闪电、雨中停止浇水、避雨恢复与双角色身体避让。
 
 结构与存档检查还可运行 `node --test tests/rooftop*.test.mjs`。浏览器脚本按任务选择：`rooftop-expansion.cjs` 检查目录、手帐、承托与导入导出，`rooftop-facing.cjs` 检查物件四面，`rooftop-garage-layout.cjs` 检查车库排布。脚本存在不表示已在当前提交运行。`rooftop-regression.yml` 在 Chromium / WebKit 运行维护、车库布局和房间回归；结构检查的触发路径也包含 `rooftop/**`。
 
@@ -60,6 +76,6 @@ BROWSER=webkit BASE_URL=http://127.0.0.1:8773 COMPARE_URL=http://127.0.0.1:8774 
 
 `rooftop-room.cjs` 覆盖房间撤销重做、阳台数据隔离、跨页面布局同步、换装与活动反馈、房间导入导出、失败回滚、刷新和窄屏布局。换装仍保留每次刷新随机换一套的现有规则。
 
-后续功能事项：统一历史导航的三场景解析、让布局传输提示明确包含房间、考虑用显式字段替代衣柜中文名称截取。它们会改变现有行为或文字，不能混入零变化维护。
+当前行为以运行模块与回归检查为准。不要把历史阶段的待办、目录数量或旧截图当作新的实现契约。
 
 3D 放置规格、层位身份、承放链与手势规则见 [承放关系](rooftop-placement.md)。

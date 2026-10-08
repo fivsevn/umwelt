@@ -1,3 +1,8 @@
+import {
+  lightingProfile,
+  weatherMotion,
+  lightningPulse,
+} from "./atmosphere.mjs";
 // Weather is a local scene clock, not a request to an external forecast service.
 export const WEATHER = [
   {
@@ -59,6 +64,26 @@ export const WEATHER = [
     fog: 0,
     tint: "#7b8073",
     shade: 0.06,
+  },
+  {
+    id: "thunderstorm",
+    name: "雷雨",
+    wind: 1.9,
+    rain: 0.9,
+    cloud: 1,
+    fog: 0.16,
+    tint: "#405b70",
+    shade: 0.39,
+  },
+  {
+    id: "typhoon",
+    name: "台风",
+    wind: 3.8,
+    rain: 1,
+    cloud: 1,
+    fog: 0.24,
+    tint: "#435665",
+    shade: 0.43,
   },
   {
     id: "mist",
@@ -152,6 +177,10 @@ export function automaticWeather(milliseconds) {
     "cloudy",
     "wind",
     "overcast",
+    "thunderstorm",
+    "rain",
+    "typhoon",
+    "cloudy",
     "rain",
     "cloudy",
     "mist",
@@ -184,14 +213,10 @@ export function weatherProfile(condition, phase) {
     p = TIMES.find((p) => p.id === phase) || TIMES.find((p) => p.id === "day");
   return {
     ...w,
+    ...lightingProfile(w, p.id),
     condition: w.id,
     phase: p.id,
     period: p.name,
-    sky: blendColor(
-      p.sky,
-      w.id === "clear" ? p.sky : "#959ea5",
-      p.night > 0.5 ? 0.12 : 0.24,
-    ),
     wetness: w.rain,
     night: p.night,
     lamps: p.lamps,
@@ -205,8 +230,10 @@ export function weatherProfile(condition, phase) {
       w.id === "clear"
         ? Math.max(0, 1 - p.night * 1.5)
         : w.id === "cloudy"
-          ? 0.35
-          : 0,
+          ? 0.35 * Math.max(0, 1 - p.night * 1.5)
+          : w.id === "wind" || w.id === "mist"
+            ? 0.3 * Math.max(0, 1 - p.night * 1.5)
+            : 0,
   };
 }
 export function makeWeather({
@@ -219,21 +246,52 @@ export function makeWeather({
       phase: TIMES.some((p) => p.id === phase) ? phase : "auto",
     },
     current = null,
-    target = null;
+    target = null,
+    resolvedKey = "",
+    resolvedProfile = null,
+    targetColours = {};
   function resolve() {
     const date = now();
-    return weatherProfile(
+    const condition =
       choices.condition === "auto"
         ? automaticWeather(date.getTime())
-        : choices.condition,
+        : choices.condition;
+    const phase =
       choices.phase === "auto"
         ? timeOfDay(date.getHours() + date.getMinutes() / 60)
-        : choices.phase,
-    );
+        : choices.phase;
+    const key = condition + ":" + phase;
+    if (key !== resolvedKey) {
+      resolvedKey = key;
+      resolvedProfile = weatherProfile(condition, phase);
+      targetColours = Object.fromEntries(
+        [
+          "sky",
+          "lightTint",
+          "horizon",
+          "zenith",
+          "sunColor",
+          "ambientColor",
+          "bounceColor",
+        ].map((k) => [k, hex(resolvedProfile[k])]),
+      );
+    }
+    return resolvedProfile;
   }
   target = resolve();
   current = { ...target };
-  const colours = { sky: hex(current.sky), lightTint: hex(current.lightTint) };
+  const colourKeys = [
+    "sky",
+    "lightTint",
+    "horizon",
+    "zenith",
+    "sunColor",
+    "ambientColor",
+    "bounceColor",
+  ];
+  const colours = Object.fromEntries(
+    colourKeys.map((key) => [key, hex(current[key])]),
+  );
   return {
     get choices() {
       return { ...choices };
@@ -269,10 +327,18 @@ export function makeWeather({
         "lamps",
         "lightAmount",
         "sun",
+        "ambient",
+        "direct",
+        "moon",
+        "sunX",
+        "sunY",
+        "sunZ",
+        "thunder",
+        "gale",
       ])
         current[key] += (target[key] - current[key]) * t;
-      for (const key of ["sky", "lightTint"]) {
-        const next = hex(target[key]);
+      for (const key of colourKeys) {
+        const next = targetColours[key];
         colours[key] = colours[key].map((v, i) => v + (next[i] - v) * t);
         current[key] =
           "#" +
@@ -472,16 +538,22 @@ export function paintLighting(c, w, h, state, time, options) {
 export function paintRain(c, w, h, state, time, { reduced = false } = {}) {
   if (state.rain < 0.02) return;
   c.save();
-  const count = Math.round((reduced ? 60 : 106) * state.rain),
+  const motion = weatherMotion(state, time);
+  const count = Math.round((reduced ? 90 : 150) * state.rain),
     col = state.night > 0.5 ? "#879bae" : "#b7c4c6";
   for (let i = 0; i < count; i++) {
     const cycle = wrap(time * (1.6 + state.rain * 0.7) + i * 0.618, 1),
-      x = wrap(i * 137 + cycle * state.wind * 9, w + 12) - 6,
+      x = wrap(i * 137 + cycle * motion.wind * 19, w + 12) - 6,
       y = wrap(i * 71 + cycle * (h + 18), h + 18) - 9,
       len = 3 + Math.floor(state.rain * 3) + (i % 3 === 0 ? 1 : 0);
     c.globalAlpha = 0.24 + (i % 4) * 0.06;
     for (let j = 0; j < len; j++)
-      px(c, x + j * state.wind * 0.35, y + j, 1, 1, col);
+      px(c, x + j * motion.wind * 0.35, y + j, 1, 1, col);
+  }
+  const flash = lightningPulse(state, time, reduced);
+  if (flash > 0.01) {
+    c.globalAlpha = flash * 0.18;
+    px(c, 0, 0, w, h, "#d4e0f1");
   }
   c.restore();
 }

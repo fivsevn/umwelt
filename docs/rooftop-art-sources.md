@@ -24,7 +24,7 @@
 
 ## 陶瓷参考
 
-博物馆器物按游戏尺度转译，器形与纹饰经过简化。新增七件栽培钵是花盆改作，排水孔并非原藏品特征；窄颈志野织部花器仅作陈设，不列入换盆选项。
+2026-10-08逐件核对馆藏尺寸、正面和背面照片。博物馆器物按游戏尺度转译，器形与纹饰经过简化。新增七件栽培钵是花盆改作，排水孔并非原藏品特征；窄颈志野织部花器仅作陈设，不列入换盆选项。
 
 - **常滑烧风格盆**：外缘椭圆盆，矮足与宽口参考常滑盆栽鉢。 [まるたつ · 常滑盆栽鉢](https://marutatu.shop-pro.jp/)；[传统工艺青山 Square](https://kougeihin.jp/craft/0407/)
 - **信乐烧风格盆**：宽口、圆腹的育成鉢；参考信乐 ZEN Bowl 的宽深比例。 [ZEN Pottery Labo · Bowl](https://zenpotterylabo.jp/products/zen-bowl-type-7号-無釉)；[传统工艺青山 Square](https://kougeihin.jp/craft/0413/)
@@ -55,14 +55,16 @@
 - **深型种植袋**：较深透气种植袋；适合番茄、辣椒和小果树。 [RHS 容器栽培](https://www.rhs.org.uk/container-gardening)
 - **大型深陶盆**：深盆有排水孔；留给灌木、较大根系和酸性介质。 [RHS 容器栽培](https://www.rhs.org.uk/container-gardening)
 - **吊盆**：带排水孔的吊盆，给垂枝留下空间；也可平放在花架上。 [RHS 容器栽培](https://www.rhs.org.uk/container-gardening)
-- **志野芒纹浅钵**：16世纪桃山时期。参考长石白釉、铁绘芒草和浅阔器形，游戏中增设排水孔。 [MIHO MUSEUM · 志野芒文鉢](https://www.miho.jp/booth/html/artcon/00000283.htm)
-- **鼠志野撇口四方钵**：16世纪桃山时期。此藏品烧成赤褐色；参考白色掻落纹、内卷的宽口与三足，改作浅栽培钵。 [MIHO MUSEUM · 鼠志野向付](https://www.miho.jp/booth/html/artcon/00000293.htm)
-- **志野铁绘四方钵**：参考桃山时期四方向付的厚釉、折角和铁绘纹饰；游戏中按小盆尺度改作带排水孔的器物。 [MIHO MUSEUM · 志野四方向付](https://www.miho.jp/booth/html/artcon/00000294.htm)
-- **锅岛彩绘八角钵**：约1800年江户时期。参考八角折面、彩绘花纹和圈足；在游戏中改作栽培钵。 [Met · 八角彩绘钵，约1800年](https://www.metmuseum.org/art/collection/search/63040)
-- **锅岛青花几何浅盘**：18世纪江户时期。参考青花几何纹、浅盘和带梳齿纹的圈足；游戏中增设排水孔。 [Met · 几何纹青花盘，18世纪](https://www.metmuseum.org/art/collection/search/50344)
-- **九谷赤绘金彩钵**：19世纪早至中期江户时期。参考赤绘、金彩、花草与密集分区装饰；按阳台陈列尺度改作小钵。 [Cleveland · Kutani Bowl, 1986.173](https://www.clevelandart.org/art/1986.173)
-- **锅岛青瓷三足钵**：约1700年江户时期。参考轮花口、淡青釉、划花和三足；游戏中增设排水孔。 [LACMA · Nabeshima Celadon Bowl](https://collections.lacma.org/object/160060)
-- **志野织部铁绘花器**：17世纪江户时期。参考鼓腹、窄颈与五道肩部凹线。原器未用铜绿釉，曾作花器；这里作为陈设花器，不用于换盆。 [MIHO MUSEUM · 志野織部徳利](https://www.miho.jp/booth/html/artcon/00000275.htm)
+- **志野芒纹浅钵**：16世纪桃山时期。按高6.4厘米、径28厘米校准浅阔器形，长石白釉，芒草铁绘位于钵内；游戏中增设排水孔。 [MIHO MUSEUM · 志野芒文鉢](https://www.miho.jp/booth/html/artcon/00000283.htm)
+- **鼠志野撇口四方钵**：16世纪桃山时期。参考高5.8厘米、口径14至14.2厘米的深赤褐釉、白色掻落纹、内卷方口、圆形内底与三足，改作栽培钵。 [MIHO MUSEUM · 鼠志野向付](https://www.miho.jp/booth/html/artcon/00000293.htm)
+- **志野铁绘四方向付**：16世纪桃山时期。参考高9.2厘米、口径8.5厘米的四方向付；四面分别简化蛇笼、珠串、堇草与鸢尾铁绘，游戏中增设排水孔。 [MIHO MUSEUM · 志野四方向付](https://www.miho.jp/booth/html/artcon/00000294.htm)
+- **锅岛彩绘八角钵**：约1800年江户时期。按高10.2厘米、径21.3厘米校准八角折面与圈足；参考馆藏黑白照中的萝卜枝叶构图，彩色为游戏转译，并非原釉彩复原。 [Met · 八角彩绘钵，约1800年](https://www.metmuseum.org/art/collection/search/63040)
+- **锅岛青花几何浅盘**：18世纪江户时期。参考高5.1厘米、径20.6厘米的浅盘：内面为青花留白同心几何纹，背面三组花枝，圈足带梳齿纹；游戏中增设排水孔。 [Met · 几何纹青花盘，18世纪](https://www.metmuseum.org/art/collection/search/50344)
+- **九谷赤绘金彩钵**：19世纪早至中期江户时期，馆藏直径45.7厘米。参考内面唐狮、花草与赤绘金彩同心分区；馆方未列高度，游戏腹深和背面绘画为适配。 [Cleveland · Kutani Bowl, 1986.173](https://www.clevelandart.org/art/1986.173)
+- **锅岛青瓷三足钵**：约1700年江户时期。参考高8.26厘米、径28.89厘米的轮花口浅钵，内底山亭、篱笆、树木划花及三只鬼面足；游戏中增设排水孔。 [LACMA · Nabeshima Celadon Bowl](https://collections.lacma.org/object/160060)
+- **志野织部铁绘花器**：17世纪江户时期。按高20.8、腹径21.6、口径9.7厘米校准鼓腹和窄颈；白釉铁绘，肩部五道凹线作2–1–2分组。曾作花器，不用于换盆。 [MIHO MUSEUM · 志野織部徳利](https://www.miho.jp/booth/html/artcon/00000275.htm)
+
+八角钵馆藏目前只提供黑白照片，彩色仅为游戏转译；九谷馆藏只列直径，腹深和未见的外壁纹样保留为游戏适配。模型没有引入任何馆藏图片。
 
 ## 其余家具和器具的构造参照
 
@@ -82,7 +84,7 @@
 - [BLANCO · 不锈钢水槽结构与材质](https://www.blanco.com/int/sinks/materials/stainless-steel-sinks/)：sink、basin。
 - [IKEA · ÅKERBÄR 玻璃箱框架](https://www.ikea.com/ph/en/assembly_instructions/akerbaer-greenhouse-indoor-outdoor-white__AA-2331989-1-100.pdf)：terrarium。
 - [Kew · 沃德箱的斜顶、玻璃与木框](https://www.kew.org/read-and-watch/the-wardian-case-a-history-of-plant-transportation)：wardcase。
-- [IKEA · KLÄMTARE 箱壁与提手](https://www.ikea.com/gb/en/p/klaemtare-box-with-lid-in-outdoor-dark-grey-70292364/)：crate、redbox、fish、fishbox。
+- [IKEA · KLÄMTARE 箱壁与提手](https://www.ikea.com/gb/en/p/klaemtare-box-with-lid-in-outdoor-dark-grey-70292364/)：crate、redbox、fishbox。
 - [Haws · 浇水壶的长嘴与提柄](https://haws.co.uk/collections/indoor-watering-cans?page=1)：watering。
 - [IKEA · KORKGRAN 镀锌桶与木握柄](https://www.ikea.com/gb/en/p/korkgran-bucket-plant-pot-in-outdoor-galvanised-40611980/)：bucket。
 - [GARDENA · 园艺铲的刀面与握柄](https://www.gardena.com/uk/products/soil-ground/garden-tools/hand-trowel/970742001.html)：tools。
@@ -92,7 +94,6 @@
 - [GARDENA · 刷头、刷毛与长柄](https://www.gardena.com/int/products/soil-ground/combisystem/scrubbing-brush/966643501.html)：brush。
 - [Exo Terra · 圆形温湿度表盘与背面](https://exo-terra.com/products/heating/thermo-hygrometers/analog-hygrometer/)：thermometer。
 - [RHS · 育苗容器、介质与植物标签](https://www.rhs.org.uk/getmedia/61a84ef1-1473-4647-9895-c1cd1d54f7a5/Sowing-seeds-in-a-container_RHS-Grow-With-It.pdf)：seedtray、foambox、mossbox、soilbag、labels、pot、moss。
-- [RHS · 玻璃罩与园艺器具](https://www.rhs.org.uk/garden-inspiration/get-gardening/how-to-go-plastic-free-in-your-garden)：browncover。
 - [Garden Trading · 搪瓷材料与器具](https://www.gardentrading.co.uk/shop-by/collection/enamel/)：enamelbowl、goldfishbowl、pond、lid。
 - [高知科学馆 · 浅口宽容器与青鳉饲育](https://otepia.kochi.jp/science/tmp/%E4%BB%A4%E5%92%8C2%E5%B9%B4%E5%BA%A6%E5%B9%B4%E5%A0%B1%E3%80%90%E9%AB%98%E7%9F%A5%E3%81%BF%E3%82%89%E3%81%84%E7%A7%91%E5%AD%A6%E9%A4%A8%E3%80%91.pdf)：medakabowl。
 - [Garden Trading · 宠物食碗的低沿器形](https://www.gardentrading.co.uk/journal/our-top-3-items-for-your-pets/)：pigbowl。

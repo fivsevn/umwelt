@@ -389,3 +389,5 @@ body.garage #preview{display:inline-flex;align-items:center;justify-content:cent
 @media(max-width:550px){.placement-controls{gap:8px}.placement-controls label:first-child{flex:1}.placement-controls #supportParent{width:100%;max-width:none}.placement-controls #supportLevel{width:90px}}
 
 .contents-control:not([hidden]){display:flex;align-items:center;gap:6px;margin-top:8px;font-size:12px}.contents-control select{flex:1;min-width:0;width:100%}
+
+canvas[data-renderer="3d"]{image-rendering:auto}

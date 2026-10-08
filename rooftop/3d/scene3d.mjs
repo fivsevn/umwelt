@@ -1,4 +1,8 @@
+import { weatherAction } from "../resident-weather.mjs";
+import { createAtmosphere } from "./atmosphere.mjs";
+import { outdoorPaintKind } from "./weathering.mjs";
 import { surfaceSeed, soilParticles } from "./surface-variation.mjs";
+import { soilSurface, soilPointHeight } from "./soil-surface.mjs";
 import { cubeContactPaint } from "./contact-paint.mjs";
 import { SCENES, asset, ASSETS } from "../scene.mjs";
 import { PLANTS, POTS } from "../botany.mjs";
@@ -7,27 +11,41 @@ import { buildFoliage } from "./plant-models.mjs";
 import { plantPotSpec } from "./plant-pots.mjs";
 import { buildVessel } from "./vessel-models.mjs";
 import { buildObject, OBJECT_DIMENSIONS } from "./object-models.mjs";
+import { PIXEL_STYLE, createPixelMaterials } from "./pixel-materials.mjs";
 import {
-  PIXEL_STYLE,
-  createPixelMaterials,
-} from "./pixel-materials.mjs";
-import { latheSurface, leafSurface, beveledBoxSurface } from "./model-surfaces.mjs";
+  latheSurface,
+  leafSurface,
+  beveledBoxSurface,
+} from "./model-surfaces.mjs";
 import { buildNeighborhood } from "./neighborhood.mjs";
 import { buildWashstation } from "./washstation.mjs";
-import { resolveSupports, supportSurfaces, localPoint, fitsSurface, placementSpaces, groundArea, surfacePoint, contactOffset, clearPlacement, createPlacementContext } from "./spatial-layout.mjs";
+import {
+  resolveSupports,
+  supportSurfaces,
+  localPoint,
+  fitsSurface,
+  placementSpaces,
+  groundArea,
+  surfacePoint,
+  contactOffset,
+  clearPlacement,
+  createPlacementContext,
+} from "./spatial-layout.mjs";
 import { modelRandom as rng } from "./model-random.mjs";
 import { drawingBufferSize } from "./render-budget.mjs";
-import { paintPaving } from "./paint-recipes.mjs";
+import { paintScenePaving } from "./environment-paintings.mjs";
 import { populateWater } from "./water-life.mjs";
-import { OUTFITS, DECORATIONS, wardrobe } from "../wardrobe.mjs";
+import { wardrobe } from "../wardrobe.mjs";
+import { buildResident, buildPig } from "./residents.mjs";
 
 // This renderer consumes the same initial layout and botanical palette as the 2D game.
 // Only the canvas changes; the observer's cards, clock, weather and residents are shared.
 export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   const controls = options.controls || "orbit";
   const editable = controls === "edit";
-  if(controls!=="none")canvas.tabIndex=0;
-  if(!editable&&controls==="orbit")canvas.title="拖动转动视角，滚轮或双指缩放，方向键旋转，Home 复位";
+  if (controls !== "none") canvas.tabIndex = 0;
+  if (!editable && controls === "orbit")
+    canvas.title = "拖动转动视角，滚轮或双指缩放，方向键旋转，Home 复位";
   const T = window.THREE;
   if (!T) throw new Error("Three.js 未能加载");
   const D = {
@@ -46,11 +64,12 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   }
   const renderer = new T.WebGLRenderer({
     canvas,
-    antialias: false,
+    antialias: true,
     alpha: true,
     powerPreference: "default",
   });
   renderer.setPixelRatio(1);
+  canvas.dataset.renderer = "3d";
   renderer.outputColorSpace = T.SRGBColorSpace;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.autoUpdate = false;
@@ -80,7 +99,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   const P = PIXEL_STYLE.palette;
   const windTime = { value: 0 },
     windPower = { value: 0 };
-  const style = createPixelMaterials(T, windTime, windPower);
+  const surfaceWeather = { wet: { value: 0 }, rain: { value: 0 } };
+  const style = createPixelMaterials(T, windTime, windPower, surfaceWeather);
   const materialCache = style.cache,
     texCache = style.textures,
     mat = style.mat;
@@ -104,7 +124,13 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   }
   const cube = beveledBoxSurface(T),
     cylinderCache = new Map();
-  cube.setAttribute("paintBox", new T.Float32BufferAttribute(new Array(cube.attributes.position.count).fill(1), 1));
+  cube.setAttribute(
+    "paintBox",
+    new T.Float32BufferAttribute(
+      new Array(cube.attributes.position.count).fill(1),
+      1,
+    ),
+  );
   function group(parent, x = 0, y = 0, z = 0) {
     const g = new T.Group();
     g.position.set(x, y, z);
@@ -122,7 +148,10 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       h,
       d,
       color: c,
-      m: mat(c, kind === "plain" ? isFoliage(g) || kind : kind),
+      m: mat(
+        c,
+        outdoorPaintKind(g, kind === "plain" ? isFoliage(g) || kind : kind),
+      ),
       geo: cube,
       rx,
       ry,
@@ -145,7 +174,14 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       h: 1,
       d: 1,
       color: c,
-      m: mat(c, kind),
+      m: mat(
+        c,
+        outdoorPaintKind(
+          g,
+          kind === "plain" ? isFoliage(g) || "paint" : kind,
+          true,
+        ),
+      ),
       geo,
       rx: 0,
       ry: 0,
@@ -178,6 +214,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   const surfaceCache = new Map();
   const roundGeo = new T.SphereGeometry(1, 10, 7).toNonIndexed();
   roundGeo.computeVertexNormals();
+  const soilParticleGeo = new T.SphereGeometry(1, 14, 9).toNonIndexed();
+  soilParticleGeo.computeVertexNormals();
   function surface(g, geo, x, y, z, w, h, d, color, kind = "paint") {
     primitives.push({
       g,
@@ -188,7 +226,14 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       h,
       d,
       color,
-      m: mat(color, kind === "paint" ? isFoliage(g) || kind : kind),
+      m: mat(
+        color,
+        outdoorPaintKind(
+          g,
+          kind === "paint" && isFoliage(g) ? isFoliage(g) : kind,
+          true,
+        ),
+      ),
       geo,
       rx: 0,
       ry: 0,
@@ -197,12 +242,12 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   }
   function ellipsoid(g, x, y, z, rx, ry, rz, color, kind = "paint") {
     if (kind === "petal") {
-      box(g,x,y,z,rx*2,ry*2,rz*2,color,"petal");
+      box(g, x, y, z, rx * 2, ry * 2, rz * 2, color, "petal");
       return;
     }
     surface(
       g,
-      roundGeo,
+      kind === "soil" ? soilParticleGeo : roundGeo,
       x,
       y,
       z,
@@ -210,7 +255,11 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       ry,
       rz,
       color,
-      typeof kind === "string" ? kind : "paint",
+      typeof kind === "string"
+        ? ["metal", "paint", "enamel", "cloth", "wood"].includes(kind)
+          ? "wrap-" + kind
+          : kind
+        : "wrap-paint",
     );
   }
   function profile(
@@ -226,6 +275,37 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     if (!surfaceCache.has(key))
       surfaceCache.set(key, latheSurface(T, points, sides, shape, ribs));
     surface(g, surfaceCache.get(key), 0, 0, 0, 1, 1, 1, color, kind);
+  }
+  function soil(
+    g,
+    x,
+    y,
+    z,
+    w,
+    d,
+    { shape = "round", sides = 24, color = P.soil } = {},
+  ) {
+    let owner = g;
+    while (owner.parent && owner.userData.paintSeed === undefined)
+      owner = owner.parent;
+    const variant = Math.floor((owner.userData.paintSeed || 0) * 32),
+      key = "soil:" + shape + ":" + sides + ":" + variant;
+    if (!surfaceCache.has(key))
+      surfaceCache.set(key, soilSurface(T, shape, sides, variant));
+    const amplitude = Math.min(0.045, Math.min(w, d) * 0.065);
+    g.userData.soilField = { x, y, z, w, d, shape, variant, amplitude };
+    surface(
+      g,
+      surfaceCache.get(key),
+      x,
+      y,
+      z,
+      w / 2,
+      amplitude,
+      d / 2,
+      color,
+      "soil",
+    );
   }
   function blade(g, start, end, width, color, teeth = false, fleshy = false) {
     const key = "blade:" + teeth + ":" + fleshy;
@@ -364,46 +444,88 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     pots = new Map(D.pots.map((o) => [o.id, o]));
   function pot(g, id, r = 0.46, h = 0.38, empty = false) {
     const p = pots.get(id) || pots.get("terra");
-    return buildVessel({ box, beam, shade, profile, group }, g, p, r, h, {
+    return buildVessel({ box, beam, shade, profile, group, soil }, g, p, r, h, {
       empty,
     });
   }
   function makePlant(parent, o) {
     const p = plants.get(o.type),
       g = group(parent);
-    g.userData.animated=true;
-    g.userData.paintSeed=surfaceSeed(o.seed);
+    g.userData.animated = true;
+    g.userData.paintSeed = surfaceSeed(o.seed);
     g.scale.setScalar(o.scale * (o.type === "barrel" ? 1.15 : 1.38));
     g.rotation.y = (-o.rotation * Math.PI) / 180;
-    const spec = plantPotSpec(p), radius = spec.radius;
-    const height = pot(
-      g,
-      o.pot || p.defaultPot,
-      radius,
-      spec.height,
-    );
-    const fol = group(g, 0, height - .044, 0);
-    const planter=pots.get(o.pot||p.defaultPot)||pots.get("terra");
-    for(const particle of soilParticles(radius,o.seed,{dry:spec.grit,
-      rectangular:/box|bag/.test(planter.shape),trough:planter.id==='trough'})) {
-      ellipsoid(g,particle.x,height-.038,particle.z,particle.size,particle.height,
-        particle.size*(.67+surfaceSeed(o.seed+Math.round(particle.x*1000))*.4),particle.color,"soil");
+    const spec = plantPotSpec(p),
+      radius = spec.radius;
+    const height = pot(g, o.pot || p.defaultPot, radius, spec.height);
+    const fol = group(g, 0, height - 0.044, 0);
+    const planter = pots.get(o.pot || p.defaultPot) || pots.get("terra");
+    const fill = g.userData.soilField;
+    for (const particle of soilParticles(radius, o.seed, {
+      dry: spec.grit,
+      rectangular: /box|bag/.test(planter.shape),
+      trough: planter.id === "trough",
+    })) {
+      const rectangular = /box|bag/.test(planter.shape),
+        xx = fill
+          ? particle.x * (rectangular ? 1 : fill.w / (radius * 2))
+          : particle.x,
+        zz = fill
+          ? particle.z * (rectangular ? 1 : fill.d / (radius * 2))
+          : particle.z,
+        yy = fill
+          ? fill.y +
+            soilPointHeight(
+              fill.shape,
+              xx / (fill.w / 2),
+              zz / (fill.d / 2),
+              fill.variant,
+            ) *
+              fill.amplitude
+          : height - 0.04;
+      ellipsoid(
+        g,
+        xx,
+        yy + particle.height * 0.45,
+        zz,
+        particle.size,
+        particle.height,
+        particle.size *
+          (0.67 + surfaceSeed(o.seed + Math.round(particle.x * 1000)) * 0.4),
+        particle.color,
+        "soil",
+      );
     }
     fol.userData.foliage = p.family === "dry" ? "leafRigid" : "leaf";
     buildFoliage(
       { box, beam, ellipsoid, group, shade, rng, blade, cactusBody },
       fol,
       p,
-      { ...o, potRadius: radius, potTop: height,
-        floorAt: (xx,zz) => {
-          const k=g.scale.x, a=-(o.rotation||0)*Math.PI/180;
-          const floor=-(parent.position.y+height*k)/k+.09;
-          const support=parent.userData.support;
-          if(!support?.parent)return floor;
-          const q=localPoint({x:o.x+(xx*Math.cos(a)+zz*Math.sin(a))*k*16,y:o.y+(-xx*Math.sin(a)+zz*Math.cos(a))*k*16,contactY:o.contactY||0},support.parent);
-          const surface=supportSurfaces(support.parent)[support.level];
-          return surface && Math.abs(q.x-(surface.x||0))<surface.w/2+.06 && Math.abs(q.z-surface.z)<surface.d/2+.06 ? -height+.10 : floor;
-        }
+      {
+        ...o,
+        potRadius: radius,
+        potTop: height,
+        floorAt: (xx, zz) => {
+          const k = g.scale.x,
+            a = (-(o.rotation || 0) * Math.PI) / 180;
+          const floor = -(parent.position.y + height * k) / k + 0.09;
+          const support = parent.userData.support;
+          if (!support?.parent) return floor;
+          const q = localPoint(
+            {
+              x: o.x + (xx * Math.cos(a) + zz * Math.sin(a)) * k * 16,
+              y: o.y + (-xx * Math.sin(a) + zz * Math.cos(a)) * k * 16,
+              contactY: o.contactY || 0,
+            },
+            support.parent,
+          );
+          const surface = supportSurfaces(support.parent)[support.level];
+          return surface &&
+            Math.abs(q.x - (surface.x || 0)) < surface.w / 2 + 0.06 &&
+            Math.abs(q.z - surface.z) < surface.d / 2 + 0.06
+            ? -height + 0.1
+            : floor;
+        },
       },
     );
     return g;
@@ -420,14 +542,16 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
           : wooden
             ? P.wood
             : /shelf|wirestand|coveredstand/.test(type)
-              ? "#3a4840"
+              ? "#383c3d"
               : P.metal,
       ck = wooden ? "wood" : "metal",
       thick = wooden ? 0.14 : 0.075;
     if (type === "woodshelf" || type === "ladderstand") {
       for (let level = 0; level < 3; level++) {
-        const surface = supportSurfaces({type})[level];
-        const yy = surface.y - surface.thickness / 2, zz = surface.z, ww = surface.w;
+        const surface = supportSurfaces({ type })[level];
+        const yy = surface.y - surface.thickness / 2,
+          zz = surface.z,
+          ww = surface.w;
         for (const xx of [-ww * 0.46, ww * 0.46])
           box(g, xx, yy / 2, zz, 0.11, yy, 0.11, P.woodDark, "wood");
         for (let slat = 0; slat < 3; slat++)
@@ -439,15 +563,25 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
             ww,
             0.1,
             d * 0.11,
-            shade(P.wood,[1,.91,1.08][slat]),
-            "wood",
+            shade(P.wood, [1, 0.91, 1.08][slat]),
+            "face-board",
           );
       }
       for (const xx of [-w * 0.46, w * 0.46])
-        beam(g, [xx, 0.05, d * 0.47], [xx, h, -d * 0.45], 0.1, P.woodDark, .1, "wood");
+        beam(
+          g,
+          [xx, 0.05, d * 0.47],
+          [xx, h, -d * 0.45],
+          0.1,
+          P.woodDark,
+          0.1,
+          "wood",
+        );
       return;
     }
-    const levels = supportSurfaces({type}).filter(s=>!s.container).map(s=>s.y-(s.thickness||.11)/2);
+    const levels = supportSurfaces({ type })
+      .filter((s) => !s.container)
+      .map((s) => s.y - (s.thickness || 0.11) / 2);
     for (const x of [-w * 0.45, w * 0.45])
       for (const z of [-d * 0.43, d * 0.43]) {
         box(
@@ -466,7 +600,17 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     for (const yy of levels) {
       if (wooden) {
         for (let i = 0; i < 4; i++)
-          box(g, 0, yy, -d * 0.42 + i * d * 0.28, w, 0.11, d * 0.22, c, "wood");
+          box(
+            g,
+            0,
+            yy,
+            -d * 0.42 + i * d * 0.28,
+            w,
+            0.11,
+            d * 0.22,
+            c,
+            "face-board",
+          );
       } else {
         box(g, 0, yy, -d * 0.46, w, 0.075, 0.09, c, ck);
         box(g, 0, yy, d * 0.46, w, 0.075, 0.09, c, ck);
@@ -481,11 +625,21 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
             0.04,
             0.04,
             d * 0.88,
-            shade(c,1.22),
+            shade(c, 1.22),
             "metal",
           );
         for (let j = 0; j < Math.round(d / 0.38); j++)
-          box(g, 0, yy, -d * 0.4 + j * 0.38, w * 0.9, 0.04, 0.04, shade(c,1.10), "metal");
+          box(
+            g,
+            0,
+            yy,
+            -d * 0.4 + j * 0.38,
+            w * 0.9,
+            0.04,
+            0.04,
+            shade(c, 1.1),
+            "metal",
+          );
       }
     }
     if (/shelf|tierstand|wirestand|coveredstand|plantcart/.test(type))
@@ -625,17 +779,28 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   }
 
   function fishSchool(g, width, depth, level, goldfish = false) {
-    populateWater({ group, ellipsoid, box, registerWater: (fish) => waterAnimations.push(fish) },
-      g, { width, depth, level, goldfish, count: goldfish ? 3 : 5 });
+    populateWater(
+      {
+        group,
+        ellipsoid,
+        box,
+        registerWater: (fish) => waterAnimations.push(fish),
+      },
+      g,
+      { width, depth, level, goldfish, count: goldfish ? 3 : 5 },
+    );
   }
   function waterSurface(g, width, depth, level, round = false) {
-    const base = mat("#749993", "water"), waterMaterial = base.clone();
+    const base = mat("#749993", "water"),
+      waterMaterial = base.clone();
     waterMaterial.onBeforeCompile = base.onBeforeCompile;
     waterMaterial.customProgramCacheKey = base.customProgramCacheKey;
     waterMaterial.transparent = true;
-    waterMaterial.opacity = .56;
+    waterMaterial.opacity = 0.56;
     waterMaterial.depthWrite = false;
-    const geometry = round ? new T.CircleGeometry(.5, 16) : new T.PlaneGeometry(1, 1);
+    const geometry = round
+      ? new T.CircleGeometry(0.5, 16)
+      : new T.PlaneGeometry(1, 1);
     const water = new T.Mesh(geometry, waterMaterial);
     water.rotation.x = -Math.PI / 2;
     water.scale.set(width, depth, 1);
@@ -643,26 +808,76 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     g.add(water);
   }
   function waterBowl(g, r, h, type = "pond") {
-    const ceramic = type === "medakabowl", enamel = type === "goldfishbowl";
+    const ceramic = type === "medakabowl",
+      enamel = type === "goldfishbowl";
     const color = ceramic ? "#92795a" : enamel ? P.white : P.blue;
     const kind = ceramic ? "clay" : enamel ? "enamel" : "metal";
-    profile(g, [
-      [.02, 0], [.65, 0], [.84, .18], [1, .80], [1.025, 1],
-      [.90, 1], [.88, .83], [.72, .19], [.02, .19], [.02, 0],
-    ].map(([rr, y]) => [rr * r, y * h]), 16, color, kind);
+    profile(
+      g,
+      [
+        [0.02, 0],
+        [0.65, 0],
+        [0.84, 0.18],
+        [1, 0.8],
+        [1.025, 1],
+        [0.9, 1],
+        [0.88, 0.83],
+        [0.72, 0.19],
+        [0.02, 0.19],
+        [0.02, 0],
+      ].map(([rr, y]) => [rr * r, y * h]),
+      16,
+      color,
+      kind,
+    );
     const lip = group(g, 0, h, 0);
-    profile(lip, [[r*.9, -.018], [r*1.035, -.018], [r*1.035, .035],
-      [r*.9, .035], [r*.9, -.018]], 16, enamel ? P.blueDark : shade(color, 1.12), kind);
-    cyl(g, 0, h*.18, 0, r*.71, r*.71, .02, ceramic ? "#766d52" : P.blueDark, 16);
-    const level = h*.80;
-    fishSchool(g, r*1.65, r*1.65, level, enamel);
-    waterSurface(g, r*1.75, r*1.75, level, true);
-    for (const [x, z, length] of [[-.23, -.32, .25], [.22, .19, .16]])
-      box(g, r*x, level+.006, r*z, r*length, .008, .025, "#b3c0ae", "water");
-    if (ceramic) for (let j=0;j<3;j++) {
-      const pad = group(g, r*.40, level+.012, (j-1)*r*.18);
-      cyl(pad, 0, 0, 0, .09, .09, .01, "#7b9470", 8);
-    }
+    profile(
+      lip,
+      [
+        [r * 0.9, -0.018],
+        [r * 1.035, -0.018],
+        [r * 1.035, 0.035],
+        [r * 0.9, 0.035],
+        [r * 0.9, -0.018],
+      ],
+      16,
+      enamel ? P.blueDark : shade(color, 1.12),
+      kind,
+    );
+    cyl(
+      g,
+      0,
+      h * 0.18,
+      0,
+      r * 0.71,
+      r * 0.71,
+      0.02,
+      ceramic ? "#766d52" : P.blueDark,
+      16,
+    );
+    const level = h * 0.8;
+    fishSchool(g, r * 1.65, r * 1.65, level, enamel);
+    waterSurface(g, r * 1.75, r * 1.75, level, true);
+    for (const [x, z, length] of [
+      [-0.23, -0.32, 0.25],
+      [0.22, 0.19, 0.16],
+    ])
+      box(
+        g,
+        r * x,
+        level + 0.006,
+        r * z,
+        r * length,
+        0.008,
+        0.025,
+        "#b3c0ae",
+        "water",
+      );
+    if (ceramic)
+      for (let j = 0; j < 3; j++) {
+        const pad = group(g, r * 0.4, level + 0.012, (j - 1) * r * 0.18);
+        cyl(pad, 0, 0, 0, 0.09, 0.09, 0.01, "#7b9470", 8);
+      }
   }
   function modelApi() {
     return {
@@ -673,6 +888,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       group,
       ellipsoid,
       surface,
+      soil,
       profile,
       shade,
       P,
@@ -682,14 +898,25 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       waterBowl,
       fishSchool,
       waterSurface,
-      registerMotion:(g,kind)=>{g.userData.animated=true;objectMotion.push({g,kind});},
+      registerMotion: (g, kind) => {
+        g.userData.animated = true;
+        objectMotion.push({ g, kind });
+      },
       makePot: pot,
     };
   }
   function makeObject(parent, o) {
     const g = group(parent);
-    g.userData.animated=true;
-    g.userData.paintSeed=surfaceSeed(o.seed);
+    let space = parent;
+    while (space.parent && !["north", "south", "room"].includes(space.name))
+      space = space.parent;
+    g.userData.weathered =
+      !asset(o.type).weapon &&
+      (["north", "south", "room"].includes(space.name)
+        ? space.name !== "room"
+        : !o.type.startsWith("room-"));
+    g.userData.animated = true;
+    g.userData.paintSeed = surfaceSeed(o.seed);
     g.scale.setScalar(o.scale);
     g.rotation.y = (-o.rotation * Math.PI) / 180;
     buildObject(modelApi(), g, asset(o.type), o);
@@ -703,27 +930,13 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   }
   function floorTexture(name) {
     const c = document.createElement("canvas");
-    c.width = 640;
-    c.height = 520;
-    const ctx = c.getContext("2d");
-    paintPaving(ctx,c.width,c.height);
-    // Low-frequency worn paving and corner cracks; no white-noise flecks.
-    for (const [x, y] of [
-      [180, 194],
-      [268, 180],
-      [350, 276],
-      [210, 310],
-      [422, 292],
-      [368, 362],
-    ]) {
-      ctx.fillStyle = "#adaf9d";
-      ctx.fillRect(x, y, 10, 3);
-      ctx.fillRect(x + 3, y - 2, 5, 7);
-      ctx.fillStyle = "#858e7f";
-      ctx.fillRect(x + 12, y + 5, 5, 1);
-      ctx.fillRect(x + 16, y + 6, 1, 3);
-      ctx.fillRect(x + 17, y + 8, 4, 1);
-    }
+    c.width = (640 * PIXEL_STYLE.texelsPerUnit) / 16;
+    c.height = (520 * PIXEL_STYLE.texelsPerUnit) / 16;
+    paintScenePaving(c.getContext("2d"), c.width, c.height, {
+      scene: name,
+      texelsPerUnit: PIXEL_STYLE.texelsPerUnit,
+      points: SCENES[name].points,
+    });
     const tex = new T.CanvasTexture(c);
     tex.magFilter = tex.minFilter = T.NearestFilter;
     tex.generateMipmaps = false;
@@ -755,6 +968,15 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     });
     geo.rotateX(Math.PI / 2);
     const slab = new T.Mesh(geo, mat("#c1bfb0", "wall"));
+    geo.setAttribute(
+      "paintSeed",
+      new T.Float32BufferAttribute(
+        new Array(geo.attributes.position.count).fill(
+          surfaceSeed(name === "north" ? 15773 : 39127),
+        ),
+        1,
+      ),
+    );
     slab.position.y = -0.1;
     slab.castShadow = slab.receiveShadow = true;
     parent.add(slab);
@@ -888,7 +1110,15 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
                 : -Math.PI / 2,
             1.32,
             1.55,
-            (floor + Math.round(k)) % 7,
+            Math.floor(
+              surfaceSeed(
+                157 +
+                  floor * 719 +
+                  i * 137 +
+                  Math.round(k) * 31 +
+                  (name === "north" ? 0 : 37),
+              ) * 7,
+            ),
           );
         }
         box(
@@ -921,6 +1151,53 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       }
       door(parent, name, -3.83, 8.1, -Math.PI / 2);
     }
+    // A single damp joint has a few shoots; the usable terrace remains clear.
+    const growth = group(
+      parent,
+      ...(name === "north" ? [9.7, 0, 10.55] : [3.78, 0, -9.18]),
+    );
+    growth.userData.paintSeed = surfaceSeed(name === "north" ? 11371 : 39671);
+    for (let j = 0; j < 3; j++) {
+      const lean = (surfaceSeed(j * 137 + 397) - 0.5) * 0.12,
+        h = 0.16 + surfaceSeed(j * 719 + 19) * 0.21;
+      beam(
+        growth,
+        [j * 0.045, 0, 0],
+        [lean, h, -0.025],
+        0.014,
+        "#627248",
+        0.014,
+        "leaf",
+      );
+      box(
+        growth,
+        lean - 0.045,
+        h * 0.58,
+        0.012,
+        0.11,
+        0.018,
+        0.065,
+        "#657944",
+        "leaf",
+        -0.37,
+        0.38 + j * 0.71,
+        0.24,
+      );
+      box(
+        growth,
+        lean + 0.03,
+        h * 0.82,
+        -0.019,
+        0.08,
+        0.015,
+        0.075,
+        "#879359",
+        "leaf",
+        0.32,
+        -0.29 + j * 0.37,
+        -0.24,
+      );
+    }
     // tiny drain at its original corner
     const [dx, dz] = coords(
       name,
@@ -937,335 +1214,94 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       box(frame, xx, 1.32, 0, 0.15, 2.64, 0.3, P.cap, "wall");
     box(frame, 0, 2.64, 0, 1.38, 0.16, 0.34, P.cap);
     box(frame, 0, 0.06, 0.12, 1.5, 0.12, 0.7, "#bbb49c");
+    if (name !== "room") {
+      box(frame, 0.2, 2.92, 0.78, 3.55, 0.12, 1.9, "#9eaba7", "metal", -0.06);
+      for (const xx of [-1.25, 1.25])
+        beam(frame, [xx, 2.4, 0.06], [xx, 2.86, 1.13], 0.055, "#6c7a79");
+    }
     const hinge = group(frame, -0.51, 0, 0);
     hinge.userData.animated = true;
-    box(hinge, 0.51, 1.25, 0, 1.02, 2.5, 0.16, "#455962", "metal");
+    box(hinge, 0.51, 1.25, 0, 1.02, 2.5, 0.16, "#64706e", "metal");
     box(hinge, 0.51, 1.27, 0.094, 0.86, 2.27, 0.025, "#ffffff", "panel-door");
     for (const xx of [0.035, 0.985])
       box(hinge, xx, 1.25, 0.09, 0.045, 2.4, 0.025, "#7c8e8f", "metal");
     box(hinge, 0.81, 1.19, 0.139, 0.055, 0.17, 0.045, "#b4baac", "metal");
     doors[name] = { hinge, frame };
   }
-  // Clothing and poses follow the game's existing authored pixel designs in wardrobe/dongdong.
   function resident(parent, name) {
-    const g = group(parent);
-    g.userData.animated = true;
-    const body = group(g);
-    body.userData.animated = true;
-    const [, color, dark, light, kind] =
-      OUTFITS[wardrobe.outfit] || OUTFITS.sage;
-    box(body, 0, 1.1, 0, 0.49, 0.7, 0.32, color, "cloth");
-    if (kind === "overall") {
-      for (const x of [-0.17, 0.17]) {
-        box(body, x, 0.65, 0, 0.23, 0.5, 0.28, color, "cloth");
-        box(body, x, 1.31, 0.19, 0.055, 0.38, 0.035, light);
-      }
-      box(body, 0, 1.03, 0.18, 0.34, 0.32, 0.035, dark);
-    } else {
-      for (let j = 0; j < 5; j++)
-        box(
-          body,
-          0,
-          0.66 + j * 0.06,
-          0,
-          0.63 - j * 0.027,
-          0.07,
-          0.4 - j * 0.012,
-          j === 0 ? dark : color,
-          "cloth",
-        );
-      for (const x of [-0.28, 0.28])
-        box(body, x, 0.85, 0, 0.08, 0.26, 0.38, dark, "cloth");
-    }
-    if (kind === "stripe" || kind === "check")
-      for (const z of [-0.185, 0.185])
-        for (let j = 0; j < 5; j++) {
-          if (kind === "stripe")
-            box(body, 0, 0.79 + j * 0.13, z, 0.5, 0.033, 0.023, light);
-          else
-            for (let k = 0; k < 4; k++)
-              box(
-                body,
-                -0.19 + k * 0.13,
-                0.8 + j * 0.12,
-                z,
-                0.052,
-                0.052,
-                0.023,
-                light,
-              );
-        }
-    if (kind === "apron") {
-      box(body, 0, 1.04, 0.19, 0.34, 0.55, 0.035, light, "cloth");
-      box(body, 0, 1, 0.212, 0.37, 0.035, 0.025, dark);
-      for (const x of [-0.2, 0.2])
-        box(body, x, 1.41, 0.04, 0.045, 0.17, 0.31, light);
-      for (const x of [-0.11, 0.11])
-        box(body, x, 1, -0.19, 0.16, 0.085, 0.065, light);
-      box(body, 0, 0.9, 0.22, 0.18, 0.09, 0.018, color);
-    }
-    if (kind === "pocket")
-      for (const x of [-0.145, 0.145]) {
-        box(body, x, 1.02, 0.18, 0.17, 0.17, 0.055, dark);
-        box(body, x, 1.11, 0.21, 0.17, 0.024, 0.023, light);
-        box(body, x, 0.85, -0.185, 0.14, 0.13, 0.025, dark);
-      }
-    if (kind === "jacket") {
-      box(body, 0, 1.11, 0.183, 0.065, 0.64, 0.025, dark);
-      for (const x of [-0.09, 0.09])
-        box(
-          body,
-          x,
-          1.39,
-          0.19,
-          0.07,
-          0.19,
-          0.055,
-          light,
-          "cloth",
-          0,
-          0,
-          x < 0 ? -0.35 : 0.35,
-        );
-      for (let j = 0; j < 4; j++)
-        box(body, 0, 0.92 + j * 0.11, 0.209, 0.025, 0.025, 0.025, light);
-    }
-    box(body, 0, 1.78, 0, 0.44, 0.47, 0.37, "#bba387");
-    box(body, 0, 2.04, 0, 0.49, 0.16, 0.41, "#685044");
-    box(body, -0.23, 1.88, 0, 0.1, 0.35, 0.4, "#4f4038");
-    box(body, 0.2, 1.92, -0.08, 0.09, 0.25, 0.28, "#685044");
-    box(body, 0, 1.86, -0.18, 0.4, 0.24, 0.065, "#685044");
-    for (const x of [-0.1, 0.1])
-      box(body, x, 1.79, 0.195, 0.045, 0.045, 0.025, "#4c5147");
-    const legs = [];
-    for (const x of [-0.16, 0.16]) {
-      const leg = group(g, x, 0.4, 0);
-      leg.userData.animated = true;
-      box(leg, 0, -0.12, 0, 0.13, 0.45, 0.14, "#a49781");
-      box(leg, 0, -0.33, 0.08, 0.2, 0.13, 0.32, "#424b40");
-      legs.push(leg);
-    }
-    const arms = [];
-    for (const x of [-0.33, 0.33]) {
-      const arm = group(body, x, 1.38, 0);
-      arm.userData.animated = true;
-      if (kind === "jacket")
-        box(arm, 0, -0.14, 0, 0.19, 0.34, 0.21, color, "cloth");
-      box(arm, 0, -0.25, 0, 0.14, 0.27, 0.15, "#bba387");
-      box(arm, 0, -0.42, 0.01, 0.13, 0.14, 0.14, "#bba387");
-      arms.push(arm);
-    }
-    const tools = {};
-    for (const kind of [
-      "water",
-      "sweep",
-      "prune",
-      "tend",
-      "wipe",
-      "wash",
-      "tea",
-      "feed",
-    ]) {
-      const tool = group(arms[1], 0, -0.43, 0.06);
-      tool.userData.animated = true;
-      tool.visible = false;
-      tools[kind] = tool;
-      if (kind === "water") {
-        const can = group(tool, 0.1, -0.05, 0.03);
-        can.scale.setScalar(0.4);
-        buildObject(modelApi(), can, asset("watering"), {});
-      }
-      if (kind === "sweep") {
-        beam(tool, [0, 0.08, 0], [0.15, -0.83, 0.24], 0.035, P.wood);
-        box(tool, 0.15, -0.84, 0.24, 0.34, 0.12, 0.15, "#a49473");
-        for (let j = 0; j < 7; j++)
-          box(
-            tool,
-            0.015 + j * 0.044,
-            -0.94,
-            0.24,
-            0.026,
-            0.11,
-            0.15,
-            "#786952",
-          );
-      }
-      if (kind === "prune") {
-        for (const v of [-1, 1]) {
-          beam(
-            tool,
-            [v * 0.055, -0.07, 0],
-            [-v * 0.09, 0.16, 0.03],
-            0.025,
-            P.metalLight,
-          );
-          box(tool, v * 0.055, -0.08, 0, 0.07, 0.08, 0.025, P.blueDark);
-        }
-      }
-      if (kind === "tend") {
-        box(tool, 0, 0.07, 0, 0.04, 0.2, 0.04, P.wood);
-        box(tool, 0, -0.08, 0.03, 0.11, 0.13, 0.045, P.metalLight);
-      }
-      if (kind === "wipe")
-        box(tool, 0, -0.05, 0.04, 0.25, 0.035, 0.17, "#a4b3a7", "cloth");
-      if (kind === "tea" || kind === "feed") {
-        cyl(
-          tool,
-          0,
-          -0.025,
-          0.09,
-          kind === "tea" ? 0.1 : 0.16,
-          0.085,
-          0.12,
-          P.white,
-          12,
-        );
-        cyl(tool, 0, 0.04, 0.09, 0.075, 0.075, 0.014, "#756956", 12);
-      }
-      if (kind === "wash" || kind === "water")
-        for (let j = 0; j < 5; j++)
-          box(
-            tool,
-            0.27 + j * 0.04,
-            -0.15 - j * 0.1,
-            0.02,
-            0.025,
-            0.055,
-            0.025,
-            "#a8c0be",
-          );
-    }
-    actors[name] = { person: g, body, legs, arms, tools };
+    actors[name] = buildResident(
+      { group, box, beam, cyl, ellipsoid, modelApi, P },
+      parent,
+    );
   }
   function pig(parent, name) {
-    const g = group(parent);
-    g.userData.animated = true;
-    box(g, 0, 0.43, 0, 0.65, 0.41, 0.35, "#c7aaa7");
-    box(g, 0, 0.63, 0, 0.5, 0.1, 0.29, "#d6beb7");
-    box(g, 0, 0.46, 0.36, 0.32, 0.32, 0.29, "#d3b8b2");
-    box(g, 0, 0.4, 0.53, 0.23, 0.15, 0.11, "#bb9295");
-    for (const x of [-0.16, 0.16]) {
-      box(g, x, 0.66, 0.29, 0.09, 0.18, 0.13, "#bb9396");
-      box(g, x * 1.1, 0.5, 0.39, 0.025, 0.045, 0.04, "#5a524c");
-    }
-    for (const x of [-0.12, 0.12])
-      for (const z of [-0.22, 0.25])
-        box(g, x, 0.14, z, 0.1, 0.26, 0.12, "#bb9a97");
-    box(g, 0, 0.5, -0.39, 0.06, 0.1, 0.11, "#b48f95");
-    const decoration = DECORATIONS[wardrobe.pig];
-    if (decoration) {
-      const col = wardrobe.pig.includes("clay")
-        ? "#ae8270"
-        : wardrobe.pig.includes("cream") || wardrobe.pig === "flower"
-          ? "#c3b994"
-          : wardrobe.pig.includes("berry") || wardrobe.pig === "ribbon"
-            ? "#986e7c"
-            : wardrobe.pig.includes("blue") || wardrobe.pig === "scarf"
-              ? "#788d9b"
-              : "#778578";
-      const kind = wardrobe.pig.split("-")[0];
-      if (kind === "cap" || kind === "bonnet") {
-        box(g, 0, 0.76, 0.3, 0.4, 0.12, 0.32, col);
-        box(g, 0, 0.84, 0.29, 0.25, 0.15, 0.23, col);
-        if (kind === "bonnet") {
-          for (let k = 0; k < 12; k++) {
-            const a = (k * Math.PI) / 6;
-            box(
-              g,
-              Math.cos(a) * 0.22,
-              0.76,
-              0.3 + Math.sin(a) * 0.18,
-              0.075,
-              0.08,
-              0.07,
-              "#ddd3b5",
-            );
-          }
-          for (const x of [-0.16, 0.16])
-            box(g, x, 0.57, 0.43, 0.03, 0.23, 0.035, col);
-        } else box(g, 0, 0.77, 0.51, 0.34, 0.04, 0.14, col);
-      } else if (kind === "vest") {
-        box(g, 0, 0.57, 0, 0.38, 0.14, 0.56, col);
-        for (const x of [-0.18, 0.18])
-          box(g, x, 0.44, 0, 0.06, 0.24, 0.56, col);
-        box(g, 0, 0.5, 0.29, 0.24, 0.24, 0.05, col);
-        for (let j = 0; j < 3; j++)
-          box(g, 0, 0.44 + j * 0.055, 0.32, 0.025, 0.025, 0.025, "#c8c2a4");
-      } else if (kind === "ribbon") {
-        box(g, 0, 0.72, 0.29, 0.08, 0.11, 0.08, col);
-        for (const x of [-0.13, 0.13]) {
-          box(g, x, 0.73, 0.29, 0.16, 0.16, 0.065, col);
-          box(g, x * 0.4, 0.62, 0.3, 0.065, 0.15, 0.04, col);
-        }
-      } else if (kind === "flower") {
-        for (let k = 0; k < 5; k++) {
-          const a = (k * 6.283) / 5;
-          box(
-            g,
-            Math.cos(a) * 0.12,
-            0.75 + Math.sin(a) * 0.12,
-            0.38,
-            0.11,
-            0.11,
-            0.06,
-            col,
-          );
-        }
-        box(g, 0, 0.75, 0.42, 0.065, 0.065, 0.03, "#ccb473");
-      } else {
-        for (const x of [-0.2, 0.2])
-          box(g, x, 0.45, 0.18, 0.045, 0.1, 0.32, col);
-        box(g, 0, 0.44, 0.34, 0.4, 0.09, 0.055, col);
-        if (kind === "bell") {
-          cyl(g, 0, 0.32, 0.39, 0.055, 0.075, 0.12, "#bfa46e", 8);
-          box(g, 0, 0.25, 0.39, 0.022, 0.025, 0.022, "#715f43");
-        } else {
-          box(g, 0.07, 0.36, 0.39, 0.15, 0.19, 0.055, col);
-          box(g, 0.04, 0.46, 0.37, 0.09, 0.08, 0.08, col);
-        }
-      }
-    }
-    actors[name].pig = g;
+    Object.assign(
+      actors[name],
+      buildPig({ group, box, beam, cyl, ellipsoid, P }, parent),
+    );
   }
   const objectRoots = { north: new Map(), south: new Map(), room: new Map() };
-  let modelBuilds=0;
+  let modelBuilds = 0;
   const supportCache = new WeakMap();
   function relationsFor(list) {
-    if(!supportCache.has(list))supportCache.set(list,resolveSupports(list));
+    if (!supportCache.has(list)) supportCache.set(list, resolveSupports(list));
     return supportCache.get(list);
   }
   function objectPosition(name, o, list) {
     const contact = plants.has(o.type) ? withContact(o) : o;
-    const [x,z] = coords(name,o.x,o.y+(contact.contactY||0));
-    const placement=relationsFor(list).get(o.id);
-    return new T.Vector3(x,(placement?.height||0)+.02,z);
+    const [x, z] = coords(name, o.x, o.y + (contact.contactY || 0));
+    const placement = relationsFor(list).get(o.id);
+    return new T.Vector3(x, (placement?.height || 0) + 0.02, z);
   }
-  function geometrySignature(o,list) {
-    const shape=[o.type,o.pot,o.seed];
+  function geometrySignature(o, list) {
+    const shape = [o.type, o.pot, o.seed];
     // Hanging foliage is clipped against the actual floor and shelf edge. Its
     // clipping envelope changes geometry; ordinary transforms never do.
-    if(/tails|ivy|exp-(beadtail|threads|segments|fishbone)/.test(plants.get(o.type)?.form||'')) {
-      const relation=relationsFor(list).get(o.id),parent=list.find(p=>p.id===relation?.parentId),q=parent&&localPoint(o,parent);
-      shape.push(((relation?.height||0)+.02)/o.scale,parent?.type,parent?.scale,relation?.surfaceId,q?.x,q?.z,((o.rotation||0)-(parent?.rotation||0)+360)%360);
+    if (
+      /tails|ivy|exp-(beadtail|threads|segments|fishbone)/.test(
+        plants.get(o.type)?.form || "",
+      )
+    ) {
+      const relation = relationsFor(list).get(o.id),
+        parent = list.find((p) => p.id === relation?.parentId),
+        q = parent && localPoint(o, parent);
+      shape.push(
+        ((relation?.height || 0) + 0.02) / o.scale,
+        parent?.type,
+        parent?.scale,
+        relation?.surfaceId,
+        q?.x,
+        q?.z,
+        ((o.rotation || 0) - (parent?.rotation || 0) + 360) % 360,
+      );
     }
     return JSON.stringify(shape);
   }
-  function modelPlacement(name,anchor,o,list) {
-    anchor.position.copy(objectPosition(name,o,list));
-    const placement=relationsFor(list).get(o.id);
-    anchor.userData.support=placement?.parentId?{...placement,parent:list.find(p=>p.id===placement.parentId)}:null;
-    anchor.userData.model.scale.setScalar(o.scale*(plants.has(o.type)?(o.type==='barrel'?1.15:1.38):1));
-    anchor.userData.model.rotation.y=-(o.rotation||0)*Math.PI/180;
+  function modelPlacement(name, anchor, o, list) {
+    anchor.position.copy(objectPosition(name, o, list));
+    const placement = relationsFor(list).get(o.id);
+    anchor.userData.support = placement?.parentId
+      ? { ...placement, parent: list.find((p) => p.id === placement.parentId) }
+      : null;
+    anchor.userData.model.scale.setScalar(
+      o.scale * (plants.has(o.type) ? (o.type === "barrel" ? 1.15 : 1.38) : 1),
+    );
+    anchor.userData.model.rotation.y = (-(o.rotation || 0) * Math.PI) / 180;
   }
   function addModel(name, o, list) {
     const anchor = group(groups[name]);
     anchor.position.copy(objectPosition(name, o, list));
     anchor.userData.animated = true;
     anchor.userData.objectId = o.id;
-    anchor.userData.signature = geometrySignature(o,list);
-    const placement=supportCache.get(list)?.get(o.id);
-    anchor.userData.support=placement?.parentId ? {...placement,parent:list.find(p=>p.id===placement.parentId)} : null;
-    anchor.userData.model=(plants.has(o.type) ? makePlant : makeObject)(anchor, o);
+    anchor.userData.signature = geometrySignature(o, list);
+    const placement = supportCache.get(list)?.get(o.id);
+    anchor.userData.support = placement?.parentId
+      ? { ...placement, parent: list.find((p) => p.id === placement.parentId) }
+      : null;
+    anchor.userData.model = (plants.has(o.type) ? makePlant : makeObject)(
+      anchor,
+      o,
+    );
     modelBuilds++;
     objectRoots[name].set(o.id, anchor);
     return anchor;
@@ -1274,6 +1310,10 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     if (groups[name]) return groups[name];
     const root = group(scene);
     root.name = name;
+    root.userData.paintSeed = surfaceSeed(
+      name === "north" ? 15773 : name === "south" ? 39127 : 21191,
+    );
+    root.userData.weathered = name !== "room";
     groups[name] = root;
     roof(root, name);
     const list = D.layout[name];
@@ -1284,12 +1324,13 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   }
   function release(root) {
     root.removeFromParent();
-    const owned = new Set(), disposable = new Set();
+    const owned = new Set(),
+      disposable = new Set();
     root.traverse((n) => {
       if (n.isInstancedMesh) {
         owned.add(n);
         n.dispose();
-        if(n.geometry.userData.transient)disposable.add(n.geometry);
+        if (n.geometry.userData.transient) disposable.add(n.geometry);
       } else if (n.isMesh) {
         n.geometry?.dispose();
         if (![...materialCache.values()].includes(n.material))
@@ -1297,8 +1338,12 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       }
     });
     batches = batches.filter((b) => !owned.has(b));
-    for(const geometry of disposable) if(!batches.some(b=>b.geometry===geometry))geometry.dispose();
-    objectMotion = objectMotion.filter(f=>{for(let p=f.g;p;p=p.parent)if(p===root)return false;return true;});
+    for (const geometry of disposable)
+      if (!batches.some((b) => b.geometry === geometry)) geometry.dispose();
+    objectMotion = objectMotion.filter((f) => {
+      for (let p = f.g; p; p = p.parent) if (p === root) return false;
+      return true;
+    });
     waterAnimations = waterAnimations.filter((f) => {
       for (let p = f.g; p; p = p.parent) if (p === root) return false;
       return true;
@@ -1322,7 +1367,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
           roots.delete(id);
         }
       for (const o of list) {
-        const signature = geometrySignature(o,list);
+        const signature = geometrySignature(o, list);
         let root = roots.get(o.id);
         if (root && root.userData.signature !== signature) {
           release(root);
@@ -1330,7 +1375,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
           root = null;
         }
         if (!root) root = addModel(name, o, list);
-        modelPlacement(name,root,o,list);
+        modelPlacement(name, root, o, list);
       }
     }
     if (primitives.length) compileInstances();
@@ -1340,25 +1385,94 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     const w = 10,
       d = 14;
     box(root, 0, -0.13, 0, w, 0.25, d, "#b4a991", "wood");
-    box(root, 0, 1.25, -d / 2, w, 2.5, 0.15, "#c6bea4", "wall");
-    box(root, -w / 2, 1.25, 0, 0.15, 2.5, d, "#b7ae95", "wall");
-    box(root, w / 2, 0.23, 0, 0.15, 0.45, d, "#b7ae95", "wall");
-    for (let j=0,z=-6.5; z<7; j++,z+=1) {
-      box(root,0,.003,z,w,.015,.975,["#b09a75","#ba9e75","#a98e68","#b89c71"][j%4],"wood");
-      box(root,0,.003,z-.495,w,.015,.025,"#736449","wood");
+    // A real opening lets daylight and the mullion shadows enter the room.
+    for (const x of [-3.4, 3.4])
+      box(root, x, 1.25, -d / 2, 3.2, 2.5, 0.15, "#c6bea4", "room-wall");
+    box(root, 0, 0.4, -d / 2, 3.6, 0.8, 0.15, "#c6bea4", "room-wall");
+    box(root, 0, 2.43, -d / 2, 3.6, 0.14, 0.15, "#c6bea4", "room-wall");
+    box(root, -w / 2, 1.25, 0, 0.15, 2.5, d, "#b7ae95", "room-wall");
+    box(root, w / 2, 0.23, 0, 0.15, 0.45, d, "#b7ae95", "room-wall");
+    // Unequal staggered joints and independent board grain, at the same floor height.
+    for (let j = 0, z = -6.5; z < 7; j++, z += 1) {
+      const offset = (surfaceSeed(21191 + j * 719) - 0.5) * 2.1;
+      const cuts = [-5, -1.8 + offset, 2.0 + offset * 0.37, 5];
+      for (let k = 1; k < cuts.length; k++) {
+        const x = (cuts[k] + cuts[k - 1]) / 2,
+          width = cuts[k] - cuts[k - 1] - 0.028;
+        const shades = ["#b09a75", "#ba9e75", "#a98e68", "#b89c71", "#b2a180"];
+        box(
+          root,
+          x,
+          0.003,
+          z,
+          width,
+          0.015,
+          0.975,
+          shades[
+            Math.floor(surfaceSeed(j * 719 + k * 37 + 91) * shades.length)
+          ],
+          "wood",
+        );
+        if (k > 1)
+          box(
+            root,
+            cuts[k - 1] - 0.014,
+            0.004,
+            z,
+            0.022,
+            0.015,
+            0.975,
+            "#736449",
+            "wood",
+          );
+      }
+      box(root, 0, 0.003, z - 0.495, w, 0.015, 0.025, "#736449", "wood");
     }
-    box(root, 0, 1.57, -6.9, 3.4, 1.5, 0.045, "#7f968a");
+    const glass = new T.Mesh(
+      new T.PlaneGeometry(3.4, 1.5),
+      new T.MeshLambertMaterial({
+        color: "#aabfc6",
+        transparent: true,
+        opacity: 0.16,
+        depthWrite: false,
+      }),
+    );
+    glass.position.set(0, 1.57, -6.92);
+    root.add(glass);
     for (const x of [-1.75, 0, 1.75])
       box(root, x, 1.57, -6.86, 0.065, 1.6, 0.055, "#d0cfad");
     box(root, 0, 1.57, -6.85, 3.5, 0.065, 0.055, "#d0cfad");
-    for (let k = 0; k < 7; k++)
-      box(root, 0, 1.04 + k * 0.19, -6.82, 3.5, 0.035, 0.025, "#b9c3a6");
+    box(root, 0, 0.8, -6.76, 3.7, 0.09, 0.44, "#c9c2a8", "wood");
+    // Partially drawn cloth leaves a broad opening; no opaque pane blocks the sun.
+    for (let k = 0; k < 3; k++)
+      box(
+        root,
+        -1.54 + k * 0.1,
+        1.57,
+        -6.77,
+        0.16,
+        1.53,
+        0.08,
+        k === 1 ? "#ada88f" : "#c2bea5",
+        "actor-cloth",
+      );
+    beam(
+      root,
+      [-4.92, 2.04, -0.8],
+      [-4.45, 2.22, -0.8],
+      0.05,
+      "#655b4b",
+      "metal",
+    );
+    cyl(root, -4.45, 2.18, -0.8, 0.12, 0.25, 0.19, "#aaa185", 12, "cloth");
+    ellipsoid(root, -4.45, 2.06, -0.8, 0.085, 0.065, 0.085, "#e4c99f", "light");
     door(root, "room", -4.9, 4, -Math.PI / 2);
   }
   // Batch the painted surfaces and structural pieces without duplicating draw calls.
   function compileInstances() {
     scene.updateMatrixWorld(true);
     const buckets = new Map(),
+      partVariations = new Map(),
       contactGroups = new Map(),
       dummy = new T.Object3D(),
       worldMat = new T.Matrix4();
@@ -1373,7 +1487,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       while (root.parent && root.parent !== scene && !root.userData.animated)
         root = root.parent;
       p.matrix = worldMat.clone();
-      if(!contactGroups.has(root)) contactGroups.set(root, []);
+      if (!contactGroups.has(root)) contactGroups.set(root, []);
       contactGroups.get(root).push(p);
       const cast =
         root.name !== "city" &&
@@ -1384,31 +1498,85 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       const key = root.uuid + "|" + m.uuid + "|" + p.geo.uuid + "|" + cast;
       let b = buckets.get(key);
       if (!b) {
-        b = { root, m, geo: p.geo, cast, matrices: [], colors: [], parts: [], seeds: [] };
+        b = {
+          root,
+          m,
+          geo: p.geo,
+          cast,
+          matrices: [],
+          colors: [],
+          parts: [],
+          seeds: [],
+          variations: [],
+        };
         buckets.set(key, b);
       }
-      let painted=p.g;
-      while(painted.parent && painted.userData.paintSeed===undefined)painted=painted.parent;
-      b.seeds.push(painted.userData.paintSeed||0);
+      let painted = p.g;
+      while (painted.parent && painted.userData.paintSeed === undefined)
+        painted = painted.parent;
+      b.seeds.push(painted.userData.paintSeed || 0);
+      // Repeated components with the same dimensions receive consecutive paint
+      // variants: shelf tiers, slats and drawer fronts never sample one stamp.
+      if (!partVariations.has(root)) partVariations.set(root, new Map());
+      const family = [p.m.userData.kind, p.geo.uuid, p.w, p.h, p.d].join("|"),
+        counts = partVariations.get(root);
+      const variant = counts.get(family) || 0;
+      counts.set(family, variant + 1);
+      b.variations.push(variant);
       b.parts.push(p);
       b.matrices.push(worldMat.clone());
       b.colors.push(p.m.userData.window ? "#ffffff" : p.color);
     }
     const contacts = new Map();
-    for (const [root, parts] of contactGroups) if(root.name!=="city") for(const [p,mask] of cubeContactPaint(T,parts,cube)) contacts.set(p,mask);
+    for (const [root, parts] of contactGroups)
+      if (root.name !== "city")
+        for (const [p, mask] of cubeContactPaint(T, parts, cube))
+          contacts.set(p, mask);
     for (const b of buckets.values()) {
       const geo = new T.BufferGeometry();
       // Share immutable CPU arrays, but own the GPU attributes: disposing a
       // catalogue portrait must not delete buffers used by the live scene.
-      if(b.geo.index)geo.setIndex(new T.BufferAttribute(b.geo.index.array,1));
-      for(const [name,attribute] of Object.entries(b.geo.attributes))
-        geo.setAttribute(name,new T.BufferAttribute(attribute.array,attribute.itemSize,attribute.normalized));
-      geo.boundingBox=b.geo.boundingBox;geo.boundingSphere=b.geo.boundingSphere;
-      geo.userData.transient=true;
-      geo.setAttribute("paintSeed",new T.InstancedBufferAttribute(new Float32Array(b.seeds),1));
-      if(b.geo===cube) {
-        geo.setAttribute("paintShadePositive",new T.InstancedBufferAttribute(new Float32Array(b.parts.flatMap(p=>contacts.get(p)?.positive||[0,0,0])),3));
-        geo.setAttribute("paintShadeNegative",new T.InstancedBufferAttribute(new Float32Array(b.parts.flatMap(p=>contacts.get(p)?.negative||[0,0,0])),3));
+      if (b.geo.index)
+        geo.setIndex(new T.BufferAttribute(b.geo.index.array, 1));
+      for (const [name, attribute] of Object.entries(b.geo.attributes))
+        geo.setAttribute(
+          name,
+          new T.BufferAttribute(
+            attribute.array,
+            attribute.itemSize,
+            attribute.normalized,
+          ),
+        );
+      geo.boundingBox = b.geo.boundingBox;
+      geo.boundingSphere = b.geo.boundingSphere;
+      geo.userData.transient = true;
+      geo.setAttribute(
+        "paintSeed",
+        new T.InstancedBufferAttribute(new Float32Array(b.seeds), 1),
+      );
+      geo.setAttribute(
+        "paintVariant",
+        new T.InstancedBufferAttribute(new Float32Array(b.variations), 1),
+      );
+      if (b.geo === cube) {
+        geo.setAttribute(
+          "paintShadePositive",
+          new T.InstancedBufferAttribute(
+            new Float32Array(
+              b.parts.flatMap((p) => contacts.get(p)?.positive || [0, 0, 0]),
+            ),
+            3,
+          ),
+        );
+        geo.setAttribute(
+          "paintShadeNegative",
+          new T.InstancedBufferAttribute(
+            new Float32Array(
+              b.parts.flatMap((p) => contacts.get(p)?.negative || [0, 0, 0]),
+            ),
+            3,
+          ),
+        );
       }
       const inst = new T.InstancedMesh(geo, b.m, b.matrices.length);
       const inv = b.root.matrixWorld.clone().invert();
@@ -1426,9 +1594,19 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       batches.push(inst);
     }
     primitives = [];
+    // Local transforms of architecture and mesh batches never change. Animated
+    // parents still propagate their world matrices to these frozen children.
+    scene.traverse((node) => {
+      if ((node.isGroup || node.isInstancedMesh) && !node.userData.animated) {
+        node.updateMatrix();
+        node.matrixAutoUpdate = false;
+      }
+    });
   }
   const city = group(scene);
   city.name = "city";
+  city.userData.paintSeed = surfaceSeed(70591);
+  city.userData.weathered = true;
   const groundY = -18.15,
     windowMats = [];
   function facadeWindow(parent, x, y, z, angle, w, h, variant) {
@@ -1444,10 +1622,10 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       "#b1b4a1",
       "#a2ada1",
     ][variant % 7];
-    const m = mat(color, "panel-glass");
+    const m = mat(color, "window");
     m.userData.window = true;
     if (!windowMats.includes(m)) windowMats.push(m);
-    box(g, 0, 0, 0.07, w, h, 0.038, color, "panel-glass");
+    box(g, 0, 0, 0.07, w, h, 0.038, color, "window");
     box(g, 0, 0, 0.106, 0.05, h + 0.06, 0.042, "#d1d2bf", "metal");
     box(g, 0, -h * 0.13, 0.107, w, 0.04, 0.04, "#c9cebd", "metal");
     for (const sx of [-1, 1])
@@ -1502,7 +1680,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     }
   }
   const neighborhood = buildNeighborhood(
-    { T, box, beam, cyl, ellipsoid, group, mat, P },
+    { T, box, beam, cyl, ellipsoid, group, mat, P, surface },
     city,
     groundY,
     facadeWindow,
@@ -1524,16 +1702,24 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     if (primitives.length) compileInstances();
     for (const [key, g] of Object.entries(groups)) g.visible = key === name;
     city.visible = name !== "room";
-    wanted.theta = options.initialTheta ?? (
-      controls === "fixed"
+    wanted.theta =
+      options.initialTheta ??
+      (controls === "fixed"
         ? -0.34
         : name === "north"
           ? -0.12
           : name === "room"
             ? -0.18
             : -0.25);
-    wanted.phi = controls === "fixed" ? .87 : name === "room" ? .90 : .87;
-    wanted.zoom = name === "room" ? 1.07 : innerWidth < 640 ? (name === "south" ? 1.24 : 1.14) : 1.22;
+    wanted.phi = controls === "fixed" ? 0.87 : name === "room" ? 0.9 : 0.87;
+    wanted.zoom =
+      name === "room"
+        ? 1.07
+        : innerWidth < 640
+          ? name === "south"
+            ? 1.24
+            : 1.14
+          : 1.22;
     desiredTarget.set(
       name === "north" ? 0 : -0.4,
       0.2,
@@ -1549,11 +1735,15 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     resize();
   }
   function resize() {
-    // Fine fixed pixel grid, independent of Retina/device density.
+    // Geometry is rasterized at the CSS display size with MSAA. Pixel size belongs
+    // to the nearest-filtered face drawing, not an enlarged coarse framebuffer.
     const w = canvas.clientWidth || innerWidth,
       h = canvas.clientHeight || innerHeight;
-    const [bufferW,bufferH]=drawingBufferSize(w/PIXEL_STYLE.renderScale,h/PIXEL_STYLE.renderScale);
-    renderer.setSize(bufferW,bufferH,false);
+    const [bufferW, bufferH] = drawingBufferSize(
+      w / PIXEL_STYLE.renderScale,
+      h / PIXEL_STYLE.renderScale,
+    );
+    renderer.setSize(bufferW, bufferH, false);
     const height =
       current === "room"
         ? Math.max(15.5, (13.8 * h) / w)
@@ -1593,10 +1783,10 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       dx = e.clientX - old.x,
       dy = e.clientY - old.y;
     if (controls === "none") return;
-    pointers.set(e.pointerId, {...old, x:e.clientX, y:e.clientY});
+    pointers.set(e.pointerId, { ...old, x: e.clientX, y: e.clientY });
     // Gesture ownership is fixed on pointerdown, even after the object moves
     // out from under the pointer or a second finger touches the canvas.
-    if ([...pointers.values()].some(p=>p.object)) return;
+    if ([...pointers.values()].some((p) => p.object)) return;
     if (pointers.size === 2) {
       const d = distance();
       if (d && lastDistance) zoom(Math.log(d / lastDistance));
@@ -1625,7 +1815,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     "wheel",
     (e) => {
       e.preventDefault();
-      if (![...pointers.values()].some(p=>p.object))
+      if (![...pointers.values()].some((p) => p.object))
         zoom(-T.MathUtils.clamp(e.deltaY, -130, 130) * 0.0015);
     },
     { passive: false },
@@ -1654,85 +1844,13 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     if (e.key === "Home") reset(current);
   });
   window.addEventListener("resize", resize);
-  // Rain is three-dimensional and wraps around the terrace, with wet concrete and ripples.
-  const drops = 520,
-    rainPositions = new Float32Array(drops * 6),
-    rainSeeds = Array.from({ length: drops }, (_, i) => rng(973 + i)());
-  const rainGeo = new T.BufferGeometry();
-  rainGeo.setAttribute("position", new T.BufferAttribute(rainPositions, 3));
-  const rainMat = new T.LineBasicMaterial({
-    color: "#b7c9cf",
-    transparent: true,
-    opacity: 0.5,
-    depthWrite: false,
+  const atmosphereFx = createAtmosphere(T, scene, renderer, {
+    coords,
+    hemi,
+    sun,
+    materialCache,
+    windowMats,
   });
-  const rain = new T.LineSegments(rainGeo, rainMat);
-  rain.frustumCulled = false;
-  scene.add(rain);
-  const puddles = {};
-  for (const name of ["north", "south", "room"]) {
-    const list =
-      name === "north"
-        ? [
-            [280, 204, 0.7, 0.3],
-            [302, 308, 0.7, 0.42],
-            [446, 430, 0.5, 0.36],
-            [376, 324, 0.9, 0.25],
-          ]
-        : [
-            [235, 395, 0.6, 0.32],
-            [300, 310, 0.55, 0.3],
-          ];
-    const g = group(scene);
-    g.visible = false;
-    const m = new T.MeshLambertMaterial({
-      color: "#718b86",
-      transparent: true,
-      opacity: 0,
-      depthWrite: false,
-    });
-    for (const [x, y, rx, rz] of list) {
-      const [xx, zz] = coords(name, x, y),
-        p = new T.Mesh(new T.CircleGeometry(1, 18), m);
-      p.rotation.x = -Math.PI / 2;
-      p.scale.set(rx, rz, 1);
-      p.position.set(xx, 0.026, zz);
-      g.add(p);
-    }
-    const rippleMat = new T.LineBasicMaterial({
-      color: "#b5c5b6",
-      transparent: true,
-      opacity: 0,
-      depthWrite: false,
-    });
-    const rippleList = [];
-    for (let k = 0; k < 5; k++) {
-      const [x, y] = list[k % list.length],
-        [xx, zz] = coords(name, x, y);
-      const vertices = [];
-      for (let j = 0; j < 25; j++) {
-        const a = (j * Math.PI * 2) / 24;
-        vertices.push(Math.cos(a), 0, Math.sin(a));
-      }
-      const geom = new T.BufferGeometry();
-      geom.setAttribute("position", new T.Float32BufferAttribute(vertices, 3));
-      const line = new T.Line(geom, rippleMat);
-      line.position.set(xx, 0.033, zz);
-      g.add(line);
-      rippleList.push(line);
-    }
-    puddles[name] = { g, m, rippleMat, rippleList };
-  }
-  const cloudShadowMat = new T.MeshBasicMaterial({
-    color: "#596f75",
-    transparent: true,
-    opacity: 0,
-    depthWrite: false,
-  });
-  const cloudShadow = new T.Mesh(new T.PlaneGeometry(9, 7), cloudShadowMat);
-  cloudShadow.rotation.x = -Math.PI / 2;
-  cloudShadow.position.y = 0.03;
-  scene.add(cloudShadow);
   const projected = new T.Vector3();
   function positionDoor() {
     if (!doorButton) return;
@@ -1767,9 +1885,10 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       height: height + "px",
     });
   }
-  function updateActor(pig, person, present, time) {
+  function updateActor(pig, person, present, time, weather) {
     const a = actors[current];
-    a.person.visible = present;
+    a.person.visible = present && !person.insideShelter;
+    a.pig.visible = !pig.insideShelter;
     const update = (g, p) => {
       const [x, z] = coords(current, p.x, p.y);
       g.position.set(x, 0.04, z);
@@ -1780,6 +1899,20 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     };
     update(a.person, person);
     update(a.pig, pig);
+    if (current === "room" && person.state === "rest")
+      person = {
+        ...person,
+        ...weatherAction(weather, "person", Math.floor(time / 9), {
+          indoor: true,
+        }),
+      };
+    if (current === "room" && pig.state === "rest")
+      pig = {
+        ...pig,
+        ...weatherAction(weather, "pig", Math.floor(time / 8), {
+          indoor: true,
+        }),
+      };
     const walk = person.state === "walk" ? Math.sin(time * 8) * 0.28 : 0;
     const action =
       person.state === "care"
@@ -1821,9 +1954,70 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     );
     for (const [key, tool] of Object.entries(a.tools))
       tool.visible = key === action;
+    // Distinct idle poses use the same cached joints, including sheltered actions.
+    a.body.rotation.z =
+      action === "brace"
+        ? -0.055
+        : action === "stretch"
+          ? Math.sin(time) * 0.035
+          : 0;
+    if (["warm-hands", "dry-hands"].includes(action))
+      a.arms.forEach((arm, i) => {
+        arm.rotation.x = -0.9;
+        arm.rotation.z = (i ? 1 : -1) * (0.4 + Math.sin(time * 3) * 0.04);
+      });
+    else {
+      a.arms.forEach((arm) => (arm.rotation.z = 0));
+      if (action === "stretch")
+        a.arms.forEach((arm, i) => {
+          arm.rotation.x = -2.1;
+          arm.rotation.z = (i ? 1 : -1) * 0.22;
+        });
+      if (
+        ["wipe-sweat", "look-out", "check-window", "check-ties"].includes(
+          action,
+        )
+      )
+        a.arms[1].rotation.x = -2.35 + Math.sin(time * 1.5) * 0.04;
+      if (action === "comfort")
+        a.arms[0].rotation.x = -0.68 + Math.sin(time * 2) * 0.13;
+      if (action === "wipe-pot") {
+        a.arms[1].rotation.x = -0.85 + Math.sin(time * 3) * 0.15;
+        a.tools.wipe.visible = true;
+      }
+    }
+    const sleepy = ["snooze", "curl", "huddle"].includes(pig.state);
+    const shake = pig.state === "shake";
+    a.pig.scale.set(1, sleepy ? 0.84 : 1, 1);
+    a.pig.rotation.z = shake ? Math.sin(time * 22) * 0.055 : 0;
+    a.pigFace.rotation.x = ["sniff", "sniff-wet", "eat"].includes(pig.state)
+      ? 0.1 + Math.sin(time * 3) * 0.025
+      : pig.state === "sniff-air"
+        ? -0.08
+        : 0;
+    const blink = sleepy ? 0.12 : Math.sin(time * 1.3) > 0.985 ? 0.12 : 1;
+    a.pigEyes.forEach((eye) => (eye.scale.y = blink));
     a.pig.position.y +=
       pig.state === "walk" ? Math.abs(Math.sin(time * 9)) * 0.035 : 0;
+    a.pigLegs.forEach(
+      (leg, i) =>
+        (leg.rotation.x =
+          pig.state === "walk"
+            ? Math.sin(time * 9 + (i === 0 || i === 3 ? 0 : Math.PI)) * 0.22
+            : 0),
+    );
+    a.ears.forEach(
+      (ear, i) =>
+        (ear.rotation.z =
+          Math.sin(time * (pig.state === "ear-flick" ? 7 : 1.8) + i * 2.4) *
+          (pig.state === "ear-flick" ? 0.2 : 0.07)),
+    );
+    a.tail.rotation.z = Math.sin(time * 2.6) * 0.15;
   }
+  const frameTimes = new Float32Array(90);
+  let frameCount = 0,
+    frameCursor = 0,
+    selectionKey = "";
   function draw({
     time,
     dt,
@@ -1835,6 +2029,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     doorOpen,
     reduced,
   }) {
+    const frameStart = performance.now();
     updateWardrobe();
     resizeIfNeeded();
     const speed = reduced ? 1 : 1 - Math.exp(-dt * 14);
@@ -1853,93 +2048,47 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     camera.updateMatrixWorld();
     doorProgress += (Number(doorOpen) - doorProgress) * Math.min(1, dt * 12);
     doors[current].hinge.rotation.y = -doorProgress * 0.58;
-    updateActor(pig, person, present, time);
-    for(const motion of objectMotion) motion.g.rotation.z=motion.kind==="spin"?time*(.24+(a.wind||0)*.55):Math.sin(time*1.7)*(.045+(a.wind||0)*.05);
+    updateActor(pig, person, present, time, a);
+    const weatherMotion = atmosphereFx.update(current, a, time, reduced);
+    for (const motion of objectMotion)
+      motion.g.rotation.z =
+        motion.kind === "spin"
+          ? time * (0.24 + weatherMotion.wind * 0.55)
+          : Math.sin(time * 1.7) * (0.045 + weatherMotion.wind * 0.05);
     windTime.value = time;
-    windPower.value = current === "room" ? 0 : a.wind;
-    renderer.setClearColor(a.sky);
-    scene.fog.color.set(a.sky);
-    scene.fog.near = 52 - a.fog * 12;
-    scene.fog.far = 150 - a.fog * 150;
-    hemi.color.set(
-      a.night > 0.5
-        ? "#a5b7d2"
-        : a.rain > 0.1
-          ? "#b8c4d2"
-          : a.cloud > 0.7
-            ? "#c7d0cf"
-            : "#e7ecdf",
-    );
-    for (const m of materialCache.values())
-      if (m.userData.kind === "light") {
-        m.emissive.set("#edc783");
-        m.emissiveIntensity = (a.lamps || 0) * 0.85;
-      }
-    hemi.intensity = current === "room" ? .66 : .74 - a.lightAmount * .26;
-    hemi.groundColor.set(a.night > 0.5 ? "#64758a" : "#7b827a");
-    sun.color.set(
-      a.phase === "dusk"
-        ? "#ddae87"
-        : a.phase === "dawn"
-          ? "#d5beb0"
-          : "#ffe5b9",
-    );
-    sun.intensity = current === "room" ? 1.85 : .18 + a.sun * 2.15;
-    sun.position.set(-22, a.phase === "dusk" ? 15 : 36, -14);
-    windowMats.forEach((m, i) => {
-      const lit = (i % 7) / 7 < a.lamps;
-      m.emissive.set(lit ? "#d1bc85" : "#000000");
-      m.emissiveIntensity = lit ? 0.5 : 0;
-    });
+    windPower.value = weatherMotion.wind;
+    surfaceWeather.wet.value = current === "room" ? 0 : a.wetness;
+    surfaceWeather.rain.value = current === "room" ? 0 : a.rain;
     for (const f of waterAnimations) {
       f.g.position.x = f.baseX + Math.sin(time * 0.2 + f.phase) * f.r * 0.4;
       f.g.position.z = f.baseZ + Math.cos(time * 0.16 + f.phase) * f.r * 0.25;
       f.g.rotation.y = Math.cos(time * 0.2 + f.phase) * 0.4;
     }
-    for (const [name, p] of Object.entries(puddles))
-      p.g.visible = name === current && current !== "room";
-    puddles[current].m.opacity = a.wetness * 0.55;
-    puddles[current].rippleMat.opacity = a.rain * 0.55;
-    puddles[current].rippleList.forEach((l, i) => {
-      const t = (time * 1.1 + i * 0.23) % 1;
-      l.scale.setScalar(0.1 + t * 0.47);
-    });
-    rain.visible = current !== "room" && a.rain > 0.01;
-    rainMat.opacity = 0.2 + a.rain * 0.35;
-    if (rain.visible) {
-      const count = Math.floor(drops * a.rain);
-      rainGeo.setDrawRange(0, count * 2);
-      for (let i = 0; i < count; i++) {
-        const seed = rainSeeds[i],
-          x = ((seed * 397.1) % 1) * 34 - 17,
-          z = ((seed * 723.3) % 1) * 32 - 16,
-          y = 14 - ((time * (9 + a.rain * 7) + seed * 20) % 15),
-          idx = i * 6;
-        rainPositions[idx] = x;
-        rainPositions[idx + 1] = y;
-        rainPositions[idx + 2] = z;
-        rainPositions[idx + 3] = x - a.wind * 0.12;
-        rainPositions[idx + 4] = y - 0.4 - a.rain * 0.25;
-        rainPositions[idx + 5] = z - 0.08;
-      }
-      rainGeo.attributes.position.needsUpdate = true;
-    }
-    cloudShadowMat.opacity = a.cloud * 0.035 * (1 - a.night);
-    cloudShadow.position.x = Math.sin(time * 0.015) * 8;
-    cloudShadow.position.z = Math.cos(time * 0.012) * 5;
     if (time - lastShadow > 0.22) {
       lastShadow = time;
       renderer.shadowMap.needsUpdate = true;
     }
-    scene.updateMatrixWorld();
     positionDoor();
     const chosen = selected && objectRoots[current].get(selected);
     selectionBox.visible = !!chosen;
-    if (chosen) {
+    const key = chosen
+      ? [
+          chosen.uuid,
+          ...chosen.position.toArray(),
+          ...chosen.userData.model.scale.toArray(),
+          chosen.userData.model.rotation.y,
+          chosen.userData.signature,
+        ].join(":")
+      : "";
+    if (chosen && key !== selectionKey) {
       selectionBox.box.setFromObject(chosen);
       selectionBox.updateMatrixWorld(true);
     }
+    selectionKey = key;
     renderer.render(scene, camera);
+    frameTimes[frameCursor++ % frameTimes.length] =
+      performance.now() - frameStart;
+    frameCount++;
   }
   const raycaster = new T.Raycaster(),
     ndc = new T.Vector2(),
@@ -1977,36 +2126,103 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
           : [284, 264];
     return { x: v.x * 16 + center[0], y: v.z * 16 + center[1] };
   }
-  const groundPoint = (x,y)=>pointAtHeight(x,y,0);
-  function placementAt(x,y,child,excluded=new Set(),offset={x:0,y:0}) {
-    const list=D.layout[current],relations=relationsFor(list),binding=relations.get(child.id)?.parentId?relations.get(child.id):groundArea(list,child,relations),candidates=[];
-    const context=createPlacementContext(list,child.id,relations);
-    for(const parent of list) {
-      if(excluded.has(parent.id)||relations.get(parent.id)?.invalid)continue;
-      for(const surface of context.surfaces.get(parent.id)) {
-        if(surface.bearing==='ground'&&relations.get(parent.id)?.height!==0)continue;
-        const height=(relations.get(parent.id)?.height||0)+surface.y;
-        const point=pointAtHeight(x,y,height);if(!point)continue;
-        let next={...child,x:point.x-offset.x,y:point.y-offset.y,support:surface.bearing==='ground'?null:{id:parent.id,surface:surface.id}};
-        if(surface.point) {
-          const centre=surfacePoint(parent,surface);
-          if(Math.hypot(next.x-centre.x,next.y+contactOffset(child)-centre.y)>Math.min(surface.w,surface.d)*8)continue;
-          next={...next,x:centre.x,y:centre.y-contactOffset(child)};
+  const groundPoint = (x, y) => pointAtHeight(x, y, 0);
+  function placementAt(
+    x,
+    y,
+    child,
+    excluded = new Set(),
+    offset = { x: 0, y: 0 },
+  ) {
+    const list = D.layout[current],
+      relations = relationsFor(list),
+      binding = relations.get(child.id)?.parentId
+        ? relations.get(child.id)
+        : groundArea(list, child, relations),
+      candidates = [];
+    const context = createPlacementContext(list, child.id, relations);
+    for (const parent of list) {
+      if (excluded.has(parent.id) || relations.get(parent.id)?.invalid)
+        continue;
+      for (const surface of context.surfaces.get(parent.id)) {
+        if (
+          surface.bearing === "ground" &&
+          relations.get(parent.id)?.height !== 0
+        )
+          continue;
+        const height = (relations.get(parent.id)?.height || 0) + surface.y;
+        const point = pointAtHeight(x, y, height);
+        if (!point) continue;
+        let next = {
+          ...child,
+          x: point.x - offset.x,
+          y: point.y - offset.y,
+          support:
+            surface.bearing === "ground"
+              ? null
+              : { id: parent.id, surface: surface.id },
+        };
+        if (surface.point) {
+          const centre = surfacePoint(parent, surface);
+          if (
+            Math.hypot(
+              next.x - centre.x,
+              next.y + contactOffset(child) - centre.y,
+            ) >
+            Math.min(surface.w, surface.d) * 8
+          )
+            continue;
+          next = { ...next, x: centre.x, y: centre.y - contactOffset(child) };
         }
-        if(fitsSurface(next,parent,surface,{footprint:context.footprints.get(child.id)}))candidates.push({next,height,current:binding?.parentId===parent.id&&binding.surfaceId===surface.id});
+        if (
+          fitsSurface(next, parent, surface, {
+            footprint: context.footprints.get(child.id),
+          })
+        )
+          candidates.push({
+            next,
+            height,
+            current:
+              binding?.parentId === parent.id &&
+              binding.surfaceId === surface.id,
+          });
       }
     }
     // A selected tier stays stable while dragging within its bearing area,
     // including steep camera angles where higher tiers project onto the same spot.
     // Otherwise the closest horizontal surface is struck first by the camera ray.
-    candidates.sort((a,b)=>Number(b.current)-Number(a.current)||b.height-a.height);
-    for(const candidate of candidates) {
-      const next=candidate.next,proposed=list.map(o=>o.id===child.id?next:o),updated=new Map(relations);
-      updated.set(child.id,next.support?{height:candidate.height,parentId:next.support.id,surfaceId:next.support.surface,container:context.surfaces.get(next.support.id).find(s=>s.id===next.support.surface).container}:{height:0});
-      if(clearPlacement(proposed,new Set([child.id]),updated,context))return next;
+    candidates.sort(
+      (a, b) => Number(b.current) - Number(a.current) || b.height - a.height,
+    );
+    for (const candidate of candidates) {
+      const next = candidate.next,
+        proposed = list.map((o) => (o.id === child.id ? next : o)),
+        updated = new Map(relations);
+      updated.set(
+        child.id,
+        next.support
+          ? {
+              height: candidate.height,
+              parentId: next.support.id,
+              surfaceId: next.support.surface,
+              container: context.surfaces
+                .get(next.support.id)
+                .find((s) => s.id === next.support.surface).container,
+            }
+          : { height: 0 },
+      );
+      if (clearPlacement(proposed, new Set([child.id]), updated, context))
+        return next;
     }
-    const point=groundPoint(x,y);
-    return point?{...child,x:point.x-offset.x,y:point.y-offset.y,support:null}:null;
+    const point = groundPoint(x, y);
+    return point
+      ? {
+          ...child,
+          x: point.x - offset.x,
+          y: point.y - offset.y,
+          support: null,
+        }
+      : null;
   }
   function pick(x, y) {
     ray(x, y);
@@ -2014,15 +2230,21 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       [...objectRoots[current].values()],
       true,
     );
-    const owner=hit=>{let n=hit.object;while(n&&!n.userData.objectId)n=n.parent;return n&&D.layout[current].find(o=>o.id===n.userData.objectId)};
+    const owner = (hit) => {
+      let n = hit.object;
+      while (n && !n.userData.objectId) n = n.parent;
+      return n && D.layout[current].find((o) => o.id === n.userData.objectId);
+    };
     for (const hit of hits) {
-      const materials=Array.isArray(hit.object.material)?hit.object.material:[hit.object.material];
-      if(materials.every(m=>m?.transparent&&m.opacity<.45))continue;
+      const materials = Array.isArray(hit.object.material)
+        ? hit.object.material
+        : [hit.object.material];
+      if (materials.every((m) => m?.transparent && m.opacity < 0.45)) continue;
       let n = hit.object;
       while (n && !n.userData.objectId) n = n.parent;
       if (n) return D.layout[current].find((o) => o.id === n.userData.objectId);
     }
-    return hits.length?owner(hits[0]):null;
+    return hits.length ? owner(hits[0]) : null;
   }
   function projectObject(id) {
     const root = objectRoots[current].get(id);
@@ -2069,8 +2291,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     const start = batches.length;
     (a.plant ? makePlant : makeObject)(g, { ...o, rotation: 0, scale: 1 });
     compileInstances();
-    stage.add(new T.HemisphereLight("#eef0e9", "#566573", .66));
-    const light = new T.DirectionalLight("#fff0d4", 2.15);
+    stage.add(new T.HemisphereLight("#ffffff", "#7b8a99", 0.95));
+    const light = new T.DirectionalLight("#ffffff", 2.3);
     light.position.set(-8, 11, 5);
     stage.add(light);
     const bounds = new T.Box3().setFromObject(g),
@@ -2102,6 +2324,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     const target = new T.WebGLRenderTarget(output.width, output.height, {
       minFilter: T.NearestFilter,
       magFilter: T.NearestFilter,
+      samples: 4,
     });
     target.texture.colorSpace = T.SRGBColorSpace;
     const previous = renderer.getRenderTarget();
@@ -2109,13 +2332,18 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     renderer.setClearColor(0, 0);
     // A seed's catalogue portrait must not depend on the live scene's breeze.
     const sceneWindTime = windTime.value,
-      sceneWindPower = windPower.value;
+      sceneWindPower = windPower.value,
+      sceneWet = surfaceWeather.wet.value,
+      sceneRain = surfaceWeather.rain.value;
     windTime.value = windPower.value = 0;
+    surfaceWeather.wet.value = surfaceWeather.rain.value = 0;
     try {
       renderer.render(stage, cam);
     } finally {
       windTime.value = sceneWindTime;
       windPower.value = sceneWindPower;
+      surfaceWeather.wet.value = sceneWet;
+      surfaceWeather.rain.value = sceneRain;
     }
     const pixels = new Uint8Array(output.width * output.height * 4);
     renderer.readRenderTargetPixels(
@@ -2171,18 +2399,33 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       return catalogInfo.get(type);
     },
     get gesturing() {
-      return pointers.size > 1 && ![...pointers.values()].some(p=>p.object);
+      return pointers.size > 1 && ![...pointers.values()].some((p) => p.object);
     },
     get interacting() {
-      return pointers.size>0||['theta','phi','zoom'].some(k=>Math.abs(wanted[k]-view[k])>.001)||target.distanceToSquared(desiredTarget)>.000001;
+      return (
+        pointers.size > 0 ||
+        ["theta", "phi", "zoom"].some(
+          (k) => Math.abs(wanted[k] - view[k]) > 0.001,
+        ) ||
+        target.distanceToSquared(desiredTarget) > 0.000001
+      );
     },
     draw,
     get stats() {
       return {
+        performance: {
+          frames: frameCount,
+          p95Ms: [...frameTimes].sort((a, b) => a - b)[85],
+          lastMs:
+            frameTimes[
+              (frameCursor + frameTimes.length - 1) % frameTimes.length
+            ],
+        },
         scene: current,
         view: { ...view },
         wanted: { ...wanted },
         pixels: PIXEL_STYLE.renderScale,
+        antialias: renderer.getContext().getContextAttributes().antialias,
         style: PIXEL_STYLE.id,
         textures: texCache.size,
         surfaces: surfaceCache.size,
@@ -2206,6 +2449,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         groundY,
         storeys: 6,
         neighborhood,
+        atmosphere: atmosphereFx.stats,
         buffer: [canvas.width, canvas.height],
       };
     },

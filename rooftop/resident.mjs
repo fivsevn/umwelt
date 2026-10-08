@@ -39,9 +39,12 @@ export const ERRAND_POOLS = {
 export const ERRANDS = [...new Set(Object.values(ERRAND_POOLS).flat())];
 export function makeResident(
   random = Math.random,
-  { phase = () => "day" } = {},
+  { phase = () => "day", environment = () => ({}) } = {},
 ) {
-  let present = random() < 0.68,
+  const rainy = (w) =>
+    w.rain > 0.06 ||
+    ["rain", "heavy", "thunderstorm", "typhoon"].includes(w.condition);
+  let present = rainy(environment()) || random() < 0.68,
     status = "",
     remaining = 0;
   const pool = () => ERRAND_POOLS[phase()] || ERRAND_POOLS.day;
@@ -68,13 +71,18 @@ export function makeResident(
     get remaining() {
       return remaining;
     },
-    update(dt) {
+    update(dt, weather = {}) {
       remaining -= Math.max(0, dt);
       if (remaining > 0) {
         if (!present && !pool().includes(status)) {
           choose();
           return true;
         }
+        return false;
+      }
+      // Once home, wait out the rain instead of starting a gardening errand.
+      if (present && rainy(weather)) {
+        remaining = 30;
         return false;
       }
       present = !present;

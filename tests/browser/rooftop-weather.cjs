@@ -1,14 +1,243 @@
-const assert=require('node:assert/strict'),{chromium,webkit}=require('playwright');
-const base=process.env.BASE_URL||'http://127.0.0.1:8773',engine=process.env.BROWSER||'chromium',out=process.env.QA_OUTPUT||'/tmp';
-(async()=>{const b=await (engine==='webkit'?webkit:chromium).launch({headless:true,...(engine==='chromium'?{channel:'chrome'}:{})});try{const p=await b.newPage({viewport:{width:1350,height:1200}}),errors=[];p.on('pageerror',e=>errors.push(e.message));p.on('response',r=>{if(r.status()>=400)errors.push(r.status()+' '+r.url())});await p.goto(base+'/rooftop/arrange/');await p.waitForFunction(()=>window.rooftop);assert.equal(await p.locator('#weatherSelect option').count(),8);assert.equal(await p.locator('#timeSelect option').count(),6);await p.locator('#person').uncheck();const original=await p.evaluate(()=>rooftop.layout);
-const raster=await p.evaluate(async()=>{const {WEATHER,TIMES,weatherProfile,paintSky,paintLighting,paintRain}=await import('/rooftop/weather.mjs'),{paintPlant}=await import('/rooftop/plant-art.mjs'),{paintBase,SCENES}=await import('/rooftop/scene.mjs');const cv=document.createElement('canvas');cv.width=640;cv.height=520;const floor=document.createElement('canvas');floor.width=640;floor.height=520;const fc=floor.getContext('2d');paintBase(fc,'north',{includeCity:false});const c=cv.getContext('2d'),hash=()=>{let h=2166136261;const a=c.getImageData(0,0,640,520).data;for(let i=0;i<a.length;i+=7)h=Math.imul(h^a[i],16777619);return h>>>0},seen=new Set();for(const w of WEATHER)for(const t of TIMES){const state=weatherProfile(w.id,t.id);paintSky(c,{x:0,y:0,w:640,h:520},state,4);c.drawImage(floor,0,0);paintLighting(c,640,520,state,4);paintRain(c,640,520,state,4);seen.add(hash())}
-const plantFrame=time=>{c.clearRect(0,0,640,520);c.save();c.translate(32,32);paintPlant(c,{type:'fern',x:0,y:0},{time,wind:2.1});c.restore();return {all:hash(),pot:Array.from(c.getImageData(12,38,40,15).data)}};const a=plantFrame(0),b=plantFrame(1.6);if(a.all===b.all)throw Error('Foliage does not move');if(a.pot.some((v,i)=>v!==b.pot[i]))throw Error('Pot moved in the wind');
-paintBase(c,'north',{includeCity:false});const drain=Array.from(c.getImageData(279,144,7,7).data);if(!drain.some((v,i)=>i%4===3&&v))throw Error('Drain absent');return {combinations:seen.size,plantMoves:a.all!==b.all,potStable:true}});assert.equal(raster.combinations,35);
-const materials=await p.evaluate(async()=>{const {paintLighting,paintWetRoof,weatherProfile}=await import('/rooftop/weather.mjs');const cv=document.createElement('canvas');cv.width=640;cv.height=520;const c=cv.getContext('2d');c.fillStyle='#979985';c.fillRect(200,200,8,8);c.fillStyle='#424936';c.fillRect(208,200,8,8);paintLighting(c,640,520,weatherProfile('clear','dusk'),0);const lit=c.getImageData(200,200,1,1).data,shade=c.getImageData(208,200,1,1).data;const transparent=c.getImageData(0,0,1,1).data[3];const points=[[144,144],[464,144],[464,464],[144,464]];const area=condition=>{c.clearRect(0,0,640,520);paintWetRoof(c,points,weatherProfile(condition,'day'),1);const a=c.getImageData(0,0,640,520).data;let count=0;for(let i=3;i<a.length;i+=4)if(a[i])count++;return count};return {transparent,contrast:lit[1]-shade[1],dry:area('clear'),rain:area('rain'),heavy:area('heavy')}});assert.equal(materials.transparent,0);assert.ok(materials.contrast>40);assert.equal(materials.dry,0);assert.ok(materials.heavy>materials.rain*1.5,'heavy rain accumulates more surface water');
-for(const weather of ['clear','cloudy','overcast','rain','heavy','wind','mist']){await p.locator('#weatherSelect').selectOption(weather);await p.waitForTimeout(500);assert.equal((await p.evaluate(()=>rooftop.weather)).condition,weather);assert.ok(await p.locator('#weatherStatus').innerText());}
-await p.locator('#weatherSelect').selectOption('clear');for(const phase of ['dawn','day','dusk','evening','late']){await p.locator('#timeSelect').selectOption(phase);await p.waitForTimeout(1800);assert.equal((await p.evaluate(()=>rooftop.weather)).phase,phase);await p.screenshot({path:out+'/weather-'+phase+'-'+engine+'.png',fullPage:true})}
-await p.locator('#weatherSelect').selectOption('heavy');await p.locator('#timeSelect').selectOption('day');await p.waitForTimeout(1800);await p.screenshot({path:out+'/weather-rain-'+engine+'.png',fullPage:true});await p.locator('[data-scene=south]').click();await p.screenshot({path:out+'/weather-south-'+engine+'.png',fullPage:true});assert.deepEqual(await p.evaluate(()=>rooftop.layout),original);
-await p.setViewportSize({width:390,height:844});assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));assert.ok(await p.locator('#weatherSelect').isVisible());await p.reload();await p.waitForFunction(()=>window.rooftop);assert.equal(await p.locator('#weatherSelect').inputValue(),'heavy');
-await p.emulateMedia({reducedMotion:'reduce'});await p.waitForFunction(()=>rooftop.weather.reduced);assert.equal((await p.evaluate(()=>rooftop.weather)).reduced,true);const a=await p.locator('#garden').screenshot();await p.waitForTimeout(1000);const bb=await p.locator('#garden').screenshot();assert.notDeepEqual(a,bb,'weather motion remains active in reduced mode');await p.emulateMedia({reducedMotion:'no-preference'});await p.waitForFunction(()=>!rooftop.weather.reduced);assert.equal((await p.evaluate(()=>rooftop.weather)).reduced,false);
-// Public scene chooses its own weather, regardless of the arranger's saved selection.
-await p.addInitScript(()=>{Math.random=()=>.2});await p.goto(base+'/rooftop/');await p.waitForFunction(()=>window.rooftop);assert.equal((await p.evaluate(()=>rooftop.weather)).choices.condition,'cloudy');assert.equal(await p.locator('#weatherSelect').count(),0);await p.locator('#sceneDoor').click();assert.equal(await p.evaluate(()=>rooftop.scene),'south');assert.ok(await p.evaluate(()=>{const cv=document.getElementById('garden');return cv.width===rooftop.camera.w&&cv.height===rooftop.camera.h}),'south canvas matches its native camera');await p.screenshot({path:out+'/weather-public-south-'+engine+'.png'});await p.locator('#sceneDoor').click();assert.equal(await p.evaluate(()=>rooftop.scene),'north');assert.deepEqual(errors,[]);console.log(JSON.stringify({engine,passed:true,...raster,checks:'7 weather choices, 5 time phases, gradual transition, fixed pots, persisted garage choices, independent random public weather, both balconies, mobile, reduced motion and live preference change'}));}finally{await b.close()}})().catch(e=>{console.error(e);process.exit(1)});
+const assert = require("node:assert/strict"),
+  { chromium, webkit } = require("playwright");
+const base = process.env.BASE_URL || "http://127.0.0.1:8773",
+  engine = process.env.BROWSER || "chromium",
+  out = process.env.QA_OUTPUT || "/tmp";
+(async () => {
+  const b = await (engine === "webkit" ? webkit : chromium).launch({
+    headless: true,
+    ...(engine === "chromium" ? { channel: "chrome" } : {}),
+  });
+  try {
+    const p = await b.newPage({ viewport: { width: 1350, height: 1200 } }),
+      errors = [];
+    p.on("pageerror", (e) => errors.push(e.message));
+    p.on("response", (r) => {
+      if (r.status() >= 400) errors.push(r.status() + " " + r.url());
+    });
+    await p.goto(base + "/rooftop/arrange/");
+    await p.waitForFunction(() => window.rooftop);
+    assert.equal(await p.locator("#weatherSelect option").count(), 10);
+    assert.equal(await p.locator("#timeSelect option").count(), 8);
+    await p.locator("#person").uncheck();
+    const original = await p.evaluate(() => rooftop.layout);
+    const raster = await p.evaluate(async () => {
+      const {
+          WEATHER,
+          TIMES,
+          weatherProfile,
+          paintSky,
+          paintLighting,
+          paintRain,
+        } = await import("/rooftop/weather.mjs"),
+        { paintPlant } = await import("/rooftop/plant-art.mjs"),
+        { paintBase, SCENES } = await import("/rooftop/scene.mjs");
+      const cv = document.createElement("canvas");
+      cv.width = 640;
+      cv.height = 520;
+      const floor = document.createElement("canvas");
+      floor.width = 640;
+      floor.height = 520;
+      const fc = floor.getContext("2d");
+      paintBase(fc, "north", { includeCity: false });
+      const c = cv.getContext("2d"),
+        hash = () => {
+          let h = 2166136261;
+          const a = c.getImageData(0, 0, 640, 520).data;
+          for (let i = 0; i < a.length; i += 7)
+            h = Math.imul(h ^ a[i], 16777619);
+          return h >>> 0;
+        },
+        seen = new Set();
+      for (const w of WEATHER)
+        for (const t of TIMES) {
+          const state = weatherProfile(w.id, t.id);
+          paintSky(c, { x: 0, y: 0, w: 640, h: 520 }, state, 4);
+          c.drawImage(floor, 0, 0);
+          paintLighting(c, 640, 520, state, 4);
+          paintRain(c, 640, 520, state, 4);
+          seen.add(hash());
+        }
+      const plantFrame = (time) => {
+        c.clearRect(0, 0, 640, 520);
+        c.save();
+        c.translate(32, 32);
+        paintPlant(c, { type: "fern", x: 0, y: 0 }, { time, wind: 2.1 });
+        c.restore();
+        return {
+          all: hash(),
+          pot: Array.from(c.getImageData(12, 38, 40, 15).data),
+        };
+      };
+      const a = plantFrame(0),
+        b = plantFrame(1.6);
+      if (a.all === b.all) throw Error("Foliage does not move");
+      if (a.pot.some((v, i) => v !== b.pot[i]))
+        throw Error("Pot moved in the wind");
+      paintBase(c, "north", { includeCity: false });
+      const drain = Array.from(c.getImageData(279, 144, 7, 7).data);
+      if (!drain.some((v, i) => i % 4 === 3 && v)) throw Error("Drain absent");
+      return {
+        combinations: seen.size,
+        plantMoves: a.all !== b.all,
+        potStable: true,
+      };
+    });
+    assert.equal(raster.combinations, 63);
+    const materials = await p.evaluate(async () => {
+      const { paintLighting, paintWetRoof, weatherProfile } = await import(
+        "/rooftop/weather.mjs"
+      );
+      const cv = document.createElement("canvas");
+      cv.width = 640;
+      cv.height = 520;
+      const c = cv.getContext("2d");
+      c.fillStyle = "#979985";
+      c.fillRect(200, 200, 8, 8);
+      c.fillStyle = "#424936";
+      c.fillRect(208, 200, 8, 8);
+      paintLighting(c, 640, 520, weatherProfile("clear", "dusk"), 0);
+      const lit = c.getImageData(200, 200, 1, 1).data,
+        shade = c.getImageData(208, 200, 1, 1).data;
+      const transparent = c.getImageData(0, 0, 1, 1).data[3];
+      const points = [
+        [144, 144],
+        [464, 144],
+        [464, 464],
+        [144, 464],
+      ];
+      const area = (condition) => {
+        c.clearRect(0, 0, 640, 520);
+        paintWetRoof(c, points, weatherProfile(condition, "day"), 1);
+        const a = c.getImageData(0, 0, 640, 520).data;
+        let count = 0;
+        for (let i = 3; i < a.length; i += 4) if (a[i]) count++;
+        return count;
+      };
+      return {
+        transparent,
+        contrast: lit[1] - shade[1],
+        dry: area("clear"),
+        rain: area("rain"),
+        heavy: area("heavy"),
+      };
+    });
+    assert.equal(materials.transparent, 0);
+    assert.ok(materials.contrast > 40);
+    assert.equal(materials.dry, 0);
+    assert.ok(
+      materials.heavy > materials.rain * 1.5,
+      "heavy rain accumulates more surface water",
+    );
+    for (const weather of [
+      "clear",
+      "cloudy",
+      "overcast",
+      "rain",
+      "heavy",
+      "wind",
+      "mist",
+      "thunderstorm",
+      "typhoon",
+    ]) {
+      await p.locator("#weatherSelect").selectOption(weather);
+      await p.waitForTimeout(500);
+      assert.equal(
+        (await p.evaluate(() => rooftop.weather)).condition,
+        weather,
+      );
+      assert.ok(await p.locator("#weatherStatus").innerText());
+    }
+    await p.locator("#weatherSelect").selectOption("clear");
+    for (const phase of [
+      "dawn",
+      "morning",
+      "day",
+      "afternoon",
+      "dusk",
+      "evening",
+      "late",
+    ]) {
+      await p.locator("#timeSelect").selectOption(phase);
+      await p.waitForTimeout(1800);
+      assert.equal((await p.evaluate(() => rooftop.weather)).phase, phase);
+      await p.screenshot({
+        path: out + "/weather-" + phase + "-" + engine + ".png",
+        fullPage: true,
+      });
+    }
+    await p.locator("#weatherSelect").selectOption("heavy");
+    await p.locator("#timeSelect").selectOption("day");
+    await p.waitForTimeout(1800);
+    await p.screenshot({
+      path: out + "/weather-rain-" + engine + ".png",
+      fullPage: true,
+    });
+    await p.locator("[data-scene=south]").click();
+    await p.screenshot({
+      path: out + "/weather-south-" + engine + ".png",
+      fullPage: true,
+    });
+    assert.deepEqual(await p.evaluate(() => rooftop.layout), original);
+    await p.setViewportSize({ width: 390, height: 844 });
+    assert.ok(
+      await p.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    );
+    assert.ok(await p.locator("#weatherSelect").isVisible());
+    await p.reload();
+    await p.waitForFunction(() => window.rooftop);
+    assert.equal(await p.locator("#weatherSelect").inputValue(), "heavy");
+    await p.emulateMedia({ reducedMotion: "reduce" });
+    await p.waitForFunction(() => rooftop.weather.reduced);
+    assert.equal((await p.evaluate(() => rooftop.weather)).reduced, true);
+    const a = await p.locator("#garden").screenshot();
+    await p.waitForTimeout(1000);
+    const bb = await p.locator("#garden").screenshot();
+    assert.notDeepEqual(a, bb, "weather motion remains active in reduced mode");
+    await p.emulateMedia({ reducedMotion: "no-preference" });
+    await p.waitForFunction(() => !rooftop.weather.reduced);
+    assert.equal((await p.evaluate(() => rooftop.weather)).reduced, false);
+    // Public scene chooses its own weather, regardless of the arranger's saved selection.
+    await p.addInitScript(() => {
+      Math.random = () => 0.2;
+    });
+    await p.goto(base + "/rooftop/");
+    await p.waitForFunction(() => window.rooftop);
+    assert.equal(
+      (await p.evaluate(() => rooftop.weather)).choices.condition,
+      "cloudy",
+    );
+    assert.equal(await p.locator("#weatherSelect").count(), 0);
+    await p.locator("#sceneDoor").click();
+    assert.equal(await p.evaluate(() => rooftop.scene), "south");
+    assert.ok(
+      await p.evaluate(() => {
+        const cv = document.getElementById("garden");
+        return cv.width === rooftop.camera.w && cv.height === rooftop.camera.h;
+      }),
+      "south canvas matches its native camera",
+    );
+    await p.screenshot({
+      path: out + "/weather-public-south-" + engine + ".png",
+    });
+    await p.locator("#sceneDoor").click();
+    assert.equal(await p.evaluate(() => rooftop.scene), "north");
+    assert.deepEqual(errors, []);
+    console.log(
+      JSON.stringify({
+        engine,
+        passed: true,
+        ...raster,
+        checks:
+          "9 weather choices, 7 time phases, gradual transition, fixed pots, persisted garage choices, independent random public weather, both balconies, mobile, reduced motion and live preference change",
+      }),
+    );
+  } finally {
+    await b.close();
+  }
+})().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

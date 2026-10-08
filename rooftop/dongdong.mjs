@@ -1,7 +1,7 @@
 import { wardrobe, OUTFITS } from "./wardrobe.mjs";
 // Dongdong: short chestnut hair, bare arms and a quiet, straight-cut dress.
 // All poses share the rooftop's fixed overhead camera and muted pixel palette.
-const PERSON_SCALE = 1.65;
+const PERSON_SCALE = 1.8;
 const palette = {
   hair: "#685044",
   hairShade: "#4f4038",
