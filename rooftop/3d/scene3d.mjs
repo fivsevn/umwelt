@@ -1775,6 +1775,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     terraceBounds = null;
     resize();
     target.copy(desiredTarget);
+    positionCamera();
+    positionDoor();
   }
   function resize() {
     // Geometry is rasterized at the CSS display size with MSAA. Pixel size belongs
@@ -1994,6 +1996,18 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     software,
   });
   const projected = new T.Vector3();
+  function positionCamera() {
+    const radius = camera.isPerspectiveCamera ? TERRACE_VIEW_DISTANCE : 58;
+    camera.position.set(
+      target.x + Math.sin(view.theta) * Math.cos(view.phi) * radius,
+      target.y + Math.sin(view.phi) * radius,
+      target.z + Math.cos(view.theta) * Math.cos(view.phi) * radius,
+    );
+    camera.lookAt(target);
+    camera.zoom = view.zoom;
+    camera.updateProjectionMatrix();
+    camera.updateMatrixWorld();
+  }
   function positionDoor() {
     if (!doorButton) return;
     const frame = doors[current].frame,
@@ -2190,16 +2204,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     for (const key of ["theta", "phi", "zoom"])
       view[key] += (wanted[key] - view[key]) * speed;
     target.lerp(desiredTarget, speed);
-    const radius = camera.isPerspectiveCamera ? TERRACE_VIEW_DISTANCE : 58;
-    camera.position.set(
-      target.x + Math.sin(view.theta) * Math.cos(view.phi) * radius,
-      target.y + Math.sin(view.phi) * radius,
-      target.z + Math.cos(view.theta) * Math.cos(view.phi) * radius,
-    );
-    camera.lookAt(target);
-    camera.zoom = view.zoom;
-    camera.updateProjectionMatrix();
-    camera.updateMatrixWorld();
+    positionCamera();
     doorProgress += (Number(doorOpen) - doorProgress) * Math.min(1, dt * 12);
     doors[current].hinge.rotation.y = -doorProgress * 0.58;
     updateActor(pig, person, present, time, a);

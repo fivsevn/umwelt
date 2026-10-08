@@ -5,7 +5,7 @@ import { buildStreetCar, buildStreetLantern } from "./street-models.mjs";
 export const NEIGHBORHOOD_BUILDINGS = [
   [-5, -56, 48, 11, 6],
   [2, 96, 52, 11, 6],
-  [79, 25, 36, 11, 6],
+  [69, 27, 48, 11, 6, Math.PI / 2],
 ];
 export const NEIGHBORHOOD_SOURCES = [
   [
@@ -62,11 +62,12 @@ export function buildNeighborhood(api, city, groundY, window) {
     m.rotation.y = angle;
     parent.add(m);
   }
-  function building(x, z, w, d, floors, index) {
+  function building(x, z, w, d, floors, index, angle = 0) {
     const g = group(city, x, groundY, z),
       h = floors * 3,
       color = colors[index % 4];
     g.scale.setScalar(2);
+    g.rotation.y = angle;
     g.userData.paintSeed = surfaceSeed(9173 + index * 719);
     g.userData.weathered = true;
     // Beige plaster, a darker plinth and real pitched roofs distinguish old walk-ups.
@@ -94,7 +95,7 @@ export function buildNeighborhood(api, city, groundY, window) {
         w + 0.56,
         0.16,
         half,
-        ["#a06548", "#94664f", "#81706a"][index % 3],
+        ["#a06548", "#94664f", "#966b54"][index % 3],
         "roof",
         s * a,
       );
@@ -352,7 +353,9 @@ export function buildNeighborhood(api, city, groundY, window) {
         box(shop, s * 1.84, 1.02, 1.27, 0.065, 2.06, 0.065, "#5c6f72", "metal");
     }
   }
-  NEIGHBORHOOD_BUILDINGS.forEach((b, i) => building(...b, i));
+  NEIGHBORHOOD_BUILDINGS.forEach((b, i) =>
+    building(...b.slice(0, 5), i, b[5] || 0),
+  );
   const ground = new T.Mesh(
     new T.PlaneGeometry(360, 300),
     mat("#aaa697", "asphalt"),
