@@ -164,7 +164,35 @@ const engine = process.env.BROWSER || "chromium",
       });
       assert.ok(point, "a rendered item is inspectable");
       await page.mouse.move(point.clientX, point.clientY);
-      await page.locator(".observation-notebook").waitFor({ state: "visible" });
+      try {
+        await page
+          .locator(".observation-notebook")
+          .waitFor({ state: "visible" });
+      } catch (error) {
+        console.error(
+          await page.evaluate(
+            (p) => ({
+              scene: rooftop.scene,
+              point: p,
+              pick: rooftop.modelRenderer.pick(p.clientX, p.clientY)?.id,
+              target: document.elementFromPoint(p.clientX, p.clientY)?.id,
+              note: document
+                .querySelector(".observation-notebook")
+                .outerHTML.slice(0, 300),
+              graphics: {
+                view: rooftop.graphics.view,
+                target: rooftop.graphics.target,
+              },
+            }),
+            point,
+          ),
+        );
+        if (process.env.QA_OUTPUT)
+          await page.screenshot({
+            path: process.env.QA_OUTPUT + "/hover-failure-" + engine + ".png",
+          });
+        throw error;
+      }
       assert.ok((await page.locator("#noteShape").innerText()).length > 5);
       assert.ok((await page.locator("#noteComment").innerText()).length > 5);
       await page.mouse.click(point.clientX, point.clientY);

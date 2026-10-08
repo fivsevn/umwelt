@@ -480,12 +480,20 @@ if (!editor) {
     }
     if (pinned || e.pointerType === "touch") return;
     clearTimeout(timer);
-    const position = { clientX: e.clientX, clientY: e.clientY };
+    // Hold the item under the cursor, rather than picking again after the
+    // delay: wind can move a thin leaf away while its notebook is opening.
+    const hovered = inspectAt(e);
     timer = setTimeout(() => {
-      const o = inspectAt(position);
-      if (o) open(o);
+      if (hovered) open(hovered);
       else if (!note.matches(":hover") && !pinned) note.hidden = true;
     }, 350);
+  });
+  canvas.addEventListener("pointerleave", () => {
+    clearTimeout(timer);
+    if (!pinned && !down)
+      timer = setTimeout(() => {
+        if (!note.matches(":hover")) note.hidden = true;
+      }, 500);
   });
   canvas.addEventListener("wheel", () => {
     clearTimeout(timer);

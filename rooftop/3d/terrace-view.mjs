@@ -9,7 +9,7 @@ export function terraceOrbit(scene, width) {
     fullRotation: true,
     minPhi: 0.18,
     maxPhi: 1.35,
-    phi: 0.35,
+    phi: scene === "south" ? 0.25 : 0.35,
   };
 }
 const centre = { north: [304, 272], south: [284, 264] };
@@ -52,7 +52,8 @@ export function terraceFrame(
       (bounds[2] - bounds[0]) / Math.max(0.46, aspect) / 0.98,
     );
   const u =
-    (bounds[0] + bounds[2]) / 2 + (scene === "north" && width < height ? 3 : 0);
+    (bounds[0] + bounds[2]) / 2 +
+    (width < height ? (scene === "north" ? 3 : -2) : 0);
   const v = (bounds[1] + bounds[3]) / 2;
   return {
     bounds,

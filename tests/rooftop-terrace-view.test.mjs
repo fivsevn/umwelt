@@ -272,10 +272,13 @@ test("the balcony is a small part of a long house with clear space to neighbouri
   const r = HOUSE.roof;
   assert.ok(r.width > 100 && r.width > r.depth * 2);
   assert.ok(r.ridge > r.eave + 7);
-  for (const [x, z, w, d] of NEIGHBORHOOD_BUILDINGS) {
+  for (const [x, z, w, d, floors, angle = 0] of NEIGHBORHOOD_BUILDINGS) {
     // Neighbour groups use a uniform scale of two, including their windows.
-    const dx = Math.max(r.x - (x + w), x - w - (r.x + r.width), 0);
-    const dz = Math.max(r.z - (z + d), z - d - (r.z + r.depth), 0);
+    const halfX = Math.abs(Math.cos(angle)) * w + Math.abs(Math.sin(angle)) * d,
+      halfZ = Math.abs(Math.sin(angle)) * w + Math.abs(Math.cos(angle)) * d,
+      dx = Math.max(r.x - (x + halfX), x - halfX - (r.x + r.width), 0),
+      dz = Math.max(r.z - (z + halfZ), z - halfZ - (r.z + r.depth), 0);
+    assert.equal(floors, 6);
     assert.ok(
       Math.hypot(dx, dz) >= 25,
       "roads and courtyards stay between full-size buildings",
