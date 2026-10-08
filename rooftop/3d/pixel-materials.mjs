@@ -470,6 +470,8 @@ export function createPixelMaterials(
     };
     m.customProgramCacheKey = () =>
       "pixel-metric-v6-" +
+      kind +
+      "-" +
       (wind ? "wind-" + kind : "static") +
       (faces
         ? "-faces-" + kind

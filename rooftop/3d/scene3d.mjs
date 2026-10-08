@@ -68,6 +68,11 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     alpha: true,
     powerPreference: "default",
   });
+  const gl = renderer.getContext(),
+    debug = gl.getExtension("WEBGL_debug_renderer_info");
+  const software = /swiftshader|llvmpipe|softpipe|swrast|software/i.test(
+    debug ? gl.getParameter(debug.UNMASKED_RENDERER_WEBGL) : "",
+  );
   renderer.setPixelRatio(1);
   canvas.dataset.renderer = "3d";
   renderer.outputColorSpace = T.SRGBColorSpace;
@@ -83,7 +88,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   const sun = new T.DirectionalLight("#fff8e7", 1.45);
   sun.position.set(-22, 38, -14);
   sun.castShadow = true;
-  sun.shadow.mapSize.set(1024, 1024);
+  sun.shadow.mapSize.set(software ? 512 : 1024, software ? 512 : 1024);
   Object.assign(sun.shadow.camera, {
     left: -32,
     right: 32,
@@ -1742,6 +1747,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     const [bufferW, bufferH] = drawingBufferSize(
       w / PIXEL_STYLE.renderScale,
       h / PIXEL_STYLE.renderScale,
+      software,
     );
     renderer.setSize(bufferW, bufferH, false);
     const height =
@@ -1850,6 +1856,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     sun,
     materialCache,
     windowMats,
+    software,
   });
   const projected = new T.Vector3();
   function positionDoor() {
@@ -2015,6 +2022,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     a.tail.rotation.z = Math.sin(time * 2.6) * 0.15;
   }
   const frameTimes = new Float32Array(90);
+  let pendingGPU = null,
+    skippedFrames = 0;
   let frameCount = 0,
     frameCursor = 0,
     selectionKey = "";
@@ -2029,6 +2038,16 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     doorOpen,
     reduced,
   }) {
+    // Keep one GPU frame in flight. Software rendering and slow devices must
+    // not accumulate an unbounded command queue while the UI keeps ticking.
+    if (pendingGPU) {
+      if (gl.clientWaitSync(pendingGPU, 0, 0) === gl.TIMEOUT_EXPIRED) {
+        skippedFrames++;
+        return;
+      }
+      gl.deleteSync(pendingGPU);
+      pendingGPU = null;
+    }
     const frameStart = performance.now();
     updateWardrobe();
     resizeIfNeeded();
@@ -2086,6 +2105,10 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     }
     selectionKey = key;
     renderer.render(scene, camera);
+    if (gl.fenceSync) {
+      pendingGPU = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
+      gl.flush();
+    }
     frameTimes[frameCursor++ % frameTimes.length] =
       performance.now() - frameStart;
     frameCount++;
@@ -2324,7 +2347,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     const target = new T.WebGLRenderTarget(output.width, output.height, {
       minFilter: T.NearestFilter,
       magFilter: T.NearestFilter,
-      samples: 4,
+      samples: software ? 0 : 4,
     });
     target.texture.colorSpace = T.SRGBColorSpace;
     const previous = renderer.getRenderTarget();
@@ -2414,6 +2437,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     get stats() {
       return {
         performance: {
+          skippedFrames,
           frames: frameCount,
           p95Ms: [...frameTimes].sort((a, b) => a - b)[85],
           lastMs:
@@ -2443,6 +2467,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         catalog: ASSETS.length,
         objects: D.layout[current].length,
         modelBuilds,
+        cataloguePreviews: spriteCache.size,
         instances: batches.reduce((n, b) => n + b.count, 0),
         drawCalls: renderer.info.render.calls,
         triangles: renderer.info.render.triangles,
@@ -2451,6 +2476,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         neighborhood,
         atmosphere: atmosphereFx.stats,
         buffer: [canvas.width, canvas.height],
+        software,
       };
     },
   };
