@@ -27,15 +27,15 @@ const engine = process.env.BROWSER || 'chromium';
       const update = async time => {await page.evaluate(time=>updateFeed(time),time);await page.waitForTimeout(550)};
       const ids = () => page.locator('.corner-cards > :visible').evaluateAll(es=>es.map(e=>e.id));
       await update(.4); assert.deepEqual(await ids(),['weatherCard']);
-      await update(1.2); assert.deepEqual(await ids(),['dongdongStatus','weatherCard']);
-      await update(5); assert.deepEqual(await ids(),['musicToggle','dongdongStatus','weatherCard']);
-      await update(12); assert.deepEqual(await ids(),['returnWorld','musicToggle','dongdongStatus','weatherCard']);
+      await update(1.2); assert.deepEqual(await ids(),['dongdongStatus','actionCard','weatherCard']);
+      await update(5); assert.deepEqual(await ids(),['musicToggle','dongdongStatus','actionCard','weatherCard']);
+      await update(12); assert.deepEqual(await ids(),['returnWorld','musicToggle','dongdongStatus','actionCard','weatherCard']);
       // No changes on ordinary frames: cards and arrival animations remain stable.
       await page.evaluate(()=>{document.querySelector('#musicToggle').classList.remove('feed-enter');updateFeed(13)});
       assert.equal(await page.locator('#musicToggle').evaluate(e=>e.classList.contains('feed-enter')),false);
       await page.evaluate(()=>{feedResident.update(120);updateFeed(120)});
       await page.waitForTimeout(550);
-      assert.deepEqual(await ids(),['dongdongStatus','returnWorld','musicToggle','weatherCard']);
+      assert.deepEqual(await ids(),['dongdongStatus','returnWorld','musicToggle','actionCard','weatherCard']);
       assert.equal(await page.locator('#dongdongStatus').innerText(),'东东回来了。');
       assert.equal(await page.locator('#dongdongStatus').evaluate(e=>e.classList.contains('feed-enter')),true);
       await update(120.9); assert.equal((await ids())[0],'garageCard');
@@ -78,7 +78,7 @@ const engine = process.env.BROWSER || 'chromium';
         fresh.update(12);
       });
       await page.waitForTimeout(550);
-      assert.deepEqual(await ids(),['roomCard','returnWorld','musicToggle','garageCard','weatherCard']);
+      assert.deepEqual(await ids(),['roomCard','returnWorld','musicToggle','garageCard','actionCard','weatherCard']);
       assert.deepEqual(errors,[]);
       await page.close();
     }

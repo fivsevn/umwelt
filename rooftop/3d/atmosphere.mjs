@@ -184,7 +184,8 @@ export function createAtmosphere(
     update(name, a, time, reduced = false) {
       const indoor = name === "room",
         motion = weatherMotion(a, time),
-        flash = lightningPulse(a, time, reduced);
+        flash = lightningPulse(a, time, reduced),
+        precipitation = rainShape(a);
       sky.visible = !indoor;
       skyUniforms.zenith.value.set(a.zenith);
       skyUniforms.horizon.value.set(a.horizon);
@@ -200,15 +201,7 @@ export function createAtmosphere(
       sun.color.set(a.sunColor);
       sun.intensity = indoor ? a.direct * 0.62 : a.direct;
       const position = indoor
-        ? [
-            a.sunX * 0.32,
-            a.phase === "day"
-              ? 24
-              : a.phase === "morning" || a.phase === "afternoon"
-                ? 13
-                : 8,
-            -28,
-          ]
+        ? [a.sunX * 0.32, a.roomSunY ?? 24, -28]
         : lightPosition(a, name);
       sun.position.set(...position);
       sun.shadow.needsUpdate = a.direct > 0.08;
@@ -240,7 +233,7 @@ export function createAtmosphere(
         f.wetUniforms.tint.value.set(a.sky);
         f.cloudUniforms.time.value = time;
         f.cloudUniforms.strength.value = a.sun * a.cloud * 0.2;
-        const shape = rainShape(a),
+        const shape = precipitation,
           count = Math.ceil(shape.impacts * a.rain * (reduced ? 0.78 : 1));
         f.impacts.visible = name === key && a.rain > 0.01;
         if (f.impacts.visible) {
@@ -251,7 +244,7 @@ export function createAtmosphere(
             const strike = rainStrike(
               shape,
               i,
-              time,
+              a.rainClock === undefined ? time : a.rainClock * shape.lifetime,
               f.bounds,
               key === "south" ? 431 : 0,
             );
@@ -300,8 +293,10 @@ export function createAtmosphere(
       rainGeometry.setDrawRange(0, count * 2);
       if (rain.visible) {
         for (let i = 0; i < count; i++) {
-          const seed = rainHash(i + rainShape(a).seed * 131),
-            age = (time * (0.75 + a.rain * 0.55) + seed * 11) % 1;
+          const seed = rainHash(i + precipitation.seed * 131),
+            age =
+              ((a.streakClock ?? time * (0.75 + a.rain * 0.55)) + seed * 11) %
+              1;
           const y = 15 - age * 17,
             drift = age * motion.wind * 1.4;
           const x = ((seed * 397.1) % 1) * 38 - 19 - drift,
@@ -311,7 +306,7 @@ export function createAtmosphere(
           positions[idx + 1] = y;
           positions[idx + 2] = z;
           positions[idx + 3] = x - motion.x * 0.19;
-          positions[idx + 4] = y - rainShape(a).streak;
+          positions[idx + 4] = y - precipitation.streak;
           positions[idx + 5] = z - motion.z * 0.19;
         }
         rainGeometry.attributes.position.needsUpdate = true;
@@ -331,7 +326,7 @@ export function createAtmosphere(
         flash,
         wetness: a.wetness,
         impacts: indoor ? [] : floors[name].impactSample,
-        impactCount: indoor ? 0 : Math.ceil(rainShape(a).impacts * a.rain),
+        impactCount: indoor ? 0 : Math.ceil(precipitation.impacts * a.rain),
         surfaceState: a.wetness > 0.1 ? "wet" : "dry",
       };
       return { wind: indoor ? 0 : motion.wind };

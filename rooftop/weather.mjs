@@ -1,3 +1,4 @@
+import { rainShape } from "./precipitation.mjs";
 import {
   lightingProfile,
   weatherMotion,
@@ -218,6 +219,8 @@ export function weatherProfile(condition, phase) {
     phase: p.id,
     period: p.name,
     wetness: w.rain,
+    roomSunY:
+      p.id === "day" ? 24 : ["morning", "afternoon"].includes(p.id) ? 13 : 8,
     night: p.night,
     lamps: p.lamps,
     lightTint: blendColor(
@@ -248,8 +251,7 @@ export function makeWeather({
     current = null,
     target = null,
     resolvedKey = "",
-    resolvedProfile = null,
-    targetColours = {};
+    resolvedProfile = null;
   function resolve() {
     const date = now();
     const condition =
@@ -264,17 +266,6 @@ export function makeWeather({
     if (key !== resolvedKey) {
       resolvedKey = key;
       resolvedProfile = weatherProfile(condition, phase);
-      targetColours = Object.fromEntries(
-        [
-          "sky",
-          "lightTint",
-          "horizon",
-          "zenith",
-          "sunColor",
-          "ambientColor",
-          "bounceColor",
-        ].map((k) => [k, hex(resolvedProfile[k])]),
-      );
     }
     return resolvedProfile;
   }
@@ -289,9 +280,39 @@ export function makeWeather({
     "ambientColor",
     "bounceColor",
   ];
-  const colours = Object.fromEntries(
-    colourKeys.map((key) => [key, hex(current[key])]),
-  );
+  let from = { ...current },
+    elapsed = 0,
+    duration = 8,
+    rainClock = 0,
+    streakClock = 0,
+    fallbackRainClock = 0;
+  const numericKeys = [
+    "wind",
+    "rain",
+    "cloud",
+    "fog",
+    "night",
+    "lamps",
+    "lightAmount",
+    "sun",
+    "ambient",
+    "direct",
+    "moon",
+    "sunX",
+    "sunY",
+    "sunZ",
+    "thunder",
+    "gale",
+    "roomSunY",
+  ];
+  function begin(next, seconds) {
+    if (next === target) return;
+    from = { ...current };
+    from.rainStyle = rainShape(current);
+    target = next;
+    elapsed = 0;
+    duration = seconds;
+  }
   return {
     get choices() {
       return { ...choices };
@@ -310,44 +331,47 @@ export function makeWeather({
           value === "auto" || TIMES.some((p) => p.id === value)
             ? value
             : "auto";
-      target = resolve();
+      begin(resolve(), 8);
     },
     update(dt) {
-      target = resolve();
-      const t = Math.min(1, dt * 2.8);
+      begin(resolve(), 18);
+      dt = Math.max(0, Number.isFinite(dt) ? dt : 0);
+      elapsed = Math.min(duration, elapsed + dt);
+      const q = elapsed / duration,
+        t = q * q * (3 - 2 * q);
+      for (const key of numericKeys)
+        current[key] = from[key] + (target[key] - from[key]) * t;
+      for (const key of colourKeys)
+        current[key] = blendColor(from[key], target[key], t);
       current.wetness +=
-        (target.rain - current.wetness) *
-        Math.min(1, dt * (target.rain > current.wetness ? 0.4 : 0.04));
-      for (const key of [
-        "wind",
-        "rain",
-        "cloud",
-        "fog",
-        "night",
-        "lamps",
-        "lightAmount",
-        "sun",
-        "ambient",
-        "direct",
-        "moon",
-        "sunX",
-        "sunY",
-        "sunZ",
-        "thunder",
-        "gale",
-      ])
-        current[key] += (target[key] - current[key]) * t;
-      for (const key of colourKeys) {
-        const next = targetColours[key];
-        colours[key] = colours[key].map((v, i) => v + (next[i] - v) * t);
-        current[key] =
-          "#" +
-          colours[key]
-            .map((v) => Math.round(v).toString(16).padStart(2, "0"))
-            .join("");
-      }
+        (current.rain - current.wetness) *
+        (1 - Math.exp(-dt * (current.rain > current.wetness ? 0.4 : 0.04)));
       for (const key of ["condition", "phase", "period", "name"])
         current[key] = target[key];
+      current.transition = {
+        from: from.condition,
+        shapeFrom: from.rainStyle,
+        to: target.condition,
+        mix: t,
+        duration,
+        elapsed,
+      };
+      current.rainIntent = target.rain;
+      current.activityCondition =
+        target.rain > 0
+          ? target.condition
+          : current.rain > 0.01
+            ? from.activityCondition || from.condition
+            : target.condition;
+      current.visualCondition =
+        t < 0.5 ? from.visualCondition || from.condition : target.condition;
+      const shape = rainShape(current);
+      rainClock += dt / shape.lifetime;
+      streakClock += dt * (0.75 + current.rain * 0.55);
+      current.rainClock = rainClock;
+      current.streakClock = streakClock;
+      fallbackRainClock += dt * (1.6 + current.rain * 0.7);
+      current.fallbackRainClock = fallbackRainClock;
       return { ...current };
     },
   };
@@ -542,7 +566,11 @@ export function paintRain(c, w, h, state, time, { reduced = false } = {}) {
   const count = Math.round((reduced ? 90 : 150) * state.rain),
     col = state.night > 0.5 ? "#879bae" : "#b7c4c6";
   for (let i = 0; i < count; i++) {
-    const cycle = wrap(time * (1.6 + state.rain * 0.7) + i * 0.618, 1),
+    const cycle = wrap(
+        (state.fallbackRainClock ?? time * (1.6 + state.rain * 0.7)) +
+          i * 0.618,
+        1,
+      ),
       x = wrap(i * 137 + cycle * motion.wind * 19, w + 12) - 6,
       y = wrap(i * 71 + cycle * (h + 18), h + 18) - 9,
       len = 3 + Math.floor(state.rain * 3) + (i % 3 === 0 ? 1 : 0);

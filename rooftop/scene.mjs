@@ -1,3 +1,4 @@
+import { HOUSE } from "./house-structure.mjs";
 import {
   placementKind,
   physicalFootprint,
@@ -55,6 +56,8 @@ export const SCENES = {
     spawn: [300, 290],
   },
   north: {
+    house: HOUSE.id,
+    transform: HOUSE.terraces.north,
     name: "北天台",
     label: "NORTH ROOF",
     points: [
@@ -72,6 +75,8 @@ export const SCENES = {
     spawn: [432, 432],
   },
   south: {
+    house: HOUSE.id,
+    transform: HOUSE.terraces.south,
     name: "南阳台",
     label: "SOUTH BALCONY",
     points: [
@@ -153,10 +158,7 @@ export const ASSETS = [
 ];
 for (const a of ASSETS)
   if (!a.plant) {
-    if (MODEL_REFERENCES[a.id])
-      a.note =
-        MODEL_REFERENCES[a.id].note +
-        " 参考真实器物结构作像素转译，按阳台陈列调整比例。";
+    if (MODEL_REFERENCES[a.id]) a.note = MODEL_REFERENCES[a.id].note;
     const refs = [
       ...(a.sources || []),
       ...(a.vessel ? vessel(a.vessel).sources || [] : []),

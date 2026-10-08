@@ -1,3 +1,5 @@
+import { fillNotebook, notebookEntry } from "./notebook.mjs";
+import { actionCaption } from "./resident-weather.mjs";
 import { atmosphereCaption } from "./atmosphere.mjs";
 import { createCatalogPreviews } from "./catalog-previews.mjs";
 import {
@@ -94,7 +96,7 @@ try {
     editor ? null : $("sceneDoor"),
     {
       scene,
-      controls: editor ? "edit" : "orbit",
+      controls: editor ? "edit" : "pan",
       initialTheta: editor ? undefined : -0.34,
       selected: () => selected,
     },
@@ -137,19 +139,25 @@ const weather = makeWeather(
   editor
     ? weatherChoices
     : {
-        condition: WEATHER[Math.floor(Math.random() * WEATHER.length)].id,
-        phase: "auto",
+        condition:
+          new URLSearchParams(location.search).get("weather") ||
+          WEATHER[Math.floor(Math.random() * WEATHER.length)].id,
+        phase: new URLSearchParams(location.search).get("time") || "auto",
       },
 );
 let atmosphere = weather.state,
   weatherAge = 0,
   reduced = matchMedia("(prefers-reduced-motion: reduce)").matches,
   cityBounds;
+const activityEnvironment = () => ({
+  ...atmosphere,
+  condition: atmosphere.activityCondition || atmosphere.condition,
+});
 const resident = editor
   ? null
   : makeResident(Math.random, {
       phase: () => atmosphere.phase,
-      environment: () => atmosphere,
+      environment: activityEnvironment,
     });
 if (resident) showPerson = resident.present;
 matchMedia("(prefers-reduced-motion: reduce)").addEventListener(
@@ -183,6 +191,16 @@ function weatherCaption() {
   const text = atmosphereCaption(atmosphere);
   if ($("weatherStatus").textContent !== text)
     $("weatherStatus").textContent = text;
+}
+function updateActionCard() {
+  const action = actionCaption(walker?.person, pigWalker?.person, {
+    present: showPerson,
+    scene,
+    weather: atmosphere,
+  });
+  if ($("actionStatus") && $("actionStatus").textContent !== action)
+    $("actionStatus").textContent = action;
+  if (editor && $("actionStatus")) $("actionStatus").hidden = !showPerson;
 }
 const objects = () => layout.scenes[scene],
   selection = () => objects().find((o) => o.id === selected);
@@ -261,13 +279,13 @@ function rebuild() {
   fitView();
   paintBase(baseCtx, scene, { includeCity: false });
   walker = makeWalker(scene, objects, {
-    environment: () => atmosphere,
+    environment: activityEnvironment,
     company: () => [pigWalker?.person],
   });
   pigWalker = makeWalker(scene, objects, {
     visits: 7,
     actor: "pig",
-    environment: () => atmosphere,
+    environment: activityEnvironment,
     body: { radius: 0.76, height: 1.0 },
     company: () => (showPerson ? [walker?.person] : []),
   });
@@ -363,7 +381,6 @@ let notebookKey = "";
 function notebook(o) {
   const p = o && plant(o.type),
     a = o && asset(o.type),
-    v = o && vessel(a.vessel),
     key = o
       ? o.id +
         ":" +
@@ -378,30 +395,9 @@ function notebook(o) {
   document.querySelector(".notebook details").open = false;
   $("notebookBody").hidden = !o;
   $("notebookEmpty").hidden = !!o;
-  $("vesselControls").hidden = !p;
+  if ($("vesselControls")) $("vesselControls").hidden = !p;
   if (!o) return;
-  const info = p || v || a;
-  $("noteName").textContent = info.name;
-  $("noteLatin").textContent = p
-    ? p.scientific
-    : info.scientific || info.ja || a.category;
-  $("noteAliases").textContent = p
-    ? p.ja + " / " + p.aliases
-    : v
-      ? "园艺盆 · " + (v.kind === "ceramic" ? "产地风格转译" : "有排水孔")
-      : a.weapon
-        ? `${a.origin} · ${a.era}`
-        : "天台物件 · " + a.category;
-  $("noteShape").textContent = info.note;
-  $("noteCare").hidden = Boolean(a.weapon);
-  document.querySelector(".note-foot").textContent = a.weapon
-    ? "年代按参考藏品或型式记录，器物细节可能因产地与版本而不同。"
-    : "养法按品种与当地季节调整。花果是辨识用的画面，不代表全年同时出现。";
-  $("noteCare").textContent = p
-    ? p.care
-    : v
-      ? "陶瓷风格转译成有排水孔的园艺盆，并非特定窑场商品的复刻。"
-      : info.care || "放在稳固平面上。";
+  fillNotebook(o);
   const preview = $("notePreview");
   preview.getContext("2d").clearRect(0, 0, 96, 96);
   paintObject(preview.getContext("2d"), {
@@ -417,26 +413,7 @@ function notebook(o) {
     preview.getContext("2d").clearRect(0, 0, 96, 96);
     garden3d.thumbnail(o, preview);
   }
-  $("noteSources").replaceChildren();
-  const sources = [
-    ...new Map(
-      [
-        ...(info.sources || []),
-        ...(p ? vessel(o.pot || p.defaultPot).sources : []),
-      ].map((source) => [source.url, source]),
-    ).values(),
-  ];
-  for (const source of sources) {
-    const li = document.createElement("li"),
-      a = document.createElement("a");
-    a.textContent = source.label;
-    a.href = source.url;
-    a.target = "_blank";
-    a.rel = "noopener noreferrer";
-    li.append(a);
-    $("noteSources").append(li);
-  }
-  if (p) {
+  if (p && editor) {
     $("potSelect").replaceChildren();
     for (const pot of allowedPots(o.type)) {
       const option = document.createElement("option");
@@ -451,7 +428,89 @@ function notebook(o) {
   }
 }
 function vesselNote(id) {
-  $("vesselNote").textContent = vessel(id).note;
+  $("vesselNote").textContent = notebookEntry({
+    type: "vessel-" + id,
+  }).description;
+}
+
+if (!editor) {
+  const note = document.querySelector(".notebook");
+  let pinned = false,
+    timer = null,
+    down = null,
+    moved = false;
+  const touching = new Set();
+  const close = () => {
+    pinned = false;
+    note.hidden = true;
+    clearTimeout(timer);
+    notebookKey = "";
+  };
+  const open = (o, pin = false) => {
+    if (!o) return;
+    notebook(o);
+    note.hidden = false;
+    pinned = pin;
+  };
+  const inspectAt = (e) =>
+    garden3d ? garden3d.pick(e.clientX, e.clientY) : hit(coords(e));
+  canvas.addEventListener("pointerdown", (e) => {
+    touching.add(e.pointerId);
+    down = [e.clientX, e.clientY];
+    moved = touching.size > 1;
+    clearTimeout(timer);
+  });
+  canvas.addEventListener("pointermove", (e) => {
+    if (down) {
+      moved ||= Math.hypot(e.clientX - down[0], e.clientY - down[1]) > 5;
+      if (moved && !pinned) note.hidden = true;
+      return;
+    }
+    if (pinned || e.pointerType === "touch") return;
+    clearTimeout(timer);
+    const position = { clientX: e.clientX, clientY: e.clientY };
+    timer = setTimeout(() => {
+      const o = inspectAt(position);
+      if (o) open(o);
+      else if (!note.matches(":hover") && !pinned) note.hidden = true;
+    }, 350);
+  });
+  canvas.addEventListener("wheel", () => {
+    clearTimeout(timer);
+    if (!pinned) note.hidden = true;
+  });
+  canvas.addEventListener("pointerup", (e) => {
+    if (down && !moved) {
+      const o = inspectAt(e);
+      if (o) open(o, true);
+      else close();
+    }
+    touching.delete(e.pointerId);
+    down = null;
+  });
+  canvas.addEventListener("pointercancel", (e) => {
+    touching.delete(e.pointerId);
+    down = null;
+    clearTimeout(timer);
+  });
+  note.addEventListener("pointerenter", () => clearTimeout(timer));
+  note.addEventListener("pointerleave", () => {
+    if (!pinned)
+      timer = setTimeout(() => {
+        note.hidden = true;
+      }, 500);
+  });
+  note.addEventListener("click", () => {
+    pinned = true;
+  });
+  $("notebookClose").onclick = (e) => {
+    e.stopPropagation();
+    close();
+  };
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") close();
+  });
+  $("sceneDoor").addEventListener("click", close);
 }
 
 const catalogPreviews = editor
@@ -1199,13 +1258,14 @@ function frame(now) {
   const previousCondition = atmosphere.condition;
   atmosphere = weather.update(dt);
   if (previousCondition !== atmosphere.condition) syncPresence();
-  if (resident && resident.update(dt, atmosphere)) {
+  if (resident && resident.update(dt, activityEnvironment())) {
     showPerson = resident.present;
     syncPresence();
     if (showPerson) walker.arrive();
   }
   if (showPerson) walker.update(dt);
   pigWalker.update(dt * 0.8);
+  updateActionCard();
   const drawInterval = garden3d ? (garden3d.interacting ? 16 : 33) : 50;
   if (now - drawAt > drawInterval) {
     drawAt = now;

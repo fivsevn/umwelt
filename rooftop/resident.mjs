@@ -42,7 +42,7 @@ export function makeResident(
   { phase = () => "day", environment = () => ({}) } = {},
 ) {
   const rainy = (w) =>
-    w.rain > 0.06 ||
+    w.rain > 0.01 ||
     ["rain", "heavy", "thunderstorm", "typhoon"].includes(w.condition);
   let present = rainy(environment()) || random() < 0.68,
     status = "",

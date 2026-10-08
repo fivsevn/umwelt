@@ -3,14 +3,9 @@ import { buildStreetCar, buildStreetLantern } from "./street-models.mjs";
 // Guoliyuan's published street photographs inform the architectural vocabulary.
 // Placement is a composed neighbourhood, not a surveyed reconstruction of block 92.
 export const NEIGHBORHOOD_BUILDINGS = [
-  [-26, -26, 19, 8, 6],
-  [-1, -35, 25, 8, 6],
-  [27, -29, 20, 9, 5],
-  [-31, -2, 19, 8, 5],
-  [32, 5, 22, 8, 6],
-  [-23, 30, 21, 8, 6],
-  [2, 35, 19, 8, 5],
-  [27, 29, 17, 8, 6],
+  [-10, -29, 36, 10, 6],
+  [31, 3, 34, 11, 6],
+  [-26, 27, 32, 10, 5],
 ];
 export const NEIGHBORHOOD_SOURCES = [
   [
@@ -588,7 +583,7 @@ export function buildNeighborhood(api, city, groundY, window) {
       );
   }
   return {
-    buildings: 8,
+    buildings: NEIGHBORHOOD_BUILDINGS.length,
     storeys: [5, 6],
     trees: 18,
     cars: 7,

@@ -1,6 +1,6 @@
 # 东东的手帐：植物与器物资料
 
-Reviewed 2026-09-30. The garage owns the concise player-facing notebook. `rooftop/botany.mjs` keeps stable botanical identities, aliases, vessel eligibility and source links; `plant-art.mjs` rasterizes characteristic leaves, stems, flowers and fruit. No external photos are embedded or traced.
+Reviewed 2026-10-08. The public garden and garage share the player-facing notebook. Each entry presents an objective description, one distinct fictional observation by Dongdong, then collapsed source links. Production notes, repeated categories and generic footnotes stay outside this prose. `notebook.mjs` owns presentation descriptions; `notebook-comments.mjs` owns all 304 observations. `rooftop/botany.mjs` keeps stable botanical identities, aliases, vessel eligibility and source links; `plant-art.mjs` rasterizes characteristic leaves, stems, flowers and fruit. No external photos are embedded or traced.
 
 ## Research scope
 

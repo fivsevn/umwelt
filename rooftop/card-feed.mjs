@@ -2,12 +2,15 @@
 export function attachCardFeed(root, { scene, presence }) {
   const schedule = [
     ["weatherCard", 0.4],
+    ["actionCard", 1],
     ["garageCard", 2],
     ["musicToggle", 5],
     ["returnWorld", 8.2],
     ["roomCard", 11.5],
     ["dongdongStatus", 1.2],
-  ].map(([id, at]) => ({ el: root.querySelector(`#${id}`), at }));
+  ]
+    .map(([id, at]) => ({ el: root.querySelector(`#${id}`), at }))
+    .filter(({ el }) => el);
   const homeCards = new Set(["garageCard", "roomCard"]);
   const content = new Map();
   const appeared = new Set();
@@ -45,7 +48,9 @@ export function attachCardFeed(root, { scene, presence }) {
       }
       if (el.id === "returnWorld") eligible = eligible && scene() === "north";
       if (el.id === "dongdongStatus") {
-        eligible = resident.present ? elapsed < returnUntil : eligible || departed;
+        eligible = resident.present
+          ? elapsed < returnUntil
+          : eligible || departed;
         if (arrived || departed) due = elapsed;
       }
       // Include nested weather text and navigation destinations in card updates.

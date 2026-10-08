@@ -67,9 +67,10 @@ export function weatherAction(
   step,
   { sheltered = false, indoor = false } = {},
 ) {
+  state = { ...state, condition: state.activityCondition || state.condition };
   const rain =
     ["rain", "heavy", "thunderstorm", "typhoon"].includes(state.condition) ||
-    state.rain > 0.06;
+    state.rain > 0.01;
   if (rain && !sheltered && !indoor) return null;
   const actions =
     state.night > 0.5 && !rain
@@ -92,4 +93,32 @@ export function weatherAction(
       WEATHER_TASKS[action] ||
       { tea: "喝一杯茶", inspect: "看看叶片和花盆", rest: "歇一会儿" }[action],
   };
+}
+
+// Describe the running actors, so this card never advertises an action while
+// the character is walking somewhere else or has left home.
+export function actionCaption(
+  person,
+  pig,
+  { present = true, scene = "north", weather = {} } = {},
+) {
+  const action = (actor) =>
+    WEATHER_TASKS[actor?.state] ||
+    actor?.task ||
+    {
+      tea: "喝一杯茶",
+      inspect: "看看叶片和花盆",
+      rest: "歇一会儿",
+      walk: "慢慢走走",
+      idle: "歇一会儿",
+      water: "给植物浇水",
+      tend: "整理花盆",
+      eat: "吃一点东西",
+    }[actor?.state] ||
+    "歇一会儿";
+  const a = present ? `东东${action(person)}` : "东东出门了";
+  const b = `小猪${action(pig)}`;
+  const shelter =
+    scene !== "room" && (weather.rain > 0.06 || weather.rainIntent > 0);
+  return `${a}，${b}。${shelter && person?.sheltered && pig?.sheltered ? "两人在门边等雨停。" : ""}`;
 }
