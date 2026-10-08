@@ -42,10 +42,10 @@ export function buildHouseRoof(api, parent, scene) {
   };
   const body = group(
     g,
-    ...local(r.x + r.width / 2, (HOUSE.base - 0.38) / 2, r.z + r.depth / 2),
+    ...local(r.x + r.width / 2, (HOUSE.base + r.eave) / 2, r.z + r.depth / 2),
   );
   body.rotation.y = scene === "south" ? Math.PI / 2 : 0;
-  box(body, 0, 0, 0, r.width, -0.38 - HOUSE.base, r.depth, "#c0bbb0", "wall");
+  box(body, 0, 0, 0, r.width, r.eave - HOUSE.base, r.depth, "#c0bbb0", "wall");
   // Real gable ends close the roof; the house continues down to the street.
   for (const x of [r.x, r.x + r.width]) {
     const positions = [

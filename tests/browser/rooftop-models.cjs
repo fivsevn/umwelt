@@ -525,7 +525,7 @@ const engine = process.env.BROWSER || "chromium",
       await page.locator("#garden").press("Home");
       assert.deepEqual(await page.evaluate(() => rooftop.graphics.wanted), {
         theta: -0.12,
-        phi: 0.55,
+        phi: 0.35,
         zoom: 1.8,
       });
       const wind = await page.evaluate(() => rooftop.graphics.foliageMotion);

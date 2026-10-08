@@ -32,6 +32,13 @@ const engine = process.env.BROWSER || "chromium",
       );
       const cv = page.locator("#garden");
       await cv.focus();
+      assert.equal(
+        await page.evaluate(() => rooftop.graphics.projection),
+        "perspective",
+      );
+      for (let i = 0; i < 4; i++) await cv.press("ArrowDown");
+      await page.waitForFunction(() => rooftop.graphics.view.phi < 0.2);
+      await cv.press("Home");
       const initialTheta = await page.evaluate(
         () => rooftop.graphics.wanted.theta,
       );
@@ -128,6 +135,17 @@ const engine = process.env.BROWSER || "chromium",
           rooftop.graphics.performance.frames > frames + 1,
         beforeReset,
       );
+      await page.waitForFunction(() => {
+        const g = rooftop.graphics;
+        return (
+          Math.abs(g.view.theta - g.wanted.theta) < 0.001 &&
+          Math.abs(g.view.phi - g.wanted.phi) < 0.001 &&
+          Math.hypot(
+            g.target[0] - g.terraceFrame.target.x,
+            g.target[2] - g.terraceFrame.target.z,
+          ) < 0.001
+        );
+      });
       // Find a visible opaque object through the same projection and picking path.
       const point = await page.evaluate(() => {
         for (const o of rooftop.layout.scenes[rooftop.scene]) {
@@ -334,6 +352,39 @@ const engine = process.env.BROWSER || "chromium",
       initialPhoneLayout,
     );
     await page.getByRole("button", { name: "复位画面", exact: true }).click();
+    await page.waitForFunction(() => rooftop.graphics.view.zoom === 1.8);
+    const phonePoint = await page.evaluate(() => {
+      for (const o of rooftop.layout.scenes[rooftop.scene]) {
+        const p = rooftop.modelRenderer.projectObject(o.id);
+        if (
+          p &&
+          p.clientX > 20 &&
+          p.clientX < innerWidth - 20 &&
+          p.clientY > 60 &&
+          p.clientY < innerHeight - 220 &&
+          document.elementFromPoint(p.clientX, p.clientY)?.id === "garden" &&
+          rooftop.modelRenderer.pick(p.clientX, p.clientY)
+        )
+          return p;
+      }
+    });
+    assert.ok(phonePoint, "a visible item can be inspected on a phone");
+    await page.touchscreen.tap(phonePoint.clientX, phonePoint.clientY);
+    await page.locator(".observation-notebook").waitFor({ state: "visible" });
+    const phoneNote = await page.locator(".observation-notebook").boundingBox(),
+      phoneControls = await page.locator(".view-controls").boundingBox();
+    assert.ok(
+      phoneNote.width <= 230 &&
+        phoneNote.y >= phoneControls.y + phoneControls.height,
+    );
+    assert.ok(
+      await page.locator(".observation-notebook").evaluate((el) => {
+        const c = getComputedStyle(el).backgroundColor.match(/[\d.]+/g);
+        return c.length === 4 && Number(c[3]) < 0.85;
+      }),
+      "the compact notebook remains translucent",
+    );
+    await page.getByRole("button", { name: "合上手帐", exact: true }).click();
     const out = process.env.QA_OUTPUT || "/tmp/rooftop-observation";
     await fs.mkdir(out, { recursive: true });
     await page.screenshot({ path: out + "/observation-" + engine + ".png" });

@@ -4,8 +4,8 @@ import { buildStreetCar, buildStreetLantern } from "./street-models.mjs";
 // Placement is a composed neighbourhood, not a surveyed reconstruction of block 92.
 export const NEIGHBORHOOD_BUILDINGS = [
   [-5, -56, 48, 11, 6],
-  [2, 104, 52, 11, 6],
-  [122, 24, 42, 11, 6],
+  [2, 96, 52, 11, 6],
+  [79, 25, 36, 11, 6],
 ];
 export const NEIGHBORHOOD_SOURCES = [
   [
@@ -94,7 +94,7 @@ export function buildNeighborhood(api, city, groundY, window) {
         w + 0.56,
         0.16,
         half,
-        index % 3 === 0 ? "#a06548" : "#756963",
+        ["#a06548", "#94664f", "#81706a"][index % 3],
         "roof",
         s * a,
       );
@@ -106,7 +106,7 @@ export function buildNeighborhood(api, city, groundY, window) {
       w + 0.64,
       0.16,
       0.27,
-      index % 3 === 0 ? "#ba8162" : "#918479",
+      ["#ba8162", "#ad7b60", "#9b8274"][index % 3],
       "roof",
     );
     gable(g, -w / 2 - 0.015, h, d, pitch, -Math.PI / 2, color);
@@ -365,7 +365,7 @@ export function buildNeighborhood(api, city, groundY, window) {
   const street = group(city, 0, groundY + 0.015, 0);
   street.userData.paintSeed = surfaceSeed(43179);
   street.userData.weathered = true;
-  for (const x of [16.3]) {
+  for (const x of [21.5]) {
     box(street, x, 0, 18, 3.6, 0.06, 114, "#777d7d", "asphalt");
     for (const side of [-1, 1]) {
       box(
@@ -382,7 +382,7 @@ export function buildNeighborhood(api, city, groundY, window) {
       box(street, x + side * 2.9, 0.04, 18, 1.55, 0.07, 114, "#a3a898", "wall");
     }
   }
-  for (const z of [-30, 78]) {
+  for (const z of [-30, 70]) {
     box(street, -43, 0.045, z, 130, 0.08, 6.2, "#767c7d", "asphalt");
     for (const s of [-1, 1])
       box(street, -43, 0.08, z + s * 3.25, 130, 0.16, 0.25, "#c0c1b0", "wall");
@@ -398,15 +398,15 @@ export function buildNeighborhood(api, city, groundY, window) {
     [-54, 65],
     [-31, 64],
     [-9, 65],
-    [21.7, -34],
-    [21.1, -19],
-    [20.1, -6],
-    [22, 7],
-    [21.1, 16],
-    [20, 30],
-    [21.5, 39],
-    [22, 62],
-    [20.5, 78],
+    [26.9, -34],
+    [26.3, -19],
+    [25.3, -6],
+    [27.2, 7],
+    [26.3, 16],
+    [25.2, 30],
+    [26.7, 39],
+    [27.2, 62],
+    [25.7, 78],
   ];
   for (let i = 0; i < treeSites.length; i++) {
     const x = treeSites[i][0] + (surfaceSeed(719 * i + 37) - 0.5) * 0.5,
@@ -489,7 +489,7 @@ export function buildNeighborhood(api, city, groundY, window) {
     buildStreetCar(api, g, color);
   }
   for (let i = 0; i < 7; i++) {
-    const x = i % 2 ? 14.9 : 17.4,
+    const x = i % 2 ? 20.1 : 22.6,
       z = -12 + Math.floor(i / 2) * 7.7;
     car(x, z, Math.PI, i);
     for (const dx of [-1, 1])
@@ -541,8 +541,8 @@ export function buildNeighborhood(api, city, groundY, window) {
   box(shelter, 0, 2.64, 0, 7.75, 0.15, 2.9, "#517580", "roof", -0.1);
   for (let i = 0; i < 7; i++)
     bicycle(shelter, -2.9 + i * 0.87, 0.05, i, i % 3 === 0);
-  for (let i = 0; i < 4; i++) bicycle(street, 13.5, 10 + i * 0.85, i, true);
-  for (const x of [12.8, 19.1])
+  for (let i = 0; i < 4; i++) bicycle(street, 18.7, 10 + i * 0.85, i, true);
+  for (const x of [18, 24.3])
     for (const z of [-11, 10]) {
       const lamp = group(street, x, 0, z);
       buildStreetLantern(api, lamp);
@@ -574,10 +574,10 @@ export function buildNeighborhood(api, city, groundY, window) {
   }
   // Drain covers and faded curb marks keep the ground from being a generic flat sheet.
   for (const [x, z] of [
-    [15, -8],
-    [16, -8],
-    [14, 16],
-    [16, 16],
+    [20.2, -8],
+    [21.2, -8],
+    [19.2, 16],
+    [21.2, 16],
   ]) {
     box(street, x, 0.066, z, 0.75, 0.025, 0.42, "#455756", "metal");
     for (let i = 0; i < 6; i++)
@@ -595,7 +595,7 @@ export function buildNeighborhood(api, city, groundY, window) {
   }
   return {
     buildings: NEIGHBORHOOD_BUILDINGS.length,
-    storeys: [5, 6],
+    storeys: [...new Set(NEIGHBORHOOD_BUILDINGS.map((b) => b[4]))],
     trees: 18,
     cars: 7,
     bicycles: 4,

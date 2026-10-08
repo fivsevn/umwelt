@@ -394,9 +394,9 @@ canvas[data-renderer="3d"]{image-rendering:auto}
 
 .note-comment{color:#596044;padding:8px 0 3px}
 .action-card{max-width:290px;pointer-events:none}.action-card p{margin:0}
-.observation-notebook{position:absolute;right:max(16px,env(safe-area-inset-right));top:max(16px,env(safe-area-inset-top));width:290px;max-width:calc(100% - 32px);max-height:calc(100dvh - 32px);overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;z-index:5;box-shadow:3px 3px #343b3450}
+.observation-notebook{position:absolute;right:max(16px,env(safe-area-inset-right));top:max(16px,env(safe-area-inset-top));width:252px;max-width:calc(100% - 32px);max-height:calc(100dvh - 32px);overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;z-index:5;background:rgba(213,204,177,.78);box-shadow:3px 3px #343b3430}
 .observation-notebook[hidden]{display:none}.notebook-title{display:flex;align-items:center;gap:12px;border-bottom:1px dashed #9da181;margin-bottom:8px}.notebook-title h2{flex:1;border:0;padding:0;margin:0}.notebook-title button{padding:3px 9px;box-shadow:none;background:transparent;border:0;font-size:20px}
-@media(max-width:550px){.observation-notebook{top:12px;right:12px;width:260px;max-height:44dvh;padding:12px}.action-card{max-width:250px}}
+@media(max-width:550px){.observation-notebook{top:56px;right:10px;width:228px;max-width:calc(100% - 20px);max-height:calc(100dvh - 76px);padding:10px}.action-card{max-width:250px}}
 
 .observation .view-controls {
   position: fixed;
