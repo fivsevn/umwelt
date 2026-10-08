@@ -45,7 +45,12 @@ const engine = process.env.BROWSER || "chromium";
         assert.equal(added.type,id);
         assert.equal(await page.locator("#noteName").innerText(),await page.locator(`[data-asset="${id}"] span`).innerText());
         assert.match(await page.locator("#noteShape").innerText(),/。/);
-        assert.ok((await page.locator("#noteShape").innerText()).length>20);
+        const entry=await page.evaluate(async id=>{
+          const {notebookEntry}=await import('/rooftop/notebook.mjs');
+          return notebookEntry({type:id});
+        },id);
+        assert.equal(await page.locator("#noteShape").innerText(),entry.description);
+        assert.equal(await page.locator("#noteComment").innerText(),entry.comment);
         await page.locator(".notebook details summary").click();
         assert.equal(await page.locator("#noteSources a").count(),1);
         assert.equal(await page.locator("#vesselControls").isVisible(),false);

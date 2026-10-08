@@ -48,7 +48,7 @@ const engine = process.env.BROWSER || 'chromium';
       await page.waitForTimeout(550); assert.equal((await ids())[0],'weatherCard');
       await page.evaluate(()=>{feedResident.update(270);updateFeed(400)});
       await page.waitForTimeout(550);
-      assert.deepEqual(await ids(),['dongdongStatus','weatherCard','musicToggle','returnWorld']);
+      assert.deepEqual(await ids(),['dongdongStatus','weatherCard','musicToggle','returnWorld','actionCard']);
       assert.notEqual(await page.locator('#dongdongStatus').innerText(),'东东回来了。');
       assert.equal(await page.locator('#garageCard').isVisible(),false);
       assert.equal(await page.locator('#roomCard').isVisible(),false);

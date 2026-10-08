@@ -59,8 +59,11 @@ const engine = process.env.BROWSER || "chromium",
         false,
       );
       assert.deepEqual(await page.evaluate(() => rooftop.layout), original);
+      const beforeReset=await page.evaluate(()=>rooftop.graphics.performance.frames);
       await cv.press("Home");
-      await page.waitForFunction(() => rooftop.graphics.view.zoom < 1.02);
+      // Reset assigns the desired view immediately. Wait for a drawn frame so
+      // projection and picking also use that view on a slow software renderer.
+      await page.waitForFunction(frames=>rooftop.graphics.view.zoom===1&&rooftop.graphics.performance.frames>frames+1,beforeReset);
       // Find a visible opaque object through the same projection and picking path.
       const point = await page.evaluate(() => {
         for (const o of rooftop.layout.scenes[rooftop.scene]) {
@@ -71,7 +74,8 @@ const engine = process.env.BROWSER || "chromium",
             p.clientX < innerWidth - 310 &&
             p.clientY > 40 &&
             p.clientY < innerHeight - 130 &&
-            rooftop.modelRenderer.pick(p.clientX, p.clientY)
+            rooftop.modelRenderer.pick(p.clientX, p.clientY)&&
+            document.elementFromPoint(p.clientX,p.clientY)?.id==='garden'
           )
             return p;
         }
@@ -106,6 +110,7 @@ const engine = process.env.BROWSER || "chromium",
       assert.equal(await page.locator("#weatherCard #actionStatus").count(), 0);
       await page.waitForFunction(
         () => rooftop.person.sheltered && rooftop.pig.sheltered,
+        null,
         { timeout: 30000 },
       );
       assert.doesNotMatch(
