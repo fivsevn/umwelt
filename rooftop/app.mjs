@@ -156,7 +156,7 @@ if (editor)
   } catch {}
 const weather = makeWeather(
   editor
-    ? weatherChoices
+    ? { ...weatherChoices, manualTransition: 0.65 }
     : {
         condition:
           new URLSearchParams(location.search).get("weather") ||
@@ -545,12 +545,12 @@ if (!editor) {
 }
 
 const catalogPreviews = editor
-  ? createCatalogPreviews($("assets"), (sprite, preview) => {
+  ? createCatalogPreviews($("assets"), async (sprite, preview) => {
       if (!garden3d) return;
       preview.getContext("2d").clearRect(0, 0, 64, 64);
-      garden3d.thumbnail(sprite, preview);
+      await garden3d.thumbnail(sprite, preview, true);
       preview.dataset.renderer = "3d";
-    })
+    }, { busy: () => (atmosphere.transition?.mix ?? 1) < .999 || garden3d?.interacting || document.activeElement?.matches("#weatherSelect, #timeSelect, #seasonSelect") })
   : null;
 function catalog() {
   const q = $("search").value.trim().toLowerCase();

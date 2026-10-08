@@ -187,8 +187,33 @@ export function createAtmosphere(
     };
   }
   const seasonalAir = createSeasonalAir(T, scene, renderer);
-  let stats = {};
+  const compiledEffects = new T.Group();
+  for (const effect of [sky, bolt, rain, ...Object.values(floors).flatMap(f => f.root.children), ...seasonalAir.points])
+    compiledEffects.add(effect.clone(false));
+  let shadowScene = "", shadowAt = -Infinity, shadowPosition = null, shadowActive = false,
+    shadowUpdates = 0, stats = {};
+
   return {
+    // Compile every tiny weather program before its first appearance, using the
+    // real scene's lights. Hidden effects stay hidden and no textures are added.
+    warm(camera) {
+      return renderer.compileAsync(compiledEffects, camera, scene);
+    },
+    refreshShadows(name, time, moving) {
+      const position = sun.position.toArray(), active = sun.intensity > .08,
+        force = renderer.shadowMap.needsUpdate || shadowScene !== name || active !== shadowActive,
+        changed = !shadowPosition || position.some((n, i) => Math.abs(n - shadowPosition[i]) > .25),
+        due = time - shadowAt >= (software ? .9 : .35);
+      const refresh = force || (due && (moving || (active && changed)));
+      renderer.shadowMap.needsUpdate = refresh;
+      sun.shadow.needsUpdate = refresh && active;
+      roomLamp.shadow.needsUpdate = refresh && name === "room";
+      if (refresh) {
+        shadowAt = time; shadowScene = name; shadowPosition = position;
+        shadowActive = active; shadowUpdates++;
+      }
+      return refresh;
+    },
     update(name, a, time, reduced = false) {
       seasonalAir.update(name, a, time, reduced);
       const indoor = name === "room",
@@ -213,7 +238,7 @@ export function createAtmosphere(
         ? [a.sunX * 0.32, a.roomSunY ?? 24, -28]
         : lightPosition(a, name);
       sun.position.set(...position);
-      sun.shadow.needsUpdate = a.direct > 0.08;
+
       moon.intensity = indoor ? a.moon * 0.35 : a.moon;
       bounce.color.set(a.ambientColor);
       bounce.intensity = indoor ? 0.12 : 0.12 + (1 - a.sun) * 0.12;
@@ -223,7 +248,7 @@ export function createAtmosphere(
       porch.intensity = indoor ? 0 : a.lamps * 2.4;
       roomLamp.position.set(-4.45, 2.15, -0.8);
       roomLamp.intensity = indoor ? 0.25 + a.night * 5.2 : 0;
-      roomLamp.shadow.needsUpdate = indoor && a.night > 0.15;
+
       for (const m of materialCache.values())
         if (m.userData.kind === "light") {
           m.emissive.set("#ffcd88");
@@ -343,7 +368,7 @@ export function createAtmosphere(
       return { wind: indoor ? 0 : motion.wind };
     },
     get stats() {
-      return { ...stats, light: stats.light?.slice() };
+      return { ...stats, shadowUpdates, light: stats.light?.slice() };
     },
   };
 }

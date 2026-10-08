@@ -1705,7 +1705,6 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   const pointers = new Map();
   let lastDistance = 0,
     multiTouchGesture = false,
-    lastShadow = 0,
     doorProgress = 0;
   function reset(name) {
     current = name;
@@ -2171,7 +2170,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     a.tail.rotation.z = Math.sin(time * 2.6) * 0.15;
   }
   const frameTimes = new Float32Array(90);
-  let pendingGPU = null,
+  let pendingGPU = null, previewReadbacks = 0,
     skippedFrames = 0;
   let frameCount = 0,
     frameCursor = 0,
@@ -2190,6 +2189,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   }) {
     // Keep one GPU frame in flight. Software rendering and slow devices must
     // not accumulate an unbounded command queue while the UI keeps ticking.
+    if (previewReadbacks) { skippedFrames++; return; }
     if (pendingGPU) {
       if (gl.clientWaitSync(pendingGPU, 0, 0) === gl.TIMEOUT_EXPIRED) {
         skippedFrames++;
@@ -2235,10 +2235,9 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       f.g.position.z = f.baseZ + Math.cos(time * 0.16 + f.phase) * f.r * 0.25;
       f.g.rotation.y = Math.cos(time * 0.2 + f.phase) * 0.4;
     }
-    if (time - lastShadow > 0.22) {
-      lastShadow = time;
-      renderer.shadowMap.needsUpdate = true;
-    }
+    atmosphereFx.refreshShadows(current, time,
+      present || objectMotion.length > 0 || waterAnimations.length > 0 ||
+      Math.abs(Number(doorOpen) - doorProgress) > .001);
     positionDoor();
     const chosen = selected && objectRoots[current].get(selected);
     selectionBox.visible = !!chosen;
@@ -2458,7 +2457,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   }
   const spriteCache = new Map(),
     catalogInfo = new Map();
-  function thumbnail(o, output) {
+  function thumbnail(o, output, asynchronous = false) {
     const a = asset(o.type),
       key = JSON.stringify([
         o.type,
@@ -2510,7 +2509,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     const target = new T.WebGLRenderTarget(output.width, output.height, {
       minFilter: T.NearestFilter,
       magFilter: T.NearestFilter,
-      samples: software ? 0 : 4,
+      samples: software || asynchronous ? 0 : 4,
     });
     target.texture.colorSpace = T.SRGBColorSpace;
     const previous = renderer.getRenderTarget();
@@ -2523,49 +2522,74 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       sceneRain = surfaceWeather.rain.value;
     windTime.value = windPower.value = 0;
     surfaceWeather.wet.value = surfaceWeather.rain.value = 0;
+    const sceneShadowDirty = renderer.shadowMap.needsUpdate;
     try {
       renderer.render(stage, cam);
     } finally {
+      renderer.shadowMap.needsUpdate = sceneShadowDirty;
       windTime.value = sceneWindTime;
       windPower.value = sceneWindPower;
       surfaceWeather.wet.value = sceneWet;
       surfaceWeather.rain.value = sceneRain;
     }
     const pixels = new Uint8Array(output.width * output.height * 4);
-    renderer.readRenderTargetPixels(
-      target,
-      0,
-      0,
-      output.width,
-      output.height,
-      pixels,
-    );
-    const copy = document.createElement("canvas");
-    copy.width = output.width;
-    copy.height = output.height;
-    const image = copy
-        .getContext("2d")
-        .createImageData(output.width, output.height),
-      row = output.width * 4;
-    for (let y = 0; y < output.height; y++)
-      image.data.set(
-        pixels.subarray(
-          (output.height - 1 - y) * row,
-          (output.height - y) * row,
-        ),
-        y * row,
-      );
-    copy.getContext("2d").putImageData(image, 0, 0);
-    spriteCache.set(key, copy);
-    output.getContext("2d").drawImage(copy, 0, 0);
+    function finish() {
+      const copy = document.createElement("canvas");
+      copy.width = output.width;
+      copy.height = output.height;
+      const image = copy.getContext("2d").createImageData(output.width, output.height),
+        row = output.width * 4;
+      for (let y = 0; y < output.height; y++)
+        image.data.set(pixels.subarray((output.height - 1 - y) * row,
+          (output.height - y) * row), y * row);
+      copy.getContext("2d").putImageData(image, 0, 0);
+      spriteCache.set(key, copy);
+      if (output.isConnected || !asynchronous)
+        output.getContext("2d").drawImage(copy, 0, 0);
+      target.dispose();
+      return copy;
+    }
+    let readback;
+    if (asynchronous && gl.fenceSync && gl.getBufferSubData) {
+      // Queue the GPU copy into a tiny buffer and poll without blocking input.
+      // readRenderTargetPixels otherwise waits for the entire live scene too.
+      previewReadbacks++;
+      const buffer = gl.createBuffer();
+      gl.bindBuffer(gl.PIXEL_PACK_BUFFER, buffer);
+      gl.bufferData(gl.PIXEL_PACK_BUFFER, pixels.byteLength, gl.STREAM_READ);
+      gl.readPixels(0, 0, output.width, output.height, gl.RGBA, gl.UNSIGNED_BYTE, 0);
+      const fence = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
+      gl.bindBuffer(gl.PIXEL_PACK_BUFFER, null);
+      gl.flush();
+      readback = new Promise((resolve, reject) => {
+        function poll() {
+          const status = gl.clientWaitSync(fence, 0, 0);
+          if (status === gl.TIMEOUT_EXPIRED) { setTimeout(poll, 16); return; }
+          if (status === gl.WAIT_FAILED || gl.isContextLost()) {
+            gl.deleteSync(fence); gl.deleteBuffer(buffer); target.dispose();
+            previewReadbacks--;
+            reject(new Error("Catalogue preview readback failed")); return;
+          }
+          gl.bindBuffer(gl.PIXEL_PACK_BUFFER, buffer);
+          gl.getBufferSubData(gl.PIXEL_PACK_BUFFER, 0, pixels);
+          gl.bindBuffer(gl.PIXEL_PACK_BUFFER, null);
+          gl.deleteSync(fence); gl.deleteBuffer(buffer);
+          previewReadbacks--;
+          resolve(finish());
+        }
+        setTimeout(poll, 0);
+      });
+    } else {
+      renderer.readRenderTargetPixels(target, 0, 0, output.width, output.height, pixels);
+    }
     renderer.setRenderTarget(previous);
-    target.dispose();
     release(g);
     batches.length = Math.min(start, batches.length);
     renderer.setClearColor(oldColor, oldAlpha);
-    return copy;
+    return readback || finish();
   }
   reset(options.scene || "north");
+  atmosphereFx.warm(camera).catch(error => console.warn("Weather shader warmup:", error));
   function terracesInFrame() {
     return Object.entries(groups)
       .filter(([name, root]) => {
