@@ -20,7 +20,8 @@ const routes = [
 ];
 (async () => {
   const { INITIAL_LAYOUT: authoredLayout } = await import(
-    pathToFileURL(path.resolve(__dirname, "../../rooftop/initial-layout.mjs")).href
+    pathToFileURL(path.resolve(__dirname, "../../rooftop/initial-layout.mjs"))
+      .href
   );
   await fs.mkdir(output, { recursive: true });
   for (const engine of [chromium, webkit]) {
@@ -46,7 +47,12 @@ const routes = [
         for (const [index, [route, selector]] of routes.entries()) {
           const startedAt = Date.now();
           console.log(`${engine.name()} ${width} ${route}: checking`);
-          const response = await page.goto(base + route);
+          // Software WebGL compiles the terrace's materials at first entry.
+          // Keep the normal load check, with a larger budget for these routes.
+          const response = await page.goto(
+            base + route,
+            route.startsWith("/rooftop/") ? { timeout: 90000 } : {},
+          );
           assert.ok(
             response.ok() || response.status() === 304,
             route + " document status " + response.status(),
@@ -62,6 +68,8 @@ const routes = [
               () =>
                 window.rooftop?.graphics?.drawCalls > 0 ||
                 window.room?.graphics?.drawCalls > 0,
+              null,
+              { timeout: 90000 },
             );
             const graphics = await page.evaluate(
               () => window.rooftop?.graphics || window.room.graphics,
@@ -82,6 +90,8 @@ const routes = [
               () =>
                 window.rooftop3d?.drawCalls > 0 ||
                 document.querySelector('[role="alert"]'),
+              null,
+              { timeout: 90000 },
             );
             const rendered = await page.evaluate(() =>
               Boolean(window.rooftop3d?.drawCalls),
