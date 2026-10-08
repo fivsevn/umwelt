@@ -25,6 +25,25 @@
         aria-label="进入南阳台"
         title="进入南阳台"
       ></button>
+      <div class="view-controls" role="group" aria-label="画面操作">
+        <button
+          type="button"
+          data-view-mode="rotate"
+          aria-label="转动画面"
+          aria-pressed="true"
+        >
+          转动
+        </button>
+        <button
+          type="button"
+          data-view-mode="move"
+          aria-label="移动画面"
+          aria-pressed="false"
+        >
+          移动
+        </button>
+        <button type="button" id="viewReset" aria-label="复位画面">复位</button>
+      </div>
       <div class="corner-cards">
         <aside
           id="dongdongStatus"

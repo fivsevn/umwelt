@@ -120,5 +120,35 @@ export function actionCaption(
   const b = `小猪${action(pig)}`;
   const shelter =
     scene !== "room" && (weather.rain > 0.06 || weather.rainIntent > 0);
-  return `${a}，${b}。${shelter && person?.sheltered && pig?.sheltered ? "两人在门边等雨停。" : ""}`;
+  return `${a}，${b}。${present && shelter && person?.sheltered && pig?.sheltered ? "两人在门边等雨停。" : ""}`;
+}
+
+// A card follows meaningful episodes, not every footstep or eight-second pose.
+// In a wet episode it changes once when shelter is reached; ordinary activity
+// keeps its card until the episode changes. Navigation and absence update at once.
+export function createActionCard() {
+  let key = "",
+    text = "",
+    sheltered = false;
+  return {
+    update(person, pig, context) {
+      const weather = context.weather || {};
+      const nextKey = [
+        context.scene,
+        context.present,
+        weather.activityCondition || weather.condition,
+        weather.phase,
+      ].join(":");
+      const wet =
+        context.scene !== "room" &&
+        (weather.rainIntent > 0 || weather.rain > 0.06);
+      const settled = Boolean(person?.sheltered && pig?.sheltered);
+      if (nextKey !== key || (wet && settled !== sheltered)) {
+        text = actionCaption(person, pig, context);
+        key = nextKey;
+        sheltered = settled;
+      }
+      return text;
+    },
+  };
 }

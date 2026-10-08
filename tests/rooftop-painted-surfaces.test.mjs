@@ -19,6 +19,7 @@ import {
 } from "../rooftop/3d/model-surfaces.mjs";
 import {
   pixelPainting,
+  paintPixels,
   TEXTURE_KINDS,
   pigmentPalette,
   createPixelMaterials,
@@ -1085,4 +1086,104 @@ test("all material programs resolve atlas dimensions before GLSL compilation", (
   } finally {
     globalThis.document = saved;
   }
+});
+
+test("program sharing requires identical full shader source and preserves per-material uniforms", () => {
+  const saved = globalThis.document;
+  globalThis.document = {
+    createElement: () => ({
+      getContext: () => ({ clearRect() {}, fillRect() {} }),
+    }),
+  };
+  try {
+    const style = createPixelMaterials(T, { value: 0 }, { value: 0 }),
+      sources = new Map();
+    for (const kind of [
+      ...TEXTURE_KINDS,
+      ...POTS.map((p) => "vessel-" + p.id),
+    ]) {
+      const m = style.mat("#b0714e", kind),
+        probe = {
+          vertexShader: T.ShaderLib.lambert.vertexShader,
+          fragmentShader: T.ShaderLib.lambert.fragmentShader,
+          uniforms: {},
+        };
+      m.onBeforeCompile(probe);
+      const key = m.customProgramCacheKey(),
+        source = probe.vertexShader + "\n" + probe.fragmentShader;
+      if (sources.has(key))
+        assert.equal(
+          source,
+          sources.get(key),
+          kind + " never merges distinct shader branches",
+        );
+      sources.set(key, source);
+    }
+    assert.ok(
+      sources.size < TEXTURE_KINDS.length,
+      "many authored drawings reuse GPU code",
+    );
+    const a = style.mat("#a0aaa4", "metal"),
+      b = style.mat("#816d55", "round-metal");
+    assert.notEqual(a.customProgramCacheKey(), b.customProgramCacheKey());
+    assert.equal(
+      style.mat("#52432a", "vessel-tokoname").customProgramCacheKey(),
+      style.mat("#ffffff", "vessel-arita").customProgramCacheKey(),
+      "different pigments and authored ceramics share identical projection code",
+    );
+  } finally {
+    globalThis.document = saved;
+  }
+});
+
+test("bulk texture upload preserves the exact painted RGBA pixels", () => {
+  for (const kind of [
+    "wood",
+    "wall",
+    "wrap-metal",
+    "weather-metal",
+    "vessel-antique-shino",
+    "panel-ac",
+    "resident-face",
+  ])
+    for (const encode of [false, true]) {
+      const art = pixelPainting(kind),
+        width = art.width || art.size,
+        height = art.height || art.size;
+      const expected = new Uint8ClampedArray(width * height * 4);
+      const slow = {
+        clearRect() {
+          expected.fill(0);
+        },
+        fillRect(x, y, w, h) {
+          const value = parseInt(this.fillStyle.slice(1), 16);
+          for (let yy = Math.max(0, y); yy < Math.min(height, y + h); yy++)
+            for (let xx = Math.max(0, x); xx < Math.min(width, x + w); xx++)
+              expected.set(
+                [value >>> 16, (value >>> 8) & 255, value & 255, 255],
+                (yy * width + xx) * 4,
+              );
+        },
+      };
+      paintPixels(slow, kind, undefined, encode);
+      let actual;
+      const fast = {
+        clearRect() {},
+        createImageData(w, h) {
+          return { data: new Uint8ClampedArray(w * h * 4) };
+        },
+        putImageData(data) {
+          actual = data.data;
+        },
+        fillRect() {
+          assert.fail("opaque integer art must take the upload path");
+        },
+      };
+      paintPixels(fast, kind, undefined, encode);
+      assert.deepEqual(
+        actual,
+        expected,
+        kind + (encode ? " encoded" : " coloured"),
+      );
+    }
 });

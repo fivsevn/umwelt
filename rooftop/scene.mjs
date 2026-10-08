@@ -1268,7 +1268,8 @@ export function makeWalker(
     cellCache = new Map(),
     waiting = 0,
     previousPoint = null,
-    weatherTime = 0;
+    weatherChoice = Math.floor(Math.random() * 1000),
+    weatherKey = environment().condition;
   const p = {
     x: SCENES[scene].spawn[0],
     y: SCENES[scene].spawn[1],
@@ -1416,7 +1417,10 @@ export function makeWalker(
   return {
     person: p,
     update(dt) {
-      weatherTime += dt;
+      if (environment().condition !== weatherKey) {
+        weatherKey = environment().condition;
+        weatherChoice = Math.floor(Math.random() * 1000);
+      }
       const next = weatherActivity(environment(), scene);
       if (next !== activity) {
         activity = next;
@@ -1433,7 +1437,7 @@ export function makeWalker(
           weatherAction(
             weather,
             actor === "pig" ? "pig" : "person",
-            Math.floor(weatherTime / 8),
+            weatherChoice,
             { sheltered: true },
           ),
         );
@@ -1534,11 +1538,11 @@ export function makeWalker(
             weatherAction(
               weather,
               actor === "pig" ? "pig" : "person",
-              p.visits,
+              weatherChoice,
               { indoor: scene === "room" },
             ),
           );
-        pause = 4 + Math.random() * 4;
+        pause = 45 + Math.random() * 45;
         return;
       }
       const [x, y] = route[0];

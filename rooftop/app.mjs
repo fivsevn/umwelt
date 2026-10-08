@@ -1,5 +1,5 @@
 import { fillNotebook, notebookEntry } from "./notebook.mjs";
-import { actionCaption } from "./resident-weather.mjs";
+import { createActionCard } from "./resident-weather.mjs";
 import { atmosphereCaption } from "./atmosphere.mjs";
 import { createCatalogPreviews } from "./catalog-previews.mjs";
 import {
@@ -104,6 +104,17 @@ try {
 } catch (error) {
   if (!/context|WebGL/i.test(error.message)) throw error;
 }
+if (!editor) {
+  const viewControls = document.querySelector(".view-controls");
+  viewControls.hidden = !garden3d;
+  for (const button of viewControls.querySelectorAll("[data-view-mode]"))
+    button.onclick = () => {
+      garden3d.setNavigationMode(button.dataset.viewMode);
+      for (const choice of viewControls.querySelectorAll("[data-view-mode]"))
+        choice.setAttribute("aria-pressed", String(choice === button));
+    };
+  $("viewReset").onclick = () => garden3d.setScene(scene);
+}
 const display = garden3d ? null : canvas.getContext("2d"),
   materialFrame = document.createElement("canvas"),
   ctx = materialFrame.getContext("2d"),
@@ -192,8 +203,9 @@ function weatherCaption() {
   if ($("weatherStatus").textContent !== text)
     $("weatherStatus").textContent = text;
 }
+const actionCard = createActionCard();
 function updateActionCard() {
-  const action = actionCaption(walker?.person, pigWalker?.person, {
+  const action = actionCard.update(walker?.person, pigWalker?.person, {
     present: showPerson,
     scene,
     weather: atmosphere,
@@ -277,7 +289,7 @@ function rebuild() {
     b.setAttribute("aria-pressed", String(b.dataset.scene === scene));
   camera = cameras[scene];
   fitView();
-  paintBase(baseCtx, scene, { includeCity: false });
+  if (!garden3d) paintBase(baseCtx, scene, { includeCity: false });
   walker = makeWalker(scene, objects, {
     environment: activityEnvironment,
     company: () => [pigWalker?.person],

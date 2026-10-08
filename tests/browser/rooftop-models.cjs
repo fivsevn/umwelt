@@ -479,12 +479,15 @@ const engine = process.env.BROWSER || "chromium",
       );
       await page.locator("#garden").focus();
       for (let i = 0; i < 6; i++) await page.keyboard.press("+");
+      await page.getByRole("button", { name: "移动画面", exact: true }).click();
+      await page.locator("#garden").focus();
       const panStart = await page.evaluate(() => rooftop.graphics.target[0]);
       await page.keyboard.press("ArrowRight");
       await page.waitForFunction(
         (x) => Math.abs(rooftop.graphics.target[0] - x) > 0.05,
         panStart,
       );
+      await page.getByRole("button", { name: "转动画面", exact: true }).click();
       const homepageLayout = await page.evaluate(() => rooftop.layout),
         homepageBuilds = await page.evaluate(
           () => rooftop.graphics.modelBuilds,
@@ -495,7 +498,6 @@ const engine = process.env.BROWSER || "chromium",
         stage.x + stage.width * 0.75,
         stage.y + stage.height * 0.4,
       );
-      await page.keyboard.down("Shift");
       await page.mouse.down();
       await page.mouse.move(
         stage.x + stage.width * 0.65,
@@ -503,7 +505,6 @@ const engine = process.env.BROWSER || "chromium",
         { steps: 6 },
       );
       await page.mouse.up();
-      await page.keyboard.up("Shift");
       await page.waitForFunction(
         (t) => rooftop.graphics.view.theta > t + 0.1,
         beforeDrag,
@@ -520,12 +521,12 @@ const engine = process.env.BROWSER || "chromium",
       );
       await page.mouse.wheel(0, -130);
       await page.waitForFunction(() => rooftop.graphics.view.zoom > 1.25);
-      assert.ok(await page.evaluate(() => rooftop.graphics.wanted.zoom <= 3.5));
+      assert.ok(await page.evaluate(() => rooftop.graphics.wanted.zoom <= 4.5));
       await page.locator("#garden").press("Home");
       assert.deepEqual(await page.evaluate(() => rooftop.graphics.wanted), {
-        theta: -0.34,
-        phi: 0.87,
-        zoom: 1,
+        theta: -0.12,
+        phi: 0.55,
+        zoom: 1.8,
       });
       const wind = await page.evaluate(() => rooftop.graphics.foliageMotion);
       assert.ok(wind.programs > 0, "foliage uses a compiled wind shader");

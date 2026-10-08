@@ -1,7 +1,8 @@
-import { HOUSE } from "../house-structure.mjs";
+import { HOUSE, housePoint, houseOccludes } from "../house-structure.mjs";
 import { buildHouseRoof } from "./house-roof.mjs";
 import {
   TERRACE_ZOOM,
+  terraceOrbit,
   terraceFrame,
   constrainTerracePan,
 } from "./terrace-view.mjs";
@@ -11,7 +12,7 @@ import { outdoorPaintKind } from "./weathering.mjs";
 import { surfaceSeed, soilParticles } from "./surface-variation.mjs";
 import { soilSurface, soilPointHeight } from "./soil-surface.mjs";
 import { cubeContactPaint } from "./contact-paint.mjs";
-import { SCENES, asset, ASSETS } from "../scene.mjs";
+import { SCENES, asset, ASSETS, inside } from "../scene.mjs";
 import { PLANTS, POTS } from "../botany.mjs";
 import { plantContact } from "../plant-art.mjs";
 import { buildFoliage } from "./plant-models.mjs";
@@ -50,9 +51,10 @@ import { buildResident, buildPig } from "./residents.mjs";
 export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   const controls = options.controls || "orbit";
   const editable = controls === "edit";
+  let navigationMode = "rotate",
+    orbitLimits = null;
   if (controls !== "none") canvas.tabIndex = 0;
-  if (controls === "pan")
-    canvas.title = "拖动平移，滚轮或双指缩放，Shift 拖动转动，Home 复位";
+  if (controls === "pan") canvas.removeAttribute("title");
   if (!editable && controls === "orbit")
     canvas.title = "拖动转动视角，滚轮或双指缩放，方向键旋转，Home 复位";
   const T = window.THREE;
@@ -994,6 +996,37 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     slab.position.y = -0.1;
     slab.castShadow = slab.receiveShadow = true;
     parent.add(slab);
+    // The terrace is the top of a real house, rather than a floating platform.
+    const foundation = new T.ExtrudeGeometry(shape, {
+      depth: -0.48 - HOUSE.base,
+      bevelEnabled: false,
+      steps: 1,
+    });
+    foundation.rotateX(Math.PI / 2);
+    const walls = new T.Mesh(foundation, mat("#bdbbae", "wall"));
+    walls.position.y = -0.48;
+    walls.castShadow = walls.receiveShadow = true;
+    parent.add(walls);
+    for (let i = 0; i < points.length; i++) {
+      const a = points[i],
+        b = points[(i + 1) % points.length];
+      const length = Math.hypot(b[0] - a[0], b[1] - a[1]);
+      const angle = Math.atan2(b[1] - a[1], b[0] - a[0]);
+      const nx = Math.sin(angle),
+        nz = -Math.cos(angle);
+      for (let floor = 0; floor < 6; floor++)
+        for (let d = 2; d < length - 1; d += 4.5)
+          facadeWindow(
+            parent,
+            a[0] + ((b[0] - a[0]) * d) / length + nx * 0.04,
+            -3 - floor * 5.6,
+            a[1] + ((b[1] - a[1]) * d) / length + nz * 0.04,
+            Math.PI - angle,
+            2.8,
+            2.5,
+            (floor + i) % 7,
+          );
+    }
     const faceGeo = new T.ShapeGeometry(shape);
     faceGeo.rotateX(Math.PI / 2);
     const pos = faceGeo.attributes.position,
@@ -1114,7 +1147,12 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       }
       door(parent, name, -3.83, 8.1, -Math.PI / 2);
     }
-    buildHouseRoof({ T, group, box, beam, mat }, parent, name);
+    if (editable || name === "north")
+      buildHouseRoof(
+        { T, group, box, beam, mat, window: facadeWindow },
+        parent,
+        name,
+      );
     // A single damp joint has a few shoots; the usable terrace remains clear.
     const growth = group(
       parent,
@@ -1571,7 +1609,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   city.name = "city";
   city.userData.paintSeed = surfaceSeed(70591);
   city.userData.weathered = true;
-  const groundY = -18.15,
+  const groundY = HOUSE.base,
     windowMats = [];
   function facadeWindow(parent, x, y, z, angle, w, h, variant) {
     const g = group(parent, x, y, z);
@@ -1649,7 +1687,10 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     groundY,
     facadeWindow,
   );
-  build(options.scene || "north");
+  if (!editable && options.scene !== "room") {
+    build("north");
+    build("south");
+  } else build(options.scene || "north");
   compileInstances();
   let current = "north",
     view = { theta: -0.12, phi: 1.15, zoom: 1 },
@@ -1659,27 +1700,61 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     desiredTarget = target.clone();
   const pointers = new Map();
   let lastDistance = 0,
+    multiTouchGesture = false,
     lastShadow = 0,
     doorProgress = 0;
   function reset(name) {
     current = name;
     build(name);
     if (primitives.length) compileInstances();
-    for (const [key, g] of Object.entries(groups)) g.visible = key === name;
+    for (const [key, g] of Object.entries(groups)) {
+      g.visible = !editable && name !== "room" ? key !== "room" : key === name;
+      g.position.set(0, 0, 0);
+      g.rotation.y = 0;
+      if (!editable && name !== "room" && key !== "room") {
+        if (name === "north" && key === "south") {
+          g.position.z = HOUSE.terraces.south.origin[1];
+          g.rotation.y = -Math.PI / 2;
+        }
+        if (name === "south" && key === "north") {
+          g.position.x = -HOUSE.terraces.south.origin[1];
+          g.rotation.y = Math.PI / 2;
+        }
+      }
+      g.updateMatrix();
+      g.updateMatrixWorld(true);
+    }
     city.visible = name !== "room";
+    city.position.set(
+      name === "south" && !editable ? -HOUSE.terraces.south.origin[1] : 0,
+      0,
+      0,
+    );
+    city.rotation.y = name === "south" && !editable ? Math.PI / 2 : 0;
+    city.updateMatrix();
+    orbitLimits = terraceOrbit(name, canvas.clientWidth);
     wanted.theta =
-      (name === "south" && controls === "pan" && canvas.clientWidth >= 640
-        ? -Math.PI / 2 + 0.34
-        : options.initialTheta) ??
-      (controls === "fixed"
-        ? -0.34
-        : name === "north"
-          ? -0.12
+      !editable && name !== "room"
+        ? orbitLimits.theta
+        : ((name === "south" && controls === "pan" && canvas.clientWidth >= 640
+            ? -Math.PI / 2 + 0.34
+            : options.initialTheta) ??
+          (controls === "fixed"
+            ? -0.34
+            : name === "north"
+              ? -0.12
+              : name === "room"
+                ? -0.18
+                : -0.25));
+    wanted.phi =
+      !editable && name !== "room"
+        ? orbitLimits.phi
+        : controls === "fixed"
+          ? 0.87
           : name === "room"
-            ? -0.18
-            : -0.25);
-    wanted.phi = controls === "fixed" ? 0.87 : name === "room" ? 0.9 : 0.87;
-    wanted.zoom = name === "room" ? 1.07 : 1;
+            ? 0.9
+            : 0.87;
+    wanted.zoom = name === "room" ? 1.07 : editable ? 1 : TERRACE_ZOOM.min;
     desiredTarget.set(
       name === "room" ? -0.4 : 0,
       0.2,
@@ -1688,10 +1763,12 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     Object.assign(view, wanted);
     target.copy(desiredTarget);
     pointers.clear();
+    multiTouchGesture = false;
     lastDistance = 0;
     doorProgress = 0;
     doors[name].hinge.rotation.y = 0;
     renderer.shadowMap.needsUpdate = true;
+    terraceBounds = null;
     resize();
     target.copy(desiredTarget);
   }
@@ -1707,9 +1784,21 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     );
     renderer.setSize(bufferW, bufferH, false);
     if (current !== "room") {
-      terraceBounds = terraceFrame(current, w, h, wanted.theta, wanted.phi);
-      if (wanted.zoom === 1)
+      const previousFrame = terraceBounds;
+      terraceBounds = terraceFrame(
+        current,
+        w,
+        h,
+        wanted.theta,
+        wanted.phi,
+        editable ? 1 : TERRACE_ZOOM.min,
+      );
+      if (!previousFrame || (editable && wanted.zoom === 1))
         desiredTarget.set(terraceBounds.target.x, 0.2, terraceBounds.target.z);
+      else if (!editable) {
+        desiredTarget.x += terraceBounds.target.x - previousFrame.target.x;
+        desiredTarget.z += terraceBounds.target.z - previousFrame.target.z;
+      }
       constrainPan();
     }
     const height =
@@ -1729,6 +1818,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       wanted.zoom,
       wanted.theta,
       wanted.phi,
+      !editable,
     );
     desiredTarget.x = p.x;
     desiredTarget.z = p.z;
@@ -1749,8 +1839,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     const old = wanted.zoom;
     wanted.zoom = T.MathUtils.clamp(
       old * Math.exp(delta),
-      current === "room" ? 0.58 : TERRACE_ZOOM.min,
-      current === "room" ? 1.85 : TERRACE_ZOOM.max,
+      current === "room" ? 0.58 : editable ? 1 : TERRACE_ZOOM.min,
+      current === "room" ? 1.85 : editable ? 3.5 : TERRACE_ZOOM.max,
     );
     if (current !== "room" && x !== undefined) {
       const point = groundPoint(x, y);
@@ -1779,9 +1869,12 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       x: e.clientX,
       y: e.clientY,
       object: object?.id,
-      rotate: e.shiftKey || current === "room",
+      rotate:
+        current === "room" ||
+        (controls === "pan" ? navigationMode === "rotate" : e.shiftKey),
     });
     lastDistance = distance();
+    if (pointers.size > 1) multiTouchGesture = true;
   });
   canvas.addEventListener("pointermove", (e) => {
     if (!pointers.has(e.pointerId)) return;
@@ -1801,14 +1894,16 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       if (d && lastDistance) zoom(Math.log(d / lastDistance), x, y);
       if (controls === "pan" && current !== "room") pan(dx / 2, dy / 2);
       lastDistance = d;
+    } else if (multiTouchGesture) {
+      return;
     } else if ((controls === "fixed" || controls === "pan") && !old.rotate) {
       pan(dx, dy);
     } else if (!old.object) {
       wanted.theta -= dx * 0.006;
       wanted.phi = T.MathUtils.clamp(
         wanted.phi + dy * 0.005,
-        current === "room" ? 0.35 : 0.45,
-        current === "room" ? 1.49 : 1.35,
+        current === "room" ? 0.35 : editable ? 0.45 : orbitLimits.minPhi,
+        current === "room" ? 1.49 : editable ? 1.35 : orbitLimits.maxPhi,
       );
       resize();
     }
@@ -1817,6 +1912,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     canvas.addEventListener(type, (e) => {
       pointers.delete(e.pointerId);
       lastDistance = distance();
+      if (!pointers.size) multiTouchGesture = false;
     });
   canvas.addEventListener(
     "wheel",
@@ -1844,7 +1940,12 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       "Home",
     ];
     if (editable || controls === "none" || !keys.includes(e.key)) return;
-    if (controls === "pan" && current !== "room" && e.key.startsWith("Arrow")) {
+    if (
+      controls === "pan" &&
+      navigationMode === "move" &&
+      current !== "room" &&
+      e.key.startsWith("Arrow")
+    ) {
       e.preventDefault();
       pan(
         e.key === "ArrowLeft" ? 35 : e.key === "ArrowRight" ? -35 : 0,
@@ -1857,6 +1958,14 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     if (e.key === "ArrowRight") wanted.theta += 0.14;
     if (e.key === "ArrowUp") wanted.phi = Math.min(1.49, wanted.phi + 0.1);
     if (e.key === "ArrowDown") wanted.phi = Math.max(0.35, wanted.phi - 0.1);
+    if (current !== "room") {
+      wanted.phi = T.MathUtils.clamp(
+        wanted.phi,
+        orbitLimits.minPhi,
+        orbitLimits.maxPhi,
+      );
+      resize();
+    }
     if (e.key === "+" || e.key === "=") zoom(0.12);
     if (e.key === "-") zoom(-0.12);
     if (e.key === "Home") reset(current);
@@ -2419,8 +2528,36 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     return copy;
   }
   reset(options.scene || "north");
+  function terracesInFrame() {
+    return Object.entries(groups)
+      .filter(([name, root]) => {
+        if (!root.visible) return false;
+        const eyeXZ = housePoint(current, camera.position.x, camera.position.z);
+        const eye = [eyeXZ[0], camera.position.y, eyeXZ[1]];
+        const points = [...SCENES[name].points];
+        for (let x = 140; x <= 464; x += 16)
+          for (let z = 80; z <= 464; z += 16)
+            if (inside(name, x, z)) points.push([x, z]);
+        return points.some(([x, z]) => {
+          const [lx, lz] = coords(name, x, z);
+          return [0, 2, 4.2].some((y) => {
+            const world = root.localToWorld(new T.Vector3(lx, y, lz));
+            const p = world.clone().project(camera);
+            if ([p.x, p.y, p.z].some((n) => Math.abs(n) > 1)) return false;
+            const [hx, hz] = housePoint(current, world.x, world.z);
+            return (
+              editable || current === "room" || !houseOccludes(eye, [hx, y, hz])
+            );
+          });
+        });
+      })
+      .map(([name]) => name);
+  }
   return {
     setScene: reset,
+    setNavigationMode(mode) {
+      if (mode === "move" || mode === "rotate") navigationMode = mode;
+    },
     syncLayout,
     resize,
     groundPoint,
@@ -2477,6 +2614,9 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
           ).length,
         },
         controls,
+        navigationMode,
+        orbitLimits,
+        programs: renderer.info.programs?.length || 0,
         selectedModel: options.selected?.() || null,
         wardrobe: { ...wardrobe },
         modelIds: [...objectRoots[current].keys()],
@@ -2489,9 +2629,10 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         triangles: renderer.info.render.triangles,
         groundY,
         house: HOUSE,
-        visibleTerraces: Object.keys(groups).filter(
+        mountedTerraces: Object.keys(groups).filter(
           (key) => groups[key].visible,
         ),
+        visibleTerraces: terracesInFrame(),
         target: target.toArray(),
         terraceFrame: terraceBounds,
         zoomLimits: TERRACE_ZOOM,
