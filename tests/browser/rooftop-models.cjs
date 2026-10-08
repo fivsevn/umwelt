@@ -63,21 +63,26 @@ const engine = process.env.BROWSER || "chromium",
           for (let i = 3; i < pixels.length; i += 4) if (pixels[i]) painted++;
           if (painted < 8) empty.push(a.id);
         }
-        const seedHashes = [2472093529, 1029384756].map((seed) => {
+        const seedPortraits = [2472093529, 1029384756].map((seed) => {
           const c = document.createElement("canvas");
           c.width = c.height = 128;
           renderer.thumbnail({ type: "basil", seed }, c);
-          return Array.from(
+          const pixels = Array.from(
             c.getContext("2d").getImageData(0, 0, 128, 128).data,
-          ).reduce(
-            (hash, value) => Math.imul(hash ^ value, 16777619) >>> 0,
-            2166136261,
           );
+          return {
+            pixels,
+            hash: pixels.reduce(
+              (hash, value) => Math.imul(hash ^ value, 16777619) >>> 0,
+              2166136261,
+            ),
+          };
         });
         return {
           records,
           empty,
-          seedHashes,
+          seedHashes: seedPortraits.map((p) => p.hash),
+          seedPixels: seedPortraits[0].pixels,
           before,
           after: rooftop.graphics.buffer,
         };
@@ -200,21 +205,43 @@ const engine = process.env.BROWSER || "chromium",
       );
       await page.reload();
       await page.waitForFunction(() => window.rooftop);
-      const refreshedSeedHash = await page.evaluate(() => {
+      const refreshedPortrait = await page.evaluate(() => {
         const c = document.createElement("canvas");
         c.width = c.height = 128;
         rooftop.modelRenderer.thumbnail({ type: "basil", seed: 2472093529 }, c);
-        return Array.from(
+        const pixels = Array.from(
           c.getContext("2d").getImageData(0, 0, 128, 128).data,
-        ).reduce(
-          (hash, value) => Math.imul(hash ^ value, 16777619) >>> 0,
-          2166136261,
         );
+        return {
+          pixels,
+          hash: pixels.reduce(
+            (hash, value) => Math.imul(hash ^ value, 16777619) >>> 0,
+            2166136261,
+          ),
+        };
       });
+      const drift = [];
+      for (let i = 0; i < audit.seedPixels.length; i += 4) {
+        if (
+          audit.seedPixels
+            .slice(i, i + 4)
+            .some((n, k) => n !== refreshedPortrait.pixels[i + k])
+        )
+          drift.push({
+            x: (i / 4) % 128,
+            y: Math.floor(i / 4 / 128),
+            before: audit.seedPixels.slice(i, i + 4),
+            after: refreshedPortrait.pixels.slice(i, i + 4),
+          });
+      }
       assert.equal(
-        refreshedSeedHash,
+        refreshedPortrait.hash,
         audit.seedHashes[0],
-        "the same seed has identical pigment and soil across reloads and scene wind",
+        "the same seed has identical pigment and soil across reloads and scene wind; " +
+          JSON.stringify({
+            changedPixels: drift.length,
+            sample: drift.slice(0, 10),
+          }),
       );
       assert.deepEqual(
         await page.evaluate(() => rooftop.layout.scenes.north),
