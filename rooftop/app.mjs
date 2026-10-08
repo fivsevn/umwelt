@@ -107,12 +107,19 @@ try {
 if (!editor) {
   const viewControls = document.querySelector(".view-controls");
   viewControls.hidden = !garden3d;
-  for (const button of viewControls.querySelectorAll("[data-view-mode]"))
-    button.onclick = () => {
-      garden3d.setNavigationMode(button.dataset.viewMode);
-      for (const choice of viewControls.querySelectorAll("[data-view-mode]"))
-        choice.setAttribute("aria-pressed", String(choice === button));
-    };
+  const chooseViewMode = (button) => {
+    garden3d.setNavigationMode(button.dataset.viewMode);
+    for (const choice of viewControls.querySelectorAll("[data-view-mode]"))
+      choice.setAttribute("aria-pressed", String(choice === button));
+  };
+  for (const button of viewControls.querySelectorAll("[data-view-mode]")) {
+    button.onclick = () => chooseViewMode(button);
+    // Selecting a mode is idempotent. Respond on touch release as well, since
+    // a browser can defer or suppress click synthesis after a drag.
+    button.addEventListener("pointerup", (event) => {
+      if (event.pointerType === "touch") chooseViewMode(button);
+    });
+  }
   $("viewReset").onclick = () => garden3d.setScene(scene);
 }
 const display = garden3d ? null : canvas.getContext("2d"),

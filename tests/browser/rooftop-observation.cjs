@@ -42,9 +42,8 @@ const engine = process.env.BROWSER || "chromium",
       const initialTheta = await page.evaluate(
         () => rooftop.graphics.wanted.theta,
       );
-      for (let turn = 0; turn < 24; turn++) {
-        await cv.press("ArrowRight");
-        await cv.press("ArrowRight");
+      for (let turn = 0; turn < 12; turn++) {
+        for (let step = 0; step < 4; step++) await cv.press("ArrowRight");
         await page.waitForFunction(
           () =>
             Math.abs(
@@ -318,6 +317,12 @@ const engine = process.env.BROWSER || "chromium",
       await page.touchscreen.tap(
         move.x + move.width / 2,
         move.y + move.height / 2,
+      );
+      await page.waitForFunction(
+        () =>
+          document
+            .querySelector('[data-view-mode="move"]')
+            .getAttribute("aria-pressed") === "true",
       );
       assert.equal(await moveButton.getAttribute("aria-pressed"), "true");
       const target = await page.evaluate(() => rooftop.graphics.target);
