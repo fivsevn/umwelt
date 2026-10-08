@@ -1274,7 +1274,8 @@ function render() {
   weatherCaption();
 }
 function frame(now) {
-  const dt = Math.min((now - last) / 1000, 0.1);
+  const elapsed = Math.max(0, (now - last) / 1000),
+    dt = Math.min(elapsed, 0.1);
   last = now;
   time += dt;
   if (cardFeed) cardFeed.update(time);
@@ -1288,7 +1289,9 @@ function frame(now) {
     );
   }
   const previousCondition = atmosphere.condition;
-  atmosphere = weather.update(dt);
+  // An editor selection follows wall time even if a slow frame was skipped.
+  // Resident physics keep their bounded step above.
+  atmosphere = weather.update(editor ? Math.min(elapsed, 2) : dt);
   if (previousCondition !== atmosphere.condition) syncPresence();
   if (resident && resident.update(dt, activityEnvironment())) {
     showPerson = resident.present;

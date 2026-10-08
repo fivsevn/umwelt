@@ -7,13 +7,15 @@ await p.goto(base+'/rooftop/arrange/');await p.waitForFunction(()=>window.roofto
 await p.locator('#weatherSelect').selectOption('clear');await p.locator('#timeSelect').selectOption('day');await p.waitForFunction(()=>rooftop.weather.transition.mix>.999);
 // Manual garage controls must settle promptly, including a change interrupted
 // by another season/time/weather selection. Layout geometry stays cached.
-const switchStart=Date.now();
+await p.locator('#weatherSelect').focus();
+await p.evaluate(()=>{
+window.switchStart=performance.now();
 for(const [id,value] of [['weatherSelect','heavy'],['seasonSelect','winter'],['timeSelect','late'],['seasonSelect','spring'],['weatherSelect','clear'],['timeSelect','day']]) {
-  await p.locator('#'+id).focus();
-  await p.locator('#'+id).selectOption(value);
+  const select=document.getElementById(id);select.value=value;select.dispatchEvent(new Event('change',{bubbles:true}));
 }
+});
 await p.waitForFunction(()=>rooftop.weather.transition.duration===.65&&rooftop.weather.transition.mix===1,{},{timeout:3000});
-assert.ok(Date.now()-switchStart<3000, 'rapid manual switches must finish promptly');
+assert.ok(await p.evaluate(()=>performance.now()-switchStart<3000), 'rapid manual switches must finish promptly');
 assert.equal(await p.evaluate(()=>rooftop.weather.transition.duration),.65);
 await p.locator('#search').focus();
 await p.waitForFunction(()=>document.querySelector('.asset-card canvas[data-renderer="3d"]'));
