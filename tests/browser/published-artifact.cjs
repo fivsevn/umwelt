@@ -74,7 +74,7 @@ const routes = [
                 ? "edit"
                 : route.includes("room")
                   ? "orbit"
-                  : "orbit",
+                  : "pan",
             );
           }
           if (route === "/rooftop/3d/") {
