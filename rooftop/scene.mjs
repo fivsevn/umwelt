@@ -1327,13 +1327,37 @@ export function makeWalker(
     }
     const start = toCell(p.x, p.y),
       parent = new Map([[start, -1]]),
-      q = [start];
+      q = [start],
+      neighbors = company().filter((other) => other && !other.insideShelter);
+    // A resident standing at the door occupies real walking space. Keep this
+    // snapshot out of the furniture cache and route around the whole body,
+    // including the segment between adjacent grid cells.
+    const clearsResidents = (from, to) => {
+      const [ax, ay] = point(from),
+        [bx, by] = point(to);
+      return neighbors.every((other) => {
+        const dx = bx - ax,
+          dy = by - ay;
+        const t = Math.max(
+          0,
+          Math.min(
+            1,
+            ((other.x - ax) * dx + (other.y - ay) * dy) / (dx * dx + dy * dy),
+          ),
+        );
+        const radius = (body.radius + (other.radius || 0.48)) * 16;
+        return (
+          Math.hypot(ax + dx * t - other.x, ay + dy * t - other.y) >= radius
+        );
+      });
+    };
     for (let k = 0; k < q.length; k++) {
       const i = q[k];
       for (const j of [i - 1, i + 1, i - cols, i + cols])
         if (
           !parent.has(j) &&
           walkable(j) &&
+          clearsResidents(i, j) &&
           Math.abs((j % cols) - (i % cols)) <= 1
         ) {
           parent.set(j, i);
