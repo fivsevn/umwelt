@@ -113,6 +113,59 @@ test("rain cancels watering immediately, residents shelter, and ordinary care re
   assert.ok(!walker.person.insideShelter);
 });
 
+test("both residents reach separate rain shelter spots across dense north and south layouts", () => {
+  const originalRandom = Math.random;
+  try {
+    for (const scene of ["north", "south"])
+      for (let seed = 1; seed <= 16; seed++) {
+        let n = seed;
+        Math.random = () => {
+          n = (Math.imul(n, 1664525) + 1013904223) >>> 0;
+          return n / 2 ** 32;
+        };
+        const objects = initialLayout().scenes[scene];
+        let weather = weatherProfile("clear", "afternoon"),
+          pig;
+        const person = makeWalker(scene, () => objects, {
+          environment: () => weather,
+          company: () => [pig?.person],
+        });
+        pig = makeWalker(scene, () => objects, {
+          visits: 7,
+          actor: "pig",
+          body: { radius: 0.76, height: 1 },
+          environment: () => weather,
+          company: () => [person.person],
+        });
+        person.randomize();
+        pig.randomize();
+        weather = weatherProfile("rain", "afternoon");
+        for (
+          let i = 0;
+          i < 1800 && (!person.person.sheltered || !pig.person.sheltered);
+          i++
+        ) {
+          person.update(0.1);
+          pig.update(0.08);
+          assert.ok(
+            Math.hypot(
+              person.person.x - pig.person.x,
+              person.person.y - pig.person.y,
+            ) >=
+              (0.48 + 0.76) * 16 - 0.001,
+          );
+          assert.ok(!["water", "prune", "wash"].includes(person.person.state));
+        }
+        assert.ok(
+          person.person.sheltered && pig.person.sheltered,
+          `${scene}, seed ${seed}: both residents must reach shelter`,
+        );
+      }
+  } finally {
+    Math.random = originalRandom;
+  }
+});
+
 test("the two residents keep separate body clearance and pig actions across a dense arrangement", () => {
   const objects = initialLayout().scenes.north;
   let pig;
