@@ -51,7 +51,7 @@ const base = process.env.BASE_URL || "http://127.0.0.1:8773",
     });
     await p.locator("[data-asset=yucca]").click();
     assert.doesNotMatch(
-      await p.locator("#noteAliases").innerText(),
+      await p.locator("#noteShape").innerText(),
       /日本|台湾/,
     );
     assert.ok(

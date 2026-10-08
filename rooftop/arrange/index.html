@@ -1,9 +1,216 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#454b3b"><title>东东的车库 · DongDong’s Garage</title><link rel="icon" href="data:,"><link rel="stylesheet" href="../rooftop.css"></head><body class="editor garage">
-<header class="topbar"><h1>东东的车库 <small>DongDong’s Garage</small></h1><a id="preview" href="https://umwelt.fivsevn.com/rooftop/" target="_blank" rel="noopener">上楼看看 <span class="upstairs-arrow" aria-hidden="true"></span></a></header>
-<main class="editor-layout"><section class="workspace"><div class="arrange-controls"><div class="scene-tabs" role="group" aria-label="阳台"><button data-scene="north" aria-pressed="true">北天台</button><button data-scene="south" aria-pressed="false">南阳台</button><button data-scene="room" aria-pressed="false">东东的房间</button></div><div class="weather-controls" role="group" aria-label="场景天气"><label>天气 <select id="weatherSelect"><option value="auto">缓慢变化</option></select></label><label>时刻 <select id="timeSelect"><option value="auto">随时间</option></select></label><label class="person-toggle"><input id="person" type="checkbox" checked>东东</label></div></div><section class="inspector"><div class="section-title"><h2 id="selectedName">挑一件东西</h2><span id="count"></span></div><div id="objectControls" hidden><div class="control-row"><input id="posX" type="hidden"><input id="posY" type="hidden"></div><div class="size-control"><output id="scaleValue" for="scale" hidden>100%</output><div><button id="scaleDown" aria-label="缩小物件">−</button><input id="scale" type="hidden" min="0.5" max="2" step="0.05" value="1" aria-label="物件大小"><button id="scaleUp" aria-label="放大物件">＋</button></div></div><div class="control-row"><button id="rotate">旋转</button><button id="duplicate" hidden>复制</button><button id="remove">移除</button></div></div><label id="contentsControl" class="contents-control" hidden>取物 <select id="contentsSelect"></select></label><p class="hint">方向键微调 · R 旋转 · Delete 移除</p></section>
-<div id="placementControls" class="placement-controls"><label>放在 <select id="supportParent" disabled><option value="">地面</option></select></label><label>层位 <select id="supportLevel" disabled><option value="">—</option></select></label></div>
-<div class="canvas-wrap"><small id="positionText" aria-label="当前位置" hidden></small><canvas id="garden" width="640" height="520" tabindex="0" aria-label="阳台陈列画布，点击选择物件，拖动调整，方向键微调"></canvas><div class="workspace-status"><p id="weatherStatus" class="world-card"></p><p id="message" class="world-card" role="status">点架上的东西拿出来，拖动摆放。陈列会留在这台设备上。</p></div></div><div class="workspace-toolbar"><div class="tool-group tool-history" hidden><button id="undo" disabled>撤销</button><button id="redo" disabled>重做</button></div><div class="tool-group tool-options"><input id="grid" type="checkbox" hidden><label title="拖动结束后自动对齐格点；关闭可自由摆放"><input id="snap" type="checkbox" checked>自动对齐</label></div><div class="tool-group tool-reset"><button id="clear">空场景</button><button id="restore">初始陈列</button></div><div class="layout-transfer"><button id="export">导出布局 JSON</button><details class="transfer"><summary>导入</summary><div class="transfer-body"><p>导入布局 JSON 文件，或粘贴文件内容。导入会替换北天台、南阳台和房间的当前布局。</p><div class="control-row"><button id="importButton">选择 JSON 文件</button></div><input id="importFile" type="file" accept=".json,application/json" hidden><textarea id="layoutText" rows="5" aria-label="布局 JSON" placeholder="也可以粘贴布局 JSON"></textarea><button id="importText">导入文本</button></div></details></div></div></section>
-<aside class="studio"><section class="notebook" aria-labelledby="notebookTitle"><h2 id="notebookTitle">东东的手帐 <small>植物与器物</small></h2><p id="notebookEmpty">从架上挑一件东西，或点一下天台上的物件。名字、特点和翻过的资料都记在这里。</p><div id="notebookBody" hidden><div class="note-heading"><canvas id="notePreview" width="96" height="96" aria-label="所选物件像素预览"></canvas><div><h3 id="noteName"></h3><p id="noteLatin"></p></div></div><p id="noteAliases"></p><p id="noteShape"></p><p id="noteCare"></p><div id="vesselControls" hidden><button id="rerollPlant" type="button" title="切换当前植物的个体株形">换个株形</button><label for="potSelect">换一只盆</label><select id="potSelect"></select><p id="potReason"></p><p id="vesselNote"></p></div><details><summary>翻过的资料</summary><ul id="noteSources"></ul></details></div><p class="note-foot">养法按品种与当地季节调整。花果是辨识用的画面，不代表全年同时出现。</p></section><section class="catalog"><h2>架上的东西</h2><input id="search" type="search" placeholder="找植物、家具或小物…" aria-label="搜索物件"><div class="categories" id="categories" role="group" aria-label="物件分类"></div><div class="asset-grid" id="assets"></div></section>
-</aside></main>
-<script src="../3d/vendor/three.min.js"></script>
-    <script type="module" src="../app.mjs"></script></body></html>
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#454b3b" />
+    <title>东东的车库 · DongDong’s Garage</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="../rooftop.css" />
+  </head>
+  <body class="editor garage">
+    <header class="topbar">
+      <h1>东东的车库 <small>DongDong’s Garage</small></h1>
+      <a
+        id="preview"
+        href="https://umwelt.fivsevn.com/rooftop/"
+        target="_blank"
+        rel="noopener"
+        >上楼看看 <span class="upstairs-arrow" aria-hidden="true"></span
+      ></a>
+    </header>
+    <main class="editor-layout">
+      <section class="workspace">
+        <div class="arrange-controls">
+          <div class="scene-tabs" role="group" aria-label="阳台">
+            <button data-scene="north" aria-pressed="true">北天台</button
+            ><button data-scene="south" aria-pressed="false">南阳台</button
+            ><button data-scene="room" aria-pressed="false">东东的房间</button>
+          </div>
+          <div class="weather-controls" role="group" aria-label="场景天气">
+            <label
+              >天气
+              <select id="weatherSelect">
+                <option value="auto">缓慢变化</option>
+              </select></label
+            ><label
+              >时刻
+              <select id="timeSelect">
+                <option value="auto">随时间</option>
+              </select></label
+            ><label class="person-toggle"
+              ><input id="person" type="checkbox" checked />东东</label
+            >
+          </div>
+        </div>
+        <section class="inspector">
+          <div class="section-title">
+            <h2 id="selectedName">挑一件东西</h2>
+            <span id="count"></span>
+          </div>
+          <div id="objectControls" hidden>
+            <div class="control-row">
+              <input id="posX" type="hidden" /><input id="posY" type="hidden" />
+            </div>
+            <div class="size-control">
+              <output id="scaleValue" for="scale" hidden>100%</output>
+              <div>
+                <button id="scaleDown" aria-label="缩小物件">−</button
+                ><input
+                  id="scale"
+                  type="hidden"
+                  min="0.5"
+                  max="2"
+                  step="0.05"
+                  value="1"
+                  aria-label="物件大小"
+                /><button id="scaleUp" aria-label="放大物件">＋</button>
+              </div>
+            </div>
+            <div class="control-row">
+              <button id="rotate">旋转</button
+              ><button id="duplicate" hidden>复制</button
+              ><button id="remove">移除</button>
+            </div>
+          </div>
+          <label id="contentsControl" class="contents-control" hidden
+            >取物
+            <select id="contentsSelect"></select
+          ></label>
+          <p class="hint">方向键微调 · R 旋转 · Delete 移除</p>
+        </section>
+        <div id="placementControls" class="placement-controls">
+          <label
+            >放在
+            <select id="supportParent" disabled>
+              <option value="">地面</option>
+            </select></label
+          ><label
+            >层位
+            <select id="supportLevel" disabled>
+              <option value="">—</option>
+            </select></label
+          >
+        </div>
+        <div class="canvas-wrap">
+          <small id="positionText" aria-label="当前位置" hidden></small
+          ><canvas
+            id="garden"
+            width="640"
+            height="520"
+            tabindex="0"
+            aria-label="阳台陈列画布，点击选择物件，拖动调整，方向键微调"
+          ></canvas>
+          <div class="workspace-status">
+            <p id="weatherStatus" class="world-card"></p>
+            <p id="actionStatus" class="world-card"></p>
+            <p id="message" class="world-card" role="status">
+              点架上的东西拿出来，拖动摆放。陈列会留在这台设备上。
+            </p>
+          </div>
+        </div>
+        <div class="workspace-toolbar">
+          <div class="tool-group tool-history" hidden>
+            <button id="undo" disabled>撤销</button
+            ><button id="redo" disabled>重做</button>
+          </div>
+          <div class="tool-group tool-options">
+            <input id="grid" type="checkbox" hidden /><label
+              title="拖动结束后自动对齐格点；关闭可自由摆放"
+              ><input id="snap" type="checkbox" checked />自动对齐</label
+            >
+          </div>
+          <div class="tool-group tool-reset">
+            <button id="clear">空场景</button
+            ><button id="restore">初始陈列</button>
+          </div>
+          <div class="layout-transfer">
+            <button id="export">导出布局 JSON</button>
+            <details class="transfer">
+              <summary>导入</summary>
+              <div class="transfer-body">
+                <p>
+                  导入布局 JSON
+                  文件，或粘贴文件内容。导入会替换北天台、南阳台和房间的当前布局。
+                </p>
+                <div class="control-row">
+                  <button id="importButton">选择 JSON 文件</button>
+                </div>
+                <input
+                  id="importFile"
+                  type="file"
+                  accept=".json,application/json"
+                  hidden
+                /><textarea
+                  id="layoutText"
+                  rows="5"
+                  aria-label="布局 JSON"
+                  placeholder="也可以粘贴布局 JSON"
+                ></textarea
+                ><button id="importText">导入文本</button>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+      <aside class="studio">
+        <section class="notebook" aria-labelledby="notebookTitle">
+          <h2 id="notebookTitle">东东的手帐</h2>
+          <p id="notebookEmpty">
+            从架上挑一件东西，或点一下天台上的物件。名字、特点和翻过的资料都记在这里。
+          </p>
+          <div id="notebookBody" hidden>
+            <div class="note-heading">
+              <canvas
+                id="notePreview"
+                width="96"
+                height="96"
+                aria-label="所选物件像素预览"
+              ></canvas>
+              <div>
+                <h3 id="noteName"></h3>
+                <p id="noteLatin"></p>
+              </div>
+            </div>
+            <p id="noteShape"></p>
+            <p id="noteComment" class="note-comment"></p>
+            <details>
+              <summary>翻过的资料</summary>
+              <ul id="noteSources"></ul>
+            </details>
+            <div id="vesselControls" hidden>
+              <button
+                id="rerollPlant"
+                type="button"
+                title="切换当前植物的个体株形"
+              >
+                换个株形</button
+              ><label for="potSelect">换一只盆</label
+              ><select id="potSelect"></select>
+              <p id="potReason"></p>
+              <p id="vesselNote"></p>
+            </div>
+          </div>
+        </section>
+        <section class="catalog">
+          <h2>架上的东西</h2>
+          <input
+            id="search"
+            type="search"
+            placeholder="找植物、家具或小物…"
+            aria-label="搜索物件"
+          />
+          <div
+            class="categories"
+            id="categories"
+            role="group"
+            aria-label="物件分类"
+          ></div>
+          <div class="asset-grid" id="assets"></div>
+        </section>
+      </aside>
+    </main>
+    <script src="../3d/vendor/three.min.js"></script>
+    <script type="module" src="../app.mjs"></script>
+  </body>
+</html>

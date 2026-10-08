@@ -10,6 +10,8 @@
 
 布局继续使用 `umwelt-rooftop-layout-v1` 存储键。当前布局为 `version:2`，包含 `scenes.north`、`scenes.south`、`scenes.room`，房间迁移标记为 `roomVersion:2`。`validateLayout()` 接受历史版本 1 和当前版本；旧布局缺少房间时补入默认房间，版本 1 的南阳台坐标沿用现有迁移。不要重命名旧存储键或删除兼容分支。
 
+南北阳台在 `HOUSE` 中属于同一住宅、连接相对的屋檐。存档仍用各自局部坐标；前台只挂载当前阳台，另一侧不因缩小或平移而出现。屋檐模型不提供家具承放层位。
+
 默认陈列来自 `initial-layout.mjs`；车库和 `?layout=local` 读取本机布局。房间维护还需检查其自身入口的读写与共享布局同步，不能仅凭阳台测试推断房间兼容正常。
 
 ## 文件职责
@@ -23,7 +25,8 @@
 - `initial-layout.mjs` / `room-scene.mjs`：默认陈列与房间布景。
 - `room/room.mjs` / `wardrobe.mjs` / `card-feed.mjs`：房间活动、服装绘制与提示卡。
 - `facing.mjs` / `styled-views.mjs` / `objects.mjs`：物件方向、材质绘制与小物目录。
-- `object-references.mjs`：物件手帐的资料归属。
+- `object-references.mjs`：物件资料归属；`notebook.mjs`：客观描述与共享手帐呈现；`notebook-comments.mjs`：逐件人物随想。人物随想不写入植物、馆藏或养护数据。
+- `house-structure.mjs`：同一住宅的屋顶与南北阳台坐标变换；`3d/house-roof.mjs`：共用屋脊、屋檐、瓦面；`3d/terrace-view.mjs`：当前阳台的正交取景与平移边界。
 - `weather.mjs`：天气选择、平滑过渡与湿润历史；`atmosphere.mjs`：共享时间光照、风和闪电配置；`precipitation.mjs`：雨型和随生命周期更新的落点。
 - `resident.mjs`：东东外出节奏；`resident-weather.mjs`：天气动作池；`actor-space.mjs`：从共享承放结构派生人物实际身体通行空间。路径网格按布局缓存，编辑后清除。
 - `3d/scene3d.mjs`：场景、实例批次、缓存模型、镜头与编辑投影。`3d/atmosphere.mjs`：缓存的天空、灯光、雨线、积水和雨点缓冲；`3d/residents.mjs`：身体、衣服和装饰模型；`3d/resident-paintings.mjs`：皮肤、头发与布料绘制。
@@ -32,6 +35,14 @@
 - `arrange/index.html` / `rooftop.css`：布置页面结构与样式。
 
 扩容植物从 `botany.mjs` 和 `plant-art.mjs` 入手，家具从 `furniture.mjs` 入手。保留旧 ID、植物容器限制、seed、旋转和缩放序列化约定；当前上限仍为每场景 400 件。`scene.mjs` 中的旧物件尺寸用于历史存档迁移，不能作为重复目录删除。
+
+## 镜头、天气与手帐
+
+公开天台默认拖动平移，Shift 拖动旋转；滚轮与双指缩放，方向键平移，Home 回到全景。最小缩放为当前阳台全貌，最大 3.5 倍。取景按阳台边界、物件高度和屏幕比例计算；放大后平移限制在当前一侧。车库仍保留物件拖动与背景转动，房间沿用自身镜头。近邻只保留三栋楼的局部，不显示整栋住宅在阳台下的六层立面。
+
+天气手选过渡为 8 秒，时钟自动切换为 18 秒。数值与颜色从当前快照平滑过渡，中途换目标不会跳回原值；雨线和雨点的运动时钟累计速度，避免页面运行越久、切换雨型时越突然加速。雨天意图立即停止浇水，积水随可见雨量积累、慢慢干燥。行动卡读取角色实际状态，独立于天气卡；天台中的行动不由文案另行模拟。
+
+手帐正文固定为客观描述、一句未标注标题的人物随想、折叠资料来源。304 项逐项提供不同随想；科学名只在植物名旁出现。制作说明和重复类别移出正文。车库的换盆、换株形控制放在资料之后。公开页面悬停 350 毫秒查看，点击固定；拖动或双指手势不打开手帐。关闭键与 Escape 合上，面板独立滚动；窄屏限制为屏高 44%。
 
 ## 性能与缓存
 
@@ -57,6 +68,8 @@ BROWSER=webkit BASE_URL=http://127.0.0.1:8773 COMPARE_URL=http://127.0.0.1:8774 
 `rooftop-garage-layout.cjs` 检查实际响应式排布，`rooftop-plant-seed.cjs` 检查株形与复制后存档。部分早期浏览器脚本直接点击已隐藏的撤销按钮；这些检查应使用现有 Ctrl/Cmd+Z 与 Shift+Z 快捷键，无需改变前端来配合测试。
 
 测试截图、临时对比站点和检查日志放在仓库之外；`docs/` 与 `tests/` 不进入发布产物。
+
+`rooftop-terrace-view.test.mjs` 检查房屋连接、四种屏幕比例的取景与平移、304 项手帐、天气中途切换与行动卡。`rooftop-observation.cjs` 在 Chromium / WebKit 验证公开页平移、缩放上下限、悬停和点击手帐、南北切换、窄屏与独立行动卡。
 
 `rooftop-atmosphere.test.mjs` 检查 63 种光照组合、四种雨的落点更新、减少动态下的闪电、雨中停止浇水、避雨恢复与双角色身体避让。
 

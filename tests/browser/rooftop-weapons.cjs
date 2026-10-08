@@ -44,7 +44,7 @@ const engine = process.env.BROWSER || "chromium";
         const added=await page.evaluate(()=>rooftop.layout.scenes.north.at(-1));
         assert.equal(added.type,id);
         assert.equal(await page.locator("#noteName").innerText(),await page.locator(`[data-asset="${id}"] span`).innerText());
-        assert.match(await page.locator("#noteAliases").innerText(),/·/);
+        assert.match(await page.locator("#noteShape").innerText(),/。/);
         assert.ok((await page.locator("#noteShape").innerText()).length>20);
         await page.locator(".notebook details summary").click();
         assert.equal(await page.locator("#noteSources a").count(),1);

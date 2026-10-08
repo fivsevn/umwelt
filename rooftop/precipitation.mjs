@@ -34,7 +34,22 @@ export const RAIN_SHAPES = {
   },
 };
 export function rainShape(state) {
-  return RAIN_SHAPES[state.condition] || RAIN_SHAPES.rain;
+  const target = RAIN_SHAPES[state.condition] || RAIN_SHAPES.rain;
+  const previous =
+    state.transition?.shapeFrom ||
+    RAIN_SHAPES[state.transition?.from] ||
+    target;
+  const t = state.transition?.mix ?? 1;
+  return Object.fromEntries(
+    Object.keys(target).map((key) => [
+      key,
+      key === "seed"
+        ? t === 1
+          ? target.seed
+          : previous.seed
+        : previous[key] + (target[key] - previous[key]) * t,
+    ]),
+  );
 }
 export function rainHash(value) {
   return (((Math.sin(value * 127.17 + 91.31) * 43758.5453) % 1) + 1) % 1;

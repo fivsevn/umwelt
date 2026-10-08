@@ -48,7 +48,7 @@ const engine = process.env.BROWSER || "chromium",
         style.surfaces < 260,
         "bounded shared surfaces including the expanded vessel profiles",
       );
-      assert.equal(style.neighborhood.buildings, 8);
+      assert.equal(style.neighborhood.buildings, 3);
       assert.equal(style.neighborhood.shelters, 1);
       assert.ok(style.groundY < -18, "six storeys meet community ground");
       const audit = await page.evaluate(async () => {
@@ -477,12 +477,13 @@ const engine = process.env.BROWSER || "chromium",
         "0",
         "3D observation canvas accepts keyboard focus",
       );
-      const theta = await page.evaluate(() => rooftop.graphics.view.theta);
       await page.locator("#garden").focus();
+      for (let i = 0; i < 6; i++) await page.keyboard.press("+");
+      const panStart = await page.evaluate(() => rooftop.graphics.target[0]);
       await page.keyboard.press("ArrowRight");
       await page.waitForFunction(
-        (t) => rooftop.graphics.view.theta > t + 0.05,
-        theta,
+        (x) => Math.abs(rooftop.graphics.target[0] - x) > 0.05,
+        panStart,
       );
       const homepageLayout = await page.evaluate(() => rooftop.layout),
         homepageBuilds = await page.evaluate(
@@ -494,6 +495,7 @@ const engine = process.env.BROWSER || "chromium",
         stage.x + stage.width * 0.75,
         stage.y + stage.height * 0.4,
       );
+      await page.keyboard.down("Shift");
       await page.mouse.down();
       await page.mouse.move(
         stage.x + stage.width * 0.65,
@@ -501,6 +503,7 @@ const engine = process.env.BROWSER || "chromium",
         { steps: 6 },
       );
       await page.mouse.up();
+      await page.keyboard.up("Shift");
       await page.waitForFunction(
         (t) => rooftop.graphics.view.theta > t + 0.1,
         beforeDrag,
@@ -517,14 +520,12 @@ const engine = process.env.BROWSER || "chromium",
       );
       await page.mouse.wheel(0, -130);
       await page.waitForFunction(() => rooftop.graphics.view.zoom > 1.25);
-      assert.ok(
-        await page.evaluate(() => rooftop.graphics.wanted.zoom <= 1.85),
-      );
+      assert.ok(await page.evaluate(() => rooftop.graphics.wanted.zoom <= 3.5));
       await page.locator("#garden").press("Home");
       assert.deepEqual(await page.evaluate(() => rooftop.graphics.wanted), {
         theta: -0.34,
         phi: 0.87,
-        zoom: 1.22,
+        zoom: 1,
       });
       const wind = await page.evaluate(() => rooftop.graphics.foliageMotion);
       assert.ok(wind.programs > 0, "foliage uses a compiled wind shader");
@@ -535,10 +536,7 @@ const engine = process.env.BROWSER || "chromium",
         wind.time,
       );
       await page.emulateMedia({ reducedMotion: "no-preference" });
-      assert.equal(
-        await page.evaluate(() => rooftop.graphics.controls),
-        "orbit",
-      );
+      assert.equal(await page.evaluate(() => rooftop.graphics.controls), "pan");
       await page
         .getByRole("button", { name: "进入南阳台", exact: true })
         .click();

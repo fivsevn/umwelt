@@ -189,15 +189,16 @@ export function lightningPulse(state, time, reduced = false) {
 }
 export function weatherActivity(state, scene = "north") {
   if (scene === "room") return "garden";
-  return state.rain > 0.06 ||
+  return state.rain > 0.01 ||
     ["rain", "heavy", "thunderstorm", "typhoon"].includes(state.condition)
     ? "shelter"
     : "garden";
 }
 export function atmosphereCaption(state) {
+  state = { ...state, condition: state.visualCondition || state.condition };
   const wet = {
-    rain: "雨点落在盆沿，东东和小猪回门边避雨。",
-    heavy: "雨水汇向下水口，屋里传来小猪的动静。",
+    rain: "细雨落在盆沿，地面渐渐湿了。",
+    heavy: "雨水汇向下水口，屋檐下接连滴水。",
     thunderstorm: "雷光照亮楼群，雨敲着盆沿。",
     typhoon: "阵风把雨吹斜，叶片向一侧伏下。",
   };
