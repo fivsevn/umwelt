@@ -106,10 +106,6 @@ const R = {
     "RHS · 育苗容器、介质与植物标签",
     "https://www.rhs.org.uk/getmedia/61a84ef1-1473-4647-9895-c1cd1d54f7a5/Sowing-seeds-in-a-container_RHS-Grow-With-It.pdf",
   ),
-  cloche: ref(
-    "RHS · 玻璃罩与园艺器具",
-    "https://www.rhs.org.uk/garden-inspiration/get-gardening/how-to-go-plastic-free-in-your-garden",
-  ),
   enamel: ref(
     "Garden Trading · 搪瓷材料与器具",
     "https://www.gardentrading.co.uk/shop-by/collection/enamel/",
@@ -183,7 +179,7 @@ const records = [
   ["terrarium", "glass", "蓝框、弯罩、透明面与托盘，保留原场景轮廓。"],
   ["wardcase", "ward", "木框、斜顶、玻璃板与内部底盘。"],
   [
-    "crate redbox fish fishbox",
+    "crate redbox fishbox",
     "box",
     "中空箱体、外沿、底板与提手；鱼箱另有水面与鱼。",
   ],
@@ -201,7 +197,7 @@ const records = [
     "seed",
     "育苗格、厚箱壁、土袋封口与插签，各按用途生成。",
   ],
-  ["browncover", "cloche", "陶盆上的圆罩、口沿与罩顶。"],
+  ["fish", "glass", "透明玻璃侧壁、薄口沿、缸底、水体与鱼。"],
   [
     "enamelbowl goldfishbowl pond lid",
     "enamel",
@@ -224,7 +220,8 @@ export const MODEL_REFERENCES = Object.fromEntries(
     ids.split(" ").map((id) => [id, { sources: [R[key]], note }]),
   ),
 );
-for (const a of BALCONY_EXTRAS) MODEL_REFERENCES[a.id] = {sources: a.sources, note: a.note};
+for (const a of BALCONY_EXTRAS)
+  MODEL_REFERENCES[a.id] = { sources: a.sources, note: a.note };
 export function objectReferences(a) {
   return a.plant || a.weapon || a.vessel
     ? []

@@ -47,7 +47,6 @@ export const OBJECT_DIMENSIONS = {
   ceramicseat: [28, 28, 29],
   wardcase: [44, 27, 35],
   enamelbowl: [29, 29, 17],
-  browncover: [32, 32, 23],
   seedtray: [34, 22, 5],
   foambox: [38, 25, 16],
   thermometer: [15, 6, 24],

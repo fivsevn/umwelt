@@ -1,40 +1,33 @@
-# Rooftop object art direction
+# 花农时代绘制方向
 
-The approved direction is the first supplied reference (IMG_2252): neighbouring olive, khaki and earthy colour clusters, visible material planes, and dark occlusion inside foliage. Reference images guide technique only; do not copy their compositions or artwork.
+游戏的立体物件使用正常的多面几何轮廓，材质上的方形像素由代码绘制。参考图用于学习结构、像素明暗、材质和使用痕迹的组织方式，不复制参考图的颜色、纹理或构图。禁止把参考图片、生成图片或截图作为游戏素材。
 
-- During plant/pot palette work, keep the rooftop, city and garage backgrounds unchanged. The later weather brief explicitly authorizes sky, city detail, surface repairs, rust and a small corner drain. Preserve the base palette and intact architecture while adding these features.
-- Block in silhouettes with the material midtone. Do not wrap leaves, cactus pads, pots or furniture in a continuous dark contour.
-- Shift hue across each ramp: warmer muted highlights, cooler/olive shadows. Retain plant-specific blue, burgundy and flower colours.
-- Separate overlapping leaves with small connected shadow planes. Give neighbouring leaves different values according to their position.
-- Use a few interlocking pixel clusters at face transitions; do not cover objects with checkerboard dithering or random noise.
-- Pots keep their researched profiles and dark default terracotta. Rims catch limited light; they should not become a bright enclosing band.
-- Furniture uses side planes, wood grain, slat gaps and joints to describe volume.
-- Artwork is transparent; the screen-space contact shadow stays small and underneath when rotated.
-- Retain short notebook notes and the actual references, including the selected container references.
+## 物件与场景
 
-## Technique references consulted
+颜色由实物材质决定：陶土、釉色、木材、金属、植物和水分别保留自身色相。相邻色阶必须同时保留亮、灰、暗；增加颜色不能抹平体积。统一每世界单位 12 个方形像素，表面的取样尺度不随面朝向或物件尺寸改变。几何轮廓使用正常抗锯齿，禁止把整个画面缩小放大来制造像素锯齿。
 
-- [cure: Pixel Art Tutorial](https://pixeljoint.com/forum/forum_posts.asp?TID=11299): clusters, selective dithering, avoiding noise and pillow shading.
-- [Raymond Schlitter: Pixelblog 1 — Color Palettes](https://www.slynyrd.com/blog/2018/1/10/pixelblog-1-color-palettes): hue shifts, saturation and relative contrast within colour ramps.
+像素表现表面的材质和明暗，并组织磨边、缺角、烧制差异、木纹和接缝。每个面的细节独立；相对的面、重复层板、抽屉和相同物件的 seed 不使用镜像或同一个印章。点抖动只用于色阶过渡，不铺规律的棋盘，也不把所有细节画成长条。
 
-Botanical observations are grounded in the source links stored on each plant profile. This revision also checks the jade plant, spearmint and Boston fern against their NC State Extension profiles.
+室外痕迹有位置和原因：锈集中在接缝和紧固件，泥土在盆边和墙脚，潮痕在低洼处，苔藓在潮湿阴面。保留主体材质的深浅，不在所有面随机撒污渍。陶器内部、盆土和家具的重复部件同样需要细节。古董陶器的形状、口沿、足部和釉色按博物馆资料校准。
 
-## Weather (2026-10-01)
+铺地使用较大的旧瓷砖和淡缝，约 60% 地面被第一种灰水泥修补，其中第二种略深的灰水泥覆盖总地面的约 40%。补块分布不对称、尺寸不同，以直线施工边界和错开的施工接缝组织，不画流动的岸线。门前保留较完整的瓷砖。
 
-The garage offers seven weather conditions and five time phases plus automatic options. Its choice persists separately from the layout. The public scene selects weather independently at entry and changes gently every eight minutes; its time phase follows the local device clock. These are ambient simulations, not live forecasts.
+具体绘制规格见 [像素材质](rooftop-pixel-style.md)、[陶器与物件来源](rooftop-art-sources.md) 和 [承放关系](rooftop-placement.md)。植物、家具、建筑和地面应作为一个场景检查，不能只看目录小图。
 
-Foliage and vessels are separate cached layers. Wind shifts only foliage in integer pixel groups; succulents stay substantially rigid. Rain falls down the screen in both native map layouts; ripples and wet surface marks follow the roof. Night lights reuse deterministic room samples so late-night lights are a subset of early-night lights.
+## 时间、天气与人物
 
-The first weather pass was rejected because a full-frame tint flattened values. The revised renderer leaves the sky on its own layer and recolours opaque material pixels with light/shadow ramps. No whole-scene dark or fog veil is used. Sunset has coherent warm receiving planes, cool shade, and longer object/rail shadows. Rain accumulates in irregular roof puddles, with clipped object reflections, ripples, crown splashes and runnels near the grate; water persists briefly after the weather clears.
+九种天气为晴朗、多云、阴天、小雨、大雨、有风、雷雨、台风、薄雾；七个时刻为清晨、上午、中午、下午、黄昏、前半夜、后半夜。自动模式是本机时间和模拟天气，不是实时气象服务。车库选择独立持久化，公开天台自行选择模拟天气。
 
-Plants carry a persistent unsigned 32-bit seed. New additions and copies get their own seed; existing plants derive a stable seed from their id during import. Pixel-grid growth varies foliage width, height, lean, leaf-cluster positions and restrained tonal detail without changing vessel geometry. Both the static sprite and foliage animation caches include the seed; movement, repotting, reload and export/import preserve the individual. Catalog previews remain fixed specimens.
+每个时刻都有不同的天光、环境光、直射光、太阳高度与方向。清晨和黄昏影子长；中午最短；下午方向转向另一侧。阴雨以散射光为主，不保留晴天硬影。夜间使用冷环境光、月光和门灯、住户窗灯，后半夜窗灯较少。房间的日光由真实窗口进入，夜间由实际灯具的位置照亮；不把天台的整场染色直接套在房间上。
 
-## 物件转向（2026-10-01）
+雨天改变物件状态：木材和陶土湿润，盆土变深，金属和叶片局部挂水，水面受雨点扰动。低洼处逐渐积水，雨停后缓慢干燥。四种雨有独立的落点种子、密度、溅水高度、涟漪尺寸和寿命，落点每轮更新；台风的雨和植物响应同一阵风。雷雨有间歇闪电；减少动态模式保留必要运动，并降低闪光强度。
 
-转向表示绕竖直轴改变朝向，观看方向固定。家具、柜子、水槽等分别绘制正面、两侧和背面；支脚、立柱、龙头始终沿画面竖直方向。柜子背板、椅背外侧、温湿度表后壳与园艺土袋背面不沿用正面细节。圆桌、圆盆等对称物件保持直立，地面的毛巾与工具按平面旋转。植物暂时沿用原来的绘制。全部使用代码生成像素，不增加图片素材。
+东东在雨开始时立刻停止浇水和室外养护，去门边避雨；强降雨、雷雨、台风时进入室内。人物和小猪分别安排听雨、搓手、喝茶、检查窗边、晒太阳、打盹、甩耳、闻湿地面等动作，小猪不沿用人的养护动作。身体、服装和装饰使用代码模型，角色之间与家具之间按实际身体半径、身高和承托高度避让。
 
-`rooftop/facing.mjs` 管理方向投影与绘制范围，`objects.mjs` 管理小物背面与灯具方向。点击区域及选择框采用对应视图的显示范围；旧布局的坐标、占地和承托规则保持兼容。灯光跟随灯头与灯泡的位置。
+## 郭里园周边依据
 
-方向回归：`tests/browser/rooftop-facing.cjs` 检查四面水槽、竖直支脚、独立缓存、后壳、侧面晾衣架选中及保存恢复；与扩容回归一并在 Chromium 和 WebKit 验证。
+2026-10-08 在 [Google Maps 郭里园新村卫星图](https://www.google.com/maps/place/Guoliyuanxincun/@32.0279345,120.871857,704m/data=!3m1!1e3!4m6!3m5!1s0x35b17821ee9434db:0x54a513abdbb2347b!8m2!3d32.027935!4d120.871857!16s%2Fg%2F1tl9kkd7) 观察到以东西向长条住宅为主的楼群、其间窄巷，以及西侧濠东河、北侧友园路、东侧谊濠路。建筑立面、封闭阳台、红瓦屋顶、空调、车辆和成熟树木依据[郭里园街巷实拍](https://www.sohu.com/a/551257906_121123899)补充。小墙砖照片能确认标牌为 95 幢，不能据此称为 92 幢。
 
-本轮统一四面的宽、深、高，修正侧面层板过薄与蓝水池台面出现条纹的问题。开放架体的前景立柱、横梁和背部斜撑参与植物遮挡；柜子背板与侧遮雨布参与面遮挡。结构资料、适用物件和观察依据见 [物件四面绘制记录](rooftop-object-views.md)。四面使用同一材质定义，木阶花架按实际台阶前低后高绘制，圆形盆盖与盘管保持固定视角下的轮廓。
+地图定位到小区，不足以确认 92 幢 604 的精确窗外视角；背景是依据周边资料的场景构图，保留游戏既有天台布局。资料图片仅供观察，不导入游戏。
+
+小猪比例参考[圆脸短腿卡通猪](https://illustimage.com/?id=5783)：加宽脸、缩短腿、突出小鼻和眼神；游戏模型与材质由代码重新绘制，不使用该图片。

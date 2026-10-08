@@ -1,4 +1,11 @@
-import { movedArrangement, clearPlacement, resolveSupports, supportedIds, accessibleContents } from "./3d/spatial-layout.mjs";
+import { atmosphereCaption } from "./atmosphere.mjs";
+import {
+  movedArrangement,
+  clearPlacement,
+  resolveSupports,
+  supportedIds,
+  accessibleContents,
+} from "./3d/spatial-layout.mjs";
 import { createPlacementEditor } from "./placement-editor.mjs";
 import { createGardenRenderer } from "./3d/scene3d.mjs";
 import { readLayout, writeLayout } from "./layout-storage.mjs";
@@ -64,7 +71,7 @@ let scene =
   drag = null,
   showPerson = true;
 let flushDrag = null;
-const dragPerformance = {updates:0,totalMs:0,maxMs:0};
+const dragPerformance = { updates: 0, totalMs: 0, maxMs: 0 };
 try {
   if (
     editor ||
@@ -76,14 +83,20 @@ try {
   if (editor) $("message").textContent = "本机布局无法读取，已恢复初始陈列。";
 }
 if (!editor) attachGardenMusic($("musicToggle"));
-let garden3d = null, placementEditor = null;
+let garden3d = null,
+  placementEditor = null;
 const canvas = $("garden");
 try {
   garden3d = createGardenRenderer(
     canvas,
     layout,
     editor ? null : $("sceneDoor"),
-    { scene, controls: editor ? "edit" : "orbit", initialTheta: editor ? undefined : -.34, selected: () => selected },
+    {
+      scene,
+      controls: editor ? "edit" : "orbit",
+      initialTheta: editor ? undefined : -0.34,
+      selected: () => selected,
+    },
   );
 } catch (error) {
   if (!/context|WebGL/i.test(error.message)) throw error;
@@ -111,14 +124,7 @@ let panDrag = null;
 const zooms = { room: 1, north: 1, south: 1 },
   pointers = new Map();
 let pinch = null;
-const backdrop = document.createElement("canvas"),
-  resident = editor
-    ? null
-    : makeResident(Math.random, {
-        phase: () =>
-          timeOfDay(new Date().getHours() + new Date().getMinutes() / 60),
-      });
-if (resident) showPerson = resident.present;
+const backdrop = document.createElement("canvas");
 const WEATHER_KEY = "umwelt-rooftop-weather-v1";
 let weatherChoices = { condition: "clear", phase: "day" };
 if (editor)
@@ -138,6 +144,13 @@ let atmosphere = weather.state,
   weatherAge = 0,
   reduced = matchMedia("(prefers-reduced-motion: reduce)").matches,
   cityBounds;
+const resident = editor
+  ? null
+  : makeResident(Math.random, {
+      phase: () => atmosphere.phase,
+      environment: () => atmosphere,
+    });
+if (resident) showPerson = resident.present;
 matchMedia("(prefers-reduced-motion: reduce)").addEventListener(
   "change",
   (e) => {
@@ -166,25 +179,7 @@ if (editor) {
   }
 }
 function weatherCaption() {
-  const night =
-    atmosphere.phase === "late"
-      ? "窗灯渐少，楼群安静下来。"
-      : atmosphere.phase === "evening"
-        ? "还有几扇窗亮着。"
-        : atmosphere.phase === "dawn"
-          ? "天亮了，几扇窗还没有熄灯。"
-          : atmosphere.phase === "dusk"
-            ? "窗灯先于天空亮起来。"
-            : {
-                clear: "墙角的影子慢慢挪。",
-                cloudy: "云影从楼群之间经过。",
-                overcast: "光散在叶片上。",
-                rain: "雨点落在盆沿和地面。",
-                heavy: "水沿修补过的地面流向下水口。",
-                wind: "风从楼群之间吹过。",
-                mist: "远处的楼房隐在薄雾里。",
-              }[atmosphere.condition];
-  const text = night;
+  const text = atmosphereCaption(atmosphere);
   if ($("weatherStatus").textContent !== text)
     $("weatherStatus").textContent = text;
 }
@@ -211,12 +206,22 @@ function buttons() {
   $("count").textContent = objects().length + " 件";
   const o = selection();
   $("selectedName").textContent = o ? asset(o.type).name : "挑一件东西";
-  if(editor) {
-    const picker=$('contentsSelect'),contents=o?accessibleContents(objects(),o.id):[];
-    $('contentsControl').hidden=!contents.length;picker.replaceChildren();
-    const placeholder=document.createElement('option');placeholder.value='';placeholder.textContent='选择上面或里面的东西';picker.append(placeholder);
-    for(const {id,ground} of contents) {
-      const child=objects().find(p=>p.id===id),option=document.createElement('option');option.value=id;option.textContent=(ground?'下方地面 · ':'')+asset(child.type).name;picker.append(option);
+  if (editor) {
+    const picker = $("contentsSelect"),
+      contents = o ? accessibleContents(objects(), o.id) : [];
+    $("contentsControl").hidden = !contents.length;
+    picker.replaceChildren();
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = "选择上面或里面的东西";
+    picker.append(placeholder);
+    for (const { id, ground } of contents) {
+      const child = objects().find((p) => p.id === id),
+        option = document.createElement("option");
+      option.value = id;
+      option.textContent =
+        (ground ? "下方地面 · " : "") + asset(child.type).name;
+      picker.append(option);
     }
   }
   $("objectControls").hidden = !o;
@@ -230,9 +235,11 @@ function buttons() {
   notebook(o);
 }
 function positionFields(o) {
-  $("posX").value=o.x;$("posY").value=o.y;
-  const text="X "+Math.round(o.x)+"  Y "+Math.round(o.y);
-  if($("positionText").textContent!==text)$("positionText").textContent=text;
+  $("posX").value = o.x;
+  $("posY").value = o.y;
+  const text = "X " + Math.round(o.x) + "  Y " + Math.round(o.y);
+  if ($("positionText").textContent !== text)
+    $("positionText").textContent = text;
 }
 function rebuild() {
   if (editor) document.body.classList.toggle("room-edit", scene === "room");
@@ -252,8 +259,17 @@ function rebuild() {
   camera = cameras[scene];
   fitView();
   paintBase(baseCtx, scene, { includeCity: false });
-  walker = makeWalker(scene, objects);
-  pigWalker = makeWalker(scene, objects, { visits: 7 });
+  walker = makeWalker(scene, objects, {
+    environment: () => atmosphere,
+    company: () => [pigWalker?.person],
+  });
+  pigWalker = makeWalker(scene, objects, {
+    visits: 7,
+    actor: "pig",
+    environment: () => atmosphere,
+    body: { radius: 0.76, height: 1.0 },
+    company: () => (showPerson ? [walker?.person] : []),
+  });
   walker.randomize();
   pigWalker.randomize();
   selected = null;
@@ -266,27 +282,50 @@ function changed() {
   save();
   buttons();
   walker.reset();
+  pigWalker.reset();
 }
 function commitMove(o, patch) {
-  if(Object.entries(patch).every(([key,value])=>o[key]===value))return true;
-  const next=movedArrangement(objects(),o.id,patch);
-  if(!supportedLayout(scene,next)){message("这里放不稳，检查层间高度、支撑范围或阳台边界。");buttons();return false;}
-  if(!clearPlacement(next,new Set(next.filter((p,i)=>p!==objects()[i]).map(p=>p.id)))){message("这里放不下这个器物，移到旁边或换一只小盆。");buttons();return false;}
+  if (Object.entries(patch).every(([key, value]) => o[key] === value))
+    return true;
+  const next = movedArrangement(objects(), o.id, patch);
+  if (!supportedLayout(scene, next)) {
+    message("这里放不稳，检查层间高度、支撑范围或阳台边界。");
+    buttons();
+    return false;
+  }
+  if (
+    !clearPlacement(
+      next,
+      new Set(next.filter((p, i) => p !== objects()[i]).map((p) => p.id)),
+    )
+  ) {
+    message("这里放不下这个器物，移到旁边或换一只小盆。");
+    buttons();
+    return false;
+  }
   checkpoint();
-  next.forEach((p,i)=>Object.assign(objects()[i],p));
-  changed();return true;
+  next.forEach((p, i) => Object.assign(objects()[i], p));
+  changed();
+  return true;
 }
 
 function add(type, source) {
-  const origin=source||{x:scene==='north'?310:284,y:scene==='north'?240:264};
-  const object={...(source||{type,rotation:0,scale:1}),id:crypto.randomUUID(),support:null};
-  if(plant(type))object.seed=plantSeed(object.id);
-  const pos = findGroundPlacement(scene,object,objects(),origin);
+  const origin = source || {
+    x: scene === "north" ? 310 : 284,
+    y: scene === "north" ? 240 : 264,
+  };
+  const object = {
+    ...(source || { type, rotation: 0, scale: 1 }),
+    id: crypto.randomUUID(),
+    support: null,
+  };
+  if (plant(type)) object.seed = plantSeed(object.id);
+  const pos = findGroundPlacement(scene, object, objects(), origin);
   if (!pos) {
     message("这个物件放不进当前阳台。");
     return;
   }
-  const o=pos;
+  const o = pos;
   if (objects().length >= 400) {
     message("每个阳台最多 400 件物件。");
     return;
@@ -300,7 +339,7 @@ function add(type, source) {
 function remove() {
   const o = selection();
   if (!o) return;
-  if(supportedIds(objects(),o.id).size>1) {
+  if (supportedIds(objects(), o.id).size > 1) {
     message("先把上面的东西移开，再收起这件家具。");
     return;
   }
@@ -454,9 +493,11 @@ function catalog() {
     $("assets").append(button);
   }
 }
-function coords(e,height=0) {
+function coords(e, height = 0) {
   if (garden3d)
-    return garden3d.pointAtHeight(e.clientX, e.clientY,height) || { x: 0, y: 0 };
+    return (
+      garden3d.pointAtHeight(e.clientX, e.clientY, height) || { x: 0, y: 0 }
+    );
   const r = canvas.getBoundingClientRect(),
     x = ((e.clientX - r.left) * camera.w) / r.width + camera.x,
     y = ((e.clientY - r.top) * camera.h) / r.height + camera.y;
@@ -488,7 +529,14 @@ if (editor) {
     if (!e.target.closest(".layout-transfer"))
       document.querySelector(".transfer").open = false;
   });
-  placementEditor = createPlacementEditor({element:$("placementControls"),objects,selection,name:type=>asset(type).name,move:commitMove,message});
+  placementEditor = createPlacementEditor({
+    element: $("placementControls"),
+    objects,
+    selection,
+    name: (type) => asset(type).name,
+    move: commitMove,
+    message,
+  });
   for (const name of CATALOG_CATEGORIES) {
     const button = document.createElement("button");
     button.textContent = name;
@@ -527,8 +575,8 @@ if (editor) {
     }
     if (e.button !== 0 || drag) return;
     const o = garden3d ? garden3d.pick(e.clientX, e.clientY) : hit(coords(e));
-    const height=o?(resolveSupports(objects()).get(o.id)?.height||0):0;
-    const pos=coords(e,height);
+    const height = o ? resolveSupports(objects()).get(o.id)?.height || 0 : 0;
+    const pos = coords(e, height);
     selected = o?.id || null;
     buttons();
     canvas.focus({ preventScroll: true });
@@ -539,43 +587,62 @@ if (editor) {
         dx: pos.x - o.x,
         dy: pos.y - o.y,
         before: JSON.stringify(layout),
-        excluded:supportedIds(objects(),o.id),
+        excluded: supportedIds(objects(), o.id),
       };
       canvas.setPointerCapture(e.pointerId);
     }
   };
   canvas.onpointermove = (e) => {
     if (!drag || e.pointerId !== drag.pointerId || garden3d?.gesturing) return;
-    drag.pending={clientX:e.clientX,clientY:e.clientY};
+    drag.pending = { clientX: e.clientX, clientY: e.clientY };
   };
   flushDrag = () => {
-    if(!drag?.pending)return;
-    const e=drag.pending;drag.pending=null;
-    const start=performance.now();
+    if (!drag?.pending) return;
+    const e = drag.pending;
+    drag.pending = null;
+    const start = performance.now();
     try {
-    const o = selection();
-    if (!o) return;
-    const target=garden3d?garden3d.placementAt(e.clientX,e.clientY,o,drag.excluded,{x:drag.dx,y:drag.dy}):{x:coords(e).x-drag.dx,y:coords(e).y-drag.dy,support:null};
-    if(!target)return;
-    const step=$("snap").checked?4:1;
-    const patch={x:Math.round(target.x/step)*step,y:Math.round(target.y/step)*step,support:target.support};
-    // Quantisation must not push a pot outside a narrow shelf or a wall contact.
-    let next=movedArrangement(objects(),o.id,patch);
-    let valid=supportedLayout(scene,next);
-    if(!valid) {
-      patch.x=target.x;patch.y=target.y;
-      next=movedArrangement(objects(),o.id,patch);
-      valid=supportedLayout(scene,next);
-    }
-    if (valid && clearPlacement(next,new Set(next.filter((p,i)=>p!==objects()[i]).map(p=>p.id)))) {
-      next.forEach((p,i)=>Object.assign(objects()[i],p));
-      garden3d?.syncLayout(layout);
-      positionFields(o);
-      placementEditor.preview(o);
-    }
+      const o = selection();
+      if (!o) return;
+      const target = garden3d
+        ? garden3d.placementAt(e.clientX, e.clientY, o, drag.excluded, {
+            x: drag.dx,
+            y: drag.dy,
+          })
+        : { x: coords(e).x - drag.dx, y: coords(e).y - drag.dy, support: null };
+      if (!target) return;
+      const step = $("snap").checked ? 4 : 1;
+      const patch = {
+        x: Math.round(target.x / step) * step,
+        y: Math.round(target.y / step) * step,
+        support: target.support,
+      };
+      // Quantisation must not push a pot outside a narrow shelf or a wall contact.
+      let next = movedArrangement(objects(), o.id, patch);
+      let valid = supportedLayout(scene, next);
+      if (!valid) {
+        patch.x = target.x;
+        patch.y = target.y;
+        next = movedArrangement(objects(), o.id, patch);
+        valid = supportedLayout(scene, next);
+      }
+      if (
+        valid &&
+        clearPlacement(
+          next,
+          new Set(next.filter((p, i) => p !== objects()[i]).map((p) => p.id)),
+        )
+      ) {
+        next.forEach((p, i) => Object.assign(objects()[i], p));
+        garden3d?.syncLayout(layout);
+        positionFields(o);
+        placementEditor.preview(o);
+      }
     } finally {
-      const ms=performance.now()-start;
-      dragPerformance.updates++;dragPerformance.totalMs+=ms;dragPerformance.maxMs=Math.max(dragPerformance.maxMs,ms);
+      const ms = performance.now() - start;
+      dragPerformance.updates++;
+      dragPerformance.totalMs += ms;
+      dragPerformance.maxMs = Math.max(dragPerformance.maxMs, ms);
     }
   };
   const finish = (e) => {
@@ -594,7 +661,10 @@ if (editor) {
   canvas.onlostpointercapture = finish;
   $("rotate").onclick = rotate;
   $("remove").onclick = remove;
-  $("contentsSelect").onchange=()=>{selected=$("contentsSelect").value||selected;buttons();};
+  $("contentsSelect").onchange = () => {
+    selected = $("contentsSelect").value || selected;
+    buttons();
+  };
   $("duplicate").onclick = () => {
     const o = selection();
     if (o) add(o.type, o);
@@ -860,11 +930,13 @@ const historyNavigation = window.history;
 function fitView() {
   if (garden3d) {
     if (editor) {
-      const ratio=scene==="room"?(innerWidth<640?1/1.12:4/3):camera.w/camera.h;
-      canvas.parentElement.style.setProperty(
-        "--scene-ratio",
-        ratio,
-      );
+      const ratio =
+        scene === "room"
+          ? innerWidth < 640
+            ? 1 / 1.12
+            : 4 / 3
+          : camera.w / camera.h;
+      canvas.parentElement.style.setProperty("--scene-ratio", ratio);
       canvas.parentElement.style.aspectRatio = String(ratio);
       canvas.style.height = "100%";
     }
@@ -925,14 +997,21 @@ function fitView() {
 }
 function syncPresence() {
   if (editor) return;
-  $("roomCard").href = "./room/?scene=" + scene;
+  $("roomCard").href =
+    "./room/?scene=" + scene + "&weather=" + atmosphere.condition;
   $("garageCard").href = "./arrange/?scene=" + scene;
   if (!resident.present) $("dongdongStatus").textContent = resident.status;
   canvas.setAttribute(
     "aria-label",
     SCENES[scene].name +
       "，" +
-      (resident.present ? "东东正在照料植物" : resident.status),
+      (resident.present
+        ? ["rain", "heavy", "thunderstorm", "typhoon"].includes(
+            atmosphere.condition,
+          )
+          ? "东东和小猪正在避雨"
+          : "东东正在照料植物"
+        : resident.status),
   );
 }
 
@@ -962,7 +1041,8 @@ let last = performance.now(),
   renderedAt = 0;
 function render() {
   if (garden3d) {
-    const dt=Math.min(.1,Math.max(1/120,time-renderedAt));renderedAt=time;
+    const dt = Math.min(0.1, Math.max(1 / 120, time - renderedAt));
+    renderedAt = time;
     garden3d.draw({
       time,
       dt,
@@ -1056,8 +1136,9 @@ function render() {
     object: o,
   }));
   const pig = pigWalker.person;
-  sprites.push({ y: pig.y, pig });
-  if (showPerson) sprites.push({ y: walker.person.y, person: walker.person });
+  if (!pig.insideShelter) sprites.push({ y: pig.y, pig });
+  if (showPerson && !walker.person.insideShelter)
+    sprites.push({ y: walker.person.y, person: walker.person });
   sprites.sort((a, b) => a.y - b.y);
   const foreground = foregroundObjects(objects());
   for (const s of sprites)
@@ -1109,15 +1190,17 @@ function frame(now) {
       options[Math.floor(Math.random() * options.length)].id,
     );
   }
+  const previousCondition = atmosphere.condition;
   atmosphere = weather.update(dt);
-  if (resident && resident.update(dt)) {
+  if (previousCondition !== atmosphere.condition) syncPresence();
+  if (resident && resident.update(dt, atmosphere)) {
     showPerson = resident.present;
     syncPresence();
     if (showPerson) walker.arrive();
   }
   if (showPerson) walker.update(dt);
   pigWalker.update(dt * 0.8);
-  const drawInterval=garden3d?(garden3d.interacting?16:33):50;
+  const drawInterval = garden3d ? (garden3d.interacting ? 16 : 33) : 50;
   if (now - drawAt > drawInterval) {
     drawAt = now;
     flushDrag?.();
@@ -1185,7 +1268,7 @@ if (editor) {
   document.fonts.ready.then(fitEditorHeight);
   fitEditorHeight();
 }
-if(garden3d)window.addEventListener("resize",fitView);
+if (garden3d) window.addEventListener("resize", fitView);
 let cardFeed = null;
 rebuild();
 if (!editor)
@@ -1196,7 +1279,9 @@ if (!editor)
 requestAnimationFrame(frame);
 // Read-only runtime state also makes movement and layout behavior inspectable during QA.
 window.rooftop = {
-  get placementPerformance() {return {...dragPerformance,pending:!!drag?.pending}},
+  get placementPerformance() {
+    return { ...dragPerformance, pending: !!drag?.pending };
+  },
   get weather() {
     return {
       ...weather.state,

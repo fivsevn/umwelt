@@ -1,8 +1,21 @@
-import { placementKind, physicalFootprint, resolveSupports, contactOffset, movedArrangement, supportSurfaces, placeOnSurface, clearPlacement, createPlacementContext } from "./3d/spatial-layout.mjs";
+import {
+  placementKind,
+  physicalFootprint,
+  resolveSupports,
+  contactOffset,
+  movedArrangement,
+  supportSurfaces,
+  placeOnSurface,
+  clearPlacement,
+  createPlacementContext,
+} from "./3d/spatial-layout.mjs";
 import { BALCONY_EXTRAS, paintBalconyExtra } from "./balcony-extras.mjs";
 import { paintRoomBase } from "./room-scene.mjs";
 import { INITIAL_LAYOUT } from "./initial-layout.mjs";
 import { paintDongdong } from "./dongdong.mjs";
+import { weatherAction } from "./resident-weather.mjs";
+import { weatherActivity } from "./atmosphere.mjs";
+import { createActorSpace } from "./actor-space.mjs";
 import {
   styledView,
   paintStyledView,
@@ -124,10 +137,10 @@ export const ASSETS = [
       ? { furniture: true, category: "家具" }
       : {}),
   })),
-  ...FURNITURE.map(a=>({...a})),
-  ...OBJECTS.map(a=>({...a})),
-  ...BALCONY_EXTRAS.map(a=>({...a})),
-  ...WEAPONS.map(a=>({...a})),
+  ...FURNITURE.map((a) => ({ ...a })),
+  ...OBJECTS.map((a) => ({ ...a })),
+  ...BALCONY_EXTRAS.map((a) => ({ ...a })),
+  ...WEAPONS.map((a) => ({ ...a })),
   ...POTS.map((p) => ({
     id: "vessel-" + p.id,
     name: p.name,
@@ -140,7 +153,10 @@ export const ASSETS = [
 ];
 for (const a of ASSETS)
   if (!a.plant) {
-    if(MODEL_REFERENCES[a.id])a.note=MODEL_REFERENCES[a.id].note+" 参考真实器物结构作像素转译，按阳台陈列调整比例。";
+    if (MODEL_REFERENCES[a.id])
+      a.note =
+        MODEL_REFERENCES[a.id].note +
+        " 参考真实器物结构作像素转译，按阳台陈列调整比例。";
     const refs = [
       ...(a.sources || []),
       ...(a.vessel ? vessel(a.vessel).sources || [] : []),
@@ -155,13 +171,20 @@ for (const a of ASSETS) {
   a.placement = placementKind(a.id);
   if (!a.plant) a.category = a.placement.category;
 }
-ASSETS.sort((a,b)=>Number(!!b.plant)-Number(!!a.plant)||a.placement.order-b.placement.order);
-export const CATALOG_CATEGORIES=['全部',...new Set(ASSETS.map(a=>a.category))];
+ASSETS.sort(
+  (a, b) =>
+    Number(!!b.plant) - Number(!!a.plant) ||
+    a.placement.order - b.placement.order,
+);
+export const CATALOG_CATEGORIES = [
+  "全部",
+  ...new Set(ASSETS.map((a) => a.category)),
+];
 // Catalogue lookup is shared by rendering, placement and save validation.
 const assetIndex = new Map(ASSETS.map((a) => [a.id, a]));
 export const asset = (id) => assetIndex.get(id);
 export function initialLayout() {
-  return {...structuredClone(INITIAL_LAYOUT),spaceVersion:1};
+  return { ...structuredClone(INITIAL_LAYOUT), spaceVersion: 1 };
 }
 export function inside(scene, x, y, margin = 0) {
   const pts = SCENES[scene].points;
@@ -170,8 +193,16 @@ export function inside(scene, x, y, margin = 0) {
     const [xi, yi] = pts[i],
       [xj, yj] = pts[j];
     if (!margin) {
-      const t=Math.max(0,Math.min(1,((x-xi)*(xj-xi)+(y-yi)*(yj-yi))/((xj-xi)**2+(yj-yi)**2)));
-      if(Math.hypot(x-xi-t*(xj-xi),y-yi-t*(yj-yi))<.01)return true;
+      const t = Math.max(
+        0,
+        Math.min(
+          1,
+          ((x - xi) * (xj - xi) + (y - yi) * (yj - yi)) /
+            ((xj - xi) ** 2 + (yj - yi) ** 2),
+        ),
+      );
+      if (Math.hypot(x - xi - t * (xj - xi), y - yi - t * (yj - yi)) < 0.01)
+        return true;
     }
     if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi)
       hit = !hit;
@@ -207,59 +238,88 @@ export function displayBounds(o) {
   );
 }
 function bearingPoints(o) {
-  const p = physicalFootprint(o), a = (o.rotation||0)*Math.PI/180;
-  const w = p.groundW*16, d = p.groundD*16, points=[];
-  const point = (x,z) => [o.x+x*Math.cos(a)-z*Math.sin(a), o.y+contactOffset(o)+x*Math.sin(a)+z*Math.cos(a)];
-  if(p.circle)return Array.from({length:32},(_,i)=>point(Math.cos(i*Math.PI/16)*w/2,Math.sin(i*Math.PI/16)*d/2));
-  for(const z of [-d/2,d/2])for(let x=-w/2;x<=w/2;x+=2)points.push(point(x,z));
-  for(const x of [-w/2,w/2])for(let z=-d/2;z<=d/2;z+=2)points.push(point(x,z));
-  points.push(point(w/2,d/2));return points;
+  const p = physicalFootprint(o),
+    a = ((o.rotation || 0) * Math.PI) / 180;
+  const w = p.groundW * 16,
+    d = p.groundD * 16,
+    points = [];
+  const point = (x, z) => [
+    o.x + x * Math.cos(a) - z * Math.sin(a),
+    o.y + contactOffset(o) + x * Math.sin(a) + z * Math.cos(a),
+  ];
+  if (p.circle)
+    return Array.from({ length: 32 }, (_, i) =>
+      point(
+        (Math.cos((i * Math.PI) / 16) * w) / 2,
+        (Math.sin((i * Math.PI) / 16) * d) / 2,
+      ),
+    );
+  for (const z of [-d / 2, d / 2])
+    for (let x = -w / 2; x <= w / 2; x += 2) points.push(point(x, z));
+  for (const x of [-w / 2, w / 2])
+    for (let z = -d / 2; z <= d / 2; z += 2) points.push(point(x, z));
+  points.push(point(w / 2, d / 2));
+  return points;
 }
 export const contactPoints = bearingPoints;
 export const roomFeet = bearingPoints;
-function groundFits(scene,o) {
-  return bearingPoints(o).every(([x,y])=>inside(scene,x,y));
+function groundFits(scene, o) {
+  return bearingPoints(o).every(([x, y]) => inside(scene, x, y));
 }
-function resolvedFits(scene,o,objects,relations) {
-  const relation=relations.get(o.id);
-  if(relation?.invalid)return false;
-  if(relation?.parentId) {
-    const parent=objects.find(p=>p.id===relation.parentId);
-    return parent && resolvedFits(scene,parent,objects,relations);
+function resolvedFits(scene, o, objects, relations) {
+  const relation = relations.get(o.id);
+  if (relation?.invalid) return false;
+  if (relation?.parentId) {
+    const parent = objects.find((p) => p.id === relation.parentId);
+    return parent && resolvedFits(scene, parent, objects, relations);
   }
-  return groundFits(scene,o);
+  return groundFits(scene, o);
 }
-export function fits(scene,o,objects=[]) {
-  if(!asset(o.type))return false;
-  if(!o.support && groundFits(scene,o))return true;
-  const list=[...objects.filter(p=>p.id!==o.id),o];
-  return resolvedFits(scene,o,list,resolveSupports(list));
+export function fits(scene, o, objects = []) {
+  if (!asset(o.type)) return false;
+  if (!o.support && groundFits(scene, o)) return true;
+  const list = [...objects.filter((p) => p.id !== o.id), o];
+  return resolvedFits(scene, o, list, resolveSupports(list));
 }
-export function supportedLayout(scene,objects) {
-  const relations=resolveSupports(objects);
-  return objects.every(o=>resolvedFits(scene,o,objects,relations));
+export function supportedLayout(scene, objects) {
+  const relations = resolveSupports(objects);
+  return objects.every((o) => resolvedFits(scene, o, objects, relations));
 }
 // New objects use the same physical space as later edits, including the floor
 // under furniture. Prefer a little breathing room; never spawn through a body.
-export function findGroundPlacement(scene,object,objects,origin) {
-  const points=[];
-  for(let y=80;y<470;y+=8)for(let x=136;x<516;x+=8)points.push({x,y});
-  points.sort((a,b)=>(a.x-origin.x)**2+(a.y-origin.y)**2-(b.x-origin.x)**2-(b.y-origin.y)**2);
-  const relations=resolveSupports(objects);relations.set(object.id,{height:0});
-  for(const padding of [1.1,1]) {
-    const probe={...object,scale:Math.min(2,object.scale*padding),support:null};
-    const list=[...objects,probe],context=createPlacementContext(list,probe.id,relations);
-    for(const point of points) {
-      const candidate={...probe,...point};
-      if(!groundFits(scene,candidate))continue;
-      list[list.length-1]=candidate;
-      if(clearPlacement(list,new Set([probe.id]),relations,context))return {...object,...point,support:null};
+export function findGroundPlacement(scene, object, objects, origin) {
+  const points = [];
+  for (let y = 80; y < 470; y += 8)
+    for (let x = 136; x < 516; x += 8) points.push({ x, y });
+  points.sort(
+    (a, b) =>
+      (a.x - origin.x) ** 2 +
+      (a.y - origin.y) ** 2 -
+      (b.x - origin.x) ** 2 -
+      (b.y - origin.y) ** 2,
+  );
+  const relations = resolveSupports(objects);
+  relations.set(object.id, { height: 0 });
+  for (const padding of [1.1, 1]) {
+    const probe = {
+      ...object,
+      scale: Math.min(2, object.scale * padding),
+      support: null,
+    };
+    const list = [...objects, probe],
+      context = createPlacementContext(list, probe.id, relations);
+    for (const point of points) {
+      const candidate = { ...probe, ...point };
+      if (!groundFits(scene, candidate)) continue;
+      list[list.length - 1] = candidate;
+      if (clearPlacement(list, new Set([probe.id]), relations, context))
+        return { ...object, ...point, support: null };
     }
   }
   return null;
 }
 // A larger object may need a small inward nudge to keep its whole footprint on the roof.
-export function resizedObject(scene, o, scale, objects = [], radius=32) {
+export function resizedObject(scene, o, scale, objects = [], radius = 32) {
   if (!Number.isFinite(scale) || scale < 0.5 || scale > 2) return null;
   const next = { ...o, scale };
   if (fits(scene, next, objects)) return next;
@@ -290,56 +350,111 @@ function migrateLegacyContacts(scene, objects) {
   const relations = resolveSupports(objects);
   for (let i = 0; i < objects.length; i++) {
     const o = objects[i];
-    if (o.support !== undefined || relations.get(o.id)?.parentId || groundFits(scene,o)) continue;
-    const next = resizedObject(scene,o,o.scale,objects);
+    if (
+      o.support !== undefined ||
+      relations.get(o.id)?.parentId ||
+      groundFits(scene, o)
+    )
+      continue;
+    const next = resizedObject(scene, o, o.scale, objects);
     const limit = scene === "room" ? 32 : 8;
-    if (!next || Math.hypot(next.x-o.x,next.y-o.y) > limit) continue;
-    const migrated = movedArrangement(objects,o.id,{x:next.x,y:next.y});
+    if (!next || Math.hypot(next.x - o.x, next.y - o.y) > limit) continue;
+    const migrated = movedArrangement(objects, o.id, { x: next.x, y: next.y });
     for (let j = 0; j < objects.length; j++) objects[j] = migrated[j];
   }
 }
 // The old 2D-derived stair treads were only 10 px deep. The new geometry can
 // carry ordinary pots. Migrate explicit tier contacts once and nudge/resize only
 // these enlarged roots when an old edge placement no longer fits.
-function migrateStairFurniture(scene,objects) {
-  for(const parent of objects.filter(o=>['woodshelf','ladderstand'].includes(o.type))) {
-    const oldDepth=parent.type==='woodshelf'?29:26,newDepth=84;
-    for(const child of objects.filter(o=>o.support?.id===parent.id)) {
-      const level={lower:1,middle:0,upper:-1}[child.support.surface];if(level===undefined)continue;
-      const delta=(newDepth-oldDepth)/3*parent.scale*level,a=parent.rotation*Math.PI/180;
-      const ids=new Set([child.id]);let added=true;
-      while(added){added=false;for(const o of objects)if(ids.has(o.support?.id)&&!ids.has(o.id)){ids.add(o.id);added=true}}
-      for(const o of objects)if(ids.has(o.id)){o.x-=Math.sin(a)*delta;o.y+=Math.cos(a)*delta}
+function migrateStairFurniture(scene, objects) {
+  for (const parent of objects.filter((o) =>
+    ["woodshelf", "ladderstand"].includes(o.type),
+  )) {
+    const oldDepth = parent.type === "woodshelf" ? 29 : 26,
+      newDepth = 84;
+    for (const child of objects.filter((o) => o.support?.id === parent.id)) {
+      const level = { lower: 1, middle: 0, upper: -1 }[child.support.surface];
+      if (level === undefined) continue;
+      const delta = ((newDepth - oldDepth) / 3) * parent.scale * level,
+        a = (parent.rotation * Math.PI) / 180;
+      const ids = new Set([child.id]);
+      let added = true;
+      while (added) {
+        added = false;
+        for (const o of objects)
+          if (ids.has(o.support?.id) && !ids.has(o.id)) {
+            ids.add(o.id);
+            added = true;
+          }
+      }
+      for (const o of objects)
+        if (ids.has(o.id)) {
+          o.x -= Math.sin(a) * delta;
+          o.y += Math.cos(a) * delta;
+        }
     }
-    if(fits(scene,parent,objects))continue;
-    let next=resizedObject(scene,parent,parent.scale,objects,64);
-    for(let scale=parent.scale-.05;!next&&scale>=.5;scale-=.05)next=resizedObject(scene,parent,Math.round(scale*100)/100,objects,64);
-    if(next) {
-      const moved=movedArrangement(objects,parent.id,{x:next.x,y:next.y,scale:next.scale});
-      moved.forEach((o,i)=>objects[i]=o);
+    if (fits(scene, parent, objects)) continue;
+    let next = resizedObject(scene, parent, parent.scale, objects, 64);
+    for (let scale = parent.scale - 0.05; !next && scale >= 0.5; scale -= 0.05)
+      next = resizedObject(
+        scene,
+        parent,
+        Math.round(scale * 100) / 100,
+        objects,
+        64,
+      );
+    if (next) {
+      const moved = movedArrangement(objects, parent.id, {
+        x: next.x,
+        y: next.y,
+        scale: next.scale,
+      });
+      moved.forEach((o, i) => (objects[i] = o));
     }
   }
 }
-function migrateSpaceBindings(scene,objects) {
-  const filled=new Set(['fish','pond','moss','mossbox','seedtray','foambox','medakabowl','goldfishbowl','fishbox']);
-  for(let i=0;i<objects.length;i++) {
-    const o=objects[i];if(!o.support)continue;
-    const parent=objects.find(p=>p.id===o.support.id);if(!parent)continue;
-    if(['sink','basin'].includes(parent.type)&&['front','back'].includes(o.support.surface)) {
-      const next=placeOnSurface(objects,o.id,parent.id,'counter');
-      if(next)objects[i]=next;
-    } else if(parent.type==='foamstand'&&o.support.surface==='soil') {
-      const next=placeOnSurface(objects,o.id,parent.id,'top');if(next)objects[i]=next;
-    } else if(filled.has(parent.type)&&!supportSurfaces(parent).length) {
+function migrateSpaceBindings(scene, objects) {
+  const filled = new Set([
+    "fish",
+    "pond",
+    "moss",
+    "mossbox",
+    "seedtray",
+    "foambox",
+    "medakabowl",
+    "goldfishbowl",
+    "fishbox",
+  ]);
+  for (let i = 0; i < objects.length; i++) {
+    const o = objects[i];
+    if (!o.support) continue;
+    const parent = objects.find((p) => p.id === o.support.id);
+    if (!parent) continue;
+    if (
+      ["sink", "basin"].includes(parent.type) &&
+      ["front", "back"].includes(o.support.surface)
+    ) {
+      const next = placeOnSurface(objects, o.id, parent.id, "counter");
+      if (next) objects[i] = next;
+    } else if (parent.type === "foamstand" && o.support.surface === "soil") {
+      const next = placeOnSurface(objects, o.id, parent.id, "top");
+      if (next) objects[i] = next;
+    } else if (filled.has(parent.type) && !supportSurfaces(parent).length) {
       // Earlier releases offered the already filled surface as an empty cavity.
       // Rehome that individual item; never reset the rest of a user's layout.
-      const grand=parent.support;
-      const next=grand&&placeOnSurface(objects,o.id,grand.id,grand.surface);
-      if(next)objects[i]=next;
+      const grand = parent.support;
+      const next =
+        grand && placeOnSurface(objects, o.id, grand.id, grand.surface);
+      if (next) objects[i] = next;
       else {
-        const own=physicalFootprint(o),body=physicalFootprint(parent),distance=(own.groundW+body.groundW)*8+3;
-        const candidate={...o,x:parent.x+distance,support:null};
-        objects[i]=resizedObject(scene,candidate,o.scale,objects)||{...o,support:null};
+        const own = physicalFootprint(o),
+          body = physicalFootprint(parent),
+          distance = (own.groundW + body.groundW) * 8 + 3;
+        const candidate = { ...o, x: parent.x + distance, support: null };
+        objects[i] = resizedObject(scene, candidate, o.scale, objects) || {
+          ...o,
+          support: null,
+        };
       }
     }
   }
@@ -347,13 +462,27 @@ function migrateSpaceBindings(scene,objects) {
 export function validateLayout(data) {
   if (!data || ![1, VERSION].includes(data.version) || !data.scenes)
     throw Error("布局版本不正确");
-  const clean = { version: VERSION, roomVersion: 2, spaceVersion:1, scenes: {} };
+  const clean = {
+    version: VERSION,
+    roomVersion: 2,
+    spaceVersion: 1,
+    scenes: {},
+  };
   for (const scene of Object.keys(SCENES)) {
-    const list =
+    const savedList =
       data.scenes[scene] ??
-      (scene === "room" ? structuredClone(INITIAL_LAYOUT.scenes.room) : undefined);
-    if (!Array.isArray(list) || list.length > 400)
+      (scene === "room"
+        ? structuredClone(INITIAL_LAYOUT.scenes.room)
+        : undefined);
+    if (!Array.isArray(savedList) || savedList.length > 400)
       throw Error("每个场景最多 400 件物件");
+    // Retire the removed cloche without resetting the rest of an older save.
+    const removed = new Set(
+      savedList.filter((o) => o?.type === "browncover").map((o) => o.id),
+    );
+    const list = savedList
+      .filter((o) => o?.type !== "browncover")
+      .map((o) => (removed.has(o?.support?.id) ? { ...o, support: null } : o));
     const ids = new Set();
     clean.scenes[scene] = list.map((raw) => {
       let o = raw;
@@ -423,16 +552,20 @@ export function validateLayout(data) {
       }
       if (o.support === null) next.support = null;
       else if (o.support !== undefined) {
-        if (!o.support || typeof o.support.id !== "string" || typeof o.support.surface !== "string")
+        if (
+          !o.support ||
+          typeof o.support.id !== "string" ||
+          typeof o.support.surface !== "string"
+        )
           throw Error("承放位置数据不正确");
-        next.support = {id:o.support.id,surface:o.support.surface};
+        next.support = { id: o.support.id, surface: o.support.surface };
       }
       return next;
     });
     const objects = clean.scenes[scene];
-    if(data.spaceVersion!==1)migrateStairFurniture(scene,objects);
-    migrateSpaceBindings(scene,objects);
-    migrateLegacyContacts(scene,objects);
+    if (data.spaceVersion !== 1) migrateStairFurniture(scene, objects);
+    migrateSpaceBindings(scene, objects);
+    migrateLegacyContacts(scene, objects);
     for (let i = 0; i < objects.length; i++) {
       const o = objects[i];
       if (fits(scene, o, objects)) continue;
@@ -1079,39 +1212,61 @@ export function paintObject(c, o, time = 0, selected = false, weather = null) {
   }
 }
 export const paintPerson = paintDongdong;
-export function actorFits(scene, objects, x, y) {
-  if (!inside(scene, x, y, 7)) return false;
-  return !objects.some((o) => {
-    if (scene === "room") {
-      const b = displayBounds(o);
-      return (
-        x > o.x + b.left - 8 &&
-        x < o.x + b.right + 8 &&
-        y > o.y + b.top - 2 &&
-        y < o.y + b.bottom + 36
-      );
-    }
-    const d = dimensions(o);
-    return Math.abs(o.x - x) < d.w / 2 + 4 && Math.abs(o.y - y) < d.h / 2 + 2;
-  });
+const actorSpaces = new WeakMap();
+export function actorFits(scene, objects, x, y, body) {
+  if (!inside(scene, x, y, (body?.radius || 0.48) * 16 + 1)) return false;
+  if (!actorSpaces.has(objects))
+    actorSpaces.set(objects, createActorSpace(objects));
+  return actorSpaces.get(objects).fits(x, y, body);
 }
-export function freeActorPoint(scene, objects, x, y) {
+export function freeActorPoint(
+  scene,
+  objects,
+  x,
+  y,
+  body = { radius: 0.48, height: 2.42 },
+  others = [],
+) {
   const candidates = [];
   for (let yy = 84; yy < 472; yy += 8)
     for (let xx = 140; xx < 516; xx += 8)
-      if (actorFits(scene, objects, xx, yy)) candidates.push([xx, yy]);
+      if (
+        actorFits(scene, objects, xx, yy, body) &&
+        others.every(
+          (p) =>
+            Math.hypot(xx - p.x, yy - p.y) >= (body.radius + p.radius) * 16,
+        )
+      )
+        candidates.push([xx, yy]);
   candidates.sort(
     (a, b) => Math.hypot(a[0] - x, a[1] - y) - Math.hypot(b[0] - x, b[1] - y),
   );
   return candidates[0] || null;
 }
-export function makeWalker(scene, objects, { visits = 0 } = {}) {
+export function makeWalker(
+  scene,
+  objects,
+  {
+    visits = 0,
+    actor = "person",
+    environment = () => ({}),
+    body = { radius: 0.48, height: 2.42 },
+    company = () => [],
+  } = {},
+) {
   const cell = 8,
     cols = 80,
     rows = 65;
   let route = [],
     pause = 0,
-    target = null;
+    target = null,
+    activity = weatherActivity(environment(), scene);
+  let snapshot = objects(),
+    space = createActorSpace(snapshot),
+    cellCache = new Map(),
+    waiting = 0,
+    previousPoint = null,
+    weatherTime = 0;
   const p = {
     x: SCENES[scene].spawn[0],
     y: SCENES[scene].spawn[1],
@@ -1120,15 +1275,30 @@ export function makeWalker(scene, objects, { visits = 0 } = {}) {
     visits,
     facing: "south",
     targetId: null,
+    sheltered: false,
+    radius: body.radius,
   };
   const toCell = (x, y) => Math.floor(y / cell) * cols + Math.floor(x / cell),
     point = (i) => [(i % cols) * cell + 4, Math.floor(i / cols) * cell + 4];
   const walkable = (i) => {
     if (i < 0 || i >= cols * rows) return false;
     const [x, y] = point(i);
-    return actorFits(scene, objects(), x, y);
+    if (!cellCache.has(i))
+      cellCache.set(
+        i,
+        inside(scene, x, y, body.radius * 16 + 1) && space.fits(x, y, body),
+      );
+    return cellCache.get(i);
   };
   function choose() {
+    if (snapshot !== objects()) {
+      snapshot = objects();
+      space = createActorSpace(snapshot);
+      cellCache = new Map();
+    }
+    actorSpaces.set(snapshot, space);
+    p.sheltered = false;
+    p.insideShelter = false;
     if (!walkable(toCell(p.x, p.y))) {
       const free = freeActorPoint(scene, objects(), p.x, p.y);
       if (!free) {
@@ -1181,6 +1351,14 @@ export function makeWalker(scene, objects, { visits = 0 } = {}) {
     target = candidates.length
       ? candidates[p.visits % candidates.length]
       : null;
+    if (activity === "shelter") {
+      const door = DOORS[scene],
+        spawn = SCENES[scene].spawn;
+      target = {
+        x: (door?.x ?? spawn[0]) + 12,
+        y: (door?.y ?? spawn[1]) + (actor === "pig" ? 20 : -8),
+      };
+    }
     p.targetId = target?.id || null;
     let end;
     if (target) {
@@ -1201,7 +1379,7 @@ export function makeWalker(scene, objects, { visits = 0 } = {}) {
     )
       route.unshift(point(i));
     p.state = "walk";
-    p.task = "散步";
+    p.task = activity === "shelter" ? "去门边避雨" : "散步";
     if (route.length === 0 && !target) {
       pause = 2;
       p.state = "rest";
@@ -1212,12 +1390,45 @@ export function makeWalker(scene, objects, { visits = 0 } = {}) {
   return {
     person: p,
     update(dt) {
+      weatherTime += dt;
+      const next = weatherActivity(environment(), scene);
+      if (next !== activity) {
+        activity = next;
+        pause = 0;
+        choose();
+      }
+      if (p.sheltered) {
+        const weather = environment();
+        p.insideShelter = ["heavy", "thunderstorm", "typhoon"].includes(
+          weather.condition,
+        );
+        Object.assign(
+          p,
+          weatherAction(
+            weather,
+            actor === "pig" ? "pig" : "person",
+            Math.floor(weatherTime / 8),
+            { sheltered: true },
+          ),
+        );
+        return;
+      }
       if (pause > 0) {
         pause -= dt;
         if (pause <= 0) choose();
         return;
       }
       if (!route.length) {
+        if (activity === "shelter") {
+          p.state = "shelter";
+          p.task = "在门内等雨停";
+          p.targetId = null;
+          p.sheltered = true;
+          p.insideShelter = ["heavy", "thunderstorm", "typhoon"].includes(
+            environment().condition,
+          );
+          return;
+        }
         p.visits++;
         const a = target && asset(target.type),
           near =
@@ -1276,6 +1487,31 @@ export function makeWalker(scene, objects, { visits = 0 } = {}) {
           sweep: "扫落叶",
           rest: "歇一会儿",
         }[p.state];
+        const weather = environment();
+        if (actor === "pig") {
+          p.state =
+            target?.type === "pigbowl"
+              ? "eat"
+              : p.visits % 3 === 0
+                ? "sniff"
+                : "ear-flick";
+          p.task =
+            p.state === "eat"
+              ? "吃一点饭"
+              : p.state === "sniff"
+                ? "闻闻盆边"
+                : "甩甩耳朵";
+        }
+        if (weather.condition && (actor === "pig" || p.visits % 3 === 0))
+          Object.assign(
+            p,
+            weatherAction(
+              weather,
+              actor === "pig" ? "pig" : "person",
+              p.visits,
+              { indoor: scene === "room" },
+            ),
+          );
         pause = 4 + Math.random() * 4;
         return;
       }
@@ -1289,8 +1525,54 @@ export function makeWalker(scene, objects, { visits = 0 } = {}) {
             ? "south"
             : "north";
       const distance = Math.hypot(x - p.x, y - p.y),
-        move = dt * 15;
+        urgency =
+          activity === "shelter"
+            ? ["heavy", "thunderstorm", "typhoon"].includes(
+                environment().condition,
+              )
+              ? 1.8
+              : 1.25
+            : 1,
+        move = dt * 15 * urgency;
+      const ratio = distance ? Math.min(1, move / distance) : 1,
+        nx = p.x + (x - p.x) * ratio,
+        ny = p.y + (y - p.y) * ratio;
+      if (!space.fits(nx, ny, body)) {
+        pause = 0;
+        choose();
+        return;
+      }
+      if (
+        company().some(
+          (other) =>
+            other &&
+            !other.insideShelter &&
+            Math.hypot(nx - other.x, ny - other.y) <
+              (body.radius + (other.radius || 0.48)) * 16,
+        )
+      ) {
+        p.state = "rest";
+        p.task = "让一让";
+        waiting += dt;
+        if (
+          actor === "pig" &&
+          previousPoint &&
+          Math.hypot(p.x - previousPoint[0], p.y - previousPoint[1]) > 2
+        ) {
+          route.unshift(previousPoint);
+          previousPoint = null;
+        } else if (waiting > 2.5) {
+          p.visits++;
+          choose();
+          waiting = 0;
+        }
+        return;
+      }
+      waiting = 0;
+      p.state = "walk";
+      p.task = activity === "shelter" ? "去门边避雨" : "散步";
       if (distance <= move) {
+        previousPoint = [p.x, p.y];
         p.x = x;
         p.y = y;
         route.shift();
@@ -1300,9 +1582,18 @@ export function makeWalker(scene, objects, { visits = 0 } = {}) {
       }
     },
     randomize() {
-      const cells = Array.from({ length: cols * rows }, (_, i) => i).filter(
-        walkable,
-      );
+      const cells = Array.from({ length: cols * rows }, (_, i) => i)
+        .filter(walkable)
+        .filter((i) => {
+          const [x, y] = point(i);
+          return !company().some(
+            (other) =>
+              other &&
+              !other.insideShelter &&
+              Math.hypot(x - other.x, y - other.y) <
+                (body.radius + (other.radius || 0.48)) * 16,
+          );
+        });
       if (!cells.length) return;
       const pt = point(cells[Math.floor(Math.random() * cells.length)]);
       p.x = pt[0];
@@ -1321,7 +1612,13 @@ export function makeWalker(scene, objects, { visits = 0 } = {}) {
       pause = 0;
       choose();
     },
-    reset: choose,
+    reset() {
+      snapshot = objects();
+      space = createActorSpace(snapshot);
+      cellCache = new Map();
+      pause = 0;
+      choose();
+    },
   };
 }
 

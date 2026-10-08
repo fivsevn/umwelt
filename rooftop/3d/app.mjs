@@ -1,3 +1,4 @@
+import { atmosphereCaption } from "../atmosphere.mjs";
 import { SCENES, DOORS, initialLayout, makeWalker } from "../scene.mjs";
 import { WEATHER, timeOfDay, makeWeather } from "../weather.mjs";
 import { makeResident } from "../resident.mjs";
@@ -15,9 +16,6 @@ let scene =
 let walker,
   pigWalker,
   doorOpen = false;
-const resident = makeResident(Math.random, {
-  phase: () => timeOfDay(new Date().getHours() + new Date().getMinutes() / 60),
-});
 const weather = makeWeather({
   condition: WEATHER[Math.floor(Math.random() * WEATHER.length)].id,
   phase: "auto",
@@ -27,6 +25,10 @@ let atmosphere = weather.state,
   time = 0,
   last = performance.now(),
   drawAt = 0;
+const resident = makeResident(Math.random, {
+  phase: () => atmosphere.phase,
+  environment: () => atmosphere,
+});
 let reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 matchMedia("(prefers-reduced-motion: reduce)").addEventListener(
   "change",
@@ -49,19 +51,35 @@ try {
   console.error(error);
 }
 function syncPresence() {
-  $("roomCard").href = "../room/?scene=" + scene;
+  $("roomCard").href =
+    "../room/?scene=" + scene + "&weather=" + atmosphere.condition;
   $("garageCard").href = "../arrange/?scene=" + scene;
   if (!resident.present) $("dongdongStatus").textContent = resident.status;
   canvas.setAttribute(
     "aria-label",
     SCENES[scene].name +
       "，" +
-      (resident.present ? "东东正在照料植物" : resident.status),
+      (resident.present
+        ? ["rain", "heavy", "thunderstorm", "typhoon"].includes(
+            atmosphere.condition,
+          )
+          ? "东东和小猪正在避雨"
+          : "东东正在照料植物"
+        : resident.status),
   );
 }
 function rebuild() {
-  walker = makeWalker(scene, () => layout.scenes[scene]);
-  pigWalker = makeWalker(scene, () => layout.scenes[scene], { visits: 7 });
+  walker = makeWalker(scene, () => layout.scenes[scene], {
+    environment: () => atmosphere,
+    company: () => [pigWalker?.person],
+  });
+  pigWalker = makeWalker(scene, () => layout.scenes[scene], {
+    visits: 7,
+    actor: "pig",
+    environment: () => atmosphere,
+    body: { radius: 0.76, height: 1.0 },
+    company: () => (resident.present ? [walker?.person] : []),
+  });
   walker.randomize();
   pigWalker.randomize();
   doorOpen = false;
@@ -87,24 +105,7 @@ for (const event of ["pointerenter", "focus"])
 for (const event of ["pointerleave", "blur"])
   $("sceneDoor").addEventListener(event, () => (doorOpen = false));
 function weatherCaption() {
-  const text =
-    atmosphere.phase === "late"
-      ? "窗灯渐少，楼群安静下来。"
-      : atmosphere.phase === "evening"
-        ? "还有几扇窗亮着。"
-        : atmosphere.phase === "dawn"
-          ? "天亮了，几扇窗还没有熄灯。"
-          : atmosphere.phase === "dusk"
-            ? "窗灯先于天空亮起来。"
-            : {
-                clear: "墙角的影子慢慢挪。",
-                cloudy: "云影从楼群之间经过。",
-                overcast: "光散在叶片上。",
-                rain: "雨点落在盆沿和地面。",
-                heavy: "水沿修补过的地面流向下水口。",
-                wind: "风从楼群之间吹过。",
-                mist: "远处的楼房隐在薄雾里。",
-              }[atmosphere.condition];
+  const text = atmosphereCaption(atmosphere);
   if ($("weatherStatus").textContent !== text)
     $("weatherStatus").textContent = text;
 }
@@ -122,8 +123,10 @@ function frame(now) {
       options[Math.floor(Math.random() * options.length)].id,
     );
   }
+  const previousCondition = atmosphere.condition;
   atmosphere = weather.update(dt);
-  if (resident.update(dt)) {
+  if (previousCondition !== atmosphere.condition) syncPresence();
+  if (resident.update(dt, atmosphere)) {
     syncPresence();
     if (resident.present) walker.arrive();
   }
@@ -131,7 +134,7 @@ function frame(now) {
   pigWalker.update(dt * 0.8);
   weatherCaption();
   cardFeed.update(time);
-  if (now - drawAt >= 33) {
+  if (now - drawAt >= (garden?.interacting ? 16 : 33)) {
     const renderDt = (now - drawAt) / 1000;
     drawAt = now;
     garden?.draw({

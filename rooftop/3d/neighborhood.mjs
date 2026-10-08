@@ -1,16 +1,22 @@
+import { surfaceSeed } from "./surface-variation.mjs";
+import { buildStreetCar, buildStreetLantern } from "./street-models.mjs";
 // Guoliyuan's published street photographs inform the architectural vocabulary.
 // Placement is a composed neighbourhood, not a surveyed reconstruction of block 92.
 export const NEIGHBORHOOD_BUILDINGS = [
-  [-25, -24, 19, 8, 6],
-  [0, -31, 23, 8, 6],
-  [26, -24, 18, 8, 6],
-  [-26, 0, 8, 21, 5],
-  [27, 1, 8, 22, 6],
-  [-24, 28, 19, 8, 6],
-  [-1, 31, 22, 8, 5],
-  [24, 28, 18, 8, 6],
+  [-26, -26, 19, 8, 6],
+  [-1, -35, 25, 8, 6],
+  [27, -29, 20, 9, 5],
+  [-31, -2, 19, 8, 5],
+  [32, 5, 22, 8, 6],
+  [-23, 30, 21, 8, 6],
+  [2, 35, 19, 8, 5],
+  [27, 29, 17, 8, 6],
 ];
 export const NEIGHBORHOOD_SOURCES = [
+  [
+    "Google Maps 郭里园新村卫星图（2026-10-08 查看）",
+    "https://www.google.com/maps/place/Guoliyuanxincun/@32.0279345,120.871857,704m/data=!3m1!1e3!4m6!3m5!1s0x35b17821ee9434db:0x54a513abdbb2347b!8m2!3d32.027935!4d120.871857!16s%2Fg%2F1tl9kkd7",
+  ],
   [
     "郭里园新村街巷实拍（濠滨通城里，2022）",
     "https://www.sohu.com/a/551257906_121123899",
@@ -27,11 +33,11 @@ export const NEIGHBORHOOD_SOURCES = [
 
 export function buildNeighborhood(api, city, groundY, window) {
   const { T, box, beam, cyl, ellipsoid, group, mat, P } = api;
-  const colors = ["#bcbba9", "#b5bcaf", "#c8b8a4", "#b7b5aa"];
+  const colors = ["#c7b7b3", "#d0c8b9", "#bcb8b3", "#c8c8c0"];
   const ac = (parent, x, y, z, angle = 0) => {
     const g = group(parent, x, y, z);
     g.rotation.y = angle;
-    box(g, 0, 0, 0, 0.78, 0.56, 0.38, "#cbcbbb", "metal");
+    box(g, 0, 0, 0, 0.78, 0.56, 0.38, "#ded9d6", "enamel");
     box(g, 0, 0, 0.205, 0.74, 0.52, 0.015, "#ffffff", "panel-ac");
     for (const x of [-0.25, 0.25]) {
       box(g, x, -0.34, 0.04, 0.06, 0.18, 0.34, "#4e5c64", "metal");
@@ -46,7 +52,17 @@ export function buildNeighborhood(api, city, groundY, window) {
     shape.lineTo(d / 2, 0);
     shape.lineTo(0, pitch);
     shape.closePath();
-    const m = new T.Mesh(new T.ShapeGeometry(shape), mat(color, "wall"));
+    const geo = new T.ShapeGeometry(shape);
+    geo.setAttribute(
+      "paintSeed",
+      new T.Float32BufferAttribute(
+        new Array(geo.attributes.position.count).fill(
+          surfaceSeed(Math.round((x + 30) * 173 + y * 137 + angle * 97)),
+        ),
+        1,
+      ),
+    );
+    const m = new T.Mesh(geo, mat(color, "wall"));
     m.position.set(x, y, 0);
     m.rotation.y = angle;
     parent.add(m);
@@ -55,8 +71,20 @@ export function buildNeighborhood(api, city, groundY, window) {
     const g = group(city, x, groundY, z),
       h = floors * 3,
       color = colors[index % 4];
+    g.userData.paintSeed = surfaceSeed(9173 + index * 719);
+    g.userData.weathered = true;
     // Beige plaster, a darker plinth and real pitched roofs distinguish old walk-ups.
-    box(g, 0, h / 2, 0, w, h, d, color, "wall");
+    box(
+      g,
+      0,
+      h / 2,
+      0,
+      w,
+      h,
+      d,
+      color,
+      index === 3 || index === 7 ? "facade-tile" : "wall",
+    );
     box(g, 0, 0.47, 0, w + 0.06, 0.94, d + 0.06, "#888779", "brick");
     const pitch = 1.6,
       half = Math.hypot(d / 2 + 0.22, pitch),
@@ -70,11 +98,21 @@ export function buildNeighborhood(api, city, groundY, window) {
         w + 0.56,
         0.16,
         half,
-        "#587574",
+        index % 3 === 0 ? "#a06548" : "#756963",
         "roof",
         s * a,
       );
-    box(g, 0, h + pitch + 0.06, 0, w + 0.64, 0.16, 0.27, "#839a8d", "roof");
+    box(
+      g,
+      0,
+      h + pitch + 0.06,
+      0,
+      w + 0.64,
+      0.16,
+      0.27,
+      index % 3 === 0 ? "#ba8162" : "#918479",
+      "roof",
+    );
     gable(g, -w / 2 - 0.015, h, d, pitch, -Math.PI / 2, color);
     gable(g, w / 2 + 0.015, h, d, pitch, Math.PI / 2, color);
     for (const side of [-1, 1])
@@ -91,30 +129,65 @@ export function buildNeighborhood(api, city, groundY, window) {
       );
     for (const side of [-1, 1]) {
       // Folded metal eaves, stepped ridge ends and visible chimney flashing.
-      box(g, 0, h-.20, side*(d/2+.22), w+.66, .12, .16, "#506a69", "metal");
-      for (const x of [-w*.47, w*.47]) {
-        box(g, x, h+pitch+.08, 0, .23, .20, .32, "#8c9b8b", "roof");
-        box(g, x, h*.06, side*d*.503, .13, h*.12, .06, "#a1a693", "wall");
+      box(
+        g,
+        0,
+        h - 0.2,
+        side * (d / 2 + 0.22),
+        w + 0.66,
+        0.12,
+        0.16,
+        "#525956",
+        "metal",
+      );
+      for (const x of [-w * 0.47, w * 0.47]) {
+        box(g, x, h + pitch + 0.08, 0, 0.23, 0.2, 0.32, "#8c9b8b", "roof");
+        box(
+          g,
+          x,
+          h * 0.06,
+          side * d * 0.503,
+          0.13,
+          h * 0.12,
+          0.06,
+          "#a1a693",
+          "wall",
+        );
       }
     }
-    const chimney = group(g, -w*.27, h+pitch*.72, -.74);
-    box(chimney, 0, .44, 0, .55, 1.0, .62, "#9e8c75", "brick");
-    box(chimney, 0, .98, 0, .71, .12, .78, "#c1baa3", "wall");
-    box(chimney, 0, 1.045, 0, .37, .015, .43, "#4a5755");
+    const chimney = group(g, -w * 0.27, h + pitch * 0.72, -0.74);
+    box(chimney, 0, 0.44, 0, 0.55, 1.0, 0.62, "#9e8c75", "brick");
+    box(chimney, 0, 0.98, 0, 0.71, 0.12, 0.78, "#c1baa3", "wall");
+    box(chimney, 0, 1.045, 0, 0.37, 0.015, 0.43, "#4a5755");
     // Facades alternate normal windows and projecting enclosed balconies.
     const bays = Math.max(2, Math.floor(w / 3.7));
     for (let floor = 0; floor < floors; floor++) {
       const yy = 1.62 + floor * 3;
       for (let b = 0; b < bays; b++) {
-        const xx = ((b - (bays - 1) / 2) * (w - 2)) / bays,
-          variant = (index * 3 + b + floor) % 7;
+        const xx = ((b - (bays - 1) / 2) * (w - 2)) / bays;
         for (const side of [-1, 1]) {
+          const householdSeed =
+            9211 + index * 1009 + floor * 719 + b * 137 + side * 319;
+          const household = surfaceSeed(householdSeed),
+            variant = Math.floor(household * 7);
           const front = group(g, xx, yy, (side * d) / 2);
+          front.userData.paintSeed = household;
           if (side < 0) front.rotation.y = Math.PI;
-          if (b % 3 === 1 && floor > 0) {
+          if (surfaceSeed(householdSeed + 17) < 0.43 && floor > 0) {
             box(front, 0, -0.76, 0.34, 2.35, 0.24, 0.94, "#c9c8b4", "wall");
             box(front, 0, 1, 0.34, 2.42, 0.14, 1.0, "#d9d6c1", "wall");
             window(front, 0, 0.12, 0.73, 0, 2.14, 1.5, variant);
+            box(
+              front,
+              0,
+              -0.54,
+              0.8,
+              2.23,
+              0.36,
+              0.07,
+              index % 3 === 0 ? "#c6948a" : "#b7b7aa",
+              "wall",
+            );
             for (const s of [-1, 1]) {
               box(
                 front,
@@ -141,7 +214,7 @@ export function buildNeighborhood(api, city, groundY, window) {
             }
           } else {
             window(front, 0, 0, 0.035, 0, b % 2 ? 1.75 : 1.55, 1.6, variant);
-            if ((b + floor + index) % 4 === 0) {
+            if (surfaceSeed(householdSeed + 53) < 0.23) {
               for (let k = -2; k <= 2; k++)
                 box(
                   front,
@@ -158,8 +231,30 @@ export function buildNeighborhood(api, city, groundY, window) {
                 box(front, 0, v, 0.24, 1.62, 0.035, 0.035, "#97a7a0", "metal");
             }
           }
-          if ((b + floor + index) % 3 === 0) ac(front, 1.14, -0.44, 0.19);
-          if ((b * 2 + floor + index) % 9 === 0 && floor > 1) {
+          if (surfaceSeed(householdSeed + 97) < 0.32)
+            ac(
+              front,
+              surfaceSeed(householdSeed + 71) > 0.5 ? 1.14 : -1.14,
+              -0.44,
+              0.19,
+            );
+          if (surfaceSeed(householdSeed + 277) < 0.18 && floor > 2) {
+            box(
+              front,
+              0,
+              1.0,
+              0.38,
+              2.12,
+              0.06,
+              0.84,
+              "#778b83",
+              "metal",
+              -0.16,
+            );
+            for (const x of [-0.93, 0.93])
+              beam(front, [x, 0.86, 0.03], [x, 0.94, 0.74], 0.022, "#8a9790");
+          }
+          if (surfaceSeed(householdSeed + 191) < 0.14 && floor > 1) {
             beam(
               front,
               [-0.6, -0.58, 0.5],
@@ -176,7 +271,9 @@ export function buildNeighborhood(api, city, groundY, window) {
                 0.29,
                 0.37,
                 0.025,
-                ["#b7bcaa", "#617e8b", "#aa7668"][k],
+                ["#b7bcaa", "#617e8b", "#aa7668"][
+                  Math.floor(surfaceSeed(householdSeed + k * 137) * 3)
+                ],
                 "cloth",
               );
           }
@@ -206,7 +303,9 @@ export function buildNeighborhood(api, city, groundY, window) {
           (side * Math.PI) / 2,
           0.95,
           1.45,
-          (floor + index) % 7,
+          Math.floor(
+            surfaceSeed(337 + floor * 719 + index * 137 + side * 391) * 7,
+          ),
         );
         if (d > 14)
           window(
@@ -217,7 +316,9 @@ export function buildNeighborhood(api, city, groundY, window) {
             (side * Math.PI) / 2,
             1.45,
             1.6,
-            (floor + index + 2) % 7,
+            Math.floor(
+              surfaceSeed(911 + floor * 719 + index * 137 + side * 391) * 7,
+            ),
           );
       }
     for (const xx of [-w / 2 + 0.12, w / 2 - 0.12]) {
@@ -263,8 +364,11 @@ export function buildNeighborhood(api, city, groundY, window) {
   ground.rotation.x = -Math.PI / 2;
   ground.position.y = groundY - 0.06;
   ground.receiveShadow = true;
-  city.parent.add(ground);
+  ground.name = "neighborhood-ground";
+  city.add(ground);
   const street = group(city, 0, groundY + 0.015, 0);
+  street.userData.paintSeed = surfaceSeed(43179);
+  street.userData.weathered = true;
   for (const x of [-15.4, 16.3]) {
     box(street, x, 0, 0, 3.6, 0.06, 110, "#777d7d", "asphalt");
     for (const side of [-1, 1]) {
@@ -278,26 +382,97 @@ export function buildNeighborhood(api, city, groundY, window) {
       box(street, 0, 0.08, z + s * 2.25, 98, 0.16, 0.25, "#c0c1b0", "wall");
   }
   // Mature planting is clustered between buildings, leaving the lanes readable.
-  for (let i = 0; i < 18; i++) {
-    const x = i % 2 ? -19.4 : 20.1,
-      z = -34 + Math.floor(i / 2) * 8;
+  const treeSites = [
+    [-19, -32],
+    [-19.6, -23],
+    [-20, -7],
+    [-21, 3],
+    [-20, 11],
+    [-18.9, 28],
+    [-20.5, 38],
+    [20.6, -28],
+    [21.7, -19],
+    [20.1, -6],
+    [22, 7],
+    [21.1, 16],
+    [20, 30],
+    [21.5, 39],
+    [-9, 23],
+    [8, -22],
+    [-5, -24],
+    [12, 27],
+  ];
+  for (let i = 0; i < treeSites.length; i++) {
+    const x = treeSites[i][0] + (surfaceSeed(719 * i + 37) - 0.5) * 0.5,
+      z = treeSites[i][1] + (surfaceSeed(719 * i + 91) - 0.5) * 1.2,
+      phase = surfaceSeed(i * 137 + 81) * 6.283,
+      spread = 0.88 + surfaceSeed(i * 719 + 15) * 0.24;
     box(street, x, 0.15, z, 2.4, 0.31, 2.6, "#aba996", "wall");
     box(street, x, 0.315, z, 2.18, 0.035, 2.38, "#5c6350", "soil");
     beam(street, [x, 0, z], [x - 0.09, 3.4, z + 0.07], 0.15, "#69573f");
     // Intersecting thin clusters leave small holes between branches, like the
     // reference foliage. Reusing boxes avoids transparent sorting and extra shaders.
-    for(let j=0;j<28;j++) {
-      const a=j*2.399,rr=Math.sqrt((j+.5)/28)*1.35;
-      if(j<5)beam(street,[x,2.9,z],[x+Math.cos(a)*rr,3.55,z+Math.sin(a)*rr],.065,'#63533e');
-      box(street,x+Math.cos(a)*rr,3.35+.65*(1-rr/1.5)+Math.sin(j*1.7)*.19,z+Math.sin(a)*rr,
-        .69+j%3*.11,.055,.65+j%4*.085,['#496530','#708749','#8da050','#597735'][j%4],
-        'canopy',Math.sin(a)*.35,a,Math.cos(a)*.30);
+    for (let j = 0; j < 28; j++) {
+      const a = j * 2.399 + phase,
+        rr = Math.sqrt((j + 0.5) / 28) * 1.35 * spread;
+      if (j < 5)
+        beam(
+          street,
+          [x, 2.9, z],
+          [x + Math.cos(a) * rr, 3.55, z + Math.sin(a) * rr],
+          0.065,
+          "#63533e",
+        );
+      box(
+        street,
+        x + Math.cos(a) * rr,
+        3.35 + 0.65 * (1 - rr / 1.5) + Math.sin(j * 1.7 + phase) * 0.19,
+        z + Math.sin(a) * rr,
+        0.69 + (j % 3) * 0.11,
+        0.055,
+        0.65 + (j % 4) * 0.085,
+        ["#3f6e35", "#659541", "#8db64f", "#538737"][
+          Math.floor(surfaceSeed(i * 719 + j * 137 + 3) * 4)
+        ],
+        "canopy",
+        Math.sin(a) * 0.35,
+        a,
+        Math.cos(a) * 0.3,
+      );
     }
-    for(let j=0;j<12;j++) {
-      const a=j*2.399,rr=.4+j%3*.12;
-      box(street,x+Math.cos(a)*rr,.60+Math.sin(j)*.12,z+.8+Math.sin(a)*rr,
-        .52,.055,.43,['#59743b','#839449','#476433'][j%3],'canopy',Math.sin(a)*.24,a,Math.cos(a)*.28);
+    for (let j = 0; j < 12; j++) {
+      const a = j * 2.399 + phase * 0.79,
+        rr = (0.4 + (j % 3) * 0.12) * spread;
+      box(
+        street,
+        x + Math.cos(a) * rr,
+        0.6 + Math.sin(j) * 0.12,
+        z + 0.8 + Math.sin(a) * rr,
+        0.52,
+        0.055,
+        0.43,
+        ["#5f9637", "#88b845", "#477a32"][j % 3],
+        "canopy",
+        Math.sin(a) * 0.24,
+        a,
+        Math.cos(a) * 0.28,
+      );
     }
+    if (i === 3 || i === 9)
+      for (let j = 0; j < 9; j++) {
+        const a = j * 2.399 + phase;
+        ellipsoid(
+          street,
+          x + Math.cos(a) * 0.65,
+          3.35 + Math.sin(j * 1.3) * 0.2,
+          z + Math.sin(a) * 0.73,
+          0.065,
+          0.08,
+          0.065,
+          "#c89443",
+          "petal",
+        );
+      }
   }
   function car(x, z, angle, index) {
     const g = group(street, x, 0.14, z);
@@ -305,24 +480,7 @@ export function buildNeighborhood(api, city, groundY, window) {
     const color = ["#d4d4c5", "#628290", "#a06b5b", "#bcb49c", "#4b626c"][
       index % 5
     ];
-    box(g, 0, 0.42, 0, 1.72, 0.53, 3.44, color, "metal");
-    box(g, 0, 0.79, -0.1, 1.48, 0.45, 1.9, color, "metal");
-    box(g, 0, 0.84, 0.86, 1.34, 0.41, 0.025, "#ffffff", "panel-glass", -0.32);
-    box(g, 0, 0.87, -1.03, 1.32, 0.4, 0.025, "#ffffff", "panel-glass", 0.35);
-    for (const s of [-1, 1]) {
-      box(g, s * 0.746, 0.87, -0.13, 0.025, 0.35, 1.54, "#789394", "glass");
-      box(g, s * 0.77, 0.86, -0.12, 0.028, 0.42, 0.07, "#456371", "metal");
-      for (const zz of [-0.95, 0.96]) {
-        const wheel = group(g, s * 0.84, 0.21, zz);
-        wheel.rotation.z = Math.PI / 2;
-        cyl(wheel, 0, 0, 0, 0.28, 0.28, 0.16, "#30393d", 10, "metal");
-        cyl(wheel, 0, 0.091, 0, 0.13, 0.13, 0.025, "#8d989a", 8, "metal");
-      }
-      box(g, s * 0.64, 0.49, 1.747, 0.26, 0.11, 0.025, "#d9d4b3", "light");
-      box(g, s * 0.67, 0.5, -1.747, 0.21, 0.09, 0.025, "#8d4e3e", "paint");
-    }
-    box(g, 0, 0.3, 1.755, 1.38, 0.1, 0.06, "#606d72", "metal");
-    box(g, 0, 0.41, 1.79, 0.41, 0.1, 0.025, "#64818c", "metal");
+    buildStreetCar(api, g, color);
   }
   for (let i = 0; i < 7; i++) {
     const x = i % 2 ? -16.6 : 17.4,
@@ -381,11 +539,7 @@ export function buildNeighborhood(api, city, groundY, window) {
   for (const x of [-18.6, 19.1])
     for (const z of [-11, 10]) {
       const lamp = group(street, x, 0, z);
-      cyl(lamp, 0, 1.9, 0, 0.045, 0.075, 3.8, "#6d8187", 8, "metal");
-      beam(lamp, [0, 3.8, 0], [0.8, 3.98, 0], 0.06, "#85999a");
-      box(lamp, 0.8, 3.93, 0, 0.48, 0.13, 0.25, "#5b737c", "metal");
-      box(lamp, 0.8, 3.86, 0, 0.37, 0.025, 0.17, "#d7c797", "light");
-      box(lamp, 0, 0.32, 0, 0.26, 0.64, 0.25, "#727e7d", "metal");
+      buildStreetLantern(api, lamp);
     }
   for (let i = 0; i < 4; i++) {
     const g = group(street, 9.5 + i * 0.65, 0, 19.5);
@@ -405,9 +559,9 @@ export function buildNeighborhood(api, city, groundY, window) {
   }
   const bench = group(street, 11.2, 0.02, -17.7);
   for (let j = 0; j < 4; j++)
-    box(bench, 0, 0.72, -0.35 + j * 0.22, 2.8, 0.095, 0.18, P.wood, "wood");
+    box(bench, 0, 0.72, -0.35 + j * 0.22, 2.8, 0.095, 0.18, "#267f82", "wood");
   for (let j = 0; j < 3; j++)
-    box(bench, 0, 1.08 + j * 0.15, -0.47, 2.8, 0.12, 0.08, P.wood, "wood");
+    box(bench, 0, 1.08 + j * 0.15, -0.47, 2.8, 0.12, 0.08, "#267f82", "wood");
   for (const x of [-1.08, 1.08]) {
     box(bench, x, 0.35, 0, 0.12, 0.7, 0.82, P.metalDark, "metal");
     box(bench, x, 1, -0.48, 0.08, 1.35, 0.08, P.metalDark, "metal");
