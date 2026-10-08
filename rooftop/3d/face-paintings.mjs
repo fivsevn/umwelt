@@ -46,34 +46,26 @@ export const pointInk = (value, x, y, phase = 0, max = 4) => {
 // points describes grain; no continuous decorative rectangle is pasted on wood.
 function woodAt(x, y, w, h, f, vertical = false) {
   if (vertical) [x, y, w, h] = [y, x, h, w];
-  const knots = [
-    [0.24, 0.54],
-    [0.73, 0.38],
-    [0.48, 0.68],
-    [0.36, 0.31],
-    [0.81, 0.63],
-    [0.58, 0.27],
-  ];
-  const [ax, ay] = knots[f % 6],
-    variant = Math.floor(f / 6),
-    kx = clamp(ax + (variant - 1.5) * 0.06, 0.15, 0.86),
-    ky = clamp(ay + ((variant % 2) - 0.5) * 0.13, 0.18, 0.81),
-    dx = x - w * kx,
-    dy = y - h * ky;
-  const warp = gaussian(dx, dy, w * 0.23, h * 0.36);
-  const grain = Math.sin(
-    y * 0.83 +
-      Math.sin(y * 0.34 + f) * 1.2 +
-      Math.sin(x * 0.15 + f) * 0.9 +
-      warp * (dx < 0 ? -1 : 1) * 2.2 +
-      f * 0.7,
-  );
-  let tone = 3.05 + 0.15 * Math.sin(x * 0.11 + y * 0.29 + f);
-  if (grain > 0.28) tone -= (0.43 * (grain - 0.28)) / 0.72;
-  if (grain < -0.55) tone += (0.28 * (-grain - 0.55)) / 0.45;
-  const radius = Math.hypot(dx / (w * 0.08 + 0.5), dy / (h * 0.13 + 0.5));
-  if (radius < 1.9) tone -= 0.3 + 0.37 * Math.max(0, Math.cos(radius * 5));
-  if (radius < 0.48) tone = 0.95 + radius;
+  // A few broken fibres follow the board. Broad pigment fields and a single
+  // knot read at terrace scale; no stochastic shading across the entire face.
+  const seed = f * 97 + 31;
+  let tone = 3;
+  for (let j = 0; j < 3; j++) {
+    const start = Math.floor(w * (.06 + pointThreshold(j, 2, seed) * .53));
+    const length = Math.max(3, Math.floor(w * (.16 + pointThreshold(j, 7, seed) * .26)));
+    const row = Math.floor(h * (.18 + pointThreshold(j, 9, seed) * .65));
+    const bend = Math.floor(Math.sin((x - start) / Math.max(3, length) * 3 + j) * 1.2);
+    if (x >= start && x < start + length && y === row + bend)
+      tone = j === 1 ? 3.5 : 2.5;
+    if (j === 0 && x >= start + 2 && x < start + length - 2 && y === row + bend + 1)
+      tone = 2.5;
+  }
+  const cx = w * (.22 + pointThreshold(5, 3, seed) * .54);
+  const cy = h * (.26 + pointThreshold(8, 1, seed) * .46);
+  const radius = Math.hypot((x - cx) / Math.max(2, w * .065), (y - cy) / Math.max(1.2, h * .13));
+  if (pointThreshold(4, 6, seed) > .48 && radius < 1.65) {
+    tone = radius < .45 ? 1.5 : radius < .82 ? 2 : radius < 1.2 ? 3 : 2.5;
+  }
   return tone;
 }
 
@@ -154,7 +146,7 @@ function woodFace(kind, x, y, w, h, f) {
     w * 0.12,
     2.1,
   );
-  const pick = pointThreshold(x, y, seed + 19);
+  const pick = pointThreshold(Math.floor(x / 2), Math.floor(y / 2), seed + 19);
   if (margin < 3 && wornEnd > 0.12 && pick < wornEnd * 0.75)
     tone = margin === 0 ? 1.2 : 3.9;
   if (stain > 0.35 && pick < 0.09) tone -= 0.8;
@@ -162,47 +154,25 @@ function woodFace(kind, x, y, w, h, f) {
 }
 
 function metalFace(kind, x, y, w, h, f) {
-  const u = x / (w - 1),
-    v = y / (h - 1);
+  const seed = f * 113 + kind.length * 71;
   let tone = 3;
+  const sx = Math.floor(w * (.14 + pointThreshold(2, 3, seed) * .47));
+  const sy = Math.floor(h * (.15 + pointThreshold(6, 4, seed) * .54));
+  const span = Math.max(3, Math.floor(w * .22));
+  // Short, stepped highlights like painted steel and enamel in the reference
+  // sheets. Hardware is modelled; the paint never invents extra panel seams.
+  if (x >= sx && x < sx + span && y >= sy && y < sy + 2) tone = 3.5;
+  if (x >= sx + 2 && x < sx + span - 2 && y === sy - 1) tone = 3.5;
   if (kind === "metal") {
-    // A slanted reflection breaks into points at either boundary. Its shape
-    // follows the metal surface; it is not a painted panel or floating smudge.
-    const centre = [0.22, 0.67, 0.44, 0.31, 0.73, 0.53][f % 6] + v * 0.16;
-    const distance = Math.abs(u - centre);
-    if (distance < 0.16) tone += 0.65 * (1 - distance / 0.16);
-    if (u > centre + 0.17 && u < centre + 0.28) tone -= 0.37;
-    if (pointThreshold(x, y, f + 53) < 0.055 && distance < 0.24) tone -= 0.18;
-  } else {
-    // Enamel and plastic retain their intrinsic base pigment. Fine chipped
-    // points are confined to exposed edges, with each side painted differently.
-    tone =
-      2.85 +
-      0.28 * Math.sin(u * 3.7 + f * 1.4) +
-      0.19 * Math.cos(v * 4.1 - f * 0.8);
-    tone += 0.18 * (1 - v);
-    const wear = pointThreshold(x, y, f + 31) * 29;
-    if ((x < 2 || y > h - 3) && wear < 6) tone -= 0.7;
-    if (kind === "enamel" && (x === w - 1 || y === h - 1) && wear < 3)
-      tone = 1.3;
+    const band = Math.floor(w * (.38 + pointThreshold(4, 3, seed) * .23));
+    if (x > band && x < band + Math.max(2, w * .13)) tone = 2.5;
   }
-  const wearField = gaussian(
-    x - w * (0.18 + pointThreshold(2, 5, f + 101) * 0.62),
-    y - h * (0.34 + pointThreshold(7, 3, f + 37) * 0.48),
-    w * 0.18,
-    h * 0.23,
-  );
-  tone -= wearField * 0.45;
-  const lower = gaussian(
-    x - w * (0.2 + pointThreshold(9, 4, f + 41) * 0.57),
-    y - h * 0.92,
-    w * 0.11,
-    h * 0.13,
-  );
-  if (pointThreshold(x, y, f + 163) < lower * 0.65) tone -= 0.85;
-  if (y === 0 || x === 0) tone += 0.45;
-  if (y === h - 1) tone -= 0.6;
-  if (x === w - 1) tone -= 0.25;
+  const margin = Math.min(x, w - x - 1, y, h - y - 1);
+  const chip = pointThreshold(Math.floor(x / 2), Math.floor(y / 2), seed + 17);
+  if (margin < 2 && chip > .84) tone = kind === "enamel" ? 2 : 2.5;
+  if (y === 0 || x === 0) tone = Math.max(tone, 3.5);
+  if (y === h - 1) tone = 2;
+  if (x === w - 1) tone = Math.min(tone, 2.5);
   return { tone };
 }
 
@@ -287,7 +257,7 @@ export function facePainting(kind) {
                   : wallFace(x, y, cellWidth, cellHeight, f + variant * 6);
           const ink =
             sample.ink === undefined
-              ? pointInk(sample.tone * 2, x, y, f + variant * 6, 8)
+              ? Math.round(clamp(sample.tone * 2, 0, 8))
               : sample.ink + 4;
           commands.push([
             (f % 3) * cellWidth + x,
@@ -306,7 +276,7 @@ export function facePainting(kind) {
     cellHeight,
     variants,
     grayCount: 9,
-    ramp: ramp.slice(0, maxInk + 1),
+    ramp: ramp.slice(0, Math.max(9, maxInk + 1)),
     commands,
   };
   drawings.set(kind, art);
