@@ -1,3 +1,4 @@
+import { seasonalCaption } from "./seasons.mjs";
 // Shared art direction for the 2D observer and the 3D terraces. All vectors are
 // world-space: north is -z on the terrace, and -x on the south balcony.
 const LIGHT = {
@@ -203,6 +204,8 @@ export function atmosphereCaption(state) {
     typhoon: "阵风把雨吹斜，叶片向一侧伏下。",
   };
   if (wet[state.condition]) return wet[state.condition];
+  const seasonal = seasonalCaption(state);
+  if (seasonal) return seasonal;
   if (state.condition === "mist") return "近处的叶片清楚，远楼慢慢隐进雾里。";
   if (state.condition === "overcast")
     return "天光散开，盆沿下还留着柔和的暗面。";

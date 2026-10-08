@@ -1,3 +1,4 @@
+import { SEASONS, seasonAt, seasonalProfile } from "./seasons.mjs";
 import { rainShape } from "./precipitation.mjs";
 import {
   lightingProfile,
@@ -209,12 +210,20 @@ export function blendColor(a, b, t) {
       .join("")
   );
 }
-export function weatherProfile(condition, phase) {
+export function weatherProfile(condition, phase, season = seasonAt()) {
   const w = WEATHER.find((w) => w.id === condition) || WEATHER[0],
     p = TIMES.find((p) => p.id === phase) || TIMES.find((p) => p.id === "day");
+  const light = lightingProfile(w, p.id);
+  const tint = {spring:"#c4d7c5",summer:"#9ebdd4",autumn:"#dcc29c",winter:"#cadbe5"}[season];
+  if (tint) {
+    const amount = p.night > .5 ? .035 : season === "winter" ? .16 : .09;
+    for (const key of ["sky", "horizon", "zenith", "ambientColor"]) light[key] = blendColor(light[key], tint, amount);
+  }
   return {
     ...w,
-    ...lightingProfile(w, p.id),
+    ...light,
+    ...seasonalProfile(season),
+    season,
     condition: w.id,
     phase: p.id,
     period: p.name,
@@ -242,11 +251,13 @@ export function weatherProfile(condition, phase) {
 export function makeWeather({
   condition = "auto",
   phase = "auto",
+  season = "auto",
   now = () => new Date(),
 } = {}) {
   let choices = {
       condition: WEATHER.some((w) => w.id === condition) ? condition : "auto",
       phase: TIMES.some((p) => p.id === phase) ? phase : "auto",
+      season: SEASONS.some(s => s.id === season) ? season : "auto",
     },
     current = null,
     target = null,
@@ -262,10 +273,11 @@ export function makeWeather({
       choices.phase === "auto"
         ? timeOfDay(date.getHours() + date.getMinutes() / 60)
         : choices.phase;
-    const key = condition + ":" + phase;
+    const season = choices.season === "auto" ? seasonAt(date) : choices.season;
+    const key = condition + ":" + phase + ":" + season;
     if (key !== resolvedKey) {
       resolvedKey = key;
-      resolvedProfile = weatherProfile(condition, phase);
+      resolvedProfile = weatherProfile(condition, phase, season);
     }
     return resolvedProfile;
   }
@@ -304,6 +316,7 @@ export function makeWeather({
     "thunder",
     "gale",
     "roomSunY",
+    ...SEASONS.map(s => "season" + s.id),
   ];
   function begin(next, seconds) {
     if (next === target) return;
@@ -331,6 +344,7 @@ export function makeWeather({
           value === "auto" || TIMES.some((p) => p.id === value)
             ? value
             : "auto";
+      if (key === "season") choices.season = SEASONS.some(s => s.id === value) ? value : "auto";
       begin(resolve(), 8);
     },
     update(dt) {
@@ -346,7 +360,7 @@ export function makeWeather({
       current.wetness +=
         (current.rain - current.wetness) *
         (1 - Math.exp(-dt * (current.rain > current.wetness ? 0.4 : 0.04)));
-      for (const key of ["condition", "phase", "period", "name"])
+      for (const key of ["condition", "phase", "period", "name", "season"])
         current[key] = target[key];
       current.transition = {
         from: from.condition,

@@ -27,7 +27,7 @@ jobs:
       fail-fast: false
       matrix:
         browser: [chromium, webkit]
-        suite: [rooftop-maintenance, rooftop-garage-layout, rooftop-room, rooftop-card-feed, rooftop-weapons, rooftop-models, rooftop-observation]
+        suite: [rooftop-maintenance, rooftop-garage-layout, rooftop-room, rooftop-card-feed, rooftop-weapons, rooftop-models, rooftop-observation, rooftop-seasons]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

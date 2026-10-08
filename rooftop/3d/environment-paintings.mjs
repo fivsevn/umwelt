@@ -83,7 +83,7 @@ export function environmentPainting(kind) {
             if (n < 0.065) tone -= 0.6;
             else if (n > 0.962) tone += 0.6;
           }
-          const ink = pointInk(tone, x, y, seed, 8);
+          const ink = kind === "asphalt" ? pointInk(tone, x, y, seed, 8) : Math.round(Math.max(0, Math.min(8, tone)));
           commands.push([
             (face % 3) * cw + x,
             (Math.floor(face / 3) + v * 2) * ch + y,

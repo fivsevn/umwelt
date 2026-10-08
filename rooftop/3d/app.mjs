@@ -17,8 +17,9 @@ let walker,
   pigWalker,
   doorOpen = false;
 const weather = makeWeather({
-  condition: WEATHER[Math.floor(Math.random() * WEATHER.length)].id,
-  phase: "auto",
+  condition: new URLSearchParams(location.search).get("weather") || WEATHER[Math.floor(Math.random() * WEATHER.length)].id,
+  phase: new URLSearchParams(location.search).get("time") || "auto",
+  season: new URLSearchParams(location.search).get("season") || "auto",
 });
 let atmosphere = weather.state,
   weatherAge = 0,

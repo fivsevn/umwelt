@@ -423,3 +423,5 @@ canvas[data-renderer="3d"]{image-rendering:auto}
   background: #4e5a4c;
   color: #e0dbc3;
 }
+
+@media(max-width:900px){.garage .arrange-controls .weather-controls{grid-template-columns:repeat(3,minmax(0,1fr))}.garage .arrange-controls .weather-controls .person-toggle{grid-column:1/-1}.garage .arrange-controls .weather-controls select{min-width:0}}

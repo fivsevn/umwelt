@@ -515,7 +515,7 @@ export function vesselPainting(id) {
     add = (x, y, w, h, ink) =>
       commands.push([x, y, w, h, ink < 5 ? ink * 2 : ink + 4]);
   const addTone = (x, y, tone, phase) =>
-    commands.push([x, y, 1, 1, pointInk(tone * 2, x, y, phase, 8)]);
+    commands.push([x, y, 1, 1, Math.round(Math.max(0, Math.min(8, tone * 2)))]);
   const ramp = [...PIGMENT_RAMP, "#3d617c", "#7a958c", "#aa5f45", "#527254"];
   // Uneven firing and glaze pooling follow curved fields, each described by
   // individual dots. No mirrored stamps, evenly spaced blemishes or long bars.
@@ -543,7 +543,7 @@ export function vesselPainting(id) {
         // Sparse interrupted wheel marks: subtle shifts, never repeated rectangles.
         tone -=
           0.12 * Math.max(0, Math.sin(y * 0.41 + Math.sin(x * 0.13) * 0.8));
-        if (pointThreshold(x, y, seed + 7) < 0.017) tone -= 0.8;
+        if (pointThreshold(Math.floor(x / 2), Math.floor(y / 2), seed + 7) < 0.017) tone -= 0.8;
       } else {
         tone -= 0.24 * cloud(13, 46, 11, 8);
         tone += 0.27 * cloud(42, 22, 12, 14);

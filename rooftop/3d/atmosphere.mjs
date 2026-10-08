@@ -1,3 +1,4 @@
+import { createSeasonalAir } from "./seasonal-air.mjs";
 import {
   lightPosition,
   weatherMotion,
@@ -95,6 +96,7 @@ export function createAtmosphere(
     const root = new T.Group();
     scene.add(root);
     const wetUniforms = {
+      snow: { value: 0 },
       wet: { value: 0 },
       rain: { value: 0 },
       time: { value: 0 },
@@ -108,7 +110,7 @@ export function createAtmosphere(
         uniforms: wetUniforms,
         vertexShader:
           "varying vec2 point; void main(){point=position.xy; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}",
-        fragmentShader: `varying vec2 point; uniform float wet; uniform float rain; uniform float time; uniform vec3 tint;
+        fragmentShader: `varying vec2 point; uniform float snow; uniform float wet; uniform float rain; uniform float time; uniform vec3 tint;
         float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
         void main(){vec2 cell=floor(point*12.0); vec2 p=(cell+.5)/12.0; float fine=hash(cell);
         // Fixed shallow depressions fill outwards; rain strikes are a separate layer.
@@ -117,7 +119,12 @@ export function createAtmosphere(
         float reflection=.18+.16*sin(p.y*2.3+p.x*.4);
         float alpha=wet*(.06+fine*.025)+poolField*wet*.30;
         vec3 water=mix(vec3(.12,.16,.19),tint,reflection+poolField*.25);
-        gl_FragColor=vec4(water,alpha); }`,
+        // Shallow, broken snow dusting on exposed floor only. Existing depth
+        // keeps pots, furniture and residents in front; no model is rebuilt.
+        float drift=hash(floor(p*.7));
+        float cover=snow*smoothstep(.32,.73,drift)*(.52+fine*.12);
+        vec3 col=mix(water,vec3(.78,.85,.87),cover/max(.001,alpha+cover));
+        gl_FragColor=vec4(col,min(.55,alpha+cover)); }`,
       }),
     );
     wet.rotation.x = -Math.PI / 2;
@@ -179,9 +186,11 @@ export function createAtmosphere(
       impactSample: [],
     };
   }
+  const seasonalAir = createSeasonalAir(T, scene, renderer);
   let stats = {};
   return {
     update(name, a, time, reduced = false) {
+      seasonalAir.update(name, a, time, reduced);
       const indoor = name === "room",
         motion = weatherMotion(a, time),
         flash = lightningPulse(a, time, reduced),
@@ -228,6 +237,7 @@ export function createAtmosphere(
       for (const [key, f] of Object.entries(floors)) {
         f.root.visible = name === key;
         f.wetUniforms.wet.value = a.wetness;
+        f.wetUniforms.snow.value = (a.seasonwinter || 0) * .48;
         f.wetUniforms.rain.value = a.rain;
         f.wetUniforms.time.value = time;
         f.wetUniforms.tint.value.set(a.sky);
@@ -314,6 +324,7 @@ export function createAtmosphere(
       bolt.visible = !indoor && flash > 0.03;
       boltMaterial.opacity = flash * 0.62;
       stats = {
+        seasonal: seasonalAir.stats,
         phase: a.phase,
         condition: a.condition,
         light: position,

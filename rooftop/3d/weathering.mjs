@@ -52,7 +52,7 @@ export function weatherDrawing(art, kind) {
       mode < 0.55
         ? field(u, v, a, 0.95, 0.125, 0.09)
         : field(u, v, 0.03, b, 0.05, 0.13);
-    const pick = pointThreshold(x, y, seed + 43),
+    const pick = pointThreshold(Math.floor(x / 2), Math.floor(y / 2), seed + 43),
       grain = pointThreshold(x, y, seed + 119);
     let ink = original;
     if (age > 0.32 && zone > 0.38 && pick < Math.min(0.9, zone * 0.95)) {

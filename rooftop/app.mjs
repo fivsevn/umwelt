@@ -1,3 +1,4 @@
+import { SEASONS, paintSeasonalAir } from "./seasons.mjs";
 import { fillNotebook, notebookEntry } from "./notebook.mjs";
 import { createActionCard } from "./resident-weather.mjs";
 import { atmosphereCaption } from "./atmosphere.mjs";
@@ -161,6 +162,7 @@ const weather = makeWeather(
           new URLSearchParams(location.search).get("weather") ||
           WEATHER[Math.floor(Math.random() * WEATHER.length)].id,
         phase: new URLSearchParams(location.search).get("time") || "auto",
+        season: new URLSearchParams(location.search).get("season") || "auto",
       },
 );
 let atmosphere = weather.state,
@@ -188,6 +190,7 @@ if (editor) {
   for (const [id, key, values] of [
     ["weatherSelect", "condition", WEATHER],
     ["timeSelect", "phase", TIMES],
+    ["seasonSelect", "season", SEASONS],
   ]) {
     const select = $(id);
     for (const item of values) {
@@ -1267,6 +1270,7 @@ function render() {
   paintRain(display, canvas.width, canvas.height, atmosphere, time, {
     reduced,
   });
+  paintSeasonalAir(display, canvas.width, canvas.height, atmosphere, time, { reduced });
   weatherCaption();
 }
 function frame(now) {
