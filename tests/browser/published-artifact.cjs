@@ -44,6 +44,8 @@ const routes = [
       for (const width of [1440, 390]) {
         await page.setViewportSize({ width, height: 900 });
         for (const [index, [route, selector]] of routes.entries()) {
+          const startedAt = Date.now();
+          console.log(`${engine.name()} ${width} ${route}: checking`);
           const response = await page.goto(base + route);
           assert.ok(
             response.ok() || response.status() === 304,
@@ -142,6 +144,9 @@ const routes = [
             errors,
             [],
             engine.name() + " " + route + " runtime/resource errors",
+          );
+          console.log(
+            `${engine.name()} ${width} ${route}: passed in ${Date.now() - startedAt}ms`,
           );
         }
       }
