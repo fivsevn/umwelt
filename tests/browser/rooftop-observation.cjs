@@ -108,11 +108,19 @@ const engine = process.env.BROWSER || "chromium",
       await page.keyboard.press("Escape");
       await page.locator("#actionCard").waitFor({ state: "visible" });
       assert.equal(await page.locator("#weatherCard #actionStatus").count(), 0);
-      await page.waitForFunction(
-        () => rooftop.person.sheltered && rooftop.pig.sheltered,
-        null,
-        { timeout: 30000 },
-      );
+      // The pig starts at a free point anywhere on the roof and walks around
+      // furniture. Its route can exceed 30 seconds, especially with software
+      // rendering; allow the real walk to complete rather than teleporting it.
+      try {
+        await page.waitForFunction(
+          () => rooftop.person.sheltered && rooftop.pig.sheltered,
+          null,
+          { timeout: 180000 },
+        );
+      } catch (error) {
+        console.error(await page.evaluate(()=>({scene:rooftop.scene,person:rooftop.person,pig:rooftop.pig,weather:rooftop.weather,elapsed:rooftop.weather.elapsed})));
+        throw error;
+      }
       assert.doesNotMatch(
         await page.locator("#actionStatus").innerText(),
         /浇水/,
