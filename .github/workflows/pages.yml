@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   deploy:
-    timeout-minutes: 15
+    timeout-minutes: 20
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -59,8 +59,9 @@ jobs:
           docker pull mcr.microsoft.com/playwright:v1.62.1-noble
 
       - name: Check the final artifact in Chromium and WebKit
-        # Forty desktop/mobile entries run serially, including software WebGL.
-        timeout-minutes: 6
+        # Forty desktop/mobile entries include the more detailed rooftop scene
+        # on software WebGL. Keep all checks and allow the serial run to finish.
+        timeout-minutes: 12
         env:
           NODE_PATH: ${{ runner.temp }}/artifact-browser/node_modules
           BASE_URL: http://127.0.0.1:8794
