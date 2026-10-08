@@ -1,21 +1,28 @@
 // Paint only the visible shelf and yield between GPU previews. A catalogue
 // rebuild cancels old work, so searching cannot paint detached cards.
-export function createCatalogPreviews(root, paint) {
+export function createCatalogPreviews(root, paint, { busy = () => false } = {}) {
   let queue = [],
-    frame = 0;
+    frame = 0, running = false;
   const jobs = new WeakMap();
-  function next() {
+  async function next() {
     frame = 0;
+    // Readback can wait; let selects, gestures and their scene transition finish.
+    if (busy() || navigator.scheduling?.isInputPending?.()) {
+      frame = requestAnimationFrame(next);
+      return;
+    }
     const job = queue.shift();
+    running = true;
     try {
-      if (job?.canvas.isConnected) paint(job.sprite, job.canvas);
+      if (job?.canvas.isConnected) await paint(job.sprite, job.canvas);
     } finally {
-      if (queue.length) frame = requestAnimationFrame(next);
+      running = false;
+      if (queue.length && !frame) frame = requestAnimationFrame(next);
     }
   }
   function enqueue(job) {
     queue.push(job);
-    if (!frame) frame = requestAnimationFrame(next);
+    if (!frame && !running) frame = requestAnimationFrame(next);
   }
   const observer =
     typeof IntersectionObserver === "function"

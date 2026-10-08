@@ -45,6 +45,7 @@ export function createSeasonalAir(T, scene, renderer) {
   });
   let stats = {};
   return {
+    points: groups.map(g => g.points),
     update(name, state, time, reduced) {
       renderer.getDrawingBufferSize(viewport);
       let count = 0; const effects = [];

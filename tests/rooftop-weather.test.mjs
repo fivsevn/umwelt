@@ -10,3 +10,21 @@ test('material lighting preserves colour separation and sunset distinguishes lig
 test('water accumulates in rain and remains while the roof dries after clearing',()=>{const clock=makeWeather({condition:'clear',phase:'day'});clock.set('condition','heavy');for(let i=0;i<200;i++)clock.update(.05);const water=clock.state.wetness;assert.ok(water>.8);clock.set('condition','clear');for(let i=0;i<160;i++)clock.update(.05);assert.ok(clock.state.rain<.001);assert.ok(clock.state.wetness>water*.7&&clock.state.wetness<water)});
 
 test('daytime stages and map orientations have distinct solar directions',async()=>{const {shadowVector}=await import('../rooftop/weather.mjs');assert.deepEqual([6,9,12,15,18].map(timeOfDay),['dawn','morning','day','afternoon','dusk']);for(const phase of ['dawn','morning','day','afternoon','dusk']){const n=shadowVector(phase),s=shadowVector(phase,'south');assert.equal(s.x,n.y);assert.equal(s.y,-n.x)}assert.ok(shadowVector('dawn').x<0);assert.ok(shadowVector('dusk').x>0);assert.ok(shadowVector('day').y<0);assert.equal(shadowVector('day').x,0)});
+
+test('garage manual changes settle promptly and rapid changes continue from the current appearance', () => {
+  const clock = makeWeather({ condition: 'clear', phase: 'day', season: 'spring', manualTransition: .65 });
+  assert.equal(clock.update(0).transition.mix, 1, 'an unchanged initial sky is already settled');
+  clock.set('season', 'winter');
+  clock.update(.3);
+  const partial = clock.state.seasonwinter;
+  assert.ok(partial > 0 && partial < 1);
+  clock.set('phase', 'late');
+  assert.equal(clock.update(0).seasonwinter, partial, 'interrupting a blend does not jump');
+  clock.update(.65);
+  assert.equal(clock.state.transition.mix, 1);
+  assert.equal(clock.state.seasonwinter, 1);
+  assert.equal(clock.state.lightTint, weatherProfile('clear', 'late', 'winter').lightTint);
+  const automatic = makeWeather({ condition: 'clear', phase: 'auto', now: () => new Date(2026, 9, 8, 12) });
+  automatic.set('condition', 'heavy');
+  assert.equal(automatic.update(.65).transition.duration, 8, 'ordinary weather keeps its gradual transition');
+});

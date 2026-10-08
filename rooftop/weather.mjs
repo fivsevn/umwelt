@@ -253,6 +253,7 @@ export function makeWeather({
   phase = "auto",
   season = "auto",
   now = () => new Date(),
+  manualTransition = 8,
 } = {}) {
   let choices = {
       condition: WEATHER.some((w) => w.id === condition) ? condition : "auto",
@@ -293,7 +294,7 @@ export function makeWeather({
     "bounceColor",
   ];
   let from = { ...current },
-    elapsed = 0,
+    elapsed = 8,
     duration = 8,
     rainClock = 0,
     streakClock = 0,
@@ -345,7 +346,7 @@ export function makeWeather({
             ? value
             : "auto";
       if (key === "season") choices.season = SEASONS.some(s => s.id === value) ? value : "auto";
-      begin(resolve(), 8);
+      begin(resolve(), Math.max(0.05, Number(manualTransition) || 8));
     },
     update(dt) {
       begin(resolve(), 18);
