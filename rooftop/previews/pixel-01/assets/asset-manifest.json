@@ -1,0 +1,119 @@
+{
+  "version": 1,
+  "status": "unapproved",
+  "atlas": {
+    "file": "garden-atlas.png",
+    "width": 128,
+    "height": 128,
+    "tile": 32,
+    "bytes": 1454
+  },
+  "assets": [
+    {
+      "id": "ceramic-pot",
+      "bytes": 43600,
+      "triangles": 704,
+      "meshes": 1,
+      "editable_parts": 3,
+      "bounds": "metres, floor origin, Blender Z up; GLB Y up"
+    },
+    {
+      "id": "metal-rack",
+      "bytes": 63020,
+      "triangles": 840,
+      "meshes": 1,
+      "editable_parts": 38,
+      "bounds": "metres, floor origin, Blender Z up; GLB Y up"
+    },
+    {
+      "id": "doorway",
+      "bytes": 119720,
+      "triangles": 1576,
+      "meshes": 2,
+      "editable_parts": 54,
+      "bounds": "metres, floor origin, Blender Z up; GLB Y up"
+    },
+    {
+      "id": "scene-set",
+      "bytes": 54844,
+      "triangles": 764,
+      "meshes": 1,
+      "editable_parts": 76,
+      "bounds": "metres, floor origin, Blender Z up; GLB Y up"
+    }
+  ],
+  "placements": [
+    {
+      "asset": "ceramic-pot",
+      "position": [
+        -1.35,
+        0.03,
+        1.1
+      ],
+      "scale": 0.4
+    },
+    {
+      "asset": "ceramic-pot",
+      "position": [
+        -0.73,
+        0.03,
+        1.1
+      ],
+      "scale": 0.4
+    },
+    {
+      "asset": "ceramic-pot",
+      "position": [
+        -0.99,
+        -0.04,
+        0.32
+      ],
+      "scale": 0.4
+    },
+    {
+      "asset": "ceramic-pot",
+      "position": [
+        0.35,
+        -0.69,
+        0.01
+      ],
+      "scale": 1.0
+    },
+    {
+      "asset": "ceramic-pot",
+      "position": [
+        1.12,
+        -0.75,
+        0.01
+      ],
+      "scale": 0.61
+    },
+    {
+      "asset": "metal-rack",
+      "position": [
+        -1.04,
+        0.04,
+        0.01
+      ],
+      "scale": 1.0
+    },
+    {
+      "asset": "doorway",
+      "position": [
+        0,
+        0,
+        0.01
+      ],
+      "scale": 1.0
+    },
+    {
+      "asset": "scene-set",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "scale": 1.0
+    }
+  ]
+}
