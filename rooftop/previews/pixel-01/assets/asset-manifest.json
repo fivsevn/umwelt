@@ -1,6 +1,6 @@
 {
-  "version": 5,
-  "status": "strict-integer-cube-grid-review-pending",
+  "version": 6,
+  "status": "faceted-uniform-surface-pixels-review-pending",
   "atlas": {
     "file": "garden-atlas.png",
     "width": 128,
@@ -9,65 +9,59 @@
     "layers": 3,
     "plaster_tones": 4,
     "bytes": 1659,
-    "texels_per_metre": 10,
-    "texel_size_metres": 0.1,
+    "texels_per_metre": 8.0,
+    "texel_size_metres": 0.125,
     "actual_authoring_tool": "Pixelorama native Pencil",
-    "one_texel_per_cube_face": true
+    "unfolded_pixels": "square, same physical size, integer painted texels"
   },
   "assets": [
     {
       "id": "ceramic-pot",
-      "bytes": 48740,
-      "triangles": 672,
+      "bytes": 51080,
+      "triangles": 704,
       "meshes": 1,
-      "editable_parts": 1,
-      "occupied_cubes": 168,
-      "minimum_cube_metres": 0.1
-    },
-    {
-      "id": "ceramic-pot-small",
-      "bytes": 10668,
-      "triangles": 128,
-      "meshes": 1,
-      "editable_parts": 1,
-      "occupied_cubes": 28,
-      "minimum_cube_metres": 0.1
-    },
-    {
-      "id": "ceramic-pot-medium",
-      "bytes": 18512,
-      "triangles": 240,
-      "meshes": 1,
-      "editable_parts": 1,
-      "occupied_cubes": 48,
-      "minimum_cube_metres": 0.1
+      "editable_parts": 3,
+      "texels_per_metre": 8.0
     },
     {
       "id": "metal-rack",
-      "bytes": 131060,
-      "triangles": 1848,
+      "bytes": 64344,
+      "triangles": 848,
       "meshes": 1,
-      "editable_parts": 1,
-      "occupied_cubes": 350,
-      "minimum_cube_metres": 0.1
+      "editable_parts": 38,
+      "texels_per_metre": 8.0
     },
     {
       "id": "doorway",
-      "bytes": 501216,
-      "triangles": 7124,
+      "bytes": 121172,
+      "triangles": 1584,
       "meshes": 2,
-      "editable_parts": 2,
-      "occupied_cubes": 3948,
-      "minimum_cube_metres": 0.1
+      "editable_parts": 54,
+      "texels_per_metre": 8.0
     },
     {
       "id": "scene-set",
-      "bytes": 409672,
-      "triangles": 5828,
+      "bytes": 64568,
+      "triangles": 892,
       "meshes": 1,
-      "editable_parts": 1,
-      "occupied_cubes": 3454,
-      "minimum_cube_metres": 0.1
+      "editable_parts": 76,
+      "texels_per_metre": 8.0
+    },
+    {
+      "id": "ceramic-pot-small",
+      "bytes": 51084,
+      "triangles": 704,
+      "meshes": 1,
+      "editable_parts": 3,
+      "texels_per_metre": 8.0
+    },
+    {
+      "id": "ceramic-pot-medium",
+      "bytes": 51092,
+      "triangles": 704,
+      "meshes": 1,
+      "editable_parts": 3,
+      "texels_per_metre": 8.0
     }
   ],
   "placements": [
@@ -144,10 +138,5 @@
       "scale": 1
     }
   ],
-  "minimum_cube_metres": 0.1,
-  "grid_origin": [
-    0,
-    0,
-    0
-  ]
+  "geometry": "planar low-poly shell with slanted faces"
 }

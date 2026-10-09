@@ -1,0 +1,10 @@
+{
+  "revision": 6,
+  "docs_excluded": true,
+  "all_six_glbs_and_png_present": true,
+  "all_seven_asset_urls_versioned": true,
+  "asset_bytes_unchanged": true,
+  "loader_dependencies_present": true,
+  "pure_static": true,
+  "browser_visual_retest": false
+}

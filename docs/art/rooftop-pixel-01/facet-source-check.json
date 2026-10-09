@@ -1,0 +1,212 @@
+{
+  "revision": 6,
+  "software": "Blender 4.5.14 LTS",
+  "edited_existing_source": true,
+  "restored_original_editable_parts": 171,
+  "voxel_revision_preserved_hidden": 16,
+  "old_composed_reference_preserved_hidden": 183,
+  "source_shell_signature_before_uv_cuts": "c586913839996a2c1db41720f8bdc925c8c75be52ef7729d48ff1abac80851cc",
+  "original_transforms_camera_lighting_preserved": true,
+  "coarse_pixelorama_png_preserved_byte_for_byte": true,
+  "packed_png_identical_to_pixelorama_export": true,
+  "density_texels_per_metre": 8.0,
+  "surface_texel_metres": 0.125,
+  "orthonormal_surface_uvs": true,
+  "source_faces": 2832,
+  "slanted_faces": 1688,
+  "coplanar_uv_wrap_cuts": 54,
+  "max_unfolded_metric_error_pixels": 3.3037230684485053e-06,
+  "max_face_nonplanarity_metres": 9.12696123123169e-08,
+  "instances_are_scale_one": true,
+  "texture_nearest": true,
+  "assets": [
+    {
+      "id": "ceramic-pot",
+      "bytes": 51080,
+      "triangles": 704,
+      "meshes": 1,
+      "editable_parts": 3,
+      "texels_per_metre": 8.0
+    },
+    {
+      "id": "metal-rack",
+      "bytes": 64344,
+      "triangles": 848,
+      "meshes": 1,
+      "editable_parts": 38,
+      "texels_per_metre": 8.0
+    },
+    {
+      "id": "doorway",
+      "bytes": 121172,
+      "triangles": 1584,
+      "meshes": 2,
+      "editable_parts": 54,
+      "texels_per_metre": 8.0
+    },
+    {
+      "id": "scene-set",
+      "bytes": 64568,
+      "triangles": 892,
+      "meshes": 1,
+      "editable_parts": 76,
+      "texels_per_metre": 8.0
+    },
+    {
+      "id": "ceramic-pot-small",
+      "bytes": 51084,
+      "triangles": 704,
+      "meshes": 1,
+      "editable_parts": 3,
+      "texels_per_metre": 8.0
+    },
+    {
+      "id": "ceramic-pot-medium",
+      "bytes": 51092,
+      "triangles": 704,
+      "meshes": 1,
+      "editable_parts": 3,
+      "texels_per_metre": 8.0
+    }
+  ],
+  "uv_examples": [
+    {
+      "object": "Terracotta / tapered vessel",
+      "polygon": 51,
+      "tile": 0,
+      "local_pixels": [
+        [
+          5.555193901062012,
+          4.711523532867432
+        ],
+        [
+          6.444806098937988,
+          4.711523532867432
+        ],
+        [
+          6.496309757232666,
+          5.439152240753174
+        ],
+        [
+          5.503690242767334,
+          5.439152240753174
+        ]
+      ]
+    },
+    {
+      "object": "Wall / left plaster pier",
+      "polygon": 22,
+      "tile": 4,
+      "local_pixels": [
+        [
+          9.455999374389648,
+          1.1440000534057617
+        ],
+        [
+          9.455999374389648,
+          19.576000213623047
+        ],
+        [
+          0.944000244140625,
+          19.576000213623047
+        ],
+        [
+          0.944000244140625,
+          1.1440000534057617
+        ]
+      ]
+    },
+    {
+      "object": "Lamp / pitched cap",
+      "polygon": 0,
+      "tile": 2,
+      "local_pixels": [
+        [
+          6.397644996643066,
+          6.3858795166015625
+        ],
+        [
+          5.351126670837402,
+          7.8060197830200195
+        ],
+        [
+          4.728873252868652,
+          7.8060197830200195
+        ],
+        [
+          3.6823549270629883,
+          6.3858795166015625
+        ]
+      ]
+    },
+    {
+      "object": "Lamp / pitched cap",
+      "polygon": 1,
+      "tile": 2,
+      "local_pixels": [
+        [
+          22.15764617919922,
+          1.84649658203125
+        ],
+        [
+          21.111127853393555,
+          3.266636848449707
+        ],
+        [
+          20.488872528076172,
+          3.266636848449707
+        ],
+        [
+          19.44235610961914,
+          1.84649658203125
+        ]
+      ]
+    },
+    {
+      "object": "Lamp / pitched cap",
+      "polygon": 3,
+      "tile": 2,
+      "local_pixels": [
+        [
+          28.317646026611328,
+          13.46023178100586
+        ],
+        [
+          27.27112579345703,
+          14.88037109375
+        ],
+        [
+          26.64887237548828,
+          14.88037109375
+        ],
+        [
+          25.60235595703125,
+          13.46023178100586
+        ]
+      ]
+    },
+    {
+      "object": "Lamp / pitched cap",
+      "polygon": 4,
+      "tile": 2,
+      "local_pixels": [
+        [
+          12.557644844055176,
+          17.999603271484375
+        ],
+        [
+          11.511127471923828,
+          19.41974449157715
+        ],
+        [
+          10.888872146606445,
+          19.41974449157715
+        ],
+        [
+          9.842354774475098,
+          17.999603271484375
+        ]
+      ]
+    }
+  ]
+}

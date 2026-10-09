@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1060" height="440" viewBox="0 0 1060 440">
+<rect width="1060" height="440" fill="#eae5db"/>
+<style>text{font-family:Arial,"PingFang SC",sans-serif;fill:#334039;font-size:17px}.small{font-size:14px}</style>
+<text x="20" y="29">同一张原生贴图 · 每格 1 像素 · 展开后每格代表 0.125 米</text>
+<defs><image id="native" width="1280" height="1280" image-rendering="pixelated" xlink:href="data:image/png;base64,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"/>
+<clipPath id="cell0"><rect width="320" height="320"/></clipPath>
+<clipPath id="cell1"><rect width="320" height="320"/></clipPath>
+<clipPath id="cell2"><rect width="320" height="320"/></clipPath>
+</defs>
+<text x="20" y="60">墙面展开</text><g transform="translate(20,75)">
+<g clip-path="url(#cell0)"><use xlink:href="#native" x="0" y="-320"/></g>
+<path d="M 0 0 V 320 M 0 0 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 10 0 V 320 M 0 10 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 20 0 V 320 M 0 20 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 30 0 V 320 M 0 30 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 40 0 V 320 M 0 40 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 50 0 V 320 M 0 50 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 60 0 V 320 M 0 60 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 70 0 V 320 M 0 70 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 80 0 V 320 M 0 80 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 90 0 V 320 M 0 90 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 100 0 V 320 M 0 100 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 110 0 V 320 M 0 110 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 120 0 V 320 M 0 120 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 130 0 V 320 M 0 130 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 140 0 V 320 M 0 140 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 150 0 V 320 M 0 150 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 160 0 V 320 M 0 160 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 170 0 V 320 M 0 170 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 180 0 V 320 M 0 180 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 190 0 V 320 M 0 190 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 200 0 V 320 M 0 200 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 210 0 V 320 M 0 210 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 220 0 V 320 M 0 220 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 230 0 V 320 M 0 230 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 240 0 V 320 M 0 240 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 250 0 V 320 M 0 250 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 260 0 V 320 M 0 260 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 270 0 V 320 M 0 270 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 280 0 V 320 M 0 280 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 290 0 V 320 M 0 290 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 300 0 V 320 M 0 300 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 310 0 V 320 M 0 310 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 320 0 V 320 M 0 320 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<polygon points="94.5600,308.5600 94.5600,124.2400 9.4400,124.2400 9.4400,308.5600" fill="#fff" fill-opacity=".08" stroke="#f2cb77" stroke-width="2"/>
+<rect width="320" height="320" fill="none" stroke="#334039"/><text class="small" x="0" y="347">32×32 原生材质；黄线为实际贴面边界</text></g>
+<text x="370" y="60">陶盆斜面展开</text><g transform="translate(370,75)">
+<g clip-path="url(#cell1)"><use xlink:href="#native" x="0" y="0"/></g>
+<path d="M 0 0 V 320 M 0 0 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 10 0 V 320 M 0 10 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 20 0 V 320 M 0 20 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 30 0 V 320 M 0 30 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 40 0 V 320 M 0 40 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 50 0 V 320 M 0 50 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 60 0 V 320 M 0 60 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 70 0 V 320 M 0 70 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 80 0 V 320 M 0 80 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 90 0 V 320 M 0 90 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 100 0 V 320 M 0 100 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 110 0 V 320 M 0 110 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 120 0 V 320 M 0 120 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 130 0 V 320 M 0 130 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 140 0 V 320 M 0 140 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 150 0 V 320 M 0 150 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 160 0 V 320 M 0 160 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 170 0 V 320 M 0 170 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 180 0 V 320 M 0 180 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 190 0 V 320 M 0 190 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 200 0 V 320 M 0 200 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 210 0 V 320 M 0 210 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 220 0 V 320 M 0 220 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 230 0 V 320 M 0 230 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 240 0 V 320 M 0 240 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 250 0 V 320 M 0 250 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 260 0 V 320 M 0 260 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 270 0 V 320 M 0 270 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 280 0 V 320 M 0 280 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 290 0 V 320 M 0 290 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 300 0 V 320 M 0 300 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 310 0 V 320 M 0 310 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 320 0 V 320 M 0 320 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<polygon points="55.5519,272.8848 64.4481,272.8848 64.9631,265.6085 55.0369,265.6085" fill="#fff" fill-opacity=".08" stroke="#f2cb77" stroke-width="2"/>
+<rect width="320" height="320" fill="none" stroke="#334039"/><text class="small" x="0" y="347">32×32 原生材质；黄线为实际贴面边界</text></g>
+<text x="720" y="60">灯罩斜面展开</text><g transform="translate(720,75)">
+<g clip-path="url(#cell2)"><use xlink:href="#native" x="-640" y="0"/></g>
+<path d="M 0 0 V 320 M 0 0 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 10 0 V 320 M 0 10 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 20 0 V 320 M 0 20 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 30 0 V 320 M 0 30 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 40 0 V 320 M 0 40 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 50 0 V 320 M 0 50 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 60 0 V 320 M 0 60 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 70 0 V 320 M 0 70 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 80 0 V 320 M 0 80 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 90 0 V 320 M 0 90 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 100 0 V 320 M 0 100 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 110 0 V 320 M 0 110 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 120 0 V 320 M 0 120 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 130 0 V 320 M 0 130 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 140 0 V 320 M 0 140 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 150 0 V 320 M 0 150 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 160 0 V 320 M 0 160 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 170 0 V 320 M 0 170 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 180 0 V 320 M 0 180 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 190 0 V 320 M 0 190 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 200 0 V 320 M 0 200 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 210 0 V 320 M 0 210 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 220 0 V 320 M 0 220 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 230 0 V 320 M 0 230 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 240 0 V 320 M 0 240 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 250 0 V 320 M 0 250 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 260 0 V 320 M 0 260 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 270 0 V 320 M 0 270 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 280 0 V 320 M 0 280 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 290 0 V 320 M 0 290 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 300 0 V 320 M 0 300 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 310 0 V 320 M 0 310 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<path d="M 320 0 V 320 M 0 320 H 320" fill="none" stroke="#283b34" stroke-opacity=".18" stroke-width=".5"/>
+<polygon points="125.5764,140.0040 115.1113,125.8026 108.8887,125.8026 98.4235,140.0040" fill="#fff" fill-opacity=".08" stroke="#f2cb77" stroke-width="2"/>
+<rect width="320" height="320" fill="none" stroke="#334039"/><text class="small" x="0" y="347">32×32 原生材质；黄线为实际贴面边界</text></g>
+</svg>

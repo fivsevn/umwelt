@@ -53,7 +53,8 @@ async function chooseView(id){const token=++viewToken;selected=id;turning=false;
  root.clear();
  if(id==='scene'){
   const byId=Object.fromEntries(Object.keys(urls).map((key,i)=>[key,models[i]]));
-  // Each size has its own whole-cube model; instances never shrink the grid.
+  // Each pot size has its own baked shell and UVs at the shared surface
+  // texel density. Instances never shrink the painted texture grid.
   const pots=[['ceramic-pot-small',-1.3,1.1,0],['ceramic-pot-small',-.7,1.1,0],['ceramic-pot-small',-1.,.3,0],['ceramic-pot',.4,0,.7],['ceramic-pot-medium',1.1,0,.8]];
   for(const [asset,x,y,z] of pots){const o=byId[asset].clone(true);o.position.set(x,y,z);root.add(o);}
   const rack=byId['metal-rack'].clone(true);rack.position.set(-1.,0,0);root.add(rack);
@@ -90,6 +91,6 @@ async function init(){atlas=await new THREE.TextureLoader().loadAsync('./assets/
  new ResizeObserver(resize).observe(viewport);
  let last=performance.now();function draw(now){const elapsed=Math.min((now-last)/1000,.1);last=now;if(turning){yaw+=elapsed*.20;updateCamera();}renderer.render(scene,camera);frameCount++;requestAnimationFrame(draw);}requestAnimationFrame(draw);
  // Read-only inspection for visual QA; no connection to gameplay or storage.
- globalThis.samplePreview={get state(){return {selected,dusk,turning,yaw,pitch,zoom,frameCount,cacheSize:cache.size,drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,minimumCubeMetres:.1,integerGrid:true,textureSize:[atlas.image.width,atlas.image.height],nearest:atlas.magFilter===THREE.NearestFilter,canvasSize:[canvas.width,canvas.height]};}};
+ globalThis.samplePreview={get state(){return {selected,dusk,turning,yaw,pitch,zoom,frameCount,cacheSize:cache.size,drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,surfaceTexelMetres:.125,texelsPerMetre:8,facetedShell:true,squareUnfoldedTexels:true,textureSize:[atlas.image.width,atlas.image.height],nearest:atlas.magFilter===THREE.NearestFilter,canvasSize:[canvas.width,canvas.height]};}};
 }
 init().catch(fail);
