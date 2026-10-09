@@ -1,41 +1,19 @@
 {
-  "revision": 3,
-  "kind": "static artifact verification; no browser access",
-  "validationVersion": "b62ab34818e15bcf260016b5b777d849e5b809c5",
-  "publicFileCount": 267,
+  "revision": 4,
+  "kind": "static deployment artifact validation; no browser access",
+  "publicFiles": 267,
   "stampedURLs": 655,
-  "authoringFilesExcluded": true,
-  "assets": [
-    {
-      "file": "ceramic-pot.glb",
-      "bytes": 43600,
-      "versioned": true,
-      "identicalToSource": true
-    },
-    {
-      "file": "metal-rack.glb",
-      "bytes": 63020,
-      "versioned": true,
-      "identicalToSource": true
-    },
-    {
-      "file": "doorway.glb",
-      "bytes": 119720,
-      "versioned": true,
-      "identicalToSource": true
-    },
-    {
-      "file": "scene-set.glb",
-      "bytes": 54844,
-      "versioned": true,
-      "identicalToSource": true
-    },
-    {
-      "file": "garden-atlas.png",
-      "bytes": 2453,
-      "versioned": true,
-      "identicalToSource": true
-    }
+  "validationVersionMarker": "3ba60c61919947cfe27302aa59bd53c64ca96a1e",
+  "previewAssetURLs": [
+    "./assets/ceramic-pot.glb?v=3ba60c61919947cfe27302aa59bd53c64ca96a1e",
+    "./assets/metal-rack.glb?v=3ba60c61919947cfe27302aa59bd53c64ca96a1e",
+    "./assets/doorway.glb?v=3ba60c61919947cfe27302aa59bd53c64ca96a1e",
+    "./assets/scene-set.glb?v=3ba60c61919947cfe27302aa59bd53c64ca96a1e",
+    "./assets/garden-atlas.png?v=3ba60c61919947cfe27302aa59bd53c64ca96a1e"
   ],
-  "browserRetested": false
+  "cacheVersionedPreviewAssets": 5,
+  "authoringDocsExcluded": true,
+  "currentGLBandPNGBytesPreserved": true,
+  "requiredPreviewFilesPresent": true,
+  "modelAndTextureBytes": 285858
 }

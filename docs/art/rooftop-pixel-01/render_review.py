@@ -68,4 +68,4 @@ for filename,asset,dusk in [('scene-day','scene',False),('scene-dusk','scene',Tr
  scene.render.filepath=str(ROOT/'review'/(filename+'.jpg'))
  bpy.ops.render.render(write_still=True)
  records.append({'file':'review/'+filename+'.jpg','asset':asset,'dusk':dusk,'dimensions':[1280,960]})
-(ROOT/'render-review.json').write_text(json.dumps({'revision':3,'software':'Blender '+bpy.app.version_string,'source':'garden-sample.blend','kind':'offline material preview; browser lighting can differ','images':records},indent=2)+'\n')
+(ROOT/'render-review.json').write_text(json.dumps({'revision':4,'software':'Blender '+bpy.app.version_string,'source':'garden-sample.blend','kind':'offline material preview; browser lighting can differ','images':records},indent=2)+'\n')

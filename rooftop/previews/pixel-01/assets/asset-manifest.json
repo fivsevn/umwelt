@@ -1,14 +1,15 @@
 {
-  "version": 3,
-  "status": "direction-approved-weathering-review-pending",
+  "version": 4,
+  "status": "direction-approved-fine-pixel-weathering-review-pending",
   "atlas": {
     "file": "garden-atlas.png",
-    "width": 128,
-    "height": 128,
-    "tile": 32,
+    "width": 256,
+    "height": 256,
+    "tile": 64,
     "layers": 3,
     "plaster_tones": 5,
-    "bytes": 2453
+    "bytes": 4074,
+    "wall_texels_per_metre": 25
   },
   "assets": [
     {
@@ -29,7 +30,7 @@
     },
     {
       "id": "doorway",
-      "bytes": 119720,
+      "bytes": 120320,
       "triangles": 1576,
       "meshes": 2,
       "editable_parts": 54,

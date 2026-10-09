@@ -1,5 +1,5 @@
 {
-  "revision": 3,
+  "revision": 4,
   "three": "160",
   "assets": [
     {
@@ -24,6 +24,7 @@
         ]
       },
       "geometryAndTopologyIdenticalToPrevious": true,
+      "uvChanged": false,
       "loadedByActualPreviewGLTFLoader": true
     },
     {
@@ -48,11 +49,12 @@
         ]
       },
       "geometryAndTopologyIdenticalToPrevious": true,
+      "uvChanged": false,
       "loadedByActualPreviewGLTFLoader": true
     },
     {
       "asset": "doorway",
-      "bytes": 119720,
+      "bytes": 120320,
       "triangles": 1576,
       "meshes": 2,
       "uvRange": [
@@ -72,6 +74,7 @@
         ]
       },
       "geometryAndTopologyIdenticalToPrevious": true,
+      "uvChanged": true,
       "loadedByActualPreviewGLTFLoader": true
     },
     {
@@ -96,6 +99,7 @@
         ]
       },
       "geometryAndTopologyIdenticalToPrevious": true,
+      "uvChanged": false,
       "loadedByActualPreviewGLTFLoader": true
     }
   ],
