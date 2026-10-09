@@ -36,21 +36,51 @@ for i, (name, ground, dark, light) in enumerate(PALETTES):
  x, y = (i%4)*32, (i//4)*32
  db.rectangle((x,y,x+31,y+31), fill=ground)
  # Deliberate, sparse strokes; only three paint values per material.
- if name == 'door':
-  for xx in [6,15,24]:
-   dm.rectangle((x+xx,y+2,x+xx,y+29),fill=dark)
-   dm.rectangle((x+xx+1,y+3,x+xx+1,y+28),fill=light)
-  for xx, yy, length in [(3,9,4),(19,20,6),(28,14,3)]:
-   dm.line((x+xx,y+yy,x+xx,y+yy+length),fill=dark)
+ if name == 'terracotta':
+  # Kiln marks follow the vessel circumference; bottom wear stays at the foot.
+  dm.rectangle((x+1,y+26,x+30,y+30),fill=dark)
+  for xx,yy,w,h,col in [(2,5,6,2,light),(8,6,3,1,light),(19,4,5,1,light),
+                       (22,5,3,2,light),(12,17,3,2,dark),(14,19,2,1,dark),
+                       (26,21,3,1,light),(4,27,4,1,ground)]:
+   dm.rectangle((x+xx,y+yy,x+xx+w-1,y+yy+h-1),fill=col)
+ elif name == 'rim':
+  dm.rectangle((x+1,y+25,x+30,y+30),fill=dark)
+  for xx,w in [(1,7),(11,4),(18,8)]:dm.rectangle((x+xx,y+5,x+xx+w-1,y+6),fill=light)
+  for xx,yy,w in [(8,7,2),(25,9,3),(15,18,2)]:dm.rectangle((x+xx,y+yy,x+xx+w-1,y+yy+1),fill=dark)
+ elif name == 'door':
+  # Broad panel field with a broken 1px recess; sparse grain instead of slats.
+  dm.line((x+2,y+2,x+16,y+2),fill=dark)
+  dm.line((x+2,y+2,x+2,y+27),fill=dark)
+  dm.line((x+4,y+28,x+29,y+28),fill=light)
+  dm.line((x+29,y+4,x+29,y+27),fill=light)
+  for xx,yy,length,col in [(8,8,6,dark),(9,10,3,light),(15,19,5,dark),
+                          (23,4,4,light),(24,18,7,dark),(6,23,3,light)]:
+   dm.line((x+xx,y+yy,x+xx,y+yy+length),fill=col)
  elif name == 'paving':
   dm.rectangle((x,y,x+31,y+1),fill=dark)
   dm.rectangle((x,y,x+1,y+31),fill=dark)
   dm.line((x+2,y+2,x+29,y+2),fill=light)
   for xx,yy in [(8,11),(19,22),(23,7)]: dm.rectangle((x+xx,y+yy,x+xx+2,y+yy),fill=dark)
- elif name in ('iron','iron_edge','brass'):
-  for xx,yy,w in [(4,6,4),(20,23,5),(11,17,2)]:
-   dm.rectangle((x+xx,y+yy,x+xx+w,y+yy),fill=light)
-  dm.rectangle((x+18,y+10,x+19,y+11),fill=dark)
+ elif name == 'iron':
+  # Long faces use narrow strips, so paint follows each bar rather than stretching.
+  for xx,yy,h,col in [(2,2,11,light),(2,20,8,light),(3,6,4,light),
+                      (5,15,5,dark),(13,3,5,dark),(16,22,5,light)]:
+   dm.rectangle((x+xx,y+yy,x+xx,y+yy+h-1),fill=col)
+ elif name in ('iron_edge','brass'):
+  dm.line((x+2,y+3,x+2,y+24),fill=light)
+  dm.line((x+3,y+3,x+14,y+3),fill=light)
+  for xx,yy,w in [(12,18,3),(21,25,4)]:dm.rectangle((x+xx,y+yy,x+xx+w-1,y+yy),fill=dark)
+ elif name in ('plaster','wall_patch'):
+  for xx,yy,w,h,col in [(2,3,7,2,light),(3,5,4,2,light),(23,11,3,4,dark),
+                       (25,14,3,2,dark),(9,24,4,1,dark),(10,25,2,2,dark),
+                       (18,28,6,2,light),(20,27,3,1,light)]:
+   dm.rectangle((x+xx,y+yy,x+xx+w-1,y+yy+h-1),fill=col)
+ elif name == 'stone_trim':
+  dm.line((x+2,y+2,x+27,y+2),fill=light)
+  dm.line((x+2,y+3,x+2,y+26),fill=light)
+  for xx,yy,w,h,col in [(1,10,6,1,dark),(1,21,7,1,dark),(7,11,2,1,light),
+                       (19,7,3,1,dark),(25,24,4,2,dark),(26,26,2,1,light)]:
+   dm.rectangle((x+xx,y+yy,x+xx+w-1,y+yy+h-1),fill=col)
  elif name == 'leaf':
   dm.line((x+15,y+3,x+15,y+28),fill=dark)
   for yy in [9,16,23]: dm.line((x+16,y+yy,x+22,y+yy-3),fill=light)
@@ -58,9 +88,11 @@ for i, (name, ground, dark, light) in enumerate(PALETTES):
   dm.rectangle((x+3,y+3,x+6,y+27),fill=light)
   dm.rectangle((x+28,y+1,x+30,y+30),fill=dark)
  elif name == 'roof_clay':
-  for yy in [8,20]:
+  for yy in [10,22]:
    dm.line((x+1,y+yy,x+30,y+yy),fill=dark)
-   dm.line((x+2,y+yy+1,x+29,y+yy+1),fill=light)
+   dm.line((x+2,y+yy+1,x+17,y+yy+1),fill=light)
+  for xx,yy,h in [(7,1,9),(21,12,10),(10,24,6)]:dm.line((x+xx,y+yy,x+xx,y+yy+h),fill=dark)
+  for xx,yy,w in [(3,5,3),(13,17,6),(25,27,3)]:dm.line((x+xx,y+yy,x+xx+w,y+yy),fill=light)
  else:
   for xx,yy,w,h,col in [(4,5,5,1,light),(21,9,3,2,dark),(10,18,4,1,light),(25,26,2,1,dark),(5,28,1,1,dark)]:
    dm.rectangle((x+xx,y+yy,x+xx+w-1,y+yy+h-1),fill=col)

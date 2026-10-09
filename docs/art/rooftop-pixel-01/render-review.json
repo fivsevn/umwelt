@@ -1,0 +1,53 @@
+{
+  "revision": 2,
+  "software": "Blender 4.5.14 LTS",
+  "source": "garden-sample.blend",
+  "kind": "offline material preview; browser lighting can differ",
+  "images": [
+    {
+      "file": "review/scene-day.jpg",
+      "asset": "scene",
+      "dusk": false,
+      "dimensions": [
+        1280,
+        960
+      ]
+    },
+    {
+      "file": "review/scene-dusk.jpg",
+      "asset": "scene",
+      "dusk": true,
+      "dimensions": [
+        1280,
+        960
+      ]
+    },
+    {
+      "file": "review/ceramic-pot.jpg",
+      "asset": "ceramic-pot",
+      "dusk": false,
+      "dimensions": [
+        1280,
+        960
+      ]
+    },
+    {
+      "file": "review/metal-rack.jpg",
+      "asset": "metal-rack",
+      "dusk": false,
+      "dimensions": [
+        1280,
+        960
+      ]
+    },
+    {
+      "file": "review/doorway-dusk.jpg",
+      "asset": "doorway",
+      "dusk": true,
+      "dimensions": [
+        1280,
+        960
+      ]
+    }
+  ]
+}

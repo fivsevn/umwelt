@@ -1,14 +1,25 @@
 # 花农时代 · 3D Pixel 视觉样板 01
 
-第一批独立视觉样板：陶盆、黑色金属花架、带门与壁灯的建筑局部，以及用于展示的铺地和几枝示意叶片。状态：**未认可，未集成游戏**。
+第一批独立视觉样板：陶盆、黑色金属花架、带门与壁灯的建筑局部，以及用于展示的铺地和几枝示意叶片。状态：**大方向已认可；参考图微调版待看效果，未集成游戏**。
 
-本次接续只取得原会话中 11 张 GIF 的附件占位文字，未取得图像内容。因此这一版根据用户文字中的低多边形轮廓、少量色阶和 32/64/128px 像素贴图要求制作，尚未逐张对照参考 GIF。补齐参考后可在这些可编辑源稿上继续调整。
+本轮取得用户新附的 13 张参考 GIF，按其中的像素材质、面板结构、边缘磨损与低模轮廓细化原稿。保留原有构图、物件、比例和全部材质配色。下列新版图片由实际 Blender 离线渲染，便于查看材质；网页使用自己的实时光照，效果会略有差异。
 
 ![白天组合场景](review/scene-day.jpg)
 
 ![陶盆近景](review/ceramic-pot.jpg)
 
 ![傍晚组合场景](review/scene-dusk.jpg)
+
+## 本轮微调
+
+| 部位 | 调整 | 主要参考 |
+|---|---|---|
+| 陶盆 | 沿周向绘制短促窑烧色块、盆口亮边与少量磕碰，盆底保留深色带 | 石灯、饮水机、柜体中的明确色块与少量亮边 |
+| 金属花架与壁灯 | 用窄 UV 条带绘制杆件高光和磨损，笔触沿金属杆长度延伸 | 黑色路灯、长椅与柜体 |
+| 门板与石框 | 减少重复竖纹，突出四块宽面板，增加断续凹线、短木纹和石框接缝 | 两组独立门、蓝色拱门建筑局部 |
+| 檐瓦与铺地 | 瓦缝错开并增加少量横向笔触；铺地重复使用旋转 UV，减轻相同斑点的重复感 | 神社檐瓦、砖墙与建筑立面 |
+
+宽面与倒角使用同一物件的投影范围，避免每条微小倒角都被拉满一整块贴图。门楣和石框端部改为相接，修正原稿共面重叠导致的 Blender 黑块，建筑外轮廓与整体尺寸不变。没有临摹或复制参考图中的纹理素材。
 
 ## 制作与材质
 
@@ -27,15 +38,15 @@
 | 黑色金属花架 | `metal-rack.glb` | 63,020 B / 61.5 KiB | 840 | 1 |
 | 建筑局部、门与壁灯 | `doorway.glb` | 119,720 B / 116.9 KiB | 1,576 | 2 |
 | 展示铺地与示意枝叶 | `scene-set.glb` | 54,844 B / 53.6 KiB | 764 | 1 |
-| 共享材质 | `garden-atlas.png` | 1,454 B / 1.4 KiB | — | — |
+| 共享材质 | `garden-atlas.png` | 1,669 B / 1.6 KiB | — | — |
 
-模型和贴图合计 **282,638 B / 276.0 KiB**，不含页面脚本、既有 Three.js 与截图。组合场景复用 5 只同一陶盆，共 6,700 个三角形、9 次绘制。没有 Draco/KTX2 等解码依赖。
+模型和贴图合计 **282,853 B / 276.2 KiB**，仅比前稿增加 215 B，不含页面脚本、既有 Three.js 与截图。组合场景复用 5 只同一陶盆，共 6,700 个三角形、9 次绘制。没有 Draco/KTX2 等解码依赖。
 
 ## 查看与保存
 
 - 静态预览目录：[`rooftop/previews/pixel-01`](../../../rooftop/previews/pixel-01/)。从仓库根目录启动静态文件服务器后打开 `/rooftop/previews/pixel-01/`。
 - 浏览器支持整体场景、单件近看、拖动旋转、双指或滚轮缩放、键盘操作与傍晚灯光。
-- 截图位于 [`review/`](review/)，可直接从 GitHub 查看。
+- 新版离线效果图位于 [`review/`](review/)，可直接从 GitHub 查看。`mobile-390.jpg` 与 `mobile-320.jpg` 是第一版网页布局核对的历史截图，不代表本轮材质。
 - 分支：`preview/rooftop-3d-pixel-samples`。现有 Pages 工作流只自动发布 main；此分支没有部署到正式域名。
 - GitHub 保存制作源稿、制作脚本、发布文件、尺寸清单和验证记录。工作目录仅是临时制作与核对环境。
 - 现有发布脚本已排除 `docs/`，所以制作源稿和截图不进入网页发布包。本次只增加 `.glb` 的提交版本标记支持；没有修改任何游戏入口、物件资料、植物资料、布局、存档、车库、房间或叙事。
@@ -49,17 +60,19 @@
 python docs/art/rooftop-pixel-01/export_atlas.py --pixelorama /path/to/Pixelorama
 # 从制作脚本重新建立初始模型和样板场景
 blender --background --python docs/art/rooftop-pixel-01/build_scene.py
+# 从保存的 .blend 离线渲染整体与单件，不覆盖源稿
+blender --background --python docs/art/rooftop-pixel-01/render_review.py
 ```
 
 `build_scene.py` 会从头重建 .blend，不用于保留已经手工修改的模型。手工修改 .blend 后，应选中相应资产部件按 glTF/GLB 导出，保持 UV、地面原点和物件分组，合并发布副本而非制作原件；GLB 不导出材质，交给预览页面关联共享 PNG。建筑发光玻璃副本名称保留 `Warm_glass`。
 
 ## 核对
 
-- Pixelorama 原生工程导出与逐像素核对：[`pixelorama-check.json`](pixelorama-check.json)。
-- 实际 Chromium 网页记录：[`browser-check.json`](browser-check.json)。桌面 1280×900、手机 390×844 与 320×740；无横向溢出，无网页错误。
-- 整体、三件单件视图、白天/傍晚、归位、旋转、键盘转向/缩放均已核对。四个模型缓存复用，贴图仅加载一次；所有资源来自当前静态目录。
-- `prefers-reduced-motion` 的 no-preference、reduce 与实时设置切换下，用户主动开启的旋转均继续可见。
-- 现有完整检查通过：338 项测试通过；语言、物种、环境、叙事和公开页面结构检查全部通过。
-- 发布包核对：制作源稿排除，GLB/PNG/加载器完整，并能添加提交版本 URL。实际浏览器记录见 [`published-artifact-check.json`](published-artifact-check.json)，四个 GLB 和共享 PNG 带版本参数成功加载，网页无错误。
+- 本轮 Pixelorama 原生工程实际导出，与分层源图逐像素一致：[`pixelorama-check.json`](pixelorama-check.json)。48 个材质笔触颜色保持原稿配色。
+- 本轮四个 GLB 均由样板页面使用的实际 Three.js r160 GLTFLoader 在 Node 中成功解析，网格数、三角形数、体积与清单一致；UV 和几何数值有效：[`refinement-check.json`](refinement-check.json)。
+- 实际 Blender 4.5 离线渲染整体白天/傍晚、陶盆、花架与建筑近景，逐张检查材质与画面完整性：[`render-review.json`](render-review.json)。
+- 本轮静态发布包核对：制作源稿排除，GLB/PNG/加载器完整，提交版本 URL 正确：[`refinement-publish-check.json`](refinement-publish-check.json)。
+- 本轮浏览器访问权限被拒绝，未重新进行浏览器视觉测试。页面、样式与交互代码没有修改。第一版实际 Chromium 验证记录仍保留于 [`browser-check.json`](browser-check.json) 和 [`published-artifact-check.json`](published-artifact-check.json)：电脑、390px/320px 手机、整体/单件、灯光、旋转、键盘、缓存及减少动态效果切换均已核对，网页无错误。历史记录不能替代本轮浏览器复测。
+- 第一版现有完整检查曾通过：338 项测试；语言、物种、环境、叙事和公开页面结构检查全部通过。此次资产与制作文档微调未重复运行整套游戏检查。
 
 样板尺寸用于观察造型，尚未映射到游戏中的摆放尺寸、承放面与 ID。用户认可视觉后，正式接入时仍需按原物件数据适配比例，遵守 `rooftop/AGENTS.md` 中的摆放、承放和存档契约。示意枝叶仅用于构图，不代表新增物种或对现有程序化植物的替换。

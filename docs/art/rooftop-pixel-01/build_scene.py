@@ -24,7 +24,7 @@ groups={}
 def collection(name):
  c=bpy.data.collections.new(name); bpy.context.scene.collection.children.link(c); groups[name]=[]; return c
 cols={n:collection(n) for n in ['ceramic-pot','metal-rack','doorway','scene-set']}
-def finish(obj,name,group,tile,uvmode='cube',emissive=False):
+def finish(obj,name,group,tile,uvmode='cube',emissive=False,uvturn=0):
  obj.name=name
  for c in list(obj.users_collection): c.objects.unlink(obj)
  cols[group].objects.link(obj); groups[group].append(obj)
@@ -33,25 +33,35 @@ def finish(obj,name,group,tile,uvmode='cube',emissive=False):
  uv=obj.data.uv_layers.active.data
  # For authored lathe/leaf UVs use the existing per-loop coordinates.
  for p in obj.data.polygons:
+  rect=(1,1,30,30)
   if uvmode=='cube':
    axis=max(range(3),key=lambda k:abs(p.normal[k])); axes=[k for k in range(3) if k!=axis]
+   # Shared object bounds keep the bevels in the same pixel field as broad faces.
    points=[obj.data.vertices[obj.data.loops[j].vertex_index].co for j in p.loop_indices]
-   mins=[min(v[k] for v in points) for k in axes]; maxs=[max(v[k] for v in points) for k in axes]
+   all_points=[v.co for v in obj.data.vertices]
+   if tile==2 or (tile==5 and any(part in name for part in ['stile','rail'])) or (tile==7 and 'jamb' in name):
+    axes.sort(key=lambda k:max(v[k] for v in all_points)-min(v[k] for v in all_points))
+    if tile==2:rect=(1,1,6,30) if p.normal[axis]>0 else (12,1,17,30)
+    elif tile==5:rect=(18,2,25,29)
+    else:rect=(1,1,8,30)
+   mins=[min(v[k] for v in all_points) for k in axes]; maxs=[max(v[k] for v in all_points) for k in axes]
    for j,v in zip(p.loop_indices,points):
     q=[(v[k]-mins[h])/max(maxs[h]-mins[h],.001) for h,k in enumerate(axes)]
     uv[j].uv=q
   for j in p.loop_indices:
    u,v=uv[j].uv
+   for _ in range(uvturn%4):u,v=1-v,u
    # 1px gutters; the tile borders never sample adjacent materials.
-   uv[j].uv=((tile%4*32+1+u*29)/128,(128-(tile//4*32+31)+v*29)/128)
+   u0,v0,u1,v1=rect
+   uv[j].uv=((tile%4*32+u0+u*(u1-u0))/128,(128-(tile//4*32+v1)+v*(v1-v0))/128)
  return obj
-def box(name,group,pos,size,tile,bevel=0,emissive=False):
+def box(name,group,pos,size,tile,bevel=0,emissive=False,uvturn=0):
  bpy.ops.mesh.primitive_cube_add(size=1,location=pos); o=bpy.context.object
  o.dimensions=size; bpy.ops.object.transform_apply(location=False,rotation=False,scale=True)
  if bevel:
   mod=o.modifiers.new('Single step edges','BEVEL'); mod.width=bevel; mod.segments=1
   bpy.ops.object.modifier_apply(modifier=mod.name)
- return finish(o,name,group,tile,emissive=emissive)
+ return finish(o,name,group,tile,emissive=emissive,uvturn=uvturn)
 def rod(name,group,a,b,width,tile=2):
  a,b=Vector(a),Vector(b); o=box(name,group,(a+b)/2,(width,width,(b-a).length),tile)
  o.rotation_euler=(b-a).to_track_quat('Z','Y').to_euler(); return o
@@ -89,10 +99,11 @@ for x in [-.69,.69]:
 # Doorway vignette; wall segments preserve a real opening, with a return wall.
 box('Wall / left plaster pier','doorway',(-1.35,1.03,1.17),(1.1,.22,2.34),4,.018)
 box('Wall / right plaster pier','doorway',(1.36,1.03,1.17),(.70,.22,2.34),4,.018)
-box('Wall / lintel','doorway',(.24,1.03,2.185),(2.12,.22,.31),4,.015)
+# Meet the piers at their edges; coplanar overlaps made black rectangles in Cycles.
+box('Wall / lintel','doorway',(.105,1.03,2.185),(1.81,.22,.31),4,.015)
 box('Wall / short return','doorway',(-1.84,.60,.48),(.16,1.06,.96),4,.015)
 box('Wall / return coping','doorway',(-1.84,.60,.99),(.22,1.11,.07),7,.008)
-for x in [-.80,1.005]: box('Door / stone jamb','doorway',(x,.862,1.02),(.11,.15,2.04),7,.007)
+for x in [-.80,1.005]: box('Door / stone jamb','doorway',(x,.862,1.0025),(.11,.15,2.005),7,.007)
 box('Door / stone head','doorway',(.102,.862,2.06),(1.91,.15,.11),7,.008)
 box('Door / shadow recess','doorway',(.10,1.10,1.0),(1.72,.05,2.0),8)
 box('Door / sage leaf','doorway',(.10,.997,1.01),(1.66,.095,1.96),5,.004)
@@ -123,7 +134,7 @@ finish(bpy.context.object,'Lamp / pitched cap','doorway',2)
 box('Stage / foundation','scene-set',(-.10,-.05,-.10),(3.98,2.76,.20),12,.035)
 for ix in range(9):
  for iy in range(6):
-  box('Stage / paving','scene-set',(-1.84+ix*.44,-1.15+iy*.44,-.005),(.433,.433,.03),6)
+  box('Stage / paving','scene-set',(-1.84+ix*.44,-1.15+iy*.44,-.005),(.433,.433,.03),6,uvturn=(ix+2*iy)%4)
 def sprig(pos,scale):
  x,y,z=pos
  rod('Demo-only / stem','scene-set',(x,y,z),(x+.03*scale,y,z+.58*scale),.017*scale,9)
@@ -193,9 +204,10 @@ bpy.ops.object.camera_add(location=(5,-7,4.8));camera=bpy.context.object;camera.
 camera.data.ortho_scale=6.3
 camera.rotation_euler=(Vector((-.10,.05,1.10))-camera.location).to_track_quat('-Z','Y').to_euler();scene.camera=camera
 scene.render.image_settings.file_format='PNG';scene.render.film_transparent=True
-scene['sample_status']='Unapproved visual sample. Reference GIFs were not exposed in conversation transfer.'
+scene['sample_status']='Direction approved; material refinement from 13 reference GIFs awaiting visual review. Not integrated into the game.'
+scene['reference_refinement']='Authored ceramic kiln marks, metal edge strips, broad door panels, stone joints and tile strokes; original palette, geometry and placements preserved.'
 scene['atlas_workflow']='128px atlas; sixteen 32px material tiles; nearest texture sampling; no screen pixelation'
 bpy.ops.wm.save_as_mainfile(filepath=str(ROOT/'garden-sample.blend'),compress=True)
 scene.render.filepath=str(ROOT/'blender-preview.png');bpy.ops.render.render(write_still=True)
-(ASSETS/'asset-manifest.json').write_text(json.dumps({'version':1,'status':'unapproved','atlas':{'file':'garden-atlas.png','width':128,'height':128,'tile':32,'bytes':(ASSETS/'garden-atlas.png').stat().st_size},'assets':stats,'placements':placements},ensure_ascii=False,indent=2)+'\n')
+(ASSETS/'asset-manifest.json').write_text(json.dumps({'version':2,'status':'direction-approved-refinement-pending','atlas':{'file':'garden-atlas.png','width':128,'height':128,'tile':32,'bytes':(ASSETS/'garden-atlas.png').stat().st_size},'assets':stats,'placements':placements},ensure_ascii=False,indent=2)+'\n')
 print(json.dumps(stats))
