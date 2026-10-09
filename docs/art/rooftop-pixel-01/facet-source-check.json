@@ -1,5 +1,5 @@
 {
-  "revision": 7,
+  "revision": 8,
   "software": "Blender 4.5.14 LTS",
   "edited_existing_source": true,
   "previous_iteration_preserved_hidden": true,
@@ -306,5 +306,17 @@
     }
   ],
   "native_uv_cut_precision_tolerance_metres": 1e-05,
-  "duplicate_or_sliver_vertices_removed": 1976
+  "duplicate_or_sliver_vertices_removed": 1976,
+  "revision_7_geometry_retained": true,
+  "texture_only_refresh": {
+    "scene_geometry_uv_placements_camera_shaders_unchanged": true,
+    "scene_data_sha256": "d9c4598a28e5d5480eb7443739097e6de8ebe2601729c69bfedb01ce8a9b48d5",
+    "packed_atlas_sha256": "10b5314f5dc5620d723c9056b73b7bdd56250c0296e05c7d64baefb0ab45ea32",
+    "packed_bytes_equal_native_export": true,
+    "source_saved_and_reopened_in_actual_blender": true,
+    "atlas_dimensions": [
+      128,
+      128
+    ]
+  }
 }

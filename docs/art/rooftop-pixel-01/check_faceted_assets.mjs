@@ -13,7 +13,7 @@ globalThis.THREE=context.THREE;
 const {GLTFLoader}=await import(pathToFileURL(path.join(root,'rooftop/previews/pixel-01/vendor/GLTFLoader.js')));
 const {Vector2,Vector3}=globalThis.THREE;
 const manifest=JSON.parse(fs.readFileSync(path.join(assets,'asset-manifest.json')));
-assert.equal(manifest.version,7);assert.equal(manifest.atlas.texels_per_metre,8);
+assert.equal(manifest.version,8);assert.equal(manifest.atlas.texels_per_metre,8);
 const D=8,atlas=128,results=[];let maxMetricError=0,maxGramError=0,totalSlanted=0;
 for(const asset of manifest.assets){
  const blob=fs.readFileSync(path.join(assets,asset.id+'.glb'));
@@ -61,7 +61,7 @@ assert.ok(preview.includes('atlas.minFilter=THREE.NearestFilter'));
 assert.ok(preview.includes('atlas.generateMipmaps=false'));
 assert.ok(preview.includes('MeshBasicMaterial({map:atlas,vertexColors:true})'));
 assert.ok(!preview.includes('minimumCubeMetres'));
-const result={revision:7,loader:'Actual preview Three.js r160 GLTFLoader',all_six_assets_parsed:true,
+const result={revision:8,loader:'Actual preview Three.js r160 GLTFLoader',all_six_assets_parsed:true,
  square_unfolded_texels:true,same_surface_density_on_all_exported_triangles:true,density_texels_per_metre:D,
  max_length_error_pixels:maxMetricError,max_gram_error_pixels_squared:maxGramError,
  nonzero_uv_triangle_areas:true,slanted_triangles:totalSlanted,all_instance_scales_one:true,

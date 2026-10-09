@@ -80,4 +80,12 @@ camera.matrix_world=Matrix.Translation(center+direction*10)@rotation.to_4x4();ca
 scene.render.resolution_x=1280;scene.render.resolution_y=480
 scene.render.filepath=str(ROOT/'review/roof-detail.jpg');bpy.ops.render.render(write_still=True)
 records.append({'file':'review/roof-detail.jpg','asset':'roof folded planes','dusk':False,'dimensions':[1280,480]})
-(ROOT/'render-review.json').write_text(json.dumps({'revision':7,'software':'Blender '+bpy.app.version_string,'source':'garden-sample.blend','kind':'native material render with same flat vertex shades and nearest texture as preview; no smooth lighting','images':records},indent=2)+'\n')
+view('scene-set');lighting(False)
+for obj in bpy.data.collections['scene-set'].objects:
+ obj.hide_render=obj.name not in ['Stage / paving','Stage / foundation']
+floor=bpy.data.objects['Stage / paving'];center=floor.location.copy()
+camera.matrix_world=Matrix.Translation(center+direction*10)@rotation.to_4x4();camera.data.ortho_scale=5.3
+scene.render.resolution_x=1280;scene.render.resolution_y=960
+scene.render.filepath=str(ROOT/'review/paving-detail.jpg');bpy.ops.render.render(write_still=True)
+records.append({'file':'review/paving-detail.jpg','asset':'paving native pixels','dusk':False,'dimensions':[1280,960]})
+(ROOT/'render-review.json').write_text(json.dumps({'revision':8,'software':'Blender '+bpy.app.version_string,'source':'garden-sample.blend','kind':'native material render with same flat vertex shades and nearest texture as preview; no smooth lighting','images':records},indent=2)+'\n')

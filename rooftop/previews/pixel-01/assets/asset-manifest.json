@@ -1,19 +1,20 @@
 {
-  "version": 7,
-  "status": "coarse-painted-folded-planes-review-pending",
+  "version": 8,
+  "status": "material-structure-refinement-review-pending",
   "atlas": {
     "file": "garden-atlas.png",
     "width": 128,
     "height": 128,
     "tile": 32,
     "layers": 3,
-    "plaster_tones": 4,
-    "bytes": 12397,
+    "plaster_tones": 5,
+    "bytes": 6791,
     "texels_per_metre": 8.0,
     "texel_size_metres": 0.125,
     "actual_authoring_tool": "Pixelorama native Pencil",
     "unfolded_pixels": "square, same physical size, integer painted texels",
-    "full_native_colour_fields": true
+    "full_native_colour_fields": true,
+    "material_structure": "connected plaster, local foot damp; paving slabs and joints; sparse paint edge wear"
   },
   "assets": [
     {

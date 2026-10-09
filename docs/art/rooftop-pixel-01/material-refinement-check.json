@@ -1,0 +1,69 @@
+{
+  "revision": 8,
+  "same_native_three_layer_source": true,
+  "native_dimensions": [
+    128,
+    128
+  ],
+  "all_9216_authored_cells_match_actual_pencil_result": true,
+  "geometry_only_files_byte_identical_to_revision_7": [
+    {
+      "file": "ceramic-pot-medium.glb",
+      "bytes": 19972,
+      "sha256": "2ae5ba4f5dba2d08f304d61dfecc03c03095052dc85dc2e224b52c09342ff0f5"
+    },
+    {
+      "file": "ceramic-pot-small.glb",
+      "bytes": 19972,
+      "sha256": "3d9464845ed8b47ea252373fbc37698f7741c5e29b442a0bcf8b5a12da0be096"
+    },
+    {
+      "file": "ceramic-pot.glb",
+      "bytes": 19956,
+      "sha256": "3fadfb9682e5ecb987cb3f9f17587e2825955df79e830af23ff486101c567d7f"
+    },
+    {
+      "file": "doorway.glb",
+      "bytes": 28088,
+      "sha256": "9d5431190f821d3a727ddb0f3deaa162f544bbe304baef7db8a4bc512ddc87f3"
+    },
+    {
+      "file": "metal-rack.glb",
+      "bytes": 33836,
+      "sha256": "766e7c26aa428490761d853d012c3af8475c6c33e13f518049be99bfb8d8107a"
+    },
+    {
+      "file": "scene-set.glb",
+      "bytes": 11776,
+      "sha256": "9b82c16f1d55aaee338ac69d30b290479d9748a71bcbffbe33724c4f69de8dc0"
+    }
+  ],
+  "atlas_bytes": 6791,
+  "total_runtime_asset_bytes": 140391,
+  "source_scene_unchanged": {
+    "scene_geometry_uv_placements_camera_shaders_unchanged": true,
+    "scene_data_sha256": "d9c4598a28e5d5480eb7443739097e6de8ebe2601729c69bfedb01ce8a9b48d5",
+    "packed_atlas_sha256": "10b5314f5dc5620d723c9056b73b7bdd56250c0296e05c7d64baefb0ab45ea32",
+    "packed_bytes_equal_native_export": true,
+    "source_saved_and_reopened_in_actual_blender": true,
+    "atlas_dimensions": [
+      128,
+      128
+    ]
+  },
+  "original_software_sources": [
+    {
+      "file": "garden-atlas.pxo",
+      "bytes": 18232
+    },
+    {
+      "file": "garden-atlas.ora",
+      "bytes": 22578
+    },
+    {
+      "file": "garden-sample.blend",
+      "bytes": 618681
+    }
+  ],
+  "reference_pages_visually_reviewed": 9
+}

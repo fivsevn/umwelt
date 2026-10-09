@@ -1,5 +1,5 @@
 {
-  "revision": 7,
+  "revision": 8,
   "software": "Blender 4.5.14 LTS",
   "source": "garden-sample.blend",
   "kind": "native material render with same flat vertex shades and nearest texture as preview; no smooth lighting",
@@ -65,6 +65,15 @@
       "dimensions": [
         1280,
         480
+      ]
+    },
+    {
+      "file": "review/paving-detail.jpg",
+      "asset": "paving native pixels",
+      "dusk": false,
+      "dimensions": [
+        1280,
+        960
       ]
     }
   ]
