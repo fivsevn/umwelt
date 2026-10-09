@@ -1,6 +1,6 @@
 {
-  "version": 6,
-  "status": "faceted-uniform-surface-pixels-review-pending",
+  "version": 7,
+  "status": "coarse-painted-folded-planes-review-pending",
   "atlas": {
     "file": "garden-atlas.png",
     "width": 128,
@@ -8,60 +8,61 @@
     "tile": 32,
     "layers": 3,
     "plaster_tones": 4,
-    "bytes": 1659,
+    "bytes": 12397,
     "texels_per_metre": 8.0,
     "texel_size_metres": 0.125,
     "actual_authoring_tool": "Pixelorama native Pencil",
-    "unfolded_pixels": "square, same physical size, integer painted texels"
+    "unfolded_pixels": "square, same physical size, integer painted texels",
+    "full_native_colour_fields": true
   },
   "assets": [
     {
       "id": "ceramic-pot",
-      "bytes": 51080,
-      "triangles": 704,
+      "bytes": 19956,
+      "triangles": 208,
       "meshes": 1,
       "editable_parts": 3,
-      "texels_per_metre": 8.0
-    },
-    {
-      "id": "metal-rack",
-      "bytes": 64344,
-      "triangles": 848,
-      "meshes": 1,
-      "editable_parts": 38,
-      "texels_per_metre": 8.0
-    },
-    {
-      "id": "doorway",
-      "bytes": 121172,
-      "triangles": 1584,
-      "meshes": 2,
-      "editable_parts": 54,
-      "texels_per_metre": 8.0
-    },
-    {
-      "id": "scene-set",
-      "bytes": 64568,
-      "triangles": 892,
-      "meshes": 1,
-      "editable_parts": 76,
-      "texels_per_metre": 8.0
+      "texels_per_metre": 8
     },
     {
       "id": "ceramic-pot-small",
-      "bytes": 51084,
-      "triangles": 704,
+      "bytes": 19972,
+      "triangles": 208,
       "meshes": 1,
       "editable_parts": 3,
-      "texels_per_metre": 8.0
+      "texels_per_metre": 8
     },
     {
       "id": "ceramic-pot-medium",
-      "bytes": 51092,
-      "triangles": 704,
+      "bytes": 19972,
+      "triangles": 208,
       "meshes": 1,
       "editable_parts": 3,
-      "texels_per_metre": 8.0
+      "texels_per_metre": 8
+    },
+    {
+      "id": "metal-rack",
+      "bytes": 33836,
+      "triangles": 368,
+      "meshes": 1,
+      "editable_parts": 30,
+      "texels_per_metre": 8
+    },
+    {
+      "id": "doorway",
+      "bytes": 28088,
+      "triangles": 288,
+      "meshes": 2,
+      "editable_parts": 24,
+      "texels_per_metre": 8
+    },
+    {
+      "id": "scene-set",
+      "bytes": 11776,
+      "triangles": 112,
+      "meshes": 1,
+      "editable_parts": 23,
+      "texels_per_metre": 8
     }
   ],
   "placements": [
@@ -138,5 +139,6 @@
       "scale": 1
     }
   ],
-  "geometry": "planar low-poly shell with slanted faces"
+  "geometry": "primary folded planes; minor detail painted in pixels",
+  "shading": "four flat face shades; unlit vertex-colour texture"
 }

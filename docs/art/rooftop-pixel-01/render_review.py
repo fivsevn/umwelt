@@ -14,7 +14,8 @@ original_camera=camera.matrix_world.copy()
 original_scale=camera.data.ortho_scale
 daylight=bpy.data.objects['Preview / broad daylight']
 background=scene.world.node_tree.nodes['Background']
-glass=bpy.data.materials['Warm_glass'].node_tree.nodes['Principled BSDF']
+surface_tint=bpy.data.materials['Shared_pixel_atlas'].node_tree.nodes['SurfaceTint']
+glass_tint=bpy.data.materials['Warm_glass'].node_tree.nodes['SurfaceTint']
 bpy.ops.object.light_add(type='POINT',location=(1.37,.44,1.66))
 lamp=bpy.context.object;lamp.data.color=(1,.66,.30);lamp.data.shadow_soft_size=.12
 scene.render.resolution_x=1280;scene.render.resolution_y=960
@@ -35,7 +36,8 @@ def lighting(dusk):
  background.inputs[0].default_value=(.49,.55,.60,1) if dusk else (.77,.79,.72,1)
  background.inputs[1].default_value=.38 if dusk else .7
  daylight.data.energy=150 if dusk else 450
- glass.inputs['Emission Strength'].default_value=2.0 if dusk else .3
+ surface_tint.inputs[2].default_value=tuple(linear(v/255) for v in ((155,165,180) if dusk else (255,255,255)))+(1,)
+ glass_tint.inputs[2].default_value=(1,1,.8,1) if dusk else (1,1,1,1)
  lamp.data.energy=18 if dusk else 0
  flat.outputs[0].default_value=tuple(linear(v/255) for v in ((219,222,216) if dusk else (234,229,219)))+(1,)
 
@@ -68,4 +70,14 @@ for filename,asset,dusk in [('scene-day','scene',False),('scene-dusk','scene',Tr
  scene.render.filepath=str(ROOT/'review'/(filename+'.jpg'))
  bpy.ops.render.render(write_still=True)
  records.append({'file':'review/'+filename+'.jpg','asset':asset,'dusk':dusk,'dimensions':[1280,960]})
-(ROOT/'render-review.json').write_text(json.dumps({'revision':6,'software':'Blender '+bpy.app.version_string,'source':'garden-sample.blend','kind':'offline material preview; browser lighting can differ','images':records},indent=2)+'\n')
+# Actual saved roof close-up, rather than a crop or generated replacement image.
+view('doorway');lighting(False)
+for obj in bpy.data.collections['doorway'].objects:
+ obj.hide_render=obj.name not in ['Roof / pitched clay strip','Roof / eave shadow']
+roof=bpy.data.objects['Roof / pitched clay strip'];center=roof.location.copy()
+direction=Vector((5,-7,4.8)).normalized();rotation=(-direction).to_track_quat('-Z','Y').to_matrix()
+camera.matrix_world=Matrix.Translation(center+direction*10)@rotation.to_4x4();camera.data.ortho_scale=4.4
+scene.render.resolution_x=1280;scene.render.resolution_y=480
+scene.render.filepath=str(ROOT/'review/roof-detail.jpg');bpy.ops.render.render(write_still=True)
+records.append({'file':'review/roof-detail.jpg','asset':'roof folded planes','dusk':False,'dimensions':[1280,480]})
+(ROOT/'render-review.json').write_text(json.dumps({'revision':7,'software':'Blender '+bpy.app.version_string,'source':'garden-sample.blend','kind':'native material render with same flat vertex shades and nearest texture as preview; no smooth lighting','images':records},indent=2)+'\n')

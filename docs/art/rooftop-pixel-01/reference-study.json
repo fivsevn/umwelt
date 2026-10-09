@@ -1,0 +1,39 @@
+{
+  "revision": 7,
+  "reference_priority": "User-provided stone lantern and props; coarse native square texels on primary folded planes",
+  "sources": [
+    {
+      "url": "https://artofsully.com/projects/3kOno",
+      "title": "Brendan Sullivan — 3D Pixel-Art Japanese Stone Lantern",
+      "finding": "原参考石灯的作者页面。结合用户上传的图观察：主要轮廓由少量斜面和梯形组成，材质、苔藓和灯光层次在 32px 贴图中表现。"
+    },
+    {
+      "url": "https://www.playstation.com/en-bh/editorial/iconic-must-play-titles-on-playstation-plus-classics-catalog/",
+      "title": "PlayStation 官方经典游戏页面 — Dark Cloud / Jak and Daxter",
+      "finding": "查阅 PS2 早期游戏条目及官方截图链接；页面含后来移植/展示素材，不把网页图片尺寸当作原主机贴图规格。"
+    },
+    {
+      "url": "https://dennispls.artstation.com/projects/eYrL3",
+      "title": "Dennis Griesheimer — Low poly Humvee pixel art diorama",
+      "finding": "作者说明用低模和像素材质制作场景：车用 128×128，路面用 128×64，小物件用 64×64。"
+    },
+    {
+      "url": "https://bjarnekristensen.artstation.com/projects/8eZm16",
+      "title": "Bjarne Kristensen — Chicken Coop LowPoly Pixel",
+      "finding": "作者说明使用 Blender 制作低模像素农场物件，限制 Dawnbringer 32 色板。"
+    },
+    {
+      "url": "https://terryplloyd.artstation.com/projects/xGXYX",
+      "title": "Terry Lloyd — Low Poly 3D Artwork",
+      "finding": "作者展示早期街机/PS1 低模作品和贴图制作，说明部分贴图最初在 DPaint/Promotion 用 16 色绘制。"
+    }
+  ],
+  "revision_choices": [
+    "移除屋顶的独立细凸条，让瓦缝与色阶回到原生像素贴图。",
+    "移除倒角条带、小螺丝、铰链和凸起门板；保留主要折面。",
+    "原 Pixelorama 三层项目中直接重画完整 32px 材质区域，减少整面平涂。",
+    "保留统一 8 像素/米展开比例，模型实例缩放为 1。",
+    "改用四档平面明暗，去除连续光照渐变、反射和软阴影。",
+    "所有制作与渲染在实际 Pixelorama/Blender 内完成，没有图像生成。"
+  ]
+}

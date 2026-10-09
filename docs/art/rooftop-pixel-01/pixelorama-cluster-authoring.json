@@ -1,0 +1,15 @@
+{
+  "actual_tool": "Pencil",
+  "atlas_size": 128,
+  "brush_size": 1,
+  "integer_coordinates": true,
+  "method": "Author-specified integer stroke replay through software Pencil; no external raster generation",
+  "native_resolution_unchanged": true,
+  "painted_native_cells": 16384.0,
+  "revision": 7,
+  "saved_by_native_software": true,
+  "software": "Pixelorama",
+  "stroke_count": 9534,
+  "tile_size": 32,
+  "version": "v1.2.3-stable"
+}

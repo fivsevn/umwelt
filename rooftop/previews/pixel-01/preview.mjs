@@ -15,7 +15,7 @@ const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,powerPr
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));
 renderer.outputColorSpace=THREE.SRGBColorSpace;
 renderer.toneMapping=THREE.NoToneMapping;
-renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.shadowMap.enabled=false;
 renderer.setClearColor(0x000000,0);
 const scene=new THREE.Scene(), camera=new THREE.OrthographicCamera();
 const root=new THREE.Group();scene.add(root);
@@ -62,13 +62,13 @@ async function chooseView(id){const token=++viewToken;selected=id;turning=false;
  }else{root.add(models[0].clone(true));}
  const bounds=new THREE.Box3().setFromObject(root);viewBounds=bounds;target=bounds.getCenter(new THREE.Vector3());
  yaw=id==='ceramic-pot'?.45:.60;pitch=id==='ceramic-pot'?.54:.47;zoom=1;
- shadow.visible=id!=='scene';shadow.position.y=bounds.min.y-.005;lantern.visible=id==='scene'||id==='doorway';
+ shadow.visible=false;lantern.visible=id==='scene'||id==='doorway';
  document.querySelector('#caption').textContent=descriptions[id];document.body.dataset.view=id;
  updateCamera();
 }
 function lighting(){document.body.dataset.light=dusk?'dusk':'day';document.querySelector('#light').setAttribute('aria-pressed',String(dusk));document.querySelector('#light').textContent=dusk?'白天':'傍晚';
  hemi.intensity=dusk?1.05:2.05;hemi.color.set(dusk?0xd6dce9:0xf5eedc);sun.intensity=dusk?.8:2.15;sun.color.set(dusk?0xe4baa0:0xffeed6);lantern.intensity=dusk?2.1:0;
- warm.emissive.set(0xffcc72);warm.emissiveIntensity=dusk?.85:.12;
+ shared.color.set(dusk?0x9ba5b4:0xffffff);thin.color.copy(shared.color);warm.color.set(dusk?0xffffe7:0xffffff);
 }
 document.querySelectorAll('[data-view]').forEach(button=>button.addEventListener('click',()=>chooseView(button.dataset.view).catch(fail)));
 document.querySelector('#light').addEventListener('click',()=>{dusk=!dusk;lighting();});
@@ -86,11 +86,11 @@ canvas.addEventListener('keydown',event=>{const k=event.key;if(!['ArrowLeft','Ar
  if(k==='ArrowLeft')yaw-=.08;if(k==='ArrowRight')yaw+=.08;if(k==='ArrowUp')pitch=Math.min(1.35,pitch+.05);if(k==='ArrowDown')pitch=Math.max(.08,pitch-.05);if(k==='+'||k==='=')zoom=Math.min(3.5,zoom*1.12);if(k==='-')zoom=Math.max(.6,zoom/1.12);updateCamera();});
 function fail(error){status.hidden=false;status.textContent='样板未能载入，请刷新页面重试。';viewport.setAttribute('aria-busy','false');console.error(error);}
 async function init(){atlas=await new THREE.TextureLoader().loadAsync('./assets/garden-atlas.png');atlas.colorSpace=THREE.SRGBColorSpace;atlas.flipY=false;atlas.magFilter=THREE.NearestFilter;atlas.minFilter=THREE.NearestFilter;atlas.generateMipmaps=false;
- shared=new THREE.MeshStandardMaterial({map:atlas,roughness:.95,metalness:0});thin=shared.clone();thin.side=THREE.DoubleSide;warm=shared.clone();
+ shared=new THREE.MeshBasicMaterial({map:atlas,vertexColors:true});thin=shared.clone();thin.side=THREE.DoubleSide;warm=shared.clone();
  await chooseView('scene');lighting();resize();status.hidden=true;viewport.setAttribute('aria-busy','false');
  new ResizeObserver(resize).observe(viewport);
  let last=performance.now();function draw(now){const elapsed=Math.min((now-last)/1000,.1);last=now;if(turning){yaw+=elapsed*.20;updateCamera();}renderer.render(scene,camera);frameCount++;requestAnimationFrame(draw);}requestAnimationFrame(draw);
  // Read-only inspection for visual QA; no connection to gameplay or storage.
- globalThis.samplePreview={get state(){return {selected,dusk,turning,yaw,pitch,zoom,frameCount,cacheSize:cache.size,drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,surfaceTexelMetres:.125,texelsPerMetre:8,facetedShell:true,squareUnfoldedTexels:true,textureSize:[atlas.image.width,atlas.image.height],nearest:atlas.magFilter===THREE.NearestFilter,canvasSize:[canvas.width,canvas.height]};}};
+ globalThis.samplePreview={get state(){return {selected,dusk,turning,yaw,pitch,zoom,frameCount,cacheSize:cache.size,drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,surfaceTexelMetres:.125,texelsPerMetre:8,facetedShell:true,squareUnfoldedTexels:true,flatFaceShades:true,textureSize:[atlas.image.width,atlas.image.height],nearest:atlas.magFilter===THREE.NearestFilter,canvasSize:[canvas.width,canvas.height]};}};
 }
 init().catch(fail);
