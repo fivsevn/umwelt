@@ -1,5 +1,5 @@
 {
-  "revision": 4,
+  "revision": 5,
   "software": "Blender 4.5.14 LTS",
   "source": "garden-sample.blend",
   "kind": "offline material preview; browser lighting can differ",

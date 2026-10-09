@@ -2,10 +2,11 @@
   "software": "Pixelorama",
   "native_project": "garden-atlas.pxo",
   "dimensions": [
-    256,
-    256
+    128,
+    128
   ],
   "exported_by_actual_pixelorama": true,
   "layers_exported_by_actual_pixelorama": true,
-  "png_sha256": "8c7d38bc3d24842c21a6e5d4c06f9bedad26d1376e421d273aa9d8cec8d56175"
+  "native_cels_equal_exported_layer_rgba": true,
+  "png_sha256": "bdfd20e67b903c7c6c3beda34a2e64b78d1dc7dc33b33cff964fd0cdc0be0680"
 }

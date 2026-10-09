@@ -4,6 +4,8 @@ const canvas=document.querySelector('#canvas'), viewport=document.querySelector(
 // Literal asset URLs are versioned by the existing Pages deployment script.
 const urls={
  'ceramic-pot':'./assets/ceramic-pot.glb',
+ 'ceramic-pot-small':'./assets/ceramic-pot-small.glb',
+ 'ceramic-pot-medium':'./assets/ceramic-pot-medium.glb',
  'metal-rack':'./assets/metal-rack.glb',
  doorway:'./assets/doorway.glb',
  'scene-set':'./assets/scene-set.glb',
@@ -51,10 +53,11 @@ async function chooseView(id){const token=++viewToken;selected=id;turning=false;
  root.clear();
  if(id==='scene'){
   const byId=Object.fromEntries(Object.keys(urls).map((key,i)=>[key,models[i]]));
-  const pots=[[-1.35,1.10,-.03,.4],[-.73,1.10,-.03,.4],[-.99,.32,.04,.4],[.35,.01,.69,1],[1.12,.01,.75,.61]];
-  for(const [x,y,z,s] of pots){const o=byId['ceramic-pot'].clone(true);o.position.set(x,y,z);o.scale.setScalar(s);root.add(o);}
-  const rack=byId['metal-rack'].clone(true);rack.position.set(-1.04,.01,-.04);root.add(rack);
-  const door=byId.doorway.clone(true);door.position.y=.01;root.add(door);root.add(byId['scene-set'].clone(true));
+  // Each size has its own whole-cube model; instances never shrink the grid.
+  const pots=[['ceramic-pot-small',-1.3,1.1,0],['ceramic-pot-small',-.7,1.1,0],['ceramic-pot-small',-1.,.3,0],['ceramic-pot',.4,0,.7],['ceramic-pot-medium',1.1,0,.8]];
+  for(const [asset,x,y,z] of pots){const o=byId[asset].clone(true);o.position.set(x,y,z);root.add(o);}
+  const rack=byId['metal-rack'].clone(true);rack.position.set(-1.,0,0);root.add(rack);
+  root.add(byId.doorway.clone(true));root.add(byId['scene-set'].clone(true));
  }else{root.add(models[0].clone(true));}
  const bounds=new THREE.Box3().setFromObject(root);viewBounds=bounds;target=bounds.getCenter(new THREE.Vector3());
  yaw=id==='ceramic-pot'?.45:.60;pitch=id==='ceramic-pot'?.54:.47;zoom=1;
@@ -87,6 +90,6 @@ async function init(){atlas=await new THREE.TextureLoader().loadAsync('./assets/
  new ResizeObserver(resize).observe(viewport);
  let last=performance.now();function draw(now){const elapsed=Math.min((now-last)/1000,.1);last=now;if(turning){yaw+=elapsed*.20;updateCamera();}renderer.render(scene,camera);frameCount++;requestAnimationFrame(draw);}requestAnimationFrame(draw);
  // Read-only inspection for visual QA; no connection to gameplay or storage.
- globalThis.samplePreview={get state(){return {selected,dusk,turning,yaw,pitch,zoom,frameCount,cacheSize:cache.size,drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,textureSize:[atlas.image.width,atlas.image.height],nearest:atlas.magFilter===THREE.NearestFilter,canvasSize:[canvas.width,canvas.height]};}};
+ globalThis.samplePreview={get state(){return {selected,dusk,turning,yaw,pitch,zoom,frameCount,cacheSize:cache.size,drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,minimumCubeMetres:.1,integerGrid:true,textureSize:[atlas.image.width,atlas.image.height],nearest:atlas.magFilter===THREE.NearestFilter,canvasSize:[canvas.width,canvas.height]};}};
 }
 init().catch(fail);

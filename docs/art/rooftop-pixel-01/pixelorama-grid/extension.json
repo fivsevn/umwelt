@@ -1,0 +1,14 @@
+{
+  "name": "UmweltGrid",
+  "display_name": "Umwelt material-grid authoring",
+  "description": "Replay integer-coordinate strokes through the actual native Pencil tool.",
+  "author": "\u4e94\u6708\u4e03\u65e5",
+  "version": "0.1",
+  "supported_api_versions": [
+    8
+  ],
+  "license": "MIT",
+  "nodes": [
+    "Main.tscn"
+  ]
+}
