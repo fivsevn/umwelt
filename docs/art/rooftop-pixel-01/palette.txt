@@ -12,5 +12,6 @@
 11 roof_clay: #a1755d #865b4a #ba8c6c
 12 foundation: #8d998d #768476 #a6af9e
 13 brass: #b9a273 #958453 #d5bf87
-14 wood: #897258 #6f5c49 #a58c6b
-15 wall_patch: #b6b99e #9fa58e #ced0b7
+14 panel_variant: #738b7d #5b7367 #91a291
+15 wall_patch: #c4c6aa #adb298 #d7d8be
+Weathering extras: #b6b99e #9fa58e #897258

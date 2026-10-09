@@ -1,12 +1,14 @@
 {
-  "version": 2,
-  "status": "direction-approved-refinement-pending",
+  "version": 3,
+  "status": "direction-approved-weathering-review-pending",
   "atlas": {
     "file": "garden-atlas.png",
     "width": 128,
     "height": 128,
     "tile": 32,
-    "bytes": 1669
+    "layers": 3,
+    "plaster_tones": 5,
+    "bytes": 2453
   },
   "assets": [
     {

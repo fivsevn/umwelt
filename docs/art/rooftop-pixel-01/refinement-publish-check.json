@@ -1,7 +1,7 @@
 {
-  "revision": 2,
+  "revision": 3,
   "kind": "static artifact verification; no browser access",
-  "validationVersion": "86f841e39fe220db42b17d119b3bfb18c728e732",
+  "validationVersion": "b62ab34818e15bcf260016b5b777d849e5b809c5",
   "publicFileCount": 267,
   "stampedURLs": 655,
   "authoringFilesExcluded": true,
@@ -32,7 +32,7 @@
     },
     {
       "file": "garden-atlas.png",
-      "bytes": 1669,
+      "bytes": 2453,
       "versioned": true,
       "identicalToSource": true
     }

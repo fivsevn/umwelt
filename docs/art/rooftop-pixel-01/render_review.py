@@ -4,7 +4,7 @@ These are offline material previews, not browser screenshots.
 """
 from pathlib import Path
 import bpy, json
-from mathutils import Vector
+from mathutils import Vector, Matrix
 
 ROOT=Path(__file__).resolve().parent
 bpy.ops.wm.open_mainfile(filepath=str(ROOT/'garden-sample.blend'))
@@ -47,24 +47,25 @@ def view(asset):
  bpy.context.view_layer.update()
  if asset=='scene':
   camera.matrix_world=original_camera;camera.data.ortho_scale=original_scale;return
- points=[obj.matrix_world@Vector(p) for obj in bpy.data.collections[asset].objects for p in obj.bound_box]
+ graph=bpy.context.evaluated_depsgraph_get()
+ evaluated=[obj.evaluated_get(graph) for obj in bpy.data.collections[asset].objects]
+ points=[obj.matrix_world@Vector(p) for obj in evaluated for p in obj.bound_box]
  center=Vector([(min(p[i] for p in points)+max(p[i] for p in points))/2 for i in range(3)])
  direction=Vector((5,-7,4.8)).normalized()
- camera.location=center+direction*10
- camera.rotation_euler=(-direction).to_track_quat('-Z','Y').to_euler()
- rotation=camera.rotation_euler.to_matrix()
+ rotation=(-direction).to_track_quat('-Z','Y').to_matrix()
+ camera.matrix_world=Matrix.Translation(center+direction*10)@rotation.to_4x4()
  right=rotation@Vector((1,0,0));up=rotation@Vector((0,1,0))
  projected=[((p-center).dot(right),(p-center).dot(up)) for p in points]
  width=max(p[0] for p in projected)-min(p[0] for p in projected)
  height=max(p[1] for p in projected)-min(p[1] for p in projected)
- camera.data.ortho_scale=max(width,height*(1280/960))*1.18
+ camera.data.ortho_scale=max(width,height*(1280/960))*1.25
 
 records=[]
 for filename,asset,dusk in [('scene-day','scene',False),('scene-dusk','scene',True),
                              ('ceramic-pot','ceramic-pot',False),('metal-rack','metal-rack',False),
-                             ('doorway-dusk','doorway',True)]:
+                             ('doorway-dusk','doorway',True),('doorway-day','doorway',False)]:
  view(asset);lighting(dusk)
  scene.render.filepath=str(ROOT/'review'/(filename+'.jpg'))
  bpy.ops.render.render(write_still=True)
  records.append({'file':'review/'+filename+'.jpg','asset':asset,'dusk':dusk,'dimensions':[1280,960]})
-(ROOT/'render-review.json').write_text(json.dumps({'revision':2,'software':'Blender '+bpy.app.version_string,'source':'garden-sample.blend','kind':'offline material preview; browser lighting can differ','images':records},indent=2)+'\n')
+(ROOT/'render-review.json').write_text(json.dumps({'revision':3,'software':'Blender '+bpy.app.version_string,'source':'garden-sample.blend','kind':'offline material preview; browser lighting can differ','images':records},indent=2)+'\n')

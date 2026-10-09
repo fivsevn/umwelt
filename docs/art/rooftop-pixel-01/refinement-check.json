@@ -1,5 +1,5 @@
 {
-  "revision": 2,
+  "revision": 3,
   "three": "160",
   "assets": [
     {
@@ -23,6 +23,7 @@
           0.34299999475479126
         ]
       },
+      "geometryAndTopologyIdenticalToPrevious": true,
       "loadedByActualPreviewGLTFLoader": true
     },
     {
@@ -46,6 +47,7 @@
           0.3175002153856995
         ]
       },
+      "geometryAndTopologyIdenticalToPrevious": true,
       "loadedByActualPreviewGLTFLoader": true
     },
     {
@@ -69,6 +71,7 @@
           -0.04500001668930054
         ]
       },
+      "geometryAndTopologyIdenticalToPrevious": true,
       "loadedByActualPreviewGLTFLoader": true
     },
     {
@@ -92,6 +95,7 @@
           1.4299999959766865
         ]
       },
+      "geometryAndTopologyIdenticalToPrevious": true,
       "loadedByActualPreviewGLTFLoader": true
     }
   ],
@@ -99,6 +103,6 @@
   "runtimeCodeUnchanged": true,
   "browserRetest": {
     "performed": false,
-    "reason": "Local preview access was denied by browser permission review."
+    "reason": "Existing denial of local preview access remains in effect; verified offline."
   }
 }

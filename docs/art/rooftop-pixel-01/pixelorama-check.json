@@ -1,15 +1,33 @@
 {
-  "revision": 2,
+  "revision": 3,
   "software": "Pixelorama v1.2.3-stable",
   "native_project": "garden-atlas.pxo",
   "actual_pixelorama_export": true,
-  "layers": 2,
+  "layers": 3,
   "dimensions": [
     128,
     128
   ],
   "exact_rgba_match": true,
-  "palette_preserved": true,
-  "png_bytes": 1669,
-  "sha256": "9f5792d9feaab593c57c1da630883267ddf9ac8357681a7c3a57885e55129066"
+  "original_base_hues_preserved": true,
+  "material_color_counts": {
+    "0": 3,
+    "1": 3,
+    "2": 3,
+    "3": 4,
+    "4": 5,
+    "5": 4,
+    "6": 3,
+    "7": 4,
+    "8": 3,
+    "9": 3,
+    "10": 3,
+    "11": 3,
+    "12": 3,
+    "13": 3,
+    "14": 4,
+    "15": 5
+  },
+  "png_bytes": 2453,
+  "sha256": "a5a984d34026a66273720912d7ee55877c550b873f7048c932a023b85f0d1164"
 }

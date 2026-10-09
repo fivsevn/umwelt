@@ -34,6 +34,7 @@ def finish(obj,name,group,tile,uvmode='cube',emissive=False,uvturn=0):
  # For authored lathe/leaf UVs use the existing per-loop coordinates.
  for p in obj.data.polygons:
   rect=(1,1,30,30)
+  if tile in (4,15) and 'lintel' in name:rect=(1,1,30,5)
   if uvmode=='cube':
    axis=max(range(3),key=lambda k:abs(p.normal[k])); axes=[k for k in range(3) if k!=axis]
    # Shared object bounds keep the bevels in the same pixel field as broad faces.
@@ -98,10 +99,10 @@ for x in [-.69,.69]:
   for z in [.28,1.06]: box('Rack / exposed fastener','metal-rack',(x,y,z),(.048,.012,.045),3,.004)
 # Doorway vignette; wall segments preserve a real opening, with a return wall.
 box('Wall / left plaster pier','doorway',(-1.35,1.03,1.17),(1.1,.22,2.34),4,.018)
-box('Wall / right plaster pier','doorway',(1.36,1.03,1.17),(.70,.22,2.34),4,.018)
+box('Wall / right plaster pier','doorway',(1.36,1.03,1.17),(.70,.22,2.34),15,.018)
 # Meet the piers at their edges; coplanar overlaps made black rectangles in Cycles.
 box('Wall / lintel','doorway',(.105,1.03,2.185),(1.81,.22,.31),4,.015)
-box('Wall / short return','doorway',(-1.84,.60,.48),(.16,1.06,.96),4,.015)
+box('Wall / short return','doorway',(-1.84,.60,.48),(.16,1.06,.96),15,.015)
 box('Wall / return coping','doorway',(-1.84,.60,.99),(.22,1.11,.07),7,.008)
 for x in [-.80,1.005]: box('Door / stone jamb','doorway',(x,.862,1.0025),(.11,.15,2.005),7,.007)
 box('Door / stone head','doorway',(.102,.862,2.06),(1.91,.15,.11),7,.008)
@@ -110,7 +111,9 @@ box('Door / sage leaf','doorway',(.10,.997,1.01),(1.66,.095,1.96),5,.004)
 for x in [-.56,.76]: box('Door / vertical stile','doorway',(x,.927,1.015),(.095,.04,1.94),5,.004)
 for z in [.17,.88,1.86]: box('Door / horizontal rail','doorway',(.10,.912,z),(1.36,.06,.09),5,.004)
 for x in [-.27,.37]:
- for z,h in [(.515,.58),(1.37,.86)]: box('Door / raised panel','doorway',(x,.938,z),(.54,.018,h),5,.008)
+ for z,h in [(.515,.58),(1.37,.86)]:
+  tile=14 if (x>0)==(z>.8) else 5
+  box('Door / raised panel','doorway',(x,.938,z),(.54,.018,h),tile,.008)
 box('Door / brass backplate','doorway',(.68,.877,1.005),(.045,.025,.14),13,.005)
 rod('Door / brass pull','doorway',(.68,.846,.96),(.68,.846,1.06),.027,13)
 box('Door / threshold','doorway',(.10,.83,.037),(1.86,.45,.074),7,.008)
@@ -205,9 +208,9 @@ camera.data.ortho_scale=6.3
 camera.rotation_euler=(Vector((-.10,.05,1.10))-camera.location).to_track_quat('-Z','Y').to_euler();scene.camera=camera
 scene.render.image_settings.file_format='PNG';scene.render.film_transparent=True
 scene['sample_status']='Direction approved; material refinement from 13 reference GIFs awaiting visual review. Not integrated into the game.'
-scene['reference_refinement']='Authored ceramic kiln marks, metal edge strips, broad door panels, stone joints and tile strokes; original palette, geometry and placements preserved.'
-scene['atlas_workflow']='128px atlas; sixteen 32px material tiles; nearest texture sampling; no screen pixelation'
+scene['reference_refinement']='Pixel weathering from IMG_2327: connected stepped plaster patches, eave runoff, floor dirt and chipped edges. Original base hues, geometry, lighting and placements preserved.'
+scene['atlas_workflow']='128px atlas; sixteen 32px material tiles; plaster uses 5 nearby tones; separate weathering layer; nearest texture sampling; no screen pixelation'
 bpy.ops.wm.save_as_mainfile(filepath=str(ROOT/'garden-sample.blend'),compress=True)
 scene.render.filepath=str(ROOT/'blender-preview.png');bpy.ops.render.render(write_still=True)
-(ASSETS/'asset-manifest.json').write_text(json.dumps({'version':2,'status':'direction-approved-refinement-pending','atlas':{'file':'garden-atlas.png','width':128,'height':128,'tile':32,'bytes':(ASSETS/'garden-atlas.png').stat().st_size},'assets':stats,'placements':placements},ensure_ascii=False,indent=2)+'\n')
+(ASSETS/'asset-manifest.json').write_text(json.dumps({'version':3,'status':'direction-approved-weathering-review-pending','atlas':{'file':'garden-atlas.png','width':128,'height':128,'tile':32,'layers':3,'plaster_tones':5,'bytes':(ASSETS/'garden-atlas.png').stat().st_size},'assets':stats,'placements':placements},ensure_ascii=False,indent=2)+'\n')
 print(json.dumps(stats))

@@ -1,5 +1,5 @@
 {
-  "revision": 2,
+  "revision": 3,
   "software": "Blender 4.5.14 LTS",
   "source": "garden-sample.blend",
   "kind": "offline material preview; browser lighting can differ",
@@ -44,6 +44,15 @@
       "file": "review/doorway-dusk.jpg",
       "asset": "doorway",
       "dusk": true,
+      "dimensions": [
+        1280,
+        960
+      ]
+    },
+    {
+      "file": "review/doorway-day.jpg",
+      "asset": "doorway",
+      "dusk": false,
       "dimensions": [
         1280,
         960
