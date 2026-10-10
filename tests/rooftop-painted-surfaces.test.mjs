@@ -1,13 +1,13 @@
 import {
   environmentPainting,
   pavingPainting,
-} from "../rooftop/3d/environment-paintings.mjs";
+} from "../docs/art/rooftop-legacy-materials/environment-paintings.mjs";
 import { SCENES, DOORS } from "../rooftop/scene.mjs";
 import {
   facePainting,
   FACE_PAINT_KINDS,
 } from "../rooftop/3d/face-paintings.mjs";
-import { cubeContactPaint } from "../rooftop/3d/contact-paint.mjs";
+import { cubeContactPaint } from "../docs/art/rooftop-legacy-materials/contact-paint.mjs";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
@@ -23,7 +23,7 @@ import {
   TEXTURE_KINDS,
   pigmentPalette,
   createPixelMaterials,
-} from "../rooftop/3d/pixel-materials.mjs";
+} from "../docs/art/rooftop-legacy-materials/pixel-materials.mjs";
 import {
   surfaceSeed,
   soilParticles,

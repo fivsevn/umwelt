@@ -90,18 +90,19 @@ const base = process.env.BASE_URL || "http://127.0.0.1:8773",
     await page.locator("#importText").click();
     assert.match(await page.locator("#message").innerText(), /花盆/);
     assert.deepEqual(await page.evaluate(() => rooftop.layout), saved);
-    assert.equal(
-      await page.locator("#preview").getAttribute("href"),
-      "https://umwelt.fivsevn.com/rooftop/",
-    );
-    const preview = await page.context().newPage();
-    await preview.goto(base + "/rooftop/?layout=local");
+    const opened = page.waitForEvent("popup");
+    await page.locator("#preview").click();
+    const preview = await opened;
     await preview.waitForFunction(() => window.rooftop);
+    const previewUrl = new URL(preview.url());
+    assert.equal(previewUrl.pathname, "/rooftop/");
+    assert.equal(previewUrl.searchParams.get("layout"), "local", "the actual preview action explicitly restores the saved local layout");
+    assert.equal(previewUrl.searchParams.get("scene"), "north");
     assert.deepEqual(await preview.evaluate(() => rooftop.layout), saved);
     await preview.screenshot({
       path: out + "/plants-upstairs-" + engine + ".png",
     });
-    await preview.locator("#sceneDoor").click();
+    await preview.locator("#sceneCard").click();
     await preview.screenshot({
       path: out + "/plants-south-" + engine + ".png",
     });

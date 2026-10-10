@@ -12,7 +12,9 @@ import {
 } from "./3d/spatial-layout.mjs";
 import { createPlacementEditor } from "./placement-editor.mjs";
 import { createGardenRenderer } from "./3d/scene3d.mjs";
-import { readLayout, writeLayout } from "./layout-storage.mjs";
+import { NARRATIVE_VIEWS } from "./3d/story-camera.mjs";
+import { opticOverlayMarkup, updateOpticOverlay } from "./3d/optic-overlay.mjs";
+import { LAYOUT_KEY, readLayout, writeLayout } from "./layout-storage.mjs";
 import { createEditHistory } from "./edit-history.mjs";
 import { attachCardFeed } from "./card-feed.mjs";
 import { paintPig } from "./wardrobe.mjs";
@@ -62,6 +64,24 @@ import {
 } from "./scene.mjs";
 const $ = (id) => document.getElementById(id),
   editor = document.body.classList.contains("editor");
+const reviewStage = new URLSearchParams(location.search).get("stage");
+const gameModelStage = reviewStage === "game-model";
+const backgroundStage = gameModelStage || reviewStage === "background";
+const emptyGameStage = !editor && !backgroundStage;
+const localLayoutRequested = new URLSearchParams(location.search).get("layout") === "local";
+const hideActors = backgroundStage || emptyGameStage;
+const reviewQuery = gameModelStage ? "game-model" : "background";
+const previewStorageKey = gameModelStage
+  ? "umwelt-rooftop-game-model-preview-v1"
+  : "umwelt-rooftop-background-preview-v1";
+const previewStorage = {
+  getItem: () => sessionStorage.getItem(previewStorageKey),
+  setItem: (_key, value) => sessionStorage.setItem(previewStorageKey, value),
+};
+const emptyTerraces = (value) => ({ ...value, scenes: { ...value.scenes, north: [], south: [] } });
+const narrativeLabels = { bird: "经常啄多肉的小鸟", drone: "偶尔路过的无人机", neighbor: "？" };
+const narrativeButtons = () => NARRATIVE_VIEWS.map(({id}) => '<button type="button" data-narrative-view="' + id + '" aria-pressed="' + (id === "bird") + '">' + narrativeLabels[id] + '</button>').join("");
+let syncNarrativeUI = () => {};
 const edits = createEditHistory();
 let scene =
     editor && new URLSearchParams(location.search).get("scene") === "room"
@@ -79,12 +99,26 @@ const dragPerformance = { updates: 0, totalMs: 0, maxMs: 0 };
 try {
   if (
     editor ||
-    new URLSearchParams(location.search).get("layout") === "local"
+    localLayoutRequested
   ) {
-    layout = readLayout();
+    layout = readLayout(backgroundStage ? previewStorage : localStorage);
+    if (!backgroundStage && !localStorage.getItem(LAYOUT_KEY)) layout = emptyTerraces(layout);
   }
 } catch {
-  if (editor) $("message").textContent = "本机布局无法读取，已恢复初始陈列。";
+  if (editor || emptyGameStage) layout = emptyTerraces(initialLayout());
+  if (editor) $("message").textContent = "本机布局无法读取，已恢复初始布局。";
+}
+if (emptyGameStage && !localLayoutRequested) layout = emptyTerraces(layout);
+if (backgroundStage && (!previewStorage.getItem() || (!editor && !localLayoutRequested))) layout = emptyTerraces(layout);
+if (backgroundStage) {
+  document.body.classList.add("background-stage");
+  if (gameModelStage) document.body.classList.add("game-model-stage");
+  const reviewStyle = document.createElement("link");reviewStyle.rel="stylesheet";
+  reviewStyle.href=new URL("./background-review.css?v=terrace-launch-01",import.meta.url).href;document.head.append(reviewStyle);
+  if (editor && $("preview")) $("preview").href="../?stage=" + reviewQuery + "&layout=local";
+  const controls = document.createElement("div"); controls.className="background-review";
+  controls.innerHTML='<span>' + (gameModelStage ? '天台 · 游戏范围预览' : '空天台 · 本地预览') + '</span><button type="button" id="reviewScene">看南阳台</button>' + (gameModelStage ? '<div class="narrative-views" role="group" aria-label="观察视角">' + narrativeButtons() + '</div>' + (!editor ? '<button type="button" id="reviewFreeCamera" aria-pressed="false">自由移动</button>' : '') : '<button type="button" id="reviewView">看楼排</button><button type="button" id="reviewOutlook">看远处</button>') + '<button type="button" id="reviewNotebook">东东的手帐</button><select id="reviewWeather" aria-label="预览天气"></select><select id="reviewTime" aria-label="预览时间"></select><select id="reviewSeason" aria-label="预览季节"></select>';
+  document.querySelector(".roof-world")?.append(controls);
 }
 if (!editor) attachGardenMusic($("musicToggle"));
 let garden3d = null,
@@ -97,6 +131,10 @@ try {
     editor ? null : $("sceneDoor"),
     {
       scene,
+      backgroundStage: backgroundStage || emptyGameStage,
+      gameModelStage: gameModelStage || emptyGameStage,
+      hideActors,
+      allowFreeCamera: gameModelStage,
       controls: editor ? "edit" : "pan",
       initialTheta: editor ? undefined : -0.34,
       selected: () => selected,
@@ -107,7 +145,80 @@ try {
 }
 if (!editor) {
   const viewControls = document.querySelector(".view-controls");
+  const legacyControls = viewControls.querySelector(".legacy-view-controls");
   viewControls.hidden = !garden3d;
+  if (gameModelStage) document.querySelector(".background-review")?.append(viewControls);
+  if (!backgroundStage) {
+    const choices = document.createElement("div");
+    choices.className = "narrative-views";
+    choices.setAttribute("role", "group");
+    choices.setAttribute("aria-label", "观察视角");
+    choices.innerHTML = narrativeButtons();
+    viewControls.prepend(choices);
+  }
+  const scope = document.createElement("div");
+  scope.className = "neighbor-scope";
+  scope.setAttribute("aria-hidden", "true");
+  scope.innerHTML = opticOverlayMarkup();
+  scope.hidden = true;
+  document.querySelector(".roof-world")?.append(scope);
+  const stationControls = document.createElement("div");
+  stationControls.className = "station-controls";
+  stationControls.setAttribute("role", "group");
+  stationControls.setAttribute("aria-label", "观察者移动");
+  viewControls.append(stationControls);
+  let stationKind = null, freeCamera = false;
+  const freeCameraButton = $("reviewFreeCamera");
+  const freeCameraHint = "拖动转动；右键或双指拖动画面；滚轮靠近、远离。";
+  const updateScope = () => {
+    if (!scope.hidden && !document.hidden) updateOpticOverlay(scope, garden3d?.scopeReading);
+  };
+  setInterval(updateScope, 250);
+  syncNarrativeUI = () => {
+    const rendererState = garden3d?.stats, name = rendererState?.narrativeView;
+    if (typeof rendererState?.freeCamera === "boolean") freeCamera = rendererState.freeCamera;
+    const controlKind = freeCamera ? "free" : name;
+    if (legacyControls) legacyControls.hidden = Boolean(name);
+    for (const choice of document.querySelectorAll("[data-narrative-view]"))
+      choice.setAttribute("aria-pressed", String(!freeCamera && choice.dataset.narrativeView === name));
+    if (freeCameraButton) {
+      freeCameraButton.textContent = freeCamera ? "锁定视角" : "自由移动";
+      freeCameraButton.setAttribute("aria-pressed", String(freeCamera));
+      freeCameraButton.title = freeCamera ? freeCameraHint : "临时自由调整位置和镜头，方便截图。";
+    }
+    scope.hidden = freeCamera || name !== "neighbor";
+    if (stationKind !== controlKind) {
+      const actions = controlKind === "bird" ? [["left", "←沿檐"], ["right", "沿檐→"]] : controlKind === "drone" ? [["down", "↓下降"], ["up", "↑上升"], ["near", "＋靠近"], ["far", "－退远"]] : controlKind === "neighbor" ? [["out", "－缩小倍率"], ["in", "＋放大倍率"]] : [];
+      stationControls.innerHTML = actions.map(([action,label]) => '<button type="button" data-station-action="' + action + '">' + label + '</button>').join("");
+      stationControls.hidden = !actions.length;
+      for (const button of stationControls.querySelectorAll("[data-station-action]")) button.onclick = () => {
+        const action = button.dataset.stationAction;
+        if (action === "in" || action === "out") garden3d?.nudgeNarrativeOptics(action);
+        else garden3d?.nudgeNarrativeStation(action);
+      };
+      const labels = { bird: "小鸟操作", drone: "无人机操作", neighbor: "瞄准镜操作" };
+      const hints = { bird: "左右拖动沿檐走动，上下拖动微微抬头或低头。", drone: "拖动微调镜头；滚轮或双指靠近、退远。", neighbor: "拖动瞄准；滚轮或双指调整倍率。", free: freeCameraHint };
+      stationControls.setAttribute("aria-label", labels[controlKind] || "观察者移动");
+      canvas.title = hints[controlKind] || "";
+      stationKind = controlKind;
+    }
+    updateScope();
+    const choices = document.querySelector(".narrative-views");
+    if (choices) choices.hidden = !name;
+  };
+  if (freeCameraButton) freeCameraButton.onclick = () => {
+    if (!garden3d?.setFreeCamera) return;
+    freeCamera = !freeCamera;
+    garden3d.setFreeCamera(freeCamera);
+    syncNarrativeUI();
+  };
+  for (const button of document.querySelectorAll("[data-narrative-view]"))
+    button.onclick = () => {
+      garden3d?.setFreeCamera?.(false);
+      freeCamera = false;
+      garden3d?.setNarrativeView(button.dataset.narrativeView);
+      syncNarrativeUI();
+    };
   const chooseViewMode = (button) => {
     garden3d.setNavigationMode(button.dataset.viewMode);
     for (const choice of viewControls.querySelectorAll("[data-view-mode]"))
@@ -121,7 +232,8 @@ if (!editor) {
       if (event.pointerType === "touch") chooseViewMode(button);
     });
   }
-  $("viewReset").onclick = () => garden3d.setScene(scene);
+  $("viewReset").onclick = () => { garden3d.setScene(scene); syncNarrativeUI(); };
+  syncNarrativeUI();
 }
 const display = garden3d ? null : canvas.getContext("2d"),
   materialFrame = document.createElement("canvas"),
@@ -147,7 +259,9 @@ const zooms = { room: 1, north: 1, south: 1 },
   pointers = new Map();
 let pinch = null;
 const backdrop = document.createElement("canvas");
-const WEATHER_KEY = "umwelt-rooftop-weather-v1";
+const WEATHER_KEY = gameModelStage
+  ? "umwelt-rooftop-game-model-weather-preview-v1"
+  : backgroundStage ? "umwelt-rooftop-background-weather-preview-v1" : "umwelt-rooftop-weather-v1";
 let weatherChoices = { condition: "clear", phase: "day" };
 if (editor)
   try {
@@ -208,6 +322,26 @@ if (editor) {
     };
   }
 }
+if (backgroundStage) {
+  let wide=false;
+  if($("reviewOutlook")) $("reviewOutlook").onclick=()=>{wide=false;garden3d?.setBackgroundOutlook();$("reviewView").textContent="回到天台";};
+  if($("reviewView")) $("reviewView").onclick=()=>{
+    if($("reviewView").textContent==="回到天台"){wide=false;garden3d?.setBackgroundView(false);}
+    else{wide=true;garden3d?.setBackgroundView(true);}
+    $("reviewView").textContent=wide?"回到天台":"看楼排";
+  };
+  for (const [id,key,values] of [["reviewWeather","condition",WEATHER],["reviewTime","phase",TIMES],["reviewSeason","season",SEASONS]]) {
+    const select=$(id);if(!select)continue;
+    for(const item of values){const option=document.createElement("option");option.value=item.id;option.textContent=item.name;select.append(option);}
+    select.value=weather.choices[key];select.onchange=()=>weather.set(key,select.value);
+  }
+  if($("reviewScene")) $("reviewScene").onclick=()=>{
+    scene=scene==="north"?"south":"north";
+    const url=new URL(location.href);url.searchParams.set("scene",scene);history.pushState(null,"",url);rebuild();
+    $("reviewScene").textContent=scene==="north"?"看南阳台":"看北天台";
+    wide=false;if ($("reviewView")) $("reviewView").textContent="看楼排";
+  };
+}
 function weatherCaption() {
   const text = atmosphereCaption(atmosphere);
   if ($("weatherStatus").textContent !== text)
@@ -228,7 +362,7 @@ const objects = () => layout.scenes[scene],
   selection = () => objects().find((o) => o.id === selected);
 function save() {
   try {
-    writeLayout(layout);
+    writeLayout(layout, backgroundStage ? previewStorage : localStorage);
   } catch {
     message("本机存储不可用，请导出 JSON 保存。");
   }
@@ -283,10 +417,15 @@ function positionFields(o) {
     $("positionText").textContent = text;
 }
 function rebuild() {
+  if (backgroundStage && $("reviewScene")) {
+    $("reviewScene").textContent=scene==="north"?"看南阳台":"看北天台";
+    if ($("reviewView")) $("reviewView").textContent="看楼排";
+  }
   if (editor) document.body.classList.toggle("room-edit", scene === "room");
   if (garden3d) {
     garden3d.syncLayout(layout);
     garden3d.setScene(scene);
+    syncNarrativeUI();
   }
   if (!editor) {
     zooms[scene] = scene === "north" ? 1.7 : 1;
@@ -465,15 +604,36 @@ if (!editor) {
   const close = () => {
     pinned = false;
     note.hidden = true;
+    $("notebookOpen")?.setAttribute("aria-expanded", "false");
     clearTimeout(timer);
     notebookKey = "";
   };
   const open = (o, pin = false) => {
     if (!o) return;
+    clearTimeout(timer);
     notebook(o);
     note.hidden = false;
     pinned = pin;
+    $("notebookOpen")?.setAttribute("aria-expanded", "true");
   };
+  const journalOpeners = [$("notebookOpen"), $("reviewNotebook")].filter(Boolean);
+  if (journalOpeners.length) {
+    const browse = document.createElement("select");
+    browse.id = "reviewEntry";
+    browse.className = "notebook-browser";
+    browse.setAttribute("aria-label", "手帐资料条目");
+    for (const item of ASSETS) {
+      const option = document.createElement("option");
+      option.value = item.id;
+      option.textContent = item.name;
+      browse.append(option);
+    }
+    note.querySelector(".notebook-title").after(browse);
+    const showEntry = () => open({ id: "notebook-browse", type: browse.value, seed: 1835 }, true);
+    browse.onchange = showEntry;
+    for (const opener of journalOpeners) opener.onclick = showEntry;
+    if ($("notebookOpen")) $("notebookOpen").hidden = backgroundStage;
+  }
   const inspectAt = (e) =>
     garden3d ? garden3d.pick(e.clientX, e.clientY) : hit(coords(e));
   canvas.addEventListener("pointerdown", (e) => {
@@ -494,6 +654,7 @@ if (!editor) {
     // delay: wind can move a thin leaf away while its notebook is opening.
     const hovered = inspectAt(e);
     timer = setTimeout(() => {
+      if (pinned) return;
       if (hovered) open(hovered);
       else if (!note.matches(":hover") && !pinned) note.hidden = true;
     }, 350);
@@ -502,7 +663,7 @@ if (!editor) {
     clearTimeout(timer);
     if (!pinned && !down)
       timer = setTimeout(() => {
-        if (!note.matches(":hover")) note.hidden = true;
+        if (!pinned && !note.matches(":hover")) note.hidden = true;
       }, 500);
   });
   canvas.addEventListener("wheel", () => {
@@ -528,7 +689,7 @@ if (!editor) {
   note.addEventListener("pointerleave", () => {
     if (!pinned)
       timer = setTimeout(() => {
-        note.hidden = true;
+        if (!pinned) note.hidden = true;
       }, 500);
   });
   note.addEventListener("click", () => {
@@ -824,15 +985,15 @@ if (editor) {
   };
   $("restore").onclick = () => {
     checkpoint();
-    layout.scenes[scene] = initialLayout().scenes[scene];
+    layout.scenes[scene] = scene === "room" ? initialLayout().scenes.room : [];
     selected = null;
     changed();
-    message("已恢复此阳台的初始陈列。");
+    message(scene === "room" ? "已恢复房间的初始陈列。" : "已恢复空阳台。");
   };
   $("person").onchange = () => (showPerson = $("person").checked);
   $("preview").onclick = () => {
     save();
-    $("preview").href = "https://umwelt.fivsevn.com/rooftop/";
+    $("preview").href = backgroundStage ? "../?stage=" + reviewQuery + "&layout=local&scene=" + scene : "../?layout=local&scene=" + scene;
   };
   const load = (text) => {
     try {
@@ -909,6 +1070,7 @@ if (editor) {
     historyNavigation.pushState(null, "", url);
     rebuild();
   };
+  if ($("sceneCard")) $("sceneCard").onclick = () => $("sceneDoor").click();
   window.addEventListener("popstate", () => {
     scene =
       new URLSearchParams(location.search).get("scene") === "south"
@@ -1093,13 +1255,14 @@ function fitView() {
 }
 function syncPresence() {
   if (editor) return;
+  if ($("sceneCard")) $("sceneCard").textContent = scene === "north" ? "去南阳台看看。" : "去北天台看看。";
   $("roomCard").href =
-    "./room/?scene=" + scene + "&weather=" + atmosphere.condition;
-  $("garageCard").href = "./arrange/?scene=" + scene;
+    "./room/?scene=" + scene + "&weather=" + atmosphere.condition + (backgroundStage ? "&stage=" + reviewQuery : "");
+  $("garageCard").href = "./arrange/?scene=" + scene + (backgroundStage ? "&stage=" + reviewQuery : "");
   if (!resident.present) $("dongdongStatus").textContent = resident.status;
   canvas.setAttribute(
     "aria-label",
-    SCENES[scene].name +
+    backgroundStage ? SCENES[scene].name + (gameModelStage ? "，游戏范围模型预览" : "，空天台建筑预览") : emptyGameStage ? SCENES[scene].name + "，空阳台" : SCENES[scene].name +
       "，" +
       (resident.present
         ? ["rain", "heavy", "thunderstorm", "typhoon"].includes(
@@ -1165,8 +1328,8 @@ function render() {
       y: o.y - (asset(o.type).furniture ? dimensions(o).h / 2 : 0),
       o,
     }));
-    if (showPerson) items.push({ y: walker.person.y, p: walker.person });
-    items.push({ y: pigWalker.person.y, pig: pigWalker.person });
+    if (!hideActors && showPerson) items.push({ y: walker.person.y, p: walker.person });
+    if (!hideActors) items.push({ y: pigWalker.person.y, pig: pigWalker.person });
     items.sort((a, b) => a.y - b.y);
     for (const item of items)
       if (item.o) paintObject(display, item.o, time, item.o.id === selected);
@@ -1232,8 +1395,8 @@ function render() {
     object: o,
   }));
   const pig = pigWalker.person;
-  if (!pig.insideShelter) sprites.push({ y: pig.y, pig });
-  if (showPerson && !walker.person.insideShelter)
+  if (!hideActors && !pig.insideShelter) sprites.push({ y: pig.y, pig });
+  if (!hideActors && showPerson && !walker.person.insideShelter)
     sprites.push({ y: walker.person.y, person: walker.person });
   sprites.sort((a, b) => a.y - b.y);
   const foreground = foregroundObjects(objects());
