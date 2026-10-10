@@ -26,6 +26,34 @@ const checkBounds = async page => {
   }
   assert.ok(g.wanted.zoom >= g.zoomLimits.min - 1e-6 && g.wanted.zoom <= g.zoomLimits.max + 1e-6);
 };
+const checkScopeCircle = async (page, label) => {
+  // The overlay updates at 250 ms; inspect its painted opening after a resize.
+  await page.waitForTimeout(300);
+  const lens = await page.evaluate(() => {
+    const mask = document.querySelector(".scope-mask"), rect = mask.getBoundingClientRect(),
+      scope = document.querySelector(".neighbor-scope").getBoundingClientRect(),
+      engraving = document.querySelector(".scope-engraving").getBoundingClientRect(),
+      pixels = mask.getContext("2d").getImageData(0, 0, mask.width, mask.height).data;
+    const diameter = horizontal => {
+      const length = horizontal ? mask.width : mask.height, middle = Math.floor((horizontal ? mask.height : mask.width) / 2);
+      let first = length, last = -1;
+      for (let i = 0; i < length; i++) {
+        const x = horizontal ? i : middle, y = horizontal ? middle : i;
+        if (pixels[(y * mask.width + x) * 4 + 3] < 230) { first = Math.min(first, i); last = i; }
+      }
+      return (last - first + 1) * (horizontal ? rect.width / mask.width : rect.height / mask.height);
+    };
+    return { horizontal: diameter(true), vertical: diameter(false), scopeWidth: scope.width,
+      scopeHeight: scope.height, engravingWidth: engraving.width, engravingHeight: engraving.height,
+      maskHeight: rect.height, viewportHeight: innerHeight };
+  });
+  assert.ok(lens.horizontal > 100, label + " has a visible optical opening");
+  assert.ok(Math.abs(lens.horizontal - lens.vertical) <= 4, label + " painted opening stays circular: " + JSON.stringify(lens));
+  assert.ok(Math.abs(lens.horizontal - (lens.scopeWidth - 8)) <= 4, label + " mask follows the lens diameter");
+  assert.ok(Math.abs(lens.scopeWidth - lens.scopeHeight) <= 1, label + " lens container stays square");
+  assert.ok(Math.abs(lens.engravingWidth - lens.engravingHeight) <= 1, label + " reticle pixels have equal horizontal and vertical scale");
+  return lens;
+};
 (async () => {
   const browser = await (engine === "webkit" ? webkit : chromium).launch({
     headless: true,
@@ -182,6 +210,19 @@ const checkBounds = async page => {
     }
     await checkBounds(page);
     assert.deepEqual(await page.evaluate(() => rooftop.layout), initialPhoneLayout);
+    for (const viewport of [{ width: 390, height: 640 }, { width: 390, height: 844 }, { width: 844, height: 390 }]) {
+      await page.setViewportSize(viewport);
+      await checkScopeCircle(page, `${engine} ${viewport.width}x${viewport.height}`);
+    }
+    await page.setViewportSize({ width: 390, height: 640 });
+    // Safari can display a 100vh canvas taller than innerHeight while its bars
+    // are open. The bitmap must use its displayed size, including this mismatch.
+    await page.locator(".scope-mask").evaluate(mask => { mask.style.height = (innerHeight + 180) + "px"; });
+    const mismatched = await checkScopeCircle(page, engine + " browser-bar viewport mismatch");
+    assert.ok(mismatched.maskHeight > mismatched.viewportHeight + 170, "the regression actually exercises unequal viewport and canvas heights");
+    await page.locator(".scope-mask").evaluate(mask => { mask.style.height = ""; });
+    await page.setViewportSize({ width: 390, height: 844 });
+    await checkScopeCircle(page, engine + " restored phone viewport");
     await page.locator("#notebookOpen").click();
     await page.locator("#reviewEntry").selectOption("mint");
     const note = await page.locator(".observation-notebook").boundingBox();
@@ -191,7 +232,7 @@ const checkBounds = async page => {
     await page.waitForFunction(() => rooftop.scene === "north");
     await page.screenshot({ path: output + "/observation-phone-" + engine + ".png" });
     assert.deepEqual(errors, []);
-    console.log(engine + " observation: empty north/south, bounded three-view controls, touch, preserved database, weather/actions/time and hidden actors passed");
+    console.log(engine + " observation: empty north/south, bounded three-view controls, circular portrait/landscape scope and browser-bar viewport mismatch, touch, preserved database, weather/actions/time and hidden actors passed");
   } catch (error) {
     if (page) {
       console.error("observation state", JSON.stringify(await page.evaluate(() => ({ scene: rooftop.scene, view: rooftop.graphics?.view, wanted: rooftop.graphics?.wanted, observer: rooftop.graphics?.narrativeView, station: rooftop.graphics?.stationTravel, notebook: { hidden: document.querySelector(".notebook").hidden, bodyHidden: document.querySelector("#notebookBody").hidden, entry: document.querySelector("#reviewEntry").value, expanded: document.querySelector("#notebookOpen").getAttribute("aria-expanded"), events: window.observationEvents } })).catch(() => "page unavailable")));

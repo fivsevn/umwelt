@@ -431,8 +431,8 @@ canvas[data-renderer="3d"]{image-rendering:auto}
 .narrative-views[hidden]{display:none}
 .observation .corner-cards{z-index:5}
 .narrative-views button[aria-pressed="true"]{background:#4e5a4c;color:#e0dbc3}
-.neighbor-scope{position:fixed;z-index:4;pointer-events:none;left:50%;top:50%;width:min(88vw,82vh);aspect-ratio:1;transform:translate(-50%,-50%);font-family:Pixel,monospace;color:#d2bc85;text-shadow:2px 2px #101711;letter-spacing:1px}
-.scope-mask{position:absolute;z-index:0;left:50%;top:50%;width:100vw;height:100vh;transform:translate(-50%,-50%);image-rendering:pixelated}
+.neighbor-scope{position:fixed;z-index:4;pointer-events:none;left:50%;top:50%;width:min(88vw,82vh);width:min(88vw,82dvh);aspect-ratio:1;transform:translate(-50%,-50%);font-family:Pixel,monospace;color:#d2bc85;text-shadow:2px 2px #101711;letter-spacing:1px}
+.scope-mask{position:absolute;z-index:0;left:50%;top:50%;width:100vw;height:100vh;height:100dvh;transform:translate(-50%,-50%);image-rendering:pixelated}
 .scope-engraving{position:absolute;z-index:1;inset:0;width:100%;height:100%;image-rendering:pixelated;clip-path:circle(50%)}
 .scope-optics-top{position:absolute;z-index:2;top:14%;left:26%;right:26%;display:flex;align-items:center;justify-content:space-between;font-size:12px;line-height:1.4}
 .scope-optics-top .scope-level{display:flex;align-items:center;gap:4px}
