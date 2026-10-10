@@ -23,7 +23,9 @@
     "native_uv_metric_lengths_verified": true
   },
   "static_artifact": {
-    "runtime_files": 279,
+    "runtime_files": 280,
+    "urls_versioned": 669,
+    "runtime_commit": "37aa8a9f549ee2383648596a1b5b068dae3ea60c",
     "native_png_present_and_identical": true,
     "new_texture_url_stamped": true,
     "originals_excluded": true
@@ -31,16 +33,50 @@
   "unchanged_data": "Only shared 3D modules, authored runtime texture, authoring documentation and relevant tests changed; gameplay data, saves, room, garage and narrative sources retained.",
   "browser_verification": {
     "local_status": "blocked_by_saved_browser_permission",
-    "previous_regression_run": "https://github.com/fivsevn/umwelt/actions/runs/38012887054",
-    "previous_runtime_suites_passed": 12,
-    "updated_suites": "model mesh inventory and unique native atlas requests",
-    "github_regression": "pending final corrected source run"
+    "github_regression": "passed",
+    "github_regression_run": "https://github.com/fivsevn/umwelt/actions/runs/38013627227",
+    "browsers": [
+      "Chromium",
+      "WebKit"
+    ],
+    "passed_jobs": 16,
+    "suites": [
+      "maintenance",
+      "garage-layout",
+      "room",
+      "card-feed",
+      "weapons",
+      "models",
+      "observation",
+      "seasons"
+    ],
+    "webgl_shader_compile": "passed",
+    "real_interactions": "passed",
+    "save_refresh": "passed",
+    "narrow_viewport": "passed"
   },
-  "production": "User requested deployment; pending existing regression and final Pages artifact checks.",
-  "review_images": "Actual Blender asset-library renders; not browser game screenshots.",
+  "production": "Verified runtime authorized for production; final Pages deployment result is recorded in Actions.",
+  "review_images": "review/: Actual Blender library renders. web-review/: unchanged screenshots from existing GitHub regression, run 38013627227.",
   "node_tests": {
     "tests": 343,
     "passed": 343,
     "failed": 0
-  }
+  },
+  "github_review_images": [
+    {
+      "path": "web-review/north.png",
+      "source_file": "webkit-spring.png",
+      "sha256": "a6103ccb324b2cc3a152abe4e40fae9ba5c26eaebf54504516463f235dbb99de"
+    },
+    {
+      "path": "web-review/south-mobile.png",
+      "source_file": "webkit-south-mobile.png",
+      "sha256": "eb296de2476405b09dfd7faf89780de4ccec995b9500d87689333f970e04fb86"
+    },
+    {
+      "path": "web-review/room-mobile.png",
+      "source_file": "webkit-room-mobile.png",
+      "sha256": "c01fa1b951f6ff96f0c2701da6a78fbca78a7d9d847561090fc1561971561e5c"
+    }
+  ]
 }

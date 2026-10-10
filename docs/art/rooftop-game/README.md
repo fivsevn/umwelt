@@ -50,4 +50,4 @@
 
 343 项 Node 测试与全仓库结构契约均通过；静态发布包包含新 PNG，资源 URL 已加版本，排除原稿。完整状态见 `check-report.json`。
 
-本地浏览器工具仍受已保存权限规则限制。用户已要求直接发布正式游戏；发布由既有 GitHub 回归与 Pages 最终产物检查确认。执行结果见 Actions 与 check-report.json，不能把 Blender 审阅图当成网页交互验证。
+本地浏览器工具仍受已保存权限规则限制。用户已要求直接发布正式游戏；发布由既有 GitHub 回归与 Pages 最终产物检查确认。16 项花农时代网页回归已在 Chromium / WebKit 全部通过：[运行记录](https://github.com/fivsevn/umwelt/actions/runs/38013627227)。实际仓库网页截图保存于 `web-review/`，来自此既有工作流，未改像素。Pages 最终部署状态以 Actions 为准。
