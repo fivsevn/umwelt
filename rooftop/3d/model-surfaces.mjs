@@ -63,6 +63,14 @@ export function latheSurface(T, points, sides = 12, shape = "round", ribs = 0) {
   const flat = g.toNonIndexed();
   g.dispose();
   flat.computeVertexNormals();
+  // Field routing belongs to an entire unfolded face, never an interpolated
+  // old UV threshold that can cut diagonally through a painted square.
+  const interior=new Float32Array(flat.attributes.position.count), uv=flat.attributes.uv;
+  for(let i=0;i<interior.length;i+=3){
+    const value=(uv.getY(i)+uv.getY(i+1)+uv.getY(i+2))/3<.145?1:0;
+    interior.fill(value,i,i+3);
+  }
+  flat.setAttribute("paintInterior",new T.Float32BufferAttribute(interior,1));
   return flat;
 }
 

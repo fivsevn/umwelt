@@ -2233,7 +2233,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
           time: windTime.value,
           strength: windPower.value,
           programs: (renderer.info.programs || []).filter((p) =>
-            p.cacheKey.includes("wind-"),
+            /native-pixelorama-metric-v2-(leaf|rigid)/.test(p.cacheKey),
           ).length,
         },
         controls,

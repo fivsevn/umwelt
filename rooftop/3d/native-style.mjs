@@ -1,6 +1,6 @@
 // Approved revision 8: the same physical square on every unfolded surface.
 export const PIXEL_STYLE = Object.freeze({
-  id: "native-pixelorama-v1", textureSize: 32, texelsPerUnit: 8, renderScale: 1,
+  id: "native-pixelorama-v2", textureSize: 32, texelsPerUnit: 8, renderScale: 1,
   palette: { metal: "#929c9c", metalLight: "#c9cdcc", metalDark: "#353b3d",
     wood: "#a58052", woodLight: "#cba578", woodDark: "#624e39",
     white: "#e5e4dc", blue: "#537f97", blueDark: "#274866", soil: "#50402d",
