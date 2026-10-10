@@ -1,5 +1,6 @@
 import { HOUSE, housePoint, houseOccludes } from "../house-structure.mjs";
 import { buildHouseRoof } from "./house-roof.mjs";
+import { terraceFloorGeometry } from "./terrace-floor.mjs";
 import {
   TERRACE_ZOOM,
   TERRACE_VIEW_DISTANCE,
@@ -487,12 +488,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       box(g, 0, yy, d * 0.45, w, 0.085, 0.08, P.blue);
     const glass = new T.Mesh(
       new T.BoxGeometry(w * 0.88, h * 0.82, d * 0.8),
-      new T.MeshBasicMaterial({
-        color: "#86aba7",
-        transparent: true,
-        opacity: 0.2,
-        depthWrite: false,
-      }),
+      paintedPane("#86aba7",.2),
     );
     glass.position.y = h * 0.5;
     g.add(glass);
@@ -511,6 +507,13 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     box(g, w * 0.2, h * 0.49, d * 0.5, 0.06, 0.18, 0.055, P.white);
   }
 
+  function paintedPane(color,opacity){
+    const base=mat(color,"glass"),material=base.clone();
+    material.onBeforeCompile=base.onBeforeCompile;material.customProgramCacheKey=base.customProgramCacheKey;
+    material.defaultAttributeValues=base.defaultAttributeValues;
+    material.transparent=true;material.opacity=opacity;material.depthWrite=false;
+    return material;
+  }
   function fishSchool(g, width, depth, level, goldfish = false) {
     populateWater(
       {
@@ -661,8 +664,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
             (floor + i) % 7,
           );
     }
-    const faceGeo = new T.ShapeGeometry(shape);
-    faceGeo.rotateX(Math.PI / 2);
+    const faceGeo = terraceFloorGeometry(T,shape);
     const pos = faceGeo.attributes.position,
       uv = faceGeo.attributes.uv;
     for (let i = 0; i < pos.count; i++) {
@@ -1014,12 +1016,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     box(root, 0, 0.003, 0, w, 0.015, d, "#b2a180", "wood");
     const glass = new T.Mesh(
       new T.PlaneGeometry(3.4, 1.5),
-      new T.MeshBasicMaterial({
-        color: "#aabfc6",
-        transparent: true,
-        opacity: 0.16,
-        depthWrite: false,
-      }),
+      paintedPane("#aabfc6",.16),
     );
     glass.position.set(0, 1.57, -6.92);
     root.add(glass);

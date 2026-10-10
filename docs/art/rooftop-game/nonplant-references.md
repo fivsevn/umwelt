@@ -8,7 +8,8 @@
 - [旧金属架 / 86 Vintage](https://www.86vintage.com/products/vintage-industrial-metal-shelves)：已检查架体与多层照片；背面交叉支撑、边缘掉漆、锈斑集中在连接和板边。
 - [旧陶盆沉积 / Pravda](https://zahrada.pravda.sk/zahrada/clanok/670410-ocot-mydlo-citron-silna-trojka-co-porazi-spinu-aj-patogeny-ako-vycistit-hlinene-kvetinace-a-pritom-sa-nenadriet/)：已检查照片；白色沉积和湿痕是连贯区域，既有旧器物纹样保留。
 - [阳台围墙转角 / OFFRoad Bulgaria](https://offroad-bulgaria.com/forum/основни-форуми/за-дома-и-семейството/ремонт-майстори-и-материали/202896-ремонт-на-балкон-и)：已检查原帖照片；墙角和压顶下面潮痕集中，墙面主体保持安静。
-- [旧木门照片](https://www.freeimages.com/search/old-door)、[旧瓦屋顶照片](https://unsplash.com/photos/brown-roof-FEtIUv_x9r8)：搜索检索，辅助观察旧化位置，不作为已下载和检查的照片计数。
+- [旧瓦屋顶](https://unsplash.com/photos/brown-roof-FEtIUv_x9r8)：已检查照片；重叠瓦片的暗缝、瓦片中部的浅色旧痕。
+- [旧彩漆木门](https://unsplash.com/photos/an-old-wooden-door-with-peeling-paint-on-it-9qjpEjtXGO8)、[旧木纹门](https://unsplash.com/photos/an-old-weathered-wooden-door-CYN9AAjrZzc)、[石墙和旧门](https://unsplash.com/photos/an-old-wooden-door-in-a-stone-wall-iUVraGHIIxo)：三张原图均已检查；大块脱漆沿板端与接合处延伸，不以随机散点代替材质。
 
 ## 同类绘画与老游戏
 
@@ -36,3 +37,5 @@
 - 木阶架的板面铺满既有承载面，不改变三个层级的 ID、顶面高度、有效尺寸或存档关系。
 - 硬物贴面不再用平滑顶点法线在片元阶段推导绘画坐标：固定折面法线在顶点阶段展开，并去掉实例摆放平移。每个物件移动时，原画不滑动。
 - 实际浏览器检查由仓库既有回归流程与 Pages 成品流程执行。正式游戏截图是视觉记录，软件资产截图仅是原稿检查。
+
+实际游戏截图发现铺地 Shape 面的绕序朝下，盖面不可见，从上方看到的是底层墙体材质。本次保持 X/Z 轮廓，反转绕序并检查向上法线，确保实际显示铺地贴图。

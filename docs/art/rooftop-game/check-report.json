@@ -1,6 +1,6 @@
 {
   "revision": "nonplant-native-faces-2026-10-10",
-  "structural_checks": "345 Node tests and all structural checks passed",
+  "structural_checks": "346 Node tests and all structural checks passed",
   "native_source": {
     "software": "Pixelorama",
     "native_cel_equals_png_rgba": true,
@@ -78,8 +78,11 @@
     ]
   },
   "browser_verification": {
-    "status": "pending existing Rooftop regression on this revision",
-    "historical_run_not_current": "38013627227"
+    "status": "pending final revision with upward floor winding",
+    "first_pass_run": "38016142547",
+    "first_pass_head": "a3ce2491a558033f7b6599b24eadad02d21e9a8b",
+    "first_pass_jobs": 16,
+    "first_pass_visual_issue": "floor front face hidden; plaster slab was visible instead of paving"
   },
   "publication": {
     "status": "pending authorized direct game publication",
