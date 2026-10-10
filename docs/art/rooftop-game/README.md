@@ -51,3 +51,10 @@
 343 项 Node 测试与全仓库结构契约均通过；静态发布包包含新 PNG，资源 URL 已加版本，排除原稿。完整状态见 `check-report.json`。
 
 本地浏览器工具仍受已保存权限规则限制。用户已要求直接发布正式游戏；发布由既有 GitHub 回归与 Pages 最终产物检查确认。16 项花农时代网页回归已在 Chromium / WebKit 全部通过：[运行记录](https://github.com/fivsevn/umwelt/actions/runs/38013627227)。实际仓库网页截图保存于 `web-review/`，来自此既有工作流，未改像素。Pages 最终部署状态以 Actions 为准。
+
+## 正式发布记录
+
+2026-10-10，正式版本 `4a8bd6fe46022417c2c7acc486d8c844c6b72d23` 已发布：[花农时代](https://umwelt.fivsevn.com/rooftop/?v=4a8bd6fe46022417c2c7acc486d8c844c6b72d23)。[Pages 工作流](https://github.com/fivsevn/umwelt/actions/runs/38013993930) 成功，Chromium 与 WebKit 各通过 20 项最终发布包入口检查。
+
+正式 HTML 返回 200 并包含该资源版本；正式 PNG 返回 200、26,604 B，SHA-256 为 `f559688a8b04e40ea959f205ae9b361821581b93fd7ee577ec11791220367b7f`，与 Pixelorama 原生导出一致。此 README 的后续记录提交不改变已发布的游戏资源。
+
