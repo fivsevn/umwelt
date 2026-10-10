@@ -12,9 +12,12 @@
 
 ## 花农时代
 
+- [仓库梳理与视觉重制边界](rooftop-rebuild.md)：当前文件归属、可保留机制、旧视觉残留和分阶段重制顺序。
+
 - [维护与扩容入口](rooftop-maintenance.md)：房间、阳台、车库的模块职责、历史存档与验证入口。
-- [像素绘制方向](rooftop-art-direction.md)：色板、材质、天气与物件转向的绘制依据。
-- [物件四面绘制](rooftop-object-views.md)：结构参考、遮挡与资料边界。
+- [历史绘制方向](rooftop-art-direction.md)：上一阶段的色板与材质记录，新一轮重制另行确定视觉标准。
+- [二维物件四面绘制记录](rooftop-object-views.md)：旧绘制器的结构参考、遮挡与资料边界。
 - [植物与容器手帐资料](rooftop-notebook.md)：名称、园艺资料与容器来源。
+- [现有原稿与制作记录](art/rooftop-game/README.md)、[历史视觉样板](art/rooftop-pixel-01/README.md)、[旧材质制作代码](art/rooftop-legacy-materials/README.md)：保留源文件和可追溯的制作依据。
 
 早期双场景原型及目录扩容记录已归入 [历史维护记录](reference/README.md)，不作为当前房间或存档结构的说明。

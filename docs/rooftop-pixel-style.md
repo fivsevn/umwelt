@@ -1,6 +1,8 @@
 # 花农时代：原生像素贴面的低模
 
-2026-10-10。当前开发分支将用户认可的第 8 版样板接入游戏的共享材质与构造入口。默认陈列、存档身份、车库、房间、人物动作、养护与叙事沿用原系统。本轮在 PR #60；按用户要求完成检查后发布正式 Pages。
+2026-10-10 仓库整理后，此页记录现有运行实现。新一轮视觉重制的顺序与保留边界见 [仓库梳理](rooftop-rebuild.md)；现有画面及历史样板不作为新方向的验收结果。
+
+2026-10-10。现有运行版本已通过 PR #60 接入第 8 版样板延伸出的原生图集方案，随后继续修订。默认陈列、存档身份、车库、房间、人物动作、养护与叙事沿用原系统。本页保留这套实现的技术说明，新一轮视觉验收按重制阶段进行。
 
 ## 统一的贴面方格
 
@@ -36,6 +38,6 @@
 
 用户提供的 Brendan “Sully” Sullivan GIF 是主要风格参考：[作者作品](https://www.artofsully.com/projects/rNW6E)、[门与灯](https://www.artofsully.com/projects/eWQK3)。原图只用于观察，没有导入公开资源。资料与本轮仍需逐件复核的范围见 [全游戏原稿](art/rooftop-game/README.md)、[器物来源](rooftop-art-sources.md) 及 `asset-ledger.json`。
 
-旧 `pixel-materials.mjs`、`face-paintings.mjs`、`environment-paintings.mjs` 保留历史制作及兼容测试资料，当前 3D 不再用其 CanvasTexture 绘材质。2D 回退和既有图鉴绘制保留。
+旧材质生成器及环境、人物笔画配方归档在 `docs/art/rooftop-legacy-materials/`，当前 3D 不再用其 CanvasTexture 绘材质。`face-paintings.mjs` 仍提供正式模型所需的共用函数，留在运行目录。2D 回退和既有图鉴绘制保留。
 
 结构、承放、存档及原生源文件检查已运行。既有 GitHub 回归覆盖网页操作与页面入口，Pages 工作流检查最终发布包；结果以 Actions 为准。本地浏览器工具仍拒绝访问站点。Blender 真实渲染仅为资产审阅，不是浏览器截图。

@@ -1,5 +1,7 @@
 # Rooftop 维护与扩容入口
 
+2026-10-10 的视觉重制先完成仓库整理，再清空天台并调整背景，背景稳定后重新设计家具。机制、资料和存档边界见 [仓库梳理与视觉重制边界](rooftop-rebuild.md)。下文描述当前运行基线。
+
 `rooftop/arrange/` 与公开天台共用渲染器。维护时保留页面结构、样式、文案、现有物件 ID 与存档版本；新增目录项不能依赖修改旧布局。
 
 ## 页面与布局边界
@@ -29,8 +31,8 @@
 - `house-structure.mjs`：同一住宅的屋顶与南北阳台坐标变换；`3d/house-roof.mjs`：共用屋脊、屋檐、瓦面和延伸到地面的楼体；`3d/terrace-view.mjs`：当前阳台的近距离透视取景与平移边界。
 - `weather.mjs`：天气选择、平滑过渡与湿润历史；`atmosphere.mjs`：共享时间光照、风和闪电配置；`precipitation.mjs`：雨型和随生命周期更新的落点。
 - `resident.mjs`：东东外出节奏；`resident-weather.mjs`：天气动作池；`actor-space.mjs`：从共享承放结构派生人物实际身体通行空间。路径网格按布局缓存，编辑后清除。
-- `3d/scene3d.mjs`：场景、实例批次、缓存模型、镜头与编辑投影。`3d/atmosphere.mjs`：缓存的天空、灯光、雨线、积水和雨点缓冲；`3d/residents.mjs`：身体、衣服和装饰模型；`3d/resident-paintings.mjs`：皮肤、头发与布料绘制。
-- `3d/native-style.mjs` / `native-materials.mjs` / `native-book.mjs`：8 像素/世界单位的贴面方格、真实 Pixelorama 图集、共享缓存及昼夜湿润参数。目录画像等待加载，固定为干燥日间色调。旧 `pixel-materials.mjs` / `environment-paintings.mjs` 保留制作参考，当前 3D 不用其 CanvasTexture。
+- `3d/scene3d.mjs`：场景、实例批次、缓存模型、镜头与编辑投影。`3d/atmosphere.mjs`：缓存的天空、灯光、雨线、积水和雨点缓冲；`3d/residents.mjs`：身体、衣服和装饰模型。
+- `3d/native-style.mjs` / `native-materials.mjs` / `native-book.mjs`：8 像素/世界单位的贴面方格、真实 Pixelorama 图集、共享缓存及昼夜湿润参数。目录画像等待加载，固定为干燥日间色调。旧材质、环境和人物笔画配方已归档至 `docs/art/rooftop-legacy-materials/`，继续供原稿准备和历史测试使用。
 - `3d/stand-models.mjs` / `rack-grid.mjs`：共享花架构造与开孔承放；`cactus-models.mjs` / `water-models.mjs`：仙人掌与水盆构造；`plant-materials.mjs`：按原株形选择原生叶面。全游戏原稿与审计在 `docs/art/rooftop-game/`。
 - `3d/soil-surface.mjs`：两圈分面的闭合盆土；`3d/antique-paintings.mjs`：资料校准的器物纹饰制作参考，原生 PXO 保存实际发布绘画。
 - `3d/neighborhood.mjs`：周边楼群、道路、绿化与资料归属；`camera.mjs` / `city.mjs`：2D 回退镜头与周边绘制。
