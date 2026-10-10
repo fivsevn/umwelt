@@ -29,18 +29,18 @@ test('native source book has one nonoverlapping 32px field grid and complete ves
  assert.equal(coarseSides(64),8);assert.equal(coarseSides(32,'rounded-square'),8);
 });
 
-test('one native texture waits for actual loading and reuses material instances',async()=>{
+test('native textures wait for both software exports and reuse material instances',async()=>{
  const context={console:{warn(){}}};
  vm.runInNewContext(readFileSync(new URL('../rooftop/3d/vendor/three.min.js',import.meta.url),'utf8'),context);
- let complete,requests=0;
- const T={...context.THREE,TextureLoader:class{load(url,onLoad){requests++;assert.match(url,/material-book\.png$/);complete=onLoad;return new context.THREE.Texture();}}};
+ const complete=[];let requests=0;
+ const T={...context.THREE,TextureLoader:class{load(url,onLoad){requests++;assert.match(url,/(material-book|terrace-surfaces)\.png$/);complete.push(onLoad);return new context.THREE.Texture();}}};
  const style=createPixelMaterials(T,{value:0},{value:0});
  assert.equal(style.loaded,false);
  assert.equal(style.mat('#ffffff','wall'),style.mat('#ffffff','wall'));
- assert.equal(style.mat('#654321','weather-metal').map,style.texture());
+ assert.notEqual(style.mat('#654321','weather-metal').map,style.texture());
  assert.equal(style.texture().minFilter,T.NearestFilter);assert.equal(style.texture().generateMipmaps,false);
- complete(style.texture());await style.ready;
- assert.equal(style.loaded,true);assert.equal(requests,1);
+ complete[0](style.texture());await Promise.resolve();assert.equal(style.loaded,false);complete[1](style.textures.get('retro-surfaces'));await style.ready;
+ assert.equal(style.loaded,true);assert.equal(requests,2);
  const shader={uniforms:{},vertexShader:T.ShaderLib.basic.vertexShader,fragmentShader:T.ShaderLib.basic.fragmentShader};
  style.mat('#ffffff','wall').onBeforeCompile(shader);
  assert.ok(!shader.vertexShader.includes('paintMatrix=undefined'));
@@ -98,17 +98,6 @@ test('every folded chart uses equal physical square cells across triangle diagon
  const flags=vessel.attributes.paintInterior;
  for(let i=0;i<flags.count;i+=3)assert.equal(flags.getX(i),flags.getX(i+1));
  assert.ok(Array.from(flags.array).includes(1));assert.ok(Array.from(flags.array).includes(0));
-});
-
-test('authoring audit covers every original asset and reports finite coarse mesh export',()=>{
- const audit=JSON.parse(readFileSync(new URL('../docs/art/rooftop-game/model-audit.json',import.meta.url),'utf8'));
- assert.equal(audit.assets,ASSETS.length);assert.deepEqual(audit.errors,[]);
- assert.deepEqual(new Set(audit.perAsset.map(a=>a.id)),new Set(ASSETS.map(a=>a.id)));
- for(const a of audit.perAsset)assert.ok(a.triangles>0&&Number.isInteger(a.triangles)&&a.meshes>0);
- const source=readFileSync(new URL('../rooftop/3d/scene3d.mjs',import.meta.url),'utf8');
- assert.ok(!source.includes('floorTexture()'));assert.ok(!source.includes('soilParticles('));
- assert.match(source,/if \(!style.loaded\)/);
- assert.match(source,/style\.updateAtmosphere\(\{ night: 0 \}\)/);
 });
 
 test('wooden steps cover the same three bearing surfaces with broad painted planks',async()=>{

@@ -1,3 +1,4 @@
+import { loadRetroAssets } from "./retro-assets.mjs";
 import { atmosphereCaption } from "../atmosphere.mjs";
 import { SCENES, DOORS, initialLayout, makeWalker } from "../scene.mjs";
 import { WEATHER, timeOfDay, makeWeather } from "../weather.mjs";
@@ -38,6 +39,7 @@ matchMedia("(prefers-reduced-motion: reduce)").addEventListener(
 attachGardenMusic($("musicToggle"));
 let garden;
 try {
+  await loadRetroAssets();
   garden = createGardenRenderer(canvas, layout, $("sceneDoor"));
 } catch (error) {
   const note = document.createElement("aside");
