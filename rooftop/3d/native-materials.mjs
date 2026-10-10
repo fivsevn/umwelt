@@ -1,3 +1,4 @@
+import { retroField, retroRect } from "./retro-surfaces.mjs";
 import { NATIVE_BOOK } from "./native-book.mjs";
 import { PIXEL_STYLE } from "./native-style.mjs";
 export { PIXEL_STYLE } from "./native-style.mjs";
@@ -16,20 +17,30 @@ export function nativeField(kind) {
   return "paint";
 }
 
-// One native texture, shared by every object. The runtime never paints a canvas.
+// Native Pixelorama textures shared by the software-authored assets and the
+// plant/weapon assets awaiting a later batch. The runtime never paints a canvas.
 // In-plane metric sampling makes each visible cell a 1/8 world-unit square,
 // including scaled instances and sloping folded surfaces.
 export function createPixelMaterials(T, windTime, windPower, weather={wet:{value:0},rain:{value:0}}) {
   const cache=new Map(), textures=new Map();
   let loaded=false, resolveReady, rejectReady;
-  const ready=new Promise((resolve,reject)=>{resolveReady=resolve;rejectReady=reject;});
+  const legacyReady=new Promise((resolve,reject)=>{resolveReady=resolve;rejectReady=reject;});
   const atlas=new T.TextureLoader().load(new URL("../assets/pixel/material-book.png",import.meta.url).href,
-    texture=>{loaded=true;resolveReady(texture);},undefined,rejectReady);
-  ready.catch(error=>console.error("Native Pixelorama texture failed to load:",error));
+    texture=>{resolveReady(texture);},undefined,rejectReady);
+  legacyReady.catch(error=>console.error("Native Pixelorama texture failed to load:",error));
   atlas.minFilter=atlas.magFilter=T.NearestFilter;
   atlas.generateMipmaps=false; atlas.flipY=false;
   atlas.colorSpace=T.SRGBColorSpace;
   textures.set("native-book",atlas);
+  let resolveRetro, rejectRetro;
+  const retroReady=new Promise((resolve,reject)=>{resolveRetro=resolve;rejectRetro=reject;});
+  const retroAtlas=new T.TextureLoader().load(new URL("../assets/retro/terrace-surfaces.png",import.meta.url).href,
+    resolveRetro,undefined,rejectRetro);
+  retroAtlas.minFilter=retroAtlas.magFilter=T.NearestFilter;
+  retroAtlas.generateMipmaps=false;retroAtlas.flipY=false;retroAtlas.colorSpace=T.SRGBColorSpace;
+  textures.set("retro-surfaces",retroAtlas);
+  const ready=Promise.all([legacyReady,retroReady]).then(()=>{loaded=true;});
+  ready.catch(error=>console.error("Pixelorama material books failed to load:",error));
   const tone={value:new T.Color("#ffffff")};
   function texture(){return atlas;}
   const rect=(name)=>{const f=NATIVE_BOOK[name];return new T.Vector4(f.x/512,f.y/512,f.width/512,f.height/512);};
@@ -41,24 +52,27 @@ export function createPixelMaterials(T, windTime, windPower, weather={wet:{value
       vessel=f.mode==="vessel",
       botanical=/^(leaf|cactus|soil|canopy|petal|skin|hair|actor-cloth)/.test(name),
       indoor=/^(room-|skin|hair|actor-cloth|light)/.test(kind);
-    const material=new T.MeshBasicMaterial({color,map:atlas,alphaTest:kind==="leaf-split"||kind.startsWith("weapon-")?.5:0});
+    const retroName=!vessel && !kind.startsWith("weapon-")?retroField(kind):null,
+      tileSize=retroName?64:32;
+    const material=new T.MeshBasicMaterial({color,map:retroName?retroAtlas:atlas,alphaTest:kind==="leaf-split"||kind.startsWith("weapon-")?.5:0});
     // Preserve the atmosphere's lamp/window contract on the painted material.
     const glowColor=new T.Color("#000000"),glowPower={value:0};
     material.userData.nativeEmission={color:glowColor,power:glowPower};
     material.userData.kind=kind;
     material.userData.nativeField=name;
+    material.userData.retroField=retroName;
     material.defaultAttributeValues={...material.defaultAttributeValues,
       paintSeed:[0],paintInterior:[0]};
     material.extensions={...material.extensions,derivatives:true};
     material.onBeforeCompile=(shader)=>{
       Object.assign(shader.uniforms,{
-        atlasRect:{value:rect(name)},innerRect:{value:rect(vessel?name+"-interior":name)},
-        vesselField:{value:vessel?1:0},chartOrigin:{value:new T.Vector2(16,botanical||vessel?1:16)},metricChart:{value:botanical?0:1},pixelTone:tone,
+        atlasRect:{value:retroName?new T.Vector4(...retroRect(retroName)):rect(name)},innerRect:{value:rect(vessel?name+"-interior":name)},fieldSize:{value:tileSize},
+        vesselField:{value:vessel?1:0},chartOrigin:{value:new T.Vector2(tileSize/2,botanical||vessel?1:tileSize/2)},metricChart:{value:botanical?0:1},pixelTone:tone,
         glowColor:{value:glowColor},glowPower,
-        surfaceWet:weather.wet, wetFactor:{value:indoor?0:/soil/.test(kind)?.24:/wood|clay|vessel|wicker/.test(kind)?.16:.09},
+        surfacePigment:{value:retroName?.82:1}, surfaceWet:weather.wet, wetFactor:{value:indoor?0:/soil/.test(kind)?.24:/wood|clay|vessel|wicker/.test(kind)?.16:.09},
       });
       shader.vertexShader="uniform float metricChart; attribute float paintSeed; attribute float paintInterior; varying vec3 paintPoint; varying vec3 paintNormal; varying vec2 paintPlane; varying float paintFacet; varying float interiorField; varying float pigmentSeed;\n"+shader.vertexShader;
-      shader.fragmentShader="uniform float metricChart; uniform vec4 atlasRect; uniform vec4 innerRect; uniform float vesselField; uniform vec2 chartOrigin; uniform vec3 pixelTone; uniform vec3 glowColor; uniform float glowPower; uniform float surfaceWet; uniform float wetFactor; varying vec3 paintPoint; varying vec3 paintNormal; varying vec2 paintPlane; varying float paintFacet; varying float interiorField; varying float pigmentSeed;\n"+shader.fragmentShader;
+      shader.fragmentShader="uniform float metricChart; uniform float surfacePigment; uniform float fieldSize; uniform vec4 atlasRect; uniform vec4 innerRect; uniform float vesselField; uniform vec2 chartOrigin; uniform vec3 pixelTone; uniform vec3 glowColor; uniform float glowPower; uniform float surfaceWet; uniform float wetFactor; varying vec3 paintPoint; varying vec3 paintNormal; varying vec2 paintPlane; varying float paintFacet; varying float interiorField; varying float pigmentSeed;\n"+shader.fragmentShader;
       let vertex=`#include <begin_vertex>
 vec3 rootScale=max(vec3(length(modelMatrix[0].xyz),length(modelMatrix[1].xyz),length(modelMatrix[2].xyz)),vec3(.00001));
 paintPoint=position*rootScale;
@@ -100,7 +114,7 @@ vec2 unfoldedPoint(){
  return vec2(dot(paintPoint,tangent),dot(paintPoint,normalize(cross(n,tangent))));
 }
 vec2 bookUv(vec2 cell,vec4 area){
- return area.xy+(clamp(cell,vec2(.5/32.),vec2(31.5/32.)))*area.zw;
+ return area.xy+(clamp(cell,vec2(.5/fieldSize),vec2((fieldSize-.5)/fieldSize)))*area.zw;
 }
 void main() {`);
       shader.fragmentShader=shader.fragmentShader.replace("#include <map_fragment>",`
@@ -112,8 +126,8 @@ ${T.ShaderChunk.color_fragment}
   float facet=floor(paintFacet+.5);
   origin.x=3.+2.*mod(facet,8.);
  }
- vec2 pixel=mod(floor(plane*8.0+origin),32.);
- vec2 cell=vec2((pixel.x+.5)/32.,(31.-pixel.y+.5)/32.);
+ vec2 pixel=mod(floor(plane*8.0+origin),fieldSize);
+ vec2 cell=vec2((pixel.x+.5)/fieldSize,(fieldSize-1.-pixel.y+.5)/fieldSize);
  vec4 area=atlasRect;
  if(vesselField>.5 && interiorField>.5)area=innerRect;
  vec4 painted=texture2D(map,bookUv(cell,area));
@@ -125,10 +139,10 @@ ${T.ShaderChunk.color_fragment}
       shader.fragmentShader=shader.fragmentShader.replace("#include <color_fragment>",`
 vec3 n=foldedNormal();
 float face=n.y>.7?1.:n.y<-.7?.52:abs(n.x)>abs(n.z)?.66:.82;
-diffuseColor.rgb*=face*pixelTone*(1.-surfaceWet*wetFactor);
+diffuseColor.rgb*=face*surfacePigment*pixelTone*(1.-surfaceWet*wetFactor);
 diffuseColor.rgb=mix(diffuseColor.rgb,max(diffuseColor.rgb,glowColor),clamp(glowPower,0.,1.));`);
     };
-    material.customProgramCacheKey=()=>"native-pixelorama-metric-v2-"+(wind?(/Rigid|cactus/.test(kind)?"rigid":"leaf"):"static-v3");
+    material.customProgramCacheKey=()=>"native-pixelorama-metric-v2-"+(wind?(/Rigid|cactus/.test(kind)?"rigid":"leaf"):"static-retro-v1");
     cache.set(key,material);return material;
   }
   function updateAtmosphere(a,indoor=false){

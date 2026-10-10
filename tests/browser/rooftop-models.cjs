@@ -40,8 +40,9 @@ const engine = process.env.BROWSER || "chromium",
         style.cataloguePreviews < style.catalog,
         "initial shelf does not rasterize the entire catalogue",
       );
-      assert.equal(style.style, "native-pixelorama-v2");
-      assert.equal(style.textures,1,"one shared native Pixelorama atlas");
+      assert.equal(style.style, "retro-software-batch-1");
+      assert.equal(style.textures,2,"current and deferred software material books");
+      assert.equal(style.authoredAssets,17,"loaded Blender first batch");
       assert.ok(
         style.drawCalls < 1000,
         "leaves reuse surfaces rather than one draw per leaf",
@@ -478,6 +479,7 @@ const engine = process.env.BROWSER || "chromium",
         initial,
       );
       await page.reload();
+      await page.waitForFunction(()=>window.rooftop?.graphics?.authoredAssets===17);
       assert.equal(
         await page.evaluate(() => rooftop.layout.scenes.north[0].pot),
         "growbag",

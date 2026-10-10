@@ -13,8 +13,7 @@
 ## 花农时代
 
 - [维护与扩容入口](rooftop-maintenance.md)：房间、阳台、车库的模块职责、历史存档与验证入口。
-- [像素绘制方向](rooftop-art-direction.md)：色板、材质、天气与物件转向的绘制依据。
-- [物件四面绘制](rooftop-object-views.md)：结构参考、遮挡与资料边界。
+- [当前视觉制作与源文件](../art/rooftop-retro/README.md)：Blender 模型、Pixelorama 材质、统一像素尺寸和分批范围。
 - [植物与容器手帐资料](rooftop-notebook.md)：名称、园艺资料与容器来源。
 
 早期双场景原型及目录扩容记录已归入 [历史维护记录](reference/README.md)，不作为当前房间或存档结构的说明。

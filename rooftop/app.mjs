@@ -1,3 +1,4 @@
+import { loadRetroAssets } from "./3d/retro-assets.mjs";
 import { SEASONS, paintSeasonalAir } from "./seasons.mjs";
 import { fillNotebook, notebookEntry } from "./notebook.mjs";
 import { createActionCard } from "./resident-weather.mjs";
@@ -91,6 +92,7 @@ let garden3d = null,
   placementEditor = null;
 const canvas = $("garden");
 try {
+  await loadRetroAssets();
   garden3d = createGardenRenderer(
     canvas,
     layout,

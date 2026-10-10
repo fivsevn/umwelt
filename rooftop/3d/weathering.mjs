@@ -12,61 +12,6 @@ export const WEATHER_KINDS = [
   "face-drawer",
   "round-metal",
 ];
-const pigment = [
-  "#725744",
-  "#967653",
-  "#b29a76",
-  "#746750",
-  "#485341",
-  "#71805a",
-  "#929b76",
-];
-const field = (x, y, cx, cy, rx, ry) =>
-  Math.exp(-((x - cx) ** 2 / (rx * rx) + (y - cy) ** 2 / (ry * ry)));
-
-// Contamination is independent of the underlying material drawing. Corrosion
-// belongs to iron; moist wood/plastic collect mould, soil and small moss patches.
-export function weatherDrawing(art, kind) {
-  const cw = art.cellWidth || art.size,
-    ch = art.cellHeight || art.size;
-  const ramp = art.ramp.slice();
-  while (ramp.length < 13) ramp.push("#697275");
-  ramp.push(...pigment);
-  const commands = art.commands.map(([xx, yy, w, h, original]) => {
-    // Preserve authored lines and motifs. Individual painted texels can carry
-    // deposits; structural bands are never converted into a sheet of rust.
-    if (w !== 1 || h !== 1) return [xx, yy, w, h, original];
-    const x = xx % cw,
-      y = yy % ch,
-      u = x / cw,
-      v = y / ch;
-    const component = Math.floor(xx / cw) + Math.floor(yy / ch) * 3,
-      seed = component * 193 + kind.length * 71;
-    const a = 0.12 + pointThreshold(1, 3, seed) * 0.73,
-      b = 0.15 + pointThreshold(4, 2, seed) * 0.66;
-    const age = pointThreshold(2, 3, seed),
-      mode = pointThreshold(6, 8, seed);
-    // One deposit has a coherent source area. A hard locality gate prevents
-    // the Gaussian tails from sprinkling isolated specks across the furniture.
-    const zone =
-      mode < 0.55
-        ? field(u, v, a, 0.95, 0.125, 0.09)
-        : field(u, v, 0.03, b, 0.05, 0.13);
-    const pick = pointThreshold(Math.floor(x / 2), Math.floor(y / 2), seed + 43),
-      grain = pointThreshold(x, y, seed + 119);
-    let ink = original;
-    if (age > 0.32 && zone > 0.38 && pick < Math.min(0.9, zone * 0.95)) {
-      if (kind === "metal" && mode < 0.78)
-        ink = 13 + (grain < 0.2 ? 0 : grain > 0.82 ? 2 : 1);
-      else if (mode > 0.74 && !["enamel", "round-metal"].includes(kind))
-        ink = grain < 0.28 ? 17 : grain > 0.88 ? 19 : 18;
-      else ink = 16;
-    }
-    return [xx, yy, 1, 1, ink];
-  });
-  return { ...art, ramp, commands };
-}
-
 export function outdoorPaintKind(group, kind, curved = false) {
   if (kind.startsWith("wrap-")) {
     curved = true;

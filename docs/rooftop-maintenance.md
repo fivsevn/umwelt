@@ -31,7 +31,7 @@
 - `resident.mjs`：东东外出节奏；`resident-weather.mjs`：天气动作池；`actor-space.mjs`：从共享承放结构派生人物实际身体通行空间。路径网格按布局缓存，编辑后清除。
 - `3d/scene3d.mjs`：场景、实例批次、缓存模型、镜头与编辑投影。`3d/atmosphere.mjs`：缓存的天空、灯光、雨线、积水和雨点缓冲；`3d/residents.mjs`：身体、衣服和装饰模型；`3d/resident-paintings.mjs`：皮肤、头发与布料绘制。
 - `3d/native-style.mjs` / `native-materials.mjs` / `native-book.mjs`：8 像素/世界单位的贴面方格、真实 Pixelorama 图集、共享缓存及昼夜湿润参数。目录画像等待加载，固定为干燥日间色调。旧 `pixel-materials.mjs` / `environment-paintings.mjs` 保留制作参考，当前 3D 不用其 CanvasTexture。
-- `3d/stand-models.mjs` / `rack-grid.mjs`：共享花架构造与开孔承放；`cactus-models.mjs` / `water-models.mjs`：仙人掌与水盆构造；`plant-materials.mjs`：按原株形选择原生叶面。全游戏原稿与审计在 `docs/art/rooftop-game/`。
+- `3d/stand-models.mjs` / `rack-grid.mjs`：共享花架构造与开孔承放；`cactus-models.mjs` / `water-models.mjs`：仙人掌与水盆构造；`plant-materials.mjs`：按原株形选择原生叶面。第一批家具由 `3d/retro-assets.mjs` 加载 Blender 导出的 GLB；当前源文件在 `art/rooftop-retro/`。未重做的植物、武器材质源文件在 `art/rooftop-deferred/`。
 - `3d/soil-surface.mjs`：两圈分面的闭合盆土；`3d/antique-paintings.mjs`：资料校准的器物纹饰制作参考，原生 PXO 保存实际发布绘画。
 - `3d/neighborhood.mjs`：周边楼群、道路、绿化与资料归属；`camera.mjs` / `city.mjs`：2D 回退镜头与周边绘制。
 - `arrange/index.html` / `rooftop.css`：布置页面结构与样式。
@@ -85,7 +85,7 @@ BROWSER=webkit BASE_URL=http://127.0.0.1:8773 COMPARE_URL=http://127.0.0.1:8774 
 
 ## 资料与阶段记录
 
-[手帐资料](rooftop-notebook.md)、[绘制方向](rooftop-art-direction.md) 和 [四面结构参考](rooftop-object-views.md) 保留绘制与来源依据。早期双场景说明及目录扩容数量见 [历史索引](reference/README.md)；当前物件、场景及兼容行为以运行模块为准。
+[手帐资料](rooftop-notebook.md)保留园艺与器物来源；[当前视觉制作](../art/rooftop-retro/README.md)记录软件源文件及分批范围。早期双场景说明及目录扩容数量见 [历史索引](reference/README.md)；当前物件、场景及兼容行为以运行模块为准。
 
 ## 零前端变化维护
 

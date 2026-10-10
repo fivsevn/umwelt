@@ -1,3 +1,4 @@
+import { loadRetroAssets } from "../3d/retro-assets.mjs";
 import { createGardenRenderer } from "../3d/scene3d.mjs";
 import { makeWeather } from "../weather.mjs";
 import { readLayout, writeLayout } from "../layout-storage.mjs";
@@ -192,6 +193,7 @@ floor.height = 520;
 paintBase(floor.getContext("2d"), "room");
 let lastFrame = 0;
 try {
+  await loadRetroAssets();
   room3d = createGardenRenderer(canvas, roomLayout, null, {
     scene: "room",
     controls: "orbit",
