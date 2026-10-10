@@ -78,7 +78,10 @@ for(const a of ASSETS){
    const inner=geo.attributes.paintInteriorUv, interior=geo.attributes.paintInterior;
    for(let i=0;i<p.count;i+=3){
     const local=Array.from({length:3},(_,j)=>new T.Vector3(p.getX(i+j),p.getY(i+j),p.getZ(i+j)).applyMatrix4(m.matrixWorld));
-    const frame=surfaceFrame(T,local,{vessel:name.startsWith('vessel-'),weapon:kind.startsWith('weapon-')}),{n}=frame,shade=n.y>.7?1:n.y<-.7?.52:Math.abs(n.x)>Math.abs(n.z)?.66:.82;
+    const botanical=/^(leaf|cactus|soil|canopy|petal|skin|hair|actor-cloth)/.test(name),
+      translation=new T.Vector3().setFromMatrixPosition(m.matrixWorld),
+      painting=botanical?local:local.map(q=>q.clone().sub(translation)),
+      frame=surfaceFrame(T,painting,{vessel:name.startsWith('vessel-'),weapon:kind.startsWith('weapon-'),botanical}),{n}=frame,shade=n.y>.7?1:n.y<-.7?.52:Math.abs(n.x)>Math.abs(n.z)?.66:.82;
     for(let j=0;j<3;j++){
      const q=local[j];if(!q.toArray().every(Number.isFinite))throw Error("Nonfinite vertex");b.positions.push(...q.toArray().map(v=>+v.toFixed(6)));b.uvs.push(uv?uv.getX(i+j):0,uv?uv.getY(i+j):0);b.innerUvs.push(inner?inner.getX(i+j):.5,inner?inner.getY(i+j):.5);b.colors.push(color.r,color.g,color.b);b.planes.push(...frame.points[j]);b.phases.push(...frame.phase);b.interiors.push(interior?interior.getX(i+j):0);b.shade.push(shade);
     }

@@ -5,8 +5,8 @@
   "version": "4.5.14 LTS",
   "assets": 304,
   "triangles": 471968,
-  "texture_sha256": "f559688a8b04e40ea959f205ae9b361821581b93fd7ee577ec11791220367b7f",
-  "native_source_bytes": 22260971,
+  "texture_sha256": "145c0b557beb73e80091b63a69544eecbca081d9b588ef1c375c785b2cb2d43c",
+  "native_source_bytes": 21923275,
   "grid": {
     "texels_per_unit": 8,
     "nearest": true,
@@ -16,22 +16,22 @@
     {
       "name": "rack-and-plants",
       "path": "review/rack-and-plants.png",
-      "bytes": 1109476
+      "bytes": 1128560
     },
     {
       "name": "rack-openings",
       "path": "review/rack-openings.png",
-      "bytes": 998187
+      "bytes": 1046559
     },
     {
       "name": "plants",
       "path": "review/plants.png",
-      "bytes": 1104932
+      "bytes": 1106734
     },
     {
       "name": "vessels",
       "path": "review/vessels.png",
-      "bytes": 1053530
+      "bytes": 1054025
     }
   ],
   "view_scope": "Software asset reviews, not browser game screenshots",

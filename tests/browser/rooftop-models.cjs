@@ -112,6 +112,23 @@ const engine = process.env.BROWSER || "chromium",
         );
         assert.ok(model.sourceCount > 0, model.type + " sources");
       }
+      // Inspect the changed artwork through the actual game controls. These
+      // captures use the same renderer, backdrop and saved-layout path as play.
+      const artOutput=process.env.QA_OUTPUT || "/tmp/rooftop-models";
+      await fs.mkdir(artOutput,{recursive:true});
+      await page.locator("#weatherSelect").selectOption("clear");
+      await page.locator("#timeSelect").selectOption("day");
+      await page.waitForFunction(()=>rooftop.weather.transition.mix>.999);
+      await page.locator("#clear").click();
+      for(const [query,id] of [["木阶花架","woodshelf"],["浇水","watering"],["三层铁花架","tierstand"]]){
+        await page.locator("#search").fill(query);
+        await page.locator("[data-asset="+id+"]").click();
+      }
+      await page.locator("#garden").focus();
+      for(let i=0;i<4;i++)await page.keyboard.press("+");
+      await page.waitForFunction(()=>Math.abs(rooftop.graphics.view.zoom-rooftop.graphics.wanted.zoom)<.01);
+      await page.screenshot({path:artOutput+"/nonplant-game-arrange.png",fullPage:true});
+      await page.locator("#garden").press("Home");
       // Real controls, picking and dragging verify the shared placement contract.
       await page.locator("#clear").click();
       await page.locator("#search").fill("三层铁花架");
@@ -483,6 +500,7 @@ const engine = process.env.BROWSER || "chromium",
       for (let i = 0; i < 6; i++) await page.keyboard.press("+");
       await page.getByRole("button", { name: "移动画面", exact: true }).click();
       await page.locator("#garden").focus();
+      await page.screenshot({path:output+"/nonplant-game-north-close.png",fullPage:true});
       const panStart = await page.evaluate(() => rooftop.graphics.target[0]);
       await page.keyboard.press("ArrowRight");
       await page.waitForFunction(

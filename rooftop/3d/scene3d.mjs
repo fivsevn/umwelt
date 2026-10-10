@@ -1,5 +1,6 @@
 import { HOUSE, housePoint, houseOccludes } from "../house-structure.mjs";
 import { buildHouseRoof } from "./house-roof.mjs";
+import { terraceFloorGeometry } from "./terrace-floor.mjs";
 import {
   TERRACE_ZOOM,
   TERRACE_VIEW_DISTANCE,
@@ -487,12 +488,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       box(g, 0, yy, d * 0.45, w, 0.085, 0.08, P.blue);
     const glass = new T.Mesh(
       new T.BoxGeometry(w * 0.88, h * 0.82, d * 0.8),
-      new T.MeshBasicMaterial({
-        color: "#86aba7",
-        transparent: true,
-        opacity: 0.2,
-        depthWrite: false,
-      }),
+      paintedPane("#86aba7",.2),
     );
     glass.position.y = h * 0.5;
     g.add(glass);
@@ -511,6 +507,13 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     box(g, w * 0.2, h * 0.49, d * 0.5, 0.06, 0.18, 0.055, P.white);
   }
 
+  function paintedPane(color,opacity){
+    const base=mat(color,"glass"),material=base.clone();
+    material.onBeforeCompile=base.onBeforeCompile;material.customProgramCacheKey=base.customProgramCacheKey;
+    material.defaultAttributeValues=base.defaultAttributeValues;
+    material.transparent=true;material.opacity=opacity;material.depthWrite=false;
+    return material;
+  }
   function fishSchool(g, width, depth, level, goldfish = false) {
     populateWater(
       {
@@ -661,8 +664,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
             (floor + i) % 7,
           );
     }
-    const faceGeo = new T.ShapeGeometry(shape);
-    faceGeo.rotateX(Math.PI / 2);
+    const faceGeo = terraceFloorGeometry(T,shape);
     const pos = faceGeo.attributes.position,
       uv = faceGeo.attributes.uv;
     for (let i = 0; i < pos.count; i++) {
@@ -707,7 +709,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
             0.96,
             z2 - z1,
             P.wall,
-            "wall",
+            "parapet",
           );
           box(
             parent,
@@ -731,7 +733,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
           0.76,
           horizontal ? 0.26 : len + 0.12,
           P.wall,
-          "wall",
+          "parapet",
         );
         box(
           parent,
@@ -744,20 +746,6 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
           P.cap,
           "wall",
         );
-        for (let k = 0.6; k < len; k += 1.45) {
-          const xx = a[0] + ((b[0] - a[0]) * k) / len,
-            zz = a[1] + ((b[1] - a[1]) * k) / len;
-          box(
-            parent,
-            xx,
-            0.42,
-            zz,
-            horizontal ? 0.035 : 0.29,
-            0.56,
-            horizontal ? 0.29 : 0.035,
-            "#aaa593",
-          );
-        }
       }
     }
     if (name === "north") {
@@ -1028,12 +1016,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     box(root, 0, 0.003, 0, w, 0.015, d, "#b2a180", "wood");
     const glass = new T.Mesh(
       new T.PlaneGeometry(3.4, 1.5),
-      new T.MeshBasicMaterial({
-        color: "#aabfc6",
-        transparent: true,
-        opacity: 0.16,
-        depthWrite: false,
-      }),
+      paintedPane("#aabfc6",.16),
     );
     glass.position.set(0, 1.57, -6.92);
     root.add(glass);
@@ -1111,12 +1094,19 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       b.colors.push(p.m.userData.window ? "#ffffff" : p.color);
     }
     for (const b of buckets.values()) {
+      // Plants retain their existing surface normals and appearance. Rigid
+      // folded shells have one normal per polygon, shared by its triangles;
+      // smooth vertex normals must never bend the 2D pixel grid.
+      const botanical=/^(leaf|cactus|soil|canopy|petal|skin|hair|actor-cloth)/.test(b.m.userData.nativeField||""),
+        original=b.geo,
+        painted=botanical?original:(original.index?original.toNonIndexed():original.clone());
+      if(!botanical)painted.computeVertexNormals();
       const geo = new T.BufferGeometry();
       // Share immutable CPU arrays, but own the GPU attributes: disposing a
       // catalogue portrait must not delete buffers used by the live scene.
-      if (b.geo.index)
-        geo.setIndex(new T.BufferAttribute(b.geo.index.array, 1));
-      for (const [name, attribute] of Object.entries(b.geo.attributes))
+      if (painted.index)
+        geo.setIndex(new T.BufferAttribute(painted.index.array, 1));
+      for (const [name, attribute] of Object.entries(painted.attributes))
         geo.setAttribute(
           name,
           new T.BufferAttribute(
@@ -1125,8 +1115,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
             attribute.normalized,
           ),
         );
-      geo.boundingBox = b.geo.boundingBox;
-      geo.boundingSphere = b.geo.boundingSphere;
+      geo.boundingBox = painted.boundingBox;
+      geo.boundingSphere = painted.boundingSphere;
       geo.userData.transient = true;
       geo.setAttribute(
         "paintSeed",

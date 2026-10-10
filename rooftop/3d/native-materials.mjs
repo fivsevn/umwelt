@@ -39,6 +39,7 @@ export function createPixelMaterials(T, windTime, windPower, weather={wet:{value
     const name=nativeField(kind), f=NATIVE_BOOK[name],
       wind=/^(leaf|cactus)/.test(kind),
       vessel=f.mode==="vessel",
+      botanical=/^(leaf|cactus|soil|canopy|petal|skin|hair|actor-cloth)/.test(name),
       indoor=/^(room-|skin|hair|actor-cloth|light)/.test(kind);
     const material=new T.MeshBasicMaterial({color,map:atlas,alphaTest:kind==="leaf-split"||kind.startsWith("weapon-")?.5:0});
     // Preserve the atmosphere's lamp/window contract on the painted material.
@@ -52,12 +53,12 @@ export function createPixelMaterials(T, windTime, windPower, weather={wet:{value
     material.onBeforeCompile=(shader)=>{
       Object.assign(shader.uniforms,{
         atlasRect:{value:rect(name)},innerRect:{value:rect(vessel?name+"-interior":name)},
-        vesselField:{value:vessel?1:0},chartOrigin:{value:new T.Vector2(16,kind.startsWith("weapon-")?16:1)},pixelTone:tone,
+        vesselField:{value:vessel?1:0},chartOrigin:{value:new T.Vector2(16,botanical||vessel?1:16)},metricChart:{value:botanical?0:1},pixelTone:tone,
         glowColor:{value:glowColor},glowPower,
         surfaceWet:weather.wet, wetFactor:{value:indoor?0:/soil/.test(kind)?.24:/wood|clay|vessel|wicker/.test(kind)?.16:.09},
       });
-      shader.vertexShader="attribute float paintSeed; attribute float paintInterior; varying vec3 paintPoint; varying vec3 paintNormal; varying float interiorField; varying float pigmentSeed;\n"+shader.vertexShader;
-      shader.fragmentShader="uniform vec4 atlasRect; uniform vec4 innerRect; uniform float vesselField; uniform vec2 chartOrigin; uniform vec3 pixelTone; uniform vec3 glowColor; uniform float glowPower; uniform float surfaceWet; uniform float wetFactor; varying vec3 paintPoint; varying vec3 paintNormal; varying float interiorField; varying float pigmentSeed;\n"+shader.fragmentShader;
+      shader.vertexShader="uniform float metricChart; attribute float paintSeed; attribute float paintInterior; varying vec3 paintPoint; varying vec3 paintNormal; varying vec2 paintPlane; varying float paintFacet; varying float interiorField; varying float pigmentSeed;\n"+shader.vertexShader;
+      shader.fragmentShader="uniform float metricChart; uniform vec4 atlasRect; uniform vec4 innerRect; uniform float vesselField; uniform vec2 chartOrigin; uniform vec3 pixelTone; uniform vec3 glowColor; uniform float glowPower; uniform float surfaceWet; uniform float wetFactor; varying vec3 paintPoint; varying vec3 paintNormal; varying vec2 paintPlane; varying float paintFacet; varying float interiorField; varying float pigmentSeed;\n"+shader.fragmentShader;
       let vertex=`#include <begin_vertex>
 vec3 rootScale=max(vec3(length(modelMatrix[0].xyz),length(modelMatrix[1].xyz),length(modelMatrix[2].xyz)),vec3(.00001));
 paintPoint=position*rootScale;
@@ -67,7 +68,19 @@ paintPoint=(instanceMatrix*vec4(position,1.)).xyz*rootScale;
 vec3 instanceScale=max(vec3(length(instanceMatrix[0].xyz),length(instanceMatrix[1].xyz),length(instanceMatrix[2].xyz)),vec3(.00001));
 paintNormal=(mat3(instanceMatrix)*(normal/(instanceScale*instanceScale)))/rootScale;
 #endif
-paintNormal=normalize(paintNormal); interiorField=paintInterior; pigmentSeed=paintSeed;`;
+// Each non-plant primitive uses its own folded-face chart. Translating the
+// object cannot slide the drawing, and two coplanar triangles share one grid.
+if(metricChart>.5){
+ #ifdef USE_INSTANCING
+ paintPoint=(mat3(instanceMatrix)*position)*rootScale;
+ #endif
+}
+paintNormal=normalize(paintNormal);
+vec3 chartNormal=normalize(floor(paintNormal*100000.+.5)/100000.);
+vec3 chartU=normalize(abs(chartNormal.y)>.98?vec3(1.,0.,0.)-chartNormal*chartNormal.x:cross(vec3(0.,1.,0.),chartNormal));
+paintPlane=vec2(dot(paintPoint,chartU),dot(paintPoint,normalize(cross(chartNormal,chartU))));
+paintFacet=floor((atan(chartNormal.z,chartNormal.x)+3.14159265+.00001)/(.25*3.14159265));
+interiorField=paintInterior; pigmentSeed=paintSeed;`;
       if(wind){
         shader.uniforms.leafTime=windTime;shader.uniforms.leafWind=windPower;
         shader.vertexShader="uniform float leafTime; uniform float leafWind;\n"+shader.vertexShader;
@@ -93,11 +106,10 @@ void main() {`);
       shader.fragmentShader=shader.fragmentShader.replace("#include <map_fragment>",`
 ${T.ShaderChunk.color_fragment}
 #ifdef USE_MAP
- vec2 plane=unfoldedPoint();
+ vec2 plane=metricChart>.5?paintPlane:unfoldedPoint();
  vec2 origin=chartOrigin;
  if(vesselField>.5){
-  vec3 n=foldedNormal();
-  float facet=floor((atan(n.z,n.x)+3.14159265)/(.25*3.14159265));
+  float facet=floor(paintFacet+.5);
   origin.x=3.+2.*mod(facet,8.);
  }
  vec2 pixel=mod(floor(plane*8.0+origin),32.);
@@ -116,7 +128,7 @@ float face=n.y>.7?1.:n.y<-.7?.52:abs(n.x)>abs(n.z)?.66:.82;
 diffuseColor.rgb*=face*pixelTone*(1.-surfaceWet*wetFactor);
 diffuseColor.rgb=mix(diffuseColor.rgb,max(diffuseColor.rgb,glowColor),clamp(glowPower,0.,1.));`);
     };
-    material.customProgramCacheKey=()=>"native-pixelorama-metric-v2-"+(wind?(/Rigid|cactus/.test(kind)?"rigid":"leaf"):"static");
+    material.customProgramCacheKey=()=>"native-pixelorama-metric-v2-"+(wind?(/Rigid|cactus/.test(kind)?"rigid":"leaf"):"static-v3");
     cache.set(key,material);return material;
   }
   function updateAtmosphere(a,indoor=false){
