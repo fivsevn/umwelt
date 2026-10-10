@@ -17,7 +17,7 @@ const engine = process.env.BROWSER || "chromium",
         viewport: { width: 1280, height: 800 },
       }),
       errors = [];
-    page.on("pageerror", (e) => errors.push(e.message));
+    page.on("pageerror", (e) => errors.push(e.stack||e.message));
     page.on("console",message=>{if(message.type()==="error"&&/THREE.WebGLProgram|Shader Error/.test(message.text()))errors.push(message.text());});
     page.setDefaultNavigationTimeout(90000);
     await page.goto(base + "/rooftop/arrange/", {

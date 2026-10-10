@@ -41,6 +41,9 @@ export function createPixelMaterials(T, windTime, windPower, weather={wet:{value
       vessel=f.mode==="vessel",
       indoor=/^(room-|skin|hair|actor-cloth|light)/.test(kind);
     const material=new T.MeshBasicMaterial({color,map:atlas,alphaTest:kind==="leaf-split"||kind.startsWith("weapon-")?.5:0});
+    // Preserve the atmosphere's lamp/window contract on the painted material.
+    material.emissive=new T.Color("#000000");material.emissiveIntensity=0;
+    const glowPower={value:0};material.userData.glowPower=glowPower;
     material.userData.kind=kind;
     material.userData.nativeField=name;
     material.defaultAttributeValues={...material.defaultAttributeValues,
@@ -50,10 +53,11 @@ export function createPixelMaterials(T, windTime, windPower, weather={wet:{value
       Object.assign(shader.uniforms,{
         atlasRect:{value:rect(name)},innerRect:{value:rect(vessel?name+"-interior":name)},
         vesselField:{value:vessel?1:0},chartOrigin:{value:new T.Vector2(16,kind.startsWith("weapon-")?16:1)},pixelTone:tone,
+        glowColor:{value:material.emissive},glowPower,
         surfaceWet:weather.wet, wetFactor:{value:indoor?0:/soil/.test(kind)?.24:/wood|clay|vessel|wicker/.test(kind)?.16:.09},
       });
       shader.vertexShader="attribute float paintSeed; attribute float paintInterior; varying vec3 paintPoint; varying vec3 paintNormal; varying float interiorField; varying float pigmentSeed;\n"+shader.vertexShader;
-      shader.fragmentShader="uniform vec4 atlasRect; uniform vec4 innerRect; uniform float vesselField; uniform vec2 chartOrigin; uniform vec3 pixelTone; uniform float surfaceWet; uniform float wetFactor; varying vec3 paintPoint; varying vec3 paintNormal; varying float interiorField; varying float pigmentSeed;\n"+shader.fragmentShader;
+      shader.fragmentShader="uniform vec4 atlasRect; uniform vec4 innerRect; uniform float vesselField; uniform vec2 chartOrigin; uniform vec3 pixelTone; uniform vec3 glowColor; uniform float glowPower; uniform float surfaceWet; uniform float wetFactor; varying vec3 paintPoint; varying vec3 paintNormal; varying float interiorField; varying float pigmentSeed;\n"+shader.fragmentShader;
       let vertex=`#include <begin_vertex>
 vec3 rootScale=max(vec3(length(modelMatrix[0].xyz),length(modelMatrix[1].xyz),length(modelMatrix[2].xyz)),vec3(.00001));
 paintPoint=position*rootScale;
@@ -79,7 +83,7 @@ vec3 foldedNormal(){
 }
 vec2 unfoldedPoint(){
  vec3 n=foldedNormal();
- vec3 tangent=normalize(abs(n.y)>.98?vec3(1.,0.,0.):cross(vec3(0.,1.,0.),n));
+ vec3 tangent=normalize(abs(n.y)>.98?vec3(1.,0.,0.)-n*n.x:cross(vec3(0.,1.,0.),n));
  return vec2(dot(paintPoint,tangent),dot(paintPoint,normalize(cross(n,tangent))));
 }
 vec2 bookUv(vec2 cell,vec4 area){
@@ -109,7 +113,8 @@ ${T.ShaderChunk.color_fragment}
       shader.fragmentShader=shader.fragmentShader.replace("#include <color_fragment>",`
 vec3 n=foldedNormal();
 float face=n.y>.7?1.:n.y<-.7?.52:abs(n.x)>abs(n.z)?.66:.82;
-diffuseColor.rgb*=face*pixelTone*(1.-surfaceWet*wetFactor);`);
+diffuseColor.rgb*=face*pixelTone*(1.-surfaceWet*wetFactor);
+diffuseColor.rgb=mix(diffuseColor.rgb,max(diffuseColor.rgb,glowColor),clamp(glowPower,0.,1.));`);
     };
     material.customProgramCacheKey=()=>"native-pixelorama-metric-v2-"+(wind?(/Rigid|cactus/.test(kind)?"rigid":"leaf"):"static");
     cache.set(key,material);return material;
@@ -118,6 +123,7 @@ diffuseColor.rgb*=face*pixelTone*(1.-surfaceWet*wetFactor);`);
     const night=Math.max(0,Math.min(1,a.night||0));
     tone.value.set(indoor?"#fff4db":"#ffffff");
     if(!indoor)tone.value.lerp(new T.Color("#8ca0b6"),night*.58).multiplyScalar(1-night*.33);
+    for(const material of cache.values())material.userData.glowPower.value=material.emissiveIntensity;
   }
   return {mat,cache,textures,texture,tone,ready,get loaded(){return loaded;},updateAtmosphere};
 }

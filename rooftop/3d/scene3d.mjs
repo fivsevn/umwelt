@@ -546,6 +546,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   function modelApi() {
     return {
       T,
+      mat,
       box,
       cyl,
       beam,
