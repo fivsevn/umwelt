@@ -707,7 +707,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
             0.96,
             z2 - z1,
             P.wall,
-            "wall",
+            "parapet",
           );
           box(
             parent,
@@ -731,7 +731,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
           0.76,
           horizontal ? 0.26 : len + 0.12,
           P.wall,
-          "wall",
+          "parapet",
         );
         box(
           parent,
@@ -744,20 +744,6 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
           P.cap,
           "wall",
         );
-        for (let k = 0.6; k < len; k += 1.45) {
-          const xx = a[0] + ((b[0] - a[0]) * k) / len,
-            zz = a[1] + ((b[1] - a[1]) * k) / len;
-          box(
-            parent,
-            xx,
-            0.42,
-            zz,
-            horizontal ? 0.035 : 0.29,
-            0.56,
-            horizontal ? 0.29 : 0.035,
-            "#aaa593",
-          );
-        }
       }
     }
     if (name === "north") {
@@ -1111,12 +1097,19 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       b.colors.push(p.m.userData.window ? "#ffffff" : p.color);
     }
     for (const b of buckets.values()) {
+      // Plants retain their existing surface normals and appearance. Rigid
+      // folded shells have one normal per polygon, shared by its triangles;
+      // smooth vertex normals must never bend the 2D pixel grid.
+      const botanical=/^(leaf|cactus|soil|canopy|petal|skin|hair|actor-cloth)/.test(b.m.userData.nativeField||""),
+        original=b.geo,
+        painted=botanical?original:(original.index?original.toNonIndexed():original.clone());
+      if(!botanical)painted.computeVertexNormals();
       const geo = new T.BufferGeometry();
       // Share immutable CPU arrays, but own the GPU attributes: disposing a
       // catalogue portrait must not delete buffers used by the live scene.
-      if (b.geo.index)
-        geo.setIndex(new T.BufferAttribute(b.geo.index.array, 1));
-      for (const [name, attribute] of Object.entries(b.geo.attributes))
+      if (painted.index)
+        geo.setIndex(new T.BufferAttribute(painted.index.array, 1));
+      for (const [name, attribute] of Object.entries(painted.attributes))
         geo.setAttribute(
           name,
           new T.BufferAttribute(
@@ -1125,8 +1118,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
             attribute.normalized,
           ),
         );
-      geo.boundingBox = b.geo.boundingBox;
-      geo.boundingSphere = b.geo.boundingSphere;
+      geo.boundingBox = painted.boundingBox;
+      geo.boundingSphere = painted.boundingSphere;
       geo.userData.transient = true;
       geo.setAttribute(
         "paintSeed",

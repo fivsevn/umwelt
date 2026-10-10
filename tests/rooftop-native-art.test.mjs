@@ -109,3 +109,41 @@ test('authoring audit covers every original asset and reports finite coarse mesh
  assert.match(source,/if \(!style.loaded\)/);
  assert.match(source,/style\.updateAtmosphere\(\{ night: 0 \}\)/);
 });
+
+test('wooden steps cover the same three bearing surfaces with broad painted planks',async()=>{
+ const {buildStand}=await import('../rooftop/3d/stand-models.mjs');
+ const boards=[];
+ for(const type of ['woodshelf','ladderstand']){
+  boards.length=0;
+  const width=type==='woodshelf'?4:54/16,depth=84/16,height=(type==='woodshelf'?34:38)/16;
+  buildStand({box(...args){if(args[8]==='face-board')boards.push(args);},beam(){},shade(c){return c;},P:PIXEL_STYLE.palette}, {},width,depth,height,type);
+  const surfaces=supportSurfaces({type});assert.equal(boards.length,9);
+  for(let level=0;level<3;level++){
+   const s=surfaces[level],parts=boards.slice(level*3,level*3+3);
+   assert.equal(parts[0][4],s.w);
+   for(const p of parts)assert.ok(Math.abs(p[2]+p[5]/2-s.y)<1e-9,'board top equals stable bearing height');
+   const lo=parts[0][3]-parts[0][6]/2,hi=parts[2][3]+parts[2][6]/2;
+   assert.ok(Math.abs(lo-(s.z-s.d/2))<1e-9);assert.ok(Math.abs(hi-(s.z+s.d/2))<1e-9);
+   for(let j=1;j<parts.length;j++)assert.ok(Math.abs(parts[j][3]-parts[j-1][3]-parts[j][6])<1e-9);
+  }
+ }
+});
+
+test('translated, rotated and scaled rigid shell faces retain square native cells',()=>{
+ const context={console:{warn(){}}};
+ vm.runInNewContext(readFileSync(new URL('../rooftop/3d/vendor/three.min.js',import.meta.url),'utf8'),context);
+ const T=context.THREE,geo=new T.BoxGeometry(1,1,1).toNonIndexed();geo.computeVertexNormals();
+ for(const scale of [[4,.1,.65],[.28,.76,9],[2.1,.125,2.1]])for(const angle of [0,.06,Math.PI/2]){
+  const transform=new T.Matrix4().compose(new T.Vector3(7.123,.38,-3.333),new T.Quaternion().setFromEuler(new T.Euler(angle,Math.PI/2,0)),new T.Vector3(...scale));
+  const translation=new T.Vector3().setFromMatrixPosition(transform),p=geo.attributes.position;
+  for(let i=0;i<p.count;i+=6){
+   const points=Array.from({length:6},(_,j)=>new T.Vector3(p.getX(i+j),p.getY(i+j),p.getZ(i+j)).applyMatrix4(transform).sub(translation));
+   const a=surfaceFrame(T,points.slice(0,3)),b=surfaceFrame(T,points.slice(3,6));
+   assert.ok(a.u.distanceTo(b.u)<1e-8&&a.v.distanceTo(b.v)<1e-8,'coplanar triangles use identical axes');
+   for(let j=1;j<3;j++)assert.ok(Math.abs(Math.hypot(a.points[j][0]-a.points[0][0],a.points[j][1]-a.points[0][1])-points[j].distanceTo(points[0]))<1e-8);
+   const center=a.u.clone().multiplyScalar(.03125).addScaledVector(a.v,.03125);
+   assert.deepEqual(nativeCell(a,center),nativeCell(b,center));
+   assert.equal(nativeCell(a,center.clone().addScaledVector(a.u,.125))[0],(nativeCell(a,center)[0]+1)%32);
+  }
+ }
+});
