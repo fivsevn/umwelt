@@ -10,6 +10,8 @@ import {supportSurfaces} from '../rooftop/3d/placement-profiles.mjs';
 import {ASSETS} from '../rooftop/scene.mjs';
 import {POTS,PLANTS} from '../rooftop/botany.mjs';
 import {plantPaintKind} from '../rooftop/3d/plant-materials.mjs';
+import {surfaceFrame,nativeCell} from '../rooftop/3d/surface-grid.mjs';
+import {latheSurface} from '../rooftop/3d/model-surfaces.mjs';
 
 test('native source book has one nonoverlapping 32px field grid and complete vessel interiors',()=>{
  const occupied=new Set();
@@ -41,8 +43,10 @@ test('one native texture waits for actual loading and reuses material instances'
  style.mat('#ffffff','wall').onBeforeCompile(shader);
  assert.ok(!shader.vertexShader.includes('paintMatrix=undefined'));
  assert.match(shader.fragmentShader,/foldedNormal/);
- assert.match(shader.fragmentShader,/floor\(plane\*8\.0\)/);
- assert.match(shader.vertexShader,/modelMatrix\*instanceMatrix/);
+ assert.match(shader.fragmentShader,/floor\(plane\*8\.0\+origin\)/);
+ assert.match(shader.vertexShader,/instanceMatrix\*vec4\(position,1\.\)/);
+ assert.ok(!shader.fragmentShader.includes('metricUv'));
+ assert.ok(!shader.fragmentShader.includes('vMapUv.y<.145'));
  assert.equal((shader.fragmentShader.match(/diffuseColor\.rgb \*= vColor/g)||[]).length,1);
  assert.ok(!/pointThreshold|sin\(.*paintPoint|noise/.test(shader.fragmentShader));
  style.updateAtmosphere({night:1});assert.ok(style.tone.value.r<1);
@@ -51,14 +55,35 @@ test('one native texture waits for actual loading and reuses material instances'
 test('metal lattice preserves visible square holes and actual scaled bearing dimensions',()=>{
  const bars=rackBars(3,1.8);
  assert.equal(bars.pitch-bars.bar,1/PIXEL_STYLE.texelsPerUnit);
- assert.ok(bars.x.length>2&&bars.z.length>2);
+ assert.equal(bars.x.length,0);assert.ok(bars.z.length>=3);
  for(let i=1;i<bars.x.length;i++)assert.equal(bars.x[i]-bars.x[i-1],RACK_GRID.pitch);
  assert.equal(latticeSupports({x:RACK_GRID.pitch/2,z:RACK_GRID.pitch/2,w:.05,d:.05},bars),false);
- assert.equal(latticeSupports({x:0,z:RACK_GRID.pitch/2,w:.05,d:.05},bars),true);
+ assert.equal(latticeSupports({x:0,z:0,w:.05,d:.05},bars),true);
  assert.equal(latticeSupports({x:RACK_GRID.pitch/2,z:RACK_GRID.pitch/2,w:.2,d:.2},bars),true);
  const a=supportSurfaces({type:'shelf',scale:1}),b=supportSurfaces({type:'shelf',scale:2});
  assert.deepEqual(a.map(s=>s.id),b.map(s=>s.id));
  for(let i=0;i<a.length;i++){assert.equal(b[i].lattice.pitch,a[i].lattice.pitch*2);assert.equal(b[i].y,a[i].y*2);}
+});
+
+test('every folded chart uses equal physical square cells across triangle diagonals and scale',()=>{
+ const context={console:{warn(){}}};
+ vm.runInNewContext(readFileSync(new URL('../rooftop/3d/vendor/three.min.js',import.meta.url),'utf8'),context);
+ const T=context.THREE;
+ for(const scale of [.4,1,1.38,2]){
+  const a=new T.Vector3(-.6,0,0).multiplyScalar(scale),b=new T.Vector3(.6,0,0).multiplyScalar(scale),c=new T.Vector3(.8,1.7,.6).multiplyScalar(scale),d=new T.Vector3(-.8,1.7,.6).multiplyScalar(scale);
+  const frame=surfaceFrame(T,[a,b,c]),other=surfaceFrame(T,[a,c,d]);
+  assert.ok(Math.abs(frame.u.dot(frame.v))<1e-10);
+  for(let i=0;i<3;i++)for(let j=0;j<i;j++)assert.ok(Math.abs(Math.hypot(frame.points[i][0]-frame.points[j][0],frame.points[i][1]-frame.points[j][1])-[a,b,c][i].distanceTo([a,b,c][j]))<1e-8);
+  const center=frame.u.clone().multiplyScalar(.03125).addScaledVector(frame.v,.03125);
+  assert.deepEqual(nativeCell(frame,center),nativeCell(other,center));
+  assert.deepEqual(nativeCell(frame,center.clone().addScaledVector(frame.u,.08)),nativeCell(frame,center));
+  const next=nativeCell(frame,center.clone().addScaledVector(frame.u,.125));
+  assert.equal(next[0],(nativeCell(frame,center)[0]+1)%32);
+ }
+ const vessel=latheSurface(T,[[.4,0,.16],[.6,1,.88],[.5,1,.135],[.35,.1,.02],[.04,.1,.02],[.04,0,.02],[.4,0,.16]],8);
+ const flags=vessel.attributes.paintInterior;
+ for(let i=0;i<flags.count;i+=3)assert.equal(flags.getX(i),flags.getX(i+1));
+ assert.ok(Array.from(flags.array).includes(1));assert.ok(Array.from(flags.array).includes(0));
 });
 
 test('authoring audit covers every original asset and reports finite coarse mesh export',()=>{

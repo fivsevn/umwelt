@@ -381,7 +381,7 @@ export function supportSurfaces(o) {
         0,
         {
           thickness,
-          lattice: { pitch: RACK_GRID.pitch * s, bar: RACK_GRID.bar * s },
+          lattice: { pitch: RACK_GRID.pitch * s, bar: RACK_GRID.bar * s,axis:RACK_GRID.axis },
           ceiling:
             i < yy.length - 1
               ? yy[i + 1] - y - thickness
