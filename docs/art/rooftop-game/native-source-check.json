@@ -1,0 +1,13 @@
+{
+  "software": "Pixelorama",
+  "native_cel_equals_png_rgba": true,
+  "native_dimensions": [
+    512,
+    512
+  ],
+  "fields": 213,
+  "native_pencil_strokes": 19245,
+  "png_bytes": 18080,
+  "pxo_bytes": 38261,
+  "png_sha256": "955370b38d111d42fb5f9e0cdcbdc6f8e72d5e12048e7f3c516efe3ad682c873"
+}

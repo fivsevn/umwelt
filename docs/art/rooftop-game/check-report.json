@@ -1,0 +1,46 @@
+{
+  "structural_checks": "isopoda/tools/check-all.mjs passed",
+  "native_source": {
+    "software": "Pixelorama",
+    "native_cel_equals_png_rgba": true,
+    "native_dimensions": [
+      512,
+      512
+    ],
+    "fields": 213,
+    "native_pencil_strokes": 19245,
+    "png_bytes": 18080,
+    "pxo_bytes": 38261,
+    "png_sha256": "955370b38d111d42fb5f9e0cdcbdc6f8e72d5e12048e7f3c516efe3ad682c873"
+  },
+  "blender_reopen": {
+    "reopened_by_actual_blender": true,
+    "assets": 304,
+    "triangles": 474956,
+    "packed_png_equals_pixelorama_export": true,
+    "texture_sha256": "955370b38d111d42fb5f9e0cdcbdc6f8e72d5e12048e7f3c516efe3ad682c873",
+    "editable_uv_and_surface_grid_attributes": true
+  },
+  "static_artifact": {
+    "runtime_files": 278,
+    "urls_versioned": 667,
+    "native_png_present_and_identical": true,
+    "new_texture_url_stamped": true,
+    "originals_excluded": true
+  },
+  "unchanged_data": "Only shared 3D modules, authored runtime texture, authoring documentation and relevant tests changed; gameplay data, saves, room, garage and narrative sources retained.",
+  "browser_verification": {
+    "status": "blocked_by_saved_browser_permission",
+    "webgl_shader_compile": "not_verified",
+    "real_interactions": "not_verified",
+    "save_refresh": "not_verified",
+    "narrow_viewport": "not_verified"
+  },
+  "production": "draft branch only; no merge or deployment",
+  "review_images": "Actual Blender asset-library renders; not browser game screenshots.",
+  "node_tests": {
+    "tests": 342,
+    "passed": 342,
+    "failed": 0
+  }
+}

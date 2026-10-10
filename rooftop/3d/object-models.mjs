@@ -1,6 +1,5 @@
 import { buildBalconyExtra } from "./balcony-models.mjs";
 import { supportSurfaces } from "./placement-profiles.mjs";
-import { paintWeapon } from "../weapons.mjs";
 import { buildSoilBag } from "./soft-goods.mjs";
 import { buildGlassCase, buildAquarium } from "./glass-cases.mjs";
 import { buildGardenTool } from "./garden-tools.mjs";
@@ -654,7 +653,7 @@ export function buildObject(api, g, a, o) {
     }
   } else if (type === "teaset") {
     tray(w, d, 0.075, P.woodLight, false, "wood");
-    ellipsoid(g, -0.1, 0.24, 0, 0.25, 0.18, 0.24, P.white, 0.05, 12);
+    ellipsoid(g, -0.1, 0.24, 0, 0.25, 0.18, 0.24, P.white, "enamel");
     cyl(g, -0.1, 0.39, 0, 0.2, 0.2, 0.025, P.white, 12);
     box(g, -0.1, 0.44, 0, 0.075, 0.07, 0.075, P.woodDark);
     beam(g, [0.1, 0.25, 0], [0.39, 0.32, 0], 0.09, P.white);
@@ -816,54 +815,21 @@ export function buildObject(api, g, a, o) {
   }
 }
 
-// Collection pieces retain the museum/official side profile, then get a rounded,
-// material-dependent thickness. They are inert decorative objects, resting flat.
+// Collection pieces keep their museum side profiles as native Pixelorama cutouts.
+// Two folded sheets replace the former hundreds of tiny extruded pixel strips.
 export function buildCollectionModel(api, g, a) {
-  const { box } = api,
-    canvas = document.createElement("canvas");
-  canvas.width = 112;
-  canvas.height = 72;
-  const c = canvas.getContext("2d");
-  c.translate(56, 36);
-  paintWeapon(c, a);
-  const pixels = c.getImageData(0, 0, 112, 72).data;
-  const size = 0.043;
-  for (let y = 0; y < 72; y++)
-    for (let x = 0; x < 112; x++) {
-      const i = (y * 112 + x) * 4;
-      if (pixels[i + 3] < 100) continue;
-      const color =
-        "#" +
-        [pixels[i], pixels[i + 1], pixels[i + 2]]
-          .map((n) => n.toString(16).padStart(2, "0"))
-          .join("");
-      const warm = pixels[i] > pixels[i + 1] * 1.09,
-        half = warm ? 0.12 : a.firearmArt?.slim ? 0.075 : 0.095;
-      // Contiguous equal-colour runs preserve the sourced silhouette while removing
-      // the old raised checkerboard of individual voxel caps.
-      let end = x + 1;
-      while (end < 112) {
-        const next = (y * 112 + end) * 4;
-        if (
-          pixels[next + 3] < 100 ||
-          pixels[next] !== pixels[i] ||
-          pixels[next + 1] !== pixels[i + 1] ||
-          pixels[next + 2] !== pixels[i + 2]
-        )
-          break;
-        end++;
-      }
-      box(
-        g,
-        ((x + end - 1) / 2 - 56) * size,
-        half + 0.04,
-        (y - 36) * size,
-        (end - x) * size,
-        half * 2,
-        size,
-        color,
-        warm ? "wood" : "metal",
-      );
-      x = end - 1;
-    }
+  const { T, mat } = api;
+  for (const underside of [false, true]) {
+    const material = mat("#ffffff", a.id).clone();
+    const base = mat("#ffffff", a.id);
+    material.onBeforeCompile = base.onBeforeCompile;
+    material.customProgramCacheKey = base.customProgramCacheKey;
+    material.defaultAttributeValues = base.defaultAttributeValues;
+    material.side = T.DoubleSide;
+    material.alphaTest = .5;
+    const mesh = new T.Mesh(new T.PlaneGeometry(4, 4), material);
+    mesh.rotation.x = -Math.PI / 2;
+    mesh.position.y = underside ? .04 : .09;
+    g.add(mesh);
+  }
 }

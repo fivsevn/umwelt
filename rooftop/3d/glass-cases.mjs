@@ -1,7 +1,7 @@
 export function buildAquarium(api, g, w, d, h) {
   const { T, box } = api,
     edge = "#829795";
-  const glass = new T.MeshLambertMaterial({
+  const glass = new T.MeshBasicMaterial({
     color: "#c3dedc",
     transparent: true,
     opacity: 0.13,
@@ -39,7 +39,7 @@ export function buildGlassCase(api, g, type, w, d, h) {
     wood = type === "wardcase",
     c = wood ? "#806544" : "#5c8588",
     kind = wood ? "wood" : "metal";
-  const glass = new T.MeshLambertMaterial({
+  const glass = new T.MeshBasicMaterial({
     color: "#c3d6cc",
     transparent: true,
     opacity: 0.16,

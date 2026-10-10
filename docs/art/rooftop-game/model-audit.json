@@ -1,0 +1,1528 @@
+{
+  "softwareTarget": "Blender",
+  "assets": 304,
+  "triangles": 474956,
+  "errors": [],
+  "perAsset": [
+    {
+      "id": "barrel",
+      "meshes": 4,
+      "triangles": 744
+    },
+    {
+      "id": "column",
+      "meshes": 4,
+      "triangles": 576
+    },
+    {
+      "id": "bunny",
+      "meshes": 5,
+      "triangles": 1704
+    },
+    {
+      "id": "cluster",
+      "meshes": 6,
+      "triangles": 4320
+    },
+    {
+      "id": "trailing",
+      "meshes": 5,
+      "triangles": 21196
+    },
+    {
+      "id": "aloe",
+      "meshes": 4,
+      "triangles": 976
+    },
+    {
+      "id": "rosette",
+      "meshes": 4,
+      "triangles": 1368
+    },
+    {
+      "id": "pink",
+      "meshes": 4,
+      "triangles": 888
+    },
+    {
+      "id": "jade",
+      "meshes": 5,
+      "triangles": 1832
+    },
+    {
+      "id": "sedum",
+      "meshes": 5,
+      "triangles": 2304
+    },
+    {
+      "id": "mint",
+      "meshes": 5,
+      "triangles": 4368
+    },
+    {
+      "id": "rosemary",
+      "meshes": 4,
+      "triangles": 1088
+    },
+    {
+      "id": "fern",
+      "meshes": 5,
+      "triangles": 10708
+    },
+    {
+      "id": "broadleaf",
+      "meshes": 5,
+      "triangles": 1500
+    },
+    {
+      "id": "yucca",
+      "meshes": 4,
+      "triangles": 976
+    },
+    {
+      "id": "vine",
+      "meshes": 5,
+      "triangles": 13284
+    },
+    {
+      "id": "flower",
+      "meshes": 6,
+      "triangles": 4860
+    },
+    {
+      "id": "grass",
+      "meshes": 4,
+      "triangles": 956
+    },
+    {
+      "id": "basil",
+      "meshes": 5,
+      "triangles": 4368
+    },
+    {
+      "id": "thyme",
+      "meshes": 5,
+      "triangles": 4392
+    },
+    {
+      "id": "sage",
+      "meshes": 5,
+      "triangles": 4500
+    },
+    {
+      "id": "oregano",
+      "meshes": 5,
+      "triangles": 4392
+    },
+    {
+      "id": "lemonbalm",
+      "meshes": 5,
+      "triangles": 4368
+    },
+    {
+      "id": "parsley",
+      "meshes": 5,
+      "triangles": 8188
+    },
+    {
+      "id": "coriander",
+      "meshes": 5,
+      "triangles": 8188
+    },
+    {
+      "id": "chives",
+      "meshes": 4,
+      "triangles": 956
+    },
+    {
+      "id": "shiso",
+      "meshes": 5,
+      "triangles": 4368
+    },
+    {
+      "id": "lavender",
+      "meshes": 5,
+      "triangles": 4500
+    },
+    {
+      "id": "strawberry",
+      "meshes": 5,
+      "triangles": 2208
+    },
+    {
+      "id": "blueberry",
+      "meshes": 5,
+      "triangles": 3852
+    },
+    {
+      "id": "tomato",
+      "meshes": 5,
+      "triangles": 3852
+    },
+    {
+      "id": "chilli",
+      "meshes": 5,
+      "triangles": 4780
+    },
+    {
+      "id": "lettuce",
+      "meshes": 4,
+      "triangles": 1236
+    },
+    {
+      "id": "radish",
+      "meshes": 5,
+      "triangles": 932
+    },
+    {
+      "id": "peppermint",
+      "meshes": 5,
+      "triangles": 4368
+    },
+    {
+      "id": "nasturtium",
+      "meshes": 6,
+      "triangles": 1404
+    },
+    {
+      "id": "pelargonium",
+      "meshes": 6,
+      "triangles": 1400
+    },
+    {
+      "id": "marigold",
+      "meshes": 6,
+      "triangles": 11320
+    },
+    {
+      "id": "zinnia",
+      "meshes": 6,
+      "triangles": 5160
+    },
+    {
+      "id": "cosmos",
+      "meshes": 6,
+      "triangles": 9400
+    },
+    {
+      "id": "pansy",
+      "meshes": 6,
+      "triangles": 4920
+    },
+    {
+      "id": "hydrangea",
+      "meshes": 6,
+      "triangles": 7200
+    },
+    {
+      "id": "rose",
+      "meshes": 6,
+      "triangles": 4452
+    },
+    {
+      "id": "camellia",
+      "meshes": 6,
+      "triangles": 4452
+    },
+    {
+      "id": "gardenia",
+      "meshes": 6,
+      "triangles": 4452
+    },
+    {
+      "id": "hibiscus",
+      "meshes": 6,
+      "triangles": 3912
+    },
+    {
+      "id": "bougainvillea",
+      "meshes": 6,
+      "triangles": 3852
+    },
+    {
+      "id": "jasmine",
+      "meshes": 6,
+      "triangles": 3852
+    },
+    {
+      "id": "fuchsia",
+      "meshes": 6,
+      "triangles": 4924
+    },
+    {
+      "id": "portulaca",
+      "meshes": 6,
+      "triangles": 4860
+    },
+    {
+      "id": "kalanchoe",
+      "meshes": 6,
+      "triangles": 4800
+    },
+    {
+      "id": "haworthia",
+      "meshes": 4,
+      "triangles": 976
+    },
+    {
+      "id": "agave",
+      "meshes": 4,
+      "triangles": 976
+    },
+    {
+      "id": "snake",
+      "meshes": 4,
+      "triangles": 1088
+    },
+    {
+      "id": "spider",
+      "meshes": 5,
+      "triangles": 1820
+    },
+    {
+      "id": "oxalis",
+      "meshes": 5,
+      "triangles": 1620
+    },
+    {
+      "id": "coleus",
+      "meshes": 5,
+      "triangles": 8532
+    },
+    {
+      "id": "hosta",
+      "meshes": 5,
+      "triangles": 1040
+    },
+    {
+      "id": "new-myriostigma",
+      "meshes": 4,
+      "triangles": 480
+    },
+    {
+      "id": "new-asterias",
+      "meshes": 4,
+      "triangles": 552
+    },
+    {
+      "id": "new-ornatum",
+      "meshes": 4,
+      "triangles": 648
+    },
+    {
+      "id": "new-elongata",
+      "meshes": 4,
+      "triangles": 1800
+    },
+    {
+      "id": "new-bocasana",
+      "meshes": 6,
+      "triangles": 4320
+    },
+    {
+      "id": "new-gracilis",
+      "meshes": 4,
+      "triangles": 1800
+    },
+    {
+      "id": "new-spinosissima",
+      "meshes": 6,
+      "triangles": 1152
+    },
+    {
+      "id": "new-mihanovichii",
+      "meshes": 4,
+      "triangles": 648
+    },
+    {
+      "id": "new-baldianum",
+      "meshes": 6,
+      "triangles": 828
+    },
+    {
+      "id": "new-subdenudata",
+      "meshes": 4,
+      "triangles": 648
+    },
+    {
+      "id": "new-chamaecereus",
+      "meshes": 6,
+      "triangles": 2700
+    },
+    {
+      "id": "new-magnifica",
+      "meshes": 4,
+      "triangles": 648
+    },
+    {
+      "id": "new-lenninghausii",
+      "meshes": 4,
+      "triangles": 648
+    },
+    {
+      "id": "new-minuscula",
+      "meshes": 6,
+      "triangles": 2700
+    },
+    {
+      "id": "new-latispinus",
+      "meshes": 4,
+      "triangles": 648
+    },
+    {
+      "id": "new-multicostatus",
+      "meshes": 4,
+      "triangles": 744
+    },
+    {
+      "id": "new-senilis",
+      "meshes": 4,
+      "triangles": 648
+    },
+    {
+      "id": "new-truncata",
+      "meshes": 6,
+      "triangles": 12720
+    },
+    {
+      "id": "new-anguliger",
+      "meshes": 5,
+      "triangles": 11784
+    },
+    {
+      "id": "new-baccifera",
+      "meshes": 5,
+      "triangles": 2664
+    },
+    {
+      "id": "new-aucampiae",
+      "meshes": 4,
+      "triangles": 488
+    },
+    {
+      "id": "new-lesliei",
+      "meshes": 4,
+      "triangles": 488
+    },
+    {
+      "id": "new-rhopalophylla",
+      "meshes": 5,
+      "triangles": 756
+    },
+    {
+      "id": "new-nelii",
+      "meshes": 4,
+      "triangles": 488
+    },
+    {
+      "id": "new-tigrina",
+      "meshes": 4,
+      "triangles": 808
+    },
+    {
+      "id": "new-cooperi",
+      "meshes": 5,
+      "triangles": 864
+    },
+    {
+      "id": "new-truncata-haw",
+      "meshes": 5,
+      "triangles": 612
+    },
+    {
+      "id": "new-retusa",
+      "meshes": 4,
+      "triangles": 1368
+    },
+    {
+      "id": "new-limifolia",
+      "meshes": 4,
+      "triangles": 1368
+    },
+    {
+      "id": "new-agavoides",
+      "meshes": 4,
+      "triangles": 1584
+    },
+    {
+      "id": "new-elegans",
+      "meshes": 4,
+      "triangles": 1368
+    },
+    {
+      "id": "new-pulvinata",
+      "meshes": 4,
+      "triangles": 1584
+    },
+    {
+      "id": "new-perforata",
+      "meshes": 4,
+      "triangles": 8544
+    },
+    {
+      "id": "new-muscosa",
+      "meshes": 4,
+      "triangles": 8544
+    },
+    {
+      "id": "new-tomentosa-kal",
+      "meshes": 5,
+      "triangles": 1172
+    },
+    {
+      "id": "new-luciae",
+      "meshes": 4,
+      "triangles": 904
+    },
+    {
+      "id": "new-tomentosa-cot",
+      "meshes": 4,
+      "triangles": 904
+    },
+    {
+      "id": "new-cristatus",
+      "meshes": 4,
+      "triangles": 1368
+    },
+    {
+      "id": "new-morganianum",
+      "meshes": 5,
+      "triangles": 14472
+    },
+    {
+      "id": "new-arboreum",
+      "meshes": 5,
+      "triangles": 4072
+    },
+    {
+      "id": "moss-glaucum",
+      "meshes": 5,
+      "triangles": 4360
+    },
+    {
+      "id": "moss-scoparium",
+      "meshes": 5,
+      "triangles": 4360
+    },
+    {
+      "id": "moss-cupressiforme",
+      "meshes": 5,
+      "triangles": 9960
+    },
+    {
+      "id": "moss-tamariscinum",
+      "meshes": 5,
+      "triangles": 9960
+    },
+    {
+      "id": "moss-commune",
+      "meshes": 5,
+      "triangles": 7720
+    },
+    {
+      "id": "moss-juniperinum",
+      "meshes": 5,
+      "triangles": 9160
+    },
+    {
+      "id": "moss-argenteum",
+      "meshes": 5,
+      "triangles": 5080
+    },
+    {
+      "id": "moss-muralis",
+      "meshes": 6,
+      "triangles": 5152
+    },
+    {
+      "id": "moss-squarrosus",
+      "meshes": 5,
+      "triangles": 4360
+    },
+    {
+      "id": "moss-undulatum",
+      "meshes": 5,
+      "triangles": 4360
+    },
+    {
+      "id": "moss-taxifolius",
+      "meshes": 5,
+      "triangles": 9960
+    },
+    {
+      "id": "moss-palustre",
+      "meshes": 5,
+      "triangles": 7720
+    },
+    {
+      "id": "shelf",
+      "meshes": 2,
+      "triangles": 1188
+    },
+    {
+      "id": "woodshelf",
+      "meshes": 2,
+      "triangles": 204
+    },
+    {
+      "id": "tierstand",
+      "meshes": 2,
+      "triangles": 972
+    },
+    {
+      "id": "ladderstand",
+      "meshes": 2,
+      "triangles": 204
+    },
+    {
+      "id": "wallrack",
+      "meshes": 2,
+      "triangles": 888
+    },
+    {
+      "id": "plantcart",
+      "meshes": 2,
+      "triangles": 712
+    },
+    {
+      "id": "wirestand",
+      "meshes": 2,
+      "triangles": 1188
+    },
+    {
+      "id": "basketstand",
+      "meshes": 2,
+      "triangles": 1536
+    },
+    {
+      "id": "coveredstand",
+      "meshes": 3,
+      "triangles": 1080
+    },
+    {
+      "id": "bench",
+      "meshes": 4,
+      "triangles": 216
+    },
+    {
+      "id": "table",
+      "meshes": 3,
+      "triangles": 228
+    },
+    {
+      "id": "stool",
+      "meshes": 4,
+      "triangles": 216
+    },
+    {
+      "id": "room-armchair",
+      "meshes": 3,
+      "triangles": 168
+    },
+    {
+      "id": "pottingbench",
+      "meshes": 4,
+      "triangles": 456
+    },
+    {
+      "id": "gardenbench",
+      "meshes": 2,
+      "triangles": 288
+    },
+    {
+      "id": "bistrotable",
+      "meshes": 2,
+      "triangles": 464
+    },
+    {
+      "id": "foldingchair",
+      "meshes": 4,
+      "triangles": 264
+    },
+    {
+      "id": "foamstand",
+      "meshes": 4,
+      "triangles": 288
+    },
+    {
+      "id": "lowplatform",
+      "meshes": 4,
+      "triangles": 288
+    },
+    {
+      "id": "ceramicseat",
+      "meshes": 3,
+      "triangles": 928
+    },
+    {
+      "id": "stepstool",
+      "meshes": 3,
+      "triangles": 204
+    },
+    {
+      "id": "room-bed",
+      "meshes": 3,
+      "triangles": 180
+    },
+    {
+      "id": "room-wardrobe",
+      "meshes": 5,
+      "triangles": 672
+    },
+    {
+      "id": "room-dresser",
+      "meshes": 5,
+      "triangles": 612
+    },
+    {
+      "id": "storagechest",
+      "meshes": 4,
+      "triangles": 360
+    },
+    {
+      "id": "rainbarrel",
+      "meshes": 4,
+      "triangles": 516
+    },
+    {
+      "id": "sink",
+      "meshes": 2,
+      "triangles": 1028
+    },
+    {
+      "id": "basin",
+      "meshes": 3,
+      "triangles": 1000
+    },
+    {
+      "id": "terrarium",
+      "meshes": 4,
+      "triangles": 630
+    },
+    {
+      "id": "wardcase",
+      "meshes": 5,
+      "triangles": 386
+    },
+    {
+      "id": "bucket",
+      "meshes": 3,
+      "triangles": 436
+    },
+    {
+      "id": "crate",
+      "meshes": 2,
+      "triangles": 324
+    },
+    {
+      "id": "redbox",
+      "meshes": 2,
+      "triangles": 204
+    },
+    {
+      "id": "pot",
+      "meshes": 2,
+      "triangles": 240
+    },
+    {
+      "id": "enamelbowl",
+      "meshes": 2,
+      "triangles": 544
+    },
+    {
+      "id": "strainer",
+      "meshes": 2,
+      "triangles": 1280
+    },
+    {
+      "id": "wirebasket",
+      "meshes": 2,
+      "triangles": 900
+    },
+    {
+      "id": "bamboo-basket",
+      "meshes": 2,
+      "triangles": 1124
+    },
+    {
+      "id": "vessel-tokoname",
+      "meshes": 3,
+      "triangles": 288
+    },
+    {
+      "id": "vessel-shigaraki",
+      "meshes": 2,
+      "triangles": 272
+    },
+    {
+      "id": "vessel-bizen",
+      "meshes": 2,
+      "triangles": 304
+    },
+    {
+      "id": "vessel-mashiko",
+      "meshes": 2,
+      "triangles": 360
+    },
+    {
+      "id": "vessel-kasama",
+      "meshes": 2,
+      "triangles": 272
+    },
+    {
+      "id": "vessel-mino",
+      "meshes": 3,
+      "triangles": 288
+    },
+    {
+      "id": "vessel-seto",
+      "meshes": 2,
+      "triangles": 336
+    },
+    {
+      "id": "vessel-kutani",
+      "meshes": 3,
+      "triangles": 256
+    },
+    {
+      "id": "vessel-arita",
+      "meshes": 2,
+      "triangles": 696
+    },
+    {
+      "id": "vessel-imari",
+      "meshes": 2,
+      "triangles": 336
+    },
+    {
+      "id": "vessel-hasami",
+      "meshes": 2,
+      "triangles": 336
+    },
+    {
+      "id": "vessel-kyoto",
+      "meshes": 2,
+      "triangles": 696
+    },
+    {
+      "id": "vessel-hagi",
+      "meshes": 2,
+      "triangles": 696
+    },
+    {
+      "id": "vessel-karatsu",
+      "meshes": 2,
+      "triangles": 336
+    },
+    {
+      "id": "vessel-tobe",
+      "meshes": 2,
+      "triangles": 368
+    },
+    {
+      "id": "vessel-koishiwara",
+      "meshes": 2,
+      "triangles": 336
+    },
+    {
+      "id": "vessel-ontayaki",
+      "meshes": 2,
+      "triangles": 368
+    },
+    {
+      "id": "vessel-iga",
+      "meshes": 2,
+      "triangles": 368
+    },
+    {
+      "id": "vessel-echizen",
+      "meshes": 2,
+      "triangles": 304
+    },
+    {
+      "id": "vessel-tsuboya",
+      "meshes": 2,
+      "triangles": 368
+    },
+    {
+      "id": "vessel-terra",
+      "meshes": 2,
+      "triangles": 240
+    },
+    {
+      "id": "vessel-plastic",
+      "meshes": 2,
+      "triangles": 240
+    },
+    {
+      "id": "vessel-white",
+      "meshes": 2,
+      "triangles": 240
+    },
+    {
+      "id": "vessel-shallow",
+      "meshes": 2,
+      "triangles": 208
+    },
+    {
+      "id": "vessel-foam",
+      "meshes": 1,
+      "triangles": 108
+    },
+    {
+      "id": "vessel-trough",
+      "meshes": 2,
+      "triangles": 180
+    },
+    {
+      "id": "vessel-growbag",
+      "meshes": 2,
+      "triangles": 180
+    },
+    {
+      "id": "vessel-deep",
+      "meshes": 2,
+      "triangles": 240
+    },
+    {
+      "id": "vessel-basket",
+      "meshes": 3,
+      "triangles": 244
+    },
+    {
+      "id": "vessel-antique-shino",
+      "meshes": 2,
+      "triangles": 336
+    },
+    {
+      "id": "vessel-antique-nezumi",
+      "meshes": 3,
+      "triangles": 512
+    },
+    {
+      "id": "vessel-antique-shino-square",
+      "meshes": 2,
+      "triangles": 368
+    },
+    {
+      "id": "vessel-antique-nabeshima",
+      "meshes": 2,
+      "triangles": 368
+    },
+    {
+      "id": "vessel-antique-nabeshima-dish",
+      "meshes": 2,
+      "triangles": 684
+    },
+    {
+      "id": "vessel-antique-kutani-red",
+      "meshes": 2,
+      "triangles": 336
+    },
+    {
+      "id": "vessel-antique-celadon",
+      "meshes": 2,
+      "triangles": 984
+    },
+    {
+      "id": "vessel-antique-oribe-jar",
+      "meshes": 2,
+      "triangles": 848
+    },
+    {
+      "id": "moss",
+      "meshes": 2,
+      "triangles": 1208
+    },
+    {
+      "id": "mossbox",
+      "meshes": 5,
+      "triangles": 972
+    },
+    {
+      "id": "seedtray",
+      "meshes": 3,
+      "triangles": 1152
+    },
+    {
+      "id": "foambox",
+      "meshes": 4,
+      "triangles": 252
+    },
+    {
+      "id": "fish",
+      "meshes": 4,
+      "triangles": 602
+    },
+    {
+      "id": "pond",
+      "meshes": 4,
+      "triangles": 632
+    },
+    {
+      "id": "medakabowl",
+      "meshes": 4,
+      "triangles": 728
+    },
+    {
+      "id": "goldfishbowl",
+      "meshes": 4,
+      "triangles": 488
+    },
+    {
+      "id": "fishbox",
+      "meshes": 3,
+      "triangles": 710
+    },
+    {
+      "id": "watering",
+      "meshes": 2,
+      "triangles": 788
+    },
+    {
+      "id": "tools",
+      "meshes": 2,
+      "triangles": 84
+    },
+    {
+      "id": "hose",
+      "meshes": 1,
+      "triangles": 1560
+    },
+    {
+      "id": "thermometer",
+      "meshes": 1,
+      "triangles": 232
+    },
+    {
+      "id": "towel",
+      "meshes": 2,
+      "triangles": 204
+    },
+    {
+      "id": "soilbag",
+      "meshes": 2,
+      "triangles": 256
+    },
+    {
+      "id": "labels",
+      "meshes": 1,
+      "triangles": 144
+    },
+    {
+      "id": "gloves",
+      "meshes": 2,
+      "triangles": 168
+    },
+    {
+      "id": "brush",
+      "meshes": 2,
+      "triangles": 108
+    },
+    {
+      "id": "lid",
+      "meshes": 1,
+      "triangles": 428
+    },
+    {
+      "id": "sprayer",
+      "meshes": 3,
+      "triangles": 432
+    },
+    {
+      "id": "broom",
+      "meshes": 4,
+      "triangles": 728
+    },
+    {
+      "id": "pruning-shears",
+      "meshes": 2,
+      "triangles": 268
+    },
+    {
+      "id": "drying",
+      "meshes": 2,
+      "triangles": 228
+    },
+    {
+      "id": "teaset",
+      "meshes": 3,
+      "triangles": 304
+    },
+    {
+      "id": "pigbowl",
+      "meshes": 3,
+      "triangles": 760
+    },
+    {
+      "id": "trellis",
+      "meshes": 2,
+      "triangles": 216
+    },
+    {
+      "id": "parasol",
+      "meshes": 5,
+      "triangles": 488
+    },
+    {
+      "id": "solarlamp",
+      "meshes": 3,
+      "triangles": 208
+    },
+    {
+      "id": "tasklamp",
+      "meshes": 3,
+      "triangles": 212
+    },
+    {
+      "id": "tinlantern",
+      "meshes": 3,
+      "triangles": 764
+    },
+    {
+      "id": "stringlights",
+      "meshes": 2,
+      "triangles": 420
+    },
+    {
+      "id": "pinwheel",
+      "meshes": 4,
+      "triangles": 84
+    },
+    {
+      "id": "windchime",
+      "meshes": 4,
+      "triangles": 272
+    },
+    {
+      "id": "weapon-matchlock",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-wheellock",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-flintlock",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-duelling",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-blunderbuss",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-brown-bess",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-colt-1903",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-enfield-1853",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-colt-1849",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-colt-1851",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-colt-1860",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-colt-saa",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-webley-v",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-mauser-c96",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-luger-p08",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-m1911",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-nambu-14",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-lee-enfield",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-mosin",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-kar98k",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-arisaka-38",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-garand",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-m1-carbine",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-henry",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-winchester",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-thompson",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-sten",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-mp40",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-ppsh",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-ak47",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-adams-1851",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-colt-new-service",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-webley-fosbery",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-hi-power",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-walther-p38",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-walther-ppks",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-beretta-1934",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-remington-army",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-enfield-no2",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-dreyse-1841",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-chassepot",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-snider",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-martini-henry",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-springfield-1903",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-spencer",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-winchester-1897",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-double-shotgun",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-l1a1",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-g3",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-m16",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-l85a1",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-aug",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-mp5",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-pam1",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-bren",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-lewis",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-vickers",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-maxim",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-bar",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-hotchkiss",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-glock-17",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-glock-19",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-glock-26",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-glock-34",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-glock-43",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-glock-43x",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-bronze-sword",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-rapier",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-basket-sword",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-sabre",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-stiletto",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-kukri",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-jian",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-katana",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-wakizashi",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-tanto",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-kris",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-katar",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-talwar",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-shamshir",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-halberd",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-battle-axe",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-mace",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-war-hammer",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-crossbow",
+      "meshes": 1,
+      "triangles": 4
+    },
+    {
+      "id": "weapon-longbow",
+      "meshes": 1,
+      "triangles": 4
+    }
+  ]
+}

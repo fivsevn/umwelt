@@ -241,6 +241,17 @@ export function buildFoliage(api, g, p, o) {
     return;
   }
   if (/exp-(stones|splitrock|windows|fan|bubble)/.test(f)) {
+    if (/^exp-(stones|splitrock)$/.test(f) && api.profile) {
+      // A paired, nearly stemless body with flat windows and a real central
+      // fissure. Tiny raised freckles would conceal this identifying form.
+      const high = f === "exp-splitrock" ? .43 : .32;
+      for (const side of [-1, 1]) {
+        const body = group(g, side * .215, 0, 0);
+        api.profile(body, [[0,0],[.13,.015],[.17,high*.23],[.17,high*.88],
+          [.14,high],[0,high]],8,c,"leaf-stones");
+      }
+      return;
+    }
     const n =
       f === "exp-fan"
         ? 7
@@ -282,17 +293,7 @@ export function buildFoliage(api, g, p, o) {
         n === 2 ? 0.26 : 0.13,
         shade(c, 1.24),
       );
-      for (let j = 0; j < 5; j++)
-        box(
-          g,
-          x + (r() - 0.5) * 0.13,
-          h + 0.019,
-          z + (r() - 0.5) * 0.1,
-          0.02,
-          0.018,
-          0.036,
-          shade(c, 0.73),
-        );
+      // Window coloration is painted into the square surface grid.
     }
     return;
   }
@@ -362,9 +363,9 @@ export function buildFoliage(api, g, p, o) {
   ) {
     const feather = /feather|fern-moss|two-row/.test(f),
       star = /stars|sphagnum/.test(f);
-    for(let j=0;j<62;j++){const a=j*2.4,rr=Math.sqrt((j+.5)/62)*.49;
+    for(let j=0;j<18;j++){const a=j*2.4,rr=Math.sqrt((j+.5)/18)*.49;
       ellipsoid(g,Math.cos(a)*rr,.035+(1-rr)*.035,Math.sin(a)*rr,.086,.039,.080,shade(c,[.90,1,1.13][j%3]),"canopy");}
-    for (let k = 0; k < 72; k++) {
+    for (let k = 0; k < 20; k++) {
       const a = r() * 6.283,
         rad = Math.sqrt(r()) * 0.52,
         x = Math.cos(a) * rad,
@@ -434,20 +435,7 @@ export function buildFoliage(api, g, p, o) {
         c,
         /jaws|crinkle/.test(f),
       );
-      if (/zebra|ridged/.test(f))
-        for (let j = 2; j < 7; j++) {
-          const t = j / 8;
-          box(
-            g,
-            tip[0] * t,
-            tip[1] * t + 0.07,
-            tip[2] * t,
-            0.075,
-            0.018,
-            0.06,
-            /zebra/.test(f) ? "#c7cbb3" : shade(c, 1.18),
-          );
-        }
+      // Stripes are authored on the leaf surface, without floating stripe bars.
       if (/pointed|paws|paddles|velvet/.test(f))
         box(
           g,
@@ -467,18 +455,7 @@ export function buildFoliage(api, g, p, o) {
         rad = f === "snake" ? 0.24 : f === "onion" ? 0.26 : 0.66;
       const q = v(a, rad, h);
       leaf(v(a, 0.1, 0), q, f === "snake" ? 0.14 : 0.06, c);
-      if (f === "snake")
-        for (let j = 0; j < 7; j++)
-          box(
-            g,
-            (q[0] * j) / 7,
-            (h * j) / 7 + 0.06,
-            (q[2] * j) / 7,
-            0.14,
-            0.026,
-            0.07,
-            shade(c, 0.72),
-          );
+      // The rigid folded blade carries its variegation in Pixelorama.
       if (f === "spider") leaf(q, v(a, rad * 1.36, 0.25), 0.06, "#b9c5a5");
     }
     return;
@@ -600,11 +577,14 @@ export function buildFoliage(api, g, p, o) {
     return;
   }
   if (f === 'split') {
-    for(let k=0;k<8;k++) {
-      const a=k*2.399, h=.42+r()*.32, petiole=v(a,.23+r()*.16,h);
-      beam(g,[0,.015,0],petiole,.026,shade(c,.68));
+    // Alternate leaf nodes belong to a climbing stem, not independent basal
+    // spokes. The folded mature blade retains lobes and painted open windows.
+    beam(g,[0,0,0],[.08,.90,.04],.075,shade(c,.68));
+    for(let k=0;k<6;k++) {
+      const a=k*2.399,node=.18+k*.105,h=node+.30+r()*.13,petiole=v(a,.23+r()*.16,h);
+      beam(g,[.08*node/.9,node,.04*node/.9],petiole,.04,shade(c,.68));
       leaf(petiole,[petiole[0]+Math.cos(a)*.43,h-.06,
-        petiole[2]+Math.sin(a)*.43],.43,c,'split');
+        petiole[2]+Math.sin(a)*.43],.56,c,'split');
     }
     return;
   }
