@@ -42,8 +42,8 @@ export function createPixelMaterials(T, windTime, windPower, weather={wet:{value
       indoor=/^(room-|skin|hair|actor-cloth|light)/.test(kind);
     const material=new T.MeshBasicMaterial({color,map:atlas,alphaTest:kind==="leaf-split"||kind.startsWith("weapon-")?.5:0});
     // Preserve the atmosphere's lamp/window contract on the painted material.
-    material.emissive=new T.Color("#000000");material.emissiveIntensity=0;
-    const glowPower={value:0};material.userData.glowPower=glowPower;
+    const glowColor=new T.Color("#000000"),glowPower={value:0};
+    material.userData.nativeEmission={color:glowColor,power:glowPower};
     material.userData.kind=kind;
     material.userData.nativeField=name;
     material.defaultAttributeValues={...material.defaultAttributeValues,
@@ -53,7 +53,7 @@ export function createPixelMaterials(T, windTime, windPower, weather={wet:{value
       Object.assign(shader.uniforms,{
         atlasRect:{value:rect(name)},innerRect:{value:rect(vessel?name+"-interior":name)},
         vesselField:{value:vessel?1:0},chartOrigin:{value:new T.Vector2(16,kind.startsWith("weapon-")?16:1)},pixelTone:tone,
-        glowColor:{value:material.emissive},glowPower,
+        glowColor:{value:glowColor},glowPower,
         surfaceWet:weather.wet, wetFactor:{value:indoor?0:/soil/.test(kind)?.24:/wood|clay|vessel|wicker/.test(kind)?.16:.09},
       });
       shader.vertexShader="attribute float paintSeed; attribute float paintInterior; varying vec3 paintPoint; varying vec3 paintNormal; varying float interiorField; varying float pigmentSeed;\n"+shader.vertexShader;
@@ -123,7 +123,6 @@ diffuseColor.rgb=mix(diffuseColor.rgb,max(diffuseColor.rgb,glowColor),clamp(glow
     const night=Math.max(0,Math.min(1,a.night||0));
     tone.value.set(indoor?"#fff4db":"#ffffff");
     if(!indoor)tone.value.lerp(new T.Color("#8ca0b6"),night*.58).multiplyScalar(1-night*.33);
-    for(const material of cache.values())material.userData.glowPower.value=material.emissiveIntensity;
   }
   return {mat,cache,textures,texture,tone,ready,get loaded(){return loaded;},updateAtmosphere};
 }

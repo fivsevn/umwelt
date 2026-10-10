@@ -1,4 +1,5 @@
 import { createSeasonalAir } from "./seasonal-air.mjs";
+import { setSurfaceEmission } from "./surface-emission.mjs";
 import {
   lightPosition,
   weatherMotion,
@@ -251,13 +252,11 @@ export function createAtmosphere(
 
       for (const m of materialCache.values())
         if (m.userData.kind === "light") {
-          m.emissive.set("#ffcd88");
-          m.emissiveIntensity = 0.05 + a.lamps * 1.3;
+          setSurfaceEmission(m,"#ffcd88",0.05+a.lamps*1.3);
         }
       windowMats.forEach((m, i) => {
         const lit = (i % 7) / 7 < a.lamps;
-        m.emissive.set(lit ? "#ffc481" : "#000000");
-        m.emissiveIntensity = lit ? 0.85 : 0;
+        setSurfaceEmission(m,lit?"#ffc481":"#000000",lit?.85:0);
       });
       for (const [key, f] of Object.entries(floors)) {
         f.root.visible = name === key;

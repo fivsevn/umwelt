@@ -12,6 +12,7 @@ import {POTS,PLANTS} from '../rooftop/botany.mjs';
 import {plantPaintKind} from '../rooftop/3d/plant-materials.mjs';
 import {surfaceFrame,nativeCell} from '../rooftop/3d/surface-grid.mjs';
 import {latheSurface} from '../rooftop/3d/model-surfaces.mjs';
+import {setSurfaceEmission} from '../rooftop/3d/surface-emission.mjs';
 
 test('native source book has one nonoverlapping 32px field grid and complete vessel interiors',()=>{
  const occupied=new Set();
@@ -51,10 +52,11 @@ test('one native texture waits for actual loading and reuses material instances'
  assert.ok(!/pointThreshold|sin\(.*paintPoint|noise/.test(shader.fragmentShader));
  style.updateAtmosphere({night:1});assert.ok(style.tone.value.r<1);
  const lamp=style.mat('#f7d650','light'),window=style.mat('#a1aaa0','window');
- lamp.emissive.set('#ffcd88');lamp.emissiveIntensity=.8;
- window.emissive.set('#ffc481');window.emissiveIntensity=.85;
- style.updateAtmosphere({night:1});
- assert.equal(lamp.userData.glowPower.value,.8);assert.equal(window.userData.glowPower.value,.85);
+ setSurfaceEmission(lamp,'#ffcd88',.8);setSurfaceEmission(window,'#ffc481',.85);
+ assert.equal(lamp.emissive,undefined,'basic shader must not enter lit-material emissive uniform refresh');
+ assert.equal(lamp.userData.nativeEmission.power.value,.8);assert.equal(window.userData.nativeEmission.power.value,.85);
+ const legacy=new T.MeshLambertMaterial();setSurfaceEmission(legacy,'#ffc481',.85);
+ assert.equal(legacy.emissiveIntensity,.85);assert.equal(legacy.emissive.getHexString(),'ffc481');
 });
 
 test('metal lattice preserves visible square holes and actual scaled bearing dimensions',()=>{
