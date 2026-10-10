@@ -11,9 +11,9 @@ test('deployment versions the complete graph, preserves routes and is idempotent
   const files={
    'index.html':'<a href="/isopoda/">game</a><link href="./style.css?v=old"><script src="./sub/app.mjs"></script>',
    'style.css':"a{background:url('./image.png#pixel')}@font-face{src:url(font.woff2)}",
-   'sub/app.mjs':"import '../shared.mjs'; export {x} from '../shared.mjs?mode=test#x'; const f='credits.md'; const u='https://example.com/a.js';",
+   'sub/app.mjs':"import '../shared.mjs'; export {x} from '../shared.mjs?mode=test#x'; const f='credits.md'; const u='https://example.com/a.js'; const model='./model.glb';",
    'vendor.js':String.raw`const pattern = '\\[\\]\\.:\\/';`,
-   'shared.mjs':'export const x=1;', 'sub/credits.md':'unchanged copy','image.png':'bytes','font.woff2':'bytes'
+   'shared.mjs':'export const x=1;', 'sub/credits.md':'unchanged copy','image.png':'bytes','font.woff2':'bytes','sub/model.glb':'glb bytes'
   };
   for(const [p,s] of Object.entries(files))await writeFile(join(root,p),s);
   await stampAssets(root,sha);
@@ -23,6 +23,7 @@ test('deployment versions the complete graph, preserves routes and is idempotent
   assert.ok(first.includes(`../shared.mjs?mode=test&v=${sha}#x`));
   assert.ok(first.includes(`credits.md?v=${sha}`));
   assert.ok(first.includes('https://example.com/a.js'));
+  assert.ok(first.includes(`./model.glb?v=${sha}`));
   assert.ok((await readFile(join(root,'index.html'),'utf8')).includes('href="/isopoda/"'));
   assert.ok((await readFile(join(root,'style.css'),'utf8')).includes(`font.woff2?v=${sha}`));
   assert.equal(await readFile(join(root,'sub/credits.md'),'utf8'),'unchanged copy');

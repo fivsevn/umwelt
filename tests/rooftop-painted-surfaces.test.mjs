@@ -696,15 +696,15 @@ test("soil has a closed curved mound, outward normals and stable asymmetric vari
     const p = a.attributes.position,
       n = a.attributes.normal;
     assert.ok(
-      p.count / 3 >= 280,
-      "enough radial and cross-slope faces for curvature",
+      p.count / 3 >= 48 && p.count / 3 <= 120,
+      "a closed mound uses few folded faces rather than a smooth dense mesh",
     );
     assert.ok(
       new Set(
         Array.from(p.array)
           .filter((_, i) => i % 3 === 1)
           .map((v) => Math.round(v * 1000)),
-      ).size > 20,
+      ).size >= 9,
       "soil is not a flat cap",
     );
     assert.notDeepEqual(
