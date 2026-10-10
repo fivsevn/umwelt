@@ -2065,6 +2065,15 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     get scopeReading() { return scopeReading(); },
     nudgeNarrativeStation(action) {
       if (!narrativeActive()) return;
+      if (freeCamera) {
+        if (action === "up" || action === "down") freeEye.y += action === "up" ? .75 : -.75;
+        if (action === "near" || action === "far") {
+          const step = action === "near" ? 1 : -1;
+          freeEye.addScaledVector(freeDirection(), step);
+          freeDistance = Math.max(.5, freeDistance - step);
+        }
+        return;
+      }
       const preset = storyPreset();
       Object.assign(wantedStation, advanceNarrativeStation(preset, wantedStation, action));
       if (preset.id === "bird") Object.assign(wanted, birdHeadAtStation(preset, wantedStation, wanted.phi));

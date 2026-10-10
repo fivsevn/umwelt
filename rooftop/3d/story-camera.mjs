@@ -19,7 +19,7 @@ const anchors = {
   south: {
     // Local -X is the intact house; +X points out of the south balcony.
     bird: { eye: [-3.4, 6.1, 0], target: [0, .7, 0] },
-    drone: { eye: [26.8, 17.13, 5.36], target: [0, .7, 0], span: 16.5, minSpan: 16.5, maxSpan: 16.5, overviewWidth: 27, yaw: .045, station: { walk: 0, height: 0, heightMin: -3, dolly: 2, dollyMin: 0 } },
+    drone: { eye: [16.10637210945491, 10.83491152074761, 4.482136063584607], target: [-0.8015836374193306, 2.053532618280615, 0.6534987299411283], span: 10.05510235201661, minSpan: 10.05510235201661, maxSpan: 10.05510235201661, overviewWidth: 16.45380384875445, yaw: .15, pitch: .08, station: { walk: 0, height: 0, heightMin: -3, dolly: 2, dollyMin: 0 } },
     neighbor: { eye: [100, 42, -130], target: [0, .8, 0] },
   },
 };

@@ -263,7 +263,7 @@ test("drone overview records actual street exposure across approved physical and
         states: 0, samples: 0, minHeight: Infinity, groundHits: 0, misses: 0, worst: null,
         defaultFullFrame: null, maximumFullFrameGroundPercent: 0, maximumFullFrameState: null };
     applyNarrativeFrameOffset(camera, frame, width, height);
-    assert.equal(preset.pitch, scene === "north" ? .08 : 0, "head pitch matches the approved scene-specific controls");
+    assert.equal(preset.pitch, .08, "both drones share the approved head pitch limits");
     for (const state of reachableInputStates(preset)) {
       const pose = narrativePose(preset, state, state.target);
       assert.ok(state.phi >= -preset.pitch && state.phi <= (preset.pitchMax ?? preset.pitch));
