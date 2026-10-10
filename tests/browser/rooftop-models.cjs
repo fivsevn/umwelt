@@ -116,6 +116,9 @@ const engine = process.env.BROWSER || "chromium",
       // captures use the same renderer, backdrop and saved-layout path as play.
       const artOutput=process.env.QA_OUTPUT || "/tmp/rooftop-models";
       await fs.mkdir(artOutput,{recursive:true});
+      await page.locator("#weatherSelect").selectOption("clear");
+      await page.locator("#timeSelect").selectOption("day");
+      await page.waitForFunction(()=>rooftop.weather.transition.mix>.999);
       await page.locator("#clear").click();
       for(const [query,id] of [["木阶花架","woodshelf"],["浇水","watering"],["三层铁花架","tierstand"]]){
         await page.locator("#search").fill(query);

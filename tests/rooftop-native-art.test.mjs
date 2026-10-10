@@ -7,7 +7,8 @@ import {PIXEL_STYLE,coarseSides} from '../rooftop/3d/native-style.mjs';
 import {nativeField,createPixelMaterials} from '../rooftop/3d/native-materials.mjs';
 import {RACK_GRID,rackBars,latticeSupports} from '../rooftop/3d/rack-grid.mjs';
 import {supportSurfaces} from '../rooftop/3d/placement-profiles.mjs';
-import {ASSETS} from '../rooftop/scene.mjs';
+import {ASSETS,SCENES} from '../rooftop/scene.mjs';
+import {terraceFloorGeometry} from '../rooftop/3d/terrace-floor.mjs';
 import {POTS,PLANTS} from '../rooftop/botany.mjs';
 import {plantPaintKind} from '../rooftop/3d/plant-materials.mjs';
 import {surfaceFrame,nativeCell} from '../rooftop/3d/surface-grid.mjs';
@@ -145,5 +146,20 @@ test('translated, rotated and scaled rigid shell faces retain square native cell
    assert.deepEqual(nativeCell(a,center),nativeCell(b,center));
    assert.equal(nativeCell(a,center.clone().addScaledVector(a.u,.125))[0],(nativeCell(a,center)[0]+1)%32);
   }
+ }
+});
+
+test('both actual terrace paving outlines face upward instead of exposing plaster below',()=>{
+ const context={console:{warn(){}}};vm.runInNewContext(readFileSync(new URL('../rooftop/3d/vendor/three.min.js',import.meta.url),'utf8'),context);
+ const T=context.THREE;
+ for(const name of ['north','south']){
+  const center=name==='north'?[304,272]:[284,264],shape=new T.Shape(),points=SCENES[name].points.map(([x,y])=>[(x-center[0])/16,(y-center[1])/16]);
+  points.forEach(([x,z],i)=>i?shape.lineTo(x,z):shape.moveTo(x,z));shape.closePath();
+  const geo=terraceFloorGeometry(T,shape),p=geo.attributes.position,index=geo.index;
+  for(let i=0;i<index.count;i+=3){
+   const v=[0,1,2].map(j=>new T.Vector3().fromBufferAttribute(p,index.getX(i+j))),n=v[1].clone().sub(v[0]).cross(v[2].clone().sub(v[0])).normalize();
+   assert.ok(n.y>.999,'paving front is visible from above');
+  }
+  for(let i=0;i<p.count;i++)assert.ok(points.some(([x,z])=>Math.abs(x-p.getX(i))<1e-5&&Math.abs(z-p.getZ(i))<1e-5),'original terrace outline remains unchanged');
  }
 });
