@@ -62,7 +62,7 @@ config.write_text(config.read_text()+'\n[extensions]\n\nUmweltGameBook=true\n')
 try:
  original=HERE/'material-book.pxo'
  args=[str(original)] if original.exists() else []
- result=subprocess.run(['/Applications/Pixelorama.app/Contents/MacOS/Pixelorama','--headless','--',*args,'--umwelt-game-book','--book-dir='+str(HERE)],capture_output=True,text=True,timeout=60)
+ result=subprocess.run(['/Applications/Pixelorama.app/Contents/MacOS/Pixelorama','--headless','--',*args,'--umwelt-game-book','--book-dir='+str(HERE)],capture_output=True,text=True,timeout=300)
  print(result.stdout[-1200:]); print(result.stderr[-400:]); assert result.returncode==0
  assert json.loads(REPORT.read_text())['native_png_export']
 finally:

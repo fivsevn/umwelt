@@ -1,8 +1,9 @@
 {
   "reopened_by_actual_blender": true,
   "assets": 304,
-  "triangles": 474956,
+  "triangles": 471968,
   "packed_png_equals_pixelorama_export": true,
-  "texture_sha256": "955370b38d111d42fb5f9e0cdcbdc6f8e72d5e12048e7f3c516efe3ad682c873",
-  "editable_uv_and_surface_grid_attributes": true
+  "texture_sha256": "1ca64b23b64ddc4069c696d82e80b31eff821cc09d9e5e5b67676fc6dc67c187",
+  "editable_uv_and_surface_grid_attributes": true,
+  "native_uv_metric_lengths_verified": true
 }

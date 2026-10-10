@@ -108,3 +108,5 @@ BROWSER=webkit BASE_URL=http://127.0.0.1:8773 COMPARE_URL=http://127.0.0.1:8774 
 方法参考：[Three.js 相机与裁切范围](https://threejs.org/manual/pages/cameras.html)、[场景层级与统一变换](https://threejs.org/manual/pages/scenegraph.html)。卫星图用于校准长条楼房、楼间道路与庭院的关系；不将社区地图搜索结果写成已确认的 92 幢 604 窗外实测视角。
 
 切换阳台和复位时，镜头与门的点击区域同步更新，不依赖下一帧才生效。南阳台窄屏取景偏向门边，保留通往北天台的入口；东侧邻楼为转向的完整六层楼体，覆盖两侧阳台附近的街巷方向。
+
+贴面统一网格的 CPU 原稿入口为 `3d/surface-grid.mjs`，与 `3d/native-materials.mjs` 的正交展开及一格一像素取样一致；修改时需同步 Blender 长度检查。

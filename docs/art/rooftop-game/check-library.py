@@ -13,11 +13,19 @@ count=0
 for o in bpy.data.objects:
     if o.type!='MESH': continue
     for v in o.data.vertices: assert all(math.isfinite(p) for p in v.co)
-    for name in ['pixel_plane','pixel_u_affine','pixel_v_affine','pixel_body','pixel_shade','pixel_phase']:
+    for name in ['pixel_plane','pixel_body','pixel_shade','pixel_phase','pixel_region']:
         assert name in o.data.attributes
+    uv=o.data.uv_layers['Square surface grid / 8 px per unit']
+    for polygon in o.data.polygons:
+        corners=list(polygon.loop_indices)
+        vertices=[o.data.vertices[o.data.loops[i].vertex_index].co for i in corners]
+        if (vertices[1]-vertices[0]).cross(vertices[2]-vertices[0]).length<1e-8:continue
+        for i,j in [(0,1),(1,2),(0,2)]:
+            difference=abs((uv.data[corners[i]].uv-uv.data[corners[j]].uv).length*4-(vertices[i]-vertices[j]).length)
+            assert difference<2e-5,(o.name,polygon.index,difference,vertices)
     count+=len(o.data.polygons)
 report={'reopened_by_actual_blender':True,'assets':304,'triangles':count,
     'packed_png_equals_pixelorama_export':True,'texture_sha256':hashlib.sha256(source).hexdigest(),
-    'editable_uv_and_surface_grid_attributes':True}
+    'editable_uv_and_surface_grid_attributes':True,'native_uv_metric_lengths_verified':True}
 (HERE/'blender-source-check.json').write_text(json.dumps(report,indent=2)+'\n')
 print(report)

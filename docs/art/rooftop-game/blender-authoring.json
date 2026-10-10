@@ -1,10 +1,12 @@
 {
   "software": "Blender",
+  "edited_existing_source": true,
+  "revision": 2,
   "version": "4.5.14 LTS",
   "assets": 304,
-  "triangles": 474956,
-  "texture_sha256": "955370b38d111d42fb5f9e0cdcbdc6f8e72d5e12048e7f3c516efe3ad682c873",
-  "native_source_bytes": 11624628,
+  "triangles": 471968,
+  "texture_sha256": "1ca64b23b64ddc4069c696d82e80b31eff821cc09d9e5e5b67676fc6dc67c187",
+  "native_source_bytes": 22254289,
   "grid": {
     "texels_per_unit": 8,
     "nearest": true,
@@ -14,22 +16,22 @@
     {
       "name": "rack-and-plants",
       "path": "review/rack-and-plants.png",
-      "bytes": 1123169
+      "bytes": 1109612
     },
     {
       "name": "rack-openings",
       "path": "review/rack-openings.png",
-      "bytes": 1070490
+      "bytes": 998187
     },
     {
       "name": "plants",
       "path": "review/plants.png",
-      "bytes": 1080372
+      "bytes": 1104922
     },
     {
       "name": "vessels",
       "path": "review/vessels.png",
-      "bytes": 1045176
+      "bytes": 1053530
     }
   ],
   "view_scope": "Software asset reviews, not browser game screenshots",

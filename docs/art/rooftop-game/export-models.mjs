@@ -17,6 +17,7 @@ import {plantPotSpec} from "../../../rooftop/3d/plant-pots.mjs";
 import {plantPaintKind} from "../../../rooftop/3d/plant-materials.mjs";
 import {coarseSides,PIXEL_STYLE} from "../../../rooftop/3d/native-style.mjs";
 import {nativeField} from "../../../rooftop/3d/native-materials.mjs";
+import {surfaceFrame} from "../../../rooftop/3d/surface-grid.mjs";
 import {modelRandom} from "../../../rooftop/3d/model-random.mjs";
 import {surfaceSeed} from "../../../rooftop/3d/surface-variation.mjs";
 import {ASSETS,SCENES} from "../../../rooftop/scene.mjs";
@@ -72,14 +73,14 @@ for(const a of ASSETS){
    geo.computeVertexNormals();
    const p=geo.attributes.position,uv=geo.attributes.uv,kind=m.material.userData.kind||(m.material.transparent?"glass":"paint"),name=nativeField(kind),opacity=m.material.transparent?m.material.opacity:1;
    const key=name+":"+opacity;
-   if(!batches.has(key))batches.set(key,{field:name,kind,opacity,seed:root.userData.paintSeed,positions:[],uvs:[],innerUvs:[],planes:[],shade:[],colors:[]});
+   if(!batches.has(key))batches.set(key,{field:name,kind,opacity,seed:root.userData.paintSeed,positions:[],uvs:[],innerUvs:[],planes:[],phases:[],interiors:[],shade:[],colors:[]});
    const b=batches.get(key),color=m.material.color||new T.Color("#ffffff");
-   const sx=new T.Vector3().setFromMatrixColumn(m.matrixWorld,0).length(),sy=new T.Vector3().setFromMatrixColumn(m.matrixWorld,1).length(),sz=new T.Vector3().setFromMatrixColumn(m.matrixWorld,2).length(),inner=geo.attributes.paintInteriorUv;
+   const inner=geo.attributes.paintInteriorUv, interior=geo.attributes.paintInterior;
    for(let i=0;i<p.count;i+=3){
-    const local=Array.from({length:3},(_,j)=>new T.Vector3(p.getX(i+j)*sx,p.getY(i+j)*sy,p.getZ(i+j)*sz));
-    const n=local[1].clone().sub(local[0]).cross(local[2].clone().sub(local[0])).normalize(),tangent=Math.abs(n.y)>.98?new T.Vector3(1,0,0):new T.Vector3(0,1,0).cross(n).normalize(),vertical=n.clone().cross(tangent).normalize(),shade=n.y>.7?1:n.y<-.7?.52:Math.abs(n.x)>Math.abs(n.z)?.66:.82;
+    const local=Array.from({length:3},(_,j)=>new T.Vector3(p.getX(i+j),p.getY(i+j),p.getZ(i+j)).applyMatrix4(m.matrixWorld));
+    const frame=surfaceFrame(T,local,{vessel:name.startsWith('vessel-'),weapon:kind.startsWith('weapon-')}),{n}=frame,shade=n.y>.7?1:n.y<-.7?.52:Math.abs(n.x)>Math.abs(n.z)?.66:.82;
     for(let j=0;j<3;j++){
-     const q=new T.Vector3(p.getX(i+j),p.getY(i+j),p.getZ(i+j)).applyMatrix4(m.matrixWorld);if(!q.toArray().every(Number.isFinite))throw Error("Nonfinite vertex");b.positions.push(...q.toArray().map(v=>+v.toFixed(6)));b.uvs.push(uv?uv.getX(i+j):0,uv?uv.getY(i+j):0);b.innerUvs.push(inner?inner.getX(i+j):.5,inner?inner.getY(i+j):.5);b.colors.push(color.r,color.g,color.b);b.planes.push(local[j].dot(tangent),local[j].dot(vertical));b.shade.push(shade);
+     const q=local[j];if(!q.toArray().every(Number.isFinite))throw Error("Nonfinite vertex");b.positions.push(...q.toArray().map(v=>+v.toFixed(6)));b.uvs.push(uv?uv.getX(i+j):0,uv?uv.getY(i+j):0);b.innerUvs.push(inner?inner.getX(i+j):.5,inner?inner.getY(i+j):.5);b.colors.push(color.r,color.g,color.b);b.planes.push(...frame.points[j]);b.phases.push(...frame.phase);b.interiors.push(interior?interior.getX(i+j):0);b.shade.push(shade);
     }
    }
   });

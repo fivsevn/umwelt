@@ -1,7 +1,7 @@
 {
   "softwareTarget": "Blender",
   "assets": 304,
-  "triangles": 474956,
+  "triangles": 471968,
   "errors": [],
   "perAsset": [
     {
@@ -557,7 +557,7 @@
     {
       "id": "shelf",
       "meshes": 2,
-      "triangles": 1188
+      "triangles": 576
     },
     {
       "id": "woodshelf",
@@ -567,7 +567,7 @@
     {
       "id": "tierstand",
       "meshes": 2,
-      "triangles": 972
+      "triangles": 504
     },
     {
       "id": "ladderstand",
@@ -577,7 +577,7 @@
     {
       "id": "wallrack",
       "meshes": 2,
-      "triangles": 888
+      "triangles": 456
     },
     {
       "id": "plantcart",
@@ -587,17 +587,17 @@
     {
       "id": "wirestand",
       "meshes": 2,
-      "triangles": 1188
+      "triangles": 576
     },
     {
       "id": "basketstand",
       "meshes": 2,
-      "triangles": 1536
+      "triangles": 1212
     },
     {
       "id": "coveredstand",
       "meshes": 3,
-      "triangles": 1080
+      "triangles": 540
     },
     {
       "id": "bench",

@@ -8,7 +8,7 @@ import { WEAPONS, paintWeapon } from "../../../rooftop/weapons.mjs";
 const here = new URL("./", import.meta.url), root = new URL("../../../", here);
 const out = new URL("rooftop/assets/pixel/", root);
 mkdirSync(out, { recursive: true });
-const approved = JSON.parse(readFileSync(new URL("../rooftop-pixel-01/pixelorama-materials/strokes.json", here)));
+const acceptedCells = JSON.parse(readFileSync(new URL("approved-native-cells.json",here))).fields;
 const fields = [], strokes = [];
 const gray = ["#dddddd", "#ededed", "#c8c8c8", "#b0b0b0", "#979797", "#ffffff"];
 function field(name, mode = "field", palette = gray, width = 32, height = 32) {
@@ -21,28 +21,25 @@ function rect(f, x, y, w, h, ink) {
 }
 function patch(f,x,y,rows,ink) { rows.forEach((row,j)=>[...row].forEach((c,i)=>{ if(c!==".")rect(f,x+i,y+j,1,1,ink); })); }
 function sampleField(name, tile, mode = "field") {
-  const f = field(name,mode);
-  f.rows = approved.native_design_rows[tile].map(row=>[...row].map(Number)); return f;
+  const source=acceptedCells[tile], f = field(name,mode,[...source.palette]);
+  f.rows = source.rows.map(row=>row.slice()); return f;
 }
 sampleField("wall",4); sampleField("room-wall",15); sampleField("paving",6);
 sampleField("metal",2); sampleField("stone",7);
-const wood=field("wood");
-for(let y=0;y<32;y+=8){rect(wood,0,y,32,1,4);rect(wood,0,y+1,32,1,1);rect(wood,0,y+7,32,1,2);}
-patch(wood,4,4,["111111....",".111111111",".....11111"],1);
-patch(wood,17,18,["222222..","..222222","....2222"],2);
-const roof=field("roof");
-for(let y=0;y<32;y+=8){rect(roof,0,y,32,1,3);rect(roof,0,y+1,32,1,1);for(let x=(y%16?4:0);x<32;x+=8)rect(roof,x,y,1,8,2);}
-patch(roof,10,12,["222","22."],2);patch(roof,24,25,["1111",".111"],1);
+const wood=sampleField("wood",14), roof=sampleField("roof",5);
+sampleField("clay",0); sampleField("clay-rim",1); sampleField("soil",8);
 const brick=field("brick");
 for(let y=0;y<32;y+=8){rect(brick,0,y,32,1,3);for(let x=(y%16?8:0);x<32;x+=16)rect(brick,x,y,1,8,3);}
 patch(brick,2,4,["111111...","111111111",".1111111."],1);patch(brick,18,20,["2222..","222222",".22222"],2);
-for(const name of ["paint","clay","enamel","cloth","soil","asphalt","wicker","water","leaf","leafRigid","cactus","canopy","petal","skin","hair","actor-cloth","leaf-striped","leaf-variegated","leaf-succulent","leaf-moss"]){
+for(const name of ["paint","enamel","cloth","asphalt","wicker","water","leaf","leafRigid","cactus","canopy","petal","skin","hair","actor-cloth","leaf-striped","leaf-variegated","leaf-succulent","leaf-moss"]){
  const f=field(name);
  if(/leaf|canopy|cactus/.test(name)){
+   f.palette=["#ffffff","#ededed","#bdbdbd","#919191"];
+   f.rows=acceptedCells[9].rows.map(row=>row.slice());
    rect(f,15,0,2,32,1);
    for(const y of [8,20]){patch(f,5,y,["22......",".222....","...222..",".....222"],2);patch(f,17,y,["......22","....222.","..222...","222....."],2);}
    if(/striped|cactus/.test(name))for(let x=3;x<32;x+=8)rect(f,x,0,2,32,2);
-   if(/variegated/.test(name))patch(f,3,1,["11111111","1111111.","111111..","111111..","11111...","1111....","111.....","11......"],5);
+   if(/variegated/.test(name)){f.palette.push("#f5ebc8");patch(f,3,1,["11111111","1111111.","111111..","111111..","11111...","1111....","111.....","11......"],4);}
    if(/succulent/.test(name)){rect(f,0,0,32,5,1);rect(f,0,25,32,7,2);}
    if(/moss/.test(name)){rect(f,0,0,32,32,0);for(const [x,y] of [[2,3],[16,8],[6,20],[23,25]])patch(f,x,y,["111..","11111",".1111","..111"],1);}
  }else{
@@ -54,9 +51,10 @@ for(const name of ["paint","clay","enamel","cloth","soil","asphalt","wicker","wa
    if(name==="water")for(let y=3;y<32;y+=8)rect(f,5,y,14,1,1);
  }
 }
-const splitLeaf=field("leaf-split","panel",[...gray,"#00000000"]);
+const splitLeaf=field("leaf-split","field",["#ffffff","#ededed","#bdbdbd","#919191","#00000000"]);
+splitLeaf.rows=acceptedCells[9].rows.map(row=>row.slice());
 rect(splitLeaf,15,0,2,32,1);
-rect(splitLeaf,4,10,8,6,6);rect(splitLeaf,20,20,8,6,6);
+rect(splitLeaf,13,25,1,1,4);rect(splitLeaf,18,20,1,1,4);
 const stoneLeaf=field("leaf-stones","panel");
 rect(stoneLeaf,0,0,32,32,0);rect(stoneLeaf,0,24,32,8,2);
 patch(stoneLeaf,2,6,["11111111..","1111111111",".111111111","..1111111."],1);
@@ -76,9 +74,16 @@ function recipeField(name, part=0) {
    // not turn the whole vessel into a point-noise texture.
    f.rows[y][x]=!panel&&k<(art.grayCount||9)?0:k+gray.length;
  }
- if(!panel){
-   rect(f,0,29,32,3,2); patch(f,2,22,["2222..","222222",".22222","..2222"],2);
-   patch(f,20,4,["111111..","1111111.",".1111111","..11111."],1);
+ if(isVessel){
+   const motif=f.rows, base=acceptedCells[0];
+   f.palette.splice(0,6,"#ffffff","#ededed","#cccccc","#ababab","#999999","#ffffff");
+   f.rows=base.rows.map(row=>row.map(k=>[1,0,2,3][k]));
+   // Repaint the original coloured motif into native lower rows. A physical
+   // 1px square stays one atlas pixel; no face-to-32px stretching at runtime.
+   for(let y=0;y<8;y++)for(let x=0;x<32;x++){
+    const ink=motif[y*4][x];
+    if(ink>=gray.length+(art.grayCount||9)) f.rows[24+y][x]=ink;
+   }
  }
  return f;
 }
