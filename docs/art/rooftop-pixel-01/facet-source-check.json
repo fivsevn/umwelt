@@ -1,0 +1,322 @@
+{
+  "revision": 8,
+  "software": "Blender 4.5.14 LTS",
+  "edited_existing_source": true,
+  "previous_iteration_preserved_hidden": true,
+  "fine_geometry_removed_from_visible_assets": [
+    "Rack / exposed fastener",
+    "Rack / exposed fastener.001",
+    "Rack / exposed fastener.002",
+    "Rack / exposed fastener.003",
+    "Rack / exposed fastener.004",
+    "Rack / exposed fastener.005",
+    "Rack / exposed fastener.006",
+    "Rack / exposed fastener.007",
+    "Door / vertical stile",
+    "Door / vertical stile.001",
+    "Door / horizontal rail",
+    "Door / horizontal rail.001",
+    "Door / horizontal rail.002",
+    "Door / raised panel",
+    "Door / raised panel.001",
+    "Door / raised panel.002",
+    "Door / raised panel.003",
+    "Door / brass backplate",
+    "Door / hinge",
+    "Door / hinge.001",
+    "Door / hinge.002",
+    "Door / hinge.003",
+    "Roof / tile seam",
+    "Roof / tile seam.001",
+    "Roof / tile seam.002",
+    "Roof / tile seam.003",
+    "Roof / tile seam.004",
+    "Roof / tile seam.005",
+    "Roof / tile seam.006",
+    "Roof / tile seam.007",
+    "Roof / tile seam.008",
+    "Roof / tile seam.009",
+    "Roof / tile seam.010",
+    "Roof / tile seam.011",
+    "Roof / tile seam.012",
+    "Roof / tile seam.013",
+    "Roof / tile seam.014",
+    "Roof / tile seam.015",
+    "Stage / paving.001",
+    "Stage / paving.002",
+    "Stage / paving.003",
+    "Stage / paving.004",
+    "Stage / paving.005",
+    "Stage / paving.006",
+    "Stage / paving.007",
+    "Stage / paving.008",
+    "Stage / paving.009",
+    "Stage / paving.010",
+    "Stage / paving.011",
+    "Stage / paving.012",
+    "Stage / paving.013",
+    "Stage / paving.014",
+    "Stage / paving.015",
+    "Stage / paving.016",
+    "Stage / paving.017",
+    "Stage / paving.018",
+    "Stage / paving.019",
+    "Stage / paving.020",
+    "Stage / paving.021",
+    "Stage / paving.022",
+    "Stage / paving.023",
+    "Stage / paving.024",
+    "Stage / paving.025",
+    "Stage / paving.026",
+    "Stage / paving.027",
+    "Stage / paving.028",
+    "Stage / paving.029",
+    "Stage / paving.030",
+    "Stage / paving.031",
+    "Stage / paving.032",
+    "Stage / paving.033",
+    "Stage / paving.034",
+    "Stage / paving.035",
+    "Stage / paving.036",
+    "Stage / paving.037",
+    "Stage / paving.038",
+    "Stage / paving.039",
+    "Stage / paving.040",
+    "Stage / paving.041",
+    "Stage / paving.042",
+    "Stage / paving.043",
+    "Stage / paving.044",
+    "Stage / paving.045",
+    "Stage / paving.046",
+    "Stage / paving.047",
+    "Stage / paving.048",
+    "Stage / paving.049",
+    "Stage / paving.050",
+    "Stage / paving.051",
+    "Stage / paving.052",
+    "Stage / paving.053"
+  ],
+  "roof_seams_are_texture_only": true,
+  "no_geometry_bevel_strips": true,
+  "pot_radial_facets": 8,
+  "density_texels_per_metre": 8.0,
+  "surface_texel_metres": 0.125,
+  "source_faces": 701,
+  "slanted_faces": 212,
+  "coplanar_uv_wrap_cuts": 18,
+  "max_unfolded_metric_error_pixels": 2.1342839359173027e-06,
+  "max_face_nonplanarity_metres": 1.942338911931074e-07,
+  "instances_are_scale_one": true,
+  "face_shade_levels": [
+    0.52,
+    0.66,
+    0.82,
+    1.0
+  ],
+  "continuous_lighting_gradient": false,
+  "packed_png_identical_to_pixelorama_export": true,
+  "assets": [
+    {
+      "id": "ceramic-pot",
+      "bytes": 19956,
+      "triangles": 208,
+      "meshes": 1,
+      "editable_parts": 3,
+      "texels_per_metre": 8
+    },
+    {
+      "id": "ceramic-pot-small",
+      "bytes": 19972,
+      "triangles": 208,
+      "meshes": 1,
+      "editable_parts": 3,
+      "texels_per_metre": 8
+    },
+    {
+      "id": "ceramic-pot-medium",
+      "bytes": 19972,
+      "triangles": 208,
+      "meshes": 1,
+      "editable_parts": 3,
+      "texels_per_metre": 8
+    },
+    {
+      "id": "metal-rack",
+      "bytes": 33836,
+      "triangles": 368,
+      "meshes": 1,
+      "editable_parts": 30,
+      "texels_per_metre": 8
+    },
+    {
+      "id": "doorway",
+      "bytes": 28088,
+      "triangles": 288,
+      "meshes": 2,
+      "editable_parts": 24,
+      "texels_per_metre": 8
+    },
+    {
+      "id": "scene-set",
+      "bytes": 11776,
+      "triangles": 112,
+      "meshes": 1,
+      "editable_parts": 23,
+      "texels_per_metre": 8
+    }
+  ],
+  "uv_examples": [
+    {
+      "object": "Terracotta / tapered vessel",
+      "polygon": 11,
+      "tile": 0,
+      "local_pixels": [
+        [
+          8.32647705078125,
+          1.635276436805725
+        ],
+        [
+          9.67352294921875,
+          1.635276436805725
+        ],
+        [
+          9.964362144470215,
+          5.1854047775268555
+        ],
+        [
+          8.035637855529785,
+          5.1854047775268555
+        ]
+      ]
+    },
+    {
+      "object": "Wall / left plaster pier",
+      "polygon": 2,
+      "tile": 4,
+      "local_pixels": [
+        [
+          0.7999992370605469,
+          1.0
+        ],
+        [
+          9.600000381469727,
+          1.0
+        ],
+        [
+          9.600000381469727,
+          19.719999313354492
+        ],
+        [
+          0.7999992370605469,
+          19.719999313354492
+        ]
+      ]
+    },
+    {
+      "object": "Lamp / pitched cap",
+      "polygon": 0,
+      "tile": 2,
+      "local_pixels": [
+        [
+          6.397644996643066,
+          6.385872840881348
+        ],
+        [
+          5.351126670837402,
+          7.806013107299805
+        ],
+        [
+          4.728873252868652,
+          7.806013107299805
+        ],
+        [
+          3.6823549270629883,
+          6.385872840881348
+        ]
+      ]
+    },
+    {
+      "object": "Lamp / pitched cap",
+      "polygon": 1,
+      "tile": 2,
+      "local_pixels": [
+        [
+          22.15764617919922,
+          1.8464984893798828
+        ],
+        [
+          21.111127853393555,
+          3.26663875579834
+        ],
+        [
+          20.488872528076172,
+          3.26663875579834
+        ],
+        [
+          19.44235610961914,
+          1.8464984893798828
+        ]
+      ]
+    },
+    {
+      "object": "Lamp / pitched cap",
+      "polygon": 3,
+      "tile": 2,
+      "local_pixels": [
+        [
+          28.317646026611328,
+          13.460230827331543
+        ],
+        [
+          27.27112579345703,
+          14.88037109375
+        ],
+        [
+          26.64887237548828,
+          14.88037109375
+        ],
+        [
+          25.60235595703125,
+          13.460230827331543
+        ]
+      ]
+    },
+    {
+      "object": "Lamp / pitched cap",
+      "polygon": 4,
+      "tile": 2,
+      "local_pixels": [
+        [
+          12.557644844055176,
+          17.999603271484375
+        ],
+        [
+          11.511127471923828,
+          19.41974449157715
+        ],
+        [
+          10.888872146606445,
+          19.41974449157715
+        ],
+        [
+          9.842353820800781,
+          17.999603271484375
+        ]
+      ]
+    }
+  ],
+  "native_uv_cut_precision_tolerance_metres": 1e-05,
+  "duplicate_or_sliver_vertices_removed": 1976,
+  "revision_7_geometry_retained": true,
+  "texture_only_refresh": {
+    "scene_geometry_uv_placements_camera_shaders_unchanged": true,
+    "scene_data_sha256": "d9c4598a28e5d5480eb7443739097e6de8ebe2601729c69bfedb01ce8a9b48d5",
+    "packed_atlas_sha256": "10b5314f5dc5620d723c9056b73b7bdd56250c0296e05c7d64baefb0ab45ea32",
+    "packed_bytes_equal_native_export": true,
+    "source_saved_and_reopened_in_actual_blender": true,
+    "atlas_dimensions": [
+      128,
+      128
+    ]
+  }
+}

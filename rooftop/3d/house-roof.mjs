@@ -111,37 +111,7 @@ export function buildHouseRoof(api, parent, scene) {
     0.19,
     "roof",
   );
-  // Tile joints follow the slope, with scattered repairs rather than mirrored rows.
-  for (let x = r.x; x < r.x + r.width; x += 0.58)
-    for (const side of [-1, 1]) {
-      const z = r.z + r.depth / 2 + side * (r.depth / 2 + 0.3);
-      beam(
-        g,
-        local(x, r.eave + 0.012, z),
-        local(x, r.ridge + 0.012, r.z + r.depth / 2),
-        0.035,
-        "#625d58",
-        0.035,
-        "roof",
-      );
-    }
-  for (const [x, z] of [
-    [-7, 7],
-    [-2, 17],
-    [3, 22],
-  ]) {
-    const y =
-      r.ridge -
-      (Math.abs(z - (r.z + r.depth / 2)) / (r.depth / 2 + 0.3)) *
-        (r.ridge - r.eave);
-    const patch = group(g, ...local(x, y + 0.018, z));
-    patch.rotation.y = scene === "south" ? Math.PI / 2 : 0;
-    patch.rotation.x =
-      z < r.z + r.depth / 2
-        ? -Math.atan((r.ridge - r.eave) / (r.depth / 2 + 0.3))
-        : Math.atan((r.ridge - r.eave) / (r.depth / 2 + 0.3));
-    box(patch, 0, 0, 0, 0.5, 0.018, 0.95, "#85807a", "roof");
-  }
+  // Tile joints and repairs belong to the native 32px surface drawing.
   g.userData.house = HOUSE.id;
   return g;
 }

@@ -41,8 +41,8 @@ export function soilPointHeight(shape, x, z, variant = 0) {
 
 export function soilSurface(T, shape = "round", sides = 24, variant = 0) {
   const rectangular = shape === "rect",
-    n = rectangular ? 32 : Math.max(24, Math.ceil(sides / 4) * 4),
-    rings = 5;
+    n = rectangular ? 8 : Math.max(8, Math.min(20, Math.ceil(sides / 4) * 4)),
+    rings = 2;
   const positions = [0, soilHeight(0, 0, variant), 0],
     uvs = [0.5, 0.5],
     indices = [];

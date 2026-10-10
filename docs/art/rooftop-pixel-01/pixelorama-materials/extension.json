@@ -1,0 +1,14 @@
+{
+  "name": "UmweltMaterials",
+  "display_name": "Umwelt material structure authoring",
+  "description": "Material-specific integer Pencil strokes, original native project.",
+  "author": "\u4e94\u6708\u4e03\u65e5",
+  "version": "0.1",
+  "supported_api_versions": [
+    8
+  ],
+  "license": "MIT",
+  "nodes": [
+    "Main.tscn"
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "revision": 5,
+  "software": "Blender 4.5.14 LTS",
+  "edited_existing_source": true,
+  "hidden_original_parts_preserved": 354,
+  "minimum_cube_metres": 0.1,
+  "integer_world_grid_origin": [
+    0,
+    0,
+    0
+  ],
+  "all_visible_vertices_and_placements_on_integer_grid": true,
+  "maximum_grid_unit_error": 9.5367431640625e-07,
+  "all_visible_scales_are_one": true,
+  "cube_faces_sample_one_native_texel": true,
+  "geometry_changed_with_explicit_user_authorization": true,
+  "assets": [
+    {
+      "id": "ceramic-pot",
+      "bytes": 48740,
+      "triangles": 672,
+      "meshes": 1,
+      "editable_parts": 1,
+      "occupied_cubes": 168,
+      "minimum_cube_metres": 0.1
+    },
+    {
+      "id": "ceramic-pot-small",
+      "bytes": 10668,
+      "triangles": 128,
+      "meshes": 1,
+      "editable_parts": 1,
+      "occupied_cubes": 28,
+      "minimum_cube_metres": 0.1
+    },
+    {
+      "id": "ceramic-pot-medium",
+      "bytes": 18512,
+      "triangles": 240,
+      "meshes": 1,
+      "editable_parts": 1,
+      "occupied_cubes": 48,
+      "minimum_cube_metres": 0.1
+    },
+    {
+      "id": "metal-rack",
+      "bytes": 131060,
+      "triangles": 1848,
+      "meshes": 1,
+      "editable_parts": 1,
+      "occupied_cubes": 350,
+      "minimum_cube_metres": 0.1
+    },
+    {
+      "id": "doorway",
+      "bytes": 501216,
+      "triangles": 7124,
+      "meshes": 2,
+      "editable_parts": 2,
+      "occupied_cubes": 3948,
+      "minimum_cube_metres": 0.1
+    },
+    {
+      "id": "scene-set",
+      "bytes": 409672,
+      "triangles": 5828,
+      "meshes": 1,
+      "editable_parts": 1,
+      "occupied_cubes": 3454,
+      "minimum_cube_metres": 0.1
+    }
+  ],
+  "packed_png_identical_to_pixelorama_export": true,
+  "reference_group_hidden": true
+}

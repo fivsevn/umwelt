@@ -1,0 +1,112 @@
+{
+  "revision": 4,
+  "three": "160",
+  "assets": [
+    {
+      "asset": "ceramic-pot",
+      "bytes": 43600,
+      "triangles": 704,
+      "meshes": 1,
+      "uvRange": [
+        0.0078125,
+        0.484375
+      ],
+      "bounds": {
+        "min": [
+          -0.34299999475479126,
+          0,
+          -0.34299999475479126
+        ],
+        "max": [
+          0.34299999475479126,
+          0.5419999957084656,
+          0.34299999475479126
+        ]
+      },
+      "geometryAndTopologyIdenticalToPrevious": true,
+      "uvChanged": false,
+      "loadedByActualPreviewGLTFLoader": true
+    },
+    {
+      "asset": "metal-rack",
+      "bytes": 63020,
+      "triangles": 840,
+      "meshes": 1,
+      "uvRange": [
+        0.0078125,
+        0.984375
+      ],
+      "bounds": {
+        "min": [
+          -0.7140001226960634,
+          0,
+          -0.3175002104917156
+        ],
+        "max": [
+          0.7140001364732274,
+          1.1875,
+          0.3175002153856995
+        ]
+      },
+      "geometryAndTopologyIdenticalToPrevious": true,
+      "uvChanged": false,
+      "loadedByActualPreviewGLTFLoader": true
+    },
+    {
+      "asset": "doorway",
+      "bytes": 120320,
+      "triangles": 1576,
+      "meshes": 2,
+      "uvRange": [
+        0.0078125,
+        0.984375
+      ],
+      "bounds": {
+        "min": [
+          -1.9550000429153442,
+          0,
+          -1.3241987228393555
+        ],
+        "max": [
+          1.715000033378601,
+          2.5470151901245117,
+          -0.04500001668930054
+        ]
+      },
+      "geometryAndTopologyIdenticalToPrevious": true,
+      "uvChanged": true,
+      "loadedByActualPreviewGLTFLoader": true
+    },
+    {
+      "asset": "scene-set",
+      "bytes": 54844,
+      "triangles": 764,
+      "meshes": 1,
+      "uvRange": [
+        0.0078125,
+        0.984375
+      ],
+      "bounds": {
+        "min": [
+          -2.0900000110268593,
+          -0.20000000298023224,
+          -1.3299999944865704
+        ],
+        "max": [
+          1.896500013768673,
+          1.6979161724448204,
+          1.4299999959766865
+        ]
+      },
+      "geometryAndTopologyIdenticalToPrevious": true,
+      "uvChanged": false,
+      "loadedByActualPreviewGLTFLoader": true
+    }
+  ],
+  "allLoaded": true,
+  "runtimeCodeUnchanged": true,
+  "browserRetest": {
+    "performed": false,
+    "reason": "Existing denial of local preview access remains in effect; verified offline."
+  }
+}

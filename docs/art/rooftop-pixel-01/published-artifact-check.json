@@ -1,0 +1,36 @@
+{
+  "artifact": {
+    "state": {
+      "selected": "scene",
+      "dusk": false,
+      "turning": false,
+      "yaw": 0.6,
+      "pitch": 0.47,
+      "zoom": 1,
+      "frameCount": 279,
+      "cacheSize": 4,
+      "drawCalls": 9,
+      "triangles": 6700,
+      "textureSize": [
+        128,
+        128
+      ],
+      "nearest": true,
+      "canvasSize": [
+        2448,
+        1008
+      ]
+    },
+    "modelUrls": [
+      "http://127.0.0.1:8817/rooftop/previews/pixel-01/assets/ceramic-pot.glb?v=a7f93cfa55a248bdffb9f14356e93fe6e47da8ef",
+      "http://127.0.0.1:8817/rooftop/previews/pixel-01/assets/metal-rack.glb?v=a7f93cfa55a248bdffb9f14356e93fe6e47da8ef",
+      "http://127.0.0.1:8817/rooftop/previews/pixel-01/assets/doorway.glb?v=a7f93cfa55a248bdffb9f14356e93fe6e47da8ef",
+      "http://127.0.0.1:8817/rooftop/previews/pixel-01/assets/scene-set.glb?v=a7f93cfa55a248bdffb9f14356e93fe6e47da8ef"
+    ],
+    "textureUrls": [
+      "http://127.0.0.1:8817/rooftop/previews/pixel-01/assets/garden-atlas.png?v=a7f93cfa55a248bdffb9f14356e93fe6e47da8ef"
+    ],
+    "overflow": false
+  },
+  "errors": []
+}

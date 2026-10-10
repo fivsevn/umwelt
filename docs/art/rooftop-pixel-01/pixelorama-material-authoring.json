@@ -1,0 +1,96 @@
+{
+  "actual_tool": "Pencil",
+  "atlas_size": 128,
+  "brush_size": 1,
+  "integer_coordinates": true,
+  "method": "Author-specified integer stroke replay through software Pencil; no external raster generation",
+  "native_resolution_unchanged": true,
+  "painted_native_cells": 9216.0,
+  "revision": 8,
+  "saved_by_native_software": true,
+  "software": "Pixelorama",
+  "stroke_count": 1326,
+  "target_tiles": [
+    2.0,
+    3.0,
+    4.0,
+    5.0,
+    6.0,
+    7.0,
+    12.0,
+    14.0,
+    15.0
+  ],
+  "tile_size": 32,
+  "version": "v1.2.3-stable",
+  "pxo_before_sha256": "38324353d2b61392c497df9495b37f49adb8c601029df6b44fe35ecb8970a998",
+  "pxo_after_sha256": "10153d23fbdc892d8e66ea3cc9a83a6d1153d28e65fa95b91fc92a2fc79a2a68",
+  "preserved_tiles": [
+    0,
+    1,
+    8,
+    9,
+    10,
+    11,
+    13
+  ],
+  "untouched_tiles_byte_identical": true,
+  "base_and_strokes_layers_byte_identical": true,
+  "materials": [
+    {
+      "tile": 2,
+      "before_colour_edges": 1091,
+      "after_colour_edges": 128,
+      "native_colours": 4
+    },
+    {
+      "tile": 3,
+      "before_colour_edges": 1087,
+      "after_colour_edges": 128,
+      "native_colours": 4
+    },
+    {
+      "tile": 4,
+      "before_colour_edges": 1051,
+      "after_colour_edges": 192,
+      "native_colours": 5
+    },
+    {
+      "tile": 5,
+      "before_colour_edges": 1123,
+      "after_colour_edges": 314,
+      "native_colours": 5
+    },
+    {
+      "tile": 6,
+      "before_colour_edges": 1034,
+      "after_colour_edges": 656,
+      "native_colours": 6
+    },
+    {
+      "tile": 7,
+      "before_colour_edges": 1054,
+      "after_colour_edges": 132,
+      "native_colours": 3
+    },
+    {
+      "tile": 12,
+      "before_colour_edges": 1046,
+      "after_colour_edges": 161,
+      "native_colours": 4
+    },
+    {
+      "tile": 14,
+      "before_colour_edges": 1085,
+      "after_colour_edges": 314,
+      "native_colours": 5
+    },
+    {
+      "tile": 15,
+      "before_colour_edges": 1054,
+      "after_colour_edges": 198,
+      "native_colours": 5
+    }
+  ],
+  "user_configuration_restored": true
+}

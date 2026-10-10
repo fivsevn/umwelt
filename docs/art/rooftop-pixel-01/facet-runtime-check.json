@@ -1,0 +1,62 @@
+{
+  "revision": 8,
+  "loader": "Actual preview Three.js r160 GLTFLoader",
+  "all_six_assets_parsed": true,
+  "square_unfolded_texels": true,
+  "same_surface_density_on_all_exported_triangles": true,
+  "density_texels_per_metre": 8,
+  "max_length_error_pixels": 0.00007132915714697097,
+  "max_gram_error_pixels_squared": 0.0001780700595190865,
+  "nonzero_uv_triangle_areas": true,
+  "slanted_triangles": 392,
+  "all_instance_scales_one": true,
+  "no_embedded_images_or_materials": true,
+  "nearest_texture_sampling": true,
+  "flat_vertex_shades_present": true,
+  "shade_constant_on_each_triangle": true,
+  "unlit_preview_material": true,
+  "assets": [
+    {
+      "id": "ceramic-pot",
+      "bytes": 19956,
+      "triangles": 208,
+      "meshes": 1,
+      "slanted_triangles": 96
+    },
+    {
+      "id": "ceramic-pot-small",
+      "bytes": 19972,
+      "triangles": 208,
+      "meshes": 1,
+      "slanted_triangles": 96
+    },
+    {
+      "id": "ceramic-pot-medium",
+      "bytes": 19972,
+      "triangles": 208,
+      "meshes": 1,
+      "slanted_triangles": 96
+    },
+    {
+      "id": "metal-rack",
+      "bytes": 33836,
+      "triangles": 368,
+      "meshes": 1,
+      "slanted_triangles": 24
+    },
+    {
+      "id": "doorway",
+      "bytes": 28088,
+      "triangles": 288,
+      "meshes": 2,
+      "slanted_triangles": 16
+    },
+    {
+      "id": "scene-set",
+      "bytes": 11776,
+      "triangles": 112,
+      "meshes": 1,
+      "slanted_triangles": 64
+    }
+  ]
+}

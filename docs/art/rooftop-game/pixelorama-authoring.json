@@ -1,0 +1,15 @@
+{
+  "brush": 1,
+  "field_size": 32,
+  "fields": 214,
+  "integer_coordinates": true,
+  "method": "Author specified stroke replay in actual native Pencil; no AI image generation",
+  "native_png_export": true,
+  "native_saved": true,
+  "physical_texels_per_unit": 8,
+  "size": 512,
+  "software": "Pixelorama",
+  "strokes": 62349,
+  "tool": "Pencil",
+  "version": "v1.2.3-stable"
+}

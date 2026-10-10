@@ -63,6 +63,14 @@ export function latheSurface(T, points, sides = 12, shape = "round", ribs = 0) {
   const flat = g.toNonIndexed();
   g.dispose();
   flat.computeVertexNormals();
+  // Field routing belongs to an entire unfolded face, never an interpolated
+  // old UV threshold that can cut diagonally through a painted square.
+  const interior=new Float32Array(flat.attributes.position.count), uv=flat.attributes.uv;
+  for(let i=0;i<interior.length;i+=3){
+    const value=(uv.getY(i)+uv.getY(i+1)+uv.getY(i+2))/3<.145?1:0;
+    interior.fill(value,i,i+3);
+  }
+  flat.setAttribute("paintInterior",new T.Float32BufferAttribute(interior,1));
   return flat;
 }
 
@@ -84,7 +92,7 @@ export function leafSurface(
   const positions = [],
     uvs = [],
     indices = [],
-    n = split ? 14 : fleshy ? 6 : 8,
+    n = split ? 14 : 4,
     stride = 6;
   for (let j = 0; j <= n; j++) {
     const t = j / n,
@@ -93,12 +101,12 @@ export function leafSurface(
     mid.y += bend * length * (fleshy ? 0.11 : 0.035);
     const silhouette = split
       ? [
-          0.14, 0.48, 0.76, 0.3, 0.95, 0.34, 1, 0.32, 0.93, 0.35, 0.79, 0.3,
-          0.56, 0.32, 0.04,
+          0.35, 0.72, 0.93, 0.67, 1, 0.73, 0.93, 0.68, 0.8, 0.56, 0.67, 0.45,
+          0.45, 0.25, 0.04,
         ][j]
       : fleshy
         ? Math.sin(Math.PI * (0.025 + 0.975 * t))
-        : [0.08, 0.48, 0.75, 0.96, 1, 0.88, 0.64, 0.32, 0.04][j];
+        : [0.08, 0.75, 1, 0.64, 0.04][j];
     const w =
       Math.max(0.008, width * silhouette * 0.5) *
       (teeth && !split && j % 2 ? 0.85 : 1);

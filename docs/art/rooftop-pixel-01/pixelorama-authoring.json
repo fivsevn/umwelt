@@ -1,0 +1,13 @@
+{
+  "actual_tool": "Pencil",
+  "atlas_size": 128,
+  "brush_size": 1,
+  "desktop_canvas_input_issue": "CUA pointer coordinates were outside the native canvas; replay uses the software's own pencil tool",
+  "integer_coordinates": true,
+  "saved_by_native_software": true,
+  "scaled_in_actual_pixelorama_with_nearest": true,
+  "software": "Pixelorama",
+  "stroke_count": 738,
+  "tile_size": 32,
+  "version": "v1.2.3-stable"
+}

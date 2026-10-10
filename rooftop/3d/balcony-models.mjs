@@ -2,7 +2,7 @@ import { BALCONY_EXTRAS } from '../balcony-extras.mjs';
 const ids=new Set(BALCONY_EXTRAS.map(a=>a.id));
 function polygon(api,g,points,depth,color,kind='metal') {
  const shape=new api.T.Shape();points.forEach(([x,y],i)=>i?shape.lineTo(x,y):shape.moveTo(x,y));shape.closePath();
- const geo=new api.T.ExtrudeGeometry(shape,{depth,bevelEnabled:true,bevelSegments:1,steps:1,bevelSize:.015,bevelThickness:.015});geo.userData.transient=true;
+ const geo=new api.T.ExtrudeGeometry(shape,{depth,bevelEnabled:false,steps:1});geo.userData.transient=true;
  api.surface(g,geo,0,0,-depth/2,1,1,1,color,kind);
 }
 export function buildBalconyExtra(api,g,type,w,d,h) {

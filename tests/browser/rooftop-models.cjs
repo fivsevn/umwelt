@@ -17,12 +17,14 @@ const engine = process.env.BROWSER || "chromium",
         viewport: { width: 1280, height: 800 },
       }),
       errors = [];
-    page.on("pageerror", (e) => errors.push(e.message));
+    page.on("pageerror", (e) => errors.push(e.stack||e.message));
+    page.on("console",message=>{if(message.type()==="error"&&/THREE.WebGLProgram|Shader Error/.test(message.text()))errors.push(message.text());});
     page.setDefaultNavigationTimeout(90000);
     await page.goto(base + "/rooftop/arrange/", {
       waitUntil: "domcontentloaded",
     });
-    await page.waitForFunction(() => window.rooftop);
+    try { await page.waitForFunction(() => window.rooftop); }
+    catch (error) { console.error("Game startup errors:",errors); throw error; }
     const webgl = await page.evaluate(() => !!rooftop.modelRenderer);
     if (engine === "chromium")
       assert.ok(webgl, "software WebGL must create models");
@@ -38,8 +40,8 @@ const engine = process.env.BROWSER || "chromium",
         style.cataloguePreviews < style.catalog,
         "initial shelf does not rasterize the entire catalogue",
       );
-      assert.equal(style.style, "painted-materials-v6");
-      assert.ok(style.textures >= 20, "shared painted material library");
+      assert.equal(style.style, "native-pixelorama-v2");
+      assert.equal(style.textures,1,"one shared native Pixelorama atlas");
       assert.ok(
         style.drawCalls < 1000,
         "leaves reuse surfaces rather than one draw per leaf",
@@ -103,7 +105,7 @@ const engine = process.env.BROWSER || "chromium",
         "sprites must not resize the scene canvas",
       );
       for (const model of audit.records) {
-        assert.ok(model.instances > 0, model.type);
+        assert.ok(model.instances+(model.meshes||0)>0,model.type);
         assert.ok(
           model.extent.every((n) => n > 0 && Number.isFinite(n)),
           model.type,

@@ -1,0 +1,118 @@
+{
+  "revision": 8,
+  "reference_priority": "User approved revision 7 roughness, folded geometry and 8px/m native grid; refine material identity and density only",
+  "sources": [
+    {
+      "url": "https://artofsully.com/projects/3kOno",
+      "title": "Brendan Sullivan — 3D Pixel-Art Japanese Stone Lantern",
+      "finding": "原参考石灯的作者页面。结合用户上传的图观察：主要轮廓由少量斜面和梯形组成，材质、苔藓和灯光层次在 32px 贴图中表现。"
+    },
+    {
+      "url": "https://www.playstation.com/en-bh/editorial/iconic-must-play-titles-on-playstation-plus-classics-catalog/",
+      "title": "PlayStation 官方经典游戏页面 — Dark Cloud / Jak and Daxter",
+      "finding": "查阅 PS2 早期游戏条目及官方截图链接；页面含后来移植/展示素材，不把网页图片尺寸当作原主机贴图规格。"
+    },
+    {
+      "url": "https://dennispls.artstation.com/projects/eYrL3",
+      "title": "Dennis Griesheimer — Low poly Humvee pixel art diorama",
+      "finding": "作者说明用低模和像素材质制作场景：车用 128×128，路面用 128×64，小物件用 64×64。"
+    },
+    {
+      "url": "https://bjarnekristensen.artstation.com/projects/8eZm16",
+      "title": "Bjarne Kristensen — Chicken Coop LowPoly Pixel",
+      "finding": "作者说明使用 Blender 制作低模像素农场物件，限制 Dawnbringer 32 色板。"
+    },
+    {
+      "url": "https://terryplloyd.artstation.com/projects/xGXYX",
+      "title": "Terry Lloyd — Low Poly 3D Artwork",
+      "finding": "作者展示早期街机/PS1 低模作品和贴图制作，说明部分贴图最初在 DPaint/Promotion 用 16 色绘制。"
+    },
+    {
+      "url": "https://artofsully.com/projects/33eqB",
+      "title": "Brendan Sullivan — 3D Pixel-Art Wall Textures Demo",
+      "viewed_this_revision": true,
+      "inspection": "原作者网页中实际显示的图片，浏览器截图目视检查",
+      "visual_observation_by_this_task": "砖块以连续砖面和错缝区分；剥落集中在边缘。避免把整个墙面填成四种颜色的拼花。"
+    },
+    {
+      "url": "https://artofsully.com/projects/kxaKn",
+      "title": "Brendan Sullivan — 3D Pixel-Art Office / Park Scenes",
+      "viewed_this_revision": true,
+      "inspection": "原作者网页中实际显示的图片，浏览器截图目视检查",
+      "visual_observation_by_this_task": "对照室内方形地砖与公园铺路：接缝先构成可读的材料，石面自身变化比接缝安静。"
+    },
+    {
+      "url": "https://artofsully.com/projects/32PQB",
+      "title": "Brendan Sullivan — 3D Pixel-Art Outdoor Scene Walls + Lighting Demo",
+      "viewed_this_revision": true,
+      "inspection": "原作者网页中实际显示的图片，浏览器截图目视检查",
+      "visual_observation_by_this_task": "墙、门框、石阶与路面采用不同的结构节奏，污迹局部出现。只参考材质组织，保留本样板已认可的平面明暗。"
+    },
+    {
+      "url": "https://artofsully.com/projects/qkoBy",
+      "title": "Brendan Sullivan — 3D Pixel-Art Street Scene Walls + Lighting Demo",
+      "viewed_this_revision": true,
+      "inspection": "原作者网页中实际显示的图片，浏览器截图目视检查",
+      "visual_observation_by_this_task": "路面划线、接缝与局部裂损有明确位置；街墙砖面不以满面碎噪点表现。"
+    },
+    {
+      "url": "https://artofsully.com/projects/qwzZN",
+      "title": "Brendan Sullivan — 3D Pixel-Art Japanese Shrine — Texture Rework",
+      "viewed_this_revision": true,
+      "inspection": "原作者网页中实际显示的图片，浏览器截图目视检查",
+      "visual_observation_by_this_task": "苔痕集中在底部和接合位置，石柱与木柱的旧化形状不同。原作者说明此次在重画磨损外观。"
+    },
+    {
+      "url": "https://artofsully.com/projects/BWBO8",
+      "title": "Brendan Sullivan — 3D Pixel-Art Japanese Shrine",
+      "viewed_this_revision": true,
+      "inspection": "原作者网页中实际显示的图片，浏览器截图目视检查",
+      "visual_observation_by_this_task": "观察木板走向、石基底部的连续苔痕及未损坏区域，材质纹理服从材料结构。"
+    },
+    {
+      "url": "https://artofsully.com/projects/1038q",
+      "title": "Brendan Sullivan — 3D Pixel-Art Twinleaf Town House",
+      "viewed_this_revision": true,
+      "inspection": "原作者网页中实际显示的图片，浏览器截图目视检查",
+      "visual_observation_by_this_task": "屋面和墙面按整块建筑构件组织色阶，保留可读的大形；没有把一张高精细表面再点缀几个方块。"
+    },
+    {
+      "url": "https://flakdeau19.itch.io/64x64-pixel-tileset",
+      "title": "FlakDeau — 64x64 Pixel Tileset",
+      "viewed_this_revision": true,
+      "inspection": "作者网页中的石板四例、木板四例，共两张对照图",
+      "visual_observation_by_this_task": "比较石块轮廓、接缝与木纹方向。此集的细节密度高于用户目标，只取材料结构，不取细密颗粒，也未下载或复制素材。"
+    },
+    {
+      "url": "https://pixel-salvaje.itch.io/isometric-interiors/devlog/1470250/major-expansion-350-walls-and-floors-added-v015",
+      "title": "Pixel Salvaje — Walls and Floors v0.15",
+      "viewed_this_revision": true,
+      "inspection": "作者网页中的十个墙地面组合对照图",
+      "visual_observation_by_this_task": "抹灰、竖向木板、砖墙、瓷砖和规则铺地各有不同形状。抹灰以连贯底色加局部破损表现，地面先表达铺设结构。"
+    }
+  ],
+  "previous_revision_choices": [
+    "移除屋顶的独立细凸条，让瓦缝与色阶回到原生像素贴图。",
+    "移除倒角条带、小螺丝、铰链和凸起门板；保留主要折面。",
+    "原 Pixelorama 三层项目中直接重画完整 32px 材质区域，减少整面平涂。",
+    "保留统一 8 像素/米展开比例，模型实例缩放为 1。",
+    "改用四档平面明暗，去除连续光照渐变、反射和软阴影。",
+    "所有制作与渲染在实际 Pixelorama/Blender 内完成，没有图像生成。"
+  ],
+  "visual_review_summary": {
+    "author_pages_visually_reviewed_this_revision": 9,
+    "images_or_comparison_sheets_viewed": 10,
+    "note": "同一对照图内含多种材质示例；未将搜索缩略图数量算作已检查作品。参考尺寸仅来自作者或用户原图，不从网页显示尺寸推断。",
+    "remote_reference_art_not_copied_into_repository": true,
+    "external_web_browser_allowed": true,
+    "local_preview_browser_retest": false
+  },
+  "revision_choices": [
+    "保持第 7 版几何、展开方格、四档面明暗、陶盆、屋顶、灯窗与示意植物。",
+    "墙面由近似色阶的连续抹灰、少量露底、墙脚潮痕构成，减少全覆盖碎斑。",
+    "地面改成规则石板面、单格接缝与少量边角缺损；颜色用于描述石板自身。",
+    "门板恢复四个可读的平面面板，磨损集中在下部；金属保持连续深色底和局部擦边。",
+    "实际 Pixelorama 在原三层 PXO 上执行 1326 笔原生一像素笔触；七个非目标材质区域与底下两个图层逐字节保持。",
+    "实际 Blender 仅重载并打包最新 PNG，保存并重新打开核对几何、UV、摆放、相机和材质节点完全一致。"
+  ]
+}

@@ -10,21 +10,23 @@ import {
 import { weatherAction } from "../resident-weather.mjs";
 import { createAtmosphere } from "./atmosphere.mjs";
 import { outdoorPaintKind } from "./weathering.mjs";
-import { surfaceSeed, soilParticles } from "./surface-variation.mjs";
-import { soilSurface, soilPointHeight } from "./soil-surface.mjs";
-import { cubeContactPaint } from "./contact-paint.mjs";
+import { surfaceSeed } from "./surface-variation.mjs";
+import { soilSurface } from "./soil-surface.mjs";
 import { SCENES, asset, ASSETS, inside } from "../scene.mjs";
 import { PLANTS, POTS } from "../botany.mjs";
 import { plantContact } from "../plant-art.mjs";
+import { buildCactusBody } from "./cactus-models.mjs";
 import { buildFoliage } from "./plant-models.mjs";
 import { plantPotSpec } from "./plant-pots.mjs";
+import { plantPaintKind } from "./plant-materials.mjs";
 import { buildVessel } from "./vessel-models.mjs";
+import { buildStand } from "./stand-models.mjs";
 import { buildObject, OBJECT_DIMENSIONS } from "./object-models.mjs";
-import { PIXEL_STYLE, createPixelMaterials } from "./pixel-materials.mjs";
+import { PIXEL_STYLE, createPixelMaterials } from "./native-materials.mjs";
+import { coarseSides } from "./native-style.mjs";
 import {
   latheSurface,
   leafSurface,
-  beveledBoxSurface,
 } from "./model-surfaces.mjs";
 import { buildNeighborhood } from "./neighborhood.mjs";
 import { buildWashstation } from "./washstation.mjs";
@@ -42,7 +44,7 @@ import {
 } from "./spatial-layout.mjs";
 import { modelRandom as rng } from "./model-random.mjs";
 import { drawingBufferSize } from "./render-budget.mjs";
-import { paintScenePaving } from "./environment-paintings.mjs";
+import { buildWaterBowl } from "./water-models.mjs";
 import { populateWater } from "./water-life.mjs";
 import { wardrobe } from "../wardrobe.mjs";
 import { buildResident, buildPig } from "./residents.mjs";
@@ -142,15 +144,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       if (p.userData.foliage) return p.userData.foliage;
     return false;
   }
-  const cube = beveledBoxSurface(T),
+  const cube = new T.BoxGeometry(1, 1, 1),
     cylinderCache = new Map();
-  cube.setAttribute(
-    "paintBox",
-    new T.Float32BufferAttribute(
-      new Array(cube.attributes.position.count).fill(1),
-      1,
-    ),
-  );
   function group(parent, x = 0, y = 0, z = 0) {
     const g = new T.Group();
     g.position.set(x, y, z);
@@ -178,7 +173,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       rz,
     });
   }
-  function cyl(g, x, y, z, rt, rb, h, c, n = 12, kind = "plain") {
+  function cyl(g, x, y, z, rt, rb, h, c, n = 8, kind = "plain") {
+    n = coarseSides(n);
     const key = [rt, rb, h, n].join(",");
     let geo = cylinderCache.get(key);
     if (!geo) {
@@ -232,9 +228,9 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     );
   }
   const surfaceCache = new Map();
-  const roundGeo = new T.SphereGeometry(1, 10, 7).toNonIndexed();
+  const roundGeo = new T.SphereGeometry(1, 6, 3).toNonIndexed();
   roundGeo.computeVertexNormals();
-  const soilParticleGeo = new T.SphereGeometry(1, 14, 9).toNonIndexed();
+  const soilParticleGeo = new T.SphereGeometry(1, 6, 3).toNonIndexed();
   soilParticleGeo.computeVertexNormals();
   function surface(g, geo, x, y, z, w, h, d, color, kind = "paint") {
     primitives.push({
@@ -291,6 +287,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     shape = "round",
     ribs = 0,
   ) {
+    sides = coarseSides(sides, shape, ribs);
     const key = JSON.stringify([points, sides, shape, ribs]);
     if (!surfaceCache.has(key))
       surfaceCache.set(key, latheSurface(T, points, sides, shape, ribs));
@@ -358,88 +355,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       isFoliage(g) || "leaf",
     );
   }
-  function cactusBody(g, x, z, radius, height, ribs, tall, color, form = "") {
-    const plant = group(g, x, 0, z),
-      rr = radius;
-    const shell = group(plant);
-    shell.scale.set(radius, height, radius);
-    const points = tall
-      ? [
-          [0, 0],
-          [0.78, 0.025],
-          [1, 0.16],
-          [1, 0.66],
-          [0.87, 0.89],
-          [0.24, 1],
-          [0, 1],
-        ]
-      : [
-          [0, 0],
-          [0.57, 0.06],
-          [0.94, 0.28],
-          [1, 0.53],
-          [0.85, 0.81],
-          [0.25, 1],
-          [0, 1],
-        ];
-    profile(
-      shell,
-      points,
-      Math.max(6, ribs * 2),
-      color,
-      "cactus",
-      "round",
-      ribs,
-    );
-    // Raised areoles/thorns remain geometry; rib shading is painted into the surface.
-    for (let k = 0; k < ribs; k++)
-      for (let j = 1; j < 4; j++) {
-        const a = (k * Math.PI * 2) / ribs,
-          yy = (height * j) / 4;
-        const rad =
-          rr *
-          (tall
-            ? 1
-            : Math.sqrt(
-                Math.max(0.1, 1 - ((yy - height * 0.5) / (height * 0.53)) ** 2),
-              ));
-        const wool = /wool|hair|cluster/.test(form),
-          hook = /hooked/.test(form),
-          ink = hook ? "#a57357" : wool ? "#d9d7b7" : "#e0d0a3";
-        box(
-          plant,
-          Math.cos(a) * (rad + 0.026),
-          yy,
-          Math.sin(a) * (rad + 0.026),
-          wool ? 0.06 : 0.033,
-          wool ? 0.12 : 0.044,
-          0.033,
-          ink,
-        );
-        if (k % 2 === 0 && !/star|smooth|chin/.test(form))
-          beam(
-            plant,
-            [Math.cos(a) * rad, yy, Math.sin(a) * rad],
-            [
-              Math.cos(a) * (rad + 0.09),
-              yy + 0.025,
-              Math.sin(a) * (rad + 0.09),
-            ],
-            0.016,
-            ink,
-          );
-        if (hook && k % 2 === 0)
-          box(
-            plant,
-            Math.cos(a) * (rad + 0.09),
-            yy - 0.015,
-            Math.sin(a) * (rad + 0.09),
-            0.025,
-            0.06,
-            0.025,
-            ink,
-          );
-      }
+  function cactusBody(g, ...args) {
+    buildCactusBody({ group, profile }, g, ...args);
   }
   function leaf(g, start, end, width, color) {
     blade(g, start, end, width, color);
@@ -479,46 +396,11 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       radius = spec.radius;
     const height = pot(g, o.pot || p.defaultPot, radius, spec.height);
     const fol = group(g, 0, height - 0.044, 0);
-    const planter = pots.get(o.pot || p.defaultPot) || pots.get("terra");
-    const fill = g.userData.soilField;
-    for (const particle of soilParticles(radius, o.seed, {
-      dry: spec.grit,
-      rectangular: /box|bag/.test(planter.shape),
-      trough: planter.id === "trough",
-    })) {
-      const rectangular = /box|bag/.test(planter.shape),
-        xx = fill
-          ? particle.x * (rectangular ? 1 : fill.w / (radius * 2))
-          : particle.x,
-        zz = fill
-          ? particle.z * (rectangular ? 1 : fill.d / (radius * 2))
-          : particle.z,
-        yy = fill
-          ? fill.y +
-            soilPointHeight(
-              fill.shape,
-              xx / (fill.w / 2),
-              zz / (fill.d / 2),
-              fill.variant,
-            ) *
-              fill.amplitude
-          : height - 0.04;
-      ellipsoid(
-        g,
-        xx,
-        yy + particle.height * 0.45,
-        zz,
-        particle.size,
-        particle.height,
-        particle.size *
-          (0.67 + surfaceSeed(o.seed + Math.round(particle.x * 1000)) * 0.4),
-        particle.color,
-        "soil",
-      );
-    }
-    fol.userData.foliage = p.family === "dry" ? "leafRigid" : "leaf";
+    // Soil grains belong to the native square painting, rather than hundreds
+    // of sub-pixel spheres. The closed, uneven soil surface remains geometric.
+    fol.userData.foliage = plantPaintKind(p);
     buildFoliage(
-      { box, beam, ellipsoid, group, shade, rng, blade, cactusBody },
+      { box, beam, ellipsoid, group, shade, rng, blade, profile, cactusBody },
       fol,
       p,
       {
@@ -552,176 +434,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   }
   const dims = OBJECT_DIMENSIONS;
   function stand(g, w, d, h, type) {
-    const wooden =
-        /woodshelf|ladderstand|foamstand|lowplatform|bench|stool|pottingbench/.test(
-          type,
-        ),
-      c =
-        type === "basketstand"
-          ? "#c4c4ad"
-          : wooden
-            ? P.wood
-            : /shelf|wirestand|coveredstand/.test(type)
-              ? "#383c3d"
-              : P.metal,
-      ck = wooden ? "wood" : "metal",
-      thick = wooden ? 0.14 : 0.075;
-    if (type === "woodshelf" || type === "ladderstand") {
-      for (let level = 0; level < 3; level++) {
-        const surface = supportSurfaces({ type })[level];
-        const yy = surface.y - surface.thickness / 2,
-          zz = surface.z,
-          ww = surface.w;
-        for (const xx of [-ww * 0.46, ww * 0.46])
-          box(g, xx, yy / 2, zz, 0.11, yy, 0.11, P.woodDark, "wood");
-        for (let slat = 0; slat < 3; slat++)
-          box(
-            g,
-            0,
-            yy,
-            zz - d * 0.13 + slat * d * 0.13,
-            ww,
-            0.1,
-            d * 0.11,
-            shade(P.wood, [1, 0.91, 1.08][slat]),
-            "face-board",
-          );
-      }
-      for (const xx of [-w * 0.46, w * 0.46])
-        beam(
-          g,
-          [xx, 0.05, d * 0.47],
-          [xx, h, -d * 0.45],
-          0.1,
-          P.woodDark,
-          0.1,
-          "wood",
-        );
-      return;
-    }
-    const levels = supportSurfaces({ type })
-      .filter((s) => !s.container)
-      .map((s) => s.y - (s.thickness || 0.11) / 2);
-    for (const x of [-w * 0.45, w * 0.45])
-      for (const z of [-d * 0.43, d * 0.43]) {
-        box(
-          g,
-          x,
-          h * 0.48,
-          z,
-          thick,
-          h,
-          thick,
-          wooden ? P.woodDark : P.metalDark,
-          ck,
-        );
-        box(g, x, 0.04, z, thick * 1.7, 0.08, thick * 1.7, P.metalDark);
-      }
-    for (const yy of levels) {
-      if (wooden) {
-        for (let i = 0; i < 4; i++)
-          box(
-            g,
-            0,
-            yy,
-            -d * 0.42 + i * d * 0.28,
-            w,
-            0.11,
-            d * 0.22,
-            c,
-            "face-board",
-          );
-      } else {
-        box(g, 0, yy, -d * 0.46, w, 0.075, 0.09, c, ck);
-        box(g, 0, yy, d * 0.46, w, 0.075, 0.09, c, ck);
-        for (const x of [-w * 0.48, w * 0.48])
-          box(g, x, yy, 0, 0.075, 0.075, d, c, ck);
-        for (let i = 0; i < Math.round(w / 0.38); i++)
-          box(
-            g,
-            -w * 0.43 + i * 0.38,
-            yy,
-            0,
-            0.04,
-            0.04,
-            d * 0.88,
-            shade(c, 1.22),
-            "metal",
-          );
-        for (let j = 0; j < Math.round(d / 0.38); j++)
-          box(
-            g,
-            0,
-            yy,
-            -d * 0.4 + j * 0.38,
-            w * 0.9,
-            0.04,
-            0.04,
-            shade(c, 1.1),
-            "metal",
-          );
-      }
-    }
-    if (/shelf|tierstand|wirestand|coveredstand|plantcart/.test(type))
-      beam(
-        g,
-        [-w * 0.45, 0.2, d * 0.43],
-        [w * 0.45, h * 0.82, d * 0.43],
-        0.052,
-        P.metalDark,
-      );
-    if (type === "coveredstand") {
-      const cover = new T.Mesh(
-        new T.BoxGeometry(w * 1.05, h + 0.23, d * 1.08),
-        new T.MeshLambertMaterial({
-          color: "#bac6ae",
-          transparent: true,
-          opacity: 0.14,
-          depthWrite: false,
-          side: T.DoubleSide,
-        }),
-      );
-      cover.position.y = h * 0.5 + 0.07;
-      g.add(cover);
-      for (const x of [-w * 0.5, w * 0.5])
-        box(g, x, h + 0.15, 0, 0.07, 0.4, 0.07, P.metal);
-    }
-    if (type === "pottingbench") {
-      box(g, 0, h * 0.8, d * 0.3, w * 0.9, h * 0.22, d * 0.32, P.wood, "wood");
-      for (const x of [-w * 0.24, w * 0.24]) {
-        box(
-          g,
-          x,
-          h * 0.8,
-          d * 0.48,
-          w * 0.43,
-          h * 0.17,
-          0.07,
-          P.woodLight,
-          "wood",
-        );
-        box(g, x, h * 0.81, d * 0.53, 0.24, 0.04, 0.05, P.metalDark);
-      }
-      for (const x of [-w * 0.47, w * 0.47])
-        box(g, x, h + 0.3, -d * 0.46, 0.12, 0.64, 0.12, P.woodDark, "wood");
-      box(g, 0, h + 0.53, -d * 0.46, w, 0.25, 0.1, P.wood, "wood");
-    }
-    if (type === "plantcart") {
-      for (const x of [-w * 0.42, w * 0.42])
-        for (const z of [-d * 0.37, d * 0.37]) {
-          const wheel = group(g, x, 0.02, z);
-          wheel.rotation.z = Math.PI / 2;
-          cyl(wheel, 0, 0, 0, 0.13, 0.13, 0.08, P.metalDark, 8);
-        }
-      beam(
-        g,
-        [w * 0.48, h * 0.9, -d * 0.4],
-        [w * 0.48, h + 0.25, -d * 0.4],
-        0.07,
-        P.metal,
-      );
-      box(g, w * 0.48, h + 0.25, 0, 0.07, 0.07, d * 0.8, P.metal);
-    }
+    buildStand({ T, box, beam, group, cyl, shade, P, mat }, g, w, d, h, type);
   }
   function basin(g, w, d, h, type) {
     buildWashstation({ T, box, cyl, beam, group, mat, P }, g, w, d, h, type);
@@ -774,7 +487,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       box(g, 0, yy, d * 0.45, w, 0.085, 0.08, P.blue);
     const glass = new T.Mesh(
       new T.BoxGeometry(w * 0.88, h * 0.82, d * 0.8),
-      new T.MeshLambertMaterial({
+      new T.MeshBasicMaterial({
         color: "#86aba7",
         transparent: true,
         opacity: 0.2,
@@ -827,81 +540,13 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     water.position.y = level;
     g.add(water);
   }
-  function waterBowl(g, r, h, type = "pond") {
-    const ceramic = type === "medakabowl",
-      enamel = type === "goldfishbowl";
-    const color = ceramic ? "#92795a" : enamel ? P.white : P.blue;
-    const kind = ceramic ? "clay" : enamel ? "enamel" : "metal";
-    profile(
-      g,
-      [
-        [0.02, 0],
-        [0.65, 0],
-        [0.84, 0.18],
-        [1, 0.8],
-        [1.025, 1],
-        [0.9, 1],
-        [0.88, 0.83],
-        [0.72, 0.19],
-        [0.02, 0.19],
-        [0.02, 0],
-      ].map(([rr, y]) => [rr * r, y * h]),
-      16,
-      color,
-      kind,
-    );
-    const lip = group(g, 0, h, 0);
-    profile(
-      lip,
-      [
-        [r * 0.9, -0.018],
-        [r * 1.035, -0.018],
-        [r * 1.035, 0.035],
-        [r * 0.9, 0.035],
-        [r * 0.9, -0.018],
-      ],
-      16,
-      enamel ? P.blueDark : shade(color, 1.12),
-      kind,
-    );
-    cyl(
-      g,
-      0,
-      h * 0.18,
-      0,
-      r * 0.71,
-      r * 0.71,
-      0.02,
-      ceramic ? "#766d52" : P.blueDark,
-      16,
-    );
-    const level = h * 0.8;
-    fishSchool(g, r * 1.65, r * 1.65, level, enamel);
-    waterSurface(g, r * 1.75, r * 1.75, level, true);
-    for (const [x, z, length] of [
-      [-0.23, -0.32, 0.25],
-      [0.22, 0.19, 0.16],
-    ])
-      box(
-        g,
-        r * x,
-        level + 0.006,
-        r * z,
-        r * length,
-        0.008,
-        0.025,
-        "#b3c0ae",
-        "water",
-      );
-    if (ceramic)
-      for (let j = 0; j < 3; j++) {
-        const pad = group(g, r * 0.4, level + 0.012, (j - 1) * r * 0.18);
-        cyl(pad, 0, 0, 0, 0.09, 0.09, 0.01, "#7b9470", 8);
-      }
+  function waterBowl(g, r, h, type) {
+    buildWaterBowl({ profile, group, cyl, box, shade, fishSchool, waterSurface, P }, g, r, h, type);
   }
   function modelApi() {
     return {
       T,
+      mat,
       box,
       cyl,
       beam,
@@ -947,21 +592,6 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     points.forEach(([x, z], i) => (i ? s.lineTo(x, z) : s.moveTo(x, z)));
     s.closePath();
     return s;
-  }
-  function floorTexture(name) {
-    const c = document.createElement("canvas");
-    c.width = (640 * PIXEL_STYLE.texelsPerUnit) / 16;
-    c.height = (520 * PIXEL_STYLE.texelsPerUnit) / 16;
-    paintScenePaving(c.getContext("2d"), c.width, c.height, {
-      scene: name,
-      texelsPerUnit: PIXEL_STYLE.texelsPerUnit,
-      points: SCENES[name].points,
-    });
-    const tex = new T.CanvasTexture(c);
-    tex.magFilter = tex.minFilter = T.NearestFilter;
-    tex.generateMipmaps = false;
-    tex.colorSpace = T.SRGBColorSpace;
-    return tex;
   }
   const sourcePolygons = {
     north: SCENES.north.points,
@@ -1046,10 +676,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     faceGeo.computeVertexNormals();
     const top = new T.Mesh(
       faceGeo,
-      new T.MeshLambertMaterial({
-        map: floorTexture(name),
-        side: T.DoubleSide,
-      }),
+      mat(P.tile, "paving"),
     );
     top.position.y = 0.015;
     top.receiveShadow = true;
@@ -1398,45 +1025,10 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     box(root, 0, 2.43, -d / 2, 3.6, 0.14, 0.15, "#c6bea4", "room-wall");
     box(root, -w / 2, 1.25, 0, 0.15, 2.5, d, "#b7ae95", "room-wall");
     box(root, w / 2, 0.23, 0, 0.15, 0.45, d, "#b7ae95", "room-wall");
-    // Unequal staggered joints and independent board grain, at the same floor height.
-    for (let j = 0, z = -6.5; z < 7; j++, z += 1) {
-      const offset = (surfaceSeed(21191 + j * 719) - 0.5) * 2.1;
-      const cuts = [-5, -1.8 + offset, 2.0 + offset * 0.37, 5];
-      for (let k = 1; k < cuts.length; k++) {
-        const x = (cuts[k] + cuts[k - 1]) / 2,
-          width = cuts[k] - cuts[k - 1] - 0.028;
-        const shades = ["#b09a75", "#ba9e75", "#a98e68", "#b89c71", "#b2a180"];
-        box(
-          root,
-          x,
-          0.003,
-          z,
-          width,
-          0.015,
-          0.975,
-          shades[
-            Math.floor(surfaceSeed(j * 719 + k * 37 + 91) * shades.length)
-          ],
-          "wood",
-        );
-        if (k > 1)
-          box(
-            root,
-            cuts[k - 1] - 0.014,
-            0.004,
-            z,
-            0.022,
-            0.015,
-            0.975,
-            "#736449",
-            "wood",
-          );
-      }
-      box(root, 0, 0.003, z - 0.495, w, 0.015, 0.025, "#736449", "wood");
-    }
+    box(root, 0, 0.003, 0, w, 0.015, d, "#b2a180", "wood");
     const glass = new T.Mesh(
       new T.PlaneGeometry(3.4, 1.5),
-      new T.MeshLambertMaterial({
+      new T.MeshBasicMaterial({
         color: "#aabfc6",
         transparent: true,
         opacity: 0.16,
@@ -1478,8 +1070,6 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   function compileInstances() {
     scene.updateMatrixWorld(true);
     const buckets = new Map(),
-      partVariations = new Map(),
-      contactGroups = new Map(),
       dummy = new T.Object3D(),
       worldMat = new T.Matrix4();
     for (const p of primitives) {
@@ -1493,8 +1083,6 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       while (root.parent && root.parent !== scene && !root.userData.animated)
         root = root.parent;
       p.matrix = worldMat.clone();
-      if (!contactGroups.has(root)) contactGroups.set(root, []);
-      contactGroups.get(root).push(p);
       const cast =
         root.name !== "city" &&
         !(p.geo === cube && Math.min(p.w, p.h, p.d) < 0.065);
@@ -1511,9 +1099,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
           cast,
           matrices: [],
           colors: [],
-          parts: [],
           seeds: [],
-          variations: [],
         };
         buckets.set(key, b);
       }
@@ -1521,23 +1107,9 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       while (painted.parent && painted.userData.paintSeed === undefined)
         painted = painted.parent;
       b.seeds.push(painted.userData.paintSeed || 0);
-      // Repeated components with the same dimensions receive consecutive paint
-      // variants: shelf tiers, slats and drawer fronts never sample one stamp.
-      if (!partVariations.has(root)) partVariations.set(root, new Map());
-      const family = [p.m.userData.kind, p.geo.uuid, p.w, p.h, p.d].join("|"),
-        counts = partVariations.get(root);
-      const variant = counts.get(family) || 0;
-      counts.set(family, variant + 1);
-      b.variations.push(variant);
-      b.parts.push(p);
       b.matrices.push(worldMat.clone());
       b.colors.push(p.m.userData.window ? "#ffffff" : p.color);
     }
-    const contacts = new Map();
-    for (const [root, parts] of contactGroups)
-      if (root.name !== "city")
-        for (const [p, mask] of cubeContactPaint(T, parts, cube))
-          contacts.set(p, mask);
     for (const b of buckets.values()) {
       const geo = new T.BufferGeometry();
       // Share immutable CPU arrays, but own the GPU attributes: disposing a
@@ -1560,30 +1132,6 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         "paintSeed",
         new T.InstancedBufferAttribute(new Float32Array(b.seeds), 1),
       );
-      geo.setAttribute(
-        "paintVariant",
-        new T.InstancedBufferAttribute(new Float32Array(b.variations), 1),
-      );
-      if (b.geo === cube) {
-        geo.setAttribute(
-          "paintShadePositive",
-          new T.InstancedBufferAttribute(
-            new Float32Array(
-              b.parts.flatMap((p) => contacts.get(p)?.positive || [0, 0, 0]),
-            ),
-            3,
-          ),
-        );
-        geo.setAttribute(
-          "paintShadeNegative",
-          new T.InstancedBufferAttribute(
-            new Float32Array(
-              b.parts.flatMap((p) => contacts.get(p)?.negative || [0, 0, 0]),
-            ),
-            3,
-          ),
-        );
-      }
       const inst = new T.InstancedMesh(geo, b.m, b.matrices.length);
       const inv = b.root.matrixWorld.clone().invert();
       b.matrices.forEach(
@@ -2228,6 +1776,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     }
     windTime.value = time;
     windPower.value = weatherMotion.wind;
+    style.updateAtmosphere(a, current === "room");
     surfaceWeather.wet.value = current === "room" ? 0 : a.wetness;
     surfaceWeather.rain.value = current === "room" ? 0 : a.rain;
     for (const f of waterAnimations) {
@@ -2456,8 +2005,18 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     renderer.shadowMap.needsUpdate = true;
   }
   const spriteCache = new Map(),
-    catalogInfo = new Map();
+    catalogInfo = new Map(),
+    waitingPortraits = new WeakMap();
   function thumbnail(o, output, asynchronous = false) {
+    // Never cache an untextured portrait while the single native book loads.
+    if (!style.loaded) {
+      const request = Symbol();
+      waitingPortraits.set(output, request);
+      return style.ready.then(() => {
+        if (waitingPortraits.get(output) === request)
+          return thumbnail(o, output, asynchronous);
+      });
+    }
     const a = asset(o.type),
       key = JSON.stringify([
         o.type,
@@ -2483,8 +2042,10 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     const bounds = new T.Box3().setFromObject(g),
       size = bounds.getSize(new T.Vector3()),
       center = bounds.getCenter(new T.Vector3());
+    let meshes=0;g.traverse(node=>{if(node.isMesh&&!node.isInstancedMesh)meshes++;});
     catalogInfo.set(o.type, {
       type: o.type,
+      meshes,
       extent: [size.x, size.y, size.z],
       instances: batches.slice(start).reduce((n, b) => n + b.count, 0),
       sourceCount:
@@ -2519,9 +2080,11 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     const sceneWindTime = windTime.value,
       sceneWindPower = windPower.value,
       sceneWet = surfaceWeather.wet.value,
-      sceneRain = surfaceWeather.rain.value;
+      sceneRain = surfaceWeather.rain.value,
+      sceneTone = style.tone.value.clone();
     windTime.value = windPower.value = 0;
     surfaceWeather.wet.value = surfaceWeather.rain.value = 0;
+    style.updateAtmosphere({ night: 0 });
     const sceneShadowDirty = renderer.shadowMap.needsUpdate;
     try {
       renderer.render(stage, cam);
@@ -2531,6 +2094,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       windPower.value = sceneWindPower;
       surfaceWeather.wet.value = sceneWet;
       surfaceWeather.rain.value = sceneRain;
+      style.tone.value.copy(sceneTone);
     }
     const pixels = new Uint8Array(output.width * output.height * 4);
     function finish() {
@@ -2672,7 +2236,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
           time: windTime.value,
           strength: windPower.value,
           programs: (renderer.info.programs || []).filter((p) =>
-            p.cacheKey.includes("wind-"),
+            /native-pixelorama-metric-v2-(leaf|rigid)/.test(p.cacheKey),
           ).length,
         },
         controls,

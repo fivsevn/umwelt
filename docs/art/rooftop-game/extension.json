@@ -1,0 +1,14 @@
+{
+  "name": "UmweltGameBook",
+  "display_name": "Umwelt native game material authoring",
+  "description": "Native 1px Pencil stroke plan.",
+  "author": "\u4e94\u6708\u4e03\u65e5",
+  "version": "0.1",
+  "supported_api_versions": [
+    8
+  ],
+  "license": "MIT",
+  "nodes": [
+    "Main.tscn"
+  ]
+}

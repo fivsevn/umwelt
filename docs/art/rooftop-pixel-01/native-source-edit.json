@@ -1,0 +1,42 @@
+{
+  "revision": 4,
+  "blender": "4.5.14 LTS",
+  "opened_existing_source": true,
+  "input_blend_sha256": "85699bcb781c36b1a2ff89a6c6cdc49ef9cb8dafcc892f246108b08c88e55cad",
+  "geometry_transforms_lights_camera_unchanged": true,
+  "source_geometry_signature": "c993d7f1f5c9b53a391e86e4a78f79fef8b9ad7df215d23fbd247ad82ef85c9b",
+  "edited_uv_objects": [
+    {
+      "object": "Wall / left plaster pier",
+      "tile": 4,
+      "vertical_face_texels_per_metre": 25
+    },
+    {
+      "object": "Wall / right plaster pier",
+      "tile": 15,
+      "vertical_face_texels_per_metre": 25
+    },
+    {
+      "object": "Wall / lintel",
+      "tile": 4,
+      "vertical_face_texels_per_metre": 25
+    },
+    {
+      "object": "Wall / short return",
+      "tile": 15,
+      "vertical_face_texels_per_metre": 25
+    }
+  ],
+  "packed_atlas_dimensions": [
+    256,
+    256
+  ],
+  "separate_editable_parts_preserved": true,
+  "source_saved_before_temporary_export_copies": true,
+  "compared_to_previous_saved_blend": true,
+  "all_original_objects_and_meshes_preserved": true,
+  "object_count": 356,
+  "mesh_count": 171,
+  "only_four_original_wall_uv_meshes_changed": true,
+  "packed_atlas_exact_match_to_pixelorama_export": true
+}

@@ -1,0 +1,39 @@
+{
+  "software": "Blender",
+  "edited_existing_source": true,
+  "revision": 2,
+  "version": "4.5.14 LTS",
+  "assets": 304,
+  "triangles": 471968,
+  "texture_sha256": "f559688a8b04e40ea959f205ae9b361821581b93fd7ee577ec11791220367b7f",
+  "native_source_bytes": 22260971,
+  "grid": {
+    "texels_per_unit": 8,
+    "nearest": true,
+    "framebuffer_downsampling": false
+  },
+  "renders": [
+    {
+      "name": "rack-and-plants",
+      "path": "review/rack-and-plants.png",
+      "bytes": 1109476
+    },
+    {
+      "name": "rack-openings",
+      "path": "review/rack-openings.png",
+      "bytes": 998187
+    },
+    {
+      "name": "plants",
+      "path": "review/plants.png",
+      "bytes": 1104932
+    },
+    {
+      "name": "vessels",
+      "path": "review/vessels.png",
+      "bytes": 1053530
+    }
+  ],
+  "view_scope": "Software asset reviews, not browser game screenshots",
+  "runtime_geometry": "Shared builders remain the published source of mesh topology; editing this native library requires a subsequent export/integration."
+}
