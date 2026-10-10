@@ -11,7 +11,9 @@
 
 .background-stage.game-model-stage .view-controls{position:static;display:flex!important;flex-basis:100%;max-width:100%;padding:0;background:transparent}
 .game-model-stage .background-review .station-controls{gap:6px}
-.game-model-stage .background-review .station-controls button{min-height:32px;min-width:60px;padding:6px 10px;background:#e0e2d4;color:#283b32;border:1px solid #879588;font-size:12px;box-shadow:0 2px #66796b}
+.game-model-stage .background-review .station-controls button{min-height:0;min-width:0;padding:5px 9px;background:#e0e2d4e8;color:inherit;border:1px solid #9ca59a;font:inherit;box-shadow:0 2px #c1bda9}
 .game-model-stage .background-review .station-controls button:hover,.game-model-stage .background-review .station-controls button:active{background:#4e5a4c;color:#f0edda;border-color:#4e5a4c}
+@media(max-width:600px){.game-model-stage .background-review .station-controls{gap:4px}.game-model-stage .background-review .station-controls button{padding:4px 6px}}
 
 .background-stage.game-model-stage .corner-cards{bottom:max(56px,calc(env(safe-area-inset-bottom) + 56px))}
+.background-stage .observation-notebook{position:fixed;z-index:16;top:calc(var(--review-controls-bottom,130px) + 8px);max-height:calc(100vh - var(--review-controls-bottom,130px) - 24px);max-height:calc(100dvh - var(--review-controls-bottom,130px) - 24px - env(safe-area-inset-bottom))}
