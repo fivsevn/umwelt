@@ -2042,8 +2042,10 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     const bounds = new T.Box3().setFromObject(g),
       size = bounds.getSize(new T.Vector3()),
       center = bounds.getCenter(new T.Vector3());
+    let meshes=0;g.traverse(node=>{if(node.isMesh&&!node.isInstancedMesh)meshes++;});
     catalogInfo.set(o.type, {
       type: o.type,
+      meshes,
       extent: [size.x, size.y, size.z],
       instances: batches.slice(start).reduce((n, b) => n + b.count, 0),
       sourceCount:

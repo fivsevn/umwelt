@@ -35,14 +35,14 @@ export const NATIVE_BOOK = {
     "height": 32,
     "mode": "field"
   },
-  "wood": {
+  "roof": {
     "x": 160,
     "y": 0,
     "width": 32,
     "height": 32,
     "mode": "field"
   },
-  "roof": {
+  "wood": {
     "x": 192,
     "y": 0,
     "width": 32,

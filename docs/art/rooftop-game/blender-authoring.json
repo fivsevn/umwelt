@@ -5,8 +5,8 @@
   "version": "4.5.14 LTS",
   "assets": 304,
   "triangles": 471968,
-  "texture_sha256": "1ca64b23b64ddc4069c696d82e80b31eff821cc09d9e5e5b67676fc6dc67c187",
-  "native_source_bytes": 22254289,
+  "texture_sha256": "f559688a8b04e40ea959f205ae9b361821581b93fd7ee577ec11791220367b7f",
+  "native_source_bytes": 22260971,
   "grid": {
     "texels_per_unit": 8,
     "nearest": true,
@@ -16,7 +16,7 @@
     {
       "name": "rack-and-plants",
       "path": "review/rack-and-plants.png",
-      "bytes": 1109612
+      "bytes": 1109476
     },
     {
       "name": "rack-openings",
@@ -26,7 +26,7 @@
     {
       "name": "plants",
       "path": "review/plants.png",
-      "bytes": 1104922
+      "bytes": 1104932
     },
     {
       "name": "vessels",

@@ -15,7 +15,7 @@
 | `book-layout.json` | 图集坐标与用途 |
 | `review/` | 实际 Blender 渲染，未经过图像生成或后期修饰 |
 
-发布贴图 `rooftop/assets/pixel/material-book.png` 为 **26,185 B / 25.6 KiB**，PXO 为 **49,186 B / 48.0 KiB**。Blend 与各审阅图体积见 `blender-authoring.json`。原样板的六个 GLB 与独立预览继续保留；新图集由全游戏共享。
+发布贴图 `rooftop/assets/pixel/material-book.png` 为 **26,604 B / 26.0 KiB**，PXO 为 **49,799 B / 48.6 KiB**。Blend 与各审阅图体积见 `blender-authoring.json`。原样板的六个 GLB 与独立预览继续保留；新图集由全游戏共享。
 
 运行网格仍来自现有 Three.js 共享构造。Blender 库从相同构造导出，固定种子 1835、植物使用默认盆；手改后必须另做导出和接入。原稿库不是玩家布局副本，也不会自动覆盖玩家存档。
 

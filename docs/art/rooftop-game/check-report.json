@@ -8,17 +8,17 @@
       512
     ],
     "fields": 214,
-    "native_pencil_strokes": 61765,
-    "png_bytes": 26185,
-    "pxo_bytes": 49186,
-    "png_sha256": "1ca64b23b64ddc4069c696d82e80b31eff821cc09d9e5e5b67676fc6dc67c187"
+    "native_pencil_strokes": 62349,
+    "png_bytes": 26604,
+    "pxo_bytes": 49799,
+    "png_sha256": "f559688a8b04e40ea959f205ae9b361821581b93fd7ee577ec11791220367b7f"
   },
   "blender_reopen": {
     "reopened_by_actual_blender": true,
     "assets": 304,
     "triangles": 471968,
     "packed_png_equals_pixelorama_export": true,
-    "texture_sha256": "1ca64b23b64ddc4069c696d82e80b31eff821cc09d9e5e5b67676fc6dc67c187",
+    "texture_sha256": "f559688a8b04e40ea959f205ae9b361821581b93fd7ee577ec11791220367b7f",
     "editable_uv_and_surface_grid_attributes": true,
     "native_uv_metric_lengths_verified": true
   },
@@ -31,9 +31,10 @@
   "unchanged_data": "Only shared 3D modules, authored runtime texture, authoring documentation and relevant tests changed; gameplay data, saves, room, garage and narrative sources retained.",
   "browser_verification": {
     "local_status": "blocked_by_saved_browser_permission",
-    "github_regression": "awaiting existing Actions result",
-    "webgl_shader_compile": "awaiting existing Actions result",
-    "github_regression_run": "https://github.com/fivsevn/umwelt/actions/runs/38012706949"
+    "previous_regression_run": "https://github.com/fivsevn/umwelt/actions/runs/38012887054",
+    "previous_runtime_suites_passed": 12,
+    "updated_suites": "model mesh inventory and unique native atlas requests",
+    "github_regression": "pending final corrected source run"
   },
   "production": "User requested deployment; pending existing regression and final Pages artifact checks.",
   "review_images": "Actual Blender asset-library renders; not browser game screenshots.",

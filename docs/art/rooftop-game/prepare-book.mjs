@@ -26,7 +26,12 @@ function sampleField(name, tile, mode = "field") {
 }
 sampleField("wall",4); sampleField("room-wall",15); sampleField("paving",6);
 sampleField("metal",2); sampleField("stone",7);
-const wood=sampleField("wood",14), roof=sampleField("roof",5);
+const roof=sampleField("roof",11);
+// Door panels occupy atlas cells 5/14; timber uses its own quiet native grain.
+const wood=field("wood","field",["#ffffff","#ededed","#cccccc","#ababab"]);
+for(let x=0;x<32;x+=8){rect(wood,x,0,1,32,3);rect(wood,x+1,0,1,32,1);}
+patch(wood,3,6,["222...",".2222.","..2222"],2);
+patch(wood,20,22,["1111..",".11111","..1111"],1);
 sampleField("clay",0); sampleField("clay-rim",1); sampleField("soil",8);
 const brick=field("brick");
 for(let y=0;y<32;y+=8){rect(brick,0,y,32,1,3);for(let x=(y%16?8:0);x<32;x+=16)rect(brick,x,y,1,8,3);}
