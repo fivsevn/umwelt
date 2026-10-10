@@ -27,8 +27,14 @@ const checkBounds = async page => {
   assert.ok(g.wanted.zoom >= g.zoomLimits.min - 1e-6 && g.wanted.zoom <= g.zoomLimits.max + 1e-6);
 };
 const checkScopeCircle = async (page, label) => {
-  // The overlay updates at 250 ms; inspect its painted opening after a resize.
-  await page.waitForTimeout(300);
+  // Wait for the actual resized bitmap; the periodic update can be delayed in CI.
+  await page.waitForFunction(() => {
+    const mask = document.querySelector(".scope-mask"), rect = mask.getBoundingClientRect(),
+      scope = document.querySelector(".neighbor-scope").getBoundingClientRect(),
+      engraving = document.querySelector(".scope-engraving");
+    return mask.width === Math.ceil(rect.width / 2) && mask.height === Math.ceil(rect.height / 2)
+      && engraving.width === Math.ceil(scope.width / 2);
+  }, null, { timeout: 10000 });
   const lens = await page.evaluate(() => {
     const mask = document.querySelector(".scope-mask"), rect = mask.getBoundingClientRect(),
       scope = document.querySelector(".neighbor-scope").getBoundingClientRect(),
