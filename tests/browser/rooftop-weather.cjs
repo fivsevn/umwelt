@@ -210,7 +210,7 @@ const base = process.env.BASE_URL || "http://127.0.0.1:8773",
       "cloudy",
     );
     assert.equal(await p.locator("#weatherSelect").count(), 0);
-    await p.locator("#sceneDoor").click();
+    await p.locator("#sceneCard").click();
     assert.equal(await p.evaluate(() => rooftop.scene), "south");
     assert.ok(
       await p.evaluate(() => {
@@ -222,7 +222,7 @@ const base = process.env.BASE_URL || "http://127.0.0.1:8773",
     await p.screenshot({
       path: out + "/weather-public-south-" + engine + ".png",
     });
-    await p.locator("#sceneDoor").click();
+    await p.locator("#sceneCard").click();
     assert.equal(await p.evaluate(() => rooftop.scene), "north");
     assert.deepEqual(errors, []);
     console.log(

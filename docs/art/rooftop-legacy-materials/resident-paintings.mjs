@@ -1,4 +1,4 @@
-import { PIGMENT_RAMP, pointInk } from "./face-paintings.mjs";
+import { PIGMENT_RAMP, pointInk } from "../../../rooftop/3d/face-paintings.mjs";
 const cache = new Map();
 export const RESIDENT_PAINT_KINDS = ["skin", "hair", "actor-cloth"];
 export function residentPainting(kind) {

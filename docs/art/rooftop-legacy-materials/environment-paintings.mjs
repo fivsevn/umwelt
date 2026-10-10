@@ -1,4 +1,4 @@
-import { pointInk, pointThreshold, PIGMENT_RAMP } from "./face-paintings.mjs";
+import { pointInk, pointThreshold, PIGMENT_RAMP } from "../../../rooftop/3d/face-paintings.mjs";
 
 const cache = new Map(),
   gaussian = (x, y, cx, cy, rx, ry) =>
@@ -42,7 +42,7 @@ export function environmentPainting(kind) {
             if (n < 0.04) tone -= 0.75;
             else if (n > 0.95) tone += 0.45;
           } else if (kind === "facade-tile") {
-            // Narrow ceramic wall tiles seen on Guoliyuan walk-ups; restrained grout.
+            // Narrow ceramic wall tiles on older walk-ups; restrained grout.
             const lx = x % 3,
               ly = y % 7,
               fired = pointThreshold(

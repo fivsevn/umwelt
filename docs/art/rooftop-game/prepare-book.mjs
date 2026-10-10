@@ -1,6 +1,6 @@
 // Authoring plans contain integer Pencil strokes, not generated raster files.
 import { writeFileSync, mkdirSync, readFileSync } from "node:fs";
-import { pixelPainting, TEXTURE_KINDS } from "../../../rooftop/3d/pixel-materials.mjs";
+import { pixelPainting, TEXTURE_KINDS } from "../rooftop-legacy-materials/pixel-materials.mjs";
 import { PLANTS, POTS } from "../../../rooftop/botany.mjs";
 import { ASSETS } from "../../../rooftop/scene.mjs";
 import { objectReferences } from "../../../rooftop/object-references.mjs";

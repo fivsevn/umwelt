@@ -1,4 +1,4 @@
-import { pointInk, pointThreshold } from "./face-paintings.mjs";
+import { pointInk, pointThreshold } from "../../../rooftop/3d/face-paintings.mjs";
 // Small hand-authored clusters, generated in code. Every mark belongs to the
 // material: wood runs along the board, leaves carry a midrib, metal wears at seams.
 export const PAINT_RAMPS = {
