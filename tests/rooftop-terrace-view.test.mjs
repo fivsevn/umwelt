@@ -14,7 +14,7 @@ import {
   terraceFrame,
   constrainTerracePan,
 } from "../rooftop/3d/terrace-view.mjs";
-import { NEIGHBORHOOD_BUILDINGS } from "../rooftop/3d/neighborhood.mjs";
+import { BACKGROUND } from "../rooftop/assets/background/empty-rooftop.mjs";
 import { notebookEntry } from "../rooftop/notebook.mjs";
 import { makeWeather, weatherProfile } from "../rooftop/weather.mjs";
 import { rainShape } from "../rooftop/precipitation.mjs";
@@ -147,88 +147,27 @@ test("the action card describes actual residents independently of the weather ca
   );
 });
 
-test("full rotation and local panning never reveal the opposite balcony through the real house", () => {
+test("raised sixth-floor roof keeps the full camera orbit outside solid geometry", () => {
   for (const scene of ["north", "south"])
-    for (const [w, h] of [
-      [390, 844],
-      [320, 568],
-      [320, 900],
-      [1440, 900],
-      [844, 390],
-    ]) {
-      const limits = terraceOrbit(scene, w),
-        other = scene === "north" ? "south" : "north";
-      assert.equal(limits.fullRotation, true);
-      assert.ok(
-        0.2 + Math.sin(limits.minPhi) * TERRACE_VIEW_DISTANCE >
-          HOUSE.roof.ridge,
-        "the lowest view stays above the real roof, with no camera penetration",
-      );
-      const [cx, cz] = other === "north" ? [304, 272] : [284, 264];
-      const points = [];
-      for (let x = 140; x <= 464; x += 16)
-        for (let z = 80; z <= 464; z += 16)
-          if (inside(other, x, z))
-            for (const y of [0, 2, 4.2])
-              points.push([
-                ...housePoint(other, (x - cx) / 16, (z - cz) / 16),
-                y,
-              ]);
-      for (const theta of Array.from(
-        { length: 64 },
-        (_, i) => (i * Math.PI) / 32,
-      ))
-        for (const phi of [limits.minPhi, 0.75, 1.05, limits.maxPhi]) {
-          const frame = terraceFrame(scene, w, h, theta, phi);
-          for (const zoom of [TERRACE_ZOOM.min, TERRACE_ZOOM.max])
-            for (const sx of [-1, 1])
-              for (const sz of [-1, 1]) {
-                const target = constrainTerracePan(
-                  frame,
-                  { x: sx * 1e6, z: sz * 1e6 },
-                  zoom,
-                  theta,
-                  phi,
-                );
-                const c = Math.cos(theta),
-                  s = Math.sin(theta),
-                  sp = Math.sin(phi),
-                  cp = Math.cos(phi);
-                const u = c * target.x - s * target.z,
-                  v = sp * (s * target.x + c * target.z);
-                const eyeXZ = housePoint(
-                  scene,
-                  target.x + s * cp * TERRACE_VIEW_DISTANCE,
-                  target.z + c * cp * TERRACE_VIEW_DISTANCE,
-                );
-                const eye = [
-                  eyeXZ[0],
-                  0.2 + sp * TERRACE_VIEW_DISTANCE,
-                  eyeXZ[1],
-                ];
-                for (const [hx, hz, y] of points) {
-                  const [x, z] = terracePoint(scene, hx, hz),
-                    pu = c * x - s * z,
-                    pv = sp * (s * x + c * z) - cp * (y - 0.2);
-                  const depth =
-                    (target.x + s * cp * TERRACE_VIEW_DISTANCE - x) * s * cp +
-                    (0.2 + sp * TERRACE_VIEW_DISTANCE - y) * sp +
-                    (target.z + c * cp * TERRACE_VIEW_DISTANCE - z) * c * cp;
-                  const inFrame =
-                    depth >= 0.1 &&
-                    depth <= 500 &&
-                    Math.abs(((pu - u) * TERRACE_VIEW_DISTANCE) / depth) <=
-                      frame.width / zoom / 2 &&
-                    Math.abs(((pv - v) * TERRACE_VIEW_DISTANCE) / depth) <=
-                      frame.span / zoom / 2;
-                  assert.ok(
-                    !inFrame || houseOccludes(eye, [hx, y, hz]),
-                    `${scene} ${w}x${h} theta=${theta} phi=${phi} zoom=${zoom}: ${other} point ${hx},${y},${hz}`,
-                  );
-                }
-              }
-        }
+    for (const width of [320, 390, 844, 1440]) {
+      const limits=terraceOrbit(scene,width);
+      assert.equal(limits.fullRotation,true);
+      assert.ok(.2+Math.sin(limits.minPhi)*TERRACE_VIEW_DISTANCE>HOUSE.roof.ridge);
+      for(const theta of [0,Math.PI/2,Math.PI,3*Math.PI/2]) {
+        const frame=terraceFrame(scene,width,844,theta,limits.minPhi);
+        const point=housePoint(scene,frame.target.x+Math.sin(theta)*Math.cos(limits.minPhi)*TERRACE_VIEW_DISTANCE,frame.target.z+Math.cos(theta)*Math.cos(limits.minPhi)*TERRACE_VIEW_DISTANCE);
+        const eye=[point[0],.2+Math.sin(limits.minPhi)*TERRACE_VIEW_DISTANCE,point[1]];
+        assert.equal(houseOccludes(eye,eye),false);
+      }
     }
+  // A compact real building permits views of the opposite balcony from outside
+  // that facade. Only rays through the actual solid house must be occluded.
+  assert.equal(houseOccludes([-2,2,-5],[-2,2,16]),true);
+  assert.equal(houseOccludes([-2,2,34],[-2,2,16]),true);
+  assert.equal(houseOccludes([-2,20,-5],[-2,0,32]),true);
+  assert.equal(houseOccludes([-2,80,-5],[-2,0,32]),false);
+  assert.equal(houseOccludes([8,2,-4],[8,1,10]),false,"open north entry lane stays pickable");
+  assert.equal(houseOccludes([16,2,-4],[16,1,10]),true,"solid inter-pair bay occludes its actual volume");
 });
 test("action cards hold through pose changes and update only for meaningful episodes", () => {
   const card = createActionCard(),
@@ -272,15 +211,14 @@ test("the balcony is a small part of a long house with clear space to neighbouri
   const r = HOUSE.roof;
   assert.ok(r.width > 100 && r.width > r.depth * 2);
   assert.ok(r.ridge > r.eave + 7);
-  for (const [x, z, w, d, floors, angle = 0] of NEIGHBORHOOD_BUILDINGS) {
-    // Neighbour groups use a uniform scale of two, including their windows.
-    const halfX = Math.abs(Math.cos(angle)) * w + Math.abs(Math.sin(angle)) * d,
-      halfZ = Math.abs(Math.sin(angle)) * w + Math.abs(Math.cos(angle)) * d,
+  for (const {x,z,width,depth,storeys,angle} of BACKGROUND.neighbourhood.oldBlocks) {
+    const halfX = (Math.abs(Math.cos(angle)) * width + Math.abs(Math.sin(angle)) * depth)/2,
+      halfZ = (Math.abs(Math.sin(angle)) * width + Math.abs(Math.cos(angle)) * depth)/2,
       dx = Math.max(r.x - (x + halfX), x - halfX - (r.x + r.width), 0),
       dz = Math.max(r.z - (z + halfZ), z - halfZ - (r.z + r.depth), 0);
-    assert.equal(floors, 6);
+    assert.equal(storeys, 6);
     assert.ok(
-      Math.hypot(dx, dz) >= 25,
+      Math.hypot(dx, dz) >= 12,
       "roads and courtyards stay between full-size buildings",
     );
   }

@@ -62,6 +62,12 @@ import {
 } from "./scene.mjs";
 const $ = (id) => document.getElementById(id),
   editor = document.body.classList.contains("editor");
+const backgroundStage = new URLSearchParams(location.search).get("stage") === "background";
+const previewStorage = {
+  getItem: () => sessionStorage.getItem("umwelt-rooftop-background-preview-v1"),
+  setItem: (_key, value) => sessionStorage.setItem("umwelt-rooftop-background-preview-v1", value),
+};
+const emptyTerraces = (value) => ({ ...value, scenes: { ...value.scenes, north: [], south: [] } });
 const edits = createEditHistory();
 let scene =
     editor && new URLSearchParams(location.search).get("scene") === "room"
@@ -81,10 +87,20 @@ try {
     editor ||
     new URLSearchParams(location.search).get("layout") === "local"
   ) {
-    layout = readLayout();
+    layout = readLayout(backgroundStage ? previewStorage : localStorage);
   }
 } catch {
   if (editor) $("message").textContent = "本机布局无法读取，已恢复初始陈列。";
+}
+if (backgroundStage && (!previewStorage.getItem() || (!editor && new URLSearchParams(location.search).get("layout") !== "local"))) layout = emptyTerraces(layout);
+if (backgroundStage) {
+  document.body.classList.add("background-stage");
+  const reviewStyle = document.createElement("link");reviewStyle.rel="stylesheet";
+  reviewStyle.href=new URL("./background-review.css",import.meta.url).href;document.head.append(reviewStyle);
+  if (editor && $("preview")) $("preview").href="../?stage=background&layout=local";
+  const controls = document.createElement("div"); controls.className="background-review";
+  controls.innerHTML='<span>空天台 · 本地预览</span><button type="button" id="reviewScene">看南阳台</button><button type="button" id="reviewView">看楼排</button><button type="button" id="reviewOutlook">看远处</button><button type="button" id="reviewNotebook">东东的手帐</button><select id="reviewWeather" aria-label="预览天气"></select><select id="reviewTime" aria-label="预览时间"></select><select id="reviewSeason" aria-label="预览季节"></select>';
+  document.querySelector(".roof-world")?.append(controls);
 }
 if (!editor) attachGardenMusic($("musicToggle"));
 let garden3d = null,
@@ -97,6 +113,8 @@ try {
     editor ? null : $("sceneDoor"),
     {
       scene,
+      backgroundStage,
+      hideActors: backgroundStage,
       controls: editor ? "edit" : "pan",
       initialTheta: editor ? undefined : -0.34,
       selected: () => selected,
@@ -147,7 +165,7 @@ const zooms = { room: 1, north: 1, south: 1 },
   pointers = new Map();
 let pinch = null;
 const backdrop = document.createElement("canvas");
-const WEATHER_KEY = "umwelt-rooftop-weather-v1";
+const WEATHER_KEY = backgroundStage ? "umwelt-rooftop-background-weather-preview-v1" : "umwelt-rooftop-weather-v1";
 let weatherChoices = { condition: "clear", phase: "day" };
 if (editor)
   try {
@@ -208,6 +226,26 @@ if (editor) {
     };
   }
 }
+if (backgroundStage) {
+  let wide=false;
+  if($("reviewOutlook")) $("reviewOutlook").onclick=()=>{wide=false;garden3d?.setBackgroundOutlook();$("reviewView").textContent="回到天台";};
+  if($("reviewView")) $("reviewView").onclick=()=>{
+    if($("reviewView").textContent==="回到天台"){wide=false;garden3d?.setBackgroundView(false);}
+    else{wide=true;garden3d?.setBackgroundView(true);}
+    $("reviewView").textContent=wide?"回到天台":"看楼排";
+  };
+  for (const [id,key,values] of [["reviewWeather","condition",WEATHER],["reviewTime","phase",TIMES],["reviewSeason","season",SEASONS]]) {
+    const select=$(id);if(!select)continue;
+    for(const item of values){const option=document.createElement("option");option.value=item.id;option.textContent=item.name;select.append(option);}
+    select.value=weather.choices[key];select.onchange=()=>weather.set(key,select.value);
+  }
+  if($("reviewScene")) $("reviewScene").onclick=()=>{
+    scene=scene==="north"?"south":"north";
+    const url=new URL(location.href);url.searchParams.set("scene",scene);history.pushState(null,"",url);rebuild();
+    $("reviewScene").textContent=scene==="north"?"看南阳台":"看北天台";
+    wide=false;$("reviewView").textContent="看楼排";
+  };
+}
 function weatherCaption() {
   const text = atmosphereCaption(atmosphere);
   if ($("weatherStatus").textContent !== text)
@@ -228,7 +266,7 @@ const objects = () => layout.scenes[scene],
   selection = () => objects().find((o) => o.id === selected);
 function save() {
   try {
-    writeLayout(layout);
+    writeLayout(layout, backgroundStage ? previewStorage : localStorage);
   } catch {
     message("本机存储不可用，请导出 JSON 保存。");
   }
@@ -283,6 +321,10 @@ function positionFields(o) {
     $("positionText").textContent = text;
 }
 function rebuild() {
+  if (backgroundStage && $("reviewScene")) {
+    $("reviewScene").textContent=scene==="north"?"看南阳台":"看北天台";
+    $("reviewView").textContent="看楼排";
+  }
   if (editor) document.body.classList.toggle("room-edit", scene === "room");
   if (garden3d) {
     garden3d.syncLayout(layout);
@@ -455,6 +497,14 @@ function vesselNote(id) {
   }).description;
 }
 
+if (backgroundStage && $("reviewNotebook")) {
+  const browse=document.createElement("select");browse.setAttribute("aria-label","手帐资料条目");browse.id="reviewEntry";
+  for(const item of ASSETS){const option=document.createElement("option");option.value=item.id;option.textContent=item.name;browse.append(option);}
+  document.querySelector(".notebook-title").after(browse);
+  const showEntry=()=>notebook({id:"background-notebook",type:browse.value,seed:1835});
+  browse.onchange=showEntry;
+  $("reviewNotebook").onclick=()=>{showEntry();document.querySelector(".notebook").hidden=false;};
+}
 if (!editor) {
   const note = document.querySelector(".notebook");
   let pinned = false,
@@ -824,7 +874,7 @@ if (editor) {
   };
   $("restore").onclick = () => {
     checkpoint();
-    layout.scenes[scene] = initialLayout().scenes[scene];
+    layout.scenes[scene] = backgroundStage ? [] : initialLayout().scenes[scene];
     selected = null;
     changed();
     message("已恢复此阳台的初始陈列。");
@@ -832,7 +882,7 @@ if (editor) {
   $("person").onchange = () => (showPerson = $("person").checked);
   $("preview").onclick = () => {
     save();
-    $("preview").href = "https://umwelt.fivsevn.com/rooftop/";
+    $("preview").href = backgroundStage ? "../?stage=background&layout=local" : "https://umwelt.fivsevn.com/rooftop/";
   };
   const load = (text) => {
     try {
@@ -1094,12 +1144,12 @@ function fitView() {
 function syncPresence() {
   if (editor) return;
   $("roomCard").href =
-    "./room/?scene=" + scene + "&weather=" + atmosphere.condition;
-  $("garageCard").href = "./arrange/?scene=" + scene;
+    "./room/?scene=" + scene + "&weather=" + atmosphere.condition + (backgroundStage ? "&stage=background" : "");
+  $("garageCard").href = "./arrange/?scene=" + scene + (backgroundStage ? "&stage=background" : "");
   if (!resident.present) $("dongdongStatus").textContent = resident.status;
   canvas.setAttribute(
     "aria-label",
-    SCENES[scene].name +
+    backgroundStage ? SCENES[scene].name + "，空天台建筑预览" : SCENES[scene].name +
       "，" +
       (resident.present
         ? ["rain", "heavy", "thunderstorm", "typhoon"].includes(

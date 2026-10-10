@@ -1,4 +1,5 @@
 import { HOUSE, housePoint, houseOccludes } from "../house-structure.mjs";
+import { loadArchitecturalShell } from "./architectural-shell.mjs";
 import { buildHouseRoof } from "./house-roof.mjs";
 import { terraceFloorGeometry } from "./terrace-floor.mjs";
 import {
@@ -55,6 +56,7 @@ import { buildResident, buildPig } from "./residents.mjs";
 export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   const controls = options.controls || "orbit";
   const editable = controls === "edit";
+  const backgroundStage = options.backgroundStage === true;
   let navigationMode = "rotate",
     orbitLimits = null;
   if (controls !== "none") canvas.tabIndex = 0;
@@ -98,8 +100,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   const scene = new T.Scene(),
     camera =
       controls === "pan"
-        ? new T.PerspectiveCamera(40, 1, 0.1, 500)
-        : new T.OrthographicCamera(-20, 20, 20, -20, 0.1, 500);
+        ? new T.PerspectiveCamera(40, 1, 0.1, backgroundStage ? 4000 : 500)
+        : new T.OrthographicCamera(-20, 20, 20, -20, 0.1, backgroundStage ? 4000 : 500);
   scene.fog = new T.Fog("#bdc2c5", 48, 130);
   const hemi = new T.HemisphereLight("#f3f2e9", "#a0aaa4", 2.0);
   scene.add(hemi);
@@ -612,6 +614,10 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       roomShell(parent);
       return;
     }
+    if (backgroundStage) {
+      door(parent, name, ...(name === "north" ? [6, 8.375] : [-3.83, 8.1]), name === "north" ? Math.PI / 2 : -Math.PI / 2);
+      return;
+    }
     const points = sourcePolygons[name].map((p) => coords(name, ...p)),
       shape = polygonShape(points);
     const geo = new T.ExtrudeGeometry(shape, {
@@ -854,12 +860,14 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       { group, box, beam, cyl, ellipsoid, modelApi, P },
       parent,
     );
+    actors[name].person.visible = !options.hideActors;
   }
   function pig(parent, name) {
     Object.assign(
       actors[name],
       buildPig({ group, box, beam, cyl, ellipsoid, P }, parent),
     );
+    actors[name].pig.visible = !options.hideActors;
   }
   const objectRoots = { north: new Map(), south: new Map(), room: new Map() };
   let modelBuilds = 0;
@@ -1223,7 +1231,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         );
     }
   }
-  const neighborhood = buildNeighborhood(
+  const architecturalShell = backgroundStage ? loadArchitecturalShell(T, city) : null;
+  const neighborhood = backgroundStage ? { source: "Blender", row: true } : buildNeighborhood(
     { T, box, beam, cyl, ellipsoid, group, mat, P, surface },
     city,
     groundY,
@@ -1237,7 +1246,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   let current = "north",
     view = { theta: -0.12, phi: 1.15, zoom: 1 },
     wanted = { ...view };
-  let terraceBounds = null;
+  let terraceBounds = null, backgroundOverview = false, backgroundOutlook = false;
   const target = new T.Vector3(0, 0.2, -1.1),
     desiredTarget = target.clone();
   const pointers = new Map();
@@ -1245,6 +1254,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     multiTouchGesture = false,
     doorProgress = 0;
   function reset(name) {
+    backgroundOverview = false;
+    backgroundOutlook = false;
     current = name;
     build(name);
     if (primitives.length) compileInstances();
@@ -1267,11 +1278,11 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     }
     city.visible = name !== "room";
     city.position.set(
-      name === "south" && !editable ? -HOUSE.terraces.south.origin[1] : 0,
+      name === "south" && (backgroundStage || !editable) ? -HOUSE.terraces.south.origin[1] : 0,
       0,
       0,
     );
-    city.rotation.y = name === "south" && !editable ? Math.PI / 2 : 0;
+    city.rotation.y = name === "south" && (backgroundStage || !editable) ? Math.PI / 2 : 0;
     city.updateMatrix();
     orbitLimits = terraceOrbit(name, canvas.clientWidth);
     wanted.theta =
@@ -1295,6 +1306,10 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
           : name === "room"
             ? 0.9
             : 0.87;
+    if (backgroundStage && name !== "room") {
+      wanted.theta = name === "north" ? Math.PI - .48 : Math.PI / 2 + .48;
+      wanted.phi = .68;
+    }
     wanted.zoom = name === "room" ? 1.07 : editable ? 1 : TERRACE_ZOOM.min;
     desiredTarget.set(
       name === "room" ? -0.4 : 0,
@@ -1352,7 +1367,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     camera.right = (height * w) / h / 2;
     if (camera.isPerspectiveCamera) {
       camera.aspect = w / h;
-      camera.fov = T.MathUtils.radToDeg(
+      camera.fov = backgroundOutlook ? 80 : backgroundOverview ? 50 : T.MathUtils.radToDeg(
         2 * Math.atan(height / (2 * TERRACE_VIEW_DISTANCE)),
       );
     }
@@ -1534,7 +1549,15 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   });
   const projected = new T.Vector3();
   function positionCamera() {
-    const radius = camera.isPerspectiveCamera ? TERRACE_VIEW_DISTANCE : 58;
+    if (backgroundOutlook) {
+      const pitch=view.phi-.48;
+      camera.position.set(current === "north" ? 0 : 2.5, 3.1, current === "north" ? -4 : 0);
+      camera.lookAt(camera.position.x-Math.sin(view.theta)*100*Math.cos(pitch),camera.position.y-Math.sin(pitch)*100,camera.position.z-Math.cos(view.theta)*100*Math.cos(pitch));
+      camera.zoom=view.zoom;camera.updateProjectionMatrix();camera.updateMatrixWorld();return;
+    }
+    const radius = backgroundOverview
+      ? Math.max(100, (HOUSE.roof.width + 18) / (2 * Math.tan(T.MathUtils.degToRad(camera.fov / 2)) * Math.max(.25, camera.aspect)))
+      : camera.isPerspectiveCamera ? TERRACE_VIEW_DISTANCE : 58;
     camera.position.set(
       target.x + Math.sin(view.theta) * Math.cos(view.phi) * radius,
       target.y + Math.sin(view.phi) * radius,
@@ -1580,8 +1603,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   }
   function updateActor(pig, person, present, time, weather) {
     const a = actors[current];
-    a.person.visible = present && !person.insideShelter;
-    a.pig.visible = !pig.insideShelter;
+    a.person.visible = !options.hideActors && present && !person.insideShelter;
+    a.pig.visible = !options.hideActors && !pig.insideShelter;
     const update = (g, p) => {
       const [x, z] = coords(current, p.x, p.y);
       g.position.set(x, 0.04, z);
@@ -1767,6 +1790,11 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     windTime.value = time;
     windPower.value = weatherMotion.wind;
     style.updateAtmosphere(a, current === "room");
+    architecturalShell?.update(a);
+    if (backgroundStage && current !== "room") {
+      scene.fog.near = 98 - a.fog * 38;
+      scene.fog.far = Math.max(72, 2000 - a.fog * 1920);
+    }
     surfaceWeather.wet.value = current === "room" ? 0 : a.wetness;
     surfaceWeather.rain.value = current === "room" ? 0 : a.rain;
     for (const f of waterAnimations) {
@@ -2171,6 +2199,25 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   }
   return {
     setScene: reset,
+    setBackgroundView(wide) {
+      if (!backgroundStage || current === "room") return;
+      reset(current);
+      if (wide) {
+        backgroundOverview = true;
+        wanted.phi = .60;
+        wanted.zoom = 1;
+        resize();
+        const rowCentre=HOUSE.roof.x+HOUSE.roof.width/2;
+        desiredTarget.set(current === "north" ? rowCentre : -22, -8, current === "north" ? 10 : -rowCentre);
+        Object.assign(view, wanted);target.copy(desiredTarget);positionCamera();
+      }
+    },
+    setBackgroundOutlook() {
+      if (!backgroundStage || current === "room") return;
+      reset(current);backgroundOutlook=true;
+      wanted.theta=current === "north" ? 0 : -Math.PI/2;
+      wanted.phi=.4;wanted.zoom=1.8;resize();Object.assign(view,wanted);positionCamera();
+    },
     setNavigationMode(mode) {
       if (mode === "move" || mode === "rotate") navigationMode = mode;
     },
@@ -2255,6 +2302,10 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         zoomLimits: TERRACE_ZOOM,
         storeys: 6,
         neighborhood,
+        background: architecturalShell?.stats || null,
+        actorsHidden: !!options.hideActors,
+        actorVisibility: { person: actors[current].person.visible, pig: actors[current].pig.visible },
+        mountedActorVisibility: Object.fromEntries(Object.entries(actors).map(([name,a])=>[name,{person:a.person.visible,pig:a.pig.visible}])),
         atmosphere: atmosphereFx.stats,
         buffer: [canvas.width, canvas.height],
         software,

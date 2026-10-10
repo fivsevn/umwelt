@@ -7,9 +7,9 @@ export function terraceOrbit(scene, width) {
   return {
     theta,
     fullRotation: true,
-    minPhi: 0.18,
+    minPhi: 0.31,
     maxPhi: 1.35,
-    phi: scene === "south" ? 0.25 : 0.35,
+    phi: 0.35,
   };
 }
 const centre = { north: [304, 272], south: [284, 264] };

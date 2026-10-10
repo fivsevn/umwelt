@@ -1,0 +1,7 @@
+.background-review{position:fixed;top:14px;left:14px;z-index:15;display:flex;align-items:center;gap:6px;flex-wrap:wrap;max-width:calc(100vw - 28px);font-size:12px;color:#384741}
+.background-review span,.background-review button,.background-review select{background:#e0e2d4e8;border:1px solid #9ca59a;padding:5px 9px;color:inherit;font:inherit;border-radius:2px}
+.background-review button,.background-review select{cursor:pointer}
+@media(max-width:600px){.background-review{top:8px;left:8px;gap:4px}.background-review span{flex-basis:100%}.background-review button,.background-review select{padding:4px 6px}}
+.background-stage #actionCard,.background-stage #dongdongStatus,.background-stage #roomCard,.background-stage #returnWorld,.background-stage #musicToggle{display:none!important}
+#reviewEntry{margin:0 0 12px;max-width:100%;padding:6px;background:#e1e3d5;color:#35443b;border:1px solid #9ca59a}
+.background-stage .person-toggle,.background-stage #actionStatus{display:none!important}
