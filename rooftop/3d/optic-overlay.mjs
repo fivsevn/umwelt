@@ -13,12 +13,15 @@ export function opticOverlayMarkup() {
     <div class="scope-optics-range"><small>LRF <span data-scope-status>SCAN</span></small><strong data-scope-range>— m</strong></div>
     <small class="scope-unit-label">MRAD</small>`;
 }
-function paintMask(canvas, diameter) {
-  const pixel = 2, w = Math.ceil(innerWidth / pixel), h = Math.ceil(innerHeight / pixel);
+function paintMask(canvas, diameter, bounds) {
+  // Safari's visible viewport can be shorter than 100vh while its bars are open.
+  // Draw in the canvas's displayed coordinates so the eyecup stays circular.
+  const pixel = 2, w = Math.ceil(bounds.width / pixel), h = Math.ceil(bounds.height / pixel);
   canvas.width = w; canvas.height = h;
   const ctx = canvas.getContext('2d'), image = ctx.createImageData(w, h), r = diameter / (2 * pixel);
   for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
-    const dx = x + .5 - w / 2, dy = y + .5 - h / 2, d = Math.hypot(dx, dy), n = d / r;
+    const dx = ((x + .5) / w - .5) * bounds.width / pixel,
+      dy = ((y + .5) / h - .5) * bounds.height / pixel, d = Math.hypot(dx, dy), n = d / r;
     let color = [9, 14, 11], alpha = 0;
     if (d >= r) alpha = 248;
     else if (d >= r - 2) { color = [26, 32, 27]; alpha = 240; }
@@ -68,9 +71,10 @@ export function updateOpticOverlay(element, reading) {
   set('angle', `${reading.inclinationDegrees > 0 ? '+' : ''}${reading.inclinationDegrees.toFixed(1)}°`);
   set('range', reading.measuredSurface ? `${Math.round(reading.distanceMetres)} m` : '— m');
   set('status', reading.measuredSurface ? 'SCAN' : 'SEARCH');
-  const diameter = element.getBoundingClientRect().width, previous = cache.get(element) || {};
-  const dimensions = `${innerWidth},${innerHeight},${diameter}`, step = reading.mradPixels.toFixed(2);
-  if (diameter > 0 && dimensions !== previous.dimensions) paintMask(element.querySelector('.scope-mask'), diameter);
+  const diameter = element.getBoundingClientRect().width, mask = element.querySelector('.scope-mask'),
+    bounds = mask.getBoundingClientRect(), previous = cache.get(element) || {};
+  const dimensions = `${bounds.width},${bounds.height},${diameter}`, step = reading.mradPixels.toFixed(2);
+  if (diameter > 0 && bounds.width > 0 && bounds.height > 0 && dimensions !== previous.dimensions) paintMask(mask, diameter, bounds);
   if (diameter > 0 && (dimensions !== previous.dimensions || step !== previous.step)) paintEngraving(element.querySelector('.scope-engraving'), diameter, reading.mradPixels);
   cache.set(element, { dimensions, step });
 }
