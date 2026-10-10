@@ -188,7 +188,7 @@ if (!editor) {
     }
     scope.hidden = freeCamera || name !== "neighbor";
     if (stationKind !== controlKind) {
-      const actions = controlKind === "bird" ? [["left", "←沿檐"], ["right", "沿檐→"]] : controlKind === "drone" ? [["down", "↓下降"], ["up", "↑上升"], ["near", "＋靠近"], ["far", "－退远"]] : controlKind === "neighbor" ? [["out", "－缩小倍率"], ["in", "＋放大倍率"]] : [];
+      const actions = controlKind === "bird" ? [["left", "←沿檐"], ["right", "沿檐→"]] : controlKind === "drone" || controlKind === "free" ? [["down", "↓下降"], ["up", "↑上升"], ["near", "＋靠近"], ["far", "－退远"]] : controlKind === "neighbor" ? [["out", "－缩小倍率"], ["in", "＋放大倍率"]] : [];
       stationControls.innerHTML = actions.map(([action,label]) => '<button type="button" data-station-action="' + action + '">' + label + '</button>').join("");
       stationControls.hidden = !actions.length;
       for (const button of stationControls.querySelectorAll("[data-station-action]")) button.onclick = () => {
@@ -196,7 +196,7 @@ if (!editor) {
         if (action === "in" || action === "out") garden3d?.nudgeNarrativeOptics(action);
         else garden3d?.nudgeNarrativeStation(action);
       };
-      const labels = { bird: "小鸟操作", drone: "无人机操作", neighbor: "瞄准镜操作" };
+      const labels = { bird: "小鸟操作", drone: "无人机操作", neighbor: "瞄准镜操作", free: "自由移动操作" };
       const hints = { bird: "左右拖动沿檐走动，上下拖动微微抬头或低头。", drone: "拖动微调镜头；滚轮或双指靠近、退远。", neighbor: "拖动瞄准；滚轮或双指调整倍率。", free: freeCameraHint };
       stationControls.setAttribute("aria-label", labels[controlKind] || "观察者移动");
       canvas.title = hints[controlKind] || "";
