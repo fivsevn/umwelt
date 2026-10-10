@@ -1,3 +1,4 @@
+import { attachRetroAsset, retroAssetCount } from "./retro-assets.mjs";
 import { HOUSE, housePoint, houseOccludes } from "../house-structure.mjs";
 import { buildHouseRoof } from "./house-roof.mjs";
 import { terraceFloorGeometry } from "./terrace-floor.mjs";
@@ -79,7 +80,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   }
   const renderer = new T.WebGLRenderer({
     canvas,
-    antialias: true,
+    antialias: false,
     alpha: true,
     powerPreference: "default",
   });
@@ -587,7 +588,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     g.userData.paintSeed = surfaceSeed(o.seed);
     g.scale.setScalar(o.scale);
     g.rotation.y = (-o.rotation * Math.PI) / 180;
-    buildObject(modelApi(), g, asset(o.type), o);
+    if (!attachRetroAsset(g, o.type, mat)) buildObject(modelApi(), g, asset(o.type), o);
     return g;
   }
   function polygonShape(points) {
@@ -831,22 +832,11 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   function door(parent, name, x, z, angle) {
     const frame = group(parent, x, 0.02, z);
     frame.rotation.y = angle;
-    for (const xx of [-0.61, 0.61])
-      box(frame, xx, 1.32, 0, 0.15, 2.64, 0.3, P.cap, "wall");
-    box(frame, 0, 2.64, 0, 1.38, 0.16, 0.34, P.cap);
-    box(frame, 0, 0.06, 0.12, 1.5, 0.12, 0.7, "#bbb49c");
-    if (name !== "room") {
-      box(frame, 0.2, 2.92, 0.78, 3.55, 0.12, 1.9, "#9eaba7", "metal", -0.06);
-      for (const xx of [-1.25, 1.25])
-        beam(frame, [xx, 2.4, 0.06], [xx, 2.86, 1.13], 0.055, "#6c7a79");
-    }
-    const hinge = group(frame, -0.51, 0, 0);
+    attachRetroAsset(frame, "door-frame", mat);
+    if (name !== "room") attachRetroAsset(frame, "door-awning", mat);
+    const hinge = group(frame, -0.5, 0, 0);
     hinge.userData.animated = true;
-    box(hinge, 0.51, 1.25, 0, 1.02, 2.5, 0.16, "#64706e", "metal");
-    box(hinge, 0.51, 1.27, 0.094, 0.86, 2.27, 0.025, "#ffffff", "panel-door");
-    for (const xx of [0.035, 0.985])
-      box(hinge, xx, 1.25, 0.09, 0.045, 2.4, 0.025, "#7c8e8f", "metal");
-    box(hinge, 0.81, 1.19, 0.139, 0.055, 0.17, 0.045, "#b4baac", "metal");
+    attachRetroAsset(hinge, "door-leaf", mat);
     doors[name] = { hinge, frame };
   }
   function resident(parent, name) {
@@ -2220,6 +2210,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         pixels: PIXEL_STYLE.renderScale,
         antialias: renderer.getContext().getContextAttributes().antialias,
         style: PIXEL_STYLE.id,
+        authoredAssets: retroAssetCount(),
         textures: texCache.size,
         surfaces: surfaceCache.size,
         foliageMotion: {

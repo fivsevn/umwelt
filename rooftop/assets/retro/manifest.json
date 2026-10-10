@@ -1,0 +1,521 @@
+{
+  "software": "4.5.14 LTS",
+  "pixel_size_world": 0.125,
+  "texels_per_unit": 8,
+  "materials": {
+    "wood": 0,
+    "wood-light": 1,
+    "metal": 2,
+    "steel": 3,
+    "paving": 4,
+    "wall": 5,
+    "roof": 6,
+    "brick": 7,
+    "cloth": 8,
+    "enamel": 9,
+    "rubber": 10,
+    "glass": 11,
+    "face-door": 12,
+    "face-cabinet": 13,
+    "stone": 14,
+    "room-wall": 15
+  },
+  "objects": {
+    "shelf": {
+      "dims": [
+        4,
+        2,
+        2
+      ],
+      "surfaces": [
+        {
+          "id": "lower",
+          "label": "第一层",
+          "y": 0.2175,
+          "w": 3.76,
+          "d": 1.76,
+          "x": 0,
+          "z": 0,
+          "ceiling": 0.7850000000000001,
+          "thickness": 0.075,
+          "lattice": {
+            "pitch": 0.5,
+            "bar": 0.375,
+            "axis": "z"
+          }
+        },
+        {
+          "id": "middle",
+          "label": "第二层",
+          "y": 1.0775000000000001,
+          "w": 3.76,
+          "d": 1.76,
+          "x": 0,
+          "z": 0,
+          "ceiling": 0.7250000000000001,
+          "thickness": 0.075,
+          "lattice": {
+            "pitch": 0.5,
+            "bar": 0.375,
+            "axis": "z"
+          }
+        },
+        {
+          "id": "upper",
+          "label": "第三层",
+          "y": 1.8775000000000002,
+          "w": 3.76,
+          "d": 1.76,
+          "x": 0,
+          "z": 0,
+          "ceiling": null,
+          "thickness": 0.075,
+          "lattice": {
+            "pitch": 0.5,
+            "bar": 0.375,
+            "axis": "z"
+          }
+        }
+      ]
+    },
+    "tierstand": {
+      "dims": [
+        3,
+        1.75,
+        2.375
+      ],
+      "surfaces": [
+        {
+          "id": "lower",
+          "label": "第一层",
+          "y": 0.2175,
+          "w": 2.82,
+          "d": 1.54,
+          "x": 0,
+          "z": 0,
+          "ceiling": 0.9800000000000002,
+          "thickness": 0.075,
+          "lattice": {
+            "pitch": 0.5,
+            "bar": 0.375,
+            "axis": "z"
+          }
+        },
+        {
+          "id": "middle",
+          "label": "第二层",
+          "y": 1.2725000000000002,
+          "w": 2.82,
+          "d": 1.54,
+          "x": 0,
+          "z": 0,
+          "ceiling": 0.875,
+          "thickness": 0.075,
+          "lattice": {
+            "pitch": 0.5,
+            "bar": 0.375,
+            "axis": "z"
+          }
+        },
+        {
+          "id": "upper",
+          "label": "第三层",
+          "y": 2.2225,
+          "w": 2.82,
+          "d": 1.54,
+          "x": 0,
+          "z": 0,
+          "ceiling": null,
+          "thickness": 0.075,
+          "lattice": {
+            "pitch": 0.5,
+            "bar": 0.375,
+            "axis": "z"
+          }
+        }
+      ]
+    },
+    "wirestand": {
+      "dims": [
+        3.625,
+        2,
+        2.5
+      ],
+      "surfaces": [
+        {
+          "id": "lower",
+          "label": "第一层",
+          "y": 0.2175,
+          "w": 3.4074999999999998,
+          "d": 1.76,
+          "x": 0,
+          "z": 0,
+          "ceiling": 1.0450000000000002,
+          "thickness": 0.075,
+          "lattice": {
+            "pitch": 0.5,
+            "bar": 0.375,
+            "axis": "z"
+          }
+        },
+        {
+          "id": "middle",
+          "label": "第二层",
+          "y": 1.3375000000000001,
+          "w": 3.4074999999999998,
+          "d": 1.76,
+          "x": 0,
+          "z": 0,
+          "ceiling": 0.9250000000000003,
+          "thickness": 0.075,
+          "lattice": {
+            "pitch": 0.5,
+            "bar": 0.375,
+            "axis": "z"
+          }
+        },
+        {
+          "id": "upper",
+          "label": "第三层",
+          "y": 2.3375000000000004,
+          "w": 3.4074999999999998,
+          "d": 1.76,
+          "x": 0,
+          "z": 0,
+          "ceiling": null,
+          "thickness": 0.075,
+          "lattice": {
+            "pitch": 0.5,
+            "bar": 0.375,
+            "axis": "z"
+          }
+        }
+      ]
+    },
+    "wallrack": {
+      "dims": [
+        1.875,
+        1.375,
+        3.375
+      ],
+      "surfaces": [
+        {
+          "id": "lower",
+          "label": "第一层",
+          "y": 0.2175,
+          "w": 1.7625,
+          "d": 1.21,
+          "x": 0,
+          "z": 0,
+          "ceiling": 1.0950000000000002,
+          "thickness": 0.075,
+          "lattice": {
+            "pitch": 0.5,
+            "bar": 0.375,
+            "axis": "z"
+          }
+        },
+        {
+          "id": "middle",
+          "label": "第二层",
+          "y": 1.3875000000000002,
+          "w": 1.7625,
+          "d": 1.21,
+          "x": 0,
+          "z": 0,
+          "ceiling": 0.8700000000000003,
+          "thickness": 0.075,
+          "lattice": {
+            "pitch": 0.5,
+            "bar": 0.375,
+            "axis": "z"
+          }
+        },
+        {
+          "id": "upper",
+          "label": "第三层",
+          "y": 2.3325000000000005,
+          "w": 1.7625,
+          "d": 1.21,
+          "x": 0,
+          "z": 0,
+          "ceiling": 0.7349999999999997,
+          "thickness": 0.075,
+          "lattice": {
+            "pitch": 0.5,
+            "bar": 0.375,
+            "axis": "z"
+          }
+        },
+        {
+          "id": "highest",
+          "label": "第四层",
+          "y": 3.1425,
+          "w": 1.7625,
+          "d": 1.21,
+          "x": 0,
+          "z": 0,
+          "ceiling": null,
+          "thickness": 0.075,
+          "lattice": {
+            "pitch": 0.5,
+            "bar": 0.375,
+            "axis": "z"
+          }
+        }
+      ]
+    },
+    "woodshelf": {
+      "dims": [
+        4,
+        5.25,
+        2.125
+      ],
+      "surfaces": [
+        {
+          "id": "lower",
+          "label": "第一层",
+          "y": 0.23,
+          "w": 4,
+          "d": 1.9425,
+          "x": 0,
+          "z": 1.75,
+          "ceiling": null,
+          "thickness": 0.1
+        },
+        {
+          "id": "middle",
+          "label": "第二层",
+          "y": 1.1725,
+          "w": 4,
+          "d": 1.9425,
+          "x": 0,
+          "z": 0,
+          "ceiling": null,
+          "thickness": 0.1
+        },
+        {
+          "id": "upper",
+          "label": "第三层",
+          "y": 2.115,
+          "w": 4,
+          "d": 1.9425,
+          "x": 0,
+          "z": -1.75,
+          "ceiling": null,
+          "thickness": 0.1
+        }
+      ]
+    },
+    "ladderstand": {
+      "dims": [
+        3.375,
+        5.25,
+        2.375
+      ],
+      "surfaces": [
+        {
+          "id": "lower",
+          "label": "第一层",
+          "y": 0.23,
+          "w": 3.375,
+          "d": 1.9425,
+          "x": 0,
+          "z": 1.75,
+          "ceiling": null,
+          "thickness": 0.1
+        },
+        {
+          "id": "middle",
+          "label": "第二层",
+          "y": 1.2974999999999999,
+          "w": 3.195,
+          "d": 1.9425,
+          "x": 0,
+          "z": 0,
+          "ceiling": null,
+          "thickness": 0.1
+        },
+        {
+          "id": "upper",
+          "label": "第三层",
+          "y": 2.3649999999999998,
+          "w": 3.015,
+          "d": 1.9425,
+          "x": 0,
+          "z": -1.75,
+          "ceiling": null,
+          "thickness": 0.1
+        }
+      ]
+    },
+    "bench": {
+      "dims": [
+        2.5,
+        1.5,
+        0.625
+      ],
+      "surfaces": [
+        {
+          "id": "top",
+          "label": "台面",
+          "y": 0.6425,
+          "w": 2.3499999999999996,
+          "d": 1.3800000000000001,
+          "x": 0,
+          "z": 0,
+          "ceiling": null,
+          "thickness": 0
+        }
+      ]
+    },
+    "stool": {
+      "dims": [
+        1.25,
+        1.125,
+        0.75
+      ],
+      "surfaces": [
+        {
+          "id": "top",
+          "label": "台面",
+          "y": 0.76,
+          "w": 1.1749999999999998,
+          "d": 1.0350000000000001,
+          "x": 0,
+          "z": 0,
+          "ceiling": null,
+          "thickness": 0
+        }
+      ]
+    },
+    "lowplatform": {
+      "dims": [
+        3,
+        1.75,
+        0.75
+      ],
+      "surfaces": [
+        {
+          "id": "top",
+          "label": "台面",
+          "y": 0.76,
+          "w": 2.82,
+          "d": 1.61,
+          "x": 0,
+          "z": 0,
+          "ceiling": null,
+          "thickness": 0
+        }
+      ]
+    },
+    "table": {
+      "dims": [
+        3.625,
+        2,
+        1.5
+      ],
+      "surfaces": [
+        {
+          "id": "top",
+          "label": "桌面",
+          "y": 1.55,
+          "w": 3.48,
+          "d": 1.88,
+          "x": 0,
+          "z": 0,
+          "ceiling": null,
+          "thickness": 0,
+          "shape": "rect"
+        }
+      ]
+    },
+    "pottingbench": {
+      "dims": [
+        3.75,
+        2,
+        1.75
+      ],
+      "surfaces": [
+        {
+          "id": "top",
+          "label": "台面",
+          "y": 1.7,
+          "w": 3.525,
+          "d": 1.84,
+          "x": 0,
+          "z": 0,
+          "ceiling": null,
+          "thickness": 0
+        }
+      ]
+    },
+    "storagechest": {
+      "dims": [
+        3,
+        1.8125,
+        1.375
+      ],
+      "surfaces": [
+        {
+          "id": "top",
+          "label": "柜顶",
+          "y": 1.435,
+          "w": 2.8499999999999996,
+          "d": 1.7218749999999998,
+          "x": 0,
+          "z": 0,
+          "ceiling": null,
+          "thickness": 0
+        }
+      ]
+    },
+    "room-dresser": {
+      "dims": [
+        2.625,
+        1.4375,
+        1.75
+      ],
+      "surfaces": [
+        {
+          "id": "top",
+          "label": "柜顶",
+          "y": 1.81,
+          "w": 2.49375,
+          "d": 1.3656249999999999,
+          "x": 0,
+          "z": 0,
+          "ceiling": null,
+          "thickness": 0
+        }
+      ]
+    },
+    "room-wardrobe": {
+      "dims": [
+        2.75,
+        1.5,
+        3.25
+      ],
+      "surfaces": [
+        {
+          "id": "top",
+          "label": "柜顶",
+          "y": 3.31,
+          "w": 2.6125,
+          "d": 1.4249999999999998,
+          "x": 0,
+          "z": 0,
+          "ceiling": null,
+          "thickness": 0
+        }
+      ]
+    }
+  },
+  "architecture": [
+    "door-frame",
+    "door-leaf",
+    "door-awning"
+  ],
+  "source": "terrace-furniture.blend",
+  "texture_source": "terrace-surfaces.pxo"
+}

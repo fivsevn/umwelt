@@ -1,4 +1,4 @@
-// Native Pixelorama atlas coordinates; see docs/art/rooftop-game/material-book.pxo.
+// Native Pixelorama atlas coordinates; see art/rooftop-deferred/material-book.pxo.
 export const NATIVE_BOOK = {
   "wall": {
     "x": 0,
