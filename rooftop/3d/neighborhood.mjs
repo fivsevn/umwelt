@@ -1,30 +1,16 @@
 import { surfaceSeed } from "./surface-variation.mjs";
 import { buildStreetCar, buildStreetLantern } from "./street-models.mjs";
-// Guoliyuan's published street photographs inform the architectural vocabulary.
-// Placement is a composed neighbourhood, not a surveyed reconstruction of block 92.
+// Residential photographs inform the architectural vocabulary.
+// The fallback background uses anonymous game-local placement.
 export const NEIGHBORHOOD_BUILDINGS = [
   [-5, -56, 48, 11, 6],
   [2, 96, 52, 11, 6],
   [69, 27, 48, 11, 6, Math.PI / 2],
 ];
-export const NEIGHBORHOOD_SOURCES = [
-  [
-    "Google Maps 郭里园新村卫星图（2026-10-08 查看）",
-    "https://www.google.com/maps/place/Guoliyuanxincun/@32.0279345,120.871857,704m/data=!3m1!1e3!4m6!3m5!1s0x35b17821ee9434db:0x54a513abdbb2347b!8m2!3d32.027935!4d120.871857!16s%2Fg%2F1tl9kkd7",
-  ],
-  [
-    "郭里园新村街巷实拍（濠滨通城里，2022）",
-    "https://www.sohu.com/a/551257906_121123899",
-  ],
-  [
-    "崇川郭里园老旧小区改造（2022）",
-    "https://js.people.com.cn/n2/2022/1101/c360302-40177396.html",
-  ],
-  [
-    "崇川老旧小区环境改造内容（南通市住建局，2025）",
-    "https://zj.nantong.gov.cn/ntsfgj/xmdt/content/ead8ba9e-f1c1-408b-ae27-4dbfa8e2689b.html",
-  ],
-];
+export const NEIGHBORHOOD_SOURCES = Object.freeze([
+  Object.freeze(["住宅建筑与街巷参考", "用户提供的建筑参考；公开版本不含实际位置"]),
+  Object.freeze(["屋顶及阳台结构参考", "用户提供的现场照片；公开版本不含门牌信息"]),
+]);
 
 export function buildNeighborhood(api, city, groundY, window) {
   const { T, box, beam, cyl, ellipsoid, group, mat, P } = api;

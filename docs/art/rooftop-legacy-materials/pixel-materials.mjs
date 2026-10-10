@@ -3,14 +3,14 @@ import {
   residentPainting,
   RESIDENT_PAINT_KINDS,
 } from "./resident-paintings.mjs";
-import { WEATHER_KINDS, weatherDrawing } from "./weathering.mjs";
+import { WEATHER_KINDS, weatherDrawing } from "../../../rooftop/3d/weathering.mjs";
 import {
   facePainting,
   wrappedPainting,
   pointInk,
   PIGMENT_RAMP,
-} from "./face-paintings.mjs";
-import { vesselPainting } from "./vessel-art.mjs";
+} from "../../../rooftop/3d/face-paintings.mjs";
+import { vesselPainting } from "../../../rooftop/3d/vessel-art.mjs";
 import { referencePainting, paintTargets } from "./paint-recipes.mjs";
 // Original pixel painting recipes, informed by the user's low-poly reference sheets.
 // Material information lives in integer texels, never screen-space noise or copied art.

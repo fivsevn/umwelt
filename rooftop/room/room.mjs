@@ -33,7 +33,7 @@ canvas.style.touchAction = "none";
 canvas.tabIndex = 0;
 let activity = "rest",
   pigActivity = "rest";
-$("preview").href = "https://umwelt.fivsevn.com/rooftop/";
+$("preview").href = new URLSearchParams(location.search).get("stage") === "background" ? "../?stage=background" : "https://umwelt.fivsevn.com/rooftop/";
 function choices(id, items, current, select) {
   for (const [key, value] of Object.entries(items)) {
     const b = document.createElement("button");
