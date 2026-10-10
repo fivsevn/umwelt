@@ -1428,71 +1428,78 @@ export const NATIVE_BOOK = {
     "height": 32,
     "mode": "panel"
   },
-  "weather-wood": {
+  "parapet": {
     "x": 384,
     "y": 384,
     "width": 32,
     "height": 32,
     "mode": "field"
   },
-  "weather-metal": {
+  "weather-wood": {
     "x": 416,
     "y": 384,
     "width": 32,
     "height": 32,
     "mode": "field"
   },
-  "weather-paint": {
+  "weather-metal": {
     "x": 448,
     "y": 384,
     "width": 32,
     "height": 32,
     "mode": "field"
   },
-  "weather-enamel": {
+  "weather-paint": {
     "x": 480,
     "y": 384,
     "width": 32,
     "height": 32,
     "mode": "field"
   },
-  "weather-cloth": {
+  "weather-enamel": {
     "x": 0,
     "y": 416,
     "width": 32,
     "height": 32,
     "mode": "field"
   },
-  "weather-face-board": {
+  "weather-cloth": {
     "x": 32,
     "y": 416,
     "width": 32,
     "height": 32,
-    "mode": "panel"
+    "mode": "field"
   },
-  "weather-face-cabinet": {
+  "weather-face-board": {
     "x": 64,
     "y": 416,
     "width": 32,
     "height": 32,
     "mode": "panel"
   },
-  "weather-face-door": {
+  "weather-face-cabinet": {
     "x": 96,
     "y": 416,
     "width": 32,
     "height": 32,
     "mode": "panel"
   },
-  "weather-face-drawer": {
+  "weather-face-door": {
     "x": 128,
     "y": 416,
     "width": 32,
     "height": 32,
     "mode": "panel"
   },
-  "weather-round-metal": {
+  "weather-face-drawer": {
     "x": 160,
+    "y": 416,
+    "width": 32,
+    "height": 32,
+    "mode": "panel"
+  },
+  "weather-round-metal": {
+    "x": 192,
     "y": 416,
     "width": 32,
     "height": 32,

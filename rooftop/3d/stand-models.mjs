@@ -24,16 +24,16 @@ export function buildStand(api, g, w, d, h, type) {
           zz = surface.z,
           ww = surface.w;
         for (const xx of [-ww * 0.46, ww * 0.46])
-          box(g, xx, yy / 2, zz, 0.11, yy, 0.11, P.woodDark, "wood");
+          box(g, xx, yy / 2, zz, 0.125, yy, 0.125, P.woodDark, "wood");
         for (let slat = 0; slat < 3; slat++)
           box(
             g,
             0,
             yy,
-            zz - d * 0.13 + slat * d * 0.13,
+            zz - surface.d / 3 + slat * surface.d / 3,
             ww,
             0.1,
-            d * 0.11,
+            surface.d / 3,
             shade(P.wood, [1, 0.91, 1.08][slat]),
             "face-board",
           );
@@ -123,15 +123,13 @@ export function buildStand(api, g, w, d, h, type) {
         P.metalDark,
       );
     if (type === "coveredstand") {
+      const coverMaterial = mat("#bac6ae", "glass").clone();
+      coverMaterial.onBeforeCompile=mat("#bac6ae", "glass").onBeforeCompile;
+      coverMaterial.customProgramCacheKey=mat("#bac6ae", "glass").customProgramCacheKey;
+      coverMaterial.transparent=true;coverMaterial.opacity=.14;coverMaterial.depthWrite=false;coverMaterial.side=T.DoubleSide;
       const cover = new T.Mesh(
         new T.BoxGeometry(w * 1.05, h + 0.23, d * 1.08),
-        new T.MeshBasicMaterial({
-          color: "#bac6ae",
-          transparent: true,
-          opacity: 0.14,
-          depthWrite: false,
-          side: T.DoubleSide,
-        }),
+        coverMaterial,
       );
       cover.position.y = h * 0.5 + 0.07;
       g.add(cover);

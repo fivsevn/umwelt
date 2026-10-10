@@ -1,13 +1,14 @@
+function paintedGlass(api,color,opacity){
+ const source=api.mat(color,"glass"),material=source.clone();
+ material.onBeforeCompile=source.onBeforeCompile;material.customProgramCacheKey=source.customProgramCacheKey;
+ material.defaultAttributeValues=source.defaultAttributeValues;
+ material.transparent=true;material.opacity=opacity;material.depthWrite=false;material.side=api.T.DoubleSide;
+ return material;
+}
 export function buildAquarium(api, g, w, d, h) {
   const { T, box } = api,
     edge = "#829795";
-  const glass = new T.MeshBasicMaterial({
-    color: "#c3dedc",
-    transparent: true,
-    opacity: 0.13,
-    depthWrite: false,
-    side: T.DoubleSide,
-  });
+  const glass = paintedGlass(api,"#c3dedc",.13);
   const pane = (x, y, z, ww, hh, dd) => {
     const mesh = new T.Mesh(new T.BoxGeometry(ww, hh, dd), glass);
     mesh.position.set(x, y, z);
@@ -39,14 +40,7 @@ export function buildGlassCase(api, g, type, w, d, h) {
     wood = type === "wardcase",
     c = wood ? "#806544" : "#5c8588",
     kind = wood ? "wood" : "metal";
-  const glass = new T.MeshBasicMaterial({
-    color: "#c3d6cc",
-    transparent: true,
-    opacity: 0.16,
-    depthWrite: false,
-    side: T.DoubleSide,
-    flatShading: true,
-  });
+  const glass = paintedGlass(api,"#c3dedc",.16);
   const pane = (points) => {
     const geo = new T.BufferGeometry(),
       positions = [];

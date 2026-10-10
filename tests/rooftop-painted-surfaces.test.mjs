@@ -759,11 +759,12 @@ test("outdoor deposits occupy compact source areas instead of scattering across 
 test("aquarium side walls are transparent and do not write depth over the fish", () => {
   const g = new T.Group(),
     parts = [];
-  buildAquarium({ T, box: (...args) => parts.push(args) }, g, 2.25, 1.8, 1.56);
+  buildAquarium({ T, mat:(color,kind)=>{const m=new T.MeshBasicMaterial({color});m.userData.nativeField=kind;return m;}, box: (...args) => parts.push(args) }, g, 2.25, 1.8, 1.56);
   assert.equal(g.children.length, 5);
   for (const mesh of g.children) {
     assert.ok(mesh.material.transparent && mesh.material.opacity < 0.2);
     assert.equal(mesh.material.depthWrite, false);
+    assert.equal(mesh.material.userData.nativeField,"glass","transparent panes retain their native square reflection drawing");
   }
   assert.ok(parts.length > 8, "thin actual frame remains pickable");
 });

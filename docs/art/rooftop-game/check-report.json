@@ -1,5 +1,6 @@
 {
-  "structural_checks": "isopoda/tools/check-all.mjs passed",
+  "revision": "nonplant-native-faces-2026-10-10",
+  "structural_checks": "345 Node tests and all structural checks passed",
   "native_source": {
     "software": "Pixelorama",
     "native_cel_equals_png_rgba": true,
@@ -7,76 +8,81 @@
       512,
       512
     ],
-    "fields": 214,
-    "native_pencil_strokes": 62349,
-    "png_bytes": 26604,
-    "pxo_bytes": 49799,
-    "png_sha256": "f559688a8b04e40ea959f205ae9b361821581b93fd7ee577ec11791220367b7f"
+    "fields": 215,
+    "native_pencil_strokes": 7026,
+    "png_bytes": 27965,
+    "pxo_bytes": 53441,
+    "png_sha256": "145c0b557beb73e80091b63a69544eecbca081d9b588ef1c375c785b2cb2d43c"
   },
   "blender_reopen": {
     "reopened_by_actual_blender": true,
     "assets": 304,
     "triangles": 471968,
     "packed_png_equals_pixelorama_export": true,
-    "texture_sha256": "f559688a8b04e40ea959f205ae9b361821581b93fd7ee577ec11791220367b7f",
+    "texture_sha256": "145c0b557beb73e80091b63a69544eecbca081d9b588ef1c375c785b2cb2d43c",
     "editable_uv_and_surface_grid_attributes": true,
     "native_uv_metric_lengths_verified": true
   },
-  "static_artifact": {
-    "runtime_files": 280,
-    "urls_versioned": 669,
-    "runtime_commit": "37aa8a9f549ee2383648596a1b5b068dae3ea60c",
-    "native_png_present_and_identical": true,
-    "new_texture_url_stamped": true,
-    "originals_excluded": true
+  "scope": {
+    "botanical_and_actor_fields_unchanged": [
+      "soil",
+      "leaf",
+      "leafRigid",
+      "cactus",
+      "canopy",
+      "petal",
+      "skin",
+      "hair",
+      "actor-cloth",
+      "leaf-striped",
+      "leaf-variegated",
+      "leaf-succulent",
+      "leaf-moss",
+      "leaf-split",
+      "leaf-stones"
+    ],
+    "count": 15,
+    "physical_texels_per_unit": 8,
+    "edited_fields": [
+      "wood",
+      "face-board",
+      "face-cabinet",
+      "face-door",
+      "face-drawer",
+      "wall",
+      "parapet",
+      "paving",
+      "roof",
+      "metal",
+      "paint",
+      "enamel",
+      "round-metal",
+      "cloth",
+      "wicker",
+      "asphalt",
+      "glass",
+      "clay",
+      "clay-rim",
+      "stone",
+      "room-wall",
+      "weather-wood",
+      "weather-metal",
+      "weather-paint",
+      "weather-enamel",
+      "weather-cloth",
+      "weather-face-board",
+      "weather-face-cabinet",
+      "weather-face-door",
+      "weather-face-drawer",
+      "weather-round-metal"
+    ]
   },
-  "unchanged_data": "Only shared 3D modules, authored runtime texture, authoring documentation and relevant tests changed; gameplay data, saves, room, garage and narrative sources retained.",
   "browser_verification": {
-    "local_status": "blocked_by_saved_browser_permission",
-    "github_regression": "passed",
-    "github_regression_run": "https://github.com/fivsevn/umwelt/actions/runs/38013627227",
-    "browsers": [
-      "Chromium",
-      "WebKit"
-    ],
-    "passed_jobs": 16,
-    "suites": [
-      "maintenance",
-      "garage-layout",
-      "room",
-      "card-feed",
-      "weapons",
-      "models",
-      "observation",
-      "seasons"
-    ],
-    "webgl_shader_compile": "passed",
-    "real_interactions": "passed",
-    "save_refresh": "passed",
-    "narrow_viewport": "passed"
+    "status": "pending existing Rooftop regression on this revision",
+    "historical_run_not_current": "38013627227"
   },
-  "production": "Verified runtime authorized for production; final Pages deployment result is recorded in Actions.",
-  "review_images": "review/: Actual Blender library renders. web-review/: unchanged screenshots from existing GitHub regression, run 38013627227.",
-  "node_tests": {
-    "tests": 343,
-    "passed": 343,
-    "failed": 0
-  },
-  "github_review_images": [
-    {
-      "path": "web-review/north.png",
-      "source_file": "webkit-spring.png",
-      "sha256": "a6103ccb324b2cc3a152abe4e40fae9ba5c26eaebf54504516463f235dbb99de"
-    },
-    {
-      "path": "web-review/south-mobile.png",
-      "source_file": "webkit-south-mobile.png",
-      "sha256": "eb296de2476405b09dfd7faf89780de4ccec995b9500d87689333f970e04fb86"
-    },
-    {
-      "path": "web-review/room-mobile.png",
-      "source_file": "webkit-room-mobile.png",
-      "sha256": "c01fa1b951f6ff96f0c2701da6a78fbca78a7d9d847561090fc1561971561e5c"
-    }
-  ]
+  "publication": {
+    "status": "pending authorized direct game publication",
+    "previous_rejected_visual_version": "4a8bd6fe46022417c2c7acc486d8c844c6b72d23"
+  }
 }
