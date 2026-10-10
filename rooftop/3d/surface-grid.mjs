@@ -3,7 +3,7 @@ import {PIXEL_STYLE} from './native-style.mjs';
 // UV proportions nor triangle-specific affine artwork can change a texel.
 export function surfaceFrame(T,points,{vessel=false,weapon=false}={}){
  const [a,b,c]=points, n=b.clone().sub(a).cross(c.clone().sub(a)).normalize();
- const u=Math.abs(n.y)>.98?new T.Vector3(1,0,0):new T.Vector3(0,1,0).cross(n).normalize();
+  const u=(Math.abs(n.y)>.98?new T.Vector3(1,0,0).addScaledVector(n,-n.x):new T.Vector3(0,1,0).cross(n)).normalize();
  const v=n.clone().cross(u).normalize();
  const facet=Math.floor((Math.atan2(n.z,n.x)+Math.PI)/(Math.PI/4));
  const phase=[vessel?3+2*((facet%8+8)%8):16,weapon?16:1];

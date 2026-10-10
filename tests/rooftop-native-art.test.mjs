@@ -50,6 +50,11 @@ test('one native texture waits for actual loading and reuses material instances'
  assert.equal((shader.fragmentShader.match(/diffuseColor\.rgb \*= vColor/g)||[]).length,1);
  assert.ok(!/pointThreshold|sin\(.*paintPoint|noise/.test(shader.fragmentShader));
  style.updateAtmosphere({night:1});assert.ok(style.tone.value.r<1);
+ const lamp=style.mat('#f7d650','light'),window=style.mat('#a1aaa0','window');
+ lamp.emissive.set('#ffcd88');lamp.emissiveIntensity=.8;
+ window.emissive.set('#ffc481');window.emissiveIntensity=.85;
+ style.updateAtmosphere({night:1});
+ assert.equal(lamp.userData.glowPower.value,.8);assert.equal(window.userData.glowPower.value,.85);
 });
 
 test('metal lattice preserves visible square holes and actual scaled bearing dimensions',()=>{
@@ -69,6 +74,12 @@ test('every folded chart uses equal physical square cells across triangle diagon
  const context={console:{warn(){}}};
  vm.runInNewContext(readFileSync(new URL('../rooftop/3d/vendor/three.min.js',import.meta.url),'utf8'),context);
  const T=context.THREE;
+ for(const tilt of [.01,.1,.2]){
+  const points=[new T.Vector3(0,0,0),new T.Vector3(1,tilt,0),new T.Vector3(0,tilt,1)],frame=surfaceFrame(T,points);
+  assert.ok(Math.abs(frame.n.dot(frame.u))<1e-10);
+  assert.ok(Math.abs(frame.n.dot(frame.v))<1e-10);
+  assert.ok(Math.abs(Math.hypot(frame.points[1][0]-frame.points[2][0],frame.points[1][1]-frame.points[2][1])-points[1].distanceTo(points[2]))<1e-10);
+ }
  for(const scale of [.4,1,1.38,2]){
   const a=new T.Vector3(-.6,0,0).multiplyScalar(scale),b=new T.Vector3(.6,0,0).multiplyScalar(scale),c=new T.Vector3(.8,1.7,.6).multiplyScalar(scale),d=new T.Vector3(-.8,1.7,.6).multiplyScalar(scale);
   const frame=surfaceFrame(T,[a,b,c]),other=surfaceFrame(T,[a,c,d]);
