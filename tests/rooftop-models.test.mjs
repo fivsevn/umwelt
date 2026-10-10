@@ -111,7 +111,9 @@ test("all botanical forms generate finite, deterministic geometry and preserve s
       b = recording();
     buildFoliage(a.api, {}, p, { seed: 1835 });
     buildFoliage(b.api, {}, p, { seed: 1835 });
-    assert.ok(a.parts.length > 10, p.id);
+    // Paired stone plants have two leaf bodies and two flat windows; painted
+    // markings no longer inflate their geometry with tiny decorative boxes.
+    assert.ok(a.parts.length >= (/^exp-(stones|splitrock)$/.test(p.form) ? 4 : 11), p.id);
     assert.deepEqual(a.parts, b.parts, p.id + " deterministic seed");
   }
   const fan = recording();

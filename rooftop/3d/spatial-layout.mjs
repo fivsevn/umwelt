@@ -1,5 +1,6 @@
 import { plantContact } from '../plant-art.mjs';
 import { PLANTS } from '../botany.mjs';
+import { latticeSupports } from './rack-grid.mjs';
 import { physicalFootprint, supportSurfaces, placementSpaces, spaceObstacles, placementKind } from './placement-profiles.mjs';
 export { physicalFootprint, supportSurfaces, placementSpaces, spaceObstacles, placementKind } from './placement-profiles.mjs';
 const plants = new Set(PLANTS.map(p=>p.id));
@@ -37,6 +38,7 @@ export function fitsSurface(child,parent,surface,{height=true,footprint=physical
   if(!fits||height&&p.h>surface.ceiling+.025)return false;
   if(surface.point&&(dx>.016||dz>.016))return false;
   if(surface.holes?.some(h=>touchesHole(q,h)))return false;
+  if(surface.lattice&&!latticeSupports({ ...q, x:q.x-(surface.x||0), z:q.z-(surface.z||0) },surface.lattice))return false;
   const body=projectedBounds(child,parent,p,true),bottom=surface.y;
   return !spaceObstacles(parent).some(part=>part.cavity!==surface.id&&bottom<part.y+part.h/2-.025&&bottom+p.h>part.y-part.h/2+.025&&overlaps(body,part,-.012));
 }

@@ -5,6 +5,7 @@ import { vesselDimensions, vesselInterior } from "./vessel-models.mjs";
 import { foliageHeight } from "./plant-envelope.mjs";
 import { washstationSpec } from "./washstation.mjs";
 import { OBJECT_DIMENSIONS } from "./object-dimensions.mjs";
+import { RACK_GRID } from "./rack-grid.mjs";
 
 const plants = new Map(PLANTS.map((p) => [p.id, p]));
 const weapons = new Map(WEAPONS.map((a) => [a.id, a]));
@@ -380,6 +381,7 @@ export function supportSurfaces(o) {
         0,
         {
           thickness,
+          lattice: { pitch: RACK_GRID.pitch * s, bar: RACK_GRID.bar * s },
           ceiling:
             i < yy.length - 1
               ? yy[i + 1] - y - thickness
