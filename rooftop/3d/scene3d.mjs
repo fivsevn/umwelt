@@ -1,6 +1,21 @@
 import { HOUSE, housePoint, houseOccludes } from "../house-structure.mjs";
-import { buildHouseRoof } from "./house-roof.mjs";
-import { terraceFloorGeometry } from "./terrace-floor.mjs";
+import { loadArchitecturalShell } from "./architectural-shell.mjs";
+import { BACKGROUND } from "../assets/background/empty-rooftop.mjs";
+import { readScopeOptics, createScopeSurfaceCache } from "./scope-reading.mjs";
+import { createScopeLensPass, lensWarpNdc, lensUnwarpNdc } from "./lens-pass.mjs";
+import { projectVisibleDoor } from "./door-projection.mjs";
+import {
+  narrativePreset,
+  narrativeFrame,
+  applyNarrativeFrameOffset,
+  narrativePose,
+  constrainNarrativeHead,
+  constrainNarrativeTarget,
+  constrainNarrativeStation,
+  birdHeadAtStation,
+  narrativeDrag,
+  nudgeNarrativeStation as advanceNarrativeStation,
+} from "./story-camera.mjs";
 import {
   TERRACE_ZOOM,
   TERRACE_VIEW_DISTANCE,
@@ -29,7 +44,6 @@ import {
   latheSurface,
   leafSurface,
 } from "./model-surfaces.mjs";
-import { buildNeighborhood } from "./neighborhood.mjs";
 import { buildWashstation } from "./washstation.mjs";
 import {
   resolveSupports,
@@ -55,6 +69,8 @@ import { buildResident, buildPig } from "./residents.mjs";
 export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   const controls = options.controls || "orbit";
   const editable = controls === "edit";
+  const backgroundStage = options.backgroundStage === true;
+  const gameModelStage = options.gameModelStage === true;
   let navigationMode = "rotate",
     orbitLimits = null;
   if (controls !== "none") canvas.tabIndex = 0;
@@ -95,12 +111,13 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   renderer.shadowMap.autoUpdate = false;
   renderer.shadowMap.type = T.BasicShadowMap;
   renderer.setClearColor("#bdc2c5");
+  const scopeLens = createScopeLensPass(T, renderer);
   const scene = new T.Scene(),
     camera =
       controls === "pan"
-        ? new T.PerspectiveCamera(40, 1, 0.1, 500)
-        : new T.OrthographicCamera(-20, 20, 20, -20, 0.1, 500);
-  scene.fog = new T.Fog("#bdc2c5", 48, 130);
+        ? new T.PerspectiveCamera(40, 1, 0.1, 6000)
+        : new T.OrthographicCamera(-20, 20, 20, -20, 0.1, 6000);
+  scene.fog = new T.Fog("#bdc2c5", 180, 6000);
   const hemi = new T.HemisphereLight("#f3f2e9", "#a0aaa4", 2.0);
   scene.add(hemi);
   const sun = new T.DirectionalLight("#fff8e7", 1.45);
@@ -590,17 +607,6 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     buildObject(modelApi(), g, asset(o.type), o);
     return g;
   }
-  function polygonShape(points) {
-    const s = new T.Shape();
-    points.forEach(([x, z], i) => (i ? s.lineTo(x, z) : s.moveTo(x, z)));
-    s.closePath();
-    return s;
-  }
-  const sourcePolygons = {
-    north: SCENES.north.points,
-    south: SCENES.south.points,
-    room: SCENES.room.points,
-  };
   const coords = (name, x, y) =>
     name === "north"
       ? [(x - 304) / 16, (y - 272) / 16]
@@ -612,257 +618,52 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       roomShell(parent);
       return;
     }
-    const points = sourcePolygons[name].map((p) => coords(name, ...p)),
-      shape = polygonShape(points);
-    const geo = new T.ExtrudeGeometry(shape, {
-      depth: 0.38,
-      bevelEnabled: false,
-      steps: 1,
-    });
-    geo.rotateX(Math.PI / 2);
-    const slab = new T.Mesh(geo, mat("#c1bfb0", "wall"));
-    geo.setAttribute(
-      "paintSeed",
-      new T.Float32BufferAttribute(
-        new Array(geo.attributes.position.count).fill(
-          surfaceSeed(name === "north" ? 15773 : 39127),
-        ),
-        1,
-      ),
-    );
-    slab.position.y = -0.1;
-    slab.castShadow = slab.receiveShadow = true;
-    parent.add(slab);
-    // The terrace is the top of a real house, rather than a floating platform.
-    const foundation = new T.ExtrudeGeometry(shape, {
-      depth: -0.48 - HOUSE.base,
-      bevelEnabled: false,
-      steps: 1,
-    });
-    foundation.rotateX(Math.PI / 2);
-    const walls = new T.Mesh(foundation, mat("#bdbbae", "wall"));
-    walls.position.y = -0.48;
-    walls.castShadow = walls.receiveShadow = true;
-    parent.add(walls);
-    for (let i = 0; i < points.length; i++) {
-      const a = points[i],
-        b = points[(i + 1) % points.length];
-      const length = Math.hypot(b[0] - a[0], b[1] - a[1]);
-      const angle = Math.atan2(b[1] - a[1], b[0] - a[0]);
-      const nx = Math.sin(angle),
-        nz = -Math.cos(angle);
-      for (let floor = 0; floor < 6; floor++)
-        for (let d = 2; d < length - 1; d += 4.5)
-          facadeWindow(
-            parent,
-            a[0] + ((b[0] - a[0]) * d) / length + nx * 0.04,
-            -3 - floor * 5.6,
-            a[1] + ((b[1] - a[1]) * d) / length + nz * 0.04,
-            Math.PI - angle,
-            2.8,
-            2.5,
-            (floor + i) % 7,
-          );
-    }
-    const faceGeo = terraceFloorGeometry(T,shape);
-    const pos = faceGeo.attributes.position,
-      uv = faceGeo.attributes.uv;
-    for (let i = 0; i < pos.count; i++) {
-      const x = pos.getX(i),
-        z = pos.getZ(i);
-      const sx = x * 16 + (name === "north" ? 304 : 284),
-        sy = z * 16 + (name === "north" ? 272 : 264);
-      uv.setXY(i, sx / 640, 1 - sy / 520);
-    }
-    uv.needsUpdate = true;
-    faceGeo.computeVertexNormals();
-    const top = new T.Mesh(
-      faceGeo,
-      mat(P.tile, "paving"),
-    );
-    top.position.y = 0.015;
-    top.receiveShadow = true;
-    parent.add(top);
-    for (let i = 0; i < points.length; i++) {
-      const a = points[i],
-        b = points[(i + 1) % points.length],
-        len = Math.hypot(b[0] - a[0], b[1] - a[1]),
-        mx = (a[0] + b[0]) / 2,
-        mz = (a[1] + b[1]) / 2,
-        horizontal = Math.abs(a[1] - b[1]) < 0.01;
-      const isDoor =
-        name === "north" &&
-        !horizontal &&
-        a[0] === 6 &&
-        Math.min(a[1], b[1]) >= 4;
-      if (isDoor) {
-        for (const [z1, z2] of [
-          [4, 7.5],
-          [9.75, 12],
-        ]) {
-          box(
-            parent,
-            mx,
-            0.48,
-            (z1 + z2) / 2,
-            0.28,
-            0.96,
-            z2 - z1,
-            P.wall,
-            "parapet",
-          );
-          box(
-            parent,
-            mx,
-            1.02,
-            (z1 + z2) / 2,
-            0.4,
-            0.14,
-            z2 - z1 + 0.08,
-            P.cap,
-          );
-        }
-        door(parent, name, mx, 8.375, -Math.PI / 2);
-      } else {
-        box(
-          parent,
-          mx,
-          0.38,
-          mz,
-          horizontal ? len + 0.12 : 0.26,
-          0.76,
-          horizontal ? 0.26 : len + 0.12,
-          P.wall,
-          "parapet",
-        );
-        box(
-          parent,
-          mx,
-          0.83,
-          mz,
-          horizontal ? len + 0.2 : 0.36,
-          0.15,
-          horizontal ? 0.36 : len + 0.2,
-          P.cap,
-          "wall",
-        );
-      }
-    }
-    if (name === "north") {
-      for (let x = -1.7; x < 5.9; x += 0.88)
-        box(parent, x, 1.2, -12, 0.065, 1.15, 0.065, P.metal);
-      box(parent, 2, 1.8, -12, 7.9, 0.08, 0.09, P.metal);
-      box(parent, 8, 0.04, 11.72, 2.8, 0.08, 0.72, "#5d6051");
-      for (let x = 6.7; x < 9.4; x += 0.3)
-        box(parent, x, 0.09, 11.72, 0.065, 0.025, 0.63, "#a8aa92");
-      for (let z = -6.2; z < -0.8; z += 1)
-        box(parent, 9.95, 0.94, z, 0.06, 0.75, 0.07, P.metal);
-      box(parent, 9.95, 1.3, -3.7, 0.07, 0.07, 5.5, P.metal);
-    } else {
-      for (const x of [-4, 4]) {
-        for (let z = -9.6; z < 10; z += 2.8)
-          box(parent, x, 1.05, z, 0.065, 1.4, 0.1, P.metal);
-        box(parent, x, 1.75, 0, 0.1, 0.08, 20, P.metal);
-      }
-      door(parent, name, -3.83, 8.1, -Math.PI / 2);
-    }
-    if (editable || name === "north")
-      buildHouseRoof(
-        { T, group, box, beam, mat, window: facadeWindow },
-        parent,
-        name,
-      );
-    // A single damp joint has a few shoots; the usable terrace remains clear.
-    const growth = group(
-      parent,
-      ...(name === "north" ? [9.7, 0, 10.55] : [3.78, 0, -9.18]),
-    );
-    growth.userData.paintSeed = surfaceSeed(name === "north" ? 11371 : 39671);
-    for (let j = 0; j < 3; j++) {
-      const lean = (surfaceSeed(j * 137 + 397) - 0.5) * 0.12,
-        h = 0.16 + surfaceSeed(j * 719 + 19) * 0.21;
-      beam(
-        growth,
-        [j * 0.045, 0, 0],
-        [lean, h, -0.025],
-        0.014,
-        "#627248",
-        0.014,
-        "leaf",
-      );
-      box(
-        growth,
-        lean - 0.045,
-        h * 0.58,
-        0.012,
-        0.11,
-        0.018,
-        0.065,
-        "#657944",
-        "leaf",
-        -0.37,
-        0.38 + j * 0.71,
-        0.24,
-      );
-      box(
-        growth,
-        lean + 0.03,
-        h * 0.82,
-        -0.019,
-        0.08,
-        0.015,
-        0.075,
-        "#879359",
-        "leaf",
-        0.32,
-        -0.29 + j * 0.37,
-        -0.24,
-      );
-    }
-    // tiny drain at its original corner
-    const [dx, dz] = coords(
-      name,
-      ...(name === "north" ? [282, 147] : [236, 407]),
-    );
-    cyl(parent, dx, 0.035, dz, 0.23, 0.23, 0.04, "#64776a", 12);
-    for (let i = -1; i < 2; i++)
-      box(parent, dx + i * 0.1, 0.06, dz, 0.04, 0.02, 0.3, "#bac0a3");
+    // The saved Blender shell owns every outdoor slab, wall and roof. The
+    // terrace-local door stays separate so its hinge and transition remain live.
+    door(parent, name, ...(name === "north" ? [6, 8.375] : [-3.83, 8.1]), name === "north" ? Math.PI / 2 : -Math.PI / 2);
   }
   function door(parent, name, x, z, angle) {
     const frame = group(parent, x, 0.02, z);
     frame.rotation.y = angle;
+    // The approved outdoor opening is 2.1 metres high. Its export uses the
+    // established terrace units (3 metres = 5.6 units); room proportions stay.
+    const height = name === "room" ? 2.5 : 2.1 * 5.6 / 3,
+      heightScale = height / 2.5,
+      frameHeight = height + 0.14;
     for (const xx of [-0.61, 0.61])
-      box(frame, xx, 1.32, 0, 0.15, 2.64, 0.3, P.cap, "wall");
-    box(frame, 0, 2.64, 0, 1.38, 0.16, 0.34, P.cap);
+      box(frame, xx, frameHeight / 2, 0, 0.15, frameHeight, 0.3, P.cap, "wall");
+    box(frame, 0, frameHeight, 0, 1.38, 0.16, 0.34, P.cap);
     box(frame, 0, 0.06, 0.12, 1.5, 0.12, 0.7, "#bbb49c");
     if (name !== "room") {
-      box(frame, 0.2, 2.92, 0.78, 3.55, 0.12, 1.9, "#9eaba7", "metal", -0.06);
+      box(frame, 0.2, frameHeight + 0.28, 0.78, 3.55, 0.12, 1.9, "#9eaba7", "metal", -0.06);
       for (const xx of [-1.25, 1.25])
-        beam(frame, [xx, 2.4, 0.06], [xx, 2.86, 1.13], 0.055, "#6c7a79");
+        beam(frame, [xx, frameHeight - 0.24, 0.06], [xx, frameHeight + 0.22, 1.13], 0.055, "#6c7a79");
     }
     const hinge = group(frame, -0.51, 0, 0);
     hinge.userData.animated = true;
-    box(hinge, 0.51, 1.25, 0, 1.02, 2.5, 0.16, "#64706e", "metal");
-    box(hinge, 0.51, 1.27, 0.094, 0.86, 2.27, 0.025, "#ffffff", "panel-door");
+    box(hinge, 0.51, height / 2, 0, 1.02, height, 0.16, "#64706e", "metal");
+    box(hinge, 0.51, 1.27 * heightScale, 0.094, 0.86, 2.27 * heightScale, 0.025, "#ffffff", "panel-door");
     for (const xx of [0.035, 0.985])
-      box(hinge, xx, 1.25, 0.09, 0.045, 2.4, 0.025, "#7c8e8f", "metal");
-    box(hinge, 0.81, 1.19, 0.139, 0.055, 0.17, 0.045, "#b4baac", "metal");
-    doors[name] = { hinge, frame };
+      box(hinge, xx, height / 2, 0.09, 0.045, 2.4 * heightScale, 0.025, "#7c8e8f", "metal");
+    box(hinge, 0.81, 1.19 * heightScale, 0.139, 0.055, 0.17 * heightScale, 0.045, "#b4baac", "metal");
+    doors[name] = { hinge, frame, height };
   }
   function resident(parent, name) {
     actors[name] = buildResident(
       { group, box, beam, cyl, ellipsoid, modelApi, P },
       parent,
     );
+    actors[name].person.visible = !options.hideActors;
   }
   function pig(parent, name) {
     Object.assign(
       actors[name],
       buildPig({ group, box, beam, cyl, ellipsoid, P }, parent),
     );
+    actors[name].pig.visible = !options.hideActors;
   }
   const objectRoots = { north: new Map(), south: new Map(), room: new Map() };
-  let modelBuilds = 0;
+  let modelBuilds = 0, layoutRevision = 0;
   const supportCache = new WeakMap();
   function relationsFor(list) {
     if (!supportCache.has(list)) supportCache.set(list, resolveSupports(list));
@@ -975,6 +776,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     const key = JSON.stringify(next.scenes);
     if (key === layoutKey) return;
     layoutKey = key;
+    layoutRevision++;
     layout = next;
     for (const name of ["north", "south", "room"]) {
       D.layout[name] = (next.scenes[name] || []).map(withContact);
@@ -1153,82 +955,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   city.userData.weathered = true;
   const groundY = HOUSE.base,
     windowMats = [];
-  function facadeWindow(parent, x, y, z, angle, w, h, variant) {
-    const g = group(parent, x, y, z);
-    g.rotation.y = angle;
-    box(g, 0, 0, 0, w + 0.18, h + 0.2, 0.12, "#a7aca1", "metal");
-    const color = [
-      "#a1aaa0",
-      "#829697",
-      "#b1b5a4",
-      "#849792",
-      "#99aaa6",
-      "#b1b4a1",
-      "#a2ada1",
-    ][variant % 7];
-    const m = mat(color, "window");
-    m.userData.window = true;
-    if (!windowMats.includes(m)) windowMats.push(m);
-    box(g, 0, 0, 0.07, w, h, 0.038, color, "window");
-    box(g, 0, 0, 0.106, 0.05, h + 0.06, 0.042, "#d1d2bf", "metal");
-    box(g, 0, -h * 0.13, 0.107, w, 0.04, 0.04, "#c9cebd", "metal");
-    for (const sx of [-1, 1])
-      box(
-        g,
-        sx * (w * 0.5 + 0.032),
-        0,
-        0.073,
-        0.06,
-        h + 0.11,
-        0.04,
-        "#d2d0bc",
-        "metal",
-      );
-    box(g, 0, -h / 2 - 0.1, 0.13, w + 0.29, 0.16, 0.32, "#c3c2af", "wall");
-    box(g, 0, h / 2 + 0.09, 0.045, w + 0.22, 0.1, 0.18, "#d1ceb9", "wall");
-    if (variant % 4 === 0) {
-      box(
-        g,
-        w * 0.5 + 0.41,
-        -h * 0.31,
-        0.14,
-        0.66,
-        0.5,
-        0.37,
-        "#c6c9bc",
-        "metal",
-      );
-      box(
-        g,
-        w * 0.5 + 0.41,
-        -h * 0.31,
-        0.337,
-        0.6,
-        0.45,
-        0.017,
-        "#ffffff",
-        "panel-ac",
-      );
-      for (const sx of [-1, 1])
-        box(
-          g,
-          w * 0.5 + 0.41 + sx * 0.22,
-          -h * 0.5 - 0.07,
-          0.14,
-          0.055,
-          0.075,
-          0.5,
-          "#546967",
-          "metal",
-        );
-    }
-  }
-  const neighborhood = buildNeighborhood(
-    { T, box, beam, cyl, ellipsoid, group, mat, P, surface },
-    city,
-    groundY,
-    facadeWindow,
-  );
+  const architecturalShell = loadArchitecturalShell(T, city);
+  const neighborhood = { source: "Blender", row: true, gameRange: true };
   if (!editable && options.scene !== "room") {
     build("north");
     build("south");
@@ -1237,7 +965,14 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   let current = "north",
     view = { theta: -0.12, phi: 1.15, zoom: 1 },
     wanted = { ...view };
-  let terraceBounds = null;
+  let terraceBounds = null, backgroundOverview = false, backgroundOutlook = false;
+  let narrativeView = "bird", storyFrame = null;
+  let freeCamera = false, freeYaw = 0, freePitch = 0, freeDistance = 1;
+  const freeEye = new T.Vector3();
+  const freeDirection = () => new T.Vector3(Math.sin(freeYaw) * Math.cos(freePitch), Math.sin(freePitch), Math.cos(freeYaw) * Math.cos(freePitch));
+  const narrativeActive = () => !editable && current !== "room" && (!backgroundStage || gameModelStage);
+  const storyPreset = () => narrativePreset(current, narrativeView);
+  const station = { walk: 0, height: 0, dolly: 0 }, wantedStation = { ...station };
   const target = new T.Vector3(0, 0.2, -1.1),
     desiredTarget = target.clone();
   const pointers = new Map();
@@ -1245,6 +980,11 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     multiTouchGesture = false,
     doorProgress = 0;
   function reset(name) {
+    freeCamera = false;
+    backgroundOverview = false;
+    backgroundOutlook = false;
+    Object.assign(station, { walk: 0, height: 0, dolly: 0 });
+    Object.assign(wantedStation, station);
     current = name;
     build(name);
     if (primitives.length) compileInstances();
@@ -1267,40 +1007,35 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     }
     city.visible = name !== "room";
     city.position.set(
-      name === "south" && !editable ? -HOUSE.terraces.south.origin[1] : 0,
+      name === "south" ? -HOUSE.terraces.south.origin[1] : 0,
       0,
       0,
     );
-    city.rotation.y = name === "south" && !editable ? Math.PI / 2 : 0;
+    city.rotation.y = name === "south" ? Math.PI / 2 : 0;
     city.updateMatrix();
     orbitLimits = terraceOrbit(name, canvas.clientWidth);
-    wanted.theta =
-      !editable && name !== "room"
-        ? orbitLimits.theta
-        : ((name === "south" && controls === "pan" && canvas.clientWidth >= 640
-            ? -Math.PI / 2 + 0.34
-            : options.initialTheta) ??
-          (controls === "fixed"
-            ? -0.34
-            : name === "north"
-              ? -0.12
-              : name === "room"
-                ? -0.18
-                : -0.25));
-    wanted.phi =
-      !editable && name !== "room"
-        ? orbitLimits.phi
-        : controls === "fixed"
-          ? 0.87
-          : name === "room"
-            ? 0.9
-            : 0.87;
+    wanted.theta = name !== "room"
+      ? orbitLimits.theta
+      : (options.initialTheta ?? -0.18);
+    wanted.phi = name === "room" ? 0.9 : editable ? 0.87 : orbitLimits.phi;
+    if (backgroundStage && !gameModelStage && name !== "room") {
+      wanted.theta = name === "north" ? Math.PI - .48 : Math.PI / 2 + .48;
+      wanted.phi = .68;
+    }
     wanted.zoom = name === "room" ? 1.07 : editable ? 1 : TERRACE_ZOOM.min;
     desiredTarget.set(
       name === "room" ? -0.4 : 0,
       0.2,
       name === "room" ? -0.8 : 0,
     );
+    if (narrativeActive()) {
+      const preset = storyPreset();
+      wanted.theta = 0;
+      wanted.phi = 0;
+      wanted.zoom = 1;
+      desiredTarget.set(...preset.target);
+      orbitLimits = { fullRotation: false, minTheta: -preset.yaw, maxTheta: preset.yaw, minPhi: -preset.pitch, maxPhi: preset.pitch };
+    }
     Object.assign(view, wanted);
     target.copy(desiredTarget);
     pointers.clear();
@@ -1326,7 +1061,11 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       software,
     );
     renderer.setSize(bufferW, bufferH, false);
-    if (current !== "room") {
+    if (narrativeActive()) {
+      storyFrame = narrativeFrame(storyPreset(), w, h);
+      wanted.zoom = T.MathUtils.clamp(wanted.zoom, storyFrame.zoom.min, storyFrame.zoom.max);
+      constrainPan();
+    } else if (current !== "room") {
       const previousFrame = terraceBounds;
       terraceBounds = terraceFrame(
         current,
@@ -1344,7 +1083,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       }
       constrainPan();
     }
-    const height =
+    const height = narrativeActive() ? storyFrame.span :
       current === "room" ? Math.max(15.5, (13.8 * h) / w) : terraceBounds.span;
     camera.top = height / 2;
     camera.bottom = -height / 2;
@@ -1352,14 +1091,20 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     camera.right = (height * w) / h / 2;
     if (camera.isPerspectiveCamera) {
       camera.aspect = w / h;
-      camera.fov = T.MathUtils.radToDeg(
-        2 * Math.atan(height / (2 * TERRACE_VIEW_DISTANCE)),
+      camera.fov = backgroundOutlook ? 80 : backgroundOverview ? 50 : T.MathUtils.radToDeg(
+        2 * Math.atan(height / (2 * (narrativeActive() ? narrativePose(storyPreset()).distance : TERRACE_VIEW_DISTANCE))),
       );
+      applyNarrativeFrameOffset(camera, narrativeActive() ? storyFrame : null, w, h);
     }
     camera.updateProjectionMatrix();
     renderer.shadowMap.needsUpdate = true;
   }
   function constrainPan() {
+    if (narrativeActive()) {
+      const point = constrainNarrativeTarget(storyPreset(), desiredTarget);
+      desiredTarget.set(point.x, point.y, point.z);
+      return;
+    }
     if (!terraceBounds || current === "room") return;
     const p = constrainTerracePan(
       terraceBounds,
@@ -1373,6 +1118,28 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     desiredTarget.z = p.z;
   }
   function pan(dx, dy) {
+    if (freeCamera) {
+      const scale = 2 * freeDistance * Math.tan(T.MathUtils.degToRad(camera.fov / 2)) / Math.max(1, canvas.clientHeight);
+      freeEye.addScaledVector(new T.Vector3(1, 0, 0).applyQuaternion(camera.quaternion), -dx * scale);
+      freeEye.addScaledVector(new T.Vector3(0, 1, 0).applyQuaternion(camera.quaternion), dy * scale);
+      return;
+    }
+    if (narrativeActive()) {
+      const preset = storyPreset();
+      if (preset.id === "bird" || preset.id === "drone") {
+        const next = narrativeDrag(preset, { ...wanted, station: wantedStation }, dx, dy);
+        Object.assign(wantedStation, next.station);
+        wanted.theta = next.theta; wanted.phi = next.phi;
+        return;
+      }
+      const pose = narrativePose(preset, { ...wanted, station: wantedStation }, desiredTarget.toArray()),
+        u = (-dx * (camera.right - camera.left)) / wanted.zoom / Math.max(1, canvas.clientWidth),
+        v = (-dy * (camera.top - camera.bottom)) / wanted.zoom / Math.max(1, canvas.clientHeight) / Math.max(.18, -Math.sin(pose.pitch));
+      desiredTarget.x += Math.cos(pose.yaw) * u + Math.sin(pose.yaw) * v;
+      desiredTarget.z += -Math.sin(pose.yaw) * u + Math.cos(pose.yaw) * v;
+      constrainPan();
+      return;
+    }
     const u =
       (-dx * (camera.right - camera.left)) / wanted.zoom / canvas.clientWidth;
     const v =
@@ -1385,11 +1152,23 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     constrainPan();
   }
   function zoom(delta, x, y) {
+    if (freeCamera) {
+      const step = delta * Math.max(1, freeDistance) * .65;
+      freeEye.addScaledVector(freeDirection(), step);
+      freeDistance = Math.max(.5, freeDistance - step);
+      return;
+    }
+    if (narrativeActive() && narrativeView === "bird") return;
+    if (narrativeActive() && narrativeView === "drone") {
+      wantedStation.dolly += delta * 8;
+      Object.assign(wantedStation, constrainNarrativeStation(storyPreset(), wantedStation));
+      return;
+    }
     const old = wanted.zoom;
     wanted.zoom = T.MathUtils.clamp(
       old * Math.exp(delta),
-      current === "room" ? 0.58 : editable ? 1 : TERRACE_ZOOM.min,
-      current === "room" ? 1.85 : editable ? 3.5 : TERRACE_ZOOM.max,
+      narrativeActive() ? storyFrame.zoom.min : current === "room" ? 0.58 : editable ? 1 : TERRACE_ZOOM.min,
+      narrativeActive() ? storyFrame.zoom.max : current === "room" ? 1.85 : editable ? 3.5 : TERRACE_ZOOM.max,
     );
     if (current !== "room" && x !== undefined) {
       const point = groundPoint(x, y);
@@ -1404,12 +1183,16 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     }
     constrainPan();
   }
+  function constrainHead() {
+    if (!narrativeActive()) return;
+    Object.assign(wanted, constrainNarrativeHead(storyPreset(), wanted.theta, wanted.phi));
+  }
   function distance() {
     const p = [...pointers.values()];
     return p.length === 2 ? Math.hypot(p[0].x - p[1].x, p[0].y - p[1].y) : 0;
   }
   canvas.addEventListener("pointerdown", (e) => {
-    if (e.button !== 0 && e.pointerType === "mouse") return;
+    if (e.button !== 0 && e.pointerType === "mouse" && !(freeCamera && e.button === 2)) return;
     canvas.focus({ preventScroll: true });
     canvas.setPointerCapture(e.pointerId);
     if (controls === "none") return;
@@ -1419,8 +1202,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       y: e.clientY,
       object: object?.id,
       rotate:
-        current === "room" ||
-        (controls === "pan" ? navigationMode === "rotate" : e.shiftKey),
+        freeCamera ? e.button === 0 && !e.shiftKey : !narrativeActive() && (current === "room" ||
+        (controls === "pan" ? navigationMode === "rotate" : e.shiftKey)),
     });
     lastDistance = distance();
     if (pointers.size > 1) multiTouchGesture = true;
@@ -1441,11 +1224,16 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         y = (ps[0].y + ps[1].y) / 2;
       const d = distance();
       if (d && lastDistance) zoom(Math.log(d / lastDistance), x, y);
-      if (controls === "pan" && current !== "room") pan(dx / 2, dy / 2);
+      if ((narrativeActive() || controls === "pan") && current !== "room") pan(dx / 2, dy / 2);
       lastDistance = d;
     } else if (multiTouchGesture) {
       return;
-    } else if ((controls === "fixed" || controls === "pan") && !old.rotate) {
+    } else if (freeCamera) {
+      if (old.rotate) {
+        freeYaw -= dx * .006;
+        freePitch = T.MathUtils.clamp(freePitch - dy * .005, -1.5, 1.5);
+      } else pan(dx, dy);
+    } else if (narrativeActive() || (controls === "fixed" || controls === "pan") && !old.rotate) {
       pan(dx, dy);
     } else if (!old.object) {
       wanted.theta -= dx * 0.006;
@@ -1454,6 +1242,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         current === "room" ? 0.35 : editable ? 0.45 : orbitLimits.minPhi,
         current === "room" ? 1.49 : editable ? 1.35 : orbitLimits.maxPhi,
       );
+      constrainHead();
       resize();
     }
   });
@@ -1489,6 +1278,16 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       "Home",
     ];
     if (editable || controls === "none" || !keys.includes(e.key)) return;
+    if (narrativeActive()) {
+      e.preventDefault();
+      if (e.key.startsWith("Arrow")) pan(
+        e.key === "ArrowLeft" ? 35 : e.key === "ArrowRight" ? -35 : 0,
+        e.key === "ArrowUp" ? 35 : e.key === "ArrowDown" ? -35 : 0,
+      );
+      if (e.key === "+" || e.key === "=") zoom(.12);
+      if (e.key === "-") zoom(-.12);
+      return;
+    }
     if (
       controls === "pan" &&
       navigationMode === "move" &&
@@ -1517,6 +1316,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         orbitLimits.minPhi,
         orbitLimits.maxPhi,
       );
+      constrainHead();
       resize();
     }
     if (e.key === "+" || e.key === "=") zoom(0.12);
@@ -1534,7 +1334,32 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   });
   const projected = new T.Vector3();
   function positionCamera() {
-    const radius = camera.isPerspectiveCamera ? TERRACE_VIEW_DISTANCE : 58;
+    if (freeCamera) {
+      camera.position.copy(freeEye);
+      camera.lookAt(freeEye.clone().add(freeDirection()));
+      camera.zoom = 1;
+      camera.updateProjectionMatrix();
+      camera.updateMatrixWorld();
+      return;
+    }
+    if (narrativeActive()) {
+      const pose = narrativePose(storyPreset(), { ...view, station }, target.toArray());
+      camera.position.set(...pose.eye);
+      camera.lookAt(...pose.target);
+      camera.zoom = view.zoom;
+      camera.updateProjectionMatrix();
+      camera.updateMatrixWorld();
+      return;
+    }
+    if (backgroundOutlook) {
+      const pitch=view.phi-.48;
+      camera.position.set(current === "north" ? 0 : 2.5, 3.1, current === "north" ? -4 : 0);
+      camera.lookAt(camera.position.x-Math.sin(view.theta)*100*Math.cos(pitch),camera.position.y-Math.sin(pitch)*100,camera.position.z-Math.cos(view.theta)*100*Math.cos(pitch));
+      camera.zoom=view.zoom;camera.updateProjectionMatrix();camera.updateMatrixWorld();return;
+    }
+    const radius = backgroundOverview
+      ? Math.max(100, (HOUSE.roof.width + 18) / (2 * Math.tan(T.MathUtils.degToRad(camera.fov / 2)) * Math.max(.25, camera.aspect)))
+      : camera.isPerspectiveCamera ? TERRACE_VIEW_DISTANCE : 58;
     camera.position.set(
       target.x + Math.sin(view.theta) * Math.cos(view.phi) * radius,
       target.y + Math.sin(view.phi) * radius,
@@ -1545,43 +1370,45 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     camera.updateProjectionMatrix();
     camera.updateMatrixWorld();
   }
+  const doorVisibility = { key: null, checked: -Infinity, blocked: true };
   function positionDoor() {
     if (!doorButton) return;
-    const frame = doors[current].frame,
-      rect = canvas.getBoundingClientRect(),
-      points = [];
-    for (const x of [-0.65, 0.65])
-      for (const y of [0.05, 2.7]) {
-        projected.set(x, y, 0);
-        frame.localToWorld(projected);
-        projected.project(camera);
-        points.push([
-          (projected.x * 0.5 + 0.5) * rect.width,
-          (0.5 - projected.y * 0.5) * rect.height,
-        ]);
-      }
-    const xs = points.map((p) => p[0]),
-      ys = points.map((p) => p[1]);
-    const left = Math.min(...xs),
-      top = Math.min(...ys),
-      width = Math.max(44, Math.max(...xs) - left),
-      height = Math.max(44, Math.max(...ys) - top);
-    doorButton.hidden =
-      left + width < 0 ||
-      left > rect.width ||
-      top + height < 0 ||
-      top > rect.height;
+    const door = doors[current], rect = canvas.getBoundingClientRect(),
+      lens = narrativeActive() && narrativeView === "neighbor"
+        ? { unwarp: lensUnwarpNdc, radius: Math.min(.88 * rect.width, .82 * rect.height) / 2 } : null,
+      bounds = projectVisibleDoor(T, {
+        camera, frame: door.frame, width: rect.width, height: rect.height, doorHeight: door.height, lens,
+        isOccluded(point) {
+          if (current === "room") return false;
+          const eye = housePoint(current, camera.position.x, camera.position.z), p = housePoint(current, point.x, point.z);
+          if (houseOccludes([eye[0], camera.position.y, eye[1]], [p[0], point.y, p[1]])) return true;
+          const key = [current, architecturalShell?.stats.loaded, ...camera.position.toArray(), ...camera.quaternion.toArray()].join(":"), now = performance.now();
+          if (doorVisibility.key === key) return doorVisibility.blocked;
+          // While a camera moves, conservatively disable the DOM target until
+          // its native visibility is checked; never let it intercept a drag.
+          if (now - doorVisibility.checked < 125) return true;
+          const delta = point.clone().sub(camera.position), measureRay = new T.Raycaster(camera.position, delta.clone().normalize(), .01, delta.length() - .2);
+          doorVisibility.key = key; doorVisibility.checked = now;
+          doorVisibility.blocked = !!architecturalShell?.measure(measureRay);
+          return doorVisibility.blocked;
+        },
+      });
+    doorButton.hidden = !bounds;
+    if (!bounds) {
+      Object.assign(doorButton.style, { left: "0px", top: "0px", width: "0px", height: "0px" });
+      return;
+    }
     Object.assign(doorButton.style, {
-      left: left + "px",
-      top: top + "px",
-      width: width + "px",
-      height: height + "px",
+      left: bounds.left + "px",
+      top: bounds.top + "px",
+      width: bounds.width + "px",
+      height: bounds.height + "px",
     });
   }
   function updateActor(pig, person, present, time, weather) {
     const a = actors[current];
-    a.person.visible = present && !person.insideShelter;
-    a.pig.visible = !pig.insideShelter;
+    a.person.visible = !options.hideActors && present && !person.insideShelter;
+    a.pig.visible = !options.hideActors && !pig.insideShelter;
     const update = (g, p) => {
       const [x, z] = coords(current, p.x, p.y);
       g.position.set(x, 0.04, z);
@@ -1749,6 +1576,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     const speed = reduced ? 1 : 1 - Math.exp(-motionDt * 14);
     for (const key of ["theta", "phi", "zoom"])
       view[key] += (wanted[key] - view[key]) * speed;
+    for (const key of ["walk", "height", "dolly"])
+      station[key] += (wantedStation[key] - station[key]) * speed;
     target.lerp(desiredTarget, speed);
     positionCamera();
     doorProgress += (Number(doorOpen) - doorProgress) * Math.min(1, dt * 12);
@@ -1767,6 +1596,13 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     windTime.value = time;
     windPower.value = weatherMotion.wind;
     style.updateAtmosphere(a, current === "room");
+    architecturalShell?.update(a);
+    if (current !== "room") {
+      // Ordinary clear weather retains the distant authored skyline. Fog and
+      // storms still shorten visibility without changing the camera range.
+      scene.fog.near = 180 - a.fog * 120;
+      scene.fog.far = Math.max(80, 6000 - a.fog * 5920);
+    }
     surfaceWeather.wet.value = current === "room" ? 0 : a.wetness;
     surfaceWeather.rain.value = current === "room" ? 0 : a.rain;
     for (const f of waterAnimations) {
@@ -1794,7 +1630,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       selectionBox.updateMatrixWorld(true);
     }
     selectionKey = key;
-    renderer.render(scene, camera);
+    if (narrativeActive() && narrativeView === "neighbor") scopeLens.render(scene, camera, canvas.width, canvas.height);
+    else renderer.render(scene, camera);
     if (gl.fenceSync) {
       pendingGPU = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
       gl.flush();
@@ -1806,6 +1643,39 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   const raycaster = new T.Raycaster(),
     ndc = new T.Vector2(),
     floorPlane = new T.Plane(new T.Vector3(0, 1, 0), 0);
+  const scopeRaycaster = new T.Raycaster(), scopeCentre = new T.Vector2();
+  const scopeSurfaceCache = createScopeSurfaceCache();
+  function scopeReading() {
+    if (!narrativeActive() || narrativeView !== "neighbor") return null;
+    const now = performance.now(),
+      key = current + ":" + camera.position.toArray().join(",") + ":" + camera.quaternion.toArray().join(",") + ":" + layoutRevision + ":" + architecturalShell.stats.loaded;
+    const sample = scopeSurfaceCache.read(key, now, () => {
+      scopeRaycaster.near = camera.near; scopeRaycaster.far = camera.far;
+      scopeRaycaster.setFromCamera(scopeCentre, camera);
+      const livingMeshes = [];
+      for (const root of Object.values(groups)) if (root.visible)
+        root.traverseVisible(node => { if (node.isMesh) livingMeshes.push(node); });
+      const livingHit = scopeRaycaster.intersectObjects(livingMeshes, false)[0],
+        buildingHit = architecturalShell.measure?.(scopeRaycaster),
+        hit = !livingHit ? buildingHit : !buildingHit || livingHit.distance < buildingHit.distance ? livingHit : buildingHit;
+      return hit ? { point: hit.point.clone(), measuredSurface: true } : null;
+    }, !options.hideActors || objectMotion.length > 0 || foliage.length > 0 || waterAnimations.length > 0);
+    const
+      fallback = narrativePose(storyPreset(), view, target.toArray()).target,
+      point = sample?.point || new T.Vector3(...fallback),
+      eyeXZ = housePoint(current, camera.position.x, camera.position.z),
+      hitXZ = housePoint(current, point.x, point.z);
+    const value = readScopeOptics({
+      eye: [eyeXZ[0], camera.position.y, eyeXZ[1]],
+      hit: [hitXZ[0], point.y, hitXZ[1]],
+      metresPerUnit: BACKGROUND.texelMetresPerUnit,
+      verticalFovDegrees: camera.isPerspectiveCamera ? camera.fov : 2 * Math.atan((camera.top - camera.bottom) / (2 * camera.position.distanceTo(point))) * 180 / Math.PI,
+      zoom: camera.zoom,
+      viewportHeight: canvas.clientHeight,
+      measuredSurface: !!sample?.measuredSurface,
+    });
+    return value && { ...value };
+  }
   const selectionBox = new T.Box3Helper(new T.Box3(), 0xd6c38b);
   scene.add(selectionBox);
   selectionBox.visible = false;
@@ -1824,6 +1694,10 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       ((x - rect.left) / rect.width) * 2 - 1,
       1 - ((y - rect.top) / rect.height) * 2,
     );
+    if (narrativeActive() && narrativeView === "neighbor") {
+      const point = lensWarpNdc([ndc.x, ndc.y], rect.width / rect.height);
+      ndc.set(...point);
+    }
     raycaster.setFromCamera(ndc, camera);
   }
   function pointAtHeight(x, y, height = 0) {
@@ -1976,6 +1850,10 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     const rect = canvas.getBoundingClientRect();
     const b = new T.Box3().setFromObject(root),
       v = b.getCenter(new T.Vector3()).project(camera);
+    if (narrativeActive() && narrativeView === "neighbor") {
+      const point = lensUnwarpNdc([v.x, v.y], rect.width / rect.height);
+      v.x = point[0]; v.y = point[1];
+    }
     return {
       clientX: rect.left + (v.x * 0.5 + 0.5) * rect.width,
       clientY: rect.top + (0.5 - v.y * 0.5) * rect.height,
@@ -2171,6 +2049,54 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   }
   return {
     setScene: reset,
+    setFreeCamera(enabled) {
+      if (!gameModelStage || options.allowFreeCamera !== true || editable || current === "room") return;
+      if (!enabled) { freeCamera = false; reset(current); return; }
+      if (freeCamera) return;
+      positionCamera();
+      freeEye.copy(camera.position);
+      const direction = camera.getWorldDirection(new T.Vector3());
+      freeYaw = Math.atan2(direction.x, direction.z);
+      freePitch = Math.asin(direction.y);
+      freeDistance = camera.position.distanceTo(target);
+      freeCamera = true;
+      pointers.clear();
+    },
+    get scopeReading() { return scopeReading(); },
+    nudgeNarrativeStation(action) {
+      if (!narrativeActive()) return;
+      const preset = storyPreset();
+      Object.assign(wantedStation, advanceNarrativeStation(preset, wantedStation, action));
+      if (preset.id === "bird") Object.assign(wanted, birdHeadAtStation(preset, wantedStation, wanted.phi));
+    },
+    nudgeNarrativeOptics(action) {
+      if (!narrativeActive() || narrativeView !== "neighbor") return;
+      if (action === "in" || action === "out") zoom(action === "in" ? .18 : -.18);
+    },
+    setNarrativeView(name) {
+      if (editable || current === "room" || !["bird", "drone", "neighbor"].includes(name)) return;
+      narrativeView = name;
+      reset(current);
+    },
+    setBackgroundView(wide) {
+      if (!backgroundStage || gameModelStage || current === "room") return;
+      reset(current);
+      if (wide) {
+        backgroundOverview = true;
+        wanted.phi = .60;
+        wanted.zoom = 1;
+        resize();
+        const rowCentre=HOUSE.roof.x+HOUSE.roof.width/2;
+        desiredTarget.set(current === "north" ? rowCentre : -22, -8, current === "north" ? 10 : -rowCentre);
+        Object.assign(view, wanted);target.copy(desiredTarget);positionCamera();
+      }
+    },
+    setBackgroundOutlook() {
+      if (!backgroundStage || gameModelStage || current === "room") return;
+      reset(current);backgroundOutlook=true;
+      wanted.theta=current === "north" ? 0 : -Math.PI/2;
+      wanted.phi=.4;wanted.zoom=1.8;resize();Object.assign(view,wanted);positionCamera();
+    },
     setNavigationMode(mode) {
       if (mode === "move" || mode === "rotate") navigationMode = mode;
     },
@@ -2200,6 +2126,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
           (k) => Math.abs(wanted[k] - view[k]) > 0.001,
         ) ||
         target.distanceToSquared(desiredTarget) > 0.000001
+        || ["walk", "height", "dolly"].some(key => Math.abs(wantedStation[key] - station[key]) > .001)
       );
     },
     draw,
@@ -2233,6 +2160,12 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         navigationMode,
         projection: camera.isPerspectiveCamera ? "perspective" : "orthographic",
         orbitLimits,
+        narrativeView: narrativeActive() ? narrativeView : null,
+        freeCamera,
+        freeCameraPose: freeCamera ? { eye: freeEye.toArray(), target: freeEye.clone().addScaledVector(freeDirection(), freeDistance).toArray() } : null,
+        cameraPreset: narrativeActive() ? { ...storyPreset(), frame: { ...storyFrame }, pose: narrativePose(storyPreset(), { ...view, station }, target.toArray()) } : null,
+        stationTravel: narrativeActive() ? { current: { ...station }, wanted: { ...wantedStation }, limits: { ...storyPreset().station } } : null,
+        scopeLens: narrativeActive() && narrativeView === "neighbor" ? scopeLens.stats : null,
         programs: renderer.info.programs?.length || 0,
         selectedModel: options.selected?.() || null,
         wardrobe: { ...wardrobe },
@@ -2252,9 +2185,16 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         visibleTerraces: terracesInFrame(),
         target: target.toArray(),
         terraceFrame: terraceBounds,
-        zoomLimits: TERRACE_ZOOM,
+        zoomLimits: narrativeActive() ? { ...storyFrame.zoom } : TERRACE_ZOOM,
         storeys: 6,
         neighborhood,
+        background: architecturalShell.stats,
+        gameModelReview: gameModelStage,
+        cameraRange: { near: camera.near, far: camera.far },
+        distanceFog: { near: scene.fog.near, far: scene.fog.far },
+        actorsHidden: !!options.hideActors,
+        actorVisibility: { person: actors[current].person.visible, pig: actors[current].pig.visible },
+        mountedActorVisibility: Object.fromEntries(Object.entries(actors).map(([name,a])=>[name,{person:a.person.visible,pig:a.pig.visible}])),
         atmosphere: atmosphereFx.stats,
         buffer: [canvas.width, canvas.height],
         software,

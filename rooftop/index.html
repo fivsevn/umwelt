@@ -9,7 +9,7 @@
     <meta name="theme-color" content="#bdc2ca" />
     <title>花农时代 · Horticultural Era</title>
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="./rooftop.css" />
+    <link rel="stylesheet" href="./rooftop.css?v=terrace-launch-01" />
   </head>
   <body class="observation">
     <main class="roof-world">
@@ -25,7 +25,8 @@
         aria-label="进入南阳台"
         title="进入南阳台"
       ></button>
-      <div class="view-controls" role="group" aria-label="画面操作">
+      <div class="view-controls" role="group" aria-label="观察视角与操作">
+        <div class="legacy-view-controls" hidden>
         <button
           type="button"
           data-view-mode="rotate"
@@ -43,8 +44,17 @@
           移动
         </button>
         <button type="button" id="viewReset" aria-label="复位画面">复位</button>
+        </div>
       </div>
       <div class="corner-cards">
+        <button id="sceneCard" class="world-card" type="button">去南阳台看看。</button>
+        <button
+          id="notebookOpen"
+          class="world-card"
+          type="button"
+          aria-controls="notebook"
+          aria-expanded="false"
+        >翻翻东东的手帐。</button>
         <aside
           id="dongdongStatus"
           class="world-card status-card"
@@ -75,6 +85,7 @@
         >
       </div>
       <section
+        id="notebook"
         class="notebook observation-notebook"
         aria-labelledby="notebookTitle"
         hidden

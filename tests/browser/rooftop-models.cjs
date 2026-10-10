@@ -50,8 +50,14 @@ const engine = process.env.BROWSER || "chromium",
         style.surfaces < 260,
         "bounded shared surfaces including the expanded vessel profiles",
       );
-      assert.equal(style.neighborhood.buildings, 3);
-      assert.equal(style.neighborhood.shelters, 1);
+      await page.waitForFunction(() => rooftop.graphics.background.loaded, null, { timeout: 90000 });
+      const background = await page.evaluate(() => rooftop.graphics.background);
+      assert.equal(background.source, "Blender");
+      assert.equal(background.textureAuthor, "Pixelorama");
+      assert.equal(background.row.homes, 6);
+      assert.equal(background.row.pairs, 3);
+      assert.ok(background.layers.near.triangles > 0 && background.layers.far.triangles > 0);
+      assert.ok(background.payloadBytes < 8 * 1024 * 1024, "runtime environment stays below eight MiB");
       assert.ok(style.groundY < -18, "six storeys meet community ground");
       const audit = await page.evaluate(async () => {
         const { ASSETS } = await import("/rooftop/scene.mjs"),
@@ -489,79 +495,50 @@ const engine = process.env.BROWSER || "chromium",
         path: output + "/garage-3d.png",
         fullPage: true,
       });
-      await page.goto(base + "/rooftop/");
-      await page.waitForFunction(() => rooftop.graphics?.drawCalls > 0);
-      assert.equal(
-        await page.locator("#garden").getAttribute("tabindex"),
-        "0",
-        "3D observation canvas accepts keyboard focus",
-      );
-      await page.locator("#garden").focus();
-      for (let i = 0; i < 6; i++) await page.keyboard.press("+");
-      await page.getByRole("button", { name: "移动画面", exact: true }).click();
-      await page.locator("#garden").focus();
-      await page.screenshot({path:output+"/nonplant-game-north-close.png",fullPage:true});
-      const panStart = await page.evaluate(() => rooftop.graphics.target[0]);
-      await page.keyboard.press("ArrowRight");
-      await page.waitForFunction(
-        (x) => Math.abs(rooftop.graphics.target[0] - x) > 0.05,
-        panStart,
-      );
-      await page.getByRole("button", { name: "转动画面", exact: true }).click();
-      const homepageLayout = await page.evaluate(() => rooftop.layout),
-        homepageBuilds = await page.evaluate(
-          () => rooftop.graphics.modelBuilds,
-        ),
-        beforeDrag = await page.evaluate(() => rooftop.graphics.wanted.theta),
-        stage = await page.locator("#garden").boundingBox();
-      await page.mouse.move(
-        stage.x + stage.width * 0.75,
-        stage.y + stage.height * 0.4,
-      );
-      await page.mouse.down();
-      await page.mouse.move(
-        stage.x + stage.width * 0.65,
-        stage.y + stage.height * 0.45,
-        { steps: 6 },
-      );
-      await page.mouse.up();
-      await page.waitForFunction(
-        (t) => rooftop.graphics.view.theta > t + 0.1,
-        beforeDrag,
-      );
-      assert.deepEqual(
-        await page.evaluate(() => rooftop.layout),
-        homepageLayout,
-        "homepage orbit never changes placements",
-      );
-      assert.equal(
-        await page.evaluate(() => rooftop.graphics.modelBuilds),
-        homepageBuilds,
-        "orbit does not rebuild models",
-      );
-      await page.mouse.wheel(0, -130);
-      await page.waitForFunction(() => rooftop.graphics.view.zoom > 1.25);
-      assert.ok(await page.evaluate(() => rooftop.graphics.wanted.zoom <= 4.5));
-      await page.locator("#garden").press("Home");
-      assert.deepEqual(await page.evaluate(() => rooftop.graphics.wanted), {
-        theta: -0.12,
-        phi: 0.35,
-        zoom: 1.8,
-      });
+      // The placement editor keeps live plant motion, including reduced-motion preferences.
       const wind = await page.evaluate(() => rooftop.graphics.foliageMotion);
-      assert.ok(wind.programs > 0, "foliage uses a compiled wind shader");
+      assert.ok(wind.programs > 0, "foliage uses its compiled wind shader");
       assert.ok(wind.strength > 0);
       await page.emulateMedia({ reducedMotion: "reduce" });
-      await page.waitForFunction(
-        (t) => rooftop.graphics.foliageMotion.time > t + 0.05,
-        wind.time,
-      );
+      await page.waitForFunction(time => rooftop.graphics.foliageMotion.time > time + .05, wind.time);
       await page.emulateMedia({ reducedMotion: "no-preference" });
+      const storedArrangement = await page.evaluate(() => localStorage.getItem("umwelt-rooftop-layout-v1"));
+      await page.goto(base + "/rooftop/?weather=clear&time=day&season=summer");
+      await page.waitForFunction(() => rooftop.graphics?.drawCalls > 0 && rooftop.graphics.background.loaded, null, { timeout: 90000 });
+      assert.equal(await page.locator("#garden").getAttribute("tabindex"), "0", "observation canvas accepts keyboard focus");
+      const homepageLayout = await page.evaluate(() => rooftop.layout), homepageBuilds = await page.evaluate(() => rooftop.graphics.modelBuilds);
+      assert.deepEqual(homepageLayout.scenes.north, []);
+      assert.deepEqual(homepageLayout.scenes.south, []);
+      assert.equal(await page.evaluate(() => rooftop.graphics.actorsHidden), true);
+      assert.equal(await page.locator("#sceneDoor").isVisible(), false, "a door behind the bird does not intercept dragging");
+      const beforeWalk = await page.evaluate(() => rooftop.graphics.stationTravel.wanted.walk), stage = await page.locator("#garden").boundingBox();
+      await page.mouse.move(stage.x + stage.width * .6, stage.y + stage.height * .5);
+      await page.mouse.down();
+      await page.mouse.move(stage.x + stage.width * .6 + 90, stage.y + stage.height * .5 + 15, { steps: 6 });
+      await page.mouse.up();
+      await page.waitForFunction(walk => rooftop.graphics.stationTravel.wanted.walk < walk - .5, beforeWalk);
+      assert.equal(await page.evaluate(() => rooftop.scene), "north");
+      await page.locator("#garden").focus();
+      await page.keyboard.press("+");
+      await page.mouse.wheel(0, -130);
+      assert.equal(await page.evaluate(() => rooftop.graphics.wanted.zoom), 1, "bird magnification remains fixed");
+      await page.screenshot({ path: output + "/empty-game-north-bird.png", fullPage: true });
+      for (const view of ["drone", "neighbor"]) {
+        await page.locator('[data-narrative-view="' + view + '"]').click();
+        await page.waitForFunction(name => rooftop.graphics.narrativeView === name, view);
+        assert.equal(await page.locator('[data-narrative-view="' + view + '"]').getAttribute("aria-pressed"), "true");
+      }
+      const scopeZoom = await page.evaluate(() => rooftop.graphics.wanted.zoom);
+      await page.locator('[data-station-action="in"]').click();
+      await page.waitForFunction(zoom => rooftop.graphics.wanted.zoom > zoom, scopeZoom);
+      assert.equal(await page.locator(".neighbor-scope").isVisible(), true);
+      assert.deepEqual(await page.evaluate(() => rooftop.layout), homepageLayout, "observer controls never alter placements");
+      assert.equal(await page.evaluate(() => rooftop.graphics.modelBuilds), homepageBuilds, "view changes do not rebuild catalogue geometry");
+      assert.equal(await page.evaluate(() => localStorage.getItem("umwelt-rooftop-layout-v1")), storedArrangement, "the empty public view retains the saved editor arrangement");
       assert.equal(await page.evaluate(() => rooftop.graphics.controls), "pan");
-      await page
-        .getByRole("button", { name: "进入南阳台", exact: true })
-        .click();
-      assert.equal(await page.evaluate(() => rooftop.graphics.scene), "south");
+      await page.locator("#sceneCard").click();
+      await page.waitForFunction(() => rooftop.graphics.scene === "south");
+      assert.deepEqual(await page.evaluate(() => rooftop.layout), homepageLayout);
       await page.goto(base + "/rooftop/room/");
       await page.waitForFunction(() => room.graphics?.drawCalls > 0);
       for (const key of [

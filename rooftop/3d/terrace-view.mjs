@@ -3,13 +3,15 @@ import { SCENES } from "../scene.mjs";
 export const TERRACE_VIEW_DISTANCE = 46;
 export const TERRACE_ZOOM = { min: 1.8, max: 4.5 };
 export function terraceOrbit(scene, width) {
-  const theta = scene === "south" && width >= 640 ? -Math.PI / 2 + 0.34 : -0.12;
+  // Editor-only orbit starts outside the intact house. Play uses the fixed
+  // stations and bounded head movement defined in story-camera.mjs.
+  const centre = scene === "south" ? Math.PI / 2 : Math.PI;
   return {
-    theta,
+    theta: centre - 0.34,
     fullRotation: true,
-    minPhi: 0.18,
+    minPhi: 0.31,
     maxPhi: 1.35,
-    phi: scene === "south" ? 0.25 : 0.35,
+    phi: 0.68,
   };
 }
 const centre = { north: [304, 272], south: [284, 264] };

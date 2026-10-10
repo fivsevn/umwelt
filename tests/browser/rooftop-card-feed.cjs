@@ -15,6 +15,8 @@ const engine = process.env.BROWSER || 'chromium';
       });
       await page.goto(base+'/rooftop/');
       await page.waitForFunction(() => window.rooftop);
+      assert.equal(await page.locator('#sceneCard').isVisible(), true, 'permanent balcony navigation remains available');
+      assert.equal(await page.locator('#notebookOpen').isVisible(), true, 'the empty terrace retains its complete notebook entry');
       await page.evaluate(async () => {
         const {attachCardFeed} = await import('/rooftop/card-feed.mjs');
         const {makeResident} = await import('/rooftop/resident.mjs');
@@ -25,7 +27,9 @@ const engine = process.env.BROWSER || 'chromium';
         window.updateFeed=(time)=>feed.update(time);
       });
       const update = async time => {await page.evaluate(time=>updateFeed(time),time);await page.waitForTimeout(550)};
-      const ids = () => page.locator('.corner-cards > :visible').evaluateAll(es=>es.map(e=>e.id));
+      // Scene/journal entries are permanent cards; event chronology concerns
+      // only the existing feed that is revealed and reordered over time.
+      const ids = () => page.locator('.corner-cards > :visible:not(#sceneCard):not(#notebookOpen)').evaluateAll(es=>es.map(e=>e.id));
       await update(.4); assert.deepEqual(await ids(),['weatherCard']);
       await update(1.2); assert.deepEqual(await ids(),['dongdongStatus','actionCard','weatherCard']);
       await update(5); assert.deepEqual(await ids(),['musicToggle','dongdongStatus','actionCard','weatherCard']);
@@ -52,10 +56,10 @@ const engine = process.env.BROWSER || 'chromium';
       assert.notEqual(await page.locator('#dongdongStatus').innerText(),'东东回来了。');
       assert.equal(await page.locator('#garageCard').isVisible(),false);
       assert.equal(await page.locator('#roomCard').isVisible(),false);
-      await page.locator('#sceneDoor').click();
+      await page.locator('#sceneCard').click();
       await page.evaluate(()=>{feedScene=rooftop.scene;updateFeed(401)});
       assert.equal(await page.locator('#returnWorld').isVisible(),false);
-      await page.locator('#sceneDoor').click();
+      await page.locator('#sceneCard').click();
       await page.evaluate(()=>{feedScene=rooftop.scene;updateFeed(402)});
       await page.waitForTimeout(550); assert.equal((await ids())[0],'returnWorld');
       const oldErrand=await page.locator('#dongdongStatus').innerText();
@@ -63,6 +67,11 @@ const engine = process.env.BROWSER || 'chromium';
       await page.waitForTimeout(550);
       assert.equal((await ids())[0],'dongdongStatus');
       assert.notEqual(await page.locator('#dongdongStatus').innerText(),oldErrand);
+      // Model loading can delay the first painted animation frame. Await the
+      // actual finite entrance animations before measuring the settled stack.
+      await page.locator('.corner-cards').evaluate(async root=>{
+        await Promise.all(root.getAnimations({subtree:true}).map(animation=>animation.finished));
+      });
       const boxes=await page.locator('.corner-cards > :visible').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().toJSON()));
       assert.ok(boxes.every((r,i)=>r.x>=0 && r.right<=width && (!i || r.y>=boxes[i-1].bottom)), 'visible cards stack without overlap');
       if(process.env.QA_OUTPUT) await page.screenshot({path:`${process.env.QA_OUTPUT}/card-feed-${engine}-${width}-${reducedMotion}.png`});
