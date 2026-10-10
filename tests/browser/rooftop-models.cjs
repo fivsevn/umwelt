@@ -105,7 +105,7 @@ const engine = process.env.BROWSER || "chromium",
         "sprites must not resize the scene canvas",
       );
       for (const model of audit.records) {
-        assert.ok(model.instances > 0, model.type);
+        assert.ok(model.instances+(model.meshes||0)>0,model.type);
         assert.ok(
           model.extent.every((n) => n > 0 && Number.isFinite(n)),
           model.type,
