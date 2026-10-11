@@ -1,0 +1,1 @@
+{"name": "RooftopRoof", "display_name": "Rooftop roof refinement", "description": "Native Pencil roof edit", "author": "\u4e94\u6708\u4e03\u65e5", "version": "0.1", "supported_api_versions": [8], "license": "MIT", "nodes": ["RoofMain.tscn"]}

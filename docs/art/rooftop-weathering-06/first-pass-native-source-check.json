@@ -1,0 +1,69 @@
+{
+  "savedSourceReopened": true,
+  "sourceRevision": "rooftop-weathering-05",
+  "sourceGeometrySha256": "1d4e98c7cd43a89337d4dd914708b5887843d4c3431a89c73cc562a261f46f5a",
+  "savedGeometrySha256": "1d4e98c7cd43a89337d4dd914708b5887843d4c3431a89c73cc562a261f46f5a",
+  "uvSha256": "e48cecd758034d6c48420db1c72985599d92330cb295d9896f7b71128ce6d1c2",
+  "sourceGeometryUvsTransformsMaterialsAndCamerasExactlyPreserved": true,
+  "packedPixeloramaPngMatches": true,
+  "runtimePixeloramaPngMatches": true,
+  "runtimeBinaryExactlyPreserved": true,
+  "runtimeBinarySha256": "34b25d9ae868821494638a6b0f0519f95f5179ade24019cc46d52cf8dd410e92",
+  "runtimePartsExactlyPreserved": true,
+  "runtimePartsSha256": "9d32a33f8951f9bcb48a81c0ff9e67ee19b912b4e8488aeb27daf996af0450f8",
+  "runtimePartCount": 398,
+  "savedSourceSha256": "542ca646a859eb86ad04dd9bbddca3a7dd73db01b6e108b7e156f66e40cf7dab",
+  "pixeloramaPngSha256": "9b83b80f6a65eb239ee9173300152bbc6dd081c9e11b00161aea2ec52b2c5661",
+  "texelsPerMetre": 16,
+  "atlasScope": {
+    "allowedRects": {
+      "north-floor": [
+        512,
+        0,
+        128,
+        256
+      ],
+      "south-floor": [
+        640,
+        0,
+        128,
+        128
+      ],
+      "plaster": [
+        0,
+        512,
+        768,
+        64
+      ],
+      "stained-plaster": [
+        0,
+        576,
+        768,
+        64
+      ],
+      "cap": [
+        768,
+        128,
+        256,
+        64
+      ],
+      "cement": [
+        768,
+        192,
+        256,
+        64
+      ]
+    },
+    "changedRegionPixels": {
+      "north-floor": 32768,
+      "south-floor": 16384,
+      "plaster": 49152,
+      "stained-plaster": 49152,
+      "cap": 16384,
+      "cement": 16384
+    },
+    "nonEditedPixelsExactlyPreserved": true,
+    "nonEditedFloatRgbaSha256": "d84e4bedada1cf9c7eee67d25b36e3174f053cb90a5599c0da5dfa5d821e387d"
+  },
+  "distantPackedAndRuntimeTexturesPreserved": true
+}

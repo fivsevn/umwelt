@@ -1,0 +1,84 @@
+{
+  "source": "docs/art/rooftop-weathering-05/terrace-book.png",
+  "definition": "High contrast means more than 20 RGB channel values from the most common local pigment. Near layers differ by at most 12. These diagnose broad hard blocks, not a style acceptance score.",
+  "materials": {
+    "north-floor": {
+      "dimensions": [
+        128,
+        256
+      ],
+      "paletteCount": 6,
+      "base": "#99a699",
+      "basePercent": 68.7,
+      "nearBaseLayerPercent": 0.0,
+      "highContrastAccentPercent": 30.91,
+      "largestSolidHighContrastSquareSideTexels": 19,
+      "largeAdjacentValueJumpPercent": 8.19
+    },
+    "south-floor": {
+      "dimensions": [
+        128,
+        128
+      ],
+      "paletteCount": 6,
+      "base": "#99a699",
+      "basePercent": 65.88,
+      "nearBaseLayerPercent": 0.0,
+      "highContrastAccentPercent": 33.7,
+      "largestSolidHighContrastSquareSideTexels": 15,
+      "largeAdjacentValueJumpPercent": 9.14
+    },
+    "plaster": {
+      "dimensions": [
+        768,
+        64
+      ],
+      "paletteCount": 6,
+      "base": "#a9b5a0",
+      "basePercent": 72.51,
+      "nearBaseLayerPercent": 0.0,
+      "highContrastAccentPercent": 13.67,
+      "largestSolidHighContrastSquareSideTexels": 14,
+      "largeAdjacentValueJumpPercent": 2.75
+    },
+    "stained-plaster": {
+      "dimensions": [
+        768,
+        64
+      ],
+      "paletteCount": 6,
+      "base": "#a0ad98",
+      "basePercent": 72.53,
+      "nearBaseLayerPercent": 0.0,
+      "highContrastAccentPercent": 12.12,
+      "largestSolidHighContrastSquareSideTexels": 16,
+      "largeAdjacentValueJumpPercent": 2.22
+    },
+    "cap": {
+      "dimensions": [
+        256,
+        64
+      ],
+      "paletteCount": 6,
+      "base": "#b1bbaa",
+      "basePercent": 71.66,
+      "nearBaseLayerPercent": 0.0,
+      "highContrastAccentPercent": 28.34,
+      "largestSolidHighContrastSquareSideTexels": 16,
+      "largeAdjacentValueJumpPercent": 2.55
+    },
+    "cement": {
+      "dimensions": [
+        256,
+        64
+      ],
+      "paletteCount": 6,
+      "base": "#929f92",
+      "basePercent": 71.52,
+      "nearBaseLayerPercent": 0.0,
+      "highContrastAccentPercent": 28.48,
+      "largestSolidHighContrastSquareSideTexels": 16,
+      "largeAdjacentValueJumpPercent": 5.23
+    }
+  }
+}

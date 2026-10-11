@@ -1,0 +1,82 @@
+{
+  "software": "Blender",
+  "version": "4.5.14 LTS",
+  "sourceRevision": "rooftop-weathering-05",
+  "sourceSha256": "e3b4b317e0119ed01c683ec0f5d4e0a5a7a9e9e3b6fd33089e32f3de7ff4cb32",
+  "savedSource": "game-environment.blend",
+  "geometryBefore": {
+    "sha256": "1d4e98c7cd43a89337d4dd914708b5887843d4c3431a89c73cc562a261f46f5a",
+    "meshOccurrences": 35536,
+    "vertices": 289254,
+    "polygons": 211618
+  },
+  "geometryAfter": {
+    "sha256": "1d4e98c7cd43a89337d4dd914708b5887843d4c3431a89c73cc562a261f46f5a",
+    "meshOccurrences": 35536,
+    "vertices": 289254,
+    "polygons": 211618
+  },
+  "allRenderedGeometryPreserved": true,
+  "allVisibleObjectTransformsPreserved": true,
+  "allUvsExactlyPreserved": true,
+  "uvSha256": "e48cecd758034d6c48420db1c72985599d92330cb295d9896f7b71128ce6d1c2",
+  "materialAssignmentsSha256": "d47a060176a94231f40c1fe3bc943630eb3139a41d443a30864b9fd004e91604",
+  "camerasLightsAndColorManagementPreserved": true,
+  "texelsPerMetre": 16,
+  "packedPixeloramaPngMatches": true,
+  "pixeloramaPngSha256": "feb85960aaadc4241e8e30e67f19334a38f36854decb9f98548505d38280c12c",
+  "distanceImageHashesPreserved": {
+    "distance-facades.png": "f9c8ec3c4c8d32b58431bc1f6a2bcd437ec52a078523dac1e2e85e176e60d2bd",
+    "distance-lights.png": "551611d005a3f40c9fa09e15979cfead5d4848f27967153d8094b091c65c2b60"
+  },
+  "atlasScope": {
+    "allowedRects": {
+      "north-floor": [
+        512,
+        0,
+        128,
+        256
+      ],
+      "south-floor": [
+        640,
+        0,
+        128,
+        128
+      ],
+      "plaster": [
+        0,
+        512,
+        768,
+        64
+      ],
+      "stained-plaster": [
+        0,
+        576,
+        768,
+        64
+      ],
+      "cap": [
+        768,
+        128,
+        256,
+        64
+      ],
+      "cement": [
+        768,
+        192,
+        256,
+        64
+      ]
+    },
+    "changedRegionPixels": {
+      "north-floor": 32768,
+      "south-floor": 16384,
+      "plaster": 49152,
+      "stained-plaster": 49152,
+      "cap": 16384,
+      "cement": 16384
+    },
+    "nonEditedPixelsExactlyPreserved": true,
+    "nonEditedFloatRgbaSha256": "d84e4bedada1cf9c7eee67d25b36e3174f053cb90a5599c0da5dfa5d821e387d"
+  }
+}

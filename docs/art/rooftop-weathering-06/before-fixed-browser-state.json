@@ -1,0 +1,101 @@
+{
+  "scene": "north",
+  "choices": {
+    "condition": "overcast",
+    "phase": "day",
+    "season": "spring"
+  },
+  "view": {
+    "theta": 2.661592653589793,
+    "phi": 0.68,
+    "zoom": 1.8
+  },
+  "target": [
+    1.0317721289758421,
+    0.2,
+    0.01815090775020828
+  ],
+  "loaded": true,
+  "buffer": [
+    1280,
+    720
+  ],
+  "atmosphere": {
+    "mood": {
+      "fogNear": 157.34375,
+      "fogFar": 2426.8336518749734,
+      "fogColor": "#abb9b9",
+      "cloudColor": "#bfc9c7",
+      "rainColor": "#c2ccca",
+      "snowColor": "#e6e8e1",
+      "sunset": 0,
+      "skySun": 0,
+      "cloudCover": 1,
+      "stars": 0,
+      "afterRain": 0,
+      "waterColor": "#a8b8bb",
+      "cloudShadow": 0,
+      "snowCover": 0,
+      "lightEnergy": 3.141592653589793,
+      "ambientEnergy": 0.87,
+      "directEnergy": 0
+    },
+    "seasonal": {
+      "season": "spring",
+      "count": 16,
+      "effects": [
+        {
+          "season": "spring",
+          "effect": "柳絮",
+          "count": 16,
+          "strength": 1,
+          "brightness": 0.9545
+        }
+      ],
+      "afterRain": 0,
+      "sample": [
+        [
+          -10.233985900878906,
+          1.9283312559127808,
+          -10.34073257446289,
+          2.422757863998413,
+          2.377551317214966,
+          5.272078037261963
+        ]
+      ]
+    },
+    "phase": "day",
+    "condition": "overcast",
+    "light": [
+      0,
+      50.54093442811192,
+      35.91119528967662
+    ],
+    "ambient": 2.73318560862312,
+    "direct": 0,
+    "moon": 0,
+    "shadow": false,
+    "rain": 0,
+    "wind": 0.6786133667442249,
+    "flash": 0,
+    "wetness": 0,
+    "impacts": [],
+    "impactCount": 0,
+    "surfaceField": {
+      "pixelMetres": 0.0625,
+      "pixelMetric": [
+        4.332059842782431,
+        7.421400023388629
+      ],
+      "basinSeed": [
+        7.13,
+        19.71
+      ],
+      "pattern": "warped-local-basins"
+    },
+    "surfaceState": "dry",
+    "shadowUpdates": 47
+  },
+  "objects": 0,
+  "modelBuilds": 0
+}

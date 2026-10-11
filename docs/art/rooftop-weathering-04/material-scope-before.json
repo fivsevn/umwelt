@@ -1,0 +1,56 @@
+{
+  "source": "/Users/d/Documents/GitHub/umwelt/docs/art/rooftop-weathering-03/terrace-book.pxo",
+  "rectangles": [
+    [
+      512,
+      0,
+      128,
+      256
+    ],
+    [
+      640,
+      0,
+      128,
+      128
+    ],
+    [
+      0,
+      512,
+      768,
+      64
+    ],
+    [
+      0,
+      576,
+      768,
+      64
+    ],
+    [
+      768,
+      0,
+      256,
+      64
+    ],
+    [
+      768,
+      64,
+      256,
+      64
+    ],
+    [
+      768,
+      128,
+      256,
+      64
+    ],
+    [
+      768,
+      192,
+      256,
+      64
+    ]
+  ],
+  "outsideAuthorizedPixelsSha256": "2966406417df2633dff12e611b7f8d18860421dc95e851d4c346e0833cf15d4a",
+  "sourcePxoSha256": "51bebfaedd6bc6e2803b7876510c6cf004c0b88a909e635a44d566820d19d8a4",
+  "sourcePngSha256": "f6809efafc9893cb11d9e1fa2fdd41bdb39df99f86829b33436d3b7fc00f2217"
+}

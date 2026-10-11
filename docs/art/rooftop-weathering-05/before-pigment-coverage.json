@@ -1,0 +1,188 @@
+{
+  "north-floor": {
+    "base": "#9ba49b",
+    "basePercent": 94.78,
+    "colors": 21,
+    "pigments": [
+      {
+        "color": "#9ba49b",
+        "percent": 94.78
+      },
+      {
+        "color": "#949f92",
+        "percent": 1.58
+      },
+      {
+        "color": "#95a094",
+        "percent": 0.84
+      },
+      {
+        "color": "#a9b19f",
+        "percent": 0.56
+      },
+      {
+        "color": "#8f9d8f",
+        "percent": 0.54
+      },
+      {
+        "color": "#819482",
+        "percent": 0.29
+      }
+    ]
+  },
+  "south-floor": {
+    "base": "#9ba49b",
+    "basePercent": 94.35,
+    "colors": 21,
+    "pigments": [
+      {
+        "color": "#9ba49b",
+        "percent": 94.35
+      },
+      {
+        "color": "#949f92",
+        "percent": 1.59
+      },
+      {
+        "color": "#95a094",
+        "percent": 0.87
+      },
+      {
+        "color": "#a9b19f",
+        "percent": 0.76
+      },
+      {
+        "color": "#8f9d8f",
+        "percent": 0.5
+      },
+      {
+        "color": "#819482",
+        "percent": 0.34
+      }
+    ]
+  },
+  "plaster": {
+    "base": "#aeb7a8",
+    "basePercent": 96.74,
+    "colors": 12,
+    "pigments": [
+      {
+        "color": "#aeb7a8",
+        "percent": 96.74
+      },
+      {
+        "color": "#98a98f",
+        "percent": 1.51
+      },
+      {
+        "color": "#a0ae9b",
+        "percent": 0.91
+      },
+      {
+        "color": "#b8b99f",
+        "percent": 0.34
+      },
+      {
+        "color": "#91a38e",
+        "percent": 0.13
+      },
+      {
+        "color": "#a5af9a",
+        "percent": 0.1
+      }
+    ]
+  },
+  "stained-plaster": {
+    "base": "#a5b09f",
+    "basePercent": 96.5,
+    "colors": 12,
+    "pigments": [
+      {
+        "color": "#a5b09f",
+        "percent": 96.5
+      },
+      {
+        "color": "#8c9e85",
+        "percent": 1.75
+      },
+      {
+        "color": "#93a28d",
+        "percent": 0.91
+      },
+      {
+        "color": "#b8b99f",
+        "percent": 0.34
+      },
+      {
+        "color": "#91a38e",
+        "percent": 0.13
+      },
+      {
+        "color": "#a5af9a",
+        "percent": 0.1
+      }
+    ]
+  },
+  "cap": {
+    "base": "#b3bcab",
+    "basePercent": 98.38,
+    "colors": 7,
+    "pigments": [
+      {
+        "color": "#b3bcab",
+        "percent": 98.38
+      },
+      {
+        "color": "#9ba992",
+        "percent": 0.94
+      },
+      {
+        "color": "#a8b49e",
+        "percent": 0.21
+      },
+      {
+        "color": "#b9b49d",
+        "percent": 0.2
+      },
+      {
+        "color": "#c1c8b4",
+        "percent": 0.17
+      },
+      {
+        "color": "#c4c7b1",
+        "percent": 0.08
+      }
+    ]
+  },
+  "cement": {
+    "base": "#919f96",
+    "basePercent": 98.14,
+    "colors": 9,
+    "pigments": [
+      {
+        "color": "#919f96",
+        "percent": 98.14
+      },
+      {
+        "color": "#809585",
+        "percent": 0.94
+      },
+      {
+        "color": "#9ca997",
+        "percent": 0.21
+      },
+      {
+        "color": "#b0aa94",
+        "percent": 0.2
+      },
+      {
+        "color": "#788e7f",
+        "percent": 0.2
+      },
+      {
+        "color": "#a3b09e",
+        "percent": 0.16
+      }
+    ]
+  }
+}

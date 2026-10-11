@@ -1,0 +1,14 @@
+{
+  "sourceRevision": "rooftop-weathering-04",
+  "allowedRects": {
+    "north-floor": [512, 0, 128, 256],
+    "south-floor": [640, 0, 128, 128],
+    "plaster": [0, 512, 768, 64],
+    "stained-plaster": [0, 576, 768, 64],
+    "cap": [768, 128, 256, 64],
+    "cement": [768, 192, 256, 64]
+  },
+  "preserveAllOtherPixels": true,
+  "explicitlyPreserved": ["home-roof-north", "home-roof-south", "roof", "metal", "rust-iron", "six cleared shop sign fields"],
+  "texelsPerMetre": 16
+}

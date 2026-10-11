@@ -1,0 +1,116 @@
+{
+  "checks": [
+    {
+      "season": "summer",
+      "condition": "heavy",
+      "mix": 1,
+      "reduced": true,
+      "sample": [],
+      "rain": 655,
+      "impactCount": 94,
+      "mood": {
+        "fogNear": 84.6875,
+        "fogFar": 451.617660914965,
+        "fogColor": "#8b9ca6",
+        "cloudColor": "#abbac4",
+        "rainColor": "#b1c0cc",
+        "snowColor": "#e3e7e4",
+        "sunset": 0,
+        "skySun": 0,
+        "cloudCover": 1,
+        "stars": 0,
+        "afterRain": 0,
+        "waterColor": "#8a9ca9",
+        "cloudShadow": 0,
+        "snowCover": 0,
+        "lightEnergy": 3.141592653589793,
+        "ambientEnergy": 0.6539999999999999,
+        "directEnergy": 0
+      },
+      "performance": {
+        "skippedFrames": 3,
+        "frames": 4527,
+        "p95Ms": 3.5999999046325684,
+        "lastMs": 2.799999952316284
+      },
+      "modelBuilds": 0
+    },
+    {
+      "season": "winter",
+      "condition": "mist",
+      "mix": 1,
+      "reduced": false,
+      "sample": [
+        [
+          -4.715195178985596,
+          9.244577407836914,
+          8.711620330810547,
+          -2.058790445327759,
+          2.503192186355591,
+          -11.230730056762695
+        ]
+      ],
+      "mood": {
+        "fogNear": 35,
+        "fogFar": 284.76506881822496,
+        "fogColor": "#babab9",
+        "cloudColor": "#bfc2c5",
+        "rainColor": "#bcc5d0",
+        "snowColor": "#e1e5e4",
+        "sunset": 0.6368017925158751,
+        "skySun": 0.2985915492957747,
+        "cloudCover": 0.65,
+        "stars": 0,
+        "afterRain": 0.24098843684535248,
+        "waterColor": "#babab9",
+        "cloudShadow": 0.03006816901408451,
+        "snowCover": 0.45,
+        "lightEnergy": 3.141592653589793,
+        "ambientEnergy": 0.5880000000000001,
+        "directEnergy": 0.42400000000000004
+      },
+      "modelBuilds": 0
+    },
+    {
+      "season": "winter",
+      "reduced": true,
+      "sample": [
+        [
+          5.094282150268555,
+          11.809082984924316,
+          8.436580657958984,
+          -4.54727029800415,
+          5.067698001861572,
+          -11.476783752441406
+        ]
+      ],
+      "modelBuilds": 0
+    },
+    {
+      "season": "winter",
+      "reduced": true,
+      "sample": [
+        [
+          5.717695236206055,
+          2.4982616901397705,
+          8.397858619689941,
+          -3.6352579593658447,
+          7.756876468658447,
+          -11.504725456237793
+        ]
+      ],
+      "modelBuilds": 0
+    }
+  ],
+  "unitChecks": 39,
+  "seasonTimeWeatherCombinations": 252,
+  "errors": [],
+  "reviews": [
+    "spring morning",
+    "summer heavy rain",
+    "autumn afternoon and dusk",
+    "winter dawn mist",
+    "autumn night"
+  ],
+  "sourceGeometryPreserved": true
+}

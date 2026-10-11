@@ -1,0 +1,80 @@
+{
+  "source": "Google Maps satellite, checked 2026-10-11; supplied balcony photographs",
+  "mapUrl": "https://www.google.com/maps/@32.0294773,120.8750368,364m/data=!3m1!1e3",
+  "scope": "Aerial footprint tracing in terrace-local game units; not a surveyed address pin or measured metre model.",
+  "homeHasShops": false,
+  "nearTrace": {
+    "image": "map-home-rows-detail.png",
+    "anchorPixel": [633,355],
+    "anchorWorld": [-8,16],
+    "rowAngle": -0.266,
+    "unitsPerPixel": 1.104,
+    "roofCentres": [
+      ["north-reference",615,291,132,"reference"],
+      ["north-east",770,257,132,"reference"],
+      ["north-west",477,325,126,"reference"],
+      ["west-same-row",498,389,126,"reference"],
+      ["east-same-row",783,316,132,"reference"],
+      ["south-matching",645,422,148,"matching"],
+      ["south-east-matching",798,384,148,"matching"],
+      ["north-next-west",463,258,126,"reference"],
+      ["north-next",590,218,132,"reference"],
+      ["north-next-east",757,190,132,"reference"],
+      ["north-third-west",450,189,122,"reference"],
+      ["north-third",590,161,130,"reference"],
+      ["north-third-east",749,124,130,"reference"],
+      ["north-fourth-west",450,120,120,"reference"],
+      ["north-fourth",580,92,130,"reference"],
+      ["north-fourth-east",735,55,126,"reference"],
+      ["south-west",502,488,120,"reference"],
+      ["south-next",650,486,130,"reference"],
+      ["south-next-east",800,455,132,"reference"],
+      ["south-third-west",520,551,118,"reference"],
+      ["south-third",665,552,132,"reference"],
+      ["south-third-east",815,521,130,"reference"],
+      ["south-fourth-west",519,621,118,"reference"],
+      ["south-fourth",671,621,130,"reference"],
+      ["south-fourth-east",823,588,132,"reference"],
+      ["east-next-column",1065,315,154,"reference"],
+      ["east-next-north",1045,241,152,"reference"],
+      ["east-next-south",1083,389,150,"reference"],
+      ["east-next-south-two",1092,460,146,"reference"]
+    ]
+  },
+  "districtTrace": {
+    "image": "map-district.png",
+    "camera": [32.0294773,120.8737172],
+    "zoom": 16,
+    "viewportCentre": [676,360],
+    "homeMapAnchor": [32.0294773,120.8750368],
+    "unitsPerMetre": 1.85,
+    "redRoofIndices": [15,20],
+    "oldRoofCentres": [
+      [345,318,75],[354,365,78],[370,413,80],
+      [252,297,76],[261,343,76],[273,397,75],
+      [423,144,78],[572,125,84],[859,114,85],
+      [986,352,87],[990,402,85],[1000,450,87],
+      [1135,303,88],[1135,355,88],[1150,409,90],
+      [592,622,72],[752,611,80],[893,597,77],
+      [1059,542,83],[1090,587,81],[448,638,75]
+    ]
+  },
+  "northTowerTrace": {
+    "image": "map-north-towers-detail.png",
+    "mapUrl": "https://www.google.com/maps/@32.0335566,120.8731861,364m/data=!3m1!1e3",
+    "camera": [32.0335566,120.8731861],
+    "zoom": 18,
+    "viewportCentre": [676,360],
+    "roofCentres": [
+      ["north-west-slab",180,213,45,15,28],
+      ["north-west-slab-two",385,192,48,15,29],
+      ["north-main-slab",683,210,58,16,30],
+      ["north-main-slab-two",854,185,55,16,30],
+      ["north-east-slab",1109,221,43,16,26],
+      ["north-middle",724,399,39,16,24],
+      ["north-middle-two",763,500,38,16,23],
+      ["north-east-middle",927,472,30,17,20]
+    ],
+    "heightBasis": "Approximate residential floor counts from supplied skyline photographs; aerial footprints determine position and direction."
+  }
+}

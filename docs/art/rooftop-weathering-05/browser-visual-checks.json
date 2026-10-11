@@ -1,0 +1,109 @@
+{
+  "checks": [
+    {
+      "label": "south-spring-clear-day",
+      "scene": "south",
+      "choices": {
+        "condition": "clear",
+        "phase": "day",
+        "season": "spring"
+      },
+      "reduced": true,
+      "view": {
+        "theta": 1.220382264294896,
+        "phi": 0.4223437499999998,
+        "zoom": 1.8
+      },
+      "backgroundLoaded": true,
+      "pixelMetres": 0.0625,
+      "seasonal": {
+        "season": "spring",
+        "count": 16,
+        "effects": [
+          {
+            "season": "spring",
+            "effect": "柳絮",
+            "count": 16,
+            "strength": 1,
+            "brightness": 0.8775
+          }
+        ],
+        "afterRain": 0,
+        "sample": [
+          [
+            -2.3520123958587646,
+            2.0139381885528564,
+            -9.938373565673828,
+            3.093836545944214,
+            2.3868136405944824,
+            5.261421203613281
+          ]
+        ]
+      },
+      "light": [
+        35.91119528967662,
+        50.54093442811192,
+        0
+      ],
+      "wetness": 0,
+      "objects": 0,
+      "modelBuilds": 0
+    },
+    {
+      "label": "north-spring-clear-day-final",
+      "scene": "north",
+      "choices": {
+        "condition": "clear",
+        "phase": "day",
+        "season": "spring"
+      },
+      "reduced": true,
+      "view": {
+        "theta": 2.5127410910897945,
+        "phi": 0.58361328125,
+        "zoom": 1.8
+      },
+      "backgroundLoaded": true,
+      "pixelMetres": 0.0625,
+      "seasonal": {
+        "season": "spring",
+        "count": 16,
+        "effects": [
+          {
+            "season": "spring",
+            "effect": "柳絮",
+            "count": 16,
+            "strength": 1,
+            "brightness": 0.8775
+          }
+        ],
+        "afterRain": 0,
+        "sample": [
+          [
+            0.3356638550758362,
+            1.9872267246246338,
+            -10.403481483459473,
+            -11.355348587036133,
+            2.325831651687622,
+            5.557170391082764
+          ]
+        ]
+      },
+      "light": [
+        0,
+        50.54093442811192,
+        35.91119528967662
+      ],
+      "wetness": 0,
+      "objects": 0,
+      "modelBuilds": 0
+    }
+  ],
+  "consoleErrors": [],
+  "willowMotionReport": "browser-willow-motion.json",
+  "viewport": [
+    406,
+    658
+  ],
+  "viewpointNote": "Recorded actual live user preview views; no model or camera source edits."
+}

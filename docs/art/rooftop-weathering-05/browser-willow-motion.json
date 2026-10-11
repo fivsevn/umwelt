@@ -1,0 +1,120 @@
+{
+  "normal": {
+    "first": {
+      "elapsed": 34.09893400000015,
+      "reduced": false,
+      "seasonal": {
+        "season": "spring",
+        "count": 16,
+        "effects": [
+          {
+            "season": "spring",
+            "effect": "柳絮",
+            "count": 16,
+            "strength": 1,
+            "brightness": 0.8775
+          }
+        ],
+        "afterRain": 0,
+        "sample": [
+          [
+            -7.732149600982666,
+            2.059877634048462,
+            -10.434627532958984,
+            5.0947465896606445,
+            2.236342668533325,
+            5.335895538330078
+          ]
+        ]
+      }
+    },
+    "last": {
+      "elapsed": 68.42473400000327,
+      "reduced": false,
+      "seasonal": {
+        "season": "spring",
+        "count": 16,
+        "effects": [
+          {
+            "season": "spring",
+            "effect": "柳絮",
+            "count": 16,
+            "strength": 1,
+            "brightness": 0.8775
+          }
+        ],
+        "afterRain": 0,
+        "sample": [
+          [
+            -4.067276954650879,
+            1.9454041719436646,
+            -10.246506690979004,
+            11.14510726928711,
+            2.2234861850738525,
+            5.449101448059082
+          ]
+        ]
+      }
+    },
+    "moving": true
+  },
+  "reduced": {
+    "first": {
+      "elapsed": 68.60723400000329,
+      "reduced": true,
+      "seasonal": {
+        "season": "spring",
+        "count": 16,
+        "effects": [
+          {
+            "season": "spring",
+            "effect": "柳絮",
+            "count": 16,
+            "strength": 1,
+            "brightness": 0.8775
+          }
+        ],
+        "afterRain": 0,
+        "sample": [
+          [
+            -5.933687686920166,
+            2.0401268005371094,
+            -10.394089698791504,
+            5.751719951629639,
+            2.3155970573425293,
+            5.426162242889404
+          ]
+        ]
+      }
+    },
+    "last": {
+      "elapsed": 98.23713400000437,
+      "reduced": true,
+      "seasonal": {
+        "season": "spring",
+        "count": 16,
+        "effects": [
+          {
+            "season": "spring",
+            "effect": "柳絮",
+            "count": 16,
+            "strength": 1,
+            "brightness": 0.8775
+          }
+        ],
+        "afterRain": 0,
+        "sample": [
+          [
+            -4.9105448722839355,
+            1.9501323699951172,
+            -10.266368865966797,
+            10.29740047454834,
+            2.3220674991607666,
+            5.504587650299072
+          ]
+        ]
+      }
+    },
+    "moving": true
+  }
+}

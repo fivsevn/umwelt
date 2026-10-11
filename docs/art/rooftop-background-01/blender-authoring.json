@@ -1,0 +1,12 @@
+{
+  "software": "Blender",
+  "version": "4.5.14 LTS",
+  "native_source_saved": true,
+  "runtime_from_evaluated_native_mesh": true,
+  "mesh_objects": 174409,
+  "authored_mesh_objects": 31622,
+  "triangles": 2094866,
+  "bytes": 3762944,
+  "packed_texture_sha256": "3b27ce9106ea82f2532260b0e6f9640d50c3c201948cc47eb2fb811ddb76df26",
+  "native_collection_instances": 50
+}

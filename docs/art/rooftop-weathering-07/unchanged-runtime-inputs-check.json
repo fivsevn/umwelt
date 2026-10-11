@@ -1,0 +1,16 @@
+{
+  "files": {
+    "rooftop/app.mjs": true,
+    "rooftop/3d/seasonal-air.mjs": true,
+    "rooftop/3d/architectural-shell.mjs": true,
+    "rooftop/3d/atmosphere.mjs": true,
+    "rooftop/3d/scene3d.mjs": true,
+    "rooftop/atmosphere.mjs": true,
+    "rooftop/weather.mjs": true,
+    "rooftop/background-review.css": true
+  },
+  "allUnchanged": true,
+  "runtimeAtlasSha256": "8fd4e9d509760c029c903debed2ce8720d32bac92ce4d5496793a3111f79fcc3",
+  "runtimeAtlasBytes": 159903,
+  "nativeReportMatches": true
+}

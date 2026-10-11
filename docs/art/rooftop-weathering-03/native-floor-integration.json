@@ -1,0 +1,55 @@
+{
+  "software": "Blender",
+  "version": "4.5.14 LTS",
+  "sourceRevision": "rooftop-weathering-02",
+  "sourceSha256": "167ab9932d48b6ef340e0a14d1afdb5f14cb01d3aa7b9d3575aa12add2e492e6",
+  "savedSource": "game-environment.blend",
+  "geometryBefore": {
+    "sha256": "1d4e98c7cd43a89337d4dd914708b5887843d4c3431a89c73cc562a261f46f5a",
+    "meshOccurrences": 35536,
+    "vertices": 289254,
+    "polygons": 211618
+  },
+  "geometryAfter": {
+    "sha256": "1d4e98c7cd43a89337d4dd914708b5887843d4c3431a89c73cc562a261f46f5a",
+    "meshOccurrences": 35536,
+    "vertices": 289254,
+    "polygons": 211618
+  },
+  "allRenderedGeometryPreserved": true,
+  "allVisibleObjectTransformsPreserved": true,
+  "allUvsExactlyPreserved": true,
+  "uvSha256": "e48cecd758034d6c48420db1c72985599d92330cb295d9896f7b71128ce6d1c2",
+  "materialAssignmentsSha256": "d47a060176a94231f40c1fe3bc943630eb3139a41d443a30864b9fd004e91604",
+  "camerasLightsAndColorManagementPreserved": true,
+  "texelsPerMetre": 16,
+  "packedPixeloramaPngMatches": true,
+  "pixeloramaPngSha256": "f6809efafc9893cb11d9e1fa2fdd41bdb39df99f86829b33436d3b7fc00f2217",
+  "pixeloramaPxoSha256": "51bebfaedd6bc6e2803b7876510c6cf004c0b88a909e635a44d566820d19d8a4",
+  "distanceImageHashesPreserved": {
+    "distance-facades.png": "f9c8ec3c4c8d32b58431bc1f6a2bcd437ec52a078523dac1e2e85e176e60d2bd",
+    "distance-lights.png": "551611d005a3f40c9fa09e15979cfead5d4848f27967153d8094b091c65c2b60"
+  },
+  "atlasScope": {
+    "allowedRects": {
+      "north-floor": [
+        512,
+        0,
+        128,
+        256
+      ],
+      "south-floor": [
+        640,
+        0,
+        128,
+        128
+      ]
+    },
+    "changedFloorPixels": {
+      "north-floor": 32768,
+      "south-floor": 16384
+    },
+    "nonFloorPixelsExactlyPreserved": true,
+    "nonFloorFloatRgbaSha256": "c3c29ab6a4e64de2df64560b097b7bc7e97f7474c5a9d60ca943448b9da5e218"
+  }
+}

@@ -1,0 +1,16 @@
+✔ Blender export has bounded binary sections, proper normals and a lightweight payload (35.757375ms)
+✔ unique Pixelorama floor charts cover both saved walkable contours at one texel density (0.274833ms)
+✔ the home is between neighbours, and paired projections do not bridge the garage gaps (0.256041ms)
+✔ the public export keeps near geometry and compact distant facade meshes without geographic metadata (4.964584ms)
+✔ native loader shares collection geometry, physical charts and baked facade atmosphere (11.704958ms)
+✔ software graphics bound full-screen fill while preserving small displays (0.809583ms)
+✔ mobile and ordinary editing canvases retain their native pixel grid (0.065ms)
+✔ large viewports bound fill work while retaining aspect ratio and integer pixels (0.077541ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 108.459458

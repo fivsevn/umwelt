@@ -1,0 +1,95 @@
+{
+  "scope": "Eight authorized atlas fields only; all pixels outside them remain exactly equal to weathering-03.",
+  "source": "rooftop-weathering-03/terrace-book.pxo and terrace-book.png, preserved as the before source",
+  "software": "Pixelorama v1.2.3-stable",
+  "nativeTool": "Pencil",
+  "brushPixels": 1,
+  "texelsPerMetre": 16,
+  "integerCoordinates": true,
+  "strokes": 2260,
+  "userReferenceImages": [
+    {
+      "path": "/tmp/codex-remote-attachments/01a1286a-9981-7a03-a49b-a5e4cf097e2e/1FDCC425-F6BA-417A-998B-E847559EF300/1-Photo-2.jpg",
+      "observed": "Retro train platform: fine structural joints, restrained grey-green concrete and paint, cornered local abrasions; broad quiet material fields retain their own colour."
+    },
+    {
+      "path": "/tmp/codex-remote-attachments/01a1286a-9981-7a03-a49b-a5e4cf097e2e/1FDCC425-F6BA-417A-998B-E847559EF300/2-Photo-3.jpg",
+      "observed": "Retro low-poly laboratory: separate grey-green metal, stone-grey floor and warm wood; deliberate hard-edged adjacent pixel clusters express chipped paint and exposed underlayers."
+    }
+  ],
+  "photoGrounding": "Retain the original rooftop photographs as evidence for connected fissures, local mortar repair, scrubbed joints, aggregate and shallow weathering; interpret those material features with the new supplied pixel-cluster reference style.",
+  "paintDecisions": [
+    "Remove the previous broad rounded pale floor blobs. New local defects are roughly 3–11 source pixels across, with square steps and chipped corners.",
+    "Keep readable thin structural slab joints as displaced interrupted 1 px fragments. Do not create a repeated complete tile grid or aligned long bars.",
+    "Crack networks branch at explicitly placed sites, with local mortar fill, small pore clusters and a few warm old-mortar cores under flaking grey cement.",
+    "Plaster has its own grey-green pigment; selected chips expose warmer plaster. Damp is confined to unequal short sites and fissures, rather than a uniform bottom stripe.",
+    "Cap stone uses a paler mineral palette, cement a cooler middle grey-green, and iron a visibly different grey-blue with a small number of edge/joint rust chips and short runs.",
+    "Preserve all brick-red roof painting and previously cleared Chinese shop signs unchanged. No geometry, UV, camera, runtime or atmosphere file was edited by this painting task."
+  ],
+  "referenceUse": "The two supplied images were viewed and studied. No image pixels were traced, copied, downscaled into a texture or generated. Pixelorama performed every painted atlas pixel through its actual native Pencil.",
+  "nativeProvenance": {
+    "plan": "material-pencil-plan.py",
+    "explicitStrokes": "material-pencil-strokes.json",
+    "nativePaint": "repaint-materials-pixelorama.py",
+    "nativeSaveReport": "pixelorama-material-refinement.json",
+    "nativeReload": "pixelorama-native-reopened.json",
+    "nativeExactScopeCheck": "material-pixel-scope-check.json"
+  },
+  "verification": {
+    "nativeCelEqualsPngAndReopenedPng": true,
+    "changedPixelsOutsideAuthorizedScope": 0,
+    "sourceRoofAndErasedSignsExactlyPreserved": true,
+    "erasedChineseShopNames": 6,
+    "pngSha256": "7a5f7c7018a9233f9d4a1a875e7046706b9f1528ec929055dabb1ba0a64fe1a8",
+    "rectangles": [
+      [
+        512,
+        0,
+        128,
+        256
+      ],
+      [
+        640,
+        0,
+        128,
+        128
+      ],
+      [
+        0,
+        512,
+        768,
+        64
+      ],
+      [
+        0,
+        576,
+        768,
+        64
+      ],
+      [
+        768,
+        0,
+        256,
+        64
+      ],
+      [
+        768,
+        64,
+        256,
+        64
+      ],
+      [
+        768,
+        128,
+        256,
+        64
+      ],
+      [
+        768,
+        192,
+        256,
+        64
+      ]
+    ]
+  }
+}

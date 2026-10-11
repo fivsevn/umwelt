@@ -1,0 +1,47 @@
+{
+  "scene": "north",
+  "choices": {
+    "condition": "overcast",
+    "phase": "day",
+    "season": "spring"
+  },
+  "view": {
+    "theta": 2.498514528589797,
+    "phi": 0.408984375,
+    "zoom": 1.8
+  },
+  "target": [
+    -2.649023378493915,
+    0.2,
+    0.5392899658639607
+  ],
+  "loaded": true,
+  "texelsPerMetre": 16,
+  "objects": 0,
+  "modelBuilds": 0,
+  "reduced": true,
+  "seasonal": {
+    "season": "spring",
+    "count": 16,
+    "effects": [
+      {
+        "season": "spring",
+        "effect": "柳絮",
+        "count": 16,
+        "strength": 1,
+        "brightness": 0.9545
+      }
+    ],
+    "afterRain": 0,
+    "sample": [
+      [
+        6.1605024337768555,
+        1.9528377056121826,
+        -10.126190185546875,
+        3.151154041290283,
+        2.389294147491455,
+        6.656744003295898
+      ]
+    ]
+  }
+}

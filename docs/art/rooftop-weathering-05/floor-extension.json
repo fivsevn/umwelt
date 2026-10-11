@@ -1,0 +1,1 @@
+{"name": "RooftopFloor", "display_name": "Rooftop concrete floor repaint", "description": "Native 1 px Pencil floor edit only", "author": "\u4e94\u6708\u4e03\u65e5", "version": "0.1", "supported_api_versions": [8], "license": "MIT", "nodes": ["FloorMain.tscn"]}

@@ -1,0 +1,64 @@
+{
+  "software": "Pixelorama",
+  "version": "v1.2.3-stable",
+  "nativeCelEqualsPngAndReopenedPng": true,
+  "dimensions": [
+    1024,
+    1024
+  ],
+  "nativePxoReopened": true,
+  "pencilBrush": 1,
+  "integerCoordinates": true,
+  "texelsPerMetre": 16,
+  "changedOnly": [
+    [
+      512,
+      0,
+      128,
+      256
+    ],
+    [
+      640,
+      0,
+      128,
+      128
+    ],
+    [
+      0,
+      512,
+      768,
+      64
+    ],
+    [
+      0,
+      576,
+      768,
+      64
+    ],
+    [
+      768,
+      128,
+      256,
+      64
+    ],
+    [
+      768,
+      192,
+      256,
+      64
+    ]
+  ],
+  "fieldChangedPixels": {
+    "north-floor": 1531,
+    "south-floor": 1009,
+    "plaster": 151,
+    "stained-plaster": 188,
+    "cap": 9,
+    "cement": 61
+  },
+  "changedPixelsOutsideAuthorizedScope": 0,
+  "sourceRoofAndErasedSignsExactlyPreserved": true,
+  "erasedChineseShopNames": 6,
+  "nativePxoSha256": "25fdaed7626b1695a72b1889ae2cfdf864e411b10c3322d77059fecd5c3d94ad",
+  "pngSha256": "8fd4e9d509760c029c903debed2ce8720d32bac92ce4d5496793a3111f79fcc3"
+}

@@ -1,0 +1,330 @@
+{
+  "scope": {
+    "north-floor": [
+      512,
+      0,
+      128,
+      256
+    ],
+    "south-floor": [
+      640,
+      0,
+      128,
+      128
+    ],
+    "plaster": [
+      0,
+      512,
+      768,
+      64
+    ],
+    "stained-plaster": [
+      0,
+      576,
+      768,
+      64
+    ],
+    "cap": [
+      768,
+      128,
+      256,
+      64
+    ],
+    "cement": [
+      768,
+      192,
+      256,
+      64
+    ]
+  },
+  "baseline": "Final rooftop-weathering-06/terrace-book.pxo and terrace-book.png (feb85960aaadc4241e8e30e67f19334a38f36854decb9f98548505d38280c12c). Entire 06 kept unchanged.",
+  "suppliedPhotos": [
+    "/tmp/codex-remote-attachments/01a1286a-9981-7a03-a49b-a5e4cf097e2e/BA382B2C-23ED-4B94-81C4-41B5F109A680/1-Photo-1.jpg",
+    "/tmp/codex-remote-attachments/01a1286a-9981-7a03-a49b-a5e4cf097e2e/BA382B2C-23ED-4B94-81C4-41B5F109A680/2-Photo-2.jpg",
+    "/tmp/codex-remote-attachments/01a1286a-9981-7a03-a49b-a5e4cf097e2e/BA382B2C-23ED-4B94-81C4-41B5F109A680/3-Photo-3.jpg"
+  ],
+  "reReadActual06": [
+    "rooftop-weathering-06/review-fixed-north-overcast-day.jpg",
+    "rooftop-weathering-06/north-floor-review.png"
+  ],
+  "photoReading": [
+    "Photo 1: uneven faint slab joints and a thin branching dark sealing/repair line embedded in narrow ragged grey cement; depth and width vary locally rather than following a uniformly dark zigzag. Washed edges and isolated mineral residue remain low contrast.",
+    "Photo 2: most ground is quiet. A small old repair retains a calm near-grey centre with fragmented eroded edges and a few warm exposed mortar grains. Quiet continuous plaster is different from scattered salt-like pixels.",
+    "Photo 3: local mineral runoff begins at parapet/column feet and top edges; narrow vertical traces have different lengths and broken fading tails, rather than an even bottom stripe."
+  ],
+  "paintChanges": [
+    "Local retouch only. Read the actual saved 06 native cel to restore selected former uniform crack pixels using adjoining existing mineral pigments. Untargeted 06 pixels and its quiet substrate remain untouched.",
+    "Draw thin 1 px sealing fissures with unequal branches, subdued grey sections, deliberate gaps and a few short deep sections at turns/intersections. Offset shallow cement support only appears along selected sections, not around every bend.",
+    "Rub away selected structural grout fragments and weaken old rectangular bright/damp remnants in existing repair/water zones. Do not add a new parallel bar network or full-surface noise.",
+    "Paint two unequal little north repairs and one south repair with quiet near-grey continuous centres, open 1–3 px edge losses, internal neighbouring levels and only a few warm exposed mortar pixels.",
+    "Water/mineral traces have their own low-point structure: shallow near-base film, short interrupted offset residue edge and sparse unequal remnants. They have open contours and separate north/south layouts, without circular spots or tiled motifs.",
+    "Wall changes are confined to selected old foot scars: broken vertical mineral runoff and thin fading tails, independently drawn rather than floor patterns rotated onto walls. Cement receives two localized fissure replacements; almost all cap painting stays untouched.",
+    "Retain the final 06 grey-green palette, 1 px native Pencil, integer coordinates and 16 px/m UV mapping. Roofs, iron/rust, erased Chinese signs and all non-authorized pixels stay exactly equal to 06."
+  ],
+  "palettes": {
+    "north-floor": [
+      "#99a199",
+      "#959d95",
+      "#919991",
+      "#9da59d",
+      "#a1a9a1",
+      "#8d958d",
+      "#a5ada5",
+      "#899189",
+      "#a9b1a9",
+      "#727e74",
+      "#b9bfb4",
+      "#b4b19f"
+    ],
+    "south-floor": [
+      "#99a199",
+      "#959d95",
+      "#919991",
+      "#9da59d",
+      "#a1a9a1",
+      "#8d958d",
+      "#a5ada5",
+      "#899189",
+      "#a9b1a9",
+      "#727e74",
+      "#b9bfb4",
+      "#b4b19f"
+    ],
+    "plaster": [
+      "#a4aca4",
+      "#a0a8a0",
+      "#9ca49c",
+      "#a8b0a8",
+      "#acb4ac",
+      "#98a098",
+      "#b0b8b0",
+      "#949c94",
+      "#b4bcb4",
+      "#7d897f",
+      "#c4cabf",
+      "#bfbcaa"
+    ],
+    "stained-plaster": [
+      "#9fa79f",
+      "#9ba39b",
+      "#979f97",
+      "#a3aba3",
+      "#a7afa7",
+      "#939b93",
+      "#abb3ab",
+      "#8f978f",
+      "#afb7af",
+      "#78847a",
+      "#bfc5ba",
+      "#bab7a5"
+    ],
+    "cap": [
+      "#adb5ad",
+      "#a9b1a9",
+      "#a5ada5",
+      "#b1b9b1",
+      "#b5bdb5",
+      "#a1a9a1",
+      "#b9c1b9",
+      "#9da59d",
+      "#bdc5bd",
+      "#869288",
+      "#cdd3c8",
+      "#c8c5b3"
+    ],
+    "cement": [
+      "#939b93",
+      "#8f978f",
+      "#8b938b",
+      "#979f97",
+      "#9ba39b",
+      "#878f87",
+      "#9fa79f",
+      "#838b83",
+      "#a3aba3",
+      "#6c786e",
+      "#b3b9ae",
+      "#aeab99"
+    ]
+  },
+  "actualNativePngFamilies": {
+    "north-floor": {
+      "nativeColorsUsed": 12,
+      "percentByRole": {
+        "base": 71.46,
+        "nearFourAndEight": 26.288,
+        "midTwelveAndSixteen": 2.118,
+        "rareFissureMineralAndWarmMortar": 0.134
+      },
+      "palettePercent": {
+        "#99a199": 71.46,
+        "#959d95": 7.944,
+        "#919991": 7.233,
+        "#9da59d": 5.957,
+        "#a1a9a1": 5.154,
+        "#8d958d": 1.935,
+        "#a5ada5": 0.146,
+        "#899189": 0.031,
+        "#a9b1a9": 0.006,
+        "#727e74": 0.092,
+        "#b9bfb4": 0.012,
+        "#b4b19f": 0.031
+      }
+    },
+    "south-floor": {
+      "nativeColorsUsed": 12,
+      "percentByRole": {
+        "base": 69.312,
+        "nearFourAndEight": 27.606,
+        "midTwelveAndSixteen": 2.887,
+        "rareFissureMineralAndWarmMortar": 0.195
+      },
+      "palettePercent": {
+        "#99a199": 69.312,
+        "#959d95": 7.312,
+        "#919991": 8.124,
+        "#9da59d": 6.366,
+        "#a1a9a1": 5.804,
+        "#8d958d": 2.6,
+        "#a5ada5": 0.195,
+        "#899189": 0.049,
+        "#a9b1a9": 0.043,
+        "#727e74": 0.134,
+        "#b9bfb4": 0.012,
+        "#b4b19f": 0.049
+      }
+    },
+    "plaster": {
+      "nativeColorsUsed": 12,
+      "percentByRole": {
+        "base": 74.361,
+        "nearFourAndEight": 22.603,
+        "midTwelveAndSixteen": 2.832,
+        "rareFissureMineralAndWarmMortar": 0.203
+      },
+      "palettePercent": {
+        "#a4aca4": 74.361,
+        "#a0a8a0": 8.897,
+        "#9ca49c": 4.974,
+        "#a8b0a8": 4.742,
+        "#acb4ac": 3.99,
+        "#98a098": 0.806,
+        "#b0b8b0": 0.669,
+        "#949c94": 0.771,
+        "#b4bcb4": 0.586,
+        "#7d897f": 0.016,
+        "#c4cabf": 0.098,
+        "#bfbcaa": 0.09
+      }
+    },
+    "stained-plaster": {
+      "nativeColorsUsed": 12,
+      "percentByRole": {
+        "base": 74.89,
+        "nearFourAndEight": 21.507,
+        "midTwelveAndSixteen": 3.41,
+        "rareFissureMineralAndWarmMortar": 0.193
+      },
+      "palettePercent": {
+        "#9fa79f": 74.89,
+        "#9ba39b": 8.364,
+        "#979f97": 4.751,
+        "#a3aba3": 3.868,
+        "#a7afa7": 4.525,
+        "#939b93": 1.152,
+        "#abb3ab": 0.549,
+        "#8f978f": 0.893,
+        "#afb7af": 0.816,
+        "#78847a": 0.012,
+        "#bfc5ba": 0.098,
+        "#bab7a5": 0.083
+      }
+    },
+    "cap": {
+      "nativeColorsUsed": 11,
+      "percentByRole": {
+        "base": 71.539,
+        "nearFourAndEight": 23.755,
+        "midTwelveAndSixteen": 4.218,
+        "rareFissureMineralAndWarmMortar": 0.488
+      },
+      "palettePercent": {
+        "#adb5ad": 71.539,
+        "#a9b1a9": 9.76,
+        "#a5ada5": 4.816,
+        "#b1b9b1": 4.761,
+        "#b5bdb5": 4.419,
+        "#a1a9a1": 1.526,
+        "#b9c1b9": 0.836,
+        "#9da59d": 0.983,
+        "#bdc5bd": 0.873,
+        "#869288": 0.0,
+        "#cdd3c8": 0.378,
+        "#c8c5b3": 0.11
+      }
+    },
+    "cement": {
+      "nativeColorsUsed": 12,
+      "percentByRole": {
+        "base": 71.942,
+        "nearFourAndEight": 22.858,
+        "midTwelveAndSixteen": 4.669,
+        "rareFissureMineralAndWarmMortar": 0.531
+      },
+      "palettePercent": {
+        "#939b93": 71.942,
+        "#8f978f": 8.575,
+        "#8b938b": 5.322,
+        "#979f97": 3.882,
+        "#9ba39b": 5.078,
+        "#878f87": 1.483,
+        "#9fa79f": 1.001,
+        "#838b83": 0.922,
+        "#a3aba3": 1.263,
+        "#6c786e": 0.049,
+        "#b3b9ae": 0.36,
+        "#aeab99": 0.122
+      }
+    }
+  },
+  "actualChangedPixels": {
+    "north-floor": 1531,
+    "south-floor": 1009,
+    "plaster": 151,
+    "stained-plaster": 188,
+    "cap": 9,
+    "cement": 61
+  },
+  "actualChangedPixelsTotal": 2949,
+  "authoring": {
+    "software": "Pixelorama v1.2.3-stable",
+    "tool": "Pencil",
+    "brushPixels": 1,
+    "texelsPerMetre": 16,
+    "strokes": 2884,
+    "strokePlan": "material-pencil-plan.py",
+    "strokeRecord": "material-pencil-strokes.json",
+    "nativeAuthorScript": "repaint-materials-pixelorama.py",
+    "nativeAuthorReport": "pixelorama-material-refinement.json",
+    "nativeReopenReport": "pixelorama-native-reopened.json",
+    "nativeScopeCheck": "material-pixel-scope-check.json",
+    "nativeReviewCrops": [
+      "north-floor-review.png",
+      "south-floor-review.png",
+      "plaster-material-review.png",
+      "iron-cap-cement-review.png"
+    ],
+    "reviewCropsMethod": "Pixelorama native cel get_region / nearest-neighbour resize / save_png after independent PXO reopen"
+  },
+  "verified": {
+    "nativeSaved": true,
+    "nativePngExport": true,
+    "nativePxoReopened": true,
+    "nativeCelEqualsPngAndReopenedPng": true,
+    "changedPixelsOutsideAuthorizedScope": 0,
+    "roofMetalRustAndErasedChineseSignsExactlyPreserved": true,
+    "pngSha256": "8fd4e9d509760c029c903debed2ce8720d32bac92ce4d5496793a3111f79fcc3",
+    "pxoSha256": "25fdaed7626b1695a72b1889ae2cfdf864e411b10c3322d77059fecd5c3d94ad"
+  },
+  "referenceUse": "No image generation, Python raster drawing, photograph tracing, copying or downsampling into a texture. Python prepares explicit integer Pencil strokes and reads saved source pigments only; actual painting, native source save, PNG export and review-crop export are performed inside Pixelorama. PIL only reads native export bytes for verification."
+}

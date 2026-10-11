@@ -1,0 +1,69 @@
+{
+  "sourceSnapshotReopened": true,
+  "sourceRevision": "rooftop-weathering-03",
+  "geometry": {
+    "sha256": "1d4e98c7cd43a89337d4dd914708b5887843d4c3431a89c73cc562a261f46f5a",
+    "meshOccurrences": 35536,
+    "vertices": 289254,
+    "polygons": 211618
+  },
+  "uvSha256": "e48cecd758034d6c48420db1c72985599d92330cb295d9896f7b71128ce6d1c2",
+  "materialAssignmentsSha256": "d47a060176a94231f40c1fe3bc943630eb3139a41d443a30864b9fd004e91604",
+  "packedBasePngMatches": true,
+  "texelsPerMetre": 16,
+  "camera": "North rooftop camera",
+  "distantImages": {
+    "distance-facades.png": "f9c8ec3c4c8d32b58431bc1f6a2bcd437ec52a078523dac1e2e85e176e60d2bd",
+    "distance-lights.png": "551611d005a3f40c9fa09e15979cfead5d4848f27967153d8094b091c65c2b60"
+  },
+  "allowedRects": {
+    "north-floor": [
+      512,
+      0,
+      128,
+      256
+    ],
+    "south-floor": [
+      640,
+      0,
+      128,
+      128
+    ],
+    "plaster": [
+      0,
+      512,
+      768,
+      64
+    ],
+    "stained-plaster": [
+      0,
+      576,
+      768,
+      64
+    ],
+    "metal": [
+      768,
+      0,
+      256,
+      64
+    ],
+    "rust-iron": [
+      768,
+      64,
+      256,
+      64
+    ],
+    "cap": [
+      768,
+      128,
+      256,
+      64
+    ],
+    "cement": [
+      768,
+      192,
+      256,
+      64
+    ]
+  }
+}
