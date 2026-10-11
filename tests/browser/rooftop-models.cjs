@@ -398,7 +398,8 @@ async function visiblePickPoint(page, id) {
         ["不锈钢水槽", "steel-sink", ["drainboard", "basin-floor"]],
         ["蓝色水池台", "enamel-basin", ["basin-floor"]],
       ]) {
-        await addAsset(query, type); await addAsset("园艺铲", "trowel"); await small();
+        await addAsset(query, type); await addAsset("喷壶", "trigger-sprayer"); await small();
+        await page.locator("#rotate").click();
         await page.locator("#supportParent").selectOption({ label: query });
         for (const surface of surfaces) {
           await page.locator("#supportLevel").selectOption(surface);

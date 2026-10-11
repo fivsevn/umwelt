@@ -30,19 +30,23 @@ const routes = [
         : {}),
     });
     try {
-      const page = await browser.newPage();
-      const errors = [];
-      page.on("pageerror", (error) => errors.push(error.message));
-      page.on("requestfailed", (request) =>
-        errors.push(request.url() + ": " + request.failure()?.errorText),
-      );
-      page.on("response", (response) => {
-        if (response.status() >= 400)
-          errors.push(response.status() + " " + response.url());
-      });
+      const context = await browser.newContext();
       for (const width of [1440, 390]) {
-        await page.setViewportSize({ width, height: 900 });
         for (const [index, [route, selector]] of routes.entries()) {
+          // Isolate each document's errors while retaining browser cache/storage.
+          // Closing a prior page can cancel its lazy thumbnail requests; those
+          // cancellations must not be attributed to the next document.
+          const page = await context.newPage();
+          const errors = [];
+          page.on("pageerror", (error) => errors.push(error.message));
+          page.on("requestfailed", (request) =>
+            errors.push(request.url() + ": " + request.failure()?.errorText),
+          );
+          page.on("response", (response) => {
+            if (response.status() >= 400)
+              errors.push(response.status() + " " + response.url());
+          });
+          await page.setViewportSize({ width, height: 900 });
           const startedAt = Date.now();
           console.log(`${engine.name()} ${width} ${route}: checking`);
           // Software WebGL compiles the terrace's materials at first entry.
@@ -194,6 +198,7 @@ const routes = [
           console.log(
             `${engine.name()} ${width} ${route}: passed in ${Date.now() - startedAt}ms`,
           );
+          await page.close();
         }
       }
       console.log(engine.name() + ": " + routes.length * 2 + " final artifact entry checks passed");
