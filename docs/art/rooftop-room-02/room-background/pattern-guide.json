@@ -1,0 +1,65 @@
+{
+  "palette": {
+    "glass": "#adbfbb",
+    "room-plaster-sage": "#a9b1a9",
+    "room-floor-timber": "#9b998d",
+    "room-floor-structure": "#858d83",
+    "room-joinery": "#b8bbae",
+    "room-skirting": "#a4aaa0",
+    "room-door-steel": "#84938d",
+    "room-door-paint": "#a4ada3",
+    "room-door-edge": "#76857e",
+    "room-hardware": "#a6afaa",
+    "room-blind": "#b7bbaa",
+    "room-map-paper": "#d7d0b4",
+    "room-map-sea": "#a3b5b1",
+    "room-curtain": "#b7bbaa",
+    "room-lamp-shade": "#9ca898",
+    "room-lamp-bracket": "#727d73",
+    "room-lamp-glow": "#ded5b7"
+  },
+  "styleSource": "Current native terrace-book palette: plaster #a3aba3, cement #929a92, trim #baae9a; indoor sage walls, raised blinds and world map",
+  "physicalGrid": "Every chart 16 native Pixelorama texels per metre; no screen-grain changes in geometry",
+  "paintEntry": "patterns.py:pattern_color(field,point,base)",
+  "aging": "Sparse interior floor wear, timber joints, contact scuffs, subdued joinery edge wear, hand use around both door handles. No rain marks, algae, repeated dirt tiles or random blanket noise.",
+  "door": {
+    "frameOriginRuntime": [
+      -4.9,
+      0.02,
+      4
+    ],
+    "projectionCenterRuntime": [
+      -4.9,
+      0.02,
+      4
+    ],
+    "frameRotationY": -1.5707963267948966,
+    "hingeLocalRuntime": [
+      -0.7466666666666666,
+      0,
+      0
+    ],
+    "hingeWorldRuntime": [
+      -4.9,
+      0.02,
+      3.2533333333333334
+    ],
+    "heightRuntime": 3.92,
+    "leafWidthRuntime": 1.4933333333333332,
+    "leafThicknessRuntime": 0.07466666666666666,
+    "heightMetres": 2.1,
+    "widthMetres": 0.8,
+    "thicknessMetres": 0.04,
+    "leafRole": "room-door-leaf",
+    "frameRole": "room-door-frame",
+    "legacyAnimation": "doors.room.hinge.rotation.y = -doorProgress * .58",
+    "retainProjectedFrame": true,
+    "originalNarrowHingeWorldRuntime": [
+      -4.9,
+      0.02,
+      3.49
+    ],
+    "hingeAdaptation": "Door centre retained; pivot moves by half the added real-width door as agreed with runtime loader"
+  },
+  "metadataOnlyBoundary": "obstacle-boundaries.json; no movable furniture or actors"
+}

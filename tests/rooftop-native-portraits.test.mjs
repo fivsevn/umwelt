@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import vm from 'node:vm';
+import { ITEM_METRES_TO_UNITS } from '../rooftop/item-catalog.mjs';
 
 const T = createRequire(import.meta.url)('../rooftop/3d/vendor/three.min.js');
 const source = readFileSync(new URL('../rooftop/3d/scene3d.mjs', import.meta.url), 'utf8');
@@ -12,7 +13,7 @@ const key = (type, seed = 1835, pot) => JSON.stringify([type, pot, seed, 32, 32]
 function fixture() {
   const loaded = new Set(), loads = new Map(), timers = [], deleted = [], paints = [], targets = [], cached = new Map();
   let copies = 0;
-  const canvas = label => ({ label, width: 32, height: 32, getContext() { return {
+  const canvas = label => ({ label, dataset: {}, width: 32, height: 32, getContext() { return {
     createImageData(w, h) { return { data: new Uint8ClampedArray(w * h * 4) }; },
     putImageData() {}, drawImage(image) { paints.push(image.label); },
   }; } });
@@ -28,7 +29,7 @@ function fixture() {
     clientWaitSync() { return 0; }, isContextLost() { return false; }, getBufferSubData(_target, _offset, pixels) { pixels.fill(255); },
     deleteSync() { deleted.push('fence'); }, deleteBuffer() { deleted.push('buffer'); },
   };
-  const context = { T, renderer, gl, document: { createElement() { return canvas('render-' + ++copies); } },
+  const context = { T, renderer, gl, ITEM_METRES_TO_UNITS, document: { createElement() { return canvas('render-' + ++copies); } },
     waitingPortraits: new WeakMap(), spriteCache: cached, catalogInfo: new Map(), batches: [], software: false, previewReadbacks: 0,
     nativeItems: { isReady(o) { return loaded.has(o.type); }, preload(o) {
       return new Promise(resolve => loads.set(o.type, () => { loaded.add(o.type); resolve(); }));

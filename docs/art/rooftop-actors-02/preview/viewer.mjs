@@ -1,0 +1,15 @@
+import { OUTFITS, DECORATIONS, ACTIVITIES, wardrobe, dress } from '../../../../rooftop/wardrobe.mjs';
+import { WEATHER_TASKS, WEATHER_ACTION_POOLS } from '../../../../rooftop/resident-weather.mjs';
+import { createActorPreview } from '../../../../rooftop/3d/actor-preview.mjs';
+const $=id=>document.getElementById(id),canvas=$('actors'),preview=createActorPreview(canvas);
+const options=(id,entries)=>{for(const [value,label] of entries){const option=new Option(label,value);$(id).add(option);}};
+options('outfit',Object.entries(OUTFITS).map(([id,data])=>[id,data[0]]));options('decoration',Object.entries(DECORATIONS));
+options('personAction',Object.entries(ACTIVITIES));options('pigAction',[['rest','歇一会儿'],['walk','散步'],['eat','吃东西']]);
+for(const [id,actor,extra] of [['personAction','person',['wipe-pot','wipe-sweat']],['pigAction','pig',['sniff-wet','avoid-puddle']]])for(const state of new Set([...Object.values(WEATHER_ACTION_POOLS).flatMap(pool=>pool[actor]),...extra]))if(![...$(id).options].some(o=>o.value===state))options(id,[[state,WEATHER_TASKS[state]||ACTIVITIES[state]||state]]);
+$('outfit').value=wardrobe.outfit;$('decoration').value=wardrobe.pig;
+$('outfit').onchange=()=>{dress('outfit',$('outfit').value);preview.rebuild();};$('decoration').onchange=()=>{dress('pig',$('decoration').value);preview.rebuild();};
+let angle=.32,pitch=.22,zoom=1,time=0,last=performance.now(),paused=false,pointer=null;
+$('pause').onclick=()=>{paused=!paused;$('pause').textContent=paused?'继续动作':'暂停动作';};$('reset').onclick=()=>{angle=.32;pitch=.22;zoom=1;};
+canvas.onpointerdown=e=>{pointer={x:e.clientX,y:e.clientY};canvas.setPointerCapture(e.pointerId);};canvas.onpointermove=e=>{if(!pointer)return;angle-=(e.clientX-pointer.x)*.008;pitch=Math.max(-.1,Math.min(1.2,pitch+(e.clientY-pointer.y)*.007));pointer={x:e.clientX,y:e.clientY};};canvas.onpointerup=canvas.onpointercancel=()=>pointer=null;canvas.onwheel=e=>{e.preventDefault();zoom=Math.max(.7,Math.min(2.7,zoom*Math.exp(-e.deltaY*.001)));};
+await preview.ready;$('summary').textContent=Object.keys(OUTFITS).length+' 套衣服 · '+Object.keys(DECORATIONS).length+' 款装饰 · '+$('personAction').options.length+' 个东东动作 · '+$('pigAction').options.length+' 个小猪动作';
+function frame(now){if(!paused)time+=Math.min(.1,(now-last)/1000);last=now;preview.draw({time,person:$('personAction').value,pig:$('pigAction').value,facing:Number($('facing').value),angle,pitch,zoom,sampling:$('sampling').value,showPerson:$('showPerson').checked,showPig:$('showPig').checked});requestAnimationFrame(frame);}requestAnimationFrame(frame);

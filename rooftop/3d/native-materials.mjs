@@ -51,6 +51,8 @@ export function createPixelMaterials(T, windTime, windPower, weather={wet:{value
       paintSeed:[0],paintInterior:[0]};
     material.extensions={...material.extensions,derivatives:true};
     material.onBeforeCompile=(shader)=>{
+      shader.uniforms.actorMetricDensity = { value: /^(skin|hair|actor-)/.test(kind) ? PIXEL_STYLE.actorTexelsPerUnit : PIXEL_STYLE.texelsPerUnit };
+      shader.fragmentShader = 'uniform float actorMetricDensity;\n' + shader.fragmentShader;
       Object.assign(shader.uniforms,{
         atlasRect:{value:rect(name)},innerRect:{value:rect(vessel?name+"-interior":name)},
         vesselField:{value:vessel?1:0},chartOrigin:{value:new T.Vector2(16,botanical||vessel?1:16)},metricChart:{value:botanical?0:1},pixelTone:tone,
@@ -112,7 +114,7 @@ ${T.ShaderChunk.color_fragment}
   float facet=floor(paintFacet+.5);
   origin.x=3.+2.*mod(facet,8.);
  }
- vec2 pixel=mod(floor(plane*8.0+origin),32.);
+ vec2 pixel=mod(floor(plane*actorMetricDensity+origin),32.);
  vec2 cell=vec2((pixel.x+.5)/32.,(31.-pixel.y+.5)/32.);
  vec4 area=atlasRect;
  if(vesselField>.5 && interiorField>.5)area=innerRect;

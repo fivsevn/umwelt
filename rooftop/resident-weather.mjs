@@ -1,6 +1,6 @@
 import { canonicalWeatherCondition } from "./weather-condition.mjs";
 // Weather changes actions and poses without changing the user's wardrobe or save.
-const ACTIONS = {
+export const WEATHER_ACTION_POOLS = {
   rain: {
     person: ["listen-rain", "dry-hands", "tea"],
     pig: ["watch-rain", "shake", "curl"],
@@ -82,7 +82,7 @@ export function weatherAction(
           ? actor === "pig"
             ? ["bask", "snooze", "sniff"]
             : ["wipe-sweat", "tea", "look-out"]
-          : (ACTIONS[state.condition] || ACTIONS.clear)[actor];
+          : (WEATHER_ACTION_POOLS[state.condition] || WEATHER_ACTION_POOLS.clear)[actor];
   const action = actions[Math.abs(step) % actions.length];
   return {
     state: action,

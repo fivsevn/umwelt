@@ -1,0 +1,544 @@
+{
+  "source": "Independent native Blender reopening",
+  "sourceFile": "room-background-layout.blend",
+  "meshes": [
+    {
+      "name": "room-background/floor-structure",
+      "role": "room-floor-structure",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 5.3810585708338365
+    },
+    {
+      "name": "room-background/floor-finish",
+      "role": "room-floor",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.3228635426886306
+    },
+    {
+      "name": "room-background/back-wall-west",
+      "role": "room-wall-back",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.37193848340940827
+    },
+    {
+      "name": "room-background/back-wall-east",
+      "role": "room-wall-back",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.37193848340940827
+    },
+    {
+      "name": "room-background/back-wall-below-window",
+      "role": "room-wall-back",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.1317282106803345
+    },
+    {
+      "name": "room-background/back-wall-window-lintel",
+      "role": "room-wall-back",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.06198975924324955
+    },
+    {
+      "name": "room-background/left-wall-rear",
+      "role": "room-wall-left",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 1.188265902365799
+    },
+    {
+      "name": "room-background/left-wall-front",
+      "role": "room-wall-left",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.25841976496864316
+    },
+    {
+      "name": "room-background/left-wall-door-lintel",
+      "role": "room-wall-left",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.03152373955610619
+    },
+    {
+      "name": "room-background/right-low-wall",
+      "role": "room-wall-right",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.14528846807720264
+    },
+    {
+      "name": "room-background/back-skirting",
+      "role": "room-skirting",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.007994721306776106
+    },
+    {
+      "name": "room-background/left-skirting-rear",
+      "role": "room-skirting",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.007046747735674203
+    },
+    {
+      "name": "room-background/left-skirting-front",
+      "role": "room-skirting",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.0014503896995070949
+    },
+    {
+      "name": "room-background/right-skirting",
+      "role": "room-skirting",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.009793626874623484
+    },
+    {
+      "name": "room-background/window-glass-0-0",
+      "role": "room-window-glass",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.003940482251449125
+    },
+    {
+      "name": "room-background/window-glass-0-1",
+      "role": "room-window-glass",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.003940481566854262
+    },
+    {
+      "name": "room-background/window-glass-1-0",
+      "role": "room-window-glass",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.003940482251449125
+    },
+    {
+      "name": "room-background/window-glass-1-1",
+      "role": "room-window-glass",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.003940481566854262
+    },
+    {
+      "name": "room-background/window-vertical-0",
+      "role": "room-window-frame",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.0015206578202260532
+    },
+    {
+      "name": "room-background/window-vertical-1",
+      "role": "room-window-frame",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.0015206594470685841
+    },
+    {
+      "name": "room-background/window-vertical-2",
+      "role": "room-window-frame",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.001520657820226067
+    },
+    {
+      "name": "room-background/window-crossbar",
+      "role": "room-window-frame",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.0019237303231989245
+    },
+    {
+      "name": "room-background/window-lower-rail",
+      "role": "room-window-frame",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.0035576311447980333
+    },
+    {
+      "name": "room-background/window-upper-rail",
+      "role": "room-window-frame",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.00355764332416994
+    },
+    {
+      "name": "room-background/window-sill",
+      "role": "room-window-sill",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.02252667711597789
+    },
+    {
+      "name": "room-background/blind-headbox",
+      "role": "room-blind",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.01681471751516797
+    },
+    {
+      "name": "room-background/blind-raised-slat-0",
+      "role": "room-blind",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.0032178355084511168
+    },
+    {
+      "name": "room-background/blind-raised-slat-1",
+      "role": "room-blind",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.0032178355084511168
+    },
+    {
+      "name": "room-background/blind-raised-slat-2",
+      "role": "room-blind",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.0032178355084511168
+    },
+    {
+      "name": "room-background/blind-raised-slat-3",
+      "role": "room-blind",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.0032178355084511168
+    },
+    {
+      "name": "room-background/blind-raised-slat-4",
+      "role": "room-blind",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.0032178355084511168
+    },
+    {
+      "name": "room-background/blind-raised-slat-5",
+      "role": "room-blind",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.0032178355084511168
+    },
+    {
+      "name": "room-background/blind-bottom-rail",
+      "role": "room-blind",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.0062589697633105845
+    },
+    {
+      "name": "room-background/blind-pull--1.94",
+      "role": "room-blind-cord",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.0001097974511133001
+    },
+    {
+      "name": "room-background/blind-pull-1.94",
+      "role": "room-blind-cord",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.0001097974511133001
+    },
+    {
+      "name": "room-background/world-map-backing",
+      "role": "room-world-map-frame",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.03064061328985082
+    },
+    {
+      "name": "room-background/world-map-paper",
+      "role": "room-world-map",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.006732079691674926
+    },
+    {
+      "name": "room-background/lamp-bracket",
+      "role": "room-wall-lamp",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.00019344545439640547
+    },
+    {
+      "name": "room-background/lamp-shade",
+      "role": "room-wall-lamp",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.0005861175091918102
+    },
+    {
+      "name": "room-background/lamp-bulb",
+      "role": "room-wall-lamp",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.0002778168468259431
+    },
+    {
+      "name": "room-background/door-frame-hinge",
+      "role": "room-door-frame",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.028089078036824165
+    },
+    {
+      "name": "room-background/door-frame-latch",
+      "role": "room-door-frame",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.028089078036821806
+    },
+    {
+      "name": "room-background/door-frame-head",
+      "role": "room-door-frame",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.01550072759198065
+    },
+    {
+      "name": "room-background/door-threshold",
+      "role": "room-door-frame",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.025484692356263938
+    },
+    {
+      "name": "room-background/door-leaf-body",
+      "role": "room-door-leaf",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.06687144239652783
+    },
+    {
+      "name": "room-background/door-panel-exterior",
+      "role": "room-door-leaf",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.007577760922178101
+    },
+    {
+      "name": "room-background/door-edge-exterior-hinge",
+      "role": "room-door-leaf",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.00023402247812450596
+    },
+    {
+      "name": "room-background/door-edge-exterior-latch",
+      "role": "room-door-leaf",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.0002340252930264497
+    },
+    {
+      "name": "room-background/door-handle-plate-exterior",
+      "role": "room-door-leaf",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 5.39177118666133e-05
+    },
+    {
+      "name": "room-background/door-handle-exterior",
+      "role": "room-door-leaf",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 5.97936929213976e-05
+    },
+    {
+      "name": "room-background/door-panel-interior",
+      "role": "room-door-leaf",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.007577760922178323
+    },
+    {
+      "name": "room-background/door-edge-interior-hinge",
+      "role": "room-door-leaf",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.0002340224781245129
+    },
+    {
+      "name": "room-background/door-edge-interior-latch",
+      "role": "room-door-leaf",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.0002340252930264497
+    },
+    {
+      "name": "room-background/door-handle-plate-interior",
+      "role": "room-door-leaf",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 5.391771186661243e-05
+    },
+    {
+      "name": "room-background/door-handle-interior",
+      "role": "room-door-leaf",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 5.979369292139804e-05
+    },
+    {
+      "name": "room-background/door-hinge-barrel-0",
+      "role": "room-door-leaf",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 4.7820812683437316e-05
+    },
+    {
+      "name": "room-background/door-hinge-barrel-1",
+      "role": "room-door-leaf",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 4.7820842242525085e-05
+    },
+    {
+      "name": "room-background/door-hinge-barrel-2",
+      "role": "room-door-leaf",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 4.782084224252476e-05
+    }
+  ],
+  "uvEdges": 2464,
+  "invalidUVEdges": 0,
+  "maxAbsoluteTexelError": 0.00010750451067360889,
+  "windowRays": [
+    {
+      "runtimePoint": [
+        -0.86,
+        2.2633333333333328,
+        -7
+      ],
+      "wallBlocks": false
+    },
+    {
+      "runtimePoint": [
+        -0.86,
+        3.6166666666666663,
+        -7
+      ],
+      "wallBlocks": false
+    },
+    {
+      "runtimePoint": [
+        0.86,
+        2.2633333333333328,
+        -7
+      ],
+      "wallBlocks": false
+    },
+    {
+      "runtimePoint": [
+        0.86,
+        3.6166666666666663,
+        -7
+      ],
+      "wallBlocks": false
+    }
+  ],
+  "doorRays": [
+    {
+      "runtimePoint": [
+        -5,
+        1.96,
+        4
+      ],
+      "wallBlocks": false,
+      "expectedWall": false,
+      "passed": true
+    },
+    {
+      "runtimePoint": [
+        -5,
+        4.75,
+        4
+      ],
+      "wallBlocks": true,
+      "expectedWall": true,
+      "passed": true
+    }
+  ],
+  "doorBody": {
+    "runtimeMin": [
+      -4.9373332977294915,
+      0.02000001271565755,
+      3.253333250681559
+    ],
+    "runtimeMax": [
+      -4.8626667022705075,
+      3.9399998346964513,
+      4.746666717529297
+    ],
+    "expectedMin": [
+      -4.937333333333334,
+      0.02,
+      3.2533333333333334
+    ],
+    "expectedMax": [
+      -4.862666666666667,
+      3.94,
+      4.746666666666666
+    ],
+    "matches": true
+  },
+  "doorLeafParts": [
+    "room-background/door-leaf-body",
+    "room-background/door-panel-exterior",
+    "room-background/door-edge-exterior-hinge",
+    "room-background/door-edge-exterior-latch",
+    "room-background/door-handle-plate-exterior",
+    "room-background/door-handle-exterior",
+    "room-background/door-panel-interior",
+    "room-background/door-edge-interior-hinge",
+    "room-background/door-edge-interior-latch",
+    "room-background/door-handle-plate-interior",
+    "room-background/door-handle-interior",
+    "room-background/door-hinge-barrel-0",
+    "room-background/door-hinge-barrel-1",
+    "room-background/door-hinge-barrel-2"
+  ],
+  "doorFrameParts": [
+    "room-background/door-frame-hinge",
+    "room-background/door-frame-latch",
+    "room-background/door-frame-head",
+    "room-background/door-threshold"
+  ],
+  "glassExport": {
+    "materials": [
+      {
+        "alphaMode": "BLEND",
+        "doubleSided": true,
+        "extras": {
+          "finish": "glass",
+          "texels_per_metre": 16.0,
+          "base_hex": "#adbfbb"
+        },
+        "name": "room-background:glass",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.6784313917160034,
+            0.7490196228027344,
+            0.7333333492279053,
+            0.1599999964237213
+          ],
+          "metallicFactor": 0,
+          "roughnessFactor": 0.25
+        }
+      }
+    ],
+    "passed": true
+  },
+  "completeClosedSolids": true,
+  "layoutSha256": "adb8b46c18ccc0cf7ba6c3887df5eee1fc4dd38c90b54b5f6d2343263501e931",
+  "passed": true
+}

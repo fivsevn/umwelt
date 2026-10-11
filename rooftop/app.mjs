@@ -19,6 +19,7 @@ import { opticOverlayMarkup, updateOpticOverlay } from "./3d/optic-overlay.mjs";
 import { LAYOUT_KEY, readLayout, readObservationLayout, writeLayout } from "./layout-storage.mjs";
 import { createEditHistory } from "./edit-history.mjs";
 import { attachCardFeed } from "./card-feed.mjs";
+import { observerIcon, NARRATIVE_LABELS, STATION_ACTIONS } from "./observer-ui.mjs";
 import { paintPig } from "./wardrobe.mjs";
 import { attachGardenMusic } from "./music.mjs";
 import { paintObjectLights } from "./objects.mjs";
@@ -81,8 +82,7 @@ const previewStorage = {
 let reviewView = review.view, reviewSampling = review.sampling;
 let persistReviewState = () => {};
 if (backgroundStage) window.history.replaceState(null, "", reviewURL(location.href));
-const narrativeLabels = { bird: "经常啄多肉的小鸟", drone: "偶尔路过的无人机", neighbor: "？" };
-const narrativeButtons = () => NARRATIVE_VIEWS.map(({id}) => '<button type="button" data-narrative-view="' + id + '" aria-pressed="' + (id === "bird") + '">' + narrativeLabels[id] + '</button>').join("");
+const narrativeButtons = () => NARRATIVE_VIEWS.map(({id}) => '<button type="button" data-narrative-view="' + id + '" aria-label="' + NARRATIVE_LABELS[id] + '" title="' + NARRATIVE_LABELS[id] + '" aria-pressed="' + (id === "bird") + '">' + observerIcon(id === 'neighbor' ? 'question' : id) + '</button>').join("");
 let syncNarrativeUI = () => {};
 const edits = createEditHistory();
 let scene =
@@ -95,7 +95,8 @@ let scene =
   selected = null,
   category = "全部",
   drag = null,
-  showPerson = true;
+  showPerson = true,
+  showPig = !hideActors;
 let flushDrag = null;
 const dragPerformance = { updates: 0, totalMs: 0, maxMs: 0 };
 try {
@@ -193,8 +194,8 @@ if (!editor) {
       choice.setAttribute("aria-pressed", String(choice.dataset.narrativeView === name));
     scope.hidden = name !== "neighbor";
     if (stationKind !== name) {
-      const actions = name === "bird" ? [["left", "←沿檐"], ["right", "沿檐→"]] : name === "drone" ? [["down", "↓下降"], ["up", "↑上升"], ["near", "＋靠近"], ["far", "－退远"]] : name === "neighbor" ? [["out", "－缩小倍率"], ["in", "＋放大倍率"]] : [];
-      stationControls.innerHTML = actions.map(([action,label]) => '<button type="button" data-station-action="' + action + '">' + label + '</button>').join("");
+      const actions = STATION_ACTIONS[name] || [];
+      stationControls.innerHTML = actions.map(([action,label,icon]) => '<button type="button" data-station-action="' + action + '" aria-label="' + label + '" title="' + label + '">' + observerIcon(icon) + '</button>').join("");
       stationControls.hidden = !actions.length;
       for (const button of stationControls.querySelectorAll("[data-station-action]")) button.onclick = () => {
         const action = button.dataset.stationAction;
@@ -212,7 +213,7 @@ if (!editor) {
     if (choices) choices.hidden = !name;
   };
   for (const button of document.querySelectorAll("[data-narrative-view]"))
-    button.onclick = () => { garden3d?.setNarrativeView(button.dataset.narrativeView); syncNarrativeUI(); };
+    button.onclick = () => { garden3d?.setNarrativeView(button.dataset.narrativeView); syncNarrativeUI(); cardFeed?.notifyObserver(button.dataset.narrativeView, time); };
   const chooseViewMode = (button) => {
     garden3d.setNavigationMode(button.dataset.viewMode);
     for (const choice of viewControls.querySelectorAll("[data-view-mode]"))
@@ -296,6 +297,14 @@ matchMedia("(prefers-reduced-motion: reduce)").addEventListener(
   },
 );
 if (editor) {
+  const cameraControls = document.createElement("div");
+  cameraControls.className = "edit-camera-controls";
+  cameraControls.setAttribute("role", "group");
+  cameraControls.setAttribute("aria-label", "天台内移动视角");
+  const cameraActions = [["left","向左移动","left"],["up","向前移动","up"],["down","向后移动","down"],["right","向右移动","right"],["near","拉近","near"],["far","拉远","far"]];
+  cameraControls.innerHTML = cameraActions.map(([id,label,icon]) => '<button type="button" data-edit-camera="'+id+'" aria-label="'+label+'" title="'+label+'">'+observerIcon(icon)+'</button>').join('') + '<button type="button" data-edit-camera="turn-left" aria-label="向左转">↶</button><button type="button" data-edit-camera="turn-right" aria-label="向右转">↷</button><button type="button" data-edit-camera="reset">复位</button>';
+  $("placementControls").append(cameraControls);
+  for (const button of cameraControls.querySelectorAll("button")) button.onclick = () => garden3d?.nudgeEditCamera(button.dataset.editCamera);
   for (const [id, key, values] of [
     ["weatherSelect", "condition", WEATHER],
     ["timeSelect", "phase", TIMES],
@@ -989,6 +998,7 @@ if (editor) {
     message(scene === "room" ? "已恢复房间的初始陈列。" : "已恢复空阳台。");
   };
   $("person").onchange = () => (showPerson = $("person").checked);
+  $("pig").onchange = () => (showPig = $("pig").checked);
   $("preview").onclick = () => {
     save();
     $("preview").href = itemPreviewStage ? "../?stage=" + reviewQuery + "&scene=" + scene : "../?layout=local&scene=" + scene;
@@ -1322,6 +1332,7 @@ function render() {
       person: walker.person,
       pig: pigWalker.person,
       present: showPerson,
+      pigPresent: showPig,
       doorOpen: doorOpen,
       selected,
       reduced,
@@ -1342,7 +1353,7 @@ function render() {
       o,
     }));
     if (showPerson) items.push({ y: walker.person.y, p: walker.person });
-    if (!hideActors) items.push({ y: pigWalker.person.y, pig: pigWalker.person });
+    if (showPig) items.push({ y: pigWalker.person.y, pig: pigWalker.person });
     items.sort((a, b) => a.y - b.y);
     for (const item of items)
       if (item.o) paintObject(display, item.o, time, item.o.id === selected);
@@ -1408,7 +1419,7 @@ function render() {
     object: o,
   }));
   const pig = pigWalker.person;
-  if (!hideActors && !pig.insideShelter) sprites.push({ y: pig.y, pig });
+  if (showPig && !pig.insideShelter) sprites.push({ y: pig.y, pig });
   if (showPerson && !walker.person.insideShelter)
     sprites.push({ y: walker.person.y, person: walker.person });
   sprites.sort((a, b) => a.y - b.y);

@@ -1,0 +1,357 @@
+{
+  "size": 128,
+  "fields": [
+    {
+      "id": "bird",
+      "asset": "observer-icons",
+      "component": "bird",
+      "role": "ui-icon",
+      "material": "ui-icon",
+      "baseColor": "#00000000",
+      "x": 2,
+      "y": 2,
+      "w": 16,
+      "h": 16,
+      "paintOrigin": [
+        0,
+        0,
+        0
+      ],
+      "uAxis": [
+        1,
+        0,
+        0
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "faceNormal": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "id": "drone",
+      "asset": "observer-icons",
+      "component": "drone",
+      "role": "ui-icon",
+      "material": "ui-icon",
+      "baseColor": "#00000000",
+      "x": 32,
+      "y": 2,
+      "w": 16,
+      "h": 16,
+      "paintOrigin": [
+        0,
+        0,
+        0
+      ],
+      "uAxis": [
+        1,
+        0,
+        0
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "faceNormal": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "id": "question",
+      "asset": "observer-icons",
+      "component": "question",
+      "role": "ui-icon",
+      "material": "ui-icon",
+      "baseColor": "#00000000",
+      "x": 62,
+      "y": 2,
+      "w": 16,
+      "h": 16,
+      "paintOrigin": [
+        0,
+        0,
+        0
+      ],
+      "uAxis": [
+        1,
+        0,
+        0
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "faceNormal": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "id": "left",
+      "asset": "observer-icons",
+      "component": "left",
+      "role": "ui-icon",
+      "material": "ui-icon",
+      "baseColor": "#00000000",
+      "x": 92,
+      "y": 2,
+      "w": 16,
+      "h": 16,
+      "paintOrigin": [
+        0,
+        0,
+        0
+      ],
+      "uAxis": [
+        1,
+        0,
+        0
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "faceNormal": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "id": "up",
+      "asset": "observer-icons",
+      "component": "up",
+      "role": "ui-icon",
+      "material": "ui-icon",
+      "baseColor": "#00000000",
+      "x": 2,
+      "y": 32,
+      "w": 16,
+      "h": 16,
+      "paintOrigin": [
+        0,
+        0,
+        0
+      ],
+      "uAxis": [
+        1,
+        0,
+        0
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "faceNormal": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "id": "right",
+      "asset": "observer-icons",
+      "component": "right",
+      "role": "ui-icon",
+      "material": "ui-icon",
+      "baseColor": "#00000000",
+      "x": 32,
+      "y": 32,
+      "w": 16,
+      "h": 16,
+      "paintOrigin": [
+        0,
+        0,
+        0
+      ],
+      "uAxis": [
+        1,
+        0,
+        0
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "faceNormal": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "id": "down",
+      "asset": "observer-icons",
+      "component": "down",
+      "role": "ui-icon",
+      "material": "ui-icon",
+      "baseColor": "#00000000",
+      "x": 62,
+      "y": 32,
+      "w": 16,
+      "h": 16,
+      "paintOrigin": [
+        0,
+        0,
+        0
+      ],
+      "uAxis": [
+        1,
+        0,
+        0
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "faceNormal": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "id": "near",
+      "asset": "observer-icons",
+      "component": "near",
+      "role": "ui-icon",
+      "material": "ui-icon",
+      "baseColor": "#00000000",
+      "x": 92,
+      "y": 32,
+      "w": 16,
+      "h": 16,
+      "paintOrigin": [
+        0,
+        0,
+        0
+      ],
+      "uAxis": [
+        1,
+        0,
+        0
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "faceNormal": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "id": "far",
+      "asset": "observer-icons",
+      "component": "far",
+      "role": "ui-icon",
+      "material": "ui-icon",
+      "baseColor": "#00000000",
+      "x": 2,
+      "y": 62,
+      "w": 16,
+      "h": 16,
+      "paintOrigin": [
+        0,
+        0,
+        0
+      ],
+      "uAxis": [
+        1,
+        0,
+        0
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "faceNormal": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "id": "in",
+      "asset": "observer-icons",
+      "component": "in",
+      "role": "ui-icon",
+      "material": "ui-icon",
+      "baseColor": "#00000000",
+      "x": 32,
+      "y": 62,
+      "w": 16,
+      "h": 16,
+      "paintOrigin": [
+        0,
+        0,
+        0
+      ],
+      "uAxis": [
+        1,
+        0,
+        0
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "faceNormal": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "id": "out",
+      "asset": "observer-icons",
+      "component": "out",
+      "role": "ui-icon",
+      "material": "ui-icon",
+      "baseColor": "#00000000",
+      "x": 62,
+      "y": 62,
+      "w": 16,
+      "h": 16,
+      "paintOrigin": [
+        0,
+        0,
+        0
+      ],
+      "uAxis": [
+        1,
+        0,
+        0
+      ],
+      "vAxis": [
+        0,
+        1,
+        0
+      ],
+      "faceNormal": [
+        0,
+        0,
+        1
+      ]
+    }
+  ]
+}

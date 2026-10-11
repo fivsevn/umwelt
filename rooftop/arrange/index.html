@@ -41,6 +41,8 @@
             ><label>季节<select id="seasonSelect"><option value="auto">随月份</option></select></label
             ><label class="person-toggle"
               ><input id="person" type="checkbox" checked />东东</label
+            ><label class="person-toggle"
+              ><input id="pig" type="checkbox" checked />小猪</label
             >
           </div>
         </div>
@@ -80,7 +82,7 @@
           ></label>
           <p class="hint">方向键微调 · R 旋转 · Delete 移除</p>
         </section>
-        <div id="placementControls" class="placement-controls">
+        <section id="placementControls" class="placement-controls" aria-label="物件承放">
           <label
             >放在
             <select id="supportParent" disabled>
@@ -92,7 +94,7 @@
               <option value="">—</option>
             </select></label
           >
-        </div>
+        </section>
         <div class="canvas-wrap">
           <small id="positionText" aria-label="当前位置" hidden></small
           ><canvas

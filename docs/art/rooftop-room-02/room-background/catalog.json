@@ -1,0 +1,203 @@
+{
+  "texelsPerMetre": 16.0,
+  "items": [
+    {
+      "id": "room-background",
+      "name": "东东房间建筑背景",
+      "category": "固定建筑",
+      "placement": "fixed",
+      "source": "Blender + Pixelorama",
+      "runtimeUnitsPerMetre": 1.8666666666666665,
+      "coordinateSystem": "Source Blender XYZ = [runtime X, -runtime Z, runtime Y] / unitsPerMetre; GLB Y-up; scale once in runtime",
+      "containsFurniture": false,
+      "containsActors": false,
+      "displaySection": "Original open south side, low east wall and roofless architectural section retained for the existing room camera",
+      "sourceRuntime": "rooftop/3d/scene3d.mjs:roomShell and door",
+      "door": {
+        "frameOriginRuntime": [
+          -4.9,
+          0.02,
+          4
+        ],
+        "projectionCenterRuntime": [
+          -4.9,
+          0.02,
+          4
+        ],
+        "frameRotationY": -1.5707963267948966,
+        "hingeLocalRuntime": [
+          -0.7466666666666666,
+          0,
+          0
+        ],
+        "hingeWorldRuntime": [
+          -4.9,
+          0.02,
+          3.2533333333333334
+        ],
+        "heightRuntime": 3.92,
+        "leafWidthRuntime": 1.4933333333333332,
+        "leafThicknessRuntime": 0.07466666666666666,
+        "heightMetres": 2.1,
+        "widthMetres": 0.8,
+        "thicknessMetres": 0.04,
+        "leafRole": "room-door-leaf",
+        "frameRole": "room-door-frame",
+        "legacyAnimation": "doors.room.hinge.rotation.y = -doorProgress * .58",
+        "retainProjectedFrame": true,
+        "originalNarrowHingeWorldRuntime": [
+          -4.9,
+          0.02,
+          3.49
+        ],
+        "hingeAdaptation": "Door centre retained; pivot moves by half the added real-width door as agreed with runtime loader"
+      },
+      "doorLeafParts": [
+        "room-background/door-leaf-body",
+        "room-background/door-panel-exterior",
+        "room-background/door-edge-exterior-hinge",
+        "room-background/door-edge-exterior-latch",
+        "room-background/door-handle-plate-exterior",
+        "room-background/door-handle-exterior",
+        "room-background/door-panel-interior",
+        "room-background/door-edge-interior-hinge",
+        "room-background/door-edge-interior-latch",
+        "room-background/door-handle-plate-interior",
+        "room-background/door-handle-interior",
+        "room-background/door-hinge-barrel-0",
+        "room-background/door-hinge-barrel-1",
+        "room-background/door-hinge-barrel-2"
+      ],
+      "doorFrameParts": [
+        "room-background/door-frame-hinge",
+        "room-background/door-frame-latch",
+        "room-background/door-frame-head",
+        "room-background/door-threshold"
+      ],
+      "floorRuntime": {
+        "width": 10,
+        "depth": 14,
+        "top": 0.0105,
+        "scenePolygonPixels": [
+          [
+            220,
+            104
+          ],
+          [
+            380,
+            104
+          ],
+          [
+            380,
+            328
+          ],
+          [
+            220,
+            328
+          ]
+        ]
+      },
+      "wallHeightMetres": 2.7,
+      "wallHeightRuntime": 5.04,
+      "windowRuntime": {
+        "openingX": [
+          -1.8,
+          1.8
+        ],
+        "openingY": [
+          1.5866666666666664,
+          4.293333333333333
+        ],
+        "openingHeightMetres": 1.45,
+        "sillHeightMetres": 0.85,
+        "wallZ": -7,
+        "glassBoundsX": [
+          -1.7,
+          1.7
+        ],
+        "glassBoundsY": [
+          1.6266666666666665,
+          4.253333333333333
+        ],
+        "glassCenterZ": -6.92
+      },
+      "preservedRoomCamera": {
+        "theta": -0.18,
+        "phi": 0.9,
+        "zoom": 1.07,
+        "target": [
+          -0.4,
+          0.2,
+          -0.8
+        ],
+        "heightMayBeAdaptedToNewRealWall": true
+      },
+      "preservedActorPixels": {
+        "person": [
+          300,
+          240
+        ],
+        "pig": [
+          260,
+          260
+        ],
+        "sceneSpawn": [
+          300,
+          290
+        ]
+      },
+      "width": 5.595535755157471,
+      "depth": 7.540178537368774,
+      "height": 2.836607187986374,
+      "boundsMin": [
+        -2.8767857551574707,
+        -3.75,
+        -0.13660714030265808
+      ],
+      "boundsMax": [
+        2.71875,
+        3.7901785373687744,
+        2.700000047683716
+      ],
+      "file": "assets/room-background.glb",
+      "family": "room-background",
+      "surfaces": [
+        {
+          "id": "room-ground",
+          "name": "房间地面",
+          "height": 0.005625000000000001,
+          "width": 5.357142857142858,
+          "depth": 7.500000000000001,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "rectangle",
+          "bearing": "ground",
+          "runtimeHeight": 0.0105
+        },
+        {
+          "id": "window-sill",
+          "name": "固定窗台",
+          "height": 0.85,
+          "width": 1.9821428571428574,
+          "depth": 0.23571428571428574,
+          "center": [
+            0,
+            3.621428571428572
+          ],
+          "shape": "rectangle",
+          "bearing": "object",
+          "runtimeHeight": 1.5866666666666664
+        }
+      ],
+      "footprint": {
+        "width": 5.595535755157471,
+        "depth": 7.540178537368774
+      },
+      "triangles": 1224,
+      "sourceBlend": "room-background/room-background.blend",
+      "sourcePixelorama": "room-background/room-background-atlas.pxo"
+    }
+  ]
+}

@@ -179,6 +179,10 @@ const checkSavedArrangementIsolation = async browser => {
       assert.equal(await page.getByRole("button", { name: "移动画面", exact: true }).isVisible(), false);
       assert.equal(await page.getByRole("button", { name: "复位画面", exact: true }).isVisible(), false);
       assert.equal(await page.locator("#reviewFreeCamera").count(), 0);
+      assert.equal(await page.locator('#observerStatus').isVisible(),false);
+      await selectView(page,'bird');
+      assert.equal(await page.locator('#observerStatus').innerText(),'有小鸟盯着东东的多肉，像是想吃。');
+      assert.ok((await page.locator('[data-narrative-view], [data-station-action]').allTextContents()).every(text=>text.trim()===''), 'observer menu and operations use graphics');
 
       // A drag changes the bird's station without the invisible door stealing it.
       const bird = await page.evaluate(() => rooftop.graphics.stationTravel.wanted.walk);
@@ -195,6 +199,7 @@ const checkSavedArrangementIsolation = async browser => {
       await checkBounds(page);
 
       await selectView(page, "drone");
+      assert.equal(await page.locator('#observerStatus').innerText(),'有一架无人机路过。');
       const drone = await page.evaluate(() => ({ eye: rooftop.graphics.cameraPreset.pose.eye, theta: rooftop.graphics.wanted.theta }));
       await dragView(page, -45, 20);
       await page.waitForFunction(theta => Math.abs(rooftop.graphics.wanted.theta - theta) > .01, drone.theta);
@@ -206,6 +211,7 @@ const checkSavedArrangementIsolation = async browser => {
       assert.equal(await page.locator(".neighbor-scope").isVisible(), false);
 
       await selectView(page, "neighbor");
+      assert.equal(await page.locator('#observerStatus').innerText(),'有一架无人机路过。','question view does not add a status');
       assert.equal(await page.locator(".neighbor-scope").isVisible(), true);
       const neighbor = await page.evaluate(() => ({ eye: rooftop.graphics.cameraPreset.pose.eye, target: rooftop.graphics.target, zoom: rooftop.graphics.wanted.zoom }));
       await dragView(page, -35, 12);

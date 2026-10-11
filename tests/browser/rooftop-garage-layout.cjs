@@ -19,6 +19,18 @@ const assert = require("node:assert/strict");
     (process.env.BASE_URL || "http://127.0.0.1:8773") + "/rooftop/arrange/",
   );
   await p.waitForFunction(() => window.rooftop);
+  await p.waitForFunction(()=>document.querySelector('#garden').dataset.backgroundLoaded==='true');
+  for(const [person,pig] of [[false,true],[true,false],[false,false],[true,true]]) {
+    await p.locator('#person').setChecked(person);await p.locator('#pig').setChecked(pig);
+    await p.waitForFunction(({person,pig})=>{const d=document.querySelector('#garden').dataset;return d.personVisible===String(person)&&d.pigVisible===String(pig)},{person,pig});
+  }
+  const cameraTarget=await p.locator('#garden').getAttribute('data-camera-target');
+  await p.getByRole('button',{name:'向右移动',exact:true}).click();
+  await p.waitForFunction(before=>document.querySelector('#garden').dataset.cameraTarget!==before,cameraTarget);
+  const zoom=Number(await p.locator('#garden').getAttribute('data-camera-zoom'));
+  await p.getByRole('button',{name:'拉近',exact:true}).click();
+  await p.waitForFunction(before=>Number(document.querySelector('#garden').dataset.cameraZoom)>before,zoom);
+  await p.getByRole('button',{name:'复位',exact:true}).click();
   assert.deepEqual(await p.evaluate(()=>rooftop.layout.scenes.north),[],"garage starts with an empty terrace");
   await p.locator("[data-asset=barrel]").click();
   assert.equal((await p.evaluate(()=>rooftop.layout.scenes.north)).length,1,"new native plant is hand placed");
@@ -94,6 +106,7 @@ const assert = require("node:assert/strict");
   await p.locator(".transfer summary").click();
   for (const w of [900, 390]) {
     await p.setViewportSize({ width: w, height: 844 });
+    assert.ok(await p.locator('#placementControls').evaluate(e=>{const b=e.getBoundingClientRect();return [...e.querySelectorAll('label,select,button')].every(n=>{const a=n.getBoundingClientRect();return a.left>=b.left&&a.right<=b.right&&a.top>=b.top&&a.bottom<=b.bottom})}), 'placement and camera controls stay inside their card');
     assert.ok(
       await p.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,

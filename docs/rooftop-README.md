@@ -13,6 +13,8 @@
 
 本地使用同一路径，例如 [综合测试](http://127.0.0.1:4173/rooftop/?stage=background)。旧 `/rooftop/3d/`、`/rooftop/previews/pixel-01/` 和 `stage=game-model` 兼容转入同一个综合测试页。
 
+人物与状态另有轻量本地页面：[东东与小猪](http://127.0.0.1:4186/docs/art/rooftop-actors-02/preview/)、[左下角状态卡片](http://127.0.0.1:4186/docs/art/rooftop-status-01/preview/)。用于快速看衣服、饰物、动作和整理文案，不合并已有场景与物品入口。
+
 ## 维护入口
 
 - [像素制作管线](rooftop-pixel-style.md)：完整模型、物理材料格和最终屏幕采样。
@@ -37,7 +39,9 @@
 | --- | --- | --- |
 | 建筑、地坪、墙面、屋顶和远景 | [建筑源文件](art/rooftop-lowpoly-02/README.md)：`game-environment.blend`、`terrace-book.pxo`、`distance-facades.pxo` | `rooftop/assets/background/` 的清单、网格及 PNG，由 `3d/architectural-shell.mjs` 读取 |
 | 全部 294 件物品 | [新物品源文件](art/rooftop-furniture-02/README.md)：七组 `.blend` 和 `*-atlas.pxo`，16 纹理像素／米 | `rooftop/assets/items/` 的 GLB、七张 PNG 与缩略图，由 `3d/native-model-loader.mjs` 读取 |
-| 房间固定建筑 | [房间源文件](art/rooftop-room-01/README.md)：`room-background.blend`、`room-background-atlas.pxo` | `rooftop/assets/room/`，由 `3d/room-background-loader.mjs` 读取，门叶挂接活动铰链 |
+| 房间固定建筑 | [房间源文件](art/rooftop-room-02/README.md)：`room-background.blend`、`room-background-atlas.pxo` | `rooftop/assets/room/`，由 `3d/room-background-loader.mjs` 读取，门叶挂接活动铰链 |
+| 东东、小猪及全部衣服装饰 | [方块人物源文件](art/rooftop-actors-02/README.md)：`block-actors.blend`，沿用真实 Pixelorama 材质书 | `3d/residents.mjs` 与 `3d/actor-pose.mjs`，游戏及本地人物页共用 |
+| 观察者与操作图标 | [图标源文件](art/rooftop-observers-01/README.md)：`observer-icons-atlas.pxo` | `rooftop/assets/observers/` 与 `observer-ui.mjs` |
 | 现有人物及室外门等共用材质 | [早期源文件](art/rooftop-game/README.md)：`game-assets.blend`、`material-book.pxo` | `rooftop/assets/pixel/material-book.png` 与仍在使用的共用构造 |
 
 天气为晴朗、阴天、小雨、大雨、有风、雷雨、台风、薄雾。阴天使用 `overcast`，兼容旧 `cloudy` 链接和保存值。空气特效按三个实际游戏视角的世界空间检查，保持远近、遮挡、风向和连续运动；额外材料测试视角不要求铺满特效。

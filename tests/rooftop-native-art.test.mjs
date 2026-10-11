@@ -45,7 +45,11 @@ test('one native texture waits for actual loading and reuses material instances'
  style.mat('#ffffff','wall').onBeforeCompile(shader);
  assert.ok(!shader.vertexShader.includes('paintMatrix=undefined'));
  assert.match(shader.fragmentShader,/foldedNormal/);
- assert.match(shader.fragmentShader,/floor\(plane\*8\.0\+origin\)/);
+ assert.match(shader.fragmentShader,/floor\(plane\*actorMetricDensity\+origin\)/);
+ assert.equal(shader.uniforms.actorMetricDensity.value,8,'existing non-character material density is retained');
+ const actorShader={uniforms:{},vertexShader:T.ShaderLib.basic.vertexShader,fragmentShader:T.ShaderLib.basic.fragmentShader};
+ style.mat('#d0ad91','skin').onBeforeCompile(actorShader);
+ assert.equal(actorShader.uniforms.actorMetricDensity.value*(5.6/3),16,'actor faces share the new assets physical texel density');
  assert.match(shader.vertexShader,/instanceMatrix\*vec4\(position,1\.\)/);
  assert.ok(!shader.fragmentShader.includes('metricUv'));
  assert.ok(!shader.fragmentShader.includes('vMapUv.y<.145'));

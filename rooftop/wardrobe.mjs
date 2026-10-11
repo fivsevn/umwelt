@@ -124,7 +124,8 @@ export const ACTIVITIES = {
   feed: "给小猪添饭",
 };
 // A fresh page chooses both wardrobes independently, avoiding the previous choices.
-const storageKey = "umwelt-dongdong-wardrobe-v1";
+const storageKey = typeof location !== "undefined" && location.pathname.startsWith("/docs/art/")
+  ? "umwelt-dongdong-wardrobe-preview-v1" : "umwelt-dongdong-wardrobe-v1";
 let previous = {};
 try {
   previous = JSON.parse(localStorage.getItem(storageKey)) || {};
