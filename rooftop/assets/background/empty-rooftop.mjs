@@ -5,21 +5,21 @@ export const BACKGROUND = Object.freeze({
     "offset": 0,
     "vertices": 36
   },
-  "source": "docs/art/rooftop-weathering-07/game-environment.blend",
+  "source": "docs/art/rooftop-lowpoly-02/game-environment.blend",
   "texture": "terrace-book.png",
   "binary": "empty-rooftop.bin",
   "textures": [
     {
       "file": "terrace-book.png",
-      "sha256": "8fd4e9d509760c029c903debed2ce8720d32bac92ce4d5496793a3111f79fcc3",
-      "bytes": 159903,
+      "sha256": "66c0c3c1200187a1a19236854c18b9c172312a7be5e34321011361755fb9f20f",
+      "bytes": 130892,
       "width": 1024,
       "height": 1024
     },
     {
       "file": "distance-facades.png",
-      "sha256": "f9c8ec3c4c8d32b58431bc1f6a2bcd437ec52a078523dac1e2e85e176e60d2bd",
-      "bytes": 2162915,
+      "sha256": "ae8d09242ba8dcfad0aad36f690c0631b75681f523f3ae46df1b8050686d1d88",
+      "bytes": 342175,
       "width": 2048,
       "height": 2048
     },
@@ -9060,7 +9060,7 @@ export const BACKGROUND = Object.freeze({
     ]
   },
   "sha256": "34b25d9ae868821494638a6b0f0519f95f5179ade24019cc46d52cf8dd410e92",
-  "textureSha256": "8fd4e9d509760c029c903debed2ce8720d32bac92ce4d5496793a3111f79fcc3",
+  "textureSha256": "66c0c3c1200187a1a19236854c18b9c172312a7be5e34321011361755fb9f20f",
   "texelMetresPerUnit": [
     0.2707537401739019,
     0.5357142857142857,

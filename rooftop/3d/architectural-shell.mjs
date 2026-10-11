@@ -1,4 +1,5 @@
 import { BACKGROUND } from "../assets/background/empty-rooftop.mjs";
+import { bakedFaceBounds, BAKED_GRID_FRAGMENT } from "./baked-pixel-grid.mjs";
 
 // Geometry is exported from the editable Blender source. Nearby surfaces use
 // the Pixelorama book; distant facades use an atlas baked from that same model.
@@ -53,7 +54,8 @@ export function loadArchitecturalShell(T, parent) {
     const textures = new Map(entries),
       metreScale = manifest.texelMetresPerUnit || [1, 1, 1],
       layers = {},
-      layerSections = new Map();
+      layerSections = new Map(),
+      bakedSampling = [];
     function geometry(offset, vertices) {
       const data = new Float32Array(buffer, offset, vertices * 8),
         geo = new T.BufferGeometry(),
@@ -73,28 +75,37 @@ export function loadArchitecturalShell(T, parent) {
         // map. Distant paintings keep the illumination baked in Blender.
         material = baked
           ? new T.MeshBasicMaterial({ map: textures.get(file), color: "#ffffff" })
-          : new T.MeshLambertMaterial({ map: textures.get(file), color: "#ffffff" }),
+          : new T.MeshLambertMaterial({ map: textures.get(file), color: "#ffffff", flatShading: true }),
         layer = part.layer || (baked ? "far" : "near");
       if (baked) {
         material.onBeforeCompile = shader => {
-          Object.assign(shader.uniforms, { shellTone: tone, shellWet: wet, shellLamps: lamps });
-          shader.fragmentShader = "uniform vec3 shellTone; uniform float shellWet; uniform float shellLamps;\n" + shader.fragmentShader;
+          Object.assign(shader.uniforms, {
+            shellTone: tone, shellWet: wet, shellLamps: lamps,
+            shellMetres: { value: new T.Vector3(...metreScale) },
+            shellTexelsPerMetre: { value: manifest.texelsPerMetre || 16 },
+            shellBakedAtlas: { value: new T.Vector2(definition.width || 512, definition.height || 512) },
+          });
+          shader.vertexShader = "uniform vec3 shellMetres; uniform float shellTexelsPerMetre; attribute vec4 shellUvBounds; varying vec4 shellBakedBounds; varying vec2 shellBakedChart; varying vec3 shellBakedNormal;\n" + shader.vertexShader;
+          shader.fragmentShader = "uniform vec3 shellTone; uniform float shellWet; uniform float shellLamps; uniform vec2 shellBakedAtlas; varying vec4 shellBakedBounds; varying vec2 shellBakedChart; varying vec3 shellBakedNormal;\n" + BAKED_GRID_FRAGMENT + shader.fragmentShader;
+          shader.vertexShader = shader.vertexShader.replace("#include <begin_vertex>", `
+            #include <begin_vertex>
+            vec3 shellPhysicalPosition = position * shellMetres;
+            shellBakedNormal = normalize(normal / shellMetres);
+            #ifdef USE_INSTANCING
+            shellPhysicalPosition = (instanceMatrix * vec4(position, 1.)).xyz * shellMetres;
+            mat3 axes = mat3(instanceMatrix);
+            vec3 c0 = cross(axes[1], axes[2]), c1 = cross(axes[2], axes[0]), c2 = cross(axes[0], axes[1]);
+            shellBakedNormal = normalize((mat3(c0, c1, c2) * normal / dot(axes[0], c0)) / shellMetres);
+            #endif
+            vec3 chartU = normalize(cross(abs(shellBakedNormal.y) > .98 ? vec3(0., 0., 1.) : vec3(0., 1., 0.), shellBakedNormal));
+            vec3 chartV = normalize(cross(shellBakedNormal, chartU));
+            shellBakedChart = vec2(dot(shellPhysicalPosition, chartU), dot(shellPhysicalPosition, chartV)) * shellTexelsPerMetre;
+            shellBakedBounds = shellUvBounds;`);
           let orientation = "";
           if (part.shading === "orientation") {
-            shader.uniforms.shellMetres = { value: new T.Vector3(...metreScale) };
-            shader.vertexShader = "uniform vec3 shellMetres; varying vec3 shellBakedNormal;\n" + shader.vertexShader;
-            shader.fragmentShader = "varying vec3 shellBakedNormal;\n" + shader.fragmentShader;
-            shader.vertexShader = shader.vertexShader.replace("#include <begin_vertex>", `
-              #include <begin_vertex>
-              shellBakedNormal = normalize(normal / shellMetres);
-              #ifdef USE_INSTANCING
-              mat3 axes = mat3(instanceMatrix);
-              vec3 c0 = cross(axes[1], axes[2]), c1 = cross(axes[2], axes[0]), c2 = cross(axes[0], axes[1]);
-              shellBakedNormal = normalize((mat3(c0, c1, c2) * normal / dot(axes[0], c0)) / shellMetres);
-              #endif`);
             orientation = `
               vec3 n = normalize(shellBakedNormal);
-              float faceShade = n.y > .7 ? 1. : n.y < -.7 ? .55 : abs(n.x) > abs(n.z) ? .76 : .88;
+              float faceShade = n.y > .7 ? 1. : n.y < -.7 ? .52 : abs(n.x) > abs(n.z) ? .66 : .82;
               diffuseColor.rgb *= faceShade;`;
           }
           let lights = "";
@@ -102,11 +113,23 @@ export function loadArchitecturalShell(T, parent) {
             shader.uniforms.shellLampMask = { value: textures.get(part.lampMask) };
             shader.fragmentShader = "uniform sampler2D shellLampMask;\n" + shader.fragmentShader;
             lights = `
-              float windowMask = texture2D(shellLampMask, vMapUv).r;
+              float windowMask = texture2D(shellLampMask, shellSampleUv).r;
               diffuseColor.rgb = mix(diffuseColor.rgb, vec3(.61, .40, .19), windowMask * shellLamps * .66);`;
           }
           shader.fragmentShader = shader.fragmentShader.replace("#include <map_fragment>", `
-            #include <map_fragment>
+            vec2 shellSampleUv = shellBakedPixelUv(vMapUv);
+            vec4 shellPigment = texture2D(map, shellSampleUv);
+            // A snapped cell touching a transparent painted boundary may have
+            // its centre outside the pigment. Keep this half-cell edge fringe
+            // at the original UV; colour and lamp mask still share one sample.
+            if (shellPigment.a < .99) {
+              vec2 shellOriginalUv = vMapUv;
+              if (shellBakedBounds.z > shellBakedBounds.x && shellBakedBounds.w > shellBakedBounds.y)
+                shellOriginalUv = clamp(vMapUv, shellBakedBounds.xy + .5 / shellBakedAtlas, shellBakedBounds.zw - .5 / shellBakedAtlas);
+              vec4 shellOriginalPigment = texture2D(map, shellOriginalUv);
+              if (shellOriginalPigment.a >= .99) { shellSampleUv = shellOriginalUv; shellPigment = shellOriginalPigment; }
+            }
+            diffuseColor *= shellPigment;
             diffuseColor.rgb *= shellTone * (1. - shellWet * .10);
             ${orientation}
             ${lights}`);
@@ -126,6 +149,12 @@ export function loadArchitecturalShell(T, parent) {
           });
           shader.vertexShader = "uniform vec3 shellMetres; uniform float shellTexelsPerMetre; varying vec2 shellChart; varying vec3 shellNormal; varying float shellLamp;\n" + shader.vertexShader;
           shader.fragmentShader = "uniform vec4 shellRect; uniform vec2 shellAtlas; uniform vec3 shellTone; uniform float shellWet; uniform float shellLamps; uniform float shellGlass; varying vec2 shellChart; varying vec3 shellNormal; varying float shellLamp;\n" + shader.fragmentShader;
+          shader.fragmentShader = `
+            float shellFaceLight(vec3 physicalNormal) {
+              vec3 n = normalize(physicalNormal);
+              return n.y > .7 ? 1. : n.y < -.7 ? .52 : abs(n.x) > abs(n.z) ? .66 : .82;
+            }
+          ` + shader.fragmentShader;
           // Shared box charts repeat in physical metres, after undoing the
           // established non-uniform game-unit transform. General collection
           // meshes retain their authored UV charts through every instance.
@@ -157,9 +186,15 @@ export function loadArchitecturalShell(T, parent) {
             // Occupied windows stay warm in moonlight and rain shadow.
             if (shellGlass > .5 && shellLamp < shellLamps * .72)
               totalEmissiveRadiance += vec3(.36, .18, .055) * shellLamps;`);
+          shader.fragmentShader = shader.fragmentShader.replace("#include <lights_fragment_end>", `
+            #include <lights_fragment_end>
+            // Four physical face directions tighten the ambient light only.
+            // Sun shadows, painted colour and occupied window emission keep
+            // their full weather/time range, including very dim night light.
+            reflectedLight.indirectDiffuse *= shellFaceLight(shellNormal);`);
         };
       }
-      material.customProgramCacheKey = () => `blender-environment-v3-lit-${baked ? "baked" : part.mode}-${part.field}-${file}-${part.lampMask || ""}-${part.shading || ""}`;
+      material.customProgramCacheKey = () => `blender-environment-v6-physical-grid-${baked ? "baked" : part.mode}-${part.field}-${file}-${part.lampMask || ""}-${part.shading || ""}`;
       let mesh;
       if (part.mode === "instances") {
         mesh = new T.InstancedMesh(cube, material, part.count);
@@ -187,6 +222,23 @@ export function loadArchitecturalShell(T, parent) {
         mesh.computeBoundingSphere();
       } else {
         mesh = new T.Mesh(geometry(part.offset, part.vertices), material);
+      }
+      if (baked) {
+        if (mesh.geometry === cube) mesh.geometry = cube.clone();
+        const data = mesh.geometry.getAttribute("position").data.array,
+          atlasSize = [definition.width || 512, definition.height || 512],
+          sampling = bakedFaceBounds(data, atlasSize);
+        mesh.geometry.setAttribute("shellUvBounds", new T.BufferAttribute(sampling.bounds, 4));
+        bakedSampling.push({
+          field: part.field, renderTexelsPerMetre: manifest.texelsPerMetre || 16,
+          originalUvDensity: "variable baked atlas charts; source UV unchanged",
+          rectangularFaces: sampling.faces, unsupportedTriangles: sampling.unsupportedTriangles,
+          derivedBoundsBytes: sampling.bounds.byteLength,
+          paddingEdgeFallback: "original UV only when a snapped half-cell centre leaves opaque pigment",
+          derivativeFallback: "original UV for grazing/degenerate chart derivatives",
+        });
+        if (sampling.unsupportedTriangles)
+          console.warn("Baked pixel grid: unsupported atlas faces retain original UV sampling:", part.field, sampling.unsupportedTriangles);
       }
       mesh.name = part.field;
       mesh.castShadow = mesh.receiveShadow = !baked;
@@ -230,6 +282,7 @@ export function loadArchitecturalShell(T, parent) {
       layers,
       texelMetresPerUnit: [...metreScale],
       texelsPerMetre: manifest.texelsPerMetre || 8,
+      bakedSampling,
       atlases: [...requiredTextures].map(file => {
         const item = textureDefinitions.get(file) || {};
         return { file, width: item.width || 512, height: item.height || 512, bytes: item.bytes || null };

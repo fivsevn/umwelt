@@ -2,6 +2,17 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { REVIEW_VIEWS, reviewState, reviewURL, emptyReviewLayout } from "../rooftop/review-state.mjs";
 
+test('the consolidated preview canonicalizes cloudy links and explicit legacy choices', () => {
+  for (const choice of [undefined, 'cloudy', 'overcast']) {
+    const url = reviewURL('http://localhost/rooftop/?stage=background&weather=cloudy&time=afternoon&season=autumn&scene=south&view=drone', choice ? { condition: choice } : {});
+    assert.equal(url.searchParams.get('weather'), 'overcast');
+    assert.equal(url.searchParams.get('time'), 'afternoon');
+    assert.equal(url.searchParams.get('season'), 'autumn');
+    assert.equal(url.searchParams.get('scene'), 'south');
+    assert.equal(url.searchParams.get('view'), 'drone');
+  }
+});
+
 test("all scene inspection aliases converge on one entry with the selected environment", () => {
   for (const query of ["stage=background", "stage=game-model", "test=1"]) {
     const url = reviewURL("http://localhost/rooftop/?" + query + "&scene=south&weather=rain&time=dusk&season=autumn&layout=local");

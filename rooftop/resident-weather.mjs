@@ -1,3 +1,4 @@
+import { canonicalWeatherCondition } from "./weather-condition.mjs";
 // Weather changes actions and poses without changing the user's wardrobe or save.
 const ACTIONS = {
   rain: {
@@ -27,10 +28,6 @@ const ACTIONS = {
   overcast: {
     person: ["inspect", "stretch", "look-out"],
     pig: ["sniff", "ear-flick", "rest"],
-  },
-  cloudy: {
-    person: ["look-out", "stretch", "inspect"],
-    pig: ["sniff", "bask", "ear-flick"],
   },
   clear: {
     person: ["stretch", "look-out", "tea"],
@@ -67,7 +64,7 @@ export function weatherAction(
   step,
   { sheltered = false, indoor = false } = {},
 ) {
-  state = { ...state, condition: state.activityCondition || state.condition };
+  state = { ...state, condition: canonicalWeatherCondition(state.activityCondition || state.condition) };
   const rain =
     ["rain", "heavy", "thunderstorm", "typhoon"].includes(state.condition) ||
     state.rain > 0.01;
@@ -136,7 +133,7 @@ export function createActionCard() {
       const nextKey = [
         context.scene,
         context.present,
-        weather.activityCondition || weather.condition,
+        canonicalWeatherCondition(weather.activityCondition || weather.condition),
         weather.phase,
       ].join(":");
       const wet =

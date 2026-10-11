@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {WEATHER,TIMES,timeOfDay,weatherProfile,makeWeather,foliageOffset,materialColor} from '../rooftop/weather.mjs';
+import {WEATHER,TIMES,timeOfDay,automaticWeather,weatherProfile,makeWeather,foliageOffset,materialColor} from '../rooftop/weather.mjs';
+import { lightingProfile, atmosphereCaption } from '../rooftop/atmosphere.mjs';
+import { weatherAction } from '../rooftop/resident-weather.mjs';
 import {litWindows} from '../rooftop/city.mjs';
 test('night stages follow the clock and late lights are a strict subset of evening rooms',()=>{assert.deepEqual([0,5,8,17,19,23].map(timeOfDay),['late','dawn','morning','dusk','evening','evening']);for(const uprightCity of [false,true]){const bounds={x:0,y:0,w:640,h:520},key=w=>w.seed+':'+w.index,early=new Set(litWindows(bounds,.42,{uprightCity}).map(key)),late=litWindows(bounds,.045,{uprightCity});assert.ok(late.length>0&&late.length<early.size/3);assert.ok(late.every(w=>early.has(key(w))));}});
 test('all weather and time combinations remain finite, distinguishable and transition smoothly',()=>{const states=WEATHER.flatMap(w=>TIMES.map(p=>weatherProfile(w.id,p.id)));assert.ok(states.every(s=>['wind','rain','cloud','fog','night','lamps','lightAmount'].every(k=>Number.isFinite(s[k])&&s[k]>=0)));const clock=makeWeather({condition:'clear',phase:'day'}),before=clock.state;clock.set('condition','heavy');clock.set('phase','late');clock.update(.05);assert.ok(clock.state.rain>0&&clock.state.rain<1);assert.ok(clock.state.lightAmount>before.lightAmount&&clock.state.lightAmount<.82);for(let i=0;i<200;i++)clock.update(.05);assert.equal(clock.state.lightTint,weatherProfile('heavy','late').lightTint);assert.ok(clock.state.rain>.999)});
@@ -27,4 +29,45 @@ test('garage manual changes settle promptly and rapid changes continue from the 
   const automatic = makeWeather({ condition: 'clear', phase: 'auto', now: () => new Date(2026, 9, 8, 12) });
   automatic.set('condition', 'heavy');
   assert.equal(automatic.update(.65).transition.duration, 8, 'ordinary weather keeps its gradual transition');
+});
+
+test('weather choices share one overcast option and the automatic clock retains its cadence', () => {
+  assert.deepEqual(WEATHER.map(({ id }) => id), ['clear', 'overcast', 'rain', 'heavy', 'wind', 'thunderstorm', 'typhoon', 'mist']);
+  assert.equal(WEATHER.find(({ id }) => id === 'overcast').name, '阴天');
+  const sequence = ['clear', 'overcast', 'wind', 'overcast', 'thunderstorm', 'rain', 'typhoon', 'overcast', 'rain', 'overcast', 'mist', 'clear', 'heavy', 'overcast'];
+  for (let i = 0; i < sequence.length; i++) {
+    assert.equal(automaticWeather(i * 720000), sequence[i]);
+    assert.equal(automaticWeather((i + 1) * 720000 - 1), sequence[i]);
+  }
+  assert.equal(automaticWeather(sequence.length * 720000), sequence[0]);
+  assert.equal(automaticWeather(-1), sequence.at(-1));
+});
+
+test('legacy cloudy links, saved choices and direct calls resolve to the unchanged overcast profile', () => {
+  for (const season of ['spring', 'summer', 'autumn', 'winter']) for (const { id: phase } of TIMES) {
+    assert.deepEqual(weatherProfile('cloudy', phase, season), weatherProfile('overcast', phase, season));
+    assert.deepEqual(lightingProfile({ id: 'cloudy' }, phase, season), lightingProfile({ id: 'overcast' }, phase, season));
+  }
+  const saved = { condition: 'cloudy', phase: 'afternoon', season: 'autumn' },
+    restored = makeWeather(saved), overcast = weatherProfile('overcast', 'afternoon', 'autumn');
+  assert.equal(saved.condition, 'cloudy', 'restoring a legacy choice does not mutate stored data');
+  assert.equal(restored.choices.condition, 'overcast', 'the shared selectors receive an existing option');
+  assert.deepEqual(restored.state, overcast);
+  assert.equal(overcast.tint, '#67777e');
+  assert.equal(overcast.direct, 0);
+  const legacy = { ...overcast, condition: 'cloudy', visualCondition: 'cloudy', activityCondition: 'cloudy' };
+  assert.equal(atmosphereCaption(legacy), atmosphereCaption(overcast));
+  for (const actor of ['person', 'pig']) for (let step = 0; step < 3; step++) {
+    assert.deepEqual(weatherAction(legacy, actor, step), weatherAction(overcast, actor, step));
+  }
+  const clock = makeWeather({ condition: 'clear', phase: 'day', season: 'spring', manualTransition: .65 });
+  clock.set('condition', 'cloudy');
+  assert.equal(clock.choices.condition, 'overcast');
+  const partial = clock.update(.3);
+  assert.equal(partial.condition, 'overcast');
+  assert.equal(partial.transition.duration, .65);
+  assert.ok(partial.cloud > .2 && partial.cloud < 1, 'a legacy manual choice still blends instead of jumping');
+  clock.set('condition', 'overcast');
+  assert.equal(clock.update(0).transition.elapsed, .3, 'an alias of the same weather does not restart its transition');
+  assert.equal(clock.update(.35).lightTint, weatherProfile('overcast', 'day', 'spring').lightTint);
 });

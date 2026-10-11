@@ -1,4 +1,5 @@
 import { seasonalCaption } from "./seasons.mjs";
+import { canonicalWeatherCondition } from "./weather-condition.mjs";
 // Shared art direction for the 2D observer and the 3D terraces. All vectors are
 // world-space: north is -z on the terrace, and -x on the south balcony.
 const LIGHT = {
@@ -138,6 +139,7 @@ export function seasonalSunVector(phase, season = "summer") {
   return [east * 48, up * 48, south * 48];
 }
 export function lightingProfile(weather, phase, season = "summer") {
+  weather = { ...weather, id: canonicalWeatherCondition(weather.id) };
   const base = LIGHT[phase] || LIGHT.day,
     seasonal = SEASON_LIGHT[season] || SEASON_LIGHT.summer,
     night = phase === "evening" || phase === "late";
@@ -148,13 +150,11 @@ export function lightingProfile(weather, phase, season = "summer") {
   const diffuse =
     weather.id === "clear"
       ? 0
-      : weather.id === "cloudy"
-        ? 0.4
-        : weather.id === "wind"
-          ? 0.24
-          : weather.id === "mist"
-            ? 0.6
-            : 1;
+      : weather.id === "wind"
+        ? 0.24
+        : weather.id === "mist"
+          ? 0.6
+          : 1;
   const rainGrey = {
     rain: "#95a6b3",
     heavy: "#788b9a",
@@ -227,7 +227,7 @@ export function weatherActivity(state, scene = "north") {
     : "garden";
 }
 export function atmosphereCaption(state) {
-  state = { ...state, condition: state.visualCondition || state.condition };
+  state = { ...state, condition: canonicalWeatherCondition(state.visualCondition || state.condition) };
   const wet = {
     rain: "细雨落在盆沿，地面渐渐湿了。",
     heavy: "雨水汇向下水口，屋檐下接连滴水。",
@@ -240,7 +240,6 @@ export function atmosphereCaption(state) {
   if (state.condition === "mist") return "近处的叶片清楚，远楼慢慢隐进雾里。";
   if (state.condition === "overcast")
     return "天光散开，盆沿下还留着柔和的暗面。";
-  if (state.condition === "cloudy") return "云影经过地面，亮处和暗处缓缓交替。";
   if (state.condition === "wind") return "风穿过楼间，领巾和叶片轻轻动。";
   return {
     dawn: "晨光刚落到盆沿，地面的影子还长。",

@@ -30,15 +30,18 @@ const checkScopeCircle = async (page, label) => {
   // Wait for the actual resized bitmap; the periodic update can be delayed in CI.
   await page.waitForFunction(() => {
     const mask = document.querySelector(".scope-mask"), rect = mask.getBoundingClientRect(),
-      scope = document.querySelector(".neighbor-scope").getBoundingClientRect(),
-      engraving = document.querySelector(".scope-engraving");
-    return mask.width === Math.ceil(rect.width / 2) && mask.height === Math.ceil(rect.height / 2)
-      && engraving.width === Math.ceil(scope.width / 2);
+      world = document.querySelector("#garden").getBoundingClientRect(),
+      engraving = document.querySelector(".scope-engraving"), step = Number(mask.dataset.physicalPixelStep),
+      ratio = Number(mask.dataset.pixelRatio), cssStep = step / ratio;
+    return mask.width === Math.ceil(Math.round(world.width * ratio) / step) && mask.height === Math.ceil(Math.round(world.height * ratio) / step)
+      && Math.abs(rect.width - mask.width * cssStep) < .01 && Math.abs(rect.height - mask.height * cssStep) < .01
+      && engraving.width === mask.width && engraving.height === mask.height;
   }, null, { timeout: 10000 });
   const lens = await page.evaluate(() => {
     const mask = document.querySelector(".scope-mask"), rect = mask.getBoundingClientRect(),
       scope = document.querySelector(".neighbor-scope").getBoundingClientRect(),
       engraving = document.querySelector(".scope-engraving").getBoundingClientRect(),
+      world = document.querySelector("#garden").getBoundingClientRect(),
       pixels = mask.getContext("2d").getImageData(0, 0, mask.width, mask.height).data;
     const diameter = horizontal => {
       const length = horizontal ? mask.width : mask.height, middle = Math.floor((horizontal ? mask.height : mask.width) / 2);
@@ -51,13 +54,18 @@ const checkScopeCircle = async (page, label) => {
     };
     return { horizontal: diameter(true), vertical: diameter(false), scopeWidth: scope.width,
       scopeHeight: scope.height, engravingWidth: engraving.width, engravingHeight: engraving.height,
-      maskHeight: rect.height, viewportHeight: innerHeight };
+      maskHeight: rect.height, viewportHeight: innerHeight, worldWidth: world.width, worldHeight: world.height,
+      origin: [rect.left - world.left, rect.top - world.top],
+      pixelStep: Number(mask.dataset.pixelStep), physicalPixelStep: Number(mask.dataset.physicalPixelStep),
+      pixelRatio: Number(mask.dataset.pixelRatio), engravingScale: [engraving.width / mask.width, engraving.height / mask.height] };
   });
   assert.ok(lens.horizontal > 100, label + " has a visible optical opening");
-  assert.ok(Math.abs(lens.horizontal - lens.vertical) <= 4, label + " painted opening stays circular: " + JSON.stringify(lens));
-  assert.ok(Math.abs(lens.horizontal - (lens.scopeWidth - 8)) <= 4, label + " mask follows the lens diameter");
+  assert.ok(Math.abs(lens.horizontal - lens.vertical) <= 6, label + " painted opening stays circular: " + JSON.stringify(lens));
+  assert.ok(Math.abs(lens.horizontal - (lens.scopeWidth - 8)) <= 6, label + " mask follows the lens diameter");
   assert.ok(Math.abs(lens.scopeWidth - lens.scopeHeight) <= 1, label + " lens container stays square");
-  assert.ok(Math.abs(lens.engravingWidth - lens.engravingHeight) <= 1, label + " reticle pixels have equal horizontal and vertical scale");
+  assert.ok(lens.engravingScale.every(value => Math.abs(value - lens.pixelStep) < .01), label + " reticle pixels have the same resolved scale as the scene");
+  assert.equal(lens.physicalPixelStep, Math.round(2.5 * lens.pixelRatio), label + " final cells occupy integer device pixels");
+  assert.ok(lens.origin.every(value => Math.abs(value) < .01), label + " eyecup shares the scene's top-left grid origin");
   return lens;
 };
 const checkSavedArrangementIsolation = async browser => {
@@ -285,12 +293,12 @@ const checkSavedArrangementIsolation = async browser => {
       await checkScopeCircle(page, `${engine} ${viewport.width}x${viewport.height}`);
     }
     await page.setViewportSize({ width: 390, height: 640 });
-    // Safari can display a 100vh canvas taller than innerHeight while its bars
-    // are open. The bitmap must use its displayed size, including this mismatch.
+    // Stale 100vh sizing from Safari's browser bars must be remeasured against
+    // the world canvas rather than stretch the mask's resolved square cells.
     await page.locator(".scope-mask").evaluate(mask => { mask.style.height = (innerHeight + 180) + "px"; });
     const mismatched = await checkScopeCircle(page, engine + " browser-bar viewport mismatch");
-    assert.ok(mismatched.maskHeight > mismatched.viewportHeight + 170, "the regression actually exercises unequal viewport and canvas heights");
-    await page.locator(".scope-mask").evaluate(mask => { mask.style.height = ""; });
+    assert.ok(mismatched.maskHeight >= mismatched.worldHeight - .5 / mismatched.pixelRatio && mismatched.maskHeight - mismatched.worldHeight < mismatched.pixelStep + .5 / mismatched.pixelRatio,
+      "stale viewport height is corrected to integer cells, with only bottom padding");
     await page.setViewportSize({ width: 390, height: 844 });
     await checkScopeCircle(page, engine + " restored phone viewport");
     await page.locator("#notebookOpen").click();
