@@ -8,7 +8,7 @@
 | --- | --- |
 | [游戏](https://umwelt.fivsevn.com/rooftop/) | 北天台、南阳台观察；公开南北场景空开场，使用小鸟、无人机、邻居三个视角 |
 | [永久空场景综合测试](https://umwelt.fivsevn.com/rooftop/?stage=background) | 同一页切换南北、六个视角、9 种天气、7 个时段与四季；不放物品、不显示角色 |
-| [车库／物品页面](https://umwelt.fivsevn.com/rooftop/arrange/) | 查看和编辑物品、初始陈列与已有本机布局 |
+| [车库／物品页面](https://umwelt.fivsevn.com/rooftop/arrange/) | 查看和编辑物品、已有本机布局与室内陈列；无存档时南北阳台为空 |
 | [东东的房间](https://umwelt.fivsevn.com/rooftop/room/) | 房间、换装与活动 |
 
 本地使用同一路径，例如 [综合测试](http://127.0.0.1:4173/rooftop/?stage=background)。旧 `/rooftop/3d/`、`/rooftop/previews/pixel-01/` 和 `stage=game-model` 统一转入综合测试，不再保留独立场景测试页面。

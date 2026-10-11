@@ -57,7 +57,14 @@ const engine = process.env.BROWSER || "chromium",
       assert.equal(background.row.homes, 6);
       assert.equal(background.row.pairs, 3);
       assert.ok(background.layers.near.triangles > 0 && background.layers.far.triangles > 0);
-      assert.ok(background.payloadBytes < 8 * 1024 * 1024, "runtime environment stays below eight MiB");
+      const declaredBytes = await page.evaluate(async () => {
+        const { BACKGROUND } = await import("/rooftop/assets/background/empty-rooftop.mjs");
+        return BACKGROUND.bytes + BACKGROUND.textures.reduce((total, texture) => total + texture.bytes, 0);
+      });
+      assert.equal(background.payloadBytes, declaredBytes, "loaded environment matches the native export payload");
+      // Match the native export budget in rooftop-background.test.mjs. The
+      // physical floor/wall charts and distant atlases total about 8.3 MiB.
+      assert.ok(background.payloadBytes < 12000000, "runtime environment stays below the native export budget");
       assert.ok(style.groundY < -18, "six storeys meet community ground");
       const audit = await page.evaluate(async () => {
         const { ASSETS } = await import("/rooftop/scene.mjs"),
