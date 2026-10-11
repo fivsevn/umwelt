@@ -15,7 +15,7 @@ import { createGardenRenderer } from "./3d/scene3d.mjs";
 import { NARRATIVE_VIEWS } from "./3d/story-camera.mjs";
 import { REVIEW_VIEWS, reviewState, reviewURL, emptyReviewLayout } from "./review-state.mjs";
 import { opticOverlayMarkup, updateOpticOverlay } from "./3d/optic-overlay.mjs";
-import { LAYOUT_KEY, readLayout, writeLayout } from "./layout-storage.mjs";
+import { LAYOUT_KEY, readLayout, readObservationLayout, writeLayout } from "./layout-storage.mjs";
 import { createEditHistory } from "./edit-history.mjs";
 import { attachCardFeed } from "./card-feed.mjs";
 import { paintPig } from "./wardrobe.mjs";
@@ -100,7 +100,7 @@ try {
   if (editor) {
     layout = readLayout(itemPreviewStage ? previewStorage : localStorage);
     if (!itemPreviewStage && !localStorage.getItem(LAYOUT_KEY)) layout = emptyReviewLayout(layout);
-  }
+  } else layout = readObservationLayout(backgroundStage ? previewStorage : localStorage);
 } catch {
   layout = emptyReviewLayout(initialLayout());
   if (editor) $("message").textContent = "本机布局无法读取，已恢复初始布局。";
