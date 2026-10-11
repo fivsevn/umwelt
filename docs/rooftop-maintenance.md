@@ -1,138 +1,94 @@
-# Rooftop 维护与扩容入口
+# 花农时代维护与扩容
 
-2026-10-12 更新。文档总索引、当前原稿和历史记录见 [花农时代文档入口](rooftop-README.md)。2026-10-11 已发布空天台视觉与综合测试入口；本轮范围是粗粝低模原稿与约 2.5 CSS 像素呈现、三种实际观察位置的空气覆盖及多云／阴天合并，不修改家具。发布与线上核验结果见[本轮记录](art/rooftop-air-coverage-01/README.md)。早期文件盘点与重制范围见 [仓库梳理与视觉重制边界](rooftop-rebuild.md)。下文说明当前维护契约。
+文档与源文件见[文档入口](rooftop-README.md)，完整模型、Pixelorama 材料格和最终低采样见[制作管线](rooftop-pixel-style.md)。当前发布状态见[场景核验](art/rooftop-air-coverage-01/README.md)。
 
-`rooftop/arrange/` 与公开天台共用渲染器。维护时保留页面结构、样式、文案、现有物件 ID 与存档版本；新增目录项不能依赖修改旧布局。
+## 页面与存档
 
-## 页面与布局边界
+- `rooftop/`：北天台与南阳台游戏观察，南北场景空开场。
+- `rooftop/?stage=background`：唯一且永久为空的综合场景测试，不放物品、不显示角色。
+- `rooftop/arrange/`：车库，编辑北天台、南阳台和房间陈列。
+- `rooftop/room/`：房间、衣柜与活动。
 
-- `rooftop/`：北天台与南阳台游戏观察入口；公开南北场景空开场。
-- `rooftop/?stage=background`：唯一且永久为空的综合场景测试页，不加载物品或显示角色。
-- `rooftop/room/`：东东的房间、衣柜与活动页面。
-- `rooftop/arrange/`：车库布置页，编辑北天台、南阳台和房间。
+布局使用 `umwelt-rooftop-layout-v1`。当前为 `version:2`，包含 `scenes.north`、`scenes.south`、`scenes.room`，迁移标记为 `roomVersion:2`、`spaceVersion:1`。`validateLayout()` 继续接受版本 1；缺少房间时补入默认房间，南阳台坐标沿用兼容迁移。保留存储键、物件 ID、seed、旋转及缩放序列化约定，每场景上限 400 件。
 
-布局继续使用 `umwelt-rooftop-layout-v1` 存储键。当前布局为 `version:2`，包含 `scenes.north`、`scenes.south`、`scenes.room`，迁移标记为 `roomVersion:2`、`spaceVersion:1`。`validateLayout()` 接受历史版本 1 和当前版本；旧布局缺少房间时补入默认房间，版本 1 的南阳台坐标沿用现有迁移。不要重命名旧存储键或删除兼容分支。
+车库优先读取本机布局；无存档或恢复默认时南北为空，房间保留原有陈列。公开观察和综合测试只清空观察用布局，保留房间及版本元数据，不写回车库存档。综合测试使用隔离的审核会话存储，移除 `layout=local`。房间另行检查自身读写和共享布局同步。
 
-南北阳台在 `HOUSE` 中属于同一住宅、连接相对的屋檐。存档仍用各自局部坐标；公开页同时构建两侧阳台，按住宅坐标放在相连屋顶的两端。镜头取景和平移范围固定在当前一侧，另一侧在实际取景之外，不能靠隐藏另一侧群组模拟这一关系。屋檐模型不提供家具承放层位。
+南北阳台在 `HOUSE` 中属于同一住宅，连接相对屋檐。存档使用各自局部坐标，公开页按住宅坐标构建完整两侧，取景约束在当前一侧。屋檐不提供家具承放层位。承放面、层位身份、碰撞、携带与手势见[承放关系](rooftop-placement.md)。
 
-默认模板来自 `initial-layout.mjs`；北天台 86 件、南阳台 20 件、房间 19 件是源模板数量。当前车库已有本机布局优先读取；无存档或恢复默认时南北为空，房间保留 19 件。公开游戏与综合测试在验证前丢弃南北陈列，只读保留房间及版本元数据，不写回空布局。公开游戏使用本机存档，综合测试使用隔离的审核会话存储；旧 `layout=local` 参数会被移除，不能将物品带入。物品查看、存档恢复与编辑均在独立车库进行。房间维护还需检查自身入口的读写与共享布局同步，不能仅凭阳台测试推断房间兼容正常。
+兼容入口 `/rooftop/3d/`、`/rooftop/previews/pixel-01/` 与 `stage=game-model` 转入同一综合测试。参数和六种取景见[测试说明](rooftop-scene-review.md)。
 
-`rooftop/3d/`、`rooftop/previews/pixel-01/` 和旧 `stage=game-model` 地址兼容跳转到综合测试；保留制作资产和历史脚本，不再提供独立场景测试界面。具体参数和六种取景见 [综合场景测试](rooftop-scene-review.md)。
+## 原稿与呈现
 
-## 原稿与材料管线
+[建筑源文件](art/rooftop-lowpoly-02/README.md)包含完整 `game-environment.blend`、主图 `terrace-book.pxo` 和远景 `distance-facades.pxo`。`3d/architectural-shell.mjs` 加载 `assets/background/empty-rooftop.mjs`、`.bin` 及 PNG。主图为 1024×1024，近景用 `texelMetresPerUnit` 还原长度，再按 `texelsPerMetre:16` 取样；远景由 `baked-pixel-grid.mjs` 在原烘焙 UV 上取同一物理格，窗灯图共用坐标。正面、侧面、背面和底面均核对绑定。
 
-当前建筑背景由[粗粝低模第二轮原稿](art/rooftop-lowpoly-02/README.md)导出，在独立 PXO／Blend 中修改材料，原几何二进制逐字节保留；[第 07 轮 Blender／Pixelorama 原稿](art/rooftop-weathering-07/README.md)和[粗粝低模第一轮](art/rooftop-lowpoly-01/README.md)保留供对照。`3d/architectural-shell.mjs` 读取 `assets/background/empty-rooftop.mjs`、`.bin`、1024×1024 的 `terrace-book.png` 和远景烘焙贴图。近景按 `texelMetresPerUnit` 还原实际长度，再用 `texelsPerMetre:16` 取样；地面、墙面和屋顶使用同一物理像素格。近景接受实时太阳与阴影，远景沿用原稿烘焙。采用平面着色和四档间接面光；太阳、发光窗和雾仍保留连续变化。
+现有物品、人物和室内使用[物品源文件](art/rooftop-game/README.md)与 `assets/pixel/material-book.png`，`native-style.mjs` 标定每游戏世界单位 8 像素。坐标换算与建筑米制管线不同，不能全局替换数值。`surface-grid.mjs` 的 CPU 入口与原生材质着色器保持相同正交面格，原稿长度、实例缩放和面倾角参与换算。
 
-实际 Pixelorama 原稿统一全部 28 个主图材质和远景颜色图，并保存独立远景 PXO；正面、侧面、背面与底面均核对实际 Blender 绑定。`baked-pixel-grid.mjs` 将原远景烘焙图在运行时按 16 像素／米的正交面格取样，窗灯数据图共享同一坐标；派生面边界属性防止采到邻图，不改原 UV 或几何二进制。透明绘画边缘和退化导数有明确回退。家具独立预览的实际 GLB 同样实测为 16 像素／米，本轮不接入游戏。
+新家具继续完整 Blender＋Pixelorama 工作流，完成器形、厚度、背面、底面、开孔和承放结构。物理材料格与建筑对照，粗颗粒感由最终低采样控制；不能以删减结构或放大笔触代替。保存并重开原稿后，分别核对导出、游戏内接入和发布包，保护已有手改与存档接口。
 
-户外画面通过 `3d/outdoor-raster.mjs` 统一方格。当前目标为 2.5 CSS 像素：`pixel-grid.mjs` 按实际 DPR 取完整设备像素，DPR 2 为每格 5 像素，与 `4186` 家具近看一致；用户认可的上一档约为 3 CSS 像素。天气、季节粒子、光照与建筑共用一次离屏渲染，最后按整数方格取样；邻居镜头的变形、光学遮罩与刻线也使用这格。非整除视口在右下裁掉不足一格的部分，原相机逻辑取景与交互投影保持。设备像素比变化时更新绘制尺寸、粒子尺寸、取物射线和镜头测量缓存。公开南北、空场景测试、车库户外共用呈现；房间和目录画像保留原预算。维护时分别核对原生材料像素和最终屏幕颗粒，不仅核对 `texelsPerMetre`。
+`3d/outdoor-raster.mjs` 与 `pixel-grid.mjs` 共用 2.5 CSS 像素目标，按 DPR 取整数设备格；DPR 2 为每格 5×5 实际像素，与家具近看一致。建筑、天气、季节粒子和光照共用离屏渲染，邻居光学变形、遮罩与刻线沿用同一格。右下不足一格的部分裁边，保持相机逻辑取景和交互投影。DPR 变化时更新缓冲、粒子尺寸、取物射线与镜头缓存。公开南北、空场景测试和车库户外共用呈现；房间与目录画像使用各自预算。
 
-现有物品、人物与室内仍使用 [全游戏原稿](art/rooftop-game/README.md)及 `assets/pixel/material-book.png`，由 `3d/native-materials.mjs`、`native-style.mjs`、`native-book.mjs` 接入，网格为 8 像素／游戏世界单位。这与建筑米制管线不同，不得全局替换像素尺度。图集最近邻取样，统一最小像素格；Blend 保存、资源导出与浏览器实际显示分别核对。下一轮家具制作仍须完成原稿、导出、游戏接入，不以独立渲染图替代游戏内检查。
+## 模块接口
 
-后续从此前完整 Blender 模型继续制作像素低模，Pixelorama 绘制原生贴图。保留器形、厚度、背面、底面、开孔和真实承放结构，不为粗粝成品额外删减家具几何。粗粝度由共用 `pixel-grid.mjs` 的最终低采样控制；原稿细节、材料密度和屏幕方格分别验收。修改前锁定原稿与运行资源，保存和独立重开后核对导出、游戏内效果及发布包，保护已有手改、物品 ID 与存档。长期规则见[像素制作管线](rooftop-pixel-style.md#后续制作原则)。
+| 模块 | 职责 |
+| --- | --- |
+| `app.mjs` | 初始化、拖动、导入导出与交互协调 |
+| `edit-history.mjs`、`layout-storage.mjs` | 80 步撤销重做、共享存档读取验证与写入 |
+| `review-state.mjs`、`background-review.css` | 空场景测试状态、URL 参数和控件 |
+| `scene.mjs` | 目录汇合、布局验证迁移、边界与绘制分发 |
+| `botany.mjs`、`plant-art.mjs`、`plant-seed.mjs` | 植物及容器数据、绘制和稳定株形 |
+| `furniture.mjs`、`objects.mjs` | 家具与小物目录 |
+| `initial-layout.mjs`、`room-scene.mjs` | 默认布局及房间布景 |
+| `room/room.mjs`、`wardrobe.mjs`、`card-feed.mjs` | 房间活动、换装和提示卡 |
+| `object-references.mjs`、`notebook.mjs`、`notebook-comments.mjs` | 资料归属、手帐描述与逐件人物随想 |
+| `house-structure.mjs`、`3d/architectural-shell.mjs` | 住宅坐标变换和 Blender 建筑加载 |
+| `3d/story-camera.mjs`、`3d/terrace-view.mjs` | 游戏三视角及额外测试近景约束 |
+| `weather.mjs`、`weather-condition.mjs` | 天气选择、过渡、湿润历史和兼容输入 |
+| `atmosphere.mjs`、`precipitation.mjs` | 时间光照、风、闪电、雨型与落点 |
+| `resident.mjs`、`resident-weather.mjs`、`actor-space.mjs` | 外出、天气动作和身体通行空间 |
+| `3d/scene3d.mjs` | 场景、实例批次、模型缓存、镜头和编辑投影 |
+| `3d/atmosphere.mjs`、`3d/seasonal-air.mjs`、`3d/visible-air.mjs` | 灯光、雨、积水、季节粒子与有界世界空气分配 |
+| `3d/native-style.mjs`、`native-materials.mjs`、`native-book.mjs` | 物品材料格、原生图集、共享缓存和环境参数 |
+| `3d/stand-models.mjs`、`rack-grid.mjs` | 共用花架构造、开孔和承放规则 |
+| `3d/cactus-models.mjs`、`water-models.mjs`、`plant-materials.mjs` | 仙人掌、水盆与叶面 |
+| `3d/soil-surface.mjs`、`residents.mjs` | 闭合盆土及人物身体、衣服与装饰 |
+| `arrange/index.html`、`rooftop.css` | 车库结构与样式 |
 
-## 文件职责
+扩容植物从 `botany.mjs` 和 `plant-art.mjs` 入手，家具从 `furniture.mjs` 入手。`docs/art/rooftop-legacy-materials/` 仍供原稿准备与检查调用。`scene.mjs` 的兼容尺寸、二维回退和图鉴绘制不能作为重复目录删除。
 
-- `app.mjs`：页面初始化、拖动、导入导出与交互协调。
-- `edit-history.mjs`：编辑快照、80 步历史上限与撤销重做。
-- `layout-storage.mjs`：共享布局存储键、读取验证与写入；错误反馈仍由各页面负责。
-- `review-state.mjs` / `background-review.css`：统一测试状态、永久空观察布局、URL 参数及测试控件排布。
-- `scene.mjs`：目录汇合、布局版本验证与迁移、边界、场景和物件绘制分发。
-- `botany.mjs` / `plant-art.mjs` / `plant-seed.mjs`：植物与容器数据、绘制、稳定株形。
-- `furniture.mjs`：家具定义与绘制。
-- `initial-layout.mjs` / `room-scene.mjs`：默认陈列与房间布景。
-- `room/room.mjs` / `wardrobe.mjs` / `card-feed.mjs`：房间活动、服装绘制与提示卡。
-- `facing.mjs` / `styled-views.mjs` / `objects.mjs`：物件方向、材质绘制与小物目录。
-- `object-references.mjs`：物件资料归属；`notebook.mjs`：客观描述与共享手帐呈现；`notebook-comments.mjs`：逐件人物随想。人物随想不写入植物、馆藏或养护数据。
-- `house-structure.mjs`：同一住宅的屋顶与南北阳台坐标变换；`3d/architectural-shell.mjs`：加载当前 Blender 建筑；`3d/house-roof.mjs`：保留共用屋顶构造；`3d/terrace-view.mjs`：测试近景取景与平移边界；`3d/story-camera.mjs`：公开三视角的实际观察位置、手势与活动范围。
-- `weather.mjs`：天气选择、平滑过渡与湿润历史；`weather-condition.mjs`：旧 `cloudy` 到规范 `overcast` 的兼容；`atmosphere.mjs`：共享时间光照、风和闪电配置；`precipitation.mjs`：雨型和随生命周期更新的落点。
-- `resident.mjs`：东东外出节奏；`resident-weather.mjs`：天气动作池；`actor-space.mjs`：从共享承放结构派生人物实际身体通行空间。路径网格按布局缓存，编辑后清除。
-- `3d/scene3d.mjs`：场景、实例批次、缓存模型、镜头与编辑投影。`3d/atmosphere.mjs`：缓存的天空、灯光、雨线、积水和雨点缓冲；`3d/residents.mjs`：身体、衣服和装饰模型。
-- `3d/native-style.mjs` / `native-materials.mjs` / `native-book.mjs`：现有物品、人物与室内的 8 像素／世界单位方格、真实 Pixelorama 图集、共享缓存及昼夜湿润参数。目录画像等待加载，固定为干燥日间色调。旧材质、环境和人物笔画配方已归档至 `docs/art/rooftop-legacy-materials/`，继续供原稿准备和历史测试使用；当前建筑使用上文独立导出管线。
-- `3d/stand-models.mjs` / `rack-grid.mjs`：共享花架构造与开孔承放；`cactus-models.mjs` / `water-models.mjs`：仙人掌与水盆构造；`plant-materials.mjs`：按原株形选择原生叶面。全游戏原稿与审计在 `docs/art/rooftop-game/`。
-- `3d/soil-surface.mjs`：两圈分面的闭合盆土；`3d/antique-paintings.mjs`：资料校准的器物纹饰制作参考，原生 PXO 保存实际发布绘画。
-- `3d/neighborhood.mjs`：周边楼群、道路、绿化与资料归属；`camera.mjs` / `city.mjs`：2D 回退镜头与周边绘制。
-- `arrange/index.html` / `rooftop.css`：布置页面结构与样式。
+## 镜头与环境
 
-扩容植物从 `botany.mjs` 和 `plant-art.mjs` 入手，家具从 `furniture.mjs` 入手。保留旧 ID、植物容器限制、seed、旋转和缩放序列化约定；当前上限仍为每场景 400 件。`scene.mjs` 中的旧物件尺寸用于历史存档迁移，不能作为重复目录删除。
+公开天台默认小鸟，沿屋檐移动并有限转头；无人机有限升降、前后移动与偏转；邻居改变观察位置和倍率。按钮和手势共享 `3d/story-camera.mjs`。完整楼体、双坡屋顶和两侧阳台保持可见实体，公开页使用透视投影，车库与目录画像使用正交投影。切换阳台和复位同步更新镜头及门点击区域；窄屏分别检查南北门口和邻居圆形镜片。
 
-## 镜头、天气与手帐
+建筑校准以地面、层高、楼顶为共同基准，同时检查门窗、楼体和道路；附近六层楼顶保持相近标高，楼体上缘与屋檐相接。测试近景平移保留余量，公开游戏按自身观察范围约束。方法见 [Three.js 相机](https://threejs.org/manual/pages/cameras.html)与[场景层级](https://threejs.org/manual/pages/scenegraph.html)。
 
-公开天台使用小鸟、无人机、邻居三个观察位置，默认小鸟。小鸟沿屋檐移动并有限转头；无人机有限升降、前后移动与偏转；邻居通过望远镜改变倍率与观察位置。手势、按钮和约束共享 `3d/story-camera.mjs`，具体参数以运行模块和相机测试为准。三个视角检查实际完整楼体，不能通过隐藏墙、屋顶或另一侧群组掩盖取景问题。窄屏还需分别检查南北门口和邻居镜片的圆形比例。
+柳絮、落叶、雪和雨按三个游戏视角的实际世界视锥分配，保持稳定身份、远近、遮挡、风向和连续运动。邻居使用有效镜片区域；夏季蚊虫保持露台低位，雾按世界距离变化。额外天台、楼排、远处用于材料审核，沿用局部预算。
 
-综合测试额外提供天台、楼排、远处，合计六种取景；近景中的转动、移动、复位用于材料和建筑审核，不是公开游戏的默认操作规则。天气、时段、季节及南北选择写入 URL，刷新保持组合。手帐位置根据当前工具栏实际高度向下留出 8px，关闭按钮保持可点击。车库保留物件拖动与背景转动，房间沿用自身镜头。
+手选和自动池共 8 种天气，阴天规范值为 `overcast`，`cloudy` 兼容旧 URL 和保存值。7 个时段及四季保持。公开观察和综合测试手选过渡为 8 秒，车库为 0.65 秒，自动时钟切换为 18 秒；中途换目标从当前快照过渡。雨线和雨点累计运动时钟，积水随可见雨量累积后逐渐干燥。
 
-柳絮、秋季飘落物、雪与雨的空气覆盖以小鸟、无人机、邻居三个实际世界视锥为准，保持世界位置、稳定粒子身份、远近层次和连续运动。邻居检查可见镜片范围，蚊虫保持露台低位，雾按世界距离变化。额外天台、楼排、远处审核视角沿用局部空气与原预算，不以铺满它们为验收目标，也不添加屏幕全覆盖粒子层。效果与建筑最后共用认可的屏幕方格。
+雨天意图立即停止浇水。天气动作与行动卡由 `resident-weather.mjs` 协调，同一次天气保持选定片段；入场、环境变化、外出归来和抵达避雨点才更新。普通步行与短暂姿势变化不换卡，日常停留为 45–90 秒。综合测试仅隐藏角色模型，保留行为机制。
 
-当前手选与自动池提供 8 种天气；多云统一并入阴天 `overcast`，`cloudy` 仅作为旧链接及已存选择的兼容输入，不作为独立天气项。规范化覆盖天气初始化、选择、URL 与旧存储读取，不重命名存储键。7 个时段和四季保留。
+## 手帐
 
-公开观察与综合测试的天气手选过渡为 8 秒，车库手选为 0.65 秒，时钟自动切换为 18 秒。数值与颜色从当前快照平滑过渡，中途换目标不会跳回原值；雨线和雨点的运动时钟累计速度，避免页面运行越久、切换雨型时越突然加速。雨天意图立即停止浇水，积水随可见雨量积累、慢慢干燥。行动卡独立于天气卡，同一次天气中保留一个行动片段；进入场景、天气或时刻变化、外出归来、抵达避雨点时才更新。卡片更新仍按原有顺序切入，普通步行与短暂姿势变化不换卡。避雨后随机选定天气动作，同一次天气内保持；日常停留为 45–90 秒。角色实际动作与卡片文本都在 resident-weather.mjs 协调；综合测试仅隐藏角色显示，不删除行为机制。
+手帐正文为客观描述、一句人物随想及折叠来源；科学名只在植物名旁出现。随想采用简短、客观而留白的语气，不写人称代词、反问或固定归属。换盆、换株形控制在资料之后。公开页面悬停 350 毫秒查看、点击固定，拖动和双指手势不打开手帐；关闭键与 Escape 合上，面板独立滚动，窄屏限制屏高 44%。工具栏下方保留 8px 间距，关闭按钮可点击。
 
-手帐正文固定为客观描述、一句未标注标题的人物随想、折叠资料来源。304 项逐项提供不同随想，采用客观、简短而留白的语气，不写人称代词、反问或固定物品归属；科学名只在植物名旁出现。制作说明和重复类别移出正文。车库的换盆、换株形控制放在资料之后。公开页面悬停 350 毫秒查看，点击固定；拖动或双指手势不打开手帐。关闭键与 Escape 合上，面板独立滚动；窄屏限制为屏高 44%。
+继续制作所需资料见[器物与材质](rooftop-art-sources.md)、[植物与容器](rooftop-notebook.md)及[四季光照与天气](art/rooftop-atmosphere-01/README.md)。
 
 ## 性能与缓存
 
-绘制程序按完整生成源码去重；只有完全相同的顶点和片元程序才能共用，材质颜色、图案与天气参数仍各自保留。不同风动、投影、潮湿和陶器分支不能误合并。整数方形像素通过内存写入后一次上传，结果须与原有绘制逐像素一致。3D 页面不再绘制未使用的 2D 地面底图。
+只按完整生成源码合并着色程序，材质颜色、风动、投影、潮湿和陶器分支保持各自参数。几何仅在类型、容器、seed 或垂吊植物裁切结构改变时重建；移动、旋转、缩放与环境变化复用模型。固定矩阵冻结，人物关节、编辑物件和风动继续更新。
 
-人物路径把另一位角色的身体范围作为临时障碍，连相邻格点之间的路段也检查。此信息不写入家具通行缓存；门口有人站住时，后来者绕路到空位，避免反复“让一让”而无法避雨。
+人物路径按布局缓存，编辑后清除；另一角色身体作为临时障碍，连格点间路段也检查，不写入家具缓存。门口拥堵时寻找空位。
 
-几何只在物件类型、容器、seed 或需要重新裁切的垂吊植物结构改变时重建。移动、转向、缩放、天气和换时刻复用模型；衣服改变仅重建角色。从天台打开房间时，房间链接传递当前天气，时刻继续遵循本机时间。
+雨、落点和季节特效使用有界预分配缓冲，积水和湿润通过共享参数更新。灯光着色结构固定，阴影按 0.22 秒更新；静止场景约 30 帧，镜头操作提高更新频率。大屏和软件渲染限制缓冲面积，GPU 同时提交一帧，镜头缓动计入跳帧时间。目录只分帧绘制可见项，筛选变化取消旧任务，绘制期间临时固定环境后恢复。
 
-固定群组和实例的本地矩阵冻结，人物关节、编辑物件和风动部件继续更新。
-
-雨线和雨点使用预分配缓冲，积水和表面湿润使用共享参数。保持灯光和阴影的着色程序结构固定，用强度和阴影更新开关改变天气，避免切换时刻重新编译数百个材质。阴影按 0.22 秒更新；选择框只在物件改变时重新计算。静止场景约 30 帧绘制，操作镜头时提高更新频率，大屏限制绘制缓冲总面积；软件渲染使用更小的绘制和阴影缓冲。GPU 同时只提交一帧，避免低速设备持续排队；镜头缓动按两次实际绘制之间的时间更新，跳帧仍计入移动时间。目录预览只绘制可见物件，逐帧补画；搜索与分类切换取消旧任务。预览临时关闭天气参数，绘制完成后恢复。
-
-`graphics.performance` 提供最近 90 次绘制的 p95 与最后一次耗时，含提交开销，不代表 GPU 完整时间或所有设备的保证。性能验证应包括密集陈列、切换时刻、台风、镜头转动和实际拖动；同时检查纹理、模型与缓冲数量不会随持续运行增长。
+`graphics.performance` 提供最近 90 次绘制的 p95 和最后一次耗时，含提交开销。性能检查包括密集陈列、环境切换、台风、镜头与拖动，核对纹理、模型和缓冲不会持续增长。
 
 ## 验证
 
-运行 `node isopoda/tools/check-all.mjs` 验证完整结构与数据契约。
+运行 `node isopoda/tools/check-all.mjs` 检查全项目契约，或按范围运行 `node --test tests/rooftop*.test.mjs`。场景重点为 `rooftop-background`、`rooftop-review`、`rooftop-story-camera`、`rooftop-door-projection`、`rooftop-outdoor-raster`、`rooftop-visible-air`、`rooftop-seasonal-coverage` 和 `rooftop-render-budget`；材料修改还须核对原稿与导出。
 
-`tests/browser/rooftop-maintenance.cjs` 覆盖相同坐标提交保留重做、多指拖动隔离、撤销与存档。设置 `COMPARE_URL` 可逐像素对比维护前后，在 1600、1100、900、390 宽度、两个场景、初始与植物选中状态下验证画面一致。固定时间、随机值和动画帧只作用于测试浏览器。
+实际浏览器检查公开南北三视角、空测试六视角、环境切换及刷新、兼容入口、窄屏手帐、车库存档恢复与保存字节不变。`tests/browser/rooftop-observation.cjs`、`rooftop-weather.cjs` 检查观察及环境；`rooftop-garage-layout.cjs` 检查排布，`rooftop-room.cjs` 检查房间与跨页面存档，`rooftop-maintenance.cjs` 检查撤销重做、多指隔离及保存。
 
-```sh
-BASE_URL=http://127.0.0.1:8773 COMPARE_URL=http://127.0.0.1:8774 node tests/browser/rooftop-maintenance.cjs
-BROWSER=webkit BASE_URL=http://127.0.0.1:8773 COMPARE_URL=http://127.0.0.1:8774 node tests/browser/rooftop-maintenance.cjs
-```
+纯整理或格式化保留调用顺序、异常边界、数据和序列化。`rooftop-maintenance.cjs` 的 `COMPARE_URL` 在四种宽度、车库三场景及公开南北和房间比较 36 组画面；固定时间、随机值和动画帧只作用于测试环境。正常动画与交互另行回归。
 
-`rooftop-garage-layout.cjs` 检查实际响应式排布，`rooftop-plant-seed.cjs` 检查株形与复制后存档。部分早期浏览器脚本直接点击已隐藏的撤销按钮；这些检查应使用现有 Ctrl/Cmd+Z 与 Shift+Z 快捷键，无需改变前端来配合测试。
-
-测试截图、临时对比站点和检查日志放在仓库之外；`docs/` 与 `tests/` 不进入发布产物。
-
-当前镜头与场景入口优先检查 `rooftop-story-camera.test.mjs`、`rooftop-door-projection.test.mjs`、`rooftop-review.test.mjs`、`rooftop-background.test.mjs` 和 `rooftop-render-budget.test.mjs`。在实际浏览器分别检查公开南北三视角、空测试南北六视角、环境选择与刷新、旧地址跳转、窄屏手帐、车库存档恢复及保存字节不变。发布前检查最终 `_site` 中相同入口；源文件存在不等于已打入发布包。
-
-`rooftop-terrace-view.test.mjs` 保留测试近景所用的房屋连接、屏幕比例、转动和平移等构造检查。旧浏览器记录中的无限转动、统一平移和固定缩放范围不再是公开三视角契约；运行这些脚本前须确认其断言与当前入口相符。手帐、天气中途切换与行动卡继续保留对应检查。
-
-`rooftop-atmosphere.test.mjs` 检查 63 种光照组合、四种雨的落点更新、减少动态下的闪电、雨中停止浇水、避雨恢复与双角色身体避让。
-
-结构与存档检查还可运行 `node --test tests/rooftop*.test.mjs`。浏览器脚本按任务选择：`rooftop-expansion.cjs` 检查目录、手帐、承托与导入导出，`rooftop-facing.cjs` 检查物件四面，`rooftop-garage-layout.cjs` 检查车库排布。脚本存在不表示已在当前提交运行。`rooftop-regression.yml` 在 Chromium / WebKit 运行维护、车库布局和房间回归；结构检查的触发路径也包含 `rooftop/**`。
-
-仅整理文档时执行 [零前端变化验证](../isopoda/docs/deployment.md#文档整理的零前端变化验证)，不借整理修改运行代码或测试。
-
-## 资料与阶段记录
-
-[手帐资料](rooftop-notebook.md)、[绘制方向](rooftop-art-direction.md) 和 [四面结构参考](rooftop-object-views.md) 保留绘制与来源依据。早期双场景说明及目录扩容数量见 [历史索引](reference/README.md)；当前物件、场景及兼容行为以运行模块为准。
-
-## 零前端变化维护
-
-运行模块使用统一的展开格式，避免把多项职责压在一行。仅格式化的模块不得改变目录数据、绘制参数或字符串。提取公共模块时保留调用时序、异常边界与存档序列化；不同页面原有的深度排序暂不合并，以免改变遮挡。
-
-`rooftop-maintenance.cjs` 的 `COMPARE_URL` 对照包含四种宽度、三个车库场景，以及公开北天台、南阳台和房间，共 36 组画面。固定时钟、随机数和动画帧只作用于测试环境，同时比较可见文字与编辑布局。正常动画、活动与响应式交互由独立回归验证。
-
-`rooftop-room.cjs` 覆盖房间撤销重做、阳台数据隔离、跨页面布局同步、换装与活动反馈、房间导入导出、失败回滚、刷新和窄屏布局。换装仍保留每次刷新随机换一套的现有规则。
-
-当前行为以运行模块与回归检查为准。不要把历史阶段的待办、目录数量或旧截图当作新的实现契约。
-
-3D 放置规格、层位身份、承放链与手势规则见 [承放关系](rooftop-placement.md)。
-
-测试近景最远距离的平移仍须有余量，不能因把可见区域完全夹在地面边界内而归零。公开镜头按各观察位置约束；极窄长屏不能扩展成小区鸟瞰。房屋遮挡诊断用实际楼体及双坡屋顶的射线相交计算，两侧模型都保留。
-
-公开页采用透视投影，邻楼会随距离自然缩小；车库与目录肖像保留正交投影。周边楼顶与当前六层楼顶保持相近标高，不能把全部下层窗户画成高过当前阳台的墙面。
-
-建筑校准先固定地面、层高、楼顶三个基准，再同时检查门窗、阳台、楼体和道路的比例。当前几何与米制换算以 Blender 原稿及 `assets/background/empty-rooftop.mjs` 为准；邻楼的窗户与楼体一起缩放，不能只放大窗户或拉高立面。共用屋顶为连续双坡实体，楼体上缘与屋檐相接，不能留出透视穿孔。旧近景的固定距离和转动范围不套用于公开小鸟、无人机、邻居镜头。
-
-方法参考：[Three.js 相机与裁切范围](https://threejs.org/manual/pages/cameras.html)、[场景层级与统一变换](https://threejs.org/manual/pages/scenegraph.html)。卫星图用于校准长条楼房、楼间道路与庭院的关系；不将社区地图搜索结果写成已确认的 92 幢 604 窗外实测视角。
-
-切换阳台和复位时，镜头与门的点击区域同步更新，不依赖下一帧才生效。南阳台窄屏取景偏向门边，保留通往北天台的入口；东侧邻楼为转向的完整六层楼体，覆盖两侧阳台附近的街巷方向。
-
-现有物品贴面网格的 CPU 原稿入口为 `3d/surface-grid.mjs`，与 `3d/native-materials.mjs` 的正交展开及一格一像素取样一致；修改时需同步 Blender 长度检查。建筑材料则核对当前粗粝低模第二轮原稿、导出清单的实际米制方格和三处 PNG 一致性，第 07 轮保留供历史对照，不改用旧物品网格。
+`rooftop-regression.yml` 在 Chromium／WebKit 检查游戏页面。Pages 工作流验证最终发布包及入口；源文件存在不代表已经接入网页，发布状态以 Actions 和实际网址核验为准。共用方法见[验证和发布](../isopoda/docs/deployment.md)。

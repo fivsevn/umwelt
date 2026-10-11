@@ -15,6 +15,6 @@
 - [花农时代总入口](rooftop-README.md)：当前状态、游戏与测试页面、原稿管线、制作参考及历史记录。后续从这里进入。
 - [维护与扩容](rooftop-maintenance.md)、[物品承放关系](rooftop-placement.md)：模块职责、存档与空间契约。
 - [永久空场景综合测试](rooftop-scene-review.md)：统一南北场景、六种视角、天气、时段与季节；物品在独立车库查看。
-- [当前建筑材料原稿](art/rooftop-weathering-07/README.md)、[现有物品原稿](art/rooftop-game/README.md)：区分当前建筑管线与保留的物品源文件。
+- [当前建筑材料原稿](art/rooftop-lowpoly-02/README.md)、[现有物品原稿](art/rooftop-game/README.md)：区分当前建筑管线与保留的物品源文件。
 
 空天台视觉版正在准备发布；下一步家具重制，本轮不修改家具。早期场景、旧绘制规格和目录扩容数量按 [总入口的历史记录](rooftop-README.md#历史记录)追溯，不作为当前维护规则。
