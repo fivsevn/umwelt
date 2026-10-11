@@ -476,6 +476,11 @@ async function visiblePickPoint(page, id) {
         "growbag",
       );
       await page.locator("#restore").click();
+      // Restoring the current baseline intentionally leaves the terrace empty.
+      // Test live foliage on a placed plant, not a transient thumbnail program.
+      await page.locator("#search").fill("绿薄荷");
+      await page.locator("[data-asset=mint]").click();
+      await page.waitForFunction(()=>rooftop.graphics.nativeItems.pending===0&&rooftop.graphics.foliageMotion.programs>0,null,{timeout:90000});
       const output = process.env.QA_OUTPUT || "/tmp/rooftop-models";
       await fs.mkdir(output, { recursive: true });
       await page.screenshot({
