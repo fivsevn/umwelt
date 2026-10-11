@@ -1,11 +1,13 @@
 // Run against prepare-site + subset-font + stamp-assets output, never the source server.
 const assert = require("node:assert/strict");
 const fs = require("node:fs/promises");
-const path = require("node:path");
-const { pathToFileURL } = require("node:url");
 const { chromium, webkit } = require("playwright");
 const base = process.env.BASE_URL || "http://127.0.0.1:8794";
 const output = process.env.QA_OUTPUT || "/tmp/umwelt-artifact-screenshots";
+const legacyReviewRoutes = new Map([
+  ["/rooftop/3d/?scene=south&weather=rain&time=dusk&season=autumn&layout=local", "bird"],
+  ["/rooftop/previews/pixel-01/?scene=north&weather=clear&time=day&season=spring&layout=local", "terrace"],
+]);
 const routes = [
   ["/", ".desktop-icon"],
   ["/tick/", "#tick"],
@@ -14,15 +16,11 @@ const routes = [
   ["/isopoda/habitat.html", "#assetList button"],
   ["/rooftop/?scene=north", "#garden"],
   ["/rooftop/?scene=south", "#garden"],
-  ["/rooftop/3d/", "#garden"],
+  ...[...legacyReviewRoutes.keys()].map((route) => [route, "#garden"]),
   ["/rooftop/arrange/", "[data-asset=mint]"],
   ["/rooftop/room/", "canvas"],
 ];
 (async () => {
-  const { INITIAL_LAYOUT: authoredLayout } = await import(
-    pathToFileURL(path.resolve(__dirname, "../../rooftop/initial-layout.mjs"))
-      .href
-  );
   await fs.mkdir(output, { recursive: true });
   for (const engine of [chromium, webkit]) {
     const browser = await engine.launch({
@@ -62,7 +60,7 @@ const routes = [
           if (
             engine === chromium &&
             route.startsWith("/rooftop/") &&
-            route !== "/rooftop/3d/"
+            !legacyReviewRoutes.has(route)
           ) {
             await page.waitForFunction(
               () =>
@@ -85,52 +83,83 @@ const routes = [
                   : "pan",
             );
           }
-          if (route === "/rooftop/3d/") {
+          if (route.startsWith("/rooftop/?")) {
+            // Public game entries retain their empty terrace and narrative controls.
+            // A door behind a real wall/roof must not intercept view gestures.
+            const publicState = await page.evaluate(() => ({
+              layout: rooftop.layout,
+              scene: rooftop.scene,
+              graphics: rooftop.graphics,
+            }));
+            assert.deepEqual(publicState.layout.scenes.north, []);
+            assert.deepEqual(publicState.layout.scenes.south, []);
+            if (publicState.graphics.drawCalls) {
+              assert.equal(publicState.graphics.narrativeView, "bird");
+              assert.equal(publicState.graphics.actorsHidden, true);
+              assert.deepEqual(publicState.graphics.actorVisibility, { person: false, pig: false });
+              await page.waitForFunction(() => rooftop.graphics.background.loaded);
+              assert.equal(await page.locator("#sceneDoor").isVisible(), false,
+                "the bird's real eave view does not expose the door behind it");
+              for (const view of ["drone", "neighbor", "bird"]) {
+                await page.locator('[data-narrative-view="' + view + '"]').click();
+                await page.waitForFunction(name => rooftop.graphics.narrativeView === name, view);
+                assert.equal(await page.locator('[data-narrative-view="' + view + '"]').getAttribute("aria-pressed"), "true");
+              }
+            }
+            const nextScene = publicState.scene === "north" ? "south" : "north";
+            await page.locator("#sceneCard").click();
+            await page.waitForFunction(name => rooftop.scene === name, nextScene);
+            if (publicState.graphics.drawCalls) {
+              await page.waitForFunction(name => rooftop.graphics.scene === name, nextScene);
+              assert.equal(await page.evaluate(() => rooftop.graphics.narrativeView), "bird");
+            }
+            assert.equal(new URL(page.url()).searchParams.get("scene"), nextScene);
+            assert.deepEqual(await page.evaluate(() => rooftop.layout), publicState.layout,
+              "view/scene controls preserve layout data");
+          }
+          if (legacyReviewRoutes.has(route)) {
+            const redirected = new URL(page.url());
+            const original = new URL(route, base);
+            assert.equal(redirected.pathname, "/rooftop/");
+            assert.equal(redirected.searchParams.get("stage"), "background");
+            assert.equal(redirected.searchParams.get("view"), legacyReviewRoutes.get(route));
+            assert.equal(redirected.searchParams.has("layout"), false);
+            for (const key of ["scene", "weather", "time", "season"])
+              assert.equal(redirected.searchParams.get(key), original.searchParams.get(key));
             await page.waitForFunction(
               () =>
-                window.rooftop3d?.drawCalls > 0 ||
+                window.rooftop?.graphics?.drawCalls > 0 ||
                 document.querySelector('[role="alert"]'),
               null,
               { timeout: 90000 },
             );
             const rendered = await page.evaluate(() =>
-              Boolean(window.rooftop3d?.drawCalls),
+              Boolean(window.rooftop?.graphics?.drawCalls),
             );
             if (engine === chromium)
               assert.ok(rendered, "3D must render with software WebGL");
             if (rendered) {
-              const initial = await page.evaluate(() => ({
-                scene: rooftop.scene,
-                layout: rooftop.layout,
-                theta: rooftop3d.view.theta,
-              }));
-              assert.deepEqual(initial.layout, authoredLayout);
-              assert.equal(
-                await page.locator(".topbar,.scene-tabs,.tools").count(),
-                0,
-              );
-              await page.locator("#garden").focus();
-              await page.keyboard.press("ArrowRight");
+              const initial = await page.evaluate(() => ({ scene: rooftop.scene, layout: rooftop.layout }));
+              assert.equal(initial.scene, original.searchParams.get("scene"));
+              assert.deepEqual(initial.layout.scenes.north, []);
+              assert.deepEqual(initial.layout.scenes.south, []);
+              const view = page.getByRole("combobox", { name: "测试视角", exact: true });
+              assert.deepEqual(await view.locator("option").evaluateAll((options) => options.map((option) => option.value)),
+                ["terrace", "row", "outlook", "bird", "drone", "neighbor"]);
+              assert.equal(await view.inputValue(), legacyReviewRoutes.get(route));
+              await view.selectOption("row");
+              await view.selectOption("outlook");
+              await view.selectOption("terrace");
+              const scene = page.getByRole("combobox", { name: "测试场景", exact: true });
+              await scene.selectOption("south");
               await page.waitForFunction(
-                (theta) => rooftop3d.view.theta > theta + 0.05,
-                initial.theta,
+                () => rooftop.scene === "south",
               );
-              await page
-                .getByRole("button", { name: "进入南阳台", exact: true })
-                .click();
+              await scene.selectOption("north");
               await page.waitForFunction(
-                () => rooftop.scene === "south" && rooftop3d.scene === "south",
+                () => rooftop.scene === "north",
               );
-              assert.equal(
-                await page.locator("#garageCard").getAttribute("href"),
-                "../arrange/?scene=south",
-              );
-              await page
-                .getByRole("button", { name: "进入北天台", exact: true })
-                .click();
-              await page.waitForFunction(
-                () => rooftop.scene === "north" && rooftop3d.scene === "north",
-              );
+              assert.deepEqual(await page.evaluate(() => [rooftop.layout.scenes.north, rooftop.layout.scenes.south]), [[], []]);
             }
           }
           await page.waitForTimeout(250);
@@ -160,7 +189,7 @@ const routes = [
           );
         }
       }
-      console.log(engine.name() + ": 20 final artifact entry checks passed");
+      console.log(engine.name() + ": " + routes.length * 2 + " final artifact entry checks passed");
     } finally {
       await browser.close();
     }

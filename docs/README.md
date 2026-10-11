@@ -12,12 +12,9 @@
 
 ## 花农时代
 
-- [仓库梳理与视觉重制边界](rooftop-rebuild.md)：当前文件归属、可保留机制、旧视觉残留和分阶段重制顺序。
+- [花农时代总入口](rooftop-README.md)：当前状态、游戏与测试页面、原稿管线、制作参考及历史记录。后续从这里进入。
+- [维护与扩容](rooftop-maintenance.md)、[物品承放关系](rooftop-placement.md)：模块职责、存档与空间契约。
+- [永久空场景综合测试](rooftop-scene-review.md)：统一南北场景、六种视角、天气、时段与季节；物品在独立车库查看。
+- [当前建筑材料原稿](art/rooftop-weathering-07/README.md)、[现有物品原稿](art/rooftop-game/README.md)：区分当前建筑管线与保留的物品源文件。
 
-- [维护与扩容入口](rooftop-maintenance.md)：房间、阳台、车库的模块职责、历史存档与验证入口。
-- [历史绘制方向](rooftop-art-direction.md)：上一阶段的色板与材质记录，新一轮重制另行确定视觉标准。
-- [二维物件四面绘制记录](rooftop-object-views.md)：旧绘制器的结构参考、遮挡与资料边界。
-- [植物与容器手帐资料](rooftop-notebook.md)：名称、园艺资料与容器来源。
-- [现有原稿与制作记录](art/rooftop-game/README.md)、[历史视觉样板](art/rooftop-pixel-01/README.md)、[旧材质制作代码](art/rooftop-legacy-materials/README.md)：保留源文件和可追溯的制作依据。
-
-早期双场景原型及目录扩容记录已归入 [历史维护记录](reference/README.md)，不作为当前房间或存档结构的说明。
+空天台视觉版正在准备发布；下一步家具重制，本轮不修改家具。早期场景、旧绘制规格和目录扩容数量按 [总入口的历史记录](rooftop-README.md#历史记录)追溯，不作为当前维护规则。

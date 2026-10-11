@@ -147,17 +147,21 @@ test("the action card describes actual residents independently of the weather ca
   );
 });
 
-test("raised sixth-floor roof keeps the full camera orbit outside solid geometry", () => {
+test("the legacy editor and reference orbit starts on its open side outside the intact house", () => {
   for (const scene of ["north", "south"])
     for (const width of [320, 390, 844, 1440]) {
       const limits=terraceOrbit(scene,width);
       assert.equal(limits.fullRotation,true);
+      const outward=scene === "north" ? Math.PI : Math.PI/2;
+      assert.ok(Math.abs(limits.theta-(outward-.34))<1e-9);
       assert.ok(.2+Math.sin(limits.minPhi)*TERRACE_VIEW_DISTANCE>HOUSE.roof.ridge);
-      for(const theta of [0,Math.PI/2,Math.PI,3*Math.PI/2]) {
+      for(const theta of [0,Math.PI/2,Math.PI,3*Math.PI/2,limits.theta]) {
         const frame=terraceFrame(scene,width,844,theta,limits.minPhi);
         const point=housePoint(scene,frame.target.x+Math.sin(theta)*Math.cos(limits.minPhi)*TERRACE_VIEW_DISTANCE,frame.target.z+Math.cos(theta)*Math.cos(limits.minPhi)*TERRACE_VIEW_DISTANCE);
         const eye=[point[0],.2+Math.sin(limits.minPhi)*TERRACE_VIEW_DISTANCE,point[1]];
         assert.equal(houseOccludes(eye,eye),false);
+        const garden=scene==="north"?[[-5,-5],[0,-5],[5,-5]]:[[1,-5],[1,0],[1,5]];
+        if(theta===limits.theta)assert.ok(garden.some(([x,z])=>{const p=housePoint(scene,x,z);return !houseOccludes(eye,[p[0],0,p[1]]);}),"the initial camera sees the garden without cutting away its house");
       }
     }
   // A compact real building permits views of the opposite balcony from outside
@@ -211,7 +215,11 @@ test("the balcony is a small part of a long house with clear space to neighbouri
   const r = HOUSE.roof;
   assert.ok(r.width > 100 && r.width > r.depth * 2);
   assert.ok(r.ridge > r.eave + 7);
-  for (const {x,z,width,depth,storeys,angle} of BACKGROUND.neighbourhood.oldBlocks) {
+  if (BACKGROUND.format === 'blender-environment-v2') {
+    assert.ok(BACKGROUND.parts.some(p => p.layer === 'near'));
+    assert.ok(BACKGROUND.parts.some(p => p.layer === 'far' && p.style === 'baked'));
+  }
+  for (const {x,z,width,depth,storeys,angle} of BACKGROUND.neighbourhood.oldBlocks || []) {
     const halfX = (Math.abs(Math.cos(angle)) * width + Math.abs(Math.sin(angle)) * depth)/2,
       halfZ = (Math.abs(Math.sin(angle)) * width + Math.abs(Math.cos(angle)) * depth)/2,
       dx = Math.max(r.x - (x + halfX), x - halfX - (r.x + r.width), 0),
@@ -222,4 +230,26 @@ test("the balcony is a small part of a long house with clear space to neighbouri
       "roads and courtyards stay between full-size buildings",
     );
   }
+});
+
+
+test("game terrace travel cannot pan out to the architectural district", () => {
+  for (const scene of ["north", "south"])
+    for (const [width, height] of [[320, 568], [390, 844], [844, 390], [1440, 900]])
+      for (let step = 0; step < 16; step++) {
+        const theta = step * Math.PI / 8,
+          limits = terraceOrbit(scene, width);
+        for (const phi of [limits.minPhi, limits.phi, limits.maxPhi])
+          for (const zoom of [TERRACE_ZOOM.min, TERRACE_ZOOM.max]) {
+            const frame = terraceFrame(scene, width, height, theta, phi);
+            for (const sign of [-1, 1]) {
+              const clamped = constrainTerracePan(frame, {
+                x: sign * 1000000,
+                z: -sign * 1000000,
+              }, zoom, theta, phi);
+              assert.ok(Math.hypot(clamped.x - frame.target.x, clamped.z - frame.target.z) < 25,
+                "dragging stays within one terrace and its immediate neighbours");
+            }
+          }
+      }
 });
