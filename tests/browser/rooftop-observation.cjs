@@ -60,6 +60,68 @@ const checkScopeCircle = async (page, label) => {
   assert.ok(Math.abs(lens.engravingWidth - lens.engravingHeight) <= 1, label + " reticle pixels have equal horizontal and vertical scale");
   return lens;
 };
+const checkSavedArrangementIsolation = async browser => {
+  // A separate context represents a returning player, without changing the
+  // clean-start checks below or any user's running preview.
+  const context = await browser.newContext({ viewport: { width: 1280, height: 800 } }),
+    page = await context.newPage(), errors = [],
+    layoutKey = "umwelt-rooftop-layout-v1",
+    previewKey = "umwelt-rooftop-game-model-preview-v1";
+  page.setDefaultNavigationTimeout(90000);
+  page.on("pageerror", error => errors.push(error.message));
+  const ready = async url => {
+    await page.goto(url);
+    await page.waitForFunction(() => rooftop.graphics?.drawCalls > 0 && rooftop.graphics.background.loaded, null, { timeout: 90000 });
+  };
+  try {
+    await ready(base + "/rooftop/?scene=north");
+    const fixture = await page.evaluate(async () => {
+      const { initialLayout, validateLayout } = await import("/rooftop/scene.mjs"),
+        saved = validateLayout(initialLayout());
+      // Distinct saved IDs prove that the editor actually loads storage,
+      // rather than coincidentally matching its default arrangement.
+      for (const [scene, objects] of Object.entries(saved.scenes)) {
+        const ids = new Map(objects.map((object, index) => [object.id, "saved-" + scene + "-" + index]));
+        for (const object of objects) {
+          object.id = ids.get(object.id);
+          if (object.support) object.support.id = ids.get(object.support.id);
+        }
+      }
+      return validateLayout(saved);
+    });
+    assert.ok(fixture.scenes.north.length > 0 && fixture.scenes.south.length > 0, "the regression starts with valid furnished terraces");
+    const raw = JSON.stringify(fixture, null, 2);
+    await page.evaluate(({ layoutKey, previewKey, raw }) => {
+      localStorage.setItem(layoutKey, raw);
+      sessionStorage.setItem(previewKey, raw);
+    }, { layoutKey, previewKey, raw });
+    const checkStorage = async () => {
+      const stored = await page.evaluate(({ layoutKey, previewKey }) => ({
+        local: localStorage.getItem(layoutKey), preview: sessionStorage.getItem(previewKey),
+      }), { layoutKey, previewKey });
+      assert.equal(stored.local, raw, "empty observation never rewrites the saved local arrangement");
+      assert.equal(stored.preview, raw, "empty observation never rewrites the saved preview arrangement");
+    };
+    for (const stage of ["", "&stage=game-model"]) for (const scene of ["north", "south"]) {
+      await ready(`${base}/rooftop/?scene=${scene}&layout=local${stage}`);
+      const shown = await page.evaluate(() => rooftop.layout);
+      assert.deepEqual(shown.scenes.north, [], "old layout=local links still show an empty north terrace");
+      assert.deepEqual(shown.scenes.south, [], "old layout=local links still show an empty south terrace");
+      assert.deepEqual(shown.scenes.room, fixture.scenes.room, "clearing the terrace view preserves the stored room");
+      assert.equal(await page.evaluate(() => rooftop.graphics.objects), 0);
+      assert.deepEqual(await page.evaluate(() => rooftop.graphics.modelIds), []);
+      await checkStorage();
+    }
+    for (const scene of ["north", "south"]) {
+      await ready(`${base}/rooftop/arrange/?scene=${scene}`);
+      assert.deepEqual(await page.evaluate(() => rooftop.layout), fixture, "the garage retains the player's original arrangement");
+      assert.equal(await page.evaluate(() => rooftop.graphics.objects), fixture.scenes[scene].length);
+      await checkStorage();
+    }
+    assert.deepEqual(errors, []);
+    console.log(engine + " saved arrangement: north/south layout=local and game-model previews remain empty, storage bytes unchanged, garage still loads saved furnishings passed");
+  } finally { await context.close(); }
+};
 (async () => {
   const browser = await (engine === "webkit" ? webkit : chromium).launch({
     headless: true,
@@ -68,6 +130,8 @@ const checkScopeCircle = async (page, label) => {
   let page;
   const errors = [], output = process.env.QA_OUTPUT || "/tmp/rooftop-observation";
   try {
+    await checkSavedArrangementIsolation(browser);
+    if (process.env.QA_SAVED_LAYOUT_ONLY === "1") return;
     await fs.mkdir(output, { recursive: true });
     page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
     page.setDefaultNavigationTimeout(90000);

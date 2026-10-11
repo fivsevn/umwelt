@@ -108,7 +108,7 @@ try {
   if (editor || emptyGameStage) layout = emptyTerraces(initialLayout());
   if (editor) $("message").textContent = "本机布局无法读取，已恢复初始布局。";
 }
-if (emptyGameStage && !localLayoutRequested) layout = emptyTerraces(layout);
+if (emptyGameStage || (gameModelStage && !editor)) layout = emptyTerraces(layout);
 if (backgroundStage && (!previewStorage.getItem() || (!editor && !localLayoutRequested))) layout = emptyTerraces(layout);
 if (backgroundStage) {
   document.body.classList.add("background-stage");
