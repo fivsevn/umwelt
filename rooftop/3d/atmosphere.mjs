@@ -7,6 +7,7 @@ import {
 import { rainShape, rainStrike, rainHash } from "../precipitation.mjs";
 import { SCENES, inside } from "../scene.mjs";
 import { BACKGROUND } from "../assets/background/empty-rooftop.mjs";
+import { createVisibleAirField } from "./visible-air.mjs";
 
 const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
 const mixColor = (a, b, amount) => "#" + [1, 3, 5].map(i =>
@@ -23,6 +24,13 @@ export const WEATHER_PIXEL_METRIC = Object.freeze([
 
 export function terraceWeatherPixelMetric(name = "north") {
   return name === "south" ? [WEATHER_PIXEL_METRIC[1], WEATHER_PIXEL_METRIC[0]] : [...WEATHER_PIXEL_METRIC];
+}
+
+// A fixed sky can finish its first shadow pass before the native mesh arrives.
+// Include the newly loaded casters on the next ordinary render, without moving
+// the sun or keeping otherwise static shadow maps updating every frame.
+export function invalidateShadowsAfterLoad(renderer, ready) {
+  return ready.then(() => { renderer.shadowMap.needsUpdate = true; }, () => {});
 }
 
 // Directional light is a physical ray. Convert the ray once using the
@@ -166,16 +174,35 @@ export function createAtmosphere(
   );
   scene.add(bolt);
   const capacity = 840,
-    positions = new Float32Array(capacity * 6);
-  const rainGeometry = new T.BufferGeometry().setAttribute(
-    "position",
-    new T.BufferAttribute(positions, 3),
-  );
-  const rainMaterial = new T.LineBasicMaterial({
-    color: "#c0d0dd",
+    positions = new Float32Array(capacity * 6),
+    rainAlpha = new Float32Array(capacity * 2),
+    rainViewport = new T.Vector2(),
+    rainField = createVisibleAirField(T, { capacity, seed: 411, cellSize: 8,
+      maxDistance: 320, nearDistance: 2, maxCells: 512, maxCandidates: 1680 });
+  const rainGeometry = new T.BufferGeometry()
+    .setAttribute("position", new T.BufferAttribute(positions, 3).setUsage(T.DynamicDrawUsage))
+    .setAttribute("dropAlpha", new T.BufferAttribute(rainAlpha, 1).setUsage(T.DynamicDrawUsage));
+  const rainMaterial = new T.ShaderMaterial({
+    uniforms: T.UniformsUtils.merge([T.UniformsLib.fog, {
+      tint: { value: new T.Color("#c0d0dd") },
+      opacity: { value: .4 },
+    }]),
     transparent: true,
-    opacity: 0.4,
     depthWrite: false,
+    depthTest: true,
+    fog: true,
+    vertexShader: `attribute float dropAlpha; varying float alpha;
+      #include <fog_pars_vertex>
+      void main(){alpha=dropAlpha;vec4 mvPosition=modelViewMatrix*vec4(position,1.0);
+        gl_Position=projectionMatrix*mvPosition;
+        #include <fog_vertex>
+      }`,
+    fragmentShader: `uniform vec3 tint; uniform float opacity; varying float alpha;
+      #include <fog_pars_fragment>
+      void main(){gl_FragColor=vec4(tint,opacity*alpha);
+        #include <fog_fragment>
+        #include <colorspace_fragment>
+      }`,
   });
   const rain = new T.LineSegments(rainGeometry, rainMaterial);
   rain.frustumCulled = false;
@@ -338,14 +365,18 @@ export function createAtmosphere(
       }
       return refresh;
     },
-    update(name, a, time, reduced = false) {
+    update(name, a, time, reduced = false, camera = null, cameraOptions = {}) {
       mood = terraceAtmosphereMood(a);
-      seasonalAir.update(name, a, time, reduced, mood);
+      seasonalAir.update(name, a, time, reduced, mood, camera, cameraOptions);
       const indoor = name === "room",
         motion = weatherMotion(a, time),
         flash = lightningPulse(a, time, reduced),
         precipitation = rainShape(a);
       sky.visible = !indoor;
+      // The sky is a direction field around the eye, not a small sphere left
+      // behind when a wide or free camera moves beyond the terrace.
+      if (camera && !indoor) sky.position.copy(camera.position);
+      else sky.position.set(0, 0, 0);
       skyUniforms.zenith.value.set(a.zenith);
       skyUniforms.horizon.value.set(a.horizon);
       skyUniforms.flash.value = flash;
@@ -461,15 +492,52 @@ export function createAtmosphere(
         }
       }
       rain.visible = !indoor && a.rain > 0.01;
-      rainMaterial.opacity =
+      rainMaterial.uniforms.opacity.value =
         (0.2 + a.rain * 0.24) * (1 - a.night * 0.23) + flash * 0.16;
-      rainMaterial.color.set(mood.rainColor);
-      const count = Math.floor(
-        capacity * Math.min(1, a.rain) * (reduced ? 0.78 : 1),
+      rainMaterial.uniforms.tint.value.set(mood.rainColor);
+      renderer.getDrawingBufferSize(rainViewport);
+      const screenStep = Number(renderer.domElement?.dataset?.physicalPixelStep) || 1,
+        sourcePixels = Math.ceil(rainViewport.x / screenStep) * Math.ceil(rainViewport.y / screenStep),
+        visibleArea = cameraOptions.ndcEllipse ? Math.min(1, Math.PI * cameraOptions.ndcEllipse[0] * cameraOptions.ndcEllipse[1] / 4) : 1,
+        viewCapacity = camera ? Math.min(capacity, Math.max(96, Math.ceil(sourcePixels * visibleArea / 192))) : capacity,
+        budget = Math.floor(
+        viewCapacity * Math.min(1, a.rain) * (reduced ? 0.78 : 1),
       );
-      rainGeometry.setDrawRange(0, count * 2);
+      let count = 0;
       if (rain.visible) {
-        for (let i = 0; i < count; i++) {
+        if (camera) {
+          const entries = rainField.update(camera, time, {
+            budget,
+            ndcEllipse: cameraOptions.ndcEllipse,
+            maxDistance: Math.min(320, Math.max(32,
+              (cameraOptions.targetDistance ?? camera.position.length()) + 32)),
+            sample(entry) {
+              // Stable world identities fall along gravity; looking elsewhere
+              // never rotates the rain toward the screen or moves its anchors.
+              const age = ((a.streakClock ?? time * (0.75 + a.rain * 0.55)) + rainHash(entry.seed + precipitation.seed * 131) * 11) % 1;
+              entry.rainAge = age;
+              return [entry.anchor[0] - age * motion.x * 1.4,
+                entry.anchor[1] + (0.5 - age) * 8,
+                entry.anchor[2] - age * motion.z * .65];
+            },
+          });
+          for (const entry of entries) {
+            if (!entry || entry.opacity <= .001 || count >= budget) continue;
+            const age = entry.rainAge,
+              // A drop recycles outside its visible lifetime; no jump from the
+              // bottom to the top of its cell while it is still opaque.
+              fade = entry.opacity * Math.min(1, age / .08, (1 - age) / .08),
+              idx = count * 6;
+            if (fade <= .001) continue;
+            const [x, y, z] = entry.position;
+            positions[idx] = x; positions[idx + 1] = y; positions[idx + 2] = z;
+            positions[idx + 3] = x - motion.x * .19;
+            positions[idx + 4] = y - precipitation.streak;
+            positions[idx + 5] = z - motion.z * .19;
+            rainAlpha[count * 2] = rainAlpha[count * 2 + 1] = fade;
+            count++;
+          }
+        } else for (let i = 0; i < budget; i++) {
           const seed = rainHash(i + precipitation.seed * 131),
             age =
               ((a.streakClock ?? time * (0.75 + a.rain * 0.55)) + seed * 11) %
@@ -485,8 +553,12 @@ export function createAtmosphere(
           positions[idx + 3] = x - motion.x * 0.19;
           positions[idx + 4] = y - precipitation.streak;
           positions[idx + 5] = z - motion.z * 0.19;
+          rainAlpha[i * 2] = rainAlpha[i * 2 + 1] = 1;
+          count++;
         }
+        rainGeometry.setDrawRange(0, count * 2);
         rainGeometry.attributes.position.needsUpdate = true;
+        rainGeometry.attributes.dropAlpha.needsUpdate = true;
       }
       bolt.visible = !indoor && flash > 0.03;
       boltMaterial.opacity = flash * 0.62;
@@ -501,6 +573,7 @@ export function createAtmosphere(
         moon: moon.intensity,
         shadow: sun.intensity > 0.08,
         rain: rain.visible ? count : 0,
+        airCoverage: !indoor && camera ? { ...(rain.visible ? rainField.stats : { active: 0, count: 0 }), enabled: rain.visible, submitted: count, budget, viewCapacity, visibleArea, worldSpace: true, depthTest: true } : null,
         wind: indoor ? 0 : motion.wind,
         flash,
         wetness: a.wetness,

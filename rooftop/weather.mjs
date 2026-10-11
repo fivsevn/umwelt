@@ -1,5 +1,7 @@
 import { SEASONS, seasonAt, seasonalProfile } from "./seasons.mjs";
 import { rainShape } from "./precipitation.mjs";
+import { canonicalWeatherCondition } from "./weather-condition.mjs";
+export { canonicalWeatherCondition } from "./weather-condition.mjs";
 import {
   lightingProfile,
   weatherMotion,
@@ -16,16 +18,6 @@ export const WEATHER = [
     fog: 0,
     tint: "#c8ba91",
     shade: 0.025,
-  },
-  {
-    id: "cloudy",
-    name: "多云",
-    wind: 0.55,
-    rain: 0,
-    cloud: 0.6,
-    fog: 0,
-    tint: "#737c7c",
-    shade: 0.065,
   },
   {
     id: "overcast",
@@ -176,15 +168,15 @@ export function timeOfDay(hour) {
 export function automaticWeather(milliseconds) {
   const sequence = [
     "clear",
-    "cloudy",
+    "overcast",
     "wind",
     "overcast",
     "thunderstorm",
     "rain",
     "typhoon",
-    "cloudy",
+    "overcast",
     "rain",
-    "cloudy",
+    "overcast",
     "mist",
     "clear",
     "heavy",
@@ -211,6 +203,7 @@ export function blendColor(a, b, t) {
   );
 }
 export function weatherProfile(condition, phase, season = seasonAt()) {
+  condition = canonicalWeatherCondition(condition);
   const w = WEATHER.find((w) => w.id === condition) || WEATHER[0],
     p = TIMES.find((p) => p.id === phase) || TIMES.find((p) => p.id === "day");
   const light = lightingProfile(w, p.id, season);
@@ -236,11 +229,9 @@ export function weatherProfile(condition, phase, season = seasonAt()) {
     sun:
       w.id === "clear"
         ? Math.max(0, 1 - p.night * 1.5)
-        : w.id === "cloudy"
-          ? 0.35 * Math.max(0, 1 - p.night * 1.5)
-          : w.id === "wind" || w.id === "mist"
-            ? 0.3 * Math.max(0, 1 - p.night * 1.5)
-            : 0,
+        : w.id === "wind" || w.id === "mist"
+          ? 0.3 * Math.max(0, 1 - p.night * 1.5)
+          : 0,
   };
 }
 export function makeWeather({
@@ -250,6 +241,7 @@ export function makeWeather({
   now = () => new Date(),
   manualTransition = 8,
 } = {}) {
+  condition = canonicalWeatherCondition(condition);
   let choices = {
       condition: WEATHER.some((w) => w.id === condition) ? condition : "auto",
       phase: TIMES.some((p) => p.id === phase) ? phase : "auto",
@@ -331,11 +323,13 @@ export function makeWeather({
       return { ...current };
     },
     set(key, value) {
-      if (key === "condition")
+      if (key === "condition") {
+        value = canonicalWeatherCondition(value);
         choices.condition =
           value === "auto" || WEATHER.some((w) => w.id === value)
             ? value
             : "auto";
+      }
       if (key === "phase")
         choices.phase =
           value === "auto" || TIMES.some((p) => p.id === value)
@@ -533,7 +527,7 @@ export function paintSky(c, bounds, state, time, { reduced = false } = {}) {
   // Small flocks pass through the open air, hidden naturally behind the city and roof.
   if (
     !night &&
-    ["clear", "cloudy", "wind"].includes(state.condition) &&
+    ["clear", "wind"].includes(state.condition) &&
     state.rain < 0.2
   ) {
     const pass = Math.floor(time / 65),

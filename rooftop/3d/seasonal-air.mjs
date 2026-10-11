@@ -1,5 +1,7 @@
 import { SEASONS, seasonalParticle, seasonalStrength } from "../seasons.mjs";
 import { BACKGROUND } from "../assets/background/empty-rooftop.mjs";
+import { resolvePixelGrid, pixelGridBufferSize } from "./pixel-grid.mjs";
+import { createVisibleAirField } from "./visible-air.mjs";
 
 export const SPRING_CATKIN_COUNT = 16;
 const wrap = value => ((value % 1) + 1) % 1;
@@ -34,6 +36,34 @@ export function springCatkin(i, time, wind = .32, reduced = false) {
     color: ["#eee9d6", "#e5e0cb", "#f1ecda"][i % 3],
     opacity: (.68 + seedHash(i * 71 + 43) * .19) * (.92 + Math.sin(t * .09 + secondPhase) * .08),
   };
+}
+
+// The trajectory lives in world axes around a stable world-cell identity. Camera
+// movement chooses which identities need drawing; it never carries a seed along.
+export function seasonalWorldSample(season, seed, anchor, time, wind = .32, reduced = false, name = "north") {
+  const p = season === "spring" ? springCatkin(seed, time, wind, reduced) : seasonalParticle(season, seed, time, wind, reduced),
+    spanX = name === "south" ? 12 : 27, spanZ = name === "south" ? 24 : 25,
+    height = season === "spring" ? 5.5 : season === "summer" ? 10 : 12,
+    edge = (value, width) => Math.max(0, Math.min(1, value / width, (1 - value) / width)),
+    // Falling paths fade before the floor-to-sky reset. Catkins wrap only
+    // horizontally; insects orbit continuously without any reset.
+    cycleOpacity = season === "summer" ? 1 : edge(p.x, .07) * edge(p.z, .05) * (season === "spring" ? 1 : edge(p.y, .07));
+  return {
+    ...p,
+    position: [anchor[0] + (p.x - .5) * spanX,
+      anchor[1] + (p.y - (season === "spring" ? .4 : season === "summer" ? .16 : .5)) * height,
+      anchor[2] + (p.z - .5) * spanZ],
+    cycleOpacity,
+  };
+}
+
+function uploadActive(geometry, count, keys) {
+  for (const key of keys) {
+    const attribute = geometry.attributes[key];
+    attribute.clearUpdateRanges();
+    attribute.addUpdateRange(0, count * attribute.itemSize);
+    attribute.needsUpdate = true;
+  }
 }
 
 // Four cached, tiny point buffers. Pixel silhouettes are shader code, never
@@ -101,42 +131,108 @@ export function createSeasonalAir(T, scene, renderer) {
     });
     const points = new T.Points(geometry, material);
     points.frustumCulled = false; points.visible = false; scene.add(points);
-    return {...s, count, points, geometry, uniforms, positions, colors, sizes, kinds, angles, veils};
+    const field = createVisibleAirField(T, {
+      capacity: count, seed: SEASONS.indexOf(s) * 977 + 83,
+      cellSize: s.id === "spring" ? 10 : s.id === "summer" ? 4 : 8,
+      nearDistance: 2,
+      // Small insects belong beside roofs and plants, rather than being
+      // duplicated high in the open sky of a distant camera.
+      ...(s.id === "summer" ? { boundsY: [-2, 3] } : {}),
+    });
+    return {...s, count, points, geometry, uniforms, positions, colors, sizes, kinds, angles, veils, field,
+      identities: Array(count).fill(null)};
   });
   let stats = {};
   return {
     points: groups.map(g => g.points),
-    update(name, state, time, reduced, mood = {}) {
+    update(name, state, time, reduced, mood = {}, camera, cameraOptions = {}) {
       renderer.getDrawingBufferSize(viewport);
+      const grid = resolvePixelGrid(Number(renderer.domElement?.dataset?.pixelRatio) || 1),
+        sourceHeight = pixelGridBufferSize(viewport.x, viewport.y, grid).source[1];
       let count = 0; const effects = [];
       for (const g of groups) {
         const strength = name === "room" ? 0 : seasonalStrength(state, g.id);
         g.points.visible = strength > .01;
-        if (!g.points.visible) continue;
+        if (!g.points.visible) {
+          g.geometry.setDrawRange(0, 0);
+          continue;
+        }
         g.uniforms.strength.value = strength;
-        g.uniforms.viewportHeight.value = viewport.y;
+        g.uniforms.viewportHeight.value = sourceHeight;
         g.uniforms.skyInk.value.set(state.ambientColor || "#d3e3ec").lerp(color.set("#ffffff"), .35);
         g.uniforms.sunInk.value.set(state.sunColor || "#fff5df").lerp(color.set("#ffffff"), .2);
         g.uniforms.sunlight.value = Math.min(1, (state.direct || 0) / 1.42);
         g.uniforms.brightness.value = .65 + Math.min(.35, (state.ambient || .5) * .35) - (state.night || 0) * .23;
         const metres = BACKGROUND.texelMetresPerUnit || [1, 1, 1];
         g.uniforms.physicalScale.value.set(name === "south" ? metres[2] : metres[0], metres[1], name === "south" ? metres[0] : metres[2]);
+        if (camera) {
+          const distance = cameraOptions.targetDistance ?? Math.hypot(camera.position.x, camera.position.y - 1, camera.position.z),
+            maxDistance = Math.min(320, Math.max(32, distance + 24)),
+            halfX = name === "south" ? 6 : 13.5, halfZ = name === "south" ? 12 : 12.5;
+          const entries = g.field.update(camera, time, {
+            maxDistance,
+            ndcEllipse: cameraOptions.ndcEllipse,
+            ...(g.id === "summer" ? { bounds: [-halfX - halfX, -2, -halfZ - halfZ, halfX + halfX, 3, halfZ + halfZ] } : {}),
+            sample(entry, at) {
+              const p = seasonalWorldSample(g.id, entry.seed, entry.anchor, at, state.wind, reduced, name);
+              if (g.id === "summer") {
+                const [x, y, z] = p.position, halfX = name === "south" ? 6 : 13.5, halfZ = name === "south" ? 12 : 12.5;
+                if (Math.abs(x) > halfX || Math.abs(z) > halfZ || y < .18 || y > 3)
+                  return null;
+                p.cycleOpacity *= Math.max(0, Math.min(1, (halfX - Math.abs(x)) / 1.5, (halfZ - Math.abs(z)) / 1.5, (y - .18) / .25, (3 - y) / .25));
+              }
+              return p;
+            },
+          });
+          let active = 0, pigmentChanged = false;
+          for (const entry of entries) {
+            const p = entry.sample, j = active * 3;
+            if (!p || !entry.position || entry.opacity <= 0) continue;
+            g.positions.set(entry.position, j);
+            if (g.identities[active] !== entry.id) {
+              color.set(p.color).toArray(g.colors, j);
+              g.sizes[active] = p.size;
+              g.kinds[active] = p.kind;
+              g.identities[active] = entry.id;
+              pigmentChanged = true;
+            }
+            g.angles[active] = p.angle;
+            g.veils[active] = (p.opacity ?? 1) * p.cycleOpacity * entry.opacity;
+            active++;
+          }
+          g.geometry.setDrawRange(0, active);
+          g.points.visible = active > 0;
+          if (active) uploadActive(g.geometry, active, ["position", "angle", "veil", ...(pigmentChanged ? ["pigment", "diameter", "kind"] : [])]);
+          count += active;
+          effects.push({season: g.id, effect: g.effect, count: active, budget: g.count,
+            strength, brightness: g.uniforms.brightness.value, field: g.field.stats,
+            sample: entries.filter(entry => entry.opacity > 0).slice(0, 3).map(entry => ({
+              id: entry.id, seed: entry.seed, anchor: [...entry.anchor], position: [...entry.position], fade: entry.fade, opacity: entry.opacity,
+            }))});
+          continue;
+        }
+        // Compatibility for the non-camera test/fallback caller. The actual 3D
+        // renderer supplies its current camera and uses the world field above.
         // South balcony is narrower; particles remain close to its actual roof.
         const spanX = name === "south" ? 12 : 27, spanZ = name === "south" ? 24 : 25;
+        g.identities.fill(null);
         for (let i = 0; i < g.count; i++) {
           const p = g.id === "spring" ? springCatkin(i, time, state.wind, reduced) : seasonalParticle(g.id, i, time, state.wind, reduced), j = i * 3;
           g.positions[j] = (p.x - .5) * spanX;
           g.positions[j + 1] = .18 + p.y * (g.id === "spring" ? 5.5 : g.id === "summer" ? 10 : 12);
           g.positions[j + 2] = (p.z - .5) * spanZ;
+          color.set(p.color).toArray(g.colors, j);
+          g.sizes[i] = p.size;
+          g.kinds[i] = p.kind;
           g.angles[i] = p.angle;
-          if (g.id === "spring") g.veils[i] = p.opacity * Math.min(1, p.x / .07, (1 - p.x) / .07, p.z / .05, (1 - p.z) / .05);
+          g.veils[i] = g.id === "spring" ? p.opacity * Math.min(1, p.x / .07, (1 - p.x) / .07, p.z / .05, (1 - p.z) / .05) : 1;
         }
-        g.geometry.attributes.position.needsUpdate = true;
-        g.geometry.attributes.angle.needsUpdate = true;
-        if (g.id === "spring") g.geometry.attributes.veil.needsUpdate = true;
+        uploadActive(g.geometry, g.count, ["position", "pigment", "diameter", "kind", "angle", "veil"]);
+        g.geometry.setDrawRange(0, g.count);
         count += g.count; effects.push({season:g.id, effect:g.effect, count:g.count, strength, brightness:g.uniforms.brightness.value});
       }
-      stats = { season: state.season, count, effects, afterRain:mood.afterRain || 0, sample: groups.filter(g=>g.points.visible).map(g=>Array.from(g.positions.slice(0,6))) };
+      stats = { season: state.season, count, effects, spatial: Boolean(camera), afterRain:mood.afterRain || 0,
+        sample: groups.filter(g=>g.points.visible).map(g=>Array.from(g.positions.slice(0, Math.min(2, g.geometry.drawRange.count) * 3))) };
     },
     get stats() { return stats; },
   };
