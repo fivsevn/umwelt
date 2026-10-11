@@ -10,9 +10,9 @@ import {
   clearPlacement,
   createPlacementContext,
 } from "./3d/spatial-layout.mjs";
-import { BALCONY_EXTRAS, paintBalconyExtra } from "./balcony-extras.mjs";
 import { paintRoomBase } from "./room-scene.mjs";
 import { INITIAL_LAYOUT } from "./initial-layout.mjs";
+import { ITEMS, ITEM_CATALOG_REVISION, ITEM_METRES_TO_UNITS, canonicalItemId, getItemDefinition } from "./item-catalog.mjs";
 import { paintDongdong } from "./dongdong.mjs";
 import { weatherAction } from "./resident-weather.mjs";
 import { weatherActivity } from "./atmosphere.mjs";
@@ -22,7 +22,6 @@ import {
   paintStyledView,
   paintStyledForeground,
 } from "./styled-views.mjs";
-import { objectReferences, MODEL_REFERENCES } from "./object-references.mjs";
 import {
   facingKind,
   facingBounds,
@@ -30,13 +29,11 @@ import {
   hasForeground,
   paintFacingForeground,
 } from "./facing.mjs";
-import { OBJECTS, LEGACY_DETAILS, paintDetail } from "./objects.mjs";
 import { plantSeed } from "./plant-seed.mjs";
 import { paintCity } from "./city.mjs";
 import { PLANTS, POTS, plant, vessel } from "./botany.mjs";
 import { paintPlant, paintVessel, plantContact } from "./plant-art.mjs";
-import { FURNITURE, paintFurniture } from "./furniture.mjs";
-import { WEAPONS, paintWeapon } from "./weapons.mjs";
+import { WEAPONS } from "./weapons.mjs";
 // All scenery is painted on an integer canvas. No bitmap assets or external dependencies.
 export const VERSION = 2;
 export const DOORS = {
@@ -88,106 +85,29 @@ export const SCENES = {
     spawn: [246, 376],
   },
 };
-const LEGACY_ASSETS = [
-  ["barrel", "金琥", "仙人掌", 24, 24],
-  ["column", "柱状仙人掌", "仙人掌", 18, 23],
-  ["bunny", "兔耳仙人掌", "仙人掌", 19, 20],
-  ["cluster", "群生仙人掌", "仙人掌", 25, 21],
-  ["trailing", "猴尾柱", "仙人掌", 24, 30],
-  ["aloe", "芦荟", "多肉", 26, 23],
-  ["rosette", "莲座多肉", "多肉", 20, 19],
-  ["pink", "粉色石莲", "多肉", 20, 18],
-  ["jade", "玉树", "多肉", 25, 26],
-  ["sedum", "景天拼盆", "多肉", 30, 20],
-  ["mint", "薄荷", "草木", 24, 22],
-  ["rosemary", "迷迭香", "草木", 20, 26],
-  ["fern", "蕨类", "草木", 28, 25],
-  ["broadleaf", "大叶植物", "草木", 30, 28],
-  ["yucca", "丝兰", "草木", 32, 36],
-  ["vine", "垂藤", "草木", 23, 28],
-  ["flower", "季节小花", "草木", 22, 24],
-  ["grass", "葱与细叶草", "草木", 20, 23],
-  ["moss", "苔藓浅盘", "苔藓与水", 28, 17],
-  ["mossbox", "白色苔藓箱", "苔藓与水", 36, 21],
-  ["fish", "小鱼缸", "苔藓与水", 36, 25],
-  ["pond", "圆水盆", "苔藓与水", 31, 25],
-  ["terrarium", "蓝框保湿柜", "器具", 66, 35],
-  ["shelf", "黑色花架", "器具", 64, 28],
-  ["woodshelf", "木阶花架", "器具", 52, 40],
-  ["bench", "木凳", "器具", 40, 19],
-  ["sink", "不锈钢水槽", "器具", 52, 29],
-  ["basin", "蓝色水池台", "器具", 64, 32],
-  ["table", "工作台", "器具", 58, 30],
-  ["drying", "折叠晾衣架", "器具", 28, 66],
-  ["watering", "浇水壶", "小物", 16, 18],
-  ["bucket", "水桶", "小物", 19, 21],
-  ["crate", "蓝色收纳箱", "小物", 30, 22],
-  ["redbox", "红色方盆", "小物", 28, 22],
-  ["pot", "空陶盆", "小物", 20, 18],
-  ["tools", "园艺工具", "小物", 25, 15],
-  ["hose", "盘管", "小物", 25, 23],
-  ["teaset", "一套茶具", "小物", 30, 18],
-  ["pigbowl", "小猪的饭碗", "小物", 18, 12],
-  ["stool", "小板凳", "小物", 20, 18],
-].map(([id, name, category, w, h]) => ({ id, name, category, w, h }));
-export const ASSETS = [
-  ...PLANTS.map((p) => ({ ...p, plant: true })),
-  ...LEGACY_ASSETS.filter((a) => !plant(a.id)).map((a) => ({
-    ...a,
-    note: "北天台日常园艺物件，按实物结构绘制。",
-    care: "放在稳固平面上，留出日常使用空间。",
-    sources: [],
-    ...LEGACY_DETAILS[a.id],
-    ...(["shelf", "woodshelf", "bench", "table", "stool"].includes(a.id)
-      ? { furniture: true, category: "家具" }
-      : {}),
-  })),
-  ...FURNITURE.map((a) => ({ ...a })),
-  ...OBJECTS.map((a) => ({ ...a })),
-  ...BALCONY_EXTRAS.map((a) => ({ ...a })),
-  ...WEAPONS.map((a) => ({ ...a })),
-  ...POTS.map((p) => ({
-    id: "vessel-" + p.id,
-    name: p.name,
-    category: p.kind === "decorative" ? "器具" : "花盆",
-    note: p.note,
-    w: 32,
-    h: 24,
-    vessel: p.id,
-  })),
-];
-for (const a of ASSETS)
-  if (!a.plant) {
-    if (MODEL_REFERENCES[a.id]) a.note = MODEL_REFERENCES[a.id].note;
-    const refs = [
-      ...(a.sources || []),
-      ...(a.vessel ? vessel(a.vessel).sources || [] : []),
-      ...objectReferences(a),
-    ];
-    a.sources = refs.filter(
-      (r, i) => refs.findIndex((other) => other.url === r.url) === i,
-    );
-  }
-// Space roles are assigned once, independently from historical drawing labels.
-for (const a of ASSETS) {
-  a.placement = placementKind(a.id);
-  if (!a.plant) a.category = a.placement.category;
-}
-ASSETS.sort(
-  (a, b) =>
-    Number(!!b.plant) - Number(!!a.plant) ||
-    a.placement.order - b.placement.order,
-);
-export const CATALOG_CATEGORIES = [
-  "全部",
-  ...new Set(ASSETS.map((a) => a.category)),
-];
-// Catalogue lookup is shared by rendering, placement and save validation.
-const assetIndex = new Map(ASSETS.map((a) => [a.id, a]));
-export const asset = (id) => assetIndex.get(id);
-export function initialLayout() {
-  return { ...structuredClone(INITIAL_LAYOUT), spaceVersion: 1 };
-}
+export const ASSETS = ITEMS.map(item => {
+  const botanical = item.botany || {};
+  const weapon = WEAPONS.find(w => w.id === item.id) || {};
+  const nativeWidth = (item.width * .819 + item.depth * .574) * ITEM_METRES_TO_UNITS * 16;
+  const nativeHeight = (item.height * .914 + (item.width * .574 + item.depth * .819) * .406) * ITEM_METRES_TO_UNITS * 16;
+  return {...botanical, ...weapon, ...item,
+    modelFamily:item.family, family:botanical.family || item.family,
+    plant:item.category === "植物", weapon:!!item.weapon,
+    aquarium:!!item.filled && item.waterLevel!==undefined,
+    light:["tasklamp","solar-lamp","tin-lantern","string-lights"].includes(item.id),
+    botanicalCategory:botanical.category || item.botanicalCategory,
+    vessel:item.originalVesselId || item.originalVesselRecord?.id,
+    furniture:["架子","桌椅与居室"].includes(item.category),
+    w:item.category === "植物" ? botanical.w : Math.max(10,nativeWidth),
+    h:item.category === "植物" ? botanical.h : Math.max(10,nativeHeight),
+    placement:placementKind(item.id)};
+});
+ASSETS.sort((a,b)=>a.placement.order-b.placement.order);
+export const CATALOG_CATEGORIES = ["全部", "植物", ...new Set(PLANTS.map(p=>p.category)), ...new Set(ASSETS.filter(a=>!a.plant).map(a=>a.category))];
+export const catalogMatchesCategory = (item,category) => category==='全部'||item.category===category||!!item.plant&&item.botanicalCategory===category;
+const assetIndex = new Map(ASSETS.map(a=>[a.id,a]));
+export const asset = id => assetIndex.get(canonicalItemId(id));
+export function initialLayout() { return structuredClone(INITIAL_LAYOUT); }
 export function inside(scene, x, y, margin = 0) {
   const pts = SCENES[scene].points;
   let hit = false;
@@ -225,7 +145,12 @@ export function dimensions(o) {
   return { w: (turn ? a.h : a.w) * o.scale, h: (turn ? a.w : a.h) * o.scale };
 }
 export function displayBounds(o) {
-  const a = asset(o.type),
+  const a = asset(o.type);
+  if(!a.plant) {
+    const projection=a.thumbnailProjection,k=ITEM_METRES_TO_UNITS*16*o.scale;
+    return projection?{left:projection.min[0]*k,right:projection.max[0]*k,top:projection.min[1]*k,bottom:projection.max[1]*k}:{left:-a.w*o.scale/2,right:a.w*o.scale/2,top:-a.h*o.scale,bottom:2*o.scale};
+  }
+  const
     d = styledView(a, o.rotation),
     b = d
       ? {
@@ -246,8 +171,8 @@ function bearingPoints(o) {
     d = p.groundD * 16,
     points = [];
   const point = (x, z) => [
-    o.x + x * Math.cos(a) - z * Math.sin(a),
-    o.y + contactOffset(o) + x * Math.sin(a) + z * Math.cos(a),
+    o.x + (x+(p.groundX||0)*16) * Math.cos(a) - (z+(p.groundZ||0)*16) * Math.sin(a),
+    o.y + contactOffset(o) + (x+(p.groundX||0)*16) * Math.sin(a) + (z+(p.groundZ||0)*16) * Math.cos(a),
   ];
   if (p.circle)
     return Array.from({ length: 32 }, (_, i) =>
@@ -346,128 +271,14 @@ function fitsFootprint(scene, o, a) {
     [w / 2, h / 2],
   ].every(([dx, dy]) => inside(scene, o.x + dx, o.y + dy, 3));
 }
-// Older saves had no explicit bearing relationship and used a smaller floor
-// contact. Move only legacy roots, carrying their inferred contents together.
-function migrateLegacyContacts(scene, objects) {
-  const relations = resolveSupports(objects);
-  for (let i = 0; i < objects.length; i++) {
-    const o = objects[i];
-    if (
-      o.support !== undefined ||
-      relations.get(o.id)?.parentId ||
-      groundFits(scene, o)
-    )
-      continue;
-    const next = resizedObject(scene, o, o.scale, objects);
-    const limit = scene === "room" ? 32 : 8;
-    if (!next || Math.hypot(next.x - o.x, next.y - o.y) > limit) continue;
-    const migrated = movedArrangement(objects, o.id, { x: next.x, y: next.y });
-    for (let j = 0; j < objects.length; j++) objects[j] = migrated[j];
-  }
-}
-// The old 2D-derived stair treads were only 10 px deep. The new geometry can
-// carry ordinary pots. Migrate explicit tier contacts once and nudge/resize only
-// these enlarged roots when an old edge placement no longer fits.
-function migrateStairFurniture(scene, objects) {
-  for (const parent of objects.filter((o) =>
-    ["woodshelf", "ladderstand"].includes(o.type),
-  )) {
-    const oldDepth = parent.type === "woodshelf" ? 29 : 26,
-      newDepth = 84;
-    for (const child of objects.filter((o) => o.support?.id === parent.id)) {
-      const level = { lower: 1, middle: 0, upper: -1 }[child.support.surface];
-      if (level === undefined) continue;
-      const delta = ((newDepth - oldDepth) / 3) * parent.scale * level,
-        a = (parent.rotation * Math.PI) / 180;
-      const ids = new Set([child.id]);
-      let added = true;
-      while (added) {
-        added = false;
-        for (const o of objects)
-          if (ids.has(o.support?.id) && !ids.has(o.id)) {
-            ids.add(o.id);
-            added = true;
-          }
-      }
-      for (const o of objects)
-        if (ids.has(o.id)) {
-          o.x -= Math.sin(a) * delta;
-          o.y += Math.cos(a) * delta;
-        }
-    }
-    if (fits(scene, parent, objects)) continue;
-    let next = resizedObject(scene, parent, parent.scale, objects, 64);
-    for (let scale = parent.scale - 0.05; !next && scale >= 0.5; scale -= 0.05)
-      next = resizedObject(
-        scene,
-        parent,
-        Math.round(scale * 100) / 100,
-        objects,
-        64,
-      );
-    if (next) {
-      const moved = movedArrangement(objects, parent.id, {
-        x: next.x,
-        y: next.y,
-        scale: next.scale,
-      });
-      moved.forEach((o, i) => (objects[i] = o));
-    }
-  }
-}
-function migrateSpaceBindings(scene, objects) {
-  const filled = new Set([
-    "fish",
-    "pond",
-    "moss",
-    "mossbox",
-    "seedtray",
-    "foambox",
-    "medakabowl",
-    "goldfishbowl",
-    "fishbox",
-  ]);
-  for (let i = 0; i < objects.length; i++) {
-    const o = objects[i];
-    if (!o.support) continue;
-    const parent = objects.find((p) => p.id === o.support.id);
-    if (!parent) continue;
-    if (
-      ["sink", "basin"].includes(parent.type) &&
-      ["front", "back"].includes(o.support.surface)
-    ) {
-      const next = placeOnSurface(objects, o.id, parent.id, "counter");
-      if (next) objects[i] = next;
-    } else if (parent.type === "foamstand" && o.support.surface === "soil") {
-      const next = placeOnSurface(objects, o.id, parent.id, "top");
-      if (next) objects[i] = next;
-    } else if (filled.has(parent.type) && !supportSurfaces(parent).length) {
-      // Earlier releases offered the already filled surface as an empty cavity.
-      // Rehome that individual item; never reset the rest of a user's layout.
-      const grand = parent.support;
-      const next =
-        grand && placeOnSurface(objects, o.id, grand.id, grand.surface);
-      if (next) objects[i] = next;
-      else {
-        const own = physicalFootprint(o),
-          body = physicalFootprint(parent),
-          distance = (own.groundW + body.groundW) * 8 + 3;
-        const candidate = { ...o, x: parent.x + distance, support: null };
-        objects[i] = resizedObject(scene, candidate, o.scale, objects) || {
-          ...o,
-          support: null,
-        };
-      }
-    }
-  }
-}
 export function validateLayout(data) {
   if (!data || ![1, VERSION].includes(data.version) || !data.scenes)
     throw Error("布局版本不正确");
   const clean = {
     version: VERSION,
     roomVersion: 2,
-    spaceVersion: 1,
+    spaceVersion: 2,
+    catalogRevision: ITEM_CATALOG_REVISION,
     scenes: {},
   };
   for (const scene of Object.keys(SCENES)) {
@@ -487,7 +298,7 @@ export function validateLayout(data) {
       .map((o) => (removed.has(o?.support?.id) ? { ...o, support: null } : o));
     const ids = new Set();
     clean.scenes[scene] = list.map((raw) => {
-      let o = raw;
+      let o = raw && { ...raw, type: canonicalItemId(raw.type) || raw.type };
       if (
         scene === "room" &&
         data.scenes.room &&
@@ -565,13 +376,22 @@ export function validateLayout(data) {
       return next;
     });
     const objects = clean.scenes[scene];
-    if (data.spaceVersion !== 1) migrateStairFurniture(scene, objects);
-    migrateSpaceBindings(scene, objects);
-    migrateLegacyContacts(scene, objects);
+    // New native contacts and surfaces are already authoritative.
+    // The empty-baseline migration runs at the storage boundary before this.
+    if (data.catalogRevision !== ITEM_CATALOG_REVISION) {
+      for (const o of objects) if (o.support) {
+        const parent=objects.find(p=>p.id===o.support.id), surfaces=parent&&supportSurfaces(parent);
+        if (surfaces && !surfaces.some(s=>s.id===o.support.surface)) {
+          const index=/upper|top/.test(o.support.surface)?surfaces.length-1:/middle/.test(o.support.surface)?1:0;
+          if(surfaces[index])o.support.surface=surfaces[index].id;
+          else o.support=null;
+        }
+      }
+    }
     for (let i = 0; i < objects.length; i++) {
       const o = objects[i];
       if (fits(scene, o, objects)) continue;
-      const legacy = LEGACY_ASSETS.find((a) => a.id === o.type),
+      const legacy = PLANTS.find((a) => a.id === o.type),
         old = list[i];
       if (
         (data.version === 1 && scene === "south") ||
@@ -943,81 +763,13 @@ export function paintBase(c, scene, { includeCity = true } = {}) {
     }
   paintDoor(c, scene);
 }
-function paintGroundDetail(c, a, rotation, time) {
-  if (!rotation) {
-    if (a.weapon) paintWeapon(c, a);
-    else paintDetail(c, a, time);
-    return;
-  }
-  const size = Math.ceil((Math.max(a.w, a.h) + 32) / 2) * 2,
-    cv =
-      typeof OffscreenCanvas !== "undefined"
-        ? new OffscreenCanvas(size, size)
-        : document.createElement("canvas");
-  cv.width = cv.height = size;
-  const source = cv.getContext("2d");
-  source.translate(size / 2, size / 2);
-  if (a.weapon) paintWeapon(source, a);
-  else paintDetail(source, a, time);
-  const d = source.getImageData(0, 0, size, size).data,
-    r = (rotation * Math.PI) / 180,
-    cos = Math.round(Math.cos(r)),
-    sin = Math.round(Math.sin(r));
-  for (let y = 0; y < size; y++)
-    for (let x = 0; x < size; x++) {
-      const i = (y * size + x) * 4;
-      if (!d[i + 3]) continue;
-      const u = x - size / 2,
-        v = y - size / 2;
-      c.fillStyle = a.weapon
-        ? `rgba(${d[i]},${d[i + 1]},${d[i + 2]},${d[i + 3] / 255})`
-        : `rgb(${d[i]},${d[i + 1]},${d[i + 2]})`;
-      c.fillRect(
-        Math.round(u * cos - (v / 0.6) * sin),
-        Math.round(u * 0.6 * sin + v * cos),
-        sin ? 2 : 1,
-        1,
-      );
-    }
-}
 function paintObjectPixels(c, o, time = 0, selected = false) {
   const a = asset(o.type);
   c.save();
   c.translate(Math.round(o.x), Math.round(o.y));
   c.scale(o.scale, o.scale);
-  if (a.plant) {
-    c.rotate((o.rotation * Math.PI) / 180);
-    paintPlant(c, o);
-  } else if (paintBalconyExtra(c, a)) {
-  } else if (facingKind(a) === "flat") {
-    if (["lid", "hose"].includes(a.shape || a.id))
-      paintDetail(c, { ...a, rotation: o.rotation }, time);
-    else paintGroundDetail(c, a, o.rotation, time);
-  } else if (paintStyledView(c, a, o.rotation, time)) {
-  } else if (o.rotation && paintFacing(c, a, o.rotation, time)) {
-  } else if (paintDetail(c, { ...a, rotation: o.rotation }, time)) {
-  } else if (a.furniture) paintFurniture(c, o.type, a.w, a.h);
-  else if (a.vessel) {
-    const v = vessel(a.vessel);
-    paintVessel(
-      c,
-      v,
-      0,
-      ["oval", "box", "mokko"].includes(v.shape) && o.rotation % 180 ? 20 : 28,
-    );
-  } else if (o.type === "drying") {
-    for (const x of [-10, 10]) {
-      rect(c, x, -30, 2, 60, "#58685a");
-      rect(c, x + 1, -30, 1, 60, "#96a080");
-    }
-    for (const y of [-29, 27]) {
-      rect(c, -14, y, 28, 3, "#83957a");
-      rect(c, -14, y + 2, 28, 1, "#5f675b");
-    }
-    line(c, -9, -27, 10, 26, "#6e7d67");
-    line(c, 10, -27, -9, 26, "#8d9d7d");
-    for (let y = -22; y < 23; y += 7) rect(c, -11, y, 24, 1, "#7f9173");
-  } else throw Error("缺少物件绘制：" + o.type);
+  c.rotate((o.rotation * Math.PI) / 180);
+  paintPlant(c, o);
   c.restore();
   if (selected) {
     const d = dimensions(o);
@@ -1047,7 +799,30 @@ function paintObjectPixels(c, o, time = 0, selected = false) {
 }
 // Raster bounds keep the small contact shadow beneath the actual artwork after any turn.
 const objectSprites = new Map();
+const nativeThumbnails = new Map();
+function nativeThumbnail(a) {
+  if(typeof Image==='undefined')return null;
+  if(!nativeThumbnails.has(a.thumbnail)) {const image=new Image();image.src=new URL(a.thumbnail,import.meta.url).href;nativeThumbnails.set(a.thumbnail,image);}
+  return nativeThumbnails.get(a.thumbnail);
+}
+export async function warmItemThumbnails(types=ASSETS.filter(a=>!a.plant).map(a=>a.id)) {
+  await Promise.all(types.map(type=>{const image=nativeThumbnail(asset(type));return image?.decode();}));
+}
+function paintNativeThumbnail(c,o,selected) {
+  const a=asset(o.type),image=nativeThumbnail(a),projection=a.thumbnailProjection;
+  const ratio=projection?projection.metresPerPixel*ITEM_METRES_TO_UNITS*16*o.scale:Math.max(a.w,a.h)*o.scale/144;
+  const size=144*ratio,left=o.x-(projection?.anchor[0]??72)*ratio,top=o.y-(projection?.anchor[1]??115.2)*ratio;
+  c.save();c.imageSmoothingEnabled=false;
+  if(image?.complete&&image.naturalWidth) c.drawImage(image,Math.round(left),Math.round(top),Math.round(size),Math.round(size));
+  else {
+    // A bounded loading mark never impersonates a retired furniture model.
+    c.fillStyle='#938675';c.fillRect(Math.round(o.x-a.w*o.scale/2),Math.round(o.y-4*o.scale),Math.round(a.w*o.scale),Math.max(2,Math.round(4*o.scale)));
+  }
+  if(selected){const b=displayBounds(o);c.strokeStyle='#b8ac83';c.strokeRect(o.x+b.left-2,o.y+b.top-2,b.right-b.left+4,b.bottom-b.top+4)}
+  c.restore();
+}
 export function paintObject(c, o, time = 0, selected = false, weather = null) {
+  if(!asset(o.type).plant) {paintNativeThumbnail(c,o,selected);return;}
   const a = asset(o.type),
     key =
       o.type +
@@ -1367,9 +1142,9 @@ export function makeWalker(
     }
     let candidates = objects().filter(
       (o) =>
-        (["bench", "gardenbench", "foldingchair", "stool"].includes(o.type) ||
+        (["wood-round-stool","wood-square-stool","plastic-round-stool","sofa-one","sofa-two"].includes(o.type) ||
           !asset(o.type).furniture) &&
-        !["shelf", "woodshelf", "drying", "crate", "table"].includes(o.type),
+        !["drying-rack","crate-blue","crate-gray","crate-red","wood-square-table"].includes(o.type),
     );
     candidates.sort(
       (a, b) =>
@@ -1477,30 +1252,30 @@ export function makeWalker(
                 ? "south"
                 : "north";
           p.state =
-            target.type === "teaset"
+            target.type === "tea-set"
               ? "tea"
               : target.type === "pigbowl"
                 ? "feed"
-                : ["bench", "gardenbench", "foldingchair", "stool"].includes(
+                : ["wood-round-stool","wood-square-stool","plastic-round-stool","sofa-one","sofa-two"].includes(
                       target.type,
                     )
                   ? "sit"
-                  : ["sink", "basin"].includes(target.type)
+                  : ["steel-sink", "enamel-basin"].includes(target.type)
                     ? "wash"
                     : a.aquarium
                       ? "tend"
                       : a.plant
-                        ? a.category === "仙人掌" || a.category === "多肉"
+                        ? a.botanicalCategory === "仙人掌" || a.botanicalCategory === "多肉"
                           ? "inspect"
                           : ["water", "prune", "inspect"][p.visits % 3]
                         : [
-                              "sink",
-                              "basin",
-                              "terrarium",
-                              "thermometer",
+                              "radio-small",
+                              "tin-lantern",
+                              "tasklamp",
+                              "watering-can",
                             ].includes(target.type)
                           ? "wipe"
-                          : ["tools", "soilbag", "labels"].includes(target.type)
+                          : ["trowel", "pruning-shears", "trigger-sprayer"].includes(target.type)
                             ? "inspect"
                             : "sweep";
         } else p.state = "rest";

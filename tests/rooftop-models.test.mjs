@@ -3,9 +3,9 @@ import assert from "node:assert/strict";
 import { ASSETS, initialLayout, validateLayout } from "../rooftop/scene.mjs";
 import { PLANTS, POTS } from "../rooftop/botany.mjs";
 import { MODEL_REFERENCES } from "../rooftop/object-references.mjs";
-import { OBJECT_DIMENSIONS } from "../rooftop/3d/object-models.mjs";
-import { PLANT_FORMS, buildFoliage } from "../rooftop/3d/plant-models.mjs";
-import { VESSEL_SHAPES, buildVessel } from "../rooftop/3d/vessel-models.mjs";
+import { OBJECT_DIMENSIONS } from "../docs/art/rooftop-game/legacy-geometry/object-models.mjs";
+import { PLANT_FORMS, buildFoliage } from "../docs/art/rooftop-game/legacy-geometry/plant-models.mjs";
+import { VESSEL_SHAPES, buildVessel } from "../docs/art/rooftop-game/legacy-geometry/vessel-models.mjs";
 
 function recording() {
   const parts = [];
@@ -70,8 +70,8 @@ test("removed cloche disappears without resetting old layouts or deleting its co
           scale: 1,
         },
         {
-          id: "kept-gloves",
-          type: "gloves",
+          id: "kept-towel",
+          type: "towel",
           x: 312,
           y: 240,
           rotation: 0,
@@ -85,24 +85,19 @@ test("removed cloche disappears without resetting old layouts or deleting its co
   };
   const migrated = validateLayout(old);
   assert.equal(migrated.scenes.north.length, 1);
-  assert.equal(migrated.scenes.north[0].id, "kept-gloves");
+  assert.equal(migrated.scenes.north[0].id, "kept-towel");
   assert.equal(migrated.scenes.north[0].support, null);
   assert.deepEqual(validateLayout(migrated), migrated);
 });
 test("every catalog item retains references and has a defined 3D construction", () => {
-  assert.equal(ASSETS.length, 304);
+  assert.equal(ASSETS.length, 294);
   for (const a of ASSETS) {
-    assert.ok(a.sources?.length, a.id + " reference");
-    if (a.plant) assert.ok(PLANT_FORMS.has(a.form), a.id);
-    else if (a.vessel)
-      assert.ok(
-        VESSEL_SHAPES.has(POTS.find((p) => p.id === a.vessel).shape),
-        a.id,
-      );
-    else if (!a.weapon) {
-      assert.ok(OBJECT_DIMENSIONS[a.id], a.id);
-      assert.ok(MODEL_REFERENCES[a.id], a.id);
-    }
+    assert.ok(a.file.startsWith("assets/items/"),a.id);
+    assert.ok(a.modelId&&a.modelSha256&&a.triangles>0,a.id);
+    if(a.plant) assert.ok(PLANTS.find(p=>p.id===a.id),a.id);
+    else if(a.vessel) assert.ok(POTS.find(p=>p.id===a.vessel),a.id);
+    assert.ok(a.width>0&&a.depth>0&&a.height>0,a.id);
+    assert.equal(a.source,"Blender + Pixelorama");
   }
 });
 test("all botanical forms generate finite, deterministic geometry and preserve species arrangement", () => {

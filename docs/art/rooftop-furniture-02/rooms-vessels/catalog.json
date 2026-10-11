@@ -1,0 +1,1229 @@
+{
+  "texelsPerMetre": 16.0,
+  "items": [
+    {
+      "id": "antique-shino",
+      "name": "志野芒纹浅钵",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "museumDimensionsCm": {
+        "height": 6.4,
+        "diameter": 28
+      },
+      "gameScaleFactor": 2.232142857142857,
+      "sources": [
+        {
+          "label": "MIHO MUSEUM · 志野芒文鉢",
+          "url": "https://www.miho.jp/booth/html/artcon/00000283.htm"
+        }
+      ],
+      "referenceUnknown": [
+        "外壁完整图案",
+        "底足形状与尺寸",
+        "器壁厚度"
+      ],
+      "geometryRebuilt": true,
+      "originalId": "antique-shino",
+      "originalVesselRecord": {
+        "id": "antique-shino",
+        "name": "志野芒纹浅钵",
+        "shape": "shallow",
+        "color": "#d9d0bd",
+        "rim": "#eee1cd",
+        "ink": "#704b37",
+        "pattern": "grass",
+        "kind": "ceramic",
+        "sources": [
+          {
+            "label": "MIHO MUSEUM · 志野芒文鉢",
+            "url": "https://www.miho.jp/booth/html/artcon/00000283.htm"
+          }
+        ],
+        "note": "16世纪桃山时期。按高6.4厘米、径28厘米校准浅阔器形，长石白釉，芒草铁绘位于钵内；游戏中增设排水孔。",
+        "antique": true,
+        "shapeLabel": "古陶瓷风格栽培钵"
+      },
+      "note": "16世纪桃山时期。按高6.4厘米、径28厘米校准浅阔器形，长石白釉，芒草铁绘位于钵内；游戏中增设排水孔。",
+      "adaptationNote": "馆藏器形和已见内外纹饰的原创低多边形园艺转译。",
+      "period": "桃山时代，16世纪",
+      "interiorFloorHeight": 0.055357142857142855,
+      "wallThickness": 0.0225,
+      "rimHeight": 0.14285714285714285,
+      "opening": {
+        "width": 0.58,
+        "depth": 0.58,
+        "shape": "circle"
+      },
+      "hasRealInterior": true,
+      "empty": true,
+      "holes": [
+        {
+          "shape": "circle",
+          "center": [
+            0,
+            0
+          ],
+          "radius": 0.03125
+        }
+      ],
+      "hasRealDrainage": true,
+      "drainageAdaptation": true,
+      "drainageDiameter": 0.0625,
+      "width": 0.625,
+      "depth": 0.625,
+      "height": 0.1428571492433548,
+      "boundsMin": [
+        -0.3125,
+        -0.3125,
+        0.0
+      ],
+      "boundsMax": [
+        0.3125,
+        0.3125,
+        0.1428571492433548
+      ],
+      "file": "assets/antique-shino.glb",
+      "family": "rooms-vessels",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "器物内底",
+          "height": 0.055357142857142855,
+          "width": 0.25075000000000003,
+          "depth": 0.25075000000000003,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "headroom": 0.0875,
+          "rimHeight": 0.14285714285714285,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.03125
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.625,
+        "depth": 0.625
+      },
+      "triangles": 600,
+      "sourceBlend": "rooms-vessels/rooms-vessels.blend",
+      "sourcePixelorama": "rooms-vessels/rooms-vessels-atlas.pxo"
+    },
+    {
+      "id": "antique-nezumi",
+      "name": "鼠志野撇口四方钵",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "museumDimensionsCm": {
+        "height": 5.8,
+        "mouthWidth": 14,
+        "mouthDepth": 14.2
+      },
+      "gameScaleFactor": 3.5714285714285716,
+      "sources": [
+        {
+          "label": "MIHO MUSEUM · 鼠志野向付",
+          "url": "https://www.miho.jp/booth/html/artcon/00000293.htm"
+        }
+      ],
+      "referenceUnknown": [
+        "三足精准位置及足形",
+        "外底与外壁完整图案"
+      ],
+      "geometryRebuilt": true,
+      "originalId": "antique-nezumi",
+      "originalVesselRecord": {
+        "id": "antique-nezumi",
+        "name": "鼠志野撇口四方钵",
+        "shape": "square",
+        "color": "#503d30",
+        "rim": "#654938",
+        "ink": "#e4d8bd",
+        "pattern": "grass",
+        "kind": "ceramic",
+        "sources": [
+          {
+            "label": "MIHO MUSEUM · 鼠志野向付",
+            "url": "https://www.miho.jp/booth/html/artcon/00000293.htm"
+          }
+        ],
+        "note": "16世纪桃山时期。参考高5.8厘米、口径14至14.2厘米的深赤褐釉、白色掻落纹、内卷方口、圆形内底与三足，改作栽培钵。",
+        "antique": true,
+        "shapeLabel": "古陶瓷风格栽培钵"
+      },
+      "note": "16世纪桃山时期。参考高5.8厘米、口径14至14.2厘米的深赤褐釉、白色掻落纹、内卷方口、圆形内底与三足，改作栽培钵。",
+      "adaptationNote": "馆藏器形和已见内外纹饰的原创低多边形园艺转译。",
+      "period": "桃山时代，16世纪",
+      "interiorFloorHeight": 0.06357142857142857,
+      "wallThickness": 0.018,
+      "rimHeight": 0.20714285714285713,
+      "opening": {
+        "width": 0.464,
+        "depth": 0.464,
+        "shape": "round-square"
+      },
+      "hasRealInterior": true,
+      "empty": true,
+      "holes": [
+        {
+          "shape": "circle",
+          "center": [
+            0,
+            0
+          ],
+          "radius": 0.03125
+        }
+      ],
+      "hasRealDrainage": true,
+      "drainageAdaptation": true,
+      "drainageDiameter": 0.0625,
+      "width": 0.5,
+      "depth": 0.5,
+      "height": 0.20714285969734192,
+      "boundsMin": [
+        -0.25,
+        -0.25,
+        0.0
+      ],
+      "boundsMax": [
+        0.25,
+        0.25,
+        0.20714285969734192
+      ],
+      "file": "assets/antique-nezumi.glb",
+      "family": "rooms-vessels",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "器物内底",
+          "height": 0.06357142857142857,
+          "width": 0.18289999999999998,
+          "depth": 0.18289999999999998,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "headroom": 0.14357142857142857,
+          "rimHeight": 0.20714285714285713,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.03125
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.5,
+        "depth": 0.5
+      },
+      "triangles": 532,
+      "sourceBlend": "rooms-vessels/rooms-vessels.blend",
+      "sourcePixelorama": "rooms-vessels/rooms-vessels-atlas.pxo"
+    },
+    {
+      "id": "antique-shino-square",
+      "name": "志野铁绘四方向付",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "museumDimensionsCm": {
+        "height": 9.2,
+        "mouthWidth": 8.5,
+        "maxDepth": 9
+      },
+      "gameScaleFactor": 5.147058823529412,
+      "sources": [
+        {
+          "label": "MIHO MUSEUM · 志野四方向付",
+          "url": "https://www.miho.jp/booth/html/artcon/00000294.htm"
+        }
+      ],
+      "referenceUnknown": [
+        "内底完整视图",
+        "足底准确深度"
+      ],
+      "geometryRebuilt": true,
+      "originalId": "antique-shino-square",
+      "originalVesselRecord": {
+        "id": "antique-shino-square",
+        "name": "志野铁绘四方向付",
+        "shape": "square",
+        "color": "#e3d9c9",
+        "rim": "#ded0b9",
+        "ink": "#59483b",
+        "pattern": "grass",
+        "kind": "ceramic",
+        "sources": [
+          {
+            "label": "MIHO MUSEUM · 志野四方向付",
+            "url": "https://www.miho.jp/booth/html/artcon/00000294.htm"
+          }
+        ],
+        "note": "16世纪桃山时期。参考高9.2厘米、口径8.5厘米的四方向付；四面分别简化蛇笼、珠串、堇草与鸢尾铁绘，游戏中增设排水孔。",
+        "antique": true,
+        "shapeLabel": "古陶瓷风格栽培钵"
+      },
+      "note": "16世纪桃山时期。参考高9.2厘米、口径8.5厘米的四方向付；四面分别简化蛇笼、珠串、堇草与鸢尾铁绘，游戏中增设排水孔。",
+      "adaptationNote": "馆藏器形和已见内外纹饰的原创低多边形园艺转译。",
+      "period": "桃山时代，16世纪",
+      "interiorFloorHeight": 0.039,
+      "wallThickness": 0.022,
+      "rimHeight": 0.47352941176470587,
+      "hasRealInterior": true,
+      "empty": true,
+      "opening": {
+        "width": 0.3935,
+        "depth": 0.3935,
+        "shape": "round-square"
+      },
+      "holes": [
+        {
+          "shape": "circle",
+          "center": [
+            0,
+            0
+          ],
+          "radius": 0.03125
+        }
+      ],
+      "hasRealDrainage": true,
+      "drainageAdaptation": true,
+      "drainageDiameter": 0.0625,
+      "width": 0.4375,
+      "depth": 0.4375,
+      "height": 0.4735293984413147,
+      "boundsMin": [
+        -0.21875,
+        -0.21875,
+        0.0
+      ],
+      "boundsMax": [
+        0.21875,
+        0.21875,
+        0.4735293984413147
+      ],
+      "file": "assets/antique-shino-square.glb",
+      "family": "rooms-vessels",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "器物内底",
+          "height": 0.039,
+          "width": 0.28875,
+          "depth": 0.28875,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "rimHeight": 0.47352941176470587,
+          "headroom": 0.43452941176470583,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.03125
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.4375,
+        "depth": 0.4375
+      },
+      "triangles": 560,
+      "sourceBlend": "rooms-vessels/rooms-vessels.blend",
+      "sourcePixelorama": "rooms-vessels/rooms-vessels-atlas.pxo"
+    },
+    {
+      "id": "antique-nabeshima",
+      "name": "锅岛彩绘八角钵",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "museumDimensionsCm": {
+        "height": 10.2,
+        "diameter": 21.3
+      },
+      "gameScaleFactor": 2.640845070422535,
+      "sources": [
+        {
+          "label": "Met · 八角彩绘钵，约1800年",
+          "url": "https://www.metmuseum.org/art/collection/search/63040"
+        }
+      ],
+      "referenceUnknown": [
+        "原釉彩具体色值：馆方主图黑白",
+        "钵内完整纹饰",
+        "背面图案",
+        "圈足径"
+      ],
+      "geometryRebuilt": true,
+      "originalId": "antique-nabeshima",
+      "originalVesselRecord": {
+        "id": "antique-nabeshima",
+        "name": "锅岛彩绘八角钵",
+        "shape": "faceted",
+        "color": "#dbe0d5",
+        "rim": "#b9c7c1",
+        "ink": "#4d7286",
+        "pattern": "flower",
+        "kind": "ceramic",
+        "sources": [
+          {
+            "label": "Met · 八角彩绘钵，约1800年",
+            "url": "https://www.metmuseum.org/art/collection/search/63040"
+          }
+        ],
+        "note": "约1800年江户时期。按高10.2厘米、径21.3厘米校准八角折面与圈足；参考馆藏黑白照中的萝卜枝叶构图，彩色为游戏转译，并非原釉彩复原。",
+        "antique": true,
+        "shapeLabel": "古陶瓷风格栽培钵"
+      },
+      "note": "约1800年江户时期。按高10.2厘米、径21.3厘米校准八角折面与圈足；参考馆藏黑白照中的萝卜枝叶构图，彩色为游戏转译，并非原釉彩复原。",
+      "adaptationNote": "馆藏器形和已见内外纹饰的原创低多边形园艺转译。",
+      "period": "江户时代，1800年",
+      "interiorFloorHeight": 0.06873591549295774,
+      "wallThickness": 0.020249999999999997,
+      "rimHeight": 0.26936619718309857,
+      "opening": {
+        "width": 0.522,
+        "depth": 0.522,
+        "shape": "circle"
+      },
+      "hasRealInterior": true,
+      "empty": true,
+      "holes": [
+        {
+          "shape": "circle",
+          "center": [
+            0,
+            0
+          ],
+          "radius": 0.03125
+        }
+      ],
+      "hasRealDrainage": true,
+      "drainageAdaptation": true,
+      "drainageDiameter": 0.0625,
+      "width": 0.5625,
+      "depth": 0.5625,
+      "height": 0.26936620473861694,
+      "boundsMin": [
+        -0.28125,
+        -0.28125,
+        0.0
+      ],
+      "boundsMax": [
+        0.28125,
+        0.28125,
+        0.26936620473861694
+      ],
+      "file": "assets/antique-nabeshima.glb",
+      "family": "rooms-vessels",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "器物内底",
+          "height": 0.06873591549295774,
+          "width": 0.1792125,
+          "depth": 0.1792125,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "headroom": 0.20063028169014083,
+          "rimHeight": 0.26936619718309857,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.03125
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.5625,
+        "depth": 0.5625
+      },
+      "triangles": 240,
+      "sourceBlend": "rooms-vessels/rooms-vessels.blend",
+      "sourcePixelorama": "rooms-vessels/rooms-vessels-atlas.pxo"
+    },
+    {
+      "id": "antique-nabeshima-dish",
+      "name": "锅岛青花几何浅盘",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "museumDimensionsCm": {
+        "height": 5.1,
+        "diameter": 20.6
+      },
+      "gameScaleFactor": 2.7305825242718447,
+      "sources": [
+        {
+          "label": "Met · 几何纹青花盘，18世纪",
+          "url": "https://www.metmuseum.org/art/collection/search/50344"
+        }
+      ],
+      "referenceUnknown": [
+        "盘截面精准曲率",
+        "圈足径与高度"
+      ],
+      "geometryRebuilt": true,
+      "originalId": "antique-nabeshima-dish",
+      "originalVesselRecord": {
+        "id": "antique-nabeshima-dish",
+        "name": "锅岛青花几何浅盘",
+        "shape": "shallow",
+        "color": "#dae1da",
+        "rim": "#a2b8be",
+        "ink": "#395a79",
+        "pattern": "blue",
+        "kind": "ceramic",
+        "sources": [
+          {
+            "label": "Met · 几何纹青花盘，18世纪",
+            "url": "https://www.metmuseum.org/art/collection/search/50344"
+          }
+        ],
+        "note": "18世纪江户时期。参考高5.1厘米、径20.6厘米的浅盘：内面为青花留白同心几何纹，背面三组花枝，圈足带梳齿纹；游戏中增设排水孔。",
+        "antique": true,
+        "shapeLabel": "古陶瓷风格栽培钵"
+      },
+      "note": "18世纪江户时期。参考高5.1厘米、径20.6厘米的浅盘：内面为青花留白同心几何纹，背面三组花枝，圈足带梳齿纹；游戏中增设排水孔。",
+      "adaptationNote": "馆藏器形和已见内外纹饰的原创低多边形园艺转译。",
+      "period": "江户时代，18世纪",
+      "interiorFloorHeight": 0.052279733009708736,
+      "wallThickness": 0.020249999999999997,
+      "rimHeight": 0.13925970873786409,
+      "opening": {
+        "width": 0.522,
+        "depth": 0.522,
+        "shape": "circle"
+      },
+      "hasRealInterior": true,
+      "empty": true,
+      "holes": [
+        {
+          "shape": "circle",
+          "center": [
+            0,
+            0
+          ],
+          "radius": 0.03125
+        }
+      ],
+      "hasRealDrainage": true,
+      "drainageAdaptation": true,
+      "drainageDiameter": 0.0625,
+      "width": 0.5625,
+      "depth": 0.5625,
+      "height": 0.1392597109079361,
+      "boundsMin": [
+        -0.28125,
+        -0.28125,
+        0.0
+      ],
+      "boundsMax": [
+        0.28125,
+        0.28125,
+        0.1392597109079361
+      ],
+      "file": "assets/antique-nabeshima-dish.glb",
+      "family": "rooms-vessels",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "器物内底",
+          "height": 0.052279733009708736,
+          "width": 0.225675,
+          "depth": 0.225675,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "headroom": 0.08697997572815536,
+          "rimHeight": 0.13925970873786409,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.03125
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.5625,
+        "depth": 0.5625
+      },
+      "triangles": 720,
+      "sourceBlend": "rooms-vessels/rooms-vessels.blend",
+      "sourcePixelorama": "rooms-vessels/rooms-vessels-atlas.pxo"
+    },
+    {
+      "id": "antique-kutani-red",
+      "name": "九谷赤绘金彩钵",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "museumDimensionsCm": {
+        "diameter": 45.7,
+        "height": null
+      },
+      "gameScaleFactor": 1.9146608315098468,
+      "sources": [
+        {
+          "label": "Cleveland · Kutani Bowl, 1986.173",
+          "url": "https://www.clevelandart.org/art/1986.173"
+        }
+      ],
+      "referenceUnknown": [
+        "高度与腹深：馆方未列",
+        "圈足形状",
+        "背面图案",
+        "文字完整复原"
+      ],
+      "geometryRebuilt": true,
+      "originalId": "antique-kutani-red",
+      "originalVesselRecord": {
+        "id": "antique-kutani-red",
+        "name": "九谷赤绘金彩钵",
+        "shape": "bowl",
+        "color": "#e7d8b8",
+        "rim": "#c0a271",
+        "ink": "#994a39",
+        "pattern": "imari",
+        "kind": "ceramic",
+        "sources": [
+          {
+            "label": "Cleveland · Kutani Bowl, 1986.173",
+            "url": "https://www.clevelandart.org/art/1986.173"
+          }
+        ],
+        "note": "19世纪早至中期江户时期，馆藏直径45.7厘米。参考内面唐狮、花草与赤绘金彩同心分区；馆方未列高度，游戏腹深和背面绘画为适配。",
+        "antique": true,
+        "shapeLabel": "古陶瓷风格栽培钵"
+      },
+      "note": "19世纪早至中期江户时期，馆藏直径45.7厘米。参考内面唐狮、花草与赤绘金彩同心分区；馆方未列高度，游戏腹深和背面绘画为适配。",
+      "adaptationNote": "馆藏器形和已见内外纹饰的原创低多边形园艺转译。 馆方未公布高度，游戏腹深为适配推定。",
+      "period": "江户时代，19世纪早中期",
+      "interiorFloorHeight": 0.08133750000000001,
+      "wallThickness": 0.027,
+      "rimHeight": 0.23625000000000002,
+      "opening": {
+        "width": 0.821,
+        "depth": 0.821,
+        "shape": "circle"
+      },
+      "hasRealInterior": true,
+      "empty": true,
+      "holes": [
+        {
+          "shape": "circle",
+          "center": [
+            0,
+            0
+          ],
+          "radius": 0.03125
+        }
+      ],
+      "hasRealDrainage": true,
+      "drainageAdaptation": true,
+      "drainageDiameter": 0.0625,
+      "width": 0.875,
+      "depth": 0.875,
+      "height": 0.23624999821186066,
+      "boundsMin": [
+        -0.4375,
+        -0.4375,
+        0.0
+      ],
+      "boundsMax": [
+        0.4375,
+        0.4375,
+        0.23624999821186066
+      ],
+      "file": "assets/antique-kutani-red.glb",
+      "family": "rooms-vessels",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "器物内底",
+          "height": 0.08133750000000001,
+          "width": 0.29942499999999994,
+          "depth": 0.29942499999999994,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "headroom": 0.1549125,
+          "rimHeight": 0.23625000000000002,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.03125
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.875,
+        "depth": 0.875
+      },
+      "triangles": 720,
+      "sourceBlend": "rooms-vessels/rooms-vessels.blend",
+      "sourcePixelorama": "rooms-vessels/rooms-vessels-atlas.pxo"
+    },
+    {
+      "id": "antique-celadon",
+      "name": "锅岛青瓷三足钵",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "museumDimensionsCm": {
+        "height": 8.26,
+        "diameter": 28.89
+      },
+      "gameScaleFactor": 2.3797161647628937,
+      "sources": [
+        {
+          "label": "LACMA · Nabeshima Celadon Bowl",
+          "url": "https://collections.lacma.org/object/160060"
+        }
+      ],
+      "referenceUnknown": [
+        "底部完整图片",
+        "鬼面细部被釉遮蔽",
+        "波瓣数准确计数"
+      ],
+      "geometryRebuilt": true,
+      "originalId": "antique-celadon",
+      "originalVesselRecord": {
+        "id": "antique-celadon",
+        "name": "锅岛青瓷三足钵",
+        "shape": "scallop",
+        "color": "#a5c3b7",
+        "rim": "#c3d4c5",
+        "ink": "#71988a",
+        "pattern": "plain",
+        "kind": "ceramic",
+        "sources": [
+          {
+            "label": "LACMA · Nabeshima Celadon Bowl",
+            "url": "https://collections.lacma.org/object/160060"
+          }
+        ],
+        "note": "约1700年江户时期。参考高8.26厘米、径28.89厘米的轮花口浅钵，内底山亭、篱笆、树木划花及三只鬼面足；游戏中增设排水孔。",
+        "antique": true,
+        "shapeLabel": "古陶瓷风格栽培钵"
+      },
+      "note": "约1700年江户时期。参考高8.26厘米、径28.89厘米的轮花口浅钵，内底山亭、篱笆、树木划花及三只鬼面足；游戏中增设排水孔。",
+      "adaptationNote": "馆藏器形和已见内外纹饰的原创低多边形园艺转译。",
+      "period": "江户时代，约1700年",
+      "interiorFloorHeight": 0.08175372101073036,
+      "wallThickness": 0.024749999999999998,
+      "rimHeight": 0.19656455520941504,
+      "opening": {
+        "width": 0.638,
+        "depth": 0.638,
+        "shape": "circle"
+      },
+      "hasRealInterior": true,
+      "empty": true,
+      "holes": [
+        {
+          "shape": "circle",
+          "center": [
+            0,
+            0
+          ],
+          "radius": 0.03125
+        }
+      ],
+      "hasRealDrainage": true,
+      "drainageAdaptation": true,
+      "drainageDiameter": 0.0625,
+      "width": 0.6875,
+      "depth": 0.6554399132728577,
+      "height": 0.19656455516815186,
+      "boundsMin": [
+        -0.34375,
+        -0.32771995663642883,
+        0.0
+      ],
+      "boundsMax": [
+        0.34375,
+        0.32771995663642883,
+        0.19656455516815186
+      ],
+      "file": "assets/antique-celadon.glb",
+      "family": "rooms-vessels",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "器物内底",
+          "height": 0.08175372101073036,
+          "width": 0.275825,
+          "depth": 0.275825,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "headroom": 0.11481083419868468,
+          "rimHeight": 0.19656455520941504,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.03125
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.6875,
+        "depth": 0.6554399132728577
+      },
+      "triangles": 1004,
+      "sourceBlend": "rooms-vessels/rooms-vessels.blend",
+      "sourcePixelorama": "rooms-vessels/rooms-vessels-atlas.pxo"
+    },
+    {
+      "id": "antique-oribe-jar",
+      "name": "志野织部铁绘花器",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "museumDimensionsCm": {
+        "height": 20.8,
+        "mouthDiameter": 9.7,
+        "bodyDiameter": 21.6,
+        "baseDiameter": 13.5
+      },
+      "gameScaleFactor": 2.314814814814815,
+      "sources": [
+        {
+          "label": "MIHO MUSEUM · 志野織部徳利",
+          "url": "https://www.miho.jp/booth/html/artcon/00000275.htm"
+        }
+      ],
+      "referenceUnknown": [
+        "完整内底",
+        "底书墨字意义：馆方称不明",
+        "不可见周向图案"
+      ],
+      "geometryRebuilt": true,
+      "originalId": "antique-oribe-jar",
+      "originalVesselRecord": {
+        "id": "antique-oribe-jar",
+        "name": "志野织部铁绘花器",
+        "shape": "jar",
+        "color": "#c4bba5",
+        "rim": "#756655",
+        "ink": "#51453a",
+        "pattern": "grass",
+        "kind": "decorative",
+        "sources": [
+          {
+            "label": "MIHO MUSEUM · 志野織部徳利",
+            "url": "https://www.miho.jp/booth/html/artcon/00000275.htm"
+          }
+        ],
+        "note": "17世纪江户时期。按高20.8、腹径21.6、口径9.7厘米校准鼓腹和窄颈；白釉铁绘，肩部五道凹线作2–1–2分组。曾作花器，不用于换盆。",
+        "antique": true,
+        "shapeLabel": "陈设花器"
+      },
+      "note": "17世纪江户时期。按高20.8、腹径21.6、口径9.7厘米校准鼓腹和窄颈；白釉铁绘，肩部五道凹线作2–1–2分组。曾作花器，不用于换盆。",
+      "adaptationNote": "馆藏器形和已见内外纹饰的原创低多边形园艺转译。",
+      "period": "江户时代，17世纪",
+      "interiorFloorHeight": 0.045,
+      "wallThickness": 0.018,
+      "rimHeight": 0.48148148148148145,
+      "hasRealInterior": true,
+      "empty": true,
+      "opening": {
+        "width": 0.18853703703703703,
+        "depth": 0.18853703703703703,
+        "shape": "circle"
+      },
+      "shoulderGrooveGroup": [
+        2,
+        1,
+        2
+      ],
+      "shoulderGrooveDepth": 0.004,
+      "shoulderGrooveCentres": [
+        0.22148148148148147,
+        0.2311111111111111,
+        0.26,
+        0.28888888888888886,
+        0.2985185185185185
+      ],
+      "width": 0.5,
+      "depth": 0.5,
+      "height": 0.48148149251937866,
+      "boundsMin": [
+        -0.25,
+        -0.25,
+        0.0
+      ],
+      "boundsMax": [
+        0.25,
+        0.25,
+        0.48148149251937866
+      ],
+      "file": "assets/antique-oribe-jar.glb",
+      "family": "rooms-vessels",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "花器内底",
+          "height": 0.045,
+          "width": 0.1953125,
+          "depth": 0.1953125,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "rimHeight": 0.48148148148148145,
+          "headroom": 0.43648148148148147,
+          "openingWidth": 0.18853703703703703
+        }
+      ],
+      "footprint": {
+        "width": 0.5,
+        "depth": 0.5
+      },
+      "triangles": 1392,
+      "sourceBlend": "rooms-vessels/rooms-vessels.blend",
+      "sourcePixelorama": "rooms-vessels/rooms-vessels-atlas.pxo"
+    },
+    {
+      "id": "bed-modern",
+      "name": "木框床",
+      "category": "桌椅与居室",
+      "placement": "floor",
+      "source": "Blender + Pixelorama",
+      "construction": "完整木床框、板排、床垫、枕头和折毯；床底支脚与受力中梁。",
+      "completeSlattedBase": true,
+      "completeUnderside": true,
+      "width": 1.0625,
+      "depth": 1.9580000042915344,
+      "height": 0.7609999775886536,
+      "boundsMin": [
+        -0.53125,
+        -0.9737499952316284,
+        0.0
+      ],
+      "boundsMax": [
+        0.53125,
+        0.984250009059906,
+        0.7609999775886536
+      ],
+      "file": "assets/bed-modern.glb",
+      "family": "rooms-vessels",
+      "surfaces": [
+        {
+          "id": "mattress",
+          "name": "露出床垫",
+          "height": 0.5155,
+          "width": 0.83,
+          "depth": 0.6,
+          "center": [
+            0,
+            0.17
+          ],
+          "shape": "rectangle",
+          "headroom": 10
+        },
+        {
+          "id": "blanket",
+          "name": "折毯上面",
+          "height": 0.558,
+          "width": 0.87,
+          "depth": 0.53,
+          "center": [
+            0,
+            -0.43
+          ],
+          "shape": "rectangle",
+          "headroom": 10
+        }
+      ],
+      "footprint": {
+        "width": 1.0625,
+        "depth": 1.9580000042915344
+      },
+      "triangles": 1156,
+      "sourceBlend": "rooms-vessels/rooms-vessels.blend",
+      "sourcePixelorama": "rooms-vessels/rooms-vessels-atlas.pxo"
+    },
+    {
+      "id": "sofa-two",
+      "name": "管钢双人沙发",
+      "category": "桌椅与居室",
+      "placement": "floor",
+      "source": "Blender + Pixelorama",
+      "construction": "原创现代镀铬管钢沙发，独立软垫；完整背管、软垫背面、底面及受力支撑。",
+      "sources": [
+        {
+          "label": "Thonet S 5000 · 管钢与独立垫结构参考",
+          "url": "https://www.thonet.de/fileadmin/media/09-service/Brochures/Thonet_Produktbroschuere_S_5000.pdf"
+        },
+        {
+          "label": "Thonet S 411 · 管钢与软垫结构参考",
+          "url": "https://www.thonet.de/en/all-products/detail/s-411"
+        }
+      ],
+      "replica": false,
+      "seatCount": 2,
+      "seatHeight": 0.495,
+      "frameTubeDiameter": 0.042,
+      "completeBack": true,
+      "completeUnderside": true,
+      "width": 1.4674999713897705,
+      "depth": 0.7219232618808746,
+      "height": 0.779201865196228,
+      "boundsMin": [
+        -0.7337499856948853,
+        -0.34599998593330383,
+        0.0
+      ],
+      "boundsMax": [
+        0.7337499856948853,
+        0.3759232759475708,
+        0.779201865196228
+      ],
+      "file": "assets/sofa-two.glb",
+      "family": "rooms-vessels",
+      "surfaces": [
+        {
+          "id": "seat",
+          "name": "座垫上面",
+          "height": 0.495,
+          "width": 1.1525,
+          "depth": 0.4,
+          "center": [
+            0,
+            -0.08
+          ],
+          "shape": "rectangle",
+          "headroom": 10
+        }
+      ],
+      "footprint": {
+        "width": 1.4674999713897705,
+        "depth": 0.7219232618808746
+      },
+      "triangles": 1908,
+      "sourceBlend": "rooms-vessels/rooms-vessels.blend",
+      "sourcePixelorama": "rooms-vessels/rooms-vessels-atlas.pxo"
+    },
+    {
+      "id": "sofa-one",
+      "name": "管钢单人沙发",
+      "category": "桌椅与居室",
+      "placement": "floor",
+      "source": "Blender + Pixelorama",
+      "construction": "原创现代镀铬管钢沙发，独立软垫；完整背管、软垫背面、底面及受力支撑。",
+      "sources": [
+        {
+          "label": "Thonet S 5000 · 管钢与独立垫结构参考",
+          "url": "https://www.thonet.de/fileadmin/media/09-service/Brochures/Thonet_Produktbroschuere_S_5000.pdf"
+        },
+        {
+          "label": "Thonet S 411 · 管钢与软垫结构参考",
+          "url": "https://www.thonet.de/en/all-products/detail/s-411"
+        }
+      ],
+      "replica": false,
+      "seatCount": 1,
+      "seatHeight": 0.495,
+      "frameTubeDiameter": 0.042,
+      "completeBack": true,
+      "completeUnderside": true,
+      "width": 0.8425000309944153,
+      "depth": 0.7219232618808746,
+      "height": 0.779201865196228,
+      "boundsMin": [
+        -0.42125001549720764,
+        -0.34599998593330383,
+        0.0
+      ],
+      "boundsMax": [
+        0.42125001549720764,
+        0.3759232759475708,
+        0.779201865196228
+      ],
+      "file": "assets/sofa-one.glb",
+      "family": "rooms-vessels",
+      "surfaces": [
+        {
+          "id": "seat",
+          "name": "座垫上面",
+          "height": 0.495,
+          "width": 0.5275000000000001,
+          "depth": 0.4,
+          "center": [
+            0,
+            -0.08
+          ],
+          "shape": "rectangle",
+          "headroom": 10
+        }
+      ],
+      "footprint": {
+        "width": 0.8425000309944153,
+        "depth": 0.7219232618808746
+      },
+      "triangles": 1820,
+      "sourceBlend": "rooms-vessels/rooms-vessels.blend",
+      "sourcePixelorama": "rooms-vessels/rooms-vessels-atlas.pxo"
+    },
+    {
+      "id": "wardrobe-wood",
+      "name": "双门木衣柜",
+      "category": "桌椅与居室",
+      "placement": "floor",
+      "source": "Blender + Pixelorama",
+      "construction": "完整木柜体与后板、底板、双门与把手；柜顶为真实承托面。",
+      "completeBack": true,
+      "completeBottom": true,
+      "realDoors": true,
+      "width": 0.890999972820282,
+      "depth": 0.5897430777549744,
+      "height": 1.6875,
+      "boundsMin": [
+        -0.445499986410141,
+        -0.3327430784702301,
+        0.0
+      ],
+      "boundsMax": [
+        0.445499986410141,
+        0.25699999928474426,
+        1.6875
+      ],
+      "file": "assets/wardrobe-wood.glb",
+      "family": "rooms-vessels",
+      "surfaces": [
+        {
+          "id": "top",
+          "name": "柜顶",
+          "height": 1.6875,
+          "width": 0.82,
+          "depth": 0.455,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "rectangle",
+          "headroom": 10
+        }
+      ],
+      "footprint": {
+        "width": 0.890999972820282,
+        "depth": 0.5897430777549744
+      },
+      "triangles": 728,
+      "sourceBlend": "rooms-vessels/rooms-vessels.blend",
+      "sourcePixelorama": "rooms-vessels/rooms-vessels-atlas.pxo"
+    },
+    {
+      "id": "dresser-wood",
+      "name": "三屉木斗柜",
+      "category": "桌椅与居室",
+      "placement": "floor",
+      "source": "Blender + Pixelorama",
+      "construction": "完整侧板、后板、底板、独立抽屉与把手；柜顶为真实承托面。",
+      "drawerCount": 3,
+      "completeBack": true,
+      "completeBottom": true,
+      "width": 0.7114999890327454,
+      "depth": 0.5190577954053879,
+      "height": 0.78125,
+      "boundsMin": [
+        -0.3557499945163727,
+        -0.29030779004096985,
+        0.0
+      ],
+      "boundsMax": [
+        0.3557499945163727,
+        0.22875000536441803,
+        0.78125
+      ],
+      "file": "assets/dresser-wood.glb",
+      "family": "rooms-vessels",
+      "surfaces": [
+        {
+          "id": "top",
+          "name": "柜顶",
+          "height": 0.78125,
+          "width": 0.6395,
+          "depth": 0.4015,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "rectangle",
+          "headroom": 10
+        }
+      ],
+      "footprint": {
+        "width": 0.7114999890327454,
+        "depth": 0.5190577954053879
+      },
+      "triangles": 816,
+      "sourceBlend": "rooms-vessels/rooms-vessels.blend",
+      "sourcePixelorama": "rooms-vessels/rooms-vessels-atlas.pxo"
+    }
+  ]
+}

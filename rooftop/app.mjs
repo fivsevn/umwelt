@@ -2,7 +2,8 @@ import { SEASONS, paintSeasonalAir } from "./seasons.mjs";
 import { fillNotebook, notebookEntry } from "./notebook.mjs";
 import { createActionCard } from "./resident-weather.mjs";
 import { atmosphereCaption } from "./atmosphere.mjs";
-import { createCatalogPreviews } from "./catalog-previews.mjs";
+import { createCatalogPreviews, paintCatalogThumbnail } from "./catalog-previews.mjs";
+import { onRoomBackgroundReady } from "./room-scene.mjs";
 import {
   movedArrangement,
   clearPlacement,
@@ -43,6 +44,7 @@ import {
   DOORS,
   ASSETS,
   CATALOG_CATEGORIES,
+  catalogMatchesCategory,
   asset,
   initialLayout,
   findGroundPlacement,
@@ -76,7 +78,7 @@ const previewStorage = {
   getItem: () => sessionStorage.getItem(previewStorageKey) || (review.legacyGameModel ? sessionStorage.getItem("umwelt-rooftop-game-model-preview-v1") : null),
   setItem: (_key, value) => sessionStorage.setItem(previewStorageKey, value),
 };
-let reviewView = review.view;
+let reviewView = review.view, reviewSampling = review.sampling;
 let persistReviewState = () => {};
 if (backgroundStage) window.history.replaceState(null, "", reviewURL(location.href));
 const narrativeLabels = { bird: "经常啄多肉的小鸟", drone: "偶尔路过的无人机", neighbor: "？" };
@@ -84,7 +86,7 @@ const narrativeButtons = () => NARRATIVE_VIEWS.map(({id}) => '<button type="butt
 let syncNarrativeUI = () => {};
 const edits = createEditHistory();
 let scene =
-    editor && new URLSearchParams(location.search).get("scene") === "room"
+    (editor || backgroundStage) && new URLSearchParams(location.search).get("scene") === "room"
       ? "room"
       : new URLSearchParams(location.search).get("scene") === "south"
         ? "south"
@@ -105,17 +107,18 @@ try {
   layout = emptyReviewLayout(initialLayout());
   if (editor) $("message").textContent = "本机布局无法读取，已恢复初始布局。";
 }
-if (!editor || (itemPreviewStage && !previewStorage.getItem())) layout = emptyReviewLayout(layout);
+if (!editor || (itemPreviewStage && !previewStorage.getItem())) layout = emptyReviewLayout(layout, { room: backgroundStage });
 if (backgroundStage) {
   document.body.classList.add("background-stage");
   document.title = "空场景 · 综合测试 · 花农时代";
   const reviewStyle = document.createElement("link");reviewStyle.rel="stylesheet";
   reviewStyle.href=new URL("./background-review.css",import.meta.url).href;document.head.append(reviewStyle);
   const controls = document.createElement("div"); controls.className="background-review";
-  controls.innerHTML='<span>空场景 · 综合测试</span><select id="reviewScene" aria-label="测试场景"><option value="north">北天台</option><option value="south">南阳台</option></select><select id="reviewView" aria-label="测试视角">' + REVIEW_VIEWS.map(({id,label}) => '<option value="' + id + '">' + label + '</option>').join("") + '</select><button type="button" id="reviewNotebook">东东的手帐</button><a id="reviewItems" href="./arrange/">物品页面</a><select id="reviewWeather" aria-label="自定义天气"></select><select id="reviewTime" aria-label="自定义时间点"></select><select id="reviewSeason" aria-label="自定义季节"></select>';
+  controls.innerHTML='<span>空场景 · 综合测试</span><select id="reviewScene" aria-label="测试场景"><option value="north">北天台</option><option value="south">南阳台</option><option value="room">空房间</option></select><select id="reviewView" aria-label="测试视角">' + REVIEW_VIEWS.map(({id,label}) => '<option value="' + id + '">' + label + '</option>').join("") + '</select><select id="reviewSampling" aria-label="画面效果"><option value="source">原模型</option><option value="game">游戏像素</option></select><button type="button" id="reviewNotebook">东东的手帐</button><select id="reviewWeather" aria-label="自定义天气"></select><select id="reviewTime" aria-label="自定义时间点"></select><select id="reviewSeason" aria-label="自定义季节"></select>';
   document.querySelector(".roof-world")?.append(controls);
   $("reviewScene").value = scene;
   $("reviewView").value = reviewView;
+  $("reviewSampling").value = reviewSampling;
   const placeNotebook = () => document.documentElement.style.setProperty("--review-bottom", Math.ceil(controls.getBoundingClientRect().bottom) + 8 + "px");
   new ResizeObserver(placeNotebook).observe(controls);
   document.fonts.ready.then(placeNotebook);
@@ -134,6 +137,7 @@ try {
       scene,
       backgroundStage,
       reviewView,
+      reviewSampling,
       hideActors,
       controls: editor ? "edit" : "pan",
       initialTheta: editor ? undefined : -0.34,
@@ -232,6 +236,9 @@ const display = garden3d ? null : canvas.getContext("2d"),
 base.width = 640;
 base.height = 520;
 const baseCtx = base.getContext("2d");
+if (!garden3d) onRoomBackgroundReady(() => {
+  if (scene === "room") paintBase(baseCtx, scene, { includeCity: false });
+});
 let walker, pigWalker;
 const cameras = {
   room: { x: 196, y: 56, w: 208, h: 288 },
@@ -312,7 +319,12 @@ if (editor) {
 }
 if (backgroundStage) {
   persistReviewState = () => {
-    window.history.replaceState(null, "", reviewURL(location.href, { scene, view: reviewView, ...weather.choices }));
+    window.history.replaceState(null, "", reviewURL(location.href, { scene, view: reviewView, sampling: reviewSampling, ...weather.choices }));
+  };
+  $("reviewSampling").onchange=()=>{
+    reviewSampling=$("reviewSampling").value;
+    garden3d?.setReviewSampling(reviewSampling);
+    persistReviewState();
   };
   $("reviewView").onchange=()=>{
     reviewView=$("reviewView").value;
@@ -410,7 +422,6 @@ function positionFields(o) {
 function rebuild() {
   if (backgroundStage && $("reviewScene")) {
     $("reviewScene").value=scene;
-    $("reviewItems").href="./arrange/?scene=" + scene;
   }
   if (editor) document.body.classList.toggle("room-edit", scene === "room");
   if (garden3d) {
@@ -698,10 +709,7 @@ if (!editor) {
 
 const catalogPreviews = editor
   ? createCatalogPreviews($("assets"), async (sprite, preview) => {
-      if (!garden3d) return;
-      preview.getContext("2d").clearRect(0, 0, 64, 64);
-      await garden3d.thumbnail(sprite, preview, true);
-      preview.dataset.renderer = "3d";
+      await paintCatalogThumbnail(preview, asset(sprite.type).thumbnail);
     }, { busy: () => (atmosphere.transition?.mix ?? 1) < .999 || garden3d?.interacting || document.activeElement?.matches("#weatherSelect, #timeSelect, #seasonSelect") })
   : null;
 function catalog() {
@@ -710,7 +718,7 @@ function catalog() {
   $("assets").replaceChildren();
   for (const a of ASSETS.filter(
     (a) =>
-      (category === "全部" || a.category === category) &&
+      catalogMatchesCategory(a, category) &&
       (!q ||
         [a.name, a.scientific, a.ja, a.aliases]
           .filter(Boolean)
@@ -732,8 +740,7 @@ function catalog() {
       scale: a.w > 52 ? 0.75 : a.plant ? 1.15 : 1,
       rotation: 0,
     };
-    paintObject(preview.getContext("2d"), sprite);
-    if (garden3d) catalogPreviews.observe(preview, sprite);
+    catalogPreviews.observe(preview, sprite);
     const name = document.createElement("span");
     name.textContent = a.name;
     button.append(preview, name);
@@ -1055,7 +1062,7 @@ if (editor) {
   });
 } else {
   $("sceneDoor").onclick = () => {
-    scene = scene === "south" ? "north" : "south";
+    scene = scene === "north" ? "south" : "north";
     const url = new URL(location.href);
     url.searchParams.set("scene", scene);
     historyNavigation.pushState(null, "", url);
@@ -1063,12 +1070,15 @@ if (editor) {
   };
   if ($("sceneCard")) $("sceneCard").onclick = () => $("sceneDoor").click();
   window.addEventListener("popstate", () => {
-    scene =
+    scene = backgroundStage ? reviewState(location.search).scene :
       new URLSearchParams(location.search).get("scene") === "south"
         ? "south"
         : "north";
     if (backgroundStage) {
       reviewView=reviewState(location.search).view;
+      reviewSampling=reviewState(location.search).sampling;
+      $("reviewSampling").value=reviewSampling;
+      garden3d?.setReviewSampling(reviewSampling);
       garden3d?.setReviewView(reviewView);
       const query=new URLSearchParams(location.search);
       for (const [id,key,parameter] of [["reviewWeather","condition","weather"],["reviewTime","phase","time"],["reviewSeason","season","season"]]) {
@@ -1201,8 +1211,9 @@ function fitView() {
     garden3d.resize();
     if (!editor) {
       const door = $("sceneDoor");
-      door.setAttribute("aria-label", DOORS[scene].label);
-      door.title = DOORS[scene].label;
+      const label = DOORS[scene]?.label || "返回北天台";
+      door.setAttribute("aria-label", label);
+      door.title = label;
     }
     return;
   }
@@ -1241,8 +1252,10 @@ function fitView() {
     door = $("sceneDoor"),
     rect = canvas.getBoundingClientRect(),
     sx = rect.width / camera.w,
-    sy = rect.height / camera.h,
-    w = Math.max(44, (d.w + 16) * sx),
+    sy = rect.height / camera.h;
+  door.hidden = !d;
+  if (!d) return;
+  const w = Math.max(44, (d.w + 16) * sx),
     h = Math.max(44, (d.h + 12) * sy);
   Object.assign(door.style, {
     left: (d.x - camera.x) * sx - w / 2 + "px",

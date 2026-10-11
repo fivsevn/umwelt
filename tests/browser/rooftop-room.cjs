@@ -23,7 +23,12 @@ const engine = process.env.BROWSER || "chromium";
       await page.locator("[data-scene=room]").getAttribute("aria-pressed"),
       "true",
     );
+    assert.deepEqual(await page.evaluate(() => rooftop.layout.scenes.room),[],"new room starts empty");
+    const fixture=require("../fixtures/rooftop-native-layout.json");
+    await page.evaluate(data=>localStorage.setItem("umwelt-rooftop-layout-v1",JSON.stringify(data)),fixture);
+    await page.reload();await page.waitForFunction(()=>window.rooftop);
     const initial = await page.evaluate(() => rooftop.layout);
+    assert.ok(initial.scenes.room.length>=4,"explicit native furniture fixture exercises clear/undo and room export");
     await page.locator("#clear").click();
     assert.equal(
       (await page.evaluate(() => rooftop.layout.scenes.room)).length,

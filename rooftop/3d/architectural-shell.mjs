@@ -1,5 +1,37 @@
 import { BACKGROUND } from "../assets/background/empty-rooftop.mjs";
+import { BACKGROUND_COMPRESSION } from "../assets/background/empty-rooftop-compression.mjs";
 import { bakedFaceBounds, BAKED_GRID_FRAGMENT } from "./baked-pixel-grid.mjs";
+
+export async function loadEnvironmentBinary(manifest, base, {
+  compression = BACKGROUND_COMPRESSION,
+  fetchImpl = globalThis.fetch,
+  Decompressor = globalThis.DecompressionStream,
+} = {}) {
+  const request = async (file, sha) => {
+    const url = new URL(file, base);
+    url.searchParams.set("v", sha);
+    const response = await fetchImpl(url);
+    if (!response.ok) throw Error("Environment mesh unavailable");
+    return response.arrayBuffer();
+  };
+  let compressionError, attemptedBytes = 0;
+  if (typeof Decompressor === "function" && compression?.decodedSha === manifest.sha256 &&
+      compression.decodedBytes === manifest.bytes) {
+    try {
+      const encoded = await request(compression.file, compression.sha);
+      attemptedBytes = encoded.byteLength;
+      if (encoded.byteLength !== compression.bytes) throw Error("Incomplete compressed environment");
+      const stream = new Blob([encoded]).stream().pipeThrough(new Decompressor("gzip"));
+      const buffer = await new Response(stream).arrayBuffer();
+      if (buffer.byteLength !== manifest.bytes) throw Error("Incomplete decoded environment");
+      return { buffer, transportBytes: encoded.byteLength, compressed: true };
+    } catch (error) {
+      compressionError = error.message || "Compressed environment could not be decoded";
+    }
+  }
+  const buffer = await request(manifest.binary, manifest.sha256);
+  return { buffer, transportBytes: attemptedBytes + buffer.byteLength, compressed: false, compressionError };
+}
 
 // Geometry is exported from the editable Blender source. Nearby surfaces use
 // the Pixelorama book; distant facades use an atlas baked from that same model.
@@ -26,14 +58,9 @@ export function loadArchitecturalShell(T, parent) {
     if (part.texture) requiredTextures.add(part.texture);
     if (part.lampMask) requiredTextures.add(part.lampMask);
   }
-  const binaryUrl = new URL(manifest.binary, base);
-  binaryUrl.searchParams.set("v", manifest.sha256);
   let textureBytes = 0;
   const ready = Promise.all([
-    fetch(binaryUrl).then(response => {
-      if (!response.ok) throw Error("Environment mesh unavailable");
-      return response.arrayBuffer();
-    }),
+    loadEnvironmentBinary(manifest, base),
     Promise.all([...requiredTextures].map(file => {
       const definition = textureDefinitions.get(file) || { file },
         url = new URL(file, base);
@@ -50,7 +77,8 @@ export function loadArchitecturalShell(T, parent) {
         resolve([file, texture]);
       }, undefined, reject));
     })),
-  ]).then(([buffer, entries]) => {
+  ]).then(([transfer, entries]) => {
+    const { buffer } = transfer;
     const textures = new Map(entries),
       metreScale = manifest.texelMetresPerUnit || [1, 1, 1],
       layers = {},
@@ -274,6 +302,9 @@ export function loadArchitecturalShell(T, parent) {
       bytes: buffer.byteLength,
       textureBytes,
       payloadBytes: buffer.byteLength + textureBytes,
+      transportBytes: transfer.transportBytes + textureBytes,
+      compressed: transfer.compressed,
+      compressionError: transfer.compressionError,
       triangles: manifest.triangles,
       objects: manifest.objects,
       row: manifest.row,

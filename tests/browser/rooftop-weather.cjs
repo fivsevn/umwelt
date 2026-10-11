@@ -20,6 +20,12 @@ const base = process.env.BASE_URL || "http://127.0.0.1:8773",
     assert.equal(await p.locator("#weatherSelect option").count(), 9);
     assert.equal(await p.locator("#timeSelect option").count(), 8);
     await p.locator("#person").uncheck();
+    assert.deepEqual(await p.evaluate(()=>rooftop.layout.scenes.north),[],"new weather scene starts empty");
+    const fixture=require("../fixtures/rooftop-native-layout.json");
+    await p.evaluate(data=>localStorage.setItem("umwelt-rooftop-layout-v1",JSON.stringify(data)),fixture);
+    await p.reload();await p.waitForFunction(()=>window.rooftop);
+    await p.locator("#person").uncheck();
+    assert.ok((await p.evaluate(()=>rooftop.layout.scenes.north)).some(o=>o.type==="fern"),"explicit native foliage fixture remains present through weather changes");
     const original = await p.evaluate(() => rooftop.layout);
     const raster = await p.evaluate(async () => {
       const {

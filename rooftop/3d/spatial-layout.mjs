@@ -1,10 +1,9 @@
-import { plantContact } from '../plant-art.mjs';
-import { PLANTS } from '../botany.mjs';
 import { latticeSupports } from './rack-grid.mjs';
 import { physicalFootprint, supportSurfaces, placementSpaces, spaceObstacles, placementKind } from './placement-profiles.mjs';
 export { physicalFootprint, supportSurfaces, placementSpaces, spaceObstacles, placementKind } from './placement-profiles.mjs';
-const plants = new Set(PLANTS.map(p=>p.id));
-export const contactOffset = o => o.contactY ?? (plants.has(o.type) ? (plantContact(o).bottom-1)*(o.scale||1) : 0);
+// Every native mesh has its actual contact at local Y=0. Sprite cropping never
+// changes where a pot meets a shelf, nor where its rigid body collides.
+export const contactOffset = o => o.contactY ?? 0;
 const contactY = o => o.y + contactOffset(o);
 export function localPoint(child,parent) {
   const a=-(parent.rotation||0)*Math.PI/180,dx=(child.x-parent.x)/16,dz=(contactY(child)-contactY(parent))/16;
@@ -17,7 +16,8 @@ export function surfacePoint(parent,surface) {
 function projectedBounds(child,parent,footprint,full=false) {
   const q=localPoint(child,parent),a=((child.rotation||0)-(parent.rotation||0))*Math.PI/180;
   const w=full?(footprint.mouthW||footprint.w):footprint.w,d=full?(footprint.mouthD||footprint.d):footprint.d;
-  return {x:q.x,z:q.z,w:footprint.circle?w:Math.abs(Math.cos(a))*w+Math.abs(Math.sin(a))*d,d:footprint.circle?d:Math.abs(Math.sin(a))*w+Math.abs(Math.cos(a))*d};
+  const cx=full?(footprint.bodyX||0):(footprint.x||0),cz=full?(footprint.bodyZ||0):(footprint.z||0);
+  return {x:q.x+cx*Math.cos(a)-cz*Math.sin(a),z:q.z+cx*Math.sin(a)+cz*Math.cos(a),w:footprint.circle?w:Math.abs(Math.cos(a))*w+Math.abs(Math.sin(a))*d,d:footprint.circle?d:Math.abs(Math.sin(a))*w+Math.abs(Math.cos(a))*d};
 }
 function overlaps(a,b,gap=0) {
   return Math.abs(a.x-b.x)<(a.w+b.w)/2+gap&&Math.abs(a.z-b.z)<(a.d+b.d)/2+gap;
@@ -32,15 +32,26 @@ export function fitsSurface(child,parent,surface,{height=true,footprint=physical
   const dx=Math.abs(q.x-(surface.x||0)),dz=Math.abs(q.z-(surface.z||0));
   let fits=dx+q.w/2<=surface.w/2+.015&&dz+q.d/2<=surface.d/2+.015;
   if(fits&&surface.shape==='ellipse') {
-    const perimeter=p.circle?Array.from({length:24},(_,i)=>[Math.cos(i*Math.PI/12)*q.w/2,Math.sin(i*Math.PI/12)*q.d/2]):[[-1,-1],[-1,1],[1,-1],[1,1]].map(([x,z])=>[x*q.w/2,z*q.d/2]);
+    const full=surface.container||surface.bearing==='ground',w=full?(p.mouthW||p.w):p.w,d=full?(p.mouthD||p.d):p.d;
+    const angle=((child.rotation||0)-(parent.rotation||0))*Math.PI/180;
+    const points=p.ellipse?Array.from({length:32},(_,i)=>[Math.cos(i*Math.PI/16)*w/2,Math.sin(i*Math.PI/16)*d/2]):[[-1,-1],[-1,1],[1,-1],[1,1]].map(([x,z])=>[x*w/2,z*d/2]);
+    const perimeter=points.map(([x,z])=>[x*Math.cos(angle)-z*Math.sin(angle),x*Math.sin(angle)+z*Math.cos(angle)]);
     fits=perimeter.every(([x,z])=>((q.x-(surface.x||0)+x)/(surface.w/2))**2+((q.z-(surface.z||0)+z)/(surface.d/2))**2<=1.025);
   }
   if(!fits||height&&p.h>surface.ceiling+.025)return false;
+  if(surface.container&&(q.w>surface.openingW+.015||q.d>surface.openingD+.015))return false;
+  if(surface.container&&surface.openingShape==='ellipse') {
+    const angle=((child.rotation||0)-(parent.rotation||0))*Math.PI/180;
+    const w=p.mouthW||p.w,d=p.mouthD||p.d;
+    const corners=p.ellipse?Array.from({length:32},(_,i)=>[Math.cos(i*Math.PI/16)*w/2,Math.sin(i*Math.PI/16)*d/2]):[[-1,-1],[-1,1],[1,-1],[1,1]].map(([x,z])=>[x*w/2,z*d/2]);
+    if(corners.some(([x,z])=>((q.x-(surface.x||0)+x*Math.cos(angle)-z*Math.sin(angle))/(surface.openingW/2))**2+((q.z-(surface.z||0)+x*Math.sin(angle)+z*Math.cos(angle))/(surface.openingD/2))**2>1.025))return false;
+  }
   if(surface.point&&(dx>.016||dz>.016))return false;
   if(surface.holes?.some(h=>touchesHole(q,h)))return false;
   if(surface.lattice&&!latticeSupports({ ...q, x:q.x-(surface.x||0), z:q.z-(surface.z||0) },surface.lattice))return false;
+  if(surface.gridBars?.length&&!surface.gridBars.some(bar=>overlaps(q,bar,-.003)))return false;
   const body=projectedBounds(child,parent,p,true),bottom=surface.y;
-  return !spaceObstacles(parent).some(part=>part.cavity!==surface.id&&bottom<part.y+part.h/2-.025&&bottom+p.h>part.y-part.h/2+.025&&overlaps(body,part,-.012));
+  return !spaceObstacles(parent).some(part=>part.cavity!==surface.id&&!part.cavities?.includes(surface.id)&&bottom<part.y+part.h/2-.025&&bottom+p.body>part.y-part.h/2+.025&&overlaps(body,part,-.012));
 }
 // Ground areas are derived from actual geometry, not saved as a dependency.
 // Moving a table immediately leaves its ground objects on the world floor.
@@ -179,11 +190,21 @@ export function clearPlacement(list,changedIds,positions=resolveSupports(list),c
     if(changedIds&&!changedIds.has(child.id))continue;
     const size=footprints.get(child.id),relation=positions.get(child.id),bottom=relation?.height||0,descendants=supportedIds(list,child.id,positions);
     if(relation?.invalid)return false;
+    // A vessel placed on a middle shelf does not erase the shelf's overhead
+    // clearance. Every descendant crown must clear each enclosing ancestor.
+    let ancestor=relation,seen=new Set();
+    while(ancestor?.parentId&&!seen.has(ancestor.parentId)) {
+      seen.add(ancestor.parentId);
+      const parent=list.find(o=>o.id===ancestor.parentId),base=positions.get(parent.id)?.height||0;
+      const surface=supportSurfaces(parent).find(s=>s.id===ancestor.surfaceId);
+      if(surface&&Number.isFinite(surface.ceiling)&&bottom+size.h>base+surface.y+surface.ceiling+.025)return false;
+      ancestor=positions.get(parent.id);
+    }
     for(const parent of list) {
       if(parent.id===child.id||descendants.has(parent.id))continue;
       const outer=footprints.get(parent.id),pr=positions.get(parent.id),parentY=pr?.height||0,q=localPoint(child,parent);
       const body=projectedBounds(child,parent,size,true);
-      if(parts.get(parent.id).some(part=>!(relation?.parentId===parent.id&&relation.surfaceId===part.cavity)&&bottom<parentY+part.y+part.h/2-.025&&bottom+size.h>parentY+part.y-part.h/2+.025&&overlaps(body,part,-.012)))return false;
+      if(parts.get(parent.id).some(part=>!(relation?.parentId===parent.id&&(relation.surfaceId===part.cavity||part.cavities?.includes(relation.surfaceId)))&&bottom<parentY+part.y+part.h/2-.025&&bottom+(/shelf-|wood-top|counter-top|drainboard|seat|mattress|table-top/.test(part.role)?size.h:size.body)>parentY+part.y-part.h/2+.025&&overlaps(body,part,-.012)))return false;
       for(const surface of supportSurfaces(parent).filter(s=>s.container)) {
         const rim=parentY+(surface.rim??outer.h);
         if(bottom>=rim-.025||bottom+size.body<=parentY+surface.y-.025)continue;

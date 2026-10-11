@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { updateOpticOverlay } from "../rooftop/3d/optic-overlay.mjs";
-import { resolvePixelGrid, pixelGridSize } from "../rooftop/3d/pixel-grid.mjs";
+import { resolvePixelGrid, resolveObservationPixelGrid, pixelGridSize } from "../rooftop/3d/pixel-grid.mjs";
 
 function fixture(width, height, diameter, dpr = 1) {
   const bounds = { left: 0, top: 0, width, height },
@@ -15,8 +15,9 @@ function fixture(width, height, diameter, dpr = 1) {
     };
     return { style: {}, dataset: {}, getContext() { return ctx; }, ctx, draws };
   }
-  const mask = canvas(), engraving = canvas(), labels = new Map(), element = {
-    ownerDocument: { defaultView: { devicePixelRatio: dpr }, querySelector(selector) { assert.equal(selector, "#garden"); return { dataset: { pixelRatio: String(dpr) }, getBoundingClientRect() { return bounds; } }; } },
+  const world = { dataset: { pixelRatio: String(dpr) }, getBoundingClientRect() { return bounds; } },
+    mask = canvas(), engraving = canvas(), labels = new Map(), element = {
+    ownerDocument: { defaultView: { devicePixelRatio: dpr }, querySelector(selector) { assert.equal(selector, "#garden"); return world; } },
     getBoundingClientRect() { return scope; },
     querySelector(selector) {
       if (selector === ".scope-mask") return mask;
@@ -25,7 +26,7 @@ function fixture(width, height, diameter, dpr = 1) {
       return labels.get(selector);
     },
   };
-  return { element, mask, engraving, scope, bounds, labels };
+  return { element, world, mask, engraving, scope, bounds, labels };
 }
 const reading = { magnification: 3.2, inclinationDegrees: -4.1, measuredSurface: true, distanceMetres: 81.8, mradPixels: 21 };
 
@@ -72,3 +73,49 @@ test("viewport remeasure restores integer display size, updates cached pixel con
   assert.equal(f.mask.width, 282); assert.equal(f.mask.height, 130); assert.equal(f.mask.style.width, "846px");
   assert.equal(parseFloat(f.mask.style.left) + f.scope.left, 0); assert.equal(f.mask.ctx.paints, paints + 1);
 });
+
+test("scope mask and angular engraving follow live detail cells and recover their coarse bitmap on zoom out", () => {
+  for (const dpr of [1, 1.25, 2, 3]) {
+    const f = fixture(407, 662, 358.16, dpr), stages = [["neighbor", 1], ["neighbor", 2], ["neighbor", 8], ["neighbor", 1], ["bird", 8], ["drone", 8]];
+    let previousStep;
+    for (const [view, zoom] of stages) {
+      const grid = resolveObservationPixelGrid(dpr, view, zoom), frame = pixelGridSize(407, 662, grid), pixel = grid.cssPixelStep,
+        paintsBefore = f.mask.ctx.paints, marksBefore = f.engraving.draws.length;
+      Object.assign(f.world.dataset, { pixelRatio: String(dpr), physicalPixelStep: String(grid.pixelStep), targetCssPixelStep: String(grid.targetCssPixelStep) });
+      updateOpticOverlay(f.element, reading);
+      for (const canvas of [f.mask, f.engraving]) {
+        assert.equal(canvas.width, frame.source[0]); assert.equal(canvas.height, frame.source[1]);
+        assert.equal(canvas.dataset.physicalPixelStep, String(grid.pixelStep)); assert.equal(canvas.dataset.pixelStep, String(pixel));
+        close(parseFloat(canvas.style.width) / canvas.width, pixel); close(parseFloat(canvas.style.height) / canvas.height, pixel);
+        assert.equal(parseFloat(canvas.style.left) + f.scope.left, 0); assert.equal(parseFloat(canvas.style.top) + f.scope.top, 0);
+      }
+      const image = f.mask.ctx.image, opening = horizontal => {
+        const length = horizontal ? image.width : image.height, middle = Math.floor(frame.output[horizontal ? 1 : 0] / (2 * grid.pixelStep));
+        let first = length, last = -1;
+        for (let i = 0; i < length; i++) {
+          const x = horizontal ? i : middle, y = horizontal ? middle : i;
+          if (image.data[(y * image.width + x) * 4 + 3] < 230) { first = Math.min(first, i); last = i; }
+        }
+        return (last - first + 1) * pixel;
+      };
+      close(opening(true), opening(false));
+      assert.ok(Math.abs(opening(true) - (f.scope.width - 8)) <= pixel, "refining cells preserves the physical lens opening");
+      if (previousStep !== grid.pixelStep) {
+        assert.equal(f.mask.ctx.paints, paintsBefore + 1, "changing the live sample grid invalidates the bitmap cache");
+        const marks = f.engraving.draws.slice(marksBefore), cx = Math.floor(frame.output[0] / (2 * grid.pixelStep)), cy = Math.floor(frame.output[1] / (2 * grid.pixelStep)),
+          center = marks.find(mark => mark.color === "#a45738");
+        assert.deepEqual([center.x, center.y, center.w, center.h], [cx, cy, 1, 1]);
+        assert.ok(marks.every(mark => Number.isInteger(mark.x) && Number.isInteger(mark.y) && mark.w === 1 && mark.h === 1));
+        assert.ok(marks.some(mark => mark.x === cx + Math.round(reading.mradPixels / pixel) && mark.y === cy - 1), "one MRAD keeps its angular CSS distance at the live cell scale");
+        assert.ok(marks.every(mark => Math.hypot(mark.x - cx, mark.y - cy) < f.scope.width / (2 * pixel)), "detail engraving stays inside the real lens circle");
+      } else {
+        assert.equal(f.mask.ctx.paints, paintsBefore); assert.equal(f.engraving.draws.length, marksBefore, "unchanged integer cells reuse their bitmap");
+      }
+      assert.equal(f.labels.get("[data-scope-range]").textContent, "82 m", "sampling alone cannot alter a measured range");
+      previousStep = grid.pixelStep;
+    }
+    assert.equal(f.mask.dataset.physicalPixelStep, String(resolvePixelGrid(dpr).pixelStep));
+  }
+});
+
+function close(a, b) { assert.ok(Math.abs(a - b) < 1e-12, `${a} != ${b}`); }

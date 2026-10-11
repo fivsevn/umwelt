@@ -69,11 +69,18 @@ const routes = [
               null,
               { timeout: 90000 },
             );
+            if (route.includes("room/")) {
+              await page.waitForFunction(() => window.room?.graphics?.roomBackground?.loaded, null, { timeout: 90000 });
+              assert.equal(await page.locator("canvas").getAttribute("data-room-door-parts"), "14");
+              assert.equal(await page.locator("canvas").getAttribute("data-room-background-error"), null);
+            }
             const graphics = await page.evaluate(
               () => window.rooftop?.graphics || window.room.graphics,
             );
-            assert.equal(graphics.catalog, 304);
-            assert.ok(graphics.instances > 0);
+            assert.equal(graphics.catalog, 294);
+            assert.ok(graphics.drawCalls > 0);
+            assert.equal(graphics.raster.enabled, true, "formal room, garage and observation use game sampling");
+            assert.ok(graphics.raster.pixelStep >= 2, "formal pages retain visible grain");
             assert.equal(
               graphics.controls,
               route.includes("arrange")

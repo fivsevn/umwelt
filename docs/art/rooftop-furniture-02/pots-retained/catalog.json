@@ -1,0 +1,2397 @@
+{
+  "texelsPerMetre": 16.0,
+  "items": [
+    {
+      "id": "vessel-tokoname",
+      "name": "常滑烧风格盆",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "tokoname",
+      "originalRuntimeId": "vessel-tokoname",
+      "ja": "常滑焼",
+      "note": "外缘椭圆盆，矮足与宽口参考常滑盆栽鉢。",
+      "sources": [
+        {
+          "label": "まるたつ · 常滑盆栽鉢",
+          "url": "https://marutatu.shop-pro.jp/"
+        },
+        {
+          "label": "传统工艺青山 Square",
+          "url": "https://kougeihin.jp/craft/0407/"
+        }
+      ],
+      "pattern": "plain",
+      "originalColor": "#9b5d3c",
+      "originalRim": "#d6a87e",
+      "originalInk": "#4b2519",
+      "shape": "oval",
+      "originalKind": "ceramic",
+      "shapeLabel": "外缘椭圆",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.45080000162124634,
+      "depth": 0.31105199456214905,
+      "height": 0.10499999672174454,
+      "boundsMin": [
+        -0.22540000081062317,
+        -0.15552599728107452,
+        0.0
+      ],
+      "boundsMax": [
+        0.22540000081062317,
+        0.15552599728107452,
+        0.10499999672174454
+      ],
+      "file": "assets/vessel-tokoname.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.0316,
+          "width": 0.26759999999999995,
+          "depth": 0.18464399999999995,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "ellipse",
+          "container": true,
+          "rimHeight": 0.105,
+          "headroom": 0.07339999999999999,
+          "openingWidth": 0.416,
+          "openingDepth": 0.28703999999999996,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.012
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.45080000162124634,
+        "depth": 0.31105199456214905
+      },
+      "triangles": 800,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-shigaraki",
+      "name": "信乐烧风格盆",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "shigaraki",
+      "originalRuntimeId": "vessel-shigaraki",
+      "ja": "信楽焼",
+      "note": "宽口、圆腹的育成鉢；参考信乐 ZEN Bowl 的宽深比例。",
+      "sources": [
+        {
+          "label": "ZEN Pottery Labo · Bowl",
+          "url": "https://zenpotterylabo.jp/products/zen-bowl-type-7号-無釉"
+        },
+        {
+          "label": "传统工艺青山 Square",
+          "url": "https://kougeihin.jp/craft/0413/"
+        }
+      ],
+      "pattern": "speckle",
+      "originalColor": "#ab8657",
+      "originalRim": "#d0bb90",
+      "originalInk": "#56503a",
+      "shape": "bowl",
+      "originalKind": "ceramic",
+      "shapeLabel": "宽口圆腹",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.3864000141620636,
+      "depth": 0.3864000141620636,
+      "height": 0.19699999690055847,
+      "boundsMin": [
+        -0.1932000070810318,
+        -0.1932000070810318,
+        0.0
+      ],
+      "boundsMax": [
+        0.1932000070810318,
+        0.1932000070810318,
+        0.19699999690055847
+      ],
+      "file": "assets/vessel-shigaraki.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.0278,
+          "width": 0.1234,
+          "depth": 0.1234,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "rimHeight": 0.197,
+          "headroom": 0.16920000000000002,
+          "openingWidth": 0.33999999999999997,
+          "openingDepth": 0.33999999999999997,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.01
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.3864000141620636,
+        "depth": 0.3864000141620636
+      },
+      "triangles": 648,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-bizen",
+      "name": "备前烧风格盆",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "bizen",
+      "originalRuntimeId": "vessel-bizen",
+      "ja": "備前焼",
+      "note": "保留烧締土肌与火痕，选圆腹收口轮廓转成排水盆。",
+      "sources": [
+        {
+          "label": "しょうざん · 备前植木鉢",
+          "url": "https://bizen-shozan.com/bizenyaki-category/floral-organs/flower-pot/"
+        },
+        {
+          "label": "传统工艺青山 Square",
+          "url": "https://kougeihin.jp/craft/0418/"
+        }
+      ],
+      "pattern": "fire",
+      "originalColor": "#7e4d38",
+      "originalRim": "#c78650",
+      "originalInk": "#483125",
+      "shape": "jar",
+      "originalKind": "ceramic",
+      "shapeLabel": "鼓腹壶形",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.3659999966621399,
+      "depth": 0.3659999966621399,
+      "height": 0.23800000548362732,
+      "boundsMin": [
+        -0.18299999833106995,
+        -0.18299999833106995,
+        0.0
+      ],
+      "boundsMax": [
+        0.18299999833106995,
+        0.18299999833106995,
+        0.23800000548362732
+      ],
+      "file": "assets/vessel-bizen.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.0264,
+          "width": 0.15598,
+          "depth": 0.15598,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "rimHeight": 0.238,
+          "headroom": 0.21159999999999998,
+          "openingWidth": 0.25948,
+          "openingDepth": 0.25948,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.01
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.3659999966621399,
+        "depth": 0.3659999966621399
+      },
+      "triangles": 688,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-mashiko",
+      "name": "益子烧风格盆",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "mashiko",
+      "originalRuntimeId": "vessel-mashiko",
+      "ja": "益子焼",
+      "note": "参考益子窑元的开形植木鉢，外撇口、收底与纵向削纹。",
+      "sources": [
+        {
+          "label": "よこやま · 开形植木鉢",
+          "url": "https://www.shop.tougei.net/view/item/000000000509?category_page_id=ct94"
+        },
+        {
+          "label": "传统工艺青山 Square",
+          "url": "https://kougeihin.jp/craft/0404/"
+        }
+      ],
+      "pattern": "brush",
+      "originalColor": "#6a5b39",
+      "originalRim": "#dac492",
+      "originalInk": "#2d2f20",
+      "shape": "flare",
+      "originalKind": "ceramic",
+      "shapeLabel": "外撇钵",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.38453730940818787,
+      "depth": 0.38453730940818787,
+      "height": 0.17900000512599945,
+      "boundsMin": [
+        -0.19226865470409393,
+        -0.19226865470409393,
+        0.0
+      ],
+      "boundsMax": [
+        0.19226865470409393,
+        0.19226865470409393,
+        0.17900000512599945
+      ],
+      "file": "assets/vessel-mashiko.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.0284,
+          "width": 0.13576,
+          "depth": 0.13576,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "rimHeight": 0.179,
+          "headroom": 0.15059999999999998,
+          "openingWidth": 0.33599999999999997,
+          "openingDepth": 0.33599999999999997,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.01
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.38453730940818787,
+        "depth": 0.38453730940818787
+      },
+      "triangles": 752,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-kasama",
+      "name": "笠间烧风格盆",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "kasama",
+      "originalRuntimeId": "vessel-kasama",
+      "ja": "笠間焼",
+      "note": "笠间器形多样，选切立圆筒与流釉；不是该产地唯一的器型。",
+      "sources": [
+        {
+          "label": "笠间烧协同组合 · 植木鉢展",
+          "url": "https://kasamayaki.or.jp/akiichi/"
+        },
+        {
+          "label": "传统工艺青山 Square",
+          "url": "https://kougeihin.jp/craft/0403/"
+        }
+      ],
+      "pattern": "drip",
+      "originalColor": "#6c9381",
+      "originalRim": "#c1cea7",
+      "originalInk": "#345448",
+      "shape": "cylinder",
+      "originalKind": "ceramic",
+      "shapeLabel": "切立圆筒",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.32203999161720276,
+      "depth": 0.32203999161720276,
+      "height": 0.20100000500679016,
+      "boundsMin": [
+        -0.16101999580860138,
+        -0.16101999580860138,
+        0.0
+      ],
+      "boundsMax": [
+        0.16101999580860138,
+        0.16101999580860138,
+        0.20100000500679016
+      ],
+      "file": "assets/vessel-kasama.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.022,
+          "width": 0.24488,
+          "depth": 0.24488,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "rimHeight": 0.201,
+          "headroom": 0.17900000000000002,
+          "openingWidth": 0.30004,
+          "openingDepth": 0.30004,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.01
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.32203999161720276,
+        "depth": 0.32203999161720276
+      },
+      "triangles": 608,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-mino",
+      "name": "美浓烧·织部风格盆",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "mino",
+      "originalRuntimeId": "vessel-mino",
+      "ja": "美濃焼",
+      "note": "参考织部四足四方鉢：方口、折角器身与短足，配浓绿釉。",
+      "sources": [
+        {
+          "label": "美浓烧协同组合 · 织部四足四方鉢",
+          "url": "https://www.minoyaki.gr.jp/archives/2939"
+        },
+        {
+          "label": "传统工艺青山 Square",
+          "url": "https://kougeihin.jp/craft/0406/"
+        }
+      ],
+      "pattern": "oribe",
+      "originalColor": "#4d7758",
+      "originalRim": "#bcc584",
+      "originalInk": "#1c362b",
+      "shape": "square",
+      "originalKind": "ceramic",
+      "shapeLabel": "四足方钵",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.3540000021457672,
+      "depth": 0.3540000021457672,
+      "height": 0.13500000536441803,
+      "boundsMin": [
+        -0.1770000010728836,
+        -0.1770000010728836,
+        0.0
+      ],
+      "boundsMax": [
+        0.1770000010728836,
+        0.1770000010728836,
+        0.13500000536441803
+      ],
+      "file": "assets/vessel-mino.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.0402,
+          "width": 0.21133999999999994,
+          "depth": 0.21133999999999994,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "rectangle",
+          "container": true,
+          "rimHeight": 0.135,
+          "headroom": 0.09480000000000001,
+          "openingWidth": 0.32599999999999996,
+          "openingDepth": 0.32599999999999996,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.01
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.3540000021457672,
+        "depth": 0.3540000021457672
+      },
+      "triangles": 368,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-seto",
+      "name": "濑户染付风格盆",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "seto",
+      "originalRuntimeId": "vessel-seto",
+      "ja": "瀬戸染付焼",
+      "note": "染付蓝枝叶配宽口弧腹；白地留出空白。",
+      "sources": [
+        {
+          "label": "传统工艺青山 Square",
+          "url": "https://kougeihin.jp/craft/0409/"
+        }
+      ],
+      "pattern": "blue",
+      "originalColor": "#cbd0ac",
+      "originalRim": "#efe6ca",
+      "originalInk": "#49738b",
+      "shape": "bowl",
+      "originalKind": "ceramic",
+      "shapeLabel": "宽口圆腹",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.3479999899864197,
+      "depth": 0.3479999899864197,
+      "height": 0.12800000607967377,
+      "boundsMin": [
+        -0.17399999499320984,
+        -0.17399999499320984,
+        0.0
+      ],
+      "boundsMax": [
+        0.17399999499320984,
+        0.17399999499320984,
+        0.12800000607967377
+      ],
+      "file": "assets/vessel-seto.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.031,
+          "width": 0.10919999999999999,
+          "depth": 0.10919999999999999,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "rimHeight": 0.128,
+          "headroom": 0.097,
+          "openingWidth": 0.32999999999999996,
+          "openingDepth": 0.32999999999999996,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.01
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.3479999899864197,
+        "depth": 0.3479999899864197
+      },
+      "triangles": 704,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-kutani",
+      "name": "九谷烧风格盆",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "kutani",
+      "originalRuntimeId": "vessel-kutani",
+      "ja": "九谷焼",
+      "note": "参考九谷木瓜鉢，四瓣轮廓、低腹与彩绘；改作有排水孔的盆。",
+      "sources": [
+        {
+          "label": "KUTANI SEAL · 木瓜鉢",
+          "url": "https://www.kutaniseal.com/items/101475439"
+        },
+        {
+          "label": "传统工艺青山 Square",
+          "url": "https://kougeihin.jp/craft/0405/"
+        }
+      ],
+      "pattern": "kutani",
+      "originalColor": "#d9be7e",
+      "originalRim": "#eadcbb",
+      "originalInk": "#5d824b",
+      "shape": "mokko",
+      "originalKind": "ceramic",
+      "shapeLabel": "木瓜钵",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.48614001274108887,
+      "depth": 0.3791891932487488,
+      "height": 0.0860000029206276,
+      "boundsMin": [
+        -0.24307000637054443,
+        -0.1895945966243744,
+        0.0
+      ],
+      "boundsMax": [
+        0.24307000637054443,
+        0.1895945966243744,
+        0.0860000029206276
+      ],
+      "file": "assets/vessel-kutani.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.026000000000000002,
+          "width": 0.29263999999999996,
+          "depth": 0.22825919999999997,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "ellipse",
+          "container": true,
+          "rimHeight": 0.086,
+          "headroom": 0.05999999999999999,
+          "openingWidth": 0.418,
+          "openingDepth": 0.32604,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.012
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.48614001274108887,
+        "depth": 0.3791891932487488
+      },
+      "triangles": 944,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-arita",
+      "name": "有田烧风格盆",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "arita",
+      "originalRuntimeId": "vessel-arita",
+      "ja": "伊万里・有田焼",
+      "note": "轮花口沿配薄壁弧腹；参考有田轮花盛鉢后转作园艺盆。",
+      "sources": [
+        {
+          "label": "ARITA PORCELAIN LAB · 轮花盛鉢",
+          "url": "https://aritaporcelainlab.com/catalog/jp/20150815/japan_autumn_20150815.pdf"
+        },
+        {
+          "label": "传统工艺青山 Square",
+          "url": "https://kougeihin.jp/craft/0424/"
+        }
+      ],
+      "pattern": "blue",
+      "originalColor": "#c2cfb5",
+      "originalRim": "#f2ead3",
+      "originalInk": "#406884",
+      "shape": "scallop",
+      "originalKind": "ceramic",
+      "shapeLabel": "轮花钵",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.40006399154663086,
+      "depth": 0.3646308183670044,
+      "height": 0.14149999618530273,
+      "boundsMin": [
+        -0.20003199577331543,
+        -0.1823154091835022,
+        0.0
+      ],
+      "boundsMax": [
+        0.20003199577331543,
+        0.1823154091835022,
+        0.14149999618530273
+      ],
+      "file": "assets/vessel-arita.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.032,
+          "width": 0.12416,
+          "depth": 0.12416,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "rimHeight": 0.14,
+          "headroom": 0.10800000000000001,
+          "openingWidth": 0.358,
+          "openingDepth": 0.358,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.01
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.40006399154663086,
+        "depth": 0.3646308183670044
+      },
+      "triangles": 992,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-imari",
+      "name": "伊万里烧风格盆",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "imari",
+      "originalRuntimeId": "vessel-imari",
+      "ja": "伊万里・有田焼",
+      "note": "白瓷、深蓝与赤色分区纹；选带高台的碗形转作排水盆。",
+      "sources": [
+        {
+          "label": "传统工艺青山 Square",
+          "url": "https://kougeihin.jp/craft/0424/"
+        }
+      ],
+      "pattern": "imari",
+      "originalColor": "#d3cda2",
+      "originalRim": "#ecddc0",
+      "originalInk": "#44677c",
+      "shape": "footed",
+      "originalKind": "ceramic",
+      "shapeLabel": "高台碗",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.3619999885559082,
+      "depth": 0.3619999885559082,
+      "height": 0.18000000715255737,
+      "boundsMin": [
+        -0.1809999942779541,
+        -0.1809999942779541,
+        0.0
+      ],
+      "boundsMax": [
+        0.1809999942779541,
+        0.1809999942779541,
+        0.18000000715255737
+      ],
+      "file": "assets/vessel-imari.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.054,
+          "width": 0.14337999999999998,
+          "depth": 0.14337999999999998,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "rimHeight": 0.18,
+          "headroom": 0.126,
+          "openingWidth": 0.33999999999999997,
+          "openingDepth": 0.33999999999999997,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.01
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.3619999885559082,
+        "depth": 0.3619999885559082
+      },
+      "triangles": 704,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-hasami",
+      "name": "波佐见烧风格盆",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "hasami",
+      "originalRuntimeId": "vessel-hasami",
+      "ja": "波佐見焼",
+      "note": "参考波佐见「いろは」荞麦杯的收底杯形，青白胎与细竖纹。",
+      "sources": [
+        {
+          "label": "波佐见烧 · いろは器物",
+          "url": "https://store.hasamiyaki.jp/html/page84.html"
+        },
+        {
+          "label": "传统工艺青山 Square",
+          "url": "https://kougeihin.jp/craft/0427/"
+        }
+      ],
+      "pattern": "stripe",
+      "originalColor": "#b4d5c4",
+      "originalRim": "#f3ebd6",
+      "originalInk": "#4b7883",
+      "shape": "cup",
+      "originalKind": "ceramic",
+      "shapeLabel": "收底杯形",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.2919999957084656,
+      "depth": 0.2919999957084656,
+      "height": 0.15800000727176666,
+      "boundsMin": [
+        -0.1459999978542328,
+        -0.1459999978542328,
+        0.0
+      ],
+      "boundsMax": [
+        0.1459999978542328,
+        0.1459999978542328,
+        0.15800000727176666
+      ],
+      "file": "assets/vessel-hasami.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.019,
+          "width": 0.15103999999999998,
+          "depth": 0.15103999999999998,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "rimHeight": 0.158,
+          "headroom": 0.139,
+          "openingWidth": 0.27399999999999997,
+          "openingDepth": 0.27399999999999997,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.01
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.2919999957084656,
+        "depth": 0.2919999957084656
+      },
+      "triangles": 608,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-kyoto",
+      "name": "京烧·清水烧风格盆",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "kyoto",
+      "originalRuntimeId": "vessel-kyoto",
+      "ja": "京焼・清水焼",
+      "note": "参考京烧菊割高台小鉢，花口与显露的高台让轮廓轻一些。",
+      "sources": [
+        {
+          "label": "やまなか雅陶 · 菊割高台小鉢",
+          "url": "https://www.yamanaka-gato.com/product/472"
+        },
+        {
+          "label": "传统工艺青山 Square",
+          "url": "https://kougeihin.jp/craft/0414/"
+        }
+      ],
+      "pattern": "flower",
+      "originalColor": "#d5b074",
+      "originalRim": "#e6d3ac",
+      "originalInk": "#759359",
+      "shape": "pedestal",
+      "originalKind": "ceramic",
+      "shapeLabel": "菊割高台",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.3957659900188446,
+      "depth": 0.3957659900188446,
+      "height": 0.18549999594688416,
+      "boundsMin": [
+        -0.1978829950094223,
+        -0.1978829950094223,
+        0.0
+      ],
+      "boundsMax": [
+        0.1978829950094223,
+        0.1978829950094223,
+        0.18549999594688416
+      ],
+      "file": "assets/vessel-kyoto.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.083,
+          "width": 0.09852000000000002,
+          "depth": 0.09852000000000002,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "rimHeight": 0.184,
+          "headroom": 0.10099999999999999,
+          "openingWidth": 0.36,
+          "openingDepth": 0.36,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.01
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.3957659900188446,
+        "depth": 0.3957659900188446
+      },
+      "triangles": 1280,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-hagi",
+      "name": "萩烧风格盆",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "hagi",
+      "originalRuntimeId": "vessel-hagi",
+      "ja": "萩焼",
+      "note": "参考萩烧窑元的轮花高台鉢，乳白粉釉与花瓣口沿。",
+      "sources": [
+        {
+          "label": "松光山 · 轮花高台鉢",
+          "url": "https://shokouzan.stores.jp/items/655b72164e11f10767525274"
+        },
+        {
+          "label": "传统工艺青山 Square",
+          "url": "https://kougeihin.jp/craft/0419/"
+        }
+      ],
+      "pattern": "crackle",
+      "originalColor": "#bba387",
+      "originalRim": "#e8d6ba",
+      "originalInk": "#895e7b",
+      "shape": "scallop",
+      "originalKind": "ceramic",
+      "shapeLabel": "轮花钵",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.38808000087738037,
+      "depth": 0.38808000087738037,
+      "height": 0.17350000143051147,
+      "boundsMin": [
+        -0.19404000043869019,
+        -0.19404000043869019,
+        0.0
+      ],
+      "boundsMax": [
+        0.19404000043869019,
+        0.19404000043869019,
+        0.17350000143051147
+      ],
+      "file": "assets/vessel-hagi.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.06839999999999999,
+          "width": 0.12400000000000001,
+          "depth": 0.12400000000000001,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "rimHeight": 0.172,
+          "headroom": 0.1036,
+          "openingWidth": 0.33399999999999996,
+          "openingDepth": 0.33399999999999996,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.01
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.38808000087738037,
+        "depth": 0.38808000087738037
+      },
+      "triangles": 1088,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-karatsu",
+      "name": "唐津烧风格盆",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "karatsu",
+      "originalRuntimeId": "vessel-karatsu",
+      "ja": "唐津焼",
+      "note": "铁绘草叶与灰黄釉，选弧腹、低高台的碗形转成园艺盆。",
+      "sources": [
+        {
+          "label": "传统工艺青山 Square",
+          "url": "https://kougeihin.jp/craft/0425/"
+        }
+      ],
+      "pattern": "grass",
+      "originalColor": "#bda266",
+      "originalRim": "#e2d2a3",
+      "originalInk": "#59442d",
+      "shape": "footed",
+      "originalKind": "ceramic",
+      "shapeLabel": "高台碗",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.3659999966621399,
+      "depth": 0.3659999966621399,
+      "height": 0.14499999582767487,
+      "boundsMin": [
+        -0.18299999833106995,
+        -0.18299999833106995,
+        0.0
+      ],
+      "boundsMax": [
+        0.18299999833106995,
+        0.18299999833106995,
+        0.14499999582767487
+      ],
+      "file": "assets/vessel-karatsu.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.0374,
+          "width": 0.11572,
+          "depth": 0.11572,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "rimHeight": 0.145,
+          "headroom": 0.10759999999999999,
+          "openingWidth": 0.33999999999999997,
+          "openingDepth": 0.33999999999999997,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.01
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.3659999966621399,
+        "depth": 0.3659999966621399
+      },
+      "triangles": 608,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-tobe",
+      "name": "砥部烧风格盆",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "tobe",
+      "originalRuntimeId": "vessel-tobe",
+      "ja": "砥部焼",
+      "note": "参考梅山窑玉缘鉢，厚圆口沿、圆腹与青花卷草纹。",
+      "sources": [
+        {
+          "label": "梅山窑 · 玉缘鉢",
+          "url": "https://baizangama.jp/catalog/catalog-cat/tamabuchi/"
+        },
+        {
+          "label": "传统工艺青山 Square",
+          "url": "https://kougeihin.jp/craft/0421/"
+        }
+      ],
+      "pattern": "scroll",
+      "originalColor": "#cdd3ad",
+      "originalRim": "#f1ecd0",
+      "originalInk": "#436780",
+      "shape": "rolled",
+      "originalKind": "ceramic",
+      "shapeLabel": "玉缘钵",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.37439998984336853,
+      "depth": 0.37439998984336853,
+      "height": 0.17669999599456787,
+      "boundsMin": [
+        -0.18719999492168427,
+        -0.18719999492168427,
+        0.0
+      ],
+      "boundsMax": [
+        0.18719999492168427,
+        0.18719999492168427,
+        0.17669999599456787
+      ],
+      "file": "assets/vessel-tobe.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.037000000000000005,
+          "width": 0.1092,
+          "depth": 0.1092,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "rimHeight": 0.174,
+          "headroom": 0.13699999999999998,
+          "openingWidth": 0.3228,
+          "openingDepth": 0.3228,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.01
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.37439998984336853,
+        "depth": 0.37439998984336853
+      },
+      "triangles": 848,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-koishiwara",
+      "name": "小石原烧风格盆",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "koishiwara",
+      "originalRuntimeId": "vessel-koishiwara",
+      "ja": "小石原焼",
+      "note": "飞铇短点纹沿外撇器壁重复，宽口收底轮廓转作排水盆。",
+      "sources": [
+        {
+          "label": "传统工艺青山 Square",
+          "url": "https://kougeihin.jp/craft/0422/"
+        }
+      ],
+      "pattern": "dash",
+      "originalColor": "#948052",
+      "originalRim": "#e1cea3",
+      "originalInk": "#44442b",
+      "shape": "flare",
+      "originalKind": "ceramic",
+      "shapeLabel": "外撇钵",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.37880000472068787,
+      "depth": 0.37880000472068787,
+      "height": 0.16500000655651093,
+      "boundsMin": [
+        -0.18940000236034393,
+        -0.18940000236034393,
+        0.0
+      ],
+      "boundsMax": [
+        0.18940000236034393,
+        0.18940000236034393,
+        0.16500000655651093
+      ],
+      "file": "assets/vessel-koishiwara.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.027600000000000003,
+          "width": 0.14064,
+          "depth": 0.14064,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "rimHeight": 0.165,
+          "headroom": 0.1374,
+          "openingWidth": 0.344,
+          "openingDepth": 0.344,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.01
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.37880000472068787,
+        "depth": 0.37880000472068787
+      },
+      "triangles": 752,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-ontayaki",
+      "name": "丹波立杭烧风格盆",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "ontayaki",
+      "originalRuntimeId": "vessel-ontayaki",
+      "ja": "丹波立杭焼",
+      "note": "参考丹波山椒壶的面取技法，把多面鼓腹和自然流釉转成宽口园艺盆。",
+      "sources": [
+        {
+          "label": "丹波立杭陶磁器协同组合 · 器物与技法",
+          "url": "https://tanbayaki.com/tanbayaki/"
+        },
+        {
+          "label": "传统工艺青山 Square",
+          "url": "https://kougeihin.jp/craft/0415/"
+        }
+      ],
+      "pattern": "drip",
+      "originalColor": "#8f6b4a",
+      "originalRim": "#d2b171",
+      "originalInk": "#4f4630",
+      "shape": "faceted",
+      "originalKind": "ceramic",
+      "shapeLabel": "面取鼓腹",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.39399999380111694,
+      "depth": 0.37471628189086914,
+      "height": 0.20399999618530273,
+      "boundsMin": [
+        -0.19699999690055847,
+        -0.18735814094543457,
+        0.0
+      ],
+      "boundsMax": [
+        0.19699999690055847,
+        0.18735814094543457,
+        0.20399999618530273
+      ],
+      "file": "assets/vessel-ontayaki.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.029200000000000004,
+          "width": 0.1964,
+          "depth": 0.1964,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "rimHeight": 0.204,
+          "headroom": 0.17479999999999998,
+          "openingWidth": 0.30295999999999995,
+          "openingDepth": 0.30295999999999995,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.012
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.39399999380111694,
+        "depth": 0.37471628189086914
+      },
+      "triangles": 408,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-iga",
+      "name": "伊贺烧风格盆",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "iga",
+      "originalRuntimeId": "vessel-iga",
+      "ja": "伊賀焼",
+      "note": "粗土肌与不规则灰绿釉；保留手作偏心口沿，宽腹收底。",
+      "sources": [
+        {
+          "label": "传统工艺青山 Square",
+          "url": "https://kougeihin.jp/craft/0411/"
+        }
+      ],
+      "pattern": "speckle",
+      "originalColor": "#82825a",
+      "originalRim": "#c4d095",
+      "originalInk": "#414a32",
+      "shape": "irregular",
+      "originalKind": "ceramic",
+      "shapeLabel": "手捏不整形",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.384714275598526,
+      "depth": 0.38728465139865875,
+      "height": 0.18439359962940216,
+      "boundsMin": [
+        -0.17944106459617615,
+        -0.19258321821689606,
+        0.0
+      ],
+      "boundsMax": [
+        0.20527321100234985,
+        0.1947014331817627,
+        0.18439359962940216
+      ],
+      "file": "assets/vessel-iga.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.0298,
+          "width": 0.15184,
+          "depth": 0.15184,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "rimHeight": 0.181,
+          "headroom": 0.1512,
+          "openingWidth": 0.352,
+          "openingDepth": 0.352,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.012
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.384714275598526,
+        "depth": 0.38728465139865875
+      },
+      "triangles": 704,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-echizen",
+      "name": "越前烧风格盆",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "echizen",
+      "originalRuntimeId": "vessel-echizen",
+      "ja": "越前焼",
+      "note": "参考越前壶的收口、鼓肩与圆腹，开口放宽并加排水孔。",
+      "sources": [
+        {
+          "label": "爱知县陶磁美术馆 · 越前壶",
+          "url": "https://jmapps.ne.jp/aitou/det.html?data_id=538"
+        },
+        {
+          "label": "传统工艺青山 Square",
+          "url": "https://kougeihin.jp/craft/0412/"
+        }
+      ],
+      "pattern": "fire",
+      "originalColor": "#78563f",
+      "originalRim": "#c39964",
+      "originalInk": "#433728",
+      "shape": "jar",
+      "originalKind": "ceramic",
+      "shapeLabel": "鼓腹壶形",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.4000000059604645,
+      "depth": 0.4000000059604645,
+      "height": 0.27799999713897705,
+      "boundsMin": [
+        -0.20000000298023224,
+        -0.20000000298023224,
+        0.0
+      ],
+      "boundsMax": [
+        0.20000000298023224,
+        0.20000000298023224,
+        0.27799999713897705
+      ],
+      "file": "assets/vessel-echizen.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.029,
+          "width": 0.18599999999999997,
+          "depth": 0.18599999999999997,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "rimHeight": 0.272,
+          "headroom": 0.24300000000000002,
+          "openingWidth": 0.24999999999999997,
+          "openingDepth": 0.24999999999999997,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.012
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.4000000059604645,
+        "depth": 0.4000000059604645
+      },
+      "triangles": 728,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-tsuboya",
+      "name": "壶屋烧风格盆",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "tsuboya",
+      "originalRuntimeId": "vessel-tsuboya",
+      "ja": "壺屋焼",
+      "note": "厚胎圆腹与外翻厚口沿，蓝绿刷绘；以产地器物为风格转译。",
+      "sources": [
+        {
+          "label": "传统工艺青山 Square",
+          "url": "https://kougeihin.jp/craft/0431/"
+        }
+      ],
+      "pattern": "scroll",
+      "originalColor": "#959f6c",
+      "originalRim": "#e3d79f",
+      "originalInk": "#2d5e70",
+      "shape": "rolled",
+      "originalKind": "ceramic",
+      "shapeLabel": "玉缘钵",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.42103999853134155,
+      "depth": 0.42103999853134155,
+      "height": 0.20387999713420868,
+      "boundsMin": [
+        -0.21051999926567078,
+        -0.21051999926567078,
+        0.0
+      ],
+      "boundsMax": [
+        0.21051999926567078,
+        0.21051999926567078,
+        0.20387999713420868
+      ],
+      "file": "assets/vessel-tsuboya.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.0368,
+          "width": 0.13908,
+          "depth": 0.13908,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "rimHeight": 0.201,
+          "headroom": 0.1642,
+          "openingWidth": 0.366,
+          "openingDepth": 0.366,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.012
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.42103999853134155,
+        "depth": 0.42103999853134155
+      },
+      "triangles": 848,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-terra",
+      "name": "普通红陶盆",
+      "category": "栽培与盛放",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "terra",
+      "originalRuntimeId": "vessel-terra",
+      "ja": "",
+      "note": "朴素红陶，有排水孔；适合大多数中小型植物。",
+      "sources": [
+        {
+          "label": "RHS 容器栽培",
+          "url": "https://www.rhs.org.uk/container-gardening"
+        }
+      ],
+      "pattern": "plain",
+      "originalColor": "#704831",
+      "originalRim": "#a37a4b",
+      "originalInk": "#3b2c23",
+      "shape": "round",
+      "originalKind": "basic",
+      "shapeLabel": "",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.3368000090122223,
+      "depth": 0.3368000090122223,
+      "height": 0.2070000022649765,
+      "boundsMin": [
+        -0.16840000450611115,
+        -0.16840000450611115,
+        0.0
+      ],
+      "boundsMax": [
+        0.16840000450611115,
+        0.16840000450611115,
+        0.2070000022649765
+      ],
+      "file": "assets/vessel-terra.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.0206,
+          "width": 0.16938,
+          "depth": 0.16938,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "rimHeight": 0.207,
+          "headroom": 0.18639999999999998,
+          "openingWidth": 0.302,
+          "openingDepth": 0.302,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.01
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.3368000090122223,
+        "depth": 0.3368000090122223
+      },
+      "triangles": 544,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-plastic",
+      "name": "黑色育苗盆",
+      "category": "栽培与盛放",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "plastic",
+      "originalRuntimeId": "vessel-plastic",
+      "ja": "",
+      "note": "轻便塑料盆，有排水孔；适合育苗和中小型植株。",
+      "sources": [
+        {
+          "label": "RHS 容器栽培",
+          "url": "https://www.rhs.org.uk/container-gardening"
+        }
+      ],
+      "pattern": "plain",
+      "originalColor": "#323b33",
+      "originalRim": "#646f59",
+      "originalInk": "#1c2b26",
+      "shape": "round",
+      "originalKind": "basic",
+      "shapeLabel": "",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.23277999460697174,
+      "depth": 0.23277999460697174,
+      "height": 0.17299999296665192,
+      "boundsMin": [
+        -0.11638999730348587,
+        -0.11638999730348587,
+        0.0
+      ],
+      "boundsMax": [
+        0.11638999730348587,
+        0.11638999730348587,
+        0.17299999296665192
+      ],
+      "file": "assets/vessel-plastic.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.020999999999999998,
+          "width": 0.1208,
+          "depth": 0.1208,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "rimHeight": 0.173,
+          "headroom": 0.152,
+          "openingWidth": 0.19999999999999998,
+          "openingDepth": 0.19999999999999998,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.01
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.23277999460697174,
+        "depth": 0.23277999460697174
+      },
+      "triangles": 752,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-white",
+      "name": "白色塑料盆",
+      "category": "栽培与盛放",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "white",
+      "originalRuntimeId": "vessel-white",
+      "ja": "",
+      "note": "浅色塑料盆，有排水孔；适合日常盆栽。",
+      "sources": [
+        {
+          "label": "RHS 容器栽培",
+          "url": "https://www.rhs.org.uk/container-gardening"
+        }
+      ],
+      "pattern": "plain",
+      "originalColor": "#c1c3aa",
+      "originalRim": "#e1dcb9",
+      "originalInk": "#607164",
+      "shape": "round",
+      "originalKind": "basic",
+      "shapeLabel": "",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.3319999873638153,
+      "depth": 0.3319999873638153,
+      "height": 0.21799999475479126,
+      "boundsMin": [
+        -0.16599999368190765,
+        -0.16599999368190765,
+        0.0
+      ],
+      "boundsMax": [
+        0.16599999368190765,
+        0.16599999368190765,
+        0.21799999475479126
+      ],
+      "file": "assets/vessel-white.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.022,
+          "width": 0.20667999999999997,
+          "depth": 0.20667999999999997,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "rimHeight": 0.218,
+          "headroom": 0.196,
+          "openingWidth": 0.304,
+          "openingDepth": 0.304,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.01
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.3319999873638153,
+        "depth": 0.3319999873638153
+      },
+      "triangles": 720,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-shallow",
+      "name": "浅陶盘",
+      "category": "栽培与盛放",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "shallow",
+      "originalRuntimeId": "vessel-shallow",
+      "ja": "",
+      "note": "浅盘有排水孔，供浅根多肉和低矮草花使用。",
+      "sources": [
+        {
+          "label": "RHS 容器栽培",
+          "url": "https://www.rhs.org.uk/container-gardening"
+        }
+      ],
+      "pattern": "plain",
+      "originalColor": "#96794f",
+      "originalRim": "#c6b079",
+      "originalInk": "#5d5236",
+      "shape": "shallow",
+      "originalKind": "shallow",
+      "shapeLabel": "",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.38260000944137573,
+      "depth": 0.38260000944137573,
+      "height": 0.07800000160932541,
+      "boundsMin": [
+        -0.19130000472068787,
+        -0.19130000472068787,
+        0.0
+      ],
+      "boundsMax": [
+        0.19130000472068787,
+        0.19130000472068787,
+        0.07800000160932541
+      ],
+      "file": "assets/vessel-shallow.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.0222,
+          "width": 0.1931,
+          "depth": 0.1931,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "rimHeight": 0.078,
+          "headroom": 0.0558,
+          "openingWidth": 0.34199999999999997,
+          "openingDepth": 0.34199999999999997,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.01
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.38260000944137573,
+        "depth": 0.38260000944137573
+      },
+      "triangles": 752,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-foam",
+      "name": "泡沫种植箱",
+      "category": "栽培与盛放",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "foam",
+      "originalRuntimeId": "vessel-foam",
+      "note": "白色泡沫箱，底部设排水孔；适合葱、薄荷、叶菜和草莓。",
+      "sources": [
+        {
+          "label": "RHS 容器栽培",
+          "url": "https://www.rhs.org.uk/container-gardening"
+        }
+      ],
+      "pattern": "plain",
+      "originalColor": "#b9b9a2",
+      "originalRim": "#dbd6b6",
+      "originalInk": "#797c6d",
+      "shape": "box",
+      "originalKind": "edible",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.6340000033378601,
+      "depth": 0.4180000126361847,
+      "height": 0.2510000169277191,
+      "boundsMin": [
+        -0.31700000166893005,
+        -0.20900000631809235,
+        0.0
+      ],
+      "boundsMax": [
+        0.31700000166893005,
+        0.20900000631809235,
+        0.2510000169277191
+      ],
+      "file": "assets/vessel-foam.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.028,
+          "width": 0.55,
+          "depth": 0.349,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "rectangle",
+          "container": true,
+          "rimHeight": 0.251,
+          "headroom": 0.223,
+          "openingWidth": 0.55,
+          "openingDepth": 0.349,
+          "holes": [
+            {
+              "shape": "rectangle",
+              "center": [
+                -0.1281,
+                0
+              ],
+              "width": 0.024,
+              "depth": 0.024
+            },
+            {
+              "shape": "rectangle",
+              "center": [
+                0.1281,
+                0
+              ],
+              "width": 0.024,
+              "depth": 0.024
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.6340000033378601,
+        "depth": 0.4180000126361847
+      },
+      "triangles": 340,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-trough",
+      "name": "长条种植槽",
+      "category": "栽培与盛放",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "trough",
+      "originalRuntimeId": "vessel-trough",
+      "note": "长槽有排水孔，留株距种香草、叶菜或草莓。",
+      "sources": [
+        {
+          "label": "RHS 容器栽培",
+          "url": "https://www.rhs.org.uk/container-gardening"
+        }
+      ],
+      "pattern": "plain",
+      "originalColor": "#6a513a",
+      "originalRim": "#a08456",
+      "originalInk": "#3d3429",
+      "shape": "box",
+      "originalKind": "edible",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.7709999680519104,
+      "depth": 0.2959999740123749,
+      "height": 0.2370000034570694,
+      "boundsMin": [
+        -0.3854999840259552,
+        -0.14799998700618744,
+        0.0
+      ],
+      "boundsMax": [
+        0.3854999840259552,
+        0.14799998700618744,
+        0.2370000034570694
+      ],
+      "file": "assets/vessel-trough.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.018,
+          "width": 0.732,
+          "depth": 0.254,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "rectangle",
+          "container": true,
+          "rimHeight": 0.237,
+          "headroom": 0.219,
+          "openingWidth": 0.732,
+          "openingDepth": 0.254,
+          "holes": [
+            {
+              "shape": "rectangle",
+              "center": [
+                -0.16002,
+                0
+              ],
+              "width": 0.02,
+              "depth": 0.02
+            },
+            {
+              "shape": "rectangle",
+              "center": [
+                0.16002,
+                0
+              ],
+              "width": 0.02,
+              "depth": 0.02
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.7709999680519104,
+        "depth": 0.2959999740123749
+      },
+      "triangles": 436,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-growbag",
+      "name": "深型种植袋",
+      "category": "栽培与盛放",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "growbag",
+      "originalRuntimeId": "vessel-growbag",
+      "ja": "",
+      "note": "较深透气种植袋；适合番茄、辣椒和小果树。",
+      "sources": [
+        {
+          "label": "RHS 容器栽培",
+          "url": "https://www.rhs.org.uk/container-gardening"
+        }
+      ],
+      "pattern": "plain",
+      "originalColor": "#3a4c39",
+      "originalRim": "#727f4b",
+      "originalInk": "#243529",
+      "shape": "bag",
+      "originalKind": "large",
+      "shapeLabel": "",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.414000004529953,
+      "depth": 0.41509978473186493,
+      "height": 0.44603922963142395,
+      "boundsMin": [
+        -0.20280548930168152,
+        -0.20812459290027618,
+        0.0
+      ],
+      "boundsMax": [
+        0.21119451522827148,
+        0.20697519183158875,
+        0.44603922963142395
+      ],
+      "file": "assets/vessel-growbag.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.009,
+          "width": 0.31561999999999996,
+          "depth": 0.31561999999999996,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "rimHeight": 0.381,
+          "headroom": 0.372,
+          "openingWidth": 0.38143999999999995,
+          "openingDepth": 0.38143999999999995,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.012
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.414000004529953,
+        "depth": 0.41509978473186493
+      },
+      "triangles": 756,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-deep",
+      "name": "大型深陶盆",
+      "category": "栽培与盛放",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "deep",
+      "originalRuntimeId": "vessel-deep",
+      "ja": "",
+      "note": "深盆有排水孔；留给灌木、较大根系和酸性介质。",
+      "sources": [
+        {
+          "label": "RHS 容器栽培",
+          "url": "https://www.rhs.org.uk/container-gardening"
+        }
+      ],
+      "pattern": "plain",
+      "originalColor": "#6e4c34",
+      "originalRim": "#a17a4c",
+      "originalInk": "#3f3026",
+      "shape": "deep",
+      "originalKind": "large",
+      "shapeLabel": "",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.5169000029563904,
+      "depth": 0.5169000029563904,
+      "height": 0.44699999690055847,
+      "boundsMin": [
+        -0.2584500014781952,
+        -0.2584500014781952,
+        0.0
+      ],
+      "boundsMax": [
+        0.2584500014781952,
+        0.2584500014781952,
+        0.44699999690055847
+      ],
+      "file": "assets/vessel-deep.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.0328,
+          "width": 0.21491999999999997,
+          "depth": 0.21491999999999997,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "rimHeight": 0.447,
+          "headroom": 0.4142,
+          "openingWidth": 0.456,
+          "openingDepth": 0.456,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.012
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.5169000029563904,
+        "depth": 0.5169000029563904
+      },
+      "triangles": 752,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    },
+    {
+      "id": "vessel-basket",
+      "name": "吊盆",
+      "category": "栽培与盛放",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "originalVesselId": "basket",
+      "originalRuntimeId": "vessel-basket",
+      "ja": "",
+      "note": "带排水孔的吊盆，给垂枝留下空间；也可平放在花架上。",
+      "sources": [
+        {
+          "label": "RHS 容器栽培",
+          "url": "https://www.rhs.org.uk/container-gardening"
+        }
+      ],
+      "pattern": "plain",
+      "originalColor": "#6d5235",
+      "originalRim": "#9b8551",
+      "originalInk": "#3b3529",
+      "shape": "basket",
+      "originalKind": "hanging",
+      "shapeLabel": "",
+      "retainedOriginalRecord": true,
+      "antique": false,
+      "sourceGeometryReused": false,
+      "empty": true,
+      "plantContainer": true,
+      "width": 0.39304399490356445,
+      "depth": 0.39304399490356445,
+      "height": 0.6209999918937683,
+      "boundsMin": [
+        -0.19652199745178223,
+        -0.19652199745178223,
+        0.0
+      ],
+      "boundsMax": [
+        0.19652199745178223,
+        0.19652199745178223,
+        0.6209999918937683
+      ],
+      "file": "assets/vessel-basket.glb",
+      "family": "pots-retained",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "盆内底",
+          "height": 0.023,
+          "width": 0.16716,
+          "depth": 0.16716,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "rimHeight": 0.238,
+          "headroom": 0.215,
+          "openingWidth": 0.354,
+          "openingDepth": 0.354,
+          "holes": [
+            {
+              "shape": "circle",
+              "center": [
+                0,
+                0
+              ],
+              "radius": 0.01
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.39304399490356445,
+        "depth": 0.39304399490356445
+      },
+      "triangles": 1028,
+      "sourceBlend": "pots-retained/pots-retained.blend",
+      "sourcePixelorama": "pots-retained/pots-retained-atlas.pxo"
+    }
+  ]
+}

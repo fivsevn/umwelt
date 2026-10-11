@@ -1,6 +1,6 @@
 import { SEASONS, seasonalParticle, seasonalStrength } from "../seasons.mjs";
 import { BACKGROUND } from "../assets/background/empty-rooftop.mjs";
-import { resolvePixelGrid, pixelGridBufferSize } from "./pixel-grid.mjs";
+import { resolveCanvasPixelGrid, pixelGridBufferSize } from "./pixel-grid.mjs";
 import { createVisibleAirField } from "./visible-air.mjs";
 
 export const SPRING_CATKIN_COUNT = 16;
@@ -147,7 +147,7 @@ export function createSeasonalAir(T, scene, renderer) {
     points: groups.map(g => g.points),
     update(name, state, time, reduced, mood = {}, camera, cameraOptions = {}) {
       renderer.getDrawingBufferSize(viewport);
-      const grid = resolvePixelGrid(Number(renderer.domElement?.dataset?.pixelRatio) || 1),
+      const grid = resolveCanvasPixelGrid(renderer.domElement?.dataset),
         sourceHeight = pixelGridBufferSize(viewport.x, viewport.y, grid).source[1];
       let count = 0; const effects = [];
       for (const g of groups) {

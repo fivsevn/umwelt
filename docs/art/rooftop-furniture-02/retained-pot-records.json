@@ -1,0 +1,743 @@
+[
+  {
+    "id": "tokoname",
+    "name": "常滑烧风格盆",
+    "ja": "常滑焼",
+    "color": "#9b5d3c",
+    "rim": "#d6a87e",
+    "ink": "#4b2519",
+    "pattern": "plain",
+    "note": "外缘椭圆盆，矮足与宽口参考常滑盆栽鉢。",
+    "shape": "oval",
+    "kind": "ceramic",
+    "sources": [
+      {
+        "label": "まるたつ · 常滑盆栽鉢",
+        "url": "https://marutatu.shop-pro.jp/"
+      },
+      {
+        "label": "传统工艺青山 Square",
+        "url": "https://kougeihin.jp/craft/0407/"
+      }
+    ],
+    "shapeLabel": "外缘椭圆"
+  },
+  {
+    "id": "shigaraki",
+    "name": "信乐烧风格盆",
+    "ja": "信楽焼",
+    "color": "#ab8657",
+    "rim": "#d0bb90",
+    "ink": "#56503a",
+    "pattern": "speckle",
+    "note": "宽口、圆腹的育成鉢；参考信乐 ZEN Bowl 的宽深比例。",
+    "shape": "bowl",
+    "kind": "ceramic",
+    "sources": [
+      {
+        "label": "ZEN Pottery Labo · Bowl",
+        "url": "https://zenpotterylabo.jp/products/zen-bowl-type-7号-無釉"
+      },
+      {
+        "label": "传统工艺青山 Square",
+        "url": "https://kougeihin.jp/craft/0413/"
+      }
+    ],
+    "shapeLabel": "宽口圆腹"
+  },
+  {
+    "id": "bizen",
+    "name": "备前烧风格盆",
+    "ja": "備前焼",
+    "color": "#7e4d38",
+    "rim": "#c78650",
+    "ink": "#483125",
+    "pattern": "fire",
+    "note": "保留烧締土肌与火痕，选圆腹收口轮廓转成排水盆。",
+    "shape": "jar",
+    "kind": "ceramic",
+    "sources": [
+      {
+        "label": "しょうざん · 备前植木鉢",
+        "url": "https://bizen-shozan.com/bizenyaki-category/floral-organs/flower-pot/"
+      },
+      {
+        "label": "传统工艺青山 Square",
+        "url": "https://kougeihin.jp/craft/0418/"
+      }
+    ],
+    "shapeLabel": "鼓腹壶形"
+  },
+  {
+    "id": "mashiko",
+    "name": "益子烧风格盆",
+    "ja": "益子焼",
+    "color": "#6a5b39",
+    "rim": "#dac492",
+    "ink": "#2d2f20",
+    "pattern": "brush",
+    "note": "参考益子窑元的开形植木鉢，外撇口、收底与纵向削纹。",
+    "shape": "flare",
+    "kind": "ceramic",
+    "sources": [
+      {
+        "label": "よこやま · 开形植木鉢",
+        "url": "https://www.shop.tougei.net/view/item/000000000509?category_page_id=ct94"
+      },
+      {
+        "label": "传统工艺青山 Square",
+        "url": "https://kougeihin.jp/craft/0404/"
+      }
+    ],
+    "shapeLabel": "外撇钵"
+  },
+  {
+    "id": "kasama",
+    "name": "笠间烧风格盆",
+    "ja": "笠間焼",
+    "color": "#6c9381",
+    "rim": "#c1cea7",
+    "ink": "#345448",
+    "pattern": "drip",
+    "note": "笠间器形多样，选切立圆筒与流釉；不是该产地唯一的器型。",
+    "shape": "cylinder",
+    "kind": "ceramic",
+    "sources": [
+      {
+        "label": "笠间烧协同组合 · 植木鉢展",
+        "url": "https://kasamayaki.or.jp/akiichi/"
+      },
+      {
+        "label": "传统工艺青山 Square",
+        "url": "https://kougeihin.jp/craft/0403/"
+      }
+    ],
+    "shapeLabel": "切立圆筒"
+  },
+  {
+    "id": "mino",
+    "name": "美浓烧·织部风格盆",
+    "ja": "美濃焼",
+    "color": "#4d7758",
+    "rim": "#bcc584",
+    "ink": "#1c362b",
+    "pattern": "oribe",
+    "note": "参考织部四足四方鉢：方口、折角器身与短足，配浓绿釉。",
+    "shape": "square",
+    "kind": "ceramic",
+    "sources": [
+      {
+        "label": "美浓烧协同组合 · 织部四足四方鉢",
+        "url": "https://www.minoyaki.gr.jp/archives/2939"
+      },
+      {
+        "label": "传统工艺青山 Square",
+        "url": "https://kougeihin.jp/craft/0406/"
+      }
+    ],
+    "shapeLabel": "四足方钵"
+  },
+  {
+    "id": "seto",
+    "name": "濑户染付风格盆",
+    "ja": "瀬戸染付焼",
+    "color": "#cbd0ac",
+    "rim": "#efe6ca",
+    "ink": "#49738b",
+    "pattern": "blue",
+    "note": "染付蓝枝叶配宽口弧腹；白地留出空白。",
+    "shape": "bowl",
+    "kind": "ceramic",
+    "sources": [
+      {
+        "label": "传统工艺青山 Square",
+        "url": "https://kougeihin.jp/craft/0409/"
+      }
+    ],
+    "shapeLabel": "宽口圆腹"
+  },
+  {
+    "id": "kutani",
+    "name": "九谷烧风格盆",
+    "ja": "九谷焼",
+    "color": "#d9be7e",
+    "rim": "#eadcbb",
+    "ink": "#5d824b",
+    "pattern": "kutani",
+    "note": "参考九谷木瓜鉢，四瓣轮廓、低腹与彩绘；改作有排水孔的盆。",
+    "shape": "mokko",
+    "kind": "ceramic",
+    "sources": [
+      {
+        "label": "KUTANI SEAL · 木瓜鉢",
+        "url": "https://www.kutaniseal.com/items/101475439"
+      },
+      {
+        "label": "传统工艺青山 Square",
+        "url": "https://kougeihin.jp/craft/0405/"
+      }
+    ],
+    "shapeLabel": "木瓜钵"
+  },
+  {
+    "id": "arita",
+    "name": "有田烧风格盆",
+    "ja": "伊万里・有田焼",
+    "color": "#c2cfb5",
+    "rim": "#f2ead3",
+    "ink": "#406884",
+    "pattern": "blue",
+    "note": "轮花口沿配薄壁弧腹；参考有田轮花盛鉢后转作园艺盆。",
+    "shape": "scallop",
+    "kind": "ceramic",
+    "sources": [
+      {
+        "label": "ARITA PORCELAIN LAB · 轮花盛鉢",
+        "url": "https://aritaporcelainlab.com/catalog/jp/20150815/japan_autumn_20150815.pdf"
+      },
+      {
+        "label": "传统工艺青山 Square",
+        "url": "https://kougeihin.jp/craft/0424/"
+      }
+    ],
+    "shapeLabel": "轮花钵"
+  },
+  {
+    "id": "imari",
+    "name": "伊万里烧风格盆",
+    "ja": "伊万里・有田焼",
+    "color": "#d3cda2",
+    "rim": "#ecddc0",
+    "ink": "#44677c",
+    "pattern": "imari",
+    "note": "白瓷、深蓝与赤色分区纹；选带高台的碗形转作排水盆。",
+    "shape": "footed",
+    "kind": "ceramic",
+    "sources": [
+      {
+        "label": "传统工艺青山 Square",
+        "url": "https://kougeihin.jp/craft/0424/"
+      }
+    ],
+    "shapeLabel": "高台碗"
+  },
+  {
+    "id": "hasami",
+    "name": "波佐见烧风格盆",
+    "ja": "波佐見焼",
+    "color": "#b4d5c4",
+    "rim": "#f3ebd6",
+    "ink": "#4b7883",
+    "pattern": "stripe",
+    "note": "参考波佐见「いろは」荞麦杯的收底杯形，青白胎与细竖纹。",
+    "shape": "cup",
+    "kind": "ceramic",
+    "sources": [
+      {
+        "label": "波佐见烧 · いろは器物",
+        "url": "https://store.hasamiyaki.jp/html/page84.html"
+      },
+      {
+        "label": "传统工艺青山 Square",
+        "url": "https://kougeihin.jp/craft/0427/"
+      }
+    ],
+    "shapeLabel": "收底杯形"
+  },
+  {
+    "id": "kyoto",
+    "name": "京烧·清水烧风格盆",
+    "ja": "京焼・清水焼",
+    "color": "#d5b074",
+    "rim": "#e6d3ac",
+    "ink": "#759359",
+    "pattern": "flower",
+    "note": "参考京烧菊割高台小鉢，花口与显露的高台让轮廓轻一些。",
+    "shape": "pedestal",
+    "kind": "ceramic",
+    "sources": [
+      {
+        "label": "やまなか雅陶 · 菊割高台小鉢",
+        "url": "https://www.yamanaka-gato.com/product/472"
+      },
+      {
+        "label": "传统工艺青山 Square",
+        "url": "https://kougeihin.jp/craft/0414/"
+      }
+    ],
+    "shapeLabel": "菊割高台"
+  },
+  {
+    "id": "hagi",
+    "name": "萩烧风格盆",
+    "ja": "萩焼",
+    "color": "#bba387",
+    "rim": "#e8d6ba",
+    "ink": "#895e7b",
+    "pattern": "crackle",
+    "note": "参考萩烧窑元的轮花高台鉢，乳白粉釉与花瓣口沿。",
+    "shape": "scallop",
+    "kind": "ceramic",
+    "sources": [
+      {
+        "label": "松光山 · 轮花高台鉢",
+        "url": "https://shokouzan.stores.jp/items/655b72164e11f10767525274"
+      },
+      {
+        "label": "传统工艺青山 Square",
+        "url": "https://kougeihin.jp/craft/0419/"
+      }
+    ],
+    "shapeLabel": "轮花钵"
+  },
+  {
+    "id": "karatsu",
+    "name": "唐津烧风格盆",
+    "ja": "唐津焼",
+    "color": "#bda266",
+    "rim": "#e2d2a3",
+    "ink": "#59442d",
+    "pattern": "grass",
+    "note": "铁绘草叶与灰黄釉，选弧腹、低高台的碗形转成园艺盆。",
+    "shape": "footed",
+    "kind": "ceramic",
+    "sources": [
+      {
+        "label": "传统工艺青山 Square",
+        "url": "https://kougeihin.jp/craft/0425/"
+      }
+    ],
+    "shapeLabel": "高台碗"
+  },
+  {
+    "id": "tobe",
+    "name": "砥部烧风格盆",
+    "ja": "砥部焼",
+    "color": "#cdd3ad",
+    "rim": "#f1ecd0",
+    "ink": "#436780",
+    "pattern": "scroll",
+    "note": "参考梅山窑玉缘鉢，厚圆口沿、圆腹与青花卷草纹。",
+    "shape": "rolled",
+    "kind": "ceramic",
+    "sources": [
+      {
+        "label": "梅山窑 · 玉缘鉢",
+        "url": "https://baizangama.jp/catalog/catalog-cat/tamabuchi/"
+      },
+      {
+        "label": "传统工艺青山 Square",
+        "url": "https://kougeihin.jp/craft/0421/"
+      }
+    ],
+    "shapeLabel": "玉缘钵"
+  },
+  {
+    "id": "koishiwara",
+    "name": "小石原烧风格盆",
+    "ja": "小石原焼",
+    "color": "#948052",
+    "rim": "#e1cea3",
+    "ink": "#44442b",
+    "pattern": "dash",
+    "note": "飞铇短点纹沿外撇器壁重复，宽口收底轮廓转作排水盆。",
+    "shape": "flare",
+    "kind": "ceramic",
+    "sources": [
+      {
+        "label": "传统工艺青山 Square",
+        "url": "https://kougeihin.jp/craft/0422/"
+      }
+    ],
+    "shapeLabel": "外撇钵"
+  },
+  {
+    "id": "ontayaki",
+    "name": "丹波立杭烧风格盆",
+    "ja": "丹波立杭焼",
+    "color": "#8f6b4a",
+    "rim": "#d2b171",
+    "ink": "#4f4630",
+    "pattern": "drip",
+    "note": "参考丹波山椒壶的面取技法，把多面鼓腹和自然流釉转成宽口园艺盆。",
+    "shape": "faceted",
+    "kind": "ceramic",
+    "sources": [
+      {
+        "label": "丹波立杭陶磁器协同组合 · 器物与技法",
+        "url": "https://tanbayaki.com/tanbayaki/"
+      },
+      {
+        "label": "传统工艺青山 Square",
+        "url": "https://kougeihin.jp/craft/0415/"
+      }
+    ],
+    "shapeLabel": "面取鼓腹"
+  },
+  {
+    "id": "iga",
+    "name": "伊贺烧风格盆",
+    "ja": "伊賀焼",
+    "color": "#82825a",
+    "rim": "#c4d095",
+    "ink": "#414a32",
+    "pattern": "speckle",
+    "note": "粗土肌与不规则灰绿釉；保留手作偏心口沿，宽腹收底。",
+    "shape": "irregular",
+    "kind": "ceramic",
+    "sources": [
+      {
+        "label": "传统工艺青山 Square",
+        "url": "https://kougeihin.jp/craft/0411/"
+      }
+    ],
+    "shapeLabel": "手捏不整形"
+  },
+  {
+    "id": "echizen",
+    "name": "越前烧风格盆",
+    "ja": "越前焼",
+    "color": "#78563f",
+    "rim": "#c39964",
+    "ink": "#433728",
+    "pattern": "fire",
+    "note": "参考越前壶的收口、鼓肩与圆腹，开口放宽并加排水孔。",
+    "shape": "jar",
+    "kind": "ceramic",
+    "sources": [
+      {
+        "label": "爱知县陶磁美术馆 · 越前壶",
+        "url": "https://jmapps.ne.jp/aitou/det.html?data_id=538"
+      },
+      {
+        "label": "传统工艺青山 Square",
+        "url": "https://kougeihin.jp/craft/0412/"
+      }
+    ],
+    "shapeLabel": "鼓腹壶形"
+  },
+  {
+    "id": "tsuboya",
+    "name": "壶屋烧风格盆",
+    "ja": "壺屋焼",
+    "color": "#959f6c",
+    "rim": "#e3d79f",
+    "ink": "#2d5e70",
+    "pattern": "scroll",
+    "note": "厚胎圆腹与外翻厚口沿，蓝绿刷绘；以产地器物为风格转译。",
+    "shape": "rolled",
+    "kind": "ceramic",
+    "sources": [
+      {
+        "label": "传统工艺青山 Square",
+        "url": "https://kougeihin.jp/craft/0431/"
+      }
+    ],
+    "shapeLabel": "玉缘钵"
+  },
+  {
+    "id": "terra",
+    "name": "普通红陶盆",
+    "color": "#704831",
+    "rim": "#a37a4b",
+    "ink": "#3b2c23",
+    "shape": "round",
+    "kind": "basic",
+    "pattern": "plain",
+    "note": "朴素红陶，有排水孔；适合大多数中小型植物。",
+    "sources": [
+      {
+        "label": "RHS 容器栽培",
+        "url": "https://www.rhs.org.uk/container-gardening"
+      }
+    ]
+  },
+  {
+    "id": "plastic",
+    "name": "黑色育苗盆",
+    "color": "#323b33",
+    "rim": "#646f59",
+    "ink": "#1c2b26",
+    "shape": "round",
+    "kind": "basic",
+    "pattern": "plain",
+    "note": "轻便塑料盆，有排水孔；适合育苗和中小型植株。",
+    "sources": [
+      {
+        "label": "RHS 容器栽培",
+        "url": "https://www.rhs.org.uk/container-gardening"
+      }
+    ]
+  },
+  {
+    "id": "white",
+    "name": "白色塑料盆",
+    "color": "#c1c3aa",
+    "rim": "#e1dcb9",
+    "ink": "#607164",
+    "shape": "round",
+    "kind": "basic",
+    "pattern": "plain",
+    "note": "浅色塑料盆，有排水孔；适合日常盆栽。",
+    "sources": [
+      {
+        "label": "RHS 容器栽培",
+        "url": "https://www.rhs.org.uk/container-gardening"
+      }
+    ]
+  },
+  {
+    "id": "shallow",
+    "name": "浅陶盘",
+    "color": "#96794f",
+    "rim": "#c6b079",
+    "ink": "#5d5236",
+    "shape": "shallow",
+    "kind": "shallow",
+    "pattern": "plain",
+    "note": "浅盘有排水孔，供浅根多肉和低矮草花使用。",
+    "sources": [
+      {
+        "label": "RHS 容器栽培",
+        "url": "https://www.rhs.org.uk/container-gardening"
+      }
+    ]
+  },
+  {
+    "id": "foam",
+    "name": "泡沫种植箱",
+    "color": "#b9b9a2",
+    "rim": "#dbd6b6",
+    "ink": "#797c6d",
+    "shape": "box",
+    "kind": "edible",
+    "pattern": "plain",
+    "note": "白色泡沫箱，底部设排水孔；适合葱、薄荷、叶菜和草莓。",
+    "sources": [
+      {
+        "label": "RHS 容器栽培",
+        "url": "https://www.rhs.org.uk/container-gardening"
+      }
+    ]
+  },
+  {
+    "id": "trough",
+    "name": "长条种植槽",
+    "color": "#6a513a",
+    "rim": "#a08456",
+    "ink": "#3d3429",
+    "shape": "box",
+    "kind": "edible",
+    "pattern": "plain",
+    "note": "长槽有排水孔，留株距种香草、叶菜或草莓。",
+    "sources": [
+      {
+        "label": "RHS 容器栽培",
+        "url": "https://www.rhs.org.uk/container-gardening"
+      }
+    ]
+  },
+  {
+    "id": "growbag",
+    "name": "深型种植袋",
+    "color": "#3a4c39",
+    "rim": "#727f4b",
+    "ink": "#243529",
+    "shape": "bag",
+    "kind": "large",
+    "pattern": "plain",
+    "note": "较深透气种植袋；适合番茄、辣椒和小果树。",
+    "sources": [
+      {
+        "label": "RHS 容器栽培",
+        "url": "https://www.rhs.org.uk/container-gardening"
+      }
+    ]
+  },
+  {
+    "id": "deep",
+    "name": "大型深陶盆",
+    "color": "#6e4c34",
+    "rim": "#a17a4c",
+    "ink": "#3f3026",
+    "shape": "deep",
+    "kind": "large",
+    "pattern": "plain",
+    "note": "深盆有排水孔；留给灌木、较大根系和酸性介质。",
+    "sources": [
+      {
+        "label": "RHS 容器栽培",
+        "url": "https://www.rhs.org.uk/container-gardening"
+      }
+    ]
+  },
+  {
+    "id": "basket",
+    "name": "吊盆",
+    "color": "#6d5235",
+    "rim": "#9b8551",
+    "ink": "#3b3529",
+    "shape": "basket",
+    "kind": "hanging",
+    "pattern": "plain",
+    "note": "带排水孔的吊盆，给垂枝留下空间；也可平放在花架上。",
+    "sources": [
+      {
+        "label": "RHS 容器栽培",
+        "url": "https://www.rhs.org.uk/container-gardening"
+      }
+    ]
+  },
+  {
+    "id": "antique-shino",
+    "name": "志野芒纹浅钵",
+    "shape": "shallow",
+    "color": "#d9d0bd",
+    "rim": "#eee1cd",
+    "ink": "#704b37",
+    "pattern": "grass",
+    "kind": "ceramic",
+    "sources": [
+      {
+        "label": "MIHO MUSEUM · 志野芒文鉢",
+        "url": "https://www.miho.jp/booth/html/artcon/00000283.htm"
+      }
+    ],
+    "note": "16世纪桃山时期。按高6.4厘米、径28厘米校准浅阔器形，长石白釉，芒草铁绘位于钵内；游戏中增设排水孔。",
+    "antique": true,
+    "shapeLabel": "古陶瓷风格栽培钵"
+  },
+  {
+    "id": "antique-nezumi",
+    "name": "鼠志野撇口四方钵",
+    "shape": "square",
+    "color": "#503d30",
+    "rim": "#654938",
+    "ink": "#e4d8bd",
+    "pattern": "grass",
+    "kind": "ceramic",
+    "sources": [
+      {
+        "label": "MIHO MUSEUM · 鼠志野向付",
+        "url": "https://www.miho.jp/booth/html/artcon/00000293.htm"
+      }
+    ],
+    "note": "16世纪桃山时期。参考高5.8厘米、口径14至14.2厘米的深赤褐釉、白色掻落纹、内卷方口、圆形内底与三足，改作栽培钵。",
+    "antique": true,
+    "shapeLabel": "古陶瓷风格栽培钵"
+  },
+  {
+    "id": "antique-shino-square",
+    "name": "志野铁绘四方向付",
+    "shape": "square",
+    "color": "#e3d9c9",
+    "rim": "#ded0b9",
+    "ink": "#59483b",
+    "pattern": "grass",
+    "kind": "ceramic",
+    "sources": [
+      {
+        "label": "MIHO MUSEUM · 志野四方向付",
+        "url": "https://www.miho.jp/booth/html/artcon/00000294.htm"
+      }
+    ],
+    "note": "16世纪桃山时期。参考高9.2厘米、口径8.5厘米的四方向付；四面分别简化蛇笼、珠串、堇草与鸢尾铁绘，游戏中增设排水孔。",
+    "antique": true,
+    "shapeLabel": "古陶瓷风格栽培钵"
+  },
+  {
+    "id": "antique-nabeshima",
+    "name": "锅岛彩绘八角钵",
+    "shape": "faceted",
+    "color": "#dbe0d5",
+    "rim": "#b9c7c1",
+    "ink": "#4d7286",
+    "pattern": "flower",
+    "kind": "ceramic",
+    "sources": [
+      {
+        "label": "Met · 八角彩绘钵，约1800年",
+        "url": "https://www.metmuseum.org/art/collection/search/63040"
+      }
+    ],
+    "note": "约1800年江户时期。按高10.2厘米、径21.3厘米校准八角折面与圈足；参考馆藏黑白照中的萝卜枝叶构图，彩色为游戏转译，并非原釉彩复原。",
+    "antique": true,
+    "shapeLabel": "古陶瓷风格栽培钵"
+  },
+  {
+    "id": "antique-nabeshima-dish",
+    "name": "锅岛青花几何浅盘",
+    "shape": "shallow",
+    "color": "#dae1da",
+    "rim": "#a2b8be",
+    "ink": "#395a79",
+    "pattern": "blue",
+    "kind": "ceramic",
+    "sources": [
+      {
+        "label": "Met · 几何纹青花盘，18世纪",
+        "url": "https://www.metmuseum.org/art/collection/search/50344"
+      }
+    ],
+    "note": "18世纪江户时期。参考高5.1厘米、径20.6厘米的浅盘：内面为青花留白同心几何纹，背面三组花枝，圈足带梳齿纹；游戏中增设排水孔。",
+    "antique": true,
+    "shapeLabel": "古陶瓷风格栽培钵"
+  },
+  {
+    "id": "antique-kutani-red",
+    "name": "九谷赤绘金彩钵",
+    "shape": "bowl",
+    "color": "#e7d8b8",
+    "rim": "#c0a271",
+    "ink": "#994a39",
+    "pattern": "imari",
+    "kind": "ceramic",
+    "sources": [
+      {
+        "label": "Cleveland · Kutani Bowl, 1986.173",
+        "url": "https://www.clevelandart.org/art/1986.173"
+      }
+    ],
+    "note": "19世纪早至中期江户时期，馆藏直径45.7厘米。参考内面唐狮、花草与赤绘金彩同心分区；馆方未列高度，游戏腹深和背面绘画为适配。",
+    "antique": true,
+    "shapeLabel": "古陶瓷风格栽培钵"
+  },
+  {
+    "id": "antique-celadon",
+    "name": "锅岛青瓷三足钵",
+    "shape": "scallop",
+    "color": "#a5c3b7",
+    "rim": "#c3d4c5",
+    "ink": "#71988a",
+    "pattern": "plain",
+    "kind": "ceramic",
+    "sources": [
+      {
+        "label": "LACMA · Nabeshima Celadon Bowl",
+        "url": "https://collections.lacma.org/object/160060"
+      }
+    ],
+    "note": "约1700年江户时期。参考高8.26厘米、径28.89厘米的轮花口浅钵，内底山亭、篱笆、树木划花及三只鬼面足；游戏中增设排水孔。",
+    "antique": true,
+    "shapeLabel": "古陶瓷风格栽培钵"
+  },
+  {
+    "id": "antique-oribe-jar",
+    "name": "志野织部铁绘花器",
+    "shape": "jar",
+    "color": "#c4bba5",
+    "rim": "#756655",
+    "ink": "#51453a",
+    "pattern": "grass",
+    "kind": "decorative",
+    "sources": [
+      {
+        "label": "MIHO MUSEUM · 志野織部徳利",
+        "url": "https://www.miho.jp/booth/html/artcon/00000275.htm"
+      }
+    ],
+    "note": "17世纪江户时期。按高20.8、腹径21.6、口径9.7厘米校准鼓腹和窄颈；白釉铁绘，肩部五道凹线作2–1–2分组。曾作花器，不用于换盆。",
+    "antique": true,
+    "shapeLabel": "陈设花器"
+  }
+]

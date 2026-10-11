@@ -1,4 +1,4 @@
-import { resolvePixelGrid, pixelGridSize } from "./pixel-grid.mjs";
+import { resolveCanvasPixelGrid, pixelGridSize } from "./pixel-grid.mjs";
 
 // Engraving and eyecup occupy the same globally aligned cells as the world.
 const glyphs = {
@@ -92,7 +92,7 @@ export function updateOpticOverlay(element, reading) {
   const scope = element.getBoundingClientRect(), diameter = scope.width,
     mask = element.querySelector('.scope-mask'), engraving = element.querySelector('.scope-engraving'),
     world = element.ownerDocument.querySelector('#garden'), bounds = world.getBoundingClientRect(),
-    grid = resolvePixelGrid(Number(world.dataset?.pixelRatio) || element.ownerDocument.defaultView?.devicePixelRatio || 1),
+    grid = resolveCanvasPixelGrid(world.dataset, element.ownerDocument.defaultView?.devicePixelRatio || 1),
     frame = pixelGridSize(bounds.width, bounds.height, grid), previous = cache.get(element) || {};
   const dimensions = `${frame.output},${frame.pixelStep},${frame.pixelRatio},${diameter}`, step = reading.mradPixels.toFixed(2);
   // Use the actual game canvas, including Safari's visible-viewport resize.

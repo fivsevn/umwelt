@@ -1,6 +1,4 @@
 import { OUTFITS, DECORATIONS, wardrobe } from "../wardrobe.mjs";
-import { asset } from "../scene.mjs";
-import { buildObject } from "./object-models.mjs";
 // Geometry, tailoring and accessories share the existing wardrobe choices.
 export function buildResident(api, parent) {
   const { group, box, beam, cyl, ellipsoid, modelApi, P } = api;
@@ -184,7 +182,7 @@ export function buildResident(api, parent) {
     if (kind === "water") {
       const can = group(tool, 0.1, -0.05, 0.03);
       can.scale.setScalar(0.4);
-      buildObject(modelApi(), can, asset("watering"), {});
+      modelApi().makeNativeItem(can, "watering-can");
     }
     if (kind === "sweep") {
       beam(tool, [0, 0.08, 0], [0.15, -0.83, 0.24], 0.035, P.wood);

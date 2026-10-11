@@ -30,7 +30,7 @@ const engine = process.env.BROWSER || "chromium",
       assert.ok(webgl, "software WebGL must create models");
     if (webgl) {
       await page.waitForFunction(() =>
-        document.querySelector('#assets canvas[data-renderer="3d"]'),
+        document.querySelector('#assets canvas[data-renderer="blender-preview"], #assets img[data-renderer="native-image"]'),
       );
       await page.waitForFunction(
         () => rooftop.graphics.foliageMotion.time > 0.1,
@@ -41,7 +41,9 @@ const engine = process.env.BROWSER || "chromium",
         "initial shelf does not rasterize the entire catalogue",
       );
       assert.equal(style.style, "native-pixelorama-v2");
-      assert.equal(style.textures,1,"one shared native Pixelorama atlas");
+      assert.ok(style.nativeItems.loaded <= 3,"formal catalog images do not preload a shelf of native GLBs");
+      assert.ok(style.nativeItems.atlases <= 1,"only the resident hand prop may load its authoring family at startup");
+      assert.equal(style.textures,1,"the resident and door painting book remains shared separately");
       assert.ok(
         style.drawCalls < 1000,
         "leaves reuse surfaces rather than one draw per leaf",
@@ -69,33 +71,29 @@ const engine = process.env.BROWSER || "chromium",
       const audit = await page.evaluate(async () => {
         const { ASSETS } = await import("/rooftop/scene.mjs"),
           renderer = rooftop.modelRenderer;
-        const before = rooftop.graphics.buffer,
-          records = ASSETS.map((a) => renderer.catalogModel(a.id));
-        const empty = [];
-        for (const a of ASSETS) {
-          const c = document.createElement("canvas");
-          c.width = c.height = 64;
-          renderer.thumbnail({ type: a.id, seed: 1835 }, c);
-          const pixels = c.getContext("2d").getImageData(0, 0, 64, 64).data;
-          let painted = 0;
-          for (let i = 3; i < pixels.length; i += 4) if (pixels[i]) painted++;
-          if (painted < 8) empty.push(a.id);
+        const before = rooftop.graphics.buffer, records = [], empty = [];
+        // Preload bounded batches, then inspect the exact native models. A
+        // pending thumbnail must never be mistaken for missing geometry.
+        for (let index = 0; index < ASSETS.length; index += 4) {
+          const batch = ASSETS.slice(index, index + 4);
+          await Promise.all(batch.map(a => renderer.preloadModel({ type: a.id })));
+          for (const a of batch) {
+            records.push(await renderer.catalogModel(a.id));
+            const c = document.createElement("canvas"); c.width = c.height = 64;
+            await renderer.thumbnail({ type: a.id, seed: 1835 }, c, true);
+            const pixels = c.getContext("2d").getImageData(0, 0, 64, 64).data;
+            let painted = 0;
+            for (let i = 3; i < pixels.length; i += 4) if (pixels[i]) painted++;
+            if (painted < 8) empty.push(a.id);
+          }
         }
-        const seedPortraits = [2472093529, 1029384756].map((seed) => {
-          const c = document.createElement("canvas");
-          c.width = c.height = 128;
-          renderer.thumbnail({ type: "basil", seed }, c);
-          const pixels = Array.from(
-            c.getContext("2d").getImageData(0, 0, 128, 128).data,
-          );
-          return {
-            pixels,
-            hash: pixels.reduce(
-              (hash, value) => Math.imul(hash ^ value, 16777619) >>> 0,
-              2166136261,
-            ),
-          };
-        });
+        const seedPortraits = [];
+        for (const seed of [2472093529, 1029384756]) {
+          const c = document.createElement("canvas"); c.width = c.height = 128;
+          await renderer.thumbnail({ type: "basil", seed }, c, true);
+          const pixels = Array.from(c.getContext("2d").getImageData(0, 0, 128, 128).data);
+          seedPortraits.push({ pixels, hash: pixels.reduce((hash, value) => Math.imul(hash ^ value, 16777619) >>> 0, 2166136261) });
+        }
         return {
           records,
           empty,
@@ -103,14 +101,19 @@ const engine = process.env.BROWSER || "chromium",
           seedPixels: seedPortraits[0].pixels,
           before,
           after: rooftop.graphics.buffer,
+          native: rooftop.graphics.nativeItems,
         };
       });
-      assert.equal(audit.records.length, 304);
+      assert.equal(audit.records.length, 294);
+      assert.equal(audit.native.loaded,294,"all catalog sources share one cached model each");
+      assert.equal(audit.native.atlases,7,"one canonical native atlas per authoring family");
+      assert.equal(audit.native.pending,0);
+      assert.deepEqual(audit.native.errors,[]);
       assert.deepEqual(audit.empty, []);
       assert.notEqual(
         audit.seedHashes[0],
         audit.seedHashes[1],
-        "different seeds visibly vary the plant and pot portrait",
+        "different seeds visibly vary the native rooted specimen orientation",
       );
       assert.deepEqual(
         audit.before,
@@ -123,7 +126,9 @@ const engine = process.env.BROWSER || "chromium",
           model.extent.every((n) => n > 0 && Number.isFinite(n)),
           model.type,
         );
-        assert.ok(model.sourceCount > 0, model.type + " sources");
+        assert.equal(model.source,"Blender",model.type);
+        assert.equal(model.textureAuthor,"Pixelorama",model.type);
+        assert.ok(model.modelId && model.family,model.type + " source identity");
       }
       // Inspect the changed artwork through the actual game controls. These
       // captures use the same renderer, backdrop and saved-layout path as play.
@@ -133,7 +138,7 @@ const engine = process.env.BROWSER || "chromium",
       await page.locator("#timeSelect").selectOption("day");
       await page.waitForFunction(()=>rooftop.weather.transition.mix>.999);
       await page.locator("#clear").click();
-      for(const [query,id] of [["木阶花架","woodshelf"],["浇水","watering"],["三层铁花架","tierstand"]]){
+      for(const [query,id] of [["三阶斜式木架","step-rack"],["浇水壶","watering-can"],["铁质三层架","iron-3-black"]]){
         await page.locator("#search").fill(query);
         await page.locator("[data-asset="+id+"]").click();
       }
@@ -144,17 +149,17 @@ const engine = process.env.BROWSER || "chromium",
       await page.locator("#garden").press("Home");
       // Real controls, picking and dragging verify the shared placement contract.
       await page.locator("#clear").click();
-      await page.locator("#search").fill("三层铁花架");
-      await page.locator("[data-asset=tierstand]").click();
-      await page.locator("#search").fill("工作手套");
-      await page.locator("[data-asset=gloves]").click();
+      await page.locator("#search").fill("铁质三层架");
+      await page.locator("[data-asset=iron-3-black]").click();
+      await page.locator("#search").fill("金琥");
+      await page.locator("[data-asset=barrel]").click();
       await page
         .locator("#supportParent")
-        .selectOption({ label: "三层铁花架" });
+        .selectOption({ label: "铁质三层架 · 黑色" });
       const stableBuilds = await page.evaluate(
         () => rooftop.graphics.modelBuilds,
       );
-      for (const surface of ["lower", "upper", "middle"]) {
+      for (const surface of ["shelf-1", "shelf-3", "shelf-2"]) {
         await page.locator("#supportLevel").selectOption(surface);
         assert.equal(
           await page.evaluate(
@@ -189,7 +194,7 @@ const engine = process.env.BROWSER || "chromium",
       });
       assert.equal(
         stableTier,
-        "middle",
+        "shelf-2",
         "small adjustments preserve the explicitly selected tier",
       );
       const arrangement = await page.evaluate(
@@ -220,7 +225,7 @@ const engine = process.env.BROWSER || "chromium",
       await page.locator("#rotate").click();
       const rotated = await page.evaluate(() => rooftop.layout.scenes.north);
       assert.equal(rotated[1].rotation, 90);
-      assert.equal(rotated[1].support.surface, "middle");
+      assert.equal(rotated[1].support.surface, "shelf-2");
       await page.locator("#scaleUp").click();
       await page.locator("#scaleDown").click();
       assert.deepEqual(
@@ -240,10 +245,10 @@ const engine = process.env.BROWSER || "chromium",
       );
       await page.reload();
       await page.waitForFunction(() => window.rooftop);
-      const refreshedPortrait = await page.evaluate(() => {
+      const refreshedPortrait = await page.evaluate(async () => {
         const c = document.createElement("canvas");
         c.width = c.height = 128;
-        rooftop.modelRenderer.thumbnail({ type: "basil", seed: 2472093529 }, c);
+        await rooftop.modelRenderer.thumbnail({ type: "basil", seed: 2472093529 }, c, true);
         const pixels = Array.from(
           c.getContext("2d").getImageData(0, 0, 128, 128).data,
         );
@@ -296,6 +301,7 @@ const engine = process.env.BROWSER || "chromium",
       const addAsset = async (query, type) => {
         await page.locator("#search").fill(query);
         await page.locator("[data-asset=" + type + "]").click();
+        await page.waitForFunction(() => rooftop.graphics.nativeItems.pending === 0, null, { timeout: 90000 });
       };
       const clickModel = async (type) => {
         const point = await page.evaluate((type) => {
@@ -310,7 +316,7 @@ const engine = process.env.BROWSER || "chromium",
       const categories = await page
         .locator("#categories button")
         .allTextContents();
-      assert.deepEqual(categories.slice(1, 9), [
+      assert.deepEqual(categories.slice(2, 10), [
         "仙人掌",
         "多肉",
         "香草",
@@ -320,56 +326,30 @@ const engine = process.env.BROWSER || "chromium",
         "蔬果",
         "苔藓",
       ]);
-      assert.deepEqual(categories.slice(9, 16), [
-        "花架",
-        "桌椅与台面",
-        "柜床与箱桶",
-        "水池台",
-        "玻璃罩与保湿柜",
-        "空容器",
-        "花盆与花器",
-      ]);
-      // Transparent glass and an explicit retrieval path both preserve selection.
-      await addAsset("沃德", "wardcase");
-      await addAsset("日轮玉", "new-aucampiae");
-      await small();
-      await page
-        .locator("#supportParent")
-        .selectOption({ label: "沃德玻璃箱" });
-      const glassPlant = await page.evaluate(() =>
-        rooftop.layout.scenes.north.at(-1),
-      );
-      await clickModel("new-aucampiae");
-      assert.equal(
-        await page.evaluate(() => rooftop.selected),
-        glassPlant.id,
-        "glass must pass picking through to the plant",
-      );
-      await clickModel("wardcase");
-      assert.equal(await page.locator("#contentsControl").isVisible(), true);
-      await page.locator("#contentsSelect").selectOption(glassPlant.id);
-      await page.locator("#remove").click();
-      await clickModel("wardcase");
-      await page.locator("#remove").click();
-      assert.equal(
-        (await page.evaluate(() => rooftop.layout.scenes.north)).length,
-        0,
-        "contents and glass case can both be recovered",
-      );
+      assert.deepEqual(categories.slice(10), ["架子", "桌椅与居室", "栽培与盛放", "日用与照明", "收藏", "枪械", "兵器"]);
+      // Filled native aquariums have glass walls and a real water volume; they
+      // do not advertise an empty cavity for arbitrary nested furniture.
+      await addAsset("长方玻璃鱼缸", "aquarium-rectangle");
+      const aquarium = await page.evaluate(async () => {
+        const { supportSurfaces } = await import("/rooftop/3d/spatial-layout.mjs");
+        return supportSurfaces(rooftop.layout.scenes.north.at(-1));
+      });
+      assert.deepEqual(aquarium, []);
+      await page.locator("#clear").click();
       // Ground access under opaque furniture is not a support dependency.
-      await addAsset("工作台", "table");
-      await addAsset("工作手套", "gloves");
+      await addAsset("方木桌", "wood-square-table");
+      await addAsset("园艺铲", "trowel");
       await small();
-      await page.locator("#supportParent").selectOption({ label: "工作台" });
+      await page.locator("#supportParent").selectOption({ label: "方木桌" });
       await page.locator("#supportLevel").selectOption("under");
       const underGround = await page.evaluate(() =>
         rooftop.layout.scenes.north.at(-1),
       );
       assert.equal(underGround.support, null);
-      await clickModel("table");
+      await clickModel("wood-square-table");
       assert.ok(
         (await page.locator("#contentsSelect option").allTextContents()).some(
-          (t) => t === "下方地面 · 工作手套",
+          (t) => t === "架下地面 · 园艺铲",
         ),
       );
       const tablePoint = await page.evaluate(() =>
@@ -393,68 +373,50 @@ const engine = process.env.BROWSER || "chromium",
         underGround,
       );
       await page.locator("#clear").click();
-      // Both washstations expose a continuous perforated deck and one bowl point.
-      for (const [query, type] of [
-        ["不锈钢水槽", "sink"],
-        ["蓝色水池台", "basin"],
+      // Native sink descriptors expose their actual deck and basin floor.
+      for (const [query, type, surfaces] of [
+        ["不锈钢水槽", "steel-sink", ["drainboard", "basin-floor"]],
+        ["蓝色水池台", "enamel-basin", ["basin-floor"]],
       ]) {
-        await addAsset(query, type);
-        await addAsset("红柄园艺剪", "pruning-shears");
-        await small();
+        await addAsset(query, type); await addAsset("园艺铲", "trowel"); await small();
         await page.locator("#supportParent").selectOption({ label: query });
-        for (const surface of ["counter", "inside", "under"]) {
+        for (const surface of surfaces) {
           await page.locator("#supportLevel").selectOption(surface);
-          const child = await page.evaluate(() =>
-            rooftop.layout.scenes.north.at(-1),
-          );
-          assert.equal(
-            child.support?.surface || null,
-            surface === "under" ? null : surface,
-          );
+          assert.equal(await page.evaluate(() => rooftop.layout.scenes.north.at(-1).support?.surface), surface);
         }
         await page.locator("#clear").click();
       }
-      // The stair treads must fit ordinary default-size pots, not only tiny props.
-      for (const [query, type] of [
-        ["木阶花架", "woodshelf"],
-        ["梯形木花架", "ladderstand"],
+      // Each actual stair tread and wood board must fit a default rooted pot.
+      for (const [query, type, surfaces] of [
+        ["三阶斜式木架", "step-rack", ["step-1", "step-3", "step-2"]],
+        ["木质三层架", "wood-3", ["shelf-1", "shelf-3", "shelf-2"]],
       ]) {
-        await addAsset(query, type);
-        await addAsset("金琥", "barrel");
+        await addAsset(query, type); await addAsset("金琥", "barrel");
         await page.locator("#supportParent").selectOption({ label: query });
-        for (const surface of ["lower", "upper", "middle"]) {
+        for (const surface of surfaces) {
           await page.locator("#supportLevel").selectOption(surface);
-          assert.equal(
-            await page.evaluate(
-              () => rooftop.layout.scenes.north.at(-1).support.surface,
-            ),
-            surface,
-          );
+          assert.equal(await page.evaluate(() => rooftop.layout.scenes.north.at(-1).support.surface), surface);
         }
         const stairs = await page.evaluate(() => rooftop.layout.scenes.north);
-        await page.reload();
-        await page.waitForFunction(() => window.rooftop);
-        assert.deepEqual(
-          await page.evaluate(() => rooftop.layout.scenes.north),
-          stairs,
-        );
+        await page.reload(); await page.waitForFunction(() => window.rooftop);
+        assert.deepEqual(await page.evaluate(() => rooftop.layout.scenes.north), stairs);
         await page.locator("#clear").click();
       }
       // A holder can be nested on a middle tier and still hold another object.
-      await addAsset("宽网格铁架", "wirestand");
-      await addAsset("蓝色收纳箱", "crate");
+      await addAsset("铁质三层架", "iron-3-silver");
+      await addAsset("蓝色周转箱", "crate-blue");
       await small();
       await page
         .locator("#supportParent")
-        .selectOption({ label: "宽网格铁架" });
-      await page.locator("#supportLevel").selectOption("middle");
-      await addAsset("红柄园艺剪", "pruning-shears");
+        .selectOption({ label: "铁质三层架 · 银色" });
+      await page.locator("#supportLevel").selectOption("shelf-2");
+      await addAsset("园艺剪", "pruning-shears");
       await small();
       await page
         .locator("#supportParent")
-        .selectOption({ label: "蓝色收纳箱" });
+        .selectOption({ label: "蓝色周转箱" });
       const nested = await page.evaluate(() => rooftop.layout.scenes.north);
-      assert.equal(nested[1].support.surface, "middle");
+      assert.equal(nested[1].support.surface, "shelf-2");
       assert.equal(nested[2].support.id, nested[1].id);
       await page.reload();
       await page.waitForFunction(() => window.rooftop);
@@ -597,7 +559,7 @@ const engine = process.env.BROWSER || "chromium",
         browser: engine,
         webgl,
         checked: webgl
-          ? "304 actual models, tier selection, carried contents, drag camera ownership, reload, edit/undo, wardrobe families"
+          ? "294 cached native models and 7 canonical atlases, tier selection, carried contents, drag camera ownership, reload, edit/undo, wardrobe families"
           : "2D fallback available",
       }),
     );

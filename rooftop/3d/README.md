@@ -7,10 +7,10 @@
 ## 资源管线
 
 - 建筑、阳台与街区由 `architectural-shell.mjs` 加载 `../assets/background/empty-rooftop.mjs` 及 `.bin`。可编辑源文件为 [`docs/art/rooftop-lowpoly-02/`](../../docs/art/rooftop-lowpoly-02/README.md) 的 `game-environment.blend`、`terrace-book.pxo` 与 `distance-facades.pxo`。主图为 1024×1024，物理材料格为 16 像素／米，远景通过 `baked-pixel-grid.mjs` 共用同一标定。
-- 现有目录物品与室内由共享构造模块建立，使用 `native-materials.mjs`、`native-book.mjs`、`native-style.mjs` 和 `../assets/pixel/material-book.png`，标定每游戏世界单位 8 像素。原稿在 [`docs/art/rooftop-game/`](../../docs/art/rooftop-game/README.md)，手改 Blend 后须另做导出和接入。
+- 目录物品由 `native-model-loader.mjs` 加载 `../assets/items/` 的独立 Blender GLB 和 Pixelorama 图集；房间由 `room-background-loader.mjs` 加载 `../assets/room/`，活动门由 `room-door.mjs` 保留原互动。新源纹理为 16 像素／米，模型统一使用 `ITEM_METRES_TO_UNITS = 5.6 / 3`。源文件分别保存在 `docs/art/rooftop-furniture-02/` 和 `docs/art/rooftop-room-01/`。
 - `outdoor-raster.mjs` 与 `pixel-grid.mjs` 将户外画面按约 2.5 CSS 像素的整数设备格显示；DPR 2 为每格 5×5 实际像素。完整模型和原生贴图继续保留细节，粗颗粒感由共享最终采样产生。场景与家具近看使用同一规则，详见[像素制作管线](../../docs/rooftop-pixel-style.md)。
 
-材质准备工具 `docs/art/rooftop-legacy-materials/` 仍被原稿工具与检查调用；本目录共用函数、模型和 vendor 由游戏及原稿工具使用。二维绘制继续支撑回退、存档边界和部分预览。
+旧物品的 22 个程序构造模块保存在 [`docs/art/rooftop-game/legacy-geometry/`](../../docs/art/rooftop-game/legacy-geometry/README.md)，由历史作者工具与检查读取。人物和共用绘制仍使用 `native-materials.mjs`、`native-book.mjs`、`native-style.mjs` 和 `../assets/pixel/material-book.png`；承放格栅、自然材质函数与 vendor 也继续用于正式场景。二维绘制继续支撑回退、存档边界和部分预览。
 
 ## 观察与环境
 

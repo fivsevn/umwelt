@@ -16,7 +16,7 @@ import {
   latheSurface,
   leafSurface,
   beveledBoxSurface,
-} from "../rooftop/3d/model-surfaces.mjs";
+} from "../docs/art/rooftop-game/legacy-geometry/model-surfaces.mjs";
 import {
   pixelPainting,
   paintPixels,
@@ -37,17 +37,17 @@ import { buildNeighborhood } from "../rooftop/3d/neighborhood.mjs";
 import {
   recessedBowlGeometry,
   roundedRectangle,
-} from "../rooftop/3d/washstation.mjs";
-import { soilBagGeometry } from "../rooftop/3d/soft-goods.mjs";
-import { soilSurface, soilPointHeight } from "../rooftop/3d/soil-surface.mjs";
+} from "../docs/art/rooftop-game/legacy-geometry/washstation.mjs";
+import { soilBagGeometry } from "../docs/art/rooftop-game/legacy-geometry/soft-goods.mjs";
+import { soilSurface, soilPointHeight } from "../docs/art/rooftop-game/legacy-geometry/soil-surface.mjs";
 import { weatherDrawing } from "../rooftop/3d/weathering.mjs";
-import { buildAquarium } from "../rooftop/3d/glass-cases.mjs";
-import { buildVessel } from "../rooftop/3d/vessel-models.mjs";
+import { buildAquarium } from "../docs/art/rooftop-game/legacy-geometry/glass-cases.mjs";
+import { buildVessel } from "../docs/art/rooftop-game/legacy-geometry/vessel-models.mjs";
 import { POTS } from "../rooftop/botany.mjs";
-import { VESSEL_ART } from "../rooftop/3d/vessel-art.mjs";
+import { VESSEL_ART } from "../docs/art/rooftop-game/legacy-geometry/vessel-art.mjs";
 import { buildResident, buildPig } from "../rooftop/3d/residents.mjs";
 import { OUTFITS, DECORATIONS, wardrobe } from "../rooftop/wardrobe.mjs";
-import { vesselDimensions } from "../rooftop/3d/vessel-models.mjs";
+import { vesselDimensions } from "../docs/art/rooftop-game/legacy-geometry/vessel-models.mjs";
 const context = { console: { warn() {} } };
 vm.runInNewContext(
   readFileSync(
@@ -95,6 +95,10 @@ test("every outfit and pig decoration builds finite geometry with valid material
       assert.ok(points.flat().every(Number.isFinite));
       assert.equal(typeof kind, "string");
       count++;
+    },
+    makeNativeItem(parent, type) {
+      assert.equal(type, "watering-can", "resident hand prop uses the new native catalog");
+      const model = new T.Group(); parent.add(model); count++; return model;
     },
   };
   api.modelApi = () => api;

@@ -1,0 +1,519 @@
+[
+  {
+    "id": "antique-shigaraki-jar",
+    "name": "信乐大壶",
+    "museumTitle": "Large Storage Jar (Ōtsubo)",
+    "sources": [
+      {
+        "label": "Met · 1975.268.428",
+        "url": "https://www.metmuseum.org/art/collection/search/44637"
+      }
+    ],
+    "boundsMin": [
+      -0.3105528950691223,
+      -0.3171052932739258,
+      0.0
+    ],
+    "boundsMax": [
+      0.3144471049308777,
+      0.3078947067260742,
+      0.7407994866371155
+    ],
+    "observed": "Coiled broad shoulder jar, reddish fired body; directional olive ash and irregular shoulder drips. Mouth visible.",
+    "referenceUnknown": [
+      "Bottom and deep inner wall not photographed."
+    ],
+    "removableParts": [],
+    "nativeTextureDensity": 16,
+    "paintingRule": "Pure Python pattern_color uses original physical point; root paints original glyphs with native Pixelorama Pencil. Unknown faces stay base. No photo tracing or increased density."
+  },
+  {
+    "id": "antique-bizen-gourd",
+    "name": "青备前双葫芦瓶",
+    "museumTitle": "Bizen ware bottle, Ao Bizen type",
+    "sources": [
+      {
+        "label": "Freer · F1898.456",
+        "url": "https://asia-archive.si.edu/object/F1898.456/"
+      }
+    ],
+    "boundsMin": [
+      -0.21875,
+      -0.21875,
+      0.0
+    ],
+    "boundsMax": [
+      0.21875,
+      0.21875,
+      0.6923912763595581
+    ],
+    "observed": "Two unequal gourds and constricted waist, silvery grey-blue fired glaze; narrow cylindrical neck.",
+    "referenceUnknown": [
+      "Interior and underside not photographed."
+    ],
+    "removableParts": [],
+    "nativeTextureDensity": 16,
+    "paintingRule": "Pure Python pattern_color uses original physical point; root paints original glyphs with native Pixelorama Pencil. Unknown faces stay base. No photo tracing or increased density."
+  },
+  {
+    "id": "antique-karatsu-bowl",
+    "name": "唐津斑釉茶碗",
+    "museumTitle": "Teabowl",
+    "sources": [
+      {
+        "label": "Met · 93.1.124",
+        "url": "https://www.metmuseum.org/art/collection/search/62664"
+      }
+    ],
+    "boundsMin": [
+      -0.25,
+      -0.2540000081062317,
+      0.0
+    ],
+    "boundsMax": [
+      0.25,
+      0.2460000067949295,
+      0.25357142090797424
+    ],
+    "observed": "Round dark bowl and low ring foot; black-and-white photograph gives contour and tonal glaze evidence.",
+    "referenceUnknown": [
+      "Colour is an explicitly inferred muted game palette; underside not shown."
+    ],
+    "removableParts": [],
+    "nativeTextureDensity": 16,
+    "paintingRule": "Pure Python pattern_color uses original physical point; root paints original glyphs with native Pixelorama Pencil. Unknown faces stay base. No photo tracing or increased density."
+  },
+  {
+    "id": "antique-hagi-bowl",
+    "name": "萩烧茶碗",
+    "museumTitle": "chawan 茶碗 (tea bowl)",
+    "sources": [
+      {
+        "label": "Spencer · 1928.0433",
+        "url": "https://spencerart.ku.edu/art/collections-online/object/3454"
+      }
+    ],
+    "boundsMin": [
+      -0.2460833638906479,
+      -0.24689194560050964,
+      0.0
+    ],
+    "boundsMax": [
+      0.2539166212081909,
+      0.25310805439949036,
+      0.31102362275123596
+    ],
+    "observed": "Cream slip/glaze bowl with irregular lip, tall exposed-clay ring foot; cream interior visible.",
+    "referenceUnknown": [
+      "Fine crackle omitted at 16 px/m, underside cavity inferred."
+    ],
+    "removableParts": [],
+    "nativeTextureDensity": 16,
+    "paintingRule": "Pure Python pattern_color uses original physical point; root paints original glyphs with native Pixelorama Pencil. Unknown faces stay base. No photo tracing or increased density."
+  },
+  {
+    "id": "antique-kiyomizu-incense",
+    "name": "清水烧白泥镶嵌香炉",
+    "museumTitle": "Incense Burner",
+    "sources": [
+      {
+        "label": "Met · 93.1.152",
+        "url": "https://www.metmuseum.org/art/collection/search/62680"
+      }
+    ],
+    "boundsMin": [
+      -0.21875,
+      -0.17139175534248352,
+      0.0
+    ],
+    "boundsMax": [
+      0.21875,
+      0.17139175534248352,
+      0.38788658380508423
+    ],
+    "observed": "Straight cylinder, two ears, tripod feet and pierced lid; incised white-slip inlay ornament.",
+    "referenceUnknown": [
+      "Black-and-white photograph: brown/cream palette inferred, lid underside/inner wall plain reconstruction."
+    ],
+    "removableParts": [
+      "antique-kiyomizu-incense/lid-0",
+      "antique-kiyomizu-incense/lid-1",
+      "antique-kiyomizu-incense/lid-2",
+      "antique-kiyomizu-incense/lid-3",
+      "antique-kiyomizu-incense/lid-4",
+      "antique-kiyomizu-incense/lid-5"
+    ],
+    "nativeTextureDensity": 16,
+    "paintingRule": "Pure Python pattern_color uses original physical point; root paints original glyphs with native Pixelorama Pencil. Unknown faces stay base. No photo tracing or increased density."
+  },
+  {
+    "id": "antique-kenzan-chestnut",
+    "name": "乾山款栗形香盒",
+    "museumTitle": "Incense box in the shape of a chestnut",
+    "sources": [
+      {
+        "label": "Rijksmuseum · AK-MAK-708",
+        "url": "https://www.rijksmuseum.nl/en/collection/object/Incense-box-in-the-shape-of-a-chestnut--1a31a5d56370fa7aca450d87e9e76373"
+      }
+    ],
+    "boundsMin": [
+      -0.16022726893424988,
+      -0.1875,
+      0.0
+    ],
+    "boundsMax": [
+      0.21477273106575012,
+      0.1875,
+      0.2068965584039688
+    ],
+    "observed": "Museum text: chestnut shape, brown and cream glaze, inner Kenzan signature. Catalogue maker anonymous.",
+    "referenceUnknown": [
+      "Image host denies access; contour and colour distribution inferred from named form, no reproduced signature."
+    ],
+    "removableParts": [
+      "antique-kenzan-chestnut/lid-0",
+      "antique-kenzan-chestnut/lid-1",
+      "antique-kenzan-chestnut/lid-2",
+      "antique-kenzan-chestnut/lid-3",
+      "antique-kenzan-chestnut/lid-4",
+      "antique-kenzan-chestnut/lid-5"
+    ],
+    "nativeTextureDensity": 16,
+    "paintingRule": "Pure Python pattern_color uses original physical point; root paints original glyphs with native Pixelorama Pencil. Unknown faces stay base. No photo tracing or increased density."
+  },
+  {
+    "id": "antique-kakiemon-hex",
+    "name": "柿右卫门六角盖罐",
+    "museumTitle": "jar; lid",
+    "sources": [
+      {
+        "label": "British Museum · Franks.478",
+        "url": "https://www.britishmuseum.org/collection/object/A_Franks-478"
+      }
+    ],
+    "boundsMin": [
+      -0.21875,
+      -0.21875,
+      0.0
+    ],
+    "boundsMax": [
+      0.21875,
+      0.21875,
+      0.84765625
+    ],
+    "observed": "Museum text: hexagonal slab-built body, alternating floral sprays; shoulder/lid floral panels and coloured scroll ground.",
+    "referenceUnknown": [
+      "Image host denies access; profile, flower shapes and inner/underside plain reconstruction, not a facsimile."
+    ],
+    "removableParts": [
+      "antique-kakiemon-hex/lid-0",
+      "antique-kakiemon-hex/lid-1",
+      "antique-kakiemon-hex/lid-2",
+      "antique-kakiemon-hex/lid-3",
+      "antique-kakiemon-hex/lid-4",
+      "antique-kakiemon-hex/lid-5",
+      "antique-kakiemon-hex/lid-knob-stem",
+      "antique-kakiemon-hex/lid-knob"
+    ],
+    "nativeTextureDensity": 16,
+    "paintingRule": "Pure Python pattern_color uses original physical point; root paints original glyphs with native Pixelorama Pencil. Unknown faces stay base. No photo tracing or increased density."
+  },
+  {
+    "id": "antique-tokoname-sutra",
+    "name": "常滑三筋文埋经壶",
+    "museumTitle": "Jar for Sutra Burial (Sankinko)",
+    "sources": [
+      {
+        "label": "Met · 2002.447.12",
+        "url": "https://www.metmuseum.org/art/collection/search/49267"
+      }
+    ],
+    "boundsMin": [
+      -0.2790757715702057,
+      -0.28383132815361023,
+      0.0
+    ],
+    "boundsMax": [
+      0.2834242284297943,
+      0.27866867184638977,
+      0.7303664684295654
+    ],
+    "observed": "Ovoid jar, broad cylindrical neck; three incised horizontal lines, directional pale blue-grey/olive ash drips.",
+    "referenceUnknown": [
+      "Deep interior and underside inferred; no buried sutra or archaeological residue invented."
+    ],
+    "removableParts": [],
+    "nativeTextureDensity": 16,
+    "paintingRule": "Pure Python pattern_color uses original physical point; root paints original glyphs with native Pixelorama Pencil. Unknown faces stay base. No photo tracing or increased density."
+  },
+  {
+    "id": "antique-oribe-ewer",
+    "name": "织部水注",
+    "museumTitle": "水注 suichū (ewer)",
+    "sources": [
+      {
+        "label": "Spencer · 2012.0640.a,b",
+        "url": "https://spencerart.ku.edu/art/collections-online/object/44987"
+      }
+    ],
+    "boundsMin": [
+      -0.2502819299697876,
+      -0.25735294818878174,
+      0.0
+    ],
+    "boundsMax": [
+      0.3747180700302124,
+      0.25735294818878174,
+      0.625
+    ],
+    "observed": "Lidded kettle, arching ceramic bail, short open spout; cream body iron calligraphic motifs, green upper section; both exterior sides photographed.",
+    "referenceUnknown": [
+      "Interior and lid underside plain inferred; fine crazing omitted."
+    ],
+    "removableParts": [
+      "antique-oribe-ewer/lid-0",
+      "antique-oribe-ewer/lid-1",
+      "antique-oribe-ewer/lid-2",
+      "antique-oribe-ewer/lid-3",
+      "antique-oribe-ewer/lid-4",
+      "antique-oribe-ewer/lid-5",
+      "antique-oribe-ewer/lid-knob-stem",
+      "antique-oribe-ewer/lid-knob"
+    ],
+    "nativeTextureDensity": 16,
+    "paintingRule": "Pure Python pattern_color uses original physical point; root paints original glyphs with native Pixelorama Pencil. Unknown faces stay base. No photo tracing or increased density."
+  },
+  {
+    "id": "antique-banko-teapot",
+    "name": "万古彩绘茶壶",
+    "museumTitle": "Teapot",
+    "sources": [
+      {
+        "label": "Met · 91.1.204",
+        "url": "https://www.metmuseum.org/art/collection/search/56159"
+      }
+    ],
+    "boundsMin": [
+      -0.21133339405059814,
+      -0.16867469251155853,
+      0.0
+    ],
+    "boundsMax": [
+      0.22616660594940186,
+      0.16867469251155853,
+      0.35843372344970703
+    ],
+    "observed": "Tall small cylinder with open diagonal spout, side tube handle plus end loop; lid melon knob; flowers on front, impressed marks on back.",
+    "referenceUnknown": [
+      "Interior/lid underside inferred; seals are simplified non-legible impressions."
+    ],
+    "removableParts": [
+      "antique-banko-teapot/lid-0",
+      "antique-banko-teapot/lid-1",
+      "antique-banko-teapot/lid-2",
+      "antique-banko-teapot/lid-3",
+      "antique-banko-teapot/lid-4",
+      "antique-banko-teapot/lid-5",
+      "antique-banko-teapot/lid-knob-stem",
+      "antique-banko-teapot/lid-knob"
+    ],
+    "nativeTextureDensity": 16,
+    "paintingRule": "Pure Python pattern_color uses original physical point; root paints original glyphs with native Pixelorama Pencil. Unknown faces stay base. No photo tracing or increased density."
+  },
+  {
+    "id": "antique-iga-lobed",
+    "name": "伊贺耳付花生",
+    "museumTitle": "Lobed Vase",
+    "sources": [
+      {
+        "label": "Suntory · 240",
+        "url": "https://www.suntory.com/sma/collection/data/detail?id=240&lang=en"
+      }
+    ],
+    "boundsMin": [
+      -0.2674993574619293,
+      -0.2310231328010559,
+      0.0
+    ],
+    "boundsMax": [
+      0.2674993574619293,
+      0.21897687017917633,
+      0.6875
+    ],
+    "observed": "Museum text: four-direction lobed mouth, two neck lines, paired ears, spatula cuts, local green ash streak over fired brown body.",
+    "referenceUnknown": [
+      "Image host denies access; maximum body width unknown and adapted, inner/bottom plain reconstruction."
+    ],
+    "removableParts": [],
+    "nativeTextureDensity": 16,
+    "paintingRule": "Pure Python pattern_color uses original physical point; root paints original glyphs with native Pixelorama Pencil. Unknown faces stay base. No photo tracing or increased density."
+  },
+  {
+    "id": "antique-tamba-jar",
+    "name": "丹波自然灰釉壶",
+    "museumTitle": "Jar",
+    "sources": [
+      {
+        "label": "Freer · F1898.81",
+        "url": "https://asia-archive.si.edu/object/F1898.81/"
+      }
+    ],
+    "boundsMin": [
+      -0.28125,
+      -0.28125,
+      0.0
+    ],
+    "boundsMax": [
+      0.28125,
+      0.28125,
+      0.5721566677093506
+    ],
+    "observed": "Broad ovoid yellow-grey/olive ash jar; short mouth with two small gold-lacquer rim repairs visible.",
+    "referenceUnknown": [
+      "Back and bottom not shown; no further invented gold repairs."
+    ],
+    "removableParts": [],
+    "nativeTextureDensity": 16,
+    "paintingRule": "Pure Python pattern_color uses original physical point; root paints original glyphs with native Pixelorama Pencil. Unknown faces stay base. No photo tracing or increased density."
+  },
+  {
+    "id": "antique-echizen-jar",
+    "name": "越前壶",
+    "museumTitle": "壺　越前",
+    "sources": [
+      {
+        "label": "Aichi Prefectural Ceramic Museum · A000001",
+        "url": "https://jmapps.ne.jp/aitou/det.html?data_id=538"
+      }
+    ],
+    "boundsMin": [
+      -0.21875,
+      -0.21875,
+      0.0
+    ],
+    "boundsMax": [
+      0.21875,
+      0.21875,
+      0.6994760632514954
+    ],
+    "observed": "N-section folded lip, short neck, tall coiled body; white-yellow ash localized over reddish-brown shoulders; original front image viewed.",
+    "referenceUnknown": [
+      "Interior/bottom and unseen back inferred."
+    ],
+    "removableParts": [],
+    "nativeTextureDensity": 16,
+    "paintingRule": "Pure Python pattern_color uses original physical point; root paints original glyphs with native Pixelorama Pencil. Unknown faces stay base. No photo tracing or increased density."
+  },
+  {
+    "id": "antique-seto-hitorine",
+    "name": "濑户茶入“独寝”",
+    "museumTitle": "Seto ware tea caddy “Hitorine,” named by Kobori Enshû (1579–1647)",
+    "sources": [
+      {
+        "label": "UMMA · 1954/1.532A&B",
+        "url": "https://umma.umich.edu/objects/seto-ware-tea-caddy-hitorine-named-by-kobori-enshu-1579-1647-1954-1-532ab/"
+      }
+    ],
+    "boundsMin": [
+      -0.15625,
+      -0.15625,
+      0.0
+    ],
+    "boundsMax": [
+      0.15625,
+      0.15625,
+      0.3958333432674408
+    ],
+    "observed": "Museum text: short-neck small caddy, brown glaze stopping above exposed lower clay, flat base with no foot; ivory lid concave around centre knob.",
+    "referenceUnknown": [
+      "Image host denies access; wall thickness/interior, exact glaze boundary inferred; storage bag excluded."
+    ],
+    "removableParts": [
+      "antique-seto-hitorine/lid-0",
+      "antique-seto-hitorine/lid-1",
+      "antique-seto-hitorine/lid-2",
+      "antique-seto-hitorine/lid-3",
+      "antique-seto-hitorine/lid-4",
+      "antique-seto-hitorine/lid-5",
+      "antique-seto-hitorine/lid-knob-stem",
+      "antique-seto-hitorine/lid-knob"
+    ],
+    "nativeTextureDensity": 16,
+    "paintingRule": "Pure Python pattern_color uses original physical point; root paints original glyphs with native Pixelorama Pencil. Unknown faces stay base. No photo tracing or increased density."
+  },
+  {
+    "id": "antique-tsuboya-dragon",
+    "name": "壶屋双龙追珠筒瓶",
+    "museumTitle": "Vase with design of dragons chasing flaming jewel",
+    "sources": [
+      {
+        "label": "Freer · F1899.8a-b",
+        "url": "https://asia-archive.si.edu/object/F1899.8a-b/"
+      }
+    ],
+    "boundsMin": [
+      -0.1875,
+      -0.1875,
+      0.0
+    ],
+    "boundsMax": [
+      0.1875,
+      0.1875,
+      0.7284172773361206
+    ],
+    "observed": "Tall cylindrical vase, warm white slip with slightly yellow clear glaze; incised dragon, flaming jewel and cloud composition; open glazed interior visible.",
+    "referenceUnknown": [
+      "Dragon details become original coarse line glyphs; back/bottom unseen plain."
+    ],
+    "removableParts": [],
+    "nativeTextureDensity": 16,
+    "paintingRule": "Pure Python pattern_color uses original physical point; root paints original glyphs with native Pixelorama Pencil. Unknown faces stay base. No photo tracing or increased density."
+  },
+  {
+    "id": "antique-arita-coffee",
+    "name": "有田青花银饰咖啡壶",
+    "museumTitle": "Coffee Pot",
+    "sources": [
+      {
+        "label": "Met · 79.2.176a,b",
+        "url": "https://www.metmuseum.org/art/collection/search/62526"
+      }
+    ],
+    "boundsMin": [
+      -0.30119675397872925,
+      -0.17592592537403107,
+      0.0
+    ],
+    "boundsMax": [
+      0.32380324602127075,
+      0.17592592537403107,
+      0.7268518805503845
+    ],
+    "observed": "Tall tapered porcelain cylinder with three feet, loop handle and real low silver tap; domed lid, knob/rim and chain; blue bird/floral compositions on two sides.",
+    "referenceUnknown": [
+      "Interior and lid underside inferred, detailed silver relief and chain simplified structurally."
+    ],
+    "removableParts": [
+      "antique-arita-coffee/lid-0",
+      "antique-arita-coffee/lid-1",
+      "antique-arita-coffee/lid-2",
+      "antique-arita-coffee/lid-3",
+      "antique-arita-coffee/lid-4",
+      "antique-arita-coffee/lid-5",
+      "antique-arita-coffee/lid-knob-stem",
+      "antique-arita-coffee/lid-knob",
+      "antique-arita-coffee/lid-silver-rim",
+      "antique-arita-coffee/lid-chain-0",
+      "antique-arita-coffee/lid-chain-1",
+      "antique-arita-coffee/lid-chain-2",
+      "antique-arita-coffee/lid-chain-3",
+      "antique-arita-coffee/lid-chain-4",
+      "antique-arita-coffee/lid-chain-5",
+      "antique-arita-coffee/lid-chain-6",
+      "antique-arita-coffee/lid-chain-7",
+      "antique-arita-coffee/lid-chain-8"
+    ],
+    "nativeTextureDensity": 16,
+    "paintingRule": "Pure Python pattern_color uses original physical point; root paints original glyphs with native Pixelorama Pencil. Unknown faces stay base. No photo tracing or increased density."
+  }
+]

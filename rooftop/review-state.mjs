@@ -16,7 +16,8 @@ export function reviewState(search) {
   return {
     active,
     legacyGameModel,
-    scene: query.get("scene") === "south" ? "south" : "north",
+    scene: ["south", "room"].includes(query.get("scene")) ? query.get("scene") : "north",
+    sampling: query.get("sampling") === "game" ? "game" : "source",
     view: REVIEW_VIEWS.some(({ id }) => id === view) ? view : legacyGameModel ? "bird" : "terrace",
   };
 }
@@ -29,6 +30,7 @@ export function reviewURL(address, choices = {}) {
   url.searchParams.delete("layout");
   url.searchParams.set("scene", choices.scene || state.scene);
   url.searchParams.set("view", choices.view || state.view);
+  url.searchParams.set("sampling", choices.sampling || state.sampling);
   for (const [key, parameter] of [["condition", "weather"], ["phase", "time"], ["season", "season"]]) {
     const value = choices[key] || url.searchParams.get(parameter);
     if (value) url.searchParams.set(parameter, key === "condition" ? canonicalWeatherCondition(value) : value);
@@ -37,6 +39,6 @@ export function reviewURL(address, choices = {}) {
 }
 
 // Scene inspection never consumes the player's or the item editor's layout.
-export function emptyReviewLayout(value) {
-  return { ...value, scenes: { ...value.scenes, north: [], south: [] } };
+export function emptyReviewLayout(value, { room = false } = {}) {
+  return { ...value, scenes: { ...value.scenes, north: [], south: [], ...(room ? { room: [] } : {}) } };
 }

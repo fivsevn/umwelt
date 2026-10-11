@@ -4,7 +4,7 @@ import { createRequire } from "node:module";
 import { outdoorRasterSize, outdoorSampleNdc, rasterCellCentre, paddedRasterProjection, createOutdoorRasterPass } from "../rooftop/3d/outdoor-raster.mjs";
 import { lensWarpNdc } from "../rooftop/3d/lens-pass.mjs";
 import { createSeasonalAir } from "../rooftop/3d/seasonal-air.mjs";
-import { PIXEL_GRID_TARGET_CSS, resolvePixelGrid, pixelGridSize } from "../rooftop/3d/pixel-grid.mjs";
+import { PIXEL_GRID_TARGET_CSS, resolvePixelGrid, resolveObservationPixelGrid, resolveScenePixelGrid, resolveCanvasPixelGrid, pixelGridSize } from "../rooftop/3d/pixel-grid.mjs";
 
 const T = createRequire(import.meta.url)("../rooftop/3d/vendor/three.min.js");
 const close = (a, b) => assert.ok(Math.abs(a - b) < 1e-9, `${a} != ${b}`);
@@ -34,6 +34,57 @@ test("slightly finer shared presentation resolves to integer device squares at e
   }
   assert.deepEqual(pixelGridSize(406, 658, resolvePixelGrid(2)).source, [163, 264]);
   for (const invalid of [0, -1, NaN, Infinity]) assert.deepEqual(resolvePixelGrid(invalid), resolvePixelGrid(1));
+});
+
+test("scope zoom refines integer cells and zooming back or changing observer restores the original grain", () => {
+  const zooms = [.6, 1, 1.25, 2, 2.5, 4, 8, 1], steps = [5, 5, 4, 3, 2, 2, 2, 5];
+  assert.deepEqual(zooms.map(zoom => resolveObservationPixelGrid(2, "neighbor", zoom).pixelStep), steps);
+  assert.equal(resolveObservationPixelGrid(2, "neighbor", 8).targetCssPixelStep, 1);
+  assert.deepEqual([1, 2, 3].map(dpr => resolveObservationPixelGrid(dpr, "neighbor", 8).pixelStep), [2, 2, 3]);
+  for (const dpr of [1, 1.25, 2, 3]) {
+    const original = resolvePixelGrid(dpr);
+    for (const view of ["bird", "drone", "room", "terrace", "row", "outlook", undefined])
+      for (const zoom of [.6, 1, 2.5, 8]) assert.deepEqual(resolveObservationPixelGrid(dpr, view, zoom), original);
+    for (const zoom of [.6, 1, 0, -1, NaN, Infinity]) assert.deepEqual(resolveObservationPixelGrid(dpr, "neighbor", zoom), original);
+    for (const zoom of [1.25, 2.5, 8]) {
+      const grid = resolveObservationPixelGrid(dpr, "neighbor", zoom);
+      assert.ok(Number.isInteger(grid.pixelStep) && grid.pixelStep >= 2);
+      assert.ok(grid.pixelStep <= original.pixelStep);
+      assert.equal(grid.cssPixelStep * dpr, grid.pixelStep);
+    }
+    assert.ok(resolveObservationPixelGrid(dpr, "neighbor", 8).pixelStep < original.pixelStep, "near scope remains finer than other observers without using native resolution");
+    assert.deepEqual(resolveObservationPixelGrid(dpr, "neighbor", 1), original);
+  }
+  assert.equal(resolvePixelGrid(2, 1).pixelStep, 2);
+  assert.equal(resolvePixelGrid(2).pixelStep, 5, "a detail grid never changes the shared default");
+});
+
+test("canvas consumers follow the actual live device cell rather than reconstructing the coarse default", () => {
+  assert.deepEqual(resolveCanvasPixelGrid({}, 2), resolvePixelGrid(2));
+  for (const dpr of [1, 1.25, 2, 3]) for (const zoom of [1, 2.5, 8, 1]) {
+    const grid = resolveObservationPixelGrid(dpr, "neighbor", zoom), dataset = {
+      pixelRatio: String(dpr), physicalPixelStep: String(grid.pixelStep), targetCssPixelStep: String(grid.targetCssPixelStep),
+    };
+    assert.deepEqual(resolveCanvasPixelGrid(dataset, 1), grid);
+  }
+  const actual = resolveCanvasPixelGrid({ pixelRatio: "2", physicalPixelStep: "2" }, 1);
+  assert.equal(actual.pixelStep, 2); assert.equal(actual.cssPixelStep, 1, "the canvas step remains authoritative when optional target metadata is absent");
+});
+
+test("room and garage retain the common game raster while native inspection uses complete device pixels", () => {
+  for (const dpr of [1, 1.25, 2, 3]) {
+    for (const view of ["room", "terrace", undefined]) {
+      const game = resolveScenePixelGrid(dpr, { view, zoom: 8 });
+      assert.deepEqual(game, resolvePixelGrid(dpr));
+      const source = resolveScenePixelGrid(dpr, { sourceInspection: true, view, zoom: 8 });
+      const size = pixelGridSize(406, 658, source);
+      assert.equal(source.pixelStep, 1);
+      assert.deepEqual(size.source, size.output);
+      assert.deepEqual(resolveCanvasPixelGrid({ pixelRatio: String(dpr), physicalPixelStep: "1", targetCssPixelStep: String(source.targetCssPixelStep) }), source);
+      assert.deepEqual(resolveScenePixelGrid(dpr, { sourceInspection: false, view }), game);
+    }
+    assert.equal(resolveScenePixelGrid(dpr, { view: "neighbor", zoom: 8 }).pixelStep, resolveObservationPixelGrid(dpr, "neighbor", 8).pixelStep);
+  }
 });
 function mockRenderer() {
   const events = new Map(), draws = [], initialTarget = {}, renderer = {
@@ -88,6 +139,27 @@ test("scope picking samples the same nearest source cell, including clamped wide
   // Captured garage drags can extend outside the canvas; ordinary picking must
   // preserve those coordinates instead of pinning them to the last display cell.
   assert.ok(outdoorSampleNdc([2000, 1200], 1920, 1080)[0] > 1);
+});
+
+test("refined scope picking follows the displayed cell and the nearest warped source at every detail level", () => {
+  for (const dpr of [1, 1.25, 2, 3]) for (const zoom of [1, 2.5, 8, 1]) for (const [w, h] of [[407, 662], [844, 390]]) {
+    const grid = resolveObservationPixelGrid(dpr, "neighbor", zoom), size = pixelGridSize(w, h, grid),
+      cssAt = (x, y) => [x / size.output[0] * w, y / size.output[1] * h], origin = [11 * grid.pixelStep, 20 * grid.pixelStep];
+    for (const lens of [false, true]) {
+      const reference = outdoorSampleNdc(cssAt(origin[0] + .5, origin[1] + .5), w, h, lens, grid);
+      for (let dx = .5; dx < grid.pixelStep; dx++) for (let dy = .5; dy < grid.pixelStep; dy++)
+        assert.deepEqual(outdoorSampleNdc(cssAt(origin[0] + dx, origin[1] + dy), w, h, lens, grid), reference);
+    }
+    for (const point of [[0, 0], [w / 2, h / 2], [w - .5, h - .5]]) {
+      const displayed = outdoorSampleNdc(point, w, h, false, grid), warped = lensWarpNdc(displayed, size.output[0] / size.output[1]).map(v => Math.max(-1, Math.min(1, v))),
+        expected = [(warped[0] + 1) * size.output[0] / 2, (1 - warped[1]) * size.output[1] / 2].map((v, axis) => Math.min(size.source[axis] - 1, Math.max(0, Math.floor(v / grid.pixelStep)))),
+        sampled = outdoorSampleNdc(point, w, h, true, grid), actual = [(sampled[0] + 1) * size.output[0] / 2, (1 - sampled[1]) * size.output[1] / 2];
+      for (let axis = 0; axis < 2; axis++) close(actual[axis], (expected[axis] + .5) * grid.pixelStep);
+    }
+  }
+  const coarse = resolveObservationPixelGrid(2, "neighbor", 1), fine = resolveObservationPixelGrid(2, "neighbor", 8), a = [50.25, 40.25], b = [51.25, 40.25];
+  assert.deepEqual(outdoorSampleNdc(a, 406, 658, false, coarse), outdoorSampleNdc(b, 406, 658, false, coarse));
+  assert.notDeepEqual(outdoorSampleNdc(a, 406, 658, false, fine), outdoorSampleNdc(b, 406, 658, false, fine), "detail pixels expose distinct rays inside an old coarse cell");
 });
 
 test("world and lens share one nearest low target, with renderer/camera restoration and resize", () => {
@@ -146,6 +218,28 @@ test("DPR changes replace native presentation metrics while reusing the world ta
   }
 });
 
+test("scope detail resizes the same nearest target while preserving output size and logical camera", () => {
+  const { renderer, draws } = mockRenderer(), pass = createOutdoorRasterPass(T, renderer), world = new T.Scene(), camera = new T.PerspectiveCamera(40, 406 / 658, .1, 6000),
+    projection = camera.projectionMatrix.clone(), inverse = camera.projectionMatrixInverse.clone(),
+    stages = [["neighbor", 1, [163, 264]], ["neighbor", 2.5, [406, 658]], ["neighbor", 8, [406, 658]], ["neighbor", 1, [163, 264]], ["bird", 8, [163, 264]], ["drone", 8, [163, 264]]];
+  let target;
+  for (const [view, zoom, expectedSource] of stages) {
+    const grid = resolveObservationPixelGrid(2, view, zoom);
+    pass.render(world, camera, 812, 1316, view === "neighbor", grid);
+    const draw = draws.at(-2), quad = draws.at(-1).scene.children[0];
+    if (target) assert.equal(draw.target, target); target = draw.target;
+    assert.deepEqual(pass.stats.sourceBuffer, expectedSource); assert.deepEqual(pass.stats.outputBuffer, [812, 1316]);
+    assert.ok(pass.stats.sourceBuffer.every((value, axis) => value < pass.stats.outputBuffer[axis]), "the near scope still uses a sampled image rather than native output resolution");
+    assert.equal(pass.stats.pixelStep, grid.pixelStep); assert.equal(quad.material.uniforms.rasterStep.value, grid.pixelStep);
+    assert.equal(draw.target.texture.minFilter, T.NearestFilter); assert.equal(draw.target.texture.magFilter, T.NearestFilter);
+    assert.equal(draw.target.texture.generateMipmaps, false);
+    assert.deepEqual(camera.projectionMatrix.elements, projection.elements); assert.deepEqual(camera.projectionMatrixInverse.elements, inverse.elements);
+    assert.equal(camera.aspect, 406 / 658); assert.equal(camera.zoom, 1);
+    assert.equal(pass.stats.lens > 0, view === "neighbor");
+  }
+  assert.equal(draws.length, stages.length * 2);
+});
+
 test("seasonal point diameters use the actual low target height rather than the full output", () => {
   const scene = new T.Scene(), air = createSeasonalAir(T, scene, { getDrawingBufferSize(v) { v.set(407, 662); } });
   for (const season of ["spring", "summer", "autumn", "winter"]) {
@@ -157,4 +251,19 @@ test("seasonal point diameters use the actual low target height rather than the 
   const retina = createSeasonalAir(T, new T.Scene(), { domElement: { dataset: { pixelRatio: "2" } }, getDrawingBufferSize(v) { v.set(812, 1316); } });
   retina.update("north", { season: "spring" }, 0, false);
   assert.equal(retina.points[0].material.uniforms.viewportHeight.value, 264);
+});
+
+test("seasonal point size tracks scope detail and recovers the coarse height on zoom out and observer changes", () => {
+  const dataset = {}, renderer = { domElement: { dataset }, getDrawingBufferSize(v) { v.set(812, 1316); } },
+    air = createSeasonalAir(T, new T.Scene(), renderer),
+    stages = [["neighbor", 1, 264], ["neighbor", 2.5, 658], ["neighbor", 8, 658], ["neighbor", 1, 264], ["bird", 8, 264], ["drone", 8, 264]];
+  for (const [view, zoom, expectedHeight] of stages) {
+    const grid = resolveObservationPixelGrid(2, view, zoom);
+    Object.assign(dataset, { pixelRatio: "2", physicalPixelStep: String(grid.pixelStep), targetCssPixelStep: String(grid.targetCssPixelStep) });
+    for (const season of ["spring", "summer", "autumn", "winter"]) {
+      air.update("north", { season }, 0, false);
+      const visible = air.points.filter(p => p.visible); assert.ok(visible.length > 0);
+      for (const points of visible) assert.equal(points.material.uniforms.viewportHeight.value, expectedHeight);
+    }
+  }
 });

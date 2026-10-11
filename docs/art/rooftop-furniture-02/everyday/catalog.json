@@ -1,0 +1,1731 @@
+{
+  "texelsPerMetre": 16.0,
+  "items": [
+    {
+      "id": "iron-3-black",
+      "name": "铁质三层花架 · 黑色",
+      "category": "架子",
+      "placement": "floor",
+      "source": "Blender + Pixelorama",
+      "material": "iron-black",
+      "levels": 3,
+      "construction": "new complete frame and real shelf structure",
+      "width": 1.0,
+      "depth": 0.4375,
+      "height": 1.125,
+      "boundsMin": [
+        -0.5,
+        -0.21875,
+        0.0
+      ],
+      "boundsMax": [
+        0.5,
+        0.21875,
+        1.125
+      ],
+      "file": "assets/iron-3-black.glb",
+      "family": "everyday",
+      "surfaces": [
+        {
+          "id": "shelf-1",
+          "name": "第1层",
+          "height": 0.1875,
+          "width": 0.92,
+          "depth": 0.34750000000000003,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle",
+          "openGrid": true,
+          "headroom": 0.4125
+        },
+        {
+          "id": "shelf-2",
+          "name": "第2层",
+          "height": 0.625,
+          "width": 0.92,
+          "depth": 0.34750000000000003,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle",
+          "openGrid": true,
+          "headroom": 0.4125
+        },
+        {
+          "id": "shelf-3",
+          "name": "第3层",
+          "height": 1.0625,
+          "width": 0.92,
+          "depth": 0.34750000000000003,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle",
+          "openGrid": true,
+          "headroom": null
+        }
+      ],
+      "footprint": {
+        "width": 1.0,
+        "depth": 0.4375
+      },
+      "triangles": 1176,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "iron-3-silver",
+      "name": "铁质三层花架 · 银色",
+      "category": "架子",
+      "placement": "floor",
+      "source": "Blender + Pixelorama",
+      "material": "iron-silver",
+      "levels": 3,
+      "construction": "new complete frame and real shelf structure",
+      "width": 1.0,
+      "depth": 0.4375,
+      "height": 1.125,
+      "boundsMin": [
+        -0.5,
+        -0.21875,
+        0.0
+      ],
+      "boundsMax": [
+        0.5,
+        0.21875,
+        1.125
+      ],
+      "file": "assets/iron-3-silver.glb",
+      "family": "everyday",
+      "surfaces": [
+        {
+          "id": "shelf-1",
+          "name": "第1层",
+          "height": 0.1875,
+          "width": 0.92,
+          "depth": 0.34750000000000003,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle",
+          "openGrid": true,
+          "headroom": 0.4125
+        },
+        {
+          "id": "shelf-2",
+          "name": "第2层",
+          "height": 0.625,
+          "width": 0.92,
+          "depth": 0.34750000000000003,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle",
+          "openGrid": true,
+          "headroom": 0.4125
+        },
+        {
+          "id": "shelf-3",
+          "name": "第3层",
+          "height": 1.0625,
+          "width": 0.92,
+          "depth": 0.34750000000000003,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle",
+          "openGrid": true,
+          "headroom": null
+        }
+      ],
+      "footprint": {
+        "width": 1.0,
+        "depth": 0.4375
+      },
+      "triangles": 1176,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "iron-4-black",
+      "name": "铁质四层花架 · 黑色",
+      "category": "架子",
+      "placement": "floor",
+      "source": "Blender + Pixelorama",
+      "material": "iron-black",
+      "levels": 4,
+      "construction": "new complete frame and real shelf structure",
+      "width": 1.0,
+      "depth": 0.4375,
+      "height": 1.5625,
+      "boundsMin": [
+        -0.5,
+        -0.21875,
+        0.0
+      ],
+      "boundsMax": [
+        0.5,
+        0.21875,
+        1.5625
+      ],
+      "file": "assets/iron-4-black.glb",
+      "family": "everyday",
+      "surfaces": [
+        {
+          "id": "shelf-1",
+          "name": "第1层",
+          "height": 0.1875,
+          "width": 0.92,
+          "depth": 0.34750000000000003,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle",
+          "openGrid": true,
+          "headroom": 0.4125
+        },
+        {
+          "id": "shelf-2",
+          "name": "第2层",
+          "height": 0.625,
+          "width": 0.92,
+          "depth": 0.34750000000000003,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle",
+          "openGrid": true,
+          "headroom": 0.4125
+        },
+        {
+          "id": "shelf-3",
+          "name": "第3层",
+          "height": 1.0625,
+          "width": 0.92,
+          "depth": 0.34750000000000003,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle",
+          "openGrid": true,
+          "headroom": 0.4125
+        },
+        {
+          "id": "shelf-4",
+          "name": "第4层",
+          "height": 1.5,
+          "width": 0.92,
+          "depth": 0.34750000000000003,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle",
+          "openGrid": true,
+          "headroom": null
+        }
+      ],
+      "footprint": {
+        "width": 1.0,
+        "depth": 0.4375
+      },
+      "triangles": 1528,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "iron-4-silver",
+      "name": "铁质四层花架 · 银色",
+      "category": "架子",
+      "placement": "floor",
+      "source": "Blender + Pixelorama",
+      "material": "iron-silver",
+      "levels": 4,
+      "construction": "new complete frame and real shelf structure",
+      "width": 1.0,
+      "depth": 0.4375,
+      "height": 1.5625,
+      "boundsMin": [
+        -0.5,
+        -0.21875,
+        0.0
+      ],
+      "boundsMax": [
+        0.5,
+        0.21875,
+        1.5625
+      ],
+      "file": "assets/iron-4-silver.glb",
+      "family": "everyday",
+      "surfaces": [
+        {
+          "id": "shelf-1",
+          "name": "第1层",
+          "height": 0.1875,
+          "width": 0.92,
+          "depth": 0.34750000000000003,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle",
+          "openGrid": true,
+          "headroom": 0.4125
+        },
+        {
+          "id": "shelf-2",
+          "name": "第2层",
+          "height": 0.625,
+          "width": 0.92,
+          "depth": 0.34750000000000003,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle",
+          "openGrid": true,
+          "headroom": 0.4125
+        },
+        {
+          "id": "shelf-3",
+          "name": "第3层",
+          "height": 1.0625,
+          "width": 0.92,
+          "depth": 0.34750000000000003,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle",
+          "openGrid": true,
+          "headroom": 0.4125
+        },
+        {
+          "id": "shelf-4",
+          "name": "第4层",
+          "height": 1.5,
+          "width": 0.92,
+          "depth": 0.34750000000000003,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle",
+          "openGrid": true,
+          "headroom": null
+        }
+      ],
+      "footprint": {
+        "width": 1.0,
+        "depth": 0.4375
+      },
+      "triangles": 1528,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "wood-2",
+      "name": "木质两层花架",
+      "category": "架子",
+      "placement": "floor",
+      "source": "Blender + Pixelorama",
+      "material": "wood",
+      "levels": 2,
+      "construction": "new complete frame and real shelf structure",
+      "width": 0.875,
+      "depth": 0.4375,
+      "height": 0.75,
+      "boundsMin": [
+        -0.4375,
+        -0.21875,
+        0.0
+      ],
+      "boundsMax": [
+        0.4375,
+        0.21875,
+        0.75
+      ],
+      "file": "assets/wood-2.glb",
+      "family": "everyday",
+      "surfaces": [
+        {
+          "id": "shelf-1",
+          "name": "第1层",
+          "height": 0.1875,
+          "width": 0.8,
+          "depth": 0.3275,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle",
+          "openGrid": false,
+          "headroom": 0.475
+        },
+        {
+          "id": "shelf-2",
+          "name": "第2层",
+          "height": 0.6875,
+          "width": 0.8,
+          "depth": 0.3275,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle",
+          "openGrid": false,
+          "headroom": null
+        }
+      ],
+      "footprint": {
+        "width": 0.875,
+        "depth": 0.4375
+      },
+      "triangles": 476,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "wood-3",
+      "name": "木质三层花架",
+      "category": "架子",
+      "placement": "floor",
+      "source": "Blender + Pixelorama",
+      "material": "wood",
+      "levels": 3,
+      "construction": "new complete frame and real shelf structure",
+      "width": 0.875,
+      "depth": 0.4375,
+      "height": 1.125,
+      "boundsMin": [
+        -0.4375,
+        -0.21875,
+        0.0
+      ],
+      "boundsMax": [
+        0.4375,
+        0.21875,
+        1.125
+      ],
+      "file": "assets/wood-3.glb",
+      "family": "everyday",
+      "surfaces": [
+        {
+          "id": "shelf-1",
+          "name": "第1层",
+          "height": 0.1875,
+          "width": 0.8,
+          "depth": 0.3275,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle",
+          "openGrid": false,
+          "headroom": 0.4125
+        },
+        {
+          "id": "shelf-2",
+          "name": "第2层",
+          "height": 0.625,
+          "width": 0.8,
+          "depth": 0.3275,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle",
+          "openGrid": false,
+          "headroom": 0.4125
+        },
+        {
+          "id": "shelf-3",
+          "name": "第3层",
+          "height": 1.0625,
+          "width": 0.8,
+          "depth": 0.3275,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle",
+          "openGrid": false,
+          "headroom": null
+        }
+      ],
+      "footprint": {
+        "width": 0.875,
+        "depth": 0.4375
+      },
+      "triangles": 684,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "step-rack",
+      "name": "三阶斜式木花架",
+      "category": "架子",
+      "placement": "floor",
+      "source": "Blender + Pixelorama",
+      "reference": "User screenshot, left item",
+      "levels": 3,
+      "width": 0.8600000143051147,
+      "depth": 0.9132322072982788,
+      "height": 0.7512808442115784,
+      "boundsMin": [
+        -0.4300000071525574,
+        -0.4566161036491394,
+        0.0
+      ],
+      "boundsMax": [
+        0.4300000071525574,
+        0.4566161036491394,
+        0.7512808442115784
+      ],
+      "file": "assets/step-rack.glb",
+      "family": "everyday",
+      "surfaces": [
+        {
+          "id": "step-1",
+          "name": "第1阶板面",
+          "height": 0.1875,
+          "width": 0.81,
+          "depth": 0.276,
+          "center": [
+            0.0,
+            -0.3075000047683716
+          ],
+          "shape": "rectangle",
+          "headroom": null
+        },
+        {
+          "id": "step-2",
+          "name": "第2阶板面",
+          "height": 0.4375,
+          "width": 0.81,
+          "depth": 0.276,
+          "center": [
+            0.0,
+            0.004999995231628418
+          ],
+          "shape": "rectangle",
+          "headroom": null
+        },
+        {
+          "id": "step-3",
+          "name": "第3阶板面",
+          "height": 0.6875,
+          "width": 0.81,
+          "depth": 0.276,
+          "center": [
+            0.0,
+            0.3174999952316284
+          ],
+          "shape": "rectangle",
+          "headroom": null
+        }
+      ],
+      "footprint": {
+        "width": 0.8600000143051147,
+        "depth": 0.9132322072982788
+      },
+      "triangles": 252,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "plastic-basket-rack",
+      "name": "浅白三篮筐花架",
+      "category": "架子",
+      "placement": "floor",
+      "source": "Blender + Pixelorama",
+      "reference": "User screenshot, right item",
+      "levels": 3,
+      "material": "polypropylene",
+      "width": 0.43549999594688416,
+      "depth": 0.31049999594688416,
+      "height": 0.9375,
+      "boundsMin": [
+        -0.21774999797344208,
+        -0.15524999797344208,
+        0.0
+      ],
+      "boundsMax": [
+        0.21774999797344208,
+        0.15524999797344208,
+        0.9375
+      ],
+      "file": "assets/plastic-basket-rack.glb",
+      "family": "everyday",
+      "surfaces": [
+        {
+          "id": "basket-1",
+          "name": "第1筐底",
+          "height": 0.18,
+          "width": 0.3745,
+          "depth": 0.24950000000000003,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle",
+          "cavity": true,
+          "rimHeight": 0.275,
+          "openGrid": true,
+          "container": true,
+          "headroom": 0.09500000000000003
+        },
+        {
+          "id": "basket-2",
+          "name": "第2筐底",
+          "height": 0.48,
+          "width": 0.3745,
+          "depth": 0.24950000000000003,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle",
+          "cavity": true,
+          "rimHeight": 0.575,
+          "openGrid": true,
+          "container": true,
+          "headroom": 0.09499999999999997
+        },
+        {
+          "id": "basket-3",
+          "name": "第3筐底",
+          "height": 0.78,
+          "width": 0.3745,
+          "depth": 0.24950000000000003,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle",
+          "cavity": true,
+          "rimHeight": 0.875,
+          "openGrid": true,
+          "container": true,
+          "headroom": 0.09499999999999997
+        }
+      ],
+      "footprint": {
+        "width": 0.43549999594688416,
+        "depth": 0.31049999594688416
+      },
+      "triangles": 1932,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "wood-square-table",
+      "name": "方木桌",
+      "category": "桌椅与居室",
+      "placement": "floor",
+      "source": "Blender + Pixelorama",
+      "material": "wood",
+      "width": 0.875,
+      "depth": 0.875,
+      "height": 0.6875,
+      "boundsMin": [
+        -0.4375,
+        -0.4375,
+        0.0
+      ],
+      "boundsMax": [
+        0.4375,
+        0.4375,
+        0.6875
+      ],
+      "file": "assets/wood-square-table.glb",
+      "family": "everyday",
+      "surfaces": [
+        {
+          "id": "table-top",
+          "name": "桌面",
+          "height": 0.6875,
+          "width": 0.875,
+          "depth": 0.875,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle"
+        }
+      ],
+      "footprint": {
+        "width": 0.875,
+        "depth": 0.875
+      },
+      "triangles": 156,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "iron-round-table",
+      "name": "圆铁桌",
+      "category": "桌椅与居室",
+      "placement": "floor",
+      "source": "Blender + Pixelorama",
+      "material": "iron-black",
+      "width": 0.6330000162124634,
+      "depth": 0.6330000162124634,
+      "height": 0.699999988079071,
+      "boundsMin": [
+        -0.3165000081062317,
+        -0.3165000081062317,
+        0.0
+      ],
+      "boundsMax": [
+        0.3165000081062317,
+        0.3165000081062317,
+        0.699999988079071
+      ],
+      "file": "assets/iron-round-table.glb",
+      "family": "everyday",
+      "surfaces": [
+        {
+          "id": "table-top",
+          "name": "圆桌面",
+          "height": 0.7,
+          "width": 0.625,
+          "depth": 0.625,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "circle"
+        }
+      ],
+      "footprint": {
+        "width": 0.6330000162124634,
+        "depth": 0.6330000162124634
+      },
+      "triangles": 628,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "wood-round-stool",
+      "name": "圆木小板凳",
+      "category": "桌椅与居室",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "material": "wood",
+      "width": 0.328000009059906,
+      "depth": 0.328000009059906,
+      "height": 0.28125,
+      "boundsMin": [
+        -0.164000004529953,
+        -0.164000004529953,
+        0.0
+      ],
+      "boundsMax": [
+        0.164000004529953,
+        0.164000004529953,
+        0.28125
+      ],
+      "file": "assets/wood-round-stool.glb",
+      "family": "everyday",
+      "surfaces": [
+        {
+          "id": "seat",
+          "name": "凳面",
+          "height": 0.28125,
+          "width": 0.328,
+          "depth": 0.328,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "circle"
+        }
+      ],
+      "footprint": {
+        "width": 0.328000009059906,
+        "depth": 0.328000009059906
+      },
+      "triangles": 156,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "wood-square-stool",
+      "name": "方木小板凳",
+      "category": "桌椅与居室",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "material": "wood",
+      "width": 0.328000009059906,
+      "depth": 0.328000009059906,
+      "height": 0.28125,
+      "boundsMin": [
+        -0.164000004529953,
+        -0.164000004529953,
+        0.0
+      ],
+      "boundsMax": [
+        0.164000004529953,
+        0.164000004529953,
+        0.28125
+      ],
+      "file": "assets/wood-square-stool.glb",
+      "family": "everyday",
+      "surfaces": [
+        {
+          "id": "seat",
+          "name": "凳面",
+          "height": 0.28125,
+          "width": 0.328,
+          "depth": 0.291,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle"
+        }
+      ],
+      "footprint": {
+        "width": 0.328000009059906,
+        "depth": 0.328000009059906
+      },
+      "triangles": 108,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "plastic-round-stool",
+      "name": "塑料圆凳",
+      "category": "桌椅与居室",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "material": "polypropylene",
+      "width": 0.36000001430511475,
+      "depth": 0.36000001430511475,
+      "height": 0.40625,
+      "boundsMin": [
+        -0.18000000715255737,
+        -0.18000000715255737,
+        0.0
+      ],
+      "boundsMax": [
+        0.18000000715255737,
+        0.18000000715255737,
+        0.40625
+      ],
+      "file": "assets/plastic-round-stool.glb",
+      "family": "everyday",
+      "surfaces": [
+        {
+          "id": "seat",
+          "name": "凳面",
+          "height": 0.40625,
+          "width": 0.36,
+          "depth": 0.36,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "circle",
+          "holes": [
+            {
+              "shape": "circle",
+              "radius": 0.028,
+              "center": [
+                0,
+                0
+              ]
+            }
+          ]
+        }
+      ],
+      "footprint": {
+        "width": 0.36000001430511475,
+        "depth": 0.36000001430511475
+      },
+      "triangles": 448,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "steel-sink",
+      "name": "不锈钢水槽",
+      "category": "日用与照明",
+      "placement": "floor",
+      "source": "Blender + Pixelorama",
+      "material": "stainless steel",
+      "opening": true,
+      "width": 1.0625,
+      "depth": 0.625,
+      "height": 1.104477882385254,
+      "boundsMin": [
+        -0.53125,
+        -0.3125,
+        0.0
+      ],
+      "boundsMax": [
+        0.53125,
+        0.3125,
+        1.104477882385254
+      ],
+      "file": "assets/steel-sink.glb",
+      "family": "everyday",
+      "surfaces": [
+        {
+          "id": "drainboard",
+          "name": "沥水台",
+          "height": 0.8185,
+          "width": 0.228,
+          "depth": 0.284,
+          "center": [
+            -0.382,
+            0.0
+          ],
+          "shape": "rectangle",
+          "openGrid": true
+        },
+        {
+          "id": "side-worktop",
+          "name": "侧边台面",
+          "height": 0.8125,
+          "width": 0.218,
+          "depth": 0.625,
+          "center": [
+            -0.159,
+            0.0
+          ],
+          "shape": "rectangle"
+        },
+        {
+          "id": "basin-floor",
+          "name": "池底",
+          "height": 0.5745,
+          "width": 0.395,
+          "depth": 0.3325,
+          "center": [
+            0.2,
+            0.0
+          ],
+          "shape": "rectangle",
+          "cavity": true,
+          "rimHeight": 0.8125,
+          "holes": [
+            {
+              "shape": "circle",
+              "radius": 0.03,
+              "center": [
+                0,
+                0
+              ]
+            }
+          ],
+          "container": true,
+          "headroom": 0.238
+        }
+      ],
+      "footprint": {
+        "width": 1.0625,
+        "depth": 0.625
+      },
+      "triangles": 976,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "enamel-basin",
+      "name": "蓝色水池台",
+      "category": "日用与照明",
+      "placement": "floor",
+      "source": "Blender + Pixelorama",
+      "material": "white enamel and blue basin",
+      "opening": true,
+      "width": 0.875,
+      "depth": 0.625,
+      "height": 1.104477882385254,
+      "boundsMin": [
+        -0.4375,
+        -0.3125,
+        0.0
+      ],
+      "boundsMax": [
+        0.4375,
+        0.3125,
+        1.104477882385254
+      ],
+      "file": "assets/enamel-basin.glb",
+      "family": "everyday",
+      "surfaces": [
+        {
+          "id": "basin-floor",
+          "name": "池底",
+          "height": 0.5785,
+          "width": 0.26,
+          "depth": 0.208,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "ellipse",
+          "cavity": true,
+          "rimHeight": 0.8125,
+          "holes": [
+            {
+              "shape": "circle",
+              "radius": 0.03,
+              "center": [
+                0,
+                0
+              ]
+            }
+          ],
+          "container": true,
+          "headroom": 0.23399999999999999
+        }
+      ],
+      "footprint": {
+        "width": 0.875,
+        "depth": 0.625
+      },
+      "triangles": 1196,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "crate-blue",
+      "name": "蓝色周转箱",
+      "category": "栽培与盛放",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "material": "polypropylene",
+      "sameStructureAs": "crate-blue",
+      "width": 0.5,
+      "depth": 0.3125,
+      "height": 0.1875,
+      "boundsMin": [
+        -0.25,
+        -0.15625,
+        0.0
+      ],
+      "boundsMax": [
+        0.25,
+        0.15625,
+        0.1875
+      ],
+      "file": "assets/crate-blue.glb",
+      "family": "everyday",
+      "surfaces": [
+        {
+          "id": "inside-floor",
+          "name": "箱底",
+          "height": 0.022,
+          "width": 0.469,
+          "depth": 0.2815,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle",
+          "cavity": true,
+          "rimHeight": 0.1875,
+          "container": true,
+          "headroom": 0.1655
+        }
+      ],
+      "footprint": {
+        "width": 0.5,
+        "depth": 0.3125
+      },
+      "triangles": 684,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "crate-gray",
+      "name": "灰色周转箱",
+      "category": "栽培与盛放",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "material": "polypropylene",
+      "sameStructureAs": "crate-blue",
+      "width": 0.5,
+      "depth": 0.3125,
+      "height": 0.1875,
+      "boundsMin": [
+        -0.25,
+        -0.15625,
+        0.0
+      ],
+      "boundsMax": [
+        0.25,
+        0.15625,
+        0.1875
+      ],
+      "file": "assets/crate-gray.glb",
+      "family": "everyday",
+      "surfaces": [
+        {
+          "id": "inside-floor",
+          "name": "箱底",
+          "height": 0.022,
+          "width": 0.469,
+          "depth": 0.2815,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle",
+          "cavity": true,
+          "rimHeight": 0.1875,
+          "container": true,
+          "headroom": 0.1655
+        }
+      ],
+      "footprint": {
+        "width": 0.5,
+        "depth": 0.3125
+      },
+      "triangles": 684,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "crate-red",
+      "name": "砖红周转箱",
+      "category": "栽培与盛放",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "material": "polypropylene",
+      "sameStructureAs": "crate-blue",
+      "width": 0.5,
+      "depth": 0.3125,
+      "height": 0.1875,
+      "boundsMin": [
+        -0.25,
+        -0.15625,
+        0.0
+      ],
+      "boundsMax": [
+        0.25,
+        0.15625,
+        0.1875
+      ],
+      "file": "assets/crate-red.glb",
+      "family": "everyday",
+      "surfaces": [
+        {
+          "id": "inside-floor",
+          "name": "箱底",
+          "height": 0.022,
+          "width": 0.469,
+          "depth": 0.2815,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle",
+          "cavity": true,
+          "rimHeight": 0.1875,
+          "container": true,
+          "headroom": 0.1655
+        }
+      ],
+      "footprint": {
+        "width": 0.5,
+        "depth": 0.3125
+      },
+      "triangles": 684,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "galvanized-bucket",
+      "name": "镀锌铁皮水桶",
+      "category": "栽培与盛放",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "material": "galvanized metal",
+      "width": 0.3349197208881378,
+      "depth": 0.3240000009536743,
+      "height": 0.4519999921321869,
+      "boundsMin": [
+        -0.1674598604440689,
+        -0.16200000047683716,
+        0.0
+      ],
+      "boundsMax": [
+        0.1674598604440689,
+        0.16200000047683716,
+        0.4519999921321869
+      ],
+      "file": "assets/galvanized-bucket.glb",
+      "family": "everyday",
+      "surfaces": [
+        {
+          "id": "inside-floor",
+          "name": "桶底",
+          "height": 0.018,
+          "width": 0.212,
+          "depth": 0.212,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "circle",
+          "cavity": true,
+          "rimHeight": 0.298,
+          "container": true,
+          "headroom": 0.27999999999999997
+        }
+      ],
+      "footprint": {
+        "width": 0.3349197208881378,
+        "depth": 0.3240000009536743
+      },
+      "triangles": 876,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "plastic-bucket",
+      "name": "塑料水桶",
+      "category": "栽培与盛放",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "material": "polypropylene",
+      "width": 0.33799999952316284,
+      "depth": 0.33799999952316284,
+      "height": 0.4339999854564667,
+      "boundsMin": [
+        -0.16899999976158142,
+        -0.16899999976158142,
+        0.0
+      ],
+      "boundsMax": [
+        0.16899999976158142,
+        0.16899999976158142,
+        0.4339999854564667
+      ],
+      "file": "assets/plastic-bucket.glb",
+      "family": "everyday",
+      "surfaces": [
+        {
+          "id": "inside-floor",
+          "name": "桶底",
+          "height": 0.021,
+          "width": 0.212,
+          "depth": 0.212,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "circle",
+          "cavity": true,
+          "rimHeight": 0.29,
+          "container": true,
+          "headroom": 0.26899999999999996
+        }
+      ],
+      "footprint": {
+        "width": 0.33799999952316284,
+        "depth": 0.33799999952316284
+      },
+      "triangles": 696,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "foam-soil",
+      "name": "泡沫土箱",
+      "category": "栽培与盛放",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "material": "foam",
+      "filled": true,
+      "emptyCavity": false,
+      "width": 0.625,
+      "depth": 0.375,
+      "height": 0.21250000596046448,
+      "boundsMin": [
+        -0.3125,
+        -0.1875,
+        0.0
+      ],
+      "boundsMax": [
+        0.3125,
+        0.1875,
+        0.21250000596046448
+      ],
+      "file": "assets/foam-soil.glb",
+      "family": "everyday",
+      "surfaces": [],
+      "footprint": {
+        "width": 0.625,
+        "depth": 0.375
+      },
+      "triangles": 72,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "foam-seedlings",
+      "name": "泡沫育苗箱",
+      "category": "栽培与盛放",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "material": "foam",
+      "filled": true,
+      "emptyCavity": false,
+      "width": 0.625,
+      "depth": 0.375,
+      "height": 0.2529999911785126,
+      "boundsMin": [
+        -0.3125,
+        -0.1875,
+        0.0
+      ],
+      "boundsMax": [
+        0.3125,
+        0.1875,
+        0.2529999911785126
+      ],
+      "file": "assets/foam-seedlings.glb",
+      "family": "everyday",
+      "surfaces": [],
+      "footprint": {
+        "width": 0.625,
+        "depth": 0.375
+      },
+      "triangles": 336,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "seed-tray",
+      "name": "育苗浅盘",
+      "category": "栽培与盛放",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "material": "plastic",
+      "width": 0.5060000419616699,
+      "depth": 0.31850001215934753,
+      "height": 0.06499999761581421,
+      "boundsMin": [
+        -0.25300002098083496,
+        -0.15925000607967377,
+        0.0
+      ],
+      "boundsMax": [
+        0.25300002098083496,
+        0.15925000607967377,
+        0.06499999761581421
+      ],
+      "file": "assets/seed-tray.glb",
+      "family": "everyday",
+      "surfaces": [
+        {
+          "id": "inside-floor",
+          "name": "盘底",
+          "height": 0.012,
+          "width": 0.47,
+          "depth": 0.2825,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "rectangle",
+          "cavity": true,
+          "rimHeight": 0.065,
+          "container": true,
+          "headroom": 0.053000000000000005
+        }
+      ],
+      "footprint": {
+        "width": 0.5060000419616699,
+        "depth": 0.31850001215934753
+      },
+      "triangles": 108,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "aquarium-rectangle",
+      "name": "长方玻璃鱼缸",
+      "category": "栽培与盛放",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "material": "glass",
+      "filled": true,
+      "waterLevel": 0.25,
+      "wallThickness": 0.006,
+      "width": 0.625,
+      "depth": 0.3125,
+      "height": 0.375,
+      "boundsMin": [
+        -0.3125,
+        -0.15625,
+        0.0
+      ],
+      "boundsMax": [
+        0.3125,
+        0.15625,
+        0.375
+      ],
+      "file": "assets/aquarium-rectangle.glb",
+      "family": "everyday",
+      "surfaces": [],
+      "footprint": {
+        "width": 0.625,
+        "depth": 0.3125
+      },
+      "triangles": 172,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "aquarium-square",
+      "name": "正方玻璃鱼缸",
+      "category": "栽培与盛放",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "material": "glass",
+      "filled": true,
+      "waterLevel": 0.28125,
+      "wallThickness": 0.006,
+      "width": 0.4375,
+      "depth": 0.4375,
+      "height": 0.40625,
+      "boundsMin": [
+        -0.21875,
+        -0.21875,
+        0.0
+      ],
+      "boundsMax": [
+        0.21875,
+        0.21875,
+        0.40625
+      ],
+      "file": "assets/aquarium-square.glb",
+      "family": "everyday",
+      "surfaces": [],
+      "footprint": {
+        "width": 0.4375,
+        "depth": 0.4375
+      },
+      "triangles": 172,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "ceramic-fish-bowl",
+      "name": "圆瓷鱼缸",
+      "category": "栽培与盛放",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "material": "porcelain",
+      "filled": true,
+      "waterLevel": 0.26,
+      "width": 0.625,
+      "depth": 0.625,
+      "height": 0.3440000116825104,
+      "boundsMin": [
+        -0.3125,
+        -0.3125,
+        0.0
+      ],
+      "boundsMax": [
+        0.3125,
+        0.3125,
+        0.3440000116825104
+      ],
+      "file": "assets/ceramic-fish-bowl.glb",
+      "family": "everyday",
+      "surfaces": [],
+      "footprint": {
+        "width": 0.625,
+        "depth": 0.625
+      },
+      "triangles": 964,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "trowel",
+      "name": "园艺铲",
+      "category": "日用与照明",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "material": "wood handle and steel blade",
+      "width": 0.0860000029206276,
+      "depth": 0.3100000023841858,
+      "height": 0.036000002175569534,
+      "boundsMin": [
+        -0.0430000014603138,
+        -0.1550000011920929,
+        0.0
+      ],
+      "boundsMax": [
+        0.0430000014603138,
+        0.1550000011920929,
+        0.036000002175569534
+      ],
+      "file": "assets/trowel.glb",
+      "family": "everyday",
+      "surfaces": [],
+      "footprint": {
+        "width": 0.0860000029206276,
+        "depth": 0.3100000023841858
+      },
+      "triangles": 128,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "pruning-shears",
+      "name": "园艺剪",
+      "category": "日用与照明",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "material": "steel blades and plastic grips",
+      "width": 0.10770311206579208,
+      "depth": 0.25920233130455017,
+      "height": 0.020500000566244125,
+      "boundsMin": [
+        -0.05385155603289604,
+        -0.12960116565227509,
+        0.0
+      ],
+      "boundsMax": [
+        0.05385155603289604,
+        0.12960116565227509,
+        0.020500000566244125
+      ],
+      "file": "assets/pruning-shears.glb",
+      "family": "everyday",
+      "surfaces": [],
+      "footprint": {
+        "width": 0.10770311206579208,
+        "depth": 0.25920233130455017
+      },
+      "triangles": 364,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "trigger-sprayer",
+      "name": "手持喷壶",
+      "category": "日用与照明",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "material": "moulded plastic",
+      "width": 0.15200001001358032,
+      "depth": 0.11999999731779099,
+      "height": 0.28200000524520874,
+      "boundsMin": [
+        -0.07600000500679016,
+        -0.05999999865889549,
+        0.0
+      ],
+      "boundsMax": [
+        0.07600000500679016,
+        0.05999999865889549,
+        0.28200000524520874
+      ],
+      "file": "assets/trigger-sprayer.glb",
+      "family": "everyday",
+      "surfaces": [],
+      "footprint": {
+        "width": 0.15200001001358032,
+        "depth": 0.11999999731779099
+      },
+      "triangles": 408,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "watering-can",
+      "name": "浇水壶",
+      "category": "日用与照明",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "material": "moulded plastic",
+      "opening": true,
+      "width": 0.5631999969482422,
+      "depth": 0.21580000221729279,
+      "height": 0.3285839855670929,
+      "boundsMin": [
+        -0.2815999984741211,
+        -0.10790000110864639,
+        0.0
+      ],
+      "boundsMax": [
+        0.2815999984741211,
+        0.10790000110864639,
+        0.3285839855670929
+      ],
+      "file": "assets/watering-can.glb",
+      "family": "everyday",
+      "surfaces": [
+        {
+          "id": "reservoir-floor",
+          "name": "壶内底",
+          "height": 0.026,
+          "width": 0.18,
+          "depth": 0.13,
+          "center": [
+            -0.05665479600429535,
+            0.0
+          ],
+          "shape": "ellipse",
+          "cavity": true,
+          "rimHeight": 0.27,
+          "openingWidth": 0.1,
+          "openingDepth": 0.075,
+          "container": true,
+          "headroom": 0.24400000000000002
+        }
+      ],
+      "footprint": {
+        "width": 0.5631999969482422,
+        "depth": 0.21580000221729279
+      },
+      "triangles": 892,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "hose-coil",
+      "name": "软管卷",
+      "category": "日用与照明",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "material": "rubber hose with plastic fittings",
+      "width": 0.4726860523223877,
+      "depth": 0.3529922664165497,
+      "height": 0.041999999433755875,
+      "boundsMin": [
+        -0.23634302616119385,
+        -0.17649613320827484,
+        0.0
+      ],
+      "boundsMax": [
+        0.23634302616119385,
+        0.17649613320827484,
+        0.041999999433755875
+      ],
+      "file": "assets/hose-coil.glb",
+      "family": "everyday",
+      "surfaces": [],
+      "footprint": {
+        "width": 0.4726860523223877,
+        "depth": 0.3529922664165497
+      },
+      "triangles": 908,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "drying-rack",
+      "name": "折叠晾衣架",
+      "category": "日用与照明",
+      "placement": "floor",
+      "source": "Blender + Pixelorama",
+      "material": "tubular steel",
+      "width": 0.9615000486373901,
+      "depth": 0.5162172317504883,
+      "height": 0.8089157938957214,
+      "boundsMin": [
+        -0.48075002431869507,
+        -0.25810861587524414,
+        0.0
+      ],
+      "boundsMax": [
+        0.48075002431869507,
+        0.25810861587524414,
+        0.8089157938957214
+      ],
+      "file": "assets/drying-rack.glb",
+      "family": "everyday",
+      "surfaces": [],
+      "footprint": {
+        "width": 0.9615000486373901,
+        "depth": 0.5162172317504883
+      },
+      "triangles": 664,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "clip-hanger",
+      "name": "夹衣架",
+      "category": "日用与照明",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "material": "steel frame with plastic clips",
+      "width": 0.38478076457977295,
+      "depth": 0.23500001430511475,
+      "height": 0.3297370374202728,
+      "boundsMin": [
+        -0.19239038228988647,
+        -0.11750000715255737,
+        0.0
+      ],
+      "boundsMax": [
+        0.19239038228988647,
+        0.11750000715255737,
+        0.3297370374202728
+      ],
+      "file": "assets/clip-hanger.glb",
+      "family": "everyday",
+      "surfaces": [],
+      "footprint": {
+        "width": 0.38478076457977295,
+        "depth": 0.23500001430511475
+      },
+      "triangles": 964,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    },
+    {
+      "id": "towel",
+      "name": "折叠毛巾",
+      "category": "日用与照明",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "material": "cotton",
+      "width": 0.3125,
+      "depth": 0.1875,
+      "height": 0.028000030666589737,
+      "boundsMin": [
+        -0.15625,
+        -0.09375,
+        0.0
+      ],
+      "boundsMax": [
+        0.15625,
+        0.09375,
+        0.028000030666589737
+      ],
+      "file": "assets/towel.glb",
+      "family": "everyday",
+      "surfaces": [],
+      "footprint": {
+        "width": 0.3125,
+        "depth": 0.1875
+      },
+      "triangles": 76,
+      "sourceBlend": "everyday/everyday.blend",
+      "sourcePixelorama": "everyday/everyday-atlas.pxo"
+    }
+  ]
+}

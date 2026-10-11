@@ -1,0 +1,1904 @@
+[
+  {
+    "id": "weapon-matchlock",
+    "name": "日本火绳枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 23,
+    "vertices": 352,
+    "triangles": 612,
+    "dimensions": [
+      1.023,
+      0.062,
+      0.16276
+    ],
+    "features": [
+      "solid shaped rifle butt",
+      "three-dimensional forend",
+      "hollow trigger guard",
+      "matchlock"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-wheellock",
+    "name": "轮锁手枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 26,
+    "vertices": 408,
+    "triangles": 712,
+    "dimensions": [
+      0.8555,
+      0.0555,
+      0.18416
+    ],
+    "features": [
+      "curved full-depth wooden grip",
+      "hollow brass trigger guard",
+      "long wheel-lock proportions"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-flintlock",
+    "name": "燧发手枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 21,
+    "vertices": 320,
+    "triangles": 556,
+    "dimensions": [
+      0.4245,
+      0.052,
+      0.17991
+    ],
+    "features": [
+      "curved full-depth wooden grip",
+      "hollow brass trigger guard",
+      "external flintlock silhouette"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-duelling",
+    "name": "沃格登决斗手枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 21,
+    "vertices": 296,
+    "triangles": 508,
+    "dimensions": [
+      0.4395,
+      0.052,
+      0.17991
+    ],
+    "features": [
+      "curved full-depth wooden grip",
+      "hollow brass trigger guard",
+      "external flintlock silhouette"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-blunderbuss",
+    "name": "喇叭口短铳",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 23,
+    "vertices": 352,
+    "triangles": 612,
+    "dimensions": [
+      0.773,
+      0.104,
+      0.1705
+    ],
+    "features": [
+      "solid shaped rifle butt",
+      "three-dimensional forend",
+      "hollow trigger guard",
+      "flared"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-brown-bess",
+    "name": "褐贝丝长陆军型",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 23,
+    "vertices": 352,
+    "triangles": 612,
+    "dimensions": [
+      1.573,
+      0.064,
+      0.15388
+    ],
+    "features": [
+      "solid shaped rifle butt",
+      "three-dimensional forend",
+      "hollow trigger guard",
+      "flintlock"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-colt-1903",
+    "name": "柯尔特1903手枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 19,
+    "vertices": 280,
+    "triangles": 484,
+    "dimensions": [
+      0.20883,
+      0.03462,
+      0.1495
+    ],
+    "features": [
+      "separate full-depth grip",
+      "open trigger guard",
+      "enclosed",
+      "distinct total length and grip length"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-enfield-1853",
+    "name": "恩菲尔德1853步枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 24,
+    "vertices": 368,
+    "triangles": 640,
+    "dimensions": [
+      1.393,
+      0.064,
+      0.15388
+    ],
+    "features": [
+      "solid shaped rifle butt",
+      "three-dimensional forend",
+      "hollow trigger guard",
+      "three-band"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-colt-1849",
+    "name": "柯尔特1849袖珍左轮",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 31,
+    "vertices": 440,
+    "triangles": 756,
+    "dimensions": [
+      0.25536,
+      0.0494,
+      0.17164
+    ],
+    "features": [
+      "12-sided volumetric cylinder",
+      "8-sided grip",
+      "open trigger guard",
+      "open upper frame",
+      "model-specific barrel and grip proportions"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-colt-1851",
+    "name": "柯尔特1851海军左轮",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 31,
+    "vertices": 440,
+    "triangles": 756,
+    "dimensions": [
+      0.34236,
+      0.0594,
+      0.19764
+    ],
+    "features": [
+      "12-sided volumetric cylinder",
+      "8-sided grip",
+      "open trigger guard",
+      "open upper frame",
+      "model-specific barrel and grip proportions"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-colt-1860",
+    "name": "柯尔特1860陆军左轮",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 31,
+    "vertices": 464,
+    "triangles": 804,
+    "dimensions": [
+      0.34436,
+      0.0654,
+      0.20464
+    ],
+    "features": [
+      "12-sided volumetric cylinder",
+      "8-sided grip",
+      "open trigger guard",
+      "open upper frame",
+      "model-specific barrel and grip proportions"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-colt-saa",
+    "name": "柯尔特单动陆军左轮",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 30,
+    "vertices": 456,
+    "triangles": 792,
+    "dimensions": [
+      0.28636,
+      0.0614,
+      0.19364
+    ],
+    "features": [
+      "12-sided volumetric cylinder",
+      "8-sided grip",
+      "open trigger guard",
+      "continuous upper frame",
+      "model-specific barrel and grip proportions"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-webley-v",
+    "name": "韦伯利Mk V左轮",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 39,
+    "vertices": 544,
+    "triangles": 932,
+    "dimensions": [
+      0.27536,
+      0.0734,
+      0.2252
+    ],
+    "features": [
+      "12-sided volumetric cylinder",
+      "8-sided grip",
+      "open trigger guard",
+      "continuous upper frame",
+      "model-specific barrel and grip proportions"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-mauser-c96",
+    "name": "毛瑟C96手枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 29,
+    "vertices": 424,
+    "triangles": 732,
+    "dimensions": [
+      0.33581,
+      0.03564,
+      0.1975
+    ],
+    "features": [
+      "separate full-depth grip",
+      "open trigger guard",
+      "broom",
+      "distinct total length and grip length"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-luger-p08",
+    "name": "鲁格P08手枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 22,
+    "vertices": 360,
+    "triangles": 632,
+    "dimensions": [
+      0.23799,
+      0.03364,
+      0.1745
+    ],
+    "features": [
+      "separate full-depth grip",
+      "open trigger guard",
+      "toggle",
+      "distinct total length and grip length"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-m1911",
+    "name": "柯尔特M1911A1手枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 20,
+    "vertices": 296,
+    "triangles": 512,
+    "dimensions": [
+      0.227,
+      0.03462,
+      0.1695
+    ],
+    "features": [
+      "separate full-depth grip",
+      "open trigger guard",
+      "enclosed",
+      "distinct total length and grip length"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-nambu-14",
+    "name": "南部十四年式手枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 21,
+    "vertices": 336,
+    "triangles": 588,
+    "dimensions": [
+      0.24699,
+      0.041,
+      0.1725
+    ],
+    "features": [
+      "separate full-depth grip",
+      "open trigger guard",
+      "nambu",
+      "distinct total length and grip length"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-lee-enfield",
+    "name": "李恩菲尔德No.4步枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 24,
+    "vertices": 368,
+    "triangles": 640,
+    "dimensions": [
+      1.133,
+      0.1,
+      0.156
+    ],
+    "features": [
+      "solid shaped rifle butt",
+      "three-dimensional forend",
+      "hollow trigger guard",
+      "no4"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-mosin",
+    "name": "莫辛纳甘1891步枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 23,
+    "vertices": 360,
+    "triangles": 628,
+    "dimensions": [
+      1.308,
+      0.1,
+      0.1515
+    ],
+    "features": [
+      "solid shaped rifle butt",
+      "three-dimensional forend",
+      "hollow trigger guard",
+      "straight-bolt"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-kar98k",
+    "name": "毛瑟Kar98k步枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 23,
+    "vertices": 360,
+    "triangles": 628,
+    "dimensions": [
+      1.113,
+      0.1,
+      0.1515
+    ],
+    "features": [
+      "solid shaped rifle butt",
+      "three-dimensional forend",
+      "hollow trigger guard",
+      "bent-bolt"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-arisaka-38",
+    "name": "三八式步枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 24,
+    "vertices": 384,
+    "triangles": 672,
+    "dimensions": [
+      1.283,
+      0.1,
+      0.1515
+    ],
+    "features": [
+      "solid shaped rifle butt",
+      "three-dimensional forend",
+      "hollow trigger guard",
+      "arisaka"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-garand",
+    "name": "加兰德M1步枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 20,
+    "vertices": 304,
+    "triangles": 528,
+    "dimensions": [
+      1.108,
+      0.05,
+      0.1515
+    ],
+    "features": [
+      "solid shaped rifle butt",
+      "three-dimensional forend",
+      "hollow trigger guard",
+      "garand"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-m1-carbine",
+    "name": "M1卡宾枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 20,
+    "vertices": 296,
+    "triangles": 512,
+    "dimensions": [
+      0.908,
+      0.05,
+      0.156
+    ],
+    "features": [
+      "solid shaped rifle butt",
+      "three-dimensional forend",
+      "hollow trigger guard",
+      "carbine"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-henry",
+    "name": "亨利1860步枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 24,
+    "vertices": 376,
+    "triangles": 656,
+    "dimensions": [
+      1.093,
+      0.05,
+      0.1515
+    ],
+    "features": [
+      "solid shaped rifle butt",
+      "three-dimensional forend",
+      "hollow trigger guard",
+      "henry"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-winchester",
+    "name": "温彻斯特1873步枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 24,
+    "vertices": 376,
+    "triangles": 656,
+    "dimensions": [
+      1.063,
+      0.05,
+      0.1515
+    ],
+    "features": [
+      "solid shaped rifle butt",
+      "three-dimensional forend",
+      "hollow trigger guard",
+      "winchester"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-thompson",
+    "name": "汤普森1928冲锋枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 32,
+    "vertices": 584,
+    "triangles": 1040,
+    "dimensions": [
+      0.873,
+      0.084,
+      0.226
+    ],
+    "features": [
+      "full-width receiver",
+      "open trigger guard",
+      "thompson",
+      "model-specific stock and magazine"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-sten",
+    "name": "斯登Mk II冲锋枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 24,
+    "vertices": 392,
+    "triangles": 688,
+    "dimensions": [
+      0.766,
+      0.29,
+      0.1985
+    ],
+    "features": [
+      "full-width receiver",
+      "open trigger guard",
+      "sten",
+      "model-specific stock and magazine"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-mp40",
+    "name": "MP40冲锋枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 23,
+    "vertices": 356,
+    "triangles": 620,
+    "dimensions": [
+      0.8405,
+      0.074,
+      0.269
+    ],
+    "features": [
+      "full-width receiver",
+      "open trigger guard",
+      "mp40",
+      "model-specific stock and magazine"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-ppsh",
+    "name": "波波沙PPSh-41冲锋枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 31,
+    "vertices": 416,
+    "triangles": 708,
+    "dimensions": [
+      0.8565,
+      0.086,
+      0.23
+    ],
+    "features": [
+      "full-width receiver",
+      "open trigger guard",
+      "ppsh",
+      "model-specific stock and magazine"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-ak47",
+    "name": "卡拉什尼科夫AK步枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 21,
+    "vertices": 332,
+    "triangles": 580,
+    "dimensions": [
+      0.873,
+      0.062,
+      0.269
+    ],
+    "features": [
+      "full-width receiver",
+      "open trigger guard",
+      "ak",
+      "model-specific stock and magazine"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-bronze-sword",
+    "name": "青铜叶形剑",
+    "category": "兵器",
+    "placement": "both",
+    "parts": 4,
+    "vertices": 84,
+    "triangles": 152,
+    "dimensions": [
+      0.717,
+      0.038,
+      0.103
+    ],
+    "features": [
+      "raised diamond-section blade",
+      "eight-sided handle",
+      "bronze",
+      "complete two-sided thickness"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-rapier",
+    "name": "意大利护手刺剑",
+    "category": "兵器",
+    "placement": "both",
+    "parts": 38,
+    "vertices": 508,
+    "triangles": 864,
+    "dimensions": [
+      1.325,
+      0.11327,
+      0.11681
+    ],
+    "features": [
+      "raised diamond-section blade",
+      "eight-sided handle",
+      "rapier",
+      "complete two-sided thickness"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-basket-sword",
+    "name": "篮形护手阔剑",
+    "category": "兵器",
+    "placement": "both",
+    "parts": 42,
+    "vertices": 572,
+    "triangles": 976,
+    "dimensions": [
+      1.002,
+      0.10602,
+      0.11345
+    ],
+    "features": [
+      "raised diamond-section blade",
+      "eight-sided handle",
+      "basket",
+      "complete two-sided thickness"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-sabre",
+    "name": "1796轻骑兵军刀",
+    "category": "兵器",
+    "placement": "both",
+    "parts": 7,
+    "vertices": 132,
+    "triangles": 236,
+    "dimensions": [
+      1.032,
+      0.038,
+      0.1585
+    ],
+    "features": [
+      "raised diamond-section blade",
+      "eight-sided handle",
+      "sabre",
+      "complete two-sided thickness"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-stiletto",
+    "name": "意大利细刃匕首",
+    "category": "兵器",
+    "placement": "both",
+    "parts": 4,
+    "vertices": 60,
+    "triangles": 104,
+    "dimensions": [
+      0.42,
+      0.038,
+      0.074
+    ],
+    "features": [
+      "raised diamond-section blade",
+      "eight-sided handle",
+      "stiletto",
+      "complete two-sided thickness"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-kukri",
+    "name": "尼泊尔库克里弯刀",
+    "category": "兵器",
+    "placement": "both",
+    "parts": 4,
+    "vertices": 84,
+    "triangles": 152,
+    "dimensions": [
+      0.471,
+      0.038,
+      0.14407
+    ],
+    "features": [
+      "raised diamond-section blade",
+      "eight-sided handle",
+      "kukri",
+      "complete two-sided thickness"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-jian",
+    "name": "双剑",
+    "category": "兵器",
+    "placement": "both",
+    "parts": 8,
+    "vertices": 168,
+    "triangles": 304,
+    "dimensions": [
+      0.95,
+      0.106,
+      0.103
+    ],
+    "features": [
+      "raised diamond-section blade",
+      "eight-sided handle",
+      "jian",
+      "complete two-sided thickness",
+      "raised diamond-section blade",
+      "eight-sided handle",
+      "jian",
+      "complete two-sided thickness",
+      "two independently positioned jian"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-katana",
+    "name": "日本打刀",
+    "category": "兵器",
+    "placement": "both",
+    "parts": 5,
+    "vertices": 100,
+    "triangles": 180,
+    "dimensions": [
+      1.027,
+      0.08,
+      0.08875
+    ],
+    "features": [
+      "raised diamond-section blade",
+      "eight-sided handle",
+      "katana",
+      "complete two-sided thickness"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-wakizashi",
+    "name": "日本胁差",
+    "category": "兵器",
+    "placement": "both",
+    "parts": 5,
+    "vertices": 100,
+    "triangles": 180,
+    "dimensions": [
+      0.672,
+      0.066,
+      0.08175
+    ],
+    "features": [
+      "raised diamond-section blade",
+      "eight-sided handle",
+      "wakizashi",
+      "complete two-sided thickness"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-tanto",
+    "name": "日本短刀",
+    "category": "兵器",
+    "placement": "both",
+    "parts": 5,
+    "vertices": 100,
+    "triangles": 180,
+    "dimensions": [
+      0.372,
+      0.048,
+      0.048
+    ],
+    "features": [
+      "raised diamond-section blade",
+      "eight-sided handle",
+      "tanto",
+      "complete two-sided thickness"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-kris",
+    "name": "印尼克里斯匕首",
+    "category": "兵器",
+    "placement": "both",
+    "parts": 5,
+    "vertices": 92,
+    "triangles": 164,
+    "dimensions": [
+      0.566,
+      0.038,
+      0.06764
+    ],
+    "features": [
+      "raised diamond-section blade",
+      "eight-sided handle",
+      "kris",
+      "complete two-sided thickness"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-katar",
+    "name": "印度卡塔尔匕首",
+    "category": "兵器",
+    "placement": "both",
+    "parts": 5,
+    "vertices": 100,
+    "triangles": 180,
+    "dimensions": [
+      0.462,
+      0.022,
+      0.14
+    ],
+    "features": [
+      "H-shaped transverse double grip",
+      "parallel wrist rails",
+      "diamond blade cross section"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-talwar",
+    "name": "印度塔尔瓦弯刀",
+    "category": "兵器",
+    "placement": "both",
+    "parts": 8,
+    "vertices": 156,
+    "triangles": 280,
+    "dimensions": [
+      0.958,
+      0.094,
+      0.1905
+    ],
+    "features": [
+      "raised diamond-section blade",
+      "eight-sided handle",
+      "talwar",
+      "complete two-sided thickness"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-shamshir",
+    "name": "波斯沙姆希尔弯刀",
+    "category": "兵器",
+    "placement": "both",
+    "parts": 4,
+    "vertices": 84,
+    "triangles": 152,
+    "dimensions": [
+      1.002,
+      0.038,
+      0.2175
+    ],
+    "features": [
+      "raised diamond-section blade",
+      "eight-sided handle",
+      "shamshir",
+      "complete two-sided thickness"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-halberd",
+    "name": "德国长柄戟",
+    "category": "兵器",
+    "placement": "both",
+    "parts": 5,
+    "vertices": 66,
+    "triangles": 112,
+    "dimensions": [
+      2.06,
+      0.049,
+      0.392
+    ],
+    "features": [
+      "three-dimensional solid shaft",
+      "model-specific non-symmetric head",
+      "halberd"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-battle-axe",
+    "name": "维京宽刃战斧",
+    "category": "兵器",
+    "placement": "both",
+    "parts": 3,
+    "vertices": 46,
+    "triangles": 80,
+    "dimensions": [
+      1.279,
+      0.061,
+      0.272
+    ],
+    "features": [
+      "three-dimensional solid shaft",
+      "model-specific non-symmetric head",
+      "battle-axe"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-mace",
+    "name": "意大利翼片钉头锤",
+    "category": "兵器",
+    "placement": "both",
+    "parts": 9,
+    "vertices": 96,
+    "triangles": 156,
+    "dimensions": [
+      0.585,
+      0.126,
+      0.11312
+    ],
+    "features": [
+      "three-dimensional solid shaft",
+      "model-specific non-symmetric head",
+      "mace"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-war-hammer",
+    "name": "法国战锤",
+    "category": "兵器",
+    "placement": "both",
+    "parts": 7,
+    "vertices": 104,
+    "triangles": 180,
+    "dimensions": [
+      0.708,
+      0.062,
+      0.2275
+    ],
+    "features": [
+      "three-dimensional solid shaft",
+      "model-specific non-symmetric head",
+      "war-hammer"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-crossbow",
+    "name": "欧洲木弩",
+    "category": "兵器",
+    "placement": "both",
+    "parts": 25,
+    "vertices": 340,
+    "triangles": 580,
+    "dimensions": [
+      0.882,
+      0.84676,
+      0.22523
+    ],
+    "features": [
+      "wide independent bow limbs",
+      "complete tiller thickness",
+      "triangular string",
+      "open front stirrup"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-longbow",
+    "name": "英国长弓",
+    "category": "兵器",
+    "placement": "both",
+    "parts": 16,
+    "vertices": 252,
+    "triangles": 440,
+    "dimensions": [
+      1.68711,
+      0.034,
+      0.22833
+    ],
+    "features": [
+      "long continuous curved wood limbs",
+      "real bow string",
+      "volumetric central grip"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-adams-1851",
+    "name": "迪恩亚当斯1851左轮",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 30,
+    "vertices": 432,
+    "triangles": 744,
+    "dimensions": [
+      0.29636,
+      0.0654,
+      0.19564
+    ],
+    "features": [
+      "12-sided volumetric cylinder",
+      "8-sided grip",
+      "open trigger guard",
+      "continuous upper frame",
+      "model-specific barrel and grip proportions"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-colt-new-service",
+    "name": "柯尔特New Service左轮",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 37,
+    "vertices": 536,
+    "triangles": 924,
+    "dimensions": [
+      0.29436,
+      0.0674,
+      0.2242
+    ],
+    "features": [
+      "12-sided volumetric cylinder",
+      "8-sided grip",
+      "open trigger guard",
+      "continuous upper frame",
+      "model-specific barrel and grip proportions"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-webley-fosbery",
+    "name": "韦伯利福斯伯里左轮",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 44,
+    "vertices": 600,
+    "triangles": 1024,
+    "dimensions": [
+      0.30036,
+      0.0674,
+      0.2152
+    ],
+    "features": [
+      "12-sided volumetric cylinder",
+      "8-sided grip",
+      "open trigger guard",
+      "continuous upper frame",
+      "model-specific barrel and grip proportions"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-hi-power",
+    "name": "勃朗宁Hi-Power手枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 20,
+    "vertices": 288,
+    "triangles": 496,
+    "dimensions": [
+      0.20083,
+      0.03462,
+      0.1735
+    ],
+    "features": [
+      "separate full-depth grip",
+      "open trigger guard",
+      "enclosed",
+      "distinct total length and grip length"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-walther-p38",
+    "name": "瓦尔特P38手枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 20,
+    "vertices": 312,
+    "triangles": 544,
+    "dimensions": [
+      0.21933,
+      0.038,
+      0.1765
+    ],
+    "features": [
+      "separate full-depth grip",
+      "open trigger guard",
+      "exposed",
+      "distinct total length and grip length"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-walther-ppks",
+    "name": "瓦尔特PPK/S手枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 19,
+    "vertices": 280,
+    "triangles": 484,
+    "dimensions": [
+      0.16367,
+      0.03258,
+      0.1535
+    ],
+    "features": [
+      "separate full-depth grip",
+      "open trigger guard",
+      "compact",
+      "distinct total length and grip length"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-beretta-1934",
+    "name": "伯莱塔M1934手枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 23,
+    "vertices": 360,
+    "triangles": 628,
+    "dimensions": [
+      0.15662,
+      0.0342,
+      0.159
+    ],
+    "features": [
+      "separate full-depth grip",
+      "open trigger guard",
+      "open-slide",
+      "distinct total length and grip length"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-remington-army",
+    "name": "雷明顿新陆军左轮",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 31,
+    "vertices": 440,
+    "triangles": 756,
+    "dimensions": [
+      0.34236,
+      0.0614,
+      0.19764
+    ],
+    "features": [
+      "12-sided volumetric cylinder",
+      "8-sided grip",
+      "open trigger guard",
+      "continuous upper frame",
+      "model-specific barrel and grip proportions"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-enfield-no2",
+    "name": "恩菲尔德No.2左轮",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 39,
+    "vertices": 544,
+    "triangles": 932,
+    "dimensions": [
+      0.27236,
+      0.0594,
+      0.2022
+    ],
+    "features": [
+      "12-sided volumetric cylinder",
+      "8-sided grip",
+      "open trigger guard",
+      "continuous upper frame",
+      "model-specific barrel and grip proportions"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-dreyse-1841",
+    "name": "德莱赛1841针发步枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 23,
+    "vertices": 360,
+    "triangles": 628,
+    "dimensions": [
+      1.423,
+      0.1,
+      0.1515
+    ],
+    "features": [
+      "solid shaped rifle butt",
+      "three-dimensional forend",
+      "hollow trigger guard",
+      "needle"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-chassepot",
+    "name": "夏塞波1866步枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 24,
+    "vertices": 376,
+    "triangles": 656,
+    "dimensions": [
+      1.313,
+      0.1,
+      0.1515
+    ],
+    "features": [
+      "solid shaped rifle butt",
+      "three-dimensional forend",
+      "hollow trigger guard",
+      "chassepot"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-snider",
+    "name": "斯奈德恩菲尔德步枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 24,
+    "vertices": 368,
+    "triangles": 640,
+    "dimensions": [
+      1.253,
+      0.0655,
+      0.15388
+    ],
+    "features": [
+      "solid shaped rifle butt",
+      "three-dimensional forend",
+      "hollow trigger guard",
+      "snider"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-martini-henry",
+    "name": "马蒂尼亨利Mk I步枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 23,
+    "vertices": 352,
+    "triangles": 612,
+    "dimensions": [
+      1.253,
+      0.05,
+      0.1515
+    ],
+    "features": [
+      "solid shaped rifle butt",
+      "three-dimensional forend",
+      "hollow trigger guard",
+      "martini"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-springfield-1903",
+    "name": "斯普林菲尔德1903步枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 23,
+    "vertices": 360,
+    "triangles": 628,
+    "dimensions": [
+      1.103,
+      0.1,
+      0.1515
+    ],
+    "features": [
+      "solid shaped rifle butt",
+      "three-dimensional forend",
+      "hollow trigger guard",
+      "springfield"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-spencer",
+    "name": "斯宾塞连发步枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 23,
+    "vertices": 352,
+    "triangles": 612,
+    "dimensions": [
+      1.203,
+      0.05,
+      0.1515
+    ],
+    "features": [
+      "solid shaped rifle butt",
+      "three-dimensional forend",
+      "hollow trigger guard",
+      "spencer"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-winchester-1897",
+    "name": "温彻斯特1897霰弹枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 25,
+    "vertices": 392,
+    "triangles": 684,
+    "dimensions": [
+      1.003,
+      0.057,
+      0.1515
+    ],
+    "features": [
+      "solid shaped rifle butt",
+      "three-dimensional forend",
+      "hollow trigger guard",
+      "pump"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-double-shotgun",
+    "name": "并列双管霰弹枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 22,
+    "vertices": 360,
+    "triangles": 632,
+    "dimensions": [
+      1.108,
+      0.05,
+      0.1515
+    ],
+    "features": [
+      "solid shaped rifle butt",
+      "three-dimensional forend",
+      "hollow trigger guard",
+      "double"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-l1a1",
+    "name": "L1A1自装填步枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 20,
+    "vertices": 308,
+    "triangles": 536,
+    "dimensions": [
+      1.143,
+      0.062,
+      0.269
+    ],
+    "features": [
+      "full-width receiver",
+      "open trigger guard",
+      "fal",
+      "model-specific stock and magazine"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-g3",
+    "name": "HK G3步枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 37,
+    "vertices": 484,
+    "triangles": 820,
+    "dimensions": [
+      1.028,
+      0.066,
+      0.28567
+    ],
+    "features": [
+      "full-width receiver",
+      "open trigger guard",
+      "g3",
+      "model-specific stock and magazine"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-m16",
+    "name": "M16 AR-15步枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 24,
+    "vertices": 362,
+    "triangles": 628,
+    "dimensions": [
+      0.993,
+      0.056,
+      0.273
+    ],
+    "features": [
+      "full-width receiver",
+      "open trigger guard",
+      "m16",
+      "model-specific stock and magazine"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-l85a1",
+    "name": "SA80 L85A1步枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 23,
+    "vertices": 376,
+    "triangles": 660,
+    "dimensions": [
+      0.7865,
+      0.07,
+      0.30272
+    ],
+    "features": [
+      "full-width receiver",
+      "open trigger guard",
+      "l85",
+      "rear-magazine bullpup proportions"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-aug",
+    "name": "斯太尔AUG A1步枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 33,
+    "vertices": 504,
+    "triangles": 876,
+    "dimensions": [
+      0.7915,
+      0.07,
+      0.30272
+    ],
+    "features": [
+      "full-width receiver",
+      "open trigger guard",
+      "aug",
+      "rear-magazine bullpup proportions"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-mp5",
+    "name": "HK MP5冲锋枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 34,
+    "vertices": 484,
+    "triangles": 832,
+    "dimensions": [
+      0.686,
+      0.062,
+      0.24667
+    ],
+    "features": [
+      "full-width receiver",
+      "open trigger guard",
+      "mp5",
+      "model-specific stock and magazine"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-pam1",
+    "name": "阿根廷PAM1冲锋枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 23,
+    "vertices": 364,
+    "triangles": 636,
+    "dimensions": [
+      0.751,
+      0.07868,
+      0.269
+    ],
+    "features": [
+      "full-width receiver",
+      "open trigger guard",
+      "pam",
+      "model-specific stock and magazine"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-bren",
+    "name": "布伦Mk I轻机枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 25,
+    "vertices": 388,
+    "triangles": 676,
+    "dimensions": [
+      1.158,
+      0.22122,
+      0.48548
+    ],
+    "features": [
+      "full-width receiver",
+      "open trigger guard",
+      "bren",
+      "model-specific stock and magazine"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-lewis",
+    "name": "刘易斯Mk I轻机枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 20,
+    "vertices": 328,
+    "triangles": 576,
+    "dimensions": [
+      1.283,
+      0.23,
+      0.2015
+    ],
+    "features": [
+      "horizontal top pan magazine",
+      "full-width receiver",
+      "open trigger guard",
+      "lewis",
+      "model-specific stock and magazine"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-vickers",
+    "name": "维克斯Class C机枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 14,
+    "vertices": 288,
+    "triangles": 520,
+    "dimensions": [
+      1.0955,
+      0.168,
+      0.279
+    ],
+    "features": [
+      "water-cooled full-depth jacket",
+      "paired rear handles",
+      "receiver mounting base",
+      "vickers"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-maxim",
+    "name": "马克沁Mk I机枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 14,
+    "vertices": 288,
+    "triangles": 520,
+    "dimensions": [
+      1.0655,
+      0.168,
+      0.272
+    ],
+    "features": [
+      "water-cooled full-depth jacket",
+      "paired rear handles",
+      "receiver mounting base",
+      "maxim"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-bar",
+    "name": "勃朗宁M1918自动步枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 20,
+    "vertices": 308,
+    "triangles": 536,
+    "dimensions": [
+      1.218,
+      0.062,
+      0.23
+    ],
+    "features": [
+      "full-width receiver",
+      "open trigger guard",
+      "bar",
+      "model-specific stock and magazine"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-hotchkiss",
+    "name": "哈奇开斯M1909轻机枪",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 29,
+    "vertices": 536,
+    "triangles": 956,
+    "dimensions": [
+      0.7097,
+      0.27,
+      0.1985
+    ],
+    "features": [
+      "unstocked museum example",
+      "radial cooling fins",
+      "side strip silhouette",
+      "full-width receiver",
+      "open trigger guard",
+      "hotchkiss",
+      "model-specific stock and magazine"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-glock-17",
+    "name": "格洛克G17 Gen5",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 17,
+    "vertices": 248,
+    "triangles": 428,
+    "dimensions": [
+      0.2065,
+      0.03476,
+      0.1735
+    ],
+    "features": [
+      "separate full-depth grip",
+      "open trigger guard",
+      "glock",
+      "distinct total length and grip length"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-glock-19",
+    "name": "格洛克G19 Gen5",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 17,
+    "vertices": 248,
+    "triangles": 428,
+    "dimensions": [
+      0.1895,
+      0.03476,
+      0.1635
+    ],
+    "features": [
+      "separate full-depth grip",
+      "open trigger guard",
+      "glock",
+      "distinct total length and grip length"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-glock-26",
+    "name": "格洛克G26 Gen5",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 17,
+    "vertices": 248,
+    "triangles": 428,
+    "dimensions": [
+      0.16818,
+      0.03579,
+      0.1415
+    ],
+    "features": [
+      "separate full-depth grip",
+      "open trigger guard",
+      "glock",
+      "distinct total length and grip length"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-glock-34",
+    "name": "格洛克G34 Gen5 MOS",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 18,
+    "vertices": 256,
+    "triangles": 440,
+    "dimensions": [
+      0.2265,
+      0.03476,
+      0.1735
+    ],
+    "features": [
+      "separate full-depth grip",
+      "open trigger guard",
+      "glock-mos",
+      "distinct total length and grip length"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-glock-43",
+    "name": "格洛克G43",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 17,
+    "vertices": 248,
+    "triangles": 428,
+    "dimensions": [
+      0.16367,
+      0.03,
+      0.1455
+    ],
+    "features": [
+      "separate full-depth grip",
+      "open trigger guard",
+      "glock-slim",
+      "distinct total length and grip length"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  },
+  {
+    "id": "weapon-glock-43x",
+    "name": "格洛克G43X Rail",
+    "category": "枪械",
+    "placement": "both",
+    "parts": 18,
+    "vertices": 256,
+    "triangles": 440,
+    "dimensions": [
+      0.16928,
+      0.03,
+      0.1735
+    ],
+    "features": [
+      "separate full-depth grip",
+      "open trigger guard",
+      "glock-rail",
+      "distinct total length and grip length"
+    ],
+    "sourceGeometryReused": false,
+    "texelsPerMetre": 16
+  }
+]

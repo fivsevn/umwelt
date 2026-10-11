@@ -1,0 +1,212 @@
+{
+  "texelsPerMetre": 16,
+  "source": "Primary museum references inspected, original Pixelorama Pencil translation required",
+  "vesselItems": [
+    {
+      "id": "antique-shino",
+      "materialPrefix": "shino",
+      "shape": "shallow",
+      "diameter": 0.625,
+      "height": 0.14285714285714285,
+      "inside": [
+        "芒草丛从内底一侧向中央上方展开",
+        "沿口内侧一圈短笔与点状铁绘"
+      ],
+      "outside": [],
+      "referenceUnknown": [
+        "外壁完整图案",
+        "底足形状与尺寸",
+        "器壁厚度"
+      ],
+      "innerMaterial": "shino-inner",
+      "outerMaterial": "shino-outer",
+      "rimMaterial": "shino-rim",
+      "footMaterial": "shino-foot",
+      "nativeTextureDensity": 16,
+      "paintingRule": "Draw original coarse motifs with native Pixelorama Pencil using face physical paintOrigin/uAxis/vAxis; only known compositions. Preserve material-specific low-contrast glaze, omit invisible fine cracks/noise. Interior floor uses asset XY to align across its face charts; exterior uses angle atan2(Y,X) and Z height."
+    },
+    {
+      "id": "antique-nezumi",
+      "materialPrefix": "nezumi",
+      "shape": "nezumi",
+      "diameter": 0.5,
+      "height": 0.20714285714285713,
+      "inside": [
+        "深赤褐釉，不采用常见灰蓝鼠志野色",
+        "白色掻落草叶与弧形线图案覆盖内壁/圆底"
+      ],
+      "outside": [
+        "图中外边缘深褐釉"
+      ],
+      "referenceUnknown": [
+        "三足精准位置及足形",
+        "外底与外壁完整图案"
+      ],
+      "innerMaterial": "nezumi-inner",
+      "outerMaterial": "nezumi-outer",
+      "rimMaterial": "nezumi-rim",
+      "footMaterial": "nezumi-foot",
+      "nativeTextureDensity": 16,
+      "paintingRule": "Draw original coarse motifs with native Pixelorama Pencil using face physical paintOrigin/uAxis/vAxis; only known compositions. Preserve material-specific low-contrast glaze, omit invisible fine cracks/noise. Interior floor uses asset XY to align across its face charts; exterior uses angle atan2(Y,X) and Z height."
+    },
+    {
+      "id": "antique-shino-square",
+      "materialPrefix": "shino-square",
+      "shape": "square",
+      "diameter": 0.4375,
+      "height": 0.47352941176470587,
+      "inside": [
+        "照片中内壁奶白，未见铁绘"
+      ],
+      "outside": [
+        "各面交替蛇笼网纹、垂坠珠串、堇草、似鸢尾植物",
+        "沿口下方横向铁绘线"
+      ],
+      "referenceUnknown": [
+        "内底完整视图",
+        "足底准确深度"
+      ],
+      "innerMaterial": "shino-square-inner",
+      "outerMaterial": "shino-square-outer",
+      "rimMaterial": "shino-square-rim",
+      "footMaterial": "shino-square-foot",
+      "nativeTextureDensity": 16,
+      "paintingRule": "Draw original coarse motifs with native Pixelorama Pencil using face physical paintOrigin/uAxis/vAxis; only known compositions. Preserve material-specific low-contrast glaze, omit invisible fine cracks/noise. Interior floor uses asset XY to align across its face charts; exterior uses angle atan2(Y,X) and Z height."
+    },
+    {
+      "id": "antique-nabeshima",
+      "materialPrefix": "nabeshima",
+      "shape": "octagon",
+      "diameter": 0.5625,
+      "height": 0.26936619718309857,
+      "inside": [
+        "仅可见白色口内部分"
+      ],
+      "outside": [
+        "外壁主要萝卜枝叶构图，跨数个八角面"
+      ],
+      "referenceUnknown": [
+        "原釉彩具体色值：馆方主图黑白",
+        "钵内完整纹饰",
+        "背面图案",
+        "圈足径"
+      ],
+      "innerMaterial": "nabeshima-inner",
+      "outerMaterial": "nabeshima-outer",
+      "rimMaterial": "nabeshima-rim",
+      "footMaterial": "nabeshima-foot",
+      "nativeTextureDensity": 16,
+      "paintingRule": "Draw original coarse motifs with native Pixelorama Pencil using face physical paintOrigin/uAxis/vAxis; only known compositions. Preserve material-specific low-contrast glaze, omit invisible fine cracks/noise. Interior floor uses asset XY to align across its face charts; exterior uses angle atan2(Y,X) and Z height."
+    },
+    {
+      "id": "antique-nabeshima-dish",
+      "materialPrefix": "nabeshima-dish",
+      "shape": "shallow",
+      "diameter": 0.5625,
+      "height": 0.13925970873786409,
+      "inside": [
+        "青蓝底白留空同心纹圈",
+        "中心花瓣，外侧菱形/圆圈/波状/方折等分带"
+      ],
+      "outside": [
+        "背面三组枝叶与花",
+        "圈足周边梳齿纹（馆方媒材文字证实）"
+      ],
+      "referenceUnknown": [
+        "盘截面精准曲率",
+        "圈足径与高度"
+      ],
+      "innerMaterial": "nabeshima-dish-inner",
+      "outerMaterial": "nabeshima-dish-outer",
+      "rimMaterial": "nabeshima-dish-rim",
+      "footMaterial": "nabeshima-dish-foot",
+      "nativeTextureDensity": 16,
+      "paintingRule": "Draw original coarse motifs with native Pixelorama Pencil using face physical paintOrigin/uAxis/vAxis; only known compositions. Preserve material-specific low-contrast glaze, omit invisible fine cracks/noise. Interior floor uses asset XY to align across its face charts; exterior uses angle atan2(Y,X) and Z height."
+    },
+    {
+      "id": "antique-kutani-red",
+      "materialPrefix": "kutani",
+      "shape": "bowl",
+      "diameter": 0.875,
+      "height": 0.23625000000000002,
+      "inside": [
+        "中心唐狮与花草",
+        "中心外窄几何边框",
+        "中圈花叶缠枝和金色字样徽章",
+        "口部边带网纹与花图徽章交替",
+        "赤绘/金彩"
+      ],
+      "outside": [],
+      "referenceUnknown": [
+        "高度与腹深：馆方未列",
+        "圈足形状",
+        "背面图案",
+        "文字完整复原"
+      ],
+      "innerMaterial": "kutani-inner",
+      "outerMaterial": "kutani-outer",
+      "rimMaterial": "kutani-rim",
+      "footMaterial": "kutani-foot",
+      "nativeTextureDensity": 16,
+      "paintingRule": "Draw original coarse motifs with native Pixelorama Pencil using face physical paintOrigin/uAxis/vAxis; only known compositions. Preserve material-specific low-contrast glaze, omit invisible fine cracks/noise. Interior floor uses asset XY to align across its face charts; exterior uses angle atan2(Y,X) and Z height."
+    },
+    {
+      "id": "antique-celadon",
+      "materialPrefix": "celadon",
+      "shape": "scallop",
+      "diameter": 0.6875,
+      "height": 0.19656455520941504,
+      "inside": [
+        "极浅划花：亭/棚在中央、左侧篱笆、右侧树木"
+      ],
+      "outside": [
+        "连续青瓷釉，足面鬼面起伏",
+        "足周围红色露胎与白支钉迹（馆方文字）"
+      ],
+      "referenceUnknown": [
+        "底部完整图片",
+        "鬼面细部被釉遮蔽",
+        "波瓣数准确计数"
+      ],
+      "innerMaterial": "celadon-inner",
+      "outerMaterial": "celadon-outer",
+      "rimMaterial": "celadon-rim",
+      "footMaterial": "celadon-foot",
+      "nativeTextureDensity": 16,
+      "paintingRule": "Draw original coarse motifs with native Pixelorama Pencil using face physical paintOrigin/uAxis/vAxis; only known compositions. Preserve material-specific low-contrast glaze, omit invisible fine cracks/noise. Interior floor uses asset XY to align across its face charts; exterior uses angle atan2(Y,X) and Z height."
+    },
+    {
+      "id": "antique-oribe-jar",
+      "materialPrefix": "oribe",
+      "shape": "jar",
+      "diameter": 0.5,
+      "height": 0.48148148148148145,
+      "inside": [
+        "颈口可见暖白釉；完整内部不可见"
+      ],
+      "outside": [
+        "正面角折线、带周边点的圆形和三个连圆",
+        "另一面两相交圆及小点、下腹两组简化树形",
+        "白/暖黄长石釉；馆方确认不使用铜绿釉"
+      ],
+      "referenceUnknown": [
+        "完整内底",
+        "底书墨字意义：馆方称不明",
+        "不可见周向图案"
+      ],
+      "innerMaterial": "oribe-inner",
+      "outerMaterial": "oribe-outer",
+      "rimMaterial": "oribe-rim",
+      "footMaterial": "oribe-foot",
+      "nativeTextureDensity": 16,
+      "paintingRule": "Draw original coarse motifs with native Pixelorama Pencil using face physical paintOrigin/uAxis/vAxis; only known compositions. Preserve material-specific low-contrast glaze, omit invisible fine cracks/noise. Interior floor uses asset XY to align across its face charts; exterior uses angle atan2(Y,X) and Z height."
+    }
+  ],
+  "roomFinishes": {
+    "chrome-room": "Low-saturation silver. Sparse lost gloss around side bends and floor glides. Never orange full-frame rust.",
+    "sofa-leather": "Deep brown contiguous large surfaces, very subtle seat-front touch wear and cushion folds. No checkerboard noise or stitched grids.",
+    "sofa-cloth": "Muted grey green; fold shade near contact seams, mostly intact planes.",
+    "wardrobe-oak": "Warm restrained grain follows actual board axis, 1–2 low-contrast short strokes; drawer/door front handling may fade at edges.",
+    "blanket-sage": "Fold shading concentrated at fold/front edge, pillow kept plain."
+  }
+}

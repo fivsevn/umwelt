@@ -1,0 +1,580 @@
+{
+  "family": "ceramics-extra",
+  "texelsPerMetre": 16,
+  "method": "Complete newly authored lowpoly shells and original Pixelorama motifs informed by primary museum evidence. No source photo is a game texture. Unknown surfaces explicitly inferred.",
+  "items": [
+    {
+      "id": "antique-shigaraki-jar",
+      "name": "信乐大壶",
+      "museumTitle": "Large Storage Jar (Ōtsubo)",
+      "museum": "Met",
+      "accession": "1975.268.428",
+      "source": "https://www.metmuseum.org/art/collection/search/44637",
+      "period": "late 15th century",
+      "museumDimensionsCm": {
+        "height": 46.7,
+        "diameter": 39.4
+      },
+      "gamePrimarySizeMetres": 0.625,
+      "observed": "Coiled broad shoulder jar, reddish fired body; directional olive ash and irregular shoulder drips. Mouth visible.",
+      "referenceUnknown": [
+        "Bottom and deep inner wall not photographed."
+      ],
+      "photoViewed": true,
+      "referencePhoto": "met-44637-0.jpg",
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "信乐烧风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "category": "收藏",
+      "placement": "both",
+      "replica": false
+    },
+    {
+      "id": "antique-bizen-gourd",
+      "name": "青备前双葫芦瓶",
+      "museumTitle": "Bizen ware bottle, Ao Bizen type",
+      "museum": "Freer",
+      "accession": "F1898.456",
+      "source": "https://asia-archive.si.edu/object/F1898.456/",
+      "period": "Edo period, possibly 19th century",
+      "museumDimensionsCm": {
+        "height": 18.2,
+        "diameter": 11.5
+      },
+      "gamePrimarySizeMetres": 0.4375,
+      "observed": "Two unequal gourds and constricted waist, silvery grey-blue fired glaze; narrow cylindrical neck.",
+      "referenceUnknown": [
+        "Interior and underside not photographed."
+      ],
+      "photoViewed": true,
+      "referencePhoto": "bizen.jpg",
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "备前烧风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "category": "收藏",
+      "placement": "both",
+      "replica": false
+    },
+    {
+      "id": "antique-karatsu-bowl",
+      "name": "唐津斑釉茶碗",
+      "museumTitle": "Teabowl",
+      "museum": "Met",
+      "accession": "93.1.124",
+      "source": "https://www.metmuseum.org/art/collection/search/62664",
+      "period": "18th century",
+      "museumDimensionsCm": {
+        "height": 7.1,
+        "diameter": 14
+      },
+      "gamePrimarySizeMetres": 0.5,
+      "observed": "Round dark bowl and low ring foot; black-and-white photograph gives contour and tonal glaze evidence.",
+      "referenceUnknown": [
+        "Colour is an explicitly inferred muted game palette; underside not shown."
+      ],
+      "photoViewed": true,
+      "referencePhoto": "met-62664-0.jpg",
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "唐津烧风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "category": "收藏",
+      "placement": "both",
+      "replica": false
+    },
+    {
+      "id": "antique-hagi-bowl",
+      "name": "萩烧茶碗",
+      "museumTitle": "chawan 茶碗 (tea bowl)",
+      "museum": "Spencer",
+      "accession": "1928.0433",
+      "source": "https://spencerart.ku.edu/art/collections-online/object/3454",
+      "period": "1800",
+      "museumDimensionsCm": {
+        "height": 7.9,
+        "diameter": 12.7
+      },
+      "gamePrimarySizeMetres": 0.5,
+      "observed": "Cream slip/glaze bowl with irregular lip, tall exposed-clay ring foot; cream interior visible.",
+      "referenceUnknown": [
+        "Fine crackle omitted at 16 px/m, underside cavity inferred."
+      ],
+      "photoViewed": true,
+      "referencePhoto": "hagi.jpg",
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "萩烧风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "category": "收藏",
+      "placement": "both",
+      "replica": false
+    },
+    {
+      "id": "antique-kiyomizu-incense",
+      "name": "清水烧白泥镶嵌香炉",
+      "museumTitle": "Incense Burner",
+      "museum": "Met",
+      "accession": "93.1.152",
+      "source": "https://www.metmuseum.org/art/collection/search/62680",
+      "period": "18th century",
+      "museumDimensionsCm": {
+        "height": 8.6,
+        "width": 9.7,
+        "depth": 7.6
+      },
+      "gamePrimarySizeMetres": 0.4375,
+      "observed": "Straight cylinder, two ears, tripod feet and pierced lid; incised white-slip inlay ornament.",
+      "referenceUnknown": [
+        "Black-and-white photograph: brown/cream palette inferred, lid underside/inner wall plain reconstruction."
+      ],
+      "photoViewed": true,
+      "referencePhoto": "met-62680-0.jpg",
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "京烧·清水烧风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "category": "收藏",
+      "placement": "both",
+      "replica": false
+    },
+    {
+      "id": "antique-kenzan-chestnut",
+      "name": "乾山款栗形香盒",
+      "museumTitle": "Incense box in the shape of a chestnut",
+      "museum": "Rijksmuseum",
+      "accession": "AK-MAK-708",
+      "source": "https://www.rijksmuseum.nl/en/collection/object/Incense-box-in-the-shape-of-a-chestnut--1a31a5d56370fa7aca450d87e9e76373",
+      "period": "c.1700–1799",
+      "museumDimensionsCm": {
+        "height": 3.2,
+        "diameter": 5.8,
+        "bodyHeight": 1.5,
+        "lidHeight": 2.1
+      },
+      "gamePrimarySizeMetres": 0.375,
+      "observed": "Museum text: chestnut shape, brown and cream glaze, inner Kenzan signature. Catalogue maker anonymous.",
+      "referenceUnknown": [
+        "Image host denies access; contour and colour distribution inferred from named form, no reproduced signature."
+      ],
+      "photoViewed": false,
+      "referencePhoto": null,
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "京烧·清水烧风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "category": "收藏",
+      "placement": "both",
+      "replica": false
+    },
+    {
+      "id": "antique-kakiemon-hex",
+      "name": "柿右卫门六角盖罐",
+      "museumTitle": "jar; lid",
+      "museum": "British Museum",
+      "accession": "Franks.478",
+      "source": "https://www.britishmuseum.org/collection/object/A_Franks-478",
+      "period": "1670–1690",
+      "museumDimensionsCm": {
+        "height": 31,
+        "diameter": 16
+      },
+      "gamePrimarySizeMetres": 0.4375,
+      "observed": "Museum text: hexagonal slab-built body, alternating floral sprays; shoulder/lid floral panels and coloured scroll ground.",
+      "referenceUnknown": [
+        "Image host denies access; profile, flower shapes and inner/underside plain reconstruction, not a facsimile."
+      ],
+      "photoViewed": false,
+      "referencePhoto": null,
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "有田烧风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "category": "收藏",
+      "placement": "both",
+      "replica": false
+    },
+    {
+      "id": "antique-tokoname-sutra",
+      "name": "常滑三筋文埋经壶",
+      "museumTitle": "Jar for Sutra Burial (Sankinko)",
+      "museum": "Met",
+      "accession": "2002.447.12",
+      "source": "https://www.metmuseum.org/art/collection/search/49267",
+      "period": "early 12th century",
+      "museumDimensionsCm": {
+        "height": 24.8,
+        "width": 19.1
+      },
+      "gamePrimarySizeMetres": 0.5625,
+      "observed": "Ovoid jar, broad cylindrical neck; three incised horizontal lines, directional pale blue-grey/olive ash drips.",
+      "referenceUnknown": [
+        "Deep interior and underside inferred; no buried sutra or archaeological residue invented."
+      ],
+      "photoViewed": true,
+      "referencePhoto": "met-49267-0.jpg",
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "常滑烧风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "category": "收藏",
+      "placement": "both",
+      "replica": false
+    },
+    {
+      "id": "antique-oribe-ewer",
+      "name": "织部水注",
+      "museumTitle": "水注 suichū (ewer)",
+      "museum": "Spencer",
+      "accession": "2012.0640.a,b",
+      "source": "https://spencerart.ku.edu/art/collections-online/object/44987",
+      "period": "late 1800s",
+      "museumDimensionsCm": {
+        "height": 25.5,
+        "width": 25.5,
+        "depth": 21
+      },
+      "gamePrimarySizeMetres": 0.625,
+      "observed": "Lidded kettle, arching ceramic bail, short open spout; cream body iron calligraphic motifs, green upper section; both exterior sides photographed.",
+      "referenceUnknown": [
+        "Interior and lid underside plain inferred; fine crazing omitted."
+      ],
+      "photoViewed": true,
+      "referencePhoto": "oribe-0.jpg",
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "美浓烧·织部风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "category": "收藏",
+      "placement": "both",
+      "replica": false
+    },
+    {
+      "id": "antique-banko-teapot",
+      "name": "万古彩绘茶壶",
+      "museumTitle": "Teapot",
+      "museum": "Met",
+      "accession": "91.1.204",
+      "source": "https://www.metmuseum.org/art/collection/search/56159",
+      "period": "early 19th century",
+      "museumDimensionsCm": {
+        "height": 6.8,
+        "width": 8.3,
+        "depth": 6.4
+      },
+      "gamePrimarySizeMetres": 0.4375,
+      "observed": "Tall small cylinder with open diagonal spout, side tube handle plus end loop; lid melon knob; flowers on front, impressed marks on back.",
+      "referenceUnknown": [
+        "Interior/lid underside inferred; seals are simplified non-legible impressions."
+      ],
+      "photoViewed": true,
+      "referencePhoto": "met-56159-0.jpg",
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": null,
+        "directArtifactReferenceReused": false,
+        "scope": "New specific museum reference."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "category": "收藏",
+      "placement": "both",
+      "replica": false
+    },
+    {
+      "id": "antique-iga-lobed",
+      "name": "伊贺耳付花生",
+      "museumTitle": "Lobed Vase",
+      "museum": "Suntory",
+      "accession": "240",
+      "source": "https://www.suntory.com/sma/collection/data/detail?id=240&lang=en",
+      "period": "early 17th century",
+      "museumDimensionsCm": {
+        "height": 28,
+        "mouthDiameter": [
+          12.3,
+          12.6
+        ],
+        "baseDiameter": 13
+      },
+      "gamePrimarySizeMetres": 0.6875,
+      "observed": "Museum text: four-direction lobed mouth, two neck lines, paired ears, spatula cuts, local green ash streak over fired brown body.",
+      "referenceUnknown": [
+        "Image host denies access; maximum body width unknown and adapted, inner/bottom plain reconstruction."
+      ],
+      "photoViewed": false,
+      "referencePhoto": null,
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "伊贺烧风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "category": "收藏",
+      "placement": "both",
+      "replica": false
+    },
+    {
+      "id": "antique-tamba-jar",
+      "name": "丹波自然灰釉壶",
+      "museumTitle": "Jar",
+      "museum": "Freer",
+      "accession": "F1898.81",
+      "source": "https://asia-archive.si.edu/object/F1898.81/",
+      "period": "17th–18th century",
+      "museumDimensionsCm": {
+        "height": 23.7,
+        "diameter": 23.3
+      },
+      "gamePrimarySizeMetres": 0.5625,
+      "observed": "Broad ovoid yellow-grey/olive ash jar; short mouth with two small gold-lacquer rim repairs visible.",
+      "referenceUnknown": [
+        "Back and bottom not shown; no further invented gold repairs."
+      ],
+      "photoViewed": true,
+      "referencePhoto": "tamba.jpg",
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "丹波立杭烧风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "category": "收藏",
+      "placement": "both",
+      "replica": false
+    },
+    {
+      "id": "antique-echizen-jar",
+      "name": "越前壶",
+      "museumTitle": "壺　越前",
+      "museum": "Aichi Prefectural Ceramic Museum",
+      "accession": "A000001",
+      "source": "https://jmapps.ne.jp/aitou/det.html?data_id=538",
+      "period": "Kamakura period, 13th century",
+      "museumDimensionsCm": {
+        "height": 26.7,
+        "mouthDiameter": 13,
+        "bodyDiameter": 16.7,
+        "baseDiameter": 9.3
+      },
+      "gamePrimarySizeMetres": 0.4375,
+      "observed": "N-section folded lip, short neck, tall coiled body; white-yellow ash localized over reddish-brown shoulders; original front image viewed.",
+      "referenceUnknown": [
+        "Interior/bottom and unseen back inferred."
+      ],
+      "photoViewed": true,
+      "referencePhoto": "echizen.jpg",
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "越前烧风格盆",
+        "directArtifactReferenceReused": true,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "category": "收藏",
+      "placement": "both",
+      "replica": false
+    },
+    {
+      "id": "antique-seto-hitorine",
+      "name": "濑户茶入“独寝”",
+      "museumTitle": "Seto ware tea caddy “Hitorine,” named by Kobori Enshû (1579–1647)",
+      "museum": "UMMA",
+      "accession": "1954/1.532A&B",
+      "source": "https://umma.umich.edu/objects/seto-ware-tea-caddy-hitorine-named-by-kobori-enshu-1579-1647-1954-1-532ab/",
+      "period": "c.1600–1647",
+      "museumDimensionsCm": {
+        "height": 7.6,
+        "width": 6,
+        "depth": 6
+      },
+      "gamePrimarySizeMetres": 0.3125,
+      "observed": "Museum text: short-neck small caddy, brown glaze stopping above exposed lower clay, flat base with no foot; ivory lid concave around centre knob.",
+      "referenceUnknown": [
+        "Image host denies access; wall thickness/interior, exact glaze boundary inferred; storage bag excluded."
+      ],
+      "photoViewed": false,
+      "referencePhoto": null,
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "濑户染付风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "category": "收藏",
+      "placement": "both",
+      "replica": false
+    },
+    {
+      "id": "antique-tsuboya-dragon",
+      "name": "壶屋双龙追珠筒瓶",
+      "museumTitle": "Vase with design of dragons chasing flaming jewel",
+      "museum": "Freer",
+      "accession": "F1899.8a-b",
+      "source": "https://asia-archive.si.edu/object/F1899.8a-b/",
+      "period": "19th century",
+      "museumDimensionsCm": {
+        "height": 27,
+        "diameter": 13.9
+      },
+      "gamePrimarySizeMetres": 0.375,
+      "observed": "Tall cylindrical vase, warm white slip with slightly yellow clear glaze; incised dragon, flaming jewel and cloud composition; open glazed interior visible.",
+      "referenceUnknown": [
+        "Dragon details become original coarse line glyphs; back/bottom unseen plain."
+      ],
+      "photoViewed": true,
+      "referencePhoto": "tsuboya.jpg",
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "壶屋烧风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "category": "收藏",
+      "placement": "both",
+      "replica": false
+    },
+    {
+      "id": "antique-arita-coffee",
+      "name": "有田青花银饰咖啡壶",
+      "museumTitle": "Coffee Pot",
+      "museum": "Met",
+      "accession": "79.2.176a,b",
+      "source": "https://www.metmuseum.org/art/collection/search/62526",
+      "period": "1650–75",
+      "museumDimensionsCm": {
+        "height": 31.4,
+        "width": 27,
+        "depth": 15.2
+      },
+      "gamePrimarySizeMetres": 0.625,
+      "observed": "Tall tapered porcelain cylinder with three feet, loop handle and real low silver tap; domed lid, knob/rim and chain; blue bird/floral compositions on two sides.",
+      "referenceUnknown": [
+        "Interior and lid underside inferred, detailed silver relief and chain simplified structurally."
+      ],
+      "photoViewed": true,
+      "referencePhoto": "met-62526-0.jpg",
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "有田烧风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "category": "收藏",
+      "placement": "both",
+      "replica": false
+    }
+  ]
+}

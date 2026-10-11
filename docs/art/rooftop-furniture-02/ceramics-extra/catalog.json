@@ -1,0 +1,3281 @@
+{
+  "texelsPerMetre": 16.0,
+  "items": [
+    {
+      "id": "antique-shigaraki-jar",
+      "name": "信乐大壶",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "sources": [
+        {
+          "label": "Met · 1975.268.428",
+          "url": "https://www.metmuseum.org/art/collection/search/44637"
+        }
+      ],
+      "museumTitle": "Large Storage Jar (Ōtsubo)",
+      "museumDimensionsCm": {
+        "height": 46.7,
+        "diameter": 39.4
+      },
+      "period": "late 15th century",
+      "referenceUnknown": [
+        "Bottom and deep inner wall not photographed."
+      ],
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "信乐烧风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "geometryRebuilt": true,
+      "replica": false,
+      "removableParts": [],
+      "note": "馆藏名目、器形与可见纹饰的原创低多边形转译；未见内外面为朴素推定。",
+      "wallThickness": 0.027,
+      "interiorFloorHeight": 0.040000000310403634,
+      "rimHeight": 0.7407994981344581,
+      "hasRealInterior": true,
+      "hasRealUnderside": true,
+      "empty": true,
+      "opening": {
+        "width": 0.20849999999999996,
+        "depth": 0.20849999999999996,
+        "shape": "circle"
+      },
+      "gameScaleFactor": 1.5862944162436547,
+      "wallThicknessRange": [
+        0.026999999999999993,
+        0.02700000020952245
+      ],
+      "geometryCalibration": {
+        "publishedOverallBounds": [
+          0.6249999999999999,
+          0.6249999999999999,
+          0.7407994923857868
+        ],
+        "axisFactors": [
+          0.9999999999999998,
+          0.9999999999999998,
+          1.0000000077600908
+        ],
+        "unknownInteriorProfileIsAdaptation": true
+      },
+      "width": 0.625,
+      "depth": 0.625,
+      "height": 0.7407994866371155,
+      "boundsMin": [
+        -0.3105528950691223,
+        -0.3171052932739258,
+        0.0
+      ],
+      "boundsMax": [
+        0.3144471049308777,
+        0.3078947067260742,
+        0.7407994866371155
+      ],
+      "file": "assets/antique-shigaraki-jar.glb",
+      "family": "ceramics-extra",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "器物内底",
+          "height": 0.040000000310403634,
+          "width": 0.23759476240499994,
+          "depth": 0.23759476240499994,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "circle",
+          "container": true,
+          "headroom": 0.7007994978240545,
+          "rimHeight": 0.7407994981344581,
+          "openingWidth": 0.20849999999999996,
+          "floorShape": "circle",
+          "actualFloorWidth": 0.289749995,
+          "actualFloorDepth": 0.289749994,
+          "actualFloorContour": [
+            [
+              -0.13563697,
+              -0.044071123
+            ],
+            [
+              -0.115789279,
+              -0.084125832
+            ],
+            [
+              -0.0852722,
+              -0.117367119
+            ],
+            [
+              -0.045382302,
+              -0.139672354
+            ],
+            [
+              -0.0,
+              -0.147010013
+            ],
+            [
+              0.044930965,
+              -0.138283297
+            ],
+            [
+              0.084262982,
+              -0.115978047
+            ],
+            [
+              0.115337938,
+              -0.083797917
+            ],
+            [
+              0.136646196,
+              -0.044399038
+            ],
+            [
+              0.145777673,
+              0.0
+            ],
+            [
+              0.139931649,
+              0.04546655
+            ],
+            [
+              0.118623398,
+              0.086184941
+            ],
+            [
+              0.085038573,
+              0.117045559
+            ],
+            [
+              0.044155374,
+              0.135896266
+            ],
+            [
+              0.0,
+              0.142739981
+            ],
+            [
+              -0.044606708,
+              0.137285337
+            ],
+            [
+              -0.086047791,
+              0.118434623
+            ],
+            [
+              -0.119074732,
+              0.086512856
+            ],
+            [
+              -0.138922438,
+              0.045138635
+            ],
+            [
+              -0.143972322,
+              0.0
+            ]
+          ],
+          "nominalFloorSpan": {
+            "width": 0.23759499999999995,
+            "depth": 0.23759499999999995
+          },
+          "conservativeFit": {
+            "method": "ellipse contained by every physical lowpoly floor edge",
+            "scaleFactor": 0.999999,
+            "preservesAxisRatio": true,
+            "polygonSides": 20
+          }
+        }
+      ],
+      "footprint": {
+        "width": 0.625,
+        "depth": 0.625
+      },
+      "triangles": 880,
+      "sourceBlend": "ceramics-extra/ceramics-extra.blend",
+      "sourcePixelorama": "ceramics-extra/ceramics-extra-atlas.pxo"
+    },
+    {
+      "id": "antique-bizen-gourd",
+      "name": "青备前双葫芦瓶",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "sources": [
+        {
+          "label": "Freer · F1898.456",
+          "url": "https://asia-archive.si.edu/object/F1898.456/"
+        }
+      ],
+      "museumTitle": "Bizen ware bottle, Ao Bizen type",
+      "museumDimensionsCm": {
+        "height": 18.2,
+        "diameter": 11.5
+      },
+      "period": "Edo period, possibly 19th century",
+      "referenceUnknown": [
+        "Interior and underside not photographed."
+      ],
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "备前烧风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "geometryRebuilt": true,
+      "replica": false,
+      "removableParts": [],
+      "note": "馆藏名目、器形与可见纹饰的原创低多边形转译；未见内外面为朴素推定。",
+      "wallThickness": 0.017,
+      "interiorFloorHeight": 0.03000000121267853,
+      "rimHeight": 0.6923913323360951,
+      "hasRealInterior": true,
+      "hasRealUnderside": true,
+      "empty": true,
+      "opening": {
+        "width": 0.031625,
+        "depth": 0.031625,
+        "shape": "circle"
+      },
+      "gameScaleFactor": 3.8043478260869565,
+      "wallThicknessRange": [
+        0.017,
+        0.0170000006871845
+      ],
+      "geometryCalibration": {
+        "publishedOverallBounds": [
+          0.4375,
+          0.4375,
+          0.692391304347826
+        ],
+        "axisFactors": [
+          1.0,
+          1.0,
+          1.0000000404226177
+        ],
+        "unknownInteriorProfileIsAdaptation": true
+      },
+      "width": 0.4375,
+      "depth": 0.4375,
+      "height": 0.6923912763595581,
+      "boundsMin": [
+        -0.21875,
+        -0.21875,
+        0.0
+      ],
+      "boundsMax": [
+        0.21875,
+        0.21875,
+        0.6923912763595581
+      ],
+      "file": "assets/antique-bizen-gourd.glb",
+      "family": "ceramics-extra",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "器物内底",
+          "height": 0.03000000121267853,
+          "width": 0.1837823162175,
+          "depth": 0.1837823162175,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "circle",
+          "container": true,
+          "headroom": 0.6623913311234164,
+          "rimHeight": 0.6923913323360951,
+          "openingWidth": 0.031625,
+          "floorShape": "circle",
+          "actualFloorWidth": 0.224124998,
+          "actualFloorDepth": 0.224124998,
+          "actualFloorContour": [
+            [
+              -0.106577769,
+              -0.034629218
+            ],
+            [
+              -0.090660468,
+              -0.065868683
+            ],
+            [
+              -0.065868683,
+              -0.090660468
+            ],
+            [
+              -0.034629218,
+              -0.106577769
+            ],
+            [
+              -0.0,
+              -0.112062499
+            ],
+            [
+              0.034629218,
+              -0.106577769
+            ],
+            [
+              0.065868683,
+              -0.090660468
+            ],
+            [
+              0.090660468,
+              -0.065868683
+            ],
+            [
+              0.106577769,
+              -0.034629218
+            ],
+            [
+              0.112062499,
+              0.0
+            ],
+            [
+              0.106577769,
+              0.034629218
+            ],
+            [
+              0.090660468,
+              0.065868683
+            ],
+            [
+              0.065868683,
+              0.090660468
+            ],
+            [
+              0.034629218,
+              0.106577769
+            ],
+            [
+              0.0,
+              0.112062499
+            ],
+            [
+              -0.034629218,
+              0.106577769
+            ],
+            [
+              -0.065868683,
+              0.090660468
+            ],
+            [
+              -0.090660468,
+              0.065868683
+            ],
+            [
+              -0.106577769,
+              0.034629218
+            ],
+            [
+              -0.112062499,
+              0.0
+            ]
+          ],
+          "nominalFloorSpan": {
+            "width": 0.1837825,
+            "depth": 0.1837825
+          },
+          "conservativeFit": {
+            "method": "ellipse contained by every physical lowpoly floor edge",
+            "scaleFactor": 0.999999,
+            "preservesAxisRatio": true,
+            "polygonSides": 20
+          }
+        }
+      ],
+      "footprint": {
+        "width": 0.4375,
+        "depth": 0.4375
+      },
+      "triangles": 1200,
+      "sourceBlend": "ceramics-extra/ceramics-extra.blend",
+      "sourcePixelorama": "ceramics-extra/ceramics-extra-atlas.pxo"
+    },
+    {
+      "id": "antique-karatsu-bowl",
+      "name": "唐津斑釉茶碗",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "sources": [
+        {
+          "label": "Met · 93.1.124",
+          "url": "https://www.metmuseum.org/art/collection/search/62664"
+        }
+      ],
+      "museumTitle": "Teabowl",
+      "museumDimensionsCm": {
+        "height": 7.1,
+        "diameter": 14
+      },
+      "period": "18th century",
+      "referenceUnknown": [
+        "Colour is an explicitly inferred muted game palette; underside not shown."
+      ],
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "唐津烧风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "geometryRebuilt": true,
+      "replica": false,
+      "removableParts": [],
+      "note": "馆藏名目、器形与可见纹饰的原创低多边形转译；未见内外面为朴素推定。",
+      "wallThickness": 0.02,
+      "interiorFloorHeight": 0.05200000157154785,
+      "rimHeight": 0.253571436234883,
+      "hasRealInterior": true,
+      "hasRealUnderside": true,
+      "empty": true,
+      "opening": {
+        "width": 0.46,
+        "depth": 0.45999998629093214,
+        "shape": "circle"
+      },
+      "gameScaleFactor": 3.571428571428571,
+      "wallThicknessRange": [
+        0.01999999940395357,
+        0.02000000060444148
+      ],
+      "geometryCalibration": {
+        "publishedOverallBounds": [
+          0.5,
+          0.5,
+          0.2535714285714285
+        ],
+        "axisFactors": [
+          1.0,
+          0.9999999701976785,
+          1.000000030222074
+        ],
+        "unknownInteriorProfileIsAdaptation": true
+      },
+      "width": 0.5,
+      "depth": 0.5000000149011612,
+      "height": 0.25357142090797424,
+      "boundsMin": [
+        -0.25,
+        -0.2540000081062317,
+        0.0
+      ],
+      "boundsMax": [
+        0.25,
+        0.2460000067949295,
+        0.25357142090797424
+      ],
+      "file": "assets/antique-karatsu-bowl.glb",
+      "family": "ceramics-extra",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "器物内底",
+          "height": 0.05200000157154785,
+          "width": 0.1516998483,
+          "depth": 0.15169984377899234,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "circle",
+          "container": true,
+          "headroom": 0.20157143466333513,
+          "rimHeight": 0.253571436234883,
+          "openingWidth": 0.46,
+          "floorShape": "circle",
+          "actualFloorWidth": 0.185000002,
+          "actualFloorDepth": 0.185000002,
+          "actualFloorContour": [
+            [
+              -0.086833984,
+              -0.028214073
+            ],
+            [
+              -0.073695332,
+              -0.053542789
+            ],
+            [
+              -0.054101314,
+              -0.074464075
+            ],
+            [
+              -0.028852893,
+              -0.088800073
+            ],
+            [
+              -0.0,
+              -0.093979999
+            ],
+            [
+              0.028852893,
+              -0.088800073
+            ],
+            [
+              0.054101314,
+              -0.074464075
+            ],
+            [
+              0.073695332,
+              -0.053542789
+            ],
+            [
+              0.086833984,
+              -0.028214073
+            ],
+            [
+              0.092500001,
+              0.0
+            ],
+            [
+              0.08911147,
+              0.028954072
+            ],
+            [
+              0.075972818,
+              0.055197481
+            ],
+            [
+              0.054638956,
+              0.075204074
+            ],
+            [
+              0.028315252,
+              0.087145381
+            ],
+            [
+              0.0,
+              0.091020003
+            ],
+            [
+              -0.028315252,
+              0.087145381
+            ],
+            [
+              -0.054638956,
+              0.075204074
+            ],
+            [
+              -0.075972818,
+              0.055197481
+            ],
+            [
+              -0.08911147,
+              0.028954072
+            ],
+            [
+              -0.092500001,
+              0.0
+            ]
+          ],
+          "nominalFloorSpan": {
+            "width": 0.1517,
+            "depth": 0.15169999547898783
+          },
+          "conservativeFit": {
+            "method": "ellipse contained by every physical lowpoly floor edge",
+            "scaleFactor": 0.999999,
+            "preservesAxisRatio": true,
+            "polygonSides": 20
+          }
+        }
+      ],
+      "footprint": {
+        "width": 0.5,
+        "depth": 0.5000000149011612
+      },
+      "triangles": 600,
+      "sourceBlend": "ceramics-extra/ceramics-extra.blend",
+      "sourcePixelorama": "ceramics-extra/ceramics-extra-atlas.pxo"
+    },
+    {
+      "id": "antique-hagi-bowl",
+      "name": "萩烧茶碗",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "sources": [
+        {
+          "label": "Spencer · 1928.0433",
+          "url": "https://spencerart.ku.edu/art/collections-online/object/3454"
+        }
+      ],
+      "museumTitle": "chawan 茶碗 (tea bowl)",
+      "museumDimensionsCm": {
+        "height": 7.9,
+        "diameter": 12.7
+      },
+      "period": "1800",
+      "referenceUnknown": [
+        "Fine crackle omitted at 16 px/m, underside cavity inferred."
+      ],
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "萩烧风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "geometryRebuilt": true,
+      "replica": false,
+      "removableParts": [],
+      "note": "馆藏名目、器形与可见纹饰的原创低多边形转译；未见内外面为朴素推定。",
+      "wallThickness": 0.022,
+      "interiorFloorHeight": 0.0799999998189226,
+      "rimHeight": 0.31102362134325223,
+      "hasRealInterior": true,
+      "hasRealUnderside": true,
+      "empty": true,
+      "opening": {
+        "width": 0.4560000135898594,
+        "depth": 0.456,
+        "shape": "circle"
+      },
+      "gameScaleFactor": 3.937007874015748,
+      "wallThicknessRange": [
+        0.021999999950203714,
+        0.022000000655651112
+      ],
+      "geometryCalibration": {
+        "publishedOverallBounds": [
+          0.5,
+          0.5,
+          0.3110236220472441
+        ],
+        "axisFactors": [
+          1.0000000298023233,
+          1.0,
+          0.9999999977365325
+        ],
+        "unknownInteriorProfileIsAdaptation": true
+      },
+      "width": 0.4999999850988388,
+      "depth": 0.5,
+      "height": 0.31102362275123596,
+      "boundsMin": [
+        -0.2460833638906479,
+        -0.24689194560050964,
+        0.0
+      ],
+      "boundsMax": [
+        0.2539166212081909,
+        0.25310805439949036,
+        0.31102362275123596
+      ],
+      "file": "assets/antique-hagi-bowl.glb",
+      "family": "ceramics-extra",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "器物内底",
+          "height": 0.0799999998189226,
+          "width": 0.1607198440698246,
+          "depth": 0.16071983928,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "circle",
+          "container": true,
+          "headroom": 0.23102362152432965,
+          "rimHeight": 0.31102362134325223,
+          "openingWidth": 0.4560000135898594,
+          "floorShape": "circle",
+          "actualFloorWidth": 0.19600000299999998,
+          "actualFloorDepth": 0.19599999499999998,
+          "actualFloorContour": [
+            [
+              -0.092044815,
+              -0.029907173
+            ],
+            [
+              -0.080525763,
+              -0.058505394
+            ],
+            [
+              -0.058319084,
+              -0.080269337
+            ],
+            [
+              -0.029809225,
+              -0.091743365
+            ],
+            [
+              -0.0,
+              -0.096781641
+            ],
+            [
+              0.030758105,
+              -0.094663717
+            ],
+            [
+              0.058319084,
+              -0.080269337
+            ],
+            [
+              0.078041568,
+              -0.056700516
+            ],
+            [
+              0.092044815,
+              -0.029907173
+            ],
+            [
+              0.099535324,
+              0.0
+            ],
+            [
+              0.094362266,
+              0.030660158
+            ],
+            [
+              0.078041568,
+              0.056700516
+            ],
+            [
+              0.056886822,
+              0.078297995
+            ],
+            [
+              0.030758105,
+              0.094663717
+            ],
+            [
+              0.0,
+              0.099218354
+            ],
+            [
+              -0.029809225,
+              0.091743365
+            ],
+            [
+              -0.056886822,
+              0.078297995
+            ],
+            [
+              -0.080525763,
+              0.058505394
+            ],
+            [
+              -0.094362266,
+              0.030660158
+            ],
+            [
+              -0.096464679,
+              0.0
+            ]
+          ],
+          "nominalFloorSpan": {
+            "width": 0.1607200047898294,
+            "depth": 0.16072
+          },
+          "conservativeFit": {
+            "method": "ellipse contained by every physical lowpoly floor edge",
+            "scaleFactor": 0.999999,
+            "preservesAxisRatio": true,
+            "polygonSides": 20
+          }
+        }
+      ],
+      "footprint": {
+        "width": 0.4999999850988388,
+        "depth": 0.5
+      },
+      "triangles": 600,
+      "sourceBlend": "ceramics-extra/ceramics-extra.blend",
+      "sourcePixelorama": "ceramics-extra/ceramics-extra-atlas.pxo"
+    },
+    {
+      "id": "antique-kiyomizu-incense",
+      "name": "清水烧白泥镶嵌香炉",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "sources": [
+        {
+          "label": "Met · 93.1.152",
+          "url": "https://www.metmuseum.org/art/collection/search/62680"
+        }
+      ],
+      "museumTitle": "Incense Burner",
+      "museumDimensionsCm": {
+        "height": 8.6,
+        "width": 9.7,
+        "depth": 7.6
+      },
+      "period": "18th century",
+      "referenceUnknown": [
+        "Black-and-white photograph: brown/cream palette inferred, lid underside/inner wall plain reconstruction."
+      ],
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "京烧·清水烧风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "geometryRebuilt": true,
+      "replica": false,
+      "removableParts": [
+        "antique-kiyomizu-incense/lid-0",
+        "antique-kiyomizu-incense/lid-1",
+        "antique-kiyomizu-incense/lid-2",
+        "antique-kiyomizu-incense/lid-3",
+        "antique-kiyomizu-incense/lid-4",
+        "antique-kiyomizu-incense/lid-5"
+      ],
+      "note": "馆藏名目、器形与可见纹饰的原创低多边形转译；未见内外面为朴素推定。",
+      "wallThickness": 0.02,
+      "interiorFloorHeight": 0.06779654905890047,
+      "rimHeight": 0.3196142228532105,
+      "hasRealInterior": true,
+      "hasRealUnderside": true,
+      "empty": true,
+      "opening": {
+        "width": 0.2606260006065952,
+        "depth": 0.2746686397884861,
+        "shape": "ellipse"
+      },
+      "lidUndersideComplete": true,
+      "gameScaleFactor": 4.510309278350515,
+      "smokeHoles": 4,
+      "wallThicknessRange": [
+        0.0186970302737097,
+        0.020860476633507836
+      ],
+      "geometryCalibration": {
+        "publishedOverallBounds": [
+          0.43749999999999994,
+          0.3427835051546392,
+          0.3878865979381443
+        ],
+        "axisFactors": [
+          0.934851513685485,
+          0.9852217087726043,
+          1.0430238316753917
+        ],
+        "unknownInteriorProfileIsAdaptation": true
+      },
+      "width": 0.4375,
+      "depth": 0.34278351068496704,
+      "height": 0.38788658380508423,
+      "boundsMin": [
+        -0.21875,
+        -0.17139175534248352,
+        0.0
+      ],
+      "boundsMax": [
+        0.21875,
+        0.17139175534248352,
+        0.38788658380508423
+      ],
+      "file": "assets/antique-kiyomizu-incense.glb",
+      "family": "ceramics-extra",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "器物内底",
+          "height": 0.06779654905890047,
+          "width": 0.19531919882291662,
+          "depth": 0.2058430798938094,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "ellipse",
+          "container": true,
+          "headroom": 0.2518176737943101,
+          "rimHeight": 0.3196142228532105,
+          "openingWidth": 0.2606260006065952,
+          "floorShape": "ellipse",
+          "actualFloorWidth": 0.238194392,
+          "actualFloorDepth": 0.251028418,
+          "actualFloorContour": [
+            [
+              -0.113268167,
+              -0.03878602
+            ],
+            [
+              -0.096351653,
+              -0.073775396
+            ],
+            [
+              -0.070003569,
+              -0.101543121
+            ],
+            [
+              -0.036803056,
+              -0.119371101
+            ],
+            [
+              -0.0,
+              -0.125514209
+            ],
+            [
+              0.036803056,
+              -0.119371101
+            ],
+            [
+              0.070003569,
+              -0.101543121
+            ],
+            [
+              0.096351653,
+              -0.073775396
+            ],
+            [
+              0.113268167,
+              -0.03878602
+            ],
+            [
+              0.119097196,
+              0.0
+            ],
+            [
+              0.113268167,
+              0.03878602
+            ],
+            [
+              0.096351653,
+              0.073775396
+            ],
+            [
+              0.070003569,
+              0.101543121
+            ],
+            [
+              0.036803056,
+              0.119371101
+            ],
+            [
+              0.0,
+              0.125514209
+            ],
+            [
+              -0.036803056,
+              0.119371101
+            ],
+            [
+              -0.070003569,
+              0.101543121
+            ],
+            [
+              -0.096351653,
+              0.073775396
+            ],
+            [
+              -0.113268167,
+              0.03878602
+            ],
+            [
+              -0.119097196,
+              0.0
+            ]
+          ],
+          "nominalFloorSpan": {
+            "width": 0.19531939414231078,
+            "depth": 0.20584328573709515
+          },
+          "conservativeFit": {
+            "method": "ellipse contained by every physical lowpoly floor edge",
+            "scaleFactor": 0.999999,
+            "preservesAxisRatio": true,
+            "polygonSides": 20
+          }
+        }
+      ],
+      "footprint": {
+        "width": 0.4375,
+        "depth": 0.34278351068496704
+      },
+      "triangles": 1290,
+      "sourceBlend": "ceramics-extra/ceramics-extra.blend",
+      "sourcePixelorama": "ceramics-extra/ceramics-extra-atlas.pxo"
+    },
+    {
+      "id": "antique-kenzan-chestnut",
+      "name": "乾山款栗形香盒",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "sources": [
+        {
+          "label": "Rijksmuseum · AK-MAK-708",
+          "url": "https://www.rijksmuseum.nl/en/collection/object/Incense-box-in-the-shape-of-a-chestnut--1a31a5d56370fa7aca450d87e9e76373"
+        }
+      ],
+      "museumTitle": "Incense box in the shape of a chestnut",
+      "museumDimensionsCm": {
+        "height": 3.2,
+        "diameter": 5.8,
+        "bodyHeight": 1.5,
+        "lidHeight": 2.1
+      },
+      "period": "c.1700–1799",
+      "referenceUnknown": [
+        "Image host denies access; contour and colour distribution inferred from named form, no reproduced signature."
+      ],
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "京烧·清水烧风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "geometryRebuilt": true,
+      "replica": false,
+      "removableParts": [
+        "antique-kenzan-chestnut/lid-0",
+        "antique-kenzan-chestnut/lid-1",
+        "antique-kenzan-chestnut/lid-2",
+        "antique-kenzan-chestnut/lid-3",
+        "antique-kenzan-chestnut/lid-4",
+        "antique-kenzan-chestnut/lid-5"
+      ],
+      "note": "馆藏名目、器形与可见纹饰的原创低多边形转译；未见内外面为朴素推定。",
+      "wallThickness": 0.017,
+      "interiorFloorHeight": 0.023235345974157245,
+      "rimHeight": 0.10242854318545024,
+      "hasRealInterior": true,
+      "hasRealUnderside": true,
+      "empty": true,
+      "opening": {
+        "width": 0.3863636326417668,
+        "depth": 0.35093582052495775,
+        "shape": "organic"
+      },
+      "lidUndersideComplete": true,
+      "gameScaleFactor": 6.46551724137931,
+      "profileInferred": true,
+      "wallThicknessRange": [
+        0.017954585525485147,
+        0.0206060604075609
+      ],
+      "geometryCalibration": {
+        "publishedOverallBounds": [
+          0.37499999999999994,
+          0.37499999999999994,
+          0.2068965517241379
+        ],
+        "axisFactors": [
+          1.2121212004447588,
+          1.0695186911236807,
+          1.0561520897344203
+        ],
+        "unknownInteriorProfileIsAdaptation": true
+      },
+      "width": 0.375,
+      "depth": 0.375,
+      "height": 0.2068965584039688,
+      "boundsMin": [
+        -0.16022726893424988,
+        -0.1875,
+        0.0
+      ],
+      "boundsMax": [
+        0.21477273106575012,
+        0.1875,
+        0.2068965584039688
+      ],
+      "file": "assets/antique-kenzan-chestnut.glb",
+      "family": "ceramics-extra",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "器物内底",
+          "height": 0.023235345974157245,
+          "width": 0.14028135734736807,
+          "depth": 0.12377766649420804,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "ellipse",
+          "container": true,
+          "headroom": 0.07919319721129299,
+          "rimHeight": 0.10242854318545024,
+          "openingWidth": 0.3860606023416557,
+          "floorShape": "organic polygon",
+          "actualFloorWidth": 0.16474999499999998,
+          "actualFloorDepth": 0.164749994,
+          "actualFloorContour": [
+            [
+              -0.068503104,
+              -0.019639419
+            ],
+            [
+              -0.061870504,
+              -0.039663136
+            ],
+            [
+              -0.048504598,
+              -0.058906633
+            ],
+            [
+              -0.027381048,
+              -0.074356057
+            ],
+            [
+              -0.0,
+              -0.082374997
+            ],
+            [
+              0.029669372,
+              -0.080570236
+            ],
+            [
+              0.056783829,
+              -0.068961382
+            ],
+            [
+              0.077554911,
+              -0.049717888
+            ],
+            [
+              0.090178423,
+              -0.025853598
+            ],
+            [
+              0.094356813,
+              0.0
+            ],
+            [
+              0.090178423,
+              0.025853598
+            ],
+            [
+              0.077554911,
+              0.049717888
+            ],
+            [
+              0.056783829,
+              0.068961382
+            ],
+            [
+              0.029669372,
+              0.080570236
+            ],
+            [
+              0.0,
+              0.082374997
+            ],
+            [
+              -0.027381048,
+              0.074356057
+            ],
+            [
+              -0.048504598,
+              0.058906633
+            ],
+            [
+              -0.061870504,
+              0.039663136
+            ],
+            [
+              -0.068503104,
+              0.019639419
+            ],
+            [
+              -0.070393182,
+              0.0
+            ]
+          ],
+          "nominalFloorSpan": {
+            "width": 0.16375151357408468,
+            "depth": 0.14448662757735364
+          },
+          "conservativeFit": {
+            "method": "ellipse contained by every physical lowpoly floor edge",
+            "scaleFactor": 0.8566721264771809,
+            "preservesAxisRatio": true,
+            "polygonSides": 20
+          }
+        }
+      ],
+      "footprint": {
+        "width": 0.375,
+        "depth": 0.375
+      },
+      "triangles": 520,
+      "sourceBlend": "ceramics-extra/ceramics-extra.blend",
+      "sourcePixelorama": "ceramics-extra/ceramics-extra-atlas.pxo"
+    },
+    {
+      "id": "antique-kakiemon-hex",
+      "name": "柿右卫门六角盖罐",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "sources": [
+        {
+          "label": "British Museum · Franks.478",
+          "url": "https://www.britishmuseum.org/collection/object/A_Franks-478"
+        }
+      ],
+      "museumTitle": "jar; lid",
+      "museumDimensionsCm": {
+        "height": 31,
+        "diameter": 16
+      },
+      "period": "1670–1690",
+      "referenceUnknown": [
+        "Image host denies access; profile, flower shapes and inner/underside plain reconstruction, not a facsimile."
+      ],
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "有田烧风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "geometryRebuilt": true,
+      "replica": false,
+      "removableParts": [
+        "antique-kakiemon-hex/lid-0",
+        "antique-kakiemon-hex/lid-1",
+        "antique-kakiemon-hex/lid-2",
+        "antique-kakiemon-hex/lid-3",
+        "antique-kakiemon-hex/lid-4",
+        "antique-kakiemon-hex/lid-5",
+        "antique-kakiemon-hex/lid-knob-stem",
+        "antique-kakiemon-hex/lid-knob"
+      ],
+      "note": "馆藏名目、器形与可见纹饰的原创低多边形转译；未见内外面为朴素推定。",
+      "wallThickness": 0.019,
+      "interiorFloorHeight": 0.04708093047966672,
+      "rimHeight": 0.6583091104319401,
+      "hasRealInterior": true,
+      "hasRealUnderside": true,
+      "empty": true,
+      "opening": {
+        "width": 0.172,
+        "depth": 0.19860849811866432,
+        "shape": "hexagon"
+      },
+      "lidUndersideComplete": true,
+      "gameScaleFactor": 2.734375,
+      "profileInferred": true,
+      "wallThicknessRange": [
+        0.017890753582273353,
+        0.021939310838689663
+      ],
+      "geometryCalibration": {
+        "publishedOverallBounds": [
+          0.4375,
+          0.4375,
+          0.84765625
+        ],
+        "axisFactors": [
+          1.0,
+          1.1547005704573508,
+          0.9416186095933344
+        ],
+        "unknownInteriorProfileIsAdaptation": true
+      },
+      "width": 0.4375,
+      "depth": 0.4375,
+      "height": 0.84765625,
+      "boundsMin": [
+        -0.21875,
+        -0.21875,
+        0.0
+      ],
+      "boundsMax": [
+        0.21875,
+        0.21875,
+        0.84765625
+      ],
+      "file": "assets/antique-kakiemon-hex.glb",
+      "family": "ceramics-extra",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "器物内底",
+          "height": 0.04708093047966672,
+          "width": 0.21996478003499995,
+          "depth": 0.2539934569869401,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "ellipse",
+          "container": true,
+          "headroom": 0.6112281799522733,
+          "rimHeight": 0.6583091104319401,
+          "openingWidth": 0.172,
+          "floorShape": "hexagon",
+          "actualFloorWidth": 0.268249988,
+          "actualFloorDepth": 0.268249988,
+          "actualFloorContour": [
+            [
+              -0.067062497,
+              -0.134124994
+            ],
+            [
+              0.067062497,
+              -0.134124994
+            ],
+            [
+              0.134124994,
+              0.0
+            ],
+            [
+              0.067062497,
+              0.134124994
+            ],
+            [
+              -0.067062497,
+              0.134124994
+            ],
+            [
+              -0.134124994,
+              0.0
+            ]
+          ],
+          "nominalFloorSpan": {
+            "width": 0.21996499999999997,
+            "depth": 0.2539937109806511
+          },
+          "conservativeFit": {
+            "method": "ellipse contained by every physical lowpoly floor edge",
+            "scaleFactor": 0.999999,
+            "preservesAxisRatio": true,
+            "polygonSides": 6
+          }
+        }
+      ],
+      "footprint": {
+        "width": 0.4375,
+        "depth": 0.4375
+      },
+      "triangles": 376,
+      "sourceBlend": "ceramics-extra/ceramics-extra.blend",
+      "sourcePixelorama": "ceramics-extra/ceramics-extra-atlas.pxo"
+    },
+    {
+      "id": "antique-tokoname-sutra",
+      "name": "常滑三筋文埋经壶",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "sources": [
+        {
+          "label": "Met · 2002.447.12",
+          "url": "https://www.metmuseum.org/art/collection/search/49267"
+        }
+      ],
+      "museumTitle": "Jar for Sutra Burial (Sankinko)",
+      "museumDimensionsCm": {
+        "height": 24.8,
+        "width": 19.1
+      },
+      "period": "early 12th century",
+      "referenceUnknown": [
+        "Deep interior and underside inferred; no buried sutra or archaeological residue invented."
+      ],
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "常滑烧风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "geometryRebuilt": true,
+      "replica": false,
+      "removableParts": [],
+      "note": "馆藏名目、器形与可见纹饰的原创低多边形转译；未见内外面为朴素推定。",
+      "wallThickness": 0.025,
+      "interiorFloorHeight": 0.03700000120149295,
+      "rimHeight": 0.7303665158636291,
+      "hasRealInterior": true,
+      "hasRealUnderside": true,
+      "empty": true,
+      "opening": {
+        "width": 0.22562500000000002,
+        "depth": 0.22562500000000002,
+        "shape": "circle"
+      },
+      "gameScaleFactor": 2.945026178010471,
+      "incisedGrooves": 3,
+      "incisionDepth": 0.004,
+      "wallThicknessRange": [
+        0.025,
+        0.025000000811819564
+      ],
+      "geometryCalibration": {
+        "publishedOverallBounds": [
+          0.5625,
+          0.5625,
+          0.7303664921465969
+        ],
+        "axisFactors": [
+          1.0,
+          1.0,
+          1.0000000324727825
+        ],
+        "unknownInteriorProfileIsAdaptation": true
+      },
+      "width": 0.5625,
+      "depth": 0.5625,
+      "height": 0.7303664684295654,
+      "boundsMin": [
+        -0.2790757715702057,
+        -0.28383132815361023,
+        0.0
+      ],
+      "boundsMax": [
+        0.2834242284297943,
+        0.27866867184638977,
+        0.7303664684295654
+      ],
+      "file": "assets/antique-tokoname-sutra.glb",
+      "family": "ceramics-extra",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "器物内底",
+          "height": 0.03700000120149295,
+          "width": 0.2126872873125,
+          "depth": 0.2126872873125,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "circle",
+          "container": true,
+          "headroom": 0.6933665146621362,
+          "rimHeight": 0.7303665158636291,
+          "openingWidth": 0.22562500000000002,
+          "floorShape": "circle",
+          "actualFloorWidth": 0.25937500599999996,
+          "actualFloorDepth": 0.25937500599999996,
+          "actualFloorContour": [
+            [
+              -0.121863864,
+              -0.039595969
+            ],
+            [
+              -0.104254201,
+              -0.075745113
+            ],
+            [
+              -0.076572649,
+              -0.105393216
+            ],
+            [
+              -0.04054248,
+              -0.124776922
+            ],
+            [
+              -0.0,
+              -0.130877793
+            ],
+            [
+              0.040041197,
+              -0.123234138
+            ],
+            [
+              0.075451754,
+              -0.103850424
+            ],
+            [
+              0.103752919,
+              -0.075380906
+            ],
+            [
+              0.12298476,
+              -0.039960172
+            ],
+            [
+              0.130690068,
+              0.0
+            ],
+            [
+              0.124816425,
+              0.040555313
+            ],
+            [
+              0.105584584,
+              0.076711692
+            ],
+            [
+              0.075884148,
+              0.104445569
+            ],
+            [
+              0.039608803,
+              0.12190336
+            ],
+            [
+              0.0,
+              0.128497213
+            ],
+            [
+              -0.040110085,
+              0.123446144
+            ],
+            [
+              -0.077005051,
+              0.105988353
+            ],
+            [
+              -0.106085867,
+              0.077075891
+            ],
+            [
+              -0.123695523,
+              0.04019111
+            ],
+            [
+              -0.128684938,
+              0.0
+            ]
+          ],
+          "nominalFloorSpan": {
+            "width": 0.2126875,
+            "depth": 0.2126875
+          },
+          "conservativeFit": {
+            "method": "ellipse contained by every physical lowpoly floor edge",
+            "scaleFactor": 0.999999,
+            "preservesAxisRatio": true,
+            "polygonSides": 20
+          }
+        }
+      ],
+      "footprint": {
+        "width": 0.5625,
+        "depth": 0.5625
+      },
+      "triangles": 1520,
+      "sourceBlend": "ceramics-extra/ceramics-extra.blend",
+      "sourcePixelorama": "ceramics-extra/ceramics-extra-atlas.pxo"
+    },
+    {
+      "id": "antique-oribe-ewer",
+      "name": "织部水注",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "sources": [
+        {
+          "label": "Spencer · 2012.0640.a,b",
+          "url": "https://spencerart.ku.edu/art/collections-online/object/44987"
+        }
+      ],
+      "museumTitle": "水注 suichū (ewer)",
+      "museumDimensionsCm": {
+        "height": 25.5,
+        "width": 25.5,
+        "depth": 21
+      },
+      "period": "late 1800s",
+      "referenceUnknown": [
+        "Interior and lid underside plain inferred; fine crazing omitted."
+      ],
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "美浓烧·织部风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "geometryRebuilt": true,
+      "replica": false,
+      "removableParts": [
+        "antique-oribe-ewer/lid-0",
+        "antique-oribe-ewer/lid-1",
+        "antique-oribe-ewer/lid-2",
+        "antique-oribe-ewer/lid-3",
+        "antique-oribe-ewer/lid-4",
+        "antique-oribe-ewer/lid-5",
+        "antique-oribe-ewer/lid-knob-stem",
+        "antique-oribe-ewer/lid-knob"
+      ],
+      "note": "馆藏名目、器形与可见纹饰的原创低多边形转译；未见内外面为朴素推定。",
+      "wallThickness": 0.025,
+      "interiorFloorHeight": 0.03775834967328313,
+      "rimHeight": 0.37261529282845196,
+      "hasRealInterior": true,
+      "hasRealUnderside": true,
+      "empty": true,
+      "opening": {
+        "width": 0.3918699795370394,
+        "depth": 0.4029411654913129,
+        "shape": "ellipse"
+      },
+      "lidUndersideComplete": true,
+      "gameScaleFactor": 2.450980392156863,
+      "communicatingSpout": true,
+      "wallThicknessRange": [
+        0.024313100920181272,
+        0.024999999318804082
+      ],
+      "geometryCalibration": {
+        "publishedOverallBounds": [
+          0.625,
+          0.5147058823529412,
+          0.625
+        ],
+        "axisFactors": [
+          0.9725240368072509,
+          0.9999999727521632,
+          0.9936407808758718
+        ],
+        "unknownInteriorProfileIsAdaptation": true
+      },
+      "width": 0.625,
+      "depth": 0.5147058963775635,
+      "height": 0.625,
+      "boundsMin": [
+        -0.2502819299697876,
+        -0.25735294818878174,
+        0.0
+      ],
+      "boundsMax": [
+        0.3747180700302124,
+        0.25735294818878174,
+        0.625
+      ],
+      "file": "assets/antique-oribe-ewer.glb",
+      "family": "ceramics-extra",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "器物内底",
+          "height": 0.03775834967328313,
+          "width": 0.28028686785032986,
+          "depth": 0.2882055862940799,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "ellipse",
+          "container": true,
+          "headroom": 0.33485694315516884,
+          "rimHeight": 0.37261529282845196,
+          "openingWidth": 0.3918699795370394,
+          "floorShape": "ellipse",
+          "actualFloorWidth": 0.341813594,
+          "actualFloorDepth": 0.35147059,
+          "actualFloorContour": [
+            [
+              -0.162542015,
+              -0.054305192
+            ],
+            [
+              -0.138266504,
+              -0.103294611
+            ],
+            [
+              -0.100456491,
+              -0.142172843
+            ],
+            [
+              -0.052813105,
+              -0.167134196
+            ],
+            [
+              -0.0,
+              -0.175735295
+            ],
+            [
+              0.052813105,
+              -0.167134196
+            ],
+            [
+              0.100456491,
+              -0.142172843
+            ],
+            [
+              0.138266504,
+              -0.103294611
+            ],
+            [
+              0.162542015,
+              -0.054305192
+            ],
+            [
+              0.170906797,
+              0.0
+            ],
+            [
+              0.162542015,
+              0.054305192
+            ],
+            [
+              0.138266504,
+              0.103294611
+            ],
+            [
+              0.100456491,
+              0.142172843
+            ],
+            [
+              0.052813105,
+              0.167134196
+            ],
+            [
+              0.0,
+              0.175735295
+            ],
+            [
+              -0.052813105,
+              0.167134196
+            ],
+            [
+              -0.100456491,
+              0.142172843
+            ],
+            [
+              -0.138266504,
+              0.103294611
+            ],
+            [
+              -0.162542015,
+              0.054305192
+            ],
+            [
+              -0.170906797,
+              0.0
+            ]
+          ],
+          "nominalFloorSpan": {
+            "width": 0.280287148137478,
+            "depth": 0.2882058744999544
+          },
+          "conservativeFit": {
+            "method": "ellipse contained by every physical lowpoly floor edge",
+            "scaleFactor": 0.999999,
+            "preservesAxisRatio": true,
+            "polygonSides": 20
+          }
+        }
+      ],
+      "footprint": {
+        "width": 0.625,
+        "depth": 0.5147058963775635
+      },
+      "triangles": 1690,
+      "sourceBlend": "ceramics-extra/ceramics-extra.blend",
+      "sourcePixelorama": "ceramics-extra/ceramics-extra-atlas.pxo"
+    },
+    {
+      "id": "antique-banko-teapot",
+      "name": "万古彩绘茶壶",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "sources": [
+        {
+          "label": "Met · 91.1.204",
+          "url": "https://www.metmuseum.org/art/collection/search/56159"
+        }
+      ],
+      "museumTitle": "Teapot",
+      "museumDimensionsCm": {
+        "height": 6.8,
+        "width": 8.3,
+        "depth": 6.4
+      },
+      "period": "early 19th century",
+      "referenceUnknown": [
+        "Interior/lid underside inferred; seals are simplified non-legible impressions."
+      ],
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": null,
+        "directArtifactReferenceReused": false,
+        "scope": "New specific museum reference."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "geometryRebuilt": true,
+      "replica": false,
+      "removableParts": [
+        "antique-banko-teapot/lid-0",
+        "antique-banko-teapot/lid-1",
+        "antique-banko-teapot/lid-2",
+        "antique-banko-teapot/lid-3",
+        "antique-banko-teapot/lid-4",
+        "antique-banko-teapot/lid-5",
+        "antique-banko-teapot/lid-knob-stem",
+        "antique-banko-teapot/lid-knob"
+      ],
+      "note": "馆藏名目、器形与可见纹饰的原创低多边形转译；未见内外面为朴素推定。",
+      "wallThickness": 0.016,
+      "interiorFloorHeight": 0.024407397824279916,
+      "rimHeight": 0.33005458421469436,
+      "hasRealInterior": true,
+      "hasRealUnderside": true,
+      "empty": true,
+      "opening": {
+        "width": 0.1743269600845644,
+        "depth": 0.2423529489454044,
+        "shape": "ellipse"
+      },
+      "lidUndersideComplete": true,
+      "gameScaleFactor": 5.271084337349397,
+      "communicatingSpout": true,
+      "wallThicknessRange": [
+        0.013539958064820537,
+        0.018823530015177045
+      ],
+      "geometryCalibration": {
+        "publishedOverallBounds": [
+          0.4375,
+          0.3373493975903614,
+          0.35843373493975905
+        ],
+        "axisFactors": [
+          0.8462473790512836,
+          1.1764706259485653,
+          1.1094271738309054
+        ],
+        "unknownInteriorProfileIsAdaptation": true
+      },
+      "width": 0.4375,
+      "depth": 0.33734938502311707,
+      "height": 0.35843372344970703,
+      "boundsMin": [
+        -0.21133339405059814,
+        -0.16867469251155853,
+        0.0
+      ],
+      "boundsMax": [
+        0.22616660594940186,
+        0.16867469251155853,
+        0.35843372344970703
+      ],
+      "file": "assets/antique-banko-teapot.glb",
+      "family": "ceramics-extra",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "器物内底",
+          "height": 0.024407397824279916,
+          "width": 0.13299895990304214,
+          "depth": 0.18489790749255358,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "ellipse",
+          "container": true,
+          "headroom": 0.3056471863904144,
+          "rimHeight": 0.33005458421469436,
+          "openingWidth": 0.1743269600845644,
+          "floorShape": "ellipse",
+          "actualFloorWidth": 0.162194014,
+          "actualFloorDepth": 0.225485488,
+          "actualFloorContour": [
+            [
+              -0.077127837,
+              -0.034839422
+            ],
+            [
+              -0.065608859,
+              -0.066268519
+            ],
+            [
+              -0.047667626,
+              -0.09121079
+            ],
+            [
+              -0.025060354,
+              -0.107224718
+            ],
+            [
+              -0.0,
+              -0.112742744
+            ],
+            [
+              0.025060354,
+              -0.107224718
+            ],
+            [
+              0.047667626,
+              -0.09121079
+            ],
+            [
+              0.065608859,
+              -0.066268519
+            ],
+            [
+              0.077127837,
+              -0.034839422
+            ],
+            [
+              0.081097007,
+              0.0
+            ],
+            [
+              0.077127837,
+              0.034839422
+            ],
+            [
+              0.065608859,
+              0.066268519
+            ],
+            [
+              0.047667626,
+              0.09121079
+            ],
+            [
+              0.025060354,
+              0.107224718
+            ],
+            [
+              0.0,
+              0.112742744
+            ],
+            [
+              -0.025060354,
+              0.107224718
+            ],
+            [
+              -0.047667626,
+              0.09121079
+            ],
+            [
+              -0.065608859,
+              0.066268519
+            ],
+            [
+              -0.077127837,
+              0.034839422
+            ],
+            [
+              -0.081097007,
+              0.0
+            ]
+          ],
+          "nominalFloorSpan": {
+            "width": 0.13299909290213505,
+            "depth": 0.18489809239064597
+          },
+          "conservativeFit": {
+            "method": "ellipse contained by every physical lowpoly floor edge",
+            "scaleFactor": 0.999999,
+            "preservesAxisRatio": true,
+            "polygonSides": 20
+          }
+        }
+      ],
+      "footprint": {
+        "width": 0.4375,
+        "depth": 0.33734938502311707
+      },
+      "triangles": 1368,
+      "sourceBlend": "ceramics-extra/ceramics-extra.blend",
+      "sourcePixelorama": "ceramics-extra/ceramics-extra-atlas.pxo"
+    },
+    {
+      "id": "antique-iga-lobed",
+      "name": "伊贺耳付花生",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "sources": [
+        {
+          "label": "Suntory · 240",
+          "url": "https://www.suntory.com/sma/collection/data/detail?id=240&lang=en"
+        }
+      ],
+      "museumTitle": "Lobed Vase",
+      "museumDimensionsCm": {
+        "height": 28,
+        "mouthDiameter": [
+          12.3,
+          12.6
+        ],
+        "baseDiameter": 13
+      },
+      "period": "early 17th century",
+      "referenceUnknown": [
+        "Image host denies access; maximum body width unknown and adapted, inner/bottom plain reconstruction."
+      ],
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "伊贺烧风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "geometryRebuilt": true,
+      "replica": false,
+      "removableParts": [],
+      "note": "馆藏名目、器形与可见纹饰的原创低多边形转译；未见内外面为朴素推定。",
+      "wallThickness": 0.026,
+      "interiorFloorHeight": 0.033,
+      "rimHeight": 0.6875,
+      "hasRealInterior": true,
+      "hasRealUnderside": true,
+      "empty": true,
+      "opening": {
+        "width": 0.2598058035714286,
+        "depth": 0.2598058035714286,
+        "shape": "circle"
+      },
+      "gameScaleFactor": 2.455357142857143,
+      "maximumBodyDiameterInferred": true,
+      "neckGrooves": 2,
+      "wallThicknessRange": [
+        0.026,
+        0.026
+      ],
+      "geometryCalibration": {
+        "publishedOverallBounds": [
+          null,
+          null,
+          0.6875
+        ],
+        "axisFactors": [
+          1,
+          1,
+          1.0
+        ],
+        "unknownInteriorProfileIsAdaptation": true
+      },
+      "width": 0.5349987149238586,
+      "depth": 0.45000000298023224,
+      "height": 0.6875,
+      "boundsMin": [
+        -0.2674993574619293,
+        -0.2310231328010559,
+        0.0
+      ],
+      "boundsMax": [
+        0.2674993574619293,
+        0.21897687017917633,
+        0.6875
+      ],
+      "file": "assets/antique-iga-lobed.glb",
+      "family": "ceramics-extra",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "器物内底",
+          "height": 0.033,
+          "width": 0.20300804484728446,
+          "depth": 0.20300804484728446,
+          "center": [
+            0,
+            0
+          ],
+          "shape": "circle",
+          "container": true,
+          "headroom": 0.6545,
+          "rimHeight": 0.6875,
+          "openingWidth": 0.2598058035714286,
+          "floorShape": "circle",
+          "actualFloorWidth": 0.267196416,
+          "actualFloorDepth": 0.267196416,
+          "actualFloorContour": [
+            [
+              -0.116959035,
+              -0.038002294
+            ],
+            [
+              -0.085589267,
+              -0.062184244
+            ],
+            [
+              -0.062184244,
+              -0.085589267
+            ],
+            [
+              -0.038002294,
+              -0.116959035
+            ],
+            [
+              -0.0,
+              -0.133598208
+            ],
+            [
+              0.038002294,
+              -0.116959035
+            ],
+            [
+              0.062184244,
+              -0.085589267
+            ],
+            [
+              0.085589267,
+              -0.062184244
+            ],
+            [
+              0.116959035,
+              -0.038002294
+            ],
+            [
+              0.133598208,
+              0.0
+            ],
+            [
+              0.116959035,
+              0.038002294
+            ],
+            [
+              0.085589267,
+              0.062184244
+            ],
+            [
+              0.062184244,
+              0.085589267
+            ],
+            [
+              0.038002294,
+              0.116959035
+            ],
+            [
+              0.0,
+              0.133598208
+            ],
+            [
+              -0.038002294,
+              0.116959035
+            ],
+            [
+              -0.062184244,
+              0.085589267
+            ],
+            [
+              -0.085589267,
+              0.062184244
+            ],
+            [
+              -0.116959035,
+              0.038002294
+            ],
+            [
+              -0.133598208,
+              0.0
+            ]
+          ],
+          "nominalFloorSpan": {
+            "width": 0.21910107142857144,
+            "depth": 0.21910107142857144
+          },
+          "conservativeFit": {
+            "method": "ellipse contained by every physical lowpoly floor edge",
+            "scaleFactor": 0.9265497586280247,
+            "preservesAxisRatio": true,
+            "polygonSides": 20
+          }
+        }
+      ],
+      "footprint": {
+        "width": 0.5349987149238586,
+        "depth": 0.45000000298023224
+      },
+      "triangles": 1224,
+      "sourceBlend": "ceramics-extra/ceramics-extra.blend",
+      "sourcePixelorama": "ceramics-extra/ceramics-extra-atlas.pxo"
+    },
+    {
+      "id": "antique-tamba-jar",
+      "name": "丹波自然灰釉壶",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "sources": [
+        {
+          "label": "Freer · F1898.81",
+          "url": "https://asia-archive.si.edu/object/F1898.81/"
+        }
+      ],
+      "museumTitle": "Jar",
+      "museumDimensionsCm": {
+        "height": 23.7,
+        "diameter": 23.3
+      },
+      "period": "17th–18th century",
+      "referenceUnknown": [
+        "Back and bottom not shown; no further invented gold repairs."
+      ],
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "丹波立杭烧风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "geometryRebuilt": true,
+      "replica": false,
+      "removableParts": [],
+      "note": "馆藏名目、器形与可见纹饰的原创低多边形转译；未见内外面为朴素推定。",
+      "wallThickness": 0.024,
+      "interiorFloorHeight": 0.03499999906108017,
+      "rimHeight": 0.5721566370116798,
+      "hasRealInterior": true,
+      "hasRealUnderside": true,
+      "empty": true,
+      "opening": {
+        "width": 0.238875,
+        "depth": 0.238875,
+        "shape": "circle"
+      },
+      "gameScaleFactor": 2.4141630901287554,
+      "wallThicknessRange": [
+        0.02399999935616926,
+        0.024
+      ],
+      "geometryCalibration": {
+        "publishedOverallBounds": [
+          0.5625,
+          0.5625,
+          0.572156652360515
+        ],
+        "axisFactors": [
+          1.0,
+          1.0,
+          0.999999973173719
+        ],
+        "unknownInteriorProfileIsAdaptation": true
+      },
+      "width": 0.5625,
+      "depth": 0.5625,
+      "height": 0.5721566677093506,
+      "boundsMin": [
+        -0.28125,
+        -0.28125,
+        0.0
+      ],
+      "boundsMax": [
+        0.28125,
+        0.28125,
+        0.5721566677093506
+      ],
+      "file": "assets/antique-tamba-jar.glb",
+      "family": "ceramics-extra",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "器物内底",
+          "height": 0.03499999906108017,
+          "width": 0.25122724877249997,
+          "depth": 0.25122724877249997,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "circle",
+          "container": true,
+          "headroom": 0.5371566379505996,
+          "rimHeight": 0.5721566370116798,
+          "openingWidth": 0.238875,
+          "floorShape": "circle",
+          "actualFloorWidth": 0.306374996,
+          "actualFloorDepth": 0.306374996,
+          "actualFloorContour": [
+            [
+              -0.145689964,
+              -0.047337539
+            ],
+            [
+              -0.123931289,
+              -0.090041354
+            ],
+            [
+              -0.090041354,
+              -0.123931289
+            ],
+            [
+              -0.047337539,
+              -0.145689964
+            ],
+            [
+              -0.0,
+              -0.153187498
+            ],
+            [
+              0.047337539,
+              -0.145689964
+            ],
+            [
+              0.090041354,
+              -0.123931289
+            ],
+            [
+              0.123931289,
+              -0.090041354
+            ],
+            [
+              0.145689964,
+              -0.047337539
+            ],
+            [
+              0.153187498,
+              0.0
+            ],
+            [
+              0.145689964,
+              0.047337539
+            ],
+            [
+              0.123931289,
+              0.090041354
+            ],
+            [
+              0.090041354,
+              0.123931289
+            ],
+            [
+              0.047337539,
+              0.145689964
+            ],
+            [
+              0.0,
+              0.153187498
+            ],
+            [
+              -0.047337539,
+              0.145689964
+            ],
+            [
+              -0.090041354,
+              0.123931289
+            ],
+            [
+              -0.123931289,
+              0.090041354
+            ],
+            [
+              -0.145689964,
+              0.047337539
+            ],
+            [
+              -0.153187498,
+              0.0
+            ]
+          ],
+          "nominalFloorSpan": {
+            "width": 0.2512275,
+            "depth": 0.2512275
+          },
+          "conservativeFit": {
+            "method": "ellipse contained by every physical lowpoly floor edge",
+            "scaleFactor": 0.999999,
+            "preservesAxisRatio": true,
+            "polygonSides": 20
+          }
+        }
+      ],
+      "footprint": {
+        "width": 0.5625,
+        "depth": 0.5625
+      },
+      "triangles": 800,
+      "sourceBlend": "ceramics-extra/ceramics-extra.blend",
+      "sourcePixelorama": "ceramics-extra/ceramics-extra-atlas.pxo"
+    },
+    {
+      "id": "antique-echizen-jar",
+      "name": "越前壶",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "sources": [
+        {
+          "label": "Aichi Prefectural Ceramic Museum · A000001",
+          "url": "https://jmapps.ne.jp/aitou/det.html?data_id=538"
+        }
+      ],
+      "museumTitle": "壺　越前",
+      "museumDimensionsCm": {
+        "height": 26.7,
+        "mouthDiameter": 13,
+        "bodyDiameter": 16.7,
+        "baseDiameter": 9.3
+      },
+      "period": "Kamakura period, 13th century",
+      "referenceUnknown": [
+        "Interior/bottom and unseen back inferred."
+      ],
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "越前烧风格盆",
+        "directArtifactReferenceReused": true,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "geometryRebuilt": true,
+      "replica": false,
+      "removableParts": [],
+      "note": "馆藏名目、器形与可见纹饰的原创低多边形转译；未见内外面为朴素推定。",
+      "wallThickness": 0.022,
+      "interiorFloorHeight": 0.030999999319824598,
+      "rimHeight": 0.6994760325568884,
+      "hasRealInterior": true,
+      "hasRealUnderside": true,
+      "empty": true,
+      "opening": {
+        "width": 0.20120958083832333,
+        "depth": 0.20120958083832333,
+        "shape": "circle"
+      },
+      "gameScaleFactor": 2.6197604790419162,
+      "wallThicknessRange": [
+        0.021999999517294873,
+        0.021999999999999995
+      ],
+      "geometryCalibration": {
+        "publishedOverallBounds": [
+          0.43749999999999994,
+          0.43749999999999994,
+          0.6994760479041917
+        ],
+        "axisFactors": [
+          0.9999999999999999,
+          0.9999999999999999,
+          0.999999978058858
+        ],
+        "unknownInteriorProfileIsAdaptation": true
+      },
+      "width": 0.4375,
+      "depth": 0.4375,
+      "height": 0.6994760632514954,
+      "boundsMin": [
+        -0.21875,
+        -0.21875,
+        0.0
+      ],
+      "boundsMax": [
+        0.21875,
+        0.21875,
+        0.6994760632514954
+      ],
+      "file": "assets/antique-echizen-jar.glb",
+      "family": "ceramics-extra",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "器物内底",
+          "height": 0.030999999319824598,
+          "width": 0.16370277042880235,
+          "depth": 0.16370277042880235,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "circle",
+          "container": true,
+          "headroom": 0.6684760332370638,
+          "rimHeight": 0.6994760325568884,
+          "openingWidth": 0.20120958083832333,
+          "floorShape": "circle",
+          "actualFloorWidth": 0.199637726,
+          "actualFloorDepth": 0.199637726,
+          "actualFloorContour": [
+            [
+              -0.094933376,
+              -0.030845724
+            ],
+            [
+              -0.080755159,
+              -0.058672056
+            ],
+            [
+              -0.058672056,
+              -0.080755159
+            ],
+            [
+              -0.030845724,
+              -0.094933376
+            ],
+            [
+              -0.0,
+              -0.099818863
+            ],
+            [
+              0.030845724,
+              -0.094933376
+            ],
+            [
+              0.058672056,
+              -0.080755159
+            ],
+            [
+              0.080755159,
+              -0.058672056
+            ],
+            [
+              0.094933376,
+              -0.030845724
+            ],
+            [
+              0.099818863,
+              0.0
+            ],
+            [
+              0.094933376,
+              0.030845724
+            ],
+            [
+              0.080755159,
+              0.058672056
+            ],
+            [
+              0.058672056,
+              0.080755159
+            ],
+            [
+              0.030845724,
+              0.094933376
+            ],
+            [
+              0.0,
+              0.099818863
+            ],
+            [
+              -0.030845724,
+              0.094933376
+            ],
+            [
+              -0.058672056,
+              0.080755159
+            ],
+            [
+              -0.080755159,
+              0.058672056
+            ],
+            [
+              -0.094933376,
+              0.030845724
+            ],
+            [
+              -0.099818863,
+              0.0
+            ]
+          ],
+          "nominalFloorSpan": {
+            "width": 0.16370293413173648,
+            "depth": 0.16370293413173648
+          },
+          "conservativeFit": {
+            "method": "ellipse contained by every physical lowpoly floor edge",
+            "scaleFactor": 0.999999,
+            "preservesAxisRatio": true,
+            "polygonSides": 20
+          }
+        }
+      ],
+      "footprint": {
+        "width": 0.4375,
+        "depth": 0.4375
+      },
+      "triangles": 960,
+      "sourceBlend": "ceramics-extra/ceramics-extra.blend",
+      "sourcePixelorama": "ceramics-extra/ceramics-extra-atlas.pxo"
+    },
+    {
+      "id": "antique-seto-hitorine",
+      "name": "濑户茶入“独寝”",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "sources": [
+        {
+          "label": "UMMA · 1954/1.532A&B",
+          "url": "https://umma.umich.edu/objects/seto-ware-tea-caddy-hitorine-named-by-kobori-enshu-1579-1647-1954-1-532ab/"
+        }
+      ],
+      "museumTitle": "Seto ware tea caddy “Hitorine,” named by Kobori Enshû (1579–1647)",
+      "museumDimensionsCm": {
+        "height": 7.6,
+        "width": 6,
+        "depth": 6
+      },
+      "period": "c.1600–1647",
+      "referenceUnknown": [
+        "Image host denies access; wall thickness/interior, exact glaze boundary inferred; storage bag excluded."
+      ],
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "濑户染付风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "geometryRebuilt": true,
+      "replica": false,
+      "removableParts": [
+        "antique-seto-hitorine/lid-0",
+        "antique-seto-hitorine/lid-1",
+        "antique-seto-hitorine/lid-2",
+        "antique-seto-hitorine/lid-3",
+        "antique-seto-hitorine/lid-4",
+        "antique-seto-hitorine/lid-5",
+        "antique-seto-hitorine/lid-knob-stem",
+        "antique-seto-hitorine/lid-knob"
+      ],
+      "note": "馆藏名目、器形与可见纹饰的原创低多边形转译；未见内外面为朴素推定。",
+      "wallThickness": 0.017,
+      "interiorFloorHeight": 0.023375584979192295,
+      "rimHeight": 0.3540215406268979,
+      "hasRealInterior": true,
+      "hasRealUnderside": true,
+      "empty": true,
+      "opening": {
+        "width": 0.137875,
+        "depth": 0.137875,
+        "shape": "circle"
+      },
+      "lidUndersideComplete": true,
+      "gameScaleFactor": 5.208333333333334,
+      "footless": true,
+      "wallThicknessRange": [
+        0.017,
+        0.017277606288968222
+      ],
+      "geometryCalibration": {
+        "publishedOverallBounds": [
+          0.3125,
+          0.3125,
+          0.39583333333333337
+        ],
+        "axisFactors": [
+          1.0,
+          1.0,
+          1.016329781704013
+        ],
+        "unknownInteriorProfileIsAdaptation": true
+      },
+      "width": 0.3125,
+      "depth": 0.3125,
+      "height": 0.3958333432674408,
+      "boundsMin": [
+        -0.15625,
+        -0.15625,
+        0.0
+      ],
+      "boundsMax": [
+        0.15625,
+        0.15625,
+        0.3958333432674408
+      ],
+      "file": "assets/antique-seto-hitorine.glb",
+      "family": "ceramics-extra",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "器物内底",
+          "height": 0.023375584979192295,
+          "width": 0.15661984337999998,
+          "depth": 0.15661984337999998,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "circle",
+          "container": true,
+          "headroom": 0.33064595564770555,
+          "rimHeight": 0.3540215406268979,
+          "openingWidth": 0.137875,
+          "floorShape": "circle",
+          "actualFloorWidth": 0.191,
+          "actualFloorDepth": 0.191,
+          "actualFloorContour": [
+            [
+              -0.0908259,
+              -0.029511122
+            ],
+            [
+              -0.07726112,
+              -0.05613349
+            ],
+            [
+              -0.05613349,
+              -0.07726112
+            ],
+            [
+              -0.029511122,
+              -0.0908259
+            ],
+            [
+              -0.0,
+              -0.0955
+            ],
+            [
+              0.029511122,
+              -0.0908259
+            ],
+            [
+              0.05613349,
+              -0.07726112
+            ],
+            [
+              0.07726112,
+              -0.05613349
+            ],
+            [
+              0.0908259,
+              -0.029511122
+            ],
+            [
+              0.0955,
+              0.0
+            ],
+            [
+              0.0908259,
+              0.029511122
+            ],
+            [
+              0.07726112,
+              0.05613349
+            ],
+            [
+              0.05613349,
+              0.07726112
+            ],
+            [
+              0.029511122,
+              0.0908259
+            ],
+            [
+              0.0,
+              0.0955
+            ],
+            [
+              -0.029511122,
+              0.0908259
+            ],
+            [
+              -0.05613349,
+              0.07726112
+            ],
+            [
+              -0.07726112,
+              0.05613349
+            ],
+            [
+              -0.0908259,
+              0.029511122
+            ],
+            [
+              -0.0955,
+              0.0
+            ]
+          ],
+          "nominalFloorSpan": {
+            "width": 0.15661999999999998,
+            "depth": 0.15661999999999998
+          },
+          "conservativeFit": {
+            "method": "ellipse contained by every physical lowpoly floor edge",
+            "scaleFactor": 0.999999,
+            "preservesAxisRatio": true,
+            "polygonSides": 20
+          }
+        }
+      ],
+      "footprint": {
+        "width": 0.3125,
+        "depth": 0.3125
+      },
+      "triangles": 848,
+      "sourceBlend": "ceramics-extra/ceramics-extra.blend",
+      "sourcePixelorama": "ceramics-extra/ceramics-extra-atlas.pxo"
+    },
+    {
+      "id": "antique-tsuboya-dragon",
+      "name": "壶屋双龙追珠筒瓶",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "sources": [
+        {
+          "label": "Freer · F1899.8a-b",
+          "url": "https://asia-archive.si.edu/object/F1899.8a-b/"
+        }
+      ],
+      "museumTitle": "Vase with design of dragons chasing flaming jewel",
+      "museumDimensionsCm": {
+        "height": 27,
+        "diameter": 13.9
+      },
+      "period": "19th century",
+      "referenceUnknown": [
+        "Dragon details become original coarse line glyphs; back/bottom unseen plain."
+      ],
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "壶屋烧风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "geometryRebuilt": true,
+      "replica": false,
+      "removableParts": [],
+      "note": "馆藏名目、器形与可见纹饰的原创低多边形转译；未见内外面为朴素推定。",
+      "wallThickness": 0.024,
+      "interiorFloorHeight": 0.033999999479599946,
+      "rimHeight": 0.7284172550379802,
+      "hasRealInterior": true,
+      "hasRealUnderside": true,
+      "empty": true,
+      "opening": {
+        "width": 0.3138506978154487,
+        "depth": 0.3138506978154487,
+        "shape": "circle"
+      },
+      "gameScaleFactor": 2.6978417266187047,
+      "wallThicknessRange": [
+        0.02357563927252197,
+        0.023999999632658784
+      ],
+      "geometryCalibration": {
+        "publishedOverallBounds": [
+          0.375,
+          0.375,
+          0.7284172661870503
+        ],
+        "axisFactors": [
+          0.9823183030217487,
+          0.9823183030217487,
+          0.999999984694116
+        ],
+        "unknownInteriorProfileIsAdaptation": true
+      },
+      "width": 0.375,
+      "depth": 0.375,
+      "height": 0.7284172773361206,
+      "boundsMin": [
+        -0.1875,
+        -0.1875,
+        0.0
+      ],
+      "boundsMax": [
+        0.1875,
+        0.1875,
+        0.7284172773361206
+      ],
+      "file": "assets/antique-tsuboya-dragon.glb",
+      "family": "ceramics-extra",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "器物内底",
+          "height": 0.033999999479599946,
+          "width": 0.2180891799559755,
+          "depth": 0.2180891799559755,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "circle",
+          "container": true,
+          "headroom": 0.6944172555583802,
+          "rimHeight": 0.7284172550379802,
+          "openingWidth": 0.3138506978154487,
+          "floorShape": "circle",
+          "actualFloorWidth": 0.26596266,
+          "actualFloorDepth": 0.26596266,
+          "actualFloorContour": [
+            [
+              -0.126472771,
+              -0.041093495
+            ],
+            [
+              -0.107584164,
+              -0.078164466
+            ],
+            [
+              -0.078164466,
+              -0.107584164
+            ],
+            [
+              -0.041093495,
+              -0.126472771
+            ],
+            [
+              -0.0,
+              -0.13298133
+            ],
+            [
+              0.041093495,
+              -0.126472771
+            ],
+            [
+              0.078164466,
+              -0.107584164
+            ],
+            [
+              0.107584164,
+              -0.078164466
+            ],
+            [
+              0.126472771,
+              -0.041093495
+            ],
+            [
+              0.13298133,
+              0.0
+            ],
+            [
+              0.126472771,
+              0.041093495
+            ],
+            [
+              0.107584164,
+              0.078164466
+            ],
+            [
+              0.078164466,
+              0.107584164
+            ],
+            [
+              0.041093495,
+              0.126472771
+            ],
+            [
+              0.0,
+              0.13298133
+            ],
+            [
+              -0.041093495,
+              0.126472771
+            ],
+            [
+              -0.078164466,
+              0.107584164
+            ],
+            [
+              -0.107584164,
+              0.078164466
+            ],
+            [
+              -0.126472771,
+              0.041093495
+            ],
+            [
+              -0.13298133,
+              0.0
+            ]
+          ],
+          "nominalFloorSpan": {
+            "width": 0.21808939804537353,
+            "depth": 0.21808939804537353
+          },
+          "conservativeFit": {
+            "method": "ellipse contained by every physical lowpoly floor edge",
+            "scaleFactor": 0.999999,
+            "preservesAxisRatio": true,
+            "polygonSides": 20
+          }
+        }
+      ],
+      "footprint": {
+        "width": 0.375,
+        "depth": 0.375
+      },
+      "triangles": 560,
+      "sourceBlend": "ceramics-extra/ceramics-extra.blend",
+      "sourcePixelorama": "ceramics-extra/ceramics-extra-atlas.pxo"
+    },
+    {
+      "id": "antique-arita-coffee",
+      "name": "有田青花银饰咖啡壶",
+      "category": "收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "sources": [
+        {
+          "label": "Met · 79.2.176a,b",
+          "url": "https://www.metmuseum.org/art/collection/search/62526"
+        }
+      ],
+      "museumTitle": "Coffee Pot",
+      "museumDimensionsCm": {
+        "height": 31.4,
+        "width": 27,
+        "depth": 15.2
+      },
+      "period": "1650–75",
+      "referenceUnknown": [
+        "Interior and lid underside inferred, detailed silver relief and chain simplified structurally."
+      ],
+      "previousReferenceReuse": {
+        "document": "docs/rooftop-art-sources.md",
+        "regionalEntry": "有田烧风格盆",
+        "directArtifactReferenceReused": false,
+        "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
+      },
+      "sourceProvenance": {
+        "kind": "primary museum record",
+        "checked": "2026-10-12",
+        "researchOnly": true,
+        "photographUsedAsTexture": false
+      },
+      "geometryRebuilt": true,
+      "replica": false,
+      "removableParts": [
+        "antique-arita-coffee/lid-0",
+        "antique-arita-coffee/lid-1",
+        "antique-arita-coffee/lid-2",
+        "antique-arita-coffee/lid-3",
+        "antique-arita-coffee/lid-4",
+        "antique-arita-coffee/lid-5",
+        "antique-arita-coffee/lid-knob-stem",
+        "antique-arita-coffee/lid-knob",
+        "antique-arita-coffee/lid-silver-rim",
+        "antique-arita-coffee/lid-chain-0",
+        "antique-arita-coffee/lid-chain-1",
+        "antique-arita-coffee/lid-chain-2",
+        "antique-arita-coffee/lid-chain-3",
+        "antique-arita-coffee/lid-chain-4",
+        "antique-arita-coffee/lid-chain-5",
+        "antique-arita-coffee/lid-chain-6",
+        "antique-arita-coffee/lid-chain-7",
+        "antique-arita-coffee/lid-chain-8"
+      ],
+      "note": "馆藏名目、器形与可见纹饰的原创低多边形转译；未见内外面为朴素推定。",
+      "wallThickness": 0.018,
+      "interiorFloorHeight": 0.07083682938185398,
+      "rimHeight": 0.6240955226122937,
+      "hasRealInterior": true,
+      "hasRealUnderside": true,
+      "empty": true,
+      "opening": {
+        "width": 0.1855623992460698,
+        "depth": 0.18214814871956267,
+        "shape": "ellipse"
+      },
+      "lidUndersideComplete": true,
+      "gameScaleFactor": 2.314814814814815,
+      "communicatingTap": true,
+      "wallThicknessRange": [
+        0.01800000005646756,
+        0.019319135285960173
+      ],
+      "geometryCalibration": {
+        "publishedOverallBounds": [
+          0.6250000000000001,
+          0.35185185185185186,
+          0.7268518518518519
+        ],
+        "axisFactors": [
+          1.018744363490013,
+          1.0000000031370866,
+          1.0732852936644541
+        ],
+        "unknownInteriorProfileIsAdaptation": true
+      },
+      "width": 0.625,
+      "depth": 0.35185185074806213,
+      "height": 0.7268518805503845,
+      "boundsMin": [
+        -0.30119675397872925,
+        -0.17592592537403107,
+        0.0
+      ],
+      "boundsMax": [
+        0.32380324602127075,
+        0.17592592537403107,
+        0.7268518805503845
+      ],
+      "file": "assets/antique-arita-coffee.glb",
+      "family": "ceramics-extra",
+      "surfaces": [
+        {
+          "id": "inside",
+          "name": "器物内底",
+          "height": 0.07083682938185398,
+          "width": 0.25209596421665903,
+          "depth": 0.2474575310962957,
+          "center": [
+            0.0,
+            0.0
+          ],
+          "shape": "ellipse",
+          "container": true,
+          "headroom": 0.5532586932304396,
+          "rimHeight": 0.6240955226122937,
+          "openingWidth": 0.1855623992460698,
+          "floorShape": "ellipse",
+          "actualFloorWidth": 0.30743441,
+          "actualFloorDepth": 0.30177778,
+          "actualFloorContour": [
+            [
+              -0.146193743,
+              -0.046627231
+            ],
+            [
+              -0.124359831,
+              -0.088690266
+            ],
+            [
+              -0.090352707,
+              -0.122071676
+            ],
+            [
+              -0.047501229,
+              -0.14350386
+            ],
+            [
+              -0.0,
+              -0.15088889
+            ],
+            [
+              0.047501229,
+              -0.14350386
+            ],
+            [
+              0.090352707,
+              -0.122071676
+            ],
+            [
+              0.124359831,
+              -0.088690266
+            ],
+            [
+              0.146193743,
+              -0.046627231
+            ],
+            [
+              0.153717205,
+              0.0
+            ],
+            [
+              0.146193743,
+              0.046627231
+            ],
+            [
+              0.124359831,
+              0.088690266
+            ],
+            [
+              0.090352707,
+              0.122071676
+            ],
+            [
+              0.047501229,
+              0.14350386
+            ],
+            [
+              0.0,
+              0.15088889
+            ],
+            [
+              -0.047501229,
+              0.14350386
+            ],
+            [
+              -0.090352707,
+              0.122071676
+            ],
+            [
+              -0.124359831,
+              0.088690266
+            ],
+            [
+              -0.146193743,
+              0.046627231
+            ],
+            [
+              -0.153717205,
+              0.0
+            ]
+          ],
+          "nominalFloorSpan": {
+            "width": 0.2520962163128754,
+            "depth": 0.24745777855407428
+          },
+          "conservativeFit": {
+            "method": "ellipse contained by every physical lowpoly floor edge",
+            "scaleFactor": 0.999999,
+            "preservesAxisRatio": true,
+            "polygonSides": 20
+          }
+        }
+      ],
+      "footprint": {
+        "width": 0.625,
+        "depth": 0.35185185074806213
+      },
+      "triangles": 2476,
+      "sourceBlend": "ceramics-extra/ceramics-extra.blend",
+      "sourcePixelorama": "ceramics-extra/ceramics-extra-atlas.pxo"
+    }
+  ]
+}

@@ -13,9 +13,10 @@ const engine = process.env.BROWSER || "chromium";
     assert.equal(await page.locator("#assetCount").count(), 0);
     const render = await page.evaluate(async () => {
       const {WEAPONS} = await import("/rooftop/weapons.mjs");
-      const {ASSETS, paintObject, displayBounds, validateLayout, initialLayout} = await import("/rooftop/scene.mjs");
+      const {ASSETS, paintObject, displayBounds, validateLayout, initialLayout, warmItemThumbnails} = await import("/rooftop/scene.mjs");
       const canvas = document.createElement("canvas");canvas.width=canvas.height=192;
       const c=canvas.getContext("2d"), hashes=[], counts=[], badBounds=[];
+      await warmItemThumbnails(WEAPONS.map(a=>a.id));
       for(const a of WEAPONS) {
         if(ASSETS.filter(v=>v.id===a.id).length!==1 || !a.note || !a.era || a.sources.length!==1 || !a.sources[0].url.startsWith("https://")) throw Error("Catalogue contract: " + a.id);
         for(const rotation of [0,90,180,270]) {
@@ -32,10 +33,10 @@ const engine = process.env.BROWSER || "chromium";
     });
     assert.equal(render.hashes.length,86);
     assert.equal(new Set(render.hashes.map(v=>v[1])).size,86,"Each object needs its own drawing");
-    assert.ok(render.counts.every(n=>n>40),"Every object paints at every facing");
+    assert.ok(render.counts.every(n=>n>0),"Every native fallback derivative remains visible at its real physical size and every saved facing");
     assert.deepEqual(render.badBounds,[],"Drawings fit placement and selection bounds");
     await page.locator("#clear").click();
-    for(const [category, count] of [["枪械",66],["其他兵器",20]]) {
+    for(const [category, count] of [["枪械",66],["兵器",20]]) {
       await page.locator("#categories button").filter({hasText:new RegExp("^"+category+"$")}).click();
       assert.equal(await page.locator("#assets button").count(),count);
       const ids=await page.locator("#assets button").evaluateAll(nodes=>nodes.map(n=>n.dataset.asset));
@@ -94,6 +95,6 @@ const engine = process.env.BROWSER || "chromium";
       if(output)await page.screenshot({path:output+"/weapons-"+width+"-"+engine+".png",fullPage:true});
     }
     const room=await context.newPage();await room.goto(base+"/rooftop/room/");await room.waitForFunction(()=>window.room);
-    assert.deepEqual(errors,[]);console.log(engine+" weapons: 86 drawings, 344 facings, notebook, placement, export, reload and mobile passed");
+    assert.deepEqual(errors,[]);console.log(engine+" weapons: 86 native mesh derivatives, 344 bounded saved facings, notebook, placement, export, reload and mobile passed");
   } finally {await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1);});

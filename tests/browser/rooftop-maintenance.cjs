@@ -26,7 +26,9 @@ const base = process.env.BASE_URL || "http://127.0.0.1:8773",
   try {
     const errors = [],
       context = await browser.newContext();
-    await context.addInitScript(() => {
+    const nativeFixture=require("../fixtures/rooftop-native-layout.json");
+    await context.addInitScript((fixture) => {
+      if(location.pathname.startsWith("/rooftop/")&&!localStorage.getItem("umwelt-rooftop-layout-v1"))localStorage.setItem("umwelt-rooftop-layout-v1",JSON.stringify(fixture));
       const NativeDate = Date;
       window.Date = class extends NativeDate {
         constructor(...args) {
@@ -50,7 +52,7 @@ const base = process.env.BASE_URL || "http://127.0.0.1:8773",
         frames = [];
         for (const callback of pending) callback(ms);
       };
-    });
+    },nativeFixture);
     const page = await context.newPage();
     page.on("pageerror", (e) => errors.push(e.message));
     page.on("response", (r) => {

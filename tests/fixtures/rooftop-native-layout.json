@@ -1,0 +1,120 @@
+{
+  "version": 2,
+  "roomVersion": 2,
+  "spaceVersion": 2,
+  "catalogRevision": "native-items-294-v1",
+  "scenes": {
+    "room": [
+      {
+        "id": "fixture-bed",
+        "type": "bed-modern",
+        "x": 260,
+        "y": 184,
+        "scale": 1,
+        "rotation": 0,
+        "support": null
+      },
+      {
+        "id": "fixture-wardrobe",
+        "type": "wardrobe-wood",
+        "x": 350,
+        "y": 285,
+        "scale": 1,
+        "rotation": 0,
+        "support": null
+      },
+      {
+        "id": "fixture-room-table",
+        "type": "wood-square-table",
+        "x": 340,
+        "y": 170,
+        "scale": 1,
+        "rotation": 0,
+        "support": null
+      },
+      {
+        "id": "fixture-room-plant",
+        "type": "mint",
+        "x": 340,
+        "y": 170,
+        "scale": 1,
+        "rotation": 0,
+        "seed": 27,
+        "pot": "plastic",
+        "support": {
+          "id": "fixture-room-table",
+          "surface": "table-top"
+        }
+      }
+    ],
+    "north": [
+      {
+        "id": "fixture-mint",
+        "type": "mint",
+        "x": 312,
+        "y": 240,
+        "scale": 1,
+        "rotation": 0,
+        "seed": 1835,
+        "pot": "terra",
+        "support": null
+      },
+      {
+        "id": "fixture-fern",
+        "type": "fern",
+        "x": 340,
+        "y": 300,
+        "scale": 1,
+        "rotation": 0,
+        "seed": 735,
+        "pot": "plastic",
+        "support": null
+      },
+      {
+        "id": "fixture-rack",
+        "type": "iron-3-black",
+        "x": 360,
+        "y": 200,
+        "scale": 1,
+        "rotation": 0,
+        "support": null
+      },
+      {
+        "id": "fixture-cactus",
+        "type": "barrel",
+        "x": 360,
+        "y": 200,
+        "scale": 1,
+        "rotation": 0,
+        "seed": 42,
+        "pot": "plastic",
+        "support": {
+          "id": "fixture-rack",
+          "surface": "shelf-3"
+        }
+      },
+      {
+        "id": "fixture-tool",
+        "type": "pruning-shears",
+        "x": 300,
+        "y": 300,
+        "scale": 0.5,
+        "rotation": 0,
+        "support": null
+      }
+    ],
+    "south": [
+      {
+        "id": "fixture-south",
+        "type": "fern",
+        "x": 284,
+        "y": 240,
+        "scale": 1,
+        "rotation": 0,
+        "seed": 35,
+        "pot": "plastic",
+        "support": null
+      }
+    ]
+  }
+}

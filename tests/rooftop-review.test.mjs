@@ -55,8 +55,20 @@ test("empty inspection cannot restore items or modify an existing saved arrangem
   assert.deepEqual(empty.scenes.north, []);
   assert.deepEqual(empty.scenes.south, []);
   assert.deepEqual(empty.scenes.room, saved.scenes.room);
+  assert.deepEqual(emptyReviewLayout(saved, { room: true }).scenes.room, []);
   assert.equal(empty.roomVersion, 2);
   assert.equal(empty.spaceVersion, 1);
   assert.equal(JSON.stringify(saved), bytes);
   assert.deepEqual(emptyReviewLayout(empty), empty);
+});
+
+test("native scene inspection and actual game sampling stay separate and survive reload", () => {
+  assert.equal(reviewState("?stage=background").sampling, "source");
+  for (const sampling of ["source", "game"]) {
+    const url = reviewURL("http://localhost/rooftop/?stage=background", { sampling });
+    assert.equal(reviewState(url.search).sampling, sampling);
+    assert.equal(reviewURL(url).searchParams.get("sampling"), sampling);
+  }
+  const room = reviewURL("http://localhost/rooftop/?stage=background", { scene: "room" });
+  assert.equal(reviewState(room.search).scene, "room");
 });

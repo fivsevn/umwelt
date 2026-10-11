@@ -6,13 +6,13 @@ import {NATIVE_BOOK} from '../rooftop/3d/native-book.mjs';
 import {PIXEL_STYLE,coarseSides} from '../rooftop/3d/native-style.mjs';
 import {nativeField,createPixelMaterials} from '../rooftop/3d/native-materials.mjs';
 import {RACK_GRID,rackBars,latticeSupports} from '../rooftop/3d/rack-grid.mjs';
-import {supportSurfaces} from '../rooftop/3d/placement-profiles.mjs';
+import {supportSurfaces} from './fixtures/rooftop-legacy-placement-profiles.mjs';
 import {ASSETS,SCENES} from '../rooftop/scene.mjs';
 import {terraceFloorGeometry} from '../rooftop/3d/terrace-floor.mjs';
 import {POTS,PLANTS} from '../rooftop/botany.mjs';
-import {plantPaintKind} from '../rooftop/3d/plant-materials.mjs';
-import {surfaceFrame,nativeCell} from '../rooftop/3d/surface-grid.mjs';
-import {latheSurface} from '../rooftop/3d/model-surfaces.mjs';
+import {plantPaintKind} from '../docs/art/rooftop-game/legacy-geometry/plant-materials.mjs';
+import {surfaceFrame,nativeCell} from '../docs/art/rooftop-game/legacy-geometry/surface-grid.mjs';
+import {latheSurface} from '../docs/art/rooftop-game/legacy-geometry/model-surfaces.mjs';
 import {setSurfaceEmission} from '../rooftop/3d/surface-emission.mjs';
 
 test('native source book has one nonoverlapping 32px field grid and complete vessel interiors',()=>{
@@ -100,19 +100,20 @@ test('every folded chart uses equal physical square cells across triangle diagon
  assert.ok(Array.from(flags.array).includes(1));assert.ok(Array.from(flags.array).includes(0));
 });
 
-test('authoring audit covers every original asset and reports finite coarse mesh export',()=>{
+test('historical procedural authoring audit remains tied to its original catalog, independently of native items',()=>{
  const audit=JSON.parse(readFileSync(new URL('../docs/art/rooftop-game/model-audit.json',import.meta.url),'utf8'));
- assert.equal(audit.assets,ASSETS.length);assert.deepEqual(audit.errors,[]);
- assert.deepEqual(new Set(audit.perAsset.map(a=>a.id)),new Set(ASSETS.map(a=>a.id)));
+ const historical=JSON.parse(readFileSync(new URL('../docs/art/rooftop-furniture-02/runtime-before-294/catalog.json',import.meta.url),'utf8'));
+ assert.equal(audit.assets,historical.length);assert.deepEqual(audit.errors,[]);
+ assert.deepEqual(new Set(audit.perAsset.map(a=>a.id)),new Set(historical.map(a=>a.id)));
  for(const a of audit.perAsset)assert.ok(a.triangles>0&&Number.isInteger(a.triangles)&&a.meshes>0);
  const source=readFileSync(new URL('../rooftop/3d/scene3d.mjs',import.meta.url),'utf8');
  assert.ok(!source.includes('floorTexture()'));assert.ok(!source.includes('soilParticles('));
- assert.match(source,/if \(!style.loaded\)/);
+ assert.match(source,/createNativeItemLibrary/);
  assert.match(source,/style\.updateAtmosphere\(\{ night: 0 \}\)/);
 });
 
 test('wooden steps cover the same three bearing surfaces with broad painted planks',async()=>{
- const {buildStand}=await import('../rooftop/3d/stand-models.mjs');
+ const {buildStand}=await import('./fixtures/rooftop-legacy-stand-models.mjs');
  const boards=[];
  for(const type of ['woodshelf','ladderstand']){
   boards.length=0;

@@ -1,0 +1,264 @@
+{
+  "unchangedSource": [
+    {
+      "id": "bed-modern",
+      "geometryPreserved": true,
+      "UVPreserved": true,
+      "geometryHash": "9163605f1529b0a34ba5512d6d721d7e1963d8bf67cb7d1bbd4c1feaaeae49f5",
+      "UVHash": "9ba9512349df2b55367b7d24b0ab7c094b0889917f73fc5d342301a936d53d8a"
+    },
+    {
+      "id": "sofa-two",
+      "geometryPreserved": true,
+      "UVPreserved": true,
+      "geometryHash": "9c318b71ba0343af6441a7a6fdc224281ba9a2d3895c27ce0eefbfb768f7ce6c",
+      "UVHash": "016e594a5840c8f8133a6d564f8ec1e79ed59150c05286b2cf0e54c98a974e59"
+    },
+    {
+      "id": "sofa-one",
+      "geometryPreserved": true,
+      "UVPreserved": true,
+      "geometryHash": "1e9d50f435139b8348cdb6bd07bf35e4e1401bbe08a3fa3e6bb5ed7b5225877c",
+      "UVHash": "7ea810cb496866974124712eb648b6ea2cf1b58c7eb22c2d0e200099c41a15c9"
+    },
+    {
+      "id": "wardrobe-wood",
+      "geometryPreserved": true,
+      "UVPreserved": true,
+      "geometryHash": "0450c3c0fc932fde6d38b835852e875d12d0a2f548e604928f67cc87306be866",
+      "UVHash": "46a2afee3087fba5188aed62420eed9e222e48167b008eb52248c0e7970bcc3c"
+    },
+    {
+      "id": "dresser-wood",
+      "geometryPreserved": true,
+      "UVPreserved": true,
+      "geometryHash": "d1ddb9be888e4174cf8d4bf353de2aee8502d13be05a41944da8adef0af9883b",
+      "UVHash": "1039ce0abf97b86740308481c64373d076a403d901be0035fd473bf656eb9711"
+    },
+    {
+      "id": "antique-oribe-jar",
+      "geometryPreserved": true,
+      "UVPreserved": true,
+      "geometryHash": "ba48c0e3ada9b1ec85f47317a908ff1d88920a7ca5841f2cd2af2f909e64f2d4",
+      "UVHash": "ef2230623d430363e343ceb824e7a4f997628c5146ca8cf6e9bb9b575c7ce48f"
+    }
+  ],
+  "drainage": [
+    {
+      "id": "antique-shino",
+      "expectedHole": true,
+      "centerRayBlocked": false,
+      "offAxisFloorHeight": 0.05535709857940674,
+      "declaredFloor": 0.055357142857142855,
+      "floorMatches": true,
+      "bodyClosed": true,
+      "metadataHoles": [
+        {
+          "shape": "circle",
+          "center": [
+            0,
+            0
+          ],
+          "radius": 0.03125
+        }
+      ],
+      "innerBearingHoles": [
+        {
+          "shape": "circle",
+          "center": [
+            0,
+            0
+          ],
+          "radius": 0.03125
+        }
+      ]
+    },
+    {
+      "id": "antique-nezumi",
+      "expectedHole": true,
+      "centerRayBlocked": false,
+      "offAxisFloorHeight": 0.06357157230377197,
+      "declaredFloor": 0.06357142857142857,
+      "floorMatches": true,
+      "bodyClosed": true,
+      "metadataHoles": [
+        {
+          "shape": "circle",
+          "center": [
+            0,
+            0
+          ],
+          "radius": 0.03125
+        }
+      ],
+      "innerBearingHoles": [
+        {
+          "shape": "circle",
+          "center": [
+            0,
+            0
+          ],
+          "radius": 0.03125
+        }
+      ]
+    },
+    {
+      "id": "antique-shino-square",
+      "expectedHole": true,
+      "centerRayBlocked": false,
+      "offAxisFloorHeight": 0.03900003433227539,
+      "declaredFloor": 0.039,
+      "floorMatches": true,
+      "bodyClosed": true,
+      "metadataHoles": [
+        {
+          "shape": "circle",
+          "center": [
+            0,
+            0
+          ],
+          "radius": 0.03125
+        }
+      ],
+      "innerBearingHoles": [
+        {
+          "shape": "circle",
+          "center": [
+            0,
+            0
+          ],
+          "radius": 0.03125
+        }
+      ]
+    },
+    {
+      "id": "antique-nabeshima",
+      "expectedHole": true,
+      "centerRayBlocked": false,
+      "offAxisFloorHeight": 0.06873607635498047,
+      "declaredFloor": 0.06873591549295774,
+      "floorMatches": true,
+      "bodyClosed": true,
+      "metadataHoles": [
+        {
+          "shape": "circle",
+          "center": [
+            0,
+            0
+          ],
+          "radius": 0.03125
+        }
+      ],
+      "innerBearingHoles": [
+        {
+          "shape": "circle",
+          "center": [
+            0,
+            0
+          ],
+          "radius": 0.03125
+        }
+      ]
+    },
+    {
+      "id": "antique-nabeshima-dish",
+      "expectedHole": true,
+      "centerRayBlocked": false,
+      "offAxisFloorHeight": 0.05227971076965332,
+      "declaredFloor": 0.052279733009708736,
+      "floorMatches": true,
+      "bodyClosed": true,
+      "metadataHoles": [
+        {
+          "shape": "circle",
+          "center": [
+            0,
+            0
+          ],
+          "radius": 0.03125
+        }
+      ],
+      "innerBearingHoles": [
+        {
+          "shape": "circle",
+          "center": [
+            0,
+            0
+          ],
+          "radius": 0.03125
+        }
+      ]
+    },
+    {
+      "id": "antique-kutani-red",
+      "expectedHole": true,
+      "centerRayBlocked": false,
+      "offAxisFloorHeight": 0.08133745193481445,
+      "declaredFloor": 0.08133750000000001,
+      "floorMatches": true,
+      "bodyClosed": true,
+      "metadataHoles": [
+        {
+          "shape": "circle",
+          "center": [
+            0,
+            0
+          ],
+          "radius": 0.03125
+        }
+      ],
+      "innerBearingHoles": [
+        {
+          "shape": "circle",
+          "center": [
+            0,
+            0
+          ],
+          "radius": 0.03125
+        }
+      ]
+    },
+    {
+      "id": "antique-celadon",
+      "expectedHole": true,
+      "centerRayBlocked": false,
+      "offAxisFloorHeight": 0.08175373077392578,
+      "declaredFloor": 0.08175372101073036,
+      "floorMatches": true,
+      "bodyClosed": true,
+      "metadataHoles": [
+        {
+          "shape": "circle",
+          "center": [
+            0,
+            0
+          ],
+          "radius": 0.03125
+        }
+      ],
+      "innerBearingHoles": [
+        {
+          "shape": "circle",
+          "center": [
+            0,
+            0
+          ],
+          "radius": 0.03125
+        }
+      ]
+    },
+    {
+      "id": "antique-oribe-jar",
+      "expectedHole": false,
+      "centerRayBlocked": true,
+      "offAxisFloorHeight": 0.04499983787536621,
+      "declaredFloor": 0.045,
+      "floorMatches": true,
+      "bodyClosed": true,
+      "metadataHoles": [],
+      "innerBearingHoles": []
+    }
+  ],
+  "passed": true,
+  "originalMuseumMetadataPreserved": true
+}

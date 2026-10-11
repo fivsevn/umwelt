@@ -1,10 +1,14 @@
 import { HOUSE, housePoint, houseOccludes } from "../house-structure.mjs";
 import { loadArchitecturalShell } from "./architectural-shell.mjs";
+import { loadRoomBackground } from "./room-background-loader.mjs";
+import { createRoomDoor, mountRoomDoorLeaves } from "./room-door.mjs";
+import { ROOM_BACKGROUND } from "../assets/room/room-background.mjs";
+import { roomFrame } from "./room-frame.mjs";
 import { BACKGROUND } from "../assets/background/empty-rooftop.mjs";
 import { readScopeOptics, createScopeSurfaceCache } from "./scope-reading.mjs";
 import { lensUnwarpNdc } from "./lens-pass.mjs";
 import { createOutdoorRasterPass, outdoorSampleNdc, rasterCellCentre } from "./outdoor-raster.mjs";
-import { resolvePixelGrid, pixelGridSize } from "./pixel-grid.mjs";
+import { resolvePixelGrid, resolveScenePixelGrid, pixelGridSize } from "./pixel-grid.mjs";
 import { projectVisibleDoor } from "./door-projection.mjs";
 import {
   narrativePreset,
@@ -29,24 +33,12 @@ import { weatherAction } from "../resident-weather.mjs";
 import { createAtmosphere, invalidateShadowsAfterLoad } from "./atmosphere.mjs";
 import { outdoorPaintKind } from "./weathering.mjs";
 import { surfaceSeed } from "./surface-variation.mjs";
-import { soilSurface } from "./soil-surface.mjs";
 import { SCENES, asset, ASSETS, inside } from "../scene.mjs";
 import { PLANTS, POTS } from "../botany.mjs";
-import { plantContact } from "../plant-art.mjs";
-import { buildCactusBody } from "./cactus-models.mjs";
-import { buildFoliage } from "./plant-models.mjs";
-import { plantPotSpec } from "./plant-pots.mjs";
-import { plantPaintKind } from "./plant-materials.mjs";
-import { buildVessel } from "./vessel-models.mjs";
-import { buildStand } from "./stand-models.mjs";
-import { buildObject, OBJECT_DIMENSIONS } from "./object-models.mjs";
+import { ITEM_METRES_TO_UNITS, getItemDefinition, getPlantAssembly } from "../item-catalog.mjs";
+import { createNativeItemLibrary, isTrailingPlant } from "./native-model-loader.mjs";
 import { PIXEL_STYLE, createPixelMaterials } from "./native-materials.mjs";
 import { coarseSides } from "./native-style.mjs";
-import {
-  latheSurface,
-  leafSurface,
-} from "./model-surfaces.mjs";
-import { buildWashstation } from "./washstation.mjs";
 import {
   resolveSupports,
   supportSurfaces,
@@ -59,10 +51,6 @@ import {
   clearPlacement,
   createPlacementContext,
 } from "./spatial-layout.mjs";
-import { modelRandom as rng } from "./model-random.mjs";
-import { drawingBufferSize } from "./render-budget.mjs";
-import { buildWaterBowl } from "./water-models.mjs";
-import { populateWater } from "./water-life.mjs";
 import { wardrobe } from "../wardrobe.mjs";
 import { buildResident, buildPig } from "./residents.mjs";
 
@@ -73,6 +61,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   const editable = controls === "edit";
   const backgroundStage = options.backgroundStage === true;
   const gameModelStage = options.gameModelStage === true;
+  let sourceInspection = backgroundStage && options.reviewSampling !== "game";
   let navigationMode = "rotate",
     orbitLimits = null;
   if (controls !== "none") canvas.tabIndex = 0;
@@ -90,11 +79,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       room: (layout.scenes.room || []).map(withContact),
     },
   };
-  function withContact(o) {
-    return PLANTS.some((p) => p.id === o.type)
-      ? { ...o, contactY: (plantContact(o).bottom - 1) * o.scale }
-      : o;
-  }
+  function withContact(o) { return { ...o, contactY: 0 }; }
   const renderer = new T.WebGLRenderer({
     canvas,
     antialias: false,
@@ -146,6 +131,15 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     windPower = { value: 0 };
   const surfaceWeather = { wet: { value: 0 }, rain: { value: 0 } };
   const style = createPixelMaterials(T, windTime, windPower, surfaceWeather);
+  let nativeRevision = 0, roomBackground = null;
+  const nativeItems = createNativeItemLibrary(T, { getDefinition: getItemDefinition, getAssembly: getPlantAssembly,
+    units: ITEM_METRES_TO_UNITS, windTime, windPower, weather: surfaceWeather,
+    onChange() {
+      nativeRevision++; renderer.shadowMap.needsUpdate = true;
+      const state = nativeItems.stats;
+      canvas.dataset.itemModelsLoaded = String(state.loaded); canvas.dataset.itemModelsPending = String(state.pending);
+      canvas.dataset.itemAtlases = String(state.atlases); canvas.dataset.itemModelErrors = JSON.stringify(state.errors);
+    } });
   const materialCache = style.cache,
     texCache = style.textures,
     mat = style.mat;
@@ -157,11 +151,6 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     foliage = [],
     waterAnimations = [],
     objectMotion = [];
-  function shade(c, v) {
-    const n = new T.Color(c);
-    n.multiplyScalar(v);
-    return "#" + n.getHexString();
-  }
   function isFoliage(g) {
     for (let p = g; p; p = p.parent)
       if (p.userData.foliage) return p.userData.foliage;
@@ -301,316 +290,29 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         : "wrap-paint",
     );
   }
-  function profile(
-    g,
-    points,
-    sides,
-    color,
-    kind = "clay",
-    shape = "round",
-    ribs = 0,
-  ) {
-    sides = coarseSides(sides, shape, ribs);
-    const key = JSON.stringify([points, sides, shape, ribs]);
-    if (!surfaceCache.has(key))
-      surfaceCache.set(key, latheSurface(T, points, sides, shape, ribs));
-    surface(g, surfaceCache.get(key), 0, 0, 0, 1, 1, 1, color, kind);
-  }
-  function soil(
-    g,
-    x,
-    y,
-    z,
-    w,
-    d,
-    { shape = "round", sides = 24, color = P.soil } = {},
-  ) {
-    let owner = g;
-    while (owner.parent && owner.userData.paintSeed === undefined)
-      owner = owner.parent;
-    const variant = Math.floor((owner.userData.paintSeed || 0) * 32),
-      key = "soil:" + shape + ":" + sides + ":" + variant;
-    if (!surfaceCache.has(key))
-      surfaceCache.set(key, soilSurface(T, shape, sides, variant));
-    const amplitude = Math.min(0.045, Math.min(w, d) * 0.065);
-    g.userData.soilField = { x, y, z, w, d, shape, variant, amplitude };
-    surface(
-      g,
-      surfaceCache.get(key),
-      x,
-      y,
-      z,
-      w / 2,
-      amplitude,
-      d / 2,
-      color,
-      "soil",
-    );
-  }
-  function blade(g, start, end, width, color, teeth = false, fleshy = false) {
-    const key = "blade:" + teeth + ":" + fleshy;
-    if (!surfaceCache.has(key))
-      surfaceCache.set(
-        key,
-        leafSurface(T, [0, 0, 0], [0, 0, 1], 1, teeth, fleshy),
-      );
-    const v = new T.Vector3(...end).sub(new T.Vector3(...start)),
-      length = Math.max(0.001, v.length());
-    const side = new T.Vector3(v.z, 0, -v.x);
-    if (side.lengthSq() < 0.001) side.set(1, 0, 0);
-    side.normalize();
-    const normal = v.clone().cross(side).normalize(),
-      leaf = group(g, ...start);
-    leaf.quaternion.setFromRotationMatrix(
-      new T.Matrix4().makeBasis(side, normal, v.normalize()),
-    );
-    leaf.scale.set(width, length, length);
-    surface(
-      leaf,
-      surfaceCache.get(key),
-      0,
-      0,
-      0,
-      1,
-      1,
-      1,
-      color,
-      isFoliage(g) || "leaf",
-    );
-  }
-  function cactusBody(g, ...args) {
-    buildCactusBody({ group, profile }, g, ...args);
-  }
-  function leaf(g, start, end, width, color) {
-    blade(g, start, end, width, color);
-  }
-  function bloom(g, x, y, z, color) {
-    box(g, x, y, z, 0.1, 0.13, 0.1, "#d6ba70");
-    for (let i = 0; i < 4; i++) {
-      const a = (i * Math.PI) / 2;
-      box(
-        g,
-        x + Math.cos(a) * 0.1,
-        y + 0.02,
-        z + Math.sin(a) * 0.1,
-        0.16,
-        0.1,
-        0.16,
-        color,
-      );
-    }
-  }
-  const plants = new Map(D.plants.map((o) => [o.id, o])),
-    pots = new Map(D.pots.map((o) => [o.id, o]));
-  function pot(g, id, r = 0.46, h = 0.38, empty = false) {
-    const p = pots.get(id) || pots.get("terra");
-    return buildVessel({ box, beam, shade, profile, group, soil }, g, p, r, h, {
-      empty,
-    });
-  }
+  const plants = new Map(D.plants.map(o => [o.id, o]));
   function makePlant(parent, o) {
-    const p = plants.get(o.type),
-      g = group(parent);
-    g.userData.animated = true;
-    g.userData.paintSeed = surfaceSeed(o.seed);
-    g.scale.setScalar(o.scale * (o.type === "barrel" ? 1.15 : 1.38));
-    g.rotation.y = (-o.rotation * Math.PI) / 180;
-    const spec = plantPotSpec(p),
-      radius = spec.radius;
-    const height = pot(g, o.pot || p.defaultPot, radius, spec.height);
-    const fol = group(g, 0, height - 0.044, 0);
-    // Soil grains belong to the native square painting, rather than hundreds
-    // of sub-pixel spheres. The closed, uneven soil surface remains geometric.
-    fol.userData.foliage = plantPaintKind(p);
-    buildFoliage(
-      { box, beam, ellipsoid, group, shade, rng, blade, profile, cactusBody },
-      fol,
-      p,
-      {
-        ...o,
-        potRadius: radius,
-        potTop: height,
-        floorAt: (xx, zz) => {
-          const k = g.scale.x,
-            a = (-(o.rotation || 0) * Math.PI) / 180;
-          const floor = -(parent.position.y + height * k) / k + 0.09;
-          const support = parent.userData.support;
-          if (!support?.parent) return floor;
-          const q = localPoint(
-            {
-              x: o.x + (xx * Math.cos(a) + zz * Math.sin(a)) * k * 16,
-              y: o.y + (-xx * Math.sin(a) + zz * Math.cos(a)) * k * 16,
-              contactY: o.contactY || 0,
-            },
-            support.parent,
-          );
-          const surface = supportSurfaces(support.parent)[support.level];
-          return surface &&
-            Math.abs(q.x - (surface.x || 0)) < surface.w / 2 + 0.06 &&
-            Math.abs(q.z - surface.z) < surface.d / 2 + 0.06
-            ? -height + 0.1
-            : floor;
-        },
-      },
-    );
+    const k = ITEM_METRES_TO_UNITS * (o.scale || 1), a = -(o.rotation || 0) * Math.PI / 180;
+    const g = nativeItems.make(o, { floorAt(xx, zz) {
+      const ground = (.025 - parent.position.y) / k;
+      const support = parent.userData.support;
+      if (!support?.parent) return ground;
+      const q = localPoint({ x: o.x + (xx * Math.cos(a) + zz * Math.sin(a)) * k * 16,
+        y: o.y + (-xx * Math.sin(a) + zz * Math.cos(a)) * k * 16, contactY: 0 }, support.parent);
+      const board = supportSurfaces(support.parent)[support.level];
+      return board && Math.abs(q.x - (board.x || 0)) < board.w / 2 && Math.abs(q.z - (board.z || 0)) < board.d / 2
+        ? (support.height + .025 - parent.position.y) / k : ground;
+    }});
+    parent.add(g); g.scale.setScalar(o.scale || 1); g.rotation.y = a;
     return g;
-  }
-  const dims = OBJECT_DIMENSIONS;
-  function stand(g, w, d, h, type) {
-    buildStand({ T, box, beam, group, cyl, shade, P, mat }, g, w, d, h, type);
-  }
-  function basin(g, w, d, h, type) {
-    buildWashstation({ T, box, cyl, beam, group, mat, P }, g, w, d, h, type);
-  }
-  function terrarium(g, w, d, h) {
-    box(
-      g,
-      0,
-      h * 0.46,
-      -d * 0.42,
-      w * 0.92,
-      h * 0.74,
-      0.045,
-      "#647e78",
-      "metal",
-    );
-    for (let i = 0; i < 12; i++)
-      box(
-        g,
-        -w * 0.43 + i * w * 0.078,
-        h * 0.46,
-        -d * 0.454,
-        0.04,
-        h * 0.69,
-        0.035,
-        "#8b9f8e",
-      );
-    for (const x of [-w * 0.47, w * 0.47])
-      for (const z of [-d * 0.43, d * 0.43])
-        box(g, x, h * 0.5, z, 0.11, h, 0.1, P.blueDark, "metal");
-    box(g, 0, 0.09, 0, w, 0.14, d, P.blueDark);
-    for (const zz of [-d * 0.43, d * 0.43])
-      box(g, 0, h, zz, w, 0.1, 0.1, P.blue);
-    for (const xx of [-w * 0.47, w * 0.47])
-      box(g, xx, h, 0, 0.1, 0.1, d, P.blue);
-    for (let i = 0; i < 6; i++)
-      box(g, -w * 0.41 + i * w * 0.164, h, 0, 0.035, 0.04, d * 0.82, "#b1c2b1");
-    for (let i = 0; i < 9; i++)
-      box(
-        g,
-        -w * 0.42 + i * w * 0.105,
-        h * 0.52,
-        -d * 0.44,
-        0.045,
-        h * 0.86,
-        0.04,
-        "#a6b8a9",
-      );
-    for (const yy of [0.17, h * 0.9])
-      box(g, 0, yy, d * 0.45, w, 0.085, 0.08, P.blue);
-    const glass = new T.Mesh(
-      new T.BoxGeometry(w * 0.88, h * 0.82, d * 0.8),
-      paintedPane("#86aba7",.2),
-    );
-    glass.position.y = h * 0.5;
-    g.add(glass);
-    for (let k = 0; k < 10; k++)
-      box(
-        g,
-        -w * 0.38 + k * w * 0.08,
-        0.22,
-        -d * 0.22 + (k % 3) * d * 0.2,
-        0.22,
-        0.09,
-        0.23,
-        "#6e875a",
-      );
-    box(g, w * 0.12, h * 0.54, d * 0.5, 0.2, 0.06, 0.055, P.white);
-    box(g, w * 0.2, h * 0.49, d * 0.5, 0.06, 0.18, 0.055, P.white);
-  }
-
-  function paintedPane(color,opacity){
-    const base=mat(color,"glass"),material=base.clone();
-    material.onBeforeCompile=base.onBeforeCompile;material.customProgramCacheKey=base.customProgramCacheKey;
-    material.defaultAttributeValues=base.defaultAttributeValues;
-    material.transparent=true;material.opacity=opacity;material.depthWrite=false;
-    return material;
-  }
-  function fishSchool(g, width, depth, level, goldfish = false) {
-    populateWater(
-      {
-        group,
-        ellipsoid,
-        box,
-        registerWater: (fish) => waterAnimations.push(fish),
-      },
-      g,
-      { width, depth, level, goldfish, count: goldfish ? 3 : 5 },
-    );
-  }
-  function waterSurface(g, width, depth, level, round = false) {
-    const base = mat("#749993", "water"),
-      waterMaterial = base.clone();
-    waterMaterial.onBeforeCompile = base.onBeforeCompile;
-    waterMaterial.customProgramCacheKey = base.customProgramCacheKey;
-    waterMaterial.transparent = true;
-    waterMaterial.opacity = 0.56;
-    waterMaterial.depthWrite = false;
-    const geometry = round
-      ? new T.CircleGeometry(0.5, 16)
-      : new T.PlaneGeometry(1, 1);
-    const water = new T.Mesh(geometry, waterMaterial);
-    water.rotation.x = -Math.PI / 2;
-    water.scale.set(width, depth, 1);
-    water.position.y = level;
-    g.add(water);
-  }
-  function waterBowl(g, r, h, type) {
-    buildWaterBowl({ profile, group, cyl, box, shade, fishSchool, waterSurface, P }, g, r, h, type);
-  }
-  function modelApi() {
-    return {
-      T,
-      mat,
-      box,
-      cyl,
-      beam,
-      group,
-      ellipsoid,
-      surface,
-      soil,
-      profile,
-      shade,
-      P,
-      stand,
-      basin,
-      terrarium,
-      waterBowl,
-      fishSchool,
-      waterSurface,
-      registerMotion: (g, kind) => {
-        g.userData.animated = true;
-        objectMotion.push({ g, kind });
-      },
-      makePot: pot,
-    };
   }
   function makeObject(parent, o) {
-    const g = group(parent);
-    let space = parent;
-    while (space.parent && !["north", "south", "room"].includes(space.name))
-      space = space.parent;
-    g.userData.weathered =
-      !asset(o.type).weapon &&
-      (["north", "south", "room"].includes(space.name)
-        ? space.name !== "room"
-        : !o.type.startsWith("room-"));
-    g.userData.animated = true;
-    g.userData.paintSeed = surfaceSeed(o.seed);
-    g.scale.setScalar(o.scale);
-    g.rotation.y = (-o.rotation * Math.PI) / 180;
-    buildObject(modelApi(), g, asset(o.type), o);
+    const g = nativeItems.make(o); parent.add(g);
+    g.scale.setScalar(o.scale || 1); g.rotation.y = -(o.rotation || 0) * Math.PI / 180;
     return g;
+  }
+  function modelApi() {
+    return { makeNativeItem(parent, type) { const model = nativeItems.make({ type }); parent.add(model); return model; } };
   }
   const coords = (name, x, y) =>
     name === "north"
@@ -684,11 +386,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     const shape = [o.type, o.pot, o.seed];
     // Hanging foliage is clipped against the actual floor and shelf edge. Its
     // clipping envelope changes geometry; ordinary transforms never do.
-    if (
-      /tails|ivy|exp-(beadtail|threads|segments|fishbone)/.test(
-        plants.get(o.type)?.form || "",
-      )
-    ) {
+    if (isTrailingPlant(getItemDefinition(o.type))) {
       const relation = relationsFor(list).get(o.id),
         parent = list.find((p) => p.id === relation?.parentId),
         q = parent && localPoint(o, parent);
@@ -710,10 +408,9 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     anchor.userData.support = placement?.parentId
       ? { ...placement, parent: list.find((p) => p.id === placement.parentId) }
       : null;
-    anchor.userData.model.scale.setScalar(
-      o.scale * (plants.has(o.type) ? (o.type === "barrel" ? 1.15 : 1.38) : 1),
-    );
+    anchor.userData.model.scale.setScalar(o.scale || 1);
     anchor.userData.model.rotation.y = (-(o.rotation || 0) * Math.PI) / 180;
+    nativeItems.setContents(anchor.userData.model, [...relationsFor(list).values()].some(relation => relation.parentId === o.id));
   }
   function addModel(name, o, list) {
     const anchor = group(groups[name]);
@@ -729,6 +426,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       anchor,
       o,
     );
+    nativeItems.setContents(anchor.userData.model, [...relationsFor(list).values()].some(relation => relation.parentId === o.id));
     modelBuilds++;
     objectRoots[name].set(o.id, anchor);
     return anchor;
@@ -751,6 +449,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   }
   function release(root) {
     root.removeFromParent();
+    nativeItems.dispose(root);
     const owned = new Set(),
       disposable = new Set();
     root.traverse((n) => {
@@ -759,9 +458,9 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         n.dispose();
         if (n.geometry.userData.transient) disposable.add(n.geometry);
       } else if (n.isMesh) {
-        n.geometry?.dispose();
-        if (![...materialCache.values()].includes(n.material))
-          n.material?.dispose();
+        if (!n.geometry?.userData.nativeItemShared && !n.geometry?.userData.structuralVisibilityPrivate) n.geometry?.dispose();
+        for (const material of Array.isArray(n.material) ? n.material : [n.material])
+          if (!material?.userData.nativeItemShared && ![...materialCache.values()].includes(material)) material?.dispose();
       }
     });
     batches = batches.filter((b) => !owned.has(b));
@@ -810,51 +509,22 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     renderer.shadowMap.needsUpdate = true;
   }
   function roomShell(root) {
-    const w = 10,
-      d = 14;
-    box(root, 0, -0.13, 0, w, 0.25, d, "#b4a991", "wood");
-    // A real opening lets daylight and the mullion shadows enter the room.
-    for (const x of [-3.4, 3.4])
-      box(root, x, 1.25, -d / 2, 3.2, 2.5, 0.15, "#c6bea4", "room-wall");
-    box(root, 0, 0.4, -d / 2, 3.6, 0.8, 0.15, "#c6bea4", "room-wall");
-    box(root, 0, 2.43, -d / 2, 3.6, 0.14, 0.15, "#c6bea4", "room-wall");
-    box(root, -w / 2, 1.25, 0, 0.15, 2.5, d, "#b7ae95", "room-wall");
-    box(root, w / 2, 0.23, 0, 0.15, 0.45, d, "#b7ae95", "room-wall");
-    box(root, 0, 0.003, 0, w, 0.015, d, "#b2a180", "wood");
-    const glass = new T.Mesh(
-      new T.PlaneGeometry(3.4, 1.5),
-      paintedPane("#aabfc6",.16),
-    );
-    glass.position.set(0, 1.57, -6.92);
-    root.add(glass);
-    for (const x of [-1.75, 0, 1.75])
-      box(root, x, 1.57, -6.86, 0.065, 1.6, 0.055, "#d0cfad");
-    box(root, 0, 1.57, -6.85, 3.5, 0.065, 0.055, "#d0cfad");
-    box(root, 0, 0.8, -6.76, 3.7, 0.09, 0.44, "#c9c2a8", "wood");
-    // Partially drawn cloth leaves a broad opening; no opaque pane blocks the sun.
-    for (let k = 0; k < 3; k++)
-      box(
-        root,
-        -1.54 + k * 0.1,
-        1.57,
-        -6.77,
-        0.16,
-        1.53,
-        0.08,
-        k === 1 ? "#ada88f" : "#c2bea5",
-        "actor-cloth",
-      );
-    beam(
-      root,
-      [-4.92, 2.04, -0.8],
-      [-4.45, 2.22, -0.8],
-      0.05,
-      "#655b4b",
-      "metal",
-    );
-    cyl(root, -4.45, 2.18, -0.8, 0.12, 0.25, 0.19, "#aaa185", 12, "cloth");
-    ellipsoid(root, -4.45, 2.06, -0.8, 0.085, 0.065, 0.085, "#e4c99f", "light");
-    door(root, "room", -4.9, 4, -Math.PI / 2);
+    const nativeDoor = ROOM_BACKGROUND.door;
+    doors.room = createRoomDoor(T, root, {
+      centre: nativeDoor.frameOriginRuntime,
+      width: nativeDoor.leafWidthRuntime,
+      height: nativeDoor.heightRuntime,
+    });
+    roomBackground = loadRoomBackground(T, root, {
+      onReady({ leaves }) {
+        mountRoomDoorLeaves(doors.room, leaves);
+        canvas.dataset.roomBackgroundLoaded = "true";
+        canvas.dataset.roomBackgroundReadyMs = String(performance.now());
+        canvas.dataset.roomDoorParts = String(leaves.length);
+      },
+      onError(error) { canvas.dataset.roomBackgroundError = String(error.message || error); },
+    });
+    invalidateShadowsAfterLoad(renderer, roomBackground.ready);
   }
   // Batch the painted surfaces and structural pieces without duplicating draw calls.
   function compileInstances() {
@@ -960,8 +630,23 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   city.userData.weathered = true;
   const groundY = HOUSE.base,
     windowMats = [];
-  const architecturalShell = loadArchitecturalShell(T, city);
-  invalidateShadowsAfterLoad(renderer, architecturalShell.ready);
+  let loadedArchitecturalShell = null;
+  const architecturalShell = {
+    get stats() { return loadedArchitecturalShell?.stats || { loaded: false, deferred: true, source: "Blender", error: null }; },
+    measure(raycaster) { return loadedArchitecturalShell?.measure(raycaster) || null; },
+    update(atmosphere) { loadedArchitecturalShell?.update(atmosphere); },
+  };
+  function ensureArchitecturalShell() {
+    if (loadedArchitecturalShell) return;
+    loadedArchitecturalShell = loadArchitecturalShell(T, city);
+    loadedArchitecturalShell.ready.then(() => {
+      canvas.dataset.backgroundLoaded = "true";
+      canvas.dataset.backgroundReadyMs = String(performance.now());
+    }).catch(error => {
+      canvas.dataset.backgroundError = String(error.message || error);
+    });
+    invalidateShadowsAfterLoad(renderer, loadedArchitecturalShell.ready);
+  }
   const neighborhood = { source: "Blender", row: true, gameRange: true };
   if (!editable && options.scene !== "room") {
     build("north");
@@ -971,7 +656,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   let current = "north",
     view = { theta: -0.12, phi: 1.15, zoom: 1 },
     wanted = { ...view };
-  let terraceBounds = null, backgroundOverview = false, backgroundOutlook = false;
+  let terraceBounds = null, roomBounds = null, backgroundOverview = false, backgroundOutlook = false;
   const narrativeViews = ["bird", "drone", "neighbor"];
   const reviewViews = ["terrace", "row", "outlook", ...narrativeViews];
   let reviewViewMode = reviewViews.includes(options.reviewView)
@@ -1002,6 +687,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     Object.assign(station, { walk: 0, height: 0, dolly: 0 });
     Object.assign(wantedStation, station);
     current = name;
+    canvas.dataset.scene = name;
+    if (name !== "room") ensureArchitecturalShell();
     build(name);
     if (primitives.length) compileInstances();
     for (const [key, g] of Object.entries(groups)) {
@@ -1038,7 +725,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       wanted.theta = name === "north" ? Math.PI - .48 : Math.PI / 2 + .48;
       wanted.phi = .68;
     }
-    wanted.zoom = name === "room" ? 1.07 : editable ? 1 : TERRACE_ZOOM.min;
+    wanted.zoom = name === "room" ? 1 : editable ? 1 : TERRACE_ZOOM.min;
     desiredTarget.set(
       name === "room" ? -0.4 : 0,
       0.2,
@@ -1068,6 +755,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     doors[name].hinge.rotation.y = 0;
     renderer.shadowMap.needsUpdate = true;
     terraceBounds = null;
+    roomBounds = null;
     resize();
     if (backgroundOverview) {
       const rowCentre = HOUSE.roof.x + HOUSE.roof.width / 2;
@@ -1086,20 +774,31 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     airScopeEllipse = [scopeDiameter / w, scopeDiameter / h];
     // Retina CSS presentation must preserve the already rasterized square
     // cells rather than interpolate their edges into smaller colour fragments.
-    canvas.style.imageRendering = current === "room" ? "auto" : "pixelated";
-    outdoorGrid = resolvePixelGrid(window.devicePixelRatio);
-    canvas.dataset.pixelRatio = String(current === "room" ? 1 : outdoorGrid.pixelRatio);
-    canvas.dataset.physicalPixelStep = String(current === "room" ? 1 : outdoorGrid.pixelStep);
+    canvas.style.imageRendering = sourceInspection ? "auto" : "pixelated";
+    outdoorGrid = resolveScenePixelGrid(window.devicePixelRatio, { sourceInspection });
+    canvas.dataset.pixelRatio = String(outdoorGrid.pixelRatio);
+    canvas.dataset.physicalPixelStep = String(outdoorGrid.pixelStep);
+    canvas.dataset.targetCssPixelStep = String(outdoorGrid.targetCssPixelStep);
+    canvas.dataset.sampling = sourceInspection ? "source" : "game";
     // The world remains a cheap low target. The final pass uses the actual DPR
     // so each square cell is an integer number of device pixels at every density.
-    const [bufferW, bufferH] = current !== "room" ? pixelGridSize(w, h, outdoorGrid).output :
-      drawingBufferSize(w / PIXEL_STYLE.renderScale, h / PIXEL_STYLE.renderScale, software);
+    const [bufferW, bufferH] = pixelGridSize(w, h, outdoorGrid).output;
     renderer.setSize(bufferW, bufferH, false);
     if (narrativeActive()) {
       storyFrame = narrativeFrame(storyPreset(), w, h);
       wanted.zoom = T.MathUtils.clamp(wanted.zoom, storyFrame.zoom.min, storyFrame.zoom.max);
       constrainPan();
-    } else if (current !== "room") {
+    } else if (current === "room") {
+      const previousFrame = roomBounds;
+      roomBounds = roomFrame(w, h, wanted.theta, wanted.phi, {
+        distance: camera.isPerspectiveCamera ? TERRACE_VIEW_DISTANCE : null,
+      });
+      if (!previousFrame) desiredTarget.set(roomBounds.target.x, roomBounds.target.y, roomBounds.target.z);
+      else {
+        desiredTarget.x += roomBounds.target.x - previousFrame.target.x;
+        desiredTarget.z += roomBounds.target.z - previousFrame.target.z;
+      }
+    } else {
       const previousFrame = terraceBounds;
       terraceBounds = terraceFrame(
         current,
@@ -1118,7 +817,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       constrainPan();
     }
     const height = narrativeActive() ? storyFrame.span :
-      current === "room" ? Math.max(15.5, (13.8 * h) / w) : terraceBounds.span;
+      current === "room" ? roomBounds.span : terraceBounds.span;
     camera.top = height / 2;
     camera.bottom = -height / 2;
     camera.left = (-height * w) / h / 2;
@@ -1614,6 +1313,13 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       station[key] += (wantedStation[key] - station[key]) * speed;
     target.lerp(desiredTarget, speed);
     positionCamera();
+    {
+      const observer = narrativeActive() ? narrativeView : null,
+        detailZoom = observer === "neighbor" ? view.zoom * storyPreset().span / storyFrame.span : 1;
+      outdoorGrid = resolveScenePixelGrid(window.devicePixelRatio, { sourceInspection, view: observer, zoom: detailZoom });
+      canvas.dataset.physicalPixelStep = String(outdoorGrid.pixelStep);
+      canvas.dataset.targetCssPixelStep = String(outdoorGrid.targetCssPixelStep);
+    }
     doorProgress += (Number(doorOpen) - doorProgress) * Math.min(1, dt * 12);
     doors[current].hinge.rotation.y = -doorProgress * 0.58;
     updateActor(pig, person, present, time, a);
@@ -1635,7 +1341,9 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     windTime.value = time;
     windPower.value = weatherMotion.wind;
     style.updateAtmosphere(a, current === "room");
+    nativeItems.updateAtmosphere(a, current === "room");
     architecturalShell?.update(a);
+    roomBackground?.update(a);
     // Atmosphere owns visibility alongside the seasonal light palette; keep
     // its near/far layers coherent when a weather transition changes the sky.
     surfaceWeather.wet.value = current === "room" ? 0 : a.wetness;
@@ -1654,6 +1362,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     const key = chosen
       ? [
           chosen.uuid,
+          nativeRevision,
           ...chosen.position.toArray(),
           ...chosen.userData.model.scale.toArray(),
           chosen.userData.model.rotation.y,
@@ -1665,8 +1374,9 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       selectionBox.updateMatrixWorld(true);
     }
     selectionKey = key;
-    if (current !== "room") outdoorRaster.render(scene, camera, canvas.width, canvas.height, narrativeActive() && narrativeView === "neighbor", outdoorGrid);
-    else renderer.render(scene, camera);
+    const nativeVisibility = nativeItems.updateVisibility(camera, Math.max(1, Math.floor(canvas.height / outdoorGrid.pixelStep)), !sourceInspection);
+    if (nativeVisibility.changed) renderer.shadowMap.needsUpdate = true;
+    outdoorRaster.render(scene, camera, canvas.width, canvas.height, narrativeActive() && narrativeView === "neighbor", outdoorGrid);
     if (gl.fenceSync) {
       pendingGPU = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
       gl.flush();
@@ -1674,6 +1384,12 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     frameTimes[frameCursor++ % frameTimes.length] =
       performance.now() - frameStart;
     frameCount++;
+    canvas.dataset.objects = String(D.layout[current].length);
+    canvas.dataset.drawCalls = String(renderer.info.render.calls);
+    canvas.dataset.triangles = String(renderer.info.render.triangles);
+    canvas.dataset.frames = String(frameCount);
+    if (!canvas.dataset.firstFrameMs) canvas.dataset.firstFrameMs = String(performance.now());
+    canvas.dataset.lastRenderMs = String(frameTimes[(frameCursor + frameTimes.length - 1) % frameTimes.length]);
   }
   const raycaster = new T.Raycaster(),
     ndc = new T.Vector2(),
@@ -1726,9 +1442,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   }
   function ray(x, y) {
     const rect = canvas.getBoundingClientRect();
-    if (current !== "room")
-      ndc.set(...outdoorSampleNdc([x - rect.left, y - rect.top], rect.width, rect.height, narrativeActive() && narrativeView === "neighbor", outdoorGrid));
-    else ndc.set(((x - rect.left) / rect.width) * 2 - 1, 1 - ((y - rect.top) / rect.height) * 2);
+    ndc.set(...outdoorSampleNdc([x - rect.left, y - rect.top], rect.width, rect.height, narrativeActive() && narrativeView === "neighbor", outdoorGrid));
     raycaster.setFromCamera(ndc, camera);
   }
   function pointAtHeight(x, y, height = 0) {
@@ -1886,9 +1600,9 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       v.x = point[0]; v.y = point[1];
     }
     const point = [(v.x * .5 + .5) * rect.width, (.5 - v.y * .5) * rect.height],
-      presented = current === "room" ? point : rasterCellCentre(point, outdoorGrid, rect.width, rect.height);
-    return { clientX: rect.left + (current === "room" ? presented[0] : Math.min(rect.width - .5, presented[0])),
-      clientY: rect.top + (current === "room" ? presented[1] : Math.min(rect.height - .5, presented[1])) };
+      presented = rasterCellCentre(point, outdoorGrid, rect.width, rect.height);
+    return { clientX: rect.left + Math.min(rect.width - .5, presented[0]),
+      clientY: rect.top + Math.min(rect.height - .5, presented[1]) };
   }
   function updateWardrobe() {
     const key = JSON.stringify(wardrobe);
@@ -1906,14 +1620,18 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   const spriteCache = new Map(),
     catalogInfo = new Map(),
     waitingPortraits = new WeakMap();
-  function thumbnail(o, output, asynchronous = false) {
-    // Never cache an untextured portrait while the single native book loads.
-    if (!style.loaded) {
-      const request = Symbol();
+  function thumbnail(o, output, asynchronous = false, request = null) {
+    if (request === null) {
+      request = Symbol();
       waitingPortraits.set(output, request);
-      return style.ready.then(() => {
+      o = { ...o };
+    } else if (waitingPortraits.get(output) !== request) return;
+    // Preload only requested native models. No untextured or empty portrait can
+    // enter the cache while its GLB or selected vessel is still in flight.
+    if (!nativeItems.isReady(o)) {
+      return nativeItems.preload(o).then(() => {
         if (waitingPortraits.get(output) === request)
-          return thumbnail(o, output, asynchronous);
+          return thumbnail(o, output, asynchronous, request);
       });
     }
     const a = asset(o.type),
@@ -1951,7 +1669,11 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         a.plant?.sources?.length ||
         a.weapon?.sources?.length ||
         a.sources?.length ||
-        0,
+        2,
+      source: "Blender",
+      textureAuthor: "Pixelorama",
+      modelId: getItemDefinition(o.type)?.modelId,
+      family: getItemDefinition(o.type)?.family,
     });
     const span = Math.max(size.x, size.z, size.y) * 1.18,
       cam = new T.OrthographicCamera(
@@ -2007,7 +1729,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
           (output.height - y) * row), y * row);
       copy.getContext("2d").putImageData(image, 0, 0);
       spriteCache.set(key, copy);
-      if (output.isConnected || !asynchronous)
+      if (waitingPortraits.get(output) === request)
         output.getContext("2d").drawImage(copy, 0, 0);
       target.dispose();
       return copy;
@@ -2081,6 +1803,11 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   return {
     setScene: reset,
     setReviewView,
+    setReviewSampling(mode) {
+      if (!backgroundStage) return;
+      sourceInspection = mode !== "game";
+      resize();
+    },
     setFreeCamera(enabled) {
       if (!gameModelStage || options.allowFreeCamera !== true || editable || current === "room") return;
       if (!enabled) { freeCamera = false; reset(current); return; }
@@ -2137,11 +1864,12 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     pick,
     projectObject,
     thumbnail,
-    catalogModel(type) {
+    preloadModel: o => nativeItems.preload(o),
+    async catalogModel(type) {
       if (!catalogInfo.has(type)) {
         const output = document.createElement("canvas");
         output.width = output.height = 32;
-        thumbnail({ type, seed: 1835 }, output);
+        await thumbnail({ type, seed: 1835 }, output, true);
       }
       return catalogInfo.get(type);
     },
@@ -2177,12 +1905,13 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         antialias: renderer.getContext().getContextAttributes().antialias,
         style: PIXEL_STYLE.id,
         textures: texCache.size,
+        nativeItems: nativeItems.stats,
         surfaces: surfaceCache.size,
         foliageMotion: {
           time: windTime.value,
           strength: windPower.value,
           programs: (renderer.info.programs || []).filter((p) =>
-            /native-pixelorama-metric-v2-(leaf|rigid)/.test(p.cacheKey),
+            /native-pixelorama-metric-v2-(leaf|rigid)|native-item-wind-(leaf|rigid)/.test(p.cacheKey),
           ).length,
         },
         controls,
@@ -2196,7 +1925,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         cameraPreset: narrativeActive() ? { ...storyPreset(), frame: { ...storyFrame }, pose: narrativePose(storyPreset(), { ...view, station }, target.toArray()) } : null,
         stationTravel: narrativeActive() ? { current: { ...station }, wanted: { ...wantedStation }, limits: { ...storyPreset().station } } : null,
         scopeLens: narrativeActive() && narrativeView === "neighbor" ? outdoorRaster.lensStats : null,
-        raster: current !== "room" ? { enabled: true, ...outdoorRaster.stats } : { enabled: false, pixelStep: 1 },
+        raster: { enabled: !sourceInspection, sourceInspection, ...outdoorRaster.stats },
         programs: renderer.info.programs?.length || 0,
         selectedModel: options.selected?.() || null,
         wardrobe: { ...wardrobe },
@@ -2220,6 +1949,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         storeys: 6,
         neighborhood,
         background: architecturalShell.stats,
+        roomBackground: roomBackground?.stats || null,
         gameModelReview: gameModelStage,
         cameraRange: { near: camera.near, far: camera.far },
         distanceFog: { near: scene.fog.near, far: scene.fog.far },

@@ -1,0 +1,262 @@
+{
+  "sourceDate": "2026-10-12",
+  "method": "Current museum primary pages and actual official front/inside/back photographs inspected. All modelling and pixel painting will be original simplifications.",
+  "physicalTextureDensity": 16,
+  "gameScalingDecision": "Pending parent authoring specification; preserve published dimensional ratios and label any scale adaptation.",
+  "items": [
+    {
+      "id": "antique-shino",
+      "name": "志野芒纹浅钵",
+      "source": "https://www.miho.jp/booth/html/artcon/00000283.htm",
+      "museumDimensionsCm": {
+        "height": 6.4,
+        "diameter": 28
+      },
+      "period": "桃山时代，16世纪",
+      "images": [
+        "shino-front.jpg"
+      ],
+      "observedShape": [
+        "浅阔不完全规整圆钵",
+        "奶白长石釉有薄暖灰/黄变化",
+        "宽钵沿"
+      ],
+      "observedInterior": [
+        "芒草丛从内底一侧向中央上方展开",
+        "沿口内侧一圈短笔与点状铁绘"
+      ],
+      "observedExterior": [],
+      "unverified": [
+        "外壁完整图案",
+        "底足形状与尺寸",
+        "器壁厚度"
+      ],
+      "modelPlan": "浅碗实体壳体和真实内底；内外面独立图集；内面芒草主构图，外面保留白釉，不能把内绘印到外壁。"
+    },
+    {
+      "id": "antique-nezumi",
+      "name": "鼠志野撇口四方钵",
+      "source": "https://www.miho.jp/booth/html/artcon/00000293.htm",
+      "museumDimensionsCm": {
+        "height": 5.8,
+        "mouthWidth": 14,
+        "mouthDepth": 14.2
+      },
+      "period": "桃山时代，16世纪",
+      "images": [
+        "nezumi-front.jpg"
+      ],
+      "observedShape": [
+        "广阔内卷四方口沿、四角圆缓",
+        "内底小而圆",
+        "三足（馆方文字证实）"
+      ],
+      "observedInterior": [
+        "深赤褐釉，不采用常见灰蓝鼠志野色",
+        "白色掻落草叶与弧形线图案覆盖内壁/圆底"
+      ],
+      "observedExterior": [
+        "图中外边缘深褐釉"
+      ],
+      "unverified": [
+        "三足精准位置及足形",
+        "外底与外壁完整图案"
+      ],
+      "modelPlan": "形状内外分离：方口内卷至圆形内底；短三足；白色简化掻落草叶集中内壁，背面保守深褐色。"
+    },
+    {
+      "id": "antique-shino-square",
+      "name": "志野铁绘四方向付",
+      "source": "https://www.miho.jp/booth/html/artcon/00000294.htm",
+      "museumDimensionsCm": {
+        "height": 9.2,
+        "mouthWidth": 8.5,
+        "maxDepth": 9
+      },
+      "period": "桃山时代，16世纪",
+      "images": [
+        "shino-square-front.jpg",
+        "shino-square-other.jpg"
+      ],
+      "observedShape": [
+        "高直筒、四方入隅圆缓",
+        "浅圆形削入底，馆方称碁笥底风",
+        "未施釉白土底（馆方文字）"
+      ],
+      "observedInterior": [
+        "照片中内壁奶白，未见铁绘"
+      ],
+      "observedExterior": [
+        "各面交替蛇笼网纹、垂坠珠串、堇草、似鸢尾植物",
+        "沿口下方横向铁绘线"
+      ],
+      "unverified": [
+        "内底完整视图",
+        "足底准确深度"
+      ],
+      "modelPlan": "厚壁圆角方筒、浅圆内底；四面分别做不同铁绘，内部保持奶白釉；不使用同一图案重复。"
+    },
+    {
+      "id": "antique-nabeshima",
+      "name": "锅岛彩绘八角钵",
+      "source": "https://www.metmuseum.org/art/collection/search/63040",
+      "museumDimensionsCm": {
+        "height": 10.2,
+        "diameter": 21.3
+      },
+      "period": "江户时代，1800年",
+      "images": [
+        "nabeshima-front.jpg"
+      ],
+      "observedShape": [
+        "八角折面宽口",
+        "腹部收向短圈足",
+        "沿口外翻"
+      ],
+      "observedInterior": [
+        "仅可见白色口内部分"
+      ],
+      "observedExterior": [
+        "外壁主要萝卜枝叶构图，跨数个八角面"
+      ],
+      "unverified": [
+        "原釉彩具体色值：馆方主图黑白",
+        "钵内完整纹饰",
+        "背面图案",
+        "圈足径"
+      ],
+      "modelPlan": "8面碗，真实内壳和短圈足；外面保留萝卜叶构图。彩色转译用低饱和蓝/灰绿，说明并非原色复原；内面白瓷。"
+    },
+    {
+      "id": "antique-nabeshima-dish",
+      "name": "锅岛青花几何浅盘",
+      "source": "https://www.metmuseum.org/art/collection/search/50344",
+      "museumDimensionsCm": {
+        "height": 5.1,
+        "diameter": 20.6
+      },
+      "period": "江户时代，18世纪",
+      "images": [
+        "nabeshima-dish-front.jpg",
+        "nabeshima-dish-back.jpg"
+      ],
+      "observedShape": [
+        "浅圆盘",
+        "较高圈足与展开斜壁"
+      ],
+      "observedInterior": [
+        "青蓝底白留空同心纹圈",
+        "中心花瓣，外侧菱形/圆圈/波状/方折等分带"
+      ],
+      "observedExterior": [
+        "背面三组枝叶与花",
+        "圈足周边梳齿纹（馆方媒材文字证实）"
+      ],
+      "unverified": [
+        "盘截面精准曲率",
+        "圈足径与高度"
+      ],
+      "modelPlan": "真实浅盘壳+圈足；内面用2–3圈层次简化几何青花，背面三组分开的花枝，不将内面同心圈重复到背面。"
+    },
+    {
+      "id": "antique-kutani-red",
+      "name": "九谷赤绘金彩钵",
+      "source": "https://www.clevelandart.org/art/1986.173",
+      "retrievedFallbackSource": "https://www.clevelandart.org/print/art/1986.173",
+      "museumDimensionsCm": {
+        "diameter": 45.7,
+        "height": null
+      },
+      "period": "江户时代，19世纪早中期",
+      "images": [
+        "kutani-inside.jpg"
+      ],
+      "observedShape": [
+        "大圆开阔钵（只有俯视）"
+      ],
+      "observedInterior": [
+        "中心唐狮与花草",
+        "中心外窄几何边框",
+        "中圈花叶缠枝和金色字样徽章",
+        "口部边带网纹与花图徽章交替",
+        "赤绘/金彩"
+      ],
+      "observedExterior": [],
+      "unverified": [
+        "高度与腹深：馆方未列",
+        "圈足形状",
+        "背面图案",
+        "文字完整复原"
+      ],
+      "modelPlan": "保留直径比例但腹深为明确游戏适配；赤绘主色+少量金色点；中心狮形粗轮廓、两圈花叶/徽章；外面保守留白浅暖釉，不伪称背图复原。"
+    },
+    {
+      "id": "antique-celadon",
+      "name": "锅岛青瓷三足钵",
+      "source": "https://collections.lacma.org/object/160060",
+      "museumDimensionsCm": {
+        "height": 8.26,
+        "diameter": 28.89
+      },
+      "period": "江户时代，约1700年",
+      "images": [
+        "celadon-inside.webp",
+        "celadon-profile.webp"
+      ],
+      "observedShape": [
+        "浅钵轮花口",
+        "三只鬼面足",
+        "内外青瓷釉"
+      ],
+      "observedInterior": [
+        "极浅划花：亭/棚在中央、左侧篱笆、右侧树木"
+      ],
+      "observedExterior": [
+        "连续青瓷釉，足面鬼面起伏",
+        "足周围红色露胎与白支钉迹（馆方文字）"
+      ],
+      "unverified": [
+        "底部完整图片",
+        "鬼面细部被釉遮蔽",
+        "波瓣数准确计数"
+      ],
+      "modelPlan": "轮花口浅钵+3个形状化鬼面足；划花用极低对比，避免青瓷上画深黑树；三足实际支撑地面。"
+    },
+    {
+      "id": "antique-oribe-jar",
+      "name": "志野织部铁绘花器",
+      "source": "https://www.miho.jp/booth/html/artcon/00000275.htm",
+      "museumDimensionsCm": {
+        "height": 20.8,
+        "mouthDiameter": 9.7,
+        "bodyDiameter": 21.6,
+        "baseDiameter": 13.5
+      },
+      "period": "江户时代，17世纪",
+      "images": [
+        "oribe-jar-front.jpg",
+        "oribe-jar-other.jpg"
+      ],
+      "observedShape": [
+        "强鼓腹、窄颈、外展开口",
+        "宽底舟德利形",
+        "肩部5凹线按2–1–2分组",
+        "下腹车削横向痕迹"
+      ],
+      "observedInterior": [
+        "颈口可见暖白釉；完整内部不可见"
+      ],
+      "observedExterior": [
+        "正面角折线、带周边点的圆形和三个连圆",
+        "另一面两相交圆及小点、下腹两组简化树形",
+        "白/暖黄长石釉；馆方确认不使用铜绿釉"
+      ],
+      "unverified": [
+        "完整内底",
+        "底书墨字意义：馆方称不明",
+        "不可见周向图案"
+      ],
+      "modelPlan": "两组不同外绘分开安排在前后面，内颈素釉；窄颈壳保持实际开口；不画成绿色织部，作为陈设花器不增栽培孔。"
+    }
+  ]
+}

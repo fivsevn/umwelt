@@ -1,0 +1,197 @@
+{
+  "texelsPerMetre": 16.0,
+  "items": [
+    {
+      "id": "tasklamp",
+      "name": "关节工作灯",
+      "category": "日用与照明",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "sources": [
+        {
+          "label": "IKEA TERTIAL 结构参考",
+          "url": "https://www.ikea.com/ie/en/assembly_instructions/tertial-work-lamp-dark-grey__AA-2550118-1-100.pdf"
+        }
+      ],
+      "width": 0.4225607365369797,
+      "depth": 0.2639944553375244,
+      "height": 0.5220000147819519,
+      "boundsMin": [
+        -0.19256073236465454,
+        -0.12999999523162842,
+        0.0
+      ],
+      "boundsMax": [
+        0.23000000417232513,
+        0.133994460105896,
+        0.5220000147819519
+      ],
+      "file": "assets/tasklamp.glb",
+      "family": "accents",
+      "surfaces": [],
+      "footprint": {
+        "width": 0.4225607365369797,
+        "depth": 0.2639944553375244
+      },
+      "triangles": 684,
+      "sourceBlend": "accents/accents.blend",
+      "sourcePixelorama": "accents/accents-atlas.pxo"
+    },
+    {
+      "id": "solar-lamp",
+      "name": "太阳能庭院灯",
+      "category": "日用与照明",
+      "placement": "floor",
+      "source": "Blender + Pixelorama",
+      "width": 0.20000000298023224,
+      "depth": 0.20000000298023224,
+      "height": 0.7049999833106995,
+      "boundsMin": [
+        -0.10000000149011612,
+        -0.10000000149011612,
+        0.0
+      ],
+      "boundsMax": [
+        0.10000000149011612,
+        0.10000000149011612,
+        0.7049999833106995
+      ],
+      "file": "assets/solar-lamp.glb",
+      "family": "accents",
+      "surfaces": [],
+      "footprint": {
+        "width": 0.20000000298023224,
+        "depth": 0.20000000298023224
+      },
+      "triangles": 316,
+      "sourceBlend": "accents/accents.blend",
+      "sourcePixelorama": "accents/accents-atlas.pxo"
+    },
+    {
+      "id": "tin-lantern",
+      "name": "旧锡灯笼",
+      "category": "日用与照明",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "sources": [
+        {
+          "label": "Met Lantern 外形参考",
+          "url": "https://www.metmuseum.org/art/collection/search/4735"
+        }
+      ],
+      "width": 0.23999999463558197,
+      "depth": 0.23999999463558197,
+      "height": 0.46706217527389526,
+      "boundsMin": [
+        -0.11999999731779099,
+        -0.11999999731779099,
+        0.0
+      ],
+      "boundsMax": [
+        0.11999999731779099,
+        0.11999999731779099,
+        0.46706217527389526
+      ],
+      "file": "assets/tin-lantern.glb",
+      "family": "accents",
+      "surfaces": [],
+      "footprint": {
+        "width": 0.23999999463558197,
+        "depth": 0.23999999463558197
+      },
+      "triangles": 860,
+      "sourceBlend": "accents/accents.blend",
+      "sourcePixelorama": "accents/accents-atlas.pxo"
+    },
+    {
+      "id": "string-lights",
+      "name": "庭院灯串",
+      "category": "日用与照明",
+      "placement": "floor",
+      "source": "Blender + Pixelorama",
+      "width": 1.7200000286102295,
+      "depth": 0.3199999928474426,
+      "height": 1.254042387008667,
+      "boundsMin": [
+        -0.8600000143051147,
+        -0.1599999964237213,
+        0.0
+      ],
+      "boundsMax": [
+        0.8600000143051147,
+        0.1599999964237213,
+        1.254042387008667
+      ],
+      "file": "assets/string-lights.glb",
+      "family": "accents",
+      "surfaces": [],
+      "footprint": {
+        "width": 1.7200000286102295,
+        "depth": 0.3199999928474426
+      },
+      "triangles": 932,
+      "sourceBlend": "accents/accents.blend",
+      "sourcePixelorama": "accents/accents-atlas.pxo"
+    },
+    {
+      "id": "radio-small",
+      "name": "小型收音机",
+      "category": "陈设与收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "width": 0.4564160406589508,
+      "depth": 0.19550000131130219,
+      "height": 0.5407620668411255,
+      "boundsMin": [
+        -0.2150000035762787,
+        -0.1055000051856041,
+        0.0
+      ],
+      "boundsMax": [
+        0.24141603708267212,
+        0.08999999612569809,
+        0.5407620668411255
+      ],
+      "file": "assets/radio-small.glb",
+      "family": "accents",
+      "surfaces": [],
+      "footprint": {
+        "width": 0.4564160406589508,
+        "depth": 0.19550000131130219
+      },
+      "triangles": 348,
+      "sourceBlend": "accents/accents.blend",
+      "sourcePixelorama": "accents/accents-atlas.pxo"
+    },
+    {
+      "id": "tea-set",
+      "name": "瓷茶壶与杯",
+      "category": "陈设与收藏",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "width": 0.48389746248722076,
+      "depth": 0.3499999940395355,
+      "height": 0.20800000429153442,
+      "boundsMin": [
+        -0.2438974678516388,
+        -0.17499999701976776,
+        0.0
+      ],
+      "boundsMax": [
+        0.23999999463558197,
+        0.17499999701976776,
+        0.20800000429153442
+      ],
+      "file": "assets/tea-set.glb",
+      "family": "accents",
+      "surfaces": [],
+      "footprint": {
+        "width": 0.48389746248722076,
+        "depth": 0.3499999940395355
+      },
+      "triangles": 1120,
+      "sourceBlend": "accents/accents.blend",
+      "sourcePixelorama": "accents/accents-atlas.pxo"
+    }
+  ]
+}

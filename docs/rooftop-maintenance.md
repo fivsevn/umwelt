@@ -9,9 +9,9 @@
 - `rooftop/arrange/`：车库，编辑北天台、南阳台和房间陈列。
 - `rooftop/room/`：房间、衣柜与活动。
 
-布局使用 `umwelt-rooftop-layout-v1`。当前为 `version:2`，包含 `scenes.north`、`scenes.south`、`scenes.room`，迁移标记为 `roomVersion:2`、`spaceVersion:1`。`validateLayout()` 继续接受版本 1；缺少房间时补入默认房间，南阳台坐标沿用兼容迁移。保留存储键、物件 ID、seed、旋转及缩放序列化约定，每场景上限 400 件。
+布局使用 `umwelt-rooftop-layout-v1`。当前为 `version:2`，包含 `scenes.north`、`scenes.south`、`scenes.room`，迁移标记为 `roomVersion:2`、`spaceVersion:2`，目录标记为 `native-items-294-v1`。`validateLayout()` 继续接受版本 1；缺少房间时补入默认房间，南阳台坐标沿用兼容迁移。保留存储键、物件 ID、seed、旋转及缩放序列化约定，每场景上限 400 件。
 
-车库优先读取本机布局；无存档或恢复默认时南北为空，房间保留原有陈列。公开观察和综合测试只清空观察用布局，保留房间及版本元数据，不写回车库存档。综合测试使用隔离的审核会话存储，移除 `layout=local`。房间另行检查自身读写和共享布局同步。
+车库和房间读取同一本机布局；新默认三个场景均为空。旧目录陈列按用户要求在首次进入可编辑页面时直接清空并写入新目录标记；没有旧布局备份或恢复入口。新目录下的手动陈列正常保存、导出和跨页面同步。公开观察只清空南北，保留新房间布局元数据而不写回存档；综合场景测试使用隔离审核会话、三个场景始终为空，并移除 `layout=local`。换装存档独立保留。
 
 南北阳台在 `HOUSE` 中属于同一住宅，连接相对屋檐。存档使用各自局部坐标，公开页按住宅坐标构建完整两侧，取景约束在当前一侧。屋檐不提供家具承放层位。承放面、层位身份、碰撞、携带与手势见[承放关系](rooftop-placement.md)。
 
@@ -21,11 +21,11 @@
 
 [建筑源文件](art/rooftop-lowpoly-02/README.md)包含完整 `game-environment.blend`、主图 `terrace-book.pxo` 和远景 `distance-facades.pxo`。`3d/architectural-shell.mjs` 加载 `assets/background/empty-rooftop.mjs`、`.bin` 及 PNG。主图为 1024×1024，近景用 `texelMetresPerUnit` 还原长度，再按 `texelsPerMetre:16` 取样；远景由 `baked-pixel-grid.mjs` 在原烘焙 UV 上取同一物理格，窗灯图共用坐标。正面、侧面、背面和底面均核对绑定。
 
-现有物品、人物和室内使用[物品源文件](art/rooftop-game/README.md)与 `assets/pixel/material-book.png`，`native-style.mjs` 标定每游戏世界单位 8 像素。坐标换算与建筑米制管线不同，不能全局替换数值。`surface-grid.mjs` 的 CPU 入口与原生材质着色器保持相同正交面格，原稿长度、实例缩放和面倾角参与换算。
+全部 294 件物品使用[新物品源文件](art/rooftop-furniture-02/README.md)的七组 Blender／Pixelorama 原稿和 `assets/items/`。`item-catalog.mjs` 统一导出 `ITEM_METRES_TO_UNITS=5.6/3`，几何只缩放一次；原生图集保持 16 纹理像素／米、Nearest 和无 mipmap。房间固定背景使用[房间原稿](art/rooftop-room-01/README.md)和 `assets/room/`，透明窗与可动门叶保留。人物及室外门仍使用早期 `assets/pixel/material-book.png` 共用材质；不能为更换物品误删仍有调用的材质机制。
 
 新家具继续完整 Blender＋Pixelorama 工作流，完成器形、厚度、背面、底面、开孔和承放结构。物理材料格与建筑对照，粗颗粒感由最终低采样控制；不能以删减结构或放大笔触代替。保存并重开原稿后，分别核对导出、游戏内接入和发布包，保护已有手改与存档接口。
 
-`3d/outdoor-raster.mjs` 与 `pixel-grid.mjs` 共用 2.5 CSS 像素目标，按 DPR 取整数设备格；DPR 2 为每格 5×5 实际像素，与家具近看一致。建筑、天气、季节粒子和光照共用离屏渲染，邻居光学变形、遮罩与刻线沿用同一格。右下不足一格的部分裁边，保持相机逻辑取景和交互投影。DPR 变化时更新缓冲、粒子尺寸、取物射线与镜头缓存。公开南北、空场景测试和车库户外共用呈现；房间与目录画像使用各自预算。
+`3d/outdoor-raster.mjs` 与 `pixel-grid.mjs` 共用 2.5 CSS 像素目标，按 DPR 取整数设备格；DPR 2 为每格 5×5 实际像素，与家具近看一致。建筑、天气、季节粒子和光照共用离屏渲染，邻居光学变形、遮罩与刻线沿用同一格。右下不足一格的部分裁边，保持相机逻辑取景和交互投影。DPR 变化时更新缓冲、粒子尺寸、取物射线与镜头缓存。正式南北、车库三场景和房间共用基础低采样。邻居拉近仅细化整幅画面的最终采样，最低目标约 1 CSS 像素且每格至少 2 个设备像素；小鸟、无人机不细化。空场景和独立物品测试默认完整原模型，可切实际游戏像素。正式目录画像使用自己的小幅预览预算。
 
 ## 模块接口
 
@@ -36,10 +36,12 @@
 | `review-state.mjs`、`background-review.css` | 空场景测试状态、URL 参数和控件 |
 | `scene.mjs` | 目录汇合、布局验证迁移、边界与绘制分发 |
 | `botany.mjs`、`plant-art.mjs`、`plant-seed.mjs` | 植物及容器数据、绘制和稳定株形 |
-| `furniture.mjs`、`objects.mjs` | 家具与小物目录 |
-| `initial-layout.mjs`、`room-scene.mjs` | 默认布局及房间布景 |
+| `item-catalog.mjs`、`item-data.mjs` | 新物品目录、原资料映射与统一米制尺寸 |
+| `3d/native-model-loader.mjs`、`native-structural-visibility.mjs` | 原生 GLB／七图集加载、共享材质、细杆显示补偿 |
+| `3d/room-background-loader.mjs`、`room-door.mjs` | 原生房间背景、透明窗、原位置活动门叶 |
+| `initial-layout.mjs`、`room-scene.mjs` | 空默认布局及房间二维回退 |
 | `room/room.mjs`、`wardrobe.mjs`、`card-feed.mjs` | 房间活动、换装和提示卡 |
-| `object-references.mjs`、`notebook.mjs`、`notebook-comments.mjs` | 资料归属、手帐描述与逐件人物随想 |
+| `object-references.mjs`、`notebook.mjs`、`notebook-comments.mjs`、`native-item-notes.mjs` | 原资料归属、手帐描述与逐件人物随想 |
 | `house-structure.mjs`、`3d/architectural-shell.mjs` | 住宅坐标变换和 Blender 建筑加载 |
 | `3d/story-camera.mjs`、`3d/terrace-view.mjs` | 游戏三视角及额外测试近景约束 |
 | `weather.mjs`、`weather-condition.mjs` | 天气选择、过渡、湿润历史和兼容输入 |
@@ -47,13 +49,13 @@
 | `resident.mjs`、`resident-weather.mjs`、`actor-space.mjs` | 外出、天气动作和身体通行空间 |
 | `3d/scene3d.mjs` | 场景、实例批次、模型缓存、镜头和编辑投影 |
 | `3d/atmosphere.mjs`、`3d/seasonal-air.mjs`、`3d/visible-air.mjs` | 灯光、雨、积水、季节粒子与有界世界空气分配 |
-| `3d/native-style.mjs`、`native-materials.mjs`、`native-book.mjs` | 物品材料格、原生图集、共享缓存和环境参数 |
-| `3d/stand-models.mjs`、`rack-grid.mjs` | 共用花架构造、开孔和承放规则 |
-| `3d/cactus-models.mjs`、`water-models.mjs`、`plant-materials.mjs` | 仙人掌、水盆与叶面 |
-| `3d/soil-surface.mjs`、`residents.mjs` | 闭合盆土及人物身体、衣服与装饰 |
+| `3d/native-style.mjs`、`native-materials.mjs`、`native-book.mjs` | 人物共用材料格、图集缓存和环境参数 |
+| `3d/rack-grid.mjs`、`spatial-layout.mjs` | 真实承放面、开孔和格栅支持判断 |
+| `3d/residents.mjs` | 人物身体、衣服与装饰 |
+| `docs/art/rooftop-game/legacy-geometry/` | 保留旧物品、植物、器物和武器构造，供历史工具与检查调用 |
 | `arrange/index.html`、`rooftop.css` | 车库结构与样式 |
 
-扩容植物从 `botany.mjs` 和 `plant-art.mjs` 入手，家具从 `furniture.mjs` 入手。`docs/art/rooftop-legacy-materials/` 仍供原稿准备与检查调用。`scene.mjs` 的兼容尺寸、二维回退和图鉴绘制不能作为重复目录删除。
+植物资料从 `botany.mjs` 入手，所有新模型先在 `docs/art/rooftop-furniture-02/` 的原生管线完成、核对，再运行 `sync-runtime-catalog.py` 同步新目录、承放资料和实际模型缩略图。家具只整理新目录，原植物子类、收藏、枪械与兵器资料不随视觉重做改名。`docs/art/rooftop-legacy-materials/` 仍供原稿准备与检查调用。`scene.mjs` 的兼容尺寸、二维回退和图鉴绘制不能作为重复目录删除。
 
 ## 镜头与环境
 

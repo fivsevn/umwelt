@@ -1,5 +1,26 @@
-// Paint only the visible shelf and yield between GPU previews. A catalogue
+// Paint only the visible shelf and yield between previews. A catalogue
 // rebuild cancels old work, so searching cannot paint detached cards.
+const thumbnailImages = new Map();
+export async function paintCatalogThumbnail(canvas, relativePath) {
+  const url = new URL(relativePath, import.meta.url);
+  const revision = new URL(import.meta.url).searchParams.get('v');
+  if (revision && !url.searchParams.has('v')) url.searchParams.set('v', revision);
+  let ready = thumbnailImages.get(url.href);
+  if (!ready) {
+    const image = new Image();
+    image.src = url.href;
+    ready = image.decode().then(() => image);
+    thumbnailImages.set(url.href, ready);
+  }
+  const image = await ready;
+  if (!canvas.isConnected) return;
+  const c = canvas.getContext('2d');
+  c.clearRect(0, 0, canvas.width, canvas.height);
+  c.imageSmoothingEnabled = false;
+  c.drawImage(image, 0, 0, canvas.width, canvas.height);
+  canvas.dataset.renderer = 'blender-preview';
+  canvas.dataset.source = 'native-image';
+}
 export function createCatalogPreviews(root, paint, { busy = () => false } = {}) {
   let queue = [],
     frame = 0, running = false;
@@ -15,6 +36,8 @@ export function createCatalogPreviews(root, paint, { busy = () => false } = {}) 
     running = true;
     try {
       if (job?.canvas.isConnected) await paint(job.sprite, job.canvas);
+    } catch (error) {
+      if (job?.canvas.isConnected) job.canvas.dataset.previewError = String(error.message || error);
     } finally {
       running = false;
       if (queue.length && !frame) frame = requestAnimationFrame(next);

@@ -1,6 +1,7 @@
 import { createGardenRenderer } from "../3d/scene3d.mjs";
 import { makeWeather } from "../weather.mjs";
 import { readLayout, writeLayout } from "../layout-storage.mjs";
+import { onRoomBackgroundReady } from "../room-scene.mjs";
 import {
   paintBase,
   paintObject,
@@ -189,7 +190,6 @@ addEventListener("focus", loadRoom);
 const floor = document.createElement("canvas");
 floor.width = 640;
 floor.height = 520;
-paintBase(floor.getContext("2d"), "room");
 let lastFrame = 0;
 try {
   room3d = createGardenRenderer(canvas, roomLayout, null, {
@@ -201,6 +201,9 @@ try {
   c = canvas.getContext("2d");
   canvas.width = 208;
   canvas.height = 288;
+  const paintFloor = () => paintBase(floor.getContext("2d"), "room");
+  onRoomBackgroundReady(paintFloor);
+  paintFloor();
 }
 function frame(ms) {
   if (ms - lastFrame < (room3d?.interacting ? 16 : 33)) {

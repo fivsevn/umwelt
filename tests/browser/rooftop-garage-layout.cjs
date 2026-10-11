@@ -19,7 +19,9 @@ const assert = require("node:assert/strict");
     (process.env.BASE_URL || "http://127.0.0.1:8773") + "/rooftop/arrange/",
   );
   await p.waitForFunction(() => window.rooftop);
+  assert.deepEqual(await p.evaluate(()=>rooftop.layout.scenes.north),[],"garage starts with an empty terrace");
   await p.locator("[data-asset=barrel]").click();
+  assert.equal((await p.evaluate(()=>rooftop.layout.scenes.north)).length,1,"new native plant is hand placed");
   await p.screenshot({
     path: out + "/garage-layout-" + engine + ".png",
     fullPage: true,

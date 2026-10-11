@@ -4,6 +4,10 @@ fs.mkdirSync(out,{recursive:true});
 (async()=>{const b=await (engine==='webkit'?webkit:chromium).launch({headless:true,...(engine==='chromium'?{args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']}: {})});
 try{const p=await b.newPage({viewport:{width:1440,height:1050}}),errors=[],assets=[];p.on('pageerror',e=>errors.push(e.message));p.on('console',m=>{if(m.type()==='error')errors.push(m.text())});p.on('response',r=>{if(r.status()>=400)errors.push(r.status()+' '+r.url());if(/\.(png|gif|jpe?g|webp)(\?|$)/i.test(r.url()))assets.push(r.url())});p.setDefaultTimeout(120000);
 await p.goto(base+'/rooftop/arrange/');await p.waitForFunction(()=>window.rooftop?.graphics?.atmosphere);
+assert.deepEqual(await p.evaluate(()=>rooftop.layout.scenes.north),[],'the production default remains empty');
+const fixture=require('../fixtures/rooftop-native-layout.json');
+await p.evaluate(data=>localStorage.setItem('umwelt-rooftop-layout-v1',JSON.stringify(data)),fixture);
+await p.reload();await p.waitForFunction(()=>window.rooftop?.graphics?.atmosphere&&rooftop.graphics.nativeItems?.loaded>0&&rooftop.graphics.nativeItems?.pending===0);
 await p.locator('#weatherSelect').selectOption('clear');await p.locator('#timeSelect').selectOption('day');await p.waitForFunction(()=>rooftop.weather.transition.mix>.999);
 // Manual garage controls must settle promptly, including a change interrupted
 // by another season/time/weather selection. Layout geometry stays cached.
@@ -18,24 +22,31 @@ await p.waitForFunction(()=>rooftop.weather.transition.duration===.65&&rooftop.w
 assert.ok(await p.evaluate(()=>performance.now()-switchStart<3000), 'rapid manual switches must finish promptly');
 assert.equal(await p.evaluate(()=>rooftop.weather.transition.duration),.65);
 await p.locator('#search').focus();
-await p.waitForFunction(()=>document.querySelector('.asset-card canvas[data-renderer="3d"]'));
-const preview=await p.locator('.asset-card canvas[data-renderer="3d"]').first().evaluate(c=>{
+await p.waitForFunction(()=>document.querySelector('.asset-card canvas[data-renderer="blender-preview"]'));
+const preview=await p.locator('.asset-card canvas[data-renderer="blender-preview"]').first().evaluate(c=>{
   const pixels=c.getContext('2d').getImageData(0,0,c.width,c.height).data;
   let opaque=0,colour=0; for(let i=0;i<pixels.length;i+=4) if(pixels[i+3]) {opaque++;colour+=pixels[i]+pixels[i+1]+pixels[i+2];}
   return {opaque,colour};
 });
-assert.ok(preview.opaque>20&&preview.colour>100, 'asynchronous preview contains a visible coloured object');
+assert.ok(preview.opaque>20&&preview.colour>100, 'the native mesh-derived catalogue PNG contains a visible coloured object');
 const original=await p.evaluate(()=>({layout:rooftop.layout,builds:rooftop.graphics.modelBuilds,textures:rooftop.graphics.textures,draws:rooftop.graphics.drawCalls}));
 for(const season of ['spring','summer','autumn','winter']){await p.locator('#seasonSelect').selectOption(season);await p.waitForFunction(s=>rooftop.weather['season'+s]>.999&&rooftop.graphics.atmosphere.seasonal.effects.some(e=>e.season===s&&e.strength>.1),season);const a=await p.evaluate(()=>rooftop.graphics.atmosphere.seasonal);await p.waitForFunction(sample=>JSON.stringify(rooftop.graphics.atmosphere.seasonal.sample)!==sample,JSON.stringify(a.sample));assert.ok(a.count<=184);assert.equal(await p.evaluate(()=>rooftop.graphics.modelBuilds),original.builds);assert.equal(await p.evaluate(()=>rooftop.graphics.textures),original.textures);await p.screenshot({path:`${out}/${engine}-${season}.png`,fullPage:true});}
 await p.emulateMedia({reducedMotion:'reduce'});await p.waitForFunction(()=>rooftop.weather.reduced);let sample=await p.evaluate(()=>JSON.stringify(rooftop.graphics.atmosphere.seasonal.sample));await p.waitForFunction(s=>JSON.stringify(rooftop.graphics.atmosphere.seasonal.sample)!==s,sample);
 await p.setViewportSize({width:390,height:844});await p.locator('[data-scene=south]').click();await p.waitForFunction(()=>rooftop.graphics.scene==='south'&&rooftop.graphics.atmosphere.seasonal.count>0);assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await p.screenshot({path:`${out}/${engine}-south-mobile.png`,fullPage:true});
 await p.locator('[data-scene=room]').click();await p.waitForFunction(()=>rooftop.graphics.scene==='room'&&rooftop.graphics.atmosphere.seasonal.count===0);await p.screenshot({path:`${out}/${engine}-room-mobile.png`,fullPage:true});
 await p.reload();await p.waitForFunction(()=>window.rooftop);assert.equal(await p.locator('#seasonSelect').inputValue(),'winter');assert.deepEqual(await p.evaluate(()=>rooftop.layout),original.layout);assert.deepEqual(errors,[]);
-const declaredAtlases=await p.evaluate(async()=>{const {BACKGROUND}=await import('/rooftop/assets/background/empty-rooftop.mjs');return ['/rooftop/assets/pixel/material-book.png',...BACKGROUND.textures.map(texture=>'/rooftop/assets/background/'+texture.file)];});
-assert.ok(assets.length>0,'native authored atlases are loaded');
-assert.equal(new Set(declaredAtlases).size,declaredAtlases.length,'the declared atlas list has no duplicates');
-assert.ok(assets.every(url=>{const resource=new URL(url);return resource.origin===new URL(base).origin&&declaredAtlases.includes(resource.pathname);}), 'only the shared native book and explicitly declared environment atlases are requested');
-assert.deepEqual([...new Set(assets.map(url=>new URL(url).pathname))].sort(),[...declaredAtlases].sort(),'every declared native atlas is loaded');
-assert.equal(await p.evaluate(()=>rooftop.graphics.textures),1,'object previews continue sharing one native Pixelorama book');
-console.log(JSON.stringify({engine,passed:true,checks:'rapid garage controls, asynchronous coloured catalogue previews, 4 seasonal transitions, moving particle coordinates, stable model builds/textures/layout, live reduced motion, south mobile, indoor isolation, reload, one shared object Pixelorama book plus declared environment atlases',atlases:declaredAtlases,baseline:{builds:original.builds,textures:original.textures,draws:original.draws}}));
+const declaredAtlases=await p.evaluate(async()=>{
+  const {BACKGROUND}=await import('/rooftop/assets/background/empty-rooftop.mjs');
+  const {ITEMS}=await import('/rooftop/item-catalog.mjs');
+  return [...new Set(['/rooftop/assets/pixel/material-book.png','/rooftop/assets/room/room-background-atlas.png',
+    ...BACKGROUND.textures.map(texture=>'/rooftop/assets/background/'+texture.file),
+    ...ITEMS.flatMap(item=>['/rooftop/'+item.thumbnail,'/rooftop/'+item.atlas])])];
+});
+assert.ok(assets.length>0,'authored local atlases and native derivatives are loaded');
+assert.ok(assets.every(url=>{const resource=new URL(url);return resource.origin===new URL(base).origin&&declaredAtlases.includes(resource.pathname);}), 'only declared local native sources and their mesh-derived thumbnails are requested');
+await p.waitForFunction(()=>rooftop.graphics.nativeItems.loaded>0&&rooftop.graphics.nativeItems.pending===0);
+const native=await p.evaluate(()=>rooftop.graphics.nativeItems);
+assert.ok(native.loaded>0&&native.atlases>0,'the explicit placed fixture uses real native models and authored atlases');
+assert.deepEqual(native.errors,[]);
+console.log(JSON.stringify({engine,passed:true,checks:'rapid garage controls, actual native catalogue previews, 4 seasonal transitions, moving particle coordinates, stable model builds/textures/layout, live reduced motion, south mobile, indoor isolation, reload and declared local sources',native,baseline:{builds:original.builds,textures:original.textures,draws:original.draws}}));
 }finally{await b.close()}})().catch(e=>{console.error(e);process.exit(1)});

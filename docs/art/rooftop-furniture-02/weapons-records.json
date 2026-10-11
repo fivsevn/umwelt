@@ -1,0 +1,2120 @@
+[
+  {
+    "id": "weapon-matchlock",
+    "name": "日本火绳枪",
+    "scientific": "Japanese matchlock",
+    "aliases": "Japanese matchlock 日本 18世纪藏品",
+    "category": "陈设与收藏",
+    "origin": "日本",
+    "era": "18世纪藏品",
+    "profile": "matchlock",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 28,
+    "note": "长长的铁制枪管贴着木托，尾部略向下折，黄铜小件在暗木色上留下几处亮点。参考江户时期的火绳枪。",
+    "sources": [
+      {
+        "label": "大都会艺术博物馆 · 藏品记录",
+        "url": "https://www.metmuseum.org/art/collection/search/22491"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-wheellock",
+    "name": "轮锁手枪",
+    "scientific": "Wheellock pistol",
+    "aliases": "Wheellock pistol 法国 约1600—1610年",
+    "category": "陈设与收藏",
+    "origin": "法国",
+    "era": "约1600—1610年",
+    "profile": "wheellock",
+    "weapon": true,
+    "detail": true,
+    "w": 52,
+    "h": 28,
+    "note": "长枪管、倾斜握柄与圆形轮锁构成细长轮廓。浅色嵌饰沿深色木托排列，是早期欧洲手枪常见的装饰语言。",
+    "sources": [
+      {
+        "label": "大都会艺术博物馆 · 藏品记录",
+        "url": "https://www.metmuseum.org/art/collection/search/22385"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-flintlock",
+    "name": "燧发手枪",
+    "scientific": "Flintlock pistol",
+    "aliases": "Flintlock pistol 英国 约1770年",
+    "category": "陈设与收藏",
+    "origin": "英国",
+    "era": "约1770年",
+    "profile": "flintlock",
+    "weapon": true,
+    "detail": true,
+    "w": 42,
+    "h": 28,
+    "note": "木质握柄向下弯，金属枪管向前延伸。侧面的燧发锁和黄铜护圈，让轮廓像一条带着小枝的弯木。",
+    "sources": [
+      {
+        "label": "大都会艺术博物馆 · 藏品记录",
+        "url": "https://www.metmuseum.org/art/collection/search/27862"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-duelling",
+    "name": "沃格登决斗手枪",
+    "scientific": "Wogdon duelling pistol",
+    "aliases": "Wogdon duelling pistol 英国 约1780年",
+    "category": "陈设与收藏",
+    "origin": "英国",
+    "era": "约1780年",
+    "profile": "duelling",
+    "weapon": true,
+    "detail": true,
+    "w": 42,
+    "h": 28,
+    "note": "参考博物馆的一对沃格登燧发手枪。直而修长的枪管、规整木柄和较少装饰，显出18世纪末的克制线条。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1987-09-6-3"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-blunderbuss",
+    "name": "喇叭口短铳",
+    "scientific": "Flintlock blunderbuss",
+    "aliases": "Flintlock blunderbuss 英国 19世纪藏品",
+    "category": "陈设与收藏",
+    "origin": "英国",
+    "era": "19世纪藏品",
+    "profile": "blunderbuss",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 28,
+    "note": "短而厚的木托配一根逐渐张开的枪管，喇叭形口缘最醒目。铜色与旧木色留在朴素的短铳轮廓里。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1956-02-394-1"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-brown-bess",
+    "name": "褐贝丝长陆军型",
+    "scientific": "Brown Bess · Long Land",
+    "aliases": "Brown Bess · Long Land 英国 18世纪",
+    "category": "陈设与收藏",
+    "origin": "英国",
+    "era": "18世纪",
+    "profile": "brown-bess",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 28,
+    "note": "很长的木托几乎包住整根枪管，侧面留着燧发锁，黄铜护圈与托底形成温暖色点。参考长陆军型藏品。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1994-06-2-1"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-colt-1903",
+    "name": "柯尔特1903手枪",
+    "scientific": "Colt Model 1903",
+    "aliases": "Colt Model 1903 美国 20世纪初式样",
+    "category": "陈设与收藏",
+    "origin": "美国",
+    "era": "20世纪初式样",
+    "profile": "colt-1903",
+    "weapon": true,
+    "detail": true,
+    "w": 42,
+    "h": 28,
+    "note": "小巧的深灰色枪身、短握柄和简洁滑套，使它与更大的军用手枪很好区分。参考博物馆记录的1897/1903型。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1998-01-118-1"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-enfield-1853",
+    "name": "恩菲尔德1853步枪",
+    "scientific": "Enfield Pattern 1853",
+    "aliases": "Enfield Pattern 1853 英国 1853年式",
+    "category": "陈设与收藏",
+    "origin": "英国",
+    "era": "1853年式",
+    "profile": "enfield-1853",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 28,
+    "note": "三道箍带沿着长木托排列，细枪管和弯曲托底连成一条平缓长线。这里保留了三箍式步枪最容易辨认的外形。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1979-07-60-1"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-colt-1849",
+    "name": "柯尔特1849袖珍左轮",
+    "scientific": "Colt Model 1849 Pocket",
+    "aliases": "Colt Model 1849 Pocket 美国 1849年式",
+    "category": "陈设与收藏",
+    "origin": "美国",
+    "era": "1849年式",
+    "profile": "colt-1849",
+    "weapon": true,
+    "detail": true,
+    "w": 42,
+    "h": 28,
+    "note": "小尺寸木握柄上方是一只紧凑转轮，短枪管让整件显得轻巧。画面以钢色与木色概括藏品式样。",
+    "sources": [
+      {
+        "label": "大都会艺术博物馆 · 藏品记录",
+        "url": "https://www.metmuseum.org/art/collection/search/788188"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-colt-1851",
+    "name": "柯尔特1851海军左轮",
+    "scientific": "Colt Model 1851 Navy",
+    "aliases": "Colt Model 1851 Navy 美国 1851年式",
+    "category": "陈设与收藏",
+    "origin": "美国",
+    "era": "1851年式",
+    "profile": "colt-1851",
+    "weapon": true,
+    "detail": true,
+    "w": 42,
+    "h": 28,
+    "note": "较长的多面枪管、外露转轮与向下弯的木握柄，构成19世纪中叶左轮的熟悉形态。小片黄铜留在护圈上。",
+    "sources": [
+      {
+        "label": "大都会艺术博物馆 · 藏品记录",
+        "url": "https://www.metmuseum.org/art/collection/search/35690"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-colt-1860",
+    "name": "柯尔特1860陆军左轮",
+    "scientific": "Colt Model 1860 Army",
+    "aliases": "Colt Model 1860 Army 美国 1860年式",
+    "category": "陈设与收藏",
+    "origin": "美国",
+    "era": "1860年式",
+    "profile": "colt-1860",
+    "weapon": true,
+    "detail": true,
+    "w": 42,
+    "h": 28,
+    "note": "细长圆形枪管接着较厚的转轮，木柄比袖珍型更舒展。以枪管下方的细杆和流畅过渡区别于1851型。",
+    "sources": [
+      {
+        "label": "大都会艺术博物馆 · 藏品记录",
+        "url": "https://www.metmuseum.org/art/collection/search/24892"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-colt-saa",
+    "name": "柯尔特单动陆军左轮",
+    "scientific": "Colt Single Action Army",
+    "aliases": "Colt Single Action Army 美国 1874年藏品",
+    "category": "陈设与收藏",
+    "origin": "美国",
+    "era": "1874年藏品",
+    "profile": "colt-saa",
+    "weapon": true,
+    "detail": true,
+    "w": 42,
+    "h": 28,
+    "note": "枪管、转轮和弯木柄形成紧凑三段轮廓；枪管下方有一条短金属壳线。参考博物馆19世纪后期的藏品。",
+    "sources": [
+      {
+        "label": "大都会艺术博物馆 · 藏品记录",
+        "url": "https://www.metmuseum.org/art/collection/search/24848"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-webley-v",
+    "name": "韦伯利Mk V左轮",
+    "scientific": "Webley Mark V",
+    "aliases": "Webley Mark V 英国 1915年藏品",
+    "category": "陈设与收藏",
+    "origin": "英国",
+    "era": "1915年藏品",
+    "profile": "webley-v",
+    "weapon": true,
+    "detail": true,
+    "w": 42,
+    "h": 28,
+    "note": "粗壮枪身、明显的顶部框架和方圆握柄组成厚实轮廓，握柄底下垂着小环。深钢色与木色都压得很低。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1991-08-92--1"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-mauser-c96",
+    "name": "毛瑟C96手枪",
+    "scientific": "Mauser C96",
+    "aliases": "Mauser C96 德国 1896年式",
+    "category": "陈设与收藏",
+    "origin": "德国",
+    "era": "1896年式",
+    "profile": "mauser-c96",
+    "weapon": true,
+    "detail": true,
+    "w": 42,
+    "h": 28,
+    "note": "细长枪管伸出方形枪身，弹仓在握柄前面，握柄像一截扫帚把。这样的排列是C96最鲜明的外形特点。",
+    "sources": [
+      {
+        "label": "英国皇家军械博物馆 · 器物故事",
+        "url": "https://royalarmouries.org/objects-and-stories/stories/arms-of-the-first-world-war"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-luger-p08",
+    "name": "鲁格P08手枪",
+    "scientific": "Luger P08",
+    "aliases": "Luger P08 德国 1908年式",
+    "category": "陈设与收藏",
+    "origin": "德国",
+    "era": "1908年式",
+    "profile": "luger-p08",
+    "weapon": true,
+    "detail": true,
+    "w": 42,
+    "h": 28,
+    "note": "向后倾斜的握柄、细直枪管和顶部略突出的肘节，组合成很有辨识度的线条。木柄纹理用几行暗色像素表现。",
+    "sources": [
+      {
+        "label": "英国皇家军械博物馆 · 器物故事",
+        "url": "https://royalarmouries.org/objects-and-stories/stories/arms-of-the-first-world-war"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-m1911",
+    "name": "柯尔特M1911A1手枪",
+    "scientific": "Colt M1911A1",
+    "aliases": "Colt M1911A1 美国 20世纪藏品",
+    "category": "陈设与收藏",
+    "origin": "美国",
+    "era": "20世纪藏品",
+    "profile": "m1911",
+    "weapon": true,
+    "detail": true,
+    "w": 42,
+    "h": 28,
+    "note": "矩形滑套与较直的握柄连成厚实轮廓，枪口和握柄底端都很平整。参考纽曼中校收藏的M1911A1。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1992-05-133-1"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-nambu-14",
+    "name": "南部十四年式手枪",
+    "scientific": "Nambu Type 14",
+    "aliases": "Nambu Type 14 日本 1925年式",
+    "category": "陈设与收藏",
+    "origin": "日本",
+    "era": "1925年式",
+    "profile": "nambu-14",
+    "weapon": true,
+    "detail": true,
+    "w": 42,
+    "h": 28,
+    "note": "窄长枪管、圆润后端与斜木柄相接，下方护圈显得较大。参考博物馆约1930年的十四年式藏品。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1964-05-60-15"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-lee-enfield",
+    "name": "李恩菲尔德No.4步枪",
+    "scientific": "Lee–Enfield No.4 Mk I",
+    "aliases": "Lee–Enfield No.4 Mk I 英国 1945年藏品",
+    "category": "陈设与收藏",
+    "origin": "英国",
+    "era": "1945年藏品",
+    "profile": "lee-enfield",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 28,
+    "note": "长木护手、露出的枪口和枪身下方的盒形弹匣，构成No.4的轮廓。托底、枪管和机匣用不同深浅的色块分开。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1993-07-143--1"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-mosin",
+    "name": "莫辛纳甘1891步枪",
+    "scientific": "Mosin–Nagant M1891",
+    "aliases": "Mosin–Nagant M1891 俄国 1891年式",
+    "category": "陈设与收藏",
+    "origin": "俄国",
+    "era": "1891年式",
+    "profile": "mosin",
+    "weapon": true,
+    "detail": true,
+    "w": 76,
+    "h": 28,
+    "note": "长枪管延伸在修长木托前方，直枪栓柄在侧边留下一个小凸点。参考1919年前后的1891型藏品。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1992-08-177-1"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-kar98k",
+    "name": "毛瑟Kar98k步枪",
+    "scientific": "Mauser Kar98k",
+    "aliases": "Mauser Kar98k 德国 1940年藏品",
+    "category": "陈设与收藏",
+    "origin": "德国",
+    "era": "1940年藏品",
+    "profile": "kar98k",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 28,
+    "note": "弯下的枪栓柄、紧凑的木托和露出的短段枪管，形成比长步枪更收拢的外形。两道箍带和皮带点保留在木色上。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1996-07-97-1"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-arisaka-38",
+    "name": "三八式步枪",
+    "scientific": "Arisaka Type 38",
+    "aliases": "Arisaka Type 38 日本 1905年式",
+    "category": "陈设与收藏",
+    "origin": "日本",
+    "era": "1905年式",
+    "profile": "arisaka-38",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 28,
+    "note": "细长木托与长枪管相连，后部圆形部件、枪栓和箍带只用少数暗亮像素点出。参考约1930年的三八式藏品。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1993-04-55-1"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-garand",
+    "name": "加兰德M1步枪",
+    "scientific": "M1 Garand",
+    "aliases": "M1 Garand 美国 20世纪藏品",
+    "category": "陈设与收藏",
+    "origin": "美国",
+    "era": "20世纪藏品",
+    "profile": "garand",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 28,
+    "note": "连续的木托包住枪身，较宽机匣位于中段，下方没有突出的长弹匣。前端与托底的金属件压在旧木色之上。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1983-01-82-1"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-m1-carbine",
+    "name": "M1卡宾枪",
+    "scientific": "M1 Carbine",
+    "aliases": "M1 Carbine 美国 约1942年藏品",
+    "category": "陈设与收藏",
+    "origin": "美国",
+    "era": "约1942年藏品",
+    "profile": "m1-carbine",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 28,
+    "note": "短小木托、细枪管和小盒形弹匣，让它看起来比M1步枪轻巧很多。两者名字相近，外形和器物类型并不相同。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1982-04-751-1"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-henry",
+    "name": "亨利1860步枪",
+    "scientific": "Henry Model 1860",
+    "aliases": "Henry Model 1860 美国 1860年式",
+    "category": "陈设与收藏",
+    "origin": "美国",
+    "era": "1860年式",
+    "profile": "henry",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 28,
+    "note": "黄铜机匣、长长的管状下线与木枪托连成暖色轮廓；机匣下方的杠杆护圈是识别这件器物的关键。",
+    "sources": [
+      {
+        "label": "史密森尼美国历史博物馆 · 藏品记录",
+        "url": "https://americanhistory.si.edu/collections/object/nmah_414668"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-winchester",
+    "name": "温彻斯特1873步枪",
+    "scientific": "Winchester Model 1873",
+    "aliases": "Winchester Model 1873 美国 1873年式",
+    "category": "陈设与收藏",
+    "origin": "美国",
+    "era": "1873年式",
+    "profile": "winchester",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 28,
+    "note": "深色机匣夹在木枪托与前护木之间，枪管下方的细管几乎一样长。杠杆护圈留成一个清楚的小空洞。",
+    "sources": [
+      {
+        "label": "大都会艺术博物馆 · 藏品记录",
+        "url": "https://www.metmuseum.org/art/collection/search/904560"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-thompson",
+    "name": "汤普森1928冲锋枪",
+    "scientific": "Thompson Model 1928",
+    "aliases": "Thompson Model 1928 美国 1928年式",
+    "category": "陈设与收藏",
+    "origin": "美国",
+    "era": "1928年式",
+    "profile": "thompson",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 32,
+    "note": "木枪托、独立握柄、前方竖握把与圆鼓形弹匣共同组成鲜明轮廓。深金属色间穿插两小块暖木色。",
+    "sources": [
+      {
+        "label": "史密森尼博物馆 · Thompson 1928",
+        "url": "https://www.si.edu/object/thompson-model-1928-submachine-gun%3Anmah_743453"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-sten",
+    "name": "斯登Mk II冲锋枪",
+    "scientific": "Sten Mark II",
+    "aliases": "Sten Mark II 英国 1941年藏品",
+    "category": "陈设与收藏",
+    "origin": "英国",
+    "era": "1941年藏品",
+    "profile": "sten",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 32,
+    "note": "圆管枪身、简易骨架枪托和横向伸出的弹匣是主要特征。朝上伸出的短线表示侧置弹匣，枪身保持朴素钢灰色。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1978-11-73-1"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-mp40",
+    "name": "MP40冲锋枪",
+    "scientific": "MP40",
+    "aliases": "MP40 德国 20世纪藏品",
+    "category": "陈设与收藏",
+    "origin": "德国",
+    "era": "20世纪藏品",
+    "profile": "mp40",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 28,
+    "note": "折叠金属枪托、短枪管与向下伸出的直弹匣连成利落轮廓，握柄处留一点深褐色。与木托冲锋枪并排时差别很明显。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1982-04-755-1"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-ppsh",
+    "name": "波波沙PPSh-41冲锋枪",
+    "scientific": "PPSh-41",
+    "aliases": "PPSh-41 苏联 1942年藏品",
+    "category": "陈设与收藏",
+    "origin": "苏联",
+    "era": "1942年藏品",
+    "profile": "ppsh",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 32,
+    "note": "木枪托连着带孔的金属护套，圆鼓形弹匣在下方形成宽圆块。枪口略斜、护套孔眼和木托保留了这件器物的特征。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1992-11-64-1"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-ak47",
+    "name": "卡拉什尼科夫AK步枪",
+    "scientific": "Kalashnikov AK · 1953",
+    "aliases": "Kalashnikov AK · 1953 苏联 1953年藏品",
+    "category": "陈设与收藏",
+    "origin": "苏联",
+    "era": "1953年藏品",
+    "profile": "ak47",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 28,
+    "note": "弯曲弹匣、分开的木托与木护手、枪管上方的短管线，组合成非常鲜明的轮廓。参考皇家军械博物馆1953年的AK。",
+    "sources": [
+      {
+        "label": "英国皇家军械博物馆 · 器物故事",
+        "url": "https://royalarmouries.org/objects-and-stories/up-close-online-exhibition/dillon-ak47"
+      }
+    ],
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-bronze-sword",
+    "name": "青铜叶形剑",
+    "scientific": "Bronze leaf-shaped sword",
+    "aliases": "Bronze leaf-shaped sword 英国 青铜时代",
+    "category": "陈设与收藏",
+    "origin": "英国",
+    "era": "青铜时代",
+    "profile": "bronze",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 28,
+    "note": "剑身像一片拉长的叶子，中部较宽，向尖端收拢。参考泰晤士河出土的青铜时代叶形剑，青铜色留着暗绿旧痕。",
+    "sources": [
+      {
+        "label": "牛津大学皮特里弗斯博物馆 · 藏品记录",
+        "url": "https://weapons.prm.ox.ac.uk/index.php/tour-by-region/oceania/europe/arms-and-armour-europe-163/index.html"
+      }
+    ],
+    "sourceCategory": "武器",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-rapier",
+    "name": "意大利护手刺剑",
+    "scientific": "Rapier",
+    "aliases": "Rapier 意大利 约1580年",
+    "category": "陈设与收藏",
+    "origin": "意大利",
+    "era": "约1580年",
+    "profile": "rapier",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 28,
+    "note": "细长直刃配复杂的弯曲护手，柄周围的金属线像几根缠绕枝条。参考大都会博物馆的16世纪刺剑。",
+    "sources": [
+      {
+        "label": "大都会艺术博物馆 · 藏品记录",
+        "url": "https://www.metmuseum.org/art/collection/search/25063"
+      }
+    ],
+    "sourceCategory": "武器",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-basket-sword",
+    "name": "篮形护手阔剑",
+    "scientific": "Basket-hilted sword",
+    "aliases": "Basket-hilted sword 英国 18世纪式样",
+    "category": "陈设与收藏",
+    "origin": "英国",
+    "era": "18世纪式样",
+    "profile": "basket",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 28,
+    "note": "直而较宽的剑刃，配围住握柄的篮形护手。参考藏品的镂空金属结构，暗褐握柄藏在护手的小格子里。",
+    "sources": [
+      {
+        "label": "牛津大学皮特里弗斯博物馆 · 藏品记录",
+        "url": "https://weapons.prm.ox.ac.uk/index.php/tour-by-region/oceania/europe/arms-and-armour-europe-169/index.html"
+      }
+    ],
+    "sourceCategory": "武器",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-sabre",
+    "name": "1796轻骑兵军刀",
+    "scientific": "Light cavalry sabre",
+    "aliases": "Light cavalry sabre 英国 1796年式",
+    "category": "陈设与收藏",
+    "origin": "英国",
+    "era": "1796年式",
+    "profile": "sabre",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 28,
+    "note": "弯刀身逐渐向尖端收束，一道护手弓连着柄底。参考牛津志愿军军官使用过的式样，保留浅色柄与暗金属刀线。",
+    "sources": [
+      {
+        "label": "牛津大学皮特里弗斯博物馆 · 藏品记录",
+        "url": "https://weapons.prm.ox.ac.uk/index.php/tour-by-region/oceania/europe/light-cavalry-sabre-2007561-230/index.html"
+      }
+    ],
+    "sourceCategory": "武器",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-stiletto",
+    "name": "意大利细刃匕首",
+    "scientific": "Stiletto",
+    "aliases": "Stiletto 意大利 16世纪中叶",
+    "category": "陈设与收藏",
+    "origin": "意大利",
+    "era": "16世纪中叶",
+    "profile": "stiletto",
+    "weapon": true,
+    "detail": true,
+    "w": 44,
+    "h": 28,
+    "note": "狭窄直刃、小横护手和细握柄几乎连在同一条线上。金属质地用窄亮边表现，比例与短刀、宽刃匕首都不同。",
+    "sources": [
+      {
+        "label": "牛津大学皮特里弗斯博物馆 · 藏品记录",
+        "url": "https://weapons.prm.ox.ac.uk/index.php/tour-by-region/oceania/europe/arms-and-armour-europe-157/index.html"
+      }
+    ],
+    "sourceCategory": "武器",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-kukri",
+    "name": "尼泊尔库克里弯刀",
+    "scientific": "Kukri",
+    "aliases": "Kukri 尼泊尔 1830年前收藏",
+    "category": "陈设与收藏",
+    "origin": "尼泊尔",
+    "era": "1830年前收藏",
+    "profile": "kukri",
+    "weapon": true,
+    "detail": true,
+    "w": 44,
+    "h": 28,
+    "note": "刀身向前折弯，前半段明显加宽，木柄较短。它也曾是日常多用途工具，最特别的地方就是弯折的叶片轮廓。",
+    "sources": [
+      {
+        "label": "牛津大学皮特里弗斯博物馆 · 藏品记录",
+        "url": "https://weapons.prm.ox.ac.uk/index.php/tour-by-region/oceania/asia/arms-and-armour-asia-78/index.html"
+      }
+    ],
+    "sourceCategory": "武器",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-jian",
+    "name": "双剑",
+    "scientific": "Double jian",
+    "aliases": "Double jian 中国 约1800年",
+    "category": "陈设与收藏",
+    "origin": "中国",
+    "era": "约1800年",
+    "profile": "jian",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 28,
+    "note": "两把直身双刃剑并排摆放，柄与小护手相互错开。参考同鞘收藏的双剑，保留黄铜护手和编绳握柄的颜色。",
+    "sources": [
+      {
+        "label": "牛津大学皮特里弗斯博物馆 · 藏品记录",
+        "url": "https://weapons.prm.ox.ac.uk/index.php/tour-by-region/oceania/asia/arms-and-armour-asia-68/index.html"
+      }
+    ],
+    "sourceCategory": "武器",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-katana",
+    "name": "日本打刀",
+    "scientific": "Katana",
+    "aliases": "Katana 日本 约1850—1865年藏品",
+    "category": "陈设与收藏",
+    "origin": "日本",
+    "era": "约1850—1865年藏品",
+    "profile": "katana",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 28,
+    "note": "长刀身略弯，圆形刀镡隔开刀刃与缠绳柄。黑色、暗木色和窄亮刃线概括了这件晚期江户藏品的外形。",
+    "sources": [
+      {
+        "label": "牛津大学皮特里弗斯博物馆 · 藏品记录",
+        "url": "https://weapons.prm.ox.ac.uk/index.php/tour-by-region/oceania/asia/arms-and-armour-asia-125/index.html"
+      }
+    ],
+    "sourceCategory": "武器",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-wakizashi",
+    "name": "日本胁差",
+    "scientific": "Wakizashi",
+    "aliases": "Wakizashi 日本 江户时期式样",
+    "category": "陈设与收藏",
+    "origin": "日本",
+    "era": "江户时期式样",
+    "profile": "wakizashi",
+    "weapon": true,
+    "detail": true,
+    "w": 52,
+    "h": 28,
+    "note": "胁差比打刀短，仍有微弯刀身、刀镡和缠绳柄。参考带夏季花蝶装饰的藏品，柄边留两点不抢眼的金色。",
+    "sources": [
+      {
+        "label": "牛津大学皮特里弗斯博物馆 · 藏品记录",
+        "url": "https://weapons.prm.ox.ac.uk/index.php/tour-by-region/oceania/asia/arms-and-armour-asia-115/index.html"
+      }
+    ],
+    "sourceCategory": "武器",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-tanto",
+    "name": "日本短刀",
+    "scientific": "Tantō",
+    "aliases": "Tantō 日本 18世纪末—19世纪初",
+    "category": "陈设与收藏",
+    "origin": "日本",
+    "era": "18世纪末—19世纪初",
+    "profile": "tanto",
+    "weapon": true,
+    "detail": true,
+    "w": 44,
+    "h": 28,
+    "note": "短直刀身配小圆护手与缠绳柄，比例比胁差更紧凑。参考黑漆鞘、蓝金箭头纹装饰的藏品，颜色只留在柄边。",
+    "sources": [
+      {
+        "label": "牛津大学皮特里弗斯博物馆 · 藏品记录",
+        "url": "https://weapons.prm.ox.ac.uk/index.php/tour-by-region/oceania/asia/tanto-1929176-229/index.html"
+      }
+    ],
+    "sourceCategory": "武器",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-kris",
+    "name": "印尼克里斯匕首",
+    "scientific": "Keris / Kris",
+    "aliases": "Keris / Kris 印度尼西亚 1884年入藏",
+    "category": "陈设与收藏",
+    "origin": "印度尼西亚",
+    "era": "1884年入藏",
+    "profile": "kris",
+    "weapon": true,
+    "detail": true,
+    "w": 44,
+    "h": 28,
+    "note": "波浪形刀身与不对称弯握柄组成特别的曲线。克里斯也承载礼服、身份与象征传统，画面保留深色柄和起伏刃线。",
+    "sources": [
+      {
+        "label": "牛津大学皮特里弗斯博物馆 · 藏品记录",
+        "url": "https://weapons.prm.ox.ac.uk/index.php/tour-by-region/oceania/asia/arms-and-armour-asia-71/index.html"
+      }
+    ],
+    "sourceCategory": "武器",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-katar",
+    "name": "印度卡塔尔匕首",
+    "scientific": "Katar",
+    "aliases": "Katar 印度 17—18世纪",
+    "category": "陈设与收藏",
+    "origin": "印度",
+    "era": "17—18世纪",
+    "profile": "katar",
+    "weapon": true,
+    "detail": true,
+    "w": 44,
+    "h": 28,
+    "note": "宽三角刀身后方接两根平行侧杆，中间横着双握条，形成H形握柄。黄铜色结构与银灰刀身很好辨认。",
+    "sources": [
+      {
+        "label": "牛津大学皮特里弗斯博物馆 · 藏品记录",
+        "url": "https://weapons.prm.ox.ac.uk/index.php/tour-by-region/oceania/asia/arms-and-armour-asia-70/index.html"
+      }
+    ],
+    "sourceCategory": "武器",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-talwar",
+    "name": "印度塔尔瓦弯刀",
+    "scientific": "Talwar",
+    "aliases": "Talwar 印度 18世纪末—19世纪初",
+    "category": "陈设与收藏",
+    "origin": "印度",
+    "era": "18世纪末—19世纪初",
+    "profile": "talwar",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 28,
+    "note": "弯刀身连着十字护手，柄底有明显圆盘。参考博物馆带红色织物与黄铜装饰的藏品，圆盘和暖色握柄保留下来。",
+    "sources": [
+      {
+        "label": "牛津大学皮特里弗斯博物馆 · 藏品记录",
+        "url": "https://weapons.prm.ox.ac.uk/index.php/tour-by-region/oceania/asia/arms-and-armour-asia-84/index.html"
+      }
+    ],
+    "sourceCategory": "武器",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-shamshir",
+    "name": "波斯沙姆希尔弯刀",
+    "scientific": "Shamshir",
+    "aliases": "Shamshir 伊朗 约1650—1750年",
+    "category": "陈设与收藏",
+    "origin": "伊朗",
+    "era": "约1650—1750年",
+    "profile": "shamshir",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 32,
+    "note": "刀身弯度比军刀更明显，细刃像一道窄月牙。小十字护手与偏折柄头，使它的轮廓轻巧而连贯。",
+    "sources": [
+      {
+        "label": "牛津大学皮特里弗斯博物馆 · 藏品记录",
+        "url": "https://weapons.prm.ox.ac.uk/index.php/tour-by-region/oceania/asia/arms-and-armour-asia-85/index.html"
+      }
+    ],
+    "sourceCategory": "武器",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-halberd",
+    "name": "德国长柄戟",
+    "scientific": "Halberd",
+    "aliases": "Halberd 德国 15世纪末",
+    "category": "陈设与收藏",
+    "origin": "德国",
+    "era": "15世纪末",
+    "profile": "halberd",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 28,
+    "note": "长木杆顶端同时有尖头、宽斧刃和反向小钩，组合成不对称的金属头。参考晚15世纪的德国藏品。",
+    "sources": [
+      {
+        "label": "大都会艺术博物馆 · 藏品记录",
+        "url": "https://www.metmuseum.org/art/collection/search/25898"
+      }
+    ],
+    "sourceCategory": "武器",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-battle-axe",
+    "name": "维京宽刃战斧",
+    "scientific": "Broad-bladed battle axe",
+    "aliases": "Broad-bladed battle axe 北欧式样 10世纪末—11世纪",
+    "category": "陈设与收藏",
+    "origin": "北欧式样",
+    "era": "10世纪末—11世纪",
+    "profile": "axe",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 28,
+    "note": "宽而向外凸的斧刃挂在细木杆一侧。斧头参考泰晤士河出土藏品，木杆则按这类长柄斧的结构作轮廓转译。",
+    "sources": [
+      {
+        "label": "大英博物馆 · 战斧头藏品",
+        "url": "https://www.britishmuseum.org/collection/object/H_1838-0110-2"
+      }
+    ],
+    "sourceCategory": "武器",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-mace",
+    "name": "意大利翼片钉头锤",
+    "scientific": "Flanged mace",
+    "aliases": "Flanged mace 意大利 约1575—1600年",
+    "category": "陈设与收藏",
+    "origin": "意大利",
+    "era": "约1575—1600年",
+    "profile": "mace",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 28,
+    "note": "头部由数片三角金属翼构成，细柄下端带螺旋握纹。参考镀金藏品，保留低饱和黄铜色和放射状头部。",
+    "sources": [
+      {
+        "label": "大都会艺术博物馆 · 藏品记录",
+        "url": "https://www.metmuseum.org/art/collection/search/32223"
+      }
+    ],
+    "sourceCategory": "武器",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-war-hammer",
+    "name": "法国战锤",
+    "scientific": "War hammer",
+    "aliases": "War hammer 法国 约1450年",
+    "category": "陈设与收藏",
+    "origin": "法国",
+    "era": "约1450年",
+    "profile": "hammer",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 28,
+    "note": "锤头的一侧厚而方，另一侧延伸为尖钩，上方还有小尖。木柄与几处铜色箍带把这件非对称器物串在一起。",
+    "sources": [
+      {
+        "label": "大都会艺术博物馆 · 藏品记录",
+        "url": "https://www.metmuseum.org/art/collection/search/25073"
+      }
+    ],
+    "sourceCategory": "武器",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-crossbow",
+    "name": "欧洲木弩",
+    "scientific": "European crossbow",
+    "aliases": "European crossbow 欧洲 历史藏品式样",
+    "category": "陈设与收藏",
+    "origin": "欧洲",
+    "era": "历史藏品式样",
+    "profile": "crossbow",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 38,
+    "note": "长木身前端横着一张弓，弦收拢成三角轮廓，头部留出小环。弩身的暗木色、弓片和浅色弦在俯视角度里分得很清楚。",
+    "sources": [
+      {
+        "label": "意大利VIVE博物馆 · 弩藏品",
+        "url": "https://vive.cultura.gov.it/en/catalog/crossbow"
+      }
+    ],
+    "sourceCategory": "武器",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-longbow",
+    "name": "英国长弓",
+    "scientific": "English longbow · replica",
+    "aliases": "English longbow · replica 英国 1893年入藏复原件",
+    "category": "陈设与收藏",
+    "origin": "英国",
+    "era": "1893年入藏复原件",
+    "profile": "longbow",
+    "weapon": true,
+    "detail": true,
+    "w": 68,
+    "h": 28,
+    "note": "一根窄木弓拉成长弧，两端由浅色弦相连，中间缠着深色握带。参考博物馆的历史长弓复原件，保持朴素木纹。",
+    "sources": [
+      {
+        "label": "牛津大学皮特里弗斯博物馆 · 藏品记录",
+        "url": "https://weapons.prm.ox.ac.uk/index.php/tour-by-region/oceania/europe/arms-and-armour-europe-171/index.html"
+      }
+    ],
+    "sourceCategory": "武器",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-adams-1851",
+    "name": "迪恩亚当斯1851左轮",
+    "scientific": "Deane–Adams revolver",
+    "origin": "英国",
+    "era": "约1851年藏品",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "Deane–Adams revolver 英国 约1851年藏品",
+    "note": "闭合框架包住转轮，短促枪管接着下弯木柄。参考迪恩亚当斯早期左轮，转轮上方的连续金属线与柯尔特开放式框架不同。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1963-12-251-271"
+      }
+    ],
+    "firearmArt": {
+      "family": "revolver",
+      "barrel": 15,
+      "grip": 9,
+      "frame": 1
+    },
+    "w": 50,
+    "h": 32,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-colt-new-service",
+    "name": "柯尔特New Service左轮",
+    "scientific": "Colt New Service",
+    "origin": "美国",
+    "era": "1917年藏品",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "Colt New Service 美国 1917年藏品",
+    "note": "较大的转轮、平直枪管和略圆的深色握柄组成厚实轮廓。参考1917年藏品，握柄底端的小环与顶部框架留在像素图里。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1963-12-251-216"
+      }
+    ],
+    "firearmArt": {
+      "family": "revolver",
+      "barrel": 18,
+      "grip": 11,
+      "frame": 2
+    },
+    "w": 50,
+    "h": 32,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-webley-fosbery",
+    "name": "韦伯利福斯伯里左轮",
+    "scientific": "Webley–Fosbery",
+    "origin": "英国",
+    "era": "约1910年藏品",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "Webley–Fosbery 英国 约1910年藏品",
+    "note": "枪身上下分成两层，转轮外表有醒目的曲折槽纹。参考格林尼治藏品，六面枪管、核桃木柄和底端小环组成它的特别外形。",
+    "sources": [
+      {
+        "label": "英国皇家格林尼治博物馆 · Webley–Fosbery",
+        "url": "https://www.rmg.co.uk/collections/objects/rmgc-object-2410"
+      }
+    ],
+    "firearmArt": {
+      "family": "revolver",
+      "barrel": 19,
+      "grip": 10,
+      "frame": 3
+    },
+    "w": 50,
+    "h": 32,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-hi-power",
+    "name": "勃朗宁Hi-Power手枪",
+    "scientific": "Browning Hi-Power No.2 Mk I*",
+    "origin": "比利时设计／加拿大制造",
+    "era": "20世纪藏品",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "Browning Hi-Power No.2 Mk I* 比利时设计／加拿大制造 20世纪藏品",
+    "note": "较长滑套接宽木握柄，外露的小击锤位于尾部。参考英格利斯制造的Hi-Power藏品，前端较窄、后段饱满的比例保留下来。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1985-02-83-1"
+      }
+    ],
+    "firearmArt": {
+      "family": "pistol",
+      "model": "hi-power"
+    },
+    "w": 50,
+    "h": 32,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-walther-p38",
+    "name": "瓦尔特P38手枪",
+    "scientific": "Walther P38",
+    "origin": "德国",
+    "era": "1943年藏品",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "Walther P38 德国 1943年藏品",
+    "note": "枪管前半段露在滑套外，后端是较宽的枪身和带横纹的深色握柄。细前端与宽后段使它与方盒形手枪很好区分。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1964-05-60-77"
+      }
+    ],
+    "firearmArt": {
+      "family": "pistol",
+      "model": "p38"
+    },
+    "w": 50,
+    "h": 32,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-walther-ppks",
+    "name": "瓦尔特PPK/S手枪",
+    "scientific": "Walther PPK/S",
+    "origin": "德国式样",
+    "era": "20世纪型号",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "Walther PPK/S 德国式样 20世纪型号",
+    "note": "短滑套搭配比PPK更长的PP型握柄，是一种紧凑的组合。参考博物馆的PPK/S，银灰枪身和暗色握柄以小色块分开。",
+    "sources": [
+      {
+        "label": "美国国家枪械博物馆 · Walther PPK/S",
+        "url": "https://www.nramuseum.org/guns/the-galleries/modern-firearms-1950-to-present/case-53-arms-of-law-enforcement/walther-ppk-s-semi-automatic-pistol.aspx"
+      }
+    ],
+    "firearmArt": {
+      "family": "pistol",
+      "model": "ppks"
+    },
+    "w": 50,
+    "h": 32,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-beretta-1934",
+    "name": "伯莱塔M1934手枪",
+    "scientific": "Beretta Model 1934",
+    "origin": "意大利",
+    "era": "1941年藏品",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "Beretta Model 1934 意大利 1941年藏品",
+    "note": "小巧枪身上有敞开的滑套线，前方圆枪管在两段金属之间露出来。握柄底端略向前翘，深木色与暗灰色形成短而宽的轮廓。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1964-05-59-47-1"
+      }
+    ],
+    "firearmArt": {
+      "family": "pistol",
+      "model": "beretta"
+    },
+    "w": 50,
+    "h": 32,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-remington-army",
+    "name": "雷明顿新陆军左轮",
+    "scientific": "Remington New Model Army",
+    "origin": "美国",
+    "era": "19世纪藏品",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "Remington New Model Army 美国 19世纪藏品",
+    "note": "转轮上方有完整顶框，多面长枪管下面是一条细杆。参考阿根廷国家历史博物馆藏品，黄铜护圈与暖木握柄保留在钢灰色轮廓里。",
+    "sources": [
+      {
+        "label": "阿根廷国家历史博物馆 · MHNA6588",
+        "url": "https://patrimonioargentino.cultura.gob.ar/index.php/Detail/objects/79728"
+      }
+    ],
+    "firearmArt": {
+      "family": "revolver",
+      "barrel": 21,
+      "grip": 9,
+      "frame": 4
+    },
+    "w": 50,
+    "h": 32,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-enfield-no2",
+    "name": "恩菲尔德No.2左轮",
+    "scientific": "Enfield No.2 Mk I",
+    "origin": "英国",
+    "era": "约1931年藏品",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "Enfield No.2 Mk I 英国 约1931年藏品",
+    "note": "转轮和上折式框架形成短而粗的枪身，握柄从尾端向下伸。参考No.2 Mk I藏品，以较短枪管、方圆握柄与细环区别于大型韦伯利。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1978-11-40-1"
+      }
+    ],
+    "firearmArt": {
+      "family": "revolver",
+      "barrel": 12,
+      "grip": 8,
+      "frame": 5
+    },
+    "w": 50,
+    "h": 32,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-dreyse-1841",
+    "name": "德莱赛1841针发步枪",
+    "scientific": "Dreyse Model 1841",
+    "origin": "普鲁士",
+    "era": "1841年式",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "Dreyse Model 1841 普鲁士 1841年式",
+    "note": "长木托托着细枪管，圆管形机匣在中段露出，侧面有直枪栓柄。参考布拉格军事历史研究所的1841式藏品，保留早期步枪的修长比例。",
+    "sources": [
+      {
+        "label": "布拉格军事历史研究所 · 1841式步枪",
+        "url": "https://www.vhu.cz/en/exhibit/02-pruska-pechotni-puska-vzor-1841/"
+      }
+    ],
+    "firearmArt": {
+      "family": "historic",
+      "model": "dreyse",
+      "end": 34
+    },
+    "w": 78,
+    "h": 32,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-chassepot",
+    "name": "夏塞波1866步枪",
+    "scientific": "Chassepot Model 1866",
+    "origin": "法国",
+    "era": "1868年藏品",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "Chassepot Model 1866 法国 1868年藏品",
+    "note": "细长木托、三处金属箍带和中段细直枪栓组成平缓轮廓。参考新西兰国家博物馆1868年制造的藏品，木、钢和黄铜的颜色轻轻分开。",
+    "sources": [
+      {
+        "label": "新西兰国家博物馆Te Papa · Chassepot",
+        "url": "https://collections.tepapa.govt.nz/object/48154"
+      }
+    ],
+    "firearmArt": {
+      "family": "historic",
+      "model": "chassepot",
+      "end": 33
+    },
+    "w": 78,
+    "h": 32,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-snider",
+    "name": "斯奈德恩菲尔德步枪",
+    "scientific": "Snider–Enfield Mk II",
+    "origin": "英国",
+    "era": "约1867年藏品",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "Snider–Enfield Mk II 英国 约1867年藏品",
+    "note": "保留了恩菲尔德长木托与箍带，机匣处则有一个侧翻闭锁块的外形。参考Mk II藏品，尾部短矩形金属块是图里的识别点。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1993-06-172-1"
+      }
+    ],
+    "firearmArt": {
+      "family": "historic",
+      "model": "snider",
+      "end": 31
+    },
+    "w": 78,
+    "h": 32,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-martini-henry",
+    "name": "马蒂尼亨利Mk I步枪",
+    "scientific": "Martini–Henry Mk I",
+    "origin": "英国",
+    "era": "1873年藏品",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "Martini–Henry Mk I 英国 1873年藏品",
+    "note": "短方机匣夹在枪托与长前木托之间，下方是一道杠杆护圈。参考Mk I第二式样藏品，连续木色中留出清楚的深灰矩形。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1995-01-208-1"
+      }
+    ],
+    "firearmArt": {
+      "family": "historic",
+      "model": "martini",
+      "end": 30
+    },
+    "w": 78,
+    "h": 32,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-springfield-1903",
+    "name": "斯普林菲尔德1903步枪",
+    "scientific": "Springfield Model 1903",
+    "origin": "美国",
+    "era": "1903年式",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "Springfield Model 1903 美国 1903年式",
+    "note": "直枪托接修长护木，后部弯枪栓与前方箍带形成少数凸点。参考斯普林菲尔德兵工厂博物馆的历史介绍，枪身保持朴素的木钢两色。",
+    "sources": [
+      {
+        "label": "美国国家公园局 · 斯普林菲尔德1903",
+        "url": "https://www.nps.gov/spar/learn/historyculture/the-1903-springfield-rifle.htm"
+      }
+    ],
+    "firearmArt": {
+      "family": "historic",
+      "model": "springfield",
+      "end": 28
+    },
+    "w": 78,
+    "h": 32,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-spencer",
+    "name": "斯宾塞连发步枪",
+    "scientific": "Spencer repeating rifle",
+    "origin": "美国",
+    "era": "约1865年藏品",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "Spencer repeating rifle 美国 约1865年藏品",
+    "note": "粗短机匣、枪身下方的杠杆和木枪托组成紧凑后段，前方枪管较长。参考1865年前后的藏品，护圈与机匣留成独立金属轮廓。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1988-05-58-1"
+      }
+    ],
+    "firearmArt": {
+      "family": "historic",
+      "model": "spencer",
+      "end": 25
+    },
+    "w": 78,
+    "h": 32,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-winchester-1897",
+    "name": "温彻斯特1897霰弹枪",
+    "scientific": "Winchester Model 1897",
+    "origin": "美国",
+    "era": "1897年式",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "Winchester Model 1897 美国 1897年式",
+    "note": "外露击锤、较短前木握把和枪管下方的细管线，组成泵动霰弹枪的特征轮廓。参考史密森尼藏品，深灰机匣夹在两段木色之间。",
+    "sources": [
+      {
+        "label": "史密森尼美国历史博物馆 · Winchester 1897",
+        "url": "https://www.si.edu/object/winchester-model-1897-slide-action-riot-shotgun%3Anmah_417434"
+      }
+    ],
+    "firearmArt": {
+      "family": "shotgun",
+      "model": "pump"
+    },
+    "w": 78,
+    "h": 32,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-double-shotgun",
+    "name": "并列双管霰弹枪",
+    "scientific": "Double-barrelled shotgun",
+    "origin": "英国",
+    "era": "约1930年藏品",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "Double-barrelled shotgun 英国 约1930年藏品",
+    "note": "两根枪管并排形成宽长前段，弯木托接着较小机匣，柄下只有短护圈。参考本土防卫志愿队使用的双管藏品，保留成对枪口的外形。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1983-05-73-1"
+      }
+    ],
+    "firearmArt": {
+      "family": "shotgun",
+      "model": "double"
+    },
+    "w": 78,
+    "h": 32,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-l1a1",
+    "name": "L1A1自装填步枪",
+    "scientific": "L1A1 · FN FAL family",
+    "origin": "英国／比利时式样",
+    "era": "1959年藏品",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "L1A1 · FN FAL family 英国／比利时式样 1959年藏品",
+    "note": "独立木枪托、木前护手与向下的长弹匣，沿着细长枪身排列。参考英国早期L1A1藏品，核桃木配件和细长前端让它显得温暖而舒展。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1993-07-137-1"
+      }
+    ],
+    "firearmArt": {
+      "family": "modern",
+      "model": "fal"
+    },
+    "w": 78,
+    "h": 38,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-g3",
+    "name": "HK G3步枪",
+    "scientific": "Heckler & Koch G3",
+    "origin": "德国",
+    "era": "约1967年藏品",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "Heckler & Koch G3 德国 约1967年藏品",
+    "note": "长而平直的钢制机匣配木枪托、带孔前护手与绿色握柄。参考澳大利亚战争纪念馆藏品，前方圆形瞄具轮廓和直弹匣保留在图中。",
+    "sources": [
+      {
+        "label": "澳大利亚战争纪念馆 · G3",
+        "url": "https://www.awm.gov.au/collection/C268253"
+      }
+    ],
+    "firearmArt": {
+      "family": "modern",
+      "model": "g3"
+    },
+    "w": 78,
+    "h": 38,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-m16",
+    "name": "M16 AR-15步枪",
+    "scientific": "M16 / AR-15",
+    "origin": "美国",
+    "era": "约1960年藏品",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "M16 / AR-15 美国 约1960年藏品",
+    "note": "直线枪托、提把、三角形前护木和独立握柄构成长而轻的轮廓。参考早期M16藏品，提把留成小孔，深色前护木与枪管分开。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1978-11-49-1"
+      }
+    ],
+    "firearmArt": {
+      "family": "modern",
+      "model": "m16"
+    },
+    "w": 78,
+    "h": 38,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-l85a1",
+    "name": "SA80 L85A1步枪",
+    "scientific": "SA80 L85A1",
+    "origin": "英国",
+    "era": "约1990年藏品",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "SA80 L85A1 英国 约1990年藏品",
+    "note": "握柄位于前方，弹匣留在后段枪托下，构成紧凑的无托式比例。参考带Trilux瞄具的L85A1藏品，绿色护木和上方短瞄具形成两层轮廓。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1990-02-58-1"
+      }
+    ],
+    "firearmArt": {
+      "family": "modern",
+      "model": "l85"
+    },
+    "w": 78,
+    "h": 38,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-aug",
+    "name": "斯太尔AUG A1步枪",
+    "scientific": "Steyr AUG A1",
+    "origin": "奥地利",
+    "era": "现代型号",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "Steyr AUG A1 奥地利 现代型号",
+    "note": "大块绿色枪托连着前握柄，弹匣位于握柄后方，上方细瞄具与提把结合。参考斯太尔官方AUG A1外形，短身、长前端和大护圈很好辨认。",
+    "sources": [
+      {
+        "label": "STEYR ARMS 官方 · AUG A1",
+        "url": "https://www.steyr-arms.com/en/military-law-enforcement/assault-rifles/"
+      }
+    ],
+    "firearmArt": {
+      "family": "modern",
+      "model": "aug"
+    },
+    "w": 78,
+    "h": 38,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-mp5",
+    "name": "HK MP5冲锋枪",
+    "scientific": "Heckler & Koch MP5",
+    "origin": "德国",
+    "era": "20世纪藏品",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "Heckler & Koch MP5 德国 20世纪藏品",
+    "note": "短枪管、宽前护手与独立握柄围着紧凑机匣，弹匣略弯。参考史密森尼MP5藏品，圆形前瞄具和收拢的枪托线让外形清楚可认。",
+    "sources": [
+      {
+        "label": "史密森尼美国历史博物馆 · MP5",
+        "url": "https://americanhistory.si.edu/collections/object/nmah_1050873"
+      }
+    ],
+    "firearmArt": {
+      "family": "smg",
+      "model": "mp5"
+    },
+    "w": 78,
+    "h": 32,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-pam1",
+    "name": "阿根廷PAM1冲锋枪",
+    "scientific": "PAM1",
+    "origin": "阿根廷",
+    "era": "1982年藏品",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "PAM1 阿根廷 1982年藏品",
+    "note": "圆管形枪身接着直弹匣和细钢丝枪托，外形接近美国M3。参考阿根廷PAM1藏品，侧面小折柄和薄枪托只用几条暗色线表现。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1984-06-140-1"
+      }
+    ],
+    "firearmArt": {
+      "family": "smg",
+      "model": "pam"
+    },
+    "w": 78,
+    "h": 32,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-bren",
+    "name": "布伦Mk I轻机枪",
+    "scientific": "Bren Mark I",
+    "origin": "英国／捷克式样",
+    "era": "1942年藏品",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "Bren Mark I 英国／捷克式样 1942年藏品",
+    "note": "上方弯弹匣、细长枪管和前端两脚架构成布伦的鲜明轮廓。参考Mk I藏品，木枪托、顶部弹匣与枪身侧面小提把分成三个层次。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1964-05-60-10"
+      }
+    ],
+    "firearmArt": {
+      "family": "machine",
+      "model": "bren"
+    },
+    "w": 78,
+    "h": 38,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-lewis",
+    "name": "刘易斯Mk I轻机枪",
+    "scientific": "Lewis Mark I",
+    "origin": "英国／美国设计",
+    "era": "1914年藏品",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "Lewis Mark I 英国／美国设计 1914年藏品",
+    "note": "粗圆枪管护套和上方扁圆盘形弹匣，使前后两段宽度差别明显。参考刘易斯Mk I藏品，木托与短握柄留着暗暖色。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1978-11-58-1"
+      }
+    ],
+    "firearmArt": {
+      "family": "machine",
+      "model": "lewis"
+    },
+    "w": 78,
+    "h": 38,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-vickers",
+    "name": "维克斯Class C机枪",
+    "scientific": "Vickers Class C",
+    "origin": "英国",
+    "era": "约1910年藏品",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "Vickers Class C 英国 约1910年藏品",
+    "note": "长圆水冷套接方形后机匣，尾端是成对小握把。参考Class C藏品，黄铜色箍圈和圆套的窄亮边点出旧金属质地。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1967-10-47-1"
+      }
+    ],
+    "firearmArt": {
+      "family": "machine",
+      "model": "vickers"
+    },
+    "w": 78,
+    "h": 38,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-maxim",
+    "name": "马克沁Mk I机枪",
+    "scientific": "Maxim Mark I",
+    "origin": "英国",
+    "era": "1900年藏品",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "Maxim Mark I 英国 1900年藏品",
+    "note": "宽水冷套与高大的方形后机匣形成两段轮廓，底部留有安装座。参考改装Mk I藏品，套筒、铜色接口和尾部握把都以低饱和色块表现。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1966-05-1-1"
+      }
+    ],
+    "firearmArt": {
+      "family": "machine",
+      "model": "maxim"
+    },
+    "w": 78,
+    "h": 38,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-bar",
+    "name": "勃朗宁M1918自动步枪",
+    "scientific": "Browning Automatic Rifle M1918",
+    "origin": "美国",
+    "era": "约1940年藏品",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "Browning Automatic Rifle M1918 美国 约1940年藏品",
+    "note": "长木枪托、较宽机匣和短而宽的下置弹匣连成坚实轮廓，前木护手位于细枪管下。参考M1918藏品，木色比普通长步枪更分段。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1979-10-60-1"
+      }
+    ],
+    "firearmArt": {
+      "family": "machine",
+      "model": "bar"
+    },
+    "w": 78,
+    "h": 38,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-hotchkiss",
+    "name": "哈奇开斯M1909轻机枪",
+    "scientific": "Hotchkiss M1909 Mk I*",
+    "origin": "法国设计／英国式样",
+    "era": "1917年藏品",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "Hotchkiss M1909 Mk I* 法国设计／英国式样 1917年藏品",
+    "note": "枪管周围有一圈圈散热片，侧置供弹条用短铜色横线点出。参考这件Mk I*藏品的特别式样，尾部没有枪托，枪身下只留着短握柄。",
+    "sources": [
+      {
+        "label": "英国国家陆军博物馆 · 藏品记录",
+        "url": "https://collection.nam.ac.uk/detail.php?acc=1978-11-61-1"
+      }
+    ],
+    "firearmArt": {
+      "family": "machine",
+      "model": "hotchkiss"
+    },
+    "w": 78,
+    "h": 38,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-glock-17",
+    "name": "格洛克G17 Gen5",
+    "scientific": "GLOCK 17 Gen5",
+    "origin": "奥地利",
+    "era": "第五代型号",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "GLOCK 17 Gen5 奥地利 第五代型号",
+    "note": "标准尺寸的方形滑套接较长聚合物握柄，前后刻纹只留下少量细线。参考官方G17 Gen5，黑色改用游戏里的深灰绿表现，保留平直外形。",
+    "sources": [
+      {
+        "label": "GLOCK 官方 · 型号与外形资料",
+        "url": "https://eu.glock.com/en/products/pistols/g17-gen5"
+      }
+    ],
+    "firearmArt": {
+      "family": "glock",
+      "slide": 32,
+      "gripHeight": 16,
+      "gripWidth": 10
+    },
+    "w": 50,
+    "h": 38,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-glock-19",
+    "name": "格洛克G19 Gen5",
+    "scientific": "GLOCK 19 Gen5",
+    "origin": "奥地利",
+    "era": "第五代型号",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "GLOCK 19 Gen5 奥地利 第五代型号",
+    "note": "紧凑型G19的滑套和握柄都比G17短，仍保留同样的矩形线条与斜握柄。参考官方第五代外形，通过长短比例与G17区分。",
+    "sources": [
+      {
+        "label": "GLOCK 官方 · 型号与外形资料",
+        "url": "https://eu.glock.com/en/products/pistols/g19-gen5"
+      }
+    ],
+    "firearmArt": {
+      "family": "glock",
+      "slide": 30,
+      "gripHeight": 14,
+      "gripWidth": 10
+    },
+    "w": 50,
+    "h": 38,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-glock-26",
+    "name": "格洛克G26 Gen5",
+    "scientific": "GLOCK 26 Gen5",
+    "origin": "奥地利",
+    "era": "第五代型号",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "GLOCK 26 Gen5 奥地利 第五代型号",
+    "note": "小型G26的握柄明显缩短，枪身显得短而厚，前段也更收拢。参考官方第五代外形，最醒目的识别点是短握柄与较宽滑套的组合。",
+    "sources": [
+      {
+        "label": "GLOCK 官方 · 型号与外形资料",
+        "url": "https://eu.glock.com/en/products/pistols/g26-gen5"
+      }
+    ],
+    "firearmArt": {
+      "family": "glock",
+      "slide": 27,
+      "gripHeight": 10,
+      "gripWidth": 10
+    },
+    "w": 50,
+    "h": 38,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-glock-34",
+    "name": "格洛克G34 Gen5 MOS",
+    "scientific": "GLOCK 34 Gen5 MOS",
+    "origin": "奥地利",
+    "era": "第五代MOS型号",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "GLOCK 34 Gen5 MOS 奥地利 第五代MOS型号",
+    "note": "长滑套向前伸出，配标准长度握柄，顶部留着MOS盖板的小平面。参考官方G34 Gen5 MOS，拉长的前段与G17、G19形成明显差别。",
+    "sources": [
+      {
+        "label": "GLOCK 官方 · 型号与外形资料",
+        "url": "https://eu.glock.com/en/products/pistols/g34-gen5-mos"
+      }
+    ],
+    "firearmArt": {
+      "family": "glock",
+      "slide": 36,
+      "gripHeight": 16,
+      "gripWidth": 10,
+      "mos": true
+    },
+    "w": 50,
+    "h": 38,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-glock-43",
+    "name": "格洛克G43",
+    "scientific": "GLOCK 43",
+    "origin": "奥地利",
+    "era": "Slimline型号",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "GLOCK 43 奥地利 Slimline型号",
+    "note": "G43属于较窄的小型系列，短滑套配细握柄，整体比G26显得纤细。参考官方外形，握柄宽度和短前端分别用更少的像素表现。",
+    "sources": [
+      {
+        "label": "GLOCK 官方 · 型号与外形资料",
+        "url": "https://eu.glock.com/en/products/pistols/g43"
+      }
+    ],
+    "firearmArt": {
+      "family": "glock",
+      "slide": 27,
+      "gripHeight": 11,
+      "gripWidth": 8,
+      "slim": true
+    },
+    "w": 50,
+    "h": 38,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  },
+  {
+    "id": "weapon-glock-43x",
+    "name": "格洛克G43X Rail",
+    "scientific": "GLOCK 43X Rail",
+    "origin": "奥地利",
+    "era": "Slimline Rail型号",
+    "category": "陈设与收藏",
+    "weapon": true,
+    "detail": true,
+    "aliases": "GLOCK 43X Rail 奥地利 Slimline Rail型号",
+    "note": "短滑套配较长的细握柄，让G43X与G43的比例一眼可分。参考官方Rail型，前下方还保留一小段导轨线；握柄保持Slimline系列的窄轮廓。",
+    "sources": [
+      {
+        "label": "GLOCK 官方 · 型号与外形资料",
+        "url": "https://eu.glock.com/en/products/pistols/g43x-rail"
+      }
+    ],
+    "firearmArt": {
+      "family": "glock",
+      "slide": 27,
+      "gripHeight": 14,
+      "gripWidth": 8,
+      "slim": true,
+      "rail": true
+    },
+    "w": 50,
+    "h": 38,
+    "sourceCategory": "枪械",
+    "placement": "both"
+  }
+]

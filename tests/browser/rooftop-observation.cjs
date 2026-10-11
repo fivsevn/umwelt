@@ -30,18 +30,19 @@ const checkScopeCircle = async (page, label) => {
   // Wait for the actual resized bitmap; the periodic update can be delayed in CI.
   await page.waitForFunction(() => {
     const mask = document.querySelector(".scope-mask"), rect = mask.getBoundingClientRect(),
-      world = document.querySelector("#garden").getBoundingClientRect(),
+      garden = document.querySelector("#garden"), world = garden.getBoundingClientRect(),
       engraving = document.querySelector(".scope-engraving"), step = Number(mask.dataset.physicalPixelStep),
       ratio = Number(mask.dataset.pixelRatio), cssStep = step / ratio;
     return mask.width === Math.ceil(Math.round(world.width * ratio) / step) && mask.height === Math.ceil(Math.round(world.height * ratio) / step)
       && Math.abs(rect.width - mask.width * cssStep) < .01 && Math.abs(rect.height - mask.height * cssStep) < .01
-      && engraving.width === mask.width && engraving.height === mask.height;
+      && engraving.width === mask.width && engraving.height === mask.height
+      && step === Number(garden.dataset.physicalPixelStep) && step === rooftop.graphics.raster.pixelStep;
   }, null, { timeout: 10000 });
   const lens = await page.evaluate(() => {
     const mask = document.querySelector(".scope-mask"), rect = mask.getBoundingClientRect(),
       scope = document.querySelector(".neighbor-scope").getBoundingClientRect(),
       engraving = document.querySelector(".scope-engraving").getBoundingClientRect(),
-      world = document.querySelector("#garden").getBoundingClientRect(),
+      garden = document.querySelector("#garden"), world = garden.getBoundingClientRect(), graphics = rooftop.graphics,
       pixels = mask.getContext("2d").getImageData(0, 0, mask.width, mask.height).data;
     const diameter = horizontal => {
       const length = horizontal ? mask.width : mask.height, middle = Math.floor((horizontal ? mask.height : mask.width) / 2);
@@ -57,14 +58,19 @@ const checkScopeCircle = async (page, label) => {
       maskHeight: rect.height, viewportHeight: innerHeight, worldWidth: world.width, worldHeight: world.height,
       origin: [rect.left - world.left, rect.top - world.top],
       pixelStep: Number(mask.dataset.pixelStep), physicalPixelStep: Number(mask.dataset.physicalPixelStep),
-      pixelRatio: Number(mask.dataset.pixelRatio), engravingScale: [engraving.width / mask.width, engraving.height / mask.height] };
+      pixelRatio: Number(mask.dataset.pixelRatio), engravingScale: [engraving.width / mask.width, engraving.height / mask.height],
+      scenePixelStep: Number(garden.dataset.physicalPixelStep), rasterPixelStep: graphics.raster.pixelStep,
+      normalizedZoom: graphics.view.zoom * graphics.cameraPreset.span / graphics.cameraPreset.frame.span };
   });
   assert.ok(lens.horizontal > 100, label + " has a visible optical opening");
   assert.ok(Math.abs(lens.horizontal - lens.vertical) <= 6, label + " painted opening stays circular: " + JSON.stringify(lens));
   assert.ok(Math.abs(lens.horizontal - (lens.scopeWidth - 8)) <= 6, label + " mask follows the lens diameter");
   assert.ok(Math.abs(lens.scopeWidth - lens.scopeHeight) <= 1, label + " lens container stays square");
   assert.ok(lens.engravingScale.every(value => Math.abs(value - lens.pixelStep) < .01), label + " reticle pixels have the same resolved scale as the scene");
-  assert.equal(lens.physicalPixelStep, Math.round(2.5 * lens.pixelRatio), label + " final cells occupy integer device pixels");
+  assert.ok(Number.isInteger(lens.physicalPixelStep) && lens.physicalPixelStep >= 2, label + " scope retains lightly sampled integer device cells");
+  assert.equal(lens.physicalPixelStep, lens.scenePixelStep, label + " eyecup follows the scene's live cell");
+  assert.equal(lens.physicalPixelStep, lens.rasterPixelStep, label + " optical engraving follows the rendered source cell");
+  if (lens.normalizedZoom <= 1) assert.equal(lens.physicalPixelStep, Math.round(2.5 * lens.pixelRatio), label + " the default scope field preserves its original grain");
   assert.ok(lens.origin.every(value => Math.abs(value) < .01), label + " eyecup shares the scene's top-left grid origin");
   return lens;
 };
@@ -86,6 +92,9 @@ const checkSavedArrangementIsolation = async browser => {
     const fixture = await page.evaluate(async () => {
       const { initialLayout, validateLayout } = await import("/rooftop/scene.mjs"),
         saved = validateLayout(initialLayout());
+      saved.scenes.north = [{ id: "care-plant", type: "mint", pot: "terra", x: 312, y: 240, scale: 1, rotation: 0, seed: 1835 }];
+      saved.scenes.south = [{ id: "small-plant", type: "aloe", pot: "terra", x: 284, y: 264, scale: 1, rotation: 0, seed: 1836 }];
+      saved.scenes.room = [{ id: "small-stool", type: "wood-square-stool", x: 300, y: 220, scale: 1, rotation: 0, seed: 1837 }];
       // Distinct saved IDs prove that the editor actually loads storage,
       // rather than coincidentally matching its default arrangement.
       for (const [scene, objects] of Object.entries(saved.scenes)) {
@@ -115,7 +124,7 @@ const checkSavedArrangementIsolation = async browser => {
       const shown = await page.evaluate(() => rooftop.layout);
       assert.deepEqual(shown.scenes.north, [], "old layout=local links still show an empty north terrace");
       assert.deepEqual(shown.scenes.south, [], "old layout=local links still show an empty south terrace");
-      assert.deepEqual(shown.scenes.room, fixture.scenes.room, "clearing the terrace view preserves the stored room");
+      assert.deepEqual(shown.scenes.room, stage ? [] : fixture.scenes.room, "empty scene inspection discards room items in memory; the public view preserves room data");
       assert.equal(await page.evaluate(() => rooftop.graphics.objects), 0);
       assert.deepEqual(await page.evaluate(() => rooftop.graphics.modelIds), []);
       await checkStorage();
@@ -218,7 +227,7 @@ const checkSavedArrangementIsolation = async browser => {
       await page.locator(".observation-notebook").waitFor({ state: "visible" });
       await page.waitForTimeout(650);
       assert.equal(await page.locator(".observation-notebook").isVisible(), true, "an earlier canvas hover timer cannot close the pinned journal");
-      assert.equal(await page.locator("#reviewEntry option").count(), 304);
+      assert.equal(await page.locator("#reviewEntry option").count(), 294);
       for (const id of ["mint", "vessel-antique-shino", "weapon-arisaka-38"]) {
         await page.locator("#reviewEntry").selectOption(id);
         await page.locator(".observation-notebook").waitFor({ state: "visible" });
@@ -309,6 +318,18 @@ const checkSavedArrangementIsolation = async browser => {
     await page.locator("#sceneCard").click();
     await page.waitForFunction(() => rooftop.scene === "north");
     await page.screenshot({ path: output + "/observation-phone-" + engine + ".png" });
+    const savedBeforeRoomReview = await page.evaluate(() => localStorage.getItem('umwelt-rooftop-layout-v1'));
+    await page.goto(base + '/rooftop/?stage=background&scene=room');
+    await page.waitForFunction(() => rooftop.graphics?.drawCalls > 0 && rooftop.graphics.roomBackground?.loaded, null, { timeout: 90000 });
+    assert.equal(await page.locator('#garden').getAttribute('data-sampling'), 'source');
+    assert.equal(await page.locator('#garden').getAttribute('data-physical-pixel-step'), '1');
+    assert.equal(await page.evaluate(() => rooftop.graphics.actorsHidden), true);
+    assert.ok(await page.evaluate(() => Object.values(rooftop.layout.scenes).every(objects => objects.length === 0)));
+    await page.locator('#reviewSampling').selectOption('game');
+    await page.waitForFunction(() => Number(document.querySelector('#garden').dataset.physicalPixelStep) > 1);
+    assert.equal(await page.evaluate(() => localStorage.getItem('umwelt-rooftop-layout-v1')), savedBeforeRoomReview);
+    await page.locator('#sceneCard').click();
+    await page.waitForFunction(() => rooftop.scene === 'north' && rooftop.graphics.background.loaded, null, { timeout: 90000 });
     assert.deepEqual(errors, []);
     console.log(engine + " observation: empty north/south, bounded three-view controls, circular portrait/landscape scope and browser-bar viewport mismatch, touch, preserved database, weather/actions/time and hidden actors passed");
   } catch (error) {

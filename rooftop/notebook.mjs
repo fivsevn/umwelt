@@ -1,6 +1,7 @@
 import { asset } from "./scene.mjs";
 import { plant, vessel } from "./botany.mjs";
 import { NOTEBOOK_COMMENTS } from "./notebook-comments.mjs";
+import { NATIVE_ITEM_NOTES } from "./native-item-notes.mjs";
 
 // Descriptions state what is present. Drawing instructions belong in art docs.
 const DESCRIPTIONS = {
@@ -68,13 +69,14 @@ export function notebookEntry(o) {
     v = a.vessel && vessel(a.vessel);
   const info = p || v || a;
   const description =
+    NATIVE_ITEM_NOTES[a.id]?.description ||
     DESCRIPTIONS[o.type] ||
     (a.weapon ? a.note.split("。")[0] + "。" : info.note);
   return {
     name: info.name,
     scientific: p?.scientific || "",
     description,
-    comment: NOTEBOOK_COMMENTS[o.type],
+    comment: NATIVE_ITEM_NOTES[a.id]?.comment || NOTEBOOK_COMMENTS[a.id] || NOTEBOOK_COMMENTS[o.type],
     sources: [
       ...new Map(
         [
@@ -106,4 +108,5 @@ export function fillNotebook(o, root = document) {
       return li;
     }),
   );
+  get("noteSources").parentElement.hidden = !entry.sources.length;
 }

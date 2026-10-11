@@ -1,3 +1,4 @@
+import { filledLayoutFixture } from "./fixtures/rooftop-filled-layout.mjs";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { WEATHER, TIMES, weatherProfile } from "../rooftop/weather.mjs";
@@ -89,7 +90,7 @@ test("storm gusts and lightning remain visible with reduced motion", () => {
 });
 
 test("rain cancels watering immediately, residents shelter, and ordinary care resumes after rain", () => {
-  const objects = initialLayout().scenes.north;
+  const objects = filledLayoutFixture().scenes.north;
   let state = {};
   const walker = makeWalker("north", () => objects, {
     environment: () => state,
@@ -126,7 +127,7 @@ test("both residents reach separate rain shelter spots across dense north and so
           n = (Math.imul(n, 1664525) + 1013904223) >>> 0;
           return n / 2 ** 32;
         };
-        const objects = initialLayout().scenes[scene];
+        const objects = filledLayoutFixture().scenes[scene];
         let weather = weatherProfile("clear", "afternoon"),
           pig;
         const person = makeWalker(scene, () => objects, {
@@ -170,7 +171,7 @@ test("both residents reach separate rain shelter spots across dense north and so
 });
 
 test("the two residents keep separate body clearance and pig actions across a dense arrangement", () => {
-  const objects = initialLayout().scenes.north;
+  const objects = filledLayoutFixture().scenes.north;
   let pig;
   const person = makeWalker("north", () => objects, {
     environment: () => weatherProfile("wind", "day"),

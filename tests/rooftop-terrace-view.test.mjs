@@ -86,7 +86,8 @@ test("every item has objective text, an individual one-sentence observation and 
   const comments = new Set();
   for (const a of ASSETS) {
     const e = notebookEntry({ type: a.id });
-    assert.ok(e.description && e.comment && e.sources.length, a.id);
+    assert.ok(e.description && e.comment, a.id);
+    if (a.plant || a.weapon || a.category === "收藏") assert.ok(e.sources.length, a.id);
     assert.equal((e.comment.match(/[。！？]/g) || []).length, 1, a.id);
     assert.ok(!comments.has(e.comment), a.id);
     comments.add(e.comment);

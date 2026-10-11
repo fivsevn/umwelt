@@ -1,0 +1,17 @@
+{
+  "state": "frozen after repaired cover, independently reopened, awaiting native Pixelorama atlas",
+  "family": "ceramics-extra",
+  "texelsPerMetre": 16,
+  "source": "ceramics-extra/ceramics-extra-layout.blend",
+  "layoutSha256": "9bb8e5c67b7089e01db4f611d0c0adc478797fb8bd2d6c890347b0d261d114bf",
+  "objects": 401,
+  "charts": 9431,
+  "sourceProvenance": "research.json",
+  "nativePaintingFunction": "patterns.py:pattern_color",
+  "verifiedMuseumBounds": true,
+  "parts": "All lid meshes listed individually in catalog removableParts",
+  "unknownSurfaces": "Plain inferred inner/underside geometry recorded per museum item; no exact facsimile claim",
+  "sourceReopened": "layout-reopened.json",
+  "completeShellInspection": "shell-inspection.json",
+  "realSmokeHoles": true
+}

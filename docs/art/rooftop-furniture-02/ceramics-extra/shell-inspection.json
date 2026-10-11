@@ -1,0 +1,309 @@
+{
+  "shells": [
+    {
+      "id": "antique-shigaraki-jar",
+      "faces": 460,
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.03285768
+    },
+    {
+      "id": "antique-bizen-gourd",
+      "faces": 620,
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.01186004
+    },
+    {
+      "id": "antique-karatsu-bowl",
+      "faces": 220,
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.00667082
+    },
+    {
+      "id": "antique-hagi-bowl",
+      "faces": 220,
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.00729908
+    },
+    {
+      "id": "antique-kiyomizu-incense",
+      "faces": 220,
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.00640557
+    },
+    {
+      "id": "antique-kenzan-chestnut",
+      "faces": 180,
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.00292996
+    },
+    {
+      "id": "antique-kakiemon-hex",
+      "faces": 90,
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.01552448
+    },
+    {
+      "id": "antique-tokoname-sutra",
+      "faces": 780,
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.02694422
+    },
+    {
+      "id": "antique-oribe-ewer",
+      "faces": 316,
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.01705703
+    },
+    {
+      "id": "antique-banko-teapot",
+      "faces": 276,
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.0049461
+    },
+    {
+      "id": "antique-iga-lobed",
+      "faces": 560,
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.03133653
+    },
+    {
+      "id": "antique-tamba-jar",
+      "faces": 420,
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.02329017
+    },
+    {
+      "id": "antique-echizen-jar",
+      "faces": 500,
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.01735726
+    },
+    {
+      "id": "antique-seto-hitorine",
+      "faces": 300,
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.00550679
+    },
+    {
+      "id": "antique-tsuboya-dragon",
+      "faces": 300,
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.02040469
+    },
+    {
+      "id": "antique-arita-coffee",
+      "faces": 276,
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.01120257
+    }
+  ],
+  "ports": [
+    {
+      "id": "antique-oribe-ewer",
+      "rayFromChamberHitsWall": false,
+      "distance": null
+    },
+    {
+      "id": "antique-banko-teapot",
+      "rayFromChamberHitsWall": false,
+      "distance": null
+    },
+    {
+      "id": "antique-arita-coffee",
+      "rayFromChamberHitsWall": false,
+      "distance": null
+    }
+  ],
+  "innerFloors": [
+    {
+      "id": "antique-shigaraki-jar",
+      "actualHitHeight": 0.040000081062316895,
+      "declaredHeight": 0.040000000310403634,
+      "matches": true
+    },
+    {
+      "id": "antique-bizen-gourd",
+      "actualHitHeight": 0.029999971389770508,
+      "declaredHeight": 0.03000000121267853,
+      "matches": true
+    },
+    {
+      "id": "antique-karatsu-bowl",
+      "actualHitHeight": 0.05200016498565674,
+      "declaredHeight": 0.05200000157154785,
+      "matches": true
+    },
+    {
+      "id": "antique-hagi-bowl",
+      "actualHitHeight": 0.08000004291534424,
+      "declaredHeight": 0.0799999998189226,
+      "matches": true
+    },
+    {
+      "id": "antique-kiyomizu-incense",
+      "actualHitHeight": 0.06779670715332031,
+      "declaredHeight": 0.06779654905890047,
+      "matches": true
+    },
+    {
+      "id": "antique-kenzan-chestnut",
+      "actualHitHeight": 0.023235321044921875,
+      "declaredHeight": 0.023235345974157245,
+      "matches": true
+    },
+    {
+      "id": "antique-kakiemon-hex",
+      "actualHitHeight": 0.0470808744430542,
+      "declaredHeight": 0.04708093047966672,
+      "matches": true
+    },
+    {
+      "id": "antique-tokoname-sutra",
+      "actualHitHeight": 0.037000060081481934,
+      "declaredHeight": 0.03700000120149295,
+      "matches": true
+    },
+    {
+      "id": "antique-oribe-ewer",
+      "actualHitHeight": 0.03775835037231445,
+      "declaredHeight": 0.03775834967328313,
+      "matches": true
+    },
+    {
+      "id": "antique-banko-teapot",
+      "actualHitHeight": 0.024407386779785156,
+      "declaredHeight": 0.024407397824279916,
+      "matches": true
+    },
+    {
+      "id": "antique-iga-lobed",
+      "actualHitHeight": 0.03300011157989502,
+      "declaredHeight": 0.033,
+      "matches": true
+    },
+    {
+      "id": "antique-tamba-jar",
+      "actualHitHeight": 0.03500008583068848,
+      "declaredHeight": 0.03499999906108017,
+      "matches": true
+    },
+    {
+      "id": "antique-echizen-jar",
+      "actualHitHeight": 0.03100001811981201,
+      "declaredHeight": 0.030999999319824598,
+      "matches": true
+    },
+    {
+      "id": "antique-seto-hitorine",
+      "actualHitHeight": 0.023375630378723145,
+      "declaredHeight": 0.023375584979192295,
+      "matches": true
+    },
+    {
+      "id": "antique-tsuboya-dragon",
+      "actualHitHeight": 0.03400015830993652,
+      "declaredHeight": 0.033999999479599946,
+      "matches": true
+    },
+    {
+      "id": "antique-arita-coffee",
+      "actualHitHeight": 0.07083678245544434,
+      "declaredHeight": 0.07083682938185398,
+      "matches": true
+    }
+  ],
+  "lids": [
+    {
+      "id": "antique-kiyomizu-incense",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.00301462
+    },
+    {
+      "id": "antique-kenzan-chestnut",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.00667706
+    },
+    {
+      "id": "antique-kakiemon-hex",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.00229435
+    },
+    {
+      "id": "antique-oribe-ewer",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.00145026
+    },
+    {
+      "id": "antique-banko-teapot",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.00049438
+    },
+    {
+      "id": "antique-seto-hitorine",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.00016304
+    },
+    {
+      "id": "antique-arita-coffee",
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "volume": 0.00146362
+    }
+  ],
+  "smokeHoles": [
+    {
+      "position": [
+        -0.0560910908211291,
+        0.0
+      ],
+      "rayHitsCover": false
+    },
+    {
+      "position": [
+        0.0560910908211291,
+        0.0
+      ],
+      "rayHitsCover": false
+    },
+    {
+      "position": [
+        0.0,
+        -0.05911330252635626
+      ],
+      "rayHitsCover": false
+    },
+    {
+      "position": [
+        0.0,
+        0.05911330252635626
+      ],
+      "rayHitsCover": false
+    }
+  ],
+  "allShellsClosed": true,
+  "allDeclaredFloorsVerified": true,
+  "allSmokeHolesOpen": true,
+  "allLidsClosed": true
+}

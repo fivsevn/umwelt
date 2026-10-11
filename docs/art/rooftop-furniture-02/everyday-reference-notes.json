@@ -1,0 +1,42 @@
+{
+  "scope": "34 newly authored outdoor and everyday objects; no geometry imported from the game or the earlier furniture preview",
+  "style": "Complete, readable low-poly construction with a unified physical pixel grid. Keep moderate structural details, sharp or lightly faceted contours, and simple rough materials. Do not remove functional walls, bottoms, supports or handles to make the image rougher.",
+  "coordinateSystem": "Blender: X width, Y depth, Z up; origin at ground and horizontal centre",
+  "texelsPerMetre": 16,
+  "references": [
+    {
+      "url": "https://www.ikea.com/us/en/p/hyllis-shelf-unit-indoor-outdoor-30428326/",
+      "source": "IKEA HYLLIS official product documentation",
+      "use": "Construction study: galvanized metal frame, discrete shelf support and plastic feet. New wire-grid racks have newly designed dimensions and shelf construction, not a replica of this product."
+    },
+    {
+      "url": "https://www.ikea.com/ph/en/p/vesken-cart-white-10613909/",
+      "source": "IKEA VESKEN official product documentation",
+      "use": "Material/construction study for a pale polypropylene shelf with raised tray edges; the new narrow four-post basket rack follows the user screenshot brief and has actual basket cavities and open grid bottoms."
+    },
+    {
+      "url": "https://www.kerbl.com/en/product/water-bucket/164552/14613",
+      "source": "Albert Kerbl official water bucket documentation",
+      "use": "Distinguish hot galvanized metal bucket body and carrying handle from a separately modelled molded plastic bucket. The new metal body includes a folded lip, compression rings and a wire handle; plastic body has a wider rolled rim, molded side ears and a plastic handle."
+    },
+    {
+      "url": "https://www.gardena.com/uk/products/watering/hose-trolleys-reels",
+      "source": "GARDENA official hose products",
+      "use": "Study coherent hose fittings and a practical hose end, while modelling a plain laid-down coil with no branded apparatus."
+    }
+  ],
+  "localColourReference": {
+    "path": "rooftop/3d/washstation.mjs",
+    "readOnly": true,
+    "use": "Retain a neutral stainless steel sink and the white deck/blue glazed basin colour family. All geometry is newly authored."
+  },
+  "constructionChecks": [
+    "Iron and plastic buckets have distinct silhouettes, wall profiles, lip sections and handle assemblies.",
+    "Every open container has a real inner floor, exterior bottom and connected wall thickness.",
+    "Filled foam boxes expose soil or seedling surfaces; they do not declare an empty cavity.",
+    "Transparent aquariums have four real thin glass walls and a real glass bottom, with visible interior water.",
+    "Water stations have a deck with a real opening, connected basin, complete tap and joined drainage path.",
+    "Each rack exposes measured, stable support heights. Basket rack cavities have raised sides and actual holes rather than painted black dots.",
+    "Pixels stay at 16 texels per metre across all newly created surfaces; no noise is added below the grid."
+  ]
+}
