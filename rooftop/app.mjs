@@ -119,12 +119,6 @@ if (backgroundStage) {
   const controls = document.createElement("div"); controls.className="background-review";
   controls.innerHTML='<span>' + (gameModelStage ? '天台 · 游戏范围预览' : '空天台 · 本地预览') + '</span><button type="button" id="reviewScene">看南阳台</button>' + (gameModelStage ? '<div class="narrative-views" role="group" aria-label="观察视角">' + narrativeButtons() + '</div>' + (!editor ? '<button type="button" id="reviewFreeCamera" aria-pressed="false">自由移动</button>' : '') : '<button type="button" id="reviewView">看楼排</button><button type="button" id="reviewOutlook">看远处</button>') + '<button type="button" id="reviewNotebook">东东的手帐</button><select id="reviewWeather" aria-label="预览天气"></select><select id="reviewTime" aria-label="预览时间"></select><select id="reviewSeason" aria-label="预览季节"></select>';
   document.querySelector(".roof-world")?.append(controls);
-  const positionNotebook = () => {
-    document.documentElement.style.setProperty("--review-controls-bottom", Math.ceil(controls.getBoundingClientRect().bottom) + "px");
-  };
-  new ResizeObserver(positionNotebook).observe(controls);
-  window.addEventListener("resize", positionNotebook);
-  positionNotebook();
 }
 if (!editor) attachGardenMusic($("musicToggle"));
 let garden3d = null,
@@ -173,6 +167,13 @@ if (!editor) {
   stationControls.setAttribute("role", "group");
   stationControls.setAttribute("aria-label", "观察者移动");
   viewControls.append(stationControls);
+  const notebookControls = backgroundStage ? document.querySelector(".background-review") : viewControls;
+  const positionNotebook = () => {
+    document.documentElement.style.setProperty("--observation-controls-bottom", Math.ceil(notebookControls.getBoundingClientRect().bottom) + "px");
+  };
+  new ResizeObserver(positionNotebook).observe(notebookControls);
+  window.addEventListener("resize", positionNotebook);
+  positionNotebook();
   let stationKind = null, freeCamera = false;
   const freeCameraButton = $("reviewFreeCamera");
   const freeCameraHint = "拖动转动；右键或双指拖动画面；滚轮靠近、远离。";
