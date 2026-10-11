@@ -2,6 +2,9 @@
 
 Applies only to 花农时代. Keep other games unchanged.
 
+Before visual work, read `docs/rooftop-README.md` and `docs/rooftop-pixel-style.md`. Keep the complete Blender model and Pixelorama source; the approved coarse game image comes from shared final low-resolution sampling, not extra geometry simplification. Check source material pixels and final screen pixels separately.
+
+
 When adding or changing a placed asset:
 
 - Register its spatial role and catalogue group in `3d/placement-profiles.mjs` (`SPACE_GROUPS`). The catalogue shows all plants first, followed by bearing furniture, portable holders, and the remaining items. A bearing asset must expose at least one actual surface; a filled planter or aquarium is an item with no empty cavity.
