@@ -370,7 +370,7 @@ async function visiblePickPoint(page, id) {
       await clickModel("wood-square-table");
       assert.ok(
         (await page.locator("#contentsSelect option").allTextContents()).some(
-          (t) => t === "架下地面 · 园艺铲",
+          (t) => t === "下方地面 · 园艺铲",
         ),
       );
       const tableId = await page.evaluate(() => rooftop.layout.scenes.north[0].id),

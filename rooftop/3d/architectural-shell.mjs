@@ -53,11 +53,13 @@ export function loadArchitecturalShell(T, parent) {
     lamps = { value: 0 };
   let state = { loaded: false, aborted: false, source: "Blender", error: null };
   const controller = new AbortController();
-  const cancelTransfer = () => {
+  const cancelTransfer = event => {
+    // A preserved history document resumes its in-flight transfer on return.
+    if (event?.persisted) return;
     state.aborted = true;
     controller.abort();
   };
-  globalThis.addEventListener?.("pagehide", cancelTransfer, { once: true });
+  globalThis.addEventListener?.("pagehide", cancelTransfer);
   const measurable = [];
   const root = new T.Group();
   root.name = "Blender terrace environment";
