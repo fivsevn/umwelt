@@ -38,7 +38,7 @@ await p.reload();await p.waitForFunction(()=>window.rooftop);assert.equal(await 
 const declaredAtlases=await p.evaluate(async()=>{
   const {BACKGROUND}=await import('/rooftop/assets/background/empty-rooftop.mjs');
   const {ITEMS}=await import('/rooftop/item-catalog.mjs');
-  return [...new Set(['/rooftop/assets/pixel/material-book.png','/rooftop/assets/room/room-background-atlas.png',
+  return [...new Set(['/rooftop/assets/pixel/material-book.png','/rooftop/assets/room/room-background-atlas.png','/rooftop/assets/observers/observer-icons-atlas.png',
     ...BACKGROUND.textures.map(texture=>'/rooftop/assets/background/'+texture.file),
     ...ITEMS.flatMap(item=>['/rooftop/'+item.thumbnail,'/rooftop/'+item.atlas])])];
 });
