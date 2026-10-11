@@ -8,6 +8,11 @@ import {SCENES} from '../rooftop/scene.mjs';
 const directory=new URL('../rooftop/assets/background/',import.meta.url);
 import {BACKGROUND as manifest} from '../rooftop/assets/background/empty-rooftop.mjs';
 const bytes=readFileSync(new URL('empty-rooftop.bin',directory));
+function floorWithPlayableTransform(name){
+ const identity=[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1];
+ return manifest.parts.find(p=>p.field===name+'-floor'&&(p.mode!=='meshInstances'||
+  Array.from({length:p.count},(_,i)=>i).some(i=>identity.every((v,j)=>Math.abs(bytes.readFloatLE(p.matricesOffset+i*64+j*4)-v)<.00002))));
+}
 test('Blender export has bounded binary sections, proper normals and a lightweight payload',()=>{
  assert.equal(manifest.sha256,createHash('sha256').update(bytes).digest('hex'));
  assert.ok(bytes.length<6500000);
@@ -32,7 +37,8 @@ test('Blender export has bounded binary sections, proper normals and a lightweig
 });
 test('unique Pixelorama floor charts cover both saved walkable contours at one texel density',()=>{
  for(const name of ['north','south']){
-  const part=manifest.parts.find(p=>p.field===name+'-floor');
+  const part=floorWithPlayableTransform(name);
+  assert.ok(part,'the playable terrace retains a floor chart at its identity world transform');
   const points=new Set();
   for(let i=0;i<part.vertices;i++){
    const offset=part.offset+i*32;
@@ -48,7 +54,7 @@ test('unique Pixelorama floor charts cover both saved walkable contours at one t
  }
 });
 test('the home is between neighbours, and paired projections do not bridge the garage gaps',()=>{
- const part=manifest.parts.find(p=>p.field==='north-floor');
+ const part=floorWithPlayableTransform('north');
  const triangles=[],points=new Set();
  for(let i=0;i<part.vertices;i+=3){
   const triangle=[];
@@ -82,7 +88,7 @@ test('the public export keeps near geometry and compact distant facade meshes wi
  assert.equal(manifest.texelMetresPerUnit.length,3);
  assert.ok(manifest.texelMetresPerUnit.every(v=>Number.isFinite(v)&&v>0&&v<1));
  const text=JSON.stringify(manifest);
- assert.doesNotMatch(text,/google\.com\/maps|api\.openstreetmap\.org|\/Users\/|geographicOrigin|mapUrl|latitude|longitude/i);
+ assert.doesNotMatch(text,/郭里园|崇川|南通|Guoliyuan|google\.com\/maps|api\.openstreetmap\.org|\/Users\/|32\.031664|120\.870792/i);
  const visit=value=>{
   if(!value||typeof value!=='object')return;
   for(const [key,child]of Object.entries(value)){
@@ -130,7 +136,7 @@ test('native loader shares collection geometry, physical charts and baked facade
   buffer=Float32Array.from(values).buffer;
  const fixture={format:'blender-environment-v2',binary:'fixture.bin',sha256:'fixture',texture:'book.png',textureSha256:'bookhash',
   textures:[{file:'book.png',width:512,height:512,bytes:10},{file:'facades.png',width:2048,height:1024,bytes:20},{file:'lights.png',width:2048,height:1024,bytes:5}],
-  texelMetresPerUnit:[.27,.5357,.46],cube:{offset:cubeOffset,vertices:manifest.cube.vertices},triangles:27,objects:5,
+  texelMetresPerUnit:[.27,.5357,.46],texelsPerMetre:16,cube:{offset:cubeOffset,vertices:manifest.cube.vertices},triangles:27,objects:5,
   parts:[{field:'wall',mode:'instances',offset:0,directCount:0,count:2,rect:[0,0,32,32],layer:'near',assemblies:[{sourceOffset:localMatrices,sourceCount:2,worldOffset:worldMatrix,worldCount:1}]},
    {field:'north-floor',mode:'meshInstances',offset:triangleOffset,vertices:3,matricesOffset:collectionMatrices,count:2,rect:[0,0,128,128],layer:'near'},
    {field:'distant-facades',mode:'mesh',offset:farOffset,vertices:3,style:'baked',shading:'orientation',texture:'facades.png',lampMask:'lights.png',layer:'far'}]};
@@ -146,17 +152,24 @@ test('native loader shares collection geometry, physical charts and baked facade
  const parent=new T.Group(),shell=context.loadArchitecturalShell(T,parent);
  await shell.ready;
  const root=parent.children[0],[boxes,floor,far]=root.children;
+ assert.equal(boxes.material.isMeshLambertMaterial,true,'near native albedo receives directional sunlight and real shadows');
+ assert.equal(floor.material.isMeshLambertMaterial,true,'floor repairs remain albedo and change light with the terrace');
+ assert.equal(far.material.isMeshBasicMaterial,true,'distant Blender paintings preserve their baked lighting');
  assert.equal(boxes.count,2);assert.equal(floor.count,2);
  const matrix=new T.Matrix4();boxes.getMatrixAt(1,matrix);
  assert.deepEqual(Array.from(matrix.elements.slice(12,15)),[32,0,40]);
  floor.getMatrixAt(1,matrix);assert.deepEqual(Array.from(matrix.elements.slice(12,15)),[8,0,12]);
  assert.equal(floor.geometry.attributes.position.count,3,'two homes share one native geometry buffer');
- const shader=()=>({uniforms:{},vertexShader:T.ShaderLib.basic.vertexShader,fragmentShader:T.ShaderLib.basic.fragmentShader}),
-  boxShader=shader(),floorShader=shader(),farShader=shader();
+ const shader=(library=T.ShaderLib.basic)=>({uniforms:{},vertexShader:library.vertexShader,fragmentShader:library.fragmentShader}),
+  boxShader=shader(T.ShaderLib.lambert),floorShader=shader(T.ShaderLib.lambert),farShader=shader();
  boxes.material.onBeforeCompile(boxShader);floor.material.onBeforeCompile(floorShader);far.material.onBeforeCompile(farShader);
  assert.match(boxShader.vertexShader,/\.xyz \* shellMetres/);
+ assert.match(boxShader.vertexShader,/\* shellTexelsPerMetre/);
+ assert.equal(boxShader.uniforms.shellTexelsPerMetre.value,16,'instanced boxes use the same physical pixel density as native mesh UVs');
  assert.match(floorShader.vertexShader,/shellChart = uv/);
  assert.doesNotMatch(floorShader.vertexShader,/dot\(p, u\)/);
+ assert.match(floorShader.fragmentShader,/#include <lights_fragment_begin>/,'real directional and shadow lighting survives the native atlas sampler');
+ assert.match(boxShader.fragmentShader,/totalEmissiveRadiance \+=/,'lit windows preserve warm emission in dark weather');
  assert.match(farShader.fragmentShader,/#include <map_fragment>/);
  assert.match(farShader.fragmentShader,/texture2D\(shellLampMask, vMapUv\)/);
  assert.doesNotMatch(farShader.fragmentShader,/shellChart/,'baked charts use standard atlas UVs');

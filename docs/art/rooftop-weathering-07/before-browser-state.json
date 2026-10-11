@@ -1,0 +1,310 @@
+[
+  {
+    "label": "before-fixed-north-overcast-day",
+    "scene": "north",
+    "choices": {
+      "condition": "overcast",
+      "phase": "day",
+      "season": "spring"
+    },
+    "view": {
+      "theta": 2.661592653589793,
+      "phi": 0.68,
+      "zoom": 1.8
+    },
+    "target": [
+      1.0317721289758421,
+      0.2,
+      0.01815090775020828
+    ],
+    "backgroundLoaded": true,
+    "atlases": [
+      {
+        "file": "terrace-book.png",
+        "width": 1024,
+        "height": 1024,
+        "bytes": 160508
+      },
+      {
+        "file": "distance-facades.png",
+        "width": 2048,
+        "height": 2048,
+        "bytes": 2162915
+      },
+      {
+        "file": "distance-lights.png",
+        "width": 2048,
+        "height": 2048,
+        "bytes": 918477
+      }
+    ],
+    "texelsPerMetre": 16,
+    "buffer": [
+      1280,
+      720
+    ],
+    "light": [
+      0,
+      50.54093442811192,
+      35.91119528967662
+    ],
+    "wetness": 0,
+    "objects": 0,
+    "modelBuilds": 0,
+    "seasonal": {
+      "season": "spring",
+      "count": 16,
+      "effects": [
+        {
+          "season": "spring",
+          "effect": "柳絮",
+          "count": 16,
+          "strength": 1,
+          "brightness": 0.9545
+        }
+      ],
+      "afterRain": 0,
+      "sample": [
+        [
+          -10.265716552734375,
+          1.9379997253417969,
+          -10.328798294067383,
+          1.864586353302002,
+          2.373899459838867,
+          5.276882648468018
+        ]
+      ]
+    }
+  },
+  {
+    "label": "before-fixed-south-overcast-day",
+    "scene": "south",
+    "choices": {
+      "condition": "overcast",
+      "phase": "day",
+      "season": "spring"
+    },
+    "view": {
+      "theta": 2.0507963267948965,
+      "phi": 0.68,
+      "zoom": 1.8
+    },
+    "target": [
+      -1.919519297666579,
+      0.2,
+      0.9993225619996084
+    ],
+    "backgroundLoaded": true,
+    "atlases": [
+      {
+        "file": "terrace-book.png",
+        "width": 1024,
+        "height": 1024,
+        "bytes": 160508
+      },
+      {
+        "file": "distance-facades.png",
+        "width": 2048,
+        "height": 2048,
+        "bytes": 2162915
+      },
+      {
+        "file": "distance-lights.png",
+        "width": 2048,
+        "height": 2048,
+        "bytes": 918477
+      }
+    ],
+    "texelsPerMetre": 16,
+    "buffer": [
+      1280,
+      720
+    ],
+    "light": [
+      35.91119528967662,
+      50.54093442811192,
+      0
+    ],
+    "wetness": 0,
+    "objects": 0,
+    "modelBuilds": 0,
+    "seasonal": {
+      "season": "spring",
+      "count": 16,
+      "effects": [
+        {
+          "season": "spring",
+          "effect": "柳絮",
+          "count": 16,
+          "strength": 1,
+          "brightness": 0.9545
+        }
+      ],
+      "afterRain": 0,
+      "sample": [
+        [
+          -2.6369450092315674,
+          2.0589194297790527,
+          -10.00688648223877,
+          2.968475103378296,
+          2.2484242916107178,
+          5.172478199005127
+        ]
+      ]
+    }
+  },
+  {
+    "label": "before-fixed-south-overcast-day-loaded",
+    "scene": "south",
+    "choices": {
+      "condition": "overcast",
+      "phase": "day",
+      "season": "spring"
+    },
+    "view": {
+      "theta": 2.0507963267948965,
+      "phi": 0.68,
+      "zoom": 1.8
+    },
+    "target": [
+      -1.919519297666579,
+      0.2,
+      0.9993225619996084
+    ],
+    "backgroundLoaded": true,
+    "atlases": [
+      {
+        "file": "terrace-book.png",
+        "width": 1024,
+        "height": 1024,
+        "bytes": 160508
+      },
+      {
+        "file": "distance-facades.png",
+        "width": 2048,
+        "height": 2048,
+        "bytes": 2162915
+      },
+      {
+        "file": "distance-lights.png",
+        "width": 2048,
+        "height": 2048,
+        "bytes": 918477
+      }
+    ],
+    "texelsPerMetre": 16,
+    "buffer": [
+      1280,
+      720
+    ],
+    "light": [
+      35.91119528967662,
+      50.54093442811192,
+      0
+    ],
+    "wetness": 0,
+    "objects": 0,
+    "modelBuilds": 0,
+    "seasonal": {
+      "season": "spring",
+      "count": 16,
+      "effects": [
+        {
+          "season": "spring",
+          "effect": "柳絮",
+          "count": 16,
+          "strength": 1,
+          "brightness": 0.9545
+        }
+      ],
+      "afterRain": 0,
+      "sample": [
+        [
+          -4.789195537567139,
+          2.004987955093384,
+          -9.875691413879395,
+          -0.004180494695901871,
+          2.3310680389404297,
+          5.094125747680664
+        ]
+      ]
+    }
+  },
+  {
+    "label": "before-fixed-south-drizzle-day",
+    "scene": "south",
+    "choices": {
+      "condition": "rain",
+      "phase": "day",
+      "season": "spring"
+    },
+    "view": {
+      "theta": 2.0507963267948965,
+      "phi": 0.68,
+      "zoom": 1.8
+    },
+    "target": [
+      -1.919519297666579,
+      0.2,
+      0.9993225619996084
+    ],
+    "backgroundLoaded": true,
+    "atlases": [
+      {
+        "file": "terrace-book.png",
+        "width": 1024,
+        "height": 1024,
+        "bytes": 160508
+      },
+      {
+        "file": "distance-facades.png",
+        "width": 2048,
+        "height": 2048,
+        "bytes": 2162915
+      },
+      {
+        "file": "distance-lights.png",
+        "width": 2048,
+        "height": 2048,
+        "bytes": 918477
+      }
+    ],
+    "texelsPerMetre": 16,
+    "buffer": [
+      1280,
+      720
+    ],
+    "light": [
+      35.91119528967662,
+      50.54093442811192,
+      0
+    ],
+    "wetness": 0.347661741849441,
+    "objects": 0,
+    "modelBuilds": 0,
+    "seasonal": {
+      "season": "spring",
+      "count": 16,
+      "effects": [
+        {
+          "season": "spring",
+          "effect": "柳絮",
+          "count": 16,
+          "strength": 0.6625,
+          "brightness": 0.94085
+        }
+      ],
+      "afterRain": 0,
+      "sample": [
+        [
+          5.487793445587158,
+          2.0487895011901855,
+          -9.840158462524414,
+          0.2762400805950165,
+          2.376274347305298,
+          5.473809242248535
+        ]
+      ]
+    }
+  }
+]

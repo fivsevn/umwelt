@@ -1,0 +1,59 @@
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+✔ all nine weather conditions distinguish seven lighting stages and respect the solar direction (3.291666ms)
+✔ rain types change density, footprints, strike locations and lifetime rather than repeating fixed ripples (0.67075ms)
+✔ storm gusts and lightning remain visible with reduced motion (0.637333ms)
+✔ rain cancels watering immediately, residents shelter, and ordinary care resumes after rain (28.950334ms)
+✔ both residents reach separate rain shelter spots across dense north and south layouts (167.315458ms)
+✔ the two residents keep separate body clearance and pig actions across a dense arrangement (256.490584ms)
+✔ shadow maps reuse fixed lighting and invalidate on edits, motion and scene changes (13.746959ms)
+✔ Blender export has bounded binary sections, proper normals and a lightweight payload (27.856125ms)
+✔ unique Pixelorama floor charts cover both saved walkable contours at one texel density (0.404167ms)
+✔ the home is between neighbours, and paired projections do not bridge the garage gaps (0.299708ms)
+✔ the public export keeps near geometry and compact distant facade meshes without geographic metadata (5.909166ms)
+✔ native loader shares collection geometry, physical charts and baked facade atmosphere (12.430792ms)
+✔ software graphics bound full-screen fill while preserving small displays (0.762584ms)
+✔ mobile and ordinary editing canvases retain their native pixel grid (0.101ms)
+✔ large viewports bound fill work while retaining aspect ratio and integer pixels (0.095833ms)
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+✔ all season/time/weather skies have bounded light and ordered distance fog (5.152417ms)
+✔ seasons change ambient palette and solar elevation without changing map orientation (0.187792ms)
+✔ interrupted season/weather changes continue from the current sky and residual water (0.831625ms)
+✔ wet and snow cells use the same physical square as the native floor texture (0.096333ms)
+✔ cached atmosphere changes every supported mood without rebuilding and keeps reduced seasonal motion (49.166292ms)
+✔ physical sun direction survives model metre scale and both terrace viewpoints (0.521416ms)
+✔ rainwater keeps separate stable local basins on both terraces (3.295917ms)
+✔ calendar season includes December/January and switches smoothly at a month boundary (7.825666ms)
+✔ bounded particles distinguish all four seasons, move under reduced motion, and keep stable identities (1.202084ms)
+✔ canvas fallback paints changing seasonal silhouettes and restores drawing state (0.306625ms)
+✔ north and south touch opposite eaves of the same house without moving saved layouts (1.48175ms)
+✔ terrace close-view limits retain local panning without a distant overview (0.583584ms)
+✔ every item has objective text, an individual one-sentence observation and usable references (1.397625ms)
+✔ weather progress is time-based, interruptible, and keeps rainfall speed independent of page age (3.295708ms)
+✔ the action card describes actual residents independently of the weather caption (0.117ms)
+✔ the legacy editor and reference orbit starts on its open side outside the intact house (0.687958ms)
+✔ action cards hold through pose changes and update only for meaningful episodes (0.269625ms)
+✔ the balcony is a small part of a long house with clear space to neighbouring blocks (0.080542ms)
+✔ game terrace travel cannot pan out to the architectural district (1.87175ms)
+✔ night stages follow the clock and late lights are a strict subset of evening rooms (1.629584ms)
+✔ all weather and time combinations remain finite, distinguishable and transition smoothly (3.791416ms)
+✔ thin foliage responds to wind while succulent bodies stay rigid (0.2965ms)
+✔ material lighting preserves colour separation and sunset distinguishes light from shade (0.1765ms)
+✔ water accumulates in rain and remains while the roof dries after clearing (2.826417ms)
+✔ daytime stages and map orientations have distinct solar directions (0.250709ms)
+✔ garage manual changes settle promptly and rapid changes continue from the current appearance (0.2855ms)
+Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation
+✔ sparse single-texel spring seeds remain loose, warm, and bounded over long wind paths (7.065375ms)
+✔ catkins move mainly sideways and rise as often as they fall in both motion preferences (4.619042ms)
+✔ individual breezes slow into gentle pauses with different rates and phases (0.695625ms)
+✔ spring uses native physical texels on both terraces and stays visible under reduced motion (1.36775ms)
+✔ one physical texel projects with the viewport half-scale in both camera modes (1.0375ms)
+✔ summer insects, autumn flowers/leaves, and winter snow retain their existing trajectories and pigment (2.602666ms)
+✔ spring and winter keep independent identities while the existing season transition blends them (0.535459ms)
+ℹ tests 48
+ℹ suites 0
+ℹ pass 48
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 526.601916

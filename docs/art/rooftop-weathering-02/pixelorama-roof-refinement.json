@@ -1,0 +1,23 @@
+{
+  "brush": 1,
+  "changedOnly": [
+    [
+      0,
+      640,
+      704,
+      128
+    ],
+    [
+      0,
+      768,
+      704,
+      128
+    ]
+  ],
+  "nativePngExport": true,
+  "nativeSaved": true,
+  "software": "Pixelorama",
+  "strokes": 26440,
+  "tool": "Pencil",
+  "version": "v1.2.3-stable"
+}

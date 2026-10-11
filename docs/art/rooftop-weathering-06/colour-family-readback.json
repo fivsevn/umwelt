@@ -1,0 +1,145 @@
+{
+  "source": "terrace-book.png",
+  "readOnly": true,
+  "note": "Pigment families describe the painted material; they are not style acceptance scores.",
+  "materials": {
+    "north-floor": {
+      "nativeColorsUsed": 12,
+      "percentByRole": {
+        "base": 71.719,
+        "nearFourAndEight": 22.534,
+        "midTwelveAndSixteen": 5.463,
+        "rareFissureMineralAndWarmMortar": 0.284
+      },
+      "palettePercent": {
+        "#99a199": 71.719,
+        "#959d95": 7.947,
+        "#919991": 5.829,
+        "#9da59d": 4.471,
+        "#a1a9a1": 4.288,
+        "#8d958d": 2.02,
+        "#a5ada5": 1.248,
+        "#899189": 1.511,
+        "#a9b1a9": 0.684,
+        "#727e74": 0.125,
+        "#b9bfb4": 0.131,
+        "#b4b19f": 0.027
+      }
+    },
+    "south-floor": {
+      "nativeColorsUsed": 12,
+      "percentByRole": {
+        "base": 69.452,
+        "nearFourAndEight": 22.437,
+        "midTwelveAndSixteen": 7.635,
+        "rareFissureMineralAndWarmMortar": 0.476
+      },
+      "palettePercent": {
+        "#99a199": 69.452,
+        "#959d95": 7.324,
+        "#919991": 6.0,
+        "#9da59d": 4.517,
+        "#a1a9a1": 4.596,
+        "#8d958d": 2.692,
+        "#a5ada5": 1.819,
+        "#899189": 2.161,
+        "#a9b1a9": 0.964,
+        "#727e74": 0.195,
+        "#b9bfb4": 0.22,
+        "#b4b19f": 0.061
+      }
+    },
+    "plaster": {
+      "nativeColorsUsed": 12,
+      "percentByRole": {
+        "base": 74.398,
+        "nearFourAndEight": 22.335,
+        "midTwelveAndSixteen": 3.066,
+        "rareFissureMineralAndWarmMortar": 0.201
+      },
+      "palettePercent": {
+        "#a4aca4": 74.398,
+        "#a0a8a0": 8.877,
+        "#9ca49c": 4.749,
+        "#a8b0a8": 4.724,
+        "#acb4ac": 3.986,
+        "#98a098": 0.81,
+        "#b0b8b0": 0.669,
+        "#949c94": 1.001,
+        "#b4bcb4": 0.586,
+        "#7d897f": 0.016,
+        "#c4cabf": 0.098,
+        "#bfbcaa": 0.087
+      }
+    },
+    "stained-plaster": {
+      "nativeColorsUsed": 12,
+      "percentByRole": {
+        "base": 74.898,
+        "nearFourAndEight": 21.177,
+        "midTwelveAndSixteen": 3.721,
+        "rareFissureMineralAndWarmMortar": 0.203
+      },
+      "palettePercent": {
+        "#9fa79f": 74.898,
+        "#9ba39b": 8.331,
+        "#979f97": 4.482,
+        "#a3aba3": 3.847,
+        "#a7afa7": 4.517,
+        "#939b93": 1.17,
+        "#abb3ab": 0.549,
+        "#8f978f": 1.186,
+        "#afb7af": 0.816,
+        "#78847a": 0.016,
+        "#bfc5ba": 0.098,
+        "#bab7a5": 0.09
+      }
+    },
+    "cap": {
+      "nativeColorsUsed": 11,
+      "percentByRole": {
+        "base": 71.545,
+        "nearFourAndEight": 23.712,
+        "midTwelveAndSixteen": 4.254,
+        "rareFissureMineralAndWarmMortar": 0.488
+      },
+      "palettePercent": {
+        "#adb5ad": 71.545,
+        "#a9b1a9": 9.772,
+        "#a5ada5": 4.797,
+        "#b1b9b1": 4.73,
+        "#b5bdb5": 4.413,
+        "#a1a9a1": 1.532,
+        "#b9c1b9": 0.848,
+        "#9da59d": 0.983,
+        "#bdc5bd": 0.891,
+        "#869288": 0.0,
+        "#cdd3c8": 0.378,
+        "#c8c5b3": 0.11
+      }
+    },
+    "cement": {
+      "nativeColorsUsed": 12,
+      "percentByRole": {
+        "base": 71.967,
+        "nearFourAndEight": 22.687,
+        "midTwelveAndSixteen": 4.767,
+        "rareFissureMineralAndWarmMortar": 0.58
+      },
+      "palettePercent": {
+        "#939b93": 71.967,
+        "#8f978f": 8.575,
+        "#8b938b": 5.194,
+        "#979f97": 3.857,
+        "#9ba39b": 5.06,
+        "#878f87": 1.428,
+        "#9fa79f": 1.001,
+        "#838b83": 1.074,
+        "#a3aba3": 1.263,
+        "#6c786e": 0.092,
+        "#b3b9ae": 0.366,
+        "#aeab99": 0.122
+      }
+    }
+  }
+}

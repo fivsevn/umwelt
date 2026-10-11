@@ -1,0 +1,393 @@
+{
+  "states": [
+    {
+      "label": "fixed-north-overcast-day",
+      "scene": "north",
+      "choices": {
+        "condition": "overcast",
+        "phase": "day",
+        "season": "spring"
+      },
+      "view": {
+        "theta": 2.661592653589793,
+        "phi": 0.68,
+        "zoom": 1.8
+      },
+      "target": [
+        1.0317721289758421,
+        0.2,
+        0.01815090775020828
+      ],
+      "backgroundLoaded": true,
+      "atlases": [
+        {
+          "file": "terrace-book.png",
+          "width": 1024,
+          "height": 1024,
+          "bytes": 171478
+        },
+        {
+          "file": "distance-facades.png",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 2162915
+        },
+        {
+          "file": "distance-lights.png",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 918477
+        }
+      ],
+      "texelsPerMetre": 16,
+      "buffer": [
+        1280,
+        720
+      ],
+      "light": [
+        0,
+        50.54093442811192,
+        35.91119528967662
+      ],
+      "wetness": 0,
+      "objects": 0,
+      "modelBuilds": 0,
+      "seasonal": {
+        "season": "spring",
+        "count": 16,
+        "effects": [
+          {
+            "season": "spring",
+            "effect": "柳絮",
+            "count": 16,
+            "strength": 1,
+            "brightness": 0.9545
+          }
+        ],
+        "afterRain": 0,
+        "sample": [
+          [
+            -10.220712661743164,
+            1.923859715461731,
+            -10.349775314331055,
+            2.8456788063049316,
+            2.3781588077545166,
+            5.26932954788208
+          ]
+        ]
+      }
+    },
+    {
+      "label": "final-fixed-north-overcast-day",
+      "scene": "north",
+      "choices": {
+        "condition": "overcast",
+        "phase": "day",
+        "season": "spring"
+      },
+      "view": {
+        "theta": 2.661592653589793,
+        "phi": 0.68,
+        "zoom": 1.8
+      },
+      "target": [
+        1.0317721289758421,
+        0.2,
+        0.01815090775020828
+      ],
+      "backgroundLoaded": true,
+      "atlases": [
+        {
+          "file": "terrace-book.png",
+          "width": 1024,
+          "height": 1024,
+          "bytes": 160508
+        },
+        {
+          "file": "distance-facades.png",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 2162915
+        },
+        {
+          "file": "distance-lights.png",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 918477
+        }
+      ],
+      "texelsPerMetre": 16,
+      "buffer": [
+        1280,
+        720
+      ],
+      "light": [
+        0,
+        50.54093442811192,
+        35.91119528967662
+      ],
+      "wetness": 0,
+      "objects": 0,
+      "modelBuilds": 0,
+      "seasonal": {
+        "season": "spring",
+        "count": 16,
+        "effects": [
+          {
+            "season": "spring",
+            "effect": "柳絮",
+            "count": 16,
+            "strength": 1,
+            "brightness": 0.9545
+          }
+        ],
+        "afterRain": 0,
+        "sample": [
+          [
+            -10.381474494934082,
+            1.9613603353500366,
+            -10.310298919677734,
+            1.0103209018707275,
+            2.3613882064819336,
+            5.287209510803223
+          ]
+        ]
+      }
+    },
+    {
+      "label": "final-fixed-north-clear-day",
+      "scene": "north",
+      "choices": {
+        "condition": "clear",
+        "phase": "day",
+        "season": "spring"
+      },
+      "view": {
+        "theta": 2.661592653589793,
+        "phi": 0.68,
+        "zoom": 1.8
+      },
+      "target": [
+        1.0317721289758421,
+        0.2,
+        0.01815090775020828
+      ],
+      "backgroundLoaded": true,
+      "atlases": [
+        {
+          "file": "terrace-book.png",
+          "width": 1024,
+          "height": 1024,
+          "bytes": 160508
+        },
+        {
+          "file": "distance-facades.png",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 2162915
+        },
+        {
+          "file": "distance-lights.png",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 918477
+        }
+      ],
+      "texelsPerMetre": 16,
+      "buffer": [
+        1280,
+        720
+      ],
+      "light": [
+        0,
+        50.54093442811192,
+        35.91119528967662
+      ],
+      "wetness": 0,
+      "objects": 0,
+      "modelBuilds": 0,
+      "seasonal": {
+        "season": "spring",
+        "count": 16,
+        "effects": [
+          {
+            "season": "spring",
+            "effect": "柳絮",
+            "count": 16,
+            "strength": 1,
+            "brightness": 0.8775
+          }
+        ],
+        "afterRain": 0,
+        "sample": [
+          [
+            -7.6053690910339355,
+            2.060178756713867,
+            -10.433220863342285,
+            5.1057868003845215,
+            2.2378053665161133,
+            5.341076374053955
+          ]
+        ]
+      }
+    },
+    {
+      "label": "final-fixed-south-clear-day",
+      "scene": "south",
+      "choices": {
+        "condition": "clear",
+        "phase": "day",
+        "season": "spring"
+      },
+      "view": {
+        "theta": 2.0507963267948965,
+        "phi": 0.68,
+        "zoom": 1.8
+      },
+      "target": [
+        -1.919519297666579,
+        0.2,
+        0.9993225619996084
+      ],
+      "backgroundLoaded": true,
+      "atlases": [
+        {
+          "file": "terrace-book.png",
+          "width": 1024,
+          "height": 1024,
+          "bytes": 160508
+        },
+        {
+          "file": "distance-facades.png",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 2162915
+        },
+        {
+          "file": "distance-lights.png",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 918477
+        }
+      ],
+      "texelsPerMetre": 16,
+      "buffer": [
+        1280,
+        720
+      ],
+      "light": [
+        35.91119528967662,
+        50.54093442811192,
+        0
+      ],
+      "wetness": 0,
+      "objects": 0,
+      "modelBuilds": 0,
+      "seasonal": {
+        "season": "spring",
+        "count": 16,
+        "effects": [
+          {
+            "season": "spring",
+            "effect": "柳絮",
+            "count": 16,
+            "strength": 1,
+            "brightness": 0.8775
+          }
+        ],
+        "afterRain": 0,
+        "sample": [
+          [
+            -2.4508728981018066,
+            2.0260579586029053,
+            -9.957046508789062,
+            2.819610834121704,
+            2.3583757877349854,
+            5.239774703979492
+          ]
+        ]
+      }
+    },
+    {
+      "label": "final-live-north-clear-day",
+      "scene": "north",
+      "choices": {
+        "condition": "clear",
+        "phase": "day",
+        "season": "spring"
+      },
+      "view": {
+        "theta": 2.661592653589793,
+        "phi": 0.68,
+        "zoom": 1.8
+      },
+      "target": [
+        -1.6292126393620103,
+        0.2,
+        -1.3671866188742405
+      ],
+      "backgroundLoaded": true,
+      "atlases": [
+        {
+          "file": "terrace-book.png",
+          "width": 1024,
+          "height": 1024,
+          "bytes": 160508
+        },
+        {
+          "file": "distance-facades.png",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 2162915
+        },
+        {
+          "file": "distance-lights.png",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 918477
+        }
+      ],
+      "texelsPerMetre": 16,
+      "buffer": [
+        406,
+        658
+      ],
+      "light": [
+        0,
+        50.54093442811192,
+        35.91119528967662
+      ],
+      "wetness": 0,
+      "objects": 0,
+      "modelBuilds": 0,
+      "seasonal": {
+        "season": "spring",
+        "count": 16,
+        "effects": [
+          {
+            "season": "spring",
+            "effect": "柳絮",
+            "count": 16,
+            "strength": 1,
+            "brightness": 0.8775
+          }
+        ],
+        "afterRain": 0,
+        "sample": [
+          [
+            -10.748991966247559,
+            1.990378737449646,
+            -10.294289588928223,
+            0.12236560136079788,
+            2.3421528339385986,
+            5.297004699707031
+          ]
+        ]
+      }
+    }
+  ],
+  "errors": {
+    "live": [],
+    "fixed": []
+  }
+}

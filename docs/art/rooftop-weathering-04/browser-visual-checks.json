@@ -1,0 +1,458 @@
+{
+  "samples": [
+    {
+      "scene": "north",
+      "weather": "clear",
+      "phase": "morning",
+      "season": "spring",
+      "mix": 1,
+      "reduced": false,
+      "light": [
+        52.47358993127416,
+        26.919616274748154,
+        19.12737878918065
+      ],
+      "seasonal": {
+        "season": "spring",
+        "count": 24,
+        "effects": [
+          {
+            "season": "spring",
+            "effect": "柳絮",
+            "count": 24,
+            "strength": 1,
+            "brightness": 0.8635
+          }
+        ],
+        "afterRain": 0,
+        "sample": [
+          [
+            10.674418449401855,
+            1.9192367792129517,
+            0.2150682806968689,
+            10.786165237426758,
+            1.868962049484253,
+            0.6970465779304504
+          ]
+        ]
+      },
+      "surface": {
+        "pixelMetres": 0.0625,
+        "pixelMetric": [
+          4.332059842782431,
+          7.421400023388629
+        ],
+        "basinSeed": [
+          7.13,
+          19.71
+        ],
+        "pattern": "warped-local-basins"
+      },
+      "wetness": 0,
+      "builds": 0,
+      "performance": {
+        "skippedFrames": 2,
+        "frames": 1271,
+        "p95Ms": 2.4000000953674316,
+        "lastMs": 0.7999999523162842
+      }
+    },
+    {
+      "scene": "north",
+      "weather": "clear",
+      "phase": "morning",
+      "season": "spring",
+      "mix": 1,
+      "reduced": true,
+      "light": [
+        52.47358993127416,
+        26.919616274748154,
+        19.12737878918065
+      ],
+      "seasonal": {
+        "season": "spring",
+        "count": 24,
+        "effects": [
+          {
+            "season": "spring",
+            "effect": "柳絮",
+            "count": 24,
+            "strength": 1,
+            "brightness": 0.8635
+          }
+        ],
+        "afterRain": 0,
+        "sample": [
+          [
+            11.090615272521973,
+            1.8847202062606812,
+            0.20521609485149384,
+            11.046093940734863,
+            1.825092077255249,
+            0.6964488625526428
+          ]
+        ]
+      },
+      "surface": {
+        "pixelMetres": 0.0625,
+        "pixelMetric": [
+          4.332059842782431,
+          7.421400023388629
+        ],
+        "basinSeed": [
+          7.13,
+          19.71
+        ],
+        "pattern": "warped-local-basins"
+      },
+      "wetness": 0,
+      "builds": 0,
+      "performance": {
+        "skippedFrames": 2,
+        "frames": 2093,
+        "p95Ms": 2.4000000953674316,
+        "lastMs": 1.6000001430511475
+      }
+    },
+    {
+      "scene": "south",
+      "weather": "clear",
+      "phase": "morning",
+      "season": "spring",
+      "mix": 1,
+      "reduced": true,
+      "light": [
+        19.12737878918065,
+        26.919616274748154,
+        -52.47358993127416
+      ],
+      "seasonal": {
+        "season": "spring",
+        "count": 24,
+        "effects": [
+          {
+            "season": "spring",
+            "effect": "柳絮",
+            "count": 24,
+            "strength": 1,
+            "brightness": 0.8635
+          }
+        ],
+        "afterRain": 0,
+        "sample": [
+          [
+            -4.0454535484313965,
+            1.8843088150024414,
+            0.7310112714767456,
+            -4.126636028289795,
+            1.9220887422561646,
+            1.1755274534225464
+          ]
+        ]
+      },
+      "surface": {
+        "pixelMetres": 0.0625,
+        "pixelMetric": [
+          7.421400023388629,
+          4.332059842782431
+        ],
+        "basinSeed": [
+          41.83,
+          -13.27
+        ],
+        "pattern": "warped-local-basins"
+      },
+      "wetness": 0,
+      "builds": 0,
+      "performance": {
+        "skippedFrames": 3,
+        "frames": 3299,
+        "p95Ms": 2.5,
+        "lastMs": 1
+      }
+    },
+    {
+      "scene": "south",
+      "weather": "heavy",
+      "phase": "day",
+      "season": "summer",
+      "mix": 1,
+      "reduced": true,
+      "light": [
+        10.129813861705575,
+        61.16687723864279,
+        0
+      ],
+      "seasonal": {
+        "season": "summer",
+        "count": 0,
+        "effects": [],
+        "afterRain": 0,
+        "sample": []
+      },
+      "surface": {
+        "pixelMetres": 0.0625,
+        "pixelMetric": [
+          7.421400023388629,
+          4.332059842782431
+        ],
+        "basinSeed": [
+          41.83,
+          -13.27
+        ],
+        "pattern": "warped-local-basins"
+      },
+      "wetness": 0.9999999999998972,
+      "builds": 0,
+      "performance": {
+        "skippedFrames": 3,
+        "frames": 5471,
+        "p95Ms": 2.8000001907348633,
+        "lastMs": 1.2000000476837158
+      }
+    },
+    {
+      "scene": "south",
+      "weather": "heavy",
+      "phase": "day",
+      "season": "summer",
+      "mix": 1,
+      "reduced": true,
+      "light": [
+        10.129813861705575,
+        61.16687723864279,
+        0
+      ],
+      "seasonal": {
+        "season": "summer",
+        "count": 0,
+        "effects": [],
+        "afterRain": 0,
+        "sample": []
+      },
+      "surface": {
+        "pixelMetres": 0.0625,
+        "pixelMetric": [
+          7.421400023388629,
+          4.332059842782431
+        ],
+        "basinSeed": [
+          41.83,
+          -13.27
+        ],
+        "pattern": "warped-local-basins"
+      },
+      "wetness": 1,
+      "builds": 0,
+      "performance": {
+        "skippedFrames": 2,
+        "frames": 428,
+        "p95Ms": 3.4000000953674316,
+        "lastMs": 1.0999999046325684
+      }
+    },
+    {
+      "scene": "north",
+      "weather": "heavy",
+      "phase": "day",
+      "season": "summer",
+      "mix": 1,
+      "reduced": true,
+      "light": [
+        0,
+        61.16687723864279,
+        10.129813861705575
+      ],
+      "seasonal": {
+        "season": "summer",
+        "count": 0,
+        "effects": [],
+        "afterRain": 0,
+        "sample": []
+      },
+      "surface": {
+        "pixelMetres": 0.0625,
+        "pixelMetric": [
+          4.332059842782431,
+          7.421400023388629
+        ],
+        "basinSeed": [
+          7.13,
+          19.71
+        ],
+        "pattern": "warped-local-basins"
+      },
+      "wetness": 1,
+      "builds": 0,
+      "performance": {
+        "skippedFrames": 2,
+        "frames": 146,
+        "p95Ms": 3.3999998569488525,
+        "lastMs": 1.0999999046325684
+      }
+    },
+    {
+      "scene": "south",
+      "weather": "heavy",
+      "phase": "day",
+      "season": "summer",
+      "mix": 1,
+      "reduced": true,
+      "light": [
+        10.129813861705575,
+        61.16687723864279,
+        0
+      ],
+      "seasonal": {
+        "season": "summer",
+        "count": 0,
+        "effects": [],
+        "afterRain": 0,
+        "sample": []
+      },
+      "surface": {
+        "pixelMetres": 0.0625,
+        "pixelMetric": [
+          7.421400023388629,
+          4.332059842782431
+        ],
+        "basinSeed": [
+          41.83,
+          -13.27
+        ],
+        "pattern": "warped-local-basins"
+      },
+      "wetness": 1,
+      "builds": 0,
+      "performance": {
+        "skippedFrames": 3,
+        "frames": 1974,
+        "p95Ms": 3.1000001430511475,
+        "lastMs": 0.9000000953674316
+      }
+    },
+    {
+      "scene": "north",
+      "weather": "clear",
+      "phase": "morning",
+      "season": "spring",
+      "mix": 1,
+      "reduced": true,
+      "light": [
+        52.47358993127416,
+        26.919616274748154,
+        19.12737878918065
+      ],
+      "seasonal": {
+        "season": "spring",
+        "count": 24,
+        "effects": [
+          {
+            "season": "spring",
+            "effect": "柳絮",
+            "count": 24,
+            "strength": 1,
+            "brightness": 0.8635
+          }
+        ],
+        "afterRain": 0,
+        "sample": [
+          [
+            2.161027193069458,
+            1.8183103799819946,
+            -1.4210225343704224,
+            2.4369845390319824,
+            1.7660801410675049,
+            -0.9994533061981201
+          ]
+        ]
+      },
+      "surface": {
+        "pixelMetres": 0.0625,
+        "pixelMetric": [
+          4.332059842782431,
+          7.421400023388629
+        ],
+        "basinSeed": [
+          7.13,
+          19.71
+        ],
+        "pattern": "warped-local-basins"
+      },
+      "wetness": 0,
+      "builds": 0,
+      "performance": {
+        "skippedFrames": 2,
+        "frames": 812,
+        "p95Ms": 2.3999998569488525,
+        "lastMs": 0.5999999046325684
+      }
+    }
+  ],
+  "errors": [],
+  "testsPassed": 46,
+  "nativeSourceReport": "native-source-check.json",
+  "finalUrl": "http://127.0.0.1:4173/rooftop/?stage=background&weather=clear&time=morning&season=spring&scene=north",
+  "normalAndReducedSpringSamples": [
+    {
+      "scene": "north",
+      "reduced": false,
+      "count": 24,
+      "sample": [
+        [
+          10.674418449401855,
+          1.9192367792129517,
+          0.2150682806968689,
+          10.786165237426758,
+          1.868962049484253,
+          0.6970465779304504
+        ]
+      ]
+    },
+    {
+      "scene": "north",
+      "reduced": true,
+      "count": 24,
+      "sample": [
+        [
+          11.090615272521973,
+          1.8847202062606812,
+          0.20521609485149384,
+          11.046093940734863,
+          1.825092077255249,
+          0.6964488625526428
+        ]
+      ]
+    },
+    {
+      "scene": "south",
+      "reduced": true,
+      "count": 24,
+      "sample": [
+        [
+          -4.0454535484313965,
+          1.8843088150024414,
+          0.7310112714767456,
+          -4.126636028289795,
+          1.9220887422561646,
+          1.1755274534225464
+        ]
+      ]
+    },
+    {
+      "scene": "north",
+      "reduced": true,
+      "count": 24,
+      "sample": [
+        [
+          2.161027193069458,
+          1.8183103799819946,
+          -1.4210225343704224,
+          2.4369845390319824,
+          1.7660801410675049,
+          -0.9994533061981201
+        ]
+      ]
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "software": "Pixelorama",
+  "version": "v1.2.3-stable",
+  "nativeCelEqualsPngAndReopenedPng": true,
+  "dimensions": [
+    1024,
+    1024
+  ],
+  "nativePxoReopened": true,
+  "pencilBrush": 1,
+  "integerCoordinates": true,
+  "texelsPerMetre": 16,
+  "changedOnly": [
+    [
+      512,
+      0,
+      128,
+      256
+    ],
+    [
+      640,
+      0,
+      128,
+      128
+    ]
+  ],
+  "floorChangedPixels": [
+    32768,
+    16384
+  ],
+  "changedPixelsOutsideFloor": 0,
+  "sourceRoofAndErasedSignsExactlyPreserved": true,
+  "erasedChineseShopNames": 6,
+  "nativePxoSha256": "51bebfaedd6bc6e2803b7876510c6cf004c0b88a909e635a44d566820d19d8a4",
+  "pngSha256": "f6809efafc9893cb11d9e1fa2fdd41bdb39df99f86829b33436d3b7fc00f2217"
+}

@@ -1,0 +1,24 @@
+{
+  "software": "Blender",
+  "version": "4.5.14 LTS",
+  "native_source_saved": true,
+  "runtime_from_evaluated_native_mesh": true,
+  "triangles": 422724,
+  "byLayer": {
+    "near": 336762,
+    "far": 12986,
+    "ground": 72976
+  },
+  "authored_mesh_objects": 19188,
+  "evaluated_mesh_objects": 35536,
+  "binaryBytes": 5476608,
+  "textureBytes": 3226205,
+  "runtimePayloadBytes": 8702813,
+  "drawCalls": 398,
+  "neighbours": "fixed",
+  "interactiveAreas": [
+    "north rooftop",
+    "south balcony"
+  ],
+  "addressesIncluded": false
+}

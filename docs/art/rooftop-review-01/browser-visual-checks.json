@@ -1,0 +1,32 @@
+{
+  "checks": [],
+  "storageBefore": {
+    "legacy": {
+      "length": null,
+      "sha256": null
+    },
+    "preview": {
+      "length": null,
+      "sha256": null
+    },
+    "saved": {
+      "length": null,
+      "sha256": null
+    }
+  },
+  "storageAfter": {
+    "legacy": {
+      "length": null,
+      "sha256": null
+    },
+    "preview": {
+      "length": null,
+      "sha256": null
+    },
+    "saved": {
+      "length": null,
+      "sha256": null
+    }
+  },
+  "savedBytesUnchanged": true
+}

@@ -1,0 +1,152 @@
+{
+  "scope": {
+    "north-floor": [
+      512,
+      0,
+      128,
+      256
+    ],
+    "south-floor": [
+      640,
+      0,
+      128,
+      128
+    ],
+    "plaster": [
+      0,
+      512,
+      768,
+      64
+    ],
+    "stained-plaster": [
+      0,
+      576,
+      768,
+      64
+    ],
+    "cap": [
+      768,
+      128,
+      256,
+      64
+    ],
+    "cement": [
+      768,
+      192,
+      256,
+      64
+    ]
+  },
+  "baseline": "rooftop-weathering-04/terrace-book.pxo and terrace-book.png. Entire 04 source retained as the before version.",
+  "userReference": "/Users/d/Desktop/ChatGPT Image 11 Oct 2026, 22_22_40.jpg",
+  "referenceReading": [
+    "The station pillars carry adjoining light and dark grey-green old-pigment fields; narrow local bright abrasion reveals old plaster, and a few deeper areas remain in recesses.",
+    "The platform floor retains structural grout direction while unequal patching and layer remnants cross adjacent pixel clusters. These material levels remain readable in the scene, not solely at a texture zoom."
+  ],
+  "paintChanges": [
+    "Increase actual non-base pigment coverage from 04 approximate 2–6% to 05 27–34%. Each of the six repainted material fields contains exactly six deliberate native colours.",
+    "Build joined old-pigment masses with broken square stepped edges, base-colour erosion incursions, lighter/mineral upper remnants and locally recessed grey-green underlayers.",
+    "Offset secondary layers toward eroded edges instead of placing a contrasting core in every mark. Several adjacent source clusters join into a larger old-layer relation; north and south use different main layouts.",
+    "Keep fine 1 px dark structural joint fragments and connected repair fissures. Warm old mortar is restricted to a few repair cores, and small mineral grains are associated with larger eroded edges.",
+    "The wall plaster palette is lighter than the floor; cap stone is paler still. Cement remains a middle grey-green mineral material. The 04 metal and rust-iron paintings are preserved exactly.",
+    "The 1 px source unit and existing 16 px/m mapping remain unchanged. No geometry, UV, camera, atmosphere, runtime or lighting file was modified by the painting task."
+  ],
+  "paletteRoles": [
+    "base grey-green",
+    "lighter old mortar/plaster",
+    "light mineral edge",
+    "deeper damp mineral",
+    "deepest fine grout/fissure",
+    "warm locally exposed old mortar"
+  ],
+  "palettes": {
+    "north-floor": [
+      "#99a699",
+      "#b5bfa9",
+      "#c1c7b1",
+      "#819681",
+      "#647d6c",
+      "#aca58c"
+    ],
+    "south-floor": [
+      "#99a699",
+      "#b5bfa9",
+      "#c1c7b1",
+      "#819681",
+      "#647d6c",
+      "#aca58c"
+    ],
+    "plaster": [
+      "#a9b5a0",
+      "#bbc2aa",
+      "#c8ccb5",
+      "#91a18a",
+      "#728b74",
+      "#b5ad91"
+    ],
+    "stained-plaster": [
+      "#a0ad98",
+      "#b3bda4",
+      "#c3c9ae",
+      "#859b84",
+      "#687e68",
+      "#afa78a"
+    ],
+    "cap": [
+      "#b1bbaa",
+      "#c7cbb5",
+      "#d2d3bc",
+      "#97a68e",
+      "#7e927c",
+      "#b5ab8f"
+    ],
+    "cement": [
+      "#929f92",
+      "#adb7a1",
+      "#bcc2a9",
+      "#7a917c",
+      "#5f7868",
+      "#a99f87"
+    ]
+  },
+  "actualNativePngNonBaseCoveragePercent": {
+    "north-floor": 31.3,
+    "south-floor": 34.12,
+    "plaster": 27.49,
+    "stained-plaster": 27.47,
+    "cap": 28.34,
+    "cement": 28.48
+  },
+  "actualNativePngPaletteColors": {
+    "north-floor": 6,
+    "south-floor": 6,
+    "plaster": 6,
+    "stained-plaster": 6,
+    "cap": 6,
+    "cement": 6
+  },
+  "coveragePassedAllFields": true,
+  "authoring": {
+    "software": "Pixelorama v1.2.3-stable",
+    "tool": "Pencil",
+    "brushPixels": 1,
+    "texelsPerMetre": 16,
+    "integerCoordinates": true,
+    "strokes": 5012,
+    "strokePlan": "material-pencil-plan.py",
+    "strokeRecord": "material-pencil-strokes.json",
+    "nativeAuthorScript": "repaint-materials-pixelorama.py",
+    "nativeAuthorReport": "pixelorama-material-refinement.json",
+    "nativeReopenReport": "pixelorama-native-reopened.json",
+    "nativeScopeCheck": "material-pixel-scope-check.json",
+    "coverageCheck": "pigment-coverage.json"
+  },
+  "verified": {
+    "nativeCelEqualsPngAndReopenedPng": true,
+    "changedPixelsOutsideAuthorizedScope": 0,
+    "roofAndGreyRoofAndErasedChineseSignsExactlyPreserved": true,
+    "metalAndRustIronExactlyPreservedFrom04": true,
+    "pngSha256": "a92c95e0a43929aa2fe9d9011f7a1f6cb2690869933196f345838696b7fdff7d"
+  },
+  "referenceUse": "Viewed supplied reference only. No copied, generated, traced or downscaled reference bitmap. Python describes explicit strokes; actual raster painting, native save, PNG export and review crops were performed inside Pixelorama."
+}

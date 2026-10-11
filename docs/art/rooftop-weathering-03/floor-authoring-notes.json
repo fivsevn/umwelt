@@ -1,0 +1,72 @@
+{
+  "scope": "Only two concrete floor atlas rectangles. Preserve all other pixels exactly.",
+  "software": "Pixelorama v1.2.3-stable",
+  "source": "rooftop-weathering-02/terrace-book.pxo, final revised brick-red roofs and erased shop signs",
+  "sourcePhotoFeatures": [
+    "Photo 1: irregular connected repairs and branching fissures; washed grey concrete with faint old joints and very local chalk traces.",
+    "Photo 2: bounded warm exposed repair next to an edge; clusters of rubbed wear and uneven patches; little uniform per-slab texture.",
+    "Photo 3: outdoor roof exposure and material ageing context; no geometry changed from this photograph."
+  ],
+  "paintDecisions": [
+    "Retain a light quiet neutral-grey floor; base #989d97 differs from the previous #989c97 by only one green channel step.",
+    "Remove the old dense regular seam lattice and long aligned brush strips.",
+    "Place different connected fissure networks on north and south; local filled mortar varies in width on the one-pixel source grid.",
+    "Use unique bounded eroded repair and wash silhouettes; pooling stains keep only short interrupted tide arcs.",
+    "Concentrate aggregate and abrasion in sparse wear sites, with broad clean areas between them.",
+    "Native Pencil brush is always 1 px at the existing 16 texels/metre. All coloured masses are composed from that same source pixel unit."
+  ],
+  "references": [
+    {
+      "title": "Makkon Textures Concrete",
+      "author": "Makkon",
+      "url": "https://makkon.itch.io/makkon-textures-concrete",
+      "learned": "Diffuse-only retro concrete material hierarchy, larger coherent weathering fields and localised erosion; kept our own existing 16 px/m instead of copying its 32 px/m convention.",
+      "viewedImages": [
+        "https://img.itch.zone/aW1hZ2UvNTAyMjA4OC8zMDA2ODMxOC5qcGc=/original/mKv3LI.jpg",
+        "https://img.itch.zone/aW1hZ2UvNTAyMjA4OC8zMDE5NDExMy5qcGc=/original/ogFUQM.jpg",
+        "https://img.itch.zone/aW1hZ2UvNTAyMjA4OC8zMDA2ODMyMS5qcGc=/original/Jfd%2BB5.jpg"
+      ]
+    },
+    {
+      "title": "The Pixel Art Tutorial",
+      "author": "cure / Pixel Joint",
+      "url": "https://pixeljoint.com/forum/forum_posts.asp?TID=11299",
+      "learned": "Deliberate adjacent pixel clusters; limit isolated pixel noise and obvious banding.",
+      "viewedImages": [
+        "https://i.imgur.com/del8Fbj.png"
+      ]
+    }
+  ],
+  "referenceUse": "Visual study only. No reference image was traced, resized into a texture, copied or used as generated art.",
+  "nativeProvenance": {
+    "paintScript": "repaint-floor-pixelorama.py",
+    "explicitStrokes": "floor-pencil-strokes.json",
+    "plan": "floor-pencil-plan.py",
+    "nativeTool": "Pencil",
+    "brushPixels": 1,
+    "strokes": 2058,
+    "nativeSaveAndPngExportReport": "pixelorama-floor-refinement.json",
+    "independentNativeReopen": "pixelorama-native-reopened.json",
+    "exactPixelScopeCheck": "floor-pixel-scope-check.json"
+  },
+  "verified": {
+    "nativeCelEqualsPngAndReopenedPng": true,
+    "changedPixelsOutsideFloor": 0,
+    "floorRectangles": [
+      [
+        512,
+        0,
+        128,
+        256
+      ],
+      [
+        640,
+        0,
+        128,
+        128
+      ]
+    ],
+    "roofAndSixErasedShopSignsExactlyPreserved": true,
+    "pngSha256": "f6809efafc9893cb11d9e1fa2fdd41bdb39df99f86829b33436d3b7fc00f2217"
+  }
+}

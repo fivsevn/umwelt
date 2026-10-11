@@ -1,0 +1,322 @@
+{
+  "scope": {
+    "north-floor": [
+      512,
+      0,
+      128,
+      256
+    ],
+    "south-floor": [
+      640,
+      0,
+      128,
+      128
+    ],
+    "plaster": [
+      0,
+      512,
+      768,
+      64
+    ],
+    "stained-plaster": [
+      0,
+      576,
+      768,
+      64
+    ],
+    "cap": [
+      768,
+      128,
+      256,
+      64
+    ],
+    "cement": [
+      768,
+      192,
+      256,
+      64
+    ]
+  },
+  "baseline": "rooftop-weathering-05/terrace-book.pxo and terrace-book.png. Previous 05 remains unchanged.",
+  "userReference": "/Users/d/Desktop/ChatGPT Image 11 Oct 2026, 22_22_40.jpg",
+  "photoGrounding": "The supplied rooftop photos organize local rubbed joints, branching repairs, water/mineral remnants and warm old mortar. They are viewed as material evidence; no photograph is downscaled into an atlas.",
+  "referenceReading": [
+    "The station pillar and ground use many close grey-green levels and small adjoining hard-edged mineral fragments. Large pillar light/dark changes primarily come from physical lighting, so this albedo uses restrained material differences.",
+    "The earlier 05 solid 25–46 px light/dark islands read as camouflage. 06 discards their BOUNDARIES and stamp outlines entirely, rather than shrinking or recolouring them."
+  ],
+  "earlierPrimaryReferenceUrls": [
+    "https://makkon.itch.io/makkon-textures-concrete",
+    "https://pixeljoint.com/forum/forum_posts.asp?TID=11299",
+    "https://polyhaven.com/a/cracked_concrete_02",
+    "https://polyhaven.com/a/concrete_floor_02"
+  ],
+  "paintChanges": [
+    "Twelve low-saturation grey-green pigments are planned per field. The substrate and adjacent levels at ±4/8 RGB dominate; ±12/16 levels remain context layers, and deepest fissure, mineral pale and warm mortar are rare local accents.",
+    "Every short 2–7 px fragment gets a fresh outline, irregular row offsets, and a local adjoining-tone walk. Chains join unevenly but do not fill a macro polygon.",
+    "Ground density follows separate repair, washing and damp sites. Several skewed quiet regions retain continuous substrate. North and south keep independent fissure/washing layouts and broken structural grout.",
+    "Wall painting emphasizes short broken vertical mineral runoff and small lime erosion. Unequal quiet windows and denser local weathering sites avoid an even whole-wall dot field or a continuous dark foot stripe.",
+    "Cap and cement have multiple close mineral remnants and bounded old-layer clusters; rare edge glints and narrow fissures retain material identity.",
+    "Only six atlas regions are repainted. Brick-red roofs, grey roofs, all metal/rust fields, erased Chinese signs and all other pixels remain exactly equal to 05."
+  ],
+  "bases": {
+    "north-floor": "#99a199",
+    "south-floor": "#99a199",
+    "plaster": "#a4aca4",
+    "stained-plaster": "#9fa79f",
+    "cap": "#adb5ad",
+    "cement": "#939b93"
+  },
+  "palettes": {
+    "north-floor": [
+      "#99a199",
+      "#959d95",
+      "#919991",
+      "#9da59d",
+      "#a1a9a1",
+      "#8d958d",
+      "#a5ada5",
+      "#899189",
+      "#a9b1a9",
+      "#727e74",
+      "#b9bfb4",
+      "#b4b19f"
+    ],
+    "south-floor": [
+      "#99a199",
+      "#959d95",
+      "#919991",
+      "#9da59d",
+      "#a1a9a1",
+      "#8d958d",
+      "#a5ada5",
+      "#899189",
+      "#a9b1a9",
+      "#727e74",
+      "#b9bfb4",
+      "#b4b19f"
+    ],
+    "plaster": [
+      "#a4aca4",
+      "#a0a8a0",
+      "#9ca49c",
+      "#a8b0a8",
+      "#acb4ac",
+      "#98a098",
+      "#b0b8b0",
+      "#949c94",
+      "#b4bcb4",
+      "#7d897f",
+      "#c4cabf",
+      "#bfbcaa"
+    ],
+    "stained-plaster": [
+      "#9fa79f",
+      "#9ba39b",
+      "#979f97",
+      "#a3aba3",
+      "#a7afa7",
+      "#939b93",
+      "#abb3ab",
+      "#8f978f",
+      "#afb7af",
+      "#78847a",
+      "#bfc5ba",
+      "#bab7a5"
+    ],
+    "cap": [
+      "#adb5ad",
+      "#a9b1a9",
+      "#a5ada5",
+      "#b1b9b1",
+      "#b5bdb5",
+      "#a1a9a1",
+      "#b9c1b9",
+      "#9da59d",
+      "#bdc5bd",
+      "#869288",
+      "#cdd3c8",
+      "#c8c5b3"
+    ],
+    "cement": [
+      "#939b93",
+      "#8f978f",
+      "#8b938b",
+      "#979f97",
+      "#9ba39b",
+      "#878f87",
+      "#9fa79f",
+      "#838b83",
+      "#a3aba3",
+      "#6c786e",
+      "#b3b9ae",
+      "#aeab99"
+    ]
+  },
+  "actualNativePngFamilies": {
+    "north-floor": {
+      "nativeColorsUsed": 12,
+      "percentByRole": {
+        "base": 55.573,
+        "nearFourAndEight": 36.191,
+        "midTwelveAndSixteen": 7.941,
+        "rareFissureMineralAndWarmMortar": 0.296
+      },
+      "palettePercent": {
+        "#99a199": 55.573,
+        "#959d95": 12.469,
+        "#919991": 8.316,
+        "#9da59d": 8.047,
+        "#a1a9a1": 7.358,
+        "#8d958d": 2.618,
+        "#a5ada5": 2.145,
+        "#899189": 2.042,
+        "#a9b1a9": 1.135,
+        "#727e74": 0.125,
+        "#b9bfb4": 0.143,
+        "#b4b19f": 0.027
+      }
+    },
+    "south-floor": {
+      "nativeColorsUsed": 12,
+      "percentByRole": {
+        "base": 53.168,
+        "nearFourAndEight": 35.559,
+        "midTwelveAndSixteen": 10.791,
+        "rareFissureMineralAndWarmMortar": 0.482
+      },
+      "palettePercent": {
+        "#99a199": 53.168,
+        "#959d95": 11.053,
+        "#919991": 7.764,
+        "#9da59d": 8.032,
+        "#a1a9a1": 8.71,
+        "#8d958d": 3.43,
+        "#a5ada5": 3.058,
+        "#899189": 3.369,
+        "#a9b1a9": 0.934,
+        "#727e74": 0.208,
+        "#b9bfb4": 0.226,
+        "#b4b19f": 0.049
+      }
+    },
+    "plaster": {
+      "nativeColorsUsed": 12,
+      "percentByRole": {
+        "base": 59.344,
+        "nearFourAndEight": 35.541,
+        "midTwelveAndSixteen": 4.928,
+        "rareFissureMineralAndWarmMortar": 0.187
+      },
+      "palettePercent": {
+        "#a4aca4": 59.344,
+        "#a0a8a0": 13.424,
+        "#9ca49c": 7.34,
+        "#a8b0a8": 8.012,
+        "#acb4ac": 6.765,
+        "#98a098": 1.512,
+        "#b0b8b0": 0.944,
+        "#949c94": 1.54,
+        "#b4bcb4": 0.932,
+        "#7d897f": 0.016,
+        "#c4cabf": 0.09,
+        "#bfbcaa": 0.081
+      }
+    },
+    "stained-plaster": {
+      "nativeColorsUsed": 12,
+      "percentByRole": {
+        "base": 58.504,
+        "nearFourAndEight": 35.522,
+        "midTwelveAndSixteen": 5.766,
+        "rareFissureMineralAndWarmMortar": 0.208
+      },
+      "palettePercent": {
+        "#9fa79f": 58.504,
+        "#9ba39b": 13.59,
+        "#979f97": 7.727,
+        "#a3aba3": 7.119,
+        "#a7afa7": 7.086,
+        "#939b93": 1.998,
+        "#abb3ab": 1.099,
+        "#8f978f": 1.485,
+        "#afb7af": 1.184,
+        "#78847a": 0.016,
+        "#bfc5ba": 0.096,
+        "#bab7a5": 0.096
+      }
+    },
+    "cap": {
+      "nativeColorsUsed": 11,
+      "percentByRole": {
+        "base": 56.567,
+        "nearFourAndEight": 36.92,
+        "midTwelveAndSixteen": 6.049,
+        "rareFissureMineralAndWarmMortar": 0.464
+      },
+      "palettePercent": {
+        "#adb5ad": 56.567,
+        "#a9b1a9": 14.233,
+        "#a5ada5": 7.098,
+        "#b1b9b1": 7.983,
+        "#b5bdb5": 7.605,
+        "#a1a9a1": 1.459,
+        "#b9c1b9": 1.526,
+        "#9da59d": 1.251,
+        "#bdc5bd": 1.813,
+        "#869288": 0.0,
+        "#cdd3c8": 0.348,
+        "#c8c5b3": 0.116
+      }
+    },
+    "cement": {
+      "nativeColorsUsed": 12,
+      "percentByRole": {
+        "base": 54.614,
+        "nearFourAndEight": 37.469,
+        "midTwelveAndSixteen": 7.355,
+        "rareFissureMineralAndWarmMortar": 0.562
+      },
+      "palettePercent": {
+        "#939b93": 54.614,
+        "#8f978f": 15.045,
+        "#8b938b": 8.386,
+        "#979f97": 6.592,
+        "#9ba39b": 7.446,
+        "#878f87": 1.727,
+        "#9fa79f": 2.228,
+        "#838b83": 2.008,
+        "#a3aba3": 1.392,
+        "#6c786e": 0.092,
+        "#b3b9ae": 0.372,
+        "#aeab99": 0.098
+      }
+    }
+  },
+  "authoring": {
+    "software": "Pixelorama v1.2.3-stable",
+    "tool": "Pencil",
+    "brushPixels": 1,
+    "texelsPerMetre": 16,
+    "integerCoordinates": true,
+    "strokes": 19788,
+    "strokePlan": "material-pencil-plan.py",
+    "strokeRecord": "material-pencil-strokes.json",
+    "nativeAuthorScript": "repaint-materials-pixelorama.py",
+    "nativeAuthorReport": "pixelorama-material-refinement.json",
+    "nativeReopenReport": "pixelorama-native-reopened.json",
+    "nativeScopeCheck": "material-pixel-scope-check.json",
+    "readOnlyFamilyReport": "colour-family-readback.json",
+    "readOnlyDiagnostics": "after-pigment-diagnostics.json"
+  },
+  "verified": {
+    "nativeSaved": true,
+    "nativePngExport": true,
+    "nativePxoReopened": true,
+    "nativeCelEqualsPngAndReopenedPng": true,
+    "changedPixelsOutsideAuthorizedScope": 0,
+    "roofMetalRustAndErasedChineseSignsExactlyPreserved": true,
+    "pngSha256": "9b83b80f6a65eb239ee9173300152bbc6dd081c9e11b00161aea2ec52b2c5661",
+    "pxoSha256": "1dd6100ca84631fc5f044ee9eb014da280e81eccb628c14cf27582160740c008"
+  },
+  "referenceUse": "No image generation, traced/copied bitmap or Python raster drawing. Python describes explicit integer Pencil strokes; actual painting, native PXO save, PNG export and nearest-neighbour review crop export are performed inside Pixelorama. PIL only reads exported pixel bytes for verification."
+}

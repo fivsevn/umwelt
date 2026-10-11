@@ -1,0 +1,34 @@
+{
+  "actual_blender_reopened": true,
+  "mesh_objects": 31622,
+  "packed_texture_equals_runtime_png": true,
+  "floor_charts": [
+    "North terrace unique patched floor",
+    "South balcony unique patched floor"
+  ],
+  "collections": [
+    "Collection",
+    "Compact hatchback asset",
+    "Distant skyline",
+    "Family sedan asset",
+    "Ground-floor shops",
+    "Main building",
+    "Mapped outer old residences",
+    "Neighbour apartment asset",
+    "Neighbour terraces",
+    "North reference apartment asset",
+    "Opposite older residences",
+    "Outer old apartment asset",
+    "Paired terrace apartment asset",
+    "Parked bicycles",
+    "Parked vehicles",
+    "Red tile old apartment asset",
+    "Road and parking",
+    "Small van asset",
+    "South matching terrace residences",
+    "Street greenery",
+    "User terraces",
+    "Vehicle templates"
+  ],
+  "native_bytes": 7816110
+}

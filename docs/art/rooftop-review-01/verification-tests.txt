@@ -1,0 +1,40 @@
+✔ Blender export has bounded binary sections, proper normals and a lightweight payload (29.155166ms)
+✔ unique Pixelorama floor charts cover both saved walkable contours at one texel density (0.435625ms)
+✔ the home is between neighbours, and paired projections do not bridge the garage gaps (0.376458ms)
+✔ the public export keeps near geometry and compact distant facade meshes without geographic metadata (5.32175ms)
+✔ native loader shares collection geometry, physical charts and baked facade atmosphere (12.989875ms)
+✔ the real default bird poses never create a door hit box over the garden (1.542208ms)
+✔ a visible door remains clickable, bounded, and clipped, while near-plane and occluded doors are disabled (0.305334ms)
+✔ native roof and walls occlude door targets and the round lens never exposes an outer hit region (161.2185ms)
+✔ software graphics bound full-screen fill while preserving small displays (0.798542ms)
+✔ mobile and ordinary editing canvases retain their native pixel grid (0.073084ms)
+✔ large viewports bound fill work while retaining aspect ratio and integer pixels (0.078125ms)
+✔ all scene inspection aliases converge on one entry with the selected environment (0.681042ms)
+✔ six real camera selections and environment changes survive a reload URL (1.253041ms)
+✔ empty inspection cannot restore items or modify an existing saved arrangement (0.134875ms)
+✔ calendar season includes December/January and switches smoothly at a month boundary (9.886834ms)
+✔ bounded particles distinguish all four seasons, move under reduced motion, and keep stable identities (1.102167ms)
+✔ canvas fallback paints changing seasonal silhouettes and restores drawing state (0.244375ms)
+✔ each terrace has three distinct fixed stations on the roof and opposite open side (1.192416ms)
+✔ head movement and local aim remain bounded while neighbor zoom can isolate close details (0.325625ms)
+✔ direct view gestures keep bird head coupled to walking and drone head coupled only to lateral dragging (0.577792ms)
+✔ every preset keeps perspective ground picking in the existing terrace coordinate system (10.108375ms)
+✔ bird eave walking and drone height and dolly stay inside their physical travel limits (0.966125ms)
+✔ all reachable drone limits keep the frame bottom on the upper floors instead of the street (2106.694292ms)
+✔ reachable direct gestures permit complementary actual terrace floor coverage without any cutaway (460.274125ms)
+ℹ north 407×662: 72/76 sampled terrace floor cells; north 390×844: 69/76 sampled terrace floor cells; north 320×700: 69/76 sampled terrace floor cells; north 1440×900: 76/76 sampled terrace floor cells; south 407×662: 40/40 sampled terrace floor cells; south 390×844: 40/40 sampled terrace floor cells; south 320×700: 40/40 sampled terrace floor cells; south 1440×900: 40/40 sampled terrace floor cells
+✔ night stages follow the clock and late lights are a strict subset of evening rooms (2.024917ms)
+✔ all weather and time combinations remain finite, distinguishable and transition smoothly (4.909167ms)
+✔ thin foliage responds to wind while succulent bodies stay rigid (0.289833ms)
+✔ material lighting preserves colour separation and sunset distinguishes light from shade (0.169833ms)
+✔ water accumulates in rain and remains while the roof dries after clearing (3.122542ms)
+✔ daytime stages and map orientations have distinct solar directions (0.318958ms)
+✔ garage manual changes settle promptly and rapid changes continue from the current appearance (0.425167ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2648.74425

@@ -1,0 +1,60 @@
+{
+  "brush": 1,
+  "changedOnly": [
+    [
+      512,
+      0,
+      128,
+      256
+    ],
+    [
+      640,
+      0,
+      128,
+      128
+    ],
+    [
+      0,
+      512,
+      768,
+      64
+    ],
+    [
+      0,
+      576,
+      768,
+      64
+    ],
+    [
+      768,
+      0,
+      256,
+      64
+    ],
+    [
+      768,
+      64,
+      256,
+      64
+    ],
+    [
+      768,
+      128,
+      256,
+      64
+    ],
+    [
+      768,
+      192,
+      256,
+      64
+    ]
+  ],
+  "nativePngExport": true,
+  "nativeSaved": true,
+  "software": "Pixelorama",
+  "strokes": 2260,
+  "texelsPerMetre": 16,
+  "tool": "Pencil",
+  "version": "v1.2.3-stable"
+}

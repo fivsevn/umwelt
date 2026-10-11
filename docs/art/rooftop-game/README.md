@@ -1,5 +1,9 @@
 # 花农时代全游戏像素原稿
 
+本页保留 2026-10-10 物品与室内原稿方案的制作、体积和验证记录。当前入口与发布状态见 [花农时代维护索引](../../rooftop-README.md)，场景测试见 [综合场景测试](../../rooftop-scene-review.md)。建筑已单独使用 [rooftop-weathering-07](../rooftop-weathering-07/README.md) 的 Blender 网格和 1024×1024、16 像素/米 Pixelorama 图集；本目录的物品库继续使用 512×512 `material-book` 与每世界单位 8 像素标定。家具重制在下一阶段进行。
+
+2026-10-10 整体视觉重制已确定。此目录保留上一轮 PXO、Blend、资产账本与制作记录；既有测试和发布通过记录验证的是当时的实现，不代表视觉验收。新一轮先整理仓库、清空天台并调整背景，背景稳定后重新设计家具，见 [重制边界](../../rooftop-rebuild.md)。原稿准备所需的旧材质代码已迁至 [旧材质制作目录](../rooftop-legacy-materials/README.md)。
+
 2026-10-10，分支 `preview/rooftop-3d-pixel-samples`，[PR #60](https://github.com/fivsevn/umwelt/pull/60)。GitHub 保存长期原稿、发布资源、制作记录和真实软件审阅图；本地是制作工作区。
 
 本轮将认可样板的材质尺度接入背景、人物、植物和全部目录物件的共享入口。保持 304 个原 ID，其中植物 110 种、花盆器物 37 种；种子、默认陈列、存档、养护及叙事沿用原数据。
@@ -16,6 +20,8 @@
 | `review/` | 实际 Blender 渲染，未经过图像生成或后期修饰 |
 
 发布贴图 `rooftop/assets/pixel/material-book.png` 为 **26,604 B / 26.0 KiB**，PXO 为 **49,799 B / 48.6 KiB**。Blend 与各审阅图体积见 `blender-authoring.json`。原样板的六个 GLB 与独立预览继续保留；新图集由全游戏共享。
+
+上句的独立预览描述对应当轮状态。其历史 GLB、PNG 和预览源码仍保留供原稿工具检查；原独立页面地址已跳转到统一场景测试页。
 
 运行网格仍来自现有 Three.js 共享构造。Blender 库从相同构造导出，固定种子 1835、植物使用默认盆；手改后必须另做导出和接入。原稿库不是玩家布局副本，也不会自动覆盖玩家存档。
 

@@ -1,0 +1,19 @@
+{
+  "software": "Pixelorama",
+  "version": "v1.2.3-stable",
+  "nativeCelEqualsBlenderPngAndRuntimePng": true,
+  "dimensions": [
+    1024,
+    1024
+  ],
+  "pencilBrush": 1,
+  "integerCoordinates": true,
+  "texelsPerMetre": 16,
+  "erasedChineseShopNames": 6,
+  "independentRoofPaletteColours": [
+    116,
+    116
+  ],
+  "nativePxoSha256": "3eda64f36f0a6bf5c53080e3e7294e4befbae78f0762c69079a06453c44f61a5",
+  "runtimePngSha256": "c7087552774470b288130f4754031794a3063cd5b5f1590cd4de1d2448c3327f"
+}

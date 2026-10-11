@@ -1,0 +1,170 @@
+{
+  "north-floor": {
+    "sourceDimensions": [
+      128,
+      256
+    ],
+    "nativePaletteColors": 6,
+    "palette": [
+      "#99a699",
+      "#b5bfa9",
+      "#c1c7b1",
+      "#819681",
+      "#647d6c",
+      "#aca58c"
+    ],
+    "basePixels": 22513,
+    "nonBasePixels": 10255,
+    "basePercent": 68.7,
+    "nonBaseCoveragePercent": 31.3,
+    "colorPixels": {
+      "#99a699": 22513,
+      "#819681": 5303,
+      "#b5bfa9": 3698,
+      "#647d6c": 657,
+      "#c1c7b1": 472,
+      "#aca58c": 125
+    },
+    "within20to35Percent": true
+  },
+  "south-floor": {
+    "sourceDimensions": [
+      128,
+      128
+    ],
+    "nativePaletteColors": 6,
+    "palette": [
+      "#99a699",
+      "#b5bfa9",
+      "#c1c7b1",
+      "#819681",
+      "#647d6c",
+      "#aca58c"
+    ],
+    "basePixels": 10794,
+    "nonBasePixels": 5590,
+    "basePercent": 65.88,
+    "nonBaseCoveragePercent": 34.12,
+    "colorPixels": {
+      "#99a699": 10794,
+      "#819681": 2576,
+      "#647d6c": 358,
+      "#b5bfa9": 2290,
+      "#c1c7b1": 297,
+      "#aca58c": 69
+    },
+    "within20to35Percent": true
+  },
+  "plaster": {
+    "sourceDimensions": [
+      768,
+      64
+    ],
+    "nativePaletteColors": 6,
+    "palette": [
+      "#a9b5a0",
+      "#bbc2aa",
+      "#c8ccb5",
+      "#91a18a",
+      "#728b74",
+      "#b5ad91"
+    ],
+    "basePixels": 35640,
+    "nonBasePixels": 13512,
+    "basePercent": 72.51,
+    "nonBaseCoveragePercent": 27.49,
+    "colorPixels": {
+      "#a9b5a0": 35640,
+      "#91a18a": 5540,
+      "#bbc2aa": 6659,
+      "#728b74": 385,
+      "#c8ccb5": 795,
+      "#b5ad91": 133
+    },
+    "within20to35Percent": true
+  },
+  "stained-plaster": {
+    "sourceDimensions": [
+      768,
+      64
+    ],
+    "nativePaletteColors": 6,
+    "palette": [
+      "#a0ad98",
+      "#b3bda4",
+      "#c3c9ae",
+      "#859b84",
+      "#687e68",
+      "#afa78a"
+    ],
+    "basePixels": 35652,
+    "nonBasePixels": 13500,
+    "basePercent": 72.53,
+    "nonBaseCoveragePercent": 27.47,
+    "colorPixels": {
+      "#a0ad98": 35652,
+      "#859b84": 4760,
+      "#b3bda4": 7405,
+      "#687e68": 304,
+      "#c3c9ae": 894,
+      "#afa78a": 137
+    },
+    "within20to35Percent": true
+  },
+  "cap": {
+    "sourceDimensions": [
+      256,
+      64
+    ],
+    "nativePaletteColors": 6,
+    "palette": [
+      "#b1bbaa",
+      "#c7cbb5",
+      "#d2d3bc",
+      "#97a68e",
+      "#7e927c",
+      "#b5ab8f"
+    ],
+    "basePixels": 11741,
+    "nonBasePixels": 4643,
+    "basePercent": 71.66,
+    "nonBaseCoveragePercent": 28.34,
+    "colorPixels": {
+      "#b1bbaa": 11741,
+      "#d2d3bc": 332,
+      "#c7cbb5": 2752,
+      "#97a68e": 1366,
+      "#7e927c": 153,
+      "#b5ab8f": 40
+    },
+    "within20to35Percent": true
+  },
+  "cement": {
+    "sourceDimensions": [
+      256,
+      64
+    ],
+    "nativePaletteColors": 6,
+    "palette": [
+      "#929f92",
+      "#adb7a1",
+      "#bcc2a9",
+      "#7a917c",
+      "#5f7868",
+      "#a99f87"
+    ],
+    "basePixels": 11718,
+    "nonBasePixels": 4666,
+    "basePercent": 71.52,
+    "nonBaseCoveragePercent": 28.48,
+    "colorPixels": {
+      "#929f92": 11718,
+      "#bcc2a9": 330,
+      "#adb7a1": 2740,
+      "#7a917c": 1363,
+      "#5f7868": 189,
+      "#a99f87": 44
+    },
+    "within20to35Percent": true
+  }
+}

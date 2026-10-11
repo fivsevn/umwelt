@@ -1,8 +1,16 @@
 # 花农时代：原生像素贴面的低模
 
-2026-10-10。当前开发分支将用户认可的第 8 版样板接入游戏的共享材质与构造入口。默认陈列、存档身份、车库、房间、人物动作、养护与叙事沿用原系统。本轮在 PR #60；按用户要求完成检查后发布正式 Pages。
+此页保留 2026-10-10 原生物品图集方案的技术记录，并补充当前建筑资源的归属。当前入口、源稿与发布状态见 [花农时代维护索引](rooftop-README.md)，场景检查见 [综合场景测试](rooftop-scene-review.md)。新一轮视觉重制的顺序与保留边界见 [仓库梳理](rooftop-rebuild.md)。
 
-## 统一的贴面方格
+2026-10-10。当时的运行版本已通过 PR #60 接入第 8 版样板延伸出的原生图集方案，随后继续修订。默认陈列、存档身份、车库、房间、人物动作、养护与叙事沿用原系统。下文的材质书、目录模型和当轮验证记录属于这套物品方案；建筑后来单独接入已保存 Blender 网格。
+
+## 当前建筑与物品管线
+
+建筑由 `3d/architectural-shell.mjs` 加载 Blender 导出的 `assets/background/empty-rooftop.bin` 与清单。当前建筑原稿为 [rooftop-weathering-07](art/rooftop-weathering-07/README.md) 的 `game-environment.blend` 和真实 Pixelorama `terrace-book.pxo`；运行 `terrace-book.png` 为 1024×1024，清单标定 16 像素/米，单格为 0.0625 米，最近邻取样、不生成 mipmap。裂缝、补浆、水渍和分层磨损属于贴图绘画；本次统一测试入口没有修改模型、UV 或像素尺度。
+
+目录物品与室内沿用 `native-style.mjs` 的每世界单位 8 像素及 512×512 `material-book.png`。这部分的源稿与制作记录在 [全游戏物品原稿](art/rooftop-game/README.md)，家具重制留到下一阶段。两条管线各有原生标定，下文的 8 像素和 32×32 材质区域指物品方案。
+
+## 物品贴面的统一方格
 
 `3d/native-style.mjs` 固定为每世界单位 8 个像素：单格边长 0.125。轮廓由低模的连续折面、斜面、薄壳组成。模型长宽、实例缩放和斜面倾角都参与实际长度计算，每个面在自身切平面上取正交方格，一格直接对应原生贴图的一个像素；不把整个面拉伸到 32px。原 UV 保留供编辑参考。最近邻采样，不生成 mipmap。
 
@@ -36,6 +44,6 @@
 
 用户提供的 Brendan “Sully” Sullivan GIF 是主要风格参考：[作者作品](https://www.artofsully.com/projects/rNW6E)、[门与灯](https://www.artofsully.com/projects/eWQK3)。原图只用于观察，没有导入公开资源。资料与本轮仍需逐件复核的范围见 [全游戏原稿](art/rooftop-game/README.md)、[器物来源](rooftop-art-sources.md) 及 `asset-ledger.json`。
 
-旧 `pixel-materials.mjs`、`face-paintings.mjs`、`environment-paintings.mjs` 保留历史制作及兼容测试资料，当前 3D 不再用其 CanvasTexture 绘材质。2D 回退和既有图鉴绘制保留。
+旧材质生成器及环境、人物笔画配方归档在 `docs/art/rooftop-legacy-materials/`，当前 3D 不再用其 CanvasTexture 绘材质。`face-paintings.mjs` 仍提供正式模型所需的共用函数，留在运行目录。2D 回退和既有图鉴绘制保留。
 
-结构、承放、存档及原生源文件检查已运行。既有 GitHub 回归覆盖网页操作与页面入口，Pages 工作流检查最终发布包；结果以 Actions 为准。本地浏览器工具仍拒绝访问站点。Blender 真实渲染仅为资产审阅，不是浏览器截图。
+2026-10-10 物品方案的结构、承放、存档及原生源文件检查已运行。既有 GitHub 回归覆盖网页操作与页面入口，Pages 工作流检查最终发布包；结果以 Actions 为准。当轮本地浏览器工具拒绝访问站点，Blender 真实渲染仅为资产审阅，不是浏览器截图。这一限制属于当轮记录；后续实际游戏截图与状态报告见 [建筑贴图检查](art/rooftop-weathering-07/README.md) 和 [综合测试检查资料](art/rooftop-review-01/)。

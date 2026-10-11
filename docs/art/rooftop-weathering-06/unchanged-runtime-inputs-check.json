@@ -1,0 +1,13 @@
+{
+  "unchanged": true,
+  "files": {
+    "rooftop/app.mjs": "22d1ce6b400026b780642665405821722644a482bc4cceec1f26cc01866922c2",
+    "rooftop/3d/seasonal-air.mjs": "78d4fdee01281176e8767caf3412edb159110d8e79d0fbb5d8257aad3067c8b9",
+    "rooftop/3d/architectural-shell.mjs": "30730133597789c83ff4c42ba2edfbc7ae01d20892d8dc7f817ae6559ee16ce3",
+    "rooftop/3d/atmosphere.mjs": "71639209276901a4dbd3d6569c1e335fb2b57d4a4100a9e9618bff6b3ac5b748",
+    "rooftop/3d/scene3d.mjs": "35c3ea2aa8bc4b1be86f77fdaf8bfdb33c883c0baf4fde1e5f27f72c3f83605a",
+    "rooftop/atmosphere.mjs": "225b24628a18c3e766c2f2c2dfef6ba01367f74c2edb59cb768654b7a1f963c9",
+    "rooftop/weather.mjs": "38af2ae73a66fcf48082f78fc6b3faedf502e21b48278ff5dd60d1920676e648",
+    "rooftop/background-review.css": "01da6bc0baacd1dce00e4d5b7ca2aa7f472ab0a845e0bb043dc4296d126dcbed"
+  }
+}

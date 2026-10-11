@@ -109,7 +109,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   renderer.outputColorSpace = T.SRGBColorSpace;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.autoUpdate = false;
-  renderer.shadowMap.type = T.BasicShadowMap;
+  // Filter the light's edge while keeping the authored atlas nearest-sampled.
+  renderer.shadowMap.type = T.PCFSoftShadowMap;
   renderer.setClearColor("#bdc2c5");
   const scopeLens = createScopeLensPass(T, renderer);
   const scene = new T.Scene(),
@@ -966,11 +967,15 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     view = { theta: -0.12, phi: 1.15, zoom: 1 },
     wanted = { ...view };
   let terraceBounds = null, backgroundOverview = false, backgroundOutlook = false;
-  let narrativeView = "bird", storyFrame = null;
+  const narrativeViews = ["bird", "drone", "neighbor"];
+  const reviewViews = ["terrace", "row", "outlook", ...narrativeViews];
+  let reviewViewMode = reviewViews.includes(options.reviewView)
+    ? options.reviewView : gameModelStage ? "bird" : "terrace";
+  let narrativeView = narrativeViews.includes(reviewViewMode) ? reviewViewMode : "bird", storyFrame = null;
+  const narrativeActive = () => !editable && current !== "room" && (!backgroundStage || narrativeViews.includes(reviewViewMode));
   let freeCamera = false, freeYaw = 0, freePitch = 0, freeDistance = 1;
   const freeEye = new T.Vector3();
   const freeDirection = () => new T.Vector3(Math.sin(freeYaw) * Math.cos(freePitch), Math.sin(freePitch), Math.cos(freeYaw) * Math.cos(freePitch));
-  const narrativeActive = () => !editable && current !== "room" && (!backgroundStage || gameModelStage);
   const storyPreset = () => narrativePreset(current, narrativeView);
   const station = { walk: 0, height: 0, dolly: 0 }, wantedStation = { ...station };
   const target = new T.Vector3(0, 0.2, -1.1),
@@ -979,10 +984,16 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   let lastDistance = 0,
     multiTouchGesture = false,
     doorProgress = 0;
+  function setReviewView(name) {
+    if (!backgroundStage || editable || current === "room" || !reviewViews.includes(name)) return;
+    reviewViewMode = name;
+    if (narrativeViews.includes(name)) narrativeView = name;
+    reset(current);
+  }
   function reset(name) {
     freeCamera = false;
-    backgroundOverview = false;
-    backgroundOutlook = false;
+    backgroundOverview = backgroundStage && !editable && name !== "room" && reviewViewMode === "row";
+    backgroundOutlook = backgroundStage && !editable && name !== "room" && reviewViewMode === "outlook";
     Object.assign(station, { walk: 0, height: 0, dolly: 0 });
     Object.assign(wantedStation, station);
     current = name;
@@ -1018,7 +1029,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       ? orbitLimits.theta
       : (options.initialTheta ?? -0.18);
     wanted.phi = name === "room" ? 0.9 : editable ? 0.87 : orbitLimits.phi;
-    if (backgroundStage && !gameModelStage && name !== "room") {
+    if (backgroundStage && !narrativeActive() && name !== "room") {
       wanted.theta = name === "north" ? Math.PI - .48 : Math.PI / 2 + .48;
       wanted.phi = .68;
     }
@@ -1035,6 +1046,13 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       wanted.zoom = 1;
       desiredTarget.set(...preset.target);
       orbitLimits = { fullRotation: false, minTheta: -preset.yaw, maxTheta: preset.yaw, minPhi: -preset.pitch, maxPhi: preset.pitch };
+    } else if (backgroundOverview) {
+      wanted.phi = .60;
+      wanted.zoom = 1;
+    } else if (backgroundOutlook) {
+      wanted.theta = name === "north" ? 0 : -Math.PI / 2;
+      wanted.phi = .4;
+      wanted.zoom = 1.8;
     }
     Object.assign(view, wanted);
     target.copy(desiredTarget);
@@ -1046,6 +1064,10 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     renderer.shadowMap.needsUpdate = true;
     terraceBounds = null;
     resize();
+    if (backgroundOverview) {
+      const rowCentre = HOUSE.roof.x + HOUSE.roof.width / 2;
+      desiredTarget.set(name === "north" ? rowCentre : -22, -8, name === "north" ? 10 : -rowCentre);
+    }
     target.copy(desiredTarget);
     positionCamera();
     positionDoor();
@@ -1597,12 +1619,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     windPower.value = weatherMotion.wind;
     style.updateAtmosphere(a, current === "room");
     architecturalShell?.update(a);
-    if (current !== "room") {
-      // Ordinary clear weather retains the distant authored skyline. Fog and
-      // storms still shorten visibility without changing the camera range.
-      scene.fog.near = 180 - a.fog * 120;
-      scene.fog.far = Math.max(80, 6000 - a.fog * 5920);
-    }
+    // Atmosphere owns visibility alongside the seasonal light palette; keep
+    // its near/far layers coherent when a weather transition changes the sky.
     surfaceWeather.wet.value = current === "room" ? 0 : a.wetness;
     surfaceWeather.rain.value = current === "room" ? 0 : a.rain;
     for (const f of waterAnimations) {
@@ -2049,6 +2067,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   }
   return {
     setScene: reset,
+    setReviewView,
     setFreeCamera(enabled) {
       if (!gameModelStage || options.allowFreeCamera !== true || editable || current === "room") return;
       if (!enabled) { freeCamera = false; reset(current); return; }
@@ -2083,28 +2102,16 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       if (action === "in" || action === "out") zoom(action === "in" ? .18 : -.18);
     },
     setNarrativeView(name) {
-      if (editable || current === "room" || !["bird", "drone", "neighbor"].includes(name)) return;
+      if (editable || current === "room" || !narrativeViews.includes(name)) return;
+      if (backgroundStage) { setReviewView(name); return; }
       narrativeView = name;
       reset(current);
     },
     setBackgroundView(wide) {
-      if (!backgroundStage || gameModelStage || current === "room") return;
-      reset(current);
-      if (wide) {
-        backgroundOverview = true;
-        wanted.phi = .60;
-        wanted.zoom = 1;
-        resize();
-        const rowCentre=HOUSE.roof.x+HOUSE.roof.width/2;
-        desiredTarget.set(current === "north" ? rowCentre : -22, -8, current === "north" ? 10 : -rowCentre);
-        Object.assign(view, wanted);target.copy(desiredTarget);positionCamera();
-      }
+      setReviewView(wide ? "row" : "terrace");
     },
     setBackgroundOutlook() {
-      if (!backgroundStage || gameModelStage || current === "room") return;
-      reset(current);backgroundOutlook=true;
-      wanted.theta=current === "north" ? 0 : -Math.PI/2;
-      wanted.phi=.4;wanted.zoom=1.8;resize();Object.assign(view,wanted);positionCamera();
+      setReviewView("outlook");
     },
     setNavigationMode(mode) {
       if (mode === "move" || mode === "rotate") navigationMode = mode;
@@ -2169,6 +2176,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         navigationMode,
         projection: camera.isPerspectiveCamera ? "perspective" : "orthographic",
         orbitLimits,
+        reviewView: backgroundStage && !editable && current !== "room" ? reviewViewMode : null,
         narrativeView: narrativeActive() ? narrativeView : null,
         freeCamera,
         freeCameraPose: freeCamera ? { eye: freeEye.toArray(), target: freeEye.clone().addScaledVector(freeDirection(), freeDistance).toArray() } : null,
