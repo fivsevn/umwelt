@@ -213,12 +213,7 @@ export function blendColor(a, b, t) {
 export function weatherProfile(condition, phase, season = seasonAt()) {
   const w = WEATHER.find((w) => w.id === condition) || WEATHER[0],
     p = TIMES.find((p) => p.id === phase) || TIMES.find((p) => p.id === "day");
-  const light = lightingProfile(w, p.id);
-  const tint = {spring:"#c4d7c5",summer:"#9ebdd4",autumn:"#dcc29c",winter:"#cadbe5"}[season];
-  if (tint) {
-    const amount = p.night > .5 ? .035 : season === "winter" ? .16 : .09;
-    for (const key of ["sky", "horizon", "zenith", "ambientColor"]) light[key] = blendColor(light[key], tint, amount);
-  }
+  const light = lightingProfile(w, p.id, season);
   return {
     ...w,
     ...light,
@@ -316,6 +311,7 @@ export function makeWeather({
     "sunZ",
     "thunder",
     "gale",
+    "roomSunX",
     "roomSunY",
     ...SEASONS.map(s => "season" + s.id),
   ];

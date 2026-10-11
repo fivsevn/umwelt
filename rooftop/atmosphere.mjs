@@ -3,103 +3,111 @@ import { seasonalCaption } from "./seasons.mjs";
 // world-space: north is -z on the terrace, and -x on the south balcony.
 const LIGHT = {
   dawn: {
-    sky: "#b9bdcc",
-    horizon: "#dfc9b6",
-    zenith: "#9caac1",
-    sunColor: "#ffe0b2",
-    ambientColor: "#c1cada",
-    bounceColor: "#897c74",
-    ambient: 0.5,
-    direct: 2.35,
+    sky: "#bdc3ce",
+    horizon: "#e8c09e",
+    zenith: "#829bbc",
+    sunColor: "#ffe2ba",
+    ambientColor: "#adbfda",
+    bounceColor: "#8d7f76",
+    ambient: 0.46,
+    direct: 1.06,
     moon: 0,
     x: 30.6,
     y: 13,
     z: -15.3,
   },
   morning: {
-    sky: "#becddd",
-    horizon: "#dbe1d9",
-    zenith: "#8baecb",
-    sunColor: "#fff1d6",
-    ambientColor: "#d8e3f0",
-    bounceColor: "#92917e",
-    ambient: 0.72,
-    direct: 2.55,
+    sky: "#b7ccd9",
+    horizon: "#d6e2d6",
+    zenith: "#79a8bf",
+    sunColor: "#fff2dd",
+    ambientColor: "#d2d8d5",
+    bounceColor: "#77796f",
+    ambient: 0.61,
+    direct: 1.28,
     moon: 0,
     x: 15.3,
     y: 25,
     z: 6.8,
   },
   day: {
-    sky: "#bacfdd",
-    horizon: "#dbe4dc",
-    zenith: "#83aac9",
-    sunColor: "#fff7e6",
-    ambientColor: "#dbe9f3",
-    bounceColor: "#959584",
-    ambient: 0.92,
-    direct: 2.7,
+    sky: "#aacbd8",
+    horizon: "#d9e3d7",
+    zenith: "#689fbe",
+    sunColor: "#fff3dd",
+    ambientColor: "#d2d8d5",
+    bounceColor: "#77796f",
+    ambient: 0.65,
+    direct: 1.42,
     moon: 0,
     x: 0,
     y: 48,
     z: 5.1,
   },
   afternoon: {
-    sky: "#c6cbd0",
-    horizon: "#e5d8bd",
-    zenith: "#92acc6",
-    sunColor: "#ffe3b4",
-    ambientColor: "#d0dce7",
-    bounceColor: "#9a8873",
-    ambient: 0.65,
-    direct: 2.55,
+    sky: "#b4c5d1",
+    horizon: "#e2d0a9",
+    zenith: "#829db8",
+    sunColor: "#ffe8c8",
+    ambientColor: "#c5ced6",
+    bounceColor: "#80796e",
+    ambient: 0.55,
+    direct: 1.28,
     moon: 0,
     x: -17,
     y: 25,
     z: 6.8,
   },
   dusk: {
-    sky: "#a8a5b4",
-    horizon: "#d3a183",
-    zenith: "#748ba9",
-    sunColor: "#ffc28c",
-    ambientColor: "#acbdd8",
-    bounceColor: "#82696c",
+    sky: "#a4a4ba",
+    horizon: "#eab08a",
+    zenith: "#687ca1",
+    sunColor: "#ffd099",
+    ambientColor: "#98a8c0",
+    bounceColor: "#7c7073",
     ambient: 0.4,
-    direct: 2.35,
+    direct: 1.06,
     moon: 0,
     x: -37.4,
     y: 12,
     z: -18.7,
   },
   evening: {
-    sky: "#3a4c68",
-    horizon: "#65728b",
-    zenith: "#273b59",
+    sky: "#314665",
+    horizon: "#5a6684",
+    zenith: "#253957",
     sunColor: "#c2d1ec",
-    ambientColor: "#99b1d0",
-    bounceColor: "#485b79",
-    ambient: 0.31,
+    ambientColor: "#85a4cf",
+    bounceColor: "#43546f",
+    ambient: 0.3,
     direct: 0,
-    moon: 0.34,
+    moon: 0.3,
     x: -16,
     y: 36,
     z: 14,
   },
   late: {
-    sky: "#263a53",
-    horizon: "#4f6177",
-    zenith: "#1c2e49",
+    sky: "#223551",
+    horizon: "#455870",
+    zenith: "#192b46",
     sunColor: "#bdd0e9",
-    ambientColor: "#8da8cb",
-    bounceColor: "#394d6d",
-    ambient: 0.23,
+    ambientColor: "#799ac5",
+    bounceColor: "#374964",
+    ambient: 0.24,
     direct: 0,
-    moon: 0.28,
+    moon: 0.24,
     x: -16,
     y: 36,
     z: 14,
   },
+};
+// Season changes the sky that fills the shade, the ground bounce and the solar
+// elevation. Keeping these separate preserves the authored material colours.
+const SEASON_LIGHT = {
+  spring: { zenith: "#8ebabb", horizon: "#e0e5c8", ambientColor: "#d1ddd4", bounceColor: "#7c8972", sunColor: "#fff2dd", declination: 0 },
+  summer: { zenith: "#518fb5", horizon: "#bfdcdf", ambientColor: "#cbd9dd", bounceColor: "#747f78", sunColor: "#fff5df", declination: 23.44 },
+  autumn: { zenith: "#7685a4", horizon: "#e4bd8f", ambientColor: "#c3ccd5", bounceColor: "#827469", sunColor: "#ffe3ba", declination: -8 },
+  winter: { zenith: "#81a8bb", horizon: "#dce5e2", ambientColor: "#c5d4dc", bounceColor: "#929da3", sunColor: "#edf0df", declination: -23.44 },
 };
 const mix = (a, b, t) =>
   "#" +
@@ -113,9 +121,30 @@ const mix = (a, b, t) =>
         .padStart(2, "0"),
     )
     .join("");
-export function lightingProfile(weather, phase) {
-  const p = LIGHT[phase] || LIGHT.day,
+// Representative seasonal sun paths for a northern midlatitude setting, rather than a
+// northern sunrise/sunset reused in winter. Coordinates here are physical
+// east/up/south; the renderer converts to the unchanged model's game units.
+// Seven named moments remain an art clock, not a live astronomical forecast.
+export function seasonalSunVector(phase, season = "summer") {
+  const radians = Math.PI / 180, latitude = 31.6 * radians,
+    declination = (SEASON_LIGHT[season] || SEASON_LIGHT.summer).declination * radians,
+    horizonHour = Math.acos(-Math.tan(latitude) * Math.tan(declination)),
+    hour = ({ dawn: -horizonHour + 14 * radians, morning: -40 * radians,
+      day: 0, afternoon: 40 * radians, dusk: horizonHour - 14 * radians })[phase];
+  if (hour === undefined) return null;
+  const east = hour === 0 ? 0 : -Math.cos(declination) * Math.sin(hour),
+    up = Math.sin(latitude) * Math.sin(declination) + Math.cos(latitude) * Math.cos(declination) * Math.cos(hour),
+    south = Math.sin(latitude) * Math.cos(declination) * Math.cos(hour) - Math.cos(latitude) * Math.sin(declination);
+  return [east * 48, up * 48, south * 48];
+}
+export function lightingProfile(weather, phase, season = "summer") {
+  const base = LIGHT[phase] || LIGHT.day,
+    seasonal = SEASON_LIGHT[season] || SEASON_LIGHT.summer,
     night = phase === "evening" || phase === "late";
+  const p = { ...base };
+  for (const key of ["zenith", "horizon", "ambientColor", "bounceColor", "sunColor"])
+    p[key] = mix(base[key], seasonal[key], night ? 0.045 : key === "bounceColor" ? 0.4 : key === "sunColor" ? 0.23 : 0.3);
+  p.sky = mix(base.sky, seasonal.zenith, night ? 0.025 : 0.12);
   const diffuse =
     weather.id === "clear"
       ? 0
@@ -135,7 +164,8 @@ export function lightingProfile(weather, phase) {
   const transmission =
     { rain: 0.94, heavy: 0.82, thunderstorm: 0.74, typhoon: 0.7 }[weather.id] ||
     1;
-  const grey = night ? "#3c4b61" : rainGrey[weather.id] || "#9faab2";
+  const grey = night ? "#3c4b61" : rainGrey[weather.id] || "#a4aeaf";
+  const solar = seasonalSunVector(phase, season) || [p.x, p.y, p.z];
   return {
     sky: mix(p.sky, grey, diffuse * 0.65),
     horizon: mix(p.horizon, grey, diffuse * 0.78),
@@ -143,16 +173,17 @@ export function lightingProfile(weather, phase) {
     sunColor: mix(p.sunColor, "#d0d9df", diffuse * 0.7),
     ambientColor: mix(
       p.ambientColor,
-      night ? "#90a7c4" : "#c1ceda",
+      night ? "#90a7c4" : "#c3ced0",
       diffuse * 0.6,
     ),
-    bounceColor: p.bounceColor,
-    ambient: p.ambient * transmission + (!night ? diffuse * 0.2 : 0),
+    bounceColor: mix(p.bounceColor, night ? p.bounceColor : "#777e76", diffuse * .55),
+    ambient: p.ambient * transmission + (!night ? diffuse * 0.22 : 0),
     direct: p.direct * (1 - diffuse),
     moon: p.moon * (1 - diffuse * 0.8),
-    sunX: p.x,
-    sunY: p.y,
-    sunZ: p.z,
+    sunX: solar[0],
+    sunY: solar[1],
+    sunZ: solar[2],
+    roomSunX: p.x * .32,
     thunder: weather.id === "thunderstorm" ? 1 : 0,
     gale: weather.id === "typhoon" ? 1 : 0,
   };

@@ -31,12 +31,15 @@ test("all nine weather conditions distinguish seven lighting stages and respect 
       if (["evening", "late"].includes(s.phase)) assert.equal(s.direct, 0);
     }
   }
-  const length = (phase) => {
-    const [x, y, z] = lightPosition(weatherProfile("clear", phase));
+  const length = (phase, season) => {
+    const [x, y, z] = lightPosition(weatherProfile("clear", phase, season));
     return Math.hypot(x, z) / y;
   };
-  assert.ok(length("day") < length("morning") / 3);
-  assert.ok(length("dusk") > length("afternoon") * 3);
+  for (const season of ["spring", "summer", "autumn", "winter"]) {
+    assert.ok(length("day", season) < length("morning", season), "noon shadows are shorter in every season");
+    assert.ok(length("dusk", season) > length("afternoon", season) * 2, "low evening light lengthens shadows");
+  }
+  assert.ok(length("day", "summer") < length("morning", "summer") / 3);
   assert.ok(lightPosition(weatherProfile("clear", "dawn"))[0] > 0);
   assert.ok(lightPosition(weatherProfile("clear", "dusk"))[0] < 0);
 });

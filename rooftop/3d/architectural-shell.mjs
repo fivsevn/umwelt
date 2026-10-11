@@ -68,8 +68,12 @@ export function loadArchitecturalShell(T, parent) {
     for (const part of manifest.parts) {
       const file = part.texture || manifest.texture,
         definition = textureDefinitions.get(file) || {},
-        material = new T.MeshBasicMaterial({ map: textures.get(file), color: "#ffffff" }),
         baked = part.style === "baked",
+        // The nearby native albedo receives the actual moving sun and shadow
+        // map. Distant paintings keep the illumination baked in Blender.
+        material = baked
+          ? new T.MeshBasicMaterial({ map: textures.get(file), color: "#ffffff" })
+          : new T.MeshLambertMaterial({ map: textures.get(file), color: "#ffffff" }),
         layer = part.layer || (baked ? "far" : "near");
       if (baked) {
         material.onBeforeCompile = shader => {
@@ -116,10 +120,11 @@ export function loadArchitecturalShell(T, parent) {
             shellWet: wet,
             shellLamps: lamps,
             shellMetres: { value: new T.Vector3(...metreScale) },
+            shellTexelsPerMetre: { value: manifest.texelsPerMetre || 8 },
             shellAtlas: { value: new T.Vector2(definition.width || 512, definition.height || 512) },
             shellGlass: { value: part.field.includes("glass") ? 1 : 0 },
           });
-          shader.vertexShader = "uniform vec3 shellMetres; varying vec2 shellChart; varying vec3 shellNormal; varying float shellLamp;\n" + shader.vertexShader;
+          shader.vertexShader = "uniform vec3 shellMetres; uniform float shellTexelsPerMetre; varying vec2 shellChart; varying vec3 shellNormal; varying float shellLamp;\n" + shader.vertexShader;
           shader.fragmentShader = "uniform vec4 shellRect; uniform vec2 shellAtlas; uniform vec3 shellTone; uniform float shellWet; uniform float shellLamps; uniform float shellGlass; varying vec2 shellChart; varying vec3 shellNormal; varying float shellLamp;\n" + shader.fragmentShader;
           // Shared box charts repeat in physical metres, after undoing the
           // established non-uniform game-unit transform. General collection
@@ -129,7 +134,7 @@ export function loadArchitecturalShell(T, parent) {
             vec3 n = shellNormal;
             vec3 u = abs(n.y) > .98 ? vec3(1., 0., 0.) : normalize(cross(vec3(0., 1., 0.), n));
             vec3 v = abs(n.y) > .98 ? vec3(0., 0., 1.) : normalize(cross(n, u));
-            shellChart = vec2(dot(p, u), dot(p, v)) * 8.;` : "";
+            shellChart = vec2(dot(p, u), dot(p, v)) * shellTexelsPerMetre;` : "";
           shader.vertexShader = shader.vertexShader.replace("#include <begin_vertex>", `
             #include <begin_vertex>
             shellChart = uv; shellNormal = normalize(normal / shellMetres); shellLamp = .5;
@@ -144,14 +149,17 @@ export function loadArchitecturalShell(T, parent) {
             vec2 pixel = mod(floor(shellChart), shellRect.zw);
             vec2 sampleUv = (shellRect.xy + pixel + .5) / shellAtlas;
             diffuseColor *= texture2D(map, sampleUv);
-            vec3 n = normalize(shellNormal);
-            float shade = n.y > .7 ? 1. : n.y < -.7 ? .55 : abs(n.x) > abs(n.z) ? .76 : .88;
-            diffuseColor.rgb *= shade * shellTone * (1. - shellWet * .10);
+            diffuseColor.rgb *= 1. - shellWet * .10;
             if (shellGlass > .5 && shellLamp < shellLamps * .72)
               diffuseColor.rgb = mix(diffuseColor.rgb, vec3(.74, .52, .27), shellLamps * .8);`);
+          shader.fragmentShader = shader.fragmentShader.replace("#include <emissivemap_fragment>", `
+            #include <emissivemap_fragment>
+            // Occupied windows stay warm in moonlight and rain shadow.
+            if (shellGlass > .5 && shellLamp < shellLamps * .72)
+              totalEmissiveRadiance += vec3(.36, .18, .055) * shellLamps;`);
         };
       }
-      material.customProgramCacheKey = () => `blender-environment-v2-${baked ? "baked" : part.mode}-${part.field}-${file}-${part.lampMask || ""}-${part.shading || ""}`;
+      material.customProgramCacheKey = () => `blender-environment-v3-lit-${baked ? "baked" : part.mode}-${part.field}-${file}-${part.lampMask || ""}-${part.shading || ""}`;
       let mesh;
       if (part.mode === "instances") {
         mesh = new T.InstancedMesh(cube, material, part.count);
@@ -221,6 +229,7 @@ export function loadArchitecturalShell(T, parent) {
       drawCalls: manifest.parts.length,
       layers,
       texelMetresPerUnit: [...metreScale],
+      texelsPerMetre: manifest.texelsPerMetre || 8,
       atlases: [...requiredTextures].map(file => {
         const item = textureDefinitions.get(file) || {};
         return { file, width: item.width || 512, height: item.height || 512, bytes: item.bytes || null };
