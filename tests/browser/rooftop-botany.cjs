@@ -2,7 +2,8 @@ const assert = require("node:assert/strict");
 const { chromium, webkit } = require("playwright");
 const base = process.env.BASE_URL || "http://127.0.0.1:8773",
   engine = process.env.BROWSER || "chromium",
-  out = process.env.QA_OUTPUT || "/tmp";
+  out = process.env.QA_OUTPUT || "/tmp",
+  layoutKey = "umwelt-rooftop-layout-v1";
 (async () => {
   const b = await (engine === "webkit" ? webkit : chromium).launch({
     headless: true,
@@ -79,7 +80,13 @@ const base = process.env.BASE_URL || "http://127.0.0.1:8773",
       "kutani",
     );
     await page.locator("#search").fill("");
+    await page.locator('[data-scene="south"]').click();
+    await page.locator("[data-asset=mint]").click();
+    await page.locator('[data-scene="north"]').click();
     const saved = await page.evaluate(() => rooftop.layout);
+    assert.ok(saved.scenes.north.length > 0);
+    assert.ok(saved.scenes.south.length > 0);
+    assert.ok(saved.scenes.room.length > 0);
     await page.locator(".transfer summary").click();
     await page.locator("#layoutText").fill(JSON.stringify(saved));
     await page.locator("#importText").click();
@@ -90,23 +97,59 @@ const base = process.env.BASE_URL || "http://127.0.0.1:8773",
     await page.locator("#importText").click();
     assert.match(await page.locator("#message").innerText(), /花盆/);
     assert.deepEqual(await page.evaluate(() => rooftop.layout), saved);
+    const storedArrangement = await page.evaluate(
+      (key) => localStorage.getItem(key),
+      layoutKey,
+    );
     const opened = page.waitForEvent("popup");
     await page.locator("#preview").click();
     const preview = await opened;
+    preview.on("pageerror", (e) => errors.push(e.message));
     await preview.waitForFunction(() => window.rooftop);
     const previewUrl = new URL(preview.url());
     assert.equal(previewUrl.pathname, "/rooftop/");
-    assert.equal(previewUrl.searchParams.get("layout"), "local", "the actual preview action explicitly restores the saved local layout");
+    assert.equal(previewUrl.searchParams.get("layout"), "local", "the legacy editor preview URL still carries its local-layout query");
     assert.equal(previewUrl.searchParams.get("scene"), "north");
-    assert.deepEqual(await preview.evaluate(() => rooftop.layout), saved);
+    const emptyObservation = {
+      ...saved,
+      scenes: { ...saved.scenes, north: [], south: [] },
+    };
+    assert.deepEqual(
+      await preview.evaluate(() => rooftop.layout),
+      emptyObservation,
+      "observation clears both terraces in memory while preserving the room and layout metadata",
+    );
+    assert.equal(
+      await preview.evaluate((key) => localStorage.getItem(key), layoutKey),
+      storedArrangement,
+      "an old local-layout query cannot overwrite the saved editor arrangement",
+    );
     await preview.screenshot({
       path: out + "/plants-upstairs-" + engine + ".png",
     });
     await preview.locator("#sceneCard").click();
+    await preview.waitForFunction(() => rooftop.scene === "south");
+    assert.deepEqual(await preview.evaluate(() => rooftop.layout), emptyObservation);
+    assert.equal(
+      await preview.evaluate((key) => localStorage.getItem(key), layoutKey),
+      storedArrangement,
+    );
     await preview.screenshot({
       path: out + "/plants-south-" + engine + ".png",
     });
     await preview.close();
+    assert.deepEqual(await page.evaluate(() => rooftop.layout), saved);
+    await page.reload();
+    await page.waitForFunction(() => window.rooftop);
+    assert.deepEqual(
+      await page.evaluate(() => rooftop.layout),
+      saved,
+      "the editor reloads the original north, south and room arrangements",
+    );
+    assert.equal(
+      await page.evaluate((key) => localStorage.getItem(key), layoutKey),
+      storedArrangement,
+    );
     const stats = await page.evaluate(async () => {
       const { PLANTS } = await import("/rooftop/botany.mjs"),
         { paintObject, ASSETS } = await import("/rooftop/scene.mjs");
@@ -171,7 +214,7 @@ const base = process.env.BASE_URL || "http://127.0.0.1:8773",
         passed: true,
         ...stats,
         checks:
-          "notebook, references, constrained pots, change/undo/redo, persistence, duplication, multilingual search, import rejection, upstairs preview, mobile, all object rotations and transparent corners",
+          "notebook, references, constrained pots, change/undo/redo, persistence, duplication, multilingual search, import rejection, empty north/south observation despite legacy local query, preserved room and raw editor save, editor reload, mobile, all object rotations and transparent corners",
       }),
     );
   } finally {
