@@ -1,18 +1,15 @@
 .background-review{position:fixed;top:14px;left:14px;z-index:15;display:flex;align-items:center;gap:6px;flex-wrap:wrap;max-width:calc(100vw - 28px);font-size:12px;color:#384741}
-.background-review span,.background-review button,.background-review select{background:#e0e2d4e8;border:1px solid #9ca59a;padding:5px 9px;color:inherit;font:inherit;border-radius:2px}
-.background-review button,.background-review select{cursor:pointer}
-@media(max-width:600px){.background-review{top:8px;left:8px;gap:4px}.background-review span{flex-basis:100%}.background-review button,.background-review select{padding:4px 6px}}
-.background-stage #actionCard,.background-stage #dongdongStatus,.background-stage #roomCard,.background-stage #returnWorld,.background-stage #musicToggle{display:none!important}
+.background-review span,.background-review button,.background-review select,.background-review a{background:#e0e2d4e8;border:1px solid #9ca59a;padding:5px 9px;color:inherit;font:inherit;border-radius:2px}
+.background-review button,.background-review select,.background-review a{cursor:pointer}
+.background-review a{text-decoration:none}
+@media(max-width:600px){.background-review{top:8px;left:8px;gap:4px}.background-review span{flex-basis:100%}.background-review button,.background-review select,.background-review a{padding:4px 6px}}
+.background-stage #actionCard,.background-stage #dongdongStatus,.background-stage #roomCard,.background-stage #garageCard,.background-stage #returnWorld,.background-stage #musicToggle{display:none!important}
 #reviewEntry{margin:0 0 12px;max-width:100%;padding:6px;background:#e1e3d5;color:#35443b;border:1px solid #9ca59a}
+.background-stage .observation-notebook{top:var(--review-bottom,56px);max-height:calc(100dvh - var(--review-bottom,56px) - 12px)}
 .background-stage .person-toggle,.background-stage #actionStatus{display:none!important}
-.background-stage .view-controls{display:none!important}
-.background-review .narrative-views{gap:2px}
-.background-review .narrative-views button[aria-pressed="true"]{background:#4e5a4c;color:#e0dbc3}
-
-.background-stage.game-model-stage .view-controls{position:static;display:flex!important;flex-basis:100%;max-width:100%;padding:0;background:transparent}
-.game-model-stage .background-review .station-controls{gap:6px}
-.game-model-stage .background-review .station-controls button{min-height:0;min-width:0;padding:5px 9px;background:#e0e2d4e8;color:inherit;border:1px solid #9ca59a;font:inherit;box-shadow:0 2px #c1bda9}
-.game-model-stage .background-review .station-controls button:hover,.game-model-stage .background-review .station-controls button:active{background:#4e5a4c;color:#f0edda;border-color:#4e5a4c}
-@media(max-width:600px){.game-model-stage .background-review .station-controls{gap:4px}.game-model-stage .background-review .station-controls button{padding:4px 6px}}
-
-.background-stage.game-model-stage .corner-cards{bottom:max(56px,calc(env(safe-area-inset-bottom) + 56px))}
+.background-stage .view-controls{display:flex;position:static;background:transparent;padding:0;gap:4px;max-width:100%}
+.background-stage .view-controls[hidden]{display:none}
+.background-review .view-controls button{background:#e0e2d4e8;border:1px solid #9ca59a;padding:5px 9px;min-height:0;color:inherit;font:inherit;border-radius:2px}
+.background-review .view-controls button[aria-pressed="true"]{background:#4e5a4c;color:#e0dbc3}
+.background-review .legacy-view-controls,.background-review .station-controls{gap:4px}
+@media(max-width:600px){.background-review .view-controls button{padding:4px 6px}}

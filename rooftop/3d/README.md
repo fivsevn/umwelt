@@ -1,15 +1,20 @@
-# 花农时代立体场景
+# 花农时代立体场景模块
 
-正式入口为 `/rooftop/`，旧地址 `/rooftop/3d/` 转到正式入口。默认从空的北天台、南阳台开始，角色暂时隐藏；卡片流、音乐、居民活动、寻路、物件资料、天气及本地时钟继续运行。旧布置存档保留，布置页预览通过 `layout=local` 明确加载存档。
+当前 `scene3d.mjs` 是正式天台、车库和房间共用的渲染器。`/rooftop/` 与 `/rooftop/arrange/` 从 `../app.mjs` 初始化，房间从 `../room/room.mjs` 初始化。
 
-左上角是三种观察方式及当前方式的操作：小鸟沿屋檐走动、近距离广角观察；无人机在批准的远近位置间移动并有限度地升降、转头；第三入口只显示 `？`，开启固定远方位置的像素瞄准镜，可瞄准及放大局部。左下角只放信息卡片和卡片形式的场景、手帐入口。屋顶与墙体一直完整显示，不按视角隐去遮挡。
+当前入口、源稿与发布状态统一见 [花农时代维护索引](../../docs/rooftop-README.md)，测试操作见 [综合场景测试](../../docs/rooftop-scene-review.md)。
 
-建筑使用 Blender 导出的匿名游戏模型，近处保留立体结构和固定生活点缀，远处采用精简几何与烘焙立面。像素材质保留 Pixelorama 制作资源。公开文件只包含游戏局部坐标，不包含现实地址、经纬度、地图原图或私人建模文档。完整私人沙盘与制作原稿不进入网页发布包。
+统一测试入口为 [`/rooftop/?stage=background`](../?stage=background)。同一页切换南北阳台、天台、楼排、远处、小鸟、无人机、邻居视角，以及天气、时间点和季节。测试观察场景始终为空；陈列和存档继续在车库中使用。
 
-固定本地测试入口为 `http://127.0.0.1:4182/rooftop/?stage=game-model&scene=south`，将 `scene` 改为 `north` 查看北天台。该页面保留天气、季节、时间选择、三种视角、当前模式操作、南北切换、手帐与自由移动。无人机的上升、下降、靠近、退远按钮在自由移动时也能使用，按钮集中在左上角并使用清晰的实色背景。本地禁止缓存的启动器、检查日志与截图保存在仓库之外；正式入口只启用三种受限观察方式。
+`/rooftop/3d/` 已收起早期独立观察界面，自动跳转到统一测试页，默认使用小鸟视角。旧链接中的 `scene`、`weather`、`time`、`season`、`view` 会带入统一页，`layout=local` 不会带入空场景。关闭 JavaScript 时显示同一个测试入口链接。早期 `app.mjs` 保留作历史源码，页面不再载入它；本目录共用渲染器、模型和 vendor 继续由正式游戏与原稿工具使用。
 
-南阳台无人机以用户确认的自由移动画面作为最高、最远位置，允许从该位置下降、靠近。南北两侧无人机使用相同的左右、上下转头范围；已批准的北天台远近位置保留。位置与操作边界统一在 `story-camera.mjs`，氛围优化沿用这些取景。
+当前建筑与物品使用两条原生资源管线：
 
-下一阶段的渲染入口：`../weather.mjs` 管天气、时间与平滑过渡，`../seasons.mjs` 管季节，`../atmosphere.mjs` 提供共享光线参数；`atmosphere.mjs` 与 `seasonal-air.mjs` 将状态用于天空、灯光、阴影、降水和季节飘浮物。`native-materials.mjs` 管目录物件的材质响应，`architectural-shell.mjs` 管导出建筑和烘焙立面的色调、湿润及窗灯，`scene3d.mjs` 汇合更新与距离雾。保持已批准的建筑、相机、陈列存档、资料库和卡片机制，先在本地测试页检查组合效果。
+- 建筑、南北阳台与街区由 `architectural-shell.mjs` 读取已保存 Blender 原稿的导出数据。运行清单为 `../assets/background/empty-rooftop.mjs`，当前源稿为 `docs/art/rooftop-weathering-07/game-environment.blend`；实际 Pixelorama 图集为同目录 `terrace-book.pxo`，运行 PNG 为 `../assets/background/terrace-book.png`，1024×1024、16 像素/米。保存与导出核验见 [当前建筑原稿](../../docs/art/rooftop-weathering-07/README.md)。
+- 目录物品与室内构造继续由本目录共享模块建立，使用 `native-materials.mjs`、`native-book.mjs`、`native-style.mjs` 与 Pixelorama 原生导出的 `../assets/pixel/material-book.png`，标定为每世界单位 8 像素。Blender 物品原稿保存在 `docs/art/rooftop-game/`，手改原稿后需要另做导出和接入；家具重制在下一阶段进行。
 
-Three.js 从本地 vendor 加载。发布由既有 Pages 流程完成，检查空阳台、三视角、南北切换与资料库；`vendor/THREE-LICENSE.txt` 为 Three.js MIT 许可。详细模块边界与验证入口见 [维护指南](../../docs/rooftop-maintenance.md)。
+旧材质生成器和笔画配方已归档到 [旧材质制作代码](../../docs/art/rooftop-legacy-materials/README.md)。仍被正式模型引用的工具留在本目录；二维绘制也仍支撑回退、存档接触边界和部分预览。
+
+默认原稿陈列分别为北天台 86、南阳台 20、房间 19 件；公开天台和综合测试的南北场景为空，车库继续保留可用陈列和已有存档。完整楼体、屋顶、附近楼群和透视取景的运行约定见 [维护入口](../../docs/rooftop-maintenance.md)。旧版“95 件北天台、只显示当前一侧、三栋邻楼”的描述已不适用于当前实现。
+
+2026-10-10 开始的视觉重制先整理仓库，再清空天台调整背景，背景稳定后重新设计家具。范围与资料保留见 [重制边界](../../docs/rooftop-rebuild.md)。从仓库根目录提供静态文件即可查看；Three.js r160 从本地 vendor 载入，许可见 `vendor/THREE-LICENSE.txt`。

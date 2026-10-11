@@ -13,6 +13,7 @@ import {
 import { createPlacementEditor } from "./placement-editor.mjs";
 import { createGardenRenderer } from "./3d/scene3d.mjs";
 import { NARRATIVE_VIEWS } from "./3d/story-camera.mjs";
+import { REVIEW_VIEWS, reviewState, reviewURL, emptyReviewLayout } from "./review-state.mjs";
 import { opticOverlayMarkup, updateOpticOverlay } from "./3d/optic-overlay.mjs";
 import { LAYOUT_KEY, readLayout, writeLayout } from "./layout-storage.mjs";
 import { createEditHistory } from "./edit-history.mjs";
@@ -64,21 +65,20 @@ import {
 } from "./scene.mjs";
 const $ = (id) => document.getElementById(id),
   editor = document.body.classList.contains("editor");
-const reviewStage = new URLSearchParams(location.search).get("stage");
-const gameModelStage = reviewStage === "game-model";
-const backgroundStage = gameModelStage || reviewStage === "background";
+const review = reviewState(location.search);
+const backgroundStage = review.active && !editor;
+const itemPreviewStage = review.active && editor;
 const emptyGameStage = !editor && !backgroundStage;
-const localLayoutRequested = new URLSearchParams(location.search).get("layout") === "local";
-const hideActors = backgroundStage || emptyGameStage;
-const reviewQuery = gameModelStage ? "game-model" : "background";
-const previewStorageKey = gameModelStage
-  ? "umwelt-rooftop-game-model-preview-v1"
-  : "umwelt-rooftop-background-preview-v1";
+const hideActors = !editor;
+const reviewQuery = "background";
+const previewStorageKey = "umwelt-rooftop-background-preview-v1";
 const previewStorage = {
-  getItem: () => sessionStorage.getItem(previewStorageKey),
+  getItem: () => sessionStorage.getItem(previewStorageKey) || (review.legacyGameModel ? sessionStorage.getItem("umwelt-rooftop-game-model-preview-v1") : null),
   setItem: (_key, value) => sessionStorage.setItem(previewStorageKey, value),
 };
-const emptyTerraces = (value) => ({ ...value, scenes: { ...value.scenes, north: [], south: [] } });
+let reviewView = review.view;
+let persistReviewState = () => {};
+if (backgroundStage) window.history.replaceState(null, "", reviewURL(location.href));
 const narrativeLabels = { bird: "经常啄多肉的小鸟", drone: "偶尔路过的无人机", neighbor: "？" };
 const narrativeButtons = () => NARRATIVE_VIEWS.map(({id}) => '<button type="button" data-narrative-view="' + id + '" aria-pressed="' + (id === "bird") + '">' + narrativeLabels[id] + '</button>').join("");
 let syncNarrativeUI = () => {};
@@ -97,28 +97,29 @@ let scene =
 let flushDrag = null;
 const dragPerformance = { updates: 0, totalMs: 0, maxMs: 0 };
 try {
-  if (
-    editor ||
-    localLayoutRequested
-  ) {
-    layout = readLayout(backgroundStage ? previewStorage : localStorage);
-    if (!backgroundStage && !localStorage.getItem(LAYOUT_KEY)) layout = emptyTerraces(layout);
+  if (editor) {
+    layout = readLayout(itemPreviewStage ? previewStorage : localStorage);
+    if (!itemPreviewStage && !localStorage.getItem(LAYOUT_KEY)) layout = emptyReviewLayout(layout);
   }
 } catch {
-  if (editor || emptyGameStage) layout = emptyTerraces(initialLayout());
+  layout = emptyReviewLayout(initialLayout());
   if (editor) $("message").textContent = "本机布局无法读取，已恢复初始布局。";
 }
-if (emptyGameStage || (gameModelStage && !editor)) layout = emptyTerraces(layout);
-if (backgroundStage && (!previewStorage.getItem() || (!editor && !localLayoutRequested))) layout = emptyTerraces(layout);
+if (!editor || (itemPreviewStage && !previewStorage.getItem())) layout = emptyReviewLayout(layout);
 if (backgroundStage) {
   document.body.classList.add("background-stage");
-  if (gameModelStage) document.body.classList.add("game-model-stage");
+  document.title = "空场景 · 综合测试 · 花农时代";
   const reviewStyle = document.createElement("link");reviewStyle.rel="stylesheet";
-  reviewStyle.href=new URL("./background-review.css?v=terrace-launch-01",import.meta.url).href;document.head.append(reviewStyle);
-  if (editor && $("preview")) $("preview").href="../?stage=" + reviewQuery + "&layout=local";
+  reviewStyle.href=new URL("./background-review.css",import.meta.url).href;document.head.append(reviewStyle);
   const controls = document.createElement("div"); controls.className="background-review";
-  controls.innerHTML='<span>' + (gameModelStage ? '天台 · 游戏范围预览' : '空天台 · 本地预览') + '</span><button type="button" id="reviewScene">看南阳台</button>' + (gameModelStage ? '<div class="narrative-views" role="group" aria-label="观察视角">' + narrativeButtons() + '</div>' + (!editor ? '<button type="button" id="reviewFreeCamera" aria-pressed="false">自由移动</button>' : '') : '<button type="button" id="reviewView">看楼排</button><button type="button" id="reviewOutlook">看远处</button>') + '<button type="button" id="reviewNotebook">东东的手帐</button><select id="reviewWeather" aria-label="预览天气"></select><select id="reviewTime" aria-label="预览时间"></select><select id="reviewSeason" aria-label="预览季节"></select>';
+  controls.innerHTML='<span>空场景 · 综合测试</span><select id="reviewScene" aria-label="测试场景"><option value="north">北天台</option><option value="south">南阳台</option></select><select id="reviewView" aria-label="测试视角">' + REVIEW_VIEWS.map(({id,label}) => '<option value="' + id + '">' + label + '</option>').join("") + '</select><button type="button" id="reviewNotebook">东东的手帐</button><a id="reviewItems" href="./arrange/">物品页面</a><select id="reviewWeather" aria-label="自定义天气"></select><select id="reviewTime" aria-label="自定义时间点"></select><select id="reviewSeason" aria-label="自定义季节"></select>';
   document.querySelector(".roof-world")?.append(controls);
+  $("reviewScene").value = scene;
+  $("reviewView").value = reviewView;
+  const placeNotebook = () => document.documentElement.style.setProperty("--review-bottom", Math.ceil(controls.getBoundingClientRect().bottom) + 8 + "px");
+  new ResizeObserver(placeNotebook).observe(controls);
+  document.fonts.ready.then(placeNotebook);
+  window.addEventListener("resize", placeNotebook);
 }
 if (!editor) attachGardenMusic($("musicToggle"));
 let garden3d = null,
@@ -131,10 +132,9 @@ try {
     editor ? null : $("sceneDoor"),
     {
       scene,
-      backgroundStage: backgroundStage || emptyGameStage,
-      gameModelStage: gameModelStage || emptyGameStage,
+      backgroundStage,
+      reviewView,
       hideActors,
-      allowFreeCamera: gameModelStage,
       controls: editor ? "edit" : "pan",
       initialTheta: editor ? undefined : -0.34,
       selected: () => selected,
@@ -147,7 +147,7 @@ if (!editor) {
   const viewControls = document.querySelector(".view-controls");
   const legacyControls = viewControls.querySelector(".legacy-view-controls");
   viewControls.hidden = !garden3d;
-  if (gameModelStage) document.querySelector(".background-review")?.append(viewControls);
+  if (backgroundStage) document.querySelector(".background-review").append(viewControls);
   if (!backgroundStage) {
     const choices = document.createElement("div");
     choices.className = "narrative-views";
@@ -164,6 +164,7 @@ if (!editor) {
   document.querySelector(".roof-world")?.append(scope);
   const stationControls = document.createElement("div");
   stationControls.className = "station-controls";
+  stationControls.hidden = true;
   stationControls.setAttribute("role", "group");
   stationControls.setAttribute("aria-label", "观察者移动");
   viewControls.append(stationControls);
@@ -174,28 +175,21 @@ if (!editor) {
   new ResizeObserver(positionNotebook).observe(notebookControls);
   window.addEventListener("resize", positionNotebook);
   positionNotebook();
-  let stationKind = null, freeCamera = false;
-  const freeCameraButton = $("reviewFreeCamera");
-  const freeCameraHint = "拖动转动；右键或双指拖动画面；滚轮靠近、远离。";
+
+  let stationKind = null;
   const updateScope = () => {
     if (!scope.hidden && !document.hidden) updateOpticOverlay(scope, garden3d?.scopeReading);
   };
   setInterval(updateScope, 250);
   syncNarrativeUI = () => {
-    const rendererState = garden3d?.stats, name = rendererState?.narrativeView;
-    if (typeof rendererState?.freeCamera === "boolean") freeCamera = rendererState.freeCamera;
-    const controlKind = freeCamera ? "free" : name;
+    const name = garden3d?.stats.narrativeView;
+    if (backgroundStage && $("reviewView")) $("reviewView").value = garden3d?.stats.reviewView || reviewView;
     if (legacyControls) legacyControls.hidden = Boolean(name);
     for (const choice of document.querySelectorAll("[data-narrative-view]"))
-      choice.setAttribute("aria-pressed", String(!freeCamera && choice.dataset.narrativeView === name));
-    if (freeCameraButton) {
-      freeCameraButton.textContent = freeCamera ? "锁定视角" : "自由移动";
-      freeCameraButton.setAttribute("aria-pressed", String(freeCamera));
-      freeCameraButton.title = freeCamera ? freeCameraHint : "临时自由调整位置和镜头，方便截图。";
-    }
-    scope.hidden = freeCamera || name !== "neighbor";
-    if (stationKind !== controlKind) {
-      const actions = controlKind === "bird" ? [["left", "←沿檐"], ["right", "沿檐→"]] : controlKind === "drone" || controlKind === "free" ? [["down", "↓下降"], ["up", "↑上升"], ["near", "＋靠近"], ["far", "－退远"]] : controlKind === "neighbor" ? [["out", "－缩小倍率"], ["in", "＋放大倍率"]] : [];
+      choice.setAttribute("aria-pressed", String(choice.dataset.narrativeView === name));
+    scope.hidden = name !== "neighbor";
+    if (stationKind !== name) {
+      const actions = name === "bird" ? [["left", "←沿檐"], ["right", "沿檐→"]] : name === "drone" ? [["down", "↓下降"], ["up", "↑上升"], ["near", "＋靠近"], ["far", "－退远"]] : name === "neighbor" ? [["out", "－缩小倍率"], ["in", "＋放大倍率"]] : [];
       stationControls.innerHTML = actions.map(([action,label]) => '<button type="button" data-station-action="' + action + '">' + label + '</button>').join("");
       stationControls.hidden = !actions.length;
       for (const button of stationControls.querySelectorAll("[data-station-action]")) button.onclick = () => {
@@ -203,29 +197,18 @@ if (!editor) {
         if (action === "in" || action === "out") garden3d?.nudgeNarrativeOptics(action);
         else garden3d?.nudgeNarrativeStation(action);
       };
-      const labels = { bird: "小鸟操作", drone: "无人机操作", neighbor: "瞄准镜操作", free: "自由移动操作" };
-      const hints = { bird: "左右拖动沿檐走动，上下拖动微微抬头或低头。", drone: "拖动微调镜头；滚轮或双指靠近、退远。", neighbor: "拖动瞄准；滚轮或双指调整倍率。", free: freeCameraHint };
-      stationControls.setAttribute("aria-label", labels[controlKind] || "观察者移动");
-      canvas.title = hints[controlKind] || "";
-      stationKind = controlKind;
+      const labels = { bird: "小鸟操作", drone: "无人机操作", neighbor: "瞄准镜操作" };
+      const hints = { bird: "左右拖动沿檐走动，上下拖动微微抬头或低头。", drone: "左右拖动转头，上下拖动升降；滚轮或双指靠近、退远。", neighbor: "拖动瞄准；滚轮或双指调整倍率。" };
+      stationControls.setAttribute("aria-label", labels[name] || "观察者移动");
+      canvas.title = hints[name] || "";
+      stationKind = name;
     }
     updateScope();
     const choices = document.querySelector(".narrative-views");
     if (choices) choices.hidden = !name;
   };
-  if (freeCameraButton) freeCameraButton.onclick = () => {
-    if (!garden3d?.setFreeCamera) return;
-    freeCamera = !freeCamera;
-    garden3d.setFreeCamera(freeCamera);
-    syncNarrativeUI();
-  };
   for (const button of document.querySelectorAll("[data-narrative-view]"))
-    button.onclick = () => {
-      garden3d?.setFreeCamera?.(false);
-      freeCamera = false;
-      garden3d?.setNarrativeView(button.dataset.narrativeView);
-      syncNarrativeUI();
-    };
+    button.onclick = () => { garden3d?.setNarrativeView(button.dataset.narrativeView); syncNarrativeUI(); };
   const chooseViewMode = (button) => {
     garden3d.setNavigationMode(button.dataset.viewMode);
     for (const choice of viewControls.querySelectorAll("[data-view-mode]"))
@@ -266,14 +249,12 @@ const zooms = { room: 1, north: 1, south: 1 },
   pointers = new Map();
 let pinch = null;
 const backdrop = document.createElement("canvas");
-const WEATHER_KEY = gameModelStage
-  ? "umwelt-rooftop-game-model-weather-preview-v1"
-  : backgroundStage ? "umwelt-rooftop-background-weather-preview-v1" : "umwelt-rooftop-weather-v1";
+const WEATHER_KEY = backgroundStage || itemPreviewStage ? "umwelt-rooftop-background-weather-preview-v1" : "umwelt-rooftop-weather-v1";
 let weatherChoices = { condition: "clear", phase: "day" };
 if (editor)
   try {
     weatherChoices =
-      JSON.parse(localStorage.getItem(WEATHER_KEY)) || weatherChoices;
+      JSON.parse(localStorage.getItem(WEATHER_KEY) || (review.legacyGameModel ? localStorage.getItem("umwelt-rooftop-game-model-weather-preview-v1") : null)) || weatherChoices;
   } catch {}
 const weather = makeWeather(
   editor
@@ -281,9 +262,9 @@ const weather = makeWeather(
     : {
         condition:
           new URLSearchParams(location.search).get("weather") ||
-          WEATHER[Math.floor(Math.random() * WEATHER.length)].id,
-        phase: new URLSearchParams(location.search).get("time") || "auto",
-        season: new URLSearchParams(location.search).get("season") || "auto",
+          (backgroundStage ? "clear" : WEATHER[Math.floor(Math.random() * WEATHER.length)].id),
+        phase: new URLSearchParams(location.search).get("time") || (backgroundStage ? "day" : "auto"),
+        season: new URLSearchParams(location.search).get("season") || (backgroundStage ? "spring" : "auto"),
       },
 );
 let atmosphere = weather.state,
@@ -300,7 +281,7 @@ const resident = editor
       phase: () => atmosphere.phase,
       environment: activityEnvironment,
     });
-if (resident) showPerson = resident.present;
+if (resident) showPerson = !hideActors && resident.present;
 matchMedia("(prefers-reduced-motion: reduce)").addEventListener(
   "change",
   (e) => {
@@ -330,24 +311,26 @@ if (editor) {
   }
 }
 if (backgroundStage) {
-  let wide=false;
-  if($("reviewOutlook")) $("reviewOutlook").onclick=()=>{wide=false;garden3d?.setBackgroundOutlook();$("reviewView").textContent="回到天台";};
-  if($("reviewView")) $("reviewView").onclick=()=>{
-    if($("reviewView").textContent==="回到天台"){wide=false;garden3d?.setBackgroundView(false);}
-    else{wide=true;garden3d?.setBackgroundView(true);}
-    $("reviewView").textContent=wide?"回到天台":"看楼排";
+  persistReviewState = () => {
+    window.history.replaceState(null, "", reviewURL(location.href, { scene, view: reviewView, ...weather.choices }));
+  };
+  $("reviewView").onchange=()=>{
+    reviewView=$("reviewView").value;
+    garden3d?.setReviewView(reviewView);
+    syncNarrativeUI();
+    persistReviewState();
   };
   for (const [id,key,values] of [["reviewWeather","condition",WEATHER],["reviewTime","phase",TIMES],["reviewSeason","season",SEASONS]]) {
     const select=$(id);if(!select)continue;
     for(const item of values){const option=document.createElement("option");option.value=item.id;option.textContent=item.name;select.append(option);}
-    select.value=weather.choices[key];select.onchange=()=>weather.set(key,select.value);
+    select.value=weather.choices[key];select.onchange=()=>{weather.set(key,select.value);persistReviewState();};
   }
-  if($("reviewScene")) $("reviewScene").onclick=()=>{
-    scene=scene==="north"?"south":"north";
-    const url=new URL(location.href);url.searchParams.set("scene",scene);history.pushState(null,"",url);rebuild();
-    $("reviewScene").textContent=scene==="north"?"看南阳台":"看北天台";
-    wide=false;if ($("reviewView")) $("reviewView").textContent="看楼排";
+  $("reviewScene").onchange=()=>{
+    scene=$("reviewScene").value;
+    persistReviewState();
+    rebuild();
   };
+  persistReviewState();
 }
 function weatherCaption() {
   const text = atmosphereCaption(atmosphere);
@@ -368,8 +351,9 @@ function updateActionCard() {
 const objects = () => layout.scenes[scene],
   selection = () => objects().find((o) => o.id === selected);
 function save() {
+  if (backgroundStage) return;
   try {
-    writeLayout(layout, backgroundStage ? previewStorage : localStorage);
+    writeLayout(layout, itemPreviewStage ? previewStorage : localStorage);
   } catch {
     message("本机存储不可用，请导出 JSON 保存。");
   }
@@ -425,8 +409,8 @@ function positionFields(o) {
 }
 function rebuild() {
   if (backgroundStage && $("reviewScene")) {
-    $("reviewScene").textContent=scene==="north"?"看南阳台":"看北天台";
-    if ($("reviewView")) $("reviewView").textContent="看楼排";
+    $("reviewScene").value=scene;
+    $("reviewItems").href="./arrange/?scene=" + scene;
   }
   if (editor) document.body.classList.toggle("room-edit", scene === "room");
   if (garden3d) {
@@ -1000,7 +984,7 @@ if (editor) {
   $("person").onchange = () => (showPerson = $("person").checked);
   $("preview").onclick = () => {
     save();
-    $("preview").href = backgroundStage ? "../?stage=" + reviewQuery + "&layout=local&scene=" + scene : "../?layout=local&scene=" + scene;
+    $("preview").href = itemPreviewStage ? "../?stage=" + reviewQuery + "&scene=" + scene : "../?layout=local&scene=" + scene;
   };
   const load = (text) => {
     try {
@@ -1083,6 +1067,15 @@ if (editor) {
       new URLSearchParams(location.search).get("scene") === "south"
         ? "south"
         : "north";
+    if (backgroundStage) {
+      reviewView=reviewState(location.search).view;
+      garden3d?.setReviewView(reviewView);
+      const query=new URLSearchParams(location.search);
+      for (const [id,key,parameter] of [["reviewWeather","condition","weather"],["reviewTime","phase","time"],["reviewSeason","season","season"]]) {
+        const value=query.get(parameter);
+        if(value){weather.set(key,value);$(id).value=weather.choices[key];}
+      }
+    }
     rebuild();
   });
   if (!garden3d) {
@@ -1264,12 +1257,12 @@ function syncPresence() {
   if (editor) return;
   if ($("sceneCard")) $("sceneCard").textContent = scene === "north" ? "去南阳台看看。" : "去北天台看看。";
   $("roomCard").href =
-    "./room/?scene=" + scene + "&weather=" + atmosphere.condition + (backgroundStage ? "&stage=" + reviewQuery : "");
-  $("garageCard").href = "./arrange/?scene=" + scene + (backgroundStage ? "&stage=" + reviewQuery : "");
+    "./room/?scene=" + scene + "&weather=" + atmosphere.condition;
+  $("garageCard").href = "./arrange/?scene=" + scene;
   if (!resident.present) $("dongdongStatus").textContent = resident.status;
   canvas.setAttribute(
     "aria-label",
-    backgroundStage ? SCENES[scene].name + (gameModelStage ? "，游戏范围模型预览" : "，空天台建筑预览") : emptyGameStage ? SCENES[scene].name + "，空阳台" : SCENES[scene].name +
+    backgroundStage ? SCENES[scene].name + "，空场景综合测试" : emptyGameStage ? SCENES[scene].name + "，空阳台" : SCENES[scene].name +
       "，" +
       (resident.present
         ? ["rain", "heavy", "thunderstorm", "typhoon"].includes(
@@ -1335,7 +1328,7 @@ function render() {
       y: o.y - (asset(o.type).furniture ? dimensions(o).h / 2 : 0),
       o,
     }));
-    if (!hideActors && showPerson) items.push({ y: walker.person.y, p: walker.person });
+    if (showPerson) items.push({ y: walker.person.y, p: walker.person });
     if (!hideActors) items.push({ y: pigWalker.person.y, pig: pigWalker.person });
     items.sort((a, b) => a.y - b.y);
     for (const item of items)
@@ -1403,7 +1396,7 @@ function render() {
   }));
   const pig = pigWalker.person;
   if (!hideActors && !pig.insideShelter) sprites.push({ y: pig.y, pig });
-  if (!hideActors && showPerson && !walker.person.insideShelter)
+  if (showPerson && !walker.person.insideShelter)
     sprites.push({ y: walker.person.y, person: walker.person });
   sprites.sort((a, b) => a.y - b.y);
   const foreground = foregroundObjects(objects());
@@ -1464,7 +1457,7 @@ function frame(now) {
   atmosphere = weather.update(editor ? Math.min(elapsed, 2) : dt);
   if (previousCondition !== atmosphere.condition) syncPresence();
   if (resident && resident.update(dt, activityEnvironment())) {
-    showPerson = resident.present;
+    showPerson = !hideActors && resident.present;
     syncPresence();
     if (showPerson) walker.arrive();
   }
