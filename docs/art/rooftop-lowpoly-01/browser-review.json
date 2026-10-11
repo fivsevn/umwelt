@@ -1,0 +1,550 @@
+{
+  "reviewedAt": "2026-10-11T17:46:52.429Z",
+  "release": "local only; not published",
+  "canonical": "http://127.0.0.1:4173/rooftop/?stage=background",
+  "sourceAuthoring": [
+    "Pixelorama 1.2.3 native PXO/cel/Pencil",
+    "Blender 4.5.14 saved packed source and independent reopen"
+  ],
+  "minimumMaterialPixel": {
+    "sceneTexelsPerMetre": 16,
+    "furnitureTexelsPerMetre": 16,
+    "pixelMetres": 0.0625,
+    "evidence": [
+      "furniture-reference-pixel-metric-audit.json",
+      "nonbox-pixel-metric-audit.json",
+      "nonbox-stable-polygon-metric-audit.json",
+      "cube-horizontal-basis-audit.json",
+      "baked-pixel-metric-audit.json"
+    ],
+    "furnitureReference": "http://127.0.0.1:4186/",
+    "furnitureSource": "docs/art/rooftop-furniture-01/preview",
+    "furnitureScreenshot": "reference-furniture-pixel-grid.png"
+  },
+  "native": {
+    "allModelNormalsUvsTransformsMaterialsAndCamerasPreserved": true,
+    "binarySha256": "34b25d9ae868821494638a6b0f0519f95f5179ade24019cc46d52cf8dd410e92",
+    "mainPngSha256": "4b0c586e4f15b5645ffc2c54dc52ad90b2133ad66ee586139155140b0aac95fb",
+    "farPngSha256": "c414ee98a02aa66b906d17b19aa1916760e73fa39619737e3c5b22d7ed2f5043",
+    "blendSha256": "f5e3e4d9890ec2b6b3d1e7437884367ad7217298ed2987ac05a4759eb2d580a6",
+    "windowMaskBytesPreserved": true
+  },
+  "tests": {
+    "command": "node isopoda/tools/check-all.mjs",
+    "passed": 398,
+    "failed": 0,
+    "structuralChecksPassed": true
+  },
+  "samples": [
+    {
+      "scene": "north",
+      "condition": "clear",
+      "phase": "day",
+      "season": "spring",
+      "mix": 1,
+      "view": "outlook",
+      "loaded": true,
+      "antialias": false,
+      "pixels": 1,
+      "texelsPerMetre": 16,
+      "bakedSampling": [
+        {
+          "field": "Baked distant facades",
+          "renderTexelsPerMetre": 16,
+          "originalUvDensity": "variable baked atlas charts; source UV unchanged",
+          "rectangularFaces": 4952,
+          "unsupportedTriangles": 0,
+          "derivedBoundsBytes": 475392,
+          "paddingEdgeFallback": "original UV only when a snapped half-cell centre leaves opaque pigment",
+          "derivativeFallback": "original UV for grazing/degenerate chart derivatives"
+        }
+      ],
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "buffer": [
+        1280,
+        720
+      ],
+      "shadow": true,
+      "shadowUpdates": 3,
+      "light": [
+        0,
+        50.54093442811192,
+        35.91119528967662
+      ],
+      "image": "local-north-clear-day-outlook.png",
+      "consoleErrors": []
+    },
+    {
+      "scene": "north",
+      "condition": "clear",
+      "phase": "day",
+      "season": "spring",
+      "mix": 1,
+      "view": "row",
+      "loaded": true,
+      "antialias": false,
+      "pixels": 1,
+      "texelsPerMetre": 16,
+      "bakedSampling": [
+        {
+          "field": "Baked distant facades",
+          "renderTexelsPerMetre": 16,
+          "originalUvDensity": "variable baked atlas charts; source UV unchanged",
+          "rectangularFaces": 4952,
+          "unsupportedTriangles": 0,
+          "derivedBoundsBytes": 475392,
+          "paddingEdgeFallback": "original UV only when a snapped half-cell centre leaves opaque pigment",
+          "derivativeFallback": "original UV for grazing/degenerate chart derivatives"
+        }
+      ],
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "buffer": [
+        1280,
+        720
+      ],
+      "shadow": true,
+      "shadowUpdates": 4,
+      "light": [
+        0,
+        50.54093442811192,
+        35.91119528967662
+      ],
+      "image": "local-north-clear-day-row.png",
+      "consoleErrors": []
+    },
+    {
+      "scene": "north",
+      "condition": "clear",
+      "phase": "day",
+      "season": "spring",
+      "mix": 1,
+      "view": "terrace",
+      "loaded": true,
+      "antialias": false,
+      "pixels": 1,
+      "texelsPerMetre": 16,
+      "bakedSampling": [
+        {
+          "field": "Baked distant facades",
+          "renderTexelsPerMetre": 16,
+          "originalUvDensity": "variable baked atlas charts; source UV unchanged",
+          "rectangularFaces": 4952,
+          "unsupportedTriangles": 0,
+          "derivedBoundsBytes": 475392,
+          "paddingEdgeFallback": "original UV only when a snapped half-cell centre leaves opaque pigment",
+          "derivativeFallback": "original UV for grazing/degenerate chart derivatives"
+        }
+      ],
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "buffer": [
+        1280,
+        720
+      ],
+      "shadow": true,
+      "shadowUpdates": 5,
+      "light": [
+        0,
+        50.54093442811192,
+        35.91119528967662
+      ],
+      "image": "local-north-clear-day.png",
+      "consoleErrors": []
+    },
+    {
+      "scene": "south",
+      "condition": "clear",
+      "phase": "day",
+      "season": "spring",
+      "mix": 1,
+      "view": "terrace",
+      "loaded": true,
+      "antialias": false,
+      "pixels": 1,
+      "texelsPerMetre": 16,
+      "bakedSampling": [
+        {
+          "field": "Baked distant facades",
+          "renderTexelsPerMetre": 16,
+          "originalUvDensity": "variable baked atlas charts; source UV unchanged",
+          "rectangularFaces": 4952,
+          "unsupportedTriangles": 0,
+          "derivedBoundsBytes": 475392,
+          "paddingEdgeFallback": "original UV only when a snapped half-cell centre leaves opaque pigment",
+          "derivativeFallback": "original UV for grazing/degenerate chart derivatives"
+        }
+      ],
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "buffer": [
+        1280,
+        720
+      ],
+      "shadow": true,
+      "shadowUpdates": 6,
+      "light": [
+        35.91119528967662,
+        50.54093442811192,
+        0
+      ],
+      "image": "local-south-clear-day.png",
+      "consoleErrors": []
+    },
+    {
+      "scene": "south",
+      "condition": "clear",
+      "phase": "day",
+      "season": "spring",
+      "mix": 1,
+      "view": "bird",
+      "loaded": true,
+      "antialias": false,
+      "pixels": 1,
+      "texelsPerMetre": 16,
+      "bakedSampling": [
+        {
+          "field": "Baked distant facades",
+          "renderTexelsPerMetre": 16,
+          "originalUvDensity": "variable baked atlas charts; source UV unchanged",
+          "rectangularFaces": 4952,
+          "unsupportedTriangles": 0,
+          "derivedBoundsBytes": 475392,
+          "paddingEdgeFallback": "original UV only when a snapped half-cell centre leaves opaque pigment",
+          "derivativeFallback": "original UV for grazing/degenerate chart derivatives"
+        }
+      ],
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "buffer": [
+        1280,
+        720
+      ],
+      "shadow": true,
+      "shadowUpdates": 7,
+      "light": [
+        35.91119528967662,
+        50.54093442811192,
+        0
+      ],
+      "image": "local-south-clear-day-bird.png",
+      "consoleErrors": []
+    },
+    {
+      "scene": "south",
+      "condition": "clear",
+      "phase": "day",
+      "season": "spring",
+      "mix": 1,
+      "view": "drone",
+      "loaded": true,
+      "antialias": false,
+      "pixels": 1,
+      "texelsPerMetre": 16,
+      "bakedSampling": [
+        {
+          "field": "Baked distant facades",
+          "renderTexelsPerMetre": 16,
+          "originalUvDensity": "variable baked atlas charts; source UV unchanged",
+          "rectangularFaces": 4952,
+          "unsupportedTriangles": 0,
+          "derivedBoundsBytes": 475392,
+          "paddingEdgeFallback": "original UV only when a snapped half-cell centre leaves opaque pigment",
+          "derivativeFallback": "original UV for grazing/degenerate chart derivatives"
+        }
+      ],
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "buffer": [
+        1280,
+        720
+      ],
+      "shadow": true,
+      "shadowUpdates": 8,
+      "light": [
+        35.91119528967662,
+        50.54093442811192,
+        0
+      ],
+      "image": "local-south-clear-day-drone.png",
+      "consoleErrors": []
+    },
+    {
+      "scene": "south",
+      "condition": "clear",
+      "phase": "evening",
+      "season": "spring",
+      "mix": 1,
+      "view": "neighbor",
+      "loaded": true,
+      "antialias": false,
+      "pixels": 1,
+      "texelsPerMetre": 16,
+      "bakedSampling": [
+        {
+          "field": "Baked distant facades",
+          "renderTexelsPerMetre": 16,
+          "originalUvDensity": "variable baked atlas charts; source UV unchanged",
+          "rectangularFaces": 4952,
+          "unsupportedTriangles": 0,
+          "derivedBoundsBytes": 475392,
+          "paddingEdgeFallback": "original UV only when a snapped half-cell centre leaves opaque pigment",
+          "derivativeFallback": "original UV for grazing/degenerate chart derivatives"
+        }
+      ],
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "buffer": [
+        1280,
+        720
+      ],
+      "shadow": false,
+      "shadowUpdates": 30,
+      "light": [
+        19.815091665426724,
+        44.11671652477372,
+        38.795327880603026
+      ],
+      "image": "local-south-clear-evening-neighbor.png",
+      "consoleErrors": []
+    },
+    {
+      "scene": "south",
+      "condition": "clear",
+      "phase": "evening",
+      "season": "spring",
+      "mix": 1,
+      "view": "row",
+      "loaded": true,
+      "antialias": false,
+      "pixels": 1,
+      "texelsPerMetre": 16,
+      "bakedSampling": [
+        {
+          "field": "Baked distant facades",
+          "renderTexelsPerMetre": 16,
+          "originalUvDensity": "variable baked atlas charts; source UV unchanged",
+          "rectangularFaces": 4952,
+          "unsupportedTriangles": 0,
+          "derivedBoundsBytes": 475392,
+          "paddingEdgeFallback": "original UV only when a snapped half-cell centre leaves opaque pigment",
+          "derivativeFallback": "original UV for grazing/degenerate chart derivatives"
+        }
+      ],
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "buffer": [
+        1280,
+        720
+      ],
+      "shadow": false,
+      "shadowUpdates": 31,
+      "light": [
+        19.815091665426724,
+        44.11671652477372,
+        38.795327880603026
+      ],
+      "image": "local-south-clear-evening-row.png",
+      "consoleErrors": []
+    },
+    {
+      "scene": "south",
+      "condition": "typhoon",
+      "phase": "evening",
+      "season": "summer",
+      "mix": 1,
+      "view": "terrace",
+      "loaded": true,
+      "antialias": false,
+      "pixels": 1,
+      "texelsPerMetre": 16,
+      "bakedSampling": [
+        {
+          "field": "Baked distant facades",
+          "renderTexelsPerMetre": 16,
+          "originalUvDensity": "variable baked atlas charts; source UV unchanged",
+          "rectangularFaces": 4952,
+          "unsupportedTriangles": 0,
+          "derivedBoundsBytes": 475392,
+          "paddingEdgeFallback": "original UV only when a snapped half-cell centre leaves opaque pigment",
+          "derivativeFallback": "original UV for grazing/degenerate chart derivatives"
+        }
+      ],
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "buffer": [
+        1280,
+        720
+      ],
+      "shadow": false,
+      "shadowUpdates": 32,
+      "light": [
+        19.815091665426724,
+        44.11671652477372,
+        38.795327880603026
+      ],
+      "image": "local-south-typhoon-evening-summer.png",
+      "consoleErrors": []
+    },
+    {
+      "scene": "north",
+      "condition": "typhoon",
+      "phase": "day",
+      "season": "winter",
+      "mix": 1,
+      "view": "terrace",
+      "loaded": true,
+      "antialias": false,
+      "pixels": 1,
+      "texelsPerMetre": 16,
+      "bakedSampling": [
+        {
+          "field": "Baked distant facades",
+          "renderTexelsPerMetre": 16,
+          "originalUvDensity": "variable baked atlas charts; source UV unchanged",
+          "rectangularFaces": 4952,
+          "unsupportedTriangles": 0,
+          "derivedBoundsBytes": 475392,
+          "paddingEdgeFallback": "original UV only when a snapped half-cell centre leaves opaque pigment",
+          "derivativeFallback": "original UV for grazing/degenerate chart derivatives"
+        }
+      ],
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "buffer": [
+        1280,
+        720
+      ],
+      "shadow": false,
+      "shadowUpdates": 33,
+      "light": [
+        0,
+        32.10753723947934,
+        53.0387221981775
+      ],
+      "image": "local-north-typhoon-day-winter.png",
+      "consoleErrors": []
+    },
+    {
+      "scene": "north",
+      "condition": "clear",
+      "phase": "day",
+      "season": "spring",
+      "mix": 1,
+      "view": "terrace",
+      "loaded": true,
+      "antialias": false,
+      "pixels": 1,
+      "texelsPerMetre": 16,
+      "bakedSampling": [
+        {
+          "field": "Baked distant facades",
+          "renderTexelsPerMetre": 16,
+          "originalUvDensity": "variable baked atlas charts; source UV unchanged",
+          "rectangularFaces": 4952,
+          "unsupportedTriangles": 0,
+          "derivedBoundsBytes": 475392,
+          "paddingEdgeFallback": "original UV only when a snapped half-cell centre leaves opaque pigment",
+          "derivativeFallback": "original UV for grazing/degenerate chart derivatives"
+        }
+      ],
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "buffer": [
+        1280,
+        720
+      ],
+      "shadow": true,
+      "shadowUpdates": 53,
+      "light": [
+        0,
+        50.54093442811192,
+        35.91119528967662
+      ],
+      "image": "local-north-clear-day.png",
+      "consoleErrors": []
+    },
+    {
+      "scene": "north",
+      "condition": "rain",
+      "phase": "afternoon",
+      "season": "autumn",
+      "mix": 1,
+      "view": "terrace",
+      "loaded": true,
+      "bakedSampling": [
+        {
+          "field": "Baked distant facades",
+          "renderTexelsPerMetre": 16,
+          "originalUvDensity": "variable baked atlas charts; source UV unchanged",
+          "rectangularFaces": 4952,
+          "unsupportedTriangles": 0,
+          "derivedBoundsBytes": 475392,
+          "paddingEdgeFallback": "original UV only when a snapped half-cell centre leaves opaque pigment",
+          "derivativeFallback": "original UV for grazing/degenerate chart derivatives"
+        }
+      ],
+      "texelsPerMetre": 16,
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "buffer": [
+        406,
+        658
+      ],
+      "image": "local-north-rain-afternoon-autumn-narrow.png",
+      "consoleErrors": []
+    }
+  ],
+  "observedAllViews": [
+    "outlook",
+    "row",
+    "terrace",
+    "bird",
+    "drone",
+    "neighbor"
+  ],
+  "limits": [
+    "Representative scene/weather/time/season samples, not every environmental combination",
+    "Original baked UV remains variable density in source; game resamples physical 16px/m face grid",
+    "Transparent painted fringe and degenerate derivative fallback preserve original UV at the edge",
+    "Furniture viewer framebuffer upscale is independent from physical texture pixel size",
+    "Final captures are only the image filenames listed in samples"
+  ]
+}

@@ -1,0 +1,382 @@
+{
+  "method": "Actual GLB triangle position/UV inverse Jacobian, full hierarchical node world transforms, embedded base-colour image dimensions. Viewer leaves model transforms unchanged and uses metres for dimensions.",
+  "reference": "/Users/d/Documents/GitHub/umwelt/docs/art/rooftop-furniture-01",
+  "declaredCatalogTexelsPerMetre": 16.0,
+  "tolerance": {
+    "densityPxPerMetre": 0.002,
+    "orthogonalityDegrees": 0.02,
+    "note": "Allows Float32 export rounding. Reports raw measured ranges rather than rounding them to 16."
+  },
+  "nativePixelorama": {
+    "pxoSha256": "408d18a3749932333f63e13633bd958e2926ce5e67404c6ff6d0b0a31e452d88",
+    "pngSha256": "3a73cefe8b2c176e21254061eae4c19654ce89451a77abe4c7bda5f9bb40299a",
+    "size": [
+      1024,
+      1024
+    ],
+    "singleLayer": true,
+    "singleFrame": true,
+    "nativeCelEqualsPng": true
+  },
+  "items": [
+    {
+      "item": "iron-3-black",
+      "file": "docs/art/rooftop-furniture-01/preview/assets/iron-3-black.glb",
+      "sha256": "cce30f67fc337999ce067cb13066992b57ba198d6a224032038e9a79aac951ea",
+      "meshNodes": 33,
+      "nonIdentityWorldTransforms": 0,
+      "triangles": 396,
+      "measuredSizesMetresXYZ": [
+        1.0,
+        1.125,
+        0.4375
+      ],
+      "catalogSizesMetresXYZ": [
+        1.0,
+        1.125,
+        0.4375
+      ],
+      "dimensionsMatch": true,
+      "textures": [
+        {
+          "size": [
+            1024,
+            1024
+          ],
+          "sha256": "3a73cefe8b2c176e21254061eae4c19654ce89451a77abe4c7bda5f9bb40299a",
+          "rgbaEqualsNativePng": true
+        },
+        {
+          "size": [
+            1024,
+            1024
+          ],
+          "sha256": "3a73cefe8b2c176e21254061eae4c19654ce89451a77abe4c7bda5f9bb40299a",
+          "rgbaEqualsNativePng": true
+        }
+      ],
+      "metrics": {
+        "densityU": {
+          "min": 15.998807909520332,
+          "median": 16.000013969314118,
+          "max": 16.00038147009036
+        },
+        "densityV": {
+          "min": 15.998807909520332,
+          "median": 16.0,
+          "max": 16.0013907756803
+        },
+        "angleDegrees": {
+          "min": 89.9999929004522,
+          "median": 90.0,
+          "max": 90.0000070995478
+        },
+        "anisotropy": {
+          "min": 1.0,
+          "median": 1.0000405140634936,
+          "max": 1.0000871727701897
+        }
+      },
+      "allSquare16PxPerMetre": true,
+      "outlierTriangles": [],
+      "errors": []
+    },
+    {
+      "item": "iron-3-silver",
+      "file": "docs/art/rooftop-furniture-01/preview/assets/iron-3-silver.glb",
+      "sha256": "0f908ff7b839bbf59b6cf1faccbc171588bf592e523c89c9d9c89dc88fd48439",
+      "meshNodes": 33,
+      "nonIdentityWorldTransforms": 0,
+      "triangles": 396,
+      "measuredSizesMetresXYZ": [
+        1.0,
+        1.125,
+        0.4375
+      ],
+      "catalogSizesMetresXYZ": [
+        1.0,
+        1.125,
+        0.4375
+      ],
+      "dimensionsMatch": true,
+      "textures": [
+        {
+          "size": [
+            1024,
+            1024
+          ],
+          "sha256": "3a73cefe8b2c176e21254061eae4c19654ce89451a77abe4c7bda5f9bb40299a",
+          "rgbaEqualsNativePng": true
+        },
+        {
+          "size": [
+            1024,
+            1024
+          ],
+          "sha256": "3a73cefe8b2c176e21254061eae4c19654ce89451a77abe4c7bda5f9bb40299a",
+          "rgbaEqualsNativePng": true
+        }
+      ],
+      "metrics": {
+        "densityU": {
+          "min": 15.998807909520332,
+          "median": 16.0,
+          "max": 16.00038147009036
+        },
+        "densityV": {
+          "min": 15.998807909520332,
+          "median": 16.0,
+          "max": 16.0013907756803
+        },
+        "angleDegrees": {
+          "min": 89.9999929004522,
+          "median": 90.0,
+          "max": 90.0000070995478
+        },
+        "anisotropy": {
+          "min": 1.0,
+          "median": 1.0000234687743754,
+          "max": 1.0000871727701897
+        }
+      },
+      "allSquare16PxPerMetre": true,
+      "outlierTriangles": [],
+      "errors": []
+    },
+    {
+      "item": "iron-4-black",
+      "file": "docs/art/rooftop-furniture-01/preview/assets/iron-4-black.glb",
+      "sha256": "93c1ead5788ec6aa209ff52df7cf596f7adafaea7a92c910a949b2c3b6a9d396",
+      "meshNodes": 41,
+      "nonIdentityWorldTransforms": 0,
+      "triangles": 492,
+      "measuredSizesMetresXYZ": [
+        1.0,
+        1.5625,
+        0.4375
+      ],
+      "catalogSizesMetresXYZ": [
+        1.0,
+        1.5625,
+        0.4375
+      ],
+      "dimensionsMatch": true,
+      "textures": [
+        {
+          "size": [
+            1024,
+            1024
+          ],
+          "sha256": "3a73cefe8b2c176e21254061eae4c19654ce89451a77abe4c7bda5f9bb40299a",
+          "rgbaEqualsNativePng": true
+        },
+        {
+          "size": [
+            1024,
+            1024
+          ],
+          "sha256": "3a73cefe8b2c176e21254061eae4c19654ce89451a77abe4c7bda5f9bb40299a",
+          "rgbaEqualsNativePng": true
+        }
+      ],
+      "metrics": {
+        "densityU": {
+          "min": 15.998807909520332,
+          "median": 16.0,
+          "max": 16.00038147009036
+        },
+        "densityV": {
+          "min": 15.998807909520332,
+          "median": 16.0,
+          "max": 16.0013907756803
+        },
+        "angleDegrees": {
+          "min": 89.99937785045444,
+          "median": 90.0,
+          "max": 90.00006086875308
+        },
+        "anisotropy": {
+          "min": 1.0,
+          "median": 1.000046566121098,
+          "max": 1.000088597289611
+        }
+      },
+      "allSquare16PxPerMetre": true,
+      "outlierTriangles": [],
+      "errors": []
+    },
+    {
+      "item": "iron-4-silver",
+      "file": "docs/art/rooftop-furniture-01/preview/assets/iron-4-silver.glb",
+      "sha256": "ac2b263456110e2f6b0a38d880846f501e1fcffb76ca20b4d33990b544bdb7d6",
+      "meshNodes": 41,
+      "nonIdentityWorldTransforms": 0,
+      "triangles": 492,
+      "measuredSizesMetresXYZ": [
+        1.0,
+        1.5625,
+        0.4375
+      ],
+      "catalogSizesMetresXYZ": [
+        1.0,
+        1.5625,
+        0.4375
+      ],
+      "dimensionsMatch": true,
+      "textures": [
+        {
+          "size": [
+            1024,
+            1024
+          ],
+          "sha256": "3a73cefe8b2c176e21254061eae4c19654ce89451a77abe4c7bda5f9bb40299a",
+          "rgbaEqualsNativePng": true
+        },
+        {
+          "size": [
+            1024,
+            1024
+          ],
+          "sha256": "3a73cefe8b2c176e21254061eae4c19654ce89451a77abe4c7bda5f9bb40299a",
+          "rgbaEqualsNativePng": true
+        }
+      ],
+      "metrics": {
+        "densityU": {
+          "min": 15.999752044736852,
+          "median": 16.000013969314118,
+          "max": 16.00038147009036
+        },
+        "densityV": {
+          "min": 15.998807909520332,
+          "median": 16.0,
+          "max": 16.0013907756803
+        },
+        "angleDegrees": {
+          "min": 89.99993913124692,
+          "median": 90.0,
+          "max": 90.00006086875308
+        },
+        "anisotropy": {
+          "min": 1.0,
+          "median": 1.0000473112145627,
+          "max": 1.0000870305371934
+        }
+      },
+      "allSquare16PxPerMetre": true,
+      "outlierTriangles": [],
+      "errors": []
+    },
+    {
+      "item": "wood-2",
+      "file": "docs/art/rooftop-furniture-01/preview/assets/wood-2.glb",
+      "sha256": "5f5ff4edadfdb85bdcee738fe1efaa3e4182818cce78f56c2c120493cf4d241b",
+      "meshNodes": 14,
+      "nonIdentityWorldTransforms": 0,
+      "triangles": 168,
+      "measuredSizesMetresXYZ": [
+        0.875,
+        0.75,
+        0.4375
+      ],
+      "catalogSizesMetresXYZ": [
+        0.875,
+        0.75,
+        0.4375
+      ],
+      "dimensionsMatch": true,
+      "textures": [
+        {
+          "size": [
+            1024,
+            1024
+          ],
+          "sha256": "3a73cefe8b2c176e21254061eae4c19654ce89451a77abe4c7bda5f9bb40299a",
+          "rgbaEqualsNativePng": true
+        }
+      ],
+      "metrics": {
+        "densityU": {
+          "min": 15.99985893566212,
+          "median": 16.0,
+          "max": 16.00038147009036
+        },
+        "densityV": {
+          "min": 15.999752044736852,
+          "median": 16.000218048836167,
+          "max": 16.00038147009036
+        },
+        "angleDegrees": {
+          "min": 90.0,
+          "median": 90.0,
+          "max": 90.0
+        },
+        "anisotropy": {
+          "min": 1.0,
+          "median": 1.0000139672631165,
+          "max": 1.0000393396942495
+        }
+      },
+      "allSquare16PxPerMetre": true,
+      "outlierTriangles": [],
+      "errors": []
+    },
+    {
+      "item": "wood-3",
+      "file": "docs/art/rooftop-furniture-01/preview/assets/wood-3.glb",
+      "sha256": "3065f0a1c71d7fc3d98857a8f223b57748b822dd9bc624e30cc32ccd18693a46",
+      "meshNodes": 19,
+      "nonIdentityWorldTransforms": 0,
+      "triangles": 228,
+      "measuredSizesMetresXYZ": [
+        0.875,
+        1.125,
+        0.4375
+      ],
+      "catalogSizesMetresXYZ": [
+        0.875,
+        1.125,
+        0.4375
+      ],
+      "dimensionsMatch": true,
+      "textures": [
+        {
+          "size": [
+            1024,
+            1024
+          ],
+          "sha256": "3a73cefe8b2c176e21254061eae4c19654ce89451a77abe4c7bda5f9bb40299a",
+          "rgbaEqualsNativePng": true
+        }
+      ],
+      "metrics": {
+        "densityU": {
+          "min": 15.999862504237067,
+          "median": 15.999995267124948,
+          "max": 16.00038147009036
+        },
+        "densityV": {
+          "min": 15.999752044736852,
+          "median": 16.000218743268707,
+          "max": 16.00038147009036
+        },
+        "angleDegrees": {
+          "min": 90.0,
+          "median": 90.0,
+          "max": 90.0
+        },
+        "anisotropy": {
+          "min": 1.0000095367371007,
+          "median": 1.0000233926162791,
+          "max": 1.0000393396942495
+        }
+      },
+      "allSquare16PxPerMetre": true,
+      "outlierTriangles": [],
+      "errors": []
+    }
+  ],
+  "allActualReferenceTrianglesSquare16PxPerMetre": true,
+  "totalTriangles": 2172,
+  "allEmbeddedColoursEqualNativePng": true
+}

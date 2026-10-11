@@ -1,0 +1,697 @@
+{
+  "stage": "slightly finer unified screen grain",
+  "targetCssPixelStep": 2.5,
+  "samples": [
+    {
+      "url": "http://127.0.0.1:4173/rooftop/?stage=background&weather=rain&time=afternoon&season=autumn&scene=south&view=neighbor",
+      "viewport": [
+        1280,
+        720
+      ],
+      "dpr": 2,
+      "scene": "south",
+      "reviewView": "neighbor",
+      "raster": {
+        "enabled": true,
+        "pixelRatio": 2,
+        "pixelStep": 5,
+        "cssPixelStep": 2.5,
+        "targetCssPixelStep": 2.5,
+        "sourceBuffer": [
+          512,
+          288
+        ],
+        "outputBuffer": [
+          2560,
+          1440
+        ],
+        "passes": 1,
+        "clippedEdge": "right/bottom incomplete cells",
+        "lens": 0.008
+      },
+      "buffer": [
+        2560,
+        1440
+      ],
+      "loaded": true,
+      "texelsPerMetre": 16,
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "phase": "afternoon",
+      "weather": "rain",
+      "season": "autumn",
+      "light": [
+        24.525842106120837,
+        23.587362288887633,
+        51.82778607309396
+      ],
+      "scopeCanvases": [
+        {
+          "class": "scope-mask",
+          "buffer": [
+            512,
+            288
+          ],
+          "css": [
+            "1280px",
+            "720px"
+          ],
+          "data": {
+            "pixelStep": "2.5",
+            "physicalPixelStep": "5",
+            "pixelRatio": "2",
+            "origin": "0,0"
+          }
+        },
+        {
+          "class": "scope-engraving",
+          "buffer": [
+            512,
+            288
+          ],
+          "css": [
+            "1280px",
+            "720px"
+          ],
+          "data": {
+            "pixelStep": "2.5",
+            "physicalPixelStep": "5",
+            "pixelRatio": "2",
+            "origin": "0,0"
+          }
+        }
+      ],
+      "screenshot": "local-fine-south-rain-neighbor.png",
+      "errors": []
+    },
+    {
+      "url": "http://127.0.0.1:4173/rooftop/?stage=background&weather=rain&time=afternoon&season=autumn&scene=south&view=terrace",
+      "viewport": [
+        1280,
+        720
+      ],
+      "dpr": 2,
+      "scene": "south",
+      "reviewView": "terrace",
+      "raster": {
+        "enabled": true,
+        "pixelRatio": 2,
+        "pixelStep": 5,
+        "cssPixelStep": 2.5,
+        "targetCssPixelStep": 2.5,
+        "sourceBuffer": [
+          512,
+          288
+        ],
+        "outputBuffer": [
+          2560,
+          1440
+        ],
+        "passes": 1,
+        "clippedEdge": "right/bottom incomplete cells",
+        "lens": 0
+      },
+      "buffer": [
+        2560,
+        1440
+      ],
+      "loaded": true,
+      "texelsPerMetre": 16,
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "phase": "afternoon",
+      "weather": "rain",
+      "season": "autumn",
+      "light": [
+        24.525842106120837,
+        23.587362288887633,
+        51.82778607309396
+      ],
+      "scopeCanvases": [
+        {
+          "class": "scope-mask",
+          "buffer": [
+            512,
+            288
+          ],
+          "css": [
+            "1280px",
+            "720px"
+          ],
+          "data": {
+            "pixelStep": "2.5",
+            "physicalPixelStep": "5",
+            "pixelRatio": "2",
+            "origin": "0,0"
+          }
+        },
+        {
+          "class": "scope-engraving",
+          "buffer": [
+            512,
+            288
+          ],
+          "css": [
+            "1280px",
+            "720px"
+          ],
+          "data": {
+            "pixelStep": "2.5",
+            "physicalPixelStep": "5",
+            "pixelRatio": "2",
+            "origin": "0,0"
+          }
+        }
+      ],
+      "screenshot": "local-fine-south-rain.png",
+      "errors": []
+    },
+    {
+      "url": "http://127.0.0.1:4173/rooftop/?stage=background&weather=rain&time=afternoon&season=autumn&scene=south&view=row",
+      "viewport": [
+        1280,
+        720
+      ],
+      "dpr": 2,
+      "scene": "south",
+      "reviewView": "row",
+      "raster": {
+        "enabled": true,
+        "pixelRatio": 2,
+        "pixelStep": 5,
+        "cssPixelStep": 2.5,
+        "targetCssPixelStep": 2.5,
+        "sourceBuffer": [
+          512,
+          288
+        ],
+        "outputBuffer": [
+          2560,
+          1440
+        ],
+        "passes": 1,
+        "clippedEdge": "right/bottom incomplete cells",
+        "lens": 0
+      },
+      "buffer": [
+        2560,
+        1440
+      ],
+      "loaded": true,
+      "texelsPerMetre": 16,
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "phase": "afternoon",
+      "weather": "rain",
+      "season": "autumn",
+      "light": [
+        24.525842106120837,
+        23.587362288887633,
+        51.82778607309396
+      ],
+      "scopeCanvases": [
+        {
+          "class": "scope-mask",
+          "buffer": [
+            512,
+            288
+          ],
+          "css": [
+            "1280px",
+            "720px"
+          ],
+          "data": {
+            "pixelStep": "2.5",
+            "physicalPixelStep": "5",
+            "pixelRatio": "2",
+            "origin": "0,0"
+          }
+        },
+        {
+          "class": "scope-engraving",
+          "buffer": [
+            512,
+            288
+          ],
+          "css": [
+            "1280px",
+            "720px"
+          ],
+          "data": {
+            "pixelStep": "2.5",
+            "physicalPixelStep": "5",
+            "pixelRatio": "2",
+            "origin": "0,0"
+          }
+        }
+      ],
+      "screenshot": "local-fine-south-rain-row.png",
+      "errors": []
+    },
+    {
+      "url": "http://127.0.0.1:4173/rooftop/?stage=background&weather=rain&time=afternoon&season=autumn&scene=south&view=outlook",
+      "viewport": [
+        1280,
+        720
+      ],
+      "dpr": 2,
+      "scene": "south",
+      "reviewView": "outlook",
+      "raster": {
+        "enabled": true,
+        "pixelRatio": 2,
+        "pixelStep": 5,
+        "cssPixelStep": 2.5,
+        "targetCssPixelStep": 2.5,
+        "sourceBuffer": [
+          512,
+          288
+        ],
+        "outputBuffer": [
+          2560,
+          1440
+        ],
+        "passes": 1,
+        "clippedEdge": "right/bottom incomplete cells",
+        "lens": 0
+      },
+      "buffer": [
+        2560,
+        1440
+      ],
+      "loaded": true,
+      "texelsPerMetre": 16,
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "phase": "afternoon",
+      "weather": "rain",
+      "season": "autumn",
+      "light": [
+        24.525842106120837,
+        23.587362288887633,
+        51.82778607309396
+      ],
+      "scopeCanvases": [
+        {
+          "class": "scope-mask",
+          "buffer": [
+            512,
+            288
+          ],
+          "css": [
+            "1280px",
+            "720px"
+          ],
+          "data": {
+            "pixelStep": "2.5",
+            "physicalPixelStep": "5",
+            "pixelRatio": "2",
+            "origin": "0,0"
+          }
+        },
+        {
+          "class": "scope-engraving",
+          "buffer": [
+            512,
+            288
+          ],
+          "css": [
+            "1280px",
+            "720px"
+          ],
+          "data": {
+            "pixelStep": "2.5",
+            "physicalPixelStep": "5",
+            "pixelRatio": "2",
+            "origin": "0,0"
+          }
+        }
+      ],
+      "screenshot": "local-fine-south-rain-outlook.png",
+      "errors": []
+    },
+    {
+      "url": "http://127.0.0.1:4173/rooftop/?stage=background&weather=rain&time=afternoon&season=autumn&scene=south&view=bird",
+      "viewport": [
+        1280,
+        720
+      ],
+      "dpr": 2,
+      "scene": "south",
+      "reviewView": "bird",
+      "raster": {
+        "enabled": true,
+        "pixelRatio": 2,
+        "pixelStep": 5,
+        "cssPixelStep": 2.5,
+        "targetCssPixelStep": 2.5,
+        "sourceBuffer": [
+          512,
+          288
+        ],
+        "outputBuffer": [
+          2560,
+          1440
+        ],
+        "passes": 1,
+        "clippedEdge": "right/bottom incomplete cells",
+        "lens": 0
+      },
+      "buffer": [
+        2560,
+        1440
+      ],
+      "loaded": true,
+      "texelsPerMetre": 16,
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "phase": "afternoon",
+      "weather": "rain",
+      "season": "autumn",
+      "light": [
+        24.525842106120837,
+        23.587362288887633,
+        51.82778607309396
+      ],
+      "scopeCanvases": [
+        {
+          "class": "scope-mask",
+          "buffer": [
+            512,
+            288
+          ],
+          "css": [
+            "1280px",
+            "720px"
+          ],
+          "data": {
+            "pixelStep": "2.5",
+            "physicalPixelStep": "5",
+            "pixelRatio": "2",
+            "origin": "0,0"
+          }
+        },
+        {
+          "class": "scope-engraving",
+          "buffer": [
+            512,
+            288
+          ],
+          "css": [
+            "1280px",
+            "720px"
+          ],
+          "data": {
+            "pixelStep": "2.5",
+            "physicalPixelStep": "5",
+            "pixelRatio": "2",
+            "origin": "0,0"
+          }
+        }
+      ],
+      "screenshot": "local-fine-south-rain-bird.png",
+      "errors": []
+    },
+    {
+      "url": "http://127.0.0.1:4173/rooftop/?stage=background&weather=rain&time=afternoon&season=autumn&scene=south&view=drone",
+      "viewport": [
+        1280,
+        720
+      ],
+      "dpr": 2,
+      "scene": "south",
+      "reviewView": "drone",
+      "raster": {
+        "enabled": true,
+        "pixelRatio": 2,
+        "pixelStep": 5,
+        "cssPixelStep": 2.5,
+        "targetCssPixelStep": 2.5,
+        "sourceBuffer": [
+          512,
+          288
+        ],
+        "outputBuffer": [
+          2560,
+          1440
+        ],
+        "passes": 1,
+        "clippedEdge": "right/bottom incomplete cells",
+        "lens": 0
+      },
+      "buffer": [
+        2560,
+        1440
+      ],
+      "loaded": true,
+      "texelsPerMetre": 16,
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "phase": "afternoon",
+      "weather": "rain",
+      "season": "autumn",
+      "light": [
+        24.525842106120837,
+        23.587362288887633,
+        51.82778607309396
+      ],
+      "scopeCanvases": [
+        {
+          "class": "scope-mask",
+          "buffer": [
+            512,
+            288
+          ],
+          "css": [
+            "1280px",
+            "720px"
+          ],
+          "data": {
+            "pixelStep": "2.5",
+            "physicalPixelStep": "5",
+            "pixelRatio": "2",
+            "origin": "0,0"
+          }
+        },
+        {
+          "class": "scope-engraving",
+          "buffer": [
+            512,
+            288
+          ],
+          "css": [
+            "1280px",
+            "720px"
+          ],
+          "data": {
+            "pixelStep": "2.5",
+            "physicalPixelStep": "5",
+            "pixelRatio": "2",
+            "origin": "0,0"
+          }
+        }
+      ],
+      "screenshot": "local-fine-south-rain-drone.png",
+      "errors": []
+    },
+    {
+      "url": "http://127.0.0.1:4173/rooftop/?stage=background&weather=clear&time=evening&season=autumn&scene=north&view=outlook",
+      "viewport": [
+        1280,
+        720
+      ],
+      "dpr": 2,
+      "scene": "north",
+      "reviewView": "outlook",
+      "raster": {
+        "enabled": true,
+        "pixelRatio": 2,
+        "pixelStep": 5,
+        "cssPixelStep": 2.5,
+        "targetCssPixelStep": 2.5,
+        "sourceBuffer": [
+          512,
+          288
+        ],
+        "outputBuffer": [
+          2560,
+          1440
+        ],
+        "passes": 1,
+        "clippedEdge": "right/bottom incomplete cells",
+        "lens": 0
+      },
+      "buffer": [
+        2560,
+        1440
+      ],
+      "loaded": true,
+      "texelsPerMetre": 16,
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "phase": "evening",
+      "weather": "clear",
+      "season": "autumn",
+      "light": [
+        -51.818112837149194,
+        23.61171614645875,
+        24.52284735946325
+      ],
+      "scopeCanvases": [
+        {
+          "class": "scope-mask",
+          "buffer": [
+            512,
+            288
+          ],
+          "css": [
+            "1280px",
+            "720px"
+          ],
+          "data": {
+            "pixelStep": "2.5",
+            "physicalPixelStep": "5",
+            "pixelRatio": "2",
+            "origin": "0,0"
+          }
+        },
+        {
+          "class": "scope-engraving",
+          "buffer": [
+            512,
+            288
+          ],
+          "css": [
+            "1280px",
+            "720px"
+          ],
+          "data": {
+            "pixelStep": "2.5",
+            "physicalPixelStep": "5",
+            "pixelRatio": "2",
+            "origin": "0,0"
+          }
+        }
+      ],
+      "screenshot": "local-fine-north-night-outlook.png",
+      "errors": []
+    },
+    {
+      "url": "http://127.0.0.1:4173/rooftop/?stage=background&weather=clear&time=afternoon&season=spring&scene=north&view=drone",
+      "viewport": [
+        406,
+        658
+      ],
+      "dpr": 2,
+      "scene": "north",
+      "reviewView": "drone",
+      "raster": {
+        "enabled": true,
+        "pixelRatio": 2,
+        "pixelStep": 5,
+        "cssPixelStep": 2.5,
+        "targetCssPixelStep": 2.5,
+        "sourceBuffer": [
+          163,
+          264
+        ],
+        "outputBuffer": [
+          812,
+          1316
+        ],
+        "passes": 1,
+        "clippedEdge": "right/bottom incomplete cells",
+        "lens": 0
+      },
+      "buffer": [
+        812,
+        1316
+      ],
+      "loaded": true,
+      "texelsPerMetre": 16,
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "phase": "afternoon",
+      "weather": "clear",
+      "season": "spring",
+      "light": [
+        -52.47358993127416,
+        26.919616274748154,
+        19.12737878918065
+      ],
+      "scopeCanvases": [
+        {
+          "class": "scope-mask",
+          "buffer": [
+            300,
+            150
+          ],
+          "css": [
+            "",
+            ""
+          ],
+          "data": {}
+        },
+        {
+          "class": "scope-engraving",
+          "buffer": [
+            300,
+            150
+          ],
+          "css": [
+            "",
+            ""
+          ],
+          "data": {}
+        }
+      ],
+      "screenshot": "local-fine-current-preview.png",
+      "errors": []
+    }
+  ],
+  "savedLayoutUnchanged": true,
+  "room": {
+    "raster": {
+      "enabled": false,
+      "pixelStep": 1
+    },
+    "buffer": [
+      760,
+      570
+    ],
+    "imageRendering": "auto"
+  },
+  "validation": {
+    "tests": 408,
+    "passed": 408,
+    "failed": 0,
+    "structuralChecks": "passed",
+    "log": "final-check.log",
+    "exactPhysicalCells": 158442,
+    "mismatchedCells": 0
+  }
+}

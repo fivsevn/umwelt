@@ -1,0 +1,775 @@
+{
+  "stage": "User accepted before requesting slightly finer grain",
+  "targetCssPixelStep": 3,
+  "samples": [
+    {
+      "url": "http://127.0.0.1:4173/rooftop/?stage=background&weather=clear&time=day&season=spring&scene=north&view=terrace",
+      "viewport": [
+        1280,
+        720
+      ],
+      "dpr": 2,
+      "scene": "north",
+      "view": "terrace",
+      "raster": {
+        "enabled": true,
+        "pixelStep": 3,
+        "sourceBuffer": [
+          427,
+          240
+        ],
+        "outputBuffer": [
+          1280,
+          720
+        ],
+        "passes": 1,
+        "clippedEdge": "right/bottom incomplete cells",
+        "lens": 0
+      },
+      "buffer": [
+        1280,
+        720
+      ],
+      "loaded": true,
+      "pixels": 1,
+      "texelsPerMetre": 16,
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "phase": "day",
+      "weather": "clear",
+      "season": "spring",
+      "shadow": true,
+      "light": [
+        0,
+        50.54093442811192,
+        35.91119528967662
+      ],
+      "name": "north-clear-day",
+      "errors": []
+    },
+    {
+      "url": "http://127.0.0.1:4173/rooftop/?stage=background&weather=clear&time=day&season=spring&scene=north&view=row",
+      "viewport": [
+        1280,
+        720
+      ],
+      "dpr": 2,
+      "scene": "north",
+      "view": "row",
+      "raster": {
+        "enabled": true,
+        "pixelStep": 3,
+        "sourceBuffer": [
+          427,
+          240
+        ],
+        "outputBuffer": [
+          1280,
+          720
+        ],
+        "passes": 1,
+        "clippedEdge": "right/bottom incomplete cells",
+        "lens": 0
+      },
+      "buffer": [
+        1280,
+        720
+      ],
+      "loaded": true,
+      "pixels": 1,
+      "texelsPerMetre": 16,
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "phase": "day",
+      "weather": "clear",
+      "season": "spring",
+      "shadow": true,
+      "light": [
+        0,
+        50.54093442811192,
+        35.91119528967662
+      ],
+      "name": "north-row",
+      "errors": []
+    },
+    {
+      "url": "http://127.0.0.1:4173/rooftop/?stage=background&weather=clear&time=day&season=spring&scene=north&view=outlook",
+      "viewport": [
+        1280,
+        720
+      ],
+      "dpr": 2,
+      "scene": "north",
+      "view": "outlook",
+      "raster": {
+        "enabled": true,
+        "pixelStep": 3,
+        "sourceBuffer": [
+          427,
+          240
+        ],
+        "outputBuffer": [
+          1280,
+          720
+        ],
+        "passes": 1,
+        "clippedEdge": "right/bottom incomplete cells",
+        "lens": 0
+      },
+      "buffer": [
+        1280,
+        720
+      ],
+      "loaded": true,
+      "pixels": 1,
+      "texelsPerMetre": 16,
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "phase": "day",
+      "weather": "clear",
+      "season": "spring",
+      "shadow": true,
+      "light": [
+        0,
+        50.54093442811192,
+        35.91119528967662
+      ],
+      "name": "north-outlook",
+      "errors": []
+    },
+    {
+      "url": "http://127.0.0.1:4173/rooftop/?stage=background&weather=clear&time=day&season=spring&scene=north&view=bird",
+      "viewport": [
+        1280,
+        720
+      ],
+      "dpr": 2,
+      "scene": "north",
+      "view": "bird",
+      "raster": {
+        "enabled": true,
+        "pixelStep": 3,
+        "sourceBuffer": [
+          427,
+          240
+        ],
+        "outputBuffer": [
+          1280,
+          720
+        ],
+        "passes": 1,
+        "clippedEdge": "right/bottom incomplete cells",
+        "lens": 0
+      },
+      "buffer": [
+        1280,
+        720
+      ],
+      "loaded": true,
+      "pixels": 1,
+      "texelsPerMetre": 16,
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "phase": "day",
+      "weather": "clear",
+      "season": "spring",
+      "shadow": true,
+      "light": [
+        0,
+        50.54093442811192,
+        35.91119528967662
+      ],
+      "name": "north-bird",
+      "errors": []
+    },
+    {
+      "url": "http://127.0.0.1:4173/rooftop/?stage=background&weather=clear&time=day&season=spring&scene=north&view=drone",
+      "viewport": [
+        1280,
+        720
+      ],
+      "dpr": 2,
+      "scene": "north",
+      "view": "drone",
+      "raster": {
+        "enabled": true,
+        "pixelStep": 3,
+        "sourceBuffer": [
+          427,
+          240
+        ],
+        "outputBuffer": [
+          1280,
+          720
+        ],
+        "passes": 1,
+        "clippedEdge": "right/bottom incomplete cells",
+        "lens": 0
+      },
+      "buffer": [
+        1280,
+        720
+      ],
+      "loaded": true,
+      "pixels": 1,
+      "texelsPerMetre": 16,
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "phase": "day",
+      "weather": "clear",
+      "season": "spring",
+      "shadow": true,
+      "light": [
+        0,
+        50.54093442811192,
+        35.91119528967662
+      ],
+      "name": "north-drone",
+      "errors": []
+    },
+    {
+      "url": "http://127.0.0.1:4173/rooftop/?stage=background&weather=clear&time=day&season=spring&scene=north&view=neighbor",
+      "viewport": [
+        1280,
+        720
+      ],
+      "dpr": 2,
+      "scene": "north",
+      "view": "neighbor",
+      "raster": {
+        "enabled": true,
+        "pixelStep": 3,
+        "sourceBuffer": [
+          427,
+          240
+        ],
+        "outputBuffer": [
+          1280,
+          720
+        ],
+        "passes": 1,
+        "clippedEdge": "right/bottom incomplete cells",
+        "lens": 0.008
+      },
+      "buffer": [
+        1280,
+        720
+      ],
+      "loaded": true,
+      "pixels": 1,
+      "texelsPerMetre": 16,
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "phase": "day",
+      "weather": "clear",
+      "season": "spring",
+      "shadow": true,
+      "light": [
+        0,
+        50.54093442811192,
+        35.91119528967662
+      ],
+      "name": "north-neighbor",
+      "errors": []
+    },
+    {
+      "url": "http://127.0.0.1:4173/rooftop/?stage=background&weather=clear&time=day&season=spring&scene=south&view=terrace",
+      "viewport": [
+        1280,
+        720
+      ],
+      "dpr": 2,
+      "scene": "south",
+      "view": "terrace",
+      "raster": {
+        "enabled": true,
+        "pixelStep": 3,
+        "sourceBuffer": [
+          427,
+          240
+        ],
+        "outputBuffer": [
+          1280,
+          720
+        ],
+        "passes": 1,
+        "clippedEdge": "right/bottom incomplete cells",
+        "lens": 0
+      },
+      "buffer": [
+        1280,
+        720
+      ],
+      "loaded": true,
+      "pixels": 1,
+      "texelsPerMetre": 16,
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "phase": "day",
+      "weather": "clear",
+      "season": "spring",
+      "shadow": true,
+      "light": [
+        35.91119528967662,
+        50.54093442811192,
+        0
+      ],
+      "name": "south-terrace",
+      "errors": []
+    },
+    {
+      "url": "http://127.0.0.1:4173/rooftop/?stage=background&weather=clear&time=day&season=spring&scene=south&view=row",
+      "viewport": [
+        1280,
+        720
+      ],
+      "dpr": 2,
+      "scene": "south",
+      "view": "row",
+      "raster": {
+        "enabled": true,
+        "pixelStep": 3,
+        "sourceBuffer": [
+          427,
+          240
+        ],
+        "outputBuffer": [
+          1280,
+          720
+        ],
+        "passes": 1,
+        "clippedEdge": "right/bottom incomplete cells",
+        "lens": 0
+      },
+      "buffer": [
+        1280,
+        720
+      ],
+      "loaded": true,
+      "pixels": 1,
+      "texelsPerMetre": 16,
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "phase": "day",
+      "weather": "clear",
+      "season": "spring",
+      "shadow": true,
+      "light": [
+        35.91119528967662,
+        50.54093442811192,
+        0
+      ],
+      "name": "south-row",
+      "errors": []
+    },
+    {
+      "url": "http://127.0.0.1:4173/rooftop/?stage=background&weather=clear&time=day&season=spring&scene=south&view=outlook",
+      "viewport": [
+        1280,
+        720
+      ],
+      "dpr": 2,
+      "scene": "south",
+      "view": "outlook",
+      "raster": {
+        "enabled": true,
+        "pixelStep": 3,
+        "sourceBuffer": [
+          427,
+          240
+        ],
+        "outputBuffer": [
+          1280,
+          720
+        ],
+        "passes": 1,
+        "clippedEdge": "right/bottom incomplete cells",
+        "lens": 0
+      },
+      "buffer": [
+        1280,
+        720
+      ],
+      "loaded": true,
+      "pixels": 1,
+      "texelsPerMetre": 16,
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "phase": "day",
+      "weather": "clear",
+      "season": "spring",
+      "shadow": true,
+      "light": [
+        35.91119528967662,
+        50.54093442811192,
+        0
+      ],
+      "name": "south-outlook",
+      "errors": []
+    },
+    {
+      "url": "http://127.0.0.1:4173/rooftop/?stage=background&weather=clear&time=day&season=spring&scene=south&view=bird",
+      "viewport": [
+        1280,
+        720
+      ],
+      "dpr": 2,
+      "scene": "south",
+      "view": "bird",
+      "raster": {
+        "enabled": true,
+        "pixelStep": 3,
+        "sourceBuffer": [
+          427,
+          240
+        ],
+        "outputBuffer": [
+          1280,
+          720
+        ],
+        "passes": 1,
+        "clippedEdge": "right/bottom incomplete cells",
+        "lens": 0
+      },
+      "buffer": [
+        1280,
+        720
+      ],
+      "loaded": true,
+      "pixels": 1,
+      "texelsPerMetre": 16,
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "phase": "day",
+      "weather": "clear",
+      "season": "spring",
+      "shadow": true,
+      "light": [
+        35.91119528967662,
+        50.54093442811192,
+        0
+      ],
+      "name": "south-bird",
+      "errors": []
+    },
+    {
+      "url": "http://127.0.0.1:4173/rooftop/?stage=background&weather=clear&time=day&season=spring&scene=south&view=drone",
+      "viewport": [
+        1280,
+        720
+      ],
+      "dpr": 2,
+      "scene": "south",
+      "view": "drone",
+      "raster": {
+        "enabled": true,
+        "pixelStep": 3,
+        "sourceBuffer": [
+          427,
+          240
+        ],
+        "outputBuffer": [
+          1280,
+          720
+        ],
+        "passes": 1,
+        "clippedEdge": "right/bottom incomplete cells",
+        "lens": 0
+      },
+      "buffer": [
+        1280,
+        720
+      ],
+      "loaded": true,
+      "pixels": 1,
+      "texelsPerMetre": 16,
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "phase": "day",
+      "weather": "clear",
+      "season": "spring",
+      "shadow": true,
+      "light": [
+        35.91119528967662,
+        50.54093442811192,
+        0
+      ],
+      "name": "south-drone",
+      "errors": []
+    },
+    {
+      "url": "http://127.0.0.1:4173/rooftop/?stage=background&weather=clear&time=day&season=spring&scene=south&view=neighbor",
+      "viewport": [
+        1280,
+        720
+      ],
+      "dpr": 2,
+      "scene": "south",
+      "view": "neighbor",
+      "raster": {
+        "enabled": true,
+        "pixelStep": 3,
+        "sourceBuffer": [
+          427,
+          240
+        ],
+        "outputBuffer": [
+          1280,
+          720
+        ],
+        "passes": 1,
+        "clippedEdge": "right/bottom incomplete cells",
+        "lens": 0.008
+      },
+      "buffer": [
+        1280,
+        720
+      ],
+      "loaded": true,
+      "pixels": 1,
+      "texelsPerMetre": 16,
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "phase": "day",
+      "weather": "clear",
+      "season": "spring",
+      "shadow": true,
+      "light": [
+        35.91119528967662,
+        50.54093442811192,
+        0
+      ],
+      "name": "south-neighbor",
+      "errors": []
+    },
+    {
+      "url": "http://127.0.0.1:4173/rooftop/?stage=background&weather=rain&time=afternoon&season=autumn&scene=north&view=terrace",
+      "viewport": [
+        1280,
+        720
+      ],
+      "dpr": 2,
+      "scene": "north",
+      "view": "terrace",
+      "raster": {
+        "enabled": true,
+        "pixelStep": 3,
+        "sourceBuffer": [
+          427,
+          240
+        ],
+        "outputBuffer": [
+          1280,
+          720
+        ],
+        "passes": 1,
+        "clippedEdge": "right/bottom incomplete cells",
+        "lens": 0
+      },
+      "buffer": [
+        1280,
+        720
+      ],
+      "loaded": true,
+      "pixels": 1,
+      "texelsPerMetre": 16,
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "phase": "afternoon",
+      "weather": "rain",
+      "season": "autumn",
+      "shadow": false,
+      "light": [
+        -51.82778607309396,
+        23.587362288887633,
+        24.525842106120837
+      ],
+      "name": "north-rain-afternoon",
+      "errors": []
+    },
+    {
+      "url": "http://127.0.0.1:4173/rooftop/?stage=background&weather=rain&time=evening&season=winter&scene=north&view=outlook",
+      "viewport": [
+        1280,
+        720
+      ],
+      "dpr": 2,
+      "scene": "north",
+      "view": "outlook",
+      "raster": {
+        "enabled": true,
+        "pixelStep": 3,
+        "sourceBuffer": [
+          427,
+          240
+        ],
+        "outputBuffer": [
+          1280,
+          720
+        ],
+        "passes": 1,
+        "clippedEdge": "right/bottom incomplete cells",
+        "lens": 0
+      },
+      "buffer": [
+        1280,
+        720
+      ],
+      "loaded": true,
+      "pixels": 1,
+      "texelsPerMetre": 16,
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "phase": "evening",
+      "weather": "rain",
+      "season": "winter",
+      "shadow": false,
+      "light": [
+        -38.795327880603026,
+        44.11671652477372,
+        19.815091665426724
+      ],
+      "name": "north-rain-night",
+      "errors": []
+    },
+    {
+      "url": "http://127.0.0.1:4173/rooftop/?stage=background&weather=typhoon&time=morning&season=summer&scene=south&view=drone",
+      "viewport": [
+        1280,
+        720
+      ],
+      "dpr": 2,
+      "scene": "south",
+      "view": "drone",
+      "raster": {
+        "enabled": true,
+        "pixelStep": 3,
+        "sourceBuffer": [
+          427,
+          240
+        ],
+        "outputBuffer": [
+          1280,
+          720
+        ],
+        "passes": 1,
+        "clippedEdge": "right/bottom incomplete cells",
+        "lens": 0
+      },
+      "buffer": [
+        1280,
+        720
+      ],
+      "loaded": true,
+      "pixels": 1,
+      "texelsPerMetre": 16,
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "phase": "morning",
+      "weather": "typhoon",
+      "season": "summer",
+      "shadow": false,
+      "light": [
+        1.486711634325017,
+        35.25789251808908,
+        -50.97715864678259
+      ],
+      "name": "south-typhoon-morning",
+      "errors": []
+    },
+    {
+      "url": "http://127.0.0.1:4173/rooftop/?stage=background&weather=clear&time=morning&season=summer&scene=north&view=terrace",
+      "viewport": [
+        406,
+        658
+      ],
+      "dpr": 2,
+      "scene": "north",
+      "view": "terrace",
+      "raster": {
+        "enabled": true,
+        "pixelStep": 3,
+        "sourceBuffer": [
+          136,
+          220
+        ],
+        "outputBuffer": [
+          406,
+          658
+        ],
+        "passes": 1,
+        "clippedEdge": "right/bottom incomplete cells",
+        "lens": 0
+      },
+      "buffer": [
+        406,
+        658
+      ],
+      "loaded": true,
+      "pixels": 1,
+      "texelsPerMetre": 16,
+      "objects": 0,
+      "actors": {
+        "person": false,
+        "pig": false
+      },
+      "phase": "morning",
+      "weather": "clear",
+      "season": "summer",
+      "shadow": true,
+      "light": [
+        50.97715864678259,
+        35.257892518089086,
+        1.4867116343250173
+      ],
+      "name": "current-local-preview",
+      "errors": []
+    }
+  ],
+  "omittedCaptures": "Explicit DPR1 viewport override CUA screenshots were visually checked, but raw CDP PNG extents were cropped; omitted from exact pixel proof."
+}

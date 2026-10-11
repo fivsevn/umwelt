@@ -17,7 +17,7 @@ const base = process.env.BASE_URL || "http://127.0.0.1:8773",
     });
     await p.goto(base + "/rooftop/arrange/");
     await p.waitForFunction(() => window.rooftop);
-    assert.equal(await p.locator("#weatherSelect option").count(), 10);
+    assert.equal(await p.locator("#weatherSelect option").count(), 9);
     assert.equal(await p.locator("#timeSelect option").count(), 8);
     await p.locator("#person").uncheck();
     const original = await p.evaluate(() => rooftop.layout);
@@ -83,7 +83,7 @@ const base = process.env.BASE_URL || "http://127.0.0.1:8773",
         potStable: true,
       };
     });
-    assert.equal(raster.combinations, 63);
+    assert.equal(raster.combinations, 56);
     const materials = await p.evaluate(async () => {
       const { paintLighting, paintWetRoof, weatherProfile } = await import(
         "/rooftop/weather.mjs"
@@ -131,7 +131,6 @@ const base = process.env.BASE_URL || "http://127.0.0.1:8773",
     );
     for (const weather of [
       "clear",
-      "cloudy",
       "overcast",
       "rain",
       "heavy",
@@ -207,7 +206,7 @@ const base = process.env.BASE_URL || "http://127.0.0.1:8773",
     await p.waitForFunction(() => window.rooftop);
     assert.equal(
       (await p.evaluate(() => rooftop.weather)).choices.condition,
-      "cloudy",
+      "overcast",
     );
     assert.equal(await p.locator("#weatherSelect").count(), 0);
     await p.locator("#sceneCard").click();
@@ -231,7 +230,7 @@ const base = process.env.BASE_URL || "http://127.0.0.1:8773",
         passed: true,
         ...raster,
         checks:
-          "9 weather choices, 7 time phases, gradual transition, fixed pots, persisted garage choices, independent random public weather, both balconies, mobile, reduced motion and live preference change",
+          "8 weather choices, 7 time phases, gradual transition, fixed pots, persisted garage choices, independent random public weather, both balconies, mobile, reduced motion and live preference change",
       }),
     );
   } finally {

@@ -2,7 +2,9 @@ import { HOUSE, housePoint, houseOccludes } from "../house-structure.mjs";
 import { loadArchitecturalShell } from "./architectural-shell.mjs";
 import { BACKGROUND } from "../assets/background/empty-rooftop.mjs";
 import { readScopeOptics, createScopeSurfaceCache } from "./scope-reading.mjs";
-import { createScopeLensPass, lensWarpNdc, lensUnwarpNdc } from "./lens-pass.mjs";
+import { lensUnwarpNdc } from "./lens-pass.mjs";
+import { createOutdoorRasterPass, outdoorSampleNdc, rasterCellCentre } from "./outdoor-raster.mjs";
+import { resolvePixelGrid, pixelGridSize } from "./pixel-grid.mjs";
 import { projectVisibleDoor } from "./door-projection.mjs";
 import {
   narrativePreset,
@@ -24,7 +26,7 @@ import {
   constrainTerracePan,
 } from "./terrace-view.mjs";
 import { weatherAction } from "../resident-weather.mjs";
-import { createAtmosphere } from "./atmosphere.mjs";
+import { createAtmosphere, invalidateShadowsAfterLoad } from "./atmosphere.mjs";
 import { outdoorPaintKind } from "./weathering.mjs";
 import { surfaceSeed } from "./surface-variation.mjs";
 import { soilSurface } from "./soil-surface.mjs";
@@ -95,7 +97,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   }
   const renderer = new T.WebGLRenderer({
     canvas,
-    antialias: true,
+    antialias: false,
     alpha: true,
     powerPreference: "default",
   });
@@ -109,10 +111,12 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   renderer.outputColorSpace = T.SRGBColorSpace;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.autoUpdate = false;
-  // Filter the light's edge while keeping the authored atlas nearest-sampled.
-  renderer.shadowMap.type = T.PCFSoftShadowMap;
+  // Match the furniture study's unfiltered low-poly shadow edge.
+  renderer.shadowMap.type = T.BasicShadowMap;
   renderer.setClearColor("#bdc2c5");
-  const scopeLens = createScopeLensPass(T, renderer);
+  const outdoorRaster = createOutdoorRasterPass(T, renderer);
+  let outdoorGrid = resolvePixelGrid(window.devicePixelRatio), airScopeEllipse = null;
+  window.addEventListener("pagehide", event => { if (!event.persisted) outdoorRaster.dispose(); });
   const scene = new T.Scene(),
     camera =
       controls === "pan"
@@ -957,6 +961,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   const groundY = HOUSE.base,
     windowMats = [];
   const architecturalShell = loadArchitecturalShell(T, city);
+  invalidateShadowsAfterLoad(renderer, architecturalShell.ready);
   const neighborhood = { source: "Blender", row: true, gameRange: true };
   if (!editable && options.scene !== "room") {
     build("north");
@@ -1073,15 +1078,22 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     positionDoor();
   }
   function resize() {
-    // Geometry is rasterized at the CSS display size with MSAA. Pixel size belongs
-    // to the nearest-filtered face drawing, not an enlarged coarse framebuffer.
     const w = canvas.clientWidth || innerWidth,
       h = canvas.clientHeight || innerHeight;
-    const [bufferW, bufferH] = drawingBufferSize(
-      w / PIXEL_STYLE.renderScale,
-      h / PIXEL_STYLE.renderScale,
-      software,
-    );
+    // Same fixed circular opening as .neighbor-scope. Cache at resize instead
+    // of measuring DOM layout separately for every particle or every frame.
+    const scopeDiameter = Math.min(innerWidth * .88, (window.visualViewport?.height || innerHeight) * .82);
+    airScopeEllipse = [scopeDiameter / w, scopeDiameter / h];
+    // Retina CSS presentation must preserve the already rasterized square
+    // cells rather than interpolate their edges into smaller colour fragments.
+    canvas.style.imageRendering = current === "room" ? "auto" : "pixelated";
+    outdoorGrid = resolvePixelGrid(window.devicePixelRatio);
+    canvas.dataset.pixelRatio = String(current === "room" ? 1 : outdoorGrid.pixelRatio);
+    canvas.dataset.physicalPixelStep = String(current === "room" ? 1 : outdoorGrid.pixelStep);
+    // The world remains a cheap low target. The final pass uses the actual DPR
+    // so each square cell is an integer number of device pixels at every density.
+    const [bufferW, bufferH] = current !== "room" ? pixelGridSize(w, h, outdoorGrid).output :
+      drawingBufferSize(w / PIXEL_STYLE.renderScale, h / PIXEL_STYLE.renderScale, software);
     renderer.setSize(bufferW, bufferH, false);
     if (narrativeActive()) {
       storyFrame = narrativeFrame(storyPreset(), w, h);
@@ -1605,7 +1617,12 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     doorProgress += (Number(doorOpen) - doorProgress) * Math.min(1, dt * 12);
     doors[current].hinge.rotation.y = -doorProgress * 0.58;
     updateActor(pig, person, present, time, a);
-    const weatherMotion = atmosphereFx.update(current, a, time, reduced);
+    // Only the three actual game observers need complete air coverage.
+    // Local inspection views retain their small terrace field and its budget.
+    const weatherMotion = atmosphereFx.update(current, a, time, reduced,
+      narrativeActive() ? camera : null,
+      { targetDistance: camera.position.distanceTo(target),
+        ndcEllipse: narrativeActive() && narrativeView === "neighbor" ? airScopeEllipse : null });
     for (const motion of objectMotion) {
       if (motion.kind === "spin")
         motion.angle =
@@ -1648,7 +1665,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       selectionBox.updateMatrixWorld(true);
     }
     selectionKey = key;
-    if (narrativeActive() && narrativeView === "neighbor") scopeLens.render(scene, camera, canvas.width, canvas.height);
+    if (current !== "room") outdoorRaster.render(scene, camera, canvas.width, canvas.height, narrativeActive() && narrativeView === "neighbor", outdoorGrid);
     else renderer.render(scene, camera);
     if (gl.fenceSync) {
       pendingGPU = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
@@ -1666,8 +1683,9 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   function scopeReading() {
     if (!narrativeActive() || narrativeView !== "neighbor") return null;
     const now = performance.now(),
-      key = current + ":" + camera.position.toArray().join(",") + ":" + camera.quaternion.toArray().join(",") + ":" + layoutRevision + ":" + architecturalShell.stats.loaded;
+      key = current + ":" + camera.position.toArray().join(",") + ":" + camera.quaternion.toArray().join(",") + ":" + camera.projectionMatrix.elements.join(",") + ":" + canvas.clientWidth + ":" + canvas.clientHeight + ":" + outdoorGrid.pixelRatio + ":" + outdoorGrid.pixelStep + ":" + layoutRevision + ":" + architecturalShell.stats.loaded;
     const sample = scopeSurfaceCache.read(key, now, () => {
+      scopeCentre.set(...outdoorSampleNdc([canvas.clientWidth / 2, canvas.clientHeight / 2], canvas.clientWidth, canvas.clientHeight, true, outdoorGrid));
       scopeRaycaster.near = camera.near; scopeRaycaster.far = camera.far;
       scopeRaycaster.setFromCamera(scopeCentre, camera);
       const livingMeshes = [];
@@ -1700,7 +1718,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   let wardrobeKey = JSON.stringify(wardrobe),
     lastSize = "";
   function resizeIfNeeded() {
-    const key = canvas.clientWidth + ":" + canvas.clientHeight + ":" + current;
+    const key = canvas.clientWidth + ":" + canvas.clientHeight + ":" + current + ":" + window.devicePixelRatio;
     if (lastSize !== key) {
       lastSize = key;
       resize();
@@ -1708,14 +1726,9 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   }
   function ray(x, y) {
     const rect = canvas.getBoundingClientRect();
-    ndc.set(
-      ((x - rect.left) / rect.width) * 2 - 1,
-      1 - ((y - rect.top) / rect.height) * 2,
-    );
-    if (narrativeActive() && narrativeView === "neighbor") {
-      const point = lensWarpNdc([ndc.x, ndc.y], rect.width / rect.height);
-      ndc.set(...point);
-    }
+    if (current !== "room")
+      ndc.set(...outdoorSampleNdc([x - rect.left, y - rect.top], rect.width, rect.height, narrativeActive() && narrativeView === "neighbor", outdoorGrid));
+    else ndc.set(((x - rect.left) / rect.width) * 2 - 1, 1 - ((y - rect.top) / rect.height) * 2);
     raycaster.setFromCamera(ndc, camera);
   }
   function pointAtHeight(x, y, height = 0) {
@@ -1869,13 +1882,13 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     const b = new T.Box3().setFromObject(root),
       v = b.getCenter(new T.Vector3()).project(camera);
     if (narrativeActive() && narrativeView === "neighbor") {
-      const point = lensUnwarpNdc([v.x, v.y], rect.width / rect.height);
+      const point = lensUnwarpNdc([v.x, v.y], canvas.width / canvas.height);
       v.x = point[0]; v.y = point[1];
     }
-    return {
-      clientX: rect.left + (v.x * 0.5 + 0.5) * rect.width,
-      clientY: rect.top + (0.5 - v.y * 0.5) * rect.height,
-    };
+    const point = [(v.x * .5 + .5) * rect.width, (.5 - v.y * .5) * rect.height],
+      presented = current === "room" ? point : rasterCellCentre(point, outdoorGrid, rect.width, rect.height);
+    return { clientX: rect.left + (current === "room" ? presented[0] : Math.min(rect.width - .5, presented[0])),
+      clientY: rect.top + (current === "room" ? presented[1] : Math.min(rect.height - .5, presented[1])) };
   }
   function updateWardrobe() {
     const key = JSON.stringify(wardrobe);
@@ -2182,7 +2195,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         freeCameraPose: freeCamera ? { eye: freeEye.toArray(), target: freeEye.clone().addScaledVector(freeDirection(), freeDistance).toArray() } : null,
         cameraPreset: narrativeActive() ? { ...storyPreset(), frame: { ...storyFrame }, pose: narrativePose(storyPreset(), { ...view, station }, target.toArray()) } : null,
         stationTravel: narrativeActive() ? { current: { ...station }, wanted: { ...wantedStation }, limits: { ...storyPreset().station } } : null,
-        scopeLens: narrativeActive() && narrativeView === "neighbor" ? scopeLens.stats : null,
+        scopeLens: narrativeActive() && narrativeView === "neighbor" ? outdoorRaster.lensStats : null,
+        raster: current !== "room" ? { enabled: true, ...outdoorRaster.stats } : { enabled: false, pixelStep: 1 },
         programs: renderer.info.programs?.length || 0,
         selectedModel: options.selected?.() || null,
         wardrobe: { ...wardrobe },

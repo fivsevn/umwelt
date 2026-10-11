@@ -1,0 +1,34 @@
+{
+  "nativePixeloramaMainSavedAndReopened": true,
+  "nativePixeloramaFarSavedAndReopened": true,
+  "nativeBlenderSavedExportedAndReopened": true,
+  "original01SourcesPreserved": true,
+  "original07NativePreserved": true,
+  "allSourceVerticesNormalsUvsTransformsMaterialsCamerasAndLightsExactlyPreserved": true,
+  "alsoExactlyMatchesOriginal07": true,
+  "mainDimensions": [
+    1024,
+    1024
+  ],
+  "farDimensions": [
+    2048,
+    2048
+  ],
+  "mainChangedPixelsFrom01": 187645,
+  "farChangedPixelsFrom01": 1642106,
+  "mainNativePencilStrokes": 176,
+  "farNativePencilStrokes": 64,
+  "farRgbColors": 37,
+  "alphaPaddingAndErasedSignsPreserved": true,
+  "lightMaskByteIdentical": true,
+  "texelsPerMetre": 16,
+  "runtimeParts": 398,
+  "runtimePartsSha256": "9d32a33f8951f9bcb48a81c0ff9e67ee19b912b4e8488aeb27daf996af0450f8",
+  "runtimeBinarySha256": "34b25d9ae868821494638a6b0f0519f95f5179ade24019cc46d52cf8dd410e92",
+  "nativeBlendSha256": "558adbeca1bc48366d7850bdcc99adfa23d14f77bccd7ab782754064a1f8c60a",
+  "mainPngSha256": "66c0c3c1200187a1a19236854c18b9c172312a7be5e34321011361755fb9f20f",
+  "farPngSha256": "ae8d09242ba8dcfad0aad36f690c0631b75681f523f3ae46df1b8050686d1d88",
+  "runtimeSource": "docs/art/rooftop-lowpoly-02/game-environment.blend",
+  "warnings": "Pixelorama headless Godot Dummy renderer shader and exit-resource warnings recorded in native logs. Independent source reopen and byte checks passed. Blender operations completed successfully; inspect logs for diagnostics.",
+  "released": false
+}

@@ -1,0 +1,18 @@
+{
+  "nativeSoftware": "Pixelorama",
+  "nativePxoReopened": true,
+  "nativeCelEqualsPngAndReopenedPng": true,
+  "dimensions": [
+    2048,
+    2048
+  ],
+  "nativePencilStrokes": 64,
+  "pencilBrush": 1,
+  "rgbColorCountExcludingTransparent": 37,
+  "alphaCoverageExactlyPreserved": true,
+  "transparentPaddingExactlyPreserved": true,
+  "lightMaskBytesExactlyPreserved": true,
+  "changedPixels": 1642106,
+  "pxoSha256": "4dbde4573f279f7bd2a5999a64fc08d1069da5c7263f784d6c561cd0043ba4dc",
+  "pngSha256": "ae8d09242ba8dcfad0aad36f690c0631b75681f523f3ae46df1b8050686d1d88"
+}

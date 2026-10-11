@@ -1,0 +1,90 @@
+{
+  "nativeProtectedFiles": 16,
+  "nativeFilesChanged": {},
+  "nativeAssetsUnchanged": true,
+  "originalViewer": "f03cea565a24169d600081c4bad948b391586f0cb497558c3c3686482dc61bca",
+  "originalViewerBackup": "f03cea565a24169d600081c4bad948b391586f0cb497558c3c3686482dc61bca",
+  "finalViewer": "fa65ad3fe93fd5f04309636a743bc49fbbff585aa11c715a193674625d574ddc",
+  "canonicalHelper": "9e72606e3abff836b0a9c2bf5ed428490d92c0d788b6bd7e79670ffcb52e8542",
+  "previewHelper": "9e72606e3abff836b0a9c2bf5ed428490d92c0d788b6bd7e79670ffcb52e8542",
+  "sameHelperBytes": true,
+  "detailTargetCssPixelStep": 2.5,
+  "detailDpr2PhysicalPixelStep": 5,
+  "cardsNativeHeight": 128,
+  "camera": {
+    "worldHeight": 2.4,
+    "target": [
+      0,
+      0.82,
+      0
+    ],
+    "poseLimitsAndControls": "unchanged",
+    "padding": "right/bottom only; projection restored after source pass",
+    "logicalAspect": "unchanged clientWidth/clientHeight; only presentation buffer uses fractional CSS rect"
+  },
+  "browserReview": {
+    "status": "passed",
+    "normalViewport": [
+      406,
+      658
+    ],
+    "devicePixelRatio": 2,
+    "physicalPixelStep": 5,
+    "cssPixelStep": 2.5,
+    "sourceBuffer": [
+      154,
+      153
+    ],
+    "outputBuffer": [
+      768,
+      763
+    ],
+    "models": [
+      "wood-2",
+      "iron-4-silver"
+    ],
+    "screenshotProof": "furniture-browser-review.json",
+    "exactScreenshotChecks": "exact-screen-grain-check.json",
+    "consoleErrors": 0
+  },
+  "dynamicDpr": "resize plus one-shot resolution media query; re-register on DPR-only display changes",
+  "unchangedFunctions": {
+    "dimensions": true,
+    "positionCamera": true,
+    "syncDetailState": true,
+    "prepareModel": true,
+    "attachModel": true,
+    "setOverview": true,
+    "showDetail": true,
+    "navigateDetail": true,
+    "changeZoom": true,
+    "resetDetail": true,
+    "connectRotation": true,
+    "createCard": true
+  },
+  "sceneLightAndGroundSetupUnchanged": true,
+  "cardDirectRenderPreserved": true,
+  "helperDprChecks": [
+    {
+      "dpr": 1,
+      "step": 3,
+      "cssStep": 3
+    },
+    {
+      "dpr": 1.25,
+      "step": 3,
+      "cssStep": 2.4
+    },
+    {
+      "dpr": 2,
+      "step": 5,
+      "cssStep": 2.5
+    },
+    {
+      "dpr": 3,
+      "step": 8,
+      "cssStep": 2.6666666666666665
+    }
+  ],
+  "syntaxCheck": "pass: bundled Node --check viewer.mjs"
+}

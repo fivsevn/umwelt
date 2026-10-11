@@ -1,0 +1,203 @@
+{
+  "wood": {
+    "url": "http://127.0.0.1:4186/",
+    "viewport": [
+      406,
+      658
+    ],
+    "dpr": 2,
+    "selected": "wood-2",
+    "view": {
+      "azimuth": 0.6126105674500096,
+      "worldHeight": 2.4,
+      "target": [
+        0,
+        0.82,
+        0
+      ],
+      "detail": {
+        "azimuth": 0.6126105674500096,
+        "elevation": 0.4398229715025711,
+        "zoom": 1
+      }
+    },
+    "pixelDensity": 16,
+    "renderer": [
+      {
+        "item": "iron-3-black",
+        "isDetail": false,
+        "nativeWidth": 100,
+        "nativeHeight": 128,
+        "pixelRatio": 1,
+        "triangles": 398,
+        "drawCalls": 34,
+        "geometries": 34,
+        "textures": 2,
+        "raster": null
+      },
+      {
+        "item": "iron-3-silver",
+        "isDetail": false,
+        "nativeWidth": 100,
+        "nativeHeight": 128,
+        "pixelRatio": 1,
+        "triangles": 398,
+        "drawCalls": 34,
+        "geometries": 34,
+        "textures": 2,
+        "raster": null
+      },
+      {
+        "item": "iron-4-black",
+        "isDetail": false,
+        "nativeWidth": 100,
+        "nativeHeight": 128,
+        "pixelRatio": 1,
+        "triangles": 494,
+        "drawCalls": 42,
+        "geometries": 42,
+        "textures": 2,
+        "raster": null
+      },
+      {
+        "item": "iron-4-silver",
+        "isDetail": false,
+        "nativeWidth": 100,
+        "nativeHeight": 128,
+        "pixelRatio": 1,
+        "triangles": 494,
+        "drawCalls": 42,
+        "geometries": 42,
+        "textures": 2,
+        "raster": null
+      },
+      {
+        "item": "wood-2",
+        "isDetail": false,
+        "nativeWidth": 100,
+        "nativeHeight": 128,
+        "pixelRatio": 1,
+        "triangles": 170,
+        "drawCalls": 15,
+        "geometries": 15,
+        "textures": 2,
+        "raster": null
+      },
+      {
+        "item": "wood-3",
+        "isDetail": false,
+        "nativeWidth": 100,
+        "nativeHeight": 128,
+        "pixelRatio": 1,
+        "triangles": 230,
+        "drawCalls": 20,
+        "geometries": 20,
+        "textures": 2,
+        "raster": null
+      },
+      {
+        "item": "wood-2",
+        "isDetail": true,
+        "nativeWidth": 768,
+        "nativeHeight": 763,
+        "pixelRatio": 1,
+        "triangles": 340,
+        "drawCalls": 30,
+        "geometries": 16,
+        "textures": 3,
+        "raster": {
+          "output": [
+            768,
+            763
+          ],
+          "source": [
+            154,
+            153
+          ],
+          "padded": [
+            770,
+            765
+          ],
+          "pixelRatio": 2,
+          "pixelStep": 5,
+          "cssPixelStep": 2.5,
+          "targetCssPixelStep": 2.5,
+          "sourceBuffer": [
+            154,
+            153
+          ],
+          "outputBuffer": [
+            768,
+            763
+          ],
+          "clippedEdge": "right/bottom incomplete cells",
+          "passes": 1
+        }
+      }
+    ],
+    "detailCanvas": {
+      "x": 3.5,
+      "y": 133.5,
+      "width": 384,
+      "height": 381.5,
+      "top": 133.5,
+      "right": 387.5,
+      "bottom": 515,
+      "left": 3.5
+    }
+  },
+  "errors": [],
+  "iron": {
+    "selected": "iron-4-silver",
+    "detail": {
+      "item": "iron-4-silver",
+      "isDetail": true,
+      "nativeWidth": 768,
+      "nativeHeight": 763,
+      "pixelRatio": 1,
+      "triangles": 988,
+      "drawCalls": 84,
+      "geometries": 57,
+      "textures": 4,
+      "raster": {
+        "output": [
+          768,
+          763
+        ],
+        "source": [
+          154,
+          153
+        ],
+        "padded": [
+          770,
+          765
+        ],
+        "pixelRatio": 2,
+        "pixelStep": 5,
+        "cssPixelStep": 2.5,
+        "targetCssPixelStep": 2.5,
+        "sourceBuffer": [
+          154,
+          153
+        ],
+        "outputBuffer": [
+          768,
+          763
+        ],
+        "clippedEdge": "right/bottom incomplete cells",
+        "passes": 1
+      }
+    },
+    "pixelDensity": 16,
+    "canvas": {
+      "x": 3.5,
+      "y": 133.5,
+      "width": 384,
+      "height": 381.5,
+      "top": 133.5,
+      "right": 387.5,
+      "bottom": 515,
+      "left": 3.5
+    }
+  }
+}

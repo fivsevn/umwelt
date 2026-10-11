@@ -1,0 +1,255 @@
+{
+  "software": "Blender",
+  "version": "4.5.14 LTS",
+  "sourceRevision": "rooftop-weathering-07",
+  "sourceSha256": "05212c8afc174b5e47283e415b6112e583969bb57d55293ea31b57ea5d81b538",
+  "savedSource": "game-environment.blend",
+  "geometryBefore": {
+    "sha256": "5fdc08c33a7536f30fc8b819c85aea19c1314af37bd3d6a099e390b0d37645e5",
+    "meshDataBlocks": 7133,
+    "vertices": 62786,
+    "polygons": 41914
+  },
+  "geometryAfter": {
+    "sha256": "5fdc08c33a7536f30fc8b819c85aea19c1314af37bd3d6a099e390b0d37645e5",
+    "meshDataBlocks": 7133,
+    "vertices": 62786,
+    "polygons": 41914
+  },
+  "allRenderedGeometryPreserved": true,
+  "allObjectTransformsPreserved": true,
+  "allNormalsExactlyPreserved": true,
+  "normalsSha256": "bf7d5d4ee6ddc851615dc9823136161307394be61763328eb9c9078680ea2bd6",
+  "allUvsExactlyPreserved": true,
+  "uvSha256": "6e6286cc0699439aac2e3b1ed763e03f4faaeb59984a947b5513182f61503299",
+  "materialAssignmentsSha256": "5499ce2e1a8335a1671843c1b34dc670de46f4eb7b44fa4a708efd79658a62b8",
+  "materialsCamerasLightsAndColorManagementPreserved": true,
+  "texelsPerMetre": 16,
+  "packedPixeloramaPngMatches": true,
+  "pixeloramaPngSha256": "4b0c586e4f15b5645ffc2c54dc52ad90b2133ad66ee586139155140b0aac95fb",
+  "distantWindowMaskExactlyPreserved": true,
+  "distanceImageHashesBefore": {
+    "distance-facades.png": "f9c8ec3c4c8d32b58431bc1f6a2bcd437ec52a078523dac1e2e85e176e60d2bd",
+    "distance-lights.png": "551611d005a3f40c9fa09e15979cfead5d4848f27967153d8094b091c65c2b60"
+  },
+  "distanceImageHashesAfter": {
+    "distance-facades.png": "c414ee98a02aa66b906d17b19aa1916760e73fa39619737e3c5b22d7ed2f5043",
+    "distance-lights.png": "551611d005a3f40c9fa09e15979cfead5d4848f27967153d8094b091c65c2b60"
+  },
+  "packedPixeloramaFarPngMatches": true,
+  "pixeloramaFarPngSha256": "c414ee98a02aa66b906d17b19aa1916760e73fa39619737e3c5b22d7ed2f5043",
+  "farAtlasScope": {
+    "dimensions": [
+      2048,
+      2048
+    ],
+    "changedPixelsTotal": 1406174,
+    "alphaExactlyPreserved": true
+  },
+  "atlasScope": {
+    "allowedRects": {
+      "north-floor": [
+        512,
+        0,
+        128,
+        256
+      ],
+      "south-floor": [
+        640,
+        0,
+        128,
+        128
+      ],
+      "north-plaster": [
+        0,
+        512,
+        768,
+        64
+      ],
+      "stained-plaster": [
+        0,
+        576,
+        768,
+        64
+      ],
+      "cap": [
+        768,
+        128,
+        256,
+        64
+      ],
+      "cement": [
+        768,
+        192,
+        256,
+        64
+      ],
+      "metal": [
+        768,
+        0,
+        256,
+        64
+      ],
+      "rust-iron": [
+        768,
+        64,
+        256,
+        64
+      ],
+      "home-roof-north": [
+        0,
+        640,
+        704,
+        128
+      ],
+      "home-roof-south": [
+        0,
+        768,
+        704,
+        128
+      ],
+      "roof": [
+        0,
+        896,
+        704,
+        128
+      ],
+      "foliage": [
+        320,
+        384,
+        64,
+        64
+      ],
+      "ground": [
+        384,
+        384,
+        128,
+        128
+      ],
+      "road": [
+        128,
+        384,
+        128,
+        128
+      ],
+      "awning": [
+        256,
+        384,
+        64,
+        64
+      ],
+      "garage-door": [
+        448,
+        0,
+        64,
+        64
+      ],
+      "facade": [
+        768,
+        256,
+        256,
+        256
+      ],
+      "tower-trim": [
+        256,
+        448,
+        64,
+        64
+      ],
+      "paving": [
+        480,
+        176,
+        32,
+        32
+      ],
+      "blue-glass": [
+        288,
+        320,
+        32,
+        32
+      ],
+      "red-roof": [
+        384,
+        208,
+        128,
+        48
+      ],
+      "dark-glass": [
+        288,
+        352,
+        32,
+        32
+      ],
+      "glass": [
+        288,
+        256,
+        32,
+        32
+      ],
+      "car-ivory": [
+        256,
+        176,
+        32,
+        32
+      ],
+      "car-silver": [
+        288,
+        176,
+        32,
+        32
+      ],
+      "taillamp": [
+        448,
+        176,
+        32,
+        32
+      ],
+      "headlamp": [
+        416,
+        176,
+        32,
+        32
+      ],
+      "tire": [
+        384,
+        176,
+        32,
+        32
+      ]
+    },
+    "changedRegionPixels": {
+      "north-floor": 32768,
+      "south-floor": 16384,
+      "north-plaster": 49152,
+      "stained-plaster": 49152,
+      "cap": 16384,
+      "cement": 16384,
+      "metal": 246,
+      "rust-iron": 310,
+      "home-roof-north": 56027,
+      "home-roof-south": 56576,
+      "roof": 64790,
+      "foliage": 484,
+      "ground": 481,
+      "road": 207,
+      "awning": 1792,
+      "garage-door": 2729,
+      "facade": 4280,
+      "tower-trim": 125,
+      "paving": 0,
+      "blue-glass": 192,
+      "red-roof": 4608,
+      "dark-glass": 128,
+      "glass": 192,
+      "car-ivory": 22,
+      "car-silver": 26,
+      "taillamp": 0,
+      "headlamp": 0,
+      "tire": 0
+    },
+    "changedPixelsTotal": 373439,
+    "nonEditedPixelsExactlyPreserved": true,
+    "alphaExactlyPreserved": true,
+    "nonEditedFloatRgbaSha256": "712faad1d2482637fc7d06b5760d99747e50f2149feee43e4e9683d741ed8508"
+  }
+}

@@ -1,0 +1,173 @@
+{
+  "url": "http://127.0.0.1:4173/rooftop/?stage=background&weather=clear&time=dusk&season=summer&scene=north&view=drone",
+  "viewport": [
+    406,
+    658
+  ],
+  "dpr": 2,
+  "camera": {
+    "id": "drone",
+    "scene": "north",
+    "span": 11.214104312826068,
+    "minSpan": 11.214104312826068,
+    "maxSpan": 11.214104312826068,
+    "overviewWidth": 15.980098645777145,
+    "yaw": 0.15,
+    "pitch": 0.08,
+    "travel": 0,
+    "station": {
+      "walk": 0,
+      "height": 2.25,
+      "heightMin": -2.75,
+      "dolly": 4.582158706046302,
+      "dollyMin": 0
+    },
+    "eye": [
+      5.730418254117132,
+      10.185871659274401,
+      -16.91505953279829
+    ],
+    "target": [
+      0.9888763353084746,
+      0.4845046136253277,
+      -2.9724913957751387
+    ],
+    "nearEye": [
+      4.4457313087451755,
+      7.6208540250916945,
+      -13.342043664359059
+    ],
+    "nearTarget": [
+      1.593392938621363,
+      -0.4838285655536021,
+      -3.520557996517132
+    ],
+    "frame": {
+      "span": 25.89878056384572,
+      "width": 15.980098645777145,
+      "shiftY": 0,
+      "zoom": {
+        "min": 1,
+        "max": 1
+      }
+    },
+    "pose": {
+      "eye": [
+        5.730418254117132,
+        10.185871659274401,
+        -16.91505953279829
+      ],
+      "target": [
+        3.012351025571926,
+        1.5351129781744621,
+        -1.7899005795759688
+      ],
+      "distance": 17.635020515376745,
+      "yaw": -0.17780721609298336,
+      "pitch": -0.5127142512273433
+    }
+  },
+  "view": "drone",
+  "atmosphere": {
+    "mood": {
+      "fogNear": 180,
+      "fogFar": 6000,
+      "fogColor": "#c1b1ad",
+      "cloudColor": "#c5bab4",
+      "rainColor": "#b7b9be",
+      "snowColor": "#dce0df",
+      "sunset": 0.6122909177011602,
+      "skySun": 0.7464788732394367,
+      "cloudCover": 0.2,
+      "stars": 0,
+      "afterRain": 0.014452351021039046,
+      "waterColor": "#bfb0ae",
+      "cloudShadow": 0.011346478873239441,
+      "snowCover": 0,
+      "lightEnergy": 3.141592653589793,
+      "ambientEnergy": 0.4,
+      "directEnergy": 1.06
+    },
+    "seasonal": {
+      "season": "summer",
+      "count": 20,
+      "effects": [
+        {
+          "season": "summer",
+          "effect": "蚊虫",
+          "count": 20,
+          "strength": 0.6625000000000001,
+          "brightness": 0.7325
+        }
+      ],
+      "afterRain": 0.014452351021039046,
+      "sample": [
+        [
+          -8.016416549682617,
+          1.4934306144714355,
+          -3.198720693588257,
+          -2.75243878364563,
+          1.9141042232513428,
+          0.012614952400326729
+        ]
+      ]
+    },
+    "phase": "dusk",
+    "condition": "clear",
+    "light": [
+      -60.199294879066805,
+      6.2493908206311914,
+      -13.453252782660819
+    ],
+    "ambient": 1.2566370614359172,
+    "direct": 3.330088212805181,
+    "moon": 0,
+    "shadow": true,
+    "rain": 0,
+    "wind": 0.3451025545118349,
+    "flash": 0,
+    "wetness": 0.014452351021039046,
+    "impacts": [
+      [
+        270.6303505701944,
+        367.373368547298,
+        0.4412927288639139
+      ]
+    ],
+    "impactCount": 0,
+    "surfaceField": {
+      "pixelMetres": 0.0625,
+      "pixelMetric": [
+        4.332059842782431,
+        7.421400023388629
+      ],
+      "basinSeed": [
+        7.13,
+        19.71
+      ],
+      "pattern": "warped-local-basins"
+    },
+    "surfaceState": "dry",
+    "shadowUpdates": 942
+  },
+  "raster": {
+    "enabled": true,
+    "pixelRatio": 2,
+    "pixelStep": 5,
+    "cssPixelStep": 2.5,
+    "targetCssPixelStep": 2.5,
+    "sourceBuffer": [
+      163,
+      264
+    ],
+    "outputBuffer": [
+      812,
+      1316
+    ],
+    "passes": 1,
+    "clippedEdge": "right/bottom incomplete cells",
+    "lens": 0
+  },
+  "background": true,
+  "objects": 0
+}

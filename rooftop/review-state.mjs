@@ -1,4 +1,5 @@
 import { NARRATIVE_VIEWS } from "./3d/story-camera.mjs";
+import { canonicalWeatherCondition } from "./weather-condition.mjs";
 
 export const REVIEW_VIEWS = Object.freeze([
   { id: "terrace", label: "天台" },
@@ -29,7 +30,8 @@ export function reviewURL(address, choices = {}) {
   url.searchParams.set("scene", choices.scene || state.scene);
   url.searchParams.set("view", choices.view || state.view);
   for (const [key, parameter] of [["condition", "weather"], ["phase", "time"], ["season", "season"]]) {
-    if (choices[key]) url.searchParams.set(parameter, choices[key]);
+    const value = choices[key] || url.searchParams.get(parameter);
+    if (value) url.searchParams.set(parameter, key === "condition" ? canonicalWeatherCondition(value) : value);
   }
   return url;
 }

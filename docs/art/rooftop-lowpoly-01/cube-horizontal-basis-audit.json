@@ -1,0 +1,41 @@
+{
+  "method": "Actual runtime cube normals and complete direct/assembly instance matrices; inverse-transpose then divide physical metre scale, as cubeChart shader. Count includes each unique cube face normal once per instance, not triangles.",
+  "actualBoxInstances": 32272,
+  "actualBoxFaces": 193632,
+  "uniqueCubeNormals": [
+    [
+      -1.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      -1.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      -0.9999999403953552
+    ],
+    [
+      0.0,
+      0.0,
+      0.9999999403953552
+    ],
+    [
+      0.0,
+      1.0,
+      0.0
+    ],
+    [
+      1.0,
+      0.0,
+      0.0
+    ]
+  ],
+  "nearHorizontalNonLevelFaces": 0,
+  "largestTiltDegrees": 0,
+  "fields": [],
+  "maxExamplesByField": []
+}

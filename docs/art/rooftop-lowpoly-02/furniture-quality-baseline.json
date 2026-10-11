@@ -1,0 +1,25 @@
+{
+  "created": "2026-10-11T18:09:35.638981+00:00",
+  "scope": "Detail presentation only; keep accepted native artwork, authored geometry/UV/transforms, 16px/m, card native128, lighting, camera pose, interactions",
+  "serverRoot": "/Users/d/Documents/GitHub/umwelt/docs/art/rooftop-furniture-01/preview",
+  "startingViewer": "f03cea565a24169d600081c4bad948b391586f0cb497558c3c3686482dc61bca",
+  "startingViewerCopy": "docs/art/rooftop-lowpoly-02/before-furniture-quality-viewer.mjs",
+  "protectedFiles": {
+    "docs/art/rooftop-furniture-01/rack-atlas.pxo": "408d18a3749932333f63e13633bd958e2926ce5e67404c6ff6d0b0a31e452d88",
+    "docs/art/rooftop-furniture-01/rack-atlas.png": "3a73cefe8b2c176e21254061eae4c19654ce89451a77abe4c7bda5f9bb40299a",
+    "docs/art/rooftop-furniture-01/six-racks.blend": "f396dfa943034eff06d094979e2c29447ead84e94ba4b1e7cc20de123f48670f",
+    "docs/art/rooftop-furniture-01/texture-layout.json": "7ecf2e32454bd1a52fd15306debb1dc37ed004407a347708bf161f3209691422",
+    "docs/art/rooftop-furniture-01/author-textures.py": "102931b9ada4cde47bf6b214afb99c9340d6f53d016c3c966d8eb2f8211c5d0c",
+    "docs/art/rooftop-furniture-01/build-racks.py": "d26ce38c563570fe5d20f4500a4c7b27d05c4592e9b9da7d3e33e7cc60d85c93",
+    "docs/art/rooftop-furniture-01/preview/assets/catalog.json": "1c8d2984ebf75c088ebaadcba7ef82f7c129d790335f1c700b4b28154144c1d8",
+    "docs/art/rooftop-furniture-01/preview/assets/rack-atlas.png": "3a73cefe8b2c176e21254061eae4c19654ce89451a77abe4c7bda5f9bb40299a",
+    "docs/art/rooftop-furniture-01/preview/style.css": "fcf2c4b940a4e1e41ff45034bfbd7d2078638995d7b63ca7fb89efe0a569babb",
+    "docs/art/rooftop-furniture-01/preview/index.html": "d3a669e6afc6521155f1d9c9bf7813f85ce2d512ff0d2a3cdf8843ceeb0e7b83",
+    "docs/art/rooftop-furniture-01/preview/assets/iron-3-black.glb": "cce30f67fc337999ce067cb13066992b57ba198d6a224032038e9a79aac951ea",
+    "docs/art/rooftop-furniture-01/preview/assets/iron-3-silver.glb": "0f908ff7b839bbf59b6cf1faccbc171588bf592e523c89c9d9c89dc88fd48439",
+    "docs/art/rooftop-furniture-01/preview/assets/iron-4-black.glb": "93c1ead5788ec6aa209ff52df7cf596f7adafaea7a92c910a949b2c3b6a9d396",
+    "docs/art/rooftop-furniture-01/preview/assets/iron-4-silver.glb": "ac2b263456110e2f6b0a38d880846f501e1fcffb76ca20b4d33990b544bdb7d6",
+    "docs/art/rooftop-furniture-01/preview/assets/wood-2.glb": "5f5ff4edadfdb85bdcee738fe1efaa3e4182818cce78f56c2c120493cf4d241b",
+    "docs/art/rooftop-furniture-01/preview/assets/wood-3.glb": "3065f0a1c71d7fc3d98857a8f223b57748b822dd9bc624e30cc32ccd18693a46"
+  }
+}

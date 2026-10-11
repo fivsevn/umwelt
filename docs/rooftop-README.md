@@ -1,13 +1,15 @@
 # 花农时代文档入口
 
-2026-10-11：当前版本完成空天台材料、天气光影与综合测试入口的整理，本轮发布范围与核验结果见[发布记录](art/rooftop-review-01/README.md)。下一步重新制作家具，本轮保留现有家具及其存档。
+2026-10-12：当前建筑原稿为[粗粝低模第二轮](art/rooftop-lowpoly-02/README.md)。继续保留完整 Blender 模型和统一 Pixelorama 材料格，最终画面共用约 2.5 CSS 像素的低采样呈现。本轮范围是实际游戏三视角的空气覆盖与多云／阴天合并，不修改家具；发布与线上核验结果见[本轮记录](art/rooftop-air-coverage-01/README.md)。[第一轮](art/rooftop-lowpoly-01/README.md)保留供回溯。
+
+2026-10-11 已发布版完成空天台材料、天气光影与综合测试入口的整理；上线范围与核验结果见[发布记录](art/rooftop-review-01/README.md)。已有家具及其存档继续保留。
 
 ## 页面
 
 | 入口 | 用途 |
 | --- | --- |
 | [游戏](https://umwelt.fivsevn.com/rooftop/) | 北天台、南阳台观察；公开南北场景空开场，使用小鸟、无人机、邻居三个视角 |
-| [永久空场景综合测试](https://umwelt.fivsevn.com/rooftop/?stage=background) | 同一页切换南北、六个视角、9 种天气、7 个时段与四季；不放物品、不显示角色 |
+| [永久空场景综合测试](https://umwelt.fivsevn.com/rooftop/?stage=background) | 同一页切换南北、六个视角、8 种天气、7 个时段与四季；不放物品、不显示角色 |
 | [车库／物品页面](https://umwelt.fivsevn.com/rooftop/arrange/) | 查看和编辑物品、已有本机布局与室内陈列；无存档时南北阳台为空 |
 | [东东的房间](https://umwelt.fivsevn.com/rooftop/room/) | 房间、换装与活动 |
 
@@ -23,14 +25,25 @@
 
 存档继续使用 `umwelt-rooftop-layout-v1`，布局版本 2、房间版本 2、空间版本 1。公开空开场及测试页的清空只作用于观察用布局，不能写回车库存档。综合测试即使收到旧 `layout=local` 参数也保持为空；物品操作在车库中进行。
 
+## 后续更新与美术原则
+
+从已保存的完整 Blender 模型继续制作，保留有依据的器形、厚度、背面、底面、开孔和真实承放结构。Pixelorama 负责原生像素贴图，最小像素格在实际长度换算后保持一致。家具不为获得粗糙画面而额外删减结构；只有明确的造型任务才修改几何。
+
+粗粝感由共用的最终低采样呈现控制：目标 2.5 CSS 像素，按设备像素比取整为完整方格。原稿细节、贴图密度和屏幕颗粒分别核对，不能将低分辨率预览当成原稿质量标准。保存原稿、导出资源、游戏内接入和最终发布产物均须核验；完整规则见[像素制作管线](rooftop-pixel-style.md)。本轮保留所有家具源文件与游戏物品。
+
+天气当前为晴朗、阴天、小雨、大雨、有风、雷雨、台风、薄雾，统一 ID 为 `overcast` 的阴天接收旧 `cloudy` 链接与存储选择。空气和降水覆盖按小鸟、无人机、邻居的实际世界视野检查，粒子保持世界位置、远近层次与运动连续性；邻居只检查有效镜片区域。天台、楼排、远处用于建筑材料审核，不为这些额外测试镜头铺满粒子，不新增贴在屏幕上的全覆盖效果层。
+
 ## 原稿与运行资源
 
 | 范围 | 原稿与说明 | 运行接入 |
 | --- | --- | --- |
-| 当前建筑、地坪、墙面与屋顶材料 | [第 07 轮材料制作](art/rooftop-weathering-07/README.md)，[Pixelorama 原稿](art/rooftop-weathering-07/terrace-book.pxo)，[Blender 原稿](art/rooftop-weathering-07/game-environment.blend) | `rooftop/assets/background/empty-rooftop.mjs`、`.bin` 与 `terrace-book.png`，由 `3d/architectural-shell.mjs` 读取 |
+| 当前建筑、地坪、墙面、屋顶与远景材料 | [粗粝低模第二轮](art/rooftop-lowpoly-02/README.md)，[主图 Pixelorama 原稿](art/rooftop-lowpoly-02/terrace-book.pxo)，[远景 Pixelorama 原稿](art/rooftop-lowpoly-02/distance-facades.pxo)，[Blender 原稿](art/rooftop-lowpoly-02/game-environment.blend) | `rooftop/assets/background/empty-rooftop.mjs`、`.bin`、`terrace-book.png` 与 `distance-facades.png`，由 `3d/architectural-shell.mjs` 读取 |
+| 2026-10-11 建筑基线 | [第 07 轮材料制作](art/rooftop-weathering-07/README.md)及其 PXO／Blend | 2026-10-11 发布记录；保留原稿供回溯 |
 | 现有物品、人物与室内共享材料 | [全游戏原稿和制作记录](art/rooftop-game/README.md)，[Pixelorama 材质书](art/rooftop-game/material-book.pxo)，[Blender 目录库](art/rooftop-game/game-assets.blend) | `rooftop/assets/pixel/material-book.png` 与 `3d/` 中的共享物品构造；保存 Blender 手改后须另行导出接入 |
 
 建筑近景按实际米制保持 16 像素／米；旧物品与室内管线使用 8 像素／游戏世界单位。两者的坐标换算不同，不能把一个数字直接套到全部资产。新画面继续使用真实 Pixelorama／Blender 原稿，保持最小像素格一致，原稿、导出与游戏内效果分别核对。
+
+家具独立预览的六款模型已实测为正方 16 像素／米，与建筑近景一致；当前远景也按同一物理格取样，原烘焙 UV 保留。家具近看最初的 128 像素高画面显示约 382 CSS 像素，作为粗粝版约 3 CSS 像素颗粒的对照；两边共用 `pixel-grid.mjs` 的约 2.5 CSS 像素目标，按真实设备像素比取完整的正方像素块。卡片缩略图保留原绘制方式，家具近看与场景同步。本轮不将这些物件接入游戏。
 
 ## 制作参考
 
@@ -38,9 +51,9 @@
 - [四季、光照与天气制作](art/rooftop-atmosphere-01/README.md)：参考作品、色温、太阳、雾和环境动态。
 - [器物、材质与空间资料](rooftop-art-sources.md)：器物和家具的来源依据；开头的全游戏实现记录属于其制作阶段。
 - [植物与容器手帐资料](rooftop-notebook.md)：名称、学名、养护和来源。
-- [原生像素物品管线](rooftop-pixel-style.md)：现有物品原稿、方格和构造记录；建筑材料以第 07 轮管线为准。
+- [原生像素物品管线](rooftop-pixel-style.md)：现有物品原稿、方格和构造记录；当前建筑原稿为粗粝低模第二轮，第 07 轮保留作历史对照。
 
 ## 历史记录
 
-[历史维护索引](reference/README.md)保留早期场景、目录扩容与维护快照。[旧绘制方向](rooftop-art-direction.md)、[二维物件四面记录](rooftop-object-views.md)、[早期 3D 资产记录](rooftop-3d-assets.md)、[像素样板](art/rooftop-pixel-01/README.md)和[旧材质制作代码](art/rooftop-legacy-materials/README.md)用于追溯，不作为当前镜头或发布规格。`art/rooftop-weathering-02` 至 `-06` 保留材料迭代过程，当前原稿入口为 `-07`。
+[历史维护索引](reference/README.md)保留早期场景、目录扩容与维护快照。[旧绘制方向](rooftop-art-direction.md)、[二维物件四面记录](rooftop-object-views.md)、[早期 3D 资产记录](rooftop-3d-assets.md)、[像素样板](art/rooftop-pixel-01/README.md)和[旧材质制作代码](art/rooftop-legacy-materials/README.md)用于追溯，不作为当前镜头或发布规格。`art/rooftop-weathering-02` 至 `-07` 保留材料迭代过程；后续修订使用独立原稿目录。
 

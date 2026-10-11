@@ -1,0 +1,1382 @@
+{
+  "assessment": {
+    "allStrictTriangleOutliersHaveNativeSquare16Polygon": true,
+    "largestStableDensityError": 3.0506318672962607e-05,
+    "largestStableAngleError": 0.0002629571215919668,
+    "maxUvFitResidualPixels": 0.0022185173293109983,
+    "runtimeRemapRecommended": false,
+    "reason": "All 57 strict per-triangle flags recover the same 16px/m orthogonal native polygon chart. High triangle density/angle deviations are skinny-triangle Float32 conditioning; direct source-UV preservation is appropriate."
+  },
+  "method": "Trace exact exporter segment/object ordering; every strict runtime outlier remeasured with original native polygon, full matrix multiplication in float64. Least-squares inverse of projected physical polygon->raw UV mapping suppresses skinny-triangle inverse-Jacobian conditioning.",
+  "count": 57,
+  "triangles": [
+    {
+      "field": "roof",
+      "layer": "far",
+      "triangleIndex": 72,
+      "object": "City volume 0026 roof 000052",
+      "sourcePolygon": 0,
+      "polygonVertices": 7,
+      "singularValuesMetres": [
+        47.701714569057565,
+        9.82746228382417,
+        2.37414089716797e-16
+      ],
+      "wholePolygonDensity": [
+        15.9999826595485,
+        16.000004907375775
+      ],
+      "wholePolygonAngle": 89.99998735582109,
+      "maxUvFitResidualPixels": 0.00026762318702822085,
+      "nativeTriangleMetricDoublePositionDensity": [
+        16.002009053933502,
+        16.000009843178674
+      ],
+      "nativeTriangleAngleDoublePosition": 90.00029167115822
+    },
+    {
+      "field": "roof",
+      "layer": "far",
+      "triangleIndex": 87,
+      "object": "City volume 0031 roof 000062",
+      "sourcePolygon": 0,
+      "polygonVertices": 6,
+      "singularValuesMetres": [
+        17.711167467094423,
+        9.531224481699295,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        16.000000753882777,
+        15.999969493681327
+      ],
+      "wholePolygonAngle": 89.99998978434913,
+      "maxUvFitResidualPixels": 0.0008476195398543496,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.949879865884393,
+        16.00003716158078
+      ],
+      "nativeTriangleAngleDoublePosition": 90.00145877409652
+    },
+    {
+      "field": "roof",
+      "layer": "far",
+      "triangleIndex": 571,
+      "object": "City volume 0184 roof 000368",
+      "sourcePolygon": 0,
+      "polygonVertices": 5,
+      "singularValuesMetres": [
+        19.189795608799447,
+        17.154808503425063,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        16.000029630866045,
+        16.00000306506812
+      ],
+      "wholePolygonAngle": 89.99989856317028,
+      "maxUvFitResidualPixels": 0.00036295644349593204,
+      "nativeTriangleMetricDoublePositionDensity": [
+        16.968126888760494,
+        16.034737805291577
+      ],
+      "nativeTriangleAngleDoublePosition": 87.86068757706244
+    },
+    {
+      "field": "roof",
+      "layer": "far",
+      "triangleIndex": 584,
+      "object": "City volume 0189 roof 000378",
+      "sourcePolygon": 0,
+      "polygonVertices": 7,
+      "singularValuesMetres": [
+        47.809119678702366,
+        36.05758529750694,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        16.00000320287756,
+        15.999982257563435
+      ],
+      "wholePolygonAngle": 90.00002740439362,
+      "maxUvFitResidualPixels": 0.0003376958193257451,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.991224378605336,
+        15.939367088718033
+      ],
+      "nativeTriangleAngleDoublePosition": 89.53298850874663
+    },
+    {
+      "field": "roof",
+      "layer": "far",
+      "triangleIndex": 876,
+      "object": "City volume 0285 roof 000570",
+      "sourcePolygon": 0,
+      "polygonVertices": 6,
+      "singularValuesMetres": [
+        28.674749468155564,
+        21.607918981801216,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        15.999995151387656,
+        16.000001181836637
+      ],
+      "wholePolygonAngle": 89.9999982738206,
+      "maxUvFitResidualPixels": 0.000971448786003748,
+      "nativeTriangleMetricDoublePositionDensity": [
+        16.00096923053537,
+        15.954082514784174
+      ],
+      "nativeTriangleAngleDoublePosition": 96.72095600655153
+    },
+    {
+      "field": "roof",
+      "layer": "far",
+      "triangleIndex": 1007,
+      "object": "City volume 0343 roof 000686",
+      "sourcePolygon": 0,
+      "polygonVertices": 19,
+      "singularValuesMetres": [
+        76.90017159809965,
+        38.63049242415436,
+        7.742959950613e-15
+      ],
+      "wholePolygonDensity": [
+        15.999992971555784,
+        15.999996728170535
+      ],
+      "wholePolygonAngle": 89.99998658805669,
+      "maxUvFitResidualPixels": 0.0009588343964423984,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.784937315734584,
+        16.03158204756246
+      ],
+      "nativeTriangleAngleDoublePosition": 89.93780639185533
+    },
+    {
+      "field": "roof",
+      "layer": "far",
+      "triangleIndex": 1014,
+      "object": "City volume 0343 roof 000686",
+      "sourcePolygon": 0,
+      "polygonVertices": 19,
+      "singularValuesMetres": [
+        76.90017159809965,
+        38.63049242415436,
+        7.742959950613e-15
+      ],
+      "wholePolygonDensity": [
+        15.999992971555784,
+        15.999996728170535
+      ],
+      "wholePolygonAngle": 89.99998658805669,
+      "maxUvFitResidualPixels": 0.0009588343964423984,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.997964162443957,
+        16.00004090691618
+      ],
+      "nativeTriangleAngleDoublePosition": 89.99602174321586
+    },
+    {
+      "field": "roof",
+      "layer": "far",
+      "triangleIndex": 1047,
+      "object": "City volume 0351 roof 000702",
+      "sourcePolygon": 0,
+      "polygonVertices": 10,
+      "singularValuesMetres": [
+        56.444623774371045,
+        17.04178376889054,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        15.999998169107748,
+        15.999987750804527
+      ],
+      "wholePolygonAngle": 90.00003412767559,
+      "maxUvFitResidualPixels": 0.0008426992317254189,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.999847075565517,
+        15.997571730309195
+      ],
+      "nativeTriangleAngleDoublePosition": 89.99439294722258
+    },
+    {
+      "field": "roof",
+      "layer": "far",
+      "triangleIndex": 1064,
+      "object": "City volume 0355 roof 000710",
+      "sourcePolygon": 0,
+      "polygonVertices": 7,
+      "singularValuesMetres": [
+        51.26967843655998,
+        29.937378491750415,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        16.000001446571815,
+        15.99999359118347
+      ],
+      "wholePolygonAngle": 90.00007127603239,
+      "maxUvFitResidualPixels": 0.0003196573452441953,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.899711047536922,
+        15.999494987231754
+      ],
+      "nativeTriangleAngleDoublePosition": 89.5517390251513
+    },
+    {
+      "field": "roof",
+      "layer": "far",
+      "triangleIndex": 1169,
+      "object": "City volume 0378 roof 000756",
+      "sourcePolygon": 0,
+      "polygonVertices": 12,
+      "singularValuesMetres": [
+        66.0485234944859,
+        22.408545918790686,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        16.000000213167695,
+        16.000002030916626
+      ],
+      "wholePolygonAngle": 89.99997894772206,
+      "maxUvFitResidualPixels": 0.00020363853582239244,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.984507540072025,
+        15.989778694166272
+      ],
+      "nativeTriangleAngleDoublePosition": 90.13518549620582
+    },
+    {
+      "field": "roof",
+      "layer": "far",
+      "triangleIndex": 1170,
+      "object": "City volume 0378 roof 000756",
+      "sourcePolygon": 0,
+      "polygonVertices": 12,
+      "singularValuesMetres": [
+        66.0485234944859,
+        22.408545918790686,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        16.000000213167695,
+        16.000002030916626
+      ],
+      "wholePolygonAngle": 89.99997894772206,
+      "maxUvFitResidualPixels": 0.00020363853582239244,
+      "nativeTriangleMetricDoublePositionDensity": [
+        16.006047021908735,
+        15.995150903559946
+      ],
+      "nativeTriangleAngleDoublePosition": 89.91170381211151
+    },
+    {
+      "field": "roof",
+      "layer": "far",
+      "triangleIndex": 1204,
+      "object": "City volume 0388 roof 000776",
+      "sourcePolygon": 0,
+      "polygonVertices": 13,
+      "singularValuesMetres": [
+        85.73288183113225,
+        23.079079883397323,
+        1.6011864169946878e-15
+      ],
+      "wholePolygonDensity": [
+        15.999998970820284,
+        16.000000811081495
+      ],
+      "wholePolygonAngle": 89.99999513142662,
+      "maxUvFitResidualPixels": 7.887056835897965e-05,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.999901717242523,
+        16.00829184123534
+      ],
+      "nativeTriangleAngleDoublePosition": 89.97478773584264
+    },
+    {
+      "field": "roof",
+      "layer": "far",
+      "triangleIndex": 1246,
+      "object": "City volume 0393 roof 000786",
+      "sourcePolygon": 0,
+      "polygonVertices": 12,
+      "singularValuesMetres": [
+        84.42733431460815,
+        22.863214918602647,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        15.999999628459824,
+        15.999995819446431
+      ],
+      "wholePolygonAngle": 90.0000212717817,
+      "maxUvFitResidualPixels": 7.039103684292058e-05,
+      "nativeTriangleMetricDoublePositionDensity": [
+        16.000033573769418,
+        15.994367598191463
+      ],
+      "nativeTriangleAngleDoublePosition": 90.00895715757572
+    },
+    {
+      "field": "roof",
+      "layer": "far",
+      "triangleIndex": 1299,
+      "object": "City volume 0408 roof 000816",
+      "sourcePolygon": 0,
+      "polygonVertices": 10,
+      "singularValuesMetres": [
+        85.26585262067735,
+        24.892528942770166,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        15.99999999080686,
+        15.9999988972019
+      ],
+      "wholePolygonAngle": 90.00000219725369,
+      "maxUvFitResidualPixels": 0.0002477627413099981,
+      "nativeTriangleMetricDoublePositionDensity": [
+        16.000000623213413,
+        15.98653796201272
+      ],
+      "nativeTriangleAngleDoublePosition": 89.99997137748227
+    },
+    {
+      "field": "roof",
+      "layer": "far",
+      "triangleIndex": 1301,
+      "object": "City volume 0408 roof 000816",
+      "sourcePolygon": 0,
+      "polygonVertices": 10,
+      "singularValuesMetres": [
+        85.26585262067735,
+        24.892528942770166,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        15.99999999080686,
+        15.9999988972019
+      ],
+      "wholePolygonAngle": 90.00000219725369,
+      "maxUvFitResidualPixels": 0.0002477627413099981,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.999999268857357,
+        16.023676288877567
+      ],
+      "nativeTriangleAngleDoublePosition": 90.00011185464062
+    },
+    {
+      "field": "roof",
+      "layer": "far",
+      "triangleIndex": 1462,
+      "object": "City volume 0464 roof 000928",
+      "sourcePolygon": 0,
+      "polygonVertices": 8,
+      "singularValuesMetres": [
+        68.62229392703199,
+        15.64516274963396,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        16.000001780445395,
+        16.000006189103647
+      ],
+      "wholePolygonAngle": 89.99998053974845,
+      "maxUvFitResidualPixels": 0.0002070772379738628,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.995589225810217,
+        15.999907274356561
+      ],
+      "nativeTriangleAngleDoublePosition": 90.00632466799941
+    },
+    {
+      "field": "roof",
+      "layer": "far",
+      "triangleIndex": 1713,
+      "object": "City volume 0555 roof 001096",
+      "sourcePolygon": 0,
+      "polygonVertices": 17,
+      "singularValuesMetres": [
+        75.3276500036925,
+        21.93836427490894,
+        3.662053438817784e-15
+      ],
+      "wholePolygonDensity": [
+        15.999998974294462,
+        15.999998796778529
+      ],
+      "wholePolygonAngle": 89.99999886350093,
+      "maxUvFitResidualPixels": 0.0002883810511775664,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.82599443219808,
+        17.966390600964903
+      ],
+      "nativeTriangleAngleDoublePosition": 121.96375334997421
+    },
+    {
+      "field": "roof",
+      "layer": "far",
+      "triangleIndex": 1770,
+      "object": "City volume 0564 roof 001114",
+      "sourcePolygon": 0,
+      "polygonVertices": 5,
+      "singularValuesMetres": [
+        31.873447473572707,
+        8.239933095759744,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        16.000001530419294,
+        15.999984831300232
+      ],
+      "wholePolygonAngle": 90.00001718238232,
+      "maxUvFitResidualPixels": 0.00013296631368575618,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.980867145583678,
+        15.977139838856601
+      ],
+      "nativeTriangleAngleDoublePosition": 89.75592262647609
+    },
+    {
+      "field": "roof",
+      "layer": "far",
+      "triangleIndex": 1870,
+      "object": "City volume 0591 roof 001168",
+      "sourcePolygon": 0,
+      "polygonVertices": 16,
+      "singularValuesMetres": [
+        67.56679254548803,
+        23.088956869389033,
+        3.552713678800494e-15
+      ],
+      "wholePolygonDensity": [
+        15.999996188445111,
+        16.00001001582492
+      ],
+      "wholePolygonAngle": 90.00003712689914,
+      "maxUvFitResidualPixels": 0.00022632026411884,
+      "nativeTriangleMetricDoublePositionDensity": [
+        16.000204481651696,
+        15.99626885676254
+      ],
+      "nativeTriangleAngleDoublePosition": 89.99737703624875
+    },
+    {
+      "field": "roof",
+      "layer": "far",
+      "triangleIndex": 2381,
+      "object": "City volume 0763 roof 001512",
+      "sourcePolygon": 0,
+      "polygonVertices": 11,
+      "singularValuesMetres": [
+        55.53077124809737,
+        42.588120157119725,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        15.999993646309086,
+        15.999999910998415
+      ],
+      "wholePolygonAngle": 89.99998000658069,
+      "maxUvFitResidualPixels": 0.000523844086274039,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.996218719386913,
+        15.899069716570141
+      ],
+      "nativeTriangleAngleDoublePosition": 89.80652052712593
+    },
+    {
+      "field": "roof",
+      "layer": "far",
+      "triangleIndex": 2389,
+      "object": "City volume 0764 roof 001514",
+      "sourcePolygon": 0,
+      "polygonVertices": 9,
+      "singularValuesMetres": [
+        66.26209152487465,
+        17.65468077437871,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        16.000001844098772,
+        16.00000728201717
+      ],
+      "wholePolygonAngle": 89.99996897237118,
+      "maxUvFitResidualPixels": 0.0003871425305987941,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.998392975029606,
+        16.04119251823457
+      ],
+      "nativeTriangleAngleDoublePosition": 90.05177538084342
+    },
+    {
+      "field": "roof",
+      "layer": "far",
+      "triangleIndex": 2472,
+      "object": "City volume 0800 roof 001586",
+      "sourcePolygon": 0,
+      "polygonVertices": 16,
+      "singularValuesMetres": [
+        189.2013415700845,
+        98.6559835229912,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        15.999999763527896,
+        15.999999140944468
+      ],
+      "wholePolygonAngle": 90.00001337530686,
+      "maxUvFitResidualPixels": 0.0005053470504208235,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.999967650597995,
+        16.009679706484818
+      ],
+      "nativeTriangleAngleDoublePosition": 90.02475580116628
+    },
+    {
+      "field": "cap",
+      "layer": "far",
+      "triangleIndex": 7,
+      "object": "Distant composite 002-1 roof 001754",
+      "sourcePolygon": 0,
+      "polygonVertices": 12,
+      "singularValuesMetres": [
+        30.479388765661596,
+        19.25409541597161,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        16.00000058898117,
+        16.000003386310475
+      ],
+      "wholePolygonAngle": 89.9999256786153,
+      "maxUvFitResidualPixels": 0.0006415637926693307,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.876419841523715,
+        15.999878696191548
+      ],
+      "nativeTriangleAngleDoublePosition": 89.80344206190163
+    },
+    {
+      "field": "cap",
+      "layer": "far",
+      "triangleIndex": 33,
+      "object": "Distant composite 003-1 roof 001756",
+      "sourcePolygon": 0,
+      "polygonVertices": 30,
+      "singularValuesMetres": [
+        125.99613780994007,
+        35.4315781652079,
+        2.918852133354299e-14
+      ],
+      "wholePolygonDensity": [
+        16.000000791083842,
+        16.000003896325797
+      ],
+      "wholePolygonAngle": 89.99998649890881,
+      "maxUvFitResidualPixels": 0.0005592905981757212,
+      "nativeTriangleMetricDoublePositionDensity": [
+        16.00117078348912,
+        15.956924979067654
+      ],
+      "nativeTriangleAngleDoublePosition": 90.05986656398714
+    },
+    {
+      "field": "cap",
+      "layer": "far",
+      "triangleIndex": 43,
+      "object": "Distant composite 003-1 roof 001756",
+      "sourcePolygon": 0,
+      "polygonVertices": 30,
+      "singularValuesMetres": [
+        125.99613780994007,
+        35.4315781652079,
+        2.918852133354299e-14
+      ],
+      "wholePolygonDensity": [
+        16.000000791083842,
+        16.000003896325797
+      ],
+      "wholePolygonAngle": 89.99998649890881,
+      "maxUvFitResidualPixels": 0.0005592905981757212,
+      "nativeTriangleMetricDoublePositionDensity": [
+        16.000033383615843,
+        16.0047206147491
+      ],
+      "nativeTriangleAngleDoublePosition": 90.00289260446117
+    },
+    {
+      "field": "cap",
+      "layer": "far",
+      "triangleIndex": 52,
+      "object": "Distant composite 004-1 roof 001758",
+      "sourcePolygon": 0,
+      "polygonVertices": 14,
+      "singularValuesMetres": [
+        232.4535850070696,
+        108.1348681366366,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        15.999999627777525,
+        16.00000152060916
+      ],
+      "wholePolygonAngle": 90.00000395839606,
+      "maxUvFitResidualPixels": 0.0004221605267957784,
+      "nativeTriangleMetricDoublePositionDensity": [
+        16.183651873537045,
+        16.005592539179847
+      ],
+      "nativeTriangleAngleDoublePosition": 89.62474294147535
+    },
+    {
+      "field": "cap",
+      "layer": "far",
+      "triangleIndex": 56,
+      "object": "Distant composite 005-1 roof 001760",
+      "sourcePolygon": 0,
+      "polygonVertices": 5,
+      "singularValuesMetres": [
+        69.95588234799058,
+        16.999863978411007,
+        6.402572683753732e-16
+      ],
+      "wholePolygonDensity": [
+        16.000000218529973,
+        15.999996714061762
+      ],
+      "wholePolygonAngle": 90.00003166850829,
+      "maxUvFitResidualPixels": 0.0001615897454030346,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.989276874567336,
+        16.001303426595225
+      ],
+      "nativeTriangleAngleDoublePosition": 89.92494343221722
+    },
+    {
+      "field": "cap",
+      "layer": "far",
+      "triangleIndex": 102,
+      "object": "Distant composite 013-1 roof 001776",
+      "sourcePolygon": 0,
+      "polygonVertices": 6,
+      "singularValuesMetres": [
+        31.244501663135996,
+        6.596367267348239,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        15.999973713801682,
+        15.9999995626204
+      ],
+      "wholePolygonAngle": 89.99973704287841,
+      "maxUvFitResidualPixels": 0.0007067902988637798,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.999617069872402,
+        15.907117577179047
+      ],
+      "nativeTriangleAngleDoublePosition": 88.69236862917569
+    },
+    {
+      "field": "cap",
+      "layer": "far",
+      "triangleIndex": 118,
+      "object": "Distant composite 016-1 roof 001782",
+      "sourcePolygon": 0,
+      "polygonVertices": 9,
+      "singularValuesMetres": [
+        61.753301124152024,
+        17.93342119653637,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        15.999996101327989,
+        16.000015009856675
+      ],
+      "wholePolygonAngle": 90.00007323072575,
+      "maxUvFitResidualPixels": 0.0010254043190798257,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.741476051115656,
+        16.003509889532687
+      ],
+      "nativeTriangleAngleDoublePosition": 90.06618448270892
+    },
+    {
+      "field": "cap",
+      "layer": "far",
+      "triangleIndex": 130,
+      "object": "Distant composite 018-1 roof 001786",
+      "sourcePolygon": 0,
+      "polygonVertices": 11,
+      "singularValuesMetres": [
+        46.90911443848884,
+        25.132984915431784,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        15.999981370233192,
+        15.999988051139029
+      ],
+      "wholePolygonAngle": 89.99992424265528,
+      "maxUvFitResidualPixels": 0.0007413286402879748,
+      "nativeTriangleMetricDoublePositionDensity": [
+        14.824951129191824,
+        15.98481520865017
+      ],
+      "nativeTriangleAngleDoublePosition": 91.41067050023133
+    },
+    {
+      "field": "cap",
+      "layer": "far",
+      "triangleIndex": 164,
+      "object": "Distant composite 021-1 roof 001792",
+      "sourcePolygon": 0,
+      "polygonVertices": 9,
+      "singularValuesMetres": [
+        37.15115659542266,
+        24.776545268396664,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        16.00000284621059,
+        16.000004454221216
+      ],
+      "wholePolygonAngle": 90.00002674311534,
+      "maxUvFitResidualPixels": 0.00019379825334908674,
+      "nativeTriangleMetricDoublePositionDensity": [
+        16.040340441553795,
+        15.992042838669256
+      ],
+      "nativeTriangleAngleDoublePosition": 89.47086409520544
+    },
+    {
+      "field": "cap",
+      "layer": "far",
+      "triangleIndex": 202,
+      "object": "Distant composite 025-1 roof 001800",
+      "sourcePolygon": 0,
+      "polygonVertices": 6,
+      "singularValuesMetres": [
+        27.893467013998475,
+        20.356590739132148,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        16.000008431767966,
+        15.999999997380556
+      ],
+      "wholePolygonAngle": 89.99995926418504,
+      "maxUvFitResidualPixels": 0.00021881950851820875,
+      "nativeTriangleMetricDoublePositionDensity": [
+        16.020161711687894,
+        16.001046054038245
+      ],
+      "nativeTriangleAngleDoublePosition": 90.58950544910435
+    },
+    {
+      "field": "cap",
+      "layer": "far",
+      "triangleIndex": 220,
+      "object": "Distant composite 029-1 roof 001808",
+      "sourcePolygon": 0,
+      "polygonVertices": 6,
+      "singularValuesMetres": [
+        151.90118979307195,
+        6.620317218289371,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        15.999999571089152,
+        15.999985890819161
+      ],
+      "wholePolygonAngle": 90.00002386069676,
+      "maxUvFitResidualPixels": 0.00015790834913786966,
+      "nativeTriangleMetricDoublePositionDensity": [
+        16.00000024440939,
+        15.99481450842639
+      ],
+      "nativeTriangleAngleDoublePosition": 90.01487227037978
+    },
+    {
+      "field": "cap",
+      "layer": "far",
+      "triangleIndex": 222,
+      "object": "Distant composite 030-1 roof 001810",
+      "sourcePolygon": 0,
+      "polygonVertices": 6,
+      "singularValuesMetres": [
+        44.375568779422174,
+        36.27115330092575,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        16.000000112162684,
+        15.999999563243838
+      ],
+      "wholePolygonAngle": 90.00000634447863,
+      "maxUvFitResidualPixels": 0.0002064291838905774,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.84377846229448,
+        16.000535525815316
+      ],
+      "nativeTriangleAngleDoublePosition": 89.98787892925597
+    },
+    {
+      "field": "cap",
+      "layer": "far",
+      "triangleIndex": 279,
+      "object": "Distant composite 039-1 roof 001828",
+      "sourcePolygon": 0,
+      "polygonVertices": 6,
+      "singularValuesMetres": [
+        59.31046612711437,
+        13.467059650576047,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        15.999998324029606,
+        16.00002140707769
+      ],
+      "wholePolygonAngle": 90.00000373219042,
+      "maxUvFitResidualPixels": 6.823740568506764e-05,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.992793059657105,
+        16.020503779119
+      ],
+      "nativeTriangleAngleDoublePosition": 90.22556152527297
+    },
+    {
+      "field": "cap",
+      "layer": "far",
+      "triangleIndex": 284,
+      "object": "Distant composite 040-1 roof 001830",
+      "sourcePolygon": 0,
+      "polygonVertices": 6,
+      "singularValuesMetres": [
+        60.44285598645807,
+        13.640795877231048,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        15.999997734242433,
+        15.999993342650237
+      ],
+      "wholePolygonAngle": 89.9999677983284,
+      "maxUvFitResidualPixels": 0.0001711598742986098,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.995706935909563,
+        16.262817950612344
+      ],
+      "nativeTriangleAngleDoublePosition": 90.03808612312652
+    },
+    {
+      "field": "cap",
+      "layer": "far",
+      "triangleIndex": 289,
+      "object": "Distant composite 042-1 roof 001834",
+      "sourcePolygon": 0,
+      "polygonVertices": 8,
+      "singularValuesMetres": [
+        48.152585929964,
+        15.746762394340754,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        16.000005565927502,
+        15.999995943142634
+      ],
+      "wholePolygonAngle": 90.00000719191281,
+      "maxUvFitResidualPixels": 0.00017727234899211908,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.993401447225144,
+        16.079624990615578
+      ],
+      "nativeTriangleAngleDoublePosition": 90.31088422806484
+    },
+    {
+      "field": "cap",
+      "layer": "far",
+      "triangleIndex": 319,
+      "object": "Distant composite 048-1 roof 001846",
+      "sourcePolygon": 0,
+      "polygonVertices": 9,
+      "singularValuesMetres": [
+        17.035610308246703,
+        11.721420229827272,
+        0.0
+      ],
+      "wholePolygonDensity": [
+        16.000002957152844,
+        15.999980882182022
+      ],
+      "wholePolygonAngle": 90.00003388880644,
+      "maxUvFitResidualPixels": 0.0003863902893499471,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.992041978008535,
+        16.00036602656753
+      ],
+      "nativeTriangleAngleDoublePosition": 89.75875001972189
+    },
+    {
+      "field": "blue-glass",
+      "layer": "ground",
+      "triangleIndex": 5,
+      "object": "Water surface 004533",
+      "sourcePolygon": 0,
+      "polygonVertices": 127,
+      "singularValuesMetres": [
+        24921.76140164526,
+        1509.2820717468774,
+        2.402222990039175e-13
+      ],
+      "wholePolygonDensity": [
+        16.00000011226232,
+        15.999999705866761
+      ],
+      "wholePolygonAngle": 90.00000210637248,
+      "maxUvFitResidualPixels": 0.0022185173293109983,
+      "nativeTriangleMetricDoublePositionDensity": [
+        16.000153789482805,
+        16.005170596224296
+      ],
+      "nativeTriangleAngleDoublePosition": 90.01355322517615
+    },
+    {
+      "field": "blue-glass",
+      "layer": "ground",
+      "triangleIndex": 46,
+      "object": "Water surface 004533",
+      "sourcePolygon": 0,
+      "polygonVertices": 127,
+      "singularValuesMetres": [
+        24921.76140164526,
+        1509.2820717468774,
+        2.402222990039175e-13
+      ],
+      "wholePolygonDensity": [
+        16.00000011226232,
+        15.999999705866761
+      ],
+      "wholePolygonAngle": 90.00000210637248,
+      "maxUvFitResidualPixels": 0.0022185173293109983,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.999988849595733,
+        16.0022786904663
+      ],
+      "nativeTriangleAngleDoublePosition": 89.99914901608156
+    },
+    {
+      "field": "blue-glass",
+      "layer": "ground",
+      "triangleIndex": 48,
+      "object": "Water surface 004533",
+      "sourcePolygon": 0,
+      "polygonVertices": 127,
+      "singularValuesMetres": [
+        24921.76140164526,
+        1509.2820717468774,
+        2.402222990039175e-13
+      ],
+      "wholePolygonDensity": [
+        16.00000011226232,
+        15.999999705866761
+      ],
+      "wholePolygonAngle": 90.00000210637248,
+      "maxUvFitResidualPixels": 0.0022185173293109983,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.999994700718549,
+        15.997461997700396
+      ],
+      "nativeTriangleAngleDoublePosition": 89.99912739138705
+    },
+    {
+      "field": "blue-glass",
+      "layer": "ground",
+      "triangleIndex": 49,
+      "object": "Water surface 004533",
+      "sourcePolygon": 0,
+      "polygonVertices": 127,
+      "singularValuesMetres": [
+        24921.76140164526,
+        1509.2820717468774,
+        2.402222990039175e-13
+      ],
+      "wholePolygonDensity": [
+        16.00000011226232,
+        15.999999705866761
+      ],
+      "wholePolygonAngle": 90.00000210637248,
+      "maxUvFitResidualPixels": 0.0022185173293109983,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.999585108435648,
+        15.998837895445511
+      ],
+      "nativeTriangleAngleDoublePosition": 89.96804198443812
+    },
+    {
+      "field": "blue-glass",
+      "layer": "ground",
+      "triangleIndex": 57,
+      "object": "Water surface 004533",
+      "sourcePolygon": 0,
+      "polygonVertices": 127,
+      "singularValuesMetres": [
+        24921.76140164526,
+        1509.2820717468774,
+        2.402222990039175e-13
+      ],
+      "wholePolygonDensity": [
+        16.00000011226232,
+        15.999999705866761
+      ],
+      "wholePolygonAngle": 90.00000210637248,
+      "maxUvFitResidualPixels": 0.0022185173293109983,
+      "nativeTriangleMetricDoublePositionDensity": [
+        16.037182344679955,
+        18.1186272008448
+      ],
+      "nativeTriangleAngleDoublePosition": 92.09968147543385
+    },
+    {
+      "field": "blue-glass",
+      "layer": "ground",
+      "triangleIndex": 95,
+      "object": "Water surface 004533",
+      "sourcePolygon": 0,
+      "polygonVertices": 127,
+      "singularValuesMetres": [
+        24921.76140164526,
+        1509.2820717468774,
+        2.402222990039175e-13
+      ],
+      "wholePolygonDensity": [
+        16.00000011226232,
+        15.999999705866761
+      ],
+      "wholePolygonAngle": 90.00000210637248,
+      "maxUvFitResidualPixels": 0.0022185173293109983,
+      "nativeTriangleMetricDoublePositionDensity": [
+        16.012118973820495,
+        15.838824224006283
+      ],
+      "nativeTriangleAngleDoublePosition": 90.48102224221786
+    },
+    {
+      "field": "blue-glass",
+      "layer": "ground",
+      "triangleIndex": 144,
+      "object": "Water surface 004635",
+      "sourcePolygon": 0,
+      "polygonVertices": 32,
+      "singularValuesMetres": [
+        1344.726326242179,
+        613.916318167563,
+        5.024295867788079e-14
+      ],
+      "wholePolygonDensity": [
+        16.000000122139795,
+        16.000000131701224
+      ],
+      "wholePolygonAngle": 90.00000125787582,
+      "maxUvFitResidualPixels": 0.0008220617492042948,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.992745137215651,
+        16.00012715389757
+      ],
+      "nativeTriangleAngleDoublePosition": 90.00277188107778
+    },
+    {
+      "field": "blue-glass",
+      "layer": "ground",
+      "triangleIndex": 147,
+      "object": "Water surface 004635",
+      "sourcePolygon": 0,
+      "polygonVertices": 32,
+      "singularValuesMetres": [
+        1344.726326242179,
+        613.916318167563,
+        5.024295867788079e-14
+      ],
+      "wholePolygonDensity": [
+        16.000000122139795,
+        16.000000131701224
+      ],
+      "wholePolygonAngle": 90.00000125787582,
+      "maxUvFitResidualPixels": 0.0008220617492042948,
+      "nativeTriangleMetricDoublePositionDensity": [
+        16.002751994420535,
+        16.000008830737755
+      ],
+      "nativeTriangleAngleDoublePosition": 90.00135030892413
+    },
+    {
+      "field": "blue-glass",
+      "layer": "ground",
+      "triangleIndex": 251,
+      "object": "Water surface 004637",
+      "sourcePolygon": 0,
+      "polygonVertices": 72,
+      "singularValuesMetres": [
+        3399.1183833831515,
+        735.4479435209495,
+        1.0551021322354973e-13
+      ],
+      "wholePolygonDensity": [
+        16.000000091554654,
+        16.00000070166688
+      ],
+      "wholePolygonAngle": 90.00000225813584,
+      "maxUvFitResidualPixels": 0.0006721694589941762,
+      "nativeTriangleMetricDoublePositionDensity": [
+        16.008386739771822,
+        15.853591282998876
+      ],
+      "nativeTriangleAngleDoublePosition": 90.32354034521626
+    },
+    {
+      "field": "blue-glass",
+      "layer": "ground",
+      "triangleIndex": 274,
+      "object": "Water surface 004638",
+      "sourcePolygon": 0,
+      "polygonVertices": 26,
+      "singularValuesMetres": [
+        1142.8777612277327,
+        66.52063665027174,
+        2.717303456161769e-14
+      ],
+      "wholePolygonDensity": [
+        15.999999928821854,
+        15.999998878851251
+      ],
+      "wholePolygonAngle": 89.99999967526065,
+      "maxUvFitResidualPixels": 0.0005805748405691702,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.531112863203,
+        16.01255810502131
+      ],
+      "nativeTriangleAngleDoublePosition": 90.23563087086114
+    },
+    {
+      "field": "blue-glass",
+      "layer": "ground",
+      "triangleIndex": 286,
+      "object": "Water surface 004638",
+      "sourcePolygon": 0,
+      "polygonVertices": 26,
+      "singularValuesMetres": [
+        1142.8777612277327,
+        66.52063665027174,
+        2.717303456161769e-14
+      ],
+      "wholePolygonDensity": [
+        15.999999928821854,
+        15.999998878851251
+      ],
+      "wholePolygonAngle": 89.99999967526065,
+      "maxUvFitResidualPixels": 0.0005805748405691702,
+      "nativeTriangleMetricDoublePositionDensity": [
+        16.005418899842233,
+        16.000007901293532
+      ],
+      "nativeTriangleAngleDoublePosition": 89.99789351068236
+    },
+    {
+      "field": "blue-glass",
+      "layer": "ground",
+      "triangleIndex": 289,
+      "object": "Water surface 004638",
+      "sourcePolygon": 0,
+      "polygonVertices": 26,
+      "singularValuesMetres": [
+        1142.8777612277327,
+        66.52063665027174,
+        2.717303456161769e-14
+      ],
+      "wholePolygonDensity": [
+        15.999999928821854,
+        15.999998878851251
+      ],
+      "wholePolygonAngle": 89.99999967526065,
+      "maxUvFitResidualPixels": 0.0005805748405691702,
+      "nativeTriangleMetricDoublePositionDensity": [
+        16.093908693236333,
+        15.999450681898146
+      ],
+      "nativeTriangleAngleDoublePosition": 89.99187873898727
+    },
+    {
+      "field": "blue-glass",
+      "layer": "ground",
+      "triangleIndex": 328,
+      "object": "Water surface 004650",
+      "sourcePolygon": 0,
+      "polygonVertices": 39,
+      "singularValuesMetres": [
+        2699.7490610789932,
+        2542.882748504122,
+        2.2186689812991757e-14
+      ],
+      "wholePolygonDensity": [
+        16.000000287547138,
+        16.000000074180154
+      ],
+      "wholePolygonAngle": 90.00000139915434,
+      "maxUvFitResidualPixels": 0.0010951705044135451,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.997425965126537,
+        15.998302905024866
+      ],
+      "nativeTriangleAngleDoublePosition": 89.94474852670525
+    },
+    {
+      "field": "foliage",
+      "layer": "ground",
+      "triangleIndex": 3,
+      "object": "Green patch 004654",
+      "sourcePolygon": 0,
+      "polygonVertices": 68,
+      "singularValuesMetres": [
+        1961.076983882139,
+        441.3887969715792,
+        7.324106877635569e-14
+      ],
+      "wholePolygonDensity": [
+        16.00000042137214,
+        15.999999772068467
+      ],
+      "wholePolygonAngle": 89.99999836502249,
+      "maxUvFitResidualPixels": 0.0010213712048425805,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.999967650597995,
+        16.009679706484818
+      ],
+      "nativeTriangleAngleDoublePosition": 90.02475580116628
+    },
+    {
+      "field": "foliage",
+      "layer": "ground",
+      "triangleIndex": 19,
+      "object": "Green patch 004654",
+      "sourcePolygon": 0,
+      "polygonVertices": 68,
+      "singularValuesMetres": [
+        1961.076983882139,
+        441.3887969715792,
+        7.324106877635569e-14
+      ],
+      "wholePolygonDensity": [
+        16.00000042137214,
+        15.999999772068467
+      ],
+      "wholePolygonAngle": 89.99999836502249,
+      "maxUvFitResidualPixels": 0.0010213712048425805,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.82155766816597,
+        16.049220995022953
+      ],
+      "nativeTriangleAngleDoublePosition": 89.11879495559816
+    },
+    {
+      "field": "foliage",
+      "layer": "ground",
+      "triangleIndex": 61,
+      "object": "Green patch 004654",
+      "sourcePolygon": 0,
+      "polygonVertices": 68,
+      "singularValuesMetres": [
+        1961.076983882139,
+        441.3887969715792,
+        7.324106877635569e-14
+      ],
+      "wholePolygonDensity": [
+        16.00000042137214,
+        15.999999772068467
+      ],
+      "wholePolygonAngle": 89.99999836502249,
+      "maxUvFitResidualPixels": 0.0010213712048425805,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.999730430574022,
+        16.002436636902875
+      ],
+      "nativeTriangleAngleDoublePosition": 89.99027550388006
+    },
+    {
+      "field": "foliage",
+      "layer": "ground",
+      "triangleIndex": 69,
+      "object": "Green patch 004655",
+      "sourcePolygon": 0,
+      "polygonVertices": 10,
+      "singularValuesMetres": [
+        234.2762748424914,
+        16.471254956609428,
+        5.617333549722707e-15
+      ],
+      "wholePolygonDensity": [
+        15.999998577118495,
+        15.999991097496514
+      ],
+      "wholePolygonAngle": 89.99997916886107,
+      "maxUvFitResidualPixels": 0.000542493000466493,
+      "nativeTriangleMetricDoublePositionDensity": [
+        15.998028345948605,
+        15.997081138440123
+      ],
+      "nativeTriangleAngleDoublePosition": 89.96772154593799
+    },
+    {
+      "field": "foliage",
+      "layer": "ground",
+      "triangleIndex": 106,
+      "object": "Green patch 004657",
+      "sourcePolygon": 0,
+      "polygonVertices": 30,
+      "singularValuesMetres": [
+        507.97566986921424,
+        94.73662889085527,
+        2.9188521333542995e-14
+      ],
+      "wholePolygonDensity": [
+        16.00000039667438,
+        15.999997855368793
+      ],
+      "wholePolygonAngle": 89.99998877134303,
+      "maxUvFitResidualPixels": 0.0005095270607853308,
+      "nativeTriangleMetricDoublePositionDensity": [
+        16.004485218150585,
+        15.999405786316611
+      ],
+      "nativeTriangleAngleDoublePosition": 90.00561934449314
+    },
+    {
+      "field": "foliage",
+      "layer": "ground",
+      "triangleIndex": 220,
+      "object": "Green patch 004662",
+      "sourcePolygon": 0,
+      "polygonVertices": 5,
+      "singularValuesMetres": [
+        35.19207683649432,
+        19.10185660825344,
+        3.972054645195637e-15
+      ],
+      "wholePolygonDensity": [
+        15.999999982464452,
+        16.00003037298781
+      ],
+      "wholePolygonAngle": 89.99990250343689,
+      "maxUvFitResidualPixels": 0.00013713320731767453,
+      "nativeTriangleMetricDoublePositionDensity": [
+        16.000792972794333,
+        15.975564647773089
+      ],
+      "nativeTriangleAngleDoublePosition": 89.78023453501413
+    }
+  ]
+}

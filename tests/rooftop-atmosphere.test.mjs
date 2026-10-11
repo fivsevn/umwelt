@@ -10,7 +10,7 @@ import { rainShape, rainStrike } from "../rooftop/precipitation.mjs";
 import { weatherAction } from "../rooftop/resident-weather.mjs";
 import { initialLayout, makeWalker, actorFits } from "../rooftop/scene.mjs";
 
-test("all nine weather conditions distinguish seven lighting stages and respect the solar direction", () => {
+test("all eight weather conditions distinguish seven lighting stages and respect the solar direction", () => {
   for (const w of WEATHER) {
     const states = TIMES.map((t) => weatherProfile(w.id, t.id));
     assert.equal(
@@ -232,7 +232,7 @@ test("the two residents keep separate body clearance and pig actions across a de
 test('shadow maps reuse fixed lighting and invalidate on edits, motion and scene changes', async () => {
   const { createRequire } = await import('node:module');
   const T = createRequire(import.meta.url)('../rooftop/3d/vendor/three.min.js');
-  const { createAtmosphere } = await import('../rooftop/3d/atmosphere.mjs');
+  const { createAtmosphere, invalidateShadowsAfterLoad } = await import('../rooftop/3d/atmosphere.mjs');
   const scene = new T.Scene(), sun = new T.DirectionalLight(), hemi = new T.HemisphereLight();
   scene.fog = new T.Fog("#ffffff", 1, 100);
   const renderer = { shadowMap: { needsUpdate: true }, setClearColor() {}, getDrawingBufferSize(v) { return v.set(800, 600); } };
@@ -246,11 +246,27 @@ test('shadow maps reuse fixed lighting and invalidate on edits, motion and scene
   };
   assert.equal(refresh('north', 0), true);
   assert.equal(refresh('north', 2), false, 'colour/intensity changes alone do not rebuild depth');
+  const sunBeforeLoad=sun.position.toArray();
+  let completeTransfer;
+  const geometryReady=new Promise(resolve=>{completeTransfer=()=>{
+    const wall=new T.Mesh(new T.BoxGeometry(3,3,.2),new T.MeshLambertMaterial());
+    wall.castShadow=wall.receiveShadow=true;
+    scene.add(wall);
+    resolve();
+  };});
+  const shadowsReady=invalidateShadowsAfterLoad(renderer,geometryReady);
+  await Promise.resolve();
+  assert.equal(refresh('north', 2.001), false, 'a pending wall transfer keeps fixed shadows cached');
+  completeTransfer();
+  await shadowsReady;
+  assert.equal(refresh('north', 2.002), true, 'a delayed wall refreshes shadow depth immediately at a fixed sun position');
+  assert.deepEqual(sun.position.toArray(),sunBeforeLoad,'loading geometry never changes the solar direction');
+  assert.equal(refresh('north', 2.003), false, 'the new wall does not make static shadows update continuously');
   sun.position.x += 4;
-  assert.equal(refresh('north', 2.01), true, 'sun direction changes refresh the depth map');
-  assert.equal(refresh('north', 2.1, true), false, 'moving shadows have a bounded refresh rate');
-  assert.equal(refresh('north', 2.5, true), true);
+  assert.equal(refresh('north', 4.01), true, 'sun direction changes refresh the depth map');
+  assert.equal(refresh('north', 4.1, true), false, 'moving shadows have a bounded refresh rate');
+  assert.equal(refresh('north', 4.5, true), true);
   renderer.shadowMap.needsUpdate = true;
-  assert.equal(refresh('north', 2.51), true, 'an edit refreshes immediately');
-  assert.equal(refresh('room', 2.52), true, 'entering a room refreshes its lamp shadow');
+  assert.equal(refresh('north', 4.51), true, 'an edit refreshes immediately');
+  assert.equal(refresh('room', 4.52), true, 'entering a room refreshes its lamp shadow');
 });

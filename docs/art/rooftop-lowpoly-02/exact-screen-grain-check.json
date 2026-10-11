@@ -1,0 +1,146 @@
+[
+  {
+    "screenshot": "local-fine-south-rain.png",
+    "dimensions": [
+      2560,
+      1440
+    ],
+    "physicalBounds": [
+      0,
+      600,
+      2560,
+      1200
+    ],
+    "physicalGridOrigin": [
+      0,
+      0
+    ],
+    "devicePixelRatio": 2.0,
+    "targetCssPixelStep": 2.5,
+    "physicalPixelStep": 5,
+    "resolvedCssPixelStep": 2.5,
+    "cells": 61440,
+    "constantCells": 61440,
+    "mismatchedCells": 0
+  },
+  {
+    "screenshot": "local-fine-south-rain-neighbor.png",
+    "dimensions": [
+      2560,
+      1440
+    ],
+    "physicalBounds": [
+      0,
+      300,
+      480,
+      1100
+    ],
+    "physicalGridOrigin": [
+      0,
+      0
+    ],
+    "devicePixelRatio": 2.0,
+    "targetCssPixelStep": 2.5,
+    "physicalPixelStep": 5,
+    "resolvedCssPixelStep": 2.5,
+    "cells": 15360,
+    "constantCells": 15360,
+    "mismatchedCells": 0
+  },
+  {
+    "screenshot": "local-fine-south-rain-neighbor.png",
+    "dimensions": [
+      2560,
+      1440
+    ],
+    "physicalBounds": [
+      700,
+      600,
+      1800,
+      840
+    ],
+    "physicalGridOrigin": [
+      0,
+      0
+    ],
+    "devicePixelRatio": 2.0,
+    "targetCssPixelStep": 2.5,
+    "physicalPixelStep": 5,
+    "resolvedCssPixelStep": 2.5,
+    "cells": 10560,
+    "constantCells": 10560,
+    "mismatchedCells": 0
+  },
+  {
+    "screenshot": "local-fine-current-preview.png",
+    "dimensions": [
+      812,
+      1316
+    ],
+    "physicalBounds": [
+      0,
+      300,
+      810,
+      1160
+    ],
+    "physicalGridOrigin": [
+      0,
+      0
+    ],
+    "devicePixelRatio": 2.0,
+    "targetCssPixelStep": 2.5,
+    "physicalPixelStep": 5,
+    "resolvedCssPixelStep": 2.5,
+    "cells": 27864,
+    "constantCells": 27864,
+    "mismatchedCells": 0
+  },
+  {
+    "screenshot": "local-fine-furniture-wood.png",
+    "dimensions": [
+      812,
+      1316
+    ],
+    "physicalBounds": [
+      22,
+      282,
+      757,
+      1017
+    ],
+    "physicalGridOrigin": [
+      7,
+      267
+    ],
+    "devicePixelRatio": 2.0,
+    "targetCssPixelStep": 2.5,
+    "physicalPixelStep": 5,
+    "resolvedCssPixelStep": 2.5,
+    "cells": 21609,
+    "constantCells": 21609,
+    "mismatchedCells": 0
+  },
+  {
+    "screenshot": "local-fine-furniture-iron.png",
+    "dimensions": [
+      812,
+      1316
+    ],
+    "physicalBounds": [
+      22,
+      282,
+      757,
+      1017
+    ],
+    "physicalGridOrigin": [
+      7,
+      267
+    ],
+    "devicePixelRatio": 2.0,
+    "targetCssPixelStep": 2.5,
+    "physicalPixelStep": 5,
+    "resolvedCssPixelStep": 2.5,
+    "cells": 21609,
+    "constantCells": 21609,
+    "mismatchedCells": 0
+  }
+]

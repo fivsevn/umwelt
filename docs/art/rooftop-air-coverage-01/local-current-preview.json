@@ -1,0 +1,605 @@
+{
+  "url": "http://127.0.0.1:4173/rooftop/?stage=background&weather=overcast&time=afternoon&season=autumn&scene=north&view=drone",
+  "viewport": [
+    406,
+    658,
+    2
+  ],
+  "graphics": {
+    "performance": {
+      "skippedFrames": 2,
+      "frames": 207,
+      "p95Ms": 3.5999999046325684,
+      "lastMs": 0.7999999523162842
+    },
+    "scene": "north",
+    "view": {
+      "theta": 0,
+      "phi": 0,
+      "zoom": 1
+    },
+    "wanted": {
+      "theta": 0,
+      "phi": 0,
+      "zoom": 1
+    },
+    "pixels": 1,
+    "antialias": false,
+    "style": "native-pixelorama-v2",
+    "textures": 1,
+    "surfaces": 4,
+    "foliageMotion": {
+      "time": 7.241836000000028,
+      "strength": 0.6751547933492997,
+      "programs": 0
+    },
+    "controls": "pan",
+    "navigationMode": "rotate",
+    "projection": "perspective",
+    "orbitLimits": {
+      "fullRotation": false,
+      "minTheta": -0.15,
+      "maxTheta": 0.15,
+      "minPhi": -0.08,
+      "maxPhi": 0.08
+    },
+    "reviewView": "drone",
+    "narrativeView": "drone",
+    "freeCamera": false,
+    "freeCameraPose": null,
+    "cameraPreset": {
+      "id": "drone",
+      "scene": "north",
+      "span": 11.214104312826068,
+      "minSpan": 11.214104312826068,
+      "maxSpan": 11.214104312826068,
+      "overviewWidth": 15.980098645777145,
+      "yaw": 0.15,
+      "pitch": 0.08,
+      "travel": 0,
+      "station": {
+        "walk": 0,
+        "height": 2.25,
+        "heightMin": -2.75,
+        "dolly": 4.582158706046302,
+        "dollyMin": 0
+      },
+      "eye": [
+        5.730418254117132,
+        10.185871659274401,
+        -16.91505953279829
+      ],
+      "target": [
+        0.9888763353084746,
+        0.4845046136253277,
+        -2.9724913957751387
+      ],
+      "nearEye": [
+        4.4457313087451755,
+        7.6208540250916945,
+        -13.342043664359059
+      ],
+      "nearTarget": [
+        1.593392938621363,
+        -0.4838285655536021,
+        -3.520557996517132
+      ],
+      "frame": {
+        "span": 25.89878056384572,
+        "width": 15.980098645777145,
+        "shiftY": 0,
+        "zoom": {
+          "min": 1,
+          "max": 1
+        }
+      },
+      "pose": {
+        "eye": [
+          5.730418254117132,
+          10.185871659274401,
+          -16.91505953279829
+        ],
+        "target": [
+          0.9888763353084746,
+          0.4845046136253295,
+          -2.9724913957751387
+        ],
+        "distance": 17.635020515376745,
+        "yaw": -0.32780721609298336,
+        "pitch": -0.5825072199773432
+      }
+    },
+    "stationTravel": {
+      "current": {
+        "walk": 0,
+        "height": 0,
+        "dolly": 0
+      },
+      "wanted": {
+        "walk": 0,
+        "height": 0,
+        "dolly": 0
+      },
+      "limits": {
+        "walk": 0,
+        "height": 2.25,
+        "heightMin": -2.75,
+        "dolly": 4.582158706046302,
+        "dollyMin": 0
+      }
+    },
+    "scopeLens": null,
+    "raster": {
+      "enabled": true,
+      "pixelStep": 5,
+      "cssPixelStep": 2.5,
+      "pixelRatio": 2,
+      "targetCssPixelStep": 2.5,
+      "sourceBuffer": [
+        163,
+        264
+      ],
+      "outputBuffer": [
+        812,
+        1316
+      ],
+      "passes": 1,
+      "clippedEdge": "right/bottom incomplete cells",
+      "lens": 0
+    },
+    "programs": 51,
+    "selectedModel": null,
+    "wardrobe": {
+      "outfit": "pocket-blue",
+      "pig": "scarf"
+    },
+    "modelIds": [],
+    "catalog": 304,
+    "objects": 0,
+    "modelBuilds": 0,
+    "cataloguePreviews": 0,
+    "instances": 326,
+    "drawCalls": 96,
+    "triangles": 408178,
+    "groundY": -28.15,
+    "house": {
+      "id": "dongdong-home",
+      "roof": {
+        "x": -82,
+        "z": 4,
+        "width": 148,
+        "depth": 24,
+        "eave": 5.6,
+        "ridge": 13.2
+      },
+      "base": -28.15,
+      "row": {
+        "homes": [
+          [
+            0,
+            1
+          ],
+          [
+            -20,
+            -1
+          ],
+          [
+            52,
+            1
+          ],
+          [
+            32,
+            -1
+          ],
+          [
+            -52,
+            1
+          ],
+          [
+            -72,
+            -1
+          ]
+        ],
+        "gapCentres": [
+          -36,
+          16
+        ],
+        "gapWidth": 12
+      },
+      "terraces": {
+        "north": {
+          "rotation": 0,
+          "origin": [
+            0,
+            0
+          ]
+        },
+        "south": {
+          "rotation": -1.5707963267948966,
+          "origin": [
+            0,
+            32
+          ]
+        }
+      }
+    },
+    "mountedTerraces": [
+      "north",
+      "south"
+    ],
+    "visibleTerraces": [
+      "north"
+    ],
+    "target": [
+      0.9888763353084746,
+      0.4845046136253277,
+      -2.9724913957751387
+    ],
+    "terraceFrame": null,
+    "zoomLimits": {
+      "min": 1,
+      "max": 1
+    },
+    "storeys": 6,
+    "neighborhood": {
+      "source": "Blender",
+      "row": true,
+      "gameRange": true
+    },
+    "background": {
+      "loaded": true,
+      "source": "Blender",
+      "textureAuthor": "Pixelorama",
+      "bytes": 5476608,
+      "textureBytes": 1391544,
+      "payloadBytes": 6868152,
+      "triangles": 422724,
+      "objects": 35536,
+      "row": {
+        "homes": 6,
+        "northTerraces": 6,
+        "southTerraces": 6,
+        "pairs": 3,
+        "interPairSetback": 12,
+        "centres": [
+          0,
+          -20,
+          52,
+          32,
+          -52,
+          -72
+        ],
+        "mirrors": [
+          1,
+          -1,
+          1,
+          -1,
+          1,
+          -1
+        ]
+      },
+      "sixthFloor": {
+        "floor": 0,
+        "eave": 5.6,
+        "ridge": 13.2,
+        "base": -28.15
+      },
+      "drawCalls": 398,
+      "layers": {
+        "near": {
+          "parts": 43,
+          "triangles": 336762,
+          "objects": 27780,
+          "bytes": 2135488
+        },
+        "ground": {
+          "parts": 352,
+          "triangles": 72976,
+          "objects": 4861,
+          "bytes": 2095616
+        },
+        "far": {
+          "parts": 3,
+          "triangles": 12986,
+          "objects": 3,
+          "bytes": 1246656
+        }
+      },
+      "texelMetresPerUnit": [
+        0.2707537401739019,
+        0.5357142857142857,
+        0.4638375014617893
+      ],
+      "texelsPerMetre": 16,
+      "bakedSampling": [
+        {
+          "field": "Baked distant facades",
+          "renderTexelsPerMetre": 16,
+          "originalUvDensity": "variable baked atlas charts; source UV unchanged",
+          "rectangularFaces": 4952,
+          "unsupportedTriangles": 0,
+          "derivedBoundsBytes": 475392,
+          "paddingEdgeFallback": "original UV only when a snapped half-cell centre leaves opaque pigment",
+          "derivativeFallback": "original UV for grazing/degenerate chart derivatives"
+        }
+      ],
+      "atlases": [
+        {
+          "file": "terrace-book.png",
+          "width": 1024,
+          "height": 1024,
+          "bytes": 130892
+        },
+        {
+          "file": "distance-facades.png",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 342175
+        },
+        {
+          "file": "distance-lights.png",
+          "width": 2048,
+          "height": 2048,
+          "bytes": 918477
+        }
+      ]
+    },
+    "gameModelReview": false,
+    "cameraRange": {
+      "near": 0.1,
+      "far": 6000
+    },
+    "distanceFog": {
+      "near": 157.34375,
+      "far": 2426.8336518749734
+    },
+    "actorsHidden": true,
+    "actorVisibility": {
+      "person": false,
+      "pig": false
+    },
+    "mountedActorVisibility": {
+      "north": {
+        "person": false,
+        "pig": false
+      },
+      "south": {
+        "person": false,
+        "pig": false
+      }
+    },
+    "atmosphere": {
+      "mood": {
+        "fogNear": 157.34375,
+        "fogFar": 2426.8336518749734,
+        "fogColor": "#adb4b1",
+        "cloudColor": "#bcc3c2",
+        "rainColor": "#bec6c7",
+        "snowColor": "#e4e6e1",
+        "sunset": 0,
+        "skySun": 0,
+        "cloudCover": 1,
+        "stars": 0,
+        "afterRain": 0,
+        "waterColor": "#aab3b5",
+        "cloudShadow": 0,
+        "snowCover": 0,
+        "lightEnergy": 3.141592653589793,
+        "ambientEnergy": 0.77,
+        "directEnergy": 0
+      },
+      "seasonal": {
+        "season": "autumn",
+        "count": 64,
+        "effects": [
+          {
+            "season": "autumn",
+            "effect": "桂花与落叶",
+            "count": 64,
+            "budget": 64,
+            "strength": 1,
+            "brightness": 0.9195,
+            "field": {
+              "cells": 216,
+              "candidates": 13,
+              "sampledCandidates": 4018,
+              "generated": 4018,
+              "depthCandidates": [
+                5,
+                6,
+                2
+              ],
+              "scans": 10,
+              "count": 64,
+              "active": 64,
+              "capacity": 64,
+              "budget": 64,
+              "updated": 64,
+              "sampleCalls": 64,
+              "depthRange": [
+                2,
+                41.635020515376745
+              ],
+              "safety": 1.18,
+              "ndcEllipse": null,
+              "worldAnchored": true
+            },
+            "sample": [
+              {
+                "id": "0:0:0:-1:13",
+                "seed": 264368403,
+                "anchor": [
+                  5.2726834286004305,
+                  2.780850453302264,
+                  -2.34266209974885
+                ],
+                "position": [
+                  7.490126461854267,
+                  0.33650119486660124,
+                  -12.67008096689377
+                ],
+                "fade": 1,
+                "opacity": 0.8864399082507117
+              },
+              {
+                "id": "1:0:-1:-1:2",
+                "seed": 1881248662,
+                "anchor": [
+                  1.791401445865631,
+                  -7.5142631232738495,
+                  -5.392049368470907
+                ],
+                "position": [
+                  9.107701264997239,
+                  -10.344422777420553,
+                  -4.0361326388340775
+                ],
+                "fade": 1,
+                "opacity": 1
+              },
+              {
+                "id": "2:0:-2:0:3",
+                "seed": 1756373651,
+                "anchor": [
+                  9.407343409955502,
+                  -34.33189281076193,
+                  12.782913982868195
+                ],
+                "position": [
+                  18.31468262777416,
+                  -30.856015539965306,
+                  3.671566894177065
+                ],
+                "fade": 1,
+                "opacity": 0.05746141765084567
+              }
+            ]
+          }
+        ],
+        "spatial": true,
+        "afterRain": 0,
+        "sample": [
+          [
+            7.490126609802246,
+            0.33650118112564087,
+            -12.67008113861084,
+            9.107701301574707,
+            -10.344422340393066,
+            -4.0361328125
+          ]
+        ]
+      },
+      "phase": "afternoon",
+      "condition": "overcast",
+      "light": [
+        -51.82778607309396,
+        23.587362288887633,
+        24.525842106120837
+      ],
+      "ambient": 2.419026343264141,
+      "direct": 0,
+      "moon": 0,
+      "shadow": false,
+      "rain": 0,
+      "airCoverage": {
+        "active": 0,
+        "count": 0,
+        "enabled": false,
+        "submitted": 0,
+        "budget": 0,
+        "viewCapacity": 225,
+        "visibleArea": 1,
+        "worldSpace": true,
+        "depthTest": true
+      },
+      "wind": 0.6751547933492997,
+      "flash": 0,
+      "wetness": 0,
+      "impacts": [],
+      "impactCount": 0,
+      "surfaceField": {
+        "pixelMetres": 0.0625,
+        "pixelMetric": [
+          4.332059842782431,
+          7.421400023388629
+        ],
+        "basinSeed": [
+          7.13,
+          19.71
+        ],
+        "pattern": "warped-local-basins"
+      },
+      "surfaceState": "dry",
+      "shadowUpdates": 2
+    },
+    "buffer": [
+      812,
+      1316
+    ],
+    "software": false
+  },
+  "weather": {
+    "id": "overcast",
+    "name": "阴天",
+    "wind": 0.65,
+    "rain": 0,
+    "cloud": 1,
+    "fog": 0.05,
+    "tint": "#67777e",
+    "shade": 0.14,
+    "sky": "#a7b3b9",
+    "horizon": "#b2b4ac",
+    "zenith": "#96a5b0",
+    "sunColor": "#deddd7",
+    "ambientColor": "#c3ced2",
+    "bounceColor": "#7c7b72",
+    "ambient": 0.77,
+    "direct": 0,
+    "moon": 0,
+    "sunX": -30.55353815305438,
+    "sunY": 27.51293947329647,
+    "sunZ": 24.769325139546602,
+    "roomSunX": -5.44,
+    "thunder": 0,
+    "gale": 0,
+    "seasonspring": 0,
+    "seasonsummer": 0,
+    "seasonautumn": 1,
+    "seasonwinter": 0,
+    "season": "autumn",
+    "condition": "overcast",
+    "phase": "afternoon",
+    "period": "下午",
+    "wetness": 0,
+    "roomSunY": 13,
+    "night": 0,
+    "lamps": 0,
+    "lightTint": "#67777e",
+    "lightAmount": 0.14,
+    "sun": 0,
+    "transition": {
+      "from": "overcast",
+      "to": "overcast",
+      "mix": 1,
+      "duration": 8,
+      "elapsed": 8
+    },
+    "rainIntent": 0,
+    "activityCondition": "overcast",
+    "visualCondition": "overcast",
+    "rainClock": 6.13714915254244,
+    "streakClock": 5.431376999999951,
+    "fallbackRainClock": 11.586937599999946,
+    "choices": {
+      "condition": "overcast",
+      "phase": "afternoon",
+      "season": "autumn"
+    },
+    "elapsed": 7.241836000000028,
+    "reduced": true
+  },
+  "layoutFingerprint": {
+    "bytes": 3026,
+    "sha256": "510fb4032c8de89c30b9a88cdce8dea1c43aaf7ff537f1ef44c65bb5bce06c8f"
+  }
+}

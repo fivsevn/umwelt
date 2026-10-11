@@ -1,0 +1,13 @@
+{
+  "dimensions": [
+    2048,
+    2048
+  ],
+  "frames": 1,
+  "layers": 1,
+  "name": "distance-facades",
+  "nativePxoReopened": true,
+  "nativeReopenedPngExport": true,
+  "software": "Pixelorama",
+  "version": "v1.2.3-stable"
+}

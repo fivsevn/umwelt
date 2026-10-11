@@ -1,0 +1,117 @@
+{
+  "method": "Actual runtime triangle UVs times 2048, three distinct integer rectangle corners. Each triangle AABB spans its whole baked quad chart.",
+  "binarySha256": "34b25d9ae868821494638a6b0f0519f95f5179ade24019cc46d52cf8dd410e92",
+  "triangles": 9904,
+  "uniqueChartRectangles": 12,
+  "errors": [],
+  "rectangles": [
+    {
+      "boundsPixelsMinMax": [
+        2.0,
+        165.0,
+        514.0,
+        319.0
+      ],
+      "triangles": 1156
+    },
+    {
+      "boundsPixelsMinMax": [
+        2.0,
+        323.0,
+        1026.0,
+        783.0
+      ],
+      "triangles": 1310
+    },
+    {
+      "boundsPixelsMinMax": [
+        2.0,
+        787.0,
+        1026.0,
+        1247.0
+      ],
+      "triangles": 1324
+    },
+    {
+      "boundsPixelsMinMax": [
+        2.0,
+        1251.0,
+        514.0,
+        2046.0
+      ],
+      "triangles": 16
+    },
+    {
+      "boundsPixelsMinMax": [
+        518.0,
+        165.0,
+        1030.0,
+        319.0
+      ],
+      "triangles": 1208
+    },
+    {
+      "boundsPixelsMinMax": [
+        518.0,
+        1251.0,
+        1030.0,
+        2046.0
+      ],
+      "triangles": 16
+    },
+    {
+      "boundsPixelsMinMax": [
+        1030.0,
+        399.0,
+        1286.0,
+        783.0
+      ],
+      "triangles": 1266
+    },
+    {
+      "boundsPixelsMinMax": [
+        1034.0,
+        191.0,
+        1290.0,
+        319.0
+      ],
+      "triangles": 1150
+    },
+    {
+      "boundsPixelsMinMax": [
+        1034.0,
+        1326.0,
+        1162.0,
+        2046.0
+      ],
+      "triangles": 16
+    },
+    {
+      "boundsPixelsMinMax": [
+        1166.0,
+        1326.0,
+        1294.0,
+        2046.0
+      ],
+      "triangles": 16
+    },
+    {
+      "boundsPixelsMinMax": [
+        1290.0,
+        399.0,
+        1546.0,
+        783.0
+      ],
+      "triangles": 1268
+    },
+    {
+      "boundsPixelsMinMax": [
+        1294.0,
+        191.0,
+        1550.0,
+        319.0
+      ],
+      "triangles": 1158
+    }
+  ]
+}

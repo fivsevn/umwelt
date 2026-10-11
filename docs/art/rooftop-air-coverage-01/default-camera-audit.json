@@ -1,0 +1,1975 @@
+{
+  "format": "six-game-observers-seasonal-air-audit-v1",
+  "generatedAt": "2026-10-11T18:31:08.783Z",
+  "method": "actual createSeasonalAir integration, twelve updates at t17.3..18.4; actual PerspectiveCamera preset; geometry drawRange / projected NDC / shader veil; houseOccludes is analytic own-house approximation, not the full exported opaque mesh and not a visual browser verdict",
+  "reports": [
+    {
+      "viewport": [
+        406,
+        658
+      ],
+      "scene": "north",
+      "view": "bird",
+      "season": "spring",
+      "targetDistance": 8.373768566183328,
+      "submitted": 16,
+      "inFrame": 12,
+      "opacityUseful": 12,
+      "ownHouseHidden": 0,
+      "potentialVisible": 16,
+      "depthMin": 5.411699731207065,
+      "depthMax": 31.900963282902318,
+      "field": {
+        "cells": 164,
+        "candidates": 66,
+        "sampledCandidates": 4266,
+        "generated": 4266,
+        "depthCandidates": [
+          14,
+          10,
+          42
+        ],
+        "scans": 1,
+        "count": 16,
+        "active": 16,
+        "capacity": 16,
+        "budget": 16,
+        "updated": 16,
+        "depthRange": [
+          2,
+          32.37376856618333
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.585822916666667
+    },
+    {
+      "viewport": [
+        406,
+        658
+      ],
+      "scene": "north",
+      "view": "bird",
+      "season": "summer",
+      "targetDistance": 8.373768566183328,
+      "submitted": 20,
+      "inFrame": 19,
+      "opacityUseful": 19,
+      "ownHouseHidden": 0,
+      "potentialVisible": 20,
+      "depthMin": 3.8846474927798162,
+      "depthMax": 14.857741807171037,
+      "field": {
+        "cells": 280,
+        "candidates": 60,
+        "sampledCandidates": 2415,
+        "generated": 2415,
+        "depthCandidates": [
+          48,
+          12,
+          0
+        ],
+        "scans": 1,
+        "count": 20,
+        "active": 20,
+        "capacity": 20,
+        "budget": 20,
+        "updated": 20,
+        "depthRange": [
+          2,
+          32.37376856618333
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.27132291666666636
+    },
+    {
+      "viewport": [
+        406,
+        658
+      ],
+      "scene": "north",
+      "view": "bird",
+      "season": "autumn",
+      "targetDistance": 8.373768566183328,
+      "submitted": 63,
+      "inFrame": 49,
+      "opacityUseful": 46,
+      "ownHouseHidden": 0,
+      "potentialVisible": 63,
+      "depthMin": 3.275306501917317,
+      "depthMax": 31.66033751899657,
+      "field": {
+        "cells": 244,
+        "candidates": 67,
+        "sampledCandidates": 5446,
+        "generated": 5446,
+        "depthCandidates": [
+          10,
+          5,
+          52
+        ],
+        "scans": 3,
+        "count": 64,
+        "active": 63,
+        "capacity": 64,
+        "budget": 64,
+        "updated": 64,
+        "depthRange": [
+          2,
+          32.37376856618333
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.9705729166666662
+    },
+    {
+      "viewport": [
+        406,
+        658
+      ],
+      "scene": "north",
+      "view": "bird",
+      "season": "winter",
+      "targetDistance": 8.373768566183328,
+      "submitted": 110,
+      "inFrame": 89,
+      "opacityUseful": 81,
+      "ownHouseHidden": 0,
+      "potentialVisible": 110,
+      "depthMin": 3.211742648104041,
+      "depthMax": 32.33935469495565,
+      "field": {
+        "cells": 244,
+        "candidates": 9,
+        "sampledCandidates": 5370,
+        "generated": 5370,
+        "depthCandidates": [
+          4,
+          3,
+          2
+        ],
+        "scans": 4,
+        "count": 112,
+        "active": 108,
+        "capacity": 112,
+        "budget": 112,
+        "updated": 112,
+        "depthRange": [
+          2,
+          32.37376856618333
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.6425416666666663
+    },
+    {
+      "viewport": [
+        406,
+        658
+      ],
+      "scene": "north",
+      "view": "drone",
+      "season": "spring",
+      "targetDistance": 17.635020515376745,
+      "submitted": 16,
+      "inFrame": 11,
+      "opacityUseful": 10,
+      "ownHouseHidden": 2,
+      "potentialVisible": 14,
+      "depthMin": 4.963190030627855,
+      "depthMax": 40.44948583996612,
+      "field": {
+        "cells": 225,
+        "candidates": 86,
+        "sampledCandidates": 5315,
+        "generated": 5315,
+        "depthCandidates": [
+          18,
+          20,
+          48
+        ],
+        "scans": 1,
+        "count": 16,
+        "active": 16,
+        "capacity": 16,
+        "budget": 16,
+        "updated": 16,
+        "depthRange": [
+          2,
+          41.635020515376745
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.21373616666666706
+    },
+    {
+      "viewport": [
+        406,
+        658
+      ],
+      "scene": "north",
+      "view": "drone",
+      "season": "summer",
+      "targetDistance": 17.635020515376745,
+      "submitted": 20,
+      "inFrame": 19,
+      "opacityUseful": 19,
+      "ownHouseHidden": 7,
+      "potentialVisible": 13,
+      "depthMin": 7.892590403542762,
+      "depthMax": 32.589385726249766,
+      "field": {
+        "cells": 338,
+        "candidates": 28,
+        "sampledCandidates": 2318,
+        "generated": 2318,
+        "depthCandidates": [
+          1,
+          23,
+          4
+        ],
+        "scans": 3,
+        "count": 20,
+        "active": 20,
+        "capacity": 20,
+        "budget": 20,
+        "updated": 20,
+        "depthRange": [
+          2,
+          41.635020515376745
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.29114925000000014
+    },
+    {
+      "viewport": [
+        406,
+        658
+      ],
+      "scene": "north",
+      "view": "drone",
+      "season": "autumn",
+      "targetDistance": 17.635020515376745,
+      "submitted": 62,
+      "inFrame": 49,
+      "opacityUseful": 49,
+      "ownHouseHidden": 14,
+      "potentialVisible": 48,
+      "depthMin": 4.997811154057041,
+      "depthMax": 41.28281819476802,
+      "field": {
+        "cells": 216,
+        "candidates": 0,
+        "sampledCandidates": 4019,
+        "generated": 4019,
+        "depthCandidates": [
+          0,
+          0,
+          0
+        ],
+        "scans": 4,
+        "count": 62,
+        "active": 62,
+        "capacity": 64,
+        "budget": 64,
+        "updated": 62,
+        "depthRange": [
+          2,
+          41.635020515376745
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.4291006666666668
+    },
+    {
+      "viewport": [
+        406,
+        658
+      ],
+      "scene": "north",
+      "view": "drone",
+      "season": "winter",
+      "targetDistance": 17.635020515376745,
+      "submitted": 79,
+      "inFrame": 55,
+      "opacityUseful": 53,
+      "ownHouseHidden": 19,
+      "potentialVisible": 60,
+      "depthMin": 2.7963851524727694,
+      "depthMax": 40.22399486409054,
+      "field": {
+        "cells": 216,
+        "candidates": 0,
+        "sampledCandidates": 4001,
+        "generated": 4001,
+        "depthCandidates": [
+          0,
+          0,
+          0
+        ],
+        "scans": 4,
+        "count": 80,
+        "active": 79,
+        "capacity": 112,
+        "budget": 112,
+        "updated": 80,
+        "depthRange": [
+          2,
+          41.635020515376745
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.4296492499999995
+    },
+    {
+      "viewport": [
+        406,
+        658
+      ],
+      "scene": "north",
+      "view": "neighbor",
+      "season": "spring",
+      "targetDistance": 167.9328437203396,
+      "submitted": 9,
+      "inFrame": 6,
+      "opacityUseful": 5,
+      "ownHouseHidden": 1,
+      "potentialVisible": 8,
+      "depthMin": 4.916915503189301,
+      "depthMax": 190.8142155011123,
+      "field": {
+        "cells": 126,
+        "candidates": 0,
+        "sampledCandidates": 2870,
+        "generated": 2870,
+        "depthCandidates": [
+          0,
+          0,
+          0
+        ],
+        "scans": 4,
+        "count": 9,
+        "active": 9,
+        "capacity": 16,
+        "budget": 16,
+        "updated": 9,
+        "depthRange": [
+          2,
+          191.9328437203396
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.4903020833333341
+    },
+    {
+      "viewport": [
+        406,
+        658
+      ],
+      "scene": "north",
+      "view": "neighbor",
+      "season": "summer",
+      "targetDistance": 167.9328437203396,
+      "submitted": 20,
+      "inFrame": 18,
+      "opacityUseful": 18,
+      "ownHouseHidden": 2,
+      "potentialVisible": 18,
+      "depthMin": 153.64761728214745,
+      "depthMax": 177.3871061483391,
+      "field": {
+        "cells": 128,
+        "candidates": 37,
+        "sampledCandidates": 448,
+        "generated": 448,
+        "depthCandidates": [
+          0,
+          0,
+          37
+        ],
+        "scans": 1,
+        "count": 20,
+        "active": 20,
+        "capacity": 20,
+        "budget": 20,
+        "updated": 20,
+        "depthRange": [
+          2,
+          191.9328437203396
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.07019441666666637
+    },
+    {
+      "viewport": [
+        406,
+        658
+      ],
+      "scene": "north",
+      "view": "neighbor",
+      "season": "autumn",
+      "targetDistance": 167.9328437203396,
+      "submitted": 10,
+      "inFrame": 7,
+      "opacityUseful": 7,
+      "ownHouseHidden": 1,
+      "potentialVisible": 9,
+      "depthMin": 15.201290104992893,
+      "depthMax": 178.09141513929836,
+      "field": {
+        "cells": 264,
+        "candidates": 1,
+        "sampledCandidates": 5239,
+        "generated": 5239,
+        "depthCandidates": [
+          1,
+          0,
+          0
+        ],
+        "scans": 4,
+        "count": 10,
+        "active": 10,
+        "capacity": 64,
+        "budget": 64,
+        "updated": 10,
+        "depthRange": [
+          2,
+          191.9328437203396
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.6037360833333333
+    },
+    {
+      "viewport": [
+        406,
+        658
+      ],
+      "scene": "north",
+      "view": "neighbor",
+      "season": "winter",
+      "targetDistance": 167.9328437203396,
+      "submitted": 18,
+      "inFrame": 15,
+      "opacityUseful": 12,
+      "ownHouseHidden": 2,
+      "potentialVisible": 16,
+      "depthMin": 14.863958728479531,
+      "depthMax": 190.9122650787604,
+      "field": {
+        "cells": 264,
+        "candidates": 0,
+        "sampledCandidates": 5229,
+        "generated": 5229,
+        "depthCandidates": [
+          0,
+          0,
+          0
+        ],
+        "scans": 4,
+        "count": 18,
+        "active": 18,
+        "capacity": 112,
+        "budget": 112,
+        "updated": 18,
+        "depthRange": [
+          2,
+          191.9328437203396
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.45952433333333315
+    },
+    {
+      "viewport": [
+        406,
+        658
+      ],
+      "scene": "south",
+      "view": "bird",
+      "season": "spring",
+      "targetDistance": 6.381222453417526,
+      "submitted": 16,
+      "inFrame": 9,
+      "opacityUseful": 9,
+      "ownHouseHidden": 11,
+      "potentialVisible": 5,
+      "depthMin": 3.5659669230599897,
+      "depthMax": 30.69794004559292,
+      "field": {
+        "cells": 204,
+        "candidates": 108,
+        "sampledCandidates": 4900,
+        "generated": 4900,
+        "depthCandidates": [
+          29,
+          24,
+          55
+        ],
+        "scans": 1,
+        "count": 16,
+        "active": 16,
+        "capacity": 16,
+        "budget": 16,
+        "updated": 16,
+        "depthRange": [
+          2,
+          32
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.23442708333333448
+    },
+    {
+      "viewport": [
+        406,
+        658
+      ],
+      "scene": "south",
+      "view": "bird",
+      "season": "summer",
+      "targetDistance": 6.381222453417526,
+      "submitted": 20,
+      "inFrame": 18,
+      "opacityUseful": 18,
+      "ownHouseHidden": 4,
+      "potentialVisible": 16,
+      "depthMin": 2.86007914043218,
+      "depthMax": 8.802290555170082,
+      "field": {
+        "cells": 184,
+        "candidates": 63,
+        "sampledCandidates": 1683,
+        "generated": 1683,
+        "depthCandidates": [
+          63,
+          0,
+          0
+        ],
+        "scans": 2,
+        "count": 20,
+        "active": 20,
+        "capacity": 20,
+        "budget": 20,
+        "updated": 20,
+        "depthRange": [
+          2,
+          32
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.14261808333333312
+    },
+    {
+      "viewport": [
+        406,
+        658
+      ],
+      "scene": "south",
+      "view": "bird",
+      "season": "autumn",
+      "targetDistance": 6.381222453417526,
+      "submitted": 64,
+      "inFrame": 50,
+      "opacityUseful": 47,
+      "ownHouseHidden": 21,
+      "potentialVisible": 43,
+      "depthMin": 3.756494763854464,
+      "depthMax": 31.341368505878048,
+      "field": {
+        "cells": 196,
+        "candidates": 64,
+        "sampledCandidates": 4513,
+        "generated": 4513,
+        "depthCandidates": [
+          24,
+          18,
+          22
+        ],
+        "scans": 3,
+        "count": 64,
+        "active": 64,
+        "capacity": 64,
+        "budget": 64,
+        "updated": 64,
+        "depthRange": [
+          2,
+          32
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.386975666666667
+    },
+    {
+      "viewport": [
+        406,
+        658
+      ],
+      "scene": "south",
+      "view": "bird",
+      "season": "winter",
+      "targetDistance": 6.381222453417526,
+      "submitted": 112,
+      "inFrame": 89,
+      "opacityUseful": 85,
+      "ownHouseHidden": 27,
+      "potentialVisible": 85,
+      "depthMin": 3.3966647734299857,
+      "depthMax": 31.732430629938914,
+      "field": {
+        "cells": 196,
+        "candidates": 28,
+        "sampledCandidates": 4465,
+        "generated": 4465,
+        "depthCandidates": [
+          9,
+          13,
+          6
+        ],
+        "scans": 3,
+        "count": 112,
+        "active": 112,
+        "capacity": 112,
+        "budget": 112,
+        "updated": 112,
+        "depthRange": [
+          2,
+          32
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.3997535000000004
+    },
+    {
+      "viewport": [
+        406,
+        658
+      ],
+      "scene": "south",
+      "view": "drone",
+      "season": "spring",
+      "targetDistance": 19.433220186050452,
+      "submitted": 16,
+      "inFrame": 12,
+      "opacityUseful": 11,
+      "ownHouseHidden": 3,
+      "potentialVisible": 13,
+      "depthMin": 4.405872398307874,
+      "depthMax": 42.00905790322862,
+      "field": {
+        "cells": 192,
+        "candidates": 97,
+        "sampledCandidates": 4975,
+        "generated": 4975,
+        "depthCandidates": [
+          18,
+          26,
+          53
+        ],
+        "scans": 1,
+        "count": 16,
+        "active": 16,
+        "capacity": 16,
+        "budget": 16,
+        "updated": 16,
+        "depthRange": [
+          2,
+          43.43322018605045
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.19587499999999972
+    },
+    {
+      "viewport": [
+        406,
+        658
+      ],
+      "scene": "south",
+      "view": "drone",
+      "season": "summer",
+      "targetDistance": 19.433220186050452,
+      "submitted": 16,
+      "inFrame": 15,
+      "opacityUseful": 15,
+      "ownHouseHidden": 2,
+      "potentialVisible": 14,
+      "depthMin": 14.165229699101289,
+      "depthMax": 23.861423089875366,
+      "field": {
+        "cells": 174,
+        "candidates": 0,
+        "sampledCandidates": 1783,
+        "generated": 1783,
+        "depthCandidates": [
+          0,
+          0,
+          0
+        ],
+        "scans": 4,
+        "count": 16,
+        "active": 16,
+        "capacity": 20,
+        "budget": 20,
+        "updated": 16,
+        "depthRange": [
+          2,
+          43.43322018605045
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.27663883333333317
+    },
+    {
+      "viewport": [
+        406,
+        658
+      ],
+      "scene": "south",
+      "view": "drone",
+      "season": "autumn",
+      "targetDistance": 19.433220186050452,
+      "submitted": 64,
+      "inFrame": 45,
+      "opacityUseful": 43,
+      "ownHouseHidden": 22,
+      "potentialVisible": 42,
+      "depthMin": 4.175855307171393,
+      "depthMax": 41.613418853248845,
+      "field": {
+        "cells": 278,
+        "candidates": 138,
+        "sampledCandidates": 5987,
+        "generated": 5987,
+        "depthCandidates": [
+          3,
+          24,
+          111
+        ],
+        "scans": 2,
+        "count": 64,
+        "active": 64,
+        "capacity": 64,
+        "budget": 64,
+        "updated": 64,
+        "depthRange": [
+          2,
+          43.43322018605045
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.2983194166666661
+    },
+    {
+      "viewport": [
+        406,
+        658
+      ],
+      "scene": "south",
+      "view": "drone",
+      "season": "winter",
+      "targetDistance": 19.433220186050452,
+      "submitted": 112,
+      "inFrame": 78,
+      "opacityUseful": 72,
+      "ownHouseHidden": 48,
+      "potentialVisible": 64,
+      "depthMin": 2.2955523182941455,
+      "depthMax": 43.38942955720548,
+      "field": {
+        "cells": 278,
+        "candidates": 90,
+        "sampledCandidates": 5910,
+        "generated": 5910,
+        "depthCandidates": [
+          7,
+          9,
+          74
+        ],
+        "scans": 3,
+        "count": 112,
+        "active": 111,
+        "capacity": 112,
+        "budget": 112,
+        "updated": 112,
+        "depthRange": [
+          2,
+          43.43322018605045
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.4142257499999988
+    },
+    {
+      "viewport": [
+        406,
+        658
+      ],
+      "scene": "south",
+      "view": "neighbor",
+      "season": "spring",
+      "targetDistance": 169.10777628482967,
+      "submitted": 8,
+      "inFrame": 8,
+      "opacityUseful": 6,
+      "ownHouseHidden": 3,
+      "potentialVisible": 5,
+      "depthMin": 30.550306752278686,
+      "depthMax": 192.4070449093808,
+      "field": {
+        "cells": 206,
+        "candidates": 0,
+        "sampledCandidates": 4152,
+        "generated": 4152,
+        "depthCandidates": [
+          0,
+          0,
+          0
+        ],
+        "scans": 4,
+        "count": 8,
+        "active": 8,
+        "capacity": 16,
+        "budget": 16,
+        "updated": 8,
+        "depthRange": [
+          2,
+          193.10777628482967
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.4786770833333331
+    },
+    {
+      "viewport": [
+        406,
+        658
+      ],
+      "scene": "south",
+      "view": "neighbor",
+      "season": "summer",
+      "targetDistance": 169.10777628482967,
+      "submitted": 20,
+      "inFrame": 16,
+      "opacityUseful": 16,
+      "ownHouseHidden": 2,
+      "potentialVisible": 18,
+      "depthMin": 157.0922114753472,
+      "depthMax": 178.18956895151322,
+      "field": {
+        "cells": 112,
+        "candidates": 2,
+        "sampledCandidates": 660,
+        "generated": 660,
+        "depthCandidates": [
+          0,
+          0,
+          2
+        ],
+        "scans": 2,
+        "count": 20,
+        "active": 20,
+        "capacity": 20,
+        "budget": 20,
+        "updated": 20,
+        "depthRange": [
+          2,
+          193.10777628482967
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.05696875000000053
+    },
+    {
+      "viewport": [
+        406,
+        658
+      ],
+      "scene": "south",
+      "view": "neighbor",
+      "season": "autumn",
+      "targetDistance": 169.10777628482967,
+      "submitted": 15,
+      "inFrame": 13,
+      "opacityUseful": 12,
+      "ownHouseHidden": 2,
+      "potentialVisible": 13,
+      "depthMin": 20.557324314458157,
+      "depthMax": 192.63586547719268,
+      "field": {
+        "cells": 267,
+        "candidates": 0,
+        "sampledCandidates": 4832,
+        "generated": 4832,
+        "depthCandidates": [
+          0,
+          0,
+          0
+        ],
+        "scans": 4,
+        "count": 15,
+        "active": 15,
+        "capacity": 64,
+        "budget": 64,
+        "updated": 15,
+        "depthRange": [
+          2,
+          193.10777628482967
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.3311215833333326
+    },
+    {
+      "viewport": [
+        406,
+        658
+      ],
+      "scene": "south",
+      "view": "neighbor",
+      "season": "winter",
+      "targetDistance": 169.10777628482967,
+      "submitted": 18,
+      "inFrame": 15,
+      "opacityUseful": 12,
+      "ownHouseHidden": 5,
+      "potentialVisible": 13,
+      "depthMin": 12.405977912025264,
+      "depthMax": 192.2876216847948,
+      "field": {
+        "cells": 267,
+        "candidates": 0,
+        "sampledCandidates": 4829,
+        "generated": 4829,
+        "depthCandidates": [
+          0,
+          0,
+          0
+        ],
+        "scans": 4,
+        "count": 18,
+        "active": 18,
+        "capacity": 112,
+        "budget": 112,
+        "updated": 18,
+        "depthRange": [
+          2,
+          193.10777628482967
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.33974650000000156
+    },
+    {
+      "viewport": [
+        1280,
+        720
+      ],
+      "scene": "north",
+      "view": "bird",
+      "season": "spring",
+      "targetDistance": 8.373768566183328,
+      "submitted": 16,
+      "inFrame": 11,
+      "opacityUseful": 11,
+      "ownHouseHidden": 0,
+      "potentialVisible": 16,
+      "depthMin": 5.50845645848973,
+      "depthMax": 32.22397571066515,
+      "field": {
+        "cells": 246,
+        "candidates": 154,
+        "sampledCandidates": 5035,
+        "generated": 5035,
+        "depthCandidates": [
+          29,
+          33,
+          92
+        ],
+        "scans": 1,
+        "count": 16,
+        "active": 16,
+        "capacity": 16,
+        "budget": 16,
+        "updated": 16,
+        "depthRange": [
+          2,
+          32.37376856618333
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.1467221666666679
+    },
+    {
+      "viewport": [
+        1280,
+        720
+      ],
+      "scene": "north",
+      "view": "bird",
+      "season": "summer",
+      "targetDistance": 8.373768566183328,
+      "submitted": 19,
+      "inFrame": 17,
+      "opacityUseful": 17,
+      "ownHouseHidden": 0,
+      "potentialVisible": 19,
+      "depthMin": 3.8846474927798162,
+      "depthMax": 15.105674395655763,
+      "field": {
+        "cells": 288,
+        "candidates": 97,
+        "sampledCandidates": 2120,
+        "generated": 2120,
+        "depthCandidates": [
+          70,
+          27,
+          0
+        ],
+        "scans": 1,
+        "count": 20,
+        "active": 19,
+        "capacity": 20,
+        "budget": 20,
+        "updated": 20,
+        "depthRange": [
+          2,
+          32.37376856618333
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.06313891666666649
+    },
+    {
+      "viewport": [
+        1280,
+        720
+      ],
+      "scene": "north",
+      "view": "bird",
+      "season": "autumn",
+      "targetDistance": 8.373768566183328,
+      "submitted": 63,
+      "inFrame": 52,
+      "opacityUseful": 47,
+      "ownHouseHidden": 0,
+      "potentialVisible": 63,
+      "depthMin": 4.1388854546500315,
+      "depthMax": 31.740077236402122,
+      "field": {
+        "cells": 320,
+        "candidates": 200,
+        "sampledCandidates": 6100,
+        "generated": 6100,
+        "depthCandidates": [
+          17,
+          36,
+          147
+        ],
+        "scans": 3,
+        "count": 64,
+        "active": 62,
+        "capacity": 64,
+        "budget": 64,
+        "updated": 64,
+        "depthRange": [
+          2,
+          32.37376856618333
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.4193333333333342
+    },
+    {
+      "viewport": [
+        1280,
+        720
+      ],
+      "scene": "north",
+      "view": "bird",
+      "season": "winter",
+      "targetDistance": 8.373768566183328,
+      "submitted": 111,
+      "inFrame": 86,
+      "opacityUseful": 79,
+      "ownHouseHidden": 0,
+      "potentialVisible": 111,
+      "depthMin": 4.1384490830641685,
+      "depthMax": 32.201457236482156,
+      "field": {
+        "cells": 320,
+        "candidates": 146,
+        "sampledCandidates": 6028,
+        "generated": 6028,
+        "depthCandidates": [
+          7,
+          28,
+          111
+        ],
+        "scans": 3,
+        "count": 112,
+        "active": 111,
+        "capacity": 112,
+        "budget": 112,
+        "updated": 112,
+        "depthRange": [
+          2,
+          32.37376856618333
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.4026111666666665
+    },
+    {
+      "viewport": [
+        1280,
+        720
+      ],
+      "scene": "north",
+      "view": "drone",
+      "season": "spring",
+      "targetDistance": 17.635020515376745,
+      "submitted": 16,
+      "inFrame": 12,
+      "opacityUseful": 12,
+      "ownHouseHidden": 5,
+      "potentialVisible": 11,
+      "depthMin": 4.734793891857461,
+      "depthMax": 37.85169020365197,
+      "field": {
+        "cells": 228,
+        "candidates": 97,
+        "sampledCandidates": 5564,
+        "generated": 5564,
+        "depthCandidates": [
+          11,
+          61,
+          25
+        ],
+        "scans": 1,
+        "count": 16,
+        "active": 16,
+        "capacity": 16,
+        "budget": 16,
+        "updated": 16,
+        "depthRange": [
+          2,
+          41.635020515376745
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.1700659999999985
+    },
+    {
+      "viewport": [
+        1280,
+        720
+      ],
+      "scene": "north",
+      "view": "drone",
+      "season": "summer",
+      "targetDistance": 17.635020515376745,
+      "submitted": 20,
+      "inFrame": 17,
+      "opacityUseful": 17,
+      "ownHouseHidden": 6,
+      "potentialVisible": 14,
+      "depthMin": 10.619245199683863,
+      "depthMax": 32.589385726249766,
+      "field": {
+        "cells": 320,
+        "candidates": 35,
+        "sampledCandidates": 2252,
+        "generated": 2252,
+        "depthCandidates": [
+          0,
+          31,
+          4
+        ],
+        "scans": 2,
+        "count": 20,
+        "active": 20,
+        "capacity": 20,
+        "budget": 20,
+        "updated": 20,
+        "depthRange": [
+          2,
+          41.635020515376745
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.1370382499999986
+    },
+    {
+      "viewport": [
+        1280,
+        720
+      ],
+      "scene": "north",
+      "view": "drone",
+      "season": "autumn",
+      "targetDistance": 17.635020515376745,
+      "submitted": 64,
+      "inFrame": 42,
+      "opacityUseful": 40,
+      "ownHouseHidden": 27,
+      "potentialVisible": 37,
+      "depthMin": 4.708372991919234,
+      "depthMax": 41.02061597125245,
+      "field": {
+        "cells": 244,
+        "candidates": 31,
+        "sampledCandidates": 4885,
+        "generated": 4885,
+        "depthCandidates": [
+          2,
+          0,
+          29
+        ],
+        "scans": 2,
+        "count": 64,
+        "active": 64,
+        "capacity": 64,
+        "budget": 64,
+        "updated": 64,
+        "depthRange": [
+          2,
+          41.635020515376745
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.19535075000000054
+    },
+    {
+      "viewport": [
+        1280,
+        720
+      ],
+      "scene": "north",
+      "view": "drone",
+      "season": "winter",
+      "targetDistance": 17.635020515376745,
+      "submitted": 104,
+      "inFrame": 78,
+      "opacityUseful": 72,
+      "ownHouseHidden": 72,
+      "potentialVisible": 32,
+      "depthMin": 3.599548767381936,
+      "depthMax": 41.090685694750746,
+      "field": {
+        "cells": 244,
+        "candidates": 6,
+        "sampledCandidates": 4812,
+        "generated": 4812,
+        "depthCandidates": [
+          0,
+          2,
+          4
+        ],
+        "scans": 4,
+        "count": 106,
+        "active": 104,
+        "capacity": 112,
+        "budget": 112,
+        "updated": 106,
+        "depthRange": [
+          2,
+          41.635020515376745
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.3874305000000007
+    },
+    {
+      "viewport": [
+        1280,
+        720
+      ],
+      "scene": "north",
+      "view": "neighbor",
+      "season": "spring",
+      "targetDistance": 167.9328437203396,
+      "submitted": 12,
+      "inFrame": 12,
+      "opacityUseful": 11,
+      "ownHouseHidden": 1,
+      "potentialVisible": 11,
+      "depthMin": 4.916915503189301,
+      "depthMax": 190.8142155011123,
+      "field": {
+        "cells": 126,
+        "candidates": 0,
+        "sampledCandidates": 2867,
+        "generated": 2867,
+        "depthCandidates": [
+          0,
+          0,
+          0
+        ],
+        "scans": 4,
+        "count": 12,
+        "active": 12,
+        "capacity": 16,
+        "budget": 16,
+        "updated": 12,
+        "depthRange": [
+          2,
+          191.9328437203396
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.3042187500000016
+    },
+    {
+      "viewport": [
+        1280,
+        720
+      ],
+      "scene": "north",
+      "view": "neighbor",
+      "season": "summer",
+      "targetDistance": 167.9328437203396,
+      "submitted": 20,
+      "inFrame": 20,
+      "opacityUseful": 20,
+      "ownHouseHidden": 3,
+      "potentialVisible": 17,
+      "depthMin": 153.64761728214745,
+      "depthMax": 178.7389108782747,
+      "field": {
+        "cells": 128,
+        "candidates": 40,
+        "sampledCandidates": 429,
+        "generated": 429,
+        "depthCandidates": [
+          0,
+          0,
+          40
+        ],
+        "scans": 2,
+        "count": 20,
+        "active": 20,
+        "capacity": 20,
+        "budget": 20,
+        "updated": 20,
+        "depthRange": [
+          2,
+          191.9328437203396
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.04806941666666612
+    },
+    {
+      "viewport": [
+        1280,
+        720
+      ],
+      "scene": "north",
+      "view": "neighbor",
+      "season": "autumn",
+      "targetDistance": 167.9328437203396,
+      "submitted": 21,
+      "inFrame": 13,
+      "opacityUseful": 13,
+      "ownHouseHidden": 2,
+      "potentialVisible": 19,
+      "depthMin": 15.201290104992893,
+      "depthMax": 186.38643379444574,
+      "field": {
+        "cells": 279,
+        "candidates": 0,
+        "sampledCandidates": 5466,
+        "generated": 5466,
+        "depthCandidates": [
+          0,
+          0,
+          0
+        ],
+        "scans": 4,
+        "count": 21,
+        "active": 21,
+        "capacity": 64,
+        "budget": 64,
+        "updated": 21,
+        "depthRange": [
+          2,
+          191.9328437203396
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.38581600000000077
+    },
+    {
+      "viewport": [
+        1280,
+        720
+      ],
+      "scene": "north",
+      "view": "neighbor",
+      "season": "winter",
+      "targetDistance": 167.9328437203396,
+      "submitted": 30,
+      "inFrame": 24,
+      "opacityUseful": 21,
+      "ownHouseHidden": 5,
+      "potentialVisible": 25,
+      "depthMin": 14.863958728479531,
+      "depthMax": 190.9122650787604,
+      "field": {
+        "cells": 279,
+        "candidates": 0,
+        "sampledCandidates": 5457,
+        "generated": 5457,
+        "depthCandidates": [
+          0,
+          0,
+          0
+        ],
+        "scans": 4,
+        "count": 30,
+        "active": 30,
+        "capacity": 112,
+        "budget": 112,
+        "updated": 30,
+        "depthRange": [
+          2,
+          191.9328437203396
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.37860758333333183
+    },
+    {
+      "viewport": [
+        1280,
+        720
+      ],
+      "scene": "south",
+      "view": "bird",
+      "season": "spring",
+      "targetDistance": 6.381222453417526,
+      "submitted": 16,
+      "inFrame": 9,
+      "opacityUseful": 8,
+      "ownHouseHidden": 14,
+      "potentialVisible": 2,
+      "depthMin": 6.094707189173078,
+      "depthMax": 31.427426116272635,
+      "field": {
+        "cells": 328,
+        "candidates": 224,
+        "sampledCandidates": 6317,
+        "generated": 6317,
+        "depthCandidates": [
+          35,
+          60,
+          129
+        ],
+        "scans": 1,
+        "count": 16,
+        "active": 16,
+        "capacity": 16,
+        "budget": 16,
+        "updated": 16,
+        "depthRange": [
+          2,
+          32
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.20671525000000202
+    },
+    {
+      "viewport": [
+        1280,
+        720
+      ],
+      "scene": "south",
+      "view": "bird",
+      "season": "summer",
+      "targetDistance": 6.381222453417526,
+      "submitted": 20,
+      "inFrame": 19,
+      "opacityUseful": 18,
+      "ownHouseHidden": 3,
+      "potentialVisible": 17,
+      "depthMin": 3.4490950022703726,
+      "depthMax": 7.49652474499706,
+      "field": {
+        "cells": 200,
+        "candidates": 104,
+        "sampledCandidates": 1471,
+        "generated": 1471,
+        "depthCandidates": [
+          104,
+          0,
+          0
+        ],
+        "scans": 3,
+        "count": 20,
+        "active": 20,
+        "capacity": 20,
+        "budget": 20,
+        "updated": 20,
+        "depthRange": [
+          2,
+          32
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.1380381666666679
+    },
+    {
+      "viewport": [
+        1280,
+        720
+      ],
+      "scene": "south",
+      "view": "bird",
+      "season": "autumn",
+      "targetDistance": 6.381222453417526,
+      "submitted": 64,
+      "inFrame": 44,
+      "opacityUseful": 41,
+      "ownHouseHidden": 18,
+      "potentialVisible": 46,
+      "depthMin": 3.401643363421782,
+      "depthMax": 30.88749654108453,
+      "field": {
+        "cells": 334,
+        "candidates": 198,
+        "sampledCandidates": 6001,
+        "generated": 6001,
+        "depthCandidates": [
+          56,
+          69,
+          73
+        ],
+        "scans": 2,
+        "count": 64,
+        "active": 64,
+        "capacity": 64,
+        "budget": 64,
+        "updated": 64,
+        "depthRange": [
+          2,
+          32
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.3072395833333322
+    },
+    {
+      "viewport": [
+        1280,
+        720
+      ],
+      "scene": "south",
+      "view": "bird",
+      "season": "winter",
+      "targetDistance": 6.381222453417526,
+      "submitted": 112,
+      "inFrame": 94,
+      "opacityUseful": 90,
+      "ownHouseHidden": 26,
+      "potentialVisible": 86,
+      "depthMin": 2.968762397096199,
+      "depthMax": 31.732430629938914,
+      "field": {
+        "cells": 334,
+        "candidates": 149,
+        "sampledCandidates": 5953,
+        "generated": 5953,
+        "depthCandidates": [
+          33,
+          66,
+          50
+        ],
+        "scans": 4,
+        "count": 112,
+        "active": 112,
+        "capacity": 112,
+        "budget": 112,
+        "updated": 112,
+        "depthRange": [
+          2,
+          32
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.5362048333333339
+    },
+    {
+      "viewport": [
+        1280,
+        720
+      ],
+      "scene": "south",
+      "view": "drone",
+      "season": "spring",
+      "targetDistance": 19.433220186050452,
+      "submitted": 16,
+      "inFrame": 14,
+      "opacityUseful": 13,
+      "ownHouseHidden": 5,
+      "potentialVisible": 11,
+      "depthMin": 5.464719534123043,
+      "depthMax": 42.84674873161358,
+      "field": {
+        "cells": 180,
+        "candidates": 64,
+        "sampledCandidates": 4583,
+        "generated": 4583,
+        "depthCandidates": [
+          8,
+          31,
+          25
+        ],
+        "scans": 2,
+        "count": 16,
+        "active": 16,
+        "capacity": 16,
+        "budget": 16,
+        "updated": 16,
+        "depthRange": [
+          2,
+          43.43322018605045
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.27155900000000105
+    },
+    {
+      "viewport": [
+        1280,
+        720
+      ],
+      "scene": "south",
+      "view": "drone",
+      "season": "summer",
+      "targetDistance": 19.433220186050452,
+      "submitted": 20,
+      "inFrame": 16,
+      "opacityUseful": 15,
+      "ownHouseHidden": 1,
+      "potentialVisible": 19,
+      "depthMin": 13.035315216500052,
+      "depthMax": 22.902201318273008,
+      "field": {
+        "cells": 294,
+        "candidates": 134,
+        "sampledCandidates": 3020,
+        "generated": 3020,
+        "depthCandidates": [
+          0,
+          134,
+          0
+        ],
+        "scans": 3,
+        "count": 20,
+        "active": 20,
+        "capacity": 20,
+        "budget": 20,
+        "updated": 20,
+        "depthRange": [
+          2,
+          43.43322018605045
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.27366324999999847
+    },
+    {
+      "viewport": [
+        1280,
+        720
+      ],
+      "scene": "south",
+      "view": "drone",
+      "season": "autumn",
+      "targetDistance": 19.433220186050452,
+      "submitted": 63,
+      "inFrame": 46,
+      "opacityUseful": 42,
+      "ownHouseHidden": 45,
+      "potentialVisible": 18,
+      "depthMin": 4.365383512168243,
+      "depthMax": 43.08640079908278,
+      "field": {
+        "cells": 172,
+        "candidates": 17,
+        "sampledCandidates": 4295,
+        "generated": 4295,
+        "depthCandidates": [
+          0,
+          2,
+          15
+        ],
+        "scans": 3,
+        "count": 64,
+        "active": 63,
+        "capacity": 64,
+        "budget": 64,
+        "updated": 64,
+        "depthRange": [
+          2,
+          43.43322018605045
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.2927743333333339
+    },
+    {
+      "viewport": [
+        1280,
+        720
+      ],
+      "scene": "south",
+      "view": "drone",
+      "season": "winter",
+      "targetDistance": 19.433220186050452,
+      "submitted": 76,
+      "inFrame": 54,
+      "opacityUseful": 42,
+      "ownHouseHidden": 55,
+      "potentialVisible": 21,
+      "depthMin": 2.2955523182941455,
+      "depthMax": 43.38942955720548,
+      "field": {
+        "cells": 172,
+        "candidates": 2,
+        "sampledCandidates": 4282,
+        "generated": 4282,
+        "depthCandidates": [
+          0,
+          2,
+          0
+        ],
+        "scans": 4,
+        "count": 76,
+        "active": 75,
+        "capacity": 112,
+        "budget": 112,
+        "updated": 76,
+        "depthRange": [
+          2,
+          43.43322018605045
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.3541805000000006
+    },
+    {
+      "viewport": [
+        1280,
+        720
+      ],
+      "scene": "south",
+      "view": "neighbor",
+      "season": "spring",
+      "targetDistance": 169.10777628482967,
+      "submitted": 9,
+      "inFrame": 5,
+      "opacityUseful": 5,
+      "ownHouseHidden": 2,
+      "potentialVisible": 7,
+      "depthMin": 7.774940574952751,
+      "depthMax": 186.09111438754394,
+      "field": {
+        "cells": 153,
+        "candidates": 0,
+        "sampledCandidates": 3303,
+        "generated": 3303,
+        "depthCandidates": [
+          0,
+          0,
+          0
+        ],
+        "scans": 4,
+        "count": 9,
+        "active": 9,
+        "capacity": 16,
+        "budget": 16,
+        "updated": 9,
+        "depthRange": [
+          2,
+          193.10777628482967
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.3368471666666674
+    },
+    {
+      "viewport": [
+        1280,
+        720
+      ],
+      "scene": "south",
+      "view": "neighbor",
+      "season": "summer",
+      "targetDistance": 169.10777628482967,
+      "submitted": 20,
+      "inFrame": 20,
+      "opacityUseful": 20,
+      "ownHouseHidden": 2,
+      "potentialVisible": 18,
+      "depthMin": 157.0922114753472,
+      "depthMax": 178.18956895151322,
+      "field": {
+        "cells": 136,
+        "candidates": 6,
+        "sampledCandidates": 890,
+        "generated": 890,
+        "depthCandidates": [
+          0,
+          0,
+          6
+        ],
+        "scans": 2,
+        "count": 20,
+        "active": 20,
+        "capacity": 20,
+        "budget": 20,
+        "updated": 20,
+        "depthRange": [
+          2,
+          193.10777628482967
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.06047566666666645
+    },
+    {
+      "viewport": [
+        1280,
+        720
+      ],
+      "scene": "south",
+      "view": "neighbor",
+      "season": "autumn",
+      "targetDistance": 169.10777628482967,
+      "submitted": 20,
+      "inFrame": 19,
+      "opacityUseful": 17,
+      "ownHouseHidden": 2,
+      "potentialVisible": 18,
+      "depthMin": 32.9579891727702,
+      "depthMax": 192.03015118233662,
+      "field": {
+        "cells": 327,
+        "candidates": 0,
+        "sampledCandidates": 5786,
+        "generated": 5786,
+        "depthCandidates": [
+          0,
+          0,
+          0
+        ],
+        "scans": 4,
+        "count": 21,
+        "active": 20,
+        "capacity": 64,
+        "budget": 64,
+        "updated": 22,
+        "depthRange": [
+          2,
+          193.10777628482967
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.3903020833333315
+    },
+    {
+      "viewport": [
+        1280,
+        720
+      ],
+      "scene": "south",
+      "view": "neighbor",
+      "season": "winter",
+      "targetDistance": 169.10777628482967,
+      "submitted": 21,
+      "inFrame": 16,
+      "opacityUseful": 11,
+      "ownHouseHidden": 7,
+      "potentialVisible": 14,
+      "depthMin": 12.405977912025264,
+      "depthMax": 192.2876216847948,
+      "field": {
+        "cells": 327,
+        "candidates": 1,
+        "sampledCandidates": 5783,
+        "generated": 5783,
+        "depthCandidates": [
+          0,
+          0,
+          1
+        ],
+        "scans": 4,
+        "count": 21,
+        "active": 21,
+        "capacity": 112,
+        "budget": 112,
+        "updated": 22,
+        "depthRange": [
+          2,
+          193.10777628482967
+        ],
+        "safety": 1.18,
+        "worldAnchored": true
+      },
+      "averageCPUUpdateMs": 0.3695554999999994
+    }
+  ]
+}

@@ -1,0 +1,464 @@
+{
+  "method": "Actual exported position/UV inverse Jacobian; non-normalized pixelbook UVs interpreted as texel counts; every stored mesh instance matrix applied before physical scale",
+  "texelMetresPerUnit": [
+    0.2707537401739019,
+    0.5357142857142857,
+    0.4638375014617893
+  ],
+  "binarySha256": "34b25d9ae868821494638a6b0f0519f95f5179ade24019cc46d52cf8dd410e92",
+  "fields": [
+    {
+      "field": "blue-glass",
+      "layer": "ground",
+      "triangles": 338,
+      "matched16": 325,
+      "degenerate": 0,
+      "pxU": {
+        "min": 15.531113,
+        "median": 16.000001,
+        "max": 16.093909
+      },
+      "pxV": {
+        "min": 15.838824,
+        "median": 16.0,
+        "max": 18.118627
+      },
+      "angles": {
+        "min": 89.944749,
+        "median": 90.000013,
+        "max": 92.099681
+      },
+      "aniso": {
+        "min": 1.0,
+        "median": 1.000002,
+        "max": 1.129789
+      },
+      "allSquare16PxPerMetre": false
+    },
+    {
+      "field": "cap",
+      "layer": "far",
+      "triangles": 373,
+      "matched16": 357,
+      "degenerate": 0,
+      "pxU": {
+        "min": 14.824951,
+        "median": 15.999999,
+        "max": 16.183652
+      },
+      "pxV": {
+        "min": 15.907118,
+        "median": 16.0,
+        "max": 16.262818
+      },
+      "angles": {
+        "min": 88.692369,
+        "median": 90.000007,
+        "max": 91.410671
+      },
+      "aniso": {
+        "min": 1.0,
+        "median": 1.000002,
+        "max": 1.078237
+      },
+      "allSquare16PxPerMetre": false
+    },
+    {
+      "field": "car-ivory",
+      "layer": "ground",
+      "triangles": 2040,
+      "matched16": 2040,
+      "degenerate": 0,
+      "pxU": {
+        "min": 15.998812,
+        "median": 15.999992,
+        "max": 16.000314
+      },
+      "pxV": {
+        "min": 15.998815,
+        "median": 16.000005,
+        "max": 16.000286
+      },
+      "angles": {
+        "min": 89.995592,
+        "median": 90.0,
+        "max": 90.003108
+      },
+      "aniso": {
+        "min": 1.0,
+        "median": 1.000003,
+        "max": 1.00008
+      },
+      "allSquare16PxPerMetre": true
+    },
+    {
+      "field": "cement",
+      "layer": "near",
+      "triangles": 180,
+      "matched16": 180,
+      "degenerate": 0,
+      "pxU": {
+        "min": 15.999963,
+        "median": 16.0,
+        "max": 16.000028
+      },
+      "pxV": {
+        "min": 15.999972,
+        "median": 16.000001,
+        "max": 16.000016
+      },
+      "angles": {
+        "min": 89.999855,
+        "median": 90.0,
+        "max": 90.000155
+      },
+      "aniso": {
+        "min": 1.0,
+        "median": 1.0,
+        "max": 1.000002
+      },
+      "allSquare16PxPerMetre": true
+    },
+    {
+      "field": "dark-glass",
+      "layer": "ground",
+      "triangles": 340,
+      "matched16": 340,
+      "degenerate": 0,
+      "pxU": {
+        "min": 15.999707,
+        "median": 15.999996,
+        "max": 16.000318
+      },
+      "pxV": {
+        "min": 15.999481,
+        "median": 15.999945,
+        "max": 16.000137
+      },
+      "angles": {
+        "min": 89.997229,
+        "median": 89.99998,
+        "max": 90.0039
+      },
+      "aniso": {
+        "min": 1.0,
+        "median": 1.000004,
+        "max": 1.000041
+      },
+      "allSquare16PxPerMetre": true
+    },
+    {
+      "field": "dark-glass",
+      "layer": "near",
+      "triangles": 3312,
+      "matched16": 3312,
+      "degenerate": 0,
+      "pxU": {
+        "min": 15.99901,
+        "median": 16.000003,
+        "max": 16.001317
+      },
+      "pxV": {
+        "min": 15.999661,
+        "median": 15.999997,
+        "max": 16.000476
+      },
+      "angles": {
+        "min": 89.994934,
+        "median": 90.000001,
+        "max": 90.005066
+      },
+      "aniso": {
+        "min": 1.0,
+        "median": 1.000008,
+        "max": 1.000084
+      },
+      "allSquare16PxPerMetre": true
+    },
+    {
+      "field": "foliage",
+      "layer": "ground",
+      "triangles": 3450,
+      "matched16": 3444,
+      "degenerate": 0,
+      "pxU": {
+        "min": 15.821558,
+        "median": 15.999992,
+        "max": 16.004485
+      },
+      "pxV": {
+        "min": 15.975565,
+        "median": 15.999988,
+        "max": 16.049221
+      },
+      "angles": {
+        "min": 89.118795,
+        "median": 89.999996,
+        "max": 90.024756
+      },
+      "aniso": {
+        "min": 1.0,
+        "median": 1.000008,
+        "max": 1.014389
+      },
+      "allSquare16PxPerMetre": false
+    },
+    {
+      "field": "glass",
+      "layer": "ground",
+      "triangles": 340,
+      "matched16": 340,
+      "degenerate": 0,
+      "pxU": {
+        "min": 15.999747,
+        "median": 16.000003,
+        "max": 16.000429
+      },
+      "pxV": {
+        "min": 15.999531,
+        "median": 15.999995,
+        "max": 16.000294
+      },
+      "angles": {
+        "min": 89.997405,
+        "median": 90.000028,
+        "max": 90.002858
+      },
+      "aniso": {
+        "min": 1.0,
+        "median": 1.000004,
+        "max": 1.000036
+      },
+      "allSquare16PxPerMetre": true
+    },
+    {
+      "field": "home-roof-north",
+      "layer": "near",
+      "triangles": 14,
+      "matched16": 14,
+      "degenerate": 0,
+      "pxU": {
+        "min": 15.999971,
+        "median": 16.0,
+        "max": 16.0
+      },
+      "pxV": {
+        "min": 15.999887,
+        "median": 15.999887,
+        "max": 16.0
+      },
+      "angles": {
+        "min": 90.0,
+        "median": 90.0,
+        "max": 90.0
+      },
+      "aniso": {
+        "min": 1.0,
+        "median": 1.000005,
+        "max": 1.000007
+      },
+      "allSquare16PxPerMetre": true
+    },
+    {
+      "field": "home-roof-south",
+      "layer": "near",
+      "triangles": 2,
+      "matched16": 2,
+      "degenerate": 0,
+      "pxU": {
+        "min": 15.999998,
+        "median": 15.999998,
+        "max": 15.999998
+      },
+      "pxV": {
+        "min": 16.000001,
+        "median": 16.000001,
+        "max": 16.000001
+      },
+      "angles": {
+        "min": 90.0,
+        "median": 90.0,
+        "max": 90.0
+      },
+      "aniso": {
+        "min": 1.0,
+        "median": 1.0,
+        "max": 1.0
+      },
+      "allSquare16PxPerMetre": true
+    },
+    {
+      "field": "north-floor",
+      "layer": "near",
+      "triangles": 144,
+      "matched16": 144,
+      "degenerate": 0,
+      "pxU": {
+        "min": 15.999963,
+        "median": 16.0,
+        "max": 16.000028
+      },
+      "pxV": {
+        "min": 15.99998,
+        "median": 16.000001,
+        "max": 16.000016
+      },
+      "angles": {
+        "min": 89.999861,
+        "median": 90.0,
+        "max": 90.000155
+      },
+      "aniso": {
+        "min": 1.0,
+        "median": 1.0,
+        "max": 1.000002
+      },
+      "allSquare16PxPerMetre": true
+    },
+    {
+      "field": "plaster",
+      "layer": "near",
+      "triangles": 6,
+      "matched16": 6,
+      "degenerate": 0,
+      "pxU": {
+        "min": 15.999997,
+        "median": 16.000001,
+        "max": 16.000005
+      },
+      "pxV": {
+        "min": 16.0,
+        "median": 16.0,
+        "max": 16.0
+      },
+      "angles": {
+        "min": 89.999946,
+        "median": 90.0,
+        "max": 90.0
+      },
+      "aniso": {
+        "min": 1.0,
+        "median": 1.0,
+        "max": 1.0
+      },
+      "allSquare16PxPerMetre": true
+    },
+    {
+      "field": "roof",
+      "layer": "far",
+      "triangles": 2709,
+      "matched16": 2687,
+      "degenerate": 0,
+      "pxU": {
+        "min": 15.784937,
+        "median": 16.0,
+        "max": 16.968127
+      },
+      "pxV": {
+        "min": 15.89907,
+        "median": 16.0,
+        "max": 17.966391
+      },
+      "angles": {
+        "min": 87.860688,
+        "median": 89.999999,
+        "max": 121.963753
+      },
+      "aniso": {
+        "min": 1.0,
+        "median": 1.000001,
+        "max": 1.135246
+      },
+      "allSquare16PxPerMetre": false
+    },
+    {
+      "field": "roof",
+      "layer": "near",
+      "triangles": 32,
+      "matched16": 32,
+      "degenerate": 0,
+      "pxU": {
+        "min": 15.999996,
+        "median": 16.000001,
+        "max": 16.000005
+      },
+      "pxV": {
+        "min": 15.999993,
+        "median": 16.000001,
+        "max": 16.000012
+      },
+      "angles": {
+        "min": 89.999938,
+        "median": 90.000002,
+        "max": 90.000049
+      },
+      "aniso": {
+        "min": 1.0,
+        "median": 1.0,
+        "max": 1.000001
+      },
+      "allSquare16PxPerMetre": true
+    },
+    {
+      "field": "south-floor",
+      "layer": "near",
+      "triangles": 36,
+      "matched16": 36,
+      "degenerate": 0,
+      "pxU": {
+        "min": 15.999996,
+        "median": 16.0,
+        "max": 16.000007
+      },
+      "pxV": {
+        "min": 15.999972,
+        "median": 15.999998,
+        "max": 16.000008
+      },
+      "angles": {
+        "min": 89.999963,
+        "median": 90.0,
+        "max": 90.000042
+      },
+      "aniso": {
+        "min": 1.0,
+        "median": 1.0,
+        "max": 1.000002
+      },
+      "allSquare16PxPerMetre": true
+    },
+    {
+      "field": "tire",
+      "layer": "ground",
+      "triangles": 12240,
+      "matched16": 12097,
+      "degenerate": 0,
+      "pxU": {
+        "min": 15.99211,
+        "median": 16.000029,
+        "max": 16.006356
+      },
+      "pxV": {
+        "min": 15.997826,
+        "median": 16.000009,
+        "max": 16.002246
+      },
+      "angles": {
+        "min": 89.978605,
+        "median": 90.000002,
+        "max": 90.021395
+      },
+      "aniso": {
+        "min": 1.0,
+        "median": 1.000012,
+        "max": 1.000494
+      },
+      "allSquare16PxPerMetre": false
+    }
+  ],
+  "totals": {
+    "triangles": 25556,
+    "matched16": 25356,
+    "degenerate": 0
+  }
+}

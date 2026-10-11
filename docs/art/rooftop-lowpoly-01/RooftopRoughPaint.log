@@ -1,0 +1,17 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Pixelorama v1.2.3-stable - macOS Tahoe (26.6.2) - Single-window, 0 monitors - is not sandboxed - Apple M5 Pro (15 threads) - 24.00 GiB memory - Dummy
+==========
+Unknown option: --rooftop-lowpoly-paint
+==========
+NATIVE ROUGH SURFACE {"brush":1,"effect":"Native cel pigment regrouping","nativePngExport":true,"nativeSaved":true,"paletteChangedPixels":236775,"software":"Pixelorama","source":"rooftop-weathering-07/terrace-book.pxo","strokes":760,"texelsPerMetre":16,"tool":"Pencil","version":"v1.2.3-stable"}
+Time Pixelorama took to open: 5401ms
+
+ERROR: Condition "!actions.custom_samplers.has(function->arguments[j].tex_builtin)" is true. Continuing.
+   at: _dump_node_code (servers/rendering/shader_compiler.cpp:1329)
+ERROR: Condition "!actions.custom_samplers.has(function->arguments[j].tex_builtin)" is true. Continuing.
+   at: _dump_node_code (servers/rendering/shader_compiler.cpp:1329)
+ERROR: Condition "!actions.custom_samplers.has(function->arguments[j].tex_builtin)" is true. Continuing.
+   at: _dump_node_code (servers/rendering/shader_compiler.cpp:1329)
+ERROR: Condition "!actions.custom_samplers.has(function->arguments[j].tex_builtin)" is true. Continuing.
+   at: _dump_node_code (servers/rendering/shader_compiler.cpp:1329)

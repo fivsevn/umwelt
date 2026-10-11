@@ -1,0 +1,164 @@
+{
+  "nativeSoftware": "Pixelorama",
+  "nativePxoReopened": true,
+  "nativeCelEqualsPngAndReopenedPng": true,
+  "dimensions": [
+    1024,
+    1024
+  ],
+  "texelsPerMetre": 16,
+  "pencilBrush": 1,
+  "nativePencilStrokes": 176,
+  "integerStrokeCoordinates": true,
+  "alphaCoverageExactlyPreserved": true,
+  "erasedShopSignStripsByteIdentical": true,
+  "changedPixelsOutsideAuthorizedScope": 0,
+  "changedPixels": 187645,
+  "reviewedFields": 28,
+  "fieldChangedPixels": {
+    "north-floor": 6820,
+    "south-floor": 2891,
+    "north-plaster": 8327,
+    "stained-plaster": 8330,
+    "cap": 2421,
+    "cement": 3249,
+    "metal": 207,
+    "rust-iron": 310,
+    "home-roof-north": 40569,
+    "home-roof-south": 55909,
+    "roof": 56982,
+    "foliage": 0,
+    "ground": 0,
+    "road": 0,
+    "awning": 0,
+    "garage-door": 0,
+    "facade": 1630,
+    "tower-trim": 0,
+    "paving": 0,
+    "blue-glass": 0,
+    "red-roof": 0,
+    "dark-glass": 0,
+    "glass": 0,
+    "car-ivory": 0,
+    "car-silver": 0,
+    "taillamp": 0,
+    "headlamp": 0,
+    "tire": 0
+  },
+  "actualRgbPaletteCounts": {
+    "north-floor": {
+      "before": 8,
+      "after": 7
+    },
+    "south-floor": {
+      "before": 8,
+      "after": 7
+    },
+    "north-plaster": {
+      "before": 8,
+      "after": 7
+    },
+    "stained-plaster": {
+      "before": 8,
+      "after": 7
+    },
+    "cap": {
+      "before": 8,
+      "after": 7
+    },
+    "cement": {
+      "before": 8,
+      "after": 7
+    },
+    "metal": {
+      "before": 7,
+      "after": 6
+    },
+    "rust-iron": {
+      "before": 7,
+      "after": 6
+    },
+    "home-roof-north": {
+      "before": 7,
+      "after": 6
+    },
+    "home-roof-south": {
+      "before": 7,
+      "after": 6
+    },
+    "roof": {
+      "before": 8,
+      "after": 7
+    },
+    "foliage": {
+      "before": 4,
+      "after": 4
+    },
+    "ground": {
+      "before": 4,
+      "after": 4
+    },
+    "road": {
+      "before": 4,
+      "after": 4
+    },
+    "awning": {
+      "before": 3,
+      "after": 3
+    },
+    "garage-door": {
+      "before": 6,
+      "after": 6
+    },
+    "facade": {
+      "before": 8,
+      "after": 7
+    },
+    "tower-trim": {
+      "before": 4,
+      "after": 4
+    },
+    "paving": {
+      "before": 1,
+      "after": 1
+    },
+    "blue-glass": {
+      "before": 2,
+      "after": 2
+    },
+    "red-roof": {
+      "before": 4,
+      "after": 4
+    },
+    "dark-glass": {
+      "before": 2,
+      "after": 2
+    },
+    "glass": {
+      "before": 2,
+      "after": 2
+    },
+    "car-ivory": {
+      "before": 2,
+      "after": 2
+    },
+    "car-silver": {
+      "before": 2,
+      "after": 2
+    },
+    "taillamp": {
+      "before": 1,
+      "after": 1
+    },
+    "headlamp": {
+      "before": 1,
+      "after": 1
+    },
+    "tire": {
+      "before": 1,
+      "after": 1
+    }
+  },
+  "pxoSha256": "4bec469dd5ebeb28a2d0ecc46d3f83ed6b1a8cd6944eb7e91dbe189653b92c2d",
+  "pngSha256": "66c0c3c1200187a1a19236854c18b9c172312a7be5e34321011361755fb9f20f"
+}

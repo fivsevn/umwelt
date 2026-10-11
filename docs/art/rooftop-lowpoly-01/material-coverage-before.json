@@ -1,0 +1,981 @@
+{
+  "source": "rooftop-weathering-07",
+  "meshObjects": 19188,
+  "uniqueMeshData": 7133,
+  "allMeshDataHaveUvs": true,
+  "smoothPolygons": 0,
+  "fieldInventory": [
+    {
+      "field": "Baked distant facades",
+      "style": "baked",
+      "nativeObjects": 935,
+      "polygons": 4952,
+      "normalDirections": {
+        "sloped": 1532,
+        "south": 976,
+        "west": 740,
+        "north": 963,
+        "east": 741
+      },
+      "uvCharts": [
+        "Native texture chart"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "distance-facades.png",
+        "distance-lights.png"
+      ],
+      "materials": [
+        "Baked distant facades"
+      ],
+      "hiddenObjects": 0,
+      "rect": null,
+      "scopeCovered": false
+    },
+    {
+      "field": "awning",
+      "style": "pixelbook",
+      "nativeObjects": 462,
+      "polygons": 2772,
+      "normalDirections": {
+        "north": 402,
+        "south": 402,
+        "bottom": 402,
+        "top": 402,
+        "west": 462,
+        "east": 462,
+        "sloped": 240
+      },
+      "uvCharts": [
+        "Native texture chart",
+        "Pixelorama metric chart"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "awning"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        256,
+        384,
+        64,
+        64
+      ],
+      "scopeCovered": true
+    },
+    {
+      "field": "blue-glass",
+      "style": "pixelbook",
+      "nativeObjects": 356,
+      "polygons": 2096,
+      "normalDirections": {
+        "north": 348,
+        "south": 348,
+        "bottom": 352,
+        "top": 352,
+        "west": 348,
+        "east": 348
+      },
+      "uvCharts": [
+        "Native texture chart",
+        "Physical 16 px metre",
+        "Pixelorama metric chart"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "blue-glass"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        288,
+        320,
+        32,
+        32
+      ],
+      "scopeCovered": false
+    },
+    {
+      "field": "cap",
+      "style": "pixelbook",
+      "nativeObjects": 4361,
+      "polygons": 25866,
+      "normalDirections": {
+        "top": 4361,
+        "north": 4301,
+        "south": 4301,
+        "bottom": 4301,
+        "west": 4301,
+        "east": 4301
+      },
+      "uvCharts": [
+        "Physical 16 px metre",
+        "Pixelorama metric chart"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "cap"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        768,
+        128,
+        256,
+        64
+      ],
+      "scopeCovered": true
+    },
+    {
+      "field": "car-ivory",
+      "style": "pixelbook",
+      "nativeObjects": 191,
+      "polygons": 1146,
+      "normalDirections": {
+        "north": 103,
+        "south": 103,
+        "top": 191,
+        "bottom": 191,
+        "west": 103,
+        "east": 103,
+        "sloped": 352
+      },
+      "uvCharts": [
+        "Physical 16 px metre",
+        "Pixelorama metric chart"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "car-ivory"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        256,
+        176,
+        32,
+        32
+      ],
+      "scopeCovered": false
+    },
+    {
+      "field": "car-silver",
+      "style": "pixelbook",
+      "nativeObjects": 12,
+      "polygons": 72,
+      "normalDirections": {
+        "north": 12,
+        "south": 12,
+        "bottom": 12,
+        "top": 12,
+        "west": 12,
+        "east": 12
+      },
+      "uvCharts": [
+        "Pixelorama metric chart"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "car-silver"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        288,
+        176,
+        32,
+        32
+      ],
+      "scopeCovered": false
+    },
+    {
+      "field": "cement",
+      "style": "pixelbook",
+      "nativeObjects": 1996,
+      "polygons": 11736,
+      "normalDirections": {
+        "north": 1948,
+        "south": 1948,
+        "bottom": 1918,
+        "top": 1966,
+        "west": 1918,
+        "east": 1918,
+        "sloped": 120
+      },
+      "uvCharts": [
+        "Native texture chart",
+        "Physical 16 px metre",
+        "Pixelorama metric chart"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "cement"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        768,
+        192,
+        256,
+        64
+      ],
+      "scopeCovered": true
+    },
+    {
+      "field": "dark-glass",
+      "style": "pixelbook",
+      "nativeObjects": 880,
+      "polygons": 6896,
+      "normalDirections": {
+        "north": 3120,
+        "south": 2448,
+        "bottom": 288,
+        "top": 288,
+        "west": 288,
+        "east": 288,
+        "sloped": 176
+      },
+      "uvCharts": [
+        "Physical 16 px metre",
+        "Pixelorama metric chart"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "dark-glass"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        288,
+        352,
+        32,
+        32
+      ],
+      "scopeCovered": false
+    },
+    {
+      "field": "facade",
+      "style": "pixelbook",
+      "nativeObjects": 249,
+      "polygons": 1494,
+      "normalDirections": {
+        "north": 249,
+        "south": 249,
+        "bottom": 249,
+        "top": 249,
+        "west": 249,
+        "east": 249
+      },
+      "uvCharts": [
+        "Pixelorama metric chart"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "facade"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        768,
+        256,
+        256,
+        256
+      ],
+      "scopeCovered": true
+    },
+    {
+      "field": "foliage",
+      "style": "pixelbook",
+      "nativeObjects": 190,
+      "polygons": 3329,
+      "normalDirections": {
+        "top": 22,
+        "bottom": 23,
+        "north": 16,
+        "south": 16,
+        "west": 16,
+        "east": 16,
+        "sloped": 3220
+      },
+      "uvCharts": [
+        "Native texture chart",
+        "Physical 16 px metre"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "foliage"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        320,
+        384,
+        64,
+        64
+      ],
+      "scopeCovered": true
+    },
+    {
+      "field": "garage-door",
+      "style": "pixelbook",
+      "nativeObjects": 4,
+      "polygons": 24,
+      "normalDirections": {
+        "north": 4,
+        "south": 4,
+        "bottom": 4,
+        "top": 4,
+        "west": 4,
+        "east": 4
+      },
+      "uvCharts": [
+        "Pixelorama metric chart"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "garage-door"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        448,
+        0,
+        64,
+        64
+      ],
+      "scopeCovered": true
+    },
+    {
+      "field": "glass",
+      "style": "pixelbook",
+      "nativeObjects": 745,
+      "polygons": 3590,
+      "normalDirections": {
+        "north": 569,
+        "south": 569,
+        "bottom": 569,
+        "top": 569,
+        "west": 569,
+        "east": 569,
+        "sloped": 176
+      },
+      "uvCharts": [
+        "Physical 16 px metre",
+        "Pixelorama metric chart"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "glass"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        288,
+        256,
+        32,
+        32
+      ],
+      "scopeCovered": false
+    },
+    {
+      "field": "ground",
+      "style": "pixelbook",
+      "nativeObjects": 1,
+      "polygons": 6,
+      "normalDirections": {
+        "north": 1,
+        "south": 1,
+        "bottom": 1,
+        "top": 1,
+        "west": 1,
+        "east": 1
+      },
+      "uvCharts": [
+        "Native texture chart"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "ground"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        384,
+        384,
+        128,
+        128
+      ],
+      "scopeCovered": true
+    },
+    {
+      "field": "headlamp",
+      "style": "pixelbook",
+      "nativeObjects": 6,
+      "polygons": 36,
+      "normalDirections": {
+        "north": 6,
+        "south": 6,
+        "bottom": 6,
+        "top": 6,
+        "west": 6,
+        "east": 6
+      },
+      "uvCharts": [
+        "Pixelorama metric chart"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "headlamp"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        416,
+        176,
+        32,
+        32
+      ],
+      "scopeCovered": false
+    },
+    {
+      "field": "home-roof-north",
+      "style": "pixelbook",
+      "nativeObjects": 2,
+      "polygons": 7,
+      "normalDirections": {
+        "sloped": 1,
+        "north": 1,
+        "south": 1,
+        "bottom": 1,
+        "top": 1,
+        "west": 1,
+        "east": 1
+      },
+      "uvCharts": [
+        "Physical 16 px metre"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "home-roof-north"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        0,
+        640,
+        704,
+        128
+      ],
+      "scopeCovered": true
+    },
+    {
+      "field": "home-roof-south",
+      "style": "pixelbook",
+      "nativeObjects": 1,
+      "polygons": 1,
+      "normalDirections": {
+        "sloped": 1
+      },
+      "uvCharts": [
+        "Physical 16 px metre"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "home-roof-south"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        0,
+        768,
+        704,
+        128
+      ],
+      "scopeCovered": true
+    },
+    {
+      "field": "metal",
+      "style": "pixelbook",
+      "nativeObjects": 1292,
+      "polygons": 7752,
+      "normalDirections": {
+        "north": 1292,
+        "south": 1292,
+        "bottom": 1292,
+        "top": 1292,
+        "west": 1292,
+        "east": 1292
+      },
+      "uvCharts": [
+        "Native texture chart",
+        "Pixelorama metric chart"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "metal"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        768,
+        0,
+        256,
+        64
+      ],
+      "scopeCovered": true
+    },
+    {
+      "field": "north-floor",
+      "style": "pixelbook",
+      "nativeObjects": 24,
+      "polygons": 24,
+      "normalDirections": {
+        "top": 24
+      },
+      "uvCharts": [
+        "Physical 16 px metre",
+        "Pixelorama metric chart"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "north-floor"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        512,
+        0,
+        128,
+        256
+      ],
+      "scopeCovered": true
+    },
+    {
+      "field": "paving",
+      "style": "pixelbook",
+      "nativeObjects": 1266,
+      "polygons": 7596,
+      "normalDirections": {
+        "north": 1266,
+        "south": 1266,
+        "bottom": 1266,
+        "top": 1266,
+        "west": 1266,
+        "east": 1266
+      },
+      "uvCharts": [
+        "Native texture chart"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "paving"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        480,
+        176,
+        32,
+        32
+      ],
+      "scopeCovered": false
+    },
+    {
+      "field": "plaster",
+      "style": "pixelbook",
+      "nativeObjects": 501,
+      "polygons": 2966,
+      "normalDirections": {
+        "north": 493,
+        "south": 493,
+        "bottom": 493,
+        "top": 493,
+        "west": 497,
+        "east": 497
+      },
+      "uvCharts": [
+        "Physical 16 px metre",
+        "Pixelorama metric chart"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "plaster"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        0,
+        512,
+        768,
+        64
+      ],
+      "scopeCovered": true
+    },
+    {
+      "field": "red-roof",
+      "style": "pixelbook",
+      "nativeObjects": 16,
+      "polygons": 96,
+      "normalDirections": {
+        "north": 16,
+        "south": 16,
+        "bottom": 16,
+        "top": 16,
+        "west": 16,
+        "east": 16
+      },
+      "uvCharts": [
+        "Native texture chart"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "red-roof"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        384,
+        208,
+        128,
+        48
+      ],
+      "scopeCovered": false
+    },
+    {
+      "field": "road",
+      "style": "pixelbook",
+      "nativeObjects": 1363,
+      "polygons": 8178,
+      "normalDirections": {
+        "north": 1363,
+        "south": 1363,
+        "bottom": 1363,
+        "top": 1363,
+        "west": 1363,
+        "east": 1363
+      },
+      "uvCharts": [
+        "Native texture chart"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "road"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        128,
+        384,
+        128,
+        128
+      ],
+      "scopeCovered": true
+    },
+    {
+      "field": "roof",
+      "style": "pixelbook",
+      "nativeObjects": 885,
+      "polygons": 911,
+      "normalDirections": {
+        "top": 876,
+        "sloped": 30,
+        "north": 1,
+        "south": 1,
+        "bottom": 1,
+        "west": 1,
+        "east": 1
+      },
+      "uvCharts": [
+        "Physical 16 px metre",
+        "Pixelorama metric chart"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "roof"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        0,
+        896,
+        704,
+        128
+      ],
+      "scopeCovered": true
+    },
+    {
+      "field": "rust-iron",
+      "style": "pixelbook",
+      "nativeObjects": 2981,
+      "polygons": 17886,
+      "normalDirections": {
+        "sloped": 960,
+        "west": 2981,
+        "east": 2981,
+        "north": 2741,
+        "south": 2741,
+        "bottom": 2741,
+        "top": 2741
+      },
+      "uvCharts": [
+        "Native texture chart",
+        "Pixelorama metric chart"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "rust-iron"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        768,
+        64,
+        256,
+        64
+      ],
+      "scopeCovered": true
+    },
+    {
+      "field": "south-floor",
+      "style": "pixelbook",
+      "nativeObjects": 24,
+      "polygons": 24,
+      "normalDirections": {
+        "top": 24
+      },
+      "uvCharts": [
+        "Physical 16 px metre",
+        "Pixelorama metric chart"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "south-floor"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        640,
+        0,
+        128,
+        128
+      ],
+      "scopeCovered": true
+    },
+    {
+      "field": "stained-plaster",
+      "style": "pixelbook",
+      "nativeObjects": 72,
+      "polygons": 432,
+      "normalDirections": {
+        "north": 72,
+        "south": 72,
+        "bottom": 72,
+        "top": 72,
+        "west": 72,
+        "east": 72
+      },
+      "uvCharts": [
+        "Native texture chart",
+        "Pixelorama metric chart"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "stained-plaster"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        0,
+        576,
+        768,
+        64
+      ],
+      "scopeCovered": true
+    },
+    {
+      "field": "taillamp",
+      "style": "pixelbook",
+      "nativeObjects": 6,
+      "polygons": 36,
+      "normalDirections": {
+        "north": 6,
+        "south": 6,
+        "bottom": 6,
+        "top": 6,
+        "west": 6,
+        "east": 6
+      },
+      "uvCharts": [
+        "Pixelorama metric chart"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "taillamp"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        448,
+        176,
+        32,
+        32
+      ],
+      "scopeCovered": false
+    },
+    {
+      "field": "tire",
+      "style": "pixelbook",
+      "nativeObjects": 352,
+      "polygons": 4224,
+      "normalDirections": {
+        "north": 352,
+        "south": 352,
+        "sloped": 2816,
+        "top": 352,
+        "bottom": 352
+      },
+      "uvCharts": [
+        "Physical 16 px metre",
+        "Pixelorama metric chart"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "tire"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        384,
+        176,
+        32,
+        32
+      ],
+      "scopeCovered": false
+    },
+    {
+      "field": "tower-trim",
+      "style": "pixelbook",
+      "nativeObjects": 16,
+      "polygons": 96,
+      "normalDirections": {
+        "north": 16,
+        "south": 16,
+        "bottom": 16,
+        "top": 16,
+        "west": 16,
+        "east": 16
+      },
+      "uvCharts": [
+        "Native texture chart"
+      ],
+      "allHaveUvs": true,
+      "images": [
+        "terrace-book.png"
+      ],
+      "materials": [
+        "tower-trim"
+      ],
+      "hiddenObjects": 0,
+      "rect": [
+        256,
+        448,
+        64,
+        64
+      ],
+      "scopeCovered": true
+    }
+  ],
+  "packedImages": [
+    {
+      "name": "distance-facades.png",
+      "size": [
+        2048,
+        2048
+      ],
+      "sha256": "f9c8ec3c4c8d32b58431bc1f6a2bcd437ec52a078523dac1e2e85e176e60d2bd",
+      "colorSpace": "sRGB",
+      "alphaMode": "STRAIGHT"
+    },
+    {
+      "name": "distance-lights.png",
+      "size": [
+        2048,
+        2048
+      ],
+      "sha256": "551611d005a3f40c9fa09e15979cfead5d4848f27967153d8094b091c65c2b60",
+      "colorSpace": "Non-Color",
+      "alphaMode": "STRAIGHT"
+    },
+    {
+      "name": "terrace-book.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "sha256": "8fd4e9d509760c029c903debed2ce8720d32bac92ce4d5496793a3111f79fcc3",
+      "colorSpace": "sRGB",
+      "alphaMode": "STRAIGHT"
+    }
+  ],
+  "texelsPerMetre": 16,
+  "texelMetresPerUnit": [
+    0.2707537401739019,
+    0.5357142857142857,
+    0.4638375014617893
+  ]
+}

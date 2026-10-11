@@ -5,6 +5,8 @@ import {createHash} from 'node:crypto';
 import vm from 'node:vm';
 import {HOUSE,housePoint} from '../rooftop/house-structure.mjs';
 import {SCENES} from '../rooftop/scene.mjs';
+import {invalidateShadowsAfterLoad} from '../rooftop/3d/atmosphere.mjs';
+import {bakedFaceBounds,BAKED_GRID_FRAGMENT} from '../rooftop/3d/baked-pixel-grid.mjs';
 const directory=new URL('../rooftop/assets/background/',import.meta.url);
 import {BACKGROUND as manifest} from '../rooftop/assets/background/empty-rooftop.mjs';
 const bytes=readFileSync(new URL('empty-rooftop.bin',directory));
@@ -142,7 +144,10 @@ test('native loader shares collection geometry, physical charts and baked facade
    {field:'distant-facades',mode:'mesh',offset:farOffset,vertices:3,style:'baked',shading:'orientation',texture:'facades.png',lampMask:'lights.png',layer:'far'}]};
  const requested=[];
  context.BACKGROUND=fixture;
- context.fetch=async url=>{requested.push(String(url));return {ok:true,arrayBuffer:async()=>buffer};};
+ context.bakedFaceBounds=bakedFaceBounds;context.BAKED_GRID_FRAGMENT=BAKED_GRID_FRAGMENT;
+ let releaseMesh;
+ const meshTransfer=new Promise(resolve=>{releaseMesh=resolve;});
+ context.fetch=async url=>{requested.push(String(url));await meshTransfer;return {ok:true,arrayBuffer:async()=>buffer};};
  context.URL=URL;
  T.TextureLoader=class{load(url,onLoad){requested.push(url);const texture=new T.Texture();onLoad(texture);return texture;}};
  const source=readFileSync(new URL('../rooftop/3d/architectural-shell.mjs',import.meta.url),'utf8')
@@ -150,7 +155,15 @@ test('native loader shares collection geometry, physical charts and baked facade
   .replaceAll('import.meta.url',JSON.stringify(new URL('../rooftop/3d/architectural-shell.mjs',import.meta.url).href));
  vm.runInNewContext(source+'\nglobalThis.loadArchitecturalShell=loadArchitecturalShell;',context);
  const parent=new T.Group(),shell=context.loadArchitecturalShell(T,parent);
+ const renderer={shadowMap:{needsUpdate:false}},shadowsReady=invalidateShadowsAfterLoad(renderer,shell.ready);
+ await Promise.resolve();
+ assert.equal(shell.stats.loaded,false,'the fixed sky can render while the native mesh is still transferring');
+ assert.equal(parent.children[0].children.length,0);
+ assert.equal(renderer.shadowMap.needsUpdate,false,'an unfinished transfer does not refresh an empty depth map');
+ releaseMesh();
  await shell.ready;
+ await shadowsReady;
+ assert.equal(renderer.shadowMap.needsUpdate,true,'the completed native mesh invalidates the cached shadow depth');
  const root=parent.children[0],[boxes,floor,far]=root.children;
  assert.equal(boxes.material.isMeshLambertMaterial,true,'near native albedo receives directional sunlight and real shadows');
  assert.equal(floor.material.isMeshLambertMaterial,true,'floor repairs remain albedo and change light with the terrace');
@@ -170,9 +183,23 @@ test('native loader shares collection geometry, physical charts and baked facade
  assert.doesNotMatch(floorShader.vertexShader,/dot\(p, u\)/);
  assert.match(floorShader.fragmentShader,/#include <lights_fragment_begin>/,'real directional and shadow lighting survives the native atlas sampler');
  assert.match(boxShader.fragmentShader,/totalEmissiveRadiance \+=/,'lit windows preserve warm emission in dark weather');
- assert.match(farShader.fragmentShader,/#include <map_fragment>/);
- assert.match(farShader.fragmentShader,/texture2D\(shellLampMask, vMapUv\)/);
+ assert.equal(farShader.uniforms.shellTexelsPerMetre.value,16,'baked colour uses the same physical pixel density as nearby native paint');
+ assert.match(farShader.fragmentShader,/texture2D\(map, shellSampleUv\)/);
+ assert.match(farShader.fragmentShader,/texture2D\(shellLampMask, shellSampleUv\)/,'colour and window mask share the same recentered physical sample');
  assert.doesNotMatch(farShader.fragmentShader,/shellChart/,'baked charts use standard atlas UVs');
+ // Execute the face-weight expressions from the constructed programs. These
+ // GLSL branches use only normalized components, abs and scalar arithmetic.
+ const faceWeight=expression=>new Function('n','abs','return ('+expression+');'),
+  nearWeight=faceWeight(boxShader.fragmentShader.match(/float shellFaceLight\([\s\S]*?return ([^;]+);/)[1]),
+  farWeight=faceWeight(farShader.fragmentShader.match(/float faceShade = ([^;]+);/)[1]);
+ for(const [normal,expected]of [
+  [[0,1,0],1],[[0,-1,0],.52],[[1,0,0],.66],[[-1,0,0],.66],
+  [[0,0,1],.82],[[0,0,-1],.82],[[3,.2,1],.66],[[1,.2,3],.82],
+ ]){
+  const length=Math.hypot(...normal),n={x:normal[0]/length,y:normal[1]/length,z:normal[2]/length};
+  assert.equal(nearWeight(n,Math.abs),expected,'near physical normal retains its authored face-light band');
+  assert.equal(farWeight(n,Math.abs),expected,'far physical normal uses the same face-light band');
+ }
  assert.equal((farShader.fragmentShader.match(/diffuseColor.rgb \*= faceShade/g)||[]).length,1,'pure albedo gets one consistent orientation shade');
  fixture.parts[2].shading=undefined;const litBakeShader=shader();far.material.onBeforeCompile(litBakeShader);assert.doesNotMatch(litBakeShader.fragmentShader,/faceShade/,'a shaded bake is not shaded twice');
  assert.equal(far.castShadow,false);assert.equal(floor.castShadow,true);
@@ -189,4 +216,6 @@ test('native loader shares collection geometry, physical charts and baked facade
  assert.equal(shell.stats.loaded,true);assert.equal(shell.stats.payloadBytes,buffer.byteLength+35);
  assert.equal(shell.stats.layers.near.parts,2);assert.equal(shell.stats.layers.far.parts,1);
  assert.equal(shell.stats.atlases.length,3);assert.equal(requested.length,4);
+ assert.equal(shell.stats.bakedSampling[0].renderTexelsPerMetre,16);
+ assert.equal(shell.stats.bakedSampling[0].unsupportedTriangles,1,'an unsupported standalone atlas triangle is explicitly reported and retains original UV');
 });
