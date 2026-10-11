@@ -7,3 +7,13 @@ _fontcheck/
 _mac/
 
 _windows/
+
+# Research images stay outside the repository; keep authored assets and QA output.
+docs/art/**/references/
+docs/art/**/map-*.png
+docs/art/**/reference-*.png
+docs/art/**/reference-*.jpg
+docs/art/**/reference-*.jpeg
+docs/art/**/reference-*.webp
+docs/art/**/reference-*.gif
+docs/art/**/reference-*.avif
