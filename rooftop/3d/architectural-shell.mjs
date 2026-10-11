@@ -2,17 +2,26 @@ import { BACKGROUND } from "../assets/background/empty-rooftop.mjs";
 import { BACKGROUND_COMPRESSION } from "../assets/background/empty-rooftop-compression.mjs";
 import { bakedFaceBounds, BAKED_GRID_FRAGMENT } from "./baked-pixel-grid.mjs";
 
+function throwIfAborted(signal) {
+  if (signal?.aborted) throw signal.reason || Object.assign(new Error("Environment transfer cancelled"), { name: "AbortError" });
+}
+
 export async function loadEnvironmentBinary(manifest, base, {
   compression = BACKGROUND_COMPRESSION,
   fetchImpl = globalThis.fetch,
   Decompressor = globalThis.DecompressionStream,
+  signal,
 } = {}) {
   const request = async (file, sha) => {
+    throwIfAborted(signal);
     const url = new URL(file, base);
     url.searchParams.set("v", sha);
-    const response = await fetchImpl(url);
+    const response = await fetchImpl(url, { signal });
+    throwIfAborted(signal);
     if (!response.ok) throw Error("Environment mesh unavailable");
-    return response.arrayBuffer();
+    const buffer = await response.arrayBuffer();
+    throwIfAborted(signal);
+    return buffer;
   };
   let compressionError, attemptedBytes = 0;
   if (typeof Decompressor === "function" && compression?.decodedSha === manifest.sha256 &&
@@ -21,11 +30,14 @@ export async function loadEnvironmentBinary(manifest, base, {
       const encoded = await request(compression.file, compression.sha);
       attemptedBytes = encoded.byteLength;
       if (encoded.byteLength !== compression.bytes) throw Error("Incomplete compressed environment");
-      const stream = new Blob([encoded]).stream().pipeThrough(new Decompressor("gzip"));
+      const stream = new Response(encoded).body.pipeThrough(new Decompressor("gzip"), { signal });
       const buffer = await new Response(stream).arrayBuffer();
+      throwIfAborted(signal);
       if (buffer.byteLength !== manifest.bytes) throw Error("Incomplete decoded environment");
       return { buffer, transportBytes: encoded.byteLength, compressed: true };
     } catch (error) {
+      throwIfAborted(signal);
+      if (error?.name === "AbortError") throw error;
       compressionError = error.message || "Compressed environment could not be decoded";
     }
   }
@@ -39,7 +51,13 @@ export function loadArchitecturalShell(T, parent) {
   const tone = { value: new T.Color("#ffffff") },
     wet = { value: 0 },
     lamps = { value: 0 };
-  let state = { loaded: false, source: "Blender", error: null };
+  let state = { loaded: false, aborted: false, source: "Blender", error: null };
+  const controller = new AbortController();
+  const cancelTransfer = () => {
+    state.aborted = true;
+    controller.abort();
+  };
+  globalThis.addEventListener?.("pagehide", cancelTransfer, { once: true });
   const measurable = [];
   const root = new T.Group();
   root.name = "Blender terrace environment";
@@ -60,7 +78,7 @@ export function loadArchitecturalShell(T, parent) {
   }
   let textureBytes = 0;
   const ready = Promise.all([
-    loadEnvironmentBinary(manifest, base),
+    loadEnvironmentBinary(manifest, base, { signal: controller.signal }),
     Promise.all([...requiredTextures].map(file => {
       const definition = textureDefinitions.get(file) || { file },
         url = new URL(file, base);
@@ -78,6 +96,7 @@ export function loadArchitecturalShell(T, parent) {
       }, undefined, reject));
     })),
   ]).then(([transfer, entries]) => {
+    throwIfAborted(controller.signal);
     const { buffer } = transfer;
     const textures = new Map(entries),
       metreScale = manifest.texelMetresPerUnit || [1, 1, 1],
@@ -297,6 +316,7 @@ export function loadArchitecturalShell(T, parent) {
     }
     state = {
       loaded: true,
+      aborted: false,
       source: "Blender",
       textureAuthor: "Pixelorama",
       bytes: buffer.byteLength,
@@ -320,9 +340,16 @@ export function loadArchitecturalShell(T, parent) {
       }),
     };
   }).catch(error => {
-    state.error = error.message;
+    if (controller.signal.aborted || error?.name === "AbortError") {
+      state.aborted = true;
+      state.error = null;
+      throw error;
+    }
+    state.error = error.message || String(error);
     console.error("Blender environment:", error);
     throw error;
+  }).finally(() => {
+    globalThis.removeEventListener?.("pagehide", cancelTransfer);
   });
   ready.catch(() => {});
   return {

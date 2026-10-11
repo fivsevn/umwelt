@@ -14,7 +14,7 @@ const engine = process.env.BROWSER || 'chromium';
         window.requestAnimationFrame = () => 1;
       });
       await page.goto(base+'/rooftop/');
-      await page.waitForFunction(() => window.rooftop);
+      await page.waitForFunction(() => window.rooftop?.graphics?.background?.loaded && rooftop.graphics.nativeItems.pending === 0, null, {timeout:90000});
       assert.equal(await page.locator('#sceneCard').isVisible(), true, 'permanent balcony navigation remains available');
       assert.equal(await page.locator('#notebookOpen').isVisible(), true, 'the empty terrace retains its complete notebook entry');
       await page.evaluate(async () => {
@@ -79,8 +79,9 @@ const engine = process.env.BROWSER || 'chromium';
       await page.evaluate(()=>{feedResident.update(120);updateFeed(522);updateFeed(525)});
       await page.locator('#garageCard').click();
       await page.waitForURL('**/arrange/?scene=north');
+      await page.waitForFunction(() => window.rooftop?.graphics?.background?.loaded && rooftop.graphics.nativeItems.pending === 0, null, {timeout:90000});
       await page.goto(base+'/rooftop/');
-      await page.waitForFunction(()=>window.rooftop);
+      await page.waitForFunction(() => window.rooftop?.graphics?.background?.loaded && rooftop.graphics.nativeItems.pending === 0, null, {timeout:90000});
       await page.evaluate(async()=>{
         const {attachCardFeed}=await import('/rooftop/card-feed.mjs');
         const fresh=attachCardFeed(document.querySelector('.corner-cards'),{scene:()=> 'north',presence:()=>({present:true,status:''})});

@@ -3,6 +3,31 @@ const fs = require("node:fs/promises");
 const { chromium, webkit } = require("playwright");
 const engine = process.env.BROWSER || "chromium",
   base = process.env.BASE_URL || "http://127.0.0.1:8773";
+async function visiblePickPoint(page, id) {
+  await page.waitForFunction(() => {
+    const g = rooftop.graphics;
+    return g.nativeItems.pending === 0 && ["theta", "phi", "zoom"].every(k => Math.abs(g.view[k] - g.wanted[k]) < .005);
+  });
+  return page.evaluate(id => {
+    const renderer = rooftop.modelRenderer, centre = renderer.projectObject(id),
+      canvas = document.querySelector("#garden"), rect = canvas.getBoundingClientRect(),
+      step = Math.max(1, Number(canvas.dataset.physicalPixelStep) / Number(canvas.dataset.pixelRatio));
+    if (!centre) throw Error("Native model has no projected bounds: " + id);
+    const hit = (dx, dy) => {
+      const clientX = centre.clientX + dx, clientY = centre.clientY + dy;
+      if (clientX <= rect.left || clientX >= rect.right || clientY <= rect.top || clientY >= rect.bottom) return null;
+      return renderer.pick(clientX, clientY)?.id === id ? { clientX, clientY, id } : null;
+    };
+    // Open racks have empty space at their projected bounds centre. Probe the
+    // actual shared raster cells until a visible frame or board owns the ray.
+    for (let radius = 0; radius <= Math.min(180, Math.max(rect.width, rect.height) / 3); radius += step)
+      for (let offset = -radius; offset <= radius; offset += step) {
+        const point = hit(offset, -radius) || hit(offset, radius) || hit(-radius, offset) || hit(radius, offset);
+        if (point) return point;
+      }
+    throw Error("No visible native mesh can be picked for " + id);
+  }, id);
+}
 (async () => {
   const browser = await (engine === "webkit" ? webkit : chromium).launch({
     headless: true,
@@ -201,10 +226,8 @@ const engine = process.env.BROWSER || "chromium",
           () => rooftop.layout.scenes.north,
         ),
         cameraBefore = await page.evaluate(() => rooftop.graphics.wanted),
-        rackPoint = await page.evaluate(
-          (id) => rooftop.modelRenderer.projectObject(id),
-          arrangement[0].id,
-        );
+        rackPoint = await visiblePickPoint(page, arrangement[0].id);
+      assert.equal(rackPoint.id, arrangement[0].id, "drag begins on the actual visible rack frame or board");
       await page.mouse.move(rackPoint.clientX, rackPoint.clientY);
       await page.mouse.down();
       await page.mouse.move(rackPoint.clientX + 55, rackPoint.clientY + 25, {
@@ -304,10 +327,8 @@ const engine = process.env.BROWSER || "chromium",
         await page.waitForFunction(() => rooftop.graphics.nativeItems.pending === 0, null, { timeout: 90000 });
       };
       const clickModel = async (type) => {
-        const point = await page.evaluate((type) => {
-          const o = rooftop.layout.scenes.north.find((o) => o.type === type);
-          return rooftop.modelRenderer.projectObject(o.id);
-        }, type);
+        const id = await page.evaluate(type => rooftop.layout.scenes.north.find(o => o.type === type).id, type),
+          point = await visiblePickPoint(page, id);
         await page.mouse.click(point.clientX, point.clientY);
       };
       const small = async () => {
@@ -352,9 +373,8 @@ const engine = process.env.BROWSER || "chromium",
           (t) => t === "架下地面 · 园艺铲",
         ),
       );
-      const tablePoint = await page.evaluate(() =>
-        rooftop.modelRenderer.projectObject(rooftop.layout.scenes.north[0].id),
-      );
+      const tableId = await page.evaluate(() => rooftop.layout.scenes.north[0].id),
+        tablePoint = await visiblePickPoint(page, tableId);
       await page.mouse.move(tablePoint.clientX, tablePoint.clientY);
       await page.mouse.down();
       await page.mouse.move(tablePoint.clientX + 55, tablePoint.clientY + 25, {
@@ -432,10 +452,7 @@ const engine = process.env.BROWSER || "chromium",
       const initial = await page.evaluate(() => rooftop.layout.scenes.north[0]);
       assert.equal(initial.rotation, 90);
       assert.equal(initial.pot, "growbag");
-      const point = await page.evaluate(
-        (id) => rooftop.modelRenderer.projectObject(id),
-        initial.id,
-      );
+      const point = await visiblePickPoint(page, initial.id);
       await page.mouse.move(point.clientX, point.clientY);
       await page.mouse.down();
       await page.mouse.move(point.clientX + 30, point.clientY + 15, {

@@ -20,7 +20,7 @@ const engine = process.env.BROWSER || "chromium";
     await page.goto(base + "/rooftop/arrange/?scene=room");
     await page.waitForFunction(() => window.rooftop);
     assert.equal(
-      await page.locator("[data-scene=room]").getAttribute("aria-pressed"),
+      await page.locator("button[data-scene=room]").getAttribute("aria-pressed"),
       "true",
     );
     assert.deepEqual(await page.evaluate(() => rooftop.layout.scenes.room),[],"new room starts empty");

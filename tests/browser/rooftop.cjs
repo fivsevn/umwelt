@@ -68,7 +68,7 @@ const base = process.env.BASE_URL || "http://127.0.0.1:8773",
         return ASSETS.length;
       }),
     );
-    await page.locator("[data-scene=north]").click();
+    await page.locator("button[data-scene=north]").click();
     const initial = await page.evaluate(() => rooftop.layout);
     assert.equal(
       await page.evaluate(async () => {
@@ -172,7 +172,7 @@ const base = process.env.BASE_URL || "http://127.0.0.1:8773",
       ),
       true,
     );
-    await page.locator("[data-scene=south]").click();
+    await page.locator("button[data-scene=south]").click();
     await page.locator("#clear").click();
     await page.screenshot({
       path: process.env.QA_OUTPUT + "/south-empty-mobile-" + engine + ".png",

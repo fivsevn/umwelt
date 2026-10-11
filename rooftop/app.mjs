@@ -436,7 +436,7 @@ function rebuild() {
     panDrag = null;
     pinch = null;
   }
-  for (const b of document.querySelectorAll("[data-scene]"))
+  for (const b of document.querySelectorAll("button[data-scene]"))
     b.setAttribute("aria-pressed", String(b.dataset.scene === scene));
   camera = cameras[scene];
   fitView();
@@ -771,11 +771,11 @@ function hit(pos) {
       );
     });
 }
-for (const button of document.querySelectorAll("[data-scene]"))
+for (const button of document.querySelectorAll("button[data-scene]"))
   button.onclick = () => {
     if (editor) document.querySelector(".transfer").open = false;
     scene = button.dataset.scene;
-    for (const b of document.querySelectorAll("[data-scene]"))
+    for (const b of document.querySelectorAll("button[data-scene]"))
       b.setAttribute("aria-pressed", String(b === button));
     rebuild();
   };

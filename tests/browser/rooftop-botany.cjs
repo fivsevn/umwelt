@@ -80,9 +80,9 @@ const base = process.env.BASE_URL || "http://127.0.0.1:8773",
       "kutani",
     );
     await page.locator("#search").fill("");
-    await page.locator('[data-scene="south"]').click();
+    await page.locator('button[data-scene="south"]').click();
     await page.locator("[data-asset=mint]").click();
-    await page.locator('[data-scene="north"]').click();
+    await page.locator('button[data-scene="north"]').click();
     const saved = await page.evaluate(() => rooftop.layout);
     assert.ok(saved.scenes.north.length > 0);
     assert.ok(saved.scenes.south.length > 0);

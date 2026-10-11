@@ -178,7 +178,7 @@ const base = process.env.BASE_URL || "http://127.0.0.1:8773",
       path: out + "/weather-rain-" + engine + ".png",
       fullPage: true,
     });
-    await p.locator("[data-scene=south]").click();
+    await p.locator("button[data-scene=south]").click();
     await p.screenshot({
       path: out + "/weather-south-" + engine + ".png",
       fullPage: true,
