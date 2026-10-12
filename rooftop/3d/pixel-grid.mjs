@@ -1,5 +1,5 @@
 // Presentation grain only; authored materials retain their physical 16px/m.
-export const PIXEL_GRID_TARGET_CSS = 2.5;
+export const PIXEL_GRID_TARGET_CSS = 2.2;
 export const EDITOR_GRID_TARGET_CSS = 2;
 export const SCOPE_DETAIL_TARGET_CSS = 1;
 

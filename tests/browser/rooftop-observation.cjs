@@ -154,7 +154,7 @@ const checkScopeCircle = async (page, label) => {
   assert.ok(Number.isInteger(lens.physicalPixelStep) && lens.physicalPixelStep >= 2, label + " scope retains lightly sampled integer device cells");
   assert.equal(lens.physicalPixelStep, lens.scenePixelStep, label + " eyecup follows the scene's live cell");
   assert.equal(lens.physicalPixelStep, lens.rasterPixelStep, label + " optical engraving follows the rendered source cell");
-  if (lens.normalizedZoom <= 1) assert.equal(lens.physicalPixelStep, Math.round(2.5 * lens.pixelRatio), label + " the default scope field preserves its original grain");
+  if (lens.normalizedZoom <= 1) assert.equal(lens.physicalPixelStep, Math.round(2.2 * lens.pixelRatio), label + " the default scope field preserves its original grain");
   assert.ok(lens.origin.every(value => Math.abs(value) < .01), label + " eyecup shares the scene's top-left grid origin");
   return lens;
 };

@@ -66,11 +66,11 @@ test("viewport remeasure restores integer display size, updates cached pixel con
   assert.equal(f.labels.get("[data-scope-range]").textContent, "82 m");
   const paints = f.mask.ctx.paints, drawings = f.engraving.draws.length;
   f.mask.style.height = "820px"; updateOpticOverlay(f.element, reading);
-  assert.equal(f.mask.style.height, "642px", "stale Safari viewport CSS cannot stretch native cells");
+  assert.equal(f.mask.style.height, "640px", "stale Safari viewport CSS cannot stretch native cells");
   assert.equal(f.mask.ctx.paints, paints); assert.equal(f.engraving.draws.length, drawings);
   f.bounds.width = 844; f.bounds.height = 390; f.scope.left = 262.1; f.scope.top = 35.1; f.scope.width = f.scope.height = 319.8;
   updateOpticOverlay(f.element, { ...reading, mradPixels: 12 });
-  assert.equal(f.mask.width, 282); assert.equal(f.mask.height, 130); assert.equal(f.mask.style.width, "846px");
+  assert.equal(f.mask.width, 422); assert.equal(f.mask.height, 195); assert.equal(f.mask.style.width, "844px");
   assert.equal(parseFloat(f.mask.style.left) + f.scope.left, 0); assert.equal(f.mask.ctx.paints, paints + 1);
 });
 
