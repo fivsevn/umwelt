@@ -50,6 +50,8 @@ body.garage .layout-transfer .transfer-body{width:min(280px,calc(100vw - 32px))}
  body.garage .workspace .canvas-wrap{height:clamp(320px,58svh,540px)}
  body.garage .studio{display:flex;flex-direction:column;gap:8px;grid-column:1;grid-row:2;max-height:none;overflow:visible;padding:0}
  body.garage .catalog,body.garage .note-column{position:static;max-height:none;overflow:visible;grid-column:1;grid-row:auto}
+ body.garage .editor-layout>.catalog{grid-row:2}
+ body.garage .editor-layout>.note-column{grid-row:3}
  body.garage .studio .catalog{order:0}
  body.garage .studio .note-column{order:1}
  body.garage .workspace>.arrange-controls{margin-bottom:8px}
@@ -64,6 +66,8 @@ body.garage .layout-transfer .transfer-body{width:min(280px,calc(100vw - 32px))}
  body.garage .studio{display:contents}
  body.garage .catalog{grid-column:1;grid-row:1}
  body.garage .note-column{grid-column:3;grid-row:1}
+ body.garage .editor-layout>.catalog{grid-row:1}
+ body.garage .editor-layout>.note-column{grid-row:1}
  body.garage .catalog,body.garage .note-column{position:sticky;top:8px;max-height:calc(100dvh - 64px);overflow:auto}
  body.garage .note-column .catalog{position:static;max-height:none;overflow:visible;grid-column:auto;grid-row:auto}
  body.garage .arrange-controls .weather-controls{grid-template-columns:1fr}

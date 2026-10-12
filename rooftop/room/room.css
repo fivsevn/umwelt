@@ -1,6 +1,6 @@
 /* Columns, viewport sizing and camera tools are shared with the garage. */
 .bedroom #room{display:block;width:100%;height:100%;image-rendering:pixelated}
-.garage.bedroom .room-wardrobe{display:block;overflow-y:auto}
+.garage.bedroom .room-wardrobe{display:block;height:max-content;overflow-y:auto}
 .garage.bedroom .room-activities{position:static;height:auto;max-height:none;overflow:visible;display:block;margin:0;flex:none}
 .bedroom .room-panel .categories:last-child{margin-bottom:0}
 .bedroom .room-activities .actor-toggles{margin-bottom:9px}

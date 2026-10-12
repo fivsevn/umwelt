@@ -81,7 +81,7 @@ async function assertRoomLayout(page, { width, height, columns }) {
   } else {
     assert.ok(layout.stage.bottom <= layout.wardrobe.y + 1 &&
       layout.wardrobe.bottom <= layout.note.y + 1,
-    'the room comes first, followed by wardrobe and activities');
+    `the room comes first, followed by wardrobe and activities at ${width}x${height}: ${JSON.stringify({stage:layout.stage,wardrobe:layout.wardrobe,note:layout.note})}`);
     assert.ok(layout.stage.height >= 320, 'portrait screens retain a usable room scene');
   }
 }
