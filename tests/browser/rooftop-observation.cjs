@@ -26,6 +26,71 @@ const checkBounds = async page => {
   }
   assert.ok(g.wanted.zoom >= g.zoomLimits.min - 1e-6 && g.wanted.zoom <= g.zoomLimits.max + 1e-6);
 };
+const checkObserverCards = async (page, view) => {
+  // Hover has its own paper color/shadow, so compare two resting cards.
+  await page.mouse.move(1, 1);
+  const cards = await page.evaluate(() => {
+    const controls = document.querySelector('.observation .view-controls');
+    const cardStyle = element => {
+      const style = getComputedStyle(element);
+      return Object.fromEntries(['fontFamily', 'fontSize', 'fontWeight', 'fontStyle',
+        'padding', 'lineHeight', 'backgroundColor', 'boxShadow', 'border']
+        .map(property => [property, style[property]]));
+    };
+    const narrative = controls.querySelector('.narrative-views');
+    const station = controls.querySelector('.station-controls');
+    const operation = station.querySelector('button:not([aria-pressed="true"])');
+    const lowerCard = document.querySelector('.corner-cards #sceneCard');
+    return {
+      choices: [...narrative.querySelectorAll('[data-narrative-view]')].map(button => {
+        const icon = button.querySelector('.observer-icon');
+        return { id: button.dataset.narrativeView, text: button.textContent.trim(),
+          card: button.classList.contains('world-card'), icon: icon?.dataset.icon || null,
+          iconWidth: icon ? getComputedStyle(icon).width : null,
+          iconHeight: icon ? getComputedStyle(icon).height : null };
+      }),
+      operations: [...station.querySelectorAll('[data-station-action]')].map(button =>
+        [button.dataset.stationAction, button.textContent.trim()]),
+      allOperationCards: [...station.querySelectorAll('button')]
+        .every(button => button.classList.contains('world-card')),
+      surfaces: [controls, narrative, station].map(element => {
+        const style = getComputedStyle(element);
+        return { background: style.backgroundColor, image: style.backgroundImage,
+          shadow: style.boxShadow };
+      }),
+      operationStyle: cardStyle(operation),
+      lowerStyle: cardStyle(lowerCard),
+      zoom: [getComputedStyle(controls).zoom,
+        getComputedStyle(document.querySelector('.corner-cards')).zoom],
+      rowsSeparate: station.getBoundingClientRect().top >= narrative.getBoundingClientRect().bottom,
+      fits: controls.getBoundingClientRect().left >= 0 &&
+        controls.getBoundingClientRect().right <= innerWidth,
+    };
+  });
+  assert.deepEqual(cards.choices.map(({ id, text, card, icon }) => ({ id, text, card, icon })), [
+    { id: 'bird', text: '', card: true, icon: 'bird' },
+    { id: 'drone', text: '', card: true, icon: 'drone' },
+    { id: 'neighbor', text: '?', card: true, icon: null },
+  ], 'observer choices use individual bird/drone icon cards and a question card');
+  assert.ok(cards.choices.filter(choice => choice.icon)
+    .every(choice => choice.iconWidth === '16px' && choice.iconHeight === '16px'),
+  'bird and drone keep the compact native icon size');
+  const expectedOperations = {
+    bird: [['left', '←'], ['right', '→']],
+    drone: [['down', '↓'], ['up', '↑'], ['near', '+'], ['far', '−']],
+    neighbor: [['out', '−'], ['in', '+']],
+  };
+  assert.deepEqual(cards.operations, expectedOperations[view],
+    `${view} operations use the matching graphical directions or magnification signs`);
+  assert.ok(cards.allOperationCards, 'each operation uses an individual world card');
+  assert.ok(cards.surfaces.every(surface => surface.background === 'rgba(0, 0, 0, 0)' &&
+    surface.image === 'none' && surface.shadow === 'none'),
+  'observer rows have no outer panel background or shadow');
+  assert.deepEqual(cards.operationStyle, cards.lowerStyle,
+    'observer operations reuse the lower-left button card font, spacing and paper surface');
+  assert.equal(cards.zoom[0], cards.zoom[1], 'observer and lower-left cards share the same group scale');
+  assert.ok(cards.rowsSeparate && cards.fits, 'observer cards form two compact rows inside the viewport');
+};
 const checkScopeCircle = async (page, label) => {
   // Wait for the actual resized bitmap; the periodic update can be delayed in CI.
   await page.waitForFunction(() => {
@@ -182,7 +247,7 @@ const checkSavedArrangementIsolation = async browser => {
       assert.equal(await page.locator('#observerStatus').isVisible(),false);
       await selectView(page,'bird');
       assert.equal(await page.locator('#observerStatus').innerText(),'有小鸟盯着东东的多肉，像是想吃。');
-      assert.ok((await page.locator('[data-narrative-view], [data-station-action]').allTextContents()).every(text=>text.trim()===''), 'observer menu and operations use graphics');
+      await checkObserverCards(page, 'bird');
 
       // A drag changes the bird's station without the invisible door stealing it.
       const bird = await page.evaluate(() => rooftop.graphics.stationTravel.wanted.walk);
@@ -200,6 +265,7 @@ const checkSavedArrangementIsolation = async browser => {
 
       await selectView(page, "drone");
       assert.equal(await page.locator('#observerStatus').innerText(),'有一架无人机路过。');
+      await checkObserverCards(page, 'drone');
       const drone = await page.evaluate(() => ({ eye: rooftop.graphics.cameraPreset.pose.eye, theta: rooftop.graphics.wanted.theta }));
       await dragView(page, -45, 20);
       await page.waitForFunction(theta => Math.abs(rooftop.graphics.wanted.theta - theta) > .01, drone.theta);
@@ -212,6 +278,7 @@ const checkSavedArrangementIsolation = async browser => {
 
       await selectView(page, "neighbor");
       assert.equal(await page.locator('#observerStatus').innerText(),'有一架无人机路过。','question view does not add a status');
+      await checkObserverCards(page, 'neighbor');
       assert.equal(await page.locator(".neighbor-scope").isVisible(), true);
       const neighbor = await page.evaluate(() => ({ eye: rooftop.graphics.cameraPreset.pose.eye, target: rooftop.graphics.target, zoom: rooftop.graphics.wanted.zoom }));
       await dragView(page, -35, 12);
@@ -305,6 +372,7 @@ const checkSavedArrangementIsolation = async browser => {
     assert.deepEqual(await page.evaluate(() => rooftop.layout), initialPhoneLayout);
     for (const viewport of [{ width: 390, height: 640 }, { width: 390, height: 844 }, { width: 844, height: 390 }]) {
       await page.setViewportSize(viewport);
+      await checkObserverCards(page, 'neighbor');
       await checkScopeCircle(page, `${engine} ${viewport.width}x${viewport.height}`);
     }
     await page.setViewportSize({ width: 390, height: 640 });

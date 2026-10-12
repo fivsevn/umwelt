@@ -1,0 +1,45 @@
+/* Observer choices and operations reuse the public world-card surface. */
+.observation .view-controls{
+  left:max(16px,env(safe-area-inset-left));
+  top:max(16px,env(safe-area-inset-top));
+  display:flex;
+  flex-direction:column;
+  flex-wrap:nowrap;
+  align-items:flex-start;
+  gap:6px;
+  padding:0;
+  border:0;
+  background:none;
+  box-shadow:none;
+}
+.observation .narrative-views,.observation .station-controls{
+  display:flex;
+  align-items:center;
+  flex-wrap:nowrap;
+  gap:6px;
+  padding:0;
+  border:0;
+  background:none;
+  box-shadow:none;
+}
+.observation .narrative-views button.world-card,.observation .station-controls button.world-card{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:auto;
+  height:auto;
+  min-width:0;
+  min-height:24px;
+  margin:0;
+  white-space:nowrap;
+}
+.observation .narrative-views button.world-card[data-narrative-view="neighbor"]{min-width:0}
+.observation .narrative-views .observer-icon{
+  width:16px;
+  height:16px;
+  background-size:128px 128px;
+}
+.observation .narrative-views .observer-icon[data-icon="bird"]{background-position:-2px -2px}
+.observation .narrative-views .observer-icon[data-icon="drone"]{background-position:-32px -2px}
+.observation .view-controls[hidden],.observation .narrative-views[hidden],.observation .station-controls[hidden]{display:none}
+@media(max-width:550px){.observation .view-controls{left:max(12px,env(safe-area-inset-left));top:max(12px,env(safe-area-inset-top))}}

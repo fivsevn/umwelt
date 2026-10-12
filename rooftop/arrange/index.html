@@ -7,6 +7,7 @@
     <title>东东的车库 · DongDong’s Garage</title>
     <link rel="icon" href="data:," />
     <link rel="stylesheet" href="../rooftop.css" />
+    <link rel="stylesheet" href="../editor.css" />
   </head>
   <body class="editor garage">
     <header class="topbar">
@@ -39,11 +40,12 @@
                 <option value="auto">随时间</option>
               </select></label
             ><label>季节<select id="seasonSelect"><option value="auto">随月份</option></select></label
-            ><label class="person-toggle"
+            >
+            <div class="actor-toggles" role="group" aria-label="人物显示"><label class="person-toggle"
               ><input id="person" type="checkbox" checked />东东</label
             ><label class="person-toggle"
               ><input id="pig" type="checkbox" checked />小猪</label
-            >
+            ></div>
           </div>
         </div>
         <section class="inspector">
@@ -113,22 +115,23 @@
           </div>
         </div>
         <div class="workspace-toolbar">
+          <div id="editCameraControls"></div>
           <div class="tool-group tool-history" hidden>
             <button id="undo" disabled>撤销</button
             ><button id="redo" disabled>重做</button>
           </div>
-          <div class="tool-group tool-options">
+          <div class="tool-group tool-options" role="group" aria-label="摆放对齐">
             <input id="grid" type="checkbox" hidden /><label
               title="拖动结束后自动对齐格点；关闭可自由摆放"
               ><input id="snap" type="checkbox" checked />自动对齐</label
             >
           </div>
-          <div class="tool-group tool-reset">
-            <button id="clear">空场景</button
-            ><button id="restore">初始陈列</button>
+          <div class="tool-group tool-reset" role="group" aria-label="场景陈列">
+            <button id="clear" aria-label="空场景" title="清空当前场景">清空</button
+            ><button id="restore" aria-label="初始陈列" title="恢复初始陈列">初始</button>
           </div>
-          <div class="layout-transfer">
-            <button id="export">导出布局 JSON</button>
+          <div class="layout-transfer" role="group" aria-label="布局文件">
+            <button id="export" aria-label="导出布局 JSON" title="导出布局 JSON">导出</button>
             <details class="transfer">
               <summary>导入</summary>
               <div class="transfer-body">

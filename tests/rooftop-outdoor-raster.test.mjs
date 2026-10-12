@@ -71,7 +71,7 @@ test("canvas consumers follow the actual live device cell rather than reconstruc
   assert.equal(actual.pixelStep, 2); assert.equal(actual.cssPixelStep, 1, "the canvas step remains authoritative when optional target metadata is absent");
 });
 
-test("room and garage retain the common game raster while native inspection uses complete device pixels", () => {
+test("observations retain the game raster while native inspection uses complete device pixels", () => {
   for (const dpr of [1, 1.25, 2, 3]) {
     for (const view of ["room", "terrace", undefined]) {
       const game = resolveScenePixelGrid(dpr, { view, zoom: 8 });
@@ -85,6 +85,20 @@ test("room and garage retain the common game raster while native inspection uses
     }
     assert.equal(resolveScenePixelGrid(dpr, { view: "neighbor", zoom: 8 }).pixelStep, resolveObservationPixelGrid(dpr, "neighbor", 8).pixelStep);
   }
+});
+test("arrangement pages use a modestly finer integer grid while inspection and scope remain independent", () => {
+  for (const dpr of [1, 1.25, 1.5, 2, 3]) {
+    const edit = resolveScenePixelGrid(dpr, { arrangement: true });
+    assert.equal(edit.targetCssPixelStep, 2);
+    assert.equal(edit.pixelStep, Math.round(2 * dpr));
+    assert.ok(edit.pixelStep > 1 && edit.pixelStep <= resolvePixelGrid(dpr).pixelStep);
+    const source = resolveScenePixelGrid(dpr, { arrangement: true, sourceInspection: true });
+    assert.equal(source.pixelStep, 1);
+    assert.deepEqual(pixelGridSize(391, 493, source).source, pixelGridSize(391, 493, source).output);
+    assert.deepEqual(resolveScenePixelGrid(dpr, { view: 'neighbor', zoom: 8 }), resolveObservationPixelGrid(dpr, 'neighbor', 8));
+  }
+  assert.equal(resolveScenePixelGrid(2, { arrangement: true }).pixelStep, 4);
+  assert.equal(resolveScenePixelGrid(2).pixelStep, 5);
 });
 function mockRenderer() {
   const events = new Map(), draws = [], initialTarget = {}, renderer = {

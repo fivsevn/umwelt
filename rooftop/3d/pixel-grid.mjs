@@ -1,5 +1,6 @@
 // Presentation grain only; authored materials retain their physical 16px/m.
 export const PIXEL_GRID_TARGET_CSS = 2.5;
+export const EDITOR_GRID_TARGET_CSS = 2;
 export const SCOPE_DETAIL_TARGET_CSS = 1;
 
 export function resolvePixelGrid(devicePixelRatio = 1, targetCssPixelStep = PIXEL_GRID_TARGET_CSS) {
@@ -21,10 +22,12 @@ export function resolveObservationPixelGrid(devicePixelRatio, view, zoom = 1) {
   return grid;
 }
 
-// Native inspection is confined to the scene tester. All public canvases,
-// including the room and garage, use the same final sampling policy.
-export function resolveScenePixelGrid(devicePixelRatio, { sourceInspection = false, view, zoom = 1 } = {}) {
-  if (!sourceInspection) return resolveObservationPixelGrid(devicePixelRatio, view, zoom);
+// Native inspection stays in test pages. Arrangement pages retain a slightly
+// finer grain, using the same integer-cell raster as the observation view.
+export function resolveScenePixelGrid(devicePixelRatio, { sourceInspection = false, arrangement = false, view, zoom = 1 } = {}) {
+  if (!sourceInspection) return arrangement
+    ? resolvePixelGrid(devicePixelRatio, EDITOR_GRID_TARGET_CSS)
+    : resolveObservationPixelGrid(devicePixelRatio, view, zoom);
   const grid = resolvePixelGrid(devicePixelRatio, 1 / (devicePixelRatio > 0 ? devicePixelRatio : 1));
   grid.pixelStep = 1;
   grid.cssPixelStep = 1 / grid.pixelRatio;

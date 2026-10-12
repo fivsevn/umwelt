@@ -1,4 +1,5 @@
 import { SEASONS, paintSeasonalAir } from "./seasons.mjs";
+import { attachEditorCameraControls } from "./editor-camera-controls.mjs";
 import { fillNotebook, notebookEntry } from "./notebook.mjs";
 import { createActionCard } from "./resident-weather.mjs";
 import { atmosphereCaption } from "./atmosphere.mjs";
@@ -19,7 +20,7 @@ import { opticOverlayMarkup, updateOpticOverlay } from "./3d/optic-overlay.mjs";
 import { LAYOUT_KEY, readLayout, readObservationLayout, writeLayout } from "./layout-storage.mjs";
 import { createEditHistory } from "./edit-history.mjs";
 import { attachCardFeed } from "./card-feed.mjs";
-import { observerIcon, NARRATIVE_LABELS, STATION_ACTIONS } from "./observer-ui.mjs";
+import { observerIcon, stationActionGlyph, NARRATIVE_LABELS, STATION_ACTIONS } from "./observer-ui.mjs";
 import { paintPig } from "./wardrobe.mjs";
 import { attachGardenMusic } from "./music.mjs";
 import { paintObjectLights } from "./objects.mjs";
@@ -82,7 +83,7 @@ const previewStorage = {
 let reviewView = review.view, reviewSampling = review.sampling;
 let persistReviewState = () => {};
 if (backgroundStage) window.history.replaceState(null, "", reviewURL(location.href));
-const narrativeButtons = () => NARRATIVE_VIEWS.map(({id}) => '<button type="button" data-narrative-view="' + id + '" aria-label="' + NARRATIVE_LABELS[id] + '" title="' + NARRATIVE_LABELS[id] + '" aria-pressed="' + (id === "bird") + '">' + observerIcon(id === 'neighbor' ? 'question' : id) + '</button>').join("");
+const narrativeButtons = () => NARRATIVE_VIEWS.map(({id}) => '<button type="button" class="world-card" data-narrative-view="' + id + '" aria-label="' + NARRATIVE_LABELS[id] + '" title="' + NARRATIVE_LABELS[id] + '" aria-pressed="' + (id === "bird") + '">' + (id === 'neighbor' ? '?' : observerIcon(id)) + '</button>').join("");
 let syncNarrativeUI = () => {};
 const edits = createEditHistory();
 let scene =
@@ -195,7 +196,7 @@ if (!editor) {
     scope.hidden = name !== "neighbor";
     if (stationKind !== name) {
       const actions = STATION_ACTIONS[name] || [];
-      stationControls.innerHTML = actions.map(([action,label,icon]) => '<button type="button" data-station-action="' + action + '" aria-label="' + label + '" title="' + label + '">' + observerIcon(icon) + '</button>').join("");
+      stationControls.innerHTML = actions.map(([action,label]) => '<button type="button" class="world-card" data-station-action="' + action + '" aria-label="' + label + '" title="' + label + '">' + stationActionGlyph(action) + '</button>').join("");
       stationControls.hidden = !actions.length;
       for (const button of stationControls.querySelectorAll("[data-station-action]")) button.onclick = () => {
         const action = button.dataset.stationAction;
@@ -297,14 +298,7 @@ matchMedia("(prefers-reduced-motion: reduce)").addEventListener(
   },
 );
 if (editor) {
-  const cameraControls = document.createElement("div");
-  cameraControls.className = "edit-camera-controls";
-  cameraControls.setAttribute("role", "group");
-  cameraControls.setAttribute("aria-label", "天台内移动视角");
-  const cameraActions = [["left","向左移动","left"],["up","向前移动","up"],["down","向后移动","down"],["right","向右移动","right"],["near","拉近","near"],["far","拉远","far"]];
-  cameraControls.innerHTML = cameraActions.map(([id,label,icon]) => '<button type="button" data-edit-camera="'+id+'" aria-label="'+label+'" title="'+label+'">'+observerIcon(icon)+'</button>').join('') + '<button type="button" data-edit-camera="turn-left" aria-label="向左转">↶</button><button type="button" data-edit-camera="turn-right" aria-label="向右转">↷</button><button type="button" data-edit-camera="reset">复位</button>';
-  $("placementControls").append(cameraControls);
-  for (const button of cameraControls.querySelectorAll("button")) button.onclick = () => garden3d?.nudgeEditCamera(button.dataset.editCamera);
+  attachEditorCameraControls($("editCameraControls"), action => garden3d?.nudgeEditCamera(action));
   for (const [id, key, values] of [
     ["weatherSelect", "condition", WEATHER],
     ["timeSelect", "phase", TIMES],
@@ -1505,7 +1499,7 @@ if (editor) {
   column.append(note);
   const inspector = document.querySelector(".inspector");
   const placeSwitches = () => {
-    if (innerWidth > 900) {
+    if (innerWidth > 900 || (innerWidth >= 700 && innerHeight <= 550)) {
       column.prepend(switches);
       note.before(inspector);
     } else {
@@ -1523,7 +1517,7 @@ if (editor) {
     wrap = canvas.parentElement,
     layoutRoot = document.querySelector(".editor-layout");
   const fitEditorHeight = () => {
-    if (innerWidth <= 900) {
+    if (innerWidth <= 900 && !(innerWidth >= 700 && innerHeight <= 550)) {
       workspace.style.removeProperty("--scene-height");
       return;
     }
@@ -1535,7 +1529,7 @@ if (editor) {
       top +
       parseFloat(padding.paddingTop) +
       parseFloat(padding.paddingBottom) +
-      12;
+      8;
     for (const child of workspace.children)
       if (child !== wrap) {
         const style = getComputedStyle(child);
@@ -1546,7 +1540,7 @@ if (editor) {
       }
     workspace.style.setProperty(
       "--scene-height",
-      Math.max(100, innerHeight - occupied) + "px",
+      Math.max(140, innerHeight - occupied) + "px",
     );
   };
   const sizing = new ResizeObserver(fitEditorHeight);

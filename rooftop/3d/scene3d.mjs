@@ -778,7 +778,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     // Retina CSS presentation must preserve the already rasterized square
     // cells rather than interpolate their edges into smaller colour fragments.
     canvas.style.imageRendering = sourceInspection ? "auto" : "pixelated";
-    outdoorGrid = resolveScenePixelGrid(window.devicePixelRatio, { sourceInspection });
+    outdoorGrid = resolveScenePixelGrid(window.devicePixelRatio, { sourceInspection, arrangement: !backgroundStage && (editable || current === "room") });
     canvas.dataset.pixelRatio = String(outdoorGrid.pixelRatio);
     canvas.dataset.physicalPixelStep = String(outdoorGrid.pixelStep);
     canvas.dataset.targetCssPixelStep = String(outdoorGrid.targetCssPixelStep);
@@ -1223,7 +1223,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     {
       const observer = narrativeActive() ? narrativeView : null,
         detailZoom = observer === "neighbor" ? view.zoom * storyPreset().span / storyFrame.span : 1;
-      outdoorGrid = resolveScenePixelGrid(window.devicePixelRatio, { sourceInspection, view: observer, zoom: detailZoom });
+      outdoorGrid = resolveScenePixelGrid(window.devicePixelRatio, { sourceInspection, arrangement: !backgroundStage && (editable || current === "room"), view: observer, zoom: detailZoom });
       canvas.dataset.physicalPixelStep = String(outdoorGrid.pixelStep);
       canvas.dataset.targetCssPixelStep = String(outdoorGrid.targetCssPixelStep);
     }
@@ -1731,7 +1731,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   return {
     setScene: reset,
     nudgeEditCamera(action) {
-      if (!editable) return;
+      if (!editable && current !== "room") return;
       if (action === "reset") { reset(current); return; }
       const moves = { left: [42, 0], right: [-42, 0], up: [0, 42], down: [0, -42] };
       if (moves[action]) pan(...moves[action]);

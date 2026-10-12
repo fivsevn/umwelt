@@ -303,11 +303,11 @@ body.garage .size-control button{width:20px!important;min-width:20px!important;h
 
 /* All lower-left cards share the same compact, translucent surface. */
 .corner-cards{gap:4px}
-.corner-cards .world-card,.garage .workspace-status #weatherStatus,.garage .workspace-status #message{padding:3px 10px;border:0;border-radius:0;background:#b9b8a86b;color:#333e32;box-shadow:2px 2px #49554118;font:12px Pixel,monospace;line-height:1.5;text-align:left;margin:0;max-width:260px}
-.corner-cards a.world-card:hover,.corner-cards button.world-card:hover{background:#cac8b780;color:#333e32}
-.corner-cards button.world-card[aria-pressed=true]{background:#b9b8a86b;color:#333e32}
+:is(.corner-cards,.observation .view-controls) .world-card,.garage .workspace-status #weatherStatus,.garage .workspace-status #message{padding:3px 10px;border:0;border-radius:0;background:#b9b8a86b;color:#333e32;box-shadow:2px 2px #49554118;font:12px Pixel,monospace;line-height:1.5;text-align:left;margin:0;max-width:260px}
+:is(.corner-cards,.observation .view-controls) a.world-card:hover,:is(.corner-cards,.observation .view-controls) button.world-card:hover{background:#cac8b780;color:#333e32}
+:is(.corner-cards,.observation .view-controls) button.world-card[aria-pressed=true]{background:#b9b8a86b;color:#333e32}
 .corner-cards .status-card[hidden]{display:none}
-@media(max-width:550px){.corner-cards .world-card,.garage .workspace-status #weatherStatus,.garage .workspace-status #message{padding:3px 9px;max-width:230px}.corner-cards{gap:4px}}
+@media(max-width:550px){:is(.corner-cards,.observation .view-controls) .world-card,.garage .workspace-status #weatherStatus,.garage .workspace-status #message{padding:3px 9px;max-width:230px}.corner-cards{gap:4px}}
 
 /* A single vertical shelf, without overflowing labels or shelf rails. */
 .garage .catalog,.garage .asset-grid,.garage .asset-card{min-width:0}
@@ -359,11 +359,11 @@ body.garage #preview{display:inline-flex;align-items:center;justify-content:cent
 
 .garage .note-column .weather-controls .person-toggle{justify-content:flex-start;gap:5px}
 
-@media (orientation:landscape) and (min-width:700px){.observation .corner-cards{zoom:1.1666667}}
+@media (orientation:landscape) and (min-width:700px){.observation .corner-cards,.observation .view-controls{zoom:1.1666667}}
 /* Keep the established compact proportions, with a clearer paper surface. */
-.corner-cards .world-card,.garage .workspace-status .world-card{background:#d0cebae6;box-shadow:2px 3px 0 #46533b55}
-.corner-cards a.world-card:hover,.corner-cards button.world-card:hover{background:#ddd8c2f2}
-.corner-cards button.world-card[aria-pressed=true]{background:#c5ccb5eb}
+:is(.corner-cards,.observation .view-controls) .world-card,.garage .workspace-status .world-card{background:#d0cebae6;box-shadow:2px 3px 0 #46533b55}
+:is(.corner-cards,.observation .view-controls) a.world-card:hover,:is(.corner-cards,.observation .view-controls) button.world-card:hover{background:#ddd8c2f2}
+:is(.corner-cards,.observation .view-controls) button.world-card[aria-pressed=true]{background:#c5ccb5eb}
 .garage .workspace-status .world-card{padding:3px 10px;font:12px Pixel,monospace;line-height:1.5;margin:0;max-width:260px}
 
 
@@ -373,11 +373,11 @@ body.garage #preview{display:inline-flex;align-items:center;justify-content:cent
 .garage .scene-tabs{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;width:100%;gap:4px!important}.garage .scene-tabs button{white-space:nowrap;min-width:0;padding:0 4px!important;font-size:11px}
 
 /* Scale the complete compact card group, preserving its internal proportions. */
-.observation .corner-cards{gap:6px}.corner-cards .world-card{background:#d0cebac7;box-shadow:2px 3px #46533b55}.corner-cards a.world-card,.corner-cards button.world-card{background:#665f5099;color:#f1e6cf;cursor:pointer}.corner-cards a.world-card:hover,.corner-cards button.world-card:hover{background:#746a58b5;box-shadow:2px 4px #46533b66;transform:translateY(-1px)}.corner-cards a.world-card:active,.corner-cards button.world-card:active{transform:translateY(1px);box-shadow:1px 1px #46533b55}.corner-cards button.world-card[aria-pressed=true]{background:#514b40b0}
-@media(orientation:landscape) and (min-width:700px){.observation .corner-cards{zoom:1.3}}
+.observation .corner-cards{gap:6px}:is(.corner-cards,.observation .view-controls) .world-card{background:#d0cebac7;box-shadow:2px 3px #46533b55}:is(.corner-cards,.observation .view-controls) a.world-card,:is(.corner-cards,.observation .view-controls) button.world-card{background:#665f5099;color:#f1e6cf;cursor:pointer}:is(.corner-cards,.observation .view-controls) a.world-card:hover,:is(.corner-cards,.observation .view-controls) button.world-card:hover{background:#746a58b5;box-shadow:2px 4px #46533b66;transform:translateY(-1px)}:is(.corner-cards,.observation .view-controls) a.world-card:active,:is(.corner-cards,.observation .view-controls) button.world-card:active{transform:translateY(1px);box-shadow:1px 1px #46533b55}:is(.corner-cards,.observation .view-controls) button.world-card[aria-pressed=true]{background:#514b40b0}
+@media(orientation:landscape) and (min-width:700px){.observation .corner-cards,.observation .view-controls{zoom:1.3}}
 @keyframes card-arrival{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}.corner-cards .card-arrival{animation:card-arrival .45s ease-out var(--card-delay,0ms) backwards}@media(prefers-reduced-motion:reduce){.corner-cards .card-arrival{animation:card-reveal .3s ease-out var(--card-delay,0ms) backwards}}@keyframes card-reveal{from{opacity:0}to{opacity:1}}
 
-.corner-cards .world-card{background:#cec7acb8;color:#3d4939;box-shadow:2px 3px #53604b55}.corner-cards a.world-card,.corner-cards button.world-card{background:#8e9279b3;color:#263b30}.corner-cards a.world-card:hover,.corner-cards button.world-card:hover{background:#b2b59bd6;color:#25372c}.corner-cards button.world-card[aria-pressed=true]{background:#7e8975c9;color:#f0e5c9}.corner-cards .world-card[hidden]{display:none!important}.corner-cards .feed-enter{animation:feed-enter .5s ease-out both}@keyframes feed-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+:is(.corner-cards,.observation .view-controls) .world-card{background:#cec7acb8;color:#3d4939;box-shadow:2px 3px #53604b55}:is(.corner-cards,.observation .view-controls) a.world-card,:is(.corner-cards,.observation .view-controls) button.world-card{background:#8e9279b3;color:#263b30}:is(.corner-cards,.observation .view-controls) a.world-card:hover,:is(.corner-cards,.observation .view-controls) button.world-card:hover{background:#b2b59bd6;color:#25372c}:is(.corner-cards,.observation .view-controls) button.world-card[aria-pressed=true]{background:#7e8975c9;color:#f0e5c9}:is(.corner-cards,.observation .view-controls) .world-card[hidden]{display:none!important}.corner-cards .feed-enter{animation:feed-enter .5s ease-out both}@keyframes feed-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 /* Updated feed cards still reveal when reduced motion is enabled. */
 @media(prefers-reduced-motion:reduce){.corner-cards .feed-enter{animation:card-reveal .3s ease-out both}}
 

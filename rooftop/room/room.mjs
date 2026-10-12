@@ -1,5 +1,6 @@
 import { createGardenRenderer } from "../3d/scene3d.mjs";
 import { makeWeather } from "../weather.mjs";
+import { attachEditorCameraControls } from "../editor-camera-controls.mjs";
 import { readLayout, writeLayout } from "../layout-storage.mjs";
 import { onRoomBackgroundReady } from "../room-scene.mjs";
 import {
@@ -33,7 +34,11 @@ canvas.style.height = "100%";
 canvas.style.touchAction = "none";
 canvas.tabIndex = 0;
 let activity = "rest",
-  pigActivity = "rest";
+  pigActivity = "rest",
+  showPerson = true,
+  showPig = true;
+$("person").onchange = () => { showPerson = $("person").checked; };
+$("pig").onchange = () => { showPig = $("pig").checked; };
 $("preview").href = new URLSearchParams(location.search).get("stage") === "background" ? "../?stage=background" : "https://umwelt.fivsevn.com/rooftop/";
 function choices(id, items, current, select) {
   for (const [key, value] of Object.entries(items)) {
@@ -205,6 +210,53 @@ try {
   onRoomBackgroundReady(paintFloor);
   paintFloor();
 }
+attachEditorCameraControls($("editCameraControls"), action => room3d?.nudgeEditCamera(action));
+if (!room3d) {
+  for (const button of $("editCameraControls").querySelectorAll("button"))
+    button.disabled = true;
+}
+const roomWorkspace = document.querySelector(".workspace"),
+  roomEditor = document.querySelector(".editor-layout"),
+  roomCanvasWrap = canvas.closest(".canvas-wrap"),
+  roomToolbar = document.querySelector(".workspace-toolbar");
+function fitRoomHeight() {
+  const columns = matchMedia(
+    "(min-width:901px), (min-width:700px) and (orientation:landscape) and (max-height:550px)",
+  ).matches;
+  if (!columns) {
+    roomWorkspace.style.removeProperty("--scene-height");
+    return;
+  }
+  const metric = (style, name) => parseFloat(style[name]) || 0,
+    layoutStyle = getComputedStyle(roomEditor),
+    workspaceStyle = getComputedStyle(roomWorkspace),
+    otherChildren = [...roomWorkspace.children].filter(child => child !== roomCanvasWrap);
+  const controlsHeight = otherChildren.reduce((height, child) => {
+    const style = getComputedStyle(child);
+    return height + child.getBoundingClientRect().height +
+      metric(style, "marginTop") + metric(style, "marginBottom");
+  }, 0);
+  const occupied = roomEditor.getBoundingClientRect().top + scrollY +
+    metric(layoutStyle, "paddingTop") + metric(layoutStyle, "paddingBottom") +
+    controlsHeight + metric(workspaceStyle, "rowGap") * otherChildren.length;
+  const height = Math.max(140, Math.floor(innerHeight - occupied)) + "px";
+  if (roomWorkspace.style.getPropertyValue("--scene-height") !== height)
+    roomWorkspace.style.setProperty("--scene-height", height);
+}
+let roomFitFrame = 0;
+function requestRoomFit() {
+  if (!roomFitFrame) roomFitFrame = requestAnimationFrame(() => {
+    roomFitFrame = 0;
+    fitRoomHeight();
+  });
+}
+addEventListener("resize", requestRoomFit);
+if (typeof ResizeObserver !== "undefined") {
+  const observer = new ResizeObserver(requestRoomFit);
+  for (const element of [roomEditor, roomToolbar, document.querySelector(".topbar")])
+    observer.observe(element);
+}
+fitRoomHeight();
 function frame(ms) {
   if (ms - lastFrame < (room3d?.interacting ? 16 : 33)) {
     requestAnimationFrame(frame);
@@ -219,7 +271,8 @@ function frame(ms) {
       time: t,
       dt,
       atmosphere: indoorWeather.update(dt),
-      present: !!personPoint,
+      present: showPerson && !!personPoint,
+      pigPresent: showPig && !!pigPoint,
       person: {
         x: personPoint?.[0] || 300,
         y: personPoint?.[1] || 240,
@@ -248,7 +301,7 @@ function frame(ms) {
     y: o.y - (asset(o.type).furniture ? dimensions(o).h / 2 : 0),
     o,
   }));
-  if (personPoint)
+  if (showPerson && personPoint)
     sprites.push({
       y: personPoint[1],
       person: {
@@ -258,7 +311,7 @@ function frame(ms) {
         facing: $("facing").value,
       },
     });
-  if (pigPoint)
+  if (showPig && pigPoint)
     sprites.push({
       y: pigPoint[1],
       pig: {

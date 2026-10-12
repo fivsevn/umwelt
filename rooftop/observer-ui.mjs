@@ -3,6 +3,11 @@ export const OBSERVER_MESSAGES = Object.freeze({
   drone: "有一架无人机路过。",
 });
 export const observerIcon = id => '<span class="observer-icon" data-icon="' + id + '" aria-hidden="true"></span>';
+const STATION_GLYPHS = Object.freeze({
+  left: "←", right: "→", down: "↓", up: "↑",
+  near: "+", far: "−", out: "−", in: "+",
+});
+export const stationActionGlyph = id => STATION_GLYPHS[id] || "";
 export const NARRATIVE_LABELS = { bird: "经常啄多肉的小鸟", drone: "偶尔路过的无人机", neighbor: "？" };
 export const STATION_ACTIONS = {
   bird: [["left", "向左沿檐", "left"], ["right", "向右沿檐", "right"]],
