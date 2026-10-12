@@ -37,8 +37,20 @@ async function assertEditorLayout(page, { width, height, columns }) {
       cameraBelowScene: toolbar.contains(camera) && !placement.contains(camera),
       toolbarFits: contains(toolbar, camera) &&
         [...toolbar.querySelectorAll('button, summary, label')]
-          .filter(element => element.getBoundingClientRect().width > 0)
+          .filter(element => !element.closest('.transfer-body') &&
+            element.getBoundingClientRect().width > 0)
           .every(element => contains(toolbar, element)),
+      popupsFit: [...toolbar.querySelectorAll('details.transfer')]
+        .filter(details => details.open)
+        .every(details => {
+          const popup = details.querySelector('.transfer-body');
+          if (!popup) return false;
+          const box = rect(popup);
+          return box.width > 0 && box.height > 0 && box.x >= -1 && box.right <= innerWidth + 1 &&
+            [...popup.querySelectorAll('button, input, select, textarea, label')]
+              .filter(element => element.getBoundingClientRect().width > 0)
+              .every(element => contains(popup, element));
+        }),
       placementFits: [...placement.querySelectorAll('label, select')]
         .every(element => contains(placement, element)),
     };
@@ -51,6 +63,7 @@ async function assertEditorLayout(page, { width, height, columns }) {
   assert.ok(layout.cameraBelowScene, 'camera controls do not share the object placement card');
   assert.ok(layout.toolbarFits && layout.placementFits,
     'visible controls fit inside their own cards');
+  assert.ok(layout.popupsFit, 'open import panels fit the page and contain their own controls');
   assert.ok(layout.cameraGroups.every(group => group.grouped && group.fits),
     'pan, zoom and orbit controls remain distinct complete groups');
   assert.equal(layout.actors.length, 2);

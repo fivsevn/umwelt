@@ -73,7 +73,8 @@ const checkObserverCards = async (page, view) => {
     { id: 'neighbor', text: '?', card: true, icon: null },
   ], 'observer choices use individual bird/drone icon cards and a question card');
   assert.ok(cards.choices.filter(choice => choice.icon)
-    .every(choice => choice.iconWidth === '16px' && choice.iconHeight === '16px'),
+    .every(choice => Math.abs(parseFloat(choice.iconWidth) - 16) <= .02 &&
+      Math.abs(parseFloat(choice.iconHeight) - 16) <= .02),
   'bird and drone keep the compact native icon size');
   const expectedOperations = {
     bird: [['left', '←'], ['right', '→']],

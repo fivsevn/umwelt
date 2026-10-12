@@ -29,8 +29,20 @@ async function assertRoomLayout(page, { width, height, columns }) {
       cameraBelowScene: toolbar.contains(camera),
       toolbarFits: contains(toolbar, camera) &&
         [...toolbar.querySelectorAll('button, summary')]
-          .filter(element => element.getBoundingClientRect().width > 0)
+          .filter(element => !element.closest('.transfer-body') &&
+            element.getBoundingClientRect().width > 0)
           .every(element => contains(toolbar, element)),
+      popupsFit: [...toolbar.querySelectorAll('details.transfer')]
+        .filter(details => details.open)
+        .every(details => {
+          const popup = details.querySelector('.transfer-body');
+          if (!popup) return false;
+          const box = rect(popup);
+          return box.width > 0 && box.height > 0 && box.x >= -1 && box.right <= innerWidth + 1 &&
+            [...popup.querySelectorAll('button, input, select, textarea, label')]
+              .filter(element => element.getBoundingClientRect().width > 0)
+              .every(element => contains(popup, element));
+        }),
       cameraGroups: ['.camera-pan', '.camera-zoom', '.camera-orbit'].map(selector => {
         const group = camera.querySelector(selector);
         return !!group && group.getAttribute('role') === 'group' && contains(camera, group) &&
@@ -50,6 +62,7 @@ async function assertRoomLayout(page, { width, height, columns }) {
     'room view and file controls sit below the scene');
   assert.ok(layout.toolbarFits && layout.panelsFit,
     'view, file, wardrobe and activity controls fit their own cards');
+  assert.ok(layout.popupsFit, 'open room import panels fit the page and contain their own controls');
   assert.ok(layout.cameraGroups.every(Boolean),
     'room pan, zoom and orbit controls remain distinct complete groups');
   assert.ok(layout.activitiesSeparate,
