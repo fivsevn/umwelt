@@ -6,7 +6,7 @@
 
 | 入口 | 用途 |
 | --- | --- |
-| [游戏](https://umwelt.fivsevn.com/rooftop/) | 北天台、南阳台观察；展示本机保存的陈列；无存档时使用初始布置，使用小鸟、无人机、邻居三个视角 |
+| [游戏](https://umwelt.fivsevn.com/rooftop/) | 北天台、南阳台观察；展示本机保存的陈列；无存档时使用初始布置，使用小鸟、无人机、邻居三个视角，显示东东和小猪的活动 |
 | [空场景综合测试](https://umwelt.fivsevn.com/rooftop/?stage=background) | 切换南北与空房间、六个室外视角和环境；默认原模型，可切游戏像素；永久不放物品、不显示角色 |
 | [车库／物品页面](https://umwelt.fivsevn.com/rooftop/arrange/) | 摆放新物品、编辑南北阳台及房间；初始为北天台 83 件、南阳台 14 件、房间 21 件 |
 | [东东的房间](https://umwelt.fivsevn.com/rooftop/room/) | 房间、换装与活动 |

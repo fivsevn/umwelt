@@ -72,7 +72,7 @@ const $ = (id) => document.getElementById(id),
 const review = reviewState(location.search);
 const backgroundStage = review.active && !editor;
 const itemPreviewStage = review.active && editor;
-const hideActors = !editor;
+const hideActors = backgroundStage;
 const reviewQuery = "background";
 const previewStorageKey = "umwelt-rooftop-background-preview-v1";
 const previewStorage = {
@@ -1283,7 +1283,8 @@ function syncPresence() {
   canvas.setAttribute(
     "aria-label",
     backgroundStage ? SCENES[scene].name + "，空场景综合测试"
-      : SCENES[scene].name + "，" + layout.scenes[scene].length + " 件物件",
+      : SCENES[scene].name + "，" + layout.scenes[scene].length + " 件物件，" +
+        (resident.present ? "东东和小猪在阳台活动" : resident.status),
   );
 }
 

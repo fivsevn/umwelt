@@ -512,7 +512,12 @@ async function visiblePickPoint(page, id) {
       const homepageLayout = await page.evaluate(() => rooftop.layout), homepageBuilds = await page.evaluate(() => rooftop.graphics.modelBuilds);
       assert.deepEqual(homepageLayout, JSON.parse(storedArrangement), "the public view displays the saved editor arrangement");
       assert.equal(await page.evaluate(()=>rooftop.graphics.objects),homepageLayout.scenes.north.length);
-      assert.equal(await page.evaluate(() => rooftop.graphics.actorsHidden), true);
+      assert.equal(await page.evaluate(() => rooftop.graphics.actorsHidden), false,
+        "the public game enables Dongdong and the pig");
+      const publicActors=await page.evaluate(()=>({visible:rooftop.graphics.actorVisibility,
+        present:rooftop.presence.present,personSheltered:!!rooftop.person.insideShelter,pigSheltered:!!rooftop.pig.insideShelter}));
+      assert.deepEqual(publicActors.visible,{person:publicActors.present&&!publicActors.personSheltered,pig:!publicActors.pigSheltered},
+        "rendered actors follow the existing errands and shelter states");
       assert.equal(await page.locator("#sceneDoor").isVisible(), false, "a door behind the bird does not intercept dragging");
       const beforeWalk = await page.evaluate(() => rooftop.graphics.stationTravel.wanted.walk), stage = await page.locator("#garden").boundingBox();
       await page.mouse.move(stage.x + stage.width * .6, stage.y + stage.height * .5);

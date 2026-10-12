@@ -219,6 +219,9 @@ const checkSavedArrangementIsolation = async browser => {
         "background inspection and its aliases keep all scenes empty");
       assert.equal(await page.evaluate(() => rooftop.graphics.objects), 0);
       assert.deepEqual(await page.evaluate(() => rooftop.graphics.modelIds), []);
+      assert.equal(await page.evaluate(() => rooftop.graphics.actorsHidden), true);
+      assert.deepEqual(await page.evaluate(() => rooftop.graphics.actorVisibility), {person:false,pig:false},
+        "empty background inspection hides both characters");
       await checkStorage();
     }
     for (const scene of ["north", "south", "room"]) {
@@ -262,8 +265,19 @@ const checkSavedArrangementIsolation = async browser => {
         "a new player's observation uses the authored initial arrangement");
       assert.equal(await page.evaluate(() => rooftop.graphics.objects), original.scenes[scene].length);
       assert.deepEqual(await page.evaluate(() => rooftop.graphics.modelIds), original.scenes[scene].map(object=>object.id));
-      assert.equal(await page.evaluate(() => rooftop.graphics.actorsHidden), true);
-      assert.deepEqual(await page.evaluate(() => rooftop.graphics.actorVisibility), { person: false, pig: false });
+      assert.equal(await page.evaluate(() => rooftop.graphics.actorsHidden), false);
+      assert.deepEqual(await page.evaluate(() => rooftop.graphics.actorVisibility), { person: true, pig: true },
+        "mild rain keeps Dongdong home and both characters visible in the furnished game");
+      assert.equal(await page.locator('#garden').getAttribute('data-person-visible'),'true');
+      assert.equal(await page.locator('#garden').getAttribute('data-pig-visible'),'true');
+      const actorFrame=await page.evaluate(()=>({time:rooftop.weather.elapsed,frames:rooftop.graphics.performance.frames}));
+      await page.waitForFunction(before=>rooftop.weather.elapsed>before.time+.25&&rooftop.graphics.performance.frames>before.frames+2,
+        actorFrame);
+      for(const actor of ['person','pig']){
+        const active=await page.evaluate(actor=>rooftop[actor],actor);
+        assert.ok(Number.isFinite(active.x+active.y));assert.ok(active.state&&active.task,
+          actor+' retains its live activity while rendered with the initial furniture');
+      }
       assert.equal(await page.evaluate(() => rooftop.graphics.projection), "perspective");
       assert.deepEqual(await page.evaluate(() => rooftop.graphics.visibleTerraces), [scene]);
       assert.equal(await page.locator("#sceneDoor").isVisible(), false);
@@ -322,7 +336,7 @@ const checkSavedArrangementIsolation = async browser => {
       await checkBounds(page);
       assert.deepEqual(await page.evaluate(() => rooftop.layout), original, "all three view controls preserve placements and stored room data");
 
-      // Empty terraces still expose the preserved botanical, antique and weapon database.
+      // Furnished terraces expose the preserved botanical, antique and weapon database.
       await page.locator("#notebookOpen").click();
       await page.locator(".observation-notebook").waitFor({ state: "visible" });
       await page.waitForTimeout(650);
@@ -342,7 +356,7 @@ const checkSavedArrangementIsolation = async browser => {
       assert.equal(await page.locator(".observation-notebook").isVisible(), false);
       assert.deepEqual(await page.evaluate(() => rooftop.layout), original);
 
-      // Actors are visually hidden, while their existing rain shelter/actions and time keep running.
+      // Visible actors keep their existing rain shelter/actions and time running.
       const elapsed = await page.evaluate(() => rooftop.weather.elapsed);
       await page.emulateMedia({ reducedMotion: "reduce" });
       await page.waitForFunction(t => rooftop.weather.elapsed > t + .25 && rooftop.weather.reduced, elapsed);
@@ -436,7 +450,7 @@ const checkSavedArrangementIsolation = async browser => {
     await page.locator('#sceneCard').click();
     await page.waitForFunction(() => rooftop.scene === 'north' && rooftop.graphics.background.loaded, null, { timeout: 90000 });
     assert.deepEqual(errors, []);
-    console.log(engine + " observation: authored north/south, bounded three-view controls, circular portrait/landscape scope and browser-bar viewport mismatch, touch, preserved database, weather/actions/time and hidden actors; empty room background inspection passed");
+    console.log(engine + " observation: authored north/south with visible Dongdong and pig, bounded three-view controls, circular portrait/landscape scope and browser-bar viewport mismatch, touch, preserved database and weather/actions/time; empty background inspection hides actors passed");
   } catch (error) {
     if (page) {
       console.error("observation state", JSON.stringify(await page.evaluate(() => ({ scene: rooftop.scene, view: rooftop.graphics?.view, wanted: rooftop.graphics?.wanted, observer: rooftop.graphics?.narrativeView, station: rooftop.graphics?.stationTravel, notebook: { hidden: document.querySelector(".notebook").hidden, bodyHidden: document.querySelector("#notebookBody").hidden, entry: document.querySelector("#reviewEntry").value, expanded: document.querySelector("#notebookOpen").getAttribute("aria-expanded"), events: window.observationEvents } })).catch(() => "page unavailable")));

@@ -101,6 +101,9 @@ const routes = [
               layout: rooftop.layout,
               scene: rooftop.scene,
               graphics: rooftop.graphics,
+              present: rooftop.presence.present,
+              personSheltered: !!rooftop.person.insideShelter,
+              pigSheltered: !!rooftop.pig.insideShelter,
             }));
             const startingLayout = await page.evaluate(async () => {
               const { initialLayout } = await import("/rooftop/scene.mjs");
@@ -109,8 +112,11 @@ const routes = [
             assert.deepEqual(publicState.layout, startingLayout);
             if (publicState.graphics.drawCalls) {
               assert.equal(publicState.graphics.narrativeView, "bird");
-              assert.equal(publicState.graphics.actorsHidden, true);
-              assert.deepEqual(publicState.graphics.actorVisibility, { person: false, pig: false });
+              assert.equal(publicState.graphics.actorsHidden, false,
+                "the published game enables Dongdong and the pig");
+              assert.deepEqual(publicState.graphics.actorVisibility,
+                {person:publicState.present&&!publicState.personSheltered,pig:!publicState.pigSheltered},
+                "public actors retain the existing errands and shelter states");
               await page.waitForFunction(() => rooftop.graphics.background.loaded);
               assert.equal(await page.locator("#sceneDoor").isVisible(), false,
                 "the bird's real eave view does not expose the door behind it");
@@ -157,6 +163,9 @@ const routes = [
               assert.equal(initial.scene, original.searchParams.get("scene"));
               assert.deepEqual(initial.layout.scenes.north, []);
               assert.deepEqual(initial.layout.scenes.south, []);
+              assert.equal(await page.evaluate(()=>rooftop.graphics.actorsHidden),true);
+              assert.deepEqual(await page.evaluate(()=>rooftop.graphics.actorVisibility),{person:false,pig:false},
+                "background review aliases keep both characters hidden");
               const view = page.getByRole("combobox", { name: "测试视角", exact: true });
               assert.deepEqual(await view.locator("option").evaluateAll((options) => options.map((option) => option.value)),
                 ["terrace", "row", "outlook", "bird", "drone", "neighbor"]);
