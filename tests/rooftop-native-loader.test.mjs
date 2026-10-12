@@ -55,13 +55,13 @@ function signature(root) {
   return hash(faces.sort().join('\n'));
 }
 
-test('294 native GLBs and seven canonical atlases equal the verified authoring exports', () => {
+test('294 native GLBs match catalog hashes and seven canonical embedded atlases', () => {
   assert.equal(ITEMS.length, 294);
   const families = new Set();
   for (const item of ITEMS) {
     families.add(item.family);
-    const source = readFileSync(new URL('../docs/art/rooftop-furniture-02/preview/assets/' + item.modelId + '.glb', import.meta.url)), runtime = readFileSync(new URL('../rooftop/' + item.file, import.meta.url));
-    assert.equal(hash(runtime), hash(source), item.id);
+    const runtime = readFileSync(new URL('../rooftop/' + item.file, import.meta.url));
+    assert.equal(hash(runtime), item.modelSha256, item.id);
     assert.equal(runtime.readUInt32LE(0), 0x46546c67);
     const jsonLength = runtime.readUInt32LE(12), gltf = JSON.parse(runtime.subarray(20, 20 + jsonLength).toString()), binStart = 28 + jsonLength;
     assert.equal(gltf.images.length, 1, item.id + ' single authored atlas');
@@ -69,7 +69,6 @@ test('294 native GLBs and seven canonical atlases equal the verified authoring e
     assert.equal(hash(embedded), hash(readFileSync(new URL('../rooftop/' + item.atlas, import.meta.url))), item.id + ' embedded image is exactly the canonical atlas');
   }
   assert.equal(families.size, 7);
-  for (const family of families) assert.equal(hash(readFileSync(new URL('../rooftop/assets/items/' + family + '-atlas.png', import.meta.url))), hash(readFileSync(new URL('../docs/art/rooftop-furniture-02/preview/assets/' + family + '-atlas.png', import.meta.url))), family);
 });
 
 test('dynamic resource URLs inherit the publication revision', () => {

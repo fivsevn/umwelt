@@ -1,0 +1,13 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>花农时代 · 物品</title><link rel="stylesheet" href="style.css"></head>
+<body data-ready="false"><main>
+<header><div><h1>花农时代 <span>·</span> 物品</h1><p id="summary">正在整理物品…</p></div><div class="find"><input id="search" type="search" placeholder="找物品" aria-label="找物品"><select id="placement" aria-label="摆放方式"><option value="all">全部摆放方式</option><option value="floor">落地</option><option value="both">落地／台面</option></select></div></header>
+<nav id="categories" aria-label="物品分类"></nav><p id="status" role="status"></p><section id="catalog" aria-label="物品目录"></section>
+<footer>点击近看 · 拖动旋转 <span>统一游戏采样 · Blender／Pixelorama</span></footer>
+</main>
+<dialog id="detail" aria-labelledby="detail-name"><div class="detail-shell"><div class="detail-head"><div><h2 id="detail-name"></h2><p id="detail-meta"></p></div><button id="close" aria-label="关闭近看">×</button></div>
+<div class="detail-controls"><div class="modes" aria-label="预览方式"><button id="game-view" aria-pressed="false">游戏视角</button><button id="source-view" aria-pressed="true">看模型</button></div><div><button id="left" aria-label="向左转">左转</button><button id="right" aria-label="向右转">右转</button><button id="top">内侧／顶面</button><button id="bottom">底面</button><button id="lid" hidden>打开盖子</button><button id="reset">复位</button></div></div>
+<div id="viewer" tabindex="0" aria-label="物品三维预览，可拖动和方向键旋转，滚轮缩放"></div>
+<div class="detail-bottom"><div><button id="previous" aria-label="上一件">←</button><span id="position"></span><button id="next" aria-label="下一件">→</button></div><div><button id="zoom-out" aria-label="缩小">−</button><button id="zoom-in" aria-label="放大">＋</button><button id="stage-placement" hidden>放到桌上</button></div></div>
+<details id="references"><summary>资料与原稿</summary><div id="reference-body"></div></details>
+</div></dialog>
+<script src="../../../../rooftop/3d/vendor/three.min.js"></script><script type="module" src="viewer.mjs"></script></body></html>

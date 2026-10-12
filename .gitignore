@@ -7,3 +7,37 @@ _fontcheck/
 _mac/
 
 _windows/
+
+# Local authoring output; keep current editable sources and runtime exports.
+docs/art/**/*.log
+docs/art/**/*.blend[1-9]
+docs/art/**/reopened.png
+docs/art/**/native-reopened*.png
+docs/art/**/native-source-check.json
+docs/art/**/pixelorama-source-check.json
+docs/art/**/pixelorama-scope-check.json
+docs/art/**/pixelorama-distant-scope-check.json
+docs/art/rooftop-furniture-02/preview/assets/*
+!docs/art/rooftop-furniture-02/preview/assets/catalog.json
+docs/art/rooftop-room-02/preview/assets/
+docs/art/rooftop-observers-01/preview/assets/
+docs/art/**/source-reopened.json
+docs/art/**/validation.json
+docs/art/**/layout-reopened.json
+docs/art/**/connection-check.json
+docs/art/**/glb-check.json
+docs/art/**/final-check.json
+docs/art/**/final-diagonal-check.json
+docs/art/**/retained-records-check.json
+docs/art/**/solid-leaf-and-shape-check.json
+docs/art/**/record-preservation.json
+docs/art/**/source-dataset-audit.json
+docs/art/**/reference-checks.json
+docs/art/**/floor-fit-verification.json
+docs/art/**/removable-parts-inspection.json
+docs/art/**/furniture-pixel-preservation.json
+docs/art/**/uv-preservation.json
+docs/art/**/export-report.json
+docs/art/**/floor-fit.json
+docs/art/**/geometry-scale.json
+docs/art/**/fallback-render-check.json

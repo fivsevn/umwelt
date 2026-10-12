@@ -1,6 +1,6 @@
 # 花农时代维护与扩容
 
-文档与源文件见[文档入口](rooftop-README.md)，完整模型、Pixelorama 材料格和最终低采样见[制作管线](rooftop-pixel-style.md)。当前发布状态见[场景核验](art/rooftop-air-coverage-01/README.md)。
+文档与源文件见[文档入口](rooftop-README.md)，完整模型、Pixelorama 材料格和最终低采样见[制作管线](rooftop-pixel-style.md)。空气效果契约见[空间天气](art/rooftop-air-coverage-01/README.md)。
 
 ## 页面与存档
 
@@ -11,7 +11,7 @@
 
 布局使用 `umwelt-rooftop-layout-v1`。当前为 `version:2`，包含 `scenes.north`、`scenes.south`、`scenes.room`，迁移标记为 `roomVersion:2`、`spaceVersion:2`，目录标记为 `native-items-294-v1`。`validateLayout()` 继续接受版本 1；缺少房间时补入默认房间，南阳台坐标沿用兼容迁移。保留存储键、物件 ID、seed、旋转及缩放序列化约定，每场景上限 400 件。
 
-游戏、车库和房间读取同一本机布局。初始布置来自 `horticultural-era-rooftop-layout-3.json`，北天台 83 件、南阳台 14 件、房间 21 件，完整数据写入 `initial-layout.mjs`。无存档时使用此布置；已有新目录存档，包括空布局，正常保留、导出和跨页面同步。旧目录陈列首次进入可编辑页面时恢复当前初始布置并写入新目录标记；没有旧布局备份入口。公开观察读取完整陈列而不写回存档；布局损坏时仅在内存中回退到初始布置。车库“恢复初始”恢复当前场景的初始物件，“清空”仍可腾空当前场景。综合场景测试三个场景始终为空，并移除 `layout=local`；物品审核编辑使用隔离会话。换装存档独立保留。
+游戏、车库和房间读取同一本机布局。初始布置保存在 `initial-layout.mjs`：北天台 83 件、南阳台 14 件、房间 21 件。无存档时使用此布置；已有新目录存档，包括空布局，正常保留、导出和跨页面同步。旧目录陈列首次进入可编辑页面时恢复当前初始布置并写入新目录标记；没有旧布局备份入口。公开观察读取完整陈列而不写回存档；布局损坏时仅在内存中回退到初始布置。车库“恢复初始”恢复当前场景的初始物件，“清空”仍可腾空当前场景。综合场景测试三个场景始终为空，并移除 `layout=local`；物品审核编辑使用隔离会话。换装存档独立保留。
 
 南北阳台在 `HOUSE` 中属于同一住宅，连接相对屋檐。存档使用各自局部坐标，公开页按住宅坐标构建完整两侧，取景约束在当前一侧。屋檐不提供家具承放层位。承放面、层位身份、碰撞、携带与手势见[承放关系](rooftop-placement.md)。
 
@@ -21,7 +21,7 @@
 
 [建筑源文件](art/rooftop-lowpoly-02/README.md)包含完整 `game-environment.blend`、主图 `terrace-book.pxo` 和远景 `distance-facades.pxo`。`3d/architectural-shell.mjs` 加载 `assets/background/empty-rooftop.mjs`、`.bin` 及 PNG。主图为 1024×1024，近景用 `texelMetresPerUnit` 还原长度，再按 `texelsPerMetre:16` 取样；远景由 `baked-pixel-grid.mjs` 在原烘焙 UV 上取同一物理格，窗灯图共用坐标。正面、侧面、背面和底面均核对绑定。
 
-全部 294 件物品使用[新物品源文件](art/rooftop-furniture-02/README.md)的七组 Blender／Pixelorama 原稿和 `assets/items/`。`item-catalog.mjs` 统一导出 `ITEM_METRES_TO_UNITS=5.6/3`，几何只缩放一次；原生图集保持 16 纹理像素／米、Nearest 和无 mipmap。房间固定背景使用[房间原稿](art/rooftop-room-01/README.md)和 `assets/room/`，透明窗与可动门叶保留。人物及室外门仍使用早期 `assets/pixel/material-book.png` 共用材质；不能为更换物品误删仍有调用的材质机制。
+全部 294 件物品使用[新物品源文件](art/rooftop-furniture-02/README.md)的七组 Blender／Pixelorama 原稿和 `assets/items/`。`item-catalog.mjs` 统一导出 `ITEM_METRES_TO_UNITS=5.6/3`，几何只缩放一次；原生图集保持 16 纹理像素／米、Nearest 和无 mipmap。房间固定背景使用[房间原稿](art/rooftop-room-02/README.md)和 `assets/room/`，透明窗与可动门叶保留。人物及室外门仍使用`assets/pixel/material-book.png` 共用材质；不能为更换物品误删仍有调用的材质机制。
 
 新家具继续完整 Blender＋Pixelorama 工作流，完成器形、厚度、背面、底面、开孔和承放结构。物理材料格与建筑对照，粗颗粒感由最终低采样控制；不能以删减结构或放大笔触代替。保存并重开原稿后，分别核对导出、游戏内接入和发布包，保护已有手改与存档接口。
 
@@ -52,10 +52,9 @@
 | `3d/native-style.mjs`、`native-materials.mjs`、`native-book.mjs` | 人物共用材料格、图集缓存和环境参数 |
 | `3d/rack-grid.mjs`、`spatial-layout.mjs` | 真实承放面、开孔和格栅支持判断 |
 | `3d/residents.mjs` | 人物身体、衣服与装饰 |
-| `docs/art/rooftop-game/legacy-geometry/` | 保留旧物品、植物、器物和武器构造，供历史工具与检查调用 |
 | `arrange/index.html`、`rooftop.css` | 车库结构与样式 |
 
-植物资料从 `botany.mjs` 入手，所有新模型先在 `docs/art/rooftop-furniture-02/` 的原生管线完成、核对，再运行 `sync-runtime-catalog.py` 同步新目录、承放资料和实际模型缩略图。家具只整理新目录，原植物子类、收藏、枪械与兵器资料不随视觉重做改名。`docs/art/rooftop-legacy-materials/` 仍供原稿准备与检查调用。`scene.mjs` 的兼容尺寸、二维回退和图鉴绘制不能作为重复目录删除。
+植物资料从 `botany.mjs` 入手，所有新模型先在 `docs/art/rooftop-furniture-02/` 的原生管线完成、核对，再运行 `sync-runtime-catalog.py` 同步新目录、承放资料和实际模型缩略图。家具只整理新目录，原植物子类、收藏、枪械与兵器资料不随视觉重做改名。材质书保留当前可编辑原稿和必要绘制工具。`scene.mjs` 的兼容尺寸、二维回退和图鉴绘制不能作为重复目录删除。
 
 ## 镜头与环境
 

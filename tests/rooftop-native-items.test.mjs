@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync,existsSync} from 'node:fs';
+import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {ITEMS,ITEM_METRES_TO_UNITS as U,getItemDefinition,getPlantAssembly,getVesselItemDefinition,canonicalItemId} from '../rooftop/item-catalog.mjs';
 import {PLANTS,POTS} from '../rooftop/botany.mjs';
@@ -33,10 +33,7 @@ test('plant browsing preserves every original botanical subcategory alongside th
 test('native models and true-mesh fallback thumbnails exist for every item and match recorded source bytes',()=>{
   for(const item of ITEMS){
     const model=new URL('../rooftop/'+item.file,import.meta.url);
-    const source=new URL('../docs/art/rooftop-furniture-02/preview/assets/'+item.modelId+'.glb',import.meta.url);
-    // Asset copying can run independently; the authoritative approved export
-    // is always present and its hash must match the metadata used for physics.
-    const bytes=readFileSync(existsSync(model)?model:source);
+    const bytes=readFileSync(model);
     assert.equal(createHash('sha256').update(bytes).digest('hex'),item.modelSha256,item.id);
     const thumb=readFileSync(new URL('../rooftop/'+item.thumbnail,import.meta.url));
     assert.equal(thumb.subarray(1,4).toString(),'PNG',item.id);

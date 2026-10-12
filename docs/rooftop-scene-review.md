@@ -2,7 +2,7 @@
 
 `/rooftop/?stage=background` 是唯一且永久为空的场景测试页。同一页检查北天台、南阳台、空房间的材料、天气、季节、时间和六种取景，标题为“空场景 · 综合测试”。
 
-从仓库根目录提供静态文件后，打开[本地测试页](http://127.0.0.1:4173/rooftop/?stage=background)。原稿与采样规格见[美术管线](rooftop-pixel-style.md)，发布状态见[场景核验](art/rooftop-air-coverage-01/README.md)。
+从仓库根目录提供静态文件后，打开[本地测试页](http://127.0.0.1:4173/rooftop/?stage=background)。原稿与采样规格见[美术管线](rooftop-pixel-style.md)，空气契约见[空间天气](art/rooftop-air-coverage-01/README.md)。
 
 ## 场景与视角
 
@@ -29,7 +29,7 @@
 
 测试页的北天台、南阳台始终没有陈列物品，东东和小猪的模型隐藏。综合测试仅在内存中清空三个场景，不读取或改写个人陈列；带有 `layout=local` 的旧测试链接也不能引入陈列。公开游戏展示本机布局，无存档时展示当前初始布置。
 
-物品测试使用独立的本地页面 `docs/art/rooftop-furniture-02/preview/`。场景和物品测试保持各自的入口与页面风格，需要看哪部分就直接打开哪页。正式车库 `/rooftop/arrange/` 负责摆放、保存与导出；初始陈列采用 `horticultural-era-rooftop-layout-3.json` 的 118 件物件，北天台 83 件、南阳台 14 件、房间 21 件；已有新目录个人布置继续保留。
+物品测试使用独立的本地页面 `docs/art/rooftop-furniture-02/preview/`。场景和物品测试保持各自的入口与页面风格，需要看哪部分就直接打开哪页。正式车库 `/rooftop/arrange/` 负责摆放、保存与导出；初始陈列保存在 `rooftop/initial-layout.mjs`，共 118 件物件，北天台 83 件、南阳台 14 件、房间 21 件；已有新目录个人布置继续保留。
 
 ## 兼容入口
 
