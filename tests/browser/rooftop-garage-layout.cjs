@@ -208,7 +208,15 @@ async function assertCatalogScroll(page) {
   await p.getByRole('button',{name:'拉近',exact:true}).click();
   await p.waitForFunction(before=>Number(document.querySelector('#garden').dataset.cameraZoom)>before,zoom);
   await p.getByRole('button',{name:'复位',exact:true}).click();
-  assert.deepEqual(await p.evaluate(()=>rooftop.layout.scenes.north),[],"garage starts with an empty terrace");
+  const initial=await p.evaluate(async()=> (await import('/rooftop/scene.mjs')).initialLayout());
+  assert.deepEqual(await p.evaluate(()=>rooftop.layout),initial,"garage starts with the complete authored arrangement");
+  assert.equal(await p.evaluate(()=>rooftop.graphics.objects),initial.scenes.north.length);
+  // Isolate the layout/control checks from the large authored furnishing set.
+  // A deliberately cleared personal save must load as empty rather than reset.
+  const cleared={...initial,scenes:{north:[],south:[],room:[]}};
+  await p.evaluate(data=>localStorage.setItem('umwelt-rooftop-layout-v1',JSON.stringify(data)),cleared);
+  await p.reload();await p.waitForFunction(()=>window.rooftop);
+  assert.deepEqual(await p.evaluate(()=>rooftop.layout),cleared,"an intentionally empty arrangement is preserved");
   await p.locator("[data-asset=barrel]").click();
   assert.equal((await p.evaluate(()=>rooftop.layout.scenes.north)).length,1,"new native plant is hand placed");
   await p.screenshot({

@@ -64,8 +64,15 @@ test('every permitted pot selection controls the plant rigid body and foliage co
     assert.ok([profile.w,profile.d,profile.body,profile.h].every(v=>Number.isFinite(v)&&v>0));
   }
 });
-test('empty initial copies and a hand-authored native layout survive round trips with stable seed, pot and support data',()=>{
-  const layout=initialLayout();assert.deepEqual(layout.scenes,{north:[],south:[],room:[]});
-  const copy=initialLayout();layout.scenes.north.push({id:'stand',type:'iron-3-black',x:312,y:240,scale:1,rotation:0,support:null},{id:'plant',type:'barrel',x:312,y:240,scale:1,rotation:0,seed:42,pot:'plastic',support:{id:'stand',surface:'shelf-3'}});
-  assert.deepEqual(copy.scenes.north,[]);const restored=validateLayout(JSON.parse(JSON.stringify(layout)));assert.deepEqual(restored,layout);
+test('authored defaults and personal native layouts survive round trips with stable seed, pot and nested support data',()=>{
+  const layout=initialLayout(),copy=initialLayout();
+  assert.deepEqual(validateLayout(JSON.parse(JSON.stringify(layout))),layout);
+  const byId=new Map(layout.scenes.north.map(o=>[o.id,o]));
+  const nested=layout.scenes.north.find(o=>o.type==='vessel-plastic'&&o.support);
+  assert.equal(byId.get(nested.support.id).type,'crate-red');
+  assert.equal(byId.get(byId.get(nested.support.id).support.id).type,'wood-square-table');
+  const planted=layout.scenes.north.find(o=>o.type==='pelargonium');
+  assert.equal(planted.seed,2314049475);assert.equal(planted.pot,'hasami');assert.equal(planted.support.surface,'shelf-3');
+  layout.scenes.north=[{id:'stand',type:'iron-3-black',x:312,y:240,scale:1,rotation:0,support:null},{id:'plant',type:'barrel',x:312,y:240,scale:1,rotation:0,seed:42,pot:'plastic',support:{id:'stand',surface:'shelf-3'}}];
+  assert.equal(copy.scenes.north.length,83);const restored=validateLayout(JSON.parse(JSON.stringify(layout)));assert.deepEqual(restored,layout);
 });

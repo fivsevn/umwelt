@@ -377,7 +377,7 @@ export function validateLayout(data) {
     });
     const objects = clean.scenes[scene];
     // New native contacts and surfaces are already authoritative.
-    // The empty-baseline migration runs at the storage boundary before this.
+    // Catalog migration runs at the storage boundary before this.
     if (data.catalogRevision !== ITEM_CATALOG_REVISION) {
       for (const o of objects) if (o.support) {
         const parent=objects.find(p=>p.id===o.support.id), surfaces=parent&&supportSurfaces(parent);

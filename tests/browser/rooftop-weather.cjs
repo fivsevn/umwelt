@@ -20,7 +20,9 @@ const base = process.env.BASE_URL || "http://127.0.0.1:8773",
     assert.equal(await p.locator("#weatherSelect option").count(), 9);
     assert.equal(await p.locator("#timeSelect option").count(), 8);
     await p.locator("#person").uncheck();
-    assert.deepEqual(await p.evaluate(()=>rooftop.layout.scenes.north),[],"new weather scene starts empty");
+    assert.deepEqual(await p.evaluate(()=>rooftop.layout),
+      await p.evaluate(async()=> (await import('/rooftop/scene.mjs')).initialLayout()),
+      "new weather scene starts with the authored arrangement");
     const fixture=require("../fixtures/rooftop-native-layout.json");
     await p.evaluate(data=>localStorage.setItem("umwelt-rooftop-layout-v1",JSON.stringify(data)),fixture);
     await p.reload();await p.waitForFunction(()=>window.rooftop);

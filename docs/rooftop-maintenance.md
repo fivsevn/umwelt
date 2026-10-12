@@ -4,14 +4,14 @@
 
 ## 页面与存档
 
-- `rooftop/`：北天台与南阳台游戏观察，南北场景空开场。
+- `rooftop/`：北天台与南阳台游戏观察，展示保存陈列，无存档时使用初始布置。
 - `rooftop/?stage=background`：唯一且永久为空的综合场景测试，不放物品、不显示角色。
 - `rooftop/arrange/`：车库，编辑北天台、南阳台和房间陈列。
 - `rooftop/room/`：房间、衣柜与活动。
 
 布局使用 `umwelt-rooftop-layout-v1`。当前为 `version:2`，包含 `scenes.north`、`scenes.south`、`scenes.room`，迁移标记为 `roomVersion:2`、`spaceVersion:2`，目录标记为 `native-items-294-v1`。`validateLayout()` 继续接受版本 1；缺少房间时补入默认房间，南阳台坐标沿用兼容迁移。保留存储键、物件 ID、seed、旋转及缩放序列化约定，每场景上限 400 件。
 
-车库和房间读取同一本机布局；新默认三个场景均为空。旧目录陈列按用户要求在首次进入可编辑页面时直接清空并写入新目录标记；没有旧布局备份或恢复入口。新目录下的手动陈列正常保存、导出和跨页面同步。公开观察只清空南北，保留新房间布局元数据而不写回存档；综合场景测试使用隔离审核会话、三个场景始终为空，并移除 `layout=local`。换装存档独立保留。
+游戏、车库和房间读取同一本机布局。初始布置来自 `horticultural-era-rooftop-layout-3.json`，北天台 83 件、南阳台 14 件、房间 21 件，完整数据写入 `initial-layout.mjs`。无存档时使用此布置；已有新目录存档，包括空布局，正常保留、导出和跨页面同步。旧目录陈列首次进入可编辑页面时恢复当前初始布置并写入新目录标记；没有旧布局备份入口。公开观察读取完整陈列而不写回存档；布局损坏时仅在内存中回退到初始布置。车库“恢复初始”恢复当前场景的初始物件，“清空”仍可腾空当前场景。综合场景测试三个场景始终为空，并移除 `layout=local`；物品审核编辑使用隔离会话。换装存档独立保留。
 
 南北阳台在 `HOUSE` 中属于同一住宅，连接相对屋檐。存档使用各自局部坐标，公开页按住宅坐标构建完整两侧，取景约束在当前一侧。屋檐不提供家具承放层位。承放面、层位身份、碰撞、携带与手势见[承放关系](rooftop-placement.md)。
 
@@ -39,7 +39,7 @@
 | `item-catalog.mjs`、`item-data.mjs` | 新物品目录、原资料映射与统一米制尺寸 |
 | `3d/native-model-loader.mjs`、`native-structural-visibility.mjs` | 原生 GLB／七图集加载、共享材质、细杆显示补偿 |
 | `3d/room-background-loader.mjs`、`room-door.mjs` | 原生房间背景、透明窗、原位置活动门叶 |
-| `initial-layout.mjs`、`room-scene.mjs` | 空默认布局及房间二维回退 |
+| `initial-layout.mjs`、`room-scene.mjs` | 初始陈列及房间二维回退 |
 | `room/room.mjs`、`wardrobe.mjs`、`card-feed.mjs` | 房间活动、换装和提示卡 |
 | `object-references.mjs`、`notebook.mjs`、`notebook-comments.mjs`、`native-item-notes.mjs` | 原资料归属、手帐描述与逐件人物随想 |
 | `house-structure.mjs`、`3d/architectural-shell.mjs` | 住宅坐标变换和 Blender 建筑加载 |

@@ -95,15 +95,18 @@ const routes = [
             );
           }
           if (route.startsWith("/rooftop/?")) {
-            // Public game entries retain their empty terrace and narrative controls.
+            // Public game entries retain their authored arrangement and narrative controls.
             // A door behind a real wall/roof must not intercept view gestures.
             const publicState = await page.evaluate(() => ({
               layout: rooftop.layout,
               scene: rooftop.scene,
               graphics: rooftop.graphics,
             }));
-            assert.deepEqual(publicState.layout.scenes.north, []);
-            assert.deepEqual(publicState.layout.scenes.south, []);
+            const startingLayout = await page.evaluate(async () => {
+              const { initialLayout } = await import("/rooftop/scene.mjs");
+              return initialLayout();
+            });
+            assert.deepEqual(publicState.layout, startingLayout);
             if (publicState.graphics.drawCalls) {
               assert.equal(publicState.graphics.narrativeView, "bird");
               assert.equal(publicState.graphics.actorsHidden, true);

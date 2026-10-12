@@ -6,9 +6,9 @@
 
 | 入口 | 用途 |
 | --- | --- |
-| [游戏](https://umwelt.fivsevn.com/rooftop/) | 北天台、南阳台观察；公开南北场景空开场，使用小鸟、无人机、邻居三个视角 |
+| [游戏](https://umwelt.fivsevn.com/rooftop/) | 北天台、南阳台观察；展示本机保存的陈列；无存档时使用初始布置，使用小鸟、无人机、邻居三个视角 |
 | [空场景综合测试](https://umwelt.fivsevn.com/rooftop/?stage=background) | 切换南北与空房间、六个室外视角和环境；默认原模型，可切游戏像素；永久不放物品、不显示角色 |
-| [车库／物品页面](https://umwelt.fivsevn.com/rooftop/arrange/) | 摆放新物品、编辑南北阳台及房间；三处初始陈列均为空 |
+| [车库／物品页面](https://umwelt.fivsevn.com/rooftop/arrange/) | 摆放新物品、编辑南北阳台及房间；初始为北天台 83 件、南阳台 14 件、房间 21 件 |
 | [东东的房间](https://umwelt.fivsevn.com/rooftop/room/) | 房间、换装与活动 |
 
 本地使用同一路径，例如 [综合测试](http://127.0.0.1:4173/rooftop/?stage=background)。旧 `/rooftop/3d/`、`/rooftop/previews/pixel-01/` 和 `stage=game-model` 兼容转入同一个综合测试页。
@@ -23,7 +23,7 @@
 - [物品承放关系](rooftop-placement.md)与 [`rooftop/AGENTS.md`](../rooftop/AGENTS.md)：承放面、碰撞、携带、取物和兼容迁移。
 - [测试导航](../tests/README.md)与[验证和发布](../isopoda/docs/deployment.md)：共用检查和发布方法。
 
-存档继续使用 `umwelt-rooftop-layout-v1`，布局版本 2、房间版本 2、空间版本 2。新目录标记为 `native-items-294-v1`；按用户要求，旧目录存档首次进入车库或房间时清空并写入新标记，不另存旧陈列。之后手动摆放的存档正常保留，换装另存。公开南北仍为空；空场景测试在自己的审核会话中清空三个场景，不改新陈列。
+存档继续使用 `umwelt-rooftop-layout-v1`，布局版本 2、房间版本 2、空间版本 2。新目录标记为 `native-items-294-v1`；初始陈列采用 `horticultural-era-rooftop-layout-3.json` 的完整 118 件布置，位置、旋转、缩放、植物 seed、花盆和承放关系保存在 `rooftop/initial-layout.mjs`。无存档时游戏、车库和房间使用同一份初始布局；已有新目录存档，包括手动清空的布局，继续保留。旧目录首次进入车库或房间时恢复当前初始布局并写入新目录标记，不另存旧陈列。公开观察读取本机陈列但不写存档，换装另存；空场景测试始终清空三个场景，不改个人陈列。
 
 ## 制作方式
 

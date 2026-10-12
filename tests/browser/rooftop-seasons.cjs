@@ -4,7 +4,7 @@ fs.mkdirSync(out,{recursive:true});
 (async()=>{const b=await (engine==='webkit'?webkit:chromium).launch({headless:true,...(engine==='chromium'?{args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']}: {})});
 try{const p=await b.newPage({viewport:{width:1440,height:1050}}),errors=[],assets=[];p.on('pageerror',e=>errors.push(e.message));p.on('console',m=>{if(m.type()==='error')errors.push(m.text())});p.on('response',r=>{if(r.status()>=400)errors.push(r.status()+' '+r.url());if(/\.(png|gif|jpe?g|webp)(\?|$)/i.test(r.url()))assets.push(r.url())});p.setDefaultTimeout(120000);
 await p.goto(base+'/rooftop/arrange/');await p.waitForFunction(()=>window.rooftop?.graphics?.atmosphere);
-assert.deepEqual(await p.evaluate(()=>rooftop.layout.scenes.north),[],'the production default remains empty');
+assert.deepEqual(await p.evaluate(()=>rooftop.layout),await p.evaluate(async()=> (await import('/rooftop/scene.mjs')).initialLayout()),'the production default retains all authored scenes');
 const fixture=require('../fixtures/rooftop-native-layout.json');
 await p.evaluate(data=>localStorage.setItem('umwelt-rooftop-layout-v1',JSON.stringify(data)),fixture);
 await p.reload();await p.waitForFunction(()=>window.rooftop?.graphics?.atmosphere&&rooftop.graphics.nativeItems?.loaded>0&&rooftop.graphics.nativeItems?.pending===0);

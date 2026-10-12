@@ -50,6 +50,14 @@ async function visiblePickPoint(page, id) {
     });
     try { await page.waitForFunction(() => window.rooftop); }
     catch (error) { console.error("Game startup errors:",errors); throw error; }
+    const defaultLayout=await page.evaluate(async()=> (await import('/rooftop/scene.mjs')).initialLayout());
+    assert.deepEqual(await page.evaluate(()=>rooftop.layout),defaultLayout,
+      "a new garage starts with the authored arrangement");
+    // This suite audits lazy catalogue loading and isolated placements. Start
+    // those checks with an explicit cleared personal layout, independent of defaults.
+    await page.evaluate(data=>localStorage.setItem('umwelt-rooftop-layout-v1',JSON.stringify(data)),
+      {...defaultLayout,scenes:{north:[],south:[],room:[]}});
+    await page.reload({waitUntil:'domcontentloaded'});await page.waitForFunction(()=>window.rooftop);
     const webgl = await page.evaluate(() => !!rooftop.modelRenderer);
     if (engine === "chromium")
       assert.ok(webgl, "software WebGL must create models");
@@ -475,11 +483,14 @@ async function visiblePickPoint(page, id) {
         await page.evaluate(() => rooftop.layout.scenes.north[0].pot),
         "growbag",
       );
+      const beforeRestore=await page.evaluate(()=>rooftop.layout);
       await page.locator("#restore").click();
-      // Restoring the current baseline intentionally leaves the terrace empty.
-      // Test live foliage on a placed plant, not a transient thumbnail program.
-      await page.locator("#search").fill("绿薄荷");
-      await page.locator("[data-asset=mint]").click();
+      const authored=await page.evaluate(async()=> (await import('/rooftop/scene.mjs')).initialLayout());
+      assert.deepEqual(await page.evaluate(()=>rooftop.layout.scenes.north),authored.scenes.north,
+        "restore returns the active terrace to the authored default");
+      for(const scene of ['south','room'])assert.deepEqual(await page.evaluate(scene=>rooftop.layout.scenes[scene],scene),beforeRestore.scenes[scene],
+        "restore preserves arrangements in the other scenes");
+      // Test live foliage on the restored plants, not a transient thumbnail program.
       await page.waitForFunction(()=>rooftop.graphics.nativeItems.pending===0&&rooftop.graphics.foliageMotion.programs>0,null,{timeout:90000});
       const output = process.env.QA_OUTPUT || "/tmp/rooftop-models";
       await fs.mkdir(output, { recursive: true });
@@ -499,8 +510,8 @@ async function visiblePickPoint(page, id) {
       await page.waitForFunction(() => rooftop.graphics?.drawCalls > 0 && rooftop.graphics.background.loaded, null, { timeout: 90000 });
       assert.equal(await page.locator("#garden").getAttribute("tabindex"), "0", "observation canvas accepts keyboard focus");
       const homepageLayout = await page.evaluate(() => rooftop.layout), homepageBuilds = await page.evaluate(() => rooftop.graphics.modelBuilds);
-      assert.deepEqual(homepageLayout.scenes.north, []);
-      assert.deepEqual(homepageLayout.scenes.south, []);
+      assert.deepEqual(homepageLayout, JSON.parse(storedArrangement), "the public view displays the saved editor arrangement");
+      assert.equal(await page.evaluate(()=>rooftop.graphics.objects),homepageLayout.scenes.north.length);
       assert.equal(await page.evaluate(() => rooftop.graphics.actorsHidden), true);
       assert.equal(await page.locator("#sceneDoor").isVisible(), false, "a door behind the bird does not intercept dragging");
       const beforeWalk = await page.evaluate(() => rooftop.graphics.stationTravel.wanted.walk), stage = await page.locator("#garden").boundingBox();
@@ -514,7 +525,7 @@ async function visiblePickPoint(page, id) {
       await page.keyboard.press("+");
       await page.mouse.wheel(0, -130);
       assert.equal(await page.evaluate(() => rooftop.graphics.wanted.zoom), 1, "bird magnification remains fixed");
-      await page.screenshot({ path: output + "/empty-game-north-bird.png", fullPage: true });
+      await page.screenshot({ path: output + "/authored-game-north-bird.png", fullPage: true });
       for (const view of ["drone", "neighbor"]) {
         await page.locator('[data-narrative-view="' + view + '"]').click();
         await page.waitForFunction(name => rooftop.graphics.narrativeView === name, view);
@@ -526,7 +537,7 @@ async function visiblePickPoint(page, id) {
       assert.equal(await page.locator(".neighbor-scope").isVisible(), true);
       assert.deepEqual(await page.evaluate(() => rooftop.layout), homepageLayout, "observer controls never alter placements");
       assert.equal(await page.evaluate(() => rooftop.graphics.modelBuilds), homepageBuilds, "view changes do not rebuild catalogue geometry");
-      assert.equal(await page.evaluate(() => localStorage.getItem("umwelt-rooftop-layout-v1")), storedArrangement, "the empty public view retains the saved editor arrangement");
+      assert.equal(await page.evaluate(() => localStorage.getItem("umwelt-rooftop-layout-v1")), storedArrangement, "the public view retains saved editor bytes");
       assert.equal(await page.evaluate(() => rooftop.graphics.controls), "pan");
       await page.locator("#sceneCard").click();
       await page.waitForFunction(() => rooftop.graphics.scene === "south");

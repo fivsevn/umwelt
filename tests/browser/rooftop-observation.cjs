@@ -169,7 +169,9 @@ const checkSavedArrangementIsolation = async browser => {
   page.on("pageerror", error => errors.push(error.message));
   const ready = async url => {
     await page.goto(url);
-    await page.waitForFunction(() => rooftop.graphics?.drawCalls > 0 && rooftop.graphics.background.loaded, null, { timeout: 90000 });
+    await page.waitForFunction(() => rooftop.graphics?.drawCalls > 0 &&
+      (rooftop.scene === "room" ? rooftop.graphics.roomBackground?.loaded : rooftop.graphics.background.loaded),
+    null, { timeout: 90000 });
   };
   try {
     await ready(base + "/rooftop/?scene=north");
@@ -200,27 +202,33 @@ const checkSavedArrangementIsolation = async browser => {
       const stored = await page.evaluate(({ layoutKey, previewKey }) => ({
         local: localStorage.getItem(layoutKey), preview: sessionStorage.getItem(previewKey),
       }), { layoutKey, previewKey });
-      assert.equal(stored.local, raw, "empty observation never rewrites the saved local arrangement");
-      assert.equal(stored.preview, raw, "empty observation never rewrites the saved preview arrangement");
+      assert.equal(stored.local, raw, "observation never rewrites the saved local arrangement");
+      assert.equal(stored.preview, raw, "observation never rewrites the saved preview arrangement");
     };
-    for (const stage of ["", "&stage=game-model"]) for (const scene of ["north", "south"]) {
-      await ready(`${base}/rooftop/?scene=${scene}&layout=local${stage}`);
-      const shown = await page.evaluate(() => rooftop.layout);
-      assert.deepEqual(shown.scenes.north, [], "old layout=local links still show an empty north terrace");
-      assert.deepEqual(shown.scenes.south, [], "old layout=local links still show an empty south terrace");
-      assert.deepEqual(shown.scenes.room, stage ? [] : fixture.scenes.room, "empty scene inspection discards room items in memory; the public view preserves room data");
+    for (const scene of ["north", "south"]) {
+      await ready(`${base}/rooftop/?scene=${scene}&layout=local`);
+      assert.deepEqual(await page.evaluate(() => rooftop.layout), fixture,
+        "the public view loads the player's complete arrangement");
+      assert.equal(await page.evaluate(() => rooftop.graphics.objects), fixture.scenes[scene].length);
+      assert.deepEqual(await page.evaluate(() => rooftop.graphics.modelIds), fixture.scenes[scene].map(object=>object.id));
+      await checkStorage();
+    }
+    for (const stage of ["stage=background", "stage=game-model", "test=1"]) for (const scene of ["north", "south", "room"]) {
+      await ready(`${base}/rooftop/?scene=${scene}&layout=local&${stage}`);
+      assert.ok(await page.evaluate(() => Object.values(rooftop.layout.scenes).every(objects=>objects.length===0)),
+        "background inspection and its aliases keep all scenes empty");
       assert.equal(await page.evaluate(() => rooftop.graphics.objects), 0);
       assert.deepEqual(await page.evaluate(() => rooftop.graphics.modelIds), []);
       await checkStorage();
     }
-    for (const scene of ["north", "south"]) {
+    for (const scene of ["north", "south", "room"]) {
       await ready(`${base}/rooftop/arrange/?scene=${scene}`);
       assert.deepEqual(await page.evaluate(() => rooftop.layout), fixture, "the garage retains the player's original arrangement");
       assert.equal(await page.evaluate(() => rooftop.graphics.objects), fixture.scenes[scene].length);
       await checkStorage();
     }
     assert.deepEqual(errors, []);
-    console.log(engine + " saved arrangement: north/south layout=local and game-model previews remain empty, storage bytes unchanged, garage still loads saved furnishings passed");
+    console.log(engine + " saved arrangement: public and garage load saved furnishings; background and aliases keep all three scenes empty; storage bytes unchanged passed");
   } finally { await context.close(); }
 };
 (async () => {
@@ -250,10 +258,10 @@ const checkSavedArrangementIsolation = async browser => {
           }, true);
       });
       const original = await page.evaluate(() => rooftop.layout);
-      assert.deepEqual(original.scenes.north, []);
-      assert.deepEqual(original.scenes.south, []);
-      assert.equal(await page.evaluate(() => rooftop.graphics.objects), 0);
-      assert.deepEqual(await page.evaluate(() => rooftop.graphics.modelIds), []);
+      assert.deepEqual(original, await page.evaluate(async () => (await import('/rooftop/scene.mjs')).initialLayout()),
+        "a new player's observation uses the authored initial arrangement");
+      assert.equal(await page.evaluate(() => rooftop.graphics.objects), original.scenes[scene].length);
+      assert.deepEqual(await page.evaluate(() => rooftop.graphics.modelIds), original.scenes[scene].map(object=>object.id));
       assert.equal(await page.evaluate(() => rooftop.graphics.actorsHidden), true);
       assert.deepEqual(await page.evaluate(() => rooftop.graphics.actorVisibility), { person: false, pig: false });
       assert.equal(await page.evaluate(() => rooftop.graphics.projection), "perspective");
@@ -428,7 +436,7 @@ const checkSavedArrangementIsolation = async browser => {
     await page.locator('#sceneCard').click();
     await page.waitForFunction(() => rooftop.scene === 'north' && rooftop.graphics.background.loaded, null, { timeout: 90000 });
     assert.deepEqual(errors, []);
-    console.log(engine + " observation: empty north/south, bounded three-view controls, circular portrait/landscape scope and browser-bar viewport mismatch, touch, preserved database, weather/actions/time and hidden actors passed");
+    console.log(engine + " observation: authored north/south, bounded three-view controls, circular portrait/landscape scope and browser-bar viewport mismatch, touch, preserved database, weather/actions/time and hidden actors; empty room background inspection passed");
   } catch (error) {
     if (page) {
       console.error("observation state", JSON.stringify(await page.evaluate(() => ({ scene: rooftop.scene, view: rooftop.graphics?.view, wanted: rooftop.graphics?.wanted, observer: rooftop.graphics?.narrativeView, station: rooftop.graphics?.stationTravel, notebook: { hidden: document.querySelector(".notebook").hidden, bodyHidden: document.querySelector("#notebookBody").hidden, entry: document.querySelector("#reviewEntry").value, expanded: document.querySelector("#notebookOpen").getAttribute("aria-expanded"), events: window.observationEvents } })).catch(() => "page unavailable")));

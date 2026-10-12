@@ -142,7 +142,12 @@ async function assertRoomLayout(page, { width, height, columns }) {
       await page.locator("button[data-scene=room]").getAttribute("aria-pressed"),
       "true",
     );
-    assert.deepEqual(await page.evaluate(() => rooftop.layout.scenes.room),[],"new room starts empty");
+    const authored=await page.evaluate(async()=> (await import('/rooftop/scene.mjs')).initialLayout());
+    assert.deepEqual(await page.evaluate(() => rooftop.layout),authored,"the garage room starts with the authored arrangement");
+    const newRoom=await context.newPage();
+    await newRoom.goto(base+'/rooftop/room/');await newRoom.waitForFunction(()=>window.room);
+    assert.deepEqual(await newRoom.evaluate(()=>room.layout),authored.scenes.room,"the wardrobe room shares the same no-save default");
+    await newRoom.close();
     const fixture=require("../fixtures/rooftop-native-layout.json");
     await page.evaluate(data=>localStorage.setItem("umwelt-rooftop-layout-v1",JSON.stringify(data)),fixture);
     await page.reload();await page.waitForFunction(()=>window.rooftop);

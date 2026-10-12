@@ -72,7 +72,6 @@ const $ = (id) => document.getElementById(id),
 const review = reviewState(location.search);
 const backgroundStage = review.active && !editor;
 const itemPreviewStage = review.active && editor;
-const emptyGameStage = !editor && !backgroundStage;
 const hideActors = !editor;
 const reviewQuery = "background";
 const previewStorageKey = "umwelt-rooftop-background-preview-v1";
@@ -102,14 +101,18 @@ let flushDrag = null;
 const dragPerformance = { updates: 0, totalMs: 0, maxMs: 0 };
 try {
   if (editor) {
-    layout = readLayout(itemPreviewStage ? previewStorage : localStorage);
-    if (!itemPreviewStage && !localStorage.getItem(LAYOUT_KEY)) layout = emptyReviewLayout(layout);
-  } else layout = readObservationLayout(backgroundStage ? previewStorage : localStorage);
+    layout = itemPreviewStage && !previewStorage.getItem()
+      ? emptyReviewLayout(initialLayout(), { room: true })
+      : readLayout(itemPreviewStage ? previewStorage : localStorage);
+  } else layout = backgroundStage
+    ? emptyReviewLayout(initialLayout(), { room: true })
+    : readObservationLayout();
 } catch {
-  layout = emptyReviewLayout(initialLayout());
+  layout = backgroundStage || itemPreviewStage
+    ? emptyReviewLayout(initialLayout(), { room: true })
+    : initialLayout();
   if (editor) $("message").textContent = "本机布局无法读取，已恢复初始布局。";
 }
-if (!editor || (itemPreviewStage && !previewStorage.getItem())) layout = emptyReviewLayout(layout, { room: backgroundStage });
 if (backgroundStage) {
   document.body.classList.add("background-stage");
   document.title = "空场景 · 综合测试 · 花农时代";
@@ -986,10 +989,10 @@ if (editor) {
   };
   $("restore").onclick = () => {
     checkpoint();
-    layout.scenes[scene] = scene === "room" ? initialLayout().scenes.room : [];
+    layout.scenes[scene] = initialLayout().scenes[scene];
     selected = null;
     changed();
-    message(scene === "room" ? "已恢复房间的初始陈列。" : "已恢复空阳台。");
+    message("已恢复" + SCENES[scene].name + "的初始陈列。");
   };
   $("person").onchange = () => (showPerson = $("person").checked);
   $("pig").onchange = () => (showPig = $("pig").checked);
@@ -1279,15 +1282,8 @@ function syncPresence() {
   if (!resident.present) $("dongdongStatus").textContent = resident.status;
   canvas.setAttribute(
     "aria-label",
-    backgroundStage ? SCENES[scene].name + "，空场景综合测试" : emptyGameStage ? SCENES[scene].name + "，空阳台" : SCENES[scene].name +
-      "，" +
-      (resident.present
-        ? ["rain", "heavy", "thunderstorm", "typhoon"].includes(
-            atmosphere.condition,
-          )
-          ? "东东和小猪正在避雨"
-          : "东东正在照料植物"
-        : resident.status),
+    backgroundStage ? SCENES[scene].name + "，空场景综合测试"
+      : SCENES[scene].name + "，" + layout.scenes[scene].length + " 件物件",
   );
 }
 
