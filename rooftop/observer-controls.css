@@ -26,14 +26,14 @@
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  width:auto;
-  height:auto;
-  min-width:0;
-  min-height:24px;
+  width:36px;
+  height:36px;
+  min-width:36px;
+  min-height:36px;
+  flex:0 0 36px;
   margin:0;
   white-space:nowrap;
 }
-.observation .narrative-views button.world-card[data-narrative-view="neighbor"]{min-width:0}
 .observation .narrative-views .observer-icon{
   width:16px;
   height:16px;

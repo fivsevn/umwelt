@@ -53,6 +53,13 @@ const checkObserverCards = async (page, view) => {
         [button.dataset.stationAction, button.textContent.trim()]),
       allOperationCards: [...station.querySelectorAll('button')]
         .every(button => button.classList.contains('world-card')),
+      buttonGeometry: [...controls.querySelectorAll('[data-narrative-view], [data-station-action]')]
+        .filter(button => button.getBoundingClientRect().width > 0)
+        .map(button => {
+          const rect = button.getBoundingClientRect(), style = getComputedStyle(button);
+          return { width: rect.width, height: rect.height,
+            cssWidth: parseFloat(style.width), cssHeight: parseFloat(style.height) };
+        }),
       surfaces: [controls, narrative, station].map(element => {
         const style = getComputedStyle(element);
         return { background: style.backgroundColor, image: style.backgroundImage,
@@ -84,11 +91,22 @@ const checkObserverCards = async (page, view) => {
   assert.deepEqual(cards.operations, expectedOperations[view],
     `${view} operations use the matching graphical directions or magnification signs`);
   assert.ok(cards.allOperationCards, 'each operation uses an individual world card');
+  assert.equal(cards.buttonGeometry.length, 3 + expectedOperations[view].length,
+    'all three observers and the current operations remain visible');
+  assert.ok(cards.buttonGeometry.every(button =>
+    Math.abs(button.cssWidth - 36) <= .03 && Math.abs(button.cssHeight - 36) <= .03 &&
+    Math.abs(button.width - button.height) <= .03),
+  'every observer and operation card is a 36 CSS-pixel square');
+  const firstCard = cards.buttonGeometry[0];
+  assert.ok(cards.buttonGeometry.every(button =>
+    Math.abs(button.width - firstCard.width) <= .03 &&
+    Math.abs(button.height - firstCard.height) <= .03),
+  'observer and operation cards retain one size after group scaling');
   assert.ok(cards.surfaces.every(surface => surface.background === 'rgba(0, 0, 0, 0)' &&
     surface.image === 'none' && surface.shadow === 'none'),
   'observer rows have no outer panel background or shadow');
   assert.deepEqual(cards.operationStyle, cards.lowerStyle,
-    'observer operations reuse the lower-left button card font, spacing and paper surface');
+    'observer operations reuse the lower-left button card font, padding and paper color');
   assert.equal(cards.zoom[0], cards.zoom[1], 'observer and lower-left cards share the same group scale');
   assert.ok(cards.rowsSeparate && cards.fits, 'observer cards form two compact rows inside the viewport');
 };
@@ -344,6 +362,10 @@ const checkSavedArrangementIsolation = async browser => {
     await page.waitForFunction(() => rooftop.graphics?.drawCalls > 0 && rooftop.graphics.background.loaded, null, { timeout: 90000 });
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
     const initialPhoneLayout = await page.evaluate(() => rooftop.layout);
+    for (const view of ['bird', 'drone', 'neighbor', 'bird']) {
+      await selectView(page, view);
+      await checkObserverCards(page, view);
+    }
     if (engine === "chromium") {
       const touch = await page.context().newCDPSession(page);
       const gesture = async (points, end) => {

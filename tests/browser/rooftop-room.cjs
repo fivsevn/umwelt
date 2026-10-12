@@ -16,17 +16,39 @@ async function assertRoomLayout(page, { width, height, columns }) {
     };
     const toolbar = document.querySelector('.workspace-toolbar');
     const camera = document.querySelector('#editCameraControls');
+    const viewTools = toolbar.querySelector('.toolbar-view');
+    const layoutTools = toolbar.querySelector('.toolbar-layout');
+    const toolbarBox = rect(toolbar), toolbarStyle = getComputedStyle(toolbar);
+    const toolbarContent = {
+      left: toolbarBox.x + parseFloat(toolbarStyle.paddingLeft),
+      right: toolbarBox.right - parseFloat(toolbarStyle.paddingRight),
+    };
     const activities = document.querySelector('.room-activities');
     const wardrobe = document.querySelector('.room-wardrobe');
     return {
       fitsPage: document.documentElement.scrollWidth <= innerWidth,
       stage: rect(document.querySelector('#room')),
       workspace: rect(document.querySelector('.workspace')),
-      toolbar: rect(toolbar),
+      toolbar: toolbarBox,
+      toolbarContent,
+      toolbarView: rect(viewTools),
+      toolbarLayout: rect(layoutTools),
+      camera: rect(camera),
+      files: rect(toolbar.querySelector('.layout-transfer')),
       wardrobe: rect(wardrobe),
       note: rect(document.querySelector('.note-column')),
       actors: [...document.querySelectorAll('.actor-toggles label')].map(rect),
       cameraBelowScene: toolbar.contains(camera),
+      toolbarOwnership: viewTools.getAttribute('role') === 'group' &&
+        layoutTools.getAttribute('role') === 'group' && viewTools.contains(camera) &&
+        layoutTools.contains(document.querySelector('#exportRoom')) &&
+        layoutTools.contains(toolbar.querySelector('details.transfer')) &&
+        !viewTools.contains(document.querySelector('#exportRoom')),
+      toolGroupsFit: [viewTools, layoutTools].every(group => contains(toolbar, group) &&
+        [...group.querySelectorAll('button, summary')]
+          .filter(element => !element.closest('.transfer-body') &&
+            element.getBoundingClientRect().width > 0)
+          .every(element => contains(group, element))),
       toolbarFits: contains(toolbar, camera) &&
         [...toolbar.querySelectorAll('button, summary')]
           .filter(element => !element.closest('.transfer-body') &&
@@ -60,6 +82,19 @@ async function assertRoomLayout(page, { width, height, columns }) {
     'the room uses the full central workspace width');
   assert.ok(layout.toolbar.y >= layout.stage.bottom - 1 && layout.cameraBelowScene,
     'room view and file controls sit below the scene');
+  assert.ok(layout.toolbarOwnership && layout.toolGroupsFit,
+    'room camera and file controls have distinct containers with complete boundaries');
+  assert.ok(Math.abs(layout.camera.x - layout.toolbarContent.left) <= 2 &&
+    Math.abs(layout.files.right - layout.toolbarContent.right) <= 2,
+  'room camera controls align left and file controls align right');
+  if (layout.toolbarContent.right - layout.toolbarContent.left <= 580) {
+    assert.ok(layout.toolbarLayout.y >= layout.toolbarView.bottom - 1,
+      'a narrow room workspace puts file controls on the row below the camera');
+  } else {
+    assert.ok(Math.abs(layout.toolbarLayout.y - layout.toolbarView.y) <= 2 &&
+      layout.toolbarView.right <= layout.toolbarLayout.x + 1,
+    'a wide room workspace places view and file controls on one row');
+  }
   assert.ok(layout.toolbarFits && layout.panelsFit,
     'view, file, wardrobe and activity controls fit their own cards');
   assert.ok(layout.popupsFit, 'open room import panels fit the page and contain their own controls');

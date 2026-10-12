@@ -15,7 +15,22 @@ async function assertEditorLayout(page, { width, height, columns }) {
     };
     const toolbar = document.querySelector('.workspace-toolbar');
     const camera = document.querySelector('#editCameraControls');
+    const viewTools = toolbar.querySelector('.toolbar-view');
+    const layoutTools = toolbar.querySelector('.toolbar-layout');
+    const toolbarBox = rect(toolbar), toolbarStyle = getComputedStyle(toolbar);
+    const toolbarContent = {
+      left: toolbarBox.x + parseFloat(toolbarStyle.paddingLeft),
+      right: toolbarBox.right - parseFloat(toolbarStyle.paddingRight),
+    };
     const placement = document.querySelector('#placementControls');
+    const itemControls = document.querySelector('.item-controls');
+    const inspector = document.querySelector('.inspector');
+    const workspace = document.querySelector('.workspace');
+    const catalog = document.querySelector('.catalog');
+    const assets = catalog.querySelector('.asset-grid');
+    const weather = document.querySelector('.weather-controls');
+    const weatherFields = ['weatherSelect', 'timeSelect', 'seasonSelect']
+      .map(id => document.getElementById(id).closest('label'));
     const actors = [...document.querySelectorAll('.actor-toggles label')].map(rect);
     const cameraGroups = ['.camera-pan', '.camera-zoom', '.camera-orbit'].map(selector => {
       const group = camera.querySelector(selector);
@@ -28,13 +43,28 @@ async function assertEditorLayout(page, { width, height, columns }) {
     return {
       fitsPage: document.documentElement.scrollWidth <= innerWidth,
       stage: rect(document.querySelector('#garden')),
-      workspace: rect(document.querySelector('.workspace')),
-      toolbar: rect(toolbar),
-      shelf: rect(document.querySelector('.catalog')),
+      workspace: rect(workspace),
+      toolbar: toolbarBox,
+      toolbarContent,
+      toolbarView: rect(viewTools),
+      toolbarLayout: rect(layoutTools),
+      camera: rect(camera),
+      files: rect(toolbar.querySelector('.layout-transfer')),
+      shelf: rect(catalog),
       note: rect(document.querySelector('.note-column')),
       actors,
       cameraGroups,
       cameraBelowScene: toolbar.contains(camera) && !placement.contains(camera),
+      toolbarOwnership: viewTools.getAttribute('role') === 'group' &&
+        layoutTools.getAttribute('role') === 'group' && viewTools.contains(camera) &&
+        ['snap', 'clear', 'restore', 'export'].every(id =>
+          layoutTools.contains(document.getElementById(id)) &&
+          !viewTools.contains(document.getElementById(id))),
+      toolGroupsFit: [viewTools, layoutTools].every(group => contains(toolbar, group) &&
+        [...group.querySelectorAll('button, summary, label')]
+          .filter(element => !element.closest('.transfer-body') &&
+            element.getBoundingClientRect().width > 0)
+          .every(element => contains(group, element))),
       toolbarFits: contains(toolbar, camera) &&
         [...toolbar.querySelectorAll('button, summary, label')]
           .filter(element => !element.closest('.transfer-body') &&
@@ -53,6 +83,20 @@ async function assertEditorLayout(page, { width, height, columns }) {
         }),
       placementFits: [...placement.querySelectorAll('label, select')]
         .every(element => contains(placement, element)),
+      objectControlsTogether: itemControls.contains(inspector) && itemControls.contains(placement) &&
+        document.querySelector('.note-column').contains(itemControls) &&
+        !workspace.contains(inspector) && !workspace.contains(placement) &&
+        contains(itemControls, inspector) && contains(itemControls, placement),
+      weatherFields: weatherFields.map(rect),
+      weatherFits: weatherFields.every(field => contains(weather, field) &&
+        contains(field, field.querySelector('select'))),
+      catalogCapacity: {
+        gridHeight: assets.clientHeight,
+        scrollable: ['auto', 'scroll'].includes(getComputedStyle(assets).overflowY),
+        overflow: assets.scrollHeight > assets.clientHeight,
+        fits: contains(catalog, assets) && catalog.scrollHeight <= catalog.clientHeight + 1 &&
+          assets.scrollWidth <= assets.clientWidth + 1,
+      },
     };
   });
   assert.ok(layout.fitsPage, `${width} × ${height}: page has no horizontal overflow`);
@@ -61,6 +105,21 @@ async function assertEditorLayout(page, { width, height, columns }) {
   assert.ok(layout.toolbar.y >= layout.stage.bottom - 1,
     'scene and file controls sit below the scene');
   assert.ok(layout.cameraBelowScene, 'camera controls do not share the object placement card');
+  assert.ok(layout.objectControlsTogether,
+    'placement and object controls remain together in the inspector column, away from the canvas');
+  assert.ok(layout.toolbarOwnership && layout.toolGroupsFit,
+    'view controls and scene/file controls have distinct containers with complete boundaries');
+  assert.ok(Math.abs(layout.camera.x - layout.toolbarContent.left) <= 2 &&
+    Math.abs(layout.files.right - layout.toolbarContent.right) <= 2,
+  'camera controls align left and scene/file controls align right');
+  if (layout.toolbarContent.right - layout.toolbarContent.left <= 580) {
+    assert.ok(layout.toolbarLayout.y >= layout.toolbarView.bottom - 1,
+      'a narrow workspace puts scene/file controls on the row below the camera');
+  } else {
+    assert.ok(Math.abs(layout.toolbarLayout.y - layout.toolbarView.y) <= 2 &&
+      layout.toolbarView.right <= layout.toolbarLayout.x + 1,
+    'a wide workspace places view and scene/file controls on one row');
+  }
   assert.ok(layout.toolbarFits && layout.placementFits,
     'visible controls fit inside their own cards');
   assert.ok(layout.popupsFit, 'open import panels fit the page and contain their own controls');
@@ -69,6 +128,16 @@ async function assertEditorLayout(page, { width, height, columns }) {
   assert.equal(layout.actors.length, 2);
   assert.ok(Math.abs(layout.actors[0].y - layout.actors[1].y) <= 2,
     'DongDong and pig display switches share one row');
+  assert.ok(layout.weatherFits, 'weather fields and selectors fit inside their environment card');
+  if (!columns) {
+    assert.ok(layout.weatherFields.every(field =>
+      Math.abs(field.y - layout.weatherFields[0].y) <= 2 &&
+      Math.abs(field.width - layout.weatherFields[0].width) <= 2),
+    'portrait weather, time and season fields form three equally sized columns');
+  }
+  assert.ok(layout.catalogCapacity.scrollable && layout.catalogCapacity.overflow &&
+    layout.catalogCapacity.fits && layout.catalogCapacity.gridHeight >= 80,
+  'the item grid retains usable capacity and scrolls inside a bounded catalog');
   if (columns) {
     assert.ok(layout.shelf.right <= layout.workspace.x + 1 &&
       layout.workspace.right <= layout.note.x + 1,
@@ -84,6 +153,21 @@ async function assertEditorLayout(page, { width, height, columns }) {
     assert.ok(layout.stage.height >= 320,
       'portrait screens retain a usable scene instead of a small preview');
   }
+}
+
+async function assertCatalogScroll(page) {
+  const grid = page.locator('.catalog .asset-grid');
+  await grid.hover();
+  const before = await grid.evaluate(element => ({
+    top: element.scrollTop, max: element.scrollHeight - element.clientHeight, pageY: scrollY,
+  }));
+  const delta = before.top < before.max / 2 ? 240 : -240;
+  await page.mouse.wheel(0, delta);
+  await page.waitForFunction(top =>
+    Math.abs(document.querySelector('.catalog .asset-grid').scrollTop - top) >= 1,
+  before.top);
+  assert.ok(Math.abs(await page.evaluate(() => scrollY) - before.pageY) <= 1,
+    'scrolling the item grid does not move the whole page');
 }
 
 (async () => {
@@ -163,11 +247,12 @@ async function assertEditorLayout(page, { width, height, columns }) {
     assert.ok(row.fits, "desktop controls fit without horizontal scrolling");
     await assertEditorLayout(p, { width, height: 1100, columns: true });
   }
+  await assertCatalogScroll(p);
   await p.setViewportSize({ width: 1600, height: 1100 });
   await p.waitForTimeout(100);
   const box = await p.locator("#garden").boundingBox(),
     controls = await p.locator(".inspector").boundingBox();
-  assert.equal(await p.locator(".note-column>.inspector").count(), 1);
+  assert.equal(await p.locator(".note-column .item-controls .inspector").count(), 1);
   assert.ok(box.y + box.height < 1100);
   const northFrame = await p.locator(".canvas-wrap").boundingBox();
   await p.locator("button[data-scene=south]").click();
@@ -199,10 +284,11 @@ async function assertEditorLayout(page, { width, height, columns }) {
   await p.locator("#export").click();
   assert.ok((await dl).suggestedFilename().endsWith(".json"));
   await p.locator(".transfer summary").click();
-  for (const w of [900, 390]) {
+  for (const w of [900, 390, 320]) {
     await p.setViewportSize({ width: w, height: 844 });
     await p.waitForTimeout(100);
     await assertEditorLayout(p, { width: w, height: 844, columns: false });
+    await assertCatalogScroll(p);
     assert.ok(
       await p.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,
@@ -223,11 +309,14 @@ async function assertEditorLayout(page, { width, height, columns }) {
   await p.locator("button[data-scene=room]").click();
   assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   const narrowRoom=await p.locator("#garden").boundingBox();
-  assert.ok(narrowRoom.width>300&&narrowRoom.width<=390);
+  const availableWidth = await p.evaluate(() => document.documentElement.clientWidth);
+  assert.ok(narrowRoom.width >= availableWidth * .9 && narrowRoom.width <= availableWidth,
+    'the narrow room retains nearly all available page width, including when scrollbars take space');
   assert.ok(narrowRoom.height >= 320, 'the narrow room retains a usable scene height');
   await p.setViewportSize({ width: 844, height: 390 });
   await p.waitForTimeout(100);
   await assertEditorLayout(p, { width: 844, height: 390, columns: true });
+  await assertCatalogScroll(p);
   await p.getByRole('button', { name: '复位', exact: true }).click();
   const landscapeTarget = await p.locator('#garden').getAttribute('data-camera-target');
   await p.getByRole('button', { name: '向右移动', exact: true }).click();

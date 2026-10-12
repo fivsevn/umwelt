@@ -1497,14 +1497,17 @@ if (editor) {
   column.className = "note-column";
   note.before(column);
   column.append(note);
-  const inspector = document.querySelector(".inspector");
+  const inspector = document.querySelector(".inspector"),
+    itemControls = document.createElement("section");
+  itemControls.className = "item-controls";
+  itemControls.setAttribute("aria-label", "所选物件控制");
+  itemControls.append(inspector, $("placementControls"));
+  note.before(itemControls);
   const placeSwitches = () => {
     if (innerWidth > 900 || (innerWidth >= 700 && innerHeight <= 550)) {
       column.prepend(switches);
-      note.before(inspector);
     } else {
       const workspace = document.querySelector(".workspace");
-      workspace.prepend(inspector);
       workspace.prepend(switches);
     }
   };

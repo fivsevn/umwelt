@@ -29,17 +29,21 @@
           </div>
         </div>
         <div class="workspace-toolbar room-transfer" aria-label="房间视角与文件">
-          <div id="editCameraControls"></div>
-          <div class="layout-transfer" role="group" aria-label="房间文件">
-            <button id="exportRoom" type="button" aria-label="导出房间 JSON" title="导出房间 JSON">导出</button>
-            <details class="transfer">
-              <summary>导入</summary>
-              <div class="transfer-body">
-                <p>恢复房间布置、东东衣服和小猪装饰。</p>
-                <button id="importRoom" type="button">选择 JSON 文件</button>
-                <input id="roomFile" type="file" accept=".json,application/json" hidden>
-              </div>
-            </details>
+          <div class="toolbar-view" role="group" aria-label="视角工具">
+            <div id="editCameraControls"></div>
+          </div>
+          <div class="toolbar-layout" role="group" aria-label="房间操作">
+            <div class="layout-transfer" role="group" aria-label="房间文件">
+              <button id="exportRoom" type="button" aria-label="导出房间 JSON" title="导出房间 JSON">导出</button>
+              <details class="transfer">
+                <summary>导入</summary>
+                <div class="transfer-body">
+                  <p>恢复房间布置、东东衣服和小猪装饰。</p>
+                  <button id="importRoom" type="button">选择 JSON 文件</button>
+                  <input id="roomFile" type="file" accept=".json,application/json" hidden>
+                </div>
+              </details>
+            </div>
           </div>
         </div>
       </section>
