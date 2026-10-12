@@ -262,7 +262,8 @@ async function assertRoomLayout(page, { width, height, columns }) {
     assert.equal(await room.locator("#outfitsOptions [aria-pressed=true]").getAttribute("data-value"), "blue");
     assert.equal(await room.locator("#decorations .wardrobe-categories [aria-pressed=true]").innerText(), "铃铛项圈");
     assert.equal(await room.locator("#decorationsOptions [aria-pressed=true]").getAttribute("data-value"), "bell-cream");
-    await room.locator(".transfer summary").click();
+    assert.equal(await room.locator(".transfer").evaluate(details => details.open), false,
+      'successful import closes its panel before editing continues');
     for (const viewport of [
       { width: 1600, height: 844, columns: true },
       { width: 900, height: 844, columns: false },
