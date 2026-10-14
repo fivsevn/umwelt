@@ -23,7 +23,7 @@
 node tools/check-all.mjs
 ```
 
-这个入口发现根目录与四个游戏 `tests/` 下的 `*.test.mjs`，再运行现有语言、物种、环境、叙事、实验室和公共页面验证。它不启动浏览器，也不代替文档链接、原稿或原生桌面检查。原 `node isopoda/tools/check-all.mjs` 保留为兼容入口。
+这个入口发现根目录与四个游戏 `tests/` 下的 `*.test.mjs`，再运行现有语言、物种、环境、叙事、实验室和公共页面验证。它不启动浏览器，也不代替文档链接、原稿或原生桌面检查。
 
 只检查共用模块时运行 `node --test tests/*.test.mjs`；各游戏的命令见上表。浏览器脚本保持 `.cjs` 或专用 `.mjs` 名称，不混入默认 Node 测试。
 
@@ -45,10 +45,4 @@ BASE_URL=http://127.0.0.1:8765 COMPARE_URL=http://127.0.0.1:8766 node tests/brow
 BROWSER=webkit BASE_URL=http://127.0.0.1:8765 COMPARE_URL=http://127.0.0.1:8766 node tests/browser/public-regression.cjs
 ```
 
-Use `QA_OUTPUT` outside the site for screenshots. The existing morphology workflow runs both harnesses in each browser. `isopoda/tests/data-contracts.test.mjs` adds schema, narrative and invalid-input checks; `asset-stamping.test.mjs` covers the deployment URL transform. Existing compatibility tests remain in place.
-
-`browser/game-locales.cjs` exercises composed terrestrial observations, dynamic specimen prompts and evening movement memories in four languages at 320, 390 and 1440 pixels in Chromium and WebKit. It checks feedback, saved-run reload, journal copy, a full seven-day observation and restart. Run with `BASE_URL`, `BROWSER` and optional `QA_OUTPUT`. `game-locales.test.mjs` checks all seven days across seeded branches and every evening variant paired with specimen memories.
-
-## 固定地址兼容
-
-原 `tests/browser/rooftop.html` 只负责带参数跳转到花农时代自己的统一测试页，实际页面、脚本和样式都在 `rooftop/tests/browser/`。该入口和各游戏开发目录均排除在网页发布之外。
+Use `QA_OUTPUT` outside the site for screenshots. The morphology workflow runs the public comparison in both browsers. `isopoda/tests/data-contracts.test.mjs` adds schema, narrative and invalid-input checks; `asset-stamping.test.mjs` covers the deployment URL transform. Existing compatibility tests remain in place.

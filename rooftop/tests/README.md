@@ -11,7 +11,7 @@ ROOFTOP_REVIEW_ORIGIN=http://127.0.0.1:8765 node rooftop/tests/browser/rooftop-r
 
 `browser/` 保存固定视觉测试页与浏览器回归，`fixtures/` 保存初始、历史陈列，`helpers/` 保存模型射线辅助。浏览器需要已启动的本地服务、Playwright 和 Chrome／WebKit；截图写入仓库外的 `QA_OUTPUT`。
 
-## 花农时代
+## 浏览器回归
 
 天台无视觉变化维护使用 `browser/rooftop-maintenance.cjs`；模块职责与对比运行方式见 [天台维护指南](../docs/maintenance.md)。
 

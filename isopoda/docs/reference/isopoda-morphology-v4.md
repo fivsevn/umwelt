@@ -1,6 +1,6 @@
 > **Historical implementation note.** This file records the 2026-09-10 morphology migration state and is retained as development history. It is not the current implementation specification.
 >
-> Current references: [`isopod-species-data-standard-umwelt-v1.1-2026-09-13.md`](isopod-species-data-standard-umwelt-v1.1-2026-09-13.md) and [`morphology-renderer-spec-umwelt-v2-2026-09-13.md`](morphology-renderer-spec-umwelt-v2-2026-09-13.md). Details below such as the CSS-only renderer description and source counts are intentionally preserved as a snapshot and may no longer describe `main`.
+> Current contracts: [species data](../species-data-contract.md) and [morphology renderer](../morphology-renderer.md). The CSS-only description and original counts below remain a historical snapshot.
 
 # Isopoda morphology and species migration — 2026-09-10
 
@@ -15,7 +15,7 @@ Repository discovery: the supplied mirror contains a nested `fivsevn/umwelt` che
 - `isopoda/sprites.mjs`, `isopoda/sprites.css`: one CSS-only renderer. Eleven anatomical regions, seven independent epimera, one legs layer and one antennae layer; 22 descendant nodes per specimen. No species-specific renderer branches or CSS selectors.
 - `isopoda/sources.mjs`, `isopoda/catalog.mjs`: structured sources and expandable scientific/trade/origin/note/literature/source sections, stage and condition controls.
 - `isopoda/game.js`, `isopoda/habitat.mjs`, `isopoda/style.css`, `isopoda/index.html`: integration, stable run-seed/index identities, mobile layout and cache version. Stop habitat animation while reading a dialog; resume on close.
-- `tests/morphology.test.mjs`, `tests/browser-checks.mjs`, `tests/morphology.html`, `tests/fixtures/v3-saves.json`: state, structure, browser and original-save verification. Existing engine tests now inspect phenotype uniqueness.
+- `isopoda/tests/morphology.test.mjs`, `isopoda/tests/browser/browser-checks.mjs`, `isopoda/tests/browser/morphology.html`, `isopoda/tests/fixtures/v3-saves.json`: state, structure, browser and original-save verification. Existing engine tests now inspect phenotype uniqueness.
 - Umwelt engine/content values, index, font and CNAME are unchanged; production module imports are cache-versioned. The exploratory Y.29 integration changes were discarded after the user confirmed the existing Umwelt destination.
 
 ## 13 migration statuses

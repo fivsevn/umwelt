@@ -22,10 +22,10 @@
 
 ## 验证
 
-- `node isopoda/tools/check-all.mjs`
-- `node tests/browser/seaweed.cjs`（BROWSER=chromium / webkit；320、390、1440）
-- `node tests/browser/habitat-lab.cjs`
-- `node tests/browser/pointer-browser.cjs`
+- `node tools/check-all.mjs`
+- `node isopoda/tests/browser/seaweed.cjs`（BROWSER=chromium / webkit；320、390、1440）
+- `node isopoda/tests/browser/habitat-lab.cjs`
+- `node isopoda/tests/browser/pointer-browser.cjs`
 
 Playwright 仅用于开发测试。QA_OUTPUT 指向站点之外，截图不成为游戏素材。本功能没有新增图片资产、纹理或预渲染动画。离屏 Canvas 仅用于运行时缓存。
 

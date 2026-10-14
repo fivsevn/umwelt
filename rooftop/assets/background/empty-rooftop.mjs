@@ -5,7 +5,7 @@ export const BACKGROUND = Object.freeze({
     "offset": 0,
     "vertices": 36
   },
-  "source": "docs/art/rooftop-lowpoly-02/game-environment.blend",
+  "source": "rooftop/art/rooftop-lowpoly-02/game-environment.blend",
   "texture": "terrace-book.png",
   "binary": "empty-rooftop.bin",
   "textures": [

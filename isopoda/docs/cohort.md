@@ -26,6 +26,6 @@ Each animal evaluates available wet zones against its own wet preference, and sh
 
 The current catalog comes from `species-registry.mjs`; pagination uses its length. The original 13 entries are only the stable legacy prefix, not the whole registry. Reference-only entries remain in the catalog but are excluded from playable draws. See `species-data-contract.md` and `save-compat.md`.
 
-Validation: `node --test tests/*.test.mjs`, plus browser arrival, seven-actor habitat, reload/continue, 21 observations, ending, collection pagination, and narrow-screen checks.
+Validation: `node --test isopoda/tests/*.test.mjs`, plus browser arrival, seven-actor habitat, reload/continue, 21 observations, ending, collection pagination, and narrow-screen checks.
 
 Intertidal sets `maxTaxa:2`: new rock-pool draws contain hirsuta from emerged damp refuges plus one other aquatic taxon, still seven individuals. Shallow marine sets `maxTaxa:3`. The aquatic draw prioritizes uncollected taxa; habitat-specific rules override the general distribution above. Saved cohorts are not redrawn.

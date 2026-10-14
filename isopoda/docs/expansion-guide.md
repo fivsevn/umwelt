@@ -31,7 +31,7 @@
 
 所有实施都先运行统一检查。下面列出应重点关注的已有测试，并非新增功能已被完整覆盖的承诺；新条件仍需自己的有效测试。
 
-| 改动 | 重点自动验证（位于 `tests/`） | 浏览器验收 |
+| 改动 | 重点自动验证（位于 `isopoda/tests/`） | 浏览器验收 |
 | --- | --- | --- |
 | 品种 | `species-registry.test.mjs`、`data-contracts.test.mjs`、`cohort.test.mjs`、`morphology.test.mjs` | 抽取、到达、资料库、形态实验室 |
 | 环境 | `habitats.test.mjs`、`environment.test.mjs`、`authored-layouts.test.mjs`、`scene-codec.test.mjs` | 选择环境、布景、交互、继续游戏、环境实验室 |
@@ -39,4 +39,4 @@
 | 语言 | `i18n-singleton.test.mjs`、i18n 和 narrative 检查 | 所有文字域、切换后重载、长文本、字体、Credits |
 | 动作 | `pixel-life.test.mjs`、`locomotion.test.mjs`、`interaction.test.mjs`、`reactions.test.mjs` | 各体型/阶段、移动与防御、遮挡、速度切换、两个实验室 |
 
-浏览器命令及比较规则见 [测试说明](../../tests/README.md)。有意新增内容时，为预期变化制定验收；保留未涉及页面和行为的基线。
+浏览器命令及比较规则见 [测试说明](../tests/README.md)。有意新增内容时，为预期变化制定验收；保留未涉及页面和行为的基线。

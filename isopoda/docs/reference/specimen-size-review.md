@@ -10,9 +10,9 @@ Launch controls use explicit inset edges instead of browser-native beveled borde
 
 Validation:
 
-- `node isopoda/tools/check-all.mjs`: all structural checks and Node tests pass, including intermediate-scale/rotation plate integrity and rejection of maximum-only ruler data.
-- `tests/browser/specimen-size.cjs`: all 69 specimens in all four languages at 320, 390, and 1440 px, Chromium and WebKit; labels, notes, tag separation, and locked-card concealment.
+- `node tools/check-all.mjs`: all structural checks and Node tests pass, including intermediate-scale/rotation plate integrity and rejection of maximum-only ruler data.
+- `isopoda/tests/browser/specimen-size.cjs`: all 69 specimens in all four languages at 320, 390, and 1440 px, Chromium and WebKit; labels, notes, tag separation, and locked-card concealment.
 - `tests/browser/public-regression.cjs`: Chromium and WebKit, 320×568 / 390×844 / 1440×900, public routes, terrestrial/abyssal start, choices, reload, Credits.
-- `tests/browser/morphology-layout.cjs`: Chromium and WebKit, responsive specimen and reference-panel checks.
-- `tests/browser/habitat-lab.cjs`: Chromium, presets, scale, layers, transfers, rollback, downloads, responsive dragging, save isolation.
+- `isopoda/tests/browser/morphology-layout.cjs`: Chromium and WebKit, responsive specimen and reference-panel checks.
+- `isopoda/tests/browser/habitat-lab.cjs`: Chromium, presets, scale, layers, transfers, rollback, downloads, responsive dragging, save isolation.
 - Actual magnificus habitat and archive screenshots reviewed.

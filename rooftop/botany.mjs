@@ -1,6 +1,6 @@
 import { ANTIQUE_VESSELS, ANTIQUE_PLANT_POTS } from "./antique-vessels.mjs";
 import { EXPANSION } from "./botany-expansion.mjs";
-// Reviewed botanical profiles and pixel-art vessel designs. See docs/rooftop-notebook.md.
+// Reviewed botanical profiles and pixel-art vessel designs. See rooftop/docs/notebook.md.
 export const PLANTS = [
   {
     id: "barrel",

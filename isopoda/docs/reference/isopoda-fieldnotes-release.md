@@ -31,7 +31,7 @@ Collection/catalog/reference presentation: collection.mjs, catalog.mjs.
 Simulation/timing: engine.mjs, encounters.mjs, behaviors.mjs, habitat.mjs.
 Pixel interface: ui.mjs.
 Cache identifiers only: species.mjs, sprites.mjs.
-Validation: tests/fieldnotes.test.mjs; Pages workflow now runs all *.test.mjs.
+Validation: isopoda/tests/fieldnotes.test.mjs; Pages workflow now runs all *.test.mjs.
 
 ## Deferred
 

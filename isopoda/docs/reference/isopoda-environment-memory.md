@@ -87,7 +87,7 @@ Existing environment versions are migrated forward in `environmentFor()`. Migrat
 Environment changes should continue to be covered by:
 
 ```bash
-node --test tests/environment.test.mjs
+node --test isopoda/tests/environment.test.mjs
 node --test tests/*.test.mjs
 ```
 

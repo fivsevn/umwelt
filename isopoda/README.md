@@ -26,7 +26,7 @@ python3 -m http.server 8765 --bind 127.0.0.1
 | --- | --- |
 | 根目录游戏模块、`data/`、`locales/` | 游戏流程、对白、物种与来源、翻译 |
 | `morphology/`、`habitat.html`、`scenery/` | 两个实验室、形态与环境绘制 |
-| `docs/` | [内容地图与现行指南](docs/README.md)、[运行模块地图](docs/runtime-map.md) |
+| `docs/` | [现行指南](docs/README.md)、[内容与运行地图](docs/content-map.md) |
 | `tests/`、`tools/`、`dev/` | 游戏测试、专属数据检查、本地开发预览 |
 
 ## 内容维护

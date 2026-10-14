@@ -23,7 +23,7 @@
       "photoViewed": true,
       "referencePhoto": "met-44637-0.jpg",
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "信乐烧风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -58,7 +58,7 @@
       "photoViewed": true,
       "referencePhoto": "bizen.jpg",
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "备前烧风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -93,7 +93,7 @@
       "photoViewed": true,
       "referencePhoto": "met-62664-0.jpg",
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "唐津烧风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -128,7 +128,7 @@
       "photoViewed": true,
       "referencePhoto": "hagi.jpg",
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "萩烧风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -164,7 +164,7 @@
       "photoViewed": true,
       "referencePhoto": "met-62680-0.jpg",
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "京烧·清水烧风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -201,7 +201,7 @@
       "photoViewed": false,
       "referencePhoto": null,
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "京烧·清水烧风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -236,7 +236,7 @@
       "photoViewed": false,
       "referencePhoto": null,
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "有田烧风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -271,7 +271,7 @@
       "photoViewed": true,
       "referencePhoto": "met-49267-0.jpg",
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "常滑烧风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -307,7 +307,7 @@
       "photoViewed": true,
       "referencePhoto": "oribe-0.jpg",
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "美浓烧·织部风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -343,7 +343,7 @@
       "photoViewed": true,
       "referencePhoto": "met-56159-0.jpg",
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": null,
         "directArtifactReferenceReused": false,
         "scope": "New specific museum reference."
@@ -382,7 +382,7 @@
       "photoViewed": false,
       "referencePhoto": null,
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "伊贺烧风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -417,7 +417,7 @@
       "photoViewed": true,
       "referencePhoto": "tamba.jpg",
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "丹波立杭烧风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -454,7 +454,7 @@
       "photoViewed": true,
       "referencePhoto": "echizen.jpg",
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "越前烧风格盆",
         "directArtifactReferenceReused": true,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -490,7 +490,7 @@
       "photoViewed": false,
       "referencePhoto": null,
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "濑户染付风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -525,7 +525,7 @@
       "photoViewed": true,
       "referencePhoto": "tsuboya.jpg",
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "壶屋烧风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -561,7 +561,7 @@
       "photoViewed": true,
       "referencePhoto": "met-62526-0.jpg",
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "有田烧风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."

@@ -1,4 +1,4 @@
-// Measured from docs/art/rooftop-room-02; the native Blender geometry owns the visible shell.
+// Measured from rooftop/art/rooftop-room-02; the native Blender geometry owns the visible shell.
 export const ROOM_BACKGROUND = {
   "runtimeUnitsPerMetre": 1.8666666666666665,
   "door": {

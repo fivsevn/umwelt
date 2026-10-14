@@ -23,7 +23,7 @@
         "Bottom and deep inner wall not photographed."
       ],
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "信乐烧风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -225,7 +225,7 @@
         "Interior and underside not photographed."
       ],
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "备前烧风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -427,7 +427,7 @@
         "Colour is an explicitly inferred muted game palette; underside not shown."
       ],
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "唐津烧风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -629,7 +629,7 @@
         "Fine crackle omitted at 16 px/m, underside cavity inferred."
       ],
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "萩烧风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -832,7 +832,7 @@
         "Black-and-white photograph: brown/cream palette inferred, lid underside/inner wall plain reconstruction."
       ],
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "京烧·清水烧风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -1045,7 +1045,7 @@
         "Image host denies access; contour and colour distribution inferred from named form, no reproduced signature."
       ],
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "京烧·清水烧风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -1256,7 +1256,7 @@
         "Image host denies access; profile, flower shapes and inner/underside plain reconstruction, not a facsimile."
       ],
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "有田烧风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -1413,7 +1413,7 @@
         "Deep interior and underside inferred; no buried sutra or archaeological residue invented."
       ],
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "常滑烧风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -1618,7 +1618,7 @@
         "Interior and lid underside plain inferred; fine crazing omitted."
       ],
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "美浓烧·织部风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -1832,7 +1832,7 @@
         "Interior/lid underside inferred; seals are simplified non-legible impressions."
       ],
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": null,
         "directArtifactReferenceReused": false,
         "scope": "New specific museum reference."
@@ -2049,7 +2049,7 @@
         "Image host denies access; maximum body width unknown and adapted, inner/bottom plain reconstruction."
       ],
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "伊贺烧风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -2253,7 +2253,7 @@
         "Back and bottom not shown; no further invented gold repairs."
       ],
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "丹波立杭烧风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -2457,7 +2457,7 @@
         "Interior/bottom and unseen back inferred."
       ],
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "越前烧风格盆",
         "directArtifactReferenceReused": true,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -2660,7 +2660,7 @@
         "Image host denies access; wall thickness/interior, exact glaze boundary inferred; storage bag excluded."
       ],
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "濑户染付风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -2873,7 +2873,7 @@
         "Dragon details become original coarse line glyphs; back/bottom unseen plain."
       ],
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "壶屋烧风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."
@@ -3076,7 +3076,7 @@
         "Interior and lid underside inferred, detailed silver relief and chain simplified structurally."
       ],
       "previousReferenceReuse": {
-        "document": "docs/rooftop-art-sources.md",
+        "document": "rooftop/docs/art-sources.md",
         "regionalEntry": "有田烧风格盆",
         "directArtifactReferenceReused": false,
         "scope": "Existing regional reference retained; this record independently verifies a specific museum object."

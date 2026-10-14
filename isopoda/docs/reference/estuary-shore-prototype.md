@@ -18,11 +18,11 @@
 ## 验证
 
 ```sh
-node isopoda/tools/check-all.mjs
-BASE_URL=http://127.0.0.1:8873 node tests/browser/estuary-shore.cjs
-BASE_URL=http://127.0.0.1:8873 BROWSER=webkit node tests/browser/estuary-shore.cjs
-BASE_URL=http://127.0.0.1:8873 node tests/browser/estuary-shore-motion.cjs
-BASE_URL=http://127.0.0.1:8873 BROWSER=webkit node tests/browser/estuary-shore-motion.cjs
+node tools/check-all.mjs
+BASE_URL=http://127.0.0.1:8873 node isopoda/tests/browser/estuary-shore.cjs
+BASE_URL=http://127.0.0.1:8873 BROWSER=webkit node isopoda/tests/browser/estuary-shore.cjs
+BASE_URL=http://127.0.0.1:8873 node isopoda/tests/browser/estuary-shore-motion.cjs
+BASE_URL=http://127.0.0.1:8873 BROWSER=webkit node isopoda/tests/browser/estuary-shore-motion.cjs
 ```
 
 浏览器回归覆盖 320 × 568、390 × 844、1440 × 900；三个位置、完整八次观察、四种语言、刷新续接、笔记、收藏、结束与新建重置；实验室十二种布局的编辑与导入导出，以及游戏存档隔离。

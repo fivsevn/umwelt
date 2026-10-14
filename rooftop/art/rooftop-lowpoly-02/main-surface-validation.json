@@ -1,8 +1,8 @@
 {
   "date": "2026-10-14",
   "scope": "Primary environment material detail and closed eave tile courses",
-  "sourceAuthority": "docs/art/rooftop-lowpoly-02/game-environment.blend",
-  "pixelAuthority": "docs/art/rooftop-lowpoly-02/terrace-book.pxo",
+  "sourceAuthority": "rooftop/art/rooftop-lowpoly-02/game-environment.blend",
+  "pixelAuthority": "rooftop/art/rooftop-lowpoly-02/terrace-book.pxo",
   "gameSourceSha256": "95ff2f8bb9a0a4ba3c16ee955d807ce879c8b2efb3102ba61b6a9e24e92012a1",
   "mainPxoSha256": "dcdc6fd6d4ee21cf2ca1b8630965300474d33219cf82224323e0cec04c748706",
   "mainPngSha256": "d0edaf9d5e1fec4c2828d7eb2a2d6f0d37e27e5a104ed46ffc2f15190ce80ab7",

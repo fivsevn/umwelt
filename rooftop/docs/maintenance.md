@@ -19,13 +19,9 @@
 
 ## 原稿与呈现
 
-[建筑源文件](../art/rooftop-lowpoly-02/README.md)包含完整 `game-environment.blend`、主图 `terrace-book.pxo` 和远景 `distance-facades.pxo`。`3d/architectural-shell.mjs` 读取 `assets/background/empty-rooftop.mjs`、压缩清单及 PNG；优先加载 `.bin.gz`，不支持解压或加载失败时回退到原始 `.bin`。两份网格与清单随导出同步。主图为 1024×1024，近景用 `texelMetresPerUnit` 还原长度，再按 `texelsPerMetre:16` 取样；远景由 `baked-pixel-grid.mjs` 在原烘焙 UV 上取同一物理格，窗灯图共用坐标。正面、侧面、背面和底面均核对绑定。
+原稿与导出位置见[原稿索引](../art/README.md)，材料标定和最终采样规则见[像素管线](pixel-style.md)。场景由 `3d/scene3d.mjs` 汇合建筑、目录物件、房间、人物和天气；加载器职责见[立体场景模块](../3d/README.md)。
 
-全部 294 件物品使用[新物品源文件](../art/rooftop-furniture-02/README.md)的七组 Blender／Pixelorama 原稿和 `assets/items/`。`item-catalog.mjs` 统一导出 `ITEM_METRES_TO_UNITS=5.6/3`，几何只缩放一次；原生图集保持 16 纹理像素／米、Nearest 和无 mipmap。房间固定背景使用[房间原稿](../art/rooftop-room-02/README.md)和 `assets/room/`，透明窗与可动门叶保留。人物及室外门仍使用`assets/pixel/material-book.png` 共用材质；不能为更换物品误删仍有调用的材质机制。
-
-新家具继续完整 Blender＋Pixelorama 工作流，完成器形、厚度、背面、底面、开孔和承放结构。物理材料格与建筑对照，粗颗粒感由最终低采样控制；不能以删减结构或放大笔触代替。保存并重开原稿后，分别核对导出、游戏内接入和发布包，保护已有手改与存档接口。
-
-游戏观察通过 `3d/outdoor-raster.mjs` 与 `pixel-grid.mjs` 采用 2.2 CSS 像素目标，车库与房间保持 2 CSS 像素目标，按 DPR 取整数设备格；DPR 2 两种目标均为每格 4×4 实际像素，与家具近看一致。建筑、天气、季节粒子和光照共用离屏渲染，邻居光学变形、遮罩与刻线沿用同一格。右下不足一格的部分裁边，保持相机逻辑取景和交互投影。DPR 变化时更新缓冲、粒子尺寸、取物射线与镜头缓存。正式南北、车库三场景和房间共用基础低采样。邻居拉近仅细化整幅画面的最终采样，最低目标约 1 CSS 像素且每格至少 2 个设备像素；DPR 1 的默认格已达这个下限，拉近时保持格子大小。小鸟、无人机不细化。空场景和独立物品测试默认完整原模型，可切实际游戏像素。正式目录画像使用自己的小幅预览预算。
+模型、UV、运行导出和存档接口分别核对。物品目录更新通过原生制作管线完成，不能用目录或视觉整理替换现有保存数据。
 
 ## 模块接口
 
@@ -86,7 +82,7 @@
 
 ## 验证
 
-运行 `node tools/check-all.mjs` 检查全项目契约，或按范围运行 `node --test rooftop/tests/*.test.mjs`。场景重点为 `rooftop-background`、`rooftop-review`、`rooftop-story-camera`、`rooftop-door-projection`、`rooftop-outdoor-raster`、`rooftop-visible-air`、`rooftop-seasonal-coverage` 和 `rooftop-render-budget`；材料修改还须核对原稿与导出。
+运行 `node tools/check-all.mjs` 检查全项目契约，或按范围运行 `node --test rooftop/tests/*.test.mjs`。场景重点为 `rooftop-background`、`rooftop-review`、`rooftop-story-camera`、`rooftop-door-projection`、`rooftop-outdoor-raster`、`rooftop-visible-air`、`rooftop-seasonal-coverage` 和 `rooftop-native-loader`；材料修改还须核对原稿与导出。
 
 实际浏览器检查公开南北三视角、本地统一测试的三组内容、环境切换及刷新、窄屏手帐、车库存档恢复与保存字节不变。`rooftop/tests/browser/rooftop-observation.cjs`、`rooftop-weather.cjs` 检查观察及环境；`rooftop-garage-layout.cjs` 检查排布，`rooftop-room.cjs` 检查房间与跨页面存档，`rooftop-maintenance.cjs` 检查撤销重做、多指隔离及保存。
 

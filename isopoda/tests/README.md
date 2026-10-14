@@ -13,11 +13,19 @@ BROWSER=webkit BASE_URL=http://127.0.0.1:8765 node isopoda/tests/browser/morphol
 
 CI 的 `morphology-layout.yml` 保留两种浏览器和原有专项矩阵。跨主页、蜱虫和等足目的整体对照仍在根 `tests/browser/public-regression.cjs`。
 
-`entry-gates.cjs` 从空存档检查入口锁定，再通过实际观察验证持久解锁；已有解锁场景使用 `support/observation-fixtures.cjs` 准备状态。收藏不等于完成观察。沙滩和海藻指针检查先把画布滚入视口，普通群体数量与稀有访客分开计数。
+## 入口与存档前置条件
+
+地下水要求完成陆地观察，深海要求完成沙滩观察，饲养箱要求完成一次观察且有合格标本。不能仅添加收藏就认定入口已解锁，也不能点击 disabled 按钮后假定已进入观察。`entry-gates.cjs` 从空存档实际完成观察验证解锁与刷新；`support/observation-fixtures.cjs` 只为其他测试准备既有完成记录。
+
+普通群体与稀有访客分开计数。指针测试先把画布滚入视口，再按当时镜头和可见像素计算坐标；WebKit 鼠标坐标不能落在视口之外。
+
+## 语言与完整观察
+
+`browser/game-locales.cjs` exercises composed terrestrial observations, dynamic specimen prompts and evening movement memories in four languages at 320, 390 and 1440 pixels in Chromium and WebKit. It checks feedback, saved-run reload, journal copy, a full seven-day observation and restart. Run with `BASE_URL`, `BROWSER` and optional `QA_OUTPUT`. `game-locales.test.mjs` checks all seven days across seeded branches and every evening variant paired with specimen memories.
 
 ## Habitat lab editor regression
 
-`browser/habitat-lab.cjs` exercises all five presets, registry coverage, JSON/share/file round trips, import failure rollback, real game-scale specimen pixels, equal-depth selection, layer edits, imported scales, responsive dragging, transfer-panel placement and game-save isolation. It runs in both browser jobs alongside the morphology regression.
+`browser/habitat-lab.cjs` exercises every registered habitat preset, registry coverage, JSON/share/file round trips, import failure rollback, real game-scale specimen pixels, equal-depth selection, layer edits, imported scales, responsive dragging, transfer-panel placement and game-save isolation. It runs in both browser jobs alongside the morphology regression.
 
 ```sh
 BASE_URL=http://127.0.0.1:8765 node isopoda/tests/browser/habitat-lab.cjs
@@ -48,6 +56,6 @@ Petri refinement also checks equal archive/microscope button sizes, filled backg
 
 ## Legacy rendering harness limitation
 
-`rendering.browser.mjs` still includes a historical all-habitats loop which assumes every stage exposes a choice button immediately. Interactive observation gates no longer satisfy that assumption; a `Missing choice` result from that loop is not evidence of a production regression. Use the habitat-specific harnesses under `browser/` for those interactions, and `browser/public-regression.cjs` for baseline pixel/text/save comparisons. Its preceding scenery pixel comparison remains useful.
+`rendering.browser.mjs` still includes a historical all-habitats loop which assumes every stage exposes a choice button immediately. Interactive observation gates no longer satisfy that assumption; a `Missing choice` result from that loop is not evidence of a production regression. Use the habitat-specific harnesses under `browser/` for those interactions, and the root `tests/browser/public-regression.cjs` for baseline pixel/text/save comparisons. Its preceding scenery pixel comparison remains useful.
 
-`site-artifact.test.mjs` protects the tracked-file publication boundary and module preloads. `sprite-color-cache.test.mjs` compares the optimized sprite renderer against uncached color arithmetic across every species, pose and frame.
+The root `tests/site-artifact.test.mjs` protects the tracked-file publication boundary and module preloads. `sprite-color-cache.test.mjs` compares the optimized sprite renderer against uncached color arithmetic across every species, pose and frame.

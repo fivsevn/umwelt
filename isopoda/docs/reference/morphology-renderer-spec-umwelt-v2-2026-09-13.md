@@ -1729,7 +1729,7 @@ Renderer 只消费已经整理好的 `visual phenotype + state`。
 ### 当前测试入口
 
 ```text
-tests/morphology.html
+isopoda/tests/browser/morphology.html
 tests/pixel-life.html
 isopoda/projection-preview.html
 ```

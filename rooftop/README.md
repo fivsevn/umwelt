@@ -18,7 +18,7 @@
 python3 -m http.server 8765 --bind 127.0.0.1
 ```
 
-打开 [http://127.0.0.1:8765/rooftop/](http://127.0.0.1:8765/rooftop/)。视觉调整使用[统一测试页](http://127.0.0.1:8765/rooftop/tests/browser/rooftop.html)，在同一页查看空场景、物件图册与初始组合。原 `/tests/browser/rooftop.html` 地址会保留参数跳转到此页。
+打开 [http://127.0.0.1:8765/rooftop/](http://127.0.0.1:8765/rooftop/)。视觉调整使用[统一测试页](http://127.0.0.1:8765/rooftop/tests/browser/rooftop.html)，在同一页查看空场景、物件图册与初始组合。
 
 ## 目录与文档
 

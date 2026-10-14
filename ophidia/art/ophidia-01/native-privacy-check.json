@@ -2,79 +2,79 @@
   "checked_native_models": 19,
   "models": [
     {
-      "file": "docs/art/rooftop-actors-02/block-actors.blend",
+      "file": "rooftop/art/rooftop-actors-02/block-actors.blend",
       "private_metadata_findings": []
     },
     {
-      "file": "docs/art/rooftop-furniture-02/accents/accents-layout.blend",
+      "file": "rooftop/art/rooftop-furniture-02/accents/accents-layout.blend",
       "private_metadata_findings": []
     },
     {
-      "file": "docs/art/rooftop-furniture-02/accents/accents.blend",
+      "file": "rooftop/art/rooftop-furniture-02/accents/accents.blend",
       "private_metadata_findings": []
     },
     {
-      "file": "docs/art/rooftop-furniture-02/ceramics-extra/ceramics-extra-layout.blend",
+      "file": "rooftop/art/rooftop-furniture-02/ceramics-extra/ceramics-extra-layout.blend",
       "private_metadata_findings": []
     },
     {
-      "file": "docs/art/rooftop-furniture-02/ceramics-extra/ceramics-extra.blend",
+      "file": "rooftop/art/rooftop-furniture-02/ceramics-extra/ceramics-extra.blend",
       "private_metadata_findings": []
     },
     {
-      "file": "docs/art/rooftop-furniture-02/collection/collection-layout.blend",
+      "file": "rooftop/art/rooftop-furniture-02/collection/collection-layout.blend",
       "private_metadata_findings": []
     },
     {
-      "file": "docs/art/rooftop-furniture-02/collection/collection.blend",
+      "file": "rooftop/art/rooftop-furniture-02/collection/collection.blend",
       "private_metadata_findings": []
     },
     {
-      "file": "docs/art/rooftop-furniture-02/everyday/everyday-layout.blend",
+      "file": "rooftop/art/rooftop-furniture-02/everyday/everyday-layout.blend",
       "private_metadata_findings": []
     },
     {
-      "file": "docs/art/rooftop-furniture-02/everyday/everyday.blend",
+      "file": "rooftop/art/rooftop-furniture-02/everyday/everyday.blend",
       "private_metadata_findings": []
     },
     {
-      "file": "docs/art/rooftop-furniture-02/plants-retained/plants-retained-layout.blend",
+      "file": "rooftop/art/rooftop-furniture-02/plants-retained/plants-retained-layout.blend",
       "private_metadata_findings": []
     },
     {
-      "file": "docs/art/rooftop-furniture-02/plants-retained/plants-retained.blend",
+      "file": "rooftop/art/rooftop-furniture-02/plants-retained/plants-retained.blend",
       "private_metadata_findings": []
     },
     {
-      "file": "docs/art/rooftop-furniture-02/pots-retained/pots-retained-layout.blend",
+      "file": "rooftop/art/rooftop-furniture-02/pots-retained/pots-retained-layout.blend",
       "private_metadata_findings": []
     },
     {
-      "file": "docs/art/rooftop-furniture-02/pots-retained/pots-retained.blend",
+      "file": "rooftop/art/rooftop-furniture-02/pots-retained/pots-retained.blend",
       "private_metadata_findings": []
     },
     {
-      "file": "docs/art/rooftop-furniture-02/rooms-vessels/rooms-vessels-layout.blend",
+      "file": "rooftop/art/rooftop-furniture-02/rooms-vessels/rooms-vessels-layout.blend",
       "private_metadata_findings": []
     },
     {
-      "file": "docs/art/rooftop-furniture-02/rooms-vessels/rooms-vessels.blend",
+      "file": "rooftop/art/rooftop-furniture-02/rooms-vessels/rooms-vessels.blend",
       "private_metadata_findings": []
     },
     {
-      "file": "docs/art/rooftop-lowpoly-02/game-environment.blend",
+      "file": "rooftop/art/rooftop-lowpoly-02/game-environment.blend",
       "private_metadata_findings": []
     },
     {
-      "file": "docs/art/rooftop-room-02/room-background/room-background-layout.blend",
+      "file": "rooftop/art/rooftop-room-02/room-background/room-background-layout.blend",
       "private_metadata_findings": []
     },
     {
-      "file": "docs/art/rooftop-room-02/room-background/room-background.blend",
+      "file": "rooftop/art/rooftop-room-02/room-background/room-background.blend",
       "private_metadata_findings": []
     },
     {
-      "file": "docs/art/ophidia-01/ophidia.blend",
+      "file": "ophidia/art/ophidia-01/ophidia.blend",
       "private_metadata_findings": []
     }
   ],

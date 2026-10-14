@@ -2,6 +2,21 @@
 
 This document is the development entry point for authored content. It separates active game content from legacy or reference material so new work lands in the correct module without changing the current public UI.
 
+Paths in this guide are relative to `isopoda/`; commands run from the repository root. Public entries are listed in the [game README](../README.md), and the [laboratory contract](laboratories.md) owns their shared data boundaries.
+
+## Runtime boundaries
+
+| Area | Modules |
+| --- | --- |
+| Game orchestration | `game.js`, `engine.mjs`, `habitat.mjs`, `environment.mjs`, `interaction.mjs` |
+| Specimens and sources | `species-registry.mjs`, species/source manifests and their registered batches |
+| Rendering and motion | `sprites.mjs`, `morphology.mjs`, `scenery/`, `locomotion.mjs` |
+| Localization | `i18n.mjs`, `runtime-locales.mjs`, `locales/` |
+| Public laboratories | `morphology/`, `habitat.html`, `habitat-lab.mjs`, `habitat.css` |
+| Development | `dev/`, `docs/`, `tests/`, game-specific validators in `tools/` |
+
+Keep saved habitat, species, scene, ending and text IDs stable. Runtime paths have public consumers; moving them requires checking those consumers and saved records. Repository-wide checks live in the root `tools/`, and detailed game checks are in the [test guide](../tests/README.md).
+
 ## Terrestrial seven-day run
 
 ### Active

@@ -9,11 +9,7 @@ Dependency-free HTML/CSS/JS perception study. No visible instructions, HUD or Ab
 
 The drawing retains a 48px invisible touch target. Hair sway and vascular pulses remain visible with reduced motion enabled, disabled, and changed during play. Reduced motion only softens nonessential radar and star decoration. Hidden tabs pause progress. zh/en/ja follow the homepage language preference.
 
-Preview from the repository root: `python3 -m http.server 8765 --bind 127.0.0.1`, then [open TICK](http://127.0.0.1:8765/tick/).
-
-See the [project documentation](../../MAINTENANCE.md) and [test navigation](../../tests/README.md). The dedicated browser harness is `tick/tests/browser/tick-motion.cjs`, run in Chromium and WebKit by `system-regression.yml`; it checks retry, landing, movement, ending and return. Use `BASE_URL` to select the local server and `QA_OUTPUT` outside the repository for screenshots.
-
-The existing Pages workflow publishes changes merged into `main` at https://umwelt.fivsevn.com/tick/.
+Local startup is documented in the [game README](../README.md); browser commands and coverage are in the [test guide](../tests/README.md). Shared publication rules are maintained in the [deployment guide](../../docs/deployment.md).
 
 ## Visual references
 

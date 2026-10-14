@@ -11,6 +11,6 @@
 
 ## Checks
 
-`node --test tests/isopoda.test.mjs`
+`node --test isopoda/tests/isopoda.test.mjs`
 
 Tests cover all profiles, all offered actions across seeded runs, duplicate-click guards, JSON round-trip saves, invalid state, legacy migration and actual legal paths reaching all six endings. Browser verification covers a 21-turn run with mid-run reload, selector entries, archive, mobile layouts and visual skins.

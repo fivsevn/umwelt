@@ -23,10 +23,10 @@ Sprite color mixing uses a bounded 4,096-entry cache and parses the second color
 - Full check-all gate: 202 Node tests plus localization, species, habitat, narrative and public-surface validators.
 - Public baseline comparisons: Chromium source and WebKit prepared/stamped artifact; 320×568, 390×844, 1440×900. Screenshots, visible text and saves match baseline across four public routes and terrestrial/abyssal entry, feedback, reload and credits.
 - Reduced motion: nine habitats in Chromium/WebKit, live preference changes and drawer pause/resume. River-mouth absence is permitted; visible animals must still animate.
-- The legacy `tests/rendering.browser.mjs` all-habitat choice loop is outdated for interaction-gated observations; documented in the test README. It is not counted as a passed end-to-end run.
+- The legacy `isopoda/tests/rendering.browser.mjs` all-habitat choice loop is outdated for interaction-gated observations; documented in the test README. It is not counted as a passed end-to-end run.
 - The browser matrix is not exhaustive proof of every possible game interaction. No production deployment or live network speed measurement is included.
 
-Use `node isopoda/tools/check-all.mjs` and the commands in `tests/README.md` to repeat checks. Browser evidence from this run is under `/tmp/umwelt-zero-ui/qa` and `/tmp/umwelt-zero-ui/qa-webkit` (temporary local artifacts).
+Use `node tools/check-all.mjs` and the commands in `tests/README.md` to repeat checks. Browser evidence from this run is under `/tmp/umwelt-zero-ui/qa` and `/tmp/umwelt-zero-ui/qa-webkit` (temporary local artifacts).
 
 ## Release follow-up
 

@@ -25,7 +25,7 @@ protected = {name: audit["sha256"](HERE / name) for name in (
     "game-environment.blend", "terrace-book.png", "terrace-book.pxo",
     "distance-facades.png", "distance-facades.pxo")}
 current = audit["manifest"](RUNTIME / "empty-rooftop.mjs")
-assert current["source"] in ("docs/art/rooftop-lowpoly-02/game-environment.blend", "rooftop/art/rooftop-lowpoly-02/game-environment.blend")
+assert current["source"] == "rooftop/art/rooftop-lowpoly-02/game-environment.blend"
 assert current["texelsPerMetre"] == 16
 assert audit["sha256"](RUNTIME / "empty-rooftop.bin") == current["sha256"]
 assert (RUNTIME / "empty-rooftop.bin").stat().st_size == current["bytes"]
