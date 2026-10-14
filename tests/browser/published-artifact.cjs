@@ -28,7 +28,7 @@ const routes = [
     try {
       const context = await browser.newContext();
       // Visual review belongs to the local source tree, never the site artifact.
-      for (const route of ["/tests/browser/rooftop.html", "/rooftop/3d/index.html", "/rooftop/previews/pixel-01/index.html"]) {
+      for (const route of ["/tests/browser/rooftop.html", "/rooftop/tests/browser/rooftop.html", "/ophidia/art/ophidia-01/preview/model-review.html", "/tools/check-all.mjs", "/rooftop/3d/index.html", "/rooftop/previews/pixel-01/index.html"]) {
         const response = await context.request.get(base + route);
         assert.equal(response.status(), 404, route + " stays out of the published artifact");
       }

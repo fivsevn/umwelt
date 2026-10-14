@@ -24,7 +24,7 @@ jobs:
       - name: Verify Windows cleanup helper
         run: node mac/windows/qa-cleanup.cjs
       - name: Verify game contracts
-        run: node isopoda/tools/check-all.mjs
+        run: node tools/check-all.mjs
       - name: Build single EXE
         run: node mac/windows/build.mjs
       - name: Test native windows, synchronization and persistence

@@ -1,10 +1,12 @@
-name: ISOPODA checks
+name: Repository checks
 
 on:
   push:
     branches: [main]
     paths:
       - 'isopoda/**'
+      - 'ophidia/**'
+      - 'tools/**'
       - 'tick/**'
       - 'rooftop/**'
       - 'index.html'
@@ -19,6 +21,8 @@ on:
   pull_request:
     paths:
       - 'isopoda/**'
+      - 'ophidia/**'
+      - 'tools/**'
       - 'tick/**'
       - 'rooftop/**'
       - 'index.html'
@@ -44,8 +48,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Run ISOPODA structural checks
-        run: node isopoda/tools/check-all.mjs
+      - name: Run repository structural checks
+        run: node tools/check-all.mjs
       - name: Install font subsetting tools
         timeout-minutes: 3
         run: python -m pip install --disable-pip-version-check --timeout 30 --retries 2 "fonttools>=4.55,<5" "brotli>=1.1,<2"

@@ -11,7 +11,6 @@ on:
       - '.github/scripts/stamp-assets.mjs'
       - 'tests/browser/*.cjs'
       - 'tests/browser/*.mjs'
-      - 'tests/support/**'
       - '.github/workflows/morphology-layout.yml'
   push:
     branches: [main]
@@ -25,7 +24,6 @@ on:
       - '.github/scripts/stamp-assets.mjs'
       - 'tests/browser/*.cjs'
       - 'tests/browser/*.mjs'
-      - 'tests/support/**'
       - '.github/workflows/morphology-layout.yml'
   workflow_dispatch:
 permissions:
@@ -66,9 +64,11 @@ jobs:
             sleep 1
           done
           if [ "${{ matrix.suite }}" = "intertidal" ]; then
-            PLAYWRIGHT_MODULE="$RUNNER_TEMP/morphology-browser/node_modules/playwright/index.mjs" node tests/browser/intertidal.mjs
+            PLAYWRIGHT_MODULE="$RUNNER_TEMP/morphology-browser/node_modules/playwright/index.mjs" node isopoda/tests/browser/intertidal.mjs
+          elif [ "${{ matrix.suite }}" = "public-regression" ]; then
+            NODE_PATH="$RUNNER_TEMP/morphology-browser/node_modules" node tests/browser/public-regression.cjs
           else
-            NODE_PATH="$RUNNER_TEMP/morphology-browser/node_modules" node "tests/browser/${{ matrix.suite }}.cjs"
+            NODE_PATH="$RUNNER_TEMP/morphology-browser/node_modules" node "isopoda/tests/browser/${{ matrix.suite }}.cjs"
           fi
       - uses: actions/upload-artifact@v4
         if: always()

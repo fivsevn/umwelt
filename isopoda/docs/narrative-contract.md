@@ -11,7 +11,7 @@ Existing content remains unchanged:
 
 For a new pool, expose `TEXT_CATALOG` from a module under `data/narrative/`. Each row has `{key, locales:{zh,en,ja}, refs?:{habitat:[],species:[],ending:[]}}`. The validator discovers these modules automatically. The runtime adapter for a future pool must consume those keys; do not copy the same text into another runtime table. No new pool is enabled by this cleanup. Existing triples are validated directly without rewriting them or duplicating their text into the catalog.
 
-`tools/validate-narrative.mjs` validates keys, duplicate nodes/options, all base/alternate triples, allowed alternate conditions, the full abyssal sequence, fragments/endings, locale resolution and current habitat/ending references. `validateTextCatalog` checks future keys and registry references. `tests/data-contracts.test.mjs` includes deliberately corrupt inputs so checks cannot pass merely by importing the data. New branch conditions need reachable-state tests in addition to structural validation.
+`tools/validate-narrative.mjs` validates keys, duplicate nodes/options, all base/alternate triples, allowed alternate conditions, the full abyssal sequence, fragments/endings, locale resolution and current habitat/ending references. `validateTextCatalog` checks future keys and registry references. `isopoda/tests/data-contracts.test.mjs` includes deliberately corrupt inputs so checks cannot pass merely by importing the data. New branch conditions need reachable-state tests in addition to structural validation.
 
 ## Clean i18n baseline
 

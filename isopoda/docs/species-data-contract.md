@@ -30,6 +30,6 @@ The authoritative runtime boundary is `../species-registry.mjs`: `SPECIES` and `
 3. Register a new specimen batch once in `data/species/manifest.mjs`; register a new source batch once in `data/sources/manifest.mjs`. Existing group order is append-only.
 4. Supply renderer scaffolding and explicit proxy provenance, then let the registry apply size/locomotion.
 5. Register habitat membership in both directions if playable. Add authored annotations/locales without adding broad i18n exemptions.
-6. Run `node isopoda/tools/check-all.mjs`. Existing snapshot/compatibility tests remain mandatory; deliberately update append-only expectations when adding entries.
+6. Run `node tools/check-all.mjs`. Existing snapshot/compatibility tests remain mandatory; deliberately update append-only expectations when adding entries.
 7. Run morphology browser regression in Chromium/WebKit and main-game smoke. Review scientific claims separately: structural validation cannot establish their truth.
 

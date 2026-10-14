@@ -15,9 +15,9 @@
 | `item-data.mjs`、`item-catalog.mjs` | 当前物件目录及逐件 `sources`；供手帐与实际模型共同读取 |
 | `firearms.mjs`、`weapons.mjs` | 枪械、兵器的既有资料与构造定义 |
 
-名称、科学名、来源与视觉模型分别维护。当前视觉读取 `assets/items/` 的独立 Blender 模型和七张 Pixelorama 图集，制作源文件见[物品原稿](../../docs/art/rooftop-furniture-02/README.md)。
+名称、科学名、来源与视觉模型分别维护。当前视觉读取 `assets/items/` 的独立 Blender 模型和七张 Pixelorama 图集，制作源文件见[物品原稿](../art/rooftop-furniture-02/README.md)。
 
-`item-data.mjs` 是生成文件：目录同步工具从 `docs/art/rooftop-furniture-02/preview/assets/catalog.json` 读取记录，补入实际模型与缩略图信息后导出。修改器物来源时同步上游目录记录，避免下一次导出覆盖；`notebook.mjs` 汇合植物、当前物件及所用花盆的来源，按 URL 去重。
+`item-data.mjs` 是生成文件：目录同步工具从 `rooftop/art/rooftop-furniture-02/preview/assets/catalog.json` 读取记录，补入实际模型与缩略图信息后导出。修改器物来源时同步上游目录记录，避免下一次导出覆盖；`notebook.mjs` 汇合植物、当前物件及所用花盆的来源，按 URL 去重。
 
 ## 来源边界
 

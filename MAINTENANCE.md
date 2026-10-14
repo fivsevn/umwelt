@@ -15,18 +15,19 @@ UMWELT 由一个主页和各自独立的小游戏目录组成。主页负责汇�
 | `tick/` | 蜱虫：[交互、视觉与检查](tick/README.md) |
 | `assets/`、`vendor/` | 共享音频、字体、依赖及其来源与许可 |
 | `docs/` | [共用文档](docs/README.md)：音频、发布、制作资料索引与维护记录 |
-| `docs/art/` | [可编辑原稿与制作工具](docs/art/README.md)，按游戏和制作批次索引 |
-| `tests/`、`.github/`、`mac/` | [测试](tests/README.md)、持续检查与发布、[桌面包装](mac/README.md) |
+| 各游戏的 `art/` | 可编辑原稿、导出工具与制作记录，见[原稿总索引](docs/art/README.md) |
+| `tests/`、`tools/`、`.github/` | [共用测试](tests/README.md)、全仓库检查、持续检查与发布；专项测试在各游戏的 `tests/` |
+| `mac/` | [桌面包装](mac/README.md)与原生检查 |
 
-现有 Blender、Pixelorama 原稿及相关工具继续保存在 `docs/art/`，由对应游戏文档指向。它们包含相互引用、分卷清单与导出路径，整理文字导航时保留这些制作关系。
+Blender、Pixelorama 原稿与制作工具分别保存在 `rooftop/art/`、`ophidia/art/`。目录移动保留原稿、分卷及既有导出；历史来源记录中的旧路径仍表示记录当时的位置。
 
 ## 继续工作
 
 | 工作 | 入口 |
 | --- | --- |
-| 修改画面或模型 | [原稿索引](docs/art/README.md)、[花农时代制作管线](rooftop/docs/pixel-style.md)、[体温调节建模说明](docs/art/ophidia-01/README.md) |
-| 深化对白与资料 | [花农时代手帐](rooftop/docs/notebook.md)、[体温调节内容维护](ophidia/README.md#内容与扩容)、[等足目内容地图](isopoda/docs/content-map.md) |
-| 扩充物件或场景 | [花农时代承放关系](rooftop/docs/placement.md)、[等足目扩展流程](isopoda/docs/expansion-guide.md)、[体温调节内容维护](ophidia/README.md#内容与扩容) |
+| 修改画面或模型 | [原稿索引](docs/art/README.md)、[花农时代制作管线](rooftop/docs/pixel-style.md)、[体温调节建模说明](ophidia/art/ophidia-01/README.md) |
+| 深化对白与资料 | [花农时代手帐](rooftop/docs/notebook.md)、[体温调节内容维护](ophidia/docs/maintenance.md#内容与扩容)、[等足目内容地图](isopoda/docs/content-map.md) |
+| 扩充物件或场景 | [花农时代承放关系](rooftop/docs/placement.md)、[等足目扩展流程](isopoda/docs/expansion-guide.md)、[体温调节内容维护](ophidia/docs/maintenance.md#内容与扩容) |
 | 修改共享功能或发布 | [共享音频](docs/audio.md)、[测试导航](tests/README.md)、[验证与发布](docs/deployment.md) |
 
 ## 本地开始
@@ -37,18 +38,19 @@ UMWELT 由一个主页和各自独立的小游戏目录组成。主页负责汇�
 python3 -m http.server 8765 --bind 127.0.0.1
 ```
 
-打开[本地主页](http://127.0.0.1:8765/)，再从主页进入各游戏。花农时代使用[固定视觉测试页](http://127.0.0.1:8765/tests/browser/rooftop.html)；体温调节的专用启动器默认使用 8788，页面与检查命令见其游戏文档。
+打开[本地主页](http://127.0.0.1:8765/)，再从主页进入各游戏。花农时代使用[固定视觉测试页](http://127.0.0.1:8765/rooftop/tests/browser/rooftop.html)；体温调节的专用启动器使用 8794，页面与检查命令见其游戏文档。
 
 结构检查从仓库根目录运行（CI 使用 Node.js 22）：
 
 ```sh
-node isopoda/tools/check-all.mjs
+node tools/check-all.mjs
 ```
 
 ## 文档与内容归属
 
 - `README.md`、`README_EN.md`、`README_JA.md` 面向访问者。游戏列表只列各游戏主页，顺序与主页图标一致；等足目另外保留两个实验室入口。
-- 各游戏的 `README.md` 是自己的维护入口。专属指南随内容增加放入该游戏的 `docs/`；较小的游戏先在 README 中维护，无需预建空目录。
+- 各游戏的 `README.md` 是自己的维护入口。统一采用「游戏入口、本地运行、目录与文档、内容维护、检查」结构，详细指南放在该游戏的 `docs/`。
+- 各游戏的 `tests/` 保存专属测试及其辅助文件，`art/` 保存可编辑原稿和制作工具；没有相关内容时无需预建空目录。根 `tests/` 保留主页、共享功能、跨游戏回归与发布检查。
 - 根 `docs/` 维护跨游戏规则和制作资料索引。游戏专属规则在所属游戏维护，共享规则只保留一份，其余位置链接到它。
 - `docs/reference/`、`isopoda/docs/reference/` 保存阶段记录。历史数量、路径和检查结果只对应记录当时；继续开发使用现行指南。
 - 新增文档或移动位置时，同步入口、相对链接、页内锚点和发布排除规则。旧路径已被来源记录或源码引用时，可保留简短转向页，正文只在新位置更新。
@@ -69,13 +71,13 @@ node isopoda/tools/check-all.mjs
 | 原生桌面包装 | mac/、mac/windows/ | 独立原生 QA 和 Windows 打包工作流；浏览器回归不能替代原生窗口测试 |
 | 发布工具 | .github/scripts/ | 发布文件边界、资源版本、字体子集测试；Pages 部署 |
 
-`node isopoda/tools/check-all.mjs` 名称沿用历史，但已是全仓库结构入口：自动发现所有 `tests/*.test.mjs`，并检查公共结构和共享运行资源。它不覆盖所有游戏分支、浏览器画面或原稿，也不扫描全部文档链接。无需新增生产依赖或构建系统。
+`node tools/check-all.mjs` 是全仓库结构入口：自动发现根目录及四个游戏 `tests/` 下的 `*.test.mjs`，并检查公共结构和共享运行资源。它不覆盖所有游戏分支、浏览器画面或原稿，也不扫描全部文档链接。旧命令 `node isopoda/tools/check-all.mjs` 保留转接。无需新增生产依赖或构建系统。
 
 ## 浏览器测试前置条件
 
 观察状态与收藏不是同一件事。地下水要求完成陆地观察，深海要求完成沙滩观察，饲养箱要求完成一次观察且有合格标本。测试不得仅添加收藏就认定入口应开启，也不能点击 disabled 按钮后假定已进入观察。
 
-`tests/support/observation-fixtures.cjs` 只给需要已解锁环境的测试准备既有完成记录；`entry-gates.cjs` 独立从空存档检查锁定，并实际完成陆地和沙滩观察验证解锁与刷新。两者均不注入生产代码。
+`isopoda/tests/support/observation-fixtures.cjs` 只给需要已解锁环境的测试准备既有完成记录；`entry-gates.cjs` 独立从空存档检查锁定，并实际完成陆地和沙滩观察验证解锁与刷新。两者均不注入生产代码。
 
 检查抽取数量时区分普通群体与稀有访客，并保留既定普通群体数量约束。指针测试应先让画布进入可见视口，再根据当时的镜头与可见像素计算真实屏幕坐标；WebKit 鼠标坐标不能落在视口之外。
 

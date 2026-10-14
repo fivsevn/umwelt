@@ -1,75 +1,40 @@
-# Test layout
+# 全项目测试
 
-The repository keeps automated tests and browser/manual regression harnesses together under `tests/`, but they have different roles.
+[维护总入口](../MAINTENANCE.md) · [验证与发布](../docs/deployment.md)
 
-[Project documentation](../MAINTENANCE.md) · [Deployment and documentation-only verification](../docs/deployment.md)
+根 `tests/` 保留主页、共享音频、跨游戏回归和发布检查。游戏专属测试、样本与辅助放入各自的 `tests/`。
 
-## Choose checks by scope
+## 按范围进入
 
-Run commands from the repository root. CI uses Node.js 22. Browser scripts also need a running HTTP server, Playwright and the requested browser binaries; these are development tools, not production dependencies. CI pins Playwright and its browser image to the same version in `.github/workflows/`.
+| 范围 | 入口 |
+| --- | --- |
+| 蜱虫 | [测试说明](../tick/tests/README.md) |
+| 等足目与实验室 | [测试说明](../isopoda/tests/README.md) |
+| 花农时代 | [测试说明](../rooftop/tests/README.md) |
+| 体温调节 | [测试说明](../ophidia/tests/README.md) |
+| 原生桌面 | [桌面包装与 QA](../mac/README.md) |
+| 网页发布 | [成品检查](../docs/deployment.md#成品检查与发布状态) |
 
-| Scope | Entry | Coverage boundary |
-| --- | --- | --- |
-| All runtime/data contracts | `node isopoda/tools/check-all.mjs` | Node tests and six validators; no browser, native-authoring or complete Markdown-link checks |
-| Documentation only | [Documentation verification](../docs/deployment.md#文档整理的零前端变化验证) | Relative links/anchors, document scope and byte-identical prepared publication files |
-| ISOPODA | Habitat-specific scripts below; `morphology-layout.yml` | Browser scenes, languages and laboratories |
-| Rooftop gameplay/editing | [Rooftop maintenance](../rooftop/docs/maintenance.md); `rooftop-regression.yml` | Observation, layout, room and related interactions |
-| Rooftop visual workbench | [Fixed review page and command](../rooftop/docs/scene-review.md) | Local `rooftop-review-check.cjs`; uses `ROOFTOP_REVIEW_ORIGIN`, not `BASE_URL`; Chrome, outside the CI matrix |
-| THERMOREGULATION | [Game, model and pixel checks](../ophidia/README.md#检查) | Local scripts under `docs/art/ophidia-01/`; Chrome and WebKit, outside the CI matrix |
-| Homepage, TICK, shared audio | `system-regression.yml` | Chromium and WebKit |
-| Prepared Pages output | `browser/published-artifact.cjs` | Final artifact only; entry checks do not replace each game's full interaction tests |
-| Native desktop | [Desktop build and QA](../mac/README.md) | Native windows, offline state and packaged application |
+## 结构检查
 
-For most browser scripts `BASE_URL` selects the server, `BROWSER` selects one engine, and `QA_OUTPUT` selects an output directory outside the repository. The two local visual-review groups above have their own engine/address conventions; follow their linked instructions. Do not run stateful browser checks against a personal player profile.
+从仓库根目录运行（CI 使用 Node.js 22）：
 
-## Automated CI tests
-
-Files matching:
-
-```text
-tests/*.test.mjs
+```sh
+node tools/check-all.mjs
 ```
 
-are the default Node test suite and can still be run directly with:
+这个入口发现根目录与四个游戏 `tests/` 下的 `*.test.mjs`，再运行现有语言、物种、环境、叙事、实验室和公共页面验证。它不启动浏览器，也不代替文档链接、原稿或原生桌面检查。原 `node isopoda/tools/check-all.mjs` 保留为兼容入口。
 
-```bash
-node --test tests/*.test.mjs
-```
+只检查共用模块时运行 `node --test tests/*.test.mjs`；各游戏的命令见上表。浏览器脚本保持 `.cjs` 或专用 `.mjs` 名称，不混入默认 Node 测试。
 
-For the full non-browser structural gate used by the ISOPODA CI workflow, run:
+## 共用浏览器检查
 
-```bash
-node isopoda/tools/check-all.mjs
-```
+- `browser/homepage.cjs`、`homepage-language.cjs`：主页、语言与跨游戏继承。
+- `browser/audio-controls.cjs`：共享声音设置。
+- `browser/public-regression.cjs`：跨主页、蜱虫和等足目的公开流程与基线对照。
+- `browser/published-artifact.cjs`：完成字体子集与资源版本标记后的发布目录。
 
-That entry point runs the Node tests plus localization, species, habitat, narrative, morphology-page and public-surface checks in a fixed order. It does not run browser/visual regression or deployment font tooling.
-
-These tests protect game state, habitats, localization, morphology, scenery, interactions, save compatibility and other deterministic/runtime contracts.
-
-## Test support
-
-- `fixtures/` — stable test fixtures such as historical save data.
-- `support/scenery-study.mjs` — support module imported by `scenery.test.mjs`.
-
-These are support files, not standalone CI test entry points.
-
-## Browser / visual regression harnesses
-
-Files such as:
-
-- `browser/browser-habitats.cjs`
-- `browser/pointer-browser.cjs`
-- `browser/browser-checks.mjs`
-- `browser/morphology.html`
-- `browser/pixel-life.html`
-
-are browser-oriented regression or diagnostic harnesses. They are intentionally not matched by the default Node test glob. Some require a local HTTP server, Playwright/Chrome, or manual inspection.
-
-Do not rename a browser harness to `*.test.mjs` unless it is safe and deterministic in the normal CI environment.
-
-## Maintenance rule
-
-Runtime behavior should be covered by a `*.test.mjs` test when practical. Browser-only checks should stay clearly separated from the default CI suite and should not become production dependencies.
+浏览器检查需要本地服务、Playwright 和对应浏览器。通常用 `BASE_URL` 选择服务、`BROWSER` 选择引擎、`QA_OUTPUT` 选择仓库外输出目录。CI 的浏览器版本与矩阵以 `.github/workflows/` 为准；测试使用独立浏览器上下文。
 
 ## Public output comparison
 
@@ -80,68 +45,10 @@ BASE_URL=http://127.0.0.1:8765 COMPARE_URL=http://127.0.0.1:8766 node tests/brow
 BROWSER=webkit BASE_URL=http://127.0.0.1:8765 COMPARE_URL=http://127.0.0.1:8766 node tests/browser/public-regression.cjs
 ```
 
-Use `QA_OUTPUT` outside the site for screenshots. The existing morphology workflow runs both harnesses in each browser. `data-contracts.test.mjs` adds schema, narrative and invalid-input checks; `asset-stamping.test.mjs` covers the deployment URL transform. Existing compatibility tests remain in place.
+Use `QA_OUTPUT` outside the site for screenshots. The existing morphology workflow runs both harnesses in each browser. `isopoda/tests/data-contracts.test.mjs` adds schema, narrative and invalid-input checks; `asset-stamping.test.mjs` covers the deployment URL transform. Existing compatibility tests remain in place.
 
 `browser/game-locales.cjs` exercises composed terrestrial observations, dynamic specimen prompts and evening movement memories in four languages at 320, 390 and 1440 pixels in Chromium and WebKit. It checks feedback, saved-run reload, journal copy, a full seven-day observation and restart. Run with `BASE_URL`, `BROWSER` and optional `QA_OUTPUT`. `game-locales.test.mjs` checks all seven days across seeded branches and every evening variant paired with specimen memories.
 
+## 固定地址兼容
 
-## Habitat lab editor regression
-
-`browser/habitat-lab.cjs` exercises all five presets, registry coverage, JSON/share/file round trips, import failure rollback, real game-scale specimen pixels, equal-depth selection, layer edits, imported scales, responsive dragging, transfer-panel placement and game-save isolation. It runs in both browser jobs alongside the morphology regression.
-
-```sh
-BASE_URL=http://127.0.0.1:8765 node tests/browser/habitat-lab.cjs
-BROWSER=webkit BASE_URL=http://127.0.0.1:8765 node tests/browser/habitat-lab.cjs
-```
-
-`CHROME_PATH` optionally selects a local Chromium executable; `QA_OUTPUT` saves screenshots outside the site. The scene-codec Node tests also import every shipped authored layout, including named bark tones.
-
-## Sand excavation
-
-`browser/sandy-surf.cjs` checks quiet buried residents, hold-to-dig/lift, drag/release, cancelled holds, empty digs, four languages, save/reload and the live post-ending scene at 320, 390 and 1440 pixels. Run with `BROWSER=webkit` for the second engine, `BASE_URL` for a server, `CHROME_PATH` for Chromium, and `QA_OUTPUT` for screenshots. Chromium mobile cases use real touch events. `sandy-surf.test.mjs` covers burial visibility, recovery, natural cycles, narrative completion and legacy pending scenes.
-
-The sand cover and excavation are habitat effects, not new anatomical poses. Scientific sources are shared between the two laboratories; the habitat reference describes accelerated timing, visual cues and the weaker species-specific evidence for E. spinigera.
-
-## Petri dish microscope
-
-`tests/petri.test.mjs` checks single-specimen draws, circular containment, per-step operation gates and saved progress. `tests/browser/petri.cjs` runs the nine observations at 320, 390 and 1440 pixels in Chromium or WebKit (`BROWSER=webkit`). It covers microscope entry, physical-style rotary controls, focus, magnification, panning, illumination, return to overview, 32× reload, four languages and the standalone ending. `BASE_URL` selects a served repository; `QA_OUTPUT` selects screenshot output. Microscope magnifications are authored display enlargement, not calibrated optical measurements.
-
-Petri refinement also checks equal archive/microscope button sizes, filled background edges, touch/drag/keyboard dial control, three choices, no visible numeric controls, pre-adjusted magnification remaining locked, and optical edge dispersion/defocus rendering.
-
-## Observation scales
-
-`browser/scene-readouts.cjs` checks all eight non-estuary environments in four languages at 320, 390 and 1440 px: three numeric readings plus one qualitative state, unclipped text, complete story progression (petri has its dedicated full harness), saved feedback, changing story clocks/depths, the petri local clock and live focus control, and per-environment laboratory references. Use `BASE_URL`, `BROWSER`, `QA_OUTPUT`, and optionally `CHROME_PATH`. The browser workflow runs it in Chromium and WebKit. `scene-readouts.test.mjs` checks complete narratives, localization, saved readings and focus semantics. Legacy Estuary keeps its existing display; the nearshore prototype uses three numeric readings, tide state and local coordinates.
-
-`browser/estuary-shore.cjs` covers the nearshore full flow and twelve laboratory layouts in Chromium and WebKit at 320, 390 and 1440 px. `browser/estuary-shore-motion.cjs` checks visible isopod, reed and water-fauna animation in all twelve point/tide combinations, coordinate stability and the one-time opening hint. Both use `BASE_URL`, `BROWSER`, and optionally `CHROME_PATH`.
-
-`browser/estuary-shore-interaction.cjs` verifies the live 1×/16×/64× clock, return to 1×, unchanged narrative tide, picking up and placing visible isopods at all three banks, no snap-back after release, and interrupted gestures. It runs mouse input in Chromium/WebKit and native touch in Chromium, with reduced motion enabled.
-
-## Legacy rendering harness limitation
-
-`rendering.browser.mjs` still includes a historical all-habitats loop which assumes every stage exposes a choice button immediately. Interactive observation gates no longer satisfy that assumption; a `Missing choice` result from that loop is not evidence of a production regression. Use the habitat-specific harnesses under `browser/` for those interactions, and `browser/public-regression.cjs` for baseline pixel/text/save comparisons. Its preceding scenery pixel comparison remains useful.
-
-`site-artifact.test.mjs` protects the tracked-file publication boundary and module preloads. `sprite-color-cache.test.mjs` compares the optimized sprite renderer against uncached color arithmetic across every species, pose and frame.
-
-## 花农时代
-
-天台无视觉变化维护使用 `browser/rooftop-maintenance.cjs`；模块职责与对比运行方式见 [天台维护指南](../rooftop/docs/maintenance.md)。
-
-花农时代日常视觉调整使用固定入口：[browser/rooftop.html](browser/rooftop.html)。固定同一视口切换空场景、单个目录物件、固定初始组合三组，集中检查材质、光照、天气、季节、时间及原生／游戏采样，不使用个人陈列存档。运行方法及专项人物页见[统一测试说明](../rooftop/docs/scene-review.md)。
-
-天台扩容：`node --test tests/rooftop*.test.mjs`；`browser/rooftop-expansion.cjs` 在 Chromium / WebKit 验证分类、手帐、承托、存档、昼夜灯光、透明像素、旋转与手机布局。`BASE_URL` 可指向已部署页面。
-
-花农时代的 `rooftop-regression.yml` 在 Chromium / WebKit 自动运行维护、车库布局、房间、行动卡、兵器、模型、公开观察和季节回归。`rooftop-room.cjs` 验证房间与车库共享存档、跨页面同步、换装和活动反馈、导入导出及手机布局。维护脚本的 `COMPARE_URL` 可对照三个车库场景和三个公开入口，共 36 组画面。
-
-## 体温调节
-
-专项脚本保留在 `docs/art/ophidia-01/`，与制作工程及固定预览页一起维护。命令、依赖和范围见[游戏检查说明](../ophidia/README.md#检查)。`check-local.cjs` 检查一条完整航程、设置与三语切换；它不遍历全部分支组合。`check-model-review.cjs` 和 `check-pixel-comparison.cjs` 分别检查模型视图与图层对照页；二者都不能替代 Blender 原稿检查。
-
-这些脚本尚未接入 CI 专项矩阵。Pages 的成品关卡包含 `/ophidia/` 入口。
-
-## System and observation prerequisites
-
-`system-regression.yml` runs homepage, cross-game language, TICK and shared audio checks in Chromium/WebKit. `entry-gates.cjs` starts with empty storage, verifies locked entries in four languages, then completes land and beach observations through the real UI and verifies persistent unlocks. Existing unlocked-scene suites use `support/observation-fixtures.cjs`; this test fixture never enables controls or changes production rules.
-
-Sand and kelp pointer checks scroll the canvas into view before selecting a visible coordinate. Ordinary cohort counts are checked independently of rare visitors. Use `QA_OUTPUT` outside the repository for screenshots.
-
-最终发布成品检查见[验证与发布](../docs/deployment.md#成品检查与发布状态)。服务根目录必须是完成字体子集和资源版本标记的发布目录；Pages 工作流自动运行 Chromium 与 WebKit，并保存截图。
+原 `tests/browser/rooftop.html` 只负责带参数跳转到花农时代自己的统一测试页，实际页面、脚本和样式都在 `rooftop/tests/browser/`。该入口和各游戏开发目录均排除在网页发布之外。

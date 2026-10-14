@@ -70,7 +70,7 @@
 
 ### 验证与迁移
 
-`tests/groundwater.test.mjs` 穷举 3^8 = 6,561 条路径，检查阶段指标、选择反馈、结局和存档重载，并覆盖旧四轮存档与减少动态效果下的湿面运动。`tests/browser/groundwater.mjs` 覆盖 Chromium / WebKit × 320、390、1440 宽，测试入场每种一图、14 个体、光圈、真实摇杆拖动、方向键、触屏定位、八轮与结局重载。
+`isopoda/tests/groundwater.test.mjs` 穷举 3^8 = 6,561 条路径，检查阶段指标、选择反馈、结局和存档重载，并覆盖旧四轮存档与减少动态效果下的湿面运动。`isopoda/tests/browser/groundwater.mjs` 覆盖 Chromium / WebKit × 320、390、1440 宽，测试入场每种一图、14 个体、光圈、真实摇杆拖动、方向键、触屏定位、八轮与结局重载。
 
 旧四轮记录按每轮完成一个阶段映射，保留原反馈和物种，补足新增展示个体；已完成结局保持完成。新记录保存 observationIndex，不再由晨午夜定位。旧的内部 pulse 文本键保留，以免历史笔记无法读取。
 
@@ -82,7 +82,7 @@
 
 无版本号的旧岩池存档通过 `intertidalLegacy` 保留旧潮位、时间、剧情和结局，不重写过去的记录。新记录使用稳定的语言键，四种语言（含鼠妇语的数值）可在剧情、反馈、笔记及结局间切换。
 
-验证：`tests/intertidal.test.mjs` 覆盖三种选择路径、完整周期、旧存档、低动态与活动范围；`tests/browser/intertidal.mjs` 覆盖 Chromium/WebKit、320/390/1440 宽度、四语言、刷新续玩与两个实验室参考。全环境动态回归仍由 `tests/browser/reduced-motion.mjs` 负责。
+验证：`isopoda/tests/intertidal.test.mjs` 覆盖三种选择路径、完整周期、旧存档、低动态与活动范围；`isopoda/tests/browser/intertidal.mjs` 覆盖 Chromium/WebKit、320/390/1440 宽度、四语言、刷新续玩与两个实验室参考。全环境动态回归仍由 `isopoda/tests/browser/reduced-motion.mjs` 负责。
 
 
 ### 岩池标本与笔记扩充（2026-09-25）

@@ -1,22 +1,35 @@
-# TICK.SYS
+# TICK.SYS / 蜱虫
 
-Dependency-free HTML/CSS/JS perception study. No visible instructions, HUD or About button during play.
+围绕蜱虫感知与行动展开的试验性互动，使用独立的 HTML、CSS 和 JavaScript。
 
-1. Hover/touch the tick for a small, thin, breathing radar with sparse dim stars. Leaving/releasing fades it out. Drag at least 0.3 viewport-normalized distance; after approximately three seconds a small heat source is placed randomly on the far side of the field, invisible until approached within sensing range. Remain near it for 1.2 seconds.
-2. The tick falls toward a gently breathing thermal target made of fine irregular pixels, without a landing cue or focus highlight. Click/tap the field (or press Enter/Space) while overlapping it. Early/late input or missing the target resets the search, including its delay and randomized source.
-3. Drag through irregularly distributed long, yellow-brown hairs with anchored roots, tapered tips and slow breathing sway. A faint branching vascular field pulses beneath the hairs at a 2.8-second double-pulse cadence through tapering, asymmetrically branching vessels. Move to the convergence and linger briefly to finish; no red point is used. Keyboard arrows also move the tick.
-4. The Umwelt introduction fades in over 2.4 seconds over the final scene. Click the small tick below the text to return home.
+[维护总入口](../MAINTENANCE.md) · [文档导航](docs/maintenance.md) · [测试说明](tests/README.md)
 
-The drawing retains a 48px invisible touch target. Hair sway and vascular pulses remain visible with reduced motion enabled, disabled, and changed during play. Reduced motion only softens nonessential radar and star decoration. Hidden tabs pause progress. zh/en/ja follow the homepage language preference.
+## 游戏入口
 
-Preview from the repository root: `python3 -m http.server 8765 --bind 127.0.0.1`, then [open TICK](http://127.0.0.1:8765/tick/).
+[打开游戏](https://umwelt.fivsevn.com/tick/)
 
-See the [project documentation](../MAINTENANCE.md) and [test navigation](../tests/README.md). The dedicated browser harness is `tests/browser/tick-motion.cjs`, run in Chromium and WebKit by `system-regression.yml`; it checks retry, landing, movement, ending and return. Use `BASE_URL` to select the local server and `QA_OUTPUT` outside the repository for screenshots.
+## 本地运行
 
-The existing Pages workflow publishes changes merged into `main` at https://umwelt.fivsevn.com/tick/.
+从仓库根目录运行：
 
-## Visual references
+```sh
+python3 -m http.server 8765 --bind 127.0.0.1
+```
 
-- Derek Yu, Pixel Art Tutorial: Basics — pixel contour, limited palette and volume: https://www.derekyu.com/makegames/pixelart.html
-- Kandi Runner sprite tutorial — hair silhouettes and grouped shading: https://design.tutsplus.com/tutorials/kandi-runner-create-a-pixel-art-sprite-from-scratch--cms-21705
-- OpenStax, Structure and Function of Blood Vessels — arteriole/capillary-bed/venule structure, abstracted for the target rather than copied as a medical diagram: https://openstax.org/books/anatomy-and-physiology-2e/pages/20-1-structure-and-function-of-blood-vessels
+打开 [http://127.0.0.1:8765/tick/](http://127.0.0.1:8765/tick/)。
+
+## 目录与文档
+
+| 位置 | 内容 |
+| --- | --- |
+| `index.html`、`game.js`、`style.css`、`sprite.mjs` | 游戏页面、感知与移动、视觉绘制 |
+| `docs/` | [交互流程、视觉参考与维护约定](docs/maintenance.md) |
+| `tests/` | [蜱虫浏览器回归](tests/README.md) |
+
+## 内容维护
+
+玩法依次经过寻找热源、落下、穿过毛发与血管、结束和返回主页。界面沿用主页的中英日语言设置。减少动态效果时，毛发摆动和血管脉动仍保留；具体规则与资料出处集中在交互指南。
+
+## 检查
+
+运行 `node tools/check-all.mjs` 检查全项目结构；本地服务启动后运行 `node tick/tests/browser/tick-motion.cjs` 检查实际互动。脚本的浏览器选择、覆盖范围和 CI 入口见[测试说明](tests/README.md)。

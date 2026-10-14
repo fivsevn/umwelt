@@ -1,11 +1,11 @@
 # 花农时代维护与扩容
 
-文档与源文件见[文档入口](../README.md)，完整模型、Pixelorama 材料格和最终低采样见[制作管线](pixel-style.md)。空气效果契约见[空间天气](../../docs/art/rooftop-air-coverage-01/README.md)。
+文档与源文件见[文档入口](../README.md)，完整模型、Pixelorama 材料格和最终低采样见[制作管线](pixel-style.md)。空气效果契约见[空间天气](../art/rooftop-air-coverage-01/README.md)。
 
 ## 页面与存档
 
 - `rooftop/`：北天台与南阳台游戏观察，展示保存陈列，无存档时使用初始布置。
-- `tests/browser/rooftop.html`：固定本地测试页，包含空场景、物件图册和初始组合；不读取个人陈列或换装存档。
+- `rooftop/tests/browser/rooftop.html`：固定本地测试页，包含空场景、物件图册和初始组合；不读取个人陈列或换装存档。
 - `rooftop/arrange/`：车库，编辑北天台、南阳台和房间陈列。
 - `rooftop/room/`：房间、衣柜与活动。
 
@@ -15,13 +15,13 @@
 
 南北阳台在 `HOUSE` 中属于同一住宅，连接相对屋檐。存档使用各自局部坐标，公开页按住宅坐标构建完整两侧，取景约束在当前一侧。屋檐不提供家具承放层位。承放面、层位身份、碰撞、携带与手势见[承放关系](placement.md)。
 
-可视测试统一使用 [`/tests/browser/rooftop.html`](../../tests/browser/rooftop.html)。三组内容、环境与取景操作见[测试说明](scene-review.md)。
+可视测试统一使用 [`/rooftop/tests/browser/rooftop.html`](../tests/browser/rooftop.html)。三组内容、环境与取景操作见[测试说明](scene-review.md)。
 
 ## 原稿与呈现
 
-[建筑源文件](../../docs/art/rooftop-lowpoly-02/README.md)包含完整 `game-environment.blend`、主图 `terrace-book.pxo` 和远景 `distance-facades.pxo`。`3d/architectural-shell.mjs` 读取 `assets/background/empty-rooftop.mjs`、压缩清单及 PNG；优先加载 `.bin.gz`，不支持解压或加载失败时回退到原始 `.bin`。两份网格与清单随导出同步。主图为 1024×1024，近景用 `texelMetresPerUnit` 还原长度，再按 `texelsPerMetre:16` 取样；远景由 `baked-pixel-grid.mjs` 在原烘焙 UV 上取同一物理格，窗灯图共用坐标。正面、侧面、背面和底面均核对绑定。
+[建筑源文件](../art/rooftop-lowpoly-02/README.md)包含完整 `game-environment.blend`、主图 `terrace-book.pxo` 和远景 `distance-facades.pxo`。`3d/architectural-shell.mjs` 读取 `assets/background/empty-rooftop.mjs`、压缩清单及 PNG；优先加载 `.bin.gz`，不支持解压或加载失败时回退到原始 `.bin`。两份网格与清单随导出同步。主图为 1024×1024，近景用 `texelMetresPerUnit` 还原长度，再按 `texelsPerMetre:16` 取样；远景由 `baked-pixel-grid.mjs` 在原烘焙 UV 上取同一物理格，窗灯图共用坐标。正面、侧面、背面和底面均核对绑定。
 
-全部 294 件物品使用[新物品源文件](../../docs/art/rooftop-furniture-02/README.md)的七组 Blender／Pixelorama 原稿和 `assets/items/`。`item-catalog.mjs` 统一导出 `ITEM_METRES_TO_UNITS=5.6/3`，几何只缩放一次；原生图集保持 16 纹理像素／米、Nearest 和无 mipmap。房间固定背景使用[房间原稿](../../docs/art/rooftop-room-02/README.md)和 `assets/room/`，透明窗与可动门叶保留。人物及室外门仍使用`assets/pixel/material-book.png` 共用材质；不能为更换物品误删仍有调用的材质机制。
+全部 294 件物品使用[新物品源文件](../art/rooftop-furniture-02/README.md)的七组 Blender／Pixelorama 原稿和 `assets/items/`。`item-catalog.mjs` 统一导出 `ITEM_METRES_TO_UNITS=5.6/3`，几何只缩放一次；原生图集保持 16 纹理像素／米、Nearest 和无 mipmap。房间固定背景使用[房间原稿](../art/rooftop-room-02/README.md)和 `assets/room/`，透明窗与可动门叶保留。人物及室外门仍使用`assets/pixel/material-book.png` 共用材质；不能为更换物品误删仍有调用的材质机制。
 
 新家具继续完整 Blender＋Pixelorama 工作流，完成器形、厚度、背面、底面、开孔和承放结构。物理材料格与建筑对照，粗颗粒感由最终低采样控制；不能以删减结构或放大笔触代替。保存并重开原稿后，分别核对导出、游戏内接入和发布包，保护已有手改与存档接口。
 
@@ -54,7 +54,7 @@
 | `3d/residents.mjs` | 人物身体、衣服与装饰 |
 | `arrange/index.html`、`rooftop.css` | 车库结构与样式 |
 
-植物资料从 `botany.mjs` 入手，所有新模型先在 `docs/art/rooftop-furniture-02/` 的原生管线完成、核对，再运行 `sync-runtime-catalog.py` 同步新目录、承放资料和实际模型缩略图。家具只整理新目录，原植物子类、收藏、枪械与兵器资料不随视觉重做改名。材质书保留当前可编辑原稿和必要绘制工具。`scene.mjs` 的兼容尺寸、二维回退和图鉴绘制不能作为重复目录删除。
+植物资料从 `botany.mjs` 入手，所有新模型先在 `rooftop/art/rooftop-furniture-02/` 的原生管线完成、核对，再运行 `sync-runtime-catalog.py` 同步新目录、承放资料和实际模型缩略图。家具只整理新目录，原植物子类、收藏、枪械与兵器资料不随视觉重做改名。材质书保留当前可编辑原稿和必要绘制工具。`scene.mjs` 的兼容尺寸、二维回退和图鉴绘制不能作为重复目录删除。
 
 ## 镜头与环境
 
@@ -72,7 +72,7 @@
 
 手帐正文为客观描述、一句人物随想及折叠来源；科学名只在植物名旁出现。随想采用简短、客观而留白的语气，不写人称代词、反问或固定归属。换盆、换株形控制在资料之后。公开页面悬停 350 毫秒查看、点击固定，拖动和双指手势不打开手帐；关闭键与 Escape 合上，面板独立滚动，窄屏限制屏高 44%。工具栏下方保留 8px 间距，关闭按钮可点击。
 
-继续制作所需资料见[器物与材质](art-sources.md)、[植物与容器](notebook.md)及[四季光照与天气](../../docs/art/rooftop-atmosphere-01/README.md)。
+继续制作所需资料见[器物与材质](art-sources.md)、[植物与容器](notebook.md)及[四季光照与天气](../art/rooftop-atmosphere-01/README.md)。
 
 ## 性能与缓存
 
@@ -86,9 +86,9 @@
 
 ## 验证
 
-运行 `node isopoda/tools/check-all.mjs` 检查全项目契约，或按范围运行 `node --test tests/rooftop*.test.mjs`。场景重点为 `rooftop-background`、`rooftop-review`、`rooftop-story-camera`、`rooftop-door-projection`、`rooftop-outdoor-raster`、`rooftop-visible-air`、`rooftop-seasonal-coverage` 和 `rooftop-render-budget`；材料修改还须核对原稿与导出。
+运行 `node tools/check-all.mjs` 检查全项目契约，或按范围运行 `node --test rooftop/tests/*.test.mjs`。场景重点为 `rooftop-background`、`rooftop-review`、`rooftop-story-camera`、`rooftop-door-projection`、`rooftop-outdoor-raster`、`rooftop-visible-air`、`rooftop-seasonal-coverage` 和 `rooftop-render-budget`；材料修改还须核对原稿与导出。
 
-实际浏览器检查公开南北三视角、本地统一测试的三组内容、环境切换及刷新、窄屏手帐、车库存档恢复与保存字节不变。`tests/browser/rooftop-observation.cjs`、`rooftop-weather.cjs` 检查观察及环境；`rooftop-garage-layout.cjs` 检查排布，`rooftop-room.cjs` 检查房间与跨页面存档，`rooftop-maintenance.cjs` 检查撤销重做、多指隔离及保存。
+实际浏览器检查公开南北三视角、本地统一测试的三组内容、环境切换及刷新、窄屏手帐、车库存档恢复与保存字节不变。`rooftop/tests/browser/rooftop-observation.cjs`、`rooftop-weather.cjs` 检查观察及环境；`rooftop-garage-layout.cjs` 检查排布，`rooftop-room.cjs` 检查房间与跨页面存档，`rooftop-maintenance.cjs` 检查撤销重做、多指隔离及保存。
 
 纯整理或格式化保留调用顺序、异常边界、数据和序列化。`rooftop-maintenance.cjs` 的 `COMPARE_URL` 在四种宽度、车库三场景及公开南北和房间比较 36 组画面；固定时间、随机值和动画帧只作用于测试环境。正常动画与交互另行回归。
 

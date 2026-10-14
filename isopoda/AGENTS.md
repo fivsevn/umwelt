@@ -8,4 +8,4 @@ Read `docs/laboratories.md` before adding or moving scientific references.
 - Habitat/background papers and links belong to **当前环境参考** at `/isopoda/habitat`, mapped by environment in `data/habitats/references.mjs`. State the supported feature and distinguish authored game parameters from evidence.
 - A paper relevant to both a species and an environment may be linked from both, using one shared source entry with distinct support notes. Do not duplicate records or put the detail back into Credits.
 - These sister laboratories carry the scientific background. The game carries narrative grounded in that evidence. Keep Asimov's notebook prose separate from the scientific species record.
-- Run `tools/check-all.mjs` from the repository root via `node isopoda/tools/check-all.mjs`, plus the affected laboratory browser checks. The Credits guard must cover the entire document, not only its primary-source section.
+- Run `tools/check-all.mjs` from the repository root via `node tools/check-all.mjs`, plus the affected laboratory browser checks. The Credits guard must cover the entire document, not only its primary-source section.

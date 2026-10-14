@@ -2,7 +2,7 @@
 
 [花农时代文档入口](../README.md)
 
-当前目录由 294 件独立原生模型组成。植物与盆器来源在 `rooftop/botany.mjs`，当前器物的逐项来源随 `item-data.mjs` 中的目录记录提供；`notebook.mjs` 汇合来源，`native-item-notes.mjs` 维护描述与随想。上游记录与生成关系见[手帐数据职责](notebook.md#数据职责)，物品原稿与研究记录见[当前物品原稿](../../docs/art/rooftop-furniture-02/README.md)。这些资料与游戏手帐同步维护，名称、物件 ID、科学名和适盆规则保持稳定。
+当前目录由 294 件独立原生模型组成。植物与盆器来源在 `rooftop/botany.mjs`，当前器物的逐项来源随 `item-data.mjs` 中的目录记录提供；`notebook.mjs` 汇合来源，`native-item-notes.mjs` 维护描述与随想。上游记录与生成关系见[手帐数据职责](notebook.md#数据职责)，物品原稿与研究记录见[当前物品原稿](../art/rooftop-furniture-02/README.md)。这些资料与游戏手帐同步维护，名称、物件 ID、科学名和适盆规则保持稳定。
 
 ## 来源与制作边界
 

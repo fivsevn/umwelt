@@ -4,8 +4,8 @@ import {mkdir,copyFile,readFile,writeFile} from 'node:fs/promises';
 import {resolve,dirname,relative,posix} from 'node:path';
 import {pathToFileURL} from 'node:url';
 export function publicFile(path){
- return !/^(?:\.git(?:hub|ignore)(?:\/|$)|docs\/|tests\/|mac\/|isopoda\/(?:tools|dev|docs)\/)/.test(path)
-  && !/^(?:MAINTENANCE\.md$|(?:rooftop|ophidia|tick)\/docs\/)/.test(path)
+ return !/^(?:\.git(?:hub|ignore)(?:\/|$)|docs\/|tests\/|tools\/|mac\/|isopoda\/(?:tools|dev|docs)\/)/.test(path)
+  && !/^(?:MAINTENANCE\.md$|(?:rooftop|isopoda|ophidia|tick)\/(?:docs|tests|art)\/)/.test(path)
   && !/(?:^|\/)(?:README[^/]*\.md|AGENTS\.md|\.DS_Store)$/.test(path);
 }
 export async function prepareSite(root,destination){

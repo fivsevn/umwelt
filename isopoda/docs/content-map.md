@@ -75,4 +75,4 @@ Visible active terrestrial source strings must be represented in the locale tabl
 3. Register new specimen/source batches through the manifests without reordering existing groups.
 4. Add EN/JA coverage in the same change where required.
 5. Add or update tests when a new condition, habitat, ending branch or species eligibility rule is introduced.
-6. Run `node isopoda/tools/check-all.mjs` plus the relevant browser regression harnesses.
+6. Run `node tools/check-all.mjs` plus the relevant browser regression harnesses.

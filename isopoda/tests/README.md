@@ -1,0 +1,53 @@
+# 等足目测试
+
+[游戏文档](../README.md) · [全项目测试](../../tests/README.md)
+
+从仓库根目录运行。Node 测试使用 `node --test isopoda/tests/*.test.mjs`；完整结构检查使用 `node tools/check-all.mjs`，其中包含物种、环境、叙事、语言与实验室验证。
+
+`browser/` 保存观察、实验室与语言检查，`fixtures/` 保存历史存档，`support/` 保存等足目专用测试辅助。浏览器脚本需要已启动的本地服务、Playwright 及对应浏览器；用 `BASE_URL`、`BROWSER`、`QA_OUTPUT` 指定地址、浏览器和仓库外截图目录。
+
+```sh
+BASE_URL=http://127.0.0.1:8765 node isopoda/tests/browser/morphology-layout.cjs
+BROWSER=webkit BASE_URL=http://127.0.0.1:8765 node isopoda/tests/browser/morphology-layout.cjs
+```
+
+CI 的 `morphology-layout.yml` 保留两种浏览器和原有专项矩阵。跨主页、蜱虫和等足目的整体对照仍在根 `tests/browser/public-regression.cjs`。
+
+`entry-gates.cjs` 从空存档检查入口锁定，再通过实际观察验证持久解锁；已有解锁场景使用 `support/observation-fixtures.cjs` 准备状态。收藏不等于完成观察。沙滩和海藻指针检查先把画布滚入视口，普通群体数量与稀有访客分开计数。
+
+## Habitat lab editor regression
+
+`browser/habitat-lab.cjs` exercises all five presets, registry coverage, JSON/share/file round trips, import failure rollback, real game-scale specimen pixels, equal-depth selection, layer edits, imported scales, responsive dragging, transfer-panel placement and game-save isolation. It runs in both browser jobs alongside the morphology regression.
+
+```sh
+BASE_URL=http://127.0.0.1:8765 node isopoda/tests/browser/habitat-lab.cjs
+BROWSER=webkit BASE_URL=http://127.0.0.1:8765 node isopoda/tests/browser/habitat-lab.cjs
+```
+
+`CHROME_PATH` optionally selects a local Chromium executable; `QA_OUTPUT` saves screenshots outside the site. The scene-codec Node tests also import every shipped authored layout, including named bark tones.
+
+## Sand excavation
+
+`browser/sandy-surf.cjs` checks quiet buried residents, hold-to-dig/lift, drag/release, cancelled holds, empty digs, four languages, save/reload and the live post-ending scene at 320, 390 and 1440 pixels. Run with `BROWSER=webkit` for the second engine, `BASE_URL` for a server, `CHROME_PATH` for Chromium, and `QA_OUTPUT` for screenshots. Chromium mobile cases use real touch events. `sandy-surf.test.mjs` covers burial visibility, recovery, natural cycles, narrative completion and legacy pending scenes.
+
+The sand cover and excavation are habitat effects, not new anatomical poses. Scientific sources are shared between the two laboratories; the habitat reference describes accelerated timing, visual cues and the weaker species-specific evidence for E. spinigera.
+
+## Petri dish microscope
+
+`isopoda/tests/petri.test.mjs` checks single-specimen draws, circular containment, per-step operation gates and saved progress. `isopoda/tests/browser/petri.cjs` runs the nine observations at 320, 390 and 1440 pixels in Chromium or WebKit (`BROWSER=webkit`). It covers microscope entry, physical-style rotary controls, focus, magnification, panning, illumination, return to overview, 32× reload, four languages and the standalone ending. `BASE_URL` selects a served repository; `QA_OUTPUT` selects screenshot output. Microscope magnifications are authored display enlargement, not calibrated optical measurements.
+
+Petri refinement also checks equal archive/microscope button sizes, filled background edges, touch/drag/keyboard dial control, three choices, no visible numeric controls, pre-adjusted magnification remaining locked, and optical edge dispersion/defocus rendering.
+
+## Observation scales
+
+`browser/scene-readouts.cjs` checks all eight non-estuary environments in four languages at 320, 390 and 1440 px: three numeric readings plus one qualitative state, unclipped text, complete story progression (petri has its dedicated full harness), saved feedback, changing story clocks/depths, the petri local clock and live focus control, and per-environment laboratory references. Use `BASE_URL`, `BROWSER`, `QA_OUTPUT`, and optionally `CHROME_PATH`. The browser workflow runs it in Chromium and WebKit. `scene-readouts.test.mjs` checks complete narratives, localization, saved readings and focus semantics. Legacy Estuary keeps its existing display; the nearshore prototype uses three numeric readings, tide state and local coordinates.
+
+`browser/estuary-shore.cjs` covers the nearshore full flow and twelve laboratory layouts in Chromium and WebKit at 320, 390 and 1440 px. `browser/estuary-shore-motion.cjs` checks visible isopod, reed and water-fauna animation in all twelve point/tide combinations, coordinate stability and the one-time opening hint. Both use `BASE_URL`, `BROWSER`, and optionally `CHROME_PATH`.
+
+`browser/estuary-shore-interaction.cjs` verifies the live 1×/16×/64× clock, return to 1×, unchanged narrative tide, picking up and placing visible isopods at all three banks, no snap-back after release, and interrupted gestures. It runs mouse input in Chromium/WebKit and native touch in Chromium, with reduced motion enabled.
+
+## Legacy rendering harness limitation
+
+`rendering.browser.mjs` still includes a historical all-habitats loop which assumes every stage exposes a choice button immediately. Interactive observation gates no longer satisfy that assumption; a `Missing choice` result from that loop is not evidence of a production regression. Use the habitat-specific harnesses under `browser/` for those interactions, and `browser/public-regression.cjs` for baseline pixel/text/save comparisons. Its preceding scenery pixel comparison remains useful.
+
+`site-artifact.test.mjs` protects the tracked-file publication boundary and module preloads. `sprite-color-cache.test.mjs` compares the optimized sprite renderer against uncached color arithmetic across every species, pose and frame.

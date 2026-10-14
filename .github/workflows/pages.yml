@@ -33,7 +33,7 @@ jobs:
           node-version: '22'
 
       - name: Verify runtime, data contracts and public surfaces
-        run: node isopoda/tools/check-all.mjs
+        run: node tools/check-all.mjs
 
       - uses: actions/configure-pages@v5
 

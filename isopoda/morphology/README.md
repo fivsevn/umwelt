@@ -29,10 +29,10 @@ Serve the repository root, then run:
 ```sh
 node --test tests/*.test.mjs
 node isopoda/tools/check-morphology-page.mjs
-node isopoda/tools/check-public-surface.mjs
+node tools/check-public-surface.mjs
 node isopoda/tools/check-i18n.mjs
-BASE_URL=http://127.0.0.1:8765 node tests/browser/morphology-layout.cjs
-BROWSER=webkit BASE_URL=http://127.0.0.1:8765 node tests/browser/morphology-layout.cjs
+BASE_URL=http://127.0.0.1:8765 node isopoda/tests/browser/morphology-layout.cjs
+BROWSER=webkit BASE_URL=http://127.0.0.1:8765 node isopoda/tests/browser/morphology-layout.cjs
 ```
 
 The browser test requires Playwright (Chromium uses installed Chrome; WebKit uses Playwright's browser). `NODE_PATH` can point to a shared installation. Set `QA_OUTPUT` to save screenshots outside the deployed site. It checks all registered specimens at ten viewport sizes, actual painted-pixel centering, panel borders/order/containment, content growth/removal, input paths, reload, missing assets and a habitat smoke check.

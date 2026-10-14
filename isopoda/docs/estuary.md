@@ -58,10 +58,10 @@ habitat-layout-brackish-estuary-observation-06-return.json
 ## 验证
 
 ```sh
-node --test tests/estuary.test.mjs
-node isopoda/tools/check-all.mjs
-NODE_PATH=/path/to/node_modules BASE_URL=http://127.0.0.1:8765 node tests/browser/estuary.cjs
-BROWSER=webkit NODE_PATH=/path/to/node_modules BASE_URL=http://127.0.0.1:8765 node tests/browser/estuary.cjs
+node --test isopoda/tests/estuary.test.mjs
+node tools/check-all.mjs
+NODE_PATH=/path/to/node_modules BASE_URL=http://127.0.0.1:8765 node isopoda/tests/browser/estuary.cjs
+BROWSER=webkit NODE_PATH=/path/to/node_modules BASE_URL=http://127.0.0.1:8765 node isopoda/tests/browser/estuary.cjs
 ```
 
 Node 测试穷举 3^6 = 729 条路径，核对证据隔离、生态状态不受选择影响、命名文本键、四种呈现语言、重载、旧九轮存档、遮挡、减少动态效果、布局往返及锚点变换。浏览器测试核对 320、390、1440 宽下的六轮、语言切换、反馈重载、归档、实验室六阶段、导入回滚、实际拖动与环境切换隔离。

@@ -26,7 +26,7 @@ page delegates button/link clicks to avoid duplicate effects from gameplay.
 Gain changes are smoothed; finished UI nodes disconnect. No external files,
 CDN dependencies or absolute asset URLs are used.
 
-Verification: `node isopoda/tools/check-all.mjs`; serve repository root on port
+Verification: `node tools/check-all.mjs`; serve repository root on port
 8878 and run `node tests/browser/audio-controls.cjs` with Playwright installed.
 `BASE_URL`, `CHROME_PATH`, and `WEBKIT_PATH` can override test host/browser paths.
 The browser check covers gesture unlocking, independent preferences, reload,

@@ -6,9 +6,9 @@
 
 [Pages 工作流](../.github/workflows/pages.yml)依次执行结构检查、准备站点、字体子集、资源版本标记和成品浏览器检查，通过后上传并部署。推送 `main` 会触发；仅含 `README*.md` 的推送被忽略，其他开发文档变更仍可能触发部署。
 
-[prepare-site.mjs](../.github/scripts/prepare-site.mjs)只复制 Git 跟踪且通过 `publicFile()` 筛选的文件，并为 HTML 的直接模块依赖加入 modulepreload。它排除根 `MAINTENANCE.md`、`docs/`、`tests/`、`mac/`、`isopoda/tools/`、`isopoda/dev/`、四个游戏目录下的 `docs/`、仓库管理文件及各目录的 README / AGENTS。未跟踪的本地实验不进入发布包。新增游戏目录时同步登记其开发文档边界。
+[prepare-site.mjs](../.github/scripts/prepare-site.mjs)只复制 Git 跟踪且通过 `publicFile()` 筛选的文件，并为 HTML 的直接模块依赖加入 modulepreload。它排除根 `MAINTENANCE.md`、`docs/`、`tests/`、`tools/`、`mac/`、`isopoda/tools/`、`isopoda/dev/`、四个游戏目录下的 `docs/`、`tests/`、`art/`、仓库管理文件及各目录的 README / AGENTS。未跟踪的本地实验不进入发布包。新增游戏目录时同步登记其开发文档边界。
 
-Markdown 的用途由读取方决定：`isopoda/credits*.md` 是游戏内容，字体许可也随资源保留。`docs/art/` 中的原稿与检查页可随仓库保存，但不进入网页发布目录。
+Markdown 的用途由读取方决定：`isopoda/credits*.md` 是游戏内容，字体许可也随资源保留。各游戏 `art/`、`tests/` 中的原稿与检查页可随仓库保存，但不进入网页发布目录。
 
 ## 字体与资源版本
 
@@ -38,11 +38,11 @@ BASE_URL=http://127.0.0.1:8794 EXPECTED_SHA="$GITHUB_SHA" node tests/browser/pub
 
 ## 文档整理的零前端变化验证
 
-文档整理保留游戏运行文件、素材、配置及运行时 Markdown。文档路径变化需要同步发布排除规则时，只调整开发文件的筛选与相应检查，确认准备出的游戏文件仍与基线一致。
+文档整理保留游戏运行文件、素材、配置及运行时 Markdown。文档、原稿和测试路径变化时，同步引用、检查命令、工作流与发布排除规则，确认准备出的游戏文件仍与基线一致。
 
-1. 固定整理前的提交作为 baseline，核对 diff 仅包含预期开发文档，以及必要的文档发布排除规则与相应检查。
+1. 固定整理前的提交作为 baseline，核对 diff 仅包含预期开发文档、原稿和测试的归档，以及必要的工具、工作流与发布排除规则调整。
 2. 用 `.github/scripts/prepare-site.mjs` 分别从 baseline 与工作树准备仓库外的全新发布目录。文件清单来自 `git ls-files`；新增、移动或删除的文档须纳入待发布清单，可使用独立临时 Git 索引，避免更改工作区的暂存状态。
 3. 比较两个发布目录的全部路径与每个文件的字节，包括隐藏文件。完全相同才能认定发布输入未变；不一致时先查清原因，涉及运行文件则补充相应浏览器回归。
-4. 运行 `node isopoda/tools/check-all.mjs`；另行检查文档相对链接、页内锚点、文件路径与命令入口。结构检查不包含完整文档链接扫描。无需为纯文档变更新增镜像式测试。
+4. 运行 `node tools/check-all.mjs`；另行检查文档相对链接、页内锚点、文件路径与命令入口。结构检查不包含完整文档链接扫描。无需为纯文档变更新增镜像式测试。
 
 比较发生在字体子集和 SHA 标记前。后续只有使用相同工具及版本标记才能比较最终字节；不同提交部署时资源 URL 的 SHA 正常变化，不代表画面或行为发生变化。

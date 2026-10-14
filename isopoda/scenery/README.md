@@ -1,6 +1,6 @@
 # Scenery renderer contract
 
-Production and the public Asimov Habitat Lab import `index.mjs`. `tests/support/scenery-study.mjs` only re-exports compatibility names; it contains no artwork.
+Production and the public Asimov Habitat Lab import `index.mjs`. `isopoda/tests/support/scenery-study.mjs` only re-exports compatibility names; it contains no artwork.
 
 - `grammar.mjs`: integer world-space 1px edges and 2px near-color material clusters, inverse geometry rotation, opaque palette fills, and the shared 0.88 anatomy projection scale. No rotated canvas, bitmap assets, or blurred gradients. Deterministic clustered dithering makes surface pixels visible.
 - `substrate.mjs`: dark woodland ground, connected humus islands, sparse mineral clusters and moisture bands.

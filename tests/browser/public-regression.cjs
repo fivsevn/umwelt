@@ -1,4 +1,4 @@
-const {completedPrerequisites}=require('../support/observation-fixtures.cjs');
+const {completedPrerequisites}=require('../../isopoda/tests/support/observation-fixtures.cjs');
 // BROWSER=webkit BASE_URL=... COMPARE_URL=... QA_OUTPUT=/tmp/qa node this-file
 // Deterministic frame stepping is test-only; production timing and assets are untouched.
 const assert=require('node:assert/strict');

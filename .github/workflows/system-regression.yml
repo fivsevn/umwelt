@@ -16,7 +16,6 @@ on:
         "isopoda/ui.mjs",
         "isopoda/locales/**",
         "tests/browser/homepage*.cjs",
-        "tests/browser/tick-motion.cjs",
         "tests/browser/audio-controls.cjs",
         ".github/workflows/system-regression.yml",
       ]
@@ -35,7 +34,6 @@ on:
         "isopoda/ui.mjs",
         "isopoda/locales/**",
         "tests/browser/homepage*.cjs",
-        "tests/browser/tick-motion.cjs",
         "tests/browser/audio-controls.cjs",
         ".github/workflows/system-regression.yml",
       ]
@@ -78,7 +76,11 @@ jobs:
             if curl --fail --silent "$BASE_URL/" > /dev/null; then break; fi
             sleep 1
           done
-          node "tests/browser/${{ matrix.suite }}.cjs"
+          if [ "${{ matrix.suite }}" = "tick-motion" ]; then
+            node tick/tests/browser/tick-motion.cjs
+          else
+            node "tests/browser/${{ matrix.suite }}.cjs"
+          fi
       - uses: actions/upload-artifact@v4
         if: always()
         with:
