@@ -41,3 +41,9 @@ docs/art/**/export-report.json
 docs/art/**/floor-fit.json
 docs/art/**/geometry-scale.json
 docs/art/**/fallback-render-check.json
+
+# Local visual QA and authoring caches.
+__pycache__/
+*.pyc
+.rooftop-qa/
+docs/art/**/pixelorama-native-reopened.json

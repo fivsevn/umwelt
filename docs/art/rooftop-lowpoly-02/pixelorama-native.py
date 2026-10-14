@@ -1,7 +1,7 @@
 """Run a temporary extension in the installed real Pixelorama application.
 
-Independent copy of the working 01 launcher. All work paths resolve to 02;
-app config bytes are restored and the extension is removed in finally.
+Application config bytes are restored and the extension is removed in finally.
+Generated helper scripts live only inside the temporary extension archive.
 """
 from pathlib import Path
 import json
@@ -10,16 +10,15 @@ import zipfile
 HERE=Path(__file__).resolve().parent
 
 def run_native(gd, flag, name):
-    (HERE/f'{name}.gd').write_text(gd)
-    (HERE/f'{name}.tscn').write_text(f'[gd_scene load_steps=2 format=3]\n[ext_resource type="Script" path="res://src/Extensions/{name}/{name}.gd" id="1"]\n[node name="{name}" type="Node"]\nscript = ExtResource("1")\n')
+    scene = f'[gd_scene load_steps=2 format=3]\n[ext_resource type="Script" path="res://src/Extensions/{name}/{name}.gd" id="1"]\n[node name="{name}" type="Node"]\nscript = ExtResource("1")\n'
     config = Path.home()/'Library/Application Support/Pixelorama/config.ini'
     backup = config.read_bytes()
     extension = config.parent / f'extensions/{name}.zip'
     assert not extension.exists(), 'Never overwrite an existing author extension'
     with zipfile.ZipFile(extension,'w',zipfile.ZIP_DEFLATED) as z:
-        for suffix in ('gd','tscn'):
-            z.write(HERE/f'{name}.{suffix}',f'src/Extensions/{name}/{name}.{suffix}')
-        z.writestr(f'src/Extensions/{name}/extension.json',json.dumps({'name':name,'display_name':'Rooftop native rough surface refinement','description':'Saved atlas pigment effect and 1 px Pencil authoring','author':'五月七日','version':'0.1','supported_api_versions':[8],'license':'MIT','nodes':[f'{name}.tscn']}))
+        z.writestr(f'src/Extensions/{name}/{name}.gd', gd)
+        z.writestr(f'src/Extensions/{name}/{name}.tscn', scene)
+        z.writestr(f'src/Extensions/{name}/extension.json',json.dumps({'name':name,'display_name':'Rooftop source verification','description':'Read-only native source verification','author':'五月七日','version':'0.1','supported_api_versions':[8],'license':'MIT','nodes':[f'{name}.tscn']}))
     config.write_bytes(backup+f'\n[extensions]\n{name}=true\n'.encode())
     try:
         result = subprocess.run(['/Applications/Pixelorama.app/Contents/MacOS/Pixelorama','--headless','--',str(HERE/'terrace-book.pxo'),flag,'--book-dir='+str(HERE)],capture_output=True,text=True,timeout=360)

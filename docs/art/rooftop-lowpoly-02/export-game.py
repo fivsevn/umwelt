@@ -19,17 +19,43 @@ for o in scene.objects:
 def material_key(me,layer,material_index=0):
     m=me.materials[material_index]
     return (m.get('runtime_field',m.name),layer,m.get('runtime_style','pixelbook'),m.get('runtime_texture',''),m.get('lamp_mask',''))
+
+def is_affine_box(points,faces):
+    """The instance path is valid only for an actual six-sided parallelepiped.
+
+    Authored flags and eight-vertex counts alone do not establish this. Retain
+    native mesh faces for pitched roofs, concave buildings and malformed boxes.
+    """
+    if len(points)!=8 or len(faces)!=6 or any(len(f)!=4 for f in faces):return False
+    expected_faces={(0,1,2,3),(4,5,6,7),(0,1,4,5),(1,2,5,6),(2,3,6,7),(0,3,4,7)}
+    if {tuple(sorted(f))for f in faces}!=expected_faces:return False
+    axes=[[points[j][i]-points[0][i]for i in range(3)]for j in (1,3,4)]
+    cross=[axes[0][1]*axes[1][2]-axes[0][2]*axes[1][1],axes[0][2]*axes[1][0]-axes[0][0]*axes[1][2],axes[0][0]*axes[1][1]-axes[0][1]*axes[1][0]]
+    if sum(cross[i]*axes[2][i]for i in range(3))<=1e-12:return False
+    tolerance=max(.00005,max(math.dist(points[0],p)for p in points)*.000002)
+    corners=((0,0,0),(1,0,0),(1,1,0),(0,1,0),(0,0,1),(1,0,1),(1,1,1),(0,1,1))
+    return all(math.dist(p,[points[0][i]+sum(q[j]*axes[j][i]for j in range(3))for i in range(3)])<=tolerance for p,q in zip(points,corners))
+
+def can_instance_box(o):
+    return bool(o.get('runtime_box')) and not o.modifiers and len(o.data.materials)==1 and is_affine_box(
+        [tuple(o.matrix_world@v.co)for v in o.data.vertices],[tuple(p.vertices)for p in o.data.polygons])
+
+def canonical_cube_values():
+    points=[(-.5,-.5,-.5),(.5,-.5,-.5),(.5,.5,-.5),(-.5,.5,-.5),(-.5,-.5,.5),(.5,-.5,.5),(.5,.5,.5),(-.5,.5,.5)]
+    faces=[(3,2,1,0),(4,5,6,7),(0,1,5,4),(1,2,6,5),(2,3,7,6),(3,0,4,7)]
+    normals=[(0,0,-1),(0,0,1),(0,-1,0),(1,0,0),(0,1,0),(-1,0,0)]
+    return [value for face,n in zip(faces,normals)for tri in ((face[0],face[1],face[2]),(face[0],face[2],face[3]))for index in tri for value in (*points[index],*n,0,0)]
+
 def box_matrix(o):
     global cube
     me=o.data;points=[change@o.matrix_world@v.co for v in me.vertices]
-    center=sum(points,Vector())/8;axes=[points[1]-points[0],points[3]-points[0],points[4]-points[0]]
+    axes=[points[1]-points[0],points[3]-points[0],points[4]-points[0]];center=points[0]+sum(axes,Vector())/2
     values=[*axes[0],0,*axes[1],0,*axes[2],0,*center,1]
     if cube is None:
-        cube=[];me.calc_loop_triangles();norm=(change@o.matrix_world).to_3x3().inverted().transposed()
-        for tri in me.loop_triangles:
-            nn=(norm@tri.normal).normalized()
-            for li in tri.loops:
-                p=points[me.loops[li].vertex_index]-center;q=[p.dot(axis)/axis.length_squared for axis in axes];n=[nn.dot(axis.normalized()) for axis in axes];cube.extend([*q,*n,0,0])
+        # A fixed affine basis preserves shear and rotation. Dot-product
+        # projection onto the first authored box would assume orthogonal axes
+        # and could deform every subsequent instance under metre conversion.
+        cube=canonical_cube_values()
     return values
 
 def mesh_values(o,material_index=0):
@@ -44,7 +70,7 @@ for c,ws in worlds.items():
     for o in c.objects:
         if o.type!='MESH':continue
         objects+=len(ws);key=material_key(o.data,'near' if 'vehicle'not in c.name else 'ground')
-        if o.get('runtime_box'):assembly_boxes[(c,key)].extend(box_matrix(o))
+        if can_instance_box(o):assembly_boxes[(c,key)].extend(box_matrix(o))
         else:
             # Two main roof slopes retain their native polygons and use two
             # material slots, rather than altering the mesh's topology.
@@ -54,7 +80,7 @@ for c,ws in worlds.items():
 for o in scene.objects:
     if o.type!='MESH':continue
     objects+=1;key=material_key(o.data,o.get('layer','near'))
-    if o.get('runtime_box'):direct_boxes[key].extend(box_matrix(o))
+    if can_instance_box(o):direct_boxes[key].extend(box_matrix(o))
     else:
         for mi in sorted({p.material_index for p in o.data.polygons}):
             key=material_key(o.data,o.get('layer','near'),mi)
@@ -75,11 +101,20 @@ def part_fields(key):
     if style=='baked':part.update({'style':'baked','texture':texture,'lampMask':mask,'shading':'orientation'})
     else:part['rect']=fields[kind]
     return part
+def ordered_box_matrices(values):
+    # Instance IDs carry no object state. Keep every complete transform intact,
+    # grouping equal linear bases before positions to improve lossless DEFLATE.
+    # Geometry, UVs, normals, material groups and collection transforms retain
+    # their authored values; only the anonymous box order changes.
+    matrices=[values[i:i+16]for i in range(0,len(values),16)]
+    axes_and_position=(0,1,2,4,5,6,8,9,10,12,13,14)
+    matrices.sort(key=lambda m:tuple(m[i]for i in axes_and_position))
+    return [value for matrix in matrices for value in matrix]
 for key in dict.fromkeys([*direct_boxes,*[key for _,key in assembly_boxes]]):
-    values=direct_boxes.get(key,[]);count=len(values)//16;part={**part_fields(key),'mode':'instances','offset':append(values),'directCount':count,'count':count,'assemblies':[]}
+    values=ordered_box_matrices(direct_boxes.get(key,[]));count=len(values)//16;part={**part_fields(key),'mode':'instances','offset':append(values),'directCount':count,'count':count,'assemblies':[]}
     for (c,k),vs in assembly_boxes.items():
         if k!=key:continue
-        group={'sourceOffset':append(vs),'sourceCount':len(vs)//16,**world_sections[c]};part['assemblies'].append(group);part['count']+=group['sourceCount']*group['worldCount']
+        group={'sourceOffset':append(ordered_box_matrices(vs)),'sourceCount':len(vs)//16,**world_sections[c]};part['assemblies'].append(group);part['count']+=group['sourceCount']*group['worldCount']
     parts.append(part)
 for (c,key),values in library_meshes.items():
     part={**part_fields(key),'mode':'meshInstances','offset':append(values),'vertices':len(values)//8,'matricesOffset':world_sections[c]['worldOffset'],'count':world_sections[c]['worldCount']};parts.append(part)

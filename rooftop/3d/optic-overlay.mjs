@@ -79,7 +79,7 @@ function paintEngraving(canvas, diameter, mradPixels, frame) {
   }
   ctx.fillStyle = '#a45738'; ink.fillRect(cx, cy, 1, 1);
 }
-export function updateOpticOverlay(element, reading) {
+export function updateOpticOverlay(element, reading, worldCanvas) {
   if (!reading) return;
   const set = (key, value) => {
     const node = element.querySelector(`[data-scope-${key}]`);
@@ -89,9 +89,11 @@ export function updateOpticOverlay(element, reading) {
   set('angle', `${reading.inclinationDegrees > 0 ? '+' : ''}${reading.inclinationDegrees.toFixed(1)}°`);
   set('range', reading.measuredSurface ? `${Math.round(reading.distanceMetres)} m` : '— m');
   set('status', reading.measuredSurface ? 'SCAN' : 'SEARCH');
+  const world = worldCanvas || element.ownerDocument.querySelector('#garden');
+  if (!world) return;
   const scope = element.getBoundingClientRect(), diameter = scope.width,
     mask = element.querySelector('.scope-mask'), engraving = element.querySelector('.scope-engraving'),
-    world = element.ownerDocument.querySelector('#garden'), bounds = world.getBoundingClientRect(),
+    bounds = world.getBoundingClientRect(),
     grid = resolveCanvasPixelGrid(world.dataset, element.ownerDocument.defaultView?.devicePixelRatio || 1),
     frame = pixelGridSize(bounds.width, bounds.height, grid), previous = cache.get(element) || {};
   const dimensions = `${frame.output},${frame.pixelStep},${frame.pixelRatio},${diameter}`, step = reading.mradPixels.toFixed(2);

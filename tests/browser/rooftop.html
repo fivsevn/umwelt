@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="data:,"><title>花农时代 · 视觉测试</title><link rel="stylesheet" href="./rooftop-review.css"></head>
+<body data-ready="false"><main>
+<header><h1>花农时代 · 视觉测试</h1><nav aria-label="测试组"><button data-mode="scene" aria-pressed="true">空场景</button><button data-mode="item" aria-pressed="false">单独物件</button><button data-mode="game" aria-pressed="false">初始组合</button></nav></header>
+<div class="controls" id="controls">
+<label id="sceneLabel">场景<select id="sceneChoice"><option value="north">北天台</option><option value="south">南阳台</option><option value="room">房间</option></select></label>
+<label id="viewLabel">视角<select id="viewChoice"></select></label>
+<label id="itemLabel" hidden>物件<select id="itemChoice"></select></label>
+<label>采样<select id="samplingChoice"><option value="source">原生分辨率</option><option value="game">游戏像素</option></select></label>
+<label>效果<select id="lookChoice" disabled><option value="original">正式原稿</option></select></label>
+<label>天气<select id="weatherChoice"></select></label><label>时间<select id="timeChoice"></select></label><label>季节<select id="seasonChoice"></select></label><button id="resetCamera">复位</button>
+</div>
+<section id="itemCatalogSection" aria-label="全部物件图册" hidden><div class="catalog-head"><nav id="itemCategories" aria-label="物件分类"></nav><input id="itemSearch" type="search" placeholder="找物件" aria-label="找物件"><span id="catalogSummary"></span></div><div id="itemCatalog"></div></section>
+<div id="itemDetailHeading" hidden><span id="itemDetailName"></span><button id="closeItemDetail">返回列表</button></div>
+<section id="viewport" aria-label="统一视觉测试视口"><canvas id="sceneCanvas" aria-label="完整空场景，可拖动旋转"></canvas><canvas id="itemCanvas" aria-label="完整单物件，可拖动旋转" hidden></canvas><canvas id="gameCanvas" aria-label="游戏初始组合" hidden></canvas><div id="scope" hidden></div></section>
+<footer><span id="hint">拖动转动 · 滚轮或双指缩放</span><span id="status" role="status">正在载入…</span></footer>
+</main><script src="../../rooftop/3d/vendor/three.min.js"></script><script type="module" src="./rooftop-review.mjs"></script></body></html>

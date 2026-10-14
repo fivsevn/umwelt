@@ -30,6 +30,22 @@ function fixture(width, height, diameter, dpr = 1) {
 }
 const reading = { magnification: 3.2, inclinationDegrees: -4.1, measuredSurface: true, distanceMetres: 81.8, mradPixels: 21 };
 
+test("local review lens uses its active source canvas without requiring the game DOM id", () => {
+  const f = fixture(407, 662, 358.16, 3);
+  f.element.ownerDocument.querySelector = () => { throw new Error('No #garden in the local review'); };
+  Object.assign(f.world.dataset, { physicalPixelStep: '1', targetCssPixelStep: String(1 / 3) });
+  f.bounds.left = 16; f.bounds.top = 72;
+  updateOpticOverlay(f.element, reading, f.world);
+  assert.equal(f.mask.width, 1221);
+  assert.equal(f.mask.height, 1986);
+  for (const canvas of [f.mask, f.engraving]) {
+    assert.equal(canvas.dataset.physicalPixelStep, '1');
+    assert.equal(canvas.dataset.origin, '16,72');
+    close(parseFloat(canvas.style.left) + f.scope.left, 16);
+    close(parseFloat(canvas.style.top) + f.scope.top, 72);
+  }
+});
+
 test("eyecup and engraving share resolved square cells and the actual world canvas origin at every viewport/DPR", () => {
   for (const dpr of [1, 1.25, 2, 3]) for (const [w, h, d] of [[407, 662, 358.16], [390, 640, 343.2], [844, 390, 319.8]]) {
     const grid = resolvePixelGrid(dpr), frame = pixelGridSize(w, h, grid), pixel = grid.cssPixelStep,

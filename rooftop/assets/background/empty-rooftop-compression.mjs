@@ -1,8 +1,8 @@
 export const BACKGROUND_COMPRESSION = Object.freeze({
   "format": "gzip-v1",
   "file": "empty-rooftop.bin.gz",
-  "sha": "657a31d2b8183d66e5938568c4ef4a84ce1d8408cf211f5e185a1523e4addb99",
-  "decodedSha": "34b25d9ae868821494638a6b0f0519f95f5179ade24019cc46d52cf8dd410e92",
-  "bytes": 860322,
-  "decodedBytes": 5476608
+  "sha": "3641e08d448a7a55940fcd31a3dba1dbba1ef708298267bcd728a067d6946a42",
+  "decodedSha": "c22f2320a79f9b9beae3dba4bf6ba438ab53818d3f288e8332ea701d4693cefc",
+  "bytes": 1250963,
+  "decodedBytes": 6427360
 });

@@ -30,7 +30,7 @@
 
 ## 家具与现有物品
 
-新家具沿用完整 Blender＋Pixelorama 工作流，物理材料格与建筑对照；当前独立家具模型为正方 16 像素／米。先检查源模型及贴图，再放进游戏三视角核对轮廓、承放、遮挡和最终颗粒，物品预览使用独立页面，空场景页永久保持无物品。
+新家具沿用完整 Blender＋Pixelorama 工作流，物理材料格与建筑对照；当前独立家具模型为正方 16 像素／米。先检查源模型及贴图，再放进游戏三视角核对轮廓、承放、遮挡和最终颗粒。本地统一测试页的单独物件组检查完整物件，空场景组保持无陈列与角色。
 
 新物品和房间背景分别使用 `docs/art/rooftop-furniture-02/`、`docs/art/rooftop-room-02/` 的独立 Blender 原稿及原生 Pixelorama 图集；完整面 UV 为 16 像素／米，通过 `ITEM_METRES_TO_UNITS = 5.6 / 3` 接入正式场景。人物共用材料继续使用[共用材质原稿](art/rooftop-game/README.md)和 `assets/pixel/material-book.png`，由 `native-style.mjs`、`native-materials.mjs`、`native-book.mjs` 接入。世界单位与建筑米制坐标不同，不能将数值直接全局替换。
 
@@ -48,4 +48,4 @@
 
 8 种天气以 `overcast` 作为阴天规范值，`cloudy` 仅为兼容输入。光照、太阳方向、季节和天气资料见[环境制作说明](art/rooftop-atmosphere-01/README.md)。实际页面与发布包核验见[维护与扩容](rooftop-maintenance.md)。
 
-人物第二版使用[方块原稿](art/rooftop-actors-02/README.md)，全部服装与装饰保留。人物表面纹理统一为 16 像素／米，游戏与独立人物测试共用动作骨架和最终采样；原模型模式用于查看。
+人物第二版使用[方块原稿](art/rooftop-actors-02/README.md)，全部服装与装饰保留。人物表面纹理统一为 16 像素／米，游戏与统一测试共用动作骨架和最终采样；原模型模式用于查看。

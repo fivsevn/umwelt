@@ -2,18 +2,22 @@
 
 花农时代使用完整的 Blender 模型与 Pixelorama 原生贴图，游戏观察画面采用约 2.2 CSS 像素的低采样呈现。当前建筑原稿见[建筑源文件](art/rooftop-lowpoly-02/README.md)，运行与发布检查见[维护与扩容](rooftop-maintenance.md)。
 
+游戏化场景的持续建模依据为仓库中的 `docs/art/rooftop-lowpoly-02/game-environment.blend`，源模型和它导出的运行资源一起维护、随游戏保留。现实地点的独立沙盘留在仓库外原位置；后续游戏场景修改直接基于已保存的游戏化源模型，不依赖那个本地文件。建筑外形、层高、屋顶和相对位置必须保留正确；近邻补细节，远景保留轮廓并使用轻量楼体及烘焙立面。
+
+2026-10-14 主体墙地与红瓦已按实际材料参考细化：原生 Pixelorama 主图重画八区，Blender 补两条有厚度的檐口瓦；旧建筑几何及 UV、远景烘焙图、现有光影与相机保持。原稿和运行导出已同步，继续制作从当前 `.blend`、`.pxo` 开始。修改依据及核验见[建筑源文件说明](art/rooftop-lowpoly-02/README.md)。
+
 ## 页面
 
 | 入口 | 用途 |
 | --- | --- |
 | [游戏](https://umwelt.fivsevn.com/rooftop/) | 北天台、南阳台观察；展示本机保存的陈列；无存档时使用初始布置，使用小鸟、无人机、邻居三个视角，显示东东和小猪的活动 |
-| [空场景综合测试](https://umwelt.fivsevn.com/rooftop/?stage=background) | 切换南北与空房间、六个室外视角和环境；默认原模型，可切游戏像素；永久不放物品、不显示角色 |
+| [统一测试页](../tests/browser/rooftop.html) | 空场景、全部 294 件物件图册和初始完整组合；图册可分类、搜索并点击同页近看，统一检查材料、光照、天气、时间、季节与采样 |
 | [车库／物品页面](https://umwelt.fivsevn.com/rooftop/arrange/) | 摆放新物品、编辑南北阳台及房间；初始为北天台 83 件、南阳台 14 件、房间 21 件 |
 | [东东的房间](https://umwelt.fivsevn.com/rooftop/room/) | 房间、换装与活动 |
 
-本地使用同一路径，例如 [综合测试](http://127.0.0.1:4173/rooftop/?stage=background)。旧 `/rooftop/3d/`、`/rooftop/previews/pixel-01/` 和 `stage=game-model` 兼容转入同一个综合测试页。
+本地测试统一使用 [http://localhost:8765/tests/browser/rooftop.html](http://localhost:8765/tests/browser/rooftop.html)。页面只有三组内容，后续采样、材质与光照调整继续在此查看。
 
-人物与状态另有轻量本地页面：[东东与小猪](http://127.0.0.1:4186/docs/art/rooftop-actors-02/preview/)、[左下角状态卡片](http://127.0.0.1:4186/docs/art/rooftop-status-01/preview/)。用于快速看衣服、饰物、动作和整理文案，不合并已有场景与物品入口。
+人物及完整初始陈列在统一测试的“初始组合”组核对。[东东与小猪独立测试页](art/rooftop-actors-02/preview/index.html)继续保留，用于后续服装与动作检查。
 
 ## 维护入口
 
@@ -23,7 +27,7 @@
 - [物品承放关系](rooftop-placement.md)与 [`rooftop/AGENTS.md`](../rooftop/AGENTS.md)：承放面、碰撞、携带、取物和兼容迁移。
 - [测试导航](../tests/README.md)与[验证和发布](../isopoda/docs/deployment.md)：共用检查和发布方法。
 
-存档继续使用 `umwelt-rooftop-layout-v1`，布局版本 2、房间版本 2、空间版本 2。新目录标记为 `native-items-294-v1`；初始陈列包含完整 118 件布置，位置、旋转、缩放、植物 seed、花盆和承放关系保存在 `rooftop/initial-layout.mjs`。无存档时游戏、车库和房间使用同一份初始布局；已有新目录存档，包括手动清空的布局，继续保留。旧目录首次进入车库或房间时恢复当前初始布局并写入新目录标记，不另存旧陈列。公开观察读取本机陈列但不写存档，换装另存；空场景测试始终清空三个场景，不改个人陈列。
+存档继续使用 `umwelt-rooftop-layout-v1`，布局版本 2、房间版本 2、空间版本 2。新目录标记为 `native-items-294-v1`；初始陈列包含完整 118 件布置，位置、旋转、缩放、植物 seed、花盆和承放关系保存在 `rooftop/initial-layout.mjs`。无存档时游戏、车库和房间使用同一份初始布局；已有新目录存档，包括手动清空的布局，继续保留。旧目录首次进入车库或房间时恢复当前初始布局并写入新目录标记，不另存旧陈列。公开观察读取本机陈列但不写存档，换装另存；统一测试使用独立数据，“空场景”清空物件，“初始组合”读取固定初始布置，不改个人陈列。
 
 ## 制作方式
 
@@ -40,7 +44,7 @@
 | 建筑、地坪、墙面、屋顶和远景 | [建筑源文件](art/rooftop-lowpoly-02/README.md)：`game-environment.blend`、`terrace-book.pxo`、`distance-facades.pxo` | `rooftop/assets/background/` 的清单、网格及 PNG，由 `3d/architectural-shell.mjs` 读取 |
 | 全部 294 件物品 | [新物品源文件](art/rooftop-furniture-02/README.md)：七组 `.blend` 和 `*-atlas.pxo`，16 纹理像素／米 | `rooftop/assets/items/` 的 GLB、七张 PNG 与缩略图，由 `3d/native-model-loader.mjs` 读取 |
 | 房间固定建筑 | [房间源文件](art/rooftop-room-02/README.md)：`room-background.blend`、`room-background-atlas.pxo` | `rooftop/assets/room/`，由 `3d/room-background-loader.mjs` 读取，门叶挂接活动铰链 |
-| 东东、小猪及全部衣服装饰 | [方块人物源文件](art/rooftop-actors-02/README.md)：`block-actors.blend`，沿用真实 Pixelorama 材质书 | `3d/residents.mjs` 与 `3d/actor-pose.mjs`，游戏及本地人物页共用 |
+| 东东、小猪及全部衣服装饰 | [方块人物源文件](art/rooftop-actors-02/README.md)：`block-actors.blend`，沿用真实 Pixelorama 材质书 | `3d/residents.mjs` 与 `3d/actor-pose.mjs`，游戏及统一测试的初始组合组共用 |
 | 观察者与操作图标 | [图标源文件](art/rooftop-observers-01/README.md)：`observer-icons-atlas.pxo` | `rooftop/assets/observers/` 与 `observer-ui.mjs` |
 | 现有人物及室外门等共用材质 | [共用材质原稿](art/rooftop-game/README.md)：`material-book.pxo` | `rooftop/assets/pixel/material-book.png` 与仍在使用的共用构造 |
 

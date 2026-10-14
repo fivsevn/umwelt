@@ -104,6 +104,8 @@ Petri refinement also checks equal archive/microscope button sizes, filled backg
 
 天台无视觉变化维护使用 `browser/rooftop-maintenance.cjs`；模块职责与对比运行方式见 [天台维护指南](../docs/rooftop-maintenance.md)。
 
+花农时代可视检查只有一个入口：[browser/rooftop.html](browser/rooftop.html)。固定同一视口切换空场景、单个目录物件、固定初始组合三组，集中检查材质、光照、天气、季节、时间及原生／游戏采样，不使用个人陈列存档。
+
 天台扩容：`node --test tests/rooftop*.test.mjs`；`browser/rooftop-expansion.cjs` 在 Chromium / WebKit 验证分类、手帐、承托、存档、昼夜灯光、透明像素、旋转与手机布局。`BASE_URL` 可指向已部署页面。
 
 花农时代的 `rooftop-regression.yml` 在 Chromium / WebKit 自动运行维护、车库布局和房间回归。`rooftop-room.cjs` 验证房间与车库共享存档、跨页面同步、换装和活动反馈、导入导出及手机布局。维护脚本的 `COMPARE_URL` 可对照三个车库场景和三个公开入口，共 36 组画面。

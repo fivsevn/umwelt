@@ -14,5 +14,5 @@
 
 - [花农时代总入口](rooftop-README.md)：当前状态、游戏与测试页面、原稿管线和资料入口。
 - [维护与扩容](rooftop-maintenance.md)、[物品承放关系](rooftop-placement.md)：模块职责、存档与空间契约。
-- [永久空场景综合测试](rooftop-scene-review.md)：统一南北场景、六种视角、天气、时段与季节；物品在独立车库查看。
+- [花农时代统一测试](rooftop-scene-review.md)：固定同一视口查看空场景、单个物件与初始组合，检查取景、材质、光照与环境。
 - [当前建筑材料原稿](art/rooftop-lowpoly-02/README.md)、[当前物品原稿](art/rooftop-furniture-02/README.md)：从正在运行的建筑和物品继续制作。

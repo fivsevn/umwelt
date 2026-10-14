@@ -100,6 +100,10 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   // Match the furniture study's unfiltered low-poly shadow edge.
   renderer.shadowMap.type = T.BasicShadowMap;
   renderer.setClearColor("#bdc2c5");
+  // The fixed local workbench shares production resources and isolated data.
+  const localReview = ["127.0.0.1", "localhost", "[::1]"].includes(location.hostname)
+    && options.localReview === true;
+  if (localReview) sourceInspection = options.reviewSampling !== "game";
   const outdoorRaster = createOutdoorRasterPass(T, renderer);
   let outdoorGrid = resolvePixelGrid(window.devicePixelRatio), airScopeEllipse = null;
   window.addEventListener("pagehide", event => { if (!event.persisted) outdoorRaster.dispose(); });
@@ -1743,7 +1747,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     },
     setReviewView,
     setReviewSampling(mode) {
-      if (!backgroundStage) return;
+      if (!backgroundStage && !localReview) return;
       sourceInspection = mode !== "game";
       resize();
     },

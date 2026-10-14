@@ -1,0 +1,353 @@
+{
+  "date": "2026-10-14",
+  "scope": "Primary environment material detail and closed eave tile courses",
+  "sourceAuthority": "docs/art/rooftop-lowpoly-02/game-environment.blend",
+  "pixelAuthority": "docs/art/rooftop-lowpoly-02/terrace-book.pxo",
+  "gameSourceSha256": "95ff2f8bb9a0a4ba3c16ee955d807ce879c8b2efb3102ba61b6a9e24e92012a1",
+  "mainPxoSha256": "dcdc6fd6d4ee21cf2ca1b8630965300474d33219cf82224323e0cec04c748706",
+  "mainPngSha256": "d0edaf9d5e1fec4c2828d7eb2a2d6f0d37e27e5a104ed46ffc2f15190ce80ab7",
+  "runtimeBinarySha256": "c22f2320a79f9b9beae3dba4bf6ba438ab53818d3f288e8332ea701d4693cefc",
+  "acceptedGameBasisSha256": "aa86458b0bbf06a373d64e49db4748a11922c8e0a8907bb9e40e54bd04c9fae0",
+  "originalPrivateSandboxOpened": false,
+  "privateReferenceIncluded": false,
+  "references": [
+    {
+      "publisher": "National Park Service",
+      "title": "Preservation of Historic Concrete",
+      "url": "https://www.nps.gov/orgs/1739/upload/preservation-brief-15-concrete.pdf",
+      "pages": [
+        7,
+        8
+      ],
+      "use": "Concrete surface loss, repair boundaries, fissures and water-driven discoloration"
+    },
+    {
+      "publisher": "National Park Service",
+      "title": "The Preservation and Repair of Historic Stucco",
+      "url": "https://www.nps.gov/orgs/1739/upload/preservation-brief-22-stucco.pdf",
+      "pages": [
+        7,
+        8
+      ],
+      "use": "Coherent coating loss and cracks tied to actual moisture entry and attachment points"
+    },
+    {
+      "publisher": "National Park Service",
+      "title": "The Preservation and Repair of Historic Clay Tile Roofs",
+      "url": "https://www.nps.gov/orgs/1739/upload/preservation-brief-30-clay-tile-roofs.pdf",
+      "pages": [
+        8,
+        9
+      ],
+      "use": "Whole-tile colour variation, overlap lips and the thickness of eave courses"
+    }
+  ],
+  "suppliedIllustrationUse": "Material hierarchy and readable low-poly details; no building silhouette copied",
+  "pixelorama": {
+    "nativeSoftware": "Pixelorama",
+    "nativePxoSavedAndReopened": true,
+    "nativeCelEqualsExportAndReopenedExport": true,
+    "dimensions": [
+      1024,
+      1024
+    ],
+    "texelsPerMetre": 16,
+    "alphaUnchanged": true,
+    "pixelsOutsideEightChartsByteIdentical": true,
+    "configRestored": true,
+    "fields": {
+      "north-floor": {
+        "rect": [
+          512,
+          0,
+          128,
+          256
+        ],
+        "changedPixels": 32768,
+        "colors": 32,
+        "meanLuminance": 151.38240529785153,
+        "luminanceStddev": 4.750267849779338,
+        "purpose": "Jointed cement with bounded resurfacing, re-entrant corner fissures and measured drainage residue",
+        "drainChartCentres": [
+          [
+            4,
+            37
+          ],
+          [
+            82,
+            170
+          ]
+        ],
+        "randomSpeckleFill": false
+      },
+      "south-floor": {
+        "rect": [
+          640,
+          0,
+          128,
+          128
+        ],
+        "changedPixels": 16384,
+        "colors": 25,
+        "meanLuminance": 161.25129682617188,
+        "luminanceStddev": 4.148810133575968,
+        "purpose": "Jointed cement with bounded resurfacing, re-entrant corner fissures and measured drainage residue",
+        "drainChartCentres": [],
+        "randomSpeckleFill": false
+      },
+      "plaster": {
+        "rect": [
+          0,
+          512,
+          768,
+          64
+        ],
+        "changedPixels": 49152,
+        "colors": 26,
+        "meanLuminance": 173.56927928466794,
+        "luminanceStddev": 5.9353971019207465,
+        "purpose": "Limewash / exposed render / repaired mortar; residue linked to floor and upper edge; sparse branching cracks",
+        "randomSpeckleFill": false
+      },
+      "stained-plaster": {
+        "rect": [
+          0,
+          576,
+          768,
+          64
+        ],
+        "changedPixels": 49152,
+        "colors": 21,
+        "meanLuminance": 171.3112975423177,
+        "luminanceStddev": 6.1374288401561605,
+        "purpose": "Limewash / exposed render / repaired mortar; residue linked to floor and upper edge; sparse branching cracks",
+        "randomSpeckleFill": false
+      },
+      "cap": {
+        "rect": [
+          768,
+          128,
+          256,
+          64
+        ],
+        "changedPixels": 16384,
+        "colors": 10,
+        "meanLuminance": 179.99183105468745,
+        "luminanceStddev": 2.4019778058218217,
+        "purpose": "Quiet mineral skin, bounded chips and shallow old trowelled repairs",
+        "randomSpeckleFill": false
+      },
+      "cement": {
+        "rect": [
+          768,
+          192,
+          256,
+          64
+        ],
+        "changedPixels": 16384,
+        "colors": 10,
+        "meanLuminance": 163.0904310546875,
+        "luminanceStddev": 2.4019778058218164,
+        "purpose": "Quiet mineral skin, bounded chips and shallow old trowelled repairs",
+        "randomSpeckleFill": false
+      },
+      "home-roof-north": {
+        "rect": [
+          0,
+          640,
+          704,
+          128
+        ],
+        "changedPixels": 90112,
+        "colors": 141,
+        "meanLuminance": 109.06642673561791,
+        "luminanceStddev": 7.365586063599312,
+        "purpose": "Overlapping red clay tiles with whole-tile kiln variation, restrained curved facets, replacements and local eave lichens",
+        "tileWidthMetres": 0.375,
+        "exposedCourseMetres": 0.5,
+        "randomSpeckleFill": false
+      },
+      "home-roof-south": {
+        "rect": [
+          0,
+          768,
+          704,
+          128
+        ],
+        "changedPixels": 90112,
+        "colors": 86,
+        "meanLuminance": 113.69486834161931,
+        "luminanceStddev": 7.285405948534534,
+        "purpose": "Overlapping red clay tiles with whole-tile kiln variation, restrained curved facets, replacements and local eave lichens",
+        "tileWidthMetres": 0.375,
+        "exposedCourseMetres": 0.5,
+        "randomSpeckleFill": false
+      }
+    },
+    "pxoSha256": "dcdc6fd6d4ee21cf2ca1b8630965300474d33219cf82224323e0cec04c748706",
+    "pngSha256": "d0edaf9d5e1fec4c2828d7eb2a2d6f0d37e27e5a104ed46ffc2f15190ce80ab7"
+  },
+  "savedNativeGeometry": {
+    "savedSourceReopened": true,
+    "allExistingMeshGeometryNormalsUvsAndBindingsByteEquivalent": true,
+    "allExistingObjectsAndTransformsUnchanged": true,
+    "existingMaterialsCamerasAndLightingUnchanged": true,
+    "farGeometryAndPackedImagesUnchanged": true,
+    "existingMeshesChecked": 12488,
+    "existingObjectsChecked": 33549,
+    "addedEaveTiles": 218,
+    "closedTileShellsVerified": true,
+    "tileFaceChartsMeasured": 1526,
+    "maximumTileDensityError": 0.0031865307352880734,
+    "maximumTileChartAngleError": 0.0014560135847290212,
+    "stagedSavedGameSourceSha256": "3b31671144b12a8df0447924036ed85356e8833f45df4a657cc49a30ce3ce93a"
+  },
+  "nativeMetadataFinalization": {
+    "anonymousSelfWeakReferencesNormalized": {
+      "meshes": 3647,
+      "materials": 20
+    },
+    "allGeometryUvsNormalsTransformsMaterialsCamerasAndLightsUnchangedAfterSavedReopen": true,
+    "packedImagesByteIdentical": true,
+    "authoredSceneStateSha256": "f59a0710e2f2c829248acd669cd44dd2d35977a741fd27c0d18b60d79bba841a",
+    "savedGameSourceSha256": "95ff2f8bb9a0a4ba3c16ee955d807ce879c8b2efb3102ba61b6a9e24e92012a1"
+  },
+  "nativeMetadataVerification": {
+    "gameSourceOnly": true,
+    "namedDatablocksChecked": 46177,
+    "nativeCustomPropertiesChecked": 78779,
+    "privateNamesPropertiesAndImagePathsAbsent": true,
+    "packedRelativeOrPathlessImages": 3,
+    "externalLibrariesAbsent": true,
+    "externalWeakReferencesAbsent": true,
+    "anonymousSelfWeakReferences": 3667
+  },
+  "freshNativeExportEqualsRuntime": true,
+  "packedPixeloramaPngMatches": true,
+  "runtimePixeloramaPngMatches": true,
+  "originalArchitectureUvsTransformsAndCameraLightingRetained": true,
+  "farPaintingsAndWindowMaskByteIdentical": true,
+  "assetBudget": {
+    "sourceBytesBefore": 6880775,
+    "sourceBytesAfter": 6763363,
+    "mainPngBytesBefore": 143620,
+    "mainPngBytesAfter": 103102,
+    "geometryBytesBefore": 6092512,
+    "geometryBytesAfter": 6427360,
+    "trianglesBefore": 431531,
+    "trianglesAfter": 435019,
+    "trianglesAdded": 3488,
+    "farTrianglesUnchanged": 15723,
+    "transportBytesBefore": 2046487,
+    "transportBytesAfter": 2061850,
+    "transportBytesAdded": 15363,
+    "transportIncreasePercent": 0.7507010794595814,
+    "drawPartsBefore": 408,
+    "drawPartsAfter": 408
+  },
+  "targetedTestsPassed": 38,
+  "browserViews": [
+    "row",
+    "neighbourhood",
+    "eaves",
+    "neighbour-detail",
+    "outlook",
+    "terrace",
+    "bird",
+    "drone",
+    "scope",
+    "south",
+    "dusk"
+  ],
+  "browserErrors": [],
+  "browserFailedRequests": [],
+  "publication": "Saved in local repository; not published",
+  "architectureFidelity": {
+    "buildingsChecked": 942,
+    "nearBuildings": 7,
+    "backgroundBuildings": 935,
+    "rebuiltNearBuildings": 6,
+    "maximumReferenceToRuntimeVertexErrorMetres": 0.0003860213910229504,
+    "incorrectBuildingsAt1mm": 0,
+    "farRoofGroups": {
+      "roof": {
+        "referenceTriangles": 5432,
+        "runtimeTriangles": 5432,
+        "referenceAreaMetresSquared": 514097.8258625353,
+        "runtimeAreaMetresSquared": 514097.82586253603,
+        "areaRelativeError": 1.4718980587119042e-15
+      },
+      "cement": {
+        "referenceTriangles": 192,
+        "runtimeTriangles": 192,
+        "referenceAreaMetresSquared": 3502.410029726625,
+        "runtimeAreaMetresSquared": 3502.4100297266245,
+        "areaRelativeError": 1.2983841041648648e-16
+      },
+      "cap": {
+        "referenceTriangles": 357,
+        "runtimeTriangles": 357,
+        "referenceAreaMetresSquared": 46746.06431294381,
+        "runtimeAreaMetresSquared": 46746.06431294381,
+        "areaRelativeError": 0.0
+      }
+    },
+    "method": "Actual runtime instance matrices and mesh triangles decoded independently; all native nearby parts, every distant body and native roof checked",
+    "subsequentPassesPreserveExistingArchitecture": true
+  },
+  "neighbourDetail": {
+    "nearBuildings": [
+      {
+        "building": "Near row 01",
+        "addedParts": 73,
+        "originalRoofAndWallMeshesRetained": true
+      },
+      {
+        "building": "Near row 02",
+        "addedParts": 56,
+        "originalRoofAndWallMeshesRetained": true
+      },
+      {
+        "building": "Near row 03",
+        "addedParts": 52,
+        "originalRoofAndWallMeshesRetained": true
+      },
+      {
+        "building": "Near row 05",
+        "addedParts": 78,
+        "originalRoofAndWallMeshesRetained": true
+      },
+      {
+        "building": "Near row 06",
+        "addedParts": 70,
+        "originalRoofAndWallMeshesRetained": true
+      },
+      {
+        "building": "Near row 07",
+        "addedParts": 70,
+        "originalRoofAndWallMeshesRetained": true
+      }
+    ],
+    "finishParts": {
+      "eaves gutters": 20,
+      "gutter rolled lips": 40,
+      "gutter joints": 94,
+      "downpipe": 24,
+      "pipe elbows": 48,
+      "pipe brackets": 120,
+      "segmented ridge caps": 53
+    },
+    "totalFinishParts": 399,
+    "removedUnusedPrototypeObjects": 9279
+  },
+  "releaseChecks": {
+    "structuralTestsPassed": 427,
+    "localReviewCasesPassed": 46,
+    "browserResourceErrors": [],
+    "formalMaintenancePassed": true,
+    "roomSaveReloadWardrobeAndCrossTabPassed": true,
+    "garageDesktopAndMobileLayoutPassed": true,
+    "obsoleteVisualAlternativesRemoved": true,
+    "currentAndCharacterReviewPagesRetained": true
+  }
+}
