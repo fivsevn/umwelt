@@ -16,6 +16,14 @@ const required=[
  'tick/game.js',
  'tick/sprite.mjs',
  'tick/style.css',
+ 'ophidia/index.html',
+ 'ophidia/game.js',
+ 'ophidia/style.css',
+ 'ophidia/assets/cabin.webp',
+ 'ophidia/assets/snake-normal.webp',
+ 'ophidia/assets/snake-curious.webp',
+ 'ophidia/assets/snake-away.webp',
+ 'ophidia/assets/snake-tongue.webp',
  'rooftop/index.html',
  'rooftop/app.mjs',
  'rooftop/scene.mjs',
@@ -45,8 +53,9 @@ for(const path of required){
 }
 const read=path=>readFile(new URL(path,root),'utf8');
 for(const [path,dependencies] of [
- ['index.html',['./desktop.mjs','./forest.js','./isopoda/','./tick/','./rooftop/']],
+ ['index.html',['./desktop.mjs','./forest.js','./isopoda/','./tick/','./rooftop/','./ophidia/']],
  ['tick/index.html',['./game.js','./style.css']],
+ ['ophidia/index.html',['./game.js','./style.css','./assets/cabin.webp']],
  ['rooftop/index.html',['./app.mjs','./rooftop.css']],
  ['rooftop/arrange/index.html',['../app.mjs','../rooftop.css']],
  ['rooftop/room/index.html',['./room.mjs','./room.css']]

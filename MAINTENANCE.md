@@ -11,7 +11,7 @@ UMWELT 由一个主页和各自独立的小游戏目录组成。主页汇集游�
 | `isopoda/` | [等足目与两个实验室](isopoda/README.md)：内容、科学资料与测试 |
 | `rooftop/` | [花农时代](rooftop/README.md)：南北阳台、车库、房间及其原稿 |
 | `ophidia/` | [体温调节](ophidia/README.md)：对白、角色与船舱原稿 |
-| `assets/`、`vendor/` | 共享音频、字体、依赖及来源与许可 |
+| `assets/` | 共享音频、字体及来源与许可；花农时代的 Three.js 依赖随游戏保存在 `rooftop/3d/vendor/` |
 | `docs/` | [共用文档](docs/README.md)：音频、发布及项目维护记录 |
 | `tests/`、`tools/`、`.github/` | [共用测试与全仓库检查](tests/README.md)、持续检查与发布 |
 | `mac/` | [桌面包装](mac/README.md)与原生检查 |

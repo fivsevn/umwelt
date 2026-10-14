@@ -27,9 +27,9 @@ Positions and temporary gestures remain session-local, consistent with existing 
 
 ## Validation
 
-Run `node --test tests/*.test.mjs` (45 tests).
+The original release passed 45 Node tests. Current checks run from the repository root with `node --test isopoda/tests/*.test.mjs`.
 Serve the repository on port 8874, install Playwright in the test environment,
-then run `node tests/pointer-browser.cjs`. Chrome is required. Set
+then run `node isopoda/tests/browser/pointer-browser.cjs`. Chrome is required. Set
 `ISOPODA_URL` to use another local server address.
 
 The browser test injects read-only access to actors/camera into its intercepted

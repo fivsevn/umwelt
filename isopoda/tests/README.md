@@ -54,8 +54,14 @@ Petri refinement also checks equal archive/microscope button sizes, filled backg
 
 `browser/estuary-shore-interaction.cjs` verifies the live 1×/16×/64× clock, return to 1×, unchanged narrative tide, picking up and placing visible isopods at all three banks, no snap-back after release, and interrupted gestures. It runs mouse input in Chromium/WebKit and native touch in Chromium, with reduced motion enabled.
 
-## Legacy rendering harness limitation
+## 场景渲染对照
 
-`rendering.browser.mjs` still includes a historical all-habitats loop which assumes every stage exposes a choice button immediately. Interactive observation gates no longer satisfy that assumption; a `Missing choice` result from that loop is not evidence of a production regression. Use the habitat-specific harnesses under `browser/` for those interactions, and the root `tests/browser/public-regression.cjs` for baseline pixel/text/save comparisons. Its preceding scenery pixel comparison remains useful.
+`rendering.browser.mjs` 比较直接绘制与缓存合成的场景像素，连续切换湿度和遮蔽物抬升量，共 12 组，检查缓存失效与透明图层的舍入误差。它已接入 `morphology-layout.yml` 的 Chromium / WebKit 矩阵；本地不指定 `BROWSER` 时依次运行两种浏览器。
+
+```sh
+PLAYWRIGHT_MODULE=/path/to/playwright/index.mjs BASE_URL=http://127.0.0.1:8765 node isopoda/tests/rendering.browser.mjs
+```
+
+已移除不适配现有观察入口的历史通用点击循环。各环境完整流程与存档继续由 `browser/` 中的专项检查负责；整理前后的画面、文本与存档对照使用根 `tests/browser/public-regression.cjs`。
 
 The root `tests/site-artifact.test.mjs` protects the tracked-file publication boundary and module preloads. `sprite-color-cache.test.mjs` compares the optimized sprite renderer against uncached color arithmetic across every species, pose and frame.

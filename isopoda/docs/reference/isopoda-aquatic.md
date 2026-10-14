@@ -35,8 +35,8 @@ Water variables are dimensionless game proxies (including salinity), not measure
 
 ## Validation
 
-Run `node --test tests/*.test.mjs`, `node isopoda/tools/check-i18n.mjs` and `node isopoda/tools/check-morphology-page.mjs`.
+Run `node --test isopoda/tests/*.test.mjs`, `node isopoda/tools/check-i18n.mjs` and `node isopoda/tools/check-morphology-page.mjs`.
 
-Browser regression: install Playwright and run `node tests/browser-habitats.cjs` against a local server on port 8765. Optional environment variables: `GAME_URL`, `CHROME_PATH`, `NODE_PATH`. Exercises desktop/mobile, all four languages, all aquatic nine-turn runs, saved-environment continuation, reload and v4 preservation.
+The original browser regression is retained at `isopoda/tests/browser/browser-habitats.cjs`. Its all-aquatic loop assumes the entry gates and habitat order used by this historical release. Current full-flow and language checks are listed in [the test guide](../../tests/README.md); this historical result does not establish that the old harness passes the current game.
 
 Verified before release: 69 Node tests pass; i18n and morphology checks pass. Chromium browser regression completed 24 aquatic runs (3 habitats × 4 languages × 2 viewport sizes), continue/reload, v4 record preservation, live language changes, source links and denied-storage fallback. Inspected mobile preview/play/ending screenshots.
