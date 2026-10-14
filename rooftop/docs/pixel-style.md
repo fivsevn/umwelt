@@ -1,6 +1,6 @@
 # 花农时代像素制作管线
 
-游戏采用完整 Blender 模型、Pixelorama 原生贴图和统一的最终低采样。入口与资源归属见[文档入口](rooftop-README.md)，实际页面检查见[综合场景测试](rooftop-scene-review.md)。
+游戏采用完整 Blender 模型、Pixelorama 原生贴图和统一的最终低采样。入口与资源归属见[文档入口](../README.md)，实际页面检查见[综合场景测试](scene-review.md)。
 
 ## 制作原则
 
@@ -22,7 +22,7 @@
 
 ## 建筑材料
 
-`3d/architectural-shell.mjs` 加载 Blender 导出的网格和清单，优先使用 `assets/background/empty-rooftop.bin.gz`，必要时回退到 `.bin`；导出与无损压缩步骤见[建筑原稿说明](art/rooftop-lowpoly-02/README.md)。当前[建筑源文件](art/rooftop-lowpoly-02/README.md)包含 `game-environment.blend`、真实 Pixelorama `terrace-book.pxo` 及远景 `distance-facades.pxo`。主图 `terrace-book.png` 为 1024×1024，标定 16 像素／米，单格边长为 0.0625 米；最近邻取样，不生成 mipmap。
+`3d/architectural-shell.mjs` 加载 Blender 导出的网格和清单，优先使用 `assets/background/empty-rooftop.bin.gz`，必要时回退到 `.bin`；导出与无损压缩步骤见[建筑原稿说明](../../docs/art/rooftop-lowpoly-02/README.md)。当前[建筑源文件](../../docs/art/rooftop-lowpoly-02/README.md)包含 `game-environment.blend`、真实 Pixelorama `terrace-book.pxo` 及远景 `distance-facades.pxo`。主图 `terrace-book.png` 为 1024×1024，标定 16 像素／米，单格边长为 0.0625 米；最近邻取样，不生成 mipmap。
 
 地面、墙面、屋顶和远景按同一物理格检查，正面、侧面、背面、底面均核对 Blender 材料绑定。远景由 `baked-pixel-grid.mjs` 在原烘焙 UV 上取正交面格，窗灯数据图共享坐标。当前建筑采用平面着色、四档间接面光和 BasicShadowMap；太阳、发光窗与雾保留环境变化。
 
@@ -32,11 +32,11 @@
 
 新家具沿用完整 Blender＋Pixelorama 工作流，物理材料格与建筑对照；当前独立家具模型为正方 16 像素／米。先检查源模型及贴图，再放进游戏三视角核对轮廓、承放、遮挡和最终颗粒。本地统一测试页的单独物件组检查完整物件，空场景组保持无陈列与角色。
 
-新物品和房间背景分别使用 `docs/art/rooftop-furniture-02/`、`docs/art/rooftop-room-02/` 的独立 Blender 原稿及原生 Pixelorama 图集；完整面 UV 为 16 像素／米，通过 `ITEM_METRES_TO_UNITS = 5.6 / 3` 接入正式场景。人物共用材料继续使用[共用材质原稿](art/rooftop-game/README.md)和 `assets/pixel/material-book.png`，由 `native-style.mjs`、`native-materials.mjs`、`native-book.mjs` 接入。世界单位与建筑米制坐标不同，不能将数值直接全局替换。
+新物品和房间背景分别使用 `docs/art/rooftop-furniture-02/`、`docs/art/rooftop-room-02/` 的独立 Blender 原稿及原生 Pixelorama 图集；完整面 UV 为 16 像素／米，通过 `ITEM_METRES_TO_UNITS = 5.6 / 3` 接入正式场景。人物共用材料继续使用[共用材质原稿](../../docs/art/rooftop-game/README.md)和 `assets/pixel/material-book.png`，由 `native-style.mjs`、`native-materials.mjs`、`native-book.mjs` 接入。世界单位与建筑米制坐标不同，不能将数值直接全局替换。
 
 每个面在自身切平面上取正交方格，一格对应贴图的一个像素；模型长度、实例缩放和面倾角参与实际换算，不把整面拉伸到固定宽度。新原稿保存独立 face UV。现有布局继续沿用摆放、旋转、缩放、seed 和 ID 约定。
 
-原生材质书 `material-book.pxo` 导出为 512×512 PNG，包含 215 个独立的 32×32 材料区域。Pixelorama 使用一像素 Pencil 和整数坐标，导出 PNG 与原生 cel RGBA 核对。木纹、氧化、湿生、布面磨损及器物内外壁按各自材质绘制，室内材料不统一套用室外污染。[器物与材质资料](rooftop-art-sources.md)提供来源依据。
+原生材质书 `material-book.pxo` 导出为 512×512 PNG，包含 215 个独立的 32×32 材料区域。Pixelorama 使用一像素 Pencil 和整数坐标，导出 PNG 与原生 cel RGBA 核对。木纹、氧化、湿生、布面磨损及器物内外壁按各自材质绘制，室内材料不统一套用室外污染。[器物与材质资料](art-sources.md)提供来源依据。
 
 正式目录读取当前 GLB，完整内外壁、盆土、植物叶片和武器结构由当前 Blender 源模型检查。`rack-grid.mjs` 继续用于真实承放格栅判断，修改孔隙或厚度时同步核对承放。
 
@@ -46,6 +46,6 @@
 
 柳絮、落叶、雪和雨使用真实世界坐标，保留稳定身份、远近层次、遮挡和连续轨迹。覆盖范围是小鸟、无人机、邻居三个游戏视角，包括移动、转头和变倍后的可见区域；邻居按有效圆形镜片分配预算。夏季蚊虫保持露台低位，雾按世界距离变化。天台、楼排、远处用于额外材料审核，不要求铺满特效。
 
-8 种天气以 `overcast` 作为阴天规范值，`cloudy` 仅为兼容输入。光照、太阳方向、季节和天气资料见[环境制作说明](art/rooftop-atmosphere-01/README.md)。实际页面与发布包核验见[维护与扩容](rooftop-maintenance.md)。
+8 种天气以 `overcast` 作为阴天规范值，`cloudy` 仅为兼容输入。光照、太阳方向、季节和天气资料见[环境制作说明](../../docs/art/rooftop-atmosphere-01/README.md)。实际页面与发布包核验见[维护与扩容](maintenance.md)。
 
-人物第二版使用[方块原稿](art/rooftop-actors-02/README.md)，全部服装与装饰保留。人物表面纹理统一为 16 像素／米，游戏与统一测试共用动作骨架和最终采样；原模型模式用于查看。
+人物第二版使用[方块原稿](../../docs/art/rooftop-actors-02/README.md)，全部服装与装饰保留。人物表面纹理统一为 16 像素／米，游戏与统一测试共用动作骨架和最终采样；原模型模式用于查看。

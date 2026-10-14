@@ -2,7 +2,7 @@
 
 The repository keeps automated tests and browser/manual regression harnesses together under `tests/`, but they have different roles.
 
-[Project documentation](../docs/README.md) · [Deployment and documentation-only verification](../docs/deployment.md)
+[Project documentation](../MAINTENANCE.md) · [Deployment and documentation-only verification](../docs/deployment.md)
 
 ## Choose checks by scope
 
@@ -13,8 +13,8 @@ Run commands from the repository root. CI uses Node.js 22. Browser scripts also 
 | All runtime/data contracts | `node isopoda/tools/check-all.mjs` | Node tests and six validators; no browser, native-authoring or complete Markdown-link checks |
 | Documentation only | [Documentation verification](../docs/deployment.md#文档整理的零前端变化验证) | Relative links/anchors, document scope and byte-identical prepared publication files |
 | ISOPODA | Habitat-specific scripts below; `morphology-layout.yml` | Browser scenes, languages and laboratories |
-| Rooftop gameplay/editing | [Rooftop maintenance](../docs/rooftop-maintenance.md); `rooftop-regression.yml` | Observation, layout, room and related interactions |
-| Rooftop visual workbench | [Fixed review page and command](../docs/rooftop-scene-review.md) | Local `rooftop-review-check.cjs`; uses `ROOFTOP_REVIEW_ORIGIN`, not `BASE_URL`; Chrome, outside the CI matrix |
+| Rooftop gameplay/editing | [Rooftop maintenance](../rooftop/docs/maintenance.md); `rooftop-regression.yml` | Observation, layout, room and related interactions |
+| Rooftop visual workbench | [Fixed review page and command](../rooftop/docs/scene-review.md) | Local `rooftop-review-check.cjs`; uses `ROOFTOP_REVIEW_ORIGIN`, not `BASE_URL`; Chrome, outside the CI matrix |
 | THERMOREGULATION | [Game, model and pixel checks](../ophidia/README.md#检查) | Local scripts under `docs/art/ophidia-01/`; Chrome and WebKit, outside the CI matrix |
 | Homepage, TICK, shared audio | `system-regression.yml` | Chromium and WebKit |
 | Prepared Pages output | `browser/published-artifact.cjs` | Final artifact only; entry checks do not replace each game's full interaction tests |
@@ -124,9 +124,9 @@ Petri refinement also checks equal archive/microscope button sizes, filled backg
 
 ## 花农时代
 
-天台无视觉变化维护使用 `browser/rooftop-maintenance.cjs`；模块职责与对比运行方式见 [天台维护指南](../docs/rooftop-maintenance.md)。
+天台无视觉变化维护使用 `browser/rooftop-maintenance.cjs`；模块职责与对比运行方式见 [天台维护指南](../rooftop/docs/maintenance.md)。
 
-花农时代日常视觉调整使用固定入口：[browser/rooftop.html](browser/rooftop.html)。固定同一视口切换空场景、单个目录物件、固定初始组合三组，集中检查材质、光照、天气、季节、时间及原生／游戏采样，不使用个人陈列存档。运行方法及专项人物页见[统一测试说明](../docs/rooftop-scene-review.md)。
+花农时代日常视觉调整使用固定入口：[browser/rooftop.html](browser/rooftop.html)。固定同一视口切换空场景、单个目录物件、固定初始组合三组，集中检查材质、光照、天气、季节、时间及原生／游戏采样，不使用个人陈列存档。运行方法及专项人物页见[统一测试说明](../rooftop/docs/scene-review.md)。
 
 天台扩容：`node --test tests/rooftop*.test.mjs`；`browser/rooftop-expansion.cjs` 在 Chromium / WebKit 验证分类、手帐、承托、存档、昼夜灯光、透明像素、旋转与手机布局。`BASE_URL` 可指向已部署页面。
 

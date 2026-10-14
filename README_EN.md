@@ -2,8 +2,6 @@
 
 [中文](README.md) | **English** | [日本語](README_JA.md)
 
-[Development documentation](docs/README.md) · [Editable art sources](docs/art/README.md)
-
 **UMWELT** is a personal experimental project initiated and maintained by **fivsevn**.
 
 The project takes its name from the concept of **Umwelt**, developed by German biologist **Jakob von Uexküll** in his studies of animal perception and behavior. Different organisms do not merely occupy the same abstract “environment”; through their own modes of perception and action, they inhabit meaningful surrounding worlds of their own. This project adopts the concept as a name and intellectual point of departure, while its specific content, visual design, interactive forms, and implementation remain original to the project.
@@ -15,15 +13,8 @@ https://umwelt.fivsevn.com
 
 ## Currently Public
 
-- **Horticultural Era / 花农时代**
-  https://umwelt.fivsevn.com/rooftop/
-
-  Plants, everyday objects and observations on a balcony. [Garage / arrangement](https://umwelt.fivsevn.com/rooftop/arrange/) · [Dongdong's room](https://umwelt.fivsevn.com/rooftop/room/) · [Development notes](docs/rooftop-README.md)
-
-- **THERMOREGULATION · OPHIDIA.EXE**
-  https://umwelt.fivsevn.com/ophidia/
-
-  A short conversation beside a ferry window. The current editable scene and [modeling notes](docs/art/ophidia-01/README.md) are kept in the repository.
+- **TICK.SYS**
+  https://umwelt.fivsevn.com/tick/
 
 - **Isopoda Fugue**  
   https://umwelt.fivsevn.com/isopoda/
@@ -34,10 +25,11 @@ https://umwelt.fivsevn.com
   - **Asimov Habitat Lab**  
     https://umwelt.fivsevn.com/isopoda/habitat.html
 
-- **TICK.SYS**
-  https://umwelt.fivsevn.com/tick/
+- **Horticultural Era / 花农时代**
+  https://umwelt.fivsevn.com/rooftop/
 
-  An experimental interaction around a tick's perception and movement. [Interaction and maintenance notes](tick/README.md)
+- **THERMOREGULATION · OPHIDIA.EXE**
+  https://umwelt.fivsevn.com/ophidia/
 
 
 ## Isopoda Fugue

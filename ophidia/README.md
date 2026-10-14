@@ -2,7 +2,7 @@
 
 UMWELT 的竖屏对话游戏。桌面程序名为 **OPHIDIA.EXE**。
 
-[项目文档导航](../docs/README.md) · [建模与出图](../docs/art/ophidia-01/README.md)
+[项目文档导航](../MAINTENANCE.md) · [建模与出图](../docs/art/ophidia-01/README.md)
 
 ## 本地试玩
 

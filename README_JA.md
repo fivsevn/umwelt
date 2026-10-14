@@ -2,8 +2,6 @@
 
 [中文](README.md) | [English](README_EN.md) | **日本語**
 
-[開発ドキュメント](docs/README.md) · [編集可能な制作資料](docs/art/README.md)
-
 **UMWELT** は、**fivsevn** が立ち上げ、維持している個人実験プロジェクトです。
 
 プロジェクト名は、ドイツの生物学者 **Jakob von Uexküll（ヤーコプ・フォン・ユクスキュル）** が動物の知覚と行動の研究において展開した **Umwelt（環世界）** の概念に由来します。異なる生物は、単に同一の抽象的な「環境」の中に存在するのではなく、それぞれ固有の知覚と行為のあり方を通して、自らにとって意味をもつ周囲世界を生きています。本プロジェクトはこの概念を名称および思想上の出発点として借用していますが、具体的な内容、視覚設計、インタラクション、実装は本プロジェクト独自のものです。
@@ -15,15 +13,8 @@ https://umwelt.fivsevn.com
 
 ## 現在公開中の内容
 
-- **花農時代 / Horticultural Era**
-  https://umwelt.fivsevn.com/rooftop/
-
-  ベランダの植物や道具と、日常の観察。[ガレージ／配置](https://umwelt.fivsevn.com/rooftop/arrange/) · [東東の部屋](https://umwelt.fivsevn.com/rooftop/room/) · [開発資料](docs/rooftop-README.md)
-
-- **THERMOREGULATION / 体温調節 · OPHIDIA.EXE**
-  https://umwelt.fivsevn.com/ophidia/
-
-  渡船の窓辺で交わす短い会話。現在の編集可能なシーンと[モデリング資料](docs/art/ophidia-01/README.md)をリポジトリに保存しています。
+- **TICK.SYS / マダニ**
+  https://umwelt.fivsevn.com/tick/
 
 - **Isopoda Fugue / イソポーダ・フーガ**  
   https://umwelt.fivsevn.com/isopoda/
@@ -34,10 +25,11 @@ https://umwelt.fivsevn.com
   - **Asimov Habitat Lab / アシモフ環境ラボ**  
     https://umwelt.fivsevn.com/isopoda/habitat.html
 
-- **TICK.SYS / マダニ**
-  https://umwelt.fivsevn.com/tick/
+- **花農時代 / Horticultural Era**
+  https://umwelt.fivsevn.com/rooftop/
 
-  マダニの知覚と行動を題材にした実験的なインタラクション。[操作と保守の資料](tick/README.md)
+- **THERMOREGULATION / 体温調節 · OPHIDIA.EXE**
+  https://umwelt.fivsevn.com/ophidia/
 
 
 ## Isopoda Fugue / イソポーダ・フーガ

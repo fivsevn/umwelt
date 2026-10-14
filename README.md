@@ -14,8 +14,6 @@
 
 # UMWELT
 
-[开发与维护文档](docs/README.md) · [原稿与制作资料](docs/art/README.md)
-
 **UMWELT** 是由 **fivsevn** 发起并维护的个人实验项目。
 
 项目名称借用了德国生物学家 **Jakob von Uexküll（雅各布·冯·于克斯屈尔）** 在动物知觉与行为研究中发展的 **Umwelt** 概念。不同生物并非只是处于同一个抽象的“环境”之中，而是依据自身的感知与行动方式，生活在各自具有意义的周遭世界中。本项目借用这一概念作为名称与思想来源，具体内容、视觉设计、交互方式与实现均属于项目自身。
@@ -27,15 +25,8 @@ https://umwelt.fivsevn.com
 
 ## 当前公开内容
 
-- **花农时代 / Horticultural Era**
-  https://umwelt.fivsevn.com/rooftop/
-
-  阳台上的植物、器物与日常观察。[车库／布置](https://umwelt.fivsevn.com/rooftop/arrange/) · [东东的房间](https://umwelt.fivsevn.com/rooftop/room/) · [开发文档](docs/rooftop-README.md)
-
-- **THERMOREGULATION / 体温调节 · OPHIDIA.EXE**
-  https://umwelt.fivsevn.com/ophidia/
-
-  渡轮窗边的简短对话。当前可编辑工程与[建模说明](docs/art/ophidia-01/README.md)随仓库保存。
+- **TICK.SYS / 蜱虫**
+  https://umwelt.fivsevn.com/tick/
 
 - **Isopoda Fugue / 等足目赋格**  
   https://umwelt.fivsevn.com/isopoda/
@@ -46,10 +37,11 @@ https://umwelt.fivsevn.com
   - **Asimov Habitat Lab / 阿西莫夫环境实验室**  
     https://umwelt.fivsevn.com/isopoda/habitat.html
 
-- **TICK.SYS / 蜱虫**
-  https://umwelt.fivsevn.com/tick/
+- **花农时代 / Horticultural Era**
+  https://umwelt.fivsevn.com/rooftop/
 
-  围绕蜱虫感知与行动展开的试验性互动。[交互与维护说明](tick/README.md)
+- **THERMOREGULATION / 体温调节 · OPHIDIA.EXE**
+  https://umwelt.fivsevn.com/ophidia/
 
 
 ## Isopoda Fugue / 等足目赋格

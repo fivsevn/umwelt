@@ -1,6 +1,6 @@
 # 花农时代统一测试
 
-日常视觉调整的固定入口为 [`/tests/browser/rooftop.html`](../tests/browser/rooftop.html)。从仓库根目录提供静态文件后，打开[本地页面](http://localhost:8765/tests/browser/rooftop.html)。后续材料、光照和采样研究继续使用这个页面；人物服装与动作的专项检查页见[人物原稿](art/rooftop-actors-02/README.md)。
+日常视觉调整的固定入口为 [`/tests/browser/rooftop.html`](../../tests/browser/rooftop.html)。从仓库根目录提供静态文件后，打开[本地页面](http://localhost:8765/tests/browser/rooftop.html)。后续材料、光照和采样研究继续使用这个页面；人物服装与动作的专项检查页见[人物原稿](../../docs/art/rooftop-actors-02/README.md)。
 
 ## 三组内容
 
@@ -14,13 +14,13 @@
 
 物件组默认展开全部图册，按当前效果与环境实际绘制可见卡片，复用同一物件 renderer。点击卡片在同页转看完整模型，返回图册保留滚动位置、分类与搜索。后续建模、贴图和画面美术继续刷新这个固定页面查看。
 
-原生模式为每个设备像素采样一次，模型和最近邻原稿贴图保持。游戏模式沿用共享最终整数像素格，建筑、光照、物件、人物和特效共用这次采样，规格见[美术管线](rooftop-pixel-style.md)。物件源文件仍为实际 Blender 模型和 Pixelorama 原稿。
+原生模式为每个设备像素采样一次，模型和最近邻原稿贴图保持。游戏模式沿用共享最终整数像素格，建筑、光照、物件、人物和特效共用这次采样，规格见[美术管线](pixel-style.md)。物件源文件仍为实际 Blender 模型和 Pixelorama 原稿。
 
 测试使用独立数据，不读取或改写个人陈列或换装存档。正式游戏、车库和房间继续使用原存储与承放规则；正式车库负责摆放、保存和导出。
 
 ## 检查
 
-核对三组切换、完整模型加载、取景、环境与采样往返、手机布局，以及个人存档保护。运行模块与 source 归属见[文档入口](rooftop-README.md)，空间天气契约见[空气说明](art/rooftop-air-coverage-01/README.md)。
+核对三组切换、完整模型加载、取景、环境与采样往返、手机布局，以及个人存档保护。运行模块与 source 归属见[文档入口](../README.md)，空间天气契约见[空气说明](../../docs/art/rooftop-air-coverage-01/README.md)。
 
 已准备 Playwright 和 Chrome 时，从仓库根目录运行：
 

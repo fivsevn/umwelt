@@ -1,6 +1,6 @@
 # 花农时代维护与扩容
 
-文档与源文件见[文档入口](rooftop-README.md)，完整模型、Pixelorama 材料格和最终低采样见[制作管线](rooftop-pixel-style.md)。空气效果契约见[空间天气](art/rooftop-air-coverage-01/README.md)。
+文档与源文件见[文档入口](../README.md)，完整模型、Pixelorama 材料格和最终低采样见[制作管线](pixel-style.md)。空气效果契约见[空间天气](../../docs/art/rooftop-air-coverage-01/README.md)。
 
 ## 页面与存档
 
@@ -13,15 +13,15 @@
 
 游戏、车库和房间读取同一本机布局。初始布置保存在 `initial-layout.mjs`：北天台 83 件、南阳台 14 件、房间 21 件。无存档时使用此布置；已有新目录存档，包括空布局，正常保留、导出和跨页面同步。旧目录陈列首次进入可编辑页面时恢复当前初始布置并写入新目录标记；没有旧布局备份入口。公开观察读取完整陈列而不写回存档；布局损坏时仅在内存中回退到初始布置。车库“恢复初始”恢复当前场景的初始物件，“清空”仍可腾空当前场景。统一测试在场景组中清空物件、在物件组中单独加载目录模型、在初始组合组中读取固定初始布置；三组不使用个人布局。换装存档独立保留。
 
-南北阳台在 `HOUSE` 中属于同一住宅，连接相对屋檐。存档使用各自局部坐标，公开页按住宅坐标构建完整两侧，取景约束在当前一侧。屋檐不提供家具承放层位。承放面、层位身份、碰撞、携带与手势见[承放关系](rooftop-placement.md)。
+南北阳台在 `HOUSE` 中属于同一住宅，连接相对屋檐。存档使用各自局部坐标，公开页按住宅坐标构建完整两侧，取景约束在当前一侧。屋檐不提供家具承放层位。承放面、层位身份、碰撞、携带与手势见[承放关系](placement.md)。
 
-可视测试统一使用 [`/tests/browser/rooftop.html`](../tests/browser/rooftop.html)。三组内容、环境与取景操作见[测试说明](rooftop-scene-review.md)。
+可视测试统一使用 [`/tests/browser/rooftop.html`](../../tests/browser/rooftop.html)。三组内容、环境与取景操作见[测试说明](scene-review.md)。
 
 ## 原稿与呈现
 
-[建筑源文件](art/rooftop-lowpoly-02/README.md)包含完整 `game-environment.blend`、主图 `terrace-book.pxo` 和远景 `distance-facades.pxo`。`3d/architectural-shell.mjs` 读取 `assets/background/empty-rooftop.mjs`、压缩清单及 PNG；优先加载 `.bin.gz`，不支持解压或加载失败时回退到原始 `.bin`。两份网格与清单随导出同步。主图为 1024×1024，近景用 `texelMetresPerUnit` 还原长度，再按 `texelsPerMetre:16` 取样；远景由 `baked-pixel-grid.mjs` 在原烘焙 UV 上取同一物理格，窗灯图共用坐标。正面、侧面、背面和底面均核对绑定。
+[建筑源文件](../../docs/art/rooftop-lowpoly-02/README.md)包含完整 `game-environment.blend`、主图 `terrace-book.pxo` 和远景 `distance-facades.pxo`。`3d/architectural-shell.mjs` 读取 `assets/background/empty-rooftop.mjs`、压缩清单及 PNG；优先加载 `.bin.gz`，不支持解压或加载失败时回退到原始 `.bin`。两份网格与清单随导出同步。主图为 1024×1024，近景用 `texelMetresPerUnit` 还原长度，再按 `texelsPerMetre:16` 取样；远景由 `baked-pixel-grid.mjs` 在原烘焙 UV 上取同一物理格，窗灯图共用坐标。正面、侧面、背面和底面均核对绑定。
 
-全部 294 件物品使用[新物品源文件](art/rooftop-furniture-02/README.md)的七组 Blender／Pixelorama 原稿和 `assets/items/`。`item-catalog.mjs` 统一导出 `ITEM_METRES_TO_UNITS=5.6/3`，几何只缩放一次；原生图集保持 16 纹理像素／米、Nearest 和无 mipmap。房间固定背景使用[房间原稿](art/rooftop-room-02/README.md)和 `assets/room/`，透明窗与可动门叶保留。人物及室外门仍使用`assets/pixel/material-book.png` 共用材质；不能为更换物品误删仍有调用的材质机制。
+全部 294 件物品使用[新物品源文件](../../docs/art/rooftop-furniture-02/README.md)的七组 Blender／Pixelorama 原稿和 `assets/items/`。`item-catalog.mjs` 统一导出 `ITEM_METRES_TO_UNITS=5.6/3`，几何只缩放一次；原生图集保持 16 纹理像素／米、Nearest 和无 mipmap。房间固定背景使用[房间原稿](../../docs/art/rooftop-room-02/README.md)和 `assets/room/`，透明窗与可动门叶保留。人物及室外门仍使用`assets/pixel/material-book.png` 共用材质；不能为更换物品误删仍有调用的材质机制。
 
 新家具继续完整 Blender＋Pixelorama 工作流，完成器形、厚度、背面、底面、开孔和承放结构。物理材料格与建筑对照，粗颗粒感由最终低采样控制；不能以删减结构或放大笔触代替。保存并重开原稿后，分别核对导出、游戏内接入和发布包，保护已有手改与存档接口。
 
@@ -41,7 +41,7 @@
 | `3d/room-background-loader.mjs`、`room-door.mjs` | 原生房间背景、透明窗、原位置活动门叶 |
 | `initial-layout.mjs`、`room-scene.mjs` | 初始陈列及房间二维回退 |
 | `room/room.mjs`、`wardrobe.mjs`、`card-feed.mjs` | 房间活动、换装和提示卡 |
-| `notebook.mjs`、`notebook-comments.mjs`、`native-item-notes.mjs` | 汇合植物与目录记录的来源、手帐描述与逐件人物随想；上游记录见[手帐数据职责](rooftop-notebook.md#数据职责) |
+| `notebook.mjs`、`notebook-comments.mjs`、`native-item-notes.mjs` | 汇合植物与目录记录的来源、手帐描述与逐件人物随想；上游记录见[手帐数据职责](notebook.md#数据职责) |
 | `house-structure.mjs`、`3d/architectural-shell.mjs` | 住宅坐标变换和 Blender 建筑加载 |
 | `3d/story-camera.mjs`、`3d/terrace-view.mjs` | 游戏三视角及额外测试近景约束 |
 | `weather.mjs`、`weather-condition.mjs` | 天气选择、过渡、湿润历史和兼容输入 |
@@ -72,7 +72,7 @@
 
 手帐正文为客观描述、一句人物随想及折叠来源；科学名只在植物名旁出现。随想采用简短、客观而留白的语气，不写人称代词、反问或固定归属。换盆、换株形控制在资料之后。公开页面悬停 350 毫秒查看、点击固定，拖动和双指手势不打开手帐；关闭键与 Escape 合上，面板独立滚动，窄屏限制屏高 44%。工具栏下方保留 8px 间距，关闭按钮可点击。
 
-继续制作所需资料见[器物与材质](rooftop-art-sources.md)、[植物与容器](rooftop-notebook.md)及[四季光照与天气](art/rooftop-atmosphere-01/README.md)。
+继续制作所需资料见[器物与材质](art-sources.md)、[植物与容器](notebook.md)及[四季光照与天气](../../docs/art/rooftop-atmosphere-01/README.md)。
 
 ## 性能与缓存
 
@@ -92,4 +92,4 @@
 
 纯整理或格式化保留调用顺序、异常边界、数据和序列化。`rooftop-maintenance.cjs` 的 `COMPARE_URL` 在四种宽度、车库三场景及公开南北和房间比较 36 组画面；固定时间、随机值和动画帧只作用于测试环境。正常动画与交互另行回归。
 
-`rooftop-regression.yml` 在 Chromium／WebKit 检查游戏页面。Pages 工作流验证最终发布包及入口；源文件存在不代表已经接入网页，发布状态以 Actions 和实际网址核验为准。共用方法见[验证和发布](deployment.md)。
+`rooftop-regression.yml` 在 Chromium／WebKit 检查游戏页面。Pages 工作流验证最终发布包及入口；源文件存在不代表已经接入网页，发布状态以 Actions 和实际网址核验为准。共用方法见[验证和发布](../../docs/deployment.md)。
