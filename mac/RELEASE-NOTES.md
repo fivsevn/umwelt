@@ -1,5 +1,9 @@
 # 0.1.3 local preview — not published
 
+This is the original 0.1.3 rehearsal record. Its version, proposed steps and
+publication status describe that rehearsal only. For current build and release
+entry points, see [the desktop README](README.md#version-and-release-records).
+
 - Keep the archive open while observing: newly collected specimens update in place.
 - Detached archive windows cannot overwrite observation saves; background save updates preserve reading position.
 - Notebook windows fit their content and follow new entries when reading the latest page.

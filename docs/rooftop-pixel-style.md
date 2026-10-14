@@ -22,7 +22,7 @@
 
 ## 建筑材料
 
-`3d/architectural-shell.mjs` 加载 Blender 导出的 `assets/background/empty-rooftop.bin` 和清单。当前[建筑源文件](art/rooftop-lowpoly-02/README.md)包含 `game-environment.blend`、真实 Pixelorama `terrace-book.pxo` 及远景 `distance-facades.pxo`。主图 `terrace-book.png` 为 1024×1024，标定 16 像素／米，单格边长为 0.0625 米；最近邻取样，不生成 mipmap。
+`3d/architectural-shell.mjs` 加载 Blender 导出的网格和清单，优先使用 `assets/background/empty-rooftop.bin.gz`，必要时回退到 `.bin`；导出与无损压缩步骤见[建筑原稿说明](art/rooftop-lowpoly-02/README.md)。当前[建筑源文件](art/rooftop-lowpoly-02/README.md)包含 `game-environment.blend`、真实 Pixelorama `terrace-book.pxo` 及远景 `distance-facades.pxo`。主图 `terrace-book.png` 为 1024×1024，标定 16 像素／米，单格边长为 0.0625 米；最近邻取样，不生成 mipmap。
 
 地面、墙面、屋顶和远景按同一物理格检查，正面、侧面、背面、底面均核对 Blender 材料绑定。远景由 `baked-pixel-grid.mjs` 在原烘焙 UV 上取正交面格，窗灯数据图共享坐标。当前建筑采用平面着色、四档间接面光和 BasicShadowMap；太阳、发光窗与雾保留环境变化。
 

@@ -9,10 +9,13 @@
 | `rooftop/botany.mjs` | 植物与盆器的稳定 ID、科学名、别名、适盆规则和来源 |
 | `notebook.mjs` | 资料描述、手帐呈现及换盆／株形控制 |
 | `notebook-comments.mjs` | 已有研究物件的逐件随想 |
-| `native-item-notes.mjs` | 当前家具和扩充陶瓷的描述、随想与来源 |
-| `object-references.mjs`、`firearms.mjs` | 其余器物、收藏、枪械与兵器的资料归属 |
+| `native-item-notes.mjs` | 当前家具和扩充陶瓷的描述与随想 |
+| `item-data.mjs`、`item-catalog.mjs` | 当前物件目录及逐件 `sources`；供手帐与实际模型共同读取 |
+| `firearms.mjs`、`weapons.mjs` | 枪械、兵器的既有资料与构造定义 |
 
 名称、科学名、来源与视觉模型分别维护。当前视觉读取 `assets/items/` 的独立 Blender 模型和七张 Pixelorama 图集，制作源文件见[物品原稿](art/rooftop-furniture-02/README.md)。
+
+`item-data.mjs` 是生成文件：目录同步工具从 `docs/art/rooftop-furniture-02/preview/assets/catalog.json` 读取记录，补入实际模型与缩略图信息后导出。修改器物来源时同步上游目录记录，避免下一次导出覆盖；`notebook.mjs` 汇合植物、当前物件及所用花盆的来源，按 URL 去重。
 
 ## 来源边界
 

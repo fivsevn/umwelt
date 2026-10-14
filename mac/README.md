@@ -1,6 +1,10 @@
 # UMWELT for macOS
 
-Offline desktop edition: homepage, TICK and ISOPODA. Build on macOS with
+The desktop wrapper packages the tracked public site through `prepareSite`,
+including the homepage and the current TICK, ISOPODA, rooftop and OPHIDIA files.
+Native window routing and dedicated QA currently focus on the homepage, TICK,
+ISOPODA and its reference windows; packaged files alone do not establish native
+QA coverage for the newer games. Build on macOS with
 `node mac/build.mjs /path/to/output`. The builder verifies the pinned Electron
 archive checksum, bundles the public site, ad-hoc signs the app and creates a
 zip for the current CPU architecture. Native support files are excluded from
@@ -40,6 +44,15 @@ Visual parity: web panels and native title controls import `window-controls.css`
 Keep bevel colors, shadow and pressed offset shared. Native-only CSS is for window
 layout/drag regions and platform behavior, not an alternate visual theme.
 Verify with `mac/qa-chrome.cjs` against the local web server on port 8767.
+
+## Version and release records
+
+`mac/package.json` is the local build version (currently 0.1.5).
+[RELEASE-NOTES.md](RELEASE-NOTES.md) preserves the earlier 0.1.3 rehearsal, not the
+current release status. The root [download section](../README.md#下载与版本更新)
+links to published packages; a newer website commit does not update an existing
+desktop download. Verify the actual package and native QA before a new release.
+Shared website publication rules live in [deployment](../docs/deployment.md).
 
 ## Windows preview
 

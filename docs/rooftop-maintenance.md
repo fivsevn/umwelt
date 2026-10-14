@@ -5,7 +5,7 @@
 ## 页面与存档
 
 - `rooftop/`：北天台与南阳台游戏观察，展示保存陈列，无存档时使用初始布置。
-- `rooftop/?stage=background`：唯一且永久为空的综合场景测试，不放物品、不显示角色。
+- `tests/browser/rooftop.html`：固定本地测试页，包含空场景、物件图册和初始组合；不读取个人陈列或换装存档。
 - `rooftop/arrange/`：车库，编辑北天台、南阳台和房间陈列。
 - `rooftop/room/`：房间、衣柜与活动。
 
@@ -19,7 +19,7 @@
 
 ## 原稿与呈现
 
-[建筑源文件](art/rooftop-lowpoly-02/README.md)包含完整 `game-environment.blend`、主图 `terrace-book.pxo` 和远景 `distance-facades.pxo`。`3d/architectural-shell.mjs` 加载 `assets/background/empty-rooftop.mjs`、`.bin` 及 PNG。主图为 1024×1024，近景用 `texelMetresPerUnit` 还原长度，再按 `texelsPerMetre:16` 取样；远景由 `baked-pixel-grid.mjs` 在原烘焙 UV 上取同一物理格，窗灯图共用坐标。正面、侧面、背面和底面均核对绑定。
+[建筑源文件](art/rooftop-lowpoly-02/README.md)包含完整 `game-environment.blend`、主图 `terrace-book.pxo` 和远景 `distance-facades.pxo`。`3d/architectural-shell.mjs` 读取 `assets/background/empty-rooftop.mjs`、压缩清单及 PNG；优先加载 `.bin.gz`，不支持解压或加载失败时回退到原始 `.bin`。两份网格与清单随导出同步。主图为 1024×1024，近景用 `texelMetresPerUnit` 还原长度，再按 `texelsPerMetre:16` 取样；远景由 `baked-pixel-grid.mjs` 在原烘焙 UV 上取同一物理格，窗灯图共用坐标。正面、侧面、背面和底面均核对绑定。
 
 全部 294 件物品使用[新物品源文件](art/rooftop-furniture-02/README.md)的七组 Blender／Pixelorama 原稿和 `assets/items/`。`item-catalog.mjs` 统一导出 `ITEM_METRES_TO_UNITS=5.6/3`，几何只缩放一次；原生图集保持 16 纹理像素／米、Nearest 和无 mipmap。房间固定背景使用[房间原稿](art/rooftop-room-02/README.md)和 `assets/room/`，透明窗与可动门叶保留。人物及室外门仍使用`assets/pixel/material-book.png` 共用材质；不能为更换物品误删仍有调用的材质机制。
 
@@ -41,7 +41,7 @@
 | `3d/room-background-loader.mjs`、`room-door.mjs` | 原生房间背景、透明窗、原位置活动门叶 |
 | `initial-layout.mjs`、`room-scene.mjs` | 初始陈列及房间二维回退 |
 | `room/room.mjs`、`wardrobe.mjs`、`card-feed.mjs` | 房间活动、换装和提示卡 |
-| `object-references.mjs`、`notebook.mjs`、`notebook-comments.mjs`、`native-item-notes.mjs` | 原资料归属、手帐描述与逐件人物随想 |
+| `notebook.mjs`、`notebook-comments.mjs`、`native-item-notes.mjs` | 汇合植物与目录记录的来源、手帐描述与逐件人物随想；上游记录见[手帐数据职责](rooftop-notebook.md#数据职责) |
 | `house-structure.mjs`、`3d/architectural-shell.mjs` | 住宅坐标变换和 Blender 建筑加载 |
 | `3d/story-camera.mjs`、`3d/terrace-view.mjs` | 游戏三视角及额外测试近景约束 |
 | `weather.mjs`、`weather-condition.mjs` | 天气选择、过渡、湿润历史和兼容输入 |
@@ -66,7 +66,7 @@
 
 手选和自动池共 8 种天气，阴天规范值为 `overcast`，`cloudy` 兼容旧 URL 和保存值。7 个时段及四季保持。公开观察和综合测试手选过渡为 8 秒，车库为 0.65 秒，自动时钟切换为 18 秒；中途换目标从当前快照过渡。雨线和雨点累计运动时钟，积水随可见雨量累积后逐渐干燥。
 
-雨天意图立即停止浇水。天气动作与行动卡由 `resident-weather.mjs` 协调，同一次天气保持选定片段；入场、环境变化、外出归来和抵达避雨点才更新。普通步行与短暂姿势变化不换卡，日常停留为 45–90 秒。正式游戏显示东东和小猪，东东按原有在家／外出状态出现，小猪继续行走；雨天照料与避雨仍由共用行为机制决定。综合测试仅隐藏角色模型，保留行为机制。
+雨天意图立即停止浇水。天气动作与行动卡由 `resident-weather.mjs` 协调，同一次天气保持选定片段；入场、环境变化、外出归来和抵达避雨点才更新。普通步行与短暂姿势变化不换卡，日常停留为 45–90 秒。正式游戏显示东东和小猪，东东按原有在家／外出状态出现，小猪继续行走；雨天照料与避雨仍由共用行为机制决定。统一测试的场景组隐藏角色；初始组合组显示角色，并更新其日常行为。
 
 ## 手帐
 
@@ -92,4 +92,4 @@
 
 纯整理或格式化保留调用顺序、异常边界、数据和序列化。`rooftop-maintenance.cjs` 的 `COMPARE_URL` 在四种宽度、车库三场景及公开南北和房间比较 36 组画面；固定时间、随机值和动画帧只作用于测试环境。正常动画与交互另行回归。
 
-`rooftop-regression.yml` 在 Chromium／WebKit 检查游戏页面。Pages 工作流验证最终发布包及入口；源文件存在不代表已经接入网页，发布状态以 Actions 和实际网址核验为准。共用方法见[验证和发布](../isopoda/docs/deployment.md)。
+`rooftop-regression.yml` 在 Chromium／WebKit 检查游戏页面。Pages 工作流验证最终发布包及入口；源文件存在不代表已经接入网页，发布状态以 Actions 和实际网址核验为准。共用方法见[验证和发布](deployment.md)。

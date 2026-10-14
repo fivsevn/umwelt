@@ -2,6 +2,26 @@
 
 The repository keeps automated tests and browser/manual regression harnesses together under `tests/`, but they have different roles.
 
+[Project documentation](../docs/README.md) · [Deployment and documentation-only verification](../docs/deployment.md)
+
+## Choose checks by scope
+
+Run commands from the repository root. CI uses Node.js 22. Browser scripts also need a running HTTP server, Playwright and the requested browser binaries; these are development tools, not production dependencies. CI pins Playwright and its browser image to the same version in `.github/workflows/`.
+
+| Scope | Entry | Coverage boundary |
+| --- | --- | --- |
+| All runtime/data contracts | `node isopoda/tools/check-all.mjs` | Node tests and six validators; no browser, native-authoring or complete Markdown-link checks |
+| Documentation only | [Documentation verification](../docs/deployment.md#文档整理的零前端变化验证) | Relative links/anchors, document scope and byte-identical prepared publication files |
+| ISOPODA | Habitat-specific scripts below; `morphology-layout.yml` | Browser scenes, languages and laboratories |
+| Rooftop gameplay/editing | [Rooftop maintenance](../docs/rooftop-maintenance.md); `rooftop-regression.yml` | Observation, layout, room and related interactions |
+| Rooftop visual workbench | [Fixed review page and command](../docs/rooftop-scene-review.md) | Local `rooftop-review-check.cjs`; uses `ROOFTOP_REVIEW_ORIGIN`, not `BASE_URL`; Chrome, outside the CI matrix |
+| THERMOREGULATION | [Game, model and pixel checks](../ophidia/README.md#检查) | Local scripts under `docs/art/ophidia-01/`; Chrome and WebKit, outside the CI matrix |
+| Homepage, TICK, shared audio | `system-regression.yml` | Chromium and WebKit |
+| Prepared Pages output | `browser/published-artifact.cjs` | Final artifact only; entry checks do not replace each game's full interaction tests |
+| Native desktop | [Desktop build and QA](../mac/README.md) | Native windows, offline state and packaged application |
+
+For most browser scripts `BASE_URL` selects the server, `BROWSER` selects one engine, and `QA_OUTPUT` selects an output directory outside the repository. The two local visual-review groups above have their own engine/address conventions; follow their linked instructions. Do not run stateful browser checks against a personal player profile.
+
 ## Automated CI tests
 
 Files matching:
@@ -102,13 +122,21 @@ Petri refinement also checks equal archive/microscope button sizes, filled backg
 
 `site-artifact.test.mjs` protects the tracked-file publication boundary and module preloads. `sprite-color-cache.test.mjs` compares the optimized sprite renderer against uncached color arithmetic across every species, pose and frame.
 
+## 花农时代
+
 天台无视觉变化维护使用 `browser/rooftop-maintenance.cjs`；模块职责与对比运行方式见 [天台维护指南](../docs/rooftop-maintenance.md)。
 
-花农时代可视检查只有一个入口：[browser/rooftop.html](browser/rooftop.html)。固定同一视口切换空场景、单个目录物件、固定初始组合三组，集中检查材质、光照、天气、季节、时间及原生／游戏采样，不使用个人陈列存档。
+花农时代日常视觉调整使用固定入口：[browser/rooftop.html](browser/rooftop.html)。固定同一视口切换空场景、单个目录物件、固定初始组合三组，集中检查材质、光照、天气、季节、时间及原生／游戏采样，不使用个人陈列存档。运行方法及专项人物页见[统一测试说明](../docs/rooftop-scene-review.md)。
 
 天台扩容：`node --test tests/rooftop*.test.mjs`；`browser/rooftop-expansion.cjs` 在 Chromium / WebKit 验证分类、手帐、承托、存档、昼夜灯光、透明像素、旋转与手机布局。`BASE_URL` 可指向已部署页面。
 
-花农时代的 `rooftop-regression.yml` 在 Chromium / WebKit 自动运行维护、车库布局和房间回归。`rooftop-room.cjs` 验证房间与车库共享存档、跨页面同步、换装和活动反馈、导入导出及手机布局。维护脚本的 `COMPARE_URL` 可对照三个车库场景和三个公开入口，共 36 组画面。
+花农时代的 `rooftop-regression.yml` 在 Chromium / WebKit 自动运行维护、车库布局、房间、行动卡、兵器、模型、公开观察和季节回归。`rooftop-room.cjs` 验证房间与车库共享存档、跨页面同步、换装和活动反馈、导入导出及手机布局。维护脚本的 `COMPARE_URL` 可对照三个车库场景和三个公开入口，共 36 组画面。
+
+## 体温调节
+
+专项脚本保留在 `docs/art/ophidia-01/`，与制作工程及固定预览页一起维护。命令、依赖和范围见[游戏检查说明](../ophidia/README.md#检查)。`check-local.cjs` 检查一条完整航程、设置与三语切换；它不遍历全部分支组合。`check-model-review.cjs` 和 `check-pixel-comparison.cjs` 分别检查模型视图与图层对照页；二者都不能替代 Blender 原稿检查。
+
+这些脚本尚未接入 CI 专项矩阵。Pages 的成品关卡包含 `/ophidia/` 入口。
 
 ## System and observation prerequisites
 
@@ -116,4 +144,4 @@ Petri refinement also checks equal archive/microscope button sizes, filled backg
 
 Sand and kelp pointer checks scroll the canvas into view before selecting a visible coordinate. Ordinary cohort counts are checked independently of rare visitors. Use `QA_OUTPUT` outside the repository for screenshots.
 
-最终发布成品检查：`BASE_URL=http://127.0.0.1:8794 EXPECTED_SHA=<完整提交SHA> node tests/browser/published-artifact.cjs`。服务根目录必须是完成字体子集和资源版本标记的发布目录；Pages 工作流自动运行 Chromium 与 WebKit，并保存截图。
+最终发布成品检查见[验证与发布](../docs/deployment.md#成品检查与发布状态)。服务根目录必须是完成字体子集和资源版本标记的发布目录；Pages 工作流自动运行 Chromium 与 WebKit，并保存截图。

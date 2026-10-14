@@ -1,6 +1,6 @@
 # 花农时代统一测试
 
-唯一可视测试入口为 [`/tests/browser/rooftop.html`](../tests/browser/rooftop.html)。从仓库根目录提供静态文件后，打开[本地页面](http://localhost:8765/tests/browser/rooftop.html)。后续材料、光照和采样研究继续使用这个页面。
+日常视觉调整的固定入口为 [`/tests/browser/rooftop.html`](../tests/browser/rooftop.html)。从仓库根目录提供静态文件后，打开[本地页面](http://localhost:8765/tests/browser/rooftop.html)。后续材料、光照和采样研究继续使用这个页面；人物服装与动作的专项检查页见[人物原稿](art/rooftop-actors-02/README.md)。
 
 ## 三组内容
 
@@ -21,3 +21,11 @@
 ## 检查
 
 核对三组切换、完整模型加载、取景、环境与采样往返、手机布局，以及个人存档保护。运行模块与 source 归属见[文档入口](rooftop-README.md)，空间天气契约见[空气说明](art/rooftop-air-coverage-01/README.md)。
+
+已准备 Playwright 和 Chrome 时，从仓库根目录运行：
+
+```sh
+ROOFTOP_REVIEW_ORIGIN=http://127.0.0.1:8765 node tests/browser/rooftop-review-check.cjs
+```
+
+此脚本使用独立浏览器上下文，检查三组内容、实际模型、采样、环境与存档隔离。它使用 `ROOFTOP_REVIEW_ORIGIN`，不读取其他回归脚本常用的 `BASE_URL`；截图默认写入系统临时目录，也可通过 `QA_OUTPUT` 指定仓库外目录。当前 CI 的花农时代矩阵不自动执行此本地视觉检查。
