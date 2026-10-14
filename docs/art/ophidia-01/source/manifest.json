@@ -1,0 +1,42 @@
+{
+  "source": "ophidia.blend",
+  "bytes": 44027874,
+  "sha256": "520d1127163da40958d8ba5b16c19d1c65b42abfc5f4d9cf01cdc61b96a757f8",
+  "parts": [
+    {
+      "file": "ophidia.blend.part01",
+      "bytes": 6291456,
+      "sha256": "73e6c069f996730511f453e90c7effced63b02f61cf5277d0cbfbcecd0c92eda"
+    },
+    {
+      "file": "ophidia.blend.part02",
+      "bytes": 6291456,
+      "sha256": "c51d6eda2c94a0708e069c12ea8dd7dcc604820edee5c3cc9beeebd2c7e72335"
+    },
+    {
+      "file": "ophidia.blend.part03",
+      "bytes": 6291456,
+      "sha256": "69f279fa8da8876be275f4d2d5abb3d42df93dee3a0ceebadaca03554231b09b"
+    },
+    {
+      "file": "ophidia.blend.part04",
+      "bytes": 6291456,
+      "sha256": "b4e82341804186bf956fb5907fa5fede83f877228f529459faaffec523e8d8ea"
+    },
+    {
+      "file": "ophidia.blend.part05",
+      "bytes": 6291456,
+      "sha256": "cded4c213350985a874dafbec035e7b9e0c4db28a069a0cf85cf7da13d7ec4d2"
+    },
+    {
+      "file": "ophidia.blend.part06",
+      "bytes": 6291456,
+      "sha256": "394e94000917a39938a0c2d50d33b2616445b2c1a8c2a172b92176dfb685c699"
+    },
+    {
+      "file": "ophidia.blend.part07",
+      "bytes": 6279138,
+      "sha256": "4e0f35995db75f5d7dce53dafc533ba4c25c4ebeff604110db6c05dc69a78bce"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "vessel": "M/S Aino",
+  "scope": "Public vessel interiors, dining booths and deck layout. Dimensions and hidden spaces are artistic estimates.",
+  "references": [
+    {
+      "image": "photos/aino-dining.jpg",
+      "title": "M/S Aino · 双侧窗餐厅与供餐区",
+      "source": "https://ainosaimaa.fi/"
+    },
+    {
+      "image": "photos/aino-aisle.jpg",
+      "title": "M/S Aino · 卡座、中央过道与球灯",
+      "source": "https://ainosaimaa.fi/"
+    },
+    {
+      "image": "photos/aino-side-deck.jpg",
+      "title": "M/S Aino · 沿舱甲板与栏杆",
+      "source": "https://ainosaimaa.fi/"
+    },
+    {
+      "image": "photos/aino-overview.jpg",
+      "title": "M/S Aino · 舱体与上下层甲板",
+      "source": "https://ainosaimaa.fi/"
+    },
+    {
+      "image": "photos/suomi-deckplan.png",
+      "title": "S/S Suomi · 功能区与通行关系",
+      "source": "https://www.paijanne-risteilythilden.fi/media/suomi-1.pdf"
+    },
+    {
+      "image": "photos/blidosund-cafe.jpg",
+      "title": "Blidösundsbolaget · 船舱服务区",
+      "source": "https://blidosundsbolaget.se/servering-ombord/"
+    },
+    {
+      "image": "photos/norrskar-booth.jpg",
+      "title": "Norrskär · 相向软垫与铸铁桌脚",
+      "source": "https://www.bokabord.se/restaurang/s-s-norrskar"
+    },
+    {
+      "image": "photos/rhone-booth.jpg",
+      "title": "Rhône · 木窗框、扶手与卡座",
+      "source": "https://www.cgn.ch/fr/rhone.html"
+    }
+  ]
+}

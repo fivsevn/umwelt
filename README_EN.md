@@ -15,6 +15,11 @@ https://umwelt.fivsevn.com
 
 ## Currently Public
 
+- **THERMOREGULATION · OPHIDIA.EXE**
+  https://umwelt.fivsevn.com/ophidia/
+
+  A short conversation beside a ferry window. The current editable scene and [modeling notes](docs/art/ophidia-01/README.md) are kept in the repository.
+
 - **Isopoda Fugue**  
   https://umwelt.fivsevn.com/isopoda/
 
@@ -98,60 +103,6 @@ Citation, linking, organization, or use as a reference does not relicense third-
 
 ---
 
-## AI-Assisted Development
-
-Generative AI has been used as an auxiliary tool in the production and maintenance of UMWELT.
-
-AI may assist with:
-
-- portions of implementation and code iteration;
-- analysis of technical issues;
-- debugging, testing, and error diagnosis;
-- refactoring suggestions and implementation discussions;
-- organization of development documentation;
-- assistance with source discovery;
-- classification and structuring of research materials;
-- proofreading, translation, and wording adjustments;
-- discussion of visual and interaction approaches.
-
-The role of AI is auxiliary.
-
-The project’s subject matter, research direction, structure, editorial decisions, visual direction, interaction logic, use of sources, and final public versions are determined and maintained by **fivsevn**.
-
-
-### AI and Factual Information
-
-Generative AI output is not treated as a scientific source and is not used as the final authority for taxonomy, natural history, biology, or other factual claims.
-
-Where factual judgments are involved, the project should, wherever possible, trace them back to identifiable sources such as:
-
-- original research papers;
-- formal publications;
-- specialist databases;
-- research-institution materials;
-- museum or university materials;
-- other records with clear provenance.
-
-Where AI output conflicts with verifiable source material, the verifiable source material takes precedence.
-
-
-### Limitations of AI Output
-
-Generative AI may produce:
-
-- factual errors;
-- nonexistent citations;
-- incorrect taxonomic relationships;
-- outdated information;
-- inaccurate summaries of specialist material;
-- overly confident statements about uncertain matters.
-
-Accordingly, AI-generated text is not itself treated as evidence that a scientific claim is true.
-
-The use of AI-assisted development also does not imply that any AI service provider assumes responsibility for the project’s content, views, accuracy of information, or final work.
-
-
----
 
 ## Repository / Source Code
 
@@ -322,7 +273,7 @@ Biological, natural-history, ecological, and captive-husbandry information in th
 - legal advice;
 - or other professional services.
 
-For actual animal husbandry, breeding, disease treatment, transport, import, release, or other practical activities, users should consult reliable specialist sources separately and comply with all applicable laws concerning animal welfare, species protection, quarantine, import/export, and related matters in the relevant jurisdiction.
+For actual animal husbandry, breeding, disease treatment, transport, import, release, or other practical activities, players should consult reliable specialist sources separately and comply with all applicable laws concerning animal welfare, species protection, quarantine, import/export, and related matters in the relevant jurisdiction.
 
 
 ### Creative Representation
@@ -353,7 +304,7 @@ The project may continue to be modified, refactored, or used experimentally and 
 - content revisions;
 - modification or removal of previously public features.
 
-Where progress or interaction data are stored primarily in the user’s local browser, clearing browser data, changing devices, browser updates, or other technical circumstances may result in data loss.
+Where progress or interaction data are stored primarily in the player’s local browser, clearing browser data, changing devices, browser updates, or other technical circumstances may result in data loss.
 
 Users are responsible for deciding whether they need to back up any relevant data.
 

@@ -7,6 +7,7 @@ const output = process.env.QA_OUTPUT || "/tmp/umwelt-artifact-screenshots";
 const routes = [
   ["/", ".desktop-icon"],
   ["/tick/", "#tick"],
+  ["/ophidia/", "#startButton"],
   ["/isopoda/", "#startBtn"],
   ["/isopoda/morphology/", ".anatomy-app"],
   ["/isopoda/habitat.html", "#assetList button"],

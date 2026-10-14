@@ -1,0 +1,24 @@
+{
+  "files": [
+    {
+      "file": "docs/art/ophidia-01/ophidia.blend",
+      "source_sha256": "520d1127163da40958d8ba5b16c19d1c65b42abfc5f4d9cf01cdc61b96a757f8",
+      "packed_images_repacked": 5,
+      "metadata_chunks_removed": 0,
+      "image_pixels_unchanged": true,
+      "packed_pixel_sha256": "859dc893a305861b32e85a3670550a002b61541ec1298e73c1e8dcfb772ba6f4",
+      "reopened": true,
+      "literal_private_paths_remaining": 0
+    },
+    {
+      "file": "docs/art/rooftop-lowpoly-02/game-environment.blend",
+      "source_sha256": "da1b81fd5df681871fc777ab2e660c8ded7528dfbc7f66cd601764308c675d14",
+      "packed_images_repacked": 3,
+      "metadata_chunks_removed": 0,
+      "image_pixels_unchanged": true,
+      "packed_pixel_sha256": "a484f8355f4503a219468fea4fa69e6f38cb4b122ad86dbd55edbcd7fcd86fbb",
+      "reopened": true,
+      "literal_private_paths_remaining": 0
+    }
+  ]
+}

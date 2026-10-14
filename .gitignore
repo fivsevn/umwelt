@@ -47,3 +47,6 @@ __pycache__/
 *.pyc
 .rooftop-qa/
 docs/art/**/pixelorama-native-reopened.json
+
+# The current editable scene is reconstructed from tracked source parts.
+docs/art/ophidia-01/ophidia.blend

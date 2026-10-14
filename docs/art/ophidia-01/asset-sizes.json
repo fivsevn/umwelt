@@ -1,0 +1,32 @@
+[
+  {
+    "file": "ophidia/assets/cabin.webp",
+    "bytes": 27578,
+    "width": 360,
+    "height": 640
+  },
+  {
+    "file": "ophidia/assets/snake-normal.webp",
+    "bytes": 18362,
+    "width": 360,
+    "height": 640
+  },
+  {
+    "file": "ophidia/assets/snake-curious.webp",
+    "bytes": 18742,
+    "width": 360,
+    "height": 640
+  },
+  {
+    "file": "ophidia/assets/snake-away.webp",
+    "bytes": 17994,
+    "width": 360,
+    "height": 640
+  },
+  {
+    "file": "ophidia/assets/snake-tongue.webp",
+    "bytes": 18420,
+    "width": 360,
+    "height": 640
+  }
+]

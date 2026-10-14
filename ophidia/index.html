@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN" data-language="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#211b19">
+  <meta name="description" content="体温调节。窗边的一段冬日航程。">
+  <title>THERMOREGULATION / 体温调节</title>
+  <link rel="icon" href="data:,">
+  <link rel="preload" href="../assets/fonts/fusion-pixel-12px-monospaced-zh_hans.ttf.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./assets/cabin.webp" as="image">
+  <link rel="stylesheet" href="./style.css?v=ui13">
+</head>
+<body>
+  <main class="game-window" aria-label="体温调节" id="game">
+    <section class="viewport" id="viewport" aria-label="渡轮的窗边卡座">
+      <div class="scenery" id="scenery" aria-hidden="true">
+        <img class="scene-layer cabin" src="./assets/cabin.webp" width="360" height="640" alt="" draggable="false">
+        <img class="scene-layer snake" id="snakeImage" src="./assets/snake-normal.webp?v=snake16" width="360" height="640" alt="" draggable="false">
+      </div>
+      <div class="glass-shade" aria-hidden="true"></div>
+      <section class="launch-panel" id="launchPanel" aria-label="开始航程">
+        <div class="launch-heading" id="launchHeading">
+          <div class="settings-control" id="settingsControl">
+            <button id="settingsToggle" class="settings-toggle" type="button" aria-label="设置" aria-expanded="false" aria-controls="settingsMenu" aria-haspopup="dialog"><span aria-hidden="true">⋯</span></button>
+            <section id="settingsMenu" class="settings-menu" role="dialog" aria-label="设置" hidden>
+              <p class="settings-label" id="languageLabel">语言</p>
+              <div class="languages" role="group" aria-labelledby="languageLabel">
+                <button type="button" data-language="zh" aria-pressed="true" title="简体中文">中</button>
+                <button type="button" data-language="en" aria-pressed="false" title="English">EN</button>
+                <button type="button" data-language="ja" aria-pressed="false" title="日本語">日</button>
+              </div>
+              <button id="restartButton" class="settings-action" type="button" disabled>重新开始</button>
+              <a href="../" id="homeLink" class="settings-action">返回主页</a>
+            </section>
+          </div>
+        </div>
+        <p class="launch-subtitle" id="launchSubtitle">窗边有一个空座位。</p>
+        <button class="primary-button" id="startButton" type="button" disabled>稍候</button>
+      </section>
+      <section class="dialogue-panel" id="dialoguePanel" hidden aria-label="对话">
+        <div class="dialogue-card">
+          <div class="dialogue-heading" id="dialogueHeading"><span id="speaker">你</span></div>
+          <p class="dialogue-text" id="dialogueText"></p>
+          <span class="screen-reader-only" id="spokenText" aria-live="polite" aria-atomic="true"></span>
+          <button class="continue-button" id="continueButton" type="button" aria-label="继续对话"><span class="continue-glyph" aria-hidden="true">▾</span></button>
+        </div>
+        <div class="choices" id="choices" hidden></div>
+      </section>
+      <div class="loading-status" id="loadingStatus" role="status">正在靠岸<span aria-hidden="true">···</span></div>
+      <section class="asset-error" id="assetError" role="alert" hidden>
+        <p id="assetErrorText">场景图像未能加载。</p>
+        <button id="retryButton" class="primary-button" type="button">重试</button>
+      </section>
+    </section>
+  </main>
+  <noscript><p class="noscript-notice">需要开启 JavaScript 才能读完这段航程。 / Enable JavaScript to begin.</p></noscript>
+  <script src="./game.js?v=snake16" defer></script>
+</body>
+</html>

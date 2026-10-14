@@ -1,0 +1,116 @@
+{
+  "method": "Two native Cycles passes; shadow opacity from real seat/backrest catcher alpha; clear animal RGBA over black receiver attenuation",
+  "painted_shadow": false,
+  "screen_space_ellipse": false,
+  "shadow_noise_gate_alpha": [
+    0.055,
+    0.085
+  ],
+  "portrait_alpha_thresholded": false,
+  "poses": {
+    "normal": {
+      "native_shadow_bounds_xy": [
+        0,
+        544,
+        480,
+        817
+      ],
+      "shadow_visible_pixels": 20713,
+      "shadow_alpha_max": 255,
+      "portrait_alpha_bounds_xy": [
+        32,
+        501,
+        432,
+        777
+      ],
+      "final_alpha_bounds_xy": [
+        0,
+        501,
+        472,
+        776
+      ],
+      "table_occluded_pixels": 13631,
+      "table_occluded_portrait_pixels": 1838,
+      "clear_upper_frame_alpha_max": 0,
+      "clear_window_alpha_max": 0
+    },
+    "curious": {
+      "native_shadow_bounds_xy": [
+        0,
+        533,
+        480,
+        817
+      ],
+      "shadow_visible_pixels": 21516,
+      "shadow_alpha_max": 255,
+      "portrait_alpha_bounds_xy": [
+        32,
+        488,
+        420,
+        777
+      ],
+      "final_alpha_bounds_xy": [
+        0,
+        488,
+        472,
+        776
+      ],
+      "table_occluded_pixels": 13699,
+      "table_occluded_portrait_pixels": 1833,
+      "clear_upper_frame_alpha_max": 0,
+      "clear_window_alpha_max": 0
+    },
+    "away": {
+      "native_shadow_bounds_xy": [
+        0,
+        546,
+        480,
+        817
+      ],
+      "shadow_visible_pixels": 20977,
+      "shadow_alpha_max": 255,
+      "portrait_alpha_bounds_xy": [
+        32,
+        504,
+        443,
+        777
+      ],
+      "final_alpha_bounds_xy": [
+        0,
+        504,
+        472,
+        776
+      ],
+      "table_occluded_pixels": 14286,
+      "table_occluded_portrait_pixels": 1844,
+      "clear_upper_frame_alpha_max": 0,
+      "clear_window_alpha_max": 0
+    },
+    "tongue": {
+      "native_shadow_bounds_xy": [
+        0,
+        544,
+        480,
+        817
+      ],
+      "shadow_visible_pixels": 20718,
+      "shadow_alpha_max": 255,
+      "portrait_alpha_bounds_xy": [
+        32,
+        501,
+        451,
+        777
+      ],
+      "final_alpha_bounds_xy": [
+        0,
+        501,
+        472,
+        776
+      ],
+      "table_occluded_pixels": 13636,
+      "table_occluded_portrait_pixels": 1838,
+      "clear_upper_frame_alpha_max": 0,
+      "clear_window_alpha_max": 0
+    }
+  }
+}
