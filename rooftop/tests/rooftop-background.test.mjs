@@ -227,7 +227,7 @@ test('native loader shares collection geometry, physical charts and baked facade
  context.removeEventListener=(name,handler)=>{if(lifecycle.get(name)===handler)lifecycle.delete(name);};
  T.TextureLoader=class{load(url,onLoad){requested.push(url);const texture=new T.Texture();onLoad(texture);return texture;}};
  const source=readFileSync(new URL('../3d/architectural-shell.mjs',import.meta.url),'utf8')
-  .replace(/^import .*?;\n/gm,'').replace(/^export /gm,'')
+  .replace(/^import .*?;\r?\n/gm,'').replace(/^export /gm,'')
   .replaceAll('import.meta.url',JSON.stringify(new URL('../3d/architectural-shell.mjs',import.meta.url).href));
  vm.runInNewContext(source+'\nglobalThis.loadArchitecturalShell=loadArchitecturalShell;',context);
  const parent=new T.Group(),shell=context.loadArchitecturalShell(T,parent);

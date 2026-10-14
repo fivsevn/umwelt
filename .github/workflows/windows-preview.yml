@@ -60,6 +60,8 @@ jobs:
             _windows/UMWELT-0.1.5-win-x64.zip
             _windows/SHA256SUMS-win.txt
   publish:
+    # Repository and documentation updates must not alter a GitHub Release.
+    if: github.event_name == 'workflow_dispatch'
     needs: build-test
     runs-on: ubuntu-latest
     permissions:
