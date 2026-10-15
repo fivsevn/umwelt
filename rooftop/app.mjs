@@ -1571,11 +1571,21 @@ if (editor) {
       Math.max(140, innerHeight - occupied) + "px",
     );
   };
-  const sizing = new ResizeObserver(fitEditorHeight);
+  // The measured toolbar depends on the available scene height. Apply its
+  // derived size on the next frame, outside ResizeObserver's delivery loop.
+  let editorFitFrame = 0;
+  const requestEditorFit = () => {
+    if (editorFitFrame) return;
+    editorFitFrame = requestAnimationFrame(() => {
+      editorFitFrame = 0;
+      fitEditorHeight();
+    });
+  };
+  const sizing = new ResizeObserver(requestEditorFit);
   for (const el of [document.querySelector(".topbar"), ...workspace.children])
     if (el !== wrap) sizing.observe(el);
-  window.addEventListener("resize", fitEditorHeight);
-  document.fonts.ready.then(fitEditorHeight);
+  window.addEventListener("resize", requestEditorFit);
+  document.fonts.ready.then(requestEditorFit);
   fitEditorHeight();
 }
 if (garden3d) window.addEventListener("resize", fitView);

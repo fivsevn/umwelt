@@ -87,8 +87,8 @@ const routes = [
             );
             if (route.includes("room/")) {
               await page.waitForFunction(() => window.room?.graphics?.roomBackground?.loaded, null, { timeout: 90000 });
-              assert.equal(await page.locator("canvas").getAttribute("data-room-door-parts"), "14");
-              assert.equal(await page.locator("canvas").getAttribute("data-room-background-error"), null);
+              assert.equal(await page.locator("#room").getAttribute("data-room-door-parts"), "14");
+              assert.equal(await page.locator("#room").getAttribute("data-room-background-error"), null);
             } else {
               await page.waitForFunction(() => window.rooftop?.graphics?.terraceFinishes?.loaded, null, { timeout: 90000 });
               const finishes = await page.evaluate(() => rooftop.graphics.terraceFinishes);

@@ -360,8 +360,9 @@ const checkSavedArrangementIsolation = async browser => {
       await page.locator(".observation-notebook").waitFor({ state: "visible" });
       await page.waitForTimeout(650);
       assert.equal(await page.locator(".observation-notebook").isVisible(), true, "an earlier canvas hover timer cannot close the pinned journal");
-      assert.equal(await page.locator("#reviewEntry option").count(), 294);
-      for (const id of ["mint", "vessel-antique-shino", "weapon-arisaka-38"]) {
+      assert.equal(await page.locator('#reviewEntry option:not([value^="fashion:"])').count(), 294);
+      assert.equal(await page.locator('#reviewEntry option[value^="fashion:"]').count(), 60);
+      for (const id of ["mint", "vessel-antique-shino", "weapon-arisaka-38", "fashion:smoking"]) {
         await page.locator("#reviewEntry").selectOption(id);
         await page.locator(".observation-notebook").waitFor({ state: "visible" });
         console.log(engine + " " + scene + " notebook " + id);

@@ -554,13 +554,11 @@ async function visiblePickPoint(page, id) {
       await page.goto(base + "/rooftop/room/");
       await page.waitForFunction(() => room.graphics?.drawCalls > 0);
       for (const key of [
-        "背心裙",
-        "围裙",
-        "背带裤",
-        "条纹裙",
-        "格子裙",
-        "短外套",
-        "口袋工作服",
+        "古典",
+        "1900–50s",
+        "1960–70s",
+        "1980–90s",
+        "2000s",
       ]) {
         await page.locator('#outfits [data-category="' + key + '"]').click();
         const button = page.locator("#outfitsOptions button").first();
@@ -572,13 +570,11 @@ async function visiblePickPoint(page, id) {
         );
       }
       for (const key of [
-        "小领巾",
-        "蝴蝶结",
-        "小花",
-        "小背心",
-        "小帽子",
-        "花边帽",
-        "铃铛项圈",
+        "古典",
+        "1900–50s",
+        "1960–70s",
+        "1980–90s",
+        "2000s",
       ]) {
         await page
           .locator('#decorations [data-category="' + key + '"]')
