@@ -177,51 +177,8 @@ export const BACKGROUND = Object.freeze({
       "mode": "instances",
       "offset": 591680,
       "directCount": 3,
-      "count": 507,
-      "assemblies": [
-        {
-          "sourceOffset": 591872,
-          "sourceCount": 76,
-          "worldOffset": 1152,
-          "worldCount": 1
-        },
-        {
-          "sourceOffset": 596736,
-          "sourceCount": 60,
-          "worldOffset": 1216,
-          "worldCount": 1
-        },
-        {
-          "sourceOffset": 600576,
-          "sourceCount": 60,
-          "worldOffset": 1280,
-          "worldCount": 1
-        },
-        {
-          "sourceOffset": 604416,
-          "sourceCount": 60,
-          "worldOffset": 1344,
-          "worldCount": 1
-        },
-        {
-          "sourceOffset": 608256,
-          "sourceCount": 96,
-          "worldOffset": 1408,
-          "worldCount": 1
-        },
-        {
-          "sourceOffset": 614400,
-          "sourceCount": 76,
-          "worldOffset": 1472,
-          "worldCount": 1
-        },
-        {
-          "sourceOffset": 619264,
-          "sourceCount": 76,
-          "worldOffset": 1536,
-          "worldCount": 1
-        }
-      ]
+      "count": 3,
+      "assemblies": []
     },
     {
       "field": "stained-plaster",
@@ -233,24 +190,24 @@ export const BACKGROUND = Object.freeze({
         64
       ],
       "mode": "instances",
-      "offset": 624128,
+      "offset": 591872,
       "directCount": 3,
       "count": 210,
       "assemblies": [
         {
-          "sourceOffset": 624320,
+          "sourceOffset": 592064,
           "sourceCount": 69,
           "worldOffset": 1216,
           "worldCount": 1
         },
         {
-          "sourceOffset": 628736,
+          "sourceOffset": 596480,
           "sourceCount": 69,
           "worldOffset": 1280,
           "worldCount": 1
         },
         {
-          "sourceOffset": 633152,
+          "sourceOffset": 600896,
           "sourceCount": 69,
           "worldOffset": 1344,
           "worldCount": 1
@@ -267,48 +224,48 @@ export const BACKGROUND = Object.freeze({
         64
       ],
       "mode": "instances",
-      "offset": 637568,
+      "offset": 605312,
       "directCount": 6,
       "count": 990,
       "assemblies": [
         {
-          "sourceOffset": 637952,
+          "sourceOffset": 605696,
           "sourceCount": 144,
           "worldOffset": 1152,
           "worldCount": 1
         },
         {
-          "sourceOffset": 647168,
+          "sourceOffset": 614912,
           "sourceCount": 120,
           "worldOffset": 1216,
           "worldCount": 1
         },
         {
-          "sourceOffset": 654848,
+          "sourceOffset": 622592,
           "sourceCount": 120,
           "worldOffset": 1280,
           "worldCount": 1
         },
         {
-          "sourceOffset": 662528,
+          "sourceOffset": 630272,
           "sourceCount": 120,
           "worldOffset": 1344,
           "worldCount": 1
         },
         {
-          "sourceOffset": 670208,
+          "sourceOffset": 637952,
           "sourceCount": 192,
           "worldOffset": 1408,
           "worldCount": 1
         },
         {
-          "sourceOffset": 682496,
+          "sourceOffset": 650240,
           "sourceCount": 144,
           "worldOffset": 1472,
           "worldCount": 1
         },
         {
-          "sourceOffset": 691712,
+          "sourceOffset": 659456,
           "sourceCount": 144,
           "worldOffset": 1536,
           "worldCount": 1
@@ -325,7 +282,7 @@ export const BACKGROUND = Object.freeze({
         48
       ],
       "mode": "instances",
-      "offset": 700928,
+      "offset": 668672,
       "directCount": 16,
       "count": 16,
       "assemblies": []
@@ -340,7 +297,7 @@ export const BACKGROUND = Object.freeze({
         64
       ],
       "mode": "instances",
-      "offset": 701952,
+      "offset": 669696,
       "directCount": 16,
       "count": 16,
       "assemblies": []
@@ -355,48 +312,48 @@ export const BACKGROUND = Object.freeze({
         64
       ],
       "mode": "instances",
-      "offset": 702976,
+      "offset": 670720,
       "directCount": 2,
       "count": 2850,
       "assemblies": [
         {
-          "sourceOffset": 703104,
+          "sourceOffset": 670848,
           "sourceCount": 382,
           "worldOffset": 1152,
           "worldCount": 1
         },
         {
-          "sourceOffset": 727552,
+          "sourceOffset": 695296,
           "sourceCount": 398,
           "worldOffset": 1216,
           "worldCount": 1
         },
         {
-          "sourceOffset": 753024,
+          "sourceOffset": 720768,
           "sourceCount": 398,
           "worldOffset": 1280,
           "worldCount": 1
         },
         {
-          "sourceOffset": 778496,
+          "sourceOffset": 746240,
           "sourceCount": 394,
           "worldOffset": 1344,
           "worldCount": 1
         },
         {
-          "sourceOffset": 803712,
+          "sourceOffset": 771456,
           "sourceCount": 512,
           "worldOffset": 1408,
           "worldCount": 1
         },
         {
-          "sourceOffset": 836480,
+          "sourceOffset": 804224,
           "sourceCount": 382,
           "worldOffset": 1472,
           "worldCount": 1
         },
         {
-          "sourceOffset": 860928,
+          "sourceOffset": 828672,
           "sourceCount": 382,
           "worldOffset": 1536,
           "worldCount": 1
@@ -413,48 +370,48 @@ export const BACKGROUND = Object.freeze({
         64
       ],
       "mode": "instances",
-      "offset": 885376,
+      "offset": 853120,
       "directCount": 0,
       "count": 9615,
       "assemblies": [
         {
-          "sourceOffset": 885376,
+          "sourceOffset": 853120,
           "sourceCount": 1253,
           "worldOffset": 1152,
           "worldCount": 1
         },
         {
-          "sourceOffset": 965568,
+          "sourceOffset": 933312,
           "sourceCount": 1404,
           "worldOffset": 1216,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1055424,
+          "sourceOffset": 1023168,
           "sourceCount": 1404,
           "worldOffset": 1280,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1145280,
+          "sourceOffset": 1113024,
           "sourceCount": 1404,
           "worldOffset": 1344,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1235136,
+          "sourceOffset": 1202880,
           "sourceCount": 1644,
           "worldOffset": 1408,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1340352,
+          "sourceOffset": 1308096,
           "sourceCount": 1253,
           "worldOffset": 1472,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1420544,
+          "sourceOffset": 1388288,
           "sourceCount": 1253,
           "worldOffset": 1536,
           "worldCount": 1
@@ -471,48 +428,48 @@ export const BACKGROUND = Object.freeze({
         64
       ],
       "mode": "instances",
-      "offset": 1500736,
+      "offset": 1468480,
       "directCount": 0,
       "count": 3976,
       "assemblies": [
         {
-          "sourceOffset": 1500736,
+          "sourceOffset": 1468480,
           "sourceCount": 683,
           "worldOffset": 1152,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1544448,
+          "sourceOffset": 1512192,
           "sourceCount": 339,
           "worldOffset": 1216,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1566144,
+          "sourceOffset": 1533888,
           "sourceCount": 339,
           "worldOffset": 1280,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1587840,
+          "sourceOffset": 1555584,
           "sourceCount": 339,
           "worldOffset": 1344,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1609536,
+          "sourceOffset": 1577280,
           "sourceCount": 910,
           "worldOffset": 1408,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1667776,
+          "sourceOffset": 1635520,
           "sourceCount": 683,
           "worldOffset": 1472,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1711488,
+          "sourceOffset": 1679232,
           "sourceCount": 683,
           "worldOffset": 1536,
           "worldCount": 1
@@ -529,48 +486,48 @@ export const BACKGROUND = Object.freeze({
         256
       ],
       "mode": "instances",
-      "offset": 1755200,
+      "offset": 1722944,
       "directCount": 0,
       "count": 553,
       "assemblies": [
         {
-          "sourceOffset": 1755200,
+          "sourceOffset": 1722944,
           "sourceCount": 73,
           "worldOffset": 1152,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1759872,
+          "sourceOffset": 1727616,
           "sourceCount": 79,
           "worldOffset": 1216,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1764928,
+          "sourceOffset": 1732672,
           "sourceCount": 79,
           "worldOffset": 1280,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1769984,
+          "sourceOffset": 1737728,
           "sourceCount": 79,
           "worldOffset": 1344,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1775040,
+          "sourceOffset": 1742784,
           "sourceCount": 97,
           "worldOffset": 1408,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1781248,
+          "sourceOffset": 1748992,
           "sourceCount": 73,
           "worldOffset": 1472,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1785920,
+          "sourceOffset": 1753664,
           "sourceCount": 73,
           "worldOffset": 1536,
           "worldCount": 1
@@ -580,6 +537,7 @@ export const BACKGROUND = Object.freeze({
     {
       "field": "dark-glass",
       "layer": "near",
+      "windowLight": true,
       "rect": [
         288,
         352,
@@ -587,48 +545,48 @@ export const BACKGROUND = Object.freeze({
         32
       ],
       "mode": "instances",
-      "offset": 1790592,
+      "offset": 1758336,
       "directCount": 0,
-      "count": 600,
+      "count": 585,
       "assemblies": [
         {
-          "sourceOffset": 1790592,
+          "sourceOffset": 1758336,
           "sourceCount": 99,
           "worldOffset": 1152,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1796928,
-          "sourceCount": 57,
+          "sourceOffset": 1764672,
+          "sourceCount": 52,
           "worldOffset": 1216,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1800576,
-          "sourceCount": 57,
+          "sourceOffset": 1768000,
+          "sourceCount": 52,
           "worldOffset": 1280,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1804224,
-          "sourceCount": 57,
+          "sourceOffset": 1771328,
+          "sourceCount": 52,
           "worldOffset": 1344,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1807872,
+          "sourceOffset": 1774656,
           "sourceCount": 132,
           "worldOffset": 1408,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1816320,
+          "sourceOffset": 1783104,
           "sourceCount": 99,
           "worldOffset": 1472,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1822656,
+          "sourceOffset": 1789440,
           "sourceCount": 99,
           "worldOffset": 1536,
           "worldCount": 1
@@ -638,6 +596,7 @@ export const BACKGROUND = Object.freeze({
     {
       "field": "glass",
       "layer": "near",
+      "windowLight": true,
       "rect": [
         288,
         256,
@@ -645,49 +604,108 @@ export const BACKGROUND = Object.freeze({
         32
       ],
       "mode": "instances",
-      "offset": 1828992,
+      "offset": 1795776,
       "directCount": 0,
       "count": 1299,
       "assemblies": [
         {
-          "sourceOffset": 1828992,
+          "sourceOffset": 1795776,
           "sourceCount": 156,
           "worldOffset": 1152,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1838976,
+          "sourceOffset": 1805760,
           "sourceCount": 209,
           "worldOffset": 1216,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1852352,
+          "sourceOffset": 1819136,
           "sourceCount": 209,
           "worldOffset": 1280,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1865728,
+          "sourceOffset": 1832512,
           "sourceCount": 209,
           "worldOffset": 1344,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1879104,
+          "sourceOffset": 1845888,
           "sourceCount": 204,
           "worldOffset": 1408,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1892160,
+          "sourceOffset": 1858944,
           "sourceCount": 156,
           "worldOffset": 1472,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1902144,
+          "sourceOffset": 1868928,
           "sourceCount": 156,
+          "worldOffset": 1536,
+          "worldCount": 1
+        }
+      ]
+    },
+    {
+      "field": "blue-glass",
+      "layer": "near",
+      "windowLight": true,
+      "rect": [
+        288,
+        320,
+        32,
+        32
+      ],
+      "mode": "instances",
+      "offset": 1878912,
+      "directCount": 0,
+      "count": 504,
+      "assemblies": [
+        {
+          "sourceOffset": 1878912,
+          "sourceCount": 76,
+          "worldOffset": 1152,
+          "worldCount": 1
+        },
+        {
+          "sourceOffset": 1883776,
+          "sourceCount": 60,
+          "worldOffset": 1216,
+          "worldCount": 1
+        },
+        {
+          "sourceOffset": 1887616,
+          "sourceCount": 60,
+          "worldOffset": 1280,
+          "worldCount": 1
+        },
+        {
+          "sourceOffset": 1891456,
+          "sourceCount": 60,
+          "worldOffset": 1344,
+          "worldCount": 1
+        },
+        {
+          "sourceOffset": 1895296,
+          "sourceCount": 96,
+          "worldOffset": 1408,
+          "worldCount": 1
+        },
+        {
+          "sourceOffset": 1901440,
+          "sourceCount": 76,
+          "worldOffset": 1472,
+          "worldCount": 1
+        },
+        {
+          "sourceOffset": 1906304,
+          "sourceCount": 76,
           "worldOffset": 1536,
           "worldCount": 1
         }
@@ -703,48 +721,48 @@ export const BACKGROUND = Object.freeze({
         64
       ],
       "mode": "instances",
-      "offset": 1912128,
+      "offset": 1911168,
       "directCount": 0,
       "count": 1087,
       "assemblies": [
         {
-          "sourceOffset": 1912128,
+          "sourceOffset": 1911168,
           "sourceCount": 148,
           "worldOffset": 1152,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1921600,
+          "sourceOffset": 1920640,
           "sourceCount": 149,
           "worldOffset": 1216,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1931136,
+          "sourceOffset": 1930176,
           "sourceCount": 149,
           "worldOffset": 1280,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1940672,
+          "sourceOffset": 1939712,
           "sourceCount": 149,
           "worldOffset": 1344,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1950208,
+          "sourceOffset": 1949248,
           "sourceCount": 196,
           "worldOffset": 1408,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1962752,
+          "sourceOffset": 1961792,
           "sourceCount": 148,
           "worldOffset": 1472,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1972224,
+          "sourceOffset": 1971264,
           "sourceCount": 148,
           "worldOffset": 1536,
           "worldCount": 1
@@ -761,18 +779,18 @@ export const BACKGROUND = Object.freeze({
         128
       ],
       "mode": "instances",
-      "offset": 1981696,
+      "offset": 1980736,
       "directCount": 0,
       "count": 2,
       "assemblies": [
         {
-          "sourceOffset": 1981696,
+          "sourceOffset": 1980736,
           "sourceCount": 1,
           "worldOffset": 1216,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1981760,
+          "sourceOffset": 1980800,
           "sourceCount": 1,
           "worldOffset": 1280,
           "worldCount": 1
@@ -789,25 +807,59 @@ export const BACKGROUND = Object.freeze({
         64
       ],
       "mode": "instances",
-      "offset": 1981824,
+      "offset": 1980864,
       "directCount": 0,
       "count": 12,
       "assemblies": [
         {
-          "sourceOffset": 1981824,
+          "sourceOffset": 1980864,
           "sourceCount": 4,
           "worldOffset": 1216,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1982080,
+          "sourceOffset": 1981120,
           "sourceCount": 4,
           "worldOffset": 1280,
           "worldCount": 1
         },
         {
-          "sourceOffset": 1982336,
+          "sourceOffset": 1981376,
           "sourceCount": 4,
+          "worldOffset": 1344,
+          "worldCount": 1
+        }
+      ]
+    },
+    {
+      "field": "dark-glass",
+      "layer": "near",
+      "rect": [
+        288,
+        352,
+        32,
+        32
+      ],
+      "mode": "instances",
+      "offset": 1981632,
+      "directCount": 0,
+      "count": 15,
+      "assemblies": [
+        {
+          "sourceOffset": 1981632,
+          "sourceCount": 5,
+          "worldOffset": 1216,
+          "worldCount": 1
+        },
+        {
+          "sourceOffset": 1981952,
+          "sourceCount": 5,
+          "worldOffset": 1280,
+          "worldCount": 1
+        },
+        {
+          "sourceOffset": 1982272,
+          "sourceCount": 5,
           "worldOffset": 1344,
           "worldCount": 1
         }
@@ -9203,7 +9255,7 @@ export const BACKGROUND = Object.freeze({
       -1
     ]
   },
-  "sha256": "c22f2320a79f9b9beae3dba4bf6ba438ab53818d3f288e8332ea701d4693cefc",
+  "sha256": "b3f1b8ecc36f743d1f36f6c5b2f3b2b9eb7e08e83ef97ff4edbedcb2971fc9f0",
   "textureSha256": "d0edaf9d5e1fec4c2828d7eb2a2d6f0d37e27e5a104ed46ffc2f15190ce80ab7",
   "texelMetresPerUnit": [
     0.2707537401739019,

@@ -16,9 +16,9 @@ objects=0;cube=None
 for o in scene.objects:
     if o.instance_type=='COLLECTION' and o.instance_collection:worlds[o.instance_collection].append(change@o.matrix_world@change.inverted())
 
-def material_key(me,layer,material_index=0):
-    m=me.materials[material_index]
-    return (m.get('runtime_field',m.name),layer,m.get('runtime_style','pixelbook'),m.get('runtime_texture',''),m.get('lamp_mask',''))
+def material_key(o,layer,material_index=0):
+    m=o.data.materials[material_index]
+    return (m.get('runtime_field',m.name),layer,m.get('runtime_style','pixelbook'),m.get('runtime_texture',''),m.get('lamp_mask',''),bool(o.get('window_light',False)))
 
 def is_affine_box(points,faces):
     """The instance path is valid only for an actual six-sided parallelepiped.
@@ -69,21 +69,21 @@ def mesh_values(o,material_index=0):
 for c,ws in worlds.items():
     for o in c.objects:
         if o.type!='MESH':continue
-        objects+=len(ws);key=material_key(o.data,'near' if 'vehicle'not in c.name else 'ground')
+        objects+=len(ws);key=material_key(o,'near' if 'vehicle'not in c.name else 'ground')
         if can_instance_box(o):assembly_boxes[(c,key)].extend(box_matrix(o))
         else:
             # Two main roof slopes retain their native polygons and use two
             # material slots, rather than altering the mesh's topology.
             for mi in sorted({p.material_index for p in o.data.polygons}):
-                key=material_key(o.data,'near' if 'vehicle'not in c.name else 'ground',mi)
+                key=material_key(o,'near' if 'vehicle'not in c.name else 'ground',mi)
                 library_meshes[(c,key)].extend(mesh_values(o,mi))
 for o in scene.objects:
     if o.type!='MESH':continue
-    objects+=1;key=material_key(o.data,o.get('layer','near'))
+    objects+=1;key=material_key(o,o.get('layer','near'))
     if can_instance_box(o):direct_boxes[key].extend(box_matrix(o))
     else:
         for mi in sorted({p.material_index for p in o.data.polygons}):
-            key=material_key(o.data,o.get('layer','near'),mi)
+            key=material_key(o,o.get('layer','near'),mi)
             segments[key].extend(mesh_values(o,mi))
 if cube is None:raise RuntimeError('Expected authored native box primitives')
 data=bytearray();parts=[]
@@ -96,8 +96,9 @@ for c,ws in worlds.items():
     values=[m[row][col]for m in ws for col in range(4) for row in range(4)]
     world_sections[c]={'worldOffset':append(values),'worldCount':len(ws)}
 def part_fields(key):
-    kind,layer,style,texture,mask=key
+    kind,layer,style,texture,mask,window_light=key
     part={'field':kind,'layer':layer}
+    if window_light:part['windowLight']=True
     if style=='baked':part.update({'style':'baked','texture':texture,'lampMask':mask,'shading':'orientation'})
     else:part['rect']=fields[kind]
     return part

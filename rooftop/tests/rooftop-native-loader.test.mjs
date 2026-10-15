@@ -185,20 +185,28 @@ test('native lamp source parts retain their daylight colour and emit light at ni
   library.updateAtmosphere({ night: 0 }); assert.equal(glowing[0].emissiveIntensity, 0);
 });
 
-test('light-coloured steel and wood stay non-emissive while actual lamp parts follow nightfall', async () => {
+test('all 294 objects keep ordinary surfaces non-emissive while actual lamp parts follow nightfall', async () => {
   const library = createNativeItemLibrary(T, { getDefinition: getItemDefinition, getAssembly: getPlantAssembly, units: ITEM_METRES_TO_UNITS, loadModel: async (_T, item) => geometryTemplate(item) });
   const brightSurfaces = [], lampParts = [];
+  assert.equal(ITEMS.length, 294);
   for (const item of ITEMS) {
     const data = readFileSync(new URL('../' + item.file, import.meta.url));
     const gltf = JSON.parse(data.subarray(20, 20 + data.readUInt32LE(12)).toString());
-    if (!gltf.nodes.some(node => ['steel-light', 'wood-light', 'light'].includes(node.extras?.finish))) continue;
+    for (const node of gltf.nodes.filter(node => node.mesh !== undefined)) {
+      if (node.extras?.finish === 'light') continue;
+      for (const primitive of gltf.meshes[node.mesh].primitives) {
+        const material = gltf.materials[primitive.material];
+        assert.ok(!material.emissiveFactor?.some(Boolean) && !material.emissiveTexture, item.id + ' source surface has no baked emission');
+        assert.equal(material.extensions?.KHR_materials_unlit, undefined, item.id + ' source surface receives scene lighting');
+      }
+    }
     const root = library.make({ type: item.id }); await nativeModelReady(root);
     root.traverse(mesh => {
       if (!mesh.isMesh) return;
       const material = mesh.material, finish = material.userData.finish;
       const part = { id: item.id, material, pigment: material.color.getHexString() };
-      if (finish === 'steel-light' || finish === 'wood-light') brightSurfaces.push(part);
-      else if (finish === 'light') lampParts.push(part);
+      if (finish === 'light') lampParts.push(part);
+      else brightSurfaces.push(part);
     });
   }
   assert.ok(brightSurfaces.some(p => p.id === 'steel-sink'));

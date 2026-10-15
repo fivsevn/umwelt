@@ -1,0 +1,19 @@
+{
+  "windowLightObjects": 2388,
+  "nonWindowGlassObjects": 755,
+  "geometry": {
+    "sha256": "3144ff4e5a169852e0e1e66618d37147e8f9397036610f2877e8eb938298a510",
+    "meshDataBlocks": 12490,
+    "vertices": 116395,
+    "polygons": 82942
+  },
+  "normalsSha256": "2395b1bad64a862bf59c0a8d9a71e642d203d6c98eed8d10665fb19e62d7a5a7",
+  "uvSha256": "ed3d9b1b850caa94dd2712cc46e32c5a5d75fc27b99f76709ea47900c043e739",
+  "materialAssignmentsSha256": "94a8f88b95e266af2bc4be8322b2e278d1a4eb26946d585721590d366bdbc435",
+  "geometryUvTransformsMaterialsTexturesUnchanged": true,
+  "reopened": true,
+  "runtimeGeometryUvTransformsMaterialsTexturesUnchanged": true,
+  "windowInstances": 2388,
+  "drawCalls": 410,
+  "triangles": 435019
+}

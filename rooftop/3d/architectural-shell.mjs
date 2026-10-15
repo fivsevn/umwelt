@@ -194,7 +194,9 @@ export function loadArchitecturalShell(T, parent) {
             shellMetres: { value: new T.Vector3(...metreScale) },
             shellTexelsPerMetre: { value: manifest.texelsPerMetre || 8 },
             shellAtlas: { value: new T.Vector2(definition.width || 512, definition.height || 512) },
-            shellGlass: { value: part.field.includes("glass") ? 1 : 0 },
+            // Glass pigment also appears on water, cars, laundry and dark
+            // fittings. Only explicitly authored building panes emit light.
+            shellGlass: { value: part.windowLight === true ? 1 : 0 },
           });
           shader.vertexShader = "uniform vec3 shellMetres; uniform float shellTexelsPerMetre; varying vec2 shellChart; varying vec3 shellNormal; varying float shellLamp;\n" + shader.vertexShader;
           shader.fragmentShader = "uniform vec4 shellRect; uniform vec2 shellAtlas; uniform vec3 shellTone; uniform float shellWet; uniform float shellLamps; uniform float shellGlass; varying vec2 shellChart; varying vec3 shellNormal; varying float shellLamp;\n" + shader.fragmentShader;

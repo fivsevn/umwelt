@@ -15,6 +15,18 @@ import {BACKGROUND as manifest} from '../assets/background/empty-rooftop.mjs';
 const bytes=readFileSync(new URL('empty-rooftop.bin',directory));
 const encoded=readFileSync(new URL(compression.file,directory));
 const arrayBuffer=value=>value.buffer.slice(value.byteOffset,value.byteOffset+value.byteLength);
+test('only authored building panes receive window light, never shared glass pigments',()=>{
+ const windows=manifest.parts.filter(p=>p.windowLight===true);
+ assert.deepEqual(windows.map(p=>[p.field,p.count]).sort(),[['blue-glass',504],['dark-glass',585],['glass',1299]]);
+ assert.ok(windows.every(p=>p.layer==='near'&&p.mode==='instances'));
+ assert.ok(manifest.parts.filter(p=>p.layer==='ground').every(p=>!p.windowLight),'water and vehicle glazing stay unlit');
+ for(const [field,count]of [['blue-glass',3],['dark-glass',15]]){
+  assert.ok(manifest.parts.some(p=>p.field===field&&p.layer==='near'&&p.mode==='instances'&&p.count===count&&!p.windowLight),'laundry and solid door panels retain their pigment without window emission');
+ }
+ assert.ok(manifest.parts.filter(p=>p.mode==='meshInstances'&&p.field==='dark-glass').every(p=>!p.windowLight),'dark circular fittings are not window panes');
+ const distant=manifest.parts.filter(p=>p.lampMask);
+ assert.equal(distant.length,1);assert.equal(distant[0].style,'baked');assert.equal(distant[0].lampMask,'distance-lights.png');
+});
 test('gzip transport preserves the exact native source across compressor versions',()=>{
  assert.equal(compression.decodedSha,manifest.sha256);
  assert.equal(compression.decodedBytes,manifest.bytes);
@@ -211,7 +223,7 @@ test('native loader shares collection geometry, physical charts and baked facade
  const fixture={format:'blender-environment-v2',binary:'fixture.bin',sha256:'fixture',texture:'book.png',textureSha256:'bookhash',
   textures:[{file:'book.png',width:512,height:512,bytes:10},{file:'facades.png',width:2048,height:1024,bytes:20},{file:'lights.png',width:2048,height:1024,bytes:5}],
   texelMetresPerUnit:[.27,.5357,.46],texelsPerMetre:16,cube:{offset:cubeOffset,vertices:manifest.cube.vertices},triangles:27,objects:5,
-  parts:[{field:'wall',mode:'instances',offset:0,directCount:0,count:2,rect:[0,0,32,32],layer:'near',assemblies:[{sourceOffset:localMatrices,sourceCount:2,worldOffset:worldMatrix,worldCount:1}]},
+  parts:[{field:'glass',windowLight:true,mode:'instances',offset:0,directCount:0,count:2,rect:[0,0,32,32],layer:'near',assemblies:[{sourceOffset:localMatrices,sourceCount:2,worldOffset:worldMatrix,worldCount:1}]},
    {field:'north-floor',mode:'meshInstances',offset:triangleOffset,vertices:3,matricesOffset:collectionMatrices,count:2,rect:[0,0,128,128],layer:'near'},
    {field:'distant-facades',mode:'mesh',offset:farOffset,vertices:3,style:'baked',shading:'orientation',texture:'facades.png',lampMask:'lights.png',layer:'far'}]};
  const requested=[];
@@ -255,6 +267,14 @@ test('native loader shares collection geometry, physical charts and baked facade
  const shader=(library=T.ShaderLib.basic)=>({uniforms:{},vertexShader:library.vertexShader,fragmentShader:library.fragmentShader}),
   boxShader=shader(T.ShaderLib.lambert),floorShader=shader(T.ShaderLib.lambert),farShader=shader();
  boxes.material.onBeforeCompile(boxShader);floor.material.onBeforeCompile(floorShader);far.material.onBeforeCompile(farShader);
+ assert.equal(boxShader.uniforms.shellGlass.value,1,'explicit building windows receive night emission');
+ assert.equal(floorShader.uniforms.shellGlass.value,0,'ordinary surfaces do not emit');
+ for(const field of ['glass','blue-glass','dark-glass','north-floor','south-floor','metal','plaster']){
+  fixture.parts[1].field=field;
+  const ordinary=shader(T.ShaderLib.lambert);floor.material.onBeforeCompile(ordinary);
+  assert.equal(ordinary.uniforms.shellGlass.value,0,field+' pigment alone is never a light source');
+ }
+ fixture.parts[1].field='north-floor';
  assert.match(boxShader.vertexShader,/\.xyz \* shellMetres/);
  assert.match(boxShader.vertexShader,/\* shellTexelsPerMetre/);
  assert.equal(boxShader.uniforms.shellTexelsPerMetre.value,16,'instanced boxes use the same physical pixel density as native mesh UVs');

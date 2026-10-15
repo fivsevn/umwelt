@@ -42,6 +42,8 @@
 
 物件夜间自发光只读取原稿中明确的 `finish: light` 标记，用于灯泡和发光面。`steel-light`、`wood-light` 表示浅色钢与浅色木材，不产生自发光。昼夜变化保留原贴图颜色；建筑窗灯继续使用独立的窗面与灯光遮罩。
 
+建筑近景窗面由 Blender 对象的 `window_light` 标记导出为 `windowLight`，只有这些窗面参与夜间暖光。`glass`、`blue-glass`、`dark-glass` 是颜料分区，车辆玻璃、水面、衣物、实心门板和深色圆形构件不会因为共用分区而发光。远景沿用 `distance-lights.png` 窗灯遮罩，房间壁灯使用独立的 `room-lamp-glow` 标记。294 件物件的全部普通表面、四类灯具及建筑窗面分别检查昼夜变化。
+
 `face-paintings.mjs` 提供正式模型的共用函数。2D 回退和图鉴绘制继续保持兼容。
 
 ## 空气与天气
