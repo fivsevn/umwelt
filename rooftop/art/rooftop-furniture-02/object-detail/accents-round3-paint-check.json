@@ -1,0 +1,20 @@
+{
+  "software": "Pixelorama",
+  "tool": "Pencil",
+  "openedExistingSource": true,
+  "independentlyReopened": true,
+  "nativeCelEqualsExport": true,
+  "protectedPixelsUnchanged": 4172333,
+  "texelsPerMetre": 16,
+  "pencilRuns": 9224,
+  "changedPixelsByItem": {
+    "tin-lantern": 700,
+    "solar-lamp": 176,
+    "tasklamp": 589,
+    "string-lights": 446,
+    "tea-set": 490,
+    "radio-small": 525
+  },
+  "originalConfigRestored": true,
+  "revision": 3
+}

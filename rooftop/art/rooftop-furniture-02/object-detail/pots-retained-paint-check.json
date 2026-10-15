@@ -1,0 +1,22 @@
+{
+  "software": "Pixelorama",
+  "tool": "Pencil",
+  "openedExistingSource": true,
+  "independentlyReopened": true,
+  "nativeCelEqualsExport": true,
+  "protectedPixelsUnchanged": 4157500,
+  "texelsPerMetre": 16,
+  "pencilRuns": 14367,
+  "changedPixelsByItem": {
+    "vessel-shallow": 424,
+    "vessel-growbag": 906,
+    "vessel-white": 480,
+    "vessel-basket": 806,
+    "vessel-trough": 1202,
+    "vessel-terra": 448,
+    "vessel-foam": 922,
+    "vessel-plastic": 448,
+    "vessel-deep": 808
+  },
+  "originalConfigRestored": true
+}

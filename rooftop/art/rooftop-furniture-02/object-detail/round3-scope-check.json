@@ -1,0 +1,35 @@
+{
+  "round": 3,
+  "items": 294,
+  "allRuntimeAssets": 610,
+  "changedAssets": 595,
+  "protectedAssetsUnchanged": [
+    "rooftop/assets/background/empty-rooftop.bin",
+    "rooftop/assets/background/distance-facades.png",
+    "rooftop/assets/background/empty-rooftop-compression.mjs",
+    "rooftop/assets/background/terrace-book.png",
+    "rooftop/assets/background/empty-rooftop.mjs",
+    "rooftop/assets/background/empty-rooftop.bin.gz",
+    "rooftop/assets/background/distance-lights.png",
+    "rooftop/assets/room/room-part-bounds.mjs",
+    "rooftop/assets/room/room-background-2d.png",
+    "rooftop/assets/room/room-background-atlas.png",
+    "rooftop/assets/room/room-background.mjs",
+    "rooftop/assets/room/room-background.glb",
+    "rooftop/assets/pixel/material-book.png",
+    "rooftop/assets/terraces/terraces.glb",
+    "rooftop/assets/observers/observer-icons-atlas.png"
+  ],
+  "changedModelCount": 294,
+  "changedAtlasCount": 7,
+  "changedPortraitCount": 294,
+  "catalogueFieldsUnchangedExcept": [
+    "modelSha256",
+    "thumbnailProjection"
+  ],
+  "geometryAndUv": "seven independently reopened Blender families match round-3 baseline exactly",
+  "testSuite": {
+    "passed": 434,
+    "failed": 0
+  }
+}

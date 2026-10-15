@@ -1,0 +1,26 @@
+{
+  "originalMeshesUnchanged": 256,
+  "addedMeshes": [
+    "dresser-wood/detail2-side-rail--1-0",
+    "dresser-wood/detail2-side-rail--1-1",
+    "dresser-wood/detail2-side-rail-1-0",
+    "dresser-wood/detail2-side-rail-1-1",
+    "dresser-wood/detail2-side-stile--1--1",
+    "dresser-wood/detail2-side-stile--1-1",
+    "dresser-wood/detail2-side-stile-1--1",
+    "dresser-wood/detail2-side-stile-1-1",
+    "sofa-one/detail2-back-welt-back-cushion-0",
+    "sofa-two/detail2-back-welt-back-cushion-0",
+    "sofa-two/detail2-back-welt-back-cushion-1",
+    "wardrobe-wood/detail2-side-rail--1-0",
+    "wardrobe-wood/detail2-side-rail--1-1",
+    "wardrobe-wood/detail2-side-rail-1-0",
+    "wardrobe-wood/detail2-side-rail-1-1",
+    "wardrobe-wood/detail2-side-stile--1--1",
+    "wardrobe-wood/detail2-side-stile--1-1",
+    "wardrobe-wood/detail2-side-stile-1--1",
+    "wardrobe-wood/detail2-side-stile-1-1"
+  ],
+  "newCharts": 434,
+  "boundsAndSupportSurfacesPreserved": true
+}

@@ -1,0 +1,27 @@
+{
+  "software": "Pixelorama",
+  "tool": "Pencil",
+  "openedExistingSource": true,
+  "independentlyReopened": true,
+  "nativeCelEqualsExport": true,
+  "protectedPixelsUnchanged": 4051134,
+  "texelsPerMetre": 16,
+  "pencilRuns": 75441,
+  "changedPixelsByItem": {
+    "antique-celadon": 704,
+    "antique-nabeshima-dish": 290,
+    "sofa-one": 5240,
+    "sofa-two": 6666,
+    "dresser-wood": 4101,
+    "antique-nabeshima": 311,
+    "wardrobe-wood": 6545,
+    "antique-nezumi": 420,
+    "antique-kutani-red": 547,
+    "antique-shino": 584,
+    "antique-oribe-jar": 850,
+    "bed-modern": 5694,
+    "antique-shino-square": 876
+  },
+  "originalConfigRestored": true,
+  "revision": 3
+}

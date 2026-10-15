@@ -47,6 +47,10 @@ __pycache__/
 *.pyc
 .rooftop-qa/
 */art/**/pixelorama-native-reopened.json
+# Reproducible Pencil commands and local numbered portrait copies.
+rooftop/art/rooftop-furniture-02/*/detail-pencil-strokes.json
+rooftop/assets/items/thumbs/* [0-9].png
+rooftop/assets/items/thumbs/* [0-9][0-9].png
 
 # The current editable scene is reconstructed from tracked source parts.
 ophidia/art/ophidia-01/ophidia.blend

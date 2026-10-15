@@ -1,0 +1,30 @@
+{
+  "software": "Pixelorama",
+  "tool": "Pencil",
+  "openedExistingSource": true,
+  "independentlyReopened": true,
+  "nativeCelEqualsExport": true,
+  "protectedPixelsUnchanged": 4086127,
+  "texelsPerMetre": 16,
+  "pencilRuns": 37815,
+  "changedPixelsByItem": {
+    "antique-seto-hitorine": 439,
+    "antique-shigaraki-jar": 1163,
+    "antique-arita-coffee": 855,
+    "antique-karatsu-bowl": 435,
+    "antique-kakiemon-hex": 486,
+    "antique-iga-lobed": 1068,
+    "antique-tamba-jar": 938,
+    "antique-echizen-jar": 840,
+    "antique-hagi-bowl": 515,
+    "antique-oribe-ewer": 1661,
+    "antique-kenzan-chestnut": 400,
+    "antique-tokoname-sutra": 1448,
+    "antique-tsuboya-dragon": 566,
+    "antique-banko-teapot": 829,
+    "antique-bizen-gourd": 883,
+    "antique-kiyomizu-incense": 590
+  },
+  "originalConfigRestored": true,
+  "revision": 3
+}

@@ -402,7 +402,7 @@
         "width": 0.875,
         "depth": 0.4375
       },
-      "triangles": 476,
+      "triangles": 508,
       "sourceBlend": "everyday/everyday.blend",
       "sourcePixelorama": "everyday/everyday-atlas.pxo"
     },
@@ -478,7 +478,7 @@
         "width": 0.875,
         "depth": 0.4375
       },
-      "triangles": 684,
+      "triangles": 732,
       "sourceBlend": "everyday/everyday.blend",
       "sourcePixelorama": "everyday/everyday-atlas.pxo"
     },
@@ -550,7 +550,7 @@
         "width": 0.8600000143051147,
         "depth": 0.9132322072982788
       },
-      "triangles": 252,
+      "triangles": 420,
       "sourceBlend": "everyday/everyday.blend",
       "sourcePixelorama": "everyday/everyday-atlas.pxo"
     },
@@ -679,7 +679,7 @@
         "width": 0.875,
         "depth": 0.875
       },
-      "triangles": 156,
+      "triangles": 188,
       "sourceBlend": "everyday/everyday.blend",
       "sourcePixelorama": "everyday/everyday-atlas.pxo"
     },
@@ -986,7 +986,7 @@
         "width": 1.4674999713897705,
         "depth": 0.7219232618808746
       },
-      "triangles": 1908,
+      "triangles": 1956,
       "sourceBlend": "rooms-vessels/rooms-vessels.blend",
       "sourcePixelorama": "rooms-vessels/rooms-vessels-atlas.pxo"
     },
@@ -1047,7 +1047,7 @@
         "width": 0.8425000309944153,
         "depth": 0.7219232618808746
       },
-      "triangles": 1820,
+      "triangles": 1844,
       "sourceBlend": "rooms-vessels/rooms-vessels.blend",
       "sourcePixelorama": "rooms-vessels/rooms-vessels-atlas.pxo"
     },
@@ -1095,7 +1095,7 @@
         "width": 0.890999972820282,
         "depth": 0.5897430777549744
       },
-      "triangles": 728,
+      "triangles": 1304,
       "sourceBlend": "rooms-vessels/rooms-vessels.blend",
       "sourcePixelorama": "rooms-vessels/rooms-vessels-atlas.pxo"
     },
@@ -1143,7 +1143,7 @@
         "width": 0.7114999890327454,
         "depth": 0.5190577954053879
       },
-      "triangles": 816,
+      "triangles": 1564,
       "sourceBlend": "rooms-vessels/rooms-vessels.blend",
       "sourcePixelorama": "rooms-vessels/rooms-vessels-atlas.pxo"
     },
@@ -1192,7 +1192,7 @@
         "width": 0.5,
         "depth": 0.3125
       },
-      "triangles": 684,
+      "triangles": 996,
       "sourceBlend": "everyday/everyday.blend",
       "sourcePixelorama": "everyday/everyday-atlas.pxo"
     },
@@ -1241,7 +1241,7 @@
         "width": 0.5,
         "depth": 0.3125
       },
-      "triangles": 684,
+      "triangles": 996,
       "sourceBlend": "everyday/everyday.blend",
       "sourcePixelorama": "everyday/everyday-atlas.pxo"
     },
@@ -1290,7 +1290,7 @@
         "width": 0.5,
         "depth": 0.3125
       },
-      "triangles": 684,
+      "triangles": 996,
       "sourceBlend": "everyday/everyday.blend",
       "sourcePixelorama": "everyday/everyday-atlas.pxo"
     },
@@ -1338,7 +1338,7 @@
         "width": 0.3349197208881378,
         "depth": 0.3240000009536743
       },
-      "triangles": 876,
+      "triangles": 1376,
       "sourceBlend": "everyday/everyday.blend",
       "sourcePixelorama": "everyday/everyday-atlas.pxo"
     },
@@ -1534,7 +1534,7 @@
         "width": 0.625,
         "depth": 0.3125
       },
-      "triangles": 172,
+      "triangles": 214,
       "sourceBlend": "everyday/everyday.blend",
       "sourcePixelorama": "everyday/everyday-atlas.pxo"
     },
@@ -1568,7 +1568,7 @@
         "width": 0.4375,
         "depth": 0.4375
       },
-      "triangles": 172,
+      "triangles": 214,
       "sourceBlend": "everyday/everyday.blend",
       "sourcePixelorama": "everyday/everyday-atlas.pxo"
     },
@@ -2784,7 +2784,7 @@
         "width": 0.4225607365369797,
         "depth": 0.2639944553375244
       },
-      "triangles": 684,
+      "triangles": 876,
       "sourceBlend": "accents/accents.blend",
       "sourcePixelorama": "accents/accents-atlas.pxo"
     },
@@ -2814,7 +2814,7 @@
         "width": 0.20000000298023224,
         "depth": 0.20000000298023224
       },
-      "triangles": 316,
+      "triangles": 340,
       "sourceBlend": "accents/accents.blend",
       "sourcePixelorama": "accents/accents-atlas.pxo"
     },
@@ -2910,7 +2910,7 @@
         "width": 0.4564160406589508,
         "depth": 0.19550000131130219
       },
-      "triangles": 348,
+      "triangles": 592,
       "sourceBlend": "accents/accents.blend",
       "sourcePixelorama": "accents/accents-atlas.pxo"
     },

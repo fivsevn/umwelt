@@ -1,0 +1,201 @@
+{
+  "editedObjects": [
+    "iron-3-black",
+    "iron-3-silver",
+    "iron-4-black",
+    "iron-4-silver",
+    "wood-2",
+    "wood-3",
+    "step-rack",
+    "plastic-basket-rack",
+    "wood-square-table",
+    "iron-round-table",
+    "wood-round-stool",
+    "wood-square-stool",
+    "plastic-round-stool",
+    "bed-modern",
+    "sofa-two",
+    "sofa-one",
+    "wardrobe-wood",
+    "dresser-wood",
+    "crate-blue",
+    "crate-gray",
+    "crate-red",
+    "galvanized-bucket",
+    "plastic-bucket",
+    "foam-soil",
+    "foam-seedlings",
+    "seed-tray",
+    "aquarium-rectangle",
+    "aquarium-square",
+    "ceramic-fish-bowl",
+    "vessel-terra",
+    "vessel-plastic",
+    "vessel-white",
+    "vessel-shallow",
+    "vessel-foam",
+    "vessel-trough",
+    "vessel-growbag",
+    "vessel-deep",
+    "vessel-basket",
+    "steel-sink",
+    "enamel-basin",
+    "trowel",
+    "pruning-shears",
+    "trigger-sprayer",
+    "watering-can",
+    "hose-coil",
+    "drying-rack",
+    "clip-hanger",
+    "towel",
+    "tasklamp",
+    "solar-lamp",
+    "tin-lantern",
+    "string-lights",
+    "radio-small",
+    "tea-set"
+  ],
+  "protectedSharedAtlasObjects": [
+    {
+      "id": "vessel-antique-shino",
+      "geometryAndUvSha256": "293507ef1ff865b2f1da216b0ab456efb914f4ef63dd875514f6b656812c2462",
+      "usedAtlasPixelsPreserved": true
+    },
+    {
+      "id": "vessel-antique-nezumi",
+      "geometryAndUvSha256": "e2f93ab728e9dced9e5eb18123ffea4aeb1de7d90004c6052c2d0b1808cc930b",
+      "usedAtlasPixelsPreserved": true
+    },
+    {
+      "id": "vessel-antique-shino-square",
+      "geometryAndUvSha256": "f7e9c193c936c0bc99f0611477fdb3cc327eb2bbe42a4dbe015e9c2f513d3b32",
+      "usedAtlasPixelsPreserved": true
+    },
+    {
+      "id": "vessel-antique-nabeshima",
+      "geometryAndUvSha256": "0454835306b8688605f563906e3db68ef430d0fd5d7c1a56dadd8bff7bc8f22c",
+      "usedAtlasPixelsPreserved": true
+    },
+    {
+      "id": "vessel-antique-nabeshima-dish",
+      "geometryAndUvSha256": "10b63ca65bd1e9dc353d8726bbd802caba876b4d4bb26cb65477a30f0c37ec7f",
+      "usedAtlasPixelsPreserved": true
+    },
+    {
+      "id": "vessel-antique-kutani-red",
+      "geometryAndUvSha256": "c9dde9abb00c82d8db5983e21ae56c03796d9cd8b50da921c8e24f69742fbf2e",
+      "usedAtlasPixelsPreserved": true
+    },
+    {
+      "id": "vessel-antique-celadon",
+      "geometryAndUvSha256": "8a0c8e893632ba992f34c84c2f1297eb5c532ae35df32959f865f07da78e8ab1",
+      "usedAtlasPixelsPreserved": true
+    },
+    {
+      "id": "vessel-antique-oribe-jar",
+      "geometryAndUvSha256": "6426520ce1fe8ab66a5ed164f46e140a0de78bc3a2c6c8a108651e752d7895f3",
+      "usedAtlasPixelsPreserved": true
+    },
+    {
+      "id": "vessel-tokoname",
+      "geometryAndUvSha256": "e93b9c3afa10da3f6560aac3f9707212f7cd0a24570c3e6355a14f0a38548d20",
+      "usedAtlasPixelsPreserved": true
+    },
+    {
+      "id": "vessel-shigaraki",
+      "geometryAndUvSha256": "4182bd4fb7b915273a1f13ee231a73245d4cc82d2ea01c8f17b3b04d9f0ea964",
+      "usedAtlasPixelsPreserved": true
+    },
+    {
+      "id": "vessel-bizen",
+      "geometryAndUvSha256": "66fc48bedf952da3fba426b76714dfc275a46c75443c942496afddd416937c31",
+      "usedAtlasPixelsPreserved": true
+    },
+    {
+      "id": "vessel-mashiko",
+      "geometryAndUvSha256": "f63d5a05c39b51d8ee8a3d900b2cdf1b47328004def062feb30201c5bd18aed9",
+      "usedAtlasPixelsPreserved": true
+    },
+    {
+      "id": "vessel-kasama",
+      "geometryAndUvSha256": "e713415f369be1fbeac366385e54f3f384393c969cd199b7943846668e199c97",
+      "usedAtlasPixelsPreserved": true
+    },
+    {
+      "id": "vessel-mino",
+      "geometryAndUvSha256": "4d3d5c613a55bc8762081ca4232d26c68c89e32eb1d3638b0f8d50196ae17481",
+      "usedAtlasPixelsPreserved": true
+    },
+    {
+      "id": "vessel-seto",
+      "geometryAndUvSha256": "004f24eb606ad22593dbcf8365c850351d8998df5d657a1ed54c963c1a3ae0bc",
+      "usedAtlasPixelsPreserved": true
+    },
+    {
+      "id": "vessel-kutani",
+      "geometryAndUvSha256": "02f64da4ff04409e58d8638016884650a9b1eab7f1f1fb07b53d6f8e87ddd8dc",
+      "usedAtlasPixelsPreserved": true
+    },
+    {
+      "id": "vessel-arita",
+      "geometryAndUvSha256": "edbb751ae54c4bc4729dcefc9dd6ba7351682d85594327a43d87d3a28eeaeaf9",
+      "usedAtlasPixelsPreserved": true
+    },
+    {
+      "id": "vessel-imari",
+      "geometryAndUvSha256": "0a1f2d83e1e3ea69165b72b7e10fc62cdc75de187b336319bdc1335425ac4eff",
+      "usedAtlasPixelsPreserved": true
+    },
+    {
+      "id": "vessel-hasami",
+      "geometryAndUvSha256": "ee9824d0ef754ac30e7ca4b8378c7498e3ec0978e1ce28315f1cb9122d830bb9",
+      "usedAtlasPixelsPreserved": true
+    },
+    {
+      "id": "vessel-kyoto",
+      "geometryAndUvSha256": "b58dec32f3b6b85a7e2f3b851e26796967dfc3376797df2ea6349b014d387b61",
+      "usedAtlasPixelsPreserved": true
+    },
+    {
+      "id": "vessel-hagi",
+      "geometryAndUvSha256": "0cf1ea1522cf16ff02e6c90d2d731ac217777aa3ef03fb14409a27f91e86fa61",
+      "usedAtlasPixelsPreserved": true
+    },
+    {
+      "id": "vessel-karatsu",
+      "geometryAndUvSha256": "f61f9d87be84f3815ba6085410d71832bfc1c15b6bf09babadbc41203d065a7d",
+      "usedAtlasPixelsPreserved": true
+    },
+    {
+      "id": "vessel-tobe",
+      "geometryAndUvSha256": "6991144a796e3ef742a04f5c722e7d88a6cc990dee71aa6554f9473bacc6ddce",
+      "usedAtlasPixelsPreserved": true
+    },
+    {
+      "id": "vessel-koishiwara",
+      "geometryAndUvSha256": "c79f4ac38d577dcac6f07ec2120ec232fedc8ae1f63ec608dfbf4378cbbd3d93",
+      "usedAtlasPixelsPreserved": true
+    },
+    {
+      "id": "vessel-ontayaki",
+      "geometryAndUvSha256": "ce13c01951ba7deb1a2e3f75079f619a58df65fecd7751109b57f643a8d96ce4",
+      "usedAtlasPixelsPreserved": true
+    },
+    {
+      "id": "vessel-iga",
+      "geometryAndUvSha256": "26b8ba3a658ea068b5cd0e71f24b86939aeabe6a59b32bca1484b9cf7de5a572",
+      "usedAtlasPixelsPreserved": true
+    },
+    {
+      "id": "vessel-echizen",
+      "geometryAndUvSha256": "b4d2d24d75975b91a6888ccb8c2e458c04b5853bb07134339bcf240b4557f89f",
+      "usedAtlasPixelsPreserved": true
+    },
+    {
+      "id": "vessel-tsuboya",
+      "geometryAndUvSha256": "e761c61e02a96527922ae1d798a0a05a2dd2bf09f101e57411c6f5490b4e6a00",
+      "usedAtlasPixelsPreserved": true
+    }
+  ],
+  "catalogueIdsAndSurfacesPreserved": true
+}

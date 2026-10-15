@@ -1,0 +1,25 @@
+{
+  "changedObjectCount": 54,
+  "assetFilesChecked": 610,
+  "onlyExpectedResourcesChanged": true,
+  "catalogueAndPlacementKeysPreserved": [
+    "id",
+    "name",
+    "category",
+    "width",
+    "depth",
+    "height",
+    "boundsMin",
+    "boundsMax",
+    "surfaces",
+    "footprint",
+    "contactBounds",
+    "note",
+    "sources",
+    "botany",
+    "defaultPot",
+    "placement"
+  ],
+  "plantsAndWeaponsModelFilesUnchanged": true,
+  "buildingTerraceActorAssetsUnchanged": true
+}

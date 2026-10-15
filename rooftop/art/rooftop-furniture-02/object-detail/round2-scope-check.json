@@ -1,0 +1,33 @@
+{
+  "revision": 2,
+  "assetFilesChecked": 610,
+  "onlyExpectedResourcesChanged": true,
+  "catalogueAndPlacementKeysPreserved": [
+    "id",
+    "name",
+    "category",
+    "width",
+    "depth",
+    "height",
+    "boundsMin",
+    "boundsMax",
+    "surfaces",
+    "footprint",
+    "contactBounds",
+    "note",
+    "sources",
+    "botany",
+    "defaultPot",
+    "placement"
+  ],
+  "plantsAndWeaponsModelFilesUnchanged": true,
+  "buildingTerraceActorAssetsUnchanged": true,
+  "changedRuntimeFiles": 250,
+  "onlyFourDerivedCatalogueFieldsChanged": [
+    "modelSha256",
+    "physicalParts",
+    "thumbnailProjection",
+    "triangles"
+  ],
+  "finalPortraits": 164
+}

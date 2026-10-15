@@ -1,0 +1,19 @@
+{
+  "software": "Pixelorama",
+  "tool": "Pencil",
+  "openedExistingSource": true,
+  "independentlyReopened": true,
+  "nativeCelEqualsExport": true,
+  "protectedPixelsUnchanged": 4087888,
+  "texelsPerMetre": 16,
+  "pencilRuns": 55894,
+  "changedPixelsByItem": {
+    "wardrobe-wood": 6798,
+    "dresser-wood": 4244,
+    "sofa-one": 5051,
+    "bed-modern": 5778,
+    "sofa-two": 6265
+  },
+  "originalConfigRestored": true,
+  "revision": 2
+}

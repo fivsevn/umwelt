@@ -1064,7 +1064,7 @@
         "width": 1.4674999713897705,
         "depth": 0.7219232618808746
       },
-      "triangles": 1908,
+      "triangles": 1956,
       "sourceBlend": "rooms-vessels/rooms-vessels.blend",
       "sourcePixelorama": "rooms-vessels/rooms-vessels-atlas.pxo"
     },
@@ -1125,7 +1125,7 @@
         "width": 0.8425000309944153,
         "depth": 0.7219232618808746
       },
-      "triangles": 1820,
+      "triangles": 1844,
       "sourceBlend": "rooms-vessels/rooms-vessels.blend",
       "sourcePixelorama": "rooms-vessels/rooms-vessels-atlas.pxo"
     },
@@ -1173,7 +1173,7 @@
         "width": 0.890999972820282,
         "depth": 0.5897430777549744
       },
-      "triangles": 728,
+      "triangles": 1304,
       "sourceBlend": "rooms-vessels/rooms-vessels.blend",
       "sourcePixelorama": "rooms-vessels/rooms-vessels-atlas.pxo"
     },
@@ -1221,7 +1221,7 @@
         "width": 0.7114999890327454,
         "depth": 0.5190577954053879
       },
-      "triangles": 816,
+      "triangles": 1564,
       "sourceBlend": "rooms-vessels/rooms-vessels.blend",
       "sourcePixelorama": "rooms-vessels/rooms-vessels-atlas.pxo"
     }

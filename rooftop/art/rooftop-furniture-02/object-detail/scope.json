@@ -1,0 +1,380 @@
+[
+  {
+    "id": "iron-3-black",
+    "modelId": "iron-3-black",
+    "name": "铁质三层架 · 黑色",
+    "family": "everyday",
+    "category": "架子"
+  },
+  {
+    "id": "iron-3-silver",
+    "modelId": "iron-3-silver",
+    "name": "铁质三层架 · 银色",
+    "family": "everyday",
+    "category": "架子"
+  },
+  {
+    "id": "iron-4-black",
+    "modelId": "iron-4-black",
+    "name": "铁质四层架 · 黑色",
+    "family": "everyday",
+    "category": "架子"
+  },
+  {
+    "id": "iron-4-silver",
+    "modelId": "iron-4-silver",
+    "name": "铁质四层架 · 银色",
+    "family": "everyday",
+    "category": "架子"
+  },
+  {
+    "id": "wood-2",
+    "modelId": "wood-2",
+    "name": "木质两层架",
+    "family": "everyday",
+    "category": "架子"
+  },
+  {
+    "id": "wood-3",
+    "modelId": "wood-3",
+    "name": "木质三层架",
+    "family": "everyday",
+    "category": "架子"
+  },
+  {
+    "id": "step-rack",
+    "modelId": "step-rack",
+    "name": "三阶斜式木架",
+    "family": "everyday",
+    "category": "架子"
+  },
+  {
+    "id": "plastic-basket-rack",
+    "modelId": "plastic-basket-rack",
+    "name": "浅白三篮筐架",
+    "family": "everyday",
+    "category": "架子"
+  },
+  {
+    "id": "wood-square-table",
+    "modelId": "wood-square-table",
+    "name": "方木桌",
+    "family": "everyday",
+    "category": "桌椅与居室"
+  },
+  {
+    "id": "iron-round-table",
+    "modelId": "iron-round-table",
+    "name": "圆铁桌",
+    "family": "everyday",
+    "category": "桌椅与居室"
+  },
+  {
+    "id": "wood-round-stool",
+    "modelId": "wood-round-stool",
+    "name": "圆木小板凳",
+    "family": "everyday",
+    "category": "桌椅与居室"
+  },
+  {
+    "id": "wood-square-stool",
+    "modelId": "wood-square-stool",
+    "name": "方木小板凳",
+    "family": "everyday",
+    "category": "桌椅与居室"
+  },
+  {
+    "id": "plastic-round-stool",
+    "modelId": "plastic-round-stool",
+    "name": "塑料圆凳",
+    "family": "everyday",
+    "category": "桌椅与居室"
+  },
+  {
+    "id": "bed-modern",
+    "modelId": "bed-modern",
+    "name": "木框床",
+    "family": "rooms-vessels",
+    "category": "桌椅与居室"
+  },
+  {
+    "id": "sofa-two",
+    "modelId": "sofa-two",
+    "name": "管钢双人沙发",
+    "family": "rooms-vessels",
+    "category": "桌椅与居室"
+  },
+  {
+    "id": "sofa-one",
+    "modelId": "sofa-one",
+    "name": "管钢单人沙发",
+    "family": "rooms-vessels",
+    "category": "桌椅与居室"
+  },
+  {
+    "id": "wardrobe-wood",
+    "modelId": "wardrobe-wood",
+    "name": "双门木衣柜",
+    "family": "rooms-vessels",
+    "category": "桌椅与居室"
+  },
+  {
+    "id": "dresser-wood",
+    "modelId": "dresser-wood",
+    "name": "三屉木斗柜",
+    "family": "rooms-vessels",
+    "category": "桌椅与居室"
+  },
+  {
+    "id": "crate-blue",
+    "modelId": "crate-blue",
+    "name": "蓝色周转箱",
+    "family": "everyday",
+    "category": "栽培与盛放"
+  },
+  {
+    "id": "crate-gray",
+    "modelId": "crate-gray",
+    "name": "灰色周转箱",
+    "family": "everyday",
+    "category": "栽培与盛放"
+  },
+  {
+    "id": "crate-red",
+    "modelId": "crate-red",
+    "name": "砖红周转箱",
+    "family": "everyday",
+    "category": "栽培与盛放"
+  },
+  {
+    "id": "galvanized-bucket",
+    "modelId": "galvanized-bucket",
+    "name": "镀锌铁皮水桶",
+    "family": "everyday",
+    "category": "栽培与盛放"
+  },
+  {
+    "id": "plastic-bucket",
+    "modelId": "plastic-bucket",
+    "name": "塑料水桶",
+    "family": "everyday",
+    "category": "栽培与盛放"
+  },
+  {
+    "id": "foam-soil",
+    "modelId": "foam-soil",
+    "name": "泡沫土箱",
+    "family": "everyday",
+    "category": "栽培与盛放"
+  },
+  {
+    "id": "foam-seedlings",
+    "modelId": "foam-seedlings",
+    "name": "泡沫育苗箱",
+    "family": "everyday",
+    "category": "栽培与盛放"
+  },
+  {
+    "id": "seed-tray",
+    "modelId": "seed-tray",
+    "name": "育苗浅盘",
+    "family": "everyday",
+    "category": "栽培与盛放"
+  },
+  {
+    "id": "aquarium-rectangle",
+    "modelId": "aquarium-rectangle",
+    "name": "长方玻璃鱼缸",
+    "family": "everyday",
+    "category": "栽培与盛放"
+  },
+  {
+    "id": "aquarium-square",
+    "modelId": "aquarium-square",
+    "name": "正方玻璃鱼缸",
+    "family": "everyday",
+    "category": "栽培与盛放"
+  },
+  {
+    "id": "ceramic-fish-bowl",
+    "modelId": "ceramic-fish-bowl",
+    "name": "圆瓷鱼缸",
+    "family": "everyday",
+    "category": "栽培与盛放"
+  },
+  {
+    "id": "vessel-terra",
+    "modelId": "vessel-terra",
+    "name": "普通红陶盆",
+    "family": "pots-retained",
+    "category": "栽培与盛放"
+  },
+  {
+    "id": "vessel-plastic",
+    "modelId": "vessel-plastic",
+    "name": "黑色育苗盆",
+    "family": "pots-retained",
+    "category": "栽培与盛放"
+  },
+  {
+    "id": "vessel-white",
+    "modelId": "vessel-white",
+    "name": "白色塑料盆",
+    "family": "pots-retained",
+    "category": "栽培与盛放"
+  },
+  {
+    "id": "vessel-shallow",
+    "modelId": "vessel-shallow",
+    "name": "浅陶盘",
+    "family": "pots-retained",
+    "category": "栽培与盛放"
+  },
+  {
+    "id": "vessel-foam",
+    "modelId": "vessel-foam",
+    "name": "泡沫种植箱",
+    "family": "pots-retained",
+    "category": "栽培与盛放"
+  },
+  {
+    "id": "vessel-trough",
+    "modelId": "vessel-trough",
+    "name": "长条种植槽",
+    "family": "pots-retained",
+    "category": "栽培与盛放"
+  },
+  {
+    "id": "vessel-growbag",
+    "modelId": "vessel-growbag",
+    "name": "深型种植袋",
+    "family": "pots-retained",
+    "category": "栽培与盛放"
+  },
+  {
+    "id": "vessel-deep",
+    "modelId": "vessel-deep",
+    "name": "大型深陶盆",
+    "family": "pots-retained",
+    "category": "栽培与盛放"
+  },
+  {
+    "id": "vessel-basket",
+    "modelId": "vessel-basket",
+    "name": "吊盆",
+    "family": "pots-retained",
+    "category": "栽培与盛放"
+  },
+  {
+    "id": "steel-sink",
+    "modelId": "steel-sink",
+    "name": "不锈钢水槽",
+    "family": "everyday",
+    "category": "日用与照明"
+  },
+  {
+    "id": "enamel-basin",
+    "modelId": "enamel-basin",
+    "name": "蓝色水池台",
+    "family": "everyday",
+    "category": "日用与照明"
+  },
+  {
+    "id": "trowel",
+    "modelId": "trowel",
+    "name": "园艺铲",
+    "family": "everyday",
+    "category": "日用与照明"
+  },
+  {
+    "id": "pruning-shears",
+    "modelId": "pruning-shears",
+    "name": "园艺剪",
+    "family": "everyday",
+    "category": "日用与照明"
+  },
+  {
+    "id": "trigger-sprayer",
+    "modelId": "trigger-sprayer",
+    "name": "手持喷壶",
+    "family": "everyday",
+    "category": "日用与照明"
+  },
+  {
+    "id": "watering-can",
+    "modelId": "watering-can",
+    "name": "浇水壶",
+    "family": "everyday",
+    "category": "日用与照明"
+  },
+  {
+    "id": "hose-coil",
+    "modelId": "hose-coil",
+    "name": "软管卷",
+    "family": "everyday",
+    "category": "日用与照明"
+  },
+  {
+    "id": "drying-rack",
+    "modelId": "drying-rack",
+    "name": "折叠晾衣架",
+    "family": "everyday",
+    "category": "日用与照明"
+  },
+  {
+    "id": "clip-hanger",
+    "modelId": "clip-hanger",
+    "name": "夹衣架",
+    "family": "everyday",
+    "category": "日用与照明"
+  },
+  {
+    "id": "towel",
+    "modelId": "towel",
+    "name": "折叠毛巾",
+    "family": "everyday",
+    "category": "日用与照明"
+  },
+  {
+    "id": "tasklamp",
+    "modelId": "tasklamp",
+    "name": "关节工作灯",
+    "family": "accents",
+    "category": "日用与照明"
+  },
+  {
+    "id": "solar-lamp",
+    "modelId": "solar-lamp",
+    "name": "太阳能庭院灯",
+    "family": "accents",
+    "category": "日用与照明"
+  },
+  {
+    "id": "tin-lantern",
+    "modelId": "tin-lantern",
+    "name": "旧锡灯笼",
+    "family": "accents",
+    "category": "日用与照明"
+  },
+  {
+    "id": "string-lights",
+    "modelId": "string-lights",
+    "name": "庭院灯串",
+    "family": "accents",
+    "category": "日用与照明"
+  },
+  {
+    "id": "radio-small",
+    "modelId": "radio-small",
+    "name": "小型收音机",
+    "family": "accents",
+    "category": "日用与照明"
+  },
+  {
+    "id": "tea-set",
+    "modelId": "tea-set",
+    "name": "瓷茶壶与杯",
+    "family": "accents",
+    "category": "日用与照明"
+  }
+]

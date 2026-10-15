@@ -1,0 +1,22 @@
+{
+  "originalMeshesUnchanged": 1150,
+  "addedMeshes": [
+    "crate-blue/detail2-hand-grip--1",
+    "crate-blue/detail2-hand-grip-1",
+    "crate-blue/detail2-rim-return--1",
+    "crate-blue/detail2-rim-return-1",
+    "crate-gray/detail2-hand-grip--1",
+    "crate-gray/detail2-hand-grip-1",
+    "crate-gray/detail2-rim-return--1",
+    "crate-gray/detail2-rim-return-1",
+    "crate-red/detail2-hand-grip--1",
+    "crate-red/detail2-hand-grip-1",
+    "crate-red/detail2-rim-return--1",
+    "crate-red/detail2-rim-return-1",
+    "galvanized-bucket/detail2-handle-rivet--1",
+    "galvanized-bucket/detail2-handle-rivet-1",
+    "galvanized-bucket/detail2-lock-seam"
+  ],
+  "newCharts": 358,
+  "boundsAndSupportSurfacesPreserved": true
+}

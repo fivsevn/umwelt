@@ -1,0 +1,135 @@
+[
+  {
+    "family": "accents",
+    "passed": true,
+    "assets": 6,
+    "triangles": 4720,
+    "maxAbsoluteTexelError": 0.00011445859274716863,
+    "packedImages": [
+      {
+        "name": "atlas.png.001",
+        "size": [
+          2048,
+          2048
+        ],
+        "packed": true,
+        "sha256": "9931ac06507345aae97381b71718e980ebeb9d61e811d81c7e12c418c72468ab"
+      }
+    ],
+    "originalMeshAndUvFingerprintsPreserved": 147
+  },
+  {
+    "family": "ceramics-extra",
+    "passed": true,
+    "assets": 16,
+    "triangles": 16912,
+    "maxAbsoluteTexelError": 0.0001259903427464626,
+    "packedImages": [
+      {
+        "name": "atlas.png",
+        "size": [
+          2048,
+          2048
+        ],
+        "packed": true,
+        "sha256": "986cc87854d626f288d862cd9d29f3ef23ced69cc986599b0d6abe0b3851d8c1"
+      }
+    ],
+    "originalMeshAndUvFingerprintsPreserved": 401
+  },
+  {
+    "family": "collection",
+    "passed": true,
+    "assets": 86,
+    "triangles": 48436,
+    "maxAbsoluteTexelError": 0.00013551805289846452,
+    "packedImages": [
+      {
+        "name": "atlas.png",
+        "size": [
+          2048,
+          2048
+        ],
+        "packed": true,
+        "sha256": "e4013f627fa437b636e1258365d0919fe2b8c039cfcf0862774ccfa01150638d"
+      }
+    ],
+    "originalMeshAndUvFingerprintsPreserved": 1826
+  },
+  {
+    "family": "everyday",
+    "passed": true,
+    "assets": 34,
+    "triangles": 24072,
+    "maxAbsoluteTexelError": 0.00013258997102072456,
+    "packedImages": [
+      {
+        "name": "atlas.png.001",
+        "size": [
+          2048,
+          2048
+        ],
+        "packed": true,
+        "sha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+      }
+    ],
+    "originalMeshAndUvFingerprintsPreserved": 1165
+  },
+  {
+    "family": "plants-retained",
+    "passed": true,
+    "assets": 110,
+    "triangles": 195706,
+    "maxAbsoluteTexelError": 0.00014562255565932214,
+    "packedImages": [
+      {
+        "name": "atlas.png",
+        "size": [
+          2048,
+          2048
+        ],
+        "packed": true,
+        "sha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38"
+      }
+    ],
+    "originalMeshAndUvFingerprintsPreserved": 6591
+  },
+  {
+    "family": "pots-retained",
+    "passed": true,
+    "assets": 29,
+    "triangles": 21160,
+    "maxAbsoluteTexelError": 0.00012119077502692477,
+    "packedImages": [
+      {
+        "name": "atlas.png.001",
+        "size": [
+          2048,
+          2048
+        ],
+        "packed": true,
+        "sha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+      }
+    ],
+    "originalMeshAndUvFingerprintsPreserved": 129
+  },
+  {
+    "family": "rooms-vessels",
+    "passed": true,
+    "assets": 13,
+    "triangles": 13592,
+    "maxAbsoluteTexelError": 0.00012970495367775614,
+    "packedImages": [
+      {
+        "name": "atlas.png.001",
+        "size": [
+          2048,
+          2048
+        ],
+        "packed": true,
+        "sha256": "0ea377153ec4aa667735ebdae37251f565080da7fa43a56f3be8a79d251d94ba"
+      }
+    ],
+    "originalMeshAndUvFingerprintsPreserved": 275
+  }
+]

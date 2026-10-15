@@ -391,7 +391,7 @@
         "width": 0.875,
         "depth": 0.4375
       },
-      "triangles": 476,
+      "triangles": 508,
       "sourceBlend": "everyday/everyday.blend",
       "sourcePixelorama": "everyday/everyday-atlas.pxo"
     },
@@ -467,7 +467,7 @@
         "width": 0.875,
         "depth": 0.4375
       },
-      "triangles": 684,
+      "triangles": 732,
       "sourceBlend": "everyday/everyday.blend",
       "sourcePixelorama": "everyday/everyday-atlas.pxo"
     },
@@ -539,7 +539,7 @@
         "width": 0.8600000143051147,
         "depth": 0.9132322072982788
       },
-      "triangles": 252,
+      "triangles": 420,
       "sourceBlend": "everyday/everyday.blend",
       "sourcePixelorama": "everyday/everyday-atlas.pxo"
     },
@@ -668,7 +668,7 @@
         "width": 0.875,
         "depth": 0.875
       },
-      "triangles": 156,
+      "triangles": 188,
       "sourceBlend": "everyday/everyday.blend",
       "sourcePixelorama": "everyday/everyday-atlas.pxo"
     },
@@ -1046,7 +1046,7 @@
         "width": 0.5,
         "depth": 0.3125
       },
-      "triangles": 684,
+      "triangles": 996,
       "sourceBlend": "everyday/everyday.blend",
       "sourcePixelorama": "everyday/everyday-atlas.pxo"
     },
@@ -1095,7 +1095,7 @@
         "width": 0.5,
         "depth": 0.3125
       },
-      "triangles": 684,
+      "triangles": 996,
       "sourceBlend": "everyday/everyday.blend",
       "sourcePixelorama": "everyday/everyday-atlas.pxo"
     },
@@ -1144,7 +1144,7 @@
         "width": 0.5,
         "depth": 0.3125
       },
-      "triangles": 684,
+      "triangles": 996,
       "sourceBlend": "everyday/everyday.blend",
       "sourcePixelorama": "everyday/everyday-atlas.pxo"
     },
@@ -1192,7 +1192,7 @@
         "width": 0.3349197208881378,
         "depth": 0.3240000009536743
       },
-      "triangles": 876,
+      "triangles": 1376,
       "sourceBlend": "everyday/everyday.blend",
       "sourcePixelorama": "everyday/everyday-atlas.pxo"
     },
@@ -1388,7 +1388,7 @@
         "width": 0.625,
         "depth": 0.3125
       },
-      "triangles": 172,
+      "triangles": 214,
       "sourceBlend": "everyday/everyday.blend",
       "sourcePixelorama": "everyday/everyday-atlas.pxo"
     },
@@ -1422,7 +1422,7 @@
         "width": 0.4375,
         "depth": 0.4375
       },
-      "triangles": 172,
+      "triangles": 214,
       "sourceBlend": "everyday/everyday.blend",
       "sourcePixelorama": "everyday/everyday-atlas.pxo"
     },

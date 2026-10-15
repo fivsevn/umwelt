@@ -1,0 +1,21 @@
+{
+  "originalMeshesUnchanged": 124,
+  "addedMeshes": [
+    "radio-small/detail-dial-tick-0",
+    "radio-small/detail-dial-tick-1",
+    "radio-small/detail-dial-tick-2",
+    "radio-small/detail-dial-tick-3",
+    "radio-small/detail-dial-tick-4",
+    "radio-small/detail-dial-tick-5",
+    "radio-small/detail-dial-tick-6",
+    "radio-small/detail-handle-socket--1",
+    "radio-small/detail-handle-socket-1",
+    "solar-lamp/detail-panel-rail--1",
+    "solar-lamp/detail-panel-rail-1",
+    "tasklamp/detail-pivot-nut-0",
+    "tasklamp/detail-pivot-nut-1",
+    "tasklamp/detail-pivot-nut-2"
+  ],
+  "newCharts": 90,
+  "boundsAndSupportSurfacesPreserved": true
+}
