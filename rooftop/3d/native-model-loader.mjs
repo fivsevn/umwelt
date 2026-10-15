@@ -317,7 +317,9 @@ export function createNativeItemLibrary(T, { getDefinition, getAssembly, units, 
   function updateAtmosphere(atmosphere, indoor = false) {
     const night = Math.max(0, Math.min(1, atmosphere.night || 0));
     for (const material of appearanceMaterials.values()) {
-      const glowing = /lamp|light|glow|emission/.test(material.userData.finish);
+      // The source finish "light" marks a bulb; steel-light and wood-light
+      // describe pale pigments and must remain ordinary lit surfaces.
+      const glowing = material.userData.finish === 'light';
       if (glowing) { material.emissive.set('#e7b96c'); material.emissiveIntensity = night * .85; }
     }
   }

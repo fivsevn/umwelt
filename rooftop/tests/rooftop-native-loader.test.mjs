@@ -185,6 +185,39 @@ test('native lamp source parts retain their daylight colour and emit light at ni
   library.updateAtmosphere({ night: 0 }); assert.equal(glowing[0].emissiveIntensity, 0);
 });
 
+test('light-coloured steel and wood stay non-emissive while actual lamp parts follow nightfall', async () => {
+  const library = createNativeItemLibrary(T, { getDefinition: getItemDefinition, getAssembly: getPlantAssembly, units: ITEM_METRES_TO_UNITS, loadModel: async (_T, item) => geometryTemplate(item) });
+  const brightSurfaces = [], lampParts = [];
+  for (const item of ITEMS) {
+    const data = readFileSync(new URL('../' + item.file, import.meta.url));
+    const gltf = JSON.parse(data.subarray(20, 20 + data.readUInt32LE(12)).toString());
+    if (!gltf.nodes.some(node => ['steel-light', 'wood-light', 'light'].includes(node.extras?.finish))) continue;
+    const root = library.make({ type: item.id }); await nativeModelReady(root);
+    root.traverse(mesh => {
+      if (!mesh.isMesh) return;
+      const material = mesh.material, finish = material.userData.finish;
+      const part = { id: item.id, material, pigment: material.color.getHexString() };
+      if (finish === 'steel-light' || finish === 'wood-light') brightSurfaces.push(part);
+      else if (finish === 'light') lampParts.push(part);
+    });
+  }
+  assert.ok(brightSurfaces.some(p => p.id === 'steel-sink'));
+  assert.ok(brightSurfaces.some(p => p.id === 'wardrobe-wood'));
+  assert.ok(brightSurfaces.some(p => p.id === 'weapon-katana'));
+  assert.deepEqual([...new Set(lampParts.map(p => p.id))].sort(), ['solar-lamp', 'string-lights', 'tasklamp', 'tin-lantern']);
+  for (const night of [0, .5, 1, 0]) {
+    library.updateAtmosphere({ night });
+    for (const { id, material, pigment } of brightSurfaces) {
+      assert.equal(material.emissive.getHex(), 0, id + ' is a surface, not a light source');
+      assert.equal(material.color.getHexString(), pigment, id + ' authored colour');
+    }
+    for (const { id, material, pigment } of lampParts) {
+      assert.equal(material.emissiveIntensity, night * .85, id + ' lamp intensity');
+      assert.equal(material.color.getHexString(), pigment, id + ' authored lamp colour');
+    }
+  }
+});
+
 test('seven trailing forms clear shallow/deep selected pots without reversing their thick leaf surfaces', async () => {
   function volume(position, range) {
     let volume = 0;
