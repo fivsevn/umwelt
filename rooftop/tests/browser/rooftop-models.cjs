@@ -518,6 +518,10 @@ async function visiblePickPoint(page, id) {
         present:rooftop.presence.present,personSheltered:!!rooftop.person.insideShelter,pigSheltered:!!rooftop.pig.insideShelter}));
       assert.deepEqual(publicActors.visible,{person:publicActors.present&&!publicActors.personSheltered,pig:!publicActors.pigSheltered},
         "rendered actors follow the existing errands and shelter states");
+      assert.equal(await page.evaluate(() => rooftop.graphics.narrativeView), "drone");
+      assert.equal(await page.evaluate(() => rooftop.graphics.stationTravel.current.height), 5.25);
+      await page.locator('[data-narrative-view="bird"]').click();
+      await page.waitForFunction(() => rooftop.graphics.narrativeView === "bird");
       assert.equal(await page.locator("#sceneDoor").isVisible(), false, "a door behind the bird does not intercept dragging");
       const beforeWalk = await page.evaluate(() => rooftop.graphics.stationTravel.wanted.walk), stage = await page.locator("#garden").boundingBox();
       await page.mouse.move(stage.x + stage.width * .6, stage.y + stage.height * .5);
