@@ -167,7 +167,12 @@ test("bird eave walking and drone height and dolly stay inside their physical tr
         assert.equal(pose.eye[2 - axis], base.eye[2 - axis]);
       }
       if (id === "drone" && ["near", "far"].includes(action)) {
-        if (preset.nearEye) {
+        if (station.dolly < 0) {
+          assert.equal(pose.eye[1], base.eye[1], "retreat keeps the drone at its existing altitude");
+          assert.ok(Math.abs(Math.hypot(pose.eye[0] - base.eye[0], pose.eye[2] - base.eye[2]) + station.dolly) < 1e-9);
+          pose.target.forEach((value, axis) => assert.ok(Math.abs(value - base.target[axis]) < 1e-9));
+          assert.ok(pose.distance > base.distance);
+        } else if (preset.nearEye) {
           const expectedEye = action === "near" ? preset.nearEye : preset.eye,
             expectedTarget = action === "near" ? preset.nearTarget : preset.target;
           pose.eye.forEach((value, axis) => assert.ok(Math.abs(value - expectedEye[axis]) < 1e-9,
@@ -216,6 +221,13 @@ test("opening hover leaves exactly two upward steps on both terraces", () => {
   for (const scene of ["north", "south"]) {
     const preset = narrativePreset(scene), start = initialNarrativeStation(preset);
     assert.equal(start.height, scene === "north" ? 5.25 : 3);
+    const oldStart = { ...start, dolly: 0 }, oldPose = narrativePose(preset, {station: oldStart}), pose = narrativePose(preset, {station: start});
+    assert.equal(start.dolly, -2);
+    assert.equal(pose.eye[1], oldPose.eye[1], "the wider default preserves the published hover height");
+    assert.ok(Math.abs(Math.hypot(pose.eye[0] - oldPose.eye[0], pose.eye[2] - oldPose.eye[2]) - 2) < 1e-9);
+    assert.ok(pose.distance > oldPose.distance, "retreat increases physical viewing distance");
+    assert.deepEqual(nudgeNarrativeStation(preset, nudgeNarrativeStation(preset, start, "near"), "near"), oldStart,
+      "two approach steps rejoin the previously approved opening position");
     const once = nudgeNarrativeStation(preset, start, "up"), twice = nudgeNarrativeStation(preset, once, "up");
     assert.ok(once.height < preset.station.height);
     assert.equal(twice.height, preset.station.height);
@@ -232,10 +244,11 @@ function reachableInputStates(preset) {
     return { ...state, target: preset.target };
   }));
   if (preset.id === "drone") {
-    const minimumHeight = preset.station.heightMin ?? -preset.station.height,
+    const initial = initialNarrativeStation(preset),
+      minimumHeight = preset.station.heightMin ?? -preset.station.height,
       minimumDolly = preset.station.dollyMin ?? -preset.station.dolly,
-      heights = [...new Set([minimumHeight, (minimumHeight + preset.station.height) / 2, 0, preset.station.height])],
-      dollies = [...new Set([minimumDolly, (minimumDolly + preset.station.dolly) / 2, preset.station.dolly])];
+      heights = [...new Set([minimumHeight, (minimumHeight + preset.station.height) / 2, 0, initial.height, preset.station.height])],
+      dollies = [...new Set([minimumDolly, (minimumDolly + preset.station.dolly) / 2, 0, initial.dolly, preset.station.dolly])];
     return heights.flatMap(height => dollies.flatMap(dolly => [-1, 0, 1].flatMap(yaw => [-1, 0, 1].map(pitch => {
       const pitchLimit = pitch > 0 ? preset.pitchMax ?? preset.pitch : preset.pitch,
         state = narrativeDrag(preset, { station: { height, dolly } }, -yaw * preset.yaw / .0015, pitch * pitchLimit / .001);
@@ -322,7 +335,9 @@ test("drone overview records actual street exposure across approved physical and
         results.maximumFullFrameGroundPercent = fullFrame.groundPercent;
         results.maximumFullFrameState = { station: state.station, theta: state.theta, phi: state.phi };
       }
-      if (!state.station.height && !state.station.dolly && !state.theta && !state.phi) results.defaultFullFrame = fullFrame;
+      const initial = initialNarrativeStation(preset);
+      if (state.station.height === initial.height && state.station.dolly === initial.dolly && !state.theta && !state.phi)
+        results.defaultFullFrame = fullFrame;
       for (const y of [-1, -.98, -.9]) for (const x of [-1, -.5, 0, .5, 1]) {
         const hit = native.hit(cameraRayInHouse(T, camera, scene, x, y)); results.samples++;
         if (!hit) { results.misses++; continue; }

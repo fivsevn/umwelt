@@ -11,19 +11,19 @@ export const NARRATIVE_VIEWS = Object.freeze([
 // keeps the original lens angle while reducing near-roof intrusion.
 const settings = {
   bird: { span: 11.4, minSpan: 11.4, maxSpan: 11.4, yaw: .35, pitch: .12, pitchMax: .015, travel: 0, station: { walk: 5, height: 0, dolly: 0 } },
-  drone: { span: 20, minSpan: 20, maxSpan: 20, overviewWidth: 28.5, yaw: .055, pitch: 0, travel: 0, station: { walk: 0, height: 4.5, heightMin: -3, dolly: 2, dollyMin: 0 } },
+  drone: { span: 20, minSpan: 20, maxSpan: 20, overviewWidth: 28.5, yaw: .055, pitch: 0, travel: 0, station: { walk: 0, height: 4.5, heightMin: -3, dolly: 2, dollyMin: -2 } },
   neighbor: { span: 12, minSpan: 2.5, maxSpan: 22, yaw: 0, pitch: 0, travel: 9, station: { walk: 0, height: 0, dolly: 0 } },
 };
 const anchors = {
   north: {
     bird: { eye: [0, 6.1, 2.8], target: [0, .7, -3] },
-    drone: { eye: [5.730418254117132, 10.185871659274401, -16.91505953279829], target: [0.9888763353084746, 0.4845046136253277, -2.9724913957751387], nearEye: [4.4457313087451755, 7.6208540250916945, -13.342043664359059], nearTarget: [1.593392938621363, -0.4838285655536021, -3.520557996517132], span: 11.214104312826068, minSpan: 11.214104312826068, maxSpan: 11.214104312826068, overviewWidth: 15.980098645777145, yaw: .15, pitch: .08, station: { walk: 0, height: 6.75, heightMin: -2.75, dolly: 4.582158706046302, dollyMin: 0 } },
+    drone: { eye: [5.730418254117132, 10.185871659274401, -16.91505953279829], target: [0.9888763353084746, 0.4845046136253277, -2.9724913957751387], nearEye: [4.4457313087451755, 7.6208540250916945, -13.342043664359059], nearTarget: [1.593392938621363, -0.4838285655536021, -3.520557996517132], span: 11.214104312826068, minSpan: 11.214104312826068, maxSpan: 11.214104312826068, overviewWidth: 15.980098645777145, yaw: .15, pitch: .08, station: { walk: 0, height: 6.75, heightMin: -2.75, dolly: 4.582158706046302, dollyMin: -2 } },
     neighbor: { eye: [-130, 42, -100], target: [0, .8, -2] },
   },
   south: {
     // Local -X is the intact house; +X points out of the south balcony.
     bird: { eye: [-2.8, 6.1, 0], target: [0, .7, 0] },
-    drone: { eye: [16.10637210945491, 10.83491152074761, 4.482136063584607], target: [-0.8015836374193306, 2.053532618280615, 0.6534987299411283], span: 10.05510235201661, minSpan: 10.05510235201661, maxSpan: 10.05510235201661, overviewWidth: 16.45380384875445, yaw: .15, pitch: .08, station: { walk: 0, height: 4.5, heightMin: -3, dolly: 2, dollyMin: 0 } },
+    drone: { eye: [16.10637210945491, 10.83491152074761, 4.482136063584607], target: [-0.8015836374193306, 2.053532618280615, 0.6534987299411283], span: 10.05510235201661, minSpan: 10.05510235201661, maxSpan: 10.05510235201661, overviewWidth: 16.45380384875445, yaw: .15, pitch: .08, station: { walk: 0, height: 4.5, heightMin: -3, dolly: 2, dollyMin: -2 } },
     neighbor: { eye: [100, 42, -130], target: [0, .8, 0] },
   },
 };
@@ -38,7 +38,8 @@ export function narrativePreset(scene, name = DEFAULT_NARRATIVE_VIEW) {
 // Opening, switching back and resetting share a hover two ascent steps below the ceiling.
 export function initialNarrativeStation(preset) {
   return constrainNarrativeStation(preset, {
-    walk: 0, height: preset.id === "drone" ? preset.station.height - 2 * DRONE_HEIGHT_STEP : 0, dolly: 0,
+    walk: 0, height: preset.id === "drone" ? preset.station.height - 2 * DRONE_HEIGHT_STEP : 0,
+    dolly: preset.id === "drone" ? preset.station.dollyMin : 0,
   });
 }
 
@@ -126,7 +127,14 @@ export function narrativePose(preset, state = {}, point = preset.target) {
   const station = constrainNarrativeStation(preset, state.station), eye = [...preset.eye];
   if (preset.id === "bird") eye[preset.scene === "south" ? 2 : 0] += station.walk;
   if (preset.id === "drone") {
-    if (preset.nearEye) {
+    if (station.dolly < 0) {
+      // The wider opening retreats horizontally, preserving the approved height
+      // and lens. Returning to zero rejoins the existing approach path exactly.
+      const dx = preset.target[0] - preset.eye[0], dz = preset.target[2] - preset.eye[2],
+        length = Math.hypot(dx, dz) || 1;
+      eye[0] += dx / length * station.dolly;
+      eye[2] += dz / length * station.dolly;
+    } else if (preset.nearEye) {
       const progress = station.dolly / preset.station.dolly;
       for (let axis = 0; axis < 3; axis++) eye[axis] += (preset.nearEye[axis] - preset.eye[axis]) * progress;
       point = point.map((value, axis) => value + (preset.nearTarget[axis] - preset.target[axis]) * progress);

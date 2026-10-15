@@ -119,6 +119,7 @@ const routes = [
             if (publicState.graphics.drawCalls) {
               assert.equal(publicState.graphics.narrativeView, "drone");
               assert.equal(publicState.graphics.stationTravel.current.height, publicState.scene === "north" ? 5.25 : 3);
+              assert.equal(publicState.graphics.stationTravel.current.dolly, -2, "the published default uses the approved horizontal retreat");
               assert.equal(publicState.graphics.stationTravel.limits.height - publicState.graphics.stationTravel.current.height, 1.5);
               assert.equal(publicState.graphics.actorsHidden, false,
                 "the published game enables Dongdong and the pig");
