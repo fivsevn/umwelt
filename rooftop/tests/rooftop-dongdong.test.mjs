@@ -5,7 +5,7 @@ import {initialLayout,validateLayout,makeWalker,inside,asset} from '../scene.mjs
 import {INITIAL_LAYOUT} from '../initial-layout.mjs';
 test('the authored native starting layout keeps all three arrangements in independent copies',()=>{
   const a=initialLayout(),b=initialLayout();assert.deepEqual(validateLayout(a),a);assert.deepEqual(a,INITIAL_LAYOUT);
-  assert.deepEqual(Object.fromEntries(Object.entries(a.scenes).map(([scene,objects])=>[scene,objects.length])),{north:83,south:14,room:21});
+  assert.deepEqual(Object.fromEntries(Object.entries(a.scenes).map(([scene,objects])=>[scene,objects.length])),{north:112,south:15,room:21});
   a.scenes.north[0].x+=4;
   a.scenes.north.find(o=>o.support).support.id='changed';
   a.scenes.room.length=0;

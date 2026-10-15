@@ -1,3 +1,4 @@
+import { LOOK_BY_ID } from './fashion/catalog.mjs';
 import { asset } from "./scene.mjs";
 import { plant, vessel } from "./botany.mjs";
 import { NOTEBOOK_COMMENTS } from "./notebook-comments.mjs";
@@ -64,6 +65,14 @@ const DESCRIPTIONS = {
     "志野织部花器式样，窄颈鼓腹、白釉铁绘，肩部五道凹线按两道、一道、两道分组；参考17世纪藏品，不作换盆容器。",
 };
 export function notebookEntry(o) {
+  if(o.type?.startsWith('fashion:')) {
+    const look=LOOK_BY_ID[o.type.slice(8)];
+    if(!look)throw new Error('Unknown fashion entry');
+    return {name:look.name,scientific:look.original,
+      description:look.date+' · '+look.region+'。'+look.description+' 小猪借用：'+look.pig+'。',
+      comment:look.comment,
+      sources:[{label:look.source.name,url:look.source.url}]};
+  }
   const p = plant(o.type),
     a = asset(o.type),
     v = a.vessel && vessel(a.vessel);

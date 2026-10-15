@@ -158,6 +158,30 @@ const routes = [
             assert.deepEqual(await page.evaluate(() => rooftop.layout), publicState.layout,
               "view/scene controls preserve layout data");
           }
+          if(route.includes('/rooftop/room/')) {
+            const originalRoom=await page.evaluate(()=>window.room.layout);
+            await page.locator('#outfits [data-category="1960–70s"]').click();
+            await page.locator('#outfitsOptions [data-value="denim"]').click();
+            assert.deepEqual(await page.evaluate(()=>[window.room.outfit,window.room.pig]),['denim','denim']);
+            assert.equal(await page.locator('#noteName').textContent(),'双层牛仔');
+            assert.ok(await page.locator('#noteSources a').count());
+            await page.locator('#decorations [data-category="古典"]').click();
+            await page.locator('#decorationsOptions [data-value="tang"]').click();
+            assert.deepEqual(await page.evaluate(()=>[window.room.outfit,window.room.pig]),['denim','tang']);
+            for(const action of ['water','tea','rest']) {
+              await page.locator('#activities [data-value="'+action+'"]').click();
+              assert.equal(await page.evaluate(()=>window.room.activity),action);
+            }
+            assert.deepEqual(await page.evaluate(()=>window.room.layout),originalRoom);
+            assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+          }
+          if(route.startsWith('/rooftop/?')) {
+            await page.locator('#notebookOpen').click();
+            await page.locator('#reviewEntry').selectOption('fashion:smoking');
+            assert.equal(await page.locator('#noteName').textContent(),'Le Smoking');
+            assert.equal(await page.locator('#reviewEntry option[value^="fashion:"]').count(),60);
+            await page.locator('#notebookClose').click();
+          }
           await page.waitForTimeout(250);
           if (process.env.EXPECTED_SHA) {
             const urls = await page

@@ -52,7 +52,7 @@ test("a new player sees the same authored arrangement in observation and the edi
   assert.deepEqual(shown, initialLayout());
   assert.deepEqual(readLayout(readonlyStorage(null)), shown);
   assert.deepEqual(Object.fromEntries(Object.entries(shown.scenes).map(([scene,objects])=>[scene,objects.length])),
-    {north:83,south:14,room:21});
+    {north:112,south:15,room:21});
   assert.equal(shown.roomVersion, 2);
   assert.equal(shown.spaceVersion, 2);
 });

@@ -37,6 +37,11 @@ test("every outfit and pig decoration builds finite geometry with valid material
       parent.add(g);
       return g;
     },
+    solid(g,vertices,faces,color,kind) {
+      assert.ok(vertices.flat().every(Number.isFinite));
+      assert.ok(faces.flat().every(i=>Number.isInteger(i)&&vertices[i]));
+      assert.equal(typeof color,'string');assert.equal(typeof kind,'string');count++;
+    },
     box: part,
     ellipsoid: part,
     cyl(g, x, y, z, rt, rb, h, color, sides, kind = "paint") {

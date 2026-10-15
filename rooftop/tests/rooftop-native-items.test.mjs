@@ -71,5 +71,5 @@ test('authored defaults and personal native layouts survive round trips with sta
   const planted=layout.scenes.north.find(o=>o.type==='pelargonium');
   assert.equal(planted.seed,2314049475);assert.equal(planted.pot,'hasami');assert.equal(planted.support.surface,'shelf-3');
   layout.scenes.north=[{id:'stand',type:'iron-3-black',x:312,y:240,scale:1,rotation:0,support:null},{id:'plant',type:'barrel',x:312,y:240,scale:1,rotation:0,seed:42,pot:'plastic',support:{id:'stand',surface:'shelf-3'}}];
-  assert.equal(copy.scenes.north.length,83);const restored=validateLayout(JSON.parse(JSON.stringify(layout)));assert.deepEqual(restored,layout);
+  assert.equal(copy.scenes.north.length,112);const restored=validateLayout(JSON.parse(JSON.stringify(layout)));assert.deepEqual(restored,layout);
 });

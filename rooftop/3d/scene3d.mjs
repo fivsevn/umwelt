@@ -1,3 +1,4 @@
+import { actorSolidGeometry } from './actor-solid.mjs';
 import { animateActorPose } from "./actor-pose.mjs";
 import { HOUSE, housePoint, houseOccludes } from "../house-structure.mjs";
 import { loadArchitecturalShell } from "./architectural-shell.mjs";
@@ -276,6 +277,11 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       rz: 0,
     });
   }
+  function solid(parent,vertices,faces,color,kind='actor-cloth') {
+    const key=JSON.stringify([vertices,faces]);
+    if(!surfaceCache.has(key))surfaceCache.set(key,actorSolidGeometry(T,vertices,faces));
+    surface(parent,surfaceCache.get(key),0,0,0,1,1,1,color,kind);
+  }
   function ellipsoid(g, x, y, z, rx, ry, rz, color, kind = "paint") {
     if (kind === "petal") {
       box(g, x, y, z, rx * 2, ry * 2, rz * 2, color, "petal");
@@ -365,7 +371,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   }
   function resident(parent, name) {
     actors[name] = buildResident(
-      { group, box, beam, cyl, ellipsoid, modelApi, P },
+      { group, box, beam, solid, cyl, ellipsoid, modelApi, P },
       parent,
     );
     actors[name].person.visible = !options.hideActors;
@@ -373,7 +379,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   function pig(parent, name) {
     Object.assign(
       actors[name],
-      buildPig({ group, box, beam, cyl, ellipsoid, P }, parent),
+      buildPig({ group, box, beam, solid, cyl, ellipsoid, P }, parent),
     );
     actors[name].pig.visible = !options.hideActors;
   }

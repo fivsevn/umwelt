@@ -51,7 +51,7 @@ let detailOpen = false, catalogCategory = query.get('category') || '全部', cat
 let catalogRevision = 0, catalogBusy = false, catalogQueue = [], catalogLoaded = 0, catalogErrors = 0;
 let catalogAtmosphere = makeWeather({...choices,liveWeather:liveWeather.snapshot}).state;
 const thumbCache = new Map(), cards = new Map();
-Object.assign(wardrobe, { outfit:'sage', pig:'scarf' });
+Object.assign(wardrobe, { outfit:'smoking', pig:'smoking' });
 $('scope').innerHTML = opticOverlayMarkup();
 function options(select, list) { select.replaceChildren(...list.map(v=>new Option(v.name || v.label, v.id))); }
 options($('weatherChoice'),[{id:'auto',name:'实时天气'},{id:'simulated',name:'季节天气模拟'},...WEATHER]);

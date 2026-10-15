@@ -60,8 +60,12 @@
           <div id="pigActivities" class="categories"></div>
         </section>
         <section class="notebook">
-          <h2>东东的手帐 <small>房间里的日常</small></h2>
-          <p class="note">每次刷新，东东和小猪都会随机换一套。小猪不太懂衣柜，但小猪喜欢吃东东做的饭。</p>
+          <h2>东东的手帐</h2>
+          <div id="notebookBody">
+            <div class="note-heading"><canvas id="notePreview" width="96" height="96" aria-label="服装预览"></canvas><div><h3 id="noteName"></h3><p id="noteLatin"></p></div></div>
+            <p id="noteShape"></p><p id="noteComment" class="note-comment"></p>
+            <details><summary>翻过的资料</summary><ul id="noteSources"></ul></details>
+          </div>
         </section>
       </aside>
     </main>

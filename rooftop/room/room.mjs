@@ -1,3 +1,6 @@
+import { LOOK_BY_ID } from '../fashion/catalog.mjs';
+import { fillNotebook } from '../notebook.mjs';
+import { fashionThumbnailURL, paintFashionThumbnail } from '../fashion/thumbnails.mjs';
 import { createGardenRenderer } from "../3d/scene3d.mjs";
 import { makeWeather } from "../weather.mjs";
 import { attachEditorCameraControls } from "../editor-camera-controls.mjs";
@@ -20,6 +23,7 @@ import {
   OUTFITS,
   DECORATIONS,
   ACTIVITIES,
+  normalizeWardrobe,
 } from "../wardrobe.mjs";
 const $ = (id) => document.getElementById(id),
   canvas = $("room");
@@ -63,6 +67,12 @@ function choices(id, items, current, select) {
     $(id).append(b);
   }
 }
+function showClothingNote(id,actor='person') {
+  fillNotebook({type:'fashion:'+id});
+  paintFashionThumbnail($('notePreview'),id,actor);
+  document.querySelector('.notebook details').open=false;
+}
+showClothingNote(wardrobe.outfit);
 const wardrobeViews = [];
 function groupedChoices(id, items, current, select) {
   const root = $(id);
@@ -71,7 +81,8 @@ function groupedChoices(id, items, current, select) {
   const kinds = new Map();
   for (const [key, value] of Object.entries(items)) {
     const label = Array.isArray(value) ? value[0] : value;
-    const kind = label.slice(2);
+    const look=LOOK_BY_ID[key];
+    const kind=look.year<1900?'古典':look.year<1960?'1900–50s':look.year<1980?'1960–70s':look.year<2000?'1980–90s':'2000s';
     if (!groups.has(kind)) groups.set(kind, []);
     groups.get(kind).push([key, label]);
     kinds.set(key, kind);
@@ -120,11 +131,13 @@ function groupedChoices(id, items, current, select) {
       button.className = "asset-card wardrobe-option";
       button.dataset.value = key;
       const name = document.createElement("span");
-      name.textContent = label;
-      button.append(name);
+      name.textContent = id==='outfits'?LOOK_BY_ID[key].name:LOOK_BY_ID[key].pig;
+      const image=new Image();image.src=fashionThumbnailURL(key,id==='outfits'?'person':'pig');image.alt='';image.loading='lazy';image.width=56;image.height=71;
+      button.append(image,name);
       button.onclick = () => {
         select(key);
-        updateSelection();
+        for(const sync of wardrobeViews)sync();
+        showClothingNote(key,id==='outfits'?'person':'pig');
         $("caption").textContent =
           id === "outfits"
             ? "换好了，穿着" + OUTFITS[key][0] + "上楼。"
@@ -383,8 +396,7 @@ $("roomFile").onchange = async () => {
       data.kind !== "dongdong-room" ||
       data.version !== 1 ||
       !Array.isArray(data.objects) ||
-      !OUTFITS[data.wardrobe?.outfit] ||
-      !Object.hasOwn(DECORATIONS, data.wardrobe?.pig)
+      !normalizeWardrobe(data.wardrobe)
     )
       throw Error();
     loadRoom();
@@ -394,8 +406,10 @@ $("roomFile").onchange = async () => {
       scenes: { ...roomLayout.scenes, room: data.objects },
     });
     writeLayout(next);
-    dress("outfit", data.wardrobe.outfit);
-    dress("pig", data.wardrobe.pig);
+    const savedWardrobe=normalizeWardrobe(data.wardrobe);
+    dress("outfit", savedWardrobe.outfit);
+    dress("pig", savedWardrobe.pig);
+    showClothingNote(savedWardrobe.outfit);
     roomLayout = next;
     personPoint = freeActorPoint("room", next.scenes.room, 300, 240);
     pigPoint = freeActorPoint(

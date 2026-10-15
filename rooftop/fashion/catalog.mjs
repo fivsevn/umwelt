@@ -1,0 +1,37 @@
+import { MODERN_LOOKS } from './modern.mjs';
+// Local collection study. Historical evidence and the game adaptation are separate.
+export const LOOKS = [
+  {id:'chiton',comment:'一块布可以有很多种停留的方式。',name:'束带与垂褶',original:'Chiton & himation',era:'古希腊',date:'公元前 5–4 世纪',year:-450,region:'希腊',designer:'历史服饰',type:'垂褶',palette:['#dfd4b9','#8c4f3f','#b0955b'],pig:'一小幅赭红披布',
+    description:'长方形布料在肩部固定，腰间束带，披衣搭在一侧肩上。古希腊衣物也有鲜艳颜色与纹样，今天常见的白色雕塑并不等于当时的衣着色彩。',
+    elements:['肩部扣结','腰间束带','不对称披衣','系带凉鞋'],adaptation:'取短款束带衣与单肩披布的组合；配色、褶面与小猪披肩为游戏改编。',source:{name:'The Met · Ancient Greek Dress',url:'https://www.metmuseum.org/ko/essays/ancient-greek-dress'}},
+  {id:'tang',comment:'腰带束好，袖口便离花盆远一些。',name:'圆领窄袖袍',original:'Tang round-collar robe',era:'唐',date:'7–9 世纪',year:750,region:'中国',designer:'历史服饰',type:'袍服',palette:['#a35c3d','#5d382c','#c2a86a'],pig:'同色束带与方扣',
+    description:'圆领、窄袖、束带与靴是唐代常服的一组典型特征。中国国家博物馆的陶男俑展示了这一轮廓；中唐以后也出现更宽松的袍袖。',
+    elements:['圆领','窄袖','侧开衩','革带与靴'],adaptation:'选窄袖轮廓，以赭色袍、深色靴表现；东东保留自己的短发，未戴幞头。',source:{name:'中国国家博物馆 · 陶男俑',url:'https://www.chnmuseum.cn/zp/zpml/kgfjp/202111/t20211116_252268.shtml'}},
+  {id:'kosode',comment:'花枝停在衣袖上，今天不必浇水。',name:'宽文小袖',original:'Kanbun kosode',era:'江户',date:'约 1670 年代',year:1670,region:'日本',designer:'历史服饰',type:'袍服',palette:['#8e423c','#d8bf84','#424e48'],pig:'腰带上的小结',
+    description:'宽文小袖以大胆、不对称的大纹样著称，图案会从肩部延伸到背部与下摆。小袖的“小”指袖口，服装本身仍有宽阔的袖身。',
+    elements:['左襟覆右襟','直裁袖身','不对称团花','束带'],adaptation:'参考馆藏的团花布局，改画成方格花纹；腰带与小猪背结为配套设计，并非原件复制。',source:{name:'The Met · Robe with Floral Roundels',url:'https://www.metmuseum.org/art/collection/search/901856'}},
+  {id:'court',comment:'金线很忙，今天的行程很空。',name:'宫廷三件套',original:'Court suit',era:'19 世纪',date:'约 1810 年',year:1810,region:'法国',designer:'历史服饰',type:'套装',palette:['#394e46','#c1a461','#e0d6b8'],pig:'刺绣立领',
+    description:'拿破仑时期恢复宫廷礼仪，也重新确立了宫廷服装。馆藏三件套的外套与背心采用呼应的刺绣，强调完整的套装关系。',
+    elements:['立领外套','刺绣门襟','内搭背心','及膝裤与长袜'],adaptation:'提取长后摆、金色刺绣与及膝裤；以稀疏方格表示刺绣，配色作了调整。',source:{name:'The Met · Court suit, ca. 1810',url:'https://www.metmuseum.org/art/collection/search/155669'}},
+  {id:'bar',comment:'裙摆展开，天台多了一小圈阴影。',name:'Bar 套装',original:'Christian Dior · Bar',era:'现代',date:'1947 年春夏',year:1947,region:'法国',designer:'Christian Dior',type:'套装',palette:['#dfd1ad','#303433','#ad9471'],pig:'奶油色翻领短披肩',
+    description:'Bar 套装是 Dior 1947 年 New Look 的代表：浅色上衣收紧腰部、强调胯线，下接展开的深色长裙。上下两部分的体积对比构成它的辨识度。',
+    elements:['收腰上衣','翻领','外扩衣摆','深色长裙'],adaptation:'保留上衣与裙子的比例对比，裙摆转成完整折面；省去帽子，让中分发型露出来。',source:{name:'The Met · “Bar”, 1947',url:'https://www.metmuseum.org/art/collection/search/81460?enlarge=true'}},
+  {id:'tweed',comment:'口袋和滚边，把日常收拾得很齐。',name:'滚边粗花呢',original:'Chanel-inspired tweed suit',era:'现代',date:'1950 年代起',year:1954,region:'法国',designer:'Gabrielle Chanel',type:'套装',palette:['#bb9b9b','#4f4448','#dfcfb6'],pig:'滚边小背心',
+    description:'Chanel 的套装在 1954 年回归后形成广为人知的面貌：柔软粗花呢、滚边、金色纽扣，以及便于活动的剪裁。这里用领口、门襟与口袋的边线来辨认它。',
+    elements:['无领短外套','对比滚边','四个贴袋','直裙'],adaptation:'这是一套风格研究，并不对应某一件馆藏原件；粗花呢用共享原生布纹表现。',source:{name:'V&A · What makes CHANEL so iconic?',url:'https://www.vam.ac.uk/articles/what-makes-chanel-so-iconic'}},
+  {id:'mondrian',comment:'小猪借走一个方格，构图还很完整。',name:'蒙德里安裙',original:'Yves Saint Laurent · Mondrian',era:'现代',date:'1965 年秋冬',year:1965,region:'法国',designer:'Yves Saint Laurent',type:'短裙',palette:['#e0dccb','#ba493d','#d7b84c','#4a6889'],pig:'一块色块围兜',
+    description:'Saint Laurent 在 1965 年向蒙德里安致意，将几何色块与黑色边线结合成无领、无袖的直身裙。原作的色块通过拼接构成，并非简单印在布面上。',
+    elements:['无袖直身','黑色分割线','红黄蓝色块','方扣鞋'],adaptation:'将几何拼接转成低模表面分区，色块位置为游戏重新编排。',source:{name:'Musée YSL · The Mondrian Revolution',url:'https://museeyslparis.com/en/stories/la-revolution-mondrian'}},
+  {id:'smoking',comment:'领结系好了，晚宴是一碗猪粮。',name:'Le Smoking',original:'Yves Saint Laurent · Le Smoking',era:'现代',date:'1966 年秋冬',year:1966,region:'法国',designer:'Yves Saint Laurent',type:'套装',palette:['#30383e','#59606a','#ded8c7'],pig:'白衬领与黑色领结',
+    description:'Saint Laurent 在 1966 年推出女性晚礼服式吸烟装，借用男式礼服的语言并重新调整比例。西装、长裤、浅色衬衫和领部配饰组成鲜明的黑白关系。',
+    elements:['缎面翻领','白色衬衫','高腰长裤','黑色领结'],adaptation:'取吸烟装系列的典型元素重新搭配；窄长领结与直筒裤配合东东的方块比例。',source:{name:'Musée YSL · First Tuxedo, 1966',url:'https://museeyslparis.com/en/biography/premier-smoking'}},
+  {id:'quant',comment:'裙摆短了一点，步子轻了一点。',name:'伦敦迷你裙',original:'Mary Quant · Mod',era:'现代',date:'1966 年前后',year:1966,region:'英国',designer:'Mary Quant',type:'短裙',palette:['#a84b39','#e2d4b8','#3f363a'],pig:'白色娃娃领',
+    description:'Mary Quant 将短裙、简洁版型与年轻人的日常活动结合。V&A 的研究强调，裙长是在街头与时装设计的相互影响中逐渐升高，迷你裙并非单个人的一次发明。',
+    elements:['A 字短裙','娃娃领','对比贴袋','长袜与平底鞋'],adaptation:'以 Quant 的娃娃领短裙为线索，改配铁锈红与奶油白；小猪只借用领子。',source:{name:'V&A · The miniskirt myth',url:'https://www.vam.ac.uk/articles/the-miniskirt-myth'}},
+  {id:'pleats',comment:'站着时是线，走起来是风。',name:'会动的褶裥',original:'PLEATS PLEASE ISSEY MIYAKE',era:'当代',date:'1993 年起',year:1993,region:'日本',designer:'三宅一生',type:'褶裥',palette:['#596c90','#3c4c6a','#8e9eac'],pig:'同色褶裥小围领',
+    description:'PLEATS PLEASE 于 1993 年推出，采用先成衣、后压褶的工艺。轻便、易护理与活动自由是这一系列的重要出发点，褶裥也成为服装的结构。',
+    elements:['纵向细褶','宽松上衣','阔腿长裤','轻便平底鞋'],adaptation:'以低模折面表达褶裥，组合上衣和阔腿裤；本套配色与搭配为游戏研究。',source:{name:'ISSEY MIYAKE · Concepts and Work',url:'https://mds.isseymiyake.com/im/en/'}},
+  ...MODERN_LOOKS,
+];
+export const LOOK_BY_ID = Object.fromEntries(LOOKS.map(look=>[look.id,look]));
+export const DEFAULT_LOOK = 'smoking';

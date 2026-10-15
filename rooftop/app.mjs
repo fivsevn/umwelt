@@ -1,3 +1,5 @@
+import { LOOKS } from './fashion/catalog.mjs';
+import { paintFashionThumbnail, cancelFashionThumbnail } from './fashion/thumbnails.mjs';
 import { createEnvironmentHud } from "./environment-hud.mjs";
 import { createLiveWeather, updateWeatherCredit } from "./live-weather.mjs";
 import { paintSeasonalAir } from "./seasons.mjs";
@@ -599,6 +601,8 @@ function notebook(o) {
   if (!o) return;
   fillNotebook(o);
   const preview = $("notePreview");
+  cancelFashionThumbnail(preview);
+  if(o.type.startsWith('fashion:')){paintFashionThumbnail(preview,o.type.slice(8));return;}
   preview.getContext("2d").clearRect(0, 0, 96, 96);
   paintObject(preview.getContext("2d"), {
     type: o.type,
@@ -661,7 +665,7 @@ if (!editor) {
     browse.id = "reviewEntry";
     browse.className = "notebook-browser";
     browse.setAttribute("aria-label", "手帐资料条目");
-    for (const item of ASSETS) {
+    for (const item of [...ASSETS,...LOOKS.map(l=>({id:'fashion:'+l.id,name:'衣服 · '+l.name}))]) {
       const option = document.createElement("option");
       option.value = item.id;
       option.textContent = item.name;

@@ -1,11 +1,12 @@
+import { LOOK_BY_ID } from './fashion/catalog.mjs';
 import { wardrobe, OUTFITS } from "./wardrobe.mjs";
-// Dongdong: short chestnut hair, bare arms and a quiet, straight-cut dress.
+// Dongdong: short golden-brown hair and a shared historical wardrobe.
 // All poses share the rooftop's fixed overhead camera and muted pixel palette.
-const PERSON_SCALE = 1.8;
+const PERSON_SCALE = 1.9;
 const palette = {
-  hair: "#685044",
-  hairShade: "#4f4038",
-  hairLight: "#856652",
+  hair: "#a67c49",
+  hairShade: "#715235",
+  hairLight: "#c29b60",
   skin: "#bba387",
   skinShade: "#9e876f",
   dress: "#778578",
@@ -65,39 +66,27 @@ export function paintDongdong(c, p, time) {
   r(3, -13 + bend, 2, 5 - arm, palette.skin);
   if (working) line(sign * 4, -10 + bend, sign * 7, -9 + arm, palette.skin);
 
-  const garment = colors[4];
-  if (garment === "apron") {
-    r(-2, -13 + bend, 4, 6, palette.dressLight);
-    r(-2, -10 + bend, 4, 1, palette.dressShade);
-    r(-1, -9 + bend, 2, 1, palette.dress);
-  }
+  const garment = colors[4],look=LOOK_BY_ID[wardrobe.outfit];
   if (garment === "overall") {
-    r(-3, -8 + bend, 3, 3, palette.dress);
-    r(1, -8 + bend, 2, 3, palette.dress);
-    r(0, -8 + bend, 1, 3, palette.dressShade);
-    r(-2, -14 + bend, 1, 4, palette.dressLight);
-    r(2, -14 + bend, 1, 4, palette.dressLight);
-    r(-2, -10 + bend, 4, 2, palette.dressShade);
+    r(-3,-8+bend,3,4,palette.dress);r(1,-8+bend,2,4,palette.dress);
+    r(0,-8+bend,1,4,palette.dressShade);
   }
-  if (garment === "stripe")
-    for (let yy = -12; yy < -6; yy += 2)
-      r(-3, yy + bend, 5, 1, palette.dressLight);
-  if (garment === "check")
-    for (let yy = -12; yy < -6; yy += 2)
-      for (let xx = -3; xx < 3; xx += 2)
-        r(xx, yy + bend, 1, 1, palette.dressLight);
-  if (garment === "jacket") {
-    r(-5, -13 + bend, 2, 3, palette.dress);
-    r(3, -13 + bend, 2, 3, palette.dress);
-    r(-1, -13 + bend, 2, 6, palette.dressShade);
-    r(-2, -14 + bend, 1, 2, palette.dressLight);
-    r(1, -14 + bend, 1, 2, palette.dressLight);
+  const detail=look.model?.detail||look.id;
+  if(['stripe','fairisle','argyle','track','punk','tweed'].includes(detail))
+    for(let yy=-13;yy<-7;yy+=2)r(-3,yy+bend,6,1,palette.dressLight);
+  if(['denim','pockets','safari','utility','bib'].includes(detail))
+    for(const xx of [-3,1])r(xx,-11+bend,2,2,palette.dressShade);
+  if(['double','power','smoking','court'].includes(detail)) {
+    line(-2,-14+bend,0,-10+bend,palette.dressLight);
+    line(2,-14+bend,0,-10+bend,palette.dressLight);
+    r(0,-9+bend,1,1,palette.dressShade);
   }
-  if (garment === "pocket") {
-    r(-3, -10 + bend, 2, 2, palette.dressShade);
-    r(1, -10 + bend, 2, 2, palette.dressShade);
-    r(-3, -10 + bend, 2, 1, palette.dressLight);
-    r(1, -10 + bend, 2, 1, palette.dressLight);
+  if(['blocks','patchwork','mondrian','bodymap'].includes(detail)) {
+    r(-3,-13+bend,3,3,palette.dressShade);r(0,-10+bend,3,3,palette.dressLight);
+  }
+  if(look.model?.sleeve!=='none'&&!['chiton','mondrian'].includes(look.id)) {
+    const sleeve=look.model?.sleeve==='short'?2:4;
+    r(-5,-13+bend,2,sleeve,palette.dress);r(3,-13+bend,2,sleeve,palette.dress);
   }
   // The visible crown establishes the overhead angle; the nape stays short.
   r(-3, -20 + bend, 6, 5, palette.skin);
@@ -110,8 +99,9 @@ export function paintDongdong(c, p, time) {
     r(-3, -19 + bend, 6, 3, palette.hair);
     r(-2, -16 + bend, 4, 1, palette.hairShade);
   } else {
-    r(side ? sign * 2 : -1, -17 + bend, 1, 1, palette.hairShade);
-    r(-2, -19 + bend, 3, 1, palette.hair);
+    for(const xx of side?[sign*2]:[-2,2])r(xx,-18+bend,1,2,'#3e3730');
+    r(-3,-20+bend,2,2,palette.hair);r(2,-20+bend,2,2,palette.hairLight);
+    r(0,-21+bend,1,2,palette.hairShade);
   }
   if (p.state === "water") {
     r(sign > 0 ? 5 : -11, -10, 6, 4, "#55786b");

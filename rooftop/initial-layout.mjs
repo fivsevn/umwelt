@@ -1,12 +1,9 @@
-import { ITEM_CATALOG_REVISION } from "./item-catalog.mjs";
-
-// Authored starting arrangement from horticultural-era-rooftop-layout-3.json.
-// initialLayout() clones this data so edits never change the shared default.
+// Authored starting display, imported from the approved rooftop arrangement.
 export const INITIAL_LAYOUT = {
   "version": 2,
   "roomVersion": 2,
   "spaceVersion": 2,
-  "catalogRevision": ITEM_CATALOG_REVISION,
+  "catalogRevision": "native-items-294-v1",
   "scenes": {
     "room": [
       {
@@ -355,8 +352,8 @@ export const INITIAL_LAYOUT = {
           "surface": "shelf-3"
         },
         "seed": 1494761762,
-        "x": 368,
-        "y": 104,
+        "x": 364,
+        "y": 100,
         "pot": "iga"
       },
       {
@@ -467,7 +464,7 @@ export const INITIAL_LAYOUT = {
         "scale": 1.5,
         "id": "b252b260-2530-4975-9f6b-be54d6ae38e3",
         "support": null,
-        "x": 156,
+        "x": 160,
         "y": 172
       },
       {
@@ -476,7 +473,7 @@ export const INITIAL_LAYOUT = {
         "scale": 1.5,
         "id": "5589e9cf-bfb9-4840-8937-9c167d8e1632",
         "support": null,
-        "x": 156,
+        "x": 160,
         "y": 216
       },
       {
@@ -486,8 +483,8 @@ export const INITIAL_LAYOUT = {
         "id": "ae48429f-fa20-4978-bbfd-10196421cc8f",
         "support": null,
         "seed": 1754946677,
-        "x": 168,
-        "y": 244
+        "x": 176,
+        "y": 248
       },
       {
         "type": "trailing",
@@ -499,7 +496,7 @@ export const INITIAL_LAYOUT = {
           "surface": "shelf-3"
         },
         "seed": 4248147723,
-        "x": 160,
+        "x": 164,
         "y": 224,
         "pot": "white"
       },
@@ -513,8 +510,8 @@ export const INITIAL_LAYOUT = {
           "surface": "shelf-2"
         },
         "seed": 1078457741,
-        "x": 156,
-        "y": 208,
+        "x": 160,
+        "y": 204,
         "pot": "bizen"
       },
       {
@@ -527,7 +524,7 @@ export const INITIAL_LAYOUT = {
           "surface": "shelf-2"
         },
         "seed": 1446388269,
-        "x": 156.68045445565429,
+        "x": 160.68045445565429,
         "y": 182.84428365442443,
         "pot": "antique-shino"
       },
@@ -541,8 +538,8 @@ export const INITIAL_LAYOUT = {
           "surface": "shelf-2"
         },
         "seed": 2782785231,
-        "x": 160,
-        "y": 220,
+        "x": 164,
+        "y": 216,
         "pot": "mashiko"
       },
       {
@@ -555,7 +552,7 @@ export const INITIAL_LAYOUT = {
           "surface": "shelf-3"
         },
         "seed": 3284431915,
-        "x": 162.46450833926588,
+        "x": 166.46450833926588,
         "y": 184.30740127998274,
         "pot": "plastic"
       },
@@ -569,7 +566,7 @@ export const INITIAL_LAYOUT = {
           "surface": "shelf-3"
         },
         "seed": 813692687,
-        "x": 160,
+        "x": 164,
         "y": 172,
         "pot": "shigaraki"
       },
@@ -580,8 +577,8 @@ export const INITIAL_LAYOUT = {
         "id": "e1c4af60-c623-4023-9741-a3cf9acb8271",
         "support": null,
         "seed": 2384521189,
-        "x": 172,
-        "y": 168,
+        "x": 176,
+        "y": 160,
         "pot": "antique-shino-square"
       },
       {
@@ -594,7 +591,7 @@ export const INITIAL_LAYOUT = {
           "surface": "shelf-2"
         },
         "seed": 1829112670,
-        "x": 160,
+        "x": 164,
         "y": 168,
         "pot": "antique-nabeshima"
       },
@@ -608,7 +605,7 @@ export const INITIAL_LAYOUT = {
           "surface": "shelf-1"
         },
         "seed": 359825482,
-        "x": 160,
+        "x": 164,
         "y": 208,
         "pot": "shigaraki"
       },
@@ -693,8 +690,8 @@ export const INITIAL_LAYOUT = {
         "scale": 1.5,
         "id": "76aa4062-770b-485a-a2dd-02d77dacf685",
         "support": null,
-        "x": 284,
-        "y": 324
+        "x": 288,
+        "y": 320
       },
       {
         "type": "iron-3-black",
@@ -832,7 +829,7 @@ export const INITIAL_LAYOUT = {
           "surface": "shelf-1"
         },
         "seed": 1730763517,
-        "x": 160,
+        "x": 164,
         "y": 220
       },
       {
@@ -916,8 +913,8 @@ export const INITIAL_LAYOUT = {
         "scale": 1,
         "id": "7ec235ef-83a5-401f-b8b7-eb0ed43fcf3d",
         "support": null,
-        "x": 458.16233879748177,
-        "y": 265.8773770184001
+        "x": 456,
+        "y": 260
       },
       {
         "type": "wood-square-table",
@@ -926,7 +923,7 @@ export const INITIAL_LAYOUT = {
         "id": "e52c300c-5cb5-42d4-8f68-ccbc428bf437",
         "support": null,
         "x": 376,
-        "y": 312
+        "y": 304
       },
       {
         "type": "plastic-round-stool",
@@ -935,7 +932,7 @@ export const INITIAL_LAYOUT = {
         "id": "0186ac61-3182-421f-ada5-6984de95b2f2",
         "support": null,
         "x": 368,
-        "y": 300
+        "y": 296
       },
       {
         "type": "galvanized-bucket",
@@ -968,19 +965,19 @@ export const INITIAL_LAYOUT = {
           "surface": "table-top"
         },
         "x": 380,
-        "y": 308
+        "y": 300
       },
       {
         "type": "vessel-plastic",
         "rotation": 0,
-        "scale": 1.7,
+        "scale": 1.5,
         "id": "a17ef5fe-92b2-43fc-9a64-5330ac97fe61",
         "support": {
           "id": "e4ac2966-c699-4dc3-b8b7-8ce922244b7d",
           "surface": "inside-floor"
         },
-        "x": 368,
-        "y": 324
+        "x": 372,
+        "y": 316
       },
       {
         "type": "vessel-deep",
@@ -988,20 +985,20 @@ export const INITIAL_LAYOUT = {
         "scale": 1,
         "id": "755cb3e0-bff8-49d2-a70a-259d4a5470ad",
         "support": null,
-        "x": 384,
-        "y": 316
+        "x": 380,
+        "y": 312
       },
       {
         "type": "crate-red",
         "rotation": 0,
-        "scale": 2,
+        "scale": 1.7,
         "id": "e4ac2966-c699-4dc3-b8b7-8ce922244b7d",
         "support": {
           "id": "e52c300c-5cb5-42d4-8f68-ccbc428bf437",
           "surface": "table-top"
         },
         "x": 376,
-        "y": 324
+        "y": 316
       },
       {
         "type": "iron-round-table",
@@ -1029,12 +1026,9 @@ export const INITIAL_LAYOUT = {
         "rotation": 0,
         "scale": 1.5,
         "id": "60ed8514-63ad-4eb0-8cca-1dae7ca0bb20",
-        "support": {
-          "id": "296d9f1a-a33a-49f9-844a-48a2e16cfde0",
-          "surface": "shelf-3"
-        },
-        "x": 204,
-        "y": 312
+        "support": null,
+        "x": 432,
+        "y": 252
       },
       {
         "type": "radio-small",
@@ -1046,7 +1040,7 @@ export const INITIAL_LAYOUT = {
           "surface": "table-top"
         },
         "x": 364,
-        "y": 308
+        "y": 300
       },
       {
         "type": "tasklamp",
@@ -1058,7 +1052,7 @@ export const INITIAL_LAYOUT = {
           "surface": "table-top"
         },
         "x": 392,
-        "y": 296
+        "y": 288
       },
       {
         "type": "drying-rack",
@@ -1078,8 +1072,8 @@ export const INITIAL_LAYOUT = {
           "id": "296d9f1a-a33a-49f9-844a-48a2e16cfde0",
           "surface": "shelf-2"
         },
-        "x": 196,
-        "y": 316
+        "x": 176,
+        "y": 312
       },
       {
         "type": "vessel-antique-oribe-jar",
@@ -1099,8 +1093,8 @@ export const INITIAL_LAYOUT = {
           "id": "e4ac2966-c699-4dc3-b8b7-8ce922244b7d",
           "surface": "inside-floor"
         },
-        "x": 380,
-        "y": 328
+        "x": 384,
+        "y": 316
       },
       {
         "type": "antique-shigaraki-jar",
@@ -1156,8 +1150,8 @@ export const INITIAL_LAYOUT = {
         "scale": 1,
         "id": "c12b9d05-d8c9-4edb-99be-26d659cf4ddf",
         "support": null,
-        "x": 456,
-        "y": 444
+        "x": 452,
+        "y": 448
       },
       {
         "type": "antique-arita-coffee",
@@ -1165,8 +1159,8 @@ export const INITIAL_LAYOUT = {
         "scale": 0.8,
         "id": "43f711f5-c0e0-4c83-bbcb-8f5be68613a5",
         "support": null,
-        "x": 456,
-        "y": 420
+        "x": 448,
+        "y": 408
       },
       {
         "type": "antique-oribe-ewer",
@@ -1179,6 +1173,367 @@ export const INITIAL_LAYOUT = {
         },
         "x": 412,
         "y": 160
+      },
+      {
+        "type": "haworthia",
+        "rotation": 0,
+        "scale": 1,
+        "id": "83465482-dace-4ef8-ba8c-57e9dba7b891",
+        "support": {
+          "id": "5589e9cf-bfb9-4840-8937-9c167d8e1632",
+          "surface": "shelf-3"
+        },
+        "seed": 1962556421,
+        "x": 164,
+        "y": 212,
+        "pot": "hasami"
+      },
+      {
+        "type": "new-rhopalophylla",
+        "rotation": 0,
+        "scale": 0.8,
+        "id": "9f1c4562-ca72-461c-ae35-23684a4a8344",
+        "support": {
+          "id": "5589e9cf-bfb9-4840-8937-9c167d8e1632",
+          "surface": "shelf-2"
+        },
+        "seed": 1241899602,
+        "x": 160,
+        "y": 228,
+        "pot": "shigaraki"
+      },
+      {
+        "type": "new-lesliei",
+        "rotation": 0,
+        "scale": 1,
+        "id": "40a2fe8f-462b-4053-a088-baf5bcca9aa9",
+        "support": {
+          "id": "b252b260-2530-4975-9f6b-be54d6ae38e3",
+          "surface": "shelf-1"
+        },
+        "seed": 1669112943,
+        "x": 160,
+        "y": 188,
+        "pot": "shallow"
+      },
+      {
+        "type": "new-aucampiae",
+        "rotation": 0,
+        "scale": 1,
+        "id": "8019b662-9646-42aa-8de2-0385b4c3b87a",
+        "support": {
+          "id": "b252b260-2530-4975-9f6b-be54d6ae38e3",
+          "surface": "shelf-1"
+        },
+        "seed": 3691662253,
+        "x": 160,
+        "y": 172,
+        "pot": "antique-nabeshima"
+      },
+      {
+        "type": "new-limifolia",
+        "rotation": 0,
+        "scale": 1,
+        "id": "1f9ad122-160c-4375-9b03-918166fb7925",
+        "support": {
+          "id": "9ad9f658-1548-4793-9665-032af4bf6cc9",
+          "surface": "shelf-2"
+        },
+        "seed": 3938946882,
+        "x": 324,
+        "y": 96,
+        "pot": "shigaraki"
+      },
+      {
+        "type": "snake",
+        "rotation": 0,
+        "scale": 1,
+        "id": "df526fae-9df7-413e-b2ff-3d673238275c",
+        "support": {
+          "id": "bfcef447-cfd0-44eb-8cb1-525bc63700d8",
+          "surface": "shelf-2"
+        },
+        "seed": 1857730394,
+        "x": 376,
+        "y": 92,
+        "pot": "seto"
+      },
+      {
+        "type": "jasmine",
+        "rotation": 0,
+        "scale": 0.5,
+        "id": "5d5d44f5-4e7a-4127-921e-dcef6d783c97",
+        "support": {
+          "id": "bfcef447-cfd0-44eb-8cb1-525bc63700d8",
+          "surface": "shelf-1"
+        },
+        "seed": 3916625975,
+        "x": 368,
+        "y": 104,
+        "pot": "growbag"
+      },
+      {
+        "type": "camellia",
+        "rotation": 0,
+        "scale": 0.8,
+        "id": "6ff1d6d3-abe5-4b25-8bd7-460c0dd97d2a",
+        "support": null,
+        "seed": 945110848,
+        "x": 284,
+        "y": 120
+      },
+      {
+        "type": "new-tomentosa-kal",
+        "rotation": 0,
+        "scale": 1,
+        "id": "234b9c37-1335-463d-a518-deefdfe8c28b",
+        "support": {
+          "id": "bfcef447-cfd0-44eb-8cb1-525bc63700d8",
+          "surface": "shelf-4"
+        },
+        "seed": 390719182,
+        "x": 347.4983937939191,
+        "y": 102.50812002848517,
+        "pot": "antique-nezumi"
+      },
+      {
+        "type": "new-morganianum",
+        "rotation": 180,
+        "scale": 1.2,
+        "id": "7fb711f5-c073-4d58-a83c-4e2c3690578c",
+        "support": {
+          "id": "bfcef447-cfd0-44eb-8cb1-525bc63700d8",
+          "surface": "shelf-4"
+        },
+        "seed": 708051150,
+        "x": 364,
+        "y": 100,
+        "pot": "tokoname"
+      },
+      {
+        "type": "new-arboreum",
+        "rotation": 0,
+        "scale": 1,
+        "id": "cdb9076b-be3a-4b47-a4a3-b0bea3aa890d",
+        "support": {
+          "id": "31f56094-6d7b-4dbe-8811-22f5a194f512",
+          "surface": "step-3"
+        },
+        "seed": 1884756931,
+        "x": 324,
+        "y": 120,
+        "pot": "mashiko"
+      },
+      {
+        "type": "moss-argenteum",
+        "rotation": 0,
+        "scale": 1,
+        "id": "28eb7b60-d203-4622-84c9-b8f5c190a991",
+        "support": {
+          "id": "bfcef447-cfd0-44eb-8cb1-525bc63700d8",
+          "surface": "shelf-4"
+        },
+        "seed": 3890461430,
+        "x": 384,
+        "y": 96,
+        "pot": "antique-celadon"
+      },
+      {
+        "type": "nasturtium",
+        "rotation": 0,
+        "scale": 1,
+        "id": "d6025496-3a1f-4896-b651-27897a1ee870",
+        "support": {
+          "id": "bfcef447-cfd0-44eb-8cb1-525bc63700d8",
+          "surface": "shelf-3"
+        },
+        "seed": 888393983,
+        "x": 388,
+        "y": 92,
+        "pot": "white"
+      },
+      {
+        "type": "pink",
+        "rotation": 0,
+        "scale": 1,
+        "id": "58c73014-a1cd-4fca-9380-57edc4037655",
+        "support": {
+          "id": "bfcef447-cfd0-44eb-8cb1-525bc63700d8",
+          "surface": "shelf-3"
+        },
+        "seed": 1418755657,
+        "x": 380,
+        "y": 104,
+        "pot": "hagi"
+      },
+      {
+        "type": "agave",
+        "rotation": 0,
+        "scale": 0.8,
+        "id": "162a50b6-aa2c-4376-8f7c-839350ef2b8f",
+        "support": null,
+        "seed": 514741688,
+        "x": 388,
+        "y": 116
+      },
+      {
+        "type": "new-pulvinata",
+        "rotation": 0,
+        "scale": 1.4,
+        "id": "9a8ae859-2c46-4d75-a157-5dbdd5ee2b9a",
+        "support": {
+          "id": "8840b792-fd24-4a1d-8cd8-ac42b35dd44d",
+          "surface": "shelf-3"
+        },
+        "seed": 3925959738,
+        "x": 436,
+        "y": 164,
+        "pot": "bizen"
+      },
+      {
+        "type": "new-limifolia",
+        "rotation": 0,
+        "scale": 1,
+        "id": "17d69c69-dd4c-472e-b8c4-c9f18e3ce18c",
+        "support": {
+          "id": "8840b792-fd24-4a1d-8cd8-ac42b35dd44d",
+          "surface": "shelf-1"
+        },
+        "seed": 2415150001,
+        "x": 428,
+        "y": 160
+      },
+      {
+        "type": "kalanchoe",
+        "rotation": 0,
+        "scale": 1,
+        "id": "4001c298-bc42-4826-8439-5f1ea51ad185",
+        "support": {
+          "id": "8840b792-fd24-4a1d-8cd8-ac42b35dd44d",
+          "surface": "shelf-1"
+        },
+        "seed": 3418544892,
+        "x": 440,
+        "y": 164,
+        "pot": "seto"
+      },
+      {
+        "type": "vessel-trough",
+        "rotation": 0,
+        "scale": 0.8,
+        "id": "98e8e650-177f-46b7-a728-b45430ef4271",
+        "support": null,
+        "x": 276,
+        "y": 156
+      },
+      {
+        "type": "aquarium-square",
+        "rotation": 0,
+        "scale": 1.1,
+        "id": "07c38205-b859-4cb3-b787-c7154db6874d",
+        "support": {
+          "id": "296d9f1a-a33a-49f9-844a-48a2e16cfde0",
+          "surface": "shelf-2"
+        },
+        "x": 200,
+        "y": 314
+      },
+      {
+        "type": "wood-round-stool",
+        "rotation": 0,
+        "scale": 1.2,
+        "id": "08adf0df-6cd6-45eb-8678-91d684cd975e",
+        "support": null,
+        "x": 316,
+        "y": 180
+      },
+      {
+        "type": "wood-square-stool",
+        "rotation": 0,
+        "scale": 1.3,
+        "id": "875ac19f-4397-471b-8a7d-4d9bb55142f8",
+        "support": null,
+        "x": 224,
+        "y": 288
+      },
+      {
+        "type": "antique-tamba-jar",
+        "rotation": 0,
+        "scale": 0.7,
+        "id": "5de4fa12-be71-4891-8e03-9afd0c29a4a1",
+        "support": {
+          "id": "49a026f9-b425-47d4-bd48-4a369e9dfc74",
+          "surface": "shelf-3"
+        },
+        "x": 260,
+        "y": 312
+      },
+      {
+        "type": "lavender",
+        "rotation": 0,
+        "scale": 0.8,
+        "id": "44124495-01b5-4732-b8f4-78d75ca03ebe",
+        "support": {
+          "id": "875ac19f-4397-471b-8a7d-4d9bb55142f8",
+          "surface": "seat"
+        },
+        "seed": 373811424,
+        "x": 224.93391622684877,
+        "y": 285.2407777196347,
+        "pot": "mino"
+      },
+      {
+        "type": "moss-squarrosus",
+        "rotation": 0,
+        "scale": 1,
+        "id": "8eb6b3fd-a820-4786-8cc7-d9b6315151c7",
+        "support": {
+          "id": "296d9f1a-a33a-49f9-844a-48a2e16cfde0",
+          "surface": "shelf-3"
+        },
+        "seed": 1787196537,
+        "x": 196,
+        "y": 316,
+        "pot": "antique-shino"
+      },
+      {
+        "type": "seed-tray",
+        "rotation": 0,
+        "scale": 1.2,
+        "id": "895032a6-0e62-424b-b9ae-bee457605a38",
+        "support": {
+          "id": "296d9f1a-a33a-49f9-844a-48a2e16cfde0",
+          "surface": "shelf-3"
+        },
+        "x": 168,
+        "y": 312
+      },
+      {
+        "type": "vessel-shallow",
+        "rotation": 0,
+        "scale": 1,
+        "id": "6143d2e9-67b2-4b60-830d-97ee2534ace0",
+        "support": null,
+        "x": 312,
+        "y": 148
+      },
+      {
+        "type": "vessel-growbag",
+        "rotation": 90,
+        "scale": 1,
+        "id": "def1e442-eb31-4827-ad81-7d5af7b8da6a",
+        "support": null,
+        "x": 260,
+        "y": 280
+      },
+      {
+        "type": "vessel-trough",
+        "rotation": 90,
+        "scale": 1,
+        "id": "00c64cd5-a98b-4b45-85e4-e76fa66fa9cd",
+        "support": null,
+        "x": 452,
+        "y": 388
       }
     ],
     "south": [
@@ -1189,7 +1544,7 @@ export const INITIAL_LAYOUT = {
         "id": "9def366d-90a1-4563-9951-f7c0a4dfa0e4",
         "support": null,
         "x": 284,
-        "y": 120
+        "y": 124
       },
       {
         "type": "wood-2",
@@ -1250,7 +1605,7 @@ export const INITIAL_LAYOUT = {
         },
         "seed": 2698839807,
         "x": 272,
-        "y": 124,
+        "y": 128,
         "pot": "plastic"
       },
       {
@@ -1264,7 +1619,7 @@ export const INITIAL_LAYOUT = {
         },
         "seed": 1328928521,
         "x": 295.22599110452734,
-        "y": 127.32840881998413
+        "y": 131.32840881998413
       },
       {
         "type": "antique-tamba-jar",
@@ -1273,7 +1628,7 @@ export const INITIAL_LAYOUT = {
         "id": "9dd0e8b7-cbdd-47c6-9eec-62df5e5c782d",
         "support": null,
         "x": 244,
-        "y": 116
+        "y": 120
       },
       {
         "type": "antique-seto-hitorine",
@@ -1285,7 +1640,7 @@ export const INITIAL_LAYOUT = {
           "surface": "shelf-2"
         },
         "x": 268,
-        "y": 124
+        "y": 128
       },
       {
         "type": "haworthia",
@@ -1298,7 +1653,7 @@ export const INITIAL_LAYOUT = {
         },
         "seed": 3493995457,
         "x": 282.58268368387877,
-        "y": 127.6825955649233,
+        "y": 131.6825955649233,
         "pot": "arita"
       },
       {
@@ -1312,7 +1667,7 @@ export const INITIAL_LAYOUT = {
         },
         "seed": 4150551881,
         "x": 284,
-        "y": 124,
+        "y": 128,
         "pot": "shigaraki"
       },
       {
@@ -1322,7 +1677,7 @@ export const INITIAL_LAYOUT = {
         "id": "8d6ea066-07d8-464d-86de-80881efeff23",
         "support": null,
         "seed": 3654063771,
-        "x": 340,
+        "x": 336,
         "y": 140
       },
       {
@@ -1336,6 +1691,15 @@ export const INITIAL_LAYOUT = {
         },
         "x": 332,
         "y": 280
+      },
+      {
+        "type": "vessel-terra",
+        "rotation": 180,
+        "scale": 1.5,
+        "id": "1c1338b3-e614-4d07-b61b-e0fe3f6b5732",
+        "support": null,
+        "x": 232,
+        "y": 308
       }
     ]
   }

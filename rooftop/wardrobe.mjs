@@ -1,114 +1,16 @@
-export const OUTFITS = {
-  sage: ["苔绿背心裙", "#778578", "#5c6d61", "#94a08b", "dress"],
-  clay: ["陶土背心裙", "#ae8270", "#855f52", "#c6a08b", "dress"],
-  blue: ["蓝灰背心裙", "#788d9b", "#586d7b", "#9badb5", "dress"],
-  "dress-cream": ["米白背心裙", "#c3b994", "#938b6f", "#ddd3b5", "dress"],
-  "dress-berry": ["莓红背心裙", "#986e7c", "#705461", "#b48c97", "dress"],
-  "apron-sage": ["苔绿围裙", "#778578", "#5c6d61", "#94a08b", "apron"],
-  "apron-clay": ["陶土围裙", "#ae8270", "#855f52", "#c6a08b", "apron"],
-  "apron-blue": ["蓝灰围裙", "#788d9b", "#586d7b", "#9badb5", "apron"],
-  cream: ["米白围裙", "#c3b994", "#938b6f", "#ddd3b5", "apron"],
-  "apron-berry": ["莓红围裙", "#986e7c", "#705461", "#b48c97", "apron"],
-  "overall-sage": ["苔绿背带裤", "#778578", "#5c6d61", "#94a08b", "overall"],
-  "overall-clay": ["陶土背带裤", "#ae8270", "#855f52", "#c6a08b", "overall"],
-  "overall-blue": ["蓝灰背带裤", "#788d9b", "#586d7b", "#9badb5", "overall"],
-  "overall-cream": ["米白背带裤", "#c3b994", "#938b6f", "#ddd3b5", "overall"],
-  "overall-berry": ["莓红背带裤", "#986e7c", "#705461", "#b48c97", "overall"],
-  "stripe-sage": ["苔绿条纹裙", "#778578", "#5c6d61", "#94a08b", "stripe"],
-  "stripe-clay": ["陶土条纹裙", "#ae8270", "#855f52", "#c6a08b", "stripe"],
-  "stripe-blue": ["蓝灰条纹裙", "#788d9b", "#586d7b", "#9badb5", "stripe"],
-  "stripe-cream": ["米白条纹裙", "#c3b994", "#938b6f", "#ddd3b5", "stripe"],
-  "stripe-berry": ["莓红条纹裙", "#986e7c", "#705461", "#b48c97", "stripe"],
-  "check-sage": ["苔绿格子裙", "#778578", "#5c6d61", "#94a08b", "check"],
-  "check-clay": ["陶土格子裙", "#ae8270", "#855f52", "#c6a08b", "check"],
-  "check-blue": ["蓝灰格子裙", "#788d9b", "#586d7b", "#9badb5", "check"],
-  "check-cream": ["米白格子裙", "#c3b994", "#938b6f", "#ddd3b5", "check"],
-  "check-berry": ["莓红格子裙", "#986e7c", "#705461", "#b48c97", "check"],
-  "jacket-sage": ["苔绿短外套", "#778578", "#5c6d61", "#94a08b", "jacket"],
-  "jacket-clay": ["陶土短外套", "#ae8270", "#855f52", "#c6a08b", "jacket"],
-  "jacket-blue": ["蓝灰短外套", "#788d9b", "#586d7b", "#9badb5", "jacket"],
-  "jacket-cream": ["米白短外套", "#c3b994", "#938b6f", "#ddd3b5", "jacket"],
-  "jacket-berry": ["莓红短外套", "#986e7c", "#705461", "#b48c97", "jacket"],
-  "pocket-sage": ["苔绿口袋工作服", "#778578", "#5c6d61", "#94a08b", "pocket"],
-  "pocket-clay": ["陶土口袋工作服", "#ae8270", "#855f52", "#c6a08b", "pocket"],
-  "pocket-blue": ["蓝灰口袋工作服", "#788d9b", "#586d7b", "#9badb5", "pocket"],
-  "pocket-cream": ["米白口袋工作服", "#c3b994", "#938b6f", "#ddd3b5", "pocket"],
-  "pocket-berry": ["莓红口袋工作服", "#986e7c", "#705461", "#b48c97", "pocket"],
-};
-export const DECORATIONS = {
-  "scarf-sage": "苔绿小领巾",
-  "scarf-clay": "陶土小领巾",
-  scarf: "蓝灰小领巾",
-  "scarf-cream": "米白小领巾",
-  "scarf-berry": "莓红小领巾",
-  "ribbon-sage": "苔绿蝴蝶结",
-  "ribbon-clay": "陶土蝴蝶结",
-  "ribbon-blue": "蓝灰蝴蝶结",
-  "ribbon-cream": "米白蝴蝶结",
-  ribbon: "莓红蝴蝶结",
-  "flower-sage": "苔绿小花",
-  "flower-clay": "陶土小花",
-  "flower-blue": "蓝灰小花",
-  flower: "米白小花",
-  "flower-berry": "莓红小花",
-  "vest-sage": "苔绿小背心",
-  "vest-clay": "陶土小背心",
-  "vest-blue": "蓝灰小背心",
-  "vest-cream": "米白小背心",
-  "vest-berry": "莓红小背心",
-  "cap-sage": "苔绿小帽子",
-  "cap-clay": "陶土小帽子",
-  "cap-blue": "蓝灰小帽子",
-  "cap-cream": "米白小帽子",
-  "cap-berry": "莓红小帽子",
-  "bonnet-sage": "苔绿花边帽",
-  "bonnet-clay": "陶土花边帽",
-  "bonnet-blue": "蓝灰花边帽",
-  "bonnet-cream": "米白花边帽",
-  "bonnet-berry": "莓红花边帽",
-  "bell-sage": "苔绿铃铛项圈",
-  "bell-clay": "陶土铃铛项圈",
-  "bell-blue": "蓝灰铃铛项圈",
-  "bell-cream": "米白铃铛项圈",
-  "bell-berry": "莓红铃铛项圈",
-};
-const PIG_STYLES = {
-  "scarf-sage": ["scarf", "#778578", "#5c6d61", "#94a08b"],
-  "scarf-clay": ["scarf", "#ae8270", "#855f52", "#c6a08b"],
-  scarf: ["scarf", "#788d9b", "#586d7b", "#9badb5"],
-  "scarf-cream": ["scarf", "#c3b994", "#938b6f", "#ddd3b5"],
-  "scarf-berry": ["scarf", "#986e7c", "#705461", "#b48c97"],
-  "ribbon-sage": ["ribbon", "#778578", "#5c6d61", "#94a08b"],
-  "ribbon-clay": ["ribbon", "#ae8270", "#855f52", "#c6a08b"],
-  "ribbon-blue": ["ribbon", "#788d9b", "#586d7b", "#9badb5"],
-  "ribbon-cream": ["ribbon", "#c3b994", "#938b6f", "#ddd3b5"],
-  ribbon: ["ribbon", "#986e7c", "#705461", "#b48c97"],
-  "flower-sage": ["flower", "#778578", "#5c6d61", "#94a08b"],
-  "flower-clay": ["flower", "#ae8270", "#855f52", "#c6a08b"],
-  "flower-blue": ["flower", "#788d9b", "#586d7b", "#9badb5"],
-  flower: ["flower", "#c3b994", "#938b6f", "#ddd3b5"],
-  "flower-berry": ["flower", "#986e7c", "#705461", "#b48c97"],
-  "vest-sage": ["vest", "#778578", "#5c6d61", "#94a08b"],
-  "vest-clay": ["vest", "#ae8270", "#855f52", "#c6a08b"],
-  "vest-blue": ["vest", "#788d9b", "#586d7b", "#9badb5"],
-  "vest-cream": ["vest", "#c3b994", "#938b6f", "#ddd3b5"],
-  "vest-berry": ["vest", "#986e7c", "#705461", "#b48c97"],
-  "cap-sage": ["cap", "#778578", "#5c6d61", "#94a08b"],
-  "cap-clay": ["cap", "#ae8270", "#855f52", "#c6a08b"],
-  "cap-blue": ["cap", "#788d9b", "#586d7b", "#9badb5"],
-  "cap-cream": ["cap", "#c3b994", "#938b6f", "#ddd3b5"],
-  "cap-berry": ["cap", "#986e7c", "#705461", "#b48c97"],
-  "bonnet-sage": ["bonnet", "#778578", "#5c6d61", "#94a08b"],
-  "bonnet-clay": ["bonnet", "#ae8270", "#855f52", "#c6a08b"],
-  "bonnet-blue": ["bonnet", "#788d9b", "#586d7b", "#9badb5"],
-  "bonnet-cream": ["bonnet", "#c3b994", "#938b6f", "#ddd3b5"],
-  "bonnet-berry": ["bonnet", "#986e7c", "#705461", "#b48c97"],
-  "bell-sage": ["bell", "#778578", "#5c6d61", "#94a08b"],
-  "bell-clay": ["bell", "#ae8270", "#855f52", "#c6a08b"],
-  "bell-blue": ["bell", "#788d9b", "#586d7b", "#9badb5"],
-  "bell-cream": ["bell", "#c3b994", "#938b6f", "#ddd3b5"],
-  "bell-berry": ["bell", "#986e7c", "#705461", "#b48c97"],
-};
+import { LOOKS, LOOK_BY_ID, DEFAULT_LOOK } from './fashion/catalog.mjs';
+// The small 2D fallback consumes the same palettes; 3D uses full authored cuts.
+export const OUTFITS=Object.fromEntries(LOOKS.map(l=>[l.id,[l.name,...l.palette.slice(0,3),['dress'].includes(l.model?.cut)||['bar','tweed','mondrian','quant','chiton','kosode','tang'].includes(l.id)?'dress':'overall']]));
+export const DECORATIONS=Object.fromEntries(LOOKS.map(l=>[l.id,l.name+' · '+l.pig]));
+export function normalizeWardrobe(value) {
+  if(!value||typeof value!=='object')return null;
+  if(Object.hasOwn(LOOK_BY_ID,value.outfit)&&Object.hasOwn(LOOK_BY_ID,value.pig))return {outfit:value.outfit,pig:value.pig};
+  // Retired colour variants migrate once into a matching historical pair.
+  const legacy=/^(sage|clay|blue|cream|(?:dress|apron|overall|stripe|check|jacket|pocket)-(?:sage|clay|blue|cream|berry))$/;
+  const pigLegacy=/^(scarf|ribbon|flower|(?:scarf|ribbon|flower|vest|cap|bonnet|bell)-(?:sage|clay|blue|cream|berry))$/;
+  if(legacy.test(value.outfit)&&pigLegacy.test(value.pig))return {outfit:DEFAULT_LOOK,pig:DEFAULT_LOOK};
+  return null;
+}
 export const ACTIVITIES = {
   rest: "歇一会儿",
   walk: "散步",
@@ -123,39 +25,20 @@ export const ACTIVITIES = {
   sit: "坐着发呆",
   feed: "给小猪添饭",
 };
-// A fresh page chooses both wardrobes independently, avoiding the previous choices.
-const storageKey = typeof location !== "undefined" && location.pathname.startsWith("/rooftop/art/")
-  ? "umwelt-dongdong-wardrobe-preview-v1" : "umwelt-dongdong-wardrobe-v1";
-let previous = {};
-try {
-  previous = JSON.parse(localStorage.getItem(storageKey)) || {};
-} catch {}
-function pick(items, last) {
-  const keys = Object.keys(items).filter((key) => key !== last);
-  return keys[Math.floor(Math.random() * keys.length)];
-}
-let session = null;
-try {
-  session = JSON.parse(sessionStorage.getItem(storageKey));
-} catch {}
-const reload = performance.getEntriesByType("navigation")[0]?.type === "reload";
-export let wardrobe =
-  !reload && OUTFITS[session?.outfit] && DECORATIONS[session?.pig]
-    ? session
-    : {
-        outfit: pick(OUTFITS, previous.outfit),
-        pig: pick(DECORATIONS, previous.pig),
-      };
-function save() {
-  try {
-    localStorage.setItem(storageKey, JSON.stringify(wardrobe));
-    sessionStorage.setItem(storageKey, JSON.stringify(wardrobe));
-  } catch {}
-}
+// A fresh reload chooses one pair; navigation keeps the current selection.
+const storageKey=typeof location!=='undefined'&&location.pathname.startsWith('/rooftop/art/')?'umwelt-dongdong-wardrobe-preview-v1':'umwelt-dongdong-wardrobe-v1';
+let previous=null,session=null;
+try{previous=normalizeWardrobe(JSON.parse(localStorage.getItem(storageKey)));}catch{}
+try{session=normalizeWardrobe(JSON.parse(sessionStorage.getItem(storageKey)));}catch{}
+const reload=performance.getEntriesByType('navigation')[0]?.type==='reload';
+const choices=LOOKS.filter(l=>l.id!==previous?.outfit),selected=choices[Math.floor(Math.random()*choices.length)].id;
+export let wardrobe=!reload&&session?session:{outfit:selected,pig:selected};
+function save(){try{localStorage.setItem(storageKey,JSON.stringify(wardrobe));sessionStorage.setItem(storageKey,JSON.stringify(wardrobe));}catch{}}
 save();
-export function dress(key, value) {
-  if (key === "outfit" ? !OUTFITS[value] : !DECORATIONS[value]) return;
-  wardrobe[key] = value;
+export function dress(key,value){
+  if(!['outfit','pig'].includes(key)||!Object.hasOwn(LOOK_BY_ID,value))return;
+  wardrobe[key]=value;
+  if(key==='outfit')wardrobe.pig=value;
   save();
 }
 export function paintPig(c, p, t) {
@@ -190,7 +73,8 @@ export function paintPig(c, p, t) {
   px(-10, -10, 2, 3, "#d9ac9d");
   px(-9, -11, 3, 1, "#d9ac9d");
   px(-8, -10, 1, 1, "#d9ac9d");
-  const d = PIG_STYLES[wardrobe.pig];
+  const look=LOOK_BY_ID[wardrobe.pig];
+  const d = look && ['scarf',...look.palette];
   if (d) {
     const [kind, a, b, light] = d;
     if (kind === "vest") {
