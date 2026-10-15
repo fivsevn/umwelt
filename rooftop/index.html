@@ -49,43 +49,21 @@
         </div>
       </div>
       <div class="corner-cards">
-        <aside id="observerStatus" class="world-card status-card" aria-live="polite" hidden></aside>
-        <button id="sceneCard" class="world-card" type="button">去南阳台看看。</button>
-        <button
-          id="notebookOpen"
-          class="world-card"
-          type="button"
-          aria-controls="notebook"
-          aria-expanded="false"
-        >翻翻东东的手帐。</button>
-        <aside
-          id="dongdongStatus"
-          class="world-card status-card"
-          aria-live="polite"
-          hidden
-        ></aside>
-        <aside id="weatherCard" class="world-card weather-card" hidden>
-          <p id="weatherStatus">风从楼群之间吹过。</p>
-        </aside>
-        <aside id="actionCard" class="world-card action-card" hidden>
-          <p id="actionStatus"></p>
-        </aside>
-        <button
-          id="musicToggle"
-          hidden
-          class="world-card"
-          type="button"
-          aria-pressed="false"
-          aria-label="隔壁的音乐，点击开启"
-        >
-          听听隔壁的音乐。</button
-        ><a id="roomCard" hidden class="world-card" href="./room/"
-          >回房间换衣服。</a
-        ><a id="garageCard" hidden class="world-card" href="./arrange/"
-          >去车库搬点东西上来。</a
-        ><a id="returnWorld" hidden class="world-card" href="../"
-          >去别处走走。</a
-        >
+        <div id="statusLog" class="status-log" role="log" aria-label="天台动态" aria-live="polite" aria-relevant="additions" aria-atomic="false"></div>
+        <div class="status-sources" hidden aria-hidden="true">
+          <aside id="observerStatus" class="world-card status-card"></aside>
+          <aside id="dongdongStatus" class="world-card status-card"></aside>
+          <aside id="weatherCard" class="world-card weather-card"><p id="weatherStatus">风从楼群之间吹过。</p></aside>
+          <aside id="actionCard" class="world-card action-card"><p id="actionStatus"></p></aside>
+        </div>
+        <nav class="status-actions" aria-label="天台操作">
+          <button id="sceneCard" class="world-card" type="button">去南阳台看看。</button>
+          <button id="notebookOpen" class="world-card" type="button" aria-controls="notebook" aria-expanded="false">翻翻东东的手帐。</button>
+          <button id="musicToggle" class="world-card" type="button" aria-pressed="false" aria-label="隔壁的音乐，点击开启">听听隔壁的音乐。</button>
+          <a id="returnWorld" class="world-card" href="../">去别处走走。</a>
+          <a id="roomCard" class="world-card" href="./room/">回房间换衣服。</a>
+          <a id="garageCard" class="world-card" href="./arrange/">去车库搬点东西上来。</a>
+        </nav>
       </div>
       <section
         id="notebook"

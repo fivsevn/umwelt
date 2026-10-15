@@ -4,99 +4,108 @@ const base = process.env.BASE_URL || 'http://127.0.0.1:8773';
 const engine = process.env.BROWSER || 'chromium';
 const gameUrl = base + '/rooftop/?weather=clear&time=day&month=10&festival=none';
 (async () => {
-  const browser = await (engine === 'webkit' ? webkit : chromium).launch({headless:true,...(engine === "chromium" ? {args:["--use-angle=swiftshader","--enable-unsafe-swiftshader"]} : {}),...(engine === 'chromium' && !process.env.CI ? {channel:'chrome'} : {})});
+  const browser = await (engine === 'webkit' ? webkit : chromium).launch({headless:true,...(engine === 'chromium' ? {args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']} : {}),...(engine === 'chromium' && !process.env.CI ? {channel:'chrome'} : {})});
   try {
     for (const width of [1440,390]) for (const reducedMotion of ['no-preference','reduce']) {
       const page = await browser.newPage({viewport:{width,height:900},reducedMotion});
       const errors=[];
       page.on('pageerror', e => errors.push(e.message));
-      await page.addInitScript(() => {
-        Math.random = () => .99;
-        window.requestAnimationFrame = () => 1;
-      });
+      await page.addInitScript(() => { Math.random=()=>.99;window.requestAnimationFrame=()=>1; });
       await page.goto(gameUrl);
       await page.waitForFunction(() => window.rooftop?.graphics?.background?.loaded && rooftop.graphics.nativeItems.pending === 0, null, {timeout:90000,polling:100});
-      assert.equal(await page.locator('#sceneCard').isVisible(), true, 'permanent balcony navigation remains available');
-      assert.equal(await page.locator('#notebookOpen').isVisible(), true, 'the empty terrace retains its complete notebook entry');
       await page.evaluate(async () => {
-        // Animation is frozen above, so seed the action text normally supplied
-        // by the story frame. Empty transparent text has no visible box.
-        document.querySelector('#actionStatus').textContent = '东东在天台上走动。';
-        const {attachCardFeed} = await import('/rooftop/card-feed.mjs');
-        const {makeResident} = await import('/rooftop/resident.mjs');
-        window.feedPhase='day';
-        window.feedResident=makeResident(() => .99,{phase:()=>feedPhase});
-        window.feedScene='north';
-        window.feed=attachCardFeed(document.querySelector('.corner-cards'),{scene:()=>feedScene,presence:()=>feedResident});
-        window.updateFeed=(time)=>feed.update(time);
+        // Freeze the story above, then drive its real DOM adapter with a wall
+        // clock. No animation-frame duration is used as an event timestamp.
+        document.querySelector('#statusLog').replaceChildren();
+        document.querySelector('#weatherStatus').textContent='风从楼群之间吹过。';
+        document.querySelector('#actionStatus').textContent='东东在浇水，小猪趴在门边。';
+        window.feedNow=Date.parse('2026-10-16T02:00:00Z');
+        window.feedResident={present:true,status:''};window.feedScene='north';
+        const {attachCardFeed}=await import('/rooftop/card-feed.mjs');
+        window.feed=attachCardFeed(document.querySelector('.corner-cards'),{scene:()=>feedScene,presence:()=>feedResident,now:()=>feedNow});
+        window.updateFeed=ms=>{feedNow+=ms;feed.update(0);};
       });
-      const update = async time => {await page.evaluate(time=>updateFeed(time),time);await page.waitForTimeout(550)};
-      // Scene/journal entries are permanent cards; event chronology concerns
-      // only the existing feed that is revealed and reordered over time.
-      const ids = () => page.locator('.corner-cards > :visible:not(#sceneCard):not(#notebookOpen)').evaluateAll(es=>es.map(e=>e.id));
-      await update(.4); assert.deepEqual(await ids(),['weatherCard']);
-      await update(1.2); assert.deepEqual(await ids(),['dongdongStatus','actionCard','weatherCard']);
-      await update(5); assert.deepEqual(await ids(),['musicToggle','dongdongStatus','actionCard','weatherCard']);
-      await update(12); assert.deepEqual(await ids(),['returnWorld','musicToggle','dongdongStatus','actionCard','weatherCard']);
-      // No changes on ordinary frames: cards and arrival animations remain stable.
-      await page.evaluate(()=>{document.querySelector('#musicToggle').classList.remove('feed-enter');updateFeed(13)});
-      assert.equal(await page.locator('#musicToggle').evaluate(e=>e.classList.contains('feed-enter')),false);
-      await page.evaluate(()=>{feedResident.update(120);updateFeed(120)});
-      await page.waitForTimeout(550);
-      assert.deepEqual(await ids(),['dongdongStatus','returnWorld','musicToggle','actionCard','weatherCard']);
-      assert.equal(await page.locator('#dongdongStatus').innerText(),'东东回来了。');
-      assert.equal(await page.locator('#dongdongStatus').evaluate(e=>e.classList.contains('feed-enter')),true);
-      await update(120.9); assert.equal((await ids())[0],'garageCard');
-      await update(122.1); assert.equal((await ids())[0],'roomCard');
-      await update(128); assert.equal(await page.locator('#dongdongStatus').isVisible(),false);
-      await page.locator('#musicToggle').click();
-      await page.waitForFunction(()=>document.querySelector('#musicToggle').getAttribute('aria-pressed')==='true');
-      await update(129); assert.equal((await ids())[0],'musicToggle');
-      await page.evaluate(()=>{document.querySelector('#weatherStatus').textContent='雨点落在盆沿和地面。';updateFeed(130)});
-      await page.waitForTimeout(550); assert.equal((await ids())[0],'weatherCard');
-      await page.evaluate(()=>{feedResident.update(270);updateFeed(400)});
-      await page.waitForTimeout(550);
-      assert.deepEqual(await ids(),['dongdongStatus','weatherCard','musicToggle','returnWorld','actionCard']);
-      assert.notEqual(await page.locator('#dongdongStatus').innerText(),'东东回来了。');
+      const update = ms => page.evaluate(ms=>updateFeed(ms),ms);
+      const entries = () => page.locator('#statusLog .status-entry').evaluateAll(rows=>rows.map(row=>({
+        id:row.dataset.eventId,kind:row.dataset.statusKind,text:row.querySelector('.status-text').textContent,
+        time:row.querySelector('time').textContent,datetime:row.querySelector('time').dateTime,
+      })));
+      const links = () => page.locator('.status-actions > *').evaluateAll(es=>es.map(e=>e.id));
+      const linkOrder=['sceneCard','notebookOpen','musicToggle','returnWorld','roomCard','garageCard'];
+      await update(799);assert.equal((await entries()).length,0);
+      await update(1);let initial=await entries();
+      assert.deepEqual(initial.map(e=>e.kind),['weather','activity']);
+      assert.ok(initial.every(e=>e.time==='10:00:00' && e.datetime==='2026-10-16T02:00:00.000Z'));
+      assert.deepEqual(await links(),linkOrder);
+      const geometry=()=>page.locator('.status-actions > *').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().toJSON()));
+      const positions=await geometry();
+      await page.evaluate(()=>{
+        window.firstStatusNode=document.querySelector('#statusLog').firstElementChild;
+        document.querySelector('#roomCard').href='./room/?scene=north&weather=rain';
+        updateFeed(5000);
+      });
+      assert.deepEqual(await entries(),initial,'ordinary frames and link changes do not create events or change timestamps');
+      assert.equal(await page.evaluate(()=>firstStatusNode===document.querySelector('#statusLog').firstElementChild),true);
+      await page.evaluate(()=>{document.querySelector('#actionStatus').textContent='短暂走动。';updateFeed(100)});
+      await page.evaluate(()=>{document.querySelector('#actionStatus').textContent='东东在浇水，小猪趴在门边。';updateFeed(100)});
+      await update(800);assert.deepEqual(await entries(),initial,'transient states do not enter history');
+      await page.evaluate(()=>{feed.notifyObserver('bird');feedNow+=1000;feed.notifyObserver('drone')});
+      assert.equal((await entries()).length,4);
+      const observed=await entries();
+      await page.evaluate(()=>{feedNow+=100;feed.notifyObserver('bird');feed.notifyObserver('drone');feed.notifyObserver('neighbor')});
+      assert.deepEqual(await entries(),observed,'repeated view switches are coalesced');
+      assert.deepEqual(await geometry(),positions,'a full log does not shift the fixed action grid');
+      await page.evaluate(()=>{
+        feedResident.present=false;feedResident.status='东东去买花盆了。';
+        document.querySelector('#actionStatus').textContent='东东出门了，小猪趴在门边。';updateFeed(1000);
+      });
+      await update(800);
+      assert.deepEqual((await entries()).slice(-2).map(e=>e.text),['东东去买花盆了。','小猪趴在门边。']);
       assert.equal(await page.locator('#garageCard').isVisible(),false);
       assert.equal(await page.locator('#roomCard').isVisible(),false);
+      await page.evaluate(()=>{feedResident.present=true;document.querySelector('#actionStatus').textContent='东东在修剪，小猪趴在门边。';updateFeed(1000)});
+      assert.equal((await entries()).at(-1).text,'东东回来了。');
+      assert.equal(await page.locator('#roomCard').isVisible(),true);
+      await update(800);
+      const notebookX=await page.locator('#notebookOpen').evaluate(e=>e.getBoundingClientRect().x);
+      await page.locator('#musicToggle').click();
+      await page.waitForFunction(()=>document.querySelector('#musicToggle').getAttribute('aria-pressed')==='true',null,{polling:100});
+      await update(1000);assert.equal((await entries()).at(-1).text,'隔壁的音乐响起来了。');
+      assert.equal(await page.locator('#notebookOpen').evaluate(e=>e.getBoundingClientRect().x),notebookX,'music label length does not shift the other actions');
+      await page.locator('#musicToggle').click();
+      await page.waitForFunction(()=>document.querySelector('#musicToggle').getAttribute('aria-pressed')==='false',null,{polling:100});
+      await update(1000);
+      assert.equal((await entries()).at(-1).text,'窗户关上了，音乐轻下去。');
       await page.locator('#sceneCard').click();
-      await page.evaluate(()=>{feedScene=rooftop.scene;updateFeed(401)});
+      await page.evaluate(()=>{feedScene=rooftop.scene;updateFeed(1000)});
+      assert.equal((await entries()).at(-1).text,'来到南阳台。');
       assert.equal(await page.locator('#returnWorld').isVisible(),false);
       await page.locator('#sceneCard').click();
-      await page.evaluate(()=>{feedScene=rooftop.scene;updateFeed(402)});
-      await page.waitForTimeout(550); assert.equal((await ids())[0],'returnWorld');
-      const oldErrand=await page.locator('#dongdongStatus').innerText();
-      await page.evaluate(()=>{feedPhase='dawn';feedResident.update(0);updateFeed(403)});
-      await page.waitForTimeout(550);
-      assert.equal((await ids())[0],'dongdongStatus');
-      assert.notEqual(await page.locator('#dongdongStatus').innerText(),oldErrand);
-      // Model loading can delay the first painted animation frame. Await the
-      // actual finite entrance animations before measuring the settled stack.
+      await page.evaluate(()=>{feedScene=rooftop.scene;updateFeed(1000)});
+      assert.equal((await entries()).at(-1).text,'来到北天台。');
+      assert.equal(await page.locator('#returnWorld').isVisible(),true);
+      assert.deepEqual(await links(),linkOrder);
+      // A preference switch must retain the next essential reveal.
+      await page.emulateMedia({reducedMotion:reducedMotion==='reduce'?'no-preference':'reduce'});
+      await page.evaluate(()=>{feedNow+=31000;feed.notifyObserver('bird')});
+      assert.equal((await entries()).filter(e=>e.kind==='observer').length,1);
+      const animation=await page.locator('.status-latest').evaluate(e=>getComputedStyle(e).animationName);
+      assert.equal(animation,reducedMotion==='reduce'?'feed-enter':'card-reveal');
       await page.locator('.corner-cards').evaluate(async root=>{
         await Promise.all(root.getAnimations({subtree:true}).map(animation=>animation.finished));
       });
-      const boxes=await page.locator('.corner-cards > :visible').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().toJSON()));
-      assert.ok(boxes.every((r,i)=>r.x>=0 && r.right<=width && (!i || r.y>=boxes[i-1].bottom)), 'visible cards stack without overlap');
+      const rows=await page.locator('#statusLog .status-entry').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().toJSON()));
+      assert.equal(rows.length,4);
+      assert.ok(rows.every((r,i)=>r.x>=0 && r.right<=width && (!i || r.y>=rows[i-1].bottom)), 'events stay ordered and fit the viewport');
+      assert.ok(rows.at(-1).bottom <= (await geometry())[0].y,'events remain above actions');
+      assert.equal(await page.locator('#statusLog').getAttribute('role'),'log');
       if(process.env.QA_OUTPUT) await page.screenshot({path:`${process.env.QA_OUTPUT}/card-feed-${engine}-${width}-${reducedMotion}.png`});
-      // Returning cards carry the correct destination and remain usable.
-      await page.evaluate(()=>{feedResident.update(120);updateFeed(522);updateFeed(525)});
       await page.locator('#garageCard').click();
       await page.waitForURL('**/arrange/?scene=north');
-      await page.waitForFunction(() => window.rooftop?.graphics?.background?.loaded && rooftop.graphics.nativeItems.pending === 0, null, {timeout:90000,polling:100});
-      await page.goto(gameUrl);
-      await page.waitForFunction(() => window.rooftop?.graphics?.background?.loaded && rooftop.graphics.nativeItems.pending === 0, null, {timeout:90000,polling:100});
-      await page.evaluate(async()=>{
-        document.querySelector('#actionStatus').textContent = '东东在天台上走动。';
-        const {attachCardFeed}=await import('/rooftop/card-feed.mjs');
-        const fresh=attachCardFeed(document.querySelector('.corner-cards'),{scene:()=> 'north',presence:()=>({present:true,status:''})});
-        fresh.update(12);
-      });
-      await page.waitForTimeout(550);
-      assert.deepEqual(await ids(),['roomCard','returnWorld','musicToggle','garageCard','actionCard','weatherCard']);
+      await page.waitForFunction(() => window.rooftop?.graphics?.background?.loaded, null, {timeout:90000,polling:100});
       assert.deepEqual(errors,[]);
       await page.close();
     }
-    console.log(engine+' card chronology, return/departure, content updates, scene navigation and reduced motion PASS');
+    console.log(engine+' timestamped status log, deduplication, presence, fixed actions and motion preference switch PASS');
   } finally {await browser.close()}
 })().catch(e=>{console.error(e);process.exit(1)});

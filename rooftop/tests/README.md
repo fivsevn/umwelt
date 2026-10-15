@@ -15,6 +15,8 @@ ROOFTOP_REVIEW_ORIGIN=http://127.0.0.1:8765 node rooftop/tests/browser/rooftop-r
 
 天台无视觉变化维护使用 `browser/rooftop-maintenance.cjs`；模块职责与对比运行方式见 [天台维护指南](../docs/maintenance.md)。
 
+状态栏使用 `rooftop-status-journal.test.mjs` 验证北京时间、事件顺序、短暂变化过滤、重复合并和活动片段；`browser/rooftop-card-feed.cjs` 验证实际 DOM 的固定时间、4 条记录上限、固定操作位置、出入与音乐事件，以及桌面／窄屏和运行中切换减少动态偏好。
+
 花农时代日常视觉调整使用固定入口：[browser/rooftop.html](browser/rooftop.html)。固定同一视口切换空场景、单个目录物件、固定初始组合三组，集中检查材质、光照、天气、季节、时间及原生／游戏采样，不使用个人陈列存档。运行方法及专项人物页见[统一测试说明](../docs/scene-review.md)。
 
 天台扩容：`node --test rooftop/tests/*.test.mjs`；`browser/rooftop-expansion.cjs` 在 Chromium / WebKit 验证分类、手帐、承托、存档、昼夜灯光、透明像素、旋转与手机布局。`BASE_URL` 可指向已部署页面。

@@ -27,7 +27,7 @@ const checkBounds = async page => {
   assert.ok(g.wanted.zoom >= g.zoomLimits.min - 1e-6 && g.wanted.zoom <= g.zoomLimits.max + 1e-6);
 };
 const checkObserverCards = async (page, view) => {
-  // Hover has its own paper color/shadow, so compare two resting cards.
+  // Inspect resting controls; hover and selection provide a brighter cue.
   await page.mouse.move(1, 1);
   const cards = await page.evaluate(() => {
     const controls = document.querySelector('.observation .view-controls');
@@ -92,7 +92,7 @@ const checkObserverCards = async (page, view) => {
   ], 'observer choices use individual bird/drone icon cards and a question card');
   assert.ok(cards.choices.filter(choice => choice.icon)
     .every(choice => choice.iconWidth >= 6 && choice.iconWidth <= 10 &&
-      choice.iconHeight >= 6 && choice.iconHeight <= 10 && choice.centered && choice.filter === 'brightness(0)'),
+      choice.iconHeight >= 6 && choice.iconHeight <= 10 && choice.centered && choice.filter.startsWith('brightness(0) invert(1)')),
   'bird and drone are small centered monochrome silhouettes');
   const expectedOperations = {
     bird: [['left', '←'], ['right', '→']],
@@ -303,10 +303,10 @@ const checkSavedArrangementIsolation = async browser => {
       assert.equal(await page.getByRole("button", { name: "移动画面", exact: true }).isVisible(), false);
       assert.equal(await page.getByRole("button", { name: "复位画面", exact: true }).isVisible(), false);
       assert.equal(await page.locator("#reviewFreeCamera").count(), 0);
-      assert.equal(await page.locator('#observerStatus').isVisible(),false);
+      assert.equal(await page.locator('#statusLog [data-status-kind=observer]').count(),0);
       await selectView(page,'bird');
       assert.equal(await page.locator('#sceneDoor').isVisible(), false);
-      assert.equal(await page.locator('#observerStatus').innerText(),'有小鸟盯着东东的多肉，像是想吃。');
+      assert.equal(await page.locator('#statusLog [data-status-kind=observer] .status-text').last().innerText(),'有小鸟盯着东东的多肉，像是想吃。');
       await checkObserverCards(page, 'bird');
 
       // A drag changes the bird's station without the invisible door stealing it.
@@ -324,7 +324,7 @@ const checkSavedArrangementIsolation = async browser => {
       await checkBounds(page);
 
       await selectView(page, "drone");
-      assert.equal(await page.locator('#observerStatus').innerText(),'有一架无人机路过。');
+      assert.equal(await page.locator('#statusLog [data-status-kind=observer] .status-text').last().innerText(),'有一架无人机路过。');
       await checkObserverCards(page, 'drone');
       const drone = await page.evaluate(() => ({ eye: rooftop.graphics.cameraPreset.pose.eye, theta: rooftop.graphics.wanted.theta }));
       await dragView(page, -45, 20);
@@ -337,7 +337,7 @@ const checkSavedArrangementIsolation = async browser => {
       assert.equal(await page.locator(".neighbor-scope").isVisible(), false);
 
       await selectView(page, "neighbor");
-      assert.equal(await page.locator('#observerStatus').innerText(),'有一架无人机路过。','question view does not add a status');
+      assert.equal(await page.locator('#statusLog [data-status-kind=observer] .status-text').last().innerText(),'有一架无人机路过。','question view does not add a status');
       await checkObserverCards(page, 'neighbor');
       assert.equal(await page.locator(".neighbor-scope").isVisible(), true);
       const neighbor = await page.evaluate(() => ({ eye: rooftop.graphics.cameraPreset.pose.eye, target: rooftop.graphics.target, zoom: rooftop.graphics.wanted.zoom }));
@@ -359,6 +359,11 @@ const checkSavedArrangementIsolation = async browser => {
       await page.locator("#notebookOpen").click();
       await page.locator(".observation-notebook").waitFor({ state: "visible" });
       await page.waitForTimeout(650);
+      const clearance=await page.evaluate(()=>({
+        notebook:document.querySelector('#notebook').getBoundingClientRect().top,
+        overlays:Math.max(...['#environmentHud','.view-controls'].map(s=>document.querySelector(s).getBoundingClientRect().bottom)),
+      }));
+      assert.ok(clearance.notebook>=clearance.overlays+12,'the notebook clears both top overlays');
       assert.equal(await page.locator(".observation-notebook").isVisible(), true, "an earlier canvas hover timer cannot close the pinned journal");
       assert.equal(await page.locator('#reviewEntry option:not([value^="fashion:"])').count(), 294);
       assert.equal(await page.locator('#reviewEntry option[value^="fashion:"]').count(), 60);
@@ -453,6 +458,8 @@ const checkSavedArrangementIsolation = async browser => {
     await page.locator("#reviewEntry").selectOption("mint");
     const note = await page.locator(".observation-notebook").boundingBox();
     assert.ok(note.width <= 260 && note.x >= 0 && note.x + note.width <= 391, "phone notebook fits without widening the page");
+    const phoneHud=await page.locator('#environmentHud').boundingBox();
+    assert.ok(note.y>=phoneHud.y+phoneHud.height+12,'phone notebook leaves the weather and coordinates visible');
     await page.getByRole("button", { name: "合上手帐", exact: true }).click();
     await page.locator("#sceneCard").click();
     await page.waitForFunction(() => rooftop.scene === "north");

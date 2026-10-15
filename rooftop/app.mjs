@@ -182,10 +182,14 @@ if (!editor) {
   stationControls.setAttribute("aria-label", "观察者移动");
   viewControls.append(stationControls);
   const notebookControls = backgroundStage ? document.querySelector(".background-review") : viewControls;
+  const notebookObstacles = [notebookControls, $("environmentHud")].filter(Boolean);
   const positionNotebook = () => {
-    document.documentElement.style.setProperty("--observation-controls-bottom", Math.ceil(notebookControls.getBoundingClientRect().bottom) + "px");
+    const bottom = Math.max(...notebookObstacles.map(element => element.getBoundingClientRect().bottom));
+    document.documentElement.style.setProperty("--observation-overlay-bottom", Math.ceil(bottom) + "px");
   };
-  new ResizeObserver(() => requestAnimationFrame(positionNotebook)).observe(notebookControls);
+  const notebookSizing = new ResizeObserver(() => requestAnimationFrame(positionNotebook));
+  for (const element of notebookObstacles) notebookSizing.observe(element);
+  document.fonts.ready.then(positionNotebook);
   window.addEventListener("resize", positionNotebook);
   positionNotebook();
 
@@ -221,7 +225,7 @@ if (!editor) {
     if (choices) choices.hidden = !name;
   };
   for (const button of document.querySelectorAll("[data-narrative-view]"))
-    button.onclick = () => { garden3d?.setNarrativeView(button.dataset.narrativeView); syncNarrativeUI(); cardFeed?.notifyObserver(button.dataset.narrativeView, time); };
+    button.onclick = () => { garden3d?.setNarrativeView(button.dataset.narrativeView); syncNarrativeUI(); cardFeed?.notifyObserver(button.dataset.narrativeView); };
   const chooseViewMode = (button) => {
     garden3d.setNavigationMode(button.dataset.viewMode);
     for (const choice of viewControls.querySelectorAll("[data-view-mode]"))
@@ -1492,7 +1496,6 @@ function frame(now) {
     dt = Math.min(elapsed, 0.1);
   last = now;
   time += dt;
-  if (cardFeed) cardFeed.update(time);
   const previousCondition = atmosphere.condition;
   // An editor selection follows wall time even if a slow frame was skipped.
   // Resident physics keep their bounded step above.
@@ -1513,6 +1516,7 @@ function frame(now) {
     flushDrag?.();
     render();
   }
+  if (cardFeed) cardFeed.update(time);
   requestAnimationFrame(frame);
 }
 if (editor) {

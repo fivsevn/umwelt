@@ -122,12 +122,13 @@ export function actionCaption(
 }
 
 // A card follows meaningful episodes, not every footstep or eight-second pose.
-// In a wet episode it changes once when shelter is reached; ordinary activity
-// keeps its card until the episode changes. Navigation and absence update at once.
+// In a wet episode it changes once when shelter is reached. Dry episodes also
+// follow substantive work; walking between tasks keeps the previous caption.
 export function createActionCard() {
   let key = "",
     text = "",
-    sheltered = false;
+    sheltered = false,
+    work = "";
   return {
     update(person, pig, context) {
       const weather = context.weather || {};
@@ -141,10 +142,15 @@ export function createActionCard() {
         context.scene !== "room" &&
         (weather.rainIntent > 0 || weather.rain > 0.06);
       const settled = Boolean(person?.sheltered && pig?.sheltered);
-      if (nextKey !== key || (wet && settled !== sheltered)) {
+      const nextWork = !wet && context.present &&
+        ['water', 'prune', 'tend', 'wipe', 'sweep', 'wash', 'tea', 'sit', 'feed', 'inspect'].includes(person?.state)
+          ? person.state : '';
+      if (nextKey !== key || (wet && settled !== sheltered) || (nextWork && nextWork !== work)) {
         text = actionCaption(person, pig, context);
+        if (nextKey !== key) work = '';
         key = nextKey;
         sheltered = settled;
+        if (nextWork) work = nextWork;
       }
       return text;
     },
