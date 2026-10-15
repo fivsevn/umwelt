@@ -5,6 +5,7 @@
 | 范围 | 原稿与说明 | 运行位置 |
 | --- | --- | --- |
 | 建筑、阳台、街区 | [建筑原稿](rooftop-lowpoly-02/README.md)：`game-environment.blend`、`terrace-book.pxo`、`distance-facades.pxo` | `rooftop/assets/background/` |
+| 主角南北天台表层与细部 | [两处天台原稿](rooftop-terraces-03/README.md)：独立 Blender 模型与 Pixelorama 图集 | `rooftop/assets/terraces/` |
 | 目录物品 | [物品原稿](rooftop-furniture-02/README.md)：七组 Blender 模型与 Pixelorama 图集 | `rooftop/assets/items/` |
 | 房间固定建筑 | [房间原稿](rooftop-room-02/README.md)：模型、图集与门轴记录 | `rooftop/assets/room/` |
 | 东东、小猪与换装 | [人物原稿](rooftop-actors-02/README.md)：方块模型与关节记录 | `rooftop/3d/residents.mjs`、`actor-pose.mjs` |

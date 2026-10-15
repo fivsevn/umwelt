@@ -77,6 +77,12 @@ const routes = [
               await page.waitForFunction(() => window.room?.graphics?.roomBackground?.loaded, null, { timeout: 90000 });
               assert.equal(await page.locator("canvas").getAttribute("data-room-door-parts"), "14");
               assert.equal(await page.locator("canvas").getAttribute("data-room-background-error"), null);
+            } else {
+              await page.waitForFunction(() => window.rooftop?.graphics?.terraceFinishes?.loaded, null, { timeout: 90000 });
+              const finishes = await page.evaluate(() => rooftop.graphics.terraceFinishes);
+              assert.equal(finishes.enabled, true, "published terraces use the approved native finishes");
+              assert.equal(finishes.error, null);
+              assert.equal(finishes.triangles, 5064);
             }
             const graphics = await page.evaluate(
               () => window.rooftop?.graphics || window.room.graphics,
@@ -117,7 +123,7 @@ const routes = [
               assert.deepEqual(publicState.graphics.actorVisibility,
                 {person:publicState.present&&!publicState.personSheltered,pig:!publicState.pigSheltered},
                 "public actors retain the existing errands and shelter states");
-              await page.waitForFunction(() => rooftop.graphics.background.loaded);
+              await page.waitForFunction(() => rooftop.graphics.background.loaded && rooftop.graphics.terraceFinishes?.loaded);
               assert.equal(await page.locator("#sceneDoor").isVisible(), false,
                 "the bird's real eave view does not expose the door behind it");
               for (const view of ["drone", "neighbor", "bird"]) {

@@ -39,6 +39,7 @@
 | `room/room.mjs`、`wardrobe.mjs`、`card-feed.mjs` | 房间活动、换装和提示卡 |
 | `notebook.mjs`、`notebook-comments.mjs`、`native-item-notes.mjs` | 汇合植物与目录记录的来源、手帐描述与逐件人物随想；上游记录见[手帐数据职责](notebook.md#数据职责) |
 | `house-structure.mjs`、`3d/architectural-shell.mjs` | 住宅坐标变换和 Blender 建筑加载 |
+| `3d/terrace-finishes.mjs` | 主角两处天台独立 GLB、材料与天气；原建筑沙盘保持独立 |
 | `3d/story-camera.mjs`、`3d/terrace-view.mjs` | 游戏三视角及额外测试近景约束 |
 | `weather.mjs`、`weather-condition.mjs` | 天气选择、过渡、湿润历史和兼容输入 |
 | `atmosphere.mjs`、`precipitation.mjs` | 时间光照、风、闪电、雨型与落点 |
@@ -82,7 +83,7 @@
 
 ## 验证
 
-运行 `node tools/check-all.mjs` 检查全项目契约，或按范围运行 `node --test rooftop/tests/*.test.mjs`。场景重点为 `rooftop-background`、`rooftop-review`、`rooftop-story-camera`、`rooftop-door-projection`、`rooftop-outdoor-raster`、`rooftop-visible-air`、`rooftop-seasonal-coverage` 和 `rooftop-native-loader`；材料修改还须核对原稿与导出。
+运行 `node tools/check-all.mjs` 检查全项目契约，或按范围运行 `node --test rooftop/tests/*.test.mjs`。场景重点为 `rooftop-background`、`rooftop-terraces`、`rooftop-review`、`rooftop-story-camera`、`rooftop-door-projection`、`rooftop-outdoor-raster`、`rooftop-visible-air`、`rooftop-seasonal-coverage` 和 `rooftop-native-loader`；材料修改还须核对原稿与导出。
 
 实际浏览器检查公开南北三视角、本地统一测试的三组内容、环境切换及刷新、窄屏手帐、车库存档恢复与保存字节不变。`rooftop/tests/browser/rooftop-observation.cjs`、`rooftop-weather.cjs` 检查观察及环境；`rooftop-garage-layout.cjs` 检查排布，`rooftop-room.cjs` 检查房间与跨页面存档，`rooftop-maintenance.cjs` 检查撤销重做、多指隔离及保存。
 

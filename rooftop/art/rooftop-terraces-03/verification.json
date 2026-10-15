@@ -1,0 +1,27 @@
+{
+  "software": "4.5.14 LTS",
+  "sourceReopened": true,
+  "scopeParts": {
+    "north": 97,
+    "south": 53
+  },
+  "allVerticesConfinedToTwoTerraces": true,
+  "packedAndGlbPngEqualNativePixelorama": true,
+  "triangles": 5328,
+  "glbBytes": 549500,
+  "protectedFilesUnchanged": 22,
+  "testsPassed": 22,
+  "browserCases": [
+    "north",
+    "south",
+    "original comparison",
+    "source sampling",
+    "game sampling",
+    "overcast",
+    "rain night",
+    "390px viewport",
+    "empty room",
+    "initial arrangement isolation"
+  ],
+  "publication": "local only"
+}

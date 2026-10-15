@@ -1,0 +1,72 @@
+{
+  "removed": [
+    "terraces/drain-well-0",
+    "terraces/drain-side-(0, -0.17)",
+    "terraces/drain-side-(0, 0.17)",
+    "terraces/drain-edge-(0, -0.185)",
+    "terraces/drain-edge-(0, 0.185)",
+    "terraces/drain-bars-(0, 0)",
+    "terraces/drain-bars-(0, 1)",
+    "terraces/drain-bars-(0, 2)",
+    "terraces/drain-bars-(0, 3)",
+    "terraces/drain-bars-(0, 4)",
+    "terraces/drain-well-1",
+    "terraces/drain-side-(1, -0.17)",
+    "terraces/drain-side-(1, 0.17)",
+    "terraces/drain-edge-(1, -0.185)",
+    "terraces/drain-edge-(1, 0.185)",
+    "terraces/drain-bars-(1, 0)",
+    "terraces/drain-bars-(1, 1)",
+    "terraces/drain-bars-(1, 2)",
+    "terraces/drain-bars-(1, 3)",
+    "terraces/drain-bars-(1, 4)",
+    "terraces/drain-well-2",
+    "terraces/drain-side-(2, -0.17)",
+    "terraces/drain-side-(2, 0.17)",
+    "terraces/drain-edge-(2, -0.185)",
+    "terraces/drain-edge-(2, 0.185)",
+    "terraces/drain-bars-(2, 0)",
+    "terraces/drain-bars-(2, 1)",
+    "terraces/drain-bars-(2, 2)",
+    "terraces/drain-bars-(2, 3)",
+    "terraces/drain-bars-(2, 4)",
+    "terraces/north-drainage-channel",
+    "terraces/north-channel-lip",
+    "terraces/north-channel-lip.001",
+    "terraces/south-drainage-channel",
+    "terraces/south-channel-lip",
+    "terraces/south-channel-lip.001",
+    "terraces/drain-shoulder-0-0--1",
+    "terraces/drain-shoulder-0-0-1",
+    "terraces/drain-shoulder-0-1--1",
+    "terraces/drain-shoulder-0-1-1",
+    "terraces/drain-shoulder-1-0--1",
+    "terraces/drain-shoulder-1-0-1",
+    "terraces/drain-shoulder-1-1--1",
+    "terraces/drain-shoulder-1-1-1",
+    "terraces/drain-shoulder-2-0--1",
+    "terraces/drain-shoulder-2-0-1",
+    "terraces/drain-shoulder-2-1--1",
+    "terraces/drain-shoulder-2-1-1"
+  ],
+  "raisedContinuousFloorsAndInlays": [
+    "terraces/north-floor-finish",
+    "terraces/south-floor-finish",
+    "terraces/north-inlaid-repair-0",
+    "terraces/north-inlaid-repair-1"
+  ],
+  "unmodifiedObjectsVerified": 159,
+  "roundDrainCentres": {
+    "north": [
+      -0.19494269292520938,
+      4.128153763009925
+    ],
+    "south": [
+      -2.409708287547727,
+      -16.303888176381893
+    ]
+  },
+  "floorRiseMetres": 0.002,
+  "paintedCharts": 450,
+  "newCharts": 232
+}

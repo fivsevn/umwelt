@@ -26,7 +26,7 @@ const $ = id => document.getElementById(id), query = new URLSearchParams(locatio
 const valid = (value, list, fallback) => list.includes(value) ? value : fallback;
 let mode = valid(query.get('mode'), ['scene','item','game'], 'scene');
 let scene = valid(query.get('scene'), ['north','south','room'], 'north');
-const look = 'original';
+let look = query.get('look') === 'original' ? 'original' : 'terraces';
 let sampling = valid(query.get('sampling'), ['source','game'], 'source');
 let item = getItemDefinition(query.get('item'))?.id || 'wood-2';
 const views = { scene: valid(query.get('view'), REVIEW_VIEWS.map(v=>v.id), 'terrace'),
@@ -149,6 +149,7 @@ function gardenFor(group) {
       scene,controls:'pan',backgroundStage:background,hideActors:background,
       gameModelStage:background,allowFreeCamera:background,reviewView:views.scene,reviewSampling:sampling,
       localReview:true,
+      reviewDetailEnabled:look==='terraces',
     });gardens.set(group,garden);setCamera(garden,group);
   }
   return gardens.get(group);
@@ -163,7 +164,7 @@ function controls() {
   $('itemDetailHeading').hidden=mode!=='item'||!detailOpen;$('itemDetailName').textContent=definition(item)?.name||item;
   options($('viewChoice'),mode==='game'?[{id:'bird',name:'小鸟'},{id:'drone',name:'无人机'},{id:'neighbor',name:'邻居'}]:REVIEW_VIEWS);
   $('viewChoice').value=views[mode]||'terrace';$('sceneChoice').value=scene;$('itemChoice').value=item;
-  $('samplingChoice').value=sampling;$('lookChoice').value=look;$('lookChoice').disabled=true;
+  $('samplingChoice').value=sampling;$('lookChoice').value=scene==='room'||mode==='item'?'original':mode==='game'?'terraces':look;$('lookChoice').disabled=mode!=='scene'||scene==='room';
   $('weatherChoice').value=choices.condition;$('timeChoice').value=choices.phase;$('seasonChoice').value=choices.season;
   $('scope').hidden=mode==='item'||scene==='room'||views[mode]!=='neighbor';
   $('hint').textContent=mode==='game'?'拖动观察 · 滚轮或双指缩放':mode==='item'&&!detailOpen?'全部物件 · 点击近看':'拖动转动 · 滚轮或双指缩放';
@@ -188,6 +189,7 @@ for(const button of document.querySelectorAll('button[data-mode]'))button.onclic
 $('sceneChoice').onchange=e=>setScene(e.target.value);$('viewChoice').onchange=e=>setView(e.target.value);
 $('itemChoice').onchange=e=>openItem(e.target.value);
 $('samplingChoice').onchange=e=>setSampling(e.target.value);
+$('lookChoice').onchange=e=>{look=e.target.value;gardens.get('scene')?.setReviewDetailEnabled(look==='terraces');controls();};
 for(const[id,key]of[['weatherChoice','condition'],['timeChoice','phase'],['seasonChoice','season']])$(id).onchange=e=>setEnvironment({[key]:e.target.value});
 $('resetCamera').onclick=resetCamera;
 let failure=null;
@@ -202,8 +204,9 @@ function frame(now) {
     else {ready=!pending&&(catalogLoaded>0||cards.size===0);errors=catalogErrors?['catalog']:[];text=`${cards.size} 件物件 · ${catalogLoaded} 图已载入`;}
   }
   else if(gardens.has(mode)) {const garden=gardens.get(mode);garden.draw({time,dt:paused?0:dt,atmosphere,person:person.person,pig:pig.person,present:mode==='game',pigPresent:mode==='game',selected:null,doorOpen:false,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches});const stats=garden.stats;
-    ready=!pending&&(scene==='room'?stats.roomBackground?.loaded:stats.background?.loaded)&&!stats.nativeItems.pending;
-    errors=stats.nativeItems.errors;text=mode==='scene'?'空场景 · 无陈列和角色':`${stats.objects} 件初始陈列 · 东东与小猪`;
+    ready=!pending&&(scene==='room'?stats.roomBackground?.loaded:stats.background?.loaded)&&!stats.nativeItems.pending&&(!stats.terraceFinishes||stats.terraceFinishes.loaded);
+    if(stats.terraceFinishes?.error)errors.push(stats.terraceFinishes.error);
+    errors.push(...stats.nativeItems.errors);text=mode==='scene'?'空场景 · 无陈列和角色':`${stats.objects} 件初始陈列 · 东东与小猪`;
     if(!$('scope').hidden)updateOpticOverlay($('scope'),garden.scopeReading,canvases[mode]);
   }
   document.body.dataset.ready=String(Boolean(ready));if(errors.length)text='部分模型未载入，请刷新。';else if(!ready)text='正在载入…';

@@ -1,6 +1,7 @@
 import { animateActorPose } from "./actor-pose.mjs";
 import { HOUSE, housePoint, houseOccludes } from "../house-structure.mjs";
 import { loadArchitecturalShell } from "./architectural-shell.mjs";
+import { loadTerraceFinishes } from "./terrace-finishes.mjs";
 import { loadRoomBackground } from "./room-background-loader.mjs";
 import { createRoomDoor, mountRoomDoorLeaves } from "./room-door.mjs";
 import { ROOM_BACKGROUND } from "../assets/room/room-background.mjs";
@@ -636,6 +637,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   const groundY = HOUSE.base,
     windowMats = [];
   let loadedArchitecturalShell = null;
+  let terraceFinishes = null;
   const architecturalShell = {
     get stats() { return loadedArchitecturalShell?.stats || { loaded: false, deferred: true, source: "Blender", error: null }; },
     measure(raycaster) { return loadedArchitecturalShell?.measure(raycaster) || null; },
@@ -644,7 +646,12 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   function ensureArchitecturalShell() {
     if (loadedArchitecturalShell) return;
     loadedArchitecturalShell = loadArchitecturalShell(T, city);
-    loadedArchitecturalShell.ready.then(() => {
+    // The same approved native model is used by the game, garage and review page.
+    // Only the local empty-scene comparison may hide it to expose the base shell.
+    terraceFinishes = loadTerraceFinishes(T, city,
+      !(localReview && backgroundStage && options.reviewDetailEnabled === false));
+    invalidateShadowsAfterLoad(renderer, terraceFinishes.ready);
+    Promise.all([loadedArchitecturalShell.ready, terraceFinishes.ready]).then(() => {
       canvas.dataset.backgroundLoaded = "true";
       canvas.dataset.backgroundReadyMs = String(performance.now());
     }).catch(error => {
@@ -1256,6 +1263,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     style.updateAtmosphere(a, current === "room");
     nativeItems.updateAtmosphere(a, current === "room");
     architecturalShell?.update(a);
+    terraceFinishes?.update(a);
     roomBackground?.update(a);
     // Atmosphere owns visibility alongside the seasonal light palette; keep
     // its near/far layers coherent when a weather transition changes the sky.
@@ -1733,6 +1741,11 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       .map(([name]) => name);
   }
   return {
+    setReviewDetailEnabled(value) {
+      if (!localReview || !backgroundStage) return;
+      terraceFinishes?.setVisible(value);
+      renderer.shadowMap.needsUpdate = true;
+    },
     setScene: reset,
     nudgeEditCamera(action) {
       if (!editable && current !== "room") return;
@@ -1892,6 +1905,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         storeys: 6,
         neighborhood,
         background: architecturalShell.stats,
+        terraceFinishes: terraceFinishes?.stats || null,
         roomBackground: roomBackground?.stats || null,
         gameModelReview: gameModelStage,
         cameraRange: { near: camera.near, far: camera.far },

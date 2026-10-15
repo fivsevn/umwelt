@@ -1,0 +1,31 @@
+{
+  "software": "4.5.14 LTS",
+  "sourceReopened": true,
+  "scopeParts": {
+    "north": 108,
+    "south": 65
+  },
+  "allVerticesConfinedToTwoTerraces": true,
+  "packedAndGlbPngEqualNativePixelorama": true,
+  "physicalPlasterOpenings": 3,
+  "shallowFloorRepairs": 2,
+  "regionalDetails": {
+    "north": {
+      "fractures": 3,
+      "repairs": 2
+    },
+    "south": {
+      "fractures": 0,
+      "repairs": 0
+    }
+  },
+  "triangles": 5064,
+  "glbBytes": 718040,
+  "circularDrains": {
+    "north": 1,
+    "south": 1
+  },
+  "obsoleteRectangularDrainsAndChannels": 0,
+  "equalSceneDiameters": 0.9,
+  "drainLipRiseMetres": 0.0025
+}

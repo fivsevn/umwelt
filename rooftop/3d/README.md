@@ -7,6 +7,7 @@
 | 模块 | 职责 |
 | --- | --- |
 | `architectural-shell.mjs` | 建筑清单、压缩网格与纹理加载；无解压支持时回退到原始网格 |
+| `terrace-finishes.mjs` | 主角南北天台独立表层、补丁与下水口；共用正式与测试呈现 |
 | `native-model-loader.mjs`、`room-background-loader.mjs` | 物件与房间 GLB、共享材质及实例缓存 |
 | `outdoor-raster.mjs`、`pixel-grid.mjs` | 最终画面采样与设备像素格 |
 | `story-camera.mjs`、`terrace-view.mjs` | 三种公开视角与测试取景 |

@@ -1,0 +1,34 @@
+{
+  "editedObjects": [
+    "terraces/north-round-drain-bar-0",
+    "terraces/north-round-drain-bar-1",
+    "terraces/north-round-drain-bar-2",
+    "terraces/north-round-drain-bed",
+    "terraces/north-round-drain-ring",
+    "terraces/south-round-drain-bar-0",
+    "terraces/south-round-drain-bar-1",
+    "terraces/south-round-drain-bar-2",
+    "terraces/south-round-drain-bed",
+    "terraces/south-round-drain-ring"
+  ],
+  "untouchedGeometryAndUv": 163,
+  "centresUnchanged": {
+    "north": [
+      -0.19494269292520938,
+      4.128153763009925
+    ],
+    "south": [
+      -2.409708287547727,
+      -16.303888176381893
+    ]
+  },
+  "sceneDiameter": 0.9,
+  "previousSceneDiameters": [
+    1.329621521640943,
+    0.7761338806488388
+  ],
+  "outerAreaRatio": 0.7849108647106073,
+  "lipRiseMetres": 0.0025,
+  "previousLipRiseMetres": 0.01,
+  "paintedCharts": 232
+}

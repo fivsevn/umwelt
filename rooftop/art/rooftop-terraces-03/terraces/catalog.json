@@ -1,0 +1,35 @@
+{
+  "texelsPerMetre": 16.0,
+  "items": [
+    {
+      "id": "terraces",
+      "name": "两处天台结构细化",
+      "category": "固定建筑",
+      "placement": "both",
+      "source": "Blender + Pixelorama",
+      "width": 5.552131175994873,
+      "depth": 22.46690559387207,
+      "height": 2.955678599886596,
+      "boundsMin": [
+        -2.7760655879974365,
+        -16.799503326416016,
+        0.01432142872363329
+      ],
+      "boundsMax": [
+        2.7760655879974365,
+        5.667402267456055,
+        2.9700000286102295
+      ],
+      "file": "assets/terraces.glb",
+      "family": "terraces",
+      "surfaces": [],
+      "footprint": {
+        "width": 5.541131019592285,
+        "depth": 22.455904960632324
+      },
+      "triangles": 5064,
+      "sourceBlend": "terraces/terraces.blend",
+      "sourcePixelorama": "terraces/terraces-atlas.pxo"
+    }
+  ]
+}
