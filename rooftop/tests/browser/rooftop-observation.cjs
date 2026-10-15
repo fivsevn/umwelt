@@ -183,7 +183,7 @@ const checkSavedArrangementIsolation = async browser => {
     layoutKey = "umwelt-rooftop-layout-v1",
     previewKey = "umwelt-rooftop-game-model-preview-v1";
   page.setDefaultNavigationTimeout(90000);
-  page.on("pageerror", error => errors.push(error.message));
+  page.on("pageerror", error => errors.push(page.url() + ": " + error.message));
   const ready = async url => {
     await page.goto(url);
     await page.waitForFunction(() => rooftop.graphics?.drawCalls > 0 &&

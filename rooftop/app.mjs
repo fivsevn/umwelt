@@ -129,7 +129,7 @@ if (backgroundStage) {
   $("reviewView").value = reviewView;
   $("reviewSampling").value = reviewSampling;
   const placeNotebook = () => document.documentElement.style.setProperty("--review-bottom", Math.ceil(controls.getBoundingClientRect().bottom) + 8 + "px");
-  new ResizeObserver(placeNotebook).observe(controls);
+  new ResizeObserver(() => requestAnimationFrame(placeNotebook)).observe(controls);
   document.fonts.ready.then(placeNotebook);
   window.addEventListener("resize", placeNotebook);
 }
@@ -185,7 +185,7 @@ if (!editor) {
   const positionNotebook = () => {
     document.documentElement.style.setProperty("--observation-controls-bottom", Math.ceil(notebookControls.getBoundingClientRect().bottom) + "px");
   };
-  new ResizeObserver(positionNotebook).observe(notebookControls);
+  new ResizeObserver(() => requestAnimationFrame(positionNotebook)).observe(notebookControls);
   window.addEventListener("resize", positionNotebook);
   positionNotebook();
 
