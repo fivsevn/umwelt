@@ -63,7 +63,7 @@ test("every game camera uses bounded 3D seasonal buffers, with only the active s
       assert.equal(air.stats.spatial, true);
       assert.ok(air.stats.count > 0 && air.stats.count <= budget, `${scene} ${view} ${width} ${season.id} has visible world particles`);
       assert.equal(points.geometry.drawRange.count, air.stats.count);
-      assert.equal(points.material.uniforms.viewportHeight.value, 329);
+      assert.equal(points.material.uniforms.viewportHeight.value, 439);
       assert.ok(points.material.depthTest && !points.material.depthWrite);
       assert.match(points.material.vertexShader, /modelViewMatrix\*vec4\(position,1\.0\)/);
       assert.ok(Array.from(points.geometry.attributes.position.array.slice(0, air.stats.count * 3)).every(Number.isFinite));

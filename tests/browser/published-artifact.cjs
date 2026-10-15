@@ -117,19 +117,21 @@ const routes = [
             });
             assert.deepEqual(publicState.layout, startingLayout);
             if (publicState.graphics.drawCalls) {
-              assert.equal(publicState.graphics.narrativeView, "bird");
+              assert.equal(publicState.graphics.narrativeView, "drone");
+              assert.equal(publicState.graphics.stationTravel.current.height, publicState.scene === "north" ? 5.25 : 3);
+              assert.equal(publicState.graphics.stationTravel.limits.height - publicState.graphics.stationTravel.current.height, 1.5);
               assert.equal(publicState.graphics.actorsHidden, false,
                 "the published game enables Dongdong and the pig");
               assert.deepEqual(publicState.graphics.actorVisibility,
                 {person:publicState.present&&!publicState.personSheltered,pig:!publicState.pigSheltered},
                 "public actors retain the existing errands and shelter states");
               await page.waitForFunction(() => rooftop.graphics.background.loaded && rooftop.graphics.terraceFinishes?.loaded);
-              assert.equal(await page.locator("#sceneDoor").isVisible(), false,
-                "the bird's real eave view does not expose the door behind it");
               for (const view of ["drone", "neighbor", "bird"]) {
                 await page.locator('[data-narrative-view="' + view + '"]').click();
                 await page.waitForFunction(name => rooftop.graphics.narrativeView === name, view);
                 assert.equal(await page.locator('[data-narrative-view="' + view + '"]').getAttribute("aria-pressed"), "true");
+                if (view === "bird") assert.equal(await page.locator("#sceneDoor").isVisible(), false,
+                  "the bird's real eave view does not expose the door behind it");
               }
             }
             const nextScene = publicState.scene === "north" ? "south" : "north";

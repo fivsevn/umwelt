@@ -44,7 +44,7 @@ async function inspect(page, name, saved, dpr) {
   check(result.ui.documentWidth<=result.ui.width, name+': horizontal mobile overflow');
   check(result.canvas.sampling===result.sampling && result.ui.sampling===result.sampling && result.ui.look===result.look, name+': shared controls desynchronised');
   check(active.raster.sourceInspection===(result.sampling==='source'), name+': native-resolution guard');
-  const expectedStep=result.sampling==='source'?1:Math.round((result.mode!=='item'&&result.scene==='room'?2:2.2)*dpr);
+  const expectedStep=result.sampling==='source'?1:Math.round((result.mode!=='item'&&result.scene==='room'?2:1.7)*dpr);
   check(active.raster.pixelStep===expectedStep && result.canvas.pixelStep===expectedStep, name+': physical sampling grid');
   if(result.sampling==='source') check(JSON.stringify(active.raster.sourceBuffer)===JSON.stringify(result.canvas.size),name+': source buffer not native pixels');
   check(result.look==='original', name+': obsolete appearance alternative');

@@ -154,7 +154,7 @@ const checkScopeCircle = async (page, label) => {
   assert.ok(Number.isInteger(lens.physicalPixelStep) && lens.physicalPixelStep >= 2, label + " scope retains lightly sampled integer device cells");
   assert.equal(lens.physicalPixelStep, lens.scenePixelStep, label + " eyecup follows the scene's live cell");
   assert.equal(lens.physicalPixelStep, lens.rasterPixelStep, label + " optical engraving follows the rendered source cell");
-  if (lens.normalizedZoom <= 1) assert.equal(lens.physicalPixelStep, Math.round(2.2 * lens.pixelRatio), label + " the default scope field preserves its original grain");
+  if (lens.normalizedZoom <= 1) assert.equal(lens.physicalPixelStep, Math.round(1.7 * lens.pixelRatio), label + " the default scope field preserves its original grain");
   assert.ok(lens.origin.every(value => Math.abs(value) < .01), label + " eyecup shares the scene's top-left grid origin");
   return lens;
 };
@@ -280,13 +280,15 @@ const checkSavedArrangementIsolation = async browser => {
       }
       assert.equal(await page.evaluate(() => rooftop.graphics.projection), "perspective");
       assert.deepEqual(await page.evaluate(() => rooftop.graphics.visibleTerraces), [scene]);
-      assert.equal(await page.locator("#sceneDoor").isVisible(), false);
+      assert.equal(await page.evaluate(() => rooftop.graphics.narrativeView), "drone");
+      assert.equal(await page.evaluate(() => rooftop.graphics.stationTravel.current.height), scene === "north" ? 5.25 : 3);
       assert.equal(await page.getByRole("button", { name: "转动画面", exact: true }).isVisible(), false);
       assert.equal(await page.getByRole("button", { name: "移动画面", exact: true }).isVisible(), false);
       assert.equal(await page.getByRole("button", { name: "复位画面", exact: true }).isVisible(), false);
       assert.equal(await page.locator("#reviewFreeCamera").count(), 0);
       assert.equal(await page.locator('#observerStatus').isVisible(),false);
       await selectView(page,'bird');
+      assert.equal(await page.locator('#sceneDoor').isVisible(), false);
       assert.equal(await page.locator('#observerStatus').innerText(),'有小鸟盯着东东的多肉，像是想吃。');
       await checkObserverCards(page, 'bird');
 

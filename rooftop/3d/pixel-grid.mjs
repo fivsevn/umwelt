@@ -1,5 +1,5 @@
 // Presentation grain only; authored materials retain their physical 16px/m.
-export const PIXEL_GRID_TARGET_CSS = 2.2;
+export const PIXEL_GRID_TARGET_CSS = 1.7;
 export const EDITOR_GRID_TARGET_CSS = 2;
 export const SCOPE_DETAIL_TARGET_CSS = 1;
 
@@ -22,8 +22,8 @@ export function resolveObservationPixelGrid(devicePixelRatio, view, zoom = 1) {
   return grid;
 }
 
-// Native inspection stays in test pages. Arrangement pages retain a slightly
-// finer grain, using the same integer-cell raster as the observation view.
+// Native inspection stays in test pages. Arrangement pages keep their own
+// grain, using the same integer-cell raster as the observation view.
 export function resolveScenePixelGrid(devicePixelRatio, { sourceInspection = false, arrangement = false, view, zoom = 1 } = {}) {
   if (!sourceInspection) return arrangement
     ? resolvePixelGrid(devicePixelRatio, EDITOR_GRID_TARGET_CSS)

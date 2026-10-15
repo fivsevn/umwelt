@@ -14,7 +14,7 @@ import {
 } from "./3d/spatial-layout.mjs";
 import { createPlacementEditor } from "./placement-editor.mjs";
 import { createGardenRenderer } from "./3d/scene3d.mjs";
-import { NARRATIVE_VIEWS } from "./3d/story-camera.mjs";
+import { DEFAULT_NARRATIVE_VIEW, NARRATIVE_VIEWS } from "./3d/story-camera.mjs";
 import { REVIEW_VIEWS, reviewState, reviewURL, emptyReviewLayout } from "./review-state.mjs";
 import { opticOverlayMarkup, updateOpticOverlay } from "./3d/optic-overlay.mjs";
 import { LAYOUT_KEY, readLayout, readObservationLayout, writeLayout } from "./layout-storage.mjs";
@@ -82,7 +82,7 @@ const previewStorage = {
 let reviewView = review.view, reviewSampling = review.sampling;
 let persistReviewState = () => {};
 if (backgroundStage) window.history.replaceState(null, "", reviewURL(location.href));
-const narrativeButtons = () => NARRATIVE_VIEWS.map(({id}) => '<button type="button" class="world-card" data-narrative-view="' + id + '" aria-label="' + NARRATIVE_LABELS[id] + '" title="' + NARRATIVE_LABELS[id] + '" aria-pressed="' + (id === "bird") + '">' + (id === 'neighbor' ? '?' : observerIcon(id)) + '</button>').join("");
+const narrativeButtons = () => NARRATIVE_VIEWS.map(({id}) => '<button type="button" class="world-card" data-narrative-view="' + id + '" aria-label="' + NARRATIVE_LABELS[id] + '" title="' + NARRATIVE_LABELS[id] + '" aria-pressed="' + (id === DEFAULT_NARRATIVE_VIEW) + '">' + (id === 'neighbor' ? '?' : observerIcon(id)) + '</button>').join("");
 let syncNarrativeUI = () => {};
 const edits = createEditHistory();
 let scene =
@@ -207,7 +207,7 @@ if (!editor) {
         else garden3d?.nudgeNarrativeStation(action);
       };
       const labels = { bird: "小鸟操作", drone: "无人机操作", neighbor: "瞄准镜操作" };
-      const hints = { bird: "左右拖动沿檐走动，上下拖动微微抬头或低头。", drone: "左右拖动转头，上下拖动升降；滚轮或双指靠近、退远。", neighbor: "拖动瞄准；滚轮或双指调整倍率。" };
+      const hints = { bird: "左右拖动沿檐走动，上下拖动微微抬头或低头。", drone: "拖动转动镜头，按钮升降；滚轮或双指靠近、退远。", neighbor: "拖动瞄准；滚轮或双指调整倍率。" };
       stationControls.setAttribute("aria-label", labels[name] || "观察者移动");
       canvas.title = hints[name] || "";
       stationKind = name;

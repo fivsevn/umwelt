@@ -13,6 +13,8 @@ import { createOutdoorRasterPass, outdoorSampleNdc, rasterCellCentre } from "./o
 import { resolvePixelGrid, resolveScenePixelGrid, pixelGridSize } from "./pixel-grid.mjs";
 import { projectVisibleDoor } from "./door-projection.mjs";
 import {
+  DEFAULT_NARRATIVE_VIEW,
+  initialNarrativeStation,
   narrativePreset,
   narrativeFrame,
   applyNarrativeFrameOffset,
@@ -672,8 +674,8 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   const narrativeViews = ["bird", "drone", "neighbor"];
   const reviewViews = ["terrace", "row", "outlook", ...narrativeViews];
   let reviewViewMode = reviewViews.includes(options.reviewView)
-    ? options.reviewView : gameModelStage ? "bird" : "terrace";
-  let narrativeView = narrativeViews.includes(reviewViewMode) ? reviewViewMode : "bird", storyFrame = null;
+    ? options.reviewView : gameModelStage ? DEFAULT_NARRATIVE_VIEW : "terrace";
+  let narrativeView = narrativeViews.includes(reviewViewMode) ? reviewViewMode : DEFAULT_NARRATIVE_VIEW, storyFrame = null;
   const narrativeActive = () => !editable && current !== "room" && (!backgroundStage || narrativeViews.includes(reviewViewMode));
   let freeCamera = false, freeYaw = 0, freePitch = 0, freeDistance = 1;
   const freeEye = new T.Vector3();
@@ -696,7 +698,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
     freeCamera = false;
     backgroundOverview = backgroundStage && !editable && name !== "room" && reviewViewMode === "row";
     backgroundOutlook = backgroundStage && !editable && name !== "room" && reviewViewMode === "outlook";
-    Object.assign(station, { walk: 0, height: 0, dolly: 0 });
+    Object.assign(station, initialNarrativeStation(narrativePreset(name, narrativeView)));
     Object.assign(wantedStation, station);
     current = name;
     canvas.dataset.scene = name;

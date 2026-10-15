@@ -4,6 +4,8 @@ import { readFileSync, writeFileSync } from "node:fs";
 import vm from "node:vm";
 import {
   NARRATIVE_VIEWS,
+  DEFAULT_NARRATIVE_VIEW,
+  initialNarrativeStation,
   narrativePreset,
   narrativeFrame,
   applyNarrativeFrameOffset,
@@ -32,12 +34,12 @@ test("each terrace has three distinct fixed stations on the roof and opposite op
     });
     if (scene === "north") {
       assert.equal(positions[0][0], 0, "bird sits at the centre of its own eave");
-      assert.ok(Math.abs(positions[0][1] - HOUSE.roof.z) < 1);
+      assert.ok(Math.abs(positions[0][1] - HOUSE.roof.z) < 1.5);
       assert.ok(positions[1][0] > 0 && positions[2][0] < 0, "drone and neighbor see complementary sides");
       assert.ok(positions[1][1] < -12 && positions[2][1] < positions[1][1]);
     } else {
       assert.ok(Math.abs(positions[0][0]) < 1e-9);
-      assert.ok(Math.abs(positions[0][1] - 28) < 1);
+      assert.ok(Math.abs(positions[0][1] - 28) < 1.5);
       assert.ok(positions[1][1] > 36 && positions[2][1] > positions[1][1]);
     }
     assert.ok(narrativePose(bird).distance < narrativePose(drone).distance);
@@ -175,15 +177,51 @@ test("bird eave walking and drone height and dolly stay inside their physical tr
         } else assert.ok(Math.abs(pose.distance - base.distance + station.dolly) < 1e-9,
           "a single-anchor dolly changes actual observer distance rather than optical zoom");
       }
-      if (id === "drone" && action === "up" && preset.station.height === 0) {
-        assert.equal(station.height, 0, "rising stops at the approved default hover height");
-        assert.equal(pose.eye[1], base.eye[1], "upward input cannot lift the drone above its default view");
+      if (id === "drone" && action === "up") {
+        assert.equal(station.height, preset.station.height, "repeated upward input reaches and respects the higher limit");
+        assert.equal(pose.eye[1], base.eye[1] + preset.station.height, "rising moves the actual camera above its default view");
+        assert.ok(pose.eye[1] > base.eye[1]);
       }
       if (id === "drone" && action === "down") {
         assert.equal(station.height, preset.station.heightMin ?? -preset.station.height);
         assert.equal(pose.eye[1], base.eye[1] + station.height, "the lower limit is real physical descent");
       }
     }
+  }
+});
+
+test("expanded controls add six drone ascent steps and retain the bird's existing walking response", () => {
+  for (const scene of ["north", "south"]) {
+    const drone = narrativePreset(scene, "drone"), oldCeiling = scene === "north" ? 2.25 : 0;
+    let station = { height: oldCeiling };
+    for (let i = 0; i < 6; i++) {
+      const previous = narrativePose(drone, { station });
+      station = nudgeNarrativeStation(drone, station, "up");
+      assert.equal(narrativePose(drone, { station }).eye[1], previous.eye[1] + .75);
+    }
+    assert.deepEqual(nudgeNarrativeStation(drone, station, "up"), station);
+    const bird = narrativePreset(scene, "bird");
+    for (const sign of [-1, 1]) {
+      const oldReach = narrativeDrag(bird, {}, -sign * 4 / .018, 0);
+      assert.ok(Math.abs(oldReach.theta - sign * .28) < 1e-10, "old walking positions keep their original yaw");
+      const expanded = narrativeDrag(bird, oldReach, -sign * 1 / .018, -25);
+      assert.equal(expanded.station.walk, sign * 5);
+      assert.equal(narrativePose(bird, expanded).eye[1], 6.1, "the bird still walks on the eave");
+    }
+  }
+});
+
+test("opening hover leaves exactly two upward steps on both terraces", () => {
+  assert.equal(DEFAULT_NARRATIVE_VIEW, "drone");
+  for (const scene of ["north", "south"]) {
+    const preset = narrativePreset(scene), start = initialNarrativeStation(preset);
+    assert.equal(start.height, scene === "north" ? 5.25 : 3);
+    const once = nudgeNarrativeStation(preset, start, "up"), twice = nudgeNarrativeStation(preset, once, "up");
+    assert.ok(once.height < preset.station.height);
+    assert.equal(twice.height, preset.station.height);
+    assert.deepEqual(nudgeNarrativeStation(preset, twice, "up"), twice);
+    assert.equal(narrativePose(preset, {station: twice}).eye[1] - narrativePose(preset, {station: start}).eye[1], 1.5);
+    for (const id of ["bird", "neighbor"]) assert.deepEqual(initialNarrativeStation(narrativePreset(scene, id)), {walk: 0, height: 0, dolly: 0});
   }
 });
 

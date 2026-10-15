@@ -1,34 +1,45 @@
 // Camera choices are relative to the playable terrace, never map coordinates.
+export const DEFAULT_NARRATIVE_VIEW = "drone";
+const DRONE_HEIGHT_STEP = .75;
 export const NARRATIVE_VIEWS = Object.freeze([
   { id: "bird", label: "小鸟" },
   { id: "drone", label: "无人机" },
   { id: "neighbor", label: "狙击手" },
 ]);
 
+// Bird eyes sit 0.6 units forward of the eave; the slightly smaller frame span
+// keeps the original lens angle while reducing near-roof intrusion.
 const settings = {
-  bird: { span: 12, minSpan: 12, maxSpan: 12, yaw: .28, pitch: .08, pitchMax: .01, travel: 0, station: { walk: 4, height: 0, dolly: 0 } },
-  drone: { span: 20, minSpan: 20, maxSpan: 20, overviewWidth: 28.5, yaw: .055, pitch: 0, travel: 0, station: { walk: 0, height: 0, heightMin: -3, dolly: 2, dollyMin: 0 } },
+  bird: { span: 11.4, minSpan: 11.4, maxSpan: 11.4, yaw: .35, pitch: .12, pitchMax: .015, travel: 0, station: { walk: 5, height: 0, dolly: 0 } },
+  drone: { span: 20, minSpan: 20, maxSpan: 20, overviewWidth: 28.5, yaw: .055, pitch: 0, travel: 0, station: { walk: 0, height: 4.5, heightMin: -3, dolly: 2, dollyMin: 0 } },
   neighbor: { span: 12, minSpan: 2.5, maxSpan: 22, yaw: 0, pitch: 0, travel: 9, station: { walk: 0, height: 0, dolly: 0 } },
 };
 const anchors = {
   north: {
-    bird: { eye: [0, 6.1, 3.4], target: [0, .7, -3] },
-    drone: { eye: [5.730418254117132, 10.185871659274401, -16.91505953279829], target: [0.9888763353084746, 0.4845046136253277, -2.9724913957751387], nearEye: [4.4457313087451755, 7.6208540250916945, -13.342043664359059], nearTarget: [1.593392938621363, -0.4838285655536021, -3.520557996517132], span: 11.214104312826068, minSpan: 11.214104312826068, maxSpan: 11.214104312826068, overviewWidth: 15.980098645777145, yaw: .15, pitch: .08, station: { walk: 0, height: 2.25, heightMin: -2.75, dolly: 4.582158706046302, dollyMin: 0 } },
+    bird: { eye: [0, 6.1, 2.8], target: [0, .7, -3] },
+    drone: { eye: [5.730418254117132, 10.185871659274401, -16.91505953279829], target: [0.9888763353084746, 0.4845046136253277, -2.9724913957751387], nearEye: [4.4457313087451755, 7.6208540250916945, -13.342043664359059], nearTarget: [1.593392938621363, -0.4838285655536021, -3.520557996517132], span: 11.214104312826068, minSpan: 11.214104312826068, maxSpan: 11.214104312826068, overviewWidth: 15.980098645777145, yaw: .15, pitch: .08, station: { walk: 0, height: 6.75, heightMin: -2.75, dolly: 4.582158706046302, dollyMin: 0 } },
     neighbor: { eye: [-130, 42, -100], target: [0, .8, -2] },
   },
   south: {
     // Local -X is the intact house; +X points out of the south balcony.
-    bird: { eye: [-3.4, 6.1, 0], target: [0, .7, 0] },
-    drone: { eye: [16.10637210945491, 10.83491152074761, 4.482136063584607], target: [-0.8015836374193306, 2.053532618280615, 0.6534987299411283], span: 10.05510235201661, minSpan: 10.05510235201661, maxSpan: 10.05510235201661, overviewWidth: 16.45380384875445, yaw: .15, pitch: .08, station: { walk: 0, height: 0, heightMin: -3, dolly: 2, dollyMin: 0 } },
+    bird: { eye: [-2.8, 6.1, 0], target: [0, .7, 0] },
+    drone: { eye: [16.10637210945491, 10.83491152074761, 4.482136063584607], target: [-0.8015836374193306, 2.053532618280615, 0.6534987299411283], span: 10.05510235201661, minSpan: 10.05510235201661, maxSpan: 10.05510235201661, overviewWidth: 16.45380384875445, yaw: .15, pitch: .08, station: { walk: 0, height: 4.5, heightMin: -3, dolly: 2, dollyMin: 0 } },
     neighbor: { eye: [100, 42, -130], target: [0, .8, 0] },
   },
 };
 const clamp = (value, lo, hi) => Math.max(lo, Math.min(hi, value));
 
-export function narrativePreset(scene, name = "bird") {
-  const id = settings[name] ? name : "bird";
+export function narrativePreset(scene, name = DEFAULT_NARRATIVE_VIEW) {
+  const id = settings[name] ? name : DEFAULT_NARRATIVE_VIEW;
   const source = anchors[scene === "south" ? "south" : "north"][id];
   return { id, scene: scene === "south" ? "south" : "north", ...settings[id], ...source, station: { ...(source.station || settings[id].station) }, eye: [...source.eye], target: [...source.target] };
+}
+
+// Opening, switching back and resetting share a hover two ascent steps below the ceiling.
+export function initialNarrativeStation(preset) {
+  return constrainNarrativeStation(preset, {
+    walk: 0, height: preset.id === "drone" ? preset.station.height - 2 * DRONE_HEIGHT_STEP : 0, dolly: 0,
+  });
 }
 
 export function narrativeFrame(preset, width, height) {
@@ -75,7 +86,7 @@ export function constrainNarrativeStation(preset, state = {}) {
 export function nudgeNarrativeStation(preset, state, action) {
   const next = { ...state };
   const moves = preset.id === "bird" ? { left: ["walk", -.8], right: ["walk", .8] }
-    : preset.id === "drone" ? { up: ["height", .75], down: ["height", -.75], near: ["dolly", 1], far: ["dolly", -1] } : {};
+    : preset.id === "drone" ? { up: ["height", DRONE_HEIGHT_STEP], down: ["height", -DRONE_HEIGHT_STEP], near: ["dolly", 1], far: ["dolly", -1] } : {};
   const move = moves[action];
   if (move) next[move[0]] = (next[move[0]] || 0) + move[1];
   return constrainNarrativeStation(preset, next);

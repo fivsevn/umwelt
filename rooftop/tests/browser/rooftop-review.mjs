@@ -22,6 +22,8 @@ const [{ createGardenRenderer }, { initialLayout, makeWalker, ASSETS }, { makeWe
   { ITEMS, getItemDefinition, getPlantAssembly }, { REVIEW_VIEWS, emptyReviewLayout },
   { opticOverlayMarkup, updateOpticOverlay }, { wardrobe }] = modules;
 const { createReviewItemStage } = await import('../../3d/review-item-stage.mjs');
+const { DEFAULT_NARRATIVE_VIEW } = await import('../../3d/story-camera.mjs');
+const { STATION_ACTIONS, stationActionGlyph } = await import('../../observer-ui.mjs');
 const $ = id => document.getElementById(id), query = new URLSearchParams(location.search);
 const valid = (value, list, fallback) => list.includes(value) ? value : fallback;
 let mode = valid(query.get('mode'), ['scene','item','game'], 'scene');
@@ -30,7 +32,7 @@ let look = query.get('look') === 'original' ? 'original' : 'terraces';
 let sampling = valid(query.get('sampling'), ['source','game'], 'source');
 let item = getItemDefinition(query.get('item'))?.id || 'wood-2';
 const views = { scene: valid(query.get('view'), REVIEW_VIEWS.map(v=>v.id), 'terrace'),
-  game: valid(query.get('view'), ['bird','drone','neighbor'], 'bird') };
+  game: valid(query.get('view'), ['bird','drone','neighbor'], DEFAULT_NARRATIVE_VIEW) };
 const choices = { condition: valid(query.get('weather'), WEATHER.map(v=>v.id), 'clear'),
   phase: valid(query.get('time'), TIMES.map(v=>v.id), 'afternoon'),
   season: valid(query.get('season'), SEASONS.map(v=>v.id), 'autumn') };
@@ -167,6 +169,23 @@ function controls() {
   $('samplingChoice').value=sampling;$('lookChoice').value=scene==='room'||mode==='item'?'original':mode==='game'?'terraces':look;$('lookChoice').disabled=mode!=='scene'||scene==='room';
   $('weatherChoice').value=choices.condition;$('timeChoice').value=choices.phase;$('seasonChoice').value=choices.season;
   $('scope').hidden=mode==='item'||scene==='room'||views[mode]!=='neighbor';
+  const stationView=mode==='game'&&scene!=='room'?views.game:'';
+  const stationControls=$('stationControls');
+  stationControls.hidden=!stationView;
+  if(stationControls.dataset.view!==stationView) {
+    stationControls.dataset.view=stationView;
+    stationControls.replaceChildren(...(STATION_ACTIONS[stationView]||[]).map(([action,label])=>{
+      const button=document.createElement('button');button.type='button';
+      button.dataset.stationAction=action;button.textContent=stationActionGlyph(action);
+      button.setAttribute('aria-label',label);button.title=label;
+      button.onclick=()=>{
+        const garden=gardens.get('game');
+        if(action==='in'||action==='out')garden?.nudgeNarrativeOptics(action);
+        else garden?.nudgeNarrativeStation(action);
+      };
+      return button;
+    }));
+  }
   $('hint').textContent=mode==='game'?'拖动观察 · 滚轮或双指缩放':mode==='item'&&!detailOpen?'全部物件 · 点击近看':'拖动转动 · 滚轮或双指缩放';
   const params=new URLSearchParams({mode,scene,view:views[mode]||'terrace',sampling,look,weather:choices.condition,time:choices.phase,season:choices.season});
   if(mode==='item'){if(detailOpen)params.set('item',item);if(catalogCategory!=='全部')params.set('category',catalogCategory);if(catalogSearch)params.set('q',catalogSearch);}
@@ -182,7 +201,7 @@ async function activate(next) {
 }
 function setSampling(value) {sampling=valid(value,['source','game'],'source');for(const garden of gardens.values())garden.setReviewSampling(sampling);itemStage?.setSampling(sampling);refreshCatalog();controls();}
 function setScene(value) {scene=valid(value,['north','south','room'],'north');for(const[group,garden]of gardens)setCamera(garden,group);walkers();controls();}
-function setView(value) {if(mode==='item')return;views[mode]=valid(value,mode==='scene'?REVIEW_VIEWS.map(v=>v.id):['bird','drone','neighbor'],mode==='scene'?'terrace':'bird');setCamera(gardenFor(mode),mode);controls();}
+function setView(value) {if(mode==='item')return;views[mode]=valid(value,mode==='scene'?REVIEW_VIEWS.map(v=>v.id):['bird','drone','neighbor'],mode==='scene'?'terrace':DEFAULT_NARRATIVE_VIEW);setCamera(gardenFor(mode),mode);controls();}
 function setEnvironment(value) {Object.assign(choices,value);weather=makeWeather(choices);atmosphere=weather.state;refreshCatalog();controls();}
 function resetCamera() {if(mode==='item')itemStage?.resetCamera();else setCamera(gardenFor(mode),mode);}
 for(const button of document.querySelectorAll('button[data-mode]'))button.onclick=()=>activate(button.dataset.mode).catch(fail);
