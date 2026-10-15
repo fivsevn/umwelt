@@ -20,7 +20,7 @@ function viewCamera(scene, view, width = 406, height = 658) {
   return { camera, targetDistance: pose.distance };
 }
 function settle(air, scene, season, camera, targetDistance, time = 0, reduced = false, cameraOptions = {}) {
-  for (let frame = 0; frame < 6; frame++) air.update(scene, { season, wind: .32, ambient: .8, direct: 1.1 }, time + frame * .1,
+  for (let frame = 0; frame < 6; frame++) air.update(scene, { season, snow:season==="winter"?1:0, wind: .32, ambient: .8, direct: 1.1 }, time + frame * .1,
     reduced, {}, camera, { targetDistance, ...cameraOptions });
 }
 
@@ -88,7 +88,7 @@ test("small camera translation keeps world identities still and produces depth-d
   const first = air.stats.effects[0].sample.map(entry => ({ ...entry, projected: new T.Vector3(...entry.position).project(camera) })),
     right = new T.Vector3().setFromMatrixColumn(camera.matrixWorld, 0);
   camera.position.addScaledVector(right, .04); camera.updateMatrixWorld();
-  air.update("north", { season, wind: .32, ambient: .8, direct: 1.1 }, 4.5, false, {}, camera, { targetDistance });
+  air.update("north", { season, snow:season==="winter"?1:0, wind: .32, ambient: .8, direct: 1.1 }, 4.5, false, {}, camera, { targetDistance });
   const retained = air.stats.effects[0].sample.filter(entry => first.some(previous => previous.id === entry.id));
   assert.ok(retained.length >= 2, "moving the eye does not regenerate camera-facing particles");
   const ratios = [];
@@ -126,7 +126,7 @@ test("retained world identities animate without repeatedly uploading static pigm
   const attributes = air.points[SEASONS.findIndex(season => season.id === "winter")].geometry.attributes,
     staticVersions = ["pigment", "diameter", "kind"].map(key => attributes[key].version),
     movingVersions = ["position", "angle", "veil"].map(key => attributes[key].version), before = air.stats.sample;
-  air.update("north", { season: "winter", wind: .32, ambient: .8, direct: 1.1 }, 4.501, false, {}, camera, { targetDistance });
+  air.update("north", { season: "winter", snow:1, wind: .32, ambient: .8, direct: 1.1 }, 4.501, false, {}, camera, { targetDistance });
   assert.notDeepEqual(air.stats.sample, before, "the particles continue moving in world space");
   assert.deepEqual(["pigment", "diameter", "kind"].map(key => attributes[key].version), staticVersions);
   assert.deepEqual(["position", "angle", "veil"].map(key => attributes[key].version), movingVersions.map(version => version + 1));
@@ -134,12 +134,12 @@ test("retained world identities animate without repeatedly uploading static pigm
 
 test("season blending keeps separate 3D identities while room rendering draws no air", () => {
   const air = makeAir(), { camera, targetDistance } = viewCamera("south", "bird"), state = {
-    season: "spring", seasonspring: .45, seasonwinter: .55, wind: .32, ambient: .8, direct: 1.1,
+    season: "spring", seasonspring: .45, seasonwinter: .55, snow:.55, wind: .32, ambient: .8, direct: 1.1,
   };
   for (let frame = 0; frame < 6; frame++) air.update("south", state, frame * .1, true, {}, camera, { targetDistance });
   assert.equal(air.stats.effects.length, 2);
   assert.ok(air.stats.count > 0 && air.stats.count <= SPRING_CATKIN_COUNT + SEASONS.find(season => season.id === "winter").count);
-  assert.deepEqual(air.stats.effects.map(effect => effect.strength), [.45, .55]);
+  assert.deepEqual(air.stats.effects.map(effect => effect.strength), [.45*(1-.55), .55]);
   const before = air.stats.sample;
   air.update("south", state, .6, true, {}, camera, { targetDistance });
   assert.notDeepEqual(air.stats.sample, before, "reduced motion continues through real world paths");
@@ -162,5 +162,17 @@ test("returning from game cameras to a local test restores each legacy slot's pi
     assert.equal(attributes.kind.array[index], p.kind);
     assert.equal(attributes.diameter.array[index], Math.fround(p.size));
     assert.equal(attributes.veil.array[index], 1);
+  }
+});
+
+test('spring petals stay above the roof, move with both motion preferences, and hide indoors',()=>{
+  for(const scene of ['north','south'])for(const view of ['bird','drone','neighbor'])for(const reduced of [false,true]){
+    const air=makeAir(),{camera,targetDistance}=viewCamera(scene,view),state={season:'spring',seasonspring:1,seasonalAir:.18,petals:.65,wind:.32};
+    for(let frame=0;frame<6;frame++)air.update(scene,state,frame*.1,reduced,{},camera,{targetDistance});
+    const petals=air.stats.effects.find(e=>e.season==='petals');assert.ok(petals.count>0&&petals.count<=24);
+    const points=air.points[4],positions=points.geometry.attributes.position.array;
+    for(let i=0;i<petals.count;i++)assert.ok(positions[i*3+1]>=.18);
+    const before=air.stats.sample;air.update(scene,state,.6,reduced,{},camera,{targetDistance});assert.notDeepEqual(air.stats.sample,before);
+    air.update('room',state,.7,reduced,{},camera,{targetDistance});assert.equal(air.stats.count,0);
   }
 });

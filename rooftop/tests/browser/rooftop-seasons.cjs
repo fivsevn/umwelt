@@ -14,7 +14,7 @@ await p.locator('#weatherSelect').selectOption('clear');await p.locator('#timeSe
 await p.locator('#weatherSelect').focus();
 await p.evaluate(()=>{
 window.switchStart=performance.now();
-for(const [id,value] of [['weatherSelect','heavy'],['seasonSelect','winter'],['timeSelect','late'],['seasonSelect','spring'],['weatherSelect','clear'],['timeSelect','day']]) {
+for(const [id,value] of [['weatherSelect','heavy'],['seasonSelect','1'],['timeSelect','late'],['seasonSelect','4'],['weatherSelect','clear'],['timeSelect','day']]) {
   const select=document.getElementById(id);select.value=value;select.dispatchEvent(new Event('change',{bubbles:true}));
 }
 });
@@ -30,11 +30,11 @@ const preview=await p.locator('.asset-card canvas[data-renderer="blender-preview
 });
 assert.ok(preview.opaque>20&&preview.colour>100, 'the native mesh-derived catalogue PNG contains a visible coloured object');
 const original=await p.evaluate(()=>({layout:rooftop.layout,builds:rooftop.graphics.modelBuilds,textures:rooftop.graphics.textures,draws:rooftop.graphics.drawCalls}));
-for(const season of ['spring','summer','autumn','winter']){await p.locator('#seasonSelect').selectOption(season);await p.waitForFunction(s=>rooftop.weather['season'+s]>.999&&rooftop.graphics.atmosphere.seasonal.effects.some(e=>e.season===s&&e.strength>.1),season);const a=await p.evaluate(()=>rooftop.graphics.atmosphere.seasonal);await p.waitForFunction(sample=>JSON.stringify(rooftop.graphics.atmosphere.seasonal.sample)!==sample,JSON.stringify(a.sample));assert.ok(a.count<=184);assert.equal(await p.evaluate(()=>rooftop.graphics.modelBuilds),original.builds);assert.equal(await p.evaluate(()=>rooftop.graphics.textures),original.textures);await p.screenshot({path:`${out}/${engine}-${season}.png`,fullPage:true});}
+for(const [season,month] of [['spring','4'],['summer','7'],['autumn','10'],['winter','1']]){await p.locator('#seasonSelect').selectOption(month);await p.locator('#weatherSelect').selectOption(season==='winter'?'snow':'clear');await p.waitForFunction(s=>rooftop.weather['season'+s]>.999&&rooftop.graphics.atmosphere.seasonal.effects.some(e=>e.season===s&&e.strength>.1),season);const a=await p.evaluate(()=>rooftop.graphics.atmosphere.seasonal);await p.waitForFunction(sample=>JSON.stringify(rooftop.graphics.atmosphere.seasonal.sample)!==sample,JSON.stringify(a.sample));assert.ok(a.count<=184);assert.equal(await p.evaluate(()=>rooftop.graphics.modelBuilds),original.builds);assert.equal(await p.evaluate(()=>rooftop.graphics.textures),original.textures);await p.screenshot({path:`${out}/${engine}-${season}.png`,fullPage:true});}
 await p.emulateMedia({reducedMotion:'reduce'});await p.waitForFunction(()=>rooftop.weather.reduced);let sample=await p.evaluate(()=>JSON.stringify(rooftop.graphics.atmosphere.seasonal.sample));await p.waitForFunction(s=>JSON.stringify(rooftop.graphics.atmosphere.seasonal.sample)!==s,sample);
 await p.setViewportSize({width:390,height:844});await p.locator('button[data-scene=south]').click();await p.waitForFunction(()=>rooftop.graphics.scene==='south'&&rooftop.graphics.atmosphere.seasonal.count>0);assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await p.screenshot({path:`${out}/${engine}-south-mobile.png`,fullPage:true});
 await p.locator('button[data-scene=room]').click();await p.waitForFunction(()=>rooftop.graphics.scene==='room'&&rooftop.graphics.atmosphere.seasonal.count===0);await p.screenshot({path:`${out}/${engine}-room-mobile.png`,fullPage:true});
-await p.reload();await p.waitForFunction(()=>window.rooftop);assert.equal(await p.locator('#seasonSelect').inputValue(),'winter');assert.deepEqual(await p.evaluate(()=>rooftop.layout),original.layout);assert.deepEqual(errors,[]);
+await p.reload();await p.waitForFunction(()=>window.rooftop);assert.equal(await p.locator('#seasonSelect').inputValue(),'1');assert.deepEqual(await p.evaluate(()=>rooftop.layout),original.layout);assert.deepEqual(errors,[]);
 const declaredAtlases=await p.evaluate(async()=>{
   const {BACKGROUND}=await import('/rooftop/assets/background/empty-rooftop.mjs');
   const {ITEMS}=await import('/rooftop/item-catalog.mjs');

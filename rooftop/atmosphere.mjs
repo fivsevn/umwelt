@@ -1,5 +1,6 @@
 import { seasonalCaption } from "./seasons.mjs";
 import { canonicalWeatherCondition } from "./weather-condition.mjs";
+import { CLIMATE_LOCATION, phaseHour, solarVector } from './climate.mjs';
 // Shared art direction for the 2D observer and the 3D terraces. All vectors are
 // world-space: north is -z on the terrace, and -x on the south balcony.
 const LIGHT = {
@@ -7,11 +8,11 @@ const LIGHT = {
     sky: "#bdc3ce",
     horizon: "#e8c09e",
     zenith: "#829bbc",
-    sunColor: "#ffe2ba",
-    ambientColor: "#adbfda",
-    bounceColor: "#8d7f76",
-    ambient: 0.46,
-    direct: 1.06,
+    sunColor: "#ffdab0",
+    ambientColor: "#b2c5e1",
+    bounceColor: "#947b70",
+    ambient: 0.56,
+    direct: 1.10,
     moon: 0,
     x: 30.6,
     y: 13,
@@ -21,11 +22,11 @@ const LIGHT = {
     sky: "#b7ccd9",
     horizon: "#d6e2d6",
     zenith: "#79a8bf",
-    sunColor: "#fff2dd",
-    ambientColor: "#d2d8d5",
-    bounceColor: "#77796f",
-    ambient: 0.61,
-    direct: 1.28,
+    sunColor: "#fff0d4",
+    ambientColor: "#b4cfe4",
+    bounceColor: "#827364",
+    ambient: 0.68,
+    direct: 1.30,
     moon: 0,
     x: 15.3,
     y: 25,
@@ -35,11 +36,11 @@ const LIGHT = {
     sky: "#aacbd8",
     horizon: "#d9e3d7",
     zenith: "#689fbe",
-    sunColor: "#fff3dd",
-    ambientColor: "#d2d8d5",
-    bounceColor: "#77796f",
-    ambient: 0.65,
-    direct: 1.42,
+    sunColor: "#fff2d7",
+    ambientColor: "#b8cfe1",
+    bounceColor: "#7e7162",
+    ambient: 0.63,
+    direct: 1.40,
     moon: 0,
     x: 0,
     y: 48,
@@ -49,11 +50,11 @@ const LIGHT = {
     sky: "#b4c5d1",
     horizon: "#e2d0a9",
     zenith: "#829db8",
-    sunColor: "#ffe8c8",
-    ambientColor: "#c5ced6",
-    bounceColor: "#80796e",
-    ambient: 0.55,
-    direct: 1.28,
+    sunColor: "#ffe3bb",
+    ambientColor: "#b8c9e0",
+    bounceColor: "#8b7664",
+    ambient: 0.64,
+    direct: 1.32,
     moon: 0,
     x: -17,
     y: 25,
@@ -63,11 +64,11 @@ const LIGHT = {
     sky: "#a4a4ba",
     horizon: "#eab08a",
     zenith: "#687ca1",
-    sunColor: "#ffd099",
-    ambientColor: "#98a8c0",
-    bounceColor: "#7c7073",
-    ambient: 0.4,
-    direct: 1.06,
+    sunColor: "#ffca8d",
+    ambientColor: "#a5b5d5",
+    bounceColor: "#886f70",
+    ambient: 0.54,
+    direct: 1.12,
     moon: 0,
     x: -37.4,
     y: 12,
@@ -127,7 +128,7 @@ const mix = (a, b, t) =>
 // east/up/south; the renderer converts to the unchanged model's game units.
 // Seven named moments remain an art clock, not a live astronomical forecast.
 export function seasonalSunVector(phase, season = "summer") {
-  const radians = Math.PI / 180, latitude = 31.6 * radians,
+  const radians = Math.PI / 180, latitude = CLIMATE_LOCATION.latitude * radians,
     declination = (SEASON_LIGHT[season] || SEASON_LIGHT.summer).declination * radians,
     horizonHour = Math.acos(-Math.tan(latitude) * Math.tan(declination)),
     hour = ({ dawn: -horizonHour + 14 * radians, morning: -40 * radians,
@@ -138,7 +139,7 @@ export function seasonalSunVector(phase, season = "summer") {
     south = Math.sin(latitude) * Math.cos(declination) * Math.cos(hour) - Math.cos(latitude) * Math.sin(declination);
   return [east * 48, up * 48, south * 48];
 }
-export function lightingProfile(weather, phase, season = "summer") {
+export function lightingProfile(weather, phase, season = "summer", calendar = null) {
   weather = { ...weather, id: canonicalWeatherCondition(weather.id) };
   const base = LIGHT[phase] || LIGHT.day,
     seasonal = SEASON_LIGHT[season] || SEASON_LIGHT.summer,
@@ -150,6 +151,7 @@ export function lightingProfile(weather, phase, season = "summer") {
   const diffuse =
     weather.id === "clear"
       ? 0
+      : weather.id === 'partly-cloudy' ? .38
       : weather.id === "wind"
         ? 0.24
         : weather.id === "mist"
@@ -165,7 +167,9 @@ export function lightingProfile(weather, phase, season = "summer") {
     { rain: 0.94, heavy: 0.82, thunderstorm: 0.74, typhoon: 0.7 }[weather.id] ||
     1;
   const grey = night ? "#3c4b61" : rainGrey[weather.id] || "#a4aeaf";
-  const solar = seasonalSunVector(phase, season) || [p.x, p.y, p.z];
+  const solar = calendar && !night ? solarVector(calendar.solarHour ?? phaseHour(phase, calendar), calendar)
+    : seasonalSunVector(phase, season) || [p.x, p.y, p.z];
+  const elevation = Math.max(0, solar[1] / 48);
   return {
     sky: mix(p.sky, grey, diffuse * 0.65),
     horizon: mix(p.horizon, grey, diffuse * 0.78),
@@ -173,12 +177,12 @@ export function lightingProfile(weather, phase, season = "summer") {
     sunColor: mix(p.sunColor, "#d0d9df", diffuse * 0.7),
     ambientColor: mix(
       p.ambientColor,
-      night ? "#90a7c4" : "#c3ced0",
-      diffuse * 0.6,
+      night ? "#90a7c4" : "#bccedb",
+      diffuse * 0.52,
     ),
-    bounceColor: mix(p.bounceColor, night ? p.bounceColor : "#777e76", diffuse * .55),
-    ambient: p.ambient * transmission + (!night ? diffuse * 0.22 : 0),
-    direct: p.direct * (1 - diffuse),
+    bounceColor: mix(p.bounceColor, night ? p.bounceColor : "#777d76", diffuse * .55),
+    ambient: p.ambient * transmission + (!night ? diffuse * 0.18 : 0),
+    direct: p.direct * (1 - diffuse) * (calendar && !night ? Math.min(1, elevation * 10) : 1),
     moon: p.moon * (1 - diffuse * 0.8),
     sunX: solar[0],
     sunY: solar[1],
@@ -229,6 +233,8 @@ export function weatherActivity(state, scene = "north") {
 export function atmosphereCaption(state) {
   state = { ...state, condition: canonicalWeatherCondition(state.visualCondition || state.condition) };
   const wet = {
+    'plum-rain': '雨丝一阵紧一阵缓，盆土和墙根都带着潮气。',
+    snow: '零星雪花落过盆沿，楼群留在冷光里。',
     rain: "细雨落在盆沿，地面渐渐湿了。",
     heavy: "雨水汇向下水口，屋檐下接连滴水。",
     thunderstorm: "雷光照亮楼群，雨敲着盆沿。",

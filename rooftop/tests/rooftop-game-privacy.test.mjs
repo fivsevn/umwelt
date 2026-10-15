@@ -4,6 +4,7 @@ import {readFileSync,readdirSync} from 'node:fs';
 import {extname,join,relative} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {publicFile} from '../../.github/scripts/prepare-site.mjs';
+import {CLIMATE_LOCATION} from '../climate.mjs';
 import {BACKGROUND} from '../assets/background/empty-rooftop.mjs';
 
 const root=fileURLToPath(new URL('../../',import.meta.url));
@@ -98,4 +99,10 @@ test('privacy scan accepts botanical sources, attribution and game-local geometr
   assert.deepEqual(findings('"private_home":{"address":"anonymous fixture"}'),['private home metadata']);
   assert.ok(findings('https://www.google.com/maps/search/').includes('location lookup'));
   assert.ok(findings('https%3A%2F%2Fwww.google.com%2Fmaps').includes('location lookup'));
+});
+
+// The user approved a public city reference for solar calculations. This does
+// not permit residential coordinates in models, textures or background metadata.
+test('solar calendar carries only the approved rounded Chongchuan regional point',()=>{
+  assert.deepEqual(CLIMATE_LOCATION,{name:'南通·崇川',latitude:32.02,longitude:120.86,timeZone:'Asia/Shanghai',utcOffset:8});
 });

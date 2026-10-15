@@ -49,8 +49,10 @@ export async function loadEnvironmentBinary(manifest, base, {
 // the Pixelorama book; distant facades use an atlas baked from that same model.
 export function loadArchitecturalShell(T, parent) {
   const tone = { value: new T.Color("#ffffff") },
+    distanceInk = { value: new T.Color("#71818e") },
     wet = { value: 0 },
     lamps = { value: 0 };
+  const lightTint = new T.Color(), nightTint = new T.Color("#8ca0b6");
   let state = { loaded: false, aborted: false, source: "Blender", error: null };
   const controller = new AbortController();
   const cancelTransfer = event => {
@@ -129,13 +131,13 @@ export function loadArchitecturalShell(T, parent) {
       if (baked) {
         material.onBeforeCompile = shader => {
           Object.assign(shader.uniforms, {
-            shellTone: tone, shellWet: wet, shellLamps: lamps,
+            shellTone: tone, shellDistanceInk: distanceInk, shellWet: wet, shellLamps: lamps,
             shellMetres: { value: new T.Vector3(...metreScale) },
             shellTexelsPerMetre: { value: manifest.texelsPerMetre || 16 },
             shellBakedAtlas: { value: new T.Vector2(definition.width || 512, definition.height || 512) },
           });
           shader.vertexShader = "uniform vec3 shellMetres; uniform float shellTexelsPerMetre; attribute vec4 shellUvBounds; varying vec4 shellBakedBounds; varying vec2 shellBakedChart; varying vec3 shellBakedNormal;\n" + shader.vertexShader;
-          shader.fragmentShader = "uniform vec3 shellTone; uniform float shellWet; uniform float shellLamps; uniform vec2 shellBakedAtlas; varying vec4 shellBakedBounds; varying vec2 shellBakedChart; varying vec3 shellBakedNormal;\n" + BAKED_GRID_FRAGMENT + shader.fragmentShader;
+          shader.fragmentShader = "uniform vec3 shellTone; uniform vec3 shellDistanceInk; uniform float shellWet; uniform float shellLamps; uniform vec2 shellBakedAtlas; varying vec4 shellBakedBounds; varying vec2 shellBakedChart; varying vec3 shellBakedNormal;\n" + BAKED_GRID_FRAGMENT + shader.fragmentShader;
           shader.vertexShader = shader.vertexShader.replace("#include <begin_vertex>", `
             #include <begin_vertex>
             vec3 shellPhysicalPosition = position * shellMetres;
@@ -181,6 +183,12 @@ export function loadArchitecturalShell(T, parent) {
             diffuseColor *= shellPigment;
             diffuseColor.rgb *= shellTone * (1. - shellWet * .10);
             ${orientation}
+            // A bounded veil gives the baked neighborhood the current sky's
+            // depth and colour without washing out the near terrace. Window
+            // masks are applied afterwards so real lamps stay distinct.
+            #ifdef USE_FOG
+              diffuseColor.rgb = mix(diffuseColor.rgb, shellDistanceInk, .18 * smoothstep(90., 460., vFogDepth));
+            #endif
             ${lights}`);
         };
       } else {
@@ -245,7 +253,7 @@ export function loadArchitecturalShell(T, parent) {
             reflectedLight.indirectDiffuse *= shellFaceLight(shellNormal);`);
         };
       }
-      material.customProgramCacheKey = () => `blender-environment-v6-physical-grid-${baked ? "baked" : part.mode}-${part.field}-${file}-${part.lampMask || ""}-${part.shading || ""}`;
+      material.customProgramCacheKey = () => `blender-environment-v7-physical-grid-${baked ? "baked" : part.mode}-${part.field}-${file}-${part.lampMask || ""}-${part.shading || ""}`;
       let mesh;
       if (part.mode === "instances") {
         mesh = new T.InstancedMesh(cube, material, part.count);
@@ -365,8 +373,16 @@ export function loadArchitecturalShell(T, parent) {
       return hit ? { point: hit.point, distance: hit.distance } : null;
     },
     update(a) {
-      const night = Math.max(0, Math.min(1, a.night || 0));
-      tone.value.set("#ffffff").lerp(new T.Color("#8ca0b6"), night * .58).multiplyScalar(1 - night * .33);
+      const night = Math.max(0, Math.min(1, a.night || 0)),
+        daylight = Math.max(0, Math.min(1, (a.direct || 0) / 1.4));
+      // The baked facade already contains shape shading. Apply only the
+      // broad daylight tint/energy here, then retain the established night.
+      tone.value.set("#ffffff")
+        .lerp(lightTint.set(a.ambientColor || "#cbd3dc"), .14 * (1 - daylight) * (1 - night))
+        .lerp(lightTint.set(a.sunColor || "#fff2dd"), .18 * daylight * (1 - night))
+        .multiplyScalar(1 - .10 * (1 - daylight) * (1 - night))
+        .lerp(nightTint, night * .58).multiplyScalar(1 - night * .33);
+      distanceInk.value.set(a.sky || "#b4c5d1").multiplyScalar(.34);
       wet.value = a.wetness || 0;
       lamps.value = a.lamps || 0;
     },

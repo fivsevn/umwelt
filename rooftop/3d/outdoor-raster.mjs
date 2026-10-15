@@ -75,6 +75,16 @@ export function createOutdoorRasterPass(T, renderer) {
                 1. - (.5 - p.y * .5) * rasterOutput.y / rasterPadded.y);
               gl_FragColor = texture2D(rasterSource, sourceUv);
               #include <colorspace_fragment>
+              // Work on display colour after its single linear-to-sRGB
+              // conversion. Keep black, bright lamps and already vivid
+              // colours stable; gently separate the painted midtones.
+              vec3 ink = gl_FragColor.rgb;
+              float value = dot(ink, vec3(.2126, .7152, .0722));
+              float middle = smoothstep(.06, .22, value) * (1. - smoothstep(.82, 1., value));
+              float chroma = max(max(ink.r, ink.g), ink.b) - min(min(ink.r, ink.g), ink.b);
+              ink = mix(vec3(value), ink, 1. + .24 * (1. - chroma) * middle);
+              float shaped = value + .16 * (value - .42) * 4. * value * (1. - value) * middle;
+              gl_FragColor.rgb = clamp(ink * (shaped / max(value, .00001)), 0., 1.);
             }`,
         });
         scene = new T.Scene(); camera = new T.OrthographicCamera(-1, 1, 1, -1, 0, 1);

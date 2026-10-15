@@ -73,7 +73,7 @@ test("cached atmosphere changes every supported mood without rebuilding and keep
     assert.ok(effect.stats.rain <= 840 && effect.stats.seasonal.count <= 184);
   }
   for (const season of SEASONS) {
-    const state = weatherProfile("clear", "day", season.id);
+    const state = weatherProfile(season.id==="winter"?"snow":"clear", "day", season.id);
     effect.update("south", state, 7, false);
     const full = effect.stats.seasonal.sample;
     effect.update("south", state, 8, true);

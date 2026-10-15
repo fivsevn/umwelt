@@ -31,7 +31,7 @@ export function reviewURL(address, choices = {}) {
   url.searchParams.set("scene", choices.scene || state.scene);
   url.searchParams.set("view", choices.view || state.view);
   url.searchParams.set("sampling", choices.sampling || state.sampling);
-  for (const [key, parameter] of [["condition", "weather"], ["phase", "time"], ["season", "season"]]) {
+  for (const [key, parameter] of [["condition", "weather"], ["phase", "time"], ["season", "season"], ["month", "month"], ["festival", "festival"]]) {
     const value = choices[key] || url.searchParams.get(parameter);
     if (value) url.searchParams.set(parameter, key === "condition" ? canonicalWeatherCondition(value) : value);
   }

@@ -74,7 +74,7 @@ export function terraceAtmosphereMood(a) {
     // Local pools catch the horizon's warm light even after the rain stops.
     waterColor: mixColor(a.sky || "#bacfdd", a.horizon || "#dbe4dc", .3 + sunset * .4),
     cloudShadow: direct * clamp((a.cloud || 0) - .12) * .19,
-    snowCover: winter * (.32 + clamp(a.cloud || 0) * .2) * (1 - rain * .84),
+    snowCover: clamp(a.snow || 0) * .22 * (1 - rain * .84),
     lightEnergy: ATMOSPHERE_LIGHT_ENERGY,
   };
 }
@@ -90,6 +90,7 @@ export function createAtmosphere(
   moon.position.set(-16, 36, 14);
   scene.add(moon);
   const bounce = new T.DirectionalLight("#bdcddd", 0.2);
+  const bounceTint = new T.Color();
   bounce.position.set(16, 10, 24);
   scene.add(bounce);
   const porch = new T.PointLight("#ffc991", 0, 8, 2);
@@ -405,9 +406,12 @@ export function createAtmosphere(
 
       moon.intensity = (indoor ? a.moon * 0.35 : a.moon) * ATMOSPHERE_LIGHT_ENERGY;
       if (!indoor) moon.position.set(...position);
-      bounce.color.set(a.ambientColor);
+      // Reflected ground light carries a little of the sun's warmth into
+      // shaded vertical faces; the hemisphere keeps the open-sky cool light.
+      bounceTint.set(a.bounceColor).lerp(sun.color, .32);
+      bounce.color.set(a.ambientColor).lerp(bounceTint, indoor ? 0 : clamp(a.direct / 1.1));
       bounce.position.set(...(name === "south" ? [24, 10, -16] : [16, 10, 24]));
-      bounce.intensity = (indoor ? 0.12 : 0.035 + (1 - a.sun) * 0.04) * ATMOSPHERE_LIGHT_ENERGY;
+      bounce.intensity = (indoor ? 0.12 : 0.035 + (1 - a.sun) * 0.04 + a.direct * .075 * (1 - a.night)) * ATMOSPHERE_LIGHT_ENERGY;
       const door = name === "south" ? [284, 104] : [440, 424],
         [doorX, doorZ] = coords(name, door[0], door[1]);
       porch.position.set(doorX, 1.7, doorZ);

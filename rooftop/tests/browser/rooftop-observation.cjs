@@ -44,10 +44,13 @@ const checkObserverCards = async (page, view) => {
     return {
       choices: [...narrative.querySelectorAll('[data-narrative-view]')].map(button => {
         const icon = button.querySelector('.observer-icon');
+        const bounds = button.getBoundingClientRect(), iconBounds = icon?.getBoundingClientRect();
         return { id: button.dataset.narrativeView, text: button.textContent.trim(),
           card: button.classList.contains('world-card'), icon: icon?.dataset.icon || null,
-          iconWidth: icon ? getComputedStyle(icon).width : null,
-          iconHeight: icon ? getComputedStyle(icon).height : null };
+          iconWidth: iconBounds?.width, iconHeight: iconBounds?.height,
+          centered: iconBounds ? Math.abs(iconBounds.x + iconBounds.width / 2 - bounds.x - bounds.width / 2) < .03 &&
+            Math.abs(iconBounds.y + iconBounds.height / 2 - bounds.y - bounds.height / 2) < .03 : true,
+          filter: icon ? getComputedStyle(icon).filter : null };
       }),
       operations: [...station.querySelectorAll('[data-station-action]')].map(button =>
         [button.dataset.stationAction, button.textContent.trim()]),
@@ -67,6 +70,14 @@ const checkObserverCards = async (page, view) => {
       }),
       operationStyle: cardStyle(operation),
       lowerStyle: cardStyle(lowerCard),
+      lowerInteractive: { pointer: getComputedStyle(lowerCard).pointerEvents,
+        decoration: getComputedStyle(lowerCard).textDecorationLine,
+        marker: getComputedStyle(lowerCard, '::before').content },
+      statusPointer: getComputedStyle(document.querySelector('#observerStatus')).pointerEvents,
+      infoStyles: ['#environmentHud', '#observerStatus'].map(selector => {
+        const style = getComputedStyle(document.querySelector(selector));
+        return { font: style.font, color: style.color, shadow: style.textShadow };
+      }),
       zoom: [getComputedStyle(controls).zoom,
         getComputedStyle(document.querySelector('.corner-cards')).zoom],
       rowsSeparate: station.getBoundingClientRect().top >= narrative.getBoundingClientRect().bottom,
@@ -80,9 +91,9 @@ const checkObserverCards = async (page, view) => {
     { id: 'neighbor', text: '?', card: true, icon: null },
   ], 'observer choices use individual bird/drone icon cards and a question card');
   assert.ok(cards.choices.filter(choice => choice.icon)
-    .every(choice => Math.abs(parseFloat(choice.iconWidth) - 16) <= .02 &&
-      Math.abs(parseFloat(choice.iconHeight) - 16) <= .02),
-  'bird and drone keep the compact native icon size');
+    .every(choice => choice.iconWidth >= 6 && choice.iconWidth <= 10 &&
+      choice.iconHeight >= 6 && choice.iconHeight <= 10 && choice.centered && choice.filter === 'brightness(0)'),
+  'bird and drone are small centered monochrome silhouettes');
   const expectedOperations = {
     bird: [['left', '←'], ['right', '→']],
     drone: [['down', '↓'], ['up', '↑'], ['near', '+'], ['far', '−']],
@@ -94,9 +105,9 @@ const checkObserverCards = async (page, view) => {
   assert.equal(cards.buttonGeometry.length, 3 + expectedOperations[view].length,
     'all three observers and the current operations remain visible');
   assert.ok(cards.buttonGeometry.every(button =>
-    Math.abs(button.cssWidth - 36) <= .03 && Math.abs(button.cssHeight - 36) <= .03 &&
+    Math.abs(button.cssWidth - 22) <= .03 && Math.abs(button.cssHeight - 22) <= .03 &&
     Math.abs(button.width - button.height) <= .03),
-  'every observer and operation card is a 36 CSS-pixel square');
+  'every observer and operation card is a 22 CSS-pixel square');
   const firstCard = cards.buttonGeometry[0];
   assert.ok(cards.buttonGeometry.every(button =>
     Math.abs(button.width - firstCard.width) <= .03 &&
@@ -105,8 +116,14 @@ const checkObserverCards = async (page, view) => {
   assert.ok(cards.surfaces.every(surface => surface.background === 'rgba(0, 0, 0, 0)' &&
     surface.image === 'none' && surface.shadow === 'none'),
   'observer rows have no outer panel background or shadow');
-  assert.deepEqual(cards.operationStyle, cards.lowerStyle,
-    'observer operations reuse the lower-left button card font, padding and paper color');
+  assert.notEqual(cards.operationStyle.backgroundColor, 'rgba(0, 0, 0, 0)', 'observer controls retain their compact background');
+  assert.equal(cards.lowerStyle.backgroundColor, 'rgba(0, 0, 0, 0)', 'lower-left text has no panel background');
+  assert.equal(cards.lowerStyle.boxShadow, 'none');
+  assert.deepEqual(cards.infoStyles[0], cards.infoStyles[1], 'environment and status text use one shared text style');
+  assert.equal(cards.lowerInteractive.pointer, 'auto');
+  assert.equal(cards.lowerInteractive.decoration, 'none');
+  assert.ok(cards.lowerInteractive.marker.includes('>'), 'clickable text has a prompt marker');
+  assert.equal(cards.statusPointer, 'none', 'passive status text does not intercept the scene');
   assert.equal(cards.zoom[0], cards.zoom[1], 'observer and lower-left cards share the same group scale');
   assert.ok(cards.rowsSeparate && cards.fits, 'observer cards form two compact rows inside the viewport');
 };

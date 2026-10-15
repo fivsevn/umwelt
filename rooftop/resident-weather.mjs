@@ -64,7 +64,8 @@ export function weatherAction(
   step,
   { sheltered = false, indoor = false } = {},
 ) {
-  state = { ...state, condition: canonicalWeatherCondition(state.activityCondition || state.condition) };
+  const condition = canonicalWeatherCondition(state.activityCondition || state.condition);
+  state = { ...state, condition: ({'plum-rain':'rain','partly-cloudy':'overcast',snow:'mist'})[condition] || condition };
   const rain =
     ["rain", "heavy", "thunderstorm", "typhoon"].includes(state.condition) ||
     state.rain > 0.01;

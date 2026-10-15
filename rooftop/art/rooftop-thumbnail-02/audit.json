@@ -28,8 +28,8 @@
       ]
     },
     "pngSha256": "8500f59c5ee343335af95b3fc0f0e80fac04b478af4845c86ec01b6374c58316",
-    "sourceModelSha256": "d301998b60c150641cd48a1ccba01d894adeea08e939a81975eeaa2625a191f8",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "sourceModelSha256": "60f57b801f2e365a1c7a30d5779760f5551556c4edb9f24ce248ce0a3f81c1e9",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "iron-3-silver",
@@ -60,8 +60,8 @@
       ]
     },
     "pngSha256": "48ec499eede509de6755a0d49db3f598b643c217412d93e22fdc5bf2cfe65bd8",
-    "sourceModelSha256": "ebb891a19013faf598bcf15f4c7eba2482c0a175b84e7b0f486eb89c269e3117",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "sourceModelSha256": "3b52843712d32be86c5d9b548966bc4d4f76694dc4228b8f8615190c47bf73e1",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "iron-4-black",
@@ -92,8 +92,8 @@
       ]
     },
     "pngSha256": "fa0ed39732b1177d16a3cfb502b93bfaff3aa62e0db1d605f2166c9c2ca66808",
-    "sourceModelSha256": "933a09801d3874fd03b86d980fdec545a7ddbc73687f30603fa941e99ec3af77",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "sourceModelSha256": "008d3f9f21ef5412a548af28001353d325b1b8be497bdfe4a7868dc7ca9cfb79",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "iron-4-silver",
@@ -124,8 +124,8 @@
       ]
     },
     "pngSha256": "44120a7d52813b4c79a098073cf9fa957360339e854e1d7417ac7563ba7e9a19",
-    "sourceModelSha256": "1216f4f1d81714b107d3ec7a308b71362606e2e824a59b7c2f12d725eed5fec3",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "sourceModelSha256": "fa39f4e24423ae86cc616e9cae432014505cb6e35ce7baef284975fcc35f8640",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "wood-2",
@@ -155,9 +155,9 @@
         0.19196798869334092
       ]
     },
-    "pngSha256": "ea33824a2eb0559974db187f7980e0c5939b75bcc1deab526440f2465e5d1f71",
-    "sourceModelSha256": "be62c12ab5a58c60f281ab8cfc66924f1dacf2afa4d7df7853497d8dddeeabed",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "pngSha256": "bf3035828bbf8d7f07c14ec9ad0ad0c288e9643ff13685c38c1f313c8de19fa4",
+    "sourceModelSha256": "d4e24ac988529ff8bab736162cfb694412fdabc5fcaa0e4050ecdff9cf0541a6",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "wood-3",
@@ -187,9 +187,9 @@
         0.19080336995506006
       ]
     },
-    "pngSha256": "49a55f23a9a6628850a494dca63dfae058daa38eeaf44adce2e8d26a34181989",
-    "sourceModelSha256": "07351b66514cca8406206451484c1743b82d1684b8dd7785526eb276e23bb75e",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "pngSha256": "31b4e6652bddaae64ef153600b3dd592cbd7941fab47c08af9b0f6bbe594797c",
+    "sourceModelSha256": "b63e8d9bf450387ab007fa287025d02ea95d84716d4991a48b0f43a0067e300b",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "step-rack",
@@ -219,9 +219,9 @@
         0.23048918801546492
       ]
     },
-    "pngSha256": "87e29e0fb2686e9d0a02b4f712c620ce4cb495ca39d874afd6f00efecab3dd2a",
-    "sourceModelSha256": "a5aa15f6c3d632139c0873a97ddd5ccd48ec9e560d31208fcbe654ef0be99a70",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "pngSha256": "9d995ac0bbf1b9dd728c23784da919178a0f223bf1bee2ba63fcf799ea3e29b1",
+    "sourceModelSha256": "fcf591e2cd319c2a8c7ad6e0c9fe3d047afdc1f6d4abbd75857bac6b54ee2b0e",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "plastic-basket-rack",
@@ -252,8 +252,8 @@
       ]
     },
     "pngSha256": "64405d324fbcb0e14bae62e5cd1c2b5bee3de5f6ee6038f810c24c945679510c",
-    "sourceModelSha256": "f4b725df66d635758830730ddaebae5886d44059101502a9ac70bcd1f0463f84",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "sourceModelSha256": "5d632e2b238650dbd6e8592f705116ea6e1c3104318b1b52d9c53755641b378c",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "wood-square-table",
@@ -283,9 +283,9 @@
         0.24464134753822334
       ]
     },
-    "pngSha256": "5b7b2c912ebd651ec9b3bbd14c90667c32ac3b9e1493ee268ebec5e59068deb8",
-    "sourceModelSha256": "8091da5205114fbd6d327e7eef85a585856285e624e5b5e4b1d79d947ee43bd1",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "pngSha256": "a5b09a64f7473861144ddf84fb5970e84d1bac647c12171c6a41231af1511508",
+    "sourceModelSha256": "8f402b29c9d015ade910db08d3a939dc9a86db2043e20375e4875c57f93b95d0",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "iron-round-table",
@@ -316,8 +316,8 @@
       ]
     },
     "pngSha256": "8a7b1652d6e23263fa9601f385eca5874c8fa72c61854c34411caa005cd69a3e",
-    "sourceModelSha256": "146adffea5ab89db442684bd66e0199280f1459df57b2cbd02e3d8f56b796322",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "sourceModelSha256": "82456e14e935822d5cdad0ae4e2d07b403bbcb01bd8f885028d2de548fe7c99b",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "wood-round-stool",
@@ -347,9 +347,9 @@
         0.08118007087107437
       ]
     },
-    "pngSha256": "7f258cc128d90e3a3c745ad88b524157c7edf4cd0af492524ca06b7d5a76104d",
-    "sourceModelSha256": "4e187a9b243362cd6023c77c437ac72accc8456f37c6281064e785f1ff0fe78f",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "pngSha256": "fdabb3de7630dc190c175ed5ac799a6b836eaa9d5dd1733a5b6ddde2ceba26d8",
+    "sourceModelSha256": "ae478a5ea25932dbe0caf5b8003ac269f7f89159b124c7524e789301e6e00d9d",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "wood-square-stool",
@@ -379,9 +379,9 @@
         0.08118007087107437
       ]
     },
-    "pngSha256": "3f54d939b1c0be7a3cceee19fa241cf2db8b6560eaeb54ab1ed36abb50fe0e41",
-    "sourceModelSha256": "6e540525a5cad69ade403af00d70b369bd467ad09890849d1b44564834fffde9",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "pngSha256": "dbf532a2a40a4e0a28d4c9ce545fe8b2566423465ffbbd4ed8208f24caee84c3",
+    "sourceModelSha256": "855e958e6bf84fd885ba5651a12989b3f70cf3e2ebf5bb3f09259b106dff24f0",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "plastic-round-stool",
@@ -412,8 +412,8 @@
       ]
     },
     "pngSha256": "addb63054a3d21d8f840549b353893478331aca47cb63f2bea8d3054c467d96b",
-    "sourceModelSha256": "9419b2be9ab1e6496714c2765aec175a0b068bbc8acb16f3d4d02325fc75f6ed",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "sourceModelSha256": "7dc969f31ccb56834ce9ad529d04bafde0974bb4e8b91a15a7ce6cd35a0e3cf6",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "bed-modern",
@@ -443,9 +443,9 @@
         0.4620877208507846
       ]
     },
-    "pngSha256": "d768ca501670377c8b41d49e2dcf69852b6796a2e68630f300cfa32d86500a29",
-    "sourceModelSha256": "2a81d12024d35d0b0e5af14e5ac6c9fa682070b25b748a6b4097399ae34a0d27",
-    "atlasSha256": "0ea377153ec4aa667735ebdae37251f565080da7fa43a56f3be8a79d251d94ba"
+    "pngSha256": "65894a00dd177302fdaa64cad05a3198db3a11bd08be9783eb743999b10eceff",
+    "sourceModelSha256": "ef238fca445f36ef91ab216e7ff4d9f5f9d1b9d4929e77c925d6b3bcf35d09e6",
+    "atlasSha256": "b92f01496b8db702824f8031f77fdfbd24fe85b66ef609de829bbb4440563756"
   },
   {
     "id": "sofa-two",
@@ -476,8 +476,8 @@
       ]
     },
     "pngSha256": "1b71a36051de8775c1c06a52f2ba37448281086dab333210e51460fa48bcb4a8",
-    "sourceModelSha256": "5f1b90a8c8f5eb274c19dabee25095776c9098924621c4574988c207dff7fd8c",
-    "atlasSha256": "0ea377153ec4aa667735ebdae37251f565080da7fa43a56f3be8a79d251d94ba"
+    "sourceModelSha256": "e19bf5034e67752a2e7ba8170b879f2992c9541f6675786ea7dd866b16e577f4",
+    "atlasSha256": "b92f01496b8db702824f8031f77fdfbd24fe85b66ef609de829bbb4440563756"
   },
   {
     "id": "sofa-one",
@@ -508,8 +508,8 @@
       ]
     },
     "pngSha256": "f38eef1ec98e5835bc9ac148b0e8afa00acc056c2c2a0d5f9f260b3505091383",
-    "sourceModelSha256": "bf7e5836ec8f9611231a549e3b4caa0d6aa65b387ba4ae4e36cccac0b2acfb7c",
-    "atlasSha256": "0ea377153ec4aa667735ebdae37251f565080da7fa43a56f3be8a79d251d94ba"
+    "sourceModelSha256": "649e4a7af647ae9a4fbbf63a1cbfcc59de6011202e2149fa85d84a07c10e099e",
+    "atlasSha256": "b92f01496b8db702824f8031f77fdfbd24fe85b66ef609de829bbb4440563756"
   },
   {
     "id": "wardrobe-wood",
@@ -539,9 +539,9 @@
         0.17191129336342412
       ]
     },
-    "pngSha256": "306dd24dd5dd3589439c119ffed2f2343f6655690931af4491b276e08ba1a774",
-    "sourceModelSha256": "cb116fd8b97b09df29792a48373cd126825d930169dcaccba0bb198d0b668c3a",
-    "atlasSha256": "0ea377153ec4aa667735ebdae37251f565080da7fa43a56f3be8a79d251d94ba"
+    "pngSha256": "58299780902b232fb62d6985d17beb72b738f01cf93d63dcca917cd26fceb216",
+    "sourceModelSha256": "4890d311fd0a61e5b70a13d61bb563ed0ed6269340f42707cc1b4fbdda3e4da4",
+    "atlasSha256": "b92f01496b8db702824f8031f77fdfbd24fe85b66ef609de829bbb4440563756"
   },
   {
     "id": "dresser-wood",
@@ -571,9 +571,9 @@
         0.1462986875901144
       ]
     },
-    "pngSha256": "45cef67b6f17090ce8a9dd77961ec5a80ee439310efe3b32a83256895c69ad02",
-    "sourceModelSha256": "8a99914e905a9b3705a22f3f709fd916054fae727f0c1faeaafa329174c9a417",
-    "atlasSha256": "0ea377153ec4aa667735ebdae37251f565080da7fa43a56f3be8a79d251d94ba"
+    "pngSha256": "ec257530558be9368032632dbe65d0edd56f6ef9281af0b9fd19d2c7711bf5e1",
+    "sourceModelSha256": "a2aaebe4439f14022dcad700b1e60aa320491df2e120626baf7b5328d5860c59",
+    "atlasSha256": "b92f01496b8db702824f8031f77fdfbd24fe85b66ef609de829bbb4440563756"
   },
   {
     "id": "crate-blue",
@@ -604,8 +604,8 @@
       ]
     },
     "pngSha256": "7b55ce3bf4a67bcef847b8a71b845c75c9c4de9ef5999de53a64eb2eb2ec5718",
-    "sourceModelSha256": "3f5065d9d46dc6dce12b4b17c1bcbc85eb544936e222b92ad527788757afaa44",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "sourceModelSha256": "848bfd0a2284a383bfe8651f3ccce6d9d481de0194dc024a34a5406e4e1d737b",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "crate-gray",
@@ -636,8 +636,8 @@
       ]
     },
     "pngSha256": "75f29597275f6f99e3cf2fccd6359e52cbd4b981ac9f360bd002fee56da54b25",
-    "sourceModelSha256": "6365871a4a89bb5406af8195b8e757a2dedd7998b4b1d27765ace25492c15cf2",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "sourceModelSha256": "ce0d3a69da05f7856f87370b875c9d38210c3e8fcda69fde77fda5111d681e3b",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "crate-red",
@@ -668,8 +668,8 @@
       ]
     },
     "pngSha256": "325e3ffb86b119f4d768961224b41fe4ef2c675afa662273d5401f60ba09afcd",
-    "sourceModelSha256": "366c6c657968c00816547b7eb332c9c3a9b09839395a168a34600860ba0484f7",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "sourceModelSha256": "ad44013cc20fc02d738543660401aca38f4d667d8490ebca9e83b0166830883f",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "galvanized-bucket",
@@ -699,9 +699,9 @@
         0.04485195864287402
       ]
     },
-    "pngSha256": "4fb44687c87cb383131fd4b7eca9029b4529d94f3a2b6d051416cc01d7c9f88d",
-    "sourceModelSha256": "79841835d39fb459b451b4688efd83ddd88d2799a2ef07a63b6da6094c30a371",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "pngSha256": "dc33a33f08ddc9e8893aa0f097024642125869ec7fbd81ee0b85f2d40d9f29a0",
+    "sourceModelSha256": "5b2c7c119695d3f3f999c22ac1ec670b5f36ccc765d3382cfc13bfdc325b2b60",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "plastic-bucket",
@@ -732,8 +732,8 @@
       ]
     },
     "pngSha256": "203305672d79afac685f2e8713ec2103882d0698baca068fdcf91e99c529ea37",
-    "sourceModelSha256": "c6ecac12963c632c6d4f3b21eb1107ec7e86642965a91b0610db663d503c0220",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "sourceModelSha256": "4fce94a8096e08b9a53a96f0c5a60df3003a31de24b77efc12d7dd8d45f54dac",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "foam-soil",
@@ -764,8 +764,8 @@
       ]
     },
     "pngSha256": "f639bf0c795ea618adf1532fc2e79ec280a819307a00137eb40024716e66b5d0",
-    "sourceModelSha256": "5460527db3627878dcbe5232a00f3f4864f7e6edaf551d5cb67f5b5a35388f63",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "sourceModelSha256": "a018ba2770ccd5a883b9567242d2131a7650747b509b2bae3eefacfcb4b1320c",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "foam-seedlings",
@@ -795,9 +795,9 @@
         0.15268829761693287
       ]
     },
-    "pngSha256": "ff83dedbf7bb9f1f4509707ec448926336f63d46a881ea8d9223311faf4ecbc1",
-    "sourceModelSha256": "919eb6797ef53a58f785ba2724b6c246f3e4f3a36367c6e6a44ec432170be2df",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "pngSha256": "5f88c02fbb66c68dab0f3b150dd9a9952d6ae0753ea21109e0717c92ab25811a",
+    "sourceModelSha256": "183cbdd2509c48f58054480e45a8a0693016f6523a34faafe810d792f38e186d",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "seed-tray",
@@ -828,8 +828,8 @@
       ]
     },
     "pngSha256": "31812f5611e8782c6eb5438713bc39fa3fd6ed819f5367c71cdccb98ce093933",
-    "sourceModelSha256": "ee0944cb0d257e76331f5dd0f8a4388395b51661d3882ed8c60aa903ec7039e2",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "sourceModelSha256": "516f6b94acbda51ab6147c253c53730fecdbca845a9e649fd1fd3c281c68ad2e",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "aquarium-rectangle",
@@ -859,9 +859,9 @@
         0.13689559613195987
       ]
     },
-    "pngSha256": "a0ca6481b14322e7e65a9d1274c65d499f832bcfe74e51cc68d26f7ca2ea5b20",
-    "sourceModelSha256": "fd4f833308a5002ef061469f1813459c8e5db20353b69e6ca0725db2caa6a62e",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "pngSha256": "a964abafec21810832232b5cac7ac92d8cd164e7c4ff0de6ce0c67329d71e6b0",
+    "sourceModelSha256": "0c83a47a99270ef8502d06c428dbbe3928e1ae423217cf34670b86d362eeadf0",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "aquarium-square",
@@ -891,9 +891,9 @@
         0.1347463880191275
       ]
     },
-    "pngSha256": "85b84ccd86b7943544d664fff5962732426c4184c05c9b06acfa4a57a489d528",
-    "sourceModelSha256": "4423444e10d0ca70970ec4507837d7cb7203afca765a9e46b78b189a8f83af2e",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "pngSha256": "1ec8a1c3cb562d4bd938da093f4815a3af11f5494921f9268902996b3547c79f",
+    "sourceModelSha256": "6b74a926500567325b9651a9afefedc53bb8529e2fc3e21a59329f3ef6d5ce6a",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "ceramic-fish-bowl",
@@ -924,8 +924,8 @@
       ]
     },
     "pngSha256": "2ff0fa8002abea62234f5d0bb577b54ab56962590aa1e4f992d7b453b64b278e",
-    "sourceModelSha256": "fd7adb4d21a5f35cb52f32832bdf457a0c28f62de4b95566da5b8363defbdf1f",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "sourceModelSha256": "edbd1ba5d5b89dbd38b829230a75a20b336b2b63c90fefefba53f083b9f958d3",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "vessel-terra",
@@ -955,9 +955,9 @@
         0.03709478818828538
       ]
     },
-    "pngSha256": "bfa7a60c15ea56c0ed01ab5f79f331094d39a6dd88efbd36fdf0b87eea319190",
-    "sourceModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "59f314f4cb536245296d8fc1bf52a09a4513a2f03742d626297a75057760bdf6",
+    "sourceModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-plastic",
@@ -988,8 +988,8 @@
       ]
     },
     "pngSha256": "e80d1b9cd3a64cfe8a98f3530226f3c35b89dfc1218876b5b67bc4c3e6992b42",
-    "sourceModelSha256": "127753089125153d6167d0a1f48f87fe323b212425b0bf3b705ddc18d4bc759c",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "sourceModelSha256": "02be56dbb7d0124d1c7481e1eef3c1ef33f9c8262f28b0ef447ebaf97073a30d",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-white",
@@ -1020,8 +1020,8 @@
       ]
     },
     "pngSha256": "eaeef74edfd25a2a75426ce251e414470e7342d53f3b5f93840698f08595becb",
-    "sourceModelSha256": "e8f83c602dfa215c6875222280303a51310c3b19ec53adb7b14c068574b3c84c",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "sourceModelSha256": "80a8657b78b58f5dd20799c45bd9e9ce03f4cc8b446fe02863a5b1c94750688c",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-shallow",
@@ -1051,9 +1051,9 @@
         0.04285953519417027
       ]
     },
-    "pngSha256": "e829659d7456ca5ef3750da29f6b7e4cc22c704cc8df5ce5289e3aebb46f7270",
-    "sourceModelSha256": "5df8ddcd893d92f91dac546301acbf01509c9d9a8375a75948f1e857d4403541",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "db60b8b39f68b77515e7eae05c03c1135fbfe65cae3b87406ac2108da3e1d6b3",
+    "sourceModelSha256": "2dbfa2744545a2a9a55ee58de5bcb5b9832406d8a47741dd8e09bab667758b5f",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-foam",
@@ -1084,8 +1084,8 @@
       ]
     },
     "pngSha256": "fd2b71b5ea7679d1e0c8839ef8965b266b59c119fc30c3141e92bc687e51fd69",
-    "sourceModelSha256": "5d27d703157944a01243da2fb7ebbe0b72e1409b44546f13def195ac04a8a562",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "sourceModelSha256": "71b9e30a0a68eaa1891118d653e5923dbaa0d9ca713eea76cc53b9b251e1b5e6",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-trough",
@@ -1116,8 +1116,8 @@
       ]
     },
     "pngSha256": "eb5e5dff6bcbb520d353f44f57d8665c7aa65ba9dca8d939b3d2e87e44fba7fa",
-    "sourceModelSha256": "5199d99389276db65a5604c3104db08f29ed118f79c35c40da88bf71459c47e9",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "sourceModelSha256": "1e8c7a3b5bea2e21991145c7e17c49d32c96446d8b9c1bc3e9b7189c8378e7ac",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-growbag",
@@ -1148,8 +1148,8 @@
       ]
     },
     "pngSha256": "463297fcd546ad2c27b03d8980a6e7fabd4df0344956fd02d15d99ea091f1b50",
-    "sourceModelSha256": "f811ff3c47f9df3e2a86ab72f15f84ca3759143416239aaaec0dce8d1d0c33fb",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "sourceModelSha256": "6fa6e18243dc7ac2e5ae795ecaf05a4c0c1c3d4625496ac8ebb57c4494a6c9df",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-deep",
@@ -1179,9 +1179,9 @@
         0.04332569225544348
       ]
     },
-    "pngSha256": "d5b687a68507eb758f295f9ef0556afcf50212aec8f29041363b1cf82b33531f",
-    "sourceModelSha256": "61d8aa3a43a3792bce6215aaefb10c1b0db401afb2e071065b6f143778bae7a8",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "fa401d592e15f3a442fd9b21d85f698247e08bbbe5c744aeb556b9bd0221ac21",
+    "sourceModelSha256": "0bd7965fd5f61f334946d3a573feed1e2c3bedde22493c6cae8e70a26d54a5e2",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-basket",
@@ -1212,8 +1212,8 @@
       ]
     },
     "pngSha256": "e767d3b08ec4234d20e34e044e38c2a669c23c52fc35c7490f74696e0413c7b4",
-    "sourceModelSha256": "3dd43d5f1c791ba910f7173bb078dd74a49dac0b6cd64ba0ce837eec3875714c",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "sourceModelSha256": "68f5937af2f3bbae8712d9331bde5a580a971e7149c25d109ba7ca90e9c07d47",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "steel-sink",
@@ -1244,8 +1244,8 @@
       ]
     },
     "pngSha256": "272d97cbf916654ade6dfab4df717bbc3994250faf41a974f522ccfafc779503",
-    "sourceModelSha256": "dad39605a04d0e6476ad80819883d9990b6e36be17b38e8fce54bc7bd02d4f82",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "sourceModelSha256": "0812518dff0b0a1e8c398d325625916115e4c41399cc4fdbfdbe08459b47b042",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "enamel-basin",
@@ -1276,8 +1276,8 @@
       ]
     },
     "pngSha256": "1df94141a8672f8e699817ef07b1e9477db246392ebf3052d6724cb7200b0be6",
-    "sourceModelSha256": "07371a60c1efa1f4a2c459b2153c5073f6cb5686a19c09d799cd78eb741162b1",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "sourceModelSha256": "430a03d03e604596034b88a6f58abb1537466b03adfae31f7eb53bceb415e34f",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "trowel",
@@ -1307,9 +1307,9 @@
         0.04813114387199184
       ]
     },
-    "pngSha256": "fb2566d55e9eb5b64ea3467ad7f67419cc0c60b7758b9036baca072adf2ef78b",
-    "sourceModelSha256": "3eef9dc148b3990556cf8f62867696cff0c373af0b01f00d0c5c703af0c2d384",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "pngSha256": "5f044b6827cc3ef40d1bab4ba7968b665bab14b5f815d625389ae662b216911d",
+    "sourceModelSha256": "a5a3cd0ea801bf9f26721cfbaf6b5fc204576ec119f5324c96169d6757c2cfdf",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "pruning-shears",
@@ -1340,8 +1340,8 @@
       ]
     },
     "pngSha256": "efec4697892d5108bf2e2fc25178ea8e9a0b77eb51800eabca663d6d4f30b311",
-    "sourceModelSha256": "ff0083168930cd33737a58e9fc33798db0c2529d8f8f58aded8a1aa49004e84b",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "sourceModelSha256": "298c44cf20637f5e80e275fdc0158924f518a78c34113679fa1964650d9f8418",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "trigger-sprayer",
@@ -1372,8 +1372,8 @@
       ]
     },
     "pngSha256": "09db3d8088b71bd9bfa555e72641397c55a349fa1277d649d443c8746e00065a",
-    "sourceModelSha256": "3fa5db18de407bea1323bfd4aa0bdf61eae5f57b2a415795858ea117895b9151",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "sourceModelSha256": "e2983badf9f9893c088f5619924a472541b0496f504c22728c8baf7c634a065c",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "watering-can",
@@ -1404,8 +1404,8 @@
       ]
     },
     "pngSha256": "266aab527b76264163b6afe5ba0e423be04232789ed02d2952103d9b41097de1",
-    "sourceModelSha256": "934aa9aed3ad57da0d6e55df95bdf9e573460663761768e4ca0d59ca6ce69368",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "sourceModelSha256": "ffd79bdaafa17690455ba8bc2a34e0c726e4fa8c6158fbc05f858ebf627a63fd",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "hose-coil",
@@ -1436,8 +1436,8 @@
       ]
     },
     "pngSha256": "3113fc0b270a0a0c1532e568c714b20537d6a527e352f58ba2bf306b47f9ca59",
-    "sourceModelSha256": "7e60b8e4782d339383a2dd7b75d17f4519365ffc3cf9ebedbc04945aea3b02bf",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "sourceModelSha256": "f641afa0db6a6c71f750386f0ca46cd14fef81a0e7e1db09704e514e41bbbf80",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "drying-rack",
@@ -1468,8 +1468,8 @@
       ]
     },
     "pngSha256": "6c9b1022c126151599f66e27167bd8ecd237fe2d67531186284252aa877f2bfa",
-    "sourceModelSha256": "fb5d91f6f1e8f5c09f9574fb1825a7ad28455f7bc8d421dd74246d30281ffce9",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "sourceModelSha256": "442140983be02c0fde16fdf39e15e04a8a80ce36eb8fec04fe8b70417c6934f7",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "clip-hanger",
@@ -1500,8 +1500,8 @@
       ]
     },
     "pngSha256": "e078babae306b3ca24cbeda8a1d62ca2f46a0d4f5235650e40245f55250374e7",
-    "sourceModelSha256": "1d9dbda334abd5cc36dc575d99ff3718ca005ead3d0ba5d79a4eee6fc3a985be",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "sourceModelSha256": "ca3affda4c21f5b3189b7a527e4940dba39d5a46f2fb203c30cfa8faa47baa60",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "towel",
@@ -1532,8 +1532,8 @@
       ]
     },
     "pngSha256": "a5de7e7f645fd99cb5298e43ab8c3f28168ff4d7ed86ca2ce2fd0fe78217cd56",
-    "sourceModelSha256": "fda66d5b1cf40b738533c191a2dcc796126f02fc01cd4ed0090eb9eecc748751",
-    "atlasSha256": "5b5eb1941dce55b65b010f67a12d45c8b8686d0c8b9fb6198131f8a2350e5342"
+    "sourceModelSha256": "21e5b30f9a6522e7f7d99b290b5ad603c9862c438455482d1380495ff7f2b274",
+    "atlasSha256": "6525159a9679b45f6253cc36df667bcb1cbd66b2c99d568e0e9e689fd76c2d74"
   },
   {
     "id": "tasklamp",
@@ -1773,11 +1773,11 @@
         ]
       }
     },
-    "pngSha256": "af555adb4a8ecccc2d430edeb0ce0c3fa1b20f01f48f9a46ee92bda8f90903d0",
-    "sourceModelSha256": "08e5de1717e1d61ee190951b17601a45f92af41636cf58f2e415828ff5fad6de",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "3a1143f969a67c70d19bd43edd82b174598da80879e5595c335885014d503d20",
+    "sourceModelSha256": "0bde26adb2121d3d77cceed6d78c9ae35914ee191b038dd1a2ad42b230cd1580",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "column",
@@ -1825,11 +1825,11 @@
         ]
       }
     },
-    "pngSha256": "2b4f3ae9d9e7b24ae9f418aa1c24df932485d6806a20c308655b48ead2dfd9c2",
-    "sourceModelSha256": "504aac3a3f7d2982f14e23b6b99ed52ab07196680fb1a84b43183a376028bf68",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "61d8aa3a43a3792bce6215aaefb10c1b0db401afb2e071065b6f143778bae7a8",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "d2781dc20a1235534d82cf287692672824a3117c427df2e6ea6568fd11d6453f",
+    "sourceModelSha256": "9df2e57ab922793217ec3e723dd5cdede018e50c16f77cef2ae5f2973dfa209f",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "0bd7965fd5f61f334946d3a573feed1e2c3bedde22493c6cae8e70a26d54a5e2",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "bunny",
@@ -1877,11 +1877,11 @@
         ]
       }
     },
-    "pngSha256": "60c02759faff98b54bc9dad5b0570c5b7dbd3ef37ce53ff2d1f91ce5cb3dc098",
-    "sourceModelSha256": "4fb1f5cbfc7b11e4589ede76db6721682cb3783383dee9ab8244e9f91c0d1f9d",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "ceff81648a5e5f309cbd023bce283399d5c1df4d3cc7877d308faaaaffd75a53",
+    "sourceModelSha256": "3a6a5a303d64db4e49e6de39d22baf25140940dd0fbe4a425af50706195281bf",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "cluster",
@@ -1929,11 +1929,11 @@
         ]
       }
     },
-    "pngSha256": "fc7c253930d8abe18773528931590d1f09520bd0acd9b514c85616bba43e9b3b",
-    "sourceModelSha256": "a5db5df9647b1b55c0e7563de84e11b0d376e2952b503af91ebc45678284f9ee",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "0a72fb9f8a6132a4e979be72f1ce040ddc64e16d3a292a281a77f769b522a6cc",
+    "sourceModelSha256": "16f5dbc96ad4a46653a9c171bbacceab105b0c116075a7e795fd0fca4033d3b9",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "trailing",
@@ -1981,11 +1981,11 @@
         ]
       }
     },
-    "pngSha256": "1091720ff8a1b6ecfde8adbec8cd25c89f514f98a51a1109dcb9fb2d8b98147c",
-    "sourceModelSha256": "9571df2a01926301d06ca3a86ab6492a8970e2ea7b327c0272e828cfceee363f",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "3dd43d5f1c791ba910f7173bb078dd74a49dac0b6cd64ba0ce837eec3875714c",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "c8dbb6f40f7afef62a9add6c7811136692e7d81b3b6357845527517f06bfabcd",
+    "sourceModelSha256": "4db640364ddad605a3a8528211dcc8459ccf96ca98016e3d1dad08e23a5e2fd5",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "68f5937af2f3bbae8712d9331bde5a580a971e7149c25d109ba7ca90e9c07d47",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "aloe",
@@ -2033,11 +2033,11 @@
         ]
       }
     },
-    "pngSha256": "7584bbe5c0230f27780a546de6da37d3e7be72732c3c95d3ba3cf478b647402e",
-    "sourceModelSha256": "a0eb44deef6e3d45ca5109d66922bdfa5a751aec528dc575837f4819f682ae29",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "d2e09446902114740141942bb3959f34315885a1cf97410e87514fbf5c8455c5",
+    "sourceModelSha256": "39d4c175c73614c68a4dff667552f391b5222b0e21276fdf8768279a328166d5",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "rosette",
@@ -2085,11 +2085,11 @@
         ]
       }
     },
-    "pngSha256": "36001c98afabee8c121a10476b9502f6595aea01b9e2214a2050a6193f850d0b",
-    "sourceModelSha256": "cb118590bdd58930e66ca2a481d41c903af4e61bcbad8a0019c67e0e573e77c4",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "385af4222bf6ca12ffd31334d60568a53a8ce338f7992d497d5d93ca14b8134d",
+    "sourceModelSha256": "9c6cf13ed879b34d173706da026f10251cd86b793a717077eace6a766af6bc86",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "pink",
@@ -2137,11 +2137,11 @@
         ]
       }
     },
-    "pngSha256": "3916cee309aeaa0c440664d18a59c66f8a965f93b8c32753604cd89fa971d865",
-    "sourceModelSha256": "4fd9019b02da7903fc436583cfd3b294f77d0d4596477e837f0f43871e48e657",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "81cb21868a0bd0292a2e3a9c2905ee037bd4f0634e5f29aa99f6c873b1652381",
+    "sourceModelSha256": "cbb3bc079362dbf18c803a41d6fcf3834b1ed685a8f6d248d362638c2507a826",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "jade",
@@ -2189,11 +2189,11 @@
         ]
       }
     },
-    "pngSha256": "cb8bef6ff6bc9e68abe48c586f4d62b577a3b865193d8d8dd0a0fcdcde8e673e",
-    "sourceModelSha256": "0dd26f7366405081af0403641b2a3d47c20d9649290ce44c22c52a2b56b9909f",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "d5aa3b10c7f7091daf32d00bddd1ed01f9968967c6d3b67fe208cc867174f69e",
+    "sourceModelSha256": "49b6a8d9daa5a1cabb4e161694d3e22f6b93098a20b67ca88dfc05bdf64ad60d",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "sedum",
@@ -2241,11 +2241,11 @@
         ]
       }
     },
-    "pngSha256": "677010cb7086c597d31f0bb07be0e14ac1ae01a0ee58f041e08c944c81c9d9ba",
-    "sourceModelSha256": "c3972d384065334322056f02fc9dfcc5b6a3670251bee8ba90a6b950157562b0",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "877127ecb258e1e0b08ebcb029fffa7fb01625a3c4fa248edb3f23885454cef3",
+    "sourceModelSha256": "6a669e0c6db1ded7654b51e41626848c73f3c8a9e79d1a4eb9234bb4a2ad7939",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "mint",
@@ -2293,11 +2293,11 @@
         ]
       }
     },
-    "pngSha256": "fdeb0898cb9bfe1c0a3cb269da8f084264089ef2f943c2d62c0c9e6794b372ed",
-    "sourceModelSha256": "084efb0b3e1c91318d4b3e98846dc959b537cfada7ebdef4d020e63f08ff5238",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "5199d99389276db65a5604c3104db08f29ed118f79c35c40da88bf71459c47e9",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "f2261609942ccbba5268bda9e95867f25156b7afb4937bc2d4d017ecbfba741d",
+    "sourceModelSha256": "0ec100109f9281a1e38d776f0cc1a56970aed152f080f3eb717fe68a268896db",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "1e8c7a3b5bea2e21991145c7e17c49d32c96446d8b9c1bc3e9b7189c8378e7ac",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "rosemary",
@@ -2345,11 +2345,11 @@
         ]
       }
     },
-    "pngSha256": "1894acff626b5add820b8ce5509bd81018e4efc1ac87fe6d13057709ab34e8b7",
-    "sourceModelSha256": "afef06873eb38edeb61a61295a1227fb2257b5f7b33269ae8900d3df6af131b9",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "ff586195ade64a2ba5f779e2f4186983f89a4dac7890498aba59878587153ea6",
+    "sourceModelSha256": "5ad55f48ef8e29ffcd61ca8abed131996e6bf12d3788ed83bf4f19b17d68638f",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "fern",
@@ -2397,11 +2397,11 @@
         ]
       }
     },
-    "pngSha256": "61a854acf177616bb9b936ec76e79545b5accb7faebfba7f76e7ff6d6a628562",
-    "sourceModelSha256": "72eb8bbc9634eb9b6ebe5142db1383c8d891705a353181ae5f89ffdb874b5188",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "65fb45e41032fad94f63f81ca4e6b2a16d3f23bc35767d8a76b6f44dbf63a866",
+    "sourceModelSha256": "0f7b8217c38495dc9128d1dacc7d54d512e7a98f1d558151e3953dde592d4fe7",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "broadleaf",
@@ -2449,11 +2449,11 @@
         ]
       }
     },
-    "pngSha256": "f5204dfcb55e106260ae47e48e69569780fdaf02964bc43fc422f091e3205427",
-    "sourceModelSha256": "ef7f0b90238a8e601292b8b1d8134b70e5ec49d7eff712d110843e649b084b75",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "61d8aa3a43a3792bce6215aaefb10c1b0db401afb2e071065b6f143778bae7a8",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "9b0ca6a7013a2ff49136603387d9c00528b2f60b17146a8aa9c3dc0148133a52",
+    "sourceModelSha256": "8c6bf4146ef17984a8b1f7bd93d1b508835692724da5005041f939ad815a05a4",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "0bd7965fd5f61f334946d3a573feed1e2c3bedde22493c6cae8e70a26d54a5e2",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "yucca",
@@ -2501,11 +2501,11 @@
         ]
       }
     },
-    "pngSha256": "99432f7c205c6aac123b04a0da8bd702cfda99fac03a65c6fcd8e3effd0338ad",
-    "sourceModelSha256": "19aec090644fd0aa2b0dc635de19c88d79536dd45732a9dcf36197011453f79f",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "61d8aa3a43a3792bce6215aaefb10c1b0db401afb2e071065b6f143778bae7a8",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "77779a35e8d269642bd145d6d720bcd3de59dd00f08e9449b68362cf517ffb41",
+    "sourceModelSha256": "5047fb0c86f2c082f7b67086b4467b2c9a0635371ee99b6274c720a911e82910",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "0bd7965fd5f61f334946d3a573feed1e2c3bedde22493c6cae8e70a26d54a5e2",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vine",
@@ -2553,11 +2553,11 @@
         ]
       }
     },
-    "pngSha256": "17ec5aec92b357359836162aa3910d942750150a0254325fd157f2baba3471e1",
-    "sourceModelSha256": "b22f992df5df8966ad4c51f99b6b77e81ecd2a2788d47082440b12f8a4e2f343",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "3dd43d5f1c791ba910f7173bb078dd74a49dac0b6cd64ba0ce837eec3875714c",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "9e46a0a9fff6e33384355a28831a85f3b4be0dcf4b3b55e7a8f4f35e4f31541d",
+    "sourceModelSha256": "e2a90799d4143a07a4b71e22e3af4d6a5b26661ae4e90be9505ca9154bdc481d",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "68f5937af2f3bbae8712d9331bde5a580a971e7149c25d109ba7ca90e9c07d47",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "flower",
@@ -2605,11 +2605,11 @@
         ]
       }
     },
-    "pngSha256": "43780981da6afa90e75bd1e14783507d02d3b79596b9339544c5d3901fddac68",
-    "sourceModelSha256": "844e045eb95533f6c0a88c1e7e67f801edcb735865baf73e42eb531df2217281",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "ff98958dc242520d7559d8ec404e7efd1d4eeda4dc856cc83a1086a432c165f9",
+    "sourceModelSha256": "acf5ddfe626aaf3e1ed5f25a80eb8ae0cdc5c84949d6a206146027b752e6ae27",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "grass",
@@ -2657,11 +2657,11 @@
         ]
       }
     },
-    "pngSha256": "81043b684acfc196350869fd6dc71bd36a1858785ae7c8e4c2dbe3f41225d311",
-    "sourceModelSha256": "f36e323884ea4e49df32aff506645bc07147b139b0e6989b64bdad236b433bae",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "5199d99389276db65a5604c3104db08f29ed118f79c35c40da88bf71459c47e9",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "cd41203d57f7262b81ac87be2ce1941241cdb4134d43ed0f3ca60ce507dabf46",
+    "sourceModelSha256": "33f206579fcfd235fe68a725e3c33d35405c8a0032823bb2e67374265bf6e1a2",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "1e8c7a3b5bea2e21991145c7e17c49d32c96446d8b9c1bc3e9b7189c8378e7ac",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "basil",
@@ -2709,11 +2709,11 @@
         ]
       }
     },
-    "pngSha256": "23e529f865c5b814b27504a58eec3a29b13fd1bfa2b6e30b8ef56bb37a547c3f",
-    "sourceModelSha256": "bd87d05f735d6b9a28beda159bfee091810122806bb54148557312938438a17f",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "5199d99389276db65a5604c3104db08f29ed118f79c35c40da88bf71459c47e9",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "c41e5a0f3ba81821be96d5e9955379253e5b6c05d762fe47e4db6c27e64c9d24",
+    "sourceModelSha256": "25c54847dd3bc2cf968c0fdc687764f0bd5e213b4ec077a650c573f6702243ed",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "1e8c7a3b5bea2e21991145c7e17c49d32c96446d8b9c1bc3e9b7189c8378e7ac",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "thyme",
@@ -2761,11 +2761,11 @@
         ]
       }
     },
-    "pngSha256": "aefac7c3caef744726b42e9249a8d38c91708a18d3b5897eeb61e3e3910c9f4a",
-    "sourceModelSha256": "87457012cc7dfa5dc2b3f71a7c15b10431d28d4f5702d452c8d7662890687bf2",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "2eb18202c1d531d598bfc38fe8794b048c73d6f9f5f7f7af812afbc85d2a615d",
+    "sourceModelSha256": "85938db45dcaea7c1226cda657b9fbe666764a90d3bdcd7cc35d366c69dd1ff2",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "sage",
@@ -2813,11 +2813,11 @@
         ]
       }
     },
-    "pngSha256": "2f8bafe1ee062a991106764bf05378da6847ce61bd9a89ec4e2bed7f2ec53ad5",
-    "sourceModelSha256": "44222de1df364d5900aaf8272cf5b0521628c0c0b249820162b166fa5f1dd3c6",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "21a966033a1801b2e6b04b5a6c23349565dff9aa9d4b96c983ecc0a126b8c81d",
+    "sourceModelSha256": "1ae5606fdd142f7f457b025e0a224989b1559990a5c05b488df0649fcf55d0a4",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "oregano",
@@ -2865,11 +2865,11 @@
         ]
       }
     },
-    "pngSha256": "51dc90397ad8091eb79351582af15c363bbed21c46cd0e7581a4d86ebb77016a",
-    "sourceModelSha256": "714f220c57bce02dcfde5501ec450dedc579a223abeddd46b093a72a1397ec93",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "53c7c4c7ae54d7dc51f49a68d4d1de7312c9dc2d569d486044c5f59e22bf9460",
+    "sourceModelSha256": "cd39d8cee559be17a981f87790ccfc21120c7b7f18598655dc36444ac188b90a",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "lemonbalm",
@@ -2917,11 +2917,11 @@
         ]
       }
     },
-    "pngSha256": "db2583366030701e47b5bc09caa3b17b4ea2500269c55ade4791f3003f12b9b6",
-    "sourceModelSha256": "b92be4fc786e64fe14814092ffd2d191bcd37ef04709dd312b361784ba6ab446",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "5199d99389276db65a5604c3104db08f29ed118f79c35c40da88bf71459c47e9",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "81883567ec6f59fc24327ede0ab5096ac910bfca6027cfbf0528ae2eeb7b9798",
+    "sourceModelSha256": "cf8bbabf2ca3d838f2e3095e7bf8d6e83617a72e6df656578d8d952967e600e9",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "1e8c7a3b5bea2e21991145c7e17c49d32c96446d8b9c1bc3e9b7189c8378e7ac",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "parsley",
@@ -2969,11 +2969,11 @@
         ]
       }
     },
-    "pngSha256": "cc27d29eef03bedebd946fcb3b7a4449e22f9e462c9d731b6a3e98af7dcada69",
-    "sourceModelSha256": "05c16376fc96506524b4044d90cb545a7ebeb9edeefc794c891fba021cd860e1",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "5199d99389276db65a5604c3104db08f29ed118f79c35c40da88bf71459c47e9",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "fcbf52893a1fd194f69db26b03ff55a40ade96c8e18d3b59067a389421b02e27",
+    "sourceModelSha256": "de34ea39ef60beec5c60342c20473ab6a150cb15e89e18a79555eee7fdeb0ceb",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "1e8c7a3b5bea2e21991145c7e17c49d32c96446d8b9c1bc3e9b7189c8378e7ac",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "coriander",
@@ -3021,11 +3021,11 @@
         ]
       }
     },
-    "pngSha256": "ce4066d3acded2206aede81f02005e13b3696d1f150499fad713a5f930e722d5",
-    "sourceModelSha256": "5479419125ad1f06e5ea26cd3962558e3e8eaae53ad828632259e7214afaddd3",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "5199d99389276db65a5604c3104db08f29ed118f79c35c40da88bf71459c47e9",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "5cb882083923994be43cd863af5c107344b0ba688deb097a3dd3ec4e5cdd0aea",
+    "sourceModelSha256": "82792f460ec69883b35123227b75d066fbb238074dcd15287c92109caacf0ca1",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "1e8c7a3b5bea2e21991145c7e17c49d32c96446d8b9c1bc3e9b7189c8378e7ac",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "chives",
@@ -3073,11 +3073,11 @@
         ]
       }
     },
-    "pngSha256": "7d392598dfe2437b4b80506489ea16daa66d267a89d47be2fc127b210f043316",
-    "sourceModelSha256": "8a370f95151f3ed0a0be8585e451431b202b9efd88ad860feb29b51d4ea0ed08",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "5199d99389276db65a5604c3104db08f29ed118f79c35c40da88bf71459c47e9",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "56782edee3e42c032cc6f0e6f364bcaab3e8cbf253e020d8a08ee2f8146dda3d",
+    "sourceModelSha256": "56720225fe9fc7abc80228dfc0e0330208baffd6228ac07c91b8352019b42659",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "1e8c7a3b5bea2e21991145c7e17c49d32c96446d8b9c1bc3e9b7189c8378e7ac",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "shiso",
@@ -3126,10 +3126,10 @@
       }
     },
     "pngSha256": "9894d01af05e48bf6b0bc371962cdc536d15ab411f1462c3378e1199540e6449",
-    "sourceModelSha256": "bc3546a0d47fc07bd553c5ae57bcdcfedb1f102a7419137dec38f965ff28ab30",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "5199d99389276db65a5604c3104db08f29ed118f79c35c40da88bf71459c47e9",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "sourceModelSha256": "6ccaa8d2292412d6c6a1f36fdd48bda56b16462634a1e35e7077caf528da38c0",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "1e8c7a3b5bea2e21991145c7e17c49d32c96446d8b9c1bc3e9b7189c8378e7ac",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "lavender",
@@ -3177,11 +3177,11 @@
         ]
       }
     },
-    "pngSha256": "5e541b50238947afc20d0f4579ebd4275ece65b965e0ea7b10a62f26dfe25195",
-    "sourceModelSha256": "22e3968c4cfc39fc1889e8052b0edae40e80c1d87296a34ee94a153558cc77f2",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "ece2263209d6128e47dc47b97c5c1d01cf75edba16d9787d13a6fcf5435d5b6b",
+    "sourceModelSha256": "68aff34e490c2aa06272eff774f01017e034d0a03d2ce986da9c1a40922aee91",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "strawberry",
@@ -3229,11 +3229,11 @@
         ]
       }
     },
-    "pngSha256": "ab21149cd924217ec46da39286a742f69cb019c6b7c9836814b6c48edbb2cf3c",
-    "sourceModelSha256": "21c0b42f65868e972fe1d161199a8ccd148dfd6890111c4227baded98ec6460e",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "5199d99389276db65a5604c3104db08f29ed118f79c35c40da88bf71459c47e9",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "3ccba869703f4cccb302d9245eff354adc4aedc31f66d0bb01281f0b8f1755a6",
+    "sourceModelSha256": "e66be60a3186da3378a3323a8b2a5669a94b635d77006517d11749f56679fbd0",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "1e8c7a3b5bea2e21991145c7e17c49d32c96446d8b9c1bc3e9b7189c8378e7ac",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "blueberry",
@@ -3281,11 +3281,11 @@
         ]
       }
     },
-    "pngSha256": "4627559183681a1b3aa43439da3444c831c27e970bf55b4ff5e7dafcc5a5daf7",
-    "sourceModelSha256": "9c39a80f425eb60fc2ccba6ed40861822cca0690107eb4835643a2e3f6201e32",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "61d8aa3a43a3792bce6215aaefb10c1b0db401afb2e071065b6f143778bae7a8",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "60dc6411dc790082cec9450ea62c9be5367ebad44ba82ce3b21a62b26613a0d4",
+    "sourceModelSha256": "8574dac1997a29a566c1fb8987316b9aa9576c9d3f8fa37773f656db5f439c88",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "0bd7965fd5f61f334946d3a573feed1e2c3bedde22493c6cae8e70a26d54a5e2",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "tomato",
@@ -3333,11 +3333,11 @@
         ]
       }
     },
-    "pngSha256": "f260c11580d283313518d9c778f21e13a43a8f30fe6aabad79ff086a9e31e92d",
-    "sourceModelSha256": "d1d3bc2e4314394707882b142b43d9602946746acfa60de90a94eff8bd8ec612",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "61d8aa3a43a3792bce6215aaefb10c1b0db401afb2e071065b6f143778bae7a8",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "791d5c4b419e3f6013522d53a30c75b54f40f0e7cc79e569dc3025ca1f078914",
+    "sourceModelSha256": "242ab3b26143f0b43a4598ba3152dec3740eb0c419cb71bcb01795962a0a1b1f",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "0bd7965fd5f61f334946d3a573feed1e2c3bedde22493c6cae8e70a26d54a5e2",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "chilli",
@@ -3385,11 +3385,11 @@
         ]
       }
     },
-    "pngSha256": "ed9a9155927839bb231fc0c6d33e0305849de7bedad3911e47149a2aff9aaeb6",
-    "sourceModelSha256": "dcbec35451d4203ede8d9291e33f4c794f3a5d85859b7d3e2d6e6a9bbb1c6097",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "61d8aa3a43a3792bce6215aaefb10c1b0db401afb2e071065b6f143778bae7a8",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "cd3aec3b576718e1775fa8010277960624483cce665c2b1ef0ea6f7f2c468aad",
+    "sourceModelSha256": "cd751f244d67eb72512baaedda5c22eff1f8e1578f12a77b3d022589d19ad1c7",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "0bd7965fd5f61f334946d3a573feed1e2c3bedde22493c6cae8e70a26d54a5e2",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "lettuce",
@@ -3437,11 +3437,11 @@
         ]
       }
     },
-    "pngSha256": "c8498f42bde8e8b6f44e6dba1168ebc866cd433cd6138d922cd3260c17198f21",
-    "sourceModelSha256": "3ea93b16a598877f29ffb280a36ba0019d8809cb24572e7c320e61b17fea1d9b",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "5199d99389276db65a5604c3104db08f29ed118f79c35c40da88bf71459c47e9",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "2ef239a793fb2ed9d1c12869765fcf55d17da90602ebf7e066c959d032a323d2",
+    "sourceModelSha256": "18151718d221a2a6d42e5c1903e5798154bbd345cb33c843b4a14bc43c630977",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "1e8c7a3b5bea2e21991145c7e17c49d32c96446d8b9c1bc3e9b7189c8378e7ac",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "radish",
@@ -3489,11 +3489,11 @@
         ]
       }
     },
-    "pngSha256": "dda9932fe9447b92d4a0ad4b97aeeca7e12577a75b857a625fdc44620314790f",
-    "sourceModelSha256": "955e5d020721f7ec77a94ecc34adc84481e88065a763b18df543432e90555f8a",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "5199d99389276db65a5604c3104db08f29ed118f79c35c40da88bf71459c47e9",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "ee4fb8b7a0d68c90b52da8c456946e9e9e488cf05ea19fbd193f8d4696c1ec1f",
+    "sourceModelSha256": "a359f2ac8a79cf5d1da546c3699c5ba787cd7f7c5874c9a9a19b96658c960788",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "1e8c7a3b5bea2e21991145c7e17c49d32c96446d8b9c1bc3e9b7189c8378e7ac",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "peppermint",
@@ -3541,11 +3541,11 @@
         ]
       }
     },
-    "pngSha256": "0b265fec851c375b9c753b6456b0e1c7c331c9403363e1583547dc0594009c55",
-    "sourceModelSha256": "c36e065b4048192c93365d9329869eaa45ced15b4c566dfb3fe586aa7e7266e4",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "5199d99389276db65a5604c3104db08f29ed118f79c35c40da88bf71459c47e9",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "5562a1541a5e377685edca9b5f59d6737ed741d677ef52012c4de1db0aae3011",
+    "sourceModelSha256": "b72fdfcb13bdc70da868cfb1ab66ea0a27bf0fc2c790ae658b307e2b1352ada5",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "1e8c7a3b5bea2e21991145c7e17c49d32c96446d8b9c1bc3e9b7189c8378e7ac",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "nasturtium",
@@ -3593,11 +3593,11 @@
         ]
       }
     },
-    "pngSha256": "a8d34833c225575b271664dcb006b7a5a9c775682dcd09ff26f1d253a8f983ca",
-    "sourceModelSha256": "c477f8b81019393815baead99e695fb0d930fcd894fce61fa805bc788e4c3322",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "3dd43d5f1c791ba910f7173bb078dd74a49dac0b6cd64ba0ce837eec3875714c",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "4100414539b78e92d7dfff49305639333d4a1c8a95bca6ab6ae5f75bb7c5520f",
+    "sourceModelSha256": "b429cfc9e8f921458eff4328c1d9c4a202b949bc03fb817763393253aec87778",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "68f5937af2f3bbae8712d9331bde5a580a971e7149c25d109ba7ca90e9c07d47",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "pelargonium",
@@ -3645,11 +3645,11 @@
         ]
       }
     },
-    "pngSha256": "e1db8131fa57b6125aa25867f8a7a69ca5029f9189b26fb91faad1b6032d18d2",
-    "sourceModelSha256": "ad653c6187e8abaaf227359b40853366f8423b3e104653edc0b9a0eb3876ceef",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "e200b4b3c3ba018eaa5463054740386b6da2a6c4936255eb87c6a852cca77aca",
+    "sourceModelSha256": "b095685450540d48ce4fe0abefe2245ebb46d34541f0b69f259c7ed1abe5387c",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "marigold",
@@ -3697,11 +3697,11 @@
         ]
       }
     },
-    "pngSha256": "0fafcdf3f8c10de33ad905e083bca136751a61c302e9649a6e97548d21a0636d",
-    "sourceModelSha256": "dd8c3b3c425f0f253067c8af0583ee42689cd1a8f5aed1c3c3e80a3bc997653f",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "7ae1deaaacc9e9709266e51f1ea5f94ac3988912f99496ef4d38911cfbd82d6b",
+    "sourceModelSha256": "78cb7b041716914d8484b2bec89e6c59b6fff42e4b20e68aea2be5ed9cb34e7a",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "zinnia",
@@ -3749,11 +3749,11 @@
         ]
       }
     },
-    "pngSha256": "d491b98697c7e961835fdf15b47c8ea9de52f9ed387999f32b8c2b22f13eae01",
-    "sourceModelSha256": "3fdcefc5ae63352e21eb16a06c666e858064bfd548218c595eca69eb5f4534c7",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "960e02fc738c7fa5cc9e462dfdf848d2a1d411bbaa8b9f8dc274cc7104c45cd9",
+    "sourceModelSha256": "d5ee4c73a3d8fd82d54b03616ec3040e031ac2047c11011e7656e6022954cfd9",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "cosmos",
@@ -3801,11 +3801,11 @@
         ]
       }
     },
-    "pngSha256": "0c9672cef15cf23b8ccff0bba90e63766a6dea8bb2769cbf3e2a35af4b6f8421",
-    "sourceModelSha256": "cab5964e9a5b97223b3939766a1c0e302937b54ea9c94521378e2f491c574711",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "65d055bbbdbc9facd48b02aeba233e1eba189e0d1e41c27b6ca4b2264b21fa32",
+    "sourceModelSha256": "12855c448c31baa36aaf46c0f21a2db0d2200fb3b7eaffcc15f539e46ff51361",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "pansy",
@@ -3853,11 +3853,11 @@
         ]
       }
     },
-    "pngSha256": "75cb58a24eda4dd8457d6f800f5180abc76c66ce97abd5060c784ae6dc838acb",
-    "sourceModelSha256": "1e5165b21f231b985b838fab66f373491f8b731ff2f2ba9461c59ecd75e40064",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "9d3203bec5bc4d619fa327a43e44bd17c0e7d12011c457789d435b8a7ab20439",
+    "sourceModelSha256": "35b032622b5c0816883ad32dc69639270e4d495d4c965e52c9d71a8973868094",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "hydrangea",
@@ -3905,11 +3905,11 @@
         ]
       }
     },
-    "pngSha256": "c6440fa49e138ac0fe4400176f0690bda0f80f24fdd1abe15979740a19faf43c",
-    "sourceModelSha256": "98023256aa02c7adae0b7c2b238f3119c6fe5131a3a96b89990bd529e409695a",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "61d8aa3a43a3792bce6215aaefb10c1b0db401afb2e071065b6f143778bae7a8",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "12b88cc6422ad1494b2755c6e0d66d7afa189b8ca924faaba84c00b611378bb8",
+    "sourceModelSha256": "c7fa63a53f57670c0a6bcf8587dd8badddba7ee031f39c64fced21b8ee1eee7f",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "0bd7965fd5f61f334946d3a573feed1e2c3bedde22493c6cae8e70a26d54a5e2",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "rose",
@@ -3957,11 +3957,11 @@
         ]
       }
     },
-    "pngSha256": "35a685af333461b3581c7765f0e0bc8749d7a34195186a268bd48e336bff77aa",
-    "sourceModelSha256": "133ed2bbc39d713dcfcd737b51af31ef0c34baccb4bb9a5dafe7a0b6f2557d8a",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "61d8aa3a43a3792bce6215aaefb10c1b0db401afb2e071065b6f143778bae7a8",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "e0f819a2fb7e2c256281bf7aa995b80f081fd39c0b204bc6cb2943e1847192a6",
+    "sourceModelSha256": "ac88ef2b6370b6208f3ffbd0e65a6fa0b8616676663c23c6aac142d936372250",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "0bd7965fd5f61f334946d3a573feed1e2c3bedde22493c6cae8e70a26d54a5e2",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "camellia",
@@ -4009,11 +4009,11 @@
         ]
       }
     },
-    "pngSha256": "5a6b917afbab240a4349469fa9e1ac993786ae8a0e4c6647279a88e5443d98d6",
-    "sourceModelSha256": "040494221c73781acb7ddecc73cb9a89006f3dd168e8d5e289f924c268667f67",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "61d8aa3a43a3792bce6215aaefb10c1b0db401afb2e071065b6f143778bae7a8",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "6bad5929f3d1056de5963afaf4f7206443c83c59b42c407aa3edaa24d5999185",
+    "sourceModelSha256": "c3c509c19f4479f218e83aa9285371de5a4056a3d7551b98b14b09d330c7ee07",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "0bd7965fd5f61f334946d3a573feed1e2c3bedde22493c6cae8e70a26d54a5e2",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "gardenia",
@@ -4061,11 +4061,11 @@
         ]
       }
     },
-    "pngSha256": "70697d10675c205a5a1990caa764180cce0bcc6e27dc22951531c818ee7b7507",
-    "sourceModelSha256": "002c07495649ee4166c57886771f8dec533d934a175e1134574c5359a11f8cbe",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "61d8aa3a43a3792bce6215aaefb10c1b0db401afb2e071065b6f143778bae7a8",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "236d52300dc9c06b724142ed5b6bd8da069419afd58c0cfa09caf7c29bab59be",
+    "sourceModelSha256": "e997e3724b5cd57da6e972c0332198d1104273c2b0804424315dc20454122a68",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "0bd7965fd5f61f334946d3a573feed1e2c3bedde22493c6cae8e70a26d54a5e2",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "hibiscus",
@@ -4113,11 +4113,11 @@
         ]
       }
     },
-    "pngSha256": "b825cf25854835b2f5dfc8ec786b068e56fd33a021faee1649b0c5f4a9acffdd",
-    "sourceModelSha256": "2e38d3c52f8a3ee7d2525475778a78169bad27e344afe09a45de3d18b33c4c47",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "61d8aa3a43a3792bce6215aaefb10c1b0db401afb2e071065b6f143778bae7a8",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "b7e6be89ce6131d1dd69638018adec56dc8967ab185b852c69a85a9f41bf8ab8",
+    "sourceModelSha256": "4fe05d74d7d21abf9182dfc9d72baea439f0c18ed78f91bfd7562f3097556d19",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "0bd7965fd5f61f334946d3a573feed1e2c3bedde22493c6cae8e70a26d54a5e2",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "bougainvillea",
@@ -4165,11 +4165,11 @@
         ]
       }
     },
-    "pngSha256": "81efd31ce0689dea6fea1d56a9bdc79d7eaebb0284556a6278683c0258f7c2a2",
-    "sourceModelSha256": "6306bdf1bfa308337fcb784b8e4585b1d1529957687ef3bfcfb54e1dd10f2951",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "61d8aa3a43a3792bce6215aaefb10c1b0db401afb2e071065b6f143778bae7a8",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "fb7157c5270d2f5a2cbbd79858e98f467aad3cdd1066d89a02903358ab6b5a1d",
+    "sourceModelSha256": "d032ad0b9c67326d2fff69eb20bae9b388131bb8827c5eae26e73990bbdc053a",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "0bd7965fd5f61f334946d3a573feed1e2c3bedde22493c6cae8e70a26d54a5e2",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "jasmine",
@@ -4217,11 +4217,11 @@
         ]
       }
     },
-    "pngSha256": "cc18ffe79889d16c0d44f9c4ba63a04b69f04237679620bdad9d6fcaa36897a8",
-    "sourceModelSha256": "dd73ce07b5e5b56fadd8febb436ca72ea1a2c2b7c805733ecb845557f84b741f",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "61d8aa3a43a3792bce6215aaefb10c1b0db401afb2e071065b6f143778bae7a8",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "68e7b4260052ad5398b951687cf9ace0ad1bc07726dbe52fa271e8cd68a79865",
+    "sourceModelSha256": "e4d4a42304102953bf3027ed5cffa8db5cc016fc5145b1aaa2b7eb7182bf74ba",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "0bd7965fd5f61f334946d3a573feed1e2c3bedde22493c6cae8e70a26d54a5e2",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "fuchsia",
@@ -4269,11 +4269,11 @@
         ]
       }
     },
-    "pngSha256": "c90ab2ef482e2776f75d7ae0974412e7286e1f070b7ece76b80412db723ac7a1",
-    "sourceModelSha256": "f09f8626d24ab80ad3725dca84c9faecb8cf70614ba82e4df79d37f5b67ef249",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "3dd43d5f1c791ba910f7173bb078dd74a49dac0b6cd64ba0ce837eec3875714c",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "a3e55ee3d68b71b1f2f252559edb89c0148ed29c4394e4bbe84df37037b9c131",
+    "sourceModelSha256": "8dabe1ea73b1aacc8c8827e108454815e1a13158dafda39e1e9772ea4840500e",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "68f5937af2f3bbae8712d9331bde5a580a971e7149c25d109ba7ca90e9c07d47",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "portulaca",
@@ -4321,11 +4321,11 @@
         ]
       }
     },
-    "pngSha256": "2027eba94612bfa6e10656069ee9559db63c5b42154db0f2f1b864de83f56315",
-    "sourceModelSha256": "9126a485f7640530071ad1294947fa9da5217467f098b0e308f7c9aa62ef2604",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "b5148bd7b90d35833182f01318354c02bee43abdb212729cbd98035804f9308a",
+    "sourceModelSha256": "d330c7b4158e728d39a81bc5c5dff3b1c8aaeb5a90516faa74ac9fc37e4c672f",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "kalanchoe",
@@ -4373,11 +4373,11 @@
         ]
       }
     },
-    "pngSha256": "49165595b35ff749cb42bbfcb8a268f929c1585eebea80f3d786bb092bc9dd14",
-    "sourceModelSha256": "2186500a5e45b1c323dc57d54140c9b12bdabbdd21d3ea7d8819e0473381bdd1",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "857de7a8757151a344e95d2a882f603b7dbf85601916d28d33c23935d9f4e31d",
+    "sourceModelSha256": "bd7d9bdd248130a2cb205b0e21a157563d2b309384ab902f0135cb5179e02080",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "haworthia",
@@ -4425,11 +4425,11 @@
         ]
       }
     },
-    "pngSha256": "a198e314a1b75d8b57e32cc6b436abb90ab79edea576afa263af38813fbae631",
-    "sourceModelSha256": "c85b07c0c135de7d9f0c98a763f0bf1756791ef5ba01e4dfc843c522e872e09c",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "e518abeebc2670f9814c0169c19f72be6766f6794ec873248e28e193995473ed",
+    "sourceModelSha256": "873f342312d03d2c7dc4b0400c20b71b108be3bb3ebeacf403f8ae37b82de2cd",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "agave",
@@ -4477,11 +4477,11 @@
         ]
       }
     },
-    "pngSha256": "b4abdfddc2f2ab63f9c099e5c675d97e302589262a17e1a67aae7d888dec809d",
-    "sourceModelSha256": "0ccc405498111bd042b885b53a70141d503ae537a782c2c214bd3303b1943d92",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "61d8aa3a43a3792bce6215aaefb10c1b0db401afb2e071065b6f143778bae7a8",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "f089662c5ee74bb73f179b7443d33d03ac8c5961be69ef716b430c164825901e",
+    "sourceModelSha256": "a76f55a0c714b75aedd9284590766691f4d598330aa03c25bb7f3889e1b6121d",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "0bd7965fd5f61f334946d3a573feed1e2c3bedde22493c6cae8e70a26d54a5e2",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "snake",
@@ -4529,11 +4529,11 @@
         ]
       }
     },
-    "pngSha256": "c577898b99cd8b53dd43fd45b4d925801f98c347e8ab178887360f9462ffea35",
-    "sourceModelSha256": "8e3532497cb1badc810bd93a87380dfc81ddfa12a88df11af849becf2b79b8f5",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "51c767c3144245cfae5819ceb3c94c7496832def7daa3cb7814e50e65efef511",
+    "sourceModelSha256": "3d493fe7bdfa3044146e83b641dba2119c279c00fe62b9e5f6b1d7ae4e50aa08",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "spider",
@@ -4581,11 +4581,11 @@
         ]
       }
     },
-    "pngSha256": "0369804a9ce3c1845529689a3c48d3efb9254d464854984d50299f150e307cda",
-    "sourceModelSha256": "cab5ec33384b8684864a308d5e98587163298ac6fd3835788195edc099099920",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "3dd43d5f1c791ba910f7173bb078dd74a49dac0b6cd64ba0ce837eec3875714c",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "b10d11fde664210cbdfb2072244bc2da3fff87ee510c0ee5d6182bedd9fa6a83",
+    "sourceModelSha256": "b395166d39e81935acbc2be9e2443971b8cba32f816c2d590f18b2e1fce5516b",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "68f5937af2f3bbae8712d9331bde5a580a971e7149c25d109ba7ca90e9c07d47",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "oxalis",
@@ -4633,11 +4633,11 @@
         ]
       }
     },
-    "pngSha256": "369d7f4808a4fc1a853b957d75ac3e3e8b70a7391ec6936badb7d3556ab1e24f",
-    "sourceModelSha256": "60b82fe393a552bee2277ca468c6256270360ee4902f90a6c2e50bbf52e940b9",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "ba83173da2b58a283f45ae3345c548c17cfafe5049a849daee582c6e8850825d",
+    "sourceModelSha256": "c6741104124a27483ed303a24d645c6c246f224a36450bd8d148184b8c0f1d5b",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "coleus",
@@ -4685,11 +4685,11 @@
         ]
       }
     },
-    "pngSha256": "b77aac278b8eeee4027df8ec3c5699ceaef15903a0c3220de9ce46ed4aaadb6d",
-    "sourceModelSha256": "034b2af38f7d0181bb707d42b3a667c03d7208d107a3a81361eac538fde6332a",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "bae038387d29531bc4388532a0b0e41bd5eabd102dc51a5c30b9aed89f96154f",
+    "sourceModelSha256": "f26e23245538ea1e38cc1eef920492d1f602a9c6bd96e2dd9e833cf37059b9a1",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "hosta",
@@ -4737,11 +4737,11 @@
         ]
       }
     },
-    "pngSha256": "8a9cc561d04745d20c1d26de360fe116a23769d7dddd81337745404293527bae",
-    "sourceModelSha256": "d6149e71a36cccf1fd56e3cd906e3a505a8145da88e7e47d4a1d5d7a85fce30d",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "83a4db84ae621d77f5b9ecb87f7cfc8b1b7a0707671434162615183ffeba72e8",
+    "sourceModelSha256": "9396f177f8ec47250629238d7ae18b1fcf1b042ac933b345d3395859d073051f",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-myriostigma",
@@ -4789,11 +4789,11 @@
         ]
       }
     },
-    "pngSha256": "0791901cd5f7be17b1e244e5f4afcc47feefbcb0414f3d215932700666e2a6f1",
-    "sourceModelSha256": "18c0bf62fb89682fad5788194493c38b1f6d3657cd61049893c56e9f9f9df9dc",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "0c7558f0a41aecc5104af42c4ce28921d964762755a4caa041c348f4eb7f767e",
+    "sourceModelSha256": "06311a108a8a6fdc0b3563a065cc0bf90ab790a8fd6426f0d46ead9c52f2eb2e",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-asterias",
@@ -4841,11 +4841,11 @@
         ]
       }
     },
-    "pngSha256": "f5a0dd13353102e506dccf968e65a1ed8a59371a28fb8dafda222257fad7d305",
-    "sourceModelSha256": "dc8e43a6c9a0cb9d7d7573ac52c1587ee09585e46ce4e44c6229c3c8bc906a68",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "cca90be07e13341ed2032e97a22fd1f667ea20f2fcfbc60441f2b1e9f7b77ea5",
+    "sourceModelSha256": "0fa29f4e903c21376a630b271000aca9ae23d0509eab4499c6dd712d7f927e66",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-ornatum",
@@ -4893,11 +4893,11 @@
         ]
       }
     },
-    "pngSha256": "da907c2796b2f610f96deec53470e4ef5372ad7a4f5670737a5552cc2465cd25",
-    "sourceModelSha256": "c237521666997ae44060d5e58c850148600a8eaa0a2637260596afad737d43b2",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "12fdcc4430efe9e33e80124bf316573729e1944e392e20e47be074282f9321c2",
+    "sourceModelSha256": "7432d472c7e97a44f616014c81aa227d9b9e8ae9095afb506a1cd2ebef4e18ea",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-elongata",
@@ -4945,11 +4945,11 @@
         ]
       }
     },
-    "pngSha256": "b33976b14d04979ab04aa0f09996022962afe4413c648b5060f049ce70825a73",
-    "sourceModelSha256": "c2b278f3559db9e5c5d9eaee24efa3b228504984278842379d01b5cb0541faa0",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "c1a308ec6d2e7c169efee2496390142a125fe4a527a1bb7c044413b0faa99e6c",
+    "sourceModelSha256": "d7742ea1d78d51b40bcf9cf8143945e6358efee1376609ed20628eb941cba015",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-bocasana",
@@ -4997,11 +4997,11 @@
         ]
       }
     },
-    "pngSha256": "86f38e93e22d663b37303ce3c15a978e712c9a8aeea4a011d144fe58684b3c2e",
-    "sourceModelSha256": "34f8489e8254f049e48dcee423eb0a0c2114dfc5d1f1d792922e048fc4ce688b",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "106c87311fd13ce574461c2ad01cf2f4404cfa1a4561694b94be4f9f576bb20d",
+    "sourceModelSha256": "ec0864ecb0d2162d9f99e981d6460fe3a5baf15e4ac0a79964c922810abea8ec",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-gracilis",
@@ -5049,11 +5049,11 @@
         ]
       }
     },
-    "pngSha256": "3b087b7d2149234a5d6a4f9217d7be1bc2ccdcead789a7da1e7e199e89e6e5f3",
-    "sourceModelSha256": "89703f9857751350087a1a2c4269c67517b8c64f71f4f92030f77728c381993c",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "5905bec4b7e7b5248386d8f79df35a6f2ea4b0355917dda9345cd13b0081c9fc",
+    "sourceModelSha256": "e92736e842d2fa45da925461d161afeb4fa62332326d401caa3c5bec7a068a5c",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-spinosissima",
@@ -5101,11 +5101,11 @@
         ]
       }
     },
-    "pngSha256": "5ea80340a3b07f0b66cccf16f6d8c4bcac7bf2e00f00ff8944265a760f23e1d6",
-    "sourceModelSha256": "cb04796f4e86830a6b7feeef1e5fbf1d117abec5f3a9840f25fed417a7d5bee9",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "a5802b2c4e36f101edffe6dfacf21e89a2cc8954d854f922f29a27fd4712b5d0",
+    "sourceModelSha256": "58eff60e72a976941a6f0a6576e7fdc5c1b540ac2676719ecf56ba262a892733",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-mihanovichii",
@@ -5153,11 +5153,11 @@
         ]
       }
     },
-    "pngSha256": "8805363609856253c4aa43935b139d3d2e8c188e5f5830e597a2ff4c4322a59f",
-    "sourceModelSha256": "cec526717295e057bf2b72a7c8473ce6f71f0a60062862f0a976a1680cb7672b",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "77f4c0f3119f3644e9979991844a709b1a1907b7a17c8453c3ef4c5be5b4648e",
+    "sourceModelSha256": "b968af75d313a2405957454dab6afefea127494f949286b4c07916b3a05eb258",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-baldianum",
@@ -5205,11 +5205,11 @@
         ]
       }
     },
-    "pngSha256": "255f6761baa1dfc90209d1dda664d7857a88616747a2063692e9e0cf66e484b5",
-    "sourceModelSha256": "8db1b2ce941603cf38cdb3822cb1b425859b6ae42b28df87c534293ba1d2d608",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "b606f2d1d994fc41912417b66e4302cd8a5d8e887d805cb2deb298f121a4c825",
+    "sourceModelSha256": "7351d858b8c39db6b1860060a7747adaeb2eb5b507af460ffc6386c6e8d5a472",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-subdenudata",
@@ -5257,11 +5257,11 @@
         ]
       }
     },
-    "pngSha256": "c2860728b8e677fba5125deb5ac765509dfeecf55833e8638c68602fae95b018",
-    "sourceModelSha256": "ae48e9b437ca8ba5f1b4d2d9b9221d56cb3b87661f060608ffcada0529f08f46",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "200aad853f86b799402b0a89ae7e57f14a64d137d4d98d6e9c26fe3bc08ec434",
+    "sourceModelSha256": "a22137fc978d8c01e31483c9505e7260769533481d4dfab751408426d84e2140",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-chamaecereus",
@@ -5309,11 +5309,11 @@
         ]
       }
     },
-    "pngSha256": "0356da03a6c9facd6f494143620d0aa5fda133bd5d0d0a097d3d2111a5f950a5",
-    "sourceModelSha256": "10242989d5aa409d6e892526cc0e2332e8c27926b0f480d7c8b6fe1438bfd916",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "2c77aabf94f2e93d245c571eed78af70903f79ddd6d87d6fb12cf18db3bccddf",
+    "sourceModelSha256": "82bac6a287b3982c3920d76982961a84520ac6173e62a968920d503844b0ce36",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-magnifica",
@@ -5361,11 +5361,11 @@
         ]
       }
     },
-    "pngSha256": "8768f91de20f18e79e505b2bc81afb58e7c2fa1a4d86c11767ca992b8ba3411d",
-    "sourceModelSha256": "9bb8e75dcc2845c0cdb3be0afc381ec13fa616d7eea5ec552213e0ea4721c33a",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "7bb9134de462c1c3f0c441b03da343f635e4bedf2ef1a17847777624f173ecdd",
+    "sourceModelSha256": "90fbdf807a863fb5831b990253de3cb776d4c3a2f72d8e7b9e4c1d16e1424067",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-lenninghausii",
@@ -5413,11 +5413,11 @@
         ]
       }
     },
-    "pngSha256": "acb917fe65315062fe1ed667ebc4b485b22f406ddc79b21adc4c4d5884a9b9f2",
-    "sourceModelSha256": "38600e2fa3b13612206d47cfff2e3e09684e07a0c40aae4a13681cf5a79bf2dc",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "4e8602c17d0272dfc81696733a9222e686fd1e7b9668cf0b9d0fa02fdeb9016f",
+    "sourceModelSha256": "aad93033c9cdb3eae8722d4d0061d303a89151d770d66ff1405d3f6fe88628b2",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-minuscula",
@@ -5465,11 +5465,11 @@
         ]
       }
     },
-    "pngSha256": "b555f7adf9092ff0cc6438820fa9bf542d8493c0f153743fbce452dfc0b4e234",
-    "sourceModelSha256": "0bd624c4bd0303f592a057405050c17bf2679d1790dfd1327337a59054d4da0d",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "828378a39211caf23fee6bcb2a9ae5f5a62b528f1676b8a7fce4e3fa83eba2ec",
+    "sourceModelSha256": "a222648b40ecd4c3f0a42ec90b75ffacd459b11eb8bbb5aa8080c4e3bfeb6f71",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-latispinus",
@@ -5517,11 +5517,11 @@
         ]
       }
     },
-    "pngSha256": "ceb073ea8349316228fa99b75a020905e75055a24b4aaab7c0f9784a98303bad",
-    "sourceModelSha256": "0205601177766175b02605be88a66e114726312feadf74669fa0f1652d33e057",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "fbf2840743c7f41dce672a3ba0a84ad32056bff4aa05c1292cba4a0a39fe66ee",
+    "sourceModelSha256": "290168f5c4aa1e5abd39fe53efd802da887bea5d6d7d49b3c99efb3ef922af63",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-multicostatus",
@@ -5569,11 +5569,11 @@
         ]
       }
     },
-    "pngSha256": "4011039c8e4fde805437ce05bd672d3dd200f439af6f84dd88ee67368d44a176",
-    "sourceModelSha256": "75d35218716552d8e0ef4d9c46f26407a47c765fa798578bdefe4baf6f898318",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "a154acc99501f9e910d2db15f8977f9cf8855139de1360288930b2aafa96efc8",
+    "sourceModelSha256": "a1d1a2aecae40dab06d128af57a6589006e9b4d419b9f20b4b9905b8f6e0d405",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-senilis",
@@ -5621,11 +5621,11 @@
         ]
       }
     },
-    "pngSha256": "379594f80e7726ac4dbb9ee5e368222dc8deb261062461e2d6f73d16439fb8d8",
-    "sourceModelSha256": "f99349d74a3d1da034b350e5e4ea7ca0f78f5cc809204ef63f24f24f1a451f2f",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "be0941268aa3827a589e1b2644f988422568fe37d3a5abe3d6e7953aa13cd7ab",
+    "sourceModelSha256": "b16981be541d525824a8ec95e13174269f00f1aedd2fe7ac809e6f3b6f12430a",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-truncata",
@@ -5673,11 +5673,11 @@
         ]
       }
     },
-    "pngSha256": "02d1caa76badb1654dfaa814464fc14f3f7f64b5552c1693cc4591031e70974b",
-    "sourceModelSha256": "05dd6196884436e48fb083b887f663211077ff62bc5369504cb290e47efe353b",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "7ac0388d9eebb8deeaf7169f567f368159c765a714716e87ff8111fe8d76ae25",
+    "sourceModelSha256": "488f85da2514986b4e7986de84de990986a9e85528bb0d9529acda7e6c9044d0",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-anguliger",
@@ -5725,11 +5725,11 @@
         ]
       }
     },
-    "pngSha256": "017cb6e71c2b6114af5b9012baf67264cc8572776fe38a65a4e4f80c477f1b5b",
-    "sourceModelSha256": "2a8ebca1113355da403488ddd09c1307376c35675ac94e7e7951577c93e84423",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "75231b6ed4c3b59a5009f96029edee00ac19933bb7b2c28cca68630e39794fb0",
+    "sourceModelSha256": "087eb76868067993499106a545548ab2924a38f674219aced0d81899e1805331",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-baccifera",
@@ -5777,11 +5777,11 @@
         ]
       }
     },
-    "pngSha256": "7dd0a7c229944843c2007236bc4dbf70e995d0dfb6277313d7d64c1f0463ac43",
-    "sourceModelSha256": "9daf4faf5020846bd2dbeefc0c2039402e060daea64dd120b4b4af6c6004a6e7",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "1ed1f30433ed8eaee2e587d0c9c436b64abae0d28cc26027ac746858ae6a5a20",
+    "sourceModelSha256": "dc2ae4a2aeb56a8e8a82967cdb86b674db0c90e4a2cef6d4ff76802cfc81fbaa",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-aucampiae",
@@ -5829,11 +5829,11 @@
         ]
       }
     },
-    "pngSha256": "80feec4e9643efaf93d6df91e19c30c138b1a4ded27cef951fd3cdee9deb3c6b",
-    "sourceModelSha256": "bf41cdd72c2c4bcab2c0a6a5d087d294606ccc761f856cb00fc5f6e21ef32067",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "5df8ddcd893d92f91dac546301acbf01509c9d9a8375a75948f1e857d4403541",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "1ca3349bd2966b0ea5610ee94dd7bfe2d0c03f02ac2359cd1b91a7fd3e28f92e",
+    "sourceModelSha256": "e14ed808012267c508babf4e518cf8c684aa258e788c9aa5a54a5138b58b6bd3",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "2dbfa2744545a2a9a55ee58de5bcb5b9832406d8a47741dd8e09bab667758b5f",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-lesliei",
@@ -5881,11 +5881,11 @@
         ]
       }
     },
-    "pngSha256": "bc505b84d9eb81ecf99d3717e52b6e8b2553eae1d5f183ab7cbe8719abd3417a",
-    "sourceModelSha256": "ad926af5ce52896851949510b380638a4a2eb65165cfab83fae16feb9bac8eb7",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "5df8ddcd893d92f91dac546301acbf01509c9d9a8375a75948f1e857d4403541",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "42178e4096ec5edb03523c420a9001327376b90debc8983b64dcb475f87dfb37",
+    "sourceModelSha256": "27acbde6977861c9fe105d794aa37367af71f270c405728a6c7d146dccbacbbf",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "2dbfa2744545a2a9a55ee58de5bcb5b9832406d8a47741dd8e09bab667758b5f",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-rhopalophylla",
@@ -5933,11 +5933,11 @@
         ]
       }
     },
-    "pngSha256": "38f4064afa53a4c4743d1089f8dc86af60319098d2bd8fd8b7b453aa77d9c823",
-    "sourceModelSha256": "0957a7dd3877649efee807ca1ad549e9a6a7b4789653fbb25618be891babaf7a",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "643ab6c0f4b95d870c26937040f19db6bffb87118b9520c7662f67b2a870be9e",
+    "sourceModelSha256": "19035e934c2254360da24b9dad1589f248620c6b0ff4b894dece00d18185055c",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-nelii",
@@ -5985,11 +5985,11 @@
         ]
       }
     },
-    "pngSha256": "97d057b6bae99c0e7fe3bf7bac2785bc0ff6450db7221a7c88dee5c92d7bbf5c",
-    "sourceModelSha256": "515f3426703e50e1ec624b2d64aaf5db0ce6cd3a493df1eded1548af251ba710",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "5df8ddcd893d92f91dac546301acbf01509c9d9a8375a75948f1e857d4403541",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "b1c1f58ba8ad9034aeec3f1129729ba2a437abade5576e853a7eb08c41bfb4d2",
+    "sourceModelSha256": "d70244bc9404f20808c2f81c1c9153fed5fed3d8a57e7ed45886b3d14a6fe9d5",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "2dbfa2744545a2a9a55ee58de5bcb5b9832406d8a47741dd8e09bab667758b5f",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-tigrina",
@@ -6037,11 +6037,11 @@
         ]
       }
     },
-    "pngSha256": "b5c9691d8d56ef4329f7b6e6677973d468298dd66d5ffb5bb21e4b5d0ea591b2",
-    "sourceModelSha256": "37a018a3e8b18a331e004a06528172209ae98c6df0814a4486f7cc88ece3ba89",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "2888fe635dc8d8c58b191e9d12a1bb709e313d85362aa6486d2f602b9b08114d",
+    "sourceModelSha256": "9de2cdc0264fd6e651ecbe0308815f478b24ff4a0676f84eac41d2d806ab0f14",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-cooperi",
@@ -6089,11 +6089,11 @@
         ]
       }
     },
-    "pngSha256": "5b61b10a4e12c5102af8a253b1ef2e15a160fb45a93e3bed3def45f1115e0351",
-    "sourceModelSha256": "cdf0be8f87ee8de91023a5cceb3976392cc3012f61c4d0c62163c56bebc1de14",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "9f25d6ccbdd66e082725ff6285b79df569794531217d7e055f31b95f5ab254fb",
+    "sourceModelSha256": "c38f0cc7a6f15039f0ebc9399c4592fb263879c12c8ea6ea2a0916406c211ed4",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-truncata-haw",
@@ -6141,11 +6141,11 @@
         ]
       }
     },
-    "pngSha256": "a1e7786dd2e265c462390b54c211b2f8ad82173b9d40d2b6a0784d9e4534a05c",
-    "sourceModelSha256": "352816df392d48ffeb62baeaf2bd4f3c8edcdbfb150ad7d936745e4bc5ed6a33",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "7311299ed86be7080d76f5e0a2732dfd4a6a926d2093ee9171c8a93415294b53",
+    "sourceModelSha256": "7c5bfa5e7af6fe8e38c67a3033de73c70334e80854316e05eb15f03d651016cf",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-retusa",
@@ -6193,11 +6193,11 @@
         ]
       }
     },
-    "pngSha256": "f2aca4905b4365c1dffffed741a5a9a7f884a87a0f44c8c173bc944cff43c3f2",
-    "sourceModelSha256": "5045b8b47a8771e21d9f7b8c51f9e8f85a63b64ec3f2c63bedabae8c88872d40",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "d1c74bca4280d43836ba2a6cd05a124b2c98ee2967ded717f30db8f72e0bedb5",
+    "sourceModelSha256": "6baf194efc78e51481e06f940f370a35cd67a46fb2b697f49757cfb5016eb3c1",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-limifolia",
@@ -6245,11 +6245,11 @@
         ]
       }
     },
-    "pngSha256": "0515f99c8a08f177fa028877cc94445fcbbdfffa87ff2357a951938ac2938d9f",
-    "sourceModelSha256": "1a9fa48d42f7de9c3c950164ee6631fb9b670b9a5ea3dbd1273a69e063bbd816",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "fe23696fb1827a56ccca634a49fe5d3a0a44950566a27adb358ef6234aab325c",
+    "sourceModelSha256": "63eb2668a3918102f3028097b8c7ddb4bd8243f947f4adca307ea2af3c436b3e",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-agavoides",
@@ -6297,11 +6297,11 @@
         ]
       }
     },
-    "pngSha256": "a561d734f8709b0a97f34351390f1e27dcca8779bfbd2e0459a5eb307d2fb082",
-    "sourceModelSha256": "4fb3e89d0ac03a33d39cb893bf3919631deed6fa951f1773d46a90740b12d5e6",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "cef047502a144b6865b8f403b920ba47965e382e3d924d3062aade2208943b3b",
+    "sourceModelSha256": "faf82e623adb6fe0b4699d61b45817ff64809836fae2f8099698e518b2764a3b",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-elegans",
@@ -6349,11 +6349,11 @@
         ]
       }
     },
-    "pngSha256": "ac776a83153a3c0f3447c0d6841a9115b39271faeb68c86a47cecc1e3facbaf9",
-    "sourceModelSha256": "08bb651c9d41d7c36521943743b1f26f57438cbd2b2ba375ec17e417028eb7b3",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "2125eb62953cf4342379e6bdb55621146736ec950c98bbb21de6bb86482dfe69",
+    "sourceModelSha256": "2ec3ce6abbb7a8c4cfccb5ce1ff9981dd552975e31eb57a4b47126e1b7430cf2",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-pulvinata",
@@ -6401,11 +6401,11 @@
         ]
       }
     },
-    "pngSha256": "263077c13ff261501165228f9bab47feae6cf68e2706c3010c2233274f0acd77",
-    "sourceModelSha256": "0313d16e2bb642c08b2ec44381b477715e48f863c9fda6a1af0557153f412ec5",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "50e7b7a31f7252cbc4b7274db62fe18805763cbc7dc9d486d173e1d2a2dcb67b",
+    "sourceModelSha256": "eada72b4c7e7761f2da55ca8e7f9ac73bed4b7e90c61dfb1e24aaa3033e4b974",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-perforata",
@@ -6453,11 +6453,11 @@
         ]
       }
     },
-    "pngSha256": "a1be12f7411f5f801c5d74bd443176a7e53015f67388390ca4e061eac72bd85b",
-    "sourceModelSha256": "b7366da6c54da49af5a7d59b8a4856322efd576b499030ac85cf95e5bf1796c9",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "3c590b2f1e2e6829d939549a407858687c65886da90357c09b4d18cf511b2447",
+    "sourceModelSha256": "9315a8bed5185e88b57a7f898c27df66ce2de913f97a59f5ad0b1ae6a7b6b0cf",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-muscosa",
@@ -6505,11 +6505,11 @@
         ]
       }
     },
-    "pngSha256": "709d90f57b3bd5cc3243e337bb19cfc62f62401722138d39b2c8ef6398cbec4e",
-    "sourceModelSha256": "5fbf374a08c6f47837d8f0e3ba0f606b8f43ea0c707f4ffd01dc8dfac46807e1",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "cb5f52cfe4a071d761738c6bc95d423be61448d559c93c1fa43edaf71b46c7d6",
+    "sourceModelSha256": "ca8a9c3ca03ad880e506e291c5504d8844f129b9f2a272a04dd4d931262b37da",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-tomentosa-kal",
@@ -6557,11 +6557,11 @@
         ]
       }
     },
-    "pngSha256": "46c09313a8793cf2c90e76be9c7ca88d8d10c690d4bb971e7c2cbd9dbc5ba323",
-    "sourceModelSha256": "d13566551f6384e035c38bdb2188e439199060a6925f6320d3bf63dddc68533f",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "307f1a66dc5a82aae69685d52b6717d3ff0f857e059e3e3fe281dade4e612bf6",
+    "sourceModelSha256": "ec15c0eac4b4ada14756b508bcbd0d3f39c75f2fbb3839f169734f633aa8617d",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-luciae",
@@ -6609,11 +6609,11 @@
         ]
       }
     },
-    "pngSha256": "731bcac25437fd58e04eb854da2376e1e135e4ff043d30c51e89774daa56f686",
-    "sourceModelSha256": "edf2867d042632925be64e035dfce664e0530651249a8aa7d85cbe6ac5b56f02",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "e1873a5b823a7854ec3a940f23f01327cd6b71b4e4a6367aceaf45f4904e3356",
+    "sourceModelSha256": "142e349480406b427b81fb25bc9c099cd2939de9a6b8863d0dd92015e4f5a745",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-tomentosa-cot",
@@ -6661,11 +6661,11 @@
         ]
       }
     },
-    "pngSha256": "5e744c29505fc7d20ee5aee94e97e4301c5abc25d2680c2a5898346a77557ea7",
-    "sourceModelSha256": "23edba4cec96bb6b43352458b2f404d4e144af67c5fa792d08896d311281126b",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "f5366c8036b4650171e11e4f9aa8937b8b03d66b6d37e418fc973554cb2d507c",
+    "sourceModelSha256": "236ab75097b4ae46fd0239057edd579f93199e0ef7d92e3d3a4357f98bbc6e75",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-cristatus",
@@ -6713,11 +6713,11 @@
         ]
       }
     },
-    "pngSha256": "be26ab4549cf89066ebe46447adf6966b9d8797accdfc6ebc489538f7b1d76bf",
-    "sourceModelSha256": "0854d94dfa838c7a9ee86f0bb0e85418aad9777e387935b46926c6d3e03ce280",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "40c0caefa724b5f16ba86b3a6af780f7974c9155849ed21fb9d6102050f26e99",
+    "sourceModelSha256": "880556510970448699a7e00034dc3e598d7937f3e548f6664f034b37ee5c39ac",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-morganianum",
@@ -6765,11 +6765,11 @@
         ]
       }
     },
-    "pngSha256": "03b6d6ddfd3f294a7321328f8e0c6f008a1b2c8748881d480b5fe22dc2c134bc",
-    "sourceModelSha256": "808b185ab860f5409f043b12ea9533702aba4e01fb60b7da9211f28ec60d370d",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "e3c85475d0321c3379bc3b786c3dd63eed55bf16cd3d1610dd7c60b0810a6a62",
+    "sourceModelSha256": "48b551659da848f50325fad2a408bef909b7b6644a7787edc7e5061ca184421d",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "new-arboreum",
@@ -6817,11 +6817,11 @@
         ]
       }
     },
-    "pngSha256": "8f77980bad682d3dc4359d8033fe0e99bdc76088d8f39737cfc103420758ad51",
-    "sourceModelSha256": "ed327821ea58c3e51a97aa22ca6a4481f0f47cc2f9d22c9c78ec2c7fe4efbfd4",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "921c868cceb0303710fce12d45479743136fe7cc35f4d6c513cce4edd1161962",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "fcd632c3214ffd96750b043ee9a7d5179f3456d556490d2944a8a12195ba4d13",
+    "sourceModelSha256": "a721201af6f423a5b0731465b6a94ef60b14dd1e5e4253f2dc7688fd879f5c97",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "92af49527d426a94b666a3833fec7f87640ba1d99cbd80a786e0366970488211",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "moss-glaucum",
@@ -6869,11 +6869,11 @@
         ]
       }
     },
-    "pngSha256": "76796449e687cfe6d6b9d898f4f449848a6d5734d2223fa7f724d22bdfa05a60",
-    "sourceModelSha256": "07d731a6a2e6c709d176e737ec1791d1dd2b3ebf7ee4ecebd30aeb0270fd4a7d",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "5df8ddcd893d92f91dac546301acbf01509c9d9a8375a75948f1e857d4403541",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "8be8c36ea4f08762e1c6e0e9438ae51716687cce866ac1b0969bae123e3d0876",
+    "sourceModelSha256": "7f2fa91161630ee29685b89a976557fa4483952bb0ad62b1c8df187cdf1bff6f",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "2dbfa2744545a2a9a55ee58de5bcb5b9832406d8a47741dd8e09bab667758b5f",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "moss-scoparium",
@@ -6921,11 +6921,11 @@
         ]
       }
     },
-    "pngSha256": "4edf4c5a400cf52a67f09c9843041a0a8b14bb632346ca7bea1c85d16bc34f75",
-    "sourceModelSha256": "6f7f770ef06ed68602f1cd9303ea3a842a5b155f83fcc59b0a4bfa211c150906",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "5df8ddcd893d92f91dac546301acbf01509c9d9a8375a75948f1e857d4403541",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "e96aee33e5b268a5abb7f96143c5409572fb97f24ace3ccd72b0444b2eee9237",
+    "sourceModelSha256": "86340acc8ee0ffa02f27ae9ba44ff4a20b82c9de224e80dafae77587801e8b01",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "2dbfa2744545a2a9a55ee58de5bcb5b9832406d8a47741dd8e09bab667758b5f",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "moss-cupressiforme",
@@ -6973,11 +6973,11 @@
         ]
       }
     },
-    "pngSha256": "0de0bd66d3f4740077c41c9294283d1906db742a8975ad6a9807b6243c8911d4",
-    "sourceModelSha256": "18611bd2455f2a125fb5e1e51925602391cec419563a94d3fd85df19b4d864e2",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "5df8ddcd893d92f91dac546301acbf01509c9d9a8375a75948f1e857d4403541",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "37d78f7ad97b29efffb1625862ddeb0cc08278522d7d5cbbe6650dc5ed2de811",
+    "sourceModelSha256": "6136615cd8be4a08d7ea0f4fcad314e87e3c7a69fdacfae1292b5d096eee8562",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "2dbfa2744545a2a9a55ee58de5bcb5b9832406d8a47741dd8e09bab667758b5f",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "moss-tamariscinum",
@@ -7025,11 +7025,11 @@
         ]
       }
     },
-    "pngSha256": "34e444e68963745c4f61c84c47dc6f3b4ffeb706f554fa1da3313c6484d26f7f",
-    "sourceModelSha256": "cd6b4cc7cf16223c8c6cc5b2568585a3cab49334bf37836c1ba5d7fb19cc6bcb",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "5df8ddcd893d92f91dac546301acbf01509c9d9a8375a75948f1e857d4403541",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "3778cce27a5873db197741c5299e91bdb9d2bea6cb08331b701a40819d140c93",
+    "sourceModelSha256": "4052676735857b9c2cc752e887f92b48044559c079461de8056a12c1757fdfb6",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "2dbfa2744545a2a9a55ee58de5bcb5b9832406d8a47741dd8e09bab667758b5f",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "moss-commune",
@@ -7077,11 +7077,11 @@
         ]
       }
     },
-    "pngSha256": "14165fdcfb89eccdc64972494fbf0914833e468a4eca0a35ca566571f1409aaf",
-    "sourceModelSha256": "6ec0c095ed811e0e49d389ba93b022834c0c96a49451759564c5da981c52d693",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "5df8ddcd893d92f91dac546301acbf01509c9d9a8375a75948f1e857d4403541",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "bc9ec225355b8cbccaa028eeb2b66027ef8c4ffd9d2211bb081fc2da61d9494f",
+    "sourceModelSha256": "c9e3555f07d56320c78bc96731731f990f5141964851c5115a858da7f5d47f7c",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "2dbfa2744545a2a9a55ee58de5bcb5b9832406d8a47741dd8e09bab667758b5f",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "moss-juniperinum",
@@ -7129,11 +7129,11 @@
         ]
       }
     },
-    "pngSha256": "0a2fb6fc4a71f8180029e1e6cff34b62f7d51da332e13bcc6599dc631807d2e8",
-    "sourceModelSha256": "afd2a17b17b5f2dcfa314b1669987c6c4f489d7be692252e51ec623aab80c0de",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "5df8ddcd893d92f91dac546301acbf01509c9d9a8375a75948f1e857d4403541",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "80e8e8bbe1722c0ad136be508a25103379dd631ee8ee4d0439fbd87337b05143",
+    "sourceModelSha256": "7d12d1079dc42571bb5a25a7e7d24bf2da7d198d590329df87c397a8397d72fa",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "2dbfa2744545a2a9a55ee58de5bcb5b9832406d8a47741dd8e09bab667758b5f",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "moss-argenteum",
@@ -7181,11 +7181,11 @@
         ]
       }
     },
-    "pngSha256": "f2b490ef6e8c9a5fec36bfcd6a845723544267f552c323abc93d4b22883ea933",
-    "sourceModelSha256": "c771149a9867979a3b08bbef5c1a5225c1ea915e48187d2833df6545c1496555",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "5df8ddcd893d92f91dac546301acbf01509c9d9a8375a75948f1e857d4403541",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "944f26546ee82ff6b15f11eb36c15ba604c252b0c3f4f37c3cd13e0e273599f4",
+    "sourceModelSha256": "4c5b25218a5ad885f18c77dc00756cc677b091aee6c96613e28f0dd5dfe28687",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "2dbfa2744545a2a9a55ee58de5bcb5b9832406d8a47741dd8e09bab667758b5f",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "moss-muralis",
@@ -7233,11 +7233,11 @@
         ]
       }
     },
-    "pngSha256": "476f22ebdad97bb37d02c250199dc0250518b8610a89bb965514cc1485350c4f",
-    "sourceModelSha256": "0c603423e9a42c643340f96e35d943181279328f392aa4a6c2dd9b30f1d377a1",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "5df8ddcd893d92f91dac546301acbf01509c9d9a8375a75948f1e857d4403541",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "849eda1b96541806e5ef421a4593f8c3aa39844a6d339e6cac7cf7bfb88e3a14",
+    "sourceModelSha256": "6f733a4ff2feebe83cac19e7f6be35a3928f3f9da802752a7b7a65e42fb3bb0f",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "2dbfa2744545a2a9a55ee58de5bcb5b9832406d8a47741dd8e09bab667758b5f",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "moss-squarrosus",
@@ -7285,11 +7285,11 @@
         ]
       }
     },
-    "pngSha256": "bb2e860c0237b6a0f7ea01667b060ae75711d91e1722aa82c0a172c61a1a530e",
-    "sourceModelSha256": "95f0ad012b02ae5b917f56ca3f790421397a459ad328410fb51c46610ff807a8",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "5df8ddcd893d92f91dac546301acbf01509c9d9a8375a75948f1e857d4403541",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "58987b77d03d58223af0ada8d6f509db499750987efd1ddebe444ef512ee4291",
+    "sourceModelSha256": "bf05c970193f8411cc62c8e5f2e7f161b3bd41517b1dccf6992ae88cb91ae934",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "2dbfa2744545a2a9a55ee58de5bcb5b9832406d8a47741dd8e09bab667758b5f",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "moss-undulatum",
@@ -7337,11 +7337,11 @@
         ]
       }
     },
-    "pngSha256": "764c0e4ca23dfc1d21a6e7cfb07d995b40262f926e39dd7f32b7afa4f185fed0",
-    "sourceModelSha256": "81f85dafded2f7378335a235841f28289c0b47aa890a71e82782f3dc5b8ac784",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "5df8ddcd893d92f91dac546301acbf01509c9d9a8375a75948f1e857d4403541",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "45f18c6ede409822e4d9a96c60b59c3c716a2a369591ff0f40a68b3847ec8eec",
+    "sourceModelSha256": "0993a807b7cb0f319695b67ff097d552f0c825a9021439b0603cce1270e4ffa7",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "2dbfa2744545a2a9a55ee58de5bcb5b9832406d8a47741dd8e09bab667758b5f",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "moss-taxifolius",
@@ -7389,11 +7389,11 @@
         ]
       }
     },
-    "pngSha256": "9755eb448e54992a9fb9393a72a8a4f17e7373755eedaecec96613fb73b04a0d",
-    "sourceModelSha256": "88dfb9d67930d31a6d0fb23020bf7bd4d1d3e730f7e56517de00f8856583cfee",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "5df8ddcd893d92f91dac546301acbf01509c9d9a8375a75948f1e857d4403541",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "401399e29bc8825e30dcfe5697f1162bd01a5081f512f53376f4378d8584dca8",
+    "sourceModelSha256": "2254e020596e99ce0e5d5d8e18567461c5a0e9d976bf95141fc90f77a4716815",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "2dbfa2744545a2a9a55ee58de5bcb5b9832406d8a47741dd8e09bab667758b5f",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "moss-palustre",
@@ -7441,11 +7441,11 @@
         ]
       }
     },
-    "pngSha256": "715101a5af4311bb21e0d457beee4dc3cb7d16a6381bc440d9114c66e012059d",
-    "sourceModelSha256": "69561cd39371622c92315bcfacb7da99e6077eae97c06a4b511ba8c838499e93",
-    "atlasSha256": "bc2b708762f0923752b036b557906678b3180686046300b9813bd59ee5537f38",
-    "vesselModelSha256": "5df8ddcd893d92f91dac546301acbf01509c9d9a8375a75948f1e857d4403541",
-    "vesselAtlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "pngSha256": "b5dd337477fa7943a881ef2cba6291bea854811f2839dcbcbeb512a264ebbaa1",
+    "sourceModelSha256": "3dbe98c6fa07cc2fc8515f52732375cc33fbf5cab8c13c33dda515b8ce486da2",
+    "atlasSha256": "46c7789305c4deafaeb66e4106a65fcb2238c5a23396faa852719fa3f7b5a002",
+    "vesselModelSha256": "2dbfa2744545a2a9a55ee58de5bcb5b9832406d8a47741dd8e09bab667758b5f",
+    "vesselAtlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-antique-shino",
@@ -7476,8 +7476,8 @@
       ]
     },
     "pngSha256": "88999af2fcdcf945c2f5ad6046282dff13b867faad49ec177b78d6e52c68d0f2",
-    "sourceModelSha256": "1b88f26dfdf4ffef90b2cc9d5a13cccd0ba5886f35f9c76164144679b05dbd9f",
-    "atlasSha256": "0ea377153ec4aa667735ebdae37251f565080da7fa43a56f3be8a79d251d94ba"
+    "sourceModelSha256": "9b0a97fa99b96ff2a3e4b4fa4f922e2dd2e957e688eb5288a145fcb7a5fe4af4",
+    "atlasSha256": "b92f01496b8db702824f8031f77fdfbd24fe85b66ef609de829bbb4440563756"
   },
   {
     "id": "vessel-antique-nezumi",
@@ -7508,8 +7508,8 @@
       ]
     },
     "pngSha256": "93b27651e7f0f6aa40848850ec1b6d5d9d97bbfa4678e35ceaac0ddb470d15de",
-    "sourceModelSha256": "49c38d5e2019e46a9ca0d0edb1c3334951603104cd38d8764c41f8977ecee340",
-    "atlasSha256": "0ea377153ec4aa667735ebdae37251f565080da7fa43a56f3be8a79d251d94ba"
+    "sourceModelSha256": "5c3a5455b68a06f4e4c24c491ec08fb04d88adaef4bda6ef98ba1795102a50d5",
+    "atlasSha256": "b92f01496b8db702824f8031f77fdfbd24fe85b66ef609de829bbb4440563756"
   },
   {
     "id": "vessel-antique-shino-square",
@@ -7540,8 +7540,8 @@
       ]
     },
     "pngSha256": "85762a5b5dadeec1af2c21da4c863816e59f36823fc093e516adb234bfd39c58",
-    "sourceModelSha256": "08932ee6cb7f367ded20c56fb4caaafa4619ae5c0528287fd507bd7da4c5d016",
-    "atlasSha256": "0ea377153ec4aa667735ebdae37251f565080da7fa43a56f3be8a79d251d94ba"
+    "sourceModelSha256": "a5c2f4b740b941caf2d1b21a9820393fb3694895800554960ddd94005ab88435",
+    "atlasSha256": "b92f01496b8db702824f8031f77fdfbd24fe85b66ef609de829bbb4440563756"
   },
   {
     "id": "vessel-antique-nabeshima",
@@ -7572,8 +7572,8 @@
       ]
     },
     "pngSha256": "ae0b981a9878585b4de82b2388d485585534eb092bde058bcb8d28bfbd3700e8",
-    "sourceModelSha256": "0a9a9f10ec13d08d0693445da1514d9a3c58035f4e618cd55443596f2129d075",
-    "atlasSha256": "0ea377153ec4aa667735ebdae37251f565080da7fa43a56f3be8a79d251d94ba"
+    "sourceModelSha256": "3568a2cdd08906c2ac7f260f1689a64ce273e0a0300fa79d42cb3cfe8bbae0f4",
+    "atlasSha256": "b92f01496b8db702824f8031f77fdfbd24fe85b66ef609de829bbb4440563756"
   },
   {
     "id": "vessel-antique-nabeshima-dish",
@@ -7604,8 +7604,8 @@
       ]
     },
     "pngSha256": "c9f3413f932a479c09caf825c5cada3575673bc85295b373c85e06271a3c49c2",
-    "sourceModelSha256": "61c99fb27f00eff7b1438deda09e79f9901974beaae7a6447d0263c4b368bb85",
-    "atlasSha256": "0ea377153ec4aa667735ebdae37251f565080da7fa43a56f3be8a79d251d94ba"
+    "sourceModelSha256": "420ffef398b53d3eb4b2c8477a7d264286c3db559677df175d8855edf1008b68",
+    "atlasSha256": "b92f01496b8db702824f8031f77fdfbd24fe85b66ef609de829bbb4440563756"
   },
   {
     "id": "vessel-antique-kutani-red",
@@ -7636,8 +7636,8 @@
       ]
     },
     "pngSha256": "f159edfaf5eb51c9adaf2b611c60804b96420612cbbb22d959587e54b758b1e2",
-    "sourceModelSha256": "53f62519493918049639412f2f4ccbcc6e6e0ed57d843a161580a7d2b6586aaa",
-    "atlasSha256": "0ea377153ec4aa667735ebdae37251f565080da7fa43a56f3be8a79d251d94ba"
+    "sourceModelSha256": "ad15c250d26affa73a263a3094f05489f33854948f367105d502184dabd0619b",
+    "atlasSha256": "b92f01496b8db702824f8031f77fdfbd24fe85b66ef609de829bbb4440563756"
   },
   {
     "id": "vessel-antique-celadon",
@@ -7668,8 +7668,8 @@
       ]
     },
     "pngSha256": "7e356fa2653385a5bff31cfabb31ba6c4499120d2aa85243c9a4abb5a41f2928",
-    "sourceModelSha256": "d0e3208b7478679a399e4285e446f44e759b901fe64ecf3d4be02fa8cc130c1b",
-    "atlasSha256": "0ea377153ec4aa667735ebdae37251f565080da7fa43a56f3be8a79d251d94ba"
+    "sourceModelSha256": "ca36a95e20bb3a6d21ad28a9f3e27e9b4b708e864ce76d9a76ef6be17486d9b8",
+    "atlasSha256": "b92f01496b8db702824f8031f77fdfbd24fe85b66ef609de829bbb4440563756"
   },
   {
     "id": "vessel-antique-oribe-jar",
@@ -7700,8 +7700,8 @@
       ]
     },
     "pngSha256": "e9b65e6a48d6a6e6f063cf160ef531712c2f900b6b1f50147d248be5fc44754c",
-    "sourceModelSha256": "8e63a48ae5b1a460e5b055f93288d988d808c9195107d73626a2cf677ea29b42",
-    "atlasSha256": "0ea377153ec4aa667735ebdae37251f565080da7fa43a56f3be8a79d251d94ba"
+    "sourceModelSha256": "39064bf37e87d056fdac1ea0d9ab4b014aaebef6dfa50106258adb4179b907a2",
+    "atlasSha256": "b92f01496b8db702824f8031f77fdfbd24fe85b66ef609de829bbb4440563756"
   },
   {
     "id": "vessel-tokoname",
@@ -7732,8 +7732,8 @@
       ]
     },
     "pngSha256": "a73aab9ffabe4a5ba4b26d3751f342cedf0fd9eb2fc07d3862540112dbc9580f",
-    "sourceModelSha256": "23bfb6c68141247b82bf40a2f1a10dabd40d3ed46e2213269f5322adc2f476cd",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "sourceModelSha256": "933c7cfc12036fc88d1bdab59a70cc38d99d3c5327dfa4f2f46b195aa59b87e5",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-shigaraki",
@@ -7764,8 +7764,8 @@
       ]
     },
     "pngSha256": "2b966b659e95fbb977ef676cd5271f44edd8a9b30fd37ff170f14a3377b89226",
-    "sourceModelSha256": "3687914d5f2642862c382782dec8145dbfac8fb37912d8b17ea9f1bb16dbc555",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "sourceModelSha256": "66d45760760dc59707d9f2791e9442b3bf50aafb94d2ae1a91e5a1cb786ddf5b",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-bizen",
@@ -7796,8 +7796,8 @@
       ]
     },
     "pngSha256": "b6a60bcf0667f0ee1bff9e63dd1ec4a322201125a8302643e3ecc2898faffbb4",
-    "sourceModelSha256": "5f98f01fc6f19ca5f44c76b32fa368abed939b88e74b643bc5e94e08e899390d",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "sourceModelSha256": "c348fd73b4b0cb2b4d9eaf0efff14d4f3b32925366bcafe50a0cb8a7a58cefa1",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-mashiko",
@@ -7828,8 +7828,8 @@
       ]
     },
     "pngSha256": "83ea3ff19ae20e5ac7dbeed4fd8ac35eea803f371243cda1c72515e28ffbd9ca",
-    "sourceModelSha256": "9c1c9e5d39287dada383ed1b06331d409733563260a4ac83bb81aa756d952f84",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "sourceModelSha256": "32ccf942350b3b24822d70ca0bf47c129815182d7cae30c822ed7857f350b402",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-kasama",
@@ -7860,8 +7860,8 @@
       ]
     },
     "pngSha256": "42e558eafde09a073b0d59cafafc1b891b00ba46cbf1bc1d3f80618b6d1fadf7",
-    "sourceModelSha256": "d12b313e8857c7b11d296c4e1a54b357c7a7797c6420db4574be54cfcbc1a9f1",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "sourceModelSha256": "e5e87f02902dd18266b068073c165cc9fd320c683c68981e67b17e29b73fd8d6",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-mino",
@@ -7892,8 +7892,8 @@
       ]
     },
     "pngSha256": "f01fcbed6440d6421349534240d0a8db9422badde974dadbe6724b1bad2eb22d",
-    "sourceModelSha256": "01b799b820b05353a9eeacf074ce81f0a8de4726cc11a3c04fd4acfb8ec573b8",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "sourceModelSha256": "4b1f68b07342f0c605a768cf18c6267d81017fc532666bfa9b552d16c117e86d",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-seto",
@@ -7924,8 +7924,8 @@
       ]
     },
     "pngSha256": "1c6de54879f824d376e59802e0272de04304cdee1eb37cba1bfe05de8e96d2f9",
-    "sourceModelSha256": "d9504d72c66b27dc6072c45cbb02e808ef4d50bb08b587cd9df26f7d21b9272d",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "sourceModelSha256": "54c79952befef9be4a9c8ca30d4e8be0ed3392654dd2b2b38f15fff652d0c92a",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-kutani",
@@ -7956,8 +7956,8 @@
       ]
     },
     "pngSha256": "0e498644e3808532c12793b36d7fb6f6cc1b9a86f2c27f983548189dc967cd31",
-    "sourceModelSha256": "0cca128fb765aa110317efdaa601debcc25faff8962c1ec79e2849500c313625",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "sourceModelSha256": "3b0264c2a1469a09792e0c3aa80d087420fc6f5399b460c365ff22e4d64b88ee",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-arita",
@@ -7988,8 +7988,8 @@
       ]
     },
     "pngSha256": "93174632cacce092dc94d794382fee1e911455eb6c1c40129d14752f5e70bc23",
-    "sourceModelSha256": "2da97b0610d7d816507f29bf0180a911159a720cb17af2d55cb054f5ff14bbb1",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "sourceModelSha256": "877b6402c5d09558ab2d6c11722c65273123bf0bf917610a53a7aec496d942bd",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-imari",
@@ -8020,8 +8020,8 @@
       ]
     },
     "pngSha256": "69d46087724081ed662b880a0d15529bcc7e05358cbd268b4d8eefafda140eaf",
-    "sourceModelSha256": "4e450f9b854de2052f29614c2d744aa2bcae3bd0b33e2e84e11447817052814f",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "sourceModelSha256": "f016ea0fc93ada985774283ec91368d5720f43cdc574becddeacaf2cc20c902f",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-hasami",
@@ -8052,8 +8052,8 @@
       ]
     },
     "pngSha256": "24055050bb8799b1a2ebf0a632070575c9b5f9c9495db976d427025da40f3789",
-    "sourceModelSha256": "d2c48c9d0f3f23dc67f166633f5737f5a905c7b2631f773ab4fd93e9b919ea26",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "sourceModelSha256": "ac94421c50fa6019302fdbd444b623f8335320388ee339edbcd568c452225516",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-kyoto",
@@ -8084,8 +8084,8 @@
       ]
     },
     "pngSha256": "4ba575c679ab9b4835b74e6ae0bec287b5ad944c044c7d3e402cc50711a3c36d",
-    "sourceModelSha256": "3a7942d5678f87610f6621131bda3867286fe9fb7432547d9e800ae03865b9e6",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "sourceModelSha256": "4d75945338f30c40cef10c26cb1c71ddaba294fce0eb0dbce3e2528e42cf6380",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-hagi",
@@ -8116,8 +8116,8 @@
       ]
     },
     "pngSha256": "e226f4a01e6140ad94dffc5e52cf811857464d6de4ea995cad1147fb25f699c1",
-    "sourceModelSha256": "6672bc177bdbd855bf48913736fb9956dcae10dacaea6c9b8ec1fb44ae0575c0",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "sourceModelSha256": "69e3cdc9caadb1103ca6add2921d3dee99d9dc645023a38972ea073912ca6326",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-karatsu",
@@ -8148,8 +8148,8 @@
       ]
     },
     "pngSha256": "5e19c1da373b824227be603e72c906ba71b85bfbf83a9346c63fe5f6eaf0548b",
-    "sourceModelSha256": "35f7ec4331dbb8f2b64768982aa599d9164291338d7d9ef972e51d0aa80fe2e7",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "sourceModelSha256": "d9c7ac4ada4d96662dd11349132c97061fe115094bda496d995937035b38b9f2",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-tobe",
@@ -8180,8 +8180,8 @@
       ]
     },
     "pngSha256": "b6348a2a8d65cc0a4b5bfb53ad39b0f6b1788aeb3355be004266a9415853e6be",
-    "sourceModelSha256": "93762b570619eecb99704648d54d2226625891c2124c107916690faf252db571",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "sourceModelSha256": "a447d5402d9a9ed4a82e38d51415cf9e9f7816870afefc51ce426ac9201a74df",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-koishiwara",
@@ -8212,8 +8212,8 @@
       ]
     },
     "pngSha256": "5aab169fbf46a158429be4c23b64df730de074ef41603736cab4a35a305d812c",
-    "sourceModelSha256": "c77d0f33bc3d9c75326b2b2e1e361de413aab506c4da5952c35f1c9420b7fe3a",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "sourceModelSha256": "72b9d94c367ee3faa1a7533da7034ecb52236f88fd5fa07fc55f021d656fd790",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-ontayaki",
@@ -8244,8 +8244,8 @@
       ]
     },
     "pngSha256": "1df8d51d8f70fa849c3719e08d4c23e99d1dcbc85301506e9527886d3384cfee",
-    "sourceModelSha256": "1244e95222130d73de9dc6703a5dd2dbd7747b21a86e93e7de03e5ed725ad224",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "sourceModelSha256": "392df0bd257f4724f4cfb68567f7cdf3a910e16fb692a592426abcec1a52093c",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-iga",
@@ -8276,8 +8276,8 @@
       ]
     },
     "pngSha256": "8461acfe75c76ccd1af2c9467038b8f44b9d5ac955b0e5bfa44008b24ba1a4f4",
-    "sourceModelSha256": "d58a4ed24c1984146a260fee30fd917fafb6ff3744a48563182ceb2199301aa0",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "sourceModelSha256": "0ea5b3a75faad3c4be898bef0e647185fa71b592ba8fa09553bb121538d2a3e3",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-echizen",
@@ -8308,8 +8308,8 @@
       ]
     },
     "pngSha256": "1e3ba60d5b61efc11e520c0a1d5829d4409c6f972d2ca556874eca34de523a21",
-    "sourceModelSha256": "f0ad53a54abd7608464112a390fa36c14f565f4eb113dce51b4f2eb263439613",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "sourceModelSha256": "1b704a07c72d1a01a45c3d6ace12c86b123a9ce0d2ed1c16444d30afe9d6b546",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "vessel-tsuboya",
@@ -8340,8 +8340,8 @@
       ]
     },
     "pngSha256": "40d683bc7fe68290bed21451edf402eff80a1e61767f8de542af8f95b6d7dc2a",
-    "sourceModelSha256": "54416cf6ddce84f24d60dd1fe88df1507844f21749d8356afcff54e5acb4fd74",
-    "atlasSha256": "d0abee7a7ec6bdbae7f258e70d9c4c7acd6cb793327472a27c2c741206ea0cb9"
+    "sourceModelSha256": "d24478c41d79be1d4caac99cd86f58bc76262b28170062dc0aca340678ba5e23",
+    "atlasSha256": "fd6548324a7e7355f6a8d24f56ab4b4af7b026d05f44d32d3b28a1a377e6b9bb"
   },
   {
     "id": "antique-shigaraki-jar",

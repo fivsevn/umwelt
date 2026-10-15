@@ -27,6 +27,14 @@ const routes = [
     });
     try {
       const context = await browser.newContext();
+      // Exercise the deployed live-weather path without making publication
+      // depend on a third-party service's availability or the day's weather.
+      await context.route('https://api.open-meteo.com/v1/forecast?*', route => route.fulfill({
+        status: 200, contentType: 'application/json', headers: {'access-control-allow-origin': '*'},
+        body: JSON.stringify({current: {time: Math.floor(Date.now() / 1000), interval: 900,
+          weather_code: 2, temperature_2m: 18.4, cloud_cover: 60, wind_speed_10m: 4,
+          wind_gusts_10m: 7, precipitation: 0, snowfall: 0}}),
+      }));
       // Visual review belongs to the local source tree, never the site artifact.
       for (const route of ["/rooftop/tests/browser/rooftop.html", "/ophidia/art/ophidia-01/preview/model-review.html", "/tools/check-all.mjs", "/rooftop/3d/index.html", "/rooftop/previews/pixel-01/index.html"]) {
         const response = await context.request.get(base + route);
@@ -62,6 +70,10 @@ const routes = [
           );
           await page.locator(selector).first().waitFor({ state: "visible" });
           await page.evaluate(() => document.fonts.ready);
+          if (route.startsWith('/rooftop/?')) {
+            await page.waitForFunction(() => document.querySelector('#environmentHud [data-info="weather"]')?.textContent.includes('多云 18°'));
+            assert.equal(await page.locator('#environmentHud [data-info="coordinates"]').textContent(), '32.02°N 120.86°E');
+          }
           if (
             engine === chromium &&
             route.startsWith("/rooftop/")

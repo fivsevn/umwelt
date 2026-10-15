@@ -1,5 +1,6 @@
 // Rain strikes are renewed every lifetime. Basins stay in place as water collects.
 export const RAIN_SHAPES = {
+  'plum-rain': {seed:19, impacts:22, radius:.1, lifetime:1.5, splash:.025, streak:.19},
   rain: {
     seed: 11,
     impacts: 28,

@@ -11,7 +11,7 @@ import { rainShape, rainStrike } from "../precipitation.mjs";
 import { weatherAction } from "../resident-weather.mjs";
 import { initialLayout, makeWalker, actorFits } from "../scene.mjs";
 
-test("all eight weather conditions distinguish seven lighting stages and respect the solar direction", () => {
+test("all weather conditions distinguish seven lighting stages and respect the solar direction", () => {
   for (const w of WEATHER) {
     const states = TIMES.map((t) => weatherProfile(w.id, t.id));
     assert.equal(

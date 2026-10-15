@@ -27,7 +27,17 @@
 - 植物：调整同株叶片明度、肉质叶表面、花瓣与花喉、苔藓叶尖；保留原物种颜色、斑纹和形态。
 - 陶器：调整烧成色差、积釉、内壁和胎土交界；保留原有纹样位置，强色装饰只作低幅度明度调整。
 
-材料格保持 16 像素／米。透明玻璃、水和发光部分保持原贴图。植物原稿中的展示盆、土和支架保持；正式植物组合继续读取各自的默认盆器。
+材料格保持 16 像素／米。透明玻璃、水和发光部分保持原贴图。正式植物组合继续读取各自的默认盆器。
+
+## 当前色彩
+
+植物的绿色部分提高色度，并保留不同植物的深浅和色相差异；白斑、枯边、蓝紫叶片、花朵和盆土保持。日常木器与居室木家具增加暖褐色，保留灰色磨损和原有木纹。普通红陶盆、大型深陶盆及浅陶盘偏赤褐，与木材的黄褐色区分；植物源文件中的展示陶盆同步调整。收藏陶器的釉色与纹样保持。
+
+本次修改写入四组当前 Pixelorama 源文件：`everyday`、`rooms-vessels`、`plants-retained`、`pots-retained`，共 127 个模型的贴图区域。源文件的原有笔触、透明度、面 UV 与像素密度保持。四组各自的最终 Blend 和 layout Blend 已重新打包图集并独立重开，网格、法线、变换及材质设置与修改前一致。
+
+同组模型共用图集，因此同步 186 个 GLB 的内嵌 PNG 和目录缩略图。GLB 只替换图像缓冲区，全部几何和 UV 缓冲区逐字节保持。目录缩略图使用实际游戏渲染器，按原有无抗锯齿采样生成；承放、默认花盆和布局资料保持。
+
+工具为 `colour-separation.py`（原生 Pencil 调色、内嵌图集与缩略图同步）和 `pack-colour-sources.py`（Blender 打包与重开）。当前检查记录为 `colour-separation-check.json`。先备份当前源文件到仓库外，再按 `paint`、Blender 打包、`sync` 的顺序执行；不能对已完成的源文件重复叠加同一次调色。中间笔迹、备份和浏览器采集数据不存入仓库。
 
 ## 原稿与导出
 
@@ -60,7 +70,7 @@ blender --background --python verify-native.py -- <编辑前备份目录> --all-
 - 缩略图投影保留完整可见边界，检查 2D 回退绘制和四个保存朝向；同步命令见[缩略图说明](../../rooftop-thumbnail-02/README.md)。
 - 435 项测试通过，全项目结构检查通过。
 
-材质检查见 `*-round3-paint-check.json`；原稿检查见 `round3-source-reopen-check.json`；资源范围见 `round3-scope-check.json`；导出清单见 `round3-runtime-check.json`。建模、绘制、导出和检查工具保留；这些工具不是旧版模型或贴图。
+全部物件结构与材质增补的检查见 `*-round3-paint-check.json`、`round3-source-reopen-check.json`、`round3-scope-check.json` 和 `round3-runtime-check.json`；后续色彩修改以 `colour-separation-check.json` 和当前缩略图审计为准。建模、绘制、导出和检查工具保留；这些工具不是旧版模型或贴图。
 
 本地查看：[统一测试页](http://127.0.0.1:8765/rooftop/tests/browser/rooftop.html?mode=item&sampling=source)。发布步骤见[验证与发布](../../../../docs/deployment.md)。
 

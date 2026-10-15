@@ -1,13 +1,16 @@
 import { SEASONS, seasonAt, seasonalProfile } from "./seasons.mjs";
 import { rainShape } from "./precipitation.mjs";
 import { canonicalWeatherCondition } from "./weather-condition.mjs";
+import { chongchuanDate, monthProfile, validMonth, SEASON_MONTH, timeBands, phaseAtHour, localWeather, solarDay, clockLabel } from './climate.mjs';
+import { FESTIVALS, festivalContext } from './festivals.mjs';
+import { calendarAir } from './calendar-air.mjs';
 export { canonicalWeatherCondition } from "./weather-condition.mjs";
 import {
   lightingProfile,
   weatherMotion,
   lightningPulse,
 } from "./atmosphere.mjs";
-// Weather is a local scene clock, not a request to an external forecast service.
+// Rendering stays synchronous; the optional live snapshot is loaded separately.
 export const WEATHER = [
   {
     id: "clear",
@@ -20,6 +23,10 @@ export const WEATHER = [
     shade: 0.025,
   },
   {
+    id: 'partly-cloudy', name: '多云', wind: .45, rain: 0, cloud: .52,
+    fog: .015, tint: '#b8c3c1', shade: .055,
+  },
+  {
     id: "overcast",
     name: "阴天",
     wind: 0.65,
@@ -28,6 +35,10 @@ export const WEATHER = [
     fog: 0.05,
     tint: "#67777e",
     shade: 0.14,
+  },
+  {
+    id: 'plum-rain', name: '梅雨', wind: .48, rain: .32, cloud: 1,
+    fog: .13, tint: '#70878c', shade: .18,
   },
   {
     id: "rain",
@@ -71,7 +82,7 @@ export const WEATHER = [
   },
   {
     id: "typhoon",
-    name: "台风",
+    name: "台风影响",
     wind: 3.8,
     rain: 1,
     cloud: 1,
@@ -89,6 +100,7 @@ export const WEATHER = [
     tint: "#9da6a0",
     shade: 0.1,
   },
+  { id:'snow', name:'小雪', wind:.7, rain:0, snow:.7, cloud:.86, fog:.15, tint:'#a9bdcd', shade:.12 },
 ];
 export const TIMES = [
   {
@@ -141,51 +153,18 @@ export const TIMES = [
   },
   {
     id: "late",
-    name: "后半夜",
+    name: "深夜",
     sky: "#5b6577",
     night: 0.82,
     tint: "#101b30",
     lamps: 0.045,
   },
 ];
-export function timeOfDay(hour) {
-  return hour < 5
-    ? "late"
-    : hour < 8
-      ? "dawn"
-      : hour < 11
-        ? "morning"
-        : hour < 14
-          ? "day"
-          : hour < 17
-            ? "afternoon"
-            : hour < 19
-              ? "dusk"
-              : hour < 24
-                ? "evening"
-                : "late";
-}
-export function automaticWeather(milliseconds) {
-  const sequence = [
-    "clear",
-    "overcast",
-    "wind",
-    "overcast",
-    "thunderstorm",
-    "rain",
-    "typhoon",
-    "overcast",
-    "rain",
-    "overcast",
-    "mist",
-    "clear",
-    "heavy",
-    "overcast",
-  ];
-  return sequence[
-    ((Math.floor(milliseconds / 720000) % sequence.length) + sequence.length) %
-      sequence.length
-  ];
+export function timeOfDay(hour, date) { return phaseAtHour(hour, date); }
+export function automaticWeather(milliseconds, month) { return localWeather(milliseconds, month); }
+export function timeOptions(month, date = new Date()) {
+  const local = chongchuanDate(date);
+  return timeBands(validMonth(month) ? {...local,month:Number(month),day:15} : local);
 }
 const hex = (c) => c.match(/[a-f\d]{2}/gi).map((v) => parseInt(v, 16));
 export function blendColor(a, b, t) {
@@ -202,19 +181,22 @@ export function blendColor(a, b, t) {
       .join("")
   );
 }
-export function weatherProfile(condition, phase, season = seasonAt()) {
+export function weatherProfile(condition, phase, season = seasonAt(), calendar = null, observed = null) {
   condition = canonicalWeatherCondition(condition);
-  const w = WEATHER.find((w) => w.id === condition) || WEATHER[0],
+  const w = {...(WEATHER.find((w) => w.id === condition) || WEATHER[0]), ...(observed?.effects || {})},
     p = TIMES.find((p) => p.id === phase) || TIMES.find((p) => p.id === "day");
-  const light = lightingProfile(w, p.id, season);
+  const light = lightingProfile(w, p.id, season, calendar);
+  const aboveHorizon = calendar ? Math.min(1, Math.max(0, light.sunY / 4.8)) : 1;
   return {
     ...w,
     ...light,
     ...seasonalProfile(season),
+    snow: w.snow || 0,
+    seasonalAir: calendar ? monthProfile(calendar.month).air : 1,
     season,
     condition: w.id,
     phase: p.id,
-    period: p.name,
+    period: calendar ? timeBands(calendar).find(b=>b.id===p.id).name : p.name,
     wetness: w.rain,
     roomSunY:
       p.id === "day" ? 24 : ["morning", "afternoon"].includes(p.id) ? 13 : 8,
@@ -226,26 +208,31 @@ export function weatherProfile(condition, phase, season = seasonAt()) {
       p.night > 0.5 ? 1 : p.night > 0.01 ? 0.72 : 0,
     ),
     lightAmount: Math.min(0.82, p.night + w.shade * (1 - p.night)),
-    sun:
+    sun: aboveHorizon * (
       w.id === "clear"
         ? Math.max(0, 1 - p.night * 1.5)
-        : w.id === "wind" || w.id === "mist"
+        : w.id === "wind" || w.id === "mist" || w.id === 'partly-cloudy'
           ? 0.3 * Math.max(0, 1 - p.night * 1.5)
-          : 0,
+          : 0),
   };
 }
 export function makeWeather({
   condition = "auto",
   phase = "auto",
   season = "auto",
+  month = "auto",
+  festival = 'auto',
   now = () => new Date(),
+  liveWeather = () => null,
   manualTransition = 8,
 } = {}) {
   condition = canonicalWeatherCondition(condition);
   let choices = {
-      condition: WEATHER.some((w) => w.id === condition) ? condition : "auto",
+      condition: condition === "simulated" || WEATHER.some((w) => w.id === condition) ? condition : "auto",
       phase: TIMES.some((p) => p.id === phase) ? phase : "auto",
       season: SEASONS.some(s => s.id === season) ? season : "auto",
+      month: validMonth(month) ? String(month) : 'auto',
+      festival: ['auto','none',...FESTIVALS.map(f=>f.id)].includes(festival) ? festival : 'auto',
     },
     current = null,
     target = null,
@@ -253,19 +240,31 @@ export function makeWeather({
     resolvedProfile = null;
   function resolve() {
     const date = now();
-    const condition =
-      choices.condition === "auto"
-        ? automaticWeather(date.getTime())
-        : choices.condition;
+    const local = chongchuanDate(date),
+      month = validMonth(choices.month) ? Number(choices.month) : choices.season !== 'auto' ? SEASON_MONTH[choices.season] : local.month,
+      calendar = {...local, month, day: choices.month !== 'auto' || choices.season !== 'auto' ? 15 : local.day},
+      season = choices.season !== 'auto' && choices.month === 'auto' ? choices.season : monthProfile(month).season;
+    const feed = choices.condition === 'auto' ? liveWeather() : null;
+    const observed = feed?.record || null;
+    const condition = choices.condition === 'auto' ? observed?.condition || automaticWeather(date.getTime(), month)
+      : choices.condition === 'simulated' ? automaticWeather(date.getTime(), month) : choices.condition;
+    const weatherSource = choices.condition === 'simulated' ? 'simulated' : choices.condition !== 'auto' ? 'manual'
+      : observed ? feed.status : feed?.status === 'pending' ? 'pending' : 'fallback';
     const phase =
       choices.phase === "auto"
-        ? timeOfDay(date.getHours() + date.getMinutes() / 60)
+        ? timeOfDay(local.hour, calendar)
         : choices.phase;
-    const season = choices.season === "auto" ? seasonAt(date) : choices.season;
-    const key = condition + ":" + phase + ":" + season;
+    // Stable 15-minute solar steps avoid restarting the 18-second blend each frame.
+    const solarHour = choices.phase === 'auto' ? Math.floor(local.hour*4)/4 : null;
+    const key = [condition,phase,season,month,calendar.year,calendar.day,solarHour,choices.festival,local.month,local.day,weatherSource,observed?.observedAt,observed?.receivedAt].join(':');
     if (key !== resolvedKey) {
       resolvedKey = key;
-      resolvedProfile = weatherProfile(condition, phase, season);
+      resolvedProfile = weatherProfile(condition, phase, season, {...calendar,solarHour}, observed);
+      const solar = solarDay(calendar), festivals = festivalContext(date, choices.festival), air = calendarAir(month, festivals);
+      Object.assign(resolvedProfile, {month, monthName: monthProfile(month).name,
+        sunrise:clockLabel(solar.sunrise), sunset:clockLabel(solar.sunset),
+        festivals, petals:air.petals, airSource:air.source, weatherSource,
+        weatherCode:observed?.code ?? null, temperature:observed?.temperature ?? null, weatherObservedAt:observed?.observedAt ?? null});
     }
     return resolvedProfile;
   }
@@ -289,6 +288,9 @@ export function makeWeather({
   const numericKeys = [
     "wind",
     "rain",
+    "snow",
+    "seasonalAir",
+    "petals",
     "cloud",
     "fog",
     "night",
@@ -326,7 +328,7 @@ export function makeWeather({
       if (key === "condition") {
         value = canonicalWeatherCondition(value);
         choices.condition =
-          value === "auto" || WEATHER.some((w) => w.id === value)
+          ["auto", "simulated"].includes(value) || WEATHER.some((w) => w.id === value)
             ? value
             : "auto";
       }
@@ -335,7 +337,9 @@ export function makeWeather({
           value === "auto" || TIMES.some((p) => p.id === value)
             ? value
             : "auto";
-      if (key === "season") choices.season = SEASONS.some(s => s.id === value) ? value : "auto";
+      if (key === "season") { choices.season = SEASONS.some(s => s.id === value) ? value : "auto"; choices.month = 'auto'; }
+      if (key === 'month') { choices.month = validMonth(value) ? String(value) : 'auto'; choices.season = 'auto'; }
+      if (key === 'festival') choices.festival = ['auto','none',...FESTIVALS.map(f=>f.id)].includes(value) ? value : 'auto';
       begin(resolve(), Math.max(0.05, Number(manualTransition) || 8));
     },
     update(dt) {
@@ -351,7 +355,7 @@ export function makeWeather({
       current.wetness +=
         (current.rain - current.wetness) *
         (1 - Math.exp(-dt * (current.rain > current.wetness ? 0.4 : 0.04)));
-      for (const key of ["condition", "phase", "period", "name", "season"])
+      for (const key of ["condition", "phase", "period", "name", "season",'month','monthName','sunrise','sunset','festivals','airSource','weatherSource','weatherCode','temperature','weatherObservedAt'])
         current[key] = target[key];
       current.transition = {
         from: from.condition,

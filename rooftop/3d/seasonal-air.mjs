@@ -1,4 +1,4 @@
-import { SEASONS, seasonalParticle, seasonalStrength } from "../seasons.mjs";
+import { AIR_GROUPS, seasonalParticle, seasonalStrength } from "../seasons.mjs";
 import { BACKGROUND } from "../assets/background/empty-rooftop.mjs";
 import { resolveCanvasPixelGrid, pixelGridBufferSize } from "./pixel-grid.mjs";
 import { createVisibleAirField } from "./visible-air.mjs";
@@ -66,11 +66,11 @@ function uploadActive(geometry, count, keys) {
   }
 }
 
-// Four cached, tiny point buffers. Pixel silhouettes are shader code, never
+// Five cached, tiny point buffers. Pixel silhouettes are shader code, never
 // image textures. The existing scene depth hides particles behind walls/objects.
 export function createSeasonalAir(T, scene, renderer) {
   const viewport = new T.Vector2(), color = new T.Color();
-  const groups = SEASONS.map(s => {
+  const groups = AIR_GROUPS.map(s => {
     const count = s.id === "spring" ? SPRING_CATKIN_COUNT : s.count,
       positions = new Float32Array(count * 3), colors = new Float32Array(count * 3);
     const sizes = new Float32Array(count), kinds = new Float32Array(count), angles = new Float32Array(count), veils = new Float32Array(count);
@@ -118,7 +118,8 @@ export function createSeasonalAir(T, scene, renderer) {
         else if(shape<1.5) mark=(a.x<1.0&&a.y<=1.0)||(a.x<=2.0&&a.y<1.0);
         else if(shape<2.5) mark=a.x+a.y*.62<2.6;
         else if(shape<3.5) mark=(a.x<=1.0&&a.y<=2.0)||(a.y<=1.0&&a.x<=2.0);
-        else mark=a.x+a.y<3.3;
+        else if(shape<4.5) mark=a.x+a.y<3.3;
+        else mark=a.x+a.y*.7<2.8&&!(p.y>1.0&&a.x<1.0);
         if(!mark)discard;
         // The same flower or leaf can turn into and away from the sun. Its
         // local pigment remains readable under cool shade and warm low light.
@@ -132,12 +133,12 @@ export function createSeasonalAir(T, scene, renderer) {
     const points = new T.Points(geometry, material);
     points.frustumCulled = false; points.visible = false; scene.add(points);
     const field = createVisibleAirField(T, {
-      capacity: count, seed: SEASONS.indexOf(s) * 977 + 83,
+      capacity: count, seed: AIR_GROUPS.indexOf(s) * 977 + 83,
       cellSize: s.id === "spring" ? 10 : s.id === "summer" ? 4 : 8,
       nearDistance: 2,
       // Small insects belong beside roofs and plants, rather than being
       // duplicated high in the open sky of a distant camera.
-      ...(s.id === "summer" ? { boundsY: [-2, 3] } : {}),
+      ...(s.id === "summer" ? { boundsY: [-2, 3] } : s.id === "petals" ? { boundsY: [0, 40] } : {}),
     });
     return {...s, count, points, geometry, uniforms, positions, colors, sizes, kinds, angles, veils, field,
       identities: Array(count).fill(null)};
@@ -175,6 +176,12 @@ export function createSeasonalAir(T, scene, renderer) {
             ...(g.id === "summer" ? { bounds: [-halfX - halfX, -2, -halfZ - halfZ, halfX + halfX, 3, halfZ + halfZ] } : {}),
             sample(entry, at) {
               const p = seasonalWorldSample(g.id, entry.seed, entry.anchor, at, state.wind, reduced, name);
+              // Spend the small petal budget above the roof plane, rather
+              // than filling occluded air under the main building.
+              if (g.id === "petals") {
+                if(p.position[1]<.18)return null;
+                p.cycleOpacity*=Math.min(1,(p.position[1]-.18)/.5);
+              }
               if (g.id === "summer") {
                 const [x, y, z] = p.position, halfX = name === "south" ? 6 : 13.5, halfZ = name === "south" ? 12 : 12.5;
                 if (Math.abs(x) > halfX || Math.abs(z) > halfZ || y < .18 || y > 3)

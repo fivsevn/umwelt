@@ -32,14 +32,14 @@
             <label
               >天气
               <select id="weatherSelect">
-                <option value="auto">缓慢变化</option>
+                <option value="auto">濠河实时天气</option>
               </select></label
             ><label
               >时刻
               <select id="timeSelect">
-                <option value="auto">随时间</option>
+                <option value="auto">随北京时间</option>
               </select></label
-            ><label>季节<select id="seasonSelect"><option value="auto">随月份</option></select></label
+            ><label>月份<select id="seasonSelect"><option value="auto">随月份</option></select></label
             >
             <div class="actor-toggles" role="group" aria-label="人物显示"><label class="person-toggle"
               ><input id="person" type="checkbox" checked />东东</label
@@ -107,7 +107,7 @@
             aria-label="阳台陈列画布，点击选择物件，拖动调整，方向键微调"
           ></canvas>
           <div class="workspace-status">
-            <p id="weatherStatus" class="world-card"></p>
+            <div class="world-card"><p id="weatherStatus"></p><small id="weatherSource" hidden></small></div>
             <p id="actionStatus" class="world-card"></p>
             <p id="message" class="world-card" role="status">
               点架上的东西拿出来，拖动摆放。陈列会留在这台设备上。

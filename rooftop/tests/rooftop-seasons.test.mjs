@@ -1,11 +1,11 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { SEASONS, seasonAt, seasonalParticle, seasonalStrength, paintSeasonalAir } from "../seasons.mjs";
+import { AIR_GROUPS, SEASONS, seasonAt, seasonalParticle, seasonalStrength, paintSeasonalAir } from "../seasons.mjs";
 import { makeWeather } from "../weather.mjs";
 test("calendar season includes December/January and switches smoothly at a month boundary",()=>{
-  assert.deepEqual(Array.from({length:12},(_,i)=>seasonAt(new Date(2026,i,15))),["winter","winter","spring","spring","spring","summer","summer","summer","autumn","autumn","autumn","winter"]);
-  let date=new Date(2026,1,28,23,59);const weather=makeWeather({now:()=>date,condition:"clear",phase:"day"});
-  assert.equal(weather.state.season,"winter"); date=new Date(2026,2,1);
+  assert.deepEqual(Array.from({length:12},(_,i)=>seasonAt(new Date(`2026-${String(i+1).padStart(2,'0')}-15T12:00:00+08:00`))),["winter","winter","spring","spring","spring","summer","summer","summer","autumn","autumn","autumn","winter"]);
+  let date=new Date('2026-02-28T23:59:00+08:00');const weather=makeWeather({now:()=>date,condition:"clear",phase:"day"});
+  assert.equal(weather.state.season,"winter"); date=new Date('2026-03-01T00:00:00+08:00');
   const first=weather.update(.05); assert.equal(first.season,"spring");assert.ok(first.seasonwinter>.99&&first.seasonspring>0);
   for(let i=0;i<400;i++)weather.update(.05);
   assert.equal(weather.state.seasonspring,1);assert.equal(weather.state.seasonwinter,0);
@@ -32,7 +32,25 @@ test("bounded particles distinguish all four seasons, move under reduced motion,
 });
 test("canvas fallback paints changing seasonal silhouettes and restores drawing state",()=>{
   for(const s of SEASONS){const marks=[];let balance=0;const ctx={save(){balance++},restore(){balance--},fillRect(...args){marks.push(args)}};
-    paintSeasonalAir(ctx,640,520,{season:s.id,wind:.4},2,{reduced:true});
+    paintSeasonalAir(ctx,640,520,{season:s.id,snow:s.id==='winter'?1:0,wind:.4},2,{reduced:true});
     assert.ok(marks.length>=s.count);assert.equal(balance,0);
   }
+});
+
+test('month-selected petals are separate from catkins, rain, and reserved festival art',()=>{
+  assert.ok(AIR_GROUPS.reduce((n,s)=>n+s.count,0)<=300);
+  const march=makeWeather({condition:'clear',phase:'day',month:'3'}).state;
+  const april=makeWeather({condition:'clear',phase:'day',month:'4'}).state;
+  const october=makeWeather({condition:'clear',phase:'day',month:'10'}).state;
+  assert.ok(march.petals>april.petals&&april.petals>0);assert.equal(october.petals,0);
+  assert.ok(seasonalStrength(april,'spring')>seasonalStrength(march,'spring'));
+  for(let i=0;i<24;i++)for(const reduced of [false,true]){
+    const a=seasonalParticle('petals',i,10,1,reduced),b=seasonalParticle('petals',i,11,1,reduced);
+    assert.equal(a.kind,5);assert.ok(a.size<.16);assert.notDeepEqual([a.x,a.y,a.z],[b.x,b.y,b.z]);
+    for(const value of [a.x,a.y,a.z])assert.ok(value>=0&&value<=1);
+  }
+  assert.ok(seasonalStrength({...march,rain:1},'petals')<seasonalStrength(march,'petals'));
+  assert.equal(seasonalStrength({...march,snow:1},'petals'),0);
+  const marks=[];paintSeasonalAir({save(){},restore(){},fillRect(...v){marks.push(v)}},640,520,march,1,{reduced:true});
+  assert.ok(marks.length>72);
 });

@@ -1,4 +1,7 @@
-import { SEASONS, paintSeasonalAir } from "./seasons.mjs";
+import { createEnvironmentHud } from "./environment-hud.mjs";
+import { createLiveWeather, updateWeatherCredit } from "./live-weather.mjs";
+import { paintSeasonalAir } from "./seasons.mjs";
+import { MONTHS, SEASON_MONTH, validMonth } from "./climate.mjs";
 import { attachEditorCameraControls } from "./editor-camera-controls.mjs";
 import { fillNotebook, notebookEntry } from "./notebook.mjs";
 import { createActionCard } from "./resident-weather.mjs";
@@ -27,8 +30,7 @@ import { paintObjectLights } from "./objects.mjs";
 import { plantSeed } from "./plant-seed.mjs";
 import {
   WEATHER,
-  TIMES,
-  timeOfDay,
+  timeOptions,
   makeWeather,
   paintSky,
   paintLighting,
@@ -119,7 +121,7 @@ if (backgroundStage) {
   const reviewStyle = document.createElement("link");reviewStyle.rel="stylesheet";
   reviewStyle.href=new URL("./background-review.css",import.meta.url).href;document.head.append(reviewStyle);
   const controls = document.createElement("div"); controls.className="background-review";
-  controls.innerHTML='<span>空场景 · 综合测试</span><select id="reviewScene" aria-label="测试场景"><option value="north">北天台</option><option value="south">南阳台</option><option value="room">空房间</option></select><select id="reviewView" aria-label="测试视角">' + REVIEW_VIEWS.map(({id,label}) => '<option value="' + id + '">' + label + '</option>').join("") + '</select><select id="reviewSampling" aria-label="画面效果"><option value="source">原模型</option><option value="game">游戏像素</option></select><button type="button" id="reviewNotebook">东东的手帐</button><select id="reviewWeather" aria-label="自定义天气"></select><select id="reviewTime" aria-label="自定义时间点"></select><select id="reviewSeason" aria-label="自定义季节"></select>';
+  controls.innerHTML='<span>空场景 · 综合测试</span><select id="reviewScene" aria-label="测试场景"><option value="north">北天台</option><option value="south">南阳台</option><option value="room">空房间</option></select><select id="reviewView" aria-label="测试视角">' + REVIEW_VIEWS.map(({id,label}) => '<option value="' + id + '">' + label + '</option>').join("") + '</select><select id="reviewSampling" aria-label="画面效果"><option value="source">原模型</option><option value="game">游戏像素</option></select><button type="button" id="reviewNotebook">东东的手帐</button><select id="reviewWeather" aria-label="自定义天气"></select><select id="reviewTime" aria-label="自定义时间点"></select><select id="reviewSeason" aria-label="自定义月份"></select>';
   document.querySelector(".roof-world")?.append(controls);
   $("reviewScene").value = scene;
   $("reviewView").value = reviewView;
@@ -199,7 +201,7 @@ if (!editor) {
     scope.hidden = name !== "neighbor";
     if (stationKind !== name) {
       const actions = STATION_ACTIONS[name] || [];
-      stationControls.innerHTML = actions.map(([action,label]) => '<button type="button" class="world-card" data-station-action="' + action + '" aria-label="' + label + '" title="' + label + '">' + stationActionGlyph(action) + '</button>').join("");
+      stationControls.innerHTML = actions.map(([action,label]) => '<button type="button" class="world-card" data-station-action="' + action + '" aria-label="' + label + '" title="' + label + '"><span class="station-glyph" aria-hidden="true">' + stationActionGlyph(action) + '</span></button>').join("");
       stationControls.hidden = !actions.length;
       for (const button of stationControls.querySelectorAll("[data-station-action]")) button.onclick = () => {
         const action = button.dataset.stationAction;
@@ -268,19 +270,27 @@ if (editor)
     weatherChoices =
       JSON.parse(localStorage.getItem(WEATHER_KEY) || (review.legacyGameModel ? localStorage.getItem("umwelt-rooftop-game-model-weather-preview-v1") : null)) || weatherChoices;
   } catch {}
+// Old editor season selections retain their representative month.
+if (!validMonth(weatherChoices.month) && SEASON_MONTH[weatherChoices.season]) {
+  weatherChoices = {...weatherChoices, month:String(SEASON_MONTH[weatherChoices.season]), season:'auto'};
+}
+const liveWeather = createLiveWeather({storage:(()=>{try{return localStorage;}catch{return null;}})()});
 const weather = makeWeather(
   editor
-    ? { ...weatherChoices, manualTransition: 0.65 }
+    ? { ...weatherChoices, manualTransition: 0.65, liveWeather:liveWeather.snapshot }
     : {
+        liveWeather:liveWeather.snapshot,
         condition:
           new URLSearchParams(location.search).get("weather") ||
-          (backgroundStage ? "clear" : WEATHER[Math.floor(Math.random() * WEATHER.length)].id),
+          (backgroundStage ? "clear" : "auto"),
         phase: new URLSearchParams(location.search).get("time") || (backgroundStage ? "day" : "auto"),
         season: new URLSearchParams(location.search).get("season") || (backgroundStage ? "spring" : "auto"),
+        month: new URLSearchParams(location.search).get("month") || "auto",
+        festival: new URLSearchParams(location.search).get("festival") || "auto",
       },
 );
+const environmentHud = createEnvironmentHud($("environmentHud"));
 let atmosphere = weather.state,
-  weatherAge = 0,
   reduced = matchMedia("(prefers-reduced-motion: reduce)").matches,
   cityBounds;
 const activityEnvironment = () => ({
@@ -300,12 +310,18 @@ matchMedia("(prefers-reduced-motion: reduce)").addEventListener(
     reduced = e.matches;
   },
 );
+function refreshTimeOptions(id) {
+  const select = $(id); if (!select) return;
+  const month = validMonth(weather.choices.month) ? weather.choices.month : SEASON_MONTH[weather.choices.season];
+  select.replaceChildren(new Option('随北京时间', 'auto'), ...timeOptions(month).map(v=>new Option(v.name,v.id)));
+  select.value = weather.choices.phase;
+}
 if (editor) {
   attachEditorCameraControls($("editCameraControls"), action => garden3d?.nudgeEditCamera(action));
   for (const [id, key, values] of [
-    ["weatherSelect", "condition", WEATHER],
-    ["timeSelect", "phase", TIMES],
-    ["seasonSelect", "season", SEASONS],
+    ["weatherSelect", "condition", [{id:"simulated",name:"季节天气模拟"},...WEATHER]],
+    ["timeSelect", "phase", timeOptions(weather.choices.month)],
+    ["seasonSelect", "month", MONTHS],
   ]) {
     const select = $(id);
     for (const item of values) {
@@ -317,11 +333,14 @@ if (editor) {
     select.value = weather.choices[key];
     select.onchange = () => {
       weather.set(key, select.value);
+      if (key === "condition") liveWeather.resume();
+      if (key === "month") refreshTimeOptions("timeSelect");
       try {
         localStorage.setItem(WEATHER_KEY, JSON.stringify(weather.choices));
       } catch {}
     };
   }
+  refreshTimeOptions("timeSelect");
 }
 if (backgroundStage) {
   persistReviewState = () => {
@@ -338,11 +357,14 @@ if (backgroundStage) {
     syncNarrativeUI();
     persistReviewState();
   };
-  for (const [id,key,values] of [["reviewWeather","condition",WEATHER],["reviewTime","phase",TIMES],["reviewSeason","season",SEASONS]]) {
+  for (const [id,key,values] of [["reviewWeather","condition",WEATHER],["reviewTime","phase",timeOptions(weather.choices.month)],["reviewSeason","month",MONTHS]]) {
     const select=$(id);if(!select)continue;
+    select.append(new Option(key==="condition"?"濠河实时天气":"随现实日历", "auto"));
+    if(key==="condition")select.append(new Option("季节天气模拟","simulated"));
     for(const item of values){const option=document.createElement("option");option.value=item.id;option.textContent=item.name;select.append(option);}
-    select.value=weather.choices[key];select.onchange=()=>{weather.set(key,select.value);persistReviewState();};
+    select.value=key==="month" && weather.choices.season!=="auto" ? String(SEASON_MONTH[weather.choices.season]) : weather.choices[key];select.onchange=()=>{weather.set(key,select.value);if(key==="condition")liveWeather.resume();if(key==="month")refreshTimeOptions("reviewTime");persistReviewState();};
   }
+  refreshTimeOptions("reviewTime");
   $("reviewScene").onchange=()=>{
     scene=$("reviewScene").value;
     persistReviewState();
@@ -350,8 +372,17 @@ if (backgroundStage) {
   };
   persistReviewState();
 }
+let displayedCalendar = '';
 function weatherCaption() {
+  const calendar = `${atmosphere.monthName}:${atmosphere.sunrise}:${atmosphere.sunset}`;
+  if (calendar !== displayedCalendar) {
+    displayedCalendar = calendar;
+    if (editor) refreshTimeOptions('timeSelect');
+    if (backgroundStage) refreshTimeOptions('reviewTime');
+  }
+  updateWeatherCredit($("weatherSource"), atmosphere);
   const text = atmosphereCaption(atmosphere);
+  $("weatherStatus").title = `${atmosphere.monthName} · ${atmosphere.period}`;
   if ($("weatherStatus").textContent !== text)
     $("weatherStatus").textContent = text;
 }
@@ -1088,10 +1119,11 @@ if (editor) {
       garden3d?.setReviewSampling(reviewSampling);
       garden3d?.setReviewView(reviewView);
       const query=new URLSearchParams(location.search);
-      for (const [id,key,parameter] of [["reviewWeather","condition","weather"],["reviewTime","phase","time"],["reviewSeason","season","season"]]) {
-        const value=query.get(parameter);
+      for (const [id,key,parameter] of [["reviewWeather","condition","weather"],["reviewTime","phase","time"],["reviewSeason","month","month"]]) {
+        const value=query.get(parameter) || (key==="month" && SEASON_MONTH[query.get("season")] ? String(SEASON_MONTH[query.get("season")]) : "auto");
         if(value){weather.set(key,value);$(id).value=weather.choices[key];}
       }
+      refreshTimeOptions("reviewTime");
     }
     rebuild();
   });
@@ -1457,19 +1489,11 @@ function frame(now) {
   last = now;
   time += dt;
   if (cardFeed) cardFeed.update(time);
-  weatherAge += dt;
-  if (!editor && weatherAge > 480) {
-    weatherAge = 0;
-    const options = WEATHER.filter((w) => w.id !== weather.choices.condition);
-    weather.set(
-      "condition",
-      options[Math.floor(Math.random() * options.length)].id,
-    );
-  }
   const previousCondition = atmosphere.condition;
   // An editor selection follows wall time even if a slow frame was skipped.
   // Resident physics keep their bounded step above.
   atmosphere = weather.update(editor ? Math.min(elapsed, 2) : dt);
+  environmentHud.update(atmosphere);
   if (previousCondition !== atmosphere.condition) syncPresence();
   if (resident && resident.update(dt, activityEnvironment())) {
     showPerson = !hideActors && resident.present;
@@ -1606,3 +1630,8 @@ window.rooftop = {
     return { ...camera };
   },
 };
+
+// The first frame has already been submitted before the optional request starts.
+requestAnimationFrame(()=>setTimeout(()=>liveWeather.start({isEnabled:()=>weather.choices.condition==='auto',document}),0));
+window.addEventListener('pagehide',()=>liveWeather.stop());
+window.addEventListener('pageshow',event=>{if(event.persisted)liveWeather.start({isEnabled:()=>weather.choices.condition==='auto',document});});

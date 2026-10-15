@@ -259,7 +259,7 @@ test("scope detail resizes the same nearest target while preserving output size 
 test("seasonal point diameters use the actual low target height rather than the full output", () => {
   const scene = new T.Scene(), air = createSeasonalAir(T, scene, { getDrawingBufferSize(v) { v.set(407, 662); } });
   for (const season of ["spring", "summer", "autumn", "winter"]) {
-    air.update("north", { season }, 0, false);
+    air.update("north", { season, snow:season==="winter"?1:0 }, 0, false);
     for (const points of air.points.filter(p => p.visible)) assert.equal(points.material.uniforms.viewportHeight.value, 331);
   }
   air.update("room", { season: "spring" }, 0, false);
@@ -277,7 +277,7 @@ test("seasonal point size tracks scope detail and recovers the coarse height on 
     const grid = resolveObservationPixelGrid(2, view, zoom);
     Object.assign(dataset, { pixelRatio: "2", physicalPixelStep: String(grid.pixelStep), targetCssPixelStep: String(grid.targetCssPixelStep) });
     for (const season of ["spring", "summer", "autumn", "winter"]) {
-      air.update("north", { season }, 0, false);
+      air.update("north", { season, snow:season==="winter"?1:0 }, 0, false);
       const visible = air.points.filter(p => p.visible); assert.ok(visible.length > 0);
       for (const points of visible) assert.equal(points.material.uniforms.viewportHeight.value, expectedHeight);
     }

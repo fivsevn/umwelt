@@ -18,12 +18,17 @@ try {
     import('../../wardrobe.mjs'),
   ]);
 } finally { Storage.prototype.getItem = getItem; Storage.prototype.setItem = setItem; }
-const [{ createGardenRenderer }, { initialLayout, makeWalker, ASSETS }, { makeWeather, WEATHER, TIMES }, { SEASONS },
+const [{ createGardenRenderer }, { initialLayout, makeWalker, ASSETS }, { makeWeather, WEATHER, TIMES, timeOptions }, { SEASONS },
   { ITEMS, getItemDefinition, getPlantAssembly }, { REVIEW_VIEWS, emptyReviewLayout },
   { opticOverlayMarkup, updateOpticOverlay }, { wardrobe }] = modules;
 const { createReviewItemStage } = await import('../../3d/review-item-stage.mjs');
 const { DEFAULT_NARRATIVE_VIEW } = await import('../../3d/story-camera.mjs');
 const { STATION_ACTIONS, stationActionGlyph } = await import('../../observer-ui.mjs');
+const { CLIMATE_LOCATION, MONTHS, SEASON_MONTH, validMonth } = await import('../../climate.mjs');
+const coordinates = `${CLIMATE_LOCATION.latitude.toFixed(2)}°N ${CLIMATE_LOCATION.longitude.toFixed(2)}°E`;
+const { FESTIVALS } = await import('../../festivals.mjs');
+const { createLiveWeather, updateWeatherCredit } = await import('../../live-weather.mjs');
+const liveWeather = createLiveWeather({storage:(()=>{try{return localStorage;}catch{return null;}})()});
 const $ = id => document.getElementById(id), query = new URLSearchParams(location.search);
 const valid = (value, list, fallback) => list.includes(value) ? value : fallback;
 let mode = valid(query.get('mode'), ['scene','item','game'], 'scene');
@@ -33,22 +38,34 @@ let sampling = valid(query.get('sampling'), ['source','game'], 'source');
 let item = getItemDefinition(query.get('item'))?.id || 'wood-2';
 const views = { scene: valid(query.get('view'), REVIEW_VIEWS.map(v=>v.id), 'terrace'),
   game: valid(query.get('view'), ['bird','drone','neighbor'], DEFAULT_NARRATIVE_VIEW) };
-const choices = { condition: valid(query.get('weather'), WEATHER.map(v=>v.id), 'clear'),
-  phase: valid(query.get('time'), TIMES.map(v=>v.id), 'afternoon'),
-  season: valid(query.get('season'), SEASONS.map(v=>v.id), 'autumn') };
+const choices = { condition: valid(query.get('weather'), ['auto','simulated',...WEATHER.map(v=>v.id)], 'clear'),
+  phase: valid(query.get('time'), ['auto',...TIMES.map(v=>v.id)], 'afternoon'), season:'auto',
+  month: query.get('month') === 'auto' ? 'auto' : validMonth(query.get('month')) ? query.get('month') : String(SEASON_MONTH[query.get('season')] || 10),
+  festival: valid(query.get('festival'), ['none','auto',...FESTIVALS.map(v=>v.id)], 'none') };
 const layout = initialLayout(), empty = emptyReviewLayout(initialLayout(), { room:true });
 const gardens = new Map(), canvases = { scene:$('sceneCanvas'), item:$('itemCanvas'), game:$('gameCanvas') };
 let itemStage = null, generation = 0, pending = true, paused = false;
-let weather = makeWeather(choices), atmosphere = weather.state, time = 0, last = performance.now(), lastFrame = 0;
+let weather = makeWeather({...choices,liveWeather:liveWeather.snapshot}), atmosphere = weather.state, time = 0, last = performance.now(), lastFrame = 0;
 let person, pig, lastStatus = '';
 let detailOpen = false, catalogCategory = query.get('category') || '全部', catalogSearch = query.get('q') || '', catalogScroll = 0;
 let catalogRevision = 0, catalogBusy = false, catalogQueue = [], catalogLoaded = 0, catalogErrors = 0;
-let catalogAtmosphere = makeWeather(choices).state;
+let catalogAtmosphere = makeWeather({...choices,liveWeather:liveWeather.snapshot}).state;
 const thumbCache = new Map(), cards = new Map();
 Object.assign(wardrobe, { outfit:'sage', pig:'scarf' });
 $('scope').innerHTML = opticOverlayMarkup();
 function options(select, list) { select.replaceChildren(...list.map(v=>new Option(v.name || v.label, v.id))); }
-options($('weatherChoice'),WEATHER); options($('timeChoice'),TIMES); options($('seasonChoice'),SEASONS);
+options($('weatherChoice'),[{id:'auto',name:'实时天气'},{id:'simulated',name:'季节天气模拟'},...WEATHER]);
+const monthLabel = month => `${String(month).padStart(2,'0')}月`;
+options($('monthChoice'),[{id:'auto',name:'随现实月份'},...MONTHS.map(v=>({...v,name:monthLabel(v.id)}))]);
+options($('festivalChoice'),[{id:'none',name:'无'},{id:'auto',name:'随日历'},...FESTIVALS.map(v=>({...v,name:v.name+'·预留'}))]);
+function calendarControls() {
+  options($('timeChoice'),[{id:'auto',name:'随北京时间'},...timeOptions(choices.month)]);
+  $('timeChoice').value=choices.phase;
+  updateWeatherCredit($('weatherInfo'),atmosphere,coordinates);
+  $('environmentInfo').textContent=`${coordinates} · ${monthLabel(atmosphere.month)} · 日出 ${atmosphere.sunrise} / 日落 ${atmosphere.sunset}` +
+    (atmosphere.festivals.names.length ? ` · ${atmosphere.festivals.names.join('、')}（布置与飘落物预留）` : '');
+}
+calendarControls();
 const categories = new Map();
 for (const definition of ASSETS) { if (!categories.has(definition.category)) categories.set(definition.category,[]); categories.get(definition.category).push(definition); }
 for (const [name, definitions] of categories) { const group=document.createElement('optgroup');group.label=name;
@@ -63,7 +80,7 @@ const catalogObserver = new IntersectionObserver(entries=>{
   for(const entry of entries)if(entry.isIntersecting&&mode==='item'&&!detailOpen){catalogObserver.unobserve(entry.target);catalogQueue.push(entry.target);}
   processCatalog();
 },{rootMargin:'160px'});
-function thumbKey(card) {const holder=card.querySelector('.item-image');return JSON.stringify([card.dataset.itemId,look,sampling,choices,holder.clientWidth,holder.clientHeight,devicePixelRatio]);}
+function thumbKey(card) {const holder=card.querySelector('.item-image');return JSON.stringify([card.dataset.itemId,look,sampling,choices,catalogAtmosphere.weatherObservedAt,catalogAtmosphere.condition,holder.clientWidth,holder.clientHeight,devicePixelRatio]);}
 function showThumb(card, result, revision) {
   if(revision!==catalogRevision||!card.isConnected)return;
   card.querySelector('img').src=result.url;card.querySelector('.item-image span').textContent='';
@@ -90,7 +107,7 @@ async function processCatalog() {
 function stopCatalog() {catalogRevision++;catalogObserver.disconnect();catalogQueue=[];}
 function observeCatalog() {if(mode!=='item'||detailOpen)return;for(const card of cards.values())if(card.dataset.loaded!=='true')catalogObserver.observe(card);processCatalog();}
 function refreshCatalog() {
-  stopCatalog();catalogLoaded=0;catalogErrors=0;catalogAtmosphere=makeWeather(choices).state;
+  stopCatalog();catalogLoaded=0;catalogErrors=0;catalogAtmosphere=makeWeather({...choices,liveWeather:liveWeather.snapshot}).state;
   if(mode==='item'&&!detailOpen)document.body.dataset.ready='false';
   for(const card of cards.values()){card.dataset.loaded='false';card.querySelector('img').removeAttribute('src');card.querySelector('.item-image span').textContent='正在摆好…';}
   observeCatalog();
@@ -167,7 +184,7 @@ function controls() {
   options($('viewChoice'),mode==='game'?[{id:'bird',name:'小鸟'},{id:'drone',name:'无人机'},{id:'neighbor',name:'邻居'}]:REVIEW_VIEWS);
   $('viewChoice').value=views[mode]||'terrace';$('sceneChoice').value=scene;$('itemChoice').value=item;
   $('samplingChoice').value=sampling;$('lookChoice').value=scene==='room'||mode==='item'?'original':mode==='game'?'terraces':look;$('lookChoice').disabled=mode!=='scene'||scene==='room';
-  $('weatherChoice').value=choices.condition;$('timeChoice').value=choices.phase;$('seasonChoice').value=choices.season;
+  $('weatherChoice').value=choices.condition;$('monthChoice').value=choices.month;$('festivalChoice').value=choices.festival;calendarControls();
   $('scope').hidden=mode==='item'||scene==='room'||views[mode]!=='neighbor';
   const stationView=mode==='game'&&scene!=='room'?views.game:'';
   const stationControls=$('stationControls');
@@ -187,7 +204,7 @@ function controls() {
     }));
   }
   $('hint').textContent=mode==='game'?'拖动观察 · 滚轮或双指缩放':mode==='item'&&!detailOpen?'全部物件 · 点击近看':'拖动转动 · 滚轮或双指缩放';
-  const params=new URLSearchParams({mode,scene,view:views[mode]||'terrace',sampling,look,weather:choices.condition,time:choices.phase,season:choices.season});
+  const params=new URLSearchParams({mode,scene,view:views[mode]||'terrace',sampling,look,weather:choices.condition,time:choices.phase,month:choices.month,festival:choices.festival});
   if(mode==='item'){if(detailOpen)params.set('item',item);if(catalogCategory!=='全部')params.set('category',catalogCategory);if(catalogSearch)params.set('q',catalogSearch);}
   history.replaceState(null,'',`${location.pathname}?${params}`);
 }
@@ -202,21 +219,28 @@ async function activate(next) {
 function setSampling(value) {sampling=valid(value,['source','game'],'source');for(const garden of gardens.values())garden.setReviewSampling(sampling);itemStage?.setSampling(sampling);refreshCatalog();controls();}
 function setScene(value) {scene=valid(value,['north','south','room'],'north');for(const[group,garden]of gardens)setCamera(garden,group);walkers();controls();}
 function setView(value) {if(mode==='item')return;views[mode]=valid(value,mode==='scene'?REVIEW_VIEWS.map(v=>v.id):['bird','drone','neighbor'],mode==='scene'?'terrace':DEFAULT_NARRATIVE_VIEW);setCamera(gardenFor(mode),mode);controls();}
-function setEnvironment(value) {Object.assign(choices,value);weather=makeWeather(choices);atmosphere=weather.state;refreshCatalog();controls();}
+function setEnvironment(value) {
+  if (value.season && !Object.hasOwn(value,'month')) value={...value,month:String(SEASON_MONTH[value.season]||'auto'),season:'auto'};
+  Object.assign(choices,value,{season:'auto'});weather=makeWeather({...choices,liveWeather:liveWeather.snapshot});Object.assign(choices,weather.choices);atmosphere=weather.state;liveWeather.resume();refreshCatalog();controls();
+}
 function resetCamera() {if(mode==='item')itemStage?.resetCamera();else setCamera(gardenFor(mode),mode);}
 for(const button of document.querySelectorAll('button[data-mode]'))button.onclick=()=>activate(button.dataset.mode).catch(fail);
 $('sceneChoice').onchange=e=>setScene(e.target.value);$('viewChoice').onchange=e=>setView(e.target.value);
 $('itemChoice').onchange=e=>openItem(e.target.value);
 $('samplingChoice').onchange=e=>setSampling(e.target.value);
 $('lookChoice').onchange=e=>{look=e.target.value;gardens.get('scene')?.setReviewDetailEnabled(look==='terraces');controls();};
-for(const[id,key]of[['weatherChoice','condition'],['timeChoice','phase'],['seasonChoice','season']])$(id).onchange=e=>setEnvironment({[key]:e.target.value});
+for(const[id,key]of[['weatherChoice','condition'],['timeChoice','phase'],['monthChoice','month'],['festivalChoice','festival']])$(id).onchange=e=>setEnvironment({[key]:e.target.value});
 $('resetCamera').onclick=resetCamera;
-let failure=null;
+let failure=null, calendarKey='', liveCatalogKey='';
 function fail(error){failure=String(error.message||error);document.body.dataset.ready='false';$('status').textContent='载入失败，请刷新。';$('status').classList.add('error');console.error(error);}
 function frame(now) {
   requestAnimationFrame(frame);if(now-lastFrame<32||failure)return;lastFrame=now;
   const dt=Math.min(.1,Math.max(0,(now-last)/1000));last=now;
   if(!paused){time+=dt;atmosphere=weather.update(dt);if(mode==='game'){person.update(dt);pig.update(dt*.8);}}
+  const nextCalendar=[atmosphere.monthName,atmosphere.sunrise,atmosphere.sunset,atmosphere.festivals.ids,atmosphere.weatherSource,atmosphere.weatherObservedAt].join(':');
+  if(nextCalendar!==calendarKey){calendarKey=nextCalendar;calendarControls();}
+  const nextLiveCatalog=String(atmosphere.weatherObservedAt||'');
+  if(nextLiveCatalog!==liveCatalogKey){liveCatalogKey=nextLiveCatalog;refreshCatalog();}
   let ready=false, errors=[], text='正在载入…';
   if(mode==='item'&&itemStage){
     if(detailOpen){itemStage.draw({atmosphere,time,dt:paused?0:dt,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches});const stats=itemStage.stats;ready=!pending&&stats.ready;errors=stats.error?[stats.error]:[];text=definition(item)?.name||item;}
@@ -235,8 +259,9 @@ window.rooftopReview={setMode:activate,setSampling,setScene,setView,setEnvironme
   async setItem(id){if(mode!=='item')await activate('item');return openItem(id);},closeItem,
   setCategory(value){catalogCategory=categories.has(value)?value:'全部';renderCatalog();controls();},
   setSearch(value){catalogSearch=String(value||'');$('itemSearch').value=catalogSearch;renderCatalog();controls();},setPaused(value){paused=Boolean(value);},
-  get stats(){return {mode,scene,item,sampling,look,choices:{...choices},storageIsolation:{...storage},contexts:gardens.size+(itemStage?1:0),
+  get stats(){return {mode,scene,item,sampling,look,choices:{...choices},environment:{...atmosphere},storageIsolation:{...storage},contexts:gardens.size+(itemStage?1:0),
     active:mode==='item'?itemStage?.stats:gardens.get(mode)?.stats,catalog:{total:ITEMS.length,shown:cards.size,loaded:catalogLoaded,errors:catalogErrors,category:catalogCategory,search:catalogSearch,detailOpen,revision:catalogRevision,busy:catalogBusy},ready:document.body.dataset.ready==='true'};}};
 activate(mode).catch(fail);requestAnimationFrame(frame);
 let resizeTimer;window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(refreshCatalog,150);});
-window.addEventListener('pagehide',()=>{stopCatalog();itemStage?.dispose();for(const result of thumbCache.values())URL.revokeObjectURL(result.url);},{once:true});
+requestAnimationFrame(()=>setTimeout(()=>liveWeather.start({isEnabled:()=>choices.condition==='auto',document}),0));
+window.addEventListener('pagehide',()=>{liveWeather.stop();stopCatalog();itemStage?.dispose();for(const result of thumbCache.values())URL.revokeObjectURL(result.url);},{once:true});

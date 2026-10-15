@@ -1,4 +1,36 @@
-/* Observer choices and operations reuse the public world-card surface. */
+/* Compact observer buttons and a shared text-only information overlay. */
+.observation{
+  --observation-card-height:22px;
+  --observation-card-background:#cec7acb8;
+  --observation-card-shadow:1px 1px #53604b55;
+  --observation-info-font:9px/1.65 Pixel,monospace;
+  --observation-info-color:#b4b7b3;
+  --observation-info-shadow:1px 1px 0 #171d19,0 0 1px #171d1980;
+  --observation-link-color:#cdd0ca;
+}
+.observation .corner-cards,.observation .view-controls{zoom:1}
+.observation .corner-cards{gap:4px}
+.observation .roof-world .view-controls .world-card{
+  box-sizing:border-box;
+  min-height:var(--observation-card-height);
+  padding:2px 8px;
+  border:0;
+  border-radius:0;
+  background:var(--observation-card-background);
+  color:#3d4939;
+  box-shadow:var(--observation-card-shadow);
+  font:12px/18px Pixel,monospace;
+  text-shadow:none;
+}
+.observation .roof-world .view-controls :is(a,button).world-card:hover{
+  background:#d7d2bcd6;
+  color:#3d4939;
+  box-shadow:var(--observation-card-shadow);
+  transform:none;
+}
+.observation .roof-world .view-controls button.world-card[aria-pressed="true"]{
+  background:#b5b69bc9;
+}
 .observation .view-controls{
   left:max(16px,env(safe-area-inset-left));
   top:max(16px,env(safe-area-inset-top));
@@ -6,7 +38,7 @@
   flex-direction:column;
   flex-wrap:nowrap;
   align-items:flex-start;
-  gap:6px;
+  gap:3px;
   padding:0;
   border:0;
   background:none;
@@ -16,30 +48,81 @@
   display:flex;
   align-items:center;
   flex-wrap:nowrap;
-  gap:6px;
+  gap:3px;
   padding:0;
   border:0;
   background:none;
   box-shadow:none;
 }
-.observation .narrative-views button.world-card,.observation .station-controls button.world-card{
+.observation .roof-world .view-controls button.world-card{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  width:36px;
-  height:36px;
-  min-width:36px;
-  min-height:36px;
-  flex:0 0 36px;
+  width:var(--observation-card-height);
+  height:var(--observation-card-height);
+  min-width:var(--observation-card-height);
+  min-height:var(--observation-card-height);
+  flex:0 0 auto;
+  padding:0;
   margin:0;
   white-space:nowrap;
 }
-.observation .narrative-views .observer-icon{
-  width:16px;
-  height:16px;
-  background-size:128px 128px;
+.observation .roof-world .view-controls button.world-card,
+.observation .roof-world .view-controls button.world-card:is(:hover,:active,[aria-pressed="true"]){
+  color:#000;
 }
-.observation .narrative-views .observer-icon[data-icon="bird"]{background-position:-2px -2px}
-.observation .narrative-views .observer-icon[data-icon="drone"]{background-position:-32px -2px}
+.observation .narrative-views .observer-icon{
+  height:11px;background-size:128px 128px;
+  filter:brightness(0);
+  transform:scale(.75);
+}
+/* Center each painted silhouette, excluding the atlas cell's transparent margin. */
+.observation .narrative-views .observer-icon[data-icon="bird"]{width:13px;background-position:-2px -4px}
+.observation .narrative-views .observer-icon[data-icon="drone"]{width:12px;background-position:-34px -3px}
+.observation .station-glyph{display:block;line-height:12px}
+.observation .station-controls :is([data-station-action="up"],[data-station-action="down"],[data-station-action="left"],[data-station-action="right"]) .station-glyph{
+  position:relative;width:7px;height:7px;font-size:0;line-height:0;
+}
+.observation .station-controls :is([data-station-action="up"],[data-station-action="down"],[data-station-action="left"],[data-station-action="right"]) .station-glyph::before{
+  content:"";position:absolute;left:3px;top:0;width:1px;height:7px;background:currentColor;
+}
+.observation .station-controls :is([data-station-action="up"],[data-station-action="down"],[data-station-action="left"],[data-station-action="right"]) .station-glyph::after{
+  content:"";position:absolute;left:1px;top:2px;width:1px;height:1px;background:currentColor;
+  box-shadow:1px -1px currentColor,3px -1px currentColor,4px 0 currentColor;
+}
+.observation [data-station-action="down"] .station-glyph{transform:rotate(180deg)}
+.observation [data-station-action="left"] .station-glyph{transform:rotate(-90deg)}
+.observation [data-station-action="right"] .station-glyph{transform:rotate(90deg)}
 .observation .view-controls[hidden],.observation .narrative-views[hidden],.observation .station-controls[hidden]{display:none}
 @media(max-width:550px){.observation .view-controls{left:max(12px,env(safe-area-inset-left));top:max(12px,env(safe-area-inset-top))}}
+
+.observation .environment-hud,
+.observation .roof-world .corner-cards .world-card,
+.observation .roof-world .corner-cards .world-card:is(:hover,:active,[aria-pressed="true"]){
+  margin:0;padding:0;border:0;min-height:0;background:none;box-shadow:none;
+  color:var(--observation-info-color);text-shadow:var(--observation-info-shadow);
+  font:var(--observation-info-font);
+  transform:none;
+}
+.observation .roof-world .corner-cards .world-card{pointer-events:none}
+.observation .environment-hud{
+  position:absolute;top:max(16px,env(safe-area-inset-top));right:max(16px,env(safe-area-inset-right));
+  text-align:right;max-width:calc(100vw - 186px);pointer-events:none;z-index:2;
+}
+.observation .environment-hud a,
+.observation .roof-world .corner-cards :is(a,button).world-card,
+.observation .roof-world .corner-cards button.world-card[aria-pressed="true"]{
+  color:var(--observation-link-color);pointer-events:auto;cursor:pointer;
+  text-decoration:none;
+}
+.observation .environment-hud a::before,
+.observation .roof-world .corner-cards :is(a,button).world-card::before{
+  content:">" / "";display:inline-block;width:1.2em;color:#92988f;
+}
+.observation .environment-hud a:is(:hover,:focus-visible),
+.observation .roof-world .corner-cards :is(a,button).world-card:is(:hover,:focus-visible){color:#e0e3dc}
+.observation .environment-hud a:is(:hover,:focus-visible)::before,
+.observation .roof-world .corner-cards :is(a,button).world-card:is(:hover,:focus-visible)::before{color:inherit}
+.observation .environment-hud a:focus-visible,
+.observation .roof-world .corner-cards :is(a,button).world-card:focus-visible{outline:1px solid currentColor;outline-offset:3px}
+@media(max-width:550px){.observation .environment-hud{top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right));max-width:calc(100vw - 180px)}}

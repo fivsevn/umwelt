@@ -482,3 +482,5 @@ body.garage .edit-camera-controls button:last-child{width:auto!important;min-wid
 .edit-camera-controls .observer-icon[data-icon="far"]{background-position:-2px -62px}
 .edit-camera-controls .observer-icon[data-icon="in"]{background-position:-32px -62px}
 .edit-camera-controls .observer-icon[data-icon="out"]{background-position:-62px -62px}
+
+#weatherSource{display:block;font-size:10px;line-height:1.5;color:inherit}#weatherSource[hidden]{display:none}#weatherSource a{color:inherit;pointer-events:auto;text-underline-offset:2px}.garage .workspace-status .world-card #weatherStatus{padding:0;margin:0;background:none;box-shadow:none}

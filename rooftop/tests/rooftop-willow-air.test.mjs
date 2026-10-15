@@ -131,7 +131,7 @@ test("summer insects, autumn flowers/leaves, and winter snow retain their existi
   const air = makeAir();
   for (const name of ["north", "south"]) for (const reduced of [false, true]) {
     for (const season of SEASONS.filter(s => s.id !== "spring")) {
-      const state = { season: season.id, wind: .47, ambient: .8, direct: 1.1 },
+      const state = { season: season.id, snow:season.id==="winter"?1:0, wind: .47, ambient: .8, direct: 1.1 },
         points = air.points[SEASONS.indexOf(season)], attrs = points.geometry.attributes;
       air.update(name, state, 17.3, reduced);
       assert.equal(air.stats.count, season.count);
@@ -156,8 +156,8 @@ test("summer insects, autumn flowers/leaves, and winter snow retain their existi
 
 test("spring and winter keep independent identities while the existing season transition blends them", () => {
   const air = makeAir();
-  air.update("north", { season: "spring", seasonspring: .45, seasonwinter: .55, wind: .32 }, 7, true);
+  air.update("north", { season: "spring", seasonspring: .45, seasonwinter: .55, snow:.55, wind: .32 }, 7, true);
   assert.equal(air.stats.count, 16 + 112);
   assert.deepEqual(air.stats.effects.map(effect => [effect.season, effect.count, effect.strength]),
-    [["spring", 16, .45], ["winter", 112, .55]]);
+    [["spring", 16, .45*(1-.55)], ["winter", 112, .55]]);
 });
