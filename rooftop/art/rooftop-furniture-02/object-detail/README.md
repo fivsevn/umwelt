@@ -33,7 +33,7 @@
 
 七组原稿位于上级目录的 `everyday/`、`rooms-vessels/`、`pots-retained/`、`accents/`、`plants-retained/`、`collection/`、`ceramics-extra/`。
 
-每组保留 `FAMILY.blend`、`FAMILY-layout.blend`、`FAMILY-atlas.pxo`、`atlas.pxo`、`atlas.png`、`texture-layout.json` 和 `catalog.json`。游戏读取 `rooftop/assets/items/` 的 GLB、图集和缩略图；目录元数据为 `rooftop/item-data.mjs`，缩略图审计为 `rooftop/art/rooftop-thumbnail-02/audit.json`。
+每组保留 `FAMILY.blend`、`FAMILY-layout.blend`、`FAMILY-atlas.pxo`、`atlas.png`、`texture-layout.json` 和 `catalog.json`。这些定稿源文件作为作品的一部分随游戏提交仓库，后续修改以当前源文件为依据。游戏读取 `rooftop/assets/items/` 的 GLB、图集和缩略图；目录元数据为 `rooftop/item-data.mjs`，缩略图审计为 `rooftop/art/rooftop-thumbnail-02/audit.json`。
 
 从当前原稿继续编辑，不回放旧家族生成脚本。以下命令中的 `FAMILY` 为原稿目录名，备份必须为本次编辑前的当前文件。
 
@@ -46,7 +46,7 @@ blender --background --python verify-native.py -- <编辑前备份目录> --all-
 
 `paint-detail.py` 通过 Pixelorama 原生 Pencil 写入、保存并独立重开；`material-round3.py` 计算笔迹颜色。`refine-native.py` 从当前 Blend 导出并打包对应图集。`sync-detail.py --all-objects` 核对三角面数量、更新模型散列，保留碰撞与承放元数据。缩略图必须由实际游戏物件渲染器生成，随后同步目录投影与审计散列。
 
-`detail-pencil-strokes.json` 为可重新生成的临时绘制指令，原稿保存后删除，不纳入 Git。用户提供的参考图片没有存入仓库。保留来源链接，不保存参考图片副本。
+`detail-pencil-strokes.json`、`pencil-strokes.json` 和生成的临时扩展为绘制过程文件，原稿保存后删除，不纳入 Git。删除重复的 `atlas.pxo`，统一使用各组 `FAMILY-atlas.pxo`；保留当前定稿的检查记录，删除先前轮次的检查输出。用户提供的参考图片没有存入仓库。保留来源链接，不保存参考图片副本。
 
 ## 检查结果
 
@@ -57,9 +57,10 @@ blender --background --python verify-native.py -- <编辑前备份目录> --all-
 - 610 个运行资产中更新 294 个 GLB、7 张图集和 294 张缩略图，其余 15 个资产散列一致。
 - 目录除模型散列和缩略图投影外的字段保持，包括碰撞部件、承放面、植物学名、适用盆器和默认盆器。
 - 已检查原生与游戏采样、雨天黄昏及南北天台和房间初始组合。
-- 434 项测试通过，全项目结构检查通过。
+- 缩略图投影保留完整可见边界，检查 2D 回退绘制和四个保存朝向；同步命令见[缩略图说明](../../rooftop-thumbnail-02/README.md)。
+- 435 项测试通过，全项目结构检查通过。
 
-材质检查见 `*-round3-paint-check.json`；原稿检查见 `round3-source-reopen-check.json`；资源范围见 `round3-scope-check.json`；导出清单见 `round3-runtime-check.json`。前两次日常物件调整的范围与检查记录保留在 `scope.json`、`*-geometry-check.json`、`*-round2-geometry-check.json` 等文件中。
+材质检查见 `*-round3-paint-check.json`；原稿检查见 `round3-source-reopen-check.json`；资源范围见 `round3-scope-check.json`；导出清单见 `round3-runtime-check.json`。建模、绘制、导出和检查工具保留；这些工具不是旧版模型或贴图。
 
 本地查看：[统一测试页](http://127.0.0.1:8765/rooftop/tests/browser/rooftop.html?mode=item&sampling=source)。发布步骤见[验证与发布](../../../../docs/deployment.md)。
 

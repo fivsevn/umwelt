@@ -49,7 +49,7 @@
 | `3d/native-style.mjs`、`native-materials.mjs`、`native-book.mjs` | 人物共用材料格、图集缓存和环境参数 |
 | `3d/rack-grid.mjs`、`spatial-layout.mjs` | 真实承放面、开孔和格栅支持判断 |
 | `3d/residents.mjs` | 人物身体、衣服与装饰 |
-| `arrange/index.html`、`rooftop.css` | 车库结构与样式 |
+| `arrange/index.html`、`rooftop.css`、`editor.css` | 车库结构与样式；工具栏在窄屏换行后各行左对齐，导入面板限制在工具栏宽度内 |
 
 植物资料从 `botany.mjs` 入手，所有新模型先在 `rooftop/art/rooftop-furniture-02/` 的原生管线完成、核对，再运行 `sync-runtime-catalog.py` 同步新目录、承放资料和实际模型缩略图。家具只整理新目录，原植物子类、收藏、枪械与兵器资料不随视觉重做改名。材质书保留当前可编辑原稿和必要绘制工具。`scene.mjs` 的兼容尺寸、二维回退和图鉴绘制不能作为重复目录删除。
 

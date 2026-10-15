@@ -141,14 +141,14 @@ func run_native():
  for arg in OS.get_cmdline_user_args():
   if arg.begins_with("--furniture-dir="):dir=arg.trim_prefix("--furniture-dir=")
   if arg=="--check-source":check=true
- var record=JSON.parse_string(FileAccess.get_file_as_string(dir.path_join("pencil-strokes.json")))
- var size=int(record.size)
  if check:
   var p=Global.current_project
   var error=p.frames[0].cels[0].get_image().save_png(dir.path_join("reopened.png"))
   print("NATIVE REOPEN ",JSON.stringify({"nativePxoReopened":true,"size":[p.size.x,p.size.y],"exported":error==OK}))
   get_tree().quit(0 if error==OK else 3)
   return
+ var record=JSON.parse_string(FileAccess.get_file_as_string(dir.path_join("pencil-strokes.json")))
+ var size=int(record.size)
  OpenSave.open_image_as_new_tab("atlas.png",Image.create(size,size,false,Image.FORMAT_RGBA8))
  var p=Global.current_project
  p.name="furniture-atlas"
@@ -164,7 +164,7 @@ func run_native():
   for point in mark.points.slice(1):pencil.draw_move(Vector2i(point[0],point[1]))
   pencil.draw_end(Vector2i(mark.points[-1][0],mark.points[-1][1]))
  p.set_meta("texelsPerMetre",16)
- var saved=OpenSave.save_pxo_file(dir.path_join("atlas.pxo"),false,true,p)
+ var saved=OpenSave.save_pxo_file(dir.path_join(dir.get_file() + "-atlas.pxo"),false,true,p)
  var error=p.frames[0].cels[0].get_image().save_png(dir.path_join("atlas.png"))
  var report={"software":"Pixelorama","version":Global.current_version,"tool":"Pencil","brush":1,"strokes":record.strokes.size(),"nativeSaved":saved,"nativePngExport":error==OK,"texelsPerMetre":16,"size":size}
  var file=FileAccess.open(dir.path_join("pixelorama-authoring.json"),FileAccess.WRITE)
@@ -176,7 +176,6 @@ func run_native():
 def native(check=False):
  config=Path.home()/'Library/Application Support/Pixelorama/config.ini';backup=config.read_bytes()
  extension=config.parent/'extensions'/(NAME+'.zip');assert not extension.exists()
- (HERE/'NativeAuthor.gd').write_text(GD)
  scene='[gd_scene load_steps=2 format=3]\n[ext_resource type="Script" path="res://src/Extensions/'+NAME+'/NativeAuthor.gd" id="1"]\n[node name="'+NAME+'" type="Node"]\nscript = ExtResource("1")\n'
  info=dict(name=NAME,display_name='Furniture native Pencil authoring',description='New complete furniture source',author='五月七日',version='0.1',supported_api_versions=[8],license='MIT',nodes=['NativeAuthor.tscn'])
  with zipfile.ZipFile(extension,'w',zipfile.ZIP_DEFLATED) as z:
@@ -186,11 +185,11 @@ def native(check=False):
  config.write_bytes(backup+('\n[extensions]\n'+NAME+'=true\n').encode())
  try:
   args=['/Applications/Pixelorama.app/Contents/MacOS/Pixelorama','--headless','--']
-  if check:args += [str(HERE/'atlas.pxo'),'--check-source']
+  if check:args += [str(HERE/(FAMILY+'-atlas.pxo')),'--check-source']
   args += ['--furniture-native','--furniture-dir='+str(HERE)]
   # Large botanical families still use real native Pencil strokes. Allow time
   # proportional to the actual stroke count rather than interrupting a source.
-  stroke_count=len(json.loads((HERE/'pencil-strokes.json').read_text())['strokes'])
+  stroke_count=0 if check else len(json.loads((HERE/'pencil-strokes.json').read_text())['strokes'])
   native_timeout=600 if check else max(600,180+stroke_count*.025)
   result=subprocess.run(args,capture_output=True,text=True,timeout=native_timeout)
   print('\n'.join(l for l in result.stdout.splitlines() if 'NATIVE' in l or 'Time Pixelorama' in l),flush=True)
@@ -200,19 +199,22 @@ def native(check=False):
  assert config.read_bytes()==backup
 
 if '--verify' not in sys.argv:
- assert not (HERE/'atlas.pxo').exists(),'Source already exists; preserve revision before editing'
+ assert not (HERE/(FAMILY+'-atlas.pxo')).exists(),'Source already exists; preserve revision before editing'
  plan();native()
 native(True)
 from PIL import Image
-with zipfile.ZipFile(HERE/'atlas.pxo') as z:
+with zipfile.ZipFile(HERE/(FAMILY+'-atlas.pxo')) as z:
  data=json.loads(z.read('data.json'));cel=z.read('image_data/frames/1/layer_1')
 assert data['size_x']==data['size_y']==SIZE
 for name in ('atlas.png','reopened.png'):
  with Image.open(HERE/name) as im:assert im.size==(SIZE,SIZE) and im.convert('RGBA').tobytes()==cel
-author=json.loads((HERE/'pixelorama-authoring.json').read_text());assert author['nativeSaved'] and author['nativePngExport']
-shutil.copyfile(HERE/'atlas.pxo',HERE/(FAMILY+'-atlas.pxo'))
+if '--verify' not in sys.argv:
+ author=json.loads((HERE/'pixelorama-authoring.json').read_text());assert author['nativeSaved'] and author['nativePngExport']
 shutil.copyfile(HERE/'atlas.png',ROOT/'preview'/'assets'/(FAMILY+'-atlas.png'))
 (HERE/'pixelorama-source-check.json').write_text(json.dumps(dict(nativePxoReopened=True,nativeCelEqualsPngAndReopenedPng=True,
  texelsPerMetre=16,size=SIZE,fields=len(LAYOUT['fields']),pngSha256=hashlib.sha256((HERE/'atlas.png').read_bytes()).hexdigest(),
- pxoSha256=hashlib.sha256((HERE/'atlas.pxo').read_bytes()).hexdigest(),originalConfigRestored=True),indent=2))
+ pxoSha256=hashlib.sha256((HERE/(FAMILY+'-atlas.pxo')).read_bytes()).hexdigest(),originalConfigRestored=True),indent=2))
 print(FAMILY,'native editable source and independent reopen verified',flush=True)
+
+for name in ('pencil-strokes.json','pixelorama-authoring.json','reopened.png'):
+ (HERE/name).unlink(missing_ok=True)

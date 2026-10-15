@@ -16,7 +16,7 @@ for family in FAMILIES:
   continue
  record=json.loads(path.read_text())
  if not args.complete and (not (ROOT/family/(family+'.blend')).exists()
-     or not (ROOT/family/'atlas.pxo').exists()
+     or not (ROOT/family/(family+'-atlas.pxo')).exists()
      or not all((ROOT/'preview'/item['file']).exists() for item in record['items'])):
   continue
  assert record['texelsPerMetre']==16

@@ -2,6 +2,10 @@
 
 [游戏文档](../README.md) · [维护总入口](../../MAINTENANCE.md)
 
+仓库保存游戏完整的定稿源文件和运行资源。可编辑 Blender 模型、Pixelorama 贴图、UV、材质及必要的导出资料属于作品内容，随游戏提交；后续修改以仓库中的当前源文件为依据。过程备份、临时导出、重复副本和被替代的检查输出不保留在当前目录。网页发布包只加载运行资源，可编辑原稿仍完整保存在仓库中。
+
+仓库外的现实地点沙盘是独立项目的参考资料。游戏使用仓库中的专用模型，制作、导出和运行均不依赖该外部沙盘。
+
 | 范围 | 原稿与说明 | 运行位置 |
 | --- | --- | --- |
 | 建筑、阳台、街区 | [建筑原稿](rooftop-lowpoly-02/README.md)：`game-environment.blend`、`terrace-book.pxo`、`distance-facades.pxo` | `rooftop/assets/background/` |

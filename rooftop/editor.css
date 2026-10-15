@@ -52,7 +52,9 @@ body.garage.editor .catalog .asset-grid{flex:1;min-height:0;max-height:none;over
 
 @container(max-width:580px){
  body.garage .workspace-toolbar .toolbar-view,body.garage .workspace-toolbar .toolbar-layout{width:100%;margin-left:0;justify-content:flex-start}
- body.garage .workspace-toolbar .toolbar-layout{justify-content:flex-end}
+ body.garage .workspace-toolbar .toolbar-layout{position:relative}
+ body.garage .workspace-toolbar .layout-transfer .transfer{position:static}
+ body.garage .workspace-toolbar .transfer-body{left:0;right:auto;max-width:100%}
 }
 
 @media(max-width:900px){

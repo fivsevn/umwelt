@@ -3,8 +3,26 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {ITEMS,getPlantAssembly} from '../item-catalog.mjs';
+import {displayBounds} from '../scene.mjs';
 const records=JSON.parse(readFileSync(new URL('../art/rooftop-thumbnail-02/audit.json',import.meta.url)));
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
+test('audited portrait bounds enclose visible pixels and remain usable by the canvas fallback',()=>{
+ const byId=new Map(records.map(r=>[r.id,r]));
+ for(const item of ITEMS){
+  const r=byId.get(item.id),p=item.thumbnailProjection;
+  assert.deepEqual(p,r.projection,item.id+' synchronized projection');
+  for(const key of ['min','max','anchor']) assert.ok(Array.isArray(p[key])&&p[key].length===2&&p[key].every(Number.isFinite),item.id+' '+key);
+  const [left,top,right,bottom]=r.alphaBounds,m=p.metresPerPixel;
+  assert.ok(Number.isFinite(m)&&m>0,item.id+' scale');
+  assert.ok(p.min[0]<p.max[0]&&p.min[1]<p.max[1],item.id+' nonempty bounds');
+  assert.ok(p.min[0]<=(left-p.anchor[0])*m+1e-9&&p.min[1]<=(top-p.anchor[1])*m+1e-9,item.id+' near edges');
+  assert.ok(p.max[0]>=(right+1-p.anchor[0])*m-1e-9&&p.max[1]>=(bottom+1-p.anchor[1])*m-1e-9,item.id+' far edges');
+  if(item.category!=='植物') for(const rotation of [0,90,180,270]){
+   const b=displayBounds({type:item.id,rotation,scale:1});
+   assert.ok(Object.values(b).every(Number.isFinite)&&b.left<b.right&&b.top<b.bottom,item.id+' fallback bounds');
+  }
+ }
+});
 test('all native shelf images belong to their actual model and remain complete in frame',()=>{
  assert.equal(records.length,ITEMS.length);const byId=new Map(records.map(r=>[r.id,r]));assert.equal(byId.size,ITEMS.length);
  for(const item of ITEMS) assert.equal(sha(readFileSync(new URL('../'+item.atlas,import.meta.url))),byId.get(item.id).atlasSha256,item.id+' material identity');

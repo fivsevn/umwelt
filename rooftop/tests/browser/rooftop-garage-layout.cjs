@@ -48,6 +48,7 @@ async function assertEditorLayout(page, { width, height, columns }) {
       toolbarContent,
       toolbarView: rect(viewTools),
       toolbarLayout: rect(layoutTools),
+      toolbarOptions: rect(toolbar.querySelector('.tool-options')),
       camera: rect(camera),
       files: rect(toolbar.querySelector('.layout-transfer')),
       shelf: rect(catalog),
@@ -109,13 +110,16 @@ async function assertEditorLayout(page, { width, height, columns }) {
     'placement and object controls remain together in the inspector column, away from the canvas');
   assert.ok(layout.toolbarOwnership && layout.toolGroupsFit,
     'view controls and scene/file controls have distinct containers with complete boundaries');
-  assert.ok(Math.abs(layout.camera.x - layout.toolbarContent.left) <= 2 &&
-    Math.abs(layout.files.right - layout.toolbarContent.right) <= 2,
-  'camera controls align left and scene/file controls align right');
+  assert.ok(Math.abs(layout.camera.x - layout.toolbarContent.left) <= 2,
+    'camera controls align left');
   if (layout.toolbarContent.right - layout.toolbarContent.left <= 580) {
     assert.ok(layout.toolbarLayout.y >= layout.toolbarView.bottom - 1,
       'a narrow workspace puts scene/file controls on the row below the camera');
+    assert.ok(Math.abs(layout.toolbarOptions.x - layout.toolbarContent.left) <= 2,
+      'wrapped scene/file controls align with the left edge of the camera row');
   } else {
+    assert.ok(Math.abs(layout.files.right - layout.toolbarContent.right) <= 2,
+      'scene/file controls align right when the toolbar fits on one row');
     assert.ok(Math.abs(layout.toolbarLayout.y - layout.toolbarView.y) <= 2 &&
       layout.toolbarView.right <= layout.toolbarLayout.x + 1,
     'a wide workspace places view and scene/file controls on one row');

@@ -197,7 +197,7 @@ for n in ('detail-edited.png','detail-reopened.png'):
     assert Image.open(folder/n).convert('RGBA').tobytes()==edited
 for i,ok in enumerate(allowed):
     if not ok:assert original[i*4:i*4+4]==edited[i*4:i*4+4], 'Protected atlas pixel changed'
-for n in ('atlas.pxo',family+'-atlas.pxo'):shutil.copy2(folder/'detail-edited.pxo',folder/n)
+shutil.copy2(folder/'detail-edited.pxo',folder/(family+'-atlas.pxo'))
 shutil.copy2(folder/'detail-edited.png',folder/'atlas.png')
 shutil.copy2(folder/'atlas.png',ROOT.parents[1]/'assets/items'/(family+'-atlas.png'))
 for n in ('detail-edited.pxo','detail-edited.png','detail-reopened.png'):(folder/n).unlink()
