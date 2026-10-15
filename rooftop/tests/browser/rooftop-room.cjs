@@ -84,13 +84,16 @@ async function assertRoomLayout(page, { width, height, columns }) {
     'room view and file controls sit below the scene');
   assert.ok(layout.toolbarOwnership && layout.toolGroupsFit,
     'room camera and file controls have distinct containers with complete boundaries');
-  assert.ok(Math.abs(layout.camera.x - layout.toolbarContent.left) <= 2 &&
-    Math.abs(layout.files.right - layout.toolbarContent.right) <= 2,
-  'room camera controls align left and file controls align right');
+  assert.ok(Math.abs(layout.camera.x - layout.toolbarContent.left) <= 2,
+    'room camera controls align left');
   if (layout.toolbarContent.right - layout.toolbarContent.left <= 580) {
     assert.ok(layout.toolbarLayout.y >= layout.toolbarView.bottom - 1,
       'a narrow room workspace puts file controls on the row below the camera');
+    assert.ok(Math.abs(layout.files.x - layout.toolbarContent.left) <= 2,
+      'wrapped room file controls align with the left edge of the camera row');
   } else {
+    assert.ok(Math.abs(layout.files.right - layout.toolbarContent.right) <= 2,
+      'room file controls align right when the toolbar fits on one row');
     assert.ok(Math.abs(layout.toolbarLayout.y - layout.toolbarView.y) <= 2 &&
       layout.toolbarView.right <= layout.toolbarLayout.x + 1,
     'a wide room workspace places view and file controls on one row');
