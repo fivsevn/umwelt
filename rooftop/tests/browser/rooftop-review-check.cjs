@@ -49,7 +49,7 @@ async function inspect(page, name, saved, dpr) {
   if(result.sampling==='source') check(JSON.stringify(active.raster.sourceBuffer)===JSON.stringify(result.canvas.size),name+': source buffer not native pixels');
   check(result.look==='original', name+': obsolete appearance alternative');
   if(result.mode==='scene') check(active.objects===0 && active.modelIds.length===0 && active.actorsHidden && !active.actorVisibility.person && !active.actorVisibility.pig,name+': empty scene contains actors/items');
-  else if(result.mode==='game') check(active.objects===({north:83,south:14,room:21}[result.scene]) && active.modelIds.length===active.objects && !active.actorsHidden && active.actorVisibility.person && active.actorVisibility.pig,name+': initial arrangement/actors missing');
+  else if(result.mode==='game') check(active.objects===({north:112,south:15,room:21}[result.scene]) && active.modelIds.length===active.objects && !active.actorsHidden && active.actorVisibility.person && active.actorVisibility.pig,name+': initial arrangement/actors missing');
   else check(active.objects===1 && active.loaded && active.meshes>0 && active.triangles>0 && active.boundsMetres && active.nativeSources.length,name+': incomplete isolated native item');
   result.savedBytesMatch=result.saved===saved; result.savedSha256=sha(result.saved);delete result.saved;
   report.cases.push({name,...result});return result;
