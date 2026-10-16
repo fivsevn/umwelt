@@ -5,9 +5,12 @@ export function attachCardFeed(root, { scene, presence, now = Date.now }) {
   const journal = createStatusJournal(), log = root.querySelector('#statusLog');
   const sources = Object.fromEntries(['weatherStatus', 'actionStatus', 'observerStatus', 'dongdongStatus']
     .map(id => [id, root.querySelector('#' + id)]));
+  // These controls may be docked in the terminal without changing their state.
+  const actions = Object.fromEntries(['musicToggle', 'roomCard', 'garageCard', 'returnWorld']
+    .map(id => [id, root.querySelector('#' + id)]));
   const background = root.closest('.background-stage');
   let previousScene = scene(), wasPresent = presence().present;
-  let music = root.querySelector('#musicToggle').getAttribute('aria-pressed') === 'true';
+  let music = actions.musicToggle.getAttribute('aria-pressed') === 'true';
   let revision = -1;
 
   function paint(at) {
@@ -55,7 +58,7 @@ export function attachCardFeed(root, { scene, presence, now = Date.now }) {
       // The detailed departure above already says where Dongdong went.
       const action = sources.actionStatus.textContent.replace(/^东东出门了[，。]\s*/, '');
       journal.observe('activity', action, at);
-      const playing = root.querySelector('#musicToggle').getAttribute('aria-pressed') === 'true';
+      const playing = actions.musicToggle.getAttribute('aria-pressed') === 'true';
       if (playing !== music) {
         journal.observe('music', playing ? '隔壁的音乐响起来了。' : '窗户关上了，音乐轻下去。', at, { immediate: true });
         music = playing;
@@ -63,9 +66,9 @@ export function attachCardFeed(root, { scene, presence, now = Date.now }) {
     }
     wasPresent = resident.present;
     // Available actions keep a fixed reading order and carry no event times.
-    for (const id of ['roomCard', 'garageCard']) root.querySelector('#' + id).hidden = !resident.present || Boolean(background);
-    root.querySelector('#returnWorld').hidden = currentScene !== 'north' || Boolean(background);
-    root.querySelector('#musicToggle').hidden = Boolean(background);
+    for (const id of ['roomCard', 'garageCard']) actions[id].hidden = !resident.present || Boolean(background);
+    actions.returnWorld.hidden = currentScene !== 'north' || Boolean(background);
+    actions.musicToggle.hidden = Boolean(background);
     paint(at);
   }
   update(0);

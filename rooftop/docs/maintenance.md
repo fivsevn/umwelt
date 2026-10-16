@@ -44,6 +44,8 @@
 | `3d/story-camera.mjs`、`3d/terrace-view.mjs` | 游戏三视角及额外测试近景约束 |
 | `weather.mjs`、`weather-condition.mjs` | 天气选择、过渡、湿润历史和兼容输入 |
 | `live-weather.mjs`、`environment-hud.mjs` | 濠河天气请求／缓存／回退，游戏右上角无底色小字 |
+| `terminal-shell.mjs`、`terminal-shell.css`、`terminal-signal.mjs` | 电视外壳、模式切换、控件停靠与符号读数 |
+| `3d/terminal-crt.mjs` | 电视曲面及拾取坐标的逆变换，共用最终像素采样 |
 | `climate.mjs`、`calendar-air.mjs`、`festivals.mjs` | 月份日照、季节飘落物与中西日节日空槽 |
 | `atmosphere.mjs`、`precipitation.mjs` | 时间光照、风、闪电、雨型与落点 |
 | `resident.mjs`、`resident-weather.mjs`、`actor-space.mjs` | 外出、天气动作和身体通行空间 |
@@ -57,6 +59,14 @@
 植物资料从 `botany.mjs` 入手，所有新模型先在 `rooftop/art/rooftop-furniture-02/` 的原生管线完成、核对，再运行 `sync-runtime-catalog.py` 同步新目录、承放资料和实际模型缩略图。家具只整理新目录，原植物子类、收藏、枪械与兵器资料不随视觉重做改名。材质书保留当前可编辑原稿和必要绘制工具。`scene.mjs` 的兼容尺寸、二维回退和图鉴绘制不能作为重复目录删除。
 
 ## 镜头与环境
+
+观察页提供全屏游戏与电视界面两种模式。天台花园是模拟现实生活的内部世界，可以显示大致区域坐标、天气、时间与生活记录；电视界面是世界外部的观察设备，只呈现机位、信号与符号。外壳沿用游戏 Pixel 字体、深色实体色块和硬阴影，避免说明性文字与渐变浮雕按钮。
+
+`?display=full`／`?display=terminal` 可指定模式，优先于本机 `umwelt-rooftop-display` 选择；初次进入默认全屏。电视右下电源切回游戏，全屏右下电源打开电视。切换只移动现有画面与控件，不重建场景或改写陈列、角色与换装存档。横竖屏可以重排面板，电视画面始终为 4:3；曲面在既有最终采样中完成，投影和拾取使用对应变换。
+
+电视画面内只保留实况与 REC，不打开手帐或显示门口入口。屏幕下方依次为南北场景、三个颜色机位及操作、扬声器、声音和电源；房间、车库、主页入口不出现在电视模式。ENV 使用与实际坐标无关的虚构台号、经过时长和环境符号；RX 显示最近三条完整的事件指纹。指纹仅用于叙事包装，不是加密机制。切回全屏恢复可读环境、原有四条生活记录及可用操作。天气继续使用公开区域网格，不读取或保存个人定位；测试截图、临时发布目录和本地路径不提交。
+
+外壳与按钮排列参考 [Sony PVM 原厂说明书](https://pro.sony/s3/cms-static-content/operation-manual/3861644051.pdf) 的前面板，屏幕凹槽参考 [DEC VT100 实物](https://www.computerhistory.org/revolution/input-output/14/349/1697)；参考图片不作为游戏素材分发。
 
 游戏左上角的小鸟、无人机保留原像素图标轮廓，去除透明外边后缩小到 75%，按可见图形居中，以浅灰绿单色融入场景。方向箭头长 7px，问号和加减使用 12px Pixel 字符。按钮为 22px 正方形，组内间距 3px，使用低透明度灰绿底，无外部方块阴影；选中时底边细线与图标提亮，悬停、键盘聚焦保留反馈，不参与横屏放大。车库编辑工具保留原样。
 

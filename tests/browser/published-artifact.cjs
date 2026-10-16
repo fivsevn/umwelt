@@ -181,6 +181,43 @@ const routes = [
             assert.equal(await page.locator('#noteName').textContent(),'Le Smoking');
             assert.equal(await page.locator('#reviewEntry option[value^="fashion:"]').count(),60);
             await page.locator('#notebookClose').click();
+            await page.locator('.terminal-enter').click();
+            await page.waitForFunction(() => document.querySelector('#environmentHud [data-info="coordinates"]')?.textContent === '7C4A : 0FB2');
+            assert.equal(await page.locator('#garden').getAttribute('data-terminal-crt'), 'true');
+            const terminal = await page.evaluate(() => {
+              const screen = document.querySelector('.terminal-screen').getBoundingClientRect();
+              const dock = document.querySelector('#terminalLogDock').getBoundingClientRect();
+              const rows = [...document.querySelectorAll('#statusLog > *')].filter(row => row.getBoundingClientRect().height);
+              return {
+                ratio: screen.width / screen.height,
+                overflow: document.documentElement.scrollWidth > innerWidth,
+                font: getComputedStyle(document.querySelector('#statusLog')).fontFamily,
+                rows: rows.length,
+                complete: rows.every(row => {
+                  const bounds = row.getBoundingClientRect(), text = row.querySelector('.status-text');
+                  return bounds.top >= dock.top && bounds.bottom <= dock.bottom && text.scrollWidth <= text.clientWidth;
+                }),
+                hud: document.querySelector('#environmentHud').innerText,
+                hints: [...document.querySelectorAll('#environmentHud [title]')].map(node => node.title).join(' '),
+              };
+            });
+            assert.ok(Math.abs(terminal.ratio - 4 / 3) < .001, 'the television retains its picture ratio');
+            assert.equal(terminal.overflow, false);
+            assert.match(terminal.font, /Pixel/);
+            assert.equal(terminal.rows, 3);
+            assert.equal(terminal.complete, true, 'all three journal lines remain complete');
+            assert.doesNotMatch(terminal.hud + terminal.hints, /°|濠河|南通|北京时间|UTC|\d{4}\.\d{2}\.\d{2}/);
+            assert.equal(await page.locator('#terminalSourceDock #sceneCard').count(), 1);
+            assert.equal(await page.locator('#terminalAudioDock #musicToggle').count(), 1);
+            for (const selector of ['#notebookOpen', '#roomCard', '#garageCard', '#sceneDoor', '#notebook'])
+              assert.equal(await page.locator(selector).isVisible(), false, selector + ' stays outside the television');
+            await page.locator('[data-narrative-view="drone"]').click();
+            await page.locator('.terminal-power').click();
+            await page.waitForFunction(() => document.querySelector('#environmentHud [data-info="coordinates"]')?.textContent.includes('°N'));
+            assert.equal(await page.locator('#garden').getAttribute('data-terminal-crt'), 'false');
+            assert.equal(await page.locator('.status-actions #sceneCard').count(), 1);
+            assert.equal(await page.locator('.status-actions #musicToggle').count(), 1);
+            assert.ok(await page.locator('#environmentHud [data-info="weather"]').textContent().then(text => text.includes('多云 18°')));
           }
           await page.waitForTimeout(250);
           if (process.env.EXPECTED_SHA) {

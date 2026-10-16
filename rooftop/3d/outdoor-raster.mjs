@@ -1,5 +1,6 @@
 import { lensWarpNdc, SCOPE_LENS_STRENGTH } from "./lens-pass.mjs";
 import { resolvePixelGrid, pixelGridBufferSize, pixelGridSize } from "./pixel-grid.mjs";
+import { crtWarpNdc, TERMINAL_CRT_STRENGTH } from './terminal-crt.mjs';
 
 export function outdoorRasterSize(width, height, grid = resolvePixelGrid()) {
   return pixelGridBufferSize(width, height, grid);
@@ -14,16 +15,17 @@ export function rasterCellCentre(point, grid = resolvePixelGrid(), width, height
   return point.map(value => (Math.floor(value / grid.cssPixelStep) + .5) * grid.cssPixelStep);
 }
 
-export function outdoorSampleNdc(point, width, height, lens = false, grid = resolvePixelGrid()) {
+export function outdoorSampleNdc(point, width, height, lens = false, grid = resolvePixelGrid(), terminal = false) {
   const size = pixelGridSize(width, height, grid),
     centre = point.map((value, axis) => (Math.floor(value / [width, height][axis] * size.output[axis] / grid.pixelStep) + .5) * grid.pixelStep),
     ndc = [centre[0] / size.output[0] * 2 - 1, 1 - centre[1] / size.output[1] * 2];
-  if (!lens) return ndc;
-  const warped = lensWarpNdc(ndc, size.output[0] / size.output[1]).map(value => Math.max(-1, Math.min(1, value))),
+  const displayNdc = terminal ? crtWarpNdc(ndc) : ndc;
+  if (!lens && !terminal) return ndc;
+  const warped = (lens ? lensWarpNdc(displayNdc, size.output[0] / size.output[1]) : displayNdc).map(value => Math.max(-1, Math.min(1, value))),
     sourcePoint = [(warped[0] * .5 + .5) * size.output[0], (.5 - warped[1] * .5) * size.output[1]],
     sourceCentre = sourcePoint.map((value, axis) =>
       (Math.max(0, Math.min(size.source[axis] - 1, Math.floor(value / grid.pixelStep))) + .5) * grid.pixelStep);
-  // The lens samples the nearest offscreen pixel after warping as well.
+  // Both display curves sample the nearest offscreen pixel after warping.
   return [sourceCentre[0] / size.output[0] * 2 - 1, 1 - sourceCentre[1] / size.output[1] * 2];
 }
 
@@ -56,17 +58,21 @@ export function createOutdoorRasterPass(T, renderer) {
           uniforms: {
             rasterSource: { value: target.texture }, rasterOutput: { value: new T.Vector2(...size.output) },
             rasterPadded: { value: new T.Vector2(...size.padded) }, rasterStep: { value: grid.pixelStep },
-            rasterLens: { value: 0 },
+            rasterLens: { value: 0 }, rasterCrt: { value: 0 },
           },
           depthTest: false, depthWrite: false, toneMapped: false,
           vertexShader: "void main(){gl_Position=vec4(position.xy,0.,1.);}",
           fragmentShader: `
             uniform sampler2D rasterSource; uniform vec2 rasterOutput; uniform vec2 rasterPadded;
-            uniform float rasterStep; uniform float rasterLens;
+            uniform float rasterStep; uniform float rasterLens; uniform float rasterCrt;
             void main(){
               vec2 topPixel = vec2(gl_FragCoord.x, rasterOutput.y - gl_FragCoord.y);
               vec2 centre = (floor(topPixel / rasterStep) + .5) * rasterStep;
               vec2 p = vec2(centre.x / rasterOutput.x * 2. - 1., 1. - centre.y / rasterOutput.y * 2.);
+              if (rasterCrt > 0.) {
+                p *= 1. + rasterCrt * p.yx * p.yx;
+                if (abs(p.x) > 1. || abs(p.y) > 1.) { gl_FragColor = vec4(.025,.029,.027,1.); return; }
+              }
               if (rasterLens > 0.) {
                 vec2 radial = p * vec2(rasterOutput.x / rasterOutput.y, 1.);
                 p = clamp(p * (1. + rasterLens * dot(radial, radial)), -1., 1.);
@@ -96,6 +102,7 @@ export function createOutdoorRasterPass(T, renderer) {
       material.uniforms.rasterPadded.value.set(...size.padded);
       material.uniforms.rasterStep.value = grid.pixelStep;
       material.uniforms.rasterLens.value = scope ? SCOPE_LENS_STRENGTH : 0;
+      material.uniforms.rasterCrt.value = canvas.dataset?.terminalCrt === 'true' ? TERMINAL_CRT_STRENGTH : 0;
       const previous = renderer.getRenderTarget(), autoReset = renderer.info.autoReset,
         projection = viewCamera.projectionMatrix.clone(), inverse = viewCamera.projectionMatrixInverse.clone();
       renderer.info.autoReset = false; renderer.info.reset();

@@ -10,6 +10,7 @@ import { roomFrame } from "./room-frame.mjs";
 import { BACKGROUND } from "../assets/background/empty-rooftop.mjs";
 import { readScopeOptics, createScopeSurfaceCache } from "./scope-reading.mjs";
 import { lensUnwarpNdc } from "./lens-pass.mjs";
+import { crtUnwarpNdc } from './terminal-crt.mjs';
 import { createOutdoorRasterPass, outdoorSampleNdc, rasterCellCentre } from "./outdoor-raster.mjs";
 import { resolvePixelGrid, resolveScenePixelGrid, pixelGridSize } from "./pixel-grid.mjs";
 import { projectVisibleDoor } from "./door-projection.mjs";
@@ -792,7 +793,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       h = canvas.clientHeight || innerHeight;
     // Same fixed circular opening as .neighbor-scope. Cache at resize instead
     // of measuring DOM layout separately for every particle or every frame.
-    const scopeDiameter = Math.min(innerWidth * .88, (window.visualViewport?.height || innerHeight) * .82);
+    const scopeDiameter = Math.min(w * .88, h * .82);
     airScopeEllipse = [scopeDiameter / w, scopeDiameter / h];
     // Retina CSS presentation must preserve the already rasterized square
     // cells rather than interpolate their edges into smaller colour fragments.
@@ -1133,6 +1134,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         ? { unwarp: lensUnwarpNdc, radius: Math.min(.88 * rect.width, .82 * rect.height) / 2 } : null,
       bounds = projectVisibleDoor(T, {
         camera, frame: door.frame, width: rect.width, height: rect.height, doorHeight: door.height, lens,
+        displayUnwarp: canvas.dataset.terminalCrt === 'true' ? crtUnwarpNdc : null,
         isOccluded(point) {
           if (current === "room") return false;
           const eye = housePoint(current, camera.position.x, camera.position.z), p = housePoint(current, point.x, point.z);
@@ -1371,7 +1373,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
   }
   function ray(x, y) {
     const rect = canvas.getBoundingClientRect();
-    ndc.set(...outdoorSampleNdc([x - rect.left, y - rect.top], rect.width, rect.height, narrativeActive() && narrativeView === "neighbor", outdoorGrid));
+    ndc.set(...outdoorSampleNdc([x - rect.left, y - rect.top], rect.width, rect.height, narrativeActive() && narrativeView === "neighbor", outdoorGrid, canvas.dataset.terminalCrt === 'true'));
     raycaster.setFromCamera(ndc, camera);
   }
   function pointAtHeight(x, y, height = 0) {
@@ -1526,6 +1528,10 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
       v = b.getCenter(new T.Vector3()).project(camera);
     if (narrativeActive() && narrativeView === "neighbor") {
       const point = lensUnwarpNdc([v.x, v.y], canvas.width / canvas.height);
+      v.x = point[0]; v.y = point[1];
+    }
+    if (canvas.dataset.terminalCrt === 'true') {
+      const point = crtUnwarpNdc([v.x, v.y]);
       v.x = point[0]; v.y = point[1];
     }
     const point = [(v.x * .5 + .5) * rect.width, (.5 - v.y * .5) * rect.height],

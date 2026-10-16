@@ -1,6 +1,6 @@
 // A DOM hit target must belong to a genuinely visible door. Perspective
 // projection alone also produces finite coordinates for doors behind the eye.
-export function projectVisibleDoor(T, { camera, frame, width, height, doorHeight = 2.7, lens, isOccluded }) {
+export function projectVisibleDoor(T, { camera, frame, width, height, doorHeight = 2.7, lens, displayUnwarp, isOccluded }) {
   if (!(width > 0 && height > 0)) return null;
   frame.updateWorldMatrix(true, false);
   camera.updateMatrixWorld();
@@ -12,6 +12,10 @@ export function projectVisibleDoor(T, { camera, frame, width, height, doorHeight
     if (![ndc.x, ndc.y, ndc.z].every(Number.isFinite) || ndc.z < -1 || ndc.z > 1) return null;
     if (lens?.unwarp) {
       const xy = lens.unwarp([ndc.x, ndc.y], width / height);
+      ndc.x = xy[0]; ndc.y = xy[1];
+    }
+    if (displayUnwarp) {
+      const xy = displayUnwarp([ndc.x, ndc.y]);
       ndc.x = xy[0]; ndc.y = xy[1];
     }
     return { world, ndc, x: (ndc.x + 1) * width / 2, y: (1 - ndc.y) * height / 2 };

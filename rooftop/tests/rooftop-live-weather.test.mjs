@@ -82,7 +82,7 @@ test('real data blends in without changing selected month/time; manual weather n
   assert.deepEqual(calendarAir(10,{airSlots:[{kind:'petals',amount:2}]}),{petals:.8,source:'festival'});
 });
 
-test('small game HUD formats Beijing date/time, sunset and weather without claiming fallback as live',async()=>{
+test('full-screen HUD retains Beijing date/time, sunset and readable weather',async()=>{
   const {environmentHudSnapshot}=await import('../environment-hud.mjs');
   const state={weatherSource:'current',weatherCode:81,name:'大雨',temperature:18.4,weatherObservedAt:epoch,sunset:'17:24'};
   const view=environmentHudSnapshot(state,new Date('2026-10-15T16:05:00Z'));
@@ -90,4 +90,16 @@ test('small game HUD formats Beijing date/time, sunset and weather without claim
   const fallback=environmentHudSnapshot({...state,weatherSource:'fallback'},new Date(epoch));
   assert.equal(fallback.live,false);assert.equal(fallback.weather,'天气暂不可用 · 模拟中');
   assert.match(environmentHudSnapshot({...state,weatherSource:'cached'},new Date(epoch)).weather,/缓存/);
+});
+
+test('terminal HUD uses fictional marks without encoding location or wall-clock data',async()=>{
+  const {environmentSignal}=await import('../terminal-signal.mjs');
+  const state={weatherSource:'current',weatherCode:81,name:'大雨',temperature:18.4,weatherObservedAt:epoch,sunset:'17:24'};
+  const view=environmentSignal(state,32);
+  assert.equal(view.coordinates,'7C4A : 0FB2');assert.equal(view.clock,'+ 0000.0020');assert.equal(view.live,true);
+  assert.doesNotMatch(JSON.stringify(view),/32\.02|120\.86|2026|17:24|18\.4|南通|濠河|北京时间|UTC|°/);
+  assert.deepEqual(environmentSignal({...state,latitude:0,longitude:0,weatherObservedAt:0,sunset:'01:23',temperature:99},32),view);
+  const fallback=environmentSignal({...state,weatherSource:'fallback'},32);
+  assert.equal(fallback.live,false);
+  assert.equal(environmentSignal({...state,weatherSource:'cached'},32).live,true);
 });

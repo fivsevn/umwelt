@@ -656,7 +656,7 @@ if (!editor) {
     notebookKey = "";
   };
   const open = (o, pin = false) => {
-    if (!o) return;
+    if (!o || canvas.dataset.terminalCrt === 'true') return;
     clearTimeout(timer);
     notebook(o);
     note.hidden = false;
@@ -682,7 +682,7 @@ if (!editor) {
     if ($("notebookOpen")) $("notebookOpen").hidden = backgroundStage;
   }
   const inspectAt = (e) =>
-    garden3d ? garden3d.pick(e.clientX, e.clientY) : hit(coords(e));
+    canvas.dataset.terminalCrt === 'true' ? null : garden3d ? garden3d.pick(e.clientX, e.clientY) : hit(coords(e));
   canvas.addEventListener("pointerdown", (e) => {
     touching.add(e.pointerId);
     down = [e.clientX, e.clientY];
@@ -1139,8 +1139,8 @@ if (editor) {
     const clampPan = () => {
       pans[scene] = gardenCamera(
         scene,
-        innerWidth,
-        innerHeight,
+        canvas.clientWidth || innerWidth,
+        canvas.clientHeight || innerHeight,
         zooms[scene],
         pans[scene],
       ).pan;
@@ -1270,8 +1270,8 @@ function fitView() {
   } else {
     const view = gardenCamera(
       scene,
-      innerWidth,
-      innerHeight,
+      canvas.clientWidth || innerWidth,
+      canvas.clientHeight || innerHeight,
       zooms[scene],
       pans[scene],
     );
