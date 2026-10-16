@@ -128,7 +128,7 @@
 @media(max-width:550px){.observation .environment-hud{top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right));max-width:calc(100vw - 180px)}}
 
 /* Events read forward in time; navigation stays in its own fixed grid. */
-.observation .corner-cards{width:min(420px,calc(100% - 32px));gap:9px}
+.observation .corner-cards{width:min(640px,calc(100% - 32px));gap:9px}
 .observation .status-sources[hidden]{display:none!important}
 .observation .status-log{display:flex;flex-direction:column;gap:4px;width:100%;pointer-events:none}
 .observation .status-log:empty{display:none}
@@ -139,12 +139,15 @@
 .observation .roof-world .corner-cards .status-entry.status-latest{color:#d1d4cc}
 .observation .status-entry time{white-space:nowrap;font-variant-numeric:tabular-nums;color:#8f9b91}
 .observation .status-entry.status-latest time{color:#adb8aa}
-.observation .status-text{min-width:0;overflow-wrap:anywhere}
+.observation .status-text{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .observation .status-actions{
-  display:grid;grid-template-columns:94px minmax(0,1fr);gap:3px 18px;
+  display:grid;grid-template-columns:minmax(max-content,128px) minmax(0,1fr);gap:3px 18px;
   width:100%;align-items:start;pointer-events:none;
 }
-.observation .status-actions .world-card{max-width:none!important;width:fit-content}
+.observation .status-actions .world-card{
+  min-width:0;max-width:100%!important;width:fit-content;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
 .observation .status-actions #sceneCard{grid-area:1/1}
 .observation .status-actions #notebookOpen{grid-area:1/2}
 .observation .status-actions #musicToggle{grid-area:2/1}
