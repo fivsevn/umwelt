@@ -59,8 +59,7 @@ body.terminal-mode-active .terminal-shell .terminal-power:hover{background:#a0a5
 .terminal-mode-active .environment-hud [data-info=clock]{color:#7c8a70;margin-bottom:7px;font-size:12px}
 .terminal-mode-active .environment-hud [data-info=sunset]{color:#8f9d81;font-size:12px;white-space:nowrap}
 .terminal-mode-active .environment-hud [data-info=weather]{padding-top:6px;white-space:nowrap;font-size:8px;letter-spacing:.3px}
-.terminal-mode-active .environment-hud a{color:#7f8d74;font:12px Pixel,monospace;float:right;text-shadow:none;text-decoration:none}
-.terminal-mode-active .environment-hud a::before{content:none}
+.observation.terminal-mode-active .environment-hud .weather-credit{color:#7f8d74;font:12px Pixel,monospace;float:right;text-shadow:none}
 .terminal-wave{flex:none;height:30px;overflow:hidden;margin-top:12px}
 .terminal-wave svg{width:100%;height:100%;fill:none;stroke:#829472;stroke-width:1;opacity:.7}
 /* A complete three-row readout; older records remain available in full mode. */
@@ -81,7 +80,7 @@ body.terminal-mode-active .terminal-shell #musicToggle[aria-pressed=true]{backgr
 .terminal-mode-active #sceneCard::after{content:'∷' / ''}
 .terminal-mode-active #musicToggle::after{content:'≋' / ''}
 body.terminal-mode-active :is(#returnWorld,#notebookOpen,#roomCard,#garageCard){display:none!important}
-.terminal-enter{position:fixed;right:12px;bottom:12px;z-index:20;width:15px;height:16px;padding:0;border:0;border-radius:1px;background:#636a57;color:#d0d5c0;box-shadow:2px 2px #232b1b;font:10px/1 Pixel,monospace;text-shadow:none}
+.terminal-enter{position:fixed;right:max(24px,calc(env(safe-area-inset-right) + 12px));bottom:max(24px,calc(env(safe-area-inset-bottom) + 12px));z-index:20;width:15px;height:16px;padding:0;border:0;border-radius:1px;background:#636a57;color:#d0d5c0;box-shadow:2px 2px #232b1b;font:10px/1 Pixel,monospace;text-shadow:none}
 .terminal-enter::before{content:'';position:absolute;inset:-7px}
 .terminal-enter:hover{background:#7f886e;color:#e8ebdd}
 @media(max-height:580px) and (min-aspect-ratio:1/1){

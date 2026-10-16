@@ -541,13 +541,16 @@ async function visiblePickPoint(page, id) {
         assert.equal(await page.locator('[data-narrative-view="' + view + '"]').getAttribute("aria-pressed"), "true");
       }
       const scopeZoom = await page.evaluate(() => rooftop.graphics.wanted.zoom);
-      await page.locator('[data-station-action="in"]').click();
+      await page.mouse.move(stage.x + stage.width / 2, stage.y + stage.height / 2);
+      await page.mouse.wheel(0, -130);
       await page.waitForFunction(zoom => rooftop.graphics.wanted.zoom > zoom, scopeZoom);
       assert.equal(await page.locator(".neighbor-scope").isVisible(), true);
       assert.deepEqual(await page.evaluate(() => rooftop.layout), homepageLayout, "observer controls never alter placements");
       assert.equal(await page.evaluate(() => rooftop.graphics.modelBuilds), homepageBuilds, "view changes do not rebuild catalogue geometry");
       assert.equal(await page.evaluate(() => localStorage.getItem("umwelt-rooftop-layout-v1")), storedArrangement, "the public view retains saved editor bytes");
       assert.equal(await page.evaluate(() => rooftop.graphics.controls), "pan");
+      await page.locator('[data-narrative-view="neighbor"]').click();
+      await page.waitForFunction(() => rooftop.graphics.narrativeView === 'drone');
       await page.locator("#sceneCard").click();
       await page.waitForFunction(() => rooftop.graphics.scene === "south");
       assert.deepEqual(await page.evaluate(() => rooftop.layout), homepageLayout);

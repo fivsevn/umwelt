@@ -1,5 +1,5 @@
 import { CLIMATE_LOCATION, chongchuanDate } from './climate.mjs';
-import { weatherSourceLabel, WEATHER_ATTRIBUTION } from './live-weather.mjs';
+import { weatherSourceLabel } from './live-weather.mjs';
 import { environmentSignal } from './terminal-signal.mjs';
 
 const pad = n => String(n).padStart(2, '0');
@@ -19,8 +19,8 @@ export function createEnvironmentHud(element) {
   const rows = Object.fromEntries(['coordinates','clock','sunset','weather'].map(key => {
     const row = document.createElement('div'); row.dataset.info = key; element.append(row); return [key,row];
   }));
-  const credit = document.createElement('a');
-  credit.href = WEATHER_ATTRIBUTION; credit.target = '_blank'; credit.rel = 'noopener noreferrer';
+  const credit = document.createElement('span');
+  credit.className = 'weather-credit';
   const started = Date.now(); let lastTick = '';
   return { update(state, date = new Date()) {
     const terminal = document.body.classList.contains('terminal-mode-active');

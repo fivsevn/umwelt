@@ -73,6 +73,8 @@ const routes = [
           if (route.startsWith('/rooftop/?')) {
             await page.waitForFunction(() => document.querySelector('#environmentHud [data-info="weather"]')?.textContent.includes('多云 18°'));
             assert.equal(await page.locator('#environmentHud [data-info="coordinates"]').textContent(), '32.02°N 120.86°E');
+            assert.equal(await page.locator('#environmentHud a').count(), 0, 'weather attribution is plain text');
+            assert.equal(await page.locator('#environmentHud .weather-credit').textContent(), 'Open-Meteo');
           }
           if (
             engine === chromium &&
@@ -143,6 +145,14 @@ const routes = [
                 await page.locator('[data-narrative-view="' + view + '"]').click();
                 await page.waitForFunction(name => rooftop.graphics.narrativeView === name, view);
                 assert.equal(await page.locator('[data-narrative-view="' + view + '"]').getAttribute("aria-pressed"), "true");
+                if (view === 'neighbor') {
+                  for (const selector of ['#environmentHud', '.corner-cards', '#notebook', '.terminal-enter'])
+                    assert.equal(await page.locator(selector).isVisible(), false);
+                  assert.equal(await page.locator('.view-controls button:visible').count(), 1);
+                  await page.locator('[data-narrative-view="neighbor"]').click();
+                  await page.waitForFunction(() => rooftop.graphics.narrativeView === 'drone');
+                  assert.equal(await page.locator('#environmentHud').isVisible(), true);
+                }
                 if (view === "bird") assert.equal(await page.locator("#sceneDoor").isVisible(), false,
                   "the bird's real eave view does not expose the door behind it");
               }
@@ -212,11 +222,19 @@ const routes = [
             for (const selector of ['#notebookOpen', '#roomCard', '#garageCard', '#sceneDoor', '#notebook'])
               assert.equal(await page.locator(selector).isVisible(), false, selector + ' stays outside the television');
             await page.locator('[data-narrative-view="drone"]').click();
+            await page.locator('[data-narrative-view="neighbor"]').click();
+            assert.equal(await page.locator('.narrative-views button:visible').count(), 3, 'the outer television retains all camera selectors');
+            assert.equal(await page.locator('#environmentHud').isVisible(), true);
+            await page.locator('[data-narrative-view="drone"]').click();
             await page.locator('.terminal-power').click();
             await page.waitForFunction(() => document.querySelector('#environmentHud [data-info="coordinates"]')?.textContent.includes('°N'));
             assert.equal(await page.locator('#garden').getAttribute('data-terminal-crt'), 'false');
             assert.equal(await page.locator('.status-actions #sceneCard').count(), 1);
             assert.equal(await page.locator('.status-actions #musicToggle').count(), 1);
+            const power = await page.locator('.terminal-enter').boundingBox();
+            const viewport = page.viewportSize();
+            assert.ok(viewport.width - power.x - power.width >= 24 && viewport.height - power.y - power.height >= 24,
+              'the television switch leaves room at both screen edges');
             assert.ok(await page.locator('#environmentHud [data-info="weather"]').textContent().then(text => text.includes('多云 18°')));
           }
           await page.waitForTimeout(250);

@@ -193,7 +193,7 @@ if (!editor) {
   window.addEventListener("resize", positionNotebook);
   positionNotebook();
 
-  let stationKind = null;
+  let stationKind = null, returnNarrativeView = DEFAULT_NARRATIVE_VIEW;
   const updateScope = () => {
     if (!scope.hidden && !document.hidden) updateOpticOverlay(scope, garden3d?.scopeReading);
   };
@@ -205,7 +205,9 @@ if (!editor) {
     for (const choice of document.querySelectorAll("[data-narrative-view]"))
       choice.setAttribute("aria-pressed", String(choice.dataset.narrativeView === name));
     scope.hidden = name !== "neighbor";
+    document.body.classList.toggle('scope-mode-active', !backgroundStage && name === 'neighbor');
     if (stationKind !== name) {
+      if (!backgroundStage && name === 'neighbor') $("notebookClose")?.click();
       const actions = STATION_ACTIONS[name] || [];
       stationControls.innerHTML = actions.map(([action,label]) => '<button type="button" class="world-card" data-station-action="' + action + '" aria-label="' + label + '" title="' + label + '"><span class="station-glyph" aria-hidden="true">' + stationActionGlyph(action) + '</span></button>').join("");
       stationControls.hidden = !actions.length;
@@ -217,7 +219,7 @@ if (!editor) {
       const labels = { bird: "小鸟操作", drone: "无人机操作", neighbor: "瞄准镜操作" };
       const hints = { bird: "左右拖动沿檐走动，上下拖动微微抬头或低头。", drone: "拖动转动镜头，按钮升降；滚轮或双指靠近、退远。", neighbor: "拖动瞄准；滚轮或双指调整倍率。" };
       stationControls.setAttribute("aria-label", labels[name] || "观察者移动");
-      canvas.title = hints[name] || "";
+      canvas.title = name === 'neighbor' && !backgroundStage ? '' : hints[name] || "";
       stationKind = name;
     }
     updateScope();
@@ -225,7 +227,15 @@ if (!editor) {
     if (choices) choices.hidden = !name;
   };
   for (const button of document.querySelectorAll("[data-narrative-view]"))
-    button.onclick = () => { garden3d?.setNarrativeView(button.dataset.narrativeView); syncNarrativeUI(); cardFeed?.notifyObserver(button.dataset.narrativeView); };
+    button.onclick = () => {
+      const current = garden3d?.stats.narrativeView;
+      let next = button.dataset.narrativeView;
+      if (next === 'neighbor') {
+        if (current === 'neighbor' && canvas.dataset.terminalCrt !== 'true') next = returnNarrativeView;
+        else if (current && current !== 'neighbor') returnNarrativeView = current;
+      }
+      garden3d?.setNarrativeView(next); syncNarrativeUI(); cardFeed?.notifyObserver(next);
+    };
   const chooseViewMode = (button) => {
     garden3d.setNavigationMode(button.dataset.viewMode);
     for (const choice of viewControls.querySelectorAll("[data-view-mode]"))
@@ -648,6 +658,8 @@ if (!editor) {
     down = null,
     moved = false;
   const touching = new Set();
+  const canInspect = () => canvas.dataset.terminalCrt !== 'true' &&
+    (backgroundStage || garden3d?.stats.narrativeView !== 'neighbor');
   const close = () => {
     pinned = false;
     note.hidden = true;
@@ -656,7 +668,7 @@ if (!editor) {
     notebookKey = "";
   };
   const open = (o, pin = false) => {
-    if (!o || canvas.dataset.terminalCrt === 'true') return;
+    if (!o || !canInspect()) return;
     clearTimeout(timer);
     notebook(o);
     note.hidden = false;
@@ -682,7 +694,7 @@ if (!editor) {
     if ($("notebookOpen")) $("notebookOpen").hidden = backgroundStage;
   }
   const inspectAt = (e) =>
-    canvas.dataset.terminalCrt === 'true' ? null : garden3d ? garden3d.pick(e.clientX, e.clientY) : hit(coords(e));
+    !canInspect() ? null : garden3d ? garden3d.pick(e.clientX, e.clientY) : hit(coords(e));
   canvas.addEventListener("pointerdown", (e) => {
     touching.add(e.pointerId);
     down = [e.clientX, e.clientY];

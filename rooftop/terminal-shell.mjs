@@ -81,12 +81,15 @@ function mountTerminal() {
     const selected = document.querySelector('[data-narrative-view][aria-pressed="true"]');
     const view = selected?.dataset.narrativeView || 'drone';
     const number = viewNumbers[view];
+    const fullScope = !terminal && view === 'neighbor';
     const south = canvas.getAttribute('aria-label')?.startsWith('南');
     shell.dataset.channel = number;
     for (const button of document.querySelectorAll('[data-narrative-view]')) {
       setAttribute(button,'data-terminal-number',viewNumbers[button.dataset.narrativeView]);
-      setAttribute(button,'aria-label',terminal ? '机位 ' + viewNumbers[button.dataset.narrativeView] : fullLabels[button.dataset.narrativeView]);
-      if (terminal) button.removeAttribute('title'); else setAttribute(button,'title',fullLabels[button.dataset.narrativeView]);
+      const label = terminal ? '机位 ' + viewNumbers[button.dataset.narrativeView]
+        : fullScope && button.dataset.narrativeView === 'neighbor' ? '退出狙击' : fullLabels[button.dataset.narrativeView];
+      setAttribute(button,'aria-label',label);
+      if (terminal) button.removeAttribute('title'); else setAttribute(button,'title',label);
     }
     for (const button of document.querySelectorAll('[data-station-action]')) {
       if (terminal) button.removeAttribute('title');
@@ -94,7 +97,7 @@ function mountTerminal() {
     }
     const station = document.querySelector('.station-controls');
     setAttribute(station, 'aria-label', terminal ? '机位 ' + number : {bird:'小鸟操作',drone:'无人机操作',neighbor:'瞄准镜操作'}[view]);
-    if (terminal) canvas.removeAttribute('title'); else setAttribute(canvas,'title',fullHints[view]);
+    if (terminal || fullScope) canvas.removeAttribute('title'); else setAttribute(canvas,'title',fullHints[view]);
     const sceneButton = document.querySelector('#sceneCard');
     sceneButton.dataset.terminalDestination = south ? 'north' : 'south';
   }

@@ -109,23 +109,28 @@
   position:absolute;top:max(16px,env(safe-area-inset-top));right:max(16px,env(safe-area-inset-right));
   text-align:right;max-width:calc(100vw - 186px);pointer-events:none;z-index:2;
 }
-.observation .environment-hud a,
 .observation .roof-world .corner-cards :is(a,button).world-card,
 .observation .roof-world .corner-cards button.world-card[aria-pressed="true"]{
   color:var(--observation-link-color);pointer-events:auto;cursor:pointer;
   text-decoration:none;
 }
-.observation .environment-hud a::before,
 .observation .roof-world .corner-cards :is(a,button).world-card::before{
   content:">" / "";display:inline-block;width:1.2em;color:#92988f;
 }
-.observation .environment-hud a:is(:hover,:focus-visible),
 .observation .roof-world .corner-cards :is(a,button).world-card:is(:hover,:focus-visible){color:#e0e3dc}
-.observation .environment-hud a:is(:hover,:focus-visible)::before,
 .observation .roof-world .corner-cards :is(a,button).world-card:is(:hover,:focus-visible)::before{color:inherit}
-.observation .environment-hud a:focus-visible,
 .observation .roof-world .corner-cards :is(a,button).world-card:focus-visible{outline:1px solid currentColor;outline-offset:3px}
+.observation .environment-hud .weather-credit{font:7px/1.65 Pixel,monospace;color:#92988f}
 @media(max-width:550px){.observation .environment-hud{top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right));max-width:calc(100vw - 180px)}}
+
+/* Inside the scope, one small sight button returns to the previous observer. */
+.observation.scope-mode-active:not(.terminal-mode-active) :is(.environment-hud,.corner-cards,.observation-notebook,.station-controls,#sceneDoor,.terminal-enter),
+.observation.scope-mode-active:not(.terminal-mode-active) .narrative-views [data-narrative-view]:not([data-narrative-view=neighbor]){display:none!important}
+.observation.scope-mode-active:not(.terminal-mode-active) .narrative-views [data-narrative-view=neighbor]{font-size:0}
+.observation.scope-mode-active:not(.terminal-mode-active) .narrative-views [data-narrative-view=neighbor]::after{
+  content:'';width:1px;height:1px;background:currentColor;
+  box-shadow:-5px 0 currentColor,-4px 0 currentColor,-3px 0 currentColor,3px 0 currentColor,4px 0 currentColor,5px 0 currentColor,0 -5px currentColor,0 -4px currentColor,0 -3px currentColor,0 3px currentColor,0 4px currentColor,0 5px currentColor;
+}
 
 /* Events read forward in time; navigation stays in its own fixed grid. */
 .observation .corner-cards{width:min(640px,calc(100% - 32px));gap:9px}

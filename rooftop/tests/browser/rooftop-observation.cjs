@@ -4,6 +4,12 @@ const { chromium, webkit } = require("playwright");
 const engine = process.env.BROWSER || "chromium",
   base = process.env.BASE_URL || "http://127.0.0.1:8773";
 const selectView = async (page, name) => {
+  if (await page.evaluate(() => rooftop.graphics.narrativeView) === name) return;
+  if (await page.evaluate(() => rooftop.graphics.narrativeView) === 'neighbor') {
+    await page.locator('[data-narrative-view="neighbor"]').click();
+    await page.waitForFunction(() => rooftop.graphics.narrativeView !== 'neighbor');
+    if (await page.evaluate(() => rooftop.graphics.narrativeView) === name) return;
+  }
   await page.locator('[data-narrative-view="' + name + '"]').click();
   await page.waitForFunction(id => rooftop.graphics.narrativeView === id, name);
   assert.equal(await page.locator('[data-narrative-view="' + name + '"]').getAttribute("aria-pressed"), "true");
@@ -27,6 +33,17 @@ const checkBounds = async page => {
   assert.ok(g.wanted.zoom >= g.zoomLimits.min - 1e-6 && g.wanted.zoom <= g.zoomLimits.max + 1e-6);
 };
 const checkObserverCards = async (page, view) => {
+  if (view === 'neighbor') {
+    for (const selector of ['#environmentHud', '.corner-cards', '#notebook', '.station-controls', '#sceneDoor', '.terminal-enter'])
+      assert.equal(await page.locator(selector).isVisible(), false, selector + ' stays outside the scope');
+    assert.equal(await page.locator('.view-controls button:visible').count(), 1, 'one sight button exits the scope');
+    const exit = page.locator('[data-narrative-view="neighbor"]'), box = await exit.boundingBox();
+    assert.equal(await exit.getAttribute('aria-label'), '退出狙击');
+    assert.ok(Math.abs(box.width - 22) < .03 && Math.abs(box.height - 22) < .03);
+    assert.equal(await page.locator('#garden').getAttribute('title'), null, 'aiming has no floating instruction tooltip');
+    assert.equal(await page.locator('#notebookOpen').getAttribute('aria-expanded'), 'false');
+    return;
+  }
   // Inspect resting controls; hover and selection provide a brighter cue.
   await page.mouse.move(1, 1);
   const cards = await page.evaluate(() => {
@@ -336,6 +353,8 @@ const checkSavedArrangementIsolation = async browser => {
       await checkBounds(page);
       assert.equal(await page.locator(".neighbor-scope").isVisible(), false);
 
+      await page.locator('#notebookOpen').click();
+      await page.locator('#notebook').waitFor({state:'visible'});
       await selectView(page, "neighbor");
       assert.equal(await page.locator('#statusLog [data-status-kind=observer] .status-text').last().innerText(),'有一架无人机路过。','question view does not add a status');
       await checkObserverCards(page, 'neighbor');
@@ -344,7 +363,8 @@ const checkSavedArrangementIsolation = async browser => {
       await dragView(page, -35, 12);
       await page.waitForFunction(target => Math.hypot(...rooftop.graphics.target.map((value, i) => value - target[i])) > .05, neighbor.target);
       assert.deepEqual(await page.evaluate(() => rooftop.graphics.cameraPreset.pose.eye), neighbor.eye, "the observer remains at one real station");
-      await page.locator('[data-station-action="in"]').click();
+      await page.mouse.move(600, 400);
+      await page.mouse.wheel(0, -130);
       await page.waitForFunction(zoom => rooftop.graphics.wanted.zoom > zoom, neighbor.zoom);
       await page.waitForFunction(() => document.querySelector("[data-scope-zoom]").textContent.includes("×") && !document.querySelector("[data-scope-zoom]").textContent.includes("—"));
       const reading = await page.evaluate(() => rooftop.modelRenderer.scopeReading);
@@ -354,6 +374,13 @@ const checkSavedArrangementIsolation = async browser => {
       assert.ok(await page.evaluate(() => rooftop.graphics.scopeLens.passes > 0));
       await checkBounds(page);
       assert.deepEqual(await page.evaluate(() => rooftop.layout), original, "all three view controls preserve placements and stored room data");
+      await page.mouse.click(600, 400);
+      await page.waitForTimeout(450);
+      assert.equal(await page.locator('#notebook').isVisible(), false, 'scope clicks and hover cannot reopen the notebook');
+      await page.locator('[data-narrative-view="neighbor"]').click();
+      await page.waitForFunction(() => rooftop.graphics.narrativeView === 'drone');
+      assert.equal(await page.locator('#environmentHud').isVisible(), true);
+      assert.equal(await page.locator('.corner-cards').isVisible(), true);
 
       // Furnished terraces expose the preserved botanical, antique and weapon database.
       await page.locator("#notebookOpen").click();
@@ -434,8 +461,10 @@ const checkSavedArrangementIsolation = async browser => {
       await touch.detach();
     } else {
       await selectView(page, "neighbor");
-      const button = await page.locator('[data-station-action="in"]').boundingBox(), before = await page.evaluate(() => rooftop.graphics.wanted.zoom);
-      await page.touchscreen.tap(button.x + button.width / 2, button.y + button.height / 2);
+      const before = await page.evaluate(() => rooftop.graphics.wanted.zoom);
+      await page.mouse.move(200, 400);
+      await page.mouse.wheel(0, -130);
+      await page.waitForFunction(zoom => rooftop.graphics.wanted.zoom > zoom, before);
       assert.ok((await page.evaluate(() => rooftop.graphics.wanted.zoom)) > before);
     }
     await checkBounds(page);
@@ -454,6 +483,8 @@ const checkSavedArrangementIsolation = async browser => {
       "stale viewport height is corrected to integer cells, with only bottom padding");
     await page.setViewportSize({ width: 390, height: 844 });
     await checkScopeCircle(page, engine + " restored phone viewport");
+    await page.locator('[data-narrative-view="neighbor"]').click();
+    await page.waitForFunction(() => rooftop.graphics.narrativeView === 'bird');
     await page.locator("#notebookOpen").click();
     await page.locator("#reviewEntry").selectOption("mint");
     const note = await page.locator(".observation-notebook").boundingBox();
