@@ -462,8 +462,10 @@ const checkSavedArrangementIsolation = async browser => {
     } else {
       await selectView(page, "neighbor");
       const before = await page.evaluate(() => rooftop.graphics.wanted.zoom);
-      await page.mouse.move(200, 400);
-      await page.mouse.wheel(0, -130);
+      // Mobile WebKit cannot inject wheel events; Chromium above covers pinch,
+      // and desktop WebKit already exercises wheel zoom on both terraces.
+      await page.locator('#garden').focus();
+      await page.keyboard.press('+');
       await page.waitForFunction(zoom => rooftop.graphics.wanted.zoom > zoom, before);
       assert.ok((await page.evaluate(() => rooftop.graphics.wanted.zoom)) > before);
     }
