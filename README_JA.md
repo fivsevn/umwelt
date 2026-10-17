@@ -31,10 +31,10 @@ https://umwelt.fivsevn.com/tick/
 
 > 制作中
 
-### Isopoda Fugue / イソポーダ・フーガ
+### Isopoda Fugue / 等脚目のフーガ
 https://umwelt.fivsevn.com/isopoda/
 
-> 『Isopoda Fugue / イソポーダ・フーガ』は、等脚類を主な対象とするブラウザ上のインタラクティブ作品です。生物学、自然史、飼育に関する資料を参照し、その一部を視覚表現やインタラクションへと変換しています。
+> 『Isopoda Fugue / 等脚目のフーガ』は、等脚類を主な対象とするブラウザ上のインタラクティブ作品です。生物学、自然史、飼育に関する資料を参照し、その一部を視覚表現やインタラクションへと変換しています。
 
 > 作品内の表現、各種パラメータ、インタラクションのロジックには創作上の処理が含まれており、現実の生物学的現象を完全に再現するものではありません。
 
@@ -44,12 +44,12 @@ https://umwelt.fivsevn.com/isopoda/
 - Asimov Habitat Lab / アシモフ環境ラボ  
   https://umwelt.fivsevn.com/isopoda/habitat.html
 
-### Horticultural Era / 花農時代  
+### Horticultural Era / 園芸時代
 https://umwelt.fivsevn.com/rooftop/
 
 > 制作中。
 
-### THERMOREGULATION / 体温調節  
+### Thermoregulation / 体温調節
 https://umwelt.fivsevn.com/ophidia/
 
 > 制作中。

@@ -1,4 +1,4 @@
-name: Desktop and TICK regression
+name: Desktop and game identity regression
 on:
   push:
     branches: [main]
@@ -9,13 +9,17 @@ on:
         "*.css",
         "index.html",
         "assets/**",
+        "shared/**",
         "tick/**",
+        "ophidia/game.js",
+        "rooftop/page-title.mjs",
         "isopoda/system-ui.mjs",
         "isopoda/i18n.mjs",
         "isopoda/audio-ui.mjs",
         "isopoda/ui.mjs",
         "isopoda/locales/**",
         "tests/browser/homepage*.cjs",
+        "tests/browser/game-titles.cjs",
         "tests/browser/audio-controls.cjs",
         ".github/workflows/system-regression.yml",
       ]
@@ -27,13 +31,17 @@ on:
         "*.css",
         "index.html",
         "assets/**",
+        "shared/**",
         "tick/**",
+        "ophidia/game.js",
+        "rooftop/page-title.mjs",
         "isopoda/system-ui.mjs",
         "isopoda/i18n.mjs",
         "isopoda/audio-ui.mjs",
         "isopoda/ui.mjs",
         "isopoda/locales/**",
         "tests/browser/homepage*.cjs",
+        "tests/browser/game-titles.cjs",
         "tests/browser/audio-controls.cjs",
         ".github/workflows/system-regression.yml",
       ]
@@ -51,7 +59,7 @@ jobs:
       fail-fast: false
       matrix:
         browser: [chromium, webkit]
-        suite: [homepage, homepage-language, tick-motion, audio-controls]
+        suite: [homepage, homepage-language, game-titles, tick-motion, audio-controls]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

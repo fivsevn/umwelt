@@ -2,7 +2,19 @@
 
 以等足类动物为主要对象的浏览器交互作品。两个阿西莫夫实验室承载物种与环境的科学背景资料。
 
-[维护总入口](../MAINTENANCE.md) · [文档导航](docs/README.md) · [测试说明](tests/README.md)
+[维护总入口](../MAINTENANCE.md) · [共用规则](../docs/structure.md) · [文档导航](docs/README.md) · [测试说明](tests/README.md)
+
+## 名称与标识
+
+| 项目 | 名称 |
+| --- | --- |
+| 中文 | 等足目赋格 |
+| English | Isopoda Fugue |
+| 日本語 | 等脚目のフーガ |
+| 桌面文件名 | `ISOPODA.EXE` |
+| 仓库目录 | `isopoda/` |
+
+遵循[游戏名称规则](../docs/naming.md)。目录标识与程序文件名固定，可读标题随语言切换。
 
 ## 游戏入口
 
@@ -24,7 +36,7 @@ python3 -m http.server 8765 --bind 127.0.0.1
 
 | 位置 | 内容 |
 | --- | --- |
-| 根目录游戏模块、`data/`、`locales/` | 游戏流程、对白、物种与来源、翻译 |
+| 游戏根目录模块、`data/`、`locales/` | 游戏流程、对白、物种与来源、翻译 |
 | `morphology/`、`habitat.html`、`scenery/` | 两个实验室、形态与环境绘制 |
 | `docs/` | [现行指南](docs/README.md)、[内容与运行地图](docs/content-map.md) |
 | `tests/`、`tools/`、`dev/` | 游戏测试、专属数据检查、本地开发预览 |

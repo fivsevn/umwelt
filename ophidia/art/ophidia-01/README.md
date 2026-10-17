@@ -1,6 +1,6 @@
-# THERMOREGULATION · 船舱与角色建模
+# Thermoregulation · 船舱与角色建模
 
-作品名：THERMOREGULATION / 体温调节 / 体温調節。程序名：OPHIDIA.EXE。此目录保存当前可编辑模型、建模说明、预渲染素材和固定检查页面。后续修改直接从 `ophidia.blend` 继续；目录内只保留当前版本。
+作品名：Thermoregulation / 体温调节 / 体温調節。程序名：OPHIDIA.EXE。此目录保存当前可编辑模型、建模说明、预渲染素材和固定检查页面。后续修改直接从 `ophidia.blend` 继续；目录内只保留当前版本。
 
 ## 当前源文件
 

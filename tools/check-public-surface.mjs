@@ -5,6 +5,7 @@ const root=new URL('../',import.meta.url);
 const required=[
  'index.html',
  'desktop.mjs',
+ 'shared/games.mjs',
  'desktop-icons.mjs',
  'forest.js',
  'style.css',

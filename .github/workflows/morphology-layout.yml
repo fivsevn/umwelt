@@ -4,6 +4,7 @@ on:
     paths:
       - 'isopoda/**'
       - 'assets/**'
+      - 'shared/**'
       - 'desktop*.mjs'
       - 'forest.js'
       - 'index.html'
@@ -17,6 +18,7 @@ on:
     paths:
       - 'isopoda/**'
       - 'assets/**'
+      - 'shared/**'
       - 'desktop*.mjs'
       - 'forest.js'
       - 'index.html'
@@ -67,8 +69,6 @@ jobs:
             PLAYWRIGHT_MODULE="$RUNNER_TEMP/morphology-browser/node_modules/playwright/index.mjs" node isopoda/tests/browser/intertidal.mjs
           elif [ "${{ matrix.suite }}" = "rendering" ]; then
             PLAYWRIGHT_MODULE="$RUNNER_TEMP/morphology-browser/node_modules/playwright/index.mjs" node isopoda/tests/rendering.browser.mjs
-          elif [ "${{ matrix.suite }}" = "public-regression" ]; then
-            NODE_PATH="$RUNNER_TEMP/morphology-browser/node_modules" node tests/browser/public-regression.cjs
           else
             NODE_PATH="$RUNNER_TEMP/morphology-browser/node_modules" node "isopoda/tests/browser/${{ matrix.suite }}.cjs"
           fi

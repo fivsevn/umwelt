@@ -1,3 +1,4 @@
+import {gameTitle, gameDocumentTitle} from '../shared/games.mjs';
 (() => {
   'use strict';
 
@@ -13,21 +14,21 @@
 
   const copy = {
     zh: {
-      title: '体温调节', subtitle: '窗边有一个空座位。', start: '坐下', wait: '稍候',
+      title: gameTitle('ophidia', 'zh'), subtitle: '窗边有一个空座位。', start: '坐下', wait: '稍候',
       loading: '正在靠岸', error: '场景图像未能加载。',
       retry: '重试', next: '继续', restart: '重新开始', home: '返回主页', settings: '设置', language: '语言', launch: '开始航程',
       scene: '渡轮的窗边卡座，一条戴着帽子与围巾的蛇', dialogue: '对话', choices: '选择',
       speakers: { you: '你', snake: '蛇', scene: '窗边', end: '余温' },
     },
     en: {
-      title: 'THERMOREGULATION', subtitle: 'There is a seat by the window.', start: 'Take a seat', wait: 'One moment',
+      title: gameTitle('ophidia', 'en'), subtitle: 'There is a seat by the window.', start: 'Take a seat', wait: 'One moment',
       loading: 'Coming alongside', error: 'The scene images could not load.',
       retry: 'Try again', next: 'Continue', restart: 'Start again', home: 'Home', settings: 'Settings', language: 'Language', launch: 'Begin crossing',
       scene: 'A ferry booth by the window, with a snake wearing a hat and scarf', dialogue: 'Conversation', choices: 'Choose',
       speakers: { you: 'YOU', snake: 'SNAKE', scene: 'BY THE WINDOW', end: 'AFTERWARMTH' },
     },
     ja: {
-      title: '体温調節', subtitle: '窓辺に、空いた席がひとつ。', start: '座る', wait: '少しお待ちください',
+      title: gameTitle('ophidia', 'ja'), subtitle: '窓辺に、空いた席がひとつ。', start: '座る', wait: '少しお待ちください',
       loading: '接岸中', error: '風景の画像を読み込めませんでした。',
       retry: '再試行', next: 'つづく', restart: '最初から', home: 'ホームへ', settings: '設定', language: '言語', launch: '航程を始める',
       scene: 'フェリーの窓辺の席。帽子とマフラーをつけた蛇がいる', dialogue: '会話', choices: '選択',
@@ -158,7 +159,7 @@
     const ui = copy[language];
     document.documentElement.lang = { zh: 'zh-CN', en: 'en', ja: 'ja' }[language];
     document.documentElement.dataset.language = language;
-    document.title = language === 'en' ? 'THERMOREGULATION' : `THERMOREGULATION / ${ui.title}`;
+    document.title = gameDocumentTitle('ophidia', language);
     $('game').setAttribute('aria-label', ui.title);
     $('viewport').setAttribute('aria-label', ui.scene);
     $('dialoguePanel').setAttribute('aria-label', ui.dialogue);

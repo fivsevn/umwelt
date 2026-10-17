@@ -1,4 +1,4 @@
-# 等足目测试
+# 等足目赋格测试
 
 [游戏文档](../README.md) · [全项目测试](../../tests/README.md)
 
@@ -11,7 +11,7 @@ BASE_URL=http://127.0.0.1:8765 node isopoda/tests/browser/morphology-layout.cjs
 BROWSER=webkit BASE_URL=http://127.0.0.1:8765 node isopoda/tests/browser/morphology-layout.cjs
 ```
 
-CI 的 `morphology-layout.yml` 保留两种浏览器和原有专项矩阵。跨主页、蜱虫和等足目的整体对照仍在根 `tests/browser/public-regression.cjs`。
+CI 的 `morphology-layout.yml` 保留两种浏览器和原有专项矩阵。等足目及两个实验室的公开流程对照位于 `browser/public-regression.cjs`，同时从整体桌面核对入口。
 
 ## 入口与存档前置条件
 
@@ -62,6 +62,27 @@ Petri refinement also checks equal archive/microscope button sizes, filled backg
 PLAYWRIGHT_MODULE=/path/to/playwright/index.mjs BASE_URL=http://127.0.0.1:8765 node isopoda/tests/rendering.browser.mjs
 ```
 
-已移除不适配现有观察入口的历史通用点击循环。各环境完整流程与存档继续由 `browser/` 中的专项检查负责；整理前后的画面、文本与存档对照使用根 `tests/browser/public-regression.cjs`。
+已移除不适配现有观察入口的历史通用点击循环。各环境完整流程与存档继续由 `browser/` 中的专项检查负责；整理前后的画面、文本与存档对照使用 `isopoda/tests/browser/public-regression.cjs`。
 
 The root `tests/site-artifact.test.mjs` protects the tracked-file publication boundary and module preloads. `sprite-color-cache.test.mjs` compares the optimized sprite renderer against uncached color arithmetic across every species, pose and frame.
+
+## 公开流程与基线对照
+
+`browser/public-regression.cjs` 覆盖桌面入口、等足目主页和两个实验室，在 Chromium / WebKit 的 320×568、390×844、1440×900 下检查陆地和深海的导入、选择、反馈、刷新与 Credits。它固定测试时间和随机数，只有设置 `COMPARE_URL` 才比较与独立基线的截图、文本、溢出状态和存档；常规运行检查资源、运行错误和交互。
+
+```sh
+BASE_URL=http://127.0.0.1:8765 COMPARE_URL=http://127.0.0.1:8766 node isopoda/tests/browser/public-regression.cjs
+BROWSER=webkit BASE_URL=http://127.0.0.1:8765 COMPARE_URL=http://127.0.0.1:8766 node isopoda/tests/browser/public-regression.cjs
+```
+
+`scene-and-dates.test.mjs` 检查场景像素网格、真实起始日期与收藏日期。
+
+## 原生桌面
+
+`native/offline-languages.cjs` 检查等足目四语言及日文字体离线可用；需先构建桌面包并提供 Playwright。
+
+```sh
+node isopoda/tests/native/offline-languages.cjs /path/to/UMWELT.app
+```
+
+Windows 使用 EXE 路径。此项由 Windows 工作流调用；共用窗口与同步检查见[桌面包装](../../mac/README.md)。

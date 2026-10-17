@@ -6,7 +6,7 @@
 
 [Pages 工作流](../.github/workflows/pages.yml)依次执行结构检查、准备站点、字体子集、资源版本标记和成品浏览器检查，通过后上传并部署。推送 `main` 会触发；仅含 `README*.md` 的推送被忽略，其他开发文档变更仍可能触发部署。
 
-[prepare-site.mjs](../.github/scripts/prepare-site.mjs)只复制 Git 跟踪且通过 `publicFile()` 筛选的文件，并为 HTML 的直接模块依赖加入 modulepreload。它排除根 `MAINTENANCE.md`、`docs/`、`tests/`、`tools/`、`mac/`、`isopoda/tools/`、`isopoda/dev/`、四个游戏目录下的 `docs/`、`tests/`、`art/`、仓库管理文件及各目录的 README / AGENTS。未跟踪的本地实验不进入发布包。新增游戏目录时同步登记其开发文档边界。
+[prepare-site.mjs](../.github/scripts/prepare-site.mjs)只复制 Git 跟踪且通过 `publicFile()` 筛选的文件，并为 HTML 的直接模块依赖加入 modulepreload。它排除根 `MAINTENANCE.md`、`docs/`、`tests/`、`tools/`、`mac/`、任意游戏目录下的 `docs/`、`tests/`、`art/`、`tools/`、`dev/`、仓库管理文件及各目录的 README / AGENTS。未跟踪的本地实验不进入发布包。新增游戏沿用这些目录边界；运行资源放在游戏根目录或 `assets/` 等运行目录。`shared/` 为跨游戏运行模块，随站点发布。
 
 Markdown 的用途由读取方决定：`isopoda/credits*.md` 是游戏内容，字体许可也随资源保留。各游戏 `art/`、`tests/` 中的原稿与检查页可随仓库保存，但不进入网页发布目录。
 
@@ -26,7 +26,7 @@ node .github/scripts/stamp-assets.mjs /path/to/prepared-site "$GITHUB_SHA"
 
 ## 成品检查与发布状态
 
-`tests/browser/published-artifact.cjs` 必须访问已经完成准备、字体子集和 SHA 标记的发布目录。当前检查主页、蜱虫、体温调节、等足目及两个实验室、南北阳台、车库和房间，共 10 个入口；Chromium / WebKit 各检查桌面和手机宽度，共 40 组。它核对资源、页面控件、运行错误与版本标记；专项剧情、编辑及原稿检查仍按各游戏指南执行。
+`tests/browser/published-artifact.cjs` 必须访问已经完成准备、字体子集和 SHA 标记的发布目录。当前检查主页、三个信号、体温调节、等足目赋格及两个实验室、南北阳台、车库和房间，共 10 个入口；Chromium / WebKit 各检查桌面和手机宽度，共 40 组。它核对资源、页面控件、运行错误与版本标记；专项剧情、编辑及原稿检查仍按各游戏指南执行。
 
 ```sh
 BASE_URL=http://127.0.0.1:8794 EXPECTED_SHA="$GITHUB_SHA" node tests/browser/published-artifact.cjs

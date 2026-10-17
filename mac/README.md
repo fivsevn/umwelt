@@ -1,9 +1,9 @@
 # UMWELT for macOS
 
 The desktop wrapper packages the tracked public site through `prepareSite`,
-including the homepage and the current TICK, ISOPODA, rooftop and OPHIDIA files.
-Native window routing and dedicated QA currently focus on the homepage, TICK,
-ISOPODA and its reference windows; packaged files alone do not establish native
+including the homepage and the current `tick/`, `isopoda/`, `rooftop/` and `ophidia/` files.
+Native window routing and dedicated QA currently focus on the homepage, Three Signals,
+Isopoda Fugue and its reference windows; packaged files alone do not establish native
 QA coverage for the newer games. Build on macOS with
 `node mac/build.mjs /path/to/output`. The builder verifies the pinned Electron
 archive checksum, bundles the public site, ad-hoc signs the app and creates a
@@ -11,7 +11,7 @@ zip for the current CPU architecture. Native support files are excluded from
 the published website.
 
 The homepage is a fixed 720 × 540 desktop. Games open as independent windows;
-ISOPODA uses the authored webpage panels and fits their heights. Its arrival
+Isopoda Fugue uses the authored webpage panels and fits their heights. Its arrival
 panel has no added title bar. The archive/journal opens as an independent
 window, shares saved records and can remain open after the observation closes.
 New windows finish layout before showing and are centered on the screen.
@@ -58,9 +58,13 @@ Shared website publication rules live in [deployment](../docs/deployment.md).
 
 The same desktop runtime is packaged by `mac/windows/build.mjs` on Windows.
 `mac/windows/package.json` pins the build/test tools. The Windows Actions workflow
-runs the shared native-window suite, offline languages and full TICK loop, then
+runs the shared native-window suite, offline languages and full Three Signals loop, then
 launches the actual portable EXE from a spaced/non-ASCII path, verifies saved
 records across a restart and confirms complete uninstall on a disposable copy.
 Only after all checks pass does it attach the ZIP to the existing v0.1.5 preview.
 The ZIP has exactly UMWELT.exe and README.txt. Runtime files extract temporarily;
 persistent saves live in %APPDATA%/com.fivsevn.umwelt. The portable EXE is unsigned.
+
+## Game-owned checks
+
+Game-specific native checks live with their games: [Three Signals](../tick/tests/README.md#原生桌面) and [Isopoda Fugue offline languages](../isopoda/tests/README.md#原生桌面). This directory retains cross-window integration, packaging, update and uninstall checks. File ownership and future additions follow the [shared directory rules](../docs/structure.md).

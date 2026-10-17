@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {SPECIES} from '../isopoda/species.mjs';import {pixelAnatomy,renderModel} from '../isopoda/sprites.mjs';import {sceneActorPixels,SCENE_PIXEL} from '../isopoda/habitat.mjs';import {createRun} from '../isopoda/engine.mjs';import {restoreCollection,unlock} from '../isopoda/collection.mjs';
+import {SPECIES} from '../species.mjs';import {pixelAnatomy,renderModel} from '../sprites.mjs';import {sceneActorPixels,SCENE_PIXEL} from '../habitat.mjs';import {createRun} from '../engine.mjs';import {restoreCollection,unlock} from '../collection.mjs';
 test('scene creatures use the same coarse lattice in every orientation and remain smaller than specimens',()=>{
  for(const species of SPECIES)for(const posture of ['normal','curled','molting']){
  const model=renderModel(species.visual),source=new Map();for(const part of pixelAnatomy(model,{posture,molt:posture==='molting'?'posterior':'none'}))for(const [x,y,c] of part.cells)source.set(x+','+y,c);

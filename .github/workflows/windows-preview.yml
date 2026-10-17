@@ -2,7 +2,7 @@ name: Windows preview build and QA
 on:
   push:
     branches: [main]
-    paths: ['mac/**', '.github/workflows/windows-preview.yml']
+    paths: ['mac/**', 'tick/tests/native/**', 'isopoda/tests/native/**', '.github/workflows/windows-preview.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -33,10 +33,10 @@ jobs:
           $env:UMWELT_PLAYWRIGHT = "$pwd/mac/windows/node_modules/playwright"
           node mac/qa.cjs "$pwd/_windows/build/win-unpacked/UMWELT.exe"
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          node mac/qa-offline.cjs "$pwd/_windows/build/win-unpacked/UMWELT.exe"
+          node isopoda/tests/native/offline-languages.cjs "$pwd/_windows/build/win-unpacked/UMWELT.exe"
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           $env:QA_OUTPUT = "$pwd/_windows/qa/tick"
-          node mac/qa-tick.cjs "$pwd/_windows/build/win-unpacked/UMWELT.exe"
+          node tick/tests/native/gameplay.cjs "$pwd/_windows/build/win-unpacked/UMWELT.exe"
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Test actual portable EXE and uninstall
         run: node mac/windows/qa-portable.cjs _windows/release/UMWELT.exe

@@ -38,7 +38,7 @@ const layouts=process.argv.includes('--portrait-only')?[['desktop',1440,900],['m
     assert.equal(await page.locator('#settingsToggle').getAttribute('aria-expanded'),'true');
     await page.keyboard.press('ArrowRight');await page.keyboard.press('1');
     assert.equal(await page.locator('#dialogueText').innerText(),initialLine);
-    for(const [lang,title] of [['ja','THERMOREGULATION / 体温調節'],['en','THERMOREGULATION'],['zh','THERMOREGULATION / 体温调节']]){
+    for(const [lang,title] of [['ja','Thermoregulation / 体温調節'],['en','Thermoregulation'],['zh','Thermoregulation / 体温调节']]){
      await page.click(`[data-language="${lang}"]`);assert.equal(await page.title(),title);
     }
     const menu=await page.locator('#settingsMenu').boundingBox();

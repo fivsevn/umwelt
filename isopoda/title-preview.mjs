@@ -1,3 +1,4 @@
+import {GAMES} from '../shared/games.mjs';
 import {shoreLayout,drawShoreWater} from './scenery/estuary-shore.mjs';
 import {drawBaseScene,drawLeaf,DEFAULT_LAYOUT,drawLayoutScene,layoutForHabitat} from './scenery/index.mjs';
 import {drawAquaticWater} from './scenery/aquatic.mjs';
@@ -82,5 +83,5 @@ if(canvas&&!(window.umweltNative&&new URLSearchParams(location.search).has('nati
  const language=document.documentElement.dataset.uiLanguage||'zh';
  const languageIndex=language==='en'?1:language==='ja'?2:0;
  const title=document.querySelector('#titleCard .window-title span');
- if(title)title.textContent='ISOPODA / '+config.names[languageIndex];
+ if(title)title.textContent=GAMES.isopoda.program+' / '+config.names[languageIndex];
 }

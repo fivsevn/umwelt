@@ -1,4 +1,4 @@
-# THERMOREGULATION / 体温调节 / 体温調節
+# Thermoregulation / 体温调节 / 体温調節
 
 UMWELT 的竖屏对话游戏。桌面程序名为 **OPHIDIA.EXE**。
 

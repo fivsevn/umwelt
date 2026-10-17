@@ -1,12 +1,24 @@
-# TICK.SYS / 蜱虫
+# Three Signals / 三个信号
 
 围绕蜱虫感知与行动展开的试验性互动，使用独立的 HTML、CSS 和 JavaScript。
 
-[维护总入口](../MAINTENANCE.md) · [文档导航](docs/maintenance.md) · [测试说明](tests/README.md)
+[维护总入口](../MAINTENANCE.md) · [共用规则](../docs/structure.md) · [文档导航](docs/README.md) · [测试说明](tests/README.md)
+
+## 名称与标识
+
+| 项目 | 名称 |
+| --- | --- |
+| 中文 | 三个信号 |
+| English | Three Signals |
+| 日本語 | 三つの信号 |
+| 桌面文件名 | `TICK.SYS` |
+| 仓库目录 | `tick/` |
+
+遵循[游戏名称规则](../docs/naming.md)。目录标识与程序文件名固定，可读标题随语言切换。
 
 ## 游戏入口
 
-[打开游戏](https://umwelt.fivsevn.com/tick/)
+- [三个信号](https://umwelt.fivsevn.com/tick/)
 
 ## 本地运行
 
@@ -23,8 +35,8 @@ python3 -m http.server 8765 --bind 127.0.0.1
 | 位置 | 内容 |
 | --- | --- |
 | `index.html`、`game.js`、`style.css`、`sprite.mjs` | 游戏页面、感知与移动、视觉绘制 |
-| `docs/` | [交互流程、视觉参考与维护约定](docs/maintenance.md) |
-| `tests/` | [蜱虫浏览器回归](tests/README.md) |
+| `docs/` | [交互流程、视觉参考与维护约定](docs/README.md) |
+| `tests/` | [网页与原生桌面回归](tests/README.md) |
 
 ## 内容维护
 

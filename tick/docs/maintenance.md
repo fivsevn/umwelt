@@ -1,4 +1,4 @@
-# TICK.SYS
+# Three Signals / 三个信号
 
 Dependency-free HTML/CSS/JS perception study. No visible instructions, HUD or About button during play.
 

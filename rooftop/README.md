@@ -1,8 +1,20 @@
-# 花农时代 / Horticultural Era
+# Horticultural Era / 花农时代
 
 围绕阳台植物、器物与日常观察展开的游戏，包含南北阳台、车库布置与东东的房间。
 
-[维护总入口](../MAINTENANCE.md) · [文档导航](docs/README.md) · [测试说明](tests/README.md)
+[维护总入口](../MAINTENANCE.md) · [共用规则](../docs/structure.md) · [文档导航](docs/README.md) · [测试说明](tests/README.md)
+
+## 名称与标识
+
+| 项目 | 名称 |
+| --- | --- |
+| 中文 | 花农时代 |
+| English | Horticultural Era |
+| 日本語 | 園芸時代 |
+| 桌面文件名 | `ROOFTOP.EXE` |
+| 仓库目录 | `rooftop/` |
+
+遵循[游戏名称规则](../docs/naming.md)。目录标识与程序文件名固定，可读标题随语言切换。
 
 ## 游戏入口
 
@@ -24,13 +36,15 @@ python3 -m http.server 8765 --bind 127.0.0.1
 
 | 位置 | 内容 |
 | --- | --- |
-| 根目录模块、`3d/`、`arrange/`、`room/` | 观察、渲染、陈列编辑与房间 |
+| 游戏根目录模块、`3d/`、`arrange/`、`room/` | 观察、渲染、陈列编辑与房间 |
 | `assets/` | 游戏实际读取的模型、贴图和图标 |
 | `art/` | [Blender、Pixelorama 原稿与制作工具](art/README.md) |
 | `docs/` | [维护、制作管线、承放、手帐与来源指南](docs/README.md) |
 | `tests/` | [自动测试、浏览器回归、固定视觉测试页及样本](tests/README.md) |
 
 ## 内容维护
+
+标签页的游戏标题跟随桌面语言，游戏正文目前以中文为主。
 
 从当前 Blender 和 Pixelorama 原稿继续修改，原稿、运行导出与实际画面分别核对。游戏的像素表现由共享采样控制，完整器形与承放结构保留。扩充物件前阅读[承放关系](docs/placement.md)与 [AGENTS.md](AGENTS.md)；来源、存档及模块约定见[维护与扩容](docs/maintenance.md)。
 

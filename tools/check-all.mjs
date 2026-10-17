@@ -1,9 +1,10 @@
 import {readdir} from 'node:fs/promises';
 import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
+import {GAMES} from '../shared/games.mjs';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
-const directories=['tests','tick/tests','isopoda/tests','rooftop/tests','ophidia/tests'];
+const directories=['tests',...Object.keys(GAMES).map(id=>`${id}/tests`)];
 const testFiles=(await Promise.all(directories.map(async directory=>(await readdir(new URL(directory+'/',new URL('../',import.meta.url)))).filter(name=>name.endsWith('.test.mjs')).map(name=>directory+'/'+name)))).flat().sort();
 const checks=[
  ['Node tests',['--test',...testFiles]],

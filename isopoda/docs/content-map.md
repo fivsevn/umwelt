@@ -1,4 +1,4 @@
-# ISOPODA content map
+# Isopoda Fugue content map
 
 This document is the development entry point for authored content. It separates active game content from legacy or reference material so new work lands in the correct module without changing the current public UI.
 

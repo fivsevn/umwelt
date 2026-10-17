@@ -44,12 +44,12 @@ https://umwelt.fivsevn.com/isopoda/
 - Asimov Habitat Lab / 阿西莫夫环境实验室  
   https://umwelt.fivsevn.com/isopoda/habitat.html
 
-### Horticultural Era / 花农时代  
+### Horticultural Era / 花农时代
 https://umwelt.fivsevn.com/rooftop/
 
 > 制作中。
 
-### THERMOREGULATION / 体温调节  
+### Thermoregulation / 体温调节
 https://umwelt.fivsevn.com/ophidia/
 
 > 制作中。

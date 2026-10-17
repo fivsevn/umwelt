@@ -8,7 +8,7 @@ const url=process.env.GAME_URL||'http://localhost:8765/isopoda/';
  for(const width of [390,900])for(const lang of ['zh','en','ja','isopod']){
   const p=await browser.newPage({viewport:{width,height:900}});p.on('pageerror',e=>errors.push(e.stack));
   await p.addInitScript(lang=>localStorage.setItem('isopoda-ui-language-v1',lang),lang);await p.goto(url);await p.waitForSelector('#titleCard[data-habitat]');
-  assert.ok((await p.locator('#titleCard .window-title span').innerText()).includes('ISOPODA /'));
+  assert.ok((await p.locator('#titleCard .window-title span').innerText()).includes('ISOPODA.EXE /'));
   const habitats=await p.evaluate(async()=>{const {HABITATS}=await import('/isopoda/habitats.mjs');return HABITATS.filter(h=>h.aquatic).map(h=>({id:h.id,turns:h.turns||h.days*3}))});
   for(const habitat of habitats){
    await p.click('#habitatNext');assert.equal(await p.locator('#titleCard').getAttribute('data-habitat'),habitat.id);

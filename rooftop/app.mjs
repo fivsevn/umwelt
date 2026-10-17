@@ -1,3 +1,4 @@
+import {setPageTitle} from './page-title.mjs';
 import { LOOKS } from './fashion/catalog.mjs';
 import { paintFashionThumbnail, cancelFashionThumbnail } from './fashion/thumbnails.mjs';
 import { createEnvironmentHud } from "./environment-hud.mjs";
@@ -71,6 +72,7 @@ import {
   supportedLayout,
   validateLayout,
 } from "./scene.mjs";
+setPageTitle(location.pathname.includes('/arrange/') ? 'garage' : undefined);
 const $ = (id) => document.getElementById(id),
   editor = document.body.classList.contains("editor");
 const review = reviewState(location.search);

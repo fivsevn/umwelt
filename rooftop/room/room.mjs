@@ -1,3 +1,4 @@
+import {setPageTitle} from '../page-title.mjs';
 import { LOOK_BY_ID } from '../fashion/catalog.mjs';
 import { fillNotebook } from '../notebook.mjs';
 import { fashionThumbnailURL, paintFashionThumbnail } from '../fashion/thumbnails.mjs';
@@ -25,6 +26,7 @@ import {
   ACTIVITIES,
   normalizeWardrobe,
 } from "../wardrobe.mjs";
+setPageTitle('room');
 const $ = (id) => document.getElementById(id),
   canvas = $("room");
 let c = null;

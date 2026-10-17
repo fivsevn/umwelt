@@ -1,3 +1,4 @@
+import {GAMES} from '../shared/games.mjs';
 import './audio-ui.mjs';
 import {recordNaiguaDraw} from './rare-specimens.mjs';
 import {arrivalText,unlockedPetriSpecies,habitatLock,habitatLockText} from './arrival.mjs';
@@ -234,7 +235,7 @@ function refreshPreview(){
  const lock=habitatLock(selectedHabitat,collection);$('#startBtn').disabled=!!lock;setWaveText($('#startBtn'),lock?habitatLockText(lock,getLanguage()):t('newObservation'));
  const seed=4107;previewState=createRun('dairy',seed,selectedHabitat);previewState.cohort=[];
  if(selectedHabitat==='freshwater')previewState.scene={materialStage:3};
- $('#titleCard .window-title span').textContent='ISOPODA / '+gameText('water:habitat:'+selectedHabitat,getLanguage());
+ $('#titleCard .window-title span').textContent=GAMES.isopoda.program+' / '+gameText('water:habitat:'+selectedHabitat,getLanguage());
  $('#habitatPrev').setAttribute('aria-label',gameText('water:prev',getLanguage()));$('#habitatNext').setAttribute('aria-label',gameText('water:next',getLanguage()));
  $('#titleCard').dataset.habitat=selectedHabitat;emptyHabitat.reset({empty:true});emptyHabitat.start();
 }

@@ -1,3 +1,4 @@
+import {gameDocumentTitle} from '../shared/games.mjs';
 import {drawTick} from './sprite.mjs';
 (() => {
   const tick=document.querySelector('#tick'),field=document.querySelector('#field');
@@ -10,6 +11,7 @@ import {drawTick} from './sprite.mjs';
   try{const saved=localStorage.getItem('umwelt-desktop-language');if(['zh','en','ja'].includes(saved))language=saved;}catch{}
   const copy={zh:['環世界','对蜱虫而言，少数信号就是整个世界。','拖动蜱虫','返回 UMWELT','退出小游戏'],en:['Umwelt','For a tick, a few signals are the whole world.','Drag the tick','Return to UMWELT','Exit the encounter'],ja:['環世界','マダニにとって、わずかな信号が世界のすべて。','マダニをドラッグ','UMWELT に戻る','終了する']}[language];
   document.documentElement.lang=language==='zh'?'zh-CN':language;
+  document.title=gameDocumentTitle('tick',language);
   document.querySelector('#aboutTitle').textContent=copy[0];document.querySelector('.note').textContent=copy[1];
   [tick,document.querySelector('nav a'),exit].forEach((el,i)=>el.setAttribute('aria-label',copy[i+2]));
   const draw=(moving=false,ctx=tickContext,clock=0)=>drawTick(ctx,{moving,clock});
