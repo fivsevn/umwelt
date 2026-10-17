@@ -1,6 +1,18 @@
-# UMWELT
+<!-- releases:start — リリースごとに、この欄のバージョン、ダウンロードリンク、概要を更新し、以下の既存本文は維持してください。 -->
+## ダウンロードと更新情報
 
-[中文](README.md) | [English](README_EN.md) | **日本語**
+**[v0.1.5 · デスクトップ先行公開版](https://github.com/fivsevn/umwelt/releases/tag/v0.1.5)** — 初のオフライン体験版です。ローカル保存、独立ウィンドウ、資料ライブラリのリアルタイム同期に対応し、シーン切り替えも改善しました。
+
+[Mac 版をダウンロード（Apple Silicon）](https://github.com/fivsevn/umwelt/releases/download/v0.1.5/UMWELT-0.1.5-mac-arm64.zip) · [Windows 版をダウンロード（x64）](https://github.com/fivsevn/umwelt/releases/download/v0.1.5/UMWELT-0.1.5-win-x64.zip) · [すべてのバージョンと更新内容](https://github.com/fivsevn/umwelt/releases)
+
+Apple Silicon Mac と Windows 10 / 11 x64 に対応しています。解凍後の内容は、ゲーム本体（Mac は `UMWELT.app`、Windows は `UMWELT.exe`）と `README.txt` のみです。Mac 版は Apple の公証を、Windows 版はコード署名をまだ受けていません。使用方法は同梱の TXT を参照してください。
+<!-- releases:end -->
+
+---
+
+[中文](README.md) | [English](README_EN.md) | [**日本語**](README_JA.md)
+
+# UMWELT
 
 **UMWELT** は、**fivsevn** が立ち上げ、維持している個人実験プロジェクトです。
 
@@ -10,34 +22,37 @@
 
 https://umwelt.fivsevn.com
 
+---
 
 ## 現在公開中の内容
 
-- **TICK.SYS / マダニ**
-  https://umwelt.fivsevn.com/tick/
+### Three Signals / 三つの信号
+https://umwelt.fivsevn.com/tick/
 
-- **Isopoda Fugue / イソポーダ・フーガ**  
-  https://umwelt.fivsevn.com/isopoda/
+> 制作中
 
-  - **Asimov Morphology Lab / アシモフ形態ラボ**  
-    https://umwelt.fivsevn.com/isopoda/morphology/
+### Isopoda Fugue / イソポーダ・フーガ
+https://umwelt.fivsevn.com/isopoda/
 
-  - **Asimov Habitat Lab / アシモフ環境ラボ**  
-    https://umwelt.fivsevn.com/isopoda/habitat.html
+> 『Isopoda Fugue / イソポーダ・フーガ』は、等脚類を主な対象とするブラウザ上のインタラクティブ作品です。生物学、自然史、飼育に関する資料を参照し、その一部を視覚表現やインタラクションへと変換しています。
 
-- **花農時代 / Horticultural Era**
-  https://umwelt.fivsevn.com/rooftop/
+> 作品内の表現、各種パラメータ、インタラクションのロジックには創作上の処理が含まれており、現実の生物学的現象を完全に再現するものではありません。
 
-- **THERMOREGULATION / 体温調節 · OPHIDIA.EXE**
-  https://umwelt.fivsevn.com/ophidia/
+- Asimov Morphology Lab / アシモフ形態ラボ  
+  https://umwelt.fivsevn.com/isopoda/morphology/
 
+- Asimov Habitat Lab / アシモフ環境ラボ  
+  https://umwelt.fivsevn.com/isopoda/habitat.html
 
-## Isopoda Fugue / イソポーダ・フーガ
+### Horticultural Era / 花農時代  
+https://umwelt.fivsevn.com/rooftop/
 
-『Isopoda Fugue / イソポーダ・フーガ』は、等脚類を主な対象とするブラウザ上のインタラクティブ作品です。生物学、自然史、飼育に関する資料を参照し、その一部を視覚表現やインタラクションへと変換しています。
+> 制作中。
 
-作品内の表現、各種パラメータ、インタラクションのロジックには創作上の処理が含まれており、現実の生物学的現象を完全に再現するものではありません。
+### THERMOREGULATION / 体温調節  
+https://umwelt.fivsevn.com/ophidia/
 
+> 制作中。
 
 ---
 

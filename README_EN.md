@@ -1,6 +1,18 @@
-# UMWELT
+<!-- releases:start — Update the version, download links, and summary here with each release; keep the existing body below unchanged. -->
+## Downloads and Release Updates
 
-[中文](README.md) | **English** | [日本語](README_JA.md)
+**[v0.1.5 · Desktop Prerelease](https://github.com/fivsevn/umwelt/releases/tag/v0.1.5)** — The first offline playable release, with local saves, a standalone window, live library synchronization, and improved scene transitions.
+
+[Download for Mac (Apple Silicon)](https://github.com/fivsevn/umwelt/releases/download/v0.1.5/UMWELT-0.1.5-mac-arm64.zip) · [Download for Windows (x64)](https://github.com/fivsevn/umwelt/releases/download/v0.1.5/UMWELT-0.1.5-win-x64.zip) · [All Releases and Release Notes](https://github.com/fivsevn/umwelt/releases)
+
+Supports Apple Silicon Macs and Windows 10 / 11 x64. After extraction, the package contains only the game application (`UMWELT.app` on Mac or `UMWELT.exe` on Windows) and `README.txt`. The Mac application has not yet been notarized by Apple, and the Windows application has not yet been code-signed; see the included TXT file for instructions.
+<!-- releases:end -->
+
+---
+
+[中文](README.md) | [**English**](README_EN.md) | [日本語](README_JA.md)
+
+# UMWELT
 
 **UMWELT** is a personal experimental project initiated and maintained by **fivsevn**.
 
@@ -10,34 +22,37 @@ Project homepage:
 
 https://umwelt.fivsevn.com
 
+---
 
 ## Currently Public
 
-- **TICK.SYS**
-  https://umwelt.fivsevn.com/tick/
+### Three Signals
+https://umwelt.fivsevn.com/tick/
 
-- **Isopoda Fugue**  
-  https://umwelt.fivsevn.com/isopoda/
+> In development
 
-  - **Asimov Morphology Lab**  
-    https://umwelt.fivsevn.com/isopoda/morphology/
+### Isopoda Fugue
+https://umwelt.fivsevn.com/isopoda/
 
-  - **Asimov Habitat Lab**  
-    https://umwelt.fivsevn.com/isopoda/habitat.html
+> **Isopoda Fugue** is a browser-based interactive work centered on isopods. The project draws on materials from biology, natural history, and captive husbandry, and translates selected information into visual and interactive forms.
 
-- **Horticultural Era / 花农时代**
-  https://umwelt.fivsevn.com/rooftop/
+> Its representations, parameters, and interactive logic involve creative interpretation and should not be understood as a complete reproduction of real biological phenomena.
 
-- **THERMOREGULATION · OPHIDIA.EXE**
-  https://umwelt.fivsevn.com/ophidia/
+- Asimov Morphology Lab  
+  https://umwelt.fivsevn.com/isopoda/morphology/
 
+- Asimov Habitat Lab  
+  https://umwelt.fivsevn.com/isopoda/habitat.html
 
-## Isopoda Fugue
+### Horticultural Era / 花农时代  
+https://umwelt.fivsevn.com/rooftop/
 
-**Isopoda Fugue** is a browser-based interactive work centered on isopods. The project draws on materials from biology, natural history, and captive husbandry, and translates selected information into visual and interactive forms.
+> In development.
 
-Its representations, parameters, and interactive logic involve creative interpretation and should not be understood as a complete reproduction of real biological phenomena.
+### THERMOREGULATION  
+https://umwelt.fivsevn.com/ophidia/
 
+> In development.
 
 ---
 
