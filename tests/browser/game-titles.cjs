@@ -23,6 +23,13 @@ const games = {
     for (const width of [320, 1440]) {
       for (const [language, column] of [['zh', 1], ['en', 2], ['ja', 3]]) {
         const context = await browser.newContext({viewport: {width, height: 900}});
+        // Title checks should not depend on the external weather service.
+        await context.route('https://api.open-meteo.com/v1/forecast?*', route => route.fulfill({
+          status: 200, contentType: 'application/json', headers: {'access-control-allow-origin': '*'},
+          body: JSON.stringify({current: {time: Math.floor(Date.now() / 1000), interval: 900,
+            weather_code: 2, temperature_2m: 18.4, cloud_cover: 60, wind_speed_10m: 4,
+            wind_gusts_10m: 7, precipitation: 0, snowfall: 0}}),
+        }));
         await context.addInitScript(language => {
           localStorage.setItem('umwelt-desktop-language', language);
           localStorage.setItem('isopoda-ui-language-v1', language);
