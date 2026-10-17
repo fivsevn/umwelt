@@ -26,7 +26,7 @@ https://umwelt.fivsevn.com
 
 ## 当前公开内容
 
-- **Three Signals / 三个信号**。
+- **Three Signals / 三个信号**  
   https://umwelt.fivsevn.com/tick/
 
 - **Isopoda Fugue / 等足目赋格**  
