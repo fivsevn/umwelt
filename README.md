@@ -26,7 +26,7 @@ https://umwelt.fivsevn.com
 
 ## 当前公开内容
 
-- **Three Signals / 三个信号**
+- **Three Signals / 三个信号**。
   https://umwelt.fivsevn.com/tick/
 
 - **Isopoda Fugue / 等足目赋格**  
@@ -38,10 +38,10 @@ https://umwelt.fivsevn.com
   - **Asimov Habitat Lab / 阿西莫夫环境实验室**  
     https://umwelt.fivsevn.com/isopoda/habitat.html
 
-- **Horticultural Era / 花农时代**
+- **Horticultural Era / 花农时代**  
   https://umwelt.fivsevn.com/rooftop/
 
-- **THERMOREGULATION / 体温调节**
+- **THERMOREGULATION / 体温调节**  
   https://umwelt.fivsevn.com/ophidia/
 
 ---
