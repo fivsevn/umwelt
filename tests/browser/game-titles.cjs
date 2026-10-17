@@ -35,11 +35,24 @@ const games = {
           localStorage.setItem('isopoda-ui-language-v1', language);
           localStorage.setItem('umwelt-ophidia-language', language);
         }, language);
-        const page = await context.newPage(), errors = [];
-        page.on('pageerror', error => {errors.push(error.message); console.error(`${name} ${language} ${width}: ${error.message}`);});
-        page.on('response', response => {
-          if (response.status() >= 400 && new URL(response.url()).origin === new URL(base).origin) errors.push(`${response.status()} ${response.url()}`);
-        });
+        const errors = [];
+        const newPage = async () => {
+          const page = await context.newPage();
+          page.on('pageerror', error => {errors.push(error.message); console.error(`${name} ${language} ${width}: ${error.message}`);});
+          page.on('response', response => {
+            if (response.status() >= 400 && new URL(response.url()).origin === new URL(base).origin) errors.push(`${response.status()} ${response.url()}`);
+          });
+          return page;
+        };
+        const finishPage = async page => {
+          assert.deepEqual(errors, [], `${name} ${language} ${width}: ${page.url()}`);
+          // Closing a page cancels lazy asset loads; those teardown errors must
+          // not be attributed to the next game. Keep the shared language state.
+          page.removeAllListeners('pageerror');
+          page.removeAllListeners('response');
+          await page.close();
+        };
+        const page = await newPage();
         await page.goto(base + '/');
         await page.waitForFunction(() => document.querySelector('#desktopTime').textContent.length === 5);
         for (const [id, labels] of Object.entries(games)) {
@@ -52,7 +65,9 @@ const games = {
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
         await page.locator('#closeWelcome').click();
         if (output) await page.screenshot({path: path.join(output, `titles-${name}-${language}-${width}.png`)});
+        await finishPage(page);
         for (const [id, labels] of Object.entries(games)) {
+          const page = await newPage();
           await page.goto(`${base}/${id}/`);
           const expected = language === 'en' ? labels[2] : `${labels[2]} / ${labels[column]}`;
           await page.waitForFunction(title => document.title === title, expected).catch(async error => {
@@ -68,8 +83,8 @@ const games = {
             assert.equal(await page.locator('#game').getAttribute('aria-label'), labels[column]);
           }
           console.log(`${name} ${language} ${width}: /${id}/ title verified`);
+          await finishPage(page);
         }
-        assert.deepEqual(errors, [], `${name} ${language} ${width}: loaded pages`);
         await context.close();
       }
     }
