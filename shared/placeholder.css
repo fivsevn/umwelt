@@ -1,0 +1,16 @@
+@font-face{font-family:Pixel;src:url('../assets/fonts/fusion-pixel-12px-monospaced-zh_hans.ttf.woff2') format('woff2');font-display:swap}
+*{box-sizing:border-box}
+body{margin:0;min-height:100svh;display:grid;place-items:center;padding:20px;background:#273e34;color:#4d6862;font:12px/1.8 Pixel,monospace}
+.placeholder{width:min(100%,340px);background:#fff0cf;border:3px solid #d9eacb;border-right-color:#658e80;border-bottom-color:#658e80;box-shadow:5px 5px #1c3024}
+.placeholder header{display:flex;align-items:center;justify-content:space-between;margin:3px;padding:3px 8px;background:#a8d5bd;gap:12px}
+[data-game=gtb] .placeholder header{background:#e8a093}
+.placeholder strong{font-weight:400;letter-spacing:1px}
+button,a{font:inherit;color:inherit}
+button{cursor:pointer;background:#fff0cf;border:1px solid #658e80;min-width:28px;padding:0 4px}
+button:focus-visible,a:focus-visible{outline:2px dotted #4d6862;outline-offset:4px}
+.placeholder-content{text-align:center;padding:24px 20px}
+.placeholder-icon{display:block;width:128px;height:128px;margin:0 auto 16px;image-rendering:pixelated}
+h1{font-size:18px;line-height:1.5;font-weight:400;margin:0 0 8px;overflow-wrap:anywhere}
+p{margin:0}
+footer{border-top:1px solid #b9c8ad;margin:0 16px;padding:10px 0;text-align:center}
+@media(max-width:360px){body{padding:12px}.placeholder-content{padding:20px 12px}}

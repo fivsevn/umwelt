@@ -10,6 +10,8 @@ const games = {
   isopoda: ['ISOPODA.EXE', '等足目赋格', 'Isopoda Fugue', '等脚目のフーガ'],
   rooftop: ['ROOFTOP.EXE', '花农时代', 'Horticultural Era', '園芸時代'],
   ophidia: ['OPHIDIA.EXE', '体温调节', 'Thermoregulation', '体温調節'],
+  gtb: ['GTB.BIO', '爬爬电子管', 'Gtuber', 'ジーチューバー'],
+  gsm: ['GSM.BIO', '爬爬在线', 'Gstream', 'ジー投稿'],
 };
 
 (async () => {
@@ -88,6 +90,6 @@ const games = {
         await context.close();
       }
     }
-    console.log(`${name}: three languages, four fixed filenames, four readable titles and game pages at two widths passed.`);
+    console.log(`${name}: three languages, six fixed filenames, six readable titles and game pages at two widths passed.`);
   } finally { await browser.close(); }
 })().catch(error => {console.error(error); process.exitCode = 1;});

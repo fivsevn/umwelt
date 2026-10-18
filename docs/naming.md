@@ -10,6 +10,10 @@
 | `isopoda/` | `ISOPODA.EXE` | 等足目赋格 | Isopoda Fugue | 等脚目のフーガ |
 | `rooftop/` | `ROOFTOP.EXE` | 花农时代 | Horticultural Era | 園芸時代 |
 | `ophidia/` | `OPHIDIA.EXE` | 体温调节 | Thermoregulation | 体温調節 |
+| `gtb/` | `GTB.BIO` | 爬爬电子管 | Gtuber | ジーチューバー |
+| `gsm/` | `GSM.BIO` | 爬爬在线 | Gstream | ジー投稿 |
+
+`gtb/` 与 `gsm/` 当前公开图标与入口占位，平台功能仍在制作中。
 
 ## 使用规则
 

@@ -8,6 +8,8 @@ const routes = [
   ["/", ".desktop-icon"],
   ["/tick/", "#tick"],
   ["/ophidia/", "#startButton"],
+  ["/gtb/", ".placeholder-icon"],
+  ["/gsm/", ".placeholder-icon"],
   ["/isopoda/", "#startBtn"],
   ["/isopoda/morphology/", ".anatomy-app"],
   ["/isopoda/habitat.html", "#assetList button"],

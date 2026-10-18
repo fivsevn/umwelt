@@ -26,7 +26,7 @@ node .github/scripts/stamp-assets.mjs /path/to/prepared-site "$GITHUB_SHA"
 
 ## 成品检查与发布状态
 
-`tests/browser/published-artifact.cjs` 必须访问已经完成准备、字体子集和 SHA 标记的发布目录。当前检查主页、三个信号、体温调节、等足目赋格及两个实验室、南北阳台、车库和房间，共 10 个入口；Chromium / WebKit 各检查桌面和手机宽度，共 40 组。它核对资源、页面控件、运行错误与版本标记；专项剧情、编辑及原稿检查仍按各游戏指南执行。
+`tests/browser/published-artifact.cjs` 必须访问已经完成准备、字体子集和 SHA 标记的发布目录。当前检查主页、三个信号、体温调节、等足目赋格及两个实验室、南北阳台、车库和房间，以及两个媒体占位页，共 12 个入口；Chromium / WebKit 各检查桌面和手机宽度，共 48 组。它核对资源、页面控件、运行错误与版本标记；专项剧情、编辑及原稿检查仍按各游戏指南执行。
 
 ```sh
 BASE_URL=http://127.0.0.1:8794 EXPECTED_SHA="$GITHUB_SHA" node tests/browser/published-artifact.cjs

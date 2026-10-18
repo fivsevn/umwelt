@@ -60,7 +60,7 @@ jobs:
           docker pull mcr.microsoft.com/playwright:v1.62.1-noble
 
       - name: Check the final artifact in Chromium and WebKit
-        # Forty desktop/mobile entries include the more detailed rooftop scene
+        # Forty-eight desktop/mobile entries include the more detailed rooftop scene
         # on software WebGL. Keep all checks and allow the serial run to finish.
         timeout-minutes: 18
         env:

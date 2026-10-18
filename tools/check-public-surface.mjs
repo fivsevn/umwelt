@@ -6,6 +6,12 @@ const required=[
  'index.html',
  'desktop.mjs',
  'shared/games.mjs',
+ 'shared/placeholder.mjs',
+ 'shared/placeholder.css',
+ 'gtb/index.html',
+ 'gtb/assets/icon.png',
+ 'gsm/index.html',
+ 'gsm/assets/icon.png',
  'desktop-icons.mjs',
  'forest.js',
  'style.css',
@@ -54,7 +60,9 @@ for(const path of required){
 }
 const read=path=>readFile(new URL(path,root),'utf8');
 for(const [path,dependencies] of [
- ['index.html',['./desktop.mjs','./forest.js','./isopoda/','./tick/','./rooftop/','./ophidia/']],
+ ['index.html',['./desktop.mjs','./forest.js','./isopoda/','./tick/','./rooftop/','./ophidia/','./gtb/','./gsm/']],
+ ['gtb/index.html',['../shared/placeholder.mjs','../shared/placeholder.css','./assets/icon.png']],
+ ['gsm/index.html',['../shared/placeholder.mjs','../shared/placeholder.css','./assets/icon.png']],
  ['tick/index.html',['./game.js','./style.css']],
  ['ophidia/index.html',['./game.js','./style.css','./assets/cabin.webp']],
  ['rooftop/index.html',['./app.mjs','./rooftop.css']],

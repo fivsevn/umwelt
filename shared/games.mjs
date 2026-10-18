@@ -16,6 +16,14 @@ export const GAMES = Object.freeze({
     program: 'OPHIDIA.EXE',
     titles: Object.freeze({zh: '体温调节', en: 'Thermoregulation', ja: '体温調節'}),
   }),
+  gtb: Object.freeze({
+    program: 'GTB.BIO',
+    titles: Object.freeze({zh: '爬爬电子管', en: 'Gtuber', ja: 'ジーチューバー'}),
+  }),
+  gsm: Object.freeze({
+    program: 'GSM.BIO',
+    titles: Object.freeze({zh: '爬爬在线', en: 'Gstream', ja: 'ジー投稿'}),
+  }),
 });
 
 export function gameTitle(id, language = 'zh') {

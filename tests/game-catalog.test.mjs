@@ -12,7 +12,7 @@ test('game identities agree across folders, desktop icons and public documentati
   const naming = await read('docs/naming.md');
   for (const [id, game] of Object.entries(GAMES)) {
     assert.match(id, /^[a-z][a-z0-9-]*$/);
-    assert.match(game.program, new RegExp(`^${id.toUpperCase()}\\.(EXE|SYS)$`));
+    assert.match(game.program, new RegExp(`^${id.toUpperCase()}\\.(EXE|SYS|BIO)$`));
     const icon = desktop.match(new RegExp(`<a class="desktop-icon[^>]*href="\\./${id}/"[^>]*>([\\s\\S]*?)</a>`))?.[1];
     assert.ok(icon?.includes(game.program), `${id}: fixed desktop filename`);
     const gameReadme = await read(`${id}/README.md`);

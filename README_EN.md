@@ -56,6 +56,18 @@ https://umwelt.fivsevn.com/ophidia/
 
 ---
 
+## Public Placeholders
+
+### Gtuber
+
+`GTB.BIO` · [Placeholder page](https://umwelt.fivsevn.com/gtb/). A fictional video platform inspired by YouTube. Only the placeholder page is currently available.
+
+### Gstream
+
+`GSM.BIO` · [Placeholder page](https://umwelt.fivsevn.com/gsm/). A lightweight interactive feed inspired by X / Weibo, prioritized for later development. Only the placeholder page is currently available.
+
+---
+
 ## Sources and Content Boundaries
 
 When UMWELT addresses real animals, taxonomy, morphology, natural history, ecological environments, captive husbandry, captive-bred lines, trade names, or related subjects, it seeks, where possible, to rely on identifiable and verifiable sources and to distinguish documented facts from research references, working judgments, visual representations, and simulation parameters used within the project.
