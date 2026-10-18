@@ -14,8 +14,8 @@ a:focus-visible,button:focus-visible{outline:2px dotted #ebebd0;outline-offset:3
 .desktop-menu button{margin-left:auto;background:none;border:0;color:#2f4734}
 
 .desktop{position:relative;height:100%;padding:58px 18px 58px 10px}
-.desktop-apps{position:relative;z-index:0;display:flex;flex-direction:column;align-items:flex-start;gap:12px 8px}
-.desktop-icon{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:6px;width:104px;height:96px;text-decoration:none;text-align:center;line-height:1.5}
+.desktop-apps{position:relative;z-index:0;display:flex;flex-direction:column;align-items:flex-start;gap:22px 16px}
+.desktop-icon{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:8px;width:104px;height:98px;text-decoration:none;text-align:center;line-height:1.5}
 .desktop-icon small{display:block;font-size:10px}
 .desktop-icon:hover>span:last-child{background:#627d62}
 
@@ -74,7 +74,7 @@ a:focus-visible,button:focus-visible{outline:2px dotted #ebebd0;outline-offset:3
 
 @media(max-width:450px){
 .desktop{padding:54px 12px 54px 6px}
-.desktop-apps{column-gap:6px}
+.desktop-apps{column-gap:18px}
 .desktop-icon{width:94px}
 .welcome{top:50%}
 .welcome-body{padding:18px 12px}
@@ -127,7 +127,9 @@ a:focus-visible,button:focus-visible{outline:2px dotted #ebebd0;outline-offset:3
 .tick-picture canvas{width:84%;height:84%}
 .isopoda-picture canvas{width:96%;height:96%}
 @media(max-width:700px){.welcome{left:50%;right:auto;width:calc(100% - 24px);max-width:420px;top:50%;transform:translate(-50%,-50%)}.welcome-body{padding:18px 10px}.welcome h1{font-size:24px;letter-spacing:1px}.welcome .welcome-links a{flex-wrap:wrap;overflow-wrap:anywhere}.welcome .short-url{max-width:100%;overflow-wrap:anywhere}}
-@media(max-height:600px){.desktop-apps{row-gap:8px}.desktop-icon{height:88px}.app-picture{width:48px;height:48px}}
+@media(max-height:600px){.desktop-icon{height:90px}.app-picture{width:48px;height:48px}}
+/* Leave room for three columns when a very small desktop only fits two rows. */
+@media(max-width:360px) and (max-height:450px){.desktop-apps{column-gap:6px}}
 
 /* Equal compact slots for language, music and effects. */
 .tray-controls{display:flex;flex-direction:row;flex-wrap:nowrap;align-items:center;gap:2px;flex:0 0 70px;width:70px;white-space:nowrap}
