@@ -1,0 +1,9 @@
+// Original ornaments plus the two selected Pixelarticons (MIT; see assets/pixelarticons-LICENSE.txt).
+const shapes={
+  "sparkle": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\" preserveAspectRatio=\"none\" shape-rendering=\"crispEdges\"><path fill=\"currentColor\" d=\"M40 0H60V30H70V40H100V60H70V70H60V100H40V70H30V60H0V40H30V30H40Z\"/></svg>",
+  "heart": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\" preserveAspectRatio=\"none\" shape-rendering=\"crispEdges\"><path fill=\"currentColor\" d=\"M0 15H15V0H40V15H60V0H85V15H100V55H85V70H70V85H60V100H40V85H30V70H15V55H0Z\"/><path fill=\"#ffe4e5\" d=\"M16 17H34V34H16Z\"/></svg>",
+  "plus": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\" preserveAspectRatio=\"none\" shape-rendering=\"crispEdges\"><path fill=\"currentColor\" d=\"M40 10H60V40H90V60H60V90H40V60H10V40H40Z\"/></svg>",
+  "sparkles": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"currentColor\" shape-rendering=\"crispEdges\"><path d=\"M11 1h2v1H11ZM19 1h2v1H19ZM11 2h2v1H11ZM19 2h2v1H19ZM11 3h2v1H11ZM17 3h6v1H17ZM11 4h2v1H11ZM17 4h6v1H17ZM9 5h6v1H9ZM19 5h2v1H19ZM9 6h6v1H9ZM19 6h2v1H19ZM9 7h6v1H9ZM9 8h6v1H9ZM5 9h14v1H5ZM5 10h14v1H5ZM1 11h22v1H1ZM1 12h22v1H1ZM5 13h14v1H5ZM5 14h14v1H5ZM9 15h6v1H9ZM9 16h6v1H9ZM3 17h2v1H3ZM9 17h6v1H9ZM3 18h2v1H3ZM9 18h6v1H9ZM1 19h6v1H1ZM11 19h2v1H11ZM1 20h6v1H1ZM11 20h2v1H11ZM3 21h2v1H3ZM11 21h2v1H11ZM3 22h2v1H3ZM11 22h2v1H11Z\"/></svg>",
+  "radio": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\n  <path d=\"M11 9h2v2h-2zm0 4h2v2h-2zm-2-2h2v2H9zm4 0h2v2h-2zm6-2h-2v6h2zM5 9h2v6H5zm18-2h-2v10h2zM1 7h2v10H1zm16 0h-2v2h2zM7 7h2v2H7zm14-2h-2v2h2zM3 5h2v2H3zm14 10h-2v2h2zM7 15h2v2H7zm14 2h-2v2h2zM3 17h2v2H3z\"/>\n</svg>\n"
+};
+export const decoration=(name,kind)=>`<span class="decoration ${name}">${shapes[kind]}</span>`;

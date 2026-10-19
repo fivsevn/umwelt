@@ -1,0 +1,6 @@
+{
+  "name": "背包宫",
+  "avatar_source": "art/backpackgecko/source.png",
+  "avatar_pixels": 48,
+  "avatar_crop": [0, 178, 800, 978]
+}

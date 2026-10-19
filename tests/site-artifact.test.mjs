@@ -2,8 +2,30 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {publicFile} from '../.github/scripts/prepare-site.mjs';
 test('artifact excludes maintenance files but preserves public routes, credits and fonts',()=>{
+ for(const path of ['gsm/trigger.md','gsm/uploads/photo.jpg','gsm/characters/gecko.json','gsm/.publishing/state.json','gsm/posts/2026/10/draft/index.md','gsm/posts/2026/10/draft/assets/private.webp','gsm/assets/avatars/unused.webp'])assert.equal(publicFile(path),false,path);
  for(const path of ['.github/scripts/prepare-site.mjs','.gitignore','MAINTENANCE.md','docs/a.md','future-game/docs/a.md','future-game/tests/a.cjs','future-game/art/a.blend','future-game/tools/check.mjs','future-game/dev/a.html','tools/check-all.mjs','rooftop/tests/browser/rooftop.html','isopoda/tests/support/observation-fixtures.cjs','tick/tests/browser/tick-motion.cjs','ophidia/tests/browser/check-local.cjs','rooftop/art/scene.blend','ophidia/art/source.pxo','rooftop/docs/placement.md','ophidia/docs/story.md','tick/docs/interaction.md','mac/main.cjs','mac/UMWELT.icns','tests/a.mjs','isopoda/dev/a.html','isopoda/docs/animation.md','isopoda/AGENTS.md','README_JA.md'])assert.equal(publicFile(path),false,path);
  for(const path of ['.nojekyll','CNAME','shared/games.mjs','future-game/index.html','future-game/assets/a.webp','rooftop/index.html','rooftop/arrange/index.html','rooftop/room/index.html','ophidia/index.html','tick/index.html','isopoda/credits.md','isopoda/habitat.html','isopoda/morphology/index.html','assets/fonts/font.woff2','isopoda/data/species/manifest.mjs'])assert.equal(publicFile(path),true,path);
+});
+test('G-stream artifact copies only tracked media in the published manifest',async()=>{
+ const root=await mkdtemp(join(tmpdir(),'gsm-public-'));
+ try{
+  execFileSync('git',['init','-q',root]);
+  const files={
+   'gsm/.publishing/public.json':JSON.stringify(['gsm/posts/live/assets/photo.webp','gsm/assets/avatars/gecko.webp']),
+   'gsm/trigger.md':'private input', 'gsm/uploads/photo.png':'original',
+   'gsm/posts/live/index.md':'source', 'gsm/posts/live/assets/photo.webp':'visible photo',
+   'gsm/posts/draft/assets/private.webp':'draft photo', 'gsm/assets/avatars/gecko.webp':'avatar',
+   'gsm/assets/avatars/hidden.webp':'hidden avatar', 'gsm/characters/gecko.json':'source',
+   'gsm/data/feed.mjs':'export const posts=[];'
+  };
+  for(const [path,body] of Object.entries(files)){await mkdir(join(root,path,'..'),{recursive:true});await writeFile(join(root,path),body);}
+  execFileSync('git',['add','.'],{cwd:root});
+  const out=join(root,'output');await prepareSite(root,out);
+  for(const path of Object.keys(files)){
+   if(['gsm/posts/live/assets/photo.webp','gsm/assets/avatars/gecko.webp','gsm/data/feed.mjs'].includes(path))await access(join(out,path));
+   else await assert.rejects(access(join(out,path)));
+  }
+ }finally{await rm(root,{recursive:true,force:true})}
 });
 import {mkdtemp,mkdir,writeFile,readFile,rm,access} from 'node:fs/promises';
 import {execFileSync} from 'node:child_process';

@@ -10,13 +10,13 @@ on:
 
 permissions:
   actions: read
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -27,13 +27,39 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Prepare G-stream publishing tools
+        run: python -m pip install --disable-pip-version-check -r gsm/tools/requirements.txt
+
+      - name: Verify trigger packages and image conversion
+        run: python -m unittest discover -s gsm/tests -p 'test_*.py' -v
+
+      - name: Import new G-stream trigger commits and build timeline
+        run: python gsm/tools/publish.py ingest
+
       - name: Verify runtime, data contracts and public surfaces
         run: node tools/check-all.mjs
+
+      - name: Save G-stream packages and import position together
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add gsm/posts gsm/data/feed.mjs gsm/.publishing gsm/assets/avatars
+          if ! git diff --cached --quiet; then
+            git commit -m 'Archive G-stream posts and refresh timeline'
+            git push origin HEAD:main
+          fi
 
       - uses: actions/configure-pages@v5
 
@@ -108,3 +134,6 @@ jobs:
         uses: actions/deploy-pages@v4
         with:
           artifact_name: github-pages-${{ github.run_attempt }}
+
+      - name: Verify live G-stream content and WebP files
+        run: python gsm/tools/verify-live.py --site _site

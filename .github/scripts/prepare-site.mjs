@@ -5,12 +5,22 @@ import {resolve,dirname,relative,posix} from 'node:path';
 import {pathToFileURL} from 'node:url';
 export function publicFile(path){
  return !/^(?:\.git(?:hub|ignore)(?:\/|$)|docs\/|tests\/|tools\/|mac\/)/.test(path)
+  && !/^gsm\/(?:trigger\.md$|uploads\/|characters\/|posts\/|\.publishing\/|assets\/avatars\/)/.test(path)
   && !/^(?:MAINTENANCE\.md$|[^/]+\/(?:docs|tests|art|tools|dev)\/)/.test(path)
   && !/(?:^|\/)(?:README[^/]*\.md|AGENTS\.md|\.DS_Store)$/.test(path);
 }
 export async function prepareSite(root,destination){
  root=resolve(root);destination=resolve(destination);
- const files=execFileSync('git',['ls-files','-z'],{cwd:root,encoding:'utf8'}).split('\0').filter(p=>p&&publicFile(p));
+ const tracked=execFileSync('git',['ls-files','-z'],{cwd:root,encoding:'utf8'}).split('\0').filter(Boolean);
+ // The content builder lists only visible WebP media; draft sources and uploads stay out.
+ let gsmMedia=[];
+ if(tracked.includes('gsm/.publishing/public.json')){
+  gsmMedia=JSON.parse(await readFile(resolve(root,'gsm/.publishing/public.json'),'utf8'));
+  for(const path of gsmMedia){
+   if(!/^gsm\/(?:posts|assets\/avatars)\/.+\.webp$/.test(path)||path!==posix.normalize(path)||path.includes('\\')||!tracked.includes(path))throw Error('Invalid G-stream public media: '+path);
+  }
+ }
+ const files=tracked.filter(p=>publicFile(p)||gsmMedia.includes(p));
  for(const file of files){const target=resolve(destination,file);await mkdir(dirname(target),{recursive:true});await copyFile(resolve(root,file),target)}
  // Discover direct entry dependencies during deployment, before the browser's
  // module parser would discover them. Keep execution order and source untouched.

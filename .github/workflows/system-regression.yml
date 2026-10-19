@@ -63,7 +63,7 @@ jobs:
       fail-fast: false
       matrix:
         browser: [chromium, webkit]
-        suite: [homepage, homepage-language, game-titles, tick-motion, audio-controls]
+        suite: [homepage, homepage-language, game-titles, tick-motion, audio-controls, gsm-feed]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -88,7 +88,9 @@ jobs:
             if curl --fail --silent "$BASE_URL/" > /dev/null; then break; fi
             sleep 1
           done
-          if [ "${{ matrix.suite }}" = "tick-motion" ]; then
+          if [ "${{ matrix.suite }}" = "gsm-feed" ]; then
+            node gsm/tests/browser/feed.cjs
+          elif [ "${{ matrix.suite }}" = "tick-motion" ]; then
             node tick/tests/browser/tick-motion.cjs
           else
             node "tests/browser/${{ matrix.suite }}.cjs"
