@@ -8,7 +8,7 @@ body{color:var(--ink);font:12rem/1.7 var(--font)}
 button,a{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent;touch-action:manipulation}button{cursor:pointer;border:0}a{text-decoration:none}
 button:focus-visible,a:focus-visible{outline:2rem solid #9e5764;outline-offset:3rem}
 img,svg{display:block}img{image-rendering:pixelated}h1,h2,p,figure{margin:0}
-.app-window{width:390rem;height:100vh;height:100dvh;margin:0 auto;display:grid;grid-template-rows:auto minmax(0,1fr) auto;isolation:isolate;background:var(--paper)}
+.app-window{width:390rem;height:100vh;height:100dvh;margin:0 auto;display:grid;grid-template-rows:auto minmax(0,1fr) auto;isolation:isolate;overflow:hidden;background:var(--paper)}
 .app-header{z-index:3;position:relative;padding-top:env(safe-area-inset-top);background:var(--pink)}
 .masthead{height:67rem;position:relative}
 .brand-icon{position:absolute;left:5rem;top:13rem;width:90rem;height:90rem;pointer-events:none;z-index:2}

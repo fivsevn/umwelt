@@ -69,7 +69,15 @@ def validate(meta, body):
         raise ValueError('请在配置区下方填写正文或图片')
     if meta.get('date'):
         date_value(meta['date'])
+    initial_likes(meta)
     return username.lower()
+
+
+def initial_likes(meta):
+    likes = meta.get('likes', 0)
+    if not isinstance(likes, int) or isinstance(likes, bool) or not 0 <= likes < 2**53 - 1:
+        raise ValueError('likes 必须填写非负整数，例如 likes: 24')
+    return likes
 
 
 def date_value(value):
@@ -128,7 +136,11 @@ def import_trigger(root, text, read_media, event_date, event, state):
     meta, body = split(text)
     username = validate(meta, body)
     media = {match[1]: read_media(match[1]) for match in IMAGE.findall(body)}
-    canonical = json_text({'meta': meta, 'body': body, 'media': {k: digest(v) for k, v in media.items()}})
+    dedup_meta = dict(meta)
+    # Adding the optional zero default to an older trigger is not a new post.
+    if initial_likes(meta) == 0:
+        dedup_meta.pop('likes', None)
+    canonical = json_text({'meta': dedup_meta, 'body': body, 'media': {k: digest(v) for k, v in media.items()}})
     fingerprint = digest(canonical.encode())
     if fingerprint == state.get('last_digest'):
         return None
@@ -139,7 +151,7 @@ def import_trigger(root, text, read_media, event_date, event, state):
     names = {name: f'assets/{i:02d}-{digest(data)[:12]}.webp' for i, (name, data) in enumerate(converted.items(), 1)}
     archived_body = IMAGE.sub(lambda m: f'![{m[1]}]({names[m[2]]})', body)
     package = {'id': ident, 'date': date, 'username': username, 'name': meta['name'].strip(),
-               'status': meta.get('status', 'published'), 'likes': 0, 'source_event': event}
+               'status': meta.get('status', 'published'), 'likes': initial_likes(meta), 'source_event': event}
     if folder.exists():
         # A retry after a partial import must not overwrite a later manual edit.
         old, _ = split((folder / 'index.md').read_text())
@@ -277,9 +289,7 @@ def build(root):
             tone = ['sage', 'sand', 'rose'][hashlib.sha256(username.encode()).digest()[1] % 3]
             profiles[username] = {'handle': username, 'name': character.get('name', meta['name']),
                                   'avatarImage': '/gsm/assets/avatars/' + portrait.name, 'color': tone}
-        likes = meta.get('likes', 0)
-        if not isinstance(likes, int) or isinstance(likes, bool) or likes < 0:
-            raise ValueError(f'likes 必须为非负整数: {ident}')
+        likes = initial_likes(meta)
         localized = {'zh': blocks_for(root, folder, body, public)}
         for lang in ('en', 'ja'):
             translation = folder / f'index.{lang}.md'

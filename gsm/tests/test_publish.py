@@ -53,6 +53,24 @@ class Publishing(unittest.TestCase):
         self.assertEqual(posts[1]['blocks']['en'], posts[1]['blocks']['zh'])
         self.assertEqual(posts[0]['createdAt'], 1792386000000)
 
+    def test_trigger_likes_survive_archiving_building_and_direct_edits(self):
+        folder = self.publish(self.trigger(likes=24))
+        meta, body = p.split((folder / 'index.md').read_text())
+        self.assertEqual(meta['likes'], 24)
+        self.assertEqual(p.build(self.root)[0]['likes'], 24)
+        meta['likes'] = 7
+        p.write(folder / 'index.md', p.document(meta, body))
+        self.assertEqual(p.build(self.root)[0]['likes'], 7)
+        for value in [-1, 1.5, True, '24', None, 2**53]:
+            with self.assertRaises(ValueError):
+                self.publish(self.trigger(likes=value), 'invalid')
+        self.assertEqual(len(list((self.root / 'posts').glob('**/index.md'))), 1)
+
+    def test_adding_zero_likes_to_an_old_trigger_does_not_publish_a_duplicate(self):
+        self.publish(self.trigger())
+        self.assertIsNone(self.publish(self.trigger(likes=0), 'zero-default'))
+        self.assertEqual(p.build(self.root)[0]['likes'], 0)
+
     def test_draft_and_hidden_sources_never_enter_public_manifest(self):
         self.publish(self.trigger('公开。'))
         p.write(self.root / 'uploads/secret.png', picture())
