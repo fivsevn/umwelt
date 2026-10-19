@@ -559,7 +559,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         root = root.parent;
       p.matrix = worldMat.clone();
       const cast =
-        root.name !== "city" &&
+        root.name !== "city" && !p.m.userData.kind?.startsWith("raincoat-") &&
         !(p.geo === cube && Math.min(p.w, p.h, p.d) < 0.065);
       const m = p.m.userData.window
         ? p.m
@@ -1926,6 +1926,7 @@ export function createGardenRenderer(canvas, layout, doorButton, options = {}) {
         distanceFog: { near: scene.fog.near, far: scene.fog.far },
         actorsHidden: !!options.hideActors,
         actorVisibility: { person: actors[current].person.visible, pig: actors[current].pig.visible },
+        raincoats: { person: actors[current].personRaincoat.some(g=>g.visible), pig: actors[current].pigRaincoat.some(g=>g.visible) },
         mountedActorVisibility: Object.fromEntries(Object.entries(actors).map(([name,a])=>[name,{person:a.person.visible,pig:a.pig.visible}])),
         atmosphere: atmosphereFx.stats,
         buffer: [canvas.width, canvas.height],

@@ -1,3 +1,4 @@
+import { attachRaincoat } from '../fashion/raincoats.mjs';
 import { wardrobe } from '../wardrobe.mjs';
 import { buildFashionPerson, buildFashionPig } from '../fashion/models.mjs';
 import { buildResidentTools } from './resident-tools.mjs';
@@ -12,9 +13,12 @@ export function buildResident(api,parent) {
   const authored=actorPrimitives(api),actor=buildFashionPerson(authored,parent,wardrobe.outfit);
   // The old resident was scaled 1.10; 1.16 gives a small, visible increase.
   actor.person.scale.setScalar(1.16);
+  actor.personRaincoat=attachRaincoat(authored,actor,'person');
   actor.tools=buildResidentTools(authored,actor.arms);
   return actor;
 }
 export function buildPig(api,parent) {
-  return buildFashionPig(actorPrimitives(api),parent,wardrobe.pig);
+  const authored=actorPrimitives(api),actor=buildFashionPig(authored,parent,wardrobe.pig);
+  actor.pigRaincoat=attachRaincoat(authored,actor,'pig');
+  return actor;
 }

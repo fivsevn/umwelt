@@ -412,7 +412,7 @@ const checkSavedArrangementIsolation = async browser => {
       const elapsed = await page.evaluate(() => rooftop.weather.elapsed);
       await page.emulateMedia({ reducedMotion: "reduce" });
       await page.waitForFunction(t => rooftop.weather.elapsed > t + .25 && rooftop.weather.reduced, elapsed);
-      await page.waitForFunction(() => rooftop.person.sheltered && rooftop.pig.sheltered, null, { timeout: 180000 });
+      await page.waitForFunction(() => (rooftop.person.sheltered && rooftop.pig.sheltered) || (rooftop.person.raincoat && rooftop.pig.raincoat), null, { timeout: 180000 });
       assert.doesNotMatch(await page.locator("#actionStatus").textContent(), /浇水/);
       const weather = await page.evaluate(() => rooftop.weather);
       assert.equal(weather.choices.condition, "rain");

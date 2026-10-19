@@ -27,11 +27,11 @@ export function createActorPreview(canvas) {
   let actors=null;
   function rebuild(){if(actors){native.dispose(actors.person);native.dispose(actors.pig);scene.remove(actors.person,actors.pig);}actors={...buildResident(api,scene),...buildPig(api,scene)};}
   rebuild();
-  function draw({time=0,person='rest',pig='rest',facing=0,angle=.32,pitch=.22,zoom=1,sampling='source',showPerson=true,showPig=true}){
+  function draw({time=0,person='rest',pig='rest',facing=0,angle=.32,pitch=.22,zoom=1,sampling='source',showPerson=true,showPig=true,raincoat=false}){
     actors.person.position.set(-.75,0,0);actors.pig.position.set(.95,0,.12);
     actors.person.rotation.y=actors.pig.rotation.y=facing;
     actors.person.visible=showPerson;actors.pig.visible=showPig;
-    animateActorPose(actors,{state:person},{state:pig},time);
+    animateActorPose(actors,{state:person,raincoat},{state:pig,raincoat},time);
     const w=canvas.clientWidth,h=canvas.clientHeight,aspect=w/Math.max(1,h),span=Math.max(3.2,4.3/aspect)/zoom;
     camera.top=span/2;camera.bottom=-span/2;camera.left=-span*aspect/2;camera.right=span*aspect/2;
     camera.position.set(Math.sin(angle)*7,1.1+Math.sin(pitch)*7,Math.cos(angle)*7);camera.lookAt(0,1.1,0);camera.updateProjectionMatrix();

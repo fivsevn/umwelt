@@ -1,5 +1,7 @@
 // Shared joints and actions for the game and the independent character review.
 export function animateActorPose(a, person, pig, time) {
+    for (const layer of a.personRaincoat || []) layer.visible = Boolean(person.raincoat);
+    for (const layer of a.pigRaincoat || []) layer.visible = Boolean(pig.raincoat);
     const walk = person.state === "walk" ? Math.sin(time * 8) * 0.28 : 0;
     const action =
       person.state === "care"

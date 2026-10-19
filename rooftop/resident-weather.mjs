@@ -1,4 +1,15 @@
 import { canonicalWeatherCondition } from "./weather-condition.mjs";
+// One shared choice per continuous rain episode, including weather transitions.
+export function createRainEpisode(random = Math.random) {
+  let mode = null;
+  return (weather) => {
+    const wet = weather.rainIntent > 0 || weather.rain > .01 ||
+      ['plum-rain', 'rain', 'heavy', 'thunderstorm', 'typhoon'].includes(weather.activityCondition || weather.condition);
+    if (!wet) mode = null;
+    else if (!mode) mode = random() < .5 ? 'raincoat' : 'shelter';
+    return mode;
+  };
+}
 // Weather changes actions and poses without changing the user's wardrobe or save.
 export const WEATHER_ACTION_POOLS = {
   rain: {
@@ -62,13 +73,17 @@ export function weatherAction(
   state,
   actor,
   step,
-  { sheltered = false, indoor = false } = {},
+  { sheltered = false, indoor = false, raincoat = false } = {},
 ) {
   const condition = canonicalWeatherCondition(state.activityCondition || state.condition);
   state = { ...state, condition: ({'plum-rain':'rain','partly-cloudy':'overcast',snow:'mist'})[condition] || condition };
   const rain =
     ["rain", "heavy", "thunderstorm", "typhoon"].includes(state.condition) ||
     state.rain > 0.01;
+  if (rain && raincoat && !indoor) return {
+    state: actor === 'pig' ? 'sniff-wet' : 'listen-rain',
+    task: actor === 'pig' ? '穿着透明雨衣闻闻湿地面' : '穿着透明雨衣听雨',
+  };
   if (rain && !sheltered && !indoor) return null;
   const actions =
     state.night > 0.5 && !rain
@@ -101,6 +116,7 @@ export function actionCaption(
   { present = true, scene = "north", weather = {} } = {},
 ) {
   const action = (actor) =>
+    (actor?.raincoat ? actor.task : null) ||
     WEATHER_TASKS[actor?.state] ||
     actor?.task ||
     {
@@ -137,6 +153,7 @@ export function createActionCard() {
         context.present,
         canonicalWeatherCondition(weather.activityCondition || weather.condition),
         weather.phase,
+        weather.rainMode,
       ].join(":");
       const wet =
         context.scene !== "room" &&

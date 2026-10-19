@@ -26,8 +26,9 @@ function step(direction){const visible=LOOKS.filter(l=>!cards.get(l.id).button.h
 $('previous').onclick=()=>step(-1);$('next').onclick=()=>step(1);
 canvas.onpointerdown=e=>{pointer={x:e.clientX,y:e.clientY};canvas.setPointerCapture(e.pointerId);};canvas.onpointermove=e=>{if(!pointer)return;angle-=(e.clientX-pointer.x)*.008;pitch=Math.max(-.12,Math.min(.8,pitch+(e.clientY-pointer.y)*.006));pointer={x:e.clientX,y:e.clientY};};canvas.onpointerup=canvas.onpointercancel=()=>pointer=null;
 canvas.addEventListener('wheel',e=>{e.preventDefault();zoom=Math.max(.65,Math.min(2.3,zoom*Math.exp(-e.deltaY*.001)));},{passive:false});canvas.onkeydown=e=>{if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','+','-'].includes(e.key)){e.preventDefault();if(e.key==='ArrowLeft')angle-=.15;if(e.key==='ArrowRight')angle+=.15;if(e.key==='ArrowUp')pitch=Math.min(.8,pitch+.1);if(e.key==='ArrowDown')pitch=Math.max(-.12,pitch-.1);if(e.key==='+')zoom=Math.min(2.3,zoom*1.1);if(e.key==='-')zoom=Math.max(.65,zoom/1.1);}};
+$('raincoat').checked=params.get('raincoat')==='true';
 select(id);filterCards();
 try{await stage.ready;for(const look of LOOKS)cards.get(look.id).img.src=stage.thumbnail(look.id);document.body.dataset.ready='true';$('status').textContent='拖动转看 · 滚轮缩放 · 方向键也可以转看';
- function frame(now){if(!document.hidden){if(!paused)time+=Math.min(.1,(now-last)/1000);stage.draw({id,time,angle,pitch,zoom,focus,action:$('action').value,sampling:$('sampling').value,accessory:$('paired').checked});}last=now;requestAnimationFrame(frame);}requestAnimationFrame(frame);
+ function frame(now){if(!document.hidden){if(!paused)time+=Math.min(.1,(now-last)/1000);stage.draw({id,time,angle,pitch,zoom,focus,action:$('action').value,sampling:$('sampling').value,accessory:$('paired').checked,raincoat:$('raincoat').checked});}last=now;requestAnimationFrame(frame);}requestAnimationFrame(frame);
 }catch(error){$('status').textContent='试衣台加载失败，请刷新重试。';console.error(error);}
 window.fashionReview={thumbnail:(id,actor='person')=>stage.thumbnail(id,actor),get state(){return {id,time,paused,focus,angle,pitch,zoom,stats:stage.stats()};}};

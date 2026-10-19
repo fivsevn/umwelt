@@ -225,9 +225,9 @@ export function lightningPulse(state, time, reduced = false) {
 }
 export function weatherActivity(state, scene = "north") {
   if (scene === "room") return "garden";
-  return state.rain > 0.01 ||
-    ["rain", "heavy", "thunderstorm", "typhoon"].includes(state.condition)
-    ? "shelter"
+  return state.rainIntent > 0 || state.rain > 0.01 ||
+    ["plum-rain", "rain", "heavy", "thunderstorm", "typhoon"].includes(state.condition)
+    ? state.rainMode === "raincoat" ? "rainwalk" : "shelter"
     : "garden";
 }
 export function atmosphereCaption(state) {

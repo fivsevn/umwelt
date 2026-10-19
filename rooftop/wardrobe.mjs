@@ -117,5 +117,11 @@ export function paintPig(c, p, t) {
       px(6, -1, 1, 1, b);
     }
   }
+  if (p.raincoat) {
+    px(-8,-15,18,12,'#d5edf030');px(-8,-15,18,1,'#d5edf099');
+    px(-8,-14,1,11,'#d5edf088');px(-8,-4,17,1,'#d5edf099');
+    px(4,-17,11,4,'#d5edf044');px(4,-17,11,1,'#d5edf099');
+    px(14,-16,1,9,'#d5edf088');
+  }
   c.restore();
 }

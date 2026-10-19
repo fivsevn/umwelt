@@ -171,4 +171,16 @@ export function paintDongdong(c, p, time) {
     r(-5, -10, 2, 2, palette.skinShade);
     r(3, -10, 2, 2, palette.skin);
   }
+  if (p.raincoat) {
+    r(-5, -15+bend, 10, 12, '#d5edf030');
+    r(-5, -15+bend, 1, 12, '#d5edf088');
+    r(4, -15+bend, 1, 12, '#d5edf088');
+    r(-5, -4+bend, 10, 1, '#d5edf099');
+    r(0, -15+bend, 1, 12, '#d5edf077');
+    r(-5, -23+bend, 10, 3, '#d5edf044');
+    r(-5, -22+bend, 1, 7, '#d5edf088');
+    r(4, -22+bend, 1, 7, '#d5edf088');
+    r(-5, -23+bend, 10, 1, '#d5edf099');
+  }
+
 }

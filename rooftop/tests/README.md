@@ -22,3 +22,5 @@ ROOFTOP_REVIEW_ORIGIN=http://127.0.0.1:8765 node rooftop/tests/browser/rooftop-r
 天台扩容：`node --test rooftop/tests/*.test.mjs`；`browser/rooftop-expansion.cjs` 在 Chromium / WebKit 验证分类、手帐、承托、存档、昼夜灯光、透明像素、旋转与手机布局。`BASE_URL` 可指向已部署页面。
 
 花农时代的 `rooftop-regression.yml` 在 Chromium / WebKit 自动运行维护、车库布局、房间、行动卡、兵器、模型、公开观察和季节回归。`rooftop-room.cjs` 验证房间与车库共享存档、跨页面同步、换装和活动反馈、导入导出及手机布局。维护脚本的 `COMPARE_URL` 可对照三个车库场景和三个公开入口，共 36 组画面。
+
+透明雨衣与等概率雨天分支由 `rooftop-raincoats.test.mjs` 检查：连续降雨只抽一次、雨型过渡、雨中行走与停止园艺、室内和雨停脱衣及原稿三角化。`browser/rooftop-raincoats.cjs` 在隔离浏览器中分别固定两种结果，检查南北场景、桌面与窄屏、实际模型显隐、行走、保存内容和动态偏好切换。

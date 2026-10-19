@@ -1,3 +1,4 @@
+import { createRainEpisode } from './resident-weather.mjs';
 import { SEASONS, seasonAt, seasonalProfile } from "./seasons.mjs";
 import { rainShape } from "./precipitation.mjs";
 import { canonicalWeatherCondition } from "./weather-condition.mjs";
@@ -225,6 +226,7 @@ export function makeWeather({
   now = () => new Date(),
   liveWeather = () => null,
   manualTransition = 8,
+  random = Math.random,
 } = {}) {
   condition = canonicalWeatherCondition(condition);
   let choices = {
@@ -268,8 +270,9 @@ export function makeWeather({
     }
     return resolvedProfile;
   }
+  const rainEpisode = createRainEpisode(random);
   target = resolve();
-  current = { ...target };
+  current = { ...target, rainMode: rainEpisode(target) };
   const colourKeys = [
     "sky",
     "lightTint",
@@ -372,6 +375,7 @@ export function makeWeather({
           : current.rain > 0.01
             ? from.activityCondition || from.condition
             : target.condition;
+      current.rainMode = rainEpisode(current);
       current.visualCondition =
         t < 0.5 ? from.visualCondition || from.condition : target.condition;
       const shape = rainShape(current);

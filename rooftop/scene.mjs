@@ -1054,6 +1054,7 @@ export function makeWalker(
     facing: "south",
     targetId: null,
     sheltered: false,
+    raincoat: activity === "rainwalk",
     radius: body.radius,
   };
   const toCell = (x, y) => Math.floor(y / cell) * cols + Math.floor(x / cell),
@@ -1181,7 +1182,7 @@ export function makeWalker(
     )
       route.unshift(point(i));
     p.state = "walk";
-    p.task = activity === "shelter" ? "去门边避雨" : "散步";
+    p.task = activity === "shelter" ? "去门边避雨" : activity === "rainwalk" ? "穿着透明雨衣在天台散步" : "散步";
     if (route.length === 0 && !target) {
       pause = 2;
       p.state = "rest";
@@ -1197,6 +1198,7 @@ export function makeWalker(
         weatherChoice = Math.floor(Math.random() * 1000);
       }
       const next = weatherActivity(environment(), scene);
+      p.raincoat = next === "rainwalk";
       if (next !== activity) {
         activity = next;
         pause = 0;
@@ -1307,14 +1309,14 @@ export function makeWalker(
                 ? "闻闻盆边"
                 : "甩甩耳朵";
         }
-        if (weather.condition && (actor === "pig" || p.visits % 3 === 0))
+        if (p.raincoat || (weather.condition && (actor === "pig" || p.visits % 3 === 0)))
           Object.assign(
             p,
             weatherAction(
               weather,
               actor === "pig" ? "pig" : "person",
               weatherChoice,
-              { indoor: scene === "room" },
+              { indoor: scene === "room", raincoat: p.raincoat },
             ),
           );
         pause = 45 + Math.random() * 45;
@@ -1375,7 +1377,7 @@ export function makeWalker(
       }
       waiting = 0;
       p.state = "walk";
-      p.task = activity === "shelter" ? "去门边避雨" : "散步";
+      p.task = activity === "shelter" ? "去门边避雨" : activity === "rainwalk" ? "穿着透明雨衣在天台散步" : "散步";
       if (distance <= move) {
         previousPoint = [p.x, p.y];
         p.x = x;

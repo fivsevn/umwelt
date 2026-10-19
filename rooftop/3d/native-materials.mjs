@@ -36,6 +36,14 @@ export function createPixelMaterials(T, windTime, windPower, weather={wet:{value
   function mat(color,kind="paint"){
     const key=color+":"+kind;
     if(cache.has(key))return cache.get(key);
+    if (kind.startsWith('raincoat-')) {
+      const material = new T.MeshPhongMaterial({color, transparent:true,
+        opacity:kind === 'raincoat-seam' ? .55 : .18, depthWrite:false,
+        side:T.DoubleSide, shininess:90, specular:0xdfeff0});
+      material.userData.kind=kind;
+      cache.set(key,material);
+      return material;
+    }
     const name=nativeField(kind), f=NATIVE_BOOK[name],
       wind=/^(leaf|cactus)/.test(kind),
       vessel=f.mode==="vessel",

@@ -1,3 +1,4 @@
+import {attachRaincoat} from '../../../fashion/raincoats.mjs';
 import {actorSolidGeometry} from '../../../3d/actor-solid.mjs';
 import {buildFashionActors} from '../../../fashion/models.mjs';
 import {createPixelMaterials,PIXEL_STYLE} from '../../../3d/native-materials.mjs';
@@ -9,6 +10,8 @@ export function createFashionStage(canvas) {
   const T=window.THREE,renderer=new T.WebGLRenderer({canvas,antialias:false,preserveDrawingBuffer:true});
   renderer.setPixelRatio(1);renderer.outputColorSpace=T.SRGBColorSpace;
   const scene=new T.Scene();scene.background=new T.Color('#d2d5c9');
+  scene.add(new T.HemisphereLight('#f4faf8','#7e8984',1.5));
+  const rainwearLight=new T.DirectionalLight('#ffffff',1.5);rainwearLight.position.set(-3,5,4);scene.add(rainwearLight);
   const camera=new T.OrthographicCamera(-2,2,2,-2,.1,100);
   const style=createPixelMaterials(T,{value:0},{value:0},{wet:{value:0},rain:{value:0}});
   const pass=createOutdoorRasterPass(T,renderer),cube=new T.BoxGeometry(1,1,1),cache=new Map();
@@ -21,12 +24,12 @@ export function createFashionStage(canvas) {
   const ground=new T.Group();scene.add(ground);
   for(const [x,z,w,d] of [[-.57,0,.93,.67],[.69,.08,.85,.98]]){const m=new T.Mesh(new T.CircleGeometry(1,32),new T.MeshBasicMaterial({color:'#566350',transparent:true,opacity:.11,depthWrite:false}));m.rotation.x=-Math.PI/2;m.scale.set(w*.55,d*.55,1);m.position.set(x,-.017,z);ground.add(m);}
   let current=null;
-  function select(id,accessory=true){const key=id+':'+accessory;if(current){current.person.visible=false;current.pig.visible=false;}if(!cache.has(key))cache.set(key,buildFashionActors(api,scene,id,accessory));current=cache.get(key);current.person.visible=current.pig.visible=true;return current;}
-  function draw({id,accessory=true,time=0,action='rest',angle=.25,pitch=.12,zoom=1,sampling='source',focus='pair',width=canvas.clientWidth,height=canvas.clientHeight,thumbnail=false}){
+  function select(id,accessory=true){const key=id+':'+accessory;if(current){current.person.visible=false;current.pig.visible=false;}if(!cache.has(key)){const actor=buildFashionActors(api,scene,id,accessory);actor.personRaincoat=attachRaincoat(api,actor,'person');actor.pigRaincoat=attachRaincoat(api,actor,'pig');cache.set(key,actor);}current=cache.get(key);current.person.visible=current.pig.visible=true;return current;}
+  function draw({id,accessory=true,time=0,action='rest',angle=.25,pitch=.12,zoom=1,sampling='source',focus='pair',width=canvas.clientWidth,height=canvas.clientHeight,thumbnail=false,raincoat=false}){
     const a=select(id,accessory),isFace=focus==='hair',onlyPerson=focus==='person'||isFace,onlyPig=focus==='pig';
     a.person.position.set(onlyPerson?0:-.57,0,0);a.pig.position.set(onlyPig?0:.69,0,.08);
     a.person.visible=!onlyPig;a.pig.visible=!onlyPerson;ground.visible=!isFace&&!thumbnail;
-    animateActorPose(a,{state:action},{state:action==='walk'?'walk':'rest'},time);
+    animateActorPose(a,{state:action,raincoat},{state:action==='walk'?'walk':'rest',raincoat},time);
     a.head.rotation.y=Math.sin(time*.7)*.025;
     const aspect=width/Math.max(1,height),base=isFace?1.00:onlyPig?1.6:2.85,fit=isFace?1.10:onlyPig?1.7:onlyPerson?1.65:2.75;
     const span=Math.max(base,fit/aspect)/zoom,targetY=isFace?1.91:onlyPig?.44:1.10;
