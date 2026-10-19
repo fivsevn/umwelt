@@ -39,7 +39,7 @@ const checkObserverCards = async (page, view) => {
     assert.equal(await page.locator('.view-controls button:visible').count(), 1, 'one sight button exits the scope');
     const exit = page.locator('[data-narrative-view="neighbor"]'), box = await exit.boundingBox();
     assert.equal(await exit.getAttribute('aria-label'), '退出狙击');
-    assert.ok(Math.abs(box.width - 22) < .03 && Math.abs(box.height - 22) < .03);
+    assert.ok(Math.abs(box.width - 26) < .03 && Math.abs(box.height - 26) < .03);
     assert.equal(await page.locator('#garden').getAttribute('title'), null, 'aiming has no floating instruction tooltip');
     assert.equal(await page.locator('#notebookOpen').getAttribute('aria-expanded'), 'false');
     return;
@@ -108,8 +108,8 @@ const checkObserverCards = async (page, view) => {
     { id: 'neighbor', text: '?', card: true, icon: null },
   ], 'observer choices use individual bird/drone icon cards and a question card');
   assert.ok(cards.choices.filter(choice => choice.icon)
-    .every(choice => choice.iconWidth >= 6 && choice.iconWidth <= 10 &&
-      choice.iconHeight >= 6 && choice.iconHeight <= 10 && choice.centered && choice.filter.startsWith('brightness(0) invert(1)')),
+    .every(choice => choice.iconWidth >= 12 && choice.iconWidth <= 13 &&
+      choice.iconHeight === 11 && choice.centered && choice.filter.startsWith('brightness(0) invert(1)')),
   'bird and drone are small centered monochrome silhouettes');
   const expectedOperations = {
     bird: [['left', '←'], ['right', '→']],
@@ -122,9 +122,9 @@ const checkObserverCards = async (page, view) => {
   assert.equal(cards.buttonGeometry.length, 3 + expectedOperations[view].length,
     'all three observers and the current operations remain visible');
   assert.ok(cards.buttonGeometry.every(button =>
-    Math.abs(button.cssWidth - 22) <= .03 && Math.abs(button.cssHeight - 22) <= .03 &&
+    Math.abs(button.cssWidth - 26) <= .03 && Math.abs(button.cssHeight - 26) <= .03 &&
     Math.abs(button.width - button.height) <= .03),
-  'every observer and operation card is a 22 CSS-pixel square');
+  'every observer and operation card is a 26 CSS-pixel square');
   const firstCard = cards.buttonGeometry[0];
   assert.ok(cards.buttonGeometry.every(button =>
     Math.abs(button.width - firstCard.width) <= .03 &&

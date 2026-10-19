@@ -1,8 +1,8 @@
 /* Muted observer buttons and a shared text-only information overlay. */
 .observation{
-  --observation-card-height:22px;
+  --observation-card-height:26px;
   --observation-card-background:#22302947;
-  --observation-info-font:9px/1.65 Pixel,monospace;
+  --observation-info-font:12px/1.65 Pixel,monospace;
   --observation-info-color:#b4b7b3;
   --observation-info-shadow:1px 1px 0 #171d19,0 0 1px #171d1980;
   --observation-link-color:#cdd0ca;
@@ -18,7 +18,7 @@
   background:var(--observation-card-background);
   color:#c5cdbf;
   box-shadow:none;
-  font:12px/18px Pixel,monospace;
+  font:14px/22px Pixel,monospace;
   text-shadow:1px 1px 0 #1c2823bb;
 }
 .observation .roof-world .view-controls :is(a,button).world-card:hover{
@@ -73,22 +73,22 @@
   height:11px;background-size:128px 128px;
   filter:brightness(0) invert(1) drop-shadow(1px 1px 0 #1c2823bb);
   opacity:.72;
-  transform:scale(.75);
+  transform:scale(1);
 }
 .observation .narrative-views button:is(:hover,:focus-visible,[aria-pressed="true"]) .observer-icon{opacity:.95}
 /* Center each painted silhouette, excluding the atlas cell's transparent margin. */
 .observation .narrative-views .observer-icon[data-icon="bird"]{width:13px;background-position:-2px -4px}
 .observation .narrative-views .observer-icon[data-icon="drone"]{width:12px;background-position:-34px -3px}
-.observation .station-glyph{display:block;line-height:12px}
+.observation .station-glyph{display:block;line-height:16px}
 .observation .station-controls :is([data-station-action="up"],[data-station-action="down"],[data-station-action="left"],[data-station-action="right"]) .station-glyph{
-  position:relative;width:7px;height:7px;font-size:0;line-height:0;
+  position:relative;width:9px;height:9px;font-size:0;line-height:0;
 }
 .observation .station-controls :is([data-station-action="up"],[data-station-action="down"],[data-station-action="left"],[data-station-action="right"]) .station-glyph::before{
-  content:"";position:absolute;left:3px;top:0;width:1px;height:7px;background:currentColor;
+  content:"";position:absolute;left:4px;top:0;width:1px;height:9px;background:currentColor;
 }
 .observation .station-controls :is([data-station-action="up"],[data-station-action="down"],[data-station-action="left"],[data-station-action="right"]) .station-glyph::after{
-  content:"";position:absolute;left:1px;top:2px;width:1px;height:1px;background:currentColor;
-  box-shadow:1px -1px currentColor,3px -1px currentColor,4px 0 currentColor;
+  content:"";position:absolute;left:1px;top:3px;width:1px;height:1px;background:currentColor;
+  box-shadow:1px -1px currentColor,2px -2px currentColor,4px -2px currentColor,5px -1px currentColor,6px 0 currentColor;
 }
 .observation [data-station-action="down"] .station-glyph{transform:rotate(180deg)}
 .observation [data-station-action="left"] .station-glyph{transform:rotate(-90deg)}
@@ -120,7 +120,7 @@
 .observation .roof-world .corner-cards :is(a,button).world-card:is(:hover,:focus-visible){color:#e0e3dc}
 .observation .roof-world .corner-cards :is(a,button).world-card:is(:hover,:focus-visible)::before{color:inherit}
 .observation .roof-world .corner-cards :is(a,button).world-card:focus-visible{outline:1px solid currentColor;outline-offset:3px}
-.observation .environment-hud .weather-credit{font:7px/1.65 Pixel,monospace;color:#92988f}
+.observation .environment-hud .weather-credit{font:9px/1.65 Pixel,monospace;color:#92988f}
 @media(max-width:550px){.observation .environment-hud{top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right));max-width:calc(100vw - 180px)}}
 
 /* Inside the scope, one small sight button returns to the previous observer. */
