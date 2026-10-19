@@ -31,6 +31,9 @@ const assert=require('node:assert/strict');
  await page.click('#systemButton');await page.keyboard.press('Escape');assert.equal(await page.locator('#systemMenu').isHidden(),true);
  await page.click('#languageButton');await page.reload();assert.equal(await page.locator('html').getAttribute('lang'),'en');
  for(const width of [1440,390,320]){await page.setViewportSize({width,height:900});await page.screenshot({path:`${qaOutput}/homepage-${process.env.BROWSER||'chromium'}-${width}.png`});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));const a=await page.locator('#systemButton').boundingBox(),b=await page.locator('.tray').boundingBox();assert.ok(a.x+a.width<=b.x)}
+ // Returning visitors can still open the welcome window from About.
+ assert.equal(await page.locator('#welcome').isHidden(),true);
+ await page.locator('#aboutButton').click();
  // Launchers flow down the available desktop height before starting a new column.
  await page.locator('#closeWelcome').click();
  // Every graphic scales with its frame, including the former fixed-position flower pot.

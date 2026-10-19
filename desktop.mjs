@@ -23,6 +23,12 @@ function renderDialog(){const [title,detail,cancel,confirm]=copy[language][actio
 function render(){const c={...copy[language],...Object.fromEntries(Object.keys(GAMES).map(id=>[id,gameTitle(id,language)]))};document.documentElement.lang={zh:'zh-CN',en:'en',ja:'ja'}[language];document.title=c.systemTitle;document.querySelectorAll('[data-copy]').forEach(el=>el.textContent=c[el.dataset.copy]);$('closeWelcome').setAttribute('aria-label',c.closeWelcome);$('languageButton').textContent={zh:'中',en:'EN',ja:'日'}[language];$('languageButton').setAttribute('aria-label',c.language);$('languageButton').title=c.language;$('systemMenu').setAttribute('aria-label',c.world);audioControls.refresh();renderDialog()}
 function updateClock(){const now=new Date(),pad=n=>String(n).padStart(2,'0'),date=`${now.getFullYear()}/${pad(now.getMonth()+1)}/${pad(now.getDate())}`,time=`${pad(now.getHours())}:${pad(now.getMinutes())}`;$('desktopDate').textContent=date;$('desktopDate').dateTime=date.replaceAll('/','-');$('desktopTime').textContent=time;$('desktopTime').dateTime=time}
 function closeMenu(){ $('systemMenu').hidden=true;$('systemButton').setAttribute('aria-expanded','false') }
+// Remember the first display independently of game saves.
+let welcomeSeen=false;
+try{welcomeSeen=localStorage.getItem('umwelt-desktop-welcome-seen')==='1';localStorage.setItem('umwelt-desktop-welcome-seen','1')}catch{}
+$('welcome').hidden=welcomeSeen;
+// Hide before a history snapshot so returning from a game stays unobstructed.
+window.addEventListener('pagehide',()=>{$('welcome').hidden=true});
 $('closeWelcome').onclick=()=>$('welcome').hidden=true;
 $('aboutButton').onclick=()=>$('welcome').hidden=false;
 $('languageButton').onclick=()=>{language=languages[(languages.indexOf(language)+1)%3];try{localStorage.setItem('umwelt-desktop-language',language);localStorage.setItem('isopoda-ui-language-v1',language)}catch{}render()};
