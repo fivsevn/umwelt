@@ -18,7 +18,7 @@
 
 ## 游戏入口
 
-[线上占位页](https://umwelt.fivsevn.com/gsm/)。本地预览入口为 `/gsm/`，发布前在本地评审。
+[G-stream 页面](https://umwelt.fivsevn.com/gsm/)。本地预览入口为 `/gsm/`，发布前在本地评审。
 
 ## 本地运行
 

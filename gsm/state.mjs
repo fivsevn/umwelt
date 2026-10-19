@@ -9,7 +9,8 @@ export function readState(storage, authorIds) {
     if (!record(saved) || saved.version !== 1) return freshState();
     const state = freshState();
     for (const key of ['likes','reposts','bookmarks']) state[key] = strings(saved[key]);
-    if (Array.isArray(saved.following)) state.following = strings(saved.following).filter(id => authorIds.includes(id) && id !== 'you');
+    // Historic neighbors can leave the current feed without erasing saved follows.
+    if (Array.isArray(saved.following)) state.following = strings(saved.following).filter(id => id !== 'you');
     const ids = new Set();
     state.posts = (Array.isArray(saved.posts) ? saved.posts : []).filter(post => {
       if (!record(post) || typeof post.id !== 'string' || !/^local-[\w-]+$/.test(post.id) || ids.has(post.id) || !validText(post.text) || !Number.isFinite(post.createdAt)) return false;

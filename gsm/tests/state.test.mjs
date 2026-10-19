@@ -11,6 +11,8 @@ test('unavailable, malformed and future storage do not break the feed',()=>{
  assert.equal(writeState({setItem(){throw Error('quota');}},freshState()),false);
 });
 test('a saved empty following list stays empty and untrusted posts cannot impersonate neighbors',()=>{
+ const historic=readState({getItem:()=>JSON.stringify({version:1,following:['pill','gecko']})},ids);
+ assert.deepEqual(historic.following,['pill','gecko']);
  const state=readState({getItem:()=>JSON.stringify({version:1,following:[],posts:[{id:'local-example',author:'pill',text:'<b>my post</b>',createdAt:1,image:'https://outside.invalid/image'},{id:'local-example',text:'duplicate',createdAt:2},{id:'bad"id',text:'invalid',createdAt:1}],replies:{'bark-photo':[{author:'snake',text:'my reply'},null]}})},ids);
  assert.deepEqual(state.following,[]);assert.equal(state.posts.length,1);assert.equal(state.posts[0].author,'you');assert.equal(state.posts[0].image,undefined);assert.equal(state.posts[0].text,'<b>my post</b>');assert.deepEqual(state.replies['bark-photo'],[{author:'you',text:'my reply'}]);
 });
