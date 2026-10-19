@@ -2,5 +2,9 @@
   "name": "洞口待机",
   "active": true,
   "random_assignable": true,
-  "avatar_source": ""
+  "avatar_source": "",
+  "avatar": {
+    "kind": "generated",
+    "sha256": "8d76985c3e8ddd42d33e19d222dec2129ae4ab262161ed10dd1eaa27ff43ea69"
+  }
 }

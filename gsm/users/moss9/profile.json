@@ -2,5 +2,9 @@
   "name": "阿苔",
   "active": true,
   "random_assignable": true,
-  "avatar_source": ""
+  "avatar_source": "",
+  "avatar": {
+    "kind": "generated",
+    "sha256": "d488b27d8ea4f3cc48ef84f3dc8fc8cf12e526cf00f77d60754c16f796c53bfa"
+  }
 }

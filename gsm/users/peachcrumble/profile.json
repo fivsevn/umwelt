@@ -2,5 +2,9 @@
   "name": "桃酥",
   "active": true,
   "random_assignable": true,
-  "avatar_source": ""
+  "avatar_source": "",
+  "avatar": {
+    "kind": "generated",
+    "sha256": "542ef1f4cb16d181c75368881a55c7e990e3df67c88ce492531f68fec34be14f"
+  }
 }

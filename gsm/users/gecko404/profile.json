@@ -2,5 +2,9 @@
   "name": "玻璃这一边",
   "active": true,
   "random_assignable": true,
-  "avatar_source": ""
+  "avatar_source": "",
+  "avatar": {
+    "kind": "generated",
+    "sha256": "2734879de706086f6ab9c7d955058427eb65ed2755615195f3f2094223515f40"
+  }
 }

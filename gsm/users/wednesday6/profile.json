@@ -2,5 +2,9 @@
   "name": "周三换皮",
   "active": true,
   "random_assignable": true,
-  "avatar_source": ""
+  "avatar_source": "",
+  "avatar": {
+    "kind": "generated",
+    "sha256": "296b9d328f8c78a6a893a82e086eed4e2802b7d4b284d6e9b5808de293db3ad8"
+  }
 }

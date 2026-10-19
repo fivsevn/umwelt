@@ -2,5 +2,9 @@
   "name": "墙角小守",
   "active": true,
   "random_assignable": true,
-  "avatar_source": ""
+  "avatar_source": "",
+  "avatar": {
+    "kind": "generated",
+    "sha256": "c61d1c6a2e24daf3a09c7ee14a41622e4399a8cd5b6d032d01eba233b3b8cd3d"
+  }
 }

@@ -2,5 +2,9 @@
   "name": "叶背居民",
   "active": true,
   "random_assignable": true,
-  "avatar_source": ""
+  "avatar_source": "",
+  "avatar": {
+    "kind": "generated",
+    "sha256": "8c540d978c6bbd15903553733d69fe7aa33bb345b8d193cd955909d0bfc9f66c"
+  }
 }

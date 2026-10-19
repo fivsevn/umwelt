@@ -2,5 +2,9 @@
   "name": "小满",
   "active": true,
   "random_assignable": true,
-  "avatar_source": ""
+  "avatar_source": "",
+  "avatar": {
+    "kind": "generated",
+    "sha256": "53b816142d5cef2cc1f2c46b05c6d2b8ee7f8d3f44e67582097d3b0735dcffeb"
+  }
 }

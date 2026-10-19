@@ -2,5 +2,9 @@
   "name": "温度计旁边",
   "active": true,
   "random_assignable": true,
-  "avatar_source": ""
+  "avatar_source": "",
+  "avatar": {
+    "kind": "generated",
+    "sha256": "1022f79fc875a1d82633564053f733c366dfb783b20f9b03ad6fd4bd67a54086"
+  }
 }

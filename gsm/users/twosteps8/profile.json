@@ -2,5 +2,9 @@
   "name": "两步远",
   "active": true,
   "random_assignable": true,
-  "avatar_source": ""
+  "avatar_source": "",
+  "avatar": {
+    "kind": "generated",
+    "sha256": "840331eb8e8299e16b0f4b3cc01b3f9012b53a7f7fd7d6e2c2097d67ae53ba84"
+  }
 }

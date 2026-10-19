@@ -2,5 +2,9 @@
   "name": "半夜上线",
   "active": true,
   "random_assignable": true,
-  "avatar_source": ""
+  "avatar_source": "",
+  "avatar": {
+    "kind": "generated",
+    "sha256": "001bfad2f43a0b03ee6e6286ab34d2d1c8204dd393a0179bdd1861b188fe51bd"
+  }
 }

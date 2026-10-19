@@ -9,5 +9,10 @@
     178,
     800,
     978
-  ]
+  ],
+  "avatar": {
+    "kind": "custom",
+    "source_fingerprint": "377b24f7f2e84b2d6368f7f25c0a8c4357fe890f8243feb78a7d82874310d59b",
+    "sha256": "cd211a5fa01c25b9f80ccc376924f44a5b19c6aafe5239b9e40bffa04dd6b911"
+  }
 }
