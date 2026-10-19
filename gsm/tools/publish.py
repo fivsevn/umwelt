@@ -502,9 +502,11 @@ def build(root):
             character = registry[username]
             portrait = root / 'assets/avatars' / (username + '.webp')
             public.add('gsm/' + portrait.relative_to(root).as_posix())
-            tone = ['sage', 'sand', 'rose'][hashlib.sha256(username.encode()).digest()[1] % 3]
+            tone = character.get('color') or ['sage', 'sand', 'rose'][hashlib.sha256(username.encode()).digest()[1] % 3]
+            if tone not in {'sage', 'sand', 'rose', 'isopoda'}:
+                raise ValueError(f'@{username} 的 color 只能是 sage、sand、rose 或 isopoda')
             profiles[username] = {'handle': username, 'name': character.get('name', meta['name']),
-                                  'avatarImage': '/gsm/assets/avatars/' + username + '.webp', 'color': tone}
+                                  'avatarImage': '/gsm/assets/avatars/' + username + '.webp?v=' + character['avatar']['sha256'][:12], 'color': tone}
         likes = initial_likes(meta)
         localized = {'zh': blocks_for(root, folder, body, public)}
         for lang in ('en', 'ja'):

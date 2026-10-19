@@ -12,7 +12,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[2]
 parser = argparse.ArgumentParser()
-parser.add_argument("game", choices=["gtb", "gsm"])
+parser.add_argument("game", choices=["gtb"])
 parser.add_argument("--check", action="store_true")
 args = parser.parse_args()
 directory = ROOT / args.game / "art/icon"

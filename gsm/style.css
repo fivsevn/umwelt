@@ -51,7 +51,7 @@ h1 span{position:absolute}.title-slash{left:0;color:#9e5764}.title-text{left:15.
 .dither{position:absolute;bottom:0;left:0;width:100%;height:10rem;pointer-events:none;color:var(--texture);opacity:.2}.dither svg{width:100%;height:100%}
 .masthead>.dither{height:12rem;color:#9e5764;opacity:.24}
 .stream-flourish{height:48rem;margin:50rem 0 20rem;display:flex;align-items:center;justify-content:center;gap:19rem;pointer-events:none}
-.stream-flourish .decoration{position:relative}.footer-star-left{width:16rem;height:16rem;color:#9684ad}.footer-heart{width:24rem;height:20rem;color:#c47f8e}.footer-star-right{width:12rem;height:12rem;color:#9684ad}
+.stream-flourish .decoration{position:relative}.footer-star-left{width:16rem;height:16rem;color:#9684ad}.footer-heart{width:24rem;height:20rem;color:#c47f8e}.footer-star-right{width:12rem;height:12rem;color:#fff3d4}
 .stream-dock{position:relative;z-index:4;display:grid;grid-template-columns:repeat(3,1fr);align-items:center;height:calc(52rem + env(safe-area-inset-bottom));padding:4rem 15rem calc(4rem + env(safe-area-inset-bottom));background:var(--dock)}
 .dock-button{position:relative;display:grid;place-items:center;justify-self:center;width:72rem;height:44rem;background:transparent;color:#fff3d4}.dock-icon{width:28rem;height:28rem;filter:drop-shadow(1rem 2rem 0 #344c4359)}
 .dock-button:hover{background:#fff3d419}.dock-button:focus-visible{outline-color:#fff3d4}
@@ -66,6 +66,14 @@ h1 span{position:absolute}.title-slash{left:0;color:#9e5764}.title-text{left:15.
 .post[data-tone=sage] .bubble{box-shadow:inset 1rem 1rem #fcf1d5,inset -1rem -1rem #cac7b4,1rem 1rem #b7b7a6,2rem 2rem #b7b7a6,3rem 4rem #3d514a3d,4rem 5rem #3d514a14}
 .post[data-tone=sand] .bubble,.settings-card{box-shadow:inset 1rem 1rem #f9ebd3,inset -1rem -1rem #c0b6b1,1rem 1rem #afa9a3,2rem 2rem #afa9a3,3rem 4rem #3d514a3d,4rem 5rem #3d514a14}
 .post[data-tone=rose] .bubble{box-shadow:inset 1rem 1rem #f5ebd9,inset -1rem -1rem #b6b8c1,1rem 1rem #a6aab1,2rem 2rem #a6aab1,3rem 4rem #3d514a3d,4rem 5rem #3d514a14}
+
+/* Isopoda Fugue's original window palette, from window-system.css. */
+.post[data-tone=isopoda]{--bubble:#b8bda2;--portrait:#b8bda2;--texture:#526e67;--ink:#34483b;--muted:#34483b;color:var(--ink)}
+.post[data-tone=isopoda] .bubble{box-shadow:inset 1rem 1rem #d5d7bd,inset -1rem -1rem #475e4e,1rem 1rem #7f8974,2rem 2rem #7f8974,3rem 4rem #16271f3d,4rem 5rem #16271f14}
+.post[data-tone=isopoda] .author-name{text-shadow:1rem 1rem 0 #d5d7bd}
+.post[data-tone=isopoda] .post-actions button{color:#34483b}
+.post[data-tone=isopoda] .post-actions [aria-pressed=true] svg{fill:#7f8974}
+.post[data-tone=isopoda] .post-actions [aria-pressed=true] .like-count{color:#34483b}
 
 .decoration svg path[fill="#ffe4e5"]{fill:#fff3d4}
 

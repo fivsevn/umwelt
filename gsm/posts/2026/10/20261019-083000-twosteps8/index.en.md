@@ -1,2 +1,1 @@
-Two steps, and the weather changed.
-That concludes today’s expedition.
+The weather changed after two steps, so that is enough exploring for today.

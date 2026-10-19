@@ -23,8 +23,6 @@ likes: 24
 
 原图在发布成功并核验页面、WebP 文件之后自动从 `uploads/` 清理。失败时保留；若同名文件已经换成新图，也保留新图。原始提交可从 Git 历史找回；旧帖只使用自己包里的转换件，不依赖上传目录。删除上传原图的清理提交不会再次发帖。
 
-这沿用 [Flux 图片入口](https://github.com/fivsevn/fivsevn-flux/blob/main/trigger_imgs/README.md) 的上传、配文、WebP 归档和上线后清理方式，额外加入了角色分配；这里不读写 Flux 的帖子。
-
 ## 文字或图文
 
 修改 [`gsm/trigger.md`](../trigger.md)，和配图一起提交：

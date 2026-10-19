@@ -19,7 +19,7 @@ test('a saved empty following list stays empty and untrusted posts cannot impers
 test('package feed uses real dates, valid accounts, WebP media and language fallbacks',()=>{
  for(const lang of ['zh','en','ja'])assert.deepEqual(Object.keys(copy[lang]).sort(),Object.keys(copy.zh).sort());
  assert.equal(new Set(posts.map(p=>p.id)).size,posts.length);
- for(const profile of Object.values(profiles)){assert.match(profile.handle,/^[a-z0-9]+$/);assert.match(profile.avatarImage,/\.webp$/);assert.ok(profile.name);}
+ for(const profile of Object.values(profiles)){assert.match(profile.handle,/^[a-z0-9]+$/);assert.match(new URL(profile.avatarImage,'https://umwelt.fivsevn.com').pathname,/\.webp$/);assert.ok(profile.name);}
  for(const [i,post] of posts.entries()){
   assert.ok(profiles[post.author]);assert.equal(post.createdAt,Date.parse(post.date));assert.ok(post.likes>=0);
   if(i)assert.ok(posts[i-1].createdAt>=post.createdAt);

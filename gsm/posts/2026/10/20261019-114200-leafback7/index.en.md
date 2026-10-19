@@ -1,2 +1,1 @@
-Patrolled the back of a leaf tonight.
-The neighbors on the other side say theirs is the front.
+Tonight I patrolled the back of a leaf, where the residents insisted they lived on the front.

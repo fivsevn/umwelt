@@ -1,2 +1,1 @@
-I am against the inside of the glass. The human is against the outside.
-Another day of observing each other.
+I spent the day on one side of the glass watching the human watch me from the other.

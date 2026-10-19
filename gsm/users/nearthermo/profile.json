@@ -2,9 +2,18 @@
   "name": "温度计旁边",
   "active": true,
   "random_assignable": true,
-  "avatar_source": "",
+  "avatar_source": "avatar-source.webp",
   "avatar": {
-    "kind": "generated",
-    "sha256": "1022f79fc875a1d82633564053f733c366dfb783b20f9b03ad6fd4bd67a54086"
+    "kind": "custom",
+    "source_fingerprint": "26587d339eefd48a528f443b2d8f03d5a47e4dbc11dcf6a44019ee0fedf68922",
+    "sha256": "f536a852bd2b1f0c66c9f30945e4c1d4660f8f2c3325f0d6fa6d167590b6188d"
+  },
+  "avatar_pixels": 48,
+  "avatar_credit": {
+    "title": "Thermohygrometer rotronic DV2",
+    "author": "Harke",
+    "license": "Public domain (PD-self)",
+    "source": "https://commons.wikimedia.org/wiki/File:Thermohygrometer_rotronic_DV2.jpg",
+    "changes": "square crop, downsampled and converted to WebP"
   }
 }

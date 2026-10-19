@@ -2,9 +2,15 @@
   "name": "阿苔",
   "active": true,
   "random_assignable": true,
-  "avatar_source": "",
+  "avatar_source": "avatar-source.webp",
   "avatar": {
-    "kind": "generated",
-    "sha256": "d488b27d8ea4f3cc48ef84f3dc8fc8cf12e526cf00f77d60754c16f796c53bfa"
+    "kind": "custom",
+    "source_fingerprint": "14678e86a6fae631aee49e919fc030c3eac8f361140cb92e4a891c0baa5a4708",
+    "sha256": "fc1a392905b0830fc6432cc1f148971029effdc87237757473a61281fc624762"
+  },
+  "avatar_pixels": 48,
+  "avatar_credit": {
+    "source": "Original Blender render created for G-stream",
+    "date": "2026-10-19"
   }
 }

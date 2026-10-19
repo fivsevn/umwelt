@@ -2,9 +2,18 @@
   "name": "桃酥",
   "active": true,
   "random_assignable": true,
-  "avatar_source": "",
+  "avatar_source": "avatar-source.webp",
   "avatar": {
-    "kind": "generated",
-    "sha256": "542ef1f4cb16d181c75368881a55c7e990e3df67c88ce492531f68fec34be14f"
+    "kind": "custom",
+    "source_fingerprint": "9d4072c07930e171cfc2309e3f3df2086c690c903b19dd4483c5b0cd0d70b468",
+    "sha256": "9264b8da9207ff7d07c015314e2d2a6b26801ca0273ee99a64b79274690fb8b1"
+  },
+  "avatar_pixels": 48,
+  "avatar_credit": {
+    "title": "Chinese Walnut Cookie",
+    "author": "Cartonfox",
+    "license": "CC0-1.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Chinese_Walnut_Cookie.jpg",
+    "changes": "square thumbnail resized and converted to WebP"
   }
 }

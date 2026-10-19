@@ -11,14 +11,16 @@
 <!-- users:start -->
 | username | 昵称 | 启用 | 可随机分配 | 头像原图（选填） |
 | --- | --- | --- | --- | --- |
-| backpackgecko | 背包宫 | 是 | 否 | avatar-source.png |
+| backpackgecko | 背包宫 | 是 | 否 | avatar-source.webp |
+| gedageda | 咯哒咯哒 | 是 | 否 | avatar-source.webp |
 | gecko404 | 玻璃这一边 | 是 | 是 |  |
+| isopodafugue | 等足目赋格制作组 | 是 | 否 | avatar-source.webp |
 | leafback7 | 叶背居民 | 是 | 是 |  |
-| mango27 | 小满 | 是 | 是 |  |
-| moss9 | 阿苔 | 是 | 是 |  |
-| nearthermo | 温度计旁边 | 是 | 是 |  |
+| mango27 | 小满 | 是 | 是 | avatar-source.webp |
+| moss9 | 阿苔 | 是 | 是 | avatar-source.webp |
+| nearthermo | 温度计旁边 | 是 | 是 | avatar-source.webp |
 | nightshift3 | 半夜上线 | 是 | 是 |  |
-| peachcrumble | 桃酥 | 是 | 是 |  |
+| peachcrumble | 桃酥 | 是 | 是 | avatar-source.webp |
 | slowblink | 不急 | 是 | 是 |  |
 | smallhide2 | 洞口待机 | 是 | 是 |  |
 | twosteps8 | 两步远 | 是 | 是 |  |
@@ -60,7 +62,9 @@
 
 自定义原图放在 `users/<username>/`，表格只填写相对文件名，例如 `avatar-source.png`。首次建用户时可与表格一起提交原图，也可以等 Actions 建好文件夹后再上传。生成头像统一保存到 [`../assets/avatars/`](../assets/avatars/)；头像栏留空时，用户文件夹无需放占位图片。
 
-背包宫的原始照片保存在 `backpackgecko/avatar-source.png`。目前沿用已有裁剪和 48 × 48 降采样。需要裁剪等高级设置时，可修改该用户 `profile.json` 中的 `avatar_pixels`、`avatar_crop`；这些显式设置变化会重新转换自定义原图。其他用户字段以本表为准，`avatar` 中的分配记录由 Actions 维护。
+需要裁剪等高级设置时，可修改该用户 `profile.json` 中的 `avatar_pixels`、`avatar_crop`（左、上、右、下像素坐标）；这些显式设置变化会重新转换自定义原图。其他用户字段以本表为准，`avatar` 中的分配记录由 Actions 维护。
+
+帖子框默认按 username 固定分配颜色；需要保留指定颜色时，可以在该用户 `profile.json` 中设置 `color`：`sage` 为奶油色、`sand` 为浅粉色、`rose` 为淡紫色。用户表同步会保留这个设置。等足目赋格制作组使用专用的 `isopoda` 配色，取自游戏窗口的灰橄榄绿、深绿阴影和浅米色高光；此配色不参与普通用户的默认分配。
 
 ### 停用、删除和出错
 

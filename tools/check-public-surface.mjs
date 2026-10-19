@@ -22,7 +22,6 @@ const required=[
  'gsm/locales.mjs',
  'gsm/state.mjs',
  'gsm/icons.mjs',
- 'gsm/assets/under-leaves.svg',
  'desktop-icons.mjs',
  'forest.js',
  'style.css',

@@ -2,9 +2,18 @@
   "name": "小满",
   "active": true,
   "random_assignable": true,
-  "avatar_source": "",
+  "avatar_source": "avatar-source.webp",
   "avatar": {
-    "kind": "generated",
-    "sha256": "53b816142d5cef2cc1f2c46b05c6d2b8ee7f8d3f44e67582097d3b0735dcffeb"
+    "kind": "custom",
+    "source_fingerprint": "6277440f40e4919230e8032a68de36292c4ea6f8fd29d1dd571ea578d48053bc",
+    "sha256": "5503ca0b599354df36f741527db35d340edf1fd8ceedd969919a5f3a5b5794a4"
+  },
+  "avatar_pixels": 48,
+  "avatar_credit": {
+    "title": "Bowl of fruit",
+    "author": "Firkin",
+    "license": "CC0-1.0",
+    "source": "https://www.clipsafari.com/clips/o248814-bowl-of-fruit",
+    "changes": "cream square padding, downsampled and converted to WebP"
   }
 }
