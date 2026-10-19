@@ -49,7 +49,9 @@ function mountTerminal() {
     element.before(home); return {element, home, dock:shell.querySelector(target)};
   });
   const enter = document.createElement('button');
-  enter.type = 'button'; enter.className = 'terminal-enter'; enter.textContent = '⏻';
+  enter.type = 'button'; enter.className = 'terminal-enter';
+  const powerGlyph = document.createElement('span');
+  powerGlyph.textContent = '⏻'; powerGlyph.setAttribute('aria-hidden', 'true'); enter.append(powerGlyph);
   enter.setAttribute('aria-label', '打开电视'); document.body.append(enter);
   const viewNumbers = {bird:'01', drone:'02', neighbor:'03'};
   const fullLabels = {bird:'经常啄多肉的小鸟', drone:'偶尔路过的无人机', neighbor:'？'};
