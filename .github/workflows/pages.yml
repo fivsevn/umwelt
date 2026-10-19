@@ -55,7 +55,7 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add gsm/posts gsm/data/feed.mjs gsm/.publishing gsm/assets/avatars
+          git add gsm/posts gsm/data/feed.mjs gsm/.publishing gsm/users gsm/assets/avatars
           if ! git diff --cached --quiet; then
             git commit -m 'Archive G-stream posts and refresh timeline'
             git push origin HEAD:main
@@ -137,3 +137,19 @@ jobs:
 
       - name: Verify live G-stream content and WebP files
         run: python gsm/tools/verify-live.py --site _site
+
+      - name: Clear verified G-stream upload originals
+        run: |
+          git fetch origin main
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/main)" ]; then
+            echo 'New input arrived; keep originals for the next verified deployment.'
+            exit 0
+          fi
+          python gsm/tools/inbox.py --site _site
+          git add -u gsm/uploads
+          if ! git diff --cached --quiet; then
+            git commit -m 'Clear verified G-stream upload inbox'
+            if ! git push origin HEAD:main; then
+              echo 'New input arrived during cleanup; originals remain in the remote inbox for the next run.'
+            fi
+          fi

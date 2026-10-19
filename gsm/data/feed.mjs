@@ -1,4 +1,4 @@
-// Generated from gsm/posts and gsm/characters; edit those sources, not this file.
+// Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
   "backpackgecko": {
     "handle": "backpackgecko",

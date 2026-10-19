@@ -13,7 +13,7 @@
 
 ## 内容与存储
 
-发帖、注册角色、自动图片转换及单帖修改见[内容发布说明](publishing.md)。`trigger.md` 决定每次发布的用户名、昵称和正文；`posts/` 保存每条内容；`characters/` 为固定角色档案；`data/feed.mjs` 是构建结果。保留帖子 ID，避免点赞记录失去对应关系。此前本地预览的草稿、回复、关注等记录仍留在 `umwelt-gsm-preview-v1`，页面只修改点赞。
+发帖、注册角色、自动图片转换及单帖修改见[内容发布说明](publishing.md)。`trigger.md` 可填写每次发布的用户名和正文，`uploads/` 也支持单独上传图片发帖；`posts/` 保存每条内容；`users/README.md` 是可编辑的 Markdown 用户管理表，Actions 据此同步 `users/` 中的档案；表格控制启用和是否参加随机分配；`data/feed.mjs` 是构建结果。保留帖子 ID，避免点赞记录失去对应关系。此前本地预览的草稿、回复、关注等记录仍留在 `umwelt-gsm-preview-v1`，页面只修改点赞。
 
 界面名称来自 `shared/games.mjs`，语言继承 `umwelt-desktop-language`。中英日切换在独立设置页生效并保存；没有译文的帖子显示原文。页面无账号登录或远端点赞接口。
 
@@ -23,7 +23,7 @@
 - 头像、导航按钮与心形：`icons.mjs`；底栏为代码绘制的像素小屋、微侧面守宫头和齿轮，统一 24 × 24 网格；以选定的守宫头为细节与明暗基准，共享细深绿轮廓、奶油色亮面和向右下的轻阴影；小屋有珊瑚粉屋顶、奶油墙面与灰绿侧面，齿轮使用八枚平齿、分明的齿槽与居中的镂空轴孔，保留奶油亮面和粉色侧缘，呼应顶部的粉色与奶油色。守宫保留原有的侧脸、竖瞳、斑点和浅色下颌。底栏只显示图标。
 - 守宫头构图检索参考：[Gecko Emojis / SayYesToGiygas](https://www.newgrounds.com/art/view/sayyestogiygas/gecko-emojis) 与 [San Diego Zoo 的豹纹守宫照片](https://animals.sandiegozoo.org/animals/leopard-gecko)（2026-10-19）。图案为本页独立绘制的 SVG，取长吻部、竖瞳与嘴线作为辨认特征，没有引入外部图片。
 - 小屋与齿轮绘制参考：[Kenney Tiny Town](https://kenney.nl/assets/tiny-town) 的小尺寸建筑分色、[Pixelarticons Gear](https://pixelarticons.com/icon/gear/) 的像素齿口与轴孔结构，以及 [Saint11 Basic Shading](https://saint11.art/pixel_art_articles/article4/) 的定向光与色块明暗（2026-10-19）。本页重新绘制轮廓与着色，没有直接使用外部素材。
-- 旧示例配图保留在 `assets/under-leaves.svg`，当前帖子不引用；上传图片在各帖的 `assets/` 中，全部转换为 WebP。固定头像原稿见[背包宫说明](../art/backpackgecko/README.md)，其他头像按用户名稳定生成。
+- 旧示例配图保留在 `assets/under-leaves.svg`，当前帖子不引用；上传图片在各帖的 `assets/` 中，全部转换为 WebP。用户头像原稿与档案集中在[用户目录](../users/README.md)，未设置头像的文件夹不放头像文件；运行 WebP 统一生成到 `assets/avatars/`。
 - 标题装饰：`decorations.mjs`。沿用用户摆好的星光、爱心、星群与无线电位置。星群与无线电取自此前编辑器已保存的 Pixelarticons；保留 [MIT 许可](../assets/pixelarticons-LICENSE.txt)。其余装饰为本项目代码。
 - 抖动算法：`dither.mjs`，不使用参考图作为运行素材。
 

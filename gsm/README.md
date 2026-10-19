@@ -29,7 +29,7 @@
 | 位置 | 内容 |
 | --- | --- |
 | `index.html`、`settings/index.html`、`style.css`、`app.mjs` | 时间线与独立设置页，共用布局、三语界面与本地互动 |
-| `trigger.md`、`posts/`、`characters/`、`uploads/` | 发帖入口、每帖文件包、注册角色与图片上传 |
+| `trigger.md`、`posts/`、`users/`、`uploads/` | 发帖入口、每帖文件包、统一用户目录与临时图片入口 |
 | `tools/publish.py`、`data/feed.mjs`、`locales.mjs` | 自动归档、图片转 WebP、生成信息流与三语界面 |
 | `state.mjs` | 独立本地记录、读取校验与保存失败回退 |
 | `icons.mjs`、`decorations.mjs`、`dither.mjs`、`assets/under-leaves.svg` | 可编辑 SVG 符号、头像、装饰、抖动纹理和示例配图 |
@@ -40,7 +40,7 @@
 
 ## 内容维护
 
-发帖和改帖见[trigger 使用说明](docs/publishing.md)。帖子正文、照片、角色名称与头像分开维护；上传图片和头像自动转 WebP。
+发帖和改帖见[发布说明](docs/publishing.md)，增减用户直接编辑[Markdown 用户管理表](users/README.md)，Actions 自动同步用户文件夹。只上传图片也会发帖；未指定用户时，从启用且允许随机分配的用户中选择，作者一旦归档便固定。帖子正文、照片、角色名称与头像分开维护；上传图片和头像自动转 WebP。
 
 页面只提供浏览和点赞，按用户的 390 px 手机稿排布。所有屏幕保持同一列和比例：窄屏整体缩小，宽屏居中并最多放大到 1.5 倍；标题和底栏固定，中间独立滚动并隐藏滚动条。所有帖子的头像与卡片顶边对齐，作者、时间和点赞使用统一边距，心形与数量垂直居中。用户名使用「显示名@英文账户名」，纯文本加粗并有一像素阴影。
 

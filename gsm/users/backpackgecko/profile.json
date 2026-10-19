@@ -1,0 +1,13 @@
+{
+  "name": "背包宫",
+  "active": true,
+  "random_assignable": false,
+  "avatar_source": "avatar-source.png",
+  "avatar_pixels": 48,
+  "avatar_crop": [
+    0,
+    178,
+    800,
+    978
+  ]
+}
