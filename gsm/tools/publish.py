@@ -208,16 +208,9 @@ def sync_users(root):
     for folder in (root / 'users').iterdir():
         if folder.is_dir() and not folder.is_symlink() and folder.name not in users and (folder / 'profile.json').is_file():
             shutil.rmtree(folder)
-    return users_for(root)
-
-
-def register_user(root, username, name):
-    users = users_for(root)
-    if username not in users:
-        profile = {'name': name, 'active': True, 'random_assignable': False}
-        path = root / 'users/README.md'
-        write(path, path.read_text().rstrip() + '\n' + user_table_row(username, profile))
-        sync_users(root)
+    registry = users_for(root)
+    sync_user_avatars(root, registry)
+    return registry
 
 
 def assign_author(root, meta, seed):
@@ -227,8 +220,6 @@ def assign_author(root, meta, seed):
         if not users[username].get('active', True):
             raise ValueError(f'用户 {username} 已停用；恢复 active 后才能发新帖')
         return username, users[username]['name'], 'specified'
-    if username and isinstance(meta.get('name'), str) and meta['name'].strip():
-        return username, meta['name'].strip(), 'specified'
     pool = sorted(name for name, profile in users.items() if profile.get('active', True) and profile.get('random_assignable', False))
     if not pool:
         raise ValueError('没有可随机分配的用户，请指定已注册 username，或开启某个用户的 random_assignable')
@@ -288,7 +279,6 @@ def import_trigger(root, text, read_media, event_date, event, state, *, remember
                 write(staging / names[original], data)
             write(staging / 'index.md', document(package, archived_body))
             staging.rename(folder)
-        register_user(root, username, name)
     if remember:
         state['last_digest'] = fingerprint
     return folder
@@ -443,6 +433,20 @@ def generated_avatar(username):
     return out.getvalue()
 
 
+def sync_user_avatars(root, registry):
+    """Assign every registered user an avatar, independently of their posts."""
+    for username, profile in registry.items():
+        if profile.get('avatar_source'):
+            original = local_path(root / 'users' / username, profile['avatar_source'])
+            data = webp(original.read_bytes(), pixels=profile.get('avatar_pixels'), crop=profile.get('avatar_crop'))
+        else:
+            data = generated_avatar(username)
+        write(root / 'assets/avatars' / (username + '.webp'), data)
+    for old in (root / 'assets/avatars').glob('*.webp'):
+        if old.stem not in registry:
+            old.unlink()
+
+
 def blocks_for(root, folder, body, public):
     blocks, position = [], 0
     for match in IMAGE.finditer(body):
@@ -480,21 +484,6 @@ def build(root):
         ids.add(ident)
         date = date_value(meta['date'])
         packages.append((date, ident, username, meta, body, path.parent))
-    visible_users = {item[2] for item in packages}
-    for username, profile in registry.items():
-        if username not in visible_users:
-            continue
-        user_folder = root / 'users' / username
-        if profile.get('avatar_source'):
-            original = local_path(user_folder, profile['avatar_source'])
-            data = webp(original.read_bytes(), pixels=profile.get('avatar_pixels'), crop=profile.get('avatar_crop'))
-        else:
-            data = generated_avatar(username)
-        # Only custom source files live in user folders; runtime avatars are generated separately.
-        write(root / 'assets/avatars' / (username + '.webp'), data)
-    for old in (root / 'assets/avatars').glob('*.webp'):
-        if old.stem not in visible_users:
-            old.unlink()
     for date, ident, username, meta, body, folder in sorted(packages, reverse=True):
         if username not in profiles:
             character = registry[username]

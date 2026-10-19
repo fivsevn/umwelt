@@ -39,6 +39,7 @@ class Publishing(unittest.TestCase):
         self.state = {'last_digest': None}
         for username in ['poola', 'poolb']:
             p.write(self.root/'users'/username/'profile.json', p.json_text({'name': username, 'active': True, 'random_assignable': True}))
+        p.write(self.root/'users/gecko7/profile.json', p.json_text({'name': '叶背', 'active': True, 'random_assignable': False}))
         p.write_user_table(self.root, p.users_for(self.root))
 
     def tearDown(self):
@@ -68,7 +69,7 @@ class Publishing(unittest.TestCase):
         p.write(self.root/'.publishing/state.json', p.json_text({'version': 1, 'cursor': cursor, 'last_digest': None}))
 
     def test_random_identity_is_permanent_and_fixed_or_inactive_users_are_excluded(self):
-        p.register_user(self.root, 'fixed7', '固定角色')
+        self.edit_user('fixed7', name='固定角色', active=True, random_assignable=False)
         folder = self.publish('没有填用户名的文字。', 'random-post')
         before = (folder/'index.md').read_bytes()
         meta, _ = p.split(before.decode())
@@ -87,7 +88,8 @@ class Publishing(unittest.TestCase):
         explicit = self.publish(p.document({'username': 'fixed7'}, '可以指定固定用户。'), 'fixed')
         self.assertEqual(p.split((explicit/'index.md').read_text())[0]['username'], 'fixed7')
 
-    def test_user_management_add_rename_disable_delete_and_automatic_registration(self):
+    def test_user_management_add_rename_disable_delete(self):
+        self.edit_user('newuser8', name='新角色', active=True, random_assignable=False)
         folder = self.publish(self.trigger(username='newuser8', name='新角色'))
         profile = self.root/'users/newuser8/profile.json'
         self.assertEqual(json.loads(profile.read_text()), {'name': '新角色', 'active': True, 'random_assignable': False, 'avatar_source': ''})
@@ -97,23 +99,45 @@ class Publishing(unittest.TestCase):
         users = p.users_for(self.root); users.pop('poola'); p.write_user_table(self.root, users)
         p.build(self.root)
         self.assertFalse((self.root/'users/poola').exists())
+        self.assertFalse((self.root/'assets/avatars/poola.webp').exists())
         users.pop('newuser8'); p.write_user_table(self.root, users)
         with self.assertRaisesRegex(ValueError, '历史帖子仍引用'):
             p.build(self.root)
         self.assertTrue((folder/'index.md').exists())
 
-    def test_markdown_table_alone_creates_users_and_empty_avatar_stays_empty(self):
+    def test_posting_never_creates_users_or_changes_the_management_table(self):
+        table = (self.root/'users/README.md').read_bytes()
+        profiles = {f: f.read_bytes() for f in (self.root/'users').glob('*/profile.json')}
+        folder = self.publish(self.trigger(username='notregistered', name='不能通过发帖建档'), 'unknown')
+        meta, _ = p.split((folder/'index.md').read_text())
+        self.assertIn(meta['username'], ['poola', 'poolb'])
+        self.assertFalse((self.root/'users/notregistered').exists())
+        self.publish(self.trigger(username='gecko7', name='不能通过发帖改名'), 'specified')
+        self.assertEqual((self.root/'users/README.md').read_bytes(), table)
+        self.assertEqual({f: f.read_bytes() for f in (self.root/'users').glob('*/profile.json')}, profiles)
+
+    def test_markdown_table_assigns_avatar_before_first_post_and_keeps_identity(self):
         table = self.root/'users/README.md'
         p.write(table, table.read_text() + '| username | 一位新角色 | 是 | 是 | |\n')
         self.assertFalse((self.root/'users/username').exists())
-        p.build(self.root)
+        p.sync_users(self.root)
         profile = self.root/'users/username/profile.json'
         self.assertEqual(json.loads(profile.read_text())['name'], '一位新角色')
         self.assertEqual(sorted(f.name for f in profile.parent.iterdir()), ['profile.json'])
+        avatar = self.root/'assets/avatars/username.webp'
+        original = avatar.read_bytes()
+        with Image.open(avatar) as check:
+            self.assertEqual(check.format, 'WEBP')
+        self.assertFalse((self.root/'posts').exists())
+        self.edit_user('username', name='成为固定角色', random_assignable=False)
+        self.assertEqual(avatar.read_bytes(), original)
+        p.build(self.root)
+        self.assertEqual(avatar.read_bytes(), original)
         self.publish(p.document({'username': 'username'}, '第一条帖子。'))
         p.build(self.root)
         self.assertEqual(sorted(f.name for f in profile.parent.iterdir()), ['profile.json'])
         self.assertTrue((self.root/'assets/avatars/username.webp').is_file())
+        self.assertEqual(avatar.read_bytes(), original)
         before = profile.read_bytes()
         p.write(table, table.read_text() + '| username | 重复 | 是 | 是 | |\n')
         with self.assertRaisesRegex(ValueError, '必须唯一'):
@@ -147,7 +171,7 @@ class Publishing(unittest.TestCase):
         self.assertEqual(len(p.build(self.root)), 3)
 
     def test_caption_can_specify_registered_author_and_likes_without_trigger(self):
-        p.register_user(self.root, 'fixed7', '固定用户')
+        self.edit_user('fixed7', name='固定用户', active=True, random_assignable=False)
         self.start_git()
         p.write(self.root/'uploads/photo.webp', picture('WEBP'))
         self.commit('Upload files\n\n---\nusername: fixed7\nlikes: 31\n---\n\n晒太阳。')
@@ -204,7 +228,7 @@ class Publishing(unittest.TestCase):
 
     def test_metadata_only_trigger_assigns_images_and_empty_trigger_never_publishes(self):
         self.start_git()
-        p.register_user(self.root, 'fixed7', '固定')
+        self.edit_user('fixed7', name='固定', active=True, random_assignable=False)
         p.write(self.root/'trigger.md', p.document({'username': 'fixed7', 'likes': 9}, ''))
         p.write(self.root/'uploads/a.png', picture())
         self.commit('Add files via upload')
