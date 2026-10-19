@@ -13,7 +13,7 @@ export function buildResident(api,parent) {
   const authored=actorPrimitives(api),actor=buildFashionPerson(authored,parent,wardrobe.outfit);
   // The old resident was scaled 1.10; 1.16 gives a small, visible increase.
   actor.person.scale.setScalar(1.16);
-  actor.personRaincoat=attachRaincoat(authored,actor,'person');
+  actor.personRaincoat=attachRaincoat(authored,actor,'person',wardrobe.outfit);
   actor.tools=buildResidentTools(authored,actor.arms);
   return actor;
 }

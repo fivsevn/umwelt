@@ -1031,6 +1031,8 @@ export function makeWalker(
     company = () => [],
   } = {},
 ) {
+  const uncoveredRadius = body.radius;
+  body = { ...body };
   const cell = 8,
     cols = 80,
     rows = 65;
@@ -1045,6 +1047,7 @@ export function makeWalker(
     previousPoint = null,
     weatherChoice = Math.floor(Math.random() * 1000),
     weatherKey = environment().condition;
+  if (activity === "rainwalk" && actor !== "pig") body.radius = Math.max(uncoveredRadius, .76);
   const p = {
     x: SCENES[scene].spawn[0],
     y: SCENES[scene].spawn[1],
@@ -1201,6 +1204,9 @@ export function makeWalker(
       p.raincoat = next === "rainwalk";
       if (next !== activity) {
         activity = next;
+        body.radius = p.raincoat && actor !== "pig" ? Math.max(uncoveredRadius, .76) : uncoveredRadius;
+        p.radius = body.radius;
+        cellCache.clear();
         pause = 0;
         choose();
       }

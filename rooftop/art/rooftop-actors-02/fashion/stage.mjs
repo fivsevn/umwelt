@@ -24,7 +24,7 @@ export function createFashionStage(canvas) {
   const ground=new T.Group();scene.add(ground);
   for(const [x,z,w,d] of [[-.57,0,.93,.67],[.69,.08,.85,.98]]){const m=new T.Mesh(new T.CircleGeometry(1,32),new T.MeshBasicMaterial({color:'#566350',transparent:true,opacity:.11,depthWrite:false}));m.rotation.x=-Math.PI/2;m.scale.set(w*.55,d*.55,1);m.position.set(x,-.017,z);ground.add(m);}
   let current=null;
-  function select(id,accessory=true){const key=id+':'+accessory;if(current){current.person.visible=false;current.pig.visible=false;}if(!cache.has(key)){const actor=buildFashionActors(api,scene,id,accessory);actor.personRaincoat=attachRaincoat(api,actor,'person');actor.pigRaincoat=attachRaincoat(api,actor,'pig');cache.set(key,actor);}current=cache.get(key);current.person.visible=current.pig.visible=true;return current;}
+  function select(id,accessory=true){const key=id+':'+accessory;if(current){current.person.visible=false;current.pig.visible=false;}if(!cache.has(key)){const actor=buildFashionActors(api,scene,id,accessory);actor.personRaincoat=attachRaincoat(api,actor,'person',id);actor.pigRaincoat=attachRaincoat(api,actor,'pig');cache.set(key,actor);}current=cache.get(key);current.person.visible=current.pig.visible=true;return current;}
   function draw({id,accessory=true,time=0,action='rest',angle=.25,pitch=.12,zoom=1,sampling='source',focus='pair',width=canvas.clientWidth,height=canvas.clientHeight,thumbnail=false,raincoat=false}){
     const a=select(id,accessory),isFace=focus==='hair',onlyPerson=focus==='person'||isFace,onlyPig=focus==='pig';
     a.person.position.set(onlyPerson?0:-.57,0,0);a.pig.position.set(onlyPig?0:.69,0,.08);

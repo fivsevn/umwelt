@@ -40,9 +40,9 @@ test('both coated residents walk collision-free without gardening in both terrac
     for(let i=0;i<3000;i++){
       person.update(.1);pig.update(.08);
       for(const [j,walker] of [person,pig].entries()){
-        const p=walker.person;assert.equal(p.raincoat,true);assert.equal(p.sheltered,false);assert.ok(!p.insideShelter);
+        const p=walker.person;assert.equal(p.raincoat,true);assert.equal(p.radius,.76);assert.equal(p.sheltered,false);assert.ok(!p.insideShelter);
         assert.ok(!['water','prune','sweep','wash','tend'].includes(p.state));
-        assert.ok(actorFits(scene,objects,p.x,p.y,j?{radius:.76,height:1}:undefined));
+        assert.ok(actorFits(scene,objects,p.x,p.y,j?{radius:.76,height:1}:{radius:.76,height:2.42}));
         moved[j] ||= Math.hypot(p.x-starts[j][0],p.y-starts[j][1])>15;
       }
     }
@@ -62,4 +62,16 @@ test('Blender-exported coats include articulated sleeves and open hoods with val
     for(let i=0;i<p.count;i+=3){const a=new T.Vector3().fromBufferAttribute(p,i),b=new T.Vector3().fromBufferAttribute(p,i+1),c=new T.Vector3().fromBufferAttribute(p,i+2);assert.ok(b.sub(a).cross(c.sub(a)).length()>1e-9,part.name);}
     g.dispose();
   }
+});
+
+test('wide kosode rain sleeves stay on the shoulder joints and cover the hanging cuffs',async()=>{
+  const {attachRaincoat}=await import('../fashion/raincoats.mjs');
+  const actor={body:new T.Group(),head:new T.Group(),arms:[new T.Group(),new T.Group()]};
+  const api={group(parent){const group=new T.Group();parent.add(group);return group;},solid(){}};
+  const coats=attachRaincoat(api,actor,'person','kosode');
+  for(const arm of actor.arms){const layer=coats.find(g=>g.parent===arm);assert.deepEqual(layer.scale.toArray(),[1.25,1.25,1]);assert.equal(layer.visible,false);}
+  const sleeve=RAINCOAT_MESHES.find(p=>p.name==='Dongdong-sleeve-0');
+  assert.ok(Math.min(...sleeve.vertices.map(v=>v[1]))*1.25<-.64);
+  assert.ok(Math.min(...sleeve.vertices.map(v=>v[0]))*1.25<-.225);
+  assert.deepEqual(actor.arms[0].scale.toArray(),[1,1,1]);
 });
