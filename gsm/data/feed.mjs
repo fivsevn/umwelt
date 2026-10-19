@@ -6,6 +6,12 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/backpackgecko.webp",
     "color": "sage"
   },
+  "wallafterdark": {
+    "handle": "wallafterdark",
+    "name": "墙角小守",
+    "avatarImage": "/gsm/assets/avatars/wallafterdark.webp",
+    "color": "sand"
+  },
   "leafback7": {
     "handle": "leafback7",
     "name": "叶背居民",
@@ -55,6 +61,33 @@ export const posts = [
         {
           "type": "text",
           "text": "お出かけ。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261019-121000-aff69c7bc9",
+    "date": "2026-10-19T12:10:00+08:00",
+    "createdAt": 1792383000000,
+    "author": "wallafterdark",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "人类把画挂正了。\n从我这边看，又歪了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "人类把画挂正了。\n从我这边看，又歪了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "人类把画挂正了。\n从我这边看，又歪了。"
         }
       ]
     }
