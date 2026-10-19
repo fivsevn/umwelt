@@ -4,8 +4,11 @@ name: Deploy static site to Pages
 on:
   push:
     branches: [main]
-    paths-ignore:
-      - '**/README*.md'
+    paths:
+      - '**'
+      - '!**/README*.md'
+      # This Markdown file is editable publishing input, not passive documentation.
+      - 'gsm/users/README.md'
   workflow_dispatch:
 
 permissions:
