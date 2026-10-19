@@ -3,6 +3,7 @@ import json
 import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
 import sys
 import threading
 from functools import partial
@@ -30,6 +31,25 @@ def picture(fmt='PNG', color='red'):
     return out.getvalue()
 
 
+USER_TABLE_HEADER = """# 用户管理
+
+<!-- users:start -->
+| username | 昵称 | 启用 | 可随机分配 | 头像原图（选填） |
+| --- | --- | --- | --- | --- |
+"""
+
+
+def user_table_row(username, profile):
+    name = profile['name'].replace('|', r'\|').replace('\n', ' ')
+    return (f'| {username} | {name} | {"是" if profile.get("active", True) else "否"} '
+            f'| {"是" if profile.get("random_assignable", False) else "否"} '
+            f'| {profile.get("avatar_source", "")} |\n')
+
+
+def write_user_table(root, users):
+    p.write(root / 'users/README.md', USER_TABLE_HEADER + ''.join(user_table_row(k, v) for k, v in sorted(users.items())) + '<!-- users:end -->\n')
+
+
 class Publishing(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
@@ -40,7 +60,7 @@ class Publishing(unittest.TestCase):
         for username in ['poola', 'poolb']:
             p.write(self.root/'users'/username/'profile.json', p.json_text({'name': username, 'active': True, 'random_assignable': True}))
         p.write(self.root/'users/gecko7/profile.json', p.json_text({'name': '叶背', 'active': True, 'random_assignable': False}))
-        p.write_user_table(self.root, p.users_for(self.root))
+        write_user_table(self.root, p.users_for(self.root))
 
     def tearDown(self):
         self.temp.cleanup()
@@ -58,7 +78,7 @@ class Publishing(unittest.TestCase):
     def edit_user(self, username, **fields):
         users = p.users_for(self.root)
         users.setdefault(username, {}).update(fields)
-        p.write_user_table(self.root, users)
+        write_user_table(self.root, users)
         p.sync_users(self.root)
 
     def start_git(self, trigger=''):
@@ -92,15 +112,18 @@ class Publishing(unittest.TestCase):
         self.edit_user('newuser8', name='新角色', active=True, random_assignable=False)
         folder = self.publish(self.trigger(username='newuser8', name='新角色'))
         profile = self.root/'users/newuser8/profile.json'
-        self.assertEqual(json.loads(profile.read_text()), {'name': '新角色', 'active': True, 'random_assignable': False, 'avatar_source': ''})
+        assigned = json.loads(profile.read_text())
+        self.assertEqual({key: assigned[key] for key in ['name', 'active', 'random_assignable', 'avatar_source']},
+                         {'name': '新角色', 'active': True, 'random_assignable': False, 'avatar_source': ''})
+        self.assertEqual(assigned['avatar']['kind'], 'generated')
         self.edit_user('newuser8', name='改名之后', active=False, random_assignable=True)
         p.build(self.root)
         self.assertIn('改名之后', (self.root/'data/feed.mjs').read_text())
-        users = p.users_for(self.root); users.pop('poola'); p.write_user_table(self.root, users)
+        users = p.users_for(self.root); users.pop('poola'); write_user_table(self.root, users)
         p.build(self.root)
         self.assertFalse((self.root/'users/poola').exists())
         self.assertFalse((self.root/'assets/avatars/poola.webp').exists())
-        users.pop('newuser8'); p.write_user_table(self.root, users)
+        users.pop('newuser8'); write_user_table(self.root, users)
         with self.assertRaisesRegex(ValueError, '历史帖子仍引用'):
             p.build(self.root)
         self.assertTrue((folder/'index.md').exists())
@@ -118,7 +141,7 @@ class Publishing(unittest.TestCase):
 
     def test_markdown_table_assigns_avatar_before_first_post_and_keeps_identity(self):
         table = self.root/'users/README.md'
-        p.write(table, table.read_text() + '| username | 一位新角色 | 是 | 是 | |\n')
+        p.write(table, table.read_text().replace('<!-- users:end -->', '| username | 一位新角色 | 是 | 是 | |\n<!-- users:end -->'))
         self.assertFalse((self.root/'users/username').exists())
         p.sync_users(self.root)
         profile = self.root/'users/username/profile.json'
@@ -139,10 +162,84 @@ class Publishing(unittest.TestCase):
         self.assertTrue((self.root/'assets/avatars/username.webp').is_file())
         self.assertEqual(avatar.read_bytes(), original)
         before = profile.read_bytes()
-        p.write(table, table.read_text() + '| username | 重复 | 是 | 是 | |\n')
+        p.write(table, table.read_text().replace('<!-- users:end -->', '| username | 重复 | 是 | 是 | |\n<!-- users:end -->'))
         with self.assertRaisesRegex(ValueError, '必须唯一'):
             p.sync_users(self.root)
         self.assertEqual(profile.read_bytes(), before)
+
+    def test_assigned_avatars_are_reused_without_running_the_generator(self):
+        p.sync_users(self.root)
+        avatar = self.root/'assets/avatars/poola.webp'
+        original, modified = avatar.read_bytes(), avatar.stat().st_mtime_ns
+        # Also migrate an existing portrait that predates assignment metadata.
+        profile = self.root/'users/poola/profile.json'
+        fields = json.loads(profile.read_text()); fields.pop('avatar')
+        p.write(profile, p.json_text(fields))
+        with patch.object(p, 'generated_avatar', side_effect=AssertionError('must not redraw')):
+            self.edit_user('poola', name='新的昵称', active=False, random_assignable=False)
+            self.edit_user('poola', active=True, random_assignable=True)
+            p.build(self.root)
+        self.assertEqual(avatar.read_bytes(), original)
+        self.assertEqual(avatar.stat().st_mtime_ns, modified)
+
+    def test_user_guide_tables_are_not_treated_as_user_records(self):
+        table = self.root/'users/README.md'
+        guide = '\n## 操作说明\n\n| 操作 | 结果 |\n| --- | --- |\n| 改昵称 | 保留头像 |\n'
+        p.write(table, table.read_text() + guide)
+        p.sync_users(self.root)
+        self.assertEqual(set(p.users_for(self.root)), {'poola', 'poolb', 'gecko7'})
+        valid = table.read_text()
+        p.write(table, valid.replace('| poola |', 'poola |'))
+        with self.assertRaisesRegex(ValueError, '分隔符'):
+            p.sync_users(self.root)
+        self.assertEqual(set(p.users_for(self.root)), {'poola', 'poolb', 'gecko7'})
+        p.write(table, valid)
+        p.write(table, table.read_text().replace('<!-- users:end -->', ''))
+        with self.assertRaisesRegex(ValueError, '注释标记'):
+            p.sync_users(self.root)
+        self.assertEqual(set(p.users_for(self.root)), {'poola', 'poolb', 'gecko7'})
+
+    def test_custom_avatar_only_reconverts_when_image_or_crop_changes(self):
+        p.sync_users(self.root)
+        source = self.root/'users/poola/photo.png'
+        avatar = self.root/'assets/avatars/poola.webp'
+        p.write(source, picture())
+        self.edit_user('poola', avatar_source='photo.png')
+        assigned = avatar.read_bytes()
+        with patch.object(p, 'webp', side_effect=AssertionError('unchanged image must not reconvert')):
+            self.edit_user('poola', name='改昵称', random_assignable=False)
+            p.write(source.parent/'unused.png', picture('PNG', 'green'))
+            p.sync_users(self.root)
+        self.assertEqual(avatar.read_bytes(), assigned)
+        p.write(source, picture('PNG', 'blue'))
+        with patch.object(p, 'webp', wraps=p.webp) as convert:
+            p.sync_users(self.root)
+            self.assertEqual(convert.call_count, 1)
+        self.assertNotEqual(avatar.read_bytes(), assigned)
+        profile = source.parent/'profile.json'
+        fields = json.loads(profile.read_text()); fields['avatar_pixels'] = 16
+        p.write(profile, p.json_text(fields))
+        with patch.object(p, 'webp', wraps=p.webp) as convert:
+            p.sync_users(self.root)
+            self.assertEqual(convert.call_count, 1)
+        with Image.open(avatar) as check:
+            self.assertEqual(check.size, (16, 16))
+
+    def test_clearing_custom_avatar_field_keeps_face_and_missing_source_is_an_error(self):
+        p.sync_users(self.root)
+        source = self.root/'users/poola/photo.png'
+        avatar = self.root/'assets/avatars/poola.webp'
+        p.write(source, picture())
+        self.edit_user('poola', avatar_source='photo.png')
+        assigned = avatar.read_bytes()
+        source.unlink()
+        with self.assertRaises(FileNotFoundError):
+            p.sync_users(self.root)
+        self.assertEqual(avatar.read_bytes(), assigned)
+        with patch.object(p, 'generated_avatar', side_effect=AssertionError('must keep custom face')):
+            self.edit_user('poola', avatar_source='')
+            p.build(self.root)
+        self.assertEqual(avatar.read_bytes(), assigned)
 
     def test_image_only_commits_ignore_stale_trigger_author_use_caption_and_preserve_retries(self):
         self.start_git(self.trigger('上一条内容。', username='previous9', name='上一位'))
@@ -354,7 +451,7 @@ class Publishing(unittest.TestCase):
         self.assertNotEqual(p.generated_avatar('gecko7'), p.generated_avatar('gecko8'))
         self.publish(self.trigger())
         p.write(self.root / 'users/gecko7/profile.json', p.json_text({'name':'新昵称','avatar_source':'photo.png','avatar_pixels':32}))
-        p.write_user_table(self.root, p.users_for(self.root))
+        write_user_table(self.root, p.users_for(self.root))
         p.write(self.root / 'users/gecko7/photo.png', picture())
         p.build(self.root)
         self.assertIn('新昵称', (self.root / 'data/feed.mjs').read_text())

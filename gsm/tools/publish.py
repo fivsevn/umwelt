@@ -153,32 +153,22 @@ def users_for(root):
     return users
 
 
-USER_TABLE_HEADER = """# 用户管理
-
-| username | 昵称 | 启用 | 可随机分配 | 头像原图（选填） |
-| --- | --- | --- | --- | --- |
-"""
-
-
-def user_table_row(username, profile):
-    name = profile['name'].replace('|', r'\|').replace('\n', ' ')
-    return (f'| {username} | {name} | {"是" if profile.get("active", True) else "否"} '
-            f'| {"是" if profile.get("random_assignable", False) else "否"} '
-            f'| {profile.get("avatar_source", "")} |\n')
-
-
-def write_user_table(root, users):
-    write(root / 'users/README.md', USER_TABLE_HEADER + ''.join(user_table_row(k, v) for k, v in sorted(users.items())))
-
-
 def sync_users(root):
     path = root / 'users/README.md'
     if not path.exists():
         raise ValueError('缺少 users/README.md 用户管理表')
+    text = path.read_text()
+    start, end = '<!-- users:start -->', '<!-- users:end -->'
+    if text.count(start) != 1 or text.count(end) != 1 or text.index(start) >= text.index(end):
+        raise ValueError('用户表需要保留唯一且成对的 users:start / users:end 注释标记')
+    section = text.split(start, 1)[1].split(end, 1)[0]
     users = {}
-    for line in path.read_text().splitlines():
-        if not line.startswith('|'):
+    for line in section.splitlines():
+        line = line.strip()
+        if not line:
             continue
+        if not line.startswith('|') or not line.endswith('|'):
+            raise ValueError('用户表每行需保留开头和结尾的 | 分隔符')
         cells = [part.strip().replace(r'\|', '|') for part in re.split(r'(?<!\\)\|', line)[1:-1]]
         if cells and (cells[:2] == ['username', '昵称'] or re.fullmatch(r':?-+:?', cells[0])):
             continue
@@ -436,12 +426,35 @@ def generated_avatar(username):
 def sync_user_avatars(root, registry):
     """Assign every registered user an avatar, independently of their posts."""
     for username, profile in registry.items():
+        target = root / 'assets/avatars' / (username + '.webp')
+        previous = profile.get('avatar', {})
+        existing = target.read_bytes() if target.exists() else None
         if profile.get('avatar_source'):
             original = local_path(root / 'users' / username, profile['avatar_source'])
-            data = webp(original.read_bytes(), pixels=profile.get('avatar_pixels'), crop=profile.get('avatar_crop'))
+            source = original.read_bytes()
+            fingerprint = digest(json_text({'source': digest(source), 'pixels': profile.get('avatar_pixels'),
+                                           'crop': profile.get('avatar_crop')}).encode())
+            if existing is not None and previous.get('source_fingerprint') == fingerprint and previous.get('sha256') == digest(existing):
+                continue
+            data = webp(source, pixels=profile.get('avatar_pixels'), crop=profile.get('avatar_crop'))
+            assigned = {'kind': 'custom', 'source_fingerprint': fingerprint, 'sha256': digest(data)}
+        elif existing is not None:
+            # Blank means keep the assigned face, including a previous custom portrait.
+            # A nickname, flag or generator-code change must never redraw an existing user.
+            if previous.get('sha256') == digest(existing):
+                continue
+            with Image.open(BytesIO(existing)) as check:
+                if check.format != 'WEBP':
+                    raise ValueError(f'用户 {username} 的现有头像不是有效 WebP')
+                check.verify()
+            data = existing
+            assigned = {'kind': previous.get('kind', 'generated'), 'sha256': digest(data)}
         else:
             data = generated_avatar(username)
-        write(root / 'assets/avatars' / (username + '.webp'), data)
+            assigned = {'kind': 'generated', 'sha256': digest(data)}
+        write(target, data)
+        profile['avatar'] = assigned
+        write(root / 'users' / username / 'profile.json', json_text(profile))
     for old in (root / 'assets/avatars').glob('*.webp'):
         if old.stem not in registry:
             old.unlink()
