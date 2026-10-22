@@ -56,18 +56,6 @@ https://umwelt.fivsevn.com/ophidia/
 
 ---
 
-## 媒体项目
-
-### Gtuber / 爬爬电子管
-
-`GTB.BIO` · [线上占位页](https://umwelt.fivsevn.com/gtb/)。仿 YouTube 的虚构视频平台，目前仅开放占位页。
-
-### Gstream / 爬爬在线
-
-`GSM.BIO` · [打开信息流](https://umwelt.fivsevn.com/gsm/)。仿 X／微博的轻互动信息流，可浏览动态、点赞，并在设置页切换中英日语言。
-
----
-
 ## 资料来源与内容边界
 
 UMWELT 涉及真实动物、分类学、形态学、自然史、生态环境、人工饲养、人工培养品系及贸易名称等内容时，会尽可能依据可以识别和核查的实际资料，并区分资料事实、研究参考、工作性判断、视觉表现以及作品内部的模拟参数。
