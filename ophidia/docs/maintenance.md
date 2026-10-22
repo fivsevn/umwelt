@@ -27,7 +27,7 @@ UMWELT 的竖屏对话游戏。桌面程序名为 **OPHIDIA.EXE**。
 
 航程进度只保存在当前页面内存，刷新后重新开始。持久化键 `umwelt-ophidia-language` 只保存语言，首次可继承 `isopoda-ui-language-v1`。若以后增加进度存档，应单独设计兼容规则；现有版本没有续玩存档契约。
 
-视觉修改从当前 Blender 工程继续，原稿还原、图层导出与分卷归档只在[建模说明](../art/ophidia-01/README.md)维护。角色原型、资料依据与文学道具的边界见[物种与叙事依据](../art/ophidia-01/reference/species.md)。
+视觉修改从各自的船舱或蛇 Blender 原稿继续，原稿还原、图层导出与分卷归档只在[建模说明](../art/ophidia-01/README.md)维护。角色原型、资料依据与文学道具的边界见[物种与叙事依据](../art/snakes/boaedon-capensis/reference/species.md)。
 
 ## 验证
 

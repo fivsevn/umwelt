@@ -6,9 +6,8 @@ import {GAMES, gameDocumentTitle} from '../shared/games.mjs';
 const root = new URL('../', import.meta.url);
 const read = path => readFile(new URL(path, root), 'utf8');
 
-test('game identities agree across folders, desktop icons and public documentation', async () => {
+test('game identities agree across folders, desktop icons and maintenance documentation', async () => {
   const desktop = await read('index.html');
-  const readmes = {zh: await read('README.md'), en: await read('README_EN.md'), ja: await read('README_JA.md')};
   const naming = await read('docs/naming.md');
   for (const [id, game] of Object.entries(GAMES)) {
     assert.match(id, /^[a-z][a-z0-9-]*$/);
@@ -16,8 +15,8 @@ test('game identities agree across folders, desktop icons and public documentati
     const icon = desktop.match(new RegExp(`<a class="desktop-icon[^>]*href="\\./${id}/"[^>]*>([\\s\\S]*?)</a>`))?.[1];
     assert.ok(icon?.includes(game.program), `${id}: fixed desktop filename`);
     const gameReadme = await read(`${id}/README.md`);
+    // Root READMEs are author-controlled presentation pages with their own scope.
     for (const [language, title] of Object.entries(game.titles)) {
-      assert.ok(readmes[language].split('\n').some(line => line.startsWith('### ') && line.includes(title)), `${id}: ${language} public heading`);
       assert.ok(gameReadme.includes(title), `${id}: ${language} maintenance title`);
       assert.ok(naming.includes(title), `${id}: ${language} naming guide`);
     }

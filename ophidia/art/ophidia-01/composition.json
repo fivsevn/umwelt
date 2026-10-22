@@ -1,0 +1,24 @@
+{
+  "setup": "composition-setup.blend",
+  "output": "ophidia.blend",
+  "assets": [
+    {
+      "source": "../scenes/ferry-cabin/ferry-cabin.blend",
+      "world": "New saloon · quiet slate world",
+      "collections": [
+        "01 · Ferry cabin / wood, vinyl, metal",
+        "02 · Cold estuary / winter light",
+        "03 · Practical and window lights",
+        "Review · new saloon complementary cameras",
+        "Cameras · ferry cabin"
+      ]
+    },
+    {
+      "source": "../snakes/boaedon-capensis/boaedon-capensis.blend",
+      "collections": ["Snake · normal", "Snake · curious", "Snake · away", "Snake · tongue"]
+    }
+  ],
+  "background_camera": "Portrait game camera",
+  "foreground_camera": "Foreground portrait camera",
+  "foreground_focus": "Character focus · normal"
+}

@@ -1,24 +1,34 @@
-"""Save the current edited Blender scene as the repository's single archive."""
+"""Archive the current cabin and snake libraries independently."""
 from pathlib import Path
-import hashlib,json,os
-ROOT=Path(__file__).resolve().parent
+import argparse
+import sys
 
-def archive():
-    source=ROOT/'ophidia.blend'
-    if not source.exists():raise RuntimeError('Restore the editable Blender scene before archiving it.')
-    folder=ROOT/'source';folder.mkdir(exist_ok=True)
-    parts=[];whole=hashlib.sha256();total=0
-    with source.open('rb') as f:
-        for i,data in enumerate(iter(lambda:f.read(6*1024*1024),b''),1):
-            name=f'ophidia.blend.part{i:02d}';target=folder/name
-            temporary=target.with_name(target.name+'.tmp');temporary.write_bytes(data);os.replace(temporary,target)
-            parts.append({'file':name,'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()})
-            whole.update(data);total+=len(data)
-    manifest={'source':'ophidia.blend','bytes':total,'sha256':whole.hexdigest(),'parts':parts}
-    temporary=folder/'manifest.json.tmp';temporary.write_text(json.dumps(manifest,indent=2)+'\n');os.replace(temporary,folder/'manifest.json')
-    names={part['file'] for part in parts}
-    for old in folder.glob('ophidia.blend.part*'):
-        if old.name not in names:old.unlink()
-    print(f'Archived current Blender scene: {len(parts)} parts, SHA256 {whole.hexdigest()}')
-    return manifest
-if __name__=='__main__':archive()
+ART = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ART))
+from source_archive import archive as archive_file
+
+ASSETS = {
+    'ferry-cabin': ART / 'scenes/ferry-cabin/ferry-cabin.blend',
+    'boaedon-capensis': ART / 'snakes/boaedon-capensis/boaedon-capensis.blend',
+}
+
+
+def archive_assets(asset=None):
+    names = [asset] if asset is not None else ASSETS
+    manifests = {}
+    for name in names:
+        manifest = archive_file(ASSETS[name])
+        manifests[name] = manifest
+        print(f"Archived {name}: {len(manifest['parts'])} parts, SHA256 {manifest['sha256']}")
+    return manifests
+
+
+def archive(asset=None):
+    return archive_assets(asset)
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--asset', choices=ASSETS)
+    args = parser.parse_args()
+    archive_assets(args.asset)

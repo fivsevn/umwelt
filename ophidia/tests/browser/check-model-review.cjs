@@ -58,7 +58,7 @@ const expectedViews = ['vessel-overview', 'vessel-plan', 'exterior-deck', 'servi
         assert.equal(await page.locator('.references figure').count(), 8);
         assert.equal(await page.locator('.references a[href="https://ainosaimaa.fi/"]').count(), 4);
         assert.equal(await page.locator('.references img.plan').count(), 1);
-        const speciesResponse=await page.request.get(base+'/ophidia/art/ophidia-01/reference/species.md');
+        const speciesResponse=await page.request.get(base+'/ophidia/art/snakes/boaedon-capensis/reference/species.md');
         assert.equal(speciesResponse.status(),200);
         assert.ok((await speciesResponse.text()).includes('Boaedon capensis'));
         assert.ok((await page.locator('footer').textContent()).includes('创作估算'));

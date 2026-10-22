@@ -56,5 +56,8 @@ rooftop/art/rooftop-furniture-02/*/atlas.pxo
 rooftop/assets/items/thumbs/* [0-9].png
 rooftop/assets/items/thumbs/* [0-9][0-9].png
 
-# The current editable scene is reconstructed from tracked source parts.
+# Independent editable assets are reconstructed from their own tracked source parts.
+ophidia/art/scenes/*/*.blend
+ophidia/art/snakes/*/*.blend
+# Offline composition is generated from the asset libraries and camera setup.
 ophidia/art/ophidia-01/ophidia.blend

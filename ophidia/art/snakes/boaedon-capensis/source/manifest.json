@@ -1,0 +1,42 @@
+{
+  "source": "boaedon-capensis.blend",
+  "bytes": 40934313,
+  "sha256": "d814ef9cfc7c2a33523eb9732c7440eebb08a3fb8555aa1f22545ca3b35c56ee",
+  "parts": [
+    {
+      "file": "boaedon-capensis.blend.part01",
+      "bytes": 6291456,
+      "sha256": "191ce2dd3d0729907cdb993eccba27a127566cbe7d4794169207e298873695a2"
+    },
+    {
+      "file": "boaedon-capensis.blend.part02",
+      "bytes": 6291456,
+      "sha256": "dd18316b5c350b37970357f7766d6f290e1d2b4cb24544ee9bbe7d54e3db6ba6"
+    },
+    {
+      "file": "boaedon-capensis.blend.part03",
+      "bytes": 6291456,
+      "sha256": "64937a8e8566c9b45c496915f65e98a03f5ddf24ff8f7453d0023dc0fbcf3834"
+    },
+    {
+      "file": "boaedon-capensis.blend.part04",
+      "bytes": 6291456,
+      "sha256": "61caff3631f4f952e8616ec111aa45d6a10943127f53dfe0e2155ac8d44ea26a"
+    },
+    {
+      "file": "boaedon-capensis.blend.part05",
+      "bytes": 6291456,
+      "sha256": "ebdf7ac6c3298fa0435fa9b0e7c303fdbe4c7324232a45a7f61f38bee791a4f9"
+    },
+    {
+      "file": "boaedon-capensis.blend.part06",
+      "bytes": 6291456,
+      "sha256": "d0975a8a415300c83ecc058303a6c479ecc93dc4f3e63d41f1fcce6f00457e19"
+    },
+    {
+      "file": "boaedon-capensis.blend.part07",
+      "bytes": 3185577,
+      "sha256": "2e0b5ae8d4710ee3cadb02e1a47bf66af02965464c60c111af90d255e7704a6f"
+    }
+  ]
+}

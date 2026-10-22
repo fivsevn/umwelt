@@ -7,7 +7,10 @@ Read-only: restore by closing the file without saving any scene change.
 import bpy
 from pathlib import Path
 ROOT=Path(__file__).resolve().parent
-bpy.ops.wm.open_mainfile(filepath=str(ROOT/'ophidia.blend'))
+import sys
+sys.path.insert(0,str(ROOT))
+from compose_scene import asset_source
+bpy.ops.wm.open_mainfile(filepath=str(asset_source('../scenes/ferry-cabin/ferry-cabin.blend')))
 scene=bpy.context.scene
 visible=[]
 for obj in bpy.data.objects:
@@ -16,8 +19,6 @@ for obj in bpy.data.objects:
         'Fresh · dark fine tabletop edge binding','Fresh · under-top rounded support')
     obj.visible_camera=keep
     if keep:visible.append(obj.name)
-for name in ('normal','curious','away','tongue'):
-    bpy.data.collections['Snake · '+name].hide_render=True
 scene.camera=bpy.data.objects['Portrait game camera']
 scene.render.film_transparent=True
 scene.render.resolution_x=180;scene.render.resolution_y=320

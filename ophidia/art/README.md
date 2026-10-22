@@ -2,8 +2,18 @@
 
 [游戏文档](../README.md) · [维护总入口](../../MAINTENANCE.md)
 
-[船舱与角色原稿](ophidia-01/README.md)维护当前工程、分卷还原、出图步骤与来源。仓库跟踪 `source/manifest.json` 及各分卷；还原出的 `ophidia.blend` 是本地可编辑文件。修改保存并核对画面后，通过 `archive_source.py` 更新分卷，保证可编辑工程能够从仓库重建。
+| 目录 | 当前原稿 |
+| --- | --- |
+| [scenes/ferry-cabin/](scenes/ferry-cabin/README.md) | 船舱、窗外环境、灯光与船舱镜头 |
+| [snakes/boaedon-capensis/](snakes/boaedon-capensis/README.md) | 棕屋蛇四个姿态、帽子与围巾 |
+| [ophidia-01/](ophidia-01/README.md) | 当前组合的镜头设置、出图工具和固定预览 |
 
-运行图层位于 `ophidia/assets/`；[模型检查](ophidia-01/preview/model-review.html)和[像素对照](ophidia-01/preview/pixel-style/index.html)是固定本地页面。对白和交互从[游戏维护说明](../README.md)进入。
+两份模型各自保存为 Blender 4.5 LTS 工程，所需纹理已内嵌，各自的 `source/` 保存分卷和校验清单。首次使用可双击 `ophidia-01/还原建模文件.command`，或从仓库根目录运行：
 
-原稿和运行资源分别保留；修改后重新检查源文件、导出与实际画面。批次编号不代表整个目录已归档。来源路径按当前目录维护，既有检查结论与散列仍对应其记录时的原稿。
+```sh
+python3 ophidia/art/ophidia-01/restore_source.py
+```
+
+编辑对应原稿并保存，检查后从仓库根目录运行 `python3 ophidia/art/ophidia-01/archive_source.py --asset ferry-cabin` 或 `--asset boaedon-capensis` 更新该原稿的分卷。省略 `--asset` 时处理两份原稿。还原工具会核对分卷及完整文件的 SHA256，并拒绝覆盖本地修改。
+
+需要出图时，按[组合与出图说明](ophidia-01/README.md)生成 `ophidia-01/ophidia.blend`。运行图层继续保存在 `ophidia/assets/`。以后有实际模型时，再在 `scenes/` 或 `snakes/` 下各建独立目录。

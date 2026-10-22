@@ -1,0 +1,12 @@
+{
+  "source": "ferry-cabin.blend",
+  "bytes": 3224107,
+  "sha256": "c9f134c91e73da88023a9c87caf835d93a7461bcdb148b42826d0965a84bf94a",
+  "parts": [
+    {
+      "file": "ferry-cabin.blend.part01",
+      "bytes": 3224107,
+      "sha256": "c9f134c91e73da88023a9c87caf835d93a7461bcdb148b42826d0965a84bf94a"
+    }
+  ]
+}

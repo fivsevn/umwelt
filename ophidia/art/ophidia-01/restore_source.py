@@ -1,35 +1,40 @@
-"""Restore the current editable Blender scene from its repository archive."""
+"""Restore the current cabin and snake libraries independently."""
 from pathlib import Path
-import hashlib,json,os
-ROOT=Path(__file__).resolve().parent
+import argparse
+import sys
 
-def restore(destination=None):
-    destination=Path(destination) if destination else ROOT/'ophidia.blend'
-    manifest=json.loads((ROOT/'source/manifest.json').read_text())
-    def sha(path):
-        h=hashlib.sha256()
-        with path.open('rb') as f:
-            for data in iter(lambda:f.read(1024*1024),b''):h.update(data)
-        return h.hexdigest()
-    if destination.exists():
-        if destination.stat().st_size==manifest['bytes'] and sha(destination)==manifest['sha256']:
-            print('Current Blender scene is ready: '+destination.name);return destination
-        raise RuntimeError('An edited Blender scene already exists. Preserve it before restoring the archive.')
-    destination.parent.mkdir(parents=True,exist_ok=True)
-    temporary=destination.with_name(destination.name+'.restoring')
-    try:
-        with temporary.open('wb') as out:
-            for part in manifest['parts']:
-                path=ROOT/'source'/part['file']
-                if path.stat().st_size!=part['bytes'] or sha(path)!=part['sha256']:
-                    raise RuntimeError('Source archive verification failed: '+part['file'])
-                with path.open('rb') as f:
-                    for data in iter(lambda:f.read(1024*1024),b''):out.write(data)
-        assert temporary.stat().st_size==manifest['bytes']
-        if sha(temporary)!=manifest['sha256']:raise RuntimeError('Complete source verification failed')
-        os.replace(temporary,destination)
-    finally:
-        temporary.unlink(missing_ok=True)
-    print('Restored editable Blender scene: '+destination.name)
-    return destination
-if __name__=='__main__':restore()
+ART = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ART))
+from source_archive import restore as restore_file
+
+ASSETS = {
+    'ferry-cabin': ART / 'scenes/ferry-cabin/source',
+    'boaedon-capensis': ART / 'snakes/boaedon-capensis/source',
+}
+
+
+def restore_assets(asset=None, destination=None):
+    if destination is not None and asset is None:
+        raise ValueError('Choose one asset when specifying a restoration destination.')
+    names = [asset] if asset is not None else ASSETS
+    paths = []
+    for name in names:
+        path = restore_file(ASSETS[name], destination)
+        paths.append(path)
+        print('Editable library is ready: ' + str(path))
+    return paths
+
+
+def restore(destination=None, asset=None):
+    """Restore libraries; the former combined scene is no longer a source."""
+    return restore_assets(asset=asset, destination=destination)
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--asset', choices=ASSETS)
+    parser.add_argument('--destination', type=Path)
+    args = parser.parse_args()
+    if args.destination is not None and args.asset is None:
+        parser.error('--destination requires --asset')
+    restore_assets(args.asset, args.destination)

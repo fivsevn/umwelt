@@ -18,4 +18,12 @@ BASE_URL=http://127.0.0.1:8788 node ophidia/tests/browser/check-pixel-comparison
 
 完整试玩检查没有遍历所有分支组合；修改分支时还需逐条核对受影响路线。网页预览不能替代 Blender 原稿检查。
 
-本游戏目前没有独立的 Node 测试文件；三个专项脚本尚未接入 CI。运行 `node tools/check-all.mjs` 检查共享结构，Pages 成品检查另行覆盖游戏入口。
+原稿分卷工具的 11 项检查使用 Python 标准库，不需要浏览器：
+
+```sh
+python3 -m unittest discover -s ophidia/tests -p 'test_*.py' -v
+```
+
+检查覆盖单独还原、逐卷与完整文件校验、本地编辑保护及失败回滚。身体网格检查位于 `art/snakes/boaedon-capensis/verify_body_crossings.py`，命令见[蛇原稿](../art/snakes/boaedon-capensis/README.md)。
+
+本游戏目前没有独立的 Node 测试文件；三个浏览器专项脚本尚未接入 CI。运行 `node tools/check-all.mjs` 检查共享结构，Pages 成品检查另行覆盖游戏入口。

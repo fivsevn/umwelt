@@ -9,7 +9,8 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parent;sys.path.insert(0,str(ROOT))
 from character_portrait import CHARACTER_SCALE,CHARACTER_OFFSET,transparent_camera_surface
 from character_shadow import begin_receiver_pass
-bpy.ops.wm.open_mainfile(filepath=str(ROOT/'ophidia.blend'));scene=bpy.context.scene
+from compose_scene import compose
+compose();scene=bpy.context.scene
 BG=bpy.data.objects['Portrait game camera'];FG=bpy.data.objects['Foreground portrait camera']
 assert BG.data.dof.use_dof and FG.data.dof.use_dof
 poses={p:bpy.data.collections['Snake · '+p] for p in ['normal','curious','away','tongue']}
@@ -72,7 +73,7 @@ for o in review.objects:
  if o.type=='LIGHT':o.hide_render=True
 scene.camera=BG;scene.render.resolution_x=360;scene.render.resolution_y=640;scene.cycles.samples=96
 scene.render.filepath='//renders/source-preview.png'
-bpy.ops.wm.save_as_mainfile(filepath=str(ROOT/'ophidia.blend'),compress=True)
+# Render passes are temporary. Keep the generated composition and both libraries untouched.
 (ROOT/'portrait-layer-render.json').write_text(json.dumps({'source_reopened':True,'background_camera':BG.name,'background_native_dof':True,'background_focus_distance':BG.data.dof.focus_distance,'background_fstop':BG.data.dof.aperture_fstop,'background_raw_preserved':'renders/cabin.png','foreground_camera':FG.name,'foreground_native_dof':FG.data.dof.use_dof,'foreground_fstop':FG.data.dof.aperture_fstop,'foreground_focus_axial_depth_m':focus_depths,'foreground_focus_objects':{p:c['portrait_focus_object'] for p,c in poses.items()},'foreground_camera_push_m':.10,'foreground_raw_resolution':[720,1280],'foreground_lens_and_orientation_same_as_background':True,'foreground_projection_same_as_background':False,'four_poses_rendered':list(poses),'foreground_glazing_camera_rays_temporarily_excluded':shadow_record['glazing_camera_rays_temporarily_excluded'],'all_glazing_visibility_restored_before_save':True,'native_contact_shadows':shadow_record,'character_presentation_scale':CHARACTER_SCALE,'character_translation':list(CHARACTER_OFFSET),'raw_preview':'Native character and physical booth receiver shadows over preserved cabin, before pixel finishing.'},ensure_ascii=False,indent=2)+'\n')
 print('SAVED_SHARP_CHARACTER_LAYERS')
 import runpy

@@ -6,7 +6,7 @@ BVH surface intersections count only when centerline arc separation exceeds
 The body is artist-staged; these distances are not specimen measurements.
 This checks mesh continuity/contact and does not approve the visual result.
 
-Run: blender -b --python verify_body_crossings.py -- --source ophidia.blend
+Run: blender -b --python ophidia/art/snakes/boaedon-capensis/verify_body_crossings.py
 """
 import sys,json,math,hashlib,argparse
 from pathlib import Path
@@ -17,10 +17,14 @@ ROOT=Path(__file__).resolve().parent
 sys.path.insert(0,str(ROOT))
 argv=sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else []
 parser=argparse.ArgumentParser(description=__doc__)
-parser.add_argument('--source',type=Path,default=ROOT/'ophidia.blend')
+parser.add_argument('--source',type=Path,default=ROOT/'boaedon-capensis.blend')
 parser.add_argument('--report',type=Path,default=ROOT/'body-crossing-check.json')
 args=parser.parse_args(argv)
 source=args.source.resolve();report_path=args.report.resolve()
+if not source.exists():
+ sys.path.insert(0,str(ROOT.parents[1]))
+ from source_archive import restore
+ restore(source.parent/'source',source)
 source_sha=hashlib.sha256(source.read_bytes()).hexdigest()
 bpy.ops.wm.open_mainfile(filepath=str(source))
 from snake_model import _catmull

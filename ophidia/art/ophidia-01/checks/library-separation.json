@@ -1,0 +1,166 @@
+{
+  "native_source": {
+    "pass": true,
+    "unexpected_differences": [],
+    "allowed_differences": [
+      {
+        "file": "setup",
+        "kind": "cameras",
+        "name": "Portrait game camera.001",
+        "path": "/dof/focus_object",
+        "original": {
+          "ID": "Character focus · normal",
+          "TYPE": "Object"
+        },
+        "split": "<absent>"
+      },
+      {
+        "file": "setup",
+        "kind": "cameras",
+        "name": "Portrait game camera.001",
+        "path": "/props/dof/focus_object",
+        "original": {
+          "ID": "Character focus · normal",
+          "TYPE": "Object"
+        },
+        "split": "<absent>"
+      }
+    ],
+    "geometry": {
+      "meshes": 3895,
+      "vertices": 1093306,
+      "faces": 1020248,
+      "curves": 691,
+      "splines": 664
+    },
+    "packed_texture_count": 5,
+    "packed_texture_bytes": 7710265
+  },
+  "composition": {
+    "pass": true,
+    "main_scene_objects": 4967,
+    "linked_objects": 4963,
+    "local_objects": 4,
+    "geometry_material_camera_light_world_exact": true,
+    "scene_render_cycles_color_management_exact": true,
+    "foreground_focus_restored": true,
+    "view_layer_visibility_holdout_exact": true,
+    "four_pose_switches_pass": true,
+    "four_receiver_passes_restore_exact": true,
+    "six_visibility_dryruns_restore_exact": true,
+    "library_and_composition_hashes_unchanged": true,
+    "rendering_performed": false,
+    "world_from_cabin_library": true,
+    "world_numbers_and_nodes_exact": true,
+    "unused_local_worlds_removed": true,
+    "geometry_result_reused_from_unchanged_libraries": true
+  },
+  "composition_counts": {
+    "objects": 4967,
+    "meshes": 3518,
+    "curves": 691,
+    "materials": 100,
+    "images": 5,
+    "cameras": 15,
+    "lights": 15,
+    "worlds": 1
+  },
+  "allowed_linked_modifier_metadata_flags": 4166,
+  "linked_paths": [
+    "//../snakes/boaedon-capensis/boaedon-capensis.blend",
+    "//../scenes/ferry-cabin/ferry-cabin.blend"
+  ],
+  "native_packed_images": {
+    "Estuary vista · packed Blender render": {
+      "bytes": 168455,
+      "sha256": "73f68d9c4a3af1548b5d85c1ab204d4416e7c5d9d5bd44591be8c3301c2452f0"
+    },
+    "HouseSnake v12 · flush cranial and labial microrelief": {
+      "bytes": 430687,
+      "sha256": "5c278222f234cda23c061e5883865617d482a47a8e54c1f7a02ba7b1dee547b9"
+    },
+    "HouseSnake v12 · readable irregular cranial and grey-brown lab": {
+      "bytes": 291349,
+      "sha256": "bce932df860f7c67c4df1f288b841f6c8c9dc0011da7dffd4379d276202ea10a"
+    },
+    "HouseSnake v12 · thin imbricate scale and ventral joins": {
+      "bytes": 4153566,
+      "sha256": "f19c19b475cbedbd522b1f7c37d507e8fbfbf5450c3316253b13d9146d29d8f4"
+    },
+    "HouseSnake v16 · warm sand-brown UV pigment with visible kerat": {
+      "bytes": 2666208,
+      "sha256": "0331d818f211ca0aceeefc5796d9ac9eb5c036e01819e5af80305ff3f4ac1e6c"
+    }
+  },
+  "verified_file_hashes": {
+    "ophidia/art/snakes/boaedon-capensis/boaedon-capensis.blend": "d814ef9cfc7c2a33523eb9732c7440eebb08a3fb8555aa1f22545ca3b35c56ee",
+    "ophidia/art/scenes/ferry-cabin/ferry-cabin.blend": "c9f134c91e73da88023a9c87caf835d93a7461bcdb148b42826d0965a84bf94a",
+    "ophidia/art/ophidia-01/composition-setup.blend": "fcff991870a45cda1c4400ff915a813c09a9e5338a7562c07addbfe32b5c6e7c",
+    "ophidia/art/ophidia-01/ophidia.blend": "fd1e28d81a0cc2236f0de20e3db9acc1359da05830e082bce0d2b7f2308a251e"
+  },
+  "checks": [
+    "Full native source partition fidelity",
+    "Independent source file portability with packed textures",
+    "Composed main-scene fidelity",
+    "Foreground camera focus restored",
+    "View-layer visible/holdout state preserved",
+    "Four pose switches and focus targets",
+    "Four receiver pass restore cycles",
+    "Six geometry camera/shadow visibility branches",
+    "Library, setup and composition byte hashes unchanged",
+    "Scene world linked from cabin with unchanged values/nodes and no local duplicate",
+    "11 archive unit tests passed",
+    "484 repository Node tests and all check-all contracts passed",
+    "16 model views and 8 source images in Chromium and WebKit at 3 viewport sizes",
+    "Four snake poses passed body surface crossing check",
+    "1054 public file paths and byte-content blob hashes unchanged",
+    "Root presentation READMEs unchanged"
+  ],
+  "rendering_performed": false,
+  "pass": true,
+  "world_link": {
+    "name": "New saloon · quiet slate world",
+    "library": "//../scenes/ferry-cabin/ferry-cabin.blend",
+    "world_count": 1,
+    "local_world_count": 0,
+    "numbers_and_nodes_exact": true
+  },
+  "geometry_recheck_note": "Previous full geometry result retained because library/setup hashes and all composed object state are unchanged; follow-up checked world, objects, collections, layers, focus, render settings and current file hashes.",
+  "baseline_source_sha256": "520d1127163da40958d8ba5b16c19d1c65b42abfc5f4d9cf01cdc61b96a757f8",
+  "baseline_commit": "0087261284e05b6712bcf0b494175812506197ca",
+  "date": "2026-10-22",
+  "archive_roundtrip": {
+    "ferry-cabin": {
+      "independent_archive_restored": true,
+      "bytes": 3224107,
+      "sha256": "c9f134c91e73da88023a9c87caf835d93a7461bcdb148b42826d0965a84bf94a"
+    },
+    "boaedon-capensis": {
+      "independent_archive_restored": true,
+      "bytes": 40934313,
+      "sha256": "d814ef9cfc7c2a33523eb9732c7440eebb08a3fb8555aa1f22545ca3b35c56ee"
+    }
+  },
+  "public_inputs": {
+    "baseline": "0087261284e05b6712bcf0b494175812506197ca",
+    "public_file_count": 1054,
+    "all_public_paths_and_git_blob_hashes_identical": true,
+    "publisher_unchanged": true,
+    "root_readmes_unchanged": [
+      "README.md",
+      "README_EN.md",
+      "README_JA.md"
+    ],
+    "runtime_changes": []
+  },
+  "body_crossing_check": {
+    "passed": true,
+    "source_sha256": "d814ef9cfc7c2a33523eb9732c7440eebb08a3fb8555aa1f22545ca3b35c56ee",
+    "pose_crossing_counts": {
+      "normal": 0,
+      "curious": 0,
+      "away": 0,
+      "tongue": 0
+    }
+  }
+}
