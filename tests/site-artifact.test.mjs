@@ -27,6 +27,26 @@ test('G-stream artifact copies only tracked media in the published manifest',asy
   }
  }finally{await rm(root,{recursive:true,force:true})}
 });
+test('build refuses reused output before writing and leaves removed media out of a fresh build',async()=>{
+ const root=await mkdtemp(join(tmpdir(),'umwelt-site-reuse-'));
+ try{
+  execFileSync('git',['init','-q',root]);
+  const media='gsm/posts/live/assets/photo.webp',manifest='gsm/.publishing/public.json';
+  for(const [path,body] of Object.entries({[media]:'old public photo',[manifest]:JSON.stringify([media]),'index.html':'<head></head><body>before</body>'})){
+   await mkdir(join(root,path,'..'),{recursive:true});await writeFile(join(root,path),body);
+  }
+  execFileSync('git',['add','.'],{cwd:root});
+  const output=join(root,'output');await mkdir(output);await prepareSite(root,output);
+  await writeFile(join(root,manifest),'[]');await writeFile(join(root,'index.html'),'<head></head><body>after</body>');
+  await assert.rejects(prepareSite(root,output),/output directory must be new or empty/);
+  assert.equal(await readFile(join(output,media),'utf8'),'old public photo');
+  assert.equal(await readFile(join(output,'index.html'),'utf8'),'<head></head><body>before</body>');
+  assert.equal(await readFile(join(root,manifest),'utf8'),'[]');
+  const fresh=join(root,'fresh');await prepareSite(root,fresh);
+  await assert.rejects(access(join(fresh,media)));
+  assert.equal(await readFile(join(fresh,'index.html'),'utf8'),'<head></head><body>after</body>');
+ }finally{await rm(root,{recursive:true,force:true})}
+});
 import {mkdtemp,mkdir,writeFile,readFile,rm,access} from 'node:fs/promises';
 import {execFileSync} from 'node:child_process';
 import {tmpdir} from 'node:os';

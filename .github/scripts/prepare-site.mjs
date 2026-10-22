@@ -1,6 +1,6 @@
 // Publish tracked runtime files only; local experiments never enter the artifact.
 import {execFileSync} from 'node:child_process';
-import {mkdir,copyFile,readFile,writeFile} from 'node:fs/promises';
+import {mkdir,copyFile,readFile,writeFile,readdir} from 'node:fs/promises';
 import {resolve,dirname,relative,posix} from 'node:path';
 import {pathToFileURL} from 'node:url';
 export function publicFile(path){
@@ -11,6 +11,11 @@ export function publicFile(path){
 }
 export async function prepareSite(root,destination){
  root=resolve(root);destination=resolve(destination);
+ // Reusing an output directory could retain media removed from the public list.
+ // Refuse it before writing anything; never delete existing user files.
+ try{
+  if((await readdir(destination)).length)throw Error('Site output directory must be new or empty: '+destination);
+ }catch(error){if(error.code!=='ENOENT')throw error}
  const tracked=execFileSync('git',['ls-files','-z'],{cwd:root,encoding:'utf8'}).split('\0').filter(Boolean);
  // The content builder lists only visible WebP media; draft sources and uploads stay out.
  let gsmMedia=[];

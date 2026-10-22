@@ -56,7 +56,7 @@ https://umwelt.fivsevn.com/ophidia/
 
 ---
 
-## 占位项目
+## 媒体项目
 
 ### Gtuber / 爬爬电子管
 
@@ -64,7 +64,7 @@ https://umwelt.fivsevn.com/ophidia/
 
 ### Gstream / 爬爬在线
 
-`GSM.BIO` · [线上占位页](https://umwelt.fivsevn.com/gsm/)。仿 X／微博的轻互动信息流，后续优先制作，目前仅开放占位页。
+`GSM.BIO` · [打开信息流](https://umwelt.fivsevn.com/gsm/)。仿 X／微博的轻互动信息流，可浏览动态、点赞，并在设置页切换中英日语言。
 
 ---
 

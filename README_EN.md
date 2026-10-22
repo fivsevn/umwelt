@@ -56,7 +56,7 @@ https://umwelt.fivsevn.com/ophidia/
 
 ---
 
-## Public Placeholders
+## Media Projects
 
 ### Gtuber
 
@@ -64,7 +64,7 @@ https://umwelt.fivsevn.com/ophidia/
 
 ### Gstream
 
-`GSM.BIO` · [Placeholder page](https://umwelt.fivsevn.com/gsm/). A lightweight interactive feed inspired by X / Weibo, prioritized for later development. Only the placeholder page is currently available.
+`GSM.BIO` · [Open feed](https://umwelt.fivsevn.com/gsm/). A lightweight interactive feed inspired by X / Weibo. Browse posts, like them, and choose Chinese, English or Japanese on the settings page.
 
 ---
 

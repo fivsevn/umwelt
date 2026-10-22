@@ -8,7 +8,7 @@
 
 爬爬在线导入会同步用户、归档帖子、转换 WebP 并生成信息流，将帖子包、用户档案、头像和导入位置一起提交回 `main`。部署后还会核验线上内容和媒体，只清理已经核验且没有被新上传替换的原图。仓库整理推送也会经过这条链路；推送前核对待发布输入，具体规则见[发帖与用户管理](../gsm/docs/publishing.md)。
 
-[prepare-site.mjs](../.github/scripts/prepare-site.mjs)只复制 Git 跟踪且通过 `publicFile()` 筛选的文件，并为 HTML 的直接模块依赖加入 modulepreload。它排除根 `MAINTENANCE.md`、`docs/`、`tests/`、`tools/`、`mac/`、任意游戏目录下的 `docs/`、`tests/`、`art/`、`tools/`、`dev/`、仓库管理文件及各目录的 README / AGENTS。未跟踪的本地实验不进入发布包。新增游戏沿用这些目录边界；运行资源放在游戏根目录或 `assets/` 等运行目录。`shared/` 为跨游戏运行模块，随站点发布。
+[prepare-site.mjs](../.github/scripts/prepare-site.mjs)只复制 Git 跟踪且通过 `publicFile()` 筛选的文件，并为 HTML 的直接模块依赖加入 modulepreload。输出目录须不存在或为空；已有内容时会在写入前终止，请另选全新目录，避免残留已撤出的资源。它排除根 `MAINTENANCE.md`、`docs/`、`tests/`、`tools/`、`mac/`、任意游戏目录下的 `docs/`、`tests/`、`art/`、`tools/`、`dev/`、仓库管理文件及各目录的 README / AGENTS。未跟踪的本地实验不进入发布包。新增游戏沿用这些目录边界；运行资源放在游戏根目录或 `assets/` 等运行目录。`shared/` 为跨游戏运行模块，随站点发布。
 
 爬爬在线的 `trigger.md`、`uploads/`、`users/`、`posts/` 和 `.publishing/` 均作为内容输入排除；帖子图片与头像仅按 `gsm/.publishing/public.json` 的公开媒体清单复制。生成的 `gsm/data/feed.mjs` 随页面发布，草稿、原图和用户源配置留在仓库。
 

@@ -56,7 +56,7 @@ https://umwelt.fivsevn.com/ophidia/
 
 ---
 
-## 公開中の仮ページ
+## メディアプロジェクト
 
 ### Gtuber / ジーチューバー
 
@@ -64,7 +64,7 @@ https://umwelt.fivsevn.com/ophidia/
 
 ### Gstream / ジー投稿
 
-`GSM.BIO` · [仮ページ](https://umwelt.fivsevn.com/gsm/)。X／微博を参考にした軽いインタラクションを備えるフィード。今後はこちらを優先して制作。現在は仮ページのみ公開中。
+`GSM.BIO` · [フィードを開く](https://umwelt.fivsevn.com/gsm/)。X／微博を参考にした軽いインタラクションを備えるフィード。投稿の閲覧、いいね、設定ページでの中国語・英語・日本語の切り替えができます。
 
 ---
 
