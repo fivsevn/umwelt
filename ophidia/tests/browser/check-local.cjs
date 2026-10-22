@@ -8,6 +8,8 @@ const base=process.env.BASE_URL||'http://127.0.0.1:8788';
 const layouts=process.argv.includes('--portrait-only')?[['desktop',1440,900],['mobile',390,844]]:[['desktop',1440,900],['mobile',390,844],['small',320,568],['landscape',844,390]];
 
 (async()=>{
+ const {GAMES}=await import('../../../shared/games.mjs');
+ const expectedPrograms=Object.entries(GAMES).map(([id,{program}])=>({id,program})).sort((a,b)=>a.id.localeCompare(b.id));
  const report=[];
  for(const [engineName,engine] of [['chromium',chromium],['webkit',webkit]]){
   const browser=await engine.launch({headless:true,...(engineName==='chromium'?{channel:'chrome'}:{})});
@@ -87,7 +89,11 @@ const layouts=process.argv.includes('--portrait-only')?[['desktop',1440,900],['m
     }
     await page.click('#settingsToggle');
     await page.click('#homeLink');await page.waitForURL(base+'/');
-    assert.equal(await page.locator('.desktop-icon').count(),4);
+    const programs=await page.locator('.desktop-icon').evaluateAll(icons=>icons.map(icon=>({
+     id:new URL(icon.href).pathname.split('/').filter(Boolean)[0],
+     program:[...icon.lastElementChild.childNodes].filter(node=>node.nodeType===Node.TEXT_NODE).map(node=>node.textContent).join('').trim()
+    })).sort((a,b)=>a.id.localeCompare(b.id)));
+    assert.deepEqual(programs,expectedPrograms,'home launchers match the shared game registry');
     const tile=await page.locator('.ophidia-picture').evaluate(n=>getComputedStyle(n).backgroundColor);
     assert.equal(tile,'rgb(154, 112, 84)');
     if(engineName==='chromium'&&label==='desktop')await page.screenshot({path:path.join(output,'desktop-warm-icon.png')});

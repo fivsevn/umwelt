@@ -2,7 +2,7 @@
 
 UMWELT 由一个主页和各自独立的小游戏目录组成。主页汇集游戏入口，各游戏维护自己的内容、素材、文档和测试。根目录的三语 README 面向访问者，保留项目介绍、游戏主页、来源与许可。
 
-[命名规则](docs/naming.md) · [目录与扩容](docs/structure.md) · [游戏 README 模板](docs/templates/game-readme.md)
+[命名规则](docs/naming.md) · [目录与扩容](docs/structure.md) · [分支维护](docs/branches.md) · [游戏 README 模板](docs/templates/game-readme.md)
 
 ## 项目结构
 
@@ -14,7 +14,7 @@ UMWELT 由一个主页和各自独立的小游戏目录组成。主页汇集游�
 | `rooftop/` | [花农时代](rooftop/README.md)：南北阳台、车库、房间及其原稿 |
 | `ophidia/` | [体温调节](ophidia/README.md)：对白、角色与船舱原稿 |
 | `gtb/` | [爬爬电子管](gtb/README.md)：视频平台，线上占位 |
-| `gsm/` | [爬爬在线](gsm/README.md)：轻互动信息流，线上占位 |
+| `gsm/` | [爬爬在线](gsm/README.md)：信息流、点赞、语言设置及内容发布 |
 | `shared/` | [统一游戏标题](shared/games.mjs)及跨游戏运行规则 |
 | `assets/` | 共享音频、字体及来源与许可；花农时代的 Three.js 依赖随游戏保存在 `rooftop/3d/vendor/` |
 | `docs/` | [共用文档](docs/README.md)：音频、发布及项目维护记录 |
@@ -29,7 +29,9 @@ UMWELT 由一个主页和各自独立的小游戏目录组成。主页汇集游�
 | 修改体温调节模型与图层 | [原稿与还原](ophidia/art/README.md)、[专项检查](ophidia/tests/README.md) |
 | 深化对白与资料 | [花农时代手帐](rooftop/docs/notebook.md)、[体温调节内容](ophidia/docs/maintenance.md)、[等足目内容地图](isopoda/docs/content-map.md) |
 | 扩充物件或场景 | [花农时代承放](rooftop/docs/placement.md)、[等足目扩展流程](isopoda/docs/expansion-guide.md) |
+| 管理爬爬在线用户与帖子 | [用户管理表](gsm/users/README.md)、[发帖与归档](gsm/docs/publishing.md)、[检查说明](gsm/tests/README.md) |
 | 修改共享功能或发布 | [共享音频](docs/audio.md)、[测试导航](tests/README.md)、[验证与发布](docs/deployment.md) |
+| 开始新工作或清理分支 | [分支维护](docs/branches.md) |
 
 ## 本地开始
 
