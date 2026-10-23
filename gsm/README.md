@@ -2,7 +2,7 @@
 
 守宫社区的信息流：浏览动态、点赞，并在独立设置页切换中英日语言。
 
-[用户与角色管理](users/README.md) · [发帖说明](docs/publishing.md) · [模拟总控](docs/ai-updates.md) · [维护说明](docs/README.md)
+[用户与角色管理](users/README.md) · [发帖说明](docs/publishing.md) · [模拟总控](docs/ai-updates.md) · [研究与自省](docs/research/README.md) · [维护说明](docs/README.md)
 
 ## 名称与标识
 

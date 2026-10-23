@@ -12,21 +12,34 @@
 | [用户与角色管理](../users/README.md) | 账号登记、AI 范围、人格、口吻、活跃习惯及单人长期变化 | 角色或账号确有变化时 |
 | [环境与外界](environment.md) | 共享微环境、资源、外部事件与采用的现实信息 | 有持续影响的环境或输入变化时 |
 | [社会关系与共同记忆](society.md) | 跨角色联系、局部约定、地位、共同记忆及话题状态 | 实际形成或改变这些联系时 |
-| [社会模拟方法](simulation.md) | 通用行为与抽取、表达、回看、自省、增长方法及社会模拟研究依据 | 机制需要调整时 |
+| [社会模拟方法](simulation.md) | 通用行为与抽取、表达、回看、增长方法 | 机制需要调整时 |
+| [研究、自省与整理](research/README.md) | 全量检查方法、维护与恢复边界、当前研究记录；参考资料集中在其子目录 | 完整自省、实际问题或机制试验时 |
 | [社区近况](community.md) | 短摘要、覆盖点、观察进度及当前／待核验回合 | 交接信息或执行阶段变化时 |
 | [发帖说明](publishing.md) | 现有入口的语法、上传、归档和用户管理技术操作 | 发布协议改变时 |
 
 完整公开事件以 `posts/` 原帖为依据；持续个人变化归角色管理，跨角色结果归社会状态，共享条件归环境。正文不复制到多个模块。短摘要可以指出最易写错的一两件旧事，并保留来源；需要更多细节时回原帖读取。
 
-本次分工借鉴以下研究，具体文件数量与读取流程是本项目的工程选择：
+分工借鉴 [Parnas 的模块责任](research/references/model-design.md#parnas-1972)、[ODD 的模型描述](research/references/model-design.md#grimm-2020)、[Ostrom 的社会生态框架](research/references/model-design.md#ostrom-2009)，短入口与原帖检索参考[Liu 与 Wu 的模型评测](research/references/agent-memory.md)。具体文件数量、读取方式与周期是项目工程选择。
 
-- **Parnas（1972）**，[On the Criteria To Be Used in Decomposing Systems into Modules](https://www.cs.lafayette.edu/~gexia/cs301/resources/parnas.html)：将不同、可能变化的责任集中管理。这里用于让角色、环境、社会状态和执行约定各有维护位置。
-- **Grimm et al.（2020）**，[ODD protocol 第二次更新](https://www.jasss.org/23/2/7.html)：清楚描述实体、状态、时间尺度、过程顺序、初始条件和子模型。这里用于区分角色与世界状态、机制与总控，不声称当前文档已经是完整的数值模型或 ODD 复现实验。
-- **Ostrom（2009）**，[A General Framework for Analyzing Sustainability of Social-Ecological Systems](https://pubmed.ncbi.nlm.nih.gov/19628857/)：在同一框架中考虑资源、使用者、治理与互动所处的环境。这里启发环境与社会模块的联系，不要求每个守宫社区都长出同一种制度。
-- **Liu et al.（2024）**，[Lost in the Middle](https://aclanthology.org/2024.tacl-1.9/)：长上下文中的信息位置会影响研究中模型的使用表现。这里采用短入口和明确检索路径，不把更长文本自动当作更可靠，也不将当时结果直接推给所有后续模型。
-- **Wu et al.（2025）**，[LongMemEval](https://arxiv.org/abs/2410.10813)：长期记忆涉及存储、检索、知识更新、时间推理和信息不足时的处理。这里保留原帖、摘要覆盖点与待核验源提交，短摘要用于接续，不替代完整记录。
+[研究区](research/README.md)负责系统研究自己与定期整理整个板块；完整检查包含形式与内容，日常更新仍按近期和相关历史执行。[参考资料索引](research/references/README.md)区分实证发现、方法借鉴、项目假设和拟人创作；书目只在那里维护，机制文件只保留有关链接。Micropolis 另列为游戏工程参考，论文是主要研究入口。
 
-补充参考原开发者维护的 [Micropolis 模拟核心](https://github.com/SimHacker/micropolis/blob/master/MicropolisCore/src/MicropolisEngine/src/simulate.cpp)，只借鉴因素分时检查、局部影响和旧状态消退。论文仍是主要研究入口，城市游戏的参数与社会简化不直接搬进守宫生活。
+## 仓库边界与共用流程
+
+AI 运营仅限 `gsm/`。作者继续调整视觉并偶尔人工发帖；具体分工、人工内容与自动任务共存规则以[执行总控](ai-updates.md)为准。全仓库检查用于了解依赖和避免误伤，不授权修改别的游戏或共享层。
+
+首次接手先读仓库 [AGENTS.md](../../AGENTS.md)、[维护总入口](../../MAINTENANCE.md)、[目录约定](../../docs/structure.md)和[验证与发布](../../docs/deployment.md)；规则变化或故障涉及共享层时再复查。不要日常逐轮扫描全仓库。
+
+| 全局接点 | 当前联系与维护边界 |
+| --- | --- |
+| [共享登记与语言](../../shared/games.mjs)、根桌面与窗口、[公共字体](../../assets/fonts/) | 页面名称来自共享登记，语言键 `umwelt-desktop-language` 跨主页与游戏使用。GSM 本机状态键为 `umwelt-gsm-preview-v1`。不重置存储，不为爬爬在线改公共名称、语言、字体或桌面行为。 |
+| [Pages 工作流](../../.github/workflows/pages.yml) | 全站一起构建与发布；导入器会在 main 产生归档提交。trigger 的逐提交历史保证多篇输入可归档，不能只检查最后的文件快照。 |
+| [结构检查](../../tools/check-all.mjs)、[系统浏览器检查](../../.github/workflows/system-regression.yml) | `gsm/**` 变化也会触发共享检查；只改文字文档仍可能消耗检查与部署资源。不要为省成本关闭或改写它们。其他游戏检查失败不自动变成本任务的修复范围。 |
+| [成品筛选](../../.github/scripts/prepare-site.mjs) | 只发布受跟踪的运行文件与公开媒体；研究资料和维护文档留在仓库，不进入网页成品。运营资料从 GitHub 读取，不使用线上 `/gsm/docs/` 路径。不将文档或缓存移到运行目录来绕过筛选。 |
+| 根展示页、其他游戏、桌面包装与共享配置 | 遵循各自规则，只读了解；爬爬在线运营不修改、不清理、不顺手同步。 |
+
+当前 Pages 忽略一般 `README*.md`，但特意包含可解析的 `gsm/users/README.md`；其他模拟 `.md` 变更仍可能触发全站部署。无需变化就不提交，合并有关的维护改动，仍保留每条新 trigger 正文的独立提交。能力允许时，可将这些独立提交同批正常推送，不能 squash 成只剩最后一篇。工作流可能随后生成新的 main 提交，所有写入重新取最新分支头，核验时区分自己的源提交和机器人归档提交。规则以当次工作流为准，这份说明不替代核对。
+
+仓库清洁限定在本任务产生的内容：研究笔记按主题集中，设定只维护一处；检查产物、截图、临时依赖与试验副本放仓库外或现有约定位置，不提交缓存或论文全文。不要全仓库删除所谓“无用文件”、清空未跟踪文件、重写历史或清理他人的分支。结构性整理按仓库的[文档整理验证](../../docs/deployment.md#文档与目录整理验证)执行，确认网页成品无意外变化。
 
 ## 运行文件
 
