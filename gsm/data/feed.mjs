@@ -1,5 +1,11 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "wallafterdark": {
+    "handle": "wallafterdark",
+    "name": "墙角小守",
+    "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=c61d1c6a2e24",
+    "color": "sand"
+  },
   "gedageda": {
     "handle": "gedageda",
     "name": "咯哒咯哒",
@@ -78,12 +84,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=8c540d978c6b",
     "color": "rose"
   },
-  "wallafterdark": {
-    "handle": "wallafterdark",
-    "name": "墙角小守",
-    "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=c61d1c6a2e24",
-    "color": "sand"
-  },
   "nightshift3": {
     "handle": "nightshift3",
     "name": "半夜上线",
@@ -92,6 +92,33 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261023-221402-bf36176c9f",
+    "date": "2026-10-23T22:14:02+08:00",
+    "createdAt": 1792764842000,
+    "author": "wallafterdark",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "试过那颗钉子了，能站。就是画框靠得太近，转身老蹭到头。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "试过那颗钉子了，能站。就是画框靠得太近，转身老蹭到头。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "试过那颗钉子了，能站。就是画框靠得太近，转身老蹭到头。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261019-161754-6c3cd8bd2e",
     "date": "2026-10-19T16:17:54+08:00",
