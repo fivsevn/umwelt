@@ -1,8 +1,8 @@
 ---
-username: twosteps8
+username: nearthermo
 status: published
 likes: 0
-date: "2026-10-23T23:28:09+08:00"
+date: "2026-10-24T00:02:19+08:00"
 # username 留空从启用且 random_assignable 为 true 的用户中分配；指定已注册用户只填 username。
 # 用户的新增、改名、头像和开关只在 users/README.md 管理；不明确的用户名使用随机池。
 # likes 为初始点赞数；date 留空使用提交时间。status 可填 published / draft / hidden。
@@ -10,4 +10,4 @@ date: "2026-10-23T23:28:09+08:00"
 # 只上传图片无需改这个文件；在提交的详细说明写配文，不写就只发图。
 ---
 
-水碗后面原来能过去，我以前都从上面绕。
+门还要开多久啊，风一直往我这边吹。刚睡着又给吹醒了。
