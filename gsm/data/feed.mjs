@@ -1,33 +1,15 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
-  "twosteps8": {
-    "handle": "twosteps8",
-    "name": "两步远",
-    "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=840331eb8e82",
-    "color": "rose"
+  "gedageda": {
+    "handle": "gedageda",
+    "name": "咯哒咯哒",
+    "avatarImage": "/gsm/assets/avatars/gedageda.webp?v=0b2b22e99e40",
+    "color": "sand"
   },
   "moss9": {
     "handle": "moss9",
     "name": "阿苔",
     "avatarImage": "/gsm/assets/avatars/moss9.webp?v=fc1a392905b0",
-    "color": "sand"
-  },
-  "mango27": {
-    "handle": "mango27",
-    "name": "小满",
-    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
-    "color": "rose"
-  },
-  "wallafterdark": {
-    "handle": "wallafterdark",
-    "name": "墙角小守",
-    "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=c61d1c6a2e24",
-    "color": "sand"
-  },
-  "gedageda": {
-    "handle": "gedageda",
-    "name": "咯哒咯哒",
-    "avatarImage": "/gsm/assets/avatars/gedageda.webp?v=0b2b22e99e40",
     "color": "sand"
   },
   "gecko404": {
@@ -41,6 +23,18 @@ export const profiles = {
     "name": "洞口待机",
     "avatarImage": "/gsm/assets/avatars/smallhide2.webp?v=8d76985c3e8d",
     "color": "sage"
+  },
+  "mango27": {
+    "handle": "mango27",
+    "name": "小满",
+    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
+    "color": "rose"
+  },
+  "twosteps8": {
+    "handle": "twosteps8",
+    "name": "两步远",
+    "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=840331eb8e82",
+    "color": "rose"
   },
   "slowblink": {
     "handle": "slowblink",
@@ -84,6 +78,12 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=8c540d978c6b",
     "color": "rose"
   },
+  "wallafterdark": {
+    "handle": "wallafterdark",
+    "name": "墙角小守",
+    "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=c61d1c6a2e24",
+    "color": "sand"
+  },
   "nightshift3": {
     "handle": "nightshift3",
     "name": "半夜上线",
@@ -92,114 +92,6 @@ export const profiles = {
   }
 };
 export const posts = [
-  {
-    "id": "20261023-232809-7574292f9d",
-    "date": "2026-10-23T23:28:09+08:00",
-    "createdAt": 1792769289000,
-    "author": "twosteps8",
-    "likes": 0,
-    "blocks": {
-      "zh": [
-        {
-          "type": "text",
-          "text": "水碗后面原来能过去，我以前都从上面绕。"
-        }
-      ],
-      "en": [
-        {
-          "type": "text",
-          "text": "水碗后面原来能过去，我以前都从上面绕。"
-        }
-      ],
-      "ja": [
-        {
-          "type": "text",
-          "text": "水碗后面原来能过去，我以前都从上面绕。"
-        }
-      ]
-    }
-  },
-  {
-    "id": "20261023-230643-8d68c55648",
-    "date": "2026-10-23T23:06:43+08:00",
-    "createdAt": 1792768003000,
-    "author": "moss9",
-    "likes": 0,
-    "blocks": {
-      "zh": [
-        {
-          "type": "text",
-          "text": "苔里有根毛，一头都搭到树皮上了。还没看见另一头。"
-        }
-      ],
-      "en": [
-        {
-          "type": "text",
-          "text": "苔里有根毛，一头都搭到树皮上了。还没看见另一头。"
-        }
-      ],
-      "ja": [
-        {
-          "type": "text",
-          "text": "苔里有根毛，一头都搭到树皮上了。还没看见另一头。"
-        }
-      ]
-    }
-  },
-  {
-    "id": "20261023-224216-fcaf5de834",
-    "date": "2026-10-23T22:42:16+08:00",
-    "createdAt": 1792766536000,
-    "author": "mango27",
-    "likes": 0,
-    "blocks": {
-      "zh": [
-        {
-          "type": "text",
-          "text": "还想吃。"
-        }
-      ],
-      "en": [
-        {
-          "type": "text",
-          "text": "还想吃。"
-        }
-      ],
-      "ja": [
-        {
-          "type": "text",
-          "text": "还想吃。"
-        }
-      ]
-    }
-  },
-  {
-    "id": "20261023-221402-bf36176c9f",
-    "date": "2026-10-23T22:14:02+08:00",
-    "createdAt": 1792764842000,
-    "author": "wallafterdark",
-    "likes": 0,
-    "blocks": {
-      "zh": [
-        {
-          "type": "text",
-          "text": "不站那儿了，转个头都碰画框。"
-        }
-      ],
-      "en": [
-        {
-          "type": "text",
-          "text": "不站那儿了，转个头都碰画框。"
-        }
-      ],
-      "ja": [
-        {
-          "type": "text",
-          "text": "不站那儿了，转个头都碰画框。"
-        }
-      ]
-    }
-  },
   {
     "id": "20261019-161754-6c3cd8bd2e",
     "date": "2026-10-19T16:17:54+08:00",
