@@ -31,7 +31,7 @@
 **书目**：Huang, J., Chen, X., Mishra, S., Zheng, H. S., Yu, A., Song, X., & Zhou, D. (2024). *Large Language Models Cannot Self-Correct Reasoning Yet*. International Conference on Learning Representations. [会议原文与书目](https://proceedings.iclr.cc/paper_files/paper/2024/hash/8b4add8b0aa8749d80a34ca5d941c355-Abstract-Conference.html)；[arXiv:2310.01798](https://arxiv.org/abs/2310.01798)。
 
 - **问题与发现**：没有外部反馈时，模型能否修正自身推理？在所测试的模型、提示和推理任务中，自纠通常难以提升表现，有时反而退化；部分先前改进依赖答案反馈、提示差异或更多推理开销。
-- **项目可用**：用原帖、账号登记、实际工具返回、已有检查和作者反馈核验修订。自省应给出可复核证据，也允许结论为“证据不足，暂不调整”。
+- **项目可用**：用原帖、账号登记、实际工具返回、已有检查和可核验反馈核验修订。自省应给出可复核证据，也允许结论为“证据不足，暂不调整”。
 - **限制**：研究聚焦特定时期模型的推理任务，没有证明所有文本自修订都无效；同样不能把其他任务中的改进外推为可靠的自主纠错能力。若要声称机制改善，应说明基线、额外成本和比较范围。
 
 <a id="kephart-chess-2003"></a>
