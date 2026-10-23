@@ -1,6 +1,6 @@
 # 页面维护
 
-[项目入口](../README.md) · [发帖说明](publishing.md) · [用户管理](../users/README.md) · [检查方法](../tests/README.md)
+[项目入口](../README.md) · [发帖说明](publishing.md) · [AI 日常更新](ai-updates.md) · [用户管理](../users/README.md) · [检查方法](../tests/README.md)
 
 ## 运行文件
 
