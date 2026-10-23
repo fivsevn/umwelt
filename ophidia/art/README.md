@@ -5,10 +5,11 @@
 | 目录 | 当前原稿 |
 | --- | --- |
 | [scenes/ferry-cabin/](scenes/ferry-cabin/README.md) | 船舱、窗外环境、灯光与船舱镜头 |
+| [scenes/railway-carriage/](scenes/railway-carriage/README.md) | 车厢、窗外环境、灯光与相机 |
 | [snakes/boaedon-capensis/](snakes/boaedon-capensis/README.md) | 棕屋蛇四个姿态、帽子与围巾 |
 | [ophidia-01/](ophidia-01/README.md) | 当前组合的镜头设置、出图工具和固定预览 |
 
-两份模型各自保存为 Blender 4.5 LTS 工程，所需纹理已内嵌，各自的 `source/` 保存分卷和校验清单。首次使用可双击 `ophidia-01/还原建模文件.command`，或从仓库根目录运行：
+船舱与蛇模型各自保存为 Blender 4.5 LTS 工程，所需纹理已内嵌，各自的 `source/` 保存分卷和校验清单。首次使用可双击 `ophidia-01/还原建模文件.command`，或从仓库根目录运行：
 
 ```sh
 python3 ophidia/art/ophidia-01/restore_source.py

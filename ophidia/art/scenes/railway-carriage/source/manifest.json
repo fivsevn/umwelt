@@ -1,0 +1,22 @@
+{
+  "source": "railway-carriage.blend",
+  "bytes": 13012868,
+  "sha256": "a5f2d1ccbe4e8981f4c7c73a1944602255798a41171a032b41f9f219ff427770",
+  "parts": [
+    {
+      "file": "railway-carriage.blend.part01",
+      "bytes": 6291456,
+      "sha256": "370793b37bc2d5ad34554695b68308dba043b83134c957d5a8b0cf61a4517ec8"
+    },
+    {
+      "file": "railway-carriage.blend.part02",
+      "bytes": 6291456,
+      "sha256": "c0c02fa4c20af4186f986f0b2ce907bc16c85de27ee24df8d7a863c50fdba1bb"
+    },
+    {
+      "file": "railway-carriage.blend.part03",
+      "bytes": 429956,
+      "sha256": "f4410b425d9ed70dbd6843db369ad10a9877496bf8cefa5709aca04aab43ea85"
+    }
+  ]
+}
