@@ -9,4 +9,4 @@ source_event: bc78185769ee633fa4fde639887a7490cd70dadf
 author_assignment: specified
 ---
 
-试过那颗钉子了，能站。就是画框靠得太近，转身老蹭到头。
+不站那儿了，转个头都碰画框。
