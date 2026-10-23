@@ -2,7 +2,7 @@
 
 守宫社区的信息流：浏览动态、点赞，并在独立设置页切换中英日语言。
 
-[用户管理表](users/README.md) · [发帖说明](docs/publishing.md) · [AI 日常更新](docs/ai-updates.md) · [维护说明](docs/README.md)
+[用户与角色管理](users/README.md) · [发帖说明](docs/publishing.md) · [模拟总控](docs/ai-updates.md) · [维护说明](docs/README.md)
 
 ## 名称与标识
 
@@ -28,6 +28,8 @@
 ## 内容维护
 
 编辑[用户管理表](users/README.md)新增用户、修改昵称、启用状态、随机分配开关和头像。编辑 `trigger.md` 发布文字或图文，也可只将图片放进 `uploads/`；修改旧帖直接编辑 `posts/` 中的对应文件。
+
+角色设定与活跃习惯同样只在用户与角色管理文件维护。AI 从[模拟总控](docs/ai-updates.md)读取各模块，分工见[维护说明](docs/README.md#模拟文档如何分工)。
 
 提交到 `main` 后，Actions 自动同步用户、归档帖子、转换 WebP、检查并发布。已分配的头像和旧帖作者保持稳定；成功发布并核验后，自动清空已处理的上传原图。操作细节见[发帖说明](docs/publishing.md)。
 
