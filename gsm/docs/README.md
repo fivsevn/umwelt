@@ -2,6 +2,8 @@
 
 [项目入口](../README.md) · [发帖说明](publishing.md) · [AI 日常更新](ai-updates.md) · [用户管理](../users/README.md) · [检查方法](../tests/README.md)
 
+AI 更新的持续模拟规则见[社会模拟方法](simulation.md)，角色关系、重要前情与阶段观察保存在[社区近况](community.md)。两者均由后续执行 AI 按实际发展维护。
+
 ## 运行文件
 
 | 文件 | 用途 |
