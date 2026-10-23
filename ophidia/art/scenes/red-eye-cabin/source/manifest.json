@@ -1,0 +1,12 @@
+{
+  "source": "red-eye-cabin.blend",
+  "bytes": 1464342,
+  "sha256": "3b55194b619f4a36816ad3737fe5a6b82f8cf40a1d28f3604bb25d453e5e9074",
+  "parts": [
+    {
+      "file": "red-eye-cabin.blend.part01",
+      "bytes": 1464342,
+      "sha256": "3b55194b619f4a36816ad3737fe5a6b82f8cf40a1d28f3604bb25d453e5e9074"
+    }
+  ]
+}

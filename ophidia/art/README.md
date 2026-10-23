@@ -6,6 +6,7 @@
 | --- | --- |
 | [scenes/ferry-cabin/](scenes/ferry-cabin/README.md) | 船舱、窗外环境、灯光与船舱镜头 |
 | [scenes/railway-carriage/](scenes/railway-carriage/README.md) | 车厢、窗外环境、灯光与相机 |
+| [scenes/red-eye-cabin/](scenes/red-eye-cabin/README.md) | 夜航客舱、灯光与相机 |
 | [snakes/boaedon-capensis/](snakes/boaedon-capensis/README.md) | 棕屋蛇四个姿态、帽子与围巾 |
 | [ophidia-01/](ophidia-01/README.md) | 当前组合的镜头设置、出图工具和固定预览 |
 
