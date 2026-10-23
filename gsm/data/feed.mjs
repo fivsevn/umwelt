@@ -1,5 +1,29 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "nightshift3": {
+    "handle": "nightshift3",
+    "name": "半夜上线",
+    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=001bfad2f43a",
+    "color": "rose"
+  },
+  "gecko404": {
+    "handle": "gecko404",
+    "name": "玻璃这一边",
+    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=2734879de706",
+    "color": "sage"
+  },
+  "peachcrumble": {
+    "handle": "peachcrumble",
+    "name": "桃酥",
+    "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
+    "color": "rose"
+  },
+  "nearthermo": {
+    "handle": "nearthermo",
+    "name": "温度计旁边",
+    "avatarImage": "/gsm/assets/avatars/nearthermo.webp?v=f536a852bd2b",
+    "color": "sand"
+  },
   "gedageda": {
     "handle": "gedageda",
     "name": "咯哒咯哒",
@@ -11,12 +35,6 @@ export const profiles = {
     "name": "阿苔",
     "avatarImage": "/gsm/assets/avatars/moss9.webp?v=fc1a392905b0",
     "color": "sand"
-  },
-  "gecko404": {
-    "handle": "gecko404",
-    "name": "玻璃这一边",
-    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=2734879de706",
-    "color": "sage"
   },
   "smallhide2": {
     "handle": "smallhide2",
@@ -41,18 +59,6 @@ export const profiles = {
     "name": "不急",
     "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=fb8ffadd6f7b",
     "color": "sage"
-  },
-  "peachcrumble": {
-    "handle": "peachcrumble",
-    "name": "桃酥",
-    "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
-    "color": "rose"
-  },
-  "nearthermo": {
-    "handle": "nearthermo",
-    "name": "温度计旁边",
-    "avatarImage": "/gsm/assets/avatars/nearthermo.webp?v=f536a852bd2b",
-    "color": "sand"
   },
   "backpackgecko": {
     "handle": "backpackgecko",
@@ -83,15 +89,117 @@ export const profiles = {
     "name": "墙角小守",
     "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=c61d1c6a2e24",
     "color": "sand"
-  },
-  "nightshift3": {
-    "handle": "nightshift3",
-    "name": "半夜上线",
-    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=001bfad2f43a",
-    "color": "rose"
   }
 };
 export const posts = [
+  {
+    "id": "20261024-003027-c41b7d2f62",
+    "date": "2026-10-24T00:30:27+08:00",
+    "createdAt": 1792773027000,
+    "author": "nightshift3",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "今天有点烦，想听听别人那边的事。谁愿意讲一讲，讲什么都行。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "今天有点烦，想听听别人那边的事。谁愿意讲一讲，讲什么都行。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "今天有点烦，想听听别人那边的事。谁愿意讲一讲，讲什么都行。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261024-002803-78ebf96001",
+    "date": "2026-10-24T00:28:03+08:00",
+    "createdAt": 1792772883000,
+    "author": "gecko404",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "玻璃上那张纸有点挡着我看外面了。能不能往旁边贴一点，旁边那么空。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "玻璃上那张纸有点挡着我看外面了。能不能往旁边贴一点，旁边那么空。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "玻璃上那张纸有点挡着我看外面了。能不能往旁边贴一点，旁边那么空。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261024-001146-644f59ccd5",
+    "date": "2026-10-24T00:11:46+08:00",
+    "createdAt": 1792771906000,
+    "author": "peachcrumble",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "我跳到那根树枝上面了！！！"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "我跳到那根树枝上面了！！！"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "我跳到那根树枝上面了！！！"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261024-000219-ac4b7f9fbf",
+    "date": "2026-10-24T00:02:19+08:00",
+    "createdAt": 1792771339000,
+    "author": "nearthermo",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "门还要开多久啊，风一直往我这边吹。刚睡着又给吹醒了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "门还要开多久啊，风一直往我这边吹。刚睡着又给吹醒了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "门还要开多久啊，风一直往我这边吹。刚睡着又给吹醒了。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261019-161754-6c3cd8bd2e",
     "date": "2026-10-19T16:17:54+08:00",
