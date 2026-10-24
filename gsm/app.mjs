@@ -1,7 +1,7 @@
 import {gameDocumentTitle, desktopLanguage} from '../shared/games.mjs';
 import {profiles, posts as seeds} from './data/feed.mjs';
 import {copy} from './locales.mjs';
-import {icon, navigationIcon} from './icons.mjs';
+import {likeIcon, navigationIcon} from './icons.mjs';
 import {postTime} from './time.mjs';
 import {freshState, readState, writeState, toggle} from './state.mjs';
 import {decoration} from './decorations.mjs';
@@ -23,7 +23,7 @@ function timeLabel(post) {
   return postTime(post,language);
 }
 function likeContent(post) {
-  return `${icon('like')}<span class="like-count">${post.likes+Number(state.likes.includes(post.id))}</span>`;
+  return `${likeIcon()}<span class="like-count">${post.likes+Number(state.likes.includes(post.id))}</span>`;
 }
 function likeLabel(post) {
   return `${t(state.likes.includes(post.id)?'unlike':'like')} · ${localized(profiles[post.author].name)} · ${post.likes+Number(state.likes.includes(post.id))}`;
@@ -34,7 +34,7 @@ function postMarkup(post) {
   return `<article class="post" data-post-id="${post.id}" data-tone="${profile.color}">
     <div class="post-portrait" aria-hidden="true"><span class="avatar"><img src="${new URL(profile.avatarImage,import.meta.url).href}" width="48" height="48" alt=""></span></div>
     <div class="post-content bubble">
-      <header class="post-identity"><span class="author-name">${escape(localized(profile.name))}@${escape(profile.handle)}</span></header>
+      <header class="post-identity"><span class="author-name"><span class="author-label">${escape(localized(profile.name))}</span><span class="author-handle">@${escape(profile.handle)}</span></span></header>
       ${blocks.map(block=>block.type==='image'?`<figure class="post-media"><img src="${new URL(block.src,import.meta.url).href}" width="${block.width}" height="${block.height}" alt="${escape(block.alt)}" loading="lazy"></figure>`:`<p class="post-text">${escape(block.text)}</p>`).join('')}
       <footer class="post-footer">
         <time class="post-time" datetime="${post.date}" title="${escape(new Date(post.createdAt).toLocaleString({zh:'zh-CN',en:'en-GB',ja:'ja-JP'}[language],{timeZone:'Asia/Shanghai'}))}">${timeLabel(post)}</time>
@@ -44,6 +44,34 @@ function postMarkup(post) {
     </div>
   </article>`;
 }
+// Feedback decorates the existing like state; it never writes its own record.
+const likeFeedback = new WeakMap();
+function clearLikeFeedback(button) {
+  const feedback = likeFeedback.get(button);
+  if (feedback) {
+    clearTimeout(feedback.timer);
+    feedback.burst.remove();
+    likeFeedback.delete(button);
+  }
+  button.classList.remove('is-celebrating');
+}
+function celebrateLike(button) {
+  clearLikeFeedback(button);
+  const burst = document.createElement('span');
+  burst.className = 'like-burst';
+  burst.setAttribute('aria-hidden','true');
+  for (const [dx,dy] of [[-12,-14],[11,-17],[-17,-2],[16,-3]]) {
+    const pixel = document.createElement('span');
+    pixel.style.setProperty('--dx',`${dx}rem`);
+    pixel.style.setProperty('--dy',`${dy}rem`);
+    burst.append(pixel);
+  }
+  button.closest('.post-actions').append(burst);
+  button.classList.add('is-celebrating');
+  const timer = setTimeout(()=>clearLikeFeedback(button),650);
+  likeFeedback.set(button,{burst,timer});
+}
+
 function render() {
   const activeId = document.activeElement?.id;
   document.documentElement.lang = {zh:'zh-CN',en:'en',ja:'ja'}[language];
@@ -73,8 +101,6 @@ $('.pixel-stickers').innerHTML = [
   ['star-small','sparkle'],['heart-small','heart'],['star-group','sparkles'],['star-center','sparkle'],['radio','radio']
 ].map(([name,kind])=>decoration(name,kind)).join('');
 $('.masthead').insertAdjacentHTML('beforeend',texture('header',390,12));
-const paper = ditherSVG({id:'paper',width:4,height:4,ditherSize:1,ditherDensity:.125}).replaceAll('currentColor','#6f5796').replace('<svg ','<svg opacity=".09" ');
-$('#timeline').style.setProperty('--paper-texture',`url("data:image/svg+xml,${encodeURIComponent(paper)}")`);
 if(isSettings){
   $('.settings-portrait').innerHTML = navigationIcon('settings');
   $('.settings-card').insertAdjacentHTML('beforeend',texture('settings',321,10));
@@ -99,6 +125,8 @@ document.addEventListener('click',event=>{
   button.setAttribute('aria-pressed',String(state.likes.includes(post.id)));
   button.setAttribute('aria-label',likeLabel(post));
   button.innerHTML = likeContent(post);
+  if (state.likes.includes(post.id)) celebrateLike(button);
+  else clearLikeFeedback(button);
   if (!storage || !writeState(storage,state)) {
     clearTimeout(toastTimer);$('#toast').textContent=t('storage');
     toastTimer=setTimeout(()=>{$('#toast').textContent='';},3500);
