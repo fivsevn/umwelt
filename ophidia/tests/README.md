@@ -24,6 +24,6 @@ BASE_URL=http://127.0.0.1:8788 node ophidia/tests/browser/check-pixel-comparison
 python3 -m unittest discover -s ophidia/tests -p 'test_*.py' -v
 ```
 
-检查覆盖单独还原、逐卷与完整文件校验、本地编辑保护及失败回滚。身体网格检查位于 `art/snakes/boaedon-capensis/verify_body_crossings.py`，命令见[蛇原稿](../art/snakes/boaedon-capensis/README.md)。
+检查覆盖单独还原、逐卷与完整文件校验、本地编辑保护及失败回滚。模型直接打开[Blender 原稿](../art/snakes/boaedon-capensis/README.md)检查，游戏素材通过上述浏览器检查核对。
 
 本游戏目前没有独立的 Node 测试文件；三个浏览器专项脚本尚未接入 CI。运行 `node tools/check-all.mjs` 检查共享结构，Pages 成品检查另行覆盖游戏入口。

@@ -1,42 +1,482 @@
 {
   "source": "boaedon-capensis.blend",
-  "bytes": 40934313,
-  "sha256": "d814ef9cfc7c2a33523eb9732c7440eebb08a3fb8555aa1f22545ca3b35c56ee",
+  "bytes": 595848523,
+  "sha256": "3d5ac012127eba6494345bff0a018d19a6c76185c7b6b5a62842199915dddd98",
   "parts": [
     {
       "file": "boaedon-capensis.blend.part01",
       "bytes": 6291456,
-      "sha256": "191ce2dd3d0729907cdb993eccba27a127566cbe7d4794169207e298873695a2"
+      "sha256": "4fada1c9b4de6b240004c4806ce204f5c8b265661ccd9695bc79ee2f81a981b2"
     },
     {
       "file": "boaedon-capensis.blend.part02",
       "bytes": 6291456,
-      "sha256": "dd18316b5c350b37970357f7766d6f290e1d2b4cb24544ee9bbe7d54e3db6ba6"
+      "sha256": "83135d4730613530284348096e6ace44567a4f822396c6e98e1d100c60d30f3c"
     },
     {
       "file": "boaedon-capensis.blend.part03",
       "bytes": 6291456,
-      "sha256": "64937a8e8566c9b45c496915f65e98a03f5ddf24ff8f7453d0023dc0fbcf3834"
+      "sha256": "e67f6d90a1ae0961a76fa6850cd746d439bfde22e95240079d250706dda6fe58"
     },
     {
       "file": "boaedon-capensis.blend.part04",
       "bytes": 6291456,
-      "sha256": "61caff3631f4f952e8616ec111aa45d6a10943127f53dfe0e2155ac8d44ea26a"
+      "sha256": "9b16e50c87f883ad61c0900fc0dd7fd3e2adb1e99f0b871cb6ba9efa02d56137"
     },
     {
       "file": "boaedon-capensis.blend.part05",
       "bytes": 6291456,
-      "sha256": "ebdf7ac6c3298fa0435fa9b0e7c303fdbe4c7324232a45a7f61f38bee791a4f9"
+      "sha256": "02303031182c329ba70a1a3d9adf9b79e93137170213c20597904997ea84ec6a"
     },
     {
       "file": "boaedon-capensis.blend.part06",
       "bytes": 6291456,
-      "sha256": "d0975a8a415300c83ecc058303a6c479ecc93dc4f3e63d41f1fcce6f00457e19"
+      "sha256": "854f220d170de988a9d91927da9f8e6e41640f1d696d1e34e3aa63cee5ac78a1"
     },
     {
       "file": "boaedon-capensis.blend.part07",
-      "bytes": 3185577,
-      "sha256": "2e0b5ae8d4710ee3cadb02e1a47bf66af02965464c60c111af90d255e7704a6f"
+      "bytes": 6291456,
+      "sha256": "6a9026fd834736e48110a8968f2a7da0e8d86992f31a9e22bce316bced4637b4"
+    },
+    {
+      "file": "boaedon-capensis.blend.part08",
+      "bytes": 6291456,
+      "sha256": "fe1b6c75e67b4fff24fabd7279273bf009158cae731ea8dfca7c3c28e8d5329a"
+    },
+    {
+      "file": "boaedon-capensis.blend.part09",
+      "bytes": 6291456,
+      "sha256": "3541ac1edec7b9d909c09ff9a4dbef1ad6443df07c954f122dc82e2cad48e936"
+    },
+    {
+      "file": "boaedon-capensis.blend.part10",
+      "bytes": 6291456,
+      "sha256": "5754f7e8695ba972224d14aa449a609ada3b6ad316da3d03416d5fe8403ec315"
+    },
+    {
+      "file": "boaedon-capensis.blend.part11",
+      "bytes": 6291456,
+      "sha256": "3b4fa816d74697f8f4a30d3406c71f22b29a264192b5830e90b14346bd675e75"
+    },
+    {
+      "file": "boaedon-capensis.blend.part12",
+      "bytes": 6291456,
+      "sha256": "6c18d4155562f45d5459527b22015e81c342d862514763f21c1bf3f7ee0a681b"
+    },
+    {
+      "file": "boaedon-capensis.blend.part13",
+      "bytes": 6291456,
+      "sha256": "32388317d6839636c7aaa8816d98fd225689c0b43f33b17ed7306e8461786611"
+    },
+    {
+      "file": "boaedon-capensis.blend.part14",
+      "bytes": 6291456,
+      "sha256": "869961cb6269440a901395d47f2951b9fcb4be25b8a6e5c952047dc995fb0a73"
+    },
+    {
+      "file": "boaedon-capensis.blend.part15",
+      "bytes": 6291456,
+      "sha256": "8a5e1e8094bfdc615c1f9464d508b5a7c59978e27fc69ff36d3ed05fbe5b1874"
+    },
+    {
+      "file": "boaedon-capensis.blend.part16",
+      "bytes": 6291456,
+      "sha256": "f3dcfd3c142d3062abcea1f84ceed07f995ca2ead7980c4f4495d95201bfe716"
+    },
+    {
+      "file": "boaedon-capensis.blend.part17",
+      "bytes": 6291456,
+      "sha256": "9457e8bff0fd14d0983c180166892ac6556fa3d0474ebf61b04664d11c33a7f2"
+    },
+    {
+      "file": "boaedon-capensis.blend.part18",
+      "bytes": 6291456,
+      "sha256": "7f629967d888eb1ed9f0017a6a18fafa95e4e9e2302b30611a3f6ad2881079a1"
+    },
+    {
+      "file": "boaedon-capensis.blend.part19",
+      "bytes": 6291456,
+      "sha256": "5e331ac3181a339f4e1d058ffbdaa9ad0b22a266ea1410542090d8f397d8824b"
+    },
+    {
+      "file": "boaedon-capensis.blend.part20",
+      "bytes": 6291456,
+      "sha256": "0d51eecc4ee31bb9a5597f9ce10a78bddc976f815eafaf7424415742030398bc"
+    },
+    {
+      "file": "boaedon-capensis.blend.part21",
+      "bytes": 6291456,
+      "sha256": "7f564c722f0e1e1478dc821cdf4270047f2b0de8443ec1e9b68712f14fad4990"
+    },
+    {
+      "file": "boaedon-capensis.blend.part22",
+      "bytes": 6291456,
+      "sha256": "fec1f14a27ffb119b0030016805dbc92a690070f12083fa800a2d2b5c499bdc5"
+    },
+    {
+      "file": "boaedon-capensis.blend.part23",
+      "bytes": 6291456,
+      "sha256": "2b34e79b0586c976f2f8d4b8248af95ebf501ca5b83b902a6ac3c718ce362cdb"
+    },
+    {
+      "file": "boaedon-capensis.blend.part24",
+      "bytes": 6291456,
+      "sha256": "dc9be7fbadf9dc347aa1049e47bdf590cc2721ec9f791b15df8ba2671b42f0d9"
+    },
+    {
+      "file": "boaedon-capensis.blend.part25",
+      "bytes": 6291456,
+      "sha256": "1062d2024b10434c771b00a5bf141592b1b44a31220e18bf74a940b74071ee28"
+    },
+    {
+      "file": "boaedon-capensis.blend.part26",
+      "bytes": 6291456,
+      "sha256": "f3aab061671892a5b90b02de8f7adf587b54fa1c08548ecc90746ce5d3359a76"
+    },
+    {
+      "file": "boaedon-capensis.blend.part27",
+      "bytes": 6291456,
+      "sha256": "0fc87f4799465f928d5d3885876ffce28b832a44d4676acaf816b3ef59720669"
+    },
+    {
+      "file": "boaedon-capensis.blend.part28",
+      "bytes": 6291456,
+      "sha256": "c826d4f585ba945eb65061b72ad3dd66f55d64d7ff7526fc5408e772247f3c67"
+    },
+    {
+      "file": "boaedon-capensis.blend.part29",
+      "bytes": 6291456,
+      "sha256": "c88a302a50d1c8cbdb6cb663911de9d82b053ffd6b214418de8e3d4eeb395ce8"
+    },
+    {
+      "file": "boaedon-capensis.blend.part30",
+      "bytes": 6291456,
+      "sha256": "bd1f9a8843264c40e120b25509a3278af689fcb716a46d0000a37fd9957716eb"
+    },
+    {
+      "file": "boaedon-capensis.blend.part31",
+      "bytes": 6291456,
+      "sha256": "4d06f46b9f504d8205c0a996a7446722894023d940393bd886dfd0826db02c53"
+    },
+    {
+      "file": "boaedon-capensis.blend.part32",
+      "bytes": 6291456,
+      "sha256": "f7008ec2378bc02f198f7225fad89405988a0b49a96d37c043bbfb36411898eb"
+    },
+    {
+      "file": "boaedon-capensis.blend.part33",
+      "bytes": 6291456,
+      "sha256": "3ef379ed7250310c8abd1a32b90ec0c6e96e21bdbb7376ba655a10416a5ef5a2"
+    },
+    {
+      "file": "boaedon-capensis.blend.part34",
+      "bytes": 6291456,
+      "sha256": "851b2f60261c1662a488e5e23ab52550d089aee201af2fa9c3be3a226ace8d12"
+    },
+    {
+      "file": "boaedon-capensis.blend.part35",
+      "bytes": 6291456,
+      "sha256": "8809d471088e1db4c1b2eefcc81594587e4fbb1206563fd382730d5357302d59"
+    },
+    {
+      "file": "boaedon-capensis.blend.part36",
+      "bytes": 6291456,
+      "sha256": "42fc7374e9a14195b93d5938ee156bd2362d1b6b664463c5c2879b3997aa6dad"
+    },
+    {
+      "file": "boaedon-capensis.blend.part37",
+      "bytes": 6291456,
+      "sha256": "250aecba98f1990d47b130a9cd04ac32ec109a69396d008daeeea08f5b7710d2"
+    },
+    {
+      "file": "boaedon-capensis.blend.part38",
+      "bytes": 6291456,
+      "sha256": "aa2ed23a4c2e75e22b762caa1a6f0051437b6d1df4e753e40c83911152fc969e"
+    },
+    {
+      "file": "boaedon-capensis.blend.part39",
+      "bytes": 6291456,
+      "sha256": "655d4441a8a453e29f863e4e54925f1a314009fa35e7f5323be25d0396a65e6e"
+    },
+    {
+      "file": "boaedon-capensis.blend.part40",
+      "bytes": 6291456,
+      "sha256": "49856043e6bf456f5ed689b26336f2834df795cfdfb7edf0f75be3d986358f7c"
+    },
+    {
+      "file": "boaedon-capensis.blend.part41",
+      "bytes": 6291456,
+      "sha256": "f068762a229df0324d6afaf6b4f4bca84e7878f3172fb4890770be2f5d054f80"
+    },
+    {
+      "file": "boaedon-capensis.blend.part42",
+      "bytes": 6291456,
+      "sha256": "61f7fdb602d173d097c3ad4bf886be8ce5aed5d7f3adf4d27b5b21275e5bd362"
+    },
+    {
+      "file": "boaedon-capensis.blend.part43",
+      "bytes": 6291456,
+      "sha256": "13fda9b0637c740ec3d6315c3d068d03db62cc4ea7234d08a57f16b7b8db09c1"
+    },
+    {
+      "file": "boaedon-capensis.blend.part44",
+      "bytes": 6291456,
+      "sha256": "a8166ab7c7603e8edefc5da66145d7806a96bde13c76f711530baa5b35c9b1a9"
+    },
+    {
+      "file": "boaedon-capensis.blend.part45",
+      "bytes": 6291456,
+      "sha256": "2a7bd25461b4782ececb365d6f90162651753ec984d08ce0e488ebb395e79dd9"
+    },
+    {
+      "file": "boaedon-capensis.blend.part46",
+      "bytes": 6291456,
+      "sha256": "d4a08973b69f7431761d9597b6a588b6b25684697ae75bc2079975ae0db027c5"
+    },
+    {
+      "file": "boaedon-capensis.blend.part47",
+      "bytes": 6291456,
+      "sha256": "b49dd8655270f9c48da88248686463f9fda3381704860a19cec21efe78e21195"
+    },
+    {
+      "file": "boaedon-capensis.blend.part48",
+      "bytes": 6291456,
+      "sha256": "87fe12ad8cccdfbac114c1aba7bc87f7c4b4d910dfafed1505f920e7fa044c20"
+    },
+    {
+      "file": "boaedon-capensis.blend.part49",
+      "bytes": 6291456,
+      "sha256": "d6531af7641566ae5e8c10fa0affdbc1bcd8e959db1c176489a4ba3bca194b05"
+    },
+    {
+      "file": "boaedon-capensis.blend.part50",
+      "bytes": 6291456,
+      "sha256": "4065569e199bca214d7f22564d8ad35d67517a36e59d28171701d61c9e7ce2f6"
+    },
+    {
+      "file": "boaedon-capensis.blend.part51",
+      "bytes": 6291456,
+      "sha256": "d3d279af7397234a0985c42e929b9cd55832ea90b83db5f1ade9287c4df8782c"
+    },
+    {
+      "file": "boaedon-capensis.blend.part52",
+      "bytes": 6291456,
+      "sha256": "584bb8caf5d2cf1d3dd5dc1d5625dc56f962ec33d428bf11420a0c386b233475"
+    },
+    {
+      "file": "boaedon-capensis.blend.part53",
+      "bytes": 6291456,
+      "sha256": "7625569a08d54eaa5d8b7029f5dce8cacc990661acef980a1b4c86234cc94049"
+    },
+    {
+      "file": "boaedon-capensis.blend.part54",
+      "bytes": 6291456,
+      "sha256": "039ca0e15bc3e6f7c814db5ac4b71df67d7c0f07d3efe729a1eb3142fff51082"
+    },
+    {
+      "file": "boaedon-capensis.blend.part55",
+      "bytes": 6291456,
+      "sha256": "2d51cdb2fc504849e085c5e175e6ba8a989ac0ebcea75cd2d2f6915e8a948170"
+    },
+    {
+      "file": "boaedon-capensis.blend.part56",
+      "bytes": 6291456,
+      "sha256": "f01cbda3ad0d51b7b1a9def5ba222eba85b18c03b754a4d733b9947baaf369fe"
+    },
+    {
+      "file": "boaedon-capensis.blend.part57",
+      "bytes": 6291456,
+      "sha256": "c6cab3aa6b7fb229c85fa2405067cfdb26d8756c9eb379a2ead5171ad246cd88"
+    },
+    {
+      "file": "boaedon-capensis.blend.part58",
+      "bytes": 6291456,
+      "sha256": "1c79371875ead5f513d6b34da68f2a40f3d8d8a9a35158cc4da9aba445ab8c24"
+    },
+    {
+      "file": "boaedon-capensis.blend.part59",
+      "bytes": 6291456,
+      "sha256": "f33bc1391f59864ce6c996a6ae7f12a937a7d47835d78fd2d8e7c3ab2a09bcfa"
+    },
+    {
+      "file": "boaedon-capensis.blend.part60",
+      "bytes": 6291456,
+      "sha256": "28406268e63df871c658eadcff554dc6e663831bcea7cf752f740b1c9c41ba75"
+    },
+    {
+      "file": "boaedon-capensis.blend.part61",
+      "bytes": 6291456,
+      "sha256": "ad674d4e7ccc9ca09cd348937db4b663f36ac69816ca6c4ee5324d1d88293873"
+    },
+    {
+      "file": "boaedon-capensis.blend.part62",
+      "bytes": 6291456,
+      "sha256": "a8d5755a99b45f8c825bae6f08b3afc1011e6099a71eded9718389fa5f1765b5"
+    },
+    {
+      "file": "boaedon-capensis.blend.part63",
+      "bytes": 6291456,
+      "sha256": "4ac0cb0ec9083e4622eb976e5971f6044f972247c9d8cced997c14ce40ddd5b6"
+    },
+    {
+      "file": "boaedon-capensis.blend.part64",
+      "bytes": 6291456,
+      "sha256": "c9b7a771a11b05698dea17f02d746e3788e0efde96beb5f104c00e769798dee1"
+    },
+    {
+      "file": "boaedon-capensis.blend.part65",
+      "bytes": 6291456,
+      "sha256": "dd34bdb8f31335ada107d7ec5db247a6defc57c4848baacbfda13753057bced9"
+    },
+    {
+      "file": "boaedon-capensis.blend.part66",
+      "bytes": 6291456,
+      "sha256": "d19415d813f6e79a3e5264d4b2fa4097d7a76327603ff1e99e83ab54d104eab9"
+    },
+    {
+      "file": "boaedon-capensis.blend.part67",
+      "bytes": 6291456,
+      "sha256": "77ee9676a24c5c04e2d3d214a741e86927441605d3f8b29c246f8eeb1185feb8"
+    },
+    {
+      "file": "boaedon-capensis.blend.part68",
+      "bytes": 6291456,
+      "sha256": "9cd174eed2c6716903ea28c44e43347b905579f2fd8d216ab285eea808469a7d"
+    },
+    {
+      "file": "boaedon-capensis.blend.part69",
+      "bytes": 6291456,
+      "sha256": "562ca056dce82f5559b7c9fe2a08f73402711fc07cfe92270a2c0e2239e3c111"
+    },
+    {
+      "file": "boaedon-capensis.blend.part70",
+      "bytes": 6291456,
+      "sha256": "3a34eeaf318c5808296a66deb166c1cf1e8cdd423efee751440d94aee56e6954"
+    },
+    {
+      "file": "boaedon-capensis.blend.part71",
+      "bytes": 6291456,
+      "sha256": "d24bc918430badb7d2cde40e5eaa0abf11e03e095f5847ba954041b761f62aaa"
+    },
+    {
+      "file": "boaedon-capensis.blend.part72",
+      "bytes": 6291456,
+      "sha256": "bdd92fa2b2a12e496c1705d81ab49e40d718afa822445a66615599adb05d97e6"
+    },
+    {
+      "file": "boaedon-capensis.blend.part73",
+      "bytes": 6291456,
+      "sha256": "11a177074aae8d0dc5a97db5960da8b3100ec3e308b92392b8e1b98c830125be"
+    },
+    {
+      "file": "boaedon-capensis.blend.part74",
+      "bytes": 6291456,
+      "sha256": "22954e5c66cab0c2b8bc1649495ee72708b284f789dd1e6281f6eed96e0fa122"
+    },
+    {
+      "file": "boaedon-capensis.blend.part75",
+      "bytes": 6291456,
+      "sha256": "b6b7dc6c76b8a75ce89a80bd582d43903365f30bc9338d5475fbdcf4ad25739e"
+    },
+    {
+      "file": "boaedon-capensis.blend.part76",
+      "bytes": 6291456,
+      "sha256": "07efd930abaed3dc7b5c51b831a7e3fc79ea6da8b4de19ba6dafe1715cda0124"
+    },
+    {
+      "file": "boaedon-capensis.blend.part77",
+      "bytes": 6291456,
+      "sha256": "e7cd9ff1d84d1eca670d8971fca7181b1974dc7f8a302af78d74e87c42bb270b"
+    },
+    {
+      "file": "boaedon-capensis.blend.part78",
+      "bytes": 6291456,
+      "sha256": "5805bd02bca72dd8d36656bdaf2d6e57cb5c24448f974946bbfac0d43c5ee95d"
+    },
+    {
+      "file": "boaedon-capensis.blend.part79",
+      "bytes": 6291456,
+      "sha256": "f0f7891d013fe10a11462e8be2c0b01d9a4923b2d0abcb5b0ad5095b546d229e"
+    },
+    {
+      "file": "boaedon-capensis.blend.part80",
+      "bytes": 6291456,
+      "sha256": "c77e81cc70701a5641809f2d96881a5ee1e0c8bdbd511e7a52bc7a29138aa130"
+    },
+    {
+      "file": "boaedon-capensis.blend.part81",
+      "bytes": 6291456,
+      "sha256": "987ea0bc31f6f7fe321f482002acb98614cdb492c4c14004890149db78b0e140"
+    },
+    {
+      "file": "boaedon-capensis.blend.part82",
+      "bytes": 6291456,
+      "sha256": "2d12cdccf241b58f503b529d181598b11d5b7f16e96e3fc1925473d84a985633"
+    },
+    {
+      "file": "boaedon-capensis.blend.part83",
+      "bytes": 6291456,
+      "sha256": "67d5f269cfce2749e9be4e6a7b0d4a22dcc5112bdd471f44826996db97fdfd61"
+    },
+    {
+      "file": "boaedon-capensis.blend.part84",
+      "bytes": 6291456,
+      "sha256": "64740ee672220ae95e4250c6a62d7e757df0398ef6f049e36e5fceee620debd7"
+    },
+    {
+      "file": "boaedon-capensis.blend.part85",
+      "bytes": 6291456,
+      "sha256": "e8b46b04d2dfdf4b91af0d1943a2922cd212f0dab9fdf6907a2ff9350e20bcf3"
+    },
+    {
+      "file": "boaedon-capensis.blend.part86",
+      "bytes": 6291456,
+      "sha256": "7fd3510d22fae79873357554b3c73ee01e93ef6379ab2818be12895f5b53a39e"
+    },
+    {
+      "file": "boaedon-capensis.blend.part87",
+      "bytes": 6291456,
+      "sha256": "e61c886c901a894dc73e224e95bae2cc0b3c205e82f35c2fa6947dd3d220eb44"
+    },
+    {
+      "file": "boaedon-capensis.blend.part88",
+      "bytes": 6291456,
+      "sha256": "731ffe292e7028bdb26d97dc2162ffe47dba29c591733e8b32328d3676c134aa"
+    },
+    {
+      "file": "boaedon-capensis.blend.part89",
+      "bytes": 6291456,
+      "sha256": "8d5261e3b1a99256e6c20595b1f396bd6e502e31418bb0672523f20415eecafb"
+    },
+    {
+      "file": "boaedon-capensis.blend.part90",
+      "bytes": 6291456,
+      "sha256": "82be4d064b6a4b0b0884ff3a7e57183def7eb61ce5c0bb94bfd9f37d3d967b83"
+    },
+    {
+      "file": "boaedon-capensis.blend.part91",
+      "bytes": 6291456,
+      "sha256": "15ab717ec418a9596daec73207be67517a2bc5b4681db6909f085663a2570e1b"
+    },
+    {
+      "file": "boaedon-capensis.blend.part92",
+      "bytes": 6291456,
+      "sha256": "673b5daf31bfaf1311fae1f6c148221ad0874facf1cee1ba2dd9f70be1c59fb7"
+    },
+    {
+      "file": "boaedon-capensis.blend.part93",
+      "bytes": 6291456,
+      "sha256": "c2c25988c2853882e1f408de90b6e07d89c8f2ca5a075074d69b5290af14136a"
+    },
+    {
+      "file": "boaedon-capensis.blend.part94",
+      "bytes": 6291456,
+      "sha256": "024a8d03150ea59c29cdc827ff222e656ade35c64970802a3def664830be4773"
+    },
+    {
+      "file": "boaedon-capensis.blend.part95",
+      "bytes": 4451659,
+      "sha256": "6b2f9788ee7159c5b6a2d037d273a987ed453f3288dcb6567d4c186aea47ffeb"
     }
   ]
 }

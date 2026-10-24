@@ -2,23 +2,24 @@
 
 [原稿目录](../../README.md) · [组合与出图](../../ophidia-01/README.md)
 
-`boaedon-capensis.blend` 保存当前蛇的 normal、curious、away、tongue 四个姿态，身体、橄榄针织帽和锈红羊毛围巾在同一文件中。每个姿态保留原有网格、材质、父级和焦点物体，纹理已内嵌。编辑时只显示一个 `Snake · …` 集合。
+`boaedon-capensis.blend` 是可继续编辑的 Blender 4.5 LTS 原稿，包含 `normal`、`curious`、`away`、`tongue` 四个静态姿态。每态在独立的 `Snake · …` 集合中，编辑时只显示一个姿态。
 
-首次使用从仓库根目录运行：
+身体、颈部与头部是一张连续闭合的主皮肤；实体鳞片、眼睛、嘴线、帽子和围巾分别可选、可编辑。鳞片网格可按面属性 `scale_id` 选择单片。皮肤颜色图片已内嵌。帽子为橄榄色针织帽，锈红围巾由连续绕颈、搭接和垂落的布带构成。
+
+首次使用，从仓库根目录还原原稿：
 
 ```sh
 python3 ophidia/art/ophidia-01/restore_source.py --asset boaedon-capensis
 ```
 
-科学原型为 **Boaedon capensis（Brown House Snake；棕屋蛇为项目暂译）**。当前暖沙褐皮肤、浅腹、头纹、唇鳞、侧眼、紧凑盘绕与直立前身保持原样；衣帽仍是可编辑结构。造型尺寸不作标本测量值。[物种与叙事依据](reference/species.md)
-
-`photo_body.py`、`photoreal_snake_anatomy.py`、`photoreal_snake_cloth.py` 保存身体、皮肤和衣物的构造方法，`snake_model.py` 提供网格与材质辅助函数。这些脚本按原有构造阶段使用，不应在已完成的工程上重复施加缩放或重建。
-
-在本文件修改并保存后，运行：
+直接打开原稿修改。保存后更新分卷：
 
 ```sh
 python3 ophidia/art/ophidia-01/archive_source.py --asset boaedon-capensis
-blender -b --python ophidia/art/snakes/boaedon-capensis/verify_body_crossings.py -- --report /tmp/ophidia-body-crossing-check.json
 ```
 
-第二条命令只读检查身体网格的非相邻表面相交。也可直接使用 `ophidia/art/source_archive.py` 还原本目录的 `source/`；只取用蛇时，带走此目录和这份通用工具即可。
+游戏图层的重出和导出见[组合与出图](../../ophidia-01/README.md)。只出角色近景可运行 `blender -b --python ophidia/art/snakes/boaedon-capensis/render_review.py`。
+
+科学原型为 **Boaedon capensis（Brown House Snake；棕屋蛇为项目暂译）**，造型包含艺术调整。[物种与叙事依据](reference/species.md)
+
+帽子针织曲线参考 Keenan Crane（2023）[A Simple Parametric Model of Plain-Knit Yarns](https://www.cs.cmu.edu/~kmcrane/Projects/Other/YarnCurve.pdf)，按 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) 注明来源。

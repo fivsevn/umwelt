@@ -1,0 +1,57 @@
+{
+  "source_reopened": true,
+  "snake_source_sha256": "3d5ac012127eba6494345bff0a018d19a6c76185c7b6b5a62842199915dddd98",
+  "background_camera": "Portrait game camera",
+  "background_native_dof": true,
+  "background_focus_distance": 2.119999885559082,
+  "background_fstop": 2.0,
+  "background_raw_preserved": "renders/cabin.png",
+  "foreground_camera": "Foreground portrait camera",
+  "foreground_native_dof": true,
+  "foreground_fstop": 2.799999952316284,
+  "foreground_focus_axial_depth_m": {
+    "normal": 2.6144908666610718,
+    "curious": 2.5629821605980396,
+    "away": 2.6711326465010643,
+    "tongue": 2.608358711004257
+  },
+  "foreground_focus_objects": {
+    "normal": "Character focus · normal",
+    "curious": "Character focus · curious",
+    "away": "Character focus · away",
+    "tongue": "Character focus · tongue"
+  },
+  "foreground_camera_push_m": 0.1,
+  "foreground_raw_resolution": [
+    720,
+    1280
+  ],
+  "foreground_lens_and_orientation_same_as_background": true,
+  "foreground_projection_same_as_background": false,
+  "four_poses_rendered": [
+    "normal",
+    "curious",
+    "away",
+    "tongue"
+  ],
+  "foreground_glazing_camera_rays_temporarily_excluded": 42,
+  "all_glazing_visibility_restored_before_save": true,
+  "native_contact_shadows": {
+    "native_receiver_meshes": [
+      "Fresh · aft window booth pliant back upholstery",
+      "Fresh · aft window booth stitched seat cushion"
+    ],
+    "receiver_count": 2,
+    "method": "Cycles Combined RGBA native shadow catcher on original first booth meshes",
+    "glazing_camera_rays_temporarily_excluded": 42,
+    "receiver_geometry_materials_unchanged": true,
+    "temporary_properties_restored_before_save": true
+  },
+  "character_presentation_scale": 1.4,
+  "character_translation": [
+    0.029999999329447746,
+    -0.07500000298023224,
+    0.0
+  ],
+  "raw_preview": "Native character and physical booth receiver shadows over preserved cabin, before pixel finishing."
+}

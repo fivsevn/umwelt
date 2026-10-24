@@ -146,10 +146,10 @@ import {gameTitle, gameDocumentTitle} from '../shared/games.mjs';
   let loadGeneration = 0;
   const assetPaths = {
     cabin: './assets/cabin.webp',
-    'snake-normal': './assets/snake-normal.webp?v=snake16',
-    'snake-curious': './assets/snake-curious.webp?v=snake16',
-    'snake-away': './assets/snake-away.webp?v=snake16',
-    'snake-tongue': './assets/snake-tongue.webp?v=snake16',
+    'snake-normal': './assets/snake-normal.webp?v=3d5ac012',
+    'snake-curious': './assets/snake-curious.webp?v=3d5ac012',
+    'snake-away': './assets/snake-away.webp?v=3d5ac012',
+    'snake-tongue': './assets/snake-tongue.webp?v=3d5ac012',
   };
   const assetNames = Object.keys(assetPaths);
 

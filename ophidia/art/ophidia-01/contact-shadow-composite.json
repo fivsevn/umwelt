@@ -11,104 +11,104 @@
     "normal": {
       "native_shadow_bounds_xy": [
         0,
-        544,
+        553,
         480,
-        817
+        813
       ],
-      "shadow_visible_pixels": 20713,
+      "shadow_visible_pixels": 19580,
       "shadow_alpha_max": 255,
       "portrait_alpha_bounds_xy": [
-        32,
-        501,
-        432,
+        33,
+        525,
+        428,
         777
       ],
       "final_alpha_bounds_xy": [
         0,
-        501,
+        525,
         472,
         776
       ],
-      "table_occluded_pixels": 13631,
-      "table_occluded_portrait_pixels": 1838,
+      "table_occluded_pixels": 12842,
+      "table_occluded_portrait_pixels": 1877,
       "clear_upper_frame_alpha_max": 0,
       "clear_window_alpha_max": 0
     },
     "curious": {
       "native_shadow_bounds_xy": [
         0,
-        533,
+        548,
         480,
-        817
+        814
       ],
-      "shadow_visible_pixels": 21516,
+      "shadow_visible_pixels": 19495,
       "shadow_alpha_max": 255,
       "portrait_alpha_bounds_xy": [
-        32,
-        488,
-        420,
+        33,
+        510,
+        407,
         777
       ],
       "final_alpha_bounds_xy": [
         0,
-        488,
+        510,
         472,
         776
       ],
-      "table_occluded_pixels": 13699,
-      "table_occluded_portrait_pixels": 1833,
+      "table_occluded_pixels": 12977,
+      "table_occluded_portrait_pixels": 1873,
       "clear_upper_frame_alpha_max": 0,
       "clear_window_alpha_max": 0
     },
     "away": {
       "native_shadow_bounds_xy": [
         0,
-        546,
+        547,
         480,
-        817
+        815
       ],
-      "shadow_visible_pixels": 20977,
+      "shadow_visible_pixels": 20796,
       "shadow_alpha_max": 255,
       "portrait_alpha_bounds_xy": [
-        32,
-        504,
-        443,
+        33,
+        529,
+        432,
         777
       ],
       "final_alpha_bounds_xy": [
         0,
-        504,
+        529,
         472,
         776
       ],
-      "table_occluded_pixels": 14286,
-      "table_occluded_portrait_pixels": 1844,
+      "table_occluded_pixels": 14327,
+      "table_occluded_portrait_pixels": 1882,
       "clear_upper_frame_alpha_max": 0,
       "clear_window_alpha_max": 0
     },
     "tongue": {
       "native_shadow_bounds_xy": [
         0,
-        544,
+        537,
         480,
         817
       ],
-      "shadow_visible_pixels": 20718,
+      "shadow_visible_pixels": 19438,
       "shadow_alpha_max": 255,
       "portrait_alpha_bounds_xy": [
-        32,
-        501,
-        451,
+        33,
+        525,
+        437,
         777
       ],
       "final_alpha_bounds_xy": [
         0,
-        501,
+        525,
         472,
         776
       ],
-      "table_occluded_pixels": 13636,
-      "table_occluded_portrait_pixels": 1838,
+      "table_occluded_pixels": 12879,
+      "table_occluded_portrait_pixels": 1877,
       "clear_upper_frame_alpha_max": 0,
       "clear_window_alpha_max": 0
     }

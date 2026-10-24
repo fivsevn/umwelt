@@ -35,4 +35,4 @@ blender -b --python ophidia/art/ophidia-01/compose_scene.py
 - 模型检查：`http://127.0.0.1:8788/ophidia/art/ophidia-01/preview/model-review.html`
 - 像素对照：`http://127.0.0.1:8788/ophidia/art/ophidia-01/preview/pixel-style/index.html`
 
-检查页与当前渲染图持续使用同一路径；船舱照片在船舱目录，物种资料在蛇目录。各项检查命令见[测试说明](../../tests/README.md)。`checks/` 中保留拆分前原稿的检查依据及本次拆分验证。现有 Pages 打包排除 `art/`。
+检查页与当前渲染图持续使用同一路径；船舱照片在船舱目录，物种资料在蛇目录。各项检查命令见[测试说明](../../tests/README.md)。现有 Pages 打包排除 `art/`。

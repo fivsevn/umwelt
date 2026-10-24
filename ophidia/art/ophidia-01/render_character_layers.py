@@ -3,7 +3,7 @@
 The foreground lens pushes forward slightly and follows each pose's head. Its
 weak depth of field leaves face/textiles clear and gently softens the rear coil.
 """
-import bpy,sys,json,shutil
+import bpy,sys,json,shutil,hashlib
 from mathutils import Vector
 from pathlib import Path
 ROOT=Path(__file__).resolve().parent;sys.path.insert(0,str(ROOT))
@@ -11,19 +11,22 @@ from character_portrait import CHARACTER_SCALE,CHARACTER_OFFSET,transparent_came
 from character_shadow import begin_receiver_pass
 from compose_scene import compose
 compose();scene=bpy.context.scene
+SNAKE_SOURCE=ROOT.parent/'snakes/boaedon-capensis/boaedon-capensis.blend'
+source_sha=hashlib.sha256(SNAKE_SOURCE.read_bytes()).hexdigest()
 BG=bpy.data.objects['Portrait game camera'];FG=bpy.data.objects['Foreground portrait camera']
 assert BG.data.dof.use_dof and FG.data.dof.use_dof
 poses={p:bpy.data.collections['Snake · '+p] for p in ['normal','curious','away','tongue']}
 CABIN=bpy.data.collections['01 · Ferry cabin / wood, vinyl, metal'];OUTSIDE=bpy.data.collections['02 · Cold estuary / winter light']
 review=bpy.data.collections['Review · new saloon complementary cameras']
 review_samples=int(sys.argv[sys.argv.index('--review-samples')+1]) if '--review-samples' in sys.argv else 64
+portrait_samples=int(sys.argv[sys.argv.index('--portrait-samples')+1]) if '--portrait-samples' in sys.argv else 128
 def pose(name):
  for p,c in poses.items():c.hide_render=p!=name;c.hide_viewport=p!=name
  FG.data.dof.focus_object=bpy.data.objects[poses[name]['portrait_focus_object']]
  bpy.context.view_layer.update()
 def render(name,cam,width=1280,height=800):
  scene.camera=cam;scene.render.resolution_x=width;scene.render.resolution_y=height
- scene.cycles.samples=128 if width==720 else review_samples
+ scene.cycles.samples=portrait_samples if width==720 else review_samples
  roles=set();states=[]
  if name in ['complete-booth','booth-reverse','grey-booth']:roles={'near_wall','ceiling','upper_deck','outer_columns'}
  if name=='booth-reverse':roles.add('saloon_end')
@@ -74,7 +77,8 @@ for o in review.objects:
 scene.camera=BG;scene.render.resolution_x=360;scene.render.resolution_y=640;scene.cycles.samples=96
 scene.render.filepath='//renders/source-preview.png'
 # Render passes are temporary. Keep the generated composition and both libraries untouched.
-(ROOT/'portrait-layer-render.json').write_text(json.dumps({'source_reopened':True,'background_camera':BG.name,'background_native_dof':True,'background_focus_distance':BG.data.dof.focus_distance,'background_fstop':BG.data.dof.aperture_fstop,'background_raw_preserved':'renders/cabin.png','foreground_camera':FG.name,'foreground_native_dof':FG.data.dof.use_dof,'foreground_fstop':FG.data.dof.aperture_fstop,'foreground_focus_axial_depth_m':focus_depths,'foreground_focus_objects':{p:c['portrait_focus_object'] for p,c in poses.items()},'foreground_camera_push_m':.10,'foreground_raw_resolution':[720,1280],'foreground_lens_and_orientation_same_as_background':True,'foreground_projection_same_as_background':False,'four_poses_rendered':list(poses),'foreground_glazing_camera_rays_temporarily_excluded':shadow_record['glazing_camera_rays_temporarily_excluded'],'all_glazing_visibility_restored_before_save':True,'native_contact_shadows':shadow_record,'character_presentation_scale':CHARACTER_SCALE,'character_translation':list(CHARACTER_OFFSET),'raw_preview':'Native character and physical booth receiver shadows over preserved cabin, before pixel finishing.'},ensure_ascii=False,indent=2)+'\n')
+assert source_sha==hashlib.sha256(SNAKE_SOURCE.read_bytes()).hexdigest(), 'Snake source changed during portrait rendering'
+(ROOT/'portrait-layer-render.json').write_text(json.dumps({'source_reopened':True,'snake_source_sha256':source_sha,'background_camera':BG.name,'background_native_dof':True,'background_focus_distance':BG.data.dof.focus_distance,'background_fstop':BG.data.dof.aperture_fstop,'background_raw_preserved':'renders/cabin.png','foreground_camera':FG.name,'foreground_native_dof':FG.data.dof.use_dof,'foreground_fstop':FG.data.dof.aperture_fstop,'foreground_focus_axial_depth_m':focus_depths,'foreground_focus_objects':{p:c['portrait_focus_object'] for p,c in poses.items()},'foreground_camera_push_m':.10,'foreground_raw_resolution':[720,1280],'foreground_lens_and_orientation_same_as_background':True,'foreground_projection_same_as_background':False,'four_poses_rendered':list(poses),'foreground_glazing_camera_rays_temporarily_excluded':shadow_record['glazing_camera_rays_temporarily_excluded'],'all_glazing_visibility_restored_before_save':True,'native_contact_shadows':shadow_record,'character_presentation_scale':CHARACTER_SCALE,'character_translation':list(CHARACTER_OFFSET),'raw_preview':'Native character and physical booth receiver shadows over preserved cabin, before pixel finishing.'},ensure_ascii=False,indent=2)+'\n')
 print('SAVED_SHARP_CHARACTER_LAYERS')
 import runpy
 runpy.run_path(str(ROOT/'render_table_occluder.py'),run_name='__main__')

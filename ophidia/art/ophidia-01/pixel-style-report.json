@@ -31,12 +31,35 @@
     "native_dof": true,
     "fstop": 2.8,
     "per_pose_head_focus": true,
-    "unsharp_percent": 0
+    "unsharp_percent": 0,
+    "focus_axial_depth_m": {
+      "normal": 2.6144908666610718,
+      "curious": 2.5629821605980396,
+      "away": 2.6711326465010643,
+      "tongue": 2.608358711004257
+    }
   },
   "all_four_poses_share_character_palette": true,
   "projection_matches_background": false,
   "foreground_camera_push_m": 0.1,
   "runtime_css_blur": false,
+  "character_presentation_scale": 1.4,
+  "character_translation": [
+    0.029999999329447746,
+    -0.07500000298023224,
+    0.0
+  ],
+  "native_contact_shadows": {
+    "native_receiver_meshes": [
+      "Fresh · aft window booth pliant back upholstery",
+      "Fresh · aft window booth stitched seat cushion"
+    ],
+    "receiver_count": 2,
+    "method": "Cycles Combined RGBA native shadow catcher on original first booth meshes",
+    "glazing_camera_rays_temporarily_excluded": 42,
+    "receiver_geometry_materials_unchanged": true,
+    "temporary_properties_restored_before_save": true
+  },
   "source": "native Blender render layers",
   "all_four_poses_share_palette": true,
   "all_layers_exported": true,
@@ -49,25 +72,25 @@
     },
     {
       "file": "ophidia/assets/snake-normal.webp",
-      "bytes": 18362,
+      "bytes": 16266,
       "width": 360,
       "height": 640
     },
     {
       "file": "ophidia/assets/snake-curious.webp",
-      "bytes": 18742,
+      "bytes": 16432,
       "width": 360,
       "height": 640
     },
     {
       "file": "ophidia/assets/snake-away.webp",
-      "bytes": 17994,
+      "bytes": 15956,
       "width": 360,
       "height": 640
     },
     {
       "file": "ophidia/assets/snake-tongue.webp",
-      "bytes": 18420,
+      "bytes": 16292,
       "width": 360,
       "height": 640
     }
