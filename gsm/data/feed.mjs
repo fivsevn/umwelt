@@ -1,5 +1,17 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "mango27": {
+    "handle": "mango27",
+    "name": "小满",
+    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
+    "color": "rose"
+  },
+  "twosteps8": {
+    "handle": "twosteps8",
+    "name": "两步远",
+    "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=840331eb8e82",
+    "color": "rose"
+  },
   "nightshift3": {
     "handle": "nightshift3",
     "name": "半夜上线",
@@ -42,18 +54,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/smallhide2.webp?v=8d76985c3e8d",
     "color": "sage"
   },
-  "mango27": {
-    "handle": "mango27",
-    "name": "小满",
-    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
-    "color": "rose"
-  },
-  "twosteps8": {
-    "handle": "twosteps8",
-    "name": "两步远",
-    "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=840331eb8e82",
-    "color": "rose"
-  },
   "slowblink": {
     "handle": "slowblink",
     "name": "不急",
@@ -92,6 +92,60 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261025-113619-1676b97f72",
+    "date": "2026-10-25T11:36:19+08:00",
+    "createdAt": 1792899379000,
+    "author": "mango27",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "先别把碗拿走啊，我还没吃完。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "先别把碗拿走啊，我还没吃完。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "先别把碗拿走啊，我还没吃完。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261025-101842-06b7f0fe31",
+    "date": "2026-10-25T10:18:42+08:00",
+    "createdAt": 1792894722000,
+    "author": "twosteps8",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "今天从石头后面绕过去了。中间有一段很窄，要贴着边慢慢走，我停了几次才走到另一边。现在想在这里歇一会儿，还不急着回去。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "今天从石头后面绕过去了。中间有一段很窄，要贴着边慢慢走，我停了几次才走到另一边。现在想在这里歇一会儿，还不急着回去。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "今天从石头后面绕过去了。中间有一段很窄，要贴着边慢慢走，我停了几次才走到另一边。现在想在这里歇一会儿，还不急着回去。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261024-003027-c41b7d2f62",
     "date": "2026-10-24T00:30:27+08:00",
