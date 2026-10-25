@@ -1,5 +1,11 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "gecko404": {
+    "handle": "gecko404",
+    "name": "玻璃这一边",
+    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=2734879de706",
+    "color": "sage"
+  },
   "mango27": {
     "handle": "mango27",
     "name": "小满",
@@ -17,12 +23,6 @@ export const profiles = {
     "name": "半夜上线",
     "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=001bfad2f43a",
     "color": "rose"
-  },
-  "gecko404": {
-    "handle": "gecko404",
-    "name": "玻璃这一边",
-    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=2734879de706",
-    "color": "sage"
   },
   "peachcrumble": {
     "handle": "peachcrumble",
@@ -92,6 +92,33 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261025-115500-851162417c",
+    "date": "2026-10-25T11:55:00+08:00",
+    "createdAt": 1792900500000,
+    "author": "gecko404",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚才玻璃外面有人停了一会儿，我以为是在看我，就也没动。后来才发现他是在看玻璃上那道水印。那道印子我早就看见了，一直没弄明白是怎么留下的。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚才玻璃外面有人停了一会儿，我以为是在看我，就也没动。后来才发现他是在看玻璃上那道水印。那道印子我早就看见了，一直没弄明白是怎么留下的。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚才玻璃外面有人停了一会儿，我以为是在看我，就也没动。后来才发现他是在看玻璃上那道水印。那道印子我早就看见了，一直没弄明白是怎么留下的。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261025-113619-1676b97f72",
     "date": "2026-10-25T11:36:19+08:00",
