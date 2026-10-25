@@ -1,0 +1,36 @@
+/* The housing is a lit, transparent 3D render; the feed remains live underneath. */
+html{background:#171b1d}
+body{background:radial-gradient(ellipse at 50% 40%,color-mix(in srgb,var(--outer) 40%,#171b1d),#171b1d 78%)}
+.phone-case{filter:saturate(.90) brightness(.96) drop-shadow(2rem 10rem 11rem #0006)}
+.phone-case::before,.phone-case::after{display:none}
+.phone-shell{background:transparent;clip-path:none;overflow:visible}
+.phone-shell::before,.phone-shell::after{display:none}
+.shell-face{inset:-20rem;z-index:3;clip-path:none;overflow:visible}
+.shell-face picture,.shell-face img{display:block;width:100%;height:100%;image-rendering:pixelated}
+.shell-top,.shell-bottom,.shell-pattern,.shell-sheen,.control-material{display:none}
+.app-window{z-index:2;background:#142127;box-shadow:none;clip-path:none;border-radius:3rem}
+.app-window::before{inset:8rem 7rem 5rem 5rem;border-radius:1.5rem;background:linear-gradient(112deg,#effbff18,transparent 34%),#85a8b005;box-shadow:inset 0 3rem 7rem #08182245,inset -1rem 0 2rem #07192340;clip-path:none}
+.app-window::after{inset:8rem 7rem 5rem 5rem;border-radius:1.5rem;background:linear-gradient(112deg,#f4fcff0b,transparent 24%,transparent 72%,#0d263208);clip-path:none}
+.stream-dock{z-index:4}
+.dock-button>span,.stream-tab>span{filter:none;opacity:.94}
+.dock-button>span{width:24rem;height:24rem}
+.stream-tab>span{width:28rem;height:28rem}
+.dock-button:active>span{transform:none}
+.dock-button:focus-visible>span{outline-width:4rem;outline-offset:4rem}
+.stream-tab:focus-visible>span{outline-offset:4rem}
+@media(hover:hover){.dock-button:hover>span{filter:none;opacity:1}}
+.mini-phone{width:48rem;height:88rem;background:none;box-shadow:none;clip-path:none}
+.shell-option{gap:6rem}
+.mini-phone::before,.mini-phone::after{display:none}
+.mini-pattern,.mini-pattern img{width:100%;height:100%;display:block;object-fit:contain;image-rendering:pixelated}
+@media(max-height:550px) and (min-width:600px){
+  :root{font-size:min(.9px,calc((100dvh - 24px)/410),calc((100vw - 40px)/620))}
+  .phone-case{width:620rem;height:410rem}
+  .shell-face{inset:-20rem}
+}
+/* The display palette follows each cover without changing the neighbours' cards. */
+:root[data-shell=crested]{--outer:#453f3b;--ink:#4b453d;--muted:#7a7367;--paper:#ede6d9;--header:#dcc5b2;--panel:#faf6eb;--accent:#c48c70;--heart:#a7736e;--star:#936c4a;--plus:#727c5d;--name:#4b5549;--highlight:#fff2da;--texture-color:#a99b83}
+:root[data-shell=fat-tail]{--outer:#423c36;--ink:#4a4137;--muted:#7e7363;--paper:#eee7da;--header:#d6c3a8;--panel:#f7f3e8;--accent:#b9996b;--heart:#a87561;--star:#8a6b45;--plus:#747e61;--name:#554b3d;--highlight:#fff0d6;--texture-color:#9b8b73}
+:root[data-shell=mossy]{--outer:#38433d;--ink:#424d42;--muted:#75816a;--paper:#e7e9de;--header:#c8ceba;--panel:#f5f6eb;--accent:#afa17a;--heart:#a87764;--star:#85774d;--plus:#637c63;--name:#4b5f48;--highlight:#f3efd9;--texture-color:#8f9c7a}
+:root[data-shell=electric]{--outer:#2e3e4b;--ink:#354b52;--muted:#6b7c7e;--paper:#e2e9e9;--header:#c1d0d1;--panel:#f3f5ec;--accent:#a4b6aa;--heart:#ac756b;--star:#8d785b;--plus:#547c79;--name:#435a55;--highlight:#eff6e8;--texture-color:#8ca8ad}
+:root[data-shell=stone]{--outer:#42453f;--ink:#484c45;--muted:#777b70;--paper:#e6e7df;--header:#cdcec2;--panel:#f5f4e9;--accent:#b4a88e;--heart:#9d7e73;--star:#8c7c5b;--plus:#6d7e6b;--name:#515e4b;--highlight:#f8f1df;--texture-color:#9a9e8c}

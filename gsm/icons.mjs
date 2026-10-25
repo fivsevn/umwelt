@@ -14,4 +14,4 @@ const heartOutline = 'M4 4H10V6H14V4H20V6H22V14H20V16H18V18H16V20H14V22H10V20H8V
 const heartCore = 'M4 6H8V8H16V6H20V12H18V14H16V16H14V18H10V16H8V14H6V12H4Z';
 
 export const likeIcon = () => `<svg class="ui-icon pixel-heart" viewBox="0 0 24 24" fill="currentColor" stroke="none" shape-rendering="crispEdges" aria-hidden="true"><path fill-rule="evenodd" d="${heartOutline} ${heartCore}"/><path class="heart-core" d="${heartCore}"/></svg>`;
-export const navigationIcon = name => `<svg class="dock-icon" viewBox="0 0 24 24" fill="currentColor" stroke="none" shape-rendering="crispEdges" aria-hidden="true">${navigationSprites[name]}</svg>`;
+export const navigationIcon = name => `<svg class="dock-icon" viewBox="0 0 24 24" shape-rendering="crispEdges" fill="currentColor" stroke="none" shape-rendering="crispEdges" aria-hidden="true">${navigationSprites[name]}</svg>`;

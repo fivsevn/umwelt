@@ -1,285 +1,175 @@
-@font-face {
-  font-family: Pixel;
-  src: url('../assets/fonts/fusion-pixel-12px-monospaced-zh_hans.ttf.woff2') format('woff2');
-  font-display: swap;
-}
+@font-face{font-family:Pixel;src:url('../assets/fonts/fusion-pixel-12px-monospaced-zh_hans.ttf.woff2') format('woff2');font-display:swap}
+@font-face{font-family:PixelJP;src:url('../assets/fonts/PixelMplus12-Regular.woff2') format('woff2');font-display:swap}
 
-@font-face {
-  font-family: PixelJP;
-  src: url('../assets/fonts/PixelMplus12-Regular.woff2') format('woff2');
-  font-display: swap;
-}
-
-/* One rem is one design pixel at 390 px, enlarged up to 1.5×. */
+/* Pixel geometry and species-inspired inlays share a single responsive grid. */
 :root {
-  font-size: min(1.5px, calc(100vw / 390));
-  color-scheme: light;
-  --font: Pixel, monospace;
-  --outer: #c9ccc7;
-  --ink: #232823;
-  --muted: #5b625b;
-  --paper: #e7e9e1;
-  --header: #d9ddcf;
-  --dock: #252b27;
-  --panel: #f7f7ef;
-  --line: #4a534a;
-  --accent: #d9ed69;
-  --heart: #768249;
-  --star: #7d8933;
-  --plus: #718370;
-  --name: #333d2d;
-  --highlight: #f7f9db;
-  --texture-color: #687258;
+  font-size:min(1.25px,calc((100vw - 24px)/430),calc((100dvh - 32px)/820));
+  color-scheme:light; --font:Pixel,monospace;
+  --outer:#4c4149; --outer-check:#554850; --ground:#30292f;
+  --shell:#e3bb61; --shell-mid:#c5944c; --shell-light:#ffe5a0; --shell-white:#fff3c5;
+  --shell-dark:#936b43; --shell-deep:#5c4935; --spot:#514332; --spot-light:#f8da8c;
+  --rim:#645b48; --rim-dark:#373e37; --rim-light:#f1ddb0;
+  --ink:#454638; --muted:#777663; --paper:#f2eddc; --header:#e7d59c; --panel:#fffbec; --accent:#e7aa65;
+  --heart:#a26855; --star:#8a603a; --plus:#6b7e58; --name:#4d513d; --highlight:#fff3c9; --texture-color:#9e895a;
+  --key:#8a826b; --key-light:#c2baa0; --key-mid:#6f6958; --key-dark:#45473b; --key-ink:#262c25;
+  --key-center:#827b68; --key-center-light:#b9b39c; --key-center-dark:#464b3c;
+  --cut:polygon(calc(100% - 78rem) 6rem,calc(100% - 78rem) 8rem,calc(100% - 68rem) 8rem,calc(100% - 68rem) 10rem,calc(100% - 62rem) 10rem,calc(100% - 62rem) 12rem,calc(100% - 56rem) 12rem,calc(100% - 56rem) 14rem,calc(100% - 52rem) 14rem,calc(100% - 52rem) 16rem,calc(100% - 48rem) 16rem,calc(100% - 48rem) 18rem,calc(100% - 46rem) 18rem,calc(100% - 46rem) 20rem,calc(100% - 42rem) 20rem,calc(100% - 42rem) 22rem,calc(100% - 40rem) 22rem,calc(100% - 40rem) 24rem,calc(100% - 36rem) 24rem,calc(100% - 36rem) 26rem,calc(100% - 34rem) 26rem,calc(100% - 34rem) 28rem,calc(100% - 32rem) 28rem,calc(100% - 32rem) 30rem,calc(100% - 30rem) 30rem,calc(100% - 30rem) 32rem,calc(100% - 28rem) 32rem,calc(100% - 28rem) 34rem,calc(100% - 26rem) 34rem,calc(100% - 26rem) 36rem,calc(100% - 24rem) 36rem,calc(100% - 24rem) 38rem,calc(100% - 22rem) 38rem,calc(100% - 22rem) 42rem,calc(100% - 20rem) 42rem,calc(100% - 20rem) 44rem,calc(100% - 18rem) 44rem,calc(100% - 18rem) 46rem,calc(100% - 16rem) 46rem,calc(100% - 16rem) 50rem,calc(100% - 14rem) 50rem,calc(100% - 14rem) 54rem,calc(100% - 12rem) 54rem,calc(100% - 12rem) 58rem,calc(100% - 10rem) 58rem,calc(100% - 10rem) 62rem,calc(100% - 8rem) 62rem,calc(100% - 8rem) 66rem,calc(100% - 6rem) 66rem,calc(100% - 6rem) 72rem,calc(100% - 4rem) 72rem,calc(100% - 4rem) 78rem,calc(100% - 2rem) 78rem,calc(100% - 2rem) 90rem,100% 90rem,100% 104rem,100% 104rem,100% calc(100% - 126rem),100% calc(100% - 126rem),100% calc(100% - 108rem),calc(100% - 2rem) calc(100% - 108rem),calc(100% - 2rem) calc(100% - 96rem),calc(100% - 4rem) calc(100% - 96rem),calc(100% - 4rem) calc(100% - 88rem),calc(100% - 6rem) calc(100% - 88rem),calc(100% - 6rem) calc(100% - 80rem),calc(100% - 8rem) calc(100% - 80rem),calc(100% - 8rem) calc(100% - 74rem),calc(100% - 10rem) calc(100% - 74rem),calc(100% - 10rem) calc(100% - 70rem),calc(100% - 12rem) calc(100% - 70rem),calc(100% - 12rem) calc(100% - 64rem),calc(100% - 14rem) calc(100% - 64rem),calc(100% - 14rem) calc(100% - 60rem),calc(100% - 16rem) calc(100% - 60rem),calc(100% - 16rem) calc(100% - 56rem),calc(100% - 18rem) calc(100% - 56rem),calc(100% - 18rem) calc(100% - 52rem),calc(100% - 20rem) calc(100% - 52rem),calc(100% - 20rem) calc(100% - 50rem),calc(100% - 22rem) calc(100% - 50rem),calc(100% - 22rem) calc(100% - 46rem),calc(100% - 24rem) calc(100% - 46rem),calc(100% - 24rem) calc(100% - 44rem),calc(100% - 26rem) calc(100% - 44rem),calc(100% - 26rem) calc(100% - 40rem),calc(100% - 28rem) calc(100% - 40rem),calc(100% - 28rem) calc(100% - 38rem),calc(100% - 30rem) calc(100% - 38rem),calc(100% - 30rem) calc(100% - 36rem),calc(100% - 32rem) calc(100% - 36rem),calc(100% - 32rem) calc(100% - 34rem),calc(100% - 34rem) calc(100% - 34rem),calc(100% - 34rem) calc(100% - 30rem),calc(100% - 36rem) calc(100% - 30rem),calc(100% - 36rem) calc(100% - 28rem),calc(100% - 38rem) calc(100% - 28rem),calc(100% - 38rem) calc(100% - 26rem),calc(100% - 42rem) calc(100% - 26rem),calc(100% - 42rem) calc(100% - 24rem),calc(100% - 44rem) calc(100% - 24rem),calc(100% - 44rem) calc(100% - 22rem),calc(100% - 46rem) calc(100% - 22rem),calc(100% - 46rem) calc(100% - 20rem),calc(100% - 48rem) calc(100% - 20rem),calc(100% - 48rem) calc(100% - 18rem),calc(100% - 50rem) calc(100% - 18rem),calc(100% - 50rem) calc(100% - 16rem),calc(100% - 54rem) calc(100% - 16rem),calc(100% - 54rem) calc(100% - 14rem),calc(100% - 56rem) calc(100% - 14rem),calc(100% - 56rem) calc(100% - 12rem),calc(100% - 60rem) calc(100% - 12rem),calc(100% - 60rem) calc(100% - 10rem),calc(100% - 64rem) calc(100% - 10rem),calc(100% - 64rem) calc(100% - 8rem),calc(100% - 68rem) calc(100% - 8rem),calc(100% - 68rem) calc(100% - 6rem),calc(100% - 74rem) calc(100% - 6rem),calc(100% - 74rem) calc(100% - 4rem),calc(100% - 80rem) calc(100% - 4rem),calc(100% - 80rem) calc(100% - 2rem),calc(100% - 90rem) calc(100% - 2rem),calc(100% - 90rem) 100%,90rem 100%,90rem calc(100% - 2rem),80rem calc(100% - 2rem),80rem calc(100% - 4rem),74rem calc(100% - 4rem),74rem calc(100% - 6rem),68rem calc(100% - 6rem),68rem calc(100% - 8rem),64rem calc(100% - 8rem),64rem calc(100% - 10rem),60rem calc(100% - 10rem),60rem calc(100% - 12rem),56rem calc(100% - 12rem),56rem calc(100% - 14rem),54rem calc(100% - 14rem),54rem calc(100% - 16rem),50rem calc(100% - 16rem),50rem calc(100% - 18rem),48rem calc(100% - 18rem),48rem calc(100% - 20rem),46rem calc(100% - 20rem),46rem calc(100% - 22rem),44rem calc(100% - 22rem),44rem calc(100% - 24rem),42rem calc(100% - 24rem),42rem calc(100% - 26rem),38rem calc(100% - 26rem),38rem calc(100% - 28rem),36rem calc(100% - 28rem),36rem calc(100% - 30rem),34rem calc(100% - 30rem),34rem calc(100% - 34rem),32rem calc(100% - 34rem),32rem calc(100% - 36rem),30rem calc(100% - 36rem),30rem calc(100% - 38rem),28rem calc(100% - 38rem),28rem calc(100% - 40rem),26rem calc(100% - 40rem),26rem calc(100% - 44rem),24rem calc(100% - 44rem),24rem calc(100% - 46rem),22rem calc(100% - 46rem),22rem calc(100% - 50rem),20rem calc(100% - 50rem),20rem calc(100% - 52rem),18rem calc(100% - 52rem),18rem calc(100% - 56rem),16rem calc(100% - 56rem),16rem calc(100% - 60rem),14rem calc(100% - 60rem),14rem calc(100% - 64rem),12rem calc(100% - 64rem),12rem calc(100% - 70rem),10rem calc(100% - 70rem),10rem calc(100% - 74rem),8rem calc(100% - 74rem),8rem calc(100% - 80rem),6rem calc(100% - 80rem),6rem calc(100% - 88rem),4rem calc(100% - 88rem),4rem calc(100% - 96rem),2rem calc(100% - 96rem),2rem calc(100% - 108rem),0 calc(100% - 108rem),0 calc(100% - 126rem),0 calc(100% - 126rem),0 104rem,0 104rem,0 90rem,2rem 90rem,2rem 78rem,4rem 78rem,4rem 72rem,6rem 72rem,6rem 66rem,8rem 66rem,8rem 62rem,10rem 62rem,10rem 58rem,12rem 58rem,12rem 54rem,14rem 54rem,14rem 50rem,16rem 50rem,16rem 46rem,18rem 46rem,18rem 44rem,20rem 44rem,20rem 42rem,22rem 42rem,22rem 38rem,24rem 38rem,24rem 36rem,26rem 36rem,26rem 34rem,28rem 34rem,28rem 32rem,30rem 32rem,30rem 30rem,32rem 30rem,32rem 28rem,34rem 28rem,34rem 26rem,36rem 26rem,36rem 24rem,40rem 24rem,40rem 22rem,42rem 22rem,42rem 20rem,46rem 20rem,46rem 18rem,48rem 18rem,48rem 16rem,52rem 16rem,52rem 14rem,56rem 14rem,56rem 12rem,62rem 12rem,62rem 10rem,68rem 10rem,68rem 8rem,78rem 8rem,78rem 6rem,110rem 4rem,142rem 2rem,45% 0,55% 0,calc(100% - 142rem) 2rem,calc(100% - 110rem) 4rem);
+  --shell-lip-cut:polygon(calc(100% - 76rem) 6rem,calc(100% - 76rem) 8rem,calc(100% - 66rem) 8rem,calc(100% - 66rem) 10rem,calc(100% - 60rem) 10rem,calc(100% - 60rem) 12rem,calc(100% - 56rem) 12rem,calc(100% - 56rem) 14rem,calc(100% - 50rem) 14rem,calc(100% - 50rem) 16rem,calc(100% - 48rem) 16rem,calc(100% - 48rem) 18rem,calc(100% - 44rem) 18rem,calc(100% - 44rem) 20rem,calc(100% - 40rem) 20rem,calc(100% - 40rem) 22rem,calc(100% - 38rem) 22rem,calc(100% - 38rem) 24rem,calc(100% - 36rem) 24rem,calc(100% - 36rem) 26rem,calc(100% - 34rem) 26rem,calc(100% - 34rem) 28rem,calc(100% - 30rem) 28rem,calc(100% - 30rem) 30rem,calc(100% - 28rem) 30rem,calc(100% - 28rem) 32rem,calc(100% - 26rem) 32rem,calc(100% - 26rem) 34rem,calc(100% - 24rem) 34rem,calc(100% - 24rem) 38rem,calc(100% - 22rem) 38rem,calc(100% - 22rem) 40rem,calc(100% - 20rem) 40rem,calc(100% - 20rem) 42rem,calc(100% - 18rem) 42rem,calc(100% - 18rem) 46rem,calc(100% - 16rem) 46rem,calc(100% - 16rem) 48rem,calc(100% - 14rem) 48rem,calc(100% - 14rem) 52rem,calc(100% - 12rem) 52rem,calc(100% - 12rem) 56rem,calc(100% - 10rem) 56rem,calc(100% - 10rem) 60rem,calc(100% - 8rem) 60rem,calc(100% - 8rem) 64rem,calc(100% - 6rem) 64rem,calc(100% - 6rem) 70rem,calc(100% - 4rem) 70rem,calc(100% - 4rem) 78rem,calc(100% - 2rem) 78rem,calc(100% - 2rem) 88rem,100% 88rem,100% 102rem,100% 102rem,100% calc(100% - 120rem),100% calc(100% - 120rem),100% calc(100% - 104rem),calc(100% - 2rem) calc(100% - 104rem),calc(100% - 2rem) calc(100% - 90rem),calc(100% - 4rem) calc(100% - 90rem),calc(100% - 4rem) calc(100% - 82rem),calc(100% - 6rem) calc(100% - 82rem),calc(100% - 6rem) calc(100% - 76rem),calc(100% - 8rem) calc(100% - 76rem),calc(100% - 8rem) calc(100% - 70rem),calc(100% - 10rem) calc(100% - 70rem),calc(100% - 10rem) calc(100% - 66rem),calc(100% - 12rem) calc(100% - 66rem),calc(100% - 12rem) calc(100% - 60rem),calc(100% - 14rem) calc(100% - 60rem),calc(100% - 14rem) calc(100% - 56rem),calc(100% - 16rem) calc(100% - 56rem),calc(100% - 16rem) calc(100% - 54rem),calc(100% - 18rem) calc(100% - 54rem),calc(100% - 18rem) calc(100% - 50rem),calc(100% - 20rem) calc(100% - 50rem),calc(100% - 20rem) calc(100% - 46rem),calc(100% - 22rem) calc(100% - 46rem),calc(100% - 22rem) calc(100% - 44rem),calc(100% - 24rem) calc(100% - 44rem),calc(100% - 24rem) calc(100% - 40rem),calc(100% - 26rem) calc(100% - 40rem),calc(100% - 26rem) calc(100% - 38rem),calc(100% - 28rem) calc(100% - 38rem),calc(100% - 28rem) calc(100% - 36rem),calc(100% - 30rem) calc(100% - 36rem),calc(100% - 30rem) calc(100% - 34rem),calc(100% - 32rem) calc(100% - 34rem),calc(100% - 32rem) calc(100% - 30rem),calc(100% - 34rem) calc(100% - 30rem),calc(100% - 34rem) calc(100% - 28rem),calc(100% - 36rem) calc(100% - 28rem),calc(100% - 36rem) calc(100% - 26rem),calc(100% - 38rem) calc(100% - 26rem),calc(100% - 38rem) calc(100% - 24rem),calc(100% - 42rem) calc(100% - 24rem),calc(100% - 42rem) calc(100% - 22rem),calc(100% - 44rem) calc(100% - 22rem),calc(100% - 44rem) calc(100% - 20rem),calc(100% - 46rem) calc(100% - 20rem),calc(100% - 46rem) calc(100% - 18rem),calc(100% - 48rem) calc(100% - 18rem),calc(100% - 48rem) calc(100% - 16rem),calc(100% - 52rem) calc(100% - 16rem),calc(100% - 52rem) calc(100% - 14rem),calc(100% - 54rem) calc(100% - 14rem),calc(100% - 54rem) calc(100% - 12rem),calc(100% - 58rem) calc(100% - 12rem),calc(100% - 58rem) calc(100% - 10rem),calc(100% - 62rem) calc(100% - 10rem),calc(100% - 62rem) calc(100% - 8rem),calc(100% - 66rem) calc(100% - 8rem),calc(100% - 66rem) calc(100% - 6rem),calc(100% - 72rem) calc(100% - 6rem),calc(100% - 72rem) calc(100% - 4rem),calc(100% - 78rem) calc(100% - 4rem),calc(100% - 78rem) calc(100% - 2rem),calc(100% - 88rem) calc(100% - 2rem),calc(100% - 88rem) 100%,88rem 100%,88rem calc(100% - 2rem),78rem calc(100% - 2rem),78rem calc(100% - 4rem),72rem calc(100% - 4rem),72rem calc(100% - 6rem),66rem calc(100% - 6rem),66rem calc(100% - 8rem),62rem calc(100% - 8rem),62rem calc(100% - 10rem),58rem calc(100% - 10rem),58rem calc(100% - 12rem),54rem calc(100% - 12rem),54rem calc(100% - 14rem),52rem calc(100% - 14rem),52rem calc(100% - 16rem),48rem calc(100% - 16rem),48rem calc(100% - 18rem),46rem calc(100% - 18rem),46rem calc(100% - 20rem),44rem calc(100% - 20rem),44rem calc(100% - 22rem),42rem calc(100% - 22rem),42rem calc(100% - 24rem),38rem calc(100% - 24rem),38rem calc(100% - 26rem),36rem calc(100% - 26rem),36rem calc(100% - 28rem),34rem calc(100% - 28rem),34rem calc(100% - 30rem),32rem calc(100% - 30rem),32rem calc(100% - 34rem),30rem calc(100% - 34rem),30rem calc(100% - 36rem),28rem calc(100% - 36rem),28rem calc(100% - 38rem),26rem calc(100% - 38rem),26rem calc(100% - 40rem),24rem calc(100% - 40rem),24rem calc(100% - 44rem),22rem calc(100% - 44rem),22rem calc(100% - 46rem),20rem calc(100% - 46rem),20rem calc(100% - 50rem),18rem calc(100% - 50rem),18rem calc(100% - 54rem),16rem calc(100% - 54rem),16rem calc(100% - 56rem),14rem calc(100% - 56rem),14rem calc(100% - 60rem),12rem calc(100% - 60rem),12rem calc(100% - 66rem),10rem calc(100% - 66rem),10rem calc(100% - 70rem),8rem calc(100% - 70rem),8rem calc(100% - 76rem),6rem calc(100% - 76rem),6rem calc(100% - 82rem),4rem calc(100% - 82rem),4rem calc(100% - 90rem),2rem calc(100% - 90rem),2rem calc(100% - 104rem),0 calc(100% - 104rem),0 calc(100% - 120rem),0 calc(100% - 120rem),0 102rem,0 102rem,0 88rem,2rem 88rem,2rem 78rem,4rem 78rem,4rem 70rem,6rem 70rem,6rem 64rem,8rem 64rem,8rem 60rem,10rem 60rem,10rem 56rem,12rem 56rem,12rem 52rem,14rem 52rem,14rem 48rem,16rem 48rem,16rem 46rem,18rem 46rem,18rem 42rem,20rem 42rem,20rem 40rem,22rem 40rem,22rem 38rem,24rem 38rem,24rem 34rem,26rem 34rem,26rem 32rem,28rem 32rem,28rem 30rem,30rem 30rem,30rem 28rem,34rem 28rem,34rem 26rem,36rem 26rem,36rem 24rem,38rem 24rem,38rem 22rem,40rem 22rem,40rem 20rem,44rem 20rem,44rem 18rem,48rem 18rem,48rem 16rem,50rem 16rem,50rem 14rem,56rem 14rem,56rem 12rem,60rem 12rem,60rem 10rem,66rem 10rem,66rem 8rem,76rem 8rem,76rem 6rem,108rem 4rem,140rem 2rem,45% 0,55% 0,calc(100% - 140rem) 2rem,calc(100% - 108rem) 4rem);
+  --shell-face-cut:polygon(calc(100% - 70rem) 6rem,calc(100% - 70rem) 8rem,calc(100% - 62rem) 8rem,calc(100% - 62rem) 10rem,calc(100% - 56rem) 10rem,calc(100% - 56rem) 12rem,calc(100% - 50rem) 12rem,calc(100% - 50rem) 14rem,calc(100% - 46rem) 14rem,calc(100% - 46rem) 16rem,calc(100% - 42rem) 16rem,calc(100% - 42rem) 18rem,calc(100% - 40rem) 18rem,calc(100% - 40rem) 20rem,calc(100% - 36rem) 20rem,calc(100% - 36rem) 22rem,calc(100% - 34rem) 22rem,calc(100% - 34rem) 24rem,calc(100% - 32rem) 24rem,calc(100% - 32rem) 26rem,calc(100% - 30rem) 26rem,calc(100% - 30rem) 28rem,calc(100% - 28rem) 28rem,calc(100% - 28rem) 30rem,calc(100% - 26rem) 30rem,calc(100% - 26rem) 32rem,calc(100% - 24rem) 32rem,calc(100% - 24rem) 34rem,calc(100% - 22rem) 34rem,calc(100% - 22rem) 36rem,calc(100% - 20rem) 36rem,calc(100% - 20rem) 38rem,calc(100% - 18rem) 38rem,calc(100% - 18rem) 42rem,calc(100% - 16rem) 42rem,calc(100% - 16rem) 44rem,calc(100% - 14rem) 44rem,calc(100% - 14rem) 48rem,calc(100% - 12rem) 48rem,calc(100% - 12rem) 50rem,calc(100% - 10rem) 50rem,calc(100% - 10rem) 56rem,calc(100% - 8rem) 56rem,calc(100% - 8rem) 60rem,calc(100% - 6rem) 60rem,calc(100% - 6rem) 66rem,calc(100% - 4rem) 66rem,calc(100% - 4rem) 72rem,calc(100% - 2rem) 72rem,calc(100% - 2rem) 82rem,100% 82rem,100% 96rem,100% 96rem,100% calc(100% - 114rem),100% calc(100% - 114rem),100% calc(100% - 98rem),calc(100% - 2rem) calc(100% - 98rem),calc(100% - 2rem) calc(100% - 86rem),calc(100% - 4rem) calc(100% - 86rem),calc(100% - 4rem) calc(100% - 78rem),calc(100% - 6rem) calc(100% - 78rem),calc(100% - 6rem) calc(100% - 72rem),calc(100% - 8rem) calc(100% - 72rem),calc(100% - 8rem) calc(100% - 66rem),calc(100% - 10rem) calc(100% - 66rem),calc(100% - 10rem) calc(100% - 62rem),calc(100% - 12rem) calc(100% - 62rem),calc(100% - 12rem) calc(100% - 56rem),calc(100% - 14rem) calc(100% - 56rem),calc(100% - 14rem) calc(100% - 52rem),calc(100% - 16rem) calc(100% - 52rem),calc(100% - 16rem) calc(100% - 50rem),calc(100% - 18rem) calc(100% - 50rem),calc(100% - 18rem) calc(100% - 46rem),calc(100% - 20rem) calc(100% - 46rem),calc(100% - 20rem) calc(100% - 42rem),calc(100% - 22rem) calc(100% - 42rem),calc(100% - 22rem) calc(100% - 40rem),calc(100% - 24rem) calc(100% - 40rem),calc(100% - 24rem) calc(100% - 38rem),calc(100% - 26rem) calc(100% - 38rem),calc(100% - 26rem) calc(100% - 34rem),calc(100% - 28rem) calc(100% - 34rem),calc(100% - 28rem) calc(100% - 32rem),calc(100% - 30rem) calc(100% - 32rem),calc(100% - 30rem) calc(100% - 30rem),calc(100% - 32rem) calc(100% - 30rem),calc(100% - 32rem) calc(100% - 28rem),calc(100% - 34rem) calc(100% - 28rem),calc(100% - 34rem) calc(100% - 26rem),calc(100% - 36rem) calc(100% - 26rem),calc(100% - 36rem) calc(100% - 24rem),calc(100% - 38rem) calc(100% - 24rem),calc(100% - 38rem) calc(100% - 22rem),calc(100% - 40rem) calc(100% - 22rem),calc(100% - 40rem) calc(100% - 20rem),calc(100% - 42rem) calc(100% - 20rem),calc(100% - 42rem) calc(100% - 18rem),calc(100% - 46rem) calc(100% - 18rem),calc(100% - 46rem) calc(100% - 16rem),calc(100% - 48rem) calc(100% - 16rem),calc(100% - 48rem) calc(100% - 14rem),calc(100% - 52rem) calc(100% - 14rem),calc(100% - 52rem) calc(100% - 12rem),calc(100% - 54rem) calc(100% - 12rem),calc(100% - 54rem) calc(100% - 10rem),calc(100% - 58rem) calc(100% - 10rem),calc(100% - 58rem) calc(100% - 8rem),calc(100% - 62rem) calc(100% - 8rem),calc(100% - 62rem) calc(100% - 6rem),calc(100% - 68rem) calc(100% - 6rem),calc(100% - 68rem) calc(100% - 4rem),calc(100% - 74rem) calc(100% - 4rem),calc(100% - 74rem) calc(100% - 2rem),calc(100% - 84rem) calc(100% - 2rem),calc(100% - 84rem) 100%,84rem 100%,84rem calc(100% - 2rem),74rem calc(100% - 2rem),74rem calc(100% - 4rem),68rem calc(100% - 4rem),68rem calc(100% - 6rem),62rem calc(100% - 6rem),62rem calc(100% - 8rem),58rem calc(100% - 8rem),58rem calc(100% - 10rem),54rem calc(100% - 10rem),54rem calc(100% - 12rem),52rem calc(100% - 12rem),52rem calc(100% - 14rem),48rem calc(100% - 14rem),48rem calc(100% - 16rem),46rem calc(100% - 16rem),46rem calc(100% - 18rem),42rem calc(100% - 18rem),42rem calc(100% - 20rem),40rem calc(100% - 20rem),40rem calc(100% - 22rem),38rem calc(100% - 22rem),38rem calc(100% - 24rem),36rem calc(100% - 24rem),36rem calc(100% - 26rem),34rem calc(100% - 26rem),34rem calc(100% - 28rem),32rem calc(100% - 28rem),32rem calc(100% - 30rem),30rem calc(100% - 30rem),30rem calc(100% - 32rem),28rem calc(100% - 32rem),28rem calc(100% - 34rem),26rem calc(100% - 34rem),26rem calc(100% - 38rem),24rem calc(100% - 38rem),24rem calc(100% - 40rem),22rem calc(100% - 40rem),22rem calc(100% - 42rem),20rem calc(100% - 42rem),20rem calc(100% - 46rem),18rem calc(100% - 46rem),18rem calc(100% - 50rem),16rem calc(100% - 50rem),16rem calc(100% - 52rem),14rem calc(100% - 52rem),14rem calc(100% - 56rem),12rem calc(100% - 56rem),12rem calc(100% - 62rem),10rem calc(100% - 62rem),10rem calc(100% - 66rem),8rem calc(100% - 66rem),8rem calc(100% - 72rem),6rem calc(100% - 72rem),6rem calc(100% - 78rem),4rem calc(100% - 78rem),4rem calc(100% - 86rem),2rem calc(100% - 86rem),2rem calc(100% - 98rem),0 calc(100% - 98rem),0 calc(100% - 114rem),0 calc(100% - 114rem),0 96rem,0 96rem,0 82rem,2rem 82rem,2rem 72rem,4rem 72rem,4rem 66rem,6rem 66rem,6rem 60rem,8rem 60rem,8rem 56rem,10rem 56rem,10rem 50rem,12rem 50rem,12rem 48rem,14rem 48rem,14rem 44rem,16rem 44rem,16rem 42rem,18rem 42rem,18rem 38rem,20rem 38rem,20rem 36rem,22rem 36rem,22rem 34rem,24rem 34rem,24rem 32rem,26rem 32rem,26rem 30rem,28rem 30rem,28rem 28rem,30rem 28rem,30rem 26rem,32rem 26rem,32rem 24rem,34rem 24rem,34rem 22rem,36rem 22rem,36rem 20rem,40rem 20rem,40rem 18rem,42rem 18rem,42rem 16rem,46rem 16rem,46rem 14rem,50rem 14rem,50rem 12rem,56rem 12rem,56rem 10rem,62rem 10rem,62rem 8rem,70rem 8rem,70rem 6rem,102rem 4rem,134rem 2rem,45% 0,55% 0,calc(100% - 134rem) 2rem,calc(100% - 102rem) 4rem);
 }
-
-* { box-sizing: border-box; }
-
-html, body {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  overscroll-behavior: none;
+:root[data-shell=tokay] {
+  --outer:#343d4e; --outer-check:#3e4759; --ground:#232d3b;
+  --shell:#97b9d3; --shell-mid:#7199b7; --shell-light:#d5e6ed; --shell-white:#eef4e4;
+  --shell-dark:#4e708a; --shell-deep:#2c4058; --spot:#df865e; --spot-light:#d4d5b2;
+  --rim:#476478; --rim-dark:#293c4d; --rim-light:#b8d3cb;
+  --ink:#3c4e55; --muted:#6b7c7a; --paper:#e8eeea; --header:#c6d4c0; --panel:#f8f8eb; --accent:#d88b66;
+  --heart:#b4765e; --star:#8b644b; --plus:#5a7a7f; --name:#46584f; --highlight:#f6f0cd; --texture-color:#7b9695;
+  --key:#c2ce96; --key-light:#f0f1d0; --key-mid:#9ca970; --key-dark:#5c7151; --key-ink:#2e4033;
+  --key-center:#b8c38b; --key-center-light:#e9edc5; --key-center-dark:#6a7a51;
 }
-
-html { background: var(--outer); }
-html[lang=ja] { --font: PixelJP, Pixel, monospace; }
-body { color: var(--ink); font: 12rem/1.7 var(--font); }
-
-button, a {
-  font: inherit;
-  color: inherit;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
+:root[data-shell=day] {
+  --outer:#3d4948; --outer-check:#475451; --ground:#273b36;
+  --shell:#58a479; --shell-mid:#408b68; --shell-light:#a9ce8e; --shell-white:#dfe8b6;
+  --shell-dark:#316d54; --shell-deep:#294e43; --spot:#bb5b4d; --spot-light:#e0cd91;
+  --rim:#476b53; --rim-dark:#2d473c; --rim-light:#c3d696;
+  --ink:#3d503e; --muted:#708165; --paper:#edf0dc; --header:#d0dda4; --panel:#fffbed; --accent:#d6ae73;
+  --heart:#ac675b; --star:#90754b; --plus:#5c805d; --name:#455e42; --highlight:#fff2c9; --texture-color:#9aab71;
+  --key:#c6c3ac; --key-light:#ecebd4; --key-mid:#a19f87; --key-dark:#656f58; --key-ink:#354b3c;
+  --key-center:#bbb9a1; --key-center-light:#e5e4c9; --key-center-dark:#72785e;
 }
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;overscroll-behavior:none}
+html{background:var(--outer)}html[lang=ja]{--font:PixelJP,Pixel,monospace}
+body{display:grid;place-items:center;padding:16px 12px;color:var(--ink);font:clamp(11px,13rem,16px)/1.7 var(--font);background:conic-gradient(var(--outer-check) 25%,transparent 0 50%,var(--outer-check) 0 75%,transparent 0) 0 0/64rem 64rem var(--outer)}
+button,a{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent;touch-action:manipulation}button{cursor:pointer;border:0}a{text-decoration:none}button:focus-visible,a:focus-visible{outline:3rem solid var(--ink);outline-offset:4rem}img,svg{display:block}img{image-rendering:pixelated}h1,h2,p,figure{margin:0}
 
-button { cursor: pointer; border: 0; }
-a { text-decoration: none; }
-button:focus-visible, a:focus-visible { outline: 2rem solid var(--accent); outline-offset: 3rem; }
-img, svg { display: block; }
-img { image-rendering: pixelated; }
-h1, h2, p, figure { margin: 0; }
+/* The stepped cap and tapered heel form one molded case. */
+.phone-case {
+  position:relative; width:430rem; height:min(790rem,calc(100dvh - 32px));
+  filter:saturate(.90) brightness(.96) drop-shadow(4rem 8rem 0 var(--ground));
+}
+.phone-case::before,.phone-case::after {
+  content:'';position:absolute;right:-2rem;top:185rem;width:6rem;height:34rem;
+  background:linear-gradient(90deg,var(--shell-mid) 0 2rem,var(--shell-dark) 2rem 4rem,var(--shell-deep) 4rem 100%);
+  box-shadow:0 2rem 0 #1118,inset 0 1rem var(--shell-light);border-radius:0;
+}
+.phone-case::after {top:240rem;height:50rem;right:-2rem}
+.phone-shell {
+  height:100%;position:relative;isolation:isolate;display:grid;
+  grid-template-rows:minmax(0,1fr) auto;gap:30rem;padding:94rem 50rem 40rem;
+  clip-path:var(--cut);
+  background:var(--shell-deep);
+}
+.phone-shell::before,.phone-shell::after {content:'';position:absolute;pointer-events:none;clip-path:var(--cut)}
+.phone-shell::before {
+  inset:2rem 2rem 6rem;z-index:-3;
+  background:var(--shell-mid);
+  clip-path:var(--shell-lip-cut);
+}
+.phone-shell::after {
+  inset:6rem 6rem 10rem;z-index:-2;
+  background:var(--shell);
+  box-shadow:none;
+  clip-path:var(--shell-face-cut);
+}
+.shell-face {
+  position:absolute;inset:6rem 6rem 10rem;z-index:-1;clip-path:var(--shell-face-cut);overflow:hidden;pointer-events:none;
+}
+.shell-pattern,.shell-pattern svg {position:absolute;inset:0;width:100%;height:100%;display:block}
+.shell-pattern {
+  opacity:.9;
+}
+.shell-sheen {
+  position:absolute;inset:0;
+  background:transparent;
 
+  width:100%;
+  height:100%;
+  image-rendering:pixelated;
+  pointer-events:none;}
+/* A vertical receiver and a polished lip sit in the convex crown. */
+/* Three small acoustic vents are modeled into the crown. */
+.shell-top {position:absolute;left:71rem;right:71rem;top:44rem;height:12rem}
+.shell-speaker {position:absolute;left:50%;top:0;transform:translateX(-50%);display:flex;justify-content:center;gap:6rem;width:28rem;height:8rem}
+.shell-speaker i {display:block;width:5rem;height:8rem;background:linear-gradient(180deg,var(--shell-deep) 0 2rem,var(--shell-dark) 2rem 6rem,var(--shell-mid) 6rem 7rem,var(--shell-light) 7rem 100%);clip-path:polygon(1rem 0,4rem 0,4rem 1rem,5rem 1rem,5rem 7rem,4rem 7rem,4rem 8rem,1rem 8rem,1rem 7rem,0 7rem,0 1rem,1rem 1rem)}
+.shell-light {display:none}
+.shell-bottom {display:none}
+.shell-bottom i {width:6rem;height:2rem;background:var(--shell-dark);box-shadow:0 2rem var(--shell-light)}
+/* Glass rests inside a dark gasket, with a broad reflecting lower lip. */
 .app-window {
-  width: 390rem;
-  height: 100vh;
-  height: 100dvh;
-  margin: 0 auto;
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  border-inline: 1rem solid var(--line);
-  isolation: isolate;
-  overflow: hidden;
-  background: var(--paper);
+  position:relative;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr);padding:8rem 7rem 5rem 5rem;
+  background:var(--rim-dark);
+  box-shadow:inset -2rem 3rem 0 var(--shell-dark),inset 2rem -2rem 0 var(--shell-light),
+    inset -5rem 7rem 0 var(--rim-dark),inset 5rem -4rem 0 var(--rim-light);
+  clip-path:polygon(4rem 0,calc(100% - 4rem) 0,calc(100% - 4rem) 2rem,100% 2rem,100% calc(100% - 4rem),calc(100% - 2rem) calc(100% - 4rem),calc(100% - 2rem) 100%,2rem 100%,2rem calc(100% - 2rem),0 calc(100% - 2rem),0 2rem,4rem 2rem);
+  overflow:hidden;isolation:isolate;
 }
-
-/* The terminal mark straddles the masthead and the feed. */
-.app-header {
-  position: relative;
-  z-index: 3;
-  padding-top: env(safe-area-inset-top);
-  background: var(--header);
-  border-bottom: 2rem solid #394337;
-}
-
-.masthead { position: relative; height: 67rem; }
-.brand-icon { position: absolute; z-index: 2; left: 12rem; top: 25rem; width: 72rem; height: 72rem; pointer-events: none; }
-.brand-icon img { width: 100%; height: 100%; }
-
-h1 {
-  position: absolute;
-  left: 99rem;
-  top: 23.5rem;
-  width: 150rem;
-  height: 36rem;
-  font-weight: 400;
-  font-size: 30rem;
-  line-height: 36rem;
-  white-space: nowrap;
-}
-
-h1 span { position: absolute; }
-.title-slash { left: 0; color: #677338; }
-.title-text { left: 15.5rem; color: var(--ink); }
-.title-dot { left: 131rem; color: #677338; }
-.pixel-stickers { pointer-events: none; }
-.decoration { position: absolute; display: block; }
-.decoration svg { width: 100%; height: 100%; }
-.star-left { left: 305.8rem; top: 10rem; width: 18.2rem; height: 18.2rem; color: var(--star); animation: star-glint 9s steps(1, end) infinite; }
-.heart-large { left: 329.85rem; top: 24.3rem; width: 28.6rem; height: 23.4rem; color: var(--heart); }
-.star-right { left: 363rem; top: 47.7rem; width: 13rem; height: 13rem; color: var(--star); }
-.cross { left: 329.2rem; top: 49rem; width: 13rem; height: 13rem; color: var(--plus); }
-.star-small { left: 365.6rem; top: 10rem; width: 7.8rem; height: 7.8rem; color: var(--star); animation: star-glint 11s steps(1, end) -5s infinite; }
-.heart-small { left: 310.35rem; top: 39.9rem; width: 13rem; height: 11.05rem; color: var(--heart); }
-.star-group { left: 226.8rem; top: 14rem; width: 14rem; height: 23rem; color: #6d7a43; }
-.star-center { left: 251.8rem; top: 46rem; width: 14rem; height: 14rem; color: var(--star); }
-.radio { left: 275rem; top: 16.5rem; width: 34rem; height: 29rem; color: #6d7a43; }
-.decoration svg path[fill="#ffe4e5"] { fill: var(--highlight); }
-
-#timeline {
-  position: relative;
-  isolation: isolate;
-  min-height: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
-  overscroll-behavior-y: contain;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  padding: 35rem 11rem 20rem 8rem;
-  outline: none;
-  background: radial-gradient(#66705c24 .65rem, transparent .7rem) 0 -67rem / 8rem 8rem var(--paper);
-}
-
-#timeline::-webkit-scrollbar { display: none; width: 0; height: 0; }
-#posts { display: flex; flex-direction: column; gap: 12rem; }
-
-.post {
-  display: grid;
-  grid-template-columns: 42rem minmax(0, 1fr);
-  column-gap: 8rem;
-  align-items: start;
-}
-
-.post[data-tone] { --post-strip: #e7ebd9; --post-edge: #7b8b61; --post-handle: #606d4d; --heart: var(--post-edge); }
-.post[data-tone=sand] { --post-strip: #ece5d6; --post-edge: #a08c65; --post-handle: #79694e; }
-.post[data-tone=rose] { --post-strip: #e8e3e7; --post-edge: #92828c; --post-handle: #766470; }
-.post[data-tone=isopoda] { --post-strip: #dfe7da; --post-edge: #72846b; --post-handle: #57684f; }
-.post-portrait { position: relative; }
-.post-portrait::after { content: ''; position: absolute; left: 42rem; top: 20rem; width: 8rem; height: 1rem; background: var(--post-edge); opacity: .7; }
-
-.avatar, .settings-portrait { display: grid; place-items: center; width: 42rem; height: 42rem; }
-.avatar { border: 1rem solid var(--post-edge); background: var(--header); box-shadow: 2rem 2rem 0 var(--post-edge); transition: transform 120ms steps(2, end); }
-.avatar img { width: 40rem; height: 40rem; object-fit: cover; }
-
-.bubble {
-  position: relative;
-  min-width: 0;
-  padding: 10rem 11rem 9rem;
-  border: 1rem solid var(--line);
-  border-left: 3rem solid #788665;
-  background: var(--panel);
-  box-shadow: 3rem 3rem 0 var(--line);
-  transition: box-shadow 120ms steps(2, end);
-}
-
-.post[data-tone] .bubble { border-left-color: var(--post-edge); }
-.post-identity {
-  display: flex;
-  align-items: center;
-  min-height: 28rem;
-  margin: -10rem -11rem 0;
-  padding: 6rem 11rem;
-  background: var(--post-strip);
-  border-bottom: 1rem solid color-mix(in srgb, var(--post-edge) 48%, var(--panel));
-  font-size: 12rem;
-  line-height: 15rem;
-}
-
-.author-name { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 5rem; min-width: 0; color: var(--name); font-weight: 400; overflow-wrap: anywhere; }
-.author-label { white-space: nowrap; }
-.author-handle { font-size: 9rem; line-height: 12rem; color: var(--post-handle); overflow-wrap: anywhere; }
-.post-media { margin-top: 9rem; }
-.post-media img { width: 296rem; max-width: 100%; height: auto; object-fit: contain; }
-.post-text { margin: 7rem 0 0 2rem; font-size: 12rem; line-height: 21rem; white-space: pre-wrap; overflow-wrap: anywhere; }
-.post-footer { display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 8rem; min-height: 15rem; margin-top: 12rem; }
-.post-time { margin-left: 1rem; font-size: 9rem; line-height: 10.8rem; color: var(--muted); }
-.post-actions { position: relative; line-height: 1; }
-.post-actions button { position: relative; display: flex; align-items: center; gap: 5rem; height: 13rem; padding: 0; background: transparent; color: var(--heart); font-size: 10rem; line-height: 13rem; }
-/* Enlarge the hit area without moving the visible heart or count. */
-.post-actions button::after { content: ''; position: absolute; inset: -9rem -6rem; }
-.post-actions button:active { transform: translateY(1rem); }
-.post-actions button:focus-visible { outline-color: #6d7a43; }
-.post-actions .ui-icon { width: 13rem; height: 13rem; flex: none; }
-.pixel-heart { fill: currentColor; stroke: none; }
-.heart-core { opacity: 0; }
-.post-actions [aria-pressed=true] .pixel-heart { fill: var(--heart); }
-.post-actions [aria-pressed=true] .heart-core { opacity: 1; }
-.like-count { display: flex; align-items: center; height: 13rem; line-height: 13rem; color: var(--muted); }
-.post-actions [aria-pressed=true] .like-count { color: var(--heart); }
-.post-actions .is-celebrating .ui-icon { animation: heart-pop 450ms steps(5, end); }
-.like-burst { position: absolute; left: 6rem; top: 6rem; width: 0; height: 0; pointer-events: none; color: var(--post-edge); }
-.like-burst > span { position: absolute; width: 2rem; height: 2rem; background: currentColor; animation: like-pixel 560ms steps(6, end) both; }
-.like-burst > span:nth-child(2n) { width: 3rem; height: 3rem; background: #a9b85a; }
-
-.dither { position: absolute; bottom: 0; left: 0; width: 100%; height: 10rem; pointer-events: none; color: var(--texture-color); opacity: .09; }
-.dither svg { width: 100%; height: 100%; }
-.masthead > .dither { height: 12rem; opacity: .14; }
-.stream-flourish { display: flex; align-items: center; justify-content: center; gap: 19rem; height: 48rem; margin: 35rem 0 20rem; pointer-events: none; }
-.stream-flourish .decoration { position: relative; }
-.footer-star-left { width: 16rem; height: 16rem; color: var(--plus); }
-.footer-heart { width: 24rem; height: 20rem; color: var(--heart); }
-.footer-star-right { width: 12rem; height: 12rem; color: var(--star); }
-
+.app-window::before {content:'';position:absolute;z-index:5;inset:8rem 7rem 5rem 5rem;background:#85a8b008;box-shadow:inset -2rem 3rem #0d243f4d,inset 1rem -1rem #ecfaff40;pointer-events:none}
+.app-window::after {content:'';position:absolute;z-index:5;inset:8rem 7rem 5rem 5rem;background:#f0fbff12;clip-path:polygon(0 0,96rem 0,96rem 6rem,94rem 6rem,94rem 12rem,92rem 12rem,92rem 18rem,90rem 18rem,90rem 24rem,88rem 24rem,88rem 30rem,86rem 30rem,86rem 36rem,84rem 36rem,84rem 42rem,82rem 42rem,82rem 48rem,80rem 48rem,80rem 54rem,78rem 54rem,78rem 60rem,76rem 60rem,76rem 66rem,74rem 66rem,74rem 72rem,72rem 72rem,72rem 78rem,70rem 78rem,70rem 84rem,68rem 84rem,68rem 90rem,66rem 90rem,66rem 96rem,64rem 96rem,64rem 102rem,62rem 102rem,62rem 108rem,60rem 108rem,60rem 114rem,58rem 114rem,58rem 120rem,56rem 120rem,56rem 126rem,54rem 126rem,54rem 132rem,52rem 132rem,52rem 138rem,50rem 138rem,50rem 144rem,48rem 144rem,48rem 150rem,46rem 150rem,46rem 156rem,44rem 156rem,44rem 162rem,42rem 162rem,42rem 168rem,40rem 168rem,40rem 174rem,38rem 174rem,38rem 180rem,36rem 180rem,36rem 186rem,34rem 186rem,34rem 192rem,32rem 192rem,32rem 198rem,30rem 198rem,30rem 204rem,28rem 204rem,28rem 210rem,26rem 210rem,26rem 216rem,24rem 216rem,24rem 222rem,22rem 222rem,22rem 228rem,20rem 228rem,20rem 234rem,18rem 234rem,18rem 240rem,16rem 240rem,16rem 246rem,14rem 246rem,14rem 252rem,12rem 252rem,12rem 258rem,10rem 258rem,10rem 264rem,8rem 264rem,8rem 270rem,6rem 270rem,6rem 276rem,4rem 276rem,4rem 282rem,2rem 282rem,2rem 288rem,0rem 288rem,0 288rem);pointer-events:none}
+.app-header{position:relative;z-index:3;background:var(--header);box-shadow:inset 0 3rem 0 var(--highlight),0 3rem 0 color-mix(in srgb,var(--ink) 32%,var(--header))}
+.masthead{position:relative;height:62rem;overflow:hidden}
+.brand-icon{position:absolute;left:11rem;top:11rem;width:41rem;height:41rem;pointer-events:none}.brand-icon img{width:100%;height:100%}
+h1{position:absolute;left:58rem;top:20rem;width:155rem;height:30rem;font-size:24rem;font-weight:400;line-height:30rem;white-space:nowrap}h1 span{position:absolute}.title-slash{left:0;color:var(--star)}.title-text{left:14rem;color:var(--ink)}.title-dot{left:108rem;color:var(--star)}
+.pixel-stickers{pointer-events:none}.decoration{position:absolute;display:block}.decoration svg{width:100%;height:100%}
+.star-left{left:269rem;top:8rem;width:15rem;height:15rem;color:var(--star);animation:star-glint 9s steps(1,end) infinite}.heart-large{left:289rem;top:23rem;width:25rem;height:21rem;color:var(--heart)}.star-right{left:300rem;top:43rem;width:11rem;height:11rem;color:var(--star)}.cross{left:280rem;top:43rem;width:10rem;height:10rem;color:var(--plus)}.star-small{left:302rem;top:10rem;width:7rem;height:7rem;color:var(--star);animation:star-glint 11s steps(1,end) -5s infinite}.heart-small{left:266rem;top:32rem;width:12rem;height:10rem;color:var(--heart)}.star-group{left:214rem;top:9rem;width:10rem;height:17rem;color:var(--plus)}.star-center{left:227rem;top:43rem;width:11rem;height:11rem;color:var(--star)}.radio{left:238rem;top:19rem;width:25rem;height:22rem;color:var(--plus)}.decoration svg path[fill="#ffe4e5"]{fill:var(--highlight)}
+#timeline{position:relative;isolation:isolate;min-height:0;overflow-x:hidden;overflow-y:auto;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:16rem 12rem 15rem 10rem;outline:none;background:var(--paper)}
+#timeline::-webkit-scrollbar{display:none;width:0;height:0}#posts{display:flex;flex-direction:column;gap:14rem}
+.post{display:grid;grid-template-columns:38rem minmax(0,1fr);column-gap:9rem;align-items:start}
+.post[data-tone]{--post-strip:#dae4c5;--post-edge:#8b9c6f;--post-shadow:#c6cbb4;--post-handle:#687558;--heart:#9c6a65}
+.post[data-tone=sand]{--post-strip:#f0d6b6;--post-edge:#c49a71;--post-shadow:#d9c5a7;--post-handle:#8a7055}
+.post[data-tone=rose]{--post-strip:#ebcdd3;--post-edge:#c59ba6;--post-shadow:#d4bebc;--post-handle:#8e687a}
+.post[data-tone=isopoda]{--post-strip:#cfe0ce;--post-edge:#8ba38d;--post-shadow:#bbcbb8;--post-handle:#677e67}
+.post-portrait{position:relative}.avatar,.settings-portrait{display:grid;place-items:center;width:38rem;height:38rem}
+.avatar{padding:3rem;background:var(--post-edge);box-shadow:inset 2rem 2rem 0 color-mix(in srgb,var(--post-strip) 65%,white),2rem 3rem 0 var(--post-shadow);transition:transform 120ms steps(2,end)}.avatar img{width:32rem;height:32rem;object-fit:cover}
+.bubble{position:relative;min-width:0;padding:10rem 11rem 11rem;background:var(--panel);box-shadow:3rem 3rem 0 var(--post-shadow,var(--shell-mid));}
+.post-identity{display:flex;align-items:center;min-height:29rem;margin:-10rem -11rem 0;padding:6rem 10rem;background:var(--post-strip,var(--header));font-size:clamp(11px,13rem,16px);line-height:1.3}
+.author-name{display:flex;flex-wrap:wrap;align-items:baseline;gap:1rem 5rem;min-width:0;color:var(--name);font-weight:400;overflow-wrap:anywhere}.author-label{white-space:nowrap}.author-handle{font-size:clamp(8px,9rem,11px);line-height:1.3;color:var(--post-handle);overflow-wrap:anywhere}
+.post-media{margin-top:10rem}.post-media img{width:296rem;max-width:100%;height:auto;object-fit:contain}.post-text{margin:8rem 0 0;font-size:clamp(12px,13rem,16px);line-height:1.75;white-space:pre-wrap;overflow-wrap:anywhere}
+.post-footer{display:flex;align-items:center;justify-content:space-between;gap:8rem;min-height:16rem;margin-top:12rem}.post-time{font-size:clamp(8px,9rem,11px);line-height:1.2;color:var(--muted)}.post-actions{position:relative;line-height:1}.post-actions button{position:relative;display:flex;align-items:center;gap:5rem;min-height:16rem;padding:0;background:transparent;color:var(--heart);font-size:clamp(8px,10rem,12px);line-height:13rem}.post-actions button::after{content:'';position:absolute;inset:-9rem -6rem}.post-actions button:active{transform:translateY(1rem)}.post-actions .ui-icon{width:max(14rem,10px);height:max(14rem,10px);flex:none}.pixel-heart{fill:currentColor;stroke:none}.heart-core{opacity:0}.post-actions [aria-pressed=true] .heart-core{opacity:1}.like-count{display:flex;align-items:center;height:14rem;line-height:14rem;color:var(--muted)}.post-actions [aria-pressed=true] .like-count{color:var(--heart)}.post-actions .is-celebrating .ui-icon{animation:heart-pop 450ms steps(5,end)}
+.like-burst{position:absolute;left:6rem;top:6rem;width:0;height:0;pointer-events:none;color:var(--post-edge)}.like-burst>span{position:absolute;width:2rem;height:2rem;background:currentColor;animation:like-pixel 560ms steps(6,end) both}.like-burst>span:nth-child(2n){width:3rem;height:3rem;background:var(--star)}
+.dither{position:absolute;bottom:0;left:0;width:100%;height:8rem;pointer-events:none;color:var(--texture-color);opacity:.08}.dither svg{width:100%;height:100%}.masthead>.dither{height:7rem;opacity:.12}.stream-flourish{display:flex;align-items:center;justify-content:center;gap:19rem;height:48rem;margin:24rem 0 10rem;pointer-events:none}.stream-flourish .decoration{position:relative}.footer-star-left{width:16rem;height:16rem;color:var(--plus)}.footer-heart{width:24rem;height:20rem;color:var(--heart)}.footer-star-right{width:12rem;height:12rem;color:var(--star)}
+/* A pixel-rendered molded assembly sits beneath three real navigation keys. */
 .stream-dock {
-  position: relative;
-  z-index: 4;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  align-items: center;
-  height: calc(52rem + env(safe-area-inset-bottom));
-  padding: 4rem 15rem calc(4rem + env(safe-area-inset-bottom));
-  border-top: 3rem solid var(--accent);
-  background: var(--dock);
+  position:relative;isolation:isolate;z-index:4;display:grid;
+  grid-template-columns:68rem 90rem 68rem;gap:2rem;align-items:center;
+  justify-self:center;width:242rem;max-width:100%;height:104rem;padding:6rem;
 }
+.control-material {position:absolute;inset:0;z-index:-1;width:100%;height:100%;image-rendering:pixelated;pointer-events:none}
+.dock-button {position:relative;isolation:isolate;display:grid;place-items:center;width:68rem;height:76rem;color:var(--key-ink)}
+.dock-button>span {display:grid;place-items:center;position:relative;transition:transform 80ms steps(1,end);filter:drop-shadow(0 1rem var(--key-light))}
+.dock-icon {width:20rem;height:20rem;fill:currentColor;stroke:none}
+.stream-tab {width:90rem;height:84rem}
+.stream-tab>span {width:36rem;height:36rem;filter:drop-shadow(0 1rem var(--key-center-light))}
+.stream-tab .dock-icon {width:24rem;height:24rem}
+.dock-button:active>span {transform:translateY(1rem)}
+.dock-button:focus-visible {outline:0}
+.dock-button:focus-visible>span {outline:2rem solid var(--key-ink);outline-offset:4rem}
+.stream-tab:focus-visible>span {outline-offset:0}
+.settings-tab[aria-current=page] {color:var(--key-ink)}
+.settings-portrait{background:var(--header);color:var(--ink);box-shadow:2rem 3rem var(--shell-mid)}.settings-portrait .dock-icon{width:26rem;height:26rem}.settings-card h2{font-size:14rem;font-weight:400;line-height:1.3}.settings-row{display:flex;align-items:center;justify-content:space-between;gap:8rem;min-height:44rem;width:100%;margin-top:16rem;padding:10rem 12rem;background:var(--paper);box-shadow:inset 3rem 3rem 0 var(--highlight),3rem 3rem 0 var(--post-shadow,var(--shell-mid));text-align:left}
+.shell-picker{border:0;margin:25rem 0 0;padding:0;min-width:0}.shell-picker legend{padding:0;margin-bottom:12rem}.shell-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8rem}.shell-option{padding:9rem 2rem 7rem;display:flex;flex-direction:column;align-items:center;gap:10rem;background:var(--paper);font-size:clamp(9px,10rem,12px);line-height:1.4;box-shadow:0 3rem 0 var(--post-shadow,var(--shell-mid))}.shell-option[aria-pressed=true]{background:var(--header);box-shadow:inset 0 -4rem var(--heart),0 3rem var(--post-shadow,var(--shell-mid))}.shell-option>span:last-child{text-align:center;overflow-wrap:anywhere}
 
-.dock-button { position: relative; display: grid; place-items: center; justify-self: center; width: 72rem; height: 38rem; background: transparent; color: #b4bcaa; }
-.dock-icon { width: 28rem; height: 28rem; fill: currentColor; stroke: none; transition: transform 100ms steps(2, end); }
-.dock-button[aria-current=page] { background: #3d4536; color: var(--accent); box-shadow: inset 0 -2rem var(--accent); }
-.dock-button:hover { background: #3d4536; color: #f6ffad; }
-.dock-button:active .dock-icon { transform: translateY(1rem); }
-
-.settings-portrait { background: var(--paper); color: #6d7a43; }
-.settings-card h2 { margin-left: 2rem; color: var(--name); font-size: 12rem; font-weight: 400; line-height: 14.4rem; }
-.settings-row { display: flex; align-items: center; justify-content: space-between; gap: 8rem; min-height: 44rem; width: 100%; margin-top: 16rem; padding: 10rem 12rem; background: var(--paper); border: 1rem solid var(--line); text-align: left; }
-.settings-row:hover { background: var(--header); }
-.toast { position: fixed; bottom: calc(64rem + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); z-index: 5; width: max-content; max-width: 350rem; padding: 10rem 16rem; background: var(--panel); border: 1rem solid var(--line); pointer-events: none; }
-.toast:empty { display: none; }
-.skip-link { position: fixed; top: -100px; left: 12px; z-index: 10; background: var(--panel); border: 1rem solid var(--line); padding: 8rem; }
-.skip-link:focus { top: 12px; }
-.noscript { position: fixed; top: 100rem; left: 50%; transform: translateX(-50%); width: 320rem; background: var(--panel); border: 1rem solid var(--line); padding: 20rem; }
-
-@media (hover: hover) {
-  .post:hover .avatar { transform: translateY(-2rem); }
-  .post[data-tone]:hover .bubble { box-shadow: 4rem 4rem 0 var(--line); }
-  .dock-button:hover .dock-icon { transform: translateY(-2rem); }
-  .dock-button:active .dock-icon { transform: translateY(1rem); }
+.mini-phone {--mini-shell:#e3bb61;--mini-light:#ffe5a0;--mini-dark:#936b43;--mini-screen:#f2eddc;--mini-rim:#645b48;--mini-key:#8a826b;--spot:#514332;--spot-light:#f8da8c;position:relative;width:38rem;height:70rem;display:block;background:linear-gradient(120deg,var(--mini-light) 0 15%,var(--mini-shell) 15% 78%,var(--mini-dark) 78% 100%);box-shadow:inset 1rem 1rem var(--mini-light),inset -1rem -2rem var(--mini-dark);clip-path:polygon(calc(100% - 8rem) 0,calc(100% - 4rem) 0,calc(100% - 4rem) 1rem,calc(100% - 3rem) 1rem,calc(100% - 3rem) 2rem,calc(100% - 2rem) 2rem,calc(100% - 2rem) 3rem,calc(100% - 1rem) 3rem,calc(100% - 1rem) 5rem,100% 5rem,100% 9rem,100% calc(100% - 9rem),100% calc(100% - 5rem),calc(100% - 1rem) calc(100% - 5rem),calc(100% - 1rem) calc(100% - 3rem),calc(100% - 2rem) calc(100% - 3rem),calc(100% - 2rem) calc(100% - 2rem),calc(100% - 3rem) calc(100% - 2rem),calc(100% - 3rem) calc(100% - 1rem),calc(100% - 4rem) calc(100% - 1rem),calc(100% - 4rem) 100%,calc(100% - 8rem) 100%,8rem 100%,4rem 100%,4rem calc(100% - 1rem),3rem calc(100% - 1rem),3rem calc(100% - 2rem),2rem calc(100% - 2rem),2rem calc(100% - 3rem),1rem calc(100% - 3rem),1rem calc(100% - 5rem),0 calc(100% - 5rem),0 calc(100% - 9rem),0 9rem,0 5rem,1rem 5rem,1rem 3rem,2rem 3rem,2rem 2rem,3rem 2rem,3rem 1rem,4rem 1rem,4rem 0,8rem 0)}
+.mini-phone::before {content:'';position:absolute;z-index:1;inset:13rem 5rem 22rem;background:var(--mini-screen);border:3rem solid var(--mini-rim)}
+.mini-phone::after {content:'';position:absolute;z-index:1;bottom:6rem;left:8rem;width:22rem;height:13rem;background:var(--mini-key);box-shadow:inset 1rem 1rem var(--mini-light),inset -2rem -2rem var(--mini-dark);clip-path:polygon(3rem 0,19rem 0,19rem 1rem,21rem 1rem,21rem 3rem,22rem 3rem,22rem 10rem,21rem 10rem,21rem 12rem,19rem 12rem,19rem 13rem,3rem 13rem,3rem 12rem,1rem 12rem,1rem 10rem,0 10rem,0 3rem,1rem 3rem,1rem 1rem,3rem 1rem)}
+.mini-pattern,.mini-pattern svg {position:absolute;inset:0;display:block;width:100%;height:100%}
+[data-shell-choice=tokay] .mini-phone {--mini-shell:#97b9d3;--mini-light:#d5e6ed;--mini-dark:#4e708a;--mini-screen:#e8eeea;--mini-rim:#476478;--mini-key:#c2ce96;--spot:#df865e;--spot-light:#d4d5b2}
+[data-shell-choice=day] .mini-phone {--mini-shell:#58a479;--mini-light:#a9ce8e;--mini-dark:#316d54;--mini-screen:#edf0dc;--mini-rim:#476b53;--mini-key:#c6c3ac;--spot:#bb5b4d;--spot-light:#e0cd91}
+.toast{position:fixed;bottom:125rem;left:50%;transform:translateX(-50%);z-index:5;width:max-content;max-width:330rem;padding:10rem 16rem;background:var(--panel);box-shadow:4rem 4rem var(--rim-dark);pointer-events:none}.toast:empty{display:none}.skip-link{position:fixed;top:-100px;left:12px;z-index:10;background:var(--panel);padding:8rem}.skip-link:focus{top:12px}.noscript{position:fixed;top:100rem;left:50%;transform:translateX(-50%);width:320rem;background:var(--panel);padding:20rem}
+@media(hover:hover){.post:hover .avatar{transform:translateY(-2rem)}.dock-button:hover>span{filter:drop-shadow(0 1rem var(--key-light)) brightness(1.15)}.shell-option:hover{background:var(--header)}}
+/* A wider screen and compact key island preserve room for reading in landscape. */
+@media(max-height:550px) and (min-width:600px) {
+  :root{font-size:.9px}.phone-case{width:min(620rem,calc(100vw - 40px));height:calc(100dvh - 24px)}
+  .phone-shell{padding:50rem 43rem 26rem;gap:6rem}.shell-top{top:20rem}
+  .shell-bottom{display:none}.stream-dock{height:70rem;width:224rem;grid-template-columns:62rem 84rem 62rem;gap:2rem;padding:6rem}
+  .dock-button{height:50rem;width:62rem}
+  .stream-tab{height:56rem;width:84rem}
+  .stream-tab>span{width:30rem;height:30rem}
+  .dock-icon{width:18rem;height:18rem}.stream-tab .dock-icon{width:18rem;height:18rem}
+  .masthead{height:48rem}.brand-icon{width:34rem;height:34rem;top:7rem}h1{top:12rem}.post-text{font-size:12px}
 }
-
-@keyframes star-glint {
-  0%, 42%, 50%, 100% { opacity: 1; transform: none; }
-  44%, 48% { opacity: .45; transform: translateY(-1rem); }
-  46% { opacity: 1; transform: translateY(-1rem); }
-}
-
-@keyframes heart-pop {
-  0%, 100% { transform: none; }
-  30% { transform: scale(1.22); }
-  65% { transform: scale(.94); }
-}
-
-@keyframes like-pixel {
-  0% { opacity: 0; transform: translate(0, 0); }
-  18% { opacity: 1; }
-  80% { opacity: 1; transform: translate(var(--dx), var(--dy)); }
-  100% { opacity: 0; transform: translate(var(--dx), var(--dy)); }
-}
-
-@keyframes star-dim {
-  0%, 45%, 52%, 100% { opacity: 1; }
-  48% { opacity: .65; }
-}
-
-@keyframes like-pixel-still {
-  0%, 35% { opacity: 1; }
-  100% { opacity: 0; }
-}
-
-/* Keep visible feedback while reducing movement, including live preference changes. */
-@media (prefers-reduced-motion: reduce) {
-  .star-left { animation: star-dim 15s steps(1, end) infinite; }
-  .star-small { animation: star-dim 19s steps(1, end) -7s infinite; }
-  .post-actions .is-celebrating .ui-icon { animation: none; }
-  .like-burst > span { animation: like-pixel-still 240ms steps(3, end) both; transform: translate(var(--dx), var(--dy)); }
-  .avatar, .dock-icon, .bubble { transition: none; }
-  .post:hover .avatar, .dock-button:hover .dock-icon { transform: none; }
-}
+@keyframes star-glint{0%,42%,50%,100%{opacity:1;transform:none}44%,48%{opacity:.45;transform:translateY(-1rem)}46%{opacity:1;transform:translateY(-1rem)}}
+@keyframes heart-pop{0%,100%{transform:none}30%{transform:scale(1.22)}65%{transform:scale(.94)}}
+@keyframes like-pixel{0%{opacity:0;transform:translate(0,0)}18%{opacity:1}80%{opacity:1;transform:translate(var(--dx),var(--dy))}100%{opacity:0;transform:translate(var(--dx),var(--dy))}}
+@keyframes star-dim{0%,45%,52%,100%{opacity:1}48%{opacity:.65}}
+@keyframes like-pixel-still{0%,35%{opacity:1}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.star-left{animation:star-dim 15s steps(1,end) infinite}.star-small{animation:star-dim 19s steps(1,end) -7s infinite}.post-actions .is-celebrating .ui-icon{animation:none}.like-burst>span{animation:like-pixel-still 240ms steps(3,end) both;transform:translate(var(--dx),var(--dy))}.avatar{transition:none}.post:hover .avatar{transform:none}}

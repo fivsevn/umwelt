@@ -1,5 +1,6 @@
 import {access,readFile} from 'node:fs/promises';
 import {constants} from 'node:fs';
+import {handsetThemes} from '../gsm/handsets.mjs';
 
 const root=new URL('../',import.meta.url);
 const required=[
@@ -13,11 +14,16 @@ const required=[
  'gsm/index.html',
  'gsm/assets/icon.svg',
  'gsm/app.mjs',
+ 'gsm/avatars.mjs',
  'gsm/settings/index.html',
  'gsm/decorations.mjs',
  'gsm/dither.mjs',
  'gsm/assets/pixelarticons-LICENSE.txt',
  'gsm/style.css',
+ 'gsm/physical-shell.css',
+ 'gsm/pager-screen.css',
+ 'gsm/handsets.mjs',
+ ...handsetThemes.flatMap(({id})=>['','-wide','-thumb'].map(suffix=>`gsm/assets/handset-${id}${suffix}.webp`)),
  'gsm/data/feed.mjs',
  'gsm/locales.mjs',
  'gsm/state.mjs',
@@ -72,8 +78,8 @@ const read=path=>readFile(new URL(path,root),'utf8');
 for(const [path,dependencies] of [
  ['index.html',['./desktop.mjs','./forest.js','./isopoda/','./tick/','./rooftop/','./ophidia/','./gtb/','./gsm/']],
  ['gtb/index.html',['../shared/placeholder.mjs','../shared/placeholder.css','./assets/icon.png']],
- ['gsm/index.html',['./app.mjs','./style.css','./assets/icon.svg']],
- ['gsm/settings/index.html',['../app.mjs','../style.css','../assets/icon.svg']],
+ ['gsm/index.html',['./app.mjs','./style.css','./physical-shell.css','./assets/icon.svg']],
+ ['gsm/settings/index.html',['../app.mjs','../style.css','../physical-shell.css','../assets/icon.svg']],
  ['tick/index.html',['./game.js','./style.css']],
  ['ophidia/index.html',['./game.js','./style.css','./assets/cabin.webp']],
  ['rooftop/index.html',['./app.mjs','./rooftop.css']],

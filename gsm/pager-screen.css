@@ -1,0 +1,68 @@
+/* A quiet monochrome message display, inside the existing live glass opening. */
+:root{--sticker-heart:var(--heart);--sticker-star:var(--star);--sticker-plus:var(--plus);--sticker-highlight:var(--highlight)}
+.app-window{
+  --lcd-paper:#c7dc96;--lcd-ink:#283b20;--lcd-muted:#53683e;
+  --paper:var(--lcd-paper);--panel:var(--lcd-paper);--header:var(--lcd-paper);
+  --ink:var(--lcd-ink);--name:var(--lcd-ink);--muted:var(--lcd-muted);
+  --heart:var(--lcd-ink);--star:var(--lcd-ink);--plus:var(--lcd-ink);
+  --highlight:#dfedbb;
+  --lcd-cell-pitch:3rem;
+  background:#bcd28a;box-shadow:0 0 9rem #c6e38c35;
+}
+.app-window::before{
+  background:linear-gradient(112deg,#f4ffd31b,transparent 38%),radial-gradient(ellipse at 48% 0,#edffc514,transparent 68%);
+  box-shadow:inset 1rem 3rem 7rem #283b1c40,inset -1rem -1rem 2rem #eeffc845;
+}
+/* Pixel gaps stay on the glass plane while the messages scroll underneath. */
+.app-window::after{
+  background:
+    linear-gradient(112deg,#efffc916,transparent 28%,transparent 78%,#3043220b),
+    repeating-linear-gradient(180deg,transparent 0 calc(var(--lcd-cell-pitch) - .35rem),#e9f6b926 calc(var(--lcd-cell-pitch) - .35rem) var(--lcd-cell-pitch)),
+    repeating-linear-gradient(90deg,transparent 0 calc(var(--lcd-cell-pitch) - .3rem),#24401812 calc(var(--lcd-cell-pitch) - .3rem) var(--lcd-cell-pitch));
+  pointer-events:none;user-select:none;
+}
+.app-header{background:linear-gradient(90deg,#bdd38c,#cfe29e 45%,#c1d791);box-shadow:inset 0 3rem 0 #e0ecc04d,0 3rem 0 #53683e50}
+.brand-icon img{filter:none;mix-blend-mode:normal;opacity:1}
+.pixel-stickers{position:absolute;right:0;top:0;bottom:0;width:318rem;pointer-events:none}
+.pixel-stickers,.stream-flourish{--heart:var(--sticker-heart);--star:var(--sticker-star);--plus:var(--sticker-plus);--highlight:var(--sticker-highlight)}
+#timeline{padding:13rem 16rem 18rem;background:radial-gradient(ellipse at 42% 28%,#e0efb32b,transparent 68%),linear-gradient(90deg,#bdd38c,#cfe29e 45%,#c1d791)}
+#posts{gap:14rem}
+.post{display:block;min-width:0}
+.post[data-post-id]:not(:last-child)::after{content:'';display:block;height:2px;margin-top:15rem;background:repeating-linear-gradient(90deg,var(--lcd-muted) 0 2px,transparent 2px 6px);opacity:.65}
+.post[data-tone]{
+  --post-strip:transparent;--post-edge:var(--lcd-ink);--post-shadow:transparent;
+  --post-handle:var(--lcd-muted);--heart:var(--lcd-ink);
+}
+.bubble{padding:0;background:transparent;box-shadow:none}
+.post-identity{min-height:28rem;margin:0;padding:0;gap:8rem;background:transparent;font-size:clamp(14px,16rem,18px);line-height:1.4}
+.post-identity::before{display:none}
+.avatar{width:28rem;height:28rem;flex:none;padding:0;background:transparent;box-shadow:none;transition:none}
+.avatar img{width:100%;height:100%;object-fit:contain;image-rendering:pixelated;filter:grayscale(1) contrast(1.35);mix-blend-mode:multiply;opacity:.88}
+.post:hover .avatar{transform:none}
+.author-name{gap:1rem 6rem;color:var(--lcd-ink)}
+.author-label{white-space:normal;overflow-wrap:anywhere}
+.author-handle{color:var(--lcd-muted);font-size:clamp(11px,12rem,15px)}
+.post-text{margin-top:8rem;font-size:clamp(16px,21rem,24px);line-height:1.5;color:var(--lcd-ink)}
+.post-text,.author-name,.post-footer{text-shadow:1px 1px 0 #e9ffc52b}
+.post-footer{min-height:18rem;margin-top:7rem}
+.post-time,.like-count{color:var(--lcd-muted);font-size:clamp(11px,12rem,15px)}
+.post-actions .ui-icon{width:max(16rem,12px);height:max(16rem,12px)}
+.post-actions button,.post-actions [aria-pressed=true] .like-count{color:var(--lcd-ink)}
+.like-burst,.like-burst>span:nth-child(2n){color:var(--lcd-ink);background:var(--lcd-ink)}
+.post-media{margin-top:8rem}
+.post-media img{filter:grayscale(1) contrast(1.2);mix-blend-mode:multiply;opacity:.85;image-rendering:pixelated}
+.stream-flourish{display:flex}
+.dither{display:none}
+.settings-portrait{display:none}
+.settings-card h2{font-size:15rem;color:var(--lcd-ink)}
+.settings-row{margin-top:12rem;padding:8rem 0;background:transparent;box-shadow:none;color:var(--lcd-ink)}
+.shell-picker{margin-top:15rem}
+.shell-picker legend{margin-bottom:10rem}
+.shell-options{gap:8rem}
+.shell-option{background:transparent;color:var(--lcd-ink);box-shadow:none;padding:7rem 2rem}
+.shell-option[aria-pressed=true]{background:var(--lcd-ink);color:var(--lcd-paper);box-shadow:none}
+@media(hover:hover){.shell-option:hover{background:#7c8c6250}.shell-option[aria-pressed=true]:hover{background:var(--lcd-ink)}}
+@media(max-height:550px) and (min-width:600px){
+  .pixel-stickers{top:-5rem}
+  #timeline{padding-top:10rem}
+}

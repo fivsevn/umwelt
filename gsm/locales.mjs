@@ -1,6 +1,8 @@
 export const copy = {
   zh: {
     homeLink:'返回 Umwelt 主页',language:'语言：中文 · 切换为 English',skip:'跳到 stream',
+    shellLabel:'外壳',shellLeopard:'砂金墨斑',shellTokay:'雾蓝橘点',shellDay:'叶绿朱斑',
+    shellCrested:'栗褐暗纹',shellFatTail:'暖棕横带',shellMossy:'苔灰碎纹',shellElectric:'钴蓝墨影',shellStone:'岩灰暗带',
     settings:'设置',closeSettings:'关闭设置',languageLabel:'语言',
     like:'喜欢',unlike:'取消喜欢',
     new:'刚刚',minutes:'{count} 分钟前',hours:'{count} 小时前',feedLabel:'信息流',navigation:'主导航',
@@ -8,6 +10,8 @@ export const copy = {
   },
   en: {
     homeLink:'Back to Umwelt',language:'Language: English · Switch to 日本語',skip:'Skip to stream',
+    shellLabel:'Shell',shellLeopard:'Sand Flecks',shellTokay:'Blue & Rust',shellDay:'Leaf & Vermilion',
+    shellCrested:'Chestnut Marks',shellFatTail:'Umber Bands',shellMossy:'Lichen Mottle',shellElectric:'Cobalt Shade',shellStone:'Ash Bands',
     settings:'Settings',closeSettings:'Close settings',languageLabel:'Language',
     like:'Like',unlike:'Unlike',
     new:'Just now',minutes:'{count}m ago',hours:'{count}h ago',feedLabel:'Feed',navigation:'Main navigation',
@@ -15,6 +19,8 @@ export const copy = {
   },
   ja: {
     homeLink:'Umwelt ホームへ',language:'言語：日本語 · 中文に切り替え',skip:'stream へ',
+    shellLabel:'カバー',shellLeopard:'砂金の斑',shellTokay:'霞青と橙',shellDay:'葉緑と朱',
+    shellCrested:'栗色の紋',shellFatTail:'褐色の帯',shellMossy:'苔灰の斑',shellElectric:'青藍の陰',shellStone:'岩灰の帯',
     settings:'設定',closeSettings:'設定を閉じる',languageLabel:'言語',
     like:'いいね',unlike:'いいねを取り消す',
     new:'たった今',minutes:'{count} 分前',hours:'{count} 時間前',feedLabel:'タイムライン',navigation:'メインナビゲーション',
