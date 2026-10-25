@@ -1,0 +1,12 @@
+---
+id: 20261025-122500-4400276210
+date: '2026-10-25T12:25:00+08:00'
+username: smallhide2
+name: 洞口待机
+status: published
+likes: 3
+source_event: 21a229cd45b2688e1eb70edeb599bfbf490ef0be
+author_assignment: specified
+---
+
+躲避屋门口那块垫着的小石头往旁边挪了一点，现在进出不用总蹭到肚子了。尾巴还是会露在外面，不过我暂时不想再折腾这个屋子。

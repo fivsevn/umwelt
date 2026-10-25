@@ -1,5 +1,17 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "smallhide2": {
+    "handle": "smallhide2",
+    "name": "洞口待机",
+    "avatarImage": "/gsm/assets/avatars/smallhide2.webp?v=8d76985c3e8d",
+    "color": "sage"
+  },
+  "slowblink": {
+    "handle": "slowblink",
+    "name": "不急",
+    "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=fb8ffadd6f7b",
+    "color": "sage"
+  },
   "gecko404": {
     "handle": "gecko404",
     "name": "玻璃这一边",
@@ -48,18 +60,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/moss9.webp?v=fc1a392905b0",
     "color": "sand"
   },
-  "smallhide2": {
-    "handle": "smallhide2",
-    "name": "洞口待机",
-    "avatarImage": "/gsm/assets/avatars/smallhide2.webp?v=8d76985c3e8d",
-    "color": "sage"
-  },
-  "slowblink": {
-    "handle": "slowblink",
-    "name": "不急",
-    "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=fb8ffadd6f7b",
-    "color": "sage"
-  },
   "backpackgecko": {
     "handle": "backpackgecko",
     "name": "背包宫",
@@ -92,6 +92,60 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261025-122500-4400276210",
+    "date": "2026-10-25T12:25:00+08:00",
+    "createdAt": 1792902300000,
+    "author": "smallhide2",
+    "likes": 3,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "躲避屋门口那块垫着的小石头往旁边挪了一点，现在进出不用总蹭到肚子了。尾巴还是会露在外面，不过我暂时不想再折腾这个屋子。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "躲避屋门口那块垫着的小石头往旁边挪了一点，现在进出不用总蹭到肚子了。尾巴还是会露在外面，不过我暂时不想再折腾这个屋子。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "躲避屋门口那块垫着的小石头往旁边挪了一点，现在进出不用总蹭到肚子了。尾巴还是会露在外面，不过我暂时不想再折腾这个屋子。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261025-122200-9b51f4ddea",
+    "date": "2026-10-25T12:22:00+08:00",
+    "createdAt": 1792902120000,
+    "author": "slowblink",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚才换了个地方趴着，才发现原来那块石头背面有一道浅浅的凹槽。以前总从另一边经过，没注意到。这里刚好能放下一只前脚，站着还挺稳的。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚才换了个地方趴着，才发现原来那块石头背面有一道浅浅的凹槽。以前总从另一边经过，没注意到。这里刚好能放下一只前脚，站着还挺稳的。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚才换了个地方趴着，才发现原来那块石头背面有一道浅浅的凹槽。以前总从另一边经过，没注意到。这里刚好能放下一只前脚，站着还挺稳的。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261025-115500-851162417c",
     "date": "2026-10-25T11:55:00+08:00",
