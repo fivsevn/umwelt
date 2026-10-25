@@ -4,7 +4,7 @@ date: '2026-10-19T13:50:00+08:00'
 username: isopodafugue
 name: 等足目赋格制作组
 status: published
-likes: 6
+likes: 19
 source_event: local:preview:2026-10-19:isopoda-ad
 author_assignment: specified
 ---

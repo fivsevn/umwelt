@@ -4,7 +4,7 @@ date: '2026-10-19T13:34:00+08:00'
 username: leafback7
 name: 叶背居民
 status: published
-likes: 10
+likes: 21
 source_event: local:preview:2026-10-19:gecko-life:new-address
 author_assignment: specified
 ---

@@ -4,7 +4,7 @@ date: '2026-10-19T14:09:00+08:00'
 username: nearthermo
 name: 温度计旁边
 status: published
-likes: 2
+likes: 5
 source_event: local:preview:2026-10-19:gecko-life:behind-the-wood
 author_assignment: specified
 ---

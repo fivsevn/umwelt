@@ -4,7 +4,7 @@ date: '2026-10-19T14:49:00+08:00'
 username: twosteps8
 name: 两步远
 status: published
-likes: 8
+likes: 15
 source_event: local:preview:2026-10-19:gecko-life:at-the-door
 author_assignment: specified
 ---

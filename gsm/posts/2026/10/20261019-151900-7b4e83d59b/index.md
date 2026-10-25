@@ -4,7 +4,7 @@ date: '2026-10-19T15:19:00+08:00'
 username: gecko404
 name: 玻璃这一边
 status: published
-likes: 7
+likes: 17
 source_event: local:preview:2026-10-19:gecko-life:opposite-neighbor
 author_assignment: specified
 ---

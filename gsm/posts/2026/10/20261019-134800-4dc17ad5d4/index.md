@@ -4,7 +4,7 @@ date: '2026-10-19T13:48:00+08:00'
 username: moss9
 name: 阿苔
 status: published
-likes: 7
+likes: 12
 source_event: local:preview:2026-10-19:gecko-life:waiting-for-water
 author_assignment: specified
 ---

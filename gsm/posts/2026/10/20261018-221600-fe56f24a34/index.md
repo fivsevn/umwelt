@@ -4,7 +4,7 @@ date: '2026-10-18T22:16:00+08:00'
 username: gecko404
 name: 玻璃这一边
 status: published
-likes: 19
+likes: 32
 source_event: local:preview:2026-10-19:gecko-life:clean-glass
 author_assignment: specified
 ---

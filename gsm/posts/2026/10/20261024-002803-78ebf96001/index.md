@@ -4,7 +4,7 @@ date: '2026-10-24T00:28:03+08:00'
 username: gecko404
 name: 玻璃这一边
 status: published
-likes: 0
+likes: 11
 source_event: c3344285623cb1ba6914937149a6a740b88ba363
 author_assignment: specified
 ---

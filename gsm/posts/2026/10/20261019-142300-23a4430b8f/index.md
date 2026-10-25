@@ -4,7 +4,7 @@ date: '2026-10-19T14:23:00+08:00'
 username: peachcrumble
 name: 桃酥
 status: published
-likes: 16
+likes: 26
 source_event: local:preview:2026-10-19:gecko-life:third-attempt
 author_assignment: specified
 ---

@@ -4,7 +4,7 @@ date: '2026-10-19T16:17:54+08:00'
 username: gedageda
 name: 咯哒咯哒
 status: published
-likes: 87
+likes: 94
 source_event: local:preview:2026-10-19:gedageda-summer-song
 author_assignment: specified
 ---

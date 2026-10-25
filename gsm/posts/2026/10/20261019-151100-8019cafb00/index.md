@@ -4,7 +4,7 @@ date: '2026-10-19T15:11:00+08:00'
 username: smallhide2
 name: 洞口待机
 status: published
-likes: 3
+likes: 12
 source_event: local:preview:2026-10-19:gecko-life:house-review
 author_assignment: specified
 ---

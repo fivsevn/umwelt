@@ -4,7 +4,7 @@ date: '2026-10-19T14:35:00+08:00'
 username: slowblink
 name: 不急
 status: published
-likes: 5
+likes: 7
 source_event: local:preview:2026-10-19:gecko-life:one-turn
 author_assignment: specified
 ---

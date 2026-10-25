@@ -4,7 +4,7 @@ date: '2026-10-19T13:52:00+08:00'
 username: wednesday6
 name: 周三换皮
 status: published
-likes: 29
+likes: 35
 source_event: local:preview:2026-10-19:gecko-life:not-a-timetable
 author_assignment: specified
 ---

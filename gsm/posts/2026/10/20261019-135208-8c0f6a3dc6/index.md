@@ -4,7 +4,7 @@ date: '2026-10-19T13:52:08+08:00'
 username: backpackgecko
 name: 背包宫
 status: published
-likes: 0
+likes: 9
 source_event: local:2026-10-19T13:52:08.113855+08:00
 ---
 
