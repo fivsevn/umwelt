@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "mango27": {
+    "handle": "mango27",
+    "name": "小满",
+    "bio": "吃完这口再说。",
+    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
+    "color": "rose"
+  },
   "nightshift3": {
     "handle": "nightshift3",
     "name": "半夜上线",
@@ -63,13 +70,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
     "color": "sage"
   },
-  "mango27": {
-    "handle": "mango27",
-    "name": "小满",
-    "bio": "吃完这口再说。",
-    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
-    "color": "rose"
-  },
   "twosteps8": {
     "handle": "twosteps8",
     "name": "两步远",
@@ -107,6 +107,33 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261028-055743-d2676431b6",
+    "date": "2026-10-28T05:57:43+08:00",
+    "createdAt": 1793138263000,
+    "author": "mango27",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "碗里有一块特别硬的，我从这边咬不动，转过去咬还是不动。旁边还摆着软的呢，我刚才怎么就跟这块较上劲了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "碗里有一块特别硬的，我从这边咬不动，转过去咬还是不动。旁边还摆着软的呢，我刚才怎么就跟这块较上劲了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "碗里有一块特别硬的，我从这边咬不动，转过去咬还是不动。旁边还摆着软的呢，我刚才怎么就跟这块较上劲了。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261028-045042-3baad7727a",
     "date": "2026-10-28T04:50:42+08:00",
