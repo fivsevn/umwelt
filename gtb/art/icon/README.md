@@ -11,7 +11,7 @@
 
 从仓库根目录运行 `python3 tools/pixel-icons/author.py gtb --check`，将原稿在 Pixelorama 中重新打开并比对导出结果。macOS 需安装 `/Applications/Pixelorama.app`。**只有需要重建初始方案时**才去掉 `--check`；重建会覆盖原稿中的手动修改。原稿检查临时图片与日志不入库。
 
-[双图标预览](../../../tests/browser/media-icons.html) · [项目说明](../../README.md)
+[桌面入口](../../../index.html) · [项目说明](../../README.md)
 
 ## 视觉参考
 

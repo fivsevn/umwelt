@@ -1,6 +1,6 @@
 // One catalog drives saved choices, URLs, the picker and artwork paths.
 export const handsetThemes = Object.freeze([
-  {id:'leopard',color:'#d7b474',ink:'#e3ddca',labelKey:'shellLeopard'},
+  {id:'leopard',color:'#d7b474',ink:'#f2eddf',labelKey:'shellLeopard'},
   {id:'tokay',color:'#91afbf',ink:'#17201c',labelKey:'shellTokay'},
   {id:'day',color:'#5a9878',ink:'#17201c',labelKey:'shellDay'},
   {id:'crested',color:'#a28b6c',ink:'#eee1cc',labelKey:'shellCrested'},

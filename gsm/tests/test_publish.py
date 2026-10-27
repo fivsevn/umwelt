@@ -34,16 +34,17 @@ def picture(fmt='PNG', color='red'):
 USER_TABLE_HEADER = """# 用户管理
 
 <!-- users:start -->
-| username | 昵称 | 启用 | 可随机分配 | 头像原图（选填） |
-| --- | --- | --- | --- | --- |
+| username | 昵称 | 启用 | 可随机分配 | 头像原图（选填） | 个性签名（选填） |
+| --- | --- | --- | --- | --- | --- |
 """
 
 
 def user_table_row(username, profile):
     name = profile['name'].replace('|', r'\|').replace('\n', ' ')
+    bio = profile.get('bio', '').replace('|', r'\|').replace('\n', ' ')
     return (f'| {username} | {name} | {"是" if profile.get("active", True) else "否"} '
             f'| {"是" if profile.get("random_assignable", False) else "否"} '
-            f'| {profile.get("avatar_source", "")} |\n')
+            f'| {profile.get("avatar_source", "")} | {bio} |\n')
 
 
 def write_user_table(root, users):
@@ -128,6 +129,63 @@ class Publishing(unittest.TestCase):
             p.build(self.root)
         self.assertTrue((folder/'index.md').exists())
 
+    def test_public_bio_is_managed_by_the_existing_user_table_and_keeps_identity(self):
+        self.edit_user('gecko7', bio='先看看。')
+        folder = self.publish(self.trigger())
+        before_post = (folder/'index.md').read_bytes()
+        avatar = self.root/'assets/avatars/gecko7.webp'
+        before_avatar = avatar.read_bytes()
+        before_profile = json.loads((self.root/'users/gecko7/profile.json').read_text())
+        table = self.root/'users/README.md'
+        with patch.object(p, 'generated_avatar', side_effect=AssertionError('bio edits must not redraw avatars')):
+            self.edit_user('gecko7', bio='叶子 | 这边 <也能写字>。')
+            p.write(table, table.read_text() + '\n## 角色档案\n\n内部设定不应出现在主页。\n')
+            p.build(self.root)
+        profile = json.loads((self.root/'users/gecko7/profile.json').read_text())
+        self.assertEqual(profile['bio'], '叶子 | 这边 <也能写字>。')
+        self.assertEqual({k: v for k, v in profile.items() if k != 'bio'},
+                         {k: v for k, v in before_profile.items() if k != 'bio'})
+        source = (self.root/'data/feed.mjs').read_text()
+        exported = json.loads(source.split('export const profiles = ', 1)[1].split(';\n', 1)[0])
+        self.assertEqual(exported['gecko7']['bio'], profile['bio'])
+        self.assertEqual(set(exported['gecko7']), {'handle', 'name', 'bio', 'avatarImage', 'color'})
+        self.assertNotIn('内部设定', source)
+        self.assertEqual((folder/'index.md').read_bytes(), before_post)
+        self.assertEqual(avatar.read_bytes(), before_avatar)
+        # Generated JSON is never an alternate source for this public field.
+        profile['bio'] = '不从这里维护。'
+        p.write(self.root/'users/gecko7/profile.json', p.json_text(profile))
+        p.build(self.root)
+        self.assertEqual(p.users_for(self.root)['gecko7']['bio'], '叶子 | 这边 <也能写字>。')
+        self.edit_user('gecko7', bio='')
+        p.build(self.root)
+        source = (self.root/'data/feed.mjs').read_text()
+        exported = json.loads(source.split('export const profiles = ', 1)[1].split(';\n', 1)[0])
+        self.assertEqual(exported['gecko7']['bio'], '')
+        self.assertNotIn('叶子 | 这边', source)
+        self.assertEqual(avatar.read_bytes(), before_avatar)
+
+    def test_legacy_five_column_users_have_an_empty_bio(self):
+        table = self.root/'users/README.md'
+        legacy = [line.rsplit('|', 2)[0] + ' |' if line.startswith('|') else line
+                  for line in table.read_text().splitlines()]
+        p.write(table, '\n'.join(legacy) + '\n')
+        self.assertEqual(p.sync_users(self.root)['gecko7']['bio'], '')
+        self.publish(self.trigger())
+        p.build(self.root)
+        exported = json.loads((self.root/'data/feed.mjs').read_text().split('export const profiles = ', 1)[1].split(';\n', 1)[0])
+        self.assertEqual(exported['gecko7']['bio'], '')
+
+    def test_unescaped_bio_column_separator_is_rejected_before_user_updates(self):
+        p.sync_users(self.root)
+        before = {file: file.read_bytes() for file in (self.root/'users').glob('*/profile.json')}
+        table = self.root/'users/README.md'
+        p.write(table, table.read_text().replace('| gecko7 | 叶背 |', '| gecko7 | 改了昵称 |')
+                .replace('| gecko7 | 改了昵称 | 是 | 否 |  |  |', '| gecko7 | 改了昵称 | 是 | 否 |  | 一边 | 另一边 |'))
+        with self.assertRaisesRegex(ValueError, '六列'):
+            p.sync_users(self.root)
+        self.assertEqual({file: file.read_bytes() for file in before}, before)
+
     def test_posting_never_creates_users_or_changes_the_management_table(self):
         table = (self.root/'users/README.md').read_bytes()
         profiles = {f: f.read_bytes() for f in (self.root/'users').glob('*/profile.json')}
@@ -166,6 +224,28 @@ class Publishing(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, '必须唯一'):
             p.sync_users(self.root)
         self.assertEqual(profile.read_bytes(), before)
+
+    def test_registered_user_without_any_posts_has_a_public_profile_and_avatar(self):
+        self.edit_user('newuser8', name='还没发帖', bio='先看看。', active=True, random_assignable=False)
+        source = self.root/'users/poolb/photo.png'
+        p.write(source, picture())
+        self.edit_user('poolb', avatar_source='photo.png')
+        self.edit_user('poolb', avatar_source='')
+        custom = (self.root/'assets/avatars/poolb.webp').read_bytes()
+        self.assertFalse((self.root/'posts').exists())
+        self.assertEqual(p.build(self.root), [])
+        exported = json.loads((self.root/'data/feed.mjs').read_text().split('export const profiles = ', 1)[1].split(';\n', 1)[0])
+        self.assertEqual(set(exported), set(p.users_for(self.root)))
+        self.assertEqual(exported['newuser8']['name'], '还没发帖')
+        self.assertEqual(exported['newuser8']['bio'], '先看看。')
+        self.assertTrue(exported['newuser8']['avatarImage'].startswith('/gsm/assets/avatars/newuser8.webp?v='))
+        public = json.loads((self.root/'.publishing/public.json').read_text())
+        self.assertIn('gsm/assets/avatars/newuser8.webp', public)
+        self.assertEqual(sorted(path.name for path in (self.root/'users/newuser8').iterdir()), ['profile.json'])
+        self.assertEqual((self.root/'assets/avatars/poolb.webp').read_bytes(), custom)
+        self.assertEqual(p.users_for(self.root)['poolb']['avatar']['kind'], 'custom')
+        with patch.object(p, 'generated_avatar', side_effect=AssertionError('an empty feed must reuse assigned avatars')):
+            self.assertEqual(p.build(self.root), [])
 
     def test_assigned_avatars_are_reused_without_running_the_generator(self):
         p.sync_users(self.root)
@@ -458,6 +538,73 @@ class Publishing(unittest.TestCase):
         with Image.open(self.root / 'assets/avatars/gecko7.webp') as check:
             self.assertEqual(check.size, (32,32))
             self.assertEqual(check.format, 'WEBP')
+
+    def test_logo_default_variants_use_one_color_and_stable_username_selection(self):
+        master = p.brand_master()
+        variants = {p.avatar_variant('user' + str(number))['id'] for number in range(60)}
+        self.assertEqual(variants, {'gaze-left', 'gaze-center', 'gaze-right', 'turn-left', 'turn-right', 'tilt'})
+        renderings = set()
+        for variant in master['avatarVariants']:
+            username = next('user' + str(number) for number in range(60)
+                            if p.avatar_variant('user' + str(number))['id'] == variant['id'])
+            image_data = p.generated_avatar(username)
+            self.assertEqual(image_data, p.generated_avatar(username))
+            with Image.open(BytesIO(image_data)) as image:
+                self.assertEqual(image.size, (16, 16))
+                pixels = image.convert('RGBA')
+                actual_rows = [''.join('#' if pixels.getpixel((x, y))[3] else '.' for x in range(16)) for y in range(16)]
+                self.assertEqual(actual_rows, variant['rows'])
+                self.assertEqual({pixels.getpixel((x, y)) for y in range(16) for x in range(16)
+                                  if pixels.getpixel((x, y))[3]}, {(40, 59, 32, 255)})
+            renderings.add(image_data)
+        self.assertEqual(len(renderings), 6)
+        self.assertEqual(master['rows'], next(v['rows'] for v in master['avatarVariants'] if v['id'] == 'gaze-center'))
+
+    def test_explicit_default_avatar_migration_preserves_custom_faces_and_identity(self):
+        self.edit_user('gecko7', bio='先看看。')
+        folder = self.publish(self.trigger())
+        source = self.root/'users/poolb/photo.png'
+        p.write(source, picture())
+        profile_path = self.root/'users/poolb/profile.json'
+        profile = json.loads(profile_path.read_text())
+        profile.update({'avatar_pixels': 8, 'avatar_crop': [0, 0, 8, 8], 'color': 'rose'})
+        p.write(profile_path, p.json_text(profile))
+        self.edit_user('poolb', avatar_source='photo.png')
+        # A cleared source still belongs to the custom image and must stay untouched.
+        self.edit_user('poolb', avatar_source='')
+        custom_profile, custom_image = profile_path.read_bytes(), (self.root/'assets/avatars/poolb.webp').read_bytes()
+        original_source, original_post = source.read_bytes(), (folder/'index.md').read_bytes()
+        old_image = picture('WEBP', 'green')
+        for username in ['poola', 'gecko7']:
+            path = self.root/'users'/username/'profile.json'
+            profile = json.loads(path.read_text())
+            profile['avatar'] = {'kind': 'generated', 'sha256': p.digest(old_image)}
+            p.write(path, p.json_text(profile))
+            p.write(self.root/'assets/avatars'/(username+'.webp'), old_image)
+        identities = {username: {key: value for key, value in profile.items() if key != 'avatar'}
+                      for username, profile in p.users_for(self.root).items()}
+        with patch.object(p, 'generated_avatar', side_effect=AssertionError('normal build must keep the old face')):
+            p.build(self.root)
+        self.assertEqual((self.root/'assets/avatars/poola.webp').read_bytes(), old_image)
+        self.assertEqual(set(p.migrate_default_avatars(self.root)), {'poola', 'gecko7'})
+        for username in ['poola', 'gecko7']:
+            profile = p.users_for(self.root)[username]
+            self.assertEqual(profile['avatar']['kind'], 'generated')
+            self.assertEqual(profile['avatar']['generator'], 'flat-v1')
+            self.assertEqual(profile['avatar']['variant'], p.avatar_variant(username)['id'])
+            self.assertEqual((self.root/'assets/avatars'/(username+'.webp')).read_bytes(), p.generated_avatar(username))
+        self.assertEqual({username: {key: value for key, value in profile.items() if key != 'avatar'}
+                          for username, profile in p.users_for(self.root).items()}, identities)
+        self.assertEqual(profile_path.read_bytes(), custom_profile)
+        self.assertEqual((self.root/'assets/avatars/poolb.webp').read_bytes(), custom_image)
+        self.assertEqual(source.read_bytes(), original_source)
+        self.assertEqual((folder/'index.md').read_bytes(), original_post)
+        times = {file: file.stat().st_mtime_ns for file in (self.root/'assets/avatars').glob('*.webp')}
+        with patch.object(p, 'generated_avatar', side_effect=AssertionError('migration is one-time and ordinary builds reuse files')):
+            self.assertEqual(p.migrate_default_avatars(self.root), [])
+            p.build(self.root)
+        self.assertEqual({file: file.stat().st_mtime_ns for file in times}, times)
+        self.assertEqual(profile_path.read_bytes(), custom_profile)
 
     def test_username_path_date_and_duplicate_id_validation(self):
         for username in ['a.b', 'a_b', '@abc', '中文', 'a-b', 'a b']:

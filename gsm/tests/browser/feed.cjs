@@ -5,6 +5,7 @@ const base=(process.env.BASE_URL||'http://127.0.0.1:8797').replace(/\/$/,'');
 const name=process.env.BROWSER||'chromium';
 const near=(a,b,message)=>assert.ok(Math.abs(a-b)<.06,`${message}: ${a} / ${b}`);
 const contained=(inner,outer,message)=>assert.ok(inner.x>=outer.x-.75&&inner.y>=outer.y-.75&&inner.right<=outer.right+.75&&inner.bottom<=outer.bottom+.75,message);
+const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
 (async()=>{
  const {handsetThemes}=await import('../../handsets.mjs');
  const shellNames=handsetThemes.map(theme=>theme.id);
@@ -26,13 +27,23 @@ const contained=(inner,outer,message)=>assert.ok(inner.x>=outer.x-.75&&inner.y>=
   };
   page.on('pageerror',e=>errors.push(e.message));
   page.on('response',r=>{if(r.status()>=400&&r.url().startsWith(base))errors.push(`${r.status()} ${r.url()}`);});
-  await page.goto(base+'/gsm/');await page.evaluate(()=>document.fonts.ready);
+  await page.goto(base+'/gsm/');await feedReady(page);await page.evaluate(()=>document.fonts.ready);
   assert.ok(await page.locator('.post').count()>0);
   assert.equal(await page.locator('#mainNav a').count(),3);
   assert.equal(await page.locator('#mainNav').innerText(),'');
   assert.equal(await page.locator('#mainNav svg,#mainNav img,#mainNav canvas').count(),0,'printed key legends are baked into the hardware artwork');
-  for(const target of await page.locator('#mainNav a>span').all()){
-   const box=await target.boundingBox();assert.ok(box.width>0&&box.height>0,'each hardware key retains a visible keyboard-focus target');
+  await page.keyboard.press('Tab');
+  for(const target of await page.locator('#mainNav a').all()){
+   const box=await target.boundingBox();assert.ok(box.width>0&&box.height>0,'each physical key has its own real link target');
+   assert.ok(await target.getAttribute('aria-label'),'each printed key has an accessible name');
+   await target.focus();
+   const focus=await target.evaluate(element=>{
+    const paint=getComputedStyle(element,'::after');
+    return {active:document.activeElement===element,keyboard:element.matches(':focus-visible'),content:paint.content,
+     display:paint.display,visibility:paint.visibility,opacity:Number(paint.opacity),image:paint.backgroundImage};
+   });
+   assert.ok(focus.active&&focus.keyboard,'the physical key link receives keyboard focus');
+   assert.ok(focus.content!=='none'&&focus.content!=='normal'&&focus.display!=='none'&&focus.visibility!=='hidden'&&focus.opacity>0&&focus.image!=='none','the focused key paints its visible surface indicator');
   }
   assert.equal(await page.locator('dialog,form,textarea,input,[data-follow],[data-action]').count(),0);
   for(const identity of await page.locator('.author-name').all()){
@@ -44,8 +55,8 @@ const contained=(inner,outer,message)=>assert.ok(inner.x>=outer.x-.75&&inner.y>=
   }
   assert.equal(await page.locator('.author-name').first().evaluate(e=>getComputedStyle(e).fontWeight),'400');
   assert.match(await page.locator('.brand-icon img').getAttribute('src'),/assets\/icon\.svg(?:\?|$)/);
-  const terminalURL=await page.locator('.brand-icon img').evaluate(e=>e.src);
-  assert.equal(terminalURL,await page.locator('link[rel=icon]').evaluate(e=>e.href),'header and favicon share the terminal symbol');
+  const brandURL=await page.locator('.brand-icon img').evaluate(e=>e.src);
+  assert.equal(brandURL,await page.locator('link[rel=icon]').evaluate(e=>e.href),'header and favicon share the brand symbol');
   assert.equal(await page.locator('.post-portrait').count(),0,'pager messages have no separate portrait column');
   await page.waitForFunction(()=>[...document.querySelectorAll('[data-post-id]')].every(post=>{
    const image=post.querySelector('.post-identity .avatar img[data-pixel-avatar]');
@@ -110,9 +121,9 @@ const contained=(inner,outer,message)=>assert.ok(inner.x>=outer.x-.75&&inner.y>=
     assert.ok(main.y>=header.bottom-.75&&main.bottom<=dock.y+.75,'feed clears the header and keys');
     assert.ok(main.h>50,'scrolling screen retains usable height');
     assert.equal(metrics.scrollbar,'none','scrollbar hidden');
-    near(brand.w,brand.h,'terminal symbol stays square');
-    assert.ok(brand.w>=14,'compact terminal symbol stays visible');
-    assert.ok(posts[0].message.y>=main.y&&posts[0].message.y>=brand.bottom-.75,'first message clears the terminal symbol');
+    near(brand.w,brand.h,'brand symbol stays square');
+    assert.ok(brand.w>=14,'compact brand symbol stays visible');
+    assert.ok(posts[0].message.y>=main.y&&posts[0].message.y>=brand.bottom-.75,'first message clears the brand symbol');
     for(const post of posts){
      assert.ok(post.message.x>=main.x&&post.message.right<=main.right+.75,'messages fit the screen width');
      contained(post.avatar,post.identity,'portrait stays within the identity row');
@@ -139,8 +150,8 @@ const contained=(inner,outer,message)=>assert.ok(inner.x>=outer.x-.75&&inner.y>=
    await page.waitForURL(url=>url.pathname==='/gsm/settings/');
    assert.equal(await page.locator('html').getAttribute('lang'),lang);
    assert.equal(await page.locator('#settingsButton').getAttribute('aria-current'),'page');
-   assert.equal(await page.locator('.brand-icon img').evaluate(e=>e.src),terminalURL,'settings uses the same terminal symbol');
-   assert.equal(await page.locator('link[rel=icon]').evaluate(e=>e.href),terminalURL,'settings favicon matches');
+   assert.equal(await page.locator('.brand-icon img').evaluate(e=>e.src),brandURL,'settings uses the same brand symbol');
+   assert.equal(await page.locator('link[rel=icon]').evaluate(e=>e.href),brandURL,'settings favicon matches');
    assert.equal(await page.locator('main button').count(),handsetThemes.length+1,'settings offers language and all catalog case choices');
    assert.equal(await page.locator('[data-shell-choice]').count(),handsetThemes.length,'all catalog case variants are available');
    assert.equal(await page.locator('[data-shell-choice] img').count(),handsetThemes.length,'each case has its rendered thumbnail');
@@ -157,6 +168,7 @@ const contained=(inner,outer,message)=>assert.ok(inner.x>=outer.x-.75&&inner.y>=
   // A case choice follows the reader through settings, stream and reloads.
   for(const shell of shellNames){
    await page.goto(`${base}/gsm/?shell=${shell}`);
+   await feedReady(page);
    assert.equal(await page.locator('html').getAttribute('data-shell'),shell,'URL selects a case');
    await checkShellArt(shell);
    await page.locator('#settingsButton').click();await page.waitForURL(url=>url.pathname==='/gsm/settings/');
@@ -174,10 +186,12 @@ const contained=(inner,outer,message)=>assert.ok(inner.x>=outer.x-.75&&inner.y>=
   // Existing saved covers and shared preview links keep selecting their successor.
   for(const [legacy,shell] of [['mint','leopard'],['blue','tokay'],['berry','day'],['blizzard','stone']]){
    await page.goto(`${base}/gsm/?shell=${legacy}`);
+   await feedReady(page);
    assert.equal(await page.locator('html').getAttribute('data-shell'),shell,'legacy URL selects its gecko cover');
    assert.equal(new URL(page.url()).searchParams.get('shell'),shell==='leopard'?null:shell,'legacy URL normalizes');
    await page.evaluate(value=>localStorage.setItem('umwelt-gsm-shell',value),legacy);
    await page.goto(base+'/gsm/');
+   await feedReady(page);
    assert.equal(await page.locator('html').getAttribute('data-shell'),shell,'legacy saved cover migrates');
    assert.equal(await page.evaluate(()=>localStorage.getItem('umwelt-gsm-shell')),shell,'migrated cover is saved canonically');
   }
@@ -191,6 +205,7 @@ const contained=(inner,outer,message)=>assert.ok(inner.x>=outer.x-.75&&inner.y>=
   await page.reload();
   assert.equal(await page.locator('html').getAttribute('data-shell'),'day','back then reload retains the latest case');
   await page.goto(base+'/gsm/?shell=unknown');
+  await feedReady(page);
   assert.ok(shellNames.includes(await page.locator('html').getAttribute('data-shell')),'invalid case URL falls back safely');
 
   // Legacy local drafts remain stored; only archived packages appear in the timeline.
@@ -201,11 +216,12 @@ const contained=(inner,outer,message)=>assert.ok(inner.x>=outer.x-.75&&inner.y>=
   const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('umwelt-gsm-preview-v1')));
   assert.equal(saved.posts[0].text,'先前的动态 <img src=x onerror=alert(1)>');assert.deepEqual(saved.bookmarks,['bark-photo']);assert.deepEqual(saved.reposts,['wall-view']);assert.deepEqual(saved.following,[]);assert.equal(saved.replies['bark-photo'][0].text,'先前的回复');
   await page.locator('#homeButton').click();await page.waitForURL(base+'/');
-  assert.equal(await page.locator('.gsm-picture img').evaluate(e=>e.src),terminalURL,'homepage entry shares the page symbol');
+  assert.equal(await page.locator('.gsm-picture img').evaluate(e=>e.src),brandURL,'homepage entry shares the brand symbol');
   assert.deepEqual(errors,[]);
   await context.close();
   const unavailable=await browser.newContext();await unavailable.addInitScript(()=>{Object.defineProperty(window,'localStorage',{get(){throw new Error('disabled')}})});
   const fallback=await unavailable.newPage();await fallback.goto(base+'/gsm/?shell=tokay');
+  await feedReady(fallback);
   assert.equal(await fallback.locator('html').getAttribute('data-shell'),'tokay','URL case works with storage disabled');
   await fallback.locator('[data-like]').first().click();assert.equal(await fallback.locator('[data-like]').first().getAttribute('aria-pressed'),'true');assert.ok((await fallback.locator('#toast').innerText()).includes('无法保存'));
   await fallback.locator('#settingsButton').click();
@@ -213,6 +229,7 @@ const contained=(inner,outer,message)=>assert.ok(inner.x>=outer.x-.75&&inner.y>=
   await unavailable.close();
   const motion=await browser.newContext({reducedMotion:'reduce'}),motionPage=await motion.newPage();
   await motionPage.goto(base+'/gsm/');
+  await feedReady(motionPage);
   const motionLike=motionPage.locator('[data-like]').first();
   assert.equal(await motionPage.evaluate(()=>matchMedia('(prefers-reduced-motion: reduce)').matches),true);
   assert.equal(await motionLike.locator('.heart-core').evaluate(e=>getComputedStyle(e).opacity),'0');
@@ -229,7 +246,7 @@ const contained=(inner,outer,message)=>assert.ok(inner.x>=outer.x-.75&&inner.y>=
   assert.equal(await motionLike.locator('..').locator('.like-burst').count(),0,'unliking clears pending feedback');
   await motion.close();
   if(process.env.QA_OUTPUT){
-   await fs.mkdir(process.env.QA_OUTPUT,{recursive:true});const clean=await browser.newPage({viewport:{width:1280,height:1000},deviceScaleFactor:1});await clean.goto(base+'/gsm/');await clean.evaluate(()=>document.fonts.ready);
+   await fs.mkdir(process.env.QA_OUTPUT,{recursive:true});const clean=await browser.newPage({viewport:{width:1280,height:1000},deviceScaleFactor:1});await clean.goto(base+'/gsm/');await feedReady(clean);await clean.evaluate(()=>document.fonts.ready);
    await clean.screenshot({path:`${process.env.QA_OUTPUT}/gsm-stream-${name}-desktop.png`});
    await clean.setViewportSize({width:390,height:844});await clean.screenshot({path:`${process.env.QA_OUTPUT}/gsm-stream-${name}-mobile.png`});
    await clean.setViewportSize({width:390,height:600});await clean.locator('#timeline').evaluate(e=>e.scrollTop=210);await clean.screenshot({path:`${process.env.QA_OUTPUT}/gsm-stream-${name}-scrolled.png`});

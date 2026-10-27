@@ -6,26 +6,29 @@
   --ink:var(--lcd-ink);--name:var(--lcd-ink);--muted:var(--lcd-muted);
   --heart:var(--lcd-ink);--star:var(--lcd-ink);--plus:var(--lcd-ink);
   --highlight:#dfedbb;
-  --lcd-cell-pitch:3rem;
+  /* FusionPixel's 12-dot em sets one glass-cell pitch; glyphs stay native. */
+  --lcd-cell:calc(clamp(16px,21rem,24px)/12);
   background:#bcd28a;box-shadow:0 0 9rem #c6e38c35;
 }
 .app-window::before{
-  background:linear-gradient(112deg,#f4ffd31b,transparent 38%),radial-gradient(ellipse at 48% 0,#edffc514,transparent 68%);
+  z-index:0;
+  background:
+    radial-gradient(ellipse at 42% 28%,#e0efb32b,transparent 68%),
+    linear-gradient(90deg,#bdd38c,#cfe29e 45%,#c1d791);
+  background-size:100% 100%;
   box-shadow:inset 1rem 3rem 7rem #283b1c40,inset -1rem -1rem 2rem #eeffc845;
 }
-/* Pixel gaps stay on the glass plane while the messages scroll underneath. */
+/* One static matrix modulates both native ink and blank glass; no text renderer. */
 .app-window::after{
-  background:
-    linear-gradient(112deg,#efffc916,transparent 28%,transparent 78%,#3043220b),
-    repeating-linear-gradient(180deg,transparent 0 calc(var(--lcd-cell-pitch) - .35rem),#e9f6b926 calc(var(--lcd-cell-pitch) - .35rem) var(--lcd-cell-pitch)),
-    repeating-linear-gradient(90deg,transparent 0 calc(var(--lcd-cell-pitch) - .3rem),#24401812 calc(var(--lcd-cell-pitch) - .3rem) var(--lcd-cell-pitch));
+  background-image:url('./assets/lcd-matrix.svg'),linear-gradient(112deg,#efffc909,transparent 28%,transparent 78%,#30432205);
+  background-size:var(--lcd-cell) var(--lcd-cell),100% 100%;
   pointer-events:none;user-select:none;
 }
-.app-header{background:linear-gradient(90deg,#bdd38c,#cfe29e 45%,#c1d791);box-shadow:inset 0 3rem 0 #e0ecc04d,0 3rem 0 #53683e50}
+.app-header{background:transparent;box-shadow:inset 0 3rem 0 #e0ecc04d,0 3rem 0 #53683e50}
 .brand-icon img{filter:none;mix-blend-mode:normal;opacity:1}
-.pixel-stickers{position:absolute;right:0;top:0;bottom:0;width:318rem;pointer-events:none}
+.pixel-stickers{position:absolute;right:14rem;top:0;bottom:0;width:318rem;pointer-events:none}
 .pixel-stickers,.stream-flourish{--heart:var(--sticker-heart);--star:var(--sticker-star);--plus:var(--sticker-plus);--highlight:var(--sticker-highlight)}
-#timeline{padding:13rem 16rem 18rem;background:radial-gradient(ellipse at 42% 28%,#e0efb32b,transparent 68%),linear-gradient(90deg,#bdd38c,#cfe29e 45%,#c1d791)}
+#timeline{z-index:1;padding:13rem 16rem 18rem;background:transparent}
 #posts{gap:14rem}
 .post{display:block;min-width:0}
 .post[data-post-id]:not(:last-child)::after{content:'';display:block;height:2px;margin-top:15rem;background:repeating-linear-gradient(90deg,var(--lcd-muted) 0 2px,transparent 2px 6px);opacity:.65}
@@ -43,7 +46,7 @@
 .author-label{white-space:normal;overflow-wrap:anywhere}
 .author-handle{color:var(--lcd-muted);font-size:clamp(11px,12rem,15px)}
 .post-text{margin-top:8rem;font-size:clamp(16px,21rem,24px);line-height:1.5;color:var(--lcd-ink)}
-.post-text,.author-name,.post-footer{text-shadow:1px 1px 0 #e9ffc52b}
+.post-text,.author-name,.post-footer{text-shadow:none}
 .post-footer{min-height:18rem;margin-top:7rem}
 .post-time,.like-count{color:var(--lcd-muted);font-size:clamp(11px,12rem,15px)}
 .post-actions .ui-icon{width:max(16rem,12px);height:max(16rem,12px)}
@@ -65,4 +68,44 @@
 @media(max-height:550px) and (min-width:600px){
   .pixel-stickers{top:-5rem}
   #timeline{padding-top:10rem}
+}
+
+/* Profile content shares the feed's small monochrome screen. */
+#profile:not([hidden]){margin-bottom:14rem;padding-bottom:14rem;border-bottom:2px dotted var(--lcd-muted)}
+.profile-back{display:inline-flex;align-items:center;justify-content:center;min-width:28px;min-height:28px;margin-bottom:8rem;color:var(--lcd-ink);font-size:clamp(18px,22rem,24px);line-height:1}
+.profile-back>span{display:block;transform:scaleX(.82)}
+.profile-identity{display:flex;align-items:center;gap:12rem;min-width:0}
+.profile-avatar{width:48rem;height:48rem}
+.profile-details{min-width:0}
+#profileTitle{font-size:clamp(16px,21rem,24px);font-weight:400;line-height:1.4;overflow-wrap:anywhere;outline:none}
+.profile-handle,.profile-count,.profile-empty{font-size:clamp(11px,13rem,16px);line-height:1.5;color:var(--lcd-muted);overflow-wrap:anywhere}
+.profile-count{margin-top:4rem}
+.profile-empty{margin-top:8rem}
+a.avatar:focus-visible,.profile-back:focus-visible{outline:2px solid var(--lcd-ink);outline-offset:3px}
+@media(hover:hover){a.avatar:hover,.profile-back:hover{background:#7c8c6230}}
+
+.profile-bio{font-style:italic;margin-top:10rem;font-size:clamp(14px,17rem,20px);line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--lcd-ink)}
+@media(hover:hover){
+  .author-name>a:hover{text-shadow:1px 1px 0 #e7f4c0,-1px -1px 0 #1c2d1740}
+}
+
+/* Give each ornament its own pocket of space inside the same header. */
+.pixel-stickers .star-group{left:197rem;top:7rem}
+.pixel-stickers .star-center{left:210rem;top:42rem}
+.pixel-stickers .radio{left:227rem;top:22rem}
+.pixel-stickers .star-left{left:265rem;top:6rem}
+.pixel-stickers .heart-small{left:259rem;top:38rem}
+.pixel-stickers .cross{left:279rem;top:45rem}
+.pixel-stickers .heart-large{left:288rem;top:22rem}
+.pixel-stickers .star-small{left:302rem;top:8rem}
+.pixel-stickers .star-right{left:304rem;top:48rem}
+
+@media(max-height:550px) and (min-width:600px){
+  .pixel-stickers{top:0}
+  .pixel-stickers .star-center{top:32rem}
+  .pixel-stickers .radio{top:17rem}
+  .pixel-stickers .heart-small{top:30rem}
+  .pixel-stickers .cross{left:276rem;top:36rem}
+  .pixel-stickers .heart-large{top:19rem}
+  .pixel-stickers .star-right{left:287rem;top:5rem;width:8rem;height:8rem}
 }

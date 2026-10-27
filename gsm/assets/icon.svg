@@ -1,6 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges" fill="#6d7a43">
-  <!-- One terminal-shaped conversation window, with an open counter and a >_ prompt. -->
-  <path d="M8 10H24V22H8Z" fill="#d9ddcf"/>
-  <path fill-rule="evenodd" d="M6 4H26V6H28V26H16V28H12V30H8V26H4V6H6ZM8 6H16V8H8ZM22 6H24V8H22ZM8 10H24V22H8Z"/>
-  <path d="M10 14H12V16H10ZM12 16H14V18H12ZM10 18H12V20H10ZM18 18H22V20H18Z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges" fill="#6d7a43">
+  <!-- Selected flat gecko master, front gaze. -->
+  <path d="M4 4h8v1H4zM2 5h12v1H2zM1 6h14v1H1zM1 7h2v1H1zM5 7h6v1H5zM13 7h2v1H13zM1 8h2v1H1zM5 8h6v1H5zM13 8h2v1H13zM1 9h14v1H1zM2 10h12v1H2zM3 11h10v1H3zM5 12h6v1H5z"/>
 </svg>

@@ -11,6 +11,8 @@ import {pixelateAvatars} from './avatars.mjs';
 const $ = selector => document.querySelector(selector);
 const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const isSettings = document.body.dataset.view === 'settings';
+let selectedUser = null;
+const userFromURL = () => isSettings ? null : new URLSearchParams(location.search).get('user');
 let language = desktopLanguage(), storage, toastTimer;
 const shellAliases = new Map([['mint','leopard'],['blue','tokay'],['berry','day'],['blizzard','stone']]);
 const normalizeShell = value => shellNames.includes(value) ? value : shellAliases.get(value);
@@ -43,9 +45,12 @@ function applyShell() {
   const url = new URL(location.href);
   url.searchParams.delete('shell');
   if (shell !== 'leopard') url.searchParams.set('shell',shell);
-  if (url.href !== location.href) history.replaceState(null,'',url);
+  if (url.href !== location.href) history.replaceState(history.state,'',url);
   document.querySelector('meta[name="theme-color"]').content = handsetById[shell].color;
   document.querySelectorAll('[data-shell-choice]').forEach(button => button.setAttribute('aria-pressed',String(button.dataset.shellChoice === shell)));
+  for (const link of document.querySelectorAll('a[data-profile]')) link.href = streamURL(link.dataset.profile);
+  const back = document.querySelector('[data-profile-back]');
+  if (back) back.href = streamURL();
   // Preserve a preview choice and storage-denied sessions through both pages.
   for (const [id,path] of [['streamButton',isSettings?'../':'./'],['settingsButton',isSettings?'./':'./settings/']]) {
     document.getElementById(id).href = shell === 'leopard' ? path : `${path}?shell=${shell}`;
@@ -62,6 +67,12 @@ document.querySelectorAll('[data-mini-shell]').forEach(element => { element.inne
 // Keep earlier local records intact; published packages are the timeline source.
 const state = storage ? readState(storage, Object.keys(profiles)) : freshState();
 const allPosts = seeds;
+function streamURL(user = null) {
+  const url = new URL('./',import.meta.url);
+  if (user !== null) url.searchParams.set('user',user);
+  if (shell !== 'leopard') url.searchParams.set('shell',shell);
+  return url.pathname+url.search;
+}
 const localized = value => typeof value === 'string' ? value : value[language] ?? value.zh;
 const t = (key, vars = {}) => Object.entries(vars).reduce((value,[name,replacement]) => value.replace(`{${name}}`, replacement), copy[language][key]);
 
@@ -79,7 +90,7 @@ function postMarkup(post) {
   const blocks = localized(post.blocks);
   return `<article class="post" data-post-id="${post.id}" data-tone="${profile.color}">
     <div class="post-content bubble">
-      <header class="post-identity"><span class="avatar" aria-hidden="true"><img data-pixel-avatar src="${new URL(profile.avatarImage,import.meta.url).href}" width="16" height="16" alt="" decoding="async"></span><span class="author-name"><span class="author-label">${escape(localized(profile.name))}</span><span class="author-handle">@${escape(profile.handle)}</span></span></header>
+      <header class="post-identity"><a class="avatar" id="profile-${post.id}" data-profile="${escape(post.author)}" href="${escape(streamURL(post.author))}" aria-label="${escape(t('viewProfile',{name:localized(profile.name)}))}"><img data-pixel-avatar src="${new URL(profile.avatarImage,import.meta.url).href}" width="16" height="16" alt="" decoding="async"></a><span class="author-name"><a class="author-label" id="profile-name-${post.id}" data-profile="${escape(post.author)}" href="${escape(streamURL(post.author))}" aria-label="${escape(t('viewProfile',{name:localized(profile.name)}))}">${escape(localized(profile.name))}</a><a class="author-handle" id="profile-handle-${post.id}" data-profile="${escape(post.author)}" href="${escape(streamURL(post.author))}" aria-label="${escape(t('viewProfile',{name:'@'+profile.handle}))}">@${escape(profile.handle)}</a></span></header>
       ${blocks.map(block=>block.type==='image'?`<figure class="post-media"><img src="${new URL(block.src,import.meta.url).href}" width="${block.width}" height="${block.height}" alt="${escape(block.alt)}" loading="lazy"></figure>`:`<p class="post-text">${escape(block.text)}</p>`).join('')}
       <footer class="post-footer">
         <time class="post-time" datetime="${post.date}" title="${escape(new Date(post.createdAt).toLocaleString({zh:'zh-CN',en:'en-GB',ja:'ja-JP'}[language],{timeZone:'Asia/Shanghai'}))}">${timeLabel(post)}</time>
@@ -87,6 +98,11 @@ function postMarkup(post) {
       </footer>
     </div>
   </article>`;
+}
+function profileMarkup(profile, count) {
+  const back = `<a id="profileBack" class="profile-back" data-profile-back href="${escape(streamURL())}" aria-label="${escape(t('backToFeed'))}"><span aria-hidden="true">←</span></a>`;
+  if (!profile) return `${back}<h2 id="profileTitle" tabindex="-1">${escape(t('profileMissing'))}</h2><p class="profile-empty">${escape(t('profileUnavailable'))}</p>`;
+  return `${back}<div class="profile-identity"><span class="avatar profile-avatar" aria-hidden="true"><img data-pixel-avatar src="${new URL(profile.avatarImage,import.meta.url).href}" width="16" height="16" alt="" decoding="async"></span><div class="profile-details"><h2 id="profileTitle" tabindex="-1">${escape(localized(profile.name))}</h2><p class="profile-handle">@${escape(profile.handle)}</p><p class="profile-count">${escape(t('postCount',{count}))}</p></div></div>${profile.bio?`<p class="profile-bio">${escape(localized(profile.bio))}</p>`:''}`;
 }
 // Feedback decorates the existing like state; it never writes its own record.
 const likeFeedback = new WeakMap();
@@ -118,11 +134,13 @@ function celebrateLike(button) {
 
 function render() {
   const activeId = document.activeElement?.id;
+  selectedUser = userFromURL();
+  const profile = selectedUser !== null && Object.hasOwn(profiles,selectedUser) ? profiles[selectedUser] : null;
   document.documentElement.lang = {zh:'zh-CN',en:'en',ja:'ja'}[language];
-  document.title = (isSettings?t('settings')+' · ':'')+gameDocumentTitle('gsm',language);
+  document.title = (isSettings?t('settings')+' · ':selectedUser !== null?(profile?localized(profile.name):t('profileMissing'))+' · ':'')+gameDocumentTitle('gsm',language);
   $('[data-home]').setAttribute('aria-label',t('homeLink'));
   $('[data-home]').title = t('homeLink');
-  $('[data-skip]').textContent = isSettings?t('settings'):t('skip');
+  $('[data-skip]').textContent = isSettings?t('settings'):selectedUser !== null?t('skipProfile'):t('skip');
   $('#settingsButton').setAttribute('aria-label',t('settings'));
   $('#settingsButton').title = t('settings');
   $('#mainNav').setAttribute('aria-label',t('navigation'));
@@ -138,9 +156,15 @@ function render() {
     $('[data-language-value]').textContent = {zh:'中文',en:'English',ja:'日本語'}[language];
     $('[data-language]').setAttribute('aria-label',t('language'));
   } else {
-    $('#posts').setAttribute('aria-label',t('feedLabel'));
-    $('#posts').innerHTML = allPosts.map(postMarkup).join('');
-    pixelateAvatars($('#posts'));
+    const visiblePosts = selectedUser === null ? allPosts : profile ? allPosts.filter(post=>post.author===selectedUser) : [];
+    $('#profile').hidden = selectedUser === null;
+    $('#profile').innerHTML = selectedUser === null ? '' : profileMarkup(profile,visiblePosts.length);
+    $('#posts').setAttribute('aria-label',selectedUser === null?t('feedLabel'):t('profilePosts',{name:profile?localized(profile.name):selectedUser}));
+    $('#posts').innerHTML = visiblePosts.map(postMarkup).join('');
+    if (profile && !visiblePosts.length) $('#posts').innerHTML = `<p class="profile-empty">${escape(t('noPosts'))}</p>`;
+    if (selectedUser === null) $('#streamButton').setAttribute('aria-current','page');
+    else $('#streamButton').removeAttribute('aria-current');
+    pixelateAvatars($('#timeline'));
   }
   if (activeId) document.getElementById(activeId)?.focus({preventScroll:true});
 }
@@ -152,10 +176,48 @@ $('.pixel-stickers').innerHTML = [
 if(!isSettings){
   $('.stream-flourish').innerHTML = decoration('footer-star-left','sparkle')+decoration('footer-heart','heart')+decoration('footer-star-right','sparkle');
 }
+function rememberView() {
+  if (isSettings) return;
+  history.replaceState({...history.state,gsmView:{scrollTop:$('#timeline').scrollTop,focusId:document.activeElement?.id}},'');
+}
+function restoreView() {
+  const saved = history.state?.gsmView;
+  $('#timeline').scrollTop = saved?.scrollTop ?? 0;
+  const target = saved?.focusId && document.getElementById(saved.focusId);
+  (target || $('#profileTitle') || $('#timeline')).focus({preventScroll:true});
+}
+function navigate(user) {
+  rememberView();
+  const fromFeed = selectedUser === null;
+  history.pushState({gsmProfileFromFeed:user !== null && fromFeed},'',streamURL(user));
+  render();
+  $('#timeline').scrollTop = 0;
+  ($('#profileTitle') || $('#timeline')).focus({preventScroll:true});
+}
+function backToFeed() {
+  if (history.state?.gsmProfileFromFeed) { rememberView(); history.back(); }
+  else navigate(null);
+}
+const plainClick = event => !event.defaultPrevented && event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
 $('#streamButton').addEventListener('click',event=>{
-  if(isSettings)return;
-  event.preventDefault();$('#timeline').scrollTop=0;$('#timeline').focus({preventScroll:true});
+  if(isSettings || !plainClick(event))return;
+  event.preventDefault();
+  if (selectedUser !== null) backToFeed();
+  else { $('#timeline').scrollTop=0;$('#timeline').focus({preventScroll:true}); }
 });
+if (!isSettings) {
+  document.addEventListener('click',event=>{
+    const link = event.target.closest('a[data-profile],a[data-profile-back]');
+    if (!link || !plainClick(event)) return;
+    event.preventDefault();
+    if (link.hasAttribute('data-profile-back')) backToFeed();
+    else if (link.dataset.profile === selectedUser) { $('#timeline').scrollTop=0;$('#profileTitle').focus({preventScroll:true}); }
+    else { link.focus({preventScroll:true}); navigate(link.dataset.profile); }
+  });
+  $('#timeline').addEventListener('scroll',rememberView,{passive:true});
+  window.addEventListener('popstate',()=>{applyShell();render();restoreView();});
+}
+
 document.addEventListener('click',event=>{
   const button = event.target.closest('button');
   if (!button) return;
@@ -185,6 +247,7 @@ document.addEventListener('click',event=>{
 window.addEventListener('pageshow',()=>{const saved = readSavedShell();if(saved)shell=saved;applyShell();const next=desktopLanguage();if(language!==next){language=next;render();}});
 window.addEventListener('storage',event=>{if(event.key===shellStorageKey){shell=normalizeShell(event.newValue)??'leopard';applyShell();}if(event.key==='umwelt-desktop-language'){language=desktopLanguage();render();}});
 render();
+if (!isSettings && history.state?.gsmView) restoreView();
 if(!isSettings)setInterval(()=>{
  for(const post of allPosts){const time=document.querySelector(`[data-post-id="${post.id}"] .post-time`);if(time)time.textContent=timeLabel(post);}
 },60000);

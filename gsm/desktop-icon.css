@@ -1,0 +1,23 @@
+/* A recessed miniature LCD; the shared logo artwork remains unchanged. */
+.gsm-picture{
+  --gsm-logo-size:40px;--gsm-cell:calc(var(--gsm-logo-size) / 16);
+  --gsm-depth:2px;--gsm-edge:1px;
+  position:relative;isolation:isolate;overflow:hidden;
+  background:linear-gradient(135deg,#c8d99b,#b5c783);
+  border-color:#a5af8d;
+  box-shadow:1px 1px 0 #263825,
+    inset var(--gsm-depth) var(--gsm-depth) 0 #50613b,
+    inset calc(0px - var(--gsm-edge)) calc(0px - var(--gsm-edge)) 0 #dfeabe;
+}
+.app-picture.gsm-picture>img{
+  display:block;width:var(--gsm-logo-size);height:var(--gsm-logo-size);
+  transform:translateY(-3.125%);image-rendering:pixelated;filter:brightness(.55);
+}
+.gsm-picture::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:url('./assets/lcd-matrix.svg'),linear-gradient(135deg,#eff8ce12,transparent 45%,#35482008);
+  background-size:var(--gsm-cell) var(--gsm-cell),100% 100%;
+  /* Center the 16-cell image; its visible face sits half a cell below its canvas. */
+  background-position:calc(50% + var(--gsm-cell) / 2) 50%,center;
+}
+@media(max-height:600px){.desktop-icon .gsm-picture{--gsm-logo-size:32px}}

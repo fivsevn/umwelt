@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+  <!-- One physical cell: 92% width, with a shared 8% gap around active and passive ink. -->
+  <path fill="#283b20" fill-opacity=".18" d="M4 4h92v92H4z"/>
+  <path fill="#d5e5aa" fill-opacity=".38" fill-rule="evenodd" d="M0 0H100V100H0Z M4 4V96H96V4Z"/>
+</svg>

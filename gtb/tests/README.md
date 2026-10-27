@@ -4,7 +4,7 @@
 
 仓库根目录运行 `node tools/check-all.mjs`，现有公共登记检查覆盖本项目名称、目录、README 与入口；此项已接入 CI。
 
-启动本地静态服务后，查看 [双图标预览](../../tests/browser/media-icons.html) 和 [占位页](../index.html)。核对 32／48／128 px 显示、透明边缘、三语名称，以及 320 px 窄屏。
+启动本地静态服务后，查看 [桌面入口](../../index.html) 和 [占位页](../index.html)。核对 32／48／128 px 显示、透明边缘、三语名称，以及 320 px 窄屏。
 
 原稿核对：`python3 tools/pixel-icons/author.py gtb --check`。需要本地 Pixelorama，不接入 CI。
 

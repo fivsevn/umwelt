@@ -10,8 +10,9 @@ from pathlib import Path
 import bpy
 from mathutils import Vector
 from mathutils.bvhtree import BVHTree
-
 HERE=Path(__file__).resolve().parent
+sys.path.insert(0,str(HERE))
+from handset_icons import apply_hardware_ink
 spec=importlib.util.spec_from_file_location('handset_materials',HERE/'handset_materials.py')
 materials_module=importlib.util.module_from_spec(spec);spec.loader.exec_module(materials_module)
 
@@ -88,6 +89,10 @@ def segmented_controls(body,mats,w,h,cy,sx,sy):
     boolean_difference(body,cutter);bevel(body,.012,3)
     floor=prism('Hidden control substrate',w+.010,h+.010,.41*sy,.024,.237,0,cy,mats['tray'])
     bevel(floor,.010,3)
+    return control_caps(mats,w,h,cy,sx,sy)
+
+def control_caps(mats,w,h,cy,sx,sy):
+    """The final wider main key and two smaller companions, in the existing slot."""
     radius=.41*sy
     profile=[(.010,.245),(0,.309),(.004,.335),(.014,.354),
              (.032,.360),(.066,.352),(.130,.333),(.245,.310),(.320,.300)]
@@ -103,8 +108,8 @@ def segmented_controls(body,mats,w,h,cy,sx,sy):
         for side,indices in [(-1,range(steps)),(1,reversed(range(steps)))]:
             for i in indices:
                 y=-h*.5-.09+(h+.18)*i/(steps-1)
-                bend=.050*sx*(1-(y/(h*.5))**2)
-                x=sign*(.42*sx+bend)+side*gap*.5
+                bend=.025*sx*(1-(y/(h*.5))**2)
+                x=sign*(.50*sx+bend)+side*gap*.5
                 points.append((x,cy+y))
         slot=mesh_from_rings('Curved control joint cutter',[(points,.195),(points,.55)],mats['gasket'],close_center=True)
         boolean_difference(panel,slot)
@@ -459,8 +464,11 @@ def main():
     args=arguments();bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=False)
     mats=materials_module.make_materials(args.theme)
     body,(W,H)=make_case(args,mats);make_surface_damage(body,mats,W,H);make_wear(body,mats,W,H);make_key_wear(mats);scene=setup(args,W,H)
+    w,h,cy,sy=(2.24,.62,-1.44,.62/.88) if args.wide else (2.42,.88,-3.03,1)
+    apply_hardware_ink(args.theme,args.wide,loop(w+.060,h+.050,.43*sy,cy=cy),export=True)
     source=HERE/'handset-source';source.mkdir(exist_ok=True)
     source_file=source/f'handset-{args.theme}{"-wide" if args.wide else ""}.blend'
+    bpy.context.preferences.filepaths.save_version=0
     bpy.ops.wm.save_as_mainfile(filepath=str(source_file),compress=True)
     args.output.parent.mkdir(parents=True,exist_ok=True)
     bpy.ops.render.render(write_still=True)

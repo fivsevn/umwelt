@@ -10,12 +10,13 @@ import subprocess
 import tempfile
 import time
 from datetime import datetime
+from functools import lru_cache
 from io import BytesIO
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import yaml
-from PIL import Image, ImageDraw, ImageOps
+from PIL import Image, ImageColor, ImageOps
 from pillow_heif import register_heif_opener
 
 register_heif_opener()
@@ -172,16 +173,17 @@ def sync_users(root):
         cells = [part.strip().replace(r'\|', '|') for part in re.split(r'(?<!\\)\|', line)[1:-1]]
         if cells and (cells[:2] == ['username', '昵称'] or re.fullmatch(r':?-+:?', cells[0])):
             continue
-        if len(cells) != 5:
-            raise ValueError('用户表每行需填写五列：username、昵称、启用、可随机分配、头像原图')
-        username, name, active, random, avatar = cells
+        if len(cells) not in {5, 6}:
+            raise ValueError('用户表每行需填写六列：username、昵称、启用、可随机分配、头像原图、个性签名（旧五列仍可读取）')
+        username, name, active, random, avatar = cells[:5]
+        bio = cells[5] if len(cells) == 6 else ''
         if not USERNAME.fullmatch(username) or username != username.lower() or username in users:
             raise ValueError(f'用户表 username 必须唯一，且只含小写英文和数字：{username}')
         if not name or active not in {'是', '否'} or random not in {'是', '否'}:
             raise ValueError(f'请填写 {username} 的昵称和两个“是/否”开关')
         if avatar:
             local_path(root / 'users' / username, avatar)
-        users[username] = {'name': name, 'active': active == '是', 'random_assignable': random == '是', 'avatar_source': avatar}
+        users[username] = {'name': name, 'active': active == '是', 'random_assignable': random == '是', 'avatar_source': avatar, 'bio': bio}
     used = {str(split(post.read_text())[0].get('username', '')).lower() for post in (root / 'posts').glob('**/index.md')}
     missing = used - set(users)
     if missing:
@@ -393,34 +395,67 @@ def ingest(root, mode):
     return created
 
 
+@lru_cache(maxsize=1)
+def brand_master():
+    """The runtime mark and avatar generator share one checked-in pixel master."""
+    source = (ROOT / 'brand.mjs').read_text()
+    brand = json.loads(source.split('export const brand = ', 1)[1].strip().removesuffix(';'))
+    variants = brand['avatarVariants']
+    if len(variants) != 6 or len({variant['id'] for variant in variants}) != 6:
+        raise ValueError('默认头像母版需要六种稳定变化')
+    for variant in variants:
+        if len(variant['rows']) != 16 or any(len(row) != 16 or set(row) - set('.#') for row in variant['rows']):
+            raise ValueError('默认头像母版必须为 16 × 16 整数像素')
+    return brand
+
+
+def avatar_variant(username):
+    # Stable username selection, independent of registry or posting order.
+    value = 0
+    for character in username:
+        value = (value * 31 + ord(character)) & 0xffffffff
+    variants = brand_master()['avatarVariants']
+    return variants[value % len(variants)]
+
+
 def generated_avatar(username):
-    """Stable integer-grid gecko portrait; the username is the only random seed."""
-    seed = hashlib.sha256(username.encode()).digest()
-    palettes = [('#e8d49d', '#ad945b', '#f6ecd6'), ('#b9cb9b', '#6f8b70', '#f2edcb'),
-                ('#dfb7a4', '#a77a71', '#fff0d5'), ('#bcb3ce', '#827793', '#f0e4d3')]
-    skin, shade, light = palettes[seed[0] % len(palettes)]
-    ink = '#3d514a'
-    image = Image.new('RGBA', (32, 32), ['#c8d6ad', '#e9bdb8', '#c9d9cc'][seed[1] % 3])
-    draw = ImageDraw.Draw(image)
-    # Raised brow, long snout, pale jaw and slit pupil in a 24 px portrait.
-    draw.polygon([(13,5),(21,5),(21,7),(24,7),(24,10),(26,10),(26,22),(24,22),(24,26),(17,26),(17,24),(13,24),(13,22),(9,22),(9,20),(5,20),(5,18),(3,18),(3,13),(5,13),(5,11),(8,11),(8,9),(11,9),(11,7),(13,7)], fill=ink)
-    draw.polygon([(14,6),(20,6),(20,8),(23,8),(23,11),(25,11),(25,21),(23,21),(23,25),(18,25),(18,23),(14,23),(14,21),(10,21),(10,19),(6,19),(6,17),(4,17),(4,14),(6,14),(6,12),(9,12),(9,10),(12,10),(12,8),(14,8)], fill=skin)
-    draw.rectangle((22,12,24,21), fill=shade)
-    draw.polygon([(5,17),(9,18),(14,19),(20,18),(23,19),(22,23),(18,24),(14,22),(10,20),(6,19)], fill=light)
-    draw.line([(6,16),(9,17),(15,18),(21,17)], fill=shade, width=1)
-    draw.rectangle((15,9,21,16), fill=shade)
-    draw.rectangle((16,9,20,15), fill=light)
-    draw.rectangle((18,10,19,14), fill=ink)
-    draw.point((16,10), fill='#ffffff')
-    draw.point((6,14), fill=ink)
-    for i, (x,y) in enumerate([(11,11),(14,8),(19,7),(10,15),(22,9),(20,22)]):
-        if seed[3+i] % 3:
-            draw.rectangle((x,y,x+seed[3+i]%2,y), fill=shade)
-    if seed[12] % 2:
-        image = image.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
+    """One-color flat-head mark; eyes and small poses distinguish six variants."""
+    brand = brand_master()
+    rows = avatar_variant(username)['rows']
+    image = Image.new('RGBA', (16, 16))
+    image.putdata([(*ImageColor.getrgb(brand['ink']), 255) if cell == '#' else (0, 0, 0, 0) for row in rows for cell in row])
     out = BytesIO()
-    image.save(out, format='WEBP', lossless=True)
+    image.save(out, format='WEBP', lossless=True, exact=True)
     return out.getvalue()
+
+
+def generated_avatar_record(username, data):
+    return {'kind': 'generated', 'generator': brand_master()['version'],
+            'variant': avatar_variant(username)['id'], 'sha256': digest(data)}
+
+
+def migrate_default_avatars(root):
+    """Explicit, idempotent migration; a blank source never identifies a default."""
+    updates = []
+    for username, profile in users_for(root).items():
+        previous = profile.get('avatar', {})
+        if previous.get('kind') != 'generated':
+            continue
+        if profile.get('avatar_source'):
+            raise ValueError(f'@{username} 有待同步的自定义头像；请先同步用户表')
+        target = root / 'assets/avatars' / (username + '.webp')
+        existing = target.read_bytes() if target.exists() else None
+        if (previous.get('generator') == brand_master()['version']
+                and previous.get('variant') == avatar_variant(username)['id']
+                and existing is not None and previous.get('sha256') == digest(existing)):
+            continue
+        data = generated_avatar(username)
+        profile['avatar'] = generated_avatar_record(username, data)
+        updates.append((username, profile, target, data))
+    for username, profile, target, data in updates:
+        write(target, data)
+        write(root / 'users' / username / 'profile.json', json_text(profile))
+    return [username for username, _, _, _ in updates]
 
 
 def sync_user_avatars(root, registry):
@@ -451,7 +486,7 @@ def sync_user_avatars(root, registry):
             assigned = {'kind': previous.get('kind', 'generated'), 'sha256': digest(data)}
         else:
             data = generated_avatar(username)
-            assigned = {'kind': 'generated', 'sha256': digest(data)}
+            assigned = generated_avatar_record(username, data)
         write(target, data)
         profile['avatar'] = assigned
         write(root / 'users' / username / 'profile.json', json_text(profile))
@@ -483,6 +518,15 @@ def build(root):
     root = root.resolve()
     posts, profiles, public, ids = [], {}, set(), set()
     registry = sync_users(root)
+    def add_profile(username):
+        character = registry[username]
+        portrait = root / 'assets/avatars' / (username + '.webp')
+        public.add('gsm/' + portrait.relative_to(root).as_posix())
+        tone = character.get('color') or ['sage', 'sand', 'rose'][hashlib.sha256(username.encode()).digest()[1] % 3]
+        if tone not in {'sage', 'sand', 'rose', 'isopoda'}:
+            raise ValueError(f'@{username} 的 color 只能是 sage、sand、rose 或 isopoda')
+        profiles[username] = {'handle': username, 'name': character['name'], 'bio': character.get('bio', ''),
+                              'avatarImage': '/gsm/assets/avatars/' + username + '.webp?v=' + character['avatar']['sha256'][:12], 'color': tone}
     packages = []
     for path in sorted((root / 'posts').glob('**/index.md')):
         meta, body = split(path.read_text())
@@ -499,14 +543,7 @@ def build(root):
         packages.append((date, ident, username, meta, body, path.parent))
     for date, ident, username, meta, body, folder in sorted(packages, reverse=True):
         if username not in profiles:
-            character = registry[username]
-            portrait = root / 'assets/avatars' / (username + '.webp')
-            public.add('gsm/' + portrait.relative_to(root).as_posix())
-            tone = character.get('color') or ['sage', 'sand', 'rose'][hashlib.sha256(username.encode()).digest()[1] % 3]
-            if tone not in {'sage', 'sand', 'rose', 'isopoda'}:
-                raise ValueError(f'@{username} 的 color 只能是 sage、sand、rose 或 isopoda')
-            profiles[username] = {'handle': username, 'name': character.get('name', meta['name']),
-                                  'avatarImage': '/gsm/assets/avatars/' + username + '.webp?v=' + character['avatar']['sha256'][:12], 'color': tone}
+            add_profile(username)
         likes = initial_likes(meta)
         localized = {'zh': blocks_for(root, folder, body, public)}
         for lang in ('en', 'ja'):
@@ -514,6 +551,9 @@ def build(root):
             localized[lang] = blocks_for(root, folder, translation.read_text().strip(), public) if translation.exists() else localized['zh']
         posts.append({'id': ident, 'date': date, 'createdAt': int(datetime.fromisoformat(date).timestamp()*1000),
                       'author': username, 'likes': likes, 'blocks': localized})
+    for username in registry:
+        if username not in profiles:
+            add_profile(username)
     source = '// Generated from gsm/posts and gsm/users; edit those sources, not this file.\n'
     source += 'export const profiles = ' + json_text(profiles).rstrip() + ';\n'
     source += 'export const posts = ' + json_text(posts).rstrip() + ';\n'
@@ -524,11 +564,15 @@ def build(root):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command', choices=['publish', 'ingest', 'build', 'watch'])
+    parser.add_argument('command', choices=['publish', 'ingest', 'build', 'watch', 'migrate-default-avatars'])
     parser.add_argument('--root', type=Path, default=ROOT)
     args = parser.parse_args()
     while True:
         try:
+            if args.command == 'migrate-default-avatars':
+                sync_users(args.root)
+                migrated = migrate_default_avatars(args.root)
+                print(f'已迁移 {len(migrated)} 个默认头像', flush=True)
             if args.command in {'publish', 'watch', 'ingest'}:
                 folders = ingest(args.root, 'git' if args.command == 'ingest' else 'local')
                 for folder in folders:

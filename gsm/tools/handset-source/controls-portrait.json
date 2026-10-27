@@ -1,0 +1,166 @@
+{
+  "orientation": "portrait",
+  "nativeSize": [
+    118,
+    208
+  ],
+  "logicalImageSize": [
+    470,
+    830
+  ],
+  "bodyMarginLogical": 20,
+  "keys": [
+    {
+      "id": "home",
+      "object": "Home key",
+      "mask": "controls-portrait-home-mask.png",
+      "geometryBoundsNative": [
+        28.621275638012175,
+        168.9060219454478,
+        45.93432435076287,
+        190.95903686155756
+      ],
+      "maskBoundsNative": [
+        29,
+        169,
+        46,
+        191
+      ],
+      "centroidNative": [
+        37.918101798698814,
+        179.9715843857635
+      ],
+      "areaNative": 326.625,
+      "bodyBoundsLogical": [
+        95.50847457627118,
+        654.375,
+        163.22033898305085,
+        742.1634615384615
+      ],
+      "bodyCenterLogical": [
+        131.02972750329187,
+        698.1558415393447
+      ]
+    },
+    {
+      "id": "stream",
+      "object": "Stream concave key",
+      "mask": "controls-portrait-stream-mask.png",
+      "geometryBoundsNative": [
+        46.32252625708884,
+        168.9060219454478,
+        71.67747374291116,
+        190.95903686155756
+      ],
+      "maskBoundsNative": [
+        46,
+        169,
+        72,
+        191
+      ],
+      "centroidNative": [
+        59.0,
+        179.99590350477925
+      ],
+      "areaNative": 549.25,
+      "bodyBoundsLogical": [
+        163.22033898305085,
+        654.375,
+        266.77966101694915,
+        742.1634615384615
+      ],
+      "bodyCenterLogical": [
+        215.0,
+        698.2528841777249
+      ]
+    },
+    {
+      "id": "settings",
+      "object": "Settings key",
+      "mask": "controls-portrait-settings-mask.png",
+      "geometryBoundsNative": [
+        72.06567415278009,
+        168.9060219454478,
+        89.37872436198782,
+        190.95903686155756
+      ],
+      "maskBoundsNative": [
+        72,
+        169,
+        89,
+        191
+      ],
+      "centroidNative": [
+        80.08189820130119,
+        179.9715843857635
+      ],
+      "areaNative": 326.625,
+      "bodyBoundsLogical": [
+        266.77966101694915,
+        654.375,
+        334.49152542372883,
+        742.1634615384615
+      ],
+      "bodyCenterLogical": [
+        298.9702724967081,
+        698.1558415393447
+      ]
+    }
+  ],
+  "ink": {
+    "source": "../../brand.mjs",
+    "sizes": [
+      12,
+      15,
+      12
+    ],
+    "gazes": [
+      -1,
+      0,
+      1
+    ],
+    "safeInsetNative": 2,
+    "placements": [
+      {
+        "centerNative": [
+          37.03191489361702,
+          180
+        ],
+        "size": 12,
+        "gaze": -1,
+        "rawOrigin": [
+          247,
+          1386
+        ],
+        "rawSize": 96
+      },
+      {
+        "centerNative": [
+          59.0,
+          180
+        ],
+        "size": 15,
+        "gaze": 0,
+        "rawOrigin": [
+          410,
+          1373
+        ],
+        "rawSize": 120
+      },
+      {
+        "centerNative": [
+          80.96808510638297,
+          180
+        ],
+        "size": 12,
+        "gaze": 1,
+        "rawOrigin": [
+          597,
+          1386
+        ],
+        "rawSize": 96
+      }
+    ]
+  },
+  "slotMask": "controls-portrait-slot-mask.png"
+}

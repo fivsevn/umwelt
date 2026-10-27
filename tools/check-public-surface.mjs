@@ -13,6 +13,8 @@ const required=[
  'gtb/assets/icon.png',
  'gsm/index.html',
  'gsm/assets/icon.svg',
+ 'gsm/desktop-icon.css',
+ 'gsm/assets/lcd-matrix.svg',
  'gsm/app.mjs',
  'gsm/avatars.mjs',
  'gsm/settings/index.html',

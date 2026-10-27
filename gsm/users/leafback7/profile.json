@@ -5,6 +5,9 @@
   "avatar_source": "",
   "avatar": {
     "kind": "generated",
-    "sha256": "8c540d978c6bbd15903553733d69fe7aa33bb345b8d193cd955909d0bfc9f66c"
-  }
+    "generator": "flat-v1",
+    "variant": "gaze-right",
+    "sha256": "f8a2a28d808ee3901b3d1b26285c68336267e1467c6789fd5e44ce5ea48beb30"
+  },
+  "bio": "这片叶子上的路，我蛮熟的。"
 }
