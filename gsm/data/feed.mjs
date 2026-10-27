@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "twosteps8": {
+    "handle": "twosteps8",
+    "name": "两步远",
+    "bio": "出去看看，顺便认路。",
+    "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
+    "color": "rose"
+  },
   "gecko404": {
     "handle": "gecko404",
     "name": "玻璃这一边",
@@ -70,13 +77,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=8ba191455bd7",
     "color": "sage"
   },
-  "twosteps8": {
-    "handle": "twosteps8",
-    "name": "两步远",
-    "bio": "出去看看，顺便认路。",
-    "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
-    "color": "rose"
-  },
   "nearthermo": {
     "handle": "nearthermo",
     "name": "温度计旁边",
@@ -107,6 +107,33 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261028-075112-ef6fa31e59",
+    "date": "2026-10-28T07:51:12+08:00",
+    "createdAt": 1793145072000,
+    "author": "twosteps8",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "想问个认路的办法。上回走过石头后面那段窄路，我以为记住脚下几道纹路就够了，回头才发现每一条都差不多。你们会挑什么东西当记号？"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "想问个认路的办法。上回走过石头后面那段窄路，我以为记住脚下几道纹路就够了，回头才发现每一条都差不多。你们会挑什么东西当记号？"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "想问个认路的办法。上回走过石头后面那段窄路，我以为记住脚下几道纹路就够了，回头才发现每一条都差不多。你们会挑什么东西当记号？"
+        }
+      ]
+    }
+  },
   {
     "id": "20261028-065112-700f2e0d17",
     "date": "2026-10-28T06:51:12+08:00",
