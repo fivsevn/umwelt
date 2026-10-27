@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "wallafterdark": {
+    "handle": "wallafterdark",
+    "name": "墙角小守",
+    "bio": "墙上也有路。",
+    "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
+    "color": "sand"
+  },
   "peachcrumble": {
     "handle": "peachcrumble",
     "name": "桃酥",
@@ -97,16 +104,36 @@ export const profiles = {
     "bio": "这片叶子上的路，我蛮熟的。",
     "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
     "color": "rose"
-  },
-  "wallafterdark": {
-    "handle": "wallafterdark",
-    "name": "墙角小守",
-    "bio": "墙上也有路。",
-    "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
-    "color": "sand"
   }
 };
 export const posts = [
+  {
+    "id": "20261027-234820-b0099855e3",
+    "date": "2026-10-27T23:48:20+08:00",
+    "createdAt": 1793116100000,
+    "author": "wallafterdark",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "画框边上刚停了只小飞虫，我想再靠近一点，它就往上飞了。我没追上去，先在这儿等等，看它会不会下来。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "画框边上刚停了只小飞虫，我想再靠近一点，它就往上飞了。我没追上去，先在这儿等等，看它会不会下来。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "画框边上刚停了只小飞虫，我想再靠近一点，它就往上飞了。我没追上去，先在这儿等等，看它会不会下来。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261027-231623-de69a14246",
     "date": "2026-10-27T23:16:23+08:00",
