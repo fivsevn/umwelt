@@ -36,7 +36,7 @@ const assert=require('node:assert/strict');
  await page.locator('#aboutButton').click();
  // Launchers flow down the available desktop height before starting a new column.
  await page.locator('#closeWelcome').click();
- // Every graphic scales with its frame, including the former fixed-position flower pot.
+ // Graphics shrink with their frames; the miniature LCD keeps its pixel-sized mark.
  const glyphs=()=>page.evaluate(()=>[...document.querySelectorAll('.app-picture')].map(frame=>{
   const graphic=frame.querySelector('canvas,svg,img');
   const r=frame.getBoundingClientRect(),g=graphic?.getBoundingClientRect();
@@ -48,14 +48,23 @@ const assert=require('node:assert/strict');
    for(let y=0;y<canvas.height;y++)for(let x=0;x<canvas.width;x++)if(pixels[(y*canvas.width+x)*4+3]){l=Math.min(l,x);t=Math.min(t,y);right=Math.max(right,x+1);bottom=Math.max(bottom,y+1)}
    ink={left:g.left+l*g.width/canvas.width,top:g.top+t*g.height/canvas.height,right:g.left+right*g.width/canvas.width,bottom:g.top+bottom*g.height/canvas.height};
   }
-  return {name:frame.className,frame:r.width,graphic:g?.width,
+  const cell=frame.classList.contains('gsm-picture')?getComputedStyle(frame,'::after').backgroundSize.split(',')[0].trim().split(/\s+/).map(parseFloat):null;
+  return {name:frame.className,frame:r.width,graphic:g?.width,graphicHeight:g?.height,cell,
    inside:!!ink&&ink.left>=r.left+3-.1&&ink.top>=r.top+3-.1&&ink.right<=r.right-3+.1&&ink.bottom<=r.bottom-3+.1};
  }));
  await page.setViewportSize({width:900,height:650});const large=await glyphs();
  await page.setViewportSize({width:900,height:568});const small=await glyphs();
  for(const [i,graphic] of small.entries()){
   assert.ok(graphic.inside&&large[i].inside,`${graphic.name}: artwork stays inside its frame`);
-  assert.ok(Math.abs(graphic.graphic/large[i].graphic-(graphic.frame-6)/(large[i].frame-6))<.01,`${graphic.name}: proportional shrinking`);
+  if(graphic.name.split(/\s+/).includes('gsm-picture')){
+   for(const [size,pixels] of [[large[i],40],[graphic,32]]){
+    assert.equal(size.graphic,pixels,`${graphic.name}: approved brand width`);
+    assert.equal(size.graphicHeight,pixels,`${graphic.name}: approved brand height`);
+    assert.ok(size.cell.length===2&&size.cell.every(value=>Math.abs(value-pixels/16)<.01),`${graphic.name}: LCD cell follows the 16-pixel brand grid`);
+   }
+  }else{
+   assert.ok(Math.abs(graphic.graphic/large[i].graphic-(graphic.frame-6)/(large[i].frame-6))<.01,`${graphic.name}: proportional shrinking`);
+  }
  }
  for(const height of [650,568]){
   await page.setViewportSize({width:900,height});
