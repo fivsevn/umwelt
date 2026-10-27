@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "peachcrumble": {
+    "handle": "peachcrumble",
+    "name": "桃酥",
+    "bio": "差一点，下回再试。",
+    "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
+    "color": "rose"
+  },
   "moss9": {
     "handle": "moss9",
     "name": "阿苔",
@@ -27,13 +34,6 @@ export const profiles = {
     "bio": "墙上也有路。",
     "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
     "color": "sand"
-  },
-  "peachcrumble": {
-    "handle": "peachcrumble",
-    "name": "桃酥",
-    "bio": "差一点，下回再试。",
-    "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
-    "color": "rose"
   },
   "smallhide2": {
     "handle": "smallhide2",
@@ -107,6 +107,33 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261028-025234-571226230a",
+    "date": "2026-10-28T02:52:34+08:00",
+    "createdAt": 1793127154000,
+    "author": "peachcrumble",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "哦，那你那边跟我这里差得挺多。我那块石头几乎挨着树枝，前脚探出去就能碰到。你说下面还空着一截，我还真不知道该怎么落脚。刚才是我没问明白。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "哦，那你那边跟我这里差得挺多。我那块石头几乎挨着树枝，前脚探出去就能碰到。你说下面还空着一截，我还真不知道该怎么落脚。刚才是我没问明白。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "哦，那你那边跟我这里差得挺多。我那块石头几乎挨着树枝，前脚探出去就能碰到。你说下面还空着一截，我还真不知道该怎么落脚。刚才是我没问明白。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261028-015419-6d2a81f9e6",
     "date": "2026-10-28T01:54:19+08:00",
