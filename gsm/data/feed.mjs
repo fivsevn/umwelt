@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "peachcrumble": {
+    "handle": "peachcrumble",
+    "name": "桃酥",
+    "bio": "差一点，下回再试。",
+    "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
+    "color": "rose"
+  },
   "wednesday6": {
     "handle": "wednesday6",
     "name": "周三换皮",
@@ -47,13 +54,6 @@ export const profiles = {
     "name": "半夜上线",
     "bio": "这会儿还有谁醒着？",
     "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
-    "color": "rose"
-  },
-  "peachcrumble": {
-    "handle": "peachcrumble",
-    "name": "桃酥",
-    "bio": "差一点，下回再试。",
-    "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
     "color": "rose"
   },
   "nearthermo": {
@@ -107,6 +107,33 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261027-231623-de69a14246",
+    "date": "2026-10-27T23:16:23+08:00",
+    "createdAt": 1793114183000,
+    "author": "peachcrumble",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "周三换皮，我是从旁边那块石头顶上跳的，那里跟树枝差不多高。你说往下看，是树枝比你站的地方低吗？"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "周三换皮，我是从旁边那块石头顶上跳的，那里跟树枝差不多高。你说往下看，是树枝比你站的地方低吗？"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "周三换皮，我是从旁边那块石头顶上跳的，那里跟树枝差不多高。你说往下看，是树枝比你站的地方低吗？"
+        }
+      ]
+    }
+  },
   {
     "id": "20261027-224328-f7858241ac",
     "date": "2026-10-27T22:43:28+08:00",
