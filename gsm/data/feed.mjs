@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "moss9": {
+    "handle": "moss9",
+    "name": "阿苔",
+    "bio": "水滴也值得看一会儿。",
+    "avatarImage": "/gsm/assets/avatars/moss9.webp?v=fc1a392905b0",
+    "color": "sand"
+  },
   "nightshift3": {
     "handle": "nightshift3",
     "name": "半夜上线",
@@ -77,13 +84,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/gedageda.webp?v=0b2b22e99e40",
     "color": "sand"
   },
-  "moss9": {
-    "handle": "moss9",
-    "name": "阿苔",
-    "bio": "水滴也值得看一会儿。",
-    "avatarImage": "/gsm/assets/avatars/moss9.webp?v=fc1a392905b0",
-    "color": "sand"
-  },
   "backpackgecko": {
     "handle": "backpackgecko",
     "name": "背包宫",
@@ -107,6 +107,33 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261028-015419-6d2a81f9e6",
+    "date": "2026-10-28T01:54:19+08:00",
+    "createdAt": 1793123659000,
+    "author": "moss9",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "苔面上有只小虫，爬两下就停一会儿。我看它看得太专心，自己也跟着往前挪了几步。它钻进叶子底下以后，我还对着那个小缝看了好一阵。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "苔面上有只小虫，爬两下就停一会儿。我看它看得太专心，自己也跟着往前挪了几步。它钻进叶子底下以后，我还对着那个小缝看了好一阵。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "苔面上有只小虫，爬两下就停一会儿。我看它看得太专心，自己也跟着往前挪了几步。它钻进叶子底下以后，我还对着那个小缝看了好一阵。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261028-011812-1094f71fd2",
     "date": "2026-10-28T01:18:12+08:00",
