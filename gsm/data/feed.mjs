@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "leafback7": {
+    "handle": "leafback7",
+    "name": "叶背居民",
+    "bio": "这片叶子上的路，我蛮熟的。",
+    "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
+    "color": "rose"
+  },
   "peachcrumble": {
     "handle": "peachcrumble",
     "name": "桃酥",
@@ -97,16 +104,36 @@ export const profiles = {
     "bio": "给小小的世界留个位置。",
     "avatarImage": "/gsm/assets/avatars/isopodafugue.webp?v=f80463b434f1",
     "color": "isopoda"
-  },
-  "leafback7": {
-    "handle": "leafback7",
-    "name": "叶背居民",
-    "bio": "这片叶子上的路，我蛮熟的。",
-    "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
-    "color": "rose"
   }
 };
 export const posts = [
+  {
+    "id": "20261028-035126-30f204377e",
+    "date": "2026-10-28T03:51:26+08:00",
+    "createdAt": 1793130686000,
+    "author": "leafback7",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "叶尖那头刚才晃得厉害，我贴着边走了几步，脚下就往下沉。先退回叶脉旁边了。谁还要从这片叶子上过，往中间靠一点吧。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "叶尖那头刚才晃得厉害，我贴着边走了几步，脚下就往下沉。先退回叶脉旁边了。谁还要从这片叶子上过，往中间靠一点吧。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "叶尖那头刚才晃得厉害，我贴着边走了几步，脚下就往下沉。先退回叶脉旁边了。谁还要从这片叶子上过，往中间靠一点吧。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261028-025234-571226230a",
     "date": "2026-10-28T02:52:34+08:00",
