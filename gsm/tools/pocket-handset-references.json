@@ -1,0 +1,429 @@
+{
+  "design": "A rounded low-poly pocket console with satin dyed-ABS, soft contact collars, original gecko keys and grouped pixel pigment",
+  "scope": "Restore the approved rounded dyed-plastic cover identity: broad quiet pigment planes, restrained species marks, lower chroma, satin plastic reflections and localized handling wear. Keep the eight real species moldings and original three navigation gecko glyphs. Give each miniature a separately posed rest and a matching loose cord.",
+  "authoring": {
+    "software": "Blender 4.5",
+    "source": [
+      "pocket-handset-source/pocket-device.blend",
+      "pocket-handset-source/pocket-device-wide.blend"
+    ],
+    "paint": "Shell pigment restores continuous side shade fields, quiet crown/chin surfaces and sparse species-specific accents instead of large graphic wraps. Approved base hues are muted by about22 percent chroma; ink/key/center/light values remain fixed. Each miniature retains its independent anatomical pattern and mildly muted matching colors. Shell192x256/248x164 and charm64x112 packed Closest atlases keep native pixel density.",
+    "lighting": "The painted casing uses96 percent physical dielectric response with4 percent illustration fill: roughness about.37,coat.065/roughness.34,specular.47. Quiet fine molded grain and slow reflection variation only affect sheen; three handling areas gain gentle polishing. Five short surface-projected scuffs plus a few authored corner rubs supply localized wear. Lighting is the approved broad soft setup. Other surfaces and key glyphs retain prior materials.",
+    "output": "2x antialiased silhouette: portrait1120x1640 (left/top/right/bottom40/140/40/40 logical), landscape1720x1060 (120/80/120/40). Browser frame bounds and optical aperture stay at their original body-relative coordinates.",
+    "geometry": "The broad convex front has smooth normal transitions, with sharp seams, recess walls and the low-poly silhouette retained. The screen hood has a uniform optical rim. Small ports, switch and speaker slots are actual shallow cavities with backing and molded lips, projected point-by-point to the skin. Browser screen aperture, key XY bounds and glyph placement remain fixed.",
+    "charm": "All eight real species anatomy meshes and their five-digit feet remain unchanged. Individual tabletop rests use different angles: leopard−21°,tokay38°,day−67°,crested76°,fat-tail−3°,mossy132°,electric−128°,stone57°. Each has separately fitted placement and cord handles in portrait and landscape; the threaded cord stays visible above the convex cover before dropping to the tabletop."
+  },
+  "references": [
+    {
+      "title": "Jayson Dean - Gameboy Color",
+      "url": "https://jaysondean94.artstation.com/projects/xnwrW",
+      "application": "Compare the artist's 286-triangle, 256-square texture version with the plastic render: large value groups, clear silhouette and a narrow optical rim."
+    },
+    {
+      "title": "Mike Laws - Vid-E Game Buddy",
+      "url": "https://electronicfox.artstation.com/projects/Ev5Ld4",
+      "application": "Use broad plastic curves and a clear material hierarchy between case, dark lower shell, contact parts and display hood."
+    },
+    {
+      "title": "Centre for Computing History - Neo Geo Pocket Color (Blue)",
+      "url": "https://www.computinghistory.org.uk/det/35321/Neo-Geo-Pocket-Color-(Blue)/",
+      "application": "Physical reference for subdued satin body reflections, brighter round key caps, independent glass highlights and a fine case joint."
+    },
+    {
+      "title": "Blender 4.0 Shading and Texturing Release Notes",
+      "url": "https://developer.blender.org/docs/release_notes/4.0/shading/",
+      "application": "Treat clearcoat as an extra surface layer rather than adding lacquer-like reflections to every plastic component."
+    },
+    {
+      "title": "NobleCrowDev - PSX 90s Electronics Asset Pack",
+      "url": "https://noblecrowdev.itch.io/psx-90s-electronics-pack",
+      "application": "One thick silhouette, several large light and dark planes, and localized painted hardware details."
+    },
+    {
+      "title": "Kasuga - PSX Gameboy",
+      "url": "https://kasuga.itch.io/psx-gameboy",
+      "application": "Simplify the physical console and controls to essential volumes. Keep the new device's wear and dithering much sparser."
+    },
+    {
+      "title": "Lospec Blender Toolkit",
+      "url": "https://lospec.com/blender-toolkit/",
+      "application": "Closest pixel textures, material-specific value ramps, and consistent texel density. Render the contour clearly rather than downsampling an already completed image."
+    },
+    {
+      "title": "Saint11 - Basic Shading",
+      "url": "https://saint11.art/pixel_art_articles/article4/",
+      "application": "Group large planes into deliberate values, use one light direction, and keep highlights short."
+    },
+    {
+      "title": "Saint11 - Cluster Sketching",
+      "url": "https://saint11.art/pixel_art_articles/article2/",
+      "application": "Connected clusters and controlled edges instead of isolated noise. Gecko pigment and corner rubs follow this principle."
+    },
+    {
+      "title": "Blender Manual - Shader to RGB",
+      "url": "https://docs.blender.org/manual/en/latest/render/shader_nodes/converter/shader_to_rgb.html",
+      "application": "Native EEVEE illustration shading through Diffuse BSDF, Shader to RGB and Constant ColorRamp."
+    }
+  ],
+  "paint_color_origins": "Species morphology, natural color-pattern evidence and palette-stage limits are maintained together in species[]. All runtime pigment is newly authored for the plastic miniature and shell.",
+  "limits": "References inform drawing methods only. No third-party meshes or textures are used. The only functional browser controls on the housing are the three navigation keys; other small hardware marks are illustrative.",
+  "button_art": "The sole bitmap source is brand.mjs avatarVariants[0..2]. Every original pixel retains exact XY, size and gaze; its internal surface patches follow only Z so ink remains visible on the convex key caps.",
+  "refinement_review": "Compare the restored satin cover with the approved pre-species shell: the uninterrupted convex plastic surface carries the volume again, while biological patterns remain subordinate. Verify eight truly distinct rests/cords, frozen button bitmap/XY/ink colors, unchanged casing geometry, screen clearance and viewport fit.",
+  "charm_review": "Reference photos and field papers checked for all eight species. Corrected day tail length and nose-eye stripe, crested triangular skull and eyelash crest, natural fat-tail length and toe type, and asymmetric Moorish saddles. Original button glyph bitmap and XY are preserved.",
+  "checkedOn": "2026-10-28",
+  "species": [
+    {
+      "id": "leopard",
+      "scientificName": "Eublepharis macularius",
+      "sources": [
+        {
+          "title": "San Diego Zoo — Leopard Gecko",
+          "url": "https://animals.sandiegozoo.org/animals/leopard-gecko"
+        },
+        {
+          "title": "Belfast Zoo — Leopard gecko",
+          "url": "https://www.belfastcity.gov.uk/zoo/our-animals/reptiles/leopard-gecko"
+        },
+        {
+          "title": "Candidate genes underlying hypomelanistic morphs in squamate reptiles",
+          "url": "https://academic.oup.com/genetics/article/232/1/iyaf236/8313584",
+          "locator": "Introduction；Fig. 1c；Materials and methods / Animals and ethics statement",
+          "supports": "明确区分黄底不规则黑斑的野生型与人工繁育色型；图注说明幼体横带在第一年转成斑点。",
+          "evidenceContext": "实验设施饲养的野生型体色个体。"
+        },
+        {
+          "title": "Ultraviolet reflectance and pattern properties in leopard geckos (Eublepharis macularius)",
+          "url": "https://www.sciencedirect.com/science/article/pii/S0376635719303523",
+          "locator": "Introduction；sample description",
+          "supports": "描述黄底黑斑、幼体横带转成成体斑点，以及所研究的巴基斯坦野生种群后代具有色纹差异。"
+        }
+      ],
+      "photoURLs": [
+        "https://animals.sandiegozoo.org/sites/default/files/2019-03/animals_hero_leopardgecko.jpg"
+      ],
+      "morphology": "Broad blunt triangular head, visible eyelid rims, stout terrestrial belly, five narrow clawed toes without adhesive pads, thick segmented tail that tapers toward its end.",
+      "pattern": "Warm pale/yellow dorsum with irregular solid dark spots across head/body/limbs; offwhite underside and banded pale/dark tail. Do not draw feline hollow rosettes.",
+      "stage": "Adult wild-type spotted phase; not a bred color morph or banded juvenile.",
+      "naturalColorEvidence": "成体野生型常见黄色底与不规则黑色实心斑，斑块大小和分布有个体差异。",
+      "colorStageLimits": "本款参照成体斑点阶段；幼体横带随成长逐步转为斑点。"
+    },
+    {
+      "id": "tokay",
+      "scientificName": "Gekko gecko",
+      "sources": [
+        {
+          "title": "Smithsonian National Zoo — Tokay gecko",
+          "url": "https://nationalzoo.si.edu/animals/tokay-gecko",
+          "locator": "Physical Description",
+          "supports": "蓝或灰底、黄至红色斑点及深浅变色。"
+        },
+        {
+          "title": "TRAFFIC Southeast Asia — Identification sheets (Day geckos page51; Tokay page52)",
+          "url": "https://www.trafficj.org/publication/12_Species_ID_Sheets_English_151012r.pdf"
+        },
+        {
+          "title": "The call of the Tokay Gecko — South Development and Sustainable Lantau Office",
+          "url": "https://sslo.cedd.gov.hk/en/exploring-more/nature-conservation/eco-logs/journey-to-terrestrial-habitats/tokay-gecko/index.html",
+          "locator": "体色描述段落（grey-blue body with orange and white spots）",
+          "supports": "香港自然生态资料明确描述灰蓝体色与橙、白色斑点。"
+        }
+      ],
+      "photoURLs": [
+        "https://nationalzoo.si.edu/sites/default/files/styles/wide/public/animals/2559-4jc.jpg?h=8165685c&itok=yqkZQpn2"
+      ],
+      "morphology": "Heavy cylindrical torso, strong legs, broad head set off from a narrower neck, large golden eyes with vertical pupils, five wide flat adhesive digits. Long stout tapering tail rather than a tiny fat-tail bulb.",
+      "pattern": "Bluegrey base, irregular orange/rust spots on head/body/limbs/tail plus smaller cool-white spots; tail pigment often approaches broken bands.",
+      "stage": "Red-spotted adult typical coloration; light/dark state varies.",
+      "naturalColorEvidence": "蓝灰底配橙至红色斑点及少量浅色小点。",
+      "colorStageLimits": "自然个体可随状态变深或变浅。"
+    },
+    {
+      "id": "day",
+      "scientificName": "Phelsuma grandis",
+      "sources": [
+        {
+          "title": "Smithsonian National Zoo — Madagascar giant day gecko",
+          "url": "https://nationalzoo.si.edu/animals/madagascar-giant-day-gecko",
+          "locator": "Physical Description；Taxonomic Information",
+          "supports": "绿底、红斑及性别、年龄差异；页面使用历史亚种组合名。"
+        },
+        {
+          "title": "Zoo Zurich — Madagascar giant day gecko",
+          "url": "https://zoo.ch/en/conservation/animal-and-plant-encyclopedia/madagascar-giant-day-gecko",
+          "locator": "学名标题；Masoala Rainforest 实拍图",
+          "supports": "现行学名与动物园展示环境中的活体照片。"
+        },
+        {
+          "title": "TRAFFIC Southeast Asia — Identification sheets (Day geckos page51; Tokay page52)",
+          "url": "https://www.trafficj.org/publication/12_Species_ID_Sheets_English_151012r.pdf"
+        },
+        {
+          "title": "Phelsuma grandis — The Reptile Database",
+          "url": "https://reptile-database.reptarium.cz/Phelsuma/grandis",
+          "locator": "学名标题；Synonym",
+          "supports": "现行独立种名及与旧组合 Phelsuma madagascariensis grandis 的关系。"
+        }
+      ],
+      "photoURLs": [
+        "https://cdn.zoo.ch/cms/p/assets/animals/grosser-madagaskar-taggecko/madagaskar-taggecko-zz-0683.jpg?quality=80&width=1920&height=1357"
+      ],
+      "morphology": "Smooth sleek body, large round pupils with eye ring, short tapered snout, long tail at least body length; broad adhesive toes, no claws, very reduced innermost digit.",
+      "pattern": "Green main surfaces with red nostril-to-eye streak and uneven localized red dorsal spots/blotches; quiet green flanks and much of tail. Offwhite/cream underside.",
+      "stage": "Green adult; zoo page may use historical Phelsuma madagascariensis grandis combination.",
+      "naturalColorEvidence": "绿色体表配局部红色背斑和红色杂纹。",
+      "colorStageLimits": "本款参照绿色成体；资料记载雄性通常更鲜艳，幼体体色与成体不同。"
+    },
+    {
+      "id": "electric",
+      "scientificName": "Lygodactylus williamsi",
+      "sources": [
+        {
+          "title": "London Zoo — Turquoise dwarf gecko",
+          "url": "https://www.londonzoo.org/whats-here/animals/turquoise-dwarf-gecko",
+          "locator": "物种体色介绍",
+          "supports": "自然蓝色雄性和雌性颜色差异的辅助说明。"
+        },
+        {
+          "title": "TRAFFIC / CITES — How to Identify Lygodactylus williamsi (page2)",
+          "url": "https://cites.unia.es/cites/file.php/1/files/how_to_identify_lygodactylus.pdf"
+        },
+        {
+          "title": "How to identify Lygodactylus williamsi — CITES identification guide",
+          "url": "https://cites.org/sites/default/files/vc-files/files/how_to_identify_lygodactylus.pdf",
+          "locator": "PDF 第 2 页，雄性、雌性和幼体外观",
+          "supports": "显蓝雄性与绿色／铜绿色雌幼体的鉴别及阶段限制。"
+        }
+      ],
+      "photoURLs": [
+        "https://cms.londonzoo.org/sites/default/files/styles/responsive/public/1024/634/1/2025-10/gecko%20credit%20Luke%20Capeling.jpg.webp"
+      ],
+      "morphology": "Tiny slender dwarf proportions, narrow pointed head, relatively prominent round eyes, delicate legs/five slender digits with widened tips, thin long tail roughly equal snout-vent length.",
+      "pattern": "Mostly quiet turquoise/cobalt dorsal body and tail. Black nostril-eye-neck stripe and a thinner V/chevron from forehead to nape; localized shoulder markings/black throat. Yellow-orange underside should appear at side edge, not as a yellow back stripe.",
+      "stage": "Blue adult male specifically; females and juveniles generally greener/bronze.",
+      "naturalColorEvidence": "显蓝成年雄性体色配局部深色纹。",
+      "colorStageLimits": "本款参照显蓝成年雄性；雌性和幼体偏绿铜色，雄性也存在非显蓝状态。"
+    },
+    {
+      "id": "crested",
+      "scientificName": "Correlophus ciliatus",
+      "stage": "Intact-tailed adult in natural warm tan/tiger-like coloration; tail loss is common in adults, but not required for this chosen individual. Avoid treating captive high-contrast breeding morphs as universal wild form.",
+      "sources": [
+        {
+          "title": "The Reptile Database — Correlophus ciliatus, Diagnosis",
+          "url": "https://reptile-database.reptarium.cz/Correlophus/ciliatus",
+          "supports": "Large head; paired triangular-scale crests from behind eyes onto back; expanded undivided subdigital lamellae; tail approximately 80–92% SVL.",
+          "locator": "学名标题；Synonym；所引分类修订"
+        },
+        {
+          "title": "Animal Diversity Web — Rhacodactylus ciliatus, Physical Description",
+          "url": "https://animaldiversity.org/accounts/Rhacodactylus_ciliatus/",
+          "supports": "Triangular head, large eyes, fine granular scales, prehensile tail, warm tan/peach/brown ranges and dark lateral/tiger striping; historical genus name.",
+          "locator": "Physical Description"
+        },
+        {
+          "title": "Wilder Institute Calgary Zoo — Crested Geckos",
+          "url": "https://www.calgaryzoo.com/plan-your-visit/animal-zones/destination-africa/crested-geckos/",
+          "supports": "Arboreal adhesive feet; no eyelids; many colours/patterns; tail loss common in adults."
+        },
+        {
+          "title": "Cresteds in the Wild — The Vivarium",
+          "url": "https://lmreptiles.link/wp-content/uploads/2022/09/The-Vivarium-v.106-Cresteds-in-the-Wild.pdf",
+          "locator": "PDF 第 1 页 Variation / Color change；第 2 页野外照片",
+          "supports": "Isle of Pines 野外个体的变异、色彩变化观察与原始照片。"
+        }
+      ],
+      "morphology": [
+        "Long relatively large triangular skull and snout; a narrow neck rather than a round humanoid head.",
+        "Conspicuous paired eyelash ridges above eyes continue as two sawtooth/triangular-scale crests along upper back.",
+        "Expanded pad-bearing fingers; five digits including smaller first digit; fine granular skin, no large stone-gecko warts.",
+        "Moderately thick prehensile tail that tapers to a slim adhesive tip, roughly 80–92% snout-vent length; an intact-tail variant is chosen."
+      ],
+      "pattern": [
+        "Warm tan/peach/ochre ground, dark irregular lateral tiger bars or diagonals rather than even full black body bands.",
+        "Pale cream paired crests/dorsal margins are the strongest transferable shell signature: run two broken pale rails around shoulders and side frame, with darker angled flank strokes.",
+        "Crest detail belongs to geometry; do not rely only on painting a line onto the same base mesh."
+      ],
+      "referencePhotos": [
+        {
+          "url": "https://animaldiversity.org/collections/contributors/tanya_dewey/Rhacodactylus_ciliatus/medium.jpg",
+          "credit": "Tanya Dewey / Animal Diversity Web",
+          "viewed": true,
+          "cue": "Large triangular head, paired eyelash and back crest, fine granules, large adhesive toes."
+        },
+        {
+          "url": "https://animaldiversity.org/collections/contributors/james_dowlinghealey/crestedgecko/medium.jpg",
+          "credit": "James Dowling-Healey / Animal Diversity Web",
+          "viewed": true,
+          "cue": "Paired pale dorsal ridge; long slender intact tail; faint irregular lateral bars."
+        },
+        {
+          "url": "https://animaldiversity.org/collections/contributors/tanya_dewey/Rhacodactylus_ciliatus3/medium.jpg",
+          "credit": "Tanya Dewey / Animal Diversity Web",
+          "viewed": true,
+          "cue": "Frontal expanded feet, five visible toes with smaller first digit, slit eyes and raised eyelash ridge."
+        }
+      ],
+      "naturalColorEvidence": "自然暖褐色范围中可见深色条纹；野生个体的体色和花纹存在差异。",
+      "colorStageLimits": "野外资料的观察范围为 Isle of Pines；个体可发生状态性色彩变化。"
+    },
+    {
+      "id": "fat-tail",
+      "scientificName": "Hemitheconyx caudicinctus",
+      "stage": "Wild-type adult striped variant, deliberately choosing narrow white vertebral line. In Spawls' Wa sample the line occurred in 7/24 individuals and both sexes; it is not a universal species mark.",
+      "sources": [
+        {
+          "title": "Stephen Spawls (2008), Notes on the natural history of the eublepharid Gecko Hemitheconyx caudicinctus in northwestern Ghana — Herpetological Bulletin 106:7–14",
+          "url": "https://www.thebhs.org/publications/the-herpetological-bulletin/issue-number-106-winter-2008/156-issue-number-106-winter-2008-full-issue/file",
+          "supports": "Printed10 Colour / printed11 Fig4–5: dark orbit-to-nape patch, two broad dark dorsal bars, orange to red-brown interspaces, tail bands and optional white dorsal stripe; original tails35–43% total length, regenerated tails can be stumpy/swollen.",
+          "locator": "Herpetological Bulletin 106，印刷页 10 Colour；页 11 Fig. 4、Fig. 5 及背线说明"
+        },
+        {
+          "title": "The Reptile Database — Hemitheconyx caudicinctus, Diagnosis",
+          "url": "https://reptile-database.reptarium.cz/Hemitheconyx/caudicinctus",
+          "supports": "Short stout cylindrical pointed clawed digits without dilation; vertical pupil, movable eyelids; swollen tapering tail with rows of enlarged tubercles."
+        },
+        {
+          "title": "Oregon Zoo — African fat-tailed gecko",
+          "url": "https://www.oregonzoo.org/animals/african-fat-tailed-gecko",
+          "supports": "Thick fat-storage tail and gecko identity; natural habitat West African savannas."
+        }
+      ],
+      "morphology": [
+        "Broad oval head, short neck, stout cylindrical torso and short sturdy legs.",
+        "Five slender/cylindrical clawed toes without adhesive disks; keep visibly different from broad tree-gecko pads.",
+        "Movable eyelids and vertical pupils.",
+        "Moderately thick ringed carrot-shaped tail, tapered posteriorly; use a gentle curve rather than the long tight prehensile coil of arboreal species. Avoid a universal giant round regenerated-tail blob."
+      ],
+      "pattern": [
+        "Two broad dark chocolate/black dorsal saddles, dark patch from eyes to nape; warm rust/orange interspaces.",
+        "Narrow white/cream mid-dorsal stripe from between eyes to tail base for the explicitly chosen striped variant.",
+        "Tail carries alternating broad bands; shell should echo two broad irregular chocolate saddle regions plus narrow cream pinline, not numerous thin zebra stripes."
+      ],
+      "referencePhotos": [
+        {
+          "url": "https://www.thebhs.org/publications/the-herpetological-bulletin/issue-number-106-winter-2008/156-issue-number-106-winter-2008-full-issue/file",
+          "credit": "Stephen Spawls / Herpetological Bulletin106, printed11 Fig4–5",
+          "viewed": true,
+          "cue": "Adult dorsal variation and striped juvenile; broad bars, darker nape, narrow central light stripe.",
+          "page": 13
+        },
+        {
+          "url": "https://www.thebhs.org/publications/the-herpetological-bulletin/issue-number-106-winter-2008/156-issue-number-106-winter-2008-full-issue/file",
+          "credit": "Stephen Spawls / Herpetological Bulletin106, printed10",
+          "viewed": true,
+          "cue": "Colour and original versus regenerated tail proportions.",
+          "page": 12
+        }
+      ],
+      "naturalColorEvidence": "加纳 Wa 野外样本有深褐或黑色背横带，带间色从红棕至橙色；部分个体有白色背线。",
+      "colorStageLimits": "Spawls 的 24 只样本中 7 只有明显白背线，两性均有线或无线；幼体更倾向橙色。该比例仅适用于所记地理样本。"
+    },
+    {
+      "id": "mossy",
+      "scientificName": "Mniarogekko chahoua",
+      "stage": "Adult natural bark/lichen pattern; individual pattern highly variable, so selected reference is a grey-olive and chestnut mottled individual rather than a universal exact pattern.",
+      "sources": [
+        {
+          "title": "The Reptile Database — Mniarogekko chahoua, Diagnosis",
+          "url": "https://reptile-database.reptarium.cz/Mniarogekko/chahoua",
+          "supports": "Moderate head; tail around SVL; granular skin with loose mandibular and ventrolateral folds; expanded toe lamellae and relatively extensive webbing; gray/olive/brown/rust ground with dark blotches and lichen-green patches.",
+          "locator": "学名标题；Synonym；所引分类修订"
+        },
+        {
+          "title": "Bowling Green State University Herpetarium — New Caledonian Mossy Prehensile-tailed Gecko",
+          "url": "https://www.bgsu.edu/content/bgsu/en/arts-and-sciences/biological-sciences/facilities-and-resources/bgsu-herpetarium/animals/reptiles/new-caledonian-mossy-prehensile-tailed-gecko.html",
+          "supports": "University kept specimen photographed by Eileen Underwood; body/pattern and stout head reference; historical genus name."
+        },
+        {
+          "title": "Brandywine Zoo Newsletter Sept–Dec2015, New Reptiles",
+          "url": "https://brandywinezoo.org/wp-content/uploads/2021/05/BZNewsLttrSeptthruDec2015SnglPgs.pdf",
+          "supports": "Long grasping tail and moss-like skin pattern described by curator."
+        },
+        {
+          "title": "Bauer (1985) — Rhacodactylus chahoua 原始研究，Bonner Zoologische Beiträge 36:81–94",
+          "url": "https://www.zobodat.at/pdf/Bonner-Zoologische-Beitraege_36_0081-0094.pdf",
+          "locator": "印刷页 83–84 活体色纹；页 86 幼体样本",
+          "supports": "活体栗棕、灰绿斑驳，深棕不完整网纹与肩部绿色斑块的文字依据。"
+        },
+        {
+          "title": "Mossy prehensile-tailed gecko — Brandywine Zoo",
+          "url": "https://brandywinezoo.org/animals/mossy-prehensile-tailed-gecko/",
+          "locator": "物种介绍与活体展示图",
+          "supports": "灰绿、栗棕等活体色纹及动物园展示图；页面使用历史属名。"
+        },
+        {
+          "title": "Mniarogekko chahoua 原产地彩色照片 — Museum of New Zealand Te Papa Tongarewa",
+          "url": "https://collections.tepapa.govt.nz/object/1939448",
+          "locator": "2002 年原产地彩照及馆藏记录",
+          "supports": "原产地实拍色纹的视觉辅助依据。"
+        }
+      ],
+      "morphology": [
+        "Blunt short snout and broad robust head with large lateral slit-pupil eyes; no crested-gecko eyelash fringe.",
+        "Stout torso, thick neck, subtle loose cheek and side folds.",
+        "Broad expanded adhesive toes with visible webbing; robust rather than spindly limbs.",
+        "Strong muscular prehensile tail around snout-vent length, capable of a broad curl; distinguish from fat-tail carrot tail."
+      ],
+      "pattern": [
+        "Interlocking chestnut/rust, charcoal and grey-olive patches forming an incomplete dark mesh.",
+        "Pale ashy/lichen-green patches on shoulder/neck interrupt dark saddles; irregular fragment scale and spacing.",
+        "Shell needs larger interlocking bark/lichen islands and broken dark web lines, not checkerboards, identical stamps or uniform dots."
+      ],
+      "referencePhotos": [
+        {
+          "url": "https://www.bgsu.edu/content/dam/BGSU/college-of-arts-and-sciences/biological-sciences/Herpetarium-images/Current-Residents/Lizards/Rhacodactylus-geckos/New-Caledonian-Mossy-Prehensile-tailed-Gecko/Gallery/chahoua-gecko-Eileen-Underwood-1.jpg",
+          "credit": "Eileen Underwood / BGSU Herpetarium",
+          "viewed": true,
+          "cue": "Blunt short snout, thick neck and body, cheek fold, bark-like irregular rust/charcoal/grey-olive patches."
+        }
+      ],
+      "naturalColorEvidence": "栗棕与灰绿色斑驳，带深棕色不完整网纹及肩部绿色斑块。",
+      "colorStageLimits": "活体描述见 Bauer 印刷页 83–84；幼体样本另列于页 86。自然个体及观察光照存在差异。"
+    },
+    {
+      "id": "stone",
+      "scientificName": "Tarentola mauritanica",
+      "stage": "Adult warm-grey/brown Moorish gecko. Body brightness changes; choose a moderate natural grey-brown state, not a fixed universal grey.",
+      "sources": [
+        {
+          "title": "INPN / MNHN — Tarentola mauritanica, Fiche descriptive",
+          "url": "https://inpn.mnhn.fr/espece/cd_nom/77570/tab/fiche",
+          "supports": "Squat body, large head and vertical pupils; five distal-expanded digits;10–14 rows of conical/spiny dorsal tubercles and tail tubercles;4–5 irregular dark transverse bands.",
+          "locator": "物种 fiche 的体色与背横带描述"
+        },
+        {
+          "title": "École Nationale Vétérinaire de Toulouse — Une tarente de Maurétanie prise en charge à l’ENVT",
+          "url": "https://envt.fr/actualites/une-tarente-de-mauretanie-prise-en-charge-a-lenvt/",
+          "supports": "Actual adult dorsal photograph shows head/body/feet/tubercles. Tail was lost in this animal; do not use image as intact tail reference."
+        },
+        {
+          "title": "Tarentola mauritanica — Atlas de la biodiversité de Blagnac",
+          "url": "https://atlas-biodiversite.blagnac.fr/espece/77570",
+          "locator": "物种页及当地观察记录／照片",
+          "supports": "原产分布区的野外观察色纹，辅助核对暖灰褐底与断续深色带。"
+        }
+      ],
+      "morphology": [
+        "Broad flattened squat body and relatively large broad tapering head, shorter neck and short sturdy splayed limbs.",
+        "Five distal-expanded leaf/spoon-like toes, distinct from spherical frog-like discs.",
+        "Several prominent staggered longitudinal rows of angular/conical dorsal tubercles; carry smaller rough rings onto original tail.",
+        "Tapering rough tail, less fleshy than fat-tail; original tail length close to body length by official 12–16cm TL and6–8cm SVL range, so avoid anatomically stumpy tail unless explicitly regenerated."
+      ],
+      "pattern": [
+        "Grey-brown ground with four/five irregular broken darker transverse saddles; pale margins and darker wart centers.",
+        "Shell should use broken stony saddle edges with staggered small wart-like pigment clusters, not neat straight fat-tail bands.",
+        "Keep mottles muted but sufficiently contrasting so the design is distinct from smooth moss patches."
+      ],
+      "referencePhotos": [
+        {
+          "url": "https://envt.fr/wp-content/uploads/2023/02/328242239_1431980773875356_5512968131190889365_n.jpg",
+          "credit": "ENVT wildlife clinic",
+          "viewed": true,
+          "cue": "Broad flattened head/body, five broad leaf-ended toes, staggered conical wart rows, mottled grey-brown cross-saddles. Tail absent due to injury; excluded as tail-shape guide."
+        }
+      ],
+      "naturalColorEvidence": "暖灰褐底配不规则、断续的深灰背横带；自然体色可深浅变化。",
+      "colorStageLimits": "自然体色受阶段、个体、状态和光照影响。"
+    }
+  ]
+}

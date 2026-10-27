@@ -37,7 +37,7 @@
 
 `brand.mjs` 保存最终 16 × 16 标志和六款同色默认头像，应用图标与外壳按键使用相同头形。默认头像迁移与照片保护规则见[用户管理](users/README.md#统一默认头像)。
 
-`tools/handset-source/` 保留八套外壳的竖横屏 Blender 原稿及最终控制蒙版；`tools/render-handset.py` 将印墨放进键帽材质，`tools/encode-handset.py` 将整幅渲染统一采样为运行图片。`python3 gsm/tools/handset-controls.py` 从同一组最终蒙版导出点击轮廓和键盘焦点，可用 `--check` 核对，无需运行时读取几何数据。三键仍为原生导航链接。
+`tools/pocket-handset-source/` 保留当前竖横屏两份 Blender 原稿，每份包含八种守宫挂件及对应材质。`tools/pocket-handset.py` 构建圆润低模外壳与原始三键印字，`tools/pocket_gecko_charm.py` 维护物种形体和各自摆位，`tools/gecko_species_paint.py` 绘制有限色像素纹样；`tools/encode-pocket-handset.py` 导出 `assets/pocket-*` 的主图、横屏图和缩略图。三键图案直接来自 `brand.mjs` 的前三个头像变体，点击热区与焦点效果由 `physical-shell.css` 维护，仍为原生导航链接。物种与画法依据集中在 `tools/pocket-handset-references.json`。
 
 `pager-screen.css` 与 `assets/lcd-matrix.svg` 统一玻璃点阵、字墨和背光，文字保留原生像素字体布局；桌面迷你屏幕使用 `desktop-icon.css`。
 

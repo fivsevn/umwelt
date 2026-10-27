@@ -1,8 +1,8 @@
 export const copy = {
   zh: {
     homeLink:'返回 Umwelt 主页',language:'语言：中文 · 切换为 English',skip:'跳到 stream',
-    shellLabel:'外壳',shellLeopard:'砂金墨斑',shellTokay:'雾蓝橘点',shellDay:'叶绿朱斑',
-    shellCrested:'栗褐暗纹',shellFatTail:'暖棕横带',shellMossy:'苔灰碎纹',shellElectric:'钴蓝墨影',shellStone:'岩灰暗带',
+    shellLabel:'外壳',shellLeopard:'豹纹守宫',shellTokay:'蛤蚧',shellDay:'巨人日行',
+    shellCrested:'睫角守宫',shellFatTail:'非洲肥尾',shellMossy:'苔藓守宫',shellElectric:'蓝色侏儒',shellStone:'摩尔壁虎',
     settings:'设置',closeSettings:'关闭设置',languageLabel:'语言',
     like:'喜欢',unlike:'取消喜欢',
     viewProfile:'查看{name}的主页',skipProfile:'跳到个人主页',backToFeed:'返回',postCount:'{count} 条动态',profilePosts:'{name}的动态',
@@ -12,8 +12,8 @@ export const copy = {
   },
   en: {
     homeLink:'Back to Umwelt',language:'Language: English · Switch to 日本語',skip:'Skip to stream',
-    shellLabel:'Shell',shellLeopard:'Sand Flecks',shellTokay:'Blue & Rust',shellDay:'Leaf & Vermilion',
-    shellCrested:'Chestnut Marks',shellFatTail:'Umber Bands',shellMossy:'Lichen Mottle',shellElectric:'Cobalt Shade',shellStone:'Ash Bands',
+    shellLabel:'Shell',shellLeopard:'Leopard',shellTokay:'Tokay',shellDay:'Giant day',
+    shellCrested:'Crested',shellFatTail:'African fat-tail',shellMossy:'Chahoua',shellElectric:'Electric blue',shellStone:'Moorish',
     settings:'Settings',closeSettings:'Close settings',languageLabel:'Language',
     like:'Like',unlike:'Unlike',
     viewProfile:'View {name}’s profile',skipProfile:'Skip to profile',backToFeed:'Back',postCount:'Posts · {count}',profilePosts:'Posts by {name}',
@@ -23,8 +23,8 @@ export const copy = {
   },
   ja: {
     homeLink:'Umwelt ホームへ',language:'言語：日本語 · 中文に切り替え',skip:'stream へ',
-    shellLabel:'カバー',shellLeopard:'砂金の斑',shellTokay:'霞青と橙',shellDay:'葉緑と朱',
-    shellCrested:'栗色の紋',shellFatTail:'褐色の帯',shellMossy:'苔灰の斑',shellElectric:'青藍の陰',shellStone:'岩灰の帯',
+    shellLabel:'カバー',shellLeopard:'レオパード',shellTokay:'トッケイ',shellDay:'ヒルヤモリ',
+    shellCrested:'クレステッド',shellFatTail:'ニシアフリカ',shellMossy:'チャホウア',shellElectric:'ウィリアムス',shellStone:'カベヤモリ',
     settings:'設定',closeSettings:'設定を閉じる',languageLabel:'言語',
     like:'いいね',unlike:'いいねを取り消す',
     viewProfile:'{name}のプロフィールを見る',skipProfile:'プロフィールへ',backToFeed:'戻る',postCount:'投稿 · {count}',profilePosts:'{name}の投稿',

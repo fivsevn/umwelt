@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="356" height="420" viewBox="0 0 356 420" preserveAspectRatio="none" shape-rendering="crispEdges">
+  <!-- Local connected pixel clusters, not a second grid or a global noise layer. -->
+  <g fill="#f0edca" fill-opacity=".28">
+    <path d="M10 12h43v2H10zm0 2h2v21h-2zm2-5h19v2H12zM14 8h8v1h-8z"/>
+    <path d="M14 18h23v2H14zm0 2h2v8h-2zm23-2h12v1H37z" fill-opacity=".13"/>
+    <path d="M16 62h4v2h-4zm4-2h4v2h-4zm4-2h3v2h-3zM17 68h2v2h-2zm2-2h4v2h-4z"/>
+    <path d="M310 399h30v2h-30zm30-9h2v9h-2zm-8 13h7v1h-7zM285 403h16v1h-16z"/>
+    <path d="M339 79h2v12h-2zm-2 12h2v4h-2zM12 286h2v9h-2z" fill-opacity=".18"/>
+  </g>
+  <g fill="#697249" fill-opacity=".19">
+    <path d="M17 64h4v1h-4zm4-2h4v1h-4zm-3 8h3v1h-3z"/>
+    <path d="M313 401h15v1h-15zm27-7h1v4h-1zM10 288h1v8h-1z"/>
+    <path d="M9 107h2v2H9zm4 3h1v1h-1zM345 154h2v1h-2zm-2 2h1v2h-1zM23 408h2v2h-2zm4-1h1v1h-1zM327 10h2v1h-2z"/>
+  </g>
+  <g fill="#eff0cc" fill-opacity=".12">
+    <path d="M8 22h3v22H8zm3 22h3v8h-3zm3 8h2v8h-2z"/>
+    <path d="M342 363h3v27h-3zm-3 27h3v8h-3z"/>
+  </g>
+</svg>

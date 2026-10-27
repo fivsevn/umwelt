@@ -39,8 +39,8 @@ if (shellNames.includes(requestedShell) && !(restoredNavigation && shellNames.in
 function applyShell() {
   document.documentElement.dataset.shell = shell;
   document.documentElement.style.setProperty('--key-ink',handsetById[shell].ink);
-  document.querySelector('[data-shell-art-wide]').srcset = new URL(`./assets/handset-${shell}-wide.webp`,import.meta.url).href;
-  document.querySelector('[data-shell-art]').src = new URL(`./assets/handset-${shell}.webp`,import.meta.url).href;
+  document.querySelector('[data-shell-art-wide]').srcset = new URL(`./assets/pocket-${shell}-wide.webp`,import.meta.url).href;
+  document.querySelector('[data-shell-art]').src = new URL(`./assets/pocket-${shell}.webp`,import.meta.url).href;
   // Keep history entries consistent with the cover restored on back/forward.
   const url = new URL(location.href);
   url.searchParams.delete('shell');
@@ -63,7 +63,7 @@ if (isSettings) {
   }).join('');
 }
 applyShell();
-document.querySelectorAll('[data-mini-shell]').forEach(element => { element.innerHTML = `<img src="${new URL(`./assets/handset-${element.dataset.miniShell}-thumb.webp`,import.meta.url).href}" alt="" loading="lazy" decoding="async">`; });
+document.querySelectorAll('[data-mini-shell]').forEach(element => { element.innerHTML = `<img src="${new URL(`./assets/pocket-${element.dataset.miniShell}-thumb.webp`,import.meta.url).href}" alt="" loading="lazy" decoding="async">`; });
 // Keep earlier local records intact; published packages are the timeline source.
 const state = storage ? readState(storage, Object.keys(profiles)) : freshState();
 const allPosts = seeds;

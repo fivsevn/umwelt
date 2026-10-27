@@ -1,30 +1,34 @@
-/* A quiet monochrome message display, inside the existing live glass opening. */
+/* Warm olive STN, drawn in a few quiet value planes beneath a pixel-marked lens. */
 :root{--sticker-heart:var(--heart);--sticker-star:var(--star);--sticker-plus:var(--plus);--sticker-highlight:var(--highlight)}
 .app-window{
-  --lcd-paper:#c7dc96;--lcd-ink:#283b20;--lcd-muted:#53683e;
+  --lcd-paper:#c5cba1;--lcd-ink:#303b2b;--lcd-muted:#566047;
   --paper:var(--lcd-paper);--panel:var(--lcd-paper);--header:var(--lcd-paper);
   --ink:var(--lcd-ink);--name:var(--lcd-ink);--muted:var(--lcd-muted);
   --heart:var(--lcd-ink);--star:var(--lcd-ink);--plus:var(--lcd-ink);
-  --highlight:#dfedbb;
+  --highlight:#e3e5bd;
   /* FusionPixel's 12-dot em sets one glass-cell pitch; glyphs stay native. */
   --lcd-cell:calc(clamp(16px,21rem,24px)/12);
-  background:#bcd28a;box-shadow:0 0 9rem #c6e38c35;
+  background:#abb58b;box-shadow:none;
 }
 .app-window::before{
   z-index:0;
   background:
-    radial-gradient(ellipse at 42% 28%,#e0efb32b,transparent 68%),
-    linear-gradient(90deg,#bdd38c,#cfe29e 45%,#c1d791);
+    linear-gradient(180deg,#e3e5bd18 0 12%,transparent 12% 83%,#707b5110 83% 100%),
+    linear-gradient(112deg,#b9c295 0 18%,#c2c9a0 18% 39%,#c9cda7 39% 74%,#c0c89c 74% 94%,#b6c092 94% 100%);
   background-size:100% 100%;
-  box-shadow:inset 1rem 3rem 7rem #283b1c40,inset -1rem -1rem 2rem #eeffc845;
+  box-shadow:inset 2rem 3rem 0 #4c593b4d,inset 4rem 6rem 0 #64714916,inset -2rem -2rem 0 #68734c1c,inset 0 -1rem 0 #e9ebc65c;
 }
 /* One static matrix modulates both native ink and blank glass; no text renderer. */
 .app-window::after{
-  background-image:url('./assets/lcd-matrix.svg'),linear-gradient(112deg,#efffc909,transparent 28%,transparent 78%,#30432205);
-  background-size:var(--lcd-cell) var(--lcd-cell),100% 100%;
+  background-image:
+    url('./assets/lcd-lens-wear.svg'),
+    url('./assets/lcd-matrix.svg');
+  background-size:100% 100%,var(--lcd-cell) var(--lcd-cell);
+  background-repeat:no-repeat,repeat;
+  box-shadow:inset 0 1rem 0 #ebedc750,inset 1rem 0 0 #e7eac42b;
   pointer-events:none;user-select:none;
 }
-.app-header{background:transparent;box-shadow:inset 0 3rem 0 #e0ecc04d,0 3rem 0 #53683e50}
+.app-header{background:transparent;box-shadow:inset 0 2rem 0 #e3e5bd20,0 2rem 0 #56604745}
 .brand-icon img{filter:none;mix-blend-mode:normal;opacity:1}
 .pixel-stickers{position:absolute;right:14rem;top:0;bottom:0;width:318rem;pointer-events:none}
 .pixel-stickers,.stream-flourish{--heart:var(--sticker-heart);--star:var(--sticker-star);--plus:var(--sticker-plus);--highlight:var(--sticker-highlight)}

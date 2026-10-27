@@ -16,14 +16,15 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
   const checkShellArt=async shell=>{
    const art=page.locator('img[data-shell-art]');
    assert.equal(await art.count(),1,'one hardware frame surrounds the live feed');
-   const loaded=await art.evaluate(async image=>{await image.decode();return {complete:image.complete,width:image.naturalWidth,source:image.currentSrc,rendering:getComputedStyle(image).imageRendering};});
+   const loaded=await art.evaluate(async image=>{await image.decode();return {complete:image.complete,width:image.naturalWidth,height:image.naturalHeight,source:image.currentSrc,rendering:getComputedStyle(image).imageRendering};});
    assert.ok(loaded.complete&&loaded.width>0,'hardware frame loads and decodes');
-   assert.equal(loaded.rendering,'pixelated','low-resolution housing retains crisp sampled pixels');
-   assert.ok(loaded.width<=(new URL(loaded.source).pathname.endsWith('-wide.webp')?165:118),'housing and printed legends share the lower-resolution hardware raster');
-   assert.match(new URL(loaded.source).pathname,new RegExp(`/handset-${shell}(?:-wide)?\\.webp$`),'hardware frame matches the chosen case');
+   assert.equal(loaded.rendering,'auto','the low-poly housing keeps its full rendered surface detail');
+   const landscape=new URL(loaded.source).pathname.endsWith('-wide.webp');
+   assert.ok(loaded.width>=(landscape?1240:960)&&loaded.height>=(landscape?820:1280),'housing and printed legends retain at least twice the logical body resolution');
+   assert.match(new URL(loaded.source).pathname,new RegExp(`/pocket-${shell}(?:-wide)?\\.webp$`),'hardware frame matches the chosen case');
    const wide=page.locator('source[data-shell-art-wide]');
    assert.equal(await wide.count(),1,'landscape has a dedicated hardware frame');
-   assert.match(await wide.getAttribute('srcset'),new RegExp(`handset-${shell}-wide\\.webp(?:\\s|$)`),'landscape frame follows the chosen case');
+   assert.match(await wide.getAttribute('srcset'),new RegExp(`pocket-${shell}-wide\\.webp(?:\\s|$)`),'landscape frame follows the chosen case');
   };
   page.on('pageerror',e=>errors.push(e.message));
   page.on('response',r=>{if(r.status()>=400&&r.url().startsWith(base))errors.push(`${r.status()} ${r.url()}`);});
@@ -40,10 +41,12 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
    const focus=await target.evaluate(element=>{
     const paint=getComputedStyle(element,'::after');
     return {active:document.activeElement===element,keyboard:element.matches(':focus-visible'),content:paint.content,
-     display:paint.display,visibility:paint.visibility,opacity:Number(paint.opacity),image:paint.backgroundImage};
+     display:paint.display,visibility:paint.visibility,opacity:Number(paint.opacity),image:paint.backgroundImage,
+     shadow:paint.boxShadow,outlineWidth:parseFloat(paint.outlineWidth),outlineStyle:paint.outlineStyle};
    });
    assert.ok(focus.active&&focus.keyboard,'the physical key link receives keyboard focus');
-   assert.ok(focus.content!=='none'&&focus.content!=='normal'&&focus.display!=='none'&&focus.visibility!=='hidden'&&focus.opacity>0&&focus.image!=='none','the focused key paints its visible surface indicator');
+   const focusPaint=focus.image!=='none'||focus.shadow!=='none'||(focus.outlineWidth>0&&focus.outlineStyle!=='none');
+   assert.ok(focus.content!=='none'&&focus.content!=='normal'&&focus.display!=='none'&&focus.visibility!=='hidden'&&focus.opacity>0&&focusPaint,'the focused key paints its visible surface indicator');
   }
   assert.equal(await page.locator('dialog,form,textarea,input,[data-follow],[data-action]').count(),0);
   for(const identity of await page.locator('.author-name').all()){
@@ -252,6 +255,6 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
    await clean.setViewportSize({width:390,height:600});await clean.locator('#timeline').evaluate(e=>e.scrollTop=210);await clean.screenshot({path:`${process.env.QA_OUTPUT}/gsm-stream-${name}-scrolled.png`});
    await clean.locator('#settingsButton').click();await clean.screenshot({path:`${process.env.QA_OUTPUT}/gsm-stream-${name}-settings.png`});await clean.close();
   }
-  console.log(`${name}: sampled plastic handset at 7 sizes, contained LCD screen, locked header/keys, inner scrolling, linear pager messages, ${shellNames.length} persistent case variants, independent settings, 3 languages, SVG/path likes, reduced motion, legacy storage and denial passed.`);
+  console.log(`${name}: painted low-poly pocket device at 7 sizes, contained LCD screen, locked header/keys, inner scrolling, linear pager messages, ${shellNames.length} persistent case variants, independent settings, 3 languages, SVG/path likes, reduced motion, legacy storage and denial passed.`);
  }finally{await browser.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;});
