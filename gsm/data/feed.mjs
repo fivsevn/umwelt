@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "nightshift3": {
+    "handle": "nightshift3",
+    "name": "半夜上线",
+    "bio": "这会儿还有谁醒着？",
+    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
+    "color": "rose"
+  },
   "leafback7": {
     "handle": "leafback7",
     "name": "叶背居民",
@@ -20,13 +27,6 @@ export const profiles = {
     "bio": "水滴也值得看一会儿。",
     "avatarImage": "/gsm/assets/avatars/moss9.webp?v=fc1a392905b0",
     "color": "sand"
-  },
-  "nightshift3": {
-    "handle": "nightshift3",
-    "name": "半夜上线",
-    "bio": "这会儿还有谁醒着？",
-    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
-    "color": "rose"
   },
   "wednesday6": {
     "handle": "wednesday6",
@@ -107,6 +107,33 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261028-045042-3baad7727a",
+    "date": "2026-10-28T04:50:42+08:00",
+    "createdAt": 1793134242000,
+    "author": "nightshift3",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "那阵窸窣声后来就没再响。我又探出去看过两回，什么也没看见。现在倒是我自己挪一下就有动静，越听越像刚才那声，可我也拿不准。先睡了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "那阵窸窣声后来就没再响。我又探出去看过两回，什么也没看见。现在倒是我自己挪一下就有动静，越听越像刚才那声，可我也拿不准。先睡了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "那阵窸窣声后来就没再响。我又探出去看过两回，什么也没看见。现在倒是我自己挪一下就有动静，越听越像刚才那声，可我也拿不准。先睡了。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261028-035126-30f204377e",
     "date": "2026-10-28T03:51:26+08:00",
