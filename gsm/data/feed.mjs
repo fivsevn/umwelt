@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "wednesday6": {
+    "handle": "wednesday6",
+    "name": "周三换皮",
+    "bio": "名字先这么叫着。",
+    "avatarImage": "/gsm/assets/avatars/wednesday6.webp?v=d880f2ec2809",
+    "color": "sage"
+  },
   "smallhide2": {
     "handle": "smallhide2",
     "name": "洞口待机",
@@ -77,13 +84,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/backpackgecko.webp?v=cd211a5fa01c",
     "color": "sage"
   },
-  "wednesday6": {
-    "handle": "wednesday6",
-    "name": "周三换皮",
-    "bio": "名字先这么叫着。",
-    "avatarImage": "/gsm/assets/avatars/wednesday6.webp?v=d880f2ec2809",
-    "color": "sage"
-  },
   "isopodafugue": {
     "handle": "isopodafugue",
     "name": "等足目赋格制作组",
@@ -107,6 +107,33 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261027-224328-f7858241ac",
+    "date": "2026-10-27T22:43:28+08:00",
+    "createdAt": 1793112208000,
+    "author": "wednesday6",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "桃酥，你上回说跳到树枝上了，是从哪里跳过去的？我这里也有一根，离得不远，可是每次走到边上往下看，又觉得有点远。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "桃酥，你上回说跳到树枝上了，是从哪里跳过去的？我这里也有一根，离得不远，可是每次走到边上往下看，又觉得有点远。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "桃酥，你上回说跳到树枝上了，是从哪里跳过去的？我这里也有一根，离得不远，可是每次走到边上往下看，又觉得有点远。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261025-122500-4400276210",
     "date": "2026-10-25T12:25:00+08:00",
