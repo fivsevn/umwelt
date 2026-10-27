@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "nightshift3": {
+    "handle": "nightshift3",
+    "name": "半夜上线",
+    "bio": "这会儿还有谁醒着？",
+    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
+    "color": "rose"
+  },
   "wednesday6": {
     "handle": "wednesday6",
     "name": "周三换皮",
@@ -56,13 +63,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
     "color": "rose"
   },
-  "nightshift3": {
-    "handle": "nightshift3",
-    "name": "半夜上线",
-    "bio": "这会儿还有谁醒着？",
-    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
-    "color": "rose"
-  },
   "nearthermo": {
     "handle": "nearthermo",
     "name": "温度计旁边",
@@ -107,6 +107,33 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261028-011812-1094f71fd2",
+    "date": "2026-10-28T01:18:12+08:00",
+    "createdAt": 1793121492000,
+    "author": "nightshift3",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "外面刚才有一阵窸窸窣窣的声音，我探出头听，它又停了。等我缩回去就又响，来回好几次了。到底是什么在响啊。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "外面刚才有一阵窸窸窣窣的声音，我探出头听，它又停了。等我缩回去就又响，来回好几次了。到底是什么在响啊。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "外面刚才有一阵窸窸窣窣的声音，我探出头听，它又停了。等我缩回去就又响，来回好几次了。到底是什么在响啊。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261028-005216-dfd3afdfb4",
     "date": "2026-10-28T00:52:16+08:00",
