@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "gecko404": {
+    "handle": "gecko404",
+    "name": "玻璃这一边",
+    "bio": "玻璃那边也在看这边吗？",
+    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
+    "color": "sage"
+  },
   "mango27": {
     "handle": "mango27",
     "name": "小满",
@@ -63,13 +70,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=8ba191455bd7",
     "color": "sage"
   },
-  "gecko404": {
-    "handle": "gecko404",
-    "name": "玻璃这一边",
-    "bio": "玻璃那边也在看这边吗？",
-    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
-    "color": "sage"
-  },
   "twosteps8": {
     "handle": "twosteps8",
     "name": "两步远",
@@ -107,6 +107,33 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261028-065112-700f2e0d17",
+    "date": "2026-10-28T06:51:12+08:00",
+    "createdAt": 1793141472000,
+    "author": "gecko404",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "玻璃外面有人蹲下去，在地上摸来摸去。我也跟着往下看，可最底下那截被框挡住了，只看见他的肩膀在动。等他起来，手里好像拿着什么，我还是没看清。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "玻璃外面有人蹲下去，在地上摸来摸去。我也跟着往下看，可最底下那截被框挡住了，只看见他的肩膀在动。等他起来，手里好像拿着什么，我还是没看清。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "玻璃外面有人蹲下去，在地上摸来摸去。我也跟着往下看，可最底下那截被框挡住了，只看见他的肩膀在动。等他起来，手里好像拿着什么，我还是没看清。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261028-055743-d2676431b6",
     "date": "2026-10-28T05:57:43+08:00",
