@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "wallafterdark": {
+    "handle": "wallafterdark",
+    "name": "墙角小守",
+    "bio": "墙上也有路。",
+    "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
+    "color": "sand"
+  },
   "twosteps8": {
     "handle": "twosteps8",
     "name": "两步远",
@@ -63,13 +70,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/wednesday6.webp?v=d880f2ec2809",
     "color": "sage"
   },
-  "wallafterdark": {
-    "handle": "wallafterdark",
-    "name": "墙角小守",
-    "bio": "墙上也有路。",
-    "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
-    "color": "sand"
-  },
   "smallhide2": {
     "handle": "smallhide2",
     "name": "洞口待机",
@@ -107,6 +107,33 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261028-184852-3b2696a50e",
+    "date": "2026-10-28T18:48:52+08:00",
+    "createdAt": 1793184532000,
+    "author": "wallafterdark",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "画下面那颗钉子，我到现在也没站上去过。刚才从画框旁边过，尾巴差点蹭着它，赶紧往上爬了两步。之前还觉得多了个落脚的地方，现在看它就烦。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "画下面那颗钉子，我到现在也没站上去过。刚才从画框旁边过，尾巴差点蹭着它，赶紧往上爬了两步。之前还觉得多了个落脚的地方，现在看它就烦。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "画下面那颗钉子，我到现在也没站上去过。刚才从画框旁边过，尾巴差点蹭着它，赶紧往上爬了两步。之前还觉得多了个落脚的地方，现在看它就烦。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261028-134830-9a78f51667",
     "date": "2026-10-28T13:48:30+08:00",
