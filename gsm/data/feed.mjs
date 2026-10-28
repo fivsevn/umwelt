@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "nearthermo": {
+    "handle": "nearthermo",
+    "name": "温度计旁边",
+    "bio": "挪一点，舒服多了。",
+    "avatarImage": "/gsm/assets/avatars/nearthermo.webp?v=f536a852bd2b",
+    "color": "sand"
+  },
   "leafback7": {
     "handle": "leafback7",
     "name": "叶背居民",
@@ -77,13 +84,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=8ba191455bd7",
     "color": "sage"
   },
-  "nearthermo": {
-    "handle": "nearthermo",
-    "name": "温度计旁边",
-    "bio": "挪一点，舒服多了。",
-    "avatarImage": "/gsm/assets/avatars/nearthermo.webp?v=f536a852bd2b",
-    "color": "sand"
-  },
   "gedageda": {
     "handle": "gedageda",
     "name": "咯哒咯哒",
@@ -107,6 +107,33 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261028-095147-0d81f07706",
+    "date": "2026-10-28T09:51:47+08:00",
+    "createdAt": 1793152307000,
+    "author": "nearthermo",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "今天木头上怎么趴都不对，前脚缩回来挤得慌，伸出去又悬在外面。我就想好好歇一会儿，怎么这么费劲。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "今天木头上怎么趴都不对，前脚缩回来挤得慌，伸出去又悬在外面。我就想好好歇一会儿，怎么这么费劲。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "今天木头上怎么趴都不对，前脚缩回来挤得慌，伸出去又悬在外面。我就想好好歇一会儿，怎么这么费劲。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261028-085344-4892818864",
     "date": "2026-10-28T08:53:44+08:00",
