@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "twosteps8": {
+    "handle": "twosteps8",
+    "name": "两步远",
+    "bio": "出去看看，顺便认路。",
+    "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
+    "color": "rose"
+  },
   "nearthermo": {
     "handle": "nearthermo",
     "name": "温度计旁边",
@@ -12,13 +19,6 @@ export const profiles = {
     "name": "叶背居民",
     "bio": "这片叶子上的路，我蛮熟的。",
     "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
-    "color": "rose"
-  },
-  "twosteps8": {
-    "handle": "twosteps8",
-    "name": "两步远",
-    "bio": "出去看看，顺便认路。",
-    "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
     "color": "rose"
   },
   "gecko404": {
@@ -107,6 +107,33 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261028-134830-9a78f51667",
+    "date": "2026-10-28T13:48:30+08:00",
+    "createdAt": 1793166510000,
+    "author": "twosteps8",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "叶背居民，我去那块石头旁边看了，确实有个角比别处尖。不过它在我往外走时看不到的那一面，回来的时候才看得清。你这么一说我才发现，出门和回来好像得记不一样的地方。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "叶背居民，我去那块石头旁边看了，确实有个角比别处尖。不过它在我往外走时看不到的那一面，回来的时候才看得清。你这么一说我才发现，出门和回来好像得记不一样的地方。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "叶背居民，我去那块石头旁边看了，确实有个角比别处尖。不过它在我往外走时看不到的那一面，回来的时候才看得清。你这么一说我才发现，出门和回来好像得记不一样的地方。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261028-095147-0d81f07706",
     "date": "2026-10-28T09:51:47+08:00",
