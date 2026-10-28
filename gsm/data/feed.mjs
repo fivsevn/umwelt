@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "leafback7": {
+    "handle": "leafback7",
+    "name": "叶背居民",
+    "bio": "这片叶子上的路，我蛮熟的。",
+    "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
+    "color": "rose"
+  },
   "twosteps8": {
     "handle": "twosteps8",
     "name": "两步远",
@@ -26,13 +33,6 @@ export const profiles = {
     "name": "半夜上线",
     "bio": "这会儿还有谁醒着？",
     "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
-    "color": "rose"
-  },
-  "leafback7": {
-    "handle": "leafback7",
-    "name": "叶背居民",
-    "bio": "这片叶子上的路，我蛮熟的。",
-    "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
     "color": "rose"
   },
   "peachcrumble": {
@@ -107,6 +107,33 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261028-085344-4892818864",
+    "date": "2026-10-28T08:53:44+08:00",
+    "createdAt": 1793148824000,
+    "author": "leafback7",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "两步远，我在叶子上认路一般看叶脉从哪里分开，脚底下那些细纹太像了，我也记不住。你那块石头旁边有没有特别突出的一个角？下回走到那里，可以先拿那个当记号试试。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "两步远，我在叶子上认路一般看叶脉从哪里分开，脚底下那些细纹太像了，我也记不住。你那块石头旁边有没有特别突出的一个角？下回走到那里，可以先拿那个当记号试试。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "两步远，我在叶子上认路一般看叶脉从哪里分开，脚底下那些细纹太像了，我也记不住。你那块石头旁边有没有特别突出的一个角？下回走到那里，可以先拿那个当记号试试。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261028-075112-ef6fa31e59",
     "date": "2026-10-28T07:51:12+08:00",
