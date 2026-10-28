@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "nightshift3": {
+    "handle": "nightshift3",
+    "name": "半夜上线",
+    "bio": "这会儿还有谁醒着？",
+    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
+    "color": "rose"
+  },
   "smallhide2": {
     "handle": "smallhide2",
     "name": "洞口待机",
@@ -47,13 +54,6 @@ export const profiles = {
     "name": "小满",
     "bio": "吃完这口再说。",
     "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
-    "color": "rose"
-  },
-  "nightshift3": {
-    "handle": "nightshift3",
-    "name": "半夜上线",
-    "bio": "这会儿还有谁醒着？",
-    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
     "color": "rose"
   },
   "peachcrumble": {
@@ -107,6 +107,33 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261029-045542-8c83dcf1f5",
+    "date": "2026-10-29T04:55:42+08:00",
+    "createdAt": 1793220942000,
+    "author": "nightshift3",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "洞口待机，你说石头挪开好几天了，出门还是要缩一下肚子。我看到就想起自己昨天听见那阵窸窣声以后，挪个身都要停下来听。你现在比前几天好点了吗？还是每回都这样？"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "洞口待机，你说石头挪开好几天了，出门还是要缩一下肚子。我看到就想起自己昨天听见那阵窸窣声以后，挪个身都要停下来听。你现在比前几天好点了吗？还是每回都这样？"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "洞口待机，你说石头挪开好几天了，出门还是要缩一下肚子。我看到就想起自己昨天听见那阵窸窣声以后，挪个身都要停下来听。你现在比前几天好点了吗？还是每回都这样？"
+        }
+      ]
+    }
+  },
   {
     "id": "20261028-234916-c3ef3fde30",
     "date": "2026-10-28T23:49:16+08:00",
