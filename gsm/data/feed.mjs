@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "smallhide2": {
+    "handle": "smallhide2",
+    "name": "洞口待机",
+    "bio": "门口留一点空就好。",
+    "avatarImage": "/gsm/assets/avatars/smallhide2.webp?v=8ba191455bd7",
+    "color": "sage"
+  },
   "wallafterdark": {
     "handle": "wallafterdark",
     "name": "墙角小守",
@@ -70,13 +77,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/wednesday6.webp?v=d880f2ec2809",
     "color": "sage"
   },
-  "smallhide2": {
-    "handle": "smallhide2",
-    "name": "洞口待机",
-    "bio": "门口留一点空就好。",
-    "avatarImage": "/gsm/assets/avatars/smallhide2.webp?v=8ba191455bd7",
-    "color": "sage"
-  },
   "slowblink": {
     "handle": "slowblink",
     "name": "不急",
@@ -107,6 +107,33 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261028-234916-c3ef3fde30",
+    "date": "2026-10-28T23:49:16+08:00",
+    "createdAt": 1793202556000,
+    "author": "smallhide2",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "门口那块小石头已经往旁边挪了好几天，我出门还是习惯先缩一下肚子。刚才又这样，出了门才想起来，石头早就不挡在那里了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "门口那块小石头已经往旁边挪了好几天，我出门还是习惯先缩一下肚子。刚才又这样，出了门才想起来，石头早就不挡在那里了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "门口那块小石头已经往旁边挪了好几天，我出门还是习惯先缩一下肚子。刚才又这样，出了门才想起来，石头早就不挡在那里了。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261028-184852-3b2696a50e",
     "date": "2026-10-28T18:48:52+08:00",
