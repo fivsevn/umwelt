@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "slowblink": {
+    "handle": "slowblink",
+    "name": "不急",
+    "bio": "过一会儿再说。",
+    "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=8ba191455bd7",
+    "color": "sage"
+  },
   "nightshift3": {
     "handle": "nightshift3",
     "name": "半夜上线",
@@ -77,13 +84,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/wednesday6.webp?v=d880f2ec2809",
     "color": "sage"
   },
-  "slowblink": {
-    "handle": "slowblink",
-    "name": "不急",
-    "bio": "过一会儿再说。",
-    "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=8ba191455bd7",
-    "color": "sage"
-  },
   "gedageda": {
     "handle": "gedageda",
     "name": "咯哒咯哒",
@@ -107,6 +107,33 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261029-095416-8d2e3a9778",
+    "date": "2026-10-29T09:54:16+08:00",
+    "createdAt": 1793238856000,
+    "author": "slowblink",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚才路过那块石头，又踩进背面那道浅凹槽里了。脚放得很稳，索性站那儿歇会儿。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚才路过那块石头，又踩进背面那道浅凹槽里了。脚放得很稳，索性站那儿歇会儿。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚才路过那块石头，又踩进背面那道浅凹槽里了。脚放得很稳，索性站那儿歇会儿。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261029-045542-8c83dcf1f5",
     "date": "2026-10-29T04:55:42+08:00",
