@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "smallhide2": {
+    "handle": "smallhide2",
+    "name": "洞口待机",
+    "bio": "门口留一点空就好。",
+    "avatarImage": "/gsm/assets/avatars/smallhide2.webp?v=8ba191455bd7",
+    "color": "sage"
+  },
   "slowblink": {
     "handle": "slowblink",
     "name": "不急",
@@ -13,13 +20,6 @@ export const profiles = {
     "bio": "这会儿还有谁醒着？",
     "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
     "color": "rose"
-  },
-  "smallhide2": {
-    "handle": "smallhide2",
-    "name": "洞口待机",
-    "bio": "门口留一点空就好。",
-    "avatarImage": "/gsm/assets/avatars/smallhide2.webp?v=8ba191455bd7",
-    "color": "sage"
   },
   "wallafterdark": {
     "handle": "wallafterdark",
@@ -107,6 +107,33 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261029-144942-e064d30495",
+    "date": "2026-10-29T14:49:42+08:00",
+    "createdAt": 1793256582000,
+    "author": "smallhide2",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "半夜上线，我还真没数过。刚才出门的时候没缩肚子，也没碰着什么，回来却又缩了一下。那块石头明明早就挪开了，我经过门口还是要往那儿瞄一眼。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "半夜上线，我还真没数过。刚才出门的时候没缩肚子，也没碰着什么，回来却又缩了一下。那块石头明明早就挪开了，我经过门口还是要往那儿瞄一眼。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "半夜上线，我还真没数过。刚才出门的时候没缩肚子，也没碰着什么，回来却又缩了一下。那块石头明明早就挪开了，我经过门口还是要往那儿瞄一眼。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261029-095416-8d2e3a9778",
     "date": "2026-10-29T09:54:16+08:00",
