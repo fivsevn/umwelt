@@ -4,6 +4,10 @@
 
 仓库根目录运行 `node tools/check-all.mjs`。公共登记、入口与运行依赖检查已接入 CI。
 
+## 模拟抽签与归档
+
+`python3 -m unittest discover -s gsm/tests -p 'test_*.py'` 包含抽签端点、整数权重区间、无放回历史抽样、凭据恢复、拒绝改池重抽、回合关闭和本地并发锁检查；发布检查另需安装工具依赖。
+
 ## 信息流交互
 
 ```sh

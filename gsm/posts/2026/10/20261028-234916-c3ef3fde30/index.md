@@ -9,4 +9,4 @@ source_event: cf651f9efa205fe1ed32b810ec3d0726c2bb2ecd
 author_assignment: specified
 ---
 
-门口那块小石头已经往旁边挪了好几天，我出门还是习惯先缩一下肚子。刚才又这样，出了门才想起来，石头早就不挡在那里了。
+门口的石头挪开好几天了，出门还是习惯缩肚子。

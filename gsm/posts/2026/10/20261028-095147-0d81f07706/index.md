@@ -9,4 +9,4 @@ source_event: 8db0eeb77f3ffc4d725b7f70d1e5680efcd58221
 author_assignment: specified
 ---
 
-今天木头上怎么趴都不对，前脚缩回来挤得慌，伸出去又悬在外面。我就想好好歇一会儿，怎么这么费劲。
+前脚缩着挤，伸出去又悬空。今天这块木头怎么趴都不舒服。

@@ -9,4 +9,4 @@ source_event: ed315c3e2d4e0dc3df0a9ea1d28d0da9c60a6cb6
 author_assignment: specified
 ---
 
-画框边上刚停了只小飞虫，我想再靠近一点，它就往上飞了。我没追上去，先在这儿等等，看它会不会下来。
+刚靠近，虫就往上飞。等它下来。

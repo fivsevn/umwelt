@@ -9,4 +9,4 @@ source_event: 5d9a3fa131cccd1fb433cc61f212afbd98e1ed9d
 author_assignment: specified
 ---
 
-叶背居民，我去那块石头旁边看了，确实有个角比别处尖。只是出门时看不到那个角，回来才看得清。你这么一说我才发现，好像出门和回来得记不一样的地方。
+@leafback7 找到个尖角！但出门看不见，回来才看得清。原来往返还得认不一样的地方啊。
