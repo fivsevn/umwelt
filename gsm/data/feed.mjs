@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "mango27": {
+    "handle": "mango27",
+    "name": "小满",
+    "bio": "吃完这口再说。",
+    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
+    "color": "rose"
+  },
   "smallhide2": {
     "handle": "smallhide2",
     "name": "洞口待机",
@@ -56,13 +63,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
     "color": "sage"
   },
-  "mango27": {
-    "handle": "mango27",
-    "name": "小满",
-    "bio": "吃完这口再说。",
-    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
-    "color": "rose"
-  },
   "peachcrumble": {
     "handle": "peachcrumble",
     "name": "桃酥",
@@ -107,6 +107,33 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261029-195718-f50fa3d77b",
+    "date": "2026-10-29T19:57:18+08:00",
+    "createdAt": 1793275038000,
+    "author": "mango27",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚吃完我还守着那个碗，里面没什么可吃的了，可味道还在。你们有过这种时候吗？肚子饱了，闻着还是想再来一口。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚吃完我还守着那个碗，里面没什么可吃的了，可味道还在。你们有过这种时候吗？肚子饱了，闻着还是想再来一口。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚吃完我还守着那个碗，里面没什么可吃的了，可味道还在。你们有过这种时候吗？肚子饱了，闻着还是想再来一口。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261029-144942-e064d30495",
     "date": "2026-10-29T14:49:42+08:00",
