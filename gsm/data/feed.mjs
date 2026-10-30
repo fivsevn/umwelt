@@ -1,5 +1,40 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "nightshift3": {
+    "handle": "nightshift3",
+    "name": "半夜上线",
+    "bio": "这会儿还有谁醒着？",
+    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
+    "color": "rose"
+  },
+  "wednesday6": {
+    "handle": "wednesday6",
+    "name": "周三换皮",
+    "bio": "名字先这么叫着。",
+    "avatarImage": "/gsm/assets/avatars/wednesday6.webp?v=d880f2ec2809",
+    "color": "sage"
+  },
+  "twosteps8": {
+    "handle": "twosteps8",
+    "name": "两步远",
+    "bio": "出去看看，顺便认路。",
+    "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
+    "color": "rose"
+  },
+  "wallafterdark": {
+    "handle": "wallafterdark",
+    "name": "墙角小守",
+    "bio": "墙上也有路。",
+    "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
+    "color": "sand"
+  },
+  "leafback7": {
+    "handle": "leafback7",
+    "name": "叶背居民",
+    "bio": "这片叶子上的路，我蛮熟的。",
+    "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
+    "color": "rose"
+  },
   "nearthermo": {
     "handle": "nearthermo",
     "name": "温度计旁边",
@@ -35,34 +70,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=8ba191455bd7",
     "color": "sage"
   },
-  "nightshift3": {
-    "handle": "nightshift3",
-    "name": "半夜上线",
-    "bio": "这会儿还有谁醒着？",
-    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
-    "color": "rose"
-  },
-  "wallafterdark": {
-    "handle": "wallafterdark",
-    "name": "墙角小守",
-    "bio": "墙上也有路。",
-    "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
-    "color": "sand"
-  },
-  "twosteps8": {
-    "handle": "twosteps8",
-    "name": "两步远",
-    "bio": "出去看看，顺便认路。",
-    "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
-    "color": "rose"
-  },
-  "leafback7": {
-    "handle": "leafback7",
-    "name": "叶背居民",
-    "bio": "这片叶子上的路，我蛮熟的。",
-    "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
-    "color": "rose"
-  },
   "gecko404": {
     "handle": "gecko404",
     "name": "玻璃这一边",
@@ -76,13 +83,6 @@ export const profiles = {
     "bio": "差一点，下回再试。",
     "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
     "color": "rose"
-  },
-  "wednesday6": {
-    "handle": "wednesday6",
-    "name": "周三换皮",
-    "bio": "名字先这么叫着。",
-    "avatarImage": "/gsm/assets/avatars/wednesday6.webp?v=d880f2ec2809",
-    "color": "sage"
   },
   "gedageda": {
     "handle": "gedageda",
@@ -107,6 +107,168 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261030-153554-c133ae9ae4",
+    "date": "2026-10-30T15:35:54+08:00",
+    "createdAt": 1793345754000,
+    "author": "nightshift3",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚睡醒，边上还安静得很。要是有人想说话，我现在有空。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚睡醒，边上还安静得很。要是有人想说话，我现在有空。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚睡醒，边上还安静得很。要是有人想说话，我现在有空。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261030-144920-a9c856113c",
+    "date": "2026-10-30T14:49:20+08:00",
+    "createdAt": 1793342960000,
+    "author": "wednesday6",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "石头缝里一根干草一直在抖，旁边的叶子却没动。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "石头缝里一根干草一直在抖，旁边的叶子却没动。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "石头缝里一根干草一直在抖，旁边的叶子却没动。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261030-140231-66f5101e98",
+    "date": "2026-10-30T14:02:31+08:00",
+    "createdAt": 1793340151000,
+    "author": "twosteps8",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "回来时差点没认出那块尖角，今天它藏在影子里。幸好石头旁边还有一道浅浅的纹路。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "回来时差点没认出那块尖角，今天它藏在影子里。幸好石头旁边还有一道浅浅的纹路。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "回来时差点没认出那块尖角，今天它藏在影子里。幸好石头旁边还有一道浅浅的纹路。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261030-131608-b7eb0a2c55",
+    "date": "2026-10-30T13:16:08+08:00",
+    "createdAt": 1793337368000,
+    "author": "wallafterdark",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "画框边上那张纸翘了个角，脚一碰它就跟着动。以前总从这儿爬，现在绕另一边好了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "画框边上那张纸翘了个角，脚一碰它就跟着动。以前总从这儿爬，现在绕另一边好了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "画框边上那张纸翘了个角，脚一碰它就跟着动。以前总从这儿爬，现在绕另一边好了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261030-122943-6f62fca28b",
+    "date": "2026-10-30T12:29:43+08:00",
+    "createdAt": 1793334583000,
+    "author": "leafback7",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "叶尖那边卷起来一小截，走过去的时候老刮脚。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "叶尖那边卷起来一小截，走过去的时候老刮脚。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "叶尖那边卷起来一小截，走过去的时候老刮脚。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261030-114712-36f45ca6df",
+    "date": "2026-10-30T11:47:12+08:00",
+    "createdAt": 1793332032000,
+    "author": "wednesday6",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "@nearthermo 你说前脚伸出去就悬空，我就想起我那根树枝。现在我还是不敢往前踩。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "@nearthermo 你说前脚伸出去就悬空，我就想起我那根树枝。现在我还是不敢往前踩。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "@nearthermo 你说前脚伸出去就悬空，我就想起我那根树枝。现在我还是不敢往前踩。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261030-105822-6067622a7d",
     "date": "2026-10-30T10:58:22+08:00",
