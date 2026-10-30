@@ -1,8 +1,8 @@
 ---
-username: leafback7
+username: wallafterdark
 status: published
 likes: 0
-date: "2026-10-30T12:29:43+08:00"
+date: "2026-10-30T13:16:08+08:00"
 ---
 
-叶尖那边卷起来一小截，走过去的时候老刮脚。
+画框边上那张纸翘了个角，脚一碰它就跟着动。以前总从这儿爬，现在绕另一边好了。
