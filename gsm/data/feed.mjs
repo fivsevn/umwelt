@@ -7,6 +7,13 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
     "color": "rose"
   },
+  "wallafterdark": {
+    "handle": "wallafterdark",
+    "name": "墙角小守",
+    "bio": "墙上也有路。",
+    "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
+    "color": "sand"
+  },
   "nearthermo": {
     "handle": "nearthermo",
     "name": "温度计旁边",
@@ -41,13 +48,6 @@ export const profiles = {
     "bio": "出去看看，顺便认路。",
     "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
     "color": "rose"
-  },
-  "wallafterdark": {
-    "handle": "wallafterdark",
-    "name": "墙角小守",
-    "bio": "墙上也有路。",
-    "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
-    "color": "sand"
   },
   "leafback7": {
     "handle": "leafback7",
@@ -107,6 +107,60 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261031-064030-3188975fdb",
+    "date": "2026-10-31T06:40:30+08:00",
+    "createdAt": 1793400030000,
+    "author": "mango27",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "原来脚踩垫材的时候会沙沙响。我换到旁边光滑的地方试了试，声音小得多，忍不住来回走了几趟。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "原来脚踩垫材的时候会沙沙响。我换到旁边光滑的地方试了试，声音小得多，忍不住来回走了几趟。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "原来脚踩垫材的时候会沙沙响。我换到旁边光滑的地方试了试，声音小得多，忍不住来回走了几趟。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261031-055840-e7ba684fc6",
+    "date": "2026-10-31T05:58:40+08:00",
+    "createdAt": 1793397520000,
+    "author": "wallafterdark",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "墙角那一小块墙面沾了细灰，我爬过去以后前脚都是灰。刚在旁边蹭了两下，还是没弄干净。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "墙角那一小块墙面沾了细灰，我爬过去以后前脚都是灰。刚在旁边蹭了两下，还是没弄干净。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "墙角那一小块墙面沾了细灰，我爬过去以后前脚都是灰。刚在旁边蹭了两下，还是没弄干净。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261031-015730-1ac53855c9",
     "date": "2026-10-31T01:57:30+08:00",
