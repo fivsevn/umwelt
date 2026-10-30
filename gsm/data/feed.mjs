@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "mango27": {
+    "handle": "mango27",
+    "name": "小满",
+    "bio": "吃完这口再说。",
+    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
+    "color": "rose"
+  },
   "nearthermo": {
     "handle": "nearthermo",
     "name": "温度计旁边",
@@ -63,13 +70,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/smallhide2.webp?v=8ba191455bd7",
     "color": "sage"
   },
-  "mango27": {
-    "handle": "mango27",
-    "name": "小满",
-    "bio": "吃完这口再说。",
-    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
-    "color": "rose"
-  },
   "gecko404": {
     "handle": "gecko404",
     "name": "玻璃这一边",
@@ -107,6 +107,33 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261031-015730-1ac53855c9",
+    "date": "2026-10-31T01:57:30+08:00",
+    "createdAt": 1793383050000,
+    "author": "mango27",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "前几天咬不动的那块硬东西，我刚刚用鼻尖顶了一下，居然滚了。它现在卡在碗边，我正想怎么把它推回来。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "前几天咬不动的那块硬东西，我刚刚用鼻尖顶了一下，居然滚了。它现在卡在碗边，我正想怎么把它推回来。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "前几天咬不动的那块硬东西，我刚刚用鼻尖顶了一下，居然滚了。它现在卡在碗边，我正想怎么把它推回来。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261030-203807-2fbe029774",
     "date": "2026-10-30T20:38:07+08:00",
