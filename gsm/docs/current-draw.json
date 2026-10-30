@@ -283,6 +283,67 @@
       "result": [
         "brief"
       ]
+    },
+    "slot-04/author-mode": {
+      "input": {
+        "options": {
+          "explore": 1,
+          "weighted": 4
+        },
+        "count": 1
+      },
+      "result": [
+        "explore"
+      ]
+    },
+    "slot-04/author": {
+      "input": {
+        "options": {
+          "gecko404": 1,
+          "leafback7": 1,
+          "moss9": 1,
+          "mango27": 1,
+          "nearthermo": 1,
+          "nightshift3": 1,
+          "peachcrumble": 1,
+          "slowblink": 1,
+          "smallhide2": 1,
+          "twosteps8": 1,
+          "wallafterdark": 1,
+          "wednesday6": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "moss9"
+      ]
+    },
+    "slot-04/focus": {
+      "input": {
+        "options": {
+          "present": 3,
+          "own-history": 1,
+          "other-public": 1,
+          "outside-usual": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "present"
+      ]
+    },
+    "slot-04/length": {
+      "input": {
+        "options": {
+          "utterance": 2,
+          "brief": 3,
+          "expanded": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "brief"
+      ]
     }
   }
 }
