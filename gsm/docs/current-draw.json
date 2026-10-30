@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "round": "2026-10-30/105551-40f5",
-  "baseline": "a681ff9254ee45bc7f38ca5c167d99e167e83d7c",
-  "target_posts": 5,
-  "closed": true,
+  "round": "2026-10-30/155742-708a",
+  "baseline": "3a677d173b45ce280d46c1861272974da04e272d",
+  "target_posts": 6,
+  "closed": false,
   "draws": {
     "review": {
       "input": {
@@ -17,21 +17,14 @@
         "ordinary"
       ]
     },
-    "external": {
-      "input": {
-        "options": {
-          "sample": 1,
-          "skip": 5
-        },
-        "count": 1
-      },
-      "result": [
-        "skip"
-      ]
-    },
     "history": {
       "input": {
         "options": {
+          "20261025-101842-06b7f0fe31": 1,
+          "20261024-003027-c41b7d2f62": 1,
+          "20261024-002803-78ebf96001": 1,
+          "20261024-001146-644f59ccd5": 1,
+          "20261024-000219-ac4b7f9fbf": 1,
           "20261019-161754-6c3cd8bd2e": 1,
           "20261019-152700-60d05b766a": 1,
           "20261019-151900-7b4e83d59b": 1,
@@ -58,8 +51,8 @@
         "count": 2
       },
       "result": [
-        "20261019-135000-9c96d7a45b",
-        "20261019-144900-70d3b8150d"
+        "20261019-150200-77209a9707",
+        "20261019-140900-24311ab9ce"
       ]
     },
     "slot-01/author-mode": {
@@ -93,7 +86,7 @@
         "count": 1
       },
       "result": [
-        "smallhide2"
+        "wednesday6"
       ]
     },
     "slot-01/focus": {
@@ -120,46 +113,7 @@
         "count": 1
       },
       "result": [
-        "expanded"
-      ]
-    },
-    "slot-01/public-source": {
-      "input": {
-        "options": {
-          "20261028-095147-0d81f07706": 1,
-          "20261028-184852-3b2696a50e": 1,
-          "20261029-095416-8d2e3a9778": 1,
-          "20261024-000219-ac4b7f9fbf": 1
-        },
-        "count": 1
-      },
-      "result": [
-        "20261024-000219-ac4b7f9fbf"
-      ]
-    },
-    "slot-01/notice": {
-      "input": {
-        "options": {
-          "notice": 1,
-          "skip": 1
-        },
-        "count": 1
-      },
-      "result": [
-        "notice"
-      ]
-    },
-    "slot-01/reaction": {
-      "input": {
-        "options": {
-          "no-public-response": 3,
-          "ask-about-door": 1,
-          "share-shelter-concern": 1
-        },
-        "count": 1
-      },
-      "result": [
-        "no-public-response"
+        "utterance"
       ]
     },
     "slot-02/author-mode": {
@@ -193,7 +147,7 @@
         "count": 1
       },
       "result": [
-        "moss9"
+        "leafback7"
       ]
     },
     "slot-02/focus": {
@@ -207,7 +161,7 @@
         "count": 1
       },
       "result": [
-        "outside-usual"
+        "present"
       ]
     },
     "slot-02/length": {
@@ -220,7 +174,7 @@
         "count": 1
       },
       "result": [
-        "brief"
+        "utterance"
       ]
     },
     "slot-03/author-mode": {
@@ -254,7 +208,7 @@
         "count": 1
       },
       "result": [
-        "moss9"
+        "wallafterdark"
       ]
     },
     "slot-03/focus": {
@@ -268,7 +222,7 @@
         "count": 1
       },
       "result": [
-        "outside-usual"
+        "own-history"
       ]
     },
     "slot-03/length": {
@@ -293,29 +247,29 @@
         "count": 1
       },
       "result": [
-        "explore"
+        "weighted"
       ]
     },
     "slot-04/author": {
       "input": {
         "options": {
-          "gecko404": 1,
-          "leafback7": 1,
-          "moss9": 1,
-          "mango27": 1,
+          "gecko404": 4,
+          "leafback7": 2,
+          "moss9": 2,
+          "mango27": 4,
           "nearthermo": 1,
-          "nightshift3": 1,
-          "peachcrumble": 1,
+          "nightshift3": 2,
+          "peachcrumble": 2,
           "slowblink": 1,
-          "smallhide2": 1,
-          "twosteps8": 1,
-          "wallafterdark": 1,
+          "smallhide2": 2,
+          "twosteps8": 2,
+          "wallafterdark": 2,
           "wednesday6": 1
         },
         "count": 1
       },
       "result": [
-        "moss9"
+        "twosteps8"
       ]
     },
     "slot-04/focus": {
@@ -376,7 +330,7 @@
         "count": 1
       },
       "result": [
-        "nearthermo"
+        "wednesday6"
       ]
     },
     "slot-05/focus": {
@@ -390,7 +344,7 @@
         "count": 1
       },
       "result": [
-        "present"
+        "outside-usual"
       ]
     },
     "slot-05/length": {
@@ -403,7 +357,107 @@
         "count": 1
       },
       "result": [
-        "brief"
+        "utterance"
+      ]
+    },
+    "slot-06/author-mode": {
+      "input": {
+        "options": {
+          "explore": 1,
+          "weighted": 4
+        },
+        "count": 1
+      },
+      "result": [
+        "weighted"
+      ]
+    },
+    "slot-06/author": {
+      "input": {
+        "options": {
+          "gecko404": 4,
+          "leafback7": 2,
+          "moss9": 2,
+          "mango27": 4,
+          "nearthermo": 1,
+          "nightshift3": 2,
+          "peachcrumble": 2,
+          "slowblink": 1,
+          "smallhide2": 2,
+          "twosteps8": 2,
+          "wallafterdark": 2,
+          "wednesday6": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "nightshift3"
+      ]
+    },
+    "slot-06/focus": {
+      "input": {
+        "options": {
+          "present": 3,
+          "own-history": 1,
+          "other-public": 1,
+          "outside-usual": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "present"
+      ]
+    },
+    "slot-06/length": {
+      "input": {
+        "options": {
+          "utterance": 2,
+          "brief": 3,
+          "expanded": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "utterance"
+      ]
+    },
+    "slot-01/public-source": {
+      "input": {
+        "options": {
+          "20261028-025234-571226230a": 1,
+          "20261028-134830-9a78f51667": 1,
+          "20261028-095147-0d81f07706": 1,
+          "20261029-195718-f50fa3d77b": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "20261028-095147-0d81f07706"
+      ]
+    },
+    "slot-01/notice": {
+      "input": {
+        "options": {
+          "notice": 1,
+          "skip": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "notice"
+      ]
+    },
+    "slot-01/reaction": {
+      "input": {
+        "options": {
+          "no-public-response": 3,
+          "ask-about-underneath": 1,
+          "share-own-hesitation": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "share-own-hesitation"
       ]
     }
   }
