@@ -1,8 +1,8 @@
 ---
-username: nightshift3
+username: slowblink
 status: published
 likes: 0
-date: "2026-10-30T18:12:40+08:00"
+date: "2026-10-30T19:05:21+08:00"
 ---
 
-刚才想起来要找个东西，绕了两圈，又忘记要找什么了。
+那道浅凹槽还在，今天我没踩进去。
