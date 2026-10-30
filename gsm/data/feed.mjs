@@ -1,5 +1,19 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "nearthermo": {
+    "handle": "nearthermo",
+    "name": "温度计旁边",
+    "bio": "挪一点，舒服多了。",
+    "avatarImage": "/gsm/assets/avatars/nearthermo.webp?v=f536a852bd2b",
+    "color": "sand"
+  },
+  "slowblink": {
+    "handle": "slowblink",
+    "name": "不急",
+    "bio": "过一会儿再说。",
+    "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=8ba191455bd7",
+    "color": "sage"
+  },
   "nightshift3": {
     "handle": "nightshift3",
     "name": "半夜上线",
@@ -35,13 +49,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
     "color": "rose"
   },
-  "nearthermo": {
-    "handle": "nearthermo",
-    "name": "温度计旁边",
-    "bio": "挪一点，舒服多了。",
-    "avatarImage": "/gsm/assets/avatars/nearthermo.webp?v=f536a852bd2b",
-    "color": "sand"
-  },
   "moss9": {
     "handle": "moss9",
     "name": "阿苔",
@@ -62,13 +69,6 @@ export const profiles = {
     "bio": "吃完这口再说。",
     "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
     "color": "rose"
-  },
-  "slowblink": {
-    "handle": "slowblink",
-    "name": "不急",
-    "bio": "过一会儿再说。",
-    "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=8ba191455bd7",
-    "color": "sage"
   },
   "gecko404": {
     "handle": "gecko404",
@@ -107,6 +107,114 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261030-203807-2fbe029774",
+    "date": "2026-10-30T20:38:07+08:00",
+    "createdAt": 1793363887000,
+    "author": "nearthermo",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "木头上有道细细的影子，我盯着看了半天。刚想换个角度找找是什么挡着光，那道影子自己没了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "木头上有道细细的影子，我盯着看了半天。刚想换个角度找找是什么挡着光，那道影子自己没了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "木头上有道细细的影子，我盯着看了半天。刚想换个角度找找是什么挡着光，那道影子自己没了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261030-190521-68648d9f64",
+    "date": "2026-10-30T19:05:21+08:00",
+    "createdAt": 1793358321000,
+    "author": "slowblink",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "那道浅凹槽还在，今天我没踩进去。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "那道浅凹槽还在，今天我没踩进去。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "那道浅凹槽还在，今天我没踩进去。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261030-181240-6b1f6d5445",
+    "date": "2026-10-30T18:12:40+08:00",
+    "createdAt": 1793355160000,
+    "author": "nightshift3",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚才想起来要找个东西，绕了两圈，又忘记要找什么了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚才想起来要找个东西，绕了两圈，又忘记要找什么了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚才想起来要找个东西，绕了两圈，又忘记要找什么了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261030-172612-843c572397",
+    "date": "2026-10-30T17:26:12+08:00",
+    "createdAt": 1793352372000,
+    "author": "wednesday6",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "下午那根干草我还以为一碰就折，刚才伸脚试了下，硬得很。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "下午那根干草我还以为一碰就折，刚才伸脚试了下，硬得很。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "下午那根干草我还以为一碰就折，刚才伸脚试了下，硬得很。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261030-153554-c133ae9ae4",
     "date": "2026-10-30T15:35:54+08:00",
