@@ -3,7 +3,7 @@
   "round": "2026-10-31/064723-561b",
   "baseline": "ab74f268c5bfeb97a0f57c86f941a5d2645f4f25",
   "target_posts": 2,
-  "closed": false,
+  "closed": true,
   "draws": {
     "review": {
       "input": {
