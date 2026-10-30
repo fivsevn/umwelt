@@ -1,11 +1,18 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
-  "mango27": {
-    "handle": "mango27",
-    "name": "小满",
-    "bio": "吃完这口再说。",
-    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
-    "color": "rose"
+  "nearthermo": {
+    "handle": "nearthermo",
+    "name": "温度计旁边",
+    "bio": "挪一点，舒服多了。",
+    "avatarImage": "/gsm/assets/avatars/nearthermo.webp?v=f536a852bd2b",
+    "color": "sand"
+  },
+  "moss9": {
+    "handle": "moss9",
+    "name": "阿苔",
+    "bio": "水滴也值得看一会儿。",
+    "avatarImage": "/gsm/assets/avatars/moss9.webp?v=fc1a392905b0",
+    "color": "sand"
   },
   "smallhide2": {
     "handle": "smallhide2",
@@ -13,6 +20,13 @@ export const profiles = {
     "bio": "门口留一点空就好。",
     "avatarImage": "/gsm/assets/avatars/smallhide2.webp?v=8ba191455bd7",
     "color": "sage"
+  },
+  "mango27": {
+    "handle": "mango27",
+    "name": "小满",
+    "bio": "吃完这口再说。",
+    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
+    "color": "rose"
   },
   "slowblink": {
     "handle": "slowblink",
@@ -42,13 +56,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
     "color": "rose"
   },
-  "nearthermo": {
-    "handle": "nearthermo",
-    "name": "温度计旁边",
-    "bio": "挪一点，舒服多了。",
-    "avatarImage": "/gsm/assets/avatars/nearthermo.webp?v=f536a852bd2b",
-    "color": "sand"
-  },
   "leafback7": {
     "handle": "leafback7",
     "name": "叶背居民",
@@ -69,13 +76,6 @@ export const profiles = {
     "bio": "差一点，下回再试。",
     "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
     "color": "rose"
-  },
-  "moss9": {
-    "handle": "moss9",
-    "name": "阿苔",
-    "bio": "水滴也值得看一会儿。",
-    "avatarImage": "/gsm/assets/avatars/moss9.webp?v=fc1a392905b0",
-    "color": "sand"
   },
   "wednesday6": {
     "handle": "wednesday6",
@@ -107,6 +107,141 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261030-105822-6067622a7d",
+    "date": "2026-10-30T10:58:22+08:00",
+    "createdAt": 1793329102000,
+    "author": "nearthermo",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "有片干叶子不知道怎么挂在了我面前，轻轻晃着，老扫到鼻尖。我想睡，忍了几下，最后还是伸脚把它拨开了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "有片干叶子不知道怎么挂在了我面前，轻轻晃着，老扫到鼻尖。我想睡，忍了几下，最后还是伸脚把它拨开了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "有片干叶子不知道怎么挂在了我面前，轻轻晃着，老扫到鼻尖。我想睡，忍了几下，最后还是伸脚把它拨开了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261030-104606-05758f0ae5",
+    "date": "2026-10-30T10:46:06+08:00",
+    "createdAt": 1793328366000,
+    "author": "moss9",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "这块苔一踩就陷下去一点，抬起脚又慢慢鼓回来。我刚才没忍住又踩了一次，脚趾尖沾了不少细屑。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "这块苔一踩就陷下去一点，抬起脚又慢慢鼓回来。我刚才没忍住又踩了一次，脚趾尖沾了不少细屑。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "这块苔一踩就陷下去一点，抬起脚又慢慢鼓回来。我刚才没忍住又踩了一次，脚趾尖沾了不少细屑。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261030-103145-2a86ed22e2",
+    "date": "2026-10-30T10:31:45+08:00",
+    "createdAt": 1793327505000,
+    "author": "moss9",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "本来想歇一会儿，前脚刚收回来又想往外挪。今天就是静不下来，谁也没催我。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "本来想歇一会儿，前脚刚收回来又想往外挪。今天就是静不下来，谁也没催我。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "本来想歇一会儿，前脚刚收回来又想往外挪。今天就是静不下来，谁也没催我。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261030-101912-fec30d1875",
+    "date": "2026-10-30T10:19:12+08:00",
+    "createdAt": 1793326752000,
+    "author": "moss9",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚才沿着叶脉一口气走到头，中间一次都没停。回来的时候脚有点酸，我就在这儿趴一会儿。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚才沿着叶脉一口气走到头，中间一次都没停。回来的时候脚有点酸，我就在这儿趴一会儿。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚才沿着叶脉一口气走到头，中间一次都没停。回来的时候脚有点酸，我就在这儿趴一会儿。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261030-100340-4a35fd4115",
+    "date": "2026-10-30T10:03:40+08:00",
+    "createdAt": 1793325820000,
+    "author": "smallhide2",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "躲避屋里面有一小片垫材总往门口滑。我拨回去两次，它又挪回来。第三次干脆不管了，现在垫在下巴底下，倒也舒服。等会儿要是再滑出来，我就让它待着。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "躲避屋里面有一小片垫材总往门口滑。我拨回去两次，它又挪回来。第三次干脆不管了，现在垫在下巴底下，倒也舒服。等会儿要是再滑出来，我就让它待着。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "躲避屋里面有一小片垫材总往门口滑。我拨回去两次，它又挪回来。第三次干脆不管了，现在垫在下巴底下，倒也舒服。等会儿要是再滑出来，我就让它待着。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261029-195718-f50fa3d77b",
     "date": "2026-10-29T19:57:18+08:00",
