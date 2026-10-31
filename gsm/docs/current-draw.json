@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "round": "2026-10-31/165520-7154",
-  "baseline": "258e1455b6574361dcbf1a05328395866e90ff1d",
-  "target_posts": 1,
-  "closed": true,
+  "round": "2026-10-31/215431-6067",
+  "baseline": "4a78bf799ec5f44c2fa0c14accd8906829ae31a4",
+  "target_posts": 4,
+  "closed": false,
   "draws": {
     "review": {
       "input": {
@@ -14,12 +14,13 @@
         "count": 1
       },
       "result": [
-        "ordinary"
+        "local"
       ]
     },
     "history": {
       "input": {
         "options": {
+          "20261028-234916-c3ef3fde30": 1,
           "20261028-184852-3b2696a50e": 1,
           "20261028-134830-9a78f51667": 1,
           "20261028-095147-0d81f07706": 1,
@@ -71,8 +72,8 @@
         "count": 2
       },
       "result": [
-        "20261025-115500-851162417c",
-        "20261019-123500-5a25431723"
+        "20261028-045042-3baad7727a",
+        "20261019-151100-8019cafb00"
       ]
     },
     "slot-1/author-mode": {
@@ -92,8 +93,8 @@
         "options": {
           "gecko404": 4,
           "leafback7": 2,
-          "moss9": 2,
           "mango27": 4,
+          "moss9": 2,
           "nearthermo": 1,
           "nightshift3": 2,
           "peachcrumble": 2,
@@ -106,7 +107,7 @@
         "count": 1
       },
       "result": [
-        "gecko404"
+        "mango27"
       ]
     },
     "slot-1/focus": {
@@ -136,17 +137,216 @@
         "utterance"
       ]
     },
-    "slot-1/other-public": {
+    "slot-2/author-mode": {
       "input": {
         "options": {
-          "20261031-071925-ccc8efb7af": 1,
-          "20261030-203807-2fbe029774": 1,
-          "20261030-140231-66f5101e98": 1
+          "explore": 1,
+          "weighted": 4
         },
         "count": 1
       },
       "result": [
-        "20261030-203807-2fbe029774"
+        "weighted"
+      ]
+    },
+    "slot-2/author": {
+      "input": {
+        "options": {
+          "gecko404": 4,
+          "leafback7": 2,
+          "mango27": 4,
+          "moss9": 2,
+          "nearthermo": 1,
+          "nightshift3": 2,
+          "peachcrumble": 2,
+          "slowblink": 1,
+          "smallhide2": 2,
+          "twosteps8": 2,
+          "wallafterdark": 2,
+          "wednesday6": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "gecko404"
+      ]
+    },
+    "slot-2/focus": {
+      "input": {
+        "options": {
+          "present": 3,
+          "own-history": 1,
+          "other-public": 1,
+          "outside-usual": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "own-history"
+      ]
+    },
+    "slot-2/length": {
+      "input": {
+        "options": {
+          "utterance": 2,
+          "brief": 3,
+          "expanded": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "utterance"
+      ]
+    },
+    "slot-3/author-mode": {
+      "input": {
+        "options": {
+          "explore": 1,
+          "weighted": 4
+        },
+        "count": 1
+      },
+      "result": [
+        "weighted"
+      ]
+    },
+    "slot-3/author": {
+      "input": {
+        "options": {
+          "gecko404": 4,
+          "leafback7": 2,
+          "mango27": 4,
+          "moss9": 2,
+          "nearthermo": 1,
+          "nightshift3": 2,
+          "peachcrumble": 2,
+          "slowblink": 1,
+          "smallhide2": 2,
+          "twosteps8": 2,
+          "wallafterdark": 2,
+          "wednesday6": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "mango27"
+      ]
+    },
+    "slot-3/focus": {
+      "input": {
+        "options": {
+          "present": 3,
+          "own-history": 1,
+          "other-public": 1,
+          "outside-usual": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "present"
+      ]
+    },
+    "slot-3/length": {
+      "input": {
+        "options": {
+          "utterance": 2,
+          "brief": 3,
+          "expanded": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "utterance"
+      ]
+    },
+    "slot-4/author-mode": {
+      "input": {
+        "options": {
+          "explore": 1,
+          "weighted": 4
+        },
+        "count": 1
+      },
+      "result": [
+        "weighted"
+      ]
+    },
+    "slot-4/author": {
+      "input": {
+        "options": {
+          "gecko404": 4,
+          "leafback7": 2,
+          "mango27": 4,
+          "moss9": 2,
+          "nearthermo": 1,
+          "nightshift3": 2,
+          "peachcrumble": 2,
+          "slowblink": 1,
+          "smallhide2": 2,
+          "twosteps8": 2,
+          "wallafterdark": 2,
+          "wednesday6": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "twosteps8"
+      ]
+    },
+    "slot-4/focus": {
+      "input": {
+        "options": {
+          "present": 3,
+          "own-history": 1,
+          "other-public": 1,
+          "outside-usual": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "other-public"
+      ]
+    },
+    "slot-4/length": {
+      "input": {
+        "options": {
+          "utterance": 2,
+          "brief": 3,
+          "expanded": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "expanded"
+      ]
+    },
+    "slot-1/other-public": {
+      "input": {
+        "options": {
+          "20261031-080310-c3af603410": 1,
+          "20261031-055840-e7ba684fc6": 1,
+          "20261030-104606-05758f0ae5": 1,
+          "20261028-015419-6d2a81f9e6": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "20261031-055840-e7ba684fc6"
+      ]
+    },
+    "slot-4/other-public": {
+      "input": {
+        "options": {
+          "20261030-122943-6f62fca28b": 1,
+          "20261030-131608-b7eb0a2c55": 1,
+          "20261028-095147-0d81f07706": 1,
+          "20261028-035126-30f204377e": 1,
+          "20261025-122200-9b51f4ddea": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "20261030-122943-6f62fca28b"
       ]
     },
     "slot-1/notice": {
@@ -158,7 +358,32 @@
         "count": 1
       },
       "result": [
+        "noticed"
+      ]
+    },
+    "slot-4/notice": {
+      "input": {
+        "options": {
+          "noticed": 1,
+          "missed": 1
+        },
+        "count": 1
+      },
+      "result": [
         "missed"
+      ]
+    },
+    "slot-1/response": {
+      "input": {
+        "options": {
+          "no-public": 3,
+          "ask-cleaning": 1,
+          "share-own-footsteps": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "no-public"
       ]
     }
   }
