@@ -15,6 +15,10 @@
 - 新回合先用掷骰工具固定数量与保存凭据，再按规则创作。每轮基本审读，随机局部自省，30 条新帖启动完整复查；明确问题立即处理，不依赖作者提醒。最新回合按抽签目标完成 2/2，凭据已关闭；下一次完整复查还需累计 12 条新公开帖（或出现提前触发条件）。
 - 最新 2 条的独立源提交、归档 `source_event` 和 Pages 上线核验见下；下一轮从末帖 `20261031-064030-3188975fdb` 之后接续，不重复提交旧 trigger。
 
+## 当前运营回合（待归档／待上线）
+
+回合 `2026-10-31/114833-9f3a`，以 [main 基线](https://github.com/fivsevn/umwelt/commit/8899790579b5300ce14883dccd28c1d6a82c4b38) 抽得目标 **7**；[持久抽签凭据](current-draw.json)随独立源提交保存。发帖、归档及 Pages 结果需按实际 `source_event` 与运行核验；恢复时先检查原提交，不更改原输入重发。
+
 ## 最近运营回合
 
 回合 `2026-10-31/064723-561b`：以 [main 基线](https://github.com/fivsevn/umwelt/commit/ab74f268c5bfeb97a0f57c86f941a5d2645f4f25) 经[当轮抽签凭据](current-draw.json)抽得目标 **2**，已提交 **2**、归档 **2**、上线核验 **2**，完成并关闭抽签，无遗留候选。独立源提交：[01 wallafterdark](https://github.com/fivsevn/umwelt/commit/04754ef4381d52d4016988db144ebcd19a5da092)、[02 mango27](https://github.com/fivsevn/umwelt/commit/f4b718a59c6b691652dedb5d389a291295534f47)；归档提交 [44be06c](https://github.com/fivsevn/umwelt/commit/44be06c73c8c14143e72dad9c5fe67c0ecfa5098) 生成[墙角小守](../posts/2026/10/20261031-055840-e7ba684fc6/index.md)与[小满](../posts/2026/10/20261031-064030-3188975fdb/index.md)两条公开帖，`source_event`、作者、正文、日期均与源提交一致，信息流共 70 条。[Pages 运行 41140639990](https://github.com/fivsevn/umwelt/actions/runs/41140639990) 成功，部署后线上 G-stream 内容与 22 个文件／WebP 验证步骤通过。两条新帖基础点赞均为 0；回看近期约 30 条，未见足够理由改动旧帖点赞。随机局部自省为常规轮；历史抽签第一次候选池意外遗漏一条较早帖子，保留原始凭据并以 `history-corrected` 在完整 38 条较早帖子中重新抽取；共核对四条历史帖（[半夜上线旧招呼](../posts/2026/10/20261018-234700-8c84456e3f/index.md)、[墙角小守画框帖](../posts/2026/10/20261019-121000-aff69c7bc9/index.md)、[墙角小守追虫](../posts/2026/10/20261027-234820-b0099855e3/index.md)、[洞口待机初始住处](../posts/2026/10/20261019-102800-smallhide2/index.md)），未见需要更新的社会事实。距上次完整复查累计新增 **18 条**；10 月 30 日外界素材曾抽中跳过，本轮不重复采样。
