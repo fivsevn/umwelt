@@ -1,10 +1,10 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
-  "twosteps8": {
-    "handle": "twosteps8",
-    "name": "两步远",
-    "bio": "出去看看，顺便认路。",
-    "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
+  "leafback7": {
+    "handle": "leafback7",
+    "name": "叶背居民",
+    "bio": "这片叶子上的路，我蛮熟的。",
+    "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
     "color": "rose"
   },
   "mango27": {
@@ -26,6 +26,13 @@ export const profiles = {
     "name": "桃酥",
     "bio": "差一点，下回再试。",
     "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
+    "color": "rose"
+  },
+  "twosteps8": {
+    "handle": "twosteps8",
+    "name": "两步远",
+    "bio": "出去看看，顺便认路。",
+    "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
     "color": "rose"
   },
   "wednesday6": {
@@ -70,13 +77,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=8ba191455bd7",
     "color": "sage"
   },
-  "leafback7": {
-    "handle": "leafback7",
-    "name": "叶背居民",
-    "bio": "这片叶子上的路，我蛮熟的。",
-    "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
-    "color": "rose"
-  },
   "moss9": {
     "handle": "moss9",
     "name": "阿苔",
@@ -107,6 +107,141 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261101-024740-324b42e68e",
+    "date": "2026-11-01T02:47:40+08:00",
+    "createdAt": 1793472460000,
+    "author": "leafback7",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "叶尖那一截还卷着，我今天就没走边上。中间那条粗叶脉本来嫌它绕，真正踩上去倒是稳稳当当。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "叶尖那一截还卷着，我今天就没走边上。中间那条粗叶脉本来嫌它绕，真正踩上去倒是稳稳当当。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "叶尖那一截还卷着，我今天就没走边上。中间那条粗叶脉本来嫌它绕，真正踩上去倒是稳稳当当。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261101-014315-5fd713fda0",
+    "date": "2026-11-01T01:43:15+08:00",
+    "createdAt": 1793468595000,
+    "author": "mango27",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "昨天下巴被碎屑硌了一下，今天我趴下来之前特地用鼻尖拱了拱那块地方。没东西了，这回能安稳趴着了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "昨天下巴被碎屑硌了一下，今天我趴下来之前特地用鼻尖拱了拱那块地方。没东西了，这回能安稳趴着了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "昨天下巴被碎屑硌了一下，今天我趴下来之前特地用鼻尖拱了拱那块地方。没东西了，这回能安稳趴着了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261101-003125-4b5829e7bb",
+    "date": "2026-11-01T00:31:25+08:00",
+    "createdAt": 1793464285000,
+    "author": "gecko404",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚才一只很小的虫钻进玻璃边框的缝里。我沿着边框找了一圈，也不知道它会从哪里出来。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚才一只很小的虫钻进玻璃边框的缝里。我沿着边框找了一圈，也不知道它会从哪里出来。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚才一只很小的虫钻进玻璃边框的缝里。我沿着边框找了一圈，也不知道它会从哪里出来。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261031-234650-86c2fe8da9",
+    "date": "2026-10-31T23:46:50+08:00",
+    "createdAt": 1793461610000,
+    "author": "mango27",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "我又去顶碗边那块硬东西了。它没进碗，只顺着边沿滑了一小段，鼻尖弄得我有点痒。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "我又去顶碗边那块硬东西了。它没进碗，只顺着边沿滑了一小段，鼻尖弄得我有点痒。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "我又去顶碗边那块硬东西了。它没进碗，只顺着边沿滑了一小段，鼻尖弄得我有点痒。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261031-222910-a3e23dc089",
+    "date": "2026-10-31T22:29:10+08:00",
+    "createdAt": 1793456950000,
+    "author": "peachcrumble",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "那块石头凉下来了，趴着也不怎么舒服。我刚想换个地方，才发现尾巴下面一直压着半片干叶子，起身的时候还跟着拖了两步。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "那块石头凉下来了，趴着也不怎么舒服。我刚想换个地方，才发现尾巴下面一直压着半片干叶子，起身的时候还跟着拖了两步。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "那块石头凉下来了，趴着也不怎么舒服。我刚想换个地方，才发现尾巴下面一直压着半片干叶子，起身的时候还跟着拖了两步。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261031-214405-bbb2417dca",
     "date": "2026-10-31T21:44:05+08:00",
