@@ -1,8 +1,8 @@
 ---
-username: peachcrumble
+username: smallhide2
 status: published
 likes: 0
-date: "2026-10-31T08:03:10+08:00"
+date: "2026-10-31T08:46:50+08:00"
 ---
 
-哎，那只虫贴着我鼻尖飞过去了。
+躲避屋门口一直有擦擦的声音。我在里面听了好一会儿，声音不大，但就是没停。
