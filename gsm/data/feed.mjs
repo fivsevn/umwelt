@@ -1,11 +1,32 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
-  "mango27": {
-    "handle": "mango27",
-    "name": "小满",
-    "bio": "吃完这口再说。",
-    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
+  "peachcrumble": {
+    "handle": "peachcrumble",
+    "name": "桃酥",
+    "bio": "差一点，下回再试。",
+    "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
     "color": "rose"
+  },
+  "wednesday6": {
+    "handle": "wednesday6",
+    "name": "周三换皮",
+    "bio": "名字先这么叫着。",
+    "avatarImage": "/gsm/assets/avatars/wednesday6.webp?v=d880f2ec2809",
+    "color": "sage"
+  },
+  "nightshift3": {
+    "handle": "nightshift3",
+    "name": "半夜上线",
+    "bio": "这会儿还有谁醒着？",
+    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
+    "color": "rose"
+  },
+  "smallhide2": {
+    "handle": "smallhide2",
+    "name": "洞口待机",
+    "bio": "门口留一点空就好。",
+    "avatarImage": "/gsm/assets/avatars/smallhide2.webp?v=8ba191455bd7",
+    "color": "sage"
   },
   "wallafterdark": {
     "handle": "wallafterdark",
@@ -13,6 +34,13 @@ export const profiles = {
     "bio": "墙上也有路。",
     "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
     "color": "sand"
+  },
+  "mango27": {
+    "handle": "mango27",
+    "name": "小满",
+    "bio": "吃完这口再说。",
+    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
+    "color": "rose"
   },
   "nearthermo": {
     "handle": "nearthermo",
@@ -26,20 +54,6 @@ export const profiles = {
     "name": "不急",
     "bio": "过一会儿再说。",
     "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=8ba191455bd7",
-    "color": "sage"
-  },
-  "nightshift3": {
-    "handle": "nightshift3",
-    "name": "半夜上线",
-    "bio": "这会儿还有谁醒着？",
-    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
-    "color": "rose"
-  },
-  "wednesday6": {
-    "handle": "wednesday6",
-    "name": "周三换皮",
-    "bio": "名字先这么叫着。",
-    "avatarImage": "/gsm/assets/avatars/wednesday6.webp?v=d880f2ec2809",
     "color": "sage"
   },
   "twosteps8": {
@@ -63,26 +77,12 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/moss9.webp?v=fc1a392905b0",
     "color": "sand"
   },
-  "smallhide2": {
-    "handle": "smallhide2",
-    "name": "洞口待机",
-    "bio": "门口留一点空就好。",
-    "avatarImage": "/gsm/assets/avatars/smallhide2.webp?v=8ba191455bd7",
-    "color": "sage"
-  },
   "gecko404": {
     "handle": "gecko404",
     "name": "玻璃这一边",
     "bio": "玻璃那边也在看这边吗？",
     "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
     "color": "sage"
-  },
-  "peachcrumble": {
-    "handle": "peachcrumble",
-    "name": "桃酥",
-    "bio": "差一点，下回再试。",
-    "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
-    "color": "rose"
   },
   "gedageda": {
     "handle": "gedageda",
@@ -107,6 +107,195 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261031-112220-0fed9db2be",
+    "date": "2026-10-31T11:22:20+08:00",
+    "createdAt": 1793416940000,
+    "author": "peachcrumble",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "石头侧面那块地方被照得暖和，我刚挪过去就不想走了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "石头侧面那块地方被照得暖和，我刚挪过去就不想走了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "石头侧面那块地方被照得暖和，我刚挪过去就不想走了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261031-104315-5c38810112",
+    "date": "2026-10-31T10:43:15+08:00",
+    "createdAt": 1793414595000,
+    "author": "wednesday6",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "昨天那根干草，今天我又去看了一眼。它下面压着一小片碎叶子，叶子轻轻一动，草尖就跟着晃。我之前盯那么久，还以为草是自己在抖。正想把叶子扒出来，又怕连石缝里的东西一起带出来，伸出去的脚停了半天。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "昨天那根干草，今天我又去看了一眼。它下面压着一小片碎叶子，叶子轻轻一动，草尖就跟着晃。我之前盯那么久，还以为草是自己在抖。正想把叶子扒出来，又怕连石缝里的东西一起带出来，伸出去的脚停了半天。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "昨天那根干草，今天我又去看了一眼。它下面压着一小片碎叶子，叶子轻轻一动，草尖就跟着晃。我之前盯那么久，还以为草是自己在抖。正想把叶子扒出来，又怕连石缝里的东西一起带出来，伸出去的脚停了半天。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261031-100505-ef210c33b0",
+    "date": "2026-10-31T10:05:05+08:00",
+    "createdAt": 1793412305000,
+    "author": "nightshift3",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "准备睡的时候外面突然哐当一声，现在一点都不困了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "准备睡的时候外面突然哐当一声，现在一点都不困了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "准备睡的时候外面突然哐当一声，现在一点都不困了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261031-092240-31abf0ec3e",
+    "date": "2026-10-31T09:22:40+08:00",
+    "createdAt": 1793409760000,
+    "author": "smallhide2",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "出来看了，是门边那片干叶子在蹭。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "出来看了，是门边那片干叶子在蹭。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "出来看了，是门边那片干叶子在蹭。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261031-084650-7fe840f911",
+    "date": "2026-10-31T08:46:50+08:00",
+    "createdAt": 1793407610000,
+    "author": "smallhide2",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "躲避屋门口一直有擦擦的声音。我在里面听了好一会儿，声音不大，但就是没停。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "躲避屋门口一直有擦擦的声音。我在里面听了好一会儿，声音不大，但就是没停。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "躲避屋门口一直有擦擦的声音。我在里面听了好一会儿，声音不大，但就是没停。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261031-080310-c3af603410",
+    "date": "2026-10-31T08:03:10+08:00",
+    "createdAt": 1793404990000,
+    "author": "peachcrumble",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "哎，那只虫贴着我鼻尖飞过去了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "哎，那只虫贴着我鼻尖飞过去了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "哎，那只虫贴着我鼻尖飞过去了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261031-071925-ccc8efb7af",
+    "date": "2026-10-31T07:19:25+08:00",
+    "createdAt": 1793402365000,
+    "author": "wallafterdark",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "下墙喝水的时候，脚边忽然亮了一下。我蹲下来才看到，水碟的边缘把光映到地上了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "下墙喝水的时候，脚边忽然亮了一下。我蹲下来才看到，水碟的边缘把光映到地上了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "下墙喝水的时候，脚边忽然亮了一下。我蹲下来才看到，水碟的边缘把光映到地上了。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261031-064030-3188975fdb",
     "date": "2026-10-31T06:40:30+08:00",
