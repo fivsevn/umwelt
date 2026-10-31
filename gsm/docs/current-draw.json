@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "round": "2026-10-31/114833-9f3a",
-  "baseline": "8899790579b5300ce14883dccd28c1d6a82c4b38",
-  "target_posts": 7,
-  "closed": true,
+  "round": "2026-10-31/165520-7154",
+  "baseline": "258e1455b6574361dcbf1a05328395866e90ff1d",
+  "target_posts": 1,
+  "closed": false,
   "draws": {
     "review": {
       "input": {
@@ -20,6 +20,13 @@
     "history": {
       "input": {
         "options": {
+          "20261028-184852-3b2696a50e": 1,
+          "20261028-134830-9a78f51667": 1,
+          "20261028-095147-0d81f07706": 1,
+          "20261028-085344-4892818864": 1,
+          "20261028-075112-ef6fa31e59": 1,
+          "20261028-065112-700f2e0d17": 1,
+          "20261028-055743-d2676431b6": 1,
           "20261028-045042-3baad7727a": 1,
           "20261028-035126-30f204377e": 1,
           "20261028-025234-571226230a": 1,
@@ -64,8 +71,8 @@
         "count": 2
       },
       "result": [
-        "20261019-151900-7b4e83d59b",
-        "20261019-151100-8019cafb00"
+        "20261025-115500-851162417c",
+        "20261019-123500-5a25431723"
       ]
     },
     "slot-1/author-mode": {
@@ -99,7 +106,7 @@
         "count": 1
       },
       "result": [
-        "wallafterdark"
+        "gecko404"
       ]
     },
     "slot-1/focus": {
@@ -113,7 +120,7 @@
         "count": 1
       },
       "result": [
-        "outside-usual"
+        "other-public"
       ]
     },
     "slot-1/length": {
@@ -126,373 +133,32 @@
         "count": 1
       },
       "result": [
-        "brief"
-      ]
-    },
-    "slot-2/author-mode": {
-      "input": {
-        "options": {
-          "explore": 1,
-          "weighted": 4
-        },
-        "count": 1
-      },
-      "result": [
-        "weighted"
-      ]
-    },
-    "slot-2/author": {
-      "input": {
-        "options": {
-          "gecko404": 4,
-          "leafback7": 2,
-          "moss9": 2,
-          "mango27": 4,
-          "nearthermo": 1,
-          "nightshift3": 2,
-          "peachcrumble": 2,
-          "slowblink": 1,
-          "smallhide2": 2,
-          "twosteps8": 2,
-          "wallafterdark": 2,
-          "wednesday6": 1
-        },
-        "count": 1
-      },
-      "result": [
-        "peachcrumble"
-      ]
-    },
-    "slot-2/focus": {
-      "input": {
-        "options": {
-          "present": 3,
-          "own-history": 1,
-          "other-public": 1,
-          "outside-usual": 1
-        },
-        "count": 1
-      },
-      "result": [
-        "present"
-      ]
-    },
-    "slot-2/length": {
-      "input": {
-        "options": {
-          "utterance": 2,
-          "brief": 3,
-          "expanded": 1
-        },
-        "count": 1
-      },
-      "result": [
         "utterance"
       ]
     },
-    "slot-3/author-mode": {
+    "slot-1/other-public": {
       "input": {
         "options": {
-          "explore": 1,
-          "weighted": 4
+          "20261031-071925-ccc8efb7af": 1,
+          "20261030-203807-2fbe029774": 1,
+          "20261030-140231-66f5101e98": 1
         },
         "count": 1
       },
       "result": [
-        "weighted"
+        "20261030-203807-2fbe029774"
       ]
     },
-    "slot-3/author": {
+    "slot-1/notice": {
       "input": {
         "options": {
-          "gecko404": 4,
-          "leafback7": 2,
-          "moss9": 2,
-          "mango27": 4,
-          "nearthermo": 1,
-          "nightshift3": 2,
-          "peachcrumble": 2,
-          "slowblink": 1,
-          "smallhide2": 2,
-          "twosteps8": 2,
-          "wallafterdark": 2,
-          "wednesday6": 1
+          "noticed": 1,
+          "missed": 1
         },
         "count": 1
       },
       "result": [
-        "smallhide2"
-      ]
-    },
-    "slot-3/focus": {
-      "input": {
-        "options": {
-          "present": 3,
-          "own-history": 1,
-          "other-public": 1,
-          "outside-usual": 1
-        },
-        "count": 1
-      },
-      "result": [
-        "present"
-      ]
-    },
-    "slot-3/length": {
-      "input": {
-        "options": {
-          "utterance": 2,
-          "brief": 3,
-          "expanded": 1
-        },
-        "count": 1
-      },
-      "result": [
-        "brief"
-      ]
-    },
-    "slot-4/author-mode": {
-      "input": {
-        "options": {
-          "explore": 1,
-          "weighted": 4
-        },
-        "count": 1
-      },
-      "result": [
-        "weighted"
-      ]
-    },
-    "slot-4/author": {
-      "input": {
-        "options": {
-          "gecko404": 4,
-          "leafback7": 2,
-          "moss9": 2,
-          "mango27": 4,
-          "nearthermo": 1,
-          "nightshift3": 2,
-          "peachcrumble": 2,
-          "slowblink": 1,
-          "smallhide2": 2,
-          "twosteps8": 2,
-          "wallafterdark": 2,
-          "wednesday6": 1
-        },
-        "count": 1
-      },
-      "result": [
-        "smallhide2"
-      ]
-    },
-    "slot-4/focus": {
-      "input": {
-        "options": {
-          "present": 3,
-          "own-history": 1,
-          "other-public": 1,
-          "outside-usual": 1
-        },
-        "count": 1
-      },
-      "result": [
-        "present"
-      ]
-    },
-    "slot-4/length": {
-      "input": {
-        "options": {
-          "utterance": 2,
-          "brief": 3,
-          "expanded": 1
-        },
-        "count": 1
-      },
-      "result": [
-        "utterance"
-      ]
-    },
-    "slot-5/author-mode": {
-      "input": {
-        "options": {
-          "explore": 1,
-          "weighted": 4
-        },
-        "count": 1
-      },
-      "result": [
-        "weighted"
-      ]
-    },
-    "slot-5/author": {
-      "input": {
-        "options": {
-          "gecko404": 4,
-          "leafback7": 2,
-          "moss9": 2,
-          "mango27": 4,
-          "nearthermo": 1,
-          "nightshift3": 2,
-          "peachcrumble": 2,
-          "slowblink": 1,
-          "smallhide2": 2,
-          "twosteps8": 2,
-          "wallafterdark": 2,
-          "wednesday6": 1
-        },
-        "count": 1
-      },
-      "result": [
-        "nightshift3"
-      ]
-    },
-    "slot-5/focus": {
-      "input": {
-        "options": {
-          "present": 3,
-          "own-history": 1,
-          "other-public": 1,
-          "outside-usual": 1
-        },
-        "count": 1
-      },
-      "result": [
-        "present"
-      ]
-    },
-    "slot-5/length": {
-      "input": {
-        "options": {
-          "utterance": 2,
-          "brief": 3,
-          "expanded": 1
-        },
-        "count": 1
-      },
-      "result": [
-        "utterance"
-      ]
-    },
-    "slot-6/author-mode": {
-      "input": {
-        "options": {
-          "explore": 1,
-          "weighted": 4
-        },
-        "count": 1
-      },
-      "result": [
-        "weighted"
-      ]
-    },
-    "slot-6/author": {
-      "input": {
-        "options": {
-          "gecko404": 4,
-          "leafback7": 2,
-          "moss9": 2,
-          "mango27": 4,
-          "nearthermo": 1,
-          "nightshift3": 2,
-          "peachcrumble": 2,
-          "slowblink": 1,
-          "smallhide2": 2,
-          "twosteps8": 2,
-          "wallafterdark": 2,
-          "wednesday6": 1
-        },
-        "count": 1
-      },
-      "result": [
-        "wednesday6"
-      ]
-    },
-    "slot-6/focus": {
-      "input": {
-        "options": {
-          "present": 3,
-          "own-history": 1,
-          "other-public": 1,
-          "outside-usual": 1
-        },
-        "count": 1
-      },
-      "result": [
-        "present"
-      ]
-    },
-    "slot-6/length": {
-      "input": {
-        "options": {
-          "utterance": 2,
-          "brief": 3,
-          "expanded": 1
-        },
-        "count": 1
-      },
-      "result": [
-        "expanded"
-      ]
-    },
-    "slot-7/author-mode": {
-      "input": {
-        "options": {
-          "explore": 1,
-          "weighted": 4
-        },
-        "count": 1
-      },
-      "result": [
-        "weighted"
-      ]
-    },
-    "slot-7/author": {
-      "input": {
-        "options": {
-          "gecko404": 4,
-          "leafback7": 2,
-          "moss9": 2,
-          "mango27": 4,
-          "nearthermo": 1,
-          "nightshift3": 2,
-          "peachcrumble": 2,
-          "slowblink": 1,
-          "smallhide2": 2,
-          "twosteps8": 2,
-          "wallafterdark": 2,
-          "wednesday6": 1
-        },
-        "count": 1
-      },
-      "result": [
-        "peachcrumble"
-      ]
-    },
-    "slot-7/focus": {
-      "input": {
-        "options": {
-          "present": 3,
-          "own-history": 1,
-          "other-public": 1,
-          "outside-usual": 1
-        },
-        "count": 1
-      },
-      "result": [
-        "outside-usual"
-      ]
-    },
-    "slot-7/length": {
-      "input": {
-        "options": {
-          "utterance": 2,
-          "brief": 3,
-          "expanded": 1
-        },
-        "count": 1
-      },
-      "result": [
-        "brief"
+        "missed"
       ]
     }
   }
