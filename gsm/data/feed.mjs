@@ -1,5 +1,19 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "twosteps8": {
+    "handle": "twosteps8",
+    "name": "两步远",
+    "bio": "出去看看，顺便认路。",
+    "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
+    "color": "rose"
+  },
+  "mango27": {
+    "handle": "mango27",
+    "name": "小满",
+    "bio": "吃完这口再说。",
+    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
+    "color": "rose"
+  },
   "gecko404": {
     "handle": "gecko404",
     "name": "玻璃这一边",
@@ -42,13 +56,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
     "color": "sand"
   },
-  "mango27": {
-    "handle": "mango27",
-    "name": "小满",
-    "bio": "吃完这口再说。",
-    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
-    "color": "rose"
-  },
   "nearthermo": {
     "handle": "nearthermo",
     "name": "温度计旁边",
@@ -62,13 +69,6 @@ export const profiles = {
     "bio": "过一会儿再说。",
     "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=8ba191455bd7",
     "color": "sage"
-  },
-  "twosteps8": {
-    "handle": "twosteps8",
-    "name": "两步远",
-    "bio": "出去看看，顺便认路。",
-    "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
-    "color": "rose"
   },
   "leafback7": {
     "handle": "leafback7",
@@ -107,6 +107,114 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261031-214405-bbb2417dca",
+    "date": "2026-10-31T21:44:05+08:00",
+    "createdAt": 1793454245000,
+    "author": "twosteps8",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "今天没走昨天那段窄路，我沿着石头另一侧慢慢往前挪。那边有两块差不多的碎石，出去的时候我记住了靠外面那块，回来却怎么也分不清了。最后还是退回到大石头边上，绕原路回来。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "今天没走昨天那段窄路，我沿着石头另一侧慢慢往前挪。那边有两块差不多的碎石，出去的时候我记住了靠外面那块，回来却怎么也分不清了。最后还是退回到大石头边上，绕原路回来。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "今天没走昨天那段窄路，我沿着石头另一侧慢慢往前挪。那边有两块差不多的碎石，出去的时候我记住了靠外面那块，回来却怎么也分不清了。最后还是退回到大石头边上，绕原路回来。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261031-201440-20345c1c64",
+    "date": "2026-10-31T20:14:40+08:00",
+    "createdAt": 1793448880000,
+    "author": "mango27",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚趴下来就觉得下巴底下硌得慌，我把那块碎屑拨到旁边了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚趴下来就觉得下巴底下硌得慌，我把那块碎屑拨到旁边了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚趴下来就觉得下巴底下硌得慌，我把那块碎屑拨到旁边了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261031-190315-f5c8b5d878",
+    "date": "2026-10-31T19:03:15+08:00",
+    "createdAt": 1793444595000,
+    "author": "gecko404",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "玻璃上那张纸还贴着。我换到旁边看，人走过去的时候能看见半个影子。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "玻璃上那张纸还贴着。我换到旁边看，人走过去的时候能看见半个影子。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "玻璃上那张纸还贴着。我换到旁边看，人走过去的时候能看见半个影子。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261031-174220-e9d55bcf2e",
+    "date": "2026-10-31T17:42:20+08:00",
+    "createdAt": 1793439740000,
+    "author": "mango27",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "碗边那块垫材松了，我扒了两下，差点把碗也推走。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "碗边那块垫材松了，我扒了两下，差点把碗也推走。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "碗边那块垫材松了，我扒了两下，差点把碗也推走。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261031-165600-a7b87104f8",
     "date": "2026-10-31T16:56:00+08:00",
