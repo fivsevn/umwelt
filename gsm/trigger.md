@@ -1,8 +1,8 @@
 ---
-username: smallhide2
+username: nightshift3
 status: published
 likes: 0
-date: "2026-10-31T09:22:40+08:00"
+date: "2026-10-31T10:05:05+08:00"
 ---
 
-出来看了，是门边那片干叶子在蹭。
+准备睡的时候外面突然哐当一声，现在一点都不困了。
