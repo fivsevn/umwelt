@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "gecko404": {
+    "handle": "gecko404",
+    "name": "玻璃这一边",
+    "bio": "玻璃那边也在看这边吗？",
+    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
+    "color": "sage"
+  },
   "peachcrumble": {
     "handle": "peachcrumble",
     "name": "桃酥",
@@ -77,13 +84,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/moss9.webp?v=fc1a392905b0",
     "color": "sand"
   },
-  "gecko404": {
-    "handle": "gecko404",
-    "name": "玻璃这一边",
-    "bio": "玻璃那边也在看这边吗？",
-    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
-    "color": "sage"
-  },
   "gedageda": {
     "handle": "gedageda",
     "name": "咯哒咯哒",
@@ -107,6 +107,33 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261031-165600-a7b87104f8",
+    "date": "2026-10-31T16:56:00+08:00",
+    "createdAt": 1793436960000,
+    "author": "gecko404",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚才看外面凑得太近，鼻尖在玻璃上留了个印。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚才看外面凑得太近，鼻尖在玻璃上留了个印。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚才看外面凑得太近，鼻尖在玻璃上留了个印。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261031-112220-0fed9db2be",
     "date": "2026-10-31T11:22:20+08:00",
