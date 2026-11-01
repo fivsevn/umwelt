@@ -1387,6 +1387,25 @@
       "previous": 0,
       "at": "2026-11-02T03:54:00+08:00",
       "likes": 0
+    },
+    "f10c23a53fa7034f9adf619b08abca4f17d53f78c0c03c6b11316eb59154adaf": {
+      "source": {
+        "username": "moss9",
+        "date": "2026-11-02T00:51:20+08:00",
+        "body_sha256": "a391aa8852435ea554dd9219a6ca29fef3fe736221cc6776c5048cd1cca37bf0"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "low",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "短暂陌生气味不依赖前情但信息较少，无相应公开往返，夜间注意有限。"
+      },
+      "seed": "d52abcd8871a2bbb3a54389be7249e2d",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-02T03:54:00+08:00",
+      "likes": 1
     }
   }
 }
