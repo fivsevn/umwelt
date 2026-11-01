@@ -1,26 +1,5 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
-  "nearthermo": {
-    "handle": "nearthermo",
-    "name": "温度计旁边",
-    "bio": "挪一点，舒服多了。",
-    "avatarImage": "/gsm/assets/avatars/nearthermo.webp?v=f536a852bd2b",
-    "color": "sand"
-  },
-  "gecko404": {
-    "handle": "gecko404",
-    "name": "玻璃这一边",
-    "bio": "玻璃那边也在看这边吗？",
-    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
-    "color": "sage"
-  },
-  "leafback7": {
-    "handle": "leafback7",
-    "name": "叶背居民",
-    "bio": "这片叶子上的路，我蛮熟的。",
-    "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
-    "color": "rose"
-  },
   "mango27": {
     "handle": "mango27",
     "name": "小满",
@@ -33,6 +12,48 @@ export const profiles = {
     "name": "桃酥",
     "bio": "差一点，下回再试。",
     "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
+    "color": "rose"
+  },
+  "wallafterdark": {
+    "handle": "wallafterdark",
+    "name": "墙角小守",
+    "bio": "墙上也有路。",
+    "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
+    "color": "sand"
+  },
+  "moss9": {
+    "handle": "moss9",
+    "name": "阿苔",
+    "bio": "水滴也值得看一会儿。",
+    "avatarImage": "/gsm/assets/avatars/moss9.webp?v=fc1a392905b0",
+    "color": "sand"
+  },
+  "gecko404": {
+    "handle": "gecko404",
+    "name": "玻璃这一边",
+    "bio": "玻璃那边也在看这边吗？",
+    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
+    "color": "sage"
+  },
+  "smallhide2": {
+    "handle": "smallhide2",
+    "name": "洞口待机",
+    "bio": "门口留一点空就好。",
+    "avatarImage": "/gsm/assets/avatars/smallhide2.webp?v=8ba191455bd7",
+    "color": "sage"
+  },
+  "nearthermo": {
+    "handle": "nearthermo",
+    "name": "温度计旁边",
+    "bio": "挪一点，舒服多了。",
+    "avatarImage": "/gsm/assets/avatars/nearthermo.webp?v=f536a852bd2b",
+    "color": "sand"
+  },
+  "leafback7": {
+    "handle": "leafback7",
+    "name": "叶背居民",
+    "bio": "这片叶子上的路，我蛮熟的。",
+    "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
     "color": "rose"
   },
   "twosteps8": {
@@ -56,33 +77,12 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
     "color": "rose"
   },
-  "smallhide2": {
-    "handle": "smallhide2",
-    "name": "洞口待机",
-    "bio": "门口留一点空就好。",
-    "avatarImage": "/gsm/assets/avatars/smallhide2.webp?v=8ba191455bd7",
-    "color": "sage"
-  },
-  "wallafterdark": {
-    "handle": "wallafterdark",
-    "name": "墙角小守",
-    "bio": "墙上也有路。",
-    "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
-    "color": "sand"
-  },
   "slowblink": {
     "handle": "slowblink",
     "name": "不急",
     "bio": "过一会儿再说。",
     "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=8ba191455bd7",
     "color": "sage"
-  },
-  "moss9": {
-    "handle": "moss9",
-    "name": "阿苔",
-    "bio": "水滴也值得看一会儿。",
-    "avatarImage": "/gsm/assets/avatars/moss9.webp?v=fc1a392905b0",
-    "color": "sand"
   },
   "gedageda": {
     "handle": "gedageda",
@@ -107,6 +107,195 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261101-171245-f50ebc19ec",
+    "date": "2026-11-01T17:12:45+08:00",
+    "createdAt": 1793524365000,
+    "author": "mango27",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "吃东西的时候才发现，我一直把后脚搭在碗沿上，怪不得碗老是轻轻晃。我想收脚，又怕一动把碗碰翻，就那么别扭地停了一会儿。后来慢慢挪开，碗还好好的。剩下那一点还在里面，我打算换个方向再吃。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "吃东西的时候才发现，我一直把后脚搭在碗沿上，怪不得碗老是轻轻晃。我想收脚，又怕一动把碗碰翻，就那么别扭地停了一会儿。后来慢慢挪开，碗还好好的。剩下那一点还在里面，我打算换个方向再吃。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "吃东西的时候才发现，我一直把后脚搭在碗沿上，怪不得碗老是轻轻晃。我想收脚，又怕一动把碗碰翻，就那么别扭地停了一会儿。后来慢慢挪开，碗还好好的。剩下那一点还在里面，我打算换个方向再吃。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261101-162815-54a5e04396",
+    "date": "2026-11-01T16:28:15+08:00",
+    "createdAt": 1793521695000,
+    "author": "peachcrumble",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "外面有人在哼歌，同一小段调子唱了好几遍。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "外面有人在哼歌，同一小段调子唱了好几遍。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "外面有人在哼歌，同一小段调子唱了好几遍。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261101-155135-d2eec6de49",
+    "date": "2026-11-01T15:51:35+08:00",
+    "createdAt": 1793519495000,
+    "author": "mango27",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "昨晚那块硬东西还在碗边，今天去看已经不在原来的位置。我绕到另一侧才找到它，卡在一撮垫材里，还露着一点边。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "昨晚那块硬东西还在碗边，今天去看已经不在原来的位置。我绕到另一侧才找到它，卡在一撮垫材里，还露着一点边。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "昨晚那块硬东西还在碗边，今天去看已经不在原来的位置。我绕到另一侧才找到它，卡在一撮垫材里，还露着一点边。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261101-152210-4cbd7e323a",
+    "date": "2026-11-01T15:22:10+08:00",
+    "createdAt": 1793517730000,
+    "author": "wallafterdark",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "画下面那颗钉子还是挡路。刚才贴墙走得够慢了，尾巴照样碰了一下。明明有那么大一面墙，偏偏钉在这儿。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "画下面那颗钉子还是挡路。刚才贴墙走得够慢了，尾巴照样碰了一下。明明有那么大一面墙，偏偏钉在这儿。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "画下面那颗钉子还是挡路。刚才贴墙走得够慢了，尾巴照样碰了一下。明明有那么大一面墙，偏偏钉在这儿。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261101-143455-5cd9e14a23",
+    "date": "2026-11-01T14:34:55+08:00",
+    "createdAt": 1793514895000,
+    "author": "moss9",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "苔缝里藏着一小滴水，低头的时候差点碰到鼻尖。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "苔缝里藏着一小滴水，低头的时候差点碰到鼻尖。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "苔缝里藏着一小滴水，低头的时候差点碰到鼻尖。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261101-135620-3702da43f7",
+    "date": "2026-11-01T13:56:20+08:00",
+    "createdAt": 1793512580000,
+    "author": "gecko404",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚从那道窄缝退出来，肚皮上沾了一层细灰。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚从那道窄缝退出来，肚皮上沾了一层细灰。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚从那道窄缝退出来，肚皮上沾了一层细灰。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261101-131740-10f164f0ff",
+    "date": "2026-11-01T13:17:40+08:00",
+    "createdAt": 1793510260000,
+    "author": "smallhide2",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "躲避屋里那片垫材这几天老往门口滑，我已经拨回去好几次了。今天出去之前回头看，才发现自己转身的时候尾巴会带到它，薄薄的一片就跟着往外跑。我把它推到里面靠墙的位置，回来趴下却发现下巴少了个能垫着的地方。先不动了，等下次休息时再慢慢弄。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "躲避屋里那片垫材这几天老往门口滑，我已经拨回去好几次了。今天出去之前回头看，才发现自己转身的时候尾巴会带到它，薄薄的一片就跟着往外跑。我把它推到里面靠墙的位置，回来趴下却发现下巴少了个能垫着的地方。先不动了，等下次休息时再慢慢弄。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "躲避屋里那片垫材这几天老往门口滑，我已经拨回去好几次了。今天出去之前回头看，才发现自己转身的时候尾巴会带到它，薄薄的一片就跟着往外跑。我把它推到里面靠墙的位置，回来趴下却发现下巴少了个能垫着的地方。先不动了，等下次休息时再慢慢弄。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261101-124220-af57ad2bbc",
     "date": "2026-11-01T12:42:20+08:00",
