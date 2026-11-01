@@ -3,7 +3,7 @@
   "round": "2026-11-02/034943-b840",
   "baseline": "cf29bf3f9705df7ade3fb37a65cdc87e46890c99",
   "target_posts": 7,
-  "closed": false,
+  "closed": true,
   "draws": {
     "review": {
       "input": {
@@ -491,6 +491,105 @@
       },
       "result": [
         "brief"
+      ]
+    },
+    "slot-7/author-mode": {
+      "input": {
+        "options": {
+          "explore": 1,
+          "weighted": 4
+        },
+        "count": 1
+      },
+      "result": [
+        "weighted"
+      ]
+    },
+    "slot-7/author": {
+      "input": {
+        "options": {
+          "gecko404": 4,
+          "leafback7": 2,
+          "mango27": 4,
+          "moss9": 2,
+          "nearthermo": 1,
+          "nightshift3": 2,
+          "peachcrumble": 2,
+          "slowblink": 1,
+          "smallhide2": 2,
+          "twosteps8": 2,
+          "wallafterdark": 2,
+          "wednesday6": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "leafback7"
+      ]
+    },
+    "slot-7/focus": {
+      "input": {
+        "options": {
+          "present": 3,
+          "own-history": 1,
+          "other-public": 1,
+          "outside-usual": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "other-public"
+      ]
+    },
+    "slot-7/length": {
+      "input": {
+        "options": {
+          "utterance": 2,
+          "brief": 3,
+          "expanded": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "brief"
+      ]
+    },
+    "slot-7/source": {
+      "input": {
+        "options": {
+          "20261028-134830-9a78f51667": 1,
+          "20261101-200645-63a86d5a03": 1,
+          "20261101-214330-dc0e407e4d": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "20261028-134830-9a78f51667"
+      ]
+    },
+    "slot-7/notice": {
+      "input": {
+        "options": {
+          "notice": 1,
+          "skip": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "notice"
+      ]
+    },
+    "slot-7/response": {
+      "input": {
+        "options": {
+          "silent": 3,
+          "direct": 1,
+          "reflect": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "silent"
       ]
     }
   }
