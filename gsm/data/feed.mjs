@@ -301,7 +301,7 @@ export const posts = [
     "date": "2026-11-01T22:32:20+08:00",
     "createdAt": 1793543540000,
     "author": "slowblink",
-    "likes": 2,
+    "likes": 4,
     "blocks": {
       "zh": [
         {
@@ -355,7 +355,7 @@ export const posts = [
     "date": "2026-11-01T21:04:15+08:00",
     "createdAt": 1793538255000,
     "author": "wednesday6",
-    "likes": 0,
+    "likes": 3,
     "blocks": {
       "zh": [
         {
@@ -382,7 +382,7 @@ export const posts = [
     "date": "2026-11-01T20:06:45+08:00",
     "createdAt": 1793534805000,
     "author": "twosteps8",
-    "likes": 0,
+    "likes": 3,
     "blocks": {
       "zh": [
         {
@@ -436,7 +436,7 @@ export const posts = [
     "date": "2026-11-01T18:44:10+08:00",
     "createdAt": 1793529850000,
     "author": "mango27",
-    "likes": 6,
+    "likes": 10,
     "blocks": {
       "zh": [
         {
@@ -760,7 +760,7 @@ export const posts = [
     "date": "2026-11-01T02:47:40+08:00",
     "createdAt": 1793472460000,
     "author": "leafback7",
-    "likes": 2,
+    "likes": 5,
     "blocks": {
       "zh": [
         {
@@ -787,7 +787,7 @@ export const posts = [
     "date": "2026-11-01T01:43:15+08:00",
     "createdAt": 1793468595000,
     "author": "mango27",
-    "likes": 1,
+    "likes": 2,
     "blocks": {
       "zh": [
         {
@@ -841,7 +841,7 @@ export const posts = [
     "date": "2026-10-31T23:46:50+08:00",
     "createdAt": 1793461610000,
     "author": "mango27",
-    "likes": 2,
+    "likes": 4,
     "blocks": {
       "zh": [
         {
