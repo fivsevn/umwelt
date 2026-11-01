@@ -4,7 +4,7 @@ date: '2026-10-28T04:50:42+08:00'
 username: nightshift3
 name: 半夜上线
 status: published
-likes: 0
+likes: 1
 source_event: 279810840a349782742c70bedc8c9ec9bc12c690
 author_assignment: specified
 ---

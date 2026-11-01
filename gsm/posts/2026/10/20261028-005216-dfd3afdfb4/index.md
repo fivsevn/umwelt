@@ -4,7 +4,7 @@ date: '2026-10-28T00:52:16+08:00'
 username: wednesday6
 name: 周三换皮
 status: published
-likes: 0
+likes: 4
 source_event: d90d836b124aebf520aea7b8bd5ca5a0939033ff
 author_assignment: specified
 ---

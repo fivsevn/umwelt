@@ -4,7 +4,7 @@ date: '2026-11-01T16:28:15+08:00'
 username: peachcrumble
 name: 桃酥
 status: published
-likes: 0
+likes: 1
 source_event: ce1583babfa58687e7a81d82d89d923f34de1aae
 author_assignment: specified
 ---

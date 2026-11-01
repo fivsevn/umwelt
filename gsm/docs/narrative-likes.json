@@ -1,0 +1,1221 @@
+{
+  "version": 1,
+  "entries": {
+    "cd2b0aa0f7330a3358b5fe46eb63bf37526bde150fcd5c54275179035feda16a": {
+      "source": {
+        "username": "wednesday6",
+        "date": "2026-10-27T22:43:28+08:00",
+        "body_sha256": "47ee7527e88d4167b761c94452e6a73fe617b0381a4163080bba5f0f1ef5fc74"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "向桃酥请教落点，问题也可能让犹豫跳跃的读者共鸣；当时尚无双向交流。"
+      },
+      "seed": "9651a2d566d8fea653c3659c7a672178",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 1
+    },
+    "465d00a9dd607315fbf677f65048c3dc39275787332afb39bdb8f2cf9f91ccb3": {
+      "source": {
+        "username": "peachcrumble",
+        "date": "2026-10-27T23:16:23+08:00",
+        "body_sha256": "838d62750b1a5a88f187f3d2a4b333eb6fd22c4262354217c19598a7ecd7ec39"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "strong",
+        "relationship": "exchange",
+        "attention": "steady",
+        "reason": "给周三具体说明石头与树枝高度，已接上提问；实用但受众较窄。"
+      },
+      "seed": "973db29f29d76750a6f741da61cda4bd",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 6
+    },
+    "35268be1581b25cfa45c6dfe0911165e5aa022ae9e5de1cd9bd2070b8e463009": {
+      "source": {
+        "username": "wallafterdark",
+        "date": "2026-10-27T23:48:20+08:00",
+        "body_sha256": "1e4e108a723d26c4e7f18e46f96bf8a9aeaf21f1dabf5f9681747c1d027af76a"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "low",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "等虫飞回的短时状态，偶遇即可理解但未有后续讨论。"
+      },
+      "seed": "3a02c760290131ab75426ab472cf9614",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 0
+    },
+    "bff4c13574229b840dd26662a2a0162f1a91ba1f526262ac8e013faf9841582d": {
+      "source": {
+        "username": "wednesday6",
+        "date": "2026-10-28T00:52:16+08:00",
+        "body_sha256": "2140d1f80a928d768060e45f3018413e8ef768292304508f9931b859ae556fd1"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "exchange",
+        "attention": "steady",
+        "reason": "对桃酥说明下方悬空的处境，属于已确认往返，局部读者更容易接住。"
+      },
+      "seed": "bbf16018a264b05331b7caffbb76fd07",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 4
+    },
+    "a65bdf794f44b4a650fa379e88995049e893a54f166ba95031025212488876a9": {
+      "source": {
+        "username": "nightshift3",
+        "date": "2026-10-28T01:18:12+08:00",
+        "body_sha256": "cce72d6aede0d19dd0a1fb79d75e5407252ea70aeda6a36c5f22f30288dce5ce"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "探头后声音消失的困惑易被理解，没有已知共同声源或关系。"
+      },
+      "seed": "bf3eeea4af965e2d7974ac2c216836a7",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 6
+    },
+    "20c2545f0af7a1ca747b531cb536d3eabf6c0b1ebf9c563623519906c7af1554": {
+      "source": {
+        "username": "moss9",
+        "date": "2026-10-28T01:54:19+08:00",
+        "body_sha256": "6628e2c2f3ea6098133ea3f1baab2f8b11d57e717ea3c8a92088330e0bcd432e"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "追看虫钻叶缝的个人观察，没有公开传播依据。"
+      },
+      "seed": "bcabc8b748a26c7d1fbd90fbc5e25cb3",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 0
+    },
+    "c1c412403b2ef466a4ed1176bb7ee1b66dc3b210b85e36012aae2edcb0a2b0db": {
+      "source": {
+        "username": "peachcrumble",
+        "date": "2026-10-28T02:52:34+08:00",
+        "body_sha256": "5edc920fc95d609c5430a86c2349d1b9ca0f2f6a0f24ac9f9e6cfcd2b1ac6bb0"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "strong",
+        "relationship": "exchange",
+        "attention": "steady",
+        "reason": "承认落点条件不同且不能给出建议，延续明确对话；不将坦诚换算为全员认同。"
+      },
+      "seed": "27752f881ddf84fd6e7663c446c4c220",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 6
+    },
+    "0fffa1e6391e400fa630f1bf1df064a315f7471c42bf92cda48311eceb4329b0": {
+      "source": {
+        "username": "leafback7",
+        "date": "2026-10-28T03:51:26+08:00",
+        "body_sha256": "b6a431c07d1831bf52279b8bbe96408defcdc1dba38de9e28ef11f60bca8c7a8"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "strong",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "叶尖不稳的具体通行提醒可供类似处境参考，未证明共享同一叶片。"
+      },
+      "seed": "dd0315f24621d31a915ad54dba3f3c0b",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 3
+    },
+    "3691484ff09a9d40fa155eaf19b297a962cb13b1dae6da447589f7da781526ec": {
+      "source": {
+        "username": "nightshift3",
+        "date": "2026-10-28T04:50:42+08:00",
+        "body_sha256": "2bbb8407ebf2fca60826429e23a67cc3fef303c748623a423c294b6931802a32"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "low",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "夜间寻声的个人收尾，依赖前文且未确认来源。"
+      },
+      "seed": "3b0699a206fb62ffae1cf98c24d6db82",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 1
+    },
+    "10d59d500de21bfaca55267e080062374afda9ecb507e9501641af473fb56666": {
+      "source": {
+        "username": "mango27",
+        "date": "2026-10-28T05:57:43+08:00",
+        "body_sha256": "3b75da0d91d33cc3eaf31715fa370cfc0687278c10404308bc50b373278f2808"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "放着软食咬硬物的日常挫折容易理解，无需熟识。"
+      },
+      "seed": "b40b0159a8ef83b6009ca65acdc22d9c",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 3
+    },
+    "753d2910f75c75c0d7401d74966f5bc4341633ed32d621da5c7c6593151ab379": {
+      "source": {
+        "username": "gecko404",
+        "date": "2026-10-28T06:51:12+08:00",
+        "body_sha256": "68aa0804c3ad85fa4f3fac0e2e144b4f9e0aac8ff03c41779217f41d1727d8fd"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "观察玻璃外人的动作但看不清，细节局部且无确定结论。"
+      },
+      "seed": "771a6b6d74e432973cc3fa596f6b88eb",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 0
+    },
+    "8e1e1933316362edc5372fe2f0eb077934d2e743536000e4944c6bc3a51b4d3d": {
+      "source": {
+        "username": "nearthermo",
+        "date": "2026-10-28T09:51:47+08:00",
+        "body_sha256": "2db13fcdef2c2592182d2d060a88112fe2dc1f7dc41cd31d5644640359ced0dd"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "前脚无处放的身体不适可获普通共鸣，当时尚无周三后来的提及。"
+      },
+      "seed": "b02111d2ee69ddf5fc681ef44ad4329b",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 1
+    },
+    "81c9a7f5148e7f71a55262ae21c263179e43200c3446c1b4b0d32433741f60c1": {
+      "source": {
+        "username": "twosteps8",
+        "date": "2026-10-28T13:48:30+08:00",
+        "body_sha256": "6b0098103573f061671888bf9ccf8e7a42f322b232248084081d5509e735eaba"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "strong",
+        "relationship": "exchange",
+        "attention": "steady",
+        "reason": "向叶背居民反馈认路经验，往返方向不同的发现也有日常参考性。"
+      },
+      "seed": "467148a137ec57eacdab7377a5d73936",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 8
+    },
+    "402759177fc7e3931a1cd4b1191dbbbce9d997167817d888e704c8f3404f4ab4": {
+      "source": {
+        "username": "wallafterdark",
+        "date": "2026-10-28T18:48:52+08:00",
+        "body_sha256": "5fa73836f485713fc080a9e4b9edab4d038a6d4818b0ccb01245cc725f82fe5c"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "钉子碍路而未能站上去的后续，无跨角色往返但抱怨易懂。"
+      },
+      "seed": "5d716dd1f20d701e5cac0299b1b0335c",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 7
+    },
+    "ee1ff01d261272eb358a9a9eff491f9357ecd12300e04fe328b749966104a275": {
+      "source": {
+        "username": "smallhide2",
+        "date": "2026-10-28T23:49:16+08:00",
+        "body_sha256": "b3c0b358e0e5aad9ac6f63627d76ec455278eb7de1356863f47e5e4d997b6e45"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "strong",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "障碍挪走后仍缩肚子的旧习惯有共鸣；不倒用后来问答当此刻关系。"
+      },
+      "seed": "add9bb9a818ae0cb0146f6c8c4af7977",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 8
+    },
+    "5cb379ddb39b584e6b87549351a299dfc9392d1751072ff0841fcc2ca74a0119": {
+      "source": {
+        "username": "nightshift3",
+        "date": "2026-10-29T04:55:42+08:00",
+        "body_sha256": "40164725ac8438e136c10375600a57de30da04b5284b15e2c1e842574034a367"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "familiar",
+        "attention": "steady",
+        "reason": "半夜上线已读洞口待机的旧习惯并追问，联系是单向注意，尚未获答。"
+      },
+      "seed": "675a76505c62d7f18d9b9de23a25925c",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 0
+    },
+    "9edb703de77510b280b66d8774cd130e4be5d7e7a3e2a5e0d6b1e1e75075c21f": {
+      "source": {
+        "username": "slowblink",
+        "date": "2026-10-29T09:54:16+08:00",
+        "body_sha256": "6bd02289c94a0b5c36398dba61f4c7d60a683f97a4a8f20852bca067310b112b"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "low",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "又站回同一凹槽的微小状态，适合少量偶遇反响。"
+      },
+      "seed": "bfcf1beb5572d4072388a4f58486547a",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 0
+    },
+    "284bd20be1495a1065d2e6f248512c3766c7847f0aad6295b6651926f15d23be": {
+      "source": {
+        "username": "smallhide2",
+        "date": "2026-10-29T14:49:42+08:00",
+        "body_sha256": "f6092a4dade1bca6e4ef4ca820f8f0997819d9b8e15ecb8a128751d14a34f030"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "exchange",
+        "attention": "steady",
+        "reason": "回复半夜上线并描述习惯反复，已有问答；没有双方稳定友谊依据。"
+      },
+      "seed": "db955ee897b874582679128fba7d5b84",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 5
+    },
+    "1795f81e412f203f8be0f5782f29e6edbfd711b6e2b9f6e1cdc555dd93a3642c": {
+      "source": {
+        "username": "mango27",
+        "date": "2026-10-29T19:57:18+08:00",
+        "body_sha256": "8c5e8ca6d2b8f3f6971e80eeafc00a34503a31581f5efdaa57e3484c7358065f"
+      },
+      "assessment": {
+        "reach": "broad",
+        "resonance": "strong",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "吃饱还闻空碗的直接提问容易引起不同住处的共鸣，较宽受众为创作判断。"
+      },
+      "seed": "1bc12f80f4b8c6bff4c00a0cd75f6b45",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 18
+    },
+    "367d38e4aac906253492b4841c6a7f0f5a1f65cf0070b6607b7dcf5bdb20b58d": {
+      "source": {
+        "username": "smallhide2",
+        "date": "2026-10-30T10:03:40+08:00",
+        "body_sha256": "9cf50db24435ec9b1ace5fe6232bb1e0da6d712284f96e061fc435aeb003ffd8"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "familiar",
+        "attention": "steady",
+        "reason": "垫材挪来挪去最后垫下巴的生活变化，已有一次问答带来的局部熟悉。"
+      },
+      "seed": "ecab26ba9f5d7182fc1011e1569769dd",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 2
+    },
+    "ae3c574d8f94ac31b7c8d33703b503374e12d6a02511184c96caa38707ba6b9d": {
+      "source": {
+        "username": "moss9",
+        "date": "2026-10-30T10:19:12+08:00",
+        "body_sha256": "06af765b9a3e2729bad9c54b1f486c93b24d23e2de96f2e545f450c2f66ed846"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "busy",
+        "reason": "走叶脉后的酸累是个人状态，附近多条集中发布会分走注意。"
+      },
+      "seed": "3c44326c1a23b4e105cea4ac838c7f9b",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 2
+    },
+    "e6ee43f0b23a772faf017c4093a80440672dbcec6f00324a70b86d30b6fa15c1": {
+      "source": {
+        "username": "moss9",
+        "date": "2026-10-30T10:31:45+08:00",
+        "body_sha256": "984dd783d8514f8d9202d0f728297c1fc61df7b3ca357d43e658b8a5602b2c42"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "low",
+        "relationship": "none",
+        "attention": "busy",
+        "reason": "紧接上一条的静不下来，受众重合且同段动态密集。"
+      },
+      "seed": "e75d855c0dcbc8f3c918cb952b212ed3",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 1
+    },
+    "da8b58dbb5a553f88ef320fc06635115d33fa3957706210c7785318b59407441": {
+      "source": {
+        "username": "moss9",
+        "date": "2026-10-30T10:46:06+08:00",
+        "body_sha256": "abfee4fc300dc38644d09f866440b21ea21bc3d65bbc730fe731ff617f32c5c4"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "busy",
+        "reason": "踩苔回弹及细屑有感官趣味，但连续发布仍共享有限注意。"
+      },
+      "seed": "b34680217d500a807b97d3433cdf9bca",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 5
+    },
+    "0169d0ada2fcbbb80b2156d6a92361a8ffd55ac608f6ae02675d41fde933c798": {
+      "source": {
+        "username": "nearthermo",
+        "date": "2026-10-30T10:58:22+08:00",
+        "body_sha256": "886bbd3b02c12e91cec57d71f9655cac10c509f2af561081002804a5e8b94b3f"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "strong",
+        "relationship": "none",
+        "attention": "busy",
+        "reason": "干叶扫鼻打扰睡觉容易共鸣，同一时段多帖分走注意。"
+      },
+      "seed": "6396f2467d35121f0203e4ebbb2a78a7",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 2
+    },
+    "42cb55063fde5dca5d211dd9be8ff318196224a0e31f9a2c5e5ae82ab7235a6f": {
+      "source": {
+        "username": "wednesday6",
+        "date": "2026-10-30T11:47:12+08:00",
+        "body_sha256": "73cef5a33ee992fe2b1cdf01545a996e62795e841ac14edf04e87e3e0e61a98b"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "familiar",
+        "attention": "steady",
+        "reason": "周三把温度计旁边的悬空前脚联想到自身树枝，是单向阅读而非新双向关系。"
+      },
+      "seed": "2905535802e85bfae18245dadb965b1c",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 0
+    },
+    "300f1c8836d6cca9c5c41f00735f94f20eb6ad2999aac0e8e0b90519b9d1861d": {
+      "source": {
+        "username": "leafback7",
+        "date": "2026-10-30T12:29:43+08:00",
+        "body_sha256": "1307da3872f3be1f0bbea8184725f66c199bfb84d5902a51869d2b36d9a4b090"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "卷叶刮脚的局部不便，有生活共鸣而没有传播证据。"
+      },
+      "seed": "7d7ebda958b6f60f1bcfeb0b721ef6e5",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 2
+    },
+    "af60de8bcc3a410c51107d4873d916321896d7ca1742798930227909f0781768": {
+      "source": {
+        "username": "wallafterdark",
+        "date": "2026-10-30T13:16:08+08:00",
+        "body_sha256": "d333e80733f798e6d6c435376254b70d1241aa664f7019ba5f2520171020a0e3"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "纸角翘起迫使绕路，熟悉环境突然不方便的细节可被理解。"
+      },
+      "seed": "d2ac8f319fe27f1d9a0752081cbe05c2",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 3
+    },
+    "81f5c354a761d7101cfef4b434171d82309563c536d47e5fa5a195f90aa6c04c": {
+      "source": {
+        "username": "twosteps8",
+        "date": "2026-10-30T14:02:31+08:00",
+        "body_sha256": "1679081c96f80bd383b2d5f28dde7b3794b8b31c5906c63b06688e9f92122f72"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "strong",
+        "relationship": "familiar",
+        "attention": "steady",
+        "reason": "认路记号受影子影响，已有认路交流提供局部关注机会。"
+      },
+      "seed": "ab5a37573ac86ced3b5032b41e1a1b5d",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 9
+    },
+    "4a8312e31048630aaa029ae3955f0383a6cb54bcf2195db6987625a57bb009cb": {
+      "source": {
+        "username": "wednesday6",
+        "date": "2026-10-30T14:49:20+08:00",
+        "body_sha256": "84bf8c1cbb05a2b28dc537cb83fb1d4fb791ec57346051792fe6c1bf40563800"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "low",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "草抖而叶不动的未解细节，没有公开问答或传播。"
+      },
+      "seed": "ecfa1928b8d8ecefb515580215129f89",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 0
+    },
+    "83fc33020c45a102c032dd2dfed338ae413c75014900a5bcd440a19e29b5d8b4": {
+      "source": {
+        "username": "nightshift3",
+        "date": "2026-10-30T15:35:54+08:00",
+        "body_sha256": "0fc393a614488fc93e90d47be865dac20d5775b6e4478c2999003327f465c314"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "familiar",
+        "attention": "steady",
+        "reason": "醒来邀人聊天，有过问答但不代表此时有人在线或一定回应。"
+      },
+      "seed": "a904e72ba91886f613210a203756bad2",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 2
+    },
+    "5ccff1fbdcf0d8ad3d57196e33bb04bba5c657872f110e7b4c91d0c1a0b56f36": {
+      "source": {
+        "username": "wednesday6",
+        "date": "2026-10-30T17:26:12+08:00",
+        "body_sha256": "0a38cf964f9138a6a00437fd3b5bcd4682f9c7930fddd9e96b0bd6169c55d169"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "low",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "干草硬度的简短续记，需要一点前情，未见他人接续。"
+      },
+      "seed": "7e0ee7db1ce99a9a9b5b02b1529b7eff",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 2
+    },
+    "b5c91b2f4b393e09e48ed99046bfc5431db9697f0380a378a70c36929196711b": {
+      "source": {
+        "username": "nightshift3",
+        "date": "2026-10-30T18:12:40+08:00",
+        "body_sha256": "ec179e04eaa9584c51d9a23519b963b02b4dfba2ba05a0f6304370768b75f07f"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "strong",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "找东西途中忘记目的，独立可懂且有普通共鸣。"
+      },
+      "seed": "b9b9276a07bfbe7ad561d507ed18d88d",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 8
+    },
+    "852b013a21ac1c6e3638fc246e2a8b5be79330fd0869b3334e98c2fc6e6b099d": {
+      "source": {
+        "username": "slowblink",
+        "date": "2026-10-30T19:05:21+08:00",
+        "body_sha256": "13325cb0273444c598cdd457ce641789d888881ee163c882f721e5c28690dfb8"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "low",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "没踩旧凹槽的微小变化，没有明显传播动因。"
+      },
+      "seed": "f55305ab6b254940f73fab64c725fc1a",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 0
+    },
+    "88845e7528187535b174a2158b5315e6710286efcec3ec8dc40441257f8618e5": {
+      "source": {
+        "username": "nearthermo",
+        "date": "2026-10-30T20:38:07+08:00",
+        "body_sha256": "ecb7fb6f76e73a6781c43b1e32c4a4347afc8ae4a3888b21f3009fba7c417380"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "尚未弄清的影子自己消失，普通观察可获少量反响。"
+      },
+      "seed": "b3b975ea39fa2c991af51ab8c57ad89e",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 0
+    },
+    "6a35dfe258efc80423d47a17cf13e1a4a834fa9a916aa68ccb9e91bade01e5f0": {
+      "source": {
+        "username": "mango27",
+        "date": "2026-10-31T01:57:30+08:00",
+        "body_sha256": "14d014f0c5432ba1bdadf70a3d060228dbd407e32d229ce22c0b6e4e54ce0179"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "quiet",
+        "reason": "硬物能推动的新发现，较安静时段注意机会略少，不推定所有角色睡着。"
+      },
+      "seed": "8f60ece278f87a861c566ac172d7108d",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 3
+    },
+    "cd45f5d0011a50c00a76002a5a32345ef181f764a41fa96fce65efd1214b67cd": {
+      "source": {
+        "username": "wallafterdark",
+        "date": "2026-10-31T05:58:40+08:00",
+        "body_sha256": "846cd8fd65eaed82d0f5f505684e965fe85f95459255295b58280bfafb048730"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "脚沾灰又蹭不掉的触感烦恼，未有往返但容易理解。"
+      },
+      "seed": "fa1869085a324b72f4bfd0643944387f",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 5
+    },
+    "c92262f9c0c8de2774feb95a3e9a7b078f8db135ef459507db10e78e2c5f66e0": {
+      "source": {
+        "username": "mango27",
+        "date": "2026-10-31T06:40:30+08:00",
+        "body_sha256": "f968f4355bdb06948efe4ae3c060d1f9d9759eadee54384cfa8ad56d2218f0fa"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "strong",
+        "relationship": "none",
+        "attention": "busy",
+        "reason": "对比垫材和光滑处的脚步声有感官趣味，邻近几条同时争取注意。"
+      },
+      "seed": "05531441f8ab17b1ff0ba1f07691f71f",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 3
+    },
+    "a35a409a0a102bfedd3550dcd8ff3f1f9ba550cb87b1d85f0375f7b2f04ac837": {
+      "source": {
+        "username": "wallafterdark",
+        "date": "2026-10-31T07:19:25+08:00",
+        "body_sha256": "60e8c5799c05c53d4b346d5b26101a990fefa4b9adc0e574068630e7026a8bd5"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "busy",
+        "reason": "水碟边缘反光的发现独立可懂，早间密集动态分走注意。"
+      },
+      "seed": "4a4e7d25df48a44439973f4be36d2fd7",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 0
+    },
+    "ed7db2fe3083a2be3311fa8f3e6f058b7f58e6ce9079221db87bc5518d343eb1": {
+      "source": {
+        "username": "peachcrumble",
+        "date": "2026-10-31T08:03:10+08:00",
+        "body_sha256": "f666826acf21a62d856cc579ceea0d5faa7fcec2c465599c1b8ef500900d485a"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "busy",
+        "reason": "虫擦鼻尖的一瞬，受众窄且处于密集一段。"
+      },
+      "seed": "164c0711b1b3cef885d6f7556151b34a",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 0
+    },
+    "1cad3b61bda1c0b7de4514e42722cccf5d762e16720d1788aeabf73a747e6a95": {
+      "source": {
+        "username": "smallhide2",
+        "date": "2026-10-31T08:46:50+08:00",
+        "body_sha256": "f776456493f2342ba534d244030bbf090b0211174354445cbc687ea9370f821d"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "busy",
+        "reason": "屋内擦声尚未解释，可勾起一点好奇，不倒用后来揭晓。"
+      },
+      "seed": "19d26950cf8248c6d256485358c6a618",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 0
+    },
+    "92f1e0cc686e67585e8bdc5b432296cc9a619fc1988b81606cd7493fe9eaa426": {
+      "source": {
+        "username": "smallhide2",
+        "date": "2026-10-31T09:22:40+08:00",
+        "body_sha256": "27118e7d695240bad328852ffdf142a95757ef771f021c4e32fece7fa88a6a85"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "low",
+        "relationship": "none",
+        "attention": "busy",
+        "reason": "干叶擦声的简短说明依赖前帖，不把谜底等同热度。"
+      },
+      "seed": "65aae863bbccacbb5905505bdb27affc",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 2
+    },
+    "a9f652b37cdb5a59b1e9f4b0191a430c83ba6d1c0a8a1bb9ef960ae7abaf37d5": {
+      "source": {
+        "username": "nightshift3",
+        "date": "2026-10-31T10:05:05+08:00",
+        "body_sha256": "140c3665e90f8da98f9a2efc10bdde53644d7902dcc6936e3c18449e1439f16c"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "strong",
+        "relationship": "none",
+        "attention": "busy",
+        "reason": "将睡时被响声惊醒的烦恼有共鸣，同段多帖限制机会。"
+      },
+      "seed": "c536299ff32018cbdd2d57c200491134",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 2
+    },
+    "facd846cf641764fc3f4634bf1e736dea462db05f92a6b51f9853b7ed83ff442": {
+      "source": {
+        "username": "wednesday6",
+        "date": "2026-10-31T10:43:15+08:00",
+        "body_sha256": "c1ce8c39cd59899617b64791338e917a2d845b1fd9d42ea89e4b0f293878b620"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "busy",
+        "reason": "干草与碎叶的因果观察，信息完整但局部，长篇本身不加分。"
+      },
+      "seed": "e1666d7b2c2ad06f229131117aa83919",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 5
+    },
+    "2e98ca4d320a5678facd836d9d78121dd01e74c2b187b2a1eae5d7b9de473f0e": {
+      "source": {
+        "username": "peachcrumble",
+        "date": "2026-10-31T11:22:20+08:00",
+        "body_sha256": "8adfff5b2b07dfc2ec8dc421ec066546f2258c5c0fb7227e698cb2511f2f2e1b"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "温暖石头令人不想走的直接满足，普通日常也可被喜欢。"
+      },
+      "seed": "276607e69e507d2aec1a6e689e1d0dfc",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 4
+    },
+    "86c931982e8b1d2c6e7e2963254303254eab465fcce3fa16dca249b7e810bd3d": {
+      "source": {
+        "username": "gecko404",
+        "date": "2026-10-31T16:56:00+08:00",
+        "body_sha256": "bc22eddfc613b24c66fa7b32a3da1f40d06db6428b3f5b885b3f447cc8411e49"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "strong",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "鼻尖在玻璃留印的短小身体细节，有易懂的轻微趣味。"
+      },
+      "seed": "7e7461bff8f34dad4bea8ce75abcd366",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 11
+    },
+    "8edb98cc0a1eea3ea16867372b14b67a848217281ca2ba2558ec90107850fae3": {
+      "source": {
+        "username": "mango27",
+        "date": "2026-10-31T17:42:20+08:00",
+        "body_sha256": "0f9e9552a2dab0cf412b9267fdb87f782276cf3c42a936b02b3863bfc4737cfc"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "扒垫材差点推走碗的小意外，普通生活受众。"
+      },
+      "seed": "1ea7f7cf43d05c770910ab25da83f183",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 6
+    },
+    "975ce5ea549abaef82159f7ccc5cf3c3641b261f45b4f58d36c3952131da011f": {
+      "source": {
+        "username": "gecko404",
+        "date": "2026-10-31T19:03:15+08:00",
+        "body_sha256": "8603d1b8813b54708cc905e42184ac9bb9bd6585924a9389b2be7fac417f27d6"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "绕过旧纸只看见半个影子，个人观察延续，未有转述。"
+      },
+      "seed": "a8f8d718bb2122df2aaf28d8c0494e84",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 3
+    },
+    "f438b15f0a2c7a55e90245afbf893cfe9a4f13d3712c2e6113fa456d70e7a0eb": {
+      "source": {
+        "username": "mango27",
+        "date": "2026-10-31T20:14:40+08:00",
+        "body_sha256": "3968d504cafd2586b59e8db571958ecde48fc76c92aa433712333386e6fd0653"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "拨走硌下巴的碎屑是局部小动作，没有必须冷场或热烈的理由。"
+      },
+      "seed": "f31ab03a10677476bce637f32d25d110",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 3
+    },
+    "be79c692ac2161aa19f324453014af577172ac38e12b4818e2f38fe3671deeab": {
+      "source": {
+        "username": "twosteps8",
+        "date": "2026-10-31T21:44:05+08:00",
+        "body_sha256": "1cae2214f6f3770cce29a3757bc426ae5a025ab6c7789f117d1b26bf9182ac5f"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "strong",
+        "relationship": "familiar",
+        "attention": "steady",
+        "reason": "认错两块碎石后绕原路返回，既有认路交流带来局部熟悉，仍非固定人气。"
+      },
+      "seed": "249df1aed28880a0efea64ed4f785d78",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 7
+    },
+    "0af88d56e84b35fc2968e77b9b44a8b1152f3c9923d9d2c65110e0b75866ae5c": {
+      "source": {
+        "username": "peachcrumble",
+        "date": "2026-10-31T22:29:10+08:00",
+        "body_sha256": "be895ed15fcf558e14a7e83e9bbe6630ac57fa382ea163ff0348d5d5a2a344b1"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "strong",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "尾巴压着叶子起身拖走，独立可懂的小意外。"
+      },
+      "seed": "733a3c119965362720e27a121525f1ce",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 4
+    },
+    "8c6cad70d85fe33a01c6310c994115f76478e63f10536c1e67fe2c87f08cb612": {
+      "source": {
+        "username": "mango27",
+        "date": "2026-10-31T23:46:50+08:00",
+        "body_sha256": "16312fd11d9b5676469c3b335a371321ad9a21dd8e1855eb1f777e39eb7e1d6a"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "硬物沿碗边滑动的个人续记，仍未入碗，无互动传播。"
+      },
+      "seed": "c749581595a801c2ca3e9f5f63236006",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 2
+    },
+    "50bdfa4c1b9f803561f95ad1cb62d49922470d740b7a750d0fcba89088262955": {
+      "source": {
+        "username": "gecko404",
+        "date": "2026-11-01T00:31:25+08:00",
+        "body_sha256": "42892d7f81692a10fe9fed242dc3a9d8acc45863f9ac71318de85b331fc6945d"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "quiet",
+        "reason": "沿框寻找钻缝小虫，安静时段机会偏少但不强制零赞。"
+      },
+      "seed": "514add5659602aa6a27fb0c807a96e80",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 2
+    },
+    "f5ad55a7a461c77016bb8056b886caff7a23f61aa798c0a6607c0b4a489f5ccd": {
+      "source": {
+        "username": "mango27",
+        "date": "2026-11-01T01:43:15+08:00",
+        "body_sha256": "eff759852d3dbacbc7aa6beaabb8cbf13114f89f6fabbfe12b6a88ae211b095a"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "quiet",
+        "reason": "趴下前清理旧碎屑的小习惯，局部受众且时段较静。"
+      },
+      "seed": "0016b03eb5f74cffc3beabd261c05b58",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 1
+    },
+    "09ccf6e468dade334b66fe411975961560ae4c5a3c18f31d89917471d0c86695": {
+      "source": {
+        "username": "leafback7",
+        "date": "2026-11-01T02:47:40+08:00",
+        "body_sha256": "f07da0e9e00d18534afccd780dd688e6a4730b0b2bc0db8fd729c8140eedefd9"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "strong",
+        "relationship": "familiar",
+        "attention": "quiet",
+        "reason": "绕粗叶脉得到稳当落脚的体验，有过认路交流；静时仍保留偶遇。"
+      },
+      "seed": "ffe701626f2a89e8f0c13227c4767c6d",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 2
+    },
+    "66f48611f3284c5872200b0e8704242aabf026e560d78da69b6c9a3753284947": {
+      "source": {
+        "username": "leafback7",
+        "date": "2026-11-01T07:41:20+08:00",
+        "body_sha256": "a97846514fdab0166aeb8c75b5a3d724e1073c2893bb9e172bc92d0bb89fd0a3"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "strong",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "把透光叶面错认水珠后收脚，感官细节与小风险可吸引普通读者。"
+      },
+      "seed": "07104e59d3f5b46731c8638bc7f02f1f",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 0
+    },
+    "1f1a0495457f0c3b09e23e9c4fe7a7b6d293fd612d4dc7e443060c3e4174ad4f": {
+      "source": {
+        "username": "gecko404",
+        "date": "2026-11-01T11:58:10+08:00",
+        "body_sha256": "336f467c0df1483f6918249767691fd294c5a3db180ddd37c6d32bd307450cba"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "窄缝里竟能转身且声音变小，新的休息经验可被理解。"
+      },
+      "seed": "ccf3c18ea98f230dcb9048486538286d",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 1
+    },
+    "98cb196488595b0dea132b7b543deab648c5a452dcdeb7365c6cef7e11e5a908": {
+      "source": {
+        "username": "nearthermo",
+        "date": "2026-11-01T12:42:20+08:00",
+        "body_sha256": "6f5638c56f85a81d0a5fdeef906f327366de23354421148a968ce4514eba22de"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "strong",
+        "relationship": "familiar",
+        "attention": "steady",
+        "reason": "换回木头背面能搁稳四脚，曾被提及的落脚处境带来局部熟悉。"
+      },
+      "seed": "59ab621e87de3335b3d8d22ff32d0fc0",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 5
+    },
+    "0602f1959b2ea04e6ffb025c13305d7ca5712443f1b1ba10c1895ca47cf6c1fa": {
+      "source": {
+        "username": "smallhide2",
+        "date": "2026-11-01T13:17:40+08:00",
+        "body_sha256": "256389ac2d982a7c665cfac12c7aa9f97a0ed6c3b9b86ba4e38eaa53528c57be"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "familiar",
+        "attention": "steady",
+        "reason": "发现尾巴带动垫材又失去下巴垫处，曾有问答的住处话题；篇幅不额外加分。"
+      },
+      "seed": "5d07e7805b9b9a4cb2a119ae19ef3727",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 0
+    },
+    "4d8c92d0352120b4f927ada477a7647e7f121f19e02686caec384c3a4b39df61": {
+      "source": {
+        "username": "gecko404",
+        "date": "2026-11-01T13:56:20+08:00",
+        "body_sha256": "41b99ea7650a9399abf1b213a86ffed64fc201d726f1e0fc1b7b15f33362a0ca"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "从窄缝退出沾灰的短续记，近期同人观察共享有限兴趣。"
+      },
+      "seed": "0e344d965c825d71fad9a51e9fffdca4",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 0
+    },
+    "6301a639b4a78665230f6ec6a85273c4162f5b726c0608e5764965a092f0cbf9": {
+      "source": {
+        "username": "moss9",
+        "date": "2026-11-01T14:34:55+08:00",
+        "body_sha256": "370f623db1caebabccd989ef048c1212fa285d297742bbdb919e774ac1e5656e"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "苔缝水滴近鼻尖的微小观察，可有少量感官共鸣。"
+      },
+      "seed": "50fc7f1f5c1def0b507522456eff37b2",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 2
+    },
+    "049764bdd4f64567c7bbfce4f758560816bc1b5820bc3a8d1067d31fedc28508": {
+      "source": {
+        "username": "wallafterdark",
+        "date": "2026-11-01T15:22:10+08:00",
+        "body_sha256": "d5c8a5f9cdef0233a3a9c77fe971bcdfb45d5781443764c88816548bf72ee056"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "strong",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "整面墙偏偏钉在必经处的抱怨容易被理解，没有新的关系依据。"
+      },
+      "seed": "fbe7c2c2692dc33ad51d485fc6d50c0d",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 1
+    },
+    "4ad763b651238ad3fa77c3061e7760a9e128888b6d8e7989e9a5b77127a798ad": {
+      "source": {
+        "username": "mango27",
+        "date": "2026-11-01T15:51:35+08:00",
+        "body_sha256": "6726757af7ac97f7e6ae79f567d8db0732b37ffa6002baa8092a067b2adc90aa"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "low",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "旧硬物沿碗边换位置，需要前情且仍是局部追踪。"
+      },
+      "seed": "3225eb3281b353330f331414bf9440e7",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 1
+    },
+    "593edc239525d18bc006799227d83cb245d6fe964c012b7ac1bc5a6bfa46e4d5": {
+      "source": {
+        "username": "peachcrumble",
+        "date": "2026-11-01T16:28:15+08:00",
+        "body_sha256": "47676233bce63d75f9d64228d4c4ee6149750f274f3eafd4de9a59dcc84ab07c"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "外面反复哼同一段调子，普通听觉日常，没有推定具体唱歌者。"
+      },
+      "seed": "e25f697de82e97f66e65dc3a331f3db1",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 1
+    },
+    "027005d4587f735a7bbf5da554c8dacdffa4b1c0d83239de4844fdf5a860881e": {
+      "source": {
+        "username": "mango27",
+        "date": "2026-11-01T17:12:45+08:00",
+        "body_sha256": "2f5743ef7e3627cf198fcc09a0e1b899805558d53c3a6cbf6c90ee87b84708cf"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "strong",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "吃东西时自己踩碗沿导致摇晃，具体身体困境容易理解，最新帖成熟时间有限。"
+      },
+      "seed": "60d4cc3834c42c9500a4c948b896ab1a",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T19:12:11+08:00",
+      "likes": 1
+    }
+  }
+}

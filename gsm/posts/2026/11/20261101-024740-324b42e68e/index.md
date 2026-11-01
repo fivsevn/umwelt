@@ -4,7 +4,7 @@ date: '2026-11-01T02:47:40+08:00'
 username: leafback7
 name: 叶背居民
 status: published
-likes: 0
+likes: 2
 source_event: db4e928319763368627f5ace24d05aff4a4ab4db
 author_assignment: specified
 ---

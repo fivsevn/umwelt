@@ -4,7 +4,7 @@ date: '2026-10-30T10:46:06+08:00'
 username: moss9
 name: 阿苔
 status: published
-likes: 0
+likes: 5
 source_event: d8e9a27810c9786bd45d5463fd1b5937a575a386
 author_assignment: specified
 ---
