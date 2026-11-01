@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "round": "2026-11-01/175137-6cc6",
-  "baseline": "c1a1b37349cb6ff7b44492408234ab209df1cbe3",
+  "round": "2026-11-01/225301-8173",
+  "baseline": "12b50cbf7fa4998e68204a212c3d3bee0e1017bb",
   "target_posts": 7,
-  "closed": true,
+  "closed": false,
   "draws": {
     "review": {
       "input": {
@@ -26,29 +26,29 @@
         "count": 1
       },
       "result": [
-        "weighted"
+        "explore"
       ]
     },
     "slot-1/author": {
       "input": {
         "options": {
-          "gecko404": 4,
-          "leafback7": 2,
-          "mango27": 4,
-          "moss9": 2,
+          "gecko404": 1,
+          "leafback7": 1,
+          "mango27": 1,
+          "moss9": 1,
           "nearthermo": 1,
-          "nightshift3": 2,
-          "peachcrumble": 2,
+          "nightshift3": 1,
+          "peachcrumble": 1,
           "slowblink": 1,
-          "smallhide2": 2,
-          "twosteps8": 2,
-          "wallafterdark": 2,
+          "smallhide2": 1,
+          "twosteps8": 1,
+          "wallafterdark": 1,
           "wednesday6": 1
         },
         "count": 1
       },
       "result": [
-        "smallhide2"
+        "nightshift3"
       ]
     },
     "slot-1/focus": {
@@ -62,7 +62,7 @@
         "count": 1
       },
       "result": [
-        "own-history"
+        "present"
       ]
     },
     "slot-1/length": {
@@ -75,7 +75,7 @@
         "count": 1
       },
       "result": [
-        "expanded"
+        "utterance"
       ]
     },
     "slot-2/author-mode": {
@@ -87,29 +87,29 @@
         "count": 1
       },
       "result": [
-        "weighted"
+        "explore"
       ]
     },
     "slot-2/author": {
       "input": {
         "options": {
-          "gecko404": 4,
-          "leafback7": 2,
-          "mango27": 4,
-          "moss9": 2,
+          "gecko404": 1,
+          "leafback7": 1,
+          "mango27": 1,
+          "moss9": 1,
           "nearthermo": 1,
-          "nightshift3": 2,
-          "peachcrumble": 2,
+          "nightshift3": 1,
+          "peachcrumble": 1,
           "slowblink": 1,
-          "smallhide2": 2,
-          "twosteps8": 2,
-          "wallafterdark": 2,
+          "smallhide2": 1,
+          "twosteps8": 1,
+          "wallafterdark": 1,
           "wednesday6": 1
         },
         "count": 1
       },
       "result": [
-        "gecko404"
+        "mango27"
       ]
     },
     "slot-2/focus": {
@@ -136,7 +136,7 @@
         "count": 1
       },
       "result": [
-        "utterance"
+        "expanded"
       ]
     },
     "slot-3/author-mode": {
@@ -148,29 +148,29 @@
         "count": 1
       },
       "result": [
-        "weighted"
+        "explore"
       ]
     },
     "slot-3/author": {
       "input": {
         "options": {
-          "gecko404": 4,
-          "leafback7": 2,
-          "mango27": 4,
-          "moss9": 2,
+          "gecko404": 1,
+          "leafback7": 1,
+          "mango27": 1,
+          "moss9": 1,
           "nearthermo": 1,
-          "nightshift3": 2,
-          "peachcrumble": 2,
+          "nightshift3": 1,
+          "peachcrumble": 1,
           "slowblink": 1,
-          "smallhide2": 2,
-          "twosteps8": 2,
-          "wallafterdark": 2,
+          "smallhide2": 1,
+          "twosteps8": 1,
+          "wallafterdark": 1,
           "wednesday6": 1
         },
         "count": 1
       },
       "result": [
-        "moss9"
+        "gecko404"
       ]
     },
     "slot-3/focus": {
@@ -184,7 +184,7 @@
         "count": 1
       },
       "result": [
-        "present"
+        "own-history"
       ]
     },
     "slot-3/length": {
@@ -197,7 +197,7 @@
         "count": 1
       },
       "result": [
-        "utterance"
+        "brief"
       ]
     },
     "slot-4/author-mode": {
@@ -209,29 +209,29 @@
         "count": 1
       },
       "result": [
-        "weighted"
+        "explore"
       ]
     },
     "slot-4/author": {
       "input": {
         "options": {
-          "gecko404": 4,
-          "leafback7": 2,
-          "mango27": 4,
-          "moss9": 2,
+          "gecko404": 1,
+          "leafback7": 1,
+          "mango27": 1,
+          "moss9": 1,
           "nearthermo": 1,
-          "nightshift3": 2,
-          "peachcrumble": 2,
+          "nightshift3": 1,
+          "peachcrumble": 1,
           "slowblink": 1,
-          "smallhide2": 2,
-          "twosteps8": 2,
-          "wallafterdark": 2,
+          "smallhide2": 1,
+          "twosteps8": 1,
+          "wallafterdark": 1,
           "wednesday6": 1
         },
         "count": 1
       },
       "result": [
-        "wallafterdark"
+        "twosteps8"
       ]
     },
     "slot-4/focus": {
@@ -245,7 +245,7 @@
         "count": 1
       },
       "result": [
-        "own-history"
+        "present"
       ]
     },
     "slot-4/length": {
@@ -292,7 +292,7 @@
         "count": 1
       },
       "result": [
-        "mango27"
+        "wednesday6"
       ]
     },
     "slot-5/focus": {
@@ -306,7 +306,7 @@
         "count": 1
       },
       "result": [
-        "own-history"
+        "other-public"
       ]
     },
     "slot-5/length": {
@@ -353,7 +353,7 @@
         "count": 1
       },
       "result": [
-        "peachcrumble"
+        "twosteps8"
       ]
     },
     "slot-6/focus": {
@@ -367,7 +367,7 @@
         "count": 1
       },
       "result": [
-        "outside-usual"
+        "own-history"
       ]
     },
     "slot-6/length": {
@@ -380,7 +380,7 @@
         "count": 1
       },
       "result": [
-        "utterance"
+        "brief"
       ]
     },
     "slot-7/author-mode": {
@@ -392,29 +392,29 @@
         "count": 1
       },
       "result": [
-        "explore"
+        "weighted"
       ]
     },
     "slot-7/author": {
       "input": {
         "options": {
-          "gecko404": 1,
-          "leafback7": 1,
-          "mango27": 1,
-          "moss9": 1,
+          "gecko404": 4,
+          "leafback7": 2,
+          "mango27": 4,
+          "moss9": 2,
           "nearthermo": 1,
-          "nightshift3": 1,
-          "peachcrumble": 1,
+          "nightshift3": 2,
+          "peachcrumble": 2,
           "slowblink": 1,
-          "smallhide2": 1,
-          "twosteps8": 1,
-          "wallafterdark": 1,
+          "smallhide2": 2,
+          "twosteps8": 2,
+          "wallafterdark": 2,
           "wednesday6": 1
         },
         "count": 1
       },
       "result": [
-        "mango27"
+        "slowblink"
       ]
     },
     "slot-7/focus": {
@@ -428,7 +428,7 @@
         "count": 1
       },
       "result": [
-        "present"
+        "other-public"
       ]
     },
     "slot-7/length": {
@@ -441,12 +441,19 @@
         "count": 1
       },
       "result": [
-        "expanded"
+        "brief"
       ]
     },
     "history": {
       "input": {
         "options": {
+          "20261030-203807-2fbe029774": 1,
+          "20261030-190521-68648d9f64": 1,
+          "20261030-181240-6b1f6d5445": 1,
+          "20261030-172612-843c572397": 1,
+          "20261030-153554-c133ae9ae4": 1,
+          "20261030-144920-a9c856113c": 1,
+          "20261030-140231-66f5101e98": 1,
           "20261030-131608-b7eb0a2c55": 1,
           "20261030-122943-6f62fca28b": 1,
           "20261030-114712-36f45ca6df": 1,
@@ -511,8 +518,56 @@
         "count": 2
       },
       "result": [
-        "20261019-135208-8c0f6a3dc6",
-        "20261028-234916-c3ef3fde30"
+        "20261019-133400-bc7efaf3a4",
+        "20261019-142300-23a4430b8f"
+      ]
+    },
+    "slot-5/source": {
+      "input": {
+        "options": {
+          "20261031-222910-a3e23dc089": 1,
+          "20261101-124220-af57ad2bbc": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "20261101-124220-af57ad2bbc"
+      ]
+    },
+    "slot-5/notice": {
+      "input": {
+        "options": {
+          "notice": 1,
+          "skip": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "skip"
+      ]
+    },
+    "slot-7/source": {
+      "input": {
+        "options": {
+          "20261101-124220-af57ad2bbc": 1,
+          "20261101-131740-10f164f0ff": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "20261101-131740-10f164f0ff"
+      ]
+    },
+    "slot-7/notice": {
+      "input": {
+        "options": {
+          "notice": 1,
+          "skip": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "skip"
       ]
     }
   }
