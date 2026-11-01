@@ -1216,6 +1216,139 @@
       "previous": 0,
       "at": "2026-11-01T19:12:11+08:00",
       "likes": 1
+    },
+    "7300944fdfc1e96684df101e2e60dd104e664625b914300f6e74517d399038b3": {
+      "source": {
+        "username": "nightshift3",
+        "date": "2026-11-01T18:06:20+08:00",
+        "body_sha256": "29cc478b57327a6f3f3f1bdbc5cb9c1ba3053fdd5afcc6bc15d2032d08951630"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "attention": "steady",
+        "reason": "晚间独处的选择可独立理解；尚无这段话题的已确认往返，同期注意机会正常。",
+        "relationship": "none"
+      },
+      "seed": "0183e52aff1ce21137a0cd418bd53010",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T22:58:40+08:00",
+      "likes": 0
+    },
+    "ba31f4669168efcaa78af20d5cd56d4e8bdc323d2ac43416431423ca61edefcd": {
+      "source": {
+        "username": "mango27",
+        "date": "2026-11-01T18:44:10+08:00",
+        "body_sha256": "a96fed8f70cf6edba8e104cf70ded96c5209bdbce77533eea44fd7139b04471e"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "strong",
+        "attention": "steady",
+        "reason": "吃后身体小麻烦不依赖旧帖，具体动作容易被理解；无本话题已确认双向联系，注意机会正常。",
+        "relationship": "none"
+      },
+      "seed": "bb650f4a8a0034b9900cd48a87cb9699",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T22:58:40+08:00",
+      "likes": 6
+    },
+    "e4ea53a31adbb43282990c2338ea753c719460bc6acfbef79f6f59ce28ed8853": {
+      "source": {
+        "username": "gecko404",
+        "date": "2026-11-01T19:21:35+08:00",
+        "body_sha256": "90f8ec90916ac51418d8881a6381e3bfde9dc6adb2d92d73cdaad076fa49bae1"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "attention": "steady",
+        "reason": "继续本人下午钻缝的局部细节，需要一点前情；无已确认对应交流，反响以有限的日常注意估计。",
+        "relationship": "none"
+      },
+      "seed": "3d81b79204cc072feb574ac28bef2816",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T22:58:40+08:00",
+      "likes": 0
+    },
+    "66bd46a639d14380eafc1c699dd6fba0c9f56d120ae2ce7da318364a59d154a9": {
+      "source": {
+        "username": "twosteps8",
+        "date": "2026-11-01T20:06:45+08:00",
+        "body_sha256": "903c6d48e91459e201e22d4da4a4e971e98a564e24f4c5a1875cd0ce893cca9d"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "attention": "steady",
+        "reason": "独立可懂的短距离探索，有限发现不是重大事件；没有本话题双向回应，周围动态正常。",
+        "relationship": "none"
+      },
+      "seed": "653de6cc7b6a7abcc348563425d72d26",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T22:58:40+08:00",
+      "likes": 0
+    },
+    "ef0395443221ddf7badccabcf90c46cb71d1684dcda92ffffd6ec1002decfd11": {
+      "source": {
+        "username": "wednesday6",
+        "date": "2026-11-01T21:04:15+08:00",
+        "body_sha256": "6e8858f643c5f4acd411e28bb67ffa8900a82dfae791c85dfc307c0027619bb0"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "attention": "steady",
+        "reason": "分心后想起原计划的生活小事可独立阅读；虽有其他历史交流，此帖不是延续交换，注意机会正常。",
+        "relationship": "none"
+      },
+      "seed": "22126804fc28e502023945e244bf417a",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T22:58:40+08:00",
+      "likes": 0
+    },
+    "50844d536e4bec97e81f40f50cac9c3b92b37e87d421612ac8ab44e83efd5df6": {
+      "source": {
+        "username": "twosteps8",
+        "date": "2026-11-01T21:43:30+08:00",
+        "body_sha256": "857f67be6ae740208a3f5674e279ee8924024738931709e0506039ef245b9671"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "attention": "busy",
+        "reason": "承接昨日认路失误和此前可见纹路，熟悉旧帖者更容易读懂；无这次分享的公开往返，临近多条新帖竞争注意。",
+        "relationship": "none"
+      },
+      "seed": "5ec74097eda35848028fdb68a2be15a7",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T22:58:40+08:00",
+      "likes": 0
+    },
+    "210ca9b41a01a307ffdb775a3117f819b8a6e33c87de5f50a969e37bbb763d8b": {
+      "source": {
+        "username": "slowblink",
+        "date": "2026-11-01T22:32:20+08:00",
+        "body_sha256": "34a19fa38ca94d1867b92d351b4e41ece48aea82872ecaa5011844a57646eb42"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "attention": "busy",
+        "reason": "低频角色的一段独立休息小事；未见针对它的明确往返，同时间线有数条新动态。",
+        "relationship": "none"
+      },
+      "seed": "eaa2efbadbf7d0da67a38f4a5af38e15",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-01T22:58:40+08:00",
+      "likes": 2
     }
   }
 }
