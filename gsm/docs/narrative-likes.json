@@ -1349,6 +1349,25 @@
       "previous": 0,
       "at": "2026-11-01T22:58:40+08:00",
       "likes": 2
+    },
+    "f04e8335810db9caec6c430807619950e88a64d4ea2f351d416541060a69f825": {
+      "source": {
+        "username": "wallafterdark",
+        "date": "2026-11-01T23:14:40+08:00",
+        "body_sha256": "ef30e5d400a474a257a9712f1d9de98122a83ccb9988df075122ef6d5204c5d6"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "墙角的潮味是独立可读的生活感受，无已确认相关往返，夜间注意机会正常。"
+      },
+      "seed": "514e4a0370c2b4e17bc8df6cb873889a",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-02T03:54:00+08:00",
+      "likes": 1
     }
   }
 }
