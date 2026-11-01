@@ -1444,6 +1444,25 @@
       "previous": 0,
       "at": "2026-11-02T03:54:00+08:00",
       "likes": 0
+    },
+    "124f7811900c55f90c53cdeb75cd91f94d3011db8f2debd5d9cd0d86faa00971": {
+      "source": {
+        "username": "nightshift3",
+        "date": "2026-11-02T03:18:40+08:00",
+        "body_sha256": "6f8c3841e035955f5d6f23adffa65bdfd4bffae3ec3ae9bab81dc4dcd1bfcfb2"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "换路线喝水是易懂的普通小事，与现有公开问答无关，未推定别的角色已阅读。"
+      },
+      "seed": "8db222c6f7901ba2a75f4ae580055980",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-02T03:54:00+08:00",
+      "likes": 1
     }
   }
 }
