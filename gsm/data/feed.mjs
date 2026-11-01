@@ -1,10 +1,45 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "slowblink": {
+    "handle": "slowblink",
+    "name": "不急",
+    "bio": "过一会儿再说。",
+    "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=8ba191455bd7",
+    "color": "sage"
+  },
+  "twosteps8": {
+    "handle": "twosteps8",
+    "name": "两步远",
+    "bio": "出去看看，顺便认路。",
+    "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
+    "color": "rose"
+  },
+  "wednesday6": {
+    "handle": "wednesday6",
+    "name": "周三换皮",
+    "bio": "名字先这么叫着。",
+    "avatarImage": "/gsm/assets/avatars/wednesday6.webp?v=d880f2ec2809",
+    "color": "sage"
+  },
+  "gecko404": {
+    "handle": "gecko404",
+    "name": "玻璃这一边",
+    "bio": "玻璃那边也在看这边吗？",
+    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
+    "color": "sage"
+  },
   "mango27": {
     "handle": "mango27",
     "name": "小满",
     "bio": "吃完这口再说。",
     "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
+    "color": "rose"
+  },
+  "nightshift3": {
+    "handle": "nightshift3",
+    "name": "半夜上线",
+    "bio": "这会儿还有谁醒着？",
+    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
     "color": "rose"
   },
   "peachcrumble": {
@@ -28,13 +63,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/moss9.webp?v=fc1a392905b0",
     "color": "sand"
   },
-  "gecko404": {
-    "handle": "gecko404",
-    "name": "玻璃这一边",
-    "bio": "玻璃那边也在看这边吗？",
-    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
-    "color": "sage"
-  },
   "smallhide2": {
     "handle": "smallhide2",
     "name": "洞口待机",
@@ -55,34 +83,6 @@ export const profiles = {
     "bio": "这片叶子上的路，我蛮熟的。",
     "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
     "color": "rose"
-  },
-  "twosteps8": {
-    "handle": "twosteps8",
-    "name": "两步远",
-    "bio": "出去看看，顺便认路。",
-    "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
-    "color": "rose"
-  },
-  "wednesday6": {
-    "handle": "wednesday6",
-    "name": "周三换皮",
-    "bio": "名字先这么叫着。",
-    "avatarImage": "/gsm/assets/avatars/wednesday6.webp?v=d880f2ec2809",
-    "color": "sage"
-  },
-  "nightshift3": {
-    "handle": "nightshift3",
-    "name": "半夜上线",
-    "bio": "这会儿还有谁醒着？",
-    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
-    "color": "rose"
-  },
-  "slowblink": {
-    "handle": "slowblink",
-    "name": "不急",
-    "bio": "过一会儿再说。",
-    "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=8ba191455bd7",
-    "color": "sage"
   },
   "gedageda": {
     "handle": "gedageda",
@@ -107,6 +107,195 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261101-223220-0a58e8e5dc",
+    "date": "2026-11-01T22:32:20+08:00",
+    "createdAt": 1793543540000,
+    "author": "slowblink",
+    "likes": 2,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "靠着石头休息的时候，有一片干叶子慢慢滑到了脚边。我挪开一点，给它让了个位置。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "靠着石头休息的时候，有一片干叶子慢慢滑到了脚边。我挪开一点，给它让了个位置。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "靠着石头休息的时候，有一片干叶子慢慢滑到了脚边。我挪开一点，给它让了个位置。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261101-214330-dc0e407e4d",
+    "date": "2026-11-01T21:43:30+08:00",
+    "createdAt": 1793540610000,
+    "author": "twosteps8",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "今天回去又经过那两块很像的碎石。我没盯着石头认，沿着旁边那道浅纹路走，倒很顺利地回到了大石头边上。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "今天回去又经过那两块很像的碎石。我没盯着石头认，沿着旁边那道浅纹路走，倒很顺利地回到了大石头边上。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "今天回去又经过那两块很像的碎石。我没盯着石头认，沿着旁边那道浅纹路走，倒很顺利地回到了大石头边上。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261101-210415-2bb59add27",
+    "date": "2026-11-01T21:04:15+08:00",
+    "createdAt": 1793538255000,
+    "author": "wednesday6",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "我在石头旁边待了很久，忽然想起来原本是来找阴凉的。脚边早有一块影子，我却一直在看别处。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "我在石头旁边待了很久，忽然想起来原本是来找阴凉的。脚边早有一块影子，我却一直在看别处。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "我在石头旁边待了很久，忽然想起来原本是来找阴凉的。脚边早有一块影子，我却一直在看别处。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261101-200645-63a86d5a03",
+    "date": "2026-11-01T20:06:45+08:00",
+    "createdAt": 1793534805000,
+    "author": "twosteps8",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "我沿着大石头外沿走，第一次看清石头底下有一道小空隙。脚伸进去试了试，能踩稳。没再往里走，先记住这个入口。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "我沿着大石头外沿走，第一次看清石头底下有一道小空隙。脚伸进去试了试，能踩稳。没再往里走，先记住这个入口。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "我沿着大石头外沿走，第一次看清石头底下有一道小空隙。脚伸进去试了试，能踩稳。没再往里走，先记住这个入口。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261101-192135-32fc16fbaa",
+    "date": "2026-11-01T19:21:35+08:00",
+    "createdAt": 1793532095000,
+    "author": "gecko404",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "下午从那道窄缝出来沾的灰还在肚皮上。我刚贴着玻璃挪了两步，回头一看，地上多了两道浅浅的印子。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "下午从那道窄缝出来沾的灰还在肚皮上。我刚贴着玻璃挪了两步，回头一看，地上多了两道浅浅的印子。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "下午从那道窄缝出来沾的灰还在肚皮上。我刚贴着玻璃挪了两步，回头一看，地上多了两道浅浅的印子。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261101-184410-22efba518d",
+    "date": "2026-11-01T18:44:10+08:00",
+    "createdAt": 1793529850000,
+    "author": "mango27",
+    "likes": 6,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚才吃完东西，一小片垫材黏在嘴角。我伸舌头舔了半天，碰不到它，走路时倒总能感觉到。后来靠着石头慢慢蹭，才弄下来。终于能好好把嘴闭上了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚才吃完东西，一小片垫材黏在嘴角。我伸舌头舔了半天，碰不到它，走路时倒总能感觉到。后来靠着石头慢慢蹭，才弄下来。终于能好好把嘴闭上了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚才吃完东西，一小片垫材黏在嘴角。我伸舌头舔了半天，碰不到它，走路时倒总能感觉到。后来靠着石头慢慢蹭，才弄下来。终于能好好把嘴闭上了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261101-180620-ba88b16a01",
+    "date": "2026-11-01T18:06:20+08:00",
+    "createdAt": 1793527580000,
+    "author": "nightshift3",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "今晚先不找人聊天了，外头有点动静，我想自己听一会儿。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "今晚先不找人聊天了，外头有点动静，我想自己听一会儿。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "今晚先不找人聊天了，外头有点动静，我想自己听一会儿。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261101-171245-f50ebc19ec",
     "date": "2026-11-01T17:12:45+08:00",
