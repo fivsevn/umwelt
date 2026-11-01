@@ -1,5 +1,19 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "nearthermo": {
+    "handle": "nearthermo",
+    "name": "温度计旁边",
+    "bio": "挪一点，舒服多了。",
+    "avatarImage": "/gsm/assets/avatars/nearthermo.webp?v=f536a852bd2b",
+    "color": "sand"
+  },
+  "gecko404": {
+    "handle": "gecko404",
+    "name": "玻璃这一边",
+    "bio": "玻璃那边也在看这边吗？",
+    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
+    "color": "sage"
+  },
   "leafback7": {
     "handle": "leafback7",
     "name": "叶背居民",
@@ -13,13 +27,6 @@ export const profiles = {
     "bio": "吃完这口再说。",
     "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
     "color": "rose"
-  },
-  "gecko404": {
-    "handle": "gecko404",
-    "name": "玻璃这一边",
-    "bio": "玻璃那边也在看这边吗？",
-    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
-    "color": "sage"
   },
   "peachcrumble": {
     "handle": "peachcrumble",
@@ -63,13 +70,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
     "color": "sand"
   },
-  "nearthermo": {
-    "handle": "nearthermo",
-    "name": "温度计旁边",
-    "bio": "挪一点，舒服多了。",
-    "avatarImage": "/gsm/assets/avatars/nearthermo.webp?v=f536a852bd2b",
-    "color": "sand"
-  },
   "slowblink": {
     "handle": "slowblink",
     "name": "不急",
@@ -107,6 +107,60 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261101-124220-af57ad2bbc",
+    "date": "2026-11-01T12:42:20+08:00",
+    "createdAt": 1793508140000,
+    "author": "nearthermo",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "今天换回木头背面睡了。前几天总在另一头试，前脚伸出去还是悬着。这里四只脚都能搁稳，省得再挪。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "今天换回木头背面睡了。前几天总在另一头试，前脚伸出去还是悬着。这里四只脚都能搁稳，省得再挪。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "今天换回木头背面睡了。前几天总在另一头试，前脚伸出去还是悬着。这里四只脚都能搁稳，省得再挪。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261101-115810-13b6ee2e68",
+    "date": "2026-11-01T11:58:10+08:00",
+    "createdAt": 1793505490000,
+    "author": "gecko404",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "今天没去玻璃边，钻进角落那条窄缝看了看。里头比从外面看着宽一点，我竟然能转过身。待了一阵，外面的脚步声都听不太清了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "今天没去玻璃边，钻进角落那条窄缝看了看。里头比从外面看着宽一点，我竟然能转过身。待了一阵，外面的脚步声都听不太清了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "今天没去玻璃边，钻进角落那条窄缝看了看。里头比从外面看着宽一点，我竟然能转过身。待了一阵，外面的脚步声都听不太清了。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261101-074120-c9d0e84179",
     "date": "2026-11-01T07:41:20+08:00",
