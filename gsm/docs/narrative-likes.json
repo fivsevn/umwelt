@@ -1368,6 +1368,25 @@
       "previous": 0,
       "at": "2026-11-02T03:54:00+08:00",
       "likes": 1
+    },
+    "75f908288258342d1b4dd52cc62c324844ed169eb48348a8a57d412d54fbee1b": {
+      "source": {
+        "username": "gecko404",
+        "date": "2026-11-02T00:09:35+08:00",
+        "body_sha256": "24ec2313e145f4d1cd05fd9ca0b0a95807ad21710a26a9a3faee68d4e16ca8cd"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "跳出玻璃主题、独立可懂的木头声响观察，无本事已确认交流，附近动态注意正常。"
+      },
+      "seed": "ad706191e9121e6438f7f72560826d1f",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-02T03:54:00+08:00",
+      "likes": 0
     }
   }
 }
