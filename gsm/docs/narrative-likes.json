@@ -1691,6 +1691,25 @@
       "previous": 0,
       "at": "2026-11-02T14:00:00+08:00",
       "likes": 1
+    },
+    "5f8becc898d9a3131296e5ce39c1a2938bddfc7a5286dc1b998a1f31553f31e9": {
+      "source": {
+        "username": "mango27",
+        "date": "2026-11-02T16:24:10+08:00",
+        "body_sha256": "b2892f8b657985f5efe29aa127fffeadbc90467b19be9c2889580cb77b329d30"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "尾巴与影子的独立小发现容易理解，和已形成的往返无关；近期相隔数小时更新，注意不密集。"
+      },
+      "seed": "07635e3364fd31646c655dca00b68075",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-02T18:58:12+08:00",
+      "likes": 2
     }
   }
 }
