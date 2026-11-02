@@ -1767,6 +1767,25 @@
       "previous": 0,
       "at": "2026-11-02T23:09:00+08:00",
       "likes": 1
+    },
+    "0722b1364db05269fdaa5c414b98a5ec71786626a7a0ac5e08e7fb49be6d178f": {
+      "source": {
+        "username": "gecko404",
+        "date": "2026-11-02T20:14:20+08:00",
+        "body_sha256": "cd7522cdece018c9aab85699de6fd13f901302dd17b8aa5b15850623d32eb680"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "接续自己曾试探的木头声响，未读旧帖者也能理解观察，但属于局部续记；没有已知社交往返。"
+      },
+      "seed": "2ca7913c145f1f3f4e419e87e873d139",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-02T23:09:00+08:00",
+      "likes": 2
     }
   }
 }
