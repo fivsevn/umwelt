@@ -1748,6 +1748,25 @@
       "previous": 1,
       "at": "2026-11-02T19:02:00+08:00",
       "likes": 2
+    },
+    "45529506358648f80838c3794bc5a24c09dea121c2dd5cc4f661634d9959ce23": {
+      "source": {
+        "username": "mango27",
+        "date": "2026-11-02T19:36:05+08:00",
+        "body_sha256": "1cc572fbb6bd4336de425e38ef412abc4b3e83b9ce298ea18449d53be981d8d5"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "吃饱后贴近石头歇着，是独立可懂的寻常感受；无已确认接话对象，同期信息流稀疏。"
+      },
+      "seed": "ebd6d503a641224b940de029745262c6",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-02T23:09:00+08:00",
+      "likes": 1
     }
   }
 }

@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "round": "2026-11-02/185302-338b",
-  "baseline": "2e3eb4bccc3a4a965331a14d8e60ac1faa1818b8",
-  "target_posts": 3,
-  "closed": true,
+  "round": "2026-11-02/230548-4ea2",
+  "baseline": "d010208fac82a9c03daf1d11a2de5e8717e96513",
+  "target_posts": 5,
+  "closed": false,
   "draws": {
     "review": {
       "input": {
@@ -15,18 +15,6 @@
       },
       "result": [
         "ordinary"
-      ]
-    },
-    "external": {
-      "input": {
-        "options": {
-          "sample": 1,
-          "skip": 5
-        },
-        "count": 1
-      },
-      "result": [
-        "skip"
       ]
     },
     "slot-01/author-mode": {
@@ -74,7 +62,7 @@
         "count": 1
       },
       "result": [
-        "side-interest"
+        "immediate"
       ]
     },
     "slot-01/length": {
@@ -90,9 +78,282 @@
         "utterance"
       ]
     },
+    "slot-02/author-mode": {
+      "input": {
+        "options": {
+          "explore": 1,
+          "weighted": 4
+        },
+        "count": 1
+      },
+      "result": [
+        "weighted"
+      ]
+    },
+    "slot-02/author": {
+      "input": {
+        "options": {
+          "gecko404": 4,
+          "leafback7": 2,
+          "mango27": 4,
+          "moss9": 2,
+          "nearthermo": 1,
+          "nightshift3": 2,
+          "peachcrumble": 2,
+          "slowblink": 1,
+          "smallhide2": 2,
+          "twosteps8": 2,
+          "wallafterdark": 2,
+          "wednesday6": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "gecko404"
+      ]
+    },
+    "slot-02/focus": {
+      "input": {
+        "options": {
+          "immediate": 3,
+          "own-history": 1,
+          "public-other": 1,
+          "side-interest": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "immediate"
+      ]
+    },
+    "slot-02/length": {
+      "input": {
+        "options": {
+          "utterance": 2,
+          "brief": 3,
+          "expanded": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "utterance"
+      ]
+    },
+    "slot-03/author-mode": {
+      "input": {
+        "options": {
+          "explore": 1,
+          "weighted": 4
+        },
+        "count": 1
+      },
+      "result": [
+        "explore"
+      ]
+    },
+    "slot-03/author": {
+      "input": {
+        "options": {
+          "gecko404": 1,
+          "leafback7": 1,
+          "mango27": 1,
+          "moss9": 1,
+          "nearthermo": 1,
+          "nightshift3": 1,
+          "peachcrumble": 1,
+          "slowblink": 1,
+          "smallhide2": 1,
+          "twosteps8": 1,
+          "wallafterdark": 1,
+          "wednesday6": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "mango27"
+      ]
+    },
+    "slot-03/focus": {
+      "input": {
+        "options": {
+          "immediate": 3,
+          "own-history": 1,
+          "public-other": 1,
+          "side-interest": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "own-history"
+      ]
+    },
+    "slot-03/length": {
+      "input": {
+        "options": {
+          "utterance": 2,
+          "brief": 3,
+          "expanded": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "brief"
+      ]
+    },
+    "slot-04/author-mode": {
+      "input": {
+        "options": {
+          "explore": 1,
+          "weighted": 4
+        },
+        "count": 1
+      },
+      "result": [
+        "weighted"
+      ]
+    },
+    "slot-04/author": {
+      "input": {
+        "options": {
+          "gecko404": 4,
+          "leafback7": 2,
+          "mango27": 4,
+          "moss9": 2,
+          "nearthermo": 1,
+          "nightshift3": 2,
+          "peachcrumble": 2,
+          "slowblink": 1,
+          "smallhide2": 2,
+          "twosteps8": 2,
+          "wallafterdark": 2,
+          "wednesday6": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "nightshift3"
+      ]
+    },
+    "slot-04/focus": {
+      "input": {
+        "options": {
+          "immediate": 3,
+          "own-history": 1,
+          "public-other": 1,
+          "side-interest": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "public-other"
+      ]
+    },
+    "slot-04/length": {
+      "input": {
+        "options": {
+          "utterance": 2,
+          "brief": 3,
+          "expanded": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "utterance"
+      ]
+    },
+    "slot-05/author-mode": {
+      "input": {
+        "options": {
+          "explore": 1,
+          "weighted": 4
+        },
+        "count": 1
+      },
+      "result": [
+        "weighted"
+      ]
+    },
+    "slot-05/author": {
+      "input": {
+        "options": {
+          "gecko404": 4,
+          "leafback7": 2,
+          "mango27": 4,
+          "moss9": 2,
+          "nearthermo": 1,
+          "nightshift3": 2,
+          "peachcrumble": 2,
+          "slowblink": 1,
+          "smallhide2": 2,
+          "twosteps8": 2,
+          "wallafterdark": 2,
+          "wednesday6": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "peachcrumble"
+      ]
+    },
+    "slot-05/focus": {
+      "input": {
+        "options": {
+          "immediate": 3,
+          "own-history": 1,
+          "public-other": 1,
+          "side-interest": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "own-history"
+      ]
+    },
+    "slot-05/length": {
+      "input": {
+        "options": {
+          "utterance": 2,
+          "brief": 3,
+          "expanded": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "brief"
+      ]
+    },
+    "slot-04/public-source": {
+      "input": {
+        "options": {
+          "20261102-022605-c0eaff7607": 1,
+          "20261102-052545-cddc0eccad": 1,
+          "20261102-013750-a7f484f453": 1,
+          "20261101-162815-54a5e04396": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "20261101-162815-54a5e04396"
+      ]
+    },
+    "slot-04/notice": {
+      "input": {
+        "options": {
+          "notice": 1,
+          "skip": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "skip"
+      ]
+    },
     "history": {
       "input": {
         "options": {
+          "20261101-155135-d2eec6de49": 1,
+          "20261101-152210-4cbd7e323a": 1,
+          "20261101-143455-5cd9e14a23": 1,
           "20261101-135620-3702da43f7": 1,
           "20261101-131740-10f164f0ff": 1,
           "20261101-124220-af57ad2bbc": 1,
@@ -189,130 +450,8 @@
         "count": 2
       },
       "result": [
-        "20261031-055840-e7ba684fc6",
-        "20261019-151100-8019cafb00"
-      ]
-    },
-    "slot-02/author-mode": {
-      "input": {
-        "options": {
-          "explore": 1,
-          "weighted": 4
-        },
-        "count": 1
-      },
-      "result": [
-        "weighted"
-      ]
-    },
-    "slot-02/author": {
-      "input": {
-        "options": {
-          "gecko404": 4,
-          "leafback7": 2,
-          "mango27": 4,
-          "moss9": 2,
-          "nearthermo": 1,
-          "nightshift3": 2,
-          "peachcrumble": 2,
-          "slowblink": 1,
-          "smallhide2": 2,
-          "twosteps8": 2,
-          "wallafterdark": 2,
-          "wednesday6": 1
-        },
-        "count": 1
-      },
-      "result": [
-        "nightshift3"
-      ]
-    },
-    "slot-02/focus": {
-      "input": {
-        "options": {
-          "immediate": 3,
-          "own-history": 1,
-          "public-other": 1,
-          "side-interest": 1
-        },
-        "count": 1
-      },
-      "result": [
-        "own-history"
-      ]
-    },
-    "slot-02/length": {
-      "input": {
-        "options": {
-          "utterance": 2,
-          "brief": 3,
-          "expanded": 1
-        },
-        "count": 1
-      },
-      "result": [
-        "utterance"
-      ]
-    },
-    "slot-03/author-mode": {
-      "input": {
-        "options": {
-          "explore": 1,
-          "weighted": 4
-        },
-        "count": 1
-      },
-      "result": [
-        "explore"
-      ]
-    },
-    "slot-03/author": {
-      "input": {
-        "options": {
-          "gecko404": 1,
-          "leafback7": 1,
-          "mango27": 1,
-          "moss9": 1,
-          "nearthermo": 1,
-          "nightshift3": 1,
-          "peachcrumble": 1,
-          "slowblink": 1,
-          "smallhide2": 1,
-          "twosteps8": 1,
-          "wallafterdark": 1,
-          "wednesday6": 1
-        },
-        "count": 1
-      },
-      "result": [
-        "mango27"
-      ]
-    },
-    "slot-03/focus": {
-      "input": {
-        "options": {
-          "immediate": 3,
-          "own-history": 1,
-          "public-other": 1,
-          "side-interest": 1
-        },
-        "count": 1
-      },
-      "result": [
-        "immediate"
-      ]
-    },
-    "slot-03/length": {
-      "input": {
-        "options": {
-          "utterance": 2,
-          "brief": 3,
-          "expanded": 1
-        },
-        "count": 1
-      },
-      "result": [
-        "brief"
+        "20261019-143500-823e785650",
+        "20261025-122500-4400276210"
       ]
     }
   }
