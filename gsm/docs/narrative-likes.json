@@ -1482,6 +1482,139 @@
       "previous": 0,
       "at": "2026-11-02T03:54:00+08:00",
       "likes": 0
+    },
+    "c43853607da13f89125e1c4d3d82edb9e230228395d6cb660bb88e06baf790ff": {
+      "source": {
+        "username": "smallhide2",
+        "date": "2026-11-02T04:15:20+08:00",
+        "body_sha256": "161dede0020c1a5d836503bb70de2d4ae82fdbeeddad59619bd6cc482b5fecd3"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "接续躲避屋垫材位置的私密小事，了解前帖的人更易理解；没有明确阅读往返，附近动态有限。"
+      },
+      "seed": "ff86b0d84ec169c405a827b54b8afcac",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-02T08:56:00+08:00",
+      "likes": 1
+    },
+    "9b8a4d33ab95578975423f0201e741bcbe31351b7fcd8c73f0ae8135b1145667": {
+      "source": {
+        "username": "nightshift3",
+        "date": "2026-11-02T04:48:30+08:00",
+        "body_sha256": "7628c2d932816269fa1025b7ad9009f88a61dc9c98490af6c14650f789caaea7"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "身体动作是无需了解前情的普通小经验；虽有此前问答，本帖不是那段交流的继续。"
+      },
+      "seed": "1283777ff7d3390e7ac705487bc2d403",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-02T08:56:00+08:00",
+      "likes": 0
+    },
+    "cfc84da05654ad03fb11804a4ca608bb3ccc15e3d66be2b12c221d268e7db369": {
+      "source": {
+        "username": "gecko404",
+        "date": "2026-11-02T05:25:45+08:00",
+        "body_sha256": "d37942c9da9f0e74618078fb9b53ea39fe88c11b6a23dfb8915724bede402a02"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "延续自己木头异响的探查，具体但依赖近期前情；未接入跨角色往返。"
+      },
+      "seed": "13d45f3b27ba19283eb0162cf9f17271",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-02T08:56:00+08:00",
+      "likes": 2
+    },
+    "e74b44f2ae35163c2d8cbc5f0b5356582fd91fa616090e968775eb1a0d8a7e92": {
+      "source": {
+        "username": "moss9",
+        "date": "2026-11-02T06:13:25+08:00",
+        "body_sha256": "31d1bd8483d8a28bf4c2074fa9f8b7d42952a6ead3635efd2d7b9b462c0d3fbc"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "与通常留意细节相反的一段行走也能单独读懂；无已确认关系或密集争论。"
+      },
+      "seed": "14c75d15780e6fd068d71d3ef2632312",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-02T08:56:00+08:00",
+      "likes": 0
+    },
+    "0d1483c0fe4a9e4ada46066cb293775c09f94698ac9acb078711e5d6953fc3fd": {
+      "source": {
+        "username": "leafback7",
+        "date": "2026-11-02T07:02:40+08:00",
+        "body_sha256": "fc2e97e27641c6f8892691c92e29486e5fa47758d6b2c6d74291c218cba22042"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "叶面行走的小插曲独立可懂；未指向已确认的交流或公共问题。"
+      },
+      "seed": "fbb7d97c68515f82a9e2b4675f507e17",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-02T08:56:00+08:00",
+      "likes": 0
+    },
+    "8808610674c32500c71e24c079e466b44e3e121277e86d0d77d0aac898e6e54a": {
+      "source": {
+        "username": "gecko404",
+        "date": "2026-11-02T07:44:55+08:00",
+        "body_sha256": "aec16e3e7528b06fc413a31c10e9e9d56f411c250658c64b4e17dc5742ee0e70"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "busy",
+        "reason": "同一角色短时间内再观察木头，后续依赖前情且竞争近时段注意；没有外部阅读证据。"
+      },
+      "seed": "43ae74a266a903f2b26e7fc21830b987",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-02T08:56:00+08:00",
+      "likes": 1
+    },
+    "1297613f46ef3f644e01ff6c523222ce0ae162c0789711c262140dc8aa16431f": {
+      "source": {
+        "username": "peachcrumble",
+        "date": "2026-11-02T08:24:10+08:00",
+        "body_sha256": "7e70c19ecb8a446075663d509e0d6cbad523dba37315853c232bbc07abd01565"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "无需前帖的普通追虫情境，动作和停手容易理解；无已知相关线上往返。"
+      },
+      "seed": "17c866c08d77a99d71f074afa04cf780",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-02T08:56:00+08:00",
+      "likes": 0
     }
   }
 }
