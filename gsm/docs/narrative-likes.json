@@ -1824,6 +1824,25 @@
       "previous": 0,
       "at": "2026-11-02T23:09:00+08:00",
       "likes": 0
+    },
+    "a24a3513b50df8386e0b64d7e1fa305b3e1aed0d74dee0038dc0caae0c35fd31": {
+      "source": {
+        "username": "peachcrumble",
+        "date": "2026-11-02T22:43:20+08:00",
+        "body_sha256": "982f105d248d0d19a9e9422defe83b881ae13268831be08c6ec4232fa588da43"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "先前未扑的虫让自己留有具体好奇，不用知道完整前情也能读懂；没有已确认读者互动。"
+      },
+      "seed": "bdf9d7614b5e27ccdcfca135c3a9ee17",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-02T23:09:00+08:00",
+      "likes": 0
     }
   }
 }
