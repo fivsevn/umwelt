@@ -1,11 +1,18 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
-  "peachcrumble": {
-    "handle": "peachcrumble",
-    "name": "桃酥",
-    "bio": "差一点，下回再试。",
-    "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
-    "color": "rose"
+  "smallhide2": {
+    "handle": "smallhide2",
+    "name": "洞口待机",
+    "bio": "门口留一点空就好。",
+    "avatarImage": "/gsm/assets/avatars/smallhide2.webp?v=8ba191455bd7",
+    "color": "sage"
+  },
+  "slowblink": {
+    "handle": "slowblink",
+    "name": "不急",
+    "bio": "过一会儿再说。",
+    "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=8ba191455bd7",
+    "color": "sage"
   },
   "gecko404": {
     "handle": "gecko404",
@@ -13,6 +20,13 @@ export const profiles = {
     "bio": "玻璃那边也在看这边吗？",
     "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
     "color": "sage"
+  },
+  "peachcrumble": {
+    "handle": "peachcrumble",
+    "name": "桃酥",
+    "bio": "差一点，下回再试。",
+    "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
+    "color": "rose"
   },
   "leafback7": {
     "handle": "leafback7",
@@ -35,13 +49,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
     "color": "rose"
   },
-  "smallhide2": {
-    "handle": "smallhide2",
-    "name": "洞口待机",
-    "bio": "门口留一点空就好。",
-    "avatarImage": "/gsm/assets/avatars/smallhide2.webp?v=8ba191455bd7",
-    "color": "sage"
-  },
   "wallafterdark": {
     "handle": "wallafterdark",
     "name": "墙角小守",
@@ -55,13 +62,6 @@ export const profiles = {
     "bio": "出去看看，顺便认路。",
     "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
     "color": "rose"
-  },
-  "slowblink": {
-    "handle": "slowblink",
-    "name": "不急",
-    "bio": "过一会儿再说。",
-    "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=8ba191455bd7",
-    "color": "sage"
   },
   "wednesday6": {
     "handle": "wednesday6",
@@ -107,6 +107,87 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261102-092240-3da6b78884",
+    "date": "2026-11-02T09:22:40+08:00",
+    "createdAt": 1793582560000,
+    "author": "smallhide2",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "今天出了躲避屋却没走远，就在门外待了好一会儿。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "今天出了躲避屋却没走远，就在门外待了好一会儿。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "今天出了躲避屋却没走远，就在门外待了好一会儿。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261102-091440-13b0643b0c",
+    "date": "2026-11-02T09:14:40+08:00",
+    "createdAt": 1793582080000,
+    "author": "slowblink",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "昨晚停在我脚边的那片干叶子，早上已经不见了。我又靠回石头边上，继续趴着。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "昨晚停在我脚边的那片干叶子，早上已经不见了。我又靠回石头边上，继续趴着。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "昨晚停在我脚边的那片干叶子，早上已经不见了。我又靠回石头边上，继续趴着。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261102-090710-041f080c67",
+    "date": "2026-11-02T09:07:10+08:00",
+    "createdAt": 1793581630000,
+    "author": "gecko404",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚转身，自己的尾巴扫过前脚，我还以为旁边有东西经过。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚转身，自己的尾巴扫过前脚，我还以为旁边有东西经过。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚转身，自己的尾巴扫过前脚，我还以为旁边有东西经过。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261102-082410-c175139334",
     "date": "2026-11-02T08:24:10+08:00",
