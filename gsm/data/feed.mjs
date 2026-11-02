@@ -220,7 +220,7 @@ export const posts = [
     "date": "2026-11-02T22:12:15+08:00",
     "createdAt": 1793628735000,
     "author": "nightshift3",
-    "likes": 0,
+    "likes": 1,
     "blocks": {
       "zh": [
         {
@@ -274,7 +274,7 @@ export const posts = [
     "date": "2026-11-02T20:14:20+08:00",
     "createdAt": 1793621660000,
     "author": "gecko404",
-    "likes": 2,
+    "likes": 3,
     "blocks": {
       "zh": [
         {
@@ -328,7 +328,7 @@ export const posts = [
     "date": "2026-11-02T18:46:30+08:00",
     "createdAt": 1793616390000,
     "author": "mango27",
-    "likes": 5,
+    "likes": 8,
     "blocks": {
       "zh": [
         {
@@ -355,7 +355,7 @@ export const posts = [
     "date": "2026-11-02T18:12:35+08:00",
     "createdAt": 1793614355000,
     "author": "nightshift3",
-    "likes": 0,
+    "likes": 1,
     "blocks": {
       "zh": [
         {
@@ -652,7 +652,7 @@ export const posts = [
     "date": "2026-11-02T04:48:30+08:00",
     "createdAt": 1793566110000,
     "author": "nightshift3",
-    "likes": 2,
+    "likes": 3,
     "blocks": {
       "zh": [
         {
@@ -706,7 +706,7 @@ export const posts = [
     "date": "2026-11-02T03:48:10+08:00",
     "createdAt": 1793562490000,
     "author": "leafback7",
-    "likes": 1,
+    "likes": 2,
     "blocks": {
       "zh": [
         {
@@ -733,7 +733,7 @@ export const posts = [
     "date": "2026-11-02T03:18:40+08:00",
     "createdAt": 1793560720000,
     "author": "nightshift3",
-    "likes": 1,
+    "likes": 2,
     "blocks": {
       "zh": [
         {
@@ -787,7 +787,7 @@ export const posts = [
     "date": "2026-11-02T01:37:50+08:00",
     "createdAt": 1793554670000,
     "author": "twosteps8",
-    "likes": 3,
+    "likes": 5,
     "blocks": {
       "zh": [
         {
@@ -814,7 +814,7 @@ export const posts = [
     "date": "2026-11-02T00:51:20+08:00",
     "createdAt": 1793551880000,
     "author": "moss9",
-    "likes": 2,
+    "likes": 3,
     "blocks": {
       "zh": [
         {
@@ -1840,7 +1840,7 @@ export const posts = [
     "date": "2026-10-31T05:58:40+08:00",
     "createdAt": 1793397520000,
     "author": "wallafterdark",
-    "likes": 5,
+    "likes": 6,
     "blocks": {
       "zh": [
         {
