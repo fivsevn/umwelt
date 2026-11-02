@@ -4,7 +4,7 @@ date: '2026-11-02T09:22:40+08:00'
 username: smallhide2
 name: 洞口待机
 status: published
-likes: 0
+likes: 3
 source_event: b2211df9f33113497e673753311518933c2c09ea
 author_assignment: specified
 ---
