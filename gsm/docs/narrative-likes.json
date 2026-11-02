@@ -1653,6 +1653,25 @@
       "previous": 0,
       "at": "2026-11-02T09:26:04+08:00",
       "likes": 0
+    },
+    "ac9bce0ae91538146e2586159251960da1934de031ac38934fb041659698e6ac": {
+      "source": {
+        "username": "smallhide2",
+        "date": "2026-11-02T09:22:40+08:00",
+        "body_sha256": "4cacc264dc9d299946949eeb7c0cdb88294470119d09610dd9fdf29b0457bb1f"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "门外停留是独立可懂的普通生活，与住处前情相容；没有新关系，附近有更新但未形成集中讨论。"
+      },
+      "seed": "7ee3d60f1c9e66cb7f3f5a2ab3e77633",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-02T09:26:04+08:00",
+      "likes": 0
     }
   }
 }
