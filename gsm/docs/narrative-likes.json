@@ -1710,6 +1710,25 @@
       "previous": 0,
       "at": "2026-11-02T18:58:12+08:00",
       "likes": 2
+    },
+    "57f153c1ba7a5659a1d06f5977198aaa1bff34f8801f583b2fcfa32070cb6048": {
+      "source": {
+        "username": "nightshift3",
+        "date": "2026-11-02T18:12:35+08:00",
+        "body_sha256": "abe720a6ca744c25629df211c7939266f03075f162d27501784343b73867525b"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "接续昨晚自己说过的听响动，读者不必知道具体声音来源；无确认的相关往返，附近动态不密集。"
+      },
+      "seed": "3fc1fd8c791e10cef3ebc8dea01a9f55",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-02T18:58:13+08:00",
+      "likes": 0
     }
   }
 }
