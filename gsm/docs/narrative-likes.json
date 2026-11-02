@@ -1805,6 +1805,25 @@
       "previous": 0,
       "at": "2026-11-02T23:09:00+08:00",
       "likes": 1
+    },
+    "62b71a1e90f00f187e07c6bfa7a847f475df98808e9ce40dd32331319a9b123e": {
+      "source": {
+        "username": "nightshift3",
+        "date": "2026-11-02T22:12:15+08:00",
+        "body_sha256": "0d7378a27cc8a78eaa26497f721fafc3dfaf7448ec70f8e251f9a2464b612d7d"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "熟路与近路的取舍可独立理解，接续自己当日走近路的经历；没有形成读者间的往返或密集讨论。"
+      },
+      "seed": "891c8ce8b67958a5d08737d1a7cde246",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-02T23:09:00+08:00",
+      "likes": 0
     }
   }
 }
