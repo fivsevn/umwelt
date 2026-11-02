@@ -1634,6 +1634,25 @@
       "previous": 0,
       "at": "2026-11-02T09:26:04+08:00",
       "likes": 0
+    },
+    "6ac1630408dc95fd585144b467a74674f6dc551b0d4c21dcd5093b65534ce0b1": {
+      "source": {
+        "username": "slowblink",
+        "date": "2026-11-02T09:14:40+08:00",
+        "body_sha256": "073d4801abf2c4caf8e525c222c41d44c33e7af87b5e5ae1b3aaa7dd6615e79c"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "承接昨晚一片干叶子的个人小事，认得前情更易理解；没有已确认关系加成，此刻注意大致正常。"
+      },
+      "seed": "b4c8a98bdf9553c4a0781a6a7dda4120",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-02T09:26:04+08:00",
+      "likes": 0
     }
   }
 }
