@@ -4,7 +4,7 @@ date: '2026-11-02T01:37:50+08:00'
 username: twosteps8
 name: 两步远
 status: published
-likes: 2
+likes: 3
 source_event: 10a4e409289e5bf4791bfbe2157d5b4e232a3e23
 author_assignment: specified
 ---
