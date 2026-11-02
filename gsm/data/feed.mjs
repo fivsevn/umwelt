@@ -1,10 +1,10 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
-  "mango27": {
-    "handle": "mango27",
-    "name": "小满",
-    "bio": "吃完这口再说。",
-    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
+  "peachcrumble": {
+    "handle": "peachcrumble",
+    "name": "桃酥",
+    "bio": "差一点，下回再试。",
+    "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
     "color": "rose"
   },
   "nightshift3": {
@@ -13,6 +13,20 @@ export const profiles = {
     "bio": "这会儿还有谁醒着？",
     "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
     "color": "rose"
+  },
+  "mango27": {
+    "handle": "mango27",
+    "name": "小满",
+    "bio": "吃完这口再说。",
+    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
+    "color": "rose"
+  },
+  "gecko404": {
+    "handle": "gecko404",
+    "name": "玻璃这一边",
+    "bio": "玻璃那边也在看这边吗？",
+    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
+    "color": "sage"
   },
   "leafback7": {
     "handle": "leafback7",
@@ -34,20 +48,6 @@ export const profiles = {
     "bio": "过一会儿再说。",
     "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=8ba191455bd7",
     "color": "sage"
-  },
-  "gecko404": {
-    "handle": "gecko404",
-    "name": "玻璃这一边",
-    "bio": "玻璃那边也在看这边吗？",
-    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
-    "color": "sage"
-  },
-  "peachcrumble": {
-    "handle": "peachcrumble",
-    "name": "桃酥",
-    "bio": "差一点，下回再试。",
-    "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
-    "color": "rose"
   },
   "moss9": {
     "handle": "moss9",
@@ -107,6 +107,141 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261102-224320-2aa69d016b",
+    "date": "2026-11-02T22:43:20+08:00",
+    "createdAt": 1793630600000,
+    "author": "peachcrumble",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "早上那只虫爬得慢得要命。我后来一直没见它再出现，倒有点好奇它钻到哪儿去了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "早上那只虫爬得慢得要命。我后来一直没见它再出现，倒有点好奇它钻到哪儿去了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "早上那只虫爬得慢得要命。我后来一直没见它再出现，倒有点好奇它钻到哪儿去了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261102-221215-22278e5ae7",
+    "date": "2026-11-02T22:12:15+08:00",
+    "createdAt": 1793628735000,
+    "author": "nightshift3",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "今晚去喝水还是走了老路。近路是近，拐弯的地方我还没记牢。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "今晚去喝水还是走了老路。近路是近，拐弯的地方我还没记牢。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "今晚去喝水还是走了老路。近路是近，拐弯的地方我还没记牢。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261102-210430-bc1dd515cf",
+    "date": "2026-11-02T21:04:30+08:00",
+    "createdAt": 1793624670000,
+    "author": "mango27",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "下午我看尾巴影子看得挺起劲，刚才又去试了一下。墙上只剩短短一截了，我换了两个地方站也没变长。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "下午我看尾巴影子看得挺起劲，刚才又去试了一下。墙上只剩短短一截了，我换了两个地方站也没变长。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "下午我看尾巴影子看得挺起劲，刚才又去试了一下。墙上只剩短短一截了，我换了两个地方站也没变长。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261102-201420-992d078dbc",
+    "date": "2026-11-02T20:14:20+08:00",
+    "createdAt": 1793621660000,
+    "author": "gecko404",
+    "likes": 2,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚才我离那块矮木头还有一段距离，就听见它轻轻响了一声。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚才我离那块矮木头还有一段距离，就听见它轻轻响了一声。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚才我离那块矮木头还有一段距离，就听见它轻轻响了一声。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261102-193605-4191c1a10e",
+    "date": "2026-11-02T19:36:05+08:00",
+    "createdAt": 1793619365000,
+    "author": "mango27",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "吃饱了，我把下巴搭在石头边上，连尾巴都懒得挪。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "吃饱了，我把下巴搭在石头边上，连尾巴都懒得挪。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "吃饱了，我把下巴搭在石头边上，连尾巴都懒得挪。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261102-184630-03f5d2aac1",
     "date": "2026-11-02T18:46:30+08:00",
