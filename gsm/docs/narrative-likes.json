@@ -1786,6 +1786,25 @@
       "previous": 0,
       "at": "2026-11-02T23:09:00+08:00",
       "likes": 2
+    },
+    "f33d2ca7c0ffef3bb9cf7ea10fe869f4fa0e3fe29630b68974743f7c2328e85d": {
+      "source": {
+        "username": "mango27",
+        "date": "2026-11-02T21:04:30+08:00",
+        "body_sha256": "11d099a8536a673549ed79fa6571addf4f8053cfb567c18470eff05b55e54c7e"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "联系下午自己观察的尾巴影子，位置变化是小范围个人趣事；没有明确回应关系，附近发布间隔较大。"
+      },
+      "seed": "4ec7e34862787a90d5de8623e5c5599b",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-02T23:09:00+08:00",
+      "likes": 1
     }
   }
 }
