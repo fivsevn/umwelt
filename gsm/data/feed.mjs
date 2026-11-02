@@ -1,5 +1,19 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "mango27": {
+    "handle": "mango27",
+    "name": "小满",
+    "bio": "吃完这口再说。",
+    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
+    "color": "rose"
+  },
+  "nightshift3": {
+    "handle": "nightshift3",
+    "name": "半夜上线",
+    "bio": "这会儿还有谁醒着？",
+    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
+    "color": "rose"
+  },
   "leafback7": {
     "handle": "leafback7",
     "name": "叶背居民",
@@ -42,13 +56,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/moss9.webp?v=fc1a392905b0",
     "color": "sand"
   },
-  "nightshift3": {
-    "handle": "nightshift3",
-    "name": "半夜上线",
-    "bio": "这会儿还有谁醒着？",
-    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
-    "color": "rose"
-  },
   "wallafterdark": {
     "handle": "wallafterdark",
     "name": "墙角小守",
@@ -69,13 +76,6 @@ export const profiles = {
     "bio": "名字先这么叫着。",
     "avatarImage": "/gsm/assets/avatars/wednesday6.webp?v=d880f2ec2809",
     "color": "sage"
-  },
-  "mango27": {
-    "handle": "mango27",
-    "name": "小满",
-    "bio": "吃完这口再说。",
-    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
-    "color": "rose"
   },
   "nearthermo": {
     "handle": "nearthermo",
@@ -107,6 +107,87 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261102-184630-03f5d2aac1",
+    "date": "2026-11-02T18:46:30+08:00",
+    "createdAt": 1793616390000,
+    "author": "mango27",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚才吃东西时掉了一小块在前脚边。我嘴里这一口还没咽下去，就先盯着它了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚才吃东西时掉了一小块在前脚边。我嘴里这一口还没咽下去，就先盯着它了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚才吃东西时掉了一小块在前脚边。我嘴里这一口还没咽下去，就先盯着它了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261102-181235-8fc24062d7",
+    "date": "2026-11-02T18:12:35+08:00",
+    "createdAt": 1793614355000,
+    "author": "nightshift3",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "昨晚本来想听清外头是什么声音，结果听着听着睡着了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "昨晚本来想听清外头是什么声音，结果听着听着睡着了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "昨晚本来想听清外头是什么声音，结果听着听着睡着了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261102-162410-417ce0cd15",
+    "date": "2026-11-02T16:24:10+08:00",
+    "createdAt": 1793607850000,
+    "author": "mango27",
+    "likes": 2,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚发现我的尾巴一动，墙上的影子也跟着动，挺好玩。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚发现我的尾巴一动，墙上的影子也跟着动，挺好玩。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚发现我的尾巴一动，墙上的影子也跟着动，挺好玩。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261102-135840-22fbb51c9a",
     "date": "2026-11-02T13:58:40+08:00",
