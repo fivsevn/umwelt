@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "leafback7": {
+    "handle": "leafback7",
+    "name": "叶背居民",
+    "bio": "这片叶子上的路，我蛮熟的。",
+    "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
+    "color": "rose"
+  },
   "smallhide2": {
     "handle": "smallhide2",
     "name": "洞口待机",
@@ -26,13 +33,6 @@ export const profiles = {
     "name": "桃酥",
     "bio": "差一点，下回再试。",
     "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
-    "color": "rose"
-  },
-  "leafback7": {
-    "handle": "leafback7",
-    "name": "叶背居民",
-    "bio": "这片叶子上的路，我蛮熟的。",
-    "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
     "color": "rose"
   },
   "moss9": {
@@ -108,11 +108,38 @@ export const profiles = {
 };
 export const posts = [
   {
+    "id": "20261102-135840-22fbb51c9a",
+    "date": "2026-11-02T13:58:40+08:00",
+    "createdAt": 1793599120000,
+    "author": "leafback7",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚才脚趾上缠了一根很细的干丝，抬脚时老是跟着扯一下。我趴下来拨了半天才弄掉，掉在叶面上就找不着了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚才脚趾上缠了一根很细的干丝，抬脚时老是跟着扯一下。我趴下来拨了半天才弄掉，掉在叶面上就找不着了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚才脚趾上缠了一根很细的干丝，抬脚时老是跟着扯一下。我趴下来拨了半天才弄掉，掉在叶面上就找不着了。"
+        }
+      ]
+    }
+  },
+  {
     "id": "20261102-092240-3da6b78884",
     "date": "2026-11-02T09:22:40+08:00",
     "createdAt": 1793582560000,
     "author": "smallhide2",
-    "likes": 0,
+    "likes": 3,
     "blocks": {
       "zh": [
         {
@@ -220,7 +247,7 @@ export const posts = [
     "date": "2026-11-02T07:44:55+08:00",
     "createdAt": 1793576695000,
     "author": "gecko404",
-    "likes": 1,
+    "likes": 2,
     "blocks": {
       "zh": [
         {
@@ -247,7 +274,7 @@ export const posts = [
     "date": "2026-11-02T07:02:40+08:00",
     "createdAt": 1793574160000,
     "author": "leafback7",
-    "likes": 0,
+    "likes": 1,
     "blocks": {
       "zh": [
         {
@@ -274,7 +301,7 @@ export const posts = [
     "date": "2026-11-02T06:13:25+08:00",
     "createdAt": 1793571205000,
     "author": "moss9",
-    "likes": 0,
+    "likes": 4,
     "blocks": {
       "zh": [
         {
@@ -328,7 +355,7 @@ export const posts = [
     "date": "2026-11-02T04:48:30+08:00",
     "createdAt": 1793566110000,
     "author": "nightshift3",
-    "likes": 0,
+    "likes": 2,
     "blocks": {
       "zh": [
         {
@@ -949,7 +976,7 @@ export const posts = [
     "date": "2026-11-01T12:42:20+08:00",
     "createdAt": 1793508140000,
     "author": "nearthermo",
-    "likes": 5,
+    "likes": 7,
     "blocks": {
       "zh": [
         {
@@ -976,7 +1003,7 @@ export const posts = [
     "date": "2026-11-01T11:58:10+08:00",
     "createdAt": 1793505490000,
     "author": "gecko404",
-    "likes": 1,
+    "likes": 3,
     "blocks": {
       "zh": [
         {
@@ -1840,7 +1867,7 @@ export const posts = [
     "date": "2026-10-30T10:58:22+08:00",
     "createdAt": 1793329102000,
     "author": "nearthermo",
-    "likes": 2,
+    "likes": 3,
     "blocks": {
       "zh": [
         {
@@ -1948,7 +1975,7 @@ export const posts = [
     "date": "2026-10-30T10:03:40+08:00",
     "createdAt": 1793325820000,
     "author": "smallhide2",
-    "likes": 2,
+    "likes": 3,
     "blocks": {
       "zh": [
         {
