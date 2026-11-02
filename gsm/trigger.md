@@ -1,8 +1,8 @@
 ---
-username: nightshift3
+username: mango27
 status: published
-likes: 0
-date: "2026-11-02T18:12:35+08:00"
+likes: 1
+date: "2026-11-02T18:46:30+08:00"
 ---
 
-昨晚本来想听清外头是什么声音，结果听着听着睡着了。
+刚才吃东西时掉了一小块在前脚边。我嘴里这一口还没咽下去，就先盯着它了。
