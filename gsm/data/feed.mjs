@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "smallhide2": {
+    "handle": "smallhide2",
+    "name": "洞口待机",
+    "bio": "门口留一点空就好。",
+    "avatarImage": "/gsm/assets/avatars/smallhide2.webp?v=8ba191455bd7",
+    "color": "sage"
+  },
   "leafback7": {
     "handle": "leafback7",
     "name": "叶背居民",
@@ -70,13 +77,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
     "color": "rose"
   },
-  "smallhide2": {
-    "handle": "smallhide2",
-    "name": "洞口待机",
-    "bio": "门口留一点空就好。",
-    "avatarImage": "/gsm/assets/avatars/smallhide2.webp?v=8ba191455bd7",
-    "color": "sage"
-  },
   "nearthermo": {
     "handle": "nearthermo",
     "name": "温度计旁边",
@@ -107,6 +107,33 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261102-041520-c25b88e83d",
+    "date": "2026-11-02T04:15:20+08:00",
+    "createdAt": 1793564120000,
+    "author": "smallhide2",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "我趴下的时候下巴又往原来那块垫材的位置找，找了两下才想起来，它已经被我推到墙边了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "我趴下的时候下巴又往原来那块垫材的位置找，找了两下才想起来，它已经被我推到墙边了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "我趴下的时候下巴又往原来那块垫材的位置找，找了两下才想起来，它已经被我推到墙边了。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261102-034810-4783f23531",
     "date": "2026-11-02T03:48:10+08:00",
