@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "mango27": {
+    "handle": "mango27",
+    "name": "小满",
+    "bio": "吃完这口再说。",
+    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
+    "color": "rose"
+  },
   "peachcrumble": {
     "handle": "peachcrumble",
     "name": "桃酥",
@@ -7,18 +14,18 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
     "color": "rose"
   },
+  "moss9": {
+    "handle": "moss9",
+    "name": "阿苔",
+    "bio": "水滴也值得看一会儿。",
+    "avatarImage": "/gsm/assets/avatars/moss9.webp?v=fc1a392905b0",
+    "color": "sand"
+  },
   "nightshift3": {
     "handle": "nightshift3",
     "name": "半夜上线",
     "bio": "这会儿还有谁醒着？",
     "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
-    "color": "rose"
-  },
-  "mango27": {
-    "handle": "mango27",
-    "name": "小满",
-    "bio": "吃完这口再说。",
-    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
     "color": "rose"
   },
   "gecko404": {
@@ -48,13 +55,6 @@ export const profiles = {
     "bio": "过一会儿再说。",
     "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=8ba191455bd7",
     "color": "sage"
-  },
-  "moss9": {
-    "handle": "moss9",
-    "name": "阿苔",
-    "bio": "水滴也值得看一会儿。",
-    "avatarImage": "/gsm/assets/avatars/moss9.webp?v=fc1a392905b0",
-    "color": "sand"
   },
   "wallafterdark": {
     "handle": "wallafterdark",
@@ -107,6 +107,87 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261103-065125-5cab7109fd",
+    "date": "2026-11-03T06:51:25+08:00",
+    "createdAt": 1793659885000,
+    "author": "mango27",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "碗里还没东西。我刚才又去看了一眼。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "碗里还没东西。我刚才又去看了一眼。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "碗里还没东西。我刚才又去看了一眼。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261103-063410-b6ce5bf7a4",
+    "date": "2026-11-03T06:34:10+08:00",
+    "createdAt": 1793658850000,
+    "author": "peachcrumble",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚才想把一截卷起来的树皮踩平，前脚一按它就弹回来。我试了两次，还是那样，干脆从旁边绕过去了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚才想把一截卷起来的树皮踩平，前脚一按它就弹回来。我试了两次，还是那样，干脆从旁边绕过去了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚才想把一截卷起来的树皮踩平，前脚一按它就弹回来。我试了两次，还是那样，干脆从旁边绕过去了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261103-061730-2f569beb19",
+    "date": "2026-11-03T06:17:30+08:00",
+    "createdAt": 1793657850000,
+    "author": "moss9",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "早上经过苔边，前脚踩到一小撮干土。走了两步才觉得脚趾间还是沙沙的，我就停下来把脚往苔上蹭。第一下没蹭干净，后面几下倒把土全蹭在苔叶上了。现在那片地方灰扑扑的，我用鼻尖拨了两下，细屑又散开一点。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "早上经过苔边，前脚踩到一小撮干土。走了两步才觉得脚趾间还是沙沙的，我就停下来把脚往苔上蹭。第一下没蹭干净，后面几下倒把土全蹭在苔叶上了。现在那片地方灰扑扑的，我用鼻尖拨了两下，细屑又散开一点。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "早上经过苔边，前脚踩到一小撮干土。走了两步才觉得脚趾间还是沙沙的，我就停下来把脚往苔上蹭。第一下没蹭干净，后面几下倒把土全蹭在苔叶上了。现在那片地方灰扑扑的，我用鼻尖拨了两下，细屑又散开一点。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261102-224320-2aa69d016b",
     "date": "2026-11-02T22:43:20+08:00",
