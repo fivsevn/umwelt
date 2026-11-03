@@ -2128,6 +2128,25 @@
       "previous": 0,
       "at": "2026-11-03T23:27:20+08:00",
       "likes": 0
+    },
+    "d51551d15e8392befb23e1e0ef8bf241c011a7cd39f76dd7230e504d8b040202": {
+      "source": {
+        "username": "nearthermo",
+        "date": "2026-11-03T23:04:15+08:00",
+        "body_sha256": "6a4bd0c99e51632895bcfdf8670ef1901c2e69d792179889762ac1ba27be2b54"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "木头附近的具体身体感受可独立理解，没有确立的社交往返。"
+      },
+      "seed": "91877ed76c64d78a25fefa91d45927a4",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-03T23:27:20+08:00",
+      "likes": 3
     }
   }
 }
