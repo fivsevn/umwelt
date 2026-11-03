@@ -11,3 +11,15 @@
 分类依据：Tiutenko & Bates 2026，Salamandra 62(1):1–26。论文处理屋蛇旧名的歧义，并为 B. capensis 指定新模 NMB R10800。使用当前物种名，避免随意混用旧名。[论文记录](https://zenodo.org/records/18770787) · [原文 PDF](https://zenodo.org/records/18770787/files/Tiutenko_Bates-1738.pdf)
 
 模型采用渐细尾端、连续肌体、浅腹、细侧纹、短圆吻及嵌入侧眼。微细鳞纹、头盾接缝、帽子针织及围巾织物保存在可编辑工程中；造型尺寸不作活体测量值。
+
+## 本次模型的形态参照
+
+以 Tiutenko & Bates (2026) 第 22 页图 11 的侧面、背面和腹面图，以及第 23 页 NMB R10800 的描述核对头形与头鳞。该个体的头宽/头长为 0.503，头后部宽/颈宽为 1.57；每侧 8 枚上唇鳞，第 4、5 枚接眼，2 枚眼前鳞、2 枚眼后鳞。躯干参考其前/中/后段 27/31/21 行背鳞、宽腹鳞及成对尾下鳞的组织方式。这些是指定个体的证据，不是本种所有个体的固定数值。
+
+色彩和反光以 ASI 的活体照片为主，标本照片只用于形态核对。额部大盾鳞、颈部小鳞、腹鳞分别处理；眼睛采用内嵌虹膜、竖瞳和独立透明眼罩，鼻孔置于鼻鳞内，未添加热感窝。现有帽子、围巾、抬头姿态及在船舱中放大的角色尺度继续作为文学呈现。
+
+- [ASI 活体盘绕与头部](https://www.africansnakebiteinstitute.com/wp-content/uploads/2017/09/Brown_House_Snake_1_web.jpg)
+- [ASI 活体侧面近景](https://www.africansnakebiteinstitute.com/wp-content/uploads/2017/09/Brown_House_Snake_10_web.jpg)
+- [论文原文](https://www.salamandra-journal.com/index.php/contents/2026-vol-62/2208-tiutenko-bates-1738/file)
+
+照片未用作模型纹理，也未随运行素材发布。

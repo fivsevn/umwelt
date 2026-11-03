@@ -15,7 +15,8 @@ ROOT = Path(__file__).resolve().parent
 COMPOSITION = ROOT.parents[1]/'ophidia-01'
 CAMERAS = {'face': 'Character anatomy detail camera',
            'cloth': 'Character textile detail camera',
-           'full': 'Review · snake natural anatomy'}
+           'full': 'Review · snake natural anatomy',
+           'scarf': 'Temporary · scarf fabric camera'}
 
 
 def main():
@@ -49,6 +50,21 @@ def main():
     for obj in bpy.data.collections['Review · new saloon complementary cameras'].objects:
         if obj.type == 'LIGHT':
             obj.hide_render = False
+    if 'scarf' in args.views:
+        from mathutils import Vector
+        bpy.context.view_layer.update()
+        scarf = next(o for o in bpy.data.collections['Snake · '+args.pose].objects if o.get('scarf_continuous'))
+        center = Vector(scarf['neck_support_center'])+Vector((-.020, -.050, -.055))
+        target = scarf.matrix_world@center
+        base = bpy.data.objects['Character textile detail camera']
+        camera = base.copy(); camera.data = base.data.copy(); camera.name = CAMERAS['scarf']
+        scene.collection.objects.link(camera)
+        camera.constraints.clear(); camera.parent = None
+        forward = base.matrix_world.to_quaternion()@Vector((0, 0, -1))
+        camera.location = target-forward*.90
+        camera.rotation_euler = forward.to_track_quat('-Z', 'Y').to_euler()
+        camera.data.lens = 75
+        camera.data.dof.use_dof = False
     scene.render.engine = 'CYCLES'
     scene.cycles.samples = args.samples
     scene.cycles.use_denoising = True
@@ -57,7 +73,7 @@ def main():
     scene.render.resolution_percentage = 100
     scene.render.film_transparent = False
     args.output.mkdir(parents=True, exist_ok=True)
-    names = {'face': 'character-face-detail', 'cloth': 'character-cloth-detail', 'full': 'snake-detail'}
+    names = {'face': 'character-face-detail', 'cloth': 'character-cloth-detail', 'full': 'snake-detail', 'scarf': 'scarf-fabric-detail'}
     for view in args.views:
         scene.camera = bpy.data.objects[CAMERAS[view]]
         scene.render.filepath = str(args.output/(names[view]+'.png'))

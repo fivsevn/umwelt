@@ -1,0 +1,37 @@
+{
+  "asset": "Poly Wool Herringbone",
+  "source": "https://polyhaven.com/a/poly_wool_herringbone",
+  "license": "CC0-1.0",
+  "authors": {
+    "colormass": "Photography",
+    "Rico Cilliers": "Processing"
+  },
+  "physical_tile_m": [
+    0.2700788549,
+    0.2757000029
+  ],
+  "files": [
+    {
+      "file": "poly_wool_herringbone_diff_2k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/poly_wool_herringbone/poly_wool_herringbone_diff_2k.jpg",
+      "bytes": 3650614,
+      "md5": "ab20cb6c120dfa5d38f4e4d3fd9b980d",
+      "sha256": "ca21de8e2e7f43178f8290361bfb2271eb264af0d2887c7c93e76a113ff3cc64"
+    },
+    {
+      "file": "poly_wool_herringbone_nor_gl_2k.png",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/2k/poly_wool_herringbone/poly_wool_herringbone_nor_gl_2k.png",
+      "bytes": 22564255,
+      "md5": "b7e3c7c9ea3562a2cb2bfe660e91cc8e",
+      "sha256": "59d7681f16c7547ce0b97319420c517e4116c6fec8b8dd2546d24931dcc74e94"
+    },
+    {
+      "file": "poly_wool_herringbone_rough_1k.png",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/png/1k/poly_wool_herringbone/poly_wool_herringbone_rough_1k.png",
+      "bytes": 1996547,
+      "md5": "82f6d7c2f9e311b28c2e208fd5aa2a92",
+      "sha256": "f33e571eeba0c006160d35ae9067ea6242930a8896bf459f85ae49904c64b883"
+    }
+  ],
+  "storage": "Maps are packed in boaedon-capensis.blend; restore the library from source/."
+}

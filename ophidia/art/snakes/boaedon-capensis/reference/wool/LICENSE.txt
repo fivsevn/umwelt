@@ -1,0 +1,16 @@
+Poly Wool Herringbone
+
+Source: https://polyhaven.com/a/poly_wool_herringbone
+Licence: CC0-1.0 (https://creativecommons.org/publicdomain/zero/1.0/)
+Photography: colormass
+Processing: Rico Cilliers
+Licence reference: https://polyhaven.com/license
+
+Powered by Poly Haven (https://polyhaven.com).
+The public API was used for asset discovery and file integrity metadata;
+no runtime API connection is required.
+
+Original diffuse, OpenGL normal and roughness maps are packed in the
+editable Blender library. This folder keeps their source and checksums.
+The Blender shader uses the measured surface detail with a rust colour tint.
+Files and checksums are listed in provenance.json. Separate unpacked copies are not required for the saved model.

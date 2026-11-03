@@ -72,25 +72,25 @@
     },
     {
       "file": "ophidia/assets/snake-normal.webp",
-      "bytes": 16266,
+      "bytes": 15602,
       "width": 360,
       "height": 640
     },
     {
       "file": "ophidia/assets/snake-curious.webp",
-      "bytes": 16432,
+      "bytes": 16108,
       "width": 360,
       "height": 640
     },
     {
       "file": "ophidia/assets/snake-away.webp",
-      "bytes": 15956,
+      "bytes": 15704,
       "width": 360,
       "height": 640
     },
     {
       "file": "ophidia/assets/snake-tongue.webp",
-      "bytes": 16292,
+      "bytes": 15602,
       "width": 360,
       "height": 640
     }

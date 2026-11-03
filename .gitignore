@@ -61,3 +61,7 @@ ophidia/art/scenes/*/*.blend
 ophidia/art/snakes/*/*.blend
 # Offline composition is generated from the asset libraries and camera setup.
 ophidia/art/ophidia-01/ophidia.blend
+
+# Ophidia native validation records and optional unpacked texture caches.
+ophidia/art/snakes/*/*-validation.json
+ophidia/art/snakes/*/textures/
