@@ -1,17 +1,24 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
-  "wallafterdark": {
-    "handle": "wallafterdark",
-    "name": "墙角小守",
-    "bio": "墙上也有路。",
-    "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
-    "color": "sand"
-  },
   "nearthermo": {
     "handle": "nearthermo",
     "name": "温度计旁边",
     "bio": "挪一点，舒服多了。",
     "avatarImage": "/gsm/assets/avatars/nearthermo.webp?v=f536a852bd2b",
+    "color": "sand"
+  },
+  "nightshift3": {
+    "handle": "nightshift3",
+    "name": "半夜上线",
+    "bio": "这会儿还有谁醒着？",
+    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
+    "color": "rose"
+  },
+  "wallafterdark": {
+    "handle": "wallafterdark",
+    "name": "墙角小守",
+    "bio": "墙上也有路。",
+    "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
     "color": "sand"
   },
   "wednesday6": {
@@ -77,13 +84,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/moss9.webp?v=fc1a392905b0",
     "color": "sand"
   },
-  "nightshift3": {
-    "handle": "nightshift3",
-    "name": "半夜上线",
-    "bio": "这会儿还有谁醒着？",
-    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
-    "color": "rose"
-  },
   "gedageda": {
     "handle": "gedageda",
     "name": "咯哒咯哒",
@@ -107,6 +107,60 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261104-065655-53ee9b7238",
+    "date": "2026-11-04T06:56:55+08:00",
+    "createdAt": 1793746615000,
+    "author": "nearthermo",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "睡醒发现尾巴搭在木头棱上，有点硌。我把它收回来了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "睡醒发现尾巴搭在木头棱上，有点硌。我把它收回来了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "睡醒发现尾巴搭在木头棱上，有点硌。我把它收回来了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261104-065610-0d97416d20",
+    "date": "2026-11-04T06:56:10+08:00",
+    "createdAt": 1793746570000,
+    "author": "nightshift3",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚喝过水。回来的时候路上很安静，我连自己脚步在垫材上沙沙响都听得见。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚喝过水。回来的时候路上很安静，我连自己脚步在垫材上沙沙响都听得见。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚喝过水。回来的时候路上很安静，我连自己脚步在垫材上沙沙响都听得见。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261103-232010-420c940192",
     "date": "2026-11-03T23:20:10+08:00",
