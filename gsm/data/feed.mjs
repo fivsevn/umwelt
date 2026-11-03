@@ -1,5 +1,19 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "gecko404": {
+    "handle": "gecko404",
+    "name": "玻璃这一边",
+    "bio": "玻璃那边也在看这边吗？",
+    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
+    "color": "sage"
+  },
+  "slowblink": {
+    "handle": "slowblink",
+    "name": "不急",
+    "bio": "过一会儿再说。",
+    "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=8ba191455bd7",
+    "color": "sage"
+  },
   "nearthermo": {
     "handle": "nearthermo",
     "name": "温度计旁边",
@@ -28,26 +42,12 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/wednesday6.webp?v=d880f2ec2809",
     "color": "sage"
   },
-  "slowblink": {
-    "handle": "slowblink",
-    "name": "不急",
-    "bio": "过一会儿再说。",
-    "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=8ba191455bd7",
-    "color": "sage"
-  },
   "twosteps8": {
     "handle": "twosteps8",
     "name": "两步远",
     "bio": "出去看看，顺便认路。",
     "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
     "color": "rose"
-  },
-  "gecko404": {
-    "handle": "gecko404",
-    "name": "玻璃这一边",
-    "bio": "玻璃那边也在看这边吗？",
-    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
-    "color": "sage"
   },
   "peachcrumble": {
     "handle": "peachcrumble",
@@ -107,6 +107,87 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261104-072715-017ed1a2e1",
+    "date": "2026-11-04T07:27:15+08:00",
+    "createdAt": 1793748435000,
+    "author": "gecko404",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚看见一只小虫从木头底下钻出来，又自己退了回去。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚看见一只小虫从木头底下钻出来，又自己退了回去。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚看见一只小虫从木头底下钻出来，又自己退了回去。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261104-072230-4ac4adb522",
+    "date": "2026-11-04T07:22:30+08:00",
+    "createdAt": 1793748150000,
+    "author": "gecko404",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "玻璃上昨天那圈模糊的印子还在。今天我就不伸脚碰它了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "玻璃上昨天那圈模糊的印子还在。今天我就不伸脚碰它了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "玻璃上昨天那圈模糊的印子还在。今天我就不伸脚碰它了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261104-071220-c8b9b6a4e0",
+    "date": "2026-11-04T07:12:20+08:00",
+    "createdAt": 1793747540000,
+    "author": "slowblink",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "早上那块亮斑先落在石头边上，过了一阵子又挪到我前脚旁边。我懒得换地方，就慢慢把脚收了回来。再往后一点，整只脚都到了阴影里，身子还是原来那个位置。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "早上那块亮斑先落在石头边上，过了一阵子又挪到我前脚旁边。我懒得换地方，就慢慢把脚收了回来。再往后一点，整只脚都到了阴影里，身子还是原来那个位置。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "早上那块亮斑先落在石头边上，过了一阵子又挪到我前脚旁边。我懒得换地方，就慢慢把脚收了回来。再往后一点，整只脚都到了阴影里，身子还是原来那个位置。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261104-065655-53ee9b7238",
     "date": "2026-11-04T06:56:55+08:00",
