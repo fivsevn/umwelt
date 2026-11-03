@@ -2280,6 +2280,25 @@
       "previous": 0,
       "at": "2026-11-04T07:30:30+08:00",
       "likes": 0
+    },
+    "2f573094c4bd9dcb0509df12c8bc42b7b3cfe37684d0410e73404b965911ddaa": {
+      "source": {
+        "username": "gecko404",
+        "date": "2026-11-04T07:27:15+08:00",
+        "body_sha256": "911a585a69316950c4a1d6e1889f8b74bfc7efd814896177b2e1e317842b1b2b"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "busy",
+        "reason": "独立可理解的小虫动静，没有已知角色往返；同一早晨近邻动态较密。"
+      },
+      "seed": "9969d2c669b70617c8c0ea8794e3630f",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-04T07:30:30+08:00",
+      "likes": 0
     }
   }
 }
