@@ -2166,6 +2166,25 @@
       "previous": 0,
       "at": "2026-11-03T23:27:20+08:00",
       "likes": 0
+    },
+    "8e723f249f35f9e6be6ee64a7434e14efbc59bafa5760e6717275bef0f0b2677": {
+      "source": {
+        "username": "nearthermo",
+        "date": "2026-11-03T23:15:05+08:00",
+        "body_sha256": "b5284707b50988e0f2d6f4954b11cc4681f21e1b943cb83cbd908e87cb644e1e"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "low",
+        "relationship": "none",
+        "attention": "busy",
+        "reason": "短时模糊影子是局部观察，跟紧前一条且没有确定他人关注。"
+      },
+      "seed": "55666e53472e02aa4ae0424d10c72a6e",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-03T23:27:20+08:00",
+      "likes": 0
     }
   }
 }

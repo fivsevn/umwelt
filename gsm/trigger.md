@@ -1,8 +1,8 @@
 ---
-username: wednesday6
+username: nearthermo
 status: published
 likes: 0
-date: "2026-11-03T23:10:45+08:00"
+date: "2026-11-03T23:15:05+08:00"
 ---
 
-石头旁边那点阴凉还在，够我趴一会儿。
+刚刚有个影子从木头上掠过去，没看清是什么。
