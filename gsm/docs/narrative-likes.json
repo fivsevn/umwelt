@@ -1976,6 +1976,25 @@
       "previous": 0,
       "at": "2026-11-03T22:56:00+08:00",
       "likes": 0
+    },
+    "d5e84ff56ab57134f3650e9ed0c310167fef1d7790aa3319b762bc3efa3749d0": {
+      "source": {
+        "username": "mango27",
+        "date": "2026-11-03T18:35:40+08:00",
+        "body_sha256": "5edb9043a0159e619fe0e78fdc13b5007f7e0b6144c9b1d700c67db927714c9e"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "关于等待食物与误认响动的独立日常；未公开回应其他角色，暂无明确相关往返。"
+      },
+      "seed": "84098ebd1c494fdf190bc02ecd539f34",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-03T22:56:00+08:00",
+      "likes": 0
     }
   }
 }
