@@ -1,8 +1,8 @@
 ---
-username: peachcrumble
+username: slowblink
 status: published
-likes: 2
-date: "2026-11-03T21:11:20+08:00"
+likes: 0
+date: "2026-11-03T22:41:35+08:00"
 ---
 
-刚才想起那段听来的调子，哼了两声，后头怎么接已经忘了。
+石头背面有点凉，我就挪到边上趴着。也没想走远。

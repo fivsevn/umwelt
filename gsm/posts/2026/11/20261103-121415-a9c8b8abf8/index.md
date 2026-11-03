@@ -4,7 +4,7 @@ date: '2026-11-03T12:14:15+08:00'
 username: mango27
 name: 小满
 status: published
-likes: 1
+likes: 3
 source_event: da5cc49206b94abcdf4fb391078b456f1186c5c6
 author_assignment: specified
 ---
