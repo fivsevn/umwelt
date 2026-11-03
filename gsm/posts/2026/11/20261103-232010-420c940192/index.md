@@ -4,7 +4,7 @@ date: '2026-11-03T23:20:10+08:00'
 username: wallafterdark
 name: 墙角小守
 status: published
-likes: 1
+likes: 4
 source_event: afc59971e5646e6706b55dd98c14ddfcac5760a0
 author_assignment: specified
 ---
