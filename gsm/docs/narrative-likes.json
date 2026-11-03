@@ -2261,6 +2261,25 @@
       "previous": 0,
       "at": "2026-11-04T07:30:30+08:00",
       "likes": 0
+    },
+    "a1b30d244d7eae109a164b7d4facd51ab94ebad8ef16f6f5974690ad97ae78ec": {
+      "source": {
+        "username": "gecko404",
+        "date": "2026-11-04T07:22:30+08:00",
+        "body_sha256": "927cc6d4fd26c81021e0d7b36aa5b9289e21df4b3eca464c3fbce25cf9a805cd"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "low",
+        "relationship": "none",
+        "attention": "busy",
+        "reason": "延续本人前一晚玻璃印子的私小细节，外人不一定接得上；近期发帖较密。"
+      },
+      "seed": "26e12335c071de59f6c6819bdf02d1d4",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-04T07:30:30+08:00",
+      "likes": 0
     }
   }
 }
