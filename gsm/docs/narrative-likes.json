@@ -2223,6 +2223,25 @@
       "previous": 0,
       "at": "2026-11-04T06:58:20+08:00",
       "likes": 1
+    },
+    "b5c7fc905c65617ffc0e78fc664fa6b2d267ef21017d360e862d62f3cdc681ad": {
+      "source": {
+        "username": "nearthermo",
+        "date": "2026-11-04T06:56:55+08:00",
+        "body_sha256": "bb55eff16e38e4b0c1718b1de690aa9cf4efe316bf3b00c0ac203d827f8bc9e9"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "quiet",
+        "reason": "个人住处的身体不适小事，局部但能理解；无确证相关交流，附近公开活动较少。"
+      },
+      "seed": "70fb149e37cad309af69b7ea3e068581",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-04T06:58:20+08:00",
+      "likes": 0
     }
   }
 }

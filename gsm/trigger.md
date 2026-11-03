@@ -1,8 +1,8 @@
 ---
-username: nightshift3
+username: nearthermo
 status: published
-likes: 1
-date: "2026-11-04T06:56:10+08:00"
+likes: 0
+date: "2026-11-04T06:56:55+08:00"
 ---
 
-刚喝过水。回来的时候路上很安静，我连自己脚步在垫材上沙沙响都听得见。
+睡醒发现尾巴搭在木头棱上，有点硌。我把它收回来了。
