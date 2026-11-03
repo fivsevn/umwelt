@@ -2109,6 +2109,25 @@
       "previous": 0,
       "at": "2026-11-03T23:27:20+08:00",
       "likes": 0
+    },
+    "bbdd3d22fe97f3e1b0ad749975fcdb4ecc4fcf8c0001f49924542a04af5b0075": {
+      "source": {
+        "username": "slowblink",
+        "date": "2026-11-03T22:59:40+08:00",
+        "body_sha256": "4696384f85b4b4ab566c6b9dc802f4fcbfc49fea069daa342226c4df5b531b86"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "busy",
+        "reason": "借刚才挪开解释石头旁的个人习惯，依赖此前个人经历，又与同批动态竞争注意。"
+      },
+      "seed": "9aa9eec9aac527d1b0f8d3073bea54d8",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-03T23:27:20+08:00",
+      "likes": 0
     }
   }
 }
