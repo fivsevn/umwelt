@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "leafback7": {
+    "handle": "leafback7",
+    "name": "叶背居民",
+    "bio": "这片叶子上的路，我蛮熟的。",
+    "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
+    "color": "rose"
+  },
   "mango27": {
     "handle": "mango27",
     "name": "小满",
@@ -34,13 +41,6 @@ export const profiles = {
     "bio": "玻璃那边也在看这边吗？",
     "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
     "color": "sage"
-  },
-  "leafback7": {
-    "handle": "leafback7",
-    "name": "叶背居民",
-    "bio": "这片叶子上的路，我蛮熟的。",
-    "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
-    "color": "rose"
   },
   "smallhide2": {
     "handle": "smallhide2",
@@ -108,11 +108,65 @@ export const profiles = {
 };
 export const posts = [
   {
+    "id": "20261103-144830-578a3b3afd",
+    "date": "2026-11-03T14:48:30+08:00",
+    "createdAt": 1793688510000,
+    "author": "leafback7",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "叶子背面有一道浅纹，今天走过去时脚底有点发涩。我停下来抬脚看了一下，没沾着东西。可能是叶面干了一点。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "叶子背面有一道浅纹，今天走过去时脚底有点发涩。我停下来抬脚看了一下，没沾着东西。可能是叶面干了一点。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "叶子背面有一道浅纹，今天走过去时脚底有点发涩。我停下来抬脚看了一下，没沾着东西。可能是叶面干了一点。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261103-121415-a9c8b8abf8",
+    "date": "2026-11-03T12:14:15+08:00",
+    "createdAt": 1793679255000,
+    "author": "mango27",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚才把脚边的小石子拨走了，现在趴着总算不硌肚子。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚才把脚边的小石子拨走了，现在趴着总算不硌肚子。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚才把脚边的小石子拨走了，现在趴着总算不硌肚子。"
+        }
+      ]
+    }
+  },
+  {
     "id": "20261103-065125-5cab7109fd",
     "date": "2026-11-03T06:51:25+08:00",
     "createdAt": 1793659885000,
     "author": "mango27",
-    "likes": 0,
+    "likes": 1,
     "blocks": {
       "zh": [
         {
@@ -139,7 +193,7 @@ export const posts = [
     "date": "2026-11-03T06:34:10+08:00",
     "createdAt": 1793658850000,
     "author": "peachcrumble",
-    "likes": 0,
+    "likes": 3,
     "blocks": {
       "zh": [
         {
@@ -166,7 +220,7 @@ export const posts = [
     "date": "2026-11-03T06:17:30+08:00",
     "createdAt": 1793657850000,
     "author": "moss9",
-    "likes": 0,
+    "likes": 1,
     "blocks": {
       "zh": [
         {
@@ -409,7 +463,7 @@ export const posts = [
     "date": "2026-11-02T13:58:40+08:00",
     "createdAt": 1793599120000,
     "author": "leafback7",
-    "likes": 4,
+    "likes": 6,
     "blocks": {
       "zh": [
         {
@@ -517,7 +571,7 @@ export const posts = [
     "date": "2026-11-02T08:24:10+08:00",
     "createdAt": 1793579050000,
     "author": "peachcrumble",
-    "likes": 2,
+    "likes": 4,
     "blocks": {
       "zh": [
         {
@@ -571,7 +625,7 @@ export const posts = [
     "date": "2026-11-02T07:02:40+08:00",
     "createdAt": 1793574160000,
     "author": "leafback7",
-    "likes": 1,
+    "likes": 4,
     "blocks": {
       "zh": [
         {
