@@ -2033,6 +2033,25 @@
       "previous": 0,
       "at": "2026-11-03T22:56:00+08:00",
       "likes": 0
+    },
+    "1a98ab9c81c50eb51fae0d5e9931ead48601fe055181437063a1b0dfb81d4432": {
+      "source": {
+        "username": "peachcrumble",
+        "date": "2026-11-03T21:11:20+08:00",
+        "body_sha256": "42c21b4107bba3b825c9347e644502d2eda8e539335f9aa52f591721d38e90e1"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "不依赖前情也能理解的记忆小插曲；无确认互动、同期没有密集话题。"
+      },
+      "seed": "5eac41f0dc9c01aef1ee0b8cda01dcda",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-03T22:56:00+08:00",
+      "likes": 2
     }
   }
 }
