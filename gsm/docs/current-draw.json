@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "round": "2026-11-04/065153-d8be",
-  "baseline": "0b796ef875367d7b008ed6c96f68973ff306b68e",
-  "target_posts": 2,
-  "closed": true,
+  "round": "2026-11-04/072508-2a6a",
+  "baseline": "b3c6d3a2b2ba959298f9bc1d2ef484204b9a60db",
+  "target_posts": 3,
+  "closed": false,
   "draws": {
     "review": {
       "input": {
@@ -14,10 +14,34 @@
         "count": 1
       },
       "result": [
-        "ordinary"
+        "local"
       ]
     },
     "slot-01/author-mode": {
+      "input": {
+        "options": {
+          "explore": 1,
+          "weighted": 4
+        },
+        "count": 1
+      },
+      "result": [
+        "weighted"
+      ]
+    },
+    "slot-02/author-mode": {
+      "input": {
+        "options": {
+          "explore": 1,
+          "weighted": 4
+        },
+        "count": 1
+      },
+      "result": [
+        "explore"
+      ]
+    },
+    "slot-03/author-mode": {
       "input": {
         "options": {
           "explore": 1,
@@ -48,7 +72,7 @@
         "count": 1
       },
       "result": [
-        "nightshift3"
+        "slowblink"
       ]
     },
     "slot-01/focus": {
@@ -62,7 +86,7 @@
         "count": 1
       },
       "result": [
-        "public-other"
+        "immediate"
       ]
     },
     "slot-01/length": {
@@ -75,19 +99,7 @@
         "count": 1
       },
       "result": [
-        "utterance"
-      ]
-    },
-    "slot-02/author-mode": {
-      "input": {
-        "options": {
-          "explore": 1,
-          "weighted": 4
-        },
-        "count": 1
-      },
-      "result": [
-        "explore"
+        "expanded"
       ]
     },
     "slot-02/author": {
@@ -109,7 +121,7 @@
         "count": 1
       },
       "result": [
-        "nearthermo"
+        "gecko404"
       ]
     },
     "slot-02/focus": {
@@ -123,7 +135,7 @@
         "count": 1
       },
       "result": [
-        "immediate"
+        "own-history"
       ]
     },
     "slot-02/length": {
@@ -139,46 +151,72 @@
         "utterance"
       ]
     },
-    "slot-01/public-post": {
+    "slot-03/author": {
       "input": {
         "options": {
-          "20261029-144942-e064d30495": 1,
-          "20261103-191215-802daf197c": 1,
-          "20261103-200355-0ef08b240e": 1
+          "gecko404": 4,
+          "leafback7": 2,
+          "mango27": 4,
+          "moss9": 2,
+          "nearthermo": 1,
+          "nightshift3": 2,
+          "peachcrumble": 2,
+          "slowblink": 1,
+          "smallhide2": 1,
+          "twosteps8": 2,
+          "wallafterdark": 2,
+          "wednesday6": 1
         },
         "count": 1
       },
       "result": [
-        "20261029-144942-e064d30495"
+        "gecko404"
       ]
     },
-    "slot-01/notice": {
+    "slot-03/focus": {
       "input": {
         "options": {
-          "noticed": 1,
-          "skipped": 1
+          "immediate": 3,
+          "own-history": 1,
+          "public-other": 1,
+          "side-interest": 1
         },
         "count": 1
       },
       "result": [
-        "noticed"
+        "immediate"
       ]
     },
-    "slot-01/response": {
+    "slot-03/length": {
       "input": {
         "options": {
-          "no-public-response": 3,
-          "reply-about-habit": 1
+          "utterance": 2,
+          "brief": 3,
+          "expanded": 1
         },
         "count": 1
       },
       "result": [
-        "no-public-response"
+        "utterance"
+      ]
+    },
+    "external": {
+      "input": {
+        "options": {
+          "sample": 1,
+          "skip": 5
+        },
+        "count": 1
+      },
+      "result": [
+        "skip"
       ]
     },
     "history": {
       "input": {
         "options": {
+          "20261102-092240-3da6b78884": 1,
+          "20261102-091440-13b0643b0c": 1,
           "20261102-090710-041f080c67": 1,
           "20261102-082410-c175139334": 1,
           "20261102-074455-93bdd0cbe9": 1,
@@ -302,8 +340,8 @@
         "count": 2
       },
       "result": [
-        "20261028-055743-d2676431b6",
-        "20261031-214405-bbb2417dca"
+        "20261030-144920-a9c856113c",
+        "20261029-144942-e064d30495"
       ]
     }
   }
