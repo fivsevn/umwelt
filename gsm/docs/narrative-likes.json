@@ -2147,6 +2147,25 @@
       "previous": 0,
       "at": "2026-11-03T23:27:20+08:00",
       "likes": 3
+    },
+    "12404bbe6079e42105058ab501d559fe071a5597fe105a797aa5226075c3bdf6": {
+      "source": {
+        "username": "wednesday6",
+        "date": "2026-11-03T23:10:45+08:00",
+        "body_sha256": "02f12a97b9389fb46021aacdacc3bb386faca46a0fdd3ed734f60f744ab1210b"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "low",
+        "relationship": "none",
+        "attention": "busy",
+        "reason": "接续个人此前发现的阴凉，短小且依赖局部场景，邻近发言密集。"
+      },
+      "seed": "25c102a7b106dee32f5d92b536e1b66a",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-03T23:27:20+08:00",
+      "likes": 0
     }
   }
 }
