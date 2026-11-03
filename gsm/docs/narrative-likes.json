@@ -2014,6 +2014,25 @@
       "previous": 0,
       "at": "2026-11-03T22:56:00+08:00",
       "likes": 4
+    },
+    "5b559af9eea93cd972939ed33cdaa42296e69cc47ac71970a20e8a8d654e5e02": {
+      "source": {
+        "username": "smallhide2",
+        "date": "2026-11-03T20:03:55+08:00",
+        "body_sha256": "82fbccfaf06514c2534b73647258f5f96cc4ac6db7ac7477873e491e5c536ae8"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "low",
+        "relationship": "none",
+        "attention": "busy",
+        "reason": "需要知道此前垫材挪动才能完全接住；同作者附近已发一帖，注意可能分散。"
+      },
+      "seed": "ceff34c73d74276ede6dae444a5e20f6",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-03T22:56:00+08:00",
+      "likes": 0
     }
   }
 }
