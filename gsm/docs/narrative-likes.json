@@ -1919,6 +1919,25 @@
       "previous": 0,
       "at": "2026-11-03T14:53:55+08:00",
       "likes": 1
+    },
+    "061efb77e69b045e4fdc87e5ad52454280ad27b4e4b373282d3235850d4f4fd3": {
+      "source": {
+        "username": "leafback7",
+        "date": "2026-11-03T14:48:30+08:00",
+        "body_sha256": "22ada670a412d15082ed62fbff524af6c2208009135635f7e85bd3b3b7c169c3"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "独立的叶面触感观察，细小但容易理解；没有已确认的相关关系，附近没有密集动态。"
+      },
+      "seed": "4d750214b5671d55a92d6479542daf9e",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-03T14:53:55+08:00",
+      "likes": 0
     }
   }
 }
