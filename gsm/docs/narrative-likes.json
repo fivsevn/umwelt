@@ -1995,6 +1995,25 @@
       "previous": 0,
       "at": "2026-11-03T22:56:00+08:00",
       "likes": 0
+    },
+    "0554e476a163824801d774fbc56032020999b905345685918d537aea69f1fead": {
+      "source": {
+        "username": "smallhide2",
+        "date": "2026-11-03T19:12:15+08:00",
+        "body_sha256": "fc271fdb43795e7be48b89c598767c7bbdb241ee5950ff8f1d8eb7191033879d"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "具体住处小动作容易理解；没有已确认的当次对话，附近短帖适量。"
+      },
+      "seed": "8ea9ceadb8393b42364fd323c049cd50",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-03T22:56:00+08:00",
+      "likes": 4
     }
   }
 }
