@@ -2413,6 +2413,25 @@
       "previous": 0,
       "at": "2026-11-04T14:54:00+08:00",
       "likes": 1
+    },
+    "73c386559c66367d127c3c5115f2a583592a48e05e799c1ea1e644aedd8c2548": {
+      "source": {
+        "username": "slowblink",
+        "date": "2026-11-04T14:21:05+08:00",
+        "body_sha256": "48cd57e08dc306903601dc5f6502130dfd259728513ebfbcf06bd6b01f4fa0c0"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "low",
+        "relationship": "none",
+        "attention": "busy",
+        "reason": "依赖同一角色晨间亮斑前情且与本人上条较接近，受众有限；临近另一条新帖，读者注意被分散。"
+      },
+      "seed": "2e42641314a1d578e0436dca7106a5d1",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-04T14:54:00+08:00",
+      "likes": 0
     }
   }
 }

@@ -394,6 +394,67 @@
       "result": [
         "expanded"
       ]
+    },
+    "slot-07/author-mode": {
+      "input": {
+        "options": {
+          "explore": 1,
+          "weighted": 4
+        },
+        "count": 1
+      },
+      "result": [
+        "weighted"
+      ]
+    },
+    "slot-07/author": {
+      "input": {
+        "options": {
+          "gecko404": 4,
+          "leafback7": 2,
+          "mango27": 4,
+          "moss9": 2,
+          "nearthermo": 1,
+          "nightshift3": 2,
+          "peachcrumble": 2,
+          "slowblink": 1,
+          "smallhide2": 1,
+          "twosteps8": 2,
+          "wallafterdark": 2,
+          "wednesday6": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "slowblink"
+      ]
+    },
+    "slot-07/focus": {
+      "input": {
+        "options": {
+          "immediate": 3,
+          "own-history": 1,
+          "public-other": 1,
+          "side-interest": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "own-history"
+      ]
+    },
+    "slot-07/length": {
+      "input": {
+        "options": {
+          "utterance": 2,
+          "brief": 3,
+          "expanded": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "brief"
+      ]
     }
   }
 }
