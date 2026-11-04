@@ -1,12 +1,5 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
-  "gecko404": {
-    "handle": "gecko404",
-    "name": "玻璃这一边",
-    "bio": "玻璃那边也在看这边吗？",
-    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
-    "color": "sage"
-  },
   "slowblink": {
     "handle": "slowblink",
     "name": "不急",
@@ -14,12 +7,40 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=8ba191455bd7",
     "color": "sage"
   },
+  "gecko404": {
+    "handle": "gecko404",
+    "name": "玻璃这一边",
+    "bio": "玻璃那边也在看这边吗？",
+    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
+    "color": "sage"
+  },
+  "peachcrumble": {
+    "handle": "peachcrumble",
+    "name": "桃酥",
+    "bio": "差一点，下回再试。",
+    "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
+    "color": "rose"
+  },
+  "mango27": {
+    "handle": "mango27",
+    "name": "小满",
+    "bio": "吃完这口再说。",
+    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
+    "color": "rose"
+  },
   "nearthermo": {
     "handle": "nearthermo",
     "name": "温度计旁边",
     "bio": "挪一点，舒服多了。",
     "avatarImage": "/gsm/assets/avatars/nearthermo.webp?v=f536a852bd2b",
     "color": "sand"
+  },
+  "leafback7": {
+    "handle": "leafback7",
+    "name": "叶背居民",
+    "bio": "这片叶子上的路，我蛮熟的。",
+    "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
+    "color": "rose"
   },
   "nightshift3": {
     "handle": "nightshift3",
@@ -49,33 +70,12 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
     "color": "rose"
   },
-  "peachcrumble": {
-    "handle": "peachcrumble",
-    "name": "桃酥",
-    "bio": "差一点，下回再试。",
-    "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
-    "color": "rose"
-  },
   "smallhide2": {
     "handle": "smallhide2",
     "name": "洞口待机",
     "bio": "门口留一点空就好。",
     "avatarImage": "/gsm/assets/avatars/smallhide2.webp?v=8ba191455bd7",
     "color": "sage"
-  },
-  "mango27": {
-    "handle": "mango27",
-    "name": "小满",
-    "bio": "吃完这口再说。",
-    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
-    "color": "rose"
-  },
-  "leafback7": {
-    "handle": "leafback7",
-    "name": "叶背居民",
-    "bio": "这片叶子上的路，我蛮熟的。",
-    "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
-    "color": "rose"
   },
   "moss9": {
     "handle": "moss9",
@@ -107,6 +107,195 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261104-142105-b468bdc493",
+    "date": "2026-11-04T14:21:05+08:00",
+    "createdAt": 1793773265000,
+    "author": "slowblink",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "早上收回去的那只前脚，现在伸出来也碰不到亮斑了。我又把它放回了原来的位置。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "早上收回去的那只前脚，现在伸出来也碰不到亮斑了。我又把它放回了原来的位置。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "早上收回去的那只前脚，现在伸出来也碰不到亮斑了。我又把它放回了原来的位置。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261104-133750-3350503623",
+    "date": "2026-11-04T13:37:50+08:00",
+    "createdAt": 1793770670000,
+    "author": "slowblink",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "下午原本打算睡一会儿，躺下后听见不远处有一声轻响。我没起来看，等了半天也没有第二声。倒是这么等着等着，睡意没了。现在醒着，但也不打算去哪儿。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "下午原本打算睡一会儿，躺下后听见不远处有一声轻响。我没起来看，等了半天也没有第二声。倒是这么等着等着，睡意没了。现在醒着，但也不打算去哪儿。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "下午原本打算睡一会儿，躺下后听见不远处有一声轻响。我没起来看，等了半天也没有第二声。倒是这么等着等着，睡意没了。现在醒着，但也不打算去哪儿。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261104-124920-c0649eef7d",
+    "date": "2026-11-04T12:49:20+08:00",
+    "createdAt": 1793767760000,
+    "author": "gecko404",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "路过一片干叶子时，底下忽然沙沙响。我翻开一角，原来压着几粒细碎的垫材。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "路过一片干叶子时，底下忽然沙沙响。我翻开一角，原来压着几粒细碎的垫材。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "路过一片干叶子时，底下忽然沙沙响。我翻开一角，原来压着几粒细碎的垫材。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261104-121335-9c3c2cbc64",
+    "date": "2026-11-04T12:13:35+08:00",
+    "createdAt": 1793765615000,
+    "author": "peachcrumble",
+    "likes": 4,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚从石头上跳下来，落得挺稳。想再跳一次，脚底却沾着一小粒沙，先停下来甩了甩。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚从石头上跳下来，落得挺稳。想再跳一次，脚底却沾着一小粒沙，先停下来甩了甩。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚从石头上跳下来，落得挺稳。想再跳一次，脚底却沾着一小粒沙，先停下来甩了甩。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261104-110640-70cf30d129",
+    "date": "2026-11-04T11:06:40+08:00",
+    "createdAt": 1793761600000,
+    "author": "mango27",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "我昨天把小石子拨到一边，终于能趴舒服了。今天刚趴下又觉得肚子底下硌，我一下就去找石头，左扒右扒没见到。结果是自己一条后腿没放平，稍微挪开就好了。折腾得我半天没坐安稳。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "我昨天把小石子拨到一边，终于能趴舒服了。今天刚趴下又觉得肚子底下硌，我一下就去找石头，左扒右扒没见到。结果是自己一条后腿没放平，稍微挪开就好了。折腾得我半天没坐安稳。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "我昨天把小石子拨到一边，终于能趴舒服了。今天刚趴下又觉得肚子底下硌，我一下就去找石头，左扒右扒没见到。结果是自己一条后腿没放平，稍微挪开就好了。折腾得我半天没坐安稳。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261104-094610-87b31c1a1c",
+    "date": "2026-11-04T09:46:10+08:00",
+    "createdAt": 1793756770000,
+    "author": "nearthermo",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "水边那块地方比我想的凉，我踩了一脚就回到石头上了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "水边那块地方比我想的凉，我踩了一脚就回到石头上了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "水边那块地方比我想的凉，我踩了一脚就回到石头上了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261104-085320-a7d2d2f9e6",
+    "date": "2026-11-04T08:53:20+08:00",
+    "createdAt": 1793753600000,
+    "author": "leafback7",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "今天叶柄边上有一片薄薄的干皮翘起来了。我照常从那儿走，脚尖被挂住，往回退才脱开。后来贴着叶脉那一侧绕了一段，虽然多走几步，倒是不用总看脚下。那片干皮还没掉，下次先绕过去。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "今天叶柄边上有一片薄薄的干皮翘起来了。我照常从那儿走，脚尖被挂住，往回退才脱开。后来贴着叶脉那一侧绕了一段，虽然多走几步，倒是不用总看脚下。那片干皮还没掉，下次先绕过去。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "今天叶柄边上有一片薄薄的干皮翘起来了。我照常从那儿走，脚尖被挂住，往回退才脱开。后来贴着叶脉那一侧绕了一段，虽然多走几步，倒是不用总看脚下。那片干皮还没掉，下次先绕过去。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261104-072715-017ed1a2e1",
     "date": "2026-11-04T07:27:15+08:00",
