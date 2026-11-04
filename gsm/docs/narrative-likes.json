@@ -2679,6 +2679,25 @@
       "previous": 0,
       "at": "2026-11-05T06:58:00+08:00",
       "likes": 2
+    },
+    "5eb44d079d462ca37801ee9ba19038e09266041ffbc6f9a3cb9c2b7764120e3d": {
+      "source": {
+        "username": "wallafterdark",
+        "date": "2026-11-05T06:45:20+08:00",
+        "body_sha256": "e724a47e13fe1d97f8aea7a06fe6d360c0f8f778cf64a425152ebda815592f57"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "墙角小守看水碗泡泡是一次独立的旁支兴趣，普通读者也容易理解；无已证实的认识关系或集中转发。"
+      },
+      "seed": "faeeb3f90417272fcd22322d30d7f1e6",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-05T06:58:00+08:00",
+      "likes": 0
     }
   }
 }
