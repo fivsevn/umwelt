@@ -2356,6 +2356,25 @@
       "previous": 0,
       "at": "2026-11-04T14:54:00+08:00",
       "likes": 0
+    },
+    "d5d53e42443cd05dd539692fc1ce65a0328663c444371a4b2223d7e0d67bd2c0": {
+      "source": {
+        "username": "peachcrumble",
+        "date": "2026-11-04T12:13:35+08:00",
+        "body_sha256": "5211fd345b0335b35e837bb64827c80311b880711bb3956262d95f26d58d5b7e"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "独立的落脚练习和细小干扰容易理解；未与他人公开互动，普通午间关注而非热点。"
+      },
+      "seed": "4240c52f866a32a5b237ca5e6c40dcb3",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-04T14:54:00+08:00",
+      "likes": 4
     }
   }
 }
