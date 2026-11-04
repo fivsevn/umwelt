@@ -2622,6 +2622,25 @@
       "previous": 0,
       "at": "2026-11-04T23:29:00+08:00",
       "likes": 0
+    },
+    "859fd76848ca554949c9680de60feefeb7a71debef59a3da893544b2fe9677a5": {
+      "source": {
+        "username": "gecko404",
+        "date": "2026-11-05T00:24:30+08:00",
+        "body_sha256": "1786529797730bfae9a79e0b43f6c94be666456ca36be0ad438644fc17f02225"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "玻璃外纸盒引起的好奇不需别的前情；有具体日常观察、无已知读者往返，前后发布间隔较长，注意按正常处理。"
+      },
+      "seed": "4b7ebc9e7a4c5a2916ac979b06b84cd8",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-05T06:58:00+08:00",
+      "likes": 6
     }
   }
 }

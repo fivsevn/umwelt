@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "round": "2026-11-04/232358-6213",
-  "baseline": "a49a24b1eaf43c87970ac5146539caf59719094c",
-  "target_posts": 3,
-  "closed": true,
+  "round": "2026-11-05/065501-09ba",
+  "baseline": "2dae155635eddf27c16848e79264666495e82646",
+  "target_posts": 4,
+  "closed": false,
   "draws": {
     "review": {
       "input": {
@@ -48,7 +48,7 @@
         "count": 1
       },
       "result": [
-        "smallhide2"
+        "gecko404"
       ]
     },
     "slot-01/focus": {
@@ -62,7 +62,7 @@
         "count": 1
       },
       "result": [
-        "own-history"
+        "immediate"
       ]
     },
     "slot-01/length": {
@@ -75,7 +75,7 @@
         "count": 1
       },
       "result": [
-        "expanded"
+        "brief"
       ]
     },
     "slot-02/author-mode": {
@@ -109,7 +109,7 @@
         "count": 1
       },
       "result": [
-        "mango27"
+        "gecko404"
       ]
     },
     "slot-02/focus": {
@@ -148,23 +148,23 @@
         "count": 1
       },
       "result": [
-        "explore"
+        "weighted"
       ]
     },
     "slot-03/author": {
       "input": {
         "options": {
-          "gecko404": 1,
-          "leafback7": 1,
-          "mango27": 1,
-          "moss9": 1,
+          "gecko404": 4,
+          "leafback7": 2,
+          "mango27": 4,
+          "moss9": 2,
           "nearthermo": 1,
-          "nightshift3": 1,
-          "peachcrumble": 1,
+          "nightshift3": 2,
+          "peachcrumble": 2,
           "slowblink": 1,
           "smallhide2": 1,
-          "twosteps8": 1,
-          "wallafterdark": 1,
+          "twosteps8": 2,
+          "wallafterdark": 2,
           "wednesday6": 1
         },
         "count": 1
@@ -184,7 +184,7 @@
         "count": 1
       },
       "result": [
-        "public-other"
+        "own-history"
       ]
     },
     "slot-03/length": {
@@ -197,28 +197,75 @@
         "count": 1
       },
       "result": [
-        "expanded"
+        "brief"
       ]
     },
-    "slot-03/public-target": {
+    "slot-04/author-mode": {
       "input": {
         "options": {
-          "20261104-213920-107c0be2ed": 1,
-          "20261103-225320-b549c7e107": 1,
-          "20261104-184715-2004dabb52": 1,
-          "20261104-133750-3350503623": 1
+          "explore": 1,
+          "weighted": 4
         },
         "count": 1
       },
       "result": [
-        "20261104-133750-3350503623"
+        "weighted"
       ]
     },
-    "slot-03/notice": {
+    "slot-04/author": {
       "input": {
         "options": {
-          "notice": 1,
-          "skip": 1
+          "gecko404": 4,
+          "leafback7": 2,
+          "mango27": 4,
+          "moss9": 2,
+          "nearthermo": 1,
+          "nightshift3": 2,
+          "peachcrumble": 2,
+          "slowblink": 1,
+          "smallhide2": 1,
+          "twosteps8": 2,
+          "wallafterdark": 2,
+          "wednesday6": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "wallafterdark"
+      ]
+    },
+    "slot-04/focus": {
+      "input": {
+        "options": {
+          "immediate": 3,
+          "own-history": 1,
+          "public-other": 1,
+          "side-interest": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "side-interest"
+      ]
+    },
+    "slot-04/length": {
+      "input": {
+        "options": {
+          "utterance": 2,
+          "brief": 3,
+          "expanded": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "brief"
+      ]
+    },
+    "external": {
+      "input": {
+        "options": {
+          "sample": 1,
+          "skip": 5
         },
         "count": 1
       },
@@ -229,6 +276,9 @@
     "history": {
       "input": {
         "options": {
+          "20261103-211120-3421863484": 1,
+          "20261103-200355-0ef08b240e": 1,
+          "20261103-191215-802daf197c": 1,
           "20261103-183540-e06899f07b": 1,
           "20261103-171825-875f48359f": 1,
           "20261103-160310-95a13a7263": 1,
@@ -371,8 +421,8 @@
         "count": 2
       },
       "result": [
-        "20261028-011812-1094f71fd2",
-        "20261102-082410-c175139334"
+        "20261028-015419-6d2a81f9e6",
+        "20261103-144830-578a3b3afd"
       ]
     }
   }
