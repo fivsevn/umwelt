@@ -2375,6 +2375,25 @@
       "previous": 0,
       "at": "2026-11-04T14:54:00+08:00",
       "likes": 4
+    },
+    "47ea2bf371a047b6c0e8e6c12ec96e438f3c5b0f49c6bac451e3ee396ecffebf": {
+      "source": {
+        "username": "gecko404",
+        "date": "2026-11-04T12:49:20+08:00",
+        "body_sha256": "49877e479e453498c29252dc4ddd591700f47fddd2c2ce75cda5ffca4ca0e9a9"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "偏离最近的玻璃与木头观察，独立的声音发现有普通可读性；没有既定关注或公开回应。"
+      },
+      "seed": "e06e64fbcdae0da84fecf3153f5d1436",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-04T14:54:00+08:00",
+      "likes": 1
     }
   }
 }
