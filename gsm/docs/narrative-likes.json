@@ -2394,6 +2394,25 @@
       "previous": 0,
       "at": "2026-11-04T14:54:00+08:00",
       "likes": 1
+    },
+    "d6ea5e4ea3b34e1cd620f48ac4f04e1f54ea1d91a0057e232734ca741edd0fdf": {
+      "source": {
+        "username": "slowblink",
+        "date": "2026-11-04T13:37:50+08:00",
+        "body_sha256": "d538411bc43368190bb32f10c02aca3d64c651e13d855cbd074514e1920a42d1"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "角色少交代的日常中出现因等待而睡意散去的具体体验，具有一般共鸣；没有明确读者关系，暂无密集竞争。"
+      },
+      "seed": "3a94807d1d34a24f328ae5732803451c",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-04T14:54:00+08:00",
+      "likes": 1
     }
   }
 }
