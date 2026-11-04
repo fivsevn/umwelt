@@ -2660,6 +2660,25 @@
       "previous": 0,
       "at": "2026-11-05T06:58:00+08:00",
       "likes": 2
+    },
+    "ea259f2d9793a1a1d5c2e5a30488a121303dfe51264cd36ab008d29419129c95": {
+      "source": {
+        "username": "mango27",
+        "date": "2026-11-05T05:18:40+08:00",
+        "body_sha256": "e850daf9b3ec5b403c817786695bd73819e03a10e28790640f6efb46c145ecb3"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "quiet",
+        "reason": "接续自己昨晚留下的缺角叶子，可从正文理解是在认一个旧物；没有互动对象，此时与前帖间隔较开、关注较安静。"
+      },
+      "seed": "1bc59173f18477aec35599339e621870",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-05T06:58:00+08:00",
+      "likes": 2
     }
   }
 }
