@@ -2584,6 +2584,25 @@
       "previous": 0,
       "at": "2026-11-04T23:29:00+08:00",
       "likes": 0
+    },
+    "2be8c313d193eacf27b53f046752b31c8094fdf5affe445d349bddf0752e0fb1": {
+      "source": {
+        "username": "mango27",
+        "date": "2026-11-04T23:18:10+08:00",
+        "body_sha256": "1f76b3cb68b3f5e7812cdbd7bb642252a0dc2b9bf8fa96b53be3ddad74a9a974"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "busy",
+        "reason": "喝水时鼻尖沾湿的短日常可独立理解；附近有多条晚间发帖，注意分散，未提及确定的互动对象。"
+      },
+      "seed": "8e603d6069cf083e2772bfa54e61b012",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-04T23:29:00+08:00",
+      "likes": 0
     }
   }
 }
