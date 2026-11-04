@@ -1,17 +1,24 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
-  "leafback7": {
-    "handle": "leafback7",
-    "name": "叶背居民",
-    "bio": "这片叶子上的路，我蛮熟的。",
-    "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
-    "color": "rose"
-  },
   "mango27": {
     "handle": "mango27",
     "name": "小满",
     "bio": "吃完这口再说。",
     "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
+    "color": "rose"
+  },
+  "smallhide2": {
+    "handle": "smallhide2",
+    "name": "洞口待机",
+    "bio": "门口留一点空就好。",
+    "avatarImage": "/gsm/assets/avatars/smallhide2.webp?v=8ba191455bd7",
+    "color": "sage"
+  },
+  "leafback7": {
+    "handle": "leafback7",
+    "name": "叶背居民",
+    "bio": "这片叶子上的路，我蛮熟的。",
+    "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
     "color": "rose"
   },
   "moss9": {
@@ -77,13 +84,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
     "color": "rose"
   },
-  "smallhide2": {
-    "handle": "smallhide2",
-    "name": "洞口待机",
-    "bio": "门口留一点空就好。",
-    "avatarImage": "/gsm/assets/avatars/smallhide2.webp?v=8ba191455bd7",
-    "color": "sage"
-  },
   "gedageda": {
     "handle": "gedageda",
     "name": "咯哒咯哒",
@@ -107,6 +107,87 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261104-232810-495c332783",
+    "date": "2026-11-04T23:28:10+08:00",
+    "createdAt": 1793806090000,
+    "author": "mango27",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "我刚才想把一片小叶子叼到石头上，嘴里咬得住，前脚却总踩到它。松嘴以后，叶子就贴着地滑走了一截。我来回折腾了好一会儿，最后还是把它留在原地了。要是再碰到那片叶子，我大概能一眼认出来，边上缺了一个小角。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "我刚才想把一片小叶子叼到石头上，嘴里咬得住，前脚却总踩到它。松嘴以后，叶子就贴着地滑走了一截。我来回折腾了好一会儿，最后还是把它留在原地了。要是再碰到那片叶子，我大概能一眼认出来，边上缺了一个小角。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "我刚才想把一片小叶子叼到石头上，嘴里咬得住，前脚却总踩到它。松嘴以后，叶子就贴着地滑走了一截。我来回折腾了好一会儿，最后还是把它留在原地了。要是再碰到那片叶子，我大概能一眼认出来，边上缺了一个小角。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261104-231810-e1ff59f7b7",
+    "date": "2026-11-04T23:18:10+08:00",
+    "createdAt": 1793805490000,
+    "author": "mango27",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "碗底还剩一点水，我低头喝完，鼻尖也跟着湿了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "碗底还剩一点水，我低头喝完，鼻尖也跟着湿了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "碗底还剩一点水，我低头喝完，鼻尖也跟着湿了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261104-230520-70f5c25ef2",
+    "date": "2026-11-04T23:05:20+08:00",
+    "createdAt": 1793804720000,
+    "author": "smallhide2",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "昨天扫到墙边的那堆垫材，今晚又被我踩散了两片。门口确实宽敞了，可我一出门还是能碰到它们。我刚刚把散开的几片往更远处推了推，回去的时候试着走了一遍，这才没碰着。原来腾个门口，还得想想东西往哪儿放。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "昨天扫到墙边的那堆垫材，今晚又被我踩散了两片。门口确实宽敞了，可我一出门还是能碰到它们。我刚刚把散开的几片往更远处推了推，回去的时候试着走了一遍，这才没碰着。原来腾个门口，还得想想东西往哪儿放。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "昨天扫到墙边的那堆垫材，今晚又被我踩散了两片。门口确实宽敞了，可我一出门还是能碰到它们。我刚刚把散开的几片往更远处推了推，回去的时候试着走了一遍，这才没碰着。原来腾个门口，还得想想东西往哪儿放。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261104-222740-1af00231ca",
     "date": "2026-11-04T22:27:40+08:00",
