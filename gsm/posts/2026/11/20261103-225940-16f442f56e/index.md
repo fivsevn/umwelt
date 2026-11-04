@@ -4,7 +4,7 @@ date: '2026-11-03T22:59:40+08:00'
 username: slowblink
 name: 不急
 status: published
-likes: 1
+likes: 2
 source_event: 2999435915b3f33b3e1949ae934ae48446c2f4df
 author_assignment: specified
 ---
