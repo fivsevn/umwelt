@@ -706,7 +706,7 @@ export const posts = [
     "date": "2026-11-03T23:20:10+08:00",
     "createdAt": 1793719210000,
     "author": "wallafterdark",
-    "likes": 4,
+    "likes": 5,
     "blocks": {
       "zh": [
         {
