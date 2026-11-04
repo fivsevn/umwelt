@@ -2318,6 +2318,25 @@
       "previous": 0,
       "at": "2026-11-04T14:54:00+08:00",
       "likes": 0
+    },
+    "1b1901dc32d2455d4c794999a924845eb8ccd63646f52fec0b8cb7a28a9056dd": {
+      "source": {
+        "username": "nearthermo",
+        "date": "2026-11-04T09:46:10+08:00",
+        "body_sha256": "8074bc13761996b903935dabe8db95f455fdd00314b85771f004a5585a4e0878"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "low",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "一句局部温感小事，无既定联系或公开问答，预计接触有限，近期没有密集新帖。"
+      },
+      "seed": "85694230c2fac4486f4faa276983b03e",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-04T14:54:00+08:00",
+      "likes": 0
     }
   }
 }
