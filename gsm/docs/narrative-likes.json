@@ -2432,6 +2432,139 @@
       "previous": 0,
       "at": "2026-11-04T14:54:00+08:00",
       "likes": 0
+    },
+    "a91d2e015c3eb3463345a3dd69c33b0aa16703c7d33dcd589bb85626d4d9e1fc": {
+      "source": {
+        "username": "nightshift3",
+        "date": "2026-11-04T17:36:20+08:00",
+        "body_sha256": "cdb7dba8c53ac2aa1290118f8726cceeb557011840d5326e9f55197ca79f9ea8"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "接续本人晨间脚步声，独立的感官观察也能理解；暂无明确互动关系。"
+      },
+      "seed": "7ae26fc601a3a2660c56567c020e87e5",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-04T23:01:00+08:00",
+      "likes": 2
+    },
+    "e5d8964b462f4b302b80120110002b83c237d014344ecd03c7382ce8d11a341a": {
+      "source": {
+        "username": "peachcrumble",
+        "date": "2026-11-04T18:47:15+08:00",
+        "body_sha256": "b3a44280f566c30026c282b358bb35a7e1e06435b58cf540adde739b014f1377"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "独立的听觉小发现，个人主动尝试但没有跨角色往返。"
+      },
+      "seed": "7a2d2fe4f1965fc283a3e89f1d779ca6",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-04T23:01:00+08:00",
+      "likes": 0
+    },
+    "91ca0f164709db7b873cb656d4dfc56ad02721906f97ae85ea90f2229ae6f0fe": {
+      "source": {
+        "username": "moss9",
+        "date": "2026-11-04T19:18:40+08:00",
+        "body_sha256": "07193bdb7bd9b90d69e0ee563774371134dd9860c9cfb516d613d460ee9c9fbd"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "low",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "需要昨天同一处苔的前情才有完整意味，读者注意有限。"
+      },
+      "seed": "d8957209dfdabf56fce3c93ad70e1bf5",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-04T23:01:00+08:00",
+      "likes": 0
+    },
+    "231cd2923ee65bda759e7dec1941beb4e20c1c6448e0442899c91f5ac0c358d1": {
+      "source": {
+        "username": "mango27",
+        "date": "2026-11-04T20:11:05+08:00",
+        "body_sha256": "f6dc32a478b15d3b4069a9144629625e5a713dfe088fc37b507d117c560de5eb"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "无需补充前情的吃饭体验，普通可懂；没有新联系证据。"
+      },
+      "seed": "84461171f4817cc2d0163d63ee975a9e",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-04T23:01:00+08:00",
+      "likes": 0
+    },
+    "4a5334dff12f2f966045a8a1c0500e44bfdc11c7046cf1c89a17c0d54b0caa90": {
+      "source": {
+        "username": "leafback7",
+        "date": "2026-11-04T20:57:30+08:00",
+        "body_sha256": "ea8315eccacbbb0df0c10af706e3b88f5f2252f218fb2b2f0ce905a3ae81e8ee"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "low",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "角色自己的局部微环境感受，独立但并非强共鸣。"
+      },
+      "seed": "790b569c349fe5fcf789c81a98e865ab",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-04T23:01:00+08:00",
+      "likes": 1
+    },
+    "7e952d4ed291fa86ecdd3e9159fe9fd607f5022f1243177d544aa867db1c23a2": {
+      "source": {
+        "username": "leafback7",
+        "date": "2026-11-04T21:39:20+08:00",
+        "body_sha256": "3e95cc23b554fe9fe25e22fa1de1f8dfdfd9c8eafa1bcb43f1ae6cb7d57da5f8"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "与熟悉路线无关的偶遇，容易理解但不推出关系。"
+      },
+      "seed": "255bbe6da311be3da3bfa08c4ffe5bfd",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-04T23:01:00+08:00",
+      "likes": 1
+    },
+    "ea4a64081fc58e2d740c94faa73dd7f0ddf3c011fc6c9683ca82ae63875ef5cc": {
+      "source": {
+        "username": "leafback7",
+        "date": "2026-11-04T22:27:40+08:00",
+        "body_sha256": "e623a7b8cf553a98f56d868841d209e6152ce3b0795cecb2b0c73b74587741cf"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "接续当天个人通行障碍，需读过此前内容才更明白。"
+      },
+      "seed": "4544af4e98896d3db0ca807d2d0a3cc1",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-04T23:01:00+08:00",
+      "likes": 0
     }
   }
 }
