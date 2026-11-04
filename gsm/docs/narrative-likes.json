@@ -2641,6 +2641,25 @@
       "previous": 0,
       "at": "2026-11-05T06:58:00+08:00",
       "likes": 6
+    },
+    "64e2fc94d36b45a9eb0d595701001c283653cc9be7b4564c89993414fa1fcbd8": {
+      "source": {
+        "username": "gecko404",
+        "date": "2026-11-05T02:12:15+08:00",
+        "body_sha256": "0339206e2c7a89ec52d809bdf170b461ead64fda110bb91a436c5c3fac3ac0f6"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "调整尾巴落点是独立可懂的身体小事；没有确认的跨账号联系，附近只有隔时段的少量新帖。"
+      },
+      "seed": "400f5d25b783c85f02cacc7db9cd8e3b",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-05T06:58:00+08:00",
+      "likes": 2
     }
   }
 }
