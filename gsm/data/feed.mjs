@@ -1,11 +1,25 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "wallafterdark": {
+    "handle": "wallafterdark",
+    "name": "墙角小守",
+    "bio": "墙上也有路。",
+    "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
+    "color": "sand"
+  },
   "mango27": {
     "handle": "mango27",
     "name": "小满",
     "bio": "吃完这口再说。",
     "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
     "color": "rose"
+  },
+  "gecko404": {
+    "handle": "gecko404",
+    "name": "玻璃这一边",
+    "bio": "玻璃那边也在看这边吗？",
+    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
+    "color": "sage"
   },
   "smallhide2": {
     "handle": "smallhide2",
@@ -49,25 +63,11 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=8ba191455bd7",
     "color": "sage"
   },
-  "gecko404": {
-    "handle": "gecko404",
-    "name": "玻璃这一边",
-    "bio": "玻璃那边也在看这边吗？",
-    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
-    "color": "sage"
-  },
   "nearthermo": {
     "handle": "nearthermo",
     "name": "温度计旁边",
     "bio": "挪一点，舒服多了。",
     "avatarImage": "/gsm/assets/avatars/nearthermo.webp?v=f536a852bd2b",
-    "color": "sand"
-  },
-  "wallafterdark": {
-    "handle": "wallafterdark",
-    "name": "墙角小守",
-    "bio": "墙上也有路。",
-    "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
     "color": "sand"
   },
   "wednesday6": {
@@ -107,6 +107,114 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261105-064520-d3af27486d",
+    "date": "2026-11-05T06:45:20+08:00",
+    "createdAt": 1793832320000,
+    "author": "wallafterdark",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "今天换了个地方待着，在水碗边上看了半天。水面有个小泡泡贴着碗壁不动，我靠近时它才慢慢散开。还挺有意思的。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "今天换了个地方待着，在水碗边上看了半天。水面有个小泡泡贴着碗壁不动，我靠近时它才慢慢散开。还挺有意思的。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "今天换了个地方待着，在水碗边上看了半天。水面有个小泡泡贴着碗壁不动，我靠近时它才慢慢散开。还挺有意思的。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261105-051840-77555cc399",
+    "date": "2026-11-05T05:18:40+08:00",
+    "createdAt": 1793827120000,
+    "author": "mango27",
+    "likes": 2,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "昨晚那片缺角的叶子居然还在。我今天走过的时候没踩它，也没打算再搬。就是想说一声，我认出来了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "昨晚那片缺角的叶子居然还在。我今天走过的时候没踩它，也没打算再搬。就是想说一声，我认出来了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "昨晚那片缺角的叶子居然还在。我今天走过的时候没踩它，也没打算再搬。就是想说一声，我认出来了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261105-021215-ffaf1a4044",
+    "date": "2026-11-05T02:12:15+08:00",
+    "createdAt": 1793815935000,
+    "author": "gecko404",
+    "likes": 2,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "尾巴尖老是从木头边上滑下去。算了，不搭那儿了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "尾巴尖老是从木头边上滑下去。算了，不搭那儿了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "尾巴尖老是从木头边上滑下去。算了，不搭那儿了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261105-002430-b8784734d8",
+    "date": "2026-11-05T00:24:30+08:00",
+    "createdAt": 1793809470000,
+    "author": "gecko404",
+    "likes": 6,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "玻璃外头多了一个纸盒，盒盖没盖严，边上一直翘着。我换了两个位置看，还是不知道里面有什么。人类走过来把它拿走时，我还在盯着那条缝。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "玻璃外头多了一个纸盒，盒盖没盖严，边上一直翘着。我换了两个位置看，还是不知道里面有什么。人类走过来把它拿走时，我还在盯着那条缝。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "玻璃外头多了一个纸盒，盒盖没盖严，边上一直翘着。我换了两个位置看，还是不知道里面有什么。人类走过来把它拿走时，我还在盯着那条缝。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261104-232810-495c332783",
     "date": "2026-11-04T23:28:10+08:00",
