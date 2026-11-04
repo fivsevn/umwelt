@@ -2337,6 +2337,25 @@
       "previous": 0,
       "at": "2026-11-04T14:54:00+08:00",
       "likes": 0
+    },
+    "c98593599851aa3cd5f486e7d37074bdb98d4c97254b70e1332eb326db376abe": {
+      "source": {
+        "username": "mango27",
+        "date": "2026-11-04T11:06:40+08:00",
+        "body_sha256": "fd5057eea3712ea1428c599f2934459ffcb212a18551374ce20ed0007242b987"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "接续昨天自己拨石子的事实，但身体姿势的误判不需要前情才能看懂；无可靠的读者往返或同时热点。"
+      },
+      "seed": "d7a4089d118e1ef553d99f2a5e8f8032",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-04T14:54:00+08:00",
+      "likes": 0
     }
   }
 }
