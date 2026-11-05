@@ -1,8 +1,8 @@
 ---
-username: gecko404
+username: wallafterdark
 status: published
-likes: 1
-date: "2026-11-05T14:34:10+08:00"
+likes: 2
+date: "2026-11-05T18:07:20+08:00"
 ---
 
-我刚才踩到石头靠里的一角，那块石头竟然轻轻晃了一下。
+有一根羽毛飘到了墙边。我盯着它看了好一会儿，还是没弄明白它是从哪儿来的。
