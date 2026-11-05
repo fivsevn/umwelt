@@ -2774,6 +2774,25 @@
       "previous": 0,
       "at": "2026-11-05T22:56:00+08:00",
       "likes": 1
+    },
+    "c051e64220e5b1b265213e8b8798ce0822d9cfb8eb644e2dec6b1244ad10f1f6": {
+      "source": {
+        "username": "gecko404",
+        "date": "2026-11-05T21:32:10+08:00",
+        "body_sha256": "8e83c71bff7daa12207decbf502e1db3a1d1e9bc7d8d373917f36d8a0cb7ef6b"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "玻璃外的布暂时挡住熟悉视线，细节容易理解但属个人住处；未形成明确跨角色互动。"
+      },
+      "seed": "91e307cd41acdacda5ad59924058acb6",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-05T22:56:00+08:00",
+      "likes": 0
     }
   }
 }
