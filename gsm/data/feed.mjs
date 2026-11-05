@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "gecko404": {
+    "handle": "gecko404",
+    "name": "玻璃这一边",
+    "bio": "玻璃那边也在看这边吗？",
+    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
+    "color": "sage"
+  },
   "wallafterdark": {
     "handle": "wallafterdark",
     "name": "墙角小守",
@@ -13,13 +20,6 @@ export const profiles = {
     "bio": "吃完这口再说。",
     "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
     "color": "rose"
-  },
-  "gecko404": {
-    "handle": "gecko404",
-    "name": "玻璃这一边",
-    "bio": "玻璃那边也在看这边吗？",
-    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
-    "color": "sage"
   },
   "smallhide2": {
     "handle": "smallhide2",
@@ -108,11 +108,38 @@ export const profiles = {
 };
 export const posts = [
   {
+    "id": "20261105-143410-cb52b1e297",
+    "date": "2026-11-05T14:34:10+08:00",
+    "createdAt": 1793860450000,
+    "author": "gecko404",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "我刚才踩到石头靠里的一角，那块石头竟然轻轻晃了一下。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "我刚才踩到石头靠里的一角，那块石头竟然轻轻晃了一下。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "我刚才踩到石头靠里的一角，那块石头竟然轻轻晃了一下。"
+        }
+      ]
+    }
+  },
+  {
     "id": "20261105-064520-d3af27486d",
     "date": "2026-11-05T06:45:20+08:00",
     "createdAt": 1793832320000,
     "author": "wallafterdark",
-    "likes": 0,
+    "likes": 2,
     "blocks": {
       "zh": [
         {
@@ -517,7 +544,7 @@ export const posts = [
     "date": "2026-11-04T13:37:50+08:00",
     "createdAt": 1793770670000,
     "author": "slowblink",
-    "likes": 2,
+    "likes": 3,
     "blocks": {
       "zh": [
         {
@@ -544,7 +571,7 @@ export const posts = [
     "date": "2026-11-04T12:49:20+08:00",
     "createdAt": 1793767760000,
     "author": "gecko404",
-    "likes": 2,
+    "likes": 3,
     "blocks": {
       "zh": [
         {
@@ -571,7 +598,7 @@ export const posts = [
     "date": "2026-11-04T12:13:35+08:00",
     "createdAt": 1793765615000,
     "author": "peachcrumble",
-    "likes": 5,
+    "likes": 6,
     "blocks": {
       "zh": [
         {
@@ -652,7 +679,7 @@ export const posts = [
     "date": "2026-11-04T08:53:20+08:00",
     "createdAt": 1793753600000,
     "author": "leafback7",
-    "likes": 0,
+    "likes": 2,
     "blocks": {
       "zh": [
         {
@@ -1570,7 +1597,7 @@ export const posts = [
     "date": "2026-11-02T09:22:40+08:00",
     "createdAt": 1793582560000,
     "author": "smallhide2",
-    "likes": 4,
+    "likes": 5,
     "blocks": {
       "zh": [
         {
@@ -1597,7 +1624,7 @@ export const posts = [
     "date": "2026-11-02T09:14:40+08:00",
     "createdAt": 1793582080000,
     "author": "slowblink",
-    "likes": 0,
+    "likes": 1,
     "blocks": {
       "zh": [
         {
