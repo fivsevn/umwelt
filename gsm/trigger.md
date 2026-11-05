@@ -1,8 +1,8 @@
 ---
-username: twosteps8
+username: nightshift3
 status: published
-likes: 0
-date: "2026-11-05T19:25:40+08:00"
+likes: 1
+date: "2026-11-05T20:43:15+08:00"
 ---
 
-有根干草横在路上。我抬脚跨过去了，没绕。
+这会儿不太想找谁聊天。远一点的地方有东西碰了两下，声音不大，我却一直等着听第三下。

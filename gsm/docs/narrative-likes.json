@@ -2755,6 +2755,25 @@
       "previous": 0,
       "at": "2026-11-05T22:56:00+08:00",
       "likes": 0
+    },
+    "0d00235030a2f601ad98478de85c67d6bb704f9b561ea2dd43a84558173eb71a": {
+      "source": {
+        "username": "nightshift3",
+        "date": "2026-11-05T20:43:15+08:00",
+        "body_sha256": "a9c3ffca9f65ed04538a879e4f8b25b753f35b6a304867d2f14f89026528d9e1"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "夜里听见动静却没有后续的等待感容易懂；没有特定收信人或确认往返。"
+      },
+      "seed": "6dd443cbf2be7f2c6efb10894f5b7c2e",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-05T22:56:00+08:00",
+      "likes": 1
     }
   }
 }
