@@ -2698,6 +2698,25 @@
       "previous": 0,
       "at": "2026-11-05T07:02:00+08:00",
       "likes": 0
+    },
+    "2b41b018cd7ebd04f49fce7f1684468694a4667ee92f5b4ec13235eeb9d9eb29": {
+      "source": {
+        "username": "gecko404",
+        "date": "2026-11-05T14:34:10+08:00",
+        "body_sha256": "498f3e77559d716179b67ef7348112e644f90d7803a5c424d0ea8eb2b63aaf2d"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "玻璃这一边说的是踩到会晃的石角这一件独立日常，普通读者能理解意外的脚下触感；没有已确认的接话关系，也没有证据显示此时集中讨论。"
+      },
+      "seed": "c023f248911a94ffd6b1718107ded080",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-05T15:01:30+08:00",
+      "likes": 1
     }
   }
 }
