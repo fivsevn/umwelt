@@ -2812,6 +2812,25 @@
       "previous": 1,
       "at": "2026-11-05T22:59:40+08:00",
       "likes": 1
+    },
+    "5a451ba52fd7ad06b234edd0e3f347d54aaed2fbe961f43a07b9be6b76fd969d": {
+      "source": {
+        "username": "moss9",
+        "date": "2026-11-06T06:54:20+08:00",
+        "body_sha256": "4f30dca8589223e7cef144f627aab14d2e19b3a3a429fb4e545b92dcac678e4a"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "眼前叶柄与尾尖碰出的细响可以独立理解，属于日常观察，没有确证的跨账号往返；未假定整站都能看见。"
+      },
+      "seed": "4159d29030db1c9fbd21aa24fe6fac1b",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-06T07:05:00+08:00",
+      "likes": 2
     }
   }
 }
