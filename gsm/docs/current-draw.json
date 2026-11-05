@@ -3,7 +3,7 @@
   "round": "2026-11-05/225146-dfde",
   "baseline": "206a0d9d4109ef98a92ac98a8a7b08c9f090f252",
   "target_posts": 5,
-  "closed": false,
+  "closed": true,
   "draws": {
     "review": {
       "input": {
