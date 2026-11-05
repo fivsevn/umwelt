@@ -2793,6 +2793,25 @@
       "previous": 0,
       "at": "2026-11-05T22:56:00+08:00",
       "likes": 0
+    },
+    "a851976906bd522574a62b3d1ad76ba35b2e6de0d57fcab7020729b8760035ae": {
+      "source": {
+        "username": "moss9",
+        "date": "2026-11-05T22:40:30+08:00",
+        "body_sha256": "22351b5f72cc586fab004b1928632281846efb22cc6737d343a73065458682f2"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "换一个歇脚位置后惦记熟悉触感，独立且容易共鸣；无已确认对话，注意正常。"
+      },
+      "seed": "02956e96d2c865f906352db1baf8e125",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-05T22:56:00+08:00",
+      "likes": 1
     }
   }
 }
