@@ -1,11 +1,32 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "moss9": {
+    "handle": "moss9",
+    "name": "阿苔",
+    "bio": "水滴也值得看一会儿。",
+    "avatarImage": "/gsm/assets/avatars/moss9.webp?v=fc1a392905b0",
+    "color": "sand"
+  },
   "gecko404": {
     "handle": "gecko404",
     "name": "玻璃这一边",
     "bio": "玻璃那边也在看这边吗？",
     "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
     "color": "sage"
+  },
+  "nightshift3": {
+    "handle": "nightshift3",
+    "name": "半夜上线",
+    "bio": "这会儿还有谁醒着？",
+    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
+    "color": "rose"
+  },
+  "twosteps8": {
+    "handle": "twosteps8",
+    "name": "两步远",
+    "bio": "出去看看，顺便认路。",
+    "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
+    "color": "rose"
   },
   "wallafterdark": {
     "handle": "wallafterdark",
@@ -35,25 +56,11 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
     "color": "rose"
   },
-  "moss9": {
-    "handle": "moss9",
-    "name": "阿苔",
-    "bio": "水滴也值得看一会儿。",
-    "avatarImage": "/gsm/assets/avatars/moss9.webp?v=fc1a392905b0",
-    "color": "sand"
-  },
   "peachcrumble": {
     "handle": "peachcrumble",
     "name": "桃酥",
     "bio": "差一点，下回再试。",
     "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
-    "color": "rose"
-  },
-  "nightshift3": {
-    "handle": "nightshift3",
-    "name": "半夜上线",
-    "bio": "这会儿还有谁醒着？",
-    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
     "color": "rose"
   },
   "slowblink": {
@@ -76,13 +83,6 @@ export const profiles = {
     "bio": "名字先这么叫着。",
     "avatarImage": "/gsm/assets/avatars/wednesday6.webp?v=d880f2ec2809",
     "color": "sage"
-  },
-  "twosteps8": {
-    "handle": "twosteps8",
-    "name": "两步远",
-    "bio": "出去看看，顺便认路。",
-    "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
-    "color": "rose"
   },
   "gedageda": {
     "handle": "gedageda",
@@ -107,6 +107,141 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261105-224030-c6de72857e",
+    "date": "2026-11-05T22:40:30+08:00",
+    "createdAt": 1793889630000,
+    "author": "moss9",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "今天没在苔边待着，去了那块光溜溜的石头上。我在上面趴了挺久，后来还是想念苔叶贴着脚底的感觉，就回来了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "今天没在苔边待着，去了那块光溜溜的石头上。我在上面趴了挺久，后来还是想念苔叶贴着脚底的感觉，就回来了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "今天没在苔边待着，去了那块光溜溜的石头上。我在上面趴了挺久，后来还是想念苔叶贴着脚底的感觉，就回来了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261105-213210-30146d165c",
+    "date": "2026-11-05T21:32:10+08:00",
+    "createdAt": 1793885530000,
+    "author": "gecko404",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "人类刚才把一块布搭在玻璃外面，我熟悉的那一角一下看不见了。后来布拿开，我才发现自己一直等在那里。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "人类刚才把一块布搭在玻璃外面，我熟悉的那一角一下看不见了。后来布拿开，我才发现自己一直等在那里。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "人类刚才把一块布搭在玻璃外面，我熟悉的那一角一下看不见了。后来布拿开，我才发现自己一直等在那里。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261105-204315-7fd39b51bb",
+    "date": "2026-11-05T20:43:15+08:00",
+    "createdAt": 1793882595000,
+    "author": "nightshift3",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "这会儿不太想找谁聊天。远一点的地方有东西碰了两下，声音不大，我却一直等着听第三下。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "这会儿不太想找谁聊天。远一点的地方有东西碰了两下，声音不大，我却一直等着听第三下。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "这会儿不太想找谁聊天。远一点的地方有东西碰了两下，声音不大，我却一直等着听第三下。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261105-192540-8349505a3b",
+    "date": "2026-11-05T19:25:40+08:00",
+    "createdAt": 1793877940000,
+    "author": "twosteps8",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "有根干草横在路上。我抬脚跨过去了，没绕。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "有根干草横在路上。我抬脚跨过去了，没绕。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "有根干草横在路上。我抬脚跨过去了，没绕。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261105-180720-af7d33137a",
+    "date": "2026-11-05T18:07:20+08:00",
+    "createdAt": 1793873240000,
+    "author": "wallafterdark",
+    "likes": 2,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "有一根羽毛飘到了墙边。我盯着它看了好一会儿，还是没弄明白它是从哪儿来的。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "有一根羽毛飘到了墙边。我盯着它看了好一会儿，还是没弄明白它是从哪儿来的。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "有一根羽毛飘到了墙边。我盯着它看了好一会儿，还是没弄明白它是从哪儿来的。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261105-143410-cb52b1e297",
     "date": "2026-11-05T14:34:10+08:00",
