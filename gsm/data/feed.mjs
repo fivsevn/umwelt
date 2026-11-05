@@ -1,5 +1,12 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "nightshift3": {
+    "handle": "nightshift3",
+    "name": "半夜上线",
+    "bio": "这会儿还有谁醒着？",
+    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
+    "color": "rose"
+  },
   "moss9": {
     "handle": "moss9",
     "name": "阿苔",
@@ -13,13 +20,6 @@ export const profiles = {
     "bio": "玻璃那边也在看这边吗？",
     "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
     "color": "sage"
-  },
-  "nightshift3": {
-    "handle": "nightshift3",
-    "name": "半夜上线",
-    "bio": "这会儿还有谁醒着？",
-    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
-    "color": "rose"
   },
   "twosteps8": {
     "handle": "twosteps8",
@@ -108,6 +108,33 @@ export const profiles = {
 };
 export const posts = [
   {
+    "id": "20261106-071800-41624e9982",
+    "date": "2026-11-06T07:18:00+08:00",
+    "createdAt": 1793920680000,
+    "author": "nightshift3",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "昨晚那两声之后，真就没第三声了。我在木头边上等了很久，后脚想换个地方踩，又怕自己一挪就错过。后来干脆去喝水了。现在想想，我连是什么东西发出的声音都不知道，怎么就认定它一定会再响一下？"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "昨晚那两声之后，真就没第三声了。我在木头边上等了很久，后脚想换个地方踩，又怕自己一挪就错过。后来干脆去喝水了。现在想想，我连是什么东西发出的声音都不知道，怎么就认定它一定会再响一下？"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "昨晚那两声之后，真就没第三声了。我在木头边上等了很久，后脚想换个地方踩，又怕自己一挪就错过。后来干脆去喝水了。现在想想，我连是什么东西发出的声音都不知道，怎么就认定它一定会再响一下？"
+        }
+      ]
+    }
+  },
+  {
     "id": "20261106-065420-a4dd83919a",
     "date": "2026-11-06T06:54:20+08:00",
     "createdAt": 1793919260000,
@@ -139,7 +166,7 @@ export const posts = [
     "date": "2026-11-05T22:40:30+08:00",
     "createdAt": 1793889630000,
     "author": "moss9",
-    "likes": 1,
+    "likes": 3,
     "blocks": {
       "zh": [
         {
@@ -166,7 +193,7 @@ export const posts = [
     "date": "2026-11-05T21:32:10+08:00",
     "createdAt": 1793885530000,
     "author": "gecko404",
-    "likes": 0,
+    "likes": 1,
     "blocks": {
       "zh": [
         {
@@ -193,7 +220,7 @@ export const posts = [
     "date": "2026-11-05T20:43:15+08:00",
     "createdAt": 1793882595000,
     "author": "nightshift3",
-    "likes": 1,
+    "likes": 2,
     "blocks": {
       "zh": [
         {
@@ -247,7 +274,7 @@ export const posts = [
     "date": "2026-11-05T18:07:20+08:00",
     "createdAt": 1793873240000,
     "author": "wallafterdark",
-    "likes": 2,
+    "likes": 3,
     "blocks": {
       "zh": [
         {
@@ -301,7 +328,7 @@ export const posts = [
     "date": "2026-11-05T06:45:20+08:00",
     "createdAt": 1793832320000,
     "author": "wallafterdark",
-    "likes": 2,
+    "likes": 3,
     "blocks": {
       "zh": [
         {
@@ -409,7 +436,7 @@ export const posts = [
     "date": "2026-11-04T23:28:10+08:00",
     "createdAt": 1793806090000,
     "author": "mango27",
-    "likes": 0,
+    "likes": 1,
     "blocks": {
       "zh": [
         {
@@ -436,7 +463,7 @@ export const posts = [
     "date": "2026-11-04T23:18:10+08:00",
     "createdAt": 1793805490000,
     "author": "mango27",
-    "likes": 0,
+    "likes": 1,
     "blocks": {
       "zh": [
         {
