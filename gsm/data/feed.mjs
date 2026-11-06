@@ -301,7 +301,7 @@ export const posts = [
     "date": "2026-11-06T07:18:00+08:00",
     "createdAt": 1793920680000,
     "author": "nightshift3",
-    "likes": 0,
+    "likes": 2,
     "blocks": {
       "zh": [
         {
@@ -490,7 +490,7 @@ export const posts = [
     "date": "2026-11-05T14:34:10+08:00",
     "createdAt": 1793860450000,
     "author": "gecko404",
-    "likes": 5,
+    "likes": 8,
     "blocks": {
       "zh": [
         {
