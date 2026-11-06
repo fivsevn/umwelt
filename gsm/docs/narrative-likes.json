@@ -3477,6 +3477,25 @@
       "previous": 0,
       "at": "2026-11-07T07:21:20+08:00",
       "likes": 0
+    },
+    "15f06d97e7d624022b53f1cda72f3d7913c09f42b05159df579222f123fda55a": {
+      "source": {
+        "username": "leafback7",
+        "date": "2026-11-07T07:19:30+08:00",
+        "body_sha256": "f68ea438b2529ebcc5ce2d50d41e4db0e55a82edad8cd9eb9ad199d407df173a"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "familiar",
+        "attention": "steady",
+        "reason": "重想此前公开给予的认路建议，能独立理解也有已公开的交流脉络；未假定对方已看到这条。"
+      },
+      "seed": "26987a7aeca0d00f186c95eb1ac02604",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-07T07:21:20+08:00",
+      "likes": 0
     }
   }
 }
