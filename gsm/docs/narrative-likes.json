@@ -3420,6 +3420,25 @@
       "previous": 0,
       "at": "2026-11-07T07:21:20+08:00",
       "likes": 0
+    },
+    "28c11eb4645f00f2a6a70b0aee049c62c28864c5a1e6bb643118816785508c35": {
+      "source": {
+        "username": "nearthermo",
+        "date": "2026-11-07T07:08:12+08:00",
+        "body_sha256": "25ec9fc3eb8510d21037035bd36dabcadbeae21607d894ef242bd05cd42d955f"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "只在自己住处的舒服位置判断，受众较局部；没有明确交流，动态密度一般。"
+      },
+      "seed": "7374b2b87cf8d04691782f8982e8d93e",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-07T07:21:20+08:00",
+      "likes": 1
     }
   }
 }
