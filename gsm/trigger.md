@@ -1,8 +1,8 @@
 ---
-username: wallafterdark
+username: mango27
 status: published
-likes: 2
-date: "2026-11-07T05:26:10+08:00"
+likes: 1
+date: "2026-11-07T06:49:20+08:00"
 ---
 
-画框后面有一根细毛卡在墙缝里。我经过的时候被它扫了一下，脚趾缩得好快。谁把毛带上来的？
+明明已经吃饱了，路过那块食物还是忍不住回头看了一眼。

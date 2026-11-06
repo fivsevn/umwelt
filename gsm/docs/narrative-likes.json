@@ -3344,6 +3344,25 @@
       "previous": 0,
       "at": "2026-11-07T06:54:31+08:00",
       "likes": 2
+    },
+    "f1bf420d3d109b5e75581975bfacfda40f99619d708afe53b07e182b1d456701": {
+      "source": {
+        "username": "mango27",
+        "date": "2026-11-07T06:49:20+08:00",
+        "body_sha256": "594f6e7eaf8aac689310f6aaaa435090180d07805360a518822ffdd63dd65cec"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "食欲犹豫的日常表达容易读懂，但未形成具体交流。"
+      },
+      "seed": "4172d1e186f8023364330092099986ca",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-07T06:54:31+08:00",
+      "likes": 1
     }
   }
 }
