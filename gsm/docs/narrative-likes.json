@@ -3116,6 +3116,25 @@
       "previous": 0,
       "at": "2026-11-06T16:26:39+08:00",
       "likes": 1
+    },
+    "42ecdac7e135fabfd906b1d160f8acc54eefccf4c354893de7ce6c99bf871052": {
+      "source": {
+        "username": "twosteps8",
+        "date": "2026-11-06T16:26:10+08:00",
+        "body_sha256": "2362b7ff240a8edb9c98f64a88a2a610df427f91b01db02875b77bac8fdac9b8"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "low",
+        "relationship": "none",
+        "attention": "busy",
+        "reason": "一件小小的脚底琐事；同一作者刚有较长观察贴，附近注意可能较分散。"
+      },
+      "seed": "aa37c8c06a7a9ca31a586993522a89f8",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-06T16:26:39+08:00",
+      "likes": 0
     }
   }
 }
