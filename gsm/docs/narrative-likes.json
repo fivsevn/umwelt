@@ -3002,6 +3002,25 @@
       "previous": 0,
       "at": "2026-11-06T15:56:31+08:00",
       "likes": 1
+    },
+    "f979ecf3059ca334bb2238ccac5e4c5b36ff394ebf92b6fcbc5b3e840aa8b4c5": {
+      "source": {
+        "username": "twosteps8",
+        "date": "2026-11-06T15:29:40+08:00",
+        "body_sha256": "f18b20f2864eac316dcc97e4c064e7f29850575736fa92feaeefcde592e7bfab"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "busy",
+        "reason": "回访自己此前提过的石下空隙，细节有前情依赖；同一作者本轮已有动态。"
+      },
+      "seed": "242807f2addddfe2dc1dc8096c3d57df",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-06T15:56:31+08:00",
+      "likes": 0
     }
   }
 }
