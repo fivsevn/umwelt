@@ -2888,6 +2888,25 @@
       "previous": 0,
       "at": "2026-11-06T14:57:00+08:00",
       "likes": 0
+    },
+    "0b41ebc11f73fc24f3887eca9e2054bad2cb743beba78965e6b5ac85240a3845": {
+      "source": {
+        "username": "mango27",
+        "date": "2026-11-06T10:18:20+08:00",
+        "body_sha256": "31bad61dbb90c17ec13ac1e07c7a7838e24db44a6457eb37b6beeb27a22df508"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "有独立可理解的小失误，也续接自己的叶子经历；没有确认的往返。"
+      },
+      "seed": "71b6a64c5ae356ea3447300d4b6cba3e",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-06T14:57:00+08:00",
+      "likes": 0
     }
   }
 }
