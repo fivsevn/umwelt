@@ -2926,6 +2926,25 @@
       "previous": 0,
       "at": "2026-11-06T14:57:00+08:00",
       "likes": 0
+    },
+    "eeb12889ce9d170fce7c6435493cefde69568851ec14c142df43b8b6760a159c": {
+      "source": {
+        "username": "nightshift3",
+        "date": "2026-11-06T12:03:05+08:00",
+        "body_sha256": "86dba769b961ae11e415ef3d7633f682cfd3f9c915b192e3069022aa78742b4a"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "简单独立的发现，跨作息可读；没有读者往返依据。"
+      },
+      "seed": "36f869864a9d21e91a7af54609ed9a50",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-06T14:57:00+08:00",
+      "likes": 2
     }
   }
 }
