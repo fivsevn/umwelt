@@ -3401,6 +3401,25 @@
       "previous": 0,
       "at": "2026-11-07T07:21:20+08:00",
       "likes": 1
+    },
+    "29cc7543453c27003279f2ba11d88347f48f3559a36e321a5f35729f8d6e7b9e": {
+      "source": {
+        "username": "gecko404",
+        "date": "2026-11-07T07:04:40+08:00",
+        "body_sha256": "95594cf29c376f9e258620004ef5c9da2ee009bb12f750291b8e535a0b74a4c5"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "玻璃外纸角的连续观察无需人物前情也能理解；没有确认的往返，关注机会普通。"
+      },
+      "seed": "4a9cb1b7e380021fc1b8887bdf83ed99",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-07T07:21:20+08:00",
+      "likes": 0
     }
   }
 }
