@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "round": "2026-11-07/065129-c9d8",
-  "baseline": "f31ab445313916456b10ef1d7037254db5dc6138",
-  "target_posts": 6,
-  "closed": true,
+  "round": "2026-11-07/071859-23ff",
+  "baseline": "195605d6364284b74c19686f8be687cd6c3135e4",
+  "target_posts": 7,
+  "closed": false,
   "draws": {
     "review": {
       "input": {
@@ -14,7 +14,7 @@
         "count": 1
       },
       "result": [
-        "local"
+        "ordinary"
       ]
     },
     "slot-01/author-mode": {
@@ -48,7 +48,7 @@
         "count": 1
       },
       "result": [
-        "gecko404"
+        "nightshift3"
       ]
     },
     "slot-01/focus": {
@@ -62,7 +62,7 @@
         "count": 1
       },
       "result": [
-        "others-post"
+        "present"
       ]
     },
     "slot-01/length": {
@@ -75,7 +75,7 @@
         "count": 1
       },
       "result": [
-        "utterance"
+        "brief"
       ]
     },
     "slot-02/author-mode": {
@@ -87,29 +87,29 @@
         "count": 1
       },
       "result": [
-        "explore"
+        "weighted"
       ]
     },
     "slot-02/author": {
       "input": {
         "options": {
-          "gecko404": 1,
-          "leafback7": 1,
-          "mango27": 1,
-          "moss9": 1,
+          "gecko404": 4,
+          "leafback7": 2,
+          "mango27": 4,
+          "moss9": 2,
           "nearthermo": 1,
-          "nightshift3": 1,
-          "peachcrumble": 1,
+          "nightshift3": 2,
+          "peachcrumble": 2,
           "slowblink": 1,
           "smallhide2": 1,
-          "twosteps8": 1,
-          "wallafterdark": 1,
+          "twosteps8": 2,
+          "wallafterdark": 2,
           "wednesday6": 1
         },
         "count": 1
       },
       "result": [
-        "slowblink"
+        "leafback7"
       ]
     },
     "slot-02/focus": {
@@ -136,7 +136,7 @@
         "count": 1
       },
       "result": [
-        "expanded"
+        "brief"
       ]
     },
     "slot-03/author-mode": {
@@ -148,29 +148,29 @@
         "count": 1
       },
       "result": [
-        "explore"
+        "weighted"
       ]
     },
     "slot-03/author": {
       "input": {
         "options": {
-          "gecko404": 1,
-          "leafback7": 1,
-          "mango27": 1,
-          "moss9": 1,
+          "gecko404": 4,
+          "leafback7": 2,
+          "mango27": 4,
+          "moss9": 2,
           "nearthermo": 1,
-          "nightshift3": 1,
-          "peachcrumble": 1,
+          "nightshift3": 2,
+          "peachcrumble": 2,
           "slowblink": 1,
           "smallhide2": 1,
-          "twosteps8": 1,
-          "wallafterdark": 1,
+          "twosteps8": 2,
+          "wallafterdark": 2,
           "wednesday6": 1
         },
         "count": 1
       },
       "result": [
-        "nearthermo"
+        "gecko404"
       ]
     },
     "slot-03/focus": {
@@ -184,7 +184,7 @@
         "count": 1
       },
       "result": [
-        "others-post"
+        "present"
       ]
     },
     "slot-03/length": {
@@ -197,7 +197,7 @@
         "count": 1
       },
       "result": [
-        "utterance"
+        "expanded"
       ]
     },
     "slot-04/author-mode": {
@@ -209,29 +209,29 @@
         "count": 1
       },
       "result": [
-        "explore"
+        "weighted"
       ]
     },
     "slot-04/author": {
       "input": {
         "options": {
-          "gecko404": 1,
-          "leafback7": 1,
-          "mango27": 1,
-          "moss9": 1,
+          "gecko404": 4,
+          "leafback7": 2,
+          "mango27": 4,
+          "moss9": 2,
           "nearthermo": 1,
-          "nightshift3": 1,
-          "peachcrumble": 1,
+          "nightshift3": 2,
+          "peachcrumble": 2,
           "slowblink": 1,
           "smallhide2": 1,
-          "twosteps8": 1,
-          "wallafterdark": 1,
+          "twosteps8": 2,
+          "wallafterdark": 2,
           "wednesday6": 1
         },
         "count": 1
       },
       "result": [
-        "nightshift3"
+        "nearthermo"
       ]
     },
     "slot-04/focus": {
@@ -245,7 +245,7 @@
         "count": 1
       },
       "result": [
-        "others-post"
+        "present"
       ]
     },
     "slot-04/length": {
@@ -270,29 +270,29 @@
         "count": 1
       },
       "result": [
-        "weighted"
+        "explore"
       ]
     },
     "slot-05/author": {
       "input": {
         "options": {
-          "gecko404": 4,
-          "leafback7": 2,
-          "mango27": 4,
-          "moss9": 2,
+          "gecko404": 1,
+          "leafback7": 1,
+          "mango27": 1,
+          "moss9": 1,
           "nearthermo": 1,
-          "nightshift3": 2,
-          "peachcrumble": 2,
+          "nightshift3": 1,
+          "peachcrumble": 1,
           "slowblink": 1,
           "smallhide2": 1,
-          "twosteps8": 2,
-          "wallafterdark": 2,
+          "twosteps8": 1,
+          "wallafterdark": 1,
           "wednesday6": 1
         },
         "count": 1
       },
       "result": [
-        "wallafterdark"
+        "smallhide2"
       ]
     },
     "slot-05/focus": {
@@ -353,7 +353,7 @@
         "count": 1
       },
       "result": [
-        "mango27"
+        "leafback7"
       ]
     },
     "slot-06/focus": {
@@ -367,7 +367,7 @@
         "count": 1
       },
       "result": [
-        "present"
+        "other-interest"
       ]
     },
     "slot-06/length": {
@@ -383,262 +383,256 @@
         "utterance"
       ]
     },
-    "slot-01/other-source": {
+    "slot-07/author-mode": {
       "input": {
         "options": {
-          "20261105-180720-af7d33137a": 1,
-          "20261106-155420-83d5a76e72": 1,
-          "20261106-162050-d79be69a8c": 1
+          "explore": 1,
+          "weighted": 4
         },
         "count": 1
       },
       "result": [
-        "20261105-180720-af7d33137a"
+        "explore"
       ]
     },
-    "slot-01/notice": {
+    "slot-07/author": {
       "input": {
         "options": {
-          "notice": 1,
-          "skip": 1
+          "gecko404": 1,
+          "leafback7": 1,
+          "mango27": 1,
+          "moss9": 1,
+          "nearthermo": 1,
+          "nightshift3": 1,
+          "peachcrumble": 1,
+          "slowblink": 1,
+          "smallhide2": 1,
+          "twosteps8": 1,
+          "wallafterdark": 1,
+          "wednesday6": 1
         },
         "count": 1
       },
       "result": [
-        "skip"
+        "leafback7"
       ]
     },
-    "slot-03/other-source": {
+    "slot-07/focus": {
       "input": {
         "options": {
-          "20261106-191440-7c8f096169": 1,
-          "20261106-110545-4ef234a9bb": 1
+          "present": 3,
+          "own-history": 1,
+          "others-post": 1,
+          "other-interest": 1
         },
         "count": 1
       },
       "result": [
-        "20261106-110545-4ef234a9bb"
+        "own-history"
       ]
     },
-    "slot-03/notice": {
+    "slot-07/length": {
       "input": {
         "options": {
-          "notice": 1,
-          "skip": 1
+          "utterance": 2,
+          "brief": 3,
+          "expanded": 1
         },
         "count": 1
       },
       "result": [
-        "skip"
-      ]
-    },
-    "slot-04/other-source": {
-      "input": {
-        "options": {
-          "20261105-180720-af7d33137a": 1,
-          "20261106-155420-83d5a76e72": 1
-        },
-        "count": 1
-      },
-      "result": [
-        "20261105-180720-af7d33137a"
-      ]
-    },
-    "slot-04/notice": {
-      "input": {
-        "options": {
-          "notice": 1,
-          "skip": 1
-        },
-        "count": 1
-      },
-      "result": [
-        "skip"
+        "brief"
       ]
     },
     "history": {
       "input": {
         "options": {
-          "feed-030": 1,
-          "feed-031": 1,
-          "feed-032": 1,
-          "feed-033": 1,
-          "feed-034": 1,
-          "feed-035": 1,
-          "feed-036": 1,
-          "feed-037": 1,
-          "feed-038": 1,
-          "feed-039": 1,
-          "feed-040": 1,
-          "feed-041": 1,
-          "feed-042": 1,
-          "feed-043": 1,
-          "feed-044": 1,
-          "feed-045": 1,
-          "feed-046": 1,
-          "feed-047": 1,
-          "feed-048": 1,
-          "feed-049": 1,
-          "feed-050": 1,
-          "feed-051": 1,
-          "feed-052": 1,
-          "feed-053": 1,
-          "feed-054": 1,
-          "feed-055": 1,
-          "feed-056": 1,
-          "feed-057": 1,
-          "feed-058": 1,
-          "feed-059": 1,
-          "feed-060": 1,
-          "feed-061": 1,
-          "feed-062": 1,
-          "feed-063": 1,
-          "feed-064": 1,
-          "feed-065": 1,
-          "feed-066": 1,
-          "feed-067": 1,
-          "feed-068": 1,
-          "feed-069": 1,
-          "feed-070": 1,
-          "feed-071": 1,
-          "feed-072": 1,
-          "feed-073": 1,
-          "feed-074": 1,
-          "feed-075": 1,
-          "feed-076": 1,
-          "feed-077": 1,
-          "feed-078": 1,
-          "feed-079": 1,
-          "feed-080": 1,
-          "feed-081": 1,
-          "feed-082": 1,
-          "feed-083": 1,
-          "feed-084": 1,
-          "feed-085": 1,
-          "feed-086": 1,
-          "feed-087": 1,
-          "feed-088": 1,
-          "feed-089": 1,
-          "feed-090": 1,
-          "feed-091": 1,
-          "feed-092": 1,
-          "feed-093": 1,
-          "feed-094": 1,
-          "feed-095": 1,
-          "feed-096": 1,
-          "feed-097": 1,
-          "feed-098": 1,
-          "feed-099": 1,
-          "feed-100": 1,
-          "feed-101": 1,
-          "feed-102": 1,
-          "feed-103": 1,
-          "feed-104": 1,
-          "feed-105": 1,
-          "feed-106": 1,
-          "feed-107": 1,
-          "feed-108": 1,
-          "feed-109": 1,
-          "feed-110": 1,
-          "feed-111": 1,
-          "feed-112": 1,
-          "feed-113": 1,
-          "feed-114": 1,
-          "feed-115": 1,
-          "feed-116": 1,
-          "feed-117": 1,
-          "feed-118": 1,
-          "feed-119": 1,
-          "feed-120": 1,
-          "feed-121": 1,
-          "feed-122": 1,
-          "feed-123": 1,
-          "feed-124": 1,
-          "feed-125": 1,
-          "feed-126": 1,
-          "feed-127": 1,
-          "feed-128": 1,
-          "feed-129": 1,
-          "feed-130": 1,
-          "feed-131": 1,
-          "feed-132": 1,
-          "feed-133": 1,
-          "feed-134": 1,
-          "feed-135": 1,
-          "feed-136": 1,
-          "feed-137": 1,
-          "feed-138": 1,
-          "feed-139": 1,
-          "feed-140": 1,
-          "feed-141": 1,
-          "feed-142": 1,
-          "feed-143": 1,
-          "feed-144": 1,
-          "feed-145": 1,
-          "feed-146": 1,
-          "feed-147": 1,
-          "feed-148": 1,
-          "feed-149": 1,
-          "feed-150": 1,
-          "feed-151": 1,
-          "feed-152": 1,
-          "feed-153": 1,
-          "feed-154": 1,
-          "feed-155": 1,
-          "feed-156": 1,
-          "feed-157": 1,
-          "feed-158": 1,
-          "feed-159": 1,
-          "feed-160": 1,
-          "feed-161": 1,
-          "feed-162": 1,
-          "feed-163": 1,
-          "feed-164": 1,
-          "feed-165": 1,
-          "feed-166": 1,
-          "feed-167": 1,
-          "feed-168": 1,
-          "feed-169": 1,
-          "feed-170": 1,
-          "feed-171": 1,
-          "feed-172": 1,
-          "feed-173": 1,
-          "feed-174": 1,
-          "feed-175": 1,
-          "feed-176": 1,
-          "feed-177": 1,
-          "feed-178": 1,
-          "feed-179": 1,
-          "feed-180": 1,
-          "feed-181": 1,
-          "feed-182": 1,
-          "feed-183": 1,
-          "feed-184": 1,
-          "feed-185": 1,
-          "feed-186": 1,
-          "feed-187": 1,
-          "feed-188": 1,
-          "feed-189": 1,
-          "feed-190": 1,
-          "feed-191": 1,
-          "feed-192": 1,
-          "feed-193": 1,
-          "feed-194": 1,
-          "feed-195": 1,
-          "feed-196": 1,
-          "feed-197": 1,
-          "feed-198": 1,
-          "feed-199": 1,
-          "feed-200": 1,
-          "feed-201": 1,
-          "feed-202": 1,
-          "feed-203": 1
+          "0": 1,
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "13": 1,
+          "14": 1,
+          "15": 1,
+          "16": 1,
+          "17": 1,
+          "18": 1,
+          "19": 1,
+          "20": 1,
+          "21": 1,
+          "22": 1,
+          "23": 1,
+          "24": 1,
+          "25": 1,
+          "26": 1,
+          "27": 1,
+          "28": 1,
+          "29": 1,
+          "30": 1,
+          "31": 1,
+          "32": 1,
+          "33": 1,
+          "34": 1,
+          "35": 1,
+          "36": 1,
+          "37": 1,
+          "38": 1,
+          "39": 1,
+          "40": 1,
+          "41": 1,
+          "42": 1,
+          "43": 1,
+          "44": 1,
+          "45": 1,
+          "46": 1,
+          "47": 1,
+          "48": 1,
+          "49": 1,
+          "50": 1,
+          "51": 1,
+          "52": 1,
+          "53": 1,
+          "54": 1,
+          "55": 1,
+          "56": 1,
+          "57": 1,
+          "58": 1,
+          "59": 1,
+          "60": 1,
+          "61": 1,
+          "62": 1,
+          "63": 1,
+          "64": 1,
+          "65": 1,
+          "66": 1,
+          "67": 1,
+          "68": 1,
+          "69": 1,
+          "70": 1,
+          "71": 1,
+          "72": 1,
+          "73": 1,
+          "74": 1,
+          "75": 1,
+          "76": 1,
+          "77": 1,
+          "78": 1,
+          "79": 1,
+          "80": 1,
+          "81": 1,
+          "82": 1,
+          "83": 1,
+          "84": 1,
+          "85": 1,
+          "86": 1,
+          "87": 1,
+          "88": 1,
+          "89": 1,
+          "90": 1,
+          "91": 1,
+          "92": 1,
+          "93": 1,
+          "94": 1,
+          "95": 1,
+          "96": 1,
+          "97": 1,
+          "98": 1,
+          "99": 1,
+          "100": 1,
+          "101": 1,
+          "102": 1,
+          "103": 1,
+          "104": 1,
+          "105": 1,
+          "106": 1,
+          "107": 1,
+          "108": 1,
+          "109": 1,
+          "110": 1,
+          "111": 1,
+          "112": 1,
+          "113": 1,
+          "114": 1,
+          "115": 1,
+          "116": 1,
+          "117": 1,
+          "118": 1,
+          "119": 1,
+          "120": 1,
+          "121": 1,
+          "122": 1,
+          "123": 1,
+          "124": 1,
+          "125": 1,
+          "126": 1,
+          "127": 1,
+          "128": 1,
+          "129": 1,
+          "130": 1,
+          "131": 1,
+          "132": 1,
+          "133": 1,
+          "134": 1,
+          "135": 1,
+          "136": 1,
+          "137": 1,
+          "138": 1,
+          "139": 1,
+          "140": 1,
+          "141": 1,
+          "142": 1,
+          "143": 1,
+          "144": 1,
+          "145": 1,
+          "146": 1,
+          "147": 1,
+          "148": 1,
+          "149": 1,
+          "150": 1,
+          "151": 1,
+          "152": 1,
+          "153": 1,
+          "154": 1,
+          "155": 1,
+          "156": 1,
+          "157": 1,
+          "158": 1,
+          "159": 1,
+          "160": 1,
+          "161": 1,
+          "162": 1,
+          "163": 1,
+          "164": 1,
+          "165": 1,
+          "166": 1,
+          "167": 1,
+          "168": 1,
+          "169": 1,
+          "170": 1,
+          "171": 1,
+          "172": 1,
+          "173": 1,
+          "174": 1,
+          "175": 1,
+          "176": 1,
+          "177": 1,
+          "178": 1,
+          "179": 1
         },
         "count": 2
       },
       "result": [
-        "feed-126",
-        "feed-182"
+        "148",
+        "61"
       ]
     }
   }

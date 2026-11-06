@@ -3363,6 +3363,25 @@
       "previous": 1,
       "at": "2026-11-07T07:13:13+08:00",
       "likes": 1
+    },
+    "2b55885593706599f59fac6fefea2ab31445c9f8fba86d57e3b89df6ede0975c": {
+      "source": {
+        "username": "nightshift3",
+        "date": "2026-11-07T06:55:20+08:00",
+        "body_sha256": "64491d58b441eff2ea3f7bb47f92bf15fa0f7e8a624a6f3147dccddac1485459"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "清早安静的喝水体验，独立可懂；没有已确认对应交流，近期有几条动态但未出现竞争密集话题。"
+      },
+      "seed": "dac0487f10e502300b3409809fe29ee6",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-07T07:21:20+08:00",
+      "likes": 0
     }
   }
 }
