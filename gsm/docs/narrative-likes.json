@@ -3249,6 +3249,25 @@
       "previous": 0,
       "at": "2026-11-06T23:04:00+08:00",
       "likes": 0
+    },
+    "f5be4f2c9db8861ae5ee59af19052d607b9059c996163eddedb34666f7aa9420": {
+      "source": {
+        "username": "gecko404",
+        "date": "2026-11-06T23:47:20+08:00",
+        "body_sha256": "564bc5fe4b914a45fdc26c54f7fdae4ec684eb33e20e01c67d9bace418df7ec3"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "一句独立的身体舒适体验，不依赖跨角色前情；夜间有限接触。"
+      },
+      "seed": "09fd32b4d19dc47398e0a842daf6549a",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-07T06:54:31+08:00",
+      "likes": 3
     }
   }
 }

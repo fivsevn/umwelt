@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "round": "2026-11-06/225603-8bda",
-  "baseline": "eb70f6a0dde35a19a9a063e1858b4061c3e919ab",
+  "round": "2026-11-07/065129-c9d8",
+  "baseline": "f31ab445313916456b10ef1d7037254db5dc6138",
   "target_posts": 6,
-  "closed": true,
+  "closed": false,
   "draws": {
     "review": {
       "input": {
@@ -14,7 +14,7 @@
         "count": 1
       },
       "result": [
-        "ordinary"
+        "local"
       ]
     },
     "slot-01/author-mode": {
@@ -26,29 +26,29 @@
         "count": 1
       },
       "result": [
-        "explore"
+        "weighted"
       ]
     },
     "slot-01/author": {
       "input": {
         "options": {
-          "gecko404": 1,
-          "leafback7": 1,
-          "mango27": 1,
-          "moss9": 1,
+          "gecko404": 4,
+          "leafback7": 2,
+          "mango27": 4,
+          "moss9": 2,
           "nearthermo": 1,
-          "nightshift3": 1,
-          "peachcrumble": 1,
+          "nightshift3": 2,
+          "peachcrumble": 2,
           "slowblink": 1,
           "smallhide2": 1,
-          "twosteps8": 1,
-          "wallafterdark": 1,
+          "twosteps8": 2,
+          "wallafterdark": 2,
           "wednesday6": 1
         },
         "count": 1
       },
       "result": [
-        "leafback7"
+        "gecko404"
       ]
     },
     "slot-01/focus": {
@@ -62,7 +62,7 @@
         "count": 1
       },
       "result": [
-        "present"
+        "others-post"
       ]
     },
     "slot-01/length": {
@@ -109,7 +109,7 @@
         "count": 1
       },
       "result": [
-        "nightshift3"
+        "slowblink"
       ]
     },
     "slot-02/focus": {
@@ -136,7 +136,7 @@
         "count": 1
       },
       "result": [
-        "brief"
+        "expanded"
       ]
     },
     "slot-03/author-mode": {
@@ -148,29 +148,29 @@
         "count": 1
       },
       "result": [
-        "weighted"
+        "explore"
       ]
     },
     "slot-03/author": {
       "input": {
         "options": {
-          "gecko404": 4,
-          "leafback7": 2,
-          "mango27": 4,
-          "moss9": 2,
+          "gecko404": 1,
+          "leafback7": 1,
+          "mango27": 1,
+          "moss9": 1,
           "nearthermo": 1,
-          "nightshift3": 2,
-          "peachcrumble": 2,
+          "nightshift3": 1,
+          "peachcrumble": 1,
           "slowblink": 1,
           "smallhide2": 1,
-          "twosteps8": 2,
-          "wallafterdark": 2,
+          "twosteps8": 1,
+          "wallafterdark": 1,
           "wednesday6": 1
         },
         "count": 1
       },
       "result": [
-        "peachcrumble"
+        "nearthermo"
       ]
     },
     "slot-03/focus": {
@@ -184,7 +184,7 @@
         "count": 1
       },
       "result": [
-        "present"
+        "others-post"
       ]
     },
     "slot-03/length": {
@@ -197,7 +197,7 @@
         "count": 1
       },
       "result": [
-        "brief"
+        "utterance"
       ]
     },
     "slot-04/author-mode": {
@@ -209,29 +209,29 @@
         "count": 1
       },
       "result": [
-        "weighted"
+        "explore"
       ]
     },
     "slot-04/author": {
       "input": {
         "options": {
-          "gecko404": 4,
-          "leafback7": 2,
-          "mango27": 4,
-          "moss9": 2,
+          "gecko404": 1,
+          "leafback7": 1,
+          "mango27": 1,
+          "moss9": 1,
           "nearthermo": 1,
-          "nightshift3": 2,
-          "peachcrumble": 2,
+          "nightshift3": 1,
+          "peachcrumble": 1,
           "slowblink": 1,
           "smallhide2": 1,
-          "twosteps8": 2,
-          "wallafterdark": 2,
+          "twosteps8": 1,
+          "wallafterdark": 1,
           "wednesday6": 1
         },
         "count": 1
       },
       "result": [
-        "twosteps8"
+        "nightshift3"
       ]
     },
     "slot-04/focus": {
@@ -245,7 +245,7 @@
         "count": 1
       },
       "result": [
-        "present"
+        "others-post"
       ]
     },
     "slot-04/length": {
@@ -292,7 +292,7 @@
         "count": 1
       },
       "result": [
-        "gecko404"
+        "wallafterdark"
       ]
     },
     "slot-05/focus": {
@@ -306,7 +306,7 @@
         "count": 1
       },
       "result": [
-        "others-post"
+        "present"
       ]
     },
     "slot-05/length": {
@@ -353,7 +353,7 @@
         "count": 1
       },
       "result": [
-        "gecko404"
+        "mango27"
       ]
     },
     "slot-06/focus": {
@@ -367,7 +367,7 @@
         "count": 1
       },
       "result": [
-        "others-post"
+        "present"
       ]
     },
     "slot-06/length": {
@@ -380,61 +380,80 @@
         "count": 1
       },
       "result": [
-        "expanded"
+        "utterance"
       ]
     },
-    "slot-05/post": {
+    "slot-01/other-source": {
       "input": {
         "options": {
-          "20261106-162050-d79be69a8c": 1,
-          "20261106-120305-bd0091b9bd": 1,
           "20261105-180720-af7d33137a": 1,
-          "20261106-101820-f89d4aec06": 1,
-          "20261104-184715-2004dabb52": 1
+          "20261106-155420-83d5a76e72": 1,
+          "20261106-162050-d79be69a8c": 1
         },
         "count": 1
       },
       "result": [
-        "20261106-162050-d79be69a8c"
+        "20261105-180720-af7d33137a"
       ]
     },
-    "slot-05/notice": {
+    "slot-01/notice": {
       "input": {
         "options": {
-          "noticed": 1,
-          "skipped": 1
+          "notice": 1,
+          "skip": 1
         },
         "count": 1
       },
       "result": [
-        "skipped"
+        "skip"
       ]
     },
-    "slot-06/post": {
+    "slot-03/other-source": {
       "input": {
         "options": {
-          "20261106-162050-d79be69a8c": 1,
-          "20261106-120305-bd0091b9bd": 1,
+          "20261106-191440-7c8f096169": 1,
+          "20261106-110545-4ef234a9bb": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "20261106-110545-4ef234a9bb"
+      ]
+    },
+    "slot-03/notice": {
+      "input": {
+        "options": {
+          "notice": 1,
+          "skip": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "skip"
+      ]
+    },
+    "slot-04/other-source": {
+      "input": {
+        "options": {
           "20261105-180720-af7d33137a": 1,
-          "20261106-101820-f89d4aec06": 1,
-          "20261104-184715-2004dabb52": 1
+          "20261106-155420-83d5a76e72": 1
         },
         "count": 1
       },
       "result": [
-        "20261106-120305-bd0091b9bd"
+        "20261105-180720-af7d33137a"
       ]
     },
-    "slot-06/notice": {
+    "slot-04/notice": {
       "input": {
         "options": {
-          "noticed": 1,
-          "skipped": 1
+          "notice": 1,
+          "skip": 1
         },
         "count": 1
       },
       "result": [
-        "skipped"
+        "skip"
       ]
     },
     "history": {
@@ -607,13 +626,19 @@
           "feed-194": 1,
           "feed-195": 1,
           "feed-196": 1,
-          "feed-197": 1
+          "feed-197": 1,
+          "feed-198": 1,
+          "feed-199": 1,
+          "feed-200": 1,
+          "feed-201": 1,
+          "feed-202": 1,
+          "feed-203": 1
         },
         "count": 2
       },
       "result": [
-        "feed-058",
-        "feed-086"
+        "feed-126",
+        "feed-182"
       ]
     }
   }
