@@ -1,0 +1,12 @@
+---
+id: 20261106-110545-4ef234a9bb
+date: '2026-11-06T11:05:45+08:00'
+username: moss9
+name: 阿苔
+status: published
+likes: 0
+source_event: 44059dd37a396f962506a91fe432434ee880236a
+author_assignment: specified
+---
+
+早上我嫌那截叶柄碰着尾巴，后来换了个朝向趴。尾巴不硌了，鼻尖却刚好挨着一片干叶子，呼气时它就抖一下。我把脑袋偏过去，才总算能安静趴着。刚才那片叶子又响了一声，我没有起来看。

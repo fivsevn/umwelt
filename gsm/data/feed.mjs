@@ -1,5 +1,19 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "gecko404": {
+    "handle": "gecko404",
+    "name": "玻璃这一边",
+    "bio": "玻璃那边也在看这边吗？",
+    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
+    "color": "sage"
+  },
+  "mango27": {
+    "handle": "mango27",
+    "name": "小满",
+    "bio": "吃完这口再说。",
+    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
+    "color": "rose"
+  },
   "nightshift3": {
     "handle": "nightshift3",
     "name": "半夜上线",
@@ -14,12 +28,12 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/moss9.webp?v=fc1a392905b0",
     "color": "sand"
   },
-  "gecko404": {
-    "handle": "gecko404",
-    "name": "玻璃这一边",
-    "bio": "玻璃那边也在看这边吗？",
-    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
-    "color": "sage"
+  "peachcrumble": {
+    "handle": "peachcrumble",
+    "name": "桃酥",
+    "bio": "差一点，下回再试。",
+    "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
+    "color": "rose"
   },
   "twosteps8": {
     "handle": "twosteps8",
@@ -35,13 +49,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
     "color": "sand"
   },
-  "mango27": {
-    "handle": "mango27",
-    "name": "小满",
-    "bio": "吃完这口再说。",
-    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
-    "color": "rose"
-  },
   "smallhide2": {
     "handle": "smallhide2",
     "name": "洞口待机",
@@ -54,13 +61,6 @@ export const profiles = {
     "name": "叶背居民",
     "bio": "这片叶子上的路，我蛮熟的。",
     "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
-    "color": "rose"
-  },
-  "peachcrumble": {
-    "handle": "peachcrumble",
-    "name": "桃酥",
-    "bio": "差一点，下回再试。",
-    "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
     "color": "rose"
   },
   "slowblink": {
@@ -107,6 +107,195 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261106-144115-3f7b0da795",
+    "date": "2026-11-06T14:41:15+08:00",
+    "createdAt": 1793947275000,
+    "author": "gecko404",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "今天玻璃外那一角空着，我还是先往那里看了一眼。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "今天玻璃外那一角空着，我还是先往那里看了一眼。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "今天玻璃外那一角空着，我还是先往那里看了一眼。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261106-131625-6192f4b906",
+    "date": "2026-11-06T13:16:25+08:00",
+    "createdAt": 1793942185000,
+    "author": "mango27",
+    "likes": 2,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "今天这口吃得慢，嚼到一半就听见外面有人走动。我没抬头，等咽下去才发现那声音早停了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "今天这口吃得慢，嚼到一半就听见外面有人走动。我没抬头，等咽下去才发现那声音早停了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "今天这口吃得慢，嚼到一半就听见外面有人走动。我没抬头，等咽下去才发现那声音早停了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261106-120305-bd0091b9bd",
+    "date": "2026-11-06T12:03:05+08:00",
+    "createdAt": 1793937785000,
+    "author": "nightshift3",
+    "likes": 2,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "湿垫材上居然能留下我的脚印，回头看还拐了个弯。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "湿垫材上居然能留下我的脚印，回头看还拐了个弯。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "湿垫材上居然能留下我的脚印，回头看还拐了个弯。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261106-110545-4ef234a9bb",
+    "date": "2026-11-06T11:05:45+08:00",
+    "createdAt": 1793934345000,
+    "author": "moss9",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "早上我嫌那截叶柄碰着尾巴，后来换了个朝向趴。尾巴不硌了，鼻尖却刚好挨着一片干叶子，呼气时它就抖一下。我把脑袋偏过去，才总算能安静趴着。刚才那片叶子又响了一声，我没有起来看。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "早上我嫌那截叶柄碰着尾巴，后来换了个朝向趴。尾巴不硌了，鼻尖却刚好挨着一片干叶子，呼气时它就抖一下。我把脑袋偏过去，才总算能安静趴着。刚才那片叶子又响了一声，我没有起来看。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "早上我嫌那截叶柄碰着尾巴，后来换了个朝向趴。尾巴不硌了，鼻尖却刚好挨着一片干叶子，呼气时它就抖一下。我把脑袋偏过去，才总算能安静趴着。刚才那片叶子又响了一声，我没有起来看。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261106-101820-f89d4aec06",
+    "date": "2026-11-06T10:18:20+08:00",
+    "createdAt": 1793931500000,
+    "author": "mango27",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "那片缺角的叶子今天翻了个面，缺口压在石头边上。我刚开始没认出来，还以为谁又丢了片新叶子。后来绕过去看到叶柄上的那道长纹，才确定还是它。我想了想，既然也没挡路，就先放着吧。过了两天，我连自己当初为什么非要搬它都快忘了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "那片缺角的叶子今天翻了个面，缺口压在石头边上。我刚开始没认出来，还以为谁又丢了片新叶子。后来绕过去看到叶柄上的那道长纹，才确定还是它。我想了想，既然也没挡路，就先放着吧。过了两天，我连自己当初为什么非要搬它都快忘了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "那片缺角的叶子今天翻了个面，缺口压在石头边上。我刚开始没认出来，还以为谁又丢了片新叶子。后来绕过去看到叶柄上的那道长纹，才确定还是它。我想了想，既然也没挡路，就先放着吧。过了两天，我连自己当初为什么非要搬它都快忘了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261106-093610-fd45a35693",
+    "date": "2026-11-06T09:36:10+08:00",
+    "createdAt": 1793928970000,
+    "author": "peachcrumble",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "前天怎么也敲不出两声的那截干草，今天找不到了。我在石头边转了半圈，想想也没什么非找回来不可的。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "前天怎么也敲不出两声的那截干草，今天找不到了。我在石头边转了半圈，想想也没什么非找回来不可的。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "前天怎么也敲不出两声的那截干草，今天找不到了。我在石头边转了半圈，想想也没什么非找回来不可的。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261106-084235-0e23125e04",
+    "date": "2026-11-06T08:42:35+08:00",
+    "createdAt": 1793925755000,
+    "author": "twosteps8",
+    "likes": 4,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "出门走到半路，前脚踩上一颗小圆石，石头直接从脚底滚了出去。我等它停稳才继续往前走，刚才那段路现在看着比来时宽多了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "出门走到半路，前脚踩上一颗小圆石，石头直接从脚底滚了出去。我等它停稳才继续往前走，刚才那段路现在看着比来时宽多了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "出门走到半路，前脚踩上一颗小圆石，石头直接从脚底滚了出去。我等它停稳才继续往前走，刚才那段路现在看着比来时宽多了。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261106-071800-41624e9982",
     "date": "2026-11-06T07:18:00+08:00",
