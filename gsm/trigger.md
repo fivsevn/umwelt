@@ -1,8 +1,8 @@
 ---
-username: nearthermo
+username: smallhide2
 status: published
-likes: 1
-date: "2026-11-07T07:08:12+08:00"
+likes: 0
+date: "2026-11-07T07:11:40+08:00"
 ---
 
-今早我没往更暖的地方挪。这里脚底不冷，头顶还有点空，躺着挺合适。
+刚出躲避屋的时候，尾巴扫到门沿，听见一下轻轻的响声。我回头看了看，门口什么也没掉。
