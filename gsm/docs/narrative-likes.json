@@ -3192,6 +3192,25 @@
       "previous": 0,
       "at": "2026-11-06T23:04:00+08:00",
       "likes": 6
+    },
+    "b32d318f9c60634040d0e20a9e47681beefb518306e8b20c7211239727d3249a": {
+      "source": {
+        "username": "twosteps8",
+        "date": "2026-11-06T21:11:05+08:00",
+        "body_sha256": "194f7d5ffd26b839c425542fca2e84cff85cc3f46fcc72569ad65adac3b81f6e"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "外出后愿意歇脚的生活体验独立可懂；不依赖读者熟悉具体路线。"
+      },
+      "seed": "860af98ed7a3b3e311bdd2546a36781c",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-06T23:04:00+08:00",
+      "likes": 2
     }
   }
 }
