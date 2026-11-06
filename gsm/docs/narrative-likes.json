@@ -2907,6 +2907,25 @@
       "previous": 0,
       "at": "2026-11-06T14:57:00+08:00",
       "likes": 0
+    },
+    "0b04def8cf8c566c7ab93859882d1549ad7104e146af4830a2be58e7a0977a10": {
+      "source": {
+        "username": "moss9",
+        "date": "2026-11-06T11:05:45+08:00",
+        "body_sha256": "50a62cb5aaf048b8aa3ce079c27ad71b92333ea3bef5f72091d8c3d8b9a6e21a"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "上午旧事的延续，身体经验可以独立理解；没有跨角色接触证据。"
+      },
+      "seed": "56d0af08ae9f431dc11d0c4b002cc959",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-06T14:57:00+08:00",
+      "likes": 0
     }
   }
 }
