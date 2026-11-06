@@ -3154,6 +3154,25 @@
       "previous": 0,
       "at": "2026-11-06T23:04:00+08:00",
       "likes": 0
+    },
+    "75f6c5f4fb503080128d891a44b5e5910c90029639cf029e742b8c7b45159d0a": {
+      "source": {
+        "username": "nightshift3",
+        "date": "2026-11-06T19:14:40+08:00",
+        "body_sha256": "6d6ddd22c41713be8bf06caad98aecb0572735248b53460018a7f54f43032470"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "无需前情的舒适位置发现；傍晚普通注意仍可能分散。"
+      },
+      "seed": "63ca229d278ccd34294f812c9e4e040c",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-06T23:04:00+08:00",
+      "likes": 3
     }
   }
 }
