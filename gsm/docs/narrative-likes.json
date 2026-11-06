@@ -3230,6 +3230,25 @@
       "previous": 0,
       "at": "2026-11-06T23:04:00+08:00",
       "likes": 0
+    },
+    "615709407a20be68f4c718a95b1a9bf854949ce7cf53c8595448f59e95cf7814": {
+      "source": {
+        "username": "gecko404",
+        "date": "2026-11-06T22:38:10+08:00",
+        "body_sha256": "97d6c99c735a9cced3ffb12105dbb19fedfffa591897ee73ff576fd3567eeed4"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "隔着玻璃追看小虫的具体细节可独立理解，但仍只是一次个人观察。"
+      },
+      "seed": "0be9c0f795ef25f2b5e150927287a0bc",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-06T23:04:00+08:00",
+      "likes": 0
     }
   }
 }
