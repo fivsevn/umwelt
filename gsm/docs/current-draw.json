@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "round": "2026-11-06/154647-a1d4",
-  "baseline": "60fcc3e0a8045712f48c46ef810e48f0eecad4bd",
+  "round": "2026-11-06/162022-293d",
+  "baseline": "16ee25d8b14243d06fcd52f78fa66da2e6eb681e",
   "target_posts": 4,
-  "closed": true,
+  "closed": false,
   "draws": {
     "review": {
       "input": {
@@ -14,7 +14,7 @@
         "count": 1
       },
       "result": [
-        "local"
+        "ordinary"
       ]
     },
     "slot-01/author-mode": {
@@ -26,29 +26,29 @@
         "count": 1
       },
       "result": [
-        "explore"
+        "weighted"
       ]
     },
     "slot-01/author": {
       "input": {
         "options": {
-          "gecko404": 1,
-          "leafback7": 1,
-          "mango27": 1,
-          "moss9": 1,
+          "gecko404": 4,
+          "leafback7": 2,
+          "mango27": 4,
+          "moss9": 2,
           "nearthermo": 1,
-          "nightshift3": 1,
-          "peachcrumble": 1,
+          "nightshift3": 2,
+          "peachcrumble": 2,
           "slowblink": 1,
           "smallhide2": 1,
-          "twosteps8": 1,
-          "wallafterdark": 1,
+          "twosteps8": 2,
+          "wallafterdark": 2,
           "wednesday6": 1
         },
         "count": 1
       },
       "result": [
-        "twosteps8"
+        "mango27"
       ]
     },
     "slot-01/focus": {
@@ -62,7 +62,7 @@
         "count": 1
       },
       "result": [
-        "other-interest"
+        "others-post"
       ]
     },
     "slot-01/length": {
@@ -75,7 +75,7 @@
         "count": 1
       },
       "result": [
-        "expanded"
+        "brief"
       ]
     },
     "slot-02/author-mode": {
@@ -109,7 +109,7 @@
         "count": 1
       },
       "result": [
-        "twosteps8"
+        "wednesday6"
       ]
     },
     "slot-02/focus": {
@@ -123,7 +123,7 @@
         "count": 1
       },
       "result": [
-        "present"
+        "own-history"
       ]
     },
     "slot-02/length": {
@@ -136,7 +136,7 @@
         "count": 1
       },
       "result": [
-        "expanded"
+        "brief"
       ]
     },
     "slot-03/author-mode": {
@@ -170,7 +170,7 @@
         "count": 1
       },
       "result": [
-        "mango27"
+        "twosteps8"
       ]
     },
     "slot-03/focus": {
@@ -197,7 +197,7 @@
         "count": 1
       },
       "result": [
-        "utterance"
+        "expanded"
       ]
     },
     "slot-04/author-mode": {
@@ -231,7 +231,7 @@
         "count": 1
       },
       "result": [
-        "wallafterdark"
+        "twosteps8"
       ]
     },
     "slot-04/focus": {
@@ -259,6 +259,33 @@
       },
       "result": [
         "brief"
+      ]
+    },
+    "slot-01/post": {
+      "input": {
+        "options": {
+          "20261106-150220-9f7b447586": 1,
+          "20261105-180720-af7d33137a": 1,
+          "20261105-143410-cb52b1e297": 1,
+          "20261104-184715-2004dabb52": 1,
+          "20261104-230520-70f5c25ef2": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "20261104-184715-2004dabb52"
+      ]
+    },
+    "slot-01/notice": {
+      "input": {
+        "options": {
+          "noticed": 1,
+          "skipped": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "skipped"
       ]
     },
     "history": {
@@ -423,13 +450,17 @@
           "feed-186": 1,
           "feed-187": 1,
           "feed-188": 1,
-          "feed-189": 1
+          "feed-189": 1,
+          "feed-190": 1,
+          "feed-191": 1,
+          "feed-192": 1,
+          "feed-193": 1
         },
         "count": 2
       },
       "result": [
-        "feed-164",
-        "feed-108"
+        "feed-170",
+        "feed-082"
       ]
     }
   }
