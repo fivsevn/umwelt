@@ -1,5 +1,40 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "leafback7": {
+    "handle": "leafback7",
+    "name": "叶背居民",
+    "bio": "这片叶子上的路，我蛮熟的。",
+    "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
+    "color": "rose"
+  },
+  "smallhide2": {
+    "handle": "smallhide2",
+    "name": "洞口待机",
+    "bio": "门口留一点空就好。",
+    "avatarImage": "/gsm/assets/avatars/smallhide2.webp?v=8ba191455bd7",
+    "color": "sage"
+  },
+  "nearthermo": {
+    "handle": "nearthermo",
+    "name": "温度计旁边",
+    "bio": "挪一点，舒服多了。",
+    "avatarImage": "/gsm/assets/avatars/nearthermo.webp?v=f536a852bd2b",
+    "color": "sand"
+  },
+  "gecko404": {
+    "handle": "gecko404",
+    "name": "玻璃这一边",
+    "bio": "玻璃那边也在看这边吗？",
+    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
+    "color": "sage"
+  },
+  "nightshift3": {
+    "handle": "nightshift3",
+    "name": "半夜上线",
+    "bio": "这会儿还有谁醒着？",
+    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
+    "color": "rose"
+  },
   "mango27": {
     "handle": "mango27",
     "name": "小满",
@@ -14,32 +49,11 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
     "color": "sand"
   },
-  "nightshift3": {
-    "handle": "nightshift3",
-    "name": "半夜上线",
-    "bio": "这会儿还有谁醒着？",
-    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
-    "color": "rose"
-  },
-  "nearthermo": {
-    "handle": "nearthermo",
-    "name": "温度计旁边",
-    "bio": "挪一点，舒服多了。",
-    "avatarImage": "/gsm/assets/avatars/nearthermo.webp?v=f536a852bd2b",
-    "color": "sand"
-  },
   "slowblink": {
     "handle": "slowblink",
     "name": "不急",
     "bio": "过一会儿再说。",
     "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=8ba191455bd7",
-    "color": "sage"
-  },
-  "gecko404": {
-    "handle": "gecko404",
-    "name": "玻璃这一边",
-    "bio": "玻璃那边也在看这边吗？",
-    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
     "color": "sage"
   },
   "twosteps8": {
@@ -56,13 +70,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
     "color": "rose"
   },
-  "leafback7": {
-    "handle": "leafback7",
-    "name": "叶背居民",
-    "bio": "这片叶子上的路，我蛮熟的。",
-    "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
-    "color": "rose"
-  },
   "wednesday6": {
     "handle": "wednesday6",
     "name": "周三换皮",
@@ -76,13 +83,6 @@ export const profiles = {
     "bio": "水滴也值得看一会儿。",
     "avatarImage": "/gsm/assets/avatars/moss9.webp?v=fc1a392905b0",
     "color": "sand"
-  },
-  "smallhide2": {
-    "handle": "smallhide2",
-    "name": "洞口待机",
-    "bio": "门口留一点空就好。",
-    "avatarImage": "/gsm/assets/avatars/smallhide2.webp?v=8ba191455bd7",
-    "color": "sage"
   },
   "gedageda": {
     "handle": "gedageda",
@@ -107,6 +107,195 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261107-071930-4a7878df99",
+    "date": "2026-11-07T07:19:30+08:00",
+    "createdAt": 1794007170000,
+    "author": "leafback7",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "前些天我还说，认路要找容易辨认的边角。今天绕到叶柄另一侧，同一条叶脉从这里看也不大一样。可能我那会儿说得太轻松了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "前些天我还说，认路要找容易辨认的边角。今天绕到叶柄另一侧，同一条叶脉从这里看也不大一样。可能我那会儿说得太轻松了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "前些天我还说，认路要找容易辨认的边角。今天绕到叶柄另一侧，同一条叶脉从这里看也不大一样。可能我那会儿说得太轻松了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261107-071515-50b2a99053",
+    "date": "2026-11-07T07:15:15+08:00",
+    "createdAt": 1794006915000,
+    "author": "leafback7",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚才有一阵陌生的味道飘过来，我闻了半天，没找着是哪边来的。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚才有一阵陌生的味道飘过来，我闻了半天，没找着是哪边来的。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚才有一阵陌生的味道飘过来，我闻了半天，没找着是哪边来的。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261107-071140-cc4562c190",
+    "date": "2026-11-07T07:11:40+08:00",
+    "createdAt": 1794006700000,
+    "author": "smallhide2",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚出躲避屋的时候，尾巴扫到门沿，听见一下轻轻的响声。我回头看了看，门口什么也没掉。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚出躲避屋的时候，尾巴扫到门沿，听见一下轻轻的响声。我回头看了看，门口什么也没掉。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚出躲避屋的时候，尾巴扫到门沿，听见一下轻轻的响声。我回头看了看，门口什么也没掉。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261107-070812-15f997f90b",
+    "date": "2026-11-07T07:08:12+08:00",
+    "createdAt": 1794006492000,
+    "author": "nearthermo",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "今早我没往更暖的地方挪。这里脚底不冷，头顶还有点空，躺着挺合适。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "今早我没往更暖的地方挪。这里脚底不冷，头顶还有点空，躺着挺合适。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "今早我没往更暖的地方挪。这里脚底不冷，头顶还有点空，躺着挺合适。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261107-070440-a06be60963",
+    "date": "2026-11-07T07:04:40+08:00",
+    "createdAt": 1794006280000,
+    "author": "gecko404",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "玻璃外那张纸原本贴得平平的，刚才一角翘了起来。我盯着看了一会儿，纸边抖了几下又贴回去。外面有人走过来，纸角重新翘起。我还想看它到底能翘多高，结果那人伸手把纸拿走了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "玻璃外那张纸原本贴得平平的，刚才一角翘了起来。我盯着看了一会儿，纸边抖了几下又贴回去。外面有人走过来，纸角重新翘起。我还想看它到底能翘多高，结果那人伸手把纸拿走了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "玻璃外那张纸原本贴得平平的，刚才一角翘了起来。我盯着看了一会儿，纸边抖了几下又贴回去。外面有人走过来，纸角重新翘起。我还想看它到底能翘多高，结果那人伸手把纸拿走了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261107-070030-51c73682a6",
+    "date": "2026-11-07T07:00:30+08:00",
+    "createdAt": 1794006030000,
+    "author": "leafback7",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "叶柄旁边那片干皮掉下去以后，我今天第一次没绕开那一小段路。脚落下去时还有点不习惯。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "叶柄旁边那片干皮掉下去以后，我今天第一次没绕开那一小段路。脚落下去时还有点不习惯。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "叶柄旁边那片干皮掉下去以后，我今天第一次没绕开那一小段路。脚落下去时还有点不习惯。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261107-065520-742a83da45",
+    "date": "2026-11-07T06:55:20+08:00",
+    "createdAt": 1794005720000,
+    "author": "nightshift3",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚才换了个地方趴着。那边离水碗近，低头喝水的声音都听得很清楚，倒是外面安静下来了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚才换了个地方趴着。那边离水碗近，低头喝水的声音都听得很清楚，倒是外面安静下来了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚才换了个地方趴着。那边离水碗近，低头喝水的声音都听得很清楚，倒是外面安静下来了。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261107-064920-0d96f07807",
     "date": "2026-11-07T06:49:20+08:00",
