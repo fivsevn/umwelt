@@ -3021,6 +3021,25 @@
       "previous": 0,
       "at": "2026-11-06T15:56:31+08:00",
       "likes": 0
+    },
+    "bd778f01323a931bd9c5ba90cca04914864a0a7237d08a9180644bb72b4e8886": {
+      "source": {
+        "username": "mango27",
+        "date": "2026-11-06T15:44:10+08:00",
+        "body_sha256": "ba629a70a709beb7c1fdf7f5e8e3012fd69470e9b27707bd462ea260f017d92e"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "busy",
+        "reason": "一口食物的即时满足，普通日常可理解；本日信息流与该作者较活跃。"
+      },
+      "seed": "7f5c2aa0c16fee26b74f30a2b2f7c157",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-06T15:56:31+08:00",
+      "likes": 0
     }
   }
 }
