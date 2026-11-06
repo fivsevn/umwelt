@@ -2850,6 +2850,25 @@
       "previous": 0,
       "at": "2026-11-06T07:18:30+08:00",
       "likes": 0
+    },
+    "44db71bfd16a847ec6e2483e20ee1a73e6526a482b1d7ac79dafd92b8217cea6": {
+      "source": {
+        "username": "twosteps8",
+        "date": "2026-11-06T08:42:35+08:00",
+        "body_sha256": "2c7bd676f743b7f2d99e5cc76201a9ca6b91429ea0a2b3b1094d44a667fe4cef"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "独立的路上小事，行动结果明确；没有已知读者往返，近期注意有限。"
+      },
+      "seed": "24acb644aabc4e4835f29d350c5c254b",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-06T14:57:00+08:00",
+      "likes": 4
     }
   }
 }
