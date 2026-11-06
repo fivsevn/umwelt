@@ -3325,6 +3325,25 @@
       "previous": 0,
       "at": "2026-11-07T06:54:31+08:00",
       "likes": 0
+    },
+    "eafde35289047dc89b8f4c62d1bfa9c9cf2909ff86c839bc5ce9c6d5e9c1463b": {
+      "source": {
+        "username": "wallafterdark",
+        "date": "2026-11-07T05:26:10+08:00",
+        "body_sha256": "54274a9e365e8f0e8cf4687b514d5f970ce06faa35d4537f5621509286cb91a5"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "strong",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "轻微受惊与直接疑问可独立理解；无具体对话对象或已知关系。"
+      },
+      "seed": "0a183af0327e754dead39d1666e83aa3",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-07T06:54:31+08:00",
+      "likes": 2
     }
   }
 }
