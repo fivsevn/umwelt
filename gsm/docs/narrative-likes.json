@@ -3211,6 +3211,25 @@
       "previous": 0,
       "at": "2026-11-06T23:04:00+08:00",
       "likes": 2
+    },
+    "dbddaf24631af83c46e98f67052a370c173b9a2377fdf7ad1325dcd0184dfb8e": {
+      "source": {
+        "username": "gecko404",
+        "date": "2026-11-06T21:58:30+08:00",
+        "body_sha256": "0a93cec4e4ce17a83214449338005a700485aee86b25929562d57a8bd1845225"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "busy",
+        "reason": "前日晃动石头的局部续记，公开接触范围有限且同作者接着又有观察。"
+      },
+      "seed": "ca32c3ddf8355567796dcfd563467832",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-06T23:04:00+08:00",
+      "likes": 0
     }
   }
 }
