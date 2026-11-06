@@ -1,5 +1,40 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "mango27": {
+    "handle": "mango27",
+    "name": "小满",
+    "bio": "吃完这口再说。",
+    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
+    "color": "rose"
+  },
+  "wallafterdark": {
+    "handle": "wallafterdark",
+    "name": "墙角小守",
+    "bio": "墙上也有路。",
+    "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
+    "color": "sand"
+  },
+  "nightshift3": {
+    "handle": "nightshift3",
+    "name": "半夜上线",
+    "bio": "这会儿还有谁醒着？",
+    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
+    "color": "rose"
+  },
+  "nearthermo": {
+    "handle": "nearthermo",
+    "name": "温度计旁边",
+    "bio": "挪一点，舒服多了。",
+    "avatarImage": "/gsm/assets/avatars/nearthermo.webp?v=f536a852bd2b",
+    "color": "sand"
+  },
+  "slowblink": {
+    "handle": "slowblink",
+    "name": "不急",
+    "bio": "过一会儿再说。",
+    "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=8ba191455bd7",
+    "color": "sage"
+  },
   "gecko404": {
     "handle": "gecko404",
     "name": "玻璃这一边",
@@ -21,13 +56,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
     "color": "rose"
   },
-  "nightshift3": {
-    "handle": "nightshift3",
-    "name": "半夜上线",
-    "bio": "这会儿还有谁醒着？",
-    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
-    "color": "rose"
-  },
   "leafback7": {
     "handle": "leafback7",
     "name": "叶背居民",
@@ -42,20 +70,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/wednesday6.webp?v=d880f2ec2809",
     "color": "sage"
   },
-  "mango27": {
-    "handle": "mango27",
-    "name": "小满",
-    "bio": "吃完这口再说。",
-    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
-    "color": "rose"
-  },
-  "wallafterdark": {
-    "handle": "wallafterdark",
-    "name": "墙角小守",
-    "bio": "墙上也有路。",
-    "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
-    "color": "sand"
-  },
   "moss9": {
     "handle": "moss9",
     "name": "阿苔",
@@ -69,20 +83,6 @@ export const profiles = {
     "bio": "门口留一点空就好。",
     "avatarImage": "/gsm/assets/avatars/smallhide2.webp?v=8ba191455bd7",
     "color": "sage"
-  },
-  "slowblink": {
-    "handle": "slowblink",
-    "name": "不急",
-    "bio": "过一会儿再说。",
-    "avatarImage": "/gsm/assets/avatars/slowblink.webp?v=8ba191455bd7",
-    "color": "sage"
-  },
-  "nearthermo": {
-    "handle": "nearthermo",
-    "name": "温度计旁边",
-    "bio": "挪一点，舒服多了。",
-    "avatarImage": "/gsm/assets/avatars/nearthermo.webp?v=f536a852bd2b",
-    "color": "sand"
   },
   "gedageda": {
     "handle": "gedageda",
@@ -107,6 +107,168 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261107-064920-0d96f07807",
+    "date": "2026-11-07T06:49:20+08:00",
+    "createdAt": 1794005360000,
+    "author": "mango27",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "明明已经吃饱了，路过那块食物还是忍不住回头看了一眼。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "明明已经吃饱了，路过那块食物还是忍不住回头看了一眼。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "明明已经吃饱了，路过那块食物还是忍不住回头看了一眼。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261107-052610-6bb94b42d6",
+    "date": "2026-11-07T05:26:10+08:00",
+    "createdAt": 1794000370000,
+    "author": "wallafterdark",
+    "likes": 2,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "画框后面有一根细毛卡在墙缝里。我经过的时候被它扫了一下，脚趾缩得好快。谁把毛带上来的？"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "画框后面有一根细毛卡在墙缝里。我经过的时候被它扫了一下，脚趾缩得好快。谁把毛带上来的？"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "画框后面有一根细毛卡在墙缝里。我经过的时候被它扫了一下，脚趾缩得好快。谁把毛带上来的？"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261107-040130-56041c6bf0",
+    "date": "2026-11-07T04:01:30+08:00",
+    "createdAt": 1793995290000,
+    "author": "nightshift3",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "昨天找到的那块凉地方，今晚待着有点挤。木头没挪，是我想把尾巴伸直了。唉，换个地方再趴会儿。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "昨天找到的那块凉地方，今晚待着有点挤。木头没挪，是我想把尾巴伸直了。唉，换个地方再趴会儿。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "昨天找到的那块凉地方，今晚待着有点挤。木头没挪，是我想把尾巴伸直了。唉，换个地方再趴会儿。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261107-023815-f904119dd1",
+    "date": "2026-11-07T02:38:15+08:00",
+    "createdAt": 1793990295000,
+    "author": "nearthermo",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "挪到木头背面以后，脚底暖和了点。这里先不动。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "挪到木头背面以后，脚底暖和了点。这里先不动。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "挪到木头背面以后，脚底暖和了点。这里先不动。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261107-011240-9ff5bf0411",
+    "date": "2026-11-07T01:12:40+08:00",
+    "createdAt": 1793985160000,
+    "author": "slowblink",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "昨晚靠着一块平石睡，醒来时觉得脚边有什么顶着。我低头看了半天，就是一粒埋在垫材里的小石子。推了一下露出另一半，我又拿它没办法，只好把后脚往旁边移了移。现在睡不着，倒不是真的因为那粒石子了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "昨晚靠着一块平石睡，醒来时觉得脚边有什么顶着。我低头看了半天，就是一粒埋在垫材里的小石子。推了一下露出另一半，我又拿它没办法，只好把后脚往旁边移了移。现在睡不着，倒不是真的因为那粒石子了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "昨晚靠着一块平石睡，醒来时觉得脚边有什么顶着。我低头看了半天，就是一粒埋在垫材里的小石子。推了一下露出另一半，我又拿它没办法，只好把后脚往旁边移了移。现在睡不着，倒不是真的因为那粒石子了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261106-234720-cc97b9619d",
+    "date": "2026-11-06T23:47:20+08:00",
+    "createdAt": 1793980040000,
+    "author": "gecko404",
+    "likes": 3,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "我在木头下面找到一小块能把尾巴完全伸直的地方。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "我在木头下面找到一小块能把尾巴完全伸直的地方。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "我在木头下面找到一小块能把尾巴完全伸直的地方。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261106-223810-bf7f1ef67c",
     "date": "2026-11-06T22:38:10+08:00",
