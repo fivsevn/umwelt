@@ -2905,8 +2905,8 @@
       "seed": "71b6a64c5ae356ea3447300d4b6cba3e",
       "floor": 0,
       "previous": 0,
-      "at": "2026-11-06T16:06:07+08:00",
-      "likes": 0
+      "at": "2026-11-06T16:36:26+08:00",
+      "likes": 2
     },
     "0b04def8cf8c566c7ab93859882d1549ad7104e146af4830a2be58e7a0977a10": {
       "source": {
@@ -3019,8 +3019,8 @@
       "seed": "242807f2addddfe2dc1dc8096c3d57df",
       "floor": 0,
       "previous": 0,
-      "at": "2026-11-06T16:06:07+08:00",
-      "likes": 0
+      "at": "2026-11-06T16:36:26+08:00",
+      "likes": 1
     },
     "bd778f01323a931bd9c5ba90cca04914864a0a7237d08a9180644bb72b4e8886": {
       "source": {
@@ -3113,9 +3113,9 @@
       },
       "seed": "26f603cd27f4b16eef366c3112e3d242",
       "floor": 0,
-      "previous": 0,
-      "at": "2026-11-06T16:26:39+08:00",
-      "likes": 1
+      "previous": 1,
+      "at": "2026-11-06T16:36:26+08:00",
+      "likes": 2
     },
     "42ecdac7e135fabfd906b1d160f8acc54eefccf4c354893de7ce6c99bf871052": {
       "source": {
