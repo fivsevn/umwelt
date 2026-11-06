@@ -2945,6 +2945,25 @@
       "previous": 0,
       "at": "2026-11-06T14:57:00+08:00",
       "likes": 2
+    },
+    "fcd7afbf95ec639dccfb47115416c8995180d3e3cdcf0c249294e79cab2284c0": {
+      "source": {
+        "username": "mango27",
+        "date": "2026-11-06T13:16:25+08:00",
+        "body_sha256": "fe349e6db53132afbd39ef80123df6643cdec297ab28d04b156e85f1beadd1a1"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "busy",
+        "reason": "同一作者当日已有生活续记，独立内容但附近动态较密。"
+      },
+      "seed": "9467c3de3ca9ca4258410d4982321808",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-06T14:57:00+08:00",
+      "likes": 2
     }
   }
 }
