@@ -3458,6 +3458,25 @@
       "previous": 0,
       "at": "2026-11-07T07:21:20+08:00",
       "likes": 0
+    },
+    "184a4dda189fe0653d03a987a46cff8296f8f20d8720c851394c306ed6f79d1d": {
+      "source": {
+        "username": "leafback7",
+        "date": "2026-11-07T07:15:15+08:00",
+        "body_sha256": "55a0046e6c44a520109a9a20e76012bd5c82459ab79c099f5dd132b5ab55407d"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "low",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "独立的轻微嗅觉发现，具体来源不明、反响可能较低；无局部联系。"
+      },
+      "seed": "75609c70e000b370838abc2769e068f2",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-07T07:21:20+08:00",
+      "likes": 0
     }
   }
 }
