@@ -3097,6 +3097,25 @@
       "previous": 0,
       "at": "2026-11-06T16:26:39+08:00",
       "likes": 0
+    },
+    "f0035743fa6ac51243d90ace4ac9086fbb629d5d03afaae305c4f2d8b5e5b7d0": {
+      "source": {
+        "username": "twosteps8",
+        "date": "2026-11-06T16:20:50+08:00",
+        "body_sha256": "fd52ec3a0f8afe5db4a927e7b9e3d30f1150a0128a07942103dc82dfedb22414"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "两步远沿小石头边观察痕迹，具体行动能被独立理解，虽含旧事但不涉及确证的往返关系。"
+      },
+      "seed": "26f603cd27f4b16eef366c3112e3d242",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-06T16:26:39+08:00",
+      "likes": 1
     }
   }
 }
