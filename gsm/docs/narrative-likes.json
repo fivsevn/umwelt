@@ -3287,6 +3287,25 @@
       "previous": 0,
       "at": "2026-11-07T06:54:31+08:00",
       "likes": 0
+    },
+    "74de56d97cd45051b390e82b98ecb693a468b482ca11660324fee25cea4d8444": {
+      "source": {
+        "username": "nearthermo",
+        "date": "2026-11-07T02:38:15+08:00",
+        "body_sha256": "a5862d4a92322a9e5fb032fb9def07e752172cdb4a0ed8f5c2ffc49142650d51"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "quiet",
+        "reason": "局部位置感受缺少外部话题，但独立生活细节仍可能得到少量注意。"
+      },
+      "seed": "cbdaf9d9697569e0cbded29801c38489",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-07T06:54:31+08:00",
+      "likes": 0
     }
   }
 }
