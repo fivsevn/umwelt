@@ -2964,6 +2964,25 @@
       "previous": 0,
       "at": "2026-11-06T14:57:00+08:00",
       "likes": 2
+    },
+    "ca89359b2f58b514648482622f4b0d0fb69a9d6b953380b0345e36b30451cda7": {
+      "source": {
+        "username": "gecko404",
+        "date": "2026-11-06T14:41:15+08:00",
+        "body_sha256": "31a3d315ef581f670115bf7607514edb672c4d806bca6b227ae47ffe63c5cb94"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "接续昨日布遮玻璃的个人经历，内容较局部，尚无往返关系。"
+      },
+      "seed": "5a405f52847b8aff981a432526c7fff7",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-06T14:57:00+08:00",
+      "likes": 1
     }
   }
 }
