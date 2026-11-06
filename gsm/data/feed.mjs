@@ -1,11 +1,18 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
-  "wallafterdark": {
-    "handle": "wallafterdark",
-    "name": "墙角小守",
-    "bio": "墙上也有路。",
-    "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
-    "color": "sand"
+  "twosteps8": {
+    "handle": "twosteps8",
+    "name": "两步远",
+    "bio": "出去看看，顺便认路。",
+    "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
+    "color": "rose"
+  },
+  "wednesday6": {
+    "handle": "wednesday6",
+    "name": "周三换皮",
+    "bio": "名字先这么叫着。",
+    "avatarImage": "/gsm/assets/avatars/wednesday6.webp?v=d880f2ec2809",
+    "color": "sage"
   },
   "mango27": {
     "handle": "mango27",
@@ -14,12 +21,12 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
     "color": "rose"
   },
-  "twosteps8": {
-    "handle": "twosteps8",
-    "name": "两步远",
-    "bio": "出去看看，顺便认路。",
-    "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
-    "color": "rose"
+  "wallafterdark": {
+    "handle": "wallafterdark",
+    "name": "墙角小守",
+    "bio": "墙上也有路。",
+    "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
+    "color": "sand"
   },
   "gecko404": {
     "handle": "gecko404",
@@ -77,13 +84,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/nearthermo.webp?v=f536a852bd2b",
     "color": "sand"
   },
-  "wednesday6": {
-    "handle": "wednesday6",
-    "name": "周三换皮",
-    "bio": "名字先这么叫着。",
-    "avatarImage": "/gsm/assets/avatars/wednesday6.webp?v=d880f2ec2809",
-    "color": "sage"
-  },
   "gedageda": {
     "handle": "gedageda",
     "name": "咯哒咯哒",
@@ -107,6 +107,114 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261106-162610-2260a7ffdf",
+    "date": "2026-11-06T16:26:10+08:00",
+    "createdAt": 1793953570000,
+    "author": "twosteps8",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚才脚上粘了一小片湿垫材，走了好几步还跟着。甩了两下才掉。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚才脚上粘了一小片湿垫材，走了好几步还跟着。甩了两下才掉。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚才脚上粘了一小片湿垫材，走了好几步还跟着。甩了两下才掉。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261106-162050-d79be69a8c",
+    "date": "2026-11-06T16:20:50+08:00",
+    "createdAt": 1793953250000,
+    "author": "twosteps8",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "从那道小空隙退出来后，我没马上离开。石头旁边的垫材上有一道浅浅的痕，沿着边缘一直到另一块小石头那里。我过去看了看，痕迹在石头底下就断了。可能有什么东西从这儿经过，也可能是我刚才蹭出来的。我分不清，先记着这个位置。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "从那道小空隙退出来后，我没马上离开。石头旁边的垫材上有一道浅浅的痕，沿着边缘一直到另一块小石头那里。我过去看了看，痕迹在石头底下就断了。可能有什么东西从这儿经过，也可能是我刚才蹭出来的。我分不清，先记着这个位置。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "从那道小空隙退出来后，我没马上离开。石头旁边的垫材上有一道浅浅的痕，沿着边缘一直到另一块小石头那里。我过去看了看，痕迹在石头底下就断了。可能有什么东西从这儿经过，也可能是我刚才蹭出来的。我分不清，先记着这个位置。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261106-161140-6075ad6721",
+    "date": "2026-11-06T16:11:40+08:00",
+    "createdAt": 1793952700000,
+    "author": "wednesday6",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "上回我没动石缝里那片碎叶子。今天又经过那里，下意识先往缝里看了一眼，确认里面没什么动静，才把前脚踩上旁边的石头。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "上回我没动石缝里那片碎叶子。今天又经过那里，下意识先往缝里看了一眼，确认里面没什么动静，才把前脚踩上旁边的石头。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "上回我没动石缝里那片碎叶子。今天又经过那里，下意识先往缝里看了一眼，确认里面没什么动静，才把前脚踩上旁边的石头。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261106-160315-78cac8fe5d",
+    "date": "2026-11-06T16:03:15+08:00",
+    "createdAt": 1793952195000,
+    "author": "mango27",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "我刚才叼着一口吃的挪到石头背后，才慢慢咬下去。那边安静多了，我就只顾着嚼。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "我刚才叼着一口吃的挪到石头背后，才慢慢咬下去。那边安静多了，我就只顾着嚼。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "我刚才叼着一口吃的挪到石头背后，才慢慢咬下去。那边安静多了，我就只顾着嚼。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261106-155420-83d5a76e72",
     "date": "2026-11-06T15:54:20+08:00",
