@@ -3382,6 +3382,25 @@
       "previous": 0,
       "at": "2026-11-07T07:21:20+08:00",
       "likes": 0
+    },
+    "6b16143670920a2f9508172845501148804ef06c37d06f6f92b7524a3f3f3ae1": {
+      "source": {
+        "username": "leafback7",
+        "date": "2026-11-07T07:00:30+08:00",
+        "body_sha256": "87fc01ae7afe42cf13c0dfedd015ff5053b9b919753b47a16c02b9d04b29fe7b"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "延续自己熟悉的通路，独立能理解的小习惯；未涉及新的他人关系，近期信息流正常。"
+      },
+      "seed": "ad7c28ca4cfa00f8df0cc52fc5f1993c",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-07T07:21:20+08:00",
+      "likes": 1
     }
   }
 }
