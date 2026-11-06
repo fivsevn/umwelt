@@ -1,10 +1,38 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "gecko404": {
+    "handle": "gecko404",
+    "name": "玻璃这一边",
+    "bio": "玻璃那边也在看这边吗？",
+    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
+    "color": "sage"
+  },
   "twosteps8": {
     "handle": "twosteps8",
     "name": "两步远",
     "bio": "出去看看，顺便认路。",
     "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
+    "color": "rose"
+  },
+  "peachcrumble": {
+    "handle": "peachcrumble",
+    "name": "桃酥",
+    "bio": "差一点，下回再试。",
+    "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
+    "color": "rose"
+  },
+  "nightshift3": {
+    "handle": "nightshift3",
+    "name": "半夜上线",
+    "bio": "这会儿还有谁醒着？",
+    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
+    "color": "rose"
+  },
+  "leafback7": {
+    "handle": "leafback7",
+    "name": "叶背居民",
+    "bio": "这片叶子上的路，我蛮熟的。",
+    "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
     "color": "rose"
   },
   "wednesday6": {
@@ -28,20 +56,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
     "color": "sand"
   },
-  "gecko404": {
-    "handle": "gecko404",
-    "name": "玻璃这一边",
-    "bio": "玻璃那边也在看这边吗？",
-    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
-    "color": "sage"
-  },
-  "nightshift3": {
-    "handle": "nightshift3",
-    "name": "半夜上线",
-    "bio": "这会儿还有谁醒着？",
-    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
-    "color": "rose"
-  },
   "moss9": {
     "handle": "moss9",
     "name": "阿苔",
@@ -49,26 +63,12 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/moss9.webp?v=fc1a392905b0",
     "color": "sand"
   },
-  "peachcrumble": {
-    "handle": "peachcrumble",
-    "name": "桃酥",
-    "bio": "差一点，下回再试。",
-    "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
-    "color": "rose"
-  },
   "smallhide2": {
     "handle": "smallhide2",
     "name": "洞口待机",
     "bio": "门口留一点空就好。",
     "avatarImage": "/gsm/assets/avatars/smallhide2.webp?v=8ba191455bd7",
     "color": "sage"
-  },
-  "leafback7": {
-    "handle": "leafback7",
-    "name": "叶背居民",
-    "bio": "这片叶子上的路，我蛮熟的。",
-    "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
-    "color": "rose"
   },
   "slowblink": {
     "handle": "slowblink",
@@ -107,6 +107,168 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261106-223810-bf7f1ef67c",
+    "date": "2026-11-06T22:38:10+08:00",
+    "createdAt": 1793975890000,
+    "author": "gecko404",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "玻璃外的墙上停着一只小虫。我隔着玻璃往旁边挪了好几次，总觉得它就在眼前，伸出前脚才记起中间还有一层玻璃。那只虫倒是一直没动。过了一会儿，外面有人从那儿走过去，把它吓飞了。我本来想看清它翅膀是什么颜色，最后只看见它闪了一下。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "玻璃外的墙上停着一只小虫。我隔着玻璃往旁边挪了好几次，总觉得它就在眼前，伸出前脚才记起中间还有一层玻璃。那只虫倒是一直没动。过了一会儿，外面有人从那儿走过去，把它吓飞了。我本来想看清它翅膀是什么颜色，最后只看见它闪了一下。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "玻璃外的墙上停着一只小虫。我隔着玻璃往旁边挪了好几次，总觉得它就在眼前，伸出前脚才记起中间还有一层玻璃。那只虫倒是一直没动。过了一会儿，外面有人从那儿走过去，把它吓飞了。我本来想看清它翅膀是什么颜色，最后只看见它闪了一下。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261106-215830-0445c802d0",
+    "date": "2026-11-06T21:58:30+08:00",
+    "createdAt": 1793973510000,
+    "author": "gecko404",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "从石头上下来时，我特意避开靠里的那一角。今天不想再试它到底能晃几次。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "从石头上下来时，我特意避开靠里的那一角。今天不想再试它到底能晃几次。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "从石头上下来时，我特意避开靠里的那一角。今天不想再试它到底能晃几次。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261106-211105-ab51ad4b17",
+    "date": "2026-11-06T21:11:05+08:00",
+    "createdAt": 1793970665000,
+    "author": "twosteps8",
+    "likes": 2,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "走了不少路，回来看到那块熟悉的大石头还挺高兴的。我先在旁边待着，不想立刻再去找什么新路。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "走了不少路，回来看到那块熟悉的大石头还挺高兴的。我先在旁边待着，不想立刻再去找什么新路。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "走了不少路，回来看到那块熟悉的大石头还挺高兴的。我先在旁边待着，不想立刻再去找什么新路。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261106-200710-616afae364",
+    "date": "2026-11-06T20:07:10+08:00",
+    "createdAt": 1793966830000,
+    "author": "peachcrumble",
+    "likes": 6,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "今天从高一点的石头跳下来，前脚先落地，后脚慢了半拍。没摔，就是姿势不太好看。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "今天从高一点的石头跳下来，前脚先落地，后脚慢了半拍。没摔，就是姿势不太好看。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "今天从高一点的石头跳下来，前脚先落地，后脚慢了半拍。没摔，就是姿势不太好看。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261106-191440-7c8f096169",
+    "date": "2026-11-06T19:14:40+08:00",
+    "createdAt": 1793963680000,
+    "author": "nightshift3",
+    "likes": 3,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚刚换了个地方趴，才发现木头下面那小块地特别凉。下巴一放上去，我又不想挪了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚刚换了个地方趴，才发现木头下面那小块地特别凉。下巴一放上去，我又不想挪了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚刚换了个地方趴，才发现木头下面那小块地特别凉。下巴一放上去，我又不想挪了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261106-180530-d9500996d6",
+    "date": "2026-11-06T18:05:30+08:00",
+    "createdAt": 1793959530000,
+    "author": "leafback7",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "叶柄旁边那片翘起的干皮终于掉下来了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "叶柄旁边那片翘起的干皮终于掉下来了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "叶柄旁边那片翘起的干皮终于掉下来了。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261106-162610-2260a7ffdf",
     "date": "2026-11-06T16:26:10+08:00",
