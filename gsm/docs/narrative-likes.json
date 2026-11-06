@@ -3268,6 +3268,25 @@
       "previous": 0,
       "at": "2026-11-07T06:54:31+08:00",
       "likes": 3
+    },
+    "c264426129265ec505964d5947e49fa7ad3aa5bf56c7e628a0a7e04ecc36de44": {
+      "source": {
+        "username": "slowblink",
+        "date": "2026-11-07T01:12:40+08:00",
+        "body_sha256": "48ac89ced1d8f797e6d14db08a0fe7b04351fb0ca7348f761fc20c8e687aaad4"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "不常开口的角色详细记一次失眠前的生活小事，独立可懂，暂无特定回应链。"
+      },
+      "seed": "19671d2012180039d0e1d3e16ca6e53d",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-07T06:54:31+08:00",
+      "likes": 0
     }
   }
 }
