@@ -2983,6 +2983,25 @@
       "previous": 1,
       "at": "2026-11-06T15:09:00+08:00",
       "likes": 1
+    },
+    "cff08bf99c249b16425f74853b40256087bec98ff383e07264f4e36e87ae2fb2": {
+      "source": {
+        "username": "twosteps8",
+        "date": "2026-11-06T15:02:20+08:00",
+        "body_sha256": "c79b51fe4dd89b0d1c25efe66bdf5c903b315e0b46d9b1f5ae4b3df87d7771bf"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "busy",
+        "reason": "两步远暂时放下认路关注，观察水边小虫的动作；独立可懂，今天信息流已有多条动态。"
+      },
+      "seed": "4ed66e30fdf46698a8f75f12f42e4ff3",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-06T15:56:31+08:00",
+      "likes": 1
     }
   }
 }
