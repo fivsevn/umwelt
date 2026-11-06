@@ -1,11 +1,11 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
-  "gecko404": {
-    "handle": "gecko404",
-    "name": "玻璃这一边",
-    "bio": "玻璃那边也在看这边吗？",
-    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
-    "color": "sage"
+  "wallafterdark": {
+    "handle": "wallafterdark",
+    "name": "墙角小守",
+    "bio": "墙上也有路。",
+    "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
+    "color": "sand"
   },
   "mango27": {
     "handle": "mango27",
@@ -13,6 +13,20 @@ export const profiles = {
     "bio": "吃完这口再说。",
     "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
     "color": "rose"
+  },
+  "twosteps8": {
+    "handle": "twosteps8",
+    "name": "两步远",
+    "bio": "出去看看，顺便认路。",
+    "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
+    "color": "rose"
+  },
+  "gecko404": {
+    "handle": "gecko404",
+    "name": "玻璃这一边",
+    "bio": "玻璃那边也在看这边吗？",
+    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
+    "color": "sage"
   },
   "nightshift3": {
     "handle": "nightshift3",
@@ -34,20 +48,6 @@ export const profiles = {
     "bio": "差一点，下回再试。",
     "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
     "color": "rose"
-  },
-  "twosteps8": {
-    "handle": "twosteps8",
-    "name": "两步远",
-    "bio": "出去看看，顺便认路。",
-    "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
-    "color": "rose"
-  },
-  "wallafterdark": {
-    "handle": "wallafterdark",
-    "name": "墙角小守",
-    "bio": "墙上也有路。",
-    "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
-    "color": "sand"
   },
   "smallhide2": {
     "handle": "smallhide2",
@@ -107,6 +107,114 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261106-155420-83d5a76e72",
+    "date": "2026-11-06T15:54:20+08:00",
+    "createdAt": 1793951660000,
+    "author": "wallafterdark",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "今天爬到画框侧面，发现有一小段墙面比旁边粗糙，脚趾抓着很稳。我在那儿歇了一会儿，再往上走时倒不急了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "今天爬到画框侧面，发现有一小段墙面比旁边粗糙，脚趾抓着很稳。我在那儿歇了一会儿，再往上走时倒不急了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "今天爬到画框侧面，发现有一小段墙面比旁边粗糙，脚趾抓着很稳。我在那儿歇了一会儿，再往上走时倒不急了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261106-154410-16f49bcd7c",
+    "date": "2026-11-06T15:44:10+08:00",
+    "createdAt": 1793951050000,
+    "author": "mango27",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚才咬到一口脆的，嘴里咔嚓一声。我挺喜欢这个。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚才咬到一口脆的，嘴里咔嚓一声。我挺喜欢这个。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚才咬到一口脆的，嘴里咔嚓一声。我挺喜欢这个。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261106-152940-3e90efd460",
+    "date": "2026-11-06T15:29:40+08:00",
+    "createdAt": 1793950180000,
+    "author": "twosteps8",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "我今天去看石头底下那道小空隙，前脚已经踩进去了，顶却比我记得的低。我试着把脑袋往里探了一点，鼻尖先碰到上面的石头。里面没有响动，也看不出更深处怎么走。我先退回来了，不是脚下不稳，是还不知道身子能不能过去。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "我今天去看石头底下那道小空隙，前脚已经踩进去了，顶却比我记得的低。我试着把脑袋往里探了一点，鼻尖先碰到上面的石头。里面没有响动，也看不出更深处怎么走。我先退回来了，不是脚下不稳，是还不知道身子能不能过去。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "我今天去看石头底下那道小空隙，前脚已经踩进去了，顶却比我记得的低。我试着把脑袋往里探了一点，鼻尖先碰到上面的石头。里面没有响动，也看不出更深处怎么走。我先退回来了，不是脚下不稳，是还不知道身子能不能过去。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261106-150220-9f7b447586",
+    "date": "2026-11-06T15:02:20+08:00",
+    "createdAt": 1793948540000,
+    "author": "twosteps8",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚才在水边看一只小虫用前脚蹭头，蹭完又换另一边。我站了好一会儿，没想着去哪儿。等它终于飞走，我才低头喝水，发现水碗里落了几粒垫材。水没怎么喝，倒是记住了那只虫的动作。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚才在水边看一只小虫用前脚蹭头，蹭完又换另一边。我站了好一会儿，没想着去哪儿。等它终于飞走，我才低头喝水，发现水碗里落了几粒垫材。水没怎么喝，倒是记住了那只虫的动作。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚才在水边看一只小虫用前脚蹭头，蹭完又换另一边。我站了好一会儿，没想着去哪儿。等它终于飞走，我才低头喝水，发现水碗里落了几粒垫材。水没怎么喝，倒是记住了那只虫的动作。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261106-144115-3f7b0da795",
     "date": "2026-11-06T14:41:15+08:00",
