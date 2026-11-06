@@ -3173,6 +3173,25 @@
       "previous": 0,
       "at": "2026-11-06T23:04:00+08:00",
       "likes": 3
+    },
+    "3d3fd07292848a82f0dfa8fc66320a348515f899173f2dcad9729b86b1882d8d": {
+      "source": {
+        "username": "peachcrumble",
+        "date": "2026-11-06T20:07:10+08:00",
+        "body_sha256": "919cc5883782f065f254355eb54ee6043ef929a33bac39a978c751b80f08661e"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "strong",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "练习落地的小失衡容易理解，仍不意味着稳定社交传播。"
+      },
+      "seed": "f9bb1fb8b9d37f6daa4d0bffb5559480",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-06T23:04:00+08:00",
+      "likes": 6
     }
   }
 }

@@ -1,8 +1,8 @@
 ---
-username: nightshift3
+username: peachcrumble
 status: published
-likes: 3
-date: "2026-11-06T19:14:40+08:00"
+likes: 6
+date: "2026-11-06T20:07:10+08:00"
 ---
 
-刚刚换了个地方趴，才发现木头下面那小块地特别凉。下巴一放上去，我又不想挪了。
+今天从高一点的石头跳下来，前脚先落地，后脚慢了半拍。没摔，就是姿势不太好看。
