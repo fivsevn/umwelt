@@ -139,7 +139,7 @@ export const posts = [
     "date": "2026-11-06T16:20:50+08:00",
     "createdAt": 1793953250000,
     "author": "twosteps8",
-    "likes": 1,
+    "likes": 2,
     "blocks": {
       "zh": [
         {
@@ -274,7 +274,7 @@ export const posts = [
     "date": "2026-11-06T15:29:40+08:00",
     "createdAt": 1793950180000,
     "author": "twosteps8",
-    "likes": 0,
+    "likes": 1,
     "blocks": {
       "zh": [
         {
@@ -436,7 +436,7 @@ export const posts = [
     "date": "2026-11-06T10:18:20+08:00",
     "createdAt": 1793931500000,
     "author": "mango27",
-    "likes": 0,
+    "likes": 2,
     "blocks": {
       "zh": [
         {
