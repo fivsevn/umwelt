@@ -1,10 +1,10 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
-  "mango27": {
-    "handle": "mango27",
-    "name": "小满",
-    "bio": "吃完这口再说。",
-    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
+  "twosteps8": {
+    "handle": "twosteps8",
+    "name": "两步远",
+    "bio": "出去看看，顺便认路。",
+    "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
     "color": "rose"
   },
   "gecko404": {
@@ -13,6 +13,13 @@ export const profiles = {
     "bio": "玻璃那边也在看这边吗？",
     "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
     "color": "sage"
+  },
+  "mango27": {
+    "handle": "mango27",
+    "name": "小满",
+    "bio": "吃完这口再说。",
+    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
+    "color": "rose"
   },
   "leafback7": {
     "handle": "leafback7",
@@ -27,13 +34,6 @@ export const profiles = {
     "bio": "门口留一点空就好。",
     "avatarImage": "/gsm/assets/avatars/smallhide2.webp?v=8ba191455bd7",
     "color": "sage"
-  },
-  "twosteps8": {
-    "handle": "twosteps8",
-    "name": "两步远",
-    "bio": "出去看看，顺便认路。",
-    "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
-    "color": "rose"
   },
   "nearthermo": {
     "handle": "nearthermo",
@@ -107,6 +107,114 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261107-225705-b3c7981f9a",
+    "date": "2026-11-07T22:57:05+08:00",
+    "createdAt": 1794063425000,
+    "author": "twosteps8",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚才路上有两片叶子挨在一起，我从中间穿过去，居然比绕边上省事。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚才路上有两片叶子挨在一起，我从中间穿过去，居然比绕边上省事。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚才路上有两片叶子挨在一起，我从中间穿过去，居然比绕边上省事。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261107-211445-cbda9b936f",
+    "date": "2026-11-07T21:14:45+08:00",
+    "createdAt": 1794057285000,
+    "author": "gecko404",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "早上那个圆盖子在桌上转得挺快，我一直没看清上面有没有花纹。现在它停着，我又离得太远了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "早上那个圆盖子在桌上转得挺快，我一直没看清上面有没有花纹。现在它停着，我又离得太远了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "早上那个圆盖子在桌上转得挺快，我一直没看清上面有没有花纹。现在它停着，我又离得太远了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261107-192130-e9730f3fd1",
+    "date": "2026-11-07T19:21:30+08:00",
+    "createdAt": 1794050490000,
+    "author": "mango27",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "吃的就在我刚睡觉的石头后面，闻到味儿才看见。我居然一直没发现。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "吃的就在我刚睡觉的石头后面，闻到味儿才看见。我居然一直没发现。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "吃的就在我刚睡觉的石头后面，闻到味儿才看见。我居然一直没发现。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261107-175610-b89fdfe53a",
+    "date": "2026-11-07T17:56:10+08:00",
+    "createdAt": 1794045370000,
+    "author": "mango27",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "醒来时我还趴在石头后头，前脚不知道什么时候伸出去了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "醒来时我还趴在石头后头，前脚不知道什么时候伸出去了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "醒来时我还趴在石头后头，前脚不知道什么时候伸出去了。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261107-144615-6f99d209b3",
     "date": "2026-11-07T14:46:15+08:00",
