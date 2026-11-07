@@ -3515,6 +3515,25 @@
       "previous": 0,
       "at": "2026-11-07T14:53:35+08:00",
       "likes": 0
+    },
+    "9905773f8f82f8145ee9ec9e9dfd878c1144d7343e2a3c6dc4c34a02d1e7af7e": {
+      "source": {
+        "username": "twosteps8",
+        "date": "2026-11-07T09:56:30+08:00",
+        "body_sha256": "4cea7de2cea8cb8b79e31b84d954264dbbf0f4347bf0b08194566d606434f05f"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "独立可懂的身体动作探索，没借已有线上往返宣称新关系。"
+      },
+      "seed": "0d2f2224bff522f4639d8fd519d30ee3",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-07T14:53:35+08:00",
+      "likes": 4
     }
   }
 }
