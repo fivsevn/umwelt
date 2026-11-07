@@ -3496,6 +3496,25 @@
       "previous": 0,
       "at": "2026-11-07T07:32:00+08:00",
       "likes": 0
+    },
+    "dc8eef629b377f60bda8348a36b337f12f666d69aebe67bb43c4e8abe0772420": {
+      "source": {
+        "username": "gecko404",
+        "date": "2026-11-07T08:47:20+08:00",
+        "body_sha256": "bf28d31daf3e81fd70bf5d389a7c27838421957434cb6ebc59f0bb72e0a72898"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "单独的小观察，未形成具体线上往返；同期关注有限。"
+      },
+      "seed": "3f689ade8b98c9f1c67f8feef33da71f",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-07T14:53:35+08:00",
+      "likes": 0
     }
   }
 }
