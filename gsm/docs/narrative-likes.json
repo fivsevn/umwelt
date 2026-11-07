@@ -3534,6 +3534,25 @@
       "previous": 0,
       "at": "2026-11-07T14:53:35+08:00",
       "likes": 4
+    },
+    "14a6f3eacde2ca9490e8790c35827ac0e6d78c8f04dfafed8547d4c213144df1": {
+      "source": {
+        "username": "smallhide2",
+        "date": "2026-11-07T11:08:40+08:00",
+        "body_sha256": "994a86d0a72a9e078705341a8e5bd4c08e039f9abce3e2abd213fca8c549f2dc"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "住处里的自主活动，读者无需更多前情，尚无明确关系反应。"
+      },
+      "seed": "03def6922de152342dd41ec984f21266",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-07T14:53:35+08:00",
+      "likes": 0
     }
   }
 }
