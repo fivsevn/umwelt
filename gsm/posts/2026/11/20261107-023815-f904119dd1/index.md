@@ -4,7 +4,7 @@ date: '2026-11-07T02:38:15+08:00'
 username: nearthermo
 name: 温度计旁边
 status: published
-likes: 0
+likes: 1
 source_event: 67187b1b57d102acf0c24a3a002fe84a4fbc4522
 author_assignment: specified
 ---
