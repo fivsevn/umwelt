@@ -3686,6 +3686,25 @@
       "previous": 0,
       "at": "2026-11-07T23:27:30+08:00",
       "likes": 0
+    },
+    "e954126cbc4c4925d822e264765d7314cf53c6831d5f7e10a5eff4e2731b4a2a": {
+      "source": {
+        "username": "mango27",
+        "date": "2026-11-08T00:21:30+08:00",
+        "body_sha256": "a3ca6c177afa4e02f4e5ecf5cd78893103c6f92c9da940ab5b383079690e3769"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "接续自己的食物位置，但不依赖认得角色也能理解这件小事；尚无确认往返，附近动态不密集。"
+      },
+      "seed": "f12c16ec90459ffbf350649b8f0173e9",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-08T00:21:30+08:00",
+      "likes": 0
     }
   }
 }
