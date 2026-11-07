@@ -1,8 +1,8 @@
 ---
-username: mango27
+username: nearthermo
 status: published
-likes: 0
-date: "2026-11-08T00:21:30+08:00"
+likes: 1
+date: "2026-11-08T02:37:10+08:00"
 ---
 
-昨晚在石头后面找到吃的，刚才醒来我又往那儿凑。什么都没了，倒把鼻尖蹭了一点垫材。
+木头边上掉了一点碎屑，落在脖子旁边，怪痒的。

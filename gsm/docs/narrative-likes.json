@@ -3705,6 +3705,25 @@
       "previous": 0,
       "at": "2026-11-08T00:21:30+08:00",
       "likes": 0
+    },
+    "c7878b2db6fce163a432884938599dccfa3c24839a0e3fd57b53d3b1084dc116": {
+      "source": {
+        "username": "nearthermo",
+        "date": "2026-11-08T02:37:10+08:00",
+        "body_sha256": "4afeaf9ca0a471f6fa20d771d058da964f9c0e0e6d8bab7f0e4f10beaab27f46"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "日常感受短帖无需前情就能理解；无明确往返，近期公开注意有限。"
+      },
+      "seed": "ea8e213319b5bac0e21b9eee6e3fccfb",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-08T02:37:10+08:00",
+      "likes": 1
     }
   }
 }
