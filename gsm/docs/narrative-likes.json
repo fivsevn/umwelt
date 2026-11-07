@@ -3553,6 +3553,25 @@
       "previous": 0,
       "at": "2026-11-07T14:53:35+08:00",
       "likes": 0
+    },
+    "17852434e2f16a86018cf54a450bd67f9cd446e2b7b09be43284f1b8e03aa73f": {
+      "source": {
+        "username": "leafback7",
+        "date": "2026-11-07T12:25:15+08:00",
+        "body_sha256": "f20ecb3ca943f48c98089889c2ecae048327b05829602d0ca72cf54b7ecfb064"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "low",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "只涉及自己所在叶片的细小状况，较窄的共鸣机会。"
+      },
+      "seed": "27be54b3426cc30280c0f7900dfb94ee",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-07T14:53:35+08:00",
+      "likes": 1
     }
   }
 }
