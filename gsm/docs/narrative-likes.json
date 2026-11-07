@@ -3629,6 +3629,25 @@
       "previous": 0,
       "at": "2026-11-07T23:22:05+08:00",
       "likes": 0
+    },
+    "30fe986303aedbc899faffccf54c65d553feef73432cc84cd0b798170e842dd3": {
+      "source": {
+        "username": "mango27",
+        "date": "2026-11-07T19:21:30+08:00",
+        "body_sha256": "71ac4a7fae3cee6548b87ab543921aa752612a43242ae1a38c7726eee1efdb49"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "食物与嗅闻的日常意外无需了解前情，无明确交流，接触范围普通。"
+      },
+      "seed": "256dcb457e310a74bca5cfb1cf999fea",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-07T23:22:05+08:00",
+      "likes": 1
     }
   }
 }
