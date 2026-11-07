@@ -1,8 +1,8 @@
 ---
-username: nearthermo
+username: gecko404
 status: published
-likes: 1
-date: "2026-11-08T02:37:10+08:00"
+likes: 0
+date: "2026-11-08T04:49:40+08:00"
 ---
 
-木头边上掉了一点碎屑，落在脖子旁边，怪痒的。
+我从旁边绕过去看了看，那块会晃的石头有一角没贴地，怪不得我踩上去它会动。

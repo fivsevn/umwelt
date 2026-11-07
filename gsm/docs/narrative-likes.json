@@ -3724,6 +3724,25 @@
       "previous": 0,
       "at": "2026-11-08T02:37:10+08:00",
       "likes": 1
+    },
+    "742f4cc4453d337c10b5a2f6f9131a86ae904b1ff350a0da054b0200e584bdcc": {
+      "source": {
+        "username": "gecko404",
+        "date": "2026-11-08T04:49:40+08:00",
+        "body_sha256": "4ba0c51444cb63562e1f369cf23ed0c649f7103ac352084418a4688f2c68eb6a"
+      },
+      "assessment": {
+        "reach": "quiet",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "对前些天晃动石头的局部续记，熟悉前情更容易留意；没有明确跨账号往返。"
+      },
+      "seed": "7f731bc66e8f4fe4e968b86b7abeb6d1",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-08T04:49:40+08:00",
+      "likes": 0
     }
   }
 }
