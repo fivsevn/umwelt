@@ -3,7 +3,7 @@
   "round": "2026-11-07/231851-558c",
   "baseline": "55e8030bccf60b20a9908dde7dd0b4c70c7a82c9",
   "target_posts": 4,
-  "closed": false,
+  "closed": true,
   "draws": {
     "review": {
       "input": {
@@ -198,6 +198,308 @@
       },
       "result": [
         "brief"
+      ]
+    },
+    "slot-04/author-mode": {
+      "input": {
+        "options": {
+          "explore": 1,
+          "weighted": 4
+        },
+        "count": 1
+      },
+      "result": [
+        "weighted"
+      ]
+    },
+    "slot-04/author": {
+      "input": {
+        "options": {
+          "gecko404": 4,
+          "leafback7": 2,
+          "mango27": 4,
+          "moss9": 2,
+          "nearthermo": 1,
+          "nightshift3": 2,
+          "peachcrumble": 2,
+          "slowblink": 1,
+          "smallhide2": 1,
+          "twosteps8": 2,
+          "wallafterdark": 2,
+          "wednesday6": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "twosteps8"
+      ]
+    },
+    "slot-04/focus": {
+      "input": {
+        "options": {
+          "present": 3,
+          "own-history": 1,
+          "others-post": 1,
+          "other-interest": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "others-post"
+      ]
+    },
+    "slot-04/length": {
+      "input": {
+        "options": {
+          "utterance": 2,
+          "brief": 3,
+          "expanded": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "utterance"
+      ]
+    },
+    "slot-04/source": {
+      "input": {
+        "options": {
+          "20261028-085344-4892818864": 1,
+          "20261107-071930-4a7878df99": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "20261028-085344-4892818864"
+      ]
+    },
+    "slot-04/notice": {
+      "input": {
+        "options": {
+          "notice": 1,
+          "skip": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "notice"
+      ]
+    },
+    "slot-04/reaction": {
+      "input": {
+        "options": {
+          "no-public-reply": 3,
+          "followup": 1,
+          "question": 1
+        },
+        "count": 1
+      },
+      "result": [
+        "no-public-reply"
+      ]
+    },
+    "history": {
+      "input": {
+        "options": {
+          "feed-031": 1,
+          "feed-032": 1,
+          "feed-033": 1,
+          "feed-034": 1,
+          "feed-035": 1,
+          "feed-036": 1,
+          "feed-037": 1,
+          "feed-038": 1,
+          "feed-039": 1,
+          "feed-040": 1,
+          "feed-041": 1,
+          "feed-042": 1,
+          "feed-043": 1,
+          "feed-044": 1,
+          "feed-045": 1,
+          "feed-046": 1,
+          "feed-047": 1,
+          "feed-048": 1,
+          "feed-049": 1,
+          "feed-050": 1,
+          "feed-051": 1,
+          "feed-052": 1,
+          "feed-053": 1,
+          "feed-054": 1,
+          "feed-055": 1,
+          "feed-056": 1,
+          "feed-057": 1,
+          "feed-058": 1,
+          "feed-059": 1,
+          "feed-060": 1,
+          "feed-061": 1,
+          "feed-062": 1,
+          "feed-063": 1,
+          "feed-064": 1,
+          "feed-065": 1,
+          "feed-066": 1,
+          "feed-067": 1,
+          "feed-068": 1,
+          "feed-069": 1,
+          "feed-070": 1,
+          "feed-071": 1,
+          "feed-072": 1,
+          "feed-073": 1,
+          "feed-074": 1,
+          "feed-075": 1,
+          "feed-076": 1,
+          "feed-077": 1,
+          "feed-078": 1,
+          "feed-079": 1,
+          "feed-080": 1,
+          "feed-081": 1,
+          "feed-082": 1,
+          "feed-083": 1,
+          "feed-084": 1,
+          "feed-085": 1,
+          "feed-086": 1,
+          "feed-087": 1,
+          "feed-088": 1,
+          "feed-089": 1,
+          "feed-090": 1,
+          "feed-091": 1,
+          "feed-092": 1,
+          "feed-093": 1,
+          "feed-094": 1,
+          "feed-095": 1,
+          "feed-096": 1,
+          "feed-097": 1,
+          "feed-098": 1,
+          "feed-099": 1,
+          "feed-100": 1,
+          "feed-101": 1,
+          "feed-102": 1,
+          "feed-103": 1,
+          "feed-104": 1,
+          "feed-105": 1,
+          "feed-106": 1,
+          "feed-107": 1,
+          "feed-108": 1,
+          "feed-109": 1,
+          "feed-110": 1,
+          "feed-111": 1,
+          "feed-112": 1,
+          "feed-113": 1,
+          "feed-114": 1,
+          "feed-115": 1,
+          "feed-116": 1,
+          "feed-117": 1,
+          "feed-118": 1,
+          "feed-119": 1,
+          "feed-120": 1,
+          "feed-121": 1,
+          "feed-122": 1,
+          "feed-123": 1,
+          "feed-124": 1,
+          "feed-125": 1,
+          "feed-126": 1,
+          "feed-127": 1,
+          "feed-128": 1,
+          "feed-129": 1,
+          "feed-130": 1,
+          "feed-131": 1,
+          "feed-132": 1,
+          "feed-133": 1,
+          "feed-134": 1,
+          "feed-135": 1,
+          "feed-136": 1,
+          "feed-137": 1,
+          "feed-138": 1,
+          "feed-139": 1,
+          "feed-140": 1,
+          "feed-141": 1,
+          "feed-142": 1,
+          "feed-143": 1,
+          "feed-144": 1,
+          "feed-145": 1,
+          "feed-146": 1,
+          "feed-147": 1,
+          "feed-148": 1,
+          "feed-149": 1,
+          "feed-150": 1,
+          "feed-151": 1,
+          "feed-152": 1,
+          "feed-153": 1,
+          "feed-154": 1,
+          "feed-155": 1,
+          "feed-156": 1,
+          "feed-157": 1,
+          "feed-158": 1,
+          "feed-159": 1,
+          "feed-160": 1,
+          "feed-161": 1,
+          "feed-162": 1,
+          "feed-163": 1,
+          "feed-164": 1,
+          "feed-165": 1,
+          "feed-166": 1,
+          "feed-167": 1,
+          "feed-168": 1,
+          "feed-169": 1,
+          "feed-170": 1,
+          "feed-171": 1,
+          "feed-172": 1,
+          "feed-173": 1,
+          "feed-174": 1,
+          "feed-175": 1,
+          "feed-176": 1,
+          "feed-177": 1,
+          "feed-178": 1,
+          "feed-179": 1,
+          "feed-180": 1,
+          "feed-181": 1,
+          "feed-182": 1,
+          "feed-183": 1,
+          "feed-184": 1,
+          "feed-185": 1,
+          "feed-186": 1,
+          "feed-187": 1,
+          "feed-188": 1,
+          "feed-189": 1,
+          "feed-190": 1,
+          "feed-191": 1,
+          "feed-192": 1,
+          "feed-193": 1,
+          "feed-194": 1,
+          "feed-195": 1,
+          "feed-196": 1,
+          "feed-197": 1,
+          "feed-198": 1,
+          "feed-199": 1,
+          "feed-200": 1,
+          "feed-201": 1,
+          "feed-202": 1,
+          "feed-203": 1,
+          "feed-204": 1,
+          "feed-205": 1,
+          "feed-206": 1,
+          "feed-207": 1,
+          "feed-208": 1,
+          "feed-209": 1,
+          "feed-210": 1,
+          "feed-211": 1,
+          "feed-212": 1,
+          "feed-213": 1,
+          "feed-214": 1,
+          "feed-215": 1,
+          "feed-216": 1,
+          "feed-217": 1,
+          "feed-218": 1,
+          "feed-219": 1,
+          "feed-220": 1,
+          "feed-221": 1,
+          "feed-222": 1,
+          "feed-223": 1
+        },
+        "count": 2
+      },
+      "result": [
+        "feed-149",
+        "feed-128"
       ]
     }
   }

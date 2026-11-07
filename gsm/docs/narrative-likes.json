@@ -3667,6 +3667,25 @@
       "previous": 0,
       "at": "2026-11-07T23:22:05+08:00",
       "likes": 0
+    },
+    "e25fc34c19b4c589b19d55d2bebfe1fb71c456fe6c3b153eb6379611f4ae6ba2": {
+      "source": {
+        "username": "twosteps8",
+        "date": "2026-11-07T22:57:05+08:00",
+        "body_sha256": "2442abe715351cb5b4a95bd462eeb1f99dcb3ef0788ce3fea78e8a7f792527fc"
+      },
+      "assessment": {
+        "reach": "ordinary",
+        "resonance": "everyday",
+        "relationship": "none",
+        "attention": "steady",
+        "reason": "独立的路径小发现可被一般读者理解；未回应他人帖，无已确认新关系。"
+      },
+      "seed": "56088b434e5da322c0a64459aead703b",
+      "floor": 0,
+      "previous": 0,
+      "at": "2026-11-07T23:22:05+08:00",
+      "likes": 0
     }
   }
 }
