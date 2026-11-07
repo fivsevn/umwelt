@@ -1,12 +1,5 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
-  "twosteps8": {
-    "handle": "twosteps8",
-    "name": "两步远",
-    "bio": "出去看看，顺便认路。",
-    "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
-    "color": "rose"
-  },
   "gecko404": {
     "handle": "gecko404",
     "name": "玻璃这一边",
@@ -14,11 +7,25 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
     "color": "sage"
   },
+  "nearthermo": {
+    "handle": "nearthermo",
+    "name": "温度计旁边",
+    "bio": "挪一点，舒服多了。",
+    "avatarImage": "/gsm/assets/avatars/nearthermo.webp?v=f536a852bd2b",
+    "color": "sand"
+  },
   "mango27": {
     "handle": "mango27",
     "name": "小满",
     "bio": "吃完这口再说。",
     "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
+    "color": "rose"
+  },
+  "twosteps8": {
+    "handle": "twosteps8",
+    "name": "两步远",
+    "bio": "出去看看，顺便认路。",
+    "avatarImage": "/gsm/assets/avatars/twosteps8.webp?v=05a84418ff61",
     "color": "rose"
   },
   "leafback7": {
@@ -34,13 +41,6 @@ export const profiles = {
     "bio": "门口留一点空就好。",
     "avatarImage": "/gsm/assets/avatars/smallhide2.webp?v=8ba191455bd7",
     "color": "sage"
-  },
-  "nearthermo": {
-    "handle": "nearthermo",
-    "name": "温度计旁边",
-    "bio": "挪一点，舒服多了。",
-    "avatarImage": "/gsm/assets/avatars/nearthermo.webp?v=f536a852bd2b",
-    "color": "sand"
   },
   "nightshift3": {
     "handle": "nightshift3",
@@ -107,6 +107,87 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "20261108-044940-ac7ae8225c",
+    "date": "2026-11-08T04:49:40+08:00",
+    "createdAt": 1794084580000,
+    "author": "gecko404",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "我从旁边绕过去看了看，那块会晃的石头有一角没贴地，怪不得我踩上去它会动。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "我从旁边绕过去看了看，那块会晃的石头有一角没贴地，怪不得我踩上去它会动。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "我从旁边绕过去看了看，那块会晃的石头有一角没贴地，怪不得我踩上去它会动。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261108-023710-58802750b3",
+    "date": "2026-11-08T02:37:10+08:00",
+    "createdAt": 1794076630000,
+    "author": "nearthermo",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "木头边上掉了一点碎屑，落在脖子旁边，怪痒的。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "木头边上掉了一点碎屑，落在脖子旁边，怪痒的。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "木头边上掉了一点碎屑，落在脖子旁边，怪痒的。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "20261108-002130-139949b9a4",
+    "date": "2026-11-08T00:21:30+08:00",
+    "createdAt": 1794068490000,
+    "author": "mango27",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "昨晚在石头后面找到吃的，刚才醒来我又往那儿凑。什么都没了，倒把鼻尖蹭了一点垫材。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "昨晚在石头后面找到吃的，刚才醒来我又往那儿凑。什么都没了，倒把鼻尖蹭了一点垫材。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "昨晚在石头后面找到吃的，刚才醒来我又往那儿凑。什么都没了，倒把鼻尖蹭了一点垫材。"
+        }
+      ]
+    }
+  },
   {
     "id": "20261107-225705-b3c7981f9a",
     "date": "2026-11-07T22:57:05+08:00",
