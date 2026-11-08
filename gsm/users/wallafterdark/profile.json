@@ -9,5 +9,10 @@
     "variant": "turn-right",
     "sha256": "d880f2ec280974ae24db605561fb0598e511027a8263b7d1449e20eae317a5b2"
   },
-  "bio": "墙上也有路。"
+  "bio": "墙上也有路。",
+  "ai_scope": "日常",
+  "weight": 0.8,
+  "active_periods": "",
+  "allow_posts": true,
+  "allow_replies": true
 }

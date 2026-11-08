@@ -13,5 +13,10 @@
     "source": "Original Blender render created for G-stream",
     "date": "2026-10-19"
   },
-  "bio": "水滴也值得看一会儿。"
+  "bio": "水滴也值得看一会儿。",
+  "ai_scope": "日常",
+  "weight": 1.0,
+  "active_periods": "",
+  "allow_posts": true,
+  "allow_replies": true
 }

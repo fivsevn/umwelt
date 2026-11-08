@@ -9,5 +9,10 @@
     "variant": "tilt",
     "sha256": "c4197b1129be48a8cd86c44c4d08171f6170bdee2fe2be4a59abe7c2e32e992b"
   },
-  "bio": "这会儿还有谁醒着？"
+  "bio": "这会儿还有谁醒着？",
+  "ai_scope": "日常",
+  "weight": 0.9,
+  "active_periods": "",
+  "allow_posts": true,
+  "allow_replies": true
 }

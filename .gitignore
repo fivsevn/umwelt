@@ -45,6 +45,7 @@ rooftop/art/rooftop-observers-01/preview/assets/
 # Local visual QA and authoring caches.
 __pycache__/
 *.pyc
+gsm/.publishing/.update.lock
 .rooftop-qa/
 */art/**/pixelorama-native-reopened.json
 # Reproducible Pencil commands and local numbered portrait copies.

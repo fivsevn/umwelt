@@ -29,7 +29,7 @@ UMWELT 由一个主页和各自独立的小游戏目录组成。主页汇集游�
 | 修改体温调节模型与图层 | [原稿与还原](ophidia/art/README.md)、[专项检查](ophidia/tests/README.md) |
 | 深化对白与资料 | [花农时代手帐](rooftop/docs/notebook.md)、[体温调节内容](ophidia/docs/maintenance.md)、[等足目内容地图](isopoda/docs/content-map.md) |
 | 扩充物件或场景 | [花农时代承放](rooftop/docs/placement.md)、[等足目扩展流程](isopoda/docs/expansion-guide.md) |
-| 管理爬爬在线用户与帖子 | [用户管理表](gsm/users/README.md)、[发帖与归档](gsm/docs/publishing.md)、[检查说明](gsm/tests/README.md) |
+| 管理爬爬在线用户与帖子 | [守宫资料](gsm/users/README.md)、[更新入口](gsm/docs/README.md)、[发帖与归档](gsm/docs/publishing.md)、[检查说明](gsm/tests/README.md) |
 | 修改共享功能或发布 | [共享音频](docs/audio.md)、[测试导航](tests/README.md)、[验证与发布](docs/deployment.md) |
 | 开始新工作或清理分支 | [分支维护](docs/branches.md) |
 

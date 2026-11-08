@@ -9,5 +9,10 @@
     "variant": "gaze-center",
     "sha256": "8ba191455bd7b2c282e6fa2772d0e46d93b5f6879f9b8590b57366757372fbc0"
   },
-  "bio": "门口留一点空就好。"
+  "bio": "门口留一点空就好。",
+  "ai_scope": "日常",
+  "weight": 0.8,
+  "active_periods": "",
+  "allow_posts": true,
+  "allow_replies": true
 }

@@ -2,8 +2,11 @@
 from __future__ import annotations
 
 import argparse
+from contextlib import contextmanager
+import fcntl
 import hashlib
 import json
+import math
 import re
 import shutil
 import subprocess
@@ -24,6 +27,7 @@ ROOT = Path(__file__).resolve().parents[1]
 ZONE = ZoneInfo('Asia/Shanghai')
 IMAGE = re.compile(r'!\[([^\]\n]*)\]\(([^)\n]+)\)')
 USERNAME = re.compile(r'^[A-Za-z0-9]{1,32}$')
+GUEST = re.compile(r'^guest-[a-z0-9][a-z0-9-]{0,57}$')
 STATUSES = {'published', 'draft', 'hidden'}
 EXTENSIONS = {'.jpg', '.jpeg', '.png', '.webp', '.gif', '.heic', '.heif'}
 
@@ -66,7 +70,13 @@ def document(meta, body):
 
 def validate(meta, body, *, require_author=True):
     username = str(meta.get('username') or '').strip()
-    if (username or require_author) and not USERNAME.fullmatch(username):
+    guest = meta.get('guest')
+    if guest is not None:
+        if (not GUEST.fullmatch(username) or not isinstance(guest, dict)
+                or not isinstance(guest.get('name'), str) or not guest['name'].strip()
+                or len(guest['name']) > 40 or not isinstance(guest.get('bio', ''), str)):
+            raise ValueError('临时守宫需要 guest- 编号与 guest.name 网名')
+    elif (username or require_author) and not USERNAME.fullmatch(username):
         raise ValueError('username 只能填写 1–32 位英文字母和数字，不含 @、空格或标点')
     if require_author and (not isinstance(meta.get('name'), str) or not meta['name'].strip()):
         raise ValueError('请填写 name（显示昵称）')
@@ -138,6 +148,23 @@ def state_for(root):
     return json.loads(path.read_text()) if path.exists() else {'version': 1, 'cursor': None, 'last_digest': None}
 
 
+@contextmanager
+def content_lock(root):
+    path = root / '.publishing/.update.lock'
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if path.is_symlink():
+        raise ValueError('内容锁不能是符号链接')
+    with path.open('a+b') as stream:
+        try:
+            fcntl.flock(stream, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError as error:
+            raise ValueError('内容正在归档或构建，请沿原操作稍后重试') from error
+        try:
+            yield
+        finally:
+            fcntl.flock(stream, fcntl.LOCK_UN)
+
+
 def users_for(root):
     users = {}
     for path in sorted((root / 'users').glob('*/profile.json')):
@@ -154,7 +181,100 @@ def users_for(root):
     return users
 
 
+def post_documents(root):
+    """The original packages and replies share one content reader."""
+    return sorted(path for path in {*(root / 'posts').glob('**/index.md'), *(root / 'posts').glob('**/replies/*.md')}
+                  if not path.name.endswith(('.en.md', '.ja.md')))
+
+
+def read_user_document(path):
+    section = re.search(r'^## 账号与开关\s*\n(.*?)(?=^## |\Z)', path.read_text(), re.M | re.S)
+    if not section:
+        raise ValueError(f'用户档案缺少“账号与开关”: {path}')
+    values = {}
+    for line in section[1].splitlines():
+        if not line.strip().startswith('|'):
+            continue
+        cells = [part.strip().replace(r'\|', '|').replace('&#124;', '|')
+                 for part in re.split(r'(?<!\\)\|', line.strip())[1:-1]]
+        if len(cells) != 2:
+            raise ValueError(f'账号表应为属性与内容两列: {path}')
+        key, value = cells
+        if key in {'属性', '项目'} or re.fullmatch(r':?-+:?', key):
+            continue
+        if key in values:
+            raise ValueError(f'重复账号属性 {key}: {path}')
+        values[key] = value
+    required = {'稳定 ID', '用户名', '网名', '公开简介', '头像原图', '启用账号', '可随机分配',
+                'AI 使用范围', '允许发主帖', '允许回复', '抽取权重', '上线时间范围'}
+    if required - values.keys():
+        raise ValueError(f'用户档案缺少账号属性 {sorted(required - values.keys())}: {path}')
+    username = path.parent.name
+    if (not USERNAME.fullmatch(username) or username != username.lower()
+            or values['稳定 ID'] != username or values['用户名'] != username):
+        raise ValueError(f'稳定 ID、用户名与小写英文数字目录应一致: {path}')
+    if not values['网名'] or values['AI 使用范围'] not in {'日常', '作者保留'}:
+        raise ValueError(f'网名或 AI 使用范围无效: {path}')
+    flags = {}
+    for label, field in [('启用账号', 'active'), ('可随机分配', 'random_assignable'),
+                         ('允许发主帖', 'allow_posts'), ('允许回复', 'allow_replies')]:
+        if values[label] not in {'是', '否'}:
+            raise ValueError(f'{label} 必须为是或否: {path}')
+        flags[field] = values[label] == '是'
+    weight = float(values['抽取权重'])
+    if not math.isfinite(weight) or not 0 <= weight <= 10:
+        raise ValueError(f'抽取权重必须是 0–10: {path}')
+    if values['头像原图']:
+        local_path(path.parent, values['头像原图'])
+    return {'name': values['网名'], 'bio': values['公开简介'], 'avatar_source': values['头像原图'],
+            'ai_scope': values['AI 使用范围'], 'weight': weight,
+            'active_periods': values['上线时间范围'], **flags}
+
+
 def sync_users(root):
+    documents = sorted((root / 'users').glob('*/profile.md'))
+    if not documents:
+        # Old authoring checkouts and archived importer fixtures remain readable.
+        return sync_legacy_users(root)
+    registry = {path.parent.name: read_user_document(path) for path in documents}
+    directory_path = root / 'users/README.md'
+    text = directory_path.read_text()
+    start, end = '<!-- users:start -->', '<!-- users:end -->'
+    if text.count(start) != 1 or text.count(end) != 1 or text.index(start) >= text.index(end):
+        raise ValueError('用户目录需保留唯一成对的 users:start / users:end 标记')
+    used = {str(split(post.read_text())[0].get('username', '')).lower()
+            for post in post_documents(root) if split(post.read_text())[0].get('guest') is None}
+    missing = (used | set(users_for(root))) - registry.keys()
+    if missing:
+        raise ValueError('请恢复缺失的独立用户档案: ' + ', '.join(sorted(missing)))
+    for path in documents:
+        if path.is_symlink() or path.parent.is_symlink():
+            raise ValueError('用户档案和目录不能是符号链接')
+    for username, fields in registry.items():
+        config = root / 'users' / username / 'profile.json'
+        profile = json.loads(config.read_text()) if config.exists() else {}
+        profile.update(fields)
+        write(config, json_text(profile))
+    registry = users_for(root)
+    sync_user_avatars(root, registry)
+    accounts = [{'id': username, 'enabled': profile['active'], 'aiScope': profile['ai_scope'],
+                 'allowPosts': profile['allow_posts'], 'allowReplies': profile['allow_replies'],
+                 'activityWeight': profile['weight'], 'activeHours': profile['active_periods']}
+                for username, profile in registry.items()]
+    write(root / 'accounts.json', json_text({'version': 1, 'users': accounts}))
+    groups = []
+    for scope, label in [('日常', '日常守宫'), ('作者保留', '作者保留账号')]:
+        group = [(username, p) for username, p in registry.items() if p['ai_scope'] == scope]
+        links = '，'.join('[' + p['name'].replace('\\', '\\\\').replace('[', '\\[').replace(']', '\\]')
+                         + f'](./{username}/profile.md)' for username, p in group)
+        title = f'日常守宫：{len(group)}只' if scope == '日常' else f'作者保留：{len(group)}个账号'
+        groups.append(f'### {title}\n\n{links}')
+    listing = f'\n\n## 用户总目录\n\n合计：{len(registry)}个账号。\n\n' + '\n\n'.join(groups) + '\n\n'
+    write(directory_path, text.split(start)[0] + start + listing + end + text.split(end)[1])
+    return registry
+
+
+def sync_legacy_users(root):
     path = root / 'users/README.md'
     if not path.exists():
         raise ValueError('缺少 users/README.md 用户管理表')
@@ -337,6 +457,11 @@ def process_inputs(root, text, trigger_changed, uploads, removed, read_media, da
 
 
 def ingest(root, mode):
+    with content_lock(root):
+        return _ingest_unlocked(root, mode)
+
+
+def _ingest_unlocked(root, mode):
     root = root.resolve()
     sync_users(root)
     state = state_for(root)
@@ -490,17 +615,27 @@ def sync_user_avatars(root, registry):
         write(target, data)
         profile['avatar'] = assigned
         write(root / 'users' / username / 'profile.json', json_text(profile))
+    guest_handles = {str(split(path.read_text())[0].get('username', '')) for path in post_documents(root)
+                     if split(path.read_text())[0].get('guest') is not None}
     for old in (root / 'assets/avatars').glob('*.webp'):
-        if old.stem not in registry:
+        if old.stem not in registry and old.stem not in guest_handles:
             old.unlink()
 
 
-def blocks_for(root, folder, body, public):
+def blocks_for(root, folder, body, public, *, package_root=None):
     blocks, position = [], 0
     for match in IMAGE.finditer(body):
         if body[position:match.start()].strip():
             blocks.append({'type': 'text', 'text': body[position:match.start()].strip()})
-        original = local_path(folder, match[2])
+        if package_root is None:
+            original = local_path(folder, match[2])
+        else:
+            value = match[2]
+            if '\\' in value or ':' in value or value.startswith('/'):
+                raise ValueError(f'图片必须使用根串内相对路径: {value}')
+            original = (folder / value).resolve()
+            if not original.is_relative_to(package_root.resolve()):
+                raise ValueError(f'回复图片不能离开所属根串: {value}')
         converted = webp(original.read_bytes())
         target = original if original.suffix.lower() == '.webp' else original.with_name(original.stem + '-' + digest(converted)[:12] + '.webp')
         write(target, converted)
@@ -515,11 +650,19 @@ def blocks_for(root, folder, body, public):
 
 
 def build(root):
+    with content_lock(root):
+        return _build_unlocked(root)
+
+
+def _build_unlocked(root):
     root = root.resolve()
+    if (root / '.publishing/update-pending.json').exists():
+        raise ValueError('AI 批次尚未完成归档；请用原操作恢复导入后再构建')
     posts, profiles, public, ids = [], {}, set(), set()
     registry = sync_users(root)
+    characters = dict(registry)
     def add_profile(username):
-        character = registry[username]
+        character = characters[username]
         portrait = root / 'assets/avatars' / (username + '.webp')
         public.add('gsm/' + portrait.relative_to(root).as_posix())
         tone = character.get('color') or ['sage', 'sand', 'rose'][hashlib.sha256(username.encode()).digest()[1] % 3]
@@ -528,10 +671,11 @@ def build(root):
         profiles[username] = {'handle': username, 'name': character['name'], 'bio': character.get('bio', ''),
                               'avatarImage': '/gsm/assets/avatars/' + username + '.webp?v=' + character['avatar']['sha256'][:12], 'color': tone}
     packages = []
-    for path in sorted((root / 'posts').glob('**/index.md')):
+    for path in post_documents(root):
         meta, body = split(path.read_text())
         username = validate(meta, body)
-        if username not in registry:
+        guest = meta.get('guest')
+        if username not in registry and guest is None:
             raise ValueError(f'历史帖子仍引用 @{username}，请恢复 users/{username}/profile.json；退出使用可设置 active: false')
         if meta.get('status', 'published') != 'published':
             continue
@@ -540,17 +684,43 @@ def build(root):
             raise ValueError(f'帖子 id 必须唯一且只含英文数字和连字符: {path}')
         ids.add(ident)
         date = date_value(meta['date'])
-        packages.append((date, ident, username, meta, body, path.parent))
-    for date, ident, username, meta, body, folder in sorted(packages, reverse=True):
+        if guest is not None:
+            previous = characters.get(username)
+            if previous and (previous['name'] != guest['name'] or previous.get('bio', '') != guest.get('bio', '')):
+                raise ValueError(f'临时守宫身份不一致: {username}')
+            avatar = generated_avatar(username)
+            write(root / 'assets/avatars' / (username + '.webp'), avatar)
+            characters[username] = {'name': guest['name'], 'bio': guest.get('bio', ''),
+                                    'avatar': {'sha256': digest(avatar)}}
+        packages.append((date, ident, username, meta, body, path))
+    by_id = {package[1]: package for package in packages}
+    for date, ident, username, meta, body, path in packages:
+        current, seen = ident, set()
+        while by_id[current][3].get('reply_to'):
+            if current in seen:
+                raise ValueError(f'回复形成循环: {ident}')
+            seen.add(current)
+            parent = by_id[current][3]['reply_to']
+            if parent not in by_id or by_id[current][0] < by_id[parent][0]:
+                raise ValueError(f'回复父帖缺失或时间早于父帖: {ident}')
+            current = parent
+        if path.parent.name == 'replies' and path.parent.parent != by_id[current][-1].parent:
+            raise ValueError(f'回复必须归档在原根串: {ident}')
+    for date, ident, username, meta, body, path in sorted(packages, reverse=True):
         if username not in profiles:
             add_profile(username)
         likes = initial_likes(meta)
-        localized = {'zh': blocks_for(root, folder, body, public)}
+        folder = path.parent
+        package_root = folder.parent if folder.name == 'replies' else folder
+        localized = {'zh': blocks_for(root, folder, body, public, package_root=package_root)}
         for lang in ('en', 'ja'):
-            translation = folder / f'index.{lang}.md'
-            localized[lang] = blocks_for(root, folder, translation.read_text().strip(), public) if translation.exists() else localized['zh']
-        posts.append({'id': ident, 'date': date, 'createdAt': int(datetime.fromisoformat(date).timestamp()*1000),
-                      'author': username, 'likes': likes, 'blocks': localized})
+            translation = path.with_name(path.stem + f'.{lang}.md')
+            localized[lang] = blocks_for(root, folder, translation.read_text().strip(), public, package_root=package_root) if translation.exists() else localized['zh']
+        item = {'id': ident, 'date': date, 'createdAt': int(datetime.fromisoformat(date).timestamp()*1000),
+                'author': username, 'likes': likes, 'blocks': localized}
+        if meta.get('reply_to'):
+            item['replyTo'] = meta['reply_to']
+        posts.append(item)
     for username in registry:
         if username not in profiles:
             add_profile(username)

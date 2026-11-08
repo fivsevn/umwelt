@@ -4,13 +4,13 @@
 
 ## 发布边界
 
-[Pages 工作流](../.github/workflows/pages.yml)先检查并导入爬爬在线的新内容，再执行全仓库结构检查、准备站点、字体子集、资源版本标记和成品浏览器检查，通过后上传并部署。推送 `main` 会触发；仅含 `README*.md` 的推送被忽略，但 `gsm/users/README.md` 是用户管理输入，修改它仍会触发。其他开发文档变更也可能触发部署。
+[Pages 工作流](../.github/workflows/pages.yml)先检查并导入爬爬在线的新内容，再执行全仓库结构检查、准备站点、字体子集、资源版本标记和成品浏览器检查，通过后上传并部署。推送 `main` 会触发；仅含 `README*.md` 的推送被忽略，`gsm/users/README.md` 的内容流程例外保留。个体档案 `profile.md`、环境资料和其他开发文档变更也可能触发部署。
 
 爬爬在线导入会同步用户、归档帖子、转换 WebP 并生成信息流，将帖子包、用户档案、头像和导入位置一起提交回 `main`。部署后还会核验线上内容和媒体，只清理已经核验且没有被新上传替换的原图。仓库整理推送也会经过这条链路；推送前核对待发布输入，具体规则见[发帖与用户管理](../gsm/docs/publishing.md)。
 
 [prepare-site.mjs](../.github/scripts/prepare-site.mjs)只复制 Git 跟踪且通过 `publicFile()` 筛选的文件，并为 HTML 的直接模块依赖加入 modulepreload。输出目录须不存在或为空；已有内容时会在写入前终止，请另选全新目录，避免残留已撤出的资源。它排除根 `MAINTENANCE.md`、`docs/`、`tests/`、`tools/`、`mac/`、任意游戏目录下的 `docs/`、`tests/`、`art/`、`tools/`、`dev/`、仓库管理文件及各目录的 README / AGENTS。未跟踪的本地实验不进入发布包。新增游戏沿用这些目录边界；运行资源放在游戏根目录或 `assets/` 等运行目录。`shared/` 为跨游戏运行模块，随站点发布。
 
-爬爬在线的 `trigger.md`、`uploads/`、`users/`、`posts/` 和 `.publishing/` 均作为内容输入排除；帖子图片与头像仅按 `gsm/.publishing/public.json` 的公开媒体清单复制。生成的 `gsm/data/feed.mjs` 随页面发布，草稿、原图和用户源配置留在仓库。
+爬爬在线的 `trigger.md`、`uploads/`、`users/`、`environment/`、`posts/`、`accounts.json`、`publication.json` 和 `.publishing/` 均作为内容输入排除；帖子图片与头像仅按 `gsm/.publishing/public.json` 的公开媒体清单复制。生成的 `gsm/data/feed.mjs` 随页面发布，草稿、原图和用户源配置留在仓库。
 
 Markdown 的用途由读取方决定：`isopoda/credits*.md` 是游戏内容，字体许可也随资源保留。各游戏 `art/`、`tests/` 中的原稿与检查页可随仓库保存，但不进入网页发布目录。
 

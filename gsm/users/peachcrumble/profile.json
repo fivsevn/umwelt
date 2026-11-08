@@ -16,5 +16,10 @@
     "source": "https://commons.wikimedia.org/wiki/File:Chinese_Walnut_Cookie.jpg",
     "changes": "square thumbnail resized and converted to WebP"
   },
-  "bio": "差一点，下回再试。"
+  "bio": "差一点，下回再试。",
+  "ai_scope": "日常",
+  "weight": 1.0,
+  "active_periods": "",
+  "allow_posts": true,
+  "allow_replies": true
 }

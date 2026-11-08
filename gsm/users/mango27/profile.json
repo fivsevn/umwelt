@@ -16,5 +16,10 @@
     "source": "https://www.clipsafari.com/clips/o248814-bowl-of-fruit",
     "changes": "cream square padding, downsampled and converted to WebP"
   },
-  "bio": "吃完这口再说。"
+  "bio": "吃完这口再说。",
+  "ai_scope": "日常",
+  "weight": 1.2,
+  "active_periods": "",
+  "allow_posts": true,
+  "allow_replies": true
 }

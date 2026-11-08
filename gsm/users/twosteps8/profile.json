@@ -9,5 +9,10 @@
     "variant": "turn-left",
     "sha256": "05a84418ff61a2e263dee64715b7a94c68e874e01a7a7a6fe6b2e0d7b4f8adad"
   },
-  "bio": "出去看看，顺便认路。"
+  "bio": "出去看看，顺便认路。",
+  "ai_scope": "日常",
+  "weight": 1.0,
+  "active_periods": "",
+  "allow_posts": true,
+  "allow_replies": true
 }

@@ -7,7 +7,7 @@ on:
     paths:
       - '**'
       - '!**/README*.md'
-      # This Markdown file is editable publishing input, not passive documentation.
+      # The generated user directory remains part of the content workflow.
       - 'gsm/users/README.md'
   workflow_dispatch:
 
@@ -58,7 +58,7 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add gsm/posts gsm/data/feed.mjs gsm/.publishing gsm/users gsm/assets/avatars
+          git add gsm/posts gsm/data/feed.mjs gsm/.publishing gsm/users gsm/accounts.json gsm/assets/avatars
           if ! git diff --cached --quiet; then
             git commit -m 'Archive G-stream posts and refresh timeline'
             git push origin HEAD:main

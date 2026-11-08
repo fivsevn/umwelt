@@ -9,4 +9,4 @@
 
 支持 JPG/JPEG、PNG、WebP、GIF、HEIC/HEIF，自动转换为 WebP，保留透明和动画。原图在**归档、发布、核验成功后**自动清理，失败或同名文件已被替换时保留。原图仍可从 Git 历史找回。旧帖使用各自文件包里的图片，不依赖这里的文件。
 
-[用户表与开关](../users/README.md) · [文字与图文入口](../trigger.md)
+[守宫资料与账号](../users/README.md) · [文字与图文入口](../trigger.md)

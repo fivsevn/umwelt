@@ -1,0 +1,140 @@
+{
+  "version": 1,
+  "users": [
+    {
+      "id": "backpackgecko",
+      "enabled": true,
+      "aiScope": "作者保留",
+      "allowPosts": false,
+      "allowReplies": false,
+      "activityWeight": 1.0,
+      "activeHours": ""
+    },
+    {
+      "id": "gecko404",
+      "enabled": true,
+      "aiScope": "日常",
+      "allowPosts": true,
+      "allowReplies": true,
+      "activityWeight": 1.1,
+      "activeHours": ""
+    },
+    {
+      "id": "gedageda",
+      "enabled": true,
+      "aiScope": "作者保留",
+      "allowPosts": false,
+      "allowReplies": false,
+      "activityWeight": 1.0,
+      "activeHours": ""
+    },
+    {
+      "id": "isopodafugue",
+      "enabled": true,
+      "aiScope": "作者保留",
+      "allowPosts": false,
+      "allowReplies": false,
+      "activityWeight": 1.0,
+      "activeHours": ""
+    },
+    {
+      "id": "leafback7",
+      "enabled": true,
+      "aiScope": "日常",
+      "allowPosts": true,
+      "allowReplies": true,
+      "activityWeight": 1.0,
+      "activeHours": ""
+    },
+    {
+      "id": "mango27",
+      "enabled": true,
+      "aiScope": "日常",
+      "allowPosts": true,
+      "allowReplies": true,
+      "activityWeight": 1.2,
+      "activeHours": ""
+    },
+    {
+      "id": "moss9",
+      "enabled": true,
+      "aiScope": "日常",
+      "allowPosts": true,
+      "allowReplies": true,
+      "activityWeight": 1.0,
+      "activeHours": ""
+    },
+    {
+      "id": "nearthermo",
+      "enabled": true,
+      "aiScope": "日常",
+      "allowPosts": true,
+      "allowReplies": true,
+      "activityWeight": 0.6,
+      "activeHours": ""
+    },
+    {
+      "id": "nightshift3",
+      "enabled": true,
+      "aiScope": "日常",
+      "allowPosts": true,
+      "allowReplies": true,
+      "activityWeight": 0.9,
+      "activeHours": ""
+    },
+    {
+      "id": "peachcrumble",
+      "enabled": true,
+      "aiScope": "日常",
+      "allowPosts": true,
+      "allowReplies": true,
+      "activityWeight": 1.0,
+      "activeHours": ""
+    },
+    {
+      "id": "slowblink",
+      "enabled": true,
+      "aiScope": "日常",
+      "allowPosts": true,
+      "allowReplies": true,
+      "activityWeight": 0.5,
+      "activeHours": ""
+    },
+    {
+      "id": "smallhide2",
+      "enabled": true,
+      "aiScope": "日常",
+      "allowPosts": true,
+      "allowReplies": true,
+      "activityWeight": 0.8,
+      "activeHours": ""
+    },
+    {
+      "id": "twosteps8",
+      "enabled": true,
+      "aiScope": "日常",
+      "allowPosts": true,
+      "allowReplies": true,
+      "activityWeight": 1.0,
+      "activeHours": ""
+    },
+    {
+      "id": "wallafterdark",
+      "enabled": true,
+      "aiScope": "日常",
+      "allowPosts": true,
+      "allowReplies": true,
+      "activityWeight": 0.8,
+      "activeHours": ""
+    },
+    {
+      "id": "wednesday6",
+      "enabled": true,
+      "aiScope": "日常",
+      "allowPosts": true,
+      "allowReplies": true,
+      "activityWeight": 0.7,
+      "activeHours": ""
+    }
+  ]
+}

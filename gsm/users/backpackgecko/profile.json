@@ -15,5 +15,10 @@
     "source_fingerprint": "d10cdfa96179c3153d59820d057aa447a82631e2cc7d716091d8b5bb7b21a0d8",
     "sha256": "cd211a5fa01c25b9f80ccc376924f44a5b19c6aafe5239b9e40bffa04dd6b911"
   },
-  "bio": "随身带着一点好奇。"
+  "bio": "随身带着一点好奇。",
+  "ai_scope": "作者保留",
+  "weight": 1.0,
+  "active_periods": "",
+  "allow_posts": false,
+  "allow_replies": false
 }

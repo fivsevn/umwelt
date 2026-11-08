@@ -9,5 +9,10 @@
     "variant": "gaze-right",
     "sha256": "f8a2a28d808ee3901b3d1b26285c68336267e1467c6789fd5e44ce5ea48beb30"
   },
-  "bio": "这片叶子上的路，我蛮熟的。"
+  "bio": "这片叶子上的路，我蛮熟的。",
+  "ai_scope": "日常",
+  "weight": 1.0,
+  "active_periods": "",
+  "allow_posts": true,
+  "allow_replies": true
 }
