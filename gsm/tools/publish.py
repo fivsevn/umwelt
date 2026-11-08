@@ -263,11 +263,11 @@ def sync_users(root):
                 for username, profile in registry.items()]
     write(root / 'accounts.json', json_text({'version': 1, 'users': accounts}))
     groups = []
-    for scope, label in [('日常', '日常守宫'), ('作者保留', '作者保留账号')]:
+    for scope, label in [('日常', '日常守宫'), ('作者保留', '其他守宫')]:
         group = [(username, p) for username, p in registry.items() if p['ai_scope'] == scope]
         links = '，'.join('[' + p['name'].replace('\\', '\\\\').replace('[', '\\[').replace(']', '\\]')
                          + f'](./{username}/profile.md)' for username, p in group)
-        title = f'日常守宫：{len(group)}只' if scope == '日常' else f'作者保留：{len(group)}个账号'
+        title = f'{label}：{len(group)}只'
         groups.append(f'### {title}\n\n{links}')
     listing = f'\n\n## 用户总目录\n\n合计：{len(registry)}个账号。\n\n' + '\n\n'.join(groups) + '\n\n'
     write(directory_path, text.split(start)[0] + start + listing + end + text.split(end)[1])

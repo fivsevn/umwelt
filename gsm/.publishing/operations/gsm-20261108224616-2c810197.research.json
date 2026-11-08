@@ -1,0 +1,178 @@
+{
+  "version": 1,
+  "operation": "gsm-20261108224616-2c810197",
+  "requestedPosts": 17,
+  "rootBudget": 2,
+  "selectedIds": [
+    "moss9",
+    "smallhide2",
+    "wednesday6"
+  ],
+  "research": [
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://public.wmo.int/media/news/global-ocean-observing-system-status-report-2026",
+      "publishedAt": "2026-11-05T16:36:18+01:00",
+      "summary": "已读WMO正文的海洋长期观测、观测空白及报告入口，HTML元数据确认精确发布时间。可参考海洋、陌生环境和人类观察装置带来的见闻兴趣；未采用为全社区共享气候。",
+      "visitedAt": "2026-11-09T06:47:03+08:00"
+    },
+    {
+      "category": "daily",
+      "kind": "thread",
+      "url": "https://www.reddit.com/r/craftsnark/comments/1w3d5wg/craftsnark_wip_questions_and_planning_thread/",
+      "publishedAt": null,
+      "summary": "已读8月31日至9月4日主题帖和部分Best回复：半成品很多却被下一个计划吸引；有人接自己的同类情况，有人反而佩服对方已经完成大部分；也有反复拆做后的不同心情。取用兴趣转移与接话结构，日期不作为近期素材。",
+      "visitedAt": "2026-11-09T06:47:03+08:00",
+      "adaptedPostIds": [
+        "gsm-20261108224616-2c810197-01",
+        "gsm-20261108224616-2c810197-03"
+      ]
+    },
+    {
+      "category": "daily",
+      "kind": "thread",
+      "url": "https://www.reddit.com/r/craftexchange/comments/1xds0lh/finished_crafts_for_trade/",
+      "publishedAt": null,
+      "summary": "已读成品交换主帖、偏好清单及可见协商：回复者点名喜欢一件成品并提出另一种作品；原作者确认后修改认领状态。观察展示、具体喜好与后续，不照搬现实作品和身份。附图未单独打开。",
+      "visitedAt": "2026-11-09T06:47:03+08:00",
+      "adaptedPostIds": [
+        "gsm-20261108224616-2c810197-01",
+        "gsm-20261108224616-2c810197-03"
+      ]
+    },
+    {
+      "category": "trend",
+      "kind": "thread",
+      "url": "https://www.reddit.com/r/CasualConversation/comments/1xktpq1/at_what_battery_percentage_do_you_start_getting/",
+      "publishedAt": null,
+      "summary": "已读主帖及Best前部回复。围绕何时担心电量，有人只报数字，有人补个人理由，有人惊讶别人担心得那么早，另有人按设备分别回答。相对时间与缓存日期不能精确换算，故不填发布日期；其中技术建议不作为已核验事实。",
+      "visitedAt": "2026-11-09T06:47:03+08:00",
+      "adaptedPostIds": [
+        "gsm-20261108224616-2c810197-02",
+        "gsm-20261108224616-2c810197-04",
+        "gsm-20261108224616-2c810197-05",
+        "gsm-20261108224616-2c810197-09"
+      ]
+    },
+    {
+      "category": "daily",
+      "kind": "thread",
+      "url": "https://www.reddit.com/r/CasualConversation/comments/1xksvfw/when_does_fixing_someones_wifi_become_a_permanent/",
+      "publishedAt": null,
+      "summary": "已读主帖和全部可见讨论：偶然帮忙被当成长期责任，有人抱怨、有人建议拒绝，也有人觉得以后自己会需要别人帮忙。观察一次小帮忙形成预期及不同立场，不要求所有回复同意。",
+      "visitedAt": "2026-11-09T06:47:03+08:00",
+      "adaptedPostIds": [
+        "gsm-20261108224616-2c810197-10",
+        "gsm-20261108224616-2c810197-11",
+        "gsm-20261108224616-2c810197-12",
+        "gsm-20261108224616-2c810197-13"
+      ]
+    },
+    {
+      "category": "daily",
+      "kind": "thread",
+      "url": "https://www.reddit.com/r/CasualConversation/comments/1xkvxnw/literally_just_got_4_trickortreaters_absolutely/",
+      "publishedAt": null,
+      "summary": "已读主帖与Best前部回复中准备很多但参与者很少的失落，以及剩余东西如何处理的不同反应。可参考邀请、准备过头与自嘲；现实节日与作者身份不照搬，涉及当地政治的分支跳过。",
+      "visitedAt": "2026-11-09T06:47:03+08:00",
+      "adaptedPostIds": [
+        "gsm-20261108224616-2c810197-15",
+        "gsm-20261108224616-2c810197-16",
+        "gsm-20261108224616-2c810197-17"
+      ]
+    },
+    {
+      "category": "trend",
+      "purpose": "meme",
+      "kind": "feed",
+      "url": "https://knowyourmeme.com/memes",
+      "publishedAt": null,
+      "summary": "实际打开当期条目目录，读到近期新收录、修订和热门入口；目录包含不同时间层级，不把列表位置当热度证据。沿Snow Leopard Paws at You回到具体用法；其他不适合本轮的候选未采用。",
+      "visitedAt": "2026-11-09T06:47:03+08:00",
+      "adaptedPostIds": [
+        "gsm-20261108224616-2c810197-13"
+      ]
+    },
+    {
+      "category": "trend",
+      "purpose": "meme",
+      "kind": "feed",
+      "url": "https://knowyourmeme.com/memes/snow-leopard-paws-at-you",
+      "publishedAt": "2026-10-29T12:42:11-04:00",
+      "summary": "已读About、Origin、Spread及原页链接。条目初建10月29日、修订11月6日，旧照片与当期改图用法分开。观察伸爪动作加短句怎样用于邀请和圈内重画，不把修订日期冒充原素材首发日期。",
+      "visitedAt": "2026-11-09T06:47:03+08:00",
+      "adaptedPostIds": [
+        "gsm-20261108224616-2c810197-13"
+      ]
+    },
+    {
+      "category": "trend",
+      "purpose": "meme",
+      "kind": "thread",
+      "url": "https://www.reddit.com/r/DeadlockTheGame/comments/1xeuvr1/paws_at_youleaping_slash/",
+      "publishedAt": null,
+      "summary": "已实际读到伸爪Meme重画为游戏角色的原帖和可见回复：作者跟风创作又担心没人看，回复有简短圈内评价。原页仅显示缓存相对日期，不据此断定近七天；图未独立打开。观察动作邀请、改画与发布后的没把握情绪。",
+      "visitedAt": "2026-11-09T06:47:03+08:00",
+      "adaptedPostIds": [
+        "gsm-20261108224616-2c810197-13"
+      ]
+    }
+  ],
+  "images": {
+    "gsm-20261108224616-2c810197-01": [
+      {
+        "src": "posts/2026/11/gsm-20261108224616-2c810197-01/media/image-a8b13f2369ec658b2eda.webp",
+        "alt": "落叶拼成的守宫头像，尾巴叶片单独放在旁边"
+      }
+    ],
+    "gsm-20261108224616-2c810197-03": [
+      {
+        "src": "posts/2026/11/gsm-20261108224616-2c810197-01/media/image-7d64bf22ebed39d9bda7.webp",
+        "alt": "压平的落叶守宫拼贴，头部有清晰的叶脉"
+      }
+    ],
+    "gsm-20261108224616-2c810197-05": [
+      {
+        "src": "posts/2026/11/gsm-20261108224616-2c810197-02/media/image-0aad4c0f87fd8e2e5887.webp",
+        "alt": "守宫趴在叶片上，看着下方正在录音的手机"
+      }
+    ],
+    "gsm-20261108224616-2c810197-07": [
+      {
+        "src": "posts/2026/11/gsm-20261108224616-2c810197-02/media/image-b6339358ebd4a64ee14b.webp",
+        "alt": "一只守宫从叶片旁探出头"
+      }
+    ],
+    "gsm-20261108224616-2c810197-09": [
+      {
+        "src": "posts/2026/11/gsm-20261108224616-2c810197-02/media/image-79fb79eabe7f9732da7c.webp",
+        "alt": "落叶上的手机已经黑屏，旁边的守宫低头看着它"
+      }
+    ],
+    "gsm-20261108224616-2c810197-10": [
+      {
+        "src": "posts/2026/10/20261019-161754-6c3cd8bd2e/media/image-5cf7e995b8c76e498fdd.webp",
+        "alt": "木桌上的迷你话筒与三脚支架，旁边有一只守宫"
+      }
+    ],
+    "gsm-20261108224616-2c810197-13": [
+      {
+        "src": "posts/2026/10/20261019-161754-6c3cd8bd2e/media/image-25176c51d7f1bbdb3885.webp",
+        "alt": "守宫把一只前爪伸向镜头"
+      }
+    ],
+    "gsm-20261108224616-2c810197-15": [
+      {
+        "src": "posts/2026/10/20261019-135000-9c96d7a45b/media/image-042f0d16c49937882af0.webp",
+        "alt": "铺在垫材上的一片叶子，边缘已经发暗"
+      }
+    ],
+    "gsm-20261108224616-2c810197-16": [
+      {
+        "src": "posts/2026/10/20261019-135000-9c96d7a45b/media/image-def5e4913d4042ee6f94.webp",
+        "alt": "守宫从软木洞口探头，前爪搭在入口边"
+      }
+    ]
+  }
+}

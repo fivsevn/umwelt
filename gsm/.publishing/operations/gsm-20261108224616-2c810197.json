@@ -1,0 +1,137 @@
+{
+  "version": 1,
+  "id": "gsm-20261108224616-2c810197",
+  "batchDigest": "721b46f780504c6586eb08869d85b0e04fe21bbbc7cc03dda78cf4a8feecc0ae",
+  "files": [
+    {
+      "path": "posts/2026/11/gsm-20261108224616-2c810197-01/media/image-a8b13f2369ec658b2eda.webp",
+      "sha256": "a8b13f2369ec658b2eda7bde3bc8dfb0d9b2208b4bd2cebca3f8553959de5eac",
+      "created": false
+    },
+    {
+      "path": "posts/2026/11/gsm-20261108224616-2c810197-01/index.md",
+      "sha256": "200591b5f325fb6c3a288f9b912cee9f960e58305ddb29cd499b58837c9252bc",
+      "created": true
+    },
+    {
+      "path": "posts/2026/11/gsm-20261108224616-2c810197-02/index.md",
+      "sha256": "432c472da6ba944de715f8031cb046c1db140ea2f669e6708e5c3bee5216d8ea",
+      "created": true
+    },
+    {
+      "path": "posts/2026/11/gsm-20261108224616-2c810197-01/media/image-7d64bf22ebed39d9bda7.webp",
+      "sha256": "7d64bf22ebed39d9bda7a62f4bca1a375cc4fdcb8f565ae79c88b0f39876556b",
+      "created": false
+    },
+    {
+      "path": "posts/2026/11/gsm-20261108224616-2c810197-01/replies/gsm-20261108224616-2c810197-03.md",
+      "sha256": "de8c2d5e7de5a168d5a82da29fc50058108ab3cef97a76c844460b46938ada5e",
+      "created": true
+    },
+    {
+      "path": "posts/2026/11/gsm-20261108224616-2c810197-02/replies/gsm-20261108224616-2c810197-04.md",
+      "sha256": "ff7c51a800935815fded57ee02e23e8cb37b4e60f67996d824ac156713d8894e",
+      "created": true
+    },
+    {
+      "path": "posts/2026/11/gsm-20261108224616-2c810197-02/media/image-0aad4c0f87fd8e2e5887.webp",
+      "sha256": "0aad4c0f87fd8e2e5887dba9e74fcfeb30e425420177ecf4f79ce774cad703fa",
+      "created": false
+    },
+    {
+      "path": "posts/2026/11/gsm-20261108224616-2c810197-02/replies/gsm-20261108224616-2c810197-05.md",
+      "sha256": "ca165367357528f9183d79be2581ec71216d41b18692750bcf5f586e54ab2372",
+      "created": true
+    },
+    {
+      "path": "posts/2026/11/gsm-20261108224616-2c810197-02/replies/gsm-20261108224616-2c810197-06.md",
+      "sha256": "d84b906eaaab0a4cbe59756bb29e134d93dd307f7c8cec43794b13045d95e1af",
+      "created": true
+    },
+    {
+      "path": "posts/2026/11/gsm-20261108224616-2c810197-02/media/image-b6339358ebd4a64ee14b.webp",
+      "sha256": "b6339358ebd4a64ee14b713507fc18d7c7c62871c656e8a59b0eaccb19fc7678",
+      "created": false
+    },
+    {
+      "path": "posts/2026/11/gsm-20261108224616-2c810197-02/replies/gsm-20261108224616-2c810197-07.md",
+      "sha256": "5fd28ac5f709b2ffdae7609e89e2d149f9e1fd9d0dbc72c38a2a7d22e951b727",
+      "created": true
+    },
+    {
+      "path": "posts/2026/11/gsm-20261108224616-2c810197-02/replies/gsm-20261108224616-2c810197-08.md",
+      "sha256": "9701a1249689182bc32974f39f816887fb19ab6b88008ab8910dcdc4e12ce6d5",
+      "created": true
+    },
+    {
+      "path": "posts/2026/11/gsm-20261108224616-2c810197-02/media/image-79fb79eabe7f9732da7c.webp",
+      "sha256": "79fb79eabe7f9732da7c7c2a5f3d3c4ae285849c36718081b4b4c1cc0229ca53",
+      "created": false
+    },
+    {
+      "path": "posts/2026/11/gsm-20261108224616-2c810197-02/replies/gsm-20261108224616-2c810197-09.md",
+      "sha256": "dabbbaf0806db8fb1bf501738e18d21dcec07145a6afe22ad66c35c065f6c072",
+      "created": true
+    },
+    {
+      "path": "posts/2026/10/20261019-161754-6c3cd8bd2e/media/image-5cf7e995b8c76e498fdd.webp",
+      "sha256": "5cf7e995b8c76e498fdd8fe6883d36d20ad27650a01d8c9a55849f8aba10c3c0",
+      "created": false
+    },
+    {
+      "path": "posts/2026/10/20261019-161754-6c3cd8bd2e/replies/gsm-20261108224616-2c810197-10.md",
+      "sha256": "6a7efb2109d763b51ac1a4f4806c8408f31a8eb2fd9877ff96096abc9092d918",
+      "created": true
+    },
+    {
+      "path": "posts/2026/10/20261019-161754-6c3cd8bd2e/replies/gsm-20261108224616-2c810197-11.md",
+      "sha256": "60df70fc51415794c04f9d0f0336302b22f51b22c06c69b4f7485698ea5f0bec",
+      "created": true
+    },
+    {
+      "path": "posts/2026/10/20261019-161754-6c3cd8bd2e/replies/gsm-20261108224616-2c810197-12.md",
+      "sha256": "35a7d77f57f3d653e78e0e97a315853366dd7d1296dcf84c3cbdaae0067cd7ec",
+      "created": true
+    },
+    {
+      "path": "posts/2026/10/20261019-161754-6c3cd8bd2e/media/image-25176c51d7f1bbdb3885.webp",
+      "sha256": "25176c51d7f1bbdb3885da0d898df61fd726f56c46829fa0f0419669db380850",
+      "created": false
+    },
+    {
+      "path": "posts/2026/10/20261019-161754-6c3cd8bd2e/replies/gsm-20261108224616-2c810197-13.md",
+      "sha256": "9c90783d683ae570289b6a9f9895e88e4f9cb33cee20912e19eb5058935877ee",
+      "created": true
+    },
+    {
+      "path": "posts/2026/10/20261019-161754-6c3cd8bd2e/replies/gsm-20261108224616-2c810197-14.md",
+      "sha256": "b8c777ad8e7d9a847437fcfe58dc7beaa7d21b37c594edca27445e236dbecbcc",
+      "created": true
+    },
+    {
+      "path": "posts/2026/10/20261019-135000-9c96d7a45b/media/image-042f0d16c49937882af0.webp",
+      "sha256": "042f0d16c49937882af006649ac12aea79d2121fe2ca2c68813a918308b45274",
+      "created": false
+    },
+    {
+      "path": "posts/2026/10/20261019-135000-9c96d7a45b/replies/gsm-20261108224616-2c810197-15.md",
+      "sha256": "1b6ae0d1e23962526967e09f97e0113cec7ef236fac4cb0a11ab2763f001a038",
+      "created": true
+    },
+    {
+      "path": "posts/2026/10/20261019-135000-9c96d7a45b/media/image-def5e4913d4042ee6f94.webp",
+      "sha256": "def5e4913d4042ee6f943aa19af6712402aa15a16862e092740ac8ff118a1456",
+      "created": false
+    },
+    {
+      "path": "posts/2026/10/20261019-135000-9c96d7a45b/replies/gsm-20261108224616-2c810197-16.md",
+      "sha256": "ba856bedafedfafdacf0414172471bb2808284a81b57377f8fc02eb5ebb9f6d1",
+      "created": true
+    },
+    {
+      "path": "posts/2026/10/20261019-135000-9c96d7a45b/replies/gsm-20261108224616-2c810197-17.md",
+      "sha256": "b681bca48e38816e499d18ff6441f377ec3086bc06c849d3430b4f41fde9ab4e",
+      "created": true
+    }
+  ]
+}

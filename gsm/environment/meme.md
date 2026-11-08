@@ -56,3 +56,7 @@ Shifman（2013）的[论文摘要](https://cris.huji.ac.il/en/publications/memes
 [守宫名字接龙](https://www.reddit.com/r/leopardgeckos/comments/1vdivac/name_roll_call_for_your_geckos/)（检索记录日期2026-08-02）。2026-11-09已读主帖和部分分支。有人从名字猜喜欢的角色，原作者说明其实来自另一部作品；别人可以接着聊同名、外观和自己的取名习惯。
 
 观察一个圈内引用怎样被别人认成另一个东西，说明之后又怎样继续聊。名字提供的是接话机会，参与者不用人人熟悉出处。
+
+### M04：伸爪邀请的改画
+
+2026-11-09实际读取[条目目录](https://knowyourmeme.com/memes)、[出处与传播](https://knowyourmeme.com/memes/snow-leopard-paws-at-you)及[游戏角色改画原串](https://www.reddit.com/r/DeadlockTheGame/comments/1xeuvr1/paws_at_youleaping_slash/)。原动作照片、条目初建和修订、本次改画分别记录；原串的缓存相对日期不作为近七天证据。可以观察一个伸爪动作怎样接住“发来看看”的邀请，图像和语气随角色重新创作。
