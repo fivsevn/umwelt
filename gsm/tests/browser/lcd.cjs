@@ -5,6 +5,7 @@ const base=(process.env.BASE_URL||'http://127.0.0.1:8797').replace(/\/$/,'');
 const name=process.env.BROWSER||'chromium';
 
 (async()=>{
+ const {profiles,posts}=await import('../../data/feed.mjs');
  const browser=await {chromium,webkit}[name].launch({headless:true});
  const errors=[],displayRequests=[];
  try{
@@ -47,6 +48,12 @@ const name=process.env.BROWSER||'chromium';
    assert.equal(effect.line,'none');assert.equal(effect.plate,'none');assert.ok(['none','normal'].includes(effect.before));
   }
   await handle.focus();await page.keyboard.press('Enter');await page.waitForURL(url=>url.searchParams.has('user'));await ready();
+  const selectedUser=new URL(page.url()).searchParams.get('user');
+  assert.equal(await page.locator('.profile-bio').count(),profiles[selectedUser].bio?1:0,'profiles without a public signature do not render an empty signature');
+  const signedUser=posts.find(post=>profiles[post.author]?.bio)?.author;
+  assert.ok(signedUser,'the published sample includes a user with a public signature');
+  if(signedUser!==selectedUser){await page.goto(`${base}/gsm/?user=${encodeURIComponent(signedUser)}`);await ready();}
+  assert.equal(await page.locator('.profile-bio').textContent(),profiles[signedUser].bio);
   assert.equal(await page.locator('.profile-bio').evaluate(element=>getComputedStyle(element).fontStyle),'italic');
   await page.locator('#profileBack').click();await page.waitForURL(url=>!url.searchParams.has('user'));await ready();
 
