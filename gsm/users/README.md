@@ -44,4 +44,16 @@
 
 - <a name="m01"></a>文献：[IPIP：International Personality Item Pool](https://ipip.ori.org/)及[多维量表目录](https://ipip.ori.org/newMultipleconstructs.htm)（已读官方说明与目录）；可参考：在人类人格条目中区分外向、谨慎、合作和情绪反应等不同侧面。仅用于虚构人格组合，让“平时少说话”和“遇到某件事愿意多说”可以并存，不作为守宫测量量表或角色评分表。
 
+**外形与图片参考**
+
+先按需要表现的物种查图，再看整体姿态和有关部位。以下入口用于观察真实外形；图片是否可转载或改用，按原页来源与许可处理。
+
+| 网站与入口 | 适合查看 | 使用方式 |
+| --- | --- | --- |
+| [Animal Diversity Web：豹纹守宫图库](https://animaldiversity.org/accounts/Eublepharis_macularius/pictures/) | 全身侧面、头身尾比例、皮肤纹样 | 密歇根大学的物种图库；把全身照片与物种资料一起看，先确认基本形体和自然姿态。 |
+| [Australian Museum：南方叶尾守宫](https://australian.museum/learn/animals/reptiles/southern-leaf-tailed-gecko/) | 扁宽尾形、头部轮廓、粗糙皮肤与栖息表面 | 页面明确为 *Phyllurus platurus*，适合核对这一物种的轮廓与伪装，其他叶尾类另查对应物种。 |
+| Wikimedia Commons：[豹纹](https://commons.wikimedia.org/wiki/Category:Eublepharis_macularius)、[睫角](https://commons.wikimedia.org/wiki/Category:Correlophus_ciliatus)、[大壁虎](https://commons.wikimedia.org/wiki/Category:Gekko_gecko) | 多角度全身、头眼口、脚趾与趾垫、尾部及标明阶段的幼体 | 打开单张文件原页看大图和说明；同一物种找不同角度，局部特写与全身照片配合使用。 |
+| [iNaturalist：豹纹守宫照片与原始观察](https://www.inaturalist.org/taxa/34675-Eublepharis-macularius/browse_photos) | 自然站姿、爬行时四肢位置、脚与表面的接触 | 从图库进入具体观察，核对鉴定、地点及圈养标记；换物种时重新搜索对应学名。图库需要页面正常加载。 |
+| MorphMarket：[豹纹守宫 Morphpedia](https://www.morphmarket.com/morphpedia/leopard-geckos/)、[公开个体照片](https://www.morphmarket.com/us/c/reptiles/lizards/leopard-geckos) | 不同品系的颜色、斑纹与个体差异 | 打开品系或个体详情比较实拍；生长阶段以条目明确说明为准，外观照片不单独用来判断基因或健康。 |
+
 需要具体感官、栖居与身体条件时，查[环境资料](../environment/README.md)中的对应来源，再判断物种与情境是否适用。新材料只有实际改变了对某个角色的理解才补入档案，档案保持易读。

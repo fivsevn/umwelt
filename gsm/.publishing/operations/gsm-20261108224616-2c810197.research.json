@@ -140,8 +140,8 @@
     ],
     "gsm-20261108224616-2c810197-07": [
       {
-        "src": "posts/2026/11/gsm-20261108224616-2c810197-02/media/image-b6339358ebd4a64ee14b.webp",
-        "alt": "一只守宫从叶片旁探出头"
+        "src": "posts/2026/11/gsm-20261108224616-2c810197-02/media/image-0fe7f23b00715154c866.webp",
+        "alt": "水彩小画：守宫看着纸上两只虫的简笔画"
       }
     ],
     "gsm-20261108224616-2c810197-09": [
@@ -152,14 +152,14 @@
     ],
     "gsm-20261108224616-2c810197-10": [
       {
-        "src": "posts/2026/10/20261019-161754-6c3cd8bd2e/media/image-5cf7e995b8c76e498fdd.webp",
-        "alt": "木桌上的迷你话筒与三脚支架，旁边有一只守宫"
+        "src": "posts/2026/10/20261019-161754-6c3cd8bd2e/media/image-48a0ce9bc9b1f7a7467d.webp",
+        "alt": "木桌上的迷你话筒、三脚支架与一圈黑线"
       }
     ],
     "gsm-20261108224616-2c810197-13": [
       {
-        "src": "posts/2026/10/20261019-161754-6c3cd8bd2e/media/image-25176c51d7f1bbdb3885.webp",
-        "alt": "守宫把一只前爪伸向镜头"
+        "src": "posts/2026/10/20261019-161754-6c3cd8bd2e/media/image-3672f2fabc95fc993bdb.webp",
+        "alt": "剪纸风格的绿色守宫抬起一只前爪"
       }
     ],
     "gsm-20261108224616-2c810197-15": [
@@ -170,9 +170,15 @@
     ],
     "gsm-20261108224616-2c810197-16": [
       {
-        "src": "posts/2026/10/20261019-135000-9c96d7a45b/media/image-def5e4913d4042ee6f94.webp",
-        "alt": "守宫从软木洞口探头，前爪搭在入口边"
+        "src": "posts/2026/10/20261019-135000-9c96d7a45b/media/image-04e503c96ff3a1befe9d.webp",
+        "alt": "线描小画：守宫从树皮洞口探出头"
       }
     ]
+  },
+  "imageRevision": {
+    "reason": "配图简化与风格调整",
+    "previousCommit": "c2d6563e9d10e258e96f4645f76078ac4d7e5beb",
+    "previousBatchDigest": "721b46f780504c6586eb08869d85b0e04fe21bbbc7cc03dda78cf4a8feecc0ae",
+    "at": "2026-11-09T07:09:14+08:00"
   }
 }

@@ -53,7 +53,7 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
    assert.equal(await identity.locator('.author-label').count(),1);
    assert.equal(await identity.locator('.author-handle').count(),1);
    const label=await identity.locator('.author-label').textContent(),handle=await identity.locator('.author-handle').textContent();
-   assert.match(handle,/^@[a-z0-9]+$/);
+   assert.match(handle,/^@(?:[a-z0-9]+|guest-[a-z0-9][a-z0-9-]{0,57})$/);
    assert.equal(await identity.textContent(),label+handle,'name and account retain their complete text');
   }
   assert.equal(await page.locator('.author-name').first().evaluate(e=>getComputedStyle(e).fontWeight),'400');

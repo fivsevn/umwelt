@@ -191,8 +191,8 @@ export const posts = [
         },
         {
           "type": "image",
-          "src": "/gsm/posts/2026/10/20261019-135000-9c96d7a45b/media/image-def5e4913d4042ee6f94.webp",
-          "alt": "守宫从软木洞口探头，前爪搭在入口边",
+          "src": "/gsm/posts/2026/10/20261019-135000-9c96d7a45b/media/image-04e503c96ff3a1befe9d.webp",
+          "alt": "线描小画：守宫从树皮洞口探出头",
           "width": 1254,
           "height": 1254
         }
@@ -204,8 +204,8 @@ export const posts = [
         },
         {
           "type": "image",
-          "src": "/gsm/posts/2026/10/20261019-135000-9c96d7a45b/media/image-def5e4913d4042ee6f94.webp",
-          "alt": "守宫从软木洞口探头，前爪搭在入口边",
+          "src": "/gsm/posts/2026/10/20261019-135000-9c96d7a45b/media/image-04e503c96ff3a1befe9d.webp",
+          "alt": "线描小画：守宫从树皮洞口探出头",
           "width": 1254,
           "height": 1254
         }
@@ -217,8 +217,8 @@ export const posts = [
         },
         {
           "type": "image",
-          "src": "/gsm/posts/2026/10/20261019-135000-9c96d7a45b/media/image-def5e4913d4042ee6f94.webp",
-          "alt": "守宫从软木洞口探头，前爪搭在入口边",
+          "src": "/gsm/posts/2026/10/20261019-135000-9c96d7a45b/media/image-04e503c96ff3a1befe9d.webp",
+          "alt": "线描小画：守宫从树皮洞口探出头",
           "width": 1254,
           "height": 1254
         }
@@ -317,8 +317,8 @@ export const posts = [
         },
         {
           "type": "image",
-          "src": "/gsm/posts/2026/10/20261019-161754-6c3cd8bd2e/media/image-25176c51d7f1bbdb3885.webp",
-          "alt": "守宫把一只前爪伸向镜头",
+          "src": "/gsm/posts/2026/10/20261019-161754-6c3cd8bd2e/media/image-3672f2fabc95fc993bdb.webp",
+          "alt": "剪纸风格的绿色守宫抬起一只前爪",
           "width": 1254,
           "height": 1254
         }
@@ -330,8 +330,8 @@ export const posts = [
         },
         {
           "type": "image",
-          "src": "/gsm/posts/2026/10/20261019-161754-6c3cd8bd2e/media/image-25176c51d7f1bbdb3885.webp",
-          "alt": "守宫把一只前爪伸向镜头",
+          "src": "/gsm/posts/2026/10/20261019-161754-6c3cd8bd2e/media/image-3672f2fabc95fc993bdb.webp",
+          "alt": "剪纸风格的绿色守宫抬起一只前爪",
           "width": 1254,
           "height": 1254
         }
@@ -343,8 +343,8 @@ export const posts = [
         },
         {
           "type": "image",
-          "src": "/gsm/posts/2026/10/20261019-161754-6c3cd8bd2e/media/image-25176c51d7f1bbdb3885.webp",
-          "alt": "守宫把一只前爪伸向镜头",
+          "src": "/gsm/posts/2026/10/20261019-161754-6c3cd8bd2e/media/image-3672f2fabc95fc993bdb.webp",
+          "alt": "剪纸风格的绿色守宫抬起一只前爪",
           "width": 1254,
           "height": 1254
         }
@@ -422,8 +422,8 @@ export const posts = [
         },
         {
           "type": "image",
-          "src": "/gsm/posts/2026/10/20261019-161754-6c3cd8bd2e/media/image-5cf7e995b8c76e498fdd.webp",
-          "alt": "木桌上的迷你话筒与三脚支架，旁边有一只守宫",
+          "src": "/gsm/posts/2026/10/20261019-161754-6c3cd8bd2e/media/image-48a0ce9bc9b1f7a7467d.webp",
+          "alt": "木桌上的迷你话筒、三脚支架与一圈黑线",
           "width": 1254,
           "height": 1254
         }
@@ -435,8 +435,8 @@ export const posts = [
         },
         {
           "type": "image",
-          "src": "/gsm/posts/2026/10/20261019-161754-6c3cd8bd2e/media/image-5cf7e995b8c76e498fdd.webp",
-          "alt": "木桌上的迷你话筒与三脚支架，旁边有一只守宫",
+          "src": "/gsm/posts/2026/10/20261019-161754-6c3cd8bd2e/media/image-48a0ce9bc9b1f7a7467d.webp",
+          "alt": "木桌上的迷你话筒、三脚支架与一圈黑线",
           "width": 1254,
           "height": 1254
         }
@@ -448,8 +448,8 @@ export const posts = [
         },
         {
           "type": "image",
-          "src": "/gsm/posts/2026/10/20261019-161754-6c3cd8bd2e/media/image-5cf7e995b8c76e498fdd.webp",
-          "alt": "木桌上的迷你话筒与三脚支架，旁边有一只守宫",
+          "src": "/gsm/posts/2026/10/20261019-161754-6c3cd8bd2e/media/image-48a0ce9bc9b1f7a7467d.webp",
+          "alt": "木桌上的迷你话筒、三脚支架与一圈黑线",
           "width": 1254,
           "height": 1254
         }
@@ -548,8 +548,8 @@ export const posts = [
         },
         {
           "type": "image",
-          "src": "/gsm/posts/2026/11/gsm-20261108224616-2c810197-02/media/image-b6339358ebd4a64ee14b.webp",
-          "alt": "一只守宫从叶片旁探出头",
+          "src": "/gsm/posts/2026/11/gsm-20261108224616-2c810197-02/media/image-0fe7f23b00715154c866.webp",
+          "alt": "水彩小画：守宫看着纸上两只虫的简笔画",
           "width": 1254,
           "height": 1254
         }
@@ -561,8 +561,8 @@ export const posts = [
         },
         {
           "type": "image",
-          "src": "/gsm/posts/2026/11/gsm-20261108224616-2c810197-02/media/image-b6339358ebd4a64ee14b.webp",
-          "alt": "一只守宫从叶片旁探出头",
+          "src": "/gsm/posts/2026/11/gsm-20261108224616-2c810197-02/media/image-0fe7f23b00715154c866.webp",
+          "alt": "水彩小画：守宫看着纸上两只虫的简笔画",
           "width": 1254,
           "height": 1254
         }
@@ -574,8 +574,8 @@ export const posts = [
         },
         {
           "type": "image",
-          "src": "/gsm/posts/2026/11/gsm-20261108224616-2c810197-02/media/image-b6339358ebd4a64ee14b.webp",
-          "alt": "一只守宫从叶片旁探出头",
+          "src": "/gsm/posts/2026/11/gsm-20261108224616-2c810197-02/media/image-0fe7f23b00715154c866.webp",
+          "alt": "水彩小画：守宫看着纸上两只虫的简笔画",
           "width": 1254,
           "height": 1254
         }
