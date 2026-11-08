@@ -76,10 +76,11 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
    const avatar=post.locator('.post-identity .avatar img[data-pixel-avatar]');
    assert.equal(await avatar.count(),1);
    assert.equal(await avatar.evaluate(image=>getComputedStyle(image).imageRendering),'pixelated','sampled portrait pixels stay crisp');
-   assert.equal(await post.locator('button').count(),1);
+   assert.equal(await post.locator('button[data-like]').count(),1,'each root keeps one like control');
+   assert.equal(await post.locator('button[data-comments]').count(),1,'each root can reveal its virtual comments');
    assert.equal(await post.locator('button[data-like] .ui-icon.pixel-heart').count(),1);
    assert.equal(await post.locator('button[data-like] path.heart-core').count(),1);
-   const message=await post.locator('.bubble').boundingBox(),heart=await post.locator('button').boundingBox();
+   const message=await post.locator('.bubble').boundingBox(),heart=await post.locator('button[data-like]').boundingBox();
    assert.ok(heart.y+heart.height<=message.y+message.height,'likes stay within their message');
   }
   const first=page.locator('[data-like]').first();
@@ -93,7 +94,7 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
   await first.locator('svg').click();assert.equal(await first.getAttribute('aria-pressed'),'true');
   assert.equal(await first.locator('.like-count').innerText(),String(initialLikes+1));
   assert.equal(await first.locator('.heart-core').evaluate(e=>getComputedStyle(e).opacity),'1');
-  assert.equal(await first.locator('..').locator('.like-burst>span').count(),4);
+  assert.equal(await first.locator('.like-burst>span').count(),4,'like feedback stays inside the activated like button');
   await page.waitForFunction(()=>document.querySelector('.like-burst')===null,null,{timeout:1500});
   await first.locator('path.heart-core').dispatchEvent('click');
   assert.equal(await first.getAttribute('aria-pressed'),'false');
@@ -109,7 +110,7 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
      const main=document.querySelector('#timeline');
      return {shell:r(document.querySelector('.phone-shell')),screen:r(document.querySelector('.app-window')),header:r(document.querySelector('.app-header')),brand:r(document.querySelector('.brand-icon')),dock:r(document.querySelector('#mainNav')),main:r(main),scrollbar:getComputedStyle(main).scrollbarWidth,
       overflow:document.documentElement.scrollWidth>innerWidth||document.documentElement.scrollHeight>innerHeight,
-      posts:[...document.querySelectorAll('.post')].map(e=>({message:r(e.querySelector('.bubble')),identity:r(e.querySelector('.post-identity')),avatar:r(e.querySelector('.avatar')),name:r(e.querySelector('.author-name')),heart:r(e.querySelector('.ui-icon')),count:r(e.querySelector('.like-count')),textSize:e.querySelector('.post-text')?parseFloat(getComputedStyle(e.querySelector('.post-text')).fontSize):null,font:e.querySelector('.post-text')?getComputedStyle(e.querySelector('.post-text')).fontFamily:null,time:r(e.querySelector('.post-time')),fits:[...e.querySelectorAll('.post-text,.author-name,.author-label,.author-handle')].every(t=>t.scrollWidth<=t.clientWidth+1||getComputedStyle(t).display==='inline')}))};
+      posts:[...document.querySelectorAll('.post')].map(e=>({message:r(e.querySelector('.bubble')),identity:r(e.querySelector('.post-identity')),avatar:r(e.querySelector('.avatar')),name:r(e.querySelector('.author-name')),heart:r(e.querySelector('[data-like] .ui-icon')),count:r(e.querySelector('.like-count')),textSize:e.querySelector('.post-text')?parseFloat(getComputedStyle(e.querySelector('.post-text')).fontSize):null,font:e.querySelector('.post-text')?getComputedStyle(e.querySelector('.post-text')).fontFamily:null,time:r(e.querySelector('.post-time')),fits:[...e.querySelectorAll('.post-text,.author-name,.author-label,.author-handle')].every(t=>t.scrollWidth<=t.clientWidth+1||getComputedStyle(t).display==='inline')}))};
     });
     const {shell,screen,header,brand,dock,main,posts}=metrics;
     assert.equal(metrics.overflow,false,`${lang} ${width}: page overflow`);
@@ -145,7 +146,7 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
     }
     for(let i=1;i<posts.length;i++)assert.ok(posts[i].message.y>=posts[i-1].message.bottom-.75,'linear messages do not overlap');
     await page.locator('#timeline').evaluate(e=>e.scrollTop=e.scrollHeight);
-    const scrolled=await page.evaluate(()=>({top:document.querySelector('#timeline').scrollTop,windowY:scrollY,header:document.querySelector('.app-header').getBoundingClientRect().y,dock:document.querySelector('#mainNav').getBoundingClientRect().bottom,last:document.querySelector('.post:last-child button').getBoundingClientRect().bottom,main:document.querySelector('#timeline').getBoundingClientRect().bottom}));
+    const scrolled=await page.evaluate(()=>({top:document.querySelector('#timeline').scrollTop,windowY:scrollY,header:document.querySelector('.app-header').getBoundingClientRect().y,dock:document.querySelector('#mainNav').getBoundingClientRect().bottom,last:document.querySelector('.post:last-child button[data-like]').getBoundingClientRect().bottom,main:document.querySelector('#timeline').getBoundingClientRect().bottom}));
     assert.ok(scrolled.top>0,'middle can scroll');assert.equal(scrolled.windowY,0,'document stays still');near(scrolled.header,header.y,'header locked');near(scrolled.dock,dock.bottom,'keys locked');assert.ok(scrolled.last<=scrolled.main+.75,'last like reachable inside screen');
     await page.locator('#streamButton').click();assert.equal(await page.locator('#timeline').evaluate(e=>e.scrollTop),0);
    }

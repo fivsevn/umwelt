@@ -91,6 +91,7 @@ jobs:
           if [ "${{ matrix.suite }}" = "gsm-feed" ]; then
             node gsm/tests/browser/feed.cjs
             node gsm/tests/browser/profile.cjs
+            node gsm/tests/browser/comments.cjs
             node gsm/tests/browser/lcd.cjs
           elif [ "${{ matrix.suite }}" = "tick-motion" ]; then
             node tick/tests/browser/tick-motion.cjs

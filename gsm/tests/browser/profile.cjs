@@ -7,6 +7,7 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
 
 (async()=>{
  const {profiles,posts}=await import('../../data/feed.mjs');
+ const roots=posts.filter(post=>!post.replyTo);
  const browser=await {chromium,webkit}[name].launch({headless:true});
  const errors=[];
  const watch=page=>{
@@ -16,7 +17,7 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
  };
  const userURL=(author,shell='tokay')=>`${base}/gsm/?user=${encodeURIComponent(author)}&shell=${shell}`;
  const waitForUser=(page,author)=>page.waitForURL(url=>url.pathname==='/gsm/'&&url.searchParams.get('user')===author);
- const waitForStream=page=>page.waitForURL(url=>url.pathname==='/gsm/'&&!url.searchParams.has('user'));
+ const waitForStream=page=>page.waitForURL(url=>url.pathname==='/gsm/'&&!url.searchParams.has('user')&&!url.searchParams.has('post'));
  const postIds=page=>page.locator('#posts [data-post-id]').evaluateAll(elements=>elements.map(element=>element.dataset.postId));
  const assertProfile=async(page,author)=>{
   await waitForUser(page,author);
@@ -45,7 +46,7 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
   await page.goto(`${base}/gsm/?shell=tokay`);
   await page.locator('#posts [data-post-id]').first().waitFor();
   await page.evaluate(()=>document.fonts.ready);
-  assert.deepEqual(await postIds(page),posts.map(post=>post.id));
+  assert.deepEqual(await postIds(page),roots.map(post=>post.id));
   for(const link of await page.locator('#posts a.avatar[data-profile]').all()){
    const href=new URL(await link.getAttribute('href'),page.url());
    assert.equal(href.pathname,'/gsm/');
@@ -54,10 +55,10 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
    assert.notEqual(await link.getAttribute('aria-hidden'),'true','avatar link is exposed to assistive technology');
    assert.ok((await link.getAttribute('aria-label')||await link.textContent()).trim(),'avatar link has an accessible name');
   }
-  assert.equal(await page.locator('#posts a.avatar[data-profile]').count(),posts.length,'every post has a profile entry');
+  assert.equal(await page.locator('#posts a.avatar[data-profile]').count(),roots.length,'every root post has a profile entry');
 
   // Start below the first screen so a successful return must restore a real position.
-  const source=posts[Math.min(8,posts.length-1)],sourceId=`profile-${source.id}`;
+  const source=roots.at(-1),sourceId=`profile-${source.id}`;
   const sourceLink=page.locator(`[id="${sourceId}"]`);
   await sourceLink.scrollIntoViewIfNeeded();await sourceLink.focus();
   const feedTop=await page.locator('#timeline').evaluate(element=>element.scrollTop);
@@ -70,7 +71,7 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
   await page.goBack();await waitForStream(page);
   await page.waitForFunction(id=>document.activeElement?.id===id,sourceId);
   near(await page.locator('#timeline').evaluate(element=>element.scrollTop),feedTop,'browser Back restores feed scroll');
-  assert.deepEqual(await postIds(page),posts.map(post=>post.id));
+  assert.deepEqual(await postIds(page),roots.map(post=>post.id));
   await page.goForward();await assertProfile(page,source.author);
   await page.locator('#profileBack').click();await waitForStream(page);
   await page.waitForFunction(id=>document.activeElement?.id===id,sourceId);
@@ -83,16 +84,16 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
     author:link.dataset.profile,href:link.href,label:link.getAttribute('aria-label'),text:link.textContent
    }))
   })));
-  assert.equal(identities.length,posts.length,'each post retains its author identity group');
+  assert.equal(identities.length,roots.length,'each root post retains its author identity group');
   for (const [index,identity] of identities.entries()) {
    assert.equal(identity.tag,'SPAN','the name group is not one shared link');
    assert.equal(identity.hasHref,false,'the name group has no shared click target');
    assert.deepEqual(identity.links.map(link=>link.kind),['name','handle'],'name and account are separate native links');
    for (const link of identity.links) {
-    assert.equal(link.id,`profile-${link.kind}-${posts[index].id}`,'each text entry has its own return-focus identity');
-    assert.equal(link.author,posts[index].author);
+    assert.equal(link.id,`profile-${link.kind}-${roots[index].id}`,'each text entry has its own return-focus identity');
+    assert.equal(link.author,roots[index].author);
     const url=new URL(link.href);
-    assert.equal(url.searchParams.get('user'),posts[index].author);
+    assert.equal(url.searchParams.get('user'),roots[index].author);
     assert.equal(url.searchParams.get('shell'),'tokay','both text links retain the case');
     assert.ok(link.label?.trim(),'each text link has an accessible profile name');
     assert.ok(link.text?.trim(),'both text links retain visible text');
@@ -151,7 +152,7 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
   }
 
   // Direct entry and refresh must select the same public history and shared likes.
-  const sample=posts[0];
+  const sample=roots[0];
   await page.goto(userURL(sample.author));await assertProfile(page,sample.author);
   await page.reload();await assertProfile(page,sample.author);
   const like=page.locator(`[data-like="${sample.id}"]`);
@@ -204,7 +205,7 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
    assert.ok((await page.locator('#profile').innerText()).trim(),'unknown user shows a message');
    assert.equal(await page.locator('#profile img[src="x"]').count(),0,'unknown user cannot inject markup');
    await page.locator('#profileBack').click();await waitForStream(page);
-   assert.deepEqual(await postIds(page),posts.map(post=>post.id));
+   assert.deepEqual(await postIds(page),roots.map(post=>post.id));
    assert.equal(await page.locator('html').getAttribute('data-shell'),'day','unknown-user return retains the chosen case');
   }
   await page.goto(userURL(sample.author,'day'));await assertProfile(page,sample.author);

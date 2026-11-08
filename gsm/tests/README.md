@@ -14,15 +14,20 @@
 
 ```sh
 node --test gsm/tests/state.test.mjs
+node --test gsm/tests/threads.test.mjs
 BASE_URL=http://127.0.0.1:8797 BROWSER=chromium node gsm/tests/browser/feed.cjs
 BASE_URL=http://127.0.0.1:8797 BROWSER=webkit node gsm/tests/browser/feed.cjs
 BASE_URL=http://127.0.0.1:8797 BROWSER=chromium node gsm/tests/browser/profile.cjs
 BASE_URL=http://127.0.0.1:8797 BROWSER=webkit node gsm/tests/browser/profile.cjs
 BASE_URL=http://127.0.0.1:8797 BROWSER=chromium node gsm/tests/browser/lcd.cjs
 BASE_URL=http://127.0.0.1:8797 BROWSER=webkit node gsm/tests/browser/lcd.cjs
+BASE_URL=http://127.0.0.1:8797 BROWSER=chromium node gsm/tests/browser/comments.cjs
+BASE_URL=http://127.0.0.1:8797 BROWSER=webkit node gsm/tests/browser/comments.cjs
 ```
 
 浏览器检查需要 Playwright 和对应浏览器，覆盖三键导航、设置页直达与刷新、中英日语言切换、点赞及持久化、键盘操作、存储兼容与不可用回退。视口覆盖 320、390、430、768、1280、1920 px 和横屏 844 × 390。
+
+`threads.test.mjs` 检查多层回复归属、顺序与计数、未知帖子和异常关系、原始内容不变及实际信息流完整性。`comments.cjs` 检查评论展开与收起、真实回复对象、共享点赞、作者主页与原帖跳转、直达及刷新、前进后退的滚动与焦点恢复、三语、全部外壳、窄屏与横屏、未知帖子及存储不可用回退。
 
 个人主页使用 `/gsm/?user=账号`，展示该账号的公开动态。`profile.cjs` 检查头像、昵称、用户名及键盘入口、纯箭头返回与可访问名称、档案签名展示、作者筛选与排序、直接打开和刷新、前进后退及信息流滚动与焦点恢复、主页与信息流共享点赞、中英日、窄屏与横屏、未知账号和存储不可用回退。
 
