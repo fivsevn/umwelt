@@ -20,34 +20,26 @@ let language = desktopLanguage(), storage, toastTimer;
 const shellAliases = new Map([['mint','leopard'],['blue','tokay'],['berry','day'],['blizzard','stone']]);
 const normalizeShell = value => shellNames.includes(value) ? value : shellAliases.get(value);
 const shellStorageKey = 'umwelt-gsm-shell';
-let shell = 'leopard', savedShell;
+let shell, sessionStore;
 try { storage = window.localStorage; } catch {}
-function readSavedShell() {
-  let stored;
-  try { stored = storage?.getItem(shellStorageKey); } catch { return; }
-  const normalized = normalizeShell(stored);
-  if (normalized && stored !== normalized) {
-    try { storage.setItem(shellStorageKey,normalized); } catch {}
-  }
-  return normalized;
+try { sessionStore = window.sessionStorage; } catch {}
+function readSessionShell() {
+  try { return normalizeShell(sessionStore?.getItem(shellStorageKey)); } catch {}
 }
-savedShell = readSavedShell();
-if (savedShell) shell = savedShell;
 const requestedShell = normalizeShell(new URLSearchParams(location.search).get('shell'));
-const restoredNavigation = performance.getEntriesByType('navigation')[0]?.type === 'back_forward';
-if (shellNames.includes(requestedShell) && !(restoredNavigation && shellNames.includes(savedShell))) {
-  shell = requestedShell;
-  try { storage?.setItem(shellStorageKey,shell); } catch {}
-}
+const navigationType = performance.getEntriesByType('navigation')[0]?.type;
+const randomShell = () => shellNames[Math.floor(Math.random()*shellNames.length)];
+shell = navigationType === 'reload' ? randomShell()
+  : (navigationType === 'back_forward' ? readSessionShell() : null) ?? requestedShell ?? randomShell();
 function applyShell() {
+  try { sessionStore?.setItem(shellStorageKey,shell); } catch {}
   document.documentElement.dataset.shell = shell;
   document.documentElement.style.setProperty('--key-ink',handsetById[shell].ink);
   document.querySelector('[data-shell-art-wide]').srcset = new URL(`./assets/pocket-${shell}-wide.webp`,import.meta.url).href;
   document.querySelector('[data-shell-art]').src = new URL(`./assets/pocket-${shell}.webp`,import.meta.url).href;
   // Keep history entries consistent with the cover restored on back/forward.
   const url = new URL(location.href);
-  url.searchParams.delete('shell');
-  if (shell !== 'leopard') url.searchParams.set('shell',shell);
+  url.searchParams.set('shell',shell);
   if (url.href !== location.href) history.replaceState(history.state,'',url);
   document.querySelector('meta[name="theme-color"]').content = handsetById[shell].color;
   document.querySelectorAll('[data-shell-choice]').forEach(button => button.setAttribute('aria-pressed',String(button.dataset.shellChoice === shell)));
@@ -56,7 +48,7 @@ function applyShell() {
   for (const back of document.querySelectorAll('[data-profile-back],[data-thread-back]')) back.href = returnURL();
   // Preserve a preview choice and storage-denied sessions through both pages.
   for (const [id,path] of [['streamButton',isSettings?'../':'./'],['settingsButton',isSettings?'./':'./settings/']]) {
-    document.getElementById(id).href = shell === 'leopard' ? path : `${path}?shell=${shell}`;
+    document.getElementById(id).href = `${path}?shell=${shell}`;
   }
 }
 if (isSettings) {
@@ -74,7 +66,7 @@ const threads = createThreads(allPosts);
 function streamURL(user = null) {
   const url = new URL('./',import.meta.url);
   if (user !== null) url.searchParams.set('user',user);
-  if (shell !== 'leopard') url.searchParams.set('shell',shell);
+  url.searchParams.set('shell',shell);
   return url.pathname+url.search;
 }
 function threadURL(id) {
@@ -85,8 +77,7 @@ function threadURL(id) {
 function returnURL() {
   const url = new URL(history.state?.gsmReturnURL ?? streamURL(),location.origin);
   if (url.origin !== location.origin || url.pathname !== new URL('./',import.meta.url).pathname) return streamURL();
-  url.searchParams.delete('shell');
-  if (shell !== 'leopard') url.searchParams.set('shell',shell);
+  url.searchParams.set('shell',shell);
   return url.pathname+url.search;
 }
 const localized = value => typeof value === 'string' ? value : value[language] ?? value.zh;
@@ -132,7 +123,7 @@ function profileMarkup(profile, count) {
   return `${back}<div class="profile-identity"><span class="avatar profile-avatar" aria-hidden="true"><img data-pixel-avatar src="${new URL(profile.avatarImage,import.meta.url).href}" width="16" height="16" alt="" decoding="async"></span><div class="profile-details"><h2 id="profileTitle" tabindex="-1">${escape(localized(profile.name))}</h2><p class="profile-handle">@${escape(profile.handle)}</p><p class="profile-count">${escape(t('postCount',{count}))}</p></div></div>${profile.bio?`<p class="profile-bio">${escape(localized(profile.bio))}</p>`:''}`;
 }
 function threadMarkup(root) {
-  return `<a id="threadBack" class="profile-back" data-thread-back href="${escape(returnURL())}" aria-label="${escape(t('backToFeed'))}"><span aria-hidden="true">←</span></a><h2 id="threadTitle" tabindex="-1">${escape(t(root?'threadTitle':'threadMissing'))}</h2>${root?'':`<p class="profile-empty">${escape(t('threadUnavailable'))}</p>`}`;
+  return `<a id="threadBack" class="profile-back" data-thread-back href="${escape(returnURL())}" aria-label="${escape(t('backToFeed'))}"><span aria-hidden="true">←</span></a>${root?'':`<h2 id="threadTitle" tabindex="-1">${escape(t('threadMissing'))}</h2><p class="profile-empty">${escape(t('threadUnavailable'))}</p>`}`;
 }
 // Feedback decorates the existing like state; it never writes its own record.
 const likeFeedback = new WeakMap();
@@ -297,7 +288,7 @@ document.addEventListener('click',event=>{
     toastTimer=setTimeout(()=>{$('#toast').textContent='';},3500);
   }
 });
-window.addEventListener('pageshow',()=>{const saved = readSavedShell();if(saved)shell=saved;applyShell();const next=desktopLanguage();if(language!==next){language=next;render();}});
+window.addEventListener('pageshow',()=>{const saved = readSessionShell();if(saved)shell=saved;applyShell();const next=desktopLanguage();if(language!==next){language=next;render();}});
 window.addEventListener('storage',event=>{if(event.key===shellStorageKey){shell=normalizeShell(event.newValue)??'leopard';applyShell();}if(event.key==='umwelt-desktop-language'){language=desktopLanguage();render();}});
 render();
 if (!isSettings && history.state?.gsmView) restoreView();

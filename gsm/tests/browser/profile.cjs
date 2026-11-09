@@ -42,6 +42,7 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
  };
  try{
   const context=await browser.newContext({viewport:{width:1280,height:1000}});
+  await context.addInitScript(()=>{Math.random=()=>.01;});
   const page=await context.newPage();watch(page);
   await page.goto(`${base}/gsm/?shell=tokay`);
   await page.locator('#posts [data-post-id]').first().waitFor();
@@ -155,6 +156,7 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
   const sample=roots[0];
   await page.goto(userURL(sample.author));await assertProfile(page,sample.author);
   await page.reload();await assertProfile(page,sample.author);
+  assert.equal(await page.locator('html').getAttribute('data-shell'),'leopard','profile reload redraws its case without losing the selected author');
   const like=page.locator(`[data-like="${sample.id}"]`);
   const before=Number(await like.locator('.like-count').textContent());
   await like.click();assert.equal(await like.getAttribute('aria-pressed'),'true');

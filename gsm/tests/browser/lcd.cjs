@@ -10,6 +10,7 @@ const name=process.env.BROWSER||'chromium';
  const errors=[],displayRequests=[];
  try{
   const page=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:2});
+  await page.addInitScript(()=>{Math.random=()=>.01;});
   page.on('pageerror',error=>errors.push(error.message));
   page.on('response',response=>{if(response.status()>=400&&response.url().startsWith(base))errors.push(`${response.status()} ${response.url()}`);});
   page.on('request',request=>{if(/\/lcd\.mjs(?:\?|$)/.test(request.url()))displayRequests.push(request.url());});

@@ -12,7 +12,9 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
  const browser=await {chromium,webkit}[name].launch({headless:true});
  try{
   const context=await browser.newContext({viewport:{width:1280,height:1000}});
+  await context.addInitScript(()=>{Math.random=()=>{try{return Number(sessionStorage.getItem('__gsm_test_random')??.01);}catch{return .01;}};});
   const page=await context.newPage(),errors=[];
+  const setRandom=async(target,index)=>target.evaluate(value=>sessionStorage.setItem('__gsm_test_random',String(value)),(index+.5)/shellNames.length);
   const checkShellArt=async shell=>{
    const art=page.locator('img[data-shell-art]');
    assert.equal(await art.count(),1,'one hardware frame surrounds the live feed');
@@ -170,7 +172,31 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
    await page.locator('#streamButton').click();await page.waitForURL(url=>url.pathname==='/gsm/');
   }
   await page.reload();assert.equal(await page.locator('html').getAttribute('lang'),'zh-CN');
-  // A case choice follows the reader through settings, stream and reloads.
+  // Every random interval is reachable, and reload redraws despite its previous URL.
+  await page.evaluate(()=>localStorage.setItem('umwelt-gsm-shell','day'));
+  for(const [index,shell] of shellNames.entries()){
+   await setRandom(page,index);await page.goto(base+'/gsm/');await feedReady(page);
+   assert.equal(await page.locator('html').getAttribute('data-shell'),shell,'a fresh opening draws the selected random interval');
+   assert.equal(new URL(page.url()).searchParams.get('shell'),shell,'every selected case has an explicit canonical URL');
+   assert.equal(await page.evaluate(()=>localStorage.getItem('umwelt-gsm-shell')),'day','random openings do not replace the manual saved choice');
+   const nextIndex=(index+1)%shellNames.length,next=shellNames[nextIndex];
+   await setRandom(page,nextIndex);await page.reload();await feedReady(page);
+   assert.equal(await page.locator('html').getAttribute('data-shell'),next,'reload redraws from the next random interval');
+   assert.equal(new URL(page.url()).searchParams.get('shell'),next,'reload replaces the previous shell query');
+   assert.equal(await page.evaluate(()=>localStorage.getItem('umwelt-gsm-shell')),'day','random reloads do not update other tabs through saved storage');
+  }
+  await setRandom(page,0);
+  await page.goto(base+'/gsm/?shell=tokay');await feedReady(page);
+  const other=await context.newPage();
+  await other.goto(base+'/gsm/?shell=leopard');await feedReady(other);
+  await setRandom(other,7);await other.goto(base+'/gsm/');await feedReady(other);
+  assert.equal(await other.locator('html').getAttribute('data-shell'),shellNames[7],'a new tab independently draws a case');
+  assert.equal(await page.locator('html').getAttribute('data-shell'),'tokay','a random choice in another tab leaves the current case intact');
+  assert.equal(new URL(page.url()).searchParams.get('shell'),'tokay','another tab does not rewrite the current URL');
+  assert.equal(await page.evaluate(()=>localStorage.getItem('umwelt-gsm-shell')),'day','new random tabs do not write the manual preference');
+  await other.close();
+
+  // Explicit links and manual choices retain a case through internal navigation.
   for(const shell of shellNames){
    await page.goto(`${base}/gsm/?shell=${shell}`);
    await feedReady(page);
@@ -182,24 +208,34 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
    const next=shellNames[(shellNames.indexOf(shell)+1)%shellNames.length];
    await page.locator(`[data-shell-choice="${next}"]`).click();
    assert.equal(await page.locator('html').getAttribute('data-shell'),next,'choice applies immediately');
+   assert.equal(await page.evaluate(()=>localStorage.getItem('umwelt-gsm-shell')),next,'an explicit setting choice saves a shared preference');
    await checkShellArt(next);
    assert.equal(await page.locator('[data-shell-choice][aria-pressed="true"]').count(),1,'one chosen case');
-   await page.reload();assert.equal(await page.locator('html').getAttribute('data-shell'),next,'choice survives refresh');
    await page.locator('#streamButton').click();await page.waitForURL(url=>url.pathname==='/gsm/');
    assert.equal(await page.locator('html').getAttribute('data-shell'),next,'choice returns to stream');
+   await page.reload();await feedReady(page);
+   assert.equal(await page.locator('html').getAttribute('data-shell'),'leopard','refresh redraws even after a manual setting choice');
+   assert.equal(await page.evaluate(()=>localStorage.getItem('umwelt-gsm-shell')),next,'refresh leaves the manually saved preference intact');
+   assert.equal(new URL(await page.locator('#settingsButton').getAttribute('href'),page.url()).searchParams.get('shell'),'leopard','the default case remains explicit on internal links');
+   await page.locator('#settingsButton').click();await page.waitForURL(url=>url.pathname==='/gsm/settings/');
+   assert.equal(await page.locator('html').getAttribute('data-shell'),'leopard','default case does not redraw when entering settings');
+   await page.locator('#streamButton').click();await page.waitForURL(url=>url.pathname==='/gsm/');
+   assert.equal(await page.locator('html').getAttribute('data-shell'),'leopard','default case returns through its explicit link');
   }
-  // Existing saved covers and shared preview links keep selecting their successor.
+  // Legacy URL aliases still work; saved values do not decide a fresh opening.
   for(const [legacy,shell] of [['mint','leopard'],['blue','tokay'],['berry','day'],['blizzard','stone']]){
    await page.goto(`${base}/gsm/?shell=${legacy}`);
    await feedReady(page);
    assert.equal(await page.locator('html').getAttribute('data-shell'),shell,'legacy URL selects its gecko cover');
-   assert.equal(new URL(page.url()).searchParams.get('shell'),shell==='leopard'?null:shell,'legacy URL normalizes');
+   assert.equal(new URL(page.url()).searchParams.get('shell'),shell,'legacy URL normalizes with an explicit case');
    await page.evaluate(value=>localStorage.setItem('umwelt-gsm-shell',value),legacy);
+   await setRandom(page,4);
    await page.goto(base+'/gsm/');
    await feedReady(page);
-   assert.equal(await page.locator('html').getAttribute('data-shell'),shell,'legacy saved cover migrates');
-   assert.equal(await page.evaluate(()=>localStorage.getItem('umwelt-gsm-shell')),shell,'migrated cover is saved canonically');
+   assert.equal(await page.locator('html').getAttribute('data-shell'),shellNames[4],'a legacy saved value does not override the random draw');
+   assert.equal(await page.evaluate(()=>localStorage.getItem('umwelt-gsm-shell')),legacy,'a random opening does not migrate or overwrite shared preferences');
   }
+  await setRandom(page,0);
   // Returning to an older URL must retain the case most recently chosen in settings.
   await page.goto(base+'/gsm/?shell=tokay');
   await page.locator('#settingsButton').click();await page.waitForURL(url=>url.pathname==='/gsm/settings/');
@@ -208,10 +244,10 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
   await page.waitForFunction(()=>document.documentElement.dataset.shell==='day');
   assert.equal(new URL(page.url()).searchParams.get('shell'),'day','back navigation normalizes the old case URL');
   await page.reload();
-  assert.equal(await page.locator('html').getAttribute('data-shell'),'day','back then reload retains the latest case');
+  assert.equal(await page.locator('html').getAttribute('data-shell'),'leopard','back then reload performs a fresh draw');
   await page.goto(base+'/gsm/?shell=unknown');
   await feedReady(page);
-  assert.ok(shellNames.includes(await page.locator('html').getAttribute('data-shell')),'invalid case URL falls back safely');
+  assert.equal(await page.locator('html').getAttribute('data-shell'),'leopard','an invalid case URL performs the controlled random draw');
 
   // Legacy local drafts remain stored; only archived packages appear in the timeline.
   await page.evaluate(()=>localStorage.setItem('umwelt-gsm-preview-v1',JSON.stringify({version:1,likes:[],reposts:['wall-view'],bookmarks:['bark-photo'],following:[],posts:[{id:'local-previous',text:'先前的动态 <img src=x onerror=alert(1)>',createdAt:1}],replies:{'bark-photo':[{author:'you',text:'先前的回复'}]}})));
@@ -224,13 +260,19 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
   assert.equal(await page.locator('.gsm-picture img').evaluate(e=>e.src),brandURL,'homepage entry shares the brand symbol');
   assert.deepEqual(errors,[]);
   await context.close();
-  const unavailable=await browser.newContext();await unavailable.addInitScript(()=>{Object.defineProperty(window,'localStorage',{get(){throw new Error('disabled')}})});
+  const unavailable=await browser.newContext();await unavailable.addInitScript(()=>{Math.random=()=>.99;for(const key of ['localStorage','sessionStorage'])Object.defineProperty(window,key,{get(){throw new Error('disabled')}});});
   const fallback=await unavailable.newPage();await fallback.goto(base+'/gsm/?shell=tokay');
   await feedReady(fallback);
   assert.equal(await fallback.locator('html').getAttribute('data-shell'),'tokay','URL case works with storage disabled');
   await fallback.locator('[data-like]').first().click();assert.equal(await fallback.locator('[data-like]').first().getAttribute('aria-pressed'),'true');assert.ok((await fallback.locator('#toast').innerText()).includes('无法保存'));
   await fallback.locator('#settingsButton').click();
   await fallback.locator('[data-shell-choice="day"]').click();assert.equal(await fallback.locator('html').getAttribute('data-shell'),'day','case choice still works without storage');
+  await fallback.locator('#streamButton').click();await feedReady(fallback);
+  assert.equal(await fallback.locator('html').getAttribute('data-shell'),'day','internal case URLs work without either storage API');
+  await fallback.reload();await feedReady(fallback);
+  assert.equal(await fallback.locator('html').getAttribute('data-shell'),shellNames[7],'reload redraws when both storage APIs are denied');
+  await fallback.goto(base+'/gsm/');await feedReady(fallback);
+  assert.equal(await fallback.locator('html').getAttribute('data-shell'),shellNames[7],'fresh random openings work without storage');
   await unavailable.close();
   const motion=await browser.newContext({reducedMotion:'reduce'}),motionPage=await motion.newPage();
   await motionPage.goto(base+'/gsm/');
@@ -257,6 +299,6 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
    await clean.setViewportSize({width:390,height:600});await clean.locator('#timeline').evaluate(e=>e.scrollTop=210);await clean.screenshot({path:`${process.env.QA_OUTPUT}/gsm-stream-${name}-scrolled.png`});
    await clean.locator('#settingsButton').click();await clean.screenshot({path:`${process.env.QA_OUTPUT}/gsm-stream-${name}-settings.png`});await clean.close();
   }
-  console.log(`${name}: painted low-poly pocket device at 7 sizes, contained LCD screen, locked header/keys, inner scrolling, linear pager messages, ${shellNames.length} persistent case variants, independent settings, 3 languages, SVG/path likes, reduced motion, legacy storage and denial passed.`);
+  console.log(`${name}: painted low-poly pocket device at 7 sizes, contained LCD screen, locked header/keys, inner scrolling, linear pager messages, ${shellNames.length} random case intervals, fresh/reload redraws, tab isolation, explicit internal cases, manual settings and history, 3 languages, SVG/path likes, reduced motion, legacy storage and denial passed.`);
  }finally{await browser.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;});

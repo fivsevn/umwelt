@@ -41,8 +41,7 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
  const expectThread=async(page,target,expectedRoot=root)=>{
   await page.waitForURL(url=>url.pathname==='/gsm/'&&url.searchParams.get('post')===target);
   await page.locator('#threadBack[data-thread-back]').waitFor();
-  assert.equal(await page.locator('#threadTitle').count(),1,'thread has one accessible heading');
-  assert.ok((await page.locator('#threadTitle').textContent()).trim(),'thread heading has readable copy');
+  assert.equal(await page.locator('#threadTitle').count(),0,'available posts have no extra page title');
   assert.deepEqual(await postIds(page),[expectedRoot.id,...commentsFor(expectedRoot).map(comment=>comment.id)],'a thread page contains its root and every descendant once');
   assert.equal(await page.locator('#posts > article.post').count(),1,'a thread page shows one root');
   assert.equal(await page.locator('#threadBack').getAttribute('aria-label')!==null,true,'thread return has an accessible name');
@@ -50,7 +49,7 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
  const expectRootHeader=async page=>{
   const header=await page.evaluate(()=>{
    const screen=document.querySelector('#timeline').getBoundingClientRect();
-   return {top:screen.top,bottom:screen.bottom,items:['threadBack','threadTitle'].map(id=>{
+   return {top:screen.top,bottom:screen.bottom,items:['threadBack'].map(id=>{
     const box=document.getElementById(id).getBoundingClientRect();
     return {id,top:box.top,bottom:box.bottom};
    })};
@@ -77,6 +76,7 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
  };
  try{
   const context=await browser.newContext({viewport:{width:390,height:844}});
+  await context.addInitScript(()=>{Math.random=()=>.01;});
   const page=await context.newPage();watch(page);
   await page.goto(`${base}/gsm/?shell=tokay`);await ready(page);
   assert.deepEqual(await postIds(page),roots.map(post=>post.id),'the stream contains roots rather than flat replies');
@@ -190,7 +190,7 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
    await page.reload();await ready(page);await expectThread(page,target);
    await waitForFocus(page,`post-${target}`);await expectPostInScreen(page,target);
    if(target===root.id)await expectRootHeader(page);
-   assert.equal(new URL(page.url()).searchParams.get('shell'),'tokay');
+   assert.equal(new URL(page.url()).searchParams.get('shell'),'leopard','thread reload redraws the case while keeping its addressed post');
   }
   await assertParents(page);
   const parent=article(page,nested.id).locator(`[data-parent="${nested.replyTo}"]`);
@@ -210,7 +210,7 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
   for(const theme of handsetThemes){
    await page.goto(route(nested.id,theme.id));await ready(page);await expectThread(page,nested.id);
    assert.equal(await page.locator('html').getAttribute('data-shell'),theme.id);
-   assert.equal(new URL(await page.locator('#threadBack').getAttribute('href'),page.url()).searchParams.get('shell')??'leopard',theme.id,'thread return retains the case');
+   assert.equal(new URL(await page.locator('#threadBack').getAttribute('href'),page.url()).searchParams.get('shell'),theme.id,'thread return retains every explicit case');
   }
   const labels=[];
   for(const [language,htmlLanguage] of [['zh','zh-CN'],['en','en'],['ja','ja']]){
