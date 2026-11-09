@@ -77,13 +77,17 @@ python3 gsm/tools/update.py suggest --work /outside/work
 
 工具按保存的随机依据输出互不重复的 `imagePostIds`。沿这些目标实际调用 AI 生图、打开每张图片，完成正文和 `alt` 核对；生成受限时保留当前操作与已完成结果，沿原操作接续。
 
-实际文件放在所属根串的 `media/`，登记 `{"src":"posts/YYYY/MM/根帖ID/media/文件名.png","alt":"实际画面的简短说明"}`。回复图片仍归原根串。导入器转换 WebP 并归档，每帖最多四张。素材只登记已经生成、检查并可用于发布的文件。
+每个根串使用一个帖子包，正文、回复和配图一起保存；回复图片放在原根串的 `media/`。新图先放入该目录，登记 `{"src":"posts/YYYY/MM/根帖ID/media/文件名.png","alt":"实际画面的简短说明"}`。每帖最多四张，采用已经检查并可用于发布的文件。
+
+导入器将 PNG、JPEG 等输入转换为 WebP，采用质量 82、method 6，保留画面尺寸、透明和动画；已有 WebP 沿用原字节。转换成功后同步操作文件与 Markdown 中的图片路径，核对归档后删除被替换的原图。直接编辑 Markdown 添加的图片由构建完成同一处理，转换记录支持中断后接续。
+
+已发布内容的正文与图片只在帖子包中保存。信息流由原稿生成，发布收据只保存路径与校验值；当前工作文件在完成线上核验后清理。
 
 ## 导入与上线
 
 `posts` 为空时，执行 `python3 gsm/tools/update.py finish --work /outside/work`，报告已做的观察和未发帖原因，结束本次更新。
 
-有正文且审读完成后执行：
+有待发布发言且审读完成后执行：
 
 ```sh
 python3 gsm/tools/update.py ingest --reviewed --work /outside/work
@@ -116,7 +120,7 @@ posts/YYYY/MM/根帖ID/
 
 ## 人工内容与头像
 
-人工文字或图文继续编辑 [`trigger.md`](../trigger.md)，支持 `username`、`date`、`status`、`likes` 配置与 Markdown 图片；也可以只把图片放进 [`uploads/`](../uploads/)。未指定用户时从启用且“可随机分配”的账号选取，已分配作者永久归档。上传原图在上线核验成功后由现有流程清理；同名新图与失败输入保留。AI 更新使用上面的批次入口，按实际文件归档。
+人工文字或图文继续编辑 [`trigger.md`](../trigger.md)，支持 `username`、`date`、`status`、`likes` 配置与 Markdown 图片；也可以只把图片放进 [`uploads/`](../uploads/)。未指定用户时从启用且“可随机分配”的账号选取，已分配作者永久归档。上线核验成功后清理对应上传原图并清空已发布的 `trigger.md` 输入；同名新图、后续新稿与待发布输入保留。AI 更新使用上面的批次入口，按实际文件归档。
 
 新增常驻守宫：复制[模板](../users/TEMPLATE.md)到 `users/用户名/profile.md`，稳定 ID、用户名与目录保持一致，再构建。修改网名、签名、开关或权重只改该档案；停用使用“启用账号：否”，历史身份和档案保留。
 

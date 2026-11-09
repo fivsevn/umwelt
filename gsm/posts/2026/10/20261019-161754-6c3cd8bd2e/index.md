@@ -9,6 +9,6 @@ source_event: local:preview:2026-10-19:gedageda-summer-song
 author_assignment: specified
 ---
 
-![咯哒咯哒暑假对着麦克风唱歌，身后是一辆蓝色玩具车](assets/01-3967e267e564.webp)
+![咯哒咯哒暑假对着麦克风唱歌，身后是一辆蓝色玩具车](assets/01-f5e5555379ca.webp)
 
 换了新头像。这是我暑假在唱歌。

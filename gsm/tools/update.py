@@ -523,7 +523,7 @@ def thread_folder(root, post):
     return owned(root, f"posts/{date[:4]}/{date[5:7]}/{post['id']}")
 
 
-def archive_files(root, operation, data, index):
+def archive_files(root, operation, data, index, sources=None):
     files = {}
     for post in operation['posts']:
         folder = thread_folder(root, thread_root(post['id'], index))
@@ -531,9 +531,12 @@ def archive_files(root, operation, data, index):
         body = post['text'].strip()
         for media in post['media']:
             original = owned(root, media['src'])
-            converted = p.webp(regular(original))
+            source_bytes = regular(original)
+            converted = p.webp(source_bytes)
             target = folder / 'media' / ('image-' + p.digest(converted)[:20] + '.webp')
             relative = target.relative_to(root).as_posix()
+            if sources is not None and relative != media['src']:
+                sources[media['src']] = {'path': media['src'], 'sha256': p.digest(source_bytes), 'target': relative, 'target_sha256': p.digest(converted)}
             if relative in files and files[relative] != converted:
                 raise ValueError('Image output collision')
             files[relative] = converted
@@ -549,6 +552,29 @@ def archive_files(root, operation, data, index):
             meta['guest'] = post['guest']
         files[path.relative_to(root).as_posix()] = p.document(meta, body).encode()
     return files
+
+
+def normalized_operation(operation, sources):
+    normalized = json.loads(json.dumps(operation, ensure_ascii=False))
+    for post in normalized['posts']:
+        for media in post['media']:
+            if media['src'] in sources:
+                media['src'] = sources[media['src']]['target']
+    return normalized
+
+
+def matching_batch(receipt, operation):
+    return batch_digest(operation) in {receipt['batchDigest'], receipt.get('normalizedBatchDigest')}
+
+
+def complete_image_import(root, work, operation, receipt):
+    sources = {item['path']: item for item in receipt.get('sourceMedia', [])}
+    operation = normalized_operation(operation, sources)
+    save(work / 'operation.json', operation)
+    p._build_unlocked(root)
+    p.clean_image_sources(root, {owned(root, value['path']):
+                                {'target': owned(root, value['target']), 'sha256': value['sha256'], 'target_sha256': value.get('target_sha256')}
+                                for value in sources.values()})
 
 
 def archive_write(root, relative, content):
@@ -592,12 +618,13 @@ def ingest(root=ROOT, work=None, reviewed=False, now=None, backfill=False):
             raise ValueError('Use finish to close an update with no posts')
         data = source(root, operation['id'])
         index = validate_update(root, operation, data, now, backfill)
-        files = archive_files(root, operation, data, index)
+        sources = {}
+        files = archive_files(root, operation, data, index, sources)
         receipt_file = receipt_path(root, operation)
         pending = owned(root, '.publishing/update-pending.json')
         if receipt_file.exists():
             receipt = json.loads(regular(receipt_file))
-            if receipt['id'] != operation['id'] or receipt['batchDigest'] != batch_digest(operation) or {item['path']: item['sha256'] for item in receipt['files']} != {path: p.digest(content) for path, content in files.items()}:
+            if receipt['id'] != operation['id'] or not matching_batch(receipt, operation) or {item['path']: item['sha256'] for item in receipt['files']} != {path: p.digest(content) for path, content in files.items()}:
                 raise ValueError('This operation was already archived with different content')
             verify_files(root, receipt)
             if pending.exists():
@@ -605,14 +632,16 @@ def ingest(root=ROOT, work=None, reviewed=False, now=None, backfill=False):
                 if canonical(journal) != canonical(receipt):
                     raise ValueError('Pending import does not match the completed receipt; preserve both operations')
                 pending.unlink()
-            p._build_unlocked(root)
+            complete_image_import(root, work, operation, receipt)
             return {'id': operation['id'], 'status': 'already-archived', 'count': len(operation['posts'])}
         if pending.exists():
             journal = json.loads(regular(pending))
             if journal['id'] != operation['id'] or journal['batchDigest'] != batch_digest(operation) or {item['path']: item['sha256'] for item in journal['files']} != {path: p.digest(content) for path, content in files.items()}:
                 raise ValueError('Recover or cancel the original unfinished import before rewriting')
         else:
-            journal = {'version': 1, 'id': operation['id'], 'batchDigest': batch_digest(operation), 'files': []}
+            journal = {'version': 1, 'id': operation['id'], 'batchDigest': batch_digest(operation),
+                       'normalizedBatchDigest': batch_digest(normalized_operation(operation, sources)),
+                       'sourceMedia': list(sources.values()), 'files': []}
             for relative, content in files.items():
                 target = owned(root, relative)
                 if target.exists() and regular(target) != content:
@@ -626,7 +655,7 @@ def ingest(root=ROOT, work=None, reviewed=False, now=None, backfill=False):
             raise ValueError('Source changed during import; preserve pending files and prepare again')
         save(receipt_file, journal)
         pending.unlink()
-        p._build_unlocked(root)
+        complete_image_import(root, work, operation, journal)
         return {'id': operation['id'], 'status': 'archived', 'count': len(operation['posts'])}
 
 
@@ -702,7 +731,7 @@ def finish(root=ROOT, work=None, now=None, fetch=None):
                 raise ValueError('The operation or reading changed during verification; keep the latest working files')
         if operation['posts']:
             receipt = json.loads(regular(receipt_path(root, operation)))
-            if receipt['batchDigest'] != batch_digest(operation):
+            if not matching_batch(receipt, operation):
                 raise ValueError('Drafts changed after import; preserve the original operation')
             verify_files(root, receipt)
             profiles, local = feed_values(regular(root / 'data/feed.mjs'))

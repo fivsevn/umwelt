@@ -149,7 +149,7 @@ jobs:
             exit 0
           fi
           python gsm/tools/inbox.py --site _site
-          git add -u gsm/uploads
+          git add -u gsm/uploads gsm/trigger.md
           if ! git diff --cached --quiet; then
             git commit -m 'Clear verified G-stream upload inbox'
             if ! git push origin HEAD:main; then

@@ -346,7 +346,11 @@ class AIUpdates(unittest.TestCase):
         operation = self.fill([self.post('new-root', author=selected), self.post('guest-reply', parent='legacy-root')])
         with self.assertRaisesRegex(ValueError, 'reviewed'):
             u.ingest(self.root, self.work, now=NOW)
+        originals = [self.root / media['src'] for post in operation['posts'] for media in post['media']]
         result = u.ingest(self.root, self.work, reviewed=True, now=NOW)
+        self.assertTrue(all(not image.exists() for image in originals))
+        self.assertTrue(all(media['src'].endswith('.webp') and (self.root / media['src']).is_file()
+                            for post in self.load()['posts'] for media in post['media']))
         self.assertEqual(result['count'], 2)
         self.assertTrue((self.old.parent / 'replies/guest-reply.md').is_file())
         self.assertFalse((self.root / 'users/guest-one').exists())
@@ -363,6 +367,22 @@ class AIUpdates(unittest.TestCase):
         self.assertFalse((self.work / 'operation.json').exists())
         self.assertFalse((self.work / 'reading.md').exists())
         self.assertEqual(self.old.read_bytes(), self.old_bytes)
+
+    def test_image_normalization_recovers_after_archive_before_build_failure(self):
+        self.prepare()
+        operation = self.fill([self.post('new-root')])
+        original = self.root / operation['posts'][0]['media'][0]['src']
+        with patch.object(p, '_build_unlocked', side_effect=OSError('build interrupted')):
+            with self.assertRaisesRegex(OSError, 'build interrupted'):
+                u.ingest(self.root, self.work, reviewed=True, now=NOW)
+        self.assertTrue(original.is_file())
+        normalized = self.load()['posts'][0]['media'][0]['src']
+        self.assertTrue(normalized.endswith('.webp'))
+        self.assertTrue((self.root / normalized).is_file())
+        self.assertEqual(u.ingest(self.root, self.work, reviewed=True, now=NOW)['status'], 'already-archived')
+        self.assertFalse(original.exists())
+        self.assertEqual(u.finish(self.root, self.work, now=NOW, fetch=self.online())['status'], 'published')
+        self.assertEqual([path.name for path in self.work.iterdir()], ['.update.lock'])
 
     def test_completed_receipt_recovers_only_its_matching_pending_journal(self):
         self.prepare()

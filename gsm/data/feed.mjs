@@ -184,7 +184,7 @@ export const posts = [
         },
         {
           "type": "image",
-          "src": "/gsm/posts/2026/11/gsm-20261109070000-ea3ff626-02/media/image-b32919acc89dddac1c76.webp",
+          "src": "/gsm/posts/2026/11/gsm-20261109070000-ea3ff626-02/media/image-21b90769d6b4b09799fd.webp",
           "alt": "彩铅小画：绿色守宫趴在一张空白纸的边缘",
           "width": 1254,
           "height": 1254
@@ -197,7 +197,7 @@ export const posts = [
         },
         {
           "type": "image",
-          "src": "/gsm/posts/2026/11/gsm-20261109070000-ea3ff626-02/media/image-b32919acc89dddac1c76.webp",
+          "src": "/gsm/posts/2026/11/gsm-20261109070000-ea3ff626-02/media/image-21b90769d6b4b09799fd.webp",
           "alt": "彩铅小画：绿色守宫趴在一张空白纸的边缘",
           "width": 1254,
           "height": 1254
@@ -210,7 +210,7 @@ export const posts = [
         },
         {
           "type": "image",
-          "src": "/gsm/posts/2026/11/gsm-20261109070000-ea3ff626-02/media/image-b32919acc89dddac1c76.webp",
+          "src": "/gsm/posts/2026/11/gsm-20261109070000-ea3ff626-02/media/image-21b90769d6b4b09799fd.webp",
           "alt": "彩铅小画：绿色守宫趴在一张空白纸的边缘",
           "width": 1254,
           "height": 1254
@@ -289,7 +289,7 @@ export const posts = [
         },
         {
           "type": "image",
-          "src": "/gsm/posts/2026/11/gsm-20261109070000-ea3ff626-02/media/image-7bf385731aeb53be0199.webp",
+          "src": "/gsm/posts/2026/11/gsm-20261109070000-ea3ff626-02/media/image-aa4fbaf682cd3ce119fb.webp",
           "alt": "一张画着铅笔迷宫的纸片，右下角有涂抹痕迹，旁边放着短铅笔",
           "width": 1254,
           "height": 1254
@@ -302,7 +302,7 @@ export const posts = [
         },
         {
           "type": "image",
-          "src": "/gsm/posts/2026/11/gsm-20261109070000-ea3ff626-02/media/image-7bf385731aeb53be0199.webp",
+          "src": "/gsm/posts/2026/11/gsm-20261109070000-ea3ff626-02/media/image-aa4fbaf682cd3ce119fb.webp",
           "alt": "一张画着铅笔迷宫的纸片，右下角有涂抹痕迹，旁边放着短铅笔",
           "width": 1254,
           "height": 1254
@@ -315,7 +315,7 @@ export const posts = [
         },
         {
           "type": "image",
-          "src": "/gsm/posts/2026/11/gsm-20261109070000-ea3ff626-02/media/image-7bf385731aeb53be0199.webp",
+          "src": "/gsm/posts/2026/11/gsm-20261109070000-ea3ff626-02/media/image-aa4fbaf682cd3ce119fb.webp",
           "alt": "一张画着铅笔迷宫的纸片，右下角有涂抹痕迹，旁边放着短铅笔",
           "width": 1254,
           "height": 1254
@@ -337,7 +337,7 @@ export const posts = [
         },
         {
           "type": "image",
-          "src": "/gsm/posts/2026/11/gsm-20261109070000-ea3ff626-01/media/image-e200eef5074769373015.webp",
+          "src": "/gsm/posts/2026/11/gsm-20261109070000-ea3ff626-01/media/image-657aca0b7c233d8e8cdc.webp",
           "alt": "木桌上的敞口纸盒装着蓝绿色拼图片，盒外还有几块未收起",
           "width": 1254,
           "height": 1254
@@ -350,7 +350,7 @@ export const posts = [
         },
         {
           "type": "image",
-          "src": "/gsm/posts/2026/11/gsm-20261109070000-ea3ff626-01/media/image-e200eef5074769373015.webp",
+          "src": "/gsm/posts/2026/11/gsm-20261109070000-ea3ff626-01/media/image-657aca0b7c233d8e8cdc.webp",
           "alt": "木桌上的敞口纸盒装着蓝绿色拼图片，盒外还有几块未收起",
           "width": 1254,
           "height": 1254
@@ -363,7 +363,7 @@ export const posts = [
         },
         {
           "type": "image",
-          "src": "/gsm/posts/2026/11/gsm-20261109070000-ea3ff626-01/media/image-e200eef5074769373015.webp",
+          "src": "/gsm/posts/2026/11/gsm-20261109070000-ea3ff626-01/media/image-657aca0b7c233d8e8cdc.webp",
           "alt": "木桌上的敞口纸盒装着蓝绿色拼图片，盒外还有几块未收起",
           "width": 1254,
           "height": 1254
@@ -1072,7 +1072,7 @@ export const posts = [
       "zh": [
         {
           "type": "image",
-          "src": "/gsm/posts/2026/10/20261019-161754-6c3cd8bd2e/assets/01-3967e267e564.webp",
+          "src": "/gsm/posts/2026/10/20261019-161754-6c3cd8bd2e/assets/01-f5e5555379ca.webp",
           "alt": "咯哒咯哒暑假对着麦克风唱歌，身后是一辆蓝色玩具车",
           "width": 1044,
           "height": 1144
@@ -1085,7 +1085,7 @@ export const posts = [
       "en": [
         {
           "type": "image",
-          "src": "/gsm/posts/2026/10/20261019-161754-6c3cd8bd2e/assets/01-3967e267e564.webp",
+          "src": "/gsm/posts/2026/10/20261019-161754-6c3cd8bd2e/assets/01-f5e5555379ca.webp",
           "alt": "咯哒咯哒暑假对着麦克风唱歌，身后是一辆蓝色玩具车",
           "width": 1044,
           "height": 1144
@@ -1098,7 +1098,7 @@ export const posts = [
       "ja": [
         {
           "type": "image",
-          "src": "/gsm/posts/2026/10/20261019-161754-6c3cd8bd2e/assets/01-3967e267e564.webp",
+          "src": "/gsm/posts/2026/10/20261019-161754-6c3cd8bd2e/assets/01-f5e5555379ca.webp",
           "alt": "咯哒咯哒暑假对着麦克风唱歌，身后是一辆蓝色玩具车",
           "width": 1044,
           "height": 1144

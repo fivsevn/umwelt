@@ -3,7 +3,7 @@ import argparse
 import json
 from pathlib import Path
 
-from publish import digest, local_path, split
+from publish import digest, input_digest, local_path, split, write
 
 
 def clear_verified(root, site):
@@ -15,10 +15,18 @@ def clear_verified(root, site):
         if digest(local_path(site, path).read_bytes()) != expected:
             raise ValueError('发布包与核验记录不符，保留上传原图')
     pending = set()
+    trigger = root / 'trigger.md'
+    trigger_bytes = trigger.read_bytes() if trigger.is_file() and not trigger.is_symlink() else None
+    trigger_hash = input_digest(*split(trigger_bytes.decode())) if trigger_bytes else None
+    clear_trigger = False
+    feed = (root / 'data/feed.mjs').read_text()
     for entry in (root / 'posts').glob('**/index.md'):
         meta, _ = split(entry.read_text())
         if meta.get('status', 'published') != 'published':
             continue
+        if (trigger_hash and meta.get('trigger_sha256') == trigger_hash
+                and json.dumps(meta.get('id')) in feed):
+            clear_trigger = True
         for upload in meta.get('uploads', []):
             original = local_path(root, upload['path'])
             archived = local_path(entry.parent, upload['file'])
@@ -39,6 +47,8 @@ def clear_verified(root, site):
         while parent != root / 'uploads' and not any(parent.iterdir()):
             parent.rmdir()
             parent = parent.parent
+    if clear_trigger and trigger.read_bytes() == trigger_bytes:
+        write(trigger, '')
     return len(pending)
 
 

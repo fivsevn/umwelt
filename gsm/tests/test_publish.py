@@ -504,6 +504,100 @@ class Publishing(unittest.TestCase):
         self.assertTrue(blocks[1]['src'].endswith('.webp'))
         self.assertEqual((blocks[1]['width'], blocks[1]['height']), (17, 9))
 
+    def test_build_rewrites_original_and_translation_links_and_keeps_one_webp(self):
+        folder = self.publish(self.trigger('图片正在补。'))
+        source = folder / 'media/photo.png'
+        p.write(source, picture())
+        index = folder / 'index.md'
+        meta, _ = p.split(index.read_text())
+        p.write(index, p.document(meta, '![图](media/photo.png)'))
+        p.write(folder / 'index.en.md', '![Photo](media/photo.png)')
+        receipt_path = self.root / '.publishing/operations/test.json'
+        p.write(receipt_path, p.json_text({'files': [{'path': index.relative_to(self.root.resolve()).as_posix(),
+                                                    'sha256': p.digest(index.read_bytes())}]}))
+        posts = p.build(self.root)
+        self.assertFalse(source.exists())
+        self.assertNotIn('photo.png', index.read_text())
+        self.assertNotIn('photo.png', (folder / 'index.en.md').read_text())
+        self.assertEqual(posts[0]['blocks']['zh'][0]['src'], posts[0]['blocks']['en'][0]['src'])
+        images = list((folder / 'media').iterdir())
+        self.assertEqual(len(images), 1)
+        self.assertEqual(images[0].suffix, '.webp')
+        before = images[0].read_bytes(), index.read_bytes(), (self.root / 'data/feed.mjs').read_bytes()
+        p.build(self.root)
+        self.assertEqual(before, (images[0].read_bytes(), index.read_bytes(), (self.root / 'data/feed.mjs').read_bytes()))
+        self.assertEqual(json.loads(receipt_path.read_text())['files'][0]['sha256'], p.digest(index.read_bytes()))
+
+    def test_build_image_journal_recovers_after_markdown_write_before_receipt_and_cleanup(self):
+        folder = self.publish(self.trigger('准备图片。'))
+        source = folder / 'media/photo.png'
+        p.write(source, picture())
+        index = folder / 'index.md'
+        meta, _ = p.split(index.read_text())
+        p.write(index, p.document(meta, '![图](media/photo.png)'))
+        receipt_path = self.root / '.publishing/operations/test.json'
+        p.write(receipt_path, p.json_text({'files': [{'path': index.relative_to(self.root.resolve()).as_posix(),
+                                                    'sha256': p.digest(index.read_bytes())}]}))
+        with patch.object(p, 'refresh_archive_receipts', side_effect=OSError('receipt interrupted')):
+            with self.assertRaisesRegex(OSError, 'receipt interrupted'):
+                p.build(self.root)
+        self.assertNotIn('photo.png', index.read_text())
+        self.assertTrue(source.is_file())
+        self.assertTrue((self.root / '.publishing/image-normalization.json').is_file())
+        p.build(self.root)
+        self.assertFalse(source.exists())
+        self.assertFalse((self.root / '.publishing/image-normalization.json').exists())
+        self.assertEqual(json.loads(receipt_path.read_text())['files'][0]['sha256'], p.digest(index.read_bytes()))
+        self.assertEqual(len(list((folder / 'media').iterdir())), 1)
+
+    def test_image_normalization_does_not_replace_an_unrelated_body_edit_receipt(self):
+        folder = self.publish(self.trigger('原始正文。'))
+        index = folder / 'index.md'
+        old_hash = p.digest(index.read_bytes())
+        receipt_path = self.root / '.publishing/operations/test.json'
+        p.write(receipt_path, p.json_text({'files': [{'path': index.relative_to(self.root.resolve()).as_posix(), 'sha256': old_hash}]}))
+        p.write(folder / 'media/photo.png', picture())
+        meta, _ = p.split(index.read_text())
+        p.write(index, p.document(meta, '手工修改后的正文。\n\n![图](media/photo.png)'))
+        p.build(self.root)
+        self.assertEqual(json.loads(receipt_path.read_text())['files'][0]['sha256'], old_hash)
+        self.assertIn('手工修改后的正文', index.read_text())
+
+    def test_build_preserves_an_original_still_referenced_by_an_unpublished_document(self):
+        folder = self.publish(self.trigger('等待图片。'))
+        source = folder / 'media/shared.png'
+        p.write(source, picture())
+        meta, _ = p.split((folder / 'index.md').read_text())
+        p.write(folder / 'index.md', p.document(meta, '![图](media/shared.png)'))
+        p.write(folder / 'draft-notes.md', '![正在处理](media/shared.png)')
+        p.build(self.root)
+        self.assertTrue(source.is_file())
+        self.assertNotIn('shared.png', (folder / 'index.md').read_text())
+
+    def test_verified_manual_input_clears_trigger_and_preserves_newer_or_draft_input(self):
+        trigger = self.root / 'trigger.md'
+        text = self.trigger('刚写的人工正文。')
+        p.write(trigger, text)
+        p.ingest(self.root, 'working')
+        p.build(self.root)
+        site = self.repo / 'site'
+        p.write(site / 'gsm/data/feed.mjs', (self.root / 'data/feed.mjs').read_bytes())
+        p.write(site / '.gsm-verified.json', p.json_text({
+            'source_feed': p.digest((self.root / 'data/feed.mjs').read_bytes()),
+            'files': {'gsm/data/feed.mjs': p.digest((self.root / 'data/feed.mjs').read_bytes())}}))
+        p.write(trigger, self.trigger('这是新草稿。'))
+        inbox.clear_verified(self.root, site)
+        self.assertIn('新草稿', trigger.read_text())
+        p.write(trigger, text)
+        inbox.clear_verified(self.root, site)
+        self.assertEqual(trigger.read_text(), '')
+        p.write(trigger, self.trigger('待发人工内容。', status='draft'))
+        p.ingest(self.root, 'working')
+        p.build(self.root)
+        # Drafts do not enter the public feed, so the existing verified artifact remains valid.
+        inbox.clear_verified(self.root, site)
+        self.assertIn('待发人工内容', trigger.read_text())
+
     def test_image_conversion_preserves_animation_transparency_and_orientation(self):
         out = BytesIO()
         Image.new('RGBA', (8, 8), (255,0,0,0)).save(out, format='PNG')

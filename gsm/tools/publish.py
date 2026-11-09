@@ -7,6 +7,7 @@ import fcntl
 import hashlib
 import json
 import math
+import os
 import re
 import shutil
 import subprocess
@@ -133,8 +134,8 @@ def webp(data, *, pixels=None, crop=None):
             durations.append(image.info.get('duration', 100) or 100)
         if fmt == 'WEBP' and not pixels:
             return data  # Already decoded every frame; do not recompress uploads.
-        lossless = bool(pixels) or fmt in {'PNG', 'GIF', 'WEBP'}
-        options = dict(format='WEBP', lossless=lossless, quality=75 if lossless else 85, method=4)
+        lossless = bool(pixels)
+        options = dict(format='WEBP', lossless=lossless, quality=75 if lossless else 82, method=4 if lossless else 6)
         if animated:
             repeats = (0 if loop == 0 else (loop + 1 if loop is not None else 1)) if fmt == 'GIF' else (loop or 0)
             options.update(save_all=True, append_images=frames[1:], duration=durations, loop=repeats)
@@ -346,7 +347,7 @@ def input_digest(meta, body):
     return digest(json_text({'meta': fields, 'body': body}).encode())
 
 
-def import_trigger(root, text, read_media, event_date, event, state, *, remember=True):
+def import_trigger(root, text, read_media, event_date, event, state, *, remember=True, trigger_digest=None):
     root = root.resolve()
     meta, body = split(text)
     validate(meta, body, require_author=False)
@@ -382,6 +383,8 @@ def import_trigger(root, text, read_media, event_date, event, state, *, remember
                    'source_event': event, 'author_assignment': assignment}
         uploads = [{'path': name, 'sha256': digest(media[name]), 'file': names[name],
                     'file_sha256': digest(converted[name])} for name in media if name.startswith('uploads/')]
+        if trigger_digest:
+            package['trigger_sha256'] = trigger_digest
         if uploads:
             package['uploads'] = uploads
         folder.parent.mkdir(parents=True, exist_ok=True)
@@ -433,7 +436,8 @@ def process_inputs(root, text, trigger_changed, uploads, removed, read_media, da
         # A text+upload submission without explicit placement is one combined post.
         if uploads and not IMAGE.search(body):
             body += '\n\n' + '\n\n'.join(f'![]({path})' for path in uploads)
-        folder = import_trigger(root, document(meta, body), read_media, date, event, state)
+        folder = import_trigger(root, document(meta, body), read_media, date, event, state,
+                                trigger_digest=input_digest(*split(text)))
         consumed = {path for _, path in IMAGE.findall(body)}
         if folder:
             created.append(folder)
@@ -622,7 +626,7 @@ def sync_user_avatars(root, registry):
             old.unlink()
 
 
-def blocks_for(root, folder, body, public, *, package_root=None):
+def blocks_for(root, folder, body, public, *, package_root=None, replacements=None):
     blocks, position = [], 0
     for match in IMAGE.finditer(body):
         if body[position:match.start()].strip():
@@ -636,9 +640,12 @@ def blocks_for(root, folder, body, public, *, package_root=None):
             original = (folder / value).resolve()
             if not original.is_relative_to(package_root.resolve()):
                 raise ValueError(f'回复图片不能离开所属根串: {value}')
-        converted = webp(original.read_bytes())
+        source_bytes = original.read_bytes()
+        converted = webp(source_bytes)
         target = original if original.suffix.lower() == '.webp' else original.with_name(original.stem + '-' + digest(converted)[:12] + '.webp')
         write(target, converted)
+        if replacements is not None and target != original:
+            replacements[original] = {'target': target, 'sha256': digest(source_bytes), 'target_sha256': digest(converted)}
         relative = target.relative_to(root).as_posix()
         public.add('gsm/' + relative)
         with Image.open(BytesIO(converted)) as image:
@@ -647,6 +654,57 @@ def blocks_for(root, folder, body, public, *, package_root=None):
     if body[position:].strip():
         blocks.append({'type': 'text', 'text': body[position:].strip()})
     return blocks
+
+
+def referenced_post_images(root):
+    references = set()
+    for path in (root / 'posts').rglob('*.md'):
+        for _, value in IMAGE.findall(path.read_text()):
+            references.add((path.parent / value).resolve())
+    return references
+
+
+def clean_image_sources(root, sources):
+    """Remove converted inputs only after every source document points at WebP."""
+    references = referenced_post_images(root)
+    for original, item in sources.items():
+        target = item['target']
+        if (original != target and original not in references and original.is_file()
+                and not original.is_symlink() and target.is_file()
+                and digest(original.read_bytes()) == item['sha256']
+                and (not item.get('target_sha256') or digest(target.read_bytes()) == item['target_sha256'])):
+            original.unlink()
+
+
+def rewrite_image_links(text, folder, replacements):
+    def replace(match):
+        item = replacements.get((folder / match[2]).resolve())
+        if not item:
+            return match[0]
+        relative = Path(os.path.relpath(item['target'], folder)).as_posix()
+        return f'![{match[1]}]({relative})'
+    return IMAGE.sub(replace, text)
+
+
+def refresh_archive_receipts(root, changed_paths, renamed=None, owned_hashes=None):
+    """Receipts keep hashes and paths, never another copy of the post body."""
+    renamed = renamed or {}
+    for path in (root / '.publishing/operations').glob('*.json'):
+        receipt = json.loads(path.read_text())
+        if 'files' not in receipt:
+            continue
+        changed = False
+        for item in receipt['files']:
+            previous = item['path']
+            relative = renamed.get(previous, previous)
+            if relative in changed_paths or relative != previous:
+                if owned_hashes is not None and item['sha256'] not in set(owned_hashes[relative].values()):
+                    continue
+                item['path'] = relative
+                item['sha256'] = digest(local_path(root, relative).read_bytes())
+                changed = True
+        if changed:
+            write(path, json_text(receipt))
 
 
 def build(root):
@@ -706,16 +764,25 @@ def _build_unlocked(root):
             current = parent
         if path.parent.name == 'replies' and path.parent.parent != by_id[current][-1].parent:
             raise ValueError(f'回复必须归档在原根串: {ident}')
+    normalization_path = root / '.publishing/image-normalization.json'
+    journal = json.loads(normalization_path.read_text()) if normalization_path.exists() else {'sources': [], 'documents': {}}
+    replacements = {local_path(root, item['path']):
+                    {'target': local_path(root, item['target']), 'sha256': item['sha256'], 'target_sha256': item['target_sha256']}
+                    for item in journal['sources']}
+    documents = {}
     for date, ident, username, meta, body, path in sorted(packages, reverse=True):
         if username not in profiles:
             add_profile(username)
         likes = initial_likes(meta)
         folder = path.parent
         package_root = folder.parent if folder.name == 'replies' else folder
-        localized = {'zh': blocks_for(root, folder, body, public, package_root=package_root)}
+        localized = {'zh': blocks_for(root, folder, body, public, package_root=package_root, replacements=replacements)}
+        documents[path] = path.read_text()
         for lang in ('en', 'ja'):
             translation = path.with_name(path.stem + f'.{lang}.md')
-            localized[lang] = blocks_for(root, folder, translation.read_text().strip(), public, package_root=package_root) if translation.exists() else localized['zh']
+            localized[lang] = blocks_for(root, folder, translation.read_text().strip(), public, package_root=package_root, replacements=replacements) if translation.exists() else localized['zh']
+            if translation.exists():
+                documents[translation] = translation.read_text()
         item = {'id': ident, 'date': date, 'createdAt': int(datetime.fromisoformat(date).timestamp()*1000),
                 'author': username, 'likes': likes, 'blocks': localized}
         if meta.get('reply_to'):
@@ -727,8 +794,33 @@ def _build_unlocked(root):
     source = '// Generated from gsm/posts and gsm/users; edit those sources, not this file.\n'
     source += 'export const profiles = ' + json_text(profiles).rstrip() + ';\n'
     source += 'export const posts = ' + json_text(posts).rstrip() + ';\n'
+    rewrites = {}
+    for path, original in documents.items():
+        relative = path.relative_to(root).as_posix()
+        rewritten = rewrite_image_links(original, path.parent, replacements)
+        hashes = {'before': digest(original.encode()), 'after': digest(rewritten.encode())}
+        saved = journal['documents'].get(relative)
+        if saved and (hashes['before'] not in set(saved.values()) or hashes['after'] != saved['after']):
+            raise ValueError('图片转换期间帖子有手工变化，保留转换记录: ' + relative)
+        if rewritten != original:
+            rewrites[path] = rewritten
+            journal['documents'].setdefault(relative, hashes)
+    for original, item in replacements.items():
+        if original.exists() and digest(original.read_bytes()) != item['sha256']:
+            raise ValueError('图片转换期间原图已变化，保留最新原图: ' + str(original))
+    journal['sources'] = [{'path': original.relative_to(root).as_posix(),
+                           'target': item['target'].relative_to(root).as_posix(),
+                           'sha256': item['sha256'], 'target_sha256': item['target_sha256']}
+                          for original, item in replacements.items()]
+    if journal['sources']:
+        write(normalization_path, json_text(journal))
+    for path, rewritten in rewrites.items():
+        write(path, rewritten)
+    refresh_archive_receipts(root, set(journal['documents']), owned_hashes=journal['documents'])
     write(root / 'data/feed.mjs', source)
     write(root / '.publishing/public.json', json_text(sorted(public)))
+    clean_image_sources(root, replacements)
+    normalization_path.unlink(missing_ok=True)
     return posts
 
 
