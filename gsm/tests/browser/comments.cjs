@@ -33,19 +33,35 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
  const ready=async page=>{await page.locator('#posts [data-post-id],#threadTitle').first().waitFor();await page.evaluate(()=>document.fonts.ready);};
  const ids=locator=>locator.evaluateAll(elements=>elements.map(element=>element.dataset.postId));
  const article=(page,id)=>page.locator(`[id="post-${id}"]`);
- const commentsButton=page=>page.locator(`[id="comments-${root.id}"]`);
+ const commentsLink=page=>page.locator(`a[id="comments-${root.id}"][data-thread="${root.id}"]`);
  const region=page=>page.locator(`[id="comments-body-${root.id}"]`);
  const postIds=page=>ids(page.locator('#posts [data-post-id]'));
  const scrollTop=page=>page.locator('#timeline').evaluate(element=>element.scrollTop);
  const waitForFocus=(page,id)=>page.waitForFunction(value=>document.activeElement?.id===value,id);
- const expectThread=async(page,target)=>{
+ const expectThread=async(page,target,expectedRoot=root)=>{
   await page.waitForURL(url=>url.pathname==='/gsm/'&&url.searchParams.get('post')===target);
   await page.locator('#threadBack[data-thread-back]').waitFor();
   assert.equal(await page.locator('#threadTitle').count(),1,'thread has one accessible heading');
   assert.ok((await page.locator('#threadTitle').textContent()).trim(),'thread heading has readable copy');
-  assert.deepEqual(await postIds(page),[root.id,...comments.map(comment=>comment.id)],'a deep link contains its root and every descendant once');
+  assert.deepEqual(await postIds(page),[expectedRoot.id,...commentsFor(expectedRoot).map(comment=>comment.id)],'a thread page contains its root and every descendant once');
   assert.equal(await page.locator('#posts > article.post').count(),1,'a thread page shows one root');
   assert.equal(await page.locator('#threadBack').getAttribute('aria-label')!==null,true,'thread return has an accessible name');
+ };
+ const expectRootHeader=async page=>{
+  const header=await page.evaluate(()=>{
+   const screen=document.querySelector('#timeline').getBoundingClientRect();
+   return {top:screen.top,bottom:screen.bottom,items:['threadBack','threadTitle'].map(id=>{
+    const box=document.getElementById(id).getBoundingClientRect();
+    return {id,top:box.top,bottom:box.bottom};
+   })};
+  });
+  for(const item of header.items)assert.ok(item.top>=header.top-1&&item.bottom<=header.bottom+1,`${item.id} remains visible when entering the original post`);
+ };
+ const expectPostInScreen=async(page,id)=>{
+  assert.ok(await article(page,id).evaluate(element=>{
+   const box=element.getBoundingClientRect(),screen=document.querySelector('#timeline').getBoundingClientRect();
+   return box.top>=screen.top-1&&box.top<screen.bottom;
+  }),'the addressed post starts inside the scrolling screen');
  };
  const assertParents=async page=>{
   for(const comment of comments){
@@ -57,45 +73,63 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
    assert.equal(await item.locator('[data-like]').getAttribute('data-like'),comment.id,'likes belong to the comment itself');
   }
   const all=await page.locator('[id]').evaluateAll(elements=>elements.map(element=>element.id));
-  assert.equal(new Set(all).size,all.length,'expanded comments never duplicate DOM IDs');
+  assert.equal(new Set(all).size,all.length,'thread comments never duplicate DOM IDs');
  };
  try{
   const context=await browser.newContext({viewport:{width:390,height:844}});
   const page=await context.newPage();watch(page);
   await page.goto(`${base}/gsm/?shell=tokay`);await ready(page);
   assert.deepEqual(await postIds(page),roots.map(post=>post.id),'the stream contains roots rather than flat replies');
-  assert.equal(await page.locator('.comment,.comments:visible').count(),0,'closed threads do not render their replies');
+  assert.equal(await page.locator('.comment,.comments,[data-comments]').count(),0,'the feed contains no inline comment section or toggle');
   assert.equal(await page.locator('form,input,textarea,[contenteditable="true"]').count(),0,'virtual comments have no visitor publishing form');
   for(const candidate of roots){
-   const button=page.locator(`[data-comments="${candidate.id}"]`);
-   assert.equal(await button.count(),1,'every root exposes a comment toggle');
-   assert.equal(await button.getAttribute('aria-expanded'),'false');
-   assert.equal(await button.getAttribute('aria-controls'),`comments-body-${candidate.id}`);
-   assert.ok((await button.getAttribute('aria-label')||await button.textContent()).trim(),'comment toggle has an accessible name');
-   assert.match(await button.textContent(),new RegExp(`(^|\\D)${commentsFor(candidate).length}(\\D|$)`),'comment count includes the whole reply chain');
+   const link=page.locator(`a[id="comments-${candidate.id}"][data-thread="${candidate.id}"]`);
+   assert.equal(await link.count(),1,'every root exposes a native comment-page link');
+   assert.equal(await link.getAttribute('aria-expanded'),null,'comment links do not advertise inline expansion');
+   const href=new URL(await link.getAttribute('href'),page.url());
+   assert.equal(href.pathname,'/gsm/');
+   assert.equal(href.searchParams.get('post'),candidate.id,'comment links address their own original post');
+   assert.equal(href.searchParams.get('shell'),'tokay','comment-page links preserve the shell');
+   assert.ok((await link.getAttribute('aria-label')||await link.textContent()).trim(),'comment-page links have an accessible name');
+   assert.match(await link.textContent(),new RegExp(`(^|\\D)${commentsFor(candidate).length}(\\D|$)`),'comment count includes the whole reply chain');
   }
 
-  // The toggle is a native keyboard control and repeated opening never duplicates replies.
-  await commentsButton(page).focus();await page.keyboard.press('Enter');
-  assert.equal(await commentsButton(page).getAttribute('aria-expanded'),'true');
+  // Comment links enter a dedicated post page; Back/Forward preserve the feed entry.
+  const entryId=`comments-${root.id}`;
+  await commentsLink(page).scrollIntoViewIfNeeded();await commentsLink(page).focus();
+  const feedTop=await scrollTop(page);
+  await page.evaluate(()=>{window.__gsmCommentsDocument='same-document';});
+  await page.keyboard.press('Enter');await expectThread(page,root.id);await expectRootHeader(page);
+  assert.equal(await page.evaluate(()=>window.__gsmCommentsDocument),'same-document','comment links use the existing page navigation');
   assert.equal(await region(page).getAttribute('role'),'region');
-  assert.deepEqual(await ids(region(page).locator('.comment[data-post-id]')),comments.map(comment=>comment.id),'comments appear in chronological order');
+  assert.deepEqual(await ids(region(page).locator('.comment[data-post-id]')),comments.map(comment=>comment.id),'comments appear in chronological order on the post page');
   await assertParents(page);
+  await page.locator('#threadBack').click();
+  await page.waitForURL(url=>!url.searchParams.has('post')&&!url.searchParams.has('user'));
+  await waitForFocus(page,entryId);near(await scrollTop(page),feedTop,'the post-page return restores the feed position');
+  assert.equal(await page.locator('.comment,.comments,[data-comments]').count(),0,'returning to the feed leaves no inline comments');
+  await page.goForward();await expectThread(page,root.id);
+  await page.goBack();await page.waitForURL(url=>!url.searchParams.has('post'));
+  await waitForFocus(page,entryId);near(await scrollTop(page),feedTop,'Back/Forward restores the comment link position');
+
+  // The native href works when opened independently, including a new tab.
+  const newTab=await context.newPage();watch(newTab);
+  await newTab.goto(new URL(await commentsLink(page).getAttribute('href'),page.url()).href);
+  await ready(newTab);await expectThread(newTab,root.id);await expectRootHeader(newTab);await assertParents(newTab);await newTab.close();
   for(let repeat=0;repeat<2;repeat++){
-   await commentsButton(page).click();assert.equal(await commentsButton(page).getAttribute('aria-expanded'),'false');
-   assert.equal(await article(page,root.id).locator('.comment').count(),0,'collapsed comments leave no interactive descendants');
-   await commentsButton(page).click();
-   assert.deepEqual(await ids(region(page).locator('.comment')),comments.map(comment=>comment.id),'reopening restores each comment exactly once');
+   await commentsLink(page).click();await expectThread(page,root.id);await expectRootHeader(page);await assertParents(page);
+   await page.locator('#threadBack').click();await page.waitForURL(url=>!url.searchParams.has('post'));
+   assert.equal(await page.locator('.comment,.comments').count(),0,'repeated post visits never add comments to the feed');
   }
-  await commentsButton(page).click();
-  const empty=page.locator(`[data-comments="${emptyRoot.id}"]`);
-  await empty.click();assert.equal(await empty.getAttribute('aria-expanded'),'true');
+  const empty=page.locator(`a[id="comments-${emptyRoot.id}"][data-thread="${emptyRoot.id}"]`);
+  await empty.click();await expectThread(page,emptyRoot.id,emptyRoot);await expectRootHeader(page);
   const emptyRegion=page.locator(`[id="comments-body-${emptyRoot.id}"]`);
   assert.equal(await emptyRegion.locator('.comment').count(),0);
-  assert.ok((await emptyRegion.textContent()).trim(),'an empty thread explains that it has no comments');
-  await empty.click();await commentsButton(page).click();
+  assert.ok((await emptyRegion.textContent()).trim(),'a post without comments explains its empty comment section');
+  await page.locator('#threadBack').click();await page.waitForURL(url=>!url.searchParams.has('post'));
+  await commentsLink(page).click();await expectThread(page,root.id);await expectRootHeader(page);
 
-  // Likes and author links reuse the same published comment in the stream and profile.
+  // Likes and author links reuse the same published comment in its post page and profile.
   const like=page.locator(`[data-like="${nested.id}"]`);
   const before=Number(await like.locator('.like-count').textContent());
   await like.click();assert.equal(await like.getAttribute('aria-pressed'),'true');
@@ -109,9 +143,8 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
   await page.locator('#profile h2').waitFor();
   assert.deepEqual(await postIds(page),posts.filter(post=>post.author===nested.author).map(post=>post.id),'a profile includes authored roots and replies without other users');
   assert.equal(await like.getAttribute('aria-pressed'),'true','comment like is shared with its author profile');
-  await page.goBack();await page.waitForURL(url=>!url.searchParams.has('user')&&!url.searchParams.has('post'));
+  await page.goBack();await expectThread(page,root.id);
   await waitForFocus(page,profileId);near(await scrollTop(page),sourceTop,'Back restores comment scroll');
-  assert.equal(await commentsButton(page).getAttribute('aria-expanded'),'true','Back restores expanded comments');
   assert.equal(await like.getAttribute('aria-pressed'),'true');
   await page.goForward();await page.waitForURL(url=>url.searchParams.get('user')===nested.author);
   await page.locator('#profile h2').waitFor();
@@ -138,7 +171,7 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
   await page.locator('#threadBack').click();await page.waitForURL(url=>url.searchParams.get('user')===nested.author);
   await waitForFocus(page,bodyLinkId);
 
-  await page.goto(route(root.id));await ready(page);await expectThread(page,root.id);
+  await page.goto(route(root.id));await ready(page);await expectThread(page,root.id);await expectRootHeader(page);
   const jump=page.locator(`[data-comments-jump="${root.id}"]`);
   const threadURL=page.url(),historyLength=await page.evaluate(()=>history.length);
   await jump.focus();await page.keyboard.press('Enter');
@@ -152,9 +185,11 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
   // Root and comment deep links survive refresh; parent links focus their real target.
   for(const target of [root.id,nested.id]){
    await page.goto(route(target));await ready(page);await expectThread(page,target);
-   await waitForFocus(page,`post-${target}`);
+   await waitForFocus(page,`post-${target}`);await expectPostInScreen(page,target);
+   if(target===root.id)await expectRootHeader(page);
    await page.reload();await ready(page);await expectThread(page,target);
-   await waitForFocus(page,`post-${target}`);
+   await waitForFocus(page,`post-${target}`);await expectPostInScreen(page,target);
+   if(target===root.id)await expectRootHeader(page);
    assert.equal(new URL(page.url()).searchParams.get('shell'),'tokay');
   }
   await assertParents(page);
@@ -236,6 +271,6 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
   assert.equal(await fallback.locator('form,input,textarea,[contenteditable="true"]').count(),0);
   await unavailable.close();
   assert.deepEqual(errors,[],'virtual comments have no page or local resource errors');
-  console.log(`${name}: virtual thread toggles, counts and chronological replies, real parent links, keyboard navigation, shared likes, profiles, Back/Forward scroll and focus, root/comment deep links, refresh, all cases, 3 languages, narrow/landscape screens, unknown posts and storage denial passed.`);
+  console.log(`${name}: virtual comment-page links, counts and chronological replies, real parent links, keyboard navigation, shared likes, profiles, Back/Forward scroll and focus, root/comment deep links, refresh, all cases, 3 languages, narrow/landscape screens, unknown posts and storage denial passed.`);
  }finally{await browser.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;});

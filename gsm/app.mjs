@@ -16,7 +16,6 @@ let selectedUser = null;
 const userFromURL = () => isSettings ? null : new URLSearchParams(location.search).get('user');
 let selectedPost = null;
 const postFromURL = () => isSettings ? null : new URLSearchParams(location.search).get('post');
-let expandedThreads = new Set(history.state?.gsmView?.expandedThreads ?? []);
 let language = desktopLanguage(), storage, toastTimer;
 const shellAliases = new Map([['mint','leopard'],['blue','tokay'],['berry','day'],['blizzard','stone']]);
 const normalizeShell = value => shellNames.includes(value) ? value : shellAliases.get(value);
@@ -111,13 +110,9 @@ function postMarkup(post, comment = false) {
   const blocks = localized(post.blocks);
   const parent = threads.parentFor(post.id);
   const root = threads.rootFor(post.id);
-  const isRoot = root.id === post.id;
-  const expanded = selectedPost !== null || expandedThreads.has(post.id);
   const commentControl = comment ? '' : selectedPost !== null
-    ? `<a class="comments-link" id="comments-${post.id}" data-comments-jump="${root.id}" href="#comments-body-${root.id}" aria-label="${escape(t('showComments',{count:threads.countFor(root.id)}))}">${commentIcon()}<span class="comment-count">${threads.countFor(root.id)}</span></a>`
-    : selectedUser !== null || !isRoot
-    ? `<a class="comments-link" id="comments-${post.id}" data-thread="${post.id}" href="${escape(threadURL(post.id))}" aria-label="${escape(t('viewThread'))}">${commentIcon()}<span class="comment-count">${threads.countFor(root.id)}</span></a>`
-    : `<button type="button" id="comments-${post.id}" data-comments="${post.id}" aria-controls="comments-body-${post.id}" aria-expanded="${expanded}" aria-label="${escape(t(expanded?'hideComments':'showComments',{count:threads.countFor(post.id)}))}">${commentIcon()}<span class="comment-count">${threads.countFor(post.id)}</span></button>`;
+    ? `<a class="comments-link" id="comments-${post.id}" data-comments-jump="${root.id}" href="#comments-body-${root.id}" aria-label="${escape(t('viewComments',{count:threads.countFor(root.id)}))}">${commentIcon()}<span class="comment-count">${threads.countFor(root.id)}</span></a>`
+    : `<a class="comments-link" id="comments-${post.id}" data-thread="${post.id}" href="${escape(threadURL(post.id))}" aria-label="${escape(t('viewComments',{count:threads.countFor(root.id)}))}">${commentIcon()}<span class="comment-count">${threads.countFor(root.id)}</span></a>`;
   return `<article class="${comment?'comment':'post'}" id="post-${post.id}" tabindex="-1" data-post-id="${post.id}" data-tone="${profile.color}">
     <div class="post-content bubble">
       <header class="post-identity"><a class="avatar" id="profile-${post.id}" data-profile="${escape(post.author)}" href="${escape(streamURL(post.author))}" aria-label="${escape(t('viewProfile',{name:localized(profile.name)}))}"><img data-pixel-avatar src="${new URL(profile.avatarImage,import.meta.url).href}" width="16" height="16" alt="" decoding="async"></a><span class="author-name"><a class="author-label" id="profile-name-${post.id}" data-profile="${escape(post.author)}" href="${escape(streamURL(post.author))}" aria-label="${escape(t('viewProfile',{name:localized(profile.name)}))}">${escape(localized(profile.name))}</a><a class="author-handle" id="profile-handle-${post.id}" data-profile="${escape(post.author)}" href="${escape(streamURL(post.author))}" aria-label="${escape(t('viewProfile',{name:'@'+profile.handle}))}">@${escape(profile.handle)}</a></span></header>
@@ -128,7 +123,7 @@ function postMarkup(post, comment = false) {
         <div class="post-actions">${commentControl}<button type="button" id="like-${post.id}" data-like="${post.id}" aria-pressed="${state.likes.includes(post.id)}" aria-label="${escape(likeLabel(post))}">${likeContent(post)}</button></div>
       </footer>
     </div>
-    ${!comment && selectedUser === null && isRoot?(expanded?commentsMarkup(post):`<section class="comments" id="comments-body-${post.id}" hidden></section>`):''}
+    ${!comment && selectedPost !== null?commentsMarkup(post):''}
   </article>`;
 }
 function profileMarkup(profile, count) {
@@ -217,7 +212,7 @@ if(!isSettings){
 }
 function rememberView() {
   if (isSettings) return;
-  history.replaceState({...history.state,gsmView:{scrollTop:$('#timeline').scrollTop,focusId:document.activeElement?.id,expandedThreads:[...expandedThreads]}},'');
+  history.replaceState({...history.state,gsmView:{scrollTop:$('#timeline').scrollTop,focusId:document.activeElement?.id}},'');
 }
 function restoreView() {
   const saved = history.state?.gsmView;
@@ -228,14 +223,14 @@ function restoreView() {
 function focusPost(id) {
   const target = document.getElementById(`post-${id}`);
   if (!target) return false;
-  target.scrollIntoView({block:'start'});
+  if (selectedPost !== null && threads.rootFor(id)?.id === id) $('#timeline').scrollTop = 0;
+  else target.scrollIntoView({block:'start'});
   target.focus({preventScroll:true});
   return true;
 }
 function navigateURL(url, target = null) {
   rememberView();
   history.pushState({gsmFromApp:true,gsmReturnURL:location.pathname+location.search},'',url);
-  expandedThreads = new Set();
   render();
   $('#timeline').scrollTop = 0;
   if (!target || !focusPost(target)) ($('#profileTitle') || $('#threadTitle') || $('#timeline')).focus({preventScroll:true});
@@ -243,15 +238,6 @@ function navigateURL(url, target = null) {
 function backToSource() {
   if (history.state?.gsmFromApp || history.state?.gsmProfileFromFeed) { rememberView(); history.back(); }
   else navigateURL(streamURL());
-}
-function toggleComments(id) {
-  const scrollTop = $('#timeline').scrollTop;
-  if (expandedThreads.has(id)) expandedThreads.delete(id);
-  else expandedThreads.add(id);
-  render();
-  $('#timeline').scrollTop = scrollTop;
-  document.getElementById(`comments-${id}`)?.focus({preventScroll:true});
-  rememberView();
 }
 const plainClick = event => !event.defaultPrevented && event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
 $('#streamButton').addEventListener('click',event=>{
@@ -282,13 +268,12 @@ if (!isSettings) {
     else { link.focus({preventScroll:true}); navigateURL(streamURL(link.dataset.profile)); }
   });
   $('#timeline').addEventListener('scroll',rememberView,{passive:true});
-  window.addEventListener('popstate',()=>{expandedThreads=new Set(history.state?.gsmView?.expandedThreads??[]);applyShell();render();restoreView();});
+  window.addEventListener('popstate',()=>{applyShell();render();restoreView();});
 }
 
 document.addEventListener('click',event=>{
   const button = event.target.closest('button');
   if (!button) return;
-  if (button.hasAttribute('data-comments')) { toggleComments(button.dataset.comments);return; }
   if (button.hasAttribute('data-shell-choice')) {
     shell = button.dataset.shellChoice;
     try { storage?.setItem(shellStorageKey,shell); } catch {}
