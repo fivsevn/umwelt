@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "id": "gsm-20261109070000-ea3ff626",
+  "batchDigest": "f03edce961cca60535cfcbb5996e22a4282cfda6e1b85045ef0fd74a2c17cf93",
+  "files": [
+    {
+      "path": "posts/2026/11/gsm-20261109070000-ea3ff626-01/index.md",
+      "sha256": "45e669201ea052a69db668692517b3952d63e4051beef408bc549fbb8a561451",
+      "created": true
+    },
+    {
+      "path": "posts/2026/11/gsm-20261109070000-ea3ff626-02/media/image-7bf385731aeb53be0199.webp",
+      "sha256": "7bf385731aeb53be0199dadb6548e229000888487401d6f1d5287a8a768579bb",
+      "created": true
+    },
+    {
+      "path": "posts/2026/11/gsm-20261109070000-ea3ff626-02/index.md",
+      "sha256": "d3bd339f7fb9e2b1ad92cfa27d896f30620f74ee45110e169875286ea7406e9e",
+      "created": true
+    },
+    {
+      "path": "posts/2026/11/gsm-20261109070000-ea3ff626-01/media/image-e200eef5074769373015.webp",
+      "sha256": "e200eef50747693730156e65c94d209af4481fca2461be981098f2a64d166551",
+      "created": true
+    },
+    {
+      "path": "posts/2026/11/gsm-20261109070000-ea3ff626-01/replies/gsm-20261109070000-ea3ff626-03.md",
+      "sha256": "9840a62a9e385e98fbd00f31e02e81ce585892e44f57b8e3b433fc08059b7d65",
+      "created": true
+    },
+    {
+      "path": "posts/2026/11/gsm-20261109070000-ea3ff626-01/replies/gsm-20261109070000-ea3ff626-04.md",
+      "sha256": "09d427a48fc0873f32bc3b1ae1ee6e35cb3a5d8f90f0455fb66b960366828e3b",
+      "created": true
+    },
+    {
+      "path": "posts/2026/11/gsm-20261109070000-ea3ff626-01/replies/gsm-20261109070000-ea3ff626-05.md",
+      "sha256": "4f440383df28035dab3ace5bea3789b67bc4b09f067c925c9c9a468e8f745132",
+      "created": true
+    },
+    {
+      "path": "posts/2026/11/gsm-20261109070000-ea3ff626-02/media/image-b32919acc89dddac1c76.webp",
+      "sha256": "b32919acc89dddac1c7612f5b42a82dbb659d06d0127074784a18d34f9485209",
+      "created": true
+    },
+    {
+      "path": "posts/2026/11/gsm-20261109070000-ea3ff626-02/replies/gsm-20261109070000-ea3ff626-06.md",
+      "sha256": "aa273c119827d1403ebd890ea5aae2253365bc88fb766aa1f1d3c72ef71034f4",
+      "created": true
+    }
+  ]
+}

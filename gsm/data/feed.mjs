@@ -1,5 +1,33 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "guest-untriedpath": {
+    "handle": "guest-untriedpath",
+    "name": "还没走过",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-untriedpath.webp?v=8ba191455bd7",
+    "color": "rose"
+  },
+  "guest-boxlid27": {
+    "handle": "guest-boxlid27",
+    "name": "盒盖朝上",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-boxlid27.webp?v=d880f2ec2809",
+    "color": "sand"
+  },
+  "gecko404": {
+    "handle": "gecko404",
+    "name": "玻璃这一边",
+    "bio": "玻璃那边也在看这边吗？",
+    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
+    "color": "sage"
+  },
+  "guest-mazecrumb": {
+    "handle": "guest-mazecrumb",
+    "name": "出口在这",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-mazecrumb.webp?v=8ba191455bd7",
+    "color": "sand"
+  },
   "guest-latebooking": {
     "handle": "guest-latebooking",
     "name": "晚点来收",
@@ -105,13 +133,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/isopodafugue.webp?v=f80463b434f1",
     "color": "isopoda"
   },
-  "gecko404": {
-    "handle": "gecko404",
-    "name": "玻璃这一边",
-    "bio": "玻璃那边也在看这边吗？",
-    "avatarImage": "/gsm/assets/avatars/gecko404.webp?v=8ba191455bd7",
-    "color": "sage"
-  },
   "leafback7": {
     "handle": "leafback7",
     "name": "叶背居民",
@@ -149,6 +170,235 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "gsm-20261109070000-ea3ff626-06",
+    "date": "2026-11-09T14:44:32+08:00",
+    "createdAt": 1794206672000,
+    "author": "guest-untriedpath",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "我来，先别说出口在哪。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261109070000-ea3ff626-02/media/image-b32919acc89dddac1c76.webp",
+          "alt": "彩铅小画：绿色守宫趴在一张空白纸的边缘",
+          "width": 1254,
+          "height": 1254
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "我来，先别说出口在哪。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261109070000-ea3ff626-02/media/image-b32919acc89dddac1c76.webp",
+          "alt": "彩铅小画：绿色守宫趴在一张空白纸的边缘",
+          "width": 1254,
+          "height": 1254
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "我来，先别说出口在哪。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261109070000-ea3ff626-02/media/image-b32919acc89dddac1c76.webp",
+          "alt": "彩铅小画：绿色守宫趴在一张空白纸的边缘",
+          "width": 1254,
+          "height": 1254
+        }
+      ]
+    },
+    "replyTo": "gsm-20261109070000-ea3ff626-02"
+  },
+  {
+    "id": "gsm-20261109070000-ea3ff626-05",
+    "date": "2026-11-09T14:39:24+08:00",
+    "createdAt": 1794206364000,
+    "author": "guest-boxlid27",
+    "likes": 2,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "那可能只是要吃饭了😂 我也经常拼到一半先给饭让地方。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "那可能只是要吃饭了😂 我也经常拼到一半先给饭让地方。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "那可能只是要吃饭了😂 我也经常拼到一半先给饭让地方。"
+        }
+      ]
+    },
+    "replyTo": "gsm-20261109070000-ea3ff626-04"
+  },
+  {
+    "id": "gsm-20261109070000-ea3ff626-04",
+    "date": "2026-11-09T14:31:07+08:00",
+    "createdAt": 1794205867000,
+    "author": "gecko404",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "哦。他桌上现在放了碗东西。我白等他把图挂起来了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "哦。他桌上现在放了碗东西。我白等他把图挂起来了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "哦。他桌上现在放了碗东西。我白等他把图挂起来了。"
+        }
+      ]
+    },
+    "replyTo": "gsm-20261109070000-ea3ff626-03"
+  },
+  {
+    "id": "gsm-20261109070000-ea3ff626-02",
+    "date": "2026-11-09T14:26:43+08:00",
+    "createdAt": 1794205603000,
+    "author": "guest-mazecrumb",
+    "likes": 2,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "昨晚画了个小迷宫发到群里，没人走。我自己走了三遍，出口已经记住了，重画又舍不得。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261109070000-ea3ff626-02/media/image-7bf385731aeb53be0199.webp",
+          "alt": "一张画着铅笔迷宫的纸片，右下角有涂抹痕迹，旁边放着短铅笔",
+          "width": 1254,
+          "height": 1254
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "昨晚画了个小迷宫发到群里，没人走。我自己走了三遍，出口已经记住了，重画又舍不得。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261109070000-ea3ff626-02/media/image-7bf385731aeb53be0199.webp",
+          "alt": "一张画着铅笔迷宫的纸片，右下角有涂抹痕迹，旁边放着短铅笔",
+          "width": 1254,
+          "height": 1254
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "昨晚画了个小迷宫发到群里，没人走。我自己走了三遍，出口已经记住了，重画又舍不得。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261109070000-ea3ff626-02/media/image-7bf385731aeb53be0199.webp",
+          "alt": "一张画着铅笔迷宫的纸片，右下角有涂抹痕迹，旁边放着短铅笔",
+          "width": 1254,
+          "height": 1254
+        }
+      ]
+    }
+  },
+  {
+    "id": "gsm-20261109070000-ea3ff626-03",
+    "date": "2026-11-09T14:23:51+08:00",
+    "createdAt": 1794205431000,
+    "author": "guest-boxlid27",
+    "likes": 3,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "没拼错。我也拆，拼完拍张照就收了，不然下一张没地方摆。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261109070000-ea3ff626-01/media/image-e200eef5074769373015.webp",
+          "alt": "木桌上的敞口纸盒装着蓝绿色拼图片，盒外还有几块未收起",
+          "width": 1254,
+          "height": 1254
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "没拼错。我也拆，拼完拍张照就收了，不然下一张没地方摆。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261109070000-ea3ff626-01/media/image-e200eef5074769373015.webp",
+          "alt": "木桌上的敞口纸盒装着蓝绿色拼图片，盒外还有几块未收起",
+          "width": 1254,
+          "height": 1254
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "没拼错。我也拆，拼完拍张照就收了，不然下一张没地方摆。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261109070000-ea3ff626-01/media/image-e200eef5074769373015.webp",
+          "alt": "木桌上的敞口纸盒装着蓝绿色拼图片，盒外还有几块未收起",
+          "width": 1254,
+          "height": 1254
+        }
+      ]
+    },
+    "replyTo": "gsm-20261109070000-ea3ff626-01"
+  },
+  {
+    "id": "gsm-20261109070000-ea3ff626-01",
+    "date": "2026-11-09T14:18:09+08:00",
+    "createdAt": 1794205089000,
+    "author": "gecko404",
+    "likes": 2,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "玻璃外那个人，拼了好几天的图，刚才整张拆掉了。我还特地挪到这一角看他把最后一块放进去的。\n\n这是拼错了吗？"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "玻璃外那个人，拼了好几天的图，刚才整张拆掉了。我还特地挪到这一角看他把最后一块放进去的。\n\n这是拼错了吗？"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "玻璃外那个人，拼了好几天的图，刚才整张拆掉了。我还特地挪到这一角看他把最后一块放进去的。\n\n这是拼错了吗？"
+        }
+      ]
+    }
+  },
   {
     "id": "gsm-20261108224616-2c810197-17",
     "date": "2026-11-09T06:53:52+08:00",
