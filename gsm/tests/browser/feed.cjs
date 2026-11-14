@@ -1,5 +1,6 @@
 const assert=require('node:assert/strict');
 const fs=require('node:fs/promises');
+const path=require('node:path');
 const {chromium,webkit}=require('playwright');
 const base=(process.env.BASE_URL||'http://127.0.0.1:8797').replace(/\/$/,'');
 const name=process.env.BROWSER||'chromium';
@@ -292,6 +293,47 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
   assert.equal(await motionLike.locator('.heart-core').evaluate(e=>getComputedStyle(e).opacity),'0');
   assert.equal(await motionLike.locator('..').locator('.like-burst').count(),0,'unliking clears pending feedback');
   await motion.close();
+  // Exercise new media roles without publishing a test post or editing history.
+  const emoteContext=await browser.newContext({viewport:{width:1280,height:1000}});
+  const fixtureImage=await fs.readFile(path.join(__dirname,'../../assets/avatars/gecko404.webp'));
+  let fixturePostId;
+  await emoteContext.route('**/gsm/assets/emotes/gsm/browser-fixture.webp*',route=>route.fulfill({contentType:'image/webp',body:fixtureImage}));
+  await emoteContext.route('**/gsm/data/feed.mjs*',async route=>{
+   const response=await route.fetch(),source=await response.text();
+   const marker='\nexport const posts = ',offset=source.lastIndexOf(marker);
+   assert.notEqual(offset,-1,'fixture uses the normal generated feed');
+   const posts=JSON.parse(source.slice(offset+marker.length).replace(/;\s*$/,''));
+   const photo=posts.flatMap(post=>post.blocks.zh).find(block=>block.type==='image'&&block.kind!=='emote');
+   assert.ok(photo,'existing ordinary photo supplies the unchanged-layout comparison');
+   const root=posts.find(post=>!post.replyTo);fixturePostId=root.id;
+   const emote={type:'image',kind:'emote',src:'/gsm/assets/emotes/gsm/browser-fixture.webp',alt:'隔离的守宫表情测试',width:160,height:160};
+   const blocks=[{type:'text',text:'隔离显示测试，不写入帖子。'},photo,emote,{...emote}];
+   root.blocks={zh:blocks,en:blocks,ja:blocks};
+   await route.fulfill({response,body:source.slice(0,offset)+marker+JSON.stringify(posts)+';\n'});
+  });
+  const emotePage=await emoteContext.newPage();await emotePage.goto(base+'/gsm/?shell=leopard');await feedReady(emotePage);
+  const fixturePost=emotePage.locator(`[data-post-id="${fixturePostId}"]`),emotes=fixturePost.locator('.post-emote');
+  assert.equal(await emotes.count(),2,'repeated emotes remain separate reactions');
+  await emotes.first().scrollIntoViewIfNeeded();
+  await emotes.first().locator('img').evaluate(image=>image.decode());
+  for(const viewport of [{width:1280,height:1000},{width:390,height:844},{width:844,height:390}]){
+   await emotePage.setViewportSize(viewport);
+   const geometry=await fixturePost.evaluate(post=>{
+    const rem=parseFloat(getComputedStyle(document.documentElement).fontSize),photo=post.querySelector('.post-media:not(.post-emote) img');
+    return {rem,photoWidth:photo.getBoundingClientRect().width,photoRendering:getComputedStyle(photo).imageRendering,emotes:[...post.querySelectorAll('.post-emote img')].map(image=>{
+     const rect=image.getBoundingClientRect(),css=getComputedStyle(image);
+     return {width:rect.width,height:rect.height,fit:css.objectFit,filter:css.filter,blend:css.mixBlendMode,rendering:css.imageRendering,linked:Boolean(image.closest('a'))};
+    })};
+   });
+   assert.equal(geometry.photoRendering,'pixelated','ordinary photos keep their existing rendering');
+   for(const image of geometry.emotes){
+    assert.ok(image.width<=Math.min(80*geometry.rem,80)+.75&&image.height<=Math.min(80*geometry.rem,80)+.75,'emotes stay compact in every layout');
+    assert.ok(geometry.photoWidth>image.width*2,'ordinary photos keep their existing larger layout');
+    assert.equal(image.fit,'contain');assert.equal(image.linked,false,'emotes do not open an original-photo view');
+    assert.match(image.filter,/grayscale\(1\)/);assert.equal(image.blend,'multiply');assert.equal(image.rendering,'auto','hand-drawn emotes keep smooth edges within the LCD treatment');
+   }
+  }
+  await emoteContext.close();
   if(process.env.QA_OUTPUT){
    await fs.mkdir(process.env.QA_OUTPUT,{recursive:true});const clean=await browser.newPage({viewport:{width:1280,height:1000},deviceScaleFactor:1});await clean.goto(base+'/gsm/');await feedReady(clean);await clean.evaluate(()=>document.fonts.ready);
    await clean.screenshot({path:`${process.env.QA_OUTPUT}/gsm-stream-${name}-desktop.png`});
@@ -299,6 +341,6 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
    await clean.setViewportSize({width:390,height:600});await clean.locator('#timeline').evaluate(e=>e.scrollTop=210);await clean.screenshot({path:`${process.env.QA_OUTPUT}/gsm-stream-${name}-scrolled.png`});
    await clean.locator('#settingsButton').click();await clean.screenshot({path:`${process.env.QA_OUTPUT}/gsm-stream-${name}-settings.png`});await clean.close();
   }
-  console.log(`${name}: painted low-poly pocket device at 7 sizes, contained LCD screen, locked header/keys, inner scrolling, linear pager messages, ${shellNames.length} random case intervals, fresh/reload redraws, tab isolation, explicit internal cases, manual settings and history, 3 languages, SVG/path likes, reduced motion, legacy storage and denial passed.`);
+  console.log(`${name}: painted low-poly pocket device at 7 sizes, contained LCD screen, locked header/keys, inner scrolling, linear pager messages, ${shellNames.length} random case intervals, fresh/reload redraws, tab isolation, explicit internal cases, manual settings and history, 3 languages, SVG/path likes, reduced motion, compact emotes beside unchanged photos, legacy storage and denial passed.`);
  }finally{await browser.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;});

@@ -692,12 +692,45 @@ def referenced_post_images(root):
     return references
 
 
-def engine_blocks_for(root, package_root, meta, body, public):
+def registered_emotes(root):
+    """Validate the installed pack once, including images not yet used in posts."""
+    relative = 'assets/emotes/gsm/manifest.json'
+    catalog_path = root / relative
+    if not catalog_path.exists() and not catalog_path.is_symlink():
+        return set()
+    current = root
+    for part in Path(relative).parts:
+        current /= part
+        if current.is_symlink():
+            raise ValueError('本站表情清单不能使用符号链接')
+    catalog = json.loads(catalog_path.read_text())
+    if (not isinstance(catalog, dict) or set(catalog) != {'version', 'name', 'items'}
+            or catalog['version'] != 1 or catalog['name'] != 'GSM' or not isinstance(catalog['items'], list)):
+        raise ValueError('本站表情清单无效')
+    paths = set()
+    for item in catalog['items']:
+        if (not isinstance(item, dict) or set(item) != {'id', 'name', 'src', 'alt'}
+                or not isinstance(item['id'], str) or not re.fullmatch(r'[a-z0-9][a-z0-9-]{0,63}', item['id'])
+                or item['src'] != f"assets/emotes/gsm/{item['id']}.webp" or item['src'] in paths
+                or any(not isinstance(item[key], str) or not item[key].strip() or item[key] != item[key].strip()
+                       or len(item[key]) > limit for key, limit in [('name', 40), ('alt', 240)])):
+            raise ValueError('本站表情条目无效或重复')
+        current = root
+        for part in Path(item['src']).parts:
+            current /= part
+            if current.is_symlink():
+                raise ValueError('本站表情图片不能使用符号链接')
+        with Image.open(local_path(root, item['src'])) as image:
+            if image.format != 'WEBP':
+                raise ValueError('本站表情需要真实 WebP 图片')
+            image.load()
+        paths.add(item['src'])
+    return paths
+
+
+def engine_blocks_for(root, package_root, meta, body, public, emotes):
     """Project canonical engine media into unchanged GSM image/text blocks."""
     blocks = [{'type': 'text', 'text': body}] if body else []
-    catalog_path = root / 'assets/emotes/gsm/manifest.json'
-    catalog = json.loads(catalog_path.read_text()) if catalog_path.exists() else {'items': []}
-    emotes = {item['src'] for item in catalog['items']}
     for media in meta['media']:
         if not isinstance(media, dict) or set(media) - {'src', 'alt', 'fit', 'kind'}:
             raise ValueError('独立引擎媒体字段无效')
@@ -716,8 +749,11 @@ def engine_blocks_for(root, package_root, meta, body, public):
             if image.format != 'WEBP':
                 raise ValueError('独立引擎媒体不是 WebP')
             image.load()
-            blocks.append({'type': 'image', 'src': '/gsm/' + value, 'alt': media['alt'],
-                           'width': image.width, 'height': image.height})
+            block = {'type': 'image', 'src': '/gsm/' + value, 'alt': media['alt'],
+                     'width': image.width, 'height': image.height}
+            if media.get('kind') == 'emote' or value in emotes:
+                block['kind'] = 'emote'
+            blocks.append(block)
         public.add('gsm/' + value)
     return blocks
 
@@ -774,7 +810,8 @@ def _build_unlocked(root):
     root = root.resolve()
     if (root / '.publishing/update-pending.json').exists() or (root / '.publish-pending.json').exists():
         raise ValueError('AI 批次尚未完成归档；请用原操作恢复导入后再构建')
-    posts, profiles, public, ids = [], {}, set(), set()
+    emotes = registered_emotes(root)
+    posts, profiles, public, ids = [], {}, {'gsm/' + src for src in emotes}, set()
     registry = sync_users(root)
     characters = dict(registry)
     # A canonical reply may sit in an older root package than the guest's first
@@ -856,7 +893,7 @@ def _build_unlocked(root):
         likes = initial_likes(meta)
         folder = path.parent
         package_root = folder.parent if folder.name == 'replies' else folder
-        localized = {'zh': engine_blocks_for(root, package_root, meta, body, public) if meta.get('_engine') else
+        localized = {'zh': engine_blocks_for(root, package_root, meta, body, public, emotes) if meta.get('_engine') else
                      blocks_for(root, folder, body, public, package_root=package_root, replacements=replacements)}
         documents[path] = path.read_text()
         for lang in ('en', 'ja'):

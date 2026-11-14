@@ -112,6 +112,7 @@ test('new canonical root and native-thread reply render, retry and keep old sour
   assert.equal(visible.createdAt, Date.parse(createdAt));
   assert.equal(visible.blocks.zh.length, 1); assert.equal(visible.blocks.zh[0].type, 'image');
   assert.equal(visible.blocks.zh[0].src, '/gsm/' + image);
+  assert.equal(visible.blocks.zh[0].kind, undefined, 'ordinary photos retain their original feed shape');
   const verified = await verifyPreservedReadAndRebuild(root);
   for (const post of posts) {
     assert.deepEqual(verified.canonicalPosts.find(item => item.id === post.id), post);
@@ -180,6 +181,9 @@ test('returning native guest keeps its biography and registered emotes use GSM a
   const runtime = await import('data:text/javascript;base64,' + Buffer.from(source).toString('base64'));
   assert.equal(runtime.profiles[guest].bio, biography);
   assert.equal(runtime.posts.find(post => post.id === reply.id).blocks.zh[0].src, '/gsm/' + src);
+  for (const language of ['zh', 'en', 'ja']) {
+    assert.equal(runtime.posts.find(post => post.id === reply.id).blocks[language][0].kind, 'emote');
+  }
   const manifest = JSON.parse(await readFile(join(root, '.publishing/public.json'), 'utf8'));
   assert.ok(manifest.includes('gsm/' + src));
   const verified = await verifyPreservedReadAndRebuild(root);

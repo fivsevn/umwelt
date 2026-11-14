@@ -183,7 +183,7 @@ node gsm/tools/update.mjs suggest --work /outside/work
 ]
 ```
 
-`kind` 按实际用途核对，不能把表情标为普通图片。旧帖未填写时继续兼容显示，修订该帖时补齐。公共表情入口为 `assets/emotes/gsm/`，[GSM表情清单](../assets/emotes/gsm/manifest.json)登记实际存在的 WebP。初始清单为空，不导入 L0 图像；需要反应图时，可以先在所属根串 `media/` 生成并审读守宫图，仍标记 `kind: "emote"`。以后登记为公共资源的图可由多帖引用，公共图不随旧帖清理。清单随阅读材料和单条写作输入提供。
+`kind` 按实际用途核对，不能把表情标为普通图片。旧帖未填写时继续兼容显示，修订该帖时补齐。公共表情入口为 `assets/emotes/gsm/`，[GSM表情清单](../assets/emotes/gsm/manifest.json)登记实际存在的 WebP。日常写作可以直接引用清单中的守宫表情，仍标记 `kind: "emote"`；现有资源没有合适反应时，可在所属根串 `media/` 生成并审读新的守宫图。公共资源可由多帖引用，不随旧帖清理。表情清单与[守宫颜文字](../assets/emotes/kaomoji.json)随阅读材料和单条写作输入提供，按当次表达采用，不设逐帖或整轮使用配额。
 
 采用外部素材时，在对应 `research.summary` 保存资源页、作者、使用依据和处理方式；需要署名的素材在帖文或图片画面中保留署名与来源。
 

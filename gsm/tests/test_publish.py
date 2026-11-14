@@ -89,6 +89,29 @@ class Publishing(unittest.TestCase):
         cursor = p.git(self.repo, 'rev-parse', 'HEAD').decode().strip()
         p.write(self.root/'.publishing/state.json', p.json_text({'version': 1, 'cursor': cursor, 'last_digest': None}))
 
+    def test_installed_emotes_publish_without_posts_using_them_and_leave_history_unchanged(self):
+        folder = self.publish(self.trigger('已有正文保持原样。'))
+        p.build(self.root)
+        original_post = (folder/'index.md').read_bytes()
+        original_feed = (self.root/'data/feed.mjs').read_bytes()
+        items = [{'id': ident, 'name': ident, 'src': f'assets/emotes/gsm/{ident}.webp', 'alt': '测试守宫表情'}
+                 for ident in ['peek', 'flat']]
+        for item in items:
+            p.write(self.root/item['src'], picture('WEBP'))
+        p.write(self.root/'assets/emotes/gsm/unregistered.webp', b'not a published image')
+        p.write(self.root/'assets/emotes/gsm/manifest.json', p.json_text({'version': 1, 'name': 'GSM', 'items': items}))
+        p.build(self.root)
+        public = json.loads((self.root/'.publishing/public.json').read_text())
+        for item in items:
+            self.assertIn('gsm/' + item['src'], public)
+        self.assertNotIn('gsm/assets/emotes/gsm/unregistered.webp', public)
+        self.assertEqual((folder/'index.md').read_bytes(), original_post)
+        self.assertEqual((self.root/'data/feed.mjs').read_bytes(), original_feed)
+        p.write(self.root/items[1]['src'], picture('PNG'))
+        with self.assertRaisesRegex(ValueError, '真实 WebP'):
+            p.build(self.root)
+        self.assertEqual((self.root/'data/feed.mjs').read_bytes(), original_feed)
+
     def test_random_identity_is_permanent_and_fixed_or_inactive_users_are_excluded(self):
         self.edit_user('fixed7', name='固定角色', active=True, random_assignable=False)
         folder = self.publish('没有填用户名的文字。', 'random-post')

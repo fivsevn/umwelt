@@ -1,0 +1,184 @@
+{
+  "source": "atlas.png",
+  "sourceWidth": 1254,
+  "sourceHeight": 1254,
+  "outputSize": 160,
+  "contentMaximum": 140,
+  "crops": [
+    {
+      "id": "neutral",
+      "left": 0,
+      "top": 0,
+      "width": 254,
+      "height": 250
+    },
+    {
+      "id": "huh",
+      "left": 254,
+      "top": 0,
+      "width": 234,
+      "height": 250
+    },
+    {
+      "id": "speechless",
+      "left": 488,
+      "top": 0,
+      "width": 256,
+      "height": 250
+    },
+    {
+      "id": "angry",
+      "left": 744,
+      "top": 0,
+      "width": 236,
+      "height": 250
+    },
+    {
+      "id": "cry",
+      "left": 980,
+      "top": 0,
+      "width": 274,
+      "height": 250
+    },
+    {
+      "id": "laugh",
+      "left": 0,
+      "top": 250,
+      "width": 254,
+      "height": 240
+    },
+    {
+      "id": "melon",
+      "left": 254,
+      "top": 250,
+      "width": 234,
+      "height": 240
+    },
+    {
+      "id": "flat",
+      "left": 488,
+      "top": 250,
+      "width": 256,
+      "height": 240
+    },
+    {
+      "id": "okay",
+      "left": 744,
+      "top": 250,
+      "width": 236,
+      "height": 240
+    },
+    {
+      "id": "doubt",
+      "left": 980,
+      "top": 250,
+      "width": 274,
+      "height": 240
+    },
+    {
+      "id": "disgust",
+      "left": 0,
+      "top": 490,
+      "width": 254,
+      "height": 240
+    },
+    {
+      "id": "heh",
+      "left": 254,
+      "top": 490,
+      "width": 234,
+      "height": 240
+    },
+    {
+      "id": "heated",
+      "left": 488,
+      "top": 490,
+      "width": 256,
+      "height": 240
+    },
+    {
+      "id": "clap",
+      "left": 744,
+      "top": 490,
+      "width": 236,
+      "height": 240
+    },
+    {
+      "id": "tableflip",
+      "left": 980,
+      "top": 490,
+      "width": 274,
+      "height": 240
+    },
+    {
+      "id": "hold-it",
+      "left": 0,
+      "top": 730,
+      "width": 254,
+      "height": 240
+    },
+    {
+      "id": "ignore",
+      "left": 254,
+      "top": 730,
+      "width": 234,
+      "height": 240
+    },
+    {
+      "id": "sweat",
+      "left": 488,
+      "top": 730,
+      "width": 256,
+      "height": 240
+    },
+    {
+      "id": "guilty",
+      "left": 744,
+      "top": 730,
+      "width": 236,
+      "height": 240
+    },
+    {
+      "id": "play-dead",
+      "left": 980,
+      "top": 730,
+      "width": 274,
+      "height": 240
+    },
+    {
+      "id": "crash",
+      "left": 0,
+      "top": 970,
+      "width": 254,
+      "height": 284
+    },
+    {
+      "id": "peek",
+      "left": 254,
+      "top": 970,
+      "width": 234,
+      "height": 284
+    },
+    {
+      "id": "wait",
+      "left": 488,
+      "top": 970,
+      "width": 256,
+      "height": 284
+    },
+    {
+      "id": "plead",
+      "left": 744,
+      "top": 970,
+      "width": 206,
+      "height": 284
+    },
+    {
+      "id": "leave",
+      "left": 950,
+      "top": 970,
+      "width": 304,
+      "height": 284
+    }
+  ]
+}

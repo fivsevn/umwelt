@@ -6,7 +6,7 @@ import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { refreshIntake } from '../tools/engine/intake-refresh.js';
-import { prepareUpdate, briefUpdatePost, checkpointUpdate, suggestUpdatePresentation, validateUpdateForBatch, finishUpdate } from '../tools/engine/operations.js';
+import { prepareUpdate, briefUpdatePost, checkpointUpdate, suggestUpdatePresentation, validateUpdateForBatch, finishUpdate, drawThreadReplyCount } from '../tools/engine/operations.js';
 import { loadContent, ingestBatch } from '../tools/engine/content.js';
 import { parsePublicFeed } from '../tools/engine/verify-live.js';
 import { threadDirectory } from '../tools/engine/thread-packages.js';
@@ -21,7 +21,7 @@ function localStamp(now) {
     hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' }).formatToParts(now).map(part => [part.type, part.value]));
   return `${parts.year}-${parts.month}-${parts.day} ${parts.hour}:${parts.minute}:${parts.second}`;
 }
-async function fixture(t) {
+async function fixture(t, { installedEmotes = false } = {}) {
   const directory = await mkdtemp(join(tmpdir(), 'gsm-operation-test-'));
   t.after(() => rm(directory, { recursive: true, force: true }));
   let root = join(directory, 'project/gsm');
@@ -30,11 +30,13 @@ async function fixture(t) {
   for (const path of ['docs', 'environment', 'users', 'posts', 'assets', 'data', 'README.md', 'accounts.json', 'publication.json']) {
     await cp(join(sourceRoot, path), join(root, path), { recursive: true });
   }
-  // A fixture-only catalog exercises image verification without generating or
-  // publishing any new media in the real checkout.
-  await cp(join(root, 'assets/avatars/gecko404.webp'), join(root, 'assets/emotes/gsm/test-face.webp'));
-  await save(join(root, 'assets/emotes/gsm/manifest.json'), { version: 1, name: 'GSM',
-    items: [{ id: 'test-face', name: '测试表情', src: 'assets/emotes/gsm/test-face.webp', alt: '测试守宫头像' }] });
+  if (!installedEmotes) {
+    // A fixture-only catalog exercises image verification without generating or
+    // publishing any new media in the real checkout.
+    await cp(join(root, 'assets/avatars/gecko404.webp'), join(root, 'assets/emotes/gsm/test-face.webp'));
+    await save(join(root, 'assets/emotes/gsm/manifest.json'), { version: 1, name: 'GSM',
+      items: [{ id: 'test-face', name: '测试表情', src: 'assets/emotes/gsm/test-face.webp', alt: '测试守宫头像' }] });
+  }
   const now = Date.now();
   const text = '# Test-only material\n<!-- samples:start -->\n采集时间：' + localStamp(now - 60000) + '（北京时间）\n\n' +
     Array.from({ length: 8 }, (_, index) => `### 讨论 ${index}\n1. **发言者 1**：测试片段 ${index} 的东西又被挪走了。\n2. **发言者 2**：有点烦。`).join('\n\n') + '\n<!-- samples:end -->\n';
@@ -50,6 +52,58 @@ function research(now) {
     { category: 'daily', kind: 'thread', url: 'https://forum.example.net/daily', visitedAt: iso(now), publishedAt: null, summary: 'Synthetic test source containing everyday details.' }
   ];
 }
+
+test('daily reading and isolated writers receive the installed gecko emotes and kaomoji for originals, cases and replies', async t => {
+  const f = await fixture(t, { installedEmotes: true });
+  const emotesPath = 'assets/emotes/gsm/manifest.json', kaomojiPath = 'assets/emotes/kaomoji.json';
+  const emotes = await json(join(f.root, emotesPath)), kaomoji = await json(join(f.root, kaomojiPath));
+  assert.equal(emotes.items.length, 25);
+  assert.equal(kaomoji.items.length, 41);
+  const prepared = await prepareUpdate(f.options), reading = await readFile(prepared.readingPath, 'utf8');
+  for (const path of [emotesPath, kaomojiPath]) assert.ok(reading.includes(await readFile(join(f.root, path), 'utf8')));
+  const operation = await json(prepared.operationPath), roots = operation.plan.caseAdaptation.rootOrder;
+  const caseIds = new Set(operation.plan.caseAdaptation.items.map(item => item.postId));
+  assert.ok(roots.some(id => caseIds.has(id)) && roots.some(id => !caseIds.has(id)));
+  const checkCatalogs = brief => {
+    assert.ok(brief.writer);
+    assert.deepEqual(brief.writer.siteEmotes, { sourcePath: emotesPath, ...emotes });
+    assert.deepEqual(brief.writer.localization.siteEmotes, { sourcePath: emotesPath, ...emotes });
+    assert.deepEqual(brief.writer.localization.kaomoji, { sourcePath: kaomojiPath, ...kaomoji });
+    assert.match(brief.writer.writing.text, /按人物习惯和眼前语气适量采用/);
+    assert.doesNotMatch(brief.writer.writing.text, /## 审读|清单为空/);
+  };
+  const replyKinds = new Set();
+  const replyCount = rootId => drawThreadReplyCount({ seed: operation.plan.seed, rootId, replyLottery: operation.plan.replyLottery });
+  const checkReply = async (postId, suffix, adapted) => {
+    const reply = await briefUpdatePost({ ...f.options, postId: operation.id + '-emote-catalog-reply-' + suffix, replyTo: postId, view: 'writer' });
+    checkCatalogs(reply);
+    assert.equal(Boolean(reply.writer.caseAdaptation), adapted);
+    assert.match(reply.writer.comments.text, /用表情接话/);
+    replyKinds.add(adapted ? 'case' : 'original');
+  };
+  for (const [index, postId] of roots.entries()) {
+    const full = await briefUpdatePost({ ...f.options, postId });
+    checkCatalogs(full);
+    assert.equal(Boolean(full.writer.caseAdaptation), caseIds.has(postId));
+    assert.ok(full.editor);
+    assert.doesNotMatch(full.editor.sources.writing.text, /清单为空/);
+    checkCatalogs(await briefUpdatePost({ ...f.options, postId, view: 'writer' }));
+    const saved = await json(prepared.operationPath);
+    saved.posts.push({ ...full.draft, text: '测试发言：这件事先放一会儿。' });
+    saved.reviews.push({ postId, negative: false, reason: 'Synthetic neutral draft for catalog delivery coverage.' });
+    await save(prepared.operationPath, saved);
+    if (caseIds.has(postId) || replyCount(postId) > 0) await checkReply(postId, index, caseIds.has(postId));
+  }
+  if (!replyKinds.has('original')) {
+    // A new original root may draw zero replies. Exercise a permitted existing
+    // thread instead of changing the saved lottery to force a reply.
+    const { feed } = await loadContent(f.root);
+    const target = feed.posts.find(post => post.replyTo === null && !post.deleted && replyCount(post.id) > 0);
+    assert.ok(target);
+    await checkReply(target.id, 'existing', false);
+  }
+  assert.deepEqual([...replyKinds].sort(), ['case', 'original']);
+});
 
 test('GSM prepares and resumes locally, separates writer input, archives once and verifies its own public feed and media', async t => {
   const f = await fixture(t), repository = dirname(f.root);

@@ -1,5 +1,156 @@
 {
   "version": 1,
   "name": "GSM",
-  "items": []
+  "items": [
+    {
+      "id": "neutral",
+      "name": "路过",
+      "src": "assets/emotes/gsm/neutral.webp",
+      "alt": "守宫侧着身四爪着地，半眯着眼微笑，带环纹的粗尾巴向上卷起。"
+    },
+    {
+      "id": "huh",
+      "name": "啊？",
+      "src": "assets/emotes/gsm/huh.webp",
+      "alt": "守宫坐着抬头张嘴，头顶有一个问号，粗尾巴盘在一旁。"
+    },
+    {
+      "id": "speechless",
+      "name": "无语",
+      "src": "assets/emotes/gsm/speechless.webp",
+      "alt": "守宫伏着身体，一只前爪托着脸颊，半闭着眼，嘴角向下。"
+    },
+    {
+      "id": "angry",
+      "name": "气死",
+      "src": "assets/emotes/gsm/angry.webp",
+      "alt": "守宫挺起身子皱眉，四爪撑地，头顶有红色怒气符号，尾巴高高竖起。"
+    },
+    {
+      "id": "cry",
+      "name": "呜呜",
+      "src": "assets/emotes/gsm/cry.webp",
+      "alt": "守宫把头贴在地面趴着，闭着眼流下两道蓝色眼泪，尾巴蜷在身后。"
+    },
+    {
+      "id": "laugh",
+      "name": "笑翻",
+      "src": "assets/emotes/gsm/laugh.webp",
+      "alt": "守宫露着肚皮向后翻倒，张嘴大笑，前后爪弯着，头旁有黄色强调线。"
+    },
+    {
+      "id": "melon",
+      "name": "吃瓜",
+      "src": "assets/emotes/gsm/melon.webp",
+      "alt": "守宫坐着用两只前爪抱住西瓜片，瞪圆眼睛看向一边，粗尾巴盘在身侧。"
+    },
+    {
+      "id": "flat",
+      "name": "趴平",
+      "src": "assets/emotes/gsm/flat.webp",
+      "alt": "守宫四肢摊开伏在地上，眼皮低垂，卷起的尾巴搭在身后。"
+    },
+    {
+      "id": "okay",
+      "name": "收到",
+      "src": "assets/emotes/gsm/okay.webp",
+      "alt": "守宫坐着举起一只前爪打招呼，睁大眼张嘴笑，爪边有黄色短线。"
+    },
+    {
+      "id": "doubt",
+      "name": "不信",
+      "src": "assets/emotes/gsm/doubt.webp",
+      "alt": "守宫坐着偏头斜眼看，一只前爪抵着下巴，嘴巴抿起。"
+    },
+    {
+      "id": "disgust",
+      "name": "嫌弃",
+      "src": "assets/emotes/gsm/disgust.webp",
+      "alt": "守宫皱嘴斜眼，一只前爪朝外推开，另一只前爪撑地，尾巴横在身后。"
+    },
+    {
+      "id": "heh",
+      "name": "呵呵",
+      "src": "assets/emotes/gsm/heh.webp",
+      "alt": "守宫坐着闭眼抬起下巴，嘴边吐出一小团气，尾巴盘在身体后面。"
+    },
+    {
+      "id": "heated",
+      "name": "急了",
+      "src": "assets/emotes/gsm/heated.webp",
+      "alt": "守宫把身子伏低向前瞪眼张嘴，粗尾巴高高翘起，旁边有红色双感叹号。"
+    },
+    {
+      "id": "clap",
+      "name": "拍爪",
+      "src": "assets/emotes/gsm/clap.webp",
+      "alt": "守宫闭眼笑着坐起，两只前爪在胸前相拍，旁边有黄色拍击线。"
+    },
+    {
+      "id": "tableflip",
+      "name": "掀垫",
+      "src": "assets/emotes/gsm/tableflip.webp",
+      "alt": "守宫张大嘴巴举起两只前爪，把一块格子方垫掀向右上方。"
+    },
+    {
+      "id": "hold-it",
+      "name": "憋住",
+      "src": "assets/emotes/gsm/hold-it.webp",
+      "alt": "守宫闭眼鼓着微红的脸颊，两只前爪捂在嘴边，粗尾巴卷在身侧。"
+    },
+    {
+      "id": "ignore",
+      "name": "懒得回",
+      "src": "assets/emotes/gsm/ignore.webp",
+      "alt": "守宫转过身背对前方，只回头斜看，粗尾巴盘在脚边。"
+    },
+    {
+      "id": "sweat",
+      "name": "流汗",
+      "src": "assets/emotes/gsm/sweat.webp",
+      "alt": "守宫趴坐着半眯眼伸舌头，头顶悬着一大滴蓝色汗状符号。"
+    },
+    {
+      "id": "guilty",
+      "name": "心虚",
+      "src": "assets/emotes/gsm/guilty.webp",
+      "alt": "守宫把脸低在两只前爪上，眉眼低垂，脸颊泛红，头顶有小问号。"
+    },
+    {
+      "id": "play-dead",
+      "name": "装死",
+      "src": "assets/emotes/gsm/play-dead.webp",
+      "alt": "守宫翻着肚皮仰躺，眼睛画成叉号，露着小舌头，四爪蜷起，头上有旋转线。"
+    },
+    {
+      "id": "crash",
+      "name": "宕机",
+      "src": "assets/emotes/gsm/crash.webp",
+      "alt": "守宫僵着四爪伏在地面，两眼睁圆，嘴微张，头顶转着螺旋线。"
+    },
+    {
+      "id": "peek",
+      "name": "探头",
+      "src": "assets/emotes/gsm/peek.webp",
+      "alt": "守宫从石头后探出头，一只前爪扣住石边，石旁有草，头边有黄色强调线。"
+    },
+    {
+      "id": "wait",
+      "name": "蹲后续",
+      "src": "assets/emotes/gsm/wait.webp",
+      "alt": "守宫趴着把两只前爪交叠在下巴下面，半眯眼向侧面看。"
+    },
+    {
+      "id": "plead",
+      "name": "求求",
+      "src": "assets/emotes/gsm/plead.webp",
+      "alt": "守宫坐着抬起亮晶晶的大眼睛，双前爪合在胸前，脸颊微红。"
+    },
+    {
+      "id": "leave",
+      "name": "溜了",
+      "src": "assets/emotes/gsm/leave.webp",
+      "alt": "守宫朝右快速爬走，侧头微笑，四肢张开，粗尾巴甩在身后，左侧有速度线。"
+    }
+  ]
 }
