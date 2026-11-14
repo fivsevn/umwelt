@@ -56,14 +56,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Run repository structural checks
-        run: node tools/check-all.mjs
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - name: Install G-stream publishing tools
         timeout-minutes: 3
         run: python -m pip install --disable-pip-version-check --timeout 30 --retries 2 -r gsm/tools/requirements.txt
+      - name: Install independent GSM image tools
+        run: npm ci --prefix gsm/tools/engine
+      - name: Run repository structural checks
+        run: node tools/check-all.mjs
       - name: Check G-stream publishing
         run: python -m unittest discover -s gsm/tests -p 'test_*.py' -v
       - name: Install font subsetting tools
