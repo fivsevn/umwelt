@@ -4,7 +4,7 @@
 
 ## 准备
 
-使用 Node.js 22 或更新版本与 Python 3。首次使用或依赖变化后，在仓库根目录执行 `npm ci --prefix gsm/tools/engine` 与 `python3 -m pip install -r gsm/tools/requirements.txt`，安装本地引擎及媒体适配依赖。执行环境提供内置运行时时使用其可用路径。入口为：
+后台发布支持 Linux/macOS，使用 Node.js 22 或更新版本与 Python 3；GitHub Actions 使用 Ubuntu。文件锁沿用 POSIX 机制，Windows 桌面版只运行前端与纯规则检查，后台文件系统及发布集成测试统一由 Ubuntu 检查执行。首次使用或依赖变化后，在仓库根目录执行 `npm ci --prefix gsm/tools/engine` 与 `python3 -m pip install -r gsm/tools/requirements.txt`，安装本地引擎及媒体适配依赖。执行环境提供内置运行时时使用其可用路径。入口为：
 
 ```sh
 node gsm/tools/update.mjs prepare

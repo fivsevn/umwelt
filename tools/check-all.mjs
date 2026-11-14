@@ -5,7 +5,12 @@ import {GAMES} from '../shared/games.mjs';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
 const directories=['tests',...Object.keys(GAMES).map(id=>`${id}/tests`)];
-const testFiles=(await Promise.all(directories.map(async directory=>(await readdir(new URL(directory+'/',new URL('../',import.meta.url)))).filter(name=>name.endsWith('.test.mjs')).map(name=>directory+'/'+name)))).flat().sort();
+const discoveredTests=(await Promise.all(directories.map(async directory=>(await readdir(new URL(directory+'/',new URL('../',import.meta.url)))).filter(name=>name.endsWith('.test.mjs')).map(name=>directory+'/'+name)))).flat().sort();
+// The GSM publisher uses POSIX file locks. Its filesystem integration runs in
+// the mandatory Ubuntu checks; Windows desktop QA still runs its UI contracts.
+const gsmPosixTests=new Set(['gsm/tests/engine-operation.test.mjs','gsm/tests/engine-intake.test.mjs','gsm/tests/shared-storage.test.mjs']);
+const testFiles=discoveredTests.filter(file=>process.platform!=='win32'||!gsmPosixTests.has(file));
+if(process.platform==='win32')console.log('[check-all] GSM POSIX publishing integration is covered by Ubuntu CI; running all Windows-compatible contracts.');
 const checks=[
  ['Node tests',['--test',...testFiles]],
  ['i18n',['isopoda/tools/check-i18n.mjs']],
