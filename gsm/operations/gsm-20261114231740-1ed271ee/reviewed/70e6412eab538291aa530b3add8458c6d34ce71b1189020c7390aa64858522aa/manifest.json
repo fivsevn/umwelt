@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "operationId": "gsm-20261114231740-1ed271ee",
+  "stage": "reviewed",
+  "sourceRevision": "7a55ea1fc06e06dace2529253bcd9b2e1ed0a4f0",
+  "files": [
+    {
+      "path": "media/posts/2026/11/gsm-20261114223712-323c55eb-08778e49fb5e/media/ryo-seen-selfie-tail-crop-r03.webp",
+      "bytes": 452348,
+      "sha256": "3a29d0af7eb1c9376de387f5ec57d2de11f2aa88a0678afda6b7cbe5809c4ffb"
+    },
+    {
+      "path": "media/posts/2026/11/gsm-20261114231740-1ed271ee-ab0f5682db9e/media/leaf-on-screen.webp",
+      "bytes": 424684,
+      "sha256": "e1c15a4d9b20605d380098ba66c87f253f1c8e340f8aab085ca0ffcabf55c6d0"
+    },
+    {
+      "path": "work/daily-material.json",
+      "bytes": 73456,
+      "sha256": "461f42da35f42890f51ffb332f91eb834ecf6e9a9e2d1fe613e368713dc2cfa5"
+    },
+    {
+      "path": "work/draft-history-gsm-20261114231740-1ed271ee.json",
+      "bytes": 125613,
+      "sha256": "c8c22797a03f3c2acc46c1e002f16094ae9ccefd7a824b5d5b7fe0c0f6ad6a45"
+    },
+    {
+      "path": "work/operation.json",
+      "bytes": 42872,
+      "sha256": "92bf310b6695bb07f27cbbb2f622c43925c0f1ea6e4344769fe97768ed626d80"
+    },
+    {
+      "path": "work/reading.md",
+      "bytes": 345939,
+      "sha256": "3cac6248908da96406fc77d170974b6402f609be104a253750542c2620f1b9a6"
+    }
+  ]
+}
