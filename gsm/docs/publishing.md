@@ -61,7 +61,7 @@ node gsm/tools/update.mjs prepare --work /outside/work
 
 `text` 保存实际文字；本站颜文字直接采用[清单](../assets/emotes/kaomoji.json)中的完整 `text`，作为正文保存，不登记为图片。纯图发言填空字符串，并在 `media` 登记实际图片。抓取及其他来源的表达先按[本站化](localization.md)转换，再写入公开字段。
 
-采用讨论审读的操作带有私有 `reviews` 数组，每条实际发言对应一项审读结果：
+采用讨论审读的操作带有过程记录 `reviews` 数组，每条实际发言对应一项审读结果：
 
 ```json
 { "postId": "update-example-01", "negative": true, "reason": "嫌对方反复误读自己的话，语气不耐烦。" }
@@ -195,7 +195,7 @@ node gsm/tools/update.mjs suggest --work /outside/work
 
 素材获取或生成受限时，保留当前操作，记录实际完成状态和具体原因，后续沿原操作接续。所需画面不能取得时，按实际表达重整对应草稿，`media` 只登记已取得、已检查的文件。
 
-采用媒体审读的操作，在私有 `mediaReviews` 中为每张实际普通图填写一项，不给表情填写，也不把这些字段放入公开帖子：
+采用媒体审读的操作，在过程记录 `mediaReviews` 中为每张实际普通图填写一项，不给表情填写，也不把这些字段放入公开帖子：
 
 ```json
 { "postId": "本轮帖号", "src": "posts/2026/11/根帖号/media/scene.webp", "type": "life-photo", "scene": "从守宫实际所在的玻璃内侧看向斜着的枝条，近处能见趾垫与玻璃反光，背景被遮挡。" }
@@ -203,7 +203,7 @@ node gsm/tools/update.mjs suggest --work /outside/work
 
 `type` 取 `life-photo`（生活照片）、`photo`（其他照片）、`screenshot` 或 `illustration`；`scene` 写实际画面与取景，按[配图定义](writing.md#配图)分类。工具核对逐张记录与真实引用，分类和场景供整轮画面对照使用，不构成生活照片配额。素材复用如实记录，不以另存同图掩盖重复；分类由执行者看图判断，工具不自动识别照片语义或 AI 痕迹。
 
-完成全部文字、媒体、分类和赞数后，再运行 `suggest`，按[整轮审读](writing.md#审读)对照 `recentUpdates`、`currentPosts`、初稿与实际图片。把返回的 `reviewBasis` 两个摘要原样写入私有 `diversityReview`，并填写 `content`、`images` 两项具体审读说明：前者列出相关帖号、重复的叙述路线及实际修改，也记下保留自然相似、随口或低信息表达的理由；后者记实际画面、取景、与近期配图的差异、整页表情疏密，以及 `mediaFollowThrough` 提示的具体候选取舍。说明按本轮具体内容填写，摘要只证明记录对应这份稿件，不代替内容判断。
+完成全部文字、媒体、分类和赞数后，再运行 `suggest`，按[整轮审读](writing.md#审读)对照 `recentUpdates`、`currentPosts`、初稿与实际图片。把返回的 `reviewBasis` 两个摘要原样写入过程记录 `diversityReview`，并填写 `content`、`images` 两项具体审读说明：前者列出相关帖号、重复的叙述路线及实际修改，也记下保留自然相似、随口或低信息表达的理由；后者记实际画面、取景、与近期配图的差异、整页表情疏密，以及 `mediaFollowThrough` 提示的具体候选取舍。说明按本轮具体内容填写，摘要只证明记录对应这份稿件，不代替内容判断。
 
 ```json
 "diversityReview": {
@@ -229,7 +229,7 @@ node gsm/tools/publish.mjs build
 node tools/check-all.mjs
 ```
 
-导入器核对原创一路的主帖、回复及整体额度、案例一路的固定私有映射，并对两路统一核对账号权限、资料变化、观察记录、帖子编号、父关系、时间、媒体路径、逐条分类与整轮审读摘要。公开文字与反应媒体还须通过[本站化校验](localization.md#发布与历史修订)；来源专有招呼、外部颜文字、emoji 与未完成守宫化的反应图须在修正后再发布。源帖实际接话关系与表达作用由执行者对照原文审读，工具不代替这一判断。媒体数量与旧操作差异统一按[抽签规则](lottery.md#保存与恢复)核对；候选未采用的具体取舍在整轮审读中说明。资料在创作期间发生变化时，用原工作目录重新执行 `prepare`，读清变化并重新审读原草稿。
+导入器核对原创一路的主帖、回复及整体额度、案例一路的固定案例映射，并对两路统一核对账号权限、资料变化、观察记录、帖子编号、父关系、时间、媒体路径、逐条分类与整轮审读摘要。公开文字与反应媒体还须通过[本站化校验](localization.md#发布与历史修订)；来源专有招呼、外部颜文字、emoji 与未完成守宫化的反应图须在修正后再发布。源帖实际接话关系与表达作用由执行者对照原文审读，工具不代替这一判断。媒体数量与旧操作差异统一按[抽签规则](lottery.md#保存与恢复)核对；候选未采用的具体取舍在整轮审读中说明。资料在创作期间发生变化时，用原工作目录重新执行 `prepare`，读清变化并重新审读原草稿。
 
 帖子 Markdown 是正文来源：
 
@@ -250,7 +250,7 @@ posts/YYYY/MM/根帖ID/
 node gsm/tools/update.mjs finish --work /outside/work
 ```
 
-工具核对本地帖子和线上 `https://umwelt.fivsevn.com/gsm/data/feed.mjs` 的本次内容，成功后清理操作文件、阅读副本，以及能够核对为本轮的工具生成写作包和素材读取凭据。初稿检查点与私有归档保留，其他工作文件不扫描删除；各类文件的边界见[文件保留与清理](#文件保留与清理)。已替换的原格式图片随转换清除。
+工具核对本地帖子和线上 `https://umwelt.fivsevn.com/gsm/data/feed.mjs` 的本次内容，成功后清理操作文件、阅读副本，以及能够核对为本轮的工具生成写作包和素材读取凭据。初稿检查点与 `gsm/operations/` 中的操作归档保留，其他工作文件不扫描删除；各类文件的边界见[文件保留与清理](#文件保留与清理)。已替换的原格式图片随转换清除。
 
 完成后用一两句简短文字概括本轮实际发布的内容，按需选择读者容易理解的要点，不设固定清单。本轮有新生成的普通配图时，在汇报中直接展示实际已发布的图片，并简短注明所属话题；使用线上归档图片，不另外制作网页截图或重画示例。后台细节仅在影响结果或需要用户处理时简短说明；未发帖时说明实际情况。
 
@@ -298,7 +298,7 @@ node gsm/tools/update.mjs cancel --work /outside/work
 | `data/feed.mjs` 与 `.publishing/public.json` | 由 GSM 正式帖子与档案生成，继续服务现有掌机页面；不导入参考站的分片信息流或页面。 |
 | 当前 `operation.json`、`reading.md` | 供当前更新与恢复使用，完成本地及线上核验后由 `finish` 删除；失败时保留。 |
 | 工作目录的 `briefs.json`、每日素材快照与读取凭据 | 只有工具能核对属于当前操作时，随成功收尾清除；不按文件名猜测归属。 |
-| `draft-history-操作ID.json` 与私有操作归档 | 保存实际初稿、编辑过程和重放依据，有意保留；不进入网页与后续日常阅读包。长期积累主要占外部归档空间，不增加页面负载。 |
+| 工作目录的 `draft-history-操作ID.json` 与 `gsm/operations/` | 保存实际初稿、编辑过程和重放依据，有意保留；过程归档随本仓库提交，在 GitHub 上可见，不进入网页与后续日常阅读包。长期积累占用本仓库空间，不增加页面负载。 |
 | 锁、pending、staging | 属于进行中事务，按[恢复与修正](#恢复与修正)处理，不用定期清理任务删除。 |
 | 执行者自行生成的中间图、下载、截图、评估包等 | 放仓库外的本次工作目录，正式采用的媒体再进入发布包；完成任务、确认无需恢复后清理自己的已知文件，工具不遍历用户目录。 |
 
@@ -325,39 +325,42 @@ node gsm/tools/engine/writer-evaluation.js report --key /outside/review-v2/key.j
 
 ## 持久保存与工作流重放
 
-GitHub Actions 的准备与发布分别使用 `.github/workflows/gsm-prepare.yml`、`.github/workflows/gsm-publish.yml`。准备流程只手动启动；发布接收实际 `operation_id`，可指定不可变的 `bundle_id`，不再修改脚本里的运行编号、草稿 blob 或帖数。
+GitHub Actions 的准备与发布分别使用 `.github/workflows/gsm-prepare.yml`、`.github/workflows/gsm-publish.yml`。两份流程只手动启动，在 UMWELT 本仓库读写 [`gsm/operations/`](../operations/README.md)，使用本仓库正常提供的 `GITHUB_TOKEN`；不需要独立归档仓库、额外访问凭据或路西法零的写入权限。每日案例仍通过公开只读访问取得。
 
-两份流程只在本仓库运行，从输入 `archive_repository` 或仓库变量 `GSM_ARCHIVE_REPOSITORY` 读取私有归档仓库（`owner/repo`），`archive_ref` 默认 `main`，该分支须已存在；`GSM_ARCHIVE_TOKEN` 需要此私有仓库 Contents 读写权限。未配置时流程在开始处说明缺项，不将未发表草稿和审读记录上传到公开仓库的临时产物中。命令行更新仍可沿本页流程执行。每日案例读取仅用公开只读访问，不需要这个归档密钥；归档配置只授权 GSM 的私有审计保存。准备工作流不会自行写稿或发布，发布工作流只接受已完成独立写作与审读的真实操作。
+当前工作目录继续保存正在操作的文件；持久归档默认保存到 `gsm/operations/操作ID/阶段/摘要/`。归档包含阅读包、原操作与抽签、实际草稿、已有初稿历史、每日素材快照和引用媒体，并记录源提交与各文件校验和；`prepared` 和 `reviewed` 分别保存，后续修订保留先前版本。归档随 UMWELT 仓库公开，网页构建明确排除整个 `gsm/operations/`，日常阅读包也不扫描此目录。
 
-归档保存阅读包、原操作与抽签、实际草稿、已有初稿历史和引用媒体，并记录源提交与各文件校验和；`prepared` 和 `reviewed` 分别保存，后续修订保留先前版本。研究、档案、规则及工具源修改先提交，再沿原工作目录 `prepare` 补读并审定；归档工具拒绝未提交的源改动，仅允许本次已经逐字节纳入归档的媒体和指定工作目录。
+研究、档案、规则及工具源修改先提交，再沿原工作目录 `prepare` 补读并审定；归档工具拒绝未提交的源改动，仅允许本次已经逐字节纳入归档的媒体、操作归档和指定工作目录。归档提交本身不会使已审读操作失效：重放时比较源版本与当前版本，排除 `gsm/operations/` 的差异，其余实际源内容变化仍须补读、审读。
 
-在源仓库根目录执行，`GSM_WORK` 为原工作目录，`GSM_ARCHIVE` 为私有归档仓库的本地目录：
-
-```sh
-node gsm/tools/operation-archive.mjs save --root "$PWD/gsm" --work "$GSM_WORK" --archive "$GSM_ARCHIVE" --stage prepared
-node gsm/tools/operation-archive.mjs save --root "$PWD/gsm" --work "$GSM_WORK" --archive "$GSM_ARCHIVE" --stage reviewed
-```
-
-第二条在实际文字、图片与审读完成后执行；随后在归档仓库提交并推送 `operations/`。归档工具本身不联网、不自动推送；准备工作流先只读每日材料，再在指定私有归档仓库保存并提交 `prepared` 版本。
-
-恢复时先把源仓库切到清单记录的 `sourceRevision`，再执行：
+在源仓库根目录执行，`GSM_WORK` 为原工作目录：
 
 ```sh
-node gsm/tools/operation-archive.mjs restore --root "$PWD/gsm" --work "$GSM_WORK" --archive "$GSM_ARCHIVE" --operation 实际操作编号 --stage reviewed --bundle 实际摘要
+node gsm/tools/operation-archive.mjs save --root "$PWD/gsm" --work "$GSM_WORK" --stage prepared
+node gsm/tools/operation-archive.mjs save --root "$PWD/gsm" --work "$GSM_WORK" --stage reviewed
+git add -- gsm/operations
+git commit -m 'Archive GSM operation'
+git push origin main
 ```
 
-省略 `--bundle` 时读取该阶段最新版本；复查旧稿时使用明确摘要。工具验证全部文件与目标碰撞后才写入，迁移绝对工作路径时保持原抽签。旧稿可以离线复查，首次公开发布要求审读源版本与当前 `main` 一致，照常核对素材、父关系、时效、权限和审读。已经归档、仅因部署或线上核验中断而重试的操作，只有全部帖子与当前归档完全一致时，工作流才允许继续验证，不重新写稿或覆盖不同内容。归档不会延长旧操作的发帖时间窗口。
+`prepared` 在材料准备完成后保存，`reviewed` 在实际文字、图片与独立审读完成后保存；阶段完成时提交对应版本，不把尚未审读的草稿标为 `reviewed`。归档工具本身不联网、不自动推送；手动准备工作流先只读每日材料，再保存并提交 `prepared` 版本，不自行写稿或发帖。发布工作流接收实际 `operation_id`，可指定不可变的 `bundle_id`，只接受已完成写作与审读的真实操作，不修改脚本里的运行编号、草稿 blob 或帖数。
+
+从当前仓库已有归档恢复到空的仓库外工作目录：
+
+```sh
+node gsm/tools/operation-archive.mjs restore --root "$PWD/gsm" --work "$GSM_WORK" --operation 实际操作编号 --stage reviewed --bundle 实际摘要
+```
+
+省略 `--bundle` 时读取该阶段最新版本；复查旧稿时使用明确摘要。工具验证全部文件与目标碰撞后才写入，迁移绝对工作路径时保持原抽签。旧稿可以离线复查，首次公开发布仍核对有效源版本、素材、父关系、时效、权限和审读。已经发表、仅因部署或线上核验中断而重试的操作，只有全部帖子与当前归档完全一致时，工作流才允许继续验证，不重新写稿或覆盖不同内容。归档不会延长旧操作的发帖时间窗口。`--archive` 仅供旧的外部归档导出或恢复兼容，日常操作无需指定。
 
 ## Actions 与页面部署边界
 
 | 工作流 | 触发与作用 | 所需权限与配置 |
 | --- | --- | --- |
-| `gsm-check.yml` | GSM 代码或相关流程变更时运行，也可手动检查；使用隔离测试材料验证本地引擎，构建后核对历史、人物、头像与页面输出未被修改。 | 只读本仓库，不需要私有归档密钥或路西法零账号。 |
-| `gsm-prepare.yml` | 仅手动启动，只读每日素材并准备操作，将确切输入存入私有归档；不自行写稿、导入或发布。 | `GSM_ARCHIVE_REPOSITORY`（也可传 `archive_repository`）、已有 `archive_ref` 分支，以及对该私有归档具有 Contents 读写权限的 `GSM_ARCHIVE_TOKEN`。 |
-| `gsm-publish.yml` | 仅手动启动，接收 `operation_id`，可选不可变的 `bundle_id`；恢复 `reviewed` 版本，核对、归档并提交至 GSM 所在仓库，然后请求自身 Pages 部署并逐项核验。 | 同一 GSM 私有归档配置；本仓库的正常 `GITHUB_TOKEN` 用于本仓库提交与 Pages 工作流请求，不用于修改参考仓库。 |
+| `gsm-check.yml` | GSM 代码或相关流程变更时运行，也可手动检查；使用隔离测试材料验证本地引擎，构建后核对历史、人物、头像与页面输出未被修改。 | 只读本仓库，不需要额外凭据或路西法零账号。 |
+| `gsm-prepare.yml` | 仅手动启动，只读每日素材并准备操作，将确切输入提交到本仓库的 `gsm/operations/`；不自行写稿、导入或发布。 | 本仓库正常提供的 `GITHUB_TOKEN`，工作流声明 `contents: write`；无需额外仓库或密钥。 |
+| `gsm-publish.yml` | 仅手动启动，接收 `operation_id`，可选不可变的 `bundle_id`；从 `gsm/operations/` 恢复 `reviewed` 版本，核对并提交正式内容，然后请求自身 Pages 部署并逐项核验。 | 本仓库正常提供的 `GITHUB_TOKEN`，工作流声明 `contents: write` 与 `actions: write`；不用于修改参考仓库。 |
 | `pages.yml` | 普通站点部署。代码与维护改动只构建已有内容；真正的人工 `trigger.md` 或上传输入变更才进入既有人工导入流程。 | 手动运行的 `import_gsm_inputs` 默认 `false`，只有明确需要处理待发布人工输入时才设为 `true`。 |
 
-私有归档工作流在开始处检查仓库配置、令牌及私有可见性，缺少任一项便停止，不把未发表稿件转存公开产物。仓库中有工作流文件不代表这些配置已经完成，也不代表已经执行过真实发帖；实际运行结果单独核对。这个限制只影响远端私有重放流程，本地命令、隔离 CI、普通站点构建及每日素材只读访问仍独立运行。
+准备与发布共享本仓库的操作串行队列；提交前核对远端 `main`，源仓库在运行中发生变化时停止并保留已有归档，不强行覆盖其他提交。归档不进入网页产物，完成准备也不等于完成写作或真实发帖；实际运行结果单独核对。
 
 上述 GSM 工作流没有定时自动发帖任务。无写作者或独立编辑者执行时，准备只产生待办材料，发布只接收已存在的审定操作；不在 Actions 内假装完成写作或人工审读。两站没有共享发布锁、工作目录或采用账本。
 

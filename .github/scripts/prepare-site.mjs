@@ -5,7 +5,7 @@ import {resolve,dirname,relative,posix} from 'node:path';
 import {pathToFileURL} from 'node:url';
 export function publicFile(path){
  return !/^(?:\.git(?:hub|ignore)(?:\/|$)|docs\/|tests\/|tools\/|mac\/)/.test(path)
-  && !/^gsm\/(?:trigger\.md$|accounts\.json$|publication\.json$|\.publish(?:-pending\.json|\.lock|\-staging)(?:\/|$)|environment\/|uploads\/|users\/|posts\/|\.publishing\/|assets\/(?:avatars|emotes)\/)/.test(path)
+  && !/^gsm\/(?:trigger\.md$|accounts\.json$|publication\.json$|\.publish(?:-pending\.json|\.lock|\-staging)(?:\/|$)|environment\/|uploads\/|users\/|posts\/|operations(?:\/|$)|\.publishing\/|assets\/(?:avatars|emotes)\/)/.test(path)
   && !/^(?:MAINTENANCE\.md$|[^/]+\/(?:docs|tests|art|tools|dev)\/)/.test(path)
   && !/(?:^|\/)(?:README[^/]*\.md|AGENTS\.md|\.DS_Store)$/.test(path);
 }

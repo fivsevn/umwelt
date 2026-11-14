@@ -3,14 +3,14 @@ import assert from 'node:assert/strict';
 import { readFile, readdir, mkdtemp, cp, mkdir, writeFile, rm, access } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { tmpdir } from 'node:os';
-import { join, resolve, dirname } from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { join, dirname, basename } from 'node:path';
 import { loadContent, buildFeed, ingestBatch, validateContent, socialRoot } from '../tools/engine/content.js';
 import { readUserDocuments } from '../tools/engine/user-documents.js';
-import { readThreadPackages, writeThreadBatch, cancelPendingBatch } from '../tools/engine/thread-packages.js';
+import { readThreadPackages, writeThreadBatch, cancelPendingBatch, parsePostDocument } from '../tools/engine/thread-packages.js';
+import { parsePublicFeed } from '../tools/engine/verify-live.js';
 
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
-async function snapshot(root, folders = ['posts', 'users', 'assets/avatars']) {
+async function snapshot(root, folders = ['posts', 'users', 'assets/avatars', 'assets/emotes']) {
   const result = {};
   async function visit(path) {
     for (const entry of await readdir(join(root, path), { withFileTypes: true })) {
@@ -37,19 +37,40 @@ const batchOf = posts => ({ version: 1, id: 'gsm-storage-test', mode: 'daily', p
 const postOf = (id, changes = {}) => ({ id, author: 'gecko404', createdAt: new Date(Date.now() - 1000).toISOString(),
   replyTo: null, text: '测试用内容，只写入隔离临时目录。', likes: 0, canon: 'derivative', media: [], ...changes });
 
-test('native identities, reply relationships, media and files survive read and rebuild exactly', async t => {
-  const { root } = await fixture(t), before = await snapshot(root);
-  const original = await import(pathToFileURL(join(root, 'data/feed.mjs')).href);
-  const { feed, registry, legacyPosts } = await loadContent(root);
-  assert.equal(feed.posts.length, original.posts.length);
-  assert.equal(legacyPosts.length, original.posts.length);
+async function verifyPreservedReadAndRebuild(root) {
+  const before = await snapshot(root);
+  const original = parsePublicFeed(await readFile(join(root, 'data/feed.mjs'), 'utf8'));
+  const { feed, registry, legacyPosts, files } = await loadContent(root);
+  const ids = posts => posts.map(post => post.id).sort();
+  assert.deepEqual(ids(feed.posts), ids(original.posts));
+  // Both native YAML archives and later canonical packages are authoritative.
+  // Classify their actual source metadata rather than assuming every saved post
+  // still belongs to the pre-migration format.
+  const nativeIds = [], canonicalPosts = [];
+  for (const path of files) {
+    const source = await readFile(path, 'utf8');
+    const metadata = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/.exec(source)?.[1];
+    assert.ok(metadata, path);
+    if (/^author: /m.test(metadata)) canonicalPosts.push(parsePostDocument(source, path));
+    else {
+      assert.match(metadata, /^username: /m, path);
+      nativeIds.push(basename(path) === 'index.md' ? basename(dirname(path)) : basename(path, '.md'));
+    }
+  }
+  assert.deepEqual(ids(legacyPosts), nativeIds.sort());
+  assert.deepEqual([...nativeIds, ...ids(canonicalPosts)].sort(), ids(original.posts));
+  for (const archived of [...legacyPosts, ...canonicalPosts]) {
+    assert.deepEqual(feed.posts.find(post => post.id === archived.id), archived, archived.id);
+  }
   for (const saved of original.posts) {
     const post = feed.posts.find(post => post.id === saved.id);
     assert.ok(post, saved.id);
     assert.equal(post.author, saved.author);
     assert.equal(Date.parse(post.createdAt), saved.createdAt);
     assert.equal(post.replyTo, saved.replyTo ?? null);
-    assert.deepEqual(post.media.map(image => '/gsm/' + image.src), saved.blocks.zh.filter(block => block.type === 'image').map(block => block.src));
+    assert.equal(post.likes, saved.likes);
+    assert.deepEqual(post.media.map(image => ({ src: '/gsm/' + image.src, alt: image.alt })),
+      saved.blocks.zh.filter(block => block.type === 'image').map(({ src, alt }) => ({ src, alt })));
   }
   for (const id of ['backpackgecko', 'gedageda', 'isopodafugue']) {
     const user = registry.users.find(user => user.id === id);
@@ -61,6 +82,12 @@ test('native identities, reply relationships, media and files survive read and r
   await buildFeed(root);
   assert.deepEqual(await snapshot(root), before);
   await assert.rejects(access(join(root, 'data/feed.json')), { code: 'ENOENT' });
+  return { feed, legacyPosts, canonicalPosts };
+}
+
+test('native and canonical identities, reply relationships, media and files survive read and rebuild exactly', async t => {
+  const { root } = await fixture(t);
+  await verifyPreservedReadAndRebuild(root);
 });
 
 test('new canonical root and native-thread reply render, retry and keep old source bytes', async t => {
@@ -85,6 +112,11 @@ test('new canonical root and native-thread reply render, retry and keep old sour
   assert.equal(visible.createdAt, Date.parse(createdAt));
   assert.equal(visible.blocks.zh.length, 1); assert.equal(visible.blocks.zh[0].type, 'image');
   assert.equal(visible.blocks.zh[0].src, '/gsm/' + image);
+  const verified = await verifyPreservedReadAndRebuild(root);
+  for (const post of posts) {
+    assert.deepEqual(verified.canonicalPosts.find(item => item.id === post.id), post);
+    assert.equal(verified.legacyPosts.some(item => item.id === post.id), false);
+  }
   for (const [path, digest] of Object.entries(before)) {
     if (['data/feed.mjs'].includes(path)) continue;
     assert.equal(hash(await readFile(join(root, path))), digest, path);
@@ -150,4 +182,6 @@ test('returning native guest keeps its biography and registered emotes use GSM a
   assert.equal(runtime.posts.find(post => post.id === reply.id).blocks.zh[0].src, '/gsm/' + src);
   const manifest = JSON.parse(await readFile(join(root, '.publishing/public.json'), 'utf8'));
   assert.ok(manifest.includes('gsm/' + src));
+  const verified = await verifyPreservedReadAndRebuild(root);
+  assert.deepEqual(verified.canonicalPosts.find(post => post.id === reply.id), reply);
 });

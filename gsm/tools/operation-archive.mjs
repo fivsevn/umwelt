@@ -16,6 +16,21 @@ const canonical = value => Array.isArray(value) ? '[' + value.map(canonical).joi
 const encode = value => Buffer.from(JSON.stringify(value, null, 2) + '\n');
 const inside = (base, path) => { const rel = relative(base, path); return !rel || rel !== '..' && !rel.startsWith('../') && !isAbsolute(rel); };
 
+// Committing an operation bundle changes HEAD without changing the material
+// that was reviewed. Only the exact GSM operations directory is exempt.
+export async function archiveSourceMatches({ root, sourceRevision } = {}) {
+  if (!SHA.test(sourceRevision ?? '')) return false;
+  root = await directory(root);
+  const git = (...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+  const repository = await realpath(git('rev-parse', '--show-toplevel').trim());
+  const archivePath = relative(repository, join(root, 'operations')).split('\\').join('/');
+  try {
+    git('merge-base', '--is-ancestor', sourceRevision, 'HEAD');
+    return git('diff', '--name-only', '--no-renames', '-z', sourceRevision, 'HEAD', '--', ':/')
+      .split('\0').filter(Boolean).every(path => path.startsWith(archivePath + '/'));
+  } catch { return false; }
+}
+
 function safePath(base, path) {
   if (typeof path !== 'string' || !path || path.startsWith('/') || path.includes('\\') || path.split('/').some(part => !part || part === '.' || part === '..')) fail('invalid relative path');
   const target = resolve(base, path);
@@ -61,8 +76,10 @@ async function writeAtomic(base, path, bytes) {
 
 export async function saveArchive({ work, root, archive, stage, sourceRevision } = {}) {
   if (!stages.includes(stage)) fail('stage must be prepared or reviewed');
-  root = await directory(root); work = await directory(work); archive = await directory(archive, true);
-  if (inside(root, work) || inside(root, archive)) fail('working records and archives must remain outside the published directory');
+  root = await directory(root); work = await directory(work); archive = await directory(archive ?? root, true);
+  if (inside(root, work)) fail('temporary working records must remain outside the source directory');
+  if (archive !== root && inside(root, archive)) fail('use the GSM root for its operations archive');
+  const archiveDirectory = join(archive, 'operations');
   const git = (...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
   const head = git('rev-parse', 'HEAD').trim(), repository = await realpath(git('rev-parse', '--show-toplevel').trim());
   sourceRevision ??= head;
@@ -94,7 +111,7 @@ export async function saveArchive({ work, root, archive, stage, sourceRevision }
     ...git('ls-files', '--others', '--exclude-standard', '-z', '--full-name', '--', ':/').split('\0')].filter(Boolean);
   for (const path of changes) {
     const absolute = resolve(repository, path);
-    if (!inside(archive, absolute) && !inside(work, absolute) && !archivedMedia.has(absolute)) fail('source repository has uncommitted changes; commit them before archiving: ' + path);
+    if (!inside(archiveDirectory, absolute) && !inside(work, absolute) && !archivedMedia.has(absolute)) fail('source repository has uncommitted changes; commit them before archiving: ' + path);
   }
   const files = [...contents].sort(([a], [b]) => a.localeCompare(b, 'en')).map(([path, bytes]) => ({ path, bytes: bytes.length, sha256: hash(bytes) }));
   const manifest = { version: 1, operationId: operation.id, stage, sourceRevision, files };
@@ -113,7 +130,7 @@ export async function saveArchive({ work, root, archive, stage, sourceRevision }
 
 export async function restoreArchive({ archive, operationId, stage = 'reviewed', bundleId, work, root } = {}) {
   if (!ID.test(operationId) || !stages.includes(stage)) fail('invalid operation ID or stage');
-  archive = await directory(archive); root = await directory(root); work = await directory(work, true);
+  root = await directory(root); archive = await directory(archive ?? root); work = await directory(work, true);
   if (inside(root, work)) fail('working records must remain outside the published directory');
   const stagePath = 'operations/' + operationId + '/' + stage;
   if (!bundleId) {
@@ -168,13 +185,13 @@ export async function restoreArchive({ archive, operationId, stage = 'reviewed',
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   try {
     const [command, ...args] = process.argv.slice(2), options = {}, names = { '--work': 'work', '--root': 'root', '--archive': 'archive', '--stage': 'stage', '--operation': 'operationId', '--bundle': 'bundleId', '--source-revision': 'sourceRevision' };
-    if (!['save', 'restore'].includes(command) || args.length % 2) fail('use save|restore --work PATH --root PATH --archive PATH --stage prepared|reviewed [--operation ID] [--bundle SHA256] [--source-revision SHA]');
+    if (!['save', 'restore'].includes(command) || args.length % 2) fail('use save|restore --work PATH --root PATH --stage prepared|reviewed [--operation ID] [--bundle SHA256] [--archive EXPORT_ROOT] [--source-revision SHA]');
     for (let i = 0; i < args.length; i += 2) {
       const key = names[args[i]];
       if (!key || key in options || !args[i + 1]) fail('unknown, duplicate or incomplete option');
       options[key] = args[i + 1];
     }
-    if (!options.work || !options.root || !options.archive) fail('work, root and archive directories are required');
+    if (!options.work || !options.root) fail('work and root directories are required; archives default to ROOT/operations');
     console.log(JSON.stringify(await (command === 'save' ? saveArchive(options) : restoreArchive(options)), null, 2));
   } catch (error) { console.error(error.message); process.exitCode = 1; }
 }

@@ -2,23 +2,11 @@ name: Prepare GSM forum update
 run-name: Prepare GSM ${{ github.run_id }}
 on:
   workflow_dispatch:
-    inputs:
-      archive_repository:
-        description: Private owner/repo for replay inputs; defaults to GSM_ARCHIVE_REPOSITORY
-        type: string
-        required: false
-      archive_ref:
-        description: Existing private archive branch
-        type: string
-        default: main
-        required: true
 permissions:
-  contents: read
+  contents: write
 concurrency:
-  group: gsm-preparation
+  group: gsm-operations
   cancel-in-progress: false
-env:
-  ARCHIVE_REPOSITORY: ${{ inputs.archive_repository || vars.GSM_ARCHIVE_REPOSITORY }}
 jobs:
   prepare:
     runs-on: ubuntu-latest
@@ -34,34 +22,23 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Check GSM's private archive configuration
-        env:
-          GH_TOKEN: ${{ secrets.GSM_ARCHIVE_TOKEN }}
-        run: |
-          set -euo pipefail
-          test -n "$ARCHIVE_REPOSITORY" || { echo 'Configure GSM_ARCHIVE_REPOSITORY or archive_repository for private replay storage.'; exit 1; }
-          test -n "$GH_TOKEN" || { echo 'Configure GSM_ARCHIVE_TOKEN with Contents read/write for that private archive only.'; exit 1; }
-          test "$(gh api "repos/$ARCHIVE_REPOSITORY" --jq '.private')" = true || { echo 'Unpublished operation files require a private archive.'; exit 1; }
-      - uses: actions/checkout@v4
-        with:
-          repository: ${{ env.ARCHIVE_REPOSITORY }}
-          ref: ${{ inputs.archive_ref }}
-          token: ${{ secrets.GSM_ARCHIVE_TOKEN }}
-          path: _gsm_archive
       - run: python -m pip install -r gsm/tools/requirements.txt
       - run: npm ci --prefix gsm/tools/engine
       - name: Read daily material and prepare locally
         run: |
+          set -euo pipefail
           echo "GSM_WORK_DIR=$RUNNER_TEMP/gsm-current" >> "$GITHUB_ENV"
           node gsm/tools/update.mjs prepare --work "$RUNNER_TEMP/gsm-current"
-      - name: Persist exact preparation without posting
+      - name: Save preparation in gsm/operations without posting
         run: |
           set -euo pipefail
-          node gsm/tools/operation-archive.mjs save --root "$GITHUB_WORKSPACE/gsm" --work "$GSM_WORK_DIR" --archive "$GITHUB_WORKSPACE/_gsm_archive" --stage prepared
-          git -C _gsm_archive config user.name 'github-actions[bot]'
-          git -C _gsm_archive config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git -C _gsm_archive add -- operations
-          if ! git -C _gsm_archive diff --cached --quiet; then
-            git -C _gsm_archive commit -m 'Archive prepared GSM operation'
-            git -C _gsm_archive push
+          node gsm/tools/operation-archive.mjs save --root "$GITHUB_WORKSPACE/gsm" --work "$GSM_WORK_DIR" --stage prepared
+          git fetch origin main
+          test "$(git rev-parse HEAD)" = "$(git rev-parse FETCH_HEAD)" || { echo 'Main changed during preparation; review current main before saving this operation.'; exit 1; }
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- gsm/operations
+          if ! git diff --cached --quiet; then
+            git commit -m 'Archive prepared GSM operation'
+            git push origin HEAD:main
           fi

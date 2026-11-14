@@ -10,7 +10,7 @@ import { prepareUpdate, briefUpdatePost, checkpointUpdate, suggestUpdatePresenta
 import { loadContent, ingestBatch } from '../tools/engine/content.js';
 import { parsePublicFeed } from '../tools/engine/verify-live.js';
 import { threadDirectory } from '../tools/engine/thread-packages.js';
-import { saveArchive, restoreArchive } from '../tools/operation-archive.mjs';
+import { saveArchive, restoreArchive, archiveSourceMatches } from '../tools/operation-archive.mjs';
 
 const sourceRoot = fileURLToPath(new URL('../', import.meta.url));
 const json = async path => JSON.parse(await readFile(path, 'utf8'));
@@ -52,7 +52,11 @@ function research(now) {
 }
 
 test('GSM prepares and resumes locally, separates writer input, archives once and verifies its own public feed and media', async t => {
-  const f = await fixture(t), initial = await loadContent(f.root), prepared = await prepareUpdate(f.options);
+  const f = await fixture(t), repository = dirname(f.root);
+  const git = (...args) => execFileSync('git', args, { cwd: repository, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
+  const commit = message => git('-c', 'user.name=GSM Fixture', '-c', 'user.email=fixture@example.invalid', 'commit', '--quiet', '-m', message);
+  git('init', '--quiet'); git('add', '.'); commit('Synthetic committed GSM source');
+  const initial = await loadContent(f.root), prepared = await prepareUpdate(f.options);
   const original = await json(prepared.operationPath);
   assert.match(original.id, /^gsm-/);
   assert.ok([1, 2].includes(original.plan.budget));
@@ -97,13 +101,28 @@ test('GSM prepares and resumes locally, separates writer input, archives once an
   await checkpointUpdate({ ...f.options, stage: 'edited' });
   const batch = { version: 1, id: operation.id, mode: 'daily', posts: operation.posts };
   await validateUpdateForBatch(batch, { root: f.root, contextPath: prepared.operationPath, now: f.now });
-  await assert.rejects(ingestBatch(prepared.operationPath, { root: f.root, ai: true }), /Review the entire public batch/);
+  const saved = await saveArchive({ root: f.root, work: f.workDirectory, stage: 'reviewed' });
+  const manifest = await json(saved.manifestPath);
+  assert.ok(manifest.files.some(file => file.path === 'media/' + localEmote));
+  assert.ok(manifest.files.some(file => file.path === 'work/draft-history-' + operation.id + '.json'));
+  git('add', 'gsm/operations'); commit('Save reviewed operation in the same repository');
+  assert.equal(await archiveSourceMatches({ root: f.root, sourceRevision: saved.sourceRevision }), true);
+  const archivedMediaBytes = await readFile(join(f.root, localEmote));
+  await rm(join(f.root, localEmote));
+  const publicationWork = join(f.directory, 'restored-reviewed');
+  const restored = await restoreArchive({ root: f.root, work: publicationWork, operationId: operation.id, stage: 'reviewed' });
+  const publicationOptions = { ...f.options, workDirectory: publicationWork };
+  assert.deepEqual((await json(restored.operationPath)).posts, operation.posts);
+  assert.deepEqual((await json(restored.operationPath)).plan, operation.plan);
+  assert.deepEqual(await readFile(join(f.root, localEmote)), archivedMediaBytes);
+  await validateUpdateForBatch(batch, { root: f.root, contextPath: restored.operationPath, now: f.now });
+  await assert.rejects(ingestBatch(restored.operationPath, { root: f.root, ai: true }), /Review the entire public batch/);
   assert.equal(await readFile(join(f.root, 'data/feed.mjs'), 'utf8'), initialHistory);
-  const archived = await ingestBatch(prepared.operationPath, { root: f.root, ai: true, reviewed: true });
+  const archived = await ingestBatch(restored.operationPath, { root: f.root, ai: true, reviewed: true });
   assert.equal(archived.status, 'archived');
   const count = (await loadContent(f.root)).feed.posts.length;
   assert.equal(count, initial.feed.posts.length + operation.posts.length);
-  assert.equal((await ingestBatch(prepared.operationPath, { root: f.root, ai: true, reviewed: true })).status, 'already-archived');
+  assert.equal((await ingestBatch(restored.operationPath, { root: f.root, ai: true, reviewed: true })).status, 'already-archived');
   assert.equal((await loadContent(f.root)).feed.posts.length, count);
   assert.ok((await json(join(f.root, '.publishing/public.json'))).includes('gsm/' + localEmote));
 
@@ -111,7 +130,7 @@ test('GSM prepares and resumes locally, separates writer input, archives once an
   // matches the reviewed operation. A stale rendered copy cannot hide edits.
   const archivedPath = join(f.root, thread, 'index.md'), archivedText = await readFile(archivedPath, 'utf8');
   await writeFile(archivedPath, archivedText.replace(operation.posts[0].text, '测试：归档原文在审读后被改了。'));
-  await assert.rejects(finishUpdate({ ...f.options, fetchImpl: async () => { throw Error('must check canonical source first'); } }), /Local posts do not yet match/);
+  await assert.rejects(finishUpdate({ ...publicationOptions, fetchImpl: async () => { throw Error('must check canonical source first'); } }), /Local posts do not yet match/);
   await writeFile(archivedPath, archivedText);
 
   let corruptFeed = true, corruptMedia = false;
@@ -129,30 +148,32 @@ test('GSM prepares and resumes locally, separates writer input, archives once an
     const bytes = await readFile(join(f.root, decodeURIComponent(url.pathname.slice('/gsm/'.length))));
     return new Response(corruptMedia ? Buffer.from('wrong-media-bytes') : bytes);
   };
-  await assert.rejects(finishUpdate({ ...f.options, fetchImpl }), /Online GSM content does not match/);
-  assert.equal((await json(prepared.operationPath)).status, 'awaiting-online');
+  await assert.rejects(finishUpdate({ ...publicationOptions, fetchImpl }), /Online GSM content does not match/);
+  assert.equal((await json(restored.operationPath)).status, 'awaiting-online');
   corruptFeed = false; corruptMedia = true;
-  await assert.rejects(finishUpdate({ ...f.options, fetchImpl }), /Online GSM media differs/);
-  assert.ok(await readFile(prepared.readingPath));
+  await assert.rejects(finishUpdate({ ...publicationOptions, fetchImpl }), /Online GSM media differs/);
+  assert.ok(await readFile(join(publicationWork, 'reading.md')));
   corruptMedia = false;
   const localBytes = await readFile(join(f.root, localEmote));
   await rm(join(f.root, localEmote));
   await symlink(join(f.root, emote.src), join(f.root, localEmote));
-  await assert.rejects(finishUpdate({ ...f.options, fetchImpl }), /symlink|symbolic link|regular/);
+  await assert.rejects(finishUpdate({ ...publicationOptions, fetchImpl }), /symlink|symbolic link|regular/);
   await rm(join(f.root, localEmote));
   await writeFile(join(f.root, localEmote), localBytes);
-  const finished = await finishUpdate({ ...f.options, fetchImpl });
+  const finished = await finishUpdate({ ...publicationOptions, fetchImpl });
   assert.equal(finished.status, 'published');
   assert.equal(finished.count, operation.posts.length);
   assert.ok(requests.some(url => url.includes('/assets/avatars/')));
   assert.ok(requests.some(url => url.includes('/assets/emotes/gsm/')));
   assert.ok(requests.some(url => url.includes('/' + localEmote)));
-  await assert.rejects(readFile(prepared.operationPath), { code: 'ENOENT' });
-  await assert.rejects(readFile(join(f.workDirectory, 'daily-material.json')), { code: 'ENOENT' });
-  const history = await json(join(f.workDirectory, 'draft-history-' + operation.id + '.json'));
+  await assert.rejects(readFile(restored.operationPath), { code: 'ENOENT' });
+  await assert.rejects(readFile(join(publicationWork, 'daily-material.json')), { code: 'ENOENT' });
+  const history = await json(join(publicationWork, 'draft-history-' + operation.id + '.json'));
   assert.deepEqual(history.snapshots.map(snapshot => snapshot.stage), ['draft', 'edited']);
   assert.equal(history.snapshots[0].posts[0].media.length, 0);
   assert.equal(history.snapshots[1].posts[0].media.length, 2);
+  assert.deepEqual(await json(saved.manifestPath), manifest);
+  assert.deepEqual((await json(join(dirname(saved.manifestPath), 'work/operation.json'))).posts, operation.posts);
 });
 
 test('changing GSM source invalidates an existing brief while refresh preserves the original draw and draft', async t => {
@@ -167,20 +188,33 @@ test('changing GSM source invalidates an existing brief while refresh preserves 
   assert.notEqual(after.sourceDigest, before.sourceDigest);
 });
 
-test('private archive replay relocates the pinned material and preserves the draw, and rejects checksum corruption before restore', async t => {
+test('same-repository archive commits preserve the reviewed source and replay offline without changing the draw', async t => {
   const f = await fixture(t), repository = dirname(f.root);
-  execFileSync('git', ['init', '--quiet', repository]);
-  execFileSync('git', ['add', '.'], { cwd: repository });
-  execFileSync('git', ['-c', 'user.name=GSM Fixture', '-c', 'user.email=fixture@example.invalid', 'commit', '--quiet', '-m', 'Synthetic committed GSM source'], { cwd: repository });
+  const git = (...args) => execFileSync('git', args, { cwd: repository, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
+  const commit = message => git('-c', 'user.name=GSM Fixture', '-c', 'user.email=fixture@example.invalid', 'commit', '--quiet', '-m', message);
+  git('init', '--quiet'); git('add', '.'); commit('Synthetic committed GSM source');
   const prepared = await prepareUpdate(f.options), before = await json(prepared.operationPath);
-  const archive = join(f.directory, 'private-archive');
-  const saved = await saveArchive({ root: f.root, work: f.workDirectory, archive, stage: 'prepared' });
+  const saved = await saveArchive({ root: f.root, work: f.workDirectory, stage: 'prepared' });
   const manifest = await json(saved.manifestPath);
+  assert.equal(saved.manifestPath, join(f.root, 'operations', before.id, 'prepared', saved.bundleId, 'manifest.json'));
   assert.ok(manifest.files.some(file => file.path === 'work/daily-material.json'));
-  assert.equal(saved.sourceRevision, execFileSync('git', ['rev-parse', 'HEAD'], { cwd: repository, encoding: 'utf8' }).trim());
+  assert.equal(saved.sourceRevision, git('rev-parse', 'HEAD'));
+  git('add', 'gsm/operations'); commit('Save prepared operation in the same repository');
+  assert.notEqual(saved.sourceRevision, git('rev-parse', 'HEAD'));
+  assert.equal(await archiveSourceMatches({ root: f.root, sourceRevision: saved.sourceRevision }), true);
+  assert.equal(await archiveSourceMatches({ root: f.root, sourceRevision: '0'.repeat(40) }), false);
+  assert.equal(await archiveSourceMatches({ root: f.root, sourceRevision: 'HEAD' }), false);
+
+  const sameWork = join(f.directory, 'same-root-restored');
+  const same = await restoreArchive({ root: f.root, work: sameWork, operationId: before.id, stage: 'prepared' });
+  assert.deepEqual((await json(same.operationPath)).plan, before.plan);
+  await prepareUpdate({ root: f.root, workDirectory: sameWork, now: f.now + 1000,
+    entropy: () => { throw Error('archive-only commits must not redraw'); } });
+  assert.equal((await json(same.operationPath)).sourceDigest, before.sourceDigest);
+
   const movedRoot = join(f.directory, 'relocated/gsm'), movedWork = join(f.directory, 'relocated-work');
   await cp(f.root, movedRoot, { recursive: true });
-  const restored = await restoreArchive({ archive, operationId: before.id, stage: 'prepared', bundleId: saved.bundleId, root: movedRoot, work: movedWork });
+  const restored = await restoreArchive({ operationId: before.id, stage: 'prepared', bundleId: saved.bundleId, root: movedRoot, work: movedWork });
   const after = await json(restored.operationPath), material = await json(join(movedWork, 'daily-material.json'));
   assert.equal(after.root, await realpath(movedRoot));
   assert.equal(material.root, after.root);
@@ -194,10 +228,29 @@ test('private archive replay relocates the pinned material and preserves the dra
   await prepareUpdate({ root: movedRoot, workDirectory: movedWork, now: f.now + 1000, entropy: () => { throw Error('restored draw must not change'); } });
   assert.equal((await json(restored.operationPath)).sourceDigest, before.sourceDigest);
 
-  const archivedMaterial = join(dirname(saved.manifestPath), 'work/daily-material.json');
+  const archivedMaterial = join(movedRoot, 'operations', before.id, 'prepared', saved.bundleId, 'work/daily-material.json');
   await writeFile(archivedMaterial, (await readFile(archivedMaterial, 'utf8')) + '\n');
   const rejectedWork = join(f.directory, 'rejected-work');
-  await assert.rejects(restoreArchive({ archive, operationId: before.id, stage: 'prepared', bundleId: saved.bundleId, root: movedRoot, work: rejectedWork }), /checksum mismatch/);
+  await assert.rejects(restoreArchive({ operationId: before.id, stage: 'prepared', bundleId: saved.bundleId, root: movedRoot, work: rejectedWork }), /checksum mismatch/);
   await assert.rejects(readFile(join(rejectedWork, 'operation.json')), { code: 'ENOENT' });
   await assert.rejects(readFile(join(rejectedWork, 'daily-material.json')), { code: 'ENOENT' });
+
+  const rule = join(f.root, 'docs/writing.md'), originalRule = await readFile(rule, 'utf8');
+  await writeFile(rule, originalRule + '\nSynthetic changed writing rule.\n');
+  await assert.rejects(saveArchive({ root: f.root, work: f.workDirectory, stage: 'prepared' }), /source repository has uncommitted changes/);
+  git('add', 'gsm/docs/writing.md'); commit('Change real source after review');
+  assert.equal(await archiveSourceMatches({ root: f.root, sourceRevision: saved.sourceRevision }), false);
+  await writeFile(rule, originalRule); git('add', 'gsm/docs/writing.md'); commit('Restore original rule');
+  assert.equal(await archiveSourceMatches({ root: f.root, sourceRevision: saved.sourceRevision }), true);
+
+  const lookalike = join(f.root, 'operations-not-an-archive.json');
+  await writeFile(lookalike, '{}\n'); git('add', 'gsm/operations-not-an-archive.json'); commit('Add non-archive source');
+  assert.equal(await archiveSourceMatches({ root: f.root, sourceRevision: saved.sourceRevision }), false);
+  await rm(lookalike); git('add', '-u'); commit('Remove non-archive source');
+  assert.equal(await archiveSourceMatches({ root: f.root, sourceRevision: saved.sourceRevision }), true);
+
+  const historical = git('ls-files', 'gsm/posts').split('\n').find(path => path.endsWith('/index.md'));
+  await writeFile(join(repository, historical), await readFile(join(repository, historical), 'utf8') + '\nSynthetic historical edit.\n');
+  git('add', historical); commit('Change historical source after review');
+  assert.equal(await archiveSourceMatches({ root: f.root, sourceRevision: saved.sourceRevision }), false);
 });
