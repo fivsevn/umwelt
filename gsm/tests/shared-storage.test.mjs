@@ -158,23 +158,25 @@ test('pending canonical import remains hidden and hash-checked cancellation pres
 
 test('returning native guest keeps its biography and registered emotes use GSM assets', async t => {
   const { root, work } = await fixture(t);
-  const prior = await readThreadPackages(root);
-  const guest = 'guest-boxlid27', biography = '在隔离测试中保留的既有简介。';
-  for (const file of prior.files) {
-    const source = await readFile(file, 'utf8');
-    if (source.includes('username: ' + guest + '\n')) {
-      await writeFile(file, source.replace(/(guest:\n  name: [^\n]+)\n/, '$1\n  bio: ' + biography + '\n'));
-    }
-  }
+  const guest = 'guest-storage-fixture', biography = '在隔离测试中保留的既有简介。';
+  const nativeId = 'gsm-storage-native-guest', nativePath = join(root, 'posts/2026/01', nativeId, 'index.md');
+  // Native guest metadata is an explicit fixture: retaining a production guest
+  // or its old posts must never become a prerequisite for this regression test.
+  await mkdir(dirname(nativePath), { recursive: true });
+  await writeFile(nativePath, '---\n' + [
+    'id: ' + nativeId, "date: '2026-01-01T12:00:00+08:00'", 'username: ' + guest,
+    'name: 测试路人', 'status: published', 'likes: 0', 'guest:', '  name: 测试路人', '  bio: ' + biography
+  ].join('\n') + '\n---\n\n仅在隔离目录中保存的旧格式发言。\n');
   const src = 'assets/emotes/gsm/test.webp';
   await cp(join(root, 'assets/avatars/gecko404.webp'), join(root, src));
   await writeFile(join(root, 'assets/emotes/gsm/manifest.json'), JSON.stringify({ version: 1, name: 'GSM', items: [
     { id: 'test', name: '测试表情', src, alt: '测试表情' }
   ] }));
   const known = (await loadContent(root)).feed.users.find(user => user.id === guest);
+  assert.ok(known);
   assert.equal(known.bio, biography);
   const reply = postOf('gsm-returning-guest-test', { author: guest, guest: { name: known.name },
-    replyTo: '20261019-161754-6c3cd8bd2e', text: '', media: [{ src, alt: '测试表情', kind: 'emote', fit: 'contain' }] });
+    replyTo: nativeId, text: '', media: [{ src, alt: '测试表情', kind: 'emote', fit: 'contain' }] });
   const input = join(work, 'returning.json'); await writeFile(input, JSON.stringify(batchOf([reply])));
   await ingestBatch(input, { root, reviewed: true });
   const source = await readFile(join(root, 'data/feed.mjs'), 'utf8');

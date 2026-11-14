@@ -9,7 +9,7 @@ import { refreshIntake } from '../tools/engine/intake-refresh.js';
 import { prepareUpdate, briefUpdatePost, checkpointUpdate, suggestUpdatePresentation, validateUpdateForBatch, finishUpdate, drawThreadReplyCount } from '../tools/engine/operations.js';
 import { loadContent, ingestBatch } from '../tools/engine/content.js';
 import { parsePublicFeed } from '../tools/engine/verify-live.js';
-import { threadDirectory } from '../tools/engine/thread-packages.js';
+import { threadDirectory, renderPostDocument } from '../tools/engine/thread-packages.js';
 import { saveArchive, restoreArchive, archiveSourceMatches } from '../tools/operation-archive.mjs';
 
 const sourceRoot = fileURLToPath(new URL('../', import.meta.url));
@@ -55,6 +55,11 @@ function research(now) {
 
 test('daily reading and isolated writers receive the installed gecko emotes and kaomoji for originals, cases and replies', async t => {
   const f = await fixture(t, { installedEmotes: true });
+  const existingRoot = { id: 'gsm-test-native-root', author: 'gecko404', createdAt: '2026-01-01T04:00:00.000Z',
+    replyTo: null, text: '仅在隔离测试中保存的接话目标。', likes: 0, canon: 'derivative', media: [] };
+  const existingPath = join(f.root, 'posts/2026/01', existingRoot.id, 'index.md');
+  await mkdir(dirname(existingPath), { recursive: true });
+  await writeFile(existingPath, renderPostDocument(existingRoot));
   const emotesPath = 'assets/emotes/gsm/manifest.json', kaomojiPath = 'assets/emotes/kaomoji.json';
   const emotes = await json(join(f.root, emotesPath)), kaomoji = await json(join(f.root, kaomojiPath));
   assert.equal(emotes.items.length, 25);
@@ -96,11 +101,10 @@ test('daily reading and isolated writers receive the installed gecko emotes and 
   }
   if (!replyKinds.has('original')) {
     // A new original root may draw zero replies. Exercise a permitted existing
-    // thread instead of changing the saved lottery to force a reply.
-    const { feed } = await loadContent(f.root);
-    const target = feed.posts.find(post => post.replyTo === null && !post.deleted && replyCount(post.id) > 0);
-    assert.ok(target);
-    await checkReply(target.id, 'existing', false);
+    // fixture thread instead of relying on retained production history or
+    // changing the saved lottery to force a reply.
+    assert.ok(replyCount(existingRoot.id) > 0);
+    await checkReply(existingRoot.id, 'existing', false);
   }
   assert.deepEqual([...replyKinds].sort(), ['case', 'original']);
 });

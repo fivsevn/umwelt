@@ -6,8 +6,34 @@ const name=process.env.BROWSER||'chromium';
 const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${message}: ${actual} / ${expected}`);
 
 (async()=>{
- const {profiles,posts}=await import('../../data/feed.mjs');
+ const published=await import('../../data/feed.mjs');
  const {handsetThemes}=await import('../../handsets.mjs');
+ // Production content may legitimately have no replies. Keep its relationship
+ // checks, then supply browser-only discussion data for interaction coverage.
+ const publishedIds=new Set(published.posts.map(post=>post.id));
+ assert.equal(publishedIds.size,published.posts.length,'published post IDs remain unique');
+ for(const post of published.posts){
+  assert.ok(published.profiles[post.author],'each published post has an author');
+  if(post.replyTo)assert.ok(publishedIds.has(post.replyTo),'published replies retain their parent');
+ }
+ const profiles={
+  'fixture-author':{handle:'fixture-author',name:'测试发帖者',bio:'仅在浏览器测试中使用。',avatarImage:'/gsm/assets/avatars/gecko404.webp',color:'sage'},
+  'fixture-reader':{handle:'fixture-reader',name:'测试回复者',bio:'仅在浏览器测试中使用。',avatarImage:'/gsm/assets/avatars/leafback7.webp',color:'rose'}
+ };
+ const fixturePost=(id,minute,author,replyTo,text)=>{
+  const date=new Date(Date.UTC(2026,10,1,0,minute)).toISOString(),blocks=[{type:'text',text}];
+  return {id,date,createdAt:Date.parse(date),author,replyTo,likes:2,blocks:{zh:blocks,en:blocks,ja:blocks}};
+ };
+ const fixtureRoot='comment-fixture-root';
+ const posts=[
+  fixturePost(fixtureRoot,0,'fixture-author',null,'隔离的评论导航测试。\n这段文字只供检查滚动、回复与返回位置，不保存到正式信息流。\n检查长帖之后的评论入口是否仍然可用。'),
+  ...Array.from({length:5},(_,index)=>fixturePost(`comment-fixture-reply-${index}`,index+1,index%2?'fixture-author':'fixture-reader',fixtureRoot,`隔离测试回复 ${index+1}。\n保留足够的文本检查狭窄屏幕中的换行和滚动位置。`)),
+  fixturePost('comment-fixture-nested',6,'fixture-reader','comment-fixture-reply-3','隔离测试楼中楼：接的是实际父回复。'),
+  fixturePost('comment-fixture-empty',7,'fixture-reader',null,'隔离测试空评论区。'),
+  ...Array.from({length:5},(_,index)=>fixturePost(`comment-fixture-feed-${index}`,index+8,'fixture-author',null,`隔离的信息流滚动测试 ${index+1}。\n这些测试条目不写入仓库，也不发布。`))
+ ].sort((a,b)=>b.createdAt-a.createdAt);
+ const fixtureSource=`// Browser-only discussion fixture.\nexport const profiles = ${JSON.stringify(profiles)};\nexport const posts = ${JSON.stringify(posts)};\n`;
+ const installFixture=context=>context.route('**/gsm/data/feed.mjs*',request=>request.fulfill({contentType:'application/javascript',body:fixtureSource}));
  const byId=new Map(posts.map(post=>[post.id,post]));
  const rootOf=post=>{
   const visited=new Set();
@@ -76,6 +102,7 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
  };
  try{
   const context=await browser.newContext({viewport:{width:390,height:844}});
+  await installFixture(context);
   await context.addInitScript(()=>{Math.random=()=>.01;});
   const page=await context.newPage();watch(page);
   await page.goto(`${base}/gsm/?shell=tokay`);await ready(page);
@@ -257,6 +284,7 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
   await context.close();
 
   const unavailable=await browser.newContext({viewport:{width:390,height:844}});
+  await installFixture(unavailable);
   await unavailable.addInitScript(()=>{Object.defineProperty(window,'localStorage',{get(){throw new Error('disabled');}});});
   const fallback=await unavailable.newPage();watch(fallback);
   await fallback.goto(route(nested.id));await ready(fallback);await expectThread(fallback,nested.id);
