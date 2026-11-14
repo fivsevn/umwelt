@@ -169,9 +169,10 @@ test('returning native guest keeps its biography and registered emotes use GSM a
   ].join('\n') + '\n---\n\n仅在隔离目录中保存的旧格式发言。\n');
   const src = 'assets/emotes/gsm/test.webp';
   await cp(join(root, 'assets/avatars/gecko404.webp'), join(root, src));
-  await writeFile(join(root, 'assets/emotes/gsm/manifest.json'), JSON.stringify({ version: 1, name: 'GSM', items: [
-    { id: 'test', name: '测试表情', src, alt: '测试表情' }
-  ] }));
+  const catalogPath = join(root, 'assets/emotes/gsm/manifest.json');
+  const catalog = JSON.parse(await readFile(catalogPath, 'utf8'));
+  catalog.items.push({ id: 'test', name: '测试表情', src, alt: '测试表情' });
+  await writeFile(catalogPath, JSON.stringify(catalog));
   const known = (await loadContent(root)).feed.users.find(user => user.id === guest);
   assert.ok(known);
   assert.equal(known.bio, biography);

@@ -34,8 +34,9 @@ async function fixture(t, { installedEmotes = false } = {}) {
     // A fixture-only catalog exercises image verification without generating or
     // publishing any new media in the real checkout.
     await cp(join(root, 'assets/avatars/gecko404.webp'), join(root, 'assets/emotes/gsm/test-face.webp'));
-    await save(join(root, 'assets/emotes/gsm/manifest.json'), { version: 1, name: 'GSM',
-      items: [{ id: 'test-face', name: '测试表情', src: 'assets/emotes/gsm/test-face.webp', alt: '测试守宫头像' }] });
+    const catalogPath = join(root, 'assets/emotes/gsm/manifest.json'), catalog = await json(catalogPath);
+    catalog.items.push({ id: 'test-face', name: '测试表情', src: 'assets/emotes/gsm/test-face.webp', alt: '测试守宫头像' });
+    await save(catalogPath, catalog);
   }
   const now = Date.now();
   const text = '# Test-only material\n<!-- samples:start -->\n采集时间：' + localStamp(now - 60000) + '（北京时间）\n\n' +
@@ -146,7 +147,7 @@ test('GSM prepares and resumes locally, separates writer input, archives once an
   operation.researchMaintenance = operation.plan.researchMaintenance.selectedPaths.map(path => ({ path, status: 'checked',
     summary: 'Synthetic test maintenance review.', sources: [{ url: 'https://research.example.org/test', visitedAt: iso(f.now), summary: 'Synthetic source.' }] }));
   // Exercise shared-media rendering as well as plain text without creating images.
-  const emote = (await json(join(f.root, 'assets/emotes/gsm/manifest.json'))).items[0];
+  const emote = (await json(join(f.root, 'assets/emotes/gsm/manifest.json'))).items.find(item => item.id === 'test-face');
   const thread = threadDirectory(operation.posts[0], new Map(operation.posts.map(post => [post.id, post])));
   const localEmote = thread + '/media/test-reaction.webp';
   await mkdir(join(f.root, thread, 'media'), { recursive: true });
