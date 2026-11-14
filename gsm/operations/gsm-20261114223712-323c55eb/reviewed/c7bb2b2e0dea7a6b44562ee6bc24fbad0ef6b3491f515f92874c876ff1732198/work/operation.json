@@ -1,0 +1,927 @@
+{
+  "version": 1,
+  "id": "gsm-20261114223712-323c55eb",
+  "root": "/Users/d/Documents/ChatGPT/umwelt/gsm",
+  "preparedAt": "2026-11-14T22:46:33.969Z",
+  "plan": {
+    "seed": "71c5f6e79fa40e8bd8f515a05e461ecd94dbf934a811d89537344dbc5cd9f78a",
+    "budget": 2,
+    "selectedIds": [
+      "gecko404",
+      "twosteps8",
+      "moss9"
+    ],
+    "totalBudget": 120,
+    "replyLottery": {
+      "bands": [
+        {
+          "weight": 30,
+          "min": 0,
+          "max": 0
+        },
+        {
+          "weight": 20,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "weight": 20,
+          "min": 2,
+          "max": 4
+        },
+        {
+          "weight": 15,
+          "min": 5,
+          "max": 12
+        },
+        {
+          "weight": 8,
+          "min": 13,
+          "max": 30
+        },
+        {
+          "weight": 5,
+          "min": 31,
+          "max": 60
+        },
+        {
+          "weight": 2,
+          "min": 61,
+          "max": 100
+        }
+      ],
+      "maxReplies": 100
+    },
+    "lottery": {
+      "version": 1,
+      "rootBudget": {
+        "min": 1,
+        "max": 2
+      },
+      "authors": {
+        "candidates": 3,
+        "recentPosts": 7,
+        "recentMultiplier": 0.5
+      },
+      "authorKind": [
+        {
+          "value": "guest",
+          "weight": 75
+        },
+        {
+          "value": "library",
+          "weight": 25
+        }
+      ],
+      "motivation": [
+        {
+          "value": "ask-help",
+          "weight": 24
+        },
+        {
+          "value": "vent",
+          "weight": 22
+        },
+        {
+          "value": "passing-thought",
+          "weight": 24
+        },
+        {
+          "value": "share",
+          "weight": 18
+        },
+        {
+          "value": "correct",
+          "weight": 6
+        },
+        {
+          "value": "celebrate",
+          "weight": 6
+        }
+      ],
+      "length": [
+        {
+          "value": "fragment",
+          "weight": 45
+        },
+        {
+          "value": "short",
+          "weight": 40
+        },
+        {
+          "value": "long",
+          "weight": 15
+        }
+      ],
+      "conditionCount": {
+        "min": 1,
+        "max": 2
+      },
+      "waitSeconds": [
+        {
+          "weight": 45,
+          "min": 20,
+          "max": 180
+        },
+        {
+          "weight": 40,
+          "min": 181,
+          "max": 1800
+        },
+        {
+          "weight": 15,
+          "min": 1801,
+          "max": 21600
+        }
+      ],
+      "reading": [
+        {
+          "value": "target-only",
+          "weight": 40
+        },
+        {
+          "value": "root-and-target",
+          "weight": 35
+        },
+        {
+          "value": "nearby",
+          "weight": 25
+        }
+      ],
+      "textWindow": [
+        {
+          "value": "full",
+          "weight": 45
+        },
+        {
+          "value": "opening",
+          "weight": 35
+        },
+        {
+          "value": "fragment",
+          "weight": 20
+        }
+      ],
+      "excerptCharacters": 140,
+      "nearbyReplies": {
+        "min": 0,
+        "max": 3
+      },
+      "media": {
+        "images": {
+          "root": {
+            "types": [
+              {
+                "value": "photo",
+                "weight": 70
+              },
+              {
+                "value": "screenshot",
+                "weight": 20
+              },
+              {
+                "value": "illustration",
+                "weight": 10
+              }
+            ]
+          },
+          "reply": {
+            "types": [
+              {
+                "value": "photo",
+                "weight": 50
+              },
+              {
+                "value": "screenshot",
+                "weight": 40
+              },
+              {
+                "value": "illustration",
+                "weight": 10
+              }
+            ]
+          }
+        },
+        "emotes": {
+          "root": {
+            "counts": [
+              {
+                "weight": 90,
+                "min": 1,
+                "max": 1
+              },
+              {
+                "weight": 10,
+                "min": 2,
+                "max": 2
+              }
+            ]
+          },
+          "reply": {
+            "counts": [
+              {
+                "weight": 90,
+                "min": 1,
+                "max": 1
+              },
+              {
+                "weight": 10,
+                "min": 2,
+                "max": 2
+              }
+            ]
+          }
+        },
+        "profiles": [
+          {
+            "id": "text-led",
+            "weight": 35,
+            "root": {
+              "none": 50,
+              "image": 28,
+              "emote": 14,
+              "both": 8
+            },
+            "reply": {
+              "none": 48,
+              "image": 10,
+              "emote": 34,
+              "both": 8
+            }
+          },
+          {
+            "id": "mixed",
+            "weight": 45,
+            "root": {
+              "none": 30,
+              "image": 38,
+              "emote": 17,
+              "both": 15
+            },
+            "reply": {
+              "none": 35,
+              "image": 12,
+              "emote": 39,
+              "both": 14
+            }
+          },
+          {
+            "id": "image-led",
+            "weight": 20,
+            "root": {
+              "none": 15,
+              "image": 45,
+              "emote": 12,
+              "both": 28
+            },
+            "reply": {
+              "none": 25,
+              "image": 18,
+              "emote": 37,
+              "both": 20
+            }
+          }
+        ]
+      },
+      "likes": {
+        "root": [
+          {
+            "weight": 20,
+            "min": 0,
+            "max": 0
+          },
+          {
+            "weight": 73,
+            "min": 1,
+            "max": 20
+          },
+          {
+            "weight": 6,
+            "min": 21,
+            "max": 60
+          },
+          {
+            "weight": 1,
+            "min": 61,
+            "max": 160
+          }
+        ],
+        "reply": [
+          {
+            "weight": 35,
+            "min": 0,
+            "max": 0
+          },
+          {
+            "weight": 62,
+            "min": 1,
+            "max": 12
+          },
+          {
+            "weight": 2,
+            "min": 13,
+            "max": 35
+          },
+          {
+            "weight": 1,
+            "min": 36,
+            "max": 90
+          }
+        ]
+      },
+      "sampling": {
+        "offset": {
+          "min": 0,
+          "max": 30
+        },
+        "count": {
+          "min": 3,
+          "max": 6
+        }
+      },
+      "discussion": {
+        "negativeMotivation": [
+          {
+            "value": "complaint",
+            "weight": 16
+          },
+          {
+            "value": "gossip",
+            "weight": 10
+          },
+          {
+            "value": "dispute",
+            "weight": 8
+          },
+          {
+            "value": "grievance",
+            "weight": 8
+          },
+          {
+            "value": "suspicion",
+            "weight": 8
+          },
+          {
+            "value": "irritation",
+            "weight": 16
+          },
+          {
+            "value": "contempt",
+            "weight": 12
+          },
+          {
+            "value": "envy",
+            "weight": 6
+          },
+          {
+            "value": "pile-on",
+            "weight": 10
+          },
+          {
+            "value": "grudge",
+            "weight": 6
+          }
+        ],
+        "replyStance": [
+          {
+            "value": "support",
+            "weight": 12
+          },
+          {
+            "value": "push-back",
+            "weight": 12
+          },
+          {
+            "value": "doubt",
+            "weight": 8
+          },
+          {
+            "value": "defend",
+            "weight": 8
+          },
+          {
+            "value": "provoke",
+            "weight": 12
+          },
+          {
+            "value": "ask-detail",
+            "weight": 4
+          },
+          {
+            "value": "sidetrack",
+            "weight": 14
+          },
+          {
+            "value": "dismiss",
+            "weight": 12
+          },
+          {
+            "value": "repeat",
+            "weight": 10
+          },
+          {
+            "value": "pile-on",
+            "weight": 8
+          }
+        ],
+        "replyAuthor": [
+          {
+            "value": "new",
+            "weight": 85
+          },
+          {
+            "value": "root",
+            "weight": 8
+          },
+          {
+            "value": "participant",
+            "weight": 7
+          }
+        ],
+        "negativeProbability": 0.5,
+        "minimumNegativeShare": 0.5
+      },
+      "researchMaintenance": {
+        "probability": 0.3,
+        "maxDocuments": 1,
+        "ageWeightDays": 7,
+        "maxAgeWeight": 5
+      },
+      "diversity": {
+        "recentUpdates": 3
+      },
+      "participation": {
+        "version": 2
+      }
+    },
+    "timeWindow": {
+      "start": "2026-11-13T22:37:12.905Z",
+      "end": "2026-11-14T22:37:12.905Z"
+    },
+    "participationSchedules": {
+      "backpackgecko": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "gecko404": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "gedageda": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "isopodafugue": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "leafback7": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "mango27": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "moss9": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "nearthermo": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "nightshift3": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "peachcrumble": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "slowblink": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "smallhide2": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "twosteps8": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "wallafterdark": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "wednesday6": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      }
+    },
+    "caseAdaptation": {
+      "count": 2,
+      "intakeReceipt": {
+        "repository": "fivsevn/y29",
+        "path": "lucifer0/environment/sources-daily-opinions.md",
+        "revision": "09399767ea630b2b7cdba123250b88e03cf18371",
+        "documentSha": "c397f87c662777676c23b5e9741c2c7cf971fea0",
+        "documentDigest": "562946e5ec70139106b66563de6e94c2c4aef7ee8a157405a5f4513d26ccb46e",
+        "collectedAt": "2026-11-14T20:11:52.000Z",
+        "fetchedAt": "2026-11-14T22:37:11.610Z"
+      },
+      "items": [
+        {
+          "postId": "gsm-20261114223712-323c55eb-84d5277cf56d",
+          "sourcePath": "environment/sources-daily-opinions.md",
+          "sample": {
+            "id": "sample-cfe663f68a8b",
+            "title": "讨论 41",
+            "text": "### 讨论 41\n\n近七天主帖与公开首批回复中的短节选，省略了部分发言。已自动去除明显标识；未做逐条语义转述。\n\n1. **发言者 1**：Area uploading as nodes instead of area i.e lake  \n     \n   my areas are uploading as single nodes instead of an area because i cant copy big enough sections . once my rate limit is higher will it fix or do i have to now go delete the single nodes that arent registering as an area ?",
+            "context": "采集时间：2026-11-15 04:11:52（北京时间）"
+          }
+        },
+        {
+          "postId": "gsm-20261114223712-323c55eb-7e2b31e02336",
+          "sourcePath": "environment/sources-daily-opinions.md",
+          "sample": {
+            "id": "sample-7fe2d133f18b",
+            "title": "讨论 11",
+            "text": "### 讨论 11\n\n近七天主帖与公开首批回复中的短节选，省略了部分发言。已自动去除明显标识；未做逐条语义转述。\n\n1. **发言者 1**：Help with pattern finishing.  \n     \n   I am knitting a “simple” shrug from Vogue Knitting. It is knit in one piece by alternating stockinette and reverse stockinette stitch, 5 rows of each. I want some help with which stitch to use to sew the side and sleeve seams. The pattern is called rolled collar shrug. Thanks in advance.\n\n2. **发言者 2**（回复第 1 条）：\\[链接隐去\\]  \n     \n   Great looking shrug which deserves nice seaming. Mattress stitch works nicely in both stockinette and reverse stockinette, and you would switch between the two as you join.  \n     \n       \n       \\[图片省略\\]  \n       \n     \n       \n       \\[图片省略\\]\n\n3. **发言者 1**（回复第 2 条）：Thank you so much\\!",
+            "context": "采集时间：2026-11-15 04:11:52（北京时间）"
+          }
+        }
+      ],
+      "rootOrder": [
+        "gsm-20261114223712-323c55eb-84d5277cf56d",
+        "gsm-20261114223712-323c55eb-08778e49fb5e",
+        "gsm-20261114223712-323c55eb-0a4b9d6b4ed1",
+        "gsm-20261114223712-323c55eb-7e2b31e02336"
+      ]
+    },
+    "researchMaintenance": {
+      "candidates": [
+        {
+          "path": "environment/research-character.md",
+          "updatedAt": "2026-11-14T20:39:06.000Z"
+        },
+        {
+          "path": "environment/research-comments.md",
+          "updatedAt": "2026-11-14T20:39:06.000Z"
+        },
+        {
+          "path": "environment/research-everyday-life.md",
+          "updatedAt": "2026-11-14T20:39:06.000Z"
+        },
+        {
+          "path": "environment/research-meme.md",
+          "updatedAt": "2026-11-14T20:39:06.000Z"
+        },
+        {
+          "path": "environment/research-negative.md",
+          "updatedAt": "2026-11-14T20:39:06.000Z"
+        },
+        {
+          "path": "environment/research-speech.md",
+          "updatedAt": "2026-11-14T20:39:06.000Z"
+        },
+        {
+          "path": "environment/research-worldview.md",
+          "updatedAt": "2026-11-14T20:39:06.000Z"
+        }
+      ],
+      "selectedPaths": []
+    },
+    "seal": "b2a92d87791a3b7fc312f942e4db84b623a52ccac6911031f4d07620bbf12ccc"
+  },
+  "sourceDigest": "f2d572cba91c5eca3e8f4162544b3788aba4f45b18e03189413fbbb2779aa8d1",
+  "research": [
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://www.nasa.gov/image-article/astronauts-across-generations-share-the-stage/",
+      "visitedAt": "2026-11-14T22:42:03+00:00",
+      "publishedAt": "2026-11-09T16:56:29Z",
+      "summary": "news窗口offset=28,count=3。NASA网页Recent Published只暴露25项、未给可用下一页，改用官方https://www.nasa.gov/feed/的发布时间倒序RSS，连续读第1至4页目录后取第29项（第3页第9项）。实际读取完整短文及图注，未打开原图。报道11月6日不同代际宇航员同台的庆典；可观察同一活动中资历、荣誉与旁观期待，不把守宫写成亲临NASA现场或宇航员。原发时间取官方RSS，不把事件时间当发布日期。"
+    },
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://www.nasa.gov/general/max-power-nasas-inaugural-aerospace-expo-ignites-americas-future/",
+      "visitedAt": "2026-11-14T22:42:03+00:00",
+      "publishedAt": "2026-11-09T16:07:10Z",
+      "summary": "同一news窗口连续第30项（NASA官方RSS第3页第10项）。实际读完正文、项目宣布列表及页面图注，图片与视频未实际打开。报道11月4日至8日航空航天展会、公开演示和讨论活动，未来计划仍按计划表述。可供原创观察屏幕里的热闹展示与个人真正感兴趣的局部；不把宣传评价当作守宫共识，不复制全站共同经历。"
+    },
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://science.nasa.gov/science-research/heliophysics/nasas-escapade-completes-powered-earth-flybys-now-en-route-to-mars/",
+      "visitedAt": "2026-11-14T22:42:03+00:00",
+      "publishedAt": "2026-11-09T16:01:47Z",
+      "summary": "同一news窗口连续第31项（NASA官方RSS第4页第1项）。实际读完任务正文、轨道与视频文字说明；未播放动画或打开照片。文中两探测器在11月7日、9日先后完成地球借力，2027年9月抵达火星与后续科学阶段为计划。可以启发守宫读新闻时对绕远、等待和隔两天接续的普通反应；只作为所读资讯，不设成本站公共事件。"
+    },
+    {
+      "category": "trend",
+      "kind": "thread",
+      "url": "https://www.v2ex.com/t/1257098",
+      "visitedAt": "2026-11-14T22:42:03+00:00",
+      "publishedAt": "2026-11-14T13:16:29Z",
+      "summary": "trend窗口offset=1,count=3。以https://www.v2ex.com/recent本次Recent Topics列表为入口，跳过第1项后连续取第2项。读完主帖；网页抽取缺失的3条回复已用同一公开原页JSON-LD补读，未打开演示站、TestFlight或配图。发布者解释改名和账号迁移、吐槽支持流程，回复分别说旧版仍能用、作者澄清不能继续更新、有人索要激活码。可观察各人关注点错开及短确认，不把源平台的技术或账号问题写成GSM实际故障。"
+    },
+    {
+      "category": "trend",
+      "kind": "feed",
+      "url": "https://www.v2ex.com/t/1257102",
+      "visitedAt": "2026-11-14T22:42:03+00:00",
+      "publishedAt": "2026-11-14T13:50:13Z",
+      "summary": "同一trend窗口连续第3项。读完主帖，网页和原页JSON-LD均显示当前零回复；只见演示图链接，未打开图片或外链产品。作者以跨地区价格差为理由分享定价小工具，先做插件又嫌麻烦改成书签脚本，夹杂炫耀式口吻及主观断言。可观察省钱、自我推介与嫌操作麻烦的落差；涉及地区和经济状况的说法仅为该作者观点，不当作已核实事实。"
+    },
+    {
+      "category": "trend",
+      "kind": "thread",
+      "url": "https://www.v2ex.com/t/1257062",
+      "visitedAt": "2026-11-14T22:42:03+00:00",
+      "publishedAt": "2026-11-14T09:02:05Z",
+      "summary": "同一trend窗口连续第4项。网页仅显标题与评论标识，已读取同一公开原页JSON-LD，核实主帖就是套餐二选一短问，并实际读完5条评论及时间。评论多次岔到担心账号封禁，一条比较容量价格，另有人质疑能否订阅成功。可观察提问者关心档位、旁人却反复强调另一种风险的错位；商品可用性与风控说法只保留为参与者经验，不用作购买指导或事实结论。"
+    },
+    {
+      "category": "daily",
+      "kind": "thread",
+      "url": "https://community.bunpro.jp/t/ai-llm-policy/229663",
+      "visitedAt": "2026-11-14T22:42:03+00:00",
+      "publishedAt": "2026-11-05T01:05:38.416Z",
+      "summary": "daily窗口offset=15,count=4。网页https://community.bunpro.jp/latest?order=created在浏览工具不可读，改读同站公开https://community.bunpro.jp/latest.json?order=created，核对30项按created_at倒序，连续取第16项。通过原站/t/229663.json实际读完1–4楼，共4楼。询问者要求说明内容是否用AI，旁人指向既有答复，内容撰写者区分文字与语音来源，最后一楼转为导航出错吐槽并说明并非反驳。可观察怀疑、澄清和跑题；不移植成GSM自身规则或事实。主帖11月5日，未冒充七天内新帖。"
+    },
+    {
+      "category": "daily",
+      "kind": "thread",
+      "url": "https://community.bunpro.jp/t/bunpro-performance-drop/229584",
+      "visitedAt": "2026-11-14T22:42:03+00:00",
+      "publishedAt": "2026-11-04T14:26:39.087Z",
+      "summary": "同一daily窗口连续第17项，通过原站/t/229584.json实际读完1–7楼，共7楼。有人报告每日首开近30秒，旁人链接早先讨论，后续尝试重建标签、清数据，11月12日出现工作人员回应，11月14日仍有结果页慢的补充。只读取链接预览，未另读被链接旧串。可观察暂时好转又复发、重复报告、换入口继续使用和迟来的反馈；不能声称GSM目前也存在该故障。原始11月4日与11月14日新回复分开记录。"
+    },
+    {
+      "category": "daily",
+      "kind": "thread",
+      "url": "https://community.bunpro.jp/t/learn-to-speak-from-natives/229317",
+      "visitedAt": "2026-11-14T22:42:04+00:00",
+      "publishedAt": "2026-11-03T06:43:37.257Z",
+      "summary": "同一daily窗口连续第18项，通过原站/t/229317.json实际读完1–4楼，共4楼。学习者想在真实谈话中练习却很快换回熟悉语言，回复分别建议按常见生活语境学习、针对未来交谈对象准备话题，并保留一个简短道谢。后段提到需要暂停信号及独处恢复。可观察兴趣目标、有限精力与不想打断自然交谈的矛盾；不把源人物的恋爱或亲属关系补到已有守宫档案。"
+    },
+    {
+      "category": "daily",
+      "kind": "thread",
+      "url": "https://community.bunpro.jp/t/what-do-you-do-when-bunpro-doesnt-have-a-grammar-point/229273",
+      "visitedAt": "2026-11-14T22:42:04+00:00",
+      "publishedAt": "2026-11-03T01:02:42.765Z",
+      "summary": "同一daily窗口连续第19项，通过原站/t/229273.json实际读完1–4楼，共4楼。作者在阅读时发现零散语法却烦于无处收进既有卡片，回复指出部分内容已有、补相关入口，也有人说遇到时暂时放过或查书。帖子嵌入新闻链接的预览文字已见，但未访问该新闻，不把其中事件当作独立核实事实；未核验楼内语法解释正误。可观察收藏整理欲、分类不合用和不完整解决后的分歧。"
+    }
+  ],
+  "posts": [
+    {
+      "id": "gsm-20261114223712-323c55eb-84d5277cf56d",
+      "author": "guest-edf19cf533f96284",
+      "guest": {
+        "name": "小椰"
+      },
+      "createdAt": "2026-11-14T16:28:47.287Z",
+      "replyTo": null,
+      "text": "地图里的面上传后变成单个节点了，比如湖\n\n我一次复制不了足够大的一块，所以这些面传上去都成了单个节点。等我的限额提高了会自己好吗，还是我现在就得把那些没被认成面的单独节点删掉？",
+      "likes": 1,
+      "canon": "derivative",
+      "media": []
+    },
+    {
+      "id": "gsm-20261114223712-323c55eb-08778e49fb5e",
+      "author": "guest-643ce670252ed15f",
+      "guest": {
+        "name": "Ryo"
+      },
+      "createdAt": "2026-11-14T19:05:28.084Z",
+      "replyTo": null,
+      "text": "刷到个守宫自拍，尾巴旁边的砖缝都弯了，底下还在夸天生好比例。行吧。",
+      "likes": 2,
+      "canon": "derivative",
+      "media": [
+        {
+          "kind": "emote",
+          "src": "assets/emotes/gsm/heh.webp",
+          "alt": "守宫坐着闭眼抬起下巴，嘴边吐出一小团气，尾巴盘在身体后面。"
+        }
+      ]
+    },
+    {
+      "id": "gsm-20261114223712-323c55eb-0a4b9d6b4ed1",
+      "author": "guest-0fdf1acc84c59abe",
+      "guest": {
+        "name": "ququ"
+      },
+      "createdAt": "2026-11-14T20:56:48.387Z",
+      "replyTo": null,
+      "text": "求个纯雨声的音频，别配钢琴了行不行。",
+      "likes": 2,
+      "canon": "derivative",
+      "media": []
+    },
+    {
+      "id": "gsm-20261114223712-323c55eb-7e2b31e02336",
+      "author": "guest-55e4020d504b84e1",
+      "guest": {
+        "name": "一颗豆"
+      },
+      "createdAt": "2026-11-14T21:17:55.922Z",
+      "replyTo": null,
+      "text": "求助，披肩最后怎么缝\n\n我照《Vogue Knitting》里的卷领短披肩改一件小号的。小钉板固定好，用爪尖慢慢拨线圈，正平针、反平针各5行交替，整件织成一片。说是“简单款”，现在两侧和前腿那两个袖筒不知道用什么针法缝合合适。先谢谢了。",
+      "likes": 6,
+      "canon": "derivative",
+      "media": []
+    },
+    {
+      "id": "gsm-20261114223712-323c55eb-r01",
+      "author": "guest-6113e8a0841dfb71",
+      "guest": {
+        "name": "lea"
+      },
+      "createdAt": "2026-11-14T19:15:15.084Z",
+      "replyTo": "gsm-20261114223712-323c55eb-08778e49fb5e",
+      "text": "砖缝本来就歪的怎么办。我这边这条就是，刚爬开拍的，鼓出来那块我还绕着走。\n\n你刷到的原图没贴，我不知道是不是修得一眼假。反正我看自拍很少盯着后面，脸好看就夸了，夸完还要被拎出来当傻子有点烦。说“天生”是夸大了，但底下也可能就是随手夸一句。也可能真信，谁知道，我连你说的是哪只都没看见。",
+      "likes": 3,
+      "canon": "derivative",
+      "media": [
+        {
+          "src": "posts/2026/11/gsm-20261114223712-323c55eb-08778e49fb5e/media/lea-brick-seam-r01.webp",
+          "alt": "从贴近地面的位置拍摄的一条铺砖接缝，砂浆宽窄不一，近处有一小段向旁边鼓出。",
+          "kind": "image",
+          "fit": "contain"
+        }
+      ]
+    },
+    {
+      "id": "gsm-20261114223712-323c55eb-c01",
+      "author": "guest-ecf0b131dd88807c",
+      "guest": {
+        "name": "27"
+      },
+      "createdAt": "2026-11-14T21:18:51.922Z",
+      "replyTo": "gsm-20261114223712-323c55eb-7e2b31e02336",
+      "text": "卷领配这种凹凸条纹挺好看，缝口也值得弄漂亮点。可以用床垫针缝合，正平针、反平针都能用；两边先在小钉板上对齐固定，缝到每5行换纹理的地方，沿边挑线的位置也跟着换。",
+      "likes": 11,
+      "canon": "derivative",
+      "media": []
+    },
+    {
+      "id": "gsm-20261114223712-323c55eb-r03",
+      "author": "guest-3d50c9ab78ee78bf",
+      "guest": {
+        "name": "404"
+      },
+      "createdAt": "2026-11-14T21:08:00.387Z",
+      "replyTo": "gsm-20261114223712-323c55eb-0a4b9d6b4ed1",
+      "text": "滴滴答答敲玻璃的也算纯雨声吧？那个我比钢琴还烦。",
+      "likes": 2,
+      "canon": "derivative",
+      "media": []
+    },
+    {
+      "id": "gsm-20261114223712-323c55eb-c02",
+      "author": "guest-55e4020d504b84e1",
+      "guest": {
+        "name": "一颗豆"
+      },
+      "createdAt": "2026-11-14T21:20:06.922Z",
+      "replyTo": "gsm-20261114223712-323c55eb-c01",
+      "text": "太感谢了！",
+      "likes": 5,
+      "canon": "derivative",
+      "media": []
+    },
+    {
+      "id": "gsm-20261114223712-323c55eb-r02",
+      "author": "guest-9da44081365f7a19",
+      "guest": {
+        "name": "七号"
+      },
+      "createdAt": "2026-11-14T22:34:55.084Z",
+      "replyTo": "gsm-20261114223712-323c55eb-r01",
+      "text": "不贴原图真的烦。那除了砖缝，还能怎么看尾巴修没修啊？",
+      "likes": 0,
+      "canon": "derivative",
+      "media": [
+        {
+          "kind": "emote",
+          "src": "assets/emotes/gsm/huh.webp",
+          "alt": "守宫坐着抬头张嘴，头顶有一个问号，粗尾巴盘在一旁。"
+        }
+      ]
+    },
+    {
+      "id": "gsm-20261114223712-323c55eb-r04",
+      "author": "guest-7e215061dcb104a7",
+      "guest": {
+        "name": "米粒"
+      },
+      "createdAt": "2026-11-14T21:09:32.387Z",
+      "replyTo": "gsm-20261114223712-323c55eb-r03",
+      "text": "算啊，纯雨声又不是保证你听着不烦。",
+      "likes": 0,
+      "canon": "derivative",
+      "media": []
+    }
+  ],
+  "status": "prepared",
+  "reviews": [
+    {
+      "postId": "gsm-20261114223712-323c55eb-84d5277cf56d",
+      "negative": false,
+      "reason": "正文是在询问地图上传异常是否会随限额提高自行修复，以及现有节点是否需要删除。保留困惑和未决状态，没有责骂、嫌弃、讥讽或明显抱怨；遇到问题本身不等于负面发言。"
+    },
+    {
+      "postId": "gsm-20261114223712-323c55eb-08778e49fb5e",
+      "negative": true,
+      "reason": "“砖缝都弯了”与“还在夸天生好比例。行吧。”连同闭眼抬下巴的呵呵图，实际表达了对自拍真实性的猜疑及对跟夸者的轻蔑；不是中性观察，也不需要为这份挑刺补充正当理由。"
+    },
+    {
+      "postId": "gsm-20261114223712-323c55eb-0a4b9d6b4ed1",
+      "negative": true,
+      "reason": "“别配钢琴了行不行”直接表达了对雨声音频夹带钢琴的烦躁与不满。前半句虽是求推荐，后半句的实际抱怨已构成负面，而不是仅因求助或负面候选被这样分类。"
+    },
+    {
+      "postId": "gsm-20261114223712-323c55eb-7e2b31e02336",
+      "negative": false,
+      "reason": "这是尚未解决的编织收尾求助，具体询问两侧与袖筒的缝法，并提前致谢。“简单款”的引号保留了来源里对难度的反差，但正文没有明确厌烦、指责或嘲讽对象，不单凭这对引号计入负面。"
+    },
+    {
+      "postId": "gsm-20261114223712-323c55eb-r01",
+      "negative": true,
+      "reason": "“夸完还要被拎出来当傻子有点烦”明确表达受连带指责的不满，开头反问也在质疑父帖的判断。虽保留多个可能性与不知道原图的界限，整条实际仍有烦躁，不按 open 候选误分为中性。"
+    },
+    {
+      "postId": "gsm-20261114223712-323c55eb-c01",
+      "negative": false,
+      "reason": "先欣赏卷领和凹凸纹理，再提供缝合建议；实际语气热心、建设性，没有不满或攻击。“值得弄漂亮点”顺接原素材的赞赏，不是贬低现有作品。"
+    },
+    {
+      "postId": "gsm-20261114223712-323c55eb-r03",
+      "negative": true,
+      "reason": "后句“那个我比钢琴还烦”直接表达嫌恶与烦躁；前句质疑纯雨声的范围，不能因问号将整条当作中性求助。"
+    },
+    {
+      "postId": "gsm-20261114223712-323c55eb-c02",
+      "negative": false,
+      "reason": "只有“太感谢了！”这一句热切致谢，保持原素材的积极回应，没有抱怨或讥讽。"
+    },
+    {
+      "postId": "gsm-20261114223712-323c55eb-r02",
+      "negative": true,
+      "reason": "“不贴原图真的烦”直接表达对缺图的不满，随后才问如何辨认修图；啊？表情承接追问，负面来自实际抱怨而非候选标签。"
+    },
+    {
+      "postId": "gsm-20261114223712-323c55eb-r04",
+      "negative": true,
+      "reason": "“算啊”后接“又不是保证你听着不烦”，是对前一位把分类与个人喜恶并置的顶话，带轻微揶揄和不耐烦；保留这一弱负面，不夸大成敌意或激烈冲突。"
+    }
+  ],
+  "researchMaintenance": [],
+  "guestNames": {
+    "guest-edf19cf533f96284": "小椰",
+    "guest-643ce670252ed15f": "Ryo",
+    "guest-0fdf1acc84c59abe": "ququ",
+    "guest-55e4020d504b84e1": "一颗豆",
+    "guest-6113e8a0841dfb71": "lea",
+    "guest-ecf0b131dd88807c": "27",
+    "guest-3d50c9ab78ee78bf": "404",
+    "guest-9da44081365f7a19": "七号",
+    "guest-7e215061dcb104a7": "米粒",
+    "guest-b820a3411c331a7b": "阿敏"
+  },
+  "mediaReviews": [
+    {
+      "postId": "gsm-20261114223712-323c55eb-r01",
+      "src": "posts/2026/11/gsm-20261114223712-323c55eb-08778e49fb5e/media/lea-brick-seam-r01.webp",
+      "type": "life-photo",
+      "scene": "采用图像生成工具制作的照片质感生活画面，导出为本串正式 WebP；本编辑已实际打开最终文件。低处近距离斜看灰褐色粗糙铺砖，砂灰接缝从左下向右上延伸，宽窄不一，近处左下有一块明显横向鼓出且略高于砖面的砂浆；能见细颗粒与少量碎屑。画面仅地面，局部偏暗的白色照明与夜间环境相容，不是日光或人类站立俯视。用途是 lea 展示自己的现场，不是 Ryo 所说的自拍，也不证明该自拍有无修图。"
+    }
+  ],
+  "diversityReview": {
+    "postsDigest": "45fd9cebb205d014ae583a5b28a25801888a062b8dbedf071b5b36104cf5c95e",
+    "historyDigest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "content": "本批实际 10 则：2 条案例根帖、2 条原创根帖、6 条回复，按时间形成案例→原创→原创→案例的主帖混排。案例取自 fivsevn/y29 每日文档版本 09399767ea630b2b7cdba123250b88e03cf18371，完整原文保留在 operation.plan：讨论 41 / sample-cfe663f68a8b 仅采用源主帖，对应 gsm-20261114223712-323c55eb-84d5277cf56d；地图上传作为守宫虚构上网操作成立，保留面/节点、限额与删除的未决询问，未添加答案。讨论 11 / sample-7fe2d133f18b 采用源主帖及两条源回复，对应 gsm-20261114223712-323c55eb-7e2b31e02336、-c01、-c02；以小号卷领披肩、前腿袖筒、固定钉板和爪尖拨线圈适配身体，保留正反平针各 5 行、缝合建议和原作者感谢。c01 的源链接及两张省略图未取得，删除图片/链接指代、保留文字建议，不补假图。c02 确为原作者一颗豆返回并回复 c01，感谢不等于已缝好。\n\n原创自拍串 08778e49fb5e→r01→r02 保留猜疑、较长的保留判断、缺图抱怨与追问；雨声串 0a4b9d6b4ed1→r03→r04 是一句请求、另一个嫌烦点和短顶话，没有统一补背景、证据、反击或总结。两串回复额度为 2 和 99，实际各用 2 条，后者按允许少用的空间停下。r02 依赖内容均在它实际可见的 r01 截断前；r04 接的是 r03。自拍真假、lea 感到被当傻子和米粒所谓保证均属各自解读，未写成公共事实。9 个 guest 身份及一颗豆返回保持预存网名，临时 404 不等于 gecko404；作者专用账号与旧帖未参与。\n\n地图和编织保留较具体的求助，r01 保留长话与照片，c02 仅一句感谢，雨声是短接话。重复的“烦”有各自对象：雨声串是话题回声，自拍串是被连带嘲笑或缺图，不为区分声音强换口癖。负面按实际语气判为 08778e49fb5e、0a4b9d6b4ed1、r01、r02、r03、r04，共 6/10；地图普通求助、编织的“简单款”引号、建议和感谢均非负面。所有父帖与时间关系已核对。suggest-final 的 recentUpdates/mediaHistory 为空，不宣称比较了不存在的近三轮；完整读过保留的两篇作者原帖，未复活删除的 AI 经历。",
+    "images": "本批三项采用媒体均已实际打开：08778e49fb5e 的 heh.webp 闭眼抬下巴、小气团承接不以为然；r02 的 huh.webp 抬头张嘴、问号承接追问，登记 alt 与画面一致。表情适量用于对应语气，没有为展示资源强加颜文字。r01 的正式 lea-brick-seam-r01.webp 是图像生成工具制作的照片质感生活图：低处斜看粗糙铺砖，不均匀砂灰缝及左下凸出砂浆可见，偏暗白色照明与夜间语境相容；删除正文位置不准的“中间”，mediaReview 已按 life-photo 记录实际生成方式。它仅展示 lea 自己的现场，不是 Ryo 所说的自拍，不能证明自拍真假；图本身也不独立证明拍摄时刻。\n\nsuggest-final 普通图片机会/采用为 1/1（r01），表情为 2/2（08778e49fb5e、r02），无少用缺口、无表情冒充普通图；7 则纯文字保留其实际表达。普通照片与透明手绘反应图的媒介及用途不同。案例 c01 未取得的两张源图没有残留空指代，不虚报原图审阅。普通照片本轮仅一张、mediaHistory 为空，故不夸称跨轮照片比较；后续应对照新场景，避免重复砖缝近拍构图。"
+  }
+}
