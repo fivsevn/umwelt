@@ -62,6 +62,17 @@ def split(text):
     meta = yaml.safe_load(match[1]) or {}
     if not isinstance(meta, dict):
         raise ValueError('配置区必须是字段和值')
+    if 'author' in meta or 'createdAt' in meta:
+        required = {'id', 'author', 'createdAt', 'replyTo', 'likes', 'canon', 'media'}
+        if required - meta.keys() or set(meta) - required - {'guest', 'deleted'}:
+            raise ValueError('独立引擎帖子配置字段不完整或含未知字段')
+        if not isinstance(meta['media'], list) or meta['canon'] not in {'sample', 'derivative'}:
+            raise ValueError('独立引擎帖子媒体或归档类型无效')
+        # Render the local engine's packages through the established handheld
+        # output contract. The source is preserved byte for byte.
+        meta = {**meta, 'username': meta['author'], 'date': meta['createdAt'],
+                'name': meta.get('guest', {}).get('name', meta['author']),
+                'reply_to': meta['replyTo'], 'status': 'published', '_engine': True}
     return meta, match[2].strip()
 
 
@@ -83,7 +94,7 @@ def validate(meta, body, *, require_author=True):
         raise ValueError('请填写 name（显示昵称）')
     if meta.get('status', 'published') not in STATUSES:
         raise ValueError('status 只能是 published、draft 或 hidden')
-    if not body.strip():
+    if not body.strip() and not (meta.get('_engine') and meta.get('media')):
         raise ValueError('请在配置区下方填写正文或图片')
     if meta.get('date'):
         date_value(meta['date'])
@@ -151,19 +162,32 @@ def state_for(root):
 
 @contextmanager
 def content_lock(root):
-    path = root / '.publishing/.update.lock'
-    path.parent.mkdir(parents=True, exist_ok=True)
-    if path.is_symlink():
-        raise ValueError('内容锁不能是符号链接')
-    with path.open('a+b') as stream:
+    # Python manual imports and the independent JavaScript engine share one
+    # publication lock. The engine invokes this renderer while owning it.
+    engine_lock = root / '.publish.lock'
+    owns_engine_lock = os.environ.get('GSM_ENGINE_LOCK_HELD') != '1'
+    if owns_engine_lock:
         try:
-            fcntl.flock(stream, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        except BlockingIOError as error:
+            engine_lock.mkdir()
+        except FileExistsError as error:
             raise ValueError('内容正在归档或构建，请沿原操作稍后重试') from error
-        try:
-            yield
-        finally:
-            fcntl.flock(stream, fcntl.LOCK_UN)
+    path = root / '.publishing/.update.lock'
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        if path.is_symlink():
+            raise ValueError('内容锁不能是符号链接')
+        with path.open('a+b') as stream:
+            try:
+                fcntl.flock(stream, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except BlockingIOError as error:
+                raise ValueError('内容正在归档或构建，请沿原操作稍后重试') from error
+            try:
+                yield
+            finally:
+                fcntl.flock(stream, fcntl.LOCK_UN)
+    finally:
+        if owns_engine_lock:
+            engine_lock.rmdir()
 
 
 def users_for(root):
@@ -661,7 +685,41 @@ def referenced_post_images(root):
     for path in (root / 'posts').rglob('*.md'):
         for _, value in IMAGE.findall(path.read_text()):
             references.add((path.parent / value).resolve())
+        if re.search(r'^author:', path.read_text(), re.M):
+            meta, _ = split(path.read_text())
+            for media in meta.get('media', []):
+                references.add(local_path(root, media['src']))
     return references
+
+
+def engine_blocks_for(root, package_root, meta, body, public):
+    """Project canonical engine media into unchanged GSM image/text blocks."""
+    blocks = [{'type': 'text', 'text': body}] if body else []
+    catalog_path = root / 'assets/emotes/gsm/manifest.json'
+    catalog = json.loads(catalog_path.read_text()) if catalog_path.exists() else {'items': []}
+    emotes = {item['src'] for item in catalog['items']}
+    for media in meta['media']:
+        if not isinstance(media, dict) or set(media) - {'src', 'alt', 'fit', 'kind'}:
+            raise ValueError('独立引擎媒体字段无效')
+        value = media.get('src')
+        target = local_path(root, value)
+        if target.suffix != '.webp' or (value not in emotes and not target.is_relative_to(package_root.resolve() / 'media')):
+            raise ValueError('独立引擎媒体需先转换为所属根串 WebP 或已登记本站表情')
+        current = root
+        for part in Path(value).parts:
+            current /= part
+            if current.is_symlink():
+                raise ValueError('独立引擎媒体路径不能包含符号链接')
+        if not isinstance(media.get('alt'), str) or not media['alt'].strip():
+            raise ValueError('独立引擎媒体需要文字说明')
+        with Image.open(target) as image:
+            if image.format != 'WEBP':
+                raise ValueError('独立引擎媒体不是 WebP')
+            image.load()
+            blocks.append({'type': 'image', 'src': '/gsm/' + value, 'alt': media['alt'],
+                           'width': image.width, 'height': image.height})
+        public.add('gsm/' + value)
+    return blocks
 
 
 def clean_image_sources(root, sources):
@@ -714,11 +772,23 @@ def build(root):
 
 def _build_unlocked(root):
     root = root.resolve()
-    if (root / '.publishing/update-pending.json').exists():
+    if (root / '.publishing/update-pending.json').exists() or (root / '.publish-pending.json').exists():
         raise ValueError('AI 批次尚未完成归档；请用原操作恢复导入后再构建')
     posts, profiles, public, ids = [], {}, set(), set()
     registry = sync_users(root)
     characters = dict(registry)
+    # A canonical reply may sit in an older root package than the guest's first
+    # native post. Resolve native biographies before walking package order.
+    native_guests = {}
+    for path in post_documents(root):
+        meta, _ = split(path.read_text())
+        if meta.get('_engine') or not meta.get('guest') or meta.get('status', 'published') != 'published':
+            continue
+        guest = {'name': meta['guest']['name'], 'bio': meta['guest'].get('bio', '')}
+        username = str(meta['username']).lower()
+        if username in native_guests and native_guests[username] != guest:
+            raise ValueError(f'临时守宫身份不一致: {username}')
+        native_guests[username] = guest
     def add_profile(username):
         character = characters[username]
         portrait = root / 'assets/avatars' / (username + '.webp')
@@ -733,6 +803,11 @@ def _build_unlocked(root):
         meta, body = split(path.read_text())
         username = validate(meta, body)
         guest = meta.get('guest')
+        if meta.get('_engine') and guest is not None and username in native_guests:
+            native = native_guests[username]
+            if guest['name'] != native['name']:
+                raise ValueError(f'临时守宫身份不一致: {username}')
+            guest = {**guest, 'bio': native['bio']}
         if username not in registry and guest is None:
             raise ValueError(f'历史帖子仍引用 @{username}，请恢复 users/{username}/profile.json；退出使用可设置 active: false')
         if meta.get('status', 'published') != 'published':
@@ -742,6 +817,11 @@ def _build_unlocked(root):
             raise ValueError(f'帖子 id 必须唯一且只含英文数字和连字符: {path}')
         ids.add(ident)
         date = date_value(meta['date'])
+        if meta.get('_engine'):
+            # New engine operations may carry millisecond timestamps. Preserve
+            # those instants in the handheld projection as well as the archive.
+            instant = datetime.fromisoformat(str(meta['date']).replace('Z', '+00:00')).astimezone(ZONE)
+            date = instant.isoformat(timespec='milliseconds' if instant.microsecond else 'seconds')
         if guest is not None:
             previous = characters.get(username)
             if previous and (previous['name'] != guest['name'] or previous.get('bio', '') != guest.get('bio', '')):
@@ -776,7 +856,8 @@ def _build_unlocked(root):
         likes = initial_likes(meta)
         folder = path.parent
         package_root = folder.parent if folder.name == 'replies' else folder
-        localized = {'zh': blocks_for(root, folder, body, public, package_root=package_root, replacements=replacements)}
+        localized = {'zh': engine_blocks_for(root, package_root, meta, body, public) if meta.get('_engine') else
+                     blocks_for(root, folder, body, public, package_root=package_root, replacements=replacements)}
         documents[path] = path.read_text()
         for lang in ('en', 'ja'):
             translation = path.with_name(path.stem + f'.{lang}.md')

@@ -10,6 +10,12 @@ on:
       # The generated user directory remains part of the content workflow.
       - 'gsm/users/README.md'
   workflow_dispatch:
+    inputs:
+      import_gsm_inputs:
+        description: Import pending manual GSM trigger/uploads (otherwise rebuild only)
+        type: boolean
+        default: false
+        required: false
 
 permissions:
   actions: read
@@ -45,11 +51,29 @@ jobs:
       - name: Prepare G-stream publishing tools
         run: python -m pip install --disable-pip-version-check -r gsm/tools/requirements.txt
 
+      - name: Install independent GSM image tools
+        run: npm ci --prefix gsm/tools/engine
+
       - name: Verify trigger packages and image conversion
         run: python -m unittest discover -s gsm/tests -p 'test_*.py' -v
 
-      - name: Import new G-stream trigger commits and build timeline
-        run: python gsm/tools/publish.py ingest
+      - name: Select manual import only for changed input
+        id: gsm_mode
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_REQUEST: ${{ inputs.import_gsm_inputs }}
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+        run: |
+          mode=build
+          if [ "$EVENT_NAME" = workflow_dispatch ] && [ "$INPUT_REQUEST" = true ]; then mode=ingest; fi
+          if [ "$EVENT_NAME" = push ] && git rev-parse --verify "$BEFORE^{commit}" >/dev/null 2>&1; then
+            if ! git diff --quiet "$BEFORE" "$AFTER" -- gsm/trigger.md gsm/uploads ':(exclude)gsm/uploads/README*.md'; then mode=ingest; fi
+          fi
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+
+      - name: Build G-stream without generating unrelated content
+        run: python gsm/tools/publish.py ${{ steps.gsm_mode.outputs.mode }}
 
       - name: Verify runtime, data contracts and public surfaces
         run: node tools/check-all.mjs

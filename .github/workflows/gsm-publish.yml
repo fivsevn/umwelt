@@ -1,0 +1,117 @@
+name: Publish reviewed GSM forum update
+run-name: Publish GSM ${{ inputs.operation_id }}
+on:
+  workflow_dispatch:
+    inputs:
+      operation_id:
+        description: Reviewed GSM operation ID from its private replay manifest
+        type: string
+        required: true
+      archive_repository:
+        description: Private owner/repo; defaults to GSM_ARCHIVE_REPOSITORY
+        type: string
+        required: false
+      archive_ref:
+        description: Archive branch or immutable commit
+        type: string
+        default: main
+        required: true
+      bundle_id:
+        description: Immutable reviewed bundle SHA256 (empty selects latest reviewed)
+        type: string
+        required: false
+permissions:
+  contents: write
+  actions: write
+concurrency:
+  group: gsm-publication
+  cancel-in-progress: false
+env:
+  ARCHIVE_REPOSITORY: ${{ inputs.archive_repository || vars.GSM_ARCHIVE_REPOSITORY }}
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check GSM's private replay configuration
+        env:
+          GH_TOKEN: ${{ secrets.GSM_ARCHIVE_TOKEN }}
+        run: |
+          set -euo pipefail
+          test -n "$ARCHIVE_REPOSITORY" || { echo 'Configure GSM_ARCHIVE_REPOSITORY or archive_repository.'; exit 1; }
+          test -n "$GH_TOKEN" || { echo 'Configure GSM_ARCHIVE_TOKEN for GSM private replay storage.'; exit 1; }
+          test "$(gh api "repos/$ARCHIVE_REPOSITORY" --jq '.private')" = true || { echo 'Replay inputs require a private archive.'; exit 1; }
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ env.ARCHIVE_REPOSITORY }}
+          ref: ${{ inputs.archive_ref }}
+          token: ${{ secrets.GSM_ARCHIVE_TOKEN }}
+          path: _gsm_archive
+      - run: python -m pip install -r gsm/tools/requirements.txt
+      - run: npm ci --prefix gsm/tools/engine
+      - name: Restore and verify the reviewed GSM bundle
+        env:
+          OPERATION_ID: ${{ inputs.operation_id }}
+          BUNDLE_ID: ${{ inputs.bundle_id }}
+        run: |
+          echo "GSM_WORK_DIR=$RUNNER_TEMP/gsm-current" >> "$GITHUB_ENV"
+          GSM_WORK_DIR="$RUNNER_TEMP/gsm-current" node --input-type=module - <<'JS'
+          import { restoreArchive } from './gsm/tools/operation-archive.mjs';
+          import { loadContent } from './gsm/tools/engine/content.js';
+          import { readFile } from 'node:fs/promises';
+          import { execFileSync } from 'node:child_process';
+          if (!/^gsm-\d{14}-[a-f0-9]{8}$/.test(process.env.OPERATION_ID)) throw Error('Select a GSM operation');
+          const restored = await restoreArchive({root:'gsm',work:process.env.GSM_WORK_DIR,archive:'_gsm_archive',operationId:process.env.OPERATION_ID,stage:'reviewed',bundleId:process.env.BUNDLE_ID||undefined});
+          const head = execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
+          const operation = JSON.parse(await readFile(restored.operationPath,'utf8'));
+          if (restored.sourceRevision !== head) {
+            const {feed} = await loadContent();
+            // Reingest below checks every public field and permits only the
+            // verified PNG/JPEG/SVG-to-WebP path normalization from this bundle.
+            if (!operation.posts.length || !operation.posts.every(post=>feed.posts.some(item=>item.id===post.id))) throw Error('Main differs from the reviewed source. Refresh and review this operation before publishing.');
+            console.log('All operation IDs already exist; reingest will verify exact content before resuming online verification.');
+          }
+          console.log(JSON.stringify(restored));
+          JS
+      - name: Validate, archive and render the reviewed operation
+        run: |
+          set -euo pipefail
+          node gsm/tools/publish.mjs ingest "$GSM_WORK_DIR/operation.json" --reviewed --ai
+          node gsm/tools/publish.mjs validate
+          node --test gsm/tests/*.test.mjs tests/site-artifact.test.mjs
+      - name: Commit on unchanged main
+        env:
+          OPERATION_ID: ${{ inputs.operation_id }}
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          test "$(git rev-parse HEAD)" = "$(git rev-parse FETCH_HEAD)" || { echo 'Main changed during publication; retain the private bundle and review current main.'; exit 1; }
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- gsm/posts gsm/data/feed.mjs gsm/.publishing gsm/users gsm/accounts.json gsm/assets
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish reviewed GSM operation $OPERATION_ID"
+            git push origin HEAD:main
+          fi
+      - name: Request GSM's own Pages deployment
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run pages.yml --ref main -f import_gsm_inputs=false
+      - name: Verify the deployed operation and every referenced image
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 90); do
+            if node gsm/tools/update.mjs finish > "$RUNNER_TEMP/gsm-finish.log" 2>&1; then cat "$RUNNER_TEMP/gsm-finish.log"; exit 0; fi
+            if [ "$attempt" -eq 90 ]; then cat "$RUNNER_TEMP/gsm-finish.log"; exit 1; fi
+            sleep 20
+          done

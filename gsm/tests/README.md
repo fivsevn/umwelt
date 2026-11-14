@@ -2,13 +2,21 @@
 
 [项目说明](../README.md)
 
-仓库根目录运行 `node tools/check-all.mjs`。公共登记、入口与运行依赖检查已接入 CI。
+仓库根目录运行 `node tools/check-all.mjs`。公共登记、入口与运行依赖检查已接入 CI。独立引擎由 `gsm-check.yml` 检查；该流程不需要 `GSM_ARCHIVE_TOKEN`，不触发日常内容准备或发布。
 
 ## AI 更新与归档
 
-安装 `gsm/tools/requirements.txt` 后，运行 `python3 -m unittest discover -s gsm/tests -p 'test_*.py'`。`test_update.py` 覆盖完整阅读、当前资料筛选、预算与候选、逐串回复、临时身份、观察时效、配图、源变化、中断恢复、并发锁和线上内容及图片核验；`test_user_documents.py` 覆盖独立档案同步、身份与头像保留、自动目录、根串媒体边界及历史信息流字节一致。
+使用 Node.js 22+，安装 `gsm/tools/engine` 的 Node 依赖和 `gsm/tools/requirements.txt` 的 Python 依赖。在仓库根目录运行：
 
-旧抽签与叙事点赞测试保留历史数据兼容检查；当前更新规则以[更新入口](../docs/README.md)为准。现有发布测试继续验证人工输入、默认点赞与去重；构建本身不改变已发表的正文或点赞。
+```sh
+node --test gsm/tests/*.test.mjs
+python3 -m unittest discover -s gsm/tests -p 'test_*.py' -v
+node gsm/tools/publish.mjs validate
+```
+
+共享设计的本地移植检查包括：案例与原创各1–2条的独立抽取与混编、完整原版回复和媒体规则、负面底线、独立 writer 输入与检查点、资料变化、权限、时效、未完成归档恢复，以及读取每日素材失败时保留工作。执行入口不得联网读取远程代码或请求路西法零的写入/Actions权限。
+
+存储兼容检查覆盖现有独立人物档案、作者保留权限、ID、头像、历史父关系与媒体，以及原有 `feed.mjs` 输出。迁移验证在隔离目录使用测试草稿，不能将测试帖子、初稿、素材快照或私有审读记录提交到公开站点。旧 Python 人工输入及页面测试继续核对既有行为；旧抽签与叙事点赞数据只作为历史兼容检查，不是当前发帖入口。手动私有准备/发布工作流另需 `GSM_ARCHIVE_REPOSITORY` 和 `GSM_ARCHIVE_TOKEN`，未配置时预检失败；这不阻断本地和 CI 检查。
 
 ## 信息流交互
 

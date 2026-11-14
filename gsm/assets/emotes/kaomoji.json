@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "name": "GSM",
+  "items": [
+    {
+      "id": "neutral",
+      "name": "路过",
+      "text": "(·ω·)",
+      "meaning": "平静、观察、随便看看。"
+    },
+    {
+      "id": "doubt",
+      "name": "怀疑",
+      "text": "(¬_¬)",
+      "meaning": "不信、嫌弃、侧眼。"
+    },
+    {
+      "id": "sweat",
+      "name": "尴尬",
+      "text": "(·_·;)",
+      "meaning": "尴尬、勉强或无奈。"
+    },
+    {
+      "id": "cry",
+      "name": "哭",
+      "text": "(T_T)",
+      "meaning": "委屈、难过，也可以夸张。"
+    },
+    {
+      "id": "flat",
+      "name": "趴着",
+      "text": "(-_-)",
+      "meaning": "累了、懒得动、放空。"
+    },
+    {
+      "id": "laugh",
+      "name": "笑",
+      "text": "(^▽^)",
+      "meaning": "笑、起哄或开心。"
+    },
+    {
+      "id": "angry",
+      "name": "气",
+      "text": "(>_<)",
+      "meaning": "生气、受不了。"
+    },
+    {
+      "id": "peek",
+      "name": "探头",
+      "text": "|·ω·)",
+      "meaning": "先看看别人怎么说。"
+    }
+  ]
+}

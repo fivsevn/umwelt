@@ -14,7 +14,7 @@ from PIL import Image
 
 TOOLS = Path(__file__).parents[1] / 'tools'
 sys.path.insert(0, str(TOOLS))
-spec = importlib.util.spec_from_file_location('gsm_update', TOOLS / 'update.py')
+spec = importlib.util.spec_from_file_location('gsm_update', TOOLS / 'legacy/update.py')
 u = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(u)
 p = u.p
