@@ -26,48 +26,57 @@ GSM 在本仓库独立采集公开爬宠社区和守宫相关社交标签。本�
 
 <!-- samples:start -->
 
-采集时间：2026-11-15 08:56:49（北京时间）
+采集时间：2026-11-15 09:02:15（北京时间）
 
 ### 讨论 1
 
 近七天爬宠主题。公开标签原帖及可见回复短节选，仅包含本次公开接口实际返回的内容。已自动去除明显标识，未作语义转述；人类观察者的判断不是守宫的内心事实，图片标记不代表看过画面。
 
-1. **发言者 1**：Lagartija 2: El regreso.  
-     
-   \(en realidad no es la misma de antes, probablemente\)  
+1. **发言者 1**：He's just a little guy\! 🐍  
    \[图片或视频省略，未读取画面\]
 
 ### 讨论 2
 
 近七天爬宠主题。公开标签原帖及可见回复短节选，仅包含本次公开接口实际返回的内容。已自动去除明显标识，未作语义转述；人类观察者的判断不是守宫的内心事实，图片标记不代表看过画面。
 
-1. **发言者 1**：Bichito que encontré acá por Texcoco  
-   \[图片或视频省略，未读取画面\]
-
-2. **发言者 2**（回复第 1 条）：发言者 1 me encantan esos\! tienen una zona por acá también
+1. **发言者 1**：Giant tortoises vanished from the Galápagos' Floreana Island more than 150 years ago, but with the help of scientists they're slowly coming back  
+   \[链接隐去\]
 
 ### 讨论 3
 
 近七天爬宠主题。公开标签原帖及可见回复短节选，仅包含本次公开接口实际返回的内容。已自动去除明显标识，未作语义转述；人类观察者的判断不是守宫的内心事实，图片标记不代表看过画面。
 
-1. **发言者 1**：Profiter du soleil \! gecko grenoble  
-   \[图片或视频省略，未读取画面\]
+1. **发言者 1**：Without rocky habitats, many reptile species would struggle to survive, putting wider ecosystems at risk of collapse. But how many reptile species actually depend on rocky habitats? And should we protect these habitats?  
+   \[链接隐去\]
 
 ### 讨论 4
 
 近七天爬宠主题。公开标签原帖及可见回复短节选，仅包含本次公开接口实际返回的内容。已自动去除明显标识，未作语义转述；人类观察者的判断不是守宫的内心事实，图片标记不代表看过画面。
 
-1. **发言者 1**：Giant tortoises vanished from the Galápagos' Floreana Island more than 150 years ago, but with the help of scientists they're slowly coming back  
-   \[链接隐去\]
+1. **发言者 1**：The scaly sausage decided to sleep under his ramp last night. And dislodge his thermostat sensor in the process.  
+   \[图片或视频省略，未读取画面\]
+
+2. **发言者 1**（回复第 1 条）：He usually goes under his basking rock, or inside his hollow log, but sometimes he just does... This. Apparently he just really craves the relaxing feel of a plastic ramp testing on his neck all night long.
+
+3. **发言者 1**（回复第 2 条）：The lizard was in the mood for roaming around this evening, and voluntarily crawled out of his enclosure onto my hands. As usual this ended up with him hanging out on my shoulders and climbing on top of my head.  
+   \[图片或视频省略，未读取画面\]
+
+4. **发言者 1**（回复第 3 条）：Also helping with the kid's maths homework.  
+   \[图片或视频省略，未读取画面\]
+
+5. **发言者 2**（回复第 3 条）：发言者 1 as is proper\! &lt;3
+
+6. **发言者 1**（回复第 5 条）：发言者 2 Indeed. He could do with a manicure though. His tiny claws feel very sharp when he's using them to grip the back of my neck or my scalp.
 
 ### 讨论 5
 
 近七天爬宠主题。公开标签原帖及可见回复短节选，仅包含本次公开接口实际返回的内容。已自动去除明显标识，未作语义转述；人类观察者的判断不是守宫的内心事实，图片标记不代表看过画面。
 
-1. **发言者 1**：Where  did all the reptiles go?  
-   "Globally, our ecosystems are rapidly becoming less rich and diverse...In Australia, for instance, research shows the country’s most threatened reptiles and frogs are already disappearing, with their populations declining by 96% on average since 1985."  
-   "The reasons for this are many and complex, including habitat destruction, pesticide use, natural disasters, diseases, and invasive species such as cane toads and cats. However, human-induced climate change remains the foremost threat to wildlife worldwide."  
-   "...Our analysis suggests far fewer wild reptiles are traded than are run over by cars, harvested for traditional medicines or killed by habitat destruction, invasive pests, disease or climate change."  &gt;&gt;  
-   \[链接隐去\]
+1. **发言者 1**：New video out\!  
+     
+   Sometimes, a one snake day is still a great day...when it's that species you've been trying to locate for years that just kept staying invisible. This was one of those days, when the final montane rattlesnake of Arizona revealed itself at the end of a long day of searching.  
+     
+   Find the video here: \[链接隐去\]  
+   \[图片或视频省略，未读取画面\]
 
 <!-- samples:end -->
