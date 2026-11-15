@@ -1,5 +1,19 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "guest-6b642413b2cc1550": {
+    "handle": "guest-6b642413b2cc1550",
+    "name": "404",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-6b642413b2cc1550.webp?v=3a99410baa47",
+    "color": "sage"
+  },
+  "nightshift3": {
+    "handle": "nightshift3",
+    "name": "半夜上线",
+    "bio": "这会儿还有谁醒着？",
+    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
+    "color": "rose"
+  },
   "guest-07fc84ce086ed1f2": {
     "handle": "guest-07fc84ce086ed1f2",
     "name": "耳朵",
@@ -133,13 +147,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/nearthermo.webp?v=f536a852bd2b",
     "color": "sand"
   },
-  "nightshift3": {
-    "handle": "nightshift3",
-    "name": "半夜上线",
-    "bio": "这会儿还有谁醒着？",
-    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
-    "color": "rose"
-  },
   "peachcrumble": {
     "handle": "peachcrumble",
     "name": "桃酥",
@@ -184,6 +191,81 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "gsm-20261115101251-6b2d57c9-afe96babcc06",
+    "date": "2026-11-15T17:53:04.861+08:00",
+    "createdAt": 1794736384861,
+    "author": "guest-6b642413b2cc1550",
+    "likes": 11,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "从手上爬到肩膀了，接着往头顶爬。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261115101251-6b2d57c9-afe96babcc06/media/shoulder-view.webp",
+          "alt": "近处蓝色衣料上露出守宫前足的一部分，前方是人的后颈和短发边缘。",
+          "width": 1448,
+          "height": 1086
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "从手上爬到肩膀了，接着往头顶爬。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261115101251-6b2d57c9-afe96babcc06/media/shoulder-view.webp",
+          "alt": "近处蓝色衣料上露出守宫前足的一部分，前方是人的后颈和短发边缘。",
+          "width": 1448,
+          "height": 1086
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "从手上爬到肩膀了，接着往头顶爬。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261115101251-6b2d57c9-afe96babcc06/media/shoulder-view.webp",
+          "alt": "近处蓝色衣料上露出守宫前足的一部分，前方是人的后颈和短发边缘。",
+          "width": 1448,
+          "height": 1086
+        }
+      ]
+    }
+  },
+  {
+    "id": "gsm-20261115101251-6b2d57c9-0ea340e1e3b3",
+    "date": "2026-11-15T17:47:34.292+08:00",
+    "createdAt": 1794736054292,
+    "author": "nightshift3",
+    "likes": 2,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "那阵咔哒声终于停了，早停不就好了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "那阵咔哒声终于停了，早停不就好了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "那阵咔哒声终于停了，早停不就好了。"
+        }
+      ]
+    }
+  },
   {
     "id": "gsm-20261115093707-ea108edf-04",
     "date": "2026-11-15T17:36:58.580+08:00",

@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "operationId": "gsm-20261115101251-6b2d57c9",
+  "stage": "reviewed",
+  "sourceRevision": "cad4c334ff17226ed1ac5a53ba8b4af3f7cff4c5",
+  "files": [
+    {
+      "path": "media/posts/2026/11/gsm-20261115101251-6b2d57c9-afe96babcc06/media/shoulder-view.webp",
+      "bytes": 309726,
+      "sha256": "015e7e3cc2d382641d9a182693fd8da949979a0d355c0296ca675e9f9aca563c"
+    },
+    {
+      "path": "work/daily-material.json",
+      "bytes": 13025,
+      "sha256": "3ed3c25d04902c98f6b3967143a2c80b256d04d737407990ad7694279ba6a8a5"
+    },
+    {
+      "path": "work/draft-history-gsm-20261115101251-6b2d57c9.json",
+      "bytes": 4010,
+      "sha256": "c3f61f4844a302f31cc460a3c03bb470ae6c1754e150b9b5c4a2f5f039420397"
+    },
+    {
+      "path": "work/operation.json",
+      "bytes": 31775,
+      "sha256": "4619621853b071dc015bb148daf39c350054bc8a582792cd59429645c2a6ed8f"
+    },
+    {
+      "path": "work/reading.md",
+      "bytes": 412652,
+      "sha256": "0551b6d0437ee6777b424c29765cbe1cc0cb32f4eb3ab6015543659bc48f8ec9"
+    }
+  ]
+}
