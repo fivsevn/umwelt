@@ -104,11 +104,11 @@ export function validateContent(registry, batches, policy, { now = Date.now(), s
       if (post.replyTo !== null) identifier(post.replyTo, 'replyTo');
       text(post.text, 2000, 'post.text', true);
       if (Object.hasOwn(post, 'deleted') && typeof post.deleted !== 'boolean') fail('Invalid deleted flag');
-      if (post.deleted === true && post.text !== (post.replyTo === null ? '该帖子已被删除' : '该回复已被删除')) fail('Deleted posts must contain only the matching deletion placeholder');
+      if (post.deleted === true && (post.replyTo === null || post.text !== '该回复已被删除')) fail('Deleted replies must be replies containing only the deletion placeholder');
       if (!Number.isSafeInteger(post.likes) || post.likes < 0) fail('Invalid likes');
       if (!Array.isArray(post.media)) fail('Invalid media');
       if (!post.text.trim() && !post.media.length) fail('A post needs text or media');
-      if (post.deleted === true && post.media.length) fail('Deleted posts cannot retain media');
+      if (post.deleted === true && post.media.length) fail('Deleted replies cannot retain media');
       for (const image of post.media) {
         keys(image, ['src', 'alt', 'fit', 'kind'], 'media');
         if (!isPostMediaPath(image.src) && !sharedMedia.has(image.src) && !isLegacy(post)) fail('Invalid media path: use the thread package media directory or a registered site emote');

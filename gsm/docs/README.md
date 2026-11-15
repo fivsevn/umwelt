@@ -41,5 +41,5 @@
 ## 给 AI 的启动语
 
 ```text
-读取 https://raw.githubusercontent.com/fivsevn/umwelt/main/gsm/docs/README.md 及其链接的写作与发布说明，按最新 main 完成一次爬爬在线更新并上线。GSM 独立执行，先核验本站每日爬宠材料，从守宫自身的身体、感知和生活写作。
+读取 https://raw.githubusercontent.com/fivsevn/umwelt/main/gsm/docs/README.md 及其链接的写作与发布说明，按最新 main 完成一次爬爬在线更新并上线。
 ```
