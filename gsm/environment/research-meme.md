@@ -1,6 +1,6 @@
 # 研究-Meme
 
-这里研究守宫在网上怎样用姿态、图像、熟悉句式和颜文字接话。本文整合原 `meme.md` 的守宫观察，正式反应资源使用 [GSM 守宫图像](../assets/emotes/gsm/manifest.json)与[本站颜文字](../assets/emotes/kaomoji.json)。内容由它实际接住的话头决定，名称、身体部位或物种标签本身不构成一个梗。
+这里研究守宫在网上怎样用姿态、图像、熟悉句式和颜文字接话。正式反应资源使用 [GSM 守宫图像](../assets/emotes/gsm/manifest.json)与[本站颜文字](../assets/emotes/kaomoji.json)。内容由它实际接住的话头决定，名称、身体部位或物种标签本身不构成一个梗。
 
 选择与转换边界见[本站化](../docs/localization.md)，媒体数量见[抽签规则](../docs/lottery.md#图片与表情抽取)，制作与归档见[发布说明](../docs/publishing.md#生成并归档配图)。本篇只维护表达观察，不另设每轮必须搜新梗或使用多少表情的任务。
 
@@ -45,20 +45,10 @@
 
 需要引入新的用法时，从[每日材料](sources-daily-opinions.md)及守宫、爬宠相关原串寻找当前使用，读实际发言和接话；不把泛社交热榜里的流行语机械嫁接过来。近期观察可以纳入已有的 `trend`，不另加一份固定配额。
 
-[Know Your Meme](https://knowyourmeme.com/memes)只用于确有需要时查原作、变体和出处，不是本站的日常内容池。原素材出现时间、条目收录／修订时间、这一次使用时间分别记；目录写“最新”不证明此刻流行。
+观察表达时，区分原素材出现时间与这一次的实际使用时间。
 
 只能读到标签就记录标签，实际打开原图后才描述画面；返回缓存、日期未知和未展开的回复都照实保留。熟悉的旧表达可以继续用，没找到合适新梗时照常说普通话。
-
-## 合并保留的守宫观察
-
-[日常生活的既有观察](research-everyday-life.md#已有守宫观察)是 Sleepy、食碗脚印和名字接龙的主体记录，读取日期和范围只在那里维护。这里取用的是物件用途、形状联想、熟悉叫法和认错出处如何形成接话，不把照料者玩笑直接登记为守宫想法。
-
-原 `meme.md` 的 M04 保留为方法观察：2026-11-09读过[伸爪原型与传播条目](https://knowyourmeme.com/memes/snow-leopard-paws-at-you)及[游戏角色改画原串](https://www.reddit.com/r/DeadlockTheGame/comments/1xeuvr1/paws_at_youleaping_slash/)。记录区分原动作、条目时间与改画，缓存相对日期不作近七天证据。本次未重读，也不把雪豹或游戏角色图作为 GSM 的正式反应图；只有当前话头需要时才用守宫图像重新表达相应动作。
-
-观察一个梗时看它的内容、保留的形式与这一次的态度。这一方法保留自 Limor Shifman 的[论文摘要](https://cris.huji.ac.il/en/publications/memes-in-a-digital-world-reconciling-with-a-conceptual-troublemak/)的既有阅读记录；不是本轮新访或守宫行为研究。真正形成站内共同叫法后，再按[论坛记录](record-forum.md)登记参与范围和依据帖号。
 
 ## 局部用法与共同叫法
 
 一小群账号可以沿用同一个称呼，另一群仍看不懂，也有人故意换词或觉得叫烦了。共同用法只有实际在原帖中被接住、复用以后，才逐步记录传播范围；出现一次不等于全站惯例。
-
-原社区行为笔记中的 Centola 与 Baronchelli（2015），[The spontaneous emergence of conventions](https://ndg.asc.upenn.edu/wp-content/uploads/2016/04/Centola-Baronchelli-2015-PNAS.pdf)，*PNAS* 112(7):1989—1994，DOI 10.1073/pnas.1418838112，提供局部命名互动与网络结构影响惯例形成的方法参照。旧笔记没有逐篇访问日期，本次未重读。实验有报酬与被操作的网络拓扑，GSM 没有运行同样模型，不声称复现结果，也不要求大家最终形成同一个叫法。

@@ -1,4 +1,3 @@
-// Adapted once from lucifer0 collector 2f0fd378; GSM maintains this implementation.
 const PLATFORM = /哔哩哔哩|嗶哩嗶哩|b站|bilibili|小红书|小紅書|rednote|微博|weibo|抖音|douyin|知乎|zhihu|豆瓣|douban|telegram|電報|电报|twitter|推特|reddit|v2ex|v站|x岛|a岛|x島|a島|nmbxd|nmb\.best|匿名版|adnmb|\bnga\b|晴风村|小黑盒|linux\.do|快手|贴吧|貼吧|微信|wechat|discord|instagram|facebook|youtube|tiktok|\bx(?=\s*(?:上|里|看到|发了|刷到))/gi;
 const LINK = /(?:[a-z][a-z0-9+.-]{1,20}:\/\/|www\.|mailto:|data:)[^\s<>]+|\b(?:[a-z0-9-]+\.)+(?:com|org|net|cn|io|tv|me|dev|app|co|best|xyz)(?:\b|\/)[^\s<>]*/gi;
 const EMAIL = /[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)+/gi;
@@ -15,7 +14,7 @@ const PERSONAL = /身份证|身份證|银行卡|銀行卡|病历|病歷|诊断�
 const fail = message => { throw new Error(message); };
 const chars = text => [...text].length;
 const escapeRegExp = text => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-const SOURCE_LABELS = /MorphMarket|Mastodon|GeckoForums/gi;
+const SOURCE_LABELS = /MorphMarket|Mastodon|GeckoForums|ReptileForums/gi;
 const genericName = name => !name || /^(?:无名氏|無名氏|匿名|Anonymous|名無し)$/i.test(name);
 
 export function plainText(value) {

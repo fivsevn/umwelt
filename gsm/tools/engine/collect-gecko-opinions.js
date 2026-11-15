@@ -13,7 +13,7 @@ const DEFAULT_DOCUMENT = resolve(ROOT, 'environment/sources-daily-opinions.md');
 const START = '<!-- samples:start -->', END = '<!-- samples:end -->';
 export const collectionLimits = Object.freeze({ threadsPerSource: 5, detailRequests: 8, repliesPerThread: 5,
   rootCharacters: 1200, replyCharacters: 400, threadCharacters: 2200, responseBytes: 2_000_000,
-  timeoutMs: 12_000, maxFragments: 8, maxRequests: 24, durationMs: 120_000, concurrency: 3 });
+  timeoutMs: 12_000, maxFragments: 12, maxRequests: 64, durationMs: 120_000, concurrency: 4 });
 const fail = message => { throw Error('Gecko collection: ' + message); };
 const chars = text => [...text].length;
 
@@ -28,7 +28,7 @@ async function concurrent(items, count, action) {
 async function requestPublic(url, { fetchImpl, stats, limits, format }) {
   stats.requests++;
   try {
-    const response = await fetchImpl(url, { headers: { Accept: format === 'rss' ? 'application/rss+xml, application/xml, text/xml' : 'application/json',
+    const response = await fetchImpl(url, { headers: { Accept: format === 'rss' ? 'application/rss+xml, application/xml, text/xml' : format === 'html' ? 'text/html' : 'application/json',
       'User-Agent': 'GSM-gecko-intake/1.0 (+https://github.com/fivsevn/umwelt)' }, redirect: 'error', signal: AbortSignal.timeout(limits.timeoutMs) });
     if (!response.ok) { stats.errors.push('HTTP ' + response.status); throw Error('HTTP failure'); }
     if (Number(response.headers.get('content-length')) > limits.responseBytes) throw Error('response too large');
@@ -38,7 +38,7 @@ async function requestPublic(url, { fetchImpl, stats, limits, format }) {
       text += decoder.decode(chunk, { stream: true });
     }
     text += decoder.decode();
-    const payload = format === 'rss' ? text : JSON.parse(text);
+    const payload = format === 'json' ? JSON.parse(text) : text;
     stats.succeeded++;
     return payload;
   } catch (error) {
@@ -48,8 +48,7 @@ async function requestPublic(url, { fetchImpl, stats, limits, format }) {
 }
 
 function renderFragment(fragment, number, sourceKind) {
-  const scope = sourceKind === 'discourse-rss' ? '公开 RSS 中实际取得的根帖及回复短节选，RSS 未给出的楼中楼父关系保持未知。' : '公开标签原帖及可见回复短节选，仅包含本次公开接口实际返回的内容。';
-  return [`### 讨论 ${number}`, `近七天爬宠主题。${scope}已自动去除明显标识，未作语义转述；人类观察者的判断不是守宫的内心事实，图片标记不代表看过画面。`,
+  return [`### 讨论 ${number}`, ...(['discourse-rss', 'xenforo'].includes(sourceKind) && fragment.messages.length > 1 ? ['父回复关系未提供。'] : []),
     fragment.messages.map((message, i) => `${i + 1}. **${message.speaker}**${message.replyTo ? `（回复第 ${message.replyTo} 条）` : message.missingTarget ? '（引用未收录发言）' : ''}：${markdownText(message.text)}`).join('\n\n')].join('\n\n');
 }
 
@@ -60,22 +59,29 @@ export async function collectGeckoOpinions({ fetchImpl = globalThis.fetch, now =
   for (const value of Object.values(limits)) if (!Number.isSafeInteger(value) || value < 1) fail('invalid bounded collection limits');
   const observations = sources.map(source => ({ name: source.name, requests: 0, succeeded: 0, failed: 0, topicsSeen: 0,
     discussionsRead: 0, fragments: 0, messages: 0, excluded: 0, errors: [] }));
-  const deadline = Date.now() + limits.durationMs; let requests = 0;
-  const request = (url, source, stats) => {
-    const remaining = deadline - Date.now();
-    if (requests >= limits.maxRequests || remaining <= 0) return null;
-    requests++;
-    return requestPublic(url, { fetchImpl, stats, limits: { ...limits, timeoutMs: Math.min(limits.timeoutMs, remaining) },
-      format: source.kind === 'discourse-rss' ? 'rss' : 'json' });
+  const deadline = Date.now() + limits.durationMs; let requests = 0, inFlight = 0;
+  const waiters = [];
+  const request = async (url, source, stats, detail = false) => {
+    if (inFlight >= limits.concurrency) await new Promise(done => waiters.push(done));
+    else inFlight++;
+    try {
+      const remaining = deadline - Date.now();
+      if (requests >= limits.maxRequests || remaining <= 0) return null;
+      requests++;
+      return await requestPublic(url, { fetchImpl, stats, limits: { ...limits, timeoutMs: Math.min(limits.timeoutMs, remaining) },
+        format: source.kind === 'xenforo' ? detail ? 'html' : 'rss' : source.kind === 'discourse-rss' ? 'rss' : 'json' });
+    } finally {
+      if (waiters.length) waiters.shift()(); else inFlight--;
+    }
   };
   const rank = value => createHash('sha256').update(seed + ':' + value).digest('hex');
   const queues = await concurrent(sources.map((source, i) => ({ source, stats: observations[i] })), limits.concurrency, async ({ source, stats }) => {
     const found = new Map();
-    for (const url of source.lists) {
-      const payload = await request(url, source, stats); if (payload === null) continue;
+    await concurrent(source.lists, limits.concurrency, async url => {
+      const payload = await request(url, source, stats); if (payload === null) return;
       try { for (const topic of parseGeckoTopics(source, payload, plainText)) found.set(topic.id, topic); }
       catch { stats.errors.push('unrecognized public topic shape'); }
-    }
+    });
     stats.topicsSeen = found.size;
     const eligible = [...found.values()].filter(topic => Number.isFinite(topic.created) && topic.created <= now &&
       now - topic.created < 7 * 86400000 && topic.text && chars(topic.text) <= limits.rootCharacters)
@@ -84,12 +90,18 @@ export async function collectGeckoOpinions({ fetchImpl = globalThis.fetch, now =
     return { source, stats, eligible };
   });
   queues.sort((a, b) => rank(a.source.key).localeCompare(rank(b.source.key)));
+  const topics = new Set();
+  for (const queue of queues) queue.eligible = queue.eligible.filter(topic => {
+    const identity = topic.canonicalId || queue.source.key + ':' + topic.id;
+    if (topics.has(identity)) return false;
+    topics.add(identity); return true;
+  });
   const fragments = [], seen = new Set(used.map(item => item.fingerprint));
   while (fragments.length < limits.maxFragments && requests < limits.maxRequests && Date.now() < deadline) {
     const active = queues.filter(q => q.eligible.length && q.stats.fragments < limits.threadsPerSource).slice(0, limits.maxFragments - fragments.length);
     if (!active.length) break;
     const results = await concurrent(active, limits.concurrency, async ({ source, stats, eligible }) => {
-      const topic = eligible.shift(), payload = await request(source.detail(topic.id, topic), source, stats);
+      const topic = eligible.shift(), payload = await request(source.detail(topic.id, topic), source, stats, true);
       if (payload === null) return null;
       try {
         const discussion = parseGeckoDiscussion(source, topic, payload, plainText); stats.discussionsRead++;

@@ -1,6 +1,6 @@
 # 研究-评论与点赞
 
-这里研究守宫在网上怎样接话、误读、发图、返回或离开。本文整合原 `comments.md` 的守宫观察；互动机制继续容纳低信息、重复、争执和长串，内容从各只守宫实际可见的生活展开。数量和概率归[抽签规则](../docs/lottery.md)，发言方式归[说话方式研究](../users/research-speech.md)。
+这里研究守宫在网上怎样接话、误读、发图、返回或离开。互动机制继续容纳低信息、重复、争执和长串，内容从各只守宫实际可见的生活展开。数量和概率归[抽签规则](../docs/lottery.md)，发言方式归[说话方式研究](../users/research-speech.md)。
 
 ## 逐条形成回复
 
@@ -63,26 +63,3 @@
 回复接触的范围通常较小，但具体解释、一个好笑的图或一句刻薄话也可能超过主帖。长短、正负和是否有用，均不直接决定赞数；别人赞了不等于生物判断正确。
 
 页面在基础赞之上加当前浏览器的一次本地点赞，取消后恢复基数；个人选择不回写为所有人的评价。建议值与填写方法仍由[发布说明](../docs/publishing.md)统一维护。
-
-## 已有守宫样本与研究边界
-
-[日常生活的既有观察](research-everyday-life.md#已有守宫观察)保存主体记录：Sleepy 中的用途玩笑和短联想、食碗帖中动作与痕迹的信息差、名字接龙里的认错与说明，都能提供具体交流观察。本篇通过链接取用，不复制成第二套样本。
-
-另保留2026-11-09对 [MorphMarket：Show us your Geckos!](https://community.morphmarket.com/t/show-us-your-geckos/17758) 的历史记录：读取原串返回第一页文字及可见回复，后页和图像未读。展示、追问和后来补充围绕各个个体延续；Activity 表示最近活动，不能当作每条原始日期。
-
-平台数字的含义另看[Reddit 官方投票说明](https://support.reddithelp.com/hc/en-us/articles/7419626610708-What-are-upvotes-and-downvotes)，既有读取日期2026-11-09，页面当时标注更新2026-10-05。本次未重读；这里只保留“排序与隐藏票数影响可见样本”的方法依据，不把原站分数换算成本站赞数。
-
-新材料从[每日案例](sources-daily-opinions.md)进入；研究补充保存真正读到的原串、回复和父关系，也一起看普通、重复和中断的交流。人类职业或软件求助串不再作为这里持续轮换的场景来源。
-
-## 社区参与的方法参考
-
-以下书目整合原社区行为笔记。旧笔记没有逐篇访问时间，本次未重新访问；保留的是已记录的研究范围和创作边界，不作为守宫生物行为证据。
-
-| 研究 | 在守宫论坛中保留的方法与局限 |
-| --- | --- |
-| Preece、Nonnecke 与 Andrews（2004），[The top five reasons for lurking](https://www.socs.uoguelph.ca/~nonnecke/research/CHB_Proof.pdf)，DOI 10.1016/j.chb.2003.10.015 | 原对象为 MSN 社区调查；沉默可以是只想看、暂时无话和不熟悉氛围，不一律理解成被排斥，也不采用固定潜水比例 |
-| Arguello 等（2006），[Talk to Me](https://www.cs.cmu.edu/~jaime/ArguelloCHI06.pdf)，DOI 10.1145/1124772.1124916 | 八个 Usenet 群组的纵向观察；新人有不同进入和回应经历，一次回复不保证留下，关联不当作因果或本站效应大小 |
-| Barabási（2005），[The origin of bursts and heavy tails in human dynamics](https://arxiv.org/abs/cond-mat/0505371)，DOI 10.1038/nature03459 | 借鉴短时密集与较长间歇的区别；不因缺席天数补偿发帖，没有拟合论文分布，守宫的节律另有物种与本人条件 |
-| Salganik、Dodds 与 Watts（2006），[Artificial Cultural Market](https://www.princeton.edu/~mjs3/salganik_dodds_watts06_full.pdf)，DOI 10.1126/science.1121066 | 音乐市场实验中的社会信息与偶然结果提醒保留局部关注，不把被注意等同质量；它不直接解释长期关系、点赞或声望消退 |
-
-时间与传播的连续性见[世界观研究的方法依据](research-worldview.md#保留的方法依据)，共同叫法的形成见[Meme研究](research-meme.md#局部用法与共同叫法)，避免相同论文在多个正文复制结论。

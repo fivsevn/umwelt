@@ -29,11 +29,13 @@ function fakeFetch({fail = false} = {}) {
 }
 
 test('source catalog is bounded to public reptile feeds and ignores human-only gecko homonyms', () => {
-  assert.equal(geckoSources.length,2);
+  assert.equal(geckoSources.length,5);
   assert.ok(geckoSources.every(s=>s.lists.every(u=>u.startsWith('https://')&&!u.includes('y29'))));
   assert.equal(reptileCandidate('Gecko browser programming'),false);
   assert.equal(reptileCandidate('XMPP app #gecko'),false);
   assert.equal(reptileCandidate('My gecko under the branch'),true);
+  assert.equal(reptileCandidate('Meerkats explore the new enclosure at Zoo Vivarium'),false);
+  assert.equal(reptileCandidate('New plants and waterfall in my terrarium'),true);
   assert.equal(reptileCandidate('Leopard gecko vet diagnosis'),false);
   assert.equal(reptileCandidate('Snake breeding discount buy now'),false);
   assert.equal(excludedHumanOrClinical('Is this poop normal? Should I get the stool tested?'),true);
@@ -79,7 +81,8 @@ test('collection actually reads bounded root discussions and anonymizes actors w
   const f=fakeFetch(),result=await collectGeckoOpinions({now:NOW,seed:'fixed',sources:[geckoSources[0]],fetchImpl:f.fetchImpl});
   assert.equal(result.ready,true);assert.equal(result.fragments,2);assert.equal(result.messages,4);
   assert.equal(f.calls.length,3);assert.ok(!/rawowner|rawreply|otherowner/.test(result.markdown));
-  assert.match(result.markdown,/RSS 未给出的楼中楼父关系保持未知/);
+  assert.match(result.markdown,/父回复关系未提供/);
+  assert.doesNotMatch(result.markdown,/已自动去除|未作语义转述|人类观察者/);
   const entries=parseSampleDocuments([{path:'environment/sources-daily-opinions.md',text:'<!-- samples:start -->\n'+result.markdown+'<!-- samples:end -->'}]);
   assert.equal(entries.length,2);
 });
@@ -114,4 +117,67 @@ test('failed or insufficient collection preserves the prior material timestamp a
   assert.equal(saved.written,true);const text=await readFile(documentPath,'utf8');
   assert.ok(text.startsWith('# Local rules\n'));assert.ok(text.endsWith('Manual suffix\n'));assert.match(text,/2026-11-15 09:00:00/);
   await assert.rejects(updateGeckoOpinionDocument({documentPath,outputPath:join(process.cwd(),'gsm/preview.md')}),/outside the repository/);
+});
+
+const forumPost = ({ id, actor, floor, date = '2026-11-14T20:00:00Z', text }) => `<article class="message message--post" data-author="${actor}" data-content="post-${id}"><meta itemprop="position" content="${floor}"/><meta itemprop="datePublished" content="${date}"/><article class="message-body"><div class="bbWrapper">${text}</div></article></article>`;
+
+test('public forum HTML takes actual root date and preserves quoted text without inventing reply parents', () => {
+  const source=geckoSources.find(s=>s.key==='geckoforums'), topic={id:'101',url:'https://geckoforums.net/threads/gecko-window.101/'};
+  const html=forumPost({id:100,actor:'one',floor:1,date:'2025-01-01T10:00:00Z',text:'My gecko moved to the leaf.'})+
+    forumPost({id:103,actor:'two',floor:3,text:'<blockquote class="bbCodeBlock"><div class="bbCodeBlock-content">My gecko moved.</div></blockquote>Mine is still hiding.'})+
+    forumPost({id:101,actor:'one',floor:2,text:'Now it is under the branch.'});
+  const discussion=parseGeckoDiscussion(source,topic,html,plainText);
+  assert.equal(discussion.root.created,Date.parse('2025-01-01T10:00:00Z'));
+  assert.deepEqual(discussion.replies.map(r=>r.id),['101','103']);
+  assert.ok(discussion.replies.every(r=>r.replyTo===undefined));
+  assert.match(discussion.replies[1].text,/引用开始，目标未知[\s\S]*My gecko moved[\s\S]*引用结束[\s\S]*Mine is still hiding/);
+  assert.throws(()=>parseGeckoDiscussion(source,topic,forumPost({id:1,actor:'one',floor:2,text:'Only a reply.'}),plainText),/does not include the root/);
+});
+
+test('ReptileForums separate root section remains distinct from reply articles', () => {
+  const source=geckoSources.find(s=>s.key==='reptileforums'), topic={id:'101',url:'https://www.reptileforums.co.uk/threads/gecko.101/'};
+  const root='<div qid="thread-main-section"><span class="username" itemprop="name">owner</span><article class="message-body">The gecko sleeps below the leaf.</article><meta itemprop="datePublished" content="2026-11-14T18:00:00Z"/><meta itemprop="position" content="1"/></div>';
+  const d=parseGeckoDiscussion(source,topic,root+forumPost({id:200,actor:'reader',floor:2,text:'The new perch looks narrow.'}),plainText);
+  assert.equal(d.root.actor,'owner');assert.equal(d.root.id,'root');assert.equal(d.replies.length,1);
+  assert.match(d.root.text,/gecko sleeps/);assert.doesNotMatch(d.root.text,/perch/);
+});
+
+test('expanded feed parser uses full RSS content and rejects cross-host links and sale categories', () => {
+  const source=geckoSources.find(s=>s.key==='geckoforums');
+  const entry=(url,category='Geckos')=>`<item><title>Gecko house</title><link>${url}</link><dc:creator>owner</dc:creator><category>${category}</category><content:encoded><![CDATA[<p>The gecko sleeps under the leaves.</p>]]></content:encoded><pubDate>${DATE}</pubDate></item>`;
+  assert.equal(parseGeckoTopics(source,rss([entry('https://geckoforums.net/threads/house.101/')]),plainText).length,1);
+  assert.equal(parseGeckoTopics(source,rss([entry('https://example.org/threads/house.101/')]),plainText).length,0);
+  assert.equal(parseGeckoTopics(source,rss([entry('https://geckoforums.net/threads/house.101/','For Sale')]),plainText).length,0);
+});
+
+test('the same federated original is fetched once across public instances and lists', async () => {
+  const sources=geckoSources.filter(s=>s.kind==='mastodon').map(s=>({...s,lists:[s.lists[0]]}));
+  const calls=[];
+  const fetchImpl=async url=>{
+    calls.push(url);
+    if(url.endsWith('/context')) return new Response('{"descendants":[]}');
+    const id=url.includes('mastodon.online')?'202':'101';
+    return new Response(JSON.stringify([{...status(id),uri:'https://animal.example/users/observer/statuses/shared-original'}]));
+  };
+  const a=await collectGeckoOpinions({sources,now:NOW,seed:'federated',fetchImpl});
+  assert.equal(a.fragments,1);assert.equal(calls.filter(url=>url.endsWith('/context')).length,1);
+  const b=await collectGeckoOpinions({sources:[...sources].reverse(),now:NOW,seed:'federated',fetchImpl});
+  assert.equal(a.markdown,b.markdown);
+});
+
+test('new source scope excludes actual human trade, medical, fabrication and platform-promotion patterns', () => {
+  for(const text of ['I added two new paintings to the shop today! Reptiles',
+    'I prefer wild forms, not bland morphs. Enigma syndrome is deadly.',
+    'I read about cancerous tumors in leos.',
+    'Smashing paving slabs with a hammer for the terrarium.',
+    'The reptile server has a post size of 5000. DM the admin to sign up.',
+    'New video out! Find the video here, a day spent locating rattlesnakes.']) assert.equal(excludedHumanOrClinical(text),true,text);
+  assert.equal(excludedHumanOrClinical('The gecko moved under a different leaf and rested there.'),false);
+});
+
+test('request concurrency is a global bound even with multiple sources and list feeds',async()=>{
+  const sources=geckoSources.filter(s=>s.kind==='mastodon');let active=0,maximum=0;
+  const fetchImpl=async()=>{active++;maximum=Math.max(maximum,active);await new Promise(done=>setTimeout(done,1));active--;return new Response('[]');};
+  await collectGeckoOpinions({sources,fetchImpl,now:NOW,limits:{concurrency:2}});
+  assert.ok(maximum<=2);assert.ok(maximum>0);
 });

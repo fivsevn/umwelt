@@ -340,7 +340,7 @@ async function source(root, workDirectory) {
   const documents = await Promise.all([...new Set([...controlPaths, ...environmentPaths, ...discoveredResearch])].map(path => sourceText(root, path)));
   // Source catalogs and user-level research are current material, rather than
   // old parallel notes. Optional paths preserve small historical fixtures.
-  for (const path of ['users/README.md', 'environment/sources-gecko-ecology.md', 'environment/sources-selected-cases.md']) {
+  for (const path of ['users/README.md', 'environment/sources-selected-cases.md']) {
     try { documents.push(await sourceText(root, path)); }
     catch (error) { if (error.code !== 'ENOENT') throw error; }
   }
