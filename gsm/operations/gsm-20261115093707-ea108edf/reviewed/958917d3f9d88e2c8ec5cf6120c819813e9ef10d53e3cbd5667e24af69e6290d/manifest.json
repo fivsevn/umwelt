@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "operationId": "gsm-20261115093707-ea108edf",
+  "stage": "reviewed",
+  "sourceRevision": "56c37e4d1081ad727c5a56bca1b7d9ee0a3ea270",
+  "files": [
+    {
+      "path": "media/posts/2026/11/gsm-20261115093707-ea108edf-b6c76549b914/media/little-snake.webp",
+      "bytes": 486620,
+      "sha256": "d577003b64b70b9f2306c9fe9765b021db271cc2831b0d6a4538b42404fe8f5b"
+    },
+    {
+      "path": "media/posts/2026/11/gsm-20261115093707-ea108edf-d17296057d09/media/under-ramp.webp",
+      "bytes": 160584,
+      "sha256": "afd608c40c2f90f6e4a37b3be8b49e9f41ead7ea283b845b055515fa7a9b958b"
+    },
+    {
+      "path": "work/daily-material.json",
+      "bytes": 13025,
+      "sha256": "4b3bf612c799f0c7fc589e2615ca08bf39093ff92120dd57b80ebfcca35f61ca"
+    },
+    {
+      "path": "work/draft-history-gsm-20261115093707-ea108edf.json",
+      "bytes": 17364,
+      "sha256": "395037bcbc2eaad5e03a832c63f1d64a1d8fe70dc96a28b22c5f4fb423e6d2df"
+    },
+    {
+      "path": "work/operation.json",
+      "bytes": 31133,
+      "sha256": "21fbfad26fc1fbd5c11516dab1898ad71560424ce379b39d43b82a6315d75c8c"
+    },
+    {
+      "path": "work/reading.md",
+      "bytes": 411433,
+      "sha256": "4f5bcdb4a6b6bac8997d1fbc172bda7f57d22799b5a2c2a1ba3b62bf61b7e32e"
+    }
+  ]
+}

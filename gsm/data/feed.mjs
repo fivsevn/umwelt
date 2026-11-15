@@ -1,5 +1,33 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "guest-07fc84ce086ed1f2": {
+    "handle": "guest-07fc84ce086ed1f2",
+    "name": "耳朵",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-07fc84ce086ed1f2.webp?v=c4197b1129be",
+    "color": "sand"
+  },
+  "guest-efdd8998ca95fff9": {
+    "handle": "guest-efdd8998ca95fff9",
+    "name": "东东",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-efdd8998ca95fff9.webp?v=8ba191455bd7",
+    "color": "rose"
+  },
+  "guest-d060575cd6f7ed19": {
+    "handle": "guest-d060575cd6f7ed19",
+    "name": "rin_2",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-d060575cd6f7ed19.webp?v=8ba191455bd7",
+    "color": "sage"
+  },
+  "guest-046c4971393e13e5": {
+    "handle": "guest-046c4971393e13e5",
+    "name": "毛豆",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-046c4971393e13e5.webp?v=05a84418ff61",
+    "color": "sage"
+  },
   "mango27": {
     "handle": "mango27",
     "name": "小满",
@@ -156,6 +184,181 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "gsm-20261115093707-ea108edf-04",
+    "date": "2026-11-15T17:36:58.580+08:00",
+    "createdAt": 1794735418580,
+    "author": "guest-07fc84ce086ed1f2",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "还偏偏在眼前。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/disgust.webp",
+          "alt": "守宫皱嘴斜眼，一只前爪朝外推开，另一只前爪撑地，尾巴横在身后。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "还偏偏在眼前。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/disgust.webp",
+          "alt": "守宫皱嘴斜眼，一只前爪朝外推开，另一只前爪撑地，尾巴横在身后。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "还偏偏在眼前。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/disgust.webp",
+          "alt": "守宫皱嘴斜眼，一只前爪朝外推开，另一只前爪撑地，尾巴横在身后。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ]
+    },
+    "replyTo": "gsm-20261115093707-ea108edf-74962acbe8db"
+  },
+  {
+    "id": "gsm-20261115093707-ea108edf-74962acbe8db",
+    "date": "2026-11-15T17:36:53.249+08:00",
+    "createdAt": 1794735413249,
+    "author": "guest-efdd8998ca95fff9",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "洞口旁边这片叶子真丑。趴这儿一抬头就看见，烦。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "洞口旁边这片叶子真丑。趴这儿一抬头就看见，烦。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "洞口旁边这片叶子真丑。趴这儿一抬头就看见，烦。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gsm-20261115093707-ea108edf-b6c76549b914",
+    "date": "2026-11-15T17:36:21.720+08:00",
+    "createdAt": 1794735381720,
+    "author": "guest-d060575cd6f7ed19",
+    "likes": 11,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "就是个小家伙啊！ v(^_^)v~"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261115093707-ea108edf-b6c76549b914/media/little-snake.webp",
+          "alt": "一条棕橙色小蛇松松弯在浅色地面上，旁边是一大块粗糙树皮。",
+          "width": 1448,
+          "height": 1086
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "就是个小家伙啊！ v(^_^)v~"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261115093707-ea108edf-b6c76549b914/media/little-snake.webp",
+          "alt": "一条棕橙色小蛇松松弯在浅色地面上，旁边是一大块粗糙树皮。",
+          "width": 1448,
+          "height": 1086
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "就是个小家伙啊！ v(^_^)v~"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261115093707-ea108edf-b6c76549b914/media/little-snake.webp",
+          "alt": "一条棕橙色小蛇松松弯在浅色地面上，旁边是一大块粗糙树皮。",
+          "width": 1448,
+          "height": 1086
+        }
+      ]
+    }
+  },
+  {
+    "id": "gsm-20261115093707-ea108edf-d17296057d09",
+    "date": "2026-11-15T16:48:56.099+08:00",
+    "createdAt": 1794732536099,
+    "author": "guest-046c4971393e13e5",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "斜坡底下也太矮了。脖子顶着，不想待了。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261115093707-ea108edf-d17296057d09/media/under-ramp.webp",
+          "alt": "低处向外看灰色塑料斜坡的底面，地面铺着褐色树皮，出口露出一条亮缝。",
+          "width": 1672,
+          "height": 941
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "斜坡底下也太矮了。脖子顶着，不想待了。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261115093707-ea108edf-d17296057d09/media/under-ramp.webp",
+          "alt": "低处向外看灰色塑料斜坡的底面，地面铺着褐色树皮，出口露出一条亮缝。",
+          "width": 1672,
+          "height": 941
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "斜坡底下也太矮了。脖子顶着，不想待了。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261115093707-ea108edf-d17296057d09/media/under-ramp.webp",
+          "alt": "低处向外看灰色塑料斜坡的底面，地面铺着褐色树皮，出口露出一条亮缝。",
+          "width": 1672,
+          "height": 941
+        }
+      ]
+    }
+  },
   {
     "id": "gsm-20261115090629-40472087-06",
     "date": "2026-11-15T16:08:46.373+08:00",

@@ -1,0 +1,487 @@
+{
+  "version": 1,
+  "operationId": "gsm-20261115093707-ea108edf",
+  "snapshots": [
+    {
+      "stage": "draft",
+      "sourceDigest": "78422efa0210979ec3d6d467a4c4323c842f3584176ee0efaec08119b8440b3a",
+      "planDigest": "7e587d21b1fe28ebcc20ece569b32cdd244a9dd8c76ea2b850c60adca7ebf143",
+      "posts": [
+        {
+          "id": "gsm-20261115093707-ea108edf-d17296057d09",
+          "author": "guest-046c4971393e13e5",
+          "guest": {
+            "name": "毛豆"
+          },
+          "createdAt": "2026-11-15T08:48:56.099Z",
+          "replyTo": null,
+          "text": "斜坡底下也太矮了。脖子顶着，不想待了。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-15T09:40:24.487Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "78422efa0210979ec3d6d467a4c4323c842f3584176ee0efaec08119b8440b3a",
+      "planDigest": "7e587d21b1fe28ebcc20ece569b32cdd244a9dd8c76ea2b850c60adca7ebf143",
+      "posts": [
+        {
+          "id": "gsm-20261115093707-ea108edf-d17296057d09",
+          "author": "guest-046c4971393e13e5",
+          "guest": {
+            "name": "毛豆"
+          },
+          "createdAt": "2026-11-15T08:48:56.099Z",
+          "replyTo": null,
+          "text": "斜坡底下也太矮了。脖子顶着，不想待了。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115093707-ea108edf-d17296057d09/media/under-ramp.webp",
+              "alt": "低处向外看灰色塑料斜坡的底面，地面铺着褐色树皮，出口露出一条亮缝。",
+              "kind": "image"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-15T09:41:21.403Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "78422efa0210979ec3d6d467a4c4323c842f3584176ee0efaec08119b8440b3a",
+      "planDigest": "7e587d21b1fe28ebcc20ece569b32cdd244a9dd8c76ea2b850c60adca7ebf143",
+      "posts": [
+        {
+          "id": "gsm-20261115093707-ea108edf-d17296057d09",
+          "author": "guest-046c4971393e13e5",
+          "guest": {
+            "name": "毛豆"
+          },
+          "createdAt": "2026-11-15T08:48:56.099Z",
+          "replyTo": null,
+          "text": "斜坡底下也太矮了。脖子顶着，不想待了。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115093707-ea108edf-d17296057d09/media/under-ramp.webp",
+              "alt": "低处向外看灰色塑料斜坡的底面，地面铺着褐色树皮，出口露出一条亮缝。",
+              "kind": "image"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-15T09:43:01.696Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "78422efa0210979ec3d6d467a4c4323c842f3584176ee0efaec08119b8440b3a",
+      "planDigest": "7e587d21b1fe28ebcc20ece569b32cdd244a9dd8c76ea2b850c60adca7ebf143",
+      "posts": [
+        {
+          "id": "gsm-20261115093707-ea108edf-d17296057d09",
+          "author": "guest-046c4971393e13e5",
+          "guest": {
+            "name": "毛豆"
+          },
+          "createdAt": "2026-11-15T08:48:56.099Z",
+          "replyTo": null,
+          "text": "斜坡底下也太矮了。脖子顶着，不想待了。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115093707-ea108edf-d17296057d09/media/under-ramp.webp",
+              "alt": "低处向外看灰色塑料斜坡的底面，地面铺着褐色树皮，出口露出一条亮缝。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115093707-ea108edf-b6c76549b914",
+          "author": "guest-d060575cd6f7ed19",
+          "guest": {
+            "name": "rin_2"
+          },
+          "createdAt": "2026-11-15T09:36:21.720Z",
+          "replyTo": null,
+          "text": "就是个小家伙啊！ v(^_^)v~",
+          "likes": 11,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-15T09:46:18.249Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "78422efa0210979ec3d6d467a4c4323c842f3584176ee0efaec08119b8440b3a",
+      "planDigest": "7e587d21b1fe28ebcc20ece569b32cdd244a9dd8c76ea2b850c60adca7ebf143",
+      "posts": [
+        {
+          "id": "gsm-20261115093707-ea108edf-d17296057d09",
+          "author": "guest-046c4971393e13e5",
+          "guest": {
+            "name": "毛豆"
+          },
+          "createdAt": "2026-11-15T08:48:56.099Z",
+          "replyTo": null,
+          "text": "斜坡底下也太矮了。脖子顶着，不想待了。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115093707-ea108edf-d17296057d09/media/under-ramp.webp",
+              "alt": "低处向外看灰色塑料斜坡的底面，地面铺着褐色树皮，出口露出一条亮缝。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115093707-ea108edf-b6c76549b914",
+          "author": "guest-d060575cd6f7ed19",
+          "guest": {
+            "name": "rin_2"
+          },
+          "createdAt": "2026-11-15T09:36:21.720Z",
+          "replyTo": null,
+          "text": "就是个小家伙啊！ v(^_^)v~",
+          "likes": 11,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115093707-ea108edf-b6c76549b914/media/little-snake.webp",
+              "alt": "一条棕橙色小蛇松松弯在浅色地面上，旁边是一大块粗糙树皮。",
+              "kind": "image"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-15T09:47:14.806Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "78422efa0210979ec3d6d467a4c4323c842f3584176ee0efaec08119b8440b3a",
+      "planDigest": "7e587d21b1fe28ebcc20ece569b32cdd244a9dd8c76ea2b850c60adca7ebf143",
+      "posts": [
+        {
+          "id": "gsm-20261115093707-ea108edf-d17296057d09",
+          "author": "guest-046c4971393e13e5",
+          "guest": {
+            "name": "毛豆"
+          },
+          "createdAt": "2026-11-15T08:48:56.099Z",
+          "replyTo": null,
+          "text": "斜坡底下也太矮了。脖子顶着，不想待了。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115093707-ea108edf-d17296057d09/media/under-ramp.webp",
+              "alt": "低处向外看灰色塑料斜坡的底面，地面铺着褐色树皮，出口露出一条亮缝。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115093707-ea108edf-b6c76549b914",
+          "author": "guest-d060575cd6f7ed19",
+          "guest": {
+            "name": "rin_2"
+          },
+          "createdAt": "2026-11-15T09:36:21.720Z",
+          "replyTo": null,
+          "text": "就是个小家伙啊！ v(^_^)v~",
+          "likes": 11,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115093707-ea108edf-b6c76549b914/media/little-snake.webp",
+              "alt": "一条棕橙色小蛇松松弯在浅色地面上，旁边是一大块粗糙树皮。",
+              "kind": "image"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-15T09:48:56.190Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "78422efa0210979ec3d6d467a4c4323c842f3584176ee0efaec08119b8440b3a",
+      "planDigest": "7e587d21b1fe28ebcc20ece569b32cdd244a9dd8c76ea2b850c60adca7ebf143",
+      "posts": [
+        {
+          "id": "gsm-20261115093707-ea108edf-d17296057d09",
+          "author": "guest-046c4971393e13e5",
+          "guest": {
+            "name": "毛豆"
+          },
+          "createdAt": "2026-11-15T08:48:56.099Z",
+          "replyTo": null,
+          "text": "斜坡底下也太矮了。脖子顶着，不想待了。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115093707-ea108edf-d17296057d09/media/under-ramp.webp",
+              "alt": "低处向外看灰色塑料斜坡的底面，地面铺着褐色树皮，出口露出一条亮缝。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115093707-ea108edf-b6c76549b914",
+          "author": "guest-d060575cd6f7ed19",
+          "guest": {
+            "name": "rin_2"
+          },
+          "createdAt": "2026-11-15T09:36:21.720Z",
+          "replyTo": null,
+          "text": "就是个小家伙啊！ v(^_^)v~",
+          "likes": 11,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115093707-ea108edf-b6c76549b914/media/little-snake.webp",
+              "alt": "一条棕橙色小蛇松松弯在浅色地面上，旁边是一大块粗糙树皮。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115093707-ea108edf-74962acbe8db",
+          "author": "guest-efdd8998ca95fff9",
+          "guest": {
+            "name": "东东"
+          },
+          "createdAt": "2026-11-15T09:36:53.249Z",
+          "replyTo": null,
+          "text": "洞口旁边这片叶子真丑。趴这儿一抬头就看见，烦。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-15T09:51:29.007Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "78422efa0210979ec3d6d467a4c4323c842f3584176ee0efaec08119b8440b3a",
+      "planDigest": "7e587d21b1fe28ebcc20ece569b32cdd244a9dd8c76ea2b850c60adca7ebf143",
+      "posts": [
+        {
+          "id": "gsm-20261115093707-ea108edf-d17296057d09",
+          "author": "guest-046c4971393e13e5",
+          "guest": {
+            "name": "毛豆"
+          },
+          "createdAt": "2026-11-15T08:48:56.099Z",
+          "replyTo": null,
+          "text": "斜坡底下也太矮了。脖子顶着，不想待了。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115093707-ea108edf-d17296057d09/media/under-ramp.webp",
+              "alt": "低处向外看灰色塑料斜坡的底面，地面铺着褐色树皮，出口露出一条亮缝。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115093707-ea108edf-b6c76549b914",
+          "author": "guest-d060575cd6f7ed19",
+          "guest": {
+            "name": "rin_2"
+          },
+          "createdAt": "2026-11-15T09:36:21.720Z",
+          "replyTo": null,
+          "text": "就是个小家伙啊！ v(^_^)v~",
+          "likes": 11,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115093707-ea108edf-b6c76549b914/media/little-snake.webp",
+              "alt": "一条棕橙色小蛇松松弯在浅色地面上，旁边是一大块粗糙树皮。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115093707-ea108edf-74962acbe8db",
+          "author": "guest-efdd8998ca95fff9",
+          "guest": {
+            "name": "东东"
+          },
+          "createdAt": "2026-11-15T09:36:53.249Z",
+          "replyTo": null,
+          "text": "洞口旁边这片叶子真丑。趴这儿一抬头就看见，烦。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-15T09:52:35.604Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "78422efa0210979ec3d6d467a4c4323c842f3584176ee0efaec08119b8440b3a",
+      "planDigest": "7e587d21b1fe28ebcc20ece569b32cdd244a9dd8c76ea2b850c60adca7ebf143",
+      "posts": [
+        {
+          "id": "gsm-20261115093707-ea108edf-d17296057d09",
+          "author": "guest-046c4971393e13e5",
+          "guest": {
+            "name": "毛豆"
+          },
+          "createdAt": "2026-11-15T08:48:56.099Z",
+          "replyTo": null,
+          "text": "斜坡底下也太矮了。脖子顶着，不想待了。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115093707-ea108edf-d17296057d09/media/under-ramp.webp",
+              "alt": "低处向外看灰色塑料斜坡的底面，地面铺着褐色树皮，出口露出一条亮缝。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115093707-ea108edf-b6c76549b914",
+          "author": "guest-d060575cd6f7ed19",
+          "guest": {
+            "name": "rin_2"
+          },
+          "createdAt": "2026-11-15T09:36:21.720Z",
+          "replyTo": null,
+          "text": "就是个小家伙啊！ v(^_^)v~",
+          "likes": 11,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115093707-ea108edf-b6c76549b914/media/little-snake.webp",
+              "alt": "一条棕橙色小蛇松松弯在浅色地面上，旁边是一大块粗糙树皮。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115093707-ea108edf-74962acbe8db",
+          "author": "guest-efdd8998ca95fff9",
+          "guest": {
+            "name": "东东"
+          },
+          "createdAt": "2026-11-15T09:36:53.249Z",
+          "replyTo": null,
+          "text": "洞口旁边这片叶子真丑。趴这儿一抬头就看见，烦。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115093707-ea108edf-04",
+          "author": "guest-07fc84ce086ed1f2",
+          "guest": {
+            "name": "耳朵"
+          },
+          "createdAt": "2026-11-15T09:36:58.580Z",
+          "replyTo": "gsm-20261115093707-ea108edf-74962acbe8db",
+          "text": "还偏偏在眼前。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "emote",
+              "src": "assets/emotes/gsm/disgust.webp",
+              "alt": "守宫皱嘴斜眼，一只前爪朝外推开，另一只前爪撑地，尾巴横在身后。"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-15T09:54:41.647Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "78422efa0210979ec3d6d467a4c4323c842f3584176ee0efaec08119b8440b3a",
+      "planDigest": "7e587d21b1fe28ebcc20ece569b32cdd244a9dd8c76ea2b850c60adca7ebf143",
+      "posts": [
+        {
+          "id": "gsm-20261115093707-ea108edf-d17296057d09",
+          "author": "guest-046c4971393e13e5",
+          "guest": {
+            "name": "毛豆"
+          },
+          "createdAt": "2026-11-15T08:48:56.099Z",
+          "replyTo": null,
+          "text": "斜坡底下也太矮了。脖子顶着，不想待了。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115093707-ea108edf-d17296057d09/media/under-ramp.webp",
+              "alt": "低处向外看灰色塑料斜坡的底面，地面铺着褐色树皮，出口露出一条亮缝。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115093707-ea108edf-b6c76549b914",
+          "author": "guest-d060575cd6f7ed19",
+          "guest": {
+            "name": "rin_2"
+          },
+          "createdAt": "2026-11-15T09:36:21.720Z",
+          "replyTo": null,
+          "text": "就是个小家伙啊！ v(^_^)v~",
+          "likes": 11,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115093707-ea108edf-b6c76549b914/media/little-snake.webp",
+              "alt": "一条棕橙色小蛇松松弯在浅色地面上，旁边是一大块粗糙树皮。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115093707-ea108edf-74962acbe8db",
+          "author": "guest-efdd8998ca95fff9",
+          "guest": {
+            "name": "东东"
+          },
+          "createdAt": "2026-11-15T09:36:53.249Z",
+          "replyTo": null,
+          "text": "洞口旁边这片叶子真丑。趴这儿一抬头就看见，烦。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115093707-ea108edf-04",
+          "author": "guest-07fc84ce086ed1f2",
+          "guest": {
+            "name": "耳朵"
+          },
+          "createdAt": "2026-11-15T09:36:58.580Z",
+          "replyTo": "gsm-20261115093707-ea108edf-74962acbe8db",
+          "text": "还偏偏在眼前。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "emote",
+              "src": "assets/emotes/gsm/disgust.webp",
+              "alt": "守宫皱嘴斜眼，一只前爪朝外推开，另一只前爪撑地，尾巴横在身后。"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-15T09:55:42.579Z"
+    }
+  ]
+}

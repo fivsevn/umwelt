@@ -2,6 +2,8 @@
   "gsm/assets/avatars/backpackgecko.webp",
   "gsm/assets/avatars/gecko404.webp",
   "gsm/assets/avatars/gedageda.webp",
+  "gsm/assets/avatars/guest-046c4971393e13e5.webp",
+  "gsm/assets/avatars/guest-07fc84ce086ed1f2.webp",
   "gsm/assets/avatars/guest-168077148606405f.webp",
   "gsm/assets/avatars/guest-1b7a86eeff844f5e.webp",
   "gsm/assets/avatars/guest-31b7d54c9e45b73a.webp",
@@ -9,6 +11,8 @@
   "gsm/assets/avatars/guest-a3ea0134f183cae8.webp",
   "gsm/assets/avatars/guest-a6ba1b4e7cca7461.webp",
   "gsm/assets/avatars/guest-c99897aa4d46ac33.webp",
+  "gsm/assets/avatars/guest-d060575cd6f7ed19.webp",
+  "gsm/assets/avatars/guest-efdd8998ca95fff9.webp",
   "gsm/assets/avatars/isopodafugue.webp",
   "gsm/assets/avatars/leafback7.webp",
   "gsm/assets/avatars/mango27.webp",
@@ -49,5 +53,7 @@
   "gsm/posts/2026/10/20261019-161754-6c3cd8bd2e/assets/01-f5e5555379ca.webp",
   "gsm/posts/2026/11/gsm-20261115032534-accdad38-bfef9316ee39/media/outside-bars.webp",
   "gsm/posts/2026/11/gsm-20261115090629-40472087-893c1cdc823c/media/stone-edge.webp",
-  "gsm/posts/2026/11/gsm-20261115090629-40472087-ca7c2efccea5/media/purple-leaf.webp"
+  "gsm/posts/2026/11/gsm-20261115090629-40472087-ca7c2efccea5/media/purple-leaf.webp",
+  "gsm/posts/2026/11/gsm-20261115093707-ea108edf-b6c76549b914/media/little-snake.webp",
+  "gsm/posts/2026/11/gsm-20261115093707-ea108edf-d17296057d09/media/under-ramp.webp"
 ]
