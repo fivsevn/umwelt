@@ -56,8 +56,8 @@ function research(now) {
 
 test('daily reading and isolated writers receive the installed gecko emotes and kaomoji for originals, cases and replies', async t => {
   const f = await fixture(t, { installedEmotes: true });
-  const referencePath = 'environment/sources-reading-fixture.md';
-  const referenceText = '# 测试专用参考\n\nREFERENCE_CATALOG_MUST_REACH_READING_AND_WRITERS\n';
+  const referencePath = 'environment/sources-selected-cases.md';
+  const referenceText = '# 素材-精选案例\n\nSELECTED_CASES_MUST_REACH_READING_AND_WRITERS\n';
   await writeFile(join(f.root, referencePath), referenceText);
   const existingRoot = { id: 'gsm-test-native-root', author: 'gecko404', createdAt: '2026-01-01T04:00:00.000Z',
     replyTo: null, text: '仅在隔离测试中保存的接话目标。', likes: 0, canon: 'derivative', media: [] };

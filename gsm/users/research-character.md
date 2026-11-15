@@ -376,7 +376,7 @@ M08从一个人的动作与紧随结果进入，这里更关心几次来往以�
 | [iNaturalist：豹纹守宫照片与原始观察](https://www.inaturalist.org/taxa/34675-Eublepharis-macularius/browse_photos) | 自然站姿、爬行时四肢位置、脚与表面的接触 | 从图库进入具体观察，核对鉴定、地点及圈养标记；换物种时重新搜索对应学名。图库需要页面正常加载。 |
 | MorphMarket：[豹纹守宫 Morphpedia](https://www.morphmarket.com/morphpedia/leopard-geckos/)、[公开个体照片](https://www.morphmarket.com/us/c/reptiles/lizards/leopard-geckos) | 不同品系的颜色、斑纹与个体差异 | 打开品系或个体详情比较实拍；生长阶段以条目明确说明为准，外观照片不单独用来判断基因或健康。 |
 
-需要具体感官、栖居与身体条件时，查[守宫生态资料](../environment/sources-gecko-ecology.md)，再判断物种与情境是否适用。
+需要具体感官、栖居与身体条件时，查[守宫生态资料](../environment/research-everyday-life.md#gecko-ecology)，再判断物种与情境是否适用。
 
 ## 真实个体观察：叙述、处境与观看位置
 

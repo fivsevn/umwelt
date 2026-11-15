@@ -66,7 +66,7 @@
 
 ## 守宫原帖中的交流观察
 
-[真实社区观察](sources-community-observations.md)保留G01—G04的完整来源记录：Sleepy里一句用途玩笑引来作者补说，食碗帖里动作与脚印带来不同的信息，名字接龙里认错与说明相接，MorphMarket展示串里追问与补充跨时间继续。这些是照料者与读者的真实交流，不是本站守宫已经发生的经历。
+[真实社区观察](research-everyday-life.md#community-observations)保留G01—G04的完整来源记录：Sleepy里一句用途玩笑引来作者补说，食碗帖里动作与脚印带来不同的信息，名字接龙里认错与说明相接，MorphMarket展示串里追问与补充跨时间继续。这些是照料者与读者的真实交流，不是本站守宫已经发生的经历。
 
 [Reddit官方投票说明](https://support.reddithelp.com/hc/en-us/articles/7419626610708-What-are-upvotes-and-downvotes)的来源记录日期为2026-11-09，页面当时标注更新2026-10-05。投票、排序与隐藏数字影响可见内容；V2EX感谢与Reddit投票机制也不同。跨站数字保留原含义，本站基础赞数不由原站票数换算。
 

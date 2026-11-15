@@ -51,7 +51,7 @@ node gsm/tools/engine/collect-gecko-opinions.js
 
 继续同一操作时使用已保存的材料和映射，当前网页后来刷新不会替换原案例。采集本身不登记采用；实际发布的案例指纹和日期随帖子保存在 `gsm/.publishing/case-usage.json`，保留近 30 天、最多 300 项，供后续取材避重。未采用的外部材料不成为人物经历或论坛公共事件。
 
-采用及研究补充按[执行与发布](../docs/publishing.md#填写当前更新)记录材料日期、实际读取范围、对应帖子与改编方向，不补回原身份。长期的身体依据、人物差异和交流分析分别归[守宫生态](sources-gecko-ecology.md)、[人物研究](../users/research-character.md)和对应 `research-` 专题；具体角色的关系、知情与记忆由本人档案和实际发言承接。
+采用及研究补充按[执行与发布](../docs/publishing.md#填写当前更新)记录材料日期、实际读取范围、对应帖子与改编方向，不补回原身份。长期的身体依据、人物差异和交流分析分别归[守宫生态](research-everyday-life.md#gecko-ecology)、[人物研究](../users/research-character.md)和对应 `research-` 专题；具体角色的关系、知情与记忆由本人档案和实际发言承接。
 
 ## 当日素材
 

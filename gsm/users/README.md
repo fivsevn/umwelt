@@ -6,7 +6,7 @@
 | --- | --- |
 | [docs / 更新与发布](../docs/README.md) | 写作、守宫化、抽签、独立审读与发布 |
 | [users / 守宫资料](README.md) | 本人档案、经历、私人关系与记忆，人物和说话研究，档案模板 |
-| [environment / 环境资料](../environment/README.md) | 守宫共同生活条件、世界动态、研究、来源与论坛公共记忆 |
+| [environment / 环境资料](../environment/README.md) | 守宫共同生活条件、世界动态、研究、案例素材与论坛公共记忆 |
 | [posts / 已发布内容](../posts/) | 正式主帖、回复和随帖媒体 |
 | [tools / 执行工具](../tools/) | 素材采集、更新准备、写作输入、检查与归档 |
 

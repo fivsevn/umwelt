@@ -769,7 +769,7 @@ async function briefLocked({ root, directory, postId, replyTo, threadId, now }) 
       site: { species: 'gecko', instruction: '发言者是守宫，包括临时路人。先从它身体能做的动作、能感到的环境、自己的住处与已知关系进入；爬宠来源中的饲养者不是它。网上说话与发图属于拟人许可，不授予人类职业、双手操作或设备使用能力。保留兴趣、欲望、利益、误会和正负态度；短回应不必硬加爪子、尾巴等字。', worldview: fullSource(worldviewDocument('setting') || 'environment/worldviews/worldview0/worldview0.md'),
         research: ['environment/research-everyday-life.md', 'users/research-character.md', 'users/research-speech.md'].filter(path => sourceDocument(path)).map(fullSource),
         sources: data.documents.filter(document => isSourcePath(document.path) && !sampleDocumentPaths.includes(document.path)).map(document => fullSource(document.path)),
-        referenceInstruction: '研究、来源与真实观察用来理解身体、环境和交流。资料中的对象、案例与知识不自动成为本人经历或知情；当轮案例只沿 sourceSamples 和固定映射采用。' },
+        referenceInstruction: '研究与案例参考用来理解身体、环境和交流。资料中的对象、案例与知识不自动成为本人经历或知情；当轮案例只沿 sourceSamples 和固定映射采用。' },
       createdAt,
       writing: writerSource(writing, { sections: ['形成一条发言', ...(adaptedCase ? ['现实素材改编'] : []), ...(mediaOpportunity ? ['配图'] : [])] }),
       sourceSamples: { instruction: sampleInstruction + (informal ? '直接看原片段，保留里面没道理的嫌弃、低级玩笑、复读、没接上的话和沉默，不先提炼成合理诉求或完整冲突；去标识与核对事实不等于润色。' : ''),

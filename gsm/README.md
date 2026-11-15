@@ -21,7 +21,7 @@
 | 目录与入口 | 内容 |
 | --- | --- |
 | [gsm/users/](users/README.md) | 守宫资料：个体档案、用户目录、模板与研究参考 |
-| [gsm/environment/](environment/README.md) | 环境资料：守宫生活与交流研究、生态及爬宠来源、世界基线与论坛记录 |
+| [gsm/environment/](environment/README.md) | 环境资料：守宫生活、生态与交流研究、爬宠案例素材、世界基线与论坛记录 |
 | [gsm/docs/](docs/README.md) | AI 更新：完整阅读、现实取材、自然发帖与发布 |
 
 `posts/` 保存原帖与回复，`data/feed.mjs` 是生成的信息流；`tools/` 保存独立更新引擎、存储适配与归档入口，`tests/` 保存检查。工具职责见[工具说明](tools/README.md)。

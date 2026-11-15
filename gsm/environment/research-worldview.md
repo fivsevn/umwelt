@@ -6,7 +6,7 @@
 
 每个明确需要区分的世界或地区使用稳定目录：同名 Markdown 保存基线，`events.md` 保存已采用的动态变化。[世界观目录](worldviews/README.md)列出真正登记的设定。
 
-身体、感知和微环境的证据归[守宫生态](sources-gecko-ecology.md)，个体生活与私人关系归 [users](../users/README.md)，公共网上事件归[论坛记录](record-forum.md)，完整经过由[帖子](../posts/)承接。一个事实在负责位置维护，其他文档链接取用。
+身体、感知和微环境的证据归[守宫生态](research-everyday-life.md#gecko-ecology)，个体生活与私人关系归 [users](../users/README.md)，公共网上事件归[论坛记录](record-forum.md)，完整经过由[帖子](../posts/)承接。一个事实在负责位置维护，其他文档链接取用。
 
 ## 构建设定
 
