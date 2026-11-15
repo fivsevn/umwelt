@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "operationId": "gsm-20261114235639-5d1daf87",
+  "stage": "reviewed",
+  "sourceRevision": "6a0940397f3a5dce8a3863bcf2774af7098cd229",
+  "files": [
+    {
+      "path": "media/posts/2026/11/gsm-20261114231740-1ed271ee-ab0f5682db9e/media/leaf-notch-doodle-r03.webp",
+      "bytes": 53148,
+      "sha256": "2901264d04ade819b2fe7dcc1829d5ca6699a33d9e42056b109b7f1abf340bf0"
+    },
+    {
+      "path": "work/daily-material.json",
+      "bytes": 73456,
+      "sha256": "f59b50f0114db4133091c13ae9f90e3b980f79c73d6e7977688aeec2659ca2c4"
+    },
+    {
+      "path": "work/draft-history-gsm-20261114235639-5d1daf87.json",
+      "bytes": 100244,
+      "sha256": "6a1e28bc498fc4ae9091f08be48cb5574cce775d3f705bb2751d8eaedbec526f"
+    },
+    {
+      "path": "work/operation.json",
+      "bytes": 45480,
+      "sha256": "9871194ce22a860b76b828f8754cb5d7ff19fa7081ed34c32edb9c73ae039459"
+    },
+    {
+      "path": "work/reading.md",
+      "bytes": 352882,
+      "sha256": "9c184d4bcbf96ce52b3316964752a8b4dda35983138c84cd8d2d44acccbdbd93"
+    }
+  ]
+}
