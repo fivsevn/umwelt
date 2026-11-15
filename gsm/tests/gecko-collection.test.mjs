@@ -152,6 +152,19 @@ test('expanded feed parser uses full RSS content and rejects cross-host links an
   assert.equal(parseGeckoTopics(source,rss([entry('https://geckoforums.net/threads/house.101/','For Sale')]),plainText).length,0);
 });
 
+test('community forum accepts only its configured host and thread directory', () => {
+  const source=geckoSources.find(s=>s.key==='ourreptileforum');
+  const entry=url=>`<item><title>Gecko behavior</title><link>${url}</link><dc:creator>owner</dc:creator><description>The gecko sleeps under a leaf.</description><pubDate>${DATE}</pubDate></item>`;
+  const topics=parseGeckoTopics(source,rss([
+    entry('https://ourreptileforum.com/community/threads/gecko.101/'),
+    entry('https://ourreptileforum.com/threads/gecko.102/'),
+    entry('https://elsewhere.example/community/threads/gecko.103/')
+  ]),plainText);
+  assert.deepEqual(topics.map(t=>t.id),['101']);
+  const d=parseGeckoDiscussion(source,topics[0],forumPost({id:100,actor:'owner',floor:1,text:'The gecko sleeps under a leaf.'}),plainText);
+  assert.equal(d.root.actor,'owner');assert.equal(d.replies.length,0);
+});
+
 test('the same federated original is fetched once across public instances and lists', async () => {
   const sources=geckoSources.filter(s=>s.kind==='mastodon').map(s=>({...s,lists:[s.lists[0]]}));
   const calls=[];
