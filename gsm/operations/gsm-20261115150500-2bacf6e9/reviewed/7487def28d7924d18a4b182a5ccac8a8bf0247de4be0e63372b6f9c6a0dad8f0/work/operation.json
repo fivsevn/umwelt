@@ -1,0 +1,932 @@
+{
+  "version": 1,
+  "id": "gsm-20261115150500-2bacf6e9",
+  "root": "/workspace/scratch/3030ce6eeaa8/umwelt/gsm",
+  "preparedAt": "2026-11-15T15:05:00.148Z",
+  "plan": {
+    "seed": "3f74b854b2dabe0a28696e34340620b1944dbdfc0a8631274ee9e3694efa797f",
+    "budget": 2,
+    "selectedIds": [
+      "twosteps8",
+      "smallhide2",
+      "nearthermo"
+    ],
+    "totalBudget": 120,
+    "replyLottery": {
+      "bands": [
+        {
+          "weight": 30,
+          "min": 0,
+          "max": 0
+        },
+        {
+          "weight": 20,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "weight": 20,
+          "min": 2,
+          "max": 4
+        },
+        {
+          "weight": 15,
+          "min": 5,
+          "max": 12
+        },
+        {
+          "weight": 8,
+          "min": 13,
+          "max": 30
+        },
+        {
+          "weight": 5,
+          "min": 31,
+          "max": 60
+        },
+        {
+          "weight": 2,
+          "min": 61,
+          "max": 100
+        }
+      ],
+      "maxReplies": 100
+    },
+    "lottery": {
+      "version": 1,
+      "rootBudget": {
+        "min": 1,
+        "max": 2
+      },
+      "authors": {
+        "candidates": 3,
+        "recentPosts": 7,
+        "recentMultiplier": 0.5
+      },
+      "authorKind": [
+        {
+          "value": "guest",
+          "weight": 75
+        },
+        {
+          "value": "library",
+          "weight": 25
+        }
+      ],
+      "motivation": [
+        {
+          "value": "ask-help",
+          "weight": 24
+        },
+        {
+          "value": "vent",
+          "weight": 22
+        },
+        {
+          "value": "passing-thought",
+          "weight": 24
+        },
+        {
+          "value": "share",
+          "weight": 18
+        },
+        {
+          "value": "correct",
+          "weight": 6
+        },
+        {
+          "value": "celebrate",
+          "weight": 6
+        }
+      ],
+      "length": [
+        {
+          "value": "fragment",
+          "weight": 45
+        },
+        {
+          "value": "short",
+          "weight": 40
+        },
+        {
+          "value": "long",
+          "weight": 15
+        }
+      ],
+      "conditionCount": {
+        "min": 1,
+        "max": 2
+      },
+      "waitSeconds": [
+        {
+          "weight": 45,
+          "min": 20,
+          "max": 180
+        },
+        {
+          "weight": 40,
+          "min": 181,
+          "max": 1800
+        },
+        {
+          "weight": 15,
+          "min": 1801,
+          "max": 21600
+        }
+      ],
+      "reading": [
+        {
+          "value": "target-only",
+          "weight": 40
+        },
+        {
+          "value": "root-and-target",
+          "weight": 35
+        },
+        {
+          "value": "nearby",
+          "weight": 25
+        }
+      ],
+      "textWindow": [
+        {
+          "value": "full",
+          "weight": 45
+        },
+        {
+          "value": "opening",
+          "weight": 35
+        },
+        {
+          "value": "fragment",
+          "weight": 20
+        }
+      ],
+      "excerptCharacters": 140,
+      "nearbyReplies": {
+        "min": 0,
+        "max": 3
+      },
+      "media": {
+        "images": {
+          "root": {
+            "types": [
+              {
+                "value": "photo",
+                "weight": 70
+              },
+              {
+                "value": "screenshot",
+                "weight": 20
+              },
+              {
+                "value": "illustration",
+                "weight": 10
+              }
+            ]
+          },
+          "reply": {
+            "types": [
+              {
+                "value": "photo",
+                "weight": 50
+              },
+              {
+                "value": "screenshot",
+                "weight": 40
+              },
+              {
+                "value": "illustration",
+                "weight": 10
+              }
+            ]
+          }
+        },
+        "emotes": {
+          "root": {
+            "counts": [
+              {
+                "weight": 90,
+                "min": 1,
+                "max": 1
+              },
+              {
+                "weight": 10,
+                "min": 2,
+                "max": 2
+              }
+            ]
+          },
+          "reply": {
+            "counts": [
+              {
+                "weight": 90,
+                "min": 1,
+                "max": 1
+              },
+              {
+                "weight": 10,
+                "min": 2,
+                "max": 2
+              }
+            ]
+          }
+        },
+        "profiles": [
+          {
+            "id": "text-led",
+            "weight": 35,
+            "root": {
+              "none": 50,
+              "image": 28,
+              "emote": 14,
+              "both": 8
+            },
+            "reply": {
+              "none": 48,
+              "image": 10,
+              "emote": 34,
+              "both": 8
+            }
+          },
+          {
+            "id": "mixed",
+            "weight": 45,
+            "root": {
+              "none": 30,
+              "image": 38,
+              "emote": 17,
+              "both": 15
+            },
+            "reply": {
+              "none": 35,
+              "image": 12,
+              "emote": 39,
+              "both": 14
+            }
+          },
+          {
+            "id": "image-led",
+            "weight": 20,
+            "root": {
+              "none": 15,
+              "image": 45,
+              "emote": 12,
+              "both": 28
+            },
+            "reply": {
+              "none": 25,
+              "image": 18,
+              "emote": 37,
+              "both": 20
+            }
+          }
+        ]
+      },
+      "likes": {
+        "root": [
+          {
+            "weight": 20,
+            "min": 0,
+            "max": 0
+          },
+          {
+            "weight": 73,
+            "min": 1,
+            "max": 20
+          },
+          {
+            "weight": 6,
+            "min": 21,
+            "max": 60
+          },
+          {
+            "weight": 1,
+            "min": 61,
+            "max": 160
+          }
+        ],
+        "reply": [
+          {
+            "weight": 35,
+            "min": 0,
+            "max": 0
+          },
+          {
+            "weight": 62,
+            "min": 1,
+            "max": 12
+          },
+          {
+            "weight": 2,
+            "min": 13,
+            "max": 35
+          },
+          {
+            "weight": 1,
+            "min": 36,
+            "max": 90
+          }
+        ]
+      },
+      "sampling": {
+        "offset": {
+          "min": 0,
+          "max": 30
+        },
+        "count": {
+          "min": 3,
+          "max": 6
+        }
+      },
+      "discussion": {
+        "negativeMotivation": [
+          {
+            "value": "complaint",
+            "weight": 16
+          },
+          {
+            "value": "gossip",
+            "weight": 10
+          },
+          {
+            "value": "dispute",
+            "weight": 8
+          },
+          {
+            "value": "grievance",
+            "weight": 8
+          },
+          {
+            "value": "suspicion",
+            "weight": 8
+          },
+          {
+            "value": "irritation",
+            "weight": 16
+          },
+          {
+            "value": "contempt",
+            "weight": 12
+          },
+          {
+            "value": "envy",
+            "weight": 6
+          },
+          {
+            "value": "pile-on",
+            "weight": 10
+          },
+          {
+            "value": "grudge",
+            "weight": 6
+          }
+        ],
+        "replyStance": [
+          {
+            "value": "support",
+            "weight": 12
+          },
+          {
+            "value": "push-back",
+            "weight": 12
+          },
+          {
+            "value": "doubt",
+            "weight": 8
+          },
+          {
+            "value": "defend",
+            "weight": 8
+          },
+          {
+            "value": "provoke",
+            "weight": 12
+          },
+          {
+            "value": "ask-detail",
+            "weight": 4
+          },
+          {
+            "value": "sidetrack",
+            "weight": 14
+          },
+          {
+            "value": "dismiss",
+            "weight": 12
+          },
+          {
+            "value": "repeat",
+            "weight": 10
+          },
+          {
+            "value": "pile-on",
+            "weight": 8
+          }
+        ],
+        "replyAuthor": [
+          {
+            "value": "new",
+            "weight": 85
+          },
+          {
+            "value": "root",
+            "weight": 8
+          },
+          {
+            "value": "participant",
+            "weight": 7
+          }
+        ],
+        "negativeProbability": 0.5,
+        "minimumNegativeShare": 0.5
+      },
+      "researchMaintenance": {
+        "probability": 0.3,
+        "maxDocuments": 1,
+        "ageWeightDays": 7,
+        "maxAgeWeight": 5
+      },
+      "diversity": {
+        "recentUpdates": 3
+      },
+      "participation": {
+        "version": 2
+      }
+    },
+    "timeWindow": {
+      "start": "2026-11-14T15:05:00.148Z",
+      "end": "2026-11-15T15:05:00.148Z"
+    },
+    "participationSchedules": {
+      "backpackgecko": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "gecko404": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "gedageda": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "isopodafugue": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "leafback7": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "mango27": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "moss9": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "nearthermo": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "nightshift3": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "peachcrumble": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "slowblink": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "smallhide2": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "twosteps8": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "wallafterdark": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "wednesday6": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      }
+    },
+    "caseAdaptation": {
+      "count": 1,
+      "intakeReceipt": {
+        "repository": "fivsevn/umwelt",
+        "path": "gsm/environment/sources-daily-opinions.md",
+        "revision": "29d8cad19fff27bab43713dbbaddf602a8063873",
+        "documentSha": "29d8cad19fff27bab43713dbbaddf602a8063873",
+        "documentDigest": "af23231569d45ab121443dd0c00937ee103019fc69b3a213069ed1b1f35adf1a",
+        "collectedAt": "2026-11-15T03:25:20.000Z",
+        "fetchedAt": "2026-11-15T15:05:00.139Z"
+      },
+      "items": [
+        {
+          "postId": "gsm-20261115150500-2bacf6e9-d90265255a20",
+          "sourcePath": "environment/sources-daily-opinions.md",
+          "sample": {
+            "id": "sample-c0604ab81a60",
+            "title": "讨论 3",
+            "text": "### 讨论 3\n\n1. **发言者 1**：Where  did all the reptiles go?  \n   \"Globally, our ecosystems are rapidly becoming less rich and diverse...In Australia, for instance, research shows the country’s most threatened reptiles and frogs are already disappearing, with their populations declining by 96% on average since 1985.\"  \n   \"The reasons for this are many and complex, including habitat destruction, pesticide use, natural disasters, diseases, and invasive species such as cane toads and cats. However, human-induced climate change remains the foremost threat to wildlife worldwide.\"  \n   \"...Our analysis suggests far fewer wild reptiles are traded than are run over by cars, harvested for traditional medicines or killed by habitat destruction, invasive pests, disease or climate change.\"  &gt;&gt;  \n   \\[链接隐去\\]",
+            "context": "采集时间：2026-11-15 11:25:20（北京时间）"
+          }
+        }
+      ],
+      "rootOrder": [
+        "gsm-20261115150500-2bacf6e9-03c70e251ca8",
+        "gsm-20261115150500-2bacf6e9-d90265255a20",
+        "gsm-20261115150500-2bacf6e9-bb7b9a9d5e7e"
+      ]
+    },
+    "researchMaintenance": {
+      "candidates": [
+        {
+          "path": "environment/research-comments.md",
+          "updatedAt": "2026-11-15T10:02:28.000Z"
+        },
+        {
+          "path": "environment/research-everyday-life.md",
+          "updatedAt": "2026-11-15T10:02:28.000Z"
+        },
+        {
+          "path": "environment/research-meme.md",
+          "updatedAt": "2026-11-15T10:02:28.000Z"
+        },
+        {
+          "path": "environment/research-negative.md",
+          "updatedAt": "2026-11-15T10:02:28.000Z"
+        },
+        {
+          "path": "environment/research-worldview.md",
+          "updatedAt": "2026-11-15T10:02:28.000Z"
+        },
+        {
+          "path": "users/research-character.md",
+          "updatedAt": "2026-11-15T10:02:28.000Z"
+        },
+        {
+          "path": "users/research-speech.md",
+          "updatedAt": "2026-11-15T10:02:28.000Z"
+        }
+      ],
+      "selectedPaths": []
+    },
+    "seal": "496b3a2dc2bf31b9497c924bd50793917ece8beda9b6c80dac4e3fa4e3823f89"
+  },
+  "sourceDigest": "31fa9aeb3ef7d6cefddb2604440ff32d6bf65b7318fcaf3c811d7e169080b16d",
+  "research": [
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://reptilesmagazine.com/gaboon-viper-sighting-in-orange-county-ca-deemed-false/",
+      "visitedAt": "2026-11-15T15:06:50.121+00:00",
+      "publishedAt": "2026-10-02T02:43:01+00:00",
+      "summary": "news最新RSS跳过12项后连续6项的第1项（总序13），已读发布方文章正文。内容为虚假蝰蛇图片及报警事件，涉及人类警方与法律流程，本轮排除为守宫生活案例；只注意报道把图片声称与随后调查分开。不据报道提供法律判断，未打开原图或站外调查资料。"
+    },
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://reptilesmagazine.com/olive-ridley-sea-turtle-eggs-laid-on-socal-beaches-moved-ahead-of-hurricane-polo/",
+      "visitedAt": "2026-11-15T15:06:50.385+00:00",
+      "publishedAt": "2026-09-26T02:28:07+00:00",
+      "summary": "同一news窗口第2项（总序14），已读正文。报道当时海龟卵因预期风浪与高潮被移至控制环境孵化，描述两个原始巢址与迁移决定；保留2026-09-26原日期，不把当时风暴说成当前天气，也不把人的搬运和设备操作交给守宫。照片及链接原资料未打开。"
+    },
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://reptilesmagazine.com/olive-ridley-sea-turtle-lays-eggs-on-southern-california-beach/",
+      "visitedAt": "2026-11-15T15:06:50.317+00:00",
+      "publishedAt": "2026-09-23T18:29:05+00:00",
+      "summary": "同一news窗口第3项（总序15），已读正文。报道南加州首次记录到的海龟筑巢、保护围栏与后续观察，同时对孵化后水温留下未决问题；用来区分已观察事件与未来结果，不把报道的暖水解释推成已证因果。原照片未打开，未据此新增本站事件。"
+    },
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://reptilesmagazine.com/silver-key-anoles-with-shorter-toe-lengths-survived-hurricanes-better-than-long-toed-counterparts/",
+      "visitedAt": "2026-11-15T15:06:52.445+00:00",
+      "publishedAt": "2026-09-23T01:12:07+00:00",
+      "summary": "同一news窗口第4项（总序16），已读正文。介绍岛屿安乐蜥经历飓风后的趾长与攀附表现研究，并区分野外关联、基因候选与另一物种胚胎功能实验。未读Current Biology原论文，因此仅作科学传播观察，不独立采纳机制结论，也不把安乐蜥能力推广到守宫；配图未打开。"
+    },
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://reptilesmagazine.com/64-texas-horned-lizards-hatch-at-texas-caldwell-zoo/",
+      "visitedAt": "2026-11-15T15:06:53.891+00:00",
+      "publishedAt": "2026-09-16T19:23:02+00:00",
+      "summary": "同一news窗口第5项（总序17），已读正文。内容为动物园角蜥孵化、放归计划及报道所列栖地与食物条件变化。人的繁育与照料环节排除为本站日常案例，物种营养和照料说法不转成守宫适用规范；未看嵌入视频和图片，未把孵化数量当作种群恢复结论。"
+    },
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://reptilesmagazine.com/dermatologic-diseases-in-reptiles/",
+      "visitedAt": "2026-11-15T15:06:53.913+00:00",
+      "publishedAt": "2026-09-15T18:38:09+00:00",
+      "summary": "同一news窗口第6项（总序18），已读正文及作者说明。全文属于爬宠皮肤疾病的兽医科普，涉及症状、诊断、用药与处理，按任务临床内容边界排除，不用作守宫发帖素材或治疗建议；未读外链、未打开病例图片，也未将其中一般化照料话语写进本站事实。"
+    },
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://reptilesmagazine.com/sea-turtle-eggs-laid-on-southern-california-beaches-have-hatched/",
+      "visitedAt": "2026-11-15T15:06:48.653+00:00",
+      "publishedAt": "2026-11-15T01:55:38+00:00",
+      "summary": "补充最新资讯，已读2026-11-15发布的海龟孵化与放归报道正文。文章回述原巢因风浪威胁迁移、随后孵化，并明确异常筑巢原因仍未确定；不从单次事件推出气候因果，也不把海龟生理或人类保育行动变成守宫亲历。未打开照片或文中站外研究与机构链接。"
+    },
+    {
+      "category": "trend",
+      "kind": "feed",
+      "url": "https://ebiverse.social/notes/as4qn0y3p4",
+      "visitedAt": "2026-11-15T15:06:32.232+00:00",
+      "publishedAt": "2026-10-09T16:22:35.403Z",
+      "summary": "#gecko最新公开非转发、非回复原帖序列，跳过22项后连续5项中的第1项（总序23）。已读完整正文、媒体alt字段与context（无可见回复）。文字只有守宫、蜥蜴和bitcoin标签，图的alt为空；无法确认其具体动物或情境，排除采用，不以标签编造画面。 正文由mastodon.social公开联邦标签API取得，回复由公开context API读取；访问时间按本次context响应登记，未把联邦可见范围当作原平台全部内容。"
+    },
+    {
+      "category": "trend",
+      "kind": "feed",
+      "url": "https://mastodon.green/@plazi_species/117409451550572151",
+      "visitedAt": "2026-11-15T15:06:32.033+00:00",
+      "publishedAt": "2026-10-09T06:07:35.000Z",
+      "summary": "#gecko最新公开非转发、非回复原帖序列，跳过22项后连续5项中的第2项（总序24）。已读完整科学传播正文和context（无可见回复），内容为印度Hemidactylus cairnicola新种及分类处理、论文链接。未打开原论文、处理页或图片，不据此确立本站具体物种能力或当前事件，也不把转帖当作已读研究全文。 正文由mastodon.social公开联邦标签API取得，回复由公开context API读取；访问时间按本次context响应登记，未把联邦可见范围当作原平台全部内容。"
+    },
+    {
+      "category": "trend",
+      "kind": "feed",
+      "url": "https://piaille.fr/@2tout2rien/117392510329833480",
+      "visitedAt": "2026-11-15T15:06:32.201+00:00",
+      "publishedAt": "2026-10-06T06:19:12.000Z",
+      "summary": "#gecko最新公开非转发、非回复原帖序列，跳过22项后连续5项中的第3项（总序25）。已读完整法语转帖、媒体alt与context（无可见回复），话题为马达加斯加叶尾守宫的枯叶拟态，外链文章和视频未打开。仅观察转帖的短标题和描述作用，不由alt推断已见实物或物种身体细节。 正文由mastodon.social公开联邦标签API取得，回复由公开context API读取；访问时间按本次context响应登记，未把联邦可见范围当作原平台全部内容。"
+    },
+    {
+      "category": "trend",
+      "kind": "feed",
+      "url": "https://mastodon.social/@rincevent_/117392493972546064",
+      "visitedAt": "2026-11-15T15:06:32.130+00:00",
+      "publishedAt": "2026-10-06T06:15:03.054Z",
+      "summary": "#gecko最新公开非转发、非回复原帖序列，跳过22项后连续5项中的第4项（总序26）。已读完整法语正文与context（无可见回复），转述者以枯叶外形介绍Uroplatus phantasticus的尾缘、褐色和轮廓。原图、链接原文及研究未读，不将传播者的概括扩成所有守宫事实，也不据此判断本站角色种类。 正文由mastodon.social公开联邦标签API取得，回复由公开context API读取；访问时间按本次context响应登记，未把联邦可见范围当作原平台全部内容。"
+    },
+    {
+      "category": "trend",
+      "kind": "thread",
+      "url": "https://meow.social/@Ianmcgecko/117373619911881077",
+      "visitedAt": "2026-11-15T15:06:35.849+00:00",
+      "publishedAt": "2026-10-02T22:15:07.000Z",
+      "summary": "#gecko最新公开非转发、非回复原帖序列，跳过22项后连续5项中的第5项（总序27）。已读完整原帖、视频alt及context中1条公开回复；视频alt说明是人穿守宫fursuit按会发声的按钮，回复用一句共鸣接话。属于人类服装表演，整项排除为动物日常素材，未播放视频，不能当作守宫实际使用按钮的证据。 正文由mastodon.social公开联邦标签API取得，回复由公开context API读取；访问时间按本次context响应登记，未把联邦可见范围当作原平台全部内容。"
+    },
+    {
+      "category": "daily",
+      "kind": "feed",
+      "url": "https://mastodon.social/@geckonest/117466416566230748",
+      "visitedAt": "2026-11-15T15:06:35.836+00:00",
+      "publishedAt": "2026-10-19T07:34:32.315Z",
+      "summary": "daily初选#leopardgecko最新公开原帖序列，跳过11项后连续6项中的第1项（总序12）。已读完整正文及context（无可见回复）。是按遗传、稀有程度和血统解释售价并引导阅读的推广，人类价格与购买比较不作为守宫自身经历，外链未读，排除采用。 正文由mastodon.social公开联邦标签API取得，回复由公开context API读取；访问时间按本次context响应登记，未把联邦可见范围当作原平台全部内容。"
+    },
+    {
+      "category": "daily",
+      "kind": "feed",
+      "url": "https://mastodon.social/@geckonest/117466415219489343",
+      "visitedAt": "2026-11-15T15:06:36.034+00:00",
+      "publishedAt": "2026-10-19T07:34:11.771Z",
+      "summary": "daily初选#leopardgecko最新公开原帖序列，跳过11项后连续6项中的第2项（总序13）。已读完整正文及context（无可见回复）。是眼部健康问题与就诊提示的推广，未阅读外链或临床依据，不采用其判断和处置内容。 正文由mastodon.social公开联邦标签API取得，回复由公开context API读取；访问时间按本次context响应登记，未把联邦可见范围当作原平台全部内容。"
+    },
+    {
+      "category": "daily",
+      "kind": "feed",
+      "url": "https://mastodon.social/@geckonest/117462846120982652",
+      "visitedAt": "2026-11-15T15:06:35.875+00:00",
+      "publishedAt": "2026-10-18T16:26:31.645Z",
+      "summary": "daily初选#leopardgecko最新公开原帖序列，跳过11项后连续6项中的第3项（总序14）。已读完整正文及context（无可见回复）。是疾病征象和求医指南推广，未阅读外链，不将其宣传文字写成已核验医学事实或角色诊断，排除采用。 正文由mastodon.social公开联邦标签API取得，回复由公开context API读取；访问时间按本次context响应登记，未把联邦可见范围当作原平台全部内容。"
+    },
+    {
+      "category": "daily",
+      "kind": "feed",
+      "url": "https://mastodon.social/@geckonest/117462844705313476",
+      "visitedAt": "2026-11-15T15:06:40.164+00:00",
+      "publishedAt": "2026-10-18T16:26:10.042Z",
+      "summary": "daily初选#leopardgecko最新公开原帖序列，跳过11项后连续6项中的第4项（总序15）。已读完整正文及context（无可见回复）。是断尾后处理与感染监测指南推广，属于人类照料和临床处置，外链未读，本轮不采用。 正文由mastodon.social公开联邦标签API取得，回复由公开context API读取；访问时间按本次context响应登记，未把联邦可见范围当作原平台全部内容。"
+    },
+    {
+      "category": "daily",
+      "kind": "feed",
+      "url": "https://mastodon.social/@geckonest/117462843211439937",
+      "visitedAt": "2026-11-15T15:06:40.124+00:00",
+      "publishedAt": "2026-10-18T16:25:47.247Z",
+      "summary": "daily初选#leopardgecko最新公开原帖序列，跳过11项后连续6项中的第5项（总序16）。已读完整正文及context（无可见回复）。是体长与生长时间指南推广，未打开正文依据，不据其数字补设本站角色体型或年龄，排除采用。 正文由mastodon.social公开联邦标签API取得，回复由公开context API读取；访问时间按本次context响应登记，未把联邦可见范围当作原平台全部内容。"
+    },
+    {
+      "category": "daily",
+      "kind": "feed",
+      "url": "https://mastodon.social/@geckonest/117460868806526811",
+      "visitedAt": "2026-11-15T15:06:40.064+00:00",
+      "publishedAt": "2026-10-18T08:03:40.219Z",
+      "summary": "daily初选#leopardgecko最新公开原帖序列，跳过11项后连续6项中的第6项（总序17）。已读完整正文及context（无可见回复）。是震颤原因、观察与求医提示的推广，外链未读，不采用其原因判断或处置建议。 正文由mastodon.social公开联邦标签API取得，回复由公开context API读取；访问时间按本次context响应登记，未把联邦可见范围当作原平台全部内容。"
+    },
+    {
+      "category": "daily",
+      "kind": "feed",
+      "url": "https://mastodon.ie/@deantoir_ceardaiochta/114376478686637945",
+      "visitedAt": "2026-11-15T15:07:21.919+00:00",
+      "publishedAt": "2025-04-21T14:42:41.000Z",
+      "summary": "因初选窗口全为推广/临床，daily改用#crestedgecko相同最新排序，跳过11项后连续6项中的第1项（总序12）；保留原始旧日期。已读完整正文及context（无可见回复），观察者比较地图鱼和睫角守宫从镊子取食的训练难易。动作主体是人，不能转换为守宫使用镊子；只留观察范围，不采用照料操作。 正文由mastodon.social公开联邦标签API取得，回复由公开context API读取；访问时间按本次context响应登记，未把联邦可见范围当作原平台全部内容。"
+    },
+    {
+      "category": "daily",
+      "kind": "feed",
+      "url": "https://mastodon.social/@Satiah/114123650069439716",
+      "visitedAt": "2026-11-15T15:07:21.851+00:00",
+      "publishedAt": "2025-03-07T23:05:03.457Z",
+      "summary": "因初选窗口全为推广/临床，daily改用#crestedgecko相同最新排序，跳过11项后连续6项中的第2项（总序13）；保留原始旧日期。已读完整正文及context（无可见回复），观察者笑谈猫与守宫隔饲养箱玻璃互动以及家人的制止。未有行为细节或安全条件，不能据此判定亲近、喜爱或建议接触，未作为本站角色经历。 正文由mastodon.social公开联邦标签API取得，回复由公开context API读取；访问时间按本次context响应登记，未把联邦可见范围当作原平台全部内容。"
+    },
+    {
+      "category": "daily",
+      "kind": "feed",
+      "url": "https://mastodon.social/@Satiah/113945173604473915",
+      "visitedAt": "2026-11-15T15:07:21.799+00:00",
+      "publishedAt": "2025-02-04T10:36:08.727Z",
+      "summary": "因初选窗口全为推广/临床，daily改用#crestedgecko相同最新排序，跳过11项后连续6项中的第3项（总序14）；保留原始旧日期。已读完整正文、媒体alt字段及context（无可见回复）。是对个体的亲昵赞叹，夹带洗浴处理残蜕和从互动推断繁育者质量的解释；图无alt且未打开。照料处置及推断不采用，赞叹不是生态结论。 正文由mastodon.social公开联邦标签API取得，回复由公开context API读取；访问时间按本次context响应登记，未把联邦可见范围当作原平台全部内容。"
+    },
+    {
+      "category": "daily",
+      "kind": "feed",
+      "url": "https://mstdn.ca/@senanthic/113354435372531688",
+      "visitedAt": "2026-11-15T15:07:21.878+00:00",
+      "publishedAt": "2024-10-23T02:43:38.000Z",
+      "summary": "因初选窗口全为推广/临床，daily改用#crestedgecko相同最新排序，跳过11项后连续6项中的第4项（总序15）；保留原始旧日期。已读完整短句、媒体alt与context（无可见回复），正文用“完全没脑子”揶揄一只睫角守宫；alt称动物停在白桦木上回头。只观察短促、低信息玩笑，未开原图，措辞不作为动物智力证据。 正文由mastodon.social公开联邦标签API取得，回复由公开context API读取；访问时间按本次context响应登记，未把联邦可见范围当作原平台全部内容。"
+    },
+    {
+      "category": "daily",
+      "kind": "feed",
+      "url": "https://mastodon.social/@Satiah/113141808766034116",
+      "visitedAt": "2026-11-15T15:07:25.642+00:00",
+      "publishedAt": "2024-09-15T13:29:54.114Z",
+      "summary": "因初选窗口全为推广/临床，daily改用#crestedgecko相同最新排序，跳过11项后连续6项中的第5项（总序16）；保留原始旧日期。已读完整正文、媒体alt字段及context（无可见回复），观察者描述新住处第一次睡觉、脸藏在叶中而身体外露，并明确以推测和希望解释明暗及安全感。原图未开，不把人的猜测当作动物真实心理，也不登记为本站事实。 正文由mastodon.social公开联邦标签API取得，回复由公开context API读取；访问时间按本次context响应登记，未把联邦可见范围当作原平台全部内容。"
+    },
+    {
+      "category": "daily",
+      "kind": "feed",
+      "url": "https://meemu.org/@quesadillawizard/112820861480371467",
+      "visitedAt": "2026-11-15T15:07:25.742+00:00",
+      "publishedAt": "2024-07-20T21:08:47.000Z",
+      "summary": "因初选窗口全为推广/临床，daily改用#crestedgecko相同最新排序，跳过11项后连续6项中的第6项（总序17）；保留原始旧日期。已读完整正文及context（无可见回复），是照料者抱怨反复清理前玻璃、预期很快又被弄脏的短句。清洁动作与夸张预期属于观察者，不转成守宫使用清洁工具或必然发生的后续。 正文由mastodon.social公开联邦标签API取得，回复由公开context API读取；访问时间按本次context响应登记，未把联邦可见范围当作原平台全部内容。"
+    },
+    {
+      "category": "daily",
+      "kind": "thread",
+      "url": "https://mcr.wtf/@nordicnefilim/116545162929724664",
+      "visitedAt": "2026-11-15T15:07:25.761+00:00",
+      "publishedAt": "2026-05-09T14:47:37.000Z",
+      "summary": "补充读取同一#crestedgecko列表中明确有回复的住处展示串，不用于估算互动比例。已读根帖完整正文、两张图alt及context中4条public、非敏感回复，逐条核对父ID与时间。观察者先写清理/改布置住处，并以希望表达动物可能喜欢；读者求动物照片，作者先答难拍，14天后仍接原求图楼层补照片，读者再短赞叹。根帖replies_count=1而实际context可见4条，按真实读取登记；这段交流保留迟来返回、短确认及不必接根帖的关系。照片均未打开，只读alt；人的清理、消费打算和心理猜测不赋给守宫，也不写成本站发生的事。 正文由mastodon.social公开联邦标签API取得，回复由公开context API读取；访问时间按本次context响应登记，未把联邦可见范围当作原平台全部内容。"
+    },
+    {
+      "category": "daily",
+      "kind": "feed",
+      "url": "https://github.com/fivsevn/umwelt/blob/1bdf4aa04a4b0579459d20918be380e2c29003bf/gsm/environment/sources-daily-opinions.md",
+      "visitedAt": "2026-11-15T15:12:51.853+00:00",
+      "publishedAt": null,
+      "adaptedPostIds": [
+        "gsm-20261115150500-2bacf6e9-d90265255a20"
+      ],
+      "summary": "核读本操作冻结的每日材料（采集于2026-11-15 11:25:20北京时间），讨论3唯一发言的标题与三段文字摘录。改编为阿敏网上读到文字后对栖地减少和野生爬宠处境的不舒服、烦与怕；数值保留原文澳大利亚受威胁爬行动物与蛙类、自1985以来平均下降的范围，成因与交易比较归于文中，不冒充核验原研究、本人亲见或本站公共事件。源原链接隐去，不恢复身份；无图片与可见回复，不补造媒体或互动。此项仅记录固定案例取用，不计入新鲜网页观察。"
+    }
+  ],
+  "posts": [
+    {
+      "id": "gsm-20261115150500-2bacf6e9-03c70e251ca8",
+      "author": "guest-49639cd16fee0668",
+      "guest": {
+        "name": "团团"
+      },
+      "createdAt": "2026-11-15T13:32:41.638Z",
+      "replyTo": null,
+      "text": "门口这条亮边，趴着看了好久。",
+      "likes": 12,
+      "canon": "derivative",
+      "media": [
+        {
+          "src": "posts/2026/11/gsm-20261115150500-2bacf6e9-03c70e251ca8/media/bright-edge.webp",
+          "alt": "树皮侧壁旁的灰色石片，一段薄边反着亮光。",
+          "kind": "image"
+        }
+      ]
+    },
+    {
+      "id": "gsm-20261115150500-2bacf6e9-d90265255a20",
+      "author": "guest-367f0b33978fc075",
+      "guest": {
+        "name": "阿敏"
+      },
+      "createdAt": "2026-11-15T15:03:27.591Z",
+      "replyTo": null,
+      "text": "我趴着看网上那句“爬行动物都去哪了”，越看越不舒服。文中说，全球的生态系统正在迅速变得没那么丰富、多样了；澳大利亚最受威胁的爬行动物和蛙类，种群数量自1985年以来平均下降了96%。96%，看着就发慌。\n\n后面列的原因也很长：栖息地破坏、农药、自然灾害、疾病，还有海蟾蜍和猫这样的入侵物种。文中又说，人类造成的气候变化仍是全世界野生动物面临的首要威胁。别的先不说，连能缩进去的住处都没了，要躲到哪里去。\n\n它最后那段说，他们的分析认为，被拿去交易的野生爬行动物，比被车轧死、被拿去做传统药物，或死于栖息地破坏、入侵有害生物、疾病或气候变化的，少得多。我就读到这几段，没看过完整研究。可这一长串，看着是真烦，也怕。",
+      "likes": 20,
+      "canon": "derivative",
+      "media": []
+    },
+    {
+      "id": "gsm-20261115150500-2bacf6e9-bb7b9a9d5e7e",
+      "author": "guest-316ba308defc5133",
+      "guest": {
+        "name": "林檎"
+      },
+      "createdAt": "2026-11-15T15:03:35.940Z",
+      "replyTo": null,
+      "text": "这块亮斑真烦。",
+      "likes": 0,
+      "canon": "derivative",
+      "media": [
+        {
+          "kind": "emote",
+          "src": "assets/emotes/gsm/disgust.webp",
+          "alt": "守宫皱嘴斜眼，一只前爪朝外推开，另一只前爪撑地，尾巴横在身后。"
+        }
+      ]
+    },
+    {
+      "id": "gsm-20261115150500-2bacf6e9-04",
+      "author": "guest-e813e79f2a2fe935",
+      "guest": {
+        "name": "K2"
+      },
+      "createdAt": "2026-11-15T15:04:43.563Z",
+      "replyTo": "gsm-20261115150500-2bacf6e9-bb7b9a9d5e7e",
+      "text": "这也值得烦。",
+      "likes": 0,
+      "canon": "derivative",
+      "media": [
+        {
+          "kind": "emote",
+          "src": "assets/emotes/gsm/heh.webp",
+          "alt": "守宫坐着闭眼抬起下巴，嘴边吐出一小团气，尾巴盘在身体后面。"
+        }
+      ]
+    }
+  ],
+  "status": "prepared",
+  "reviews": [
+    {
+      "postId": "gsm-20261115150500-2bacf6e9-03c70e251ca8",
+      "negative": false,
+      "reason": "只分享在门口看亮边的近况，没有不满、贬低或怀疑。"
+    },
+    {
+      "postId": "gsm-20261115150500-2bacf6e9-d90265255a20",
+      "negative": true,
+      "reason": "读到动物数量下降和多种威胁后明确说不舒服、发慌、烦与怕，属于担心和不满。"
+    },
+    {
+      "postId": "gsm-20261115150500-2bacf6e9-bb7b9a9d5e7e",
+      "negative": true,
+      "reason": "直接嫌眼前亮斑烦，配嫌弃图强化不耐烦。"
+    },
+    {
+      "postId": "gsm-20261115150500-2bacf6e9-04",
+      "negative": true,
+      "reason": "轻视对方对亮斑的抱怨，‘这也值得烦’配抬下巴呵呵图带嘲弄与挑衅。"
+    }
+  ],
+  "researchMaintenance": [],
+  "guestNames": {
+    "guest-49639cd16fee0668": "团团",
+    "guest-367f0b33978fc075": "阿敏",
+    "guest-316ba308defc5133": "林檎",
+    "guest-e813e79f2a2fe935": "K2"
+  },
+  "mediaReviews": [
+    {
+      "postId": "gsm-20261115150500-2bacf6e9-03c70e251ca8",
+      "src": "posts/2026/11/gsm-20261115150500-2bacf6e9-03c70e251ca8/media/bright-edge.webp",
+      "type": "life-photo",
+      "scene": "图像生成工具取得的近地面生活画面，左侧竖向树皮壁占近处，右中扁灰石片的一段薄边反着窄亮光，后方仅见局部叶片与细屑；从自己的停留位置侧看，未出现全身守宫或人类器材。"
+    }
+  ],
+  "diversityReview": {
+    "postsDigest": "ba733889349427e6872f93334b2f6b8839c72555ac85a271a3bff92db6cef561",
+    "historyDigest": "e653f6c2a384729b9d0f6211aa78817d8cfc43dbd0fbbe8340f39dd71915926b",
+    "content": "已完整读取本次阅读包及最近3轮12条主帖与回复，对照本轮4条真实初稿和终稿。03c70e251ca8由团团分享门口石片亮边，画面承担展示，文字只留一句静看近况；bb7b9a9d5e7e由林檎嫌自己的眼前亮斑烦，未展示现场。两条都提亮光，但账号、住处、时间和可见材料分别成立，相隔约1.5小时，中间穿插资讯主帖；没有互引、共同物件或正反对照叙事，保留局部题材的自然相似，不写成两人在评同一张图。与近期叶丑74962acbe8db、咔哒声0ea340e1e3b3的相似处是一句普通嫌烦；与stone-edge所属893c1cdc823c不同，本轮亮边没有讲身体怎样靠石边、挪回原位或求比较，不重复其完整路线。d90265255a20采用冻结案例3的一位说话者及三段可见文字：澳大利亚最受威胁的爬行动物和蛙类，自1985年以来平均种群降幅96%的对象、起算年和平均口径保留；威胁列表、气候判断与交易比较均归于文中，未当作本人研究结论。阿敏只是在网上读片段，并说明未读完整研究，担心可躲住处的损失；没有编成亲眼看到当地动物减少、自己的住处已毁或全站共同环境变化。原材料无图、无可见回复，未补造。04的K2只读到林檎根帖及嫌弃图，轻视的是这句抱怨，没有看过亮斑现场或团团的图，不知道亮斑来源、大小与住处，未补同住或熟人关系。末尾停在这句挑衅，不替林檎安排反击、澄清或和解。两条原创分别为0与23条回复空间；前者保持零回复，后者只采用当前这一条实际话头，不把空间填成剧本。四条正文经独立审读均保留原样；照片构图与准确alt按实际画面落实，没有为区别人物加背景、口头禅或机智收尾。1条普通分享、3条担心或嫌弃/轻蔑，实际分类超过最低2条负面；赞数12、20、0、0沿建议保留而不按长短、正负平均分配。身份、时间、父关系和简体中文沿最终记录核对，一次性片段无需写成人物生平。",
+    "images": "已逐张打开本轮bright-edge.webp、disgust.webp与heh.webp，并对照近3轮实际5张普通图stone-edge、purple-leaf、little-snake、under-ramp、shoulder-view以及既有disgust/huh。bright-edge为图像生成工具取得的生活照片质感画面：左侧竖向树皮近壁，右中扁灰石片的前侧薄边有断续窄亮反光，地面细屑与后方局部叶片可见，没有全身守宫、持设备动作或文字。初始方案的横向暗顶棚与出口取景易重复under-ramp，现已改成左侧竖向遮挡和中右石片焦点；它仍与stone-edge共享灰石、颗粒等合理材料，但前者的大石面近缘用来说明休息靠点，本图的小段反光用于静看，信息和构图均不同，低位视角无需为求差异取消。正文的门口亮边在实际图上可辨，alt仅描述树皮侧壁、灰石片及薄边反光，没有假称源帖实拍或补不可见身体细节。disgust的皱嘴斜眼、外推前爪承接林檎的短嫌烦；heh闭眼抬下巴和吐气承接K2的轻蔑，两者均按emote登记，只表达反应，不充作亮斑现场或真实生物姿态。熟图disgust近期用过可按本条语气继续复用，不另存同图冒充新资源。案例沿源无图，不为资讯制造目击照片。最终一张普通图、两张表情和一条纯文字，原创新候选普通图1、表情2均已落实，suggest没有差额；一图短注、三段资讯与局部表情来回的疏密成立，不为均匀排版增删媒体。本审读覆盖本地实际图文与近期比较，网页显示及线上字节由发布阶段另行核验。"
+  }
+}

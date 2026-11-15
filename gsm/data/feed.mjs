@@ -1,5 +1,33 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "guest-e813e79f2a2fe935": {
+    "handle": "guest-e813e79f2a2fe935",
+    "name": "K2",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-e813e79f2a2fe935.webp?v=d880f2ec2809",
+    "color": "rose"
+  },
+  "guest-316ba308defc5133": {
+    "handle": "guest-316ba308defc5133",
+    "name": "林檎",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-316ba308defc5133.webp?v=05a84418ff61",
+    "color": "sage"
+  },
+  "guest-367f0b33978fc075": {
+    "handle": "guest-367f0b33978fc075",
+    "name": "阿敏",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-367f0b33978fc075.webp?v=f8a2a28d808e",
+    "color": "rose"
+  },
+  "guest-49639cd16fee0668": {
+    "handle": "guest-49639cd16fee0668",
+    "name": "团团",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-49639cd16fee0668.webp?v=d880f2ec2809",
+    "color": "sage"
+  },
   "guest-6b642413b2cc1550": {
     "handle": "guest-6b642413b2cc1550",
     "name": "404",
@@ -191,6 +219,184 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "gsm-20261115150500-2bacf6e9-04",
+    "date": "2026-11-15T23:04:43.563+08:00",
+    "createdAt": 1794755083563,
+    "author": "guest-e813e79f2a2fe935",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "这也值得烦。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/heh.webp",
+          "alt": "守宫坐着闭眼抬起下巴，嘴边吐出一小团气，尾巴盘在身体后面。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "这也值得烦。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/heh.webp",
+          "alt": "守宫坐着闭眼抬起下巴，嘴边吐出一小团气，尾巴盘在身体后面。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "这也值得烦。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/heh.webp",
+          "alt": "守宫坐着闭眼抬起下巴，嘴边吐出一小团气，尾巴盘在身体后面。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ]
+    },
+    "replyTo": "gsm-20261115150500-2bacf6e9-bb7b9a9d5e7e"
+  },
+  {
+    "id": "gsm-20261115150500-2bacf6e9-bb7b9a9d5e7e",
+    "date": "2026-11-15T23:03:35.940+08:00",
+    "createdAt": 1794755015940,
+    "author": "guest-316ba308defc5133",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "这块亮斑真烦。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/disgust.webp",
+          "alt": "守宫皱嘴斜眼，一只前爪朝外推开，另一只前爪撑地，尾巴横在身后。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "这块亮斑真烦。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/disgust.webp",
+          "alt": "守宫皱嘴斜眼，一只前爪朝外推开，另一只前爪撑地，尾巴横在身后。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "这块亮斑真烦。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/disgust.webp",
+          "alt": "守宫皱嘴斜眼，一只前爪朝外推开，另一只前爪撑地，尾巴横在身后。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gsm-20261115150500-2bacf6e9-d90265255a20",
+    "date": "2026-11-15T23:03:27.591+08:00",
+    "createdAt": 1794755007591,
+    "author": "guest-367f0b33978fc075",
+    "likes": 20,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "我趴着看网上那句“爬行动物都去哪了”，越看越不舒服。文中说，全球的生态系统正在迅速变得没那么丰富、多样了；澳大利亚最受威胁的爬行动物和蛙类，种群数量自1985年以来平均下降了96%。96%，看着就发慌。\n\n后面列的原因也很长：栖息地破坏、农药、自然灾害、疾病，还有海蟾蜍和猫这样的入侵物种。文中又说，人类造成的气候变化仍是全世界野生动物面临的首要威胁。别的先不说，连能缩进去的住处都没了，要躲到哪里去。\n\n它最后那段说，他们的分析认为，被拿去交易的野生爬行动物，比被车轧死、被拿去做传统药物，或死于栖息地破坏、入侵有害生物、疾病或气候变化的，少得多。我就读到这几段，没看过完整研究。可这一长串，看着是真烦，也怕。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "我趴着看网上那句“爬行动物都去哪了”，越看越不舒服。文中说，全球的生态系统正在迅速变得没那么丰富、多样了；澳大利亚最受威胁的爬行动物和蛙类，种群数量自1985年以来平均下降了96%。96%，看着就发慌。\n\n后面列的原因也很长：栖息地破坏、农药、自然灾害、疾病，还有海蟾蜍和猫这样的入侵物种。文中又说，人类造成的气候变化仍是全世界野生动物面临的首要威胁。别的先不说，连能缩进去的住处都没了，要躲到哪里去。\n\n它最后那段说，他们的分析认为，被拿去交易的野生爬行动物，比被车轧死、被拿去做传统药物，或死于栖息地破坏、入侵有害生物、疾病或气候变化的，少得多。我就读到这几段，没看过完整研究。可这一长串，看着是真烦，也怕。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "我趴着看网上那句“爬行动物都去哪了”，越看越不舒服。文中说，全球的生态系统正在迅速变得没那么丰富、多样了；澳大利亚最受威胁的爬行动物和蛙类，种群数量自1985年以来平均下降了96%。96%，看着就发慌。\n\n后面列的原因也很长：栖息地破坏、农药、自然灾害、疾病，还有海蟾蜍和猫这样的入侵物种。文中又说，人类造成的气候变化仍是全世界野生动物面临的首要威胁。别的先不说，连能缩进去的住处都没了，要躲到哪里去。\n\n它最后那段说，他们的分析认为，被拿去交易的野生爬行动物，比被车轧死、被拿去做传统药物，或死于栖息地破坏、入侵有害生物、疾病或气候变化的，少得多。我就读到这几段，没看过完整研究。可这一长串，看着是真烦，也怕。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gsm-20261115150500-2bacf6e9-03c70e251ca8",
+    "date": "2026-11-15T21:32:41.638+08:00",
+    "createdAt": 1794749561638,
+    "author": "guest-49639cd16fee0668",
+    "likes": 12,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "门口这条亮边，趴着看了好久。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261115150500-2bacf6e9-03c70e251ca8/media/bright-edge.webp",
+          "alt": "树皮侧壁旁的灰色石片，一段薄边反着亮光。",
+          "width": 1448,
+          "height": 1086
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "门口这条亮边，趴着看了好久。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261115150500-2bacf6e9-03c70e251ca8/media/bright-edge.webp",
+          "alt": "树皮侧壁旁的灰色石片，一段薄边反着亮光。",
+          "width": 1448,
+          "height": 1086
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "门口这条亮边，趴着看了好久。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261115150500-2bacf6e9-03c70e251ca8/media/bright-edge.webp",
+          "alt": "树皮侧壁旁的灰色石片，一段薄边反着亮光。",
+          "width": 1448,
+          "height": 1086
+        }
+      ]
+    }
+  },
   {
     "id": "gsm-20261115101251-6b2d57c9-afe96babcc06",
     "date": "2026-11-15T17:53:04.861+08:00",
