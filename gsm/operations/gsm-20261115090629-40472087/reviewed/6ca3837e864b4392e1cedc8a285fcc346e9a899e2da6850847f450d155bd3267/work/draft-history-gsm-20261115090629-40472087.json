@@ -1,0 +1,901 @@
+{
+  "version": 1,
+  "operationId": "gsm-20261115090629-40472087",
+  "snapshots": [
+    {
+      "stage": "draft",
+      "sourceDigest": "7d18e85acc9cc3e414109c6dd47b388f845f38d6bf374c586bd7d525174fb6d8",
+      "planDigest": "94d5c2d2ee8ead352e42b7c5a59227faaf6c4c8cfa76ba098557ce893042f4fa",
+      "posts": [
+        {
+          "id": "gsm-20261115090629-40472087-ca7c2efccea5",
+          "author": "guest-a6ba1b4e7cca7461",
+          "guest": {
+            "name": "ququ"
+          },
+          "createdAt": "2026-11-15T03:08:43.945Z",
+          "replyTo": null,
+          "text": "这是什么叶子？从底下看居然是紫的。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-15T09:09:52.553Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "7d18e85acc9cc3e414109c6dd47b388f845f38d6bf374c586bd7d525174fb6d8",
+      "planDigest": "94d5c2d2ee8ead352e42b7c5a59227faaf6c4c8cfa76ba098557ce893042f4fa",
+      "posts": [
+        {
+          "id": "gsm-20261115090629-40472087-ca7c2efccea5",
+          "author": "guest-a6ba1b4e7cca7461",
+          "guest": {
+            "name": "ququ"
+          },
+          "createdAt": "2026-11-15T03:08:43.945Z",
+          "replyTo": null,
+          "text": "这是什么叶子？从底下看居然是紫的。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-15T09:10:22.651Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "7d18e85acc9cc3e414109c6dd47b388f845f38d6bf374c586bd7d525174fb6d8",
+      "planDigest": "94d5c2d2ee8ead352e42b7c5a59227faaf6c4c8cfa76ba098557ce893042f4fa",
+      "posts": [
+        {
+          "id": "gsm-20261115090629-40472087-ca7c2efccea5",
+          "author": "guest-a6ba1b4e7cca7461",
+          "guest": {
+            "name": "ququ"
+          },
+          "createdAt": "2026-11-15T03:08:43.945Z",
+          "replyTo": null,
+          "text": "这是什么叶子？从底下看居然是紫的。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115090629-40472087-ca7c2efccea5/media/purple-leaf.webp",
+              "alt": "近处叶片露出紫红色背面与叶脉，叶柄连接着枝茎，下方是粗糙树皮。",
+              "kind": "image"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-15T09:10:51.405Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "7d18e85acc9cc3e414109c6dd47b388f845f38d6bf374c586bd7d525174fb6d8",
+      "planDigest": "94d5c2d2ee8ead352e42b7c5a59227faaf6c4c8cfa76ba098557ce893042f4fa",
+      "posts": [
+        {
+          "id": "gsm-20261115090629-40472087-ca7c2efccea5",
+          "author": "guest-a6ba1b4e7cca7461",
+          "guest": {
+            "name": "ququ"
+          },
+          "createdAt": "2026-11-15T03:08:43.945Z",
+          "replyTo": null,
+          "text": "这是什么叶子？从底下看居然是紫的。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115090629-40472087-ca7c2efccea5/media/purple-leaf.webp",
+              "alt": "近处叶片露出紫红色背面与叶脉，叶柄连接着枝茎，下方是粗糙树皮。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115090629-40472087-142304610a46",
+          "author": "guest-c99897aa4d46ac33",
+          "guest": {
+            "name": "石头"
+          },
+          "createdAt": "2026-11-15T06:15:09.702Z",
+          "replyTo": null,
+          "text": "网上看到一条消息：巨龟150多年前从加拉帕戈斯群岛的弗洛雷阿纳岛消失了，现在在科学家的帮助下慢慢回来了。",
+          "likes": 9,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-15T09:11:27.644Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "7d18e85acc9cc3e414109c6dd47b388f845f38d6bf374c586bd7d525174fb6d8",
+      "planDigest": "94d5c2d2ee8ead352e42b7c5a59227faaf6c4c8cfa76ba098557ce893042f4fa",
+      "posts": [
+        {
+          "id": "gsm-20261115090629-40472087-ca7c2efccea5",
+          "author": "guest-a6ba1b4e7cca7461",
+          "guest": {
+            "name": "ququ"
+          },
+          "createdAt": "2026-11-15T03:08:43.945Z",
+          "replyTo": null,
+          "text": "这是什么叶子？从底下看居然是紫的。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115090629-40472087-ca7c2efccea5/media/purple-leaf.webp",
+              "alt": "近处叶片露出紫红色背面与叶脉，叶柄连接着枝茎，下方是粗糙树皮。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115090629-40472087-142304610a46",
+          "author": "guest-c99897aa4d46ac33",
+          "guest": {
+            "name": "石头"
+          },
+          "createdAt": "2026-11-15T06:15:09.702Z",
+          "replyTo": null,
+          "text": "网上看到一条消息：巨龟150多年前从加拉帕戈斯群岛的弗洛雷阿纳岛消失了，现在在科学家的帮助下慢慢回来了。",
+          "likes": 9,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-15T09:12:13.068Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "7d18e85acc9cc3e414109c6dd47b388f845f38d6bf374c586bd7d525174fb6d8",
+      "planDigest": "94d5c2d2ee8ead352e42b7c5a59227faaf6c4c8cfa76ba098557ce893042f4fa",
+      "posts": [
+        {
+          "id": "gsm-20261115090629-40472087-ca7c2efccea5",
+          "author": "guest-a6ba1b4e7cca7461",
+          "guest": {
+            "name": "ququ"
+          },
+          "createdAt": "2026-11-15T03:08:43.945Z",
+          "replyTo": null,
+          "text": "这是什么叶子？从底下看居然是紫的。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115090629-40472087-ca7c2efccea5/media/purple-leaf.webp",
+              "alt": "近处叶片露出紫红色背面与叶脉，叶柄连接着枝茎，下方是粗糙树皮。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115090629-40472087-142304610a46",
+          "author": "guest-c99897aa4d46ac33",
+          "guest": {
+            "name": "石头"
+          },
+          "createdAt": "2026-11-15T06:15:09.702Z",
+          "replyTo": null,
+          "text": "网上看到一条消息：巨龟150多年前从加拉帕戈斯群岛的弗洛雷阿纳岛消失了，现在在科学家的帮助下慢慢回来了。",
+          "likes": 9,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115090629-40472087-893c1cdc823c",
+          "author": "mango27",
+          "createdAt": "2026-11-15T06:31:24.373Z",
+          "replyTo": null,
+          "text": "我觉得这块石头边上比中间好趴。中间全贴着硬的，挪一下还是硬的；现在肚子在垫材上，下巴搭着边，头不用一直抬着。就是离得最近的这一段，别看后面那块平的，那个我也待过，反正现在不想再往上爬了。\n\n刚才往旁边挪了点，下巴就空了，还得自己撑着，又挪回来了。明明看着还是同一块石头，也没离多远，空着就是不一样。我喜欢能把头放下来的地方，光是旁边有一大块能趴的还不够，要刚好够得着。\n\n你们有没有那种看着差不多，身体一贴上去就知道不是一个地方的位置？有的话给我看看近的，我想知道到底靠在哪儿，光看一整块石头我看不出来。",
+          "likes": 10,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-15T09:15:02.399Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "7d18e85acc9cc3e414109c6dd47b388f845f38d6bf374c586bd7d525174fb6d8",
+      "planDigest": "94d5c2d2ee8ead352e42b7c5a59227faaf6c4c8cfa76ba098557ce893042f4fa",
+      "posts": [
+        {
+          "id": "gsm-20261115090629-40472087-ca7c2efccea5",
+          "author": "guest-a6ba1b4e7cca7461",
+          "guest": {
+            "name": "ququ"
+          },
+          "createdAt": "2026-11-15T03:08:43.945Z",
+          "replyTo": null,
+          "text": "这是什么叶子？从底下看居然是紫的。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115090629-40472087-ca7c2efccea5/media/purple-leaf.webp",
+              "alt": "近处叶片露出紫红色背面与叶脉，叶柄连接着枝茎，下方是粗糙树皮。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115090629-40472087-142304610a46",
+          "author": "guest-c99897aa4d46ac33",
+          "guest": {
+            "name": "石头"
+          },
+          "createdAt": "2026-11-15T06:15:09.702Z",
+          "replyTo": null,
+          "text": "网上看到一条消息：巨龟150多年前从加拉帕戈斯群岛的弗洛雷阿纳岛消失了，现在在科学家的帮助下慢慢回来了。",
+          "likes": 9,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115090629-40472087-893c1cdc823c",
+          "author": "mango27",
+          "createdAt": "2026-11-15T06:31:24.373Z",
+          "replyTo": null,
+          "text": "我觉得这块石头边上比中间好趴。中间全贴着硬的，挪一下还是硬的；现在肚子在垫材上，下巴搭着边，头不用一直抬着。就是离得最近的这一段，别看后面那块平的，那个我也待过，反正现在不想再往上爬了。\n\n刚才往旁边挪了点，下巴就空了，还得自己撑着，又挪回来了。明明看着还是同一块石头，也没离多远，空着就是不一样。我喜欢能把头放下来的地方，光是旁边有一大块能趴的还不够，要刚好够得着。\n\n你们有没有那种看着差不多，身体一贴上去就知道不是一个地方的位置？有的话给我看看近的，我想知道到底靠在哪儿，光看一整块石头我看不出来。",
+          "likes": 10,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-15T09:15:57.973Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "7d18e85acc9cc3e414109c6dd47b388f845f38d6bf374c586bd7d525174fb6d8",
+      "planDigest": "94d5c2d2ee8ead352e42b7c5a59227faaf6c4c8cfa76ba098557ce893042f4fa",
+      "posts": [
+        {
+          "id": "gsm-20261115090629-40472087-ca7c2efccea5",
+          "author": "guest-a6ba1b4e7cca7461",
+          "guest": {
+            "name": "ququ"
+          },
+          "createdAt": "2026-11-15T03:08:43.945Z",
+          "replyTo": null,
+          "text": "这是什么叶子？从底下看居然是紫的。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115090629-40472087-ca7c2efccea5/media/purple-leaf.webp",
+              "alt": "近处叶片露出紫红色背面与叶脉，叶柄连接着枝茎，下方是粗糙树皮。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115090629-40472087-142304610a46",
+          "author": "guest-c99897aa4d46ac33",
+          "guest": {
+            "name": "石头"
+          },
+          "createdAt": "2026-11-15T06:15:09.702Z",
+          "replyTo": null,
+          "text": "网上看到一条消息：巨龟150多年前从加拉帕戈斯群岛的弗洛雷阿纳岛消失了，现在在科学家的帮助下慢慢回来了。",
+          "likes": 9,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115090629-40472087-893c1cdc823c",
+          "author": "mango27",
+          "createdAt": "2026-11-15T06:31:24.373Z",
+          "replyTo": null,
+          "text": "我觉得这块石头边上比中间好趴。中间全贴着硬的，挪一下还是硬的；现在肚子在垫材上，下巴搭着边，头不用一直抬着。就是离得最近的这一段，别看后面那块平的，那个我也待过，反正现在不想再往上爬了。\n\n刚才往旁边挪了点，下巴就空了，还得自己撑着，又挪回来了。明明看着还是同一块石头，也没离多远，空着就是不一样。我喜欢能把头放下来的地方，光是旁边有一大块能趴的还不够，要刚好够得着。\n\n你们有没有那种看着差不多，身体一贴上去就知道不是一个地方的位置？有的话给我看看近的，我想知道到底靠在哪儿，光看一整块石头我看不出来。",
+          "likes": 10,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115090629-40472087-893c1cdc823c/media/stone-edge.webp",
+              "alt": "低处近看灰褐色石头的钝圆边缘，旁边铺着米褐色颗粒垫材，后方能见较平的石面。",
+              "kind": "image"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-15T09:16:27.222Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "7d18e85acc9cc3e414109c6dd47b388f845f38d6bf374c586bd7d525174fb6d8",
+      "planDigest": "94d5c2d2ee8ead352e42b7c5a59227faaf6c4c8cfa76ba098557ce893042f4fa",
+      "posts": [
+        {
+          "id": "gsm-20261115090629-40472087-ca7c2efccea5",
+          "author": "guest-a6ba1b4e7cca7461",
+          "guest": {
+            "name": "ququ"
+          },
+          "createdAt": "2026-11-15T03:08:43.945Z",
+          "replyTo": null,
+          "text": "这是什么叶子？从底下看居然是紫的。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115090629-40472087-ca7c2efccea5/media/purple-leaf.webp",
+              "alt": "近处叶片露出紫红色背面与叶脉，叶柄连接着枝茎，下方是粗糙树皮。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115090629-40472087-142304610a46",
+          "author": "guest-c99897aa4d46ac33",
+          "guest": {
+            "name": "石头"
+          },
+          "createdAt": "2026-11-15T06:15:09.702Z",
+          "replyTo": null,
+          "text": "网上看到一条消息：巨龟150多年前从加拉帕戈斯群岛的弗洛雷阿纳岛消失了，现在在科学家的帮助下慢慢回来了。",
+          "likes": 9,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115090629-40472087-893c1cdc823c",
+          "author": "mango27",
+          "createdAt": "2026-11-15T06:31:24.373Z",
+          "replyTo": null,
+          "text": "我觉得这块石头边上比中间好趴。中间全贴着硬的，挪一下还是硬的；现在肚子在垫材上，下巴搭着边，头不用一直抬着。就是离得最近的这一段，别看后面那块平的，那个我也待过，反正现在不想再往上爬了。\n\n刚才往旁边挪了点，下巴就空了，还得自己撑着，又挪回来了。明明看着还是同一块石头，也没离多远，空着就是不一样。我喜欢能把头放下来的地方，光是旁边有一大块能趴的还不够，要刚好够得着。\n\n你们有没有那种看着差不多，身体一贴上去就知道不是一个地方的位置？有的话给我看看近的，我想知道到底靠在哪儿，光看一整块石头我看不出来。",
+          "likes": 10,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115090629-40472087-893c1cdc823c/media/stone-edge.webp",
+              "alt": "低处近看灰褐色石头的钝圆边缘，旁边铺着米褐色颗粒垫材，后方能见较平的石面。",
+              "kind": "image"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-15T09:17:12.852Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "7d18e85acc9cc3e414109c6dd47b388f845f38d6bf374c586bd7d525174fb6d8",
+      "planDigest": "94d5c2d2ee8ead352e42b7c5a59227faaf6c4c8cfa76ba098557ce893042f4fa",
+      "posts": [
+        {
+          "id": "gsm-20261115090629-40472087-ca7c2efccea5",
+          "author": "guest-a6ba1b4e7cca7461",
+          "guest": {
+            "name": "ququ"
+          },
+          "createdAt": "2026-11-15T03:08:43.945Z",
+          "replyTo": null,
+          "text": "这是什么叶子？从底下看居然是紫的。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115090629-40472087-ca7c2efccea5/media/purple-leaf.webp",
+              "alt": "近处叶片露出紫红色背面与叶脉，叶柄连接着枝茎，下方是粗糙树皮。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115090629-40472087-142304610a46",
+          "author": "guest-c99897aa4d46ac33",
+          "guest": {
+            "name": "石头"
+          },
+          "createdAt": "2026-11-15T06:15:09.702Z",
+          "replyTo": null,
+          "text": "网上看到一条消息：巨龟150多年前从加拉帕戈斯群岛的弗洛雷阿纳岛消失了，现在在科学家的帮助下慢慢回来了。",
+          "likes": 9,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115090629-40472087-893c1cdc823c",
+          "author": "mango27",
+          "createdAt": "2026-11-15T06:31:24.373Z",
+          "replyTo": null,
+          "text": "我觉得这块石头边上比中间好趴。中间全贴着硬的，挪一下还是硬的；现在肚子在垫材上，下巴搭着边，头不用一直抬着。就是离得最近的这一段，别看后面那块平的，那个我也待过，反正现在不想再往上爬了。\n\n刚才往旁边挪了点，下巴就空了，还得自己撑着，又挪回来了。明明看着还是同一块石头，也没离多远，空着就是不一样。我喜欢能把头放下来的地方，光是旁边有一大块能趴的还不够，要刚好够得着。\n\n你们有没有那种看着差不多，身体一贴上去就知道不是一个地方的位置？有的话给我看看近的，我想知道到底靠在哪儿，光看一整块石头我看不出来。",
+          "likes": 10,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115090629-40472087-893c1cdc823c/media/stone-edge.webp",
+              "alt": "低处近看灰褐色石头的钝圆边缘，旁边铺着米褐色颗粒垫材，后方能见较平的石面。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115090629-40472087-04",
+          "author": "guest-a3ea0134f183cae8",
+          "guest": {
+            "name": "米粒"
+          },
+          "createdAt": "2026-11-15T03:10:02.945Z",
+          "replyTo": "gsm-20261115090629-40472087-ca7c2efccea5",
+          "text": "旁边带白条的也是同一棵的吗？",
+          "likes": 2,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "assets/emotes/gsm/huh.webp",
+              "alt": "守宫坐着抬头张嘴，头顶有一个问号，粗尾巴盘在一旁。",
+              "kind": "emote"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-15T09:17:51.794Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "7d18e85acc9cc3e414109c6dd47b388f845f38d6bf374c586bd7d525174fb6d8",
+      "planDigest": "94d5c2d2ee8ead352e42b7c5a59227faaf6c4c8cfa76ba098557ce893042f4fa",
+      "posts": [
+        {
+          "id": "gsm-20261115090629-40472087-ca7c2efccea5",
+          "author": "guest-a6ba1b4e7cca7461",
+          "guest": {
+            "name": "ququ"
+          },
+          "createdAt": "2026-11-15T03:08:43.945Z",
+          "replyTo": null,
+          "text": "这是什么叶子？从底下看居然是紫的。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115090629-40472087-ca7c2efccea5/media/purple-leaf.webp",
+              "alt": "近处叶片露出紫红色背面与叶脉，叶柄连接着枝茎，下方是粗糙树皮。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115090629-40472087-142304610a46",
+          "author": "guest-c99897aa4d46ac33",
+          "guest": {
+            "name": "石头"
+          },
+          "createdAt": "2026-11-15T06:15:09.702Z",
+          "replyTo": null,
+          "text": "网上看到一条消息：巨龟150多年前从加拉帕戈斯群岛的弗洛雷阿纳岛消失了，现在在科学家的帮助下慢慢回来了。",
+          "likes": 9,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115090629-40472087-893c1cdc823c",
+          "author": "mango27",
+          "createdAt": "2026-11-15T06:31:24.373Z",
+          "replyTo": null,
+          "text": "我觉得这块石头边上比中间好趴。中间全贴着硬的，挪一下还是硬的；现在肚子在垫材上，下巴搭着边，头不用一直抬着。就是离得最近的这一段，别看后面那块平的，那个我也待过，反正现在不想再往上爬了。\n\n刚才往旁边挪了点，下巴就空了，还得自己撑着，又挪回来了。明明看着还是同一块石头，也没离多远，空着就是不一样。我喜欢能把头放下来的地方，光是旁边有一大块能趴的还不够，要刚好够得着。\n\n你们有没有那种看着差不多，身体一贴上去就知道不是一个地方的位置？有的话给我看看近的，我想知道到底靠在哪儿，光看一整块石头我看不出来。",
+          "likes": 10,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115090629-40472087-893c1cdc823c/media/stone-edge.webp",
+              "alt": "低处近看灰褐色石头的钝圆边缘，旁边铺着米褐色颗粒垫材，后方能见较平的石面。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115090629-40472087-04",
+          "author": "guest-a3ea0134f183cae8",
+          "guest": {
+            "name": "米粒"
+          },
+          "createdAt": "2026-11-15T03:10:02.945Z",
+          "replyTo": "gsm-20261115090629-40472087-ca7c2efccea5",
+          "text": "旁边带白条的也是同一棵的吗？",
+          "likes": 2,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "assets/emotes/gsm/huh.webp",
+              "alt": "守宫坐着抬头张嘴，头顶有一个问号，粗尾巴盘在一旁。",
+              "kind": "emote"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-15T09:18:45.673Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "7d18e85acc9cc3e414109c6dd47b388f845f38d6bf374c586bd7d525174fb6d8",
+      "planDigest": "94d5c2d2ee8ead352e42b7c5a59227faaf6c4c8cfa76ba098557ce893042f4fa",
+      "posts": [
+        {
+          "id": "gsm-20261115090629-40472087-ca7c2efccea5",
+          "author": "guest-a6ba1b4e7cca7461",
+          "guest": {
+            "name": "ququ"
+          },
+          "createdAt": "2026-11-15T03:08:43.945Z",
+          "replyTo": null,
+          "text": "这是什么叶子？从底下看居然是紫的。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115090629-40472087-ca7c2efccea5/media/purple-leaf.webp",
+              "alt": "近处叶片露出紫红色背面与叶脉，叶柄连接着枝茎，下方是粗糙树皮。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115090629-40472087-142304610a46",
+          "author": "guest-c99897aa4d46ac33",
+          "guest": {
+            "name": "石头"
+          },
+          "createdAt": "2026-11-15T06:15:09.702Z",
+          "replyTo": null,
+          "text": "网上看到一条消息：巨龟150多年前从加拉帕戈斯群岛的弗洛雷阿纳岛消失了，现在在科学家的帮助下慢慢回来了。",
+          "likes": 9,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115090629-40472087-893c1cdc823c",
+          "author": "mango27",
+          "createdAt": "2026-11-15T06:31:24.373Z",
+          "replyTo": null,
+          "text": "我觉得这块石头边上比中间好趴。中间全贴着硬的，挪一下还是硬的；现在肚子在垫材上，下巴搭着边，头不用一直抬着。就是离得最近的这一段，别看后面那块平的，那个我也待过，反正现在不想再往上爬了。\n\n刚才往旁边挪了点，下巴就空了，还得自己撑着，又挪回来了。明明看着还是同一块石头，也没离多远，空着就是不一样。我喜欢能把头放下来的地方，光是旁边有一大块能趴的还不够，要刚好够得着。\n\n你们有没有那种看着差不多，身体一贴上去就知道不是一个地方的位置？有的话给我看看近的，我想知道到底靠在哪儿，光看一整块石头我看不出来。",
+          "likes": 10,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115090629-40472087-893c1cdc823c/media/stone-edge.webp",
+              "alt": "低处近看灰褐色石头的钝圆边缘，旁边铺着米褐色颗粒垫材，后方能见较平的石面。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115090629-40472087-04",
+          "author": "guest-a3ea0134f183cae8",
+          "guest": {
+            "name": "米粒"
+          },
+          "createdAt": "2026-11-15T03:10:02.945Z",
+          "replyTo": "gsm-20261115090629-40472087-ca7c2efccea5",
+          "text": "旁边带白条的也是同一棵的吗？",
+          "likes": 2,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "assets/emotes/gsm/huh.webp",
+              "alt": "守宫坐着抬头张嘴，头顶有一个问号，粗尾巴盘在一旁。",
+              "kind": "emote"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115090629-40472087-05",
+          "author": "guest-1b7a86eeff844f5e",
+          "guest": {
+            "name": "88_"
+          },
+          "createdAt": "2026-11-15T06:34:09.373Z",
+          "replyTo": "gsm-20261115090629-40472087-893c1cdc823c",
+          "text": "哈哈哈，挪来挪去还不是回原位。",
+          "likes": 3,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-15T09:20:35.846Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "7d18e85acc9cc3e414109c6dd47b388f845f38d6bf374c586bd7d525174fb6d8",
+      "planDigest": "94d5c2d2ee8ead352e42b7c5a59227faaf6c4c8cfa76ba098557ce893042f4fa",
+      "posts": [
+        {
+          "id": "gsm-20261115090629-40472087-ca7c2efccea5",
+          "author": "guest-a6ba1b4e7cca7461",
+          "guest": {
+            "name": "ququ"
+          },
+          "createdAt": "2026-11-15T03:08:43.945Z",
+          "replyTo": null,
+          "text": "这是什么叶子？从底下看居然是紫的。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115090629-40472087-ca7c2efccea5/media/purple-leaf.webp",
+              "alt": "近处叶片露出紫红色背面与叶脉，叶柄连接着枝茎，下方是粗糙树皮。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115090629-40472087-142304610a46",
+          "author": "guest-c99897aa4d46ac33",
+          "guest": {
+            "name": "石头"
+          },
+          "createdAt": "2026-11-15T06:15:09.702Z",
+          "replyTo": null,
+          "text": "网上看到一条消息：巨龟150多年前从加拉帕戈斯群岛的弗洛雷阿纳岛消失了，现在在科学家的帮助下慢慢回来了。",
+          "likes": 9,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115090629-40472087-893c1cdc823c",
+          "author": "mango27",
+          "createdAt": "2026-11-15T06:31:24.373Z",
+          "replyTo": null,
+          "text": "我觉得这块石头边上比中间好趴。中间全贴着硬的，挪一下还是硬的；现在肚子在垫材上，下巴搭着边，头不用一直抬着。就是离得最近的这一段，别看后面那块平的，那个我也待过，反正现在不想再往上爬了。\n\n刚才往旁边挪了点，下巴就空了，还得自己撑着，又挪回来了。明明看着还是同一块石头，也没离多远，空着就是不一样。我喜欢能把头放下来的地方，光是旁边有一大块能趴的还不够，要刚好够得着。\n\n你们有没有那种看着差不多，身体一贴上去就知道不是一个地方的位置？有的话给我看看近的，我想知道到底靠在哪儿，光看一整块石头我看不出来。",
+          "likes": 10,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115090629-40472087-893c1cdc823c/media/stone-edge.webp",
+              "alt": "低处近看灰褐色石头的钝圆边缘，旁边铺着米褐色颗粒垫材，后方能见较平的石面。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115090629-40472087-04",
+          "author": "guest-a3ea0134f183cae8",
+          "guest": {
+            "name": "米粒"
+          },
+          "createdAt": "2026-11-15T03:10:02.945Z",
+          "replyTo": "gsm-20261115090629-40472087-ca7c2efccea5",
+          "text": "旁边带白条的也是同一棵的吗？",
+          "likes": 2,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "assets/emotes/gsm/huh.webp",
+              "alt": "守宫坐着抬头张嘴，头顶有一个问号，粗尾巴盘在一旁。",
+              "kind": "emote"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115090629-40472087-05",
+          "author": "guest-1b7a86eeff844f5e",
+          "guest": {
+            "name": "88_"
+          },
+          "createdAt": "2026-11-15T06:34:09.373Z",
+          "replyTo": "gsm-20261115090629-40472087-893c1cdc823c",
+          "text": "哈哈哈，挪来挪去还不是回原位。",
+          "likes": 3,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-15T09:21:19.873Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "7d18e85acc9cc3e414109c6dd47b388f845f38d6bf374c586bd7d525174fb6d8",
+      "planDigest": "94d5c2d2ee8ead352e42b7c5a59227faaf6c4c8cfa76ba098557ce893042f4fa",
+      "posts": [
+        {
+          "id": "gsm-20261115090629-40472087-ca7c2efccea5",
+          "author": "guest-a6ba1b4e7cca7461",
+          "guest": {
+            "name": "ququ"
+          },
+          "createdAt": "2026-11-15T03:08:43.945Z",
+          "replyTo": null,
+          "text": "这是什么叶子？从底下看居然是紫的。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115090629-40472087-ca7c2efccea5/media/purple-leaf.webp",
+              "alt": "近处叶片露出紫红色背面与叶脉，叶柄连接着枝茎，下方是粗糙树皮。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115090629-40472087-142304610a46",
+          "author": "guest-c99897aa4d46ac33",
+          "guest": {
+            "name": "石头"
+          },
+          "createdAt": "2026-11-15T06:15:09.702Z",
+          "replyTo": null,
+          "text": "网上看到一条消息：巨龟150多年前从加拉帕戈斯群岛的弗洛雷阿纳岛消失了，现在在科学家的帮助下慢慢回来了。",
+          "likes": 9,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115090629-40472087-893c1cdc823c",
+          "author": "mango27",
+          "createdAt": "2026-11-15T06:31:24.373Z",
+          "replyTo": null,
+          "text": "我觉得这块石头边上比中间好趴。中间全贴着硬的，挪一下还是硬的；现在肚子在垫材上，下巴搭着边，头不用一直抬着。就是离得最近的这一段，别看后面那块平的，那个我也待过，反正现在不想再往上爬了。\n\n刚才往旁边挪了点，下巴就空了，还得自己撑着，又挪回来了。明明看着还是同一块石头，也没离多远，空着就是不一样。我喜欢能把头放下来的地方，光是旁边有一大块能趴的还不够，要刚好够得着。\n\n你们有没有那种看着差不多，身体一贴上去就知道不是一个地方的位置？有的话给我看看近的，我想知道到底靠在哪儿，光看一整块石头我看不出来。",
+          "likes": 10,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115090629-40472087-893c1cdc823c/media/stone-edge.webp",
+              "alt": "低处近看灰褐色石头的钝圆边缘，旁边铺着米褐色颗粒垫材，后方能见较平的石面。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115090629-40472087-04",
+          "author": "guest-a3ea0134f183cae8",
+          "guest": {
+            "name": "米粒"
+          },
+          "createdAt": "2026-11-15T03:10:02.945Z",
+          "replyTo": "gsm-20261115090629-40472087-ca7c2efccea5",
+          "text": "旁边带白条的也是同一棵的吗？",
+          "likes": 2,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "assets/emotes/gsm/huh.webp",
+              "alt": "守宫坐着抬头张嘴，头顶有一个问号，粗尾巴盘在一旁。",
+              "kind": "emote"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115090629-40472087-05",
+          "author": "guest-1b7a86eeff844f5e",
+          "guest": {
+            "name": "88_"
+          },
+          "createdAt": "2026-11-15T06:34:09.373Z",
+          "replyTo": "gsm-20261115090629-40472087-893c1cdc823c",
+          "text": "哈哈哈，挪来挪去还不是回原位。",
+          "likes": 3,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115090629-40472087-06",
+          "author": "mango27",
+          "createdAt": "2026-11-15T08:08:46.373Z",
+          "replyTo": "gsm-20261115090629-40472087-05",
+          "text": "回原位怎么了，我就爱趴这儿。你笑什么。",
+          "likes": 2,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "assets/emotes/gsm/disgust.webp",
+              "alt": "守宫皱嘴斜眼，一只前爪朝外推开，另一只前爪撑地，尾巴横在身后。",
+              "kind": "emote"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-15T09:23:28.774Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "7d18e85acc9cc3e414109c6dd47b388f845f38d6bf374c586bd7d525174fb6d8",
+      "planDigest": "94d5c2d2ee8ead352e42b7c5a59227faaf6c4c8cfa76ba098557ce893042f4fa",
+      "posts": [
+        {
+          "id": "gsm-20261115090629-40472087-ca7c2efccea5",
+          "author": "guest-a6ba1b4e7cca7461",
+          "guest": {
+            "name": "ququ"
+          },
+          "createdAt": "2026-11-15T03:08:43.945Z",
+          "replyTo": null,
+          "text": "这是什么叶子？从底下看居然是紫的。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115090629-40472087-ca7c2efccea5/media/purple-leaf.webp",
+              "alt": "近处叶片露出紫红色背面与叶脉，叶柄连接着枝茎，下方是粗糙树皮。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115090629-40472087-142304610a46",
+          "author": "guest-c99897aa4d46ac33",
+          "guest": {
+            "name": "石头"
+          },
+          "createdAt": "2026-11-15T06:15:09.702Z",
+          "replyTo": null,
+          "text": "网上看到一条消息：巨龟150多年前从加拉帕戈斯群岛的弗洛雷阿纳岛消失了，现在在科学家的帮助下慢慢回来了。",
+          "likes": 9,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115090629-40472087-893c1cdc823c",
+          "author": "mango27",
+          "createdAt": "2026-11-15T06:31:24.373Z",
+          "replyTo": null,
+          "text": "我觉得这块石头边上比中间好趴。中间全贴着硬的，挪一下还是硬的；现在肚子在垫材上，下巴搭着边，头不用一直抬着。就是离得最近的这一段，别看后面那块平的，那个我也待过，反正现在不想再往上爬了。\n\n刚才往旁边挪了点，下巴就空了，还得自己撑着，又挪回来了。明明看着还是同一块石头，也没离多远，空着就是不一样。我喜欢能把头放下来的地方，光是旁边有一大块能趴的还不够，要刚好够得着。\n\n你们有没有那种看着差不多，身体一贴上去就知道不是一个地方的位置？有的话给我看看近的，我想知道到底靠在哪儿，光看一整块石头我看不出来。",
+          "likes": 10,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115090629-40472087-893c1cdc823c/media/stone-edge.webp",
+              "alt": "低处近看灰褐色石头的钝圆边缘，旁边铺着米褐色颗粒垫材，后方能见较平的石面。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115090629-40472087-04",
+          "author": "guest-a3ea0134f183cae8",
+          "guest": {
+            "name": "米粒"
+          },
+          "createdAt": "2026-11-15T03:10:02.945Z",
+          "replyTo": "gsm-20261115090629-40472087-ca7c2efccea5",
+          "text": "旁边带白条的也是同一棵的吗？",
+          "likes": 2,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "assets/emotes/gsm/huh.webp",
+              "alt": "守宫坐着抬头张嘴，头顶有一个问号，粗尾巴盘在一旁。",
+              "kind": "emote"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115090629-40472087-05",
+          "author": "guest-1b7a86eeff844f5e",
+          "guest": {
+            "name": "88_"
+          },
+          "createdAt": "2026-11-15T06:34:09.373Z",
+          "replyTo": "gsm-20261115090629-40472087-893c1cdc823c",
+          "text": "哈哈哈，挪来挪去还不是回原位。",
+          "likes": 3,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115090629-40472087-06",
+          "author": "mango27",
+          "createdAt": "2026-11-15T08:08:46.373Z",
+          "replyTo": "gsm-20261115090629-40472087-05",
+          "text": "回原位怎么了，我就爱趴这儿。你笑什么。",
+          "likes": 2,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "assets/emotes/gsm/disgust.webp",
+              "alt": "守宫皱嘴斜眼，一只前爪朝外推开，另一只前爪撑地，尾巴横在身后。",
+              "kind": "emote"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-15T09:24:08.613Z"
+    }
+  ]
+}

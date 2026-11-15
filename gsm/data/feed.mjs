@@ -1,5 +1,40 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "mango27": {
+    "handle": "mango27",
+    "name": "小满",
+    "bio": "吃完这口再说。",
+    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
+    "color": "rose"
+  },
+  "guest-1b7a86eeff844f5e": {
+    "handle": "guest-1b7a86eeff844f5e",
+    "name": "88_",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-1b7a86eeff844f5e.webp?v=d880f2ec2809",
+    "color": "rose"
+  },
+  "guest-c99897aa4d46ac33": {
+    "handle": "guest-c99897aa4d46ac33",
+    "name": "石头",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-c99897aa4d46ac33.webp?v=f8a2a28d808e",
+    "color": "sage"
+  },
+  "guest-a3ea0134f183cae8": {
+    "handle": "guest-a3ea0134f183cae8",
+    "name": "米粒",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-a3ea0134f183cae8.webp?v=3a99410baa47",
+    "color": "sand"
+  },
+  "guest-a6ba1b4e7cca7461": {
+    "handle": "guest-a6ba1b4e7cca7461",
+    "name": "ququ",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-a6ba1b4e7cca7461.webp?v=05a84418ff61",
+    "color": "sand"
+  },
   "guest-168077148606405f": {
     "handle": "guest-168077148606405f",
     "name": "uki",
@@ -54,13 +89,6 @@ export const profiles = {
     "name": "叶背居民",
     "bio": "这片叶子上的路，我蛮熟的。",
     "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
-    "color": "rose"
-  },
-  "mango27": {
-    "handle": "mango27",
-    "name": "小满",
-    "bio": "吃完这口再说。",
-    "avatarImage": "/gsm/assets/avatars/mango27.webp?v=5503ca0b5993",
     "color": "rose"
   },
   "moss9": {
@@ -128,6 +156,261 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "gsm-20261115090629-40472087-06",
+    "date": "2026-11-15T16:08:46.373+08:00",
+    "createdAt": 1794730126373,
+    "author": "mango27",
+    "likes": 2,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "回原位怎么了，我就爱趴这儿。你笑什么。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/disgust.webp",
+          "alt": "守宫皱嘴斜眼，一只前爪朝外推开，另一只前爪撑地，尾巴横在身后。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "回原位怎么了，我就爱趴这儿。你笑什么。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/disgust.webp",
+          "alt": "守宫皱嘴斜眼，一只前爪朝外推开，另一只前爪撑地，尾巴横在身后。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "回原位怎么了，我就爱趴这儿。你笑什么。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/disgust.webp",
+          "alt": "守宫皱嘴斜眼，一只前爪朝外推开，另一只前爪撑地，尾巴横在身后。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ]
+    },
+    "replyTo": "gsm-20261115090629-40472087-05"
+  },
+  {
+    "id": "gsm-20261115090629-40472087-05",
+    "date": "2026-11-15T14:34:09.373+08:00",
+    "createdAt": 1794724449373,
+    "author": "guest-1b7a86eeff844f5e",
+    "likes": 3,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "哈哈哈，挪来挪去还不是回原位。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "哈哈哈，挪来挪去还不是回原位。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "哈哈哈，挪来挪去还不是回原位。"
+        }
+      ]
+    },
+    "replyTo": "gsm-20261115090629-40472087-893c1cdc823c"
+  },
+  {
+    "id": "gsm-20261115090629-40472087-893c1cdc823c",
+    "date": "2026-11-15T14:31:24.373+08:00",
+    "createdAt": 1794724284373,
+    "author": "mango27",
+    "likes": 10,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "我觉得这块石头边上比中间好趴。中间全贴着硬的，挪一下还是硬的；现在肚子在垫材上，下巴搭着边，头不用一直抬着。就是离得最近的这一段，别看后面那块平的，那个我也待过，反正现在不想再往上爬了。\n\n刚才往旁边挪了点，下巴就空了，还得自己撑着，又挪回来了。明明看着还是同一块石头，也没离多远，空着就是不一样。我喜欢能把头放下来的地方，光是旁边有一大块能趴的还不够，要刚好够得着。\n\n你们有没有那种看着差不多，身体一贴上去就知道不是一个地方的位置？有的话给我看看近的，我想知道到底靠在哪儿，光看一整块石头我看不出来。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261115090629-40472087-893c1cdc823c/media/stone-edge.webp",
+          "alt": "低处近看灰褐色石头的钝圆边缘，旁边铺着米褐色颗粒垫材，后方能见较平的石面。",
+          "width": 1448,
+          "height": 1086
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "我觉得这块石头边上比中间好趴。中间全贴着硬的，挪一下还是硬的；现在肚子在垫材上，下巴搭着边，头不用一直抬着。就是离得最近的这一段，别看后面那块平的，那个我也待过，反正现在不想再往上爬了。\n\n刚才往旁边挪了点，下巴就空了，还得自己撑着，又挪回来了。明明看着还是同一块石头，也没离多远，空着就是不一样。我喜欢能把头放下来的地方，光是旁边有一大块能趴的还不够，要刚好够得着。\n\n你们有没有那种看着差不多，身体一贴上去就知道不是一个地方的位置？有的话给我看看近的，我想知道到底靠在哪儿，光看一整块石头我看不出来。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261115090629-40472087-893c1cdc823c/media/stone-edge.webp",
+          "alt": "低处近看灰褐色石头的钝圆边缘，旁边铺着米褐色颗粒垫材，后方能见较平的石面。",
+          "width": 1448,
+          "height": 1086
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "我觉得这块石头边上比中间好趴。中间全贴着硬的，挪一下还是硬的；现在肚子在垫材上，下巴搭着边，头不用一直抬着。就是离得最近的这一段，别看后面那块平的，那个我也待过，反正现在不想再往上爬了。\n\n刚才往旁边挪了点，下巴就空了，还得自己撑着，又挪回来了。明明看着还是同一块石头，也没离多远，空着就是不一样。我喜欢能把头放下来的地方，光是旁边有一大块能趴的还不够，要刚好够得着。\n\n你们有没有那种看着差不多，身体一贴上去就知道不是一个地方的位置？有的话给我看看近的，我想知道到底靠在哪儿，光看一整块石头我看不出来。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261115090629-40472087-893c1cdc823c/media/stone-edge.webp",
+          "alt": "低处近看灰褐色石头的钝圆边缘，旁边铺着米褐色颗粒垫材，后方能见较平的石面。",
+          "width": 1448,
+          "height": 1086
+        }
+      ]
+    }
+  },
+  {
+    "id": "gsm-20261115090629-40472087-142304610a46",
+    "date": "2026-11-15T14:15:09.702+08:00",
+    "createdAt": 1794723309702,
+    "author": "guest-c99897aa4d46ac33",
+    "likes": 9,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "网上看到一条消息：巨龟150多年前从加拉帕戈斯群岛的弗洛雷阿纳岛消失了，现在在科学家的帮助下慢慢回来了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "网上看到一条消息：巨龟150多年前从加拉帕戈斯群岛的弗洛雷阿纳岛消失了，现在在科学家的帮助下慢慢回来了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "网上看到一条消息：巨龟150多年前从加拉帕戈斯群岛的弗洛雷阿纳岛消失了，现在在科学家的帮助下慢慢回来了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gsm-20261115090629-40472087-04",
+    "date": "2026-11-15T11:10:02.945+08:00",
+    "createdAt": 1794712202945,
+    "author": "guest-a3ea0134f183cae8",
+    "likes": 2,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "旁边带白条的也是同一棵的吗？"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/huh.webp",
+          "alt": "守宫坐着抬头张嘴，头顶有一个问号，粗尾巴盘在一旁。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "旁边带白条的也是同一棵的吗？"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/huh.webp",
+          "alt": "守宫坐着抬头张嘴，头顶有一个问号，粗尾巴盘在一旁。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "旁边带白条的也是同一棵的吗？"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/huh.webp",
+          "alt": "守宫坐着抬头张嘴，头顶有一个问号，粗尾巴盘在一旁。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ]
+    },
+    "replyTo": "gsm-20261115090629-40472087-ca7c2efccea5"
+  },
+  {
+    "id": "gsm-20261115090629-40472087-ca7c2efccea5",
+    "date": "2026-11-15T11:08:43.945+08:00",
+    "createdAt": 1794712123945,
+    "author": "guest-a6ba1b4e7cca7461",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "这是什么叶子？从底下看居然是紫的。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261115090629-40472087-ca7c2efccea5/media/purple-leaf.webp",
+          "alt": "近处叶片露出紫红色背面与叶脉，叶柄连接着枝茎，下方是粗糙树皮。",
+          "width": 1448,
+          "height": 1086
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "这是什么叶子？从底下看居然是紫的。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261115090629-40472087-ca7c2efccea5/media/purple-leaf.webp",
+          "alt": "近处叶片露出紫红色背面与叶脉，叶柄连接着枝茎，下方是粗糙树皮。",
+          "width": 1448,
+          "height": 1086
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "这是什么叶子？从底下看居然是紫的。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261115090629-40472087-ca7c2efccea5/media/purple-leaf.webp",
+          "alt": "近处叶片露出紫红色背面与叶脉，叶柄连接着枝茎，下方是粗糙树皮。",
+          "width": 1448,
+          "height": 1086
+        }
+      ]
+    }
+  },
   {
     "id": "gsm-20261115032534-accdad38-bfef9316ee39",
     "date": "2026-11-15T10:28:19.797+08:00",
