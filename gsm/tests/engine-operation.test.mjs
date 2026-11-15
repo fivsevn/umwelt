@@ -56,6 +56,9 @@ function research(now) {
 
 test('daily reading and isolated writers receive the installed gecko emotes and kaomoji for originals, cases and replies', async t => {
   const f = await fixture(t, { installedEmotes: true });
+  const referencePath = 'environment/sources-reading-fixture.md';
+  const referenceText = '# 测试专用参考\n\nREFERENCE_CATALOG_MUST_REACH_READING_AND_WRITERS\n';
+  await writeFile(join(f.root, referencePath), referenceText);
   const existingRoot = { id: 'gsm-test-native-root', author: 'gecko404', createdAt: '2026-01-01T04:00:00.000Z',
     replyTo: null, text: '仅在隔离测试中保存的接话目标。', likes: 0, canon: 'derivative', media: [] };
   const existingPath = join(f.root, 'posts/2026/01', existingRoot.id, 'index.md');
@@ -66,6 +69,7 @@ test('daily reading and isolated writers receive the installed gecko emotes and 
   assert.equal(emotes.items.length, 25);
   assert.equal(kaomoji.items.length, 41);
   const prepared = await prepareUpdate(f.options), reading = await readFile(prepared.readingPath, 'utf8');
+  assert.ok(reading.includes(referenceText));
   for (const path of [emotesPath, kaomojiPath]) assert.ok(reading.includes(await readFile(join(f.root, path), 'utf8')));
   const operation = await json(prepared.operationPath), roots = operation.plan.caseAdaptation.rootOrder;
   const caseIds = new Set(operation.plan.caseAdaptation.items.map(item => item.postId));
@@ -76,6 +80,10 @@ test('daily reading and isolated writers receive the installed gecko emotes and 
       ['environment/research-everyday-life.md', 'users/research-character.md', 'users/research-speech.md']);
     assert.match(brief.writer.site.instruction, /饲养者不是它/);
     for (const item of brief.writer.site.research) assert.ok(reading.includes(item.text), item.sourcePath);
+    assert.deepEqual(brief.writer.site.sources.find(item => item.sourcePath === referencePath), { sourcePath: referencePath, text: referenceText });
+    assert.ok(brief.writer.site.sources.every(item => item.sourcePath !== 'environment/sources-daily-opinions.md'));
+    assert.match(brief.writer.site.referenceInstruction, /不自动成为本人经历或知情/);
+    assert.ok(brief.writer.sourceSamples.items.every(item => item.sourcePath === 'environment/sources-daily-opinions.md'));
     assert.deepEqual(brief.writer.siteEmotes, { sourcePath: emotesPath, ...emotes });
     assert.deepEqual(brief.writer.localization.siteEmotes, { sourcePath: emotesPath, ...emotes });
     assert.deepEqual(brief.writer.localization.kaomoji, { sourcePath: kaomojiPath, ...kaomoji });

@@ -6,7 +6,7 @@
 
 每个明确需要区分的世界或地区使用稳定目录：同名 Markdown 保存基线，`events.md` 保存已采用的动态变化。[世界观目录](worldviews/README.md)列出真正登记的设定。
 
-个体生活与私人关系归 [users](../users/README.md)，公共网上事件归[论坛记录](record-forum.md)，完整经过由[帖子](../posts/)承接。一个事实在负责位置维护，其他文档链接取用。
+身体、感知和微环境的证据归[守宫生态](sources-gecko-ecology.md)，个体生活与私人关系归 [users](../users/README.md)，公共网上事件归[论坛记录](record-forum.md)，完整经过由[帖子](../posts/)承接。一个事实在负责位置维护，其他文档链接取用。
 
 ## 构建设定
 
@@ -29,3 +29,74 @@
 变化可以有预告、出现、适应和余波，也可以只是一次未被接住的抱怨。何时实际发生、谁亲身经历、谁只读到帖子、目前还剩什么影响，分别记录。没有后续的材料不替它补全结局。
 
 公开过不等于全站读过，认识账号不等于知道本人全部生活。转述、注意、回应和相信各是不同步骤。编辑者全量读取的便利，不能变成角色同步获得所有信息的理由。
+
+## 公共事件怎样形成记忆
+
+实际公开公告或故障、旧帖被明确引用、承诺兑现、误会持续或得到澄清、不同讨论真正发生联系，可以形成公共事件。一张熟图或某个称呼先在少数参与者间沿用时，记这个局部范围，不把一次出现宣布成全站惯例。
+
+先从完整原串核对实际说法、时间、回复父关系和明确引用，再分别确定谁参与、谁公开表示知道、谁只是可能见到。网络熟悉不证明线下相遇，公开可达也不证明注意与相信。一个条目保存稳定编号、公开经过、依据帖子、参与账号与知情范围、持续后果和可接续原串；长经过仍由原帖承接。
+
+已经发生的平台公共事件归[论坛记录](record-forum.md)，环境动态归[所属世界事件](worldviews/worldview0/events.md)。个人关系与私事归本人档案。实际网站维护由维护任务处理，角色不知道后台工程过程；候选情节、传言与研究假设不提前变成公共事实。
+
+## 世界构建的方法与证据
+
+以下来源用于检查条件之间的关系与反馈，不为现有守宫补造人类国家、职业、货币或治理制度。
+
+### W01｜自然、制度与日常的联系
+
+- **来源与范围**：Patricia C. Wrede：[Fantasy Worldbuilding Questions](https://pcwrede.com/pcw-wp/fantasy-worldbuilding-%20questions/)，以及[自然与历史](https://pcwrede.com/pcw-wp/fantasy-worldbuilding-questions-physical-and-historical-features/)、[社会组织](https://pcwrede.com/pcw-wp/fantasy-worldbuilding-questions-social-organization/)、[日常生活](https://pcwrede.com/pcw-wp/fantasy-worldbuilding-questions-daily-life/)。查阅范围（2026-11-09）：作者说明及上述页面相关栏目。
+- **方法与应用**：环境、制度与日常相互影响，不能只列名词。GSM检查身体尺度、资源取得、住处变化、照料安排与网上空间是否连接得上，不照搬人类国家、商业与职业的栏目。作者的创作提问工具不是生物学或社会行为实验。
+
+### W02｜容纳多段生活的世界整体
+
+- **来源与范围**：Mark J. P. Wolf：[Building Imaginary Worlds: The Theory and History of Subcreation](https://www.routledge.com/Building-Imaginary-Worlds-The-Theory-and-History-of-Subcreation-1st-Edition/Wolf/p/book/9780203096994)。查阅范围（2026-11-09）：出版社检索展示的介绍与目录；详情页访问受限，未读书本正文。
+- **方法与应用**：把世界视为可容纳多段生活的关联整体；不同守宫不必围着一条主线生活，局部变化仍有连续后果。公开介绍和目录只能支持这一观察角度，不据未读章节声称某种设计已被验证。
+
+### W03｜资源、互动、结果与反馈
+
+- **来源与范围**：Michael D. McGinnis：[Building a Program for Institutional Analysis of Social-Ecological Systems](https://mcginnis.pages.iu.edu/buildingpiases.pdf)（2010年工作稿）。查阅范围（2026-11-09）：摘要及IAD／SES概念框架，PDF第2—7页。
+- **方法与应用**：论文讨论Ostrom相关框架，把资源、参与者、规则、互动、结果与反馈联系起来。GSM据此检查一个位置谁能接近、谁作安排、改变怎样被感到、后果是否持续；不把有资源差异等同于必然争夺，也不凭框架为守宫新建公共资源池或制度。
+
+<a id="ostrom-2009"></a>
+
+### 资源、使用者、治理与外部环境
+
+**Ostrom, E.（2009）**。*A General Framework for Analyzing Sustainability of Social-Ecological Systems*。*Science* 325(5939):419–422。DOI [10.1126/science.1172133](https://doi.org/10.1126/science.1172133)；[PubMed书目与摘要入口](https://pubmed.ncbi.nlm.nih.gov/19628857/)。
+
+**问题与框架：** 将资源系统、资源单位、治理系统与使用者，以及更广的社会和生态环境联系起来，用于比较社会生态系统及其互动结果。**守宫应用与边界：** 住处条件、照料者安排和网上规则由不同责任主体维护，角色感到的影响也可以不同。框架不说明资源稀缺必然产生冲突或制度，人类资源治理不能直接解释守宫生态。约定、关系和声望需要真实交流过程，不能靠引用预先宣布结局。
+
+## 时间、传播与空间连续性
+
+以下包括时序网络综述、数据与模型研究，以及人类时间地理框架。研究帮助辨认顺序、等待、活动机会与空间限制，具体发帖频率、角色节奏和状态记录由本站规则决定。人类通信习惯、工作周与能力限制不等于守宫物种节律，也不能用它们为公开帖子补造时间。
+
+<a id="holme-saramaki-2012"></a>
+
+### 时序联系与可达路径
+
+**Holme, P. & Saramäki, J.（2012）**。*Temporal networks*。*Physics Reports* 519(3):97–125。DOI [10.1016/j.physrep.2012.03.001](https://doi.org/10.1016/j.physrep.2012.03.001)；[作者预印本全文](https://arxiv.org/pdf/1108.1780)。查阅范围：正文；这是一篇综述，不计作独立的社区实证实验。
+
+**问题与发现：** 综述讨论时序接触、等待与传播；A 联系 B、B 联系 C，只有顺序和过程允许，才存在 A→B→C 的时间可达路径。聚合关系图会丢失这些约束。**采用与限制：** 区分认识谁、何时接触、何时有机会获知；不让社区因一次全量读取就同步知道所有事。可达只代表可能传播，不证明阅读、理解或相信。观察窗口与时间精度影响结论；论文没有规定本项目的回应延迟、唤醒频率或遗忘期限。
+
+<a id="malmgren-2008"></a>
+
+### 活跃时段与时段内的连续活动
+
+**Malmgren, R. D., Stouffer, D. B., Motter, A. E. & Amaral, L. A. N.（2008）**。*A Poissonian explanation for heavy tails in e-mail communication*。*PNAS* 105(47):18153–18158。DOI [10.1073/pnas.0800332105](https://doi.org/10.1073/pnas.0800332105)；[作者实验室正式全文](https://amaral.northwestern.edu/media/publication_pdfs/Malmgren-2008-Proc.Natl.Acad.Sci.U.S.A.-105-18153.pdf)。查阅范围：正文。
+
+**对象与发现：** 从欧洲大学 83 天邮件记录中筛选 394 个账户，使用随日、周变化的活跃时段启动率，加上时段内的连续活动，解释不均匀的事件间隔。**采用与限制：** 将角色何时有机会出现，与出现后暂时想多说几句分开；不把所有密集活动都归因于同一种优先级机制。模型与数据相容不证明唯一原因，也不代表所有通信。人类办公时间、周末和拟合参数不移植给守宫；本项目没有据此拟合发帖分布。
+
+<a id="scholtes-2014"></a>
+
+### 相同关系也可能有不同传播过程
+
+**Scholtes, I., Wider, N., Pfitzner, R., Garas, A., Tessone, C. J. & Schweitzer, F.（2014）**。*Causality-driven slow-down and speed-up of diffusion in non-Markovian temporal networks*。*Nature Communications* 5:5024。DOI [10.1038/ncomms6024](https://doi.org/10.1038/ncomms6024)；[作者机构正式全文](https://www.sg.ethz.ch/publications/2014/scholtes2014causality-driven-slow-down-and/ncomms6024.pdf)。查阅范围：正文。
+
+**对象与发现：** 研究以六组接触或交通数据建立保留互动顺序的高阶网络，分析随机游走扩散；即使聚合连接相同，顺序关联也能使扩散加快或减慢。**采用与限制：** 检查公开、注意、回应与转述的先后，保留等待和中断，不在一次执行中自动完成全社区传播链。这里的因果约束指时间可达性，不是对观点变化的因果识别；随机游走也不等于阅读和讨论。传播倍数、等待窗口及模型阶数不能直接成为本项目参数。
+
+<a id="hagerstrand-1970"></a>
+
+### 连续生活路径与共同在场的条件
+
+**Hägerstrand, T.（1970）**。*What about people in Regional Science?*。*Papers of the Regional Science Association* 24:7–21。DOI [10.1111/j.1435-5597.1970.tb01464.x](https://doi.org/10.1111/j.1435-5597.1970.tb01464.x)；[原始论文扫描](https://courses.washington.edu/cee500/What%20about%20people%20in%20regional%20science.pdf)。依据原扫描印刷页 10–16 的路径、约束及远程通信讨论。
+
+**问题与框架：** 时间地理将个人生活表示为连续路径，并讨论能力、与他人或设施协同的耦合条件，以及进入和使用空间的控制约束；远程通信可以不伴随身体运输。**采用与限制：** 线下相遇须有共享场所与时间机会，移动、等待和占用不能任意跳过；在线接话则不证明同住或见面。它是人类活动的概念框架，不能证成守宫移动速度、领地制度或昼夜规律。本项目可借其检查连续性，不必建立精确地图，也不把空间可达当成实际相遇。
