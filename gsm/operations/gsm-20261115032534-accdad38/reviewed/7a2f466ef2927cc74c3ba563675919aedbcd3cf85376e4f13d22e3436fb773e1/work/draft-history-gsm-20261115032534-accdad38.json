@@ -1,0 +1,287 @@
+{
+  "version": 1,
+  "operationId": "gsm-20261115032534-accdad38",
+  "snapshots": [
+    {
+      "stage": "draft",
+      "sourceDigest": "99bdda21070b832b7a9639223460247220edfb675fa15cf9db02624db5506acd",
+      "planDigest": "685d8e50ab00cbe658c4380da608bd44da4a039d8afd35467b23739c5e9565e2",
+      "posts": [
+        {
+          "id": "gsm-20261115032534-accdad38-126533bfcf33",
+          "author": "guest-8e0c62f0a562ca3b",
+          "guest": {
+            "name": "tutu8"
+          },
+          "createdAt": "2026-11-15T02:37:30.385Z",
+          "replyTo": null,
+          "text": "我缩在石缝里，外面的光只剩一条。要是没了这些地方，很多爬行动物恐怕就很难活下去。到底有多少种离不开岩石栖地？会不会连周围其他生物都受影响？这样的地方该不该专门保护起来？",
+          "likes": 16,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115032534-accdad38-e89ad4007476",
+          "author": "guest-31b7d54c9e45b73a",
+          "guest": {
+            "name": "阿佑"
+          },
+          "createdAt": "2026-11-15T00:05:43.595Z",
+          "replyTo": null,
+          "text": "刚才还想出去转转，头伸出洞口以后又不想了。先这么待着。",
+          "likes": 11,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115032534-accdad38-bfef9316ee39",
+          "author": "guest-168077148606405f",
+          "guest": {
+            "name": "uki"
+          },
+          "createdAt": "2026-11-15T02:28:19.797Z",
+          "replyTo": null,
+          "text": "隔着栏杆看人类（被关的可不是我和这只）",
+          "likes": 0,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-15T03:35:26.782Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "99bdda21070b832b7a9639223460247220edfb675fa15cf9db02624db5506acd",
+      "planDigest": "685d8e50ab00cbe658c4380da608bd44da4a039d8afd35467b23739c5e9565e2",
+      "posts": [
+        {
+          "id": "gsm-20261115032534-accdad38-126533bfcf33",
+          "author": "guest-8e0c62f0a562ca3b",
+          "guest": {
+            "name": "tutu8"
+          },
+          "createdAt": "2026-11-15T02:37:30.385Z",
+          "replyTo": null,
+          "text": "我缩在石缝里，外面的光只剩一条。要是没了岩石栖地，很多爬行动物恐怕就很难活下去，还会影响别的生物。到底有多少种离不开这种地方？这样的地方该不该专门保护起来？",
+          "likes": 16,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115032534-accdad38-e89ad4007476",
+          "author": "guest-31b7d54c9e45b73a",
+          "guest": {
+            "name": "阿佑"
+          },
+          "createdAt": "2026-11-15T00:05:43.595Z",
+          "replyTo": null,
+          "text": "刚才还想出去转转，头伸出洞口以后又不想了。先这么待着。",
+          "likes": 11,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115032534-accdad38-bfef9316ee39",
+          "author": "guest-168077148606405f",
+          "guest": {
+            "name": "uki"
+          },
+          "createdAt": "2026-11-15T02:28:19.797Z",
+          "replyTo": null,
+          "text": "隔着栏杆看人类（被关的可不是我和这只）",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115032534-accdad38-bfef9316ee39/media/outside-bars.webp",
+              "alt": "小蜥蜴趴在窗台外侧，竖栏杆后有一个模糊的人影。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115032534-accdad38-r01",
+          "author": "guest-cf9b78bee0dc487c",
+          "guest": {
+            "name": "elle"
+          },
+          "createdAt": "2026-11-15T00:03:48.946Z",
+          "replyTo": "gsm-20261114235639-5d1daf87-r01",
+          "text": "你急什么。",
+          "likes": 7,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115032534-accdad38-r02",
+          "author": "guest-643ce670252ed15f",
+          "guest": {
+            "name": "Ryo"
+          },
+          "createdAt": "2026-11-14T23:58:04.946Z",
+          "replyTo": "gsm-20261114231740-1ed271ee-r09",
+          "text": "行，你就盯着我酸不酸吧。",
+          "likes": 3,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115032534-accdad38-r03",
+          "author": "guest-8faaf5ce0fe04268",
+          "guest": {
+            "name": "小鹿"
+          },
+          "createdAt": "2026-11-14T23:58:06.946Z",
+          "replyTo": "gsm-20261114231740-1ed271ee-r09",
+          "text": "你这张斜眼的也没多好看。",
+          "likes": 3,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "emote",
+              "src": "assets/emotes/gsm/heh.webp",
+              "alt": "守宫坐着闭眼抬起下巴，嘴边吐出一小团气，尾巴盘在身体后面。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115032534-accdad38-r04",
+          "author": "guest-0a8d36dabe4e0d60",
+          "guest": {
+            "name": "K2"
+          },
+          "createdAt": "2026-11-15T00:20:49.946Z",
+          "replyTo": "gsm-20261114223712-323c55eb-08778e49fb5e",
+          "text": "砖缝也是天生弯的呗。",
+          "likes": 4,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "emote",
+              "src": "assets/emotes/gsm/heh.webp",
+              "alt": "守宫坐着闭眼抬起下巴，嘴边吐出一小团气，尾巴盘在身体后面。"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-15T03:58:34.013Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "99bdda21070b832b7a9639223460247220edfb675fa15cf9db02624db5506acd",
+      "planDigest": "685d8e50ab00cbe658c4380da608bd44da4a039d8afd35467b23739c5e9565e2",
+      "posts": [
+        {
+          "id": "gsm-20261115032534-accdad38-126533bfcf33",
+          "author": "guest-8e0c62f0a562ca3b",
+          "guest": {
+            "name": "tutu8"
+          },
+          "createdAt": "2026-11-15T02:37:30.385Z",
+          "replyTo": null,
+          "text": "我缩在石缝里，外面的光只剩一条。要是没了岩石栖地，很多爬行动物恐怕就很难活下去，还会影响别的生物。到底有多少种离不开这种地方？这样的地方该不该专门保护起来？",
+          "likes": 16,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115032534-accdad38-e89ad4007476",
+          "author": "guest-31b7d54c9e45b73a",
+          "guest": {
+            "name": "阿佑"
+          },
+          "createdAt": "2026-11-15T00:05:43.595Z",
+          "replyTo": null,
+          "text": "刚才还想出去转转，头伸出洞口以后又不想了。先这么待着。",
+          "likes": 11,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115032534-accdad38-bfef9316ee39",
+          "author": "guest-168077148606405f",
+          "guest": {
+            "name": "uki"
+          },
+          "createdAt": "2026-11-15T02:28:19.797Z",
+          "replyTo": null,
+          "text": "隔着栏杆看人类（被关的可不是我和这只）",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115032534-accdad38-bfef9316ee39/media/outside-bars.webp",
+              "alt": "小蜥蜴趴在窗台外侧，竖栏杆后有一个模糊的人影。",
+              "kind": "image"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115032534-accdad38-r01",
+          "author": "guest-cf9b78bee0dc487c",
+          "guest": {
+            "name": "elle"
+          },
+          "createdAt": "2026-11-15T00:03:48.946Z",
+          "replyTo": "gsm-20261114235639-5d1daf87-r01",
+          "text": "你急什么。",
+          "likes": 7,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115032534-accdad38-r02",
+          "author": "guest-643ce670252ed15f",
+          "guest": {
+            "name": "Ryo"
+          },
+          "createdAt": "2026-11-14T23:58:04.946Z",
+          "replyTo": "gsm-20261114231740-1ed271ee-r09",
+          "text": "行，你就盯着我酸不酸吧。",
+          "likes": 3,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115032534-accdad38-r03",
+          "author": "guest-8faaf5ce0fe04268",
+          "guest": {
+            "name": "小鹿"
+          },
+          "createdAt": "2026-11-14T23:58:06.946Z",
+          "replyTo": "gsm-20261114231740-1ed271ee-r09",
+          "text": "你这张斜眼的也没多好看。",
+          "likes": 3,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "emote",
+              "src": "assets/emotes/gsm/heh.webp",
+              "alt": "守宫坐着闭眼抬起下巴，嘴边吐出一小团气，尾巴盘在身体后面。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115032534-accdad38-r04",
+          "author": "guest-0a8d36dabe4e0d60",
+          "guest": {
+            "name": "K2"
+          },
+          "createdAt": "2026-11-15T00:20:49.946Z",
+          "replyTo": "gsm-20261114223712-323c55eb-08778e49fb5e",
+          "text": "砖缝也是天生弯的呗。",
+          "likes": 4,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "emote",
+              "src": "assets/emotes/gsm/heh.webp",
+              "alt": "守宫坐着闭眼抬起下巴，嘴边吐出一小团气，尾巴盘在身体后面。"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-15T04:02:43.118Z"
+    }
+  ]
+}

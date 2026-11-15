@@ -57,20 +57,22 @@ node gsm/tools/engine/collect-gecko-opinions.js
 
 <!-- samples:start -->
 
-采集时间：2026-11-15 10:15:43（北京时间）
+采集时间：2026-11-15 11:25:20（北京时间）
 
 ### 讨论 1
+
+1. **发言者 1**：The global importance of rocky habitats for reptiles  
+   "Rocky habitats...are easily damaged or destroyed and, once lost, may take centuries or even millenia to reform. Habitat loss is the most pressing threat to reptile populations worldwide. Rocky areas are under pressure from threats such as mining, quarrying and urbanisation."    
+   "Rock crushing is another problem. It involves using specialised machinery to turn boulderfields and other rocky habitats into farmland. In Australia, new rock crushing machinery can clear and crush surface rocks at rates of up to one hectare per hour." &gt;&gt;  
+   \[链接隐去\]
+
+### 讨论 2
 
 RSS 摘要。
 
 1. **发言者 1**：Four Captive-bred Juvenile Broad-headed Snakes Released In Australia  
      
    The world-first reintroduction project is led by UTS wildlife ecologist Professor Jonathan Webb, who has studied the species for more than 34 years.
-
-### 讨论 2
-
-1. **发言者 1**：Without rocky habitats, many reptile species would struggle to survive, putting wider ecosystems at risk of collapse. But how many reptile species actually depend on rocky habitats? And should we protect these habitats?  
-   \[链接隐去\]
 
 ### 讨论 3
 
@@ -84,23 +86,31 @@ RSS 摘要。
 
 RSS 摘要。
 
-1. **发言者 1**：Expedition Borneo: Field Herping the Island of Endemics  
+1. **发言者 1**：Sea Turtle Eggs Laid on Southern California Beaches Have Hatched  
      
-   Borneo lies deep in the heart of the Indo-Malay Archipelago. It is the world’s third-largest island, and its massive expanse of ancient rainforest predates many of the species it protects. It is divided among three nations: Malaysia, Indonesia, and the small sultanate of Brunei. The island’s landscape is home to an astounding array of biodiversity, \[…\]
+   The sea turtle eggs that were laid on Southern California’s Sunset and Huntington Beaches in September have hatched and the olive ridley sea turtle \(Lepidochelys olivacea\) hatchlings have been released into the wild after they hatched under human care at the Aquarium of the Pacific in Long Beach, California. The event follows the discovery of \[…\]
 
 ### 讨论 5
-
-1. **发言者 1**：Profiter du soleil \! gecko grenoble  
-   \[图片或视频省略，未读取画面\]
-
-### 讨论 6
 
 1. **发言者 1**：Bichito que encontré acá por Texcoco  
    \[图片或视频省略，未读取画面\]
 
 2. **发言者 2**（回复第 1 条）：发言者 1 me encantan esos\! tienen una zona por acá también
 
+### 讨论 6
+
+1. **发言者 1**：He's just a little guy\! 🐍  
+   \[图片或视频省略，未读取画面\]
+
 ### 讨论 7
+
+RSS 摘要。
+
+1. **发言者 1**：Expedition Borneo: Field Herping the Island of Endemics  
+     
+   Borneo lies deep in the heart of the Indo-Malay Archipelago. It is the world’s third-largest island, and its massive expanse of ancient rainforest predates many of the species it protects. It is divided among three nations: Malaysia, Indonesia, and the small sultanate of Brunei. The island’s landscape is home to an astounding array of biodiversity, \[…\]
+
+### 讨论 8
 
 1. **发言者 1**：Behind bars for WildlifeWednesday \(the hooman, not the lizard\)  
    \[图片或视频省略，未读取画面\]
@@ -113,16 +123,36 @@ RSS 摘要。
 
 5. **发言者 1**（回复第 3 条）：Oh Mist, ich dachte, das wäre eine Mauereidechse 😳
 
-### 讨论 8
-
-1. **发言者 1**：He's just a little guy\! 🐍  
-   \[图片或视频省略，未读取画面\]
-
 ### 讨论 9
 
-1. **发言者 1**：The global importance of rocky habitats for reptiles  
-   "Rocky habitats...are easily damaged or destroyed and, once lost, may take centuries or even millenia to reform. Habitat loss is the most pressing threat to reptile populations worldwide. Rocky areas are under pressure from threats such as mining, quarrying and urbanisation."    
-   "Rock crushing is another problem. It involves using specialised machinery to turn boulderfields and other rocky habitats into farmland. In Australia, new rock crushing machinery can clear and crush surface rocks at rates of up to one hectare per hour." &gt;&gt;  
+1. **发言者 1**：The scaly sausage decided to sleep under his ramp last night. And dislodge his thermostat sensor in the process.  
+   \[图片或视频省略，未读取画面\]
+
+2. **发言者 1**（回复第 1 条）：He usually goes under his basking rock, or inside his hollow log, but sometimes he just does... This. Apparently he just really craves the relaxing feel of a plastic ramp testing on his neck all night long.
+
+3. **发言者 1**（回复第 2 条）：The lizard was in the mood for roaming around this evening, and voluntarily crawled out of his enclosure onto my hands. As usual this ended up with him hanging out on my shoulders and climbing on top of my head.  
+   \[图片或视频省略，未读取画面\]
+
+4. **发言者 1**（回复第 3 条）：Also helping with the kid's maths homework.  
+   \[图片或视频省略，未读取画面\]
+
+5. **发言者 2**（回复第 3 条）：发言者 1 as is proper\! &lt;3
+
+6. **发言者 1**（回复第 5 条）：发言者 2 Indeed. He could do with a manicure though. His tiny claws feel very sharp when he's using them to grip the back of my neck or my scalp.
+
+### 讨论 10
+
+1. **发言者 1**：Without rocky habitats, many reptile species would struggle to survive, putting wider ecosystems at risk of collapse. But how many reptile species actually depend on rocky habitats? And should we protect these habitats?  
+   \[链接隐去\]
+
+### 讨论 11
+
+1. **发言者 1**：Profiter du soleil \! gecko grenoble  
+   \[图片或视频省略，未读取画面\]
+
+### 讨论 12
+
+1. **发言者 1**：Giant tortoises vanished from the Galápagos' Floreana Island more than 150 years ago, but with the help of scientists they're slowly coming back  
    \[链接隐去\]
 
 <!-- samples:end -->
