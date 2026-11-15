@@ -21,9 +21,7 @@ export const geckoSources = Object.freeze([
     lists: ['https://www.chameleonforums.com/forums/general-photography.30/index.rss',
       'https://www.chameleonforums.com/forums/enclosures-and-supplies.14/index.rss'],
     detail: (_id, topic) => topic.url },
-  { name: 'OurReptileForum 爬宠生活', key: 'ourreptileforum', kind: 'xenforo', host: 'ourreptileforum.com', threadPath: '/community/threads/',
-    lists: ['https://ourreptileforum.com/community/forums/-/index.rss'],
-    detail: (_id, topic) => topic.url },
+  mastodon('flipping.rocks', 'flipping-rocks', 'Flipping Rocks 自然生物与爬行动物观察', ['gecko', 'reptiles', 'herpetology']),
   mastodon('ecoevo.social', 'ecoevo', 'EcoEvo 生态与爬行动物观察', ['gecko', 'reptiles', 'herpetology']),
   mastodon('mstdn.science', 'mstdn-science', 'Mastodon Science 爬行动物观察', ['gecko', 'reptiles', 'herpetology']),
   { name: 'Reptiles Magazine 生态与野外观察', key: 'reptiles-magazine', kind: 'publisher-rss', host: 'reptilesmagazine.com',
@@ -97,9 +95,7 @@ export function parseGeckoTopics(source, payload, plainText) {
   });
   if (source.kind === 'xenforo') return rssItems(payload).flatMap(item => {
     let url; try { url = new URL(item.url); } catch { return []; }
-    const prefix = source.threadPath || '/threads/';
-    const id = url.origin === 'https://' + source.host && url.pathname.startsWith(prefix) &&
-      url.pathname.slice(prefix.length).match(/^[a-z0-9_%.-]+\.(\d+)\/$/i)?.[1];
+    const id = url.origin === 'https://' + source.host && url.pathname.match(/^\/threads\/[a-z0-9_%.-]+\.(\d+)\/$/i)?.[1];
     const text = bodyText(item.text, plainText), title = plainText(item.title), category = plainText(item.category);
     return id && item.actor && !/classified|for.sale|wanted/i.test(category) &&
       reptileCandidate(title + '\n' + text, category) && !excludedHumanOrClinical(title + '\n' + text) ?
