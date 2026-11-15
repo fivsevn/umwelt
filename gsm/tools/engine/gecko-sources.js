@@ -16,10 +16,21 @@ export const geckoSources = Object.freeze([
     lists: ['https://www.reptileforums.co.uk/forums/lizards.12/index.rss',
       'https://www.reptileforums.co.uk/forums/habitat.18/index.rss'],
     detail: (_id, topic) => topic.url },
-  mastodon('mastodon.online', 'mastodon-online', 'Mastodon Online 守宫与爬宠标签', ['gecko', 'crestedgecko', 'leopardgecko', 'reptiles'])
+  mastodon('mastodon.online', 'mastodon-online', 'Mastodon Online 守宫与爬宠标签', ['gecko', 'crestedgecko', 'leopardgecko', 'reptiles']),
+  { name: 'ChameleonForums 照片与住处', key: 'chameleonforums', kind: 'xenforo', host: 'www.chameleonforums.com',
+    lists: ['https://www.chameleonforums.com/forums/general-photography.30/index.rss',
+      'https://www.chameleonforums.com/forums/enclosures-and-supplies.14/index.rss'],
+    detail: (_id, topic) => topic.url },
+  { name: 'AussiePythons 蜥蜴与巨蜥', key: 'aussiepythons', kind: 'xenforo', host: 'www.aussiepythons.com',
+    lists: ['https://www.aussiepythons.com/forums/australian-lizards-and-monitors.5383/index.rss'],
+    detail: (_id, topic) => topic.url },
+  mastodon('ecoevo.social', 'ecoevo', 'EcoEvo 生态与爬行动物观察', ['gecko', 'reptiles', 'herpetology']),
+  mastodon('mstdn.science', 'mstdn-science', 'Mastodon Science 爬行动物观察', ['gecko', 'reptiles', 'herpetology']),
+  { name: 'Reptiles Magazine 生态与野外观察', key: 'reptiles-magazine', kind: 'publisher-rss', host: 'reptilesmagazine.com',
+    lists: ['https://reptilesmagazine.com/feed/'] }
 ]);
 
-const REPTILE = /geckos?|reptiles?|lizards?|snake[\s-]?s?|python[\s-]?(?:snake|regius)|boa\b|colubrids?|tortoises?|herpetolog|蜥蜴|守宫|守宮|爬宠|爬寵|豹纹|豹紋|睫角|饲养箱|飼養箱/i;
+const REPTILE = /geckos?|reptiles?|lizards?|chameleons?|skinks?|bearded[ -]?dragons?|snake[\s-]?s?|python[\s-]?(?:snake|regius)|boa\b|colubrids?|tortoises?|turtles?|herpetolog|\bherping\b|蜥蜴|变色龙|變色龍|石龙子|石龍子|守宫|守宮|爬宠|爬寵|豹纹|豹紋|睫角|饲养箱|飼養箱/i;
 const HABITAT = /terrarium|vivarium|bioactive/i;
 const HABITAT_DETAIL = /plants?|leaves|moss|substrate|waterfall|enclosure|branch|perch|humidity|basking|栖居|植物|枝条|苔藓|躲避|湿度/i;
 const HABITAT_HOMONYM = /Zoo\s+Vivarium|meerkats?|erdmännchen|mangust|monkeys?|primates?|elephants?|birds?|狐獴|猴子|鸟类/i;
@@ -30,7 +41,7 @@ export function reptileCandidate(text, category = '') {
   const subject = text + ' ' + category;
   return typeof text === 'string' && (REPTILE.test(subject) || HABITAT.test(subject) && HABITAT_DETAIL.test(subject) && !HABITAT_HOMONYM.test(subject)) && !HUMAN_ONLY.test(text);
 }
-const HUMAN_ACTIVITY = /\b(?:shops?|breeders?|syndrome|cancer(?:ous)?|tumou?rs?|pregnan(?:t|cy)|paving|hammer|dremel|sanding|soldering|wiring|mains)\b|\b(?:new video out|find the video|sign up|post size|DM the admin|join (?:our|this) server|my name is|my names?)\b/i;
+const HUMAN_ACTIVITY = /\b(?:shops?|breeders?|syndrome|cancer(?:ous)?|tumou?rs?|pregnan(?:t|cy)|paving|hammer|dremel|sanding|soldering|wiring|mains|plumbing)\b|\b(?:RV[ -](?:style|toilet)|holding tank|bulkhead fitting|drainage reservoir|wet vac|read the full guide|new video out|find the video|sign up|post size|DM the admin|join (?:our|this) server|my name is|my names?)\b/i;
 export const excludedHumanOrClinical = text => HUMAN_ONLY.test(text) || HUMAN_ACTIVITY.test(text) || /\b(?:poop|stool|urates?|feces|faeces|deworm|surgery|injur(?:y|ies|ed)|prescription|medication)\b/i.test(text);
 
 const unCDATA = value => (value || '').replace(/^\s*<!\[CDATA\[([\s\S]*)\]\]>\s*$/, '$1');
@@ -38,7 +49,7 @@ const field = (text, name) => unCDATA(text.match(new RegExp(`<${name}(?:\\s[^>]*
 export function rssItems(xml) {
   if (typeof xml !== 'string' || !/<rss\b/i.test(xml) || /<!DOCTYPE|<!ENTITY/i.test(xml)) throw Error('Invalid public RSS response');
   return [...xml.matchAll(/<item(?:\s[^>]*)?>([\s\S]*?)<\/item>/gi)].map(([, item]) => ({
-    title: field(item, 'title'), text: field(item, 'content:encoded') || field(item, 'description'), url: field(item, 'link'),
+    title: field(item, 'title'), text: field(item, 'content:encoded') || field(item, 'description'), summary: field(item, 'description'), url: field(item, 'link'),
     actor: field(item, 'dc:creator'), category: field(item, 'category'), created: Date.parse(field(item, 'pubDate'))
   }));
 }
@@ -75,6 +86,15 @@ const mastodonMessage = (s, plainText) => ({ id: s.id, canonicalId: s.uri || s.u
     (Array.isArray(s.media_attachments) && s.media_attachments.length ? '\n[图片或视频省略，未读取画面]' : ''), created: Date.parse(s.created_at) });
 
 export function parseGeckoTopics(source, payload, plainText) {
+  if (source.kind === 'publisher-rss') return rssItems(payload).flatMap(item => {
+    let url; try { url = new URL(item.url); } catch { return []; }
+    if (url.origin !== 'https://' + source.host) return [];
+    const title = plainText(item.title), summary = bodyText(item.summary.replace(/<p\b[^>]*>\s*The post\b[\s\S]*?appeared first on\b[\s\S]*?<\/p>/gi, ''), plainText);
+    const text = [title, summary].filter(Boolean).join('\n\n');
+    if (!summary || !reptileCandidate(text) || excludedHumanOrClinical(text)) return [];
+    return [{ id: url.href, canonicalId: url.href, actor: item.actor || source.name,
+      names: [item.actor, source.name, 'Reptiles Magazine'].filter(Boolean), title, text, created: item.created }];
+  });
   if (source.kind === 'xenforo') return rssItems(payload).flatMap(item => {
     let url; try { url = new URL(item.url); } catch { return []; }
     const id = url.origin === 'https://' + source.host && url.pathname.match(/^\/threads\/[a-z0-9_%.-]+\.(\d+)\/$/i)?.[1];
@@ -135,6 +155,9 @@ function xenforoDiscussion(source, topic, html, plainText) {
 }
 
 export function parseGeckoDiscussion(source, topic, payload, plainText) {
+  // The publisher's RSS excerpt is the complete acquired material. It does
+  // not provide a comment thread or establish that the full article was read.
+  if (source.kind === 'publisher-rss') return { root: topic, replies: [] };
   if (source.kind === 'xenforo') return xenforoDiscussion(source, topic, payload, plainText);
   if (source.kind === 'discourse-rss') {
     const posts = rssItems(payload).flatMap(item => {

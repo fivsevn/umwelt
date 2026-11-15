@@ -13,7 +13,7 @@ const DEFAULT_DOCUMENT = resolve(ROOT, 'environment/sources-daily-opinions.md');
 const START = '<!-- samples:start -->', END = '<!-- samples:end -->';
 export const collectionLimits = Object.freeze({ threadsPerSource: 5, detailRequests: 8, repliesPerThread: 5,
   rootCharacters: 1200, replyCharacters: 400, threadCharacters: 2200, responseBytes: 2_000_000,
-  timeoutMs: 12_000, maxFragments: 12, maxRequests: 64, durationMs: 120_000, concurrency: 4 });
+  timeoutMs: 12_000, maxFragments: 12, maxRequests: 96, durationMs: 120_000, concurrency: 4 });
 const fail = message => { throw Error('Gecko collection: ' + message); };
 const chars = text => [...text].length;
 
@@ -48,7 +48,7 @@ async function requestPublic(url, { fetchImpl, stats, limits, format }) {
 }
 
 function renderFragment(fragment, number, sourceKind) {
-  return [`### 讨论 ${number}`, ...(['discourse-rss', 'xenforo'].includes(sourceKind) && fragment.messages.length > 1 ? ['父回复关系未提供。'] : []),
+  return [`### 讨论 ${number}`, ...(sourceKind === 'publisher-rss' ? ['RSS 摘要。'] : []), ...(['discourse-rss', 'xenforo'].includes(sourceKind) && fragment.messages.length > 1 ? ['父回复关系未提供。'] : []),
     fragment.messages.map((message, i) => `${i + 1}. **${message.speaker}**${message.replyTo ? `（回复第 ${message.replyTo} 条）` : message.missingTarget ? '（引用未收录发言）' : ''}：${markdownText(message.text)}`).join('\n\n')].join('\n\n');
 }
 
@@ -69,7 +69,7 @@ export async function collectGeckoOpinions({ fetchImpl = globalThis.fetch, now =
       if (requests >= limits.maxRequests || remaining <= 0) return null;
       requests++;
       return await requestPublic(url, { fetchImpl, stats, limits: { ...limits, timeoutMs: Math.min(limits.timeoutMs, remaining) },
-        format: source.kind === 'xenforo' ? detail ? 'html' : 'rss' : source.kind === 'discourse-rss' ? 'rss' : 'json' });
+        format: source.kind === 'xenforo' ? detail ? 'html' : 'rss' : ['discourse-rss', 'publisher-rss'].includes(source.kind) ? 'rss' : 'json' });
     } finally {
       if (waiters.length) waiters.shift()(); else inFlight--;
     }
@@ -101,8 +101,9 @@ export async function collectGeckoOpinions({ fetchImpl = globalThis.fetch, now =
     const active = queues.filter(q => q.eligible.length && q.stats.fragments < limits.threadsPerSource).slice(0, limits.maxFragments - fragments.length);
     if (!active.length) break;
     const results = await concurrent(active, limits.concurrency, async ({ source, stats, eligible }) => {
-      const topic = eligible.shift(), payload = await request(source.detail(topic.id, topic), source, stats, true);
-      if (payload === null) return null;
+      const topic = eligible.shift(), publisher = source.kind === 'publisher-rss';
+      const payload = publisher ? null : await request(source.detail(topic.id, topic), source, stats, true);
+      if (!publisher && payload === null) return null;
       try {
         const discussion = parseGeckoDiscussion(source, topic, payload, plainText); stats.discussionsRead++;
         if (!Number.isFinite(discussion.root.created) || discussion.root.created > now || now - discussion.root.created >= 7 * 86400000 ||
@@ -169,7 +170,7 @@ export async function updateGeckoOpinionDocument({ documentPath = DEFAULT_DOCUME
 export function collectionSummary(result) {
   return ['## GSM 守宫素材采集', '', `实际采集：${result.collectedAt}；${result.fragments}段、${result.messages}条发言。`,
     result.ready ? '新材料已验证，可供独立选择1–2条案例。' : '材料不足，原文件和原采集时间保持原样；不可据此启动新轮。', '',
-    '| 来源 | 成功 / 失败请求 | 候选 | 读取原串 | 采用 | 限制 |', '| --- | --- | --- | --- | --- | --- |',
+    '| 来源 | 成功 / 失败请求 | 候选 | 读取材料 | 采用 | 限制 |', '| --- | --- | --- | --- | --- | --- |',
     ...result.sources.map(s => `| ${s.name} | ${s.succeeded} / ${s.failed} | ${s.topicsSeen} | ${s.discussionsRead} | ${s.fragments} | ${[...new Set(s.errors)].join('；') || '仅公开返回范围'} |`), '',
     '只采集公开原文短片段；未读取的图片、未返回的楼层和未知父关系不计为已读。不代替逐条守宫化及独立审读。', ''].join('\n');
 }

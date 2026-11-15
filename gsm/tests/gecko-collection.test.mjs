@@ -29,11 +29,13 @@ function fakeFetch({fail = false} = {}) {
 }
 
 test('source catalog is bounded to public reptile feeds and ignores human-only gecko homonyms', () => {
-  assert.equal(geckoSources.length,5);
+  assert.equal(geckoSources.length,10);
+  assert.equal(new Set(geckoSources.flatMap(s=>s.lists.map(u=>new URL(u).hostname))).size,10);
   assert.ok(geckoSources.every(s=>s.lists.every(u=>u.startsWith('https://')&&!u.includes('y29'))));
   assert.equal(reptileCandidate('Gecko browser programming'),false);
   assert.equal(reptileCandidate('XMPP app #gecko'),false);
   assert.equal(reptileCandidate('My gecko under the branch'),true);
+  assert.equal(reptileCandidate('Field herping the island of endemics'),true);
   assert.equal(reptileCandidate('Meerkats explore the new enclosure at Zoo Vivarium'),false);
   assert.equal(reptileCandidate('New plants and waterfall in my terrarium'),true);
   assert.equal(reptileCandidate('Leopard gecko vet diagnosis'),false);
@@ -171,7 +173,9 @@ test('new source scope excludes actual human trade, medical, fabrication and pla
     'I read about cancerous tumors in leos.',
     'Smashing paving slabs with a hammer for the terrarium.',
     'The reptile server has a post size of 5000. DM the admin to sign up.',
-    'New video out! Find the video here, a day spent locating rattlesnakes.']) assert.equal(excludedHumanOrClinical(text),true,text);
+    'New video out! Find the video here, a day spent locating rattlesnakes.',
+    'An RV toilet holding tank and bulkhead fitting for the chameleon drainage reservoir.',
+    'Gargoyle gecko tips. Read the full guide for the setup.']) assert.equal(excludedHumanOrClinical(text),true,text);
   assert.equal(excludedHumanOrClinical('The gecko moved under a different leaf and rested there.'),false);
 });
 
@@ -180,4 +184,36 @@ test('request concurrency is a global bound even with multiple sources and list 
   const fetchImpl=async()=>{active++;maximum=Math.max(maximum,active);await new Promise(done=>setTimeout(done,1));active--;return new Response('[]');};
   await collectGeckoOpinions({sources,fetchImpl,now:NOW,limits:{concurrency:2}});
   assert.ok(maximum<=2);assert.ok(maximum>0);
+});
+
+test('publisher RSS keeps only its supplied excerpt and never invents full-article access or comments', async () => {
+  const source=geckoSources.find(s=>s.kind==='publisher-rss');
+  const entry=(url,body)=>`<item><title>Wild reptiles return to rocky habitat</title><link>${url}</link><description><![CDATA[${body}]]></description><content:encoded>Unacquired full article and comment text.</content:encoded><pubDate>${DATE}</pubDate></item>`;
+  const payload=rss([entry('https://reptilesmagazine.com/reptile-return/','<p>Reptiles were observed resting near sheltered rocks.</p><p>The post My title appeared first on Publisher.</p>'),
+    entry('https://reptilesmagazine.com/new-branch/','<p>The lizard returned to a shaded branch.</p>'),
+    entry('https://elsewhere.example/article/','<p>A gecko is here.</p>')]);
+  const topics=parseGeckoTopics(source,payload,plainText);
+  assert.equal(topics.length,2);assert.equal(topics[0].actor,source.name);
+  assert.doesNotMatch(topics[0].text,/Unacquired|appeared first on/);
+  assert.deepEqual(parseGeckoDiscussion(source,topics[0],null,plainText).replies,[]);
+  const calls=[];
+  const result=await collectGeckoOpinions({sources:[source],now:NOW,seed:'publisher',fetchImpl:async url=>{
+    calls.push(url);return new Response(payload);
+  }});
+  assert.equal(result.ready,true);assert.equal(result.fragments,2);assert.equal(result.messages,2);
+  assert.deepEqual(calls,source.lists);assert.match(result.markdown,/RSS 摘要/);
+  assert.doesNotMatch(result.markdown,/Unacquired/);
+  assert.equal(parseGeckoTopics(source,rss([entry('https://reptilesmagazine.com/empty/','')]),plainText).length,0);
+});
+
+test('all ten groups receive list reads within the bounded collection budget',async()=>{
+  const calls=[];
+  const result=await collectGeckoOpinions({now:NOW,fetchImpl:async url=>{
+    calls.push(url);return new Response(url.includes('/api/')?'[]':'<rss><channel></channel></rss>');
+  }});
+  assert.equal(result.sources.length,10);
+  assert.equal(calls.length,geckoSources.reduce((n,s)=>n+s.lists.length,0));
+  for(const source of geckoSources) for(const url of source.lists) assert.ok(calls.includes(url),url);
+  assert.ok(calls.length<collectionLimits.maxRequests);
+  assert.equal(result.ready,false);
 });
