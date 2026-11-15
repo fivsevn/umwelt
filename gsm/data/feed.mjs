@@ -1,11 +1,74 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "guest-99b91f66936abcdb": {
+    "handle": "guest-99b91f66936abcdb",
+    "name": "东东",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-99b91f66936abcdb.webp?v=8ba191455bd7",
+    "color": "sand"
+  },
+  "peachcrumble": {
+    "handle": "peachcrumble",
+    "name": "桃酥",
+    "bio": "差一点，下回再试。",
+    "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
+    "color": "rose"
+  },
+  "guest-2daa0219b4cdce44": {
+    "handle": "guest-2daa0219b4cdce44",
+    "name": "耳朵",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-2daa0219b4cdce44.webp?v=f8a2a28d808e",
+    "color": "sand"
+  },
+  "guest-bfe9a91c347df624": {
+    "handle": "guest-bfe9a91c347df624",
+    "name": "Mio",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-bfe9a91c347df624.webp?v=8ba191455bd7",
+    "color": "rose"
+  },
+  "nearthermo": {
+    "handle": "nearthermo",
+    "name": "温度计旁边",
+    "bio": "挪一点，舒服多了。",
+    "avatarImage": "/gsm/assets/avatars/nearthermo.webp?v=f536a852bd2b",
+    "color": "sand"
+  },
   "guest-b3d32aa756723a44": {
     "handle": "guest-b3d32aa756723a44",
     "name": "没什么",
     "bio": "",
     "avatarImage": "/gsm/assets/avatars/guest-b3d32aa756723a44.webp?v=d880f2ec2809",
     "color": "sand"
+  },
+  "wednesday6": {
+    "handle": "wednesday6",
+    "name": "周三换皮",
+    "bio": "名字先这么叫着。",
+    "avatarImage": "/gsm/assets/avatars/wednesday6.webp?v=d880f2ec2809",
+    "color": "sage"
+  },
+  "guest-02e459f9806bf026": {
+    "handle": "guest-02e459f9806bf026",
+    "name": "树",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-02e459f9806bf026.webp?v=05a84418ff61",
+    "color": "sage"
+  },
+  "leafback7": {
+    "handle": "leafback7",
+    "name": "叶背居民",
+    "bio": "这片叶子上的路，我蛮熟的。",
+    "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
+    "color": "rose"
+  },
+  "guest-240116efa8540b37": {
+    "handle": "guest-240116efa8540b37",
+    "name": "sora",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-240116efa8540b37.webp?v=3a99410baa47",
+    "color": "rose"
   },
   "guest-a8308029114a422e": {
     "handle": "guest-a8308029114a422e",
@@ -154,13 +217,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/isopodafugue.webp?v=f80463b434f1",
     "color": "isopoda"
   },
-  "leafback7": {
-    "handle": "leafback7",
-    "name": "叶背居民",
-    "bio": "这片叶子上的路，我蛮熟的。",
-    "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
-    "color": "rose"
-  },
   "mango27": {
     "handle": "mango27",
     "name": "小满",
@@ -175,25 +231,11 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/moss9.webp?v=fc1a392905b0",
     "color": "sand"
   },
-  "nearthermo": {
-    "handle": "nearthermo",
-    "name": "温度计旁边",
-    "bio": "挪一点，舒服多了。",
-    "avatarImage": "/gsm/assets/avatars/nearthermo.webp?v=f536a852bd2b",
-    "color": "sand"
-  },
   "nightshift3": {
     "handle": "nightshift3",
     "name": "半夜上线",
     "bio": "这会儿还有谁醒着？",
     "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
-    "color": "rose"
-  },
-  "peachcrumble": {
-    "handle": "peachcrumble",
-    "name": "桃酥",
-    "bio": "差一点，下回再试。",
-    "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
     "color": "rose"
   },
   "slowblink": {
@@ -223,16 +265,411 @@ export const profiles = {
     "bio": "墙上也有路。",
     "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
     "color": "sand"
-  },
-  "wednesday6": {
-    "handle": "wednesday6",
-    "name": "周三换皮",
-    "bio": "名字先这么叫着。",
-    "avatarImage": "/gsm/assets/avatars/wednesday6.webp?v=d880f2ec2809",
-    "color": "sage"
   }
 };
 export const posts = [
+  {
+    "id": "gsm-20261114235639-5d1daf87-r01",
+    "date": "2026-11-15T07:56:25.946+08:00",
+    "createdAt": 1794700585946,
+    "author": "guest-99b91f66936abcdb",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "挤就出来啊，磨叽。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "挤就出来啊，磨叽。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "挤就出来啊，磨叽。"
+        }
+      ]
+    },
+    "replyTo": "gsm-20261114235639-5d1daf87-7119012a30c5"
+  },
+  {
+    "id": "gsm-20261114235639-5d1daf87-c12",
+    "date": "2026-11-15T07:56:22.992+08:00",
+    "createdAt": 1794700582992,
+    "author": "peachcrumble",
+    "likes": 10,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "V(^_^)V~~耶耶耶～"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "V(^_^)V~~耶耶耶～"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "V(^_^)V~~耶耶耶～"
+        }
+      ]
+    },
+    "replyTo": "gsm-20261114235639-5d1daf87-6d0212319811"
+  },
+  {
+    "id": "gsm-20261114235639-5d1daf87-c11",
+    "date": "2026-11-15T07:56:21.992+08:00",
+    "createdAt": 1794700581992,
+    "author": "guest-2daa0219b4cdce44",
+    "likes": 3,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "冷知识，还会有小派对哦"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "冷知识，还会有小派对哦"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "冷知识，还会有小派对哦"
+        }
+      ]
+    },
+    "replyTo": "gsm-20261114235639-5d1daf87-6d0212319811"
+  },
+  {
+    "id": "gsm-20261114235639-5d1daf87-6d0212319811",
+    "date": "2026-11-15T07:56:06.069+08:00",
+    "createdAt": 1794700566069,
+    "author": "guest-bfe9a91c347df624",
+    "likes": 9,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "v(¬u¬)v~"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "v(¬u¬)v~"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "v(¬u¬)v~"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gsm-20261114235639-5d1daf87-7119012a30c5",
+    "date": "2026-11-15T07:54:21.946+08:00",
+    "createdAt": 1794700461946,
+    "author": "nearthermo",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚挪到木头底下，脚底是舒服了，头顶又挤得慌。\n刚趴下又得挪，烦。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚挪到木头底下，脚底是舒服了，头顶又挤得慌。\n刚趴下又得挪，烦。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚挪到木头底下，脚底是舒服了，头顶又挤得慌。\n刚趴下又得挪，烦。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gsm-20261114235639-5d1daf87-r04",
+    "date": "2026-11-15T07:37:10.216+08:00",
+    "createdAt": 1794699430216,
+    "author": "guest-b3d32aa756723a44",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "破叶子缺一块有什么好奇怪的。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "破叶子缺一块有什么好奇怪的。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "破叶子缺一块有什么好奇怪的。"
+        }
+      ]
+    },
+    "replyTo": "gsm-20261114235639-5d1daf87-r02"
+  },
+  {
+    "id": "gsm-20261114235639-5d1daf87-c03",
+    "date": "2026-11-15T07:34:29.813+08:00",
+    "createdAt": 1794699269813,
+    "author": "wednesday6",
+    "likes": 9,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "啊！有道理。\n\n我这么靠近耳罩口听，最喜欢的也是开放式：Abyss Diana TC 和 Verum 2。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "啊！有道理。\n\n我这么靠近耳罩口听，最喜欢的也是开放式：Abyss Diana TC 和 Verum 2。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "啊！有道理。\n\n我这么靠近耳罩口听，最喜欢的也是开放式：Abyss Diana TC 和 Verum 2。"
+        }
+      ]
+    },
+    "replyTo": "gsm-20261114235639-5d1daf87-c02"
+  },
+  {
+    "id": "gsm-20261114235639-5d1daf87-c02",
+    "date": "2026-11-15T07:34:08.813+08:00",
+    "createdAt": 1794699248813,
+    "author": "guest-02e459f9806bf026",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "我介意的是，这类无线耳机几乎都是封闭式。无线和主动降噪有用的地方，我不否认。\n\n耳机放稳了，我趴在耳罩口外面听，封闭式还是听着累。连 ZMF Verite 也是。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "我介意的是，这类无线耳机几乎都是封闭式。无线和主动降噪有用的地方，我不否认。\n\n耳机放稳了，我趴在耳罩口外面听，封闭式还是听着累。连 ZMF Verite 也是。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "我介意的是，这类无线耳机几乎都是封闭式。无线和主动降噪有用的地方，我不否认。\n\n耳机放稳了，我趴在耳罩口外面听，封闭式还是听着累。连 ZMF Verite 也是。"
+        }
+      ]
+    },
+    "replyTo": "gsm-20261114235639-5d1daf87-66cae4605533"
+  },
+  {
+    "id": "gsm-20261114235639-5d1daf87-c01",
+    "date": "2026-11-15T07:28:29.546+08:00",
+    "createdAt": 1794698909546,
+    "author": "guest-02e459f9806bf026",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "真替你的耳孔难过。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "真替你的耳孔难过。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "真替你的耳孔难过。"
+        }
+      ]
+    },
+    "replyTo": "gsm-20261114235639-5d1daf87-66cae4605533"
+  },
+  {
+    "id": "gsm-20261114235639-5d1daf87-66cae4605533",
+    "date": "2026-11-15T07:28:02.813+08:00",
+    "createdAt": 1794698882813,
+    "author": "wednesday6",
+    "likes": 2,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "无线耳机现在已经这样了吗。\n\n这几天试了 B&W PX8 S2，比我原先想的好听不少。耳机稳放在低处，单侧耳罩口朝着我，我自己靠近听。下面说的都是我这么听的感觉。\n\n后来又用同样的听法试了 Sennheiser HD 600 和 HD 650，本来想比较一下，结果有点愣住，我居然更喜欢 PX8 S2。动态、那些很轻的细节、整个声音的均衡感，一圈听下来都是它更对我的胃口。尤其铜管和木管，我听着更像真的。也试了走 questyle 小尾巴的高解析播放。\n\n不知道这里面有多少是碳纤维振膜的作用。我原本对无线耳机的预期没这么高，现在倒想重新想想：按我这个听法，到底该优先挑什么，为了好听又要花到多少。还没想明白，但之前那个取舍可能得改了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "无线耳机现在已经这样了吗。\n\n这几天试了 B&W PX8 S2，比我原先想的好听不少。耳机稳放在低处，单侧耳罩口朝着我，我自己靠近听。下面说的都是我这么听的感觉。\n\n后来又用同样的听法试了 Sennheiser HD 600 和 HD 650，本来想比较一下，结果有点愣住，我居然更喜欢 PX8 S2。动态、那些很轻的细节、整个声音的均衡感，一圈听下来都是它更对我的胃口。尤其铜管和木管，我听着更像真的。也试了走 questyle 小尾巴的高解析播放。\n\n不知道这里面有多少是碳纤维振膜的作用。我原本对无线耳机的预期没这么高，现在倒想重新想想：按我这个听法，到底该优先挑什么，为了好听又要花到多少。还没想明白，但之前那个取舍可能得改了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "无线耳机现在已经这样了吗。\n\n这几天试了 B&W PX8 S2，比我原先想的好听不少。耳机稳放在低处，单侧耳罩口朝着我，我自己靠近听。下面说的都是我这么听的感觉。\n\n后来又用同样的听法试了 Sennheiser HD 600 和 HD 650，本来想比较一下，结果有点愣住，我居然更喜欢 PX8 S2。动态、那些很轻的细节、整个声音的均衡感，一圈听下来都是它更对我的胃口。尤其铜管和木管，我听着更像真的。也试了走 questyle 小尾巴的高解析播放。\n\n不知道这里面有多少是碳纤维振膜的作用。我原本对无线耳机的预期没这么高，现在倒想重新想想：按我这个听法，到底该优先挑什么，为了好听又要花到多少。还没想明白，但之前那个取舍可能得改了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gsm-20261114235639-5d1daf87-r03",
+    "date": "2026-11-15T07:27:49.216+08:00",
+    "createdAt": 1794698869216,
+    "author": "leafback7",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "这缺口像张嘴，越看越难看。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261114231740-1ed271ee-ab0f5682db9e/media/leaf-notch-doodle-r03.webp",
+          "alt": "白底棕色叶片涂画，右侧缺口上方点着一只小黑眼睛，缺口像张开的嘴，长叶柄伸向左下。",
+          "width": 1448,
+          "height": 1086
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "这缺口像张嘴，越看越难看。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261114231740-1ed271ee-ab0f5682db9e/media/leaf-notch-doodle-r03.webp",
+          "alt": "白底棕色叶片涂画，右侧缺口上方点着一只小黑眼睛，缺口像张开的嘴，长叶柄伸向左下。",
+          "width": 1448,
+          "height": 1086
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "这缺口像张嘴，越看越难看。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261114231740-1ed271ee-ab0f5682db9e/media/leaf-notch-doodle-r03.webp",
+          "alt": "白底棕色叶片涂画，右侧缺口上方点着一只小黑眼睛，缺口像张开的嘴，长叶柄伸向左下。",
+          "width": 1448,
+          "height": 1086
+        }
+      ]
+    },
+    "replyTo": "gsm-20261114235639-5d1daf87-r02"
+  },
+  {
+    "id": "gsm-20261114235639-5d1daf87-r02",
+    "date": "2026-11-15T07:26:48.216+08:00",
+    "createdAt": 1794698808216,
+    "author": "guest-240116efa8540b37",
+    "likes": 8,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "右边怎么缺这么大一块"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/huh.webp",
+          "alt": "守宫坐着抬头张嘴，头顶有一个问号，粗尾巴盘在一旁。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/huh.webp",
+          "alt": "守宫坐着抬头张嘴，头顶有一个问号，粗尾巴盘在一旁。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "右边怎么缺这么大一块"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/huh.webp",
+          "alt": "守宫坐着抬头张嘴，头顶有一个问号，粗尾巴盘在一旁。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/huh.webp",
+          "alt": "守宫坐着抬头张嘴，头顶有一个问号，粗尾巴盘在一旁。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "右边怎么缺这么大一块"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/huh.webp",
+          "alt": "守宫坐着抬头张嘴，头顶有一个问号，粗尾巴盘在一旁。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/huh.webp",
+          "alt": "守宫坐着抬头张嘴，头顶有一个问号，粗尾巴盘在一旁。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ]
+    },
+    "replyTo": "gsm-20261114231740-1ed271ee-ab0f5682db9e"
+  },
   {
     "id": "gsm-20261114231740-1ed271ee-r01",
     "date": "2026-11-15T07:17:06.769+08:00",
