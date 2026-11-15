@@ -138,6 +138,25 @@ test('author accounts and legacy asset exemptions cannot be used by new AI posts
     { siteEmotes: data.siteEmotes, localization: data.localization, legacyPosts: data.legacyPosts }), /Invalid media path/);
 });
 
+test('deleted root and reply placeholders preserve a retained reply without keeping old text or media', () => {
+  const registry = { version: 1, users: [{ id: 'gecko404', handle: 'gecko404', name: '测试守宫', bio: '', avatar: '',
+    enabled: true, aiScope: 'daily', profileStatus: 'approved', kind: 'character' }] };
+  const policy = { version: 1, automaticPosting: true, timezone: 'Asia/Shanghai', maxBatchPosts: 120 };
+  const createdAt = new Date(Date.now() - 1000).toISOString();
+  const root = postOf('gsm-deleted-root', { createdAt, deleted: true, text: '该帖子已被删除' });
+  const parent = postOf('gsm-deleted-parent', { createdAt, replyTo: root.id, deleted: true, text: '该回复已被删除' });
+  const retained = postOf('gsm-retained-reply', { createdAt, replyTo: parent.id, text: '这一条保留原样。' });
+  const validate = posts => validateContent(registry, [batchOf(posts)], policy);
+  const result = validate([root, parent, retained]);
+  assert.deepEqual(result.posts.find(post => post.id === retained.id), retained);
+  assert.equal(result.posts.find(post => post.id === parent.id).replyTo, root.id);
+  assert.throws(() => validate([{ ...root, text: '仍然保留的旧正文' }, parent, retained]), /matching deletion placeholder/);
+  assert.throws(() => validate([{ ...root, media: [{ src: 'posts/2026/11/gsm-deleted-root/media/old.webp', alt: '旧图' }] }, parent, retained]), /cannot retain media/);
+  assert.throws(() => validate([root, { ...parent, text: '该帖子已被删除' }, retained]), /matching deletion placeholder/);
+  assert.throws(() => validate([root, { ...parent, text: '仍然保留的旧回复' }, retained]), /matching deletion placeholder/);
+  assert.throws(() => validate([root, { ...parent, media: [{ src: 'posts/2026/11/gsm-deleted-root/media/old.webp', alt: '旧图' }] }, retained]), /cannot retain media/);
+});
+
 test('pending canonical import remains hidden and hash-checked cancellation preserves history', async t => {
   const { root } = await fixture(t), before = await snapshot(root);
   const post = postOf('gsm-storage-pending'), batch = batchOf([post]);

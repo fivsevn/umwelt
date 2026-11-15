@@ -746,7 +746,7 @@ async function briefLocked({ root, directory, postId, replyTo, threadId, now }) 
   const visiblePosts = [...visible.values()].filter(post => validDate(post.createdAt) && Date.parse(post.createdAt) <= Math.min(now, Date.parse(createdAt)))
     .sort((a, b) => Date.parse(a.createdAt) - Date.parse(b.createdAt) || a.id.localeCompare(b.id, 'en')).map(post => ({
     id: post.id, author: post.author, replyTo: post.replyTo, createdAt: post.createdAt,
-    ...(post.deleted ? { text: '该回复已被删除。', partial: false, media: [] } : {
+    ...(post.deleted ? { text: post.replyTo === null ? '该帖子已被删除。' : '该回复已被删除。', partial: false, media: [] } : {
       ...visibleExcerpt({ seed: operation.plan.seed, postId, visibleId: post.id, text: typeof post.text === 'string' ? post.text : '', mode: choices.textWindow, characters: config.excerptCharacters }),
       media: Array.isArray(post.media) ? post.media : []
     })
@@ -783,7 +783,7 @@ async function briefLocked({ root, directory, postId, replyTo, threadId, now }) 
       self: { id: author, name: guest ? draft.guest.name : ownUser.name, documents: profiles.map(profile => profile.document),
         recentPosts: [...before.values()].filter(post => post.author === author && validDate(post.createdAt) && Date.parse(post.createdAt) <= Math.min(now, Date.parse(createdAt)))
           .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt) || a.id.localeCompare(b.id, 'en')).slice(0, 5)
-          .map(post => ({ id: post.id, createdAt: post.createdAt, replyTo: post.replyTo, text: post.deleted ? '该回复已被删除。' : post.text, media: post.deleted ? [] : post.media })),
+          .map(post => ({ id: post.id, createdAt: post.createdAt, replyTo: post.replyTo, text: post.deleted ? (post.replyTo === null ? '该帖子已被删除。' : '该回复已被删除。') : post.text, media: post.deleted ? [] : post.media })),
         voiceExamples: { status: 'practice', items: profiles.flatMap(profile => profile.examples) } },
       conditions: adaptedCase ? [] : choices.conditions.filter(condition => contextual || condition.dimension !== 'motivation' || !discussion || targetId === null && discussion.requiredTone !== 'negative' && discussion.toneSuggestion !== 'negative').map(condition => ({ ...condition, instruction: conditionText[condition.value] })),
       ...(target || choices.emoteCount > 0 || adaptedCase ? { comments: scopedSource('environment/research-comments.md', [...(target ? ['逐条形成回复'] : []), '用表情接话']) } : {}),
