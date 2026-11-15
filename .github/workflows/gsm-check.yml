@@ -29,9 +29,8 @@ jobs:
           node gsm/tools/publish.mjs validate
           node gsm/tools/publish.mjs build
           git diff --exit-code -- gsm/posts gsm/users gsm/assets/avatars gsm/data/feed.mjs gsm/accounts.json
-      - name: Confirm reference repository stays a data-only input
+      - name: Confirm independent local collection and protected display documents
         run: |
-          test ! -e gsm/tools/engine/collect-opinions.js
-          test ! -e gsm/tools/engine/opinion-sources.js
+          node --input-type=module -e "import assert from 'node:assert/strict'; import {intakeRepository, intakeDocument} from './gsm/tools/engine/intake-refresh.js'; assert.equal(intakeRepository, 'fivsevn/umwelt'); assert.equal(intakeDocument, 'gsm/environment/sources-daily-opinions.md');"
           test ! -e gsm/tools/engine/opinion-ptt.js
           git diff --exit-code -- README.md README_EN.md README_JA.md

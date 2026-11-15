@@ -1,21 +1,22 @@
 # 环境资料
 
-本站资料独立保存在 GSM。现实人类材料用于理解事件、兴趣和交流，采用时按[守宫化](../docs/localization.md)落到守宫的身体、处境、视角与口吻；取材范围不收窄为宠物或饲养话题。迁移本身不产生新世界事件。
+这里维护守宫生活的共同条件、取材来源、表达互动研究与公共记忆。GSM 的角色会在网上说话、发图和交往，身体、感官、活动位置与现实处境仍是守宫；研究从这些条件展开。系统方法的移植不代表人类职业、通勤、消费操作或案例原作者的身份也进入本站。
 
-| 文档 | 内容 |
+文件名按职责统一：研究用 `research-`，来源与材料用 `sources-`，公共记忆用 `record-`，模板用 `template-`。同一主题只保留一个正文入口，已合并的旧文件不继续并排维护。
+
+| 文档或入口 | 负责内容 |
 | --- | --- |
-| [世界观目录](worldviews/README.md) | GSM 的世界基线与实际已采用变化 |
-| [每日案例入口](sources-daily-opinions.md) | 唯一跨仓库读取入口；只读路西法零每日更新的材料 |
-| [研究-日常生活](research-everyday-life.md) | 生活条件、社会处境与具体经历的观察方法 |
-| [研究-人物](research-character.md) | 人物怎样理解处境、选择和发生变化 |
-| [研究-说话方式](research-speech.md) | 表达差异、短反应、疏漏与未整理的说法 |
-| [研究-负面与争议](research-negative.md) | 不满、利益、偏见、误会、八卦与冲突 |
-| [研究-Meme](research-meme.md) | 表情、反应图、句式与语境 |
-| [研究-评论与点赞](research-comments.md) | 多人接话、回复关系、冷场与点赞差异 |
-| [研究-世界观](research-worldview.md) | 世界设定组织与资料归属 |
-| [记录-论坛](record-forum.md) | 站内实际发生的公共事件与共同记忆 |
-| [既有世界趋势](world-trends.md) | 迁移前的守宫生态观察、来源范围与环境基线 |
+| [世界观目录](worldviews/README.md) | 各守宫住处与网上共同空间的基线、实际已采用变化 |
+| [研究-世界观](research-worldview.md) | 以身体、空间、照料关系和信息范围组织守宫世界 |
+| [研究-日常生活](research-everyday-life.md) | 栖居、活动、吃喝、探索、身体变化、兴趣与照料影响 |
+| [素材-守宫生态](sources-gecko-ecology.md) | 生物学与环境资料的原始来源、对象、读取范围和适用边界 |
+| [素材-每日案例](sources-daily-opinions.md) | GSM 独立采集的守宫、爬宠及相关社区当前材料 |
+| [素材-精选参考](sources-selected-cases.md) | 经选择长期保留的守宫材料，与每日轮换材料分开 |
+| [研究-评论与点赞](research-comments.md) | 守宫怎样接话、误读、返回、发图，以及虚构点赞差异 |
+| [研究-负面与争议](research-negative.md) | 对生活与网络交往的不满、偏见、嫉妒、护短和争执 |
+| [研究-Meme](research-meme.md) | 守宫反应图、颜文字、姿态玩笑与具体语境 |
+| [记录-论坛](record-forum.md) | 平台实际公开事件与共同记忆 |
 
-`research-` 文档为本地研究候选，后续由 GSM 自己深化；它们记录的历史阅读时间不代表本轮重新访问。人类研究的结论不冒充守宫生物学事实；物种相关事实回到[既有生态参考](../docs/research/references/gecko-ecology.md)及实际来源核对。
+个体怎样形成选择、积累记忆及表达，归 [users](../users/README.md) 中的[人物研究](../users/research-character.md)和[说话方式研究](../users/research-speech.md)。写作、抽签、执行与恢复归 [docs](../docs/README.md)，具体经过归 [posts](../posts/)。
 
-`everyday-life.md`、`meme.md`、`comments.md` 保留迁移前的观察记录；现行方法与参数以上面的研究、[写作规则](../docs/writing.md)和[抽签配置](../publication.json)为准。人物身份、私人关系和持续记忆归 [users](../users/README.md)，原始经过归 [posts](../posts/)。同一事实在负责位置维护，其他文档引用原处。
+研究中的观察不直接成为世界事实。外部帖子先分清照料者看见的动作、评论者的猜测与守宫能够感到的变化；采用后，公共环境写入所属世界的事件记录，私人经历写回实际参与者档案。既有研究保留原读取日期；每次使用新的事实或当前材料，另记实际访问范围。

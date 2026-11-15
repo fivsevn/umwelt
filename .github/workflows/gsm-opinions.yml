@@ -1,0 +1,48 @@
+name: Collect GSM gecko material
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 23:40 UTC = 07:40 Asia/Shanghai. Scheduled starts may be delayed by GitHub.
+    - cron: '40 23 * * *'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gsm-operations
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix gsm/tools/engine
+      - name: Verify collection and local material snapshots
+        run: node --test gsm/tests/gecko-collection.test.mjs gsm/tests/engine-intake.test.mjs
+      - name: Collect public reptile discussions without publishing posts
+        run: node gsm/tools/engine/collect-gecko-opinions.js
+      - name: Validate the collected material
+        run: node gsm/tools/engine/samples.js validate
+      - name: Save only GSM daily material
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          test "$(git rev-parse HEAD)" = "$(git rev-parse FETCH_HEAD)" || { echo 'Main changed during collection; retry from current main.'; exit 1; }
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- gsm/environment/sources-daily-opinions.md
+          if ! git diff --cached --quiet; then
+            git commit -m 'Refresh GSM reptile material'
+            git push origin HEAD:main
+          fi

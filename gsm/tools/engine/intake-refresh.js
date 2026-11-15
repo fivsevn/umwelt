@@ -1,5 +1,5 @@
-// The sole remote dependency: read the already-collected daily document.
-// No credentials, workflow dispatch, repository mutation or crawler runs here.
+// Freeze the GSM-owned daily material in the external operation directory.
+// Collection is a separate local/Actions command; preparing never dispatches another project.
 import { readFile, writeFile, rename, rm, lstat, mkdir, realpath } from 'node:fs/promises';
 import { resolve, join } from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
@@ -9,8 +9,8 @@ import { defaultWorkDirectory } from './operations.js';
 import { parseSampleDocuments } from './samples.js';
 import { validateIntakeReceipt } from './case-adaptation.js';
 
-export const intakeRepository = 'fivsevn/y29';
-export const intakeDocument = 'lucifer0/environment/sources-daily-opinions.md';
+export const intakeRepository = 'fivsevn/umwelt';
+export const intakeDocument = 'gsm/environment/sources-daily-opinions.md';
 export const snapshotName = 'daily-material.json';
 const hash = text => createHash('sha256').update(text).digest('hex');
 const blob = text => createHash('sha1').update('blob ' + Buffer.byteLength(text) + '\0' + text).digest('hex');
@@ -45,13 +45,7 @@ export async function readIntakeSnapshot(work, { root, now } = {}) {
   parseSampleDocuments([{ path: 'environment/sources-daily-opinions.md', text: value.text }]);
   return value;
 }
-async function get(url, fetchImpl) {
-  const response = await fetchImpl(url, { method: 'GET', redirect: 'error', cache: 'no-store', signal: AbortSignal.timeout(30000),
-    headers: { Accept: 'application/vnd.github+json', 'User-Agent': 'GSM-daily-material-reader' } });
-  if (!response.ok) fail('read failed (HTTP ' + response.status + '); existing work is retained');
-  return response;
-}
-export async function refreshIntake({ root = socialRoot, workDirectory, now = Date.now(), fetchImpl = globalThis.fetch } = {}) {
+export async function refreshIntake({ root = socialRoot, workDirectory, now = Date.now() } = {}) {
   root = resolve(root);
   const stat = await lstat(root);
   if (!stat.isDirectory() || stat.isSymbolicLink()) fail('project root must be a regular directory');
@@ -76,15 +70,15 @@ export async function refreshIntake({ root = socialRoot, workDirectory, now = Da
         return { status: 'ready', workDirectory: work, intakeReceipt: saved.receipt };
       }
       // No operation owns this stale snapshot. Replace only after a fresh,
-      // fully checked GET succeeds; every failure leaves these bytes intact.
+      // fully checked local document succeeds; every failure preserves these bytes.
     }
-    const url = `https://api.github.com/repos/${intakeRepository}/commits?path=${encodeURIComponent(intakeDocument)}&sha=main&per_page=1`;
-    const commits = await (await get(url, fetchImpl)).json();
-    const revision = commits?.[0]?.sha;
-    if (!/^[a-f0-9]{40}$/.test(revision)) fail('cannot identify the current material revision');
-    const response = await get(`https://raw.githubusercontent.com/${intakeRepository}/${revision}/${intakeDocument}`, fetchImpl);
-    const text = await response.text();
-    if (Buffer.byteLength(text) > 2_000_000 || text.includes('\0')) fail('invalid material document');
+    const folder = join(root, 'environment'), path = join(folder, 'sources-daily-opinions.md');
+    const folderStat = await lstat(folder), sourceStat = await lstat(path);
+    if (!folderStat.isDirectory() || folderStat.isSymbolicLink() || !sourceStat.isFile() || sourceStat.isSymbolicLink() || sourceStat.size > 2_000_000) fail('expected a regular bounded local material document');
+    const text = await readFile(path, 'utf8');
+    if (text.includes('\0')) fail('invalid material document');
+    // A content-addressed revision also works in isolated exports without a .git folder.
+    const revision = blob(text);
     const receipt = { repository: intakeRepository, path: intakeDocument, revision, documentSha: blob(text), documentDigest: hash(text),
       collectedAt: collectedAt(text), fetchedAt: new Date(now).toISOString() };
     validateIntakeReceipt(receipt, { documentText: text, now });

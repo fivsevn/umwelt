@@ -29,7 +29,11 @@ export function drawCaseCount(seed, policy = { min: 1, max: 2 }) {
 }
 export function validateIntakeReceipt(receipt, { documentText, now } = {}) {
   keys(receipt, ['repository', 'path', 'revision', 'documentSha', 'documentDigest', 'collectedAt', 'fetchedAt'], 'intake receipt');
-  if (receipt.repository !== 'fivsevn/y29' || receipt.path !== 'lucifer0/environment/sources-daily-opinions.md' ||
+  const local = receipt.repository === 'fivsevn/umwelt' && receipt.path === 'gsm/environment/sources-daily-opinions.md';
+  // Older immutable operations retain their actual imported receipt. New
+  // preparation obtains the local pair exclusively through intake-refresh.
+  const historical = receipt.repository === 'fivsevn/y29' && receipt.path === 'lucifer0/environment/sources-daily-opinions.md';
+  if ((!local && !historical) ||
     !/^[a-f0-9]{40}$/.test(receipt.revision) || !/^[a-f0-9]{40}$/.test(receipt.documentSha) ||
     !/^[a-f0-9]{64}$/.test(receipt.documentDigest) || !validDate(receipt.collectedAt) || !validDate(receipt.fetchedAt) ||
     Date.parse(receipt.collectedAt) > Date.parse(receipt.fetchedAt) + 300000) fail('invalid intake receipt');

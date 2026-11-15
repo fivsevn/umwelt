@@ -41,8 +41,8 @@ async function fixture(t, { installedEmotes = false } = {}) {
   const now = Date.now();
   const text = '# Test-only material\n<!-- samples:start -->\n采集时间：' + localStamp(now - 60000) + '（北京时间）\n\n' +
     Array.from({ length: 8 }, (_, index) => `### 讨论 ${index}\n1. **发言者 1**：测试片段 ${index} 的东西又被挪走了。\n2. **发言者 2**：有点烦。`).join('\n\n') + '\n<!-- samples:end -->\n';
-  const intake = await refreshIntake({ root, workDirectory, now, fetchImpl: async url =>
-    new Response(url.startsWith('https://api.github.com/') ? JSON.stringify([{ sha: 'a'.repeat(40) }]) : text, { status: 200 }) });
+  await writeFile(join(root, 'environment/sources-daily-opinions.md'), text);
+  const intake = await refreshIntake({ root, workDirectory, now, fetchImpl: () => { throw Error('Preparation must remain offline'); } });
   const options = { root, workDirectory, now, entropy: () => 'gsm-operation-integration', intakeReceipt: intake.intakeReceipt };
   return { directory, root, workDirectory, now, options };
 }
@@ -72,6 +72,10 @@ test('daily reading and isolated writers receive the installed gecko emotes and 
   assert.ok(roots.some(id => caseIds.has(id)) && roots.some(id => !caseIds.has(id)));
   const checkCatalogs = brief => {
     assert.ok(brief.writer);
+    assert.deepEqual(brief.writer.site.research.map(item => item.sourcePath),
+      ['environment/research-everyday-life.md', 'users/research-character.md', 'users/research-speech.md']);
+    assert.match(brief.writer.site.instruction, /饲养者不是它/);
+    for (const item of brief.writer.site.research) assert.ok(reading.includes(item.text), item.sourcePath);
     assert.deepEqual(brief.writer.siteEmotes, { sourcePath: emotesPath, ...emotes });
     assert.deepEqual(brief.writer.localization.siteEmotes, { sourcePath: emotesPath, ...emotes });
     assert.deepEqual(brief.writer.localization.kaomoji, { sourcePath: kaomojiPath, ...kaomoji });

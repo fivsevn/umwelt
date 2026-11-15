@@ -151,9 +151,9 @@ v2不要求为每条原创证明开口理由，`reviews.context` 只在核对事
 ```json
 "context": {
   "decision": "adapt",
-  "action": "询问桌腿接口是否松脱",
+  "action": "询问藏身处入口是否被挡住",
   "basis": [
-    { "kind": "visible-post", "ref": "实际可见父帖ID", "detail": "父帖只展示了晃动位置，尚未说明接口情况。" }
+    { "kind": "visible-post", "ref": "实际可见父帖ID", "detail": "父帖只展示入口一侧，尚未说明另一侧能否通过。" }
   ],
   "postDigest": "复制 suggest 对应帖号的 postDigest"
 }

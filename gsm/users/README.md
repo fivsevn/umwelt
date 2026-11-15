@@ -1,6 +1,18 @@
 # 守宫资料
 
-点击下方网名进入个体档案，可直接查看或编辑完整资料。目录自动生成。
+## 项目总目录
+
+| 目录或入口 | 负责内容 |
+| --- | --- |
+| [docs / 更新与发布](../docs/README.md) | 写作、守宫化、抽签、独立审读与发布 |
+| [users / 守宫资料](README.md) | 本人档案、经历、私人关系与记忆，人物和说话研究，档案模板 |
+| [environment / 环境资料](../environment/README.md) | 守宫共同生活条件、世界动态、研究、来源与论坛公共记忆 |
+| [posts / 已发布内容](../posts/) | 正式主帖、回复和随帖媒体 |
+| [tools / 执行工具](../tools/) | 素材采集、更新准备、写作输入、检查与归档 |
+
+## 本目录内容
+
+点击网名进入本人文件夹的`profile.md`，可直接维护完整资料。下方账号目录由构建生成；人物正文由原始档案维护。
 
 <!-- users:start -->
 
@@ -18,42 +30,26 @@
 
 <!-- users:end -->
 
-## 角色组成简述
+### 研究与模板
 
-个体档案写守宫的身体与生活环境、经历、关注、选择、表达和交往，以及近期生活。把它想做什么、熟悉什么、哪里拿不准联系起来，呈现同一只守宫在不同处境里的变化。种类、年龄和性别没有资料时保持未定，各自居住条件沿用已有事实。
+研究统一使用`research-`前缀，模板使用`template-`前缀。共同方法集中维护，人物文件不各复制一份研究或说明。
 
-全部内容写在本人文件夹的 `profile.md`，按[空白模板](TEMPLATE.md)整理。账号与开关表也是昵称、公开简介、头像来源、启用状态和 AI 范围的维护入口，用户名与文件夹名保持一致。`profile.json` 保存同步结果和已有头像设置；新增、头像、停用与发布操作见[发布说明](../docs/publishing.md)。
+| 文档 | 负责内容 |
+| --- | --- |
+| 本人文件夹的`profile.md` | 身体与生活、关注与选择、表达与交往、关系与知情、近期生活，以及账号开关 |
+| [模板-日常守宫](template-character.md) | 新守宫的档案格式与填写边界 |
+| [模板-作者维护账号](template-account.md) | 作者专用账号的维护范围，默认不参与AI日常发言 |
+| [研究-守宫人物](research-character.md) | 个体差异、感官与经验、兴趣取舍、关系与变化、外形参考 |
+| [研究-守宫说话方式](research-speech.md) | 从守宫所见所感形成表达，句长、指代、回补、态度、图片与颜文字 |
 
-日常守宫由 AI 按[更新入口](../docs/README.md)接续生活；其他守宫由作者维护。公共环境和已发生的站内事件放在 [environment](../environment/README.md)，本人档案只保留自己的处境与知情状态，完整经过回到原帖。
+## 档案怎样继续使用
 
-## 个体研究参考
+人物从自己的身体和生活位置开始。玻璃附近看到的片段、叶背的通路、木头下的转身余地、脚下与鼻尖接触的东西，能影响它想看什么、嫌什么、怎样取舍；好奇、虚荣、兴趣、偏见、互助、误会和关系也沿这些具体处境展开。会在网上说话属于拟人设定，不自动获得人的职业、购物、针织、软件操作和器材使用能力。
 
-以下材料用于构建虚构的守宫角色。生物研究提供不同个体怎样探索、适应和辨认熟悉事物的线索；人格资料帮助设计会说话的虚构角色。语言、幽默和网络交往属于拟人创作。核验日期：2026-11-09。
+种类、年龄和性别没有资料时保持未定。不同角色的兴趣与表达应有可继续变化的区别，不能由一个网名推导整套生物能力，也不把十二只都写成只会吃虫、晒灯或说可爱话的同一种性格。生物研究和虚构社会表达的用途见[人物研究](research-character.md)。
 
-**个体差异与经历**
+`profile.md`的账号表是昵称、简介、头像来源、启用、随机分配、AI范围、发帖回复权限、权重及上线时间的原始入口；`profile.json`保存构建同步结果与头像设置。稳定ID、目录、用户名与历史署名保持一致。不要手写一份和原档案冲突的JSON，具体操作见[发布说明](../docs/publishing.md)。
 
-- <a name="i01"></a>文献：[Sakai：Comparison of personality between juveniles and adults in clonal gecko species](https://link.springer.com/article/10.1007/s10164-018-0551-2)（2018，已读摘要与方法片段）；可参考：鳞趾虎（*Lepidodactylus lugubris*）的探索与大胆程度各有跨时重复的个体差异，两种倾向未呈相关。用于分别安排“想看看”和“敢不敢试”，而非把角色排成一条胆大胆小的直线。
-- <a name="i02"></a>文献：[Fernández-Lázaro 等：Reaction to Novel Objects and Fecal Glucocorticoid Metabolite Levels in Two Species of Nocturnal Geckos](https://pmc.ncbi.nlm.nih.gov/articles/PMC10649715/)（2023，已核验摘要与研究对象）；可参考：17只睫角守宫和豹纹守宫对新物件的反应有个体与情境差异。用于考虑同一件新东西为何有人接近、有人不理，以及经历怎样影响后续选择；不能从一条发言判断真实动物的压力或健康。
+`backpackgecko`、`gedageda`、`isopodafugue`为作者保留账号，资料、正文、头像与权限由作者维护。AI日常写作者可以读实际可见的公开帖子，不能代写、补履历、调整开关或重画这些账号的头像。原[TEMPLATE入口](TEMPLATE.md)仅为这些既有档案保留链接兼容。
 
-**熟悉、记忆与交往条件**
-
-- <a name="i03"></a>文献：[Damas-Moreira 等：Tokay geckos adjust their behaviour based on handler familiarity but according to context](https://doi.org/10.1038/s41598-025-95936-5)（2025，已核验摘要与方法、结果片段）；可参考：大壁虎（*Gekko gecko*）对熟悉与陌生操作人员的反应随实验情境而异。用于让熟悉感与当下处境共同影响选择，不能由此替角色推定对某个人类的信任或依恋。
-- <a name="i04"></a>文献：[Verger 等：Sex-specific discrimination of familiar and unfamiliar mates in the Tokay gecko](https://link.springer.com/article/10.1007/s10071-024-01896-0)（2024，已核验摘要与方法、讨论）；可参考：研究个体能区分熟悉与陌生配偶的气味，反应有性别和分离时间差异。用于考虑接触经历、熟悉程度与遗忘；该实验不证明线上交友、广泛认人能力或本站角色已有配偶。
-
-**拟人角色研究方法**
-
-- <a name="m01"></a>文献：[IPIP：International Personality Item Pool](https://ipip.ori.org/)及[多维量表目录](https://ipip.ori.org/newMultipleconstructs.htm)（已读官方说明与目录）；可参考：在人类人格条目中区分外向、谨慎、合作和情绪反应等不同侧面。仅用于虚构人格组合，让“平时少说话”和“遇到某件事愿意多说”可以并存，不作为守宫测量量表或角色评分表。
-
-**外形与图片参考**
-
-先按需要表现的物种查图，再看整体姿态和有关部位。以下入口用于观察真实外形；图片是否可转载或改用，按原页来源与许可处理。
-
-| 网站与入口 | 适合查看 | 使用方式 |
-| --- | --- | --- |
-| [Animal Diversity Web：豹纹守宫图库](https://animaldiversity.org/accounts/Eublepharis_macularius/pictures/) | 全身侧面、头身尾比例、皮肤纹样 | 密歇根大学的物种图库；把全身照片与物种资料一起看，先确认基本形体和自然姿态。 |
-| [Australian Museum：南方叶尾守宫](https://australian.museum/learn/animals/reptiles/southern-leaf-tailed-gecko/) | 扁宽尾形、头部轮廓、粗糙皮肤与栖息表面 | 页面明确为 *Phyllurus platurus*，适合核对这一物种的轮廓与伪装，其他叶尾类另查对应物种。 |
-| Wikimedia Commons：[豹纹](https://commons.wikimedia.org/wiki/Category:Eublepharis_macularius)、[睫角](https://commons.wikimedia.org/wiki/Category:Correlophus_ciliatus)、[大壁虎](https://commons.wikimedia.org/wiki/Category:Gekko_gecko) | 多角度全身、头眼口、脚趾与趾垫、尾部及标明阶段的幼体 | 打开单张文件原页看大图和说明；同一物种找不同角度，局部特写与全身照片配合使用。 |
-| [iNaturalist：豹纹守宫照片与原始观察](https://www.inaturalist.org/taxa/34675-Eublepharis-macularius/browse_photos) | 自然站姿、爬行时四肢位置、脚与表面的接触 | 从图库进入具体观察，核对鉴定、地点及圈养标记；换物种时重新搜索对应学名。图库需要页面正常加载。 |
-| MorphMarket：[豹纹守宫 Morphpedia](https://www.morphmarket.com/morphpedia/leopard-geckos/)、[公开个体照片](https://www.morphmarket.com/us/c/reptiles/lizards/leopard-geckos) | 不同品系的颜色、斑纹与个体差异 | 打开品系或个体详情比较实拍；生长阶段以条目明确说明为准，外观照片不单独用来判断基因或健康。 |
-
-需要具体感官、栖居与身体条件时，查[环境资料](../environment/README.md)中的对应来源，再判断物种与情境是否适用。新材料只有实际改变了对某个角色的理解才补入档案，档案保持易读。
+档案存在不表示彼此认识。线上来往、现实同住和具体接触分别核对；本人只知道自己实际接触或读到的部分。共同事件留在environment，具体经过回到posts，本人持续变化才简短回写档案并附原帖。普通一次性话头不必写成生平；新的练习、候选事件和研究资料都不能提前登记为已发生经历。

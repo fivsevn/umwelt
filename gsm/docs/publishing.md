@@ -11,7 +11,7 @@ node gsm/tools/update.mjs prepare
 node gsm/tools/update.mjs prepare --work /outside/work
 ```
 
-新操作只读[每日案例入口](../environment/sources-daily-opinions.md)所指向的最新材料，核对版本、摘要与24小时内的材料时效，保存到仓库外的当前工作目录。这里不触发路西法零 Actions、不推送采集请求、不拉取或执行其代码、不使用其发布权限。无法访问、过期或可用案例不足时保留已取得状态并报告失败，不用旧材料或虚构内容补齐；恢复后继续原入口。
+新操作只读[每日案例入口](../environment/sources-daily-opinions.md)所指向的最新材料，核对版本、摘要与24小时内的材料时效，保存到仓库外的当前工作目录。每日采集由本站独立采集器及 `gsm-opinions.yml` 执行；`prepare` 读取本地材料，不运行采集器，也不访问参考仓库。无法访问、过期或可用案例不足时保留已取得状态并报告失败，不用旧材料或虚构内容补齐；恢复后继续原入口。
 
 准备完成后输出 `operation.json` 与 `reading.md` 的绝对路径。前者保存当前更新的抽签、观察与草稿，后者汇集本地完整规则、全体守宫档案、世界基线、研究和近期几轮帖子原文，以及本操作读取的素材快照。具体作者与目标串的早期材料由 `brief` 按需取得，全部归档仍参与完整性核验。准备结果中的 `researchWindows` 按[抽签规则](lottery.md)用于真实网页观察。
 
@@ -37,7 +37,7 @@ node gsm/tools/update.mjs prepare --work /outside/work
 | `publishedAt` | 原始发布时间；无法确认时填 `null` |
 | `summary` | 实际读到的范围、值得参考的情境或交流；采用时补对应帖子 ID 和改编方向 |
 
-观察覆盖三个类别、至少三个不同页面和两个来源域名，其中有一段实际读到回复的讨论。访问发生在本次更新前 48 小时内，至少一项材料发表于最近七天。旧材料保留原日期，当前话题的热度按本次可读内容记录。
+观察从[生态来源](../environment/sources-gecko-ecology.md)及本站爬宠社区入口进入，正式资讯观察栖居或动物环境变化，社交话题和日常观察选择守宫、爬宠与相关活动。覆盖三个类别、至少三个不同页面和两个来源域名，其中有一段实际读到回复的讨论。访问发生在本次更新前 48 小时内，至少一项材料发表于最近七天。旧材料保留原日期，当前话题的热度按本次可读内容记录。
 
 采用当前素材或精选案例时，按[素材取用](../environment/sources-daily-opinions.md#论坛怎样读取)记录，不为补足页面字段恢复原身份或平台，也不单独算作一项新鲜网页观察。
 
@@ -67,7 +67,7 @@ node gsm/tools/update.mjs prepare --work /outside/work
 { "postId": "update-example-01", "negative": true, "reason": "嫌对方反复误读自己的话，语气不耐烦。" }
 ```
 
-`postId` 对应当前 `posts` 中的一条实际发言，`negative` 是终稿态度的布尔判断，`reason` 简短注明实际语气，例如“嫌弃画面难看”“跟着嘲笑”；普通内容同样登记 `negative: false` 并写清依据。修改正文后同步复核。记录只保存在操作文件，不进入公开帖子，也不要求逐条证明动机。涉及事实、知情或具体改写时可填 `reviews.context`；其结构、摘要取得方法及旧操作要求统一见[保存与恢复](lottery.md#保存与恢复)。
+`postId` 对应当前 `posts` 中的一条实际发言，`negative` 是终稿态度的布尔判断，`reason` 简短注明实际语气，例如“嫌弃画面难看”“跟着嘲笑”；普通内容同样登记 `negative: false` 并写清依据。修改正文后同步复核。记录只保存在操作文件，不进入公开帖子，也不要求逐条证明动机。涉及事实、知情或具体改写时可填 `reviews.context`；守宫化依据放在整轮 `diversityReview.content`，逐条有问题时在本条 `reason` 或 `context` 写清；其结构、摘要取得方法及旧操作要求统一见[保存与恢复](lottery.md#保存与恢复)。
 
 整轮负面底线与原创负面机会分别按[负面与回复提示](lottery.md#负面与回复提示)核对，不把底线分摊到每个人或每串。原创回复沿本轮抽中的数量空间，案例回复沿采用的源互动；两路共同核对实际父关系、时间和终稿分类。
 
@@ -85,9 +85,9 @@ node gsm/tools/update.mjs prepare --work /outside/work
 
 新增前先核对已有案例：同一原串的深化阅读补回原条目，写清这次新增的读取范围与访问日期；有独立价值的新样本沿原编号追加。记录原始日期、实际读到的楼层或分支、影响理解的先后关系，以及未展开、缺失或只见链接的部分。方法上的新发现修订本专题对应章节，已有概括相同的地方合并；过时资料核实后修正。
 
-冲突的触发与转向归[研究-负面与争议](../environment/research-negative.md)，回复怎样参与和接续归[研究-评论与点赞](../environment/research-comments.md)，表达形式与疏漏归[研究-说话方式](../environment/research-speech.md)。同一来源在主要专题登记一次，其他专题用链接引用适用处。现有文档能容纳的研究继续在原处深化；确需新增文档时，先向用户说明名称、职责及与现有文档的边界。
+冲突的触发与转向归[研究-负面与争议](../environment/research-negative.md)，回复怎样参与和接续归[研究-评论与点赞](../environment/research-comments.md)，表达形式与疏漏归[研究-说话方式](../users/research-speech.md)。同一来源在主要专题登记一次，其他专题用链接引用适用处。现有文档能容纳的研究继续在原处深化；确需新增文档时，先向用户说明名称、职责及与现有文档的边界。
 
-当前素材与用户挑选的长期案例沿[素材-每日舆论](../environment/sources-daily-opinions.md)取用，专题只补分析并引用材料日期与标题，不复制整串。自动刷新与本轮研究补充各记实际完成的工作。
+当前轮换素材沿[每日案例](../environment/sources-daily-opinions.md)取用，长期观察统一保存在[精选参考](../environment/sources-selected-cases.md)；后者不自动补位每日抽签。专题只补分析并引用主体材料，不复制整串。自动刷新与本轮研究补充各记实际完成的工作。
 
 完成检查后，将结果填入 `operation.json.researchMaintenance`，每份选中文档对应一项：
 
@@ -146,7 +146,7 @@ node gsm/tools/update.mjs brief --post 本次操作ID-02 --reply-to 父帖ID --v
 
 把返回的 `writer` 单独交给独立的本条写作者，策划者保留完整阅读包与整轮材料；将完成的文字、图片和已确定身份填入 `draft`，再保存到 `operation.json.posts`。
 
-`writer.createdAt` 是本条时间，`writer.self.voiceExamples` 是标记为 `practice` 的表达练习，其余本人档案保存正式背景。`writer.localization` 随每条发言提供完整本站化规则、颜文字及 GSM 守宫图像清单，原创与案例、主帖与回复都读取，不依赖是否抽中媒体机会。原创写作者结合普通动机与抽中的负面倾向开口，案例按 `writer.caseAdaptation` 和源帖处理；创作判断统一按[写作与改编](writing.md)。涉及媒体机会或案例图片时，单条材料提供配图方法，实际取得的文件仍要打开检查。
+`writer.createdAt` 是本条时间，`writer.self.voiceExamples` 是标记为 `practice` 的表达练习，其余本人档案保存正式背景。`writer.site.research` 为每位写作者提供守宫日常、人物和表达研究；`writer.localization` 随每条发言提供完整本站化规则、颜文字及 GSM 守宫图像清单，原创与案例、主帖与回复都读取，不依赖是否抽中媒体机会。原创写作者结合普通动机与抽中的负面倾向开口，案例按 `writer.caseAdaptation` 和源帖处理；创作判断统一按[写作与改编](writing.md)。涉及媒体机会或案例图片时，单条材料提供配图方法，实际取得的文件仍要打开检查。
 
 策划者仅在本条用得上时，从完整阅读包核对本人已知的背景片段，补入单条 `writer`；不能把另一人的档案当作他自然知道的背景。无档案的发言者只需当前发言用得上的处境，无须另编完整经历。每写完一条，先保存初稿，再执行：
 
@@ -191,7 +191,7 @@ node gsm/tools/update.mjs suggest --work /outside/work
 
 `ingest` 自动把引用的 PNG、JPG、JPEG、SVG 转换为同名 WebP，保留原尺寸、比例、透明度与 `kind`，同步更新操作文件、帖子 Markdown 和信息流的路径，引用保存成功后删除对应旧文件。已是 WebP 的图片不重复压缩。直接上传并由帖子引用的位图也会在构建时转换，Actions 提交新 WebP、引用变化和旧文件删除。
 
-媒体的 `fit`、`kind` 和实际画面含义在归档中保留；页面通过 GSM 原有适配层读取。视觉和交互继续沿当前掌机设计，不套用参考站的缩略图、80像素表情或登录布局。核对时查看信息流、独立讨论和个人主页中的实际图文，确认图片、回复入口与既有交互正常；具体画面检查沿[配图](writing.md#配图)执行。
+媒体的 `fit`、`kind` 和实际画面含义在归档中保留；页面通过 GSM 原有适配层读取。视觉和交互沿当前掌机设计；本站表情的显示上限及普通图行为见[本站资源](localization.md#资源与称呼)。核对时查看信息流、独立讨论和个人主页中的实际图文，确认图片、回复入口与既有交互正常；具体画面检查沿[配图](writing.md#配图)执行。
 
 素材获取或生成受限时，保留当前操作，记录实际完成状态和具体原因，后续沿原操作接续。所需画面不能取得时，按实际表达重整对应草稿，`media` 只登记已取得、已检查的文件。
 
@@ -260,7 +260,7 @@ node gsm/tools/update.mjs finish --work /outside/work
 
 账号身份、公开资料与权限以各自 `users/用户名/profile.md` 的“账号与开关”为来源；`accounts.json` 和 `profile.json` 是构建读取结果，头像技术设置继续保留。稳定 ID、用户名与目录保持一致。停用账号通过原开关处理，历史身份、头像和帖子不能删除。
 
-“作者保留”账号不参与 AI 发帖或回复。AI 不为这些账号改写正文、补设履历、调整权限或批量重画头像；作者明确授权的人工内容按原入口归档。新增常驻守宫沿[现有模板](../users/TEMPLATE.md)建档，实际关系与记忆仍须有资料依据。资料适配不把人类档案复制成 GSM 用户。
+“作者保留”账号不参与 AI 发帖或回复。AI 不为这些账号改写正文、补设履历、调整权限或批量重画头像；作者明确授权的人工内容按原入口归档。新增常驻守宫沿[现有模板](../users/template-character.md)建档，实际关系与记忆仍须有资料依据。资料适配不把人类档案复制成 GSM 用户。
 
 网页继续使用原有掌机外壳、媒体呈现、三语设置、点赞、帖子讨论与个人主页。系统移植不引入参考站的 `/about`、登录弹窗、资讯账号或首帖。
 
@@ -325,23 +325,25 @@ node gsm/tools/engine/writer-evaluation.js report --key /outside/review-v2/key.j
 
 ## 持久保存与工作流重放
 
-GitHub Actions 的准备与发布分别使用 `.github/workflows/gsm-prepare.yml`、`.github/workflows/gsm-publish.yml`。两份流程只手动启动，在 UMWELT 本仓库读写 [`gsm/operations/`](../operations/README.md)，使用本仓库正常提供的 `GITHUB_TOKEN`；不需要独立归档仓库、额外访问凭据或路西法零的写入权限。每日案例仍通过公开只读访问取得。
+GitHub Actions 的准备与发布分别使用 `.github/workflows/gsm-prepare.yml`、`.github/workflows/gsm-publish.yml`。两份流程只手动启动，在 UMWELT 本仓库读写 [`gsm/operations/`](../operations/README.md)，使用本仓库正常提供的 `GITHUB_TOKEN`；不需要独立归档仓库、额外访问凭据或路西法零的写入权限。每日案例由本站定时采集公开爬宠来源，使用本仓库普通权限保存。
 
 当前工作目录继续保存正在操作的文件；持久归档默认保存到 `gsm/operations/操作ID/阶段/摘要/`。归档包含阅读包、原操作与抽签、实际草稿、已有初稿历史、每日素材快照和引用媒体，并记录源提交与各文件校验和；`prepared` 和 `reviewed` 分别保存，后续修订保留先前版本。归档随 UMWELT 仓库公开，网页构建明确排除整个 `gsm/operations/`，日常阅读包也不扫描此目录。
 
 研究、档案、规则及工具源修改先提交，再沿原工作目录 `prepare` 补读并审定；归档工具拒绝未提交的源改动，仅允许本次已经逐字节纳入归档的媒体、操作归档和指定工作目录。归档提交本身不会使已审读操作失效：重放时比较源版本与当前版本，排除 `gsm/operations/` 的差异，其余实际源内容变化仍须补读、审读。
 
-在源仓库根目录执行，`GSM_WORK` 为原工作目录：
+在源仓库根目录执行，`GSM_WORK` 为原工作目录。先在本地做完实际写作、独立审读和检查，再把 prepared/reviewed 归档与正式内容集中提交部署；阶段快照仍分别保存。仅需异地交接或中断恢复时单独提交准备归档，避免为同一轮多次等待网站部署。多轮内容按一轮一轮交付：
 
 ```sh
 node gsm/tools/operation-archive.mjs save --root "$PWD/gsm" --work "$GSM_WORK" --stage prepared
 node gsm/tools/operation-archive.mjs save --root "$PWD/gsm" --work "$GSM_WORK" --stage reviewed
-git add -- gsm/operations
-git commit -m 'Archive GSM operation'
-git push origin main
+node gsm/tools/publish.mjs ingest /outside/work/operation.json --reviewed --ai
+node gsm/tools/publish.mjs validate
+node gsm/tools/publish.mjs build
+node tools/check-all.mjs
+# 将本轮实际归档、帖子、媒体、必要档案及派生文件一并提交，再推送一次。
 ```
 
-`prepared` 在材料准备完成后保存，`reviewed` 在实际文字、图片与独立审读完成后保存；阶段完成时提交对应版本，不把尚未审读的草稿标为 `reviewed`。归档工具本身不联网、不自动推送；手动准备工作流先只读每日材料，再保存并提交 `prepared` 版本，不自行写稿或发帖。发布工作流接收实际 `operation_id`，可指定不可变的 `bundle_id`，只接受已完成写作与审读的真实操作，不修改脚本里的运行编号、草稿 blob 或帖数。
+`prepared` 在材料准备完成后保存，`reviewed` 在实际文字、图片与独立审读完成后保存；阶段完成时保存快照，最终集中提交；不把尚未审读的草稿标为 `reviewed`。归档工具本身不联网、不自动推送；手动准备工作流先只读每日材料，再保存并提交 `prepared` 版本，不自行写稿或发帖。发布工作流接收实际 `operation_id`，可指定不可变的 `bundle_id`，只接受已完成写作与审读的真实操作，不修改脚本里的运行编号、草稿 blob 或帖数。
 
 从当前仓库已有归档恢复到空的仓库外工作目录：
 
@@ -362,6 +364,6 @@ node gsm/tools/operation-archive.mjs restore --root "$PWD/gsm" --work "$GSM_WORK
 
 准备与发布共享本仓库的操作串行队列；提交前核对远端 `main`，源仓库在运行中发生变化时停止并保留已有归档，不强行覆盖其他提交。归档不进入网页产物，完成准备也不等于完成写作或真实发帖；实际运行结果单独核对。
 
-上述 GSM 工作流没有定时自动发帖任务。无写作者或独立编辑者执行时，准备只产生待办材料，发布只接收已存在的审定操作；不在 Actions 内假装完成写作或人工审读。两站没有共享发布锁、工作目录或采用账本。
+`gsm-opinions.yml` 只定时采集素材，不写帖子；上述准备与发布工作流没有定时自动发帖任务。无写作者或独立编辑者执行时，准备只产生待办材料，发布只接收已存在的审定操作；不在 Actions 内假装完成写作或人工审读。两站没有共享发布锁、工作目录或采用账本。
 
 本次系统迁移及后续代码部署不顺带处理待发布的人工内容。部署核验后，原有收件箱清理只移除已经归档、字节匹配且实际在线核验通过的原图或输入；新稿、同名新图与未导入输入继续保留。
