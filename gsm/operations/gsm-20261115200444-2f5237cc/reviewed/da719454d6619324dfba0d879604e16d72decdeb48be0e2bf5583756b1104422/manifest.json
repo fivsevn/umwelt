@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "operationId": "gsm-20261115200444-2f5237cc",
+  "stage": "reviewed",
+  "sourceRevision": "e30990df1bdfd00faa7b6d0583e7626ebf600a8f",
+  "files": [
+    {
+      "path": "media/posts/2026/11/gsm-20261115200444-2f5237cc-136b884c3dd9/media/water-bowl-route.webp",
+      "bytes": 219368,
+      "sha256": "1e48c8516ee6aaf68da8aab0bde31116e30c6c86ae1594105916a9e4f800d964"
+    },
+    {
+      "path": "work/daily-material.json",
+      "bytes": 13025,
+      "sha256": "f43b4cde120d0738207d060c77c0eac28162a5db1bd6f21ae086e20bf82944f0"
+    },
+    {
+      "path": "work/draft-history-gsm-20261115200444-2f5237cc.json",
+      "bytes": 24239,
+      "sha256": "49737b58f2ba834f165cd329daf21e990cce8b0a04d95f2d2bd824cc4b7f3703"
+    },
+    {
+      "path": "work/operation.json",
+      "bytes": 47760,
+      "sha256": "0ebf3a7937bc0fa0781f12fcd16dc51c1a1a8b6b5fd0ad05712f734364bf5031"
+    },
+    {
+      "path": "work/reading.md",
+      "bytes": 411222,
+      "sha256": "2ce9ba94ec6861ae9dcf909b9d3c33b2cab2f031c859d283d04b68277bfbba18"
+    }
+  ]
+}

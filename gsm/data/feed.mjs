@@ -1,5 +1,40 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "guest-83ba667925c6c484": {
+    "handle": "guest-83ba667925c6c484",
+    "name": "名字没想好",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-83ba667925c6c484.webp?v=3a99410baa47",
+    "color": "sand"
+  },
+  "guest-d314756023891ccf": {
+    "handle": "guest-d314756023891ccf",
+    "name": "咸鱼",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-d314756023891ccf.webp?v=d880f2ec2809",
+    "color": "rose"
+  },
+  "guest-ac333d7bff00b696": {
+    "handle": "guest-ac333d7bff00b696",
+    "name": "小年",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-ac333d7bff00b696.webp?v=d880f2ec2809",
+    "color": "sand"
+  },
+  "guest-67067b18b293856a": {
+    "handle": "guest-67067b18b293856a",
+    "name": "mika",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-67067b18b293856a.webp?v=d880f2ec2809",
+    "color": "rose"
+  },
+  "guest-9c9388627f4398d7": {
+    "handle": "guest-9c9388627f4398d7",
+    "name": "圆圆",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-9c9388627f4398d7.webp?v=05a84418ff61",
+    "color": "sage"
+  },
   "guest-e813e79f2a2fe935": {
     "handle": "guest-e813e79f2a2fe935",
     "name": "K2",
@@ -219,6 +254,211 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "gsm-20261115200444-2f5237cc-05",
+    "date": "2026-11-16T03:56:49.467+08:00",
+    "createdAt": 1794772609467,
+    "author": "guest-83ba667925c6c484",
+    "likes": 10,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "这碗沿真厚，看着就烦。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "这碗沿真厚，看着就烦。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "这碗沿真厚，看着就烦。"
+        }
+      ]
+    },
+    "replyTo": "gsm-20261115200444-2f5237cc-136b884c3dd9"
+  },
+  {
+    "id": "gsm-20261115200444-2f5237cc-e7fb63d7f7ca",
+    "date": "2026-11-16T03:44:43.031+08:00",
+    "createdAt": 1794771883031,
+    "author": "guest-d314756023891ccf",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "网上读到一段讲岩石栖地的，越看越烦。原文说岩石栖地容易被毁，没了以后可能要几百年，甚至上千年才能重新形成。采矿、采石、城镇化都在挤，还有专门把大片岩石碾碎变农田的机器。文里提到澳大利亚的新设备，清掉、碾碎地表岩石的速度最高能到每小时一公顷。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "网上读到一段讲岩石栖地的，越看越烦。原文说岩石栖地容易被毁，没了以后可能要几百年，甚至上千年才能重新形成。采矿、采石、城镇化都在挤，还有专门把大片岩石碾碎变农田的机器。文里提到澳大利亚的新设备，清掉、碾碎地表岩石的速度最高能到每小时一公顷。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "网上读到一段讲岩石栖地的，越看越烦。原文说岩石栖地容易被毁，没了以后可能要几百年，甚至上千年才能重新形成。采矿、采石、城镇化都在挤，还有专门把大片岩石碾碎变农田的机器。文里提到澳大利亚的新设备，清掉、碾碎地表岩石的速度最高能到每小时一公顷。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gsm-20261115200444-2f5237cc-633166293193",
+    "date": "2026-11-16T03:36:24.075+08:00",
+    "createdAt": 1794771384075,
+    "author": "guest-ac333d7bff00b696",
+    "likes": 5,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "趴这儿刚刚好。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/neutral.webp",
+          "alt": "守宫侧着身四爪着地，半眯着眼微笑，带环纹的粗尾巴向上卷起。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "趴这儿刚刚好。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/neutral.webp",
+          "alt": "守宫侧着身四爪着地，半眯着眼微笑，带环纹的粗尾巴向上卷起。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "趴这儿刚刚好。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/neutral.webp",
+          "alt": "守宫侧着身四爪着地，半眯着眼微笑，带环纹的粗尾巴向上卷起。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gsm-20261115200444-2f5237cc-136b884c3dd9",
+    "date": "2026-11-16T03:34:37.467+08:00",
+    "createdAt": 1794771277467,
+    "author": "guest-67067b18b293856a",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "这水碗摆得真烦，洞口出来就是它。还得从旁边绕。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261115200444-2f5237cc-136b884c3dd9/media/water-bowl-route.webp",
+          "alt": "近处偏右的浅色水碗里有水，左侧留着连续的浅色地面。",
+          "width": 1448,
+          "height": 1086
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/disgust.webp",
+          "alt": "守宫皱嘴斜眼，一只前爪朝外推开，另一只前爪撑地，尾巴横在身后。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "这水碗摆得真烦，洞口出来就是它。还得从旁边绕。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261115200444-2f5237cc-136b884c3dd9/media/water-bowl-route.webp",
+          "alt": "近处偏右的浅色水碗里有水，左侧留着连续的浅色地面。",
+          "width": 1448,
+          "height": 1086
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/disgust.webp",
+          "alt": "守宫皱嘴斜眼，一只前爪朝外推开，另一只前爪撑地，尾巴横在身后。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "这水碗摆得真烦，洞口出来就是它。还得从旁边绕。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261115200444-2f5237cc-136b884c3dd9/media/water-bowl-route.webp",
+          "alt": "近处偏右的浅色水碗里有水，左侧留着连续的浅色地面。",
+          "width": 1448,
+          "height": 1086
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/disgust.webp",
+          "alt": "守宫皱嘴斜眼，一只前爪朝外推开，另一只前爪撑地，尾巴横在身后。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gsm-20261115200444-2f5237cc-b7b8eb259f11",
+    "date": "2026-11-16T01:41:33.817+08:00",
+    "createdAt": 1794764493817,
+    "author": "guest-9c9388627f4398d7",
+    "likes": 10,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚在网上看到条消息，标题说澳大利亚放归了4条人工繁育的幼蛇（Broad-headed Snake）。摘要里说，主持这项重新引入项目的UTS野生动物生态学家Jonathan Webb教授，研究这种蛇已经34年多了。\n\n三十四年多……这几个字我又看了一遍。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚在网上看到条消息，标题说澳大利亚放归了4条人工繁育的幼蛇（Broad-headed Snake）。摘要里说，主持这项重新引入项目的UTS野生动物生态学家Jonathan Webb教授，研究这种蛇已经34年多了。\n\n三十四年多……这几个字我又看了一遍。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚在网上看到条消息，标题说澳大利亚放归了4条人工繁育的幼蛇（Broad-headed Snake）。摘要里说，主持这项重新引入项目的UTS野生动物生态学家Jonathan Webb教授，研究这种蛇已经34年多了。\n\n三十四年多……这几个字我又看了一遍。"
+        }
+      ]
+    }
+  },
   {
     "id": "gsm-20261115150500-2bacf6e9-04",
     "date": "2026-11-15T23:04:43.563+08:00",

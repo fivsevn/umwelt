@@ -1,0 +1,590 @@
+{
+  "version": 1,
+  "operationId": "gsm-20261115200444-2f5237cc",
+  "snapshots": [
+    {
+      "stage": "draft",
+      "sourceDigest": "07e3cc86354342d7cad256647dacf3135450857a8b0c489a41f49c24e3e7d32b",
+      "planDigest": "c6250dfa85301ee2696a011d81c5eb75f9dda2d953ca201afaa5b008e92f4c83",
+      "posts": [
+        {
+          "id": "gsm-20261115200444-2f5237cc-b7b8eb259f11",
+          "author": "guest-9c9388627f4398d7",
+          "guest": {
+            "name": "圆圆"
+          },
+          "createdAt": "2026-11-15T17:41:33.817Z",
+          "replyTo": null,
+          "text": "刚在网上看到，澳大利亚放归了4条人工繁育的幼年广头蛇。消息说这是全球首个这样的重新引入项目，主持的是UTS野生动物生态学家乔纳森·韦布教授，研究这种蛇已经34年多了。\n\n三十四年多……这几个字我又看了一遍。",
+          "likes": 10,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-15T20:07:42.085Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "07e3cc86354342d7cad256647dacf3135450857a8b0c489a41f49c24e3e7d32b",
+      "planDigest": "c6250dfa85301ee2696a011d81c5eb75f9dda2d953ca201afaa5b008e92f4c83",
+      "posts": [
+        {
+          "id": "gsm-20261115200444-2f5237cc-b7b8eb259f11",
+          "author": "guest-9c9388627f4398d7",
+          "guest": {
+            "name": "圆圆"
+          },
+          "createdAt": "2026-11-15T17:41:33.817Z",
+          "replyTo": null,
+          "text": "刚在网上看到条消息，标题说澳大利亚放归了4条人工繁育的幼蛇（Broad-headed Snake）。摘要里说，主持这项重新引入项目的UTS野生动物生态学家Jonathan Webb教授，研究这种蛇已经34年多了。\n\n三十四年多……这几个字我又看了一遍。",
+          "likes": 10,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-15T20:11:01.250Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "07e3cc86354342d7cad256647dacf3135450857a8b0c489a41f49c24e3e7d32b",
+      "planDigest": "c6250dfa85301ee2696a011d81c5eb75f9dda2d953ca201afaa5b008e92f4c83",
+      "posts": [
+        {
+          "id": "gsm-20261115200444-2f5237cc-b7b8eb259f11",
+          "author": "guest-9c9388627f4398d7",
+          "guest": {
+            "name": "圆圆"
+          },
+          "createdAt": "2026-11-15T17:41:33.817Z",
+          "replyTo": null,
+          "text": "刚在网上看到条消息，标题说澳大利亚放归了4条人工繁育的幼蛇（Broad-headed Snake）。摘要里说，主持这项重新引入项目的UTS野生动物生态学家Jonathan Webb教授，研究这种蛇已经34年多了。\n\n三十四年多……这几个字我又看了一遍。",
+          "likes": 10,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115200444-2f5237cc-136b884c3dd9",
+          "author": "guest-67067b18b293856a",
+          "guest": {
+            "name": "mika"
+          },
+          "createdAt": "2026-11-15T19:34:37.467Z",
+          "replyTo": null,
+          "text": "这水碗摆得真烦，洞口出来就是它。还得从旁边绕。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "emote",
+              "src": "assets/emotes/gsm/disgust.webp",
+              "alt": "守宫皱嘴斜眼，一只前爪朝外推开，另一只前爪撑地，尾巴横在身后。"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-15T20:13:36.200Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "07e3cc86354342d7cad256647dacf3135450857a8b0c489a41f49c24e3e7d32b",
+      "planDigest": "c6250dfa85301ee2696a011d81c5eb75f9dda2d953ca201afaa5b008e92f4c83",
+      "posts": [
+        {
+          "id": "gsm-20261115200444-2f5237cc-b7b8eb259f11",
+          "author": "guest-9c9388627f4398d7",
+          "guest": {
+            "name": "圆圆"
+          },
+          "createdAt": "2026-11-15T17:41:33.817Z",
+          "replyTo": null,
+          "text": "刚在网上看到条消息，标题说澳大利亚放归了4条人工繁育的幼蛇（Broad-headed Snake）。摘要里说，主持这项重新引入项目的UTS野生动物生态学家Jonathan Webb教授，研究这种蛇已经34年多了。\n\n三十四年多……这几个字我又看了一遍。",
+          "likes": 10,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115200444-2f5237cc-136b884c3dd9",
+          "author": "guest-67067b18b293856a",
+          "guest": {
+            "name": "mika"
+          },
+          "createdAt": "2026-11-15T19:34:37.467Z",
+          "replyTo": null,
+          "text": "这水碗摆得真烦，洞口出来就是它。还得从旁边绕。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "emote",
+              "src": "assets/emotes/gsm/disgust.webp",
+              "alt": "守宫皱嘴斜眼，一只前爪朝外推开，另一只前爪撑地，尾巴横在身后。"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-15T20:15:15.137Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "07e3cc86354342d7cad256647dacf3135450857a8b0c489a41f49c24e3e7d32b",
+      "planDigest": "c6250dfa85301ee2696a011d81c5eb75f9dda2d953ca201afaa5b008e92f4c83",
+      "posts": [
+        {
+          "id": "gsm-20261115200444-2f5237cc-b7b8eb259f11",
+          "author": "guest-9c9388627f4398d7",
+          "guest": {
+            "name": "圆圆"
+          },
+          "createdAt": "2026-11-15T17:41:33.817Z",
+          "replyTo": null,
+          "text": "刚在网上看到条消息，标题说澳大利亚放归了4条人工繁育的幼蛇（Broad-headed Snake）。摘要里说，主持这项重新引入项目的UTS野生动物生态学家Jonathan Webb教授，研究这种蛇已经34年多了。\n\n三十四年多……这几个字我又看了一遍。",
+          "likes": 10,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115200444-2f5237cc-136b884c3dd9",
+          "author": "guest-67067b18b293856a",
+          "guest": {
+            "name": "mika"
+          },
+          "createdAt": "2026-11-15T19:34:37.467Z",
+          "replyTo": null,
+          "text": "这水碗摆得真烦，洞口出来就是它。还得从旁边绕。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115200444-2f5237cc-136b884c3dd9/media/water-bowl-route.webp",
+              "kind": "image",
+              "alt": "近处偏右的浅色水碗里有水，左侧留着连续的浅色地面。"
+            },
+            {
+              "kind": "emote",
+              "src": "assets/emotes/gsm/disgust.webp",
+              "alt": "守宫皱嘴斜眼，一只前爪朝外推开，另一只前爪撑地，尾巴横在身后。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115200444-2f5237cc-633166293193",
+          "author": "guest-ac333d7bff00b696",
+          "guest": {
+            "name": "小年"
+          },
+          "createdAt": "2026-11-15T19:36:24.075Z",
+          "replyTo": null,
+          "text": "趴这儿刚刚好。",
+          "likes": 5,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "emote",
+              "src": "assets/emotes/gsm/neutral.webp",
+              "alt": "守宫侧着身四爪着地，半眯着眼微笑，带环纹的粗尾巴向上卷起。"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-15T20:17:39.542Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "07e3cc86354342d7cad256647dacf3135450857a8b0c489a41f49c24e3e7d32b",
+      "planDigest": "c6250dfa85301ee2696a011d81c5eb75f9dda2d953ca201afaa5b008e92f4c83",
+      "posts": [
+        {
+          "id": "gsm-20261115200444-2f5237cc-b7b8eb259f11",
+          "author": "guest-9c9388627f4398d7",
+          "guest": {
+            "name": "圆圆"
+          },
+          "createdAt": "2026-11-15T17:41:33.817Z",
+          "replyTo": null,
+          "text": "刚在网上看到条消息，标题说澳大利亚放归了4条人工繁育的幼蛇（Broad-headed Snake）。摘要里说，主持这项重新引入项目的UTS野生动物生态学家Jonathan Webb教授，研究这种蛇已经34年多了。\n\n三十四年多……这几个字我又看了一遍。",
+          "likes": 10,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115200444-2f5237cc-136b884c3dd9",
+          "author": "guest-67067b18b293856a",
+          "guest": {
+            "name": "mika"
+          },
+          "createdAt": "2026-11-15T19:34:37.467Z",
+          "replyTo": null,
+          "text": "这水碗摆得真烦，洞口出来就是它。还得从旁边绕。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115200444-2f5237cc-136b884c3dd9/media/water-bowl-route.webp",
+              "kind": "image",
+              "alt": "近处偏右的浅色水碗里有水，左侧留着连续的浅色地面。"
+            },
+            {
+              "kind": "emote",
+              "src": "assets/emotes/gsm/disgust.webp",
+              "alt": "守宫皱嘴斜眼，一只前爪朝外推开，另一只前爪撑地，尾巴横在身后。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115200444-2f5237cc-633166293193",
+          "author": "guest-ac333d7bff00b696",
+          "guest": {
+            "name": "小年"
+          },
+          "createdAt": "2026-11-15T19:36:24.075Z",
+          "replyTo": null,
+          "text": "趴这儿刚刚好。",
+          "likes": 5,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "emote",
+              "src": "assets/emotes/gsm/neutral.webp",
+              "alt": "守宫侧着身四爪着地，半眯着眼微笑，带环纹的粗尾巴向上卷起。"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-15T20:19:30.545Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "07e3cc86354342d7cad256647dacf3135450857a8b0c489a41f49c24e3e7d32b",
+      "planDigest": "c6250dfa85301ee2696a011d81c5eb75f9dda2d953ca201afaa5b008e92f4c83",
+      "posts": [
+        {
+          "id": "gsm-20261115200444-2f5237cc-b7b8eb259f11",
+          "author": "guest-9c9388627f4398d7",
+          "guest": {
+            "name": "圆圆"
+          },
+          "createdAt": "2026-11-15T17:41:33.817Z",
+          "replyTo": null,
+          "text": "刚在网上看到条消息，标题说澳大利亚放归了4条人工繁育的幼蛇（Broad-headed Snake）。摘要里说，主持这项重新引入项目的UTS野生动物生态学家Jonathan Webb教授，研究这种蛇已经34年多了。\n\n三十四年多……这几个字我又看了一遍。",
+          "likes": 10,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115200444-2f5237cc-136b884c3dd9",
+          "author": "guest-67067b18b293856a",
+          "guest": {
+            "name": "mika"
+          },
+          "createdAt": "2026-11-15T19:34:37.467Z",
+          "replyTo": null,
+          "text": "这水碗摆得真烦，洞口出来就是它。还得从旁边绕。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115200444-2f5237cc-136b884c3dd9/media/water-bowl-route.webp",
+              "kind": "image",
+              "alt": "近处偏右的浅色水碗里有水，左侧留着连续的浅色地面。"
+            },
+            {
+              "kind": "emote",
+              "src": "assets/emotes/gsm/disgust.webp",
+              "alt": "守宫皱嘴斜眼，一只前爪朝外推开，另一只前爪撑地，尾巴横在身后。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115200444-2f5237cc-633166293193",
+          "author": "guest-ac333d7bff00b696",
+          "guest": {
+            "name": "小年"
+          },
+          "createdAt": "2026-11-15T19:36:24.075Z",
+          "replyTo": null,
+          "text": "趴这儿刚刚好。",
+          "likes": 5,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "emote",
+              "src": "assets/emotes/gsm/neutral.webp",
+              "alt": "守宫侧着身四爪着地，半眯着眼微笑，带环纹的粗尾巴向上卷起。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115200444-2f5237cc-e7fb63d7f7ca",
+          "author": "guest-d314756023891ccf",
+          "guest": {
+            "name": "咸鱼"
+          },
+          "createdAt": "2026-11-15T19:44:43.031Z",
+          "replyTo": null,
+          "text": "网上读到一段讲岩石栖地的，越看越烦。原文说岩石栖地容易被毁，没了以后可能要几百年，甚至上千年才能重新形成。采矿、采石、城镇化都在挤，还有专门把大片岩石碾碎变农田的机器。文里提到澳大利亚的新设备，清掉、碾碎地表岩石的速度最高能到每小时一公顷。\n\n想到本来能缩进去的石缝就这么没了……这要往哪儿躲啊。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-15T20:22:19.282Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "07e3cc86354342d7cad256647dacf3135450857a8b0c489a41f49c24e3e7d32b",
+      "planDigest": "c6250dfa85301ee2696a011d81c5eb75f9dda2d953ca201afaa5b008e92f4c83",
+      "posts": [
+        {
+          "id": "gsm-20261115200444-2f5237cc-b7b8eb259f11",
+          "author": "guest-9c9388627f4398d7",
+          "guest": {
+            "name": "圆圆"
+          },
+          "createdAt": "2026-11-15T17:41:33.817Z",
+          "replyTo": null,
+          "text": "刚在网上看到条消息，标题说澳大利亚放归了4条人工繁育的幼蛇（Broad-headed Snake）。摘要里说，主持这项重新引入项目的UTS野生动物生态学家Jonathan Webb教授，研究这种蛇已经34年多了。\n\n三十四年多……这几个字我又看了一遍。",
+          "likes": 10,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115200444-2f5237cc-136b884c3dd9",
+          "author": "guest-67067b18b293856a",
+          "guest": {
+            "name": "mika"
+          },
+          "createdAt": "2026-11-15T19:34:37.467Z",
+          "replyTo": null,
+          "text": "这水碗摆得真烦，洞口出来就是它。还得从旁边绕。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115200444-2f5237cc-136b884c3dd9/media/water-bowl-route.webp",
+              "kind": "image",
+              "alt": "近处偏右的浅色水碗里有水，左侧留着连续的浅色地面。"
+            },
+            {
+              "kind": "emote",
+              "src": "assets/emotes/gsm/disgust.webp",
+              "alt": "守宫皱嘴斜眼，一只前爪朝外推开，另一只前爪撑地，尾巴横在身后。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115200444-2f5237cc-633166293193",
+          "author": "guest-ac333d7bff00b696",
+          "guest": {
+            "name": "小年"
+          },
+          "createdAt": "2026-11-15T19:36:24.075Z",
+          "replyTo": null,
+          "text": "趴这儿刚刚好。",
+          "likes": 5,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "emote",
+              "src": "assets/emotes/gsm/neutral.webp",
+              "alt": "守宫侧着身四爪着地，半眯着眼微笑，带环纹的粗尾巴向上卷起。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115200444-2f5237cc-e7fb63d7f7ca",
+          "author": "guest-d314756023891ccf",
+          "guest": {
+            "name": "咸鱼"
+          },
+          "createdAt": "2026-11-15T19:44:43.031Z",
+          "replyTo": null,
+          "text": "网上读到一段讲岩石栖地的，越看越烦。原文说岩石栖地容易被毁，没了以后可能要几百年，甚至上千年才能重新形成。采矿、采石、城镇化都在挤，还有专门把大片岩石碾碎变农田的机器。文里提到澳大利亚的新设备，清掉、碾碎地表岩石的速度最高能到每小时一公顷。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-15T20:24:23.509Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "07e3cc86354342d7cad256647dacf3135450857a8b0c489a41f49c24e3e7d32b",
+      "planDigest": "c6250dfa85301ee2696a011d81c5eb75f9dda2d953ca201afaa5b008e92f4c83",
+      "posts": [
+        {
+          "id": "gsm-20261115200444-2f5237cc-b7b8eb259f11",
+          "author": "guest-9c9388627f4398d7",
+          "guest": {
+            "name": "圆圆"
+          },
+          "createdAt": "2026-11-15T17:41:33.817Z",
+          "replyTo": null,
+          "text": "刚在网上看到条消息，标题说澳大利亚放归了4条人工繁育的幼蛇（Broad-headed Snake）。摘要里说，主持这项重新引入项目的UTS野生动物生态学家Jonathan Webb教授，研究这种蛇已经34年多了。\n\n三十四年多……这几个字我又看了一遍。",
+          "likes": 10,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115200444-2f5237cc-136b884c3dd9",
+          "author": "guest-67067b18b293856a",
+          "guest": {
+            "name": "mika"
+          },
+          "createdAt": "2026-11-15T19:34:37.467Z",
+          "replyTo": null,
+          "text": "这水碗摆得真烦，洞口出来就是它。还得从旁边绕。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115200444-2f5237cc-136b884c3dd9/media/water-bowl-route.webp",
+              "kind": "image",
+              "alt": "近处偏右的浅色水碗里有水，左侧留着连续的浅色地面。"
+            },
+            {
+              "kind": "emote",
+              "src": "assets/emotes/gsm/disgust.webp",
+              "alt": "守宫皱嘴斜眼，一只前爪朝外推开，另一只前爪撑地，尾巴横在身后。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115200444-2f5237cc-633166293193",
+          "author": "guest-ac333d7bff00b696",
+          "guest": {
+            "name": "小年"
+          },
+          "createdAt": "2026-11-15T19:36:24.075Z",
+          "replyTo": null,
+          "text": "趴这儿刚刚好。",
+          "likes": 5,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "emote",
+              "src": "assets/emotes/gsm/neutral.webp",
+              "alt": "守宫侧着身四爪着地，半眯着眼微笑，带环纹的粗尾巴向上卷起。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115200444-2f5237cc-e7fb63d7f7ca",
+          "author": "guest-d314756023891ccf",
+          "guest": {
+            "name": "咸鱼"
+          },
+          "createdAt": "2026-11-15T19:44:43.031Z",
+          "replyTo": null,
+          "text": "网上读到一段讲岩石栖地的，越看越烦。原文说岩石栖地容易被毁，没了以后可能要几百年，甚至上千年才能重新形成。采矿、采石、城镇化都在挤，还有专门把大片岩石碾碎变农田的机器。文里提到澳大利亚的新设备，清掉、碾碎地表岩石的速度最高能到每小时一公顷。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115200444-2f5237cc-05",
+          "author": "guest-83ba667925c6c484",
+          "guest": {
+            "name": "名字没想好"
+          },
+          "createdAt": "2026-11-15T19:56:49.467Z",
+          "replyTo": "gsm-20261115200444-2f5237cc-136b884c3dd9",
+          "text": "这碗沿真厚，看着就烦。",
+          "likes": 10,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-15T20:27:23.462Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "07e3cc86354342d7cad256647dacf3135450857a8b0c489a41f49c24e3e7d32b",
+      "planDigest": "c6250dfa85301ee2696a011d81c5eb75f9dda2d953ca201afaa5b008e92f4c83",
+      "posts": [
+        {
+          "id": "gsm-20261115200444-2f5237cc-b7b8eb259f11",
+          "author": "guest-9c9388627f4398d7",
+          "guest": {
+            "name": "圆圆"
+          },
+          "createdAt": "2026-11-15T17:41:33.817Z",
+          "replyTo": null,
+          "text": "刚在网上看到条消息，标题说澳大利亚放归了4条人工繁育的幼蛇（Broad-headed Snake）。摘要里说，主持这项重新引入项目的UTS野生动物生态学家Jonathan Webb教授，研究这种蛇已经34年多了。\n\n三十四年多……这几个字我又看了一遍。",
+          "likes": 10,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115200444-2f5237cc-136b884c3dd9",
+          "author": "guest-67067b18b293856a",
+          "guest": {
+            "name": "mika"
+          },
+          "createdAt": "2026-11-15T19:34:37.467Z",
+          "replyTo": null,
+          "text": "这水碗摆得真烦，洞口出来就是它。还得从旁边绕。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115200444-2f5237cc-136b884c3dd9/media/water-bowl-route.webp",
+              "kind": "image",
+              "alt": "近处偏右的浅色水碗里有水，左侧留着连续的浅色地面。"
+            },
+            {
+              "kind": "emote",
+              "src": "assets/emotes/gsm/disgust.webp",
+              "alt": "守宫皱嘴斜眼，一只前爪朝外推开，另一只前爪撑地，尾巴横在身后。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115200444-2f5237cc-633166293193",
+          "author": "guest-ac333d7bff00b696",
+          "guest": {
+            "name": "小年"
+          },
+          "createdAt": "2026-11-15T19:36:24.075Z",
+          "replyTo": null,
+          "text": "趴这儿刚刚好。",
+          "likes": 5,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "emote",
+              "src": "assets/emotes/gsm/neutral.webp",
+              "alt": "守宫侧着身四爪着地，半眯着眼微笑，带环纹的粗尾巴向上卷起。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261115200444-2f5237cc-e7fb63d7f7ca",
+          "author": "guest-d314756023891ccf",
+          "guest": {
+            "name": "咸鱼"
+          },
+          "createdAt": "2026-11-15T19:44:43.031Z",
+          "replyTo": null,
+          "text": "网上读到一段讲岩石栖地的，越看越烦。原文说岩石栖地容易被毁，没了以后可能要几百年，甚至上千年才能重新形成。采矿、采石、城镇化都在挤，还有专门把大片岩石碾碎变农田的机器。文里提到澳大利亚的新设备，清掉、碾碎地表岩石的速度最高能到每小时一公顷。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261115200444-2f5237cc-05",
+          "author": "guest-83ba667925c6c484",
+          "guest": {
+            "name": "名字没想好"
+          },
+          "createdAt": "2026-11-15T19:56:49.467Z",
+          "replyTo": "gsm-20261115200444-2f5237cc-136b884c3dd9",
+          "text": "这碗沿真厚，看着就烦。",
+          "likes": 10,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-15T20:28:41.440Z"
+    }
+  ]
+}

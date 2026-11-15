@@ -1,0 +1,958 @@
+{
+  "version": 1,
+  "id": "gsm-20261115200444-2f5237cc",
+  "root": "/workspace/scratch/3030ce6eeaa8/umwelt/gsm",
+  "preparedAt": "2026-11-15T20:04:44.352Z",
+  "plan": {
+    "seed": "be04b107a012d66d15fcd03d92c016b55acb666a24796a0aa32fb42fd7cc3734",
+    "budget": 2,
+    "selectedIds": [
+      "moss9",
+      "wallafterdark",
+      "slowblink"
+    ],
+    "totalBudget": 120,
+    "replyLottery": {
+      "bands": [
+        {
+          "weight": 30,
+          "min": 0,
+          "max": 0
+        },
+        {
+          "weight": 20,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "weight": 20,
+          "min": 2,
+          "max": 4
+        },
+        {
+          "weight": 15,
+          "min": 5,
+          "max": 12
+        },
+        {
+          "weight": 8,
+          "min": 13,
+          "max": 30
+        },
+        {
+          "weight": 5,
+          "min": 31,
+          "max": 60
+        },
+        {
+          "weight": 2,
+          "min": 61,
+          "max": 100
+        }
+      ],
+      "maxReplies": 100
+    },
+    "lottery": {
+      "version": 1,
+      "rootBudget": {
+        "min": 1,
+        "max": 2
+      },
+      "authors": {
+        "candidates": 3,
+        "recentPosts": 7,
+        "recentMultiplier": 0.5
+      },
+      "authorKind": [
+        {
+          "value": "guest",
+          "weight": 75
+        },
+        {
+          "value": "library",
+          "weight": 25
+        }
+      ],
+      "motivation": [
+        {
+          "value": "ask-help",
+          "weight": 24
+        },
+        {
+          "value": "vent",
+          "weight": 22
+        },
+        {
+          "value": "passing-thought",
+          "weight": 24
+        },
+        {
+          "value": "share",
+          "weight": 18
+        },
+        {
+          "value": "correct",
+          "weight": 6
+        },
+        {
+          "value": "celebrate",
+          "weight": 6
+        }
+      ],
+      "length": [
+        {
+          "value": "fragment",
+          "weight": 45
+        },
+        {
+          "value": "short",
+          "weight": 40
+        },
+        {
+          "value": "long",
+          "weight": 15
+        }
+      ],
+      "conditionCount": {
+        "min": 1,
+        "max": 2
+      },
+      "waitSeconds": [
+        {
+          "weight": 45,
+          "min": 20,
+          "max": 180
+        },
+        {
+          "weight": 40,
+          "min": 181,
+          "max": 1800
+        },
+        {
+          "weight": 15,
+          "min": 1801,
+          "max": 21600
+        }
+      ],
+      "reading": [
+        {
+          "value": "target-only",
+          "weight": 40
+        },
+        {
+          "value": "root-and-target",
+          "weight": 35
+        },
+        {
+          "value": "nearby",
+          "weight": 25
+        }
+      ],
+      "textWindow": [
+        {
+          "value": "full",
+          "weight": 45
+        },
+        {
+          "value": "opening",
+          "weight": 35
+        },
+        {
+          "value": "fragment",
+          "weight": 20
+        }
+      ],
+      "excerptCharacters": 140,
+      "nearbyReplies": {
+        "min": 0,
+        "max": 3
+      },
+      "media": {
+        "images": {
+          "root": {
+            "types": [
+              {
+                "value": "photo",
+                "weight": 70
+              },
+              {
+                "value": "screenshot",
+                "weight": 20
+              },
+              {
+                "value": "illustration",
+                "weight": 10
+              }
+            ]
+          },
+          "reply": {
+            "types": [
+              {
+                "value": "photo",
+                "weight": 50
+              },
+              {
+                "value": "screenshot",
+                "weight": 40
+              },
+              {
+                "value": "illustration",
+                "weight": 10
+              }
+            ]
+          }
+        },
+        "emotes": {
+          "root": {
+            "counts": [
+              {
+                "weight": 90,
+                "min": 1,
+                "max": 1
+              },
+              {
+                "weight": 10,
+                "min": 2,
+                "max": 2
+              }
+            ]
+          },
+          "reply": {
+            "counts": [
+              {
+                "weight": 90,
+                "min": 1,
+                "max": 1
+              },
+              {
+                "weight": 10,
+                "min": 2,
+                "max": 2
+              }
+            ]
+          }
+        },
+        "profiles": [
+          {
+            "id": "text-led",
+            "weight": 35,
+            "root": {
+              "none": 50,
+              "image": 28,
+              "emote": 14,
+              "both": 8
+            },
+            "reply": {
+              "none": 48,
+              "image": 10,
+              "emote": 34,
+              "both": 8
+            }
+          },
+          {
+            "id": "mixed",
+            "weight": 45,
+            "root": {
+              "none": 30,
+              "image": 38,
+              "emote": 17,
+              "both": 15
+            },
+            "reply": {
+              "none": 35,
+              "image": 12,
+              "emote": 39,
+              "both": 14
+            }
+          },
+          {
+            "id": "image-led",
+            "weight": 20,
+            "root": {
+              "none": 15,
+              "image": 45,
+              "emote": 12,
+              "both": 28
+            },
+            "reply": {
+              "none": 25,
+              "image": 18,
+              "emote": 37,
+              "both": 20
+            }
+          }
+        ]
+      },
+      "likes": {
+        "root": [
+          {
+            "weight": 20,
+            "min": 0,
+            "max": 0
+          },
+          {
+            "weight": 73,
+            "min": 1,
+            "max": 20
+          },
+          {
+            "weight": 6,
+            "min": 21,
+            "max": 60
+          },
+          {
+            "weight": 1,
+            "min": 61,
+            "max": 160
+          }
+        ],
+        "reply": [
+          {
+            "weight": 35,
+            "min": 0,
+            "max": 0
+          },
+          {
+            "weight": 62,
+            "min": 1,
+            "max": 12
+          },
+          {
+            "weight": 2,
+            "min": 13,
+            "max": 35
+          },
+          {
+            "weight": 1,
+            "min": 36,
+            "max": 90
+          }
+        ]
+      },
+      "sampling": {
+        "offset": {
+          "min": 0,
+          "max": 30
+        },
+        "count": {
+          "min": 3,
+          "max": 6
+        }
+      },
+      "discussion": {
+        "negativeMotivation": [
+          {
+            "value": "complaint",
+            "weight": 16
+          },
+          {
+            "value": "gossip",
+            "weight": 10
+          },
+          {
+            "value": "dispute",
+            "weight": 8
+          },
+          {
+            "value": "grievance",
+            "weight": 8
+          },
+          {
+            "value": "suspicion",
+            "weight": 8
+          },
+          {
+            "value": "irritation",
+            "weight": 16
+          },
+          {
+            "value": "contempt",
+            "weight": 12
+          },
+          {
+            "value": "envy",
+            "weight": 6
+          },
+          {
+            "value": "pile-on",
+            "weight": 10
+          },
+          {
+            "value": "grudge",
+            "weight": 6
+          }
+        ],
+        "replyStance": [
+          {
+            "value": "support",
+            "weight": 12
+          },
+          {
+            "value": "push-back",
+            "weight": 12
+          },
+          {
+            "value": "doubt",
+            "weight": 8
+          },
+          {
+            "value": "defend",
+            "weight": 8
+          },
+          {
+            "value": "provoke",
+            "weight": 12
+          },
+          {
+            "value": "ask-detail",
+            "weight": 4
+          },
+          {
+            "value": "sidetrack",
+            "weight": 14
+          },
+          {
+            "value": "dismiss",
+            "weight": 12
+          },
+          {
+            "value": "repeat",
+            "weight": 10
+          },
+          {
+            "value": "pile-on",
+            "weight": 8
+          }
+        ],
+        "replyAuthor": [
+          {
+            "value": "new",
+            "weight": 85
+          },
+          {
+            "value": "root",
+            "weight": 8
+          },
+          {
+            "value": "participant",
+            "weight": 7
+          }
+        ],
+        "negativeProbability": 0.5,
+        "minimumNegativeShare": 0.5
+      },
+      "researchMaintenance": {
+        "probability": 0.3,
+        "maxDocuments": 1,
+        "ageWeightDays": 7,
+        "maxAgeWeight": 5
+      },
+      "diversity": {
+        "recentUpdates": 3
+      },
+      "participation": {
+        "version": 2
+      }
+    },
+    "timeWindow": {
+      "start": "2026-11-14T20:04:44.352Z",
+      "end": "2026-11-15T20:04:44.352Z"
+    },
+    "participationSchedules": {
+      "backpackgecko": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "gecko404": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "gedageda": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "isopodafugue": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "leafback7": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "mango27": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "moss9": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "nearthermo": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "nightshift3": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "peachcrumble": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "slowblink": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "smallhide2": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "twosteps8": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "wallafterdark": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "wednesday6": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      }
+    },
+    "caseAdaptation": {
+      "count": 2,
+      "intakeReceipt": {
+        "repository": "fivsevn/umwelt",
+        "path": "gsm/environment/sources-daily-opinions.md",
+        "revision": "29d8cad19fff27bab43713dbbaddf602a8063873",
+        "documentSha": "29d8cad19fff27bab43713dbbaddf602a8063873",
+        "documentDigest": "af23231569d45ab121443dd0c00937ee103019fc69b3a213069ed1b1f35adf1a",
+        "collectedAt": "2026-11-15T03:25:20.000Z",
+        "fetchedAt": "2026-11-15T20:04:44.341Z"
+      },
+      "items": [
+        {
+          "postId": "gsm-20261115200444-2f5237cc-b7b8eb259f11",
+          "sourcePath": "environment/sources-daily-opinions.md",
+          "sample": {
+            "id": "sample-8d3db50a0bc2",
+            "title": "讨论 2",
+            "text": "### 讨论 2\n\nRSS 摘要。\n\n1. **发言者 1**：Four Captive-bred Juvenile Broad-headed Snakes Released In Australia  \n     \n   The world-first reintroduction project is led by UTS wildlife ecologist Professor Jonathan Webb, who has studied the species for more than 34 years.",
+            "context": "采集时间：2026-11-15 11:25:20（北京时间）"
+          }
+        },
+        {
+          "postId": "gsm-20261115200444-2f5237cc-e7fb63d7f7ca",
+          "sourcePath": "environment/sources-daily-opinions.md",
+          "sample": {
+            "id": "sample-1517c7501f9e",
+            "title": "讨论 1",
+            "text": "### 讨论 1\n\n1. **发言者 1**：The global importance of rocky habitats for reptiles  \n   \"Rocky habitats...are easily damaged or destroyed and, once lost, may take centuries or even millenia to reform. Habitat loss is the most pressing threat to reptile populations worldwide. Rocky areas are under pressure from threats such as mining, quarrying and urbanisation.\"    \n   \"Rock crushing is another problem. It involves using specialised machinery to turn boulderfields and other rocky habitats into farmland. In Australia, new rock crushing machinery can clear and crush surface rocks at rates of up to one hectare per hour.\" &gt;&gt;  \n   \\[链接隐去\\]",
+            "context": "采集时间：2026-11-15 11:25:20（北京时间）"
+          }
+        }
+      ],
+      "rootOrder": [
+        "gsm-20261115200444-2f5237cc-b7b8eb259f11",
+        "gsm-20261115200444-2f5237cc-136b884c3dd9",
+        "gsm-20261115200444-2f5237cc-633166293193",
+        "gsm-20261115200444-2f5237cc-e7fb63d7f7ca"
+      ]
+    },
+    "researchMaintenance": {
+      "candidates": [
+        {
+          "path": "environment/research-comments.md",
+          "updatedAt": "2026-11-15T10:02:28.000Z"
+        },
+        {
+          "path": "environment/research-everyday-life.md",
+          "updatedAt": "2026-11-15T10:02:28.000Z"
+        },
+        {
+          "path": "environment/research-meme.md",
+          "updatedAt": "2026-11-15T10:02:28.000Z"
+        },
+        {
+          "path": "environment/research-negative.md",
+          "updatedAt": "2026-11-15T10:02:28.000Z"
+        },
+        {
+          "path": "environment/research-worldview.md",
+          "updatedAt": "2026-11-15T10:02:28.000Z"
+        },
+        {
+          "path": "users/research-character.md",
+          "updatedAt": "2026-11-15T10:02:28.000Z"
+        },
+        {
+          "path": "users/research-speech.md",
+          "updatedAt": "2026-11-15T10:02:28.000Z"
+        }
+      ],
+      "selectedPaths": [
+        "users/research-character.md"
+      ]
+    },
+    "seal": "2f8259ffe1d06d822f503aa4aab4c9350e2a58f4e36806d6a1a8122c697b86ae"
+  },
+  "sourceDigest": "07e3cc86354342d7cad256647dacf3135450857a8b0c489a41f49c24e3e7d32b",
+  "research": [
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://reptilesmagazine.com/expedition-borneo-field-herping-the-island-of-endemics/",
+      "visitedAt": "2026-11-15T20:06:16.337+00:00",
+      "publishedAt": "2026-11-11T01:00:47+00:00",
+      "summary": "news最新RSS跳过2项后连续5项的第1项（总序3）。已分段读完整出版方游记正文及图注：从旅行准备、六日高地/低地观察到离开反思，保留其中气温、遮蔽、夜间活动、难以发现动物与观察者期待的情境差别。人的航班、开车、收费许可、捕捉、搬动物和器材操作均不成为守宫亲历；作者对动物意图、头形和毒液能力的推断未核验，不作为生态事实。未打开照片、未读取外链或原始研究。"
+    },
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://reptilesmagazine.com/third-socal-olive-ridley-sea-turtle-nest-found-on-ventura-county-beach/",
+      "visitedAt": "2026-11-15T20:06:17.617+00:00",
+      "publishedAt": "2026-11-05T02:23:05+00:00",
+      "summary": "同一news连续窗口第2项（总序4），已读完整报道正文和图注。报道第三处南加州海龟巢、暂不迁移而监测的做法，并回顾其他两巢迁移及风浪背景；温暖海况与筑巢同时出现的报道不当作已核验因果。未读其所据其他报道、官方原资料或图片，不给本站守宫添加海龟能力或人类保护操作。"
+    },
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://reptilesmagazine.com/new-racerunner-lizard-species-discovered-in-pakistan/",
+      "visitedAt": "2026-11-15T20:06:17.679+00:00",
+      "publishedAt": "2026-11-03T20:05:02+00:00",
+      "summary": "同一news连续窗口第3项（总序5），已读全文。报道Eremias chagaiensis的野外调查、形态/DNA比较、已知四处地点和分布/数量仍未知的边界；保留新种描述与未知范围分开。未打开图片、未读Zootaxa原论文，不由新闻自行判定物种或把掘沙能力扩到守宫，不将临时数据不足建议写成已正式完成的保育评估。"
+    },
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://reptilesmagazine.com/interview-with-avi-zobel-of-reptiles-of-israel/",
+      "visitedAt": "2026-11-15T20:06:17.733+00:00",
+      "publishedAt": "2026-11-02T20:59:35+00:00",
+      "summary": "同一news连续窗口第4项（总序6），已分段读全部公开问答正文与图注：Avi Zobel回忆兴趣、社会媒体中的误认、栖地压力、接触不同人群的交流、童年小蛇受困经历与后来工作之间的本人联系。访谈是当时自述，不证明长期人格因果；人类捕捉、教育职业、许可、收费、医疗和政策信息均不移植成守宫经历，也不据访谈提供诊疗或法律判断。未打开配图、未跟读外部资料。"
+    },
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://reptilesmagazine.com/dwarf-reedsnakes-roll-at-speeds-four-times-faster-than-they-slither/",
+      "visitedAt": "2026-11-15T20:06:19.681+00:00",
+      "publishedAt": "2026-10-27T17:21:34+00:00",
+      "summary": "同一news连续窗口第5项（总序7），已读全文及图1文字图注。报道Pseudorabdion小型蛇类翻滚与头部稳定、交替着地/划动的运动观察；未打开动作视频、实际图像或Current Biology原论文，速度及机制仅作为报道内容记录，不把蛇类运动方式或实验参数推广给守宫。"
+    },
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://reptilesmagazine.com/four-captive-bred-juvenile-broad-headed-snakes-released-in-australia/",
+      "visitedAt": "2026-11-15T20:06:44.830+00:00",
+      "publishedAt": "2026-11-13T17:12:19+00:00",
+      "summary": "为核对本轮固定RSS案例另补读原报道全文，非连续news窗口的新抽签。正文明确物种为Hoplocephalus bungaroides（英文broad-headed snake），称2026年5月放归6只、最初几个月4只存活；固定RSS摘要只提供项目由Jonathan Webb领导及研究年限，全文新增数量、栖地恢复和人工岩石细节不自动扩充冻结案例。英文俗名与学名可用于核对指代，不据英文复合词编定正式中文名。未打开图片、未读UTS所据原报道或研究。"
+    },
+    {
+      "category": "trend",
+      "kind": "feed",
+      "url": "https://ebiverse.social/notes/athwtiv73k",
+      "visitedAt": "2026-11-15T20:07:33.189+00:00",
+      "publishedAt": "2026-11-13T02:16:18.883Z",
+      "summary": "trend采用Mastodon.social #gecko最新公开非转发、非回复、非敏感且无内容警告的原帖序列，共38项；跳过1项后连续4项的第1项（总序2）。已读完整正文，无媒体，context无可见回复。内容是借同名gecko标签召集XMPP语音测试，属于人类软件开发，排除为守宫生活素材，不打开站外软件或执行招呼。 正文经公开标签API读取，context经 mastodon.social/api/v1/statuses/117606723042431737/context 实际读取；未将联邦可见范围当原平台全串。"
+    },
+    {
+      "category": "trend",
+      "kind": "feed",
+      "url": "https://meow.social/@Withelias/117594141608793233",
+      "visitedAt": "2026-11-15T20:07:33.473+00:00",
+      "publishedAt": "2026-11-10T20:56:41.000Z",
+      "summary": "trend采用Mastodon.social #gecko最新公开非转发、非回复、非敏感且无内容警告的原帖序列，共38项；跳过1项后连续4项的第2项（总序3）。已读完整正文、1张图的alt及context（无可见回复）。拟人kobold设计草图，属于人类创作，排除为动物身体或住处观察；原图未打开，不把角色画当守宫现场。 正文经公开标签API读取，context经 mastodon.social/api/v1/statuses/117594141736455556/context 实际读取；未将联邦可见范围当原平台全串。"
+    },
+    {
+      "category": "trend",
+      "kind": "feed",
+      "url": "https://piaille.fr/@BrnVrn/117586901276754504",
+      "visitedAt": "2026-11-15T20:07:33.170+00:00",
+      "publishedAt": "2026-11-09T14:15:23.000Z",
+      "summary": "trend采用Mastodon.social #gecko最新公开非转发、非回复、非敏感且无内容警告的原帖序列，共38项；跳过1项后连续4项的第3项（总序4）。已读完整法文正文“Profiter du soleil”及媒体alt（仅Gecko）和context（无可见回复）。是一句日晒展示，照片未打开，不能从简短文字确定个体物种、身体状态、喜好或具体温度；不据来源地点安排本站住处。 正文经公开标签API读取，context经 mastodon.social/api/v1/statuses/117586901390520494/context 实际读取；未将联邦可见范围当原平台全串。"
+    },
+    {
+      "category": "trend",
+      "kind": "feed",
+      "url": "https://ebiverse.social/notes/atboyuu3wl",
+      "visitedAt": "2026-11-15T20:07:33.192+00:00",
+      "publishedAt": "2026-11-08T17:49:53.691Z",
+      "summary": "trend采用Mastodon.social #gecko最新公开非转发、非回复、非敏感且无内容警告的原帖序列，共38项；跳过1项后连续4项的第4项（总序5）。已读完整正文（只有gecko/lizard/cute标签）、1个媒体附件但alt为空，context无可见回复。未打开图，不补动物动作、环境或情绪，不据cute标签判断感受。 正文经公开标签API读取，context经 mastodon.social/api/v1/statuses/117582082684277860/context 实际读取；未将联邦可见范围当原平台全串。"
+    },
+    {
+      "category": "daily",
+      "kind": "feed",
+      "url": "https://mastodon.social/@geckonest/117445034373768022",
+      "visitedAt": "2026-11-15T20:07:37.140+00:00",
+      "publishedAt": "2026-10-15T12:56:45.950Z",
+      "summary": "daily先读#leopardgecko同一公开原帖过滤与最新排序，跳过23项后连续5项中的第1项（总序24）。已读完整正文与context（无可见回复）。五项都是导向站外饲养指南的推广，涉及垫材、布置、温度、喂食或掘地解释；站外指南未读，不采用其临床/照料指令，也不把宣传判断写成动物事实。此项保留原日期并排除采用。正文与context由mastodon.social公开API实际取得，未打开媒体。"
+    },
+    {
+      "category": "daily",
+      "kind": "feed",
+      "url": "https://mastodon.social/@geckonest/117438278777497500",
+      "visitedAt": "2026-11-15T20:07:37.019+00:00",
+      "publishedAt": "2026-10-14T08:18:43.731Z",
+      "summary": "daily先读#leopardgecko同一公开原帖过滤与最新排序，跳过23项后连续5项中的第2项（总序25）。已读完整正文与context（无可见回复）。五项都是导向站外饲养指南的推广，涉及垫材、布置、温度、喂食或掘地解释；站外指南未读，不采用其临床/照料指令，也不把宣传判断写成动物事实。此项保留原日期并排除采用。正文与context由mastodon.social公开API实际取得，未打开媒体。"
+    },
+    {
+      "category": "daily",
+      "kind": "feed",
+      "url": "https://mastodon.social/@geckonest/117438277547038932",
+      "visitedAt": "2026-11-15T20:07:37.014+00:00",
+      "publishedAt": "2026-10-14T08:18:24.963Z",
+      "summary": "daily先读#leopardgecko同一公开原帖过滤与最新排序，跳过23项后连续5项中的第3项（总序26）。已读完整正文与context（无可见回复）。五项都是导向站外饲养指南的推广，涉及垫材、布置、温度、喂食或掘地解释；站外指南未读，不采用其临床/照料指令，也不把宣传判断写成动物事实。此项保留原日期并排除采用。正文与context由mastodon.social公开API实际取得，未打开媒体。"
+    },
+    {
+      "category": "daily",
+      "kind": "feed",
+      "url": "https://mastodon.social/@geckonest/117438276238530599",
+      "visitedAt": "2026-11-15T20:07:37.057+00:00",
+      "publishedAt": "2026-10-14T08:18:04.995Z",
+      "summary": "daily先读#leopardgecko同一公开原帖过滤与最新排序，跳过23项后连续5项中的第4项（总序27）。已读完整正文与context（无可见回复）。五项都是导向站外饲养指南的推广，涉及垫材、布置、温度、喂食或掘地解释；站外指南未读，不采用其临床/照料指令，也不把宣传判断写成动物事实。此项保留原日期并排除采用。正文与context由mastodon.social公开API实际取得，未打开媒体。"
+    },
+    {
+      "category": "daily",
+      "kind": "feed",
+      "url": "https://mastodon.social/@geckonest/117426856820466729",
+      "visitedAt": "2026-11-15T20:07:40.490+00:00",
+      "publishedAt": "2026-10-12T07:53:58.501Z",
+      "summary": "daily先读#leopardgecko同一公开原帖过滤与最新排序，跳过23项后连续5项中的第5项（总序28）。已读完整正文与context（无可见回复）。五项都是导向站外饲养指南的推广，涉及垫材、布置、温度、喂食或掘地解释；站外指南未读，不采用其临床/照料指令，也不把宣传判断写成动物事实。此项保留原日期并排除采用。正文与context由mastodon.social公开API实际取得，未打开媒体。"
+    },
+    {
+      "category": "daily",
+      "kind": "feed",
+      "url": "https://rssfeed.media/@abcfeeds/117565803867056387",
+      "visitedAt": "2026-11-15T20:08:42.432+00:00",
+      "publishedAt": "2026-11-05T20:50:02.000Z",
+      "summary": "初选daily窗口全为推广后，转#reptiles最新同类公开原帖序列（40项），保持跳过23项后连续5项，当前是第1项（总序24）。已读完整转载摘要和context（无可见回复）。内容是宠物犬蛇咬警示及人类家庭损失，站外ABC报道未打开；不沿摘要提供医疗或风险处置，也不把狗主人生活移成守宫经历。 根帖经公开联邦标签API，context经 mastodon.social/api/v1/statuses/117565804079821163/context 实际取得；联邦可见范围有限。"
+    },
+    {
+      "category": "daily",
+      "kind": "feed",
+      "url": "https://pixelfed.social/p/Carltoncarn/1023890245033291946",
+      "visitedAt": "2026-11-15T20:08:42.975+00:00",
+      "publishedAt": "2026-11-05T09:34:17.000Z",
+      "summary": "初选daily窗口全为推广后，转#reptiles最新同类公开原帖序列（40项），保持跳过23项后连续5项，当前是第2项（总序25）。已读完整长正文、4个媒体附件的空alt及context（无可见回复）。作者描述Painted Desert Glossy Snake、学名Arizona elegans philipi、体色随年龄变化、栖地范围和其自己遇到的反应。未查原始生态研究或打开照片，这些是观察者的描述与概括，不从“quiet/inoffensive”推定本站守宫性格或蛇类普遍心理。 根帖经公开联邦标签API，context经 mastodon.social/api/v1/statuses/117563147160319212/context 实际取得；联邦可见范围有限。"
+    },
+    {
+      "category": "daily",
+      "kind": "feed",
+      "url": "https://troet.cafe/@Kuestentroete/117562771833463646",
+      "visitedAt": "2026-11-15T20:08:42.473+00:00",
+      "publishedAt": "2026-11-05T07:58:57.000Z",
+      "summary": "初选daily窗口全为推广后，转#reptiles最新同类公开原帖序列（40项），保持跳过23项后连续5项，当前是第3项（总序26）。已读完整德文正文、长媒体alt及context；可见回应均标记unlisted，未作为公开讨论使用。根帖是一张沙滩洞口动物照片的展示，alt含Ctenosaura similis形态与性别体型说法；原图未打开、物种资料未另核，不能把alt当图像检查或生物学定论。保留拍摄者说法与实际可见范围的区别。 根帖经公开联邦标签API，context经 mastodon.social/api/v1/statuses/117562771992337706/context 实际取得；联邦可见范围有限。"
+    },
+    {
+      "category": "daily",
+      "kind": "feed",
+      "url": "https://pixelfed.social/p/wildphoto/1023766505159569726",
+      "visitedAt": "2026-11-15T20:08:42.516+00:00",
+      "publishedAt": "2026-11-05T01:22:35.000Z",
+      "summary": "初选daily窗口全为推广后，转#reptiles最新同类公开原帖序列（40项），保持跳过23项后连续5项，当前是第4项（总序27）。已读完整正文、媒体alt及context（无可见回复）。展示Bandy Bandy，正文自标Text Source: Wikipedia；原维基页和图未打开，因此不把转述当一手分类学或毒性证据，也不作本站事实。 根帖经公开联邦标签API，context经 mastodon.social/api/v1/statuses/117561213256784519/context 实际取得；联邦可见范围有限。"
+    },
+    {
+      "category": "daily",
+      "kind": "thread",
+      "url": "https://pixelfed.social/p/deltaromeotango/1023755682789634287",
+      "visitedAt": "2026-11-15T20:08:47.571+00:00",
+      "publishedAt": "2026-11-05T00:39:35.000Z",
+      "summary": "初选daily窗口全为推广后，转#reptiles最新同类公开原帖序列（40项），保持跳过23项后连续5项，当前是第5项（总序28）。已读完整根帖、媒体alt及1条public后续，父ID明确指向根帖。根帖用“I think”猜Texas spiny lizard期待食物，后续只是同一作者列摄影机、镜头与曝光；不把观察者猜测当动物欲望、不移植人的摄影设备操作。照片未打开，未确认个体物种或当时情绪，未追加未返回的他人评论。 根帖经公开联邦标签API，context经 mastodon.social/api/v1/statuses/117561044361733377/context 实际取得；联邦可见范围有限。"
+    },
+    {
+      "category": "daily",
+      "kind": "thread",
+      "url": "https://pixelfed.social/p/meoralis/1026171338650994858",
+      "visitedAt": "2026-11-15T20:09:43.827+00:00",
+      "publishedAt": "2026-11-11T16:38:32.000Z",
+      "summary": "补读同一#reptiles入口中明确有回复的第7项，属定向接话观察，不混作连续窗口或用来估计比例。已读根帖完整正文、1张图的alt及2条public回复并核对父ID。观察者用“被关的是人而不是蜥蜴”玩笑展示，读者只说Beautiful，作者接该读者短谢并用蜥蜴emoji；这是两次具体来回，不据此登记长期熟识或共同住处。原图未打开，不能从alt替动物确认感受或物种；本次context没有返回其他公开纠错楼层，不补先前材料的省略内容。 正文由标签API、回复由 mastodon.social/api/v1/statuses/117598789130865188/context 实际读取。"
+    },
+    {
+      "category": "daily",
+      "kind": "thread",
+      "url": "https://mastodon.social/@ThvH/117593731054295500",
+      "visitedAt": "2026-11-15T20:09:43.522+00:00",
+      "publishedAt": "2026-11-10T19:12:17.244Z",
+      "summary": "补读同一#reptiles入口中明确有回复的第8项，属定向接话观察，不混作连续窗口或用来估计比例。已读根帖完整正文、3张图的alt及1条public回复，父ID指向根帖。根帖给出iNaturalist观察链接与不确定物种的括注，读者仅赞叹眼睛的金色；原图与外部观察页未打开，不能替任何一方确认分类、目击位置或照片细节。 正文由标签API、回复由 mastodon.social/api/v1/statuses/117593731054295500/context 实际读取。"
+    },
+    {
+      "category": "daily",
+      "kind": "feed",
+      "url": "https://github.com/fivsevn/umwelt/blob/e30990df1bdfd00faa7b6d0583e7626ebf600a8f/gsm/environment/sources-daily-opinions.md",
+      "visitedAt": "2026-11-15T20:13:27.372+00:00",
+      "publishedAt": null,
+      "summary": "核读本轮冻结材料讨论1、2，采集于2026-11-15 11:25:20北京时间。b7b8eb259f11采用RSS标题与唯一摘要句：4条明确归于标题所说，Broad-headed Snake与Jonathan Webb沿正式来源名，保留34余年时长及圆圆复看的反应；删去未稳中文俗名与易泛化的全球首个，不把原报道全文6只/4只存活详情注入角色读过的摘要。e7fb63d7f7ca采用原摘录的易毁与可能数百至上千年重新形成、采矿/采石/城镇化压力、碎石转农田及澳大利亚新设备清碾地表岩石最高每小时一公顷；主张归于网上所读原文。编辑删去与近轮阿敏重复的石缝丧失/无处退避收尾，停在具体速度，不补对比口号。两份均是外部网上消息，无图片和可见回复，不造现场与互动；此项仅固定案例取用，不计新鲜观察数量。",
+      "adaptedPostIds": [
+        "gsm-20261115200444-2f5237cc-b7b8eb259f11",
+        "gsm-20261115200444-2f5237cc-e7fb63d7f7ca"
+      ]
+    }
+  ],
+  "posts": [
+    {
+      "id": "gsm-20261115200444-2f5237cc-b7b8eb259f11",
+      "author": "guest-9c9388627f4398d7",
+      "guest": {
+        "name": "圆圆"
+      },
+      "createdAt": "2026-11-15T17:41:33.817Z",
+      "replyTo": null,
+      "text": "刚在网上看到条消息，标题说澳大利亚放归了4条人工繁育的幼蛇（Broad-headed Snake）。摘要里说，主持这项重新引入项目的UTS野生动物生态学家Jonathan Webb教授，研究这种蛇已经34年多了。\n\n三十四年多……这几个字我又看了一遍。",
+      "likes": 10,
+      "canon": "derivative",
+      "media": []
+    },
+    {
+      "id": "gsm-20261115200444-2f5237cc-136b884c3dd9",
+      "author": "guest-67067b18b293856a",
+      "guest": {
+        "name": "mika"
+      },
+      "createdAt": "2026-11-15T19:34:37.467Z",
+      "replyTo": null,
+      "text": "这水碗摆得真烦，洞口出来就是它。还得从旁边绕。",
+      "likes": 0,
+      "canon": "derivative",
+      "media": [
+        {
+          "src": "posts/2026/11/gsm-20261115200444-2f5237cc-136b884c3dd9/media/water-bowl-route.webp",
+          "kind": "image",
+          "alt": "近处偏右的浅色水碗里有水，左侧留着连续的浅色地面。"
+        },
+        {
+          "kind": "emote",
+          "src": "assets/emotes/gsm/disgust.webp",
+          "alt": "守宫皱嘴斜眼，一只前爪朝外推开，另一只前爪撑地，尾巴横在身后。"
+        }
+      ]
+    },
+    {
+      "id": "gsm-20261115200444-2f5237cc-633166293193",
+      "author": "guest-ac333d7bff00b696",
+      "guest": {
+        "name": "小年"
+      },
+      "createdAt": "2026-11-15T19:36:24.075Z",
+      "replyTo": null,
+      "text": "趴这儿刚刚好。",
+      "likes": 5,
+      "canon": "derivative",
+      "media": [
+        {
+          "kind": "emote",
+          "src": "assets/emotes/gsm/neutral.webp",
+          "alt": "守宫侧着身四爪着地，半眯着眼微笑，带环纹的粗尾巴向上卷起。"
+        }
+      ]
+    },
+    {
+      "id": "gsm-20261115200444-2f5237cc-e7fb63d7f7ca",
+      "author": "guest-d314756023891ccf",
+      "guest": {
+        "name": "咸鱼"
+      },
+      "createdAt": "2026-11-15T19:44:43.031Z",
+      "replyTo": null,
+      "text": "网上读到一段讲岩石栖地的，越看越烦。原文说岩石栖地容易被毁，没了以后可能要几百年，甚至上千年才能重新形成。采矿、采石、城镇化都在挤，还有专门把大片岩石碾碎变农田的机器。文里提到澳大利亚的新设备，清掉、碾碎地表岩石的速度最高能到每小时一公顷。",
+      "likes": 0,
+      "canon": "derivative",
+      "media": []
+    },
+    {
+      "id": "gsm-20261115200444-2f5237cc-05",
+      "author": "guest-83ba667925c6c484",
+      "guest": {
+        "name": "名字没想好"
+      },
+      "createdAt": "2026-11-15T19:56:49.467Z",
+      "replyTo": "gsm-20261115200444-2f5237cc-136b884c3dd9",
+      "text": "这碗沿真厚，看着就烦。",
+      "likes": 10,
+      "canon": "derivative",
+      "media": []
+    }
+  ],
+  "status": "prepared",
+  "reviews": [
+    {
+      "postId": "gsm-20261115200444-2f5237cc-b7b8eb259f11",
+      "negative": false,
+      "reason": "转述网上RSS标题与摘要，只对研究时长多看一遍；没有抱怨、否定或讥讽。"
+    },
+    {
+      "postId": "gsm-20261115200444-2f5237cc-136b884c3dd9",
+      "negative": true,
+      "reason": "嫌洞口前的水碗碍路，直说真烦并抱怨要绕行。"
+    },
+    {
+      "postId": "gsm-20261115200444-2f5237cc-633166293193",
+      "negative": false,
+      "reason": "说眼下趴着合适，配微笑表情，表达平常的小满足。"
+    },
+    {
+      "postId": "gsm-20261115200444-2f5237cc-e7fb63d7f7ca",
+      "negative": true,
+      "reason": "读岩石栖地遭破坏、恢复漫长与碎石设备速度的摘录，直接说越看越烦。"
+    },
+    {
+      "postId": "gsm-20261115200444-2f5237cc-05",
+      "negative": true,
+      "reason": "从父帖照片的厚碗沿岔出一句嫌烦，没有提出解决办法或转为中性询问。"
+    }
+  ],
+  "researchMaintenance": [
+    {
+      "path": "users/research-character.md",
+      "status": "checked",
+      "summary": "完整读本专题第1—434行。围绕“单次反应能否升级为固定人格或对熟悉者普遍信任”核对I03原论文及关系边界：原研究比较14只大壁虎的新颖身体限制情境与39/37只的日常镊食情境；熟悉与陌生处理者的行为差异依情境而变，讨论明确处理者性别与个体身份尚不能分离，识别线索与内部福利状态仍需另测。原研究不证明任何守宫普遍依恋或认人的机制，也不把一次靠近/退开变成终身性格。现有I03已把认得接近方式、愿意靠近与相信所有安排分开，动作/解释/后果和一次赞同不立即成好友等说明足以承接，无需修改源文。另实际核对11月11日照片串公开的赞叹—短谢两回复，只能登记这两次接话，不能推出长期认识；照片未打开，定向样本不估计互动比例。",
+      "sources": [
+        {
+          "url": "https://www.nature.com/articles/s41598-025-95936-5",
+          "visitedAt": "2026-11-15T20:06:50.641+00:00",
+          "summary": "Damas-Moreira等，Scientific Reports，2025-04-02。实际读取出版方HTML摘要、方法中的动物对象/两个情境及流程设计、讨论与结论；14只新颖限制试验与39/37只日常镊食试验。核对情境依赖、处理者性别与个体混杂、识别线索未知和个体重复性限制。未打开图、补充视频/数据；未完整复算统计模型，不宣称读取所有参考文献。"
+        },
+        {
+          "url": "https://mastodon.social/api/v1/statuses/117598789130865188/context",
+          "visitedAt": "2026-11-15T20:09:43.827+00:00",
+          "summary": "原根帖 https://pixelfed.social/p/meoralis/1026171338650994858，2026-11-11。根帖正文与图alt由#reptiles标签API取得；实际读2条public descendants，读者短赞、作者接该楼短谢，真实父关系明确。照片未打开，当前联邦context不等于原平台完整串；不据一轮赞同推长期好友或线下亲近。"
+        }
+      ]
+    }
+  ],
+  "guestNames": {
+    "guest-9c9388627f4398d7": "圆圆",
+    "guest-67067b18b293856a": "mika",
+    "guest-ac333d7bff00b696": "小年",
+    "guest-d314756023891ccf": "咸鱼",
+    "guest-83ba667925c6c484": "名字没想好"
+  },
+  "mediaReviews": [
+    {
+      "postId": "gsm-20261115200444-2f5237cc-136b884c3dd9",
+      "src": "posts/2026/11/gsm-20261115200444-2f5237cc-136b884c3dd9/media/water-bowl-route.webp",
+      "type": "life-photo",
+      "scene": "图像生成工具取得的照片质感生活画面；贴近地面看向近处偏右的浅灰白色水碗，碗沿和水面可见；左边连续的浅色地面通向后方，背景有石块、木块和绿叶，左下角只有一小块虚暗前景。"
+    }
+  ],
+  "diversityReview": {
+    "postsDigest": "0a14de7b6edb6a437831593c5f90f41be803ea598868c7af1b06ec0a8267726a",
+    "historyDigest": "209386821bd839867dd8247b391350abb3555c5f250d51092aadf60a9c307daf",
+    "content": "独立编辑已逐段完整读取本轮reading.md第1—4553行，补读工具输出截断段，范围包括写作、抽签、发布、本站化、全部研究、15份人物档案、worldview0及近三轮10条原帖/回复。逐条在真实初稿保存后审读，最后复核operation与suggest.json中的5条终稿、reviews、mediaReviews及recentUpdates；本记录绑定此时的终稿和近期摘要，不将未读取的外链或原图称为已核验。\n\n本轮固定案例gsm-20261115200444-2f5237cc-b7b8eb259f11由圆圆转述RSS标题和唯一摘要句。初稿把4条写作直接确认的放归总量，使用未核稳的中文种名广头蛇，并说全球首个这样的重新引入项目。编辑将4条明确归于标题所说，种名改为来源英文Broad-headed Snake，主持者沿来源Jonathan Webb，删除不必采用且易被读成所有蛇类放归全球首次的表述。未把编辑与研究阶段另查到的报道全文数字、存活、放归日期或人工岩石细节添入角色只读摘要的知识范围。保留研究34余年与三十四年多又看一遍的两段节奏，没有给圆圆追加担忧结论或保护工作履历；与近轮rin_2看小蛇图的惊叹及阿敏的威胁清单均有不同话头。\n\n固定案例gsm-20261115200444-2f5237cc-e7fb63d7f7ca的真实初稿末段为想到能缩进去的石缝没了、再问往哪躲。它与近轮gsm-20261115150500-2bacf6e9-d90265255a20阿敏的连能缩进去的住处都没了、要躲到哪里去构成相同退避收尾，故实际只删除该末段，第一段完整保留，停在最高每小时一公顷。不再加对比口号或漂亮结论。现在保留来源特有的可能数百至上千年重新形成、碎石转农田与最高清碾速度，可能与最高能到均未改成确定时长或恒定速度；采矿、采石、城镇化等主张仍归网上原文。网上读到、越看越烦和生态题材延续属于固定材料与真实知情方式的自然相似，不靠换词或伪造本人亲历去重。\n\n原创gsm-20261115200444-2f5237cc-136b884c3dd9保留mika对洞口前水碗碍路、要从旁边绕的短抱怨，不补照料者动机、搬碗操作或解决经过。它与东东的洞旁叶子丑、林檎的亮斑真烦虽共用洞口、真烦等普通词，关注的是绕行代价，不是同一审美抱怨；与毛豆斜坡顶脖子也不是同一身体受压经过。原创gsm-20261115200444-2f5237cc-633166293193保留小年趴这儿刚刚好的一句话小满足，这儿只指本人当下，不为补完整故事另造环境和行动。趴着、短句或停在感受上的相似可以自然存在，没有把全轮统一成短句笑话：两条网上转述较长，两条日常状态短，信息完成程度各随话头。\n\n原创两根的回复空间分别为1与0，实际仅采用gsm-20261115200444-2f5237cc-05，真实父帖为mika的136b884c3dd9且时间在其后。名字没想好仅看父帖文字、最终水碗图和嫌弃表情，从绕路岔到照片所见的厚碗沿；保留这碗沿真厚，看着就烦，不替他读其他根帖或知道洞口全貌。真烦在同串重复是自然接话，本句没有复刻近轮K2这也值得烦对抱怨者的否定；不补建议、和解、本人旧事或熟人关系。保留基础赞数10，未因根帖0赞设回复上限或把全轮赞数排齐。两条固定案例都没有实际源回复，均不新增互动，小年也不另编回复。\n\n身体和知情方面，水碗、地面、旁路与当前停留位置落在守宫尺度；拟人许可只用于网上说话和发图，没有添拿设备、操控器具、研究或放归职业。两份外部生态材料的研究、繁育、机器与农业均属于所读报道中的人类行为，没有换成守宫自身经历、共同环境事件或专业能力，也未从名字和表情给5位路人补物种、年龄、性别及关系。终稿实际分类为mika碍路抱怨、咸鱼阅读烦躁、名字没想好嫌碗沿3条负面，圆圆复看时长和小年满意2条非负面，即3/5；没有把普通转述或满意句归负面。",
+    "images": "已实际打开本轮最终posts/2026/11/gsm-20261115200444-2f5237cc-136b884c3dd9/media/water-bowl-route.webp，以及公共disgust.webp、neutral.webp；同时打开近三轮4张普通图little-snake.webp、under-ramp.webp、shoulder-view.webp、bright-edge.webp，并看过近期使用的disgust.webp与heh.webp。没有把alt、媒体清单或生成计划当作实际看图。\n\nwater-bowl-route.webp由图像生成工具原始取得，转为最终WebP后打开审读，是照片质感的生活画面，不冒充外部案例原图。实际取景贴近地面，浅灰白色水碗占近处右半部，水面和碗沿可见；左侧有宽而连续的浅色地面向后延伸，背景只有局部石块、木块与绿叶，左下有一小块虚暗前景。图文能支持近处水碗与旁路的关注，没有人、设备、字、箭头或额外动物；图中不见完整洞口，因此最终alt只写偏右的有水浅碗和左侧连续地面，不断言洞形、精确距离或完全堵死。实际分类沿operation.mediaReviews为life-photo，src与帖子引用一致；suggest中的photo是候选提示，不拿它覆盖实际分类。\n\n构图在生成前已按编辑意见调整：原方案拟以上沿、左上洞口暗弧形成遮挡，会接近under-ramp.webp的大块暗塑料顶、低地面与出口亮缝；若改成显著竖树皮墙，又会靠近bright-edge.webp的左侧高树皮、右侧石片薄亮边。最终让洞顶在画外，仅左下极小暗边，主要画面改为右碗与左路，普通散射光也不制造亮出口。因而保留符合身体的贴地视点，但不重复近轮的暗顶亮缝或竖墙亮边组织。与little-snake.webp浅地面上完整小蛇和大树皮，以及shoulder-view.webp蓝衣、人后颈短发与局部前足的接触视角，也有明确主体和场景差异。未复用旧图或以另存同图假作新图。\n\n136b884c3dd9的普通图后接一张disgust：实际手绘守宫皱嘴斜眼、前爪向外推，承接嫌摆放烦；它不是mika真实推碗的动作证据。633166293193仅用neutral：实际侧身四爪着地、半眯微笑与上卷粗环纹尾巴，承接小满足；未据表情给小年登记真实体型、尾巴或物种。disgust在近轮耳朵和林檎处出现过，本次按嫌弃语气自然复用，没有为去重强换不合语气的资源。全轮5条只有这2条使用公共表情，3条纯文字，1张普通生活图只归mika；没有让每帖都贴图，唯一回复也以纯文字结束，表情均保留emote用途，不写进普通图mediaReviews。\n\n最终mediaFollowThrough提示普通图1帖、表情2帖，实际分别1与2，根帖候选的具体取舍已落实：mika用生活现场照片加嫌弃反应，小年只用满意表情，不为趴这儿补一张未需要的环境照片；回复候选为无图、无表情，实际也未加。两份固定案例只有文字摘要或摘录，没有源图、没有可见源回复，故圆圆不借近轮小蛇图假配放归现场，咸鱼也不另造碎石现场、科普图卡或生态插图。两路都没有把未读原图、视频、隐去链接或缺失评论补成画面和互动。"
+  }
+}
