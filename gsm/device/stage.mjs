@@ -23,7 +23,8 @@ export function mountDevice(initialAppearance={}){
   const [kx,ky]=g.keys[i],{width,height}=g.keySizes[i];
   Object.assign(key.style,{left:kx+'px',top:ky+'px',width:width+'px',height:height+'px'});
   key.style.setProperty('--key-face',`path('${localKeyFace(i)}')`);
-  key.style.setProperty('--key-left',-(kx-width/2)+'px');key.style.setProperty('--key-top',-(ky-height/2)+'px');
+  key.style.setProperty('--key-left',-(kx-width/2+g.origin[0]*(1-g.bodyScale)/g.bodyScale)+'px');
+  key.style.setProperty('--key-top',-(ky-height/2+(g.topPad+g.origin[1]*(1-g.bodyScale))/g.bodyScale)+'px');
   const hit=document.createElement('span');hit.className='key-hit';hit.setAttribute('aria-hidden','true');key.append(hit);
  }
  let appearance={...initialAppearance},mode=host.clientWidth<=600,revision=0,running=false,pending=false,paintedKey='',requestedKey='',activeURL='',resolveReady;
@@ -68,7 +69,8 @@ export function mountDevice(initialAppearance={}){
     Object.assign(antennaImage.style,{width:a.width+'px',height:a.height+'px',left:mx-a.width*a.anchor[0]+'px',top:my-a.height*a.anchor[1]+'px',clipPath:`inset(0 0 ${100*(a.height*(1-a.anchor[1])+30.318)/a.height}% 0)`});
     paintedKey=key;stage.dataset.shell=s.code;stage.dataset.antenna=a.id;stage.dataset.charm=c.id;
     stage.dataset.paintCount=String(Number(stage.dataset.paintCount||0)+1);
-    nav.style.setProperty('--key-art',`url("${url(s.buttonFinish??s.image)}")`);
+    nav.style.setProperty('--key-art',`url("${nextURL}")`);
+    nav.style.setProperty('--key-art-size',g.canvas.map(size=>size/g.bodyScale+'px').join(' '));
     holder.dataset.ready='true';errorNotice.hidden=true;
     if(resolveReady){resolveReady();resolveReady=null;}
    }catch(error){

@@ -45,7 +45,7 @@ const name=process.env.BROWSER||'chromium';
    const state=await page.evaluate(()=>{
     const screen=document.querySelector('.app-window').getBoundingClientRect(),stage=document.querySelector('.device-stage'),art=stage.querySelector('.device-art');
     return {width:innerWidth,height:innerHeight,screenWidth:screen.width,charm:stage.dataset.charm,mobileCoil:stage.hasAttribute('data-mobile-coil'),
-     art:{width:art.naturalWidth,height:art.naturalHeight,source:art.src},
+     art:{width:art.naturalWidth,height:art.naturalHeight,source:art.src},keyArtwork:getComputedStyle(document.querySelector('#mainNav a'),'::before').backgroundImage,
      liveFilters:[...stage.querySelectorAll('*')].filter(e=>getComputedStyle(e).filter!=='none'||getComputedStyle(e).maskImage!=='none').map(e=>e.className),
      canvases:stage.querySelectorAll('canvas').length,
      overflow:document.documentElement.scrollWidth>innerWidth+1||document.documentElement.scrollHeight>innerHeight+1,
@@ -62,6 +62,7 @@ const name=process.env.BROWSER||'chromium';
    if(state.width===375&&state.height>=590)assert.ok(state.screenWidth>=(coilMode?192:168),`the phone screen retains the size appropriate to its charm layout: ${state.screenWidth}px`);
    assert.deepEqual([state.art.width,state.art.height],[1280,1696],'the device is a bounded static bitmap, independent of DPR and zoom');
    assert.ok(state.art.source.includes('/assets/device-rendered/'),'the handset artwork was baked before serving the page');
+   assert.ok(state.keyArtwork.includes(state.art.source),'pressed keys reuse the decoded static artwork without loading a second shell');
    assert.deepEqual(state.liveFilters,[],'hardware never allocates live CSS filter or mask surfaces');
    assert.equal(state.canvases,0,'there is no browser-side hardware compositor');
    assert.equal(state.keys.length,3);
