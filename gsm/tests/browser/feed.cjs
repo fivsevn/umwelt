@@ -16,7 +16,21 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
   const context=await browser.newContext({viewport:{width:1280,height:1000}});
   const page=await context.newPage(),errors=[];
   const savedAppearance=target=>target.evaluate(()=>JSON.parse(localStorage.getItem('umwelt-gsm-appearance')));
+  const waitAppearance=async(target,appearance)=>{
+   const expected={...appearance};
+   if(expected.shell)expected.shell=shells.find(item=>item.id===expected.shell).code;
+   const attributes=Object.entries(expected).map(([part,id])=>`[data-${part}="${id}"]`).join('');
+   await target.locator(`.device-holder[data-ready="true"] > .device-stage${attributes}`).waitFor({state:'visible'});
+  };
+  const checkAttachmentArt=async(part,item)=>{
+   await waitAppearance(page,{[part]:item.id});
+   const image=page.locator(part==='antenna'?'.antenna':'.charm-rig');
+   const loaded=await image.evaluate(async element=>{await element.decode();return {complete:element.complete,width:element.naturalWidth,source:element.currentSrc};});
+   assert.ok(loaded.complete&&loaded.width>0,'the selected attachment decodes');
+   assert.equal(new URL(loaded.source).pathname.split('/').at(-1),item.image.split('/').at(-1),'attachment artwork follows the catalog choice');
+  };
   const checkShellArt=async shell=>{
+   await waitAppearance(page,{shell});
    const art=page.locator('.shell-img');
    assert.equal(await art.count(),1,'one shell surrounds the native feed');
    const loaded=await art.evaluate(async image=>{await image.decode();return {complete:image.complete,width:image.naturalWidth,height:image.naturalHeight,source:image.currentSrc,rendering:getComputedStyle(image).imageRendering};});
@@ -24,7 +38,8 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
    assert.equal(loaded.rendering,'auto','shell material keeps its rendered surface detail');
    assert.equal(new URL(loaded.source).pathname.split('/').at(-1),shells.find(item=>item.id===shell).image.split('/').at(-1),'artwork follows the catalog choice');
    assert.equal(await page.locator('iframe').count(),0,'the production screen uses native DOM');
-   for(const selector of ['.antenna','.charm-rig'])assert.ok(await page.locator(selector).evaluate(async image=>{await image.decode();return image.complete&&image.naturalWidth>0;}),'the selected attachment decodes');
+   const selected=new URL(page.url()).searchParams;
+   for(const [part,items] of [['antenna',antennas],['charm',charms]])await checkAttachmentArt(part,items.find(item=>item.id===selected.get(part)));
   };
   page.on('pageerror',e=>errors.push(e.message));
   page.on('response',r=>{if(r.status()>=400&&r.url().startsWith(base))errors.push(`${r.status()} ${r.url()}`);});
@@ -88,7 +103,7 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
   const initialLikes=Number(await first.locator('.like-count').innerText());
   await first.click();assert.equal(await first.getAttribute('aria-pressed'),'true');
   assert.equal(await first.locator('.like-count').innerText(),String(initialLikes+1));
-  await page.reload();assert.equal(await first.getAttribute('aria-pressed'),'true');
+  await page.reload();await feedReady(page);assert.equal(await first.getAttribute('aria-pressed'),'true');
   await first.focus();await page.keyboard.press('Enter');assert.equal(await first.getAttribute('aria-pressed'),'false');
   assert.equal(await first.locator('.like-count').innerText(),String(initialLikes));
   // SVG/path click targets must reach the same delegated handler as the button.
@@ -172,12 +187,13 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
    assert.equal(typography.labels.length,4);assert.equal(new Set(typography.labels).size,1,'all four category labels share a size');
    assert.ok(typography.title>typography.labels[0]);assert.equal(typography.languageLast,true,'language follows the appearance controls');
    assert.equal(await page.locator('.post').count(),1,'one settings content area');
-   await page.reload();assert.equal(await page.locator('#languageButton').isVisible(),true,'settings directly reloadable');
+   await page.reload();await page.locator('#languageButton').waitFor({state:'visible'});
+   assert.equal(await page.locator('#languageButton').isVisible(),true,'settings directly reloadable');
    await page.locator('[data-language]').click();
    assert.equal(await page.locator('#mainNav #homeButton[data-back]').count(),1,'settings uses the left physical return key');
    assert.equal(await page.locator('#profileBack,#threadBack,[data-profile-back],[data-thread-back]').count(),0,'settings has no screen return arrow');
    assert.ok(await page.locator('#homeButton').getAttribute('aria-label'),'settings return has an accessible name');
-   await page.locator('#homeButton').focus();await page.keyboard.press('Enter');await page.waitForURL(url=>url.pathname==='/gsm/');
+   await page.locator('#homeButton').focus();await page.keyboard.press('Enter');await page.waitForURL(url=>url.pathname==='/gsm/');await feedReady(page);
   }
   await page.reload();assert.equal(await page.locator('html').getAttribute('lang'),'zh-CN');
   // Opening and refreshing use a fixed default until the player makes a choice.
@@ -221,17 +237,17 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
   }
   // Antennas and charms have independent, persistent choices.
   await page.locator('#settingsButton').click();
-  for(const [part,items,selector] of [['antenna',antennas,'.antenna'],['charm',charms,'.charm-rig']]){
+  for(const [part,items] of [['antenna',antennas],['charm',charms]]){
    for(const item of items){
     await page.locator(`[data-${part}-choice="${item.id}"]`).click();
     assert.equal((await savedAppearance(page))[part],item.id);
     assert.equal(new URL(page.url()).searchParams.get(part),item.id);
     assert.equal(await page.locator(`[data-${part}-choice][aria-pressed="true"]`).count(),1);
-    assert.ok(await page.locator(selector).evaluate(async image=>{await image.decode();return image.complete&&image.naturalWidth>0;}));
+    await checkAttachmentArt(part,item);
    }
   }
   const chosen=await savedAppearance(page);
-  await page.reload();assert.deepEqual(await savedAppearance(page),chosen);
+  await page.reload();await waitAppearance(page,chosen);assert.deepEqual(await savedAppearance(page),chosen);
   for(const [part,id] of Object.entries(chosen))assert.equal(new URL(page.url()).searchParams.get(part),id,'reload retains every appearance choice');
   const shared=await context.newPage();await shared.goto(base+'/gsm/');await feedReady(shared);
   for(const [part,id] of Object.entries(chosen))assert.equal(new URL(shared.url()).searchParams.get(part),id,'new tabs restore manual choices');
@@ -320,6 +336,7 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
   const fixturePost=emotePage.locator(`[data-post-id="${fixturePostId}"]`),emotes=fixturePost.locator('.post-emote');
   assert.equal(await emotes.count(),2,'repeated emotes remain separate reactions');
   await emotes.first().scrollIntoViewIfNeeded();
+  await emotePage.waitForFunction(id=>{const image=document.getElementById(`post-${id}`)?.querySelector('.post-emote img');return image?.complete&&image.naturalWidth>0;},fixturePostId);
   await emotes.first().locator('img').evaluate(image=>image.decode());
   for(const viewport of [{width:1280,height:1000},{width:390,height:844},{width:844,height:390}]){
    await emotePage.setViewportSize(viewport);
@@ -344,7 +361,7 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
    await clean.screenshot({path:`${process.env.QA_OUTPUT}/gsm-stream-${name}-desktop.png`});
    await clean.setViewportSize({width:390,height:844});await clean.screenshot({path:`${process.env.QA_OUTPUT}/gsm-stream-${name}-mobile.png`});
    await clean.setViewportSize({width:390,height:600});await clean.locator('#timeline').evaluate(e=>e.scrollTop=210);await clean.screenshot({path:`${process.env.QA_OUTPUT}/gsm-stream-${name}-scrolled.png`});
-   await clean.locator('#settingsButton').click();await clean.screenshot({path:`${process.env.QA_OUTPUT}/gsm-stream-${name}-settings.png`});await clean.close();
+   await clean.locator('#settingsButton').click();await clean.locator('#languageButton').waitFor({state:'visible'});await clean.screenshot({path:`${process.env.QA_OUTPUT}/gsm-stream-${name}-settings.png`});await clean.close();
   }
   console.log(`${name}: composable device at 7 sizes, contained LCD screen, locked header/keys, inner scrolling, linear pager messages, ${shellNames.length} cases, fixed default, persistent manual appearance choices, explicit internal links, manual settings and history, 3 languages, SVG/path likes, reduced motion, compact emotes beside unchanged photos, legacy storage and denial passed.`);
  }finally{await browser.close();}
