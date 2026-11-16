@@ -50,6 +50,7 @@ export const geometry = {
     820
   ],
   "topPad": 160,
+  "mobileView": [32, 24, 960, 1608],
   "canvas": [
     1280,
     1696
@@ -72,6 +73,21 @@ export const geometry = {
 export function frontStrandMask(fit){
  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="560" height="1120" viewBox="0 0 560 1120"><path fill="white" fill-rule="evenodd" d="M0 0H560V1120H0Z ${fit.rear}"/></svg>`;
  return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+}
+
+// Keep the pendant at its original scale, and join the laid cord to the two
+// existing attachment ends. Only the cord receives an affine transform.
+export function mobileCharmLayout(fit,mobile){
+ const [sx,sy,width,height]=mobile.crop,[left,top]=mobile.position;
+ const radians=(mobile.angle??0)*Math.PI/180,cos=Math.cos(radians),sin=Math.sin(radians);
+ const tip=[mobile.tip[0]-sx,mobile.tip[1]-sy];
+ const end=[left+cos*tip[0]-sin*tip[1],top+sin*tip[0]+cos*tip[1]];
+ const eyelet=geometry.eyelet.map((v,i)=>geometry.origin[i]+(v-geometry.origin[i])*geometry.bodyScale);
+ const start=eyelet.map((v,i)=>v-fit.anchor[i]+mobile.entry[i]);
+ const [sourceStart,sourceEnd]=mobile.cordEnds,span=sourceStart[1]-sourceEnd[1];
+ const a=mobile.cordScale??.5,b=mobile.cordShearY??0,c=(start[0]-end[0]-a*(sourceStart[0]-sourceEnd[0]))/span;
+ const d=(start[1]-end[1]-b*(sourceStart[0]-sourceEnd[0]))/span,e=end[0]-a*sourceEnd[0]-c*sourceEnd[1],f=end[1]-b*sourceEnd[0]-d*sourceEnd[1];
+ return {left,top,width,height,angle:mobile.angle??0,backgroundPosition:`${-sx}px ${-sy}px`,cordMatrix:[a,b,c,d,e,f],start,end};
 }
 
 // Key faces use absolute M/H/V/Q/Z coordinates on the shared shell artwork.

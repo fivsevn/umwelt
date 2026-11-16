@@ -1,5 +1,5 @@
 import {shells,antennas,charms} from './catalog.mjs';
-import {geometry as g,frontStrandMask,localKeyFace} from './geometry.mjs';
+import {geometry as g,frontStrandMask,localKeyFace,mobileCharmLayout} from './geometry.mjs';
 
 const url=path=>new URL(path,import.meta.url).href;
 const decoded=new Map();
@@ -16,7 +16,7 @@ export function mountDevice(){
  const host=document.getElementById('deviceHost'),screen=document.querySelector('.app-window'),nav=document.getElementById('mainNav');
  const holder=document.createElement('div');holder.className='device-holder';
  const stage=document.createElement('div');stage.className='device-stage';holder.append(stage);
- stage.innerHTML='<div class="charm-foreground"><div class="rig-shadow rig-shadow-soft"><img alt=""></div><div class="rig-shadow rig-shadow-tight"><img alt=""></div><img class="charm-rig" alt=""><img class="eyelet-rear-shade" alt=""></div><div class="device-group"><div class="shell-surface"><img class="shell-img" alt="" fetchpriority="high"><img class="shell-socket" alt="" hidden><img class="shell-button-finish" alt="" hidden></div><img class="antenna" alt=""><div class="screen-slot"><div class="lens" aria-hidden="true"></div></div></div><div class="charm-contact-receiver" aria-hidden="true"><div class="eyelet-contact-follow"><div class="eyelet-contact-soft"></div><div class="eyelet-contact-tight"></div></div><div class="charm-contact-follow"><div class="contact-soft"></div><div class="contact-tight"></div></div></div><div class="eyelet-occlusion"><img alt=""></div>';
+ stage.innerHTML='<div class="charm-foreground"><div class="rig-shadow rig-shadow-soft"><img alt=""></div><div class="rig-shadow rig-shadow-tight"><img alt=""></div><img class="charm-rig" alt=""><img class="eyelet-rear-shade" alt=""></div><img class="mobile-charm-cord" alt="" hidden><div class="mobile-charm-pendant" hidden aria-hidden="true"></div><div class="device-group"><div class="shell-surface"><img class="shell-img" alt="" fetchpriority="high"><img class="shell-socket" alt="" hidden><img class="shell-button-finish" alt="" hidden></div><img class="antenna" alt=""><div class="screen-slot"><div class="lens" aria-hidden="true"></div></div></div><div class="charm-contact-receiver" aria-hidden="true"><div class="eyelet-contact-follow"><div class="eyelet-contact-soft"></div><div class="eyelet-contact-tight"></div></div><div class="charm-contact-follow"><div class="contact-soft"></div><div class="contact-tight"></div></div></div><div class="eyelet-occlusion"><img alt=""></div>';
  stage.querySelectorAll('img').forEach(image=>{image.decoding='async';image.setAttribute('aria-hidden','true');image.addEventListener('error',()=>image.classList.add('asset-unavailable'));image.addEventListener('load',()=>image.classList.remove('asset-unavailable'));});
  const hardware=stage.querySelector('.device-group'),slot=stage.querySelector('.screen-slot');
  const errorNotice=document.createElement('div');errorNotice.className='device-error';errorNotice.setAttribute('role','status');errorNotice.hidden=true;
@@ -35,13 +35,17 @@ export function mountDevice(){
   key.style.setProperty('--key-top',-(ky-height/2)+'px');
   const hit=document.createElement('span');hit.className='key-hit';hit.setAttribute('aria-hidden','true');key.append(hit);
  }
- function fit(){
+ let activeCharm=null,relayoutCharm=()=>{};
+ function fitDevice(){
+  const coiled=host.clientWidth<=600&&Boolean(activeCharm?.mobileCord);
+  stage.toggleAttribute('data-mobile-coil',coiled);
+  relayoutCharm(coiled);
   if(host.clientWidth<=600){
-   const scale=Math.min(host.clientWidth/1160,host.clientHeight/1608);
+   const [x,y,width,height]=coiled?g.mobileView:[32,24,1160,1608],scale=Math.min(host.clientWidth/width,host.clientHeight/height);
    if(scale<=0)return;
    nav.style.setProperty('--touch-target',44/(scale*g.bodyScale)+'px');
-   Object.assign(holder.style,{width:1160*scale+'px',height:1608*scale+'px'});
-   Object.assign(stage.style,{transform:`scale(${scale})`,left:-32*scale+'px',top:(g.topPad-24)*scale+'px'});
+   Object.assign(holder.style,{width:width*scale+'px',height:height*scale+'px'});
+   Object.assign(stage.style,{transform:`scale(${scale})`,left:-x*scale+'px',top:(g.topPad-y)*scale+'px'});
    return;
   }
   const width=Math.min(host.clientWidth-16,(host.clientHeight-16)*g.canvas[0]/g.canvas[1],1040);
@@ -50,7 +54,7 @@ export function mountDevice(){
   Object.assign(holder.style,{width:width+'px',height:g.canvas[1]*width/g.canvas[0]+'px'});
   Object.assign(stage.style,{transform:`scale(${width/g.canvas[0]})`,left:'0px',top:g.topPad*width/g.canvas[0]+'px'});
  }
- new ResizeObserver(fit).observe(host);fit();
+ new ResizeObserver(fitDevice).observe(host);fitDevice();
  let revision=0,lastAppearance,resolveReady;
  const ready=new Promise(resolve=>{resolveReady=resolve;});
  retry.addEventListener('click',()=>update(lastAppearance));
@@ -58,7 +62,7 @@ export function mountDevice(){
   lastAppearance={...appearance};
   const current=++revision;
   const s=shells.find(item=>item.id===appearance.shell)??shells[0],a=antennas.find(item=>item.id===appearance.antenna)??antennas[0],c=charms.find(item=>item.id===appearance.charm)??charms[0];
-  const results=await Promise.allSettled([load(s.image,'high'),load(a.image),load(c.image),...(s.buttonFinish?[load(s.buttonFinish)]:[])]);
+  const results=await Promise.allSettled([load(s.image,'high'),load(a.image),load(c.image),...(s.buttonFinish?[load(s.buttonFinish)]:[]),...(c.mobileCord?[load(c.mobileCord)]:[])]);
   if(current!==revision)return;
   errorNotice.hidden=results.every(result=>result.status==='fulfilled');
   if(!errorNotice.hidden){
@@ -88,6 +92,22 @@ export function mountDevice(){
   const head=receiver.querySelector('.eyelet-contact-follow');head.style.setProperty('--contact-strength',fit.contact);
   head.querySelectorAll('div').forEach(surface=>{surface.style.maskImage=frontStrandMask(fit);surface.style.backgroundImage=`url("${rig.src}")`;});
   contact.querySelectorAll('div').forEach(surface=>surface.style.backgroundImage=`url("${rig.src}")`);
+  const cord=stage.querySelector('.mobile-charm-cord'),pendant=stage.querySelector('.mobile-charm-pendant');
+  // Preserve the original pendant pixels at 1:1; only the middle cord is re-laid.
+  pendant.style.backgroundImage=c.mobileCord?`url("${rig.src}")`:'';
+  if(c.mobileFit){
+   const layout=mobileCharmLayout(fit,c.mobileFit),[headWidth,headHeight]=c.mobileFit.head;
+   Object.assign(pendant.style,{left:layout.left+'px',top:layout.top+'px',width:layout.width+'px',height:layout.height+'px',backgroundPosition:layout.backgroundPosition,transform:layout.angle?`rotate(${layout.angle}deg)`:'none'});
+   Object.assign(cord.style,{width:c.mobileFit.cordSize[0]+'px',height:c.mobileFit.cordSize[1]+'px',transform:`matrix(${layout.cordMatrix.join(',')})`});
+   stage.style.setProperty('--mobile-head-clip',`inset(0 ${g.rigWidth-headWidth}px ${1120-headHeight}px 0)`);
+   stage.style.setProperty('--mobile-contact-clip',`inset(0 ${240-headWidth}px ${160-headHeight}px 0)`);
+  }
+  relayoutCharm=coiled=>{
+   cord.hidden=pendant.hidden=!coiled;
+   contact.hidden=coiled||!c.contactShadow;
+   if(coiled){const src=url(c.mobileCord);if(cord.getAttribute('src')!==src)cord.src=src;}else cord.removeAttribute('src');
+  };
+  activeCharm=c;fitDevice();
   holder.dataset.ready='true';
   if(resolveReady){resolveReady();resolveReady=null;}
  }

@@ -36,7 +36,16 @@ test('both coated residents walk collision-free without gardening in both terrac
     const objects=filledLayoutFixture().scenes[scene];let state={...weatherProfile('rain','day'),rainMode:'raincoat'},pig;
     const person=makeWalker(scene,()=>objects,{environment:()=>state,company:()=>[pig?.person]});
     pig=makeWalker(scene,()=>objects,{visits:7,actor:'pig',environment:()=>state,body:{radius:.76,height:1},company:()=>[person.person]});
-    person.randomize();pig.randomize();const starts=[person.person,pig.person].map(p=>[p.x,p.y]);const moved=[false,false];
+    // Fixed open lanes make the movement precondition reproducible.
+    const starts=scene==='north'?[[428,428],[436,388]]:[[244,380],[308,380]];
+    for(const [j,walker] of [person,pig].entries()){
+      const [x,y]=starts[j];Object.assign(walker.person,{x,y});
+      assert.ok(actorFits(scene,objects,x,y,j?{radius:.76,height:1}:{radius:.76,height:2.42}),`${scene}: resident ${j} starts in clear space`);
+    }
+    assert.ok(Math.hypot(person.person.x-pig.person.x,person.person.y-pig.person.y)>=(person.person.radius+pig.person.radius)*16,`${scene}: residents start apart`);
+    person.reset();pig.reset();
+    assert.deepEqual([person.person,pig.person].map(p=>[p.x,p.y]),starts,`${scene}: reset preserves the valid starting points`);
+    const moved=[false,false];
     for(let i=0;i<3000;i++){
       person.update(.1);pig.update(.08);
       for(const [j,walker] of [person,pig].entries()){

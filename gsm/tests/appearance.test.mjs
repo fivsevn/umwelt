@@ -3,10 +3,11 @@ import assert from 'node:assert/strict';
 import {readFile,readdir,stat} from 'node:fs/promises';
 import {basename} from 'node:path';
 import {shells,antennas,charms} from '../device/catalog.mjs';
+import {geometry,mobileCharmLayout} from '../device/geometry.mjs';
 import {APPEARANCE_STORAGE_KEY,DEFAULT_APPEARANCE,normalizeAppearance,appearanceFromURL,readAppearance,writeAppearance,setAppearanceURL} from '../device/selection.mjs';
 
 const catalogURL=new URL('../device/catalog.mjs',import.meta.url);
-const catalogAssets=[...new Set([...shells,...antennas,...charms].flatMap(item=>[item.image,item.buttonFinish].filter(Boolean)))];
+const catalogAssets=[...new Set([...shells,...antennas,...charms].flatMap(item=>[item.image,item.buttonFinish,item.mobileCord].filter(Boolean)))];
 
 test('appearance defaults are fixed and old random/session values cannot select a skin',()=>{
  assert.deepEqual(DEFAULT_APPEARANCE,{shell:'leopard',antenna:'graphite',charm:'beads'});
@@ -50,6 +51,37 @@ test('the workbench marker is explicit and does not leak into ordinary links',()
  setAppearanceURL(url,DEFAULT_APPEARANCE,true);assert.equal(url.searchParams.get('appearance-preview'),'1');
  setAppearanceURL(url,DEFAULT_APPEARANCE);assert.equal(url.searchParams.has('appearance-preview'),false);
  assert.equal(url.searchParams.get('user'),'guest');
+});
+
+test('all mobile charms preserve their crop scale and join both cord endpoints',()=>{
+ assert.equal(charms.length,8);
+ const nearPoint=(actual,expected,label)=>assert.ok(Math.hypot(actual[0]-expected[0],actual[1]-expected[1])<1e-6,label);
+ const transform=([a,b,c,d,e,f],[x,y])=>[a*x+c*y+e,b*x+d*y+f];
+ const eyelet=geometry.eyelet.map((value,axis)=>geometry.origin[axis]+(value-geometry.origin[axis])*geometry.bodyScale);
+ for(const charm of charms){
+  const mobile=charm.mobileFit;
+  assert.ok(charm.mobileCord&&mobile,`${charm.id}: a complete mobile variant is registered`);
+  const [x,y,width,height]=mobile.crop,angle=mobile.angle??0;
+  assert.ok(mobile.crop.length===4&&mobile.crop.every(Number.isFinite)&&x>=0&&y>=0&&width>0&&height>0&&x+width<=560&&y+height<=1120,`${charm.id}: crop stays inside the original displayed artwork`);
+  assert.ok(Number.isFinite(angle)&&Math.abs(angle)<=60,`${charm.id}: pendant keeps its original orientation within a modest tilt`);
+  assert.ok(mobile.head.length===2&&mobile.head.every(Number.isFinite)&&mobile.head[0]>0&&mobile.head[0]<=240&&mobile.head[1]>0&&mobile.head[1]<=160,`${charm.id}: retained head fits the local shadow surface`);
+  assert.ok(mobile.entry.every((value,axis)=>Number.isFinite(value)&&value>=0&&value<=mobile.head[axis]),`${charm.id}: cord starts within the retained head`);
+  assert.ok(mobile.tip[0]>=x&&mobile.tip[0]<=x+width&&mobile.tip[1]>=y&&mobile.tip[1]<=y+height,`${charm.id}: the lower join is inside the preserved pendant crop`);
+  assert.ok(mobile.cordSize.length===2&&mobile.cordSize.every(value=>Number.isFinite(value)&&value>0));
+  assert.equal(mobile.cordEnds.length,2);
+  for(const point of mobile.cordEnds)assert.ok(point.length===2&&point.every((value,axis)=>Number.isFinite(value)&&value>=0&&value<=mobile.cordSize[axis]),`${charm.id}: both source joins lie inside the cord image`);
+  assert.notEqual(mobile.cordEnds[0][1],mobile.cordEnds[1][1],`${charm.id}: source joins have a usable span`);
+  const layout=mobileCharmLayout(charm.fit,mobile);
+  assert.deepEqual([layout.width,layout.height],[width,height],`${charm.id}: the pendant crop is not resized`);
+  assert.equal(layout.backgroundPosition,`${-x}px ${-y}px`,`${charm.id}: crop samples the original pixels`);
+  assert.equal(layout.angle,angle);
+  assert.ok(layout.cordMatrix.length===6&&layout.cordMatrix.every(Number.isFinite),`${charm.id}: cord transform is finite`);
+  const start=eyelet.map((value,axis)=>value-charm.fit.anchor[axis]+mobile.entry[axis]);
+  const radians=angle*Math.PI/180,dx=mobile.tip[0]-x,dy=mobile.tip[1]-y;
+  const end=[mobile.position[0]+Math.cos(radians)*dx-Math.sin(radians)*dy,mobile.position[1]+Math.sin(radians)*dx+Math.cos(radians)*dy];
+  nearPoint(transform(layout.cordMatrix,mobile.cordEnds[0]),start,`${charm.id}: upper cord joins the unchanged head`);
+  nearPoint(transform(layout.cordMatrix,mobile.cordEnds[1]),end,`${charm.id}: lower cord joins the rotated original pendant`);
+ }
 });
 
 test('the catalog contains translated stable choices and only current WebP assets',async()=>{

@@ -2,6 +2,20 @@ import {shells,antennas,charms} from '../../device/catalog.mjs';
 import {DEFAULT_APPEARANCE,normalizeAppearance} from '../../device/selection.mjs';
 
 const frame=document.getElementById('devicePreview'),form=document.getElementById('appearanceChoices');
+const viewButtons=document.querySelectorAll('[data-view]');
+function setView(value,updateURL=false){
+ const view=value==='mobile'?'mobile':'desktop';
+ document.body.dataset.view=view;
+ for(const button of viewButtons)button.setAttribute('aria-pressed',String(button.dataset.view===view));
+ if(updateURL){
+  const url=new URL(location.href);
+  if(view==='mobile')url.searchParams.set('view','mobile');else url.searchParams.delete('view');
+  try{history.replaceState(history.state,'',url);}catch{}
+ }
+}
+for(const button of viewButtons)button.addEventListener('click',()=>setView(button.dataset.view,true));
+setView(new URL(location.href).searchParams.get('view'));
+window.addEventListener('popstate',()=>setView(new URL(location.href).searchParams.get('view')));
 const storageKey='gsm-appearance-workbench';
 let appearance={...DEFAULT_APPEARANCE},ready=false;
 try{appearance=normalizeAppearance(JSON.parse(sessionStorage.getItem(storageKey)));}catch{}

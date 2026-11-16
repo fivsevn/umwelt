@@ -6,6 +6,7 @@ const name=process.env.BROWSER||'chromium';
 
 (async()=>{
  const {shells,charms}=await import('../../device/catalog.mjs');
+ const {geometry}=await import('../../device/geometry.mjs');
  const browser=await {chromium,webkit}[name].launch({headless:true});
  try{
   const context=await browser.newContext({viewport:{width:375,height:667},deviceScaleFactor:3,isMobile:true,hasTouch:true});
@@ -41,9 +42,28 @@ const name=process.env.BROWSER||'chromium';
   };
   const layout=async()=>{
    await paint();
-   const state=await page.evaluate(()=>{
-    const screen=document.querySelector('.app-window').getBoundingClientRect();
-    return {width:innerWidth,height:innerHeight,screenWidth:screen.width,
+   const state=await page.evaluate(({eyelet,anchors})=>{
+    const screen=document.querySelector('.app-window').getBoundingClientRect(),stage=document.querySelector('.device-stage');
+    const anchor=anchors[stage.dataset.charm];
+    const coilPart=selector=>{
+     const element=stage.querySelector(selector);if(!element)return null;
+     const css=getComputedStyle(element);
+     const matrix=css.transform==='none'?new DOMMatrix():new DOMMatrix(css.transform);
+     return {visible:element.getClientRects().length>0&&css.display!=='none'&&css.visibility!=='hidden'&&Number(css.opacity)>0,width:parseFloat(css.width),height:parseFloat(css.height),transform:css.transform,scale:[Math.hypot(matrix.a,matrix.b),Math.hypot(matrix.c,matrix.d)],determinant:matrix.a*matrix.d-matrix.b*matrix.c,backgroundSize:css.backgroundSize,backgroundImage:css.backgroundImage};
+    };
+    const pointInStage=(element,point)=>{
+     const css=getComputedStyle(element),origin=css.transformOrigin.split(' ').map(parseFloat);
+     const matrix=css.transform==='none'?new DOMMatrix():new DOMMatrix(css.transform);
+     const transformed=new DOMPoint(point[0]-origin[0],point[1]-origin[1]).matrixTransform(matrix);
+     return {x:parseFloat(css.left)+origin[0]+transformed.x,y:parseFloat(css.top)+origin[1]+transformed.y};
+    };
+    return {width:innerWidth,height:innerHeight,screenWidth:screen.width,charm:stage.dataset.charm,mobileCoil:stage.hasAttribute('data-mobile-coil'),
+     coilPendant:coilPart('.mobile-charm-pendant'),coilCord:coilPart('.mobile-charm-cord'),
+     worldEyelet:pointInStage(document.querySelector('.device-group'),eyelet),
+     charmLayers:['.charm-foreground','.eyelet-occlusion'].map(selector=>{
+      const element=document.querySelector(selector);
+      return {selector,transform:getComputedStyle(element).transform,worldAnchor:pointInStage(element,anchor)};
+     }),
      overflow:document.documentElement.scrollWidth>innerWidth+1||document.documentElement.scrollHeight>innerHeight+1,
      eyeletShadows:[...document.querySelectorAll('.eyelet-contact-soft,.eyelet-contact-tight')].map(element=>{
       const css=getComputedStyle(element);return {width:parseFloat(css.width),height:parseFloat(css.height)};
@@ -54,9 +74,24 @@ const name=process.env.BROWSER||'chromium';
       const paint=['::before','::after'].map(pseudo=>{const surface=getComputedStyle(element,pseudo);return {width:parseFloat(surface.width),height:parseFloat(surface.height)};});
       return {id:element.id,left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height,cssWidth:parseFloat(css.width),cssHeight:parseFloat(css.height),paint,touch:{left:touch.left,right:touch.right,top:touch.top,bottom:touch.bottom,width:touch.width,height:touch.height},reachable:hit===element||element.contains(hit)};
      })};
-   });
+   },{eyelet:geometry.eyelet,anchors:Object.fromEntries(charms.map(charm=>[charm.id,charm.fit.anchor]))});
    assert.equal(state.overflow,false,'mobile fitting keeps the document inside the viewport');
-   if(state.width===375&&state.height>=590)assert.ok(state.screenWidth>=168,`the phone screen retains its mobile size: ${state.screenWidth}px`);
+   const coilMode=state.width<=600;
+   assert.equal(state.mobileCoil,coilMode,'the coiled charm layout activates only on narrow screens');
+   if(state.width===375&&state.height>=590)assert.ok(state.screenWidth>=(coilMode?192:168),`the phone screen retains the size appropriate to its charm layout: ${state.screenWidth}px`);
+   for(const layer of state.charmLayers){
+    assert.equal(layer.transform,'none',`${layer.selector} keeps the original unrotated and unscaled charm placement`);
+    assert.ok(Math.hypot(layer.worldAnchor.x-state.worldEyelet.x,layer.worldAnchor.y-state.worldEyelet.y)<.5,`${layer.selector} keeps the fixed cord anchor attached to the shell eyelet`);
+   }
+   for(const [part,element] of [['pendant',state.coilPendant],['cord',state.coilCord]])assert.equal(Boolean(element?.visible),coilMode,`the mobile ${part} is only visible in the coiled layout`);
+   if(coilMode){
+    const charm=charms.find(charm=>charm.id===state.charm);
+    assert.equal(state.coilPendant.width,charm.mobileFit.crop[2]);assert.equal(state.coilPendant.height,charm.mobileFit.crop[3]);
+    assert.ok(state.coilPendant.scale.every(scale=>Math.abs(scale-1)<.00001),'the pendant preserves both original dimensions');
+    assert.ok(Math.abs(state.coilPendant.determinant-1)<.00001,'the front face is never mirrored');
+    assert.equal(state.coilPendant.backgroundSize,'560px 1120px','the pendant crop retains the original image scale');
+    assert.ok(state.coilPendant.backgroundImage.includes(charm.image.split('/').at(-1)),'the pendant and metal ring come from the original artwork');
+   }
    assert.equal(state.keys.length,3);
    for(const key of state.keys){
     assert.ok(key.width>0&&key.height>0&&key.left>=-1&&key.right<=state.width+1&&key.top>=-1&&key.bottom<=state.height+1,`${key.id} stays in the viewport`);
@@ -106,6 +141,14 @@ const name=process.env.BROWSER||'chromium';
   await navigate(()=>page.goto(base+'/gsm/'),'/gsm/','#posts [data-post-id]');
   assert.equal(await page.evaluate(()=>devicePixelRatio),3);
   await layout();await walkFeed();
+  await navigate(()=>edgeTap('settingsButton',-20),'/gsm/settings/','#languageButton');
+  for(const [index,charm] of charms.entries()){
+   await page.locator(`[data-shell-choice="${shells[index%shells.length].id}"]`).tap();
+   await page.locator(`[data-charm-choice="${charm.id}"]`).tap();
+   await page.waitForFunction(id=>document.querySelector('.device-stage')?.dataset.charm===id&&document.querySelector('.mobile-charm-cord')?.complete,charm.id);
+   await layout();
+  }
+  await navigate(()=>edgeTap('homeButton',20),'/gsm/','#posts [data-post-id]');
   let touchEdge=20;
   for(const [shellId,charmId] of [['leopard','beads'],['tokay','eggs'],['electric','blue-dew']]){
    for(const viewport of [{width:375,height:590},{width:667,height:375},{width:375,height:667}]){

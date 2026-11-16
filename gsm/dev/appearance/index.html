@@ -7,8 +7,16 @@
   <link rel="stylesheet" href="./workbench.css">
 </head>
 <body>
-  <iframe id="devicePreview" title="整机效果" src="../../?appearance-preview=1"></iframe>
-  <form id="appearanceChoices" aria-label="切换外观"></form>
+  <main class="preview-viewport" aria-label="整机预览">
+    <iframe id="devicePreview" title="整机效果" src="../../?appearance-preview=1"></iframe>
+  </main>
+  <aside class="workbench-controls">
+    <div class="preview-modes" role="group" aria-label="预览尺寸">
+      <button type="button" data-view="desktop" aria-pressed="true">桌面</button>
+      <button type="button" data-view="mobile" aria-pressed="false">手机</button>
+    </div>
+    <form id="appearanceChoices" aria-label="切换外观"></form>
+  </aside>
   <script type="module" src="./workbench.mjs"></script>
 </body>
 </html>

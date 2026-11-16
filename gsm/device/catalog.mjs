@@ -207,6 +207,16 @@ export const charms = [
       "ja": "ピクセルビーズ"
     },
     "image": "../assets/device/charm-beads.webp",
+    "mobileCord": "../assets/device/cord-beads-coiled.webp",
+    "mobileFit": {
+      "crop": [175,463,235,270],
+      "position": [692,-74],
+      "tip": [290,468],
+      "entry": [118,89],
+      "head": [120,110],
+      "cordSize": [1254,1254],
+      "cordEnds": [[923,1099],[925,248]]
+    },
     "fit": {
       "anchor": [
         27.5,
@@ -226,6 +236,48 @@ export const charms = [
       "ja": "ヒョウ柄しっぽ"
     },
     "image": "../assets/device/charm-leopard-tail.webp",
+    "mobileCord": "../assets/device/cord-leopard-tail-coiled.webp",
+    "mobileFit": {
+      "crop": [
+        182,
+        480,
+        165,
+        396
+      ],
+      "position": [
+        688.249,
+        -118.209
+      ],
+      "angle": 25,
+      "head": [
+        120,
+        110
+      ],
+      "entry": [
+        114,
+        88.25
+      ],
+      "tip": [
+        252,
+        484
+      ],
+      "cordSize": [
+        1254,
+        1254
+      ],
+      "cordEnds": [
+        [
+          926,
+          1103
+        ],
+        [
+          925,
+          248
+        ]
+      ],
+      "cordScale": 0.5,
+      "cordShearY": -0.13
+    },
     "fit": {
       "anchor": [
         40,
@@ -245,6 +297,48 @@ export const charms = [
       "ja": "グミクレス"
     },
     "image": "../assets/device/charm-crested.webp",
+    "mobileCord": "../assets/device/cord-crested-coiled.webp",
+    "mobileFit": {
+      "crop": [
+        170,
+        505,
+        222,
+        371
+      ],
+      "position": [
+        703.07,
+        -116.714
+      ],
+      "angle": 30,
+      "head": [
+        120,
+        110
+      ],
+      "entry": [
+        114,
+        91.5
+      ],
+      "tip": [
+        226.5,
+        509
+      ],
+      "cordSize": [
+        1254,
+        1254
+      ],
+      "cordEnds": [
+        [
+          924,
+          1102
+        ],
+        [
+          920,
+          250
+        ]
+      ],
+      "cordScale": 0.5,
+      "cordShearY": -0.13
+    },
     "fit": {
       "anchor": [
         30,
@@ -264,6 +358,48 @@ export const charms = [
       "ja": "G-stream"
     },
     "image": "../assets/device/charm-gstream.webp",
+    "mobileCord": "../assets/device/cord-gstream-coiled.webp",
+    "mobileFit": {
+      "crop": [
+        182,
+        455,
+        210,
+        492
+      ],
+      "position": [
+        579.761,
+        -80.313
+      ],
+      "angle": -25,
+      "head": [
+        120,
+        110
+      ],
+      "entry": [
+        114,
+        87.5
+      ],
+      "tip": [
+        213.5,
+        459
+      ],
+      "cordSize": [
+        1254,
+        1254
+      ],
+      "cordEnds": [
+        [
+          924,
+          1106
+        ],
+        [
+          919,
+          251
+        ]
+      ],
+      "cordScale": 0.35,
+      "cordShearY": -0.175
+    },
     "fit": {
       "anchor": [
         32,
@@ -283,6 +419,48 @@ export const charms = [
       "ja": "ふたご卵"
     },
     "image": "../assets/device/charm-eggs.webp",
+    "mobileCord": "../assets/device/cord-eggs-coiled.webp",
+    "mobileFit": {
+      "crop": [
+        154,
+        460,
+        214,
+        419
+      ],
+      "position": [
+        644.439,
+        -140.876
+      ],
+      "angle": 20,
+      "head": [
+        120,
+        110
+      ],
+      "entry": [
+        114,
+        91
+      ],
+      "tip": [
+        321,
+        464
+      ],
+      "cordSize": [
+        1254,
+        1254
+      ],
+      "cordEnds": [
+        [
+          921,
+          1102
+        ],
+        [
+          926,
+          247
+        ]
+      ],
+      "cordScale": 0.5,
+      "cordShearY": -0.1
+    },
     "fit": {
       "anchor": [
         25,
@@ -303,6 +481,48 @@ export const charms = [
       "ja": "銀のあし"
     },
     "image": "../assets/device/charm-silver-toe.webp",
+    "mobileCord": "../assets/device/cord-silver-toe-coiled.webp",
+    "mobileFit": {
+      "crop": [
+        170,
+        494,
+        222,
+        340
+      ],
+      "position": [
+        631.75,
+        -84
+      ],
+      "angle": 0,
+      "head": [
+        130,
+        115
+      ],
+      "entry": [
+        124,
+        97.5
+      ],
+      "tip": [
+        263.25,
+        498
+      ],
+      "cordSize": [
+        1254,
+        1254
+      ],
+      "cordEnds": [
+        [
+          919,
+          1101
+        ],
+        [
+          925,
+          247
+        ]
+      ],
+      "cordScale": 0.5,
+      "cordShearY": -0.1
+    },
     "fit": {
       "anchor": [
         38,
@@ -322,6 +542,48 @@ export const charms = [
       "ja": "岩のかくれ家"
     },
     "image": "../assets/device/charm-rock-hide.webp",
+    "mobileCord": "../assets/device/cord-rock-hide-coiled.webp",
+    "mobileFit": {
+      "crop": [
+        191,
+        505,
+        185,
+        304
+      ],
+      "position": [
+        732,
+        -79
+      ],
+      "angle": 0,
+      "head": [
+        130,
+        120
+      ],
+      "entry": [
+        124,
+        102.75
+      ],
+      "tip": [
+        259,
+        509
+      ],
+      "cordSize": [
+        1254,
+        1254
+      ],
+      "cordEnds": [
+        [
+          922,
+          1102
+        ],
+        [
+          928,
+          251
+        ]
+      ],
+      "cordScale": 0.5,
+      "cordShearY": -0.075
+    },
     "fit": {
       "anchor": [
         43,
@@ -341,6 +603,48 @@ export const charms = [
       "ja": "青いしずく"
     },
     "image": "../assets/device/charm-blue-dew.webp",
+    "mobileCord": "../assets/device/cord-blue-dew-coiled.webp",
+    "mobileFit": {
+      "crop": [
+        201,
+        494,
+        191,
+        389
+      ],
+      "position": [
+        676.631,
+        -108.681
+      ],
+      "angle": 20,
+      "head": [
+        130,
+        115
+      ],
+      "entry": [
+        124,
+        98
+      ],
+      "tip": [
+        259.25,
+        498
+      ],
+      "cordSize": [
+        1254,
+        1254
+      ],
+      "cordEnds": [
+        [
+          919,
+          1102
+        ],
+        [
+          927,
+          250
+        ]
+      ],
+      "cordScale": 0.5,
+      "cordShearY": -0.13
+    },
     "fit": {
       "anchor": [
         40,
