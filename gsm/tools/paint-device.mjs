@@ -1,7 +1,7 @@
 import {createRequire} from 'node:module';
 import {fileURLToPath} from 'node:url';
 const {createCanvas,loadImage,Path2D}=createRequire(new URL('./engine/package.json',import.meta.url))('@napi-rs/canvas');
-import {geometry as g,mobileCharmLayout,mobileCordPoint} from '../device/geometry.mjs';
+import {geometry as g,mobileCharmLayout} from '../device/geometry.mjs';
 
 // A device is a still image, not a live tree of full-size filtered layers.
 // Raster dimensions are deliberately independent of DPR and pinch zoom.
@@ -27,41 +27,8 @@ function tint(image,amount,gray=false){
  }
  ctx.putImageData(pixels,0,0);return surface;
 }
-function drawCrop(ctx,image,[sx,sy,w,h],x,y,width=w,height=h){
- const ratio=image.width/g.rigWidth;
- ctx.drawImage(image,sx*ratio,sy*ratio,w*ratio,h*ratio,x,y,width,height);
-}
-
-function laidCord(image,mobile,layout){
- const surface=createCanvas(1280,640);
- const ctx=surface.getContext('2d');ctx.translate(0,g.topPad);
- if(!mobile.join){ctx.transform(...layout.cordMatrix);ctx.drawImage(image,0,0,...mobile.cordSize);return surface;}
- const [ex,ey]=mobile.cordEnds[1],r=mobile.join.radius??160;
- const left=ex-r,top=ey-r,size=r*2,step=16;
- ctx.save();ctx.transform(...layout.cordMatrix);
- const outside=new Path2D();outside.rect(0,0,...mobile.cordSize);outside.rect(left,top,size,size);ctx.clip(outside,'evenodd');
- ctx.drawImage(image,0,0,...mobile.cordSize);ctx.restore();
- function triangle(points){
-  const target=points.map(p=>mobileCordPoint(mobile,layout,p));
-  const [p,q,r]=points,[u,v,w]=target,det=(q[0]-p[0])*(r[1]-p[1])-(r[0]-p[0])*(q[1]-p[1]);
-  const a=((v[0]-u[0])*(r[1]-p[1])-(w[0]-u[0])*(q[1]-p[1]))/det;
-  const b=((v[1]-u[1])*(r[1]-p[1])-(w[1]-u[1])*(q[1]-p[1]))/det;
-  const c=((w[0]-u[0])*(q[0]-p[0])-(v[0]-u[0])*(r[0]-p[0]))/det;
-  const d=((w[1]-u[1])*(q[0]-p[0])-(v[1]-u[1])*(r[0]-p[0]))/det;
-  const center=[(u[0]+v[0]+w[0])/3,(u[1]+v[1]+w[1])/3];
-  ctx.save();ctx.beginPath();
-  target.forEach(([x,y],i)=>{const dx=x-center[0],dy=y-center[1],k=.35/Math.hypot(dx,dy);ctx[i?'lineTo':'moveTo'](x+dx*k,y+dy*k);});ctx.closePath();ctx.clip();
-  ctx.transform(a,b,c,d,u[0]-a*p[0]-c*p[1],u[1]-b*p[0]-d*p[1]);ctx.drawImage(image,0,0,...mobile.cordSize);ctx.restore();
- }
- for(let y=top;y<top+size;y+=step)for(let x=left;x<left+size;x+=step){
-  const x2=Math.min(x+step,left+size),y2=Math.min(y+step,top+size);
-  triangle([[x,y],[x2,y],[x,y2]]);triangle([[x2,y],[x2,y2],[x,y2]]);
- }
- return surface;
-}
-
 export async function paintDevice(shell,charm,coiled){
- const paths=[shell.image,charm.image,...(shell.buttonFinish?[shell.buttonFinish]:[]),...(coiled?[charm.mobileCord]:[])];
+ const paths=[shell.image,coiled?charm.mobileImage:charm.image,...(shell.buttonFinish?[shell.buttonFinish]:[])];
  // Release sources from the previous combination while building the catalog.
  const keep=new Set(paths.map(sourceURL));for(const key of images.keys())if(!keep.has(key))images.delete(key);
  const sources=await Promise.all(paths.map(imageFor)),source=new Map(paths.map((path,i)=>[path,sources[i]]));
@@ -69,7 +36,7 @@ export async function paintDevice(shell,charm,coiled){
  if(!ctx)throw new Error('Device artwork is unavailable');
  ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.translate(0,g.topPad);
  const originalShell=source.get(shell.image),body=shell.code==='S01'?tint(originalShell,.28,true):originalShell;
- const rig=source.get(charm.image),ex=g.origin[0]+(g.eyelet[0]-g.origin[0])*g.bodyScale,ey=g.origin[1]+(g.eyelet[1]-g.origin[1])*g.bodyScale;
+ const rig=source.get(coiled?charm.mobileImage:charm.image),ex=g.origin[0]+(g.eyelet[0]-g.origin[0])*g.bodyScale,ey=g.origin[1]+(g.eyelet[1]-g.origin[1])*g.bodyScale;
  const rigX=ex-charm.fit.anchor[0],rigY=ey-charm.fit.anchor[1];
  const bodyTransform=()=>{ctx.translate(g.origin[0]*(1-g.bodyScale),g.origin[1]*(1-g.bodyScale));ctx.scale(g.bodyScale,g.bodyScale);};
  const drawBody=()=>ctx.drawImage(body,0,0,1024,1536);
@@ -85,23 +52,25 @@ export async function paintDevice(shell,charm,coiled){
  if(shell.buttonFinish)clipped(ctx,g.keyFaces.join(' '),()=>ctx.drawImage(source.get(shell.buttonFinish),0,0,1024,1536));
  ctx.restore();
  if(coiled){
-  const mobile=charm.mobileFit,layout=mobileCharmLayout(charm.fit,mobile),cord=tint(source.get(charm.mobileCord),.9);
-  const laid=laidCord(cord,mobile,layout);shadowed(ctx,()=>ctx.drawImage(laid,0,-g.topPad),4,4,.25);laid.width=laid.height=1;cord.width=cord.height=1;
-  ctx.save();ctx.translate(layout.left,layout.top);ctx.rotate(layout.angle*Math.PI/180);
-  shadowed(ctx,()=>drawCrop(ctx,rig,mobile.crop,0,0),4,3,.3);ctx.restore();
-  // The original knot covers the end of the laid cord, just as a real ferrule does.
-  const head=createCanvas(...mobile.head),headCtx=head.getContext('2d');
-  drawCrop(headCtx,rig,[0,0,...mobile.head],0,0);
-  if(mobile.join){
-   const fade=headCtx.createLinearGradient(mobile.head[0]-22,0,mobile.head[0],0);fade.addColorStop(0,'#000');fade.addColorStop(1,'#0000');
-   headCtx.globalCompositeOperation='destination-in';headCtx.fillStyle=fade;headCtx.fillRect(0,0,...mobile.head);
-  }
-  shadowed(ctx,()=>ctx.drawImage(head,rigX,rigY),2,2,charm.fit.contact);head.width=head.height=1;
+  const layout=mobileCharmLayout(charm.mobileFit);
+  ctx.save();ctx.translate(layout.left,layout.top);ctx.rotate(layout.angle);
+  shadowed(ctx,()=>ctx.drawImage(rig,0,0,layout.width,layout.height),4,3,.28);ctx.restore();
  }else{
   shadowed(ctx,()=>ctx.drawImage(rig,rigX,rigY,560,1120),5,3,.3);
  }
- // Restore only the near rim over the returning strand: no CSS mask/filter surface.
- ctx.save();ctx.translate(rigX,rigY);ctx.clip(new Path2D(charm.fit.rear));ctx.translate(-rigX,-rigY);bodyTransform();drawBody();ctx.restore();
+ // The returning half of the mounting loop passes behind the solid eyelet.
+ // Keep this occlusion local to the real shell rim; the cord stays one image.
+ ctx.save();
+ if(coiled){
+  const [sx,sy]=charm.mobileFit.exit,angle=(charm.mobileFit.angle??0)*Math.PI/180;
+  const dx=Math.cos(angle)*sx-Math.sin(angle)*sy,dy=Math.sin(angle)*sx+Math.cos(angle)*sy;
+  const length=Math.hypot(dx,dy),vx=dx/length,vy=dy/length,side=Math.sign(dx)||1;
+  const nx=-vy*side,ny=vx*side;
+  ctx.beginPath();ctx.arc(ex,ey,56,0,Math.PI*2);ctx.clip();
+  ctx.beginPath();ctx.moveTo(ex-vx*80,ey-vy*80);ctx.lineTo(ex+vx*80,ey+vy*80);
+  ctx.lineTo(ex+vx*80-nx*80,ey+vy*80-ny*80);ctx.lineTo(ex-vx*80-nx*80,ey-vy*80-ny*80);ctx.closePath();ctx.clip();
+ }else{ctx.translate(rigX,rigY);ctx.clip(new Path2D(charm.fit.rear));ctx.translate(-rigX,-rigY);}
+ bodyTransform();drawBody();ctx.restore();
  // The live HTML screen supplies its own background; leave its opening clear.
  ctx.save();bodyTransform();ctx.beginPath();ctx.roundRect(...g.screen,29);ctx.clip();ctx.clearRect(...g.screen);ctx.restore();
  if(body!==originalShell)body.width=body.height=1;

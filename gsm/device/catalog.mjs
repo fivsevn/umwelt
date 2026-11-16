@@ -207,15 +207,20 @@ export const charms = [
       "ja": "ピクセルビーズ"
     },
     "image": "../assets/device/charm-beads.webp",
-    "mobileCord": "../assets/device/cord-beads-coiled.webp",
     "mobileFit": {
-      "crop": [175,463,235,270],
-      "position": [692,-74],
-      "tip": [290,468],
-      "entry": [118,89],
-      "head": [120,110],
-      "cordSize": [1254,1254],
-      "cordEnds": [[923,1099],[925,248]]
+      "size": [
+        640,
+        640
+      ],
+      "anchor": [
+        412,
+        431
+      ],
+      "exit": [
+        1,
+        0.3
+      ],
+      "angle": 0
     },
     "fit": {
       "anchor": [
@@ -224,7 +229,8 @@ export const charms = [
       ],
       "rear": "M-4.5 -7H87.5V57L74.5 65Q58.5 63 38.5 52L-4.5 28Z",
       "contact": 0.42
-    }
+    },
+    "mobileImage": "../assets/device/charm-beads-mobile.webp"
   },
   {
     "id": "leopard-tail",
@@ -236,52 +242,20 @@ export const charms = [
       "ja": "ヒョウ柄しっぽ"
     },
     "image": "../assets/device/charm-leopard-tail.webp",
-    "mobileCord": "../assets/device/cord-leopard-tail-coiled.webp",
     "mobileFit": {
-      "crop": [
-        182,
-        487,
-        165,
-        389
+      "size": [
+        640,
+        640
       ],
-      "position": [
-        685.2906721678152,
-        -111.86484549074345
+      "anchor": [
+        367,
+        463
       ],
-      "angle": 25,
-      "head": [
-        120,
-        110
+      "exit": [
+        1,
+        0.3
       ],
-      "entry": [
-        114,
-        88.25
-      ],
-      "tip": [
-        252,
-        497
-      ],
-      "cordSize": [
-        1254,
-        1254
-      ],
-      "cordEnds": [
-        [
-          926,
-          1103
-        ],
-        [
-          925,
-          248
-        ]
-      ],
-      "cordScale": 0.5,
-      "cordShearY": -0.13,
-      "join": {
-        "direction": 90,
-        "scale": 0.8,
-        "radius": 300
-      }
+      "angle": -19
     },
     "fit": {
       "anchor": [
@@ -290,7 +264,8 @@ export const charms = [
       ],
       "rear": "M0 0H110V70L94 78Q75 74 51 61L0 35Z",
       "contact": 0.38
-    }
+    },
+    "mobileImage": "../assets/device/charm-leopard-tail-mobile.webp"
   },
   {
     "id": "crested",
@@ -302,52 +277,20 @@ export const charms = [
       "ja": "グミクレス"
     },
     "image": "../assets/device/charm-crested.webp",
-    "mobileCord": "../assets/device/cord-crested-coiled.webp",
     "mobileFit": {
-      "crop": [
-        170,
-        512,
-        222,
-        364
+      "size": [
+        640,
+        640
       ],
-      "position": [
-        699.57,
-        -110.65182217350893
+      "anchor": [
+        401,
+        429
       ],
-      "angle": 30,
-      "head": [
-        120,
-        110
+      "exit": [
+        1,
+        0.3
       ],
-      "entry": [
-        114,
-        91.5
-      ],
-      "tip": [
-        227,
-        521
-      ],
-      "cordSize": [
-        1254,
-        1254
-      ],
-      "cordEnds": [
-        [
-          924,
-          1102
-        ],
-        [
-          920,
-          250
-        ]
-      ],
-      "cordScale": 0.5,
-      "cordShearY": -0.13,
-      "join": {
-        "direction": 90,
-        "scale": 0.76,
-        "radius": 300
-      }
+      "angle": 0
     },
     "fit": {
       "anchor": [
@@ -356,7 +299,8 @@ export const charms = [
       ],
       "rear": "M0 0H109V72L91 79Q66 72 42 58L0 34Z",
       "contact": 0.26
-    }
+    },
+    "mobileImage": "../assets/device/charm-crested-mobile.webp"
   },
   {
     "id": "gstream",
@@ -368,52 +312,20 @@ export const charms = [
       "ja": "G-stream"
     },
     "image": "../assets/device/charm-gstream.webp",
-    "mobileCord": "../assets/device/cord-gstream-coiled.webp",
     "mobileFit": {
-      "crop": [
-        182,
-        463,
-        210,
-        484
+      "size": [
+        640,
+        640
       ],
-      "position": [
-        583.1419460939255,
-        -73.06253770370681
+      "anchor": [
+        411,
+        434
       ],
-      "angle": -25,
-      "head": [
-        120,
-        110
+      "exit": [
+        1,
+        0.3
       ],
-      "entry": [
-        114,
-        87.5
-      ],
-      "tip": [
-        214,
-        473
-      ],
-      "cordSize": [
-        1254,
-        1254
-      ],
-      "cordEnds": [
-        [
-          924,
-          1106
-        ],
-        [
-          919,
-          251
-        ]
-      ],
-      "cordScale": 0.35,
-      "cordShearY": -0.175,
-      "join": {
-        "direction": 90,
-        "scale": 0.9,
-        "radius": 300
-      }
+      "angle": 0
     },
     "fit": {
       "anchor": [
@@ -422,7 +334,8 @@ export const charms = [
       ],
       "rear": "M0 0H105V62L86 69Q63 65 42 53L0 32Z",
       "contact": 0.32
-    }
+    },
+    "mobileImage": "../assets/device/charm-gstream-mobile.webp"
   },
   {
     "id": "eggs",
@@ -434,52 +347,20 @@ export const charms = [
       "ja": "ふたご卵"
     },
     "image": "../assets/device/charm-eggs.webp",
-    "mobileCord": "../assets/device/cord-eggs-coiled.webp",
     "mobileFit": {
-      "crop": [
-        154,
-        470,
-        214,
-        409
+      "size": [
+        640,
+        640
       ],
-      "position": [
-        641.0187985667433,
-        -131.47907379214092
+      "anchor": [
+        335,
+        438
       ],
-      "angle": 20,
-      "head": [
-        120,
-        110
+      "exit": [
+        1,
+        0.3
       ],
-      "entry": [
-        114,
-        91
-      ],
-      "tip": [
-        320,
-        478
-      ],
-      "cordSize": [
-        1254,
-        1254
-      ],
-      "cordEnds": [
-        [
-          921,
-          1102
-        ],
-        [
-          926,
-          247
-        ]
-      ],
-      "cordScale": 0.5,
-      "cordShearY": -0.1,
-      "join": {
-        "direction": 90,
-        "scale": 0.9,
-        "radius": 300
-      }
+      "angle": -35
     },
     "fit": {
       "anchor": [
@@ -489,7 +370,8 @@ export const charms = [
       "rear": "M0 0H111V69L92 79Q63 72 36 59L0 34Z",
       "contact": 0.38
     },
-    "contactShadow": true
+    "contactShadow": true,
+    "mobileImage": "../assets/device/charm-eggs-mobile.webp"
   },
   {
     "id": "silver-toe",
@@ -501,52 +383,20 @@ export const charms = [
       "ja": "銀のあし"
     },
     "image": "../assets/device/charm-silver-toe.webp",
-    "mobileCord": "../assets/device/cord-silver-toe-coiled.webp",
     "mobileFit": {
-      "crop": [
-        170,
-        500,
-        222,
-        334
+      "size": [
+        640,
+        640
       ],
-      "position": [
-        631.75,
-        -78
+      "anchor": [
+        412,
+        475
       ],
-      "angle": 0,
-      "head": [
-        130,
-        115
+      "exit": [
+        1,
+        0.3
       ],
-      "entry": [
-        124,
-        97.5
-      ],
-      "tip": [
-        263.25,
-        514
-      ],
-      "cordSize": [
-        1254,
-        1254
-      ],
-      "cordEnds": [
-        [
-          919,
-          1101
-        ],
-        [
-          925,
-          247
-        ]
-      ],
-      "cordScale": 0.5,
-      "cordShearY": -0.1,
-      "join": {
-        "direction": 90,
-        "scale": 0.8,
-        "radius": 300
-      }
+      "angle": 0
     },
     "fit": {
       "anchor": [
@@ -555,7 +405,8 @@ export const charms = [
       ],
       "rear": "M0 0H119V76L99 82Q74 77 49 62L0 35Z",
       "contact": 0.38
-    }
+    },
+    "mobileImage": "../assets/device/charm-silver-toe-mobile.webp"
   },
   {
     "id": "rock-hide",
@@ -567,52 +418,20 @@ export const charms = [
       "ja": "岩のかくれ家"
     },
     "image": "../assets/device/charm-rock-hide.webp",
-    "mobileCord": "../assets/device/cord-rock-hide-coiled.webp",
     "mobileFit": {
-      "crop": [
-        191,
-        514,
-        185,
-        295
+      "size": [
+        640,
+        640
       ],
-      "position": [
-        732,
-        -70
+      "anchor": [
+        410,
+        463
       ],
-      "angle": 0,
-      "head": [
-        130,
-        120
+      "exit": [
+        1,
+        0.3
       ],
-      "entry": [
-        124,
-        102.75
-      ],
-      "tip": [
-        259,
-        526
-      ],
-      "cordSize": [
-        1254,
-        1254
-      ],
-      "cordEnds": [
-        [
-          922,
-          1102
-        ],
-        [
-          928,
-          251
-        ]
-      ],
-      "cordScale": 0.5,
-      "cordShearY": -0.075,
-      "join": {
-        "direction": 90,
-        "scale": 0.8,
-        "radius": 300
-      }
+      "angle": 0
     },
     "fit": {
       "anchor": [
@@ -621,7 +440,8 @@ export const charms = [
       ],
       "rear": "M0 0H122V80L102 87Q80 80 56 64L0 36Z",
       "contact": 0.4
-    }
+    },
+    "mobileImage": "../assets/device/charm-rock-hide-mobile.webp"
   },
   {
     "id": "blue-dew",
@@ -633,52 +453,20 @@ export const charms = [
       "ja": "青いしずく"
     },
     "image": "../assets/device/charm-blue-dew.webp",
-    "mobileCord": "../assets/device/cord-blue-dew-coiled.webp",
     "mobileFit": {
-      "crop": [
-        201,
-        505,
-        191,
-        378
+      "size": [
+        640,
+        640
       ],
-      "position": [
-        672.8687784234177,
-        -98.34438117135501
+      "anchor": [
+        391,
+        500
       ],
-      "angle": 20,
-      "head": [
-        130,
-        115
+      "exit": [
+        1,
+        0.3
       ],
-      "entry": [
-        124,
-        98
-      ],
-      "tip": [
-        260,
-        517
-      ],
-      "cordSize": [
-        1254,
-        1254
-      ],
-      "cordEnds": [
-        [
-          919,
-          1102
-        ],
-        [
-          927,
-          250
-        ]
-      ],
-      "cordScale": 0.5,
-      "cordShearY": -0.13,
-      "join": {
-        "direction": 90,
-        "scale": 0.85,
-        "radius": 300
-      }
+      "angle": -15
     },
     "fit": {
       "anchor": [
@@ -687,6 +475,7 @@ export const charms = [
       ],
       "rear": "M0 0H120V75L99 82Q76 76 52 61L0 35Z",
       "contact": 0.38
-    }
+    },
+    "mobileImage": "../assets/device/charm-blue-dew-mobile.webp"
   }
 ];

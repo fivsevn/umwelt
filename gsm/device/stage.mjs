@@ -30,7 +30,7 @@ export function mountDevice(initialAppearance={}){
  let appearance={...initialAppearance},mode=host.clientWidth<=600,revision=0,running=false,pending=false,paintedKey='',requestedKey='',activeURL='',resolveReady;
  const ready=new Promise(resolve=>{resolveReady=resolve;});
  function fitDevice(){
-  const nextMode=host.clientWidth<=600,coiled=nextMode&&Boolean(selected(charms,appearance.charm).mobileCord);
+  const nextMode=host.clientWidth<=600,coiled=nextMode&&Boolean(selected(charms,appearance.charm).mobileImage);
   stage.toggleAttribute('data-mobile-coil',coiled);
   if(nextMode){
    const [x,y,width,height]=g.mobileView,scale=Math.min(host.clientWidth/width,host.clientHeight/height);
@@ -53,7 +53,7 @@ export function mountDevice(initialAppearance={}){
   if(running)return;running=true;
   try{while(pending){
    pending=false;const current=revision;
-   const s=selected(shells,appearance.shell),a=selected(antennas,appearance.antenna),c=selected(charms,appearance.charm),coiled=mode&&Boolean(c.mobileCord);
+   const s=selected(shells,appearance.shell),a=selected(antennas,appearance.antenna),c=selected(charms,appearance.charm),coiled=mode&&Boolean(c.mobileImage);
    const key=[s.id,a.id,c.id,coiled].join('/');
    if(key===paintedKey)continue;
    let nextURL='';

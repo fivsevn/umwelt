@@ -70,19 +70,12 @@ export const geometry = {
   "rigWidth": 560
 };
 
-// Keep the pendant at its original scale, and join the laid cord to the two
-// existing attachment ends. Only the cord receives an affine transform.
-export function mobileCharmLayout(fit,mobile){
- const [sx,sy,width,height]=mobile.crop,[left,top]=mobile.position;
- const radians=(mobile.angle??0)*Math.PI/180,cos=Math.cos(radians),sin=Math.sin(radians);
- const tip=[mobile.tip[0]-sx,mobile.tip[1]-sy];
- const end=[left+cos*tip[0]-sin*tip[1],top+sin*tip[0]+cos*tip[1]];
- const eyelet=geometry.eyelet.map((v,i)=>geometry.origin[i]+(v-geometry.origin[i])*geometry.bodyScale);
- const start=eyelet.map((v,i)=>v-fit.anchor[i]+mobile.entry[i]);
- const [sourceStart,sourceEnd]=mobile.cordEnds,span=sourceStart[1]-sourceEnd[1];
- const a=mobile.cordScale??.5,b=mobile.cordShearY??0,c=(start[0]-end[0]-a*(sourceStart[0]-sourceEnd[0]))/span;
- const d=(start[1]-end[1]-b*(sourceStart[0]-sourceEnd[0]))/span,e=end[0]-a*sourceEnd[0]-c*sourceEnd[1],f=end[1]-b*sourceEnd[0]-d*sourceEnd[1];
- return {left,top,width,height,angle:mobile.angle??0,backgroundPosition:`${-sx}px ${-sy}px`,cordMatrix:[a,b,c,d,e,f],start,end};
+// A mobile attachment is one complete image: no separate rope fragments,
+// endpoint warps or pendant crops. Anchor its mounting loop to the shared eyelet.
+export function mobileCharmLayout(mobile){
+ const eyelet=geometry.eyelet.map((value,axis)=>geometry.origin[axis]+(value-geometry.origin[axis])*geometry.bodyScale);
+ const angle=(mobile.angle??0)*Math.PI/180,cos=Math.cos(angle),sin=Math.sin(angle),[x,y]=mobile.anchor;
+ return {left:eyelet[0]-cos*x+sin*y,top:eyelet[1]-sin*x-cos*y,width:mobile.size[0],height:mobile.size[1],angle};
 }
 
 // Key faces use absolute M/H/V/Q/Z coordinates on the shared shell artwork.
@@ -97,30 +90,4 @@ export function localKeyFace(index){
    return Number((Number(value)-offset[axis]).toFixed(3));
   });
  });
-}
-
-// Bend only the last cord section into the ferrule. End position and tangent
-// are both constrained; the rest of the coil and the pendant stay unchanged.
-export function mobileCordPoint(mobile,layout,[x,y]){
- const [a,b,c,d,e,f]=layout.cordMatrix,[ex,ey]=mobile.cordEnds[1];
- const base=[a*x+c*y+e,b*x+d*y+f];
- if(!mobile.join)return base;
- const radius=mobile.join.radius??300;
- const direction=mobile.join.sourceDirection??[.78,.63],length=Math.hypot(...direction);
- const [tx,ty]=direction.map(v=>v/length),dx=x-ex,dy=y-ey;
- const u=dx*tx+dy*ty,v=-dx*ty+dy*tx;
- const distance=Math.hypot(dx,dy);
- if(distance>=radius||u<=-radius)return base;
- const bx=a*tx+c*ty,by=b*tx+d*ty,speed=Math.hypot(bx,by);
- const target=(mobile.join.direction+(mobile.angle??0))*Math.PI/180,scale=mobile.join.scale??1;
- const vx=Math.cos(target)*speed*scale,vy=Math.sin(target)*speed*scale;
- const t=Math.min(1,1+u/radius),bend=t*t*(t-1),slope=3*t*t-2*t;
- const cx=layout.end[0]+bx*u+bend*radius*(vx-bx),cy=layout.end[1]+by*u+bend*radius*(vy-by);
- const angle=Math.atan2(by+slope*(vy-by),bx+slope*(vx-bx))-Math.atan2(by,bx);
- const nx=(-a*ty+c*tx)*v,ny=(-b*ty+d*tx)*v,width=1+(scale-1)*t*t*(3-2*t);
- // A Hermite bend matches both endpoint tangents without lifting the coil
- // into a loop. Rotate the original cross-section so its texture stays aligned.
- const bent=[cx+width*(Math.cos(angle)*nx-Math.sin(angle)*ny),cy+width*(Math.sin(angle)*nx+Math.cos(angle)*ny)];
- const edge=Math.max(0,(distance/radius-.75)/.25),blend=1-edge*edge*(3-2*edge);
- return base.map((value,i)=>value+(bent[i]-value)*blend);
 }

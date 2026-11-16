@@ -52,6 +52,8 @@ LCD 使用现成 FusionPixel / PixelMplus 字体的原生布局，直接显示�
 
 六套外壳、五种天线与八个挂件均检查素材解码、设置选择、跨页面、刷新和历史返回。首次打开固定使用豹纹奶油、石墨短杆和绿色拼豆，手动选择保存到 `umwelt-gsm-appearance`，URL 同时携带三项选择，存储不可用时也能沿内部链接继续使用。设置按外壳、天线、挂件、语言排序，分类字号一致，标题与选项文字分层。测试会检查每组只选中一个选项、三种语言切换以及最下方语言按钮可达。
 
+手机挂件采用完整 WebP，包含整根绳带、两端扣结、连接环和本体，直接按挂点定位。检查核对完整素材透明边缘、连续性、尺寸和预算，不再使用裁片拼接及绳段网格变形。
+
 `device/catalog.mjs` 是外观资源目录，`device/stage.mjs` 将同一套屏幕与导航挂入设备。浏览器检查核对原生 DOM、按键命中区域、屏幕与壳体包含关系、静态 WebP、固定页头及内容滚动。当前源素材位于 `assets/device/`，发布前生成的组合位于 `assets/device-rendered/`；手机只加载当前组合与共用天线。添加或替换素材的操作见[外观维护](../docs/appearance.md)，统一复用 [appearance 测试页](../dev/appearance/index.html)。`QA_OUTPUT` 可将截图保存到仓库外。
 
 专项浏览器脚本已接入 `system-regression.yml` 的 `gsm-feed` 分支。跨游戏语言检查为 `BASE_URL=http://127.0.0.1:8765 node tests/browser/game-titles.cjs`；成品入口由 `tests/browser/published-artifact.cjs` 覆盖。
