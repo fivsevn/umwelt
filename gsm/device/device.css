@@ -1,5 +1,6 @@
 /* All artwork uses one 1024 x 1536 shell canvas and a shared attachment geometry. */
-html,body{background:#181818 repeating-conic-gradient(#262626 0% 25%,#181818 25% 50%) center/72px 72px repeat}
+html{background:#181818}
+body{background:#181818 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cpath fill='%23262626' d='M36 0h36v36H36zM0 36h36v36H0z'/%3E%3C/svg%3E") center/72px 72px repeat}
 #deviceHost{width:100%;height:100dvh;display:grid;place-items:center;overflow:clip}
 .device-holder{position:relative;visibility:hidden;flex:none}
 .device-holder[data-ready]{visibility:visible}
@@ -20,10 +21,12 @@ html,body{background:#181818 repeating-conic-gradient(#262626 0% 25%,#181818 25%
 .lens:before{content:'';position:absolute;left:10px;top:7px;right:22%;height:3px;border-radius:100%;background:linear-gradient(90deg,transparent,#ffffd879,transparent)}
 .stream-dock{position:absolute;inset:0;width:1024px;height:1536px;padding:0;z-index:6;pointer-events:none}
 .dock-button{position:absolute;display:block;transform:translate(-50%,-50%);padding:0;pointer-events:auto;outline:none;-webkit-tap-highlight-color:transparent}
-.dock-button::before,.dock-button::after{content:'';position:absolute;left:var(--key-left);top:var(--key-top);width:1024px;height:1536px;clip-path:var(--key-face);transform-origin:var(--key-origin);pointer-events:none;opacity:0;transition:opacity 90ms ease,transform 90ms ease,filter 90ms ease}
-.dock-button::before{background:var(--key-art) 0 0/1024px 1536px no-repeat}
-.dock-button::after{background:linear-gradient(#fff8,#fff0 70%) var(--key-paint-position)/var(--key-paint-size) no-repeat}
-.dock-button:hover::after{opacity:.25}
+.key-hit{display:none}
+@media(pointer:coarse){.key-hit{display:block;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:max(100%,min(var(--touch-target),170px));height:max(100%,min(var(--touch-target),180px))}}
+.dock-button::before,.dock-button::after{content:'';position:absolute;inset:0;width:100%;height:100%;clip-path:var(--key-face);transform-origin:50% 50%;pointer-events:none;opacity:0;transition:opacity 90ms ease,transform 90ms ease,filter 90ms ease}
+.dock-button::before{background:var(--key-art) var(--key-left) var(--key-top)/1024px 1536px no-repeat}
+.dock-button::after{background:linear-gradient(#fff8,#fff0 70%)}
+@media(hover:hover){.dock-button:hover::after{opacity:.25}}
 .dock-button:focus-visible{outline:none}.dock-button:focus-visible::after{opacity:1;transition:none}
 .dock-button:active::before{opacity:1;transform:translateY(2.5px) scale(.985);filter:brightness(.86)}
 .dock-button:active::after{opacity:1;transform:translateY(2.5px) scale(.985);background-image:linear-gradient(#241b0f66,transparent 48%,#fff1)}
@@ -41,13 +44,13 @@ html,body{background:#181818 repeating-conic-gradient(#262626 0% 25%,#181818 25%
 .eyelet-occlusion{position:absolute;height:1120px;z-index:4;pointer-events:none;mask-size:100% 100%;mask-repeat:no-repeat}
 .eyelet-occlusion img{position:absolute;max-width:none}
 .device-stage[data-shell="S01"] .eyelet-occlusion img{filter:grayscale(.28)}
-.charm-contact-receiver{position:absolute;inset:0;z-index:2;pointer-events:none;mask-repeat:no-repeat}
-.eyelet-contact-follow{position:absolute;height:160px;mask-image:linear-gradient(#000 105px,transparent 160px)}
-.eyelet-contact-follow img{position:absolute;inset:0;width:100%;height:auto;mask-size:100% auto;mask-repeat:no-repeat}
+.charm-contact-receiver{position:absolute;z-index:2;pointer-events:none;mask-repeat:no-repeat}
+.eyelet-contact-follow{position:absolute;left:0;top:0;width:240px;height:160px;mask-image:linear-gradient(#000 105px,transparent 160px)}
+.eyelet-contact-follow>div{position:absolute;inset:0;width:240px;height:160px;background-size:560px 1120px;background-repeat:no-repeat;mask-size:560px 1120px;mask-repeat:no-repeat}
 .eyelet-contact-tight{filter:brightness(0) blur(1.4px);opacity:var(--contact-strength);transform:translate(.7px,1.5px)}
 .eyelet-contact-soft{filter:brightness(0) blur(4px);opacity:.17;transform:translate(1.5px,3px)}
-.charm-contact-follow{position:absolute;height:1120px;mask-image:linear-gradient(transparent 530px,#000 590px,#000 840px,transparent 900px)}
-.charm-contact-follow img{position:absolute;inset:0;width:100%;height:auto}
+.charm-contact-follow{position:absolute;left:0;top:0;width:560px;height:1120px;mask-image:linear-gradient(transparent 530px,#000 590px,#000 840px,transparent 900px)}
+.charm-contact-follow>div{position:absolute;left:0;top:530px;width:560px;height:370px;background-size:560px 1120px;background-position:0 -530px;background-repeat:no-repeat}
 .contact-tight{filter:brightness(0) blur(2.2px);opacity:.5;transform:translate(-3px,2px)}
 .contact-soft{filter:brightness(0) blur(7px);opacity:.24;transform:translate(-5px,3px)}
 .charm-foreground[hidden],.eyelet-occlusion[hidden],.charm-contact-receiver[hidden],.charm-contact-follow[hidden]{display:none}

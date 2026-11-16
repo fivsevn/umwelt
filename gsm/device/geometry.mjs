@@ -73,3 +73,17 @@ export function frontStrandMask(fit){
  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="560" height="1120" viewBox="0 0 560 1120"><path fill="white" fill-rule="evenodd" d="M0 0H560V1120H0Z ${fit.rear}"/></svg>`;
  return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
 }
+
+// Key faces use absolute M/H/V/Q/Z coordinates on the shared shell artwork.
+// Keep the same outline in the small button surface instead of clipping a full shell.
+export function localKeyFace(index){
+ const [x,y]=geometry.keys[index],{width,height}=geometry.keySizes[index];
+ const offset=[x-width/2,y-height/2];
+ return geometry.keyFaces[index].replace(/([MHVQLZ])([^MHVQLZ]*)/g,(_,command,values)=>{
+  let coordinate=0;
+  return command+values.replace(/-?\d+(?:\.\d+)?/g,value=>{
+   const axis=command==='H'?0:command==='V'?1:coordinate++%2;
+   return Number((Number(value)-offset[axis]).toFixed(3));
+  });
+ });
+}

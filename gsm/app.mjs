@@ -51,7 +51,8 @@ function applyAppearance() {
   device.update({...appearance});
   // Keep the addressed post, author and history state when updating the device.
   const url = appearanceURL(new URL(location.href));
-  if (url.href !== location.href) history.replaceState(history.state,'',url);
+  // Appearance and controls must still update if the browser refuses a history write.
+  if (url.href !== location.href) { try { history.replaceState(history.state,'',url); } catch {} }
   document.querySelector('meta[name="theme-color"]').content = handsetById[appearance.shell].color;
   markAppearanceChoices();
   for (const link of document.querySelectorAll('a[data-profile]')) link.href = streamURL(link.dataset.profile);
@@ -219,9 +220,18 @@ $('.pixel-stickers').innerHTML = [
 if(!isSettings){
   $('.stream-flourish').innerHTML = decoration('footer-star-left','sparkle')+decoration('footer-heart','heart')+decoration('footer-star-right','sparkle');
 }
+let viewSaveTimer,backPending=false;
 function rememberView() {
+  clearTimeout(viewSaveTimer);viewSaveTimer=null;
   if (isSettings) return;
-  history.replaceState({...history.state,gsmView:{scrollTop:$('#timeline').scrollTop,focusId:document.activeElement?.id}},'');
+  const gsmView={scrollTop:$('#timeline').scrollTop,focusId:document.activeElement?.id};
+  if (history.state?.gsmView?.scrollTop===gsmView.scrollTop && history.state?.gsmView?.focusId===gsmView.focusId) return;
+  // Safari limits history writes. Saving a reading position must never block a link.
+  try { history.replaceState({...history.state,gsmView},''); } catch {}
+}
+function scheduleViewSave() {
+  // Inertial scrolling can emit dozens of events each second; save at most once a second.
+  if (!viewSaveTimer) viewSaveTimer=setTimeout(rememberView,1000);
 }
 function restoreView(saved = history.state?.gsmView) {
   $('#timeline').scrollTop = saved?.scrollTop ?? 0;
@@ -238,13 +248,18 @@ function focusPost(id) {
 }
 function navigateURL(url, target = null) {
   rememberView();
-  history.pushState({gsmFromApp:true,gsmReturnURL:location.pathname+location.search},'',url);
+  try { history.pushState({gsmFromApp:true,gsmReturnURL:location.pathname+location.search},'',url); }
+  catch { location.assign(url);return; }
   render();
   $('#timeline').scrollTop = 0;
   if (!target || !focusPost(target)) ($('#profileTitle') || $('#threadTitle') || $('#timeline')).focus({preventScroll:true});
 }
 function backToSource() {
-  if (history.state?.gsmFromApp || history.state?.gsmProfileFromFeed) { rememberView(); history.back(); }
+  if (backPending) return;
+  if ((history.state?.gsmFromApp || history.state?.gsmProfileFromFeed) && history.length>1) {
+    rememberView();backPending=true;
+    try { history.back(); } catch { backPending=false;location.assign(returnURL()); }
+  }
   else navigateURL(streamURL());
 }
 const plainClick = event => !event.defaultPrevented && event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
@@ -279,8 +294,9 @@ if (!isSettings) {
     } else if (link.dataset.profile === selectedUser) { $('#timeline').scrollTop=0;$('#profileTitle').focus({preventScroll:true}); }
     else { link.focus({preventScroll:true}); navigateURL(streamURL(link.dataset.profile)); }
   });
-  $('#timeline').addEventListener('scroll',rememberView,{passive:true});
-  window.addEventListener('popstate',()=>{applyAppearance();render();restoreView();});
+  $('#timeline').addEventListener('scroll',scheduleViewSave,{passive:true});
+  window.addEventListener('pagehide',rememberView);
+  window.addEventListener('popstate',()=>{backPending=false;clearTimeout(viewSaveTimer);viewSaveTimer=null;applyAppearance();render();restoreView();});
 }
 
 document.addEventListener('click',event=>{
@@ -311,6 +327,7 @@ document.addEventListener('click',event=>{
   }
 });
 window.addEventListener('pageshow',event=>{
+  backPending=false;
   if (event.persisted && !isAppearancePreview) {
     // A restored page follows any manual preference saved while it was away.
     appearance=savedAppearance() ?? appearance;

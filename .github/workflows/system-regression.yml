@@ -93,6 +93,7 @@ jobs:
             node gsm/tests/browser/profile.cjs
             node gsm/tests/browser/comments.cjs
             node gsm/tests/browser/lcd.cjs
+            node gsm/tests/browser/mobile.cjs
           elif [ "${{ matrix.suite }}" = "tick-motion" ]; then
             node tick/tests/browser/tick-motion.cjs
           else

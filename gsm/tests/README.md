@@ -29,9 +29,15 @@ BASE_URL=http://127.0.0.1:8797 BROWSER=chromium node gsm/tests/browser/lcd.cjs
 BASE_URL=http://127.0.0.1:8797 BROWSER=webkit node gsm/tests/browser/lcd.cjs
 BASE_URL=http://127.0.0.1:8797 BROWSER=chromium node gsm/tests/browser/comments.cjs
 BASE_URL=http://127.0.0.1:8797 BROWSER=webkit node gsm/tests/browser/comments.cjs
+BASE_URL=http://127.0.0.1:8797 BROWSER=chromium node gsm/tests/browser/mobile.cjs
+BASE_URL=http://127.0.0.1:8797 BROWSER=webkit node gsm/tests/browser/mobile.cjs
 ```
 
 浏览器检查需要 Playwright 和对应浏览器，覆盖三键导航、设置页直达与刷新、中英日语言切换、点赞及持久化、键盘操作、存储兼容与不可用回退。视口覆盖 320、390、430、768、1280、1920 px 和横屏 844 × 390。
+
+`mobile.cjs` 使用 375 × 667、DPR 3 和触屏上下文，逐屏滚动至末帖并核对所有照片加载；反复切换 375 × 590、667 × 375 和原视口，切换三组外壳与挂件后再走完整信息流。检查手机屏幕实际宽度、三枚实体按键触控、点赞、图片错误、页面崩溃与意外重载，并限制按键反馈和环口阴影的绘制面积。桌面 WebKit 的模拟结果不能代替真实 iPhone 的稳定性复核。
+
+同一脚本另用隔离上下文统计 History API 写入：连续 150 个滚动事件必须合并到少量保存，再验证个人主页、评论页和实体返回键。主动模拟 `replaceState`、`pushState` 的 `SecurityError`，检查原生 URL 导航回退，以及历史写入被拒绝时外观选项仍可选、三个实体键链接继续携带新选择。触控检查包含 44px 命中区域、相邻区域不重叠、离中心上下各 20px 的实际触摸；同一事件轮次连续返回两次只能退一层，之后的独立返回仍须可用。
 
 `threads.test.mjs` 检查多层回复归属、顺序与计数、未知帖子和异常关系、原始内容不变及实际信息流完整性。`comments.cjs` 检查评论链接进入帖子页面、空评论帖子、真实回复对象、共享点赞、作者主页与原帖跳转、独立打开及刷新、前进后退的滚动与焦点恢复、三语、全部外壳、窄屏与横屏、未知帖子及存储不可用回退。
 

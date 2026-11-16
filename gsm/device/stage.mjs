@@ -1,5 +1,5 @@
 import {shells,antennas,charms} from './catalog.mjs';
-import {geometry as g,frontStrandMask} from './geometry.mjs';
+import {geometry as g,frontStrandMask,localKeyFace} from './geometry.mjs';
 
 const url=path=>new URL(path,import.meta.url).href;
 const decoded=new Map();
@@ -16,7 +16,7 @@ export function mountDevice(){
  const host=document.getElementById('deviceHost'),screen=document.querySelector('.app-window'),nav=document.getElementById('mainNav');
  const holder=document.createElement('div');holder.className='device-holder';
  const stage=document.createElement('div');stage.className='device-stage';holder.append(stage);
- stage.innerHTML='<div class="charm-foreground"><div class="rig-shadow rig-shadow-soft"><img alt=""></div><div class="rig-shadow rig-shadow-tight"><img alt=""></div><img class="charm-rig" alt=""><img class="eyelet-rear-shade" alt=""></div><div class="device-group"><div class="shell-surface"><img class="shell-img" alt="" fetchpriority="high"><img class="shell-socket" alt="" hidden><img class="shell-button-finish" alt="" hidden></div><img class="antenna" alt=""><div class="screen-slot"><div class="lens" aria-hidden="true"></div></div></div><div class="charm-contact-receiver"><div class="eyelet-contact-follow"><img class="eyelet-contact-soft" alt=""><img class="eyelet-contact-tight" alt=""></div><div class="charm-contact-follow"><img class="contact-soft" alt=""><img class="contact-tight" alt=""></div></div><div class="eyelet-occlusion"><img alt=""></div>';
+ stage.innerHTML='<div class="charm-foreground"><div class="rig-shadow rig-shadow-soft"><img alt=""></div><div class="rig-shadow rig-shadow-tight"><img alt=""></div><img class="charm-rig" alt=""><img class="eyelet-rear-shade" alt=""></div><div class="device-group"><div class="shell-surface"><img class="shell-img" alt="" fetchpriority="high"><img class="shell-socket" alt="" hidden><img class="shell-button-finish" alt="" hidden></div><img class="antenna" alt=""><div class="screen-slot"><div class="lens" aria-hidden="true"></div></div></div><div class="charm-contact-receiver" aria-hidden="true"><div class="eyelet-contact-follow"><div class="eyelet-contact-soft"></div><div class="eyelet-contact-tight"></div></div><div class="charm-contact-follow"><div class="contact-soft"></div><div class="contact-tight"></div></div></div><div class="eyelet-occlusion"><img alt=""></div>';
  stage.querySelectorAll('img').forEach(image=>{image.decoding='async';image.setAttribute('aria-hidden','true');image.addEventListener('error',()=>image.classList.add('asset-unavailable'));image.addEventListener('load',()=>image.classList.remove('asset-unavailable'));});
  const hardware=stage.querySelector('.device-group'),slot=stage.querySelector('.screen-slot');
  const errorNotice=document.createElement('div');errorNotice.className='device-error';errorNotice.setAttribute('role','status');errorNotice.hidden=true;
@@ -30,18 +30,25 @@ export function mountDevice(){
  for(const [i,key] of [...nav.querySelectorAll('a')].entries()){
   const [kx,ky]=g.keys[i],{width,height}=g.keySizes[i];
   Object.assign(key.style,{left:kx+'px',top:ky+'px',width:width+'px',height:height+'px'});
-  key.style.setProperty('--key-face',`path('${g.keyFaces[i]}')`);
+  key.style.setProperty('--key-face',`path('${localKeyFace(i)}')`);
   key.style.setProperty('--key-left',-(kx-width/2)+'px');
   key.style.setProperty('--key-top',-(ky-height/2)+'px');
-  key.style.setProperty('--key-origin',`${kx}px ${ky}px`);
-  key.style.setProperty('--key-paint-position',`${kx-width/2}px ${ky-height/2}px`);
-  key.style.setProperty('--key-paint-size',`${width}px ${height}px`);
+  const hit=document.createElement('span');hit.className='key-hit';hit.setAttribute('aria-hidden','true');key.append(hit);
  }
  function fit(){
+  if(host.clientWidth<=600){
+   const scale=Math.min(host.clientWidth/1160,host.clientHeight/1608);
+   if(scale<=0)return;
+   nav.style.setProperty('--touch-target',44/(scale*g.bodyScale)+'px');
+   Object.assign(holder.style,{width:1160*scale+'px',height:1608*scale+'px'});
+   Object.assign(stage.style,{transform:`scale(${scale})`,left:-32*scale+'px',top:(g.topPad-24)*scale+'px'});
+   return;
+  }
   const width=Math.min(host.clientWidth-16,(host.clientHeight-16)*g.canvas[0]/g.canvas[1],1040);
   if(width<=0)return;
+  nav.style.setProperty('--touch-target',44/(width/g.canvas[0]*g.bodyScale)+'px');
   Object.assign(holder.style,{width:width+'px',height:g.canvas[1]*width/g.canvas[0]+'px'});
-  Object.assign(stage.style,{transform:`scale(${width/g.canvas[0]})`,top:g.topPad*width/g.canvas[0]+'px'});
+  Object.assign(stage.style,{transform:`scale(${width/g.canvas[0]})`,left:'0px',top:g.topPad*width/g.canvas[0]+'px'});
  }
  new ResizeObserver(fit).observe(host);fit();
  let revision=0,lastAppearance,resolveReady;
@@ -61,13 +68,13 @@ export function mountDevice(){
   stage.dataset.shell=s.code;stage.dataset.antenna=a.id;stage.dataset.charm=c.id;
   const shell=stage.querySelector('.shell-img');shell.src=url(s.image);
   nav.style.setProperty('--key-art',`url("${url(s.buttonFinish??s.image)}")`);
-  const socket=stage.querySelector('.shell-socket');socket.hidden=!s.socketFit;if(s.socketFit)socket.src=shell.src;
-  const finish=stage.querySelector('.shell-button-finish');finish.hidden=!s.buttonFinish;if(s.buttonFinish)finish.src=url(s.buttonFinish);
+  const socket=stage.querySelector('.shell-socket');socket.hidden=!s.socketFit;if(s.socketFit)socket.src=shell.src;else socket.removeAttribute('src');
+  const finish=stage.querySelector('.shell-button-finish');finish.hidden=!s.buttonFinish;if(s.buttonFinish)finish.src=url(s.buttonFinish);else finish.removeAttribute('src');
   const antenna=stage.querySelector('.antenna'),mx=g.socket[0]+a.seatOffset[0],my=g.socket[1]+a.seatOffset[1];
   antenna.src=url(a.image);
   Object.assign(antenna.style,{width:a.width+'px',height:a.height+'px',left:mx-a.width*a.anchor[0]+'px',top:my-a.height*a.anchor[1]+'px',clipPath:`inset(0 0 ${100*(a.height*(1-a.anchor[1])+30.318)/a.height}% 0)`});
   const ex=g.origin[0]+(g.eyelet[0]-g.origin[0])*g.bodyScale,ey=g.origin[1]+(g.eyelet[1]-g.origin[1])*g.bodyScale;
-  const fit=c.fit,placement={left:ex-fit.anchor[0]+'px',top:ey-fit.anchor[1]+'px',width:g.rigWidth+'px'};
+  const fit=c.fit,rigX=ex-fit.anchor[0],rigY=ey-fit.anchor[1],placement={left:rigX+'px',top:rigY+'px',width:g.rigWidth+'px'};
   const foreground=stage.querySelector('.charm-foreground'),rig=stage.querySelector('.charm-rig');
   Object.assign(foreground.style,placement);rig.src=url(c.image);
   foreground.querySelectorAll('.rig-shadow img').forEach(image=>{image.src=rig.src;image.style.maskImage=frontStrandMask(fit);});
@@ -76,11 +83,11 @@ export function mountDevice(){
   const rim=occlusion.querySelector('img');rim.src=shell.src;
   Object.assign(rim.style,{left:g.origin[0]*(1-g.bodyScale)-(ex-fit.anchor[0])+'px',top:g.origin[1]*(1-g.bodyScale)-(ey-fit.anchor[1])+'px',width:1024*g.bodyScale+'px',height:1536*g.bodyScale+'px'});
   const receiver=stage.querySelector('.charm-contact-receiver');
-  Object.assign(receiver.style,{maskImage:`url("${shell.src}")`,maskSize:`${1024*g.bodyScale}px ${1536*g.bodyScale}px`,maskPosition:g.origin.map(v=>v*(1-g.bodyScale)+'px').join(' ')});
-  const contact=receiver.querySelector('.charm-contact-follow');contact.hidden=!c.contactShadow;Object.assign(contact.style,placement);
-  const head=receiver.querySelector('.eyelet-contact-follow');Object.assign(head.style,placement);head.style.setProperty('--contact-strength',fit.contact);
-  head.querySelectorAll('img').forEach(image=>image.style.maskImage=frontStrandMask(fit));
-  receiver.querySelectorAll('img').forEach(image=>image.src=rig.src);
+  Object.assign(receiver.style,{left:placement.left,top:placement.top,width:(c.contactShadow?560:240)+'px',height:(c.contactShadow?900:160)+'px',maskImage:`url("${shell.src}")`,maskSize:`${1024*g.bodyScale}px ${1536*g.bodyScale}px`,maskPosition:`${g.origin[0]*(1-g.bodyScale)-rigX}px ${g.origin[1]*(1-g.bodyScale)-rigY}px`});
+  const contact=receiver.querySelector('.charm-contact-follow');contact.hidden=!c.contactShadow;
+  const head=receiver.querySelector('.eyelet-contact-follow');head.style.setProperty('--contact-strength',fit.contact);
+  head.querySelectorAll('div').forEach(surface=>{surface.style.maskImage=frontStrandMask(fit);surface.style.backgroundImage=`url("${rig.src}")`;});
+  contact.querySelectorAll('div').forEach(surface=>surface.style.backgroundImage=`url("${rig.src}")`);
   holder.dataset.ready='true';
   if(resolveReady){resolveReady();resolveReady=null;}
  }
