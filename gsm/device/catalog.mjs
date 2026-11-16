@@ -240,13 +240,13 @@ export const charms = [
     "mobileFit": {
       "crop": [
         182,
-        480,
+        487,
         165,
-        396
+        389
       ],
       "position": [
-        688.249,
-        -118.209
+        685.2906721678152,
+        -111.86484549074345
       ],
       "angle": 25,
       "head": [
@@ -259,7 +259,7 @@ export const charms = [
       ],
       "tip": [
         252,
-        484
+        497
       ],
       "cordSize": [
         1254,
@@ -276,7 +276,12 @@ export const charms = [
         ]
       ],
       "cordScale": 0.5,
-      "cordShearY": -0.13
+      "cordShearY": -0.13,
+      "join": {
+        "direction": 90,
+        "scale": 0.8,
+        "radius": 300
+      }
     },
     "fit": {
       "anchor": [
@@ -301,13 +306,13 @@ export const charms = [
     "mobileFit": {
       "crop": [
         170,
-        505,
+        512,
         222,
-        371
+        364
       ],
       "position": [
-        703.07,
-        -116.714
+        699.57,
+        -110.65182217350893
       ],
       "angle": 30,
       "head": [
@@ -319,8 +324,8 @@ export const charms = [
         91.5
       ],
       "tip": [
-        226.5,
-        509
+        227,
+        521
       ],
       "cordSize": [
         1254,
@@ -337,7 +342,12 @@ export const charms = [
         ]
       ],
       "cordScale": 0.5,
-      "cordShearY": -0.13
+      "cordShearY": -0.13,
+      "join": {
+        "direction": 90,
+        "scale": 0.76,
+        "radius": 300
+      }
     },
     "fit": {
       "anchor": [
@@ -362,13 +372,13 @@ export const charms = [
     "mobileFit": {
       "crop": [
         182,
-        455,
+        463,
         210,
-        492
+        484
       ],
       "position": [
-        579.761,
-        -80.313
+        583.1419460939255,
+        -73.06253770370681
       ],
       "angle": -25,
       "head": [
@@ -380,8 +390,8 @@ export const charms = [
         87.5
       ],
       "tip": [
-        213.5,
-        459
+        214,
+        473
       ],
       "cordSize": [
         1254,
@@ -398,7 +408,12 @@ export const charms = [
         ]
       ],
       "cordScale": 0.35,
-      "cordShearY": -0.175
+      "cordShearY": -0.175,
+      "join": {
+        "direction": 90,
+        "scale": 0.9,
+        "radius": 300
+      }
     },
     "fit": {
       "anchor": [
@@ -423,13 +438,13 @@ export const charms = [
     "mobileFit": {
       "crop": [
         154,
-        460,
+        470,
         214,
-        419
+        409
       ],
       "position": [
-        644.439,
-        -140.876
+        641.0187985667433,
+        -131.47907379214092
       ],
       "angle": 20,
       "head": [
@@ -441,8 +456,8 @@ export const charms = [
         91
       ],
       "tip": [
-        321,
-        464
+        320,
+        478
       ],
       "cordSize": [
         1254,
@@ -459,7 +474,12 @@ export const charms = [
         ]
       ],
       "cordScale": 0.5,
-      "cordShearY": -0.1
+      "cordShearY": -0.1,
+      "join": {
+        "direction": 90,
+        "scale": 0.9,
+        "radius": 300
+      }
     },
     "fit": {
       "anchor": [
@@ -485,13 +505,13 @@ export const charms = [
     "mobileFit": {
       "crop": [
         170,
-        494,
+        500,
         222,
-        340
+        334
       ],
       "position": [
         631.75,
-        -84
+        -78
       ],
       "angle": 0,
       "head": [
@@ -504,7 +524,7 @@ export const charms = [
       ],
       "tip": [
         263.25,
-        498
+        514
       ],
       "cordSize": [
         1254,
@@ -521,7 +541,12 @@ export const charms = [
         ]
       ],
       "cordScale": 0.5,
-      "cordShearY": -0.1
+      "cordShearY": -0.1,
+      "join": {
+        "direction": 90,
+        "scale": 0.8,
+        "radius": 300
+      }
     },
     "fit": {
       "anchor": [
@@ -546,13 +571,13 @@ export const charms = [
     "mobileFit": {
       "crop": [
         191,
-        505,
+        514,
         185,
-        304
+        295
       ],
       "position": [
         732,
-        -79
+        -70
       ],
       "angle": 0,
       "head": [
@@ -565,7 +590,7 @@ export const charms = [
       ],
       "tip": [
         259,
-        509
+        526
       ],
       "cordSize": [
         1254,
@@ -582,7 +607,12 @@ export const charms = [
         ]
       ],
       "cordScale": 0.5,
-      "cordShearY": -0.075
+      "cordShearY": -0.075,
+      "join": {
+        "direction": 90,
+        "scale": 0.8,
+        "radius": 300
+      }
     },
     "fit": {
       "anchor": [
@@ -607,13 +637,13 @@ export const charms = [
     "mobileFit": {
       "crop": [
         201,
-        494,
+        505,
         191,
-        389
+        378
       ],
       "position": [
-        676.631,
-        -108.681
+        672.8687784234177,
+        -98.34438117135501
       ],
       "angle": 20,
       "head": [
@@ -625,8 +655,8 @@ export const charms = [
         98
       ],
       "tip": [
-        259.25,
-        498
+        260,
+        517
       ],
       "cordSize": [
         1254,
@@ -643,7 +673,12 @@ export const charms = [
         ]
       ],
       "cordScale": 0.5,
-      "cordShearY": -0.13
+      "cordShearY": -0.13,
+      "join": {
+        "direction": 90,
+        "scale": 0.85,
+        "radius": 300
+      }
     },
     "fit": {
       "anchor": [

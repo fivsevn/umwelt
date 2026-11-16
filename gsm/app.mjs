@@ -30,7 +30,7 @@ function savedAppearance() {
 const returningThroughHistory = performance.getEntriesByType('navigation')[0]?.type === 'back_forward';
 let appearance = (!isAppearancePreview && returningThroughHistory ? savedAppearance() : null)
   ?? appearanceFromURL(location.search,isAppearancePreview ? DEFAULT_APPEARANCE : readAppearance(storage));
-const device = mountDevice();
+const device = mountDevice(appearance);
 const appearanceGroups = [
   {key:'shell',labelKey:'shellLabel',items:shells},
   {key:'antenna',labelKey:'antennaLabel',items:antennas},

@@ -6,7 +6,6 @@ const name=process.env.BROWSER||'chromium';
 
 (async()=>{
  const {shells,charms}=await import('../../device/catalog.mjs');
- const {geometry}=await import('../../device/geometry.mjs');
  const browser=await {chromium,webkit}[name].launch({headless:true});
  try{
   const context=await browser.newContext({viewport:{width:375,height:667},deviceScaleFactor:3,isMobile:true,hasTouch:true});
@@ -42,56 +41,29 @@ const name=process.env.BROWSER||'chromium';
   };
   const layout=async()=>{
    await paint();
-   const state=await page.evaluate(({eyelet,anchors})=>{
-    const screen=document.querySelector('.app-window').getBoundingClientRect(),stage=document.querySelector('.device-stage');
-    const anchor=anchors[stage.dataset.charm];
-    const coilPart=selector=>{
-     const element=stage.querySelector(selector);if(!element)return null;
-     const css=getComputedStyle(element);
-     const matrix=css.transform==='none'?new DOMMatrix():new DOMMatrix(css.transform);
-     return {visible:element.getClientRects().length>0&&css.display!=='none'&&css.visibility!=='hidden'&&Number(css.opacity)>0,width:parseFloat(css.width),height:parseFloat(css.height),transform:css.transform,scale:[Math.hypot(matrix.a,matrix.b),Math.hypot(matrix.c,matrix.d)],determinant:matrix.a*matrix.d-matrix.b*matrix.c,backgroundSize:css.backgroundSize,backgroundImage:css.backgroundImage};
-    };
-    const pointInStage=(element,point)=>{
-     const css=getComputedStyle(element),origin=css.transformOrigin.split(' ').map(parseFloat);
-     const matrix=css.transform==='none'?new DOMMatrix():new DOMMatrix(css.transform);
-     const transformed=new DOMPoint(point[0]-origin[0],point[1]-origin[1]).matrixTransform(matrix);
-     return {x:parseFloat(css.left)+origin[0]+transformed.x,y:parseFloat(css.top)+origin[1]+transformed.y};
-    };
+   await page.waitForFunction(()=>{const image=document.querySelector('.device-art');return image?.complete&&image.naturalWidth===1280&&image.src.includes(innerWidth<=600?'mobile.webp':'desktop.webp');});
+   const state=await page.evaluate(()=>{
+    const screen=document.querySelector('.app-window').getBoundingClientRect(),stage=document.querySelector('.device-stage'),art=stage.querySelector('.device-art');
     return {width:innerWidth,height:innerHeight,screenWidth:screen.width,charm:stage.dataset.charm,mobileCoil:stage.hasAttribute('data-mobile-coil'),
-     coilPendant:coilPart('.mobile-charm-pendant'),coilCord:coilPart('.mobile-charm-cord'),
-     worldEyelet:pointInStage(document.querySelector('.device-group'),eyelet),
-     charmLayers:['.charm-foreground','.eyelet-occlusion'].map(selector=>{
-      const element=document.querySelector(selector);
-      return {selector,transform:getComputedStyle(element).transform,worldAnchor:pointInStage(element,anchor)};
-     }),
+     art:{width:art.naturalWidth,height:art.naturalHeight,source:art.src},
+     liveFilters:[...stage.querySelectorAll('*')].filter(e=>getComputedStyle(e).filter!=='none'||getComputedStyle(e).maskImage!=='none').map(e=>e.className),
+     canvases:stage.querySelectorAll('canvas').length,
      overflow:document.documentElement.scrollWidth>innerWidth+1||document.documentElement.scrollHeight>innerHeight+1,
-     eyeletShadows:[...document.querySelectorAll('.eyelet-contact-soft,.eyelet-contact-tight')].map(element=>{
-      const css=getComputedStyle(element);return {width:parseFloat(css.width),height:parseFloat(css.height)};
-     }),
      keys:[...document.querySelectorAll('#mainNav a')].map(element=>{
       const r=element.getBoundingClientRect(),css=getComputedStyle(element),hit=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);
       const touch=element.querySelector('.key-hit').getBoundingClientRect();
       const paint=['::before','::after'].map(pseudo=>{const surface=getComputedStyle(element,pseudo);return {width:parseFloat(surface.width),height:parseFloat(surface.height)};});
       return {id:element.id,left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height,cssWidth:parseFloat(css.width),cssHeight:parseFloat(css.height),paint,touch:{left:touch.left,right:touch.right,top:touch.top,bottom:touch.bottom,width:touch.width,height:touch.height},reachable:hit===element||element.contains(hit)};
      })};
-   },{eyelet:geometry.eyelet,anchors:Object.fromEntries(charms.map(charm=>[charm.id,charm.fit.anchor]))});
+   });
    assert.equal(state.overflow,false,'mobile fitting keeps the document inside the viewport');
    const coilMode=state.width<=600;
    assert.equal(state.mobileCoil,coilMode,'the coiled charm layout activates only on narrow screens');
    if(state.width===375&&state.height>=590)assert.ok(state.screenWidth>=(coilMode?192:168),`the phone screen retains the size appropriate to its charm layout: ${state.screenWidth}px`);
-   for(const layer of state.charmLayers){
-    assert.equal(layer.transform,'none',`${layer.selector} keeps the original unrotated and unscaled charm placement`);
-    assert.ok(Math.hypot(layer.worldAnchor.x-state.worldEyelet.x,layer.worldAnchor.y-state.worldEyelet.y)<.5,`${layer.selector} keeps the fixed cord anchor attached to the shell eyelet`);
-   }
-   for(const [part,element] of [['pendant',state.coilPendant],['cord',state.coilCord]])assert.equal(Boolean(element?.visible),coilMode,`the mobile ${part} is only visible in the coiled layout`);
-   if(coilMode){
-    const charm=charms.find(charm=>charm.id===state.charm);
-    assert.equal(state.coilPendant.width,charm.mobileFit.crop[2]);assert.equal(state.coilPendant.height,charm.mobileFit.crop[3]);
-    assert.ok(state.coilPendant.scale.every(scale=>Math.abs(scale-1)<.00001),'the pendant preserves both original dimensions');
-    assert.ok(Math.abs(state.coilPendant.determinant-1)<.00001,'the front face is never mirrored');
-    assert.equal(state.coilPendant.backgroundSize,'560px 1120px','the pendant crop retains the original image scale');
-    assert.ok(state.coilPendant.backgroundImage.includes(charm.image.split('/').at(-1)),'the pendant and metal ring come from the original artwork');
-   }
+   assert.deepEqual([state.art.width,state.art.height],[1280,1696],'the device is a bounded static bitmap, independent of DPR and zoom');
+   assert.ok(state.art.source.includes('/assets/device-rendered/'),'the handset artwork was baked before serving the page');
+   assert.deepEqual(state.liveFilters,[],'hardware never allocates live CSS filter or mask surfaces');
+   assert.equal(state.canvases,0,'there is no browser-side hardware compositor');
    assert.equal(state.keys.length,3);
    for(const key of state.keys){
     assert.ok(key.width>0&&key.height>0&&key.left>=-1&&key.right<=state.width+1&&key.top>=-1&&key.bottom<=state.height+1,`${key.id} stays in the viewport`);
@@ -103,8 +75,6 @@ const name=process.env.BROWSER||'chromium';
     const one=state.keys[i].touch,two=other.touch;
     assert.ok(Math.min(one.right,two.right)<=Math.max(one.left,two.left)+.1||Math.min(one.bottom,two.bottom)<=Math.max(one.top,two.top)+.1,'neighboring touch areas never overlap');
    }
-   assert.equal(state.eyeletShadows.length,2);
-   for(const shadow of state.eyeletShadows)assert.ok(shadow.width>0&&shadow.width<=320&&shadow.height>0&&shadow.height<=200,'eyelet shadow paint stays within its local rendering budget');
    await healthy();
   };
   const visiblePhotos=async()=>{
@@ -145,8 +115,24 @@ const name=process.env.BROWSER||'chromium';
   for(const [index,charm] of charms.entries()){
    await page.locator(`[data-shell-choice="${shells[index%shells.length].id}"]`).tap();
    await page.locator(`[data-charm-choice="${charm.id}"]`).tap();
-   await page.waitForFunction(id=>document.querySelector('.device-stage')?.dataset.charm===id&&document.querySelector('.mobile-charm-cord')?.complete,charm.id);
+   await page.waitForFunction(id=>document.querySelector('.device-stage')?.dataset.charm===id&&document.querySelector('.device-art')?.complete,charm.id);
    await layout();
+  }
+  // Reproduce the reported zoom gesture on the same shell/charm combination.
+  await page.locator('[data-shell-choice="tokay"]').tap();
+  await page.locator('[data-antenna-choice="tail-loop"]').tap();
+  await page.locator('[data-charm-choice="crested"]').tap();
+  await page.waitForFunction(()=>document.querySelector('.device-stage')?.dataset.charm==='crested'&&document.querySelector('.device-stage')?.dataset.shell==='S02');
+  await layout();
+  if(name==='chromium'){
+   const session=await context.newCDPSession(page),before=await page.locator('.device-stage').getAttribute('data-paint-count');
+   for(const scale of [2,4,1,3,5,1,4,1]){
+    await session.send('Emulation.setPageScaleFactor',{pageScaleFactor:scale});await paint();
+    assert.ok(Math.abs(await page.evaluate(()=>visualViewport.scale)-scale)<.01,'the test changes the visual viewport, not CSS zoom');
+    assert.equal(await page.locator('.device-stage').getAttribute('data-paint-count'),before,'pinch zoom never recomposes or replaces the hardware');
+    await healthy();
+   }
+   await session.detach();await layout();
   }
   await navigate(()=>edgeTap('homeButton',20),'/gsm/','#posts [data-post-id]');
   let touchEdge=20;
@@ -159,11 +145,10 @@ const name=process.env.BROWSER||'chromium';
    await navigate(()=>edgeTap('settingsButton',-touchEdge),'/gsm/settings/','#languageButton');
    await page.locator(`[data-shell-choice="${shellId}"]`).tap();
    await page.locator(`[data-charm-choice="${charmId}"]`).tap();
-   const expected={shell:shells.find(item=>item.id===shellId).image.split('/').at(-1),charm:charms.find(item=>item.id===charmId).image.split('/').at(-1)};
-   await page.waitForFunction(expected=>[['.shell-img',expected.shell],['.charm-rig',expected.charm]].every(([selector,file])=>{
-    const image=document.querySelector(selector);
-    return image?.complete&&image.naturalWidth>0&&new URL(image.currentSrc||image.src).pathname.endsWith('/'+file);
-   }),expected);
+   await page.waitForFunction(({shellId,charmId})=>{
+    const image=document.querySelector('.device-art'),stage=document.querySelector('.device-stage');
+    return image?.complete&&image.naturalWidth===1280&&stage.dataset.charm===charmId&&image.src.includes(`${shellId}-${charmId}-`);
+   },{shellId,charmId});
    assert.equal(await page.locator(`[data-shell-choice="${shellId}"]`).getAttribute('aria-pressed'),'true');
    assert.equal(await page.locator(`[data-charm-choice="${charmId}"]`).getAttribute('aria-pressed'),'true');
    await layout();

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile,readdir,stat} from 'node:fs/promises';
 import {basename} from 'node:path';
 import {shells,antennas,charms} from '../device/catalog.mjs';
-import {geometry,mobileCharmLayout} from '../device/geometry.mjs';
+import {geometry,mobileCharmLayout,mobileCordPoint} from '../device/geometry.mjs';
 import {APPEARANCE_STORAGE_KEY,DEFAULT_APPEARANCE,normalizeAppearance,appearanceFromURL,readAppearance,writeAppearance,setAppearanceURL} from '../device/selection.mjs';
 
 const catalogURL=new URL('../device/catalog.mjs',import.meta.url);
@@ -102,4 +102,18 @@ test('the catalog contains translated stable choices and only current WebP asset
   const size=(await stat(url)).size;assert.ok(size<600_000,`${relative}: individual asset budget`);total+=size;
  }
  assert.ok(total<5_000_000,'the complete optional appearance collection stays compact');
+});
+
+
+test('cord tails enter their ferrules with a matching tangent and covered endpoint',()=>{
+ for(const charm of charms.filter(c=>c.mobileFit.join)){
+  const m=charm.mobileFit,layout=mobileCharmLayout(charm.fit,m),end=m.cordEnds[1];
+  const point=mobileCordPoint(m,layout,end);
+  assert.ok(Math.hypot(point[0]-layout.end[0],point[1]-layout.end[1])<1e-7);
+  const [tx,ty]=m.join.sourceDirection??[.78,.63];
+  const prior=mobileCordPoint(m,layout,[end[0]-tx*.01,end[1]-ty*.01]);
+  const angle=Math.atan2(point[1]-prior[1],point[0]-prior[0])*180/Math.PI;
+  assert.ok(Math.abs(angle-(m.join.direction+(m.angle??0)))<.01,`${charm.id}: cord follows the ferrule axis`);
+  assert.ok(m.tip[1]>m.crop[1]+5,`${charm.id}: the cord end is tucked under the original fastening`);
+ }
 });

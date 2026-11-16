@@ -24,19 +24,20 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
   };
   const checkAttachmentArt=async(part,item)=>{
    await waitAppearance(page,{[part]:item.id});
-   const image=page.locator(part==='antenna'?'.antenna':'.charm-rig');
+   const image=page.locator(part==='antenna'?'.antenna':'.device-art');
    const loaded=await image.evaluate(async element=>{await element.decode();return {complete:element.complete,width:element.naturalWidth,source:element.currentSrc};});
    assert.ok(loaded.complete&&loaded.width>0,'the selected attachment decodes');
-   assert.equal(new URL(loaded.source).pathname.split('/').at(-1),item.image.split('/').at(-1),'attachment artwork follows the catalog choice');
+   if(part==='antenna')assert.equal(new URL(loaded.source).pathname.split('/').at(-1),item.image.split('/').at(-1),'antenna artwork follows the catalog choice');
+   else assert.ok(new URL(loaded.source).pathname.includes('-'+item.id+'-'),'the baked artwork includes the selected charm');
   };
   const checkShellArt=async shell=>{
    await waitAppearance(page,{shell});
-   const art=page.locator('.shell-img');
+   const art=page.locator('.device-art');
    assert.equal(await art.count(),1,'one shell surrounds the native feed');
    const loaded=await art.evaluate(async image=>{await image.decode();return {complete:image.complete,width:image.naturalWidth,height:image.naturalHeight,source:image.currentSrc,rendering:getComputedStyle(image).imageRendering};});
    assert.ok(loaded.complete&&loaded.width>=960&&loaded.height>=1280,'shell detail loads at the approved canvas resolution');
    assert.equal(loaded.rendering,'auto','shell material keeps its rendered surface detail');
-   assert.equal(new URL(loaded.source).pathname.split('/').at(-1),shells.find(item=>item.id===shell).image.split('/').at(-1),'artwork follows the catalog choice');
+   assert.ok(new URL(loaded.source).pathname.split('/').at(-1).startsWith(shell+'-'),'the baked artwork includes the selected shell');
    assert.equal(await page.locator('iframe').count(),0,'the production screen uses native DOM');
    const selected=new URL(page.url()).searchParams;
    for(const [part,items] of [['antenna',antennas],['charm',charms]])await checkAttachmentArt(part,items.find(item=>item.id===selected.get(part)));
@@ -139,7 +140,7 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
     const metrics=await page.evaluate(()=>{
      const r=e=>{const b=e.getBoundingClientRect();return {x:b.x,y:b.y,w:b.width,h:b.height,right:b.right,bottom:b.bottom}};
      const main=document.querySelector('#timeline');
-     return {holder:r(document.querySelector('.device-holder')),shell:r(document.querySelector('.shell-img')),keys:[...document.querySelectorAll('#mainNav a')].map(r),screen:r(document.querySelector('.app-window')),header:r(document.querySelector('.app-header')),brand:r(document.querySelector('.brand-icon')),dock:r(document.querySelector('#mainNav')),main:r(main),scrollbar:getComputedStyle(main).scrollbarWidth,
+     return {holder:r(document.querySelector('.device-holder')),shell:r(document.querySelector('.device-group')),keys:[...document.querySelectorAll('#mainNav a')].map(r),screen:r(document.querySelector('.app-window')),header:r(document.querySelector('.app-header')),brand:r(document.querySelector('.brand-icon')),dock:r(document.querySelector('#mainNav')),main:r(main),scrollbar:getComputedStyle(main).scrollbarWidth,
       overflow:document.documentElement.scrollWidth>innerWidth||document.documentElement.scrollHeight>innerHeight,
       posts:[...document.querySelectorAll('.post')].map(e=>({message:r(e.querySelector('.bubble')),identity:r(e.querySelector('.post-identity')),avatar:r(e.querySelector('.avatar')),name:r(e.querySelector('.author-name')),heart:r(e.querySelector('[data-like] .ui-icon')),count:r(e.querySelector('.like-count')),textSize:e.querySelector('.post-text')?parseFloat(getComputedStyle(e.querySelector('.post-text')).fontSize):null,font:e.querySelector('.post-text')?getComputedStyle(e.querySelector('.post-text')).fontFamily:null,time:r(e.querySelector('.post-time')),fits:[...e.querySelectorAll('.post-text,.author-name,.author-label,.author-handle')].every(t=>t.scrollWidth<=t.clientWidth+1||getComputedStyle(t).display==='inline')}))};
     });

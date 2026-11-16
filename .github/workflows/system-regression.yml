@@ -73,6 +73,11 @@ jobs:
         timeout-minutes: 3
         run: |
           npm install --prefix "$RUNNER_TEMP/system-browser" --no-package-lock --no-save --no-audit --no-fund --fetch-timeout=30000 --fetch-retries=2 playwright@1.62.1
+      - name: Bake static G-stream artwork
+        if: matrix.suite == 'gsm-feed' || matrix.suite == 'game-titles'
+        run: |
+          npm ci --prefix gsm/tools/engine --no-audit --no-fund
+          node gsm/tools/build-device-art.mjs
       - name: Check system interactions
         env:
           BROWSER: ${{ matrix.browser }}

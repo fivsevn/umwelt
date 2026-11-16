@@ -71,3 +71,6 @@ ophidia/art/snakes/*/textures/
 gsm/.publish.lock/
 gsm/.publish-staging/
 gsm/.publish-pending.json
+
+# Current device composites are built for local preview and deployment.
+gsm/assets/device-rendered/

@@ -97,6 +97,9 @@ jobs:
       - name: Prepare Pages artifact
         run: node .github/scripts/prepare-site.mjs _site
 
+      - name: Bake static G-stream artwork
+        run: node gsm/tools/build-device-art.mjs _site/gsm/assets/device-rendered
+
       - name: Subset deployed Pixel font
         run: |
           python .github/scripts/subset-font.py \

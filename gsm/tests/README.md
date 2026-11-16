@@ -19,6 +19,7 @@ node tools/check-all.mjs
 ## 信息流交互
 
 ```sh
+node gsm/tools/build-device-art.mjs
 node --test gsm/tests/state.test.mjs
 node --test gsm/tests/threads.test.mjs
 BASE_URL=http://127.0.0.1:8797 BROWSER=chromium node gsm/tests/browser/feed.cjs
@@ -37,7 +38,7 @@ BASE_URL=http://127.0.0.1:8797 BROWSER=webkit node gsm/tests/browser/mobile.cjs
 
 点赞检查还覆盖多个标签页同步、保存前读取其他页面的新选择，以及页面从往返缓存恢复时刷新状态。同步只更新点赞按钮，保留当前焦点和滚动位置；存储读取失败或配额不足时，尚未保存的本次选择继续留在内存中。
 
-`mobile.cjs` 使用 375 × 667、DPR 3 和触屏上下文，逐屏滚动至末帖并核对所有照片加载；反复切换 375 × 590、667 × 375 和原视口，切换三组外壳与挂件后再走完整信息流。检查手机屏幕实际宽度、三枚实体按键触控、点赞、图片错误、页面崩溃与意外重载，并限制按键反馈和环口阴影的绘制面积。桌面 WebKit 的模拟结果不能代替真实 iPhone 的稳定性复核。
+`mobile.cjs` 使用 375 × 667、DPR 3 和触屏上下文，逐屏滚动至末帖并核对所有照片加载；反复切换 375 × 590、667 × 375 和原视口，切换三组外壳与挂件后再走完整信息流。检查手机屏幕实际宽度、三枚实体按键触控、点赞、图片错误、页面崩溃与意外重载，并检查外观仅使用固定分辨率的静态图片，没有运行时 Canvas、滤镜或遮罩。Chromium 另将真实视觉视口倍率反复设为 1–5 倍，核对放大不重新加载或替换机器外观；保留 WebKit 的 DPR 3 与触控检查。桌面 WebKit 的模拟结果不能代替真实 iPhone 的稳定性复核。
 
 同一脚本另用隔离上下文统计 History API 写入：连续 150 个滚动事件必须合并到少量保存，再验证个人主页、评论页和实体返回键。主动模拟 `replaceState`、`pushState` 的 `SecurityError`，检查原生 URL 导航回退，以及历史写入被拒绝时外观选项仍可选、三个实体键链接继续携带新选择。触控检查包含 44px 命中区域、相邻区域不重叠、离中心上下各 20px 的实际触摸；同一事件轮次连续返回两次只能退一层，之后的独立返回仍须可用。
 
@@ -51,7 +52,7 @@ LCD 使用现成 FusionPixel / PixelMplus 字体的原生布局，直接显示�
 
 六套外壳、五种天线与八个挂件均检查素材解码、设置选择、跨页面、刷新和历史返回。首次打开固定使用豹纹奶油、石墨短杆和绿色拼豆，手动选择保存到 `umwelt-gsm-appearance`，URL 同时携带三项选择，存储不可用时也能沿内部链接继续使用。设置按外壳、天线、挂件、语言排序，分类字号一致，标题与选项文字分层。测试会检查每组只选中一个选项、三种语言切换以及最下方语言按钮可达。
 
-`device/catalog.mjs` 是外观资源目录，`device/stage.mjs` 将同一套屏幕与导航挂入设备。浏览器检查核对原生 DOM、按键命中区域、屏幕与壳体包含关系、挂绳遮挡层、固定页头及内容滚动。当前 WebP 位于 `assets/device/`，只加载正在使用的外壳、天线、挂件和适用的按钮材质。添加或替换素材的操作见[外观维护](../docs/appearance.md)，统一复用 [appearance 测试页](../dev/appearance/index.html)。`QA_OUTPUT` 可将截图保存到仓库外。
+`device/catalog.mjs` 是外观资源目录，`device/stage.mjs` 将同一套屏幕与导航挂入设备。浏览器检查核对原生 DOM、按键命中区域、屏幕与壳体包含关系、静态 WebP、固定页头及内容滚动。当前源素材位于 `assets/device/`，发布前生成的组合位于 `assets/device-rendered/`；手机只加载当前组合与共用天线。添加或替换素材的操作见[外观维护](../docs/appearance.md)，统一复用 [appearance 测试页](../dev/appearance/index.html)。`QA_OUTPUT` 可将截图保存到仓库外。
 
 专项浏览器脚本已接入 `system-regression.yml` 的 `gsm-feed` 分支。跨游戏语言检查为 `BASE_URL=http://127.0.0.1:8765 node tests/browser/game-titles.cjs`；成品入口由 `tests/browser/published-artifact.cjs` 覆盖。
 
