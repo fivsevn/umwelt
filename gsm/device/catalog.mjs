@@ -396,7 +396,8 @@ export const charms = [
         1,
         0.3
       ],
-      "angle": 0
+      "angle": 0,
+      "rearOffset": 16
     },
     "fit": {
       "anchor": [

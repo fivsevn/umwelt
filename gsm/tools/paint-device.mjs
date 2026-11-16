@@ -65,10 +65,10 @@ export async function paintDevice(shell,charm,coiled){
   const [sx,sy]=charm.mobileFit.exit,angle=(charm.mobileFit.angle??0)*Math.PI/180;
   const dx=Math.cos(angle)*sx-Math.sin(angle)*sy,dy=Math.sin(angle)*sx+Math.cos(angle)*sy;
   const length=Math.hypot(dx,dy),vx=dx/length,vy=dy/length,side=Math.sign(dx)||1;
-  const nx=-vy*side,ny=vx*side;
+  const nx=-vy*side,ny=vx*side,offset=charm.mobileFit.rearOffset??0,px=ex+nx*offset,py=ey+ny*offset;
   ctx.beginPath();ctx.arc(ex,ey,56,0,Math.PI*2);ctx.clip();
-  ctx.beginPath();ctx.moveTo(ex-vx*80,ey-vy*80);ctx.lineTo(ex+vx*80,ey+vy*80);
-  ctx.lineTo(ex+vx*80-nx*80,ey+vy*80-ny*80);ctx.lineTo(ex-vx*80-nx*80,ey-vy*80-ny*80);ctx.closePath();ctx.clip();
+  ctx.beginPath();ctx.moveTo(px-vx*80,py-vy*80);ctx.lineTo(px+vx*80,py+vy*80);
+  ctx.lineTo(px+vx*80-nx*80,py+vy*80-ny*80);ctx.lineTo(px-vx*80-nx*80,py-vy*80-ny*80);ctx.closePath();ctx.clip();
  }else{ctx.translate(rigX,rigY);ctx.clip(new Path2D(charm.fit.rear));ctx.translate(-rigX,-rigY);}
  bodyTransform();drawBody();ctx.restore();
  // The live HTML screen supplies its own background; leave its opening clear.
