@@ -44,7 +44,8 @@ export function mountDevice(){
   Object.assign(stage.style,{transform:`scale(${width/g.canvas[0]})`,top:g.topPad*width/g.canvas[0]+'px'});
  }
  new ResizeObserver(fit).observe(host);fit();
- let revision=0,lastAppearance;
+ let revision=0,lastAppearance,resolveReady;
+ const ready=new Promise(resolve=>{resolveReady=resolve;});
  retry.addEventListener('click',()=>update(lastAppearance));
  async function update(appearance){
   lastAppearance={...appearance};
@@ -81,6 +82,7 @@ export function mountDevice(){
   head.querySelectorAll('img').forEach(image=>image.style.maskImage=frontStrandMask(fit));
   receiver.querySelectorAll('img').forEach(image=>image.src=rig.src);
   holder.dataset.ready='true';
+  if(resolveReady){resolveReady();resolveReady=null;}
  }
- return {update};
+ return {update,ready};
 }

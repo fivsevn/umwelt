@@ -223,8 +223,7 @@ function rememberView() {
   if (isSettings) return;
   history.replaceState({...history.state,gsmView:{scrollTop:$('#timeline').scrollTop,focusId:document.activeElement?.id}},'');
 }
-function restoreView() {
-  const saved = history.state?.gsmView;
+function restoreView(saved = history.state?.gsmView) {
   $('#timeline').scrollTop = saved?.scrollTop ?? 0;
   const target = saved?.focusId && document.getElementById(saved.focusId);
   (target || $('#profileTitle') || $('#threadTitle') || $('#timeline')).focus({preventScroll:true});
@@ -330,8 +329,15 @@ window.addEventListener('message',event=>{
   applyAppearance();
 });
 render();
-if (!isSettings && history.state?.gsmView) restoreView();
-else if (!isSettings && selectedPost !== null) { if (!focusPost(selectedPost)) $('#threadTitle')?.focus({preventScroll:true}); }
+if (!isSettings) {
+  const initialView=history.state?.gsmView,initialPost=selectedPost,initialUser=selectedUser;
+  if (initialView || initialPost !== null) device.ready.then(()=>{
+    // Hidden screen content cannot receive focus until the first device is visible.
+    if (selectedPost !== initialPost || selectedUser !== initialUser) return;
+    if (initialView) restoreView(initialView);
+    else if (!focusPost(initialPost)) $('#threadTitle')?.focus({preventScroll:true});
+  });
+}
 if(!isSettings)setInterval(()=>{
  for(const post of allPosts){const time=document.querySelector(`[data-post-id="${post.id}"] .post-time`);if(time)time.textContent=timeLabel(post);}
 },60000);
