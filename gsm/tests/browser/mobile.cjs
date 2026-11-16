@@ -11,6 +11,8 @@ const name=process.env.BROWSER||'chromium';
   const context=await browser.newContext({viewport:{width:375,height:667},deviceScaleFactor:3,isMobile:true,hasTouch:true});
   await context.addInitScript(()=>{
    window.__gsmImageErrors=[];
+   window.__gsmTouchStarts=0;
+   window.addEventListener('touchstart',()=>window.__gsmTouchStarts++,{passive:true});
    window.addEventListener('error',event=>{if(event.target instanceof HTMLImageElement&&event.target.getAttribute('src'))window.__gsmImageErrors.push(event.target.currentSrc||event.target.src);},true);
   });
   const page=await context.newPage(),errors=[];
@@ -80,7 +82,9 @@ const name=process.env.BROWSER||'chromium';
    });
   };
   const walkFeed=async()=>{
+   const touches=await page.evaluate(()=>window.__gsmTouchStarts);
    await page.locator('#streamButton').tap();
+   assert.ok(await page.evaluate(before=>window.__gsmTouchStarts>before,touches),'the physical key receives an actual touch event');
    assert.equal(await page.locator('#timeline').evaluate(element=>element.scrollTop),0,'the middle key returns to the start of the feed');
    let reachedEnd=false;
    // Advance by overlapping screenfuls so lazy photos in the middle are painted too.
@@ -100,7 +104,7 @@ const name=process.env.BROWSER||'chromium';
    await healthy();
   };
   await navigate(()=>page.goto(base+'/gsm/'),'/gsm/','#posts [data-post-id]');
-  assert.deepEqual(await page.evaluate(()=>({dpr:devicePixelRatio,touch:navigator.maxTouchPoints>0})),{dpr:3,touch:true});
+  assert.equal(await page.evaluate(()=>devicePixelRatio),3);
   await layout();await walkFeed();
   let touchEdge=20;
   for(const [shellId,charmId] of [['leopard','beads'],['tokay','eggs'],['electric','blue-dew']]){
