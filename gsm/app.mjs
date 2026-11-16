@@ -4,7 +4,7 @@ import {copy} from './locales.mjs';
 import {likeIcon, commentIcon} from './icons.mjs';
 import {createThreads} from './threads.mjs';
 import {postTime} from './time.mjs';
-import {freshState, readState, writeState, toggle} from './state.mjs';
+import {STORAGE_KEY, createStateStore, toggle} from './state.mjs';
 import {decoration} from './decorations.mjs';
 import {handsetById} from './handsets.mjs';
 import {shells, antennas, charms} from './device/catalog.mjs';
@@ -73,7 +73,8 @@ if (isSettings) {
 }
 applyAppearance();
 // Keep earlier local records intact; published packages are the timeline source.
-const state = storage ? readState(storage, Object.keys(profiles)) : freshState();
+const stateStore = createStateStore(storage, Object.keys(profiles));
+const state = stateStore.state;
 const allPosts = seeds;
 const threads = createThreads(allPosts);
 function streamURL(user = null) {
@@ -149,6 +150,17 @@ function clearLikeFeedback(button) {
     likeFeedback.delete(button);
   }
   button.classList.remove('is-celebrating');
+}
+function refreshStoredState() {
+  if (isAppearancePreview || !stateStore.refresh()) return;
+  for (const button of document.querySelectorAll('button[data-like]')) {
+    const post = threads.byId.get(button.dataset.like);
+    if (!post) continue;
+    clearLikeFeedback(button);
+    button.setAttribute('aria-pressed',String(state.likes.includes(post.id)));
+    button.setAttribute('aria-label',likeLabel(post));
+    button.innerHTML = likeContent(post);
+  }
 }
 function celebrateLike(button) {
   clearLikeFeedback(button);
@@ -315,13 +327,14 @@ document.addEventListener('click',event=>{
   }
   const post = allPosts.find(item=>item.id===button.dataset.like);
   if (!post) return;
+  refreshStoredState();
   toggle(state,'likes',post.id);
   button.setAttribute('aria-pressed',String(state.likes.includes(post.id)));
   button.setAttribute('aria-label',likeLabel(post));
   button.innerHTML = likeContent(post);
   if (state.likes.includes(post.id)) celebrateLike(button);
   else clearLikeFeedback(button);
-  if (!isAppearancePreview && (!storage || !writeState(storage,state))) {
+  if (!isAppearancePreview && !stateStore.save()) {
     clearTimeout(toastTimer);$('#toast').textContent=t('storage');
     toastTimer=setTimeout(()=>{$('#toast').textContent='';},3500);
   }
@@ -334,9 +347,11 @@ window.addEventListener('pageshow',event=>{
   }
   applyAppearance();
   if (!isAppearancePreview) { const next=desktopLanguage();if(language!==next){language=next;render();} }
+  refreshStoredState();
 });
 window.addEventListener('storage',event=>{
   if (isAppearancePreview) return;
+  if (event.key===STORAGE_KEY || event.key===null) refreshStoredState();
   if (event.key===APPEARANCE_STORAGE_KEY || event.key===null) { appearance=readAppearance(storage);applyAppearance(); }
   if (event.key==='umwelt-desktop-language' || event.key===null) { language=desktopLanguage();render(); }
 });

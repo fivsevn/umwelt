@@ -26,6 +26,29 @@ export function writeState(storage, state) {
   try { storage.setItem(STORAGE_KEY, JSON.stringify(state)); return true; }
   catch { return false; }
 }
+// Observe storage changes without replacing unsaved in-memory choices when a
+// failed write leaves the stored bytes unchanged (for example, a full quota).
+export function createStateStore(storage, authorIds) {
+  const state = freshState();
+  let snapshot;
+  function refresh() {
+    let value;
+    try { value = storage.getItem(STORAGE_KEY); } catch { return false; }
+    if (value === snapshot) return false;
+    snapshot = value;
+    Object.assign(state, readState({getItem:()=>value}, authorIds));
+    return true;
+  }
+  refresh();
+  return {
+    state, refresh,
+    save() {
+      if (!writeState(storage, state)) return false;
+      snapshot = JSON.stringify(state);
+      return true;
+    }
+  };
+}
 export function toggle(state, key, id) {
   const exists = state[key].includes(id);
   state[key] = exists ? state[key].filter(value => value !== id) : [...state[key], id];

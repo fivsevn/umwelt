@@ -9,4 +9,4 @@ media: [{"kind":"emote","src":"assets/emotes/gsm/disgust.webp","alt":"守宫皱�
 guest: {"name":"林檎"}
 ---
 
-这块亮斑真烦。
+不想再看见这块亮斑了。

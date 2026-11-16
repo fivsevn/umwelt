@@ -794,7 +794,7 @@ async function briefLocked({ root, directory, postId, replyTo, threadId, now }) 
         candidates: { toneSuggestion: discussion.toneSuggestion,
           ...(discussion.toneSuggestion === 'negative' ? { negativeMotivation: discussion.negativeMotivation } : {}),
           ...(target ? { replyStance: discussion.replyStance } : {}) },
-        instruction: informal ? (discussion.toneSuggestion === 'negative' ? '这次保留负面倾向，具体方向与回复姿态随眼前话头调整。' : '这次可以普通发言，求助、分享、闲聊或只留一个反应。') + '嫌烦、贬低、酸一句、跟风、乱猜、迁怒和毫无长进的嘴硬也都可成立，不必给人充分理由，正文可以没讲清楚便结束。开口只用实际可见的内容，人物偏见可以错，既有事实不随之改写。不要替发言者补成委屈经过、证据链或漂亮反击。' : '这些是生成候选，不是此人的固定情绪或必须执行的立场。先按本人处境、当下目的和实际读到的片段决定要说什么；可采用、适配或放弃候选，求助与普通接话均可直接成立。依据随 reviews.context 私下记录，正文保留当事人愿意公开的程度。',
+        instruction: informal ? (discussion.toneSuggestion === 'negative' ? '这次保留负面倾向，具体方向与回复姿态随眼前话头调整。' : '这次可以普通发言，求助、分享、闲聊或只留一个反应。') + '先从本人在意的部分、实际知情和接话目的形成原话；负面分类不要求正文出现固定情绪词，也不靠给中性说明补一个情绪收尾来完成。贬低、跟风、乱猜、迁怒和毫无长进的嘴硬都可成立，不必给人充分理由，正文可以没讲清楚便结束。开口只用实际可见的内容，人物偏见可以错，既有事实不随之改写。不要替发言者补成委屈经过、证据链或漂亮反击。' : '这些是生成候选，不是此人的固定情绪或必须执行的立场。先按本人处境、当下目的和实际读到的片段决定要说什么；可采用、适配或放弃候选，求助与普通接话均可直接成立。依据随 reviews.context 私下记录，正文保留当事人愿意公开的程度。',
         ...(informal && discussion.toneSuggestion === 'negative' ? { negative: scopedSource('environment/research-negative.md', ['什么算负面', '低级与无序的参与']) } : {}),
         ...(target && !informal ? { research: scopedSource('environment/research-comments.md', ['逐条形成回复']) } : {})
       } : { ...(discussion.requiredTone !== undefined ? { requiredTone: discussion.requiredTone } : {}),

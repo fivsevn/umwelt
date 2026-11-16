@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readState,writeState,freshState} from '../state.mjs';
+import {STORAGE_KEY,readState,writeState,freshState,createStateStore,toggle} from '../state.mjs';
 import {profiles,posts} from '../data/feed.mjs';
 import {postTime} from '../time.mjs';
 import {copy} from '../locales.mjs';
@@ -15,6 +15,34 @@ test('a saved empty following list stays empty and untrusted posts cannot impers
  assert.deepEqual(historic.following,['pill','gecko']);
  const state=readState({getItem:()=>JSON.stringify({version:1,following:[],posts:[{id:'local-example',author:'pill',text:'<b>my post</b>',createdAt:1,image:'https://outside.invalid/image'},{id:'local-example',text:'duplicate',createdAt:2},{id:'bad"id',text:'invalid',createdAt:1}],replies:{'bark-photo':[{author:'snake',text:'my reply'},null]}})},ids);
  assert.deepEqual(state.following,[]);assert.equal(state.posts.length,1);assert.equal(state.posts[0].author,'you');assert.equal(state.posts[0].image,undefined);assert.equal(state.posts[0].text,'<b>my post</b>');assert.deepEqual(state.replies['bark-photo'],[{author:'you',text:'my reply'}]);
+});
+test('shared state stores retain both tabs likes and legacy records through changes and deletion',()=>{
+ const legacy={...freshState(),bookmarks:['historic-post'],following:[],posts:[{id:'local-draft',text:'保留的草稿',createdAt:1}]};
+ const values=new Map([[STORAGE_KEY,JSON.stringify(legacy)]]);
+ const storage={getItem:key=>values.get(key)??null,setItem:(key,value)=>values.set(key,value)};
+ const one=createStateStore(storage,ids),two=createStateStore(storage,ids);
+ assert.equal(one.refresh(),false);
+ toggle(one.state,'likes','first');assert.equal(one.save(),true);
+ assert.equal(two.refresh(),true);assert.deepEqual(two.state.likes,['first']);
+ toggle(two.state,'likes','second');assert.equal(two.save(),true);
+ assert.equal(one.refresh(),true);assert.deepEqual(one.state.likes,['first','second']);
+ toggle(one.state,'likes','first');one.save();two.refresh();
+ assert.deepEqual(two.state.likes,['second']);
+ const saved=JSON.parse(values.get(STORAGE_KEY));
+ assert.deepEqual(saved.bookmarks,legacy.bookmarks);assert.deepEqual(saved.following,[]);assert.equal(saved.posts[0].text,'保留的草稿');
+ values.delete(STORAGE_KEY);assert.equal(two.refresh(),true);assert.deepEqual(two.state,freshState());
+});
+test('failed state reads and quota writes preserve unsaved likes until storage recovers',()=>{
+ let denied=false,full=true,value=null;
+ const storage={getItem(){if(denied)throw Error('denied');return value;},setItem(key,next){if(full)throw Error('quota');value=next;}};
+ const store=createStateStore(storage,ids);
+ toggle(store.state,'likes','first');assert.equal(store.save(),false);
+ assert.equal(store.refresh(),false);assert.deepEqual(store.state.likes,['first']);
+ denied=true;assert.equal(store.refresh(),false);assert.deepEqual(store.state.likes,['first']);
+ denied=false;full=false;assert.equal(store.save(),true);
+ assert.deepEqual(createStateStore(storage,ids).state.likes,['first']);
+ const unavailable=createStateStore(undefined,ids);toggle(unavailable.state,'likes','memory');
+ assert.equal(unavailable.save(),false);assert.equal(unavailable.refresh(),false);assert.deepEqual(unavailable.state.likes,['memory']);
 });
 test('package feed uses real dates, valid accounts, WebP media and language fallbacks',()=>{
  for(const lang of ['zh','en','ja'])assert.deepEqual(Object.keys(copy[lang]).sort(),Object.keys(copy.zh).sort());

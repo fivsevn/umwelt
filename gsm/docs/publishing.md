@@ -217,7 +217,7 @@ node gsm/tools/update.mjs suggest --work /outside/work
 
 `type` 取 `life-photo`（生活照片）、`photo`（其他照片）、`screenshot` 或 `illustration`；`scene` 写实际画面与取景，按[配图定义](writing.md#配图)分类。工具核对逐张记录与真实引用，分类和场景供整轮画面对照使用，不构成生活照片配额。素材复用如实记录，不以另存同图掩盖重复；分类由执行者看图判断，工具不自动识别照片语义或 AI 痕迹。
 
-完成全部文字、媒体、分类和赞数后，再运行 `suggest`，按[整轮审读](writing.md#审读)对照 `recentUpdates`、`currentPosts`、初稿与实际图片。把返回的 `reviewBasis` 两个摘要原样写入过程记录 `diversityReview`，并填写 `content`、`images` 两项具体审读说明：前者列出相关帖号、重复的叙述路线及实际修改，也记下保留自然相似、随口或低信息表达的理由；后者记实际画面、取景、与近期配图的差异、整页表情疏密，以及 `mediaFollowThrough` 提示的具体候选取舍。说明按本轮具体内容填写，摘要只证明记录对应这份稿件，不代替内容判断。
+完成全部文字、媒体、分类和赞数后，再运行 `suggest`，按[整轮审读](writing.md#审读)对照 `recentUpdates`、`currentPosts`、初稿与实际图片。把返回的 `reviewBasis` 两个摘要原样写入过程记录 `diversityReview`，并填写 `content`、`images` 两项具体审读说明：前者列出相关帖号、重复的叙述路线及实际修改；相近态度还须比较各自关注、知情范围、接话目的和收尾，记清实际调整了什么，以及保留自然相似、随口或低信息表达的理由，不以换词数量代替审读；后者记实际画面、取景、与近期配图的差异、整页表情疏密，以及 `mediaFollowThrough` 提示的具体候选取舍。说明按本轮具体内容填写，摘要只证明记录对应这份稿件，不代替内容判断。
 
 ```json
 "diversityReview": {

@@ -898,9 +898,12 @@ def _build_unlocked(root):
         documents[path] = path.read_text()
         for lang in ('en', 'ja'):
             translation = path.with_name(path.stem + f'.{lang}.md')
-            localized[lang] = blocks_for(root, folder, translation.read_text().strip(), public, package_root=package_root, replacements=replacements) if translation.exists() else localized['zh']
             if translation.exists():
+                translated = translation.read_text().strip()
+                localized[lang] = engine_blocks_for(root, package_root, meta, translated, public, emotes) if meta.get('_engine') else blocks_for(root, folder, translated, public, package_root=package_root, replacements=replacements)
                 documents[translation] = translation.read_text()
+            else:
+                localized[lang] = localized['zh']
         item = {'id': ident, 'date': date, 'createdAt': int(datetime.fromisoformat(date).timestamp()*1000),
                 'author': username, 'likes': likes, 'blocks': localized}
         if meta.get('reply_to'):

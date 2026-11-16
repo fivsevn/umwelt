@@ -115,6 +115,21 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
   await first.locator('path.heart-core').dispatchEvent('click');
   assert.equal(await first.getAttribute('aria-pressed'),'false');
   assert.equal(await first.locator('.like-count').innerText(),String(initialLikes));
+  // A second tab must observe likes and preserve the first tab's saved choices.
+  const peer=await context.newPage();await peer.goto(base+'/gsm/');await feedReady(peer);
+  const firstId=await first.getAttribute('data-like'),secondId=await page.locator('[data-like]').nth(1).getAttribute('data-like');
+  const waitLiked=(target,id,liked)=>target.waitForFunction(({id,liked})=>document.getElementById('like-'+id)?.getAttribute('aria-pressed')===String(liked),{id,liked});
+  await first.click();await waitLiked(peer,firstId,true);
+  await first.focus();
+  const readingPosition=await page.locator('#timeline').evaluate(element=>element.scrollTop);
+  await peer.locator('#like-'+secondId).click();await waitLiked(page,secondId,true);
+  assert.equal(await page.evaluate(()=>document.activeElement.id),'like-'+firstId,'storage synchronization preserves focus');
+  assert.equal(await page.locator('#timeline').evaluate(element=>element.scrollTop),readingPosition,'storage synchronization preserves the reading position');
+  assert.deepEqual((await page.evaluate(()=>JSON.parse(localStorage.getItem('umwelt-gsm-preview-v1')).likes)).sort(),[firstId,secondId].sort());
+  await first.click();await waitLiked(peer,firstId,false);
+  await peer.evaluate(()=>localStorage.removeItem('umwelt-gsm-preview-v1'));await waitLiked(page,secondId,false);
+  await peer.evaluate(()=>window.dispatchEvent(new PageTransitionEvent('pageshow',{persisted:true})));
+  await waitLiked(peer,secondId,false);await peer.close();
   for(const [lang,title] of [['zh-CN','Gstream / 爬爬在线'],['en','Gstream'],['ja','Gstream / ジー投稿']]){
    assert.equal(await page.locator('html').getAttribute('lang'),lang);assert.equal(await page.title(),title);
    for(const [width,height] of [[320,568],[390,844],[430,932],[768,1024],[1280,800],[1920,1080],[844,390]]){

@@ -138,6 +138,30 @@ test('author accounts and legacy asset exemptions cannot be used by new AI posts
     { siteEmotes: data.siteEmotes, localization: data.localization, legacyPosts: data.legacyPosts }), /Invalid media path/);
 });
 
+test('translated canonical roots and replies retain their photos and registered emotes', async t => {
+  const { root } = await fixture(t), original = await readThreadPackages(root);
+  const createdAt = '2026-11-01T12:00:00.123Z', id = 'gsm-translated-media';
+  const src = `posts/2026/11/${id}/media/photo.webp`;
+  await mkdir(dirname(join(root, src)), { recursive: true });
+  await cp(join(root, 'assets/avatars/gecko404.webp'), join(root, src));
+  const emote = JSON.parse(await readFile(join(root, 'assets/emotes/gsm/manifest.json'), 'utf8')).items[0];
+  const media = [{ src, alt: '隔离测试照片', kind: 'image' }, { src: emote.src, alt: emote.alt, kind: 'emote' }];
+  const posts = [postOf(id, { createdAt, media }), postOf(id + '-reply', { createdAt, replyTo: id, media })];
+  const written = await writeThreadBatch(root, batchOf(posts), original.batches);
+  for (const path of written.files) for (const lang of ['en', 'ja']) {
+    await writeFile(path.replace(/\.md$/, '.' + lang + '.md'), lang === 'en' ? 'Translated test text.\n' : '翻訳のテスト。\n');
+  }
+  await buildFeed(root);
+  const feed = parsePublicFeed(await readFile(join(root, 'data/feed.mjs'), 'utf8'));
+  for (const post of posts) {
+    const blocks = feed.posts.find(item => item.id === post.id).blocks;
+    for (const lang of ['en', 'ja']) {
+      assert.equal(blocks[lang][0].text, lang === 'en' ? 'Translated test text.' : '翻訳のテスト。');
+      assert.deepEqual(blocks[lang].filter(block => block.type === 'image'), blocks.zh.filter(block => block.type === 'image'));
+    }
+  }
+});
+
 test('pending canonical import remains hidden and hash-checked cancellation preserves history', async t => {
   const { root } = await fixture(t), before = await snapshot(root);
   const post = postOf('gsm-storage-pending'), batch = batchOf([post]);

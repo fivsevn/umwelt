@@ -105,6 +105,25 @@ test('a drug-checking reply excludes the whole discussion before rendering the m
   assert.equal(result.sources[0].excluded, 1);
 });
 
+test('collection excludes replies with invalid, future or pre-root dates and preserves missing parents', async () => {
+  const source = { ...geckoSources[1], lists: [geckoSources[1].lists[0]] };
+  const reply = (id, text, created_at, parent = '101') => ({ ...status(id, '<p>' + text + '</p>'), created_at, in_reply_to_id: parent });
+  const replies = [
+    reply('201', 'BEFORE_ROOT', '2026-11-14T19:59:59Z'),
+    reply('202', 'INVALID_TIME', 'not a date'),
+    reply('203', 'FUTURE_REPLY', '2026-11-15T01:00:01Z'),
+    reply('204', 'The leaf moved again.', '2026-11-14T20:01:00Z', '201'),
+    reply('205', 'Now the gecko is resting.', '2026-11-14T20:02:00Z')
+  ];
+  const result = await collectGeckoOpinions({ sources: [source], now: NOW, fetchImpl: async url => new Response(JSON.stringify(
+    url.endsWith('/context') ? { descendants: replies } : [status('101')]
+  )) });
+  assert.equal(result.messages, 3);
+  assert.doesNotMatch(result.markdown, /BEFORE_ROOT|INVALID_TIME|FUTURE_REPLY/);
+  assert.match(result.markdown, /引用未收录发言[\s\S]*The leaf moved again/);
+  assert.match(result.markdown, /回复第 1 条[\s\S]*Now the gecko is resting/);
+});
+
 test('quoted statements keep boundaries and map only known floors from the same source topic', () => {
   const quote=(post,topic)=>`<aside class="quote" data-username="owner" data-post="${post}" data-topic="${topic}"><div class="title">owner:</div><blockquote><p>My gecko hid.</p></blockquote></aside><p>Mine stayed out.</p>`;
   const d=parseGeckoDiscussion(geckoSources[0],{id:'101'},rss([item(1,'owner','<p>My gecko hid.</p>'),item(2,'reply',quote(1,101)),item(3,'third',quote(1,999)),item(4,'fourth',quote(9,101))]),plainText);

@@ -107,8 +107,13 @@ export async function collectGeckoOpinions({ fetchImpl = globalThis.fetch, now =
       try {
         const discussion = parseGeckoDiscussion(source, topic, payload, plainText); stats.discussionsRead++;
         if (!Number.isFinite(discussion.root.created) || discussion.root.created > now || now - discussion.root.created >= 7 * 86400000 ||
-          !reptileCandidate(discussion.root.text, topic.category || topic.title || '') ||
-          [discussion.root, ...discussion.replies].some(message => excludedHumanOrClinical(message.text))) { stats.excluded++; return null; }
+          !reptileCandidate(discussion.root.text, topic.category || topic.title || '')) { stats.excluded++; return null; }
+        // An unavailable or impossible timestamp cannot establish an observed
+        // reply. Keep surviving children without inventing their missing parent.
+        const replies = discussion.replies.filter(reply => Number.isFinite(reply.created) && reply.created >= discussion.root.created && reply.created <= now);
+        stats.excluded += discussion.replies.length - replies.length;
+        discussion.replies = replies;
+        if ([discussion.root, ...replies].some(message => excludedHumanOrClinical(message.text))) { stats.excluded++; return null; }
         const fragment = anonymizeDiscussion(discussion, limits);
         if (!fragment || fragment.messages[0].text.replace(/\[[^\]]*\]/g, '').replace(/[\s\p{P}\p{S}]/gu, '').length < 8) { stats.excluded++; return null; }
         const markdown = renderFragment(fragment, fragments.length + 1, source.kind);
