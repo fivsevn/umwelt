@@ -1,0 +1,461 @@
+{
+  "version": 1,
+  "operationId": "gsm-20261116011143-9992eefc",
+  "snapshots": [
+    {
+      "stage": "draft",
+      "sourceDigest": "d15e648b69820a56817a86fc9a6691b591a6fd90f0a80b8c9f39aa4c6317d81e",
+      "planDigest": "ed9d078260685a75c9ee6625d711a77171e2a654fa1467570606bd73af467f83",
+      "posts": [
+        {
+          "id": "gsm-20261116011143-9992eefc-1c30bd481393",
+          "author": "peachcrumble",
+          "createdAt": "2026-11-16T00:54:22.227Z",
+          "replyTo": null,
+          "text": "婆罗洲居然是世界第三大岛。刚读到雨林比里面许多物种还古老那句，后面就没了。还想看那里面有些什么守宫，都待在什么地方。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-16T01:19:39.213Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "d15e648b69820a56817a86fc9a6691b591a6fd90f0a80b8c9f39aa4c6317d81e",
+      "planDigest": "ed9d078260685a75c9ee6625d711a77171e2a654fa1467570606bd73af467f83",
+      "posts": [
+        {
+          "id": "gsm-20261116011143-9992eefc-1c30bd481393",
+          "author": "peachcrumble",
+          "createdAt": "2026-11-16T00:54:22.227Z",
+          "replyTo": null,
+          "text": "婆罗洲居然是世界第三大岛。刚读到雨林比里面许多物种还古老那句，后面就没了。还想看那里面有些什么守宫，都待在什么地方。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261116011143-9992eefc-a704d30e4682",
+          "author": "guest-c89749dbf50b25fd",
+          "guest": {
+            "name": "一杯水"
+          },
+          "createdAt": "2026-11-15T23:59:48.906Z",
+          "replyTo": null,
+          "text": "晒会儿太阳！",
+          "likes": 7,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-16T01:19:55.755Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "d15e648b69820a56817a86fc9a6691b591a6fd90f0a80b8c9f39aa4c6317d81e",
+      "planDigest": "ed9d078260685a75c9ee6625d711a77171e2a654fa1467570606bd73af467f83",
+      "posts": [
+        {
+          "id": "gsm-20261116011143-9992eefc-1c30bd481393",
+          "author": "peachcrumble",
+          "createdAt": "2026-11-16T00:54:22.227Z",
+          "replyTo": null,
+          "text": "婆罗洲居然是世界第三大岛。刚读到雨林比里面许多物种还古老那句，后面就没了。还想看那里面有些什么守宫，都待在什么地方。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261116011143-9992eefc-a704d30e4682",
+          "author": "guest-c89749dbf50b25fd",
+          "guest": {
+            "name": "一杯水"
+          },
+          "createdAt": "2026-11-15T23:59:48.906Z",
+          "replyTo": null,
+          "text": "晒会儿太阳！",
+          "likes": 7,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261116011143-9992eefc-fed579b96a46",
+          "author": "guest-d2d582b7aaa888b5",
+          "guest": {
+            "name": "lea"
+          },
+          "createdAt": "2026-11-16T00:36:11.924Z",
+          "replyTo": null,
+          "text": "外壳为什么非得用物种名啊，看着真别扭。",
+          "likes": 8,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "image",
+              "src": "posts/2026/11/gsm-20261116011143-9992eefc-fed579b96a46/media/shell-names.webp",
+              "alt": "外壳选择区域，依次显示“豹纹守宫”“蛤蚧”“巨人日行”三个选项。"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-16T01:22:04.219Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "d15e648b69820a56817a86fc9a6691b591a6fd90f0a80b8c9f39aa4c6317d81e",
+      "planDigest": "ed9d078260685a75c9ee6625d711a77171e2a654fa1467570606bd73af467f83",
+      "posts": [
+        {
+          "id": "gsm-20261116011143-9992eefc-1c30bd481393",
+          "author": "peachcrumble",
+          "createdAt": "2026-11-16T00:54:22.227Z",
+          "replyTo": null,
+          "text": "婆罗洲居然是世界第三大岛。刚读到雨林比里面许多物种还古老那句，还想看那里面有些什么守宫，都待在什么地方。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261116011143-9992eefc-a704d30e4682",
+          "author": "guest-c89749dbf50b25fd",
+          "guest": {
+            "name": "一杯水"
+          },
+          "createdAt": "2026-11-15T23:59:48.906Z",
+          "replyTo": null,
+          "text": "晒会儿太阳！",
+          "likes": 7,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261116011143-9992eefc-a704d30e4682/media/sun-leaf-shadows.webp",
+              "kind": "image",
+              "alt": "日光照在粗糙的红陶砖面上，叶片的影子落在砖面，左上部留在阴影里。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261116011143-9992eefc-fed579b96a46",
+          "author": "guest-d2d582b7aaa888b5",
+          "guest": {
+            "name": "lea"
+          },
+          "createdAt": "2026-11-16T00:36:11.924Z",
+          "replyTo": null,
+          "text": "外壳为什么非得用物种名啊，看着真别扭。",
+          "likes": 8,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261116011143-9992eefc-fed579b96a46/media/shell-names.webp",
+              "kind": "image",
+              "alt": "设置页的外壳预览依次标着“豹纹守宫”“蛤蚧”“巨人日行”，右侧预览带深色背景。"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-16T01:23:11.701Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "d15e648b69820a56817a86fc9a6691b591a6fd90f0a80b8c9f39aa4c6317d81e",
+      "planDigest": "ed9d078260685a75c9ee6625d711a77171e2a654fa1467570606bd73af467f83",
+      "posts": [
+        {
+          "id": "gsm-20261116011143-9992eefc-1c30bd481393",
+          "author": "peachcrumble",
+          "createdAt": "2026-11-16T00:54:22.227Z",
+          "replyTo": null,
+          "text": "婆罗洲居然是世界第三大岛。刚读到雨林比里面许多物种还古老那句，还想看那里面有些什么守宫，都待在什么地方。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261116011143-9992eefc-a704d30e4682",
+          "author": "guest-c89749dbf50b25fd",
+          "guest": {
+            "name": "一杯水"
+          },
+          "createdAt": "2026-11-15T23:59:48.906Z",
+          "replyTo": null,
+          "text": "晒会儿太阳！",
+          "likes": 7,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261116011143-9992eefc-a704d30e4682/media/sun-leaf-shadows.webp",
+              "kind": "image",
+              "alt": "日光照在粗糙的红陶砖面上，叶片的影子落在砖面，左上部留在阴影里。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261116011143-9992eefc-fed579b96a46",
+          "author": "guest-d2d582b7aaa888b5",
+          "guest": {
+            "name": "lea"
+          },
+          "createdAt": "2026-11-16T00:36:11.924Z",
+          "replyTo": null,
+          "text": "外壳为什么非得用物种名啊，看着真别扭。",
+          "likes": 8,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261116011143-9992eefc-fed579b96a46/media/shell-names.webp",
+              "kind": "image",
+              "alt": "设置页的外壳预览依次标着“豹纹守宫”“蛤蚧”“巨人日行”，右侧预览带深色背景。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261116011143-9992eefc-04",
+          "author": "guest-c40fa91da0616f37",
+          "guest": {
+            "name": "阿迟"
+          },
+          "createdAt": "2026-11-15T19:57:23.467Z",
+          "replyTo": "gsm-20261115200444-2f5237cc-136b884c3dd9",
+          "text": "左边那么空，绕一下怎么了。",
+          "likes": 6,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115200444-2f5237cc-136b884c3dd9/media/water-bowl-route.webp",
+              "kind": "image",
+              "alt": "近处偏右的浅色水碗里有水，左侧留着连续的浅色地面。"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-16T01:28:15.614Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "d15e648b69820a56817a86fc9a6691b591a6fd90f0a80b8c9f39aa4c6317d81e",
+      "planDigest": "ed9d078260685a75c9ee6625d711a77171e2a654fa1467570606bd73af467f83",
+      "posts": [
+        {
+          "id": "gsm-20261116011143-9992eefc-1c30bd481393",
+          "author": "peachcrumble",
+          "createdAt": "2026-11-16T00:54:22.227Z",
+          "replyTo": null,
+          "text": "婆罗洲居然是世界第三大岛。刚读到雨林比里面许多物种还古老那句，还想看那里面有些什么守宫，都待在什么地方。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261116011143-9992eefc-a704d30e4682",
+          "author": "guest-c89749dbf50b25fd",
+          "guest": {
+            "name": "一杯水"
+          },
+          "createdAt": "2026-11-15T23:59:48.906Z",
+          "replyTo": null,
+          "text": "晒会儿太阳！",
+          "likes": 7,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261116011143-9992eefc-a704d30e4682/media/sun-leaf-shadows.webp",
+              "kind": "image",
+              "alt": "日光照在粗糙的红陶砖面上，叶片的影子落在砖面，左上部留在阴影里。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261116011143-9992eefc-fed579b96a46",
+          "author": "guest-d2d582b7aaa888b5",
+          "guest": {
+            "name": "lea"
+          },
+          "createdAt": "2026-11-16T00:36:11.924Z",
+          "replyTo": null,
+          "text": "外壳为什么非得用物种名啊，看着真别扭。",
+          "likes": 8,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261116011143-9992eefc-fed579b96a46/media/shell-names.webp",
+              "kind": "image",
+              "alt": "设置页的外壳预览依次标着“豹纹守宫”“蛤蚧”“巨人日行”，右侧预览带深色背景。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261116011143-9992eefc-04",
+          "author": "guest-c40fa91da0616f37",
+          "guest": {
+            "name": "阿迟"
+          },
+          "createdAt": "2026-11-15T19:57:23.467Z",
+          "replyTo": "gsm-20261115200444-2f5237cc-136b884c3dd9",
+          "text": "左边那么空，绕一下怎么了。",
+          "likes": 6,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115200444-2f5237cc-136b884c3dd9/media/water-bowl-route.webp",
+              "kind": "image",
+              "alt": "近处偏右的浅色水碗里有水，左侧留着连续的浅色地面。"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-16T01:29:54.136Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "d15e648b69820a56817a86fc9a6691b591a6fd90f0a80b8c9f39aa4c6317d81e",
+      "planDigest": "ed9d078260685a75c9ee6625d711a77171e2a654fa1467570606bd73af467f83",
+      "posts": [
+        {
+          "id": "gsm-20261116011143-9992eefc-1c30bd481393",
+          "author": "peachcrumble",
+          "createdAt": "2026-11-16T00:54:22.227Z",
+          "replyTo": null,
+          "text": "婆罗洲居然是世界第三大岛。刚读到雨林比里面许多物种还古老那句，还想看那里面有些什么守宫，都待在什么地方。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261116011143-9992eefc-fed579b96a46",
+          "author": "guest-d2d582b7aaa888b5",
+          "guest": {
+            "name": "lea"
+          },
+          "createdAt": "2026-11-16T00:36:11.924Z",
+          "replyTo": null,
+          "text": "外壳为什么非得用物种名啊，看着真别扭。",
+          "likes": 8,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261116011143-9992eefc-fed579b96a46/media/shell-names.webp",
+              "kind": "image",
+              "alt": "设置页的外壳预览依次标着“豹纹守宫”“蛤蚧”“巨人日行”，右侧预览带深色背景。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261116011143-9992eefc-a704d30e4682",
+          "author": "guest-c89749dbf50b25fd",
+          "guest": {
+            "name": "一杯水"
+          },
+          "createdAt": "2026-11-15T23:59:48.906Z",
+          "replyTo": null,
+          "text": "晒会儿太阳！",
+          "likes": 7,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261116011143-9992eefc-a704d30e4682/media/sun-leaf-shadows.webp",
+              "kind": "image",
+              "alt": "日光照在粗糙的红陶砖面上，叶片的影子落在砖面，左上部留在阴影里。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261116011143-9992eefc-04",
+          "author": "guest-c40fa91da0616f37",
+          "guest": {
+            "name": "阿迟"
+          },
+          "createdAt": "2026-11-15T19:57:23.467Z",
+          "replyTo": "gsm-20261115200444-2f5237cc-136b884c3dd9",
+          "text": "左边那么空，绕一下怎么了。",
+          "likes": 6,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115200444-2f5237cc-136b884c3dd9/media/water-bowl-route.webp",
+              "kind": "image",
+              "alt": "近处偏右的浅色水碗里有水，左侧留着连续的浅色地面。"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-16T01:32:58.063Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "d15e648b69820a56817a86fc9a6691b591a6fd90f0a80b8c9f39aa4c6317d81e",
+      "planDigest": "ed9d078260685a75c9ee6625d711a77171e2a654fa1467570606bd73af467f83",
+      "posts": [
+        {
+          "id": "gsm-20261116011143-9992eefc-1c30bd481393",
+          "author": "peachcrumble",
+          "createdAt": "2026-11-15T23:59:48.906Z",
+          "replyTo": null,
+          "text": "婆罗洲居然是世界第三大岛。刚读到雨林比里面许多物种还古老那句，还想看那里面有些什么守宫，都待在什么地方。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261116011143-9992eefc-fed579b96a46",
+          "author": "guest-d2d582b7aaa888b5",
+          "guest": {
+            "name": "lea"
+          },
+          "createdAt": "2026-11-16T00:36:11.924Z",
+          "replyTo": null,
+          "text": "外壳为什么非得用物种名啊，看着真别扭。",
+          "likes": 8,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261116011143-9992eefc-fed579b96a46/media/shell-names.webp",
+              "kind": "image",
+              "alt": "设置页的外壳预览依次标着“豹纹守宫”“蛤蚧”“巨人日行”，右侧预览带深色背景。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261116011143-9992eefc-a704d30e4682",
+          "author": "guest-c89749dbf50b25fd",
+          "guest": {
+            "name": "一杯水"
+          },
+          "createdAt": "2026-11-16T00:54:22.227Z",
+          "replyTo": null,
+          "text": "晒会儿太阳！",
+          "likes": 7,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261116011143-9992eefc-a704d30e4682/media/sun-leaf-shadows.webp",
+              "kind": "image",
+              "alt": "日光照在粗糙的红陶砖面上，叶片的影子落在砖面，左上部留在阴影里。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261116011143-9992eefc-04",
+          "author": "guest-c40fa91da0616f37",
+          "guest": {
+            "name": "阿迟"
+          },
+          "createdAt": "2026-11-15T19:57:23.467Z",
+          "replyTo": "gsm-20261115200444-2f5237cc-136b884c3dd9",
+          "text": "左边那么空，绕一下怎么了。",
+          "likes": 6,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261115200444-2f5237cc-136b884c3dd9/media/water-bowl-route.webp",
+              "kind": "image",
+              "alt": "近处偏右的浅色水碗里有水，左侧留着连续的浅色地面。"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-16T01:35:10.117Z"
+    }
+  ]
+}

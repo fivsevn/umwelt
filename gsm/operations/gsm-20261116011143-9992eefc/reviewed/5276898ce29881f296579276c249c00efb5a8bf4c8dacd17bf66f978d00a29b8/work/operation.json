@@ -1,0 +1,896 @@
+{
+  "version": 1,
+  "id": "gsm-20261116011143-9992eefc",
+  "root": "/workspace/scratch/3030ce6eeaa8/umwelt/gsm",
+  "preparedAt": "2026-11-16T01:11:43.024Z",
+  "plan": {
+    "seed": "afe7d0ca7f4823533bc530388772d220268201af3eb3729c6e95772116000db6",
+    "budget": 1,
+    "selectedIds": [
+      "smallhide2",
+      "peachcrumble",
+      "nightshift3"
+    ],
+    "totalBudget": 120,
+    "replyLottery": {
+      "bands": [
+        {
+          "weight": 30,
+          "min": 0,
+          "max": 0
+        },
+        {
+          "weight": 20,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "weight": 20,
+          "min": 2,
+          "max": 4
+        },
+        {
+          "weight": 15,
+          "min": 5,
+          "max": 12
+        },
+        {
+          "weight": 8,
+          "min": 13,
+          "max": 30
+        },
+        {
+          "weight": 5,
+          "min": 31,
+          "max": 60
+        },
+        {
+          "weight": 2,
+          "min": 61,
+          "max": 100
+        }
+      ],
+      "maxReplies": 100
+    },
+    "lottery": {
+      "version": 1,
+      "rootBudget": {
+        "min": 1,
+        "max": 2
+      },
+      "authors": {
+        "candidates": 3,
+        "recentPosts": 7,
+        "recentMultiplier": 0.5
+      },
+      "authorKind": [
+        {
+          "value": "guest",
+          "weight": 75
+        },
+        {
+          "value": "library",
+          "weight": 25
+        }
+      ],
+      "motivation": [
+        {
+          "value": "ask-help",
+          "weight": 24
+        },
+        {
+          "value": "vent",
+          "weight": 22
+        },
+        {
+          "value": "passing-thought",
+          "weight": 24
+        },
+        {
+          "value": "share",
+          "weight": 18
+        },
+        {
+          "value": "correct",
+          "weight": 6
+        },
+        {
+          "value": "celebrate",
+          "weight": 6
+        }
+      ],
+      "length": [
+        {
+          "value": "fragment",
+          "weight": 45
+        },
+        {
+          "value": "short",
+          "weight": 40
+        },
+        {
+          "value": "long",
+          "weight": 15
+        }
+      ],
+      "conditionCount": {
+        "min": 1,
+        "max": 2
+      },
+      "waitSeconds": [
+        {
+          "weight": 45,
+          "min": 20,
+          "max": 180
+        },
+        {
+          "weight": 40,
+          "min": 181,
+          "max": 1800
+        },
+        {
+          "weight": 15,
+          "min": 1801,
+          "max": 21600
+        }
+      ],
+      "reading": [
+        {
+          "value": "target-only",
+          "weight": 40
+        },
+        {
+          "value": "root-and-target",
+          "weight": 35
+        },
+        {
+          "value": "nearby",
+          "weight": 25
+        }
+      ],
+      "textWindow": [
+        {
+          "value": "full",
+          "weight": 45
+        },
+        {
+          "value": "opening",
+          "weight": 35
+        },
+        {
+          "value": "fragment",
+          "weight": 20
+        }
+      ],
+      "excerptCharacters": 140,
+      "nearbyReplies": {
+        "min": 0,
+        "max": 3
+      },
+      "media": {
+        "images": {
+          "root": {
+            "types": [
+              {
+                "value": "photo",
+                "weight": 70
+              },
+              {
+                "value": "screenshot",
+                "weight": 20
+              },
+              {
+                "value": "illustration",
+                "weight": 10
+              }
+            ]
+          },
+          "reply": {
+            "types": [
+              {
+                "value": "photo",
+                "weight": 50
+              },
+              {
+                "value": "screenshot",
+                "weight": 40
+              },
+              {
+                "value": "illustration",
+                "weight": 10
+              }
+            ]
+          }
+        },
+        "emotes": {
+          "root": {
+            "counts": [
+              {
+                "weight": 90,
+                "min": 1,
+                "max": 1
+              },
+              {
+                "weight": 10,
+                "min": 2,
+                "max": 2
+              }
+            ]
+          },
+          "reply": {
+            "counts": [
+              {
+                "weight": 90,
+                "min": 1,
+                "max": 1
+              },
+              {
+                "weight": 10,
+                "min": 2,
+                "max": 2
+              }
+            ]
+          }
+        },
+        "profiles": [
+          {
+            "id": "text-led",
+            "weight": 35,
+            "root": {
+              "none": 50,
+              "image": 28,
+              "emote": 14,
+              "both": 8
+            },
+            "reply": {
+              "none": 48,
+              "image": 10,
+              "emote": 34,
+              "both": 8
+            }
+          },
+          {
+            "id": "mixed",
+            "weight": 45,
+            "root": {
+              "none": 30,
+              "image": 38,
+              "emote": 17,
+              "both": 15
+            },
+            "reply": {
+              "none": 35,
+              "image": 12,
+              "emote": 39,
+              "both": 14
+            }
+          },
+          {
+            "id": "image-led",
+            "weight": 20,
+            "root": {
+              "none": 15,
+              "image": 45,
+              "emote": 12,
+              "both": 28
+            },
+            "reply": {
+              "none": 25,
+              "image": 18,
+              "emote": 37,
+              "both": 20
+            }
+          }
+        ]
+      },
+      "likes": {
+        "root": [
+          {
+            "weight": 20,
+            "min": 0,
+            "max": 0
+          },
+          {
+            "weight": 73,
+            "min": 1,
+            "max": 20
+          },
+          {
+            "weight": 6,
+            "min": 21,
+            "max": 60
+          },
+          {
+            "weight": 1,
+            "min": 61,
+            "max": 160
+          }
+        ],
+        "reply": [
+          {
+            "weight": 35,
+            "min": 0,
+            "max": 0
+          },
+          {
+            "weight": 62,
+            "min": 1,
+            "max": 12
+          },
+          {
+            "weight": 2,
+            "min": 13,
+            "max": 35
+          },
+          {
+            "weight": 1,
+            "min": 36,
+            "max": 90
+          }
+        ]
+      },
+      "sampling": {
+        "offset": {
+          "min": 0,
+          "max": 30
+        },
+        "count": {
+          "min": 3,
+          "max": 6
+        }
+      },
+      "discussion": {
+        "negativeMotivation": [
+          {
+            "value": "complaint",
+            "weight": 16
+          },
+          {
+            "value": "gossip",
+            "weight": 10
+          },
+          {
+            "value": "dispute",
+            "weight": 8
+          },
+          {
+            "value": "grievance",
+            "weight": 8
+          },
+          {
+            "value": "suspicion",
+            "weight": 8
+          },
+          {
+            "value": "irritation",
+            "weight": 16
+          },
+          {
+            "value": "contempt",
+            "weight": 12
+          },
+          {
+            "value": "envy",
+            "weight": 6
+          },
+          {
+            "value": "pile-on",
+            "weight": 10
+          },
+          {
+            "value": "grudge",
+            "weight": 6
+          }
+        ],
+        "replyStance": [
+          {
+            "value": "support",
+            "weight": 12
+          },
+          {
+            "value": "push-back",
+            "weight": 12
+          },
+          {
+            "value": "doubt",
+            "weight": 8
+          },
+          {
+            "value": "defend",
+            "weight": 8
+          },
+          {
+            "value": "provoke",
+            "weight": 12
+          },
+          {
+            "value": "ask-detail",
+            "weight": 4
+          },
+          {
+            "value": "sidetrack",
+            "weight": 14
+          },
+          {
+            "value": "dismiss",
+            "weight": 12
+          },
+          {
+            "value": "repeat",
+            "weight": 10
+          },
+          {
+            "value": "pile-on",
+            "weight": 8
+          }
+        ],
+        "replyAuthor": [
+          {
+            "value": "new",
+            "weight": 85
+          },
+          {
+            "value": "root",
+            "weight": 8
+          },
+          {
+            "value": "participant",
+            "weight": 7
+          }
+        ],
+        "negativeProbability": 0.5,
+        "minimumNegativeShare": 0.5
+      },
+      "researchMaintenance": {
+        "probability": 0.3,
+        "maxDocuments": 1,
+        "ageWeightDays": 7,
+        "maxAgeWeight": 5
+      },
+      "diversity": {
+        "recentUpdates": 3
+      },
+      "participation": {
+        "version": 2
+      }
+    },
+    "timeWindow": {
+      "start": "2026-11-15T01:11:43.024Z",
+      "end": "2026-11-16T01:11:43.024Z"
+    },
+    "participationSchedules": {
+      "backpackgecko": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "gecko404": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "gedageda": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "isopodafugue": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "leafback7": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "mango27": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "moss9": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "nearthermo": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "nightshift3": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "peachcrumble": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "slowblink": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "smallhide2": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "twosteps8": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "wallafterdark": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "wednesday6": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      }
+    },
+    "caseAdaptation": {
+      "count": 2,
+      "intakeReceipt": {
+        "repository": "fivsevn/umwelt",
+        "path": "gsm/environment/sources-daily-opinions.md",
+        "revision": "29d8cad19fff27bab43713dbbaddf602a8063873",
+        "documentSha": "29d8cad19fff27bab43713dbbaddf602a8063873",
+        "documentDigest": "af23231569d45ab121443dd0c00937ee103019fc69b3a213069ed1b1f35adf1a",
+        "collectedAt": "2026-11-15T03:25:20.000Z",
+        "fetchedAt": "2026-11-16T01:11:43.013Z"
+      },
+      "items": [
+        {
+          "postId": "gsm-20261116011143-9992eefc-1c30bd481393",
+          "sourcePath": "environment/sources-daily-opinions.md",
+          "sample": {
+            "id": "sample-28ff78017700",
+            "title": "讨论 7",
+            "text": "### 讨论 7\n\nRSS 摘要。\n\n1. **发言者 1**：Expedition Borneo: Field Herping the Island of Endemics  \n     \n   Borneo lies deep in the heart of the Indo-Malay Archipelago. It is the world’s third-largest island, and its massive expanse of ancient rainforest predates many of the species it protects. It is divided among three nations: Malaysia, Indonesia, and the small sultanate of Brunei. The island’s landscape is home to an astounding array of biodiversity, \\[…\\]",
+            "context": "采集时间：2026-11-15 11:25:20（北京时间）"
+          }
+        },
+        {
+          "postId": "gsm-20261116011143-9992eefc-a704d30e4682",
+          "sourcePath": "environment/sources-daily-opinions.md",
+          "sample": {
+            "id": "sample-6cf289f7fb4f",
+            "title": "讨论 11",
+            "text": "### 讨论 11\n\n1. **发言者 1**：Profiter du soleil \\! gecko grenoble  \n   \\[图片或视频省略，未读取画面\\]",
+            "context": "采集时间：2026-11-15 11:25:20（北京时间）"
+          }
+        }
+      ],
+      "rootOrder": [
+        "gsm-20261116011143-9992eefc-1c30bd481393",
+        "gsm-20261116011143-9992eefc-fed579b96a46",
+        "gsm-20261116011143-9992eefc-a704d30e4682"
+      ]
+    },
+    "researchMaintenance": {
+      "candidates": [
+        {
+          "path": "environment/research-comments.md",
+          "updatedAt": "2026-11-15T10:02:28.000Z"
+        },
+        {
+          "path": "environment/research-everyday-life.md",
+          "updatedAt": "2026-11-15T10:02:28.000Z"
+        },
+        {
+          "path": "environment/research-meme.md",
+          "updatedAt": "2026-11-15T10:02:28.000Z"
+        },
+        {
+          "path": "environment/research-negative.md",
+          "updatedAt": "2026-11-15T10:02:28.000Z"
+        },
+        {
+          "path": "environment/research-worldview.md",
+          "updatedAt": "2026-11-15T10:02:28.000Z"
+        },
+        {
+          "path": "users/research-character.md",
+          "updatedAt": "2026-11-15T10:02:28.000Z"
+        },
+        {
+          "path": "users/research-speech.md",
+          "updatedAt": "2026-11-15T10:02:28.000Z"
+        }
+      ],
+      "selectedPaths": []
+    },
+    "seal": "f610d068a2a9422e1c7eb82733741edf9e26e4bbb9a70a27dd9692062f99b7e8"
+  },
+  "sourceDigest": "d15e648b69820a56817a86fc9a6691b591a6fd90f0a80b8c9f39aa4c6317d81e",
+  "research": [
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://reptilesmagazine.com/sea-turtle-eggs-laid-on-southern-california-beaches-have-hatched/",
+      "visitedAt": "2026-11-16T01:13:41.499Z",
+      "publishedAt": "2026-11-15T01:55:38.000Z",
+      "summary": "入口为gecko-sources.js所列Reptiles Magazine RSS，最新排序offset0/count3中第1条（零基0），随后进入原页，实际读从导语到末段机构名单的完整正文及图片文字说明。报道南加州海滩卵在风暴前被转移，受控温湿环境中孵化后部分幼龟归海；异常筑巢原因仍保留天气变化或偶发两种可能，不能写成证实的气候因果。仅观察资讯呈现与环境变化话题，不采用法规、存活率或医疗细节。Article schema与RSS时间一致；页面本地时间November 14 7:55 pm跨至UTC15日。图片未打开，未见读者回复。此页为本次真实新访问。"
+    },
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://reptilesmagazine.com/four-captive-bred-juvenile-broad-headed-snakes-released-in-australia/",
+      "visitedAt": "2026-11-16T01:13:45.957Z",
+      "publishedAt": "2026-11-13T17:12:19.000Z",
+      "summary": "同一RSS最新排序连续窗口第2条（零基1），原页读到导语、项目经过、Broad-headed Snake Information小节和末段。正文为放归6条后至少4条度过最初数月，标题容易误读成只放归4条；人工岩石和栖地恢复已跟读UTS原始公告。繁殖及人类项目作为抽样观察保留，不转成守宫亲历。原始时间来自Article schema并与RSS一致。图片只读说明，未看画面；未读到读者回复。"
+    },
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://reptilesmagazine.com/expedition-borneo-field-herping-the-island-of-endemics/",
+      "visitedAt": "2026-11-16T01:14:04.511Z",
+      "publishedAt": "2026-11-11T01:00:47.000Z",
+      "summary": "同一RSS连续窗口第3条（零基2）；本次另取200原页，实际读完整约3556词正文：婆罗洲导语、Day1/2高地夜寻、Day4/5低地林地、Day6结尾及图注。可观察作者把高低海拔林地、树冠/落叶层与遭遇难易连接的叙述；这是一篇野外旅行记，不能把旅程中的温度、蛇活动和触碰经历当作所有守宫生理结论。图片未开，未读到读者回复。与冻结案例sample-28ff78017700重合，但本项有本次独立原页访问与全文阅读；冻结采用仍仅限既存RSS标题与导语，不把全文后续擅自补进案例素材，也不再把冻结快照单列为新鲜观察。对应固定案例帖gsm-20261116011143-9992eefc-1c30bd481393可采用雨林/植被差异话头，具体终稿方向由写作者登记。",
+      "adaptedPostIds": [
+        "gsm-20261116011143-9992eefc-1c30bd481393"
+      ]
+    },
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://www.uts.edu.au/news/2026/11/world-first-successful-wild-release-of-endangered-broad-headed-snake",
+      "visitedAt": "2026-11-16T01:14:33.015Z",
+      "publishedAt": null,
+      "summary": "由新闻窗第2条内UTS链接跟读的原始项目公告，非抽样替换。页面Posted on 6 Nov 2026，无带时区原始精确时刻，publishedAt留null。实际读完整正文从Key takeaways至末尾募款链接前；图片仅读说明，无读者回复。公告为6条幼蛇于2026年5月中旬放归、至少4条度过最初数月；人工岩石提供合适裂隙尺寸并模拟天然岩石热性质。项目仍属先导试验及持续监测，不能泛化为守宫照料规范。本项7天外，不承担新鲜度。"
+    },
+    {
+      "category": "trend",
+      "kind": "feed",
+      "url": "https://halo.nu/@theguardian_us_news/117559200732231712",
+      "visitedAt": "2026-11-16T01:16:25.325Z",
+      "publishedAt": "2026-11-04T16:50:46.000Z",
+      "summary": "入口为gecko-sources.js列出的mastodon.social公开#reptiles标签，按API返回最新排序跳过30之前条目；本条是本轮offset30/count6窗口零基序号30，六条连续保留，首屏40条足够、无需翻页。原页200仅给JS应用壳与完整meta正文，实际原文、发布时间、媒体alt及上下文通过该原帖公共联邦API读取（https://mastodon.social/api/v1/statuses/117559201009631086，2026-11-16T01:14:47.699977+00:00；context访问2026-11-16T01:14:47.700827+00:00）。原帖为鳄鱼走入北卡罗来纳贝果店的新闻链接，完整文字已读；无附图。与下一条转发同一新闻，连续重复保留，不另当两个独立事件。context实际返回0祖先/0后续，不能据转发推测争议或热度。未读站外新闻全文，不把标题中的拟人说法当动物动机。"
+    },
+    {
+      "category": "trend",
+      "kind": "feed",
+      "url": "https://rssfeed.media/@guardianfeeds/117559198996641985",
+      "visitedAt": "2026-11-16T01:16:24.755Z",
+      "publishedAt": "2026-11-04T16:50:19.000Z",
+      "summary": "入口为gecko-sources.js列出的mastodon.social公开#reptiles标签，按API返回最新排序跳过30之前条目；本条是本轮offset30/count6窗口零基序号31，六条连续保留，首屏40条足够、无需翻页。原页200仅给JS应用壳与完整meta正文，实际原文、发布时间、媒体alt及上下文通过该原帖公共联邦API读取（https://mastodon.social/api/v1/statuses/117559199088472210，2026-11-16T01:14:47.701447+00:00；context访问2026-11-16T01:14:47.702113+00:00）。原帖为同一贝果店鳄鱼事件的另一新闻转发，文字另补长度及动物机构移出这一层摘要；完整文字已读，无附图。与零基30重复，保留实际连续次序。context为0/0；未读外链新闻，事实只记录为发帖者转述。"
+    },
+    {
+      "category": "trend",
+      "kind": "thread",
+      "url": "https://fediscience.org/@tksst/117554872486976954",
+      "visitedAt": "2026-11-16T01:16:18.987Z",
+      "publishedAt": "2026-11-03T22:30:02.000Z",
+      "summary": "入口为gecko-sources.js列出的mastodon.social公开#reptiles标签，按API返回最新排序跳过30之前条目；本条是本轮offset30/count6窗口零基序号32，六条连续保留，首屏40条足够、无需翻页。原页200仅给JS应用壳与完整meta正文，实际原文、发布时间、媒体alt及上下文通过该原帖公共联邦API读取（https://mastodon.social/api/v1/statuses/117554872627841718，2026-11-16T01:14:47.702965+00:00；context访问2026-11-16T01:14:47.704537+00:00）。原帖是角蜥防御机制的科普链接，全文文字已读；外链文章和其中画面未读，生理说法未经原始研究核验，不采用为守宫事实。context实际读到1条直接回复（117555068049675416，2026-11-03T23:19:45Z），只称幼体可爱，没有回应机制；这是资讯话头被接成外观赞美的普通低信息接话。无更多可见回复，不补造互动。"
+    },
+    {
+      "category": "trend",
+      "kind": "feed",
+      "url": "https://rssfeed.media/@abcfeeds/117544295106268964",
+      "visitedAt": "2026-11-16T01:16:18.986Z",
+      "publishedAt": "2026-11-02T01:40:04.000Z",
+      "summary": "入口为gecko-sources.js列出的mastodon.social公开#reptiles标签，按API返回最新排序跳过30之前条目；本条是本轮offset30/count6窗口零基序号33，六条连续保留，首屏40条足够、无需翻页。原页200仅给JS应用壳与完整meta正文，实际原文、发布时间、媒体alt及上下文通过该原帖公共联邦API读取（https://mastodon.social/api/v1/statuses/117544295746033420，2026-11-16T01:14:53.058389+00:00；context访问2026-11-16T01:14:53.067558+00:00）。原帖转发Rockhampton未来赛艇场附近发现约3米鳄鱼的摘要，完整文字已读，无附件。context0祖先/0回复。只观察爬行动物话题在环境使用冲突中的呈现，未读外链、不推定危险程度或动物动机。"
+    },
+    {
+      "category": "trend",
+      "kind": "feed",
+      "url": "https://rssfeed.media/@abcfeeds/117543311891099714",
+      "visitedAt": "2026-11-16T01:16:18.986Z",
+      "publishedAt": "2026-11-01T21:30:01.000Z",
+      "summary": "入口为gecko-sources.js列出的mastodon.social公开#reptiles标签，按API返回最新排序跳过30之前条目；本条是本轮offset30/count6窗口零基序号34，六条连续保留，首屏40条足够、无需翻页。原页200仅给JS应用壳与完整meta正文，实际原文、发布时间、媒体alt及上下文通过该原帖公共联邦API读取（https://mastodon.social/api/v1/statuses/117543312119085867，2026-11-16T01:14:53.099658+00:00；context访问2026-11-16T01:14:53.100615+00:00）。原帖转发鳄鱼登上渔船新闻摘要，提及季节与领地活动；完整文字已读，无附件，context0/0。涉及人类活动及繁殖季节，仅作为连续窗口观察保留，不改编为守宫亲历，也不采用其中行为因果为技术依据；站外全文未读。"
+    },
+    {
+      "category": "trend",
+      "kind": "feed",
+      "url": "https://fediscience.org/@tksst/117541543327768535",
+      "visitedAt": "2026-11-16T01:16:18.989Z",
+      "publishedAt": "2026-11-01T14:00:15.000Z",
+      "summary": "入口为gecko-sources.js列出的mastodon.social公开#reptiles标签，按API返回最新排序跳过30之前条目；本条是本轮offset30/count6窗口零基序号35，六条连续保留，首屏40条足够、无需翻页。原页200仅给JS应用壳与完整meta正文，实际原文、发布时间、媒体alt及上下文通过该原帖公共联邦API读取（https://mastodon.social/api/v1/statuses/117541543509330196，2026-11-16T01:14:53.132385+00:00；context访问2026-11-16T01:14:53.211018+00:00）。原帖转发食蛋蛇进食视频介绍，完整文字和1张附件alt说明已读；图片画面与视频均未打开。context0/0。能够观察以夸张尺寸吸引观看的动物资讯语气；吞蛋时长及解剖机制未经原始研究核验，不挪作守宫知识。"
+    },
+    {
+      "category": "daily",
+      "kind": "feed",
+      "url": "https://pixelfed.social/p/Squishy/572956697964438206",
+      "visitedAt": "2026-11-16T01:16:27.381Z",
+      "publishedAt": "2023-06-10T01:25:21.000Z",
+      "summary": "入口为gecko-sources.js列出的mastodon.social公开#crestedgecko标签，按API返回最新排序跳过29之前条目；本条是本轮offset29/count6窗口零基序号29，六条连续保留，首屏40条足够、无需翻页。原页200仅给JS应用壳与完整meta正文，实际原文、发布时间、媒体alt及上下文通过该原帖公共联邦API读取（https://mastodon.social/api/v1/statuses/110517310352527139，2026-11-16T01:14:58.005862+00:00；context访问2026-11-16T01:14:58.014071+00:00）。原帖仅为睫角守宫账号节日问候及标签，完整文字已读；2张图片只读alt（贴玻璃、足部）而未看画面。原帖replies_count为1，但本次context0祖先/0后续，未取得的回复不重建。原日期2023-06-10明确保留，不能用作2026近期话题热度；普通低信息晒宠样本保留。"
+    },
+    {
+      "category": "daily",
+      "kind": "feed",
+      "url": "https://pixelfed.uno/p/snailcamel29/569251994468024144",
+      "visitedAt": "2026-11-16T01:16:31.752Z",
+      "publishedAt": "2023-05-30T20:04:11.000Z",
+      "summary": "入口为gecko-sources.js列出的mastodon.social公开#crestedgecko标签，按API返回最新排序跳过29之前条目；本条是本轮offset29/count6窗口零基序号30，六条连续保留，首屏40条足够、无需翻页。原页200仅给JS应用壳与完整meta正文，实际原文、发布时间、媒体alt及上下文通过该原帖公共联邦API读取（https://mastodon.social/api/v1/statuses/110459424071716039，2026-11-16T01:14:58.018905+00:00；context访问2026-11-16T01:14:58.046968+00:00）。原帖正文只有crestedgecko标签及1张附件，文字与alt仅标为Crested gecko，实际画面未读，不能编行为、姿势或环境细节。context0/0。原日期2023-05-30保留；低信息/主要依赖图片的普通贴仍纳入连续窗口，不用更精彩案例替换。"
+    },
+    {
+      "category": "daily",
+      "kind": "thread",
+      "url": "https://pixelfed.social/p/Squishy/540112332046167364",
+      "visitedAt": "2026-11-16T01:16:28.922Z",
+      "publishedAt": "2023-03-11T10:13:34.000Z",
+      "summary": "入口为gecko-sources.js列出的mastodon.social公开#crestedgecko标签，按API返回最新排序跳过29之前条目；本条是本轮offset29/count6窗口零基序号31，六条连续保留，首屏40条足够、无需翻页。原页200仅给JS应用壳与完整meta正文，实际原文、发布时间、媒体alt及上下文通过该原帖公共联邦API读取（https://mastodon.social/api/v1/statuses/110004119134847636，2026-11-16T01:14:58.048929+00:00；context访问2026-11-16T01:14:58.073141+00:00）。原帖文字是久未更新后的近况：照料者称睫角当时11.5岁，带1张脸部近照alt；只把年龄看作该发帖者当时的自述，不能推至当前仍存活。图片未看。context读到1条直接回复110099206161476558（2023-03-28T05:15:59Z），称可爱；原帖2023-03-11与回复原日期均保留。不编关系与后续。"
+    },
+    {
+      "category": "daily",
+      "kind": "feed",
+      "url": "https://flipboard.social/@kseber/109961336255936746",
+      "visitedAt": "2026-11-16T01:16:28.964Z",
+      "publishedAt": "2023-03-03T20:53:54.000Z",
+      "summary": "入口为gecko-sources.js列出的mastodon.social公开#crestedgecko标签，按API返回最新排序跳过29之前条目；本条是本轮offset29/count6窗口零基序号32，六条连续保留，首屏40条足够、无需翻页。原页200仅给JS应用壳与完整meta正文，实际原文、发布时间、媒体alt及上下文通过该原帖公共联邦API读取（https://mastodon.social/api/v1/statuses/109961336295051333，2026-11-16T01:15:03.871720+00:00；context访问2026-11-16T01:15:03.872246+00:00）。原帖询问购买石像鬼守宫/睫角之前希望先知道的经验，完整文字已读，无附件；context0/0。人类购买与照料请求仅作为连续窗口中真实存在的话题记录，不改编成守宫交易或照料者身份。原日期2023-03-03保留，没有用旧贴充当新鲜材料。"
+    },
+    {
+      "category": "daily",
+      "kind": "feed",
+      "url": "https://mastodon.art/@florashark/109906216925442849",
+      "visitedAt": "2026-11-16T01:16:29.049Z",
+      "publishedAt": "2023-02-22T03:16:20.000Z",
+      "summary": "入口为gecko-sources.js列出的mastodon.social公开#crestedgecko标签，按API返回最新排序跳过29之前条目；本条是本轮offset29/count6窗口零基序号33，六条连续保留，首屏40条足够、无需翻页。原页200仅给JS应用壳与完整meta正文，实际原文、发布时间、媒体alt及上下文通过该原帖公共联邦API读取（https://mastodon.social/api/v1/statuses/109906217276078567，2026-11-16T01:15:03.887211+00:00；context访问2026-11-16T01:15:03.965262+00:00）。原帖仅介绍自己的睫角守宫并附3张图片；完整简短文字已读，图片无alt，实际画面未读，故不能描述颜色、动作或生活环境。context0/0。原日期2023-02-22保留；简单介绍和低信息晒图照样记录。"
+    },
+    {
+      "category": "daily",
+      "kind": "thread",
+      "url": "https://mindly.social/@madrobin/109886382188512222",
+      "visitedAt": "2026-11-16T01:16:27.367Z",
+      "publishedAt": "2023-02-18T15:12:06.000Z",
+      "summary": "入口为gecko-sources.js列出的mastodon.social公开#crestedgecko标签，按API返回最新排序跳过29之前条目；本条是本轮offset29/count6窗口零基序号34，六条连续保留，首屏40条足够、无需翻页。原页200仅给JS应用壳与完整meta正文，实际原文、发布时间、媒体alt及上下文通过该原帖公共联邦API读取（https://mastodon.social/api/v1/statuses/109886382755651677，2026-11-16T01:15:04.033488+00:00；context访问2026-11-16T01:15:04.633365+00:00）。原帖询问有没有其他守宫同好，叙述自2005年养新喀里多尼亚物种并晒睫角，完整文字及1张alt已读，图片未看。context实际读4条后续：109888634448043064（2023-02-19）直接称可爱；109971042273192187（2023-03-05）直接用eyeliner玩笑并提及另一人；109971452979146378回复该玩笑，只有SLAYING；109971463141000905直接回根帖Hell yeah并附自己的豹纹1图（仅alt：洞穴、仿叶遮挡，未看画面）。回复父关系来自in_reply_to_id而非提及名；没有把中间互赞写成对根帖的纠正。原帖2023-02-18，全部保留旧日期，只研究普通同好回应和晒图接话，不推断全站比例；繁殖经历不改编为守宫事实。"
+    },
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://sabahtourism.com/essential/about-sabah/",
+      "visitedAt": "2026-11-16T01:16:18.985Z",
+      "publishedAt": null,
+      "summary": "案例现实查证的附加官方来源，非抽样替换：通过定向搜索进入沙巴旅游局About Sabah，读取About Sabah与Borneo Island两节；其官方文字确认婆罗洲为世界第三大岛、由印尼/马来西亚/文莱分属。原始发布时间未知；Last reviewed/Last updated不当作原始发布日期。人物文化、入境及服务段不作为本轮依据，图片未读，无讨论回复。仅核对冻结案例导语地理背景，不替换冻结素材、不反查匿名发言者。"
+    },
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://www.sabahparks.org.my/kinabalu-park/vegetation-profile",
+      "visitedAt": "2026-11-16T01:16:18.985Z",
+      "publishedAt": null,
+      "summary": "案例生态查证的附加公园管理方原始说明；web工具403后exec公开HTTP200。实际读取Vegetation profiles五节到Ultramafic Soils结尾，低地龙脑香、下部山地栎栗、上部云雾林、亚高山与超基性土壤；未读图片画面和链接页面。官方说明支持海拔/土壤伴随植被变化这一背景，并注明云雾林约2200m以上，与旅行记较宽泛称cloud forest的用法不完全等同，不把旅行记温度/种类数字扩成物种通用规范。未知原始日期，网页动态Last Updated不充新鲜度。冻结RSS导语不增加这些具体海拔或后续故事。"
+    }
+  ],
+  "posts": [
+    {
+      "id": "gsm-20261116011143-9992eefc-1c30bd481393",
+      "author": "peachcrumble",
+      "createdAt": "2026-11-15T23:59:48.906Z",
+      "replyTo": null,
+      "text": "婆罗洲居然是世界第三大岛。刚读到雨林比里面许多物种还古老那句，还想看那里面有些什么守宫，都待在什么地方。",
+      "likes": 0,
+      "canon": "derivative",
+      "media": []
+    },
+    {
+      "id": "gsm-20261116011143-9992eefc-fed579b96a46",
+      "author": "guest-d2d582b7aaa888b5",
+      "guest": {
+        "name": "lea"
+      },
+      "createdAt": "2026-11-16T00:36:11.924Z",
+      "replyTo": null,
+      "text": "外壳为什么非得用物种名啊，看着真别扭。",
+      "likes": 8,
+      "canon": "derivative",
+      "media": [
+        {
+          "src": "posts/2026/11/gsm-20261116011143-9992eefc-fed579b96a46/media/shell-names.webp",
+          "kind": "image",
+          "alt": "设置页的外壳预览依次标着“豹纹守宫”“蛤蚧”“巨人日行”，右侧预览带深色背景。"
+        }
+      ]
+    },
+    {
+      "id": "gsm-20261116011143-9992eefc-a704d30e4682",
+      "author": "guest-c89749dbf50b25fd",
+      "guest": {
+        "name": "一杯水"
+      },
+      "createdAt": "2026-11-16T00:54:22.227Z",
+      "replyTo": null,
+      "text": "晒会儿太阳！",
+      "likes": 7,
+      "canon": "derivative",
+      "media": [
+        {
+          "src": "posts/2026/11/gsm-20261116011143-9992eefc-a704d30e4682/media/sun-leaf-shadows.webp",
+          "kind": "image",
+          "alt": "日光照在粗糙的红陶砖面上，叶片的影子落在砖面，左上部留在阴影里。"
+        }
+      ]
+    },
+    {
+      "id": "gsm-20261116011143-9992eefc-04",
+      "author": "guest-c40fa91da0616f37",
+      "guest": {
+        "name": "阿迟"
+      },
+      "createdAt": "2026-11-15T19:57:23.467Z",
+      "replyTo": "gsm-20261115200444-2f5237cc-136b884c3dd9",
+      "text": "左边那么空，绕一下怎么了。",
+      "likes": 6,
+      "canon": "derivative",
+      "media": [
+        {
+          "src": "posts/2026/11/gsm-20261115200444-2f5237cc-136b884c3dd9/media/water-bowl-route.webp",
+          "kind": "image",
+          "alt": "近处偏右的浅色水碗里有水，左侧留着连续的浅色地面。"
+        }
+      ]
+    }
+  ],
+  "status": "prepared",
+  "reviews": [
+    {
+      "postId": "gsm-20261116011143-9992eefc-1c30bd481393",
+      "negative": false,
+      "reason": "对婆罗洲摘要与守宫栖居的普通好奇，没有抱怨、讥讽或怀疑。"
+    },
+    {
+      "postId": "gsm-20261116011143-9992eefc-a704d30e4682",
+      "negative": false,
+      "reason": "一句享受阳光的分享，无负面态度。"
+    },
+    {
+      "postId": "gsm-20261116011143-9992eefc-fed579b96a46",
+      "negative": true,
+      "reason": "嫌外壳沿物种命名别扭，反问带着明确不满；不是中性求说明。"
+    },
+    {
+      "postId": "gsm-20261116011143-9992eefc-04",
+      "negative": true,
+      "reason": "顺着图左侧空地反问“绕一下怎么了”，带轻蔑地否定原作者的抱怨。"
+    }
+  ],
+  "researchMaintenance": [],
+  "guestNames": {
+    "guest-d2d582b7aaa888b5": "lea",
+    "guest-c89749dbf50b25fd": "一杯水",
+    "guest-c40fa91da0616f37": "阿迟"
+  },
+  "mediaReviews": [
+    {
+      "postId": "gsm-20261116011143-9992eefc-a704d30e4682",
+      "src": "posts/2026/11/gsm-20261116011143-9992eefc-a704d30e4682/media/sun-leaf-shadows.webp",
+      "type": "life-photo",
+      "scene": "本轮使用图像生成工具新建的照片质感生活场景，并非外部原图复原；竖幅近距离斜看粗糙的红陶砖面，砖缝斜穿上部，砖面可见细孔、细碎颗粒和磨痕；日光照到中下部，多个叶形影子落在右侧及中部，左上保持连续暗部。画面没有动物全身、人、树皮、水碗、沙地或地域背景。"
+    },
+    {
+      "postId": "gsm-20261116011143-9992eefc-fed579b96a46",
+      "src": "posts/2026/11/gsm-20261116011143-9992eefc-fed579b96a46/media/shell-names.webp",
+      "type": "screenshot",
+      "scene": "354×211的GSM设置页真实裁屏，顶部可读“外壳”，下方依次显示“豹纹守宫”“蛤蚧”“巨人日行”的掌机预览与名称，右侧预览和名称位于深色背景内。画面不含其他账号帖子。"
+    },
+    {
+      "postId": "gsm-20261116011143-9992eefc-04",
+      "src": "posts/2026/11/gsm-20261115200444-2f5237cc-136b884c3dd9/media/water-bowl-route.webp",
+      "type": "life-photo",
+      "scene": "直接复用父帖gsm-20261115200444-2f5237cc-136b884c3dd9既有生活照片，原文件未改名、未裁切或重制。画面右侧是盛水的浅色厚沿水碗，左侧连续浅色地面可见；后方有树皮、叶片与岩面，左下近景虚化。阿迟指着原图左边发问，图片不是其本人住处或新拍现场。"
+    }
+  ],
+  "diversityReview": {
+    "postsDigest": "23dcf76349ea58d8fa1a4e3fc23acfed9e9dd27ac8854d765ea7f1d128a8c5d1",
+    "historyDigest": "7d25361fa12459d2e57a5c9ff96f18001bfe4938a2275f1f85de09b60089c051",
+    "content": "已完整读reading.md 1–4572，重读本轮4条、近3轮11条与8份真实draft/edited快照。案例1c30bd481393采用讨论7的婆罗洲RSS介绍，桃酥从网上读到第三大岛、雨林比其中许多物种古老两点生出好奇；想知道有哪些守宫、待在哪里仍未得到答案。未移植人类考察或旅游、未读后文及画面，三国划分等细节未采用。唯一正文编辑是删除初稿“后面就没了”并接回原问意：源片段在古老雨林那句之后仍有内容，不把工作包截断误作角色所见页面事实。\n\n案例a704d30e4682保留讨论11“Profiter du soleil !”的短分享和附图作用，文字原样“晒会儿太阳！”。外部图片/视频未读，红陶砖日光图是本轮新创作，不称原图复原；不由grenoble补地区、物种、具体钟点或公共天气。原创fed579b96a46原样保留lea嫌外壳物种命名别扭的反问，实际截图提供眼前对象；不补人类技能、后台知识、替代方案或动机。截图alt仅调整为实际三名称与右侧深色背景。\n\n旧串回复04保留阿迟“左边那么空，绕一下怎么了。”。作者只读水碗根帖136b884c3dd9、图及原表情，不知已有回复05；复贴原图指左侧空地，没有制造围攻共识。图未显示洞口全程、mika体形或真实动作，轻蔑口气不证明原作者无需绕行、撒谎或抱怨不公。真正父帖和原图来源保留。原创新串抽0仍冷场，旧串抽1只用此条，不造案例源回复。\n\n桃酥与近期d90265255a20、b7b8eb259f11、e7fb63d7f7ca同属网上生态材料，终稿停在普通好奇，未再补“越看越烦”、重读数字式感慨。晒太阳与近期“趴这儿刚刚好”同属短状态，阿迟与K2“这也值得烦”同属轻蔑短反应，均有具体不同对象，保留自然相似，不靠换词、错字、口头禅或完整反击小品造区别。两案例中性，lea与阿迟负面，2/4达底线；没有为比例改判普通问意，也未把一次态度登记为人物长期事实。\n\n最终技术修正如实保存在8份快照中。第7份仅把根帖数组规范为原rootOrder，但规则实际先按createdAt升序比较，单改数组不足。第8份沿现有timingExceptions互换两案例原先分配的时刻：case1改为2026-11-15T23:59:48.906Z，case2改为2026-11-16T00:54:22.227Z；原创保持00:36:11.924Z，回复时间不变，真实根帖顺序现为case1→original→case2。原初稿时间未覆盖；相较此前reviewed归档，公开字段仅这两项createdAt改变，plan、reviews、mediaReviews未变，未重抽。已核两时刻在原24小时窗内、晚于既有全26条历史且不超实际当前时间；两作者无本人旧帖、两案例无子回复，未造成本人或父子倒序。只读调用原validateCasePosts通过、两scheduleParticipation均ready。执行纠错理由仅记审计，不给角色补午后、所在地、时区或照料故事；两稿与太阳图均无依赖具体钟点的事实，知情边界不变。详细更改和测试证据见本文件timingCorrection与verification。",
+    "images": "已实际打开本轮最终sun-leaf-shadows.webp（1122×1402）与shell-names.webp（354×211），并重新打开阿迟复贴的water-bowl-route.webp；逐项核对终稿alt、media.kind与mediaReviews。太阳图是竖幅粗红陶砖，砖缝斜穿上部，表面细孔、细颗粒与磨痕可见；直接日光中落着多个叶影，左上连续暗部，未出现人、整只守宫、器材、地区背景或无依据物种。原作者石面+右树皮横幅提案在生成前改为该场景，以减少与近期灰石片/树皮、浅沙地/右水碗横图的构图重复；文字不改，type=life-photo如实注明新生成照片质感生活场景。截图实际显示外壳及“豹纹守宫”“蛤蚧”“巨人日行”，右侧深色背景可见，字形清楚，type=screenshot；来自父代理真实浏览器裁屏，不是生成或重画的假UI，不含其他账号帖子。\n\n近3轮普通图shoulder-view、bright-edge、water-bowl-route均已实际打开比较：肩部图是蓝针织衣料、人类后颈/短发与底边足部局部，近距离身体材质明确；后两张同为低机位横幅、沙色地面、树皮叶片与右侧主物件，柔和漫射光和前景虚化近似。本轮红陶砖的竖幅、材质和硬日光叶影，以及设置页LCD小裁屏，形成具体差异。阿迟有意复贴旧根帖同一张水碗原图，直接原路径引用，未改名、未新拍、未裁切，不用再造水碗图掩盖复用；type=life-photo的scene明确来源与非本人住处，画面承担“左边”的所指。三张实际普通图均有独立记录，反应图未冒充普通照片。\n\nmediaFollowThrough对原创一路普通图提示2条、实际2条、shortfall=0：lea的真实设置截图与阿迟原图复贴都具体落实；表情提示0条、实际0条、shortfall=0，reviewRequired=false。本轮固定案例另有太阳照片1张，婆罗洲RSS无源媒体或指图动作，保留纯文字，没有机械补雨林图。实际全轮为3条带普通图、1条纯文字，无本轮反应图；近期disgust、heh、neutral已实际打开，huh/doubt亦已看，表情疏密按这些具体话头保留，没有为凑数量添加或为避重删熟图。所述是文件看图、全文与信息流顺序的离线比较，本编辑未操作滚动页面、未检线上图片字节或部署，后续页面及线上核验由发布阶段另做。"
+  },
+  "timingExceptions": {
+    "gsm-20261116011143-9992eefc-1c30bd481393": {
+      "createdAt": "2026-11-15T23:59:48.906Z",
+      "reason": "纠正在各根帖草稿入列前取得多个brief所致的技术时序错误，以遵守原计划rootOrder；交换两案例已分配时刻，未重抽种子、作者、数量、素材或保存窗口，原始时间完整保留在初稿检查点。"
+    },
+    "gsm-20261116011143-9992eefc-a704d30e4682": {
+      "createdAt": "2026-11-16T00:54:22.227Z",
+      "reason": "纠正在各根帖草稿入列前取得多个brief所致的技术时序错误，以遵守原计划rootOrder；交换两案例已分配时刻，未重抽种子、作者、数量、素材或保存窗口，原始时间完整保留在初稿检查点。"
+    }
+  }
+}

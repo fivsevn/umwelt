@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "operationId": "gsm-20261116011143-9992eefc",
+  "stage": "reviewed",
+  "sourceRevision": "d71b1419ac2ffb32a10df1854ebc1de4661c7e81",
+  "files": [
+    {
+      "path": "media/posts/2026/11/gsm-20261115200444-2f5237cc-136b884c3dd9/media/water-bowl-route.webp",
+      "bytes": 219368,
+      "sha256": "1e48c8516ee6aaf68da8aab0bde31116e30c6c86ae1594105916a9e4f800d964"
+    },
+    {
+      "path": "media/posts/2026/11/gsm-20261116011143-9992eefc-a704d30e4682/media/sun-leaf-shadows.webp",
+      "bytes": 294186,
+      "sha256": "e2a25dbe0a31a8c44073c8c4007a933cc45a23b79edc3ffca9ba7d1af2feca80"
+    },
+    {
+      "path": "media/posts/2026/11/gsm-20261116011143-9992eefc-fed579b96a46/media/shell-names.webp",
+      "bytes": 21824,
+      "sha256": "f2ff630975d43df89bc7f3645c48537e7f4f3ae135839dfa98c6ba1a5971206a"
+    },
+    {
+      "path": "work/daily-material.json",
+      "bytes": 13025,
+      "sha256": "d8efe1c1302eedb7930e2617c38986745a32b6c2ab2c92aca6d6c330e7ae2168"
+    },
+    {
+      "path": "work/draft-history-gsm-20261116011143-9992eefc.json",
+      "bytes": 17442,
+      "sha256": "3a5728d1d6f6a38ae890df0346d78c30741d83a5281546a4dddfb267d7580780"
+    },
+    {
+      "path": "work/operation.json",
+      "bytes": 44158,
+      "sha256": "e0475f41875f02daf81b0d78a79035c8b9cb5a89b6138a7c602b3b0abd5cf620"
+    },
+    {
+      "path": "work/reading.md",
+      "bytes": 412014,
+      "sha256": "21c8b916115388b57c80aead18fbacc3fdf46698a0cc4190d2119501026f96bb"
+    }
+  ]
+}

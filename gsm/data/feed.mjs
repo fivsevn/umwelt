@@ -1,5 +1,33 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "guest-c89749dbf50b25fd": {
+    "handle": "guest-c89749dbf50b25fd",
+    "name": "一杯水",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-c89749dbf50b25fd.webp?v=c4197b1129be",
+    "color": "rose"
+  },
+  "guest-d2d582b7aaa888b5": {
+    "handle": "guest-d2d582b7aaa888b5",
+    "name": "lea",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-d2d582b7aaa888b5.webp?v=8ba191455bd7",
+    "color": "sage"
+  },
+  "peachcrumble": {
+    "handle": "peachcrumble",
+    "name": "桃酥",
+    "bio": "差一点，下回再试。",
+    "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
+    "color": "rose"
+  },
+  "guest-c40fa91da0616f37": {
+    "handle": "guest-c40fa91da0616f37",
+    "name": "阿迟",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-c40fa91da0616f37.webp?v=8ba191455bd7",
+    "color": "sand"
+  },
   "guest-83ba667925c6c484": {
     "handle": "guest-83ba667925c6c484",
     "name": "名字没想好",
@@ -210,13 +238,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/nearthermo.webp?v=f536a852bd2b",
     "color": "sand"
   },
-  "peachcrumble": {
-    "handle": "peachcrumble",
-    "name": "桃酥",
-    "bio": "差一点，下回再试。",
-    "avatarImage": "/gsm/assets/avatars/peachcrumble.webp?v=9264b8da9207",
-    "color": "rose"
-  },
   "slowblink": {
     "handle": "slowblink",
     "name": "不急",
@@ -254,6 +275,178 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "gsm-20261116011143-9992eefc-a704d30e4682",
+    "date": "2026-11-16T08:54:22.227+08:00",
+    "createdAt": 1794790462227,
+    "author": "guest-c89749dbf50b25fd",
+    "likes": 7,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "晒会儿太阳！"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261116011143-9992eefc-a704d30e4682/media/sun-leaf-shadows.webp",
+          "alt": "日光照在粗糙的红陶砖面上，叶片的影子落在砖面，左上部留在阴影里。",
+          "width": 1122,
+          "height": 1402
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "晒会儿太阳！"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261116011143-9992eefc-a704d30e4682/media/sun-leaf-shadows.webp",
+          "alt": "日光照在粗糙的红陶砖面上，叶片的影子落在砖面，左上部留在阴影里。",
+          "width": 1122,
+          "height": 1402
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "晒会儿太阳！"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261116011143-9992eefc-a704d30e4682/media/sun-leaf-shadows.webp",
+          "alt": "日光照在粗糙的红陶砖面上，叶片的影子落在砖面，左上部留在阴影里。",
+          "width": 1122,
+          "height": 1402
+        }
+      ]
+    }
+  },
+  {
+    "id": "gsm-20261116011143-9992eefc-fed579b96a46",
+    "date": "2026-11-16T08:36:11.924+08:00",
+    "createdAt": 1794789371924,
+    "author": "guest-d2d582b7aaa888b5",
+    "likes": 8,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "外壳为什么非得用物种名啊，看着真别扭。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261116011143-9992eefc-fed579b96a46/media/shell-names.webp",
+          "alt": "设置页的外壳预览依次标着“豹纹守宫”“蛤蚧”“巨人日行”，右侧预览带深色背景。",
+          "width": 354,
+          "height": 211
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "外壳为什么非得用物种名啊，看着真别扭。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261116011143-9992eefc-fed579b96a46/media/shell-names.webp",
+          "alt": "设置页的外壳预览依次标着“豹纹守宫”“蛤蚧”“巨人日行”，右侧预览带深色背景。",
+          "width": 354,
+          "height": 211
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "外壳为什么非得用物种名啊，看着真别扭。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261116011143-9992eefc-fed579b96a46/media/shell-names.webp",
+          "alt": "设置页的外壳预览依次标着“豹纹守宫”“蛤蚧”“巨人日行”，右侧预览带深色背景。",
+          "width": 354,
+          "height": 211
+        }
+      ]
+    }
+  },
+  {
+    "id": "gsm-20261116011143-9992eefc-1c30bd481393",
+    "date": "2026-11-16T07:59:48.906+08:00",
+    "createdAt": 1794787188906,
+    "author": "peachcrumble",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "婆罗洲居然是世界第三大岛。刚读到雨林比里面许多物种还古老那句，还想看那里面有些什么守宫，都待在什么地方。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "婆罗洲居然是世界第三大岛。刚读到雨林比里面许多物种还古老那句，还想看那里面有些什么守宫，都待在什么地方。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "婆罗洲居然是世界第三大岛。刚读到雨林比里面许多物种还古老那句，还想看那里面有些什么守宫，都待在什么地方。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gsm-20261116011143-9992eefc-04",
+    "date": "2026-11-16T03:57:23.467+08:00",
+    "createdAt": 1794772643467,
+    "author": "guest-c40fa91da0616f37",
+    "likes": 6,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "左边那么空，绕一下怎么了。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261115200444-2f5237cc-136b884c3dd9/media/water-bowl-route.webp",
+          "alt": "近处偏右的浅色水碗里有水，左侧留着连续的浅色地面。",
+          "width": 1448,
+          "height": 1086
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "左边那么空，绕一下怎么了。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261115200444-2f5237cc-136b884c3dd9/media/water-bowl-route.webp",
+          "alt": "近处偏右的浅色水碗里有水，左侧留着连续的浅色地面。",
+          "width": 1448,
+          "height": 1086
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "左边那么空，绕一下怎么了。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261115200444-2f5237cc-136b884c3dd9/media/water-bowl-route.webp",
+          "alt": "近处偏右的浅色水碗里有水，左侧留着连续的浅色地面。",
+          "width": 1448,
+          "height": 1086
+        }
+      ]
+    },
+    "replyTo": "gsm-20261115200444-2f5237cc-136b884c3dd9"
+  },
   {
     "id": "gsm-20261115200444-2f5237cc-05",
     "date": "2026-11-16T03:56:49.467+08:00",
