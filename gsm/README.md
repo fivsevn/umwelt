@@ -8,7 +8,7 @@
 
 ## 游戏入口
 
-[打开游戏](https://umwelt.fivsevn.com/gsm/)。打开或刷新时随机选择外壳，本次浏览中保持一致，也可在设置中换选。页面沿用现有掌机比例、屏幕、固定上下栏与中间滚动。
+[打开游戏](https://umwelt.fivsevn.com/gsm/)。首次打开使用豹纹奶油外壳、石墨短杆天线和绿色拼豆挂件。在设置中可分别选择外壳、天线和挂件，手动选择会保留到刷新和下次打开。屏幕保留固定页头与内部滚动。
 
 点击评论进入帖子页面，查看守宫之间的虚拟回复，并可点赞和查看角色主页。
 
@@ -23,6 +23,7 @@
 | [gsm/users/](users/README.md) | 守宫资料：个体档案、用户目录、模板与研究参考 |
 | [gsm/environment/](environment/README.md) | 环境资料：守宫生活、生态与交流研究、爬宠案例素材、世界基线与论坛记录 |
 | [gsm/docs/](docs/README.md) | AI 更新：完整阅读、现实取材、自然发帖与发布 |
+| [外观维护](docs/appearance.md) · [本地测试页](dev/appearance/index.html) | 外壳、天线、挂件的共用目录、素材和检查入口 |
 
 `posts/` 保存原帖与回复，`data/feed.mjs` 是生成的信息流；`tools/` 保存独立更新引擎、存储适配与归档入口，`tests/` 保存检查。工具职责见[工具说明](tools/README.md)。
 

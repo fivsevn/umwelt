@@ -9,25 +9,22 @@ const contained=(inner,outer,message)=>assert.ok(inner.x>=outer.x-.75&&inner.y>=
 const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
 (async()=>{
  const {handsetThemes}=await import('../../handsets.mjs');
+ const {shells,antennas,charms}=await import('../../device/catalog.mjs');
  const shellNames=handsetThemes.map(theme=>theme.id);
  const browser=await {chromium,webkit}[name].launch({headless:true});
  try{
   const context=await browser.newContext({viewport:{width:1280,height:1000}});
-  await context.addInitScript(()=>{Math.random=()=>{try{return Number(sessionStorage.getItem('__gsm_test_random')??.01);}catch{return .01;}};});
   const page=await context.newPage(),errors=[];
-  const setRandom=async(target,index)=>target.evaluate(value=>sessionStorage.setItem('__gsm_test_random',String(value)),(index+.5)/shellNames.length);
+  const savedAppearance=target=>target.evaluate(()=>JSON.parse(localStorage.getItem('umwelt-gsm-appearance')));
   const checkShellArt=async shell=>{
-   const art=page.locator('img[data-shell-art]');
-   assert.equal(await art.count(),1,'one hardware frame surrounds the live feed');
+   const art=page.locator('.shell-img');
+   assert.equal(await art.count(),1,'one shell surrounds the native feed');
    const loaded=await art.evaluate(async image=>{await image.decode();return {complete:image.complete,width:image.naturalWidth,height:image.naturalHeight,source:image.currentSrc,rendering:getComputedStyle(image).imageRendering};});
-   assert.ok(loaded.complete&&loaded.width>0,'hardware frame loads and decodes');
-   assert.equal(loaded.rendering,'auto','the low-poly housing keeps its full rendered surface detail');
-   const landscape=new URL(loaded.source).pathname.endsWith('-wide.webp');
-   assert.ok(loaded.width>=(landscape?1240:960)&&loaded.height>=(landscape?820:1280),'housing and printed legends retain at least twice the logical body resolution');
-   assert.match(new URL(loaded.source).pathname,new RegExp(`/pocket-${shell}(?:-wide)?\\.webp$`),'hardware frame matches the chosen case');
-   const wide=page.locator('source[data-shell-art-wide]');
-   assert.equal(await wide.count(),1,'landscape has a dedicated hardware frame');
-   assert.match(await wide.getAttribute('srcset'),new RegExp(`pocket-${shell}-wide\\.webp(?:\\s|$)`),'landscape frame follows the chosen case');
+   assert.ok(loaded.complete&&loaded.width>=960&&loaded.height>=1280,'shell detail loads at the approved canvas resolution');
+   assert.equal(loaded.rendering,'auto','shell material keeps its rendered surface detail');
+   assert.equal(new URL(loaded.source).pathname.split('/').at(-1),shells.find(item=>item.id===shell).image.split('/').at(-1),'artwork follows the catalog choice');
+   assert.equal(await page.locator('iframe').count(),0,'the production screen uses native DOM');
+   for(const selector of ['.antenna','.charm-rig'])assert.ok(await page.locator(selector).evaluate(async image=>{await image.decode();return image.complete&&image.naturalWidth>0;}),'the selected attachment decodes');
   };
   page.on('pageerror',e=>errors.push(e.message));
   page.on('response',r=>{if(r.status()>=400&&r.url().startsWith(base))errors.push(`${r.status()} ${r.url()}`);});
@@ -78,7 +75,7 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
    assert.equal(await post.locator('.post-identity .avatar').count(),1,'each message has one inline identity portrait');
    const avatar=post.locator('.post-identity .avatar img[data-pixel-avatar]');
    assert.equal(await avatar.count(),1);
-   assert.equal(await avatar.evaluate(image=>getComputedStyle(image).imageRendering),'pixelated','sampled portrait pixels stay crisp');
+   assert.equal(await avatar.evaluate(image=>getComputedStyle(image).imageRendering),'auto','portraits retain their approved rendering');
    assert.equal(await post.locator('button[data-like]').count(),1,'each root keeps one like control');
    assert.equal(await post.locator('a.comments-link[data-thread]').count(),1,'each root links to its post and virtual comments');
    assert.equal(await post.locator('[data-comments],.comments,.comment').count(),0,'feed cards contain no inline comment control or replies');
@@ -112,25 +109,26 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
     const metrics=await page.evaluate(()=>{
      const r=e=>{const b=e.getBoundingClientRect();return {x:b.x,y:b.y,w:b.width,h:b.height,right:b.right,bottom:b.bottom}};
      const main=document.querySelector('#timeline');
-     return {shell:r(document.querySelector('.phone-shell')),screen:r(document.querySelector('.app-window')),header:r(document.querySelector('.app-header')),brand:r(document.querySelector('.brand-icon')),dock:r(document.querySelector('#mainNav')),main:r(main),scrollbar:getComputedStyle(main).scrollbarWidth,
+     return {holder:r(document.querySelector('.device-holder')),shell:r(document.querySelector('.shell-img')),keys:[...document.querySelectorAll('#mainNav a')].map(r),screen:r(document.querySelector('.app-window')),header:r(document.querySelector('.app-header')),brand:r(document.querySelector('.brand-icon')),dock:r(document.querySelector('#mainNav')),main:r(main),scrollbar:getComputedStyle(main).scrollbarWidth,
       overflow:document.documentElement.scrollWidth>innerWidth||document.documentElement.scrollHeight>innerHeight,
       posts:[...document.querySelectorAll('.post')].map(e=>({message:r(e.querySelector('.bubble')),identity:r(e.querySelector('.post-identity')),avatar:r(e.querySelector('.avatar')),name:r(e.querySelector('.author-name')),heart:r(e.querySelector('[data-like] .ui-icon')),count:r(e.querySelector('.like-count')),textSize:e.querySelector('.post-text')?parseFloat(getComputedStyle(e.querySelector('.post-text')).fontSize):null,font:e.querySelector('.post-text')?getComputedStyle(e.querySelector('.post-text')).fontFamily:null,time:r(e.querySelector('.post-time')),fits:[...e.querySelectorAll('.post-text,.author-name,.author-label,.author-handle')].every(t=>t.scrollWidth<=t.clientWidth+1||getComputedStyle(t).display==='inline')}))};
     });
-    const {shell,screen,header,brand,dock,main,posts}=metrics;
+    const {holder,shell,keys,screen,header,brand,dock,main,posts}=metrics;
+    const screenScale=screen.w/356;
     assert.equal(metrics.overflow,false,`${lang} ${width}: page overflow`);
-    contained(shell,{x:0,y:0,right:width,bottom:height},'whole phone fits the viewport');
-    near(shell.x,(width-shell.w)/2,'phone stays centred');
+    contained(holder,{x:0,y:0,right:width,bottom:height},'the device and attachments fit the viewport');
+    near(holder.x,(width-holder.w)/2,'the complete device stays centred');
     contained(screen,shell,'screen sits inside the case');
     contained(header,screen,'header sits inside the screen');
     contained(main,screen,'scrolling feed stays inside the screen');
-    contained(dock,shell,'physical navigation stays inside the case');
+    for(const key of keys)contained(key,shell,'each physical navigation target stays inside the case');
     assert.ok(screen.x>shell.x&&screen.right<shell.right,'case visible on both screen edges');
     assert.ok(header.y>shell.y,'earpiece area above the screen');
-    assert.ok(main.y>=header.bottom-.75&&main.bottom<=dock.y+.75,'feed clears the header and keys');
+    assert.ok(main.y>=header.bottom-.75&&main.bottom<=Math.min(...keys.map(key=>key.y))+.75,'feed clears the header and keys');
     assert.ok(main.h>50,'scrolling screen retains usable height');
     assert.equal(metrics.scrollbar,'none','scrollbar hidden');
     near(brand.w,brand.h,'brand symbol stays square');
-    assert.ok(brand.w>=14,'compact brand symbol stays visible');
+    assert.ok(brand.w/screenScale>=32,'brand symbol preserves its screen-space size');
     assert.ok(posts[0].message.y>=main.y&&posts[0].message.y>=brand.bottom-.75,'first message clears the brand symbol');
     for(const post of posts){
      assert.ok(post.message.x>=main.x&&post.message.right<=main.right+.75,'messages fit the screen width');
@@ -141,7 +139,7 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
       assert.ok(post.textSize>=15.9,'post text remains at least 16px at narrow and short sizes');
       assert.match(post.font,/Pixel/,'post text keeps the shared pixel font family');
      }
-     assert.ok(post.heart.w>=10&&post.heart.h>=10,'like glyph stays visible');
+     assert.ok(post.heart.w/screenScale>=15.5&&post.heart.h/screenScale>=15.5,'like glyph preserves its screen-space size');
      assert.ok(Math.abs(post.heart.y+post.heart.h/2-post.count.y-post.count.h/2)<1,'heart/count centred');
      assert.ok(Math.abs(post.time.y+post.time.h/2-post.heart.y-post.heart.h/2)<1,'time and likes share footer row');
      assert.ok(post.time.x>=post.message.x&&post.count.right<=post.message.right+.75,'footer stays within its message');
@@ -160,41 +158,39 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
    assert.equal(await page.locator('#settingsButton').getAttribute('aria-current'),'page');
    assert.equal(await page.locator('.brand-icon img').evaluate(e=>e.src),brandURL,'settings uses the same brand symbol');
    assert.equal(await page.locator('link[rel=icon]').evaluate(e=>e.href),brandURL,'settings favicon matches');
-   assert.equal(await page.locator('main button').count(),handsetThemes.length+1,'settings offers language and all catalog case choices');
-   assert.equal(await page.locator('[data-shell-choice]').count(),handsetThemes.length,'all catalog case variants are available');
-   assert.equal(await page.locator('[data-shell-choice] img').count(),handsetThemes.length,'each case has its rendered thumbnail');
-   for(const thumbnail of await page.locator('[data-shell-choice] img').all()){
-    await thumbnail.scrollIntoViewIfNeeded();
-    assert.ok(await thumbnail.evaluate(async image=>{await image.decode();return image.complete&&image.naturalWidth>0;}),'case thumbnail loads and decodes');
+   assert.equal(await page.locator('main button').count(),shells.length+antennas.length+charms.length+1,'settings offers all appearance groups and language');
+   for(const [part,items] of [['shell',shells],['antenna',antennas],['charm',charms]]){
+    assert.equal(await page.locator(`[data-${part}-choice]`).count(),items.length,'all catalog choices are available');
+    assert.equal(await page.locator(`[data-${part}-choice][aria-pressed="true"]`).count(),1,'each appearance group has exactly one selected option');
    }
+   assert.equal(await page.locator('#appearanceControls img').count(),0,'settings does not fetch a separate gallery of all skins');
+   const typography=await page.evaluate(()=>({
+    title:parseFloat(getComputedStyle(document.querySelector('#settingsTitle')).fontSize),
+    labels:[...document.querySelectorAll('#appearanceControls legend,[data-language-label]')].map(e=>parseFloat(getComputedStyle(e).fontSize)),
+    languageLast:Boolean(document.querySelector('#appearanceControls').compareDocumentPosition(document.querySelector('#languageButton'))&Node.DOCUMENT_POSITION_FOLLOWING)
+   }));
+   assert.equal(typography.labels.length,4);assert.equal(new Set(typography.labels).size,1,'all four category labels share a size');
+   assert.ok(typography.title>typography.labels[0]);assert.equal(typography.languageLast,true,'language follows the appearance controls');
    assert.equal(await page.locator('.post').count(),1,'one settings content area');
    await page.reload();assert.equal(await page.locator('#languageButton').isVisible(),true,'settings directly reloadable');
    await page.locator('[data-language]').click();
-   await page.locator('#streamButton').click();await page.waitForURL(url=>url.pathname==='/gsm/');
+   assert.equal(await page.locator('#mainNav #homeButton[data-back]').count(),1,'settings uses the left physical return key');
+   assert.equal(await page.locator('#profileBack,#threadBack,[data-profile-back],[data-thread-back]').count(),0,'settings has no screen return arrow');
+   assert.ok(await page.locator('#homeButton').getAttribute('aria-label'),'settings return has an accessible name');
+   await page.locator('#homeButton').focus();await page.keyboard.press('Enter');await page.waitForURL(url=>url.pathname==='/gsm/');
   }
   await page.reload();assert.equal(await page.locator('html').getAttribute('lang'),'zh-CN');
-  // Every random interval is reachable, and reload redraws despite its previous URL.
-  await page.evaluate(()=>localStorage.setItem('umwelt-gsm-shell','day'));
-  for(const [index,shell] of shellNames.entries()){
-   await setRandom(page,index);await page.goto(base+'/gsm/');await feedReady(page);
-   assert.equal(await page.locator('html').getAttribute('data-shell'),shell,'a fresh opening draws the selected random interval');
-   assert.equal(new URL(page.url()).searchParams.get('shell'),shell,'every selected case has an explicit canonical URL');
-   assert.equal(await page.evaluate(()=>localStorage.getItem('umwelt-gsm-shell')),'day','random openings do not replace the manual saved choice');
-   const nextIndex=(index+1)%shellNames.length,next=shellNames[nextIndex];
-   await setRandom(page,nextIndex);await page.reload();await feedReady(page);
-   assert.equal(await page.locator('html').getAttribute('data-shell'),next,'reload redraws from the next random interval');
-   assert.equal(new URL(page.url()).searchParams.get('shell'),next,'reload replaces the previous shell query');
-   assert.equal(await page.evaluate(()=>localStorage.getItem('umwelt-gsm-shell')),'day','random reloads do not update other tabs through saved storage');
+  // Opening and refreshing use a fixed default until the player makes a choice.
+  await page.evaluate(()=>{localStorage.removeItem('umwelt-gsm-appearance');localStorage.setItem('umwelt-gsm-shell','day');sessionStorage.clear();});
+  for(const opening of ['open','reload']){
+   if(opening==='open')await page.goto(base+'/gsm/');else await page.reload();
+   await feedReady(page);
+   const url=new URL(page.url());
+   assert.equal(url.searchParams.get('shell'),'leopard');assert.equal(url.searchParams.get('antenna'),'graphite');assert.equal(url.searchParams.get('charm'),'beads');
+   assert.equal(await page.locator('html').getAttribute('data-shell'),'leopard','the default does not depend on a previous random skin');
   }
-  await setRandom(page,0);
-  await page.goto(base+'/gsm/?shell=tokay');await feedReady(page);
-  const other=await context.newPage();
-  await other.goto(base+'/gsm/?shell=leopard');await feedReady(other);
-  await setRandom(other,7);await other.goto(base+'/gsm/');await feedReady(other);
-  assert.equal(await other.locator('html').getAttribute('data-shell'),shellNames[7],'a new tab independently draws a case');
-  assert.equal(await page.locator('html').getAttribute('data-shell'),'tokay','a random choice in another tab leaves the current case intact');
-  assert.equal(new URL(page.url()).searchParams.get('shell'),'tokay','another tab does not rewrite the current URL');
-  assert.equal(await page.evaluate(()=>localStorage.getItem('umwelt-gsm-shell')),'day','new random tabs do not write the manual preference');
+  const other=await context.newPage();await other.goto(base+'/gsm/');await feedReady(other);
+  assert.equal(await other.locator('html').getAttribute('data-shell'),'leopard','a new tab uses the same fixed default');
   await other.close();
 
   // Explicit links and manual choices retain a case through internal navigation.
@@ -209,34 +205,43 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
    const next=shellNames[(shellNames.indexOf(shell)+1)%shellNames.length];
    await page.locator(`[data-shell-choice="${next}"]`).click();
    assert.equal(await page.locator('html').getAttribute('data-shell'),next,'choice applies immediately');
-   assert.equal(await page.evaluate(()=>localStorage.getItem('umwelt-gsm-shell')),next,'an explicit setting choice saves a shared preference');
+   assert.equal((await savedAppearance(page)).shell,next,'an explicit setting choice saves a shared preference');
    await checkShellArt(next);
    assert.equal(await page.locator('[data-shell-choice][aria-pressed="true"]').count(),1,'one chosen case');
    await page.locator('#streamButton').click();await page.waitForURL(url=>url.pathname==='/gsm/');
    assert.equal(await page.locator('html').getAttribute('data-shell'),next,'choice returns to stream');
    await page.reload();await feedReady(page);
-   assert.equal(await page.locator('html').getAttribute('data-shell'),'leopard','refresh redraws even after a manual setting choice');
-   assert.equal(await page.evaluate(()=>localStorage.getItem('umwelt-gsm-shell')),next,'refresh leaves the manually saved preference intact');
-   assert.equal(new URL(await page.locator('#settingsButton').getAttribute('href'),page.url()).searchParams.get('shell'),'leopard','the default case remains explicit on internal links');
+   assert.equal(await page.locator('html').getAttribute('data-shell'),next,'refresh retains a manual choice');
+   assert.equal((await savedAppearance(page)).shell,next,'refresh leaves the manually saved preference intact');
+   assert.equal(new URL(await page.locator('#settingsButton').getAttribute('href'),page.url()).searchParams.get('shell'),next,'the chosen case remains explicit on internal links');
    await page.locator('#settingsButton').click();await page.waitForURL(url=>url.pathname==='/gsm/settings/');
-   assert.equal(await page.locator('html').getAttribute('data-shell'),'leopard','default case does not redraw when entering settings');
+   assert.equal(await page.locator('html').getAttribute('data-shell'),next,'the chosen case persists when entering settings');
    await page.locator('#streamButton').click();await page.waitForURL(url=>url.pathname==='/gsm/');
-   assert.equal(await page.locator('html').getAttribute('data-shell'),'leopard','default case returns through its explicit link');
+   assert.equal(await page.locator('html').getAttribute('data-shell'),next,'the chosen case returns through its explicit link');
   }
-  // Legacy URL aliases still work; saved values do not decide a fresh opening.
-  for(const [legacy,shell] of [['mint','leopard'],['blue','tokay'],['berry','day'],['blizzard','stone']]){
-   await page.goto(`${base}/gsm/?shell=${legacy}`);
-   await feedReady(page);
-   assert.equal(await page.locator('html').getAttribute('data-shell'),shell,'legacy URL selects its gecko cover');
-   assert.equal(new URL(page.url()).searchParams.get('shell'),shell,'legacy URL normalizes with an explicit case');
-   await page.evaluate(value=>localStorage.setItem('umwelt-gsm-shell',value),legacy);
-   await setRandom(page,4);
-   await page.goto(base+'/gsm/');
-   await feedReady(page);
-   assert.equal(await page.locator('html').getAttribute('data-shell'),shellNames[4],'a legacy saved value does not override the random draw');
-   assert.equal(await page.evaluate(()=>localStorage.getItem('umwelt-gsm-shell')),legacy,'a random opening does not migrate or overwrite shared preferences');
+  // Antennas and charms have independent, persistent choices.
+  await page.locator('#settingsButton').click();
+  for(const [part,items,selector] of [['antenna',antennas,'.antenna'],['charm',charms,'.charm-rig']]){
+   for(const item of items){
+    await page.locator(`[data-${part}-choice="${item.id}"]`).click();
+    assert.equal((await savedAppearance(page))[part],item.id);
+    assert.equal(new URL(page.url()).searchParams.get(part),item.id);
+    assert.equal(await page.locator(`[data-${part}-choice][aria-pressed="true"]`).count(),1);
+    assert.ok(await page.locator(selector).evaluate(async image=>{await image.decode();return image.complete&&image.naturalWidth>0;}));
+   }
   }
-  await setRandom(page,0);
+  const chosen=await savedAppearance(page);
+  await page.reload();assert.deepEqual(await savedAppearance(page),chosen);
+  for(const [part,id] of Object.entries(chosen))assert.equal(new URL(page.url()).searchParams.get(part),id,'reload retains every appearance choice');
+  const shared=await context.newPage();await shared.goto(base+'/gsm/');await feedReady(shared);
+  for(const [part,id] of Object.entries(chosen))assert.equal(new URL(shared.url()).searchParams.get(part),id,'new tabs restore manual choices');
+  await shared.close();
+  // Existing shared links remain valid and become canonical.
+  for(const [legacy,shell] of [['mint','leopard'],['blue','tokay'],['berry','day'],['blizzard','stone'],['crested','stone'],['mossy','stone']]){
+   await page.goto(`${base}/gsm/?shell=${legacy}`);await feedReady(page);
+   assert.equal(await page.locator('html').getAttribute('data-shell'),shell);
+   assert.equal(new URL(page.url()).searchParams.get('shell'),shell);
+  }
   // Returning to an older URL must retain the case most recently chosen in settings.
   await page.goto(base+'/gsm/?shell=tokay');
   await page.locator('#settingsButton').click();await page.waitForURL(url=>url.pathname==='/gsm/settings/');
@@ -245,10 +250,10 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
   await page.waitForFunction(()=>document.documentElement.dataset.shell==='day');
   assert.equal(new URL(page.url()).searchParams.get('shell'),'day','back navigation normalizes the old case URL');
   await page.reload();
-  assert.equal(await page.locator('html').getAttribute('data-shell'),'leopard','back then reload performs a fresh draw');
+  assert.equal(await page.locator('html').getAttribute('data-shell'),'day','back then reload preserves the manual choice');
   await page.goto(base+'/gsm/?shell=unknown');
   await feedReady(page);
-  assert.equal(await page.locator('html').getAttribute('data-shell'),'leopard','an invalid case URL performs the controlled random draw');
+  assert.equal(await page.locator('html').getAttribute('data-shell'),'day','an invalid case URL falls back to the saved choice');
 
   // Legacy local drafts remain stored; only archived packages appear in the timeline.
   await page.evaluate(()=>localStorage.setItem('umwelt-gsm-preview-v1',JSON.stringify({version:1,likes:[],reposts:['wall-view'],bookmarks:['bark-photo'],following:[],posts:[{id:'local-previous',text:'先前的动态 <img src=x onerror=alert(1)>',createdAt:1}],replies:{'bark-photo':[{author:'you',text:'先前的回复'}]}})));
@@ -261,7 +266,7 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
   assert.equal(await page.locator('.gsm-picture img').evaluate(e=>e.src),brandURL,'homepage entry shares the brand symbol');
   assert.deepEqual(errors,[]);
   await context.close();
-  const unavailable=await browser.newContext();await unavailable.addInitScript(()=>{Math.random=()=>.99;for(const key of ['localStorage','sessionStorage'])Object.defineProperty(window,key,{get(){throw new Error('disabled')}});});
+  const unavailable=await browser.newContext();await unavailable.addInitScript(()=>{for(const key of ['localStorage','sessionStorage'])Object.defineProperty(window,key,{get(){throw new Error('disabled')}});});
   const fallback=await unavailable.newPage();await fallback.goto(base+'/gsm/?shell=tokay');
   await feedReady(fallback);
   assert.equal(await fallback.locator('html').getAttribute('data-shell'),'tokay','URL case works with storage disabled');
@@ -271,9 +276,9 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
   await fallback.locator('#streamButton').click();await feedReady(fallback);
   assert.equal(await fallback.locator('html').getAttribute('data-shell'),'day','internal case URLs work without either storage API');
   await fallback.reload();await feedReady(fallback);
-  assert.equal(await fallback.locator('html').getAttribute('data-shell'),shellNames[7],'reload redraws when both storage APIs are denied');
+  assert.equal(await fallback.locator('html').getAttribute('data-shell'),'day','reload keeps the explicit URL when both storage APIs are denied');
   await fallback.goto(base+'/gsm/');await feedReady(fallback);
-  assert.equal(await fallback.locator('html').getAttribute('data-shell'),shellNames[7],'fresh random openings work without storage');
+  assert.equal(await fallback.locator('html').getAttribute('data-shell'),'leopard','fresh openings use the fixed default without storage');
   await unavailable.close();
   const motion=await browser.newContext({reducedMotion:'reduce'}),motionPage=await motion.newPage();
   await motionPage.goto(base+'/gsm/');
@@ -320,17 +325,17 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
    await emotePage.setViewportSize(viewport);
    const geometry=await fixturePost.evaluate(post=>{
     const rem=parseFloat(getComputedStyle(document.documentElement).fontSize),photo=post.querySelector('.post-media:not(.post-emote) img');
-    return {rem,photoWidth:photo.getBoundingClientRect().width,photoRendering:getComputedStyle(photo).imageRendering,emotes:[...post.querySelectorAll('.post-emote img')].map(image=>{
+    return {rem,scale:document.querySelector('.app-window').getBoundingClientRect().width/356,photoWidth:photo.getBoundingClientRect().width,photoRendering:getComputedStyle(photo).imageRendering,emotes:[...post.querySelectorAll('.post-emote img')].map(image=>{
      const rect=image.getBoundingClientRect(),css=getComputedStyle(image);
      return {width:rect.width,height:rect.height,fit:css.objectFit,filter:css.filter,blend:css.mixBlendMode,rendering:css.imageRendering,linked:Boolean(image.closest('a'))};
     })};
    });
-   assert.equal(geometry.photoRendering,'pixelated','ordinary photos keep their existing rendering');
+   assert.equal(geometry.photoRendering,'auto','ordinary photos keep their approved smooth rendering');
    for(const image of geometry.emotes){
-    assert.ok(image.width<=Math.min(80*geometry.rem,80)+.75&&image.height<=Math.min(80*geometry.rem,80)+.75,'emotes stay compact in every layout');
+    assert.ok(image.width<=80*geometry.scale+.75&&image.height<=80*geometry.scale+.75,'emotes stay compact in every layout');
     assert.ok(geometry.photoWidth>image.width*2,'ordinary photos keep their existing larger layout');
     assert.equal(image.fit,'contain');assert.equal(image.linked,false,'emotes do not open an original-photo view');
-    assert.match(image.filter,/grayscale\(1\)/);assert.equal(image.blend,'multiply');assert.equal(image.rendering,'auto','hand-drawn emotes keep smooth edges within the LCD treatment');
+    assert.equal(image.filter,'none');assert.equal(image.blend,'normal');assert.equal(image.rendering,'auto','hand-drawn emotes keep smooth edges within the LCD treatment');
    }
   }
   await emoteContext.close();
@@ -341,6 +346,6 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
    await clean.setViewportSize({width:390,height:600});await clean.locator('#timeline').evaluate(e=>e.scrollTop=210);await clean.screenshot({path:`${process.env.QA_OUTPUT}/gsm-stream-${name}-scrolled.png`});
    await clean.locator('#settingsButton').click();await clean.screenshot({path:`${process.env.QA_OUTPUT}/gsm-stream-${name}-settings.png`});await clean.close();
   }
-  console.log(`${name}: painted low-poly pocket device at 7 sizes, contained LCD screen, locked header/keys, inner scrolling, linear pager messages, ${shellNames.length} random case intervals, fresh/reload redraws, tab isolation, explicit internal cases, manual settings and history, 3 languages, SVG/path likes, reduced motion, compact emotes beside unchanged photos, legacy storage and denial passed.`);
+  console.log(`${name}: composable device at 7 sizes, contained LCD screen, locked header/keys, inner scrolling, linear pager messages, ${shellNames.length} cases, fixed default, persistent manual appearance choices, explicit internal links, manual settings and history, 3 languages, SVG/path likes, reduced motion, compact emotes beside unchanged photos, legacy storage and denial passed.`);
  }finally{await browser.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;});

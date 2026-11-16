@@ -1,6 +1,7 @@
 import {access,readFile} from 'node:fs/promises';
 import {constants} from 'node:fs';
-import {handsetThemes} from '../gsm/handsets.mjs';
+import {posix} from 'node:path';
+import {shells,antennas,charms} from '../gsm/device/catalog.mjs';
 
 const root=new URL('../',import.meta.url);
 const required=[
@@ -15,7 +16,6 @@ const required=[
  'gsm/assets/icon.svg',
  'gsm/desktop-icon.css',
  'gsm/assets/lcd-matrix.svg',
- 'gsm/assets/lcd-lens-wear.svg',
  'gsm/app.mjs',
  'gsm/avatars.mjs',
  'gsm/settings/index.html',
@@ -23,10 +23,14 @@ const required=[
  'gsm/dither.mjs',
  'gsm/assets/pixelarticons-LICENSE.txt',
  'gsm/style.css',
- 'gsm/physical-shell.css',
+ 'gsm/device/device.css',
+ 'gsm/device/catalog.mjs',
+ 'gsm/device/geometry.mjs',
+ 'gsm/device/stage.mjs',
+ 'gsm/device/selection.mjs',
  'gsm/pager-screen.css',
  'gsm/handsets.mjs',
- ...handsetThemes.flatMap(({id})=>['','-wide','-thumb'].map(suffix=>`gsm/assets/pocket-${id}${suffix}.webp`)),
+ ...new Set([...shells,...antennas,...charms].flatMap(item=>[item.image,item.buttonFinish].filter(Boolean)).map(image=>posix.normalize('gsm/device/'+image))),
  'gsm/data/feed.mjs',
  'gsm/locales.mjs',
  'gsm/state.mjs',
@@ -81,8 +85,8 @@ const read=path=>readFile(new URL(path,root),'utf8');
 for(const [path,dependencies] of [
  ['index.html',['./desktop.mjs','./forest.js','./isopoda/','./tick/','./rooftop/','./ophidia/','./gtb/','./gsm/']],
  ['gtb/index.html',['../shared/placeholder.mjs','../shared/placeholder.css','./assets/icon.png']],
- ['gsm/index.html',['./app.mjs','./style.css','./physical-shell.css','./assets/icon.svg']],
- ['gsm/settings/index.html',['../app.mjs','../style.css','../physical-shell.css','../assets/icon.svg']],
+ ['gsm/index.html',['./app.mjs','./style.css','./device/device.css','./assets/icon.svg']],
+ ['gsm/settings/index.html',['../app.mjs','../style.css','../device/device.css','../assets/icon.svg']],
  ['tick/index.html',['./game.js','./style.css']],
  ['ophidia/index.html',['./game.js','./style.css','./assets/cabin.webp']],
  ['rooftop/index.html',['./app.mjs','./rooftop.css']],

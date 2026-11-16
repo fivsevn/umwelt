@@ -21,10 +21,9 @@
 /* One static matrix modulates both native ink and blank glass; no text renderer. */
 .app-window::after{
   background-image:
-    url('./assets/lcd-lens-wear.svg'),
     url('./assets/lcd-matrix.svg');
-  background-size:100% 100%,var(--lcd-cell) var(--lcd-cell);
-  background-repeat:no-repeat,repeat;
+  background-size:var(--lcd-cell) var(--lcd-cell);
+  background-repeat:repeat;
   box-shadow:inset 0 1rem 0 #ebedc750,inset 1rem 0 0 #e7eac42b;
   pointer-events:none;user-select:none;
 }
@@ -41,7 +40,7 @@
   --post-handle:var(--lcd-muted);--heart:var(--lcd-ink);
 }
 .bubble{padding:0;background:transparent;box-shadow:none}
-.post-identity,.settings-card h2,.settings-row,.shell-picker legend,.shell-option{font-size:clamp(14px,16rem,18px);font-weight:400;line-height:1.4}
+.post-identity{font-size:clamp(14px,16rem,18px);font-weight:400;line-height:1.4}
 .post-identity{min-height:28rem;margin:0;padding:0;gap:8rem;background:transparent}
 .post-identity::before{display:none}
 .avatar{width:28rem;height:28rem;flex:none;padding:0;background:transparent;box-shadow:none;transition:none}
@@ -61,15 +60,6 @@
 .post-media img{filter:grayscale(1) contrast(1.2);mix-blend-mode:multiply;opacity:.85;image-rendering:pixelated}
 .stream-flourish{display:flex}
 .dither{display:none}
-.settings-portrait{display:none}
-.settings-card h2{color:var(--lcd-ink)}
-.settings-row{flex-wrap:wrap;margin-top:12rem;padding:8rem 0;background:transparent;box-shadow:none;color:var(--lcd-ink)}
-.shell-picker{margin-top:15rem}
-.shell-picker legend{margin-bottom:10rem}
-.shell-options{gap:8rem}
-.shell-option{background:transparent;color:var(--lcd-ink);box-shadow:none;padding:7rem 2rem}
-.shell-option[aria-pressed=true]{background:var(--lcd-ink);color:var(--lcd-paper);box-shadow:none}
-@media(hover:hover){.shell-option:hover{background:#7c8c6250}.shell-option[aria-pressed=true]:hover{background:var(--lcd-ink)}}
 @media(max-height:550px) and (min-width:600px){
   .pixel-stickers{top:-5rem}
   #timeline{padding-top:10rem}
@@ -77,8 +67,6 @@
 
 /* Profile content shares the feed's small monochrome screen. */
 #profile:not([hidden]){margin-bottom:14rem;padding-bottom:14rem;border-bottom:2px dotted var(--lcd-muted)}
-.profile-back{display:inline-flex;align-items:center;justify-content:center;min-width:28px;min-height:28px;margin-bottom:8rem;color:var(--lcd-ink);font-size:clamp(18px,22rem,24px);line-height:1}
-.profile-back>span{display:block;transform:scaleX(.82)}
 .profile-identity{display:flex;align-items:center;gap:12rem;min-width:0}
 .profile-avatar{width:48rem;height:48rem}
 .profile-details{min-width:0}
@@ -86,8 +74,8 @@
 .profile-handle,.profile-count,.profile-empty{font-size:clamp(11px,13rem,16px);line-height:1.5;color:var(--lcd-muted);overflow-wrap:anywhere}
 .profile-count{margin-top:4rem}
 .profile-empty{margin-top:8rem}
-a.avatar:focus-visible,.profile-back:focus-visible{outline:2px solid var(--lcd-ink);outline-offset:3px}
-@media(hover:hover){a.avatar:hover,.profile-back:hover{background:#7c8c6230}}
+a.avatar:focus-visible{outline:2px solid var(--lcd-ink);outline-offset:3px}
+@media(hover:hover){a.avatar:hover{background:#7c8c6230}}
 
 .profile-bio{font-style:italic;margin-top:10rem;font-size:clamp(14px,17rem,20px);line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--lcd-ink)}
 
@@ -131,3 +119,10 @@ a.avatar:focus-visible,.profile-back:focus-visible{outline:2px solid var(--lcd-i
   .pixel-stickers .heart-large{top:19rem}
   .pixel-stickers .star-right{left:287rem;top:5rem;width:8rem;height:8rem}
 }
+
+/* Text and photos share the same native, selectable screen surface. */
+.app-window{--lcd-cell:1.5px}
+body:not([data-view="settings"]) .post-text{font-size:20px;line-height:1.5}
+body:not([data-view="settings"]) .post-identity{font-size:16px}
+.author-handle{font-size:12px}.post-time,.like-count,.comment-count{font-size:12px}
+.post-media img,.avatar img{filter:none;mix-blend-mode:normal;opacity:1;image-rendering:auto}

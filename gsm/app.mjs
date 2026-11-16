@@ -6,7 +6,10 @@ import {createThreads} from './threads.mjs';
 import {postTime} from './time.mjs';
 import {freshState, readState, writeState, toggle} from './state.mjs';
 import {decoration} from './decorations.mjs';
-import {handsetThemes, handsetNames as shellNames, handsetById} from './handsets.mjs';
+import {handsetById} from './handsets.mjs';
+import {shells, antennas, charms} from './device/catalog.mjs';
+import {mountDevice} from './device/stage.mjs';
+import {APPEARANCE_STORAGE_KEY, APPEARANCE_KEYS, DEFAULT_APPEARANCE, normalizeAppearance, readAppearance, writeAppearance, appearanceFromURL, setAppearanceURL} from './device/selection.mjs';
 import {pixelateAvatars} from './avatars.mjs';
 
 const $ = selector => document.querySelector(selector);
@@ -17,56 +20,64 @@ const userFromURL = () => isSettings ? null : new URLSearchParams(location.searc
 let selectedPost = null;
 const postFromURL = () => isSettings ? null : new URLSearchParams(location.search).get('post');
 let language = desktopLanguage(), storage, toastTimer;
-const shellAliases = new Map([['mint','leopard'],['blue','tokay'],['berry','day'],['blizzard','stone']]);
-const normalizeShell = value => shellNames.includes(value) ? value : shellAliases.get(value);
-const shellStorageKey = 'umwelt-gsm-shell';
-let shell, sessionStore;
 try { storage = window.localStorage; } catch {}
-try { sessionStore = window.sessionStorage; } catch {}
-function readSessionShell() {
-  try { return normalizeShell(sessionStore?.getItem(shellStorageKey)); } catch {}
+const isAppearancePreview = new URLSearchParams(location.search).get('appearance-preview') === '1';
+function savedAppearance() {
+  try { return storage?.getItem(APPEARANCE_STORAGE_KEY) ? readAppearance(storage) : null; }
+  catch { return null; }
 }
-const requestedShell = normalizeShell(new URLSearchParams(location.search).get('shell'));
-const navigationType = performance.getEntriesByType('navigation')[0]?.type;
-const randomShell = () => shellNames[Math.floor(Math.random()*shellNames.length)];
-shell = navigationType === 'reload' ? randomShell()
-  : (navigationType === 'back_forward' ? readSessionShell() : null) ?? requestedShell ?? randomShell();
-function applyShell() {
-  try { sessionStore?.setItem(shellStorageKey,shell); } catch {}
-  document.documentElement.dataset.shell = shell;
-  document.documentElement.style.setProperty('--key-ink',handsetById[shell].ink);
-  document.querySelector('[data-shell-art-wide]').srcset = new URL(`./assets/pocket-${shell}-wide.webp`,import.meta.url).href;
-  document.querySelector('[data-shell-art]').src = new URL(`./assets/pocket-${shell}.webp`,import.meta.url).href;
-  // Keep history entries consistent with the cover restored on back/forward.
-  const url = new URL(location.href);
-  url.searchParams.set('shell',shell);
-  if (url.href !== location.href) history.replaceState(history.state,'',url);
-  document.querySelector('meta[name="theme-color"]').content = handsetById[shell].color;
-  document.querySelectorAll('[data-shell-choice]').forEach(button => button.setAttribute('aria-pressed',String(button.dataset.shellChoice === shell)));
-  for (const link of document.querySelectorAll('a[data-profile]')) link.href = streamURL(link.dataset.profile);
-  for (const link of document.querySelectorAll('a[data-thread],a[data-parent]')) link.href = threadURL(link.dataset.thread ?? link.dataset.parent);
-  for (const back of document.querySelectorAll('[data-profile-back],[data-thread-back]')) back.href = returnURL();
-  // Preserve a preview choice and storage-denied sessions through both pages.
-  for (const [id,path] of [['streamButton',isSettings?'../':'./'],['settingsButton',isSettings?'./':'./settings/']]) {
-    document.getElementById(id).href = `${path}?shell=${shell}`;
+// A history entry can carry an older URL than the choice made in settings.
+const returningThroughHistory = performance.getEntriesByType('navigation')[0]?.type === 'back_forward';
+let appearance = (!isAppearancePreview && returningThroughHistory ? savedAppearance() : null)
+  ?? appearanceFromURL(location.search,isAppearancePreview ? DEFAULT_APPEARANCE : readAppearance(storage));
+const device = mountDevice();
+const appearanceGroups = [
+  {key:'shell',labelKey:'shellLabel',items:shells},
+  {key:'antenna',labelKey:'antennaLabel',items:antennas},
+  {key:'charm',labelKey:'charmLabel',items:charms},
+];
+const appearanceURL = url => setAppearanceURL(url,appearance,isAppearancePreview);
+function reportAppearance() {
+  if (isAppearancePreview && window.parent !== window) window.parent.postMessage({type:'gsm-appearance-state',appearance:{...appearance}},location.origin);
+}
+function markAppearanceChoices() {
+  for (const key of APPEARANCE_KEYS) {
+    for (const button of document.querySelectorAll(`[data-${key}-choice]`)) button.setAttribute('aria-pressed',String(button.getAttribute(`data-${key}-choice`) === appearance[key]));
   }
 }
-if (isSettings) {
-  $('.shell-options').innerHTML = handsetThemes.map(({id,labelKey})=>{
-    const title=copy[language][labelKey] ?? copy.zh[labelKey];
-    return `<button type="button" class="shell-option" data-shell-choice="${id}" aria-pressed="false" aria-label="${escape(title)}"><span class="mini-phone" aria-hidden="true"><span class="mini-pattern" data-mini-shell="${id}"></span></span><span data-shell-name="${id}">${escape(title)}</span></button>`;
-  }).join('');
+function applyAppearance() {
+  for (const key of APPEARANCE_KEYS) document.documentElement.dataset[key] = appearance[key];
+  document.documentElement.style.setProperty('--key-ink',handsetById[appearance.shell].ink);
+  device.update({...appearance});
+  // Keep the addressed post, author and history state when updating the device.
+  const url = appearanceURL(new URL(location.href));
+  if (url.href !== location.href) history.replaceState(history.state,'',url);
+  document.querySelector('meta[name="theme-color"]').content = handsetById[appearance.shell].color;
+  markAppearanceChoices();
+  for (const link of document.querySelectorAll('a[data-profile]')) link.href = streamURL(link.dataset.profile);
+  for (const link of document.querySelectorAll('a[data-thread],a[data-parent]')) link.href = threadURL(link.dataset.thread ?? link.dataset.parent);
+  updateBackLink();
+  // Explicit URLs also carry all three choices when storage is unavailable.
+  for (const [id,path] of [['streamButton',isSettings?'../':'./'],['settingsButton',isSettings?'./':'./settings/']]) {
+    const link = appearanceURL(new URL(path,location.href));
+    document.getElementById(id).href = link.pathname+link.search;
+  }
+  reportAppearance();
 }
-applyShell();
-document.querySelectorAll('[data-mini-shell]').forEach(element => { element.innerHTML = `<img src="${new URL(`./assets/pocket-${element.dataset.miniShell}-thumb.webp`,import.meta.url).href}" alt="" loading="lazy" decoding="async">`; });
+if (isSettings) {
+  $('#appearanceControls').innerHTML = appearanceGroups.map(({key,labelKey,items})=>`<fieldset class="appearance-picker" data-appearance-group="${key}"><legend data-appearance-label="${key}">${escape(copy[language][labelKey])}</legend><div class="appearance-options">${items.map(item=>{
+    const title = item.labels?.[language] ?? item.labels?.zh ?? item.name;
+    return `<button type="button" class="appearance-option" id="appearance-${key}-${item.id}" data-${key}-choice="${item.id}" aria-pressed="false" aria-label="${escape(title)}">${escape(title)}</button>`;
+  }).join('')}</div></fieldset>`).join('');
+}
+applyAppearance();
 // Keep earlier local records intact; published packages are the timeline source.
 const state = storage ? readState(storage, Object.keys(profiles)) : freshState();
 const allPosts = seeds;
 const threads = createThreads(allPosts);
 function streamURL(user = null) {
-  const url = new URL('./',import.meta.url);
+  const url = appearanceURL(new URL('./',import.meta.url));
   if (user !== null) url.searchParams.set('user',user);
-  url.searchParams.set('shell',shell);
   return url.pathname+url.search;
 }
 function threadURL(id) {
@@ -74,10 +85,13 @@ function threadURL(id) {
   url.searchParams.set('post',id);
   return url.pathname+url.search;
 }
+function updateBackLink() {
+  $('#homeButton').href = isSettings ? streamURL() : userFromURL() !== null || postFromURL() !== null ? returnURL() : new URL('../',import.meta.url).pathname;
+}
 function returnURL() {
   const url = new URL(history.state?.gsmReturnURL ?? streamURL(),location.origin);
   if (url.origin !== location.origin || url.pathname !== new URL('./',import.meta.url).pathname) return streamURL();
-  url.searchParams.set('shell',shell);
+  appearanceURL(url);
   return url.pathname+url.search;
 }
 const localized = value => typeof value === 'string' ? value : value[language] ?? value.zh;
@@ -118,12 +132,11 @@ function postMarkup(post, comment = false) {
   </article>`;
 }
 function profileMarkup(profile, count) {
-  const back = `<a id="profileBack" class="profile-back" data-profile-back href="${escape(returnURL())}" aria-label="${escape(t('backToFeed'))}"><span aria-hidden="true">←</span></a>`;
-  if (!profile) return `${back}<h2 id="profileTitle" tabindex="-1">${escape(t('profileMissing'))}</h2><p class="profile-empty">${escape(t('profileUnavailable'))}</p>`;
-  return `${back}<div class="profile-identity"><span class="avatar profile-avatar" aria-hidden="true"><img data-pixel-avatar src="${new URL(profile.avatarImage,import.meta.url).href}" width="16" height="16" alt="" decoding="async"></span><div class="profile-details"><h2 id="profileTitle" tabindex="-1">${escape(localized(profile.name))}</h2><p class="profile-handle">@${escape(profile.handle)}</p><p class="profile-count">${escape(t('postCount',{count}))}</p></div></div>${profile.bio?`<p class="profile-bio">${escape(localized(profile.bio))}</p>`:''}`;
+  if (!profile) return `<h2 id="profileTitle" tabindex="-1">${escape(t('profileMissing'))}</h2><p class="profile-empty">${escape(t('profileUnavailable'))}</p>`;
+  return `<div class="profile-identity"><span class="avatar profile-avatar" aria-hidden="true"><img data-pixel-avatar src="${new URL(profile.avatarImage,import.meta.url).href}" width="16" height="16" alt="" decoding="async"></span><div class="profile-details"><h2 id="profileTitle" tabindex="-1">${escape(localized(profile.name))}</h2><p class="profile-handle">@${escape(profile.handle)}</p><p class="profile-count">${escape(t('postCount',{count}))}</p></div></div>${profile.bio?`<p class="profile-bio">${escape(localized(profile.bio))}</p>`:''}`;
 }
 function threadMarkup(root) {
-  return `<a id="threadBack" class="profile-back" data-thread-back href="${escape(returnURL())}" aria-label="${escape(t('backToFeed'))}"><span aria-hidden="true">←</span></a>${root?'':`<h2 id="threadTitle" tabindex="-1">${escape(t('threadMissing'))}</h2><p class="profile-empty">${escape(t('threadUnavailable'))}</p>`}`;
+  return root?'':`<h2 id="threadTitle" tabindex="-1">${escape(t('threadMissing'))}</h2><p class="profile-empty">${escape(t('threadUnavailable'))}</p>`;
 }
 // Feedback decorates the existing like state; it never writes its own record.
 const likeFeedback = new WeakMap();
@@ -161,19 +174,24 @@ function render() {
   const root = selectedPost === null ? null : threads.rootFor(selectedPost);
   document.documentElement.lang = {zh:'zh-CN',en:'en',ja:'ja'}[language];
   document.title = (isSettings?t('settings')+' · ':selectedPost !== null?t(root?'threadTitle':'threadMissing')+' · ':selectedUser !== null?(profile?localized(profile.name):t('profileMissing'))+' · ':'')+gameDocumentTitle('gsm',language);
-  $('[data-home]').setAttribute('aria-label',t('homeLink'));
-  $('[data-home]').title = t('homeLink');
+  const backLabel=t(isSettings || selectedUser !== null || selectedPost !== null ? 'backToFeed' : 'homeLink');
+  $('#homeButton').setAttribute('aria-label',backLabel);
+  $('#homeButton').title=backLabel;
+  updateBackLink();
   $('[data-skip]').textContent = isSettings?t('settings'):selectedPost !== null?t('skipThread'):selectedUser !== null?t('skipProfile'):t('skip');
   $('#settingsButton').setAttribute('aria-label',t('settings'));
   $('#settingsButton').title = t('settings');
   $('#mainNav').setAttribute('aria-label',t('navigation'));
   if (isSettings) {
     $('#settingsTitle').textContent = t('settings');
-    $('[data-shell-label]').textContent = t('shellLabel');
-    for (const name of shellNames) {
-      const title = t(handsetById[name].labelKey);
-      document.querySelector(`[data-shell-name="${name}"]`).textContent = title;
-      document.querySelector(`[data-shell-choice="${name}"]`).setAttribute('aria-label',title);
+    for (const {key,labelKey,items} of appearanceGroups) {
+      document.querySelector(`[data-appearance-label="${key}"]`).textContent = t(labelKey);
+      for (const item of items) {
+        const title = item.labels?.[language] ?? item.labels?.zh ?? item.name;
+        const button = document.querySelector(`[data-${key}-choice="${item.id}"]`);
+        button.textContent = title;
+        button.setAttribute('aria-label',title);
+      }
     }
     $('[data-language-label]').textContent = t('languageLabel');
     $('[data-language-value]').textContent = {zh:'中文',en:'English',ja:'日本語'}[language];
@@ -182,7 +200,7 @@ function render() {
     const visiblePosts = selectedPost !== null ? root?[root]:[] : selectedUser === null ? threads.roots : profile ? allPosts.filter(post=>post.author===selectedUser) : [];
     $('#profile').hidden = selectedUser === null;
     $('#profile').innerHTML = selectedUser === null ? '' : profileMarkup(profile,visiblePosts.length);
-    $('#thread').hidden = selectedPost === null;
+    $('#thread').hidden = selectedPost === null || !!root;
     $('#thread').innerHTML = selectedPost === null ? '' : threadMarkup(root);
     $('#posts').setAttribute('aria-label',selectedPost !== null?t('threadTitle'):selectedUser === null?t('feedLabel'):t('profilePosts',{name:profile?localized(profile.name):selectedUser}));
     $('#posts').innerHTML = visiblePosts.map(post=>postMarkup(post)).join('');
@@ -231,6 +249,11 @@ function backToSource() {
   else navigateURL(streamURL());
 }
 const plainClick = event => !event.defaultPrevented && event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
+$('#homeButton').addEventListener('click',event=>{
+  if(isSettings || !plainClick(event) || selectedUser === null && selectedPost === null)return;
+  event.preventDefault();
+  backToSource();
+});
 $('#streamButton').addEventListener('click',event=>{
   if(isSettings || !plainClick(event))return;
   event.preventDefault();
@@ -242,15 +265,14 @@ $('#streamButton').addEventListener('click',event=>{
 });
 if (!isSettings) {
   document.addEventListener('click',event=>{
-    const link = event.target.closest('a[data-profile],a[data-profile-back],a[data-thread],a[data-parent],a[data-thread-back],a[data-comments-jump]');
+    const link = event.target.closest('a[data-profile],a[data-thread],a[data-parent],a[data-comments-jump]');
     if (!link || !plainClick(event)) return;
     event.preventDefault();
     if (link.hasAttribute('data-comments-jump')) {
       const section = document.getElementById(`comments-body-${link.dataset.commentsJump}`);
       section?.scrollIntoView({block:'start'});
       section?.focus({preventScroll:true});
-    } else if (link.hasAttribute('data-profile-back') || link.hasAttribute('data-thread-back')) backToSource();
-    else if (link.hasAttribute('data-parent')) {
+    } else if (link.hasAttribute('data-parent')) {
       if (!focusPost(link.dataset.parent)) { link.focus({preventScroll:true}); navigateURL(threadURL(link.dataset.parent),link.dataset.parent); }
     } else if (link.hasAttribute('data-thread')) {
       link.focus({preventScroll:true});
@@ -259,20 +281,21 @@ if (!isSettings) {
     else { link.focus({preventScroll:true}); navigateURL(streamURL(link.dataset.profile)); }
   });
   $('#timeline').addEventListener('scroll',rememberView,{passive:true});
-  window.addEventListener('popstate',()=>{applyShell();render();restoreView();});
+  window.addEventListener('popstate',()=>{applyAppearance();render();restoreView();});
 }
 
 document.addEventListener('click',event=>{
   const button = event.target.closest('button');
   if (!button) return;
-  if (button.hasAttribute('data-shell-choice')) {
-    shell = button.dataset.shellChoice;
-    try { storage?.setItem(shellStorageKey,shell); } catch {}
-    applyShell(); return;
+  const appearanceKey = APPEARANCE_KEYS.find(key=>button.hasAttribute(`data-${key}-choice`));
+  if (appearanceKey) {
+    appearance = normalizeAppearance({[appearanceKey]:button.getAttribute(`data-${appearanceKey}-choice`)},appearance);
+    if (!isAppearancePreview) writeAppearance(storage,appearance);
+    applyAppearance(); return;
   }
   if (button.hasAttribute('data-language')) {
     language = ['zh','en','ja'][(['zh','en','ja'].indexOf(language)+1)%3];
-    try { storage?.setItem('umwelt-desktop-language',language); } catch {}
+    if (!isAppearancePreview) { try { storage?.setItem('umwelt-desktop-language',language); } catch {} }
     render(); return;
   }
   const post = allPosts.find(item=>item.id===button.dataset.like);
@@ -283,13 +306,29 @@ document.addEventListener('click',event=>{
   button.innerHTML = likeContent(post);
   if (state.likes.includes(post.id)) celebrateLike(button);
   else clearLikeFeedback(button);
-  if (!storage || !writeState(storage,state)) {
+  if (!isAppearancePreview && (!storage || !writeState(storage,state))) {
     clearTimeout(toastTimer);$('#toast').textContent=t('storage');
     toastTimer=setTimeout(()=>{$('#toast').textContent='';},3500);
   }
 });
-window.addEventListener('pageshow',()=>{const saved = readSessionShell();if(saved)shell=saved;applyShell();const next=desktopLanguage();if(language!==next){language=next;render();}});
-window.addEventListener('storage',event=>{if(event.key===shellStorageKey){shell=normalizeShell(event.newValue)??'leopard';applyShell();}if(event.key==='umwelt-desktop-language'){language=desktopLanguage();render();}});
+window.addEventListener('pageshow',event=>{
+  if (event.persisted && !isAppearancePreview) {
+    // A restored page follows any manual preference saved while it was away.
+    appearance=savedAppearance() ?? appearance;
+  }
+  applyAppearance();
+  if (!isAppearancePreview) { const next=desktopLanguage();if(language!==next){language=next;render();} }
+});
+window.addEventListener('storage',event=>{
+  if (isAppearancePreview) return;
+  if (event.key===APPEARANCE_STORAGE_KEY || event.key===null) { appearance=readAppearance(storage);applyAppearance(); }
+  if (event.key==='umwelt-desktop-language' || event.key===null) { language=desktopLanguage();render(); }
+});
+window.addEventListener('message',event=>{
+  if (!isAppearancePreview || event.source!==window.parent || event.origin!==location.origin || event.data?.type!=='gsm-appearance-preview') return;
+  appearance=normalizeAppearance(event.data.appearance,appearance);
+  applyAppearance();
+});
 render();
 if (!isSettings && history.state?.gsmView) restoreView();
 else if (!isSettings && selectedPost !== null) { if (!focusPost(selectedPost)) $('#threadTitle')?.focus({preventScroll:true}); }

@@ -30,9 +30,9 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
   assert.match(summary,new RegExp(`(^|\\D)${expected.length}(\\D|$)`),'profile shows its public post count');
   assert.doesNotMatch(summary,/undefined|null|NaN/,'profile labels resolve');
   assert.deepEqual(await postIds(page),expected.map(post=>post.id),'profile contains only this author, in feed order');
-  assert.equal(await page.locator('#profileBack[data-profile-back]').count(),1,'profile offers one return link');
-  assert.equal((await page.locator('#profileBack').textContent()).trim(),'←','return link shows only an arrow');
-  assert.ok(await page.locator('#profileBack').getAttribute('aria-label'),'arrow retains an accessible name');
+  assert.equal(await page.locator('#mainNav #homeButton[data-back]').count(),1,'profile returns through the left physical key');
+  assert.equal(await page.locator('#profileBack,#threadBack,[data-profile-back],[data-thread-back]').count(),0,'the screen has no separate return arrow');
+  assert.ok(await page.locator('#homeButton').getAttribute('aria-label'),'physical return key retains an accessible name');
   if (profile.bio) assert.equal(await page.locator('#profile .profile-bio').textContent(),profile.bio,'profile shows its registered public signature');
   else assert.equal(await page.locator('#profile .profile-bio').count(),0,'blank signatures take no screen space');
   const image=page.locator('#profile img[data-pixel-avatar]').first();
@@ -42,7 +42,6 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
  };
  try{
   const context=await browser.newContext({viewport:{width:1280,height:1000}});
-  await context.addInitScript(()=>{Math.random=()=>.01;});
   const page=await context.newPage();watch(page);
   await page.goto(`${base}/gsm/?shell=tokay`);
   await page.locator('#posts [data-post-id]').first().waitFor();
@@ -74,7 +73,7 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
   near(await page.locator('#timeline').evaluate(element=>element.scrollTop),feedTop,'browser Back restores feed scroll');
   assert.deepEqual(await postIds(page),roots.map(post=>post.id));
   await page.goForward();await assertProfile(page,source.author);
-  await page.locator('#profileBack').click();await waitForStream(page);
+  await page.locator('#homeButton').click();await waitForStream(page);
   await page.waitForFunction(id=>document.activeElement?.id===id,sourceId);
   near(await page.locator('#timeline').evaluate(element=>element.scrollTop),feedTop,'profile return restores feed scroll');
 
@@ -146,7 +145,7 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
     else {await link.focus();await page.keyboard.press('Enter');}
     await assertProfile(page,source.author);
     assert.equal(await page.evaluate(()=>window.__gsmProfileDocument),'same-document','both text links use profile navigation within this document');
-    await page.locator('#profileBack').click();await waitForStream(page);
+    await page.locator('#homeButton').click();await waitForStream(page);
     await page.waitForFunction(id=>document.activeElement?.id===id,id);
     near(await page.locator('#timeline').evaluate(element=>element.scrollTop),top,`${kind} ${activation} entry restores the source position`);
    }
@@ -156,12 +155,12 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
   const sample=roots[0];
   await page.goto(userURL(sample.author));await assertProfile(page,sample.author);
   await page.reload();await assertProfile(page,sample.author);
-  assert.equal(await page.locator('html').getAttribute('data-shell'),'leopard','profile reload redraws its case without losing the selected author');
+  assert.equal(await page.locator('html').getAttribute('data-shell'),'tokay','profile reload retains its case and selected author');
   const like=page.locator(`[data-like="${sample.id}"]`);
   const before=Number(await like.locator('.like-count').textContent());
   await like.click();assert.equal(await like.getAttribute('aria-pressed'),'true');
   assert.equal(Number(await like.locator('.like-count').textContent()),before+1);
-  await page.locator('#profileBack').click();await waitForStream(page);
+  await page.locator('#homeButton').click();await waitForStream(page);
   const feedLike=page.locator(`[data-like="${sample.id}"]`);
   assert.equal(await feedLike.getAttribute('aria-pressed'),'true','profile like is present in the feed');
   assert.equal(Number(await feedLike.locator('.like-count').textContent()),before+1);
@@ -177,7 +176,7 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
    await page.evaluate(value=>localStorage.setItem('umwelt-desktop-language',value),language);
    await page.goto(userURL(sample.author,'day'));await assertProfile(page,sample.author);
    assert.equal(await page.locator('html').getAttribute('lang'),htmlLanguage);
-   returnLabels.push(await page.locator('#profileBack').getAttribute('aria-label'));
+   returnLabels.push(await page.locator('#homeButton').getAttribute('aria-label'));
    for(const [width,height] of [[320,568],[390,844],[844,390]]){
     await page.setViewportSize({width,height});await page.evaluate(()=>document.fonts.ready);
     await page.locator('#timeline').evaluate(element=>element.scrollTop=0);
@@ -190,7 +189,7 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
     assert.equal(layout.overflow,false,`${language} ${width}×${height}: phone fits viewport`);
     assert.ok(layout.profile.left>=layout.main.left-.75&&layout.profile.right<=layout.main.right+.75,'profile fits inside screen');
     assert.ok(layout.fits,'profile labels fit at narrow widths');
-    assert.equal(await page.locator('#profileBack').isVisible(),true,'return link is visible at the top');
+    assert.equal(await page.locator('#homeButton').isVisible(),true,'physical return key remains visible outside the scrolling screen');
     await page.locator('#timeline').evaluate(element=>element.scrollTop=element.scrollHeight);
     const last=page.locator('#posts [data-like]').last();
     await last.scrollIntoViewIfNeeded();
@@ -202,11 +201,11 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
 
   // Unknown, inherited-property and markup-like usernames never render another account.
   for(const author of ['missinguser99','__proto__','constructor','<img src=x onerror=alert(1)>']){
-   await page.goto(userURL(author,'day'));await page.locator('#profileBack').waitFor();
+   await page.goto(userURL(author,'day'));await page.locator('#profileTitle').waitFor();
    assert.equal(await page.locator('#posts [data-post-id]').count(),0,'unknown user has no public posts');
    assert.ok((await page.locator('#profile').innerText()).trim(),'unknown user shows a message');
    assert.equal(await page.locator('#profile img[src="x"]').count(),0,'unknown user cannot inject markup');
-   await page.locator('#profileBack').click();await waitForStream(page);
+   await page.locator('#homeButton').click();await waitForStream(page);
    assert.deepEqual(await postIds(page),roots.map(post=>post.id));
    assert.equal(await page.locator('html').getAttribute('data-shell'),'day','unknown-user return retains the chosen case');
   }
@@ -220,7 +219,7 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
   await otherSettings.goto(`${base}/gsm/settings/?shell=day`);
   await otherSettings.locator('[data-shell-choice="tokay"]').click();
   await page.waitForFunction(()=>document.documentElement.dataset.shell==='tokay');
-  for(const link of await page.locator('#posts a[data-profile],#profileBack').all()){
+  for(const link of await page.locator('#posts a[data-profile],#homeButton').all()){
    const href=new URL(await link.getAttribute('href'),page.url());
    assert.equal(href.searchParams.get('shell'),'tokay','profile and return link URLs follow a case change from another tab');
    assert.equal(href.searchParams.get('user'),await link.getAttribute('data-profile'),'avatar retains its author and return link retains no user');
@@ -247,7 +246,7 @@ const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<=2,`${
   const fallbackLike=fallback.locator(`[data-like="${sample.id}"]`);
   await fallbackLike.click();assert.equal(await fallbackLike.getAttribute('aria-pressed'),'true');
   assert.ok((await fallback.locator('#toast').textContent()).trim(),'storage denial has visible feedback');
-  await fallback.locator('#profileBack').click();await waitForStream(fallback);
+  await fallback.locator('#homeButton').click();await waitForStream(fallback);
   assert.equal(await fallbackLike.getAttribute('aria-pressed'),'true','returning in the same document retains the temporary like');
   assert.equal(new URL(fallback.url()).searchParams.get('shell'),'tokay','return retains URL case without storage');
   await fallback.locator(`[id="profile-${sample.id}"]`).click();await assertProfile(fallback,sample.author);

@@ -1,8 +1,8 @@
 export const copy = {
   zh: {
     homeLink:'返回 Umwelt 主页',language:'语言：中文 · 切换为 English',skip:'跳到 stream',
-    shellLabel:'外壳',shellLeopard:'豹纹守宫',shellTokay:'蛤蚧',shellDay:'巨人日行',
-    shellCrested:'睫角守宫',shellFatTail:'非洲肥尾',shellMossy:'苔藓守宫',shellElectric:'蓝色侏儒',shellStone:'摩尔壁虎',
+    shellLabel:'外壳',antennaLabel:'天线',charmLabel:'挂件',shellLeopard:'豹纹奶油',shellTokay:'蛤蚧冰蓝',shellDay:'日行青柠',
+    shellFatTail:'瘤尾暮粉',shellElectric:'电蓝琥珀',shellStone:'雾灰朱线',
     settings:'设置',closeSettings:'关闭设置',languageLabel:'语言',
     like:'喜欢',unlike:'取消喜欢',
     commentsLabel:'评论',commentsCount:'评论 · {count}',viewComments:'查看 {count} 条评论',noComments:'还没有评论。',
@@ -14,8 +14,8 @@ export const copy = {
   },
   en: {
     homeLink:'Back to Umwelt',language:'Language: English · Switch to 日本語',skip:'Skip to stream',
-    shellLabel:'Shell',shellLeopard:'Leopard',shellTokay:'Tokay',shellDay:'Giant day',
-    shellCrested:'Crested',shellFatTail:'African fat-tail',shellMossy:'Chahoua',shellElectric:'Electric blue',shellStone:'Moorish',
+    shellLabel:'Shell',antennaLabel:'Antenna',charmLabel:'Charm',shellLeopard:'Leopard cream',shellTokay:'Ice blue',shellDay:'Lime green',
+    shellFatTail:'Dusk pink',shellElectric:'Electric amber',shellStone:'Mist vermilion',
     settings:'Settings',closeSettings:'Close settings',languageLabel:'Language',
     like:'Like',unlike:'Unlike',
     commentsLabel:'Comments',commentsCount:'Comments · {count}',viewComments:'View {count} comments',noComments:'No comments yet.',
@@ -27,8 +27,8 @@ export const copy = {
   },
   ja: {
     homeLink:'Umwelt ホームへ',language:'言語：日本語 · 中文に切り替え',skip:'stream へ',
-    shellLabel:'カバー',shellLeopard:'レオパード',shellTokay:'トッケイ',shellDay:'ヒルヤモリ',
-    shellCrested:'クレステッド',shellFatTail:'ニシアフリカ',shellMossy:'チャホウア',shellElectric:'ウィリアムス',shellStone:'カベヤモリ',
+    shellLabel:'カバー',antennaLabel:'アンテナ',charmLabel:'チャーム',shellLeopard:'ヒョウ柄クリーム',shellTokay:'アイスブルー',shellDay:'ライムグリーン',
+    shellFatTail:'ダスクピンク',shellElectric:'ブルーと琥珀',shellStone:'霧灰と朱',
     settings:'設定',closeSettings:'設定を閉じる',languageLabel:'言語',
     like:'いいね',unlike:'いいねを取り消す',
     commentsLabel:'コメント',commentsCount:'コメント · {count}',viewComments:'{count}件のコメントを見る',noComments:'まだコメントはありません。',

@@ -10,7 +10,6 @@ const name=process.env.BROWSER||'chromium';
  const errors=[],displayRequests=[];
  try{
   const page=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:2});
-  await page.addInitScript(()=>{Math.random=()=>.01;});
   page.on('pageerror',error=>errors.push(error.message));
   page.on('response',response=>{if(response.status()>=400&&response.url().startsWith(base))errors.push(`${response.status()} ${response.url()}`);});
   page.on('request',request=>{if(/\/lcd\.mjs(?:\?|$)/.test(request.url()))displayRequests.push(request.url());});
@@ -56,7 +55,7 @@ const name=process.env.BROWSER||'chromium';
   if(signedUser!==selectedUser){await page.goto(`${base}/gsm/?user=${encodeURIComponent(signedUser)}`);await ready();}
   assert.equal(await page.locator('.profile-bio').textContent(),profiles[signedUser].bio);
   assert.equal(await page.locator('.profile-bio').evaluate(element=>getComputedStyle(element).fontStyle),'italic');
-  await page.locator('#profileBack').click();await page.waitForURL(url=>!url.searchParams.has('user'));await ready();
+  await page.locator('#homeButton').click();await page.waitForURL(url=>!url.searchParams.has('user'));await ready();
 
   const beforeScroll=await material();
   const header=await page.locator('.masthead').boundingBox();
@@ -79,7 +78,7 @@ const name=process.env.BROWSER||'chromium';
   for(const [width,height] of [[320,568],[390,844],[844,390],[1280,1000]]){
    await page.setViewportSize({width,height});await page.goto(`${base}/gsm/`);await ready();
    const layout=await page.evaluate(()=>{
-    const header=document.querySelector('.masthead').getBoundingClientRect(),rem=parseFloat(getComputedStyle(document.documentElement).fontSize);
+    const header=document.querySelector('.masthead').getBoundingClientRect(),rem=document.querySelector('.app-window').getBoundingClientRect().width/356;
     const decorations=[...document.querySelectorAll('.pixel-stickers .decoration')].map(element=>{
      const box=element.getBoundingClientRect();return {left:box.left,top:box.top,right:box.right,bottom:box.bottom};
     });
