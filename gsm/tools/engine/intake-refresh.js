@@ -6,7 +6,7 @@ import { createHash, randomUUID } from 'node:crypto';
 import { socialRoot } from './content.js';
 import { externalFolder } from './profiles.js';
 import { defaultWorkDirectory } from './operations.js';
-import { parseSampleDocuments } from './samples.js';
+import { parseSampleDocuments, eligibleCaseSamples } from './samples.js';
 import { validateIntakeReceipt } from './case-adaptation.js';
 
 export const intakeRepository = 'fivsevn/umwelt';
@@ -67,6 +67,7 @@ export async function refreshIntake({ root = socialRoot, workDirectory, now = Da
       const saved = await readIntakeSnapshot(work, { root });
       if (now - Date.parse(saved.receipt.collectedAt) <= 86400000) {
         validateIntakeReceipt(saved.receipt, { now });
+        if (eligibleCaseSamples([{ path: 'environment/sources-daily-opinions.md', text: saved.text }]).length < 2) fail('the current daily material needs at least two usable cases; no substitute is invented');
         return { status: 'ready', workDirectory: work, intakeReceipt: saved.receipt };
       }
       // No operation owns this stale snapshot. Replace only after a fresh,
@@ -82,7 +83,7 @@ export async function refreshIntake({ root = socialRoot, workDirectory, now = Da
     const receipt = { repository: intakeRepository, path: intakeDocument, revision, documentSha: blob(text), documentDigest: hash(text),
       collectedAt: collectedAt(text), fetchedAt: new Date(now).toISOString() };
     validateIntakeReceipt(receipt, { documentText: text, now });
-    const entries = parseSampleDocuments([{ path: 'environment/sources-daily-opinions.md', text }]);
+    const entries = eligibleCaseSamples([{ path: 'environment/sources-daily-opinions.md', text }]);
     if (entries.length < 2) fail('the current daily material needs at least two usable cases; no substitute is invented');
     await saveJSON(join(work, snapshotName), { version: 1, root, receipt, text });
     return { status: 'ready', workDirectory: work, intakeReceipt: receipt };

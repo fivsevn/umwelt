@@ -1,6 +1,6 @@
 import { caseFingerprint } from './case-usage.js';
 import { createHash } from 'node:crypto';
-import { parseSampleDocuments, selectSamples, sampleDocumentPaths } from './samples.js';
+import { parseSampleDocuments, eligibleCaseSamples, selectSamples, sampleDocumentPaths } from './samples.js';
 
 const DAY = 86400000, SOURCE = sampleDocumentPaths[0];
 const validCount = count => count === 1 || count === 2;
@@ -61,7 +61,7 @@ export function createCasePlan({ operationId, plan, documents, intakeReceipt, no
   if (!document) fail('the refreshed daily material document is missing');
   validateIntakeReceipt(intakeReceipt, { documentText: document.text, now });
   const seen = new Set(used.map(item => item.fingerprint));
-  const available = parseSampleDocuments([document]).filter(entry => {
+  const available = eligibleCaseSamples([document]).filter(entry => {
     const fingerprint = caseFingerprint(entry.sample);
     if (seen.has(fingerprint)) return false;
     seen.add(fingerprint);

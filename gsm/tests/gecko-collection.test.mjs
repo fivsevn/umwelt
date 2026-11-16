@@ -13,6 +13,7 @@ const item = (floor, actor, text, topic = 101, title = 'Gecko window') => `<item
 const rss = items => `<rss xmlns:dc="http://purl.org/dc/elements/1.1/"><channel>${items.join('')}</channel></rss>`;
 const status = (id, text = '<p>The lizard is basking.</p>') => ({id, created_at:'2026-11-14T20:00:00Z', visibility:'public', sensitive:false,
   spoiler_text:'',reblog:null, in_reply_to_id:null, account:{acct:'animalobserver',username:'animalobserver',display_name:'Animal Observer',bot:false},content:text,media_attachments:[]});
+const drugReport = '[Gecko] MDMA (244mg) – Basel, Switzerland – 2026-11-09\nDetected: MDMA (244mg)\nColor: blue\nLogo: Gecko\nWeight: 492 mg\nDrugsPRO app';
 
 function fakeFetch({fail = false} = {}) {
   const calls = [];
@@ -65,6 +66,43 @@ test('Mastodon takes public roots, omits inaccessible media and keeps only retur
   const withMedia={...status('105'),media_attachments:[{type:'image',description:'unread private opinion'}]};
   const m=parseGeckoTopics(source,[withMedia],plainText)[0];
   assert.match(m.text,/未读取画面/);assert.ok(!m.text.includes('unread private opinion'));
+});
+
+test('drug-checking reports with Gecko logos never become animal topics', () => {
+  for (const text of [drugReport, 'Gecko pill testing results', 'Gecko drug-checking report', 'Gecko ecstasy tablet']) {
+    assert.equal(reptileCandidate(text), false, text);
+    assert.equal(excludedHumanOrClinical(text), true, text);
+  }
+  const source = geckoSources[1];
+  const roots = parseGeckoTopics(source, [status('101', '<p>' + drugReport + '</p>'), status('102')], plainText);
+  assert.deepEqual(roots.map(root => root.id), ['102']);
+  assert.equal(reptileCandidate('The gecko rests beneath the blue leaf.'), true);
+});
+
+test('Mastodon applies the full exclusion policy before spending a context request', async () => {
+  const source = { ...geckoSources[1], lists: [geckoSources[1].lists[0]] }, calls = [];
+  const fetchImpl = async url => {
+    calls.push(url);
+    return new Response(JSON.stringify(url.endsWith('/context') ? { descendants: [] } : [
+      status('101', '<p>' + drugReport + '</p>'),
+      status('102', '<p>The gecko needs prescription medication.</p>'),
+      status('103', '<p>New video out! Find the video here, reptiles.</p>'),
+      status('104'), status('105', '<p>The gecko moved under a leaf.</p>')
+    ]));
+  };
+  const result = await collectGeckoOpinions({ sources: [source], now: NOW, seed: 'homonym', fetchImpl });
+  assert.equal(result.ready, true); assert.equal(result.fragments, 2);
+  assert.doesNotMatch(result.markdown, /MDMA|DrugsPRO|prescription|New video/);
+  assert.equal(calls.filter(url => url.endsWith('/context')).length, 2);
+});
+
+test('a drug-checking reply excludes the whole discussion before rendering the material', async () => {
+  const source = { ...geckoSources[1], lists: [geckoSources[1].lists[0]] };
+  const result = await collectGeckoOpinions({ sources: [source], now: NOW, fetchImpl: async url => new Response(JSON.stringify(
+    url.endsWith('/context') ? { descendants: [{ ...status('201', '<p>' + drugReport + '</p>'), in_reply_to_id: '101' }] } : [status('101')]
+  )) });
+  assert.equal(result.fragments, 0); assert.equal(result.ready, false);
+  assert.equal(result.sources[0].excluded, 1);
 });
 
 test('quoted statements keep boundaries and map only known floors from the same source topic', () => {

@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs';
 import { createCasePlan, validateCasePlan, validateCasePosts, validateCasePolicy, validateIntakeReceipt, drawCaseCount, caseForPost } from '../tools/engine/case-adaptation.js';
 import { drawRootBudget } from '../tools/engine/lottery.js';
 import { caseFingerprint } from '../tools/engine/case-usage.js';
+import { parseSampleDocuments } from '../tools/engine/samples.js';
 
 const NOW = Date.parse('2026-11-15T01:00:00Z');
 const hash = (text, kind = 'sha256') => createHash(kind).update(text).digest('hex');
@@ -85,6 +86,31 @@ test('fresh exact daily material is required and insufficient cases are never in
   assert.throws(() => validateIntakeReceipt(options.intakeReceipt, { documentText: options.documents[0].text + '\n', now: NOW }));
   assert.throws(() => create(1, 2, material(1)), /distinct usable cases/);
   assert.throws(() => createCasePlan({ ...options, intakeReceipt: undefined }), /daily material/);
+});
+
+test('new case draws exclude legacy Gecko drug reports before ranking the usable pool', () => {
+  const source = material(3);
+  source.text = source.text.replace('另一段实际情况 0。', '[Gecko] MDMA (244mg). Detected: MDMA. Logo: Gecko. DrugsPRO app.');
+  for (let index = 0; index < 32; index++) {
+    const plan = basePlan(1, 'legacy-homonym-' + index);
+    const cases = createCasePlan({ operationId: 'gsm-synthetic', plan, documents: [source], intakeReceipt: receipt(source.text), now: NOW, count: 2 });
+    assert.equal(cases.items.length, 2);
+    assert.ok(cases.items.every(item => !item.sample.text.includes('MDMA')));
+  }
+  const insufficient = material(2);
+  insufficient.text = insufficient.text.replace('另一段实际情况 0。', 'Gecko pill testing results.');
+  assert.throws(() => create(1, 2, insufficient), /distinct usable cases/);
+});
+
+test('saved case validation preserves an immutable report snapshot for diagnosis without redrawing it', () => {
+  const { plan } = create(1, 1), item = plan.caseAdaptation.items[0], oldId = item.postId;
+  const source = material(1);
+  source.text = source.text.replace('另一段实际情况 0。', '[Gecko] MDMA (244mg). Logo: Gecko.');
+  item.sample = parseSampleDocuments([source])[0].sample;
+  item.postId = 'gsm-synthetic-' + hash(plan.seed + '\0case-root\0' + item.sample.id).slice(0, 12);
+  plan.caseAdaptation.rootOrder = plan.caseAdaptation.rootOrder.map(id => id === oldId ? item.postId : id);
+  validateCasePlan(plan.caseAdaptation, { operationId: 'gsm-synthetic', plan });
+  assert.match(item.sample.text, /MDMA/);
 });
 
 test('local recent-use hashes exclude consumed cases without using or modifying the human site ledger', () => {

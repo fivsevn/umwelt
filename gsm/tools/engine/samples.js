@@ -2,6 +2,7 @@ import { lstat, realpath, readFile } from 'node:fs/promises';
 import { resolve, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
+import { excludedHumanOrClinical } from './gecko-sources.js';
 
 const defaultRoot = fileURLToPath(new URL('../../', import.meta.url));
 const MAX_BYTES = 2000000;
@@ -71,6 +72,14 @@ export function parseSampleDocuments(documents) {
     }
   }
   return entries;
+}
+
+// Recheck older or manually supplied material before a new draw, using the
+// same exclusions as collection. Parsing and saved-plan validation stay
+// structural so immutable historical snapshots retain their exact contents.
+export function eligibleCaseSamples(documents) {
+  return parseSampleDocuments(documents).filter(({ sample }) =>
+    !excludedHumanOrClinical(sample.text.replace(/\\([\\`*_{}\[\]()#+!|])/g, '$1')));
 }
 
 export async function readSamples(root = defaultRoot) {

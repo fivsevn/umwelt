@@ -11,7 +11,7 @@ import { siteEmoteManifestPath } from './site-emotes.js';
 import { kaomojiManifestPath, localizationRulesPath, assertLocalizedPosts } from './localization.js';
 import { cancelPendingBatch, isPostMediaPath } from './thread-packages.js';
 import { isResearchPath, isSourcePath, researchPaths, sourcePaths, researchCandidates } from './research-maintenance.js';
-import { sampleDocumentPaths, parseSampleDocuments, selectSamples } from './samples.js';
+import { sampleDocumentPaths, eligibleCaseSamples, selectSamples } from './samples.js';
 import { createCasePlan, drawCaseCount, validateCasePlan, caseRootIds, caseRoot, caseForPost, validateCasePosts, casePlanSummary } from './case-adaptation.js';
 import { writerSource, assignGuestName } from './writer-input.js';
 import { scheduleParticipation, validatePostingWindows } from './participation.js';
@@ -346,7 +346,7 @@ async function source(root, workDirectory) {
   // Reading the pinned local snapshot never refreshes or writes to the other site.
   const snapshot = await readIntakeSnapshot(workDirectory, { root });
   documents.push({ path: sampleDocumentPaths[0], text: snapshot.text });
-  const samples = parseSampleDocuments(documents.filter(document => sampleDocumentPaths.includes(document.path)));
+  const samples = eligibleCaseSamples(documents.filter(document => sampleDocumentPaths.includes(document.path)));
   if (siteEmotes) documents.push(await sourceText(root, siteEmoteManifestPath));
   if (localization) documents.push(...await Promise.all([localizationRulesPath, kaomojiManifestPath].map(path => sourceText(root, path))));
   for (const user of registry.users) {

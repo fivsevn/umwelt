@@ -37,10 +37,13 @@ const HUMAN_ONLY = /firefox|mozilla|opensuse|browser|web[\s-]?engine|xmpp|softwa
 // Topic selection narrows subject matter before adaptation. It cannot establish an animal's thoughts.
 export function reptileCandidate(text, category = '') {
   const subject = text + ' ' + category;
-  return typeof text === 'string' && (REPTILE.test(subject) || HABITAT.test(subject) && HABITAT_DETAIL.test(subject) && !HABITAT_HOMONYM.test(subject)) && !HUMAN_ONLY.test(text);
+  return typeof text === 'string' && (REPTILE.test(subject) || HABITAT.test(subject) && HABITAT_DETAIL.test(subject) && !HABITAT_HOMONYM.test(subject)) && !excludedHumanOrClinical(text);
 }
 const HUMAN_ACTIVITY = /\b(?:shops?|breeders?|syndrome|cancer(?:ous)?|tumou?rs?|pregnan(?:t|cy)|paving|hammer|dremel|sanding|soldering|wiring|mains|plumbing)\b|\b(?:RV[ -](?:style|toilet)|holding tank|bulkhead fitting|drainage reservoir|wet vac|read the full guide|new video out|find the video|sign up|post size|DM the admin|join (?:our|this) server|my name is|my names?)\b/i;
-export const excludedHumanOrClinical = text => HUMAN_ONLY.test(text) || HUMAN_ACTIVITY.test(text) || /\b(?:poop|stool|urates?|feces|faeces|deworm|surgery|injur(?:y|ies|ed)|prescription|medication)\b/i.test(text);
+// Gecko can identify a pill logo. An animal word or tag does not make a
+// substance-testing report a discussion about an animal or its habitat.
+const DRUG_CHECKING = /\b(?:mdma|ecstasy|drugspro|drug[\s-]?checking|pill[\s-]?testing)\b/i;
+export const excludedHumanOrClinical = text => HUMAN_ONLY.test(text) || HUMAN_ACTIVITY.test(text) || DRUG_CHECKING.test(text) || /\b(?:poop|stool|urates?|feces|faeces|deworm|surgery|injur(?:y|ies|ed)|prescription|medication)\b/i.test(text);
 
 const unCDATA = value => (value || '').replace(/^\s*<!\[CDATA\[([\s\S]*)\]\]>\s*$/, '$1');
 const field = (text, name) => unCDATA(text.match(new RegExp(`<${name}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/${name}>`, 'i'))?.[1] || '');

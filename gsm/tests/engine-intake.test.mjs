@@ -55,6 +55,32 @@ test('new updates reject stale, missing, insufficient or identifying material wi
   }
 });
 
+test('preparation counts usable cases without rewriting the acquired document or receipt', async t => {
+  const f = await fixture(t);
+  const contaminated = material(undefined, 3).replace('守宫的不同实际情况 0。', '[Gecko] MDMA (244mg). Logo: Gecko. DrugsPRO app.');
+  await writeFile(f.path, contaminated);
+  const ready = await refreshIntake(f.options);
+  assert.equal(ready.intakeReceipt.documentSha, blob(contaminated));
+  assert.equal((await readIntakeSnapshot(f.workDirectory, { root: f.root })).text, contaminated);
+  assert.equal(await readFile(f.path, 'utf8'), contaminated);
+
+  const insufficient = await fixture(t);
+  await writeFile(insufficient.path, material(undefined, 2).replace('守宫的不同实际情况 0。', '[Gecko] MDMA (244mg). Logo: Gecko.'));
+  await assert.rejects(refreshIntake(insufficient.options), /at least two usable cases/);
+  await assert.rejects(readFile(join(insufficient.workDirectory, snapshotName)), { code: 'ENOENT' });
+});
+
+test('a retry rechecks an unbound snapshot against the current topic exclusions', async t => {
+  const f = await fixture(t); await refreshIntake(f.options);
+  const filename = join(f.workDirectory, snapshotName), saved = JSON.parse(await readFile(filename, 'utf8'));
+  saved.text = material(undefined, 2).replace('守宫的不同实际情况 0。', '[Gecko] MDMA (244mg).');
+  saved.receipt.revision = saved.receipt.documentSha = blob(saved.text);
+  saved.receipt.documentDigest = createHash('sha256').update(saved.text).digest('hex');
+  const before = JSON.stringify(saved); await writeFile(filename, before);
+  await assert.rejects(refreshIntake(f.options), /at least two usable cases/);
+  assert.equal(await readFile(filename, 'utf8'), before);
+});
+
 test('stale unbound snapshots refresh atomically; unavailable or stale local material preserves prior bytes', async t => {
   const f = await fixture(t); await refreshIntake(f.options);
   const before = await readFile(join(f.workDirectory, snapshotName), 'utf8'); await rm(f.path);

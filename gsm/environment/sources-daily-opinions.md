@@ -29,7 +29,7 @@
 
 主帖必须发表于近七天；论坛列表中的新回复时间不能代替原主帖时间。只保存实际返回且可读的文字：缺少根帖时不拼造原串，图片和视频未读取时明确标记，未知的父回复关系不按楼层邻接补猜。无回复、低信息、复读、跑题和没说完的部分可保留。RSS 只有摘要时标明摘要，不扩写成全文或虚构评论。
 
-采集排除软件同名词、人类限定的工作与工具操作、广告交易、平台推广及临床诊断给药等内容。动物或栖居标签只是发现入口，仍需核对文字实际谈什么。研究资料中的人类交流案例按各专题的方法使用，不作为每日案例池自动抽取。
+采集排除软件同名词、人类限定的工作与工具操作、广告交易、平台推广、临床诊断给药，以及借动物名标识的药片与成分检测报告。动物或栖居标签只是发现入口，仍需核对文字实际谈什么。研究资料中的人类交流案例按各专题的方法使用，不作为每日案例池自动抽取。
 
 本地采集命令为：
 
@@ -47,7 +47,7 @@ node gsm/tools/engine/collect-gecko-opinions.js
 
 ## 论坛怎样读取
 
-`prepare` 读取本页，核验采集时间在 24 小时内且有足够未采用案例，把材料原文、摘要校验和读取凭据固定在当前操作的工作目录。新一轮独立抽取 1–2 条真实案例主帖与 1–2 条 AI 原创新主帖，混排发布；回复、媒体、态度和参与规则继续沿[完整抽签规则](../docs/lottery.md)。逐条写作通过 `brief` 取得对应固定案例与人物、环境资料，改编方法见[写作与改编](../docs/writing.md#现实素材改编)。
+`prepare` 读取本页，核验采集时间在 24 小时内，并按采集的同一排除规则复核候选，只把通过复核的材料计入可用案例数量与新轮抽签。材料原文、摘要校验和读取凭据仍原样固定在当前操作的工作目录。新一轮独立抽取 1–2 条真实案例主帖与 1–2 条 AI 原创新主帖，混排发布；回复、媒体、态度和参与规则继续沿[完整抽签规则](../docs/lottery.md)。逐条写作通过 `brief` 取得对应固定案例与人物、环境资料，改编方法见[写作与改编](../docs/writing.md#现实素材改编)。
 
 继续同一操作时使用已保存的材料和映射，当前网页后来刷新不会替换原案例。采集本身不登记采用；实际发布的案例指纹和日期随帖子保存在 `gsm/.publishing/case-usage.json`，保留近 30 天、最多 300 项，供后续取材避重。未采用的外部材料不成为人物经历或论坛公共事件。
 
@@ -61,27 +61,17 @@ node gsm/tools/engine/collect-gecko-opinions.js
 
 ### 讨论 1
 
-1. **发言者 1**：\[Gecko\] MDMA \(244mg\) – Basel, Switzerland – 2026-11-09  
-   Detected: MDMA \(244mg\)  
-   Color: blue  
-   Logo: Gecko  
-   Weight: 492 mg  
-   DrugsPRO app: \[链接隐去\]  
-   \[图片或视频省略，未读取画面\]
-
-### 讨论 2
-
 1. **发言者 1**：Bichito que encontré acá por Texcoco  
    \[图片或视频省略，未读取画面\]
 
 2. **发言者 2**（回复第 1 条）：发言者 1 me encantan esos\! tienen una zona por acá también
 
-### 讨论 3
+### 讨论 2
 
 1. **发言者 1**：I have another very small visitor today. gecko Hawaii  
    \[图片或视频省略，未读取画面\]
 
-### 讨论 4
+### 讨论 3
 
 RSS 摘要。
 
@@ -89,24 +79,24 @@ RSS 摘要。
      
    The sea turtle eggs that were laid on Southern California’s Sunset and Huntington Beaches in September have hatched and the olive ridley sea turtle \(Lepidochelys olivacea\) hatchlings have been released into the wild after they hatched under human care at the Aquarium of the Pacific in Long Beach, California. The event follows the discovery of \[…\]
 
-### 讨论 5
+### 讨论 4
 
 1. **发言者 1**：I need a different pump for the waterfall, but the plants in my terrarium seem to be doing OK so far regardless.  
    \[图片或视频省略，未读取画面\]
 
-### 讨论 6
+### 讨论 5
 
 1. **发言者 1**：Magnificent Iguana from a zoo visit  
    \[图片或视频省略，未读取画面\]
 
 2. **发言者 2**（回复第 1 条）：The detail is insane\!
 
-### 讨论 7
+### 讨论 6
 
 1. **发言者 1**：Amazing video. The Hoop Snake and the Drop Bear are still mythical but, this comes very close to the former:  
    \[链接隐去\]
 
-### 讨论 8
+### 讨论 7
 
 1. **发言者 1**：Two big turtles and one small one. Turtle family??  
    \[图片或视频省略，未读取画面\]
