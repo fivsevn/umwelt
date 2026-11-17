@@ -57,21 +57,53 @@ node gsm/tools/engine/collect-gecko-opinions.js
 
 <!-- samples:start -->
 
-采集时间：2026-11-16 11:07:15（北京时间）
+采集时间：2026-11-17 13:15:16（北京时间）
 
 ### 讨论 1
 
-1. **发言者 1**：Bichito que encontré acá por Texcoco  
+1. **发言者 1**：Two big turtles and one small one. Turtle family??  
    \[图片或视频省略，未读取画面\]
 
-2. **发言者 2**（回复第 1 条）：发言者 1 me encantan esos\! tienen una zona por acá también
-
 ### 讨论 2
+
+1. **发言者 1**：Amazing video. The Hoop Snake and the Drop Bear are still mythical but, this comes very close to the former:  
+   \[链接隐去\]
+
+### 讨论 3
+
+1. **发言者 1**：My Experience with TrueScaleReptiles  
+     
+   I recently purchased from \[链接隐去\] and wanted to share my experience. The ordering process was straightforward, communication was professional, and I appreciated the attention given to my order.  
+     
+   Overall, I had a positive experience and would recommend checking them out if you’re looking for reptiles.  
+     
+   Website: \[链接隐去\]
+
+### 讨论 4
+
+1. **发言者 1**：along the pure purple sea  
+   hanging out on rippled waves  
+   of shoreline purple-green  
+   gecko is hanging loose   
+   your little green striped muse   
+   silent, watching all your moves  
+   … read more at:  
+   &lt;\[链接隐去\]&gt;
+
+### 讨论 5
+
+RSS 摘要。
+
+1. **发言者 1**：62 Captive-Raised San Francisco Garter Snakes Released Into The Wild  
+     
+   The San Francisco garter snake is endemic to San Mateo County and a small portion of Santa Cruz County. It was among the first species protected under the Endangered Species Act
+
+### 讨论 6
 
 1. **发言者 1**：I have another very small visitor today. gecko Hawaii  
    \[图片或视频省略，未读取画面\]
 
-### 讨论 3
+### 讨论 7
 
 RSS 摘要。
 
@@ -79,26 +111,18 @@ RSS 摘要。
      
    The sea turtle eggs that were laid on Southern California’s Sunset and Huntington Beaches in September have hatched and the olive ridley sea turtle \(Lepidochelys olivacea\) hatchlings have been released into the wild after they hatched under human care at the Aquarium of the Pacific in Long Beach, California. The event follows the discovery of \[…\]
 
-### 讨论 4
+### 讨论 8
 
-1. **发言者 1**：I need a different pump for the waterfall, but the plants in my terrarium seem to be doing OK so far regardless.  
+1. **发言者 1**：\[Cervelet\] Taurtraining\!  
+   It's probably easier to learn if we learn merged together\!  x3  
+   Cervelet's upload\!: \[链接隐去\]  
+   Drawn by Cervelet on FA, requested from their free Sketchdrive, with @/skylarthejay.bsky.social on Bluesky\!  
    \[图片或视频省略，未读取画面\]
 
-### 讨论 5
+### 讨论 9
 
-1. **发言者 1**：Magnificent Iguana from a zoo visit  
-   \[图片或视频省略，未读取画面\]
-
-2. **发言者 2**（回复第 1 条）：The detail is insane\!
-
-### 讨论 6
-
-1. **发言者 1**：Amazing video. The Hoop Snake and the Drop Bear are still mythical but, this comes very close to the former:  
-   \[链接隐去\]
-
-### 讨论 7
-
-1. **发言者 1**：Two big turtles and one small one. Turtle family??  
+1. **发言者 1**：In positive news, today it's sunny, and the kitchen gecko I've been training to not be scared of me licked some honey off my finger 🥰🍯🦎.  
+   And if you're wondering how trainable geckos are, the answer is "actually, very trainable\!": \[链接隐去\]  
    \[图片或视频省略，未读取画面\]
 
 <!-- samples:end -->
