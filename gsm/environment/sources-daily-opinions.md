@@ -57,7 +57,7 @@ node gsm/tools/engine/collect-gecko-opinions.js
 
 <!-- samples:start -->
 
-采集时间：2026-11-19 12:30:43（北京时间）
+采集时间：2026-11-20 12:18:23（北京时间）
 
 ### 讨论 1
 
@@ -66,6 +66,57 @@ node gsm/tools/engine/collect-gecko-opinions.js
    \[图片或视频省略，未读取画面\]
 
 ### 讨论 2
+
+1. **发言者 1**：Amazing video. The Hoop Snake and the Drop Bear are still mythical but, this comes very close to the former:  
+   \[链接隐去\]
+
+### 讨论 3
+
+RSS 摘要。
+
+1. **发言者 1**：62 Captive-Raised San Francisco Garter Snakes Released Into The Wild  
+     
+   The San Francisco garter snake is endemic to San Mateo County and a small portion of Santa Cruz County. It was among the first species protected under the Endangered Species Act
+
+### 讨论 4
+
+1. **发言者 1**：My Experience with TrueScaleReptiles  
+     
+   I recently purchased from \[链接隐去\] and wanted to share my experience. The ordering process was straightforward, communication was professional, and I appreciated the attention given to my order.  
+     
+   Overall, I had a positive experience and would recommend checking them out if you’re looking for reptiles.  
+     
+   Website: \[链接隐去\]
+
+### 讨论 5
+
+1. **发言者 1**：\[Cervelet\] Taurtraining\!  
+   It's probably easier to learn if we learn merged together\!  x3  
+   Cervelet's upload\!: \[链接隐去\]  
+   Drawn by Cervelet on FA, requested from their free Sketchdrive, with @/skylarthejay.bsky.social on Bluesky\!  
+   \[图片或视频省略，未读取画面\]
+
+### 讨论 6
+
+1. **发言者 1**：I have another very small visitor today. gecko Hawaii  
+   \[图片或视频省略，未读取画面\]
+
+### 讨论 7
+
+1. **发言者 1**：Magnificent Iguana from a zoo visit  
+   \[图片或视频省略，未读取画面\]
+
+2. **发言者 2**（回复第 1 条）：The detail is insane\!
+
+### 讨论 8
+
+RSS 摘要。
+
+1. **发言者 1**：Sea Turtle Eggs Laid on Southern California Beaches Have Hatched  
+     
+   The sea turtle eggs that were laid on Southern California’s Sunset and Huntington Beaches in September have hatched and the olive ridley sea turtle \(Lepidochelys olivacea\) hatchlings have been released into the wild after they hatched under human care at the Aquarium of the Pacific in Long Beach, California. The event follows the discovery of \[…\]
+
+### 讨论 9
 
 父回复关系未提供。
 
@@ -212,68 +263,15 @@ node gsm/tools/engine/collect-gecko-opinions.js
 
 3. **发言者 2**：A couple practical additions: measure when the gecko is calm and warm, not mid-shed, and record torso length and width in cm rather than relying on S/M/L. For girth, use a soft tape and leave enough room to slide a finger under the fabric; if the outfit covers the vent or restricts leg movement, it is too much. Watch for tail curling, squirming, or trying to walk away—those are signs to stop.
 
-### 讨论 3
-
-1. **发言者 1**：West Coast’s First Ever Sea Turtle Hatchlings Released into the Pacific \(LOOK\)  
-     
-   \[链接隐去\]  
-   \[图片或视频省略，未读取画面\]
-
-### 讨论 4
-
-RSS 摘要。
-
-1. **发言者 1**：62 Captive-Raised San Francisco Garter Snakes Released Into The Wild  
-     
-   The San Francisco garter snake is endemic to San Mateo County and a small portion of Santa Cruz County. It was among the first species protected under the Endangered Species Act
-
-### 讨论 5
-
-1. **发言者 1**：Adnkronos - ultimoratop: Geco ricoverato con femore rotto a Torino dopo una caduta, la sua storia e come sta  
-   \(Adnkronos\) - Tra vandalismo e arte il funambolo delle scritte giganti identificato nel 2020 è ricoverato dopo l'intervento al Cto con 60 giorni di prognosi  
-   Gecko admitted with broken femur in Turin after a fall, his story and how he is doing.  
-   \(Adnkronos\) – Between vandalism and art, the graffiti artist known in 2020 for his giant writing is hospitalized after an operation at the Cto with a 60-day prognosis.  
-   \[链接隐去\]
-
-### 讨论 6
-
-1. **发言者 1**：My Experience with TrueScaleReptiles  
-     
-   I recently purchased from \[链接隐去\] and wanted to share my experience. The ordering process was straightforward, communication was professional, and I appreciated the attention given to my order.  
-     
-   Overall, I had a positive experience and would recommend checking them out if you’re looking for reptiles.  
-     
-   Website: \[链接隐去\]
-
-### 讨论 7
-
-1. **发言者 1**：I have another very small visitor today. gecko Hawaii  
-   \[图片或视频省略，未读取画面\]
-
-### 讨论 8
-
-1. **发言者 1**：West Coast’s First Ever Sea Turtle Hatchlings Released into the Pacific  
-   \[链接隐去\]
-
-### 讨论 9
-
-1. **发言者 1**：Amazing video. The Hoop Snake and the Drop Bear are still mythical but, this comes very close to the former:  
-   \[链接隐去\]
-
 ### 讨论 10
 
-RSS 摘要。
-
-1. **发言者 1**：Sea Turtle Eggs Laid on Southern California Beaches Have Hatched  
-     
-   The sea turtle eggs that were laid on Southern California’s Sunset and Huntington Beaches in September have hatched and the olive ridley sea turtle \(Lepidochelys olivacea\) hatchlings have been released into the wild after they hatched under human care at the Aquarium of the Pacific in Long Beach, California. The event follows the discovery of \[…\]
+1. **发言者 1**：Lizard-Point, Cornouailles, Angleterre  
+   \[图片或视频省略，未读取画面\]
 
 ### 讨论 11
 
-1. **发言者 1**：Magnificent Iguana from a zoo visit  
+1. **发言者 1**：I found this ring snake on the sidewalk outside work. It's alive but could barely move. I've brought it inside work to warm up and I'll put them in the rocks behind the building when it's warmer this afternoon. Little thing shouldn't be out in this cold.  
    \[图片或视频省略，未读取画面\]
-
-2. **发言者 2**（回复第 1 条）：The detail is insane\!
 
 ### 讨论 12
 
