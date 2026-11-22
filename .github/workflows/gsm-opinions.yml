@@ -27,7 +27,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm ci --prefix gsm/tools/engine
       - name: Verify collection and local material snapshots
         run: node --test gsm/tests/gecko-collection.test.mjs gsm/tests/engine-intake.test.mjs
       - name: Collect public reptile discussions without publishing posts

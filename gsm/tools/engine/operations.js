@@ -17,6 +17,7 @@ import { writerSource, assignGuestName } from './writer-input.js';
 import { scheduleParticipation, validatePostingWindows } from './participation.js';
 import { contextReviewBasis, checkContextReviewShape, validateContextReview } from './context-review.js';
 import { cleanupCompletedWork } from './working-files.js';
+import { readingPacket, readingComparison } from './reading-changes.js';
 import { readIntakeSnapshot } from './intake-refresh.js';
 import { verifyLiveOperation } from './verify-live.js';
 
@@ -413,7 +414,7 @@ function readingDocuments(operation, data) {
     return match && recentIds.has(match[2] ?? match[1]);
   });
 }
-function reading(operation, data) {
+function readingOverview(operation, data) {
   const budget = operation.plan.replyLottery === undefined ? '发言上限：' + operation.plan.budget : '新主帖上限：' + operation.plan.budget + '；发言总上限：' + replyLimits(operation.plan, data.policy).totalBudget + '；回复合计上限：' + replyLimits(operation.plan, data.policy).maxReplies;
   const explanation = operation.plan.replyLottery === undefined ? '主帖和回复合计不超过上限。' : '先确定新主帖和要接续的旧串，再用 replies 命令逐串抽回复上限；所有楼中楼都计入原根串，实际回复可以少于抽取数。';
   return '# 本次更新阅读材料\n\n操作：' + operation.id + '；' + budget + '；主动候选：' + (operation.plan.selectedIds.join('、') || '无') +
@@ -423,12 +424,23 @@ function reading(operation, data) {
     '## 当前账号权限与世界观\n\n| 账号 | 所属世界观 | 日常资格 | 可开串 | 可回复 | 本次主动候选 |\n| --- | --- | --- | --- | --- | --- |\n' +
     data.registry.users.map(user => '| ' + user.id + ' | ' + (data.material.profiles[user.id].basics.worldview || '未指定') + ' | ' + (ready(user, data.material) ? '可用' : '不可用') + ' | ' + (user.allowPosts !== false ? '是' : '否') + ' | ' + (user.allowReplies !== false ? '是' : '否') + ' | ' + (operation.plan.selectedIds.includes(user.id) ? '是' : '否') + ' |').join('\n') +
     '\n\n素材使用：' + sampleInstruction + (data.samples.length ? '' : '当前没有可用素材，继续按现有资料创作，不编造采集记录。') +
-    '\n\n历史阅读范围：保留最近' + (operation.plan.lottery?.diversity?.recentUpdates ?? 3) + '轮帖子原文；旧编号归档按日期分组。规则、人物、世界观与研究资料仍为完整原文。更早的本人发言和实际可见父帖由 brief 按需提供；接续旧串时按原帖路径补读，不将未读历史当作人物已知事实。全部归档继续参与完整性核验。\n\n' +
-    readingDocuments(operation, data).map(document => '---\n\n## 原文路径：' + document.path + '\n\n' + document.text).join('\n\n') + '\n';
+    '\n\n历史阅读范围：保留最近' + (operation.plan.lottery?.diversity?.recentUpdates ?? 3) + '轮帖子原文；旧编号归档按日期分组。规则、人物、世界观与研究资料仍为完整原文。更早的本人发言和实际可见父帖由 brief 按需提供；接续旧串时按原帖路径补读，不将未读历史当作人物已知事实。全部归档继续参与完整性核验。\n\n';
 }
 
-export async function prepareUpdate({ root = socialRoot, workDirectory, requestedCount, intakeReceipt, now = Date.now(), entropy = () => randomBytes(32).toString('hex') } = {}) {
+async function saveReading(operation, data, directory, readSince) {
+  const readingPath = join(directory, 'reading.md'), indexPath = join(directory, 'reading-index.json');
+  const packet = readingPacket(operation.id, readingOverview(operation, data), readingDocuments(operation, data));
+  const [previousText, previousIndex] = await Promise.all([optionalText(readingPath), optionalText(indexPath)]);
+  const { reading, index } = readingComparison(packet, previousIndex, readSince);
+  if (previousText !== packet.text) await atomicFile(readingPath, packet.text);
+  const serialized = JSON.stringify(index) + '\n';
+  if (previousIndex !== serialized) await atomicFile(indexPath, serialized);
+  return reading;
+}
+
+export async function prepareUpdate({ root = socialRoot, workDirectory, requestedCount, intakeReceipt, readSince, now = Date.now(), entropy = () => randomBytes(32).toString('hex') } = {}) {
   if (requestedCount !== undefined) fail('GSM independently draws 1–2 original roots and 1–2 cases; a combined count override is not supported');
+  if (readSince !== undefined && (typeof readSince !== 'string' || !/^[a-f0-9]{64}$/.test(readSince))) fail('Expected a reading revision from prepare');
   root = await checkedRoot(root);
   const directory = await workFolder(workDirectory, root, true), release = await lockWork(directory);
   try {
@@ -477,9 +489,9 @@ export async function prepareUpdate({ root = socialRoot, workDirectory, requeste
       operation.preparedAt = new Date(now).toISOString();
       operation.sourceDigest = operationSourceDigest(data, operation.plan);
     }
-    await atomicFile(readingPath, reading(operation, data));
+    const reading = await saveReading(operation, data, directory, status === 'resumed' ? readSince : undefined);
     await saveOperation(operationPath, operation);
-    return { status, id: operation.id, budget: operation.plan.budget, budgetScope: operation.plan.replyLottery === undefined ? 'posts' : 'roots', totalBudget: operation.plan.totalBudget ?? operation.plan.budget, selectedIds: operation.plan.selectedIds, researchWindows: drawResearchWindows({ seed: operation.plan.seed, lottery: operation.plan.lottery }), ...(operation.plan.researchMaintenance ? { researchMaintenance: operation.plan.researchMaintenance } : {}),
+    return { status, id: operation.id, reading, budget: operation.plan.budget, budgetScope: operation.plan.replyLottery === undefined ? 'posts' : 'roots', totalBudget: operation.plan.totalBudget ?? operation.plan.budget, selectedIds: operation.plan.selectedIds, researchWindows: drawResearchWindows({ seed: operation.plan.seed, lottery: operation.plan.lottery }), ...(operation.plan.researchMaintenance ? { researchMaintenance: operation.plan.researchMaintenance } : {}),
       ...(operation.plan.caseAdaptation ? { caseAdaptation: casePlanSummary(operation.plan), effectiveTotalBudget: operation.plan.lottery?.media?.profiles ? data.policy.maxBatchPosts : (operation.plan.totalBudget ?? operation.plan.budget) + operation.plan.caseAdaptation.count } : {}), operationPath, readingPath };
   } finally { await release(); }
 }
@@ -613,6 +625,9 @@ export async function briefUpdatePost({ root = socialRoot, workDirectory, postId
     const result = await briefLocked({ root, directory, postId, replyTo, threadId, now });
     if (view === 'full' || result.writer === null) return result;
     const { id, draft, writer } = result;
+    // Existing JS callers can still read the alias. The writer's JSON
+    // includes the catalog only once, alongside the other localization data.
+    if (writer.localization?.siteEmotes) Object.defineProperty(writer, 'siteEmotes', { enumerable: false });
     return { id, postId, draft, writer };
   }
   finally { await release(); }
@@ -1089,7 +1104,7 @@ export async function cancelUpdate({ root = socialRoot, workDirectory, now = Dat
       operation.preparedAt = new Date(now).toISOString();
       operation.sourceDigest = operationSourceDigest(data, operation.plan);
       operation.status = 'prepared';
-      await atomicFile(readingPath, reading(operation, data));
+      await saveReading(operation, data, directory);
       await saveOperation(operationPath, operation);
       return { id: operation.id, status: 'cancelled', removedPosts: result.count, budget: operation.plan.budget, selectedIds: operation.plan.selectedIds, operationPath, readingPath };
     } finally { await releasePublish(); }

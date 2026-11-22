@@ -89,7 +89,7 @@ export async function saveArchive({ work, root, archive, stage, sourceRevision }
   if (operation.root !== root) fail('operation belongs to a different source directory');
   if (stage === 'reviewed' && !operation.posts.length) fail('a reviewed archive needs actual posts');
   const contents = new Map([['work/operation.json', operationBytes], ['work/reading.md', await regular(work, 'reading.md')]]);
-  for (const name of ['briefs.json', 'daily-material.json', 'draft-history-' + operation.id + '.json']) {
+  for (const name of ['briefs.json', 'daily-material.json', 'reading-index.json', 'draft-history-' + operation.id + '.json']) {
     const bytes = await regular(work, name, true);
     if (bytes) contents.set('work/' + name, bytes);
   }
@@ -146,7 +146,7 @@ export async function restoreArchive({ archive, operationId, stage = 'reviewed',
   let total = 0;
   for (const file of manifest.files) {
     if (!file || !Number.isInteger(file.bytes) || file.bytes < 0 || !HASH.test(file.sha256) || contents.has(file.path) ||
-      !(/^work\/(?:operation\.json|reading\.md|briefs\.json|daily-material\.json)$/.test(file.path) || file.path === 'work/draft-history-' + operationId + '.json' || file.path?.startsWith('media/') && (MEDIA.test(file.path.slice(6)) || /^posts\/\d{4}\/\d{2}\/[a-z0-9][a-z0-9-]{1,63}\/media\/LICENSE\.txt$/.test(file.path.slice(6))))) fail('invalid or duplicate manifest entry');
+      !(/^work\/(?:operation\.json|reading\.md|briefs\.json|daily-material\.json|reading-index\.json)$/.test(file.path) || file.path === 'work/draft-history-' + operationId + '.json' || file.path?.startsWith('media/') && (MEDIA.test(file.path.slice(6)) || /^posts\/\d{4}\/\d{2}\/[a-z0-9][a-z0-9-]{1,63}\/media\/LICENSE\.txt$/.test(file.path.slice(6))))) fail('invalid or duplicate manifest entry');
     const bytes = await regular(archive, bundlePath + '/' + file.path);
     if (bytes.length !== file.bytes || hash(bytes) !== file.sha256) fail('file checksum mismatch: ' + file.path);
     total += bytes.length;

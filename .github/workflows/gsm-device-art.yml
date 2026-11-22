@@ -1,0 +1,55 @@
+name: Prepare GSM handset artwork
+on:
+  workflow_call:
+    inputs:
+      ref:
+        type: string
+        required: false
+    outputs:
+      revision:
+        description: Commit used to build the artwork
+        value: ${{ jobs.artwork.outputs.revision }}
+
+permissions:
+  contents: read
+
+jobs:
+  artwork:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    # Pages and browser regression can start together on the same push.
+    concurrency:
+      group: gsm-device-art-${{ github.ref }}-${{ github.sha }}
+      cancel-in-progress: false
+    outputs:
+      revision: ${{ steps.runtime.outputs.revision }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - id: runtime
+        run: |
+          echo "revision=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo "platform=$ImageOS-$(node --version)" >> "$GITHUB_OUTPUT"
+      - name: Restore matching handset artwork
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: gsm/assets/device-rendered
+          key: gsm-device-art-${{ runner.os }}-${{ runner.arch }}-${{ steps.runtime.outputs.platform }}-${{ hashFiles('.github/workflows/gsm-device-art.yml', 'gsm/assets/device/**', 'gsm/device/catalog.mjs', 'gsm/device/geometry.mjs', 'gsm/tools/paint-device.mjs', 'gsm/tools/build-device-art.mjs', 'gsm/tools/engine/package*.json') }}
+      - name: Render handset artwork on a cache miss
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          npm ci --prefix gsm/tools/engine --no-audit --no-fund
+          node gsm/tools/build-device-art.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gsm-device-art
+          path: gsm/assets/device-rendered/
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+          overwrite: true

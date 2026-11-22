@@ -1,16 +1,10 @@
 import {gameDocumentTitle, desktopLanguage} from '../shared/games.mjs';
-import {profiles, posts as seeds} from './data/feed.mjs';
 import {copy} from './locales.mjs';
-import {likeIcon, commentIcon} from './icons.mjs';
-import {createThreads} from './threads.mjs';
-import {postTime} from './time.mjs';
-import {STORAGE_KEY, createStateStore, toggle} from './state.mjs';
 import {decoration} from './decorations.mjs';
 import {handsetById} from './handsets.mjs';
 import {shells, antennas, charms} from './device/catalog.mjs';
 import {mountDevice} from './device/stage.mjs';
 import {APPEARANCE_STORAGE_KEY, APPEARANCE_KEYS, DEFAULT_APPEARANCE, normalizeAppearance, readAppearance, writeAppearance, appearanceFromURL, setAppearanceURL} from './device/selection.mjs';
-import {pixelateAvatars} from './avatars.mjs';
 
 const $ = selector => document.querySelector(selector);
 const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -72,11 +66,9 @@ if (isSettings) {
   }).join('')}</div></fieldset>`).join('');
 }
 applyAppearance();
-// Keep earlier local records intact; published packages are the timeline source.
-const stateStore = createStateStore(storage, Object.keys(profiles));
-const state = stateStore.state;
-const allPosts = seeds;
-const threads = createThreads(allPosts);
+const timeline = isSettings ? null : await import('./timeline.mjs');
+const {profiles, posts: allPosts, threads, stateStore} = timeline?.openTimeline(storage) ?? {};
+const state = stateStore?.state;
 function streamURL(user = null) {
   const url = appearanceURL(new URL('./',import.meta.url));
   if (user !== null) url.searchParams.set('user',user);
@@ -100,10 +92,10 @@ const localized = value => typeof value === 'string' ? value : value[language] ?
 const t = (key, vars = {}) => Object.entries(vars).reduce((value,[name,replacement]) => value.replace(`{${name}}`, replacement), copy[language][key]);
 
 function timeLabel(post) {
-  return postTime(post,language);
+  return timeline.postTime(post,language);
 }
 function likeContent(post) {
-  return `${likeIcon()}<span class="like-count">${post.likes+Number(state.likes.includes(post.id))}</span>`;
+  return `${timeline.likeIcon()}<span class="like-count">${post.likes+Number(state.likes.includes(post.id))}</span>`;
 }
 function likeLabel(post) {
   return `${t(state.likes.includes(post.id)?'unlike':'like')} · ${localized(profiles[post.author].name)} · ${post.likes+Number(state.likes.includes(post.id))}`;
@@ -118,8 +110,8 @@ function postMarkup(post, comment = false) {
   const parent = threads.parentFor(post.id);
   const root = threads.rootFor(post.id);
   const commentControl = comment ? '' : selectedPost !== null
-    ? `<a class="comments-link" id="comments-${post.id}" data-comments-jump="${root.id}" href="#comments-body-${root.id}" aria-label="${escape(t('viewComments',{count:threads.countFor(root.id)}))}">${commentIcon()}<span class="comment-count">${threads.countFor(root.id)}</span></a>`
-    : `<a class="comments-link" id="comments-${post.id}" data-thread="${post.id}" href="${escape(threadURL(post.id))}" aria-label="${escape(t('viewComments',{count:threads.countFor(root.id)}))}">${commentIcon()}<span class="comment-count">${threads.countFor(root.id)}</span></a>`;
+    ? `<a class="comments-link" id="comments-${post.id}" data-comments-jump="${root.id}" href="#comments-body-${root.id}" aria-label="${escape(t('viewComments',{count:threads.countFor(root.id)}))}">${timeline.commentIcon()}<span class="comment-count">${threads.countFor(root.id)}</span></a>`
+    : `<a class="comments-link" id="comments-${post.id}" data-thread="${post.id}" href="${escape(threadURL(post.id))}" aria-label="${escape(t('viewComments',{count:threads.countFor(root.id)}))}">${timeline.commentIcon()}<span class="comment-count">${threads.countFor(root.id)}</span></a>`;
   return `<article class="${comment?'comment':'post'}" id="post-${post.id}" tabindex="-1" data-post-id="${post.id}" data-tone="${profile.color}">
     <div class="post-content bubble">
       <header class="post-identity"><a class="avatar" id="profile-${post.id}" data-profile="${escape(post.author)}" href="${escape(streamURL(post.author))}" aria-label="${escape(t('viewProfile',{name:localized(profile.name)}))}"><img data-pixel-avatar src="${new URL(profile.avatarImage,import.meta.url).href}" width="16" height="16" alt="" decoding="async"></a><span class="author-name"><a class="author-label" id="profile-name-${post.id}" data-profile="${escape(post.author)}" href="${escape(streamURL(post.author))}" aria-label="${escape(t('viewProfile',{name:localized(profile.name)}))}">${escape(localized(profile.name))}</a><a class="author-handle" id="profile-handle-${post.id}" data-profile="${escape(post.author)}" href="${escape(streamURL(post.author))}" aria-label="${escape(t('viewProfile',{name:'@'+profile.handle}))}">@${escape(profile.handle)}</a></span></header>
@@ -152,7 +144,7 @@ function clearLikeFeedback(button) {
   button.classList.remove('is-celebrating');
 }
 function refreshStoredState() {
-  if (isAppearancePreview || !stateStore.refresh()) return;
+  if (!stateStore || isAppearancePreview || !stateStore.refresh()) return;
   for (const button of document.querySelectorAll('button[data-like]')) {
     const post = threads.byId.get(button.dataset.like);
     if (!post) continue;
@@ -220,7 +212,7 @@ function render() {
     if (profile && !visiblePosts.length) $('#posts').innerHTML = `<p class="profile-empty">${escape(t('noPosts'))}</p>`;
     if (selectedUser === null && selectedPost === null) $('#streamButton').setAttribute('aria-current','page');
     else $('#streamButton').removeAttribute('aria-current');
-    pixelateAvatars($('#timeline'));
+    timeline.pixelateAvatars($('#timeline'));
   }
   if (activeId) document.getElementById(activeId)?.focus({preventScroll:true});
 }
@@ -325,10 +317,10 @@ document.addEventListener('click',event=>{
     if (!isAppearancePreview) { try { storage?.setItem('umwelt-desktop-language',language); } catch {} }
     render(); return;
   }
-  const post = allPosts.find(item=>item.id===button.dataset.like);
+  const post = threads?.byId.get(button.dataset.like);
   if (!post) return;
   refreshStoredState();
-  toggle(state,'likes',post.id);
+  timeline.toggle(state,'likes',post.id);
   button.setAttribute('aria-pressed',String(state.likes.includes(post.id)));
   button.setAttribute('aria-label',likeLabel(post));
   button.innerHTML = likeContent(post);
@@ -351,7 +343,7 @@ window.addEventListener('pageshow',event=>{
 });
 window.addEventListener('storage',event=>{
   if (isAppearancePreview) return;
-  if (event.key===STORAGE_KEY || event.key===null) refreshStoredState();
+  if (timeline && (event.key===timeline.STORAGE_KEY || event.key===null)) refreshStoredState();
   if (event.key===APPEARANCE_STORAGE_KEY || event.key===null) { appearance=readAppearance(storage);applyAppearance(); }
   if (event.key==='umwelt-desktop-language' || event.key===null) { language=desktopLanguage();render(); }
 });
