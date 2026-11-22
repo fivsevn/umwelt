@@ -13,6 +13,23 @@ const feedReady=page=>page.locator('#posts [data-post-id]').first().waitFor();
  const shellNames=handsetThemes.map(theme=>theme.id);
  const browser=await {chromium,webkit}[name].launch({headless:true});
  try{
+  const settingsPage=await browser.newPage();
+  const streamRequests=[];
+  settingsPage.on('request',request=>{
+   const path=new URL(request.url()).pathname;
+   if(/^\/gsm\/(?:data\/feed|timeline|threads|state|avatars|time|icons)\.mjs$/.test(path))streamRequests.push(path);
+  });
+  await settingsPage.goto(base+'/gsm/settings/?post=sample&user=sample');
+  await settingsPage.locator('[data-shell-choice="'+shells[1].id+'"]').click();
+  assert.equal(new URL(await settingsPage.locator('#homeButton').getAttribute('href'),settingsPage.url()).searchParams.get('shell'),shells[1].id);
+  const settingsLanguage=await settingsPage.locator('html').getAttribute('lang');
+  await settingsPage.locator('#languageButton').click();
+  assert.notEqual(await settingsPage.locator('html').getAttribute('lang'),settingsLanguage);
+  assert.deepEqual(streamRequests,[],'direct settings loads no feed, threads, avatars or like state');
+  await settingsPage.locator('#homeButton').click();
+  await feedReady(settingsPage);
+  assert.ok(streamRequests.includes('/gsm/data/feed.mjs'),'returning to the stream loads its feed');
+  await settingsPage.close();
   const context=await browser.newContext({viewport:{width:1280,height:1000}});
   const page=await context.newPage(),errors=[];
   const savedAppearance=target=>target.evaluate(()=>JSON.parse(localStorage.getItem('umwelt-gsm-appearance')));

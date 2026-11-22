@@ -3,16 +3,17 @@ import { refreshIntake } from './engine/intake-refresh.js';
 try {
   const [command, ...args] = process.argv.slice(2);
   const options = {}, seen = new Set();
-  const usage = 'node gsm/tools/update.mjs prepare|finish|cancel|suggest|replies|brief|checkpoint [--work PATH] [--root PATH] [--post ID] [--reply-to ID | --thread ID] [--view writer|full] [--stage draft|edited]';
+  const usage = 'node gsm/tools/update.mjs prepare|finish|cancel|suggest|replies|brief|checkpoint [--work PATH] [--root PATH] [--read-since REVISION] [--post ID] [--reply-to ID | --thread ID] [--view writer|full] [--stage draft|edited]';
   if (!['prepare','finish','cancel','suggest','replies','brief','checkpoint'].includes(command) || args.length % 2) throw Error(usage);
   for (let i = 0; i < args.length; i += 2) {
     const key = args[i], value = args[i+1];
-    if (!['--root','--work','--thread','--post','--reply-to','--view','--stage'].includes(key) || !value ||
+    if (!['--root','--work','--thread','--post','--reply-to','--view','--stage','--read-since'].includes(key) || !value ||
       seen.has(key) && !(key === '--thread' && command === 'replies')) throw Error(usage);
     if (['--post','--reply-to','--view'].includes(key) && command !== 'brief' || key === '--thread' && !['brief','replies'].includes(command) || key === '--stage' && command !== 'checkpoint') throw Error(usage);
+    if (key === '--read-since' && (command !== 'prepare' || !/^[a-f0-9]{64}$/.test(value))) throw Error(usage);
     seen.add(key);
     if (key === '--thread' && command === 'replies') (options.threadIds ||= []).push(value);
-    else options[{'--root':'root','--work':'workDirectory','--thread':'threadId','--post':'postId','--reply-to':'replyTo','--view':'view','--stage':'stage'}[key]] = value;
+    else options[{'--root':'root','--work':'workDirectory','--thread':'threadId','--post':'postId','--reply-to':'replyTo','--view':'view','--stage':'stage','--read-since':'readSince'}[key]] = value;
   }
   let result;
   if (command === 'prepare') {

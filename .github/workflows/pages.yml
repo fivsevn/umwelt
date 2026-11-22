@@ -28,7 +28,12 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  artwork:
+    uses: ./.github/workflows/gsm-device-art.yml
+    with:
+      ref: main
   deploy:
+    needs: artwork
     timeout-minutes: 25
     environment:
       name: github-pages
@@ -37,7 +42,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: main
+          ref: ${{ needs.artwork.outputs.revision }}
           fetch-depth: 0
 
       - uses: actions/setup-node@v4
@@ -97,8 +102,11 @@ jobs:
       - name: Prepare Pages artifact
         run: node .github/scripts/prepare-site.mjs _site
 
-      - name: Bake static G-stream artwork
-        run: node gsm/tools/build-device-art.mjs _site/gsm/assets/device-rendered
+      - name: Add GSM handset artwork to the site
+        uses: actions/download-artifact@v4
+        with:
+          name: gsm-device-art
+          path: _site/gsm/assets/device-rendered
 
       - name: Subset deployed Pixel font
         run: |

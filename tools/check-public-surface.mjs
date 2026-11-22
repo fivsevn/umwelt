@@ -17,6 +17,7 @@ const required=[
  'gsm/desktop-icon.css',
  'gsm/assets/lcd-matrix.svg',
  'gsm/app.mjs',
+ 'gsm/timeline.mjs',
  'gsm/avatars.mjs',
  'gsm/settings/index.html',
  'gsm/decorations.mjs',

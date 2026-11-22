@@ -21,6 +21,8 @@ node gsm/tools/update.mjs prepare --work /outside/work
 
 准备完成后输出 `operation.json` 与 `reading.md` 的绝对路径。前者保存当前更新的抽签、观察与草稿，后者汇集本地完整规则、全体守宫档案、世界基线、研究和近期几轮帖子原文，以及本操作读取的素材快照。具体作者与目标串的早期材料由 `brief` 按需取得，全部归档仍参与完整性核验。准备结果中的 `researchWindows` 按[抽签规则](lottery.md)用于真实网页观察。
 
+首次准备或换人接手时，完整阅读 `reading.md`。同一策划者在同一轮接续，且还记得上次读完的材料时，可用 `prepare --read-since 上次已读版本 --work /outside/work`。版本取自上次准备结果的 `reading.revision`。返回 `changes` 时按给出的起止行补读新增、修改的原文和有变化的开头说明，并核对移除的路径。返回 `unchanged` 表示材料相同。省略版本或版本无法核对时返回 `full`，使用完整阅读包。
+
 读取按“定位研究依据—读原文—判断适用—写回负责专题”进行。准备会自动发现 `docs/`、`environment/`、`users/` 的 `research-*.md`，研究全文进入完整阅读包并参与研究补充抽取；日常生活、人物和说话方式研究全文同时进入 `writer.site.research`，其他交流专题按当条发言需要提供。生态依据、真实生活观察与人类照料条件统一在日常生活研究的对应章节维护。`sources-*.md` 只保存案例素材：每日案例使用本操作冻结的版本，当前案例抽签只从 `sources-daily-opinions.md` 读取候选，作者精选通过 `writer.site.sources` 提供参考。研究证据不混入每日案例池，空的精选不妨碍读取研究。自动汇集不等于执行者已经读过，也不意味着网页原文、图片和省略回复已经得到检查。
 
 当前事实、长期经历与一次性话头分开核对。本人资料只概括有来源的持续事实，公开原帖保存具体经过；摘要中的结论有疑问时回到原帖，记录实际覆盖的帖号、时间与未读范围。前后说法变化时先分清情境变化、观点变化、人物误记和维护者漏读，不把猜测随摘要传递成新事实。发言者的记忆与知情由角色处境决定，维护者漏读不能当作角色遗忘的设计。
@@ -33,7 +35,7 @@ node gsm/tools/update.mjs prepare --work /outside/work
 
 ## 填写当前更新
 
-在 `operation.json` 中填写 `research`、`posts`、适用的 `reviews`、[配图与整轮审读](#生成并归档配图)及[研究补充结果](#研究补充)。其余自动字段由工具管理。工具汇集材料后，执行者实际读完 `reading.md`，再开展观察与写作。
+在 `operation.json` 中填写 `research`、`posts`、适用的 `reviews`、[配图与整轮审读](#生成并归档配图)及[研究补充结果](#研究补充)。其余自动字段由工具管理。工具汇集材料后，执行者先读完本轮材料，再开展观察与写作。同一轮已读部分可按上述版本接续。
 
 `research` 每项记录一个实际读到的公开页面：
 
@@ -138,7 +140,7 @@ node gsm/tools/update.mjs replies --thread existing-root-id --work /outside/work
 node gsm/tools/update.mjs brief --post 本次操作ID-01 --view writer --work /outside/work
 ```
 
-`--view writer` 只输出本条 `draft` 与 `writer`，完整规则和整轮比较从 `reading.md`、`suggest` 读取，不逐条重复输出。需要核对策划信息时省略该参数，取得完整 `editor`；时间不可用时仍返回原因，`writer: null` 的发言跳过或后续接续。两种输出使用同一抽签与草稿，不影响结果。
+`--view writer` 只输出本条 `draft` 与 `writer`，完整规则和整轮比较从 `reading.md`、`suggest` 读取，不逐条重复输出。需要核对策划信息时省略该参数，取得完整 `editor`；时间不可用时仍返回原因，`writer: null` 的发言跳过或后续接续。两种输出使用同一抽签与草稿，不影响结果。写作视图的站内表情清单见 `writer.localization.siteEmotes`，完整视图也保留原有的 `writer.siteEmotes`。
 
 案例主帖使用准备结果中固定的 `caseAdaptation.postIds` 作为 `--post`，读取案例全文。按原素材的篇幅、媒体与实际采用的互动形成草稿，调整身份、公开事实与本站时间线，将源回复对应到真正站内父帖。两路草稿写入同一份 `posts`，`rootOrder` 供最终按时间混排参考。
 
@@ -311,7 +313,7 @@ node gsm/tools/update.mjs cancel --work /outside/work
 | 帖子 Markdown、随帖 WebP、公共表情、人物与研究资料 | 属于正式内容，持续保存；历史修订只移除确认不再引用的废弃随帖图片。 |
 | `data/feed.mjs` 与 `.publishing/public.json` | 由 GSM 正式帖子与档案生成，继续服务现有掌机页面； |
 | 当前 `operation.json`、`reading.md` | 供当前更新与恢复使用，完成本地及线上核验后由 `finish` 删除；失败时保留。 |
-| 工作目录的 `briefs.json`、每日素材快照与读取凭据 | 只有工具能核对属于当前操作时，随成功收尾清除；不按文件名猜测归属。 |
+| 工作目录的 `briefs.json`、阅读版本索引 `reading-index.json`、每日素材快照与读取凭据 | 只有工具能核对属于当前操作时，随成功收尾清除；不按文件名猜测归属。 |
 | 工作目录的 `draft-history-操作ID.json` 与 `gsm/operations/` | 保存实际初稿、编辑过程和重放依据，有意保留；过程归档随本仓库提交，在 GitHub 上可见，不进入网页与后续日常阅读包。长期积累占用本仓库空间，不增加页面负载。 |
 | 锁、pending、staging | 属于进行中事务，按[恢复与修正](#恢复与修正)处理，不用定期清理任务删除。 |
 | 执行者自行生成的中间图、下载、截图、评估包等 | 放仓库外的本次工作目录，正式采用的媒体再进入发布包；完成任务、确认无需恢复后清理自己的已知文件，工具不遍历用户目录。 |

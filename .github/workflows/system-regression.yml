@@ -23,6 +23,7 @@ on:
         "tests/browser/homepage*.cjs",
         "tests/browser/game-titles.cjs",
         "tests/browser/audio-controls.cjs",
+        ".github/workflows/gsm-device-art.yml",
         ".github/workflows/system-regression.yml",
       ]
   pull_request:
@@ -47,13 +48,18 @@ on:
         "tests/browser/homepage*.cjs",
         "tests/browser/game-titles.cjs",
         "tests/browser/audio-controls.cjs",
+        ".github/workflows/gsm-device-art.yml",
         ".github/workflows/system-regression.yml",
       ]
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
+  artwork:
+    uses: ./.github/workflows/gsm-device-art.yml
   browser:
+    needs: artwork
+    if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.62.1-noble
@@ -73,11 +79,12 @@ jobs:
         timeout-minutes: 3
         run: |
           npm install --prefix "$RUNNER_TEMP/system-browser" --no-package-lock --no-save --no-audit --no-fund --fetch-timeout=30000 --fetch-retries=2 playwright@1.62.1
-      - name: Bake static G-stream artwork
+      - name: Load GSM handset artwork
         if: matrix.suite == 'gsm-feed' || matrix.suite == 'game-titles'
-        run: |
-          npm ci --prefix gsm/tools/engine --no-audit --no-fund
-          node gsm/tools/build-device-art.mjs
+        uses: actions/download-artifact@v4
+        with:
+          name: gsm-device-art
+          path: gsm/assets/device-rendered
       - name: Check system interactions
         env:
           BROWSER: ${{ matrix.browser }}

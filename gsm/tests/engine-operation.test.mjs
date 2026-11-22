@@ -11,6 +11,7 @@ import { loadContent, ingestBatch } from '../tools/engine/content.js';
 import { parsePublicFeed } from '../tools/engine/verify-live.js';
 import { threadDirectory, renderPostDocument } from '../tools/engine/thread-packages.js';
 import { saveArchive, restoreArchive, archiveSourceMatches } from '../tools/operation-archive.mjs';
+import { readingPacket, readingComparison } from '../tools/engine/reading-changes.js';
 
 const sourceRoot = fileURLToPath(new URL('../', import.meta.url));
 const json = async path => JSON.parse(await readFile(path, 'utf8'));
@@ -86,6 +87,9 @@ test('daily reading and isolated writers receive the installed gecko emotes and 
     assert.ok(brief.writer.sourceSamples.items.every(item => item.sourcePath === 'environment/sources-daily-opinions.md'));
     assert.deepEqual(brief.writer.siteEmotes, { sourcePath: emotesPath, ...emotes });
     assert.deepEqual(brief.writer.localization.siteEmotes, { sourcePath: emotesPath, ...emotes });
+    const wire = JSON.parse(JSON.stringify(brief));
+    assert.equal(Object.hasOwn(wire.writer, 'siteEmotes'), Boolean(brief.editor));
+    assert.deepEqual(wire.writer.localization.siteEmotes.items, emotes.items);
     assert.deepEqual(brief.writer.localization.kaomoji, { sourcePath: kaomojiPath, ...kaomoji });
     assert.match(brief.writer.writing.text, /按人物习惯和眼前语气适量采用/);
     assert.doesNotMatch(brief.writer.writing.text, /## 审读|清单为空/);
@@ -239,12 +243,63 @@ test('GSM prepares and resumes locally, separates writer input, archives once an
   assert.ok(requests.some(url => url.includes('/' + localEmote)));
   await assert.rejects(readFile(restored.operationPath), { code: 'ENOENT' });
   await assert.rejects(readFile(join(publicationWork, 'daily-material.json')), { code: 'ENOENT' });
+  await assert.rejects(readFile(join(publicationWork, 'reading-index.json')), { code: 'ENOENT' });
   const history = await json(join(publicationWork, 'draft-history-' + operation.id + '.json'));
   assert.deepEqual(history.snapshots.map(snapshot => snapshot.stage), ['draft', 'edited']);
   assert.equal(history.snapshots[0].posts[0].media.length, 0);
   assert.equal(history.snapshots[1].posts[0].media.length, 2);
   assert.deepEqual(await json(saved.manifestPath), manifest);
   assert.deepEqual((await json(join(dirname(saved.manifestPath), 'work/operation.json'))).posts, operation.posts);
+});
+
+test('reading receipts cover the overview and fall back to full reading after a reorder or loss of provenance', () => {
+  const docs = [{ path: 'a', text: 'a' }, { path: 'b', text: 'b' }];
+  const first = readingPacket('fixture-a', 'Header\n\n', docs);
+  const saved = JSON.stringify(readingComparison(first).index);
+  const updated = readingPacket('fixture-a', 'Header\nSecond line\n\n', docs);
+  const delta = readingComparison(updated, saved, first.revision).reading;
+  assert.equal(delta.mode, 'changes');
+  assert.deepEqual(delta.overview, { startLine: 1, endLine: 2 });
+  assert.deepEqual([delta.added, delta.modified, delta.removed], [[], [], []]);
+  for (const packet of [readingPacket('fixture-a', 'Header\n\n', [...docs].reverse()), readingPacket('fixture-b', 'Header\n\n', docs)]) {
+    assert.equal(readingComparison(packet, saved, first.revision).reading.mode, 'full');
+  }
+  assert.equal(readingComparison(updated, '{', first.revision).reading.mode, 'full');
+});
+
+test('reading receipts locate changed sections across resumes and require a known baseline', async t => {
+  const f = await fixture(t);
+  const removed = 'environment/sources-old-fixture.md', added = 'environment/sources-new-fixture.md';
+  const modified = 'docs/writing.md';
+  await writeFile(join(f.root, removed), 'First fixture.');
+  const first = await prepareUpdate(f.options), revision = first.reading.revision;
+  assert.equal(first.reading.mode, 'full');
+  assert.match(revision, /^[a-f0-9]{64}$/);
+  const resume = readSince => prepareUpdate({ ...f.options, readSince, entropy: () => { throw Error('unexpected redraw'); } });
+  assert.deepEqual((await resume(revision)).reading, { mode: 'unchanged', revision, from: revision });
+  const writing = await readFile(join(f.root, modified), 'utf8') + '\n---\n\n## 原文路径：quoted/heading.md\n\nQuoted text.';
+  await writeFile(join(f.root, modified), writing);
+  await writeFile(join(f.root, added), 'Second fixture.\n');
+  await rm(join(f.root, removed));
+  const next = await resume(revision), delta = next.reading;
+  assert.equal(delta.mode, 'changes');
+  assert.equal(delta.from, revision);
+  assert.equal(delta.overview, null);
+  assert.deepEqual(delta.removed, [removed]);
+  assert.deepEqual(delta.added.map(item => item.path), [added]);
+  assert.deepEqual(delta.modified.map(item => item.path), [modified]);
+  const lines = (await readFile(next.readingPath, 'utf8')).split('\n');
+  for (const { path, startLine, endLine } of [...delta.added, ...delta.modified]) {
+    assert.equal(lines.slice(startLine - 1, endLine).join('\n'), '## 原文路径：' + path + '\n\n' + await readFile(join(f.root, path), 'utf8'));
+  }
+  assert.equal((await resume(delta.revision)).reading.mode, 'unchanged');
+  assert.deepEqual((await resume(revision)).reading, delta, 'the reader can still use the earlier revision');
+  assert.equal((await resume()).reading.mode, 'full', 'a new session always receives the full reading');
+  assert.equal((await resume('0'.repeat(64))).reading.mode, 'full');
+  await assert.rejects(resume('invalid'), /reading revision/);
+  await rm(join(f.workDirectory, 'reading-index.json'));
+  assert.equal((await resume(revision)).reading.mode, 'full', 'a legacy working copy can still resume');
+  assert.equal((await json(first.operationPath)).id, first.id);
 });
 
 test('changing GSM source invalidates an existing brief while refresh preserves the original draw and draft', async t => {
@@ -269,6 +324,7 @@ test('same-repository archive commits preserve the reviewed source and replay of
   const manifest = await json(saved.manifestPath);
   assert.equal(saved.manifestPath, join(f.root, 'operations', before.id, 'prepared', saved.bundleId, 'manifest.json'));
   assert.ok(manifest.files.some(file => file.path === 'work/daily-material.json'));
+  assert.ok(manifest.files.some(file => file.path === 'work/reading-index.json'));
   assert.equal(saved.sourceRevision, git('rev-parse', 'HEAD'));
   git('add', 'gsm/operations'); commit('Save prepared operation in the same repository');
   assert.notEqual(saved.sourceRevision, git('rev-parse', 'HEAD'));
@@ -279,8 +335,9 @@ test('same-repository archive commits preserve the reviewed source and replay of
   const sameWork = join(f.directory, 'same-root-restored');
   const same = await restoreArchive({ root: f.root, work: sameWork, operationId: before.id, stage: 'prepared' });
   assert.deepEqual((await json(same.operationPath)).plan, before.plan);
-  await prepareUpdate({ root: f.root, workDirectory: sameWork, now: f.now + 1000,
+  const sameReading = await prepareUpdate({ root: f.root, workDirectory: sameWork, now: f.now + 1000, readSince: prepared.reading.revision,
     entropy: () => { throw Error('archive-only commits must not redraw'); } });
+  assert.equal(sameReading.reading.mode, 'unchanged');
   assert.equal((await json(same.operationPath)).sourceDigest, before.sourceDigest);
 
   const movedRoot = join(f.directory, 'relocated/gsm'), movedWork = join(f.directory, 'relocated-work');

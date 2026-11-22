@@ -19,6 +19,7 @@ async function optionalRecord(path) {
 export async function cleanupCompletedWork(directory, operation) {
   const documentDigest = operation.plan.caseAdaptation?.intakeReceipt?.documentDigest;
   const owners = {
+    'reading-index.json': value => plain(value) && value.version === 1 && value.operationId === operation.id,
     'briefs.json': value => Array.isArray(value) && value.length > 0 && value.every(brief =>
       plain(brief) && brief.id === operation.id && typeof brief.postId === 'string' &&
       brief.draft?.id === brief.postId && (brief.writer === null || plain(brief.writer))),
