@@ -1,0 +1,615 @@
+{
+  "version": 1,
+  "id": "gsm-20261122085800-60e0658e",
+  "root": "/workspace/scratch/7c229307b34f/repo/gsm",
+  "preparedAt": "2026-11-22T08:58:00.639Z",
+  "plan": {
+    "seed": "62a89dd3b5b76ada77b1976130b54cd9a7255d49c53cb2e59dc85ce5eedd8a7a",
+    "budget": 2,
+    "selectedIds": [
+      "twosteps8",
+      "smallhide2",
+      "nightshift3"
+    ],
+    "totalBudget": 120,
+    "replyLottery": {
+      "bands": [
+        {
+          "weight": 30,
+          "min": 0,
+          "max": 0
+        },
+        {
+          "weight": 20,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "weight": 20,
+          "min": 2,
+          "max": 4
+        },
+        {
+          "weight": 15,
+          "min": 5,
+          "max": 12
+        },
+        {
+          "weight": 8,
+          "min": 13,
+          "max": 30
+        },
+        {
+          "weight": 5,
+          "min": 31,
+          "max": 60
+        },
+        {
+          "weight": 2,
+          "min": 61,
+          "max": 100
+        }
+      ],
+      "maxReplies": 100
+    },
+    "lottery": {
+      "version": 1,
+      "rootBudget": {
+        "min": 1,
+        "max": 2
+      },
+      "authors": {
+        "candidates": 3,
+        "recentPosts": 7,
+        "recentMultiplier": 0.5
+      },
+      "authorKind": [
+        {
+          "value": "guest",
+          "weight": 75
+        },
+        {
+          "value": "library",
+          "weight": 25
+        }
+      ],
+      "motivation": [
+        {
+          "value": "ask-help",
+          "weight": 24
+        },
+        {
+          "value": "vent",
+          "weight": 22
+        },
+        {
+          "value": "passing-thought",
+          "weight": 24
+        },
+        {
+          "value": "share",
+          "weight": 18
+        },
+        {
+          "value": "correct",
+          "weight": 6
+        },
+        {
+          "value": "celebrate",
+          "weight": 6
+        }
+      ],
+      "length": [
+        {
+          "value": "fragment",
+          "weight": 45
+        },
+        {
+          "value": "short",
+          "weight": 40
+        },
+        {
+          "value": "long",
+          "weight": 15
+        }
+      ],
+      "conditionCount": {
+        "min": 1,
+        "max": 2
+      },
+      "waitSeconds": [
+        {
+          "weight": 45,
+          "min": 20,
+          "max": 180
+        },
+        {
+          "weight": 40,
+          "min": 181,
+          "max": 1800
+        },
+        {
+          "weight": 15,
+          "min": 1801,
+          "max": 21600
+        }
+      ],
+      "reading": [
+        {
+          "value": "target-only",
+          "weight": 40
+        },
+        {
+          "value": "root-and-target",
+          "weight": 35
+        },
+        {
+          "value": "nearby",
+          "weight": 25
+        }
+      ],
+      "textWindow": [
+        {
+          "value": "full",
+          "weight": 45
+        },
+        {
+          "value": "opening",
+          "weight": 35
+        },
+        {
+          "value": "fragment",
+          "weight": 20
+        }
+      ],
+      "excerptCharacters": 140,
+      "nearbyReplies": {
+        "min": 0,
+        "max": 3
+      },
+      "media": {
+        "images": {
+          "root": {
+            "types": [
+              {
+                "value": "photo",
+                "weight": 70
+              },
+              {
+                "value": "screenshot",
+                "weight": 20
+              },
+              {
+                "value": "illustration",
+                "weight": 10
+              }
+            ]
+          },
+          "reply": {
+            "types": [
+              {
+                "value": "photo",
+                "weight": 50
+              },
+              {
+                "value": "screenshot",
+                "weight": 40
+              },
+              {
+                "value": "illustration",
+                "weight": 10
+              }
+            ]
+          }
+        },
+        "emotes": {
+          "root": {
+            "counts": [
+              {
+                "weight": 90,
+                "min": 1,
+                "max": 1
+              },
+              {
+                "weight": 10,
+                "min": 2,
+                "max": 2
+              }
+            ]
+          },
+          "reply": {
+            "counts": [
+              {
+                "weight": 90,
+                "min": 1,
+                "max": 1
+              },
+              {
+                "weight": 10,
+                "min": 2,
+                "max": 2
+              }
+            ]
+          }
+        },
+        "profiles": [
+          {
+            "id": "text-led",
+            "weight": 35,
+            "root": {
+              "none": 50,
+              "image": 28,
+              "emote": 14,
+              "both": 8
+            },
+            "reply": {
+              "none": 48,
+              "image": 10,
+              "emote": 34,
+              "both": 8
+            }
+          },
+          {
+            "id": "mixed",
+            "weight": 45,
+            "root": {
+              "none": 30,
+              "image": 38,
+              "emote": 17,
+              "both": 15
+            },
+            "reply": {
+              "none": 35,
+              "image": 12,
+              "emote": 39,
+              "both": 14
+            }
+          },
+          {
+            "id": "image-led",
+            "weight": 20,
+            "root": {
+              "none": 15,
+              "image": 45,
+              "emote": 12,
+              "both": 28
+            },
+            "reply": {
+              "none": 25,
+              "image": 18,
+              "emote": 37,
+              "both": 20
+            }
+          }
+        ]
+      },
+      "likes": {
+        "root": [
+          {
+            "weight": 20,
+            "min": 0,
+            "max": 0
+          },
+          {
+            "weight": 73,
+            "min": 1,
+            "max": 20
+          },
+          {
+            "weight": 6,
+            "min": 21,
+            "max": 60
+          },
+          {
+            "weight": 1,
+            "min": 61,
+            "max": 160
+          }
+        ],
+        "reply": [
+          {
+            "weight": 35,
+            "min": 0,
+            "max": 0
+          },
+          {
+            "weight": 62,
+            "min": 1,
+            "max": 12
+          },
+          {
+            "weight": 2,
+            "min": 13,
+            "max": 35
+          },
+          {
+            "weight": 1,
+            "min": 36,
+            "max": 90
+          }
+        ]
+      },
+      "sampling": {
+        "offset": {
+          "min": 0,
+          "max": 30
+        },
+        "count": {
+          "min": 3,
+          "max": 6
+        }
+      },
+      "discussion": {
+        "negativeMotivation": [
+          {
+            "value": "complaint",
+            "weight": 16
+          },
+          {
+            "value": "gossip",
+            "weight": 10
+          },
+          {
+            "value": "dispute",
+            "weight": 8
+          },
+          {
+            "value": "grievance",
+            "weight": 8
+          },
+          {
+            "value": "suspicion",
+            "weight": 8
+          },
+          {
+            "value": "irritation",
+            "weight": 16
+          },
+          {
+            "value": "contempt",
+            "weight": 12
+          },
+          {
+            "value": "envy",
+            "weight": 6
+          },
+          {
+            "value": "pile-on",
+            "weight": 10
+          },
+          {
+            "value": "grudge",
+            "weight": 6
+          }
+        ],
+        "replyStance": [
+          {
+            "value": "support",
+            "weight": 12
+          },
+          {
+            "value": "push-back",
+            "weight": 12
+          },
+          {
+            "value": "doubt",
+            "weight": 8
+          },
+          {
+            "value": "defend",
+            "weight": 8
+          },
+          {
+            "value": "provoke",
+            "weight": 12
+          },
+          {
+            "value": "ask-detail",
+            "weight": 4
+          },
+          {
+            "value": "sidetrack",
+            "weight": 14
+          },
+          {
+            "value": "dismiss",
+            "weight": 12
+          },
+          {
+            "value": "repeat",
+            "weight": 10
+          },
+          {
+            "value": "pile-on",
+            "weight": 8
+          }
+        ],
+        "replyAuthor": [
+          {
+            "value": "new",
+            "weight": 85
+          },
+          {
+            "value": "root",
+            "weight": 8
+          },
+          {
+            "value": "participant",
+            "weight": 7
+          }
+        ],
+        "negativeProbability": 0.5,
+        "minimumNegativeShare": 0.5
+      },
+      "researchMaintenance": {
+        "probability": 0.3,
+        "maxDocuments": 1,
+        "ageWeightDays": 7,
+        "maxAgeWeight": 5
+      },
+      "diversity": {
+        "recentUpdates": 3
+      },
+      "participation": {
+        "version": 2
+      }
+    },
+    "timeWindow": {
+      "start": "2026-11-21T08:58:00.639Z",
+      "end": "2026-11-22T08:58:00.639Z"
+    },
+    "participationSchedules": {
+      "backpackgecko": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "gecko404": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "gedageda": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "isopodafugue": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "leafback7": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "mango27": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "moss9": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "nearthermo": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "nightshift3": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "peachcrumble": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "slowblink": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "smallhide2": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "twosteps8": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "wallafterdark": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "wednesday6": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      }
+    },
+    "caseAdaptation": {
+      "count": 1,
+      "intakeReceipt": {
+        "repository": "fivsevn/umwelt",
+        "path": "gsm/environment/sources-daily-opinions.md",
+        "revision": "c295c2574cf658d081c7e8b54154b6f7f053079b",
+        "documentSha": "c295c2574cf658d081c7e8b54154b6f7f053079b",
+        "documentDigest": "4cb7906514ab7c4df5a15f758fce6e5412e2370b04b891bcf190833ac52b7288",
+        "collectedAt": "2026-11-22T03:29:22.000Z",
+        "fetchedAt": "2026-11-22T08:58:00.624Z"
+      },
+      "items": [
+        {
+          "postId": "gsm-20261122085800-60e0658e-3d889ba36785",
+          "sourcePath": "environment/sources-daily-opinions.md",
+          "sample": {
+            "id": "sample-7f0197c2cece",
+            "title": "讨论 4",
+            "text": "### 讨论 4\n\n1. **发言者 1**：I found this ring snake on the sidewalk outside work. It's alive but could barely move. I've brought it inside work to warm up and I'll put them in the rocks behind the building when it's warmer this afternoon. Little thing shouldn't be out in this cold.  \n   \\[图片或视频省略，未读取画面\\]",
+            "context": "采集时间：2026-11-22 11:29:22（北京时间）"
+          }
+        }
+      ],
+      "rootOrder": [
+        "gsm-20261122085800-60e0658e-aa5ddc9d9739",
+        "gsm-20261122085800-60e0658e-3d889ba36785",
+        "gsm-20261122085800-60e0658e-283cff8a80d8"
+      ]
+    },
+    "researchMaintenance": {
+      "candidates": [
+        {
+          "path": "environment/research-comments.md",
+          "updatedAt": "2026-11-22T04:35:25.000Z"
+        },
+        {
+          "path": "environment/research-everyday-life.md",
+          "updatedAt": "2026-11-22T04:35:25.000Z"
+        },
+        {
+          "path": "environment/research-meme.md",
+          "updatedAt": "2026-11-22T04:35:25.000Z"
+        },
+        {
+          "path": "environment/research-negative.md",
+          "updatedAt": "2026-11-22T04:35:25.000Z"
+        },
+        {
+          "path": "environment/research-worldview.md",
+          "updatedAt": "2026-11-22T04:35:25.000Z"
+        },
+        {
+          "path": "users/research-character.md",
+          "updatedAt": "2026-11-22T04:35:25.000Z"
+        },
+        {
+          "path": "users/research-speech.md",
+          "updatedAt": "2026-11-22T04:35:25.000Z"
+        }
+      ],
+      "selectedPaths": [
+        "users/research-character.md"
+      ]
+    },
+    "seal": "ce1775951c26ca400cf45246b04f539d41f05be2670347256229175627e92365"
+  },
+  "sourceDigest": "dca139c764dc07d296b2261b964908d8abf188d9c7be30fe0f25d8c257fd009d",
+  "research": [],
+  "posts": [],
+  "status": "prepared",
+  "reviews": [],
+  "researchMaintenance": [],
+  "guestNames": {
+    "guest-34b2b83b910aae97": "sora",
+    "guest-11540f594cbdd468": "0_0",
+    "guest-113ccc09c33f810a": "kiwi"
+  }
+}

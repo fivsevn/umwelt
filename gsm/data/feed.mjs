@@ -1,5 +1,33 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "guest-d111ac6ad9ac27c2": {
+    "handle": "guest-d111ac6ad9ac27c2",
+    "name": "一一",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-d111ac6ad9ac27c2.webp?v=3a99410baa47",
+    "color": "sand"
+  },
+  "guest-113ccc09c33f810a": {
+    "handle": "guest-113ccc09c33f810a",
+    "name": "kiwi",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-113ccc09c33f810a.webp?v=8ba191455bd7",
+    "color": "rose"
+  },
+  "guest-11540f594cbdd468": {
+    "handle": "guest-11540f594cbdd468",
+    "name": "0_0",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-11540f594cbdd468.webp?v=8ba191455bd7",
+    "color": "sage"
+  },
+  "guest-34b2b83b910aae97": {
+    "handle": "guest-34b2b83b910aae97",
+    "name": "sora",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-34b2b83b910aae97.webp?v=d880f2ec2809",
+    "color": "sand"
+  },
   "guest-c89749dbf50b25fd": {
     "handle": "guest-c89749dbf50b25fd",
     "name": "一杯水",
@@ -275,6 +303,205 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "gsm-20261122085800-60e0658e-04",
+    "date": "2026-11-22T11:48:02.088+08:00",
+    "createdAt": 1795319282088,
+    "author": "guest-d111ac6ad9ac27c2",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "我刚也碰上个蹲着不走的，掉头回去了。谁有空陪他耗。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/ignore.webp",
+          "alt": "守宫转过身背对前方，只回头斜看，粗尾巴盘在脚边。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "我刚也碰上个蹲着不走的，掉头回去了。谁有空陪他耗。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/ignore.webp",
+          "alt": "守宫转过身背对前方，只回头斜看，粗尾巴盘在脚边。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "我刚也碰上个蹲着不走的，掉头回去了。谁有空陪他耗。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/ignore.webp",
+          "alt": "守宫转过身背对前方，只回头斜看，粗尾巴盘在脚边。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ]
+    },
+    "replyTo": "gsm-20261122085800-60e0658e-aa5ddc9d9739"
+  },
+  {
+    "id": "gsm-20261122085800-60e0658e-283cff8a80d8",
+    "date": "2026-11-22T11:30:28.088+08:00",
+    "createdAt": 1795318228088,
+    "author": "guest-113ccc09c33f810a",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "远看还当是个洞，特意从水碟后头绕过来。鼻尖顶上去才看清，墙根黑了一块。什么破斑。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261122085800-60e0658e-283cff8a80d8/media/spot.webp",
+          "alt": "水碟旁的墙根有块深色斑，斑上也能看见墙面的颗粒。",
+          "width": 1100,
+          "height": 619
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/speechless.webp",
+          "alt": "守宫伏着身体，一只前爪托着脸颊，半闭着眼，嘴角向下。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "远看还当是个洞，特意从水碟后头绕过来。鼻尖顶上去才看清，墙根黑了一块。什么破斑。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261122085800-60e0658e-283cff8a80d8/media/spot.webp",
+          "alt": "水碟旁的墙根有块深色斑，斑上也能看见墙面的颗粒。",
+          "width": 1100,
+          "height": 619
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/speechless.webp",
+          "alt": "守宫伏着身体，一只前爪托着脸颊，半闭着眼，嘴角向下。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "远看还当是个洞，特意从水碟后头绕过来。鼻尖顶上去才看清，墙根黑了一块。什么破斑。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261122085800-60e0658e-283cff8a80d8/media/spot.webp",
+          "alt": "水碟旁的墙根有块深色斑，斑上也能看见墙面的颗粒。",
+          "width": 1100,
+          "height": 619
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/speechless.webp",
+          "alt": "守宫伏着身体，一只前爪托着脸颊，半闭着眼，嘴角向下。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gsm-20261122085800-60e0658e-3d889ba36785",
+    "date": "2026-11-22T06:46:57.065+08:00",
+    "createdAt": 1795301217065,
+    "author": "guest-11540f594cbdd468",
+    "likes": 18,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "我从门边往外看，路上有条小蛇，盯了半天才看见它动了一下。刚有人把它带进屋了。外头这么冷，这小东西怎么还在路上啊。希望下午暖和点，它能钻进屋后那堆石头里。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261122085800-60e0658e-3d889ba36785/media/road.webp",
+          "alt": "门槛外，一条颈后带浅色细环的小蛇伏在灰色路面上。",
+          "width": 1100,
+          "height": 619
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "我从门边往外看，路上有条小蛇，盯了半天才看见它动了一下。刚有人把它带进屋了。外头这么冷，这小东西怎么还在路上啊。希望下午暖和点，它能钻进屋后那堆石头里。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261122085800-60e0658e-3d889ba36785/media/road.webp",
+          "alt": "门槛外，一条颈后带浅色细环的小蛇伏在灰色路面上。",
+          "width": 1100,
+          "height": 619
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "我从门边往外看，路上有条小蛇，盯了半天才看见它动了一下。刚有人把它带进屋了。外头这么冷，这小东西怎么还在路上啊。希望下午暖和点，它能钻进屋后那堆石头里。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261122085800-60e0658e-3d889ba36785/media/road.webp",
+          "alt": "门槛外，一条颈后带浅色细环的小蛇伏在灰色路面上。",
+          "width": 1100,
+          "height": 619
+        }
+      ]
+    }
+  },
+  {
+    "id": "gsm-20261122085800-60e0658e-aa5ddc9d9739",
+    "date": "2026-11-21T20:05:28.233+08:00",
+    "createdAt": 1795262728233,
+    "author": "guest-34b2b83b910aae97",
+    "likes": 12,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "我刚探头，人的影子就把前面那截路盖住了。我停着是等他先走，他蹲下来拍上了。你倒是走啊。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "我刚探头，人的影子就把前面那截路盖住了。我停着是等他先走，他蹲下来拍上了。你倒是走啊。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "我刚探头，人的影子就把前面那截路盖住了。我停着是等他先走，他蹲下来拍上了。你倒是走啊。"
+        }
+      ]
+    }
+  },
   {
     "id": "gsm-20261116011143-9992eefc-a704d30e4682",
     "date": "2026-11-16T08:54:22.227+08:00",

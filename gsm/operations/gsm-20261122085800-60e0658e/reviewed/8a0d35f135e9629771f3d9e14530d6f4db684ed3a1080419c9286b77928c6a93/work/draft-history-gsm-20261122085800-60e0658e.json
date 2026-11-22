@@ -1,0 +1,361 @@
+{
+  "version": 1,
+  "operationId": "gsm-20261122085800-60e0658e",
+  "snapshots": [
+    {
+      "stage": "draft",
+      "sourceDigest": "dca139c764dc07d296b2261b964908d8abf188d9c7be30fe0f25d8c257fd009d",
+      "planDigest": "a4471e403d0778df0f19c62ffe9b281c34550ce47d1224942dab18ea1d7254a7",
+      "posts": [
+        {
+          "id": "gsm-20261122085800-60e0658e-aa5ddc9d9739",
+          "author": "guest-34b2b83b910aae97",
+          "guest": {
+            "name": "sora"
+          },
+          "createdAt": "2026-11-22T03:30:28.088Z",
+          "replyTo": null,
+          "text": "我刚探头，人的影子就把前面那截路盖住了。我停着是等他先走，他倒蹲下来拍上了。你倒是走啊。",
+          "likes": 12,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-22T09:02:19.296Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "dca139c764dc07d296b2261b964908d8abf188d9c7be30fe0f25d8c257fd009d",
+      "planDigest": "a4471e403d0778df0f19c62ffe9b281c34550ce47d1224942dab18ea1d7254a7",
+      "posts": [
+        {
+          "id": "gsm-20261122085800-60e0658e-aa5ddc9d9739",
+          "author": "guest-34b2b83b910aae97",
+          "guest": {
+            "name": "sora"
+          },
+          "createdAt": "2026-11-22T03:30:28.088Z",
+          "replyTo": null,
+          "text": "我刚探头，人的影子就把前面那截路盖住了。我停着是等他先走，他倒蹲下来拍上了。你倒是走啊。",
+          "likes": 12,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261122085800-60e0658e-3d889ba36785",
+          "author": "guest-11540f594cbdd468",
+          "guest": {
+            "name": "0_0"
+          },
+          "createdAt": "2026-11-21T22:46:57.065Z",
+          "replyTo": null,
+          "text": "我从门边往外看，路上有条小蛇，盯了半天才看见它动了一下。刚有人把它带进屋了。外头这么冷，这小东西怎么还在路上啊。希望下午暖和点，它能回屋后那堆石头里。",
+          "likes": 18,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "image",
+              "src": "posts/2026/11/gsm-20261122085800-60e0658e-3d889ba36785/media/road.webp",
+              "alt": "门槛外，一条颈后带浅色细环的小蛇伏在灰色路面上。"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-22T09:02:19.490Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "dca139c764dc07d296b2261b964908d8abf188d9c7be30fe0f25d8c257fd009d",
+      "planDigest": "a4471e403d0778df0f19c62ffe9b281c34550ce47d1224942dab18ea1d7254a7",
+      "posts": [
+        {
+          "id": "gsm-20261122085800-60e0658e-aa5ddc9d9739",
+          "author": "guest-34b2b83b910aae97",
+          "guest": {
+            "name": "sora"
+          },
+          "createdAt": "2026-11-22T03:30:28.088Z",
+          "replyTo": null,
+          "text": "我刚探头，人的影子就把前面那截路盖住了。我停着是等他先走，他倒蹲下来拍上了。你倒是走啊。",
+          "likes": 12,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261122085800-60e0658e-3d889ba36785",
+          "author": "guest-11540f594cbdd468",
+          "guest": {
+            "name": "0_0"
+          },
+          "createdAt": "2026-11-21T22:46:57.065Z",
+          "replyTo": null,
+          "text": "我从门边往外看，路上有条小蛇，盯了半天才看见它动了一下。刚有人把它带进屋了。外头这么冷，这小东西怎么还在路上啊。希望下午暖和点，它能回屋后那堆石头里。",
+          "likes": 18,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "image",
+              "src": "posts/2026/11/gsm-20261122085800-60e0658e-3d889ba36785/media/road.webp",
+              "alt": "门槛外，一条颈后带浅色细环的小蛇伏在灰色路面上。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261122085800-60e0658e-283cff8a80d8",
+          "author": "guest-113ccc09c33f810a",
+          "guest": {
+            "name": "kiwi"
+          },
+          "createdAt": "2026-11-21T12:05:28.233Z",
+          "replyTo": null,
+          "text": "远看还当是个洞，特意从水碟后头绕过来。鼻尖顶上去才看清，墙根黑了一块。破斑长得还挺深。",
+          "likes": 1,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "image",
+              "src": "posts/2026/11/gsm-20261122085800-60e0658e-283cff8a80d8/media/spot.webp",
+              "alt": "水碟旁的墙根有块深色斑，斑上也能看见墙面的颗粒。"
+            },
+            {
+              "kind": "emote",
+              "src": "assets/emotes/gsm/speechless.webp",
+              "alt": "守宫伏着身体，一只前爪托着脸颊，半闭着眼，嘴角向下。"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-22T09:02:19.683Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "dca139c764dc07d296b2261b964908d8abf188d9c7be30fe0f25d8c257fd009d",
+      "planDigest": "a4471e403d0778df0f19c62ffe9b281c34550ce47d1224942dab18ea1d7254a7",
+      "posts": [
+        {
+          "id": "gsm-20261122085800-60e0658e-aa5ddc9d9739",
+          "author": "guest-34b2b83b910aae97",
+          "guest": {
+            "name": "sora"
+          },
+          "createdAt": "2026-11-22T03:30:28.088Z",
+          "replyTo": null,
+          "text": "我刚探头，人的影子就把前面那截路盖住了。我停着是等他先走，他蹲下来拍上了。你倒是走啊。",
+          "likes": 12,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261122085800-60e0658e-3d889ba36785",
+          "author": "guest-11540f594cbdd468",
+          "guest": {
+            "name": "0_0"
+          },
+          "createdAt": "2026-11-21T22:46:57.065Z",
+          "replyTo": null,
+          "text": "我从门边往外看，路上有条小蛇，盯了半天才看见它动了一下。刚有人把它带进屋了。外头这么冷，这小东西怎么还在路上啊。希望下午暖和点，它能钻进屋后那堆石头里。",
+          "likes": 18,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "image",
+              "src": "posts/2026/11/gsm-20261122085800-60e0658e-3d889ba36785/media/road.webp",
+              "alt": "门槛外，一条颈后带浅色细环的小蛇伏在灰色路面上。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261122085800-60e0658e-283cff8a80d8",
+          "author": "guest-113ccc09c33f810a",
+          "guest": {
+            "name": "kiwi"
+          },
+          "createdAt": "2026-11-21T12:05:28.233Z",
+          "replyTo": null,
+          "text": "远看还当是个洞，特意从水碟后头绕过来。鼻尖顶上去才看清，墙根黑了一块。什么破斑。",
+          "likes": 1,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "image",
+              "src": "posts/2026/11/gsm-20261122085800-60e0658e-283cff8a80d8/media/spot.webp",
+              "alt": "水碟旁的墙根有块深色斑，斑上也能看见墙面的颗粒。"
+            },
+            {
+              "kind": "emote",
+              "src": "assets/emotes/gsm/speechless.webp",
+              "alt": "守宫伏着身体，一只前爪托着脸颊，半闭着眼，嘴角向下。"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-22T09:04:07.094Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "dca139c764dc07d296b2261b964908d8abf188d9c7be30fe0f25d8c257fd009d",
+      "planDigest": "a4471e403d0778df0f19c62ffe9b281c34550ce47d1224942dab18ea1d7254a7",
+      "posts": [
+        {
+          "id": "gsm-20261122085800-60e0658e-aa5ddc9d9739",
+          "author": "guest-34b2b83b910aae97",
+          "guest": {
+            "name": "sora"
+          },
+          "createdAt": "2026-11-22T03:30:28.088Z",
+          "replyTo": null,
+          "text": "我刚探头，人的影子就把前面那截路盖住了。我停着是等他先走，他蹲下来拍上了。你倒是走啊。",
+          "likes": 12,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261122085800-60e0658e-3d889ba36785",
+          "author": "guest-11540f594cbdd468",
+          "guest": {
+            "name": "0_0"
+          },
+          "createdAt": "2026-11-21T22:46:57.065Z",
+          "replyTo": null,
+          "text": "我从门边往外看，路上有条小蛇，盯了半天才看见它动了一下。刚有人把它带进屋了。外头这么冷，这小东西怎么还在路上啊。希望下午暖和点，它能钻进屋后那堆石头里。",
+          "likes": 18,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "image",
+              "src": "posts/2026/11/gsm-20261122085800-60e0658e-3d889ba36785/media/road.webp",
+              "alt": "门槛外，一条颈后带浅色细环的小蛇伏在灰色路面上。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261122085800-60e0658e-283cff8a80d8",
+          "author": "guest-113ccc09c33f810a",
+          "guest": {
+            "name": "kiwi"
+          },
+          "createdAt": "2026-11-21T12:05:28.233Z",
+          "replyTo": null,
+          "text": "远看还当是个洞，特意从水碟后头绕过来。鼻尖顶上去才看清，墙根黑了一块。什么破斑。",
+          "likes": 1,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "image",
+              "src": "posts/2026/11/gsm-20261122085800-60e0658e-283cff8a80d8/media/spot.webp",
+              "alt": "水碟旁的墙根有块深色斑，斑上也能看见墙面的颗粒。"
+            },
+            {
+              "kind": "emote",
+              "src": "assets/emotes/gsm/speechless.webp",
+              "alt": "守宫伏着身体，一只前爪托着脸颊，半闭着眼，嘴角向下。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261122085800-60e0658e-04",
+          "author": "guest-d111ac6ad9ac27c2",
+          "guest": {
+            "name": "一一"
+          },
+          "createdAt": "2026-11-22T03:48:02.088Z",
+          "replyTo": "gsm-20261122085800-60e0658e-aa5ddc9d9739",
+          "text": "我刚也碰上个蹲着不走的，掉头回去了。谁有空陪他耗。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "emote",
+              "src": "assets/emotes/gsm/ignore.webp",
+              "alt": "守宫转过身背对前方，只回头斜看，粗尾巴盘在脚边。"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-22T09:04:41.615Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "dca139c764dc07d296b2261b964908d8abf188d9c7be30fe0f25d8c257fd009d",
+      "planDigest": "a4471e403d0778df0f19c62ffe9b281c34550ce47d1224942dab18ea1d7254a7",
+      "posts": [
+        {
+          "id": "gsm-20261122085800-60e0658e-aa5ddc9d9739",
+          "author": "guest-34b2b83b910aae97",
+          "guest": {
+            "name": "sora"
+          },
+          "createdAt": "2026-11-22T03:30:28.088Z",
+          "replyTo": null,
+          "text": "我刚探头，人的影子就把前面那截路盖住了。我停着是等他先走，他蹲下来拍上了。你倒是走啊。",
+          "likes": 12,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261122085800-60e0658e-3d889ba36785",
+          "author": "guest-11540f594cbdd468",
+          "guest": {
+            "name": "0_0"
+          },
+          "createdAt": "2026-11-21T22:46:57.065Z",
+          "replyTo": null,
+          "text": "我从门边往外看，路上有条小蛇，盯了半天才看见它动了一下。刚有人把它带进屋了。外头这么冷，这小东西怎么还在路上啊。希望下午暖和点，它能钻进屋后那堆石头里。",
+          "likes": 18,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "image",
+              "src": "posts/2026/11/gsm-20261122085800-60e0658e-3d889ba36785/media/road.webp",
+              "alt": "门槛外，一条颈后带浅色细环的小蛇伏在灰色路面上。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261122085800-60e0658e-283cff8a80d8",
+          "author": "guest-113ccc09c33f810a",
+          "guest": {
+            "name": "kiwi"
+          },
+          "createdAt": "2026-11-21T12:05:28.233Z",
+          "replyTo": null,
+          "text": "远看还当是个洞，特意从水碟后头绕过来。鼻尖顶上去才看清，墙根黑了一块。什么破斑。",
+          "likes": 1,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "image",
+              "src": "posts/2026/11/gsm-20261122085800-60e0658e-283cff8a80d8/media/spot.webp",
+              "alt": "水碟旁的墙根有块深色斑，斑上也能看见墙面的颗粒。"
+            },
+            {
+              "kind": "emote",
+              "src": "assets/emotes/gsm/speechless.webp",
+              "alt": "守宫伏着身体，一只前爪托着脸颊，半闭着眼，嘴角向下。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261122085800-60e0658e-04",
+          "author": "guest-d111ac6ad9ac27c2",
+          "guest": {
+            "name": "一一"
+          },
+          "createdAt": "2026-11-22T03:48:02.088Z",
+          "replyTo": "gsm-20261122085800-60e0658e-aa5ddc9d9739",
+          "text": "我刚也碰上个蹲着不走的，掉头回去了。谁有空陪他耗。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "emote",
+              "src": "assets/emotes/gsm/ignore.webp",
+              "alt": "守宫转过身背对前方，只回头斜看，粗尾巴盘在脚边。"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-22T09:05:27.594Z"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "operationId": "gsm-20261122085800-60e0658e",
+  "stage": "reviewed",
+  "sourceRevision": "c311bd715dedb480b188c42f5b9dcd551e5d51a8",
+  "files": [
+    {
+      "path": "media/posts/2026/11/gsm-20261122085800-60e0658e-283cff8a80d8/media/spot.webp",
+      "bytes": 167144,
+      "sha256": "7d9b81b7df17b68d083522ac9e91902f012359300cbd409a7353ef4ce3725a19"
+    },
+    {
+      "path": "media/posts/2026/11/gsm-20261122085800-60e0658e-3d889ba36785/media/road.webp",
+      "bytes": 172390,
+      "sha256": "ae44fb309ad397e066ee01a07d27465296e0f98ae155a8490a2bac75391eb6e8"
+    },
+    {
+      "path": "work/daily-material.json",
+      "bytes": 14250,
+      "sha256": "c4089c98260ea146f0ce29b1ea56049c532968cea98e01074f57c7cba6d8235b"
+    },
+    {
+      "path": "work/draft-history-gsm-20261122085800-60e0658e.json",
+      "bytes": 14290,
+      "sha256": "0f709ad8695f88f9363ceaa3dccfb4b164ce889f71530ab700c5b73706f667a6"
+    },
+    {
+      "path": "work/operation.json",
+      "bytes": 21741,
+      "sha256": "0c43991e5dc89f9eda6ce3dbb595a8cfe8b8b4dad998edb87ea5c716e6627221"
+    },
+    {
+      "path": "work/reading-index.json",
+      "bytes": 5888,
+      "sha256": "80135c9b8c2951625a822defae353ca0569a7ffbaa28742da971c409dd44c0ef"
+    },
+    {
+      "path": "work/reading.md",
+      "bytes": 417184,
+      "sha256": "4e4e2aaed233d10bf34b3fd5691dcbbc7ad50afbc334121b52a4f24beb48ac19"
+    }
+  ]
+}
