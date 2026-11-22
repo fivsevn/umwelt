@@ -57,9 +57,21 @@ node gsm/tools/engine/collect-gecko-opinions.js
 
 <!-- samples:start -->
 
-采集时间：2026-11-21 12:16:41（北京时间）
+采集时间：2026-11-22 11:29:22（北京时间）
 
 ### 讨论 1
+
+1. **发言者 1**：Two big turtles and one small one. Turtle family??  
+   \[图片或视频省略，未读取画面\]
+
+### 讨论 2
+
+1. **发言者 1**：Prairie Lizard \(Sceloporus consobrinus\)  
+   This cutie was hiding under the leaves on a path up to Turkey Mountain's summit. I'm just happy I didn't crush him under my foot.  
+   iNaturalist link \[ \[链接隐去\] \]  
+   \[图片或视频省略，未读取画面\]
+
+### 讨论 3
 
 1. **发言者 1**：My Experience with TrueScaleReptiles  
      
@@ -69,34 +81,12 @@ node gsm/tools/engine/collect-gecko-opinions.js
      
    Website: \[链接隐去\]
 
-### 讨论 2
-
-1. **发言者 1**：A quiet pause on weathered timber during a walk through Umusambi Village, Rwanda, this striped skink held its ground just long enough for a frame before slipping back toward the greenery.  
-   \[图片或视频省略，未读取画面\]
-
-### 讨论 3
-
-RSS 摘要。
-
-1. **发言者 1**：Sea Turtle Eggs Laid on Southern California Beaches Have Hatched  
-     
-   The sea turtle eggs that were laid on Southern California’s Sunset and Huntington Beaches in September have hatched and the olive ridley sea turtle \(Lepidochelys olivacea\) hatchlings have been released into the wild after they hatched under human care at the Aquarium of the Pacific in Long Beach, California. The event follows the discovery of \[…\]
-
 ### 讨论 4
 
-1. **发言者 1**：In positive news, today it's sunny, and the kitchen gecko I've been training to not be scared of me licked some honey off my finger 🥰🍯🦎.  
-   And if you're wondering how trainable geckos are, the answer is "actually, very trainable\!": \[链接隐去\]  
+1. **发言者 1**：I found this ring snake on the sidewalk outside work. It's alive but could barely move. I've brought it inside work to warm up and I'll put them in the rocks behind the building when it's warmer this afternoon. Little thing shouldn't be out in this cold.  
    \[图片或视频省略，未读取画面\]
 
 ### 讨论 5
-
-1. **发言者 1**：Adnkronos - ultimoratop: Geco ricoverato con femore rotto a Torino dopo una caduta, la sua storia e come sta  
-   \(Adnkronos\) - Tra vandalismo e arte il funambolo delle scritte giganti identificato nel 2020 è ricoverato dopo l'intervento al Cto con 60 giorni di prognosi  
-   Gecko admitted with broken femur in Turin after a fall, his story and how he is doing.  
-   \(Adnkronos\) – Between vandalism and art, the graffiti artist known in 2020 for his giant writing is hospitalized after an operation at the Cto with a 60-day prognosis.  
-   \[链接隐去\]
-
-### 讨论 6
 
 1. **发言者 1**：\[Cervelet\] Taurtraining\!  
    It's probably easier to learn if we learn merged together\!  x3  
@@ -104,7 +94,28 @@ RSS 摘要。
    Drawn by Cervelet on FA, requested from their free Sketchdrive, with @/skylarthejay.bsky.social on Bluesky\!  
    \[图片或视频省略，未读取画面\]
 
+### 讨论 6
+
+RSS 摘要。
+
+1. **发言者 1**：62 Captive-Raised San Francisco Garter Snakes Released Into The Wild  
+     
+   The San Francisco garter snake is endemic to San Mateo County and a small portion of Santa Cruz County. It was among the first species protected under the Endangered Species Act
+
 ### 讨论 7
+
+1. **发言者 1**：In positive news, today it's sunny, and the kitchen gecko I've been training to not be scared of me licked some honey off my finger 🥰🍯🦎.  
+   And if you're wondering how trainable geckos are, the answer is "actually, very trainable\!": \[链接隐去\]  
+   \[图片或视频省略，未读取画面\]
+
+### 讨论 8
+
+1. **发言者 1**：Little Brown Skink \(Scincella lateralis\)  
+   This little reptile was nice enough to pause for me on the walking path.  
+   iNaturalist link \[ \[链接隐去\] \]  
+   \[图片或视频省略，未读取画面\]
+
+### 讨论 9
 
 父回复关系未提供。
 
@@ -251,38 +262,25 @@ RSS 摘要。
 
 3. **发言者 2**：A couple practical additions: measure when the gecko is calm and warm, not mid-shed, and record torso length and width in cm rather than relying on S/M/L. For girth, use a soft tape and leave enough room to slide a finger under the fabric; if the outfit covers the vent or restricts leg movement, it is too much. Watch for tail curling, squirming, or trying to walk away—those are signs to stop.
 
-### 讨论 8
-
-1. **发言者 1**：Two big turtles and one small one. Turtle family??  
-   \[图片或视频省略，未读取画面\]
-
-### 讨论 9
-
-RSS 摘要。
-
-1. **发言者 1**：62 Captive-Raised San Francisco Garter Snakes Released Into The Wild  
-     
-   The San Francisco garter snake is endemic to San Mateo County and a small portion of Santa Cruz County. It was among the first species protected under the Endangered Species Act
-
 ### 讨论 10
 
-1. **发言者 1**：West Coast’s First Ever Sea Turtle Hatchlings Released into the Pacific \(LOOK\)  
-     
-   \[链接隐去\]  
-   \[图片或视频省略，未读取画面\]
+1. **发言者 1**：Adnkronos - ultimoratop: Geco ricoverato con femore rotto a Torino dopo una caduta, la sua storia e come sta  
+   \(Adnkronos\) - Tra vandalismo e arte il funambolo delle scritte giganti identificato nel 2020 è ricoverato dopo l'intervento al Cto con 60 giorni di prognosi  
+   Gecko admitted with broken femur in Turin after a fall, his story and how he is doing.  
+   \(Adnkronos\) – Between vandalism and art, the graffiti artist known in 2020 for his giant writing is hospitalized after an operation at the Cto with a 60-day prognosis.  
+   \[链接隐去\]
 
 ### 讨论 11
 
-1. **发言者 1**：Prairie Lizard \(Sceloporus consobrinus\)  
-   This cutie was hiding under the leaves on a path up to Turkey Mountain's summit. I'm just happy I didn't crush him under my foot.  
-   iNaturalist link \[ \[链接隐去\] \]  
+1. **发言者 1**：\[链接隐去\] ビルマニシキヘビのみーさん🐍 ビルマニシキヘビ バーミーズ ニシキヘビ 大蛇 \# 爬虫類 reptiles snake 爬虫類カフェ cat neko バーミーズ  
    \[图片或视频省略，未读取画面\]
 
 ### 讨论 12
 
-1. **发言者 1**：Volunteer care workers save freshwater turtles  
-   "Thousands of turtles saved as citizen science project marches toward milestone. The 1 Million Turtles campaign, launched in 2021, has taken close to 40,000 records from citizen scientists of turtles in the wild across Australia."  
-   "Volunteers are invited to log their turtle discoveries on TurtleSAT, a mobile phone app and online tracking tool, allowing scientists to build a more accurate picture of turtle ecology. ..We find transmitters under trees chewed up and effectively spat out."  &gt;&gt;  
-   \[链接隐去\]
+RSS 摘要。
+
+1. **发言者 1**：New Species of Egg-Eating Snake Discovered In Ethiopia  
+     
+   The discovery occurred when a local field assistant brought a young female snake to the research team.
 
 <!-- samples:end -->
