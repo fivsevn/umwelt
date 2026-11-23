@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "operationId": "gsm-20261123085755-8392bffc",
+  "stage": "prepared",
+  "sourceRevision": "33f3150849f68d2f9f6874c4948131488b165350",
+  "files": [
+    {
+      "path": "work/daily-material.json",
+      "bytes": 14710,
+      "sha256": "7a5cf39f203346c308e52f35843a52969083385bc30e0aebb85ade09d1b354b2"
+    },
+    {
+      "path": "work/operation.json",
+      "bytes": 13531,
+      "sha256": "7efba69de9d2f8e7550008c05164ad7b22b44825f0b4b6adb360fc7273bce43e"
+    },
+    {
+      "path": "work/reading-index.json",
+      "bytes": 5888,
+      "sha256": "9a8cd6e120c67cc50b0742db0ef0cfbd8f56fdff44b01c7c11d41f7186ad2d5e"
+    },
+    {
+      "path": "work/reading.md",
+      "bytes": 417367,
+      "sha256": "4af3f6496adc0308ba2e2d7b7ef0c0209b5b8eb71868d16a2fa57dfe704424f4"
+    }
+  ]
+}

@@ -1,5 +1,19 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "moss9": {
+    "handle": "moss9",
+    "name": "阿苔",
+    "bio": "水滴也值得看一会儿。",
+    "avatarImage": "/gsm/assets/avatars/moss9.webp?v=fc1a392905b0",
+    "color": "sand"
+  },
+  "guest-54cea7527a81bc53": {
+    "handle": "guest-54cea7527a81bc53",
+    "name": "普通爬",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-54cea7527a81bc53.webp?v=05a84418ff61",
+    "color": "sage"
+  },
   "guest-d111ac6ad9ac27c2": {
     "handle": "guest-d111ac6ad9ac27c2",
     "name": "一一",
@@ -252,13 +266,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
     "color": "rose"
   },
-  "moss9": {
-    "handle": "moss9",
-    "name": "阿苔",
-    "bio": "水滴也值得看一会儿。",
-    "avatarImage": "/gsm/assets/avatars/moss9.webp?v=fc1a392905b0",
-    "color": "sand"
-  },
   "nearthermo": {
     "handle": "nearthermo",
     "name": "温度计旁边",
@@ -303,6 +310,81 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "gsm-20261123085755-8392bffc-e4cebcd0d9d6",
+    "date": "2026-11-23T13:17:29.222+08:00",
+    "createdAt": 1795411049222,
+    "author": "moss9",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚读到，有人在卢旺达的乌穆桑比村散步，看见一只带条纹的石龙子停在一截老木头上。刚够拍一张，它就往草木那边溜了。图是我照那几句话想的。它身上那道纹，会不会正好跟木纹接上？"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261123085755-8392bffc-e4cebcd0d9d6/media/wood-grain.webp",
+          "alt": "读完文字后想象的场景：一只带纵纹的石龙子趴在有木纹的旧木头上，旁边有几片草叶。",
+          "width": 1152,
+          "height": 768
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚读到，有人在卢旺达的乌穆桑比村散步，看见一只带条纹的石龙子停在一截老木头上。刚够拍一张，它就往草木那边溜了。图是我照那几句话想的。它身上那道纹，会不会正好跟木纹接上？"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261123085755-8392bffc-e4cebcd0d9d6/media/wood-grain.webp",
+          "alt": "读完文字后想象的场景：一只带纵纹的石龙子趴在有木纹的旧木头上，旁边有几片草叶。",
+          "width": 1152,
+          "height": 768
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚读到，有人在卢旺达的乌穆桑比村散步，看见一只带条纹的石龙子停在一截老木头上。刚够拍一张，它就往草木那边溜了。图是我照那几句话想的。它身上那道纹，会不会正好跟木纹接上？"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261123085755-8392bffc-e4cebcd0d9d6/media/wood-grain.webp",
+          "alt": "读完文字后想象的场景：一只带纵纹的石龙子趴在有木纹的旧木头上，旁边有几片草叶。",
+          "width": 1152,
+          "height": 768
+        }
+      ]
+    }
+  },
+  {
+    "id": "gsm-20261123085755-8392bffc-1a3df54dd77d",
+    "date": "2026-11-23T09:40:53.036+08:00",
+    "createdAt": 1795398053036,
+    "author": "guest-54cea7527a81bc53",
+    "likes": 17,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "指尖那点甜的都舔完了，手指怎么还杵在这儿。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "指尖那点甜的都舔完了，手指怎么还杵在这儿。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "指尖那点甜的都舔完了，手指怎么还杵在这儿。"
+        }
+      ]
+    }
+  },
   {
     "id": "gsm-20261122085800-60e0658e-04",
     "date": "2026-11-22T11:48:02.088+08:00",

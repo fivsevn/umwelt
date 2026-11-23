@@ -1,0 +1,122 @@
+{
+  "version": 1,
+  "operationId": "gsm-20261123085755-8392bffc",
+  "snapshots": [
+    {
+      "stage": "draft",
+      "sourceDigest": "3f186638c0badae04efefa959c90c8f11bc380e1a0518266f7aba834a5429110",
+      "planDigest": "f8b200df85bb0c3cc7d45fdd5883c990776aa8aa74f796b926b874134fa99c78",
+      "posts": [
+        {
+          "id": "gsm-20261123085755-8392bffc-1a3df54dd77d",
+          "author": "guest-54cea7527a81bc53",
+          "guest": {
+            "name": "普通爬"
+          },
+          "createdAt": "2026-11-23T01:40:53.036Z",
+          "replyTo": null,
+          "text": "指尖那点甜的都舔完了，手指怎么还杵在这儿。",
+          "likes": 17,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-23T08:59:17.726Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "3f186638c0badae04efefa959c90c8f11bc380e1a0518266f7aba834a5429110",
+      "planDigest": "f8b200df85bb0c3cc7d45fdd5883c990776aa8aa74f796b926b874134fa99c78",
+      "posts": [
+        {
+          "id": "gsm-20261123085755-8392bffc-1a3df54dd77d",
+          "author": "guest-54cea7527a81bc53",
+          "guest": {
+            "name": "普通爬"
+          },
+          "createdAt": "2026-11-23T01:40:53.036Z",
+          "replyTo": null,
+          "text": "指尖那点甜的都舔完了，手指怎么还杵在这儿。",
+          "likes": 17,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-23T09:00:55.232Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "3f186638c0badae04efefa959c90c8f11bc380e1a0518266f7aba834a5429110",
+      "planDigest": "f8b200df85bb0c3cc7d45fdd5883c990776aa8aa74f796b926b874134fa99c78",
+      "posts": [
+        {
+          "id": "gsm-20261123085755-8392bffc-1a3df54dd77d",
+          "author": "guest-54cea7527a81bc53",
+          "guest": {
+            "name": "普通爬"
+          },
+          "createdAt": "2026-11-23T01:40:53.036Z",
+          "replyTo": null,
+          "text": "指尖那点甜的都舔完了，手指怎么还杵在这儿。",
+          "likes": 17,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261123085755-8392bffc-e4cebcd0d9d6",
+          "author": "moss9",
+          "createdAt": "2026-11-23T05:17:29.222Z",
+          "replyTo": null,
+          "text": "刚读到一段，说有人在卢旺达的乌穆桑比村散步，遇见一只带条纹的石龙子，停在一截老木头上。刚够拍一张，它就往草木那边溜了。我看完还在想它趴着那会儿，两种纹路会不会正好接上。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "image",
+              "src": "posts/2026/11/gsm-20261123085755-8392bffc-e4cebcd0d9d6/media/wood-grain.webp",
+              "alt": "读完文字后想象的场景：一只带纵纹的石龙子趴在有木纹的旧木头上，旁边有几片草叶。"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-23T09:00:55.711Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "3f186638c0badae04efefa959c90c8f11bc380e1a0518266f7aba834a5429110",
+      "planDigest": "f8b200df85bb0c3cc7d45fdd5883c990776aa8aa74f796b926b874134fa99c78",
+      "posts": [
+        {
+          "id": "gsm-20261123085755-8392bffc-1a3df54dd77d",
+          "author": "guest-54cea7527a81bc53",
+          "guest": {
+            "name": "普通爬"
+          },
+          "createdAt": "2026-11-23T01:40:53.036Z",
+          "replyTo": null,
+          "text": "指尖那点甜的都舔完了，手指怎么还杵在这儿。",
+          "likes": 17,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261123085755-8392bffc-e4cebcd0d9d6",
+          "author": "moss9",
+          "createdAt": "2026-11-23T05:17:29.222Z",
+          "replyTo": null,
+          "text": "刚读到，有人在卢旺达的乌穆桑比村散步，看见一只带条纹的石龙子停在一截老木头上。刚够拍一张，它就往草木那边溜了。图是我照那几句话想的。它身上那道纹，会不会正好跟木纹接上？",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "kind": "image",
+              "src": "posts/2026/11/gsm-20261123085755-8392bffc-e4cebcd0d9d6/media/wood-grain.webp",
+              "alt": "读完文字后想象的场景：一只带纵纹的石龙子趴在有木纹的旧木头上，旁边有几片草叶。"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-23T09:02:13.052Z"
+    }
+  ]
+}

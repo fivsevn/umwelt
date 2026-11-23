@@ -1,0 +1,696 @@
+{
+  "version": 1,
+  "id": "gsm-20261123085755-8392bffc",
+  "root": "/workspace/scratch/7c229307b34f/repo/gsm",
+  "preparedAt": "2026-11-23T08:57:55.601Z",
+  "plan": {
+    "seed": "23110a6b66f9ef87dffda52f3f5c0ceb76db2a04acfb9de3256014bb817bdf22",
+    "budget": 1,
+    "selectedIds": [
+      "wednesday6",
+      "moss9",
+      "mango27"
+    ],
+    "totalBudget": 120,
+    "replyLottery": {
+      "bands": [
+        {
+          "weight": 30,
+          "min": 0,
+          "max": 0
+        },
+        {
+          "weight": 20,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "weight": 20,
+          "min": 2,
+          "max": 4
+        },
+        {
+          "weight": 15,
+          "min": 5,
+          "max": 12
+        },
+        {
+          "weight": 8,
+          "min": 13,
+          "max": 30
+        },
+        {
+          "weight": 5,
+          "min": 31,
+          "max": 60
+        },
+        {
+          "weight": 2,
+          "min": 61,
+          "max": 100
+        }
+      ],
+      "maxReplies": 100
+    },
+    "lottery": {
+      "version": 1,
+      "rootBudget": {
+        "min": 1,
+        "max": 2
+      },
+      "authors": {
+        "candidates": 3,
+        "recentPosts": 7,
+        "recentMultiplier": 0.5
+      },
+      "authorKind": [
+        {
+          "value": "guest",
+          "weight": 75
+        },
+        {
+          "value": "library",
+          "weight": 25
+        }
+      ],
+      "motivation": [
+        {
+          "value": "ask-help",
+          "weight": 24
+        },
+        {
+          "value": "vent",
+          "weight": 22
+        },
+        {
+          "value": "passing-thought",
+          "weight": 24
+        },
+        {
+          "value": "share",
+          "weight": 18
+        },
+        {
+          "value": "correct",
+          "weight": 6
+        },
+        {
+          "value": "celebrate",
+          "weight": 6
+        }
+      ],
+      "length": [
+        {
+          "value": "fragment",
+          "weight": 45
+        },
+        {
+          "value": "short",
+          "weight": 40
+        },
+        {
+          "value": "long",
+          "weight": 15
+        }
+      ],
+      "conditionCount": {
+        "min": 1,
+        "max": 2
+      },
+      "waitSeconds": [
+        {
+          "weight": 45,
+          "min": 20,
+          "max": 180
+        },
+        {
+          "weight": 40,
+          "min": 181,
+          "max": 1800
+        },
+        {
+          "weight": 15,
+          "min": 1801,
+          "max": 21600
+        }
+      ],
+      "reading": [
+        {
+          "value": "target-only",
+          "weight": 40
+        },
+        {
+          "value": "root-and-target",
+          "weight": 35
+        },
+        {
+          "value": "nearby",
+          "weight": 25
+        }
+      ],
+      "textWindow": [
+        {
+          "value": "full",
+          "weight": 45
+        },
+        {
+          "value": "opening",
+          "weight": 35
+        },
+        {
+          "value": "fragment",
+          "weight": 20
+        }
+      ],
+      "excerptCharacters": 140,
+      "nearbyReplies": {
+        "min": 0,
+        "max": 3
+      },
+      "media": {
+        "images": {
+          "root": {
+            "types": [
+              {
+                "value": "photo",
+                "weight": 70
+              },
+              {
+                "value": "screenshot",
+                "weight": 20
+              },
+              {
+                "value": "illustration",
+                "weight": 10
+              }
+            ]
+          },
+          "reply": {
+            "types": [
+              {
+                "value": "photo",
+                "weight": 50
+              },
+              {
+                "value": "screenshot",
+                "weight": 40
+              },
+              {
+                "value": "illustration",
+                "weight": 10
+              }
+            ]
+          }
+        },
+        "emotes": {
+          "root": {
+            "counts": [
+              {
+                "weight": 90,
+                "min": 1,
+                "max": 1
+              },
+              {
+                "weight": 10,
+                "min": 2,
+                "max": 2
+              }
+            ]
+          },
+          "reply": {
+            "counts": [
+              {
+                "weight": 90,
+                "min": 1,
+                "max": 1
+              },
+              {
+                "weight": 10,
+                "min": 2,
+                "max": 2
+              }
+            ]
+          }
+        },
+        "profiles": [
+          {
+            "id": "text-led",
+            "weight": 35,
+            "root": {
+              "none": 50,
+              "image": 28,
+              "emote": 14,
+              "both": 8
+            },
+            "reply": {
+              "none": 48,
+              "image": 10,
+              "emote": 34,
+              "both": 8
+            }
+          },
+          {
+            "id": "mixed",
+            "weight": 45,
+            "root": {
+              "none": 30,
+              "image": 38,
+              "emote": 17,
+              "both": 15
+            },
+            "reply": {
+              "none": 35,
+              "image": 12,
+              "emote": 39,
+              "both": 14
+            }
+          },
+          {
+            "id": "image-led",
+            "weight": 20,
+            "root": {
+              "none": 15,
+              "image": 45,
+              "emote": 12,
+              "both": 28
+            },
+            "reply": {
+              "none": 25,
+              "image": 18,
+              "emote": 37,
+              "both": 20
+            }
+          }
+        ]
+      },
+      "likes": {
+        "root": [
+          {
+            "weight": 20,
+            "min": 0,
+            "max": 0
+          },
+          {
+            "weight": 73,
+            "min": 1,
+            "max": 20
+          },
+          {
+            "weight": 6,
+            "min": 21,
+            "max": 60
+          },
+          {
+            "weight": 1,
+            "min": 61,
+            "max": 160
+          }
+        ],
+        "reply": [
+          {
+            "weight": 35,
+            "min": 0,
+            "max": 0
+          },
+          {
+            "weight": 62,
+            "min": 1,
+            "max": 12
+          },
+          {
+            "weight": 2,
+            "min": 13,
+            "max": 35
+          },
+          {
+            "weight": 1,
+            "min": 36,
+            "max": 90
+          }
+        ]
+      },
+      "sampling": {
+        "offset": {
+          "min": 0,
+          "max": 30
+        },
+        "count": {
+          "min": 3,
+          "max": 6
+        }
+      },
+      "discussion": {
+        "negativeMotivation": [
+          {
+            "value": "complaint",
+            "weight": 16
+          },
+          {
+            "value": "gossip",
+            "weight": 10
+          },
+          {
+            "value": "dispute",
+            "weight": 8
+          },
+          {
+            "value": "grievance",
+            "weight": 8
+          },
+          {
+            "value": "suspicion",
+            "weight": 8
+          },
+          {
+            "value": "irritation",
+            "weight": 16
+          },
+          {
+            "value": "contempt",
+            "weight": 12
+          },
+          {
+            "value": "envy",
+            "weight": 6
+          },
+          {
+            "value": "pile-on",
+            "weight": 10
+          },
+          {
+            "value": "grudge",
+            "weight": 6
+          }
+        ],
+        "replyStance": [
+          {
+            "value": "support",
+            "weight": 12
+          },
+          {
+            "value": "push-back",
+            "weight": 12
+          },
+          {
+            "value": "doubt",
+            "weight": 8
+          },
+          {
+            "value": "defend",
+            "weight": 8
+          },
+          {
+            "value": "provoke",
+            "weight": 12
+          },
+          {
+            "value": "ask-detail",
+            "weight": 4
+          },
+          {
+            "value": "sidetrack",
+            "weight": 14
+          },
+          {
+            "value": "dismiss",
+            "weight": 12
+          },
+          {
+            "value": "repeat",
+            "weight": 10
+          },
+          {
+            "value": "pile-on",
+            "weight": 8
+          }
+        ],
+        "replyAuthor": [
+          {
+            "value": "new",
+            "weight": 85
+          },
+          {
+            "value": "root",
+            "weight": 8
+          },
+          {
+            "value": "participant",
+            "weight": 7
+          }
+        ],
+        "negativeProbability": 0.5,
+        "minimumNegativeShare": 0.5
+      },
+      "researchMaintenance": {
+        "probability": 0.3,
+        "maxDocuments": 1,
+        "ageWeightDays": 7,
+        "maxAgeWeight": 5
+      },
+      "diversity": {
+        "recentUpdates": 3
+      },
+      "participation": {
+        "version": 2
+      }
+    },
+    "timeWindow": {
+      "start": "2026-11-22T08:57:55.601Z",
+      "end": "2026-11-23T08:57:55.601Z"
+    },
+    "participationSchedules": {
+      "backpackgecko": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "gecko404": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "gedageda": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "isopodafugue": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "leafback7": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "mango27": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "moss9": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "nearthermo": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "nightshift3": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "peachcrumble": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "slowblink": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "smallhide2": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "twosteps8": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "wallafterdark": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "wednesday6": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      }
+    },
+    "caseAdaptation": {
+      "count": 1,
+      "intakeReceipt": {
+        "repository": "fivsevn/umwelt",
+        "path": "gsm/environment/sources-daily-opinions.md",
+        "revision": "ad4cc1bb2a35d8a91beb0cabbf88347acb6404ef",
+        "documentSha": "ad4cc1bb2a35d8a91beb0cabbf88347acb6404ef",
+        "documentDigest": "d16a358501a59d608b26f12d75bfc672eda85639bf7d16a0ed3a783de2cf91e7",
+        "collectedAt": "2026-11-23T04:00:08.000Z",
+        "fetchedAt": "2026-11-23T08:57:55.587Z"
+      },
+      "items": [
+        {
+          "postId": "gsm-20261123085755-8392bffc-e4cebcd0d9d6",
+          "sourcePath": "environment/sources-daily-opinions.md",
+          "sample": {
+            "id": "sample-9b17e1953a1f",
+            "title": "讨论 8",
+            "text": "### 讨论 8\n\n1. **发言者 1**：A quiet pause on weathered timber during a walk through Umusambi Village, Rwanda, this striped skink held its ground just long enough for a frame before slipping back toward the greenery.  \n   \\[图片或视频省略，未读取画面\\]",
+            "context": "采集时间：2026-11-23 12:00:08（北京时间）"
+          }
+        }
+      ],
+      "rootOrder": [
+        "gsm-20261123085755-8392bffc-1a3df54dd77d",
+        "gsm-20261123085755-8392bffc-e4cebcd0d9d6"
+      ]
+    },
+    "researchMaintenance": {
+      "candidates": [
+        {
+          "path": "environment/research-comments.md",
+          "updatedAt": "2026-11-23T04:00:19.000Z"
+        },
+        {
+          "path": "environment/research-everyday-life.md",
+          "updatedAt": "2026-11-23T04:00:19.000Z"
+        },
+        {
+          "path": "environment/research-meme.md",
+          "updatedAt": "2026-11-23T04:00:19.000Z"
+        },
+        {
+          "path": "environment/research-negative.md",
+          "updatedAt": "2026-11-23T04:00:19.000Z"
+        },
+        {
+          "path": "environment/research-worldview.md",
+          "updatedAt": "2026-11-23T04:00:19.000Z"
+        },
+        {
+          "path": "users/research-character.md",
+          "updatedAt": "2026-11-23T04:00:19.000Z"
+        },
+        {
+          "path": "users/research-speech.md",
+          "updatedAt": "2026-11-23T04:00:19.000Z"
+        }
+      ],
+      "selectedPaths": []
+    },
+    "seal": "660dfaf005ca32eb3ab83ef76daa54d6c9ca5346a98d1c38a83aeee342b5e56c"
+  },
+  "sourceDigest": "3f186638c0badae04efefa959c90c8f11bc380e1a0518266f7aba834a5429110",
+  "research": [
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://reptilesmagazine.com/feed/?paged=3",
+      "publishedAt": null,
+      "visitedAt": "2026-11-23T09:02:13+00:00",
+      "summary": "依最新 RSS 顺序，跳过24条后读第25至30条文字：蛇伤统计、野外相机、地蛇新种、走私报道、短腿角蟾和填色画。相机报道有38张连续记录；与本轮只有一瞬的文字记述不同，不能从一帧补齐下一步动作。"
+    },
+    {
+      "category": "trend",
+      "kind": "thread",
+      "url": "https://community.morphmarket.com/t/temps-in-rack-tubs-know-colder-temps-outside/64202",
+      "publishedAt": "2026-11-18T08:59:17.575Z",
+      "visitedAt": "2026-11-23T09:02:13+00:00",
+      "summary": "列表跳过14条读连续四串的开头、存在时各读最先两条回复，涉及辨认、箱内温度、像素作品及玉米蛇个体。其中提问者等不来答复，先留一句反话，下一位才解释自己只养过一条；没有采用温度建议。"
+    },
+    {
+      "category": "daily",
+      "kind": "thread",
+      "url": "https://community.morphmarket.com/t/highly-defensive-male-ball-python/64203",
+      "publishedAt": "2026-11-18T18:03:40.455Z",
+      "visitedAt": "2026-11-23T09:02:13+00:00",
+      "summary": "依列表从第22至26项读根帖和至多两条回复。这一串从球蟒转向经过者的姿势说起，回帖询问遮蔽和住处；没有沿用这些推测。本站 gsm-20261123085755-8392bffc-1a3df54dd77d 的指尖与甜味取自11月23日12:00素材讨论12的文字，发帖者只说自己舔过、嫌指头不走。gsm-20261123085755-8392bffc-e4cebcd0d9d6 取自同批讨论8唯一一楼：条纹石龙子在风化木头上稍停、朝草木溜去；原画面未读，另生成想象插图。"
+    }
+  ],
+  "posts": [
+    {
+      "id": "gsm-20261123085755-8392bffc-1a3df54dd77d",
+      "author": "guest-54cea7527a81bc53",
+      "guest": {
+        "name": "普通爬"
+      },
+      "createdAt": "2026-11-23T01:40:53.036Z",
+      "replyTo": null,
+      "text": "指尖那点甜的都舔完了，手指怎么还杵在这儿。",
+      "likes": 17,
+      "canon": "derivative",
+      "media": []
+    },
+    {
+      "id": "gsm-20261123085755-8392bffc-e4cebcd0d9d6",
+      "author": "moss9",
+      "createdAt": "2026-11-23T05:17:29.222Z",
+      "replyTo": null,
+      "text": "刚读到，有人在卢旺达的乌穆桑比村散步，看见一只带条纹的石龙子停在一截老木头上。刚够拍一张，它就往草木那边溜了。图是我照那几句话想的。它身上那道纹，会不会正好跟木纹接上？",
+      "likes": 0,
+      "canon": "derivative",
+      "media": [
+        {
+          "kind": "image",
+          "src": "posts/2026/11/gsm-20261123085755-8392bffc-e4cebcd0d9d6/media/wood-grain.webp",
+          "alt": "读完文字后想象的场景：一只带纵纹的石龙子趴在有木纹的旧木头上，旁边有几片草叶。"
+        }
+      ]
+    }
+  ],
+  "status": "prepared",
+  "reviews": [
+    {
+      "postId": "gsm-20261123085755-8392bffc-1a3df54dd77d",
+      "negative": true,
+      "reason": "尝完后嫌手指还杵在面前，没有猜测人的用意。"
+    },
+    {
+      "postId": "gsm-20261123085755-8392bffc-e4cebcd0d9d6",
+      "negative": false,
+      "reason": "读到停在旧木上的石龙子，好奇它身上的条纹能不能和木纹接起来。"
+    }
+  ],
+  "researchMaintenance": [],
+  "guestNames": {
+    "guest-54cea7527a81bc53": "普通爬"
+  },
+  "timingExceptions": {
+    "gsm-20261123085755-8392bffc-e4cebcd0d9d6": {
+      "createdAt": "2026-11-23T05:17:29.222Z",
+      "reason": "保留固定混排顺序，把阅览外地照片的案例排在原创新帖及今日材料采集之后。"
+    }
+  },
+  "mediaReviews": [
+    {
+      "postId": "gsm-20261123085755-8392bffc-e4cebcd0d9d6",
+      "src": "posts/2026/11/gsm-20261123085755-8392bffc-e4cebcd0d9d6/media/wood-grain.webp",
+      "type": "illustration",
+      "scene": "依据原材料的文字生成彩铅风想象图，已打开检查。石龙子沿旧木横卧，身体纵纹贴着木纹，左侧有草叶。"
+    }
+  ],
+  "diversityReview": {
+    "postsDigest": "e233e49ab6b12a57e9c7087d1ec0d44f3419962b900fe8961e14ba389da2c73c",
+    "historyDigest": "f8550bc39512b6ef795987aa58fd77ba6c3902ba7c30be2d3a135690f95be488",
+    "content": "gsm-20261123085755-8392bffc-1a3df54dd77d 保留“甜的都舔完了”紧接嫌手指仍在的一句，与上一轮 sora 等挡路的人离开的具体意图不同；未替饲养者声称训练成功。gsm-20261123085755-8392bffc-e4cebcd0d9d6 将原稿尾段换为“图是我照那几句话想的”，把文字见闻和阿苔想象的画面分开。地名来自原文，走访与摄影属于目击者，阿苔自己关心两种纹路有没有接上，保留疑问。与上一案例门边目击不同，没为阿苔增设赴当地或见过原图的经历。原创抽到零回复；案例仅单层，两串都不开假回复。",
+    "images": "原创抽得纯文字，催手指挪开的一句单独成立。案例收到省略原媒体的文字；生成并审看一张纸底彩铅插图，纵纹、旧木纹理及草叶可辨。一端留出空白，取景与上一轮灰色路面小蛇和近看墙根黑斑的照片不同。没有反应图机会。"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "operationId": "gsm-20261123085755-8392bffc",
+  "stage": "reviewed",
+  "sourceRevision": "33f3150849f68d2f9f6874c4948131488b165350",
+  "files": [
+    {
+      "path": "media/posts/2026/11/gsm-20261123085755-8392bffc-e4cebcd0d9d6/media/wood-grain.webp",
+      "bytes": 138234,
+      "sha256": "9d998992ce1d80dbd470a1937c83f9b9188e4a1705ba684d61de11f008b98169"
+    },
+    {
+      "path": "work/daily-material.json",
+      "bytes": 14710,
+      "sha256": "7a5cf39f203346c308e52f35843a52969083385bc30e0aebb85ade09d1b354b2"
+    },
+    {
+      "path": "work/draft-history-gsm-20261123085755-8392bffc.json",
+      "bytes": 4664,
+      "sha256": "5c4a9e2f8dbb05e27e8e97c0ec363c3162707ce71367928a0fcfd5a23fd73a92"
+    },
+    {
+      "path": "work/operation.json",
+      "bytes": 18773,
+      "sha256": "378ea8c4fe4ccb00e8f0fce59ba02834fd27e6c60fb07af738de99ec7a5de5a6"
+    },
+    {
+      "path": "work/reading-index.json",
+      "bytes": 5888,
+      "sha256": "9a8cd6e120c67cc50b0742db0ef0cfbd8f56fdff44b01c7c11d41f7186ad2d5e"
+    },
+    {
+      "path": "work/reading.md",
+      "bytes": 417367,
+      "sha256": "4af3f6496adc0308ba2e2d7b7ef0c0209b5b8eb71868d16a2fa57dfe704424f4"
+    }
+  ]
+}
