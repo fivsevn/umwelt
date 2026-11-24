@@ -57,69 +57,22 @@ node gsm/tools/engine/collect-gecko-opinions.js
 
 <!-- samples:start -->
 
-采集时间：2026-11-23 12:00:08（北京时间）
+采集时间：2026-11-24 15:06:13（北京时间）
 
 ### 讨论 1
 
 RSS 摘要。
 
-1. **发言者 1**：New Species of Egg-Eating Snake Discovered In Ethiopia  
+1. **发言者 1**：发言者 1 2027 Media Kit  
      
-   The discovery occurred when a local field assistant brought a young female snake to the research team.
+   2027 Reptiles Media Kit-reduced5
 
 ### 讨论 2
 
-1. **发言者 1**：Prairie Lizard \(Sceloporus consobrinus\)  
-   This cutie was hiding under the leaves on a path up to Turkey Mountain's summit. I'm just happy I didn't crush him under my foot.  
-   iNaturalist link \[ \[链接隐去\] \]  
-   \[图片或视频省略，未读取画面\]
+1. **发言者 1**：RE: \[链接隐去\]  
+   Today, it's "lizard in a dress"
 
 ### 讨论 3
-
-1. **发言者 1**：Pausing along the boardwalk at Umusambi Village in Rwanda. Caught this striped skink soaking in the calm against weathered wood and lush green foliage.  
-   \[图片或视频省略，未读取画面\]
-
-### 讨论 4
-
-1. **发言者 1**：My Experience with TrueScaleReptiles  
-     
-   I recently purchased from \[链接隐去\] and wanted to share my experience. The ordering process was straightforward, communication was professional, and I appreciated the attention given to my order.  
-     
-   Overall, I had a positive experience and would recommend checking them out if you’re looking for reptiles.  
-     
-   Website: \[链接隐去\]
-
-### 讨论 5
-
-1. **发言者 1**：My best friend as a child \+ teenie was a boy. We were very close \+ also had a fallout, bt nt over reptiles. Bt despite the fallout he was the only one lending me a shoulder to lean on when I needed it most; I\`ll be grateful to him for the rest of my life, when everyone else \(especially my own family\) had abandoned me. friendship   
-   New Christmas story in December:
-
-### 讨论 6
-
-1. **发言者 1**：\[链接隐去\] ビルマニシキヘビのみーさん🐍 ビルマニシキヘビ バーミーズ ニシキヘビ 大蛇 \# 爬虫類 reptiles snake 爬虫類カフェ cat neko バーミーズ  
-   \[图片或视频省略，未读取画面\]
-
-### 讨论 7
-
-RSS 摘要。
-
-1. **发言者 1**：62 Captive-Raised San Francisco Garter Snakes Released Into The Wild  
-     
-   The San Francisco garter snake is endemic to San Mateo County and a small portion of Santa Cruz County. It was among the first species protected under the Endangered Species Act
-
-### 讨论 8
-
-1. **发言者 1**：A quiet pause on weathered timber during a walk through Umusambi Village, Rwanda, this striped skink held its ground just long enough for a frame before slipping back toward the greenery.  
-   \[图片或视频省略，未读取画面\]
-
-### 讨论 9
-
-1. **发言者 1**：Volunteer care workers save freshwater turtles  
-   "Thousands of turtles saved as citizen science project marches toward milestone. The 1 Million Turtles campaign, launched in 2021, has taken close to 40,000 records from citizen scientists of turtles in the wild across Australia."  
-   "Volunteers are invited to log their turtle discoveries on TurtleSAT, a mobile phone app and online tracking tool, allowing scientists to build a more accurate picture of turtle ecology. ..We find transmitters under trees chewed up and effectively spat out."  &gt;&gt;  
-   \[链接隐去\]
-
-### 讨论 10
 
 父回复关系未提供。
 
@@ -266,7 +219,32 @@ RSS 摘要。
 
 3. **发言者 2**：A couple practical additions: measure when the gecko is calm and warm, not mid-shed, and record torso length and width in cm rather than relying on S/M/L. For girth, use a soft tape and leave enough room to slide a finger under the fabric; if the outfit covers the vent or restricts leg movement, it is too much. Watch for tail curling, squirming, or trying to walk away—those are signs to stop.
 
-### 讨论 11
+### 讨论 4
+
+1. **发言者 1**：My best friend as a child \+ teenie was a boy. We were very close \+ also had a fallout, bt nt over reptiles. Bt despite the fallout he was the only one lending me a shoulder to lean on when I needed it most; I\`ll be grateful to him for the rest of my life, when everyone else \(especially my own family\) had abandoned me. friendship   
+   New Christmas story in December:
+
+### 讨论 5
+
+RSS 摘要。
+
+1. **发言者 1**：New Species of Egg-Eating Snake Discovered In Ethiopia  
+     
+   The discovery occurred when a local field assistant brought a young female snake to the research team.
+
+### 讨论 6
+
+1. **发言者 1**：Volunteer care workers save freshwater turtles  
+   "Thousands of turtles saved as citizen science project marches toward milestone. The 1 Million Turtles campaign, launched in 2021, has taken close to 40,000 records from citizen scientists of turtles in the wild across Australia."  
+   "Volunteers are invited to log their turtle discoveries on TurtleSAT, a mobile phone app and online tracking tool, allowing scientists to build a more accurate picture of turtle ecology. ..We find transmitters under trees chewed up and effectively spat out."  &gt;&gt;  
+   \[链接隐去\]
+
+### 讨论 7
+
+1. **发言者 1**：Pausing along the boardwalk at Umusambi Village in Rwanda. Caught this striped skink soaking in the calm against weathered wood and lush green foliage.  
+   \[图片或视频省略，未读取画面\]
+
+### 讨论 8
 
 1. **发言者 1**：Adnkronos - ultimoratop: Geco ricoverato con femore rotto a Torino dopo una caduta, la sua storia e come sta  
    \(Adnkronos\) - Tra vandalismo e arte il funambolo delle scritte giganti identificato nel 2020 è ricoverato dopo l'intervento al Cto con 60 giorni di prognosi  
@@ -274,10 +252,33 @@ RSS 摘要。
    \(Adnkronos\) – Between vandalism and art, the graffiti artist known in 2020 for his giant writing is hospitalized after an operation at the Cto with a 60-day prognosis.  
    \[链接隐去\]
 
+### 讨论 9
+
+1. **发言者 1**：West Coast’s First Ever Sea Turtle Hatchlings Released into the Pacific  
+   \[链接隐去\]
+
+### 讨论 10
+
+1. **发言者 1**：\[链接隐去\] ビルマニシキヘビのみーさん🐍 ビルマニシキヘビ バーミーズ ニシキヘビ 大蛇 \# 爬虫類 reptiles snake 爬虫類カフェ cat neko バーミーズ  
+   \[图片或视频省略，未读取画面\]
+
+### 讨论 11
+
+父回复关系未提供。
+
+1. **发言者 1**：Non Lilly Solid Back  
+     
+   I have a gecko that is not Lilly white but she does have a solid white back. Looking at morphmedia, solid back appears to only include lillys and sables?  
+     
+   Edited to add pics of her, nvm, they won’t upload :'\)
+
+2. **发言者 2**：Solid backs are not related to sables or lillies, plenty of lillies don’t have solid backs, and plenty of normals do. MM actually has solid back listed as a separate trait, although it’s a visual trait rather than a genetic trait.
+
 ### 讨论 12
 
-1. **发言者 1**：In positive news, today it's sunny, and the kitchen gecko I've been training to not be scared of me licked some honey off my finger 🥰🍯🦎.  
-   And if you're wondering how trainable geckos are, the answer is "actually, very trainable\!": \[链接隐去\]  
+1. **发言者 1**：Little Brown Skink \(Scincella lateralis\)  
+   This little reptile was nice enough to pause for me on the walking path.  
+   iNaturalist link \[ \[链接隐去\] \]  
    \[图片或视频省略，未读取画面\]
 
 <!-- samples:end -->
