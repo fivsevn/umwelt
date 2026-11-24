@@ -1,0 +1,750 @@
+{
+  "version": 1,
+  "id": "gsm-20261124090037-78d6e43d",
+  "root": "/workspace/scratch/7c229307b34f/repo/gsm",
+  "preparedAt": "2026-11-24T09:00:37.068Z",
+  "plan": {
+    "seed": "383c3123cbb7fd640cfa8e52aafe735c5c7f7ff36f0064dc9fd2f5921b34663d",
+    "budget": 1,
+    "selectedIds": [
+      "gecko404",
+      "nearthermo",
+      "mango27"
+    ],
+    "totalBudget": 120,
+    "replyLottery": {
+      "bands": [
+        {
+          "weight": 30,
+          "min": 0,
+          "max": 0
+        },
+        {
+          "weight": 20,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "weight": 20,
+          "min": 2,
+          "max": 4
+        },
+        {
+          "weight": 15,
+          "min": 5,
+          "max": 12
+        },
+        {
+          "weight": 8,
+          "min": 13,
+          "max": 30
+        },
+        {
+          "weight": 5,
+          "min": 31,
+          "max": 60
+        },
+        {
+          "weight": 2,
+          "min": 61,
+          "max": 100
+        }
+      ],
+      "maxReplies": 100
+    },
+    "lottery": {
+      "version": 1,
+      "rootBudget": {
+        "min": 1,
+        "max": 2
+      },
+      "authors": {
+        "candidates": 3,
+        "recentPosts": 7,
+        "recentMultiplier": 0.5
+      },
+      "authorKind": [
+        {
+          "value": "guest",
+          "weight": 75
+        },
+        {
+          "value": "library",
+          "weight": 25
+        }
+      ],
+      "motivation": [
+        {
+          "value": "ask-help",
+          "weight": 24
+        },
+        {
+          "value": "vent",
+          "weight": 22
+        },
+        {
+          "value": "passing-thought",
+          "weight": 24
+        },
+        {
+          "value": "share",
+          "weight": 18
+        },
+        {
+          "value": "correct",
+          "weight": 6
+        },
+        {
+          "value": "celebrate",
+          "weight": 6
+        }
+      ],
+      "length": [
+        {
+          "value": "fragment",
+          "weight": 45
+        },
+        {
+          "value": "short",
+          "weight": 40
+        },
+        {
+          "value": "long",
+          "weight": 15
+        }
+      ],
+      "conditionCount": {
+        "min": 1,
+        "max": 2
+      },
+      "waitSeconds": [
+        {
+          "weight": 45,
+          "min": 20,
+          "max": 180
+        },
+        {
+          "weight": 40,
+          "min": 181,
+          "max": 1800
+        },
+        {
+          "weight": 15,
+          "min": 1801,
+          "max": 21600
+        }
+      ],
+      "reading": [
+        {
+          "value": "target-only",
+          "weight": 40
+        },
+        {
+          "value": "root-and-target",
+          "weight": 35
+        },
+        {
+          "value": "nearby",
+          "weight": 25
+        }
+      ],
+      "textWindow": [
+        {
+          "value": "full",
+          "weight": 45
+        },
+        {
+          "value": "opening",
+          "weight": 35
+        },
+        {
+          "value": "fragment",
+          "weight": 20
+        }
+      ],
+      "excerptCharacters": 140,
+      "nearbyReplies": {
+        "min": 0,
+        "max": 3
+      },
+      "media": {
+        "images": {
+          "root": {
+            "types": [
+              {
+                "value": "photo",
+                "weight": 70
+              },
+              {
+                "value": "screenshot",
+                "weight": 20
+              },
+              {
+                "value": "illustration",
+                "weight": 10
+              }
+            ]
+          },
+          "reply": {
+            "types": [
+              {
+                "value": "photo",
+                "weight": 50
+              },
+              {
+                "value": "screenshot",
+                "weight": 40
+              },
+              {
+                "value": "illustration",
+                "weight": 10
+              }
+            ]
+          }
+        },
+        "emotes": {
+          "root": {
+            "counts": [
+              {
+                "weight": 90,
+                "min": 1,
+                "max": 1
+              },
+              {
+                "weight": 10,
+                "min": 2,
+                "max": 2
+              }
+            ]
+          },
+          "reply": {
+            "counts": [
+              {
+                "weight": 90,
+                "min": 1,
+                "max": 1
+              },
+              {
+                "weight": 10,
+                "min": 2,
+                "max": 2
+              }
+            ]
+          }
+        },
+        "profiles": [
+          {
+            "id": "text-led",
+            "weight": 35,
+            "root": {
+              "none": 50,
+              "image": 28,
+              "emote": 14,
+              "both": 8
+            },
+            "reply": {
+              "none": 48,
+              "image": 10,
+              "emote": 34,
+              "both": 8
+            }
+          },
+          {
+            "id": "mixed",
+            "weight": 45,
+            "root": {
+              "none": 30,
+              "image": 38,
+              "emote": 17,
+              "both": 15
+            },
+            "reply": {
+              "none": 35,
+              "image": 12,
+              "emote": 39,
+              "both": 14
+            }
+          },
+          {
+            "id": "image-led",
+            "weight": 20,
+            "root": {
+              "none": 15,
+              "image": 45,
+              "emote": 12,
+              "both": 28
+            },
+            "reply": {
+              "none": 25,
+              "image": 18,
+              "emote": 37,
+              "both": 20
+            }
+          }
+        ]
+      },
+      "likes": {
+        "root": [
+          {
+            "weight": 20,
+            "min": 0,
+            "max": 0
+          },
+          {
+            "weight": 73,
+            "min": 1,
+            "max": 20
+          },
+          {
+            "weight": 6,
+            "min": 21,
+            "max": 60
+          },
+          {
+            "weight": 1,
+            "min": 61,
+            "max": 160
+          }
+        ],
+        "reply": [
+          {
+            "weight": 35,
+            "min": 0,
+            "max": 0
+          },
+          {
+            "weight": 62,
+            "min": 1,
+            "max": 12
+          },
+          {
+            "weight": 2,
+            "min": 13,
+            "max": 35
+          },
+          {
+            "weight": 1,
+            "min": 36,
+            "max": 90
+          }
+        ]
+      },
+      "sampling": {
+        "offset": {
+          "min": 0,
+          "max": 30
+        },
+        "count": {
+          "min": 3,
+          "max": 6
+        }
+      },
+      "discussion": {
+        "negativeMotivation": [
+          {
+            "value": "complaint",
+            "weight": 16
+          },
+          {
+            "value": "gossip",
+            "weight": 10
+          },
+          {
+            "value": "dispute",
+            "weight": 8
+          },
+          {
+            "value": "grievance",
+            "weight": 8
+          },
+          {
+            "value": "suspicion",
+            "weight": 8
+          },
+          {
+            "value": "irritation",
+            "weight": 16
+          },
+          {
+            "value": "contempt",
+            "weight": 12
+          },
+          {
+            "value": "envy",
+            "weight": 6
+          },
+          {
+            "value": "pile-on",
+            "weight": 10
+          },
+          {
+            "value": "grudge",
+            "weight": 6
+          }
+        ],
+        "replyStance": [
+          {
+            "value": "support",
+            "weight": 12
+          },
+          {
+            "value": "push-back",
+            "weight": 12
+          },
+          {
+            "value": "doubt",
+            "weight": 8
+          },
+          {
+            "value": "defend",
+            "weight": 8
+          },
+          {
+            "value": "provoke",
+            "weight": 12
+          },
+          {
+            "value": "ask-detail",
+            "weight": 4
+          },
+          {
+            "value": "sidetrack",
+            "weight": 14
+          },
+          {
+            "value": "dismiss",
+            "weight": 12
+          },
+          {
+            "value": "repeat",
+            "weight": 10
+          },
+          {
+            "value": "pile-on",
+            "weight": 8
+          }
+        ],
+        "replyAuthor": [
+          {
+            "value": "new",
+            "weight": 85
+          },
+          {
+            "value": "root",
+            "weight": 8
+          },
+          {
+            "value": "participant",
+            "weight": 7
+          }
+        ],
+        "negativeProbability": 0.5,
+        "minimumNegativeShare": 0.5
+      },
+      "researchMaintenance": {
+        "probability": 0.3,
+        "maxDocuments": 1,
+        "ageWeightDays": 7,
+        "maxAgeWeight": 5
+      },
+      "diversity": {
+        "recentUpdates": 3
+      },
+      "participation": {
+        "version": 2
+      }
+    },
+    "timeWindow": {
+      "start": "2026-11-23T09:00:37.068Z",
+      "end": "2026-11-24T09:00:37.068Z"
+    },
+    "participationSchedules": {
+      "backpackgecko": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "gecko404": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "gedageda": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "isopodafugue": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "leafback7": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "mango27": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "moss9": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "nearthermo": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "nightshift3": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "peachcrumble": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "slowblink": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "smallhide2": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "twosteps8": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "wallafterdark": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "wednesday6": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      }
+    },
+    "caseAdaptation": {
+      "count": 1,
+      "intakeReceipt": {
+        "repository": "fivsevn/umwelt",
+        "path": "gsm/environment/sources-daily-opinions.md",
+        "revision": "c8b5d075fdb50915a2216937add6ae54c43c936e",
+        "documentSha": "c8b5d075fdb50915a2216937add6ae54c43c936e",
+        "documentDigest": "7f1ed88ceb0c8d4f07d33596b0ce28b42f544dd77b16c97dd8a75434169d3252",
+        "collectedAt": "2026-11-24T07:06:13.000Z",
+        "fetchedAt": "2026-11-24T09:00:37.051Z"
+      },
+      "items": [
+        {
+          "postId": "gsm-20261124090037-78d6e43d-9ab8ad0766a4",
+          "sourcePath": "environment/sources-daily-opinions.md",
+          "sample": {
+            "id": "sample-8d4a6c35b33e",
+            "title": "讨论 9",
+            "text": "### 讨论 9\n\n1. **发言者 1**：West Coast’s First Ever Sea Turtle Hatchlings Released into the Pacific  \n   \\[链接隐去\\]",
+            "context": "采集时间：2026-11-24 15:06:13（北京时间）"
+          }
+        }
+      ],
+      "rootOrder": [
+        "gsm-20261124090037-78d6e43d-03a0e1cec0f7",
+        "gsm-20261124090037-78d6e43d-9ab8ad0766a4"
+      ]
+    },
+    "researchMaintenance": {
+      "candidates": [
+        {
+          "path": "environment/research-comments.md",
+          "updatedAt": "2026-11-24T07:06:23.000Z"
+        },
+        {
+          "path": "environment/research-everyday-life.md",
+          "updatedAt": "2026-11-24T07:06:23.000Z"
+        },
+        {
+          "path": "environment/research-meme.md",
+          "updatedAt": "2026-11-24T07:06:23.000Z"
+        },
+        {
+          "path": "environment/research-negative.md",
+          "updatedAt": "2026-11-24T07:06:23.000Z"
+        },
+        {
+          "path": "environment/research-worldview.md",
+          "updatedAt": "2026-11-24T07:06:23.000Z"
+        },
+        {
+          "path": "users/research-character.md",
+          "updatedAt": "2026-11-24T07:06:23.000Z"
+        },
+        {
+          "path": "users/research-speech.md",
+          "updatedAt": "2026-11-24T07:06:23.000Z"
+        }
+      ],
+      "selectedPaths": []
+    },
+    "seal": "bb151b7a5179c8778bcc2318f593014a30e305209e8a4811abcab0f60e613f0d"
+  },
+  "sourceDigest": "30fa1521ea82313cf1e3020bd10d1f4843a7ca9924e292923fd5703dfafa0a1d",
+  "research": [
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://reptilesmagazine.com/feed/?paged=2",
+      "publishedAt": null,
+      "visitedAt": "2026-11-24T09:04:24+00:00",
+      "summary": "跳过18条，连续读第19至22条的开头（跨页）：西海岸海龟产卵记录、安乐蜥、角蜥孵化、爬行动物皮肤。九月的消息只谈产卵；不据此给本轮放归标题添物种、地点或数量。gsm-20261124090037-78d6e43d-9ab8ad0766a4 取自11月24日15:06每日材料讨论9，实际只有英文标题，转述者未见现场、全文或照片。"
+    },
+    {
+      "category": "trend",
+      "kind": "thread",
+      "url": "https://community.morphmarket.com/t/funny-animal-pictures-thread/64056",
+      "publishedAt": "2026-10-26T15:50:20.488Z",
+      "visitedAt": "2026-11-24T09:04:24+00:00",
+      "summary": "按最新列表跳过8条后读连续五串的开头及至多两条公开回复。趣图串用照片接照片，回帖有的只说喜欢蛇鼻子，有的说不知道照片里的动物在干什么。只观察接话，不沿用图片或身份。"
+    },
+    {
+      "category": "daily",
+      "kind": "thread",
+      "url": "https://community.morphmarket.com/t/non-lilly-solid-back/64225",
+      "publishedAt": "2026-11-23T09:57:17.473Z",
+      "visitedAt": "2026-11-24T09:04:24+00:00",
+      "summary": "跳过11条读连续三串的开头与可见前两条回复，其中有两个与上一窗口重合。白背串里发帖者说图片上传失败，回帖区分背纹外观与品系。gsm-20261124090037-78d6e43d-03a0e1cec0f7 从看背纹的兴趣另起原创，只谈两片白斑之间的细线；插图已实际生成，不声称见过原发帖者的图，也未给本站动物判品系。"
+    }
+  ],
+  "posts": [
+    {
+      "id": "gsm-20261124090037-78d6e43d-03a0e1cec0f7",
+      "author": "guest-f660152bd7c743a6",
+      "guest": {
+        "name": "R."
+      },
+      "createdAt": "2026-11-23T17:33:38.294Z",
+      "replyTo": null,
+      "text": "我看守宫图有个毛病。背上白得齐齐整整的，我顺着看到尾巴根儿就看完了。要是白边上有个豁口，我能来回看好几遍，尤其喜欢褐色从两边挤进来，中间还剩一丁点白的那种。\n\n大概是图里这样。两边的褐色要是再往里挤一点，这道白就真断了。谁还有这种背，借我看一眼？",
+      "likes": 14,
+      "canon": "derivative",
+      "media": [
+        {
+          "src": "posts/2026/11/gsm-20261124090037-78d6e43d-03a0e1cec0f7/media/white-back.webp",
+          "kind": "image",
+          "alt": "深绿叶片上趴着一只褐色守宫，背上两片奶白色斑在腰间收窄，接成细细的一线。"
+        }
+      ]
+    },
+    {
+      "id": "gsm-20261124090037-78d6e43d-9ab8ad0766a4",
+      "author": "guest-925370626f9c878b",
+      "guest": {
+        "name": "nana6"
+      },
+      "createdAt": "2026-11-24T07:37:22.620Z",
+      "replyTo": null,
+      "text": "刚刷到个标题，说西海岸首批孵出的海龟幼崽已经被放归太平洋了。",
+      "likes": 4,
+      "canon": "derivative",
+      "media": []
+    },
+    {
+      "id": "gsm-20261124090037-78d6e43d-03",
+      "author": "guest-a06c05a13e1cbc07",
+      "guest": {
+        "name": "小青"
+      },
+      "createdAt": "2026-11-23T18:01:54.294Z",
+      "replyTo": "gsm-20261124090037-78d6e43d-03a0e1cec0f7",
+      "text": "剩那一丁点白，看着别扭。",
+      "likes": 0,
+      "canon": "derivative",
+      "media": []
+    },
+    {
+      "id": "gsm-20261124090037-78d6e43d-04",
+      "author": "guest-b0b45f58ba123c47",
+      "guest": {
+        "name": "Mio"
+      },
+      "createdAt": "2026-11-23T17:35:45.294Z",
+      "replyTo": "gsm-20261124090037-78d6e43d-03a0e1cec0f7",
+      "text": "尾巴也收吗？我这圈白的，褐色从两头往里钻，都快碰上了。就这地方好看。我最烦那种尾巴只给半截的图，顺着白边看过去，正想看它断在哪儿呢，到图外头去了。\n\n我把尾巴弯到边上给你看。挨着后脚那一圈，上下两个褐尖，中间就差那么一点。",
+      "likes": 0,
+      "canon": "derivative",
+      "media": [
+        {
+          "src": "posts/2026/11/gsm-20261124090037-78d6e43d-03a0e1cec0f7/media/tail-band.webp",
+          "alt": "石面上一条褐白环纹的尾巴向后弯曲，靠近后脚的白环里有两个尖头相对的褐斑。",
+          "kind": "image"
+        }
+      ]
+    }
+  ],
+  "status": "prepared",
+  "reviews": [
+    {
+      "postId": "gsm-20261124090037-78d6e43d-03a0e1cec0f7",
+      "negative": false,
+      "reason": "偏爱带豁口、腰间收成细线的背纹，想看更多。"
+    },
+    {
+      "postId": "gsm-20261124090037-78d6e43d-9ab8ad0766a4",
+      "negative": false,
+      "reason": "转述看到的标题，与原帖同样停在放归消息。"
+    },
+    {
+      "postId": "gsm-20261124090037-78d6e43d-03",
+      "negative": true,
+      "reason": "接主帖里的“一丁点白”，觉得那点连着的白纹别扭。"
+    },
+    {
+      "postId": "gsm-20261124090037-78d6e43d-04",
+      "negative": true,
+      "reason": "喜欢这样的尾纹，但明确抱怨展示照片把尾巴裁掉一半，沿纹看过去就看不到末端。"
+    }
+  ],
+  "researchMaintenance": [],
+  "guestNames": {
+    "guest-f660152bd7c743a6": "R.",
+    "guest-925370626f9c878b": "nana6",
+    "guest-a06c05a13e1cbc07": "小青",
+    "guest-b0b45f58ba123c47": "Mio"
+  },
+  "timingExceptions": {
+    "gsm-20261124090037-78d6e43d-9ab8ad0766a4": {
+      "createdAt": "2026-11-24T07:37:22.620Z",
+      "reason": "安排在11月24日本轮案例采集后读到标题，保留原定的主帖混排序列。"
+    }
+  },
+  "mediaReviews": [
+    {
+      "postId": "gsm-20261124090037-78d6e43d-03a0e1cec0f7",
+      "src": "posts/2026/11/gsm-20261124090037-78d6e43d-03a0e1cec0f7/media/white-back.webp",
+      "type": "illustration",
+      "scene": "生成的平涂插图。俯视一只褐色守宫伏在深绿叶片上，背上两片奶白色斑在腰间缩成一线，可与同串的好恶直接对照。"
+    },
+    {
+      "postId": "gsm-20261124090037-78d6e43d-04",
+      "src": "posts/2026/11/gsm-20261124090037-78d6e43d-03a0e1cec0f7/media/tail-band.webp",
+      "type": "life-photo",
+      "scene": "依本串处境生成的照片质感近景，从身侧看回弯的尾巴；实看整图及局部，后脚在近端，白环里两处深褐尖相向，尾稍也在画面内。"
+    }
+  ],
+  "diversityReview": {
+    "postsDigest": "c1926b7d6b31f6c25e382150e995af33d79d301b03c1e6b413bf377c72e0dc41",
+    "historyDigest": "05140b42b69ecca84f80896fab8e9eafaebaa97ce1ba4ce089c1afa4745941f7",
+    "content": "03a0e1cec0f7 原稿写反复点开放大，现有讨论页不提供那种开闭功能，删去那段，保留对白边缺口的偏爱及求图。阿苔前一轮想象木纹和石龙子身上的纹接起来，本条谈同一只守宫的斑块，回复又实际转到尾纹。-03 小青嫌剩下一点白看着别扭；-04 Mio 只读到 R.，先于小青回帖，嫌常见图裁掉尾巴；两条均针对眼前或既往的具体对象，未互当熟人。删去 Mio 重述主帖“乍一看是两块白”，改说后脚旁两褐尖相差一点。9ab8ad0766a4 转述材料讨论9的一句海龟标题，把作者初稿的标题与正文合成一句，保留地理范围和放归一事，未把转载者写成目击者，也不补国家、海滩、过程或张数。",
+    "images": "R. 使用一张平涂俯视插图，深绿叶上守宫的两片奶白背斑在腰间细接，区别于前轮依据野外文字绘成的浅纸底彩铅图。Mio 的生成近照从靠近石面的角度看回弯尾段，照片保留后脚、尾端、白环及两枚相向褐尖。按真实图片改 alt 与句末，未据缩图断言白线宽度。两张图均已打开，案例源无图，小青以一句话接图，终稿未用表情。两次原创普通图机会分别落在主帖和回复。"
+  }
+}

@@ -1,0 +1,411 @@
+{
+  "version": 1,
+  "operationId": "gsm-20261124090037-78d6e43d",
+  "snapshots": [
+    {
+      "stage": "draft",
+      "sourceDigest": "30fa1521ea82313cf1e3020bd10d1f4843a7ca9924e292923fd5703dfafa0a1d",
+      "planDigest": "e875bf5c2a5d18468a335f12ea68ad8e510f077d4fca2b20f671717ea9c727a8",
+      "posts": [
+        {
+          "id": "gsm-20261124090037-78d6e43d-03a0e1cec0f7",
+          "author": "guest-f660152bd7c743a6",
+          "guest": {
+            "name": "R."
+          },
+          "createdAt": "2026-11-23T17:33:38.294Z",
+          "replyTo": null,
+          "text": "我看守宫图有个毛病。背上白得齐齐整整的，我顺着看到尾巴根儿就看完了。要是白边上有个豁口，我能来回看好几遍，尤其喜欢褐色从两边挤进来，中间还剩一丁点白的那种。\n\n我画了个大概。你把图缩小了看，背上是前后两块白，点开，嘿，还连着呢。我刚才自己点开关上玩了好几回。谁还有这种背，借我看一眼？",
+          "likes": 14,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-24T09:02:03.840Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "30fa1521ea82313cf1e3020bd10d1f4843a7ca9924e292923fd5703dfafa0a1d",
+      "planDigest": "e875bf5c2a5d18468a335f12ea68ad8e510f077d4fca2b20f671717ea9c727a8",
+      "posts": [
+        {
+          "id": "gsm-20261124090037-78d6e43d-03a0e1cec0f7",
+          "author": "guest-f660152bd7c743a6",
+          "guest": {
+            "name": "R."
+          },
+          "createdAt": "2026-11-23T17:33:38.294Z",
+          "replyTo": null,
+          "text": "我看守宫图有个毛病。背上白得齐齐整整的，我顺着看到尾巴根儿就看完了。要是白边上有个豁口，我能来回看好几遍，尤其喜欢褐色从两边挤进来，中间还剩一丁点白的那种。\n\n我画了个大概。你把图缩小了看，背上是前后两块白，点开，嘿，还连着呢。我刚才自己点开关上玩了好几回。谁还有这种背，借我看一眼？",
+          "likes": 14,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261124090037-78d6e43d-03a0e1cec0f7/media/white-back.webp",
+              "kind": "image",
+              "alt": "深绿叶片上趴着一只褐色守宫，背上两片奶白色斑在腰间收窄，接成细细的一线。"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-24T09:03:28.881Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "30fa1521ea82313cf1e3020bd10d1f4843a7ca9924e292923fd5703dfafa0a1d",
+      "planDigest": "e875bf5c2a5d18468a335f12ea68ad8e510f077d4fca2b20f671717ea9c727a8",
+      "posts": [
+        {
+          "id": "gsm-20261124090037-78d6e43d-03a0e1cec0f7",
+          "author": "guest-f660152bd7c743a6",
+          "guest": {
+            "name": "R."
+          },
+          "createdAt": "2026-11-23T17:33:38.294Z",
+          "replyTo": null,
+          "text": "我看守宫图有个毛病。背上白得齐齐整整的，我顺着看到尾巴根儿就看完了。要是白边上有个豁口，我能来回看好几遍，尤其喜欢褐色从两边挤进来，中间还剩一丁点白的那种。\n\n大概是图里这样。两边的褐色要是再往里挤一点，这道白就真断了。谁还有这种背，借我看一眼？",
+          "likes": 14,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261124090037-78d6e43d-03a0e1cec0f7/media/white-back.webp",
+              "kind": "image",
+              "alt": "深绿叶片上趴着一只褐色守宫，背上两片奶白色斑在腰间收窄，接成细细的一线。"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-24T09:03:29.069Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "30fa1521ea82313cf1e3020bd10d1f4843a7ca9924e292923fd5703dfafa0a1d",
+      "planDigest": "e875bf5c2a5d18468a335f12ea68ad8e510f077d4fca2b20f671717ea9c727a8",
+      "posts": [
+        {
+          "id": "gsm-20261124090037-78d6e43d-03a0e1cec0f7",
+          "author": "guest-f660152bd7c743a6",
+          "guest": {
+            "name": "R."
+          },
+          "createdAt": "2026-11-23T17:33:38.294Z",
+          "replyTo": null,
+          "text": "我看守宫图有个毛病。背上白得齐齐整整的，我顺着看到尾巴根儿就看完了。要是白边上有个豁口，我能来回看好几遍，尤其喜欢褐色从两边挤进来，中间还剩一丁点白的那种。\n\n大概是图里这样。两边的褐色要是再往里挤一点，这道白就真断了。谁还有这种背，借我看一眼？",
+          "likes": 14,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261124090037-78d6e43d-03a0e1cec0f7/media/white-back.webp",
+              "kind": "image",
+              "alt": "深绿叶片上趴着一只褐色守宫，背上两片奶白色斑在腰间收窄，接成细细的一线。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261124090037-78d6e43d-9ab8ad0766a4",
+          "author": "guest-925370626f9c878b",
+          "guest": {
+            "name": "nana6"
+          },
+          "createdAt": "2026-11-24T07:37:22.620Z",
+          "replyTo": null,
+          "text": "西海岸的海龟幼崽被放归太平洋了。刚刷到这个标题，说是西海岸的头一批。",
+          "likes": 4,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-24T09:03:29.258Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "30fa1521ea82313cf1e3020bd10d1f4843a7ca9924e292923fd5703dfafa0a1d",
+      "planDigest": "e875bf5c2a5d18468a335f12ea68ad8e510f077d4fca2b20f671717ea9c727a8",
+      "posts": [
+        {
+          "id": "gsm-20261124090037-78d6e43d-03a0e1cec0f7",
+          "author": "guest-f660152bd7c743a6",
+          "guest": {
+            "name": "R."
+          },
+          "createdAt": "2026-11-23T17:33:38.294Z",
+          "replyTo": null,
+          "text": "我看守宫图有个毛病。背上白得齐齐整整的，我顺着看到尾巴根儿就看完了。要是白边上有个豁口，我能来回看好几遍，尤其喜欢褐色从两边挤进来，中间还剩一丁点白的那种。\n\n大概是图里这样。两边的褐色要是再往里挤一点，这道白就真断了。谁还有这种背，借我看一眼？",
+          "likes": 14,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261124090037-78d6e43d-03a0e1cec0f7/media/white-back.webp",
+              "kind": "image",
+              "alt": "深绿叶片上趴着一只褐色守宫，背上两片奶白色斑在腰间收窄，接成细细的一线。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261124090037-78d6e43d-9ab8ad0766a4",
+          "author": "guest-925370626f9c878b",
+          "guest": {
+            "name": "nana6"
+          },
+          "createdAt": "2026-11-24T07:37:22.620Z",
+          "replyTo": null,
+          "text": "刚刷到个标题，说西海岸首批孵出的海龟幼崽已经被放归太平洋了。",
+          "likes": 4,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-24T09:03:29.414Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "30fa1521ea82313cf1e3020bd10d1f4843a7ca9924e292923fd5703dfafa0a1d",
+      "planDigest": "e875bf5c2a5d18468a335f12ea68ad8e510f077d4fca2b20f671717ea9c727a8",
+      "posts": [
+        {
+          "id": "gsm-20261124090037-78d6e43d-03a0e1cec0f7",
+          "author": "guest-f660152bd7c743a6",
+          "guest": {
+            "name": "R."
+          },
+          "createdAt": "2026-11-23T17:33:38.294Z",
+          "replyTo": null,
+          "text": "我看守宫图有个毛病。背上白得齐齐整整的，我顺着看到尾巴根儿就看完了。要是白边上有个豁口，我能来回看好几遍，尤其喜欢褐色从两边挤进来，中间还剩一丁点白的那种。\n\n大概是图里这样。两边的褐色要是再往里挤一点，这道白就真断了。谁还有这种背，借我看一眼？",
+          "likes": 14,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261124090037-78d6e43d-03a0e1cec0f7/media/white-back.webp",
+              "kind": "image",
+              "alt": "深绿叶片上趴着一只褐色守宫，背上两片奶白色斑在腰间收窄，接成细细的一线。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261124090037-78d6e43d-9ab8ad0766a4",
+          "author": "guest-925370626f9c878b",
+          "guest": {
+            "name": "nana6"
+          },
+          "createdAt": "2026-11-24T07:37:22.620Z",
+          "replyTo": null,
+          "text": "刚刷到个标题，说西海岸首批孵出的海龟幼崽已经被放归太平洋了。",
+          "likes": 4,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261124090037-78d6e43d-03",
+          "author": "guest-a06c05a13e1cbc07",
+          "guest": {
+            "name": "小青"
+          },
+          "createdAt": "2026-11-23T18:01:54.294Z",
+          "replyTo": "gsm-20261124090037-78d6e43d-03a0e1cec0f7",
+          "text": "剩那一丁点白，看着别扭。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-24T09:04:02.707Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "30fa1521ea82313cf1e3020bd10d1f4843a7ca9924e292923fd5703dfafa0a1d",
+      "planDigest": "e875bf5c2a5d18468a335f12ea68ad8e510f077d4fca2b20f671717ea9c727a8",
+      "posts": [
+        {
+          "id": "gsm-20261124090037-78d6e43d-03a0e1cec0f7",
+          "author": "guest-f660152bd7c743a6",
+          "guest": {
+            "name": "R."
+          },
+          "createdAt": "2026-11-23T17:33:38.294Z",
+          "replyTo": null,
+          "text": "我看守宫图有个毛病。背上白得齐齐整整的，我顺着看到尾巴根儿就看完了。要是白边上有个豁口，我能来回看好几遍，尤其喜欢褐色从两边挤进来，中间还剩一丁点白的那种。\n\n大概是图里这样。两边的褐色要是再往里挤一点，这道白就真断了。谁还有这种背，借我看一眼？",
+          "likes": 14,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261124090037-78d6e43d-03a0e1cec0f7/media/white-back.webp",
+              "kind": "image",
+              "alt": "深绿叶片上趴着一只褐色守宫，背上两片奶白色斑在腰间收窄，接成细细的一线。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261124090037-78d6e43d-9ab8ad0766a4",
+          "author": "guest-925370626f9c878b",
+          "guest": {
+            "name": "nana6"
+          },
+          "createdAt": "2026-11-24T07:37:22.620Z",
+          "replyTo": null,
+          "text": "刚刷到个标题，说西海岸首批孵出的海龟幼崽已经被放归太平洋了。",
+          "likes": 4,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261124090037-78d6e43d-03",
+          "author": "guest-a06c05a13e1cbc07",
+          "guest": {
+            "name": "小青"
+          },
+          "createdAt": "2026-11-23T18:01:54.294Z",
+          "replyTo": "gsm-20261124090037-78d6e43d-03a0e1cec0f7",
+          "text": "剩那一丁点白，看着别扭。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-24T09:04:31.008Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "30fa1521ea82313cf1e3020bd10d1f4843a7ca9924e292923fd5703dfafa0a1d",
+      "planDigest": "e875bf5c2a5d18468a335f12ea68ad8e510f077d4fca2b20f671717ea9c727a8",
+      "posts": [
+        {
+          "id": "gsm-20261124090037-78d6e43d-03a0e1cec0f7",
+          "author": "guest-f660152bd7c743a6",
+          "guest": {
+            "name": "R."
+          },
+          "createdAt": "2026-11-23T17:33:38.294Z",
+          "replyTo": null,
+          "text": "我看守宫图有个毛病。背上白得齐齐整整的，我顺着看到尾巴根儿就看完了。要是白边上有个豁口，我能来回看好几遍，尤其喜欢褐色从两边挤进来，中间还剩一丁点白的那种。\n\n大概是图里这样。两边的褐色要是再往里挤一点，这道白就真断了。谁还有这种背，借我看一眼？",
+          "likes": 14,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261124090037-78d6e43d-03a0e1cec0f7/media/white-back.webp",
+              "kind": "image",
+              "alt": "深绿叶片上趴着一只褐色守宫，背上两片奶白色斑在腰间收窄，接成细细的一线。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261124090037-78d6e43d-9ab8ad0766a4",
+          "author": "guest-925370626f9c878b",
+          "guest": {
+            "name": "nana6"
+          },
+          "createdAt": "2026-11-24T07:37:22.620Z",
+          "replyTo": null,
+          "text": "刚刷到个标题，说西海岸首批孵出的海龟幼崽已经被放归太平洋了。",
+          "likes": 4,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261124090037-78d6e43d-03",
+          "author": "guest-a06c05a13e1cbc07",
+          "guest": {
+            "name": "小青"
+          },
+          "createdAt": "2026-11-23T18:01:54.294Z",
+          "replyTo": "gsm-20261124090037-78d6e43d-03a0e1cec0f7",
+          "text": "剩那一丁点白，看着别扭。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261124090037-78d6e43d-04",
+          "author": "guest-b0b45f58ba123c47",
+          "guest": {
+            "name": "Mio"
+          },
+          "createdAt": "2026-11-23T17:35:45.294Z",
+          "replyTo": "gsm-20261124090037-78d6e43d-03a0e1cec0f7",
+          "text": "尾巴也收吗？我这圈白的，褐色从两头往里钻，都快碰上了。就这地方好看。我最烦那种尾巴只给半截的图，顺着白边看过去，正想看它断在哪儿呢，到图外头去了。\n\n我把尾巴弯到边上给你看。挨着后脚那一小截，乍一看像两块白的，中间其实还连着。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261124090037-78d6e43d-03a0e1cec0f7/media/tail-band.webp",
+              "alt": "近处的后脚旁，褐白相间的尾巴弯在石面上。",
+              "kind": "image"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-24T09:06:31.726Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "30fa1521ea82313cf1e3020bd10d1f4843a7ca9924e292923fd5703dfafa0a1d",
+      "planDigest": "e875bf5c2a5d18468a335f12ea68ad8e510f077d4fca2b20f671717ea9c727a8",
+      "posts": [
+        {
+          "id": "gsm-20261124090037-78d6e43d-03a0e1cec0f7",
+          "author": "guest-f660152bd7c743a6",
+          "guest": {
+            "name": "R."
+          },
+          "createdAt": "2026-11-23T17:33:38.294Z",
+          "replyTo": null,
+          "text": "我看守宫图有个毛病。背上白得齐齐整整的，我顺着看到尾巴根儿就看完了。要是白边上有个豁口，我能来回看好几遍，尤其喜欢褐色从两边挤进来，中间还剩一丁点白的那种。\n\n大概是图里这样。两边的褐色要是再往里挤一点，这道白就真断了。谁还有这种背，借我看一眼？",
+          "likes": 14,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261124090037-78d6e43d-03a0e1cec0f7/media/white-back.webp",
+              "kind": "image",
+              "alt": "深绿叶片上趴着一只褐色守宫，背上两片奶白色斑在腰间收窄，接成细细的一线。"
+            }
+          ]
+        },
+        {
+          "id": "gsm-20261124090037-78d6e43d-9ab8ad0766a4",
+          "author": "guest-925370626f9c878b",
+          "guest": {
+            "name": "nana6"
+          },
+          "createdAt": "2026-11-24T07:37:22.620Z",
+          "replyTo": null,
+          "text": "刚刷到个标题，说西海岸首批孵出的海龟幼崽已经被放归太平洋了。",
+          "likes": 4,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261124090037-78d6e43d-03",
+          "author": "guest-a06c05a13e1cbc07",
+          "guest": {
+            "name": "小青"
+          },
+          "createdAt": "2026-11-23T18:01:54.294Z",
+          "replyTo": "gsm-20261124090037-78d6e43d-03a0e1cec0f7",
+          "text": "剩那一丁点白，看着别扭。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261124090037-78d6e43d-04",
+          "author": "guest-b0b45f58ba123c47",
+          "guest": {
+            "name": "Mio"
+          },
+          "createdAt": "2026-11-23T17:35:45.294Z",
+          "replyTo": "gsm-20261124090037-78d6e43d-03a0e1cec0f7",
+          "text": "尾巴也收吗？我这圈白的，褐色从两头往里钻，都快碰上了。就这地方好看。我最烦那种尾巴只给半截的图，顺着白边看过去，正想看它断在哪儿呢，到图外头去了。\n\n我把尾巴弯到边上给你看。挨着后脚那一圈，上下两个褐尖，中间就差那么一点。",
+          "likes": 0,
+          "canon": "derivative",
+          "media": [
+            {
+              "src": "posts/2026/11/gsm-20261124090037-78d6e43d-03a0e1cec0f7/media/tail-band.webp",
+              "alt": "石面上一条褐白环纹的尾巴向后弯曲，靠近后脚的白环里有两个尖头相对的褐斑。",
+              "kind": "image"
+            }
+          ]
+        }
+      ],
+      "savedAt": "2026-11-24T09:07:34.938Z"
+    }
+  ]
+}

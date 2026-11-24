@@ -1,5 +1,33 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "guest-925370626f9c878b": {
+    "handle": "guest-925370626f9c878b",
+    "name": "nana6",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-925370626f9c878b.webp?v=f8a2a28d808e",
+    "color": "rose"
+  },
+  "guest-a06c05a13e1cbc07": {
+    "handle": "guest-a06c05a13e1cbc07",
+    "name": "小青",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-a06c05a13e1cbc07.webp?v=f8a2a28d808e",
+    "color": "sage"
+  },
+  "guest-b0b45f58ba123c47": {
+    "handle": "guest-b0b45f58ba123c47",
+    "name": "Mio",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-b0b45f58ba123c47.webp?v=d880f2ec2809",
+    "color": "rose"
+  },
+  "guest-f660152bd7c743a6": {
+    "handle": "guest-f660152bd7c743a6",
+    "name": "R.",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-f660152bd7c743a6.webp?v=f8a2a28d808e",
+    "color": "sand"
+  },
   "moss9": {
     "handle": "moss9",
     "name": "阿苔",
@@ -310,6 +338,158 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "gsm-20261124090037-78d6e43d-9ab8ad0766a4",
+    "date": "2026-11-24T15:37:22.620+08:00",
+    "createdAt": 1795505842620,
+    "author": "guest-925370626f9c878b",
+    "likes": 4,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚刷到个标题，说西海岸首批孵出的海龟幼崽已经被放归太平洋了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚刷到个标题，说西海岸首批孵出的海龟幼崽已经被放归太平洋了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚刷到个标题，说西海岸首批孵出的海龟幼崽已经被放归太平洋了。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gsm-20261124090037-78d6e43d-03",
+    "date": "2026-11-24T02:01:54.294+08:00",
+    "createdAt": 1795456914294,
+    "author": "guest-a06c05a13e1cbc07",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "剩那一丁点白，看着别扭。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "剩那一丁点白，看着别扭。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "剩那一丁点白，看着别扭。"
+        }
+      ]
+    },
+    "replyTo": "gsm-20261124090037-78d6e43d-03a0e1cec0f7"
+  },
+  {
+    "id": "gsm-20261124090037-78d6e43d-04",
+    "date": "2026-11-24T01:35:45.294+08:00",
+    "createdAt": 1795455345294,
+    "author": "guest-b0b45f58ba123c47",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "尾巴也收吗？我这圈白的，褐色从两头往里钻，都快碰上了。就这地方好看。我最烦那种尾巴只给半截的图，顺着白边看过去，正想看它断在哪儿呢，到图外头去了。\n\n我把尾巴弯到边上给你看。挨着后脚那一圈，上下两个褐尖，中间就差那么一点。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261124090037-78d6e43d-03a0e1cec0f7/media/tail-band.webp",
+          "alt": "石面上一条褐白环纹的尾巴向后弯曲，靠近后脚的白环里有两个尖头相对的褐斑。",
+          "width": 1200,
+          "height": 800
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "尾巴也收吗？我这圈白的，褐色从两头往里钻，都快碰上了。就这地方好看。我最烦那种尾巴只给半截的图，顺着白边看过去，正想看它断在哪儿呢，到图外头去了。\n\n我把尾巴弯到边上给你看。挨着后脚那一圈，上下两个褐尖，中间就差那么一点。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261124090037-78d6e43d-03a0e1cec0f7/media/tail-band.webp",
+          "alt": "石面上一条褐白环纹的尾巴向后弯曲，靠近后脚的白环里有两个尖头相对的褐斑。",
+          "width": 1200,
+          "height": 800
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "尾巴也收吗？我这圈白的，褐色从两头往里钻，都快碰上了。就这地方好看。我最烦那种尾巴只给半截的图，顺着白边看过去，正想看它断在哪儿呢，到图外头去了。\n\n我把尾巴弯到边上给你看。挨着后脚那一圈，上下两个褐尖，中间就差那么一点。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261124090037-78d6e43d-03a0e1cec0f7/media/tail-band.webp",
+          "alt": "石面上一条褐白环纹的尾巴向后弯曲，靠近后脚的白环里有两个尖头相对的褐斑。",
+          "width": 1200,
+          "height": 800
+        }
+      ]
+    },
+    "replyTo": "gsm-20261124090037-78d6e43d-03a0e1cec0f7"
+  },
+  {
+    "id": "gsm-20261124090037-78d6e43d-03a0e1cec0f7",
+    "date": "2026-11-24T01:33:38.294+08:00",
+    "createdAt": 1795455218294,
+    "author": "guest-f660152bd7c743a6",
+    "likes": 14,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "我看守宫图有个毛病。背上白得齐齐整整的，我顺着看到尾巴根儿就看完了。要是白边上有个豁口，我能来回看好几遍，尤其喜欢褐色从两边挤进来，中间还剩一丁点白的那种。\n\n大概是图里这样。两边的褐色要是再往里挤一点，这道白就真断了。谁还有这种背，借我看一眼？"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261124090037-78d6e43d-03a0e1cec0f7/media/white-back.webp",
+          "alt": "深绿叶片上趴着一只褐色守宫，背上两片奶白色斑在腰间收窄，接成细细的一线。",
+          "width": 1200,
+          "height": 800
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "我看守宫图有个毛病。背上白得齐齐整整的，我顺着看到尾巴根儿就看完了。要是白边上有个豁口，我能来回看好几遍，尤其喜欢褐色从两边挤进来，中间还剩一丁点白的那种。\n\n大概是图里这样。两边的褐色要是再往里挤一点，这道白就真断了。谁还有这种背，借我看一眼？"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261124090037-78d6e43d-03a0e1cec0f7/media/white-back.webp",
+          "alt": "深绿叶片上趴着一只褐色守宫，背上两片奶白色斑在腰间收窄，接成细细的一线。",
+          "width": 1200,
+          "height": 800
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "我看守宫图有个毛病。背上白得齐齐整整的，我顺着看到尾巴根儿就看完了。要是白边上有个豁口，我能来回看好几遍，尤其喜欢褐色从两边挤进来，中间还剩一丁点白的那种。\n\n大概是图里这样。两边的褐色要是再往里挤一点，这道白就真断了。谁还有这种背，借我看一眼？"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261124090037-78d6e43d-03a0e1cec0f7/media/white-back.webp",
+          "alt": "深绿叶片上趴着一只褐色守宫，背上两片奶白色斑在腰间收窄，接成细细的一线。",
+          "width": 1200,
+          "height": 800
+        }
+      ]
+    }
+  },
   {
     "id": "gsm-20261123085755-8392bffc-e4cebcd0d9d6",
     "date": "2026-11-23T13:17:29.222+08:00",
