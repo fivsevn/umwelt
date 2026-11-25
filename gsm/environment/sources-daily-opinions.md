@@ -57,22 +57,39 @@ node gsm/tools/engine/collect-gecko-opinions.js
 
 <!-- samples:start -->
 
-采集时间：2026-11-24 15:06:13（北京时间）
+采集时间：2026-11-25 13:40:59（北京时间）
 
 ### 讨论 1
 
-RSS 摘要。
-
-1. **发言者 1**：发言者 1 2027 Media Kit  
-     
-   2027 Reptiles Media Kit-reduced5
+1. **发言者 1**：Little Brown Skink \(Scincella lateralis\)  
+   This little reptile was nice enough to pause for me on the walking path.  
+   iNaturalist link \[ \[链接隐去\] \]  
+   \[图片或视频省略，未读取画面\]
 
 ### 讨论 2
 
-1. **发言者 1**：RE: \[链接隐去\]  
-   Today, it's "lizard in a dress"
+RSS 摘要。
+
+1. **发言者 1**：New Species of Egg-Eating Snake Discovered In Ethiopia  
+     
+   The discovery occurred when a local field assistant brought a young female snake to the research team.
 
 ### 讨论 3
+
+1. **发言者 1**：Prairie Lizard \(Sceloporus consobrinus\)  
+   This cutie was hiding under the leaves on a path up to Turkey Mountain's summit. I'm just happy I didn't crush him under my foot.  
+   iNaturalist link \[ \[链接隐去\] \]  
+   \[图片或视频省略，未读取画面\]
+
+### 讨论 4
+
+1. **发言者 1**：Two lizards, Vallejo CA  
+   \[图片或视频省略，未读取画面\]
+
+2. **发言者 2**（回复第 1 条）：Protégeons notre magnifique faune et flore sauvage \!  
+   发言者 1
+
+### 讨论 5
 
 父回复关系未提供。
 
@@ -219,50 +236,7 @@ RSS 摘要。
 
 3. **发言者 2**：A couple practical additions: measure when the gecko is calm and warm, not mid-shed, and record torso length and width in cm rather than relying on S/M/L. For girth, use a soft tape and leave enough room to slide a finger under the fabric; if the outfit covers the vent or restricts leg movement, it is too much. Watch for tail curling, squirming, or trying to walk away—those are signs to stop.
 
-### 讨论 4
-
-1. **发言者 1**：My best friend as a child \+ teenie was a boy. We were very close \+ also had a fallout, bt nt over reptiles. Bt despite the fallout he was the only one lending me a shoulder to lean on when I needed it most; I\`ll be grateful to him for the rest of my life, when everyone else \(especially my own family\) had abandoned me. friendship   
-   New Christmas story in December:
-
-### 讨论 5
-
-RSS 摘要。
-
-1. **发言者 1**：New Species of Egg-Eating Snake Discovered In Ethiopia  
-     
-   The discovery occurred when a local field assistant brought a young female snake to the research team.
-
 ### 讨论 6
-
-1. **发言者 1**：Volunteer care workers save freshwater turtles  
-   "Thousands of turtles saved as citizen science project marches toward milestone. The 1 Million Turtles campaign, launched in 2021, has taken close to 40,000 records from citizen scientists of turtles in the wild across Australia."  
-   "Volunteers are invited to log their turtle discoveries on TurtleSAT, a mobile phone app and online tracking tool, allowing scientists to build a more accurate picture of turtle ecology. ..We find transmitters under trees chewed up and effectively spat out."  &gt;&gt;  
-   \[链接隐去\]
-
-### 讨论 7
-
-1. **发言者 1**：Pausing along the boardwalk at Umusambi Village in Rwanda. Caught this striped skink soaking in the calm against weathered wood and lush green foliage.  
-   \[图片或视频省略，未读取画面\]
-
-### 讨论 8
-
-1. **发言者 1**：Adnkronos - ultimoratop: Geco ricoverato con femore rotto a Torino dopo una caduta, la sua storia e come sta  
-   \(Adnkronos\) - Tra vandalismo e arte il funambolo delle scritte giganti identificato nel 2020 è ricoverato dopo l'intervento al Cto con 60 giorni di prognosi  
-   Gecko admitted with broken femur in Turin after a fall, his story and how he is doing.  
-   \(Adnkronos\) – Between vandalism and art, the graffiti artist known in 2020 for his giant writing is hospitalized after an operation at the Cto with a 60-day prognosis.  
-   \[链接隐去\]
-
-### 讨论 9
-
-1. **发言者 1**：West Coast’s First Ever Sea Turtle Hatchlings Released into the Pacific  
-   \[链接隐去\]
-
-### 讨论 10
-
-1. **发言者 1**：\[链接隐去\] ビルマニシキヘビのみーさん🐍 ビルマニシキヘビ バーミーズ ニシキヘビ 大蛇 \# 爬虫類 reptiles snake 爬虫類カフェ cat neko バーミーズ  
-   \[图片或视频省略，未读取画面\]
-
-### 讨论 11
 
 父回复关系未提供。
 
@@ -274,11 +248,47 @@ RSS 摘要。
 
 2. **发言者 2**：Solid backs are not related to sables or lillies, plenty of lillies don’t have solid backs, and plenty of normals do. MM actually has solid back listed as a separate trait, although it’s a visual trait rather than a genetic trait.
 
+### 讨论 7
+
+1. **发言者 1**：Pausing along the boardwalk at Umusambi Village in Rwanda. Caught this striped skink soaking in the calm against weathered wood and lush green foliage.  
+   \[图片或视频省略，未读取画面\]
+
+2. **发言者 2**（回复第 1 条）：发言者 1   
+   That's a lovely photo.
+
+### 讨论 8
+
+RSS 摘要。
+
+1. **发言者 1**：Seven Rare Lizards Most People Have Never Seen  
+     
+   From a pink iguana living on a single volcano to a lizard smaller than a coin, meet seven rare and unusual lizards and discover what makes each one truly special.
+
+### 讨论 9
+
+1. **发言者 1**：A colorful fellow.  
+     
+   Slender lizard \(\*Liolaemus tenuis\*\). Endemic to Chile; very common in Santiago and the Central Valley—especially in sclerophyllous forests, though also found in parks, on walls, and in urban gardens.  
+     
+   LiolaemusTenuis, slenderlizard, herpetology, SantiagoDeChile, sclerophyllousforest, NaturePhotography, Travel  
+   \[图片或视频省略，未读取画面\]
+
+### 讨论 10
+
+1. **发言者 1**：Clicked this wee wannabe dragon in my garden earlier today🦎  
+   \[图片或视频省略，未读取画面\]
+
+### 讨论 11
+
+RSS 摘要。
+
+1. **发言者 1**：发言者 1 2027 Media Kit  
+     
+   2027 Reptiles Media Kit-reduced5
+
 ### 讨论 12
 
-1. **发言者 1**：Little Brown Skink \(Scincella lateralis\)  
-   This little reptile was nice enough to pause for me on the walking path.  
-   iNaturalist link \[ \[链接隐去\] \]  
+1. **发言者 1**：reptiles , animales . Preciosa bebé de culebra de herradura tomando el sol. La trasladé a un lugar seguro antes de que mis predadoras la viesen.  
    \[图片或视频省略，未读取画面\]
 
 <!-- samples:end -->
