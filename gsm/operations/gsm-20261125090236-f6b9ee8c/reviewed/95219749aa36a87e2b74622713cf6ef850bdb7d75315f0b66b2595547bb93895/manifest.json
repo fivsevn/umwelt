@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "operationId": "gsm-20261125090236-f6b9ee8c",
+  "stage": "reviewed",
+  "sourceRevision": "486b991977db29f40763ea5cff1fc60587136a7d",
+  "files": [
+    {
+      "path": "media/posts/2026/11/gsm-20261125090236-f6b9ee8c-1bb80946c218/media/cloth.webp",
+      "bytes": 166386,
+      "sha256": "2baf8a6ee6fcadaacbb6622c7652ae09192b5782f5f8c1f693152ef14265651b"
+    },
+    {
+      "path": "media/posts/2026/11/gsm-20261125090236-f6b9ee8c-2c1a12a16878/media/leaf.webp",
+      "bytes": 132440,
+      "sha256": "934109b2ab2722628604a491283683a4847c2bce2c00bf7e8c5e800d5bbcb2e0"
+    },
+    {
+      "path": "media/posts/2026/11/gsm-20261125090236-f6b9ee8c-a88609e72617/media/sun.webp",
+      "bytes": 157696,
+      "sha256": "45298da1270dc216836675a781b5518fe6fa4c253f2dced40561891ec94b93b9"
+    },
+    {
+      "path": "work/daily-material.json",
+      "bytes": 13783,
+      "sha256": "2421866032f9fa4ca789601288626f9eab9a31103da752d95db55a6b87cedeff"
+    },
+    {
+      "path": "work/draft-history-gsm-20261125090236-f6b9ee8c.json",
+      "bytes": 23713,
+      "sha256": "90e064759044d60b688f96be8baaf801f9e7d9228516990192d684b624d5b131"
+    },
+    {
+      "path": "work/operation.json",
+      "bytes": 25536,
+      "sha256": "2d06580b2147843d77f6d83b28d7b56bdb6c795cc7b9b062c9ab9f066f16e448"
+    },
+    {
+      "path": "work/reading-index.json",
+      "bytes": 5483,
+      "sha256": "0688b8d801002baf50f510b2ab5829abba81704b6771653fc9922c09b43513c5"
+    },
+    {
+      "path": "work/reading.md",
+      "bytes": 415316,
+      "sha256": "49c0794bc92a5ebad9a0210fe0546b794d1a69f37ade59ec1df1d2df10006e44"
+    }
+  ]
+}

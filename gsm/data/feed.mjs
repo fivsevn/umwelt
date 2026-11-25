@@ -1,5 +1,33 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "guest-c641d01f80e7f251": {
+    "handle": "guest-c641d01f80e7f251",
+    "name": "七号",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-c641d01f80e7f251.webp?v=d880f2ec2809",
+    "color": "rose"
+  },
+  "guest-c2c557ccc57733d9": {
+    "handle": "guest-c2c557ccc57733d9",
+    "name": "elle",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-c2c557ccc57733d9.webp?v=c4197b1129be",
+    "color": "sage"
+  },
+  "guest-3a0c65f1dc566b39": {
+    "handle": "guest-3a0c65f1dc566b39",
+    "name": "树",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-3a0c65f1dc566b39.webp?v=d880f2ec2809",
+    "color": "sage"
+  },
+  "leafback7": {
+    "handle": "leafback7",
+    "name": "叶背居民",
+    "bio": "这片叶子上的路，我蛮熟的。",
+    "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
+    "color": "rose"
+  },
   "guest-925370626f9c878b": {
     "handle": "guest-925370626f9c878b",
     "name": "nana6",
@@ -287,13 +315,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/isopodafugue.webp?v=f80463b434f1",
     "color": "isopoda"
   },
-  "leafback7": {
-    "handle": "leafback7",
-    "name": "叶背居民",
-    "bio": "这片叶子上的路，我蛮熟的。",
-    "avatarImage": "/gsm/assets/avatars/leafback7.webp?v=f8a2a28d808e",
-    "color": "rose"
-  },
   "nearthermo": {
     "handle": "nearthermo",
     "name": "温度计旁边",
@@ -338,6 +359,178 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "gsm-20261125090236-f6b9ee8c-1bb80946c218",
+    "date": "2026-11-25T16:12:25.437+08:00",
+    "createdAt": 1795594345437,
+    "author": "guest-c641d01f80e7f251",
+    "likes": 20,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "我被量过一回。软尺从脖子后头一直贴到尾巴根。量两只前脚隔多远的时候倒是量了两回，头一回我左脚还收着呢。后来尺子从肚皮底下绕过来，蹭得我往前走了两步。\n\n衣服套到背上还挺松，我本来看得见右边的洞口，一扭头，布边就挡了半个洞口。我又往右扭，布边也跟过来。要给我拍照的话，还是把头上这块拿开吧，我想看洞口。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261125090236-f6b9ee8c-1bb80946c218/media/cloth.webp",
+          "alt": "从贴近石面的高度望过去，右侧垂下来一片灰布，遮住树皮洞口的一部分。",
+          "width": 1152,
+          "height": 648
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "我被量过一回。软尺从脖子后头一直贴到尾巴根。量两只前脚隔多远的时候倒是量了两回，头一回我左脚还收着呢。后来尺子从肚皮底下绕过来，蹭得我往前走了两步。\n\n衣服套到背上还挺松，我本来看得见右边的洞口，一扭头，布边就挡了半个洞口。我又往右扭，布边也跟过来。要给我拍照的话，还是把头上这块拿开吧，我想看洞口。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261125090236-f6b9ee8c-1bb80946c218/media/cloth.webp",
+          "alt": "从贴近石面的高度望过去，右侧垂下来一片灰布，遮住树皮洞口的一部分。",
+          "width": 1152,
+          "height": 648
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "我被量过一回。软尺从脖子后头一直贴到尾巴根。量两只前脚隔多远的时候倒是量了两回，头一回我左脚还收着呢。后来尺子从肚皮底下绕过来，蹭得我往前走了两步。\n\n衣服套到背上还挺松，我本来看得见右边的洞口，一扭头，布边就挡了半个洞口。我又往右扭，布边也跟过来。要给我拍照的话，还是把头上这块拿开吧，我想看洞口。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261125090236-f6b9ee8c-1bb80946c218/media/cloth.webp",
+          "alt": "从贴近石面的高度望过去，右侧垂下来一片灰布，遮住树皮洞口的一部分。",
+          "width": 1152,
+          "height": 648
+        }
+      ]
+    }
+  },
+  {
+    "id": "gsm-20261125090236-f6b9ee8c-04",
+    "date": "2026-11-25T14:39:48.020+08:00",
+    "createdAt": 1795588788020,
+    "author": "guest-c2c557ccc57733d9",
+    "likes": 4,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "都给它让地方了，它还往鼻子上蹭。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "都给它让地方了，它还往鼻子上蹭。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "都给它让地方了，它还往鼻子上蹭。"
+        }
+      ]
+    },
+    "replyTo": "gsm-20261125090236-f6b9ee8c-2c1a12a16878"
+  },
+  {
+    "id": "gsm-20261125090236-f6b9ee8c-2c1a12a16878",
+    "date": "2026-11-25T14:37:56.020+08:00",
+    "createdAt": 1795588676020,
+    "author": "guest-3a0c65f1dc566b39",
+    "likes": 43,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "看水碟里那片叶子，它的尖尖搭着的地方就是我平时喝水的地方。我从窝里出来走到这儿，脖子搭在这截矮沿上正好，闭着眼都找得着。今天头一低，舔了一嘴叶背。\n\n我往旁边挪了两步，好，能喝了。才喝两口，它慢悠悠地转过来，那个尖又碰着我鼻子了。昨天它干巴巴地卡在碟子底下，一整天都挺好，怎么一泡上水还会追着我跑啊。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261125090236-f6b9ee8c-2c1a12a16878/media/leaf.webp",
+          "alt": "一片卷边的棕叶浮在陶水碟边，浅色叶尖搭在碟沿上。",
+          "width": 1152,
+          "height": 768
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "看水碟里那片叶子，它的尖尖搭着的地方就是我平时喝水的地方。我从窝里出来走到这儿，脖子搭在这截矮沿上正好，闭着眼都找得着。今天头一低，舔了一嘴叶背。\n\n我往旁边挪了两步，好，能喝了。才喝两口，它慢悠悠地转过来，那个尖又碰着我鼻子了。昨天它干巴巴地卡在碟子底下，一整天都挺好，怎么一泡上水还会追着我跑啊。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261125090236-f6b9ee8c-2c1a12a16878/media/leaf.webp",
+          "alt": "一片卷边的棕叶浮在陶水碟边，浅色叶尖搭在碟沿上。",
+          "width": 1152,
+          "height": 768
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "看水碟里那片叶子，它的尖尖搭着的地方就是我平时喝水的地方。我从窝里出来走到这儿，脖子搭在这截矮沿上正好，闭着眼都找得着。今天头一低，舔了一嘴叶背。\n\n我往旁边挪了两步，好，能喝了。才喝两口，它慢悠悠地转过来，那个尖又碰着我鼻子了。昨天它干巴巴地卡在碟子底下，一整天都挺好，怎么一泡上水还会追着我跑啊。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261125090236-f6b9ee8c-2c1a12a16878/media/leaf.webp",
+          "alt": "一片卷边的棕叶浮在陶水碟边，浅色叶尖搭在碟沿上。",
+          "width": 1152,
+          "height": 768
+        }
+      ]
+    }
+  },
+  {
+    "id": "gsm-20261125090236-f6b9ee8c-a88609e72617",
+    "date": "2026-11-25T13:59:36.923+08:00",
+    "createdAt": 1795586376923,
+    "author": "leafback7",
+    "likes": 4,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚读到有人说，碰见一条小马蹄鞭蛇在晒太阳，夸它漂亮。那人怕自家那些会捕食它的家伙看见，先把小蛇挪开了。我想的就是图里这副样子，蛮可爱。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261125090236-f6b9ee8c-a88609e72617/media/sun.webp",
+          "alt": "纸张拼贴的暖黄色日照里，一条有褐色斑纹的小蛇弯着身子，旁边落着叶影。",
+          "width": 1152,
+          "height": 648
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚读到有人说，碰见一条小马蹄鞭蛇在晒太阳，夸它漂亮。那人怕自家那些会捕食它的家伙看见，先把小蛇挪开了。我想的就是图里这副样子，蛮可爱。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261125090236-f6b9ee8c-a88609e72617/media/sun.webp",
+          "alt": "纸张拼贴的暖黄色日照里，一条有褐色斑纹的小蛇弯着身子，旁边落着叶影。",
+          "width": 1152,
+          "height": 648
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚读到有人说，碰见一条小马蹄鞭蛇在晒太阳，夸它漂亮。那人怕自家那些会捕食它的家伙看见，先把小蛇挪开了。我想的就是图里这副样子，蛮可爱。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261125090236-f6b9ee8c-a88609e72617/media/sun.webp",
+          "alt": "纸张拼贴的暖黄色日照里，一条有褐色斑纹的小蛇弯着身子，旁边落着叶影。",
+          "width": 1152,
+          "height": 648
+        }
+      ]
+    }
+  },
   {
     "id": "gsm-20261124090037-78d6e43d-9ab8ad0766a4",
     "date": "2026-11-24T15:37:22.620+08:00",

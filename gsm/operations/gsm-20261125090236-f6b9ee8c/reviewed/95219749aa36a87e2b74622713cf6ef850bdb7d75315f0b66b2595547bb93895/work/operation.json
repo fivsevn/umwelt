@@ -1,0 +1,773 @@
+{
+  "version": 1,
+  "id": "gsm-20261125090236-f6b9ee8c",
+  "root": "/workspace/scratch/7c229307b34f/day25/repo/gsm",
+  "preparedAt": "2026-11-25T09:02:36.628Z",
+  "plan": {
+    "seed": "2a4b4a9297fcb6f2ca89a72b2520d52e317ba16eea1f177befebba6a5b5de376",
+    "budget": 1,
+    "selectedIds": [
+      "gecko404",
+      "leafback7",
+      "wednesday6"
+    ],
+    "totalBudget": 120,
+    "replyLottery": {
+      "bands": [
+        {
+          "weight": 30,
+          "min": 0,
+          "max": 0
+        },
+        {
+          "weight": 20,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "weight": 20,
+          "min": 2,
+          "max": 4
+        },
+        {
+          "weight": 15,
+          "min": 5,
+          "max": 12
+        },
+        {
+          "weight": 8,
+          "min": 13,
+          "max": 30
+        },
+        {
+          "weight": 5,
+          "min": 31,
+          "max": 60
+        },
+        {
+          "weight": 2,
+          "min": 61,
+          "max": 100
+        }
+      ],
+      "maxReplies": 100
+    },
+    "lottery": {
+      "version": 1,
+      "rootBudget": {
+        "min": 1,
+        "max": 2
+      },
+      "authors": {
+        "candidates": 3,
+        "recentPosts": 7,
+        "recentMultiplier": 0.5
+      },
+      "authorKind": [
+        {
+          "value": "guest",
+          "weight": 75
+        },
+        {
+          "value": "library",
+          "weight": 25
+        }
+      ],
+      "motivation": [
+        {
+          "value": "ask-help",
+          "weight": 24
+        },
+        {
+          "value": "vent",
+          "weight": 22
+        },
+        {
+          "value": "passing-thought",
+          "weight": 24
+        },
+        {
+          "value": "share",
+          "weight": 18
+        },
+        {
+          "value": "correct",
+          "weight": 6
+        },
+        {
+          "value": "celebrate",
+          "weight": 6
+        }
+      ],
+      "length": [
+        {
+          "value": "fragment",
+          "weight": 45
+        },
+        {
+          "value": "short",
+          "weight": 40
+        },
+        {
+          "value": "long",
+          "weight": 15
+        }
+      ],
+      "conditionCount": {
+        "min": 1,
+        "max": 2
+      },
+      "waitSeconds": [
+        {
+          "weight": 45,
+          "min": 20,
+          "max": 180
+        },
+        {
+          "weight": 40,
+          "min": 181,
+          "max": 1800
+        },
+        {
+          "weight": 15,
+          "min": 1801,
+          "max": 21600
+        }
+      ],
+      "reading": [
+        {
+          "value": "target-only",
+          "weight": 40
+        },
+        {
+          "value": "root-and-target",
+          "weight": 35
+        },
+        {
+          "value": "nearby",
+          "weight": 25
+        }
+      ],
+      "textWindow": [
+        {
+          "value": "full",
+          "weight": 45
+        },
+        {
+          "value": "opening",
+          "weight": 35
+        },
+        {
+          "value": "fragment",
+          "weight": 20
+        }
+      ],
+      "excerptCharacters": 140,
+      "nearbyReplies": {
+        "min": 0,
+        "max": 3
+      },
+      "media": {
+        "images": {
+          "root": {
+            "types": [
+              {
+                "value": "photo",
+                "weight": 70
+              },
+              {
+                "value": "screenshot",
+                "weight": 20
+              },
+              {
+                "value": "illustration",
+                "weight": 10
+              }
+            ]
+          },
+          "reply": {
+            "types": [
+              {
+                "value": "photo",
+                "weight": 50
+              },
+              {
+                "value": "screenshot",
+                "weight": 40
+              },
+              {
+                "value": "illustration",
+                "weight": 10
+              }
+            ]
+          }
+        },
+        "emotes": {
+          "root": {
+            "counts": [
+              {
+                "weight": 90,
+                "min": 1,
+                "max": 1
+              },
+              {
+                "weight": 10,
+                "min": 2,
+                "max": 2
+              }
+            ]
+          },
+          "reply": {
+            "counts": [
+              {
+                "weight": 90,
+                "min": 1,
+                "max": 1
+              },
+              {
+                "weight": 10,
+                "min": 2,
+                "max": 2
+              }
+            ]
+          }
+        },
+        "profiles": [
+          {
+            "id": "text-led",
+            "weight": 35,
+            "root": {
+              "none": 50,
+              "image": 28,
+              "emote": 14,
+              "both": 8
+            },
+            "reply": {
+              "none": 48,
+              "image": 10,
+              "emote": 34,
+              "both": 8
+            }
+          },
+          {
+            "id": "mixed",
+            "weight": 45,
+            "root": {
+              "none": 30,
+              "image": 38,
+              "emote": 17,
+              "both": 15
+            },
+            "reply": {
+              "none": 35,
+              "image": 12,
+              "emote": 39,
+              "both": 14
+            }
+          },
+          {
+            "id": "image-led",
+            "weight": 20,
+            "root": {
+              "none": 15,
+              "image": 45,
+              "emote": 12,
+              "both": 28
+            },
+            "reply": {
+              "none": 25,
+              "image": 18,
+              "emote": 37,
+              "both": 20
+            }
+          }
+        ]
+      },
+      "likes": {
+        "root": [
+          {
+            "weight": 20,
+            "min": 0,
+            "max": 0
+          },
+          {
+            "weight": 73,
+            "min": 1,
+            "max": 20
+          },
+          {
+            "weight": 6,
+            "min": 21,
+            "max": 60
+          },
+          {
+            "weight": 1,
+            "min": 61,
+            "max": 160
+          }
+        ],
+        "reply": [
+          {
+            "weight": 35,
+            "min": 0,
+            "max": 0
+          },
+          {
+            "weight": 62,
+            "min": 1,
+            "max": 12
+          },
+          {
+            "weight": 2,
+            "min": 13,
+            "max": 35
+          },
+          {
+            "weight": 1,
+            "min": 36,
+            "max": 90
+          }
+        ]
+      },
+      "sampling": {
+        "offset": {
+          "min": 0,
+          "max": 30
+        },
+        "count": {
+          "min": 3,
+          "max": 6
+        }
+      },
+      "discussion": {
+        "negativeMotivation": [
+          {
+            "value": "complaint",
+            "weight": 16
+          },
+          {
+            "value": "gossip",
+            "weight": 10
+          },
+          {
+            "value": "dispute",
+            "weight": 8
+          },
+          {
+            "value": "grievance",
+            "weight": 8
+          },
+          {
+            "value": "suspicion",
+            "weight": 8
+          },
+          {
+            "value": "irritation",
+            "weight": 16
+          },
+          {
+            "value": "contempt",
+            "weight": 12
+          },
+          {
+            "value": "envy",
+            "weight": 6
+          },
+          {
+            "value": "pile-on",
+            "weight": 10
+          },
+          {
+            "value": "grudge",
+            "weight": 6
+          }
+        ],
+        "replyStance": [
+          {
+            "value": "support",
+            "weight": 12
+          },
+          {
+            "value": "push-back",
+            "weight": 12
+          },
+          {
+            "value": "doubt",
+            "weight": 8
+          },
+          {
+            "value": "defend",
+            "weight": 8
+          },
+          {
+            "value": "provoke",
+            "weight": 12
+          },
+          {
+            "value": "ask-detail",
+            "weight": 4
+          },
+          {
+            "value": "sidetrack",
+            "weight": 14
+          },
+          {
+            "value": "dismiss",
+            "weight": 12
+          },
+          {
+            "value": "repeat",
+            "weight": 10
+          },
+          {
+            "value": "pile-on",
+            "weight": 8
+          }
+        ],
+        "replyAuthor": [
+          {
+            "value": "new",
+            "weight": 85
+          },
+          {
+            "value": "root",
+            "weight": 8
+          },
+          {
+            "value": "participant",
+            "weight": 7
+          }
+        ],
+        "negativeProbability": 0.5,
+        "minimumNegativeShare": 0.5
+      },
+      "researchMaintenance": {
+        "probability": 0.3,
+        "maxDocuments": 1,
+        "ageWeightDays": 7,
+        "maxAgeWeight": 5
+      },
+      "diversity": {
+        "recentUpdates": 3
+      },
+      "participation": {
+        "version": 2
+      }
+    },
+    "timeWindow": {
+      "start": "2026-11-24T09:02:36.628Z",
+      "end": "2026-11-25T09:02:36.628Z"
+    },
+    "participationSchedules": {
+      "backpackgecko": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "gecko404": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "gedageda": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "isopodafugue": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "leafback7": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "mango27": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "moss9": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "nearthermo": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "nightshift3": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "peachcrumble": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "slowblink": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "smallhide2": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "twosteps8": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "wallafterdark": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "wednesday6": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      }
+    },
+    "caseAdaptation": {
+      "count": 2,
+      "intakeReceipt": {
+        "repository": "fivsevn/umwelt",
+        "path": "gsm/environment/sources-daily-opinions.md",
+        "revision": "d57b853f316b790850201c0bc6ba42981afcd2b6",
+        "documentSha": "d57b853f316b790850201c0bc6ba42981afcd2b6",
+        "documentDigest": "b920082c14a03b0a27a7652b9d7cb9f542e529352266e9cd3dbe515a8f46466c",
+        "collectedAt": "2026-11-25T05:40:59.000Z",
+        "fetchedAt": "2026-11-25T09:02:36.609Z"
+      },
+      "items": [
+        {
+          "postId": "gsm-20261125090236-f6b9ee8c-a88609e72617",
+          "sourcePath": "environment/sources-daily-opinions.md",
+          "sample": {
+            "id": "sample-cd5f44b35b7c",
+            "title": "讨论 12",
+            "text": "### 讨论 12\n\n1. **发言者 1**：reptiles , animales . Preciosa bebé de culebra de herradura tomando el sol. La trasladé a un lugar seguro antes de que mis predadoras la viesen.  \n   \\[图片或视频省略，未读取画面\\]",
+            "context": "采集时间：2026-11-25 13:40:59（北京时间）"
+          }
+        },
+        {
+          "postId": "gsm-20261125090236-f6b9ee8c-1bb80946c218",
+          "sourcePath": "environment/sources-daily-opinions.md",
+          "sample": {
+            "id": "sample-52839a97f98e",
+            "title": "讨论 5",
+            "text": "### 讨论 5\n\n父回复关系未提供。\n\n1. **发言者 1**：Many owners buy clothes for their leopard geckos and end up returning them because of wrong measurements.  \n     \n   Here is my simple measuring method:  \n   \t  \n     \n   \t\t  \n   \t\t\t  \n   \t\t  \n     \n   \t\t  \n   \t  \n     \n   \\[图片省略，未读取画面\\]  \n     \n   \t  \n     \n   \t\t  \n   \t\t\t  \n   \t\t  \n     \n   \t\t  \n   \t  \n     \n   \t  \n     \n   \t\t  \n   \t\t\t  \n   \t\t  \n     \n   \t\t  \n   \t  \n     \n   \\[图片省略，未读取画面\\]  \n     \n   \t  \n     \n   \t\t  \n   \t\t\t  \n   \t\t  \n     \n   \t\t  \n   \t  \n     \n   \t  \n     \n   \t\t  \n   \t\t\t  \n   \t\t  \n     \n   \t\t  \n   \t  \n     \n   \\[图片省略，未读取画面\\]  \n     \n   \t  \n     \n   \t\t  \n   \t\t\t  \n   \t\t  \n     \n   \t\t  \n   \t  \n     \n   \t  \n     \n   \t\t  \n   \t\t\t  \n   \t\t  \n     \n   \t\t  \n   \t  \n     \n   \\[图片省略，未读取画面\\]  \n     \n   \t  \n     \n   \t\t  \n   \t\t\t  \n   \t\t  \n     \n   \t\t  \n   \t  \n     \n   \t  \n     \n   \t\t  \n   \t\t\t  \n   \t\t  \n     \n   \t\t  \n   \t  \n     \n   \\[图片省略，未读取画面\\]  \n     \n   \t  \n     \n   \t\t  \n   \t\t\t  \n   \t\t  \n     \n   \t\t  \n   \t  \n     \n   \t  \n     \n   \t\t  \n   \t\t\t  \n   \t\t  \n     \n   \t\t  \n   \t  \n     \n   \\[图片省略，未读取画面\\]  \n     \n   \t  \n     \n   \t\t  \n   \t\t\t  \n   \t\t  \n     \n   \t\t  \n   \t  \n     \n   1. Torso length: measure the body between head and tail, exclude head and tail.  \n     \n    2. Width: the distance between the two front claws.  \n     \n    3. Girth: wrap a soft ruler around its body to check how plump it is.  \n     \n    Important reminder: leopard geckos do not like their heads touched.  \n     \n    Avoid hooded clothing, it will block their vision and easily cause stress.  \n     \n    Clothes are only for short-time photos, not for long-term wear.\n\n2. **发言者 1**：Thank you so much for these wonderful practical tips\\!  \n     \n   You filled in some details I didn’t cover fully in my post. I totally agree with all your points. It’s really important to watch for stress signs and get accurate cm measurements instead of only using generic sizes.  \n     \n   I appreciate you sharing your experience\\!\n\n3. **发言者 2**：A couple practical additions: measure when the gecko is calm and warm, not mid-shed, and record torso length and width in cm rather than relying on S/M/L. For girth, use a soft tape and leave enough room to slide a finger under the fabric; if the outfit covers the vent or restricts leg movement, it is too much. Watch for tail curling, squirming, or trying to walk away—those are signs to stop.",
+            "context": "采集时间：2026-11-25 13:40:59（北京时间）"
+          }
+        }
+      ],
+      "rootOrder": [
+        "gsm-20261125090236-f6b9ee8c-a88609e72617",
+        "gsm-20261125090236-f6b9ee8c-2c1a12a16878",
+        "gsm-20261125090236-f6b9ee8c-1bb80946c218"
+      ]
+    },
+    "researchMaintenance": {
+      "candidates": [
+        {
+          "path": "environment/research-comments.md",
+          "updatedAt": "2026-11-25T05:41:14.000Z"
+        },
+        {
+          "path": "environment/research-everyday-life.md",
+          "updatedAt": "2026-11-25T05:41:14.000Z"
+        },
+        {
+          "path": "environment/research-meme.md",
+          "updatedAt": "2026-11-25T05:41:14.000Z"
+        },
+        {
+          "path": "environment/research-negative.md",
+          "updatedAt": "2026-11-25T05:41:14.000Z"
+        },
+        {
+          "path": "environment/research-worldview.md",
+          "updatedAt": "2026-11-25T05:41:14.000Z"
+        },
+        {
+          "path": "users/research-character.md",
+          "updatedAt": "2026-11-25T05:41:14.000Z"
+        },
+        {
+          "path": "users/research-speech.md",
+          "updatedAt": "2026-11-25T05:41:14.000Z"
+        }
+      ],
+      "selectedPaths": []
+    },
+    "seal": "bbab355a2d0be931c855d86453e6c93dcce58ea3b6f6c31add6be35db2d6404e"
+  },
+  "sourceDigest": "5ad877be873e79410e913d415634acf6c2c71c3812b4f9a44423d6f18eb2b9a1",
+  "research": [
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://reptilesmagazine.com/feed/?paged=3",
+      "publishedAt": null,
+      "summary": "跳过29条连读4条的开头，跨第3、4页：野生动物走私指控、广西一种蛙的描述、填色图、沙丘蜥蜴的保护报道。均是8月报道，本轮未据此写新闻。",
+      "visitedAt": "2026-11-25T09:03:19+00:00"
+    },
+    {
+      "category": "trend",
+      "kind": "thread",
+      "url": "https://community.morphmarket.com/t/ball-python-morph-help-hatchlings/64227",
+      "publishedAt": "2026-11-23T19:22:01.975Z",
+      "summary": "跳过19条连读4串开头和可见回复。球蟒幼体串的作者给出照片，请别人辨认第一窝的花色，回帖追问是否蜕过皮。还读到守宫孵化、锦蛇与东部猪鼻蛇讨论，未移植到本站。gsm-20261125090236-f6b9ee8c-a88609e72617 来自11月25日13:40每日材料讨论12。西语原文夸晒太阳的幼蛇漂亮并说挪开它以避开自家的捕食动物，原图缺失，改用读者想象的纸拼画。",
+      "visitedAt": "2026-11-25T09:03:19+00:00"
+    },
+    {
+      "category": "daily",
+      "kind": "thread",
+      "url": "https://community.morphmarket.com/t/help-iding-possible-mite-or-possible-freckle/64213",
+      "publishedAt": "2026-11-20T20:21:02.131Z",
+      "summary": "跳过21条连读5串的开头及可见回帖，两条与趋势窗口重合。斑点串发帖者说点不动、浸湿时似乎变浅，分不清是螨还是色斑；未替其下判断。gsm-20261125090236-f6b9ee8c-2c1a12a16878 是水碟和落叶的原创。gsm-20261125090236-f6b9ee8c-1bb80946c218 取自同日材料讨论5首条测量与衣帽挡视线的顾虑。六幅源图均缺，按守宫在布边下看洞口改画面。后两条的接话对象未载明，未另编原串对答。",
+      "visitedAt": "2026-11-25T09:03:19+00:00"
+    }
+  ],
+  "posts": [
+    {
+      "id": "gsm-20261125090236-f6b9ee8c-a88609e72617",
+      "author": "leafback7",
+      "createdAt": "2026-11-25T05:59:36.923Z",
+      "replyTo": null,
+      "text": "刚读到有人说，碰见一条小马蹄鞭蛇在晒太阳，夸它漂亮。那人怕自家那些会捕食它的家伙看见，先把小蛇挪开了。我想的就是图里这副样子，蛮可爱。",
+      "likes": 4,
+      "canon": "derivative",
+      "media": [
+        {
+          "kind": "image",
+          "src": "posts/2026/11/gsm-20261125090236-f6b9ee8c-a88609e72617/media/sun.webp",
+          "alt": "纸张拼贴的暖黄色日照里，一条有褐色斑纹的小蛇弯着身子，旁边落着叶影。"
+        }
+      ]
+    },
+    {
+      "id": "gsm-20261125090236-f6b9ee8c-2c1a12a16878",
+      "author": "guest-3a0c65f1dc566b39",
+      "guest": {
+        "name": "树"
+      },
+      "createdAt": "2026-11-25T06:37:56.020Z",
+      "replyTo": null,
+      "text": "看水碟里那片叶子，它的尖尖搭着的地方就是我平时喝水的地方。我从窝里出来走到这儿，脖子搭在这截矮沿上正好，闭着眼都找得着。今天头一低，舔了一嘴叶背。\n\n我往旁边挪了两步，好，能喝了。才喝两口，它慢悠悠地转过来，那个尖又碰着我鼻子了。昨天它干巴巴地卡在碟子底下，一整天都挺好，怎么一泡上水还会追着我跑啊。",
+      "likes": 43,
+      "canon": "derivative",
+      "media": [
+        {
+          "kind": "image",
+          "src": "posts/2026/11/gsm-20261125090236-f6b9ee8c-2c1a12a16878/media/leaf.webp",
+          "alt": "一片卷边的棕叶浮在陶水碟边，浅色叶尖搭在碟沿上。"
+        }
+      ]
+    },
+    {
+      "id": "gsm-20261125090236-f6b9ee8c-1bb80946c218",
+      "author": "guest-c641d01f80e7f251",
+      "guest": {
+        "name": "七号"
+      },
+      "createdAt": "2026-11-25T08:12:25.437Z",
+      "replyTo": null,
+      "text": "我被量过一回。软尺从脖子后头一直贴到尾巴根。量两只前脚隔多远的时候倒是量了两回，头一回我左脚还收着呢。后来尺子从肚皮底下绕过来，蹭得我往前走了两步。\n\n衣服套到背上还挺松，我本来看得见右边的洞口，一扭头，布边就挡了半个洞口。我又往右扭，布边也跟过来。要给我拍照的话，还是把头上这块拿开吧，我想看洞口。",
+      "likes": 20,
+      "canon": "derivative",
+      "media": [
+        {
+          "kind": "image",
+          "src": "posts/2026/11/gsm-20261125090236-f6b9ee8c-1bb80946c218/media/cloth.webp",
+          "alt": "从贴近石面的高度望过去，右侧垂下来一片灰布，遮住树皮洞口的一部分。"
+        }
+      ]
+    },
+    {
+      "id": "gsm-20261125090236-f6b9ee8c-04",
+      "author": "guest-c2c557ccc57733d9",
+      "guest": {
+        "name": "elle"
+      },
+      "createdAt": "2026-11-25T06:39:48.020Z",
+      "replyTo": "gsm-20261125090236-f6b9ee8c-2c1a12a16878",
+      "text": "都给它让地方了，它还往鼻子上蹭。",
+      "likes": 4,
+      "canon": "derivative",
+      "media": []
+    }
+  ],
+  "status": "prepared",
+  "reviews": [
+    {
+      "postId": "gsm-20261125090236-f6b9ee8c-a88609e72617",
+      "negative": false,
+      "reason": "转述偶遇幼蛇的事，喜欢它晒太阳的样子，把想象画下来。"
+    },
+    {
+      "postId": "gsm-20261125090236-f6b9ee8c-2c1a12a16878",
+      "negative": true,
+      "reason": "树习惯搭着矮碟沿喝水，挪开后叶尖又碰鼻子，嫌它反复挡着自己。"
+    },
+    {
+      "postId": "gsm-20261125090236-f6b9ee8c-1bb80946c218",
+      "negative": true,
+      "reason": "七号不喜欢衣服的布边挡住视线，两次扭头仍看不清，想把头上的那块拿开。"
+    },
+    {
+      "postId": "gsm-20261125090236-f6b9ee8c-04",
+      "negative": true,
+      "reason": "elle 顺着树挪了位置仍被叶尖碰鼻子的事埋怨了一句，只用根帖中的细节。"
+    }
+  ],
+  "researchMaintenance": [],
+  "guestNames": {
+    "guest-3a0c65f1dc566b39": "树",
+    "guest-c641d01f80e7f251": "七号",
+    "guest-c2c557ccc57733d9": "elle"
+  },
+  "timingExceptions": {
+    "gsm-20261125090236-f6b9ee8c-a88609e72617": {
+      "createdAt": "2026-11-25T05:59:36.923Z",
+      "reason": "在当日素材采集后转述幼蛇见闻，沿用保存的三串时间顺序。"
+    },
+    "gsm-20261125090236-f6b9ee8c-2c1a12a16878": {
+      "createdAt": "2026-11-25T06:37:56.020Z",
+      "reason": "保留两条固定案例夹着原创的时间顺序。"
+    }
+  },
+  "mediaReviews": [
+    {
+      "postId": "gsm-20261125090236-f6b9ee8c-a88609e72617",
+      "src": "posts/2026/11/gsm-20261125090236-f6b9ee8c-a88609e72617/media/sun.webp",
+      "type": "illustration",
+      "scene": "由晒太阳的文字生成的纸拼想象图。黄色日照里的小蛇旁有叶影。"
+    },
+    {
+      "postId": "gsm-20261125090236-f6b9ee8c-2c1a12a16878",
+      "src": "posts/2026/11/gsm-20261125090236-f6b9ee8c-2c1a12a16878/media/leaf.webp",
+      "type": "life-photo",
+      "scene": "生成的水碟近照，低处望过去一片叶子搭在陶沿，叶缘卷起。"
+    },
+    {
+      "postId": "gsm-20261125090236-f6b9ee8c-1bb80946c218",
+      "src": "posts/2026/11/gsm-20261125090236-f6b9ee8c-1bb80946c218/media/cloth.webp",
+      "type": "life-photo",
+      "scene": "生成的守宫视角照片，左侧地面敞开，右侧织物挡着一部分树皮洞口。"
+    }
+  ],
+  "diversityReview": {
+    "postsDigest": "7c032bebea38ec9cb04c50ee45147713a403b70d3cebd9417314b29a69912c21",
+    "historyDigest": "5cb61214f59947d682f6368f06fd1d0bbf0cc3ecf1af5acddd759d165cf6fc65",
+    "content": "a88609e72617 和前日阿苔看石龙子同属从外面读来的偶遇，保留来源，删去重复说晒太阳的一句。阿苔想看条纹如何接上，叶背居民在意当时的人先把漂亮小蛇挪开，收在自己想象的小蛇上。2c1a12a16878 从喝水的习惯写起，改“豁口”为图中能见的低碟沿。-04 只接对方已经挪过两步还被叶碰鼻子，保留一句随口的同情。1bb80946c218 改从脖子后量到尾根，并据图写挡了半个洞口。它两次扭头想看清，是穿衣的守宫在说自己的事。源讨论5没有给出第二、三条的接话对象，只采用首条的测量与视野两部分，未构造致谢及答复关系。",
+    "images": "三张图均打开审读。a88609e72617 的黄灰纸张拼贴用光影围住小蛇，不把读后想象说成源材料遗漏的照片，和前日的石龙子木纹彩铅图可区分。2c1a12a16878 的生活近照对准叶尖与矮陶沿，画面看不到叶片运动，经过由正文交代。1bb80946c218 从贴地视角看右前方，灰布遮半个树皮洞口，没重画源帖缺掉的量体图。两张生活图与前轮尾纹细节的取景各异。原创主帖用一张照片，-04 一句短回复不带图，未抽到表情，实际组合吻合。"
+  }
+}
