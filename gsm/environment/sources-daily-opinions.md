@@ -57,13 +57,11 @@ node gsm/tools/engine/collect-gecko-opinions.js
 
 <!-- samples:start -->
 
-采集时间：2026-11-25 13:40:59（北京时间）
+采集时间：2026-11-26 13:28:09（北京时间）
 
 ### 讨论 1
 
-1. **发言者 1**：Little Brown Skink \(Scincella lateralis\)  
-   This little reptile was nice enough to pause for me on the walking path.  
-   iNaturalist link \[ \[链接隐去\] \]  
+1. **发言者 1**：Pausing along the boardwalk at Umusambi Village in Rwanda. Caught this striped skink soaking in the calm against weathered wood and lush green foliage.  
    \[图片或视频省略，未读取画面\]
 
 ### 讨论 2
@@ -76,185 +74,50 @@ RSS 摘要。
 
 ### 讨论 3
 
+1. **发言者 1**：reptiles ,  animales . Cuidando mi ecosistema. Preciosa culebra de herradura, en Huelva, España.  
+   Esta tranquila bebé me permitió trasladarla para esconderla antes de que los gatos que viven en la misma parcela la atacaran.  
+   \[图片或视频省略，未读取画面\]
+
+### 讨论 4
+
+父回复关系未提供。
+
+1. **发言者 1**：Heat bulbs that last longer?  
+     
+   Hello\!  
+     
+   So I’m in need of heating suggestions for a bearded dragon. The owner of this dragon \(Rizendo\) is older, and not great with technology, so I am posting for him.  
+     
+   I’m not sure exactly what type Rizendo is, but I’ll provide as much other information as I can.  
+     
+   We live in Southern Oregon, and it gets cold here. We’re looking for one that will keep his tank warm but won’t burn out quick like his have been \(we are also open to tips on extending the life of heat bulbs\), within a decent price range.
+
+2. **发言者 2**：Get a Ceramic Heat Emitter, and a good UV light. As they need sunlight. Make sure the dragon can’t reach either.  
+     
+   \[链接隐去\]
+
+### 讨论 5
+
 1. **发言者 1**：Prairie Lizard \(Sceloporus consobrinus\)  
    This cutie was hiding under the leaves on a path up to Turkey Mountain's summit. I'm just happy I didn't crush him under my foot.  
    iNaturalist link \[ \[链接隐去\] \]  
    \[图片或视频省略，未读取画面\]
 
-### 讨论 4
-
-1. **发言者 1**：Two lizards, Vallejo CA  
-   \[图片或视频省略，未读取画面\]
-
-2. **发言者 2**（回复第 1 条）：Protégeons notre magnifique faune et flore sauvage \!  
-   发言者 1
-
-### 讨论 5
-
-父回复关系未提供。
-
-1. **发言者 1**：Many owners buy clothes for their leopard geckos and end up returning them because of wrong measurements.  
-     
-   Here is my simple measuring method:  
-   	  
-     
-   		  
-   			  
-   		  
-     
-   		  
-   	  
-     
-   \[图片省略，未读取画面\]  
-     
-   	  
-     
-   		  
-   			  
-   		  
-     
-   		  
-   	  
-     
-   	  
-     
-   		  
-   			  
-   		  
-     
-   		  
-   	  
-     
-   \[图片省略，未读取画面\]  
-     
-   	  
-     
-   		  
-   			  
-   		  
-     
-   		  
-   	  
-     
-   	  
-     
-   		  
-   			  
-   		  
-     
-   		  
-   	  
-     
-   \[图片省略，未读取画面\]  
-     
-   	  
-     
-   		  
-   			  
-   		  
-     
-   		  
-   	  
-     
-   	  
-     
-   		  
-   			  
-   		  
-     
-   		  
-   	  
-     
-   \[图片省略，未读取画面\]  
-     
-   	  
-     
-   		  
-   			  
-   		  
-     
-   		  
-   	  
-     
-   	  
-     
-   		  
-   			  
-   		  
-     
-   		  
-   	  
-     
-   \[图片省略，未读取画面\]  
-     
-   	  
-     
-   		  
-   			  
-   		  
-     
-   		  
-   	  
-     
-   	  
-     
-   		  
-   			  
-   		  
-     
-   		  
-   	  
-     
-   \[图片省略，未读取画面\]  
-     
-   	  
-     
-   		  
-   			  
-   		  
-     
-   		  
-   	  
-     
-   1. Torso length: measure the body between head and tail, exclude head and tail.  
-     
-    2. Width: the distance between the two front claws.  
-     
-    3. Girth: wrap a soft ruler around its body to check how plump it is.  
-     
-    Important reminder: leopard geckos do not like their heads touched.  
-     
-    Avoid hooded clothing, it will block their vision and easily cause stress.  
-     
-    Clothes are only for short-time photos, not for long-term wear.
-
-2. **发言者 1**：Thank you so much for these wonderful practical tips\!  
-     
-   You filled in some details I didn’t cover fully in my post. I totally agree with all your points. It’s really important to watch for stress signs and get accurate cm measurements instead of only using generic sizes.  
-     
-   I appreciate you sharing your experience\!
-
-3. **发言者 2**：A couple practical additions: measure when the gecko is calm and warm, not mid-shed, and record torso length and width in cm rather than relying on S/M/L. For girth, use a soft tape and leave enough room to slide a finger under the fabric; if the outfit covers the vent or restricts leg movement, it is too much. Watch for tail curling, squirming, or trying to walk away—those are signs to stop.
-
 ### 讨论 6
 
-父回复关系未提供。
+RSS 摘要。
 
-1. **发言者 1**：Non Lilly Solid Back  
+1. **发言者 1**：发言者 1 2027 Media Kit  
      
-   I have a gecko that is not Lilly white but she does have a solid white back. Looking at morphmedia, solid back appears to only include lillys and sables?  
-     
-   Edited to add pics of her, nvm, they won’t upload :'\)
-
-2. **发言者 2**：Solid backs are not related to sables or lillies, plenty of lillies don’t have solid backs, and plenty of normals do. MM actually has solid back listed as a separate trait, although it’s a visual trait rather than a genetic trait.
+   2027 Reptiles Media Kit-reduced5
 
 ### 讨论 7
 
-1. **发言者 1**：Pausing along the boardwalk at Umusambi Village in Rwanda. Caught this striped skink soaking in the calm against weathered wood and lush green foliage.  
-   \[图片或视频省略，未读取画面\]
-
-2. **发言者 2**（回复第 1 条）：发言者 1   
-   That's a lovely photo.
+1. **发言者 1**：A 100-year Scottish land restoration project is showing significant progress in only three years 🏴󠁧󠁢󠁳󠁣󠁴󠁿  
+   tiny electric cars are saving on fossil fuels in Europe 🚗  
+   New Zealand’s longest lizard returns to Aotea Great Barrier Island 🇳🇿  
+   and much more - in our new issue 👇  
+   \[链接隐去\]
 
 ### 讨论 8
 
@@ -266,29 +129,33 @@ RSS 摘要。
 
 ### 讨论 9
 
-1. **发言者 1**：A colorful fellow.  
+父回复关系未提供。
+
+1. **发言者 1**：Non Lilly Solid Back  
      
-   Slender lizard \(\*Liolaemus tenuis\*\). Endemic to Chile; very common in Santiago and the Central Valley—especially in sclerophyllous forests, though also found in parks, on walls, and in urban gardens.  
+   I have a gecko that is not Lilly white but she does have a solid white back. Looking at morphmedia, solid back appears to only include lillys and sables?  
      
-   LiolaemusTenuis, slenderlizard, herpetology, SantiagoDeChile, sclerophyllousforest, NaturePhotography, Travel  
-   \[图片或视频省略，未读取画面\]
+   Edited to add pics of her, nvm, they won’t upload :'\)
+
+2. **发言者 2**：Solid backs are not related to sables or lillies, plenty of lillies don’t have solid backs, and plenty of normals do. MM actually has solid back listed as a separate trait, although it’s a visual trait rather than a genetic trait.
 
 ### 讨论 10
 
-1. **发言者 1**：Clicked this wee wannabe dragon in my garden earlier today🦎  
+1. **发言者 1**：Little Brown Skink \(Scincella lateralis\)  
+   This little reptile was nice enough to pause for me on the walking path.  
+   iNaturalist link \[ \[链接隐去\] \]  
    \[图片或视频省略，未读取画面\]
 
 ### 讨论 11
 
-RSS 摘要。
-
-1. **发言者 1**：发言者 1 2027 Media Kit  
-     
-   2027 Reptiles Media Kit-reduced5
+1. **发言者 1**：\[链接隐去\] ビルマニシキヘビのみーさん🐍 ビルマニシキヘビ バーミーズ ニシキヘビ 大蛇 \# 爬虫類 reptiles snake 爬虫類カフェ cat neko バーミーズ  
+   \[图片或视频省略，未读取画面\]
 
 ### 讨论 12
 
-1. **发言者 1**：reptiles , animales . Preciosa bebé de culebra de herradura tomando el sol. La trasladé a un lugar seguro antes de que mis predadoras la viesen.  
-   \[图片或视频省略，未读取画面\]
+1. **发言者 1**：Volunteer care workers save freshwater turtles  
+   "Thousands of turtles saved as citizen science project marches toward milestone. The 1 Million Turtles campaign, launched in 2021, has taken close to 40,000 records from citizen scientists of turtles in the wild across Australia."  
+   "Volunteers are invited to log their turtle discoveries on TurtleSAT, a mobile phone app and online tracking tool, allowing scientists to build a more accurate picture of turtle ecology. ..We find transmitters under trees chewed up and effectively spat out."  &gt;&gt;  
+   \[链接隐去\]
 
 <!-- samples:end -->
