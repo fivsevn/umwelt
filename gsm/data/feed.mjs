@@ -1,5 +1,19 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "guest-5163690d9156e893": {
+    "handle": "guest-5163690d9156e893",
+    "name": "小椰",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-5163690d9156e893.webp?v=c4197b1129be",
+    "color": "sand"
+  },
+  "nightshift3": {
+    "handle": "nightshift3",
+    "name": "半夜上线",
+    "bio": "这会儿还有谁醒着？",
+    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
+    "color": "rose"
+  },
   "guest-c641d01f80e7f251": {
     "handle": "guest-c641d01f80e7f251",
     "name": "七号",
@@ -196,13 +210,6 @@ export const profiles = {
     "avatarImage": "/gsm/assets/avatars/guest-6b642413b2cc1550.webp?v=3a99410baa47",
     "color": "sage"
   },
-  "nightshift3": {
-    "handle": "nightshift3",
-    "name": "半夜上线",
-    "bio": "这会儿还有谁醒着？",
-    "avatarImage": "/gsm/assets/avatars/nightshift3.webp?v=c4197b1129be",
-    "color": "rose"
-  },
   "guest-07fc84ce086ed1f2": {
     "handle": "guest-07fc84ce086ed1f2",
     "name": "耳朵",
@@ -359,6 +366,60 @@ export const profiles = {
   }
 };
 export const posts = [
+  {
+    "id": "gsm-20261126090303-b7c52819-7dd132d0ae1e",
+    "date": "2026-11-26T14:29:24.985+08:00",
+    "createdAt": 1795674564985,
+    "author": "guest-5163690d9156e893",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "刚看到一条缅甸蟒的介绍，叫咪桑。咪桑～"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "刚看到一条缅甸蟒的介绍，叫咪桑。咪桑～"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "刚看到一条缅甸蟒的介绍，叫咪桑。咪桑～"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gsm-20261126090303-b7c52819-3dfe476b3d74",
+    "date": "2026-11-25T18:00:59.161+08:00",
+    "createdAt": 1795600859161,
+    "author": "nightshift3",
+    "likes": 56,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "能一直趴着的我是真羡慕。\n\n昨晚我刚把下巴搁好，外头就沙啦一声。我抬了三回头，三回都只看见那块石头。第四回我还抬，烦死了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "能一直趴着的我是真羡慕。\n\n昨晚我刚把下巴搁好，外头就沙啦一声。我抬了三回头，三回都只看见那块石头。第四回我还抬，烦死了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "能一直趴着的我是真羡慕。\n\n昨晚我刚把下巴搁好，外头就沙啦一声。我抬了三回头，三回都只看见那块石头。第四回我还抬，烦死了。"
+        }
+      ]
+    }
+  },
   {
     "id": "gsm-20261125090236-f6b9ee8c-1bb80946c218",
     "date": "2026-11-25T16:12:25.437+08:00",

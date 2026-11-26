@@ -1,0 +1,117 @@
+{
+  "version": 1,
+  "operationId": "gsm-20261126090303-b7c52819",
+  "snapshots": [
+    {
+      "stage": "draft",
+      "sourceDigest": "97bbb49ff893c79bfdb8c4270887b8a2c43c06aae4271f12304b3ee5f07b39f2",
+      "planDigest": "481cc00cc6c467448987139c04c6431b3f1e3fb7de3ea3c13c6fbcd28e47b5b8",
+      "posts": [
+        {
+          "id": "gsm-20261126090303-b7c52819-3dfe476b3d74",
+          "author": "nightshift3",
+          "createdAt": "2026-11-25T10:00:59.161Z",
+          "replyTo": null,
+          "text": "能一直趴着的我是真羡慕。\n\n昨晚我刚把下巴搁好，外头就沙啦一声。我抬了三回头，三回都只看见那块石头。第四回我还抬，烦死了。",
+          "likes": 56,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-26T09:05:15.529Z"
+    },
+    {
+      "stage": "draft",
+      "sourceDigest": "97bbb49ff893c79bfdb8c4270887b8a2c43c06aae4271f12304b3ee5f07b39f2",
+      "planDigest": "481cc00cc6c467448987139c04c6431b3f1e3fb7de3ea3c13c6fbcd28e47b5b8",
+      "posts": [
+        {
+          "id": "gsm-20261126090303-b7c52819-3dfe476b3d74",
+          "author": "nightshift3",
+          "createdAt": "2026-11-25T10:00:59.161Z",
+          "replyTo": null,
+          "text": "能一直趴着的我是真羡慕。\n\n昨晚我刚把下巴搁好，外头就沙啦一声。我抬了三回头，三回都只看见那块石头。第四回我还抬，烦死了。",
+          "likes": 56,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261126090303-b7c52819-7dd132d0ae1e",
+          "author": "guest-5163690d9156e893",
+          "guest": {
+            "name": "小椰"
+          },
+          "createdAt": "2026-11-26T06:29:24.985Z",
+          "replyTo": null,
+          "text": "刚看到一条缅甸蟒的介绍，叫咪桑。咪桑～这么软乎的名字，喊的是条大蟒蛇。",
+          "likes": 1,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-26T09:05:41.406Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "97bbb49ff893c79bfdb8c4270887b8a2c43c06aae4271f12304b3ee5f07b39f2",
+      "planDigest": "481cc00cc6c467448987139c04c6431b3f1e3fb7de3ea3c13c6fbcd28e47b5b8",
+      "posts": [
+        {
+          "id": "gsm-20261126090303-b7c52819-3dfe476b3d74",
+          "author": "nightshift3",
+          "createdAt": "2026-11-25T10:00:59.161Z",
+          "replyTo": null,
+          "text": "能一直趴着的我是真羡慕。\n\n昨晚我刚把下巴搁好，外头就沙啦一声。我抬了三回头，三回都只看见那块石头。第四回我还抬，烦死了。",
+          "likes": 56,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261126090303-b7c52819-7dd132d0ae1e",
+          "author": "guest-5163690d9156e893",
+          "guest": {
+            "name": "小椰"
+          },
+          "createdAt": "2026-11-26T06:29:24.985Z",
+          "replyTo": null,
+          "text": "刚看到一条缅甸蟒的介绍，叫咪桑。咪桑～这么软乎的名字，喊的是条大蟒蛇。",
+          "likes": 1,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-26T09:06:00.660Z"
+    },
+    {
+      "stage": "edited",
+      "sourceDigest": "97bbb49ff893c79bfdb8c4270887b8a2c43c06aae4271f12304b3ee5f07b39f2",
+      "planDigest": "481cc00cc6c467448987139c04c6431b3f1e3fb7de3ea3c13c6fbcd28e47b5b8",
+      "posts": [
+        {
+          "id": "gsm-20261126090303-b7c52819-3dfe476b3d74",
+          "author": "nightshift3",
+          "createdAt": "2026-11-25T10:00:59.161Z",
+          "replyTo": null,
+          "text": "能一直趴着的我是真羡慕。\n\n昨晚我刚把下巴搁好，外头就沙啦一声。我抬了三回头，三回都只看见那块石头。第四回我还抬，烦死了。",
+          "likes": 56,
+          "canon": "derivative",
+          "media": []
+        },
+        {
+          "id": "gsm-20261126090303-b7c52819-7dd132d0ae1e",
+          "author": "guest-5163690d9156e893",
+          "guest": {
+            "name": "小椰"
+          },
+          "createdAt": "2026-11-26T06:29:24.985Z",
+          "replyTo": null,
+          "text": "刚看到一条缅甸蟒的介绍，叫咪桑。咪桑～",
+          "likes": 1,
+          "canon": "derivative",
+          "media": []
+        }
+      ],
+      "savedAt": "2026-11-26T09:06:44.435Z"
+    }
+  ]
+}
