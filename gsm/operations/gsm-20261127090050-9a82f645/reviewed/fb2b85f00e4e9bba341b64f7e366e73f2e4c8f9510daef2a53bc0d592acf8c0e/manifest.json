@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "operationId": "gsm-20261127090050-9a82f645",
+  "stage": "reviewed",
+  "sourceRevision": "1a8b511affd5676c8b407adbc0dfd42ef7e0a959",
+  "files": [
+    {
+      "path": "media/posts/2026/11/gsm-20261127090050-9a82f645-ed97eb389309/media/window.webp",
+      "bytes": 278130,
+      "sha256": "3b0158e0d0d27e7abc868fac1ee9b32a0a0d3ed7bb8c8721814d87dc3e879e26"
+    },
+    {
+      "path": "work/daily-material.json",
+      "bytes": 12711,
+      "sha256": "e068ecfbc680ae4c73d06dc85c15a08a8bb9cedbe72cacc9095f9032d7001521"
+    },
+    {
+      "path": "work/draft-history-gsm-20261127090050-9a82f645.json",
+      "bytes": 19654,
+      "sha256": "d6417030e3d3ddbdff6d2b3badded9974c6f654661e2c7ffe273cf8a7d2be320"
+    },
+    {
+      "path": "work/operation.json",
+      "bytes": 22195,
+      "sha256": "b101b618f5b37d41015e2a690822ce72b7976696e3465b79d7737821e339aae2"
+    },
+    {
+      "path": "work/reading-index.json",
+      "bytes": 5483,
+      "sha256": "a9d48f9081fbcc2cec49923f29186aa86de6d9e97149c8c187ebc77f31c9cebd"
+    },
+    {
+      "path": "work/reading.md",
+      "bytes": 414626,
+      "sha256": "9ad560c845af28e0d5b63324db6879803ac0e41e6fe6e9ba778635737bd94aed"
+    }
+  ]
+}

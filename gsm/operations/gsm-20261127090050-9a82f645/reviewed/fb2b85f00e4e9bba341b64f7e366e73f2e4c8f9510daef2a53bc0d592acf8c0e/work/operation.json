@@ -1,0 +1,742 @@
+{
+  "version": 1,
+  "id": "gsm-20261127090050-9a82f645",
+  "root": "/workspace/scratch/7c229307b34f/day27/repo/gsm",
+  "preparedAt": "2026-11-27T09:00:50.439Z",
+  "plan": {
+    "seed": "f5e997ba6325a295ef50c77116881d2240f4f62c73ecf6dbe4b1575422e320f4",
+    "budget": 1,
+    "selectedIds": [
+      "wallafterdark",
+      "gecko404",
+      "peachcrumble"
+    ],
+    "totalBudget": 120,
+    "replyLottery": {
+      "bands": [
+        {
+          "weight": 30,
+          "min": 0,
+          "max": 0
+        },
+        {
+          "weight": 20,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "weight": 20,
+          "min": 2,
+          "max": 4
+        },
+        {
+          "weight": 15,
+          "min": 5,
+          "max": 12
+        },
+        {
+          "weight": 8,
+          "min": 13,
+          "max": 30
+        },
+        {
+          "weight": 5,
+          "min": 31,
+          "max": 60
+        },
+        {
+          "weight": 2,
+          "min": 61,
+          "max": 100
+        }
+      ],
+      "maxReplies": 100
+    },
+    "lottery": {
+      "version": 1,
+      "rootBudget": {
+        "min": 1,
+        "max": 2
+      },
+      "authors": {
+        "candidates": 3,
+        "recentPosts": 7,
+        "recentMultiplier": 0.5
+      },
+      "authorKind": [
+        {
+          "value": "guest",
+          "weight": 75
+        },
+        {
+          "value": "library",
+          "weight": 25
+        }
+      ],
+      "motivation": [
+        {
+          "value": "ask-help",
+          "weight": 24
+        },
+        {
+          "value": "vent",
+          "weight": 22
+        },
+        {
+          "value": "passing-thought",
+          "weight": 24
+        },
+        {
+          "value": "share",
+          "weight": 18
+        },
+        {
+          "value": "correct",
+          "weight": 6
+        },
+        {
+          "value": "celebrate",
+          "weight": 6
+        }
+      ],
+      "length": [
+        {
+          "value": "fragment",
+          "weight": 45
+        },
+        {
+          "value": "short",
+          "weight": 40
+        },
+        {
+          "value": "long",
+          "weight": 15
+        }
+      ],
+      "conditionCount": {
+        "min": 1,
+        "max": 2
+      },
+      "waitSeconds": [
+        {
+          "weight": 45,
+          "min": 20,
+          "max": 180
+        },
+        {
+          "weight": 40,
+          "min": 181,
+          "max": 1800
+        },
+        {
+          "weight": 15,
+          "min": 1801,
+          "max": 21600
+        }
+      ],
+      "reading": [
+        {
+          "value": "target-only",
+          "weight": 40
+        },
+        {
+          "value": "root-and-target",
+          "weight": 35
+        },
+        {
+          "value": "nearby",
+          "weight": 25
+        }
+      ],
+      "textWindow": [
+        {
+          "value": "full",
+          "weight": 45
+        },
+        {
+          "value": "opening",
+          "weight": 35
+        },
+        {
+          "value": "fragment",
+          "weight": 20
+        }
+      ],
+      "excerptCharacters": 140,
+      "nearbyReplies": {
+        "min": 0,
+        "max": 3
+      },
+      "media": {
+        "images": {
+          "root": {
+            "types": [
+              {
+                "value": "photo",
+                "weight": 70
+              },
+              {
+                "value": "screenshot",
+                "weight": 20
+              },
+              {
+                "value": "illustration",
+                "weight": 10
+              }
+            ]
+          },
+          "reply": {
+            "types": [
+              {
+                "value": "photo",
+                "weight": 50
+              },
+              {
+                "value": "screenshot",
+                "weight": 40
+              },
+              {
+                "value": "illustration",
+                "weight": 10
+              }
+            ]
+          }
+        },
+        "emotes": {
+          "root": {
+            "counts": [
+              {
+                "weight": 90,
+                "min": 1,
+                "max": 1
+              },
+              {
+                "weight": 10,
+                "min": 2,
+                "max": 2
+              }
+            ]
+          },
+          "reply": {
+            "counts": [
+              {
+                "weight": 90,
+                "min": 1,
+                "max": 1
+              },
+              {
+                "weight": 10,
+                "min": 2,
+                "max": 2
+              }
+            ]
+          }
+        },
+        "profiles": [
+          {
+            "id": "text-led",
+            "weight": 35,
+            "root": {
+              "none": 50,
+              "image": 28,
+              "emote": 14,
+              "both": 8
+            },
+            "reply": {
+              "none": 48,
+              "image": 10,
+              "emote": 34,
+              "both": 8
+            }
+          },
+          {
+            "id": "mixed",
+            "weight": 45,
+            "root": {
+              "none": 30,
+              "image": 38,
+              "emote": 17,
+              "both": 15
+            },
+            "reply": {
+              "none": 35,
+              "image": 12,
+              "emote": 39,
+              "both": 14
+            }
+          },
+          {
+            "id": "image-led",
+            "weight": 20,
+            "root": {
+              "none": 15,
+              "image": 45,
+              "emote": 12,
+              "both": 28
+            },
+            "reply": {
+              "none": 25,
+              "image": 18,
+              "emote": 37,
+              "both": 20
+            }
+          }
+        ]
+      },
+      "likes": {
+        "root": [
+          {
+            "weight": 20,
+            "min": 0,
+            "max": 0
+          },
+          {
+            "weight": 73,
+            "min": 1,
+            "max": 20
+          },
+          {
+            "weight": 6,
+            "min": 21,
+            "max": 60
+          },
+          {
+            "weight": 1,
+            "min": 61,
+            "max": 160
+          }
+        ],
+        "reply": [
+          {
+            "weight": 35,
+            "min": 0,
+            "max": 0
+          },
+          {
+            "weight": 62,
+            "min": 1,
+            "max": 12
+          },
+          {
+            "weight": 2,
+            "min": 13,
+            "max": 35
+          },
+          {
+            "weight": 1,
+            "min": 36,
+            "max": 90
+          }
+        ]
+      },
+      "sampling": {
+        "offset": {
+          "min": 0,
+          "max": 30
+        },
+        "count": {
+          "min": 3,
+          "max": 6
+        }
+      },
+      "discussion": {
+        "negativeMotivation": [
+          {
+            "value": "complaint",
+            "weight": 16
+          },
+          {
+            "value": "gossip",
+            "weight": 10
+          },
+          {
+            "value": "dispute",
+            "weight": 8
+          },
+          {
+            "value": "grievance",
+            "weight": 8
+          },
+          {
+            "value": "suspicion",
+            "weight": 8
+          },
+          {
+            "value": "irritation",
+            "weight": 16
+          },
+          {
+            "value": "contempt",
+            "weight": 12
+          },
+          {
+            "value": "envy",
+            "weight": 6
+          },
+          {
+            "value": "pile-on",
+            "weight": 10
+          },
+          {
+            "value": "grudge",
+            "weight": 6
+          }
+        ],
+        "replyStance": [
+          {
+            "value": "support",
+            "weight": 12
+          },
+          {
+            "value": "push-back",
+            "weight": 12
+          },
+          {
+            "value": "doubt",
+            "weight": 8
+          },
+          {
+            "value": "defend",
+            "weight": 8
+          },
+          {
+            "value": "provoke",
+            "weight": 12
+          },
+          {
+            "value": "ask-detail",
+            "weight": 4
+          },
+          {
+            "value": "sidetrack",
+            "weight": 14
+          },
+          {
+            "value": "dismiss",
+            "weight": 12
+          },
+          {
+            "value": "repeat",
+            "weight": 10
+          },
+          {
+            "value": "pile-on",
+            "weight": 8
+          }
+        ],
+        "replyAuthor": [
+          {
+            "value": "new",
+            "weight": 85
+          },
+          {
+            "value": "root",
+            "weight": 8
+          },
+          {
+            "value": "participant",
+            "weight": 7
+          }
+        ],
+        "negativeProbability": 0.5,
+        "minimumNegativeShare": 0.5
+      },
+      "researchMaintenance": {
+        "probability": 0.3,
+        "maxDocuments": 1,
+        "ageWeightDays": 7,
+        "maxAgeWeight": 5
+      },
+      "diversity": {
+        "recentUpdates": 3
+      },
+      "participation": {
+        "version": 2
+      }
+    },
+    "timeWindow": {
+      "start": "2026-11-26T09:00:50.439Z",
+      "end": "2026-11-27T09:00:50.439Z"
+    },
+    "participationSchedules": {
+      "backpackgecko": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "gecko404": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "gedageda": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "isopodafugue": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "leafback7": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "mango27": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "moss9": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "nearthermo": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "nightshift3": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "peachcrumble": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "slowblink": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "smallhide2": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "twosteps8": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "wallafterdark": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "wednesday6": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      }
+    },
+    "caseAdaptation": {
+      "count": 1,
+      "intakeReceipt": {
+        "repository": "fivsevn/umwelt",
+        "path": "gsm/environment/sources-daily-opinions.md",
+        "revision": "49462d5c76a03fd7647d15a6362af8bd42d52340",
+        "documentSha": "49462d5c76a03fd7647d15a6362af8bd42d52340",
+        "documentDigest": "2ea73995c2848ba2f21bb244f57fd8fffd984af25eb8803f75bc649eed923f93",
+        "collectedAt": "2026-11-27T05:21:13.000Z",
+        "fetchedAt": "2026-11-27T09:00:50.425Z"
+      },
+      "items": [
+        {
+          "postId": "gsm-20261127090050-9a82f645-13da12b1e0a2",
+          "sourcePath": "environment/sources-daily-opinions.md",
+          "sample": {
+            "id": "sample-d15476e1021b",
+            "title": "讨论 2",
+            "text": "### 讨论 2\n\n父回复关系未提供。\n\n1. **发言者 1**：I keep one adult crested gecko in a glass enclosure that I've had since he was small, and I'm starting to think about moving him into something taller. My current setup works, but it feels cramped when I add more climbing branches and foliage. I came across this REPTI ZOO RK0124N 24x18x36 Tall Glass Terrarium Review while browsing online: REPTI ZOO RK0124N 24x18x36 Tall Glass Terrarium Review. The dimensions sound like a good fit for a crested gecko, but I'm unsure about ventilation and whether the mesh top holds humidity well enough in a Maryland apartment that gets dry in winter. I also wonder if a single gecko would use all that vertical space or just stay near the top. Has anyone kept a crested gecko in a tall 24x18x36 glass tank? I'd like to hear how it holds heat and humidity before I decide.\n\n2. **发言者 2**：I have a single crested gecko in an 18\"x18\"x36\" enclosure and it does fine.  \n     \n   Aliza",
+            "context": "采集时间：2026-11-27 13:21:13（北京时间）"
+          }
+        }
+      ],
+      "rootOrder": [
+        "gsm-20261127090050-9a82f645-13da12b1e0a2",
+        "gsm-20261127090050-9a82f645-ed97eb389309"
+      ]
+    },
+    "researchMaintenance": {
+      "candidates": [
+        {
+          "path": "environment/research-comments.md",
+          "updatedAt": "2026-11-27T05:21:22.000Z"
+        },
+        {
+          "path": "environment/research-everyday-life.md",
+          "updatedAt": "2026-11-27T05:21:22.000Z"
+        },
+        {
+          "path": "environment/research-meme.md",
+          "updatedAt": "2026-11-27T05:21:22.000Z"
+        },
+        {
+          "path": "environment/research-negative.md",
+          "updatedAt": "2026-11-27T05:21:22.000Z"
+        },
+        {
+          "path": "environment/research-worldview.md",
+          "updatedAt": "2026-11-27T05:21:22.000Z"
+        },
+        {
+          "path": "users/research-character.md",
+          "updatedAt": "2026-11-27T05:21:22.000Z"
+        },
+        {
+          "path": "users/research-speech.md",
+          "updatedAt": "2026-11-27T05:21:22.000Z"
+        }
+      ],
+      "selectedPaths": []
+    },
+    "seal": "f4bd03ec712492bd6ad8816d69eb38c7795c08130fb72491d6b103f43ce44737"
+  },
+  "sourceDigest": "db2241c707b358e036d8ddb06f7f92a3808e9ba00c4fa58003254d5c73c785aa",
+  "research": [
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://reptilesmagazine.com/feed/",
+      "visitedAt": "2026-11-27T09:01:38+00:00",
+      "publishedAt": null,
+      "summary": "从最新 RSS 跳过6条，连续读3条摘要和开头。澳大利亚幼蛇放归报道区分放归数与度过初期的个体数，另两条是婆罗洲野外观察和文图拉县海滩龟巢。本轮没有把这些报道写成本地见闻。"
+    },
+    {
+      "category": "trend",
+      "kind": "thread",
+      "url": "https://community.morphmarket.com/t/eastern-hognose-heterdon-platirhino/64221",
+      "visitedAt": "2026-11-27T09:01:38+00:00",
+      "publishedAt": "2026-11-22T14:11:21.531Z",
+      "summary": "从最新讨论跳过28串，跨页读连续5串的开头和最多两条可见回复。东部猪鼻蛇串有人问还有谁在养，另一位说也少见相关帖子。另读到锦蛇、色斑疑问、趣图与VPI展示。gsm-20261127090050-9a82f645-13da12b1e0a2 用的是11月27日13:21采集的匿名讨论2：第一位希望听听独居高箱经验，第二位只说自己的18×18×36英寸住处。匿名材料没有返回父回复记录。"
+    },
+    {
+      "category": "daily",
+      "kind": "thread",
+      "url": "https://community.morphmarket.com/t/probe-placement-something-else/64233",
+      "visitedAt": "2026-11-27T09:01:38+00:00",
+      "publishedAt": "2026-11-24T10:44:32.581Z",
+      "summary": "跳过11串，读连续5串的开头和可见前两条回复。探头位置串分不清灯下测点和动物活动处感受，回帖从器材谈到了实际所在高度。未把站外器材参数交给角色。gsm-20261127090050-9a82f645-ed97eb389309 的陶屋假窗台是原创，照片由此场景生成。"
+    }
+  ],
+  "posts": [
+    {
+      "id": "gsm-20261127090050-9a82f645-13da12b1e0a2",
+      "author": "guest-20eb5fbf26c9999e",
+      "guest": {
+        "name": "yui3"
+      },
+      "createdAt": "2026-11-27T05:41:04.122Z",
+      "replyTo": null,
+      "text": "住高玻璃箱的睫角，你们常往下爬吗？\n\n我从小就住现在这个玻璃箱，平常爬着还行。可一添树枝和叶子，中间就挤了。我想多要几根能趴的横枝，又挺舍不得中间那点能转身的空当。\n\n刚看到网上有人提到一种高箱，24×18×36 英寸，顶上是网。有谁是自己一只住这种箱子的？冬天屋里干的时候，靠网顶那几根枝上风大吗，还暖和吗？叶子喷过水，过一会儿上去还能舔到水珠吗？\n\n还有就是，多出来的那截高度，你们真会上上下下地爬，还是挑中顶上那根最顺脚的就老待在那儿？我有点想象不出来。",
+      "likes": 18,
+      "canon": "derivative",
+      "media": []
+    },
+    {
+      "id": "gsm-20261127090050-9a82f645-ed97eb389309",
+      "author": "guest-eec6b79355b427e1",
+      "guest": {
+        "name": "一颗豆"
+      },
+      "createdAt": "2026-11-27T07:27:14.821Z",
+      "replyTo": null,
+      "text": "我还惦记着趴那小窗台呢，钻进屋一看，窗户背面就是墙。又出来拿下巴顺着那道灰线一蹭，平的。好么，白惦记了。",
+      "likes": 19,
+      "canon": "derivative",
+      "media": [
+        {
+          "kind": "image",
+          "src": "posts/2026/11/gsm-20261127090050-9a82f645-ed97eb389309/media/window.webp",
+          "alt": "陶土小屋的拱门旁画着一扇四格小窗，窗格下还有一条灰线。"
+        }
+      ]
+    },
+    {
+      "id": "gsm-20261127090050-9a82f645-03",
+      "author": "guest-dcd2b196d781d2a3",
+      "guest": {
+        "name": "木木"
+      },
+      "createdAt": "2026-11-27T05:41:42.122Z",
+      "replyTo": "gsm-20261127090050-9a82f645-13da12b1e0a2",
+      "text": "我一只住，箱子是 18×18×36 英寸的，跟你说的那个一样高。我住着挺好。",
+      "likes": 1,
+      "canon": "derivative",
+      "media": []
+    },
+    {
+      "id": "gsm-20261127090050-9a82f645-04",
+      "author": "guest-4e3022a5d44212e3",
+      "guest": {
+        "name": "半拍"
+      },
+      "createdAt": "2026-11-27T07:52:26.821Z",
+      "replyTo": "gsm-20261127090050-9a82f645-ed97eb389309",
+      "text": "画扇窗就算了，底下还来这么一道，谁看了不以为能趴啊？",
+      "likes": 0,
+      "canon": "derivative",
+      "media": []
+    }
+  ],
+  "status": "prepared",
+  "reviews": [
+    {
+      "postId": "gsm-20261127090050-9a82f645-13da12b1e0a2",
+      "negative": false,
+      "reason": "觉得枝叶占空间是实际烦恼，整帖想问的是独居的感觉和活动的高度，仍在犹豫。"
+    },
+    {
+      "postId": "gsm-20261127090050-9a82f645-ed97eb389309",
+      "negative": true,
+      "reason": "本以为能趴在窗台上，里外摸了一遍只摸到墙，白惦记的落差让它有点恼。"
+    },
+    {
+      "postId": "gsm-20261127090050-9a82f645-03",
+      "negative": false,
+      "reason": "木木用自己一只住的尺寸回答，36英寸一样高，底面不同；只说住得挺好。"
+    },
+    {
+      "postId": "gsm-20261127090050-9a82f645-04",
+      "negative": true,
+      "reason": "半拍嫌窗格下面那道线让人误以为能趴，顺着一颗豆埋怨这幅画的样子。"
+    }
+  ],
+  "researchMaintenance": [],
+  "guestNames": {
+    "guest-20eb5fbf26c9999e": "yui3",
+    "guest-eec6b79355b427e1": "一颗豆",
+    "guest-dcd2b196d781d2a3": "木木",
+    "guest-4e3022a5d44212e3": "半拍"
+  },
+  "timingExceptions": {
+    "gsm-20261127090050-9a82f645-13da12b1e0a2": {
+      "createdAt": "2026-11-27T05:41:04.122Z",
+      "reason": "本轮案例据13:21材料改编，移至采集以后。"
+    },
+    "gsm-20261127090050-9a82f645-ed97eb389309": {
+      "createdAt": "2026-11-27T07:27:14.821Z",
+      "reason": "把原创排在同轮案例之后，保留冻结计划的混排顺序。"
+    }
+  },
+  "mediaReviews": [
+    {
+      "postId": "gsm-20261127090050-9a82f645-ed97eb389309",
+      "src": "posts/2026/11/gsm-20261127090050-9a82f645-ed97eb389309/media/window.webp",
+      "type": "life-photo",
+      "scene": "依守宫在门外贴地看的角度生成的生活近照，左侧是暗拱门，右侧粗陶表面有四格灰窗和一条实为颜料的横线。"
+    }
+  ],
+  "diversityReview": {
+    "postsDigest": "ab1e4e717dfbf36cc6f21f0b2e6e9cc7e49628b7d818bd36d8ea013572af5080",
+    "historyDigest": "aabf7f159173db80b2c2e7bc68435715cca4f7fe9fd87438f375acfcf11e7ca1",
+    "content": "13da12b1e0a2 源头是人为从小养大的睫角守宫考虑新玻璃箱，转成 yui3 就自己一直住的地方问：枝叶一多就挤，上下会怎么爬。删去“也常往下”里的“也”，以免误会已经搬家；删去“伸个头就能转身”的累赘。网顶、暖不暖和水珠能留多久都保留为问题。原文的卖家品牌、型号和人的居住地没有交给角色。-03 木木讲第二位的单只、18×18×36 英寸和一句住得还好；36相同，底面尺寸不同。匿名源未返回平台父 ID，只有这一问一答两位，第二段回应同一住处问题，站内归入该主题，不假定她回答了湿度与整箱利用率。ed97eb389309 与旧的错认黑点不同，这回想趴的是窗台，真进屋又出来用下巴摸了，删去对窗台投影的断言，落在“平的”和白惦记。-04 也嫌这条灰线误导，只看帖和照片，改掉初稿“特意”的意图猜测以及“描道影子”。它替楼主抱怨，没有再复述用下巴蹭的动作。",
+    "images": "ed97eb389309 使用生成的墙面生活近照：左边真拱门形成暗口，右边四块灰窗格和一条灰线都贴在粗糙的陶面。初稿分开写窗台和影子，图片只有一根线，主帖和 -04 均按实图修订。“半拍”可以从同一图接话，不用另附图。此前布挡洞口是衣物遮住真实开口，浮叶近照拍可漂动的叶尖，这张图让人看的是墙上的平涂。真实案例的两段都是文字。原创主帖一图，其余均纯文，无表情建议或差额。"
+  }
+}
