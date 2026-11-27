@@ -57,14 +57,24 @@ node gsm/tools/engine/collect-gecko-opinions.js
 
 <!-- samples:start -->
 
-采集时间：2026-11-26 13:28:09（北京时间）
+采集时间：2026-11-27 13:21:13（北京时间）
 
 ### 讨论 1
 
-1. **发言者 1**：Pausing along the boardwalk at Umusambi Village in Rwanda. Caught this striped skink soaking in the calm against weathered wood and lush green foliage.  
+1. **发言者 1**：Seen leaving our yard yesterday morning. Rather full stomach. Someone’s pussy cat perhaps ? goldcoast python reptiles  
    \[图片或视频省略，未读取画面\]
 
 ### 讨论 2
+
+父回复关系未提供。
+
+1. **发言者 1**：I keep one adult crested gecko in a glass enclosure that I've had since he was small, and I'm starting to think about moving him into something taller. My current setup works, but it feels cramped when I add more climbing branches and foliage. I came across this REPTI ZOO RK0124N 24x18x36 Tall Glass Terrarium Review while browsing online: REPTI ZOO RK0124N 24x18x36 Tall Glass Terrarium Review. The dimensions sound like a good fit for a crested gecko, but I'm unsure about ventilation and whether the mesh top holds humidity well enough in a Maryland apartment that gets dry in winter. I also wonder if a single gecko would use all that vertical space or just stay near the top. Has anyone kept a crested gecko in a tall 24x18x36 glass tank? I'd like to hear how it holds heat and humidity before I decide.
+
+2. **发言者 2**：I have a single crested gecko in an 18"x18"x36" enclosure and it does fine.  
+     
+   Aliza
+
+### 讨论 3
 
 RSS 摘要。
 
@@ -72,13 +82,60 @@ RSS 摘要。
      
    The discovery occurred when a local field assistant brought a young female snake to the research team.
 
-### 讨论 3
+### 讨论 4
+
+1. **发言者 1**：Volunteer care workers save freshwater turtles  
+   "Thousands of turtles saved as citizen science project marches toward milestone. The 1 Million Turtles campaign, launched in 2021, has taken close to 40,000 records from citizen scientists of turtles in the wild across Australia."  
+   "Volunteers are invited to log their turtle discoveries on TurtleSAT, a mobile phone app and online tracking tool, allowing scientists to build a more accurate picture of turtle ecology. ..We find transmitters under trees chewed up and effectively spat out."  &gt;&gt;  
+   \[链接隐去\]
+
+### 讨论 5
+
+1. **发言者 1**：Clicked this wee wannabe dragon in my garden earlier today🦎  
+   \[图片或视频省略，未读取画面\]
+
+### 讨论 6
+
+父回复关系未提供。
+
+1. **发言者 1**：Non Lilly Solid Back  
+     
+   I have a gecko that is not Lilly white but she does have a solid white back. Looking at morphmedia, solid back appears to only include lillys and sables?  
+     
+   Edited to add pics of her, nvm, they won’t upload :'\)
+
+2. **发言者 2**：Solid backs are not related to sables or lillies, plenty of lillies don’t have solid backs, and plenty of normals do. MM actually has solid back listed as a separate trait, although it’s a visual trait rather than a genetic trait.
+
+### 讨论 7
+
+RSS 摘要。
+
+1. **发言者 1**：发言者 1 2027 Media Kit  
+     
+   2027 Reptiles Media Kit-reduced5
+
+### 讨论 8
 
 1. **发言者 1**：reptiles ,  animales . Cuidando mi ecosistema. Preciosa culebra de herradura, en Huelva, España.  
    Esta tranquila bebé me permitió trasladarla para esconderla antes de que los gatos que viven en la misma parcela la atacaran.  
    \[图片或视频省略，未读取画面\]
 
-### 讨论 4
+### 讨论 9
+
+RSS 摘要。
+
+1. **发言者 1**：Seven Rare Lizards Most People Have Never Seen  
+     
+   From a pink iguana living on a single volcano to a lizard smaller than a coin, meet seven rare and unusual lizards and discover what makes each one truly special.
+
+### 讨论 10
+
+1. **发言者 1**：Prairie Lizard \(Sceloporus consobrinus\)  
+   This cutie was hiding under the leaves on a path up to Turkey Mountain's summit. I'm just happy I didn't crush him under my foot.  
+   iNaturalist link \[ \[链接隐去\] \]  
+   \[图片或视频省略，未读取画面\]
+
+### 讨论 11
 
 父回复关系未提供。
 
@@ -96,66 +153,11 @@ RSS 摘要。
      
    \[链接隐去\]
 
-### 讨论 5
-
-1. **发言者 1**：Prairie Lizard \(Sceloporus consobrinus\)  
-   This cutie was hiding under the leaves on a path up to Turkey Mountain's summit. I'm just happy I didn't crush him under my foot.  
-   iNaturalist link \[ \[链接隐去\] \]  
-   \[图片或视频省略，未读取画面\]
-
-### 讨论 6
-
-RSS 摘要。
-
-1. **发言者 1**：发言者 1 2027 Media Kit  
-     
-   2027 Reptiles Media Kit-reduced5
-
-### 讨论 7
-
-1. **发言者 1**：A 100-year Scottish land restoration project is showing significant progress in only three years 🏴󠁧󠁢󠁳󠁣󠁴󠁿  
-   tiny electric cars are saving on fossil fuels in Europe 🚗  
-   New Zealand’s longest lizard returns to Aotea Great Barrier Island 🇳🇿  
-   and much more - in our new issue 👇  
-   \[链接隐去\]
-
-### 讨论 8
-
-RSS 摘要。
-
-1. **发言者 1**：Seven Rare Lizards Most People Have Never Seen  
-     
-   From a pink iguana living on a single volcano to a lizard smaller than a coin, meet seven rare and unusual lizards and discover what makes each one truly special.
-
-### 讨论 9
-
-父回复关系未提供。
-
-1. **发言者 1**：Non Lilly Solid Back  
-     
-   I have a gecko that is not Lilly white but she does have a solid white back. Looking at morphmedia, solid back appears to only include lillys and sables?  
-     
-   Edited to add pics of her, nvm, they won’t upload :'\)
-
-2. **发言者 2**：Solid backs are not related to sables or lillies, plenty of lillies don’t have solid backs, and plenty of normals do. MM actually has solid back listed as a separate trait, although it’s a visual trait rather than a genetic trait.
-
-### 讨论 10
+### 讨论 12
 
 1. **发言者 1**：Little Brown Skink \(Scincella lateralis\)  
    This little reptile was nice enough to pause for me on the walking path.  
    iNaturalist link \[ \[链接隐去\] \]  
    \[图片或视频省略，未读取画面\]
-
-### 讨论 11
-
-1. **发言者 1**：\[链接隐去\] ビルマニシキヘビのみーさん🐍 ビルマニシキヘビ バーミーズ ニシキヘビ 大蛇 \# 爬虫類 reptiles snake 爬虫類カフェ cat neko バーミーズ  
-   \[图片或视频省略，未读取画面\]
-
-### 讨论 12
-
-1. **发言者 1**：Volunteer care workers save freshwater turtles  
-   "Thousands of turtles saved as citizen science project marches toward milestone. The 1 Million Turtles campaign, launched in 2021, has taken close to 40,000 records from citizen scientists of turtles in the wild across Australia."  
-   "Volunteers are invited to log their turtle discoveries on TurtleSAT, a mobile phone app and online tracking tool, allowing scientists to build a more accurate picture of turtle ecology. ..We find transmitters under trees chewed up and effectively spat out."  &gt;&gt;  
-   \[链接隐去\]
 
 <!-- samples:end -->
