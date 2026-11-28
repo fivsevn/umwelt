@@ -1,5 +1,47 @@
 // Generated from gsm/posts and gsm/users; edit those sources, not this file.
 export const profiles = {
+  "guest-6a3672c6a826a1e3": {
+    "handle": "guest-6a3672c6a826a1e3",
+    "name": "toto",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-6a3672c6a826a1e3.webp?v=f8a2a28d808e",
+    "color": "sand"
+  },
+  "guest-373f9f8d2108087a": {
+    "handle": "guest-373f9f8d2108087a",
+    "name": "墙边散步",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-373f9f8d2108087a.webp?v=f8a2a28d808e",
+    "color": "sage"
+  },
+  "moss9": {
+    "handle": "moss9",
+    "name": "阿苔",
+    "bio": "水滴也值得看一会儿。",
+    "avatarImage": "/gsm/assets/avatars/moss9.webp?v=fc1a392905b0",
+    "color": "sand"
+  },
+  "guest-c390428282307cf5": {
+    "handle": "guest-c390428282307cf5",
+    "name": "嗯嗯",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-c390428282307cf5.webp?v=3a99410baa47",
+    "color": "rose"
+  },
+  "guest-a0af06ceb699ca1d": {
+    "handle": "guest-a0af06ceb699ca1d",
+    "name": "AB12",
+    "bio": "",
+    "avatarImage": "/gsm/assets/avatars/guest-a0af06ceb699ca1d.webp?v=d880f2ec2809",
+    "color": "sage"
+  },
+  "wednesday6": {
+    "handle": "wednesday6",
+    "name": "周三换皮",
+    "bio": "名字先这么叫着。",
+    "avatarImage": "/gsm/assets/avatars/wednesday6.webp?v=d880f2ec2809",
+    "color": "sage"
+  },
   "guest-4e3022a5d44212e3": {
     "handle": "guest-4e3022a5d44212e3",
     "name": "半拍",
@@ -96,13 +138,6 @@ export const profiles = {
     "name": "R.",
     "bio": "",
     "avatarImage": "/gsm/assets/avatars/guest-f660152bd7c743a6.webp?v=f8a2a28d808e",
-    "color": "sand"
-  },
-  "moss9": {
-    "handle": "moss9",
-    "name": "阿苔",
-    "bio": "水滴也值得看一会儿。",
-    "avatarImage": "/gsm/assets/avatars/moss9.webp?v=fc1a392905b0",
     "color": "sand"
   },
   "guest-54cea7527a81bc53": {
@@ -384,16 +419,243 @@ export const profiles = {
     "bio": "墙上也有路。",
     "avatarImage": "/gsm/assets/avatars/wallafterdark.webp?v=d880f2ec2809",
     "color": "sand"
-  },
-  "wednesday6": {
-    "handle": "wednesday6",
-    "name": "周三换皮",
-    "bio": "名字先这么叫着。",
-    "avatarImage": "/gsm/assets/avatars/wednesday6.webp?v=d880f2ec2809",
-    "color": "sage"
   }
 };
 export const posts = [
+  {
+    "id": "gsm-20261128090353-89846710-05",
+    "date": "2026-11-28T16:49:39.812+08:00",
+    "createdAt": 1795855779812,
+    "author": "guest-6a3672c6a826a1e3",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "就三下，多一下还得问你啊？"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "就三下，多一下还得问你啊？"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "就三下，多一下还得问你啊？"
+        }
+      ]
+    },
+    "replyTo": "gsm-20261128090353-89846710-04"
+  },
+  {
+    "id": "gsm-20261128090353-89846710-06",
+    "date": "2026-11-28T16:41:23.812+08:00",
+    "createdAt": 1795855283812,
+    "author": "guest-373f9f8d2108087a",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "两下就停？谁知道第四下是不是也在憋着呢。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/doubt.webp",
+          "alt": "守宫坐着偏头斜眼看，一只前爪抵着下巴，嘴巴抿起。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/wait.webp",
+          "alt": "守宫趴着把两只前爪交叠在下巴下面，半眯眼向侧面看。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "两下就停？谁知道第四下是不是也在憋着呢。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/doubt.webp",
+          "alt": "守宫坐着偏头斜眼看，一只前爪抵着下巴，嘴巴抿起。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/wait.webp",
+          "alt": "守宫趴着把两只前爪交叠在下巴下面，半眯眼向侧面看。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "两下就停？谁知道第四下是不是也在憋着呢。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/doubt.webp",
+          "alt": "守宫坐着偏头斜眼看，一只前爪抵着下巴，嘴巴抿起。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/assets/emotes/gsm/wait.webp",
+          "alt": "守宫趴着把两只前爪交叠在下巴下面，半眯眼向侧面看。",
+          "width": 160,
+          "height": 160,
+          "kind": "emote"
+        }
+      ]
+    },
+    "replyTo": "gsm-20261128090353-89846710-04"
+  },
+  {
+    "id": "gsm-20261128090353-89846710-04",
+    "date": "2026-11-28T16:40:04.812+08:00",
+    "createdAt": 1795855204812,
+    "author": "moss9",
+    "likes": 4,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "连着敲我也嫌吵，两下就该停了。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "连着敲我也嫌吵，两下就该停了。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "连着敲我也嫌吵，两下就该停了。"
+        }
+      ]
+    },
+    "replyTo": "gsm-20261128090353-89846710-3bda8d66fb06"
+  },
+  {
+    "id": "gsm-20261128090353-89846710-3bda8d66fb06",
+    "date": "2026-11-28T16:18:42.812+08:00",
+    "createdAt": 1795853922812,
+    "author": "guest-c390428282307cf5",
+    "likes": 2,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "外头咚咚两声，我都当敲完了，隔那么久才补第三下。倒是连着敲完啊。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "外头咚咚两声，我都当敲完了，隔那么久才补第三下。倒是连着敲完啊。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "外头咚咚两声，我都当敲完了，隔那么久才补第三下。倒是连着敲完啊。"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gsm-20261128090353-89846710-e30eef5ea089",
+    "date": "2026-11-28T14:59:54.481+08:00",
+    "createdAt": 1795849194481,
+    "author": "guest-a0af06ceb699ca1d",
+    "likes": 1,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "开头就夸它一身颜色，真想瞧瞧。介绍里说，Liolaemus tenuis 是智利特有的一种蜥蜴，在圣地亚哥和中央谷地挺常见，尤其是在硬叶林里。那边的公园、墙上，连城里的花园也能遇见。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261128090353-89846710-e30eef5ea089/media/habitat.webp",
+          "alt": "栖息地示意画从硬叶林、矮墙一直画到花园，下面印着 Liolaemus tenuis。",
+          "width": 1152,
+          "height": 622
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "开头就夸它一身颜色，真想瞧瞧。介绍里说，Liolaemus tenuis 是智利特有的一种蜥蜴，在圣地亚哥和中央谷地挺常见，尤其是在硬叶林里。那边的公园、墙上，连城里的花园也能遇见。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261128090353-89846710-e30eef5ea089/media/habitat.webp",
+          "alt": "栖息地示意画从硬叶林、矮墙一直画到花园，下面印着 Liolaemus tenuis。",
+          "width": 1152,
+          "height": 622
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "开头就夸它一身颜色，真想瞧瞧。介绍里说，Liolaemus tenuis 是智利特有的一种蜥蜴，在圣地亚哥和中央谷地挺常见，尤其是在硬叶林里。那边的公园、墙上，连城里的花园也能遇见。"
+        },
+        {
+          "type": "image",
+          "src": "/gsm/posts/2026/11/gsm-20261128090353-89846710-e30eef5ea089/media/habitat.webp",
+          "alt": "栖息地示意画从硬叶林、矮墙一直画到花园，下面印着 Liolaemus tenuis。",
+          "width": 1152,
+          "height": 622
+        }
+      ]
+    }
+  },
+  {
+    "id": "gsm-20261128090353-89846710-c54b47848a99",
+    "date": "2026-11-28T13:22:11.974+08:00",
+    "createdAt": 1795843331974,
+    "author": "wednesday6",
+    "likes": 0,
+    "blocks": {
+      "zh": [
+        {
+          "type": "text",
+          "text": "洞口那片叶子，进去还能顺着蹭过去，一往后退，叶尖就支起来刮我下巴。"
+        }
+      ],
+      "en": [
+        {
+          "type": "text",
+          "text": "洞口那片叶子，进去还能顺着蹭过去，一往后退，叶尖就支起来刮我下巴。"
+        }
+      ],
+      "ja": [
+        {
+          "type": "text",
+          "text": "洞口那片叶子，进去还能顺着蹭过去，一往后退，叶尖就支起来刮我下巴。"
+        }
+      ]
+    }
+  },
   {
     "id": "gsm-20261127090050-9a82f645-04",
     "date": "2026-11-27T15:52:26.821+08:00",

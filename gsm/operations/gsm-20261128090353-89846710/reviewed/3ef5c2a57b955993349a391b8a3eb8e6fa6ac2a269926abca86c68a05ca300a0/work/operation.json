@@ -1,0 +1,784 @@
+{
+  "version": 1,
+  "id": "gsm-20261128090353-89846710",
+  "root": "/workspace/scratch/7c229307b34f/day28/repo/gsm",
+  "preparedAt": "2026-11-28T09:03:53.285Z",
+  "plan": {
+    "seed": "7d2cc611d1fe7be006cd67a2b72264712c40acfc06b7808392965ae86b5827fe",
+    "budget": 2,
+    "selectedIds": [
+      "mango27",
+      "leafback7",
+      "wednesday6"
+    ],
+    "totalBudget": 120,
+    "replyLottery": {
+      "bands": [
+        {
+          "weight": 30,
+          "min": 0,
+          "max": 0
+        },
+        {
+          "weight": 20,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "weight": 20,
+          "min": 2,
+          "max": 4
+        },
+        {
+          "weight": 15,
+          "min": 5,
+          "max": 12
+        },
+        {
+          "weight": 8,
+          "min": 13,
+          "max": 30
+        },
+        {
+          "weight": 5,
+          "min": 31,
+          "max": 60
+        },
+        {
+          "weight": 2,
+          "min": 61,
+          "max": 100
+        }
+      ],
+      "maxReplies": 100
+    },
+    "lottery": {
+      "version": 1,
+      "rootBudget": {
+        "min": 1,
+        "max": 2
+      },
+      "authors": {
+        "candidates": 3,
+        "recentPosts": 7,
+        "recentMultiplier": 0.5
+      },
+      "authorKind": [
+        {
+          "value": "guest",
+          "weight": 75
+        },
+        {
+          "value": "library",
+          "weight": 25
+        }
+      ],
+      "motivation": [
+        {
+          "value": "ask-help",
+          "weight": 24
+        },
+        {
+          "value": "vent",
+          "weight": 22
+        },
+        {
+          "value": "passing-thought",
+          "weight": 24
+        },
+        {
+          "value": "share",
+          "weight": 18
+        },
+        {
+          "value": "correct",
+          "weight": 6
+        },
+        {
+          "value": "celebrate",
+          "weight": 6
+        }
+      ],
+      "length": [
+        {
+          "value": "fragment",
+          "weight": 45
+        },
+        {
+          "value": "short",
+          "weight": 40
+        },
+        {
+          "value": "long",
+          "weight": 15
+        }
+      ],
+      "conditionCount": {
+        "min": 1,
+        "max": 2
+      },
+      "waitSeconds": [
+        {
+          "weight": 45,
+          "min": 20,
+          "max": 180
+        },
+        {
+          "weight": 40,
+          "min": 181,
+          "max": 1800
+        },
+        {
+          "weight": 15,
+          "min": 1801,
+          "max": 21600
+        }
+      ],
+      "reading": [
+        {
+          "value": "target-only",
+          "weight": 40
+        },
+        {
+          "value": "root-and-target",
+          "weight": 35
+        },
+        {
+          "value": "nearby",
+          "weight": 25
+        }
+      ],
+      "textWindow": [
+        {
+          "value": "full",
+          "weight": 45
+        },
+        {
+          "value": "opening",
+          "weight": 35
+        },
+        {
+          "value": "fragment",
+          "weight": 20
+        }
+      ],
+      "excerptCharacters": 140,
+      "nearbyReplies": {
+        "min": 0,
+        "max": 3
+      },
+      "media": {
+        "images": {
+          "root": {
+            "types": [
+              {
+                "value": "photo",
+                "weight": 70
+              },
+              {
+                "value": "screenshot",
+                "weight": 20
+              },
+              {
+                "value": "illustration",
+                "weight": 10
+              }
+            ]
+          },
+          "reply": {
+            "types": [
+              {
+                "value": "photo",
+                "weight": 50
+              },
+              {
+                "value": "screenshot",
+                "weight": 40
+              },
+              {
+                "value": "illustration",
+                "weight": 10
+              }
+            ]
+          }
+        },
+        "emotes": {
+          "root": {
+            "counts": [
+              {
+                "weight": 90,
+                "min": 1,
+                "max": 1
+              },
+              {
+                "weight": 10,
+                "min": 2,
+                "max": 2
+              }
+            ]
+          },
+          "reply": {
+            "counts": [
+              {
+                "weight": 90,
+                "min": 1,
+                "max": 1
+              },
+              {
+                "weight": 10,
+                "min": 2,
+                "max": 2
+              }
+            ]
+          }
+        },
+        "profiles": [
+          {
+            "id": "text-led",
+            "weight": 35,
+            "root": {
+              "none": 50,
+              "image": 28,
+              "emote": 14,
+              "both": 8
+            },
+            "reply": {
+              "none": 48,
+              "image": 10,
+              "emote": 34,
+              "both": 8
+            }
+          },
+          {
+            "id": "mixed",
+            "weight": 45,
+            "root": {
+              "none": 30,
+              "image": 38,
+              "emote": 17,
+              "both": 15
+            },
+            "reply": {
+              "none": 35,
+              "image": 12,
+              "emote": 39,
+              "both": 14
+            }
+          },
+          {
+            "id": "image-led",
+            "weight": 20,
+            "root": {
+              "none": 15,
+              "image": 45,
+              "emote": 12,
+              "both": 28
+            },
+            "reply": {
+              "none": 25,
+              "image": 18,
+              "emote": 37,
+              "both": 20
+            }
+          }
+        ]
+      },
+      "likes": {
+        "root": [
+          {
+            "weight": 20,
+            "min": 0,
+            "max": 0
+          },
+          {
+            "weight": 73,
+            "min": 1,
+            "max": 20
+          },
+          {
+            "weight": 6,
+            "min": 21,
+            "max": 60
+          },
+          {
+            "weight": 1,
+            "min": 61,
+            "max": 160
+          }
+        ],
+        "reply": [
+          {
+            "weight": 35,
+            "min": 0,
+            "max": 0
+          },
+          {
+            "weight": 62,
+            "min": 1,
+            "max": 12
+          },
+          {
+            "weight": 2,
+            "min": 13,
+            "max": 35
+          },
+          {
+            "weight": 1,
+            "min": 36,
+            "max": 90
+          }
+        ]
+      },
+      "sampling": {
+        "offset": {
+          "min": 0,
+          "max": 30
+        },
+        "count": {
+          "min": 3,
+          "max": 6
+        }
+      },
+      "discussion": {
+        "negativeMotivation": [
+          {
+            "value": "complaint",
+            "weight": 16
+          },
+          {
+            "value": "gossip",
+            "weight": 10
+          },
+          {
+            "value": "dispute",
+            "weight": 8
+          },
+          {
+            "value": "grievance",
+            "weight": 8
+          },
+          {
+            "value": "suspicion",
+            "weight": 8
+          },
+          {
+            "value": "irritation",
+            "weight": 16
+          },
+          {
+            "value": "contempt",
+            "weight": 12
+          },
+          {
+            "value": "envy",
+            "weight": 6
+          },
+          {
+            "value": "pile-on",
+            "weight": 10
+          },
+          {
+            "value": "grudge",
+            "weight": 6
+          }
+        ],
+        "replyStance": [
+          {
+            "value": "support",
+            "weight": 12
+          },
+          {
+            "value": "push-back",
+            "weight": 12
+          },
+          {
+            "value": "doubt",
+            "weight": 8
+          },
+          {
+            "value": "defend",
+            "weight": 8
+          },
+          {
+            "value": "provoke",
+            "weight": 12
+          },
+          {
+            "value": "ask-detail",
+            "weight": 4
+          },
+          {
+            "value": "sidetrack",
+            "weight": 14
+          },
+          {
+            "value": "dismiss",
+            "weight": 12
+          },
+          {
+            "value": "repeat",
+            "weight": 10
+          },
+          {
+            "value": "pile-on",
+            "weight": 8
+          }
+        ],
+        "replyAuthor": [
+          {
+            "value": "new",
+            "weight": 85
+          },
+          {
+            "value": "root",
+            "weight": 8
+          },
+          {
+            "value": "participant",
+            "weight": 7
+          }
+        ],
+        "negativeProbability": 0.5,
+        "minimumNegativeShare": 0.5
+      },
+      "researchMaintenance": {
+        "probability": 0.3,
+        "maxDocuments": 1,
+        "ageWeightDays": 7,
+        "maxAgeWeight": 5
+      },
+      "diversity": {
+        "recentUpdates": 3
+      },
+      "participation": {
+        "version": 2
+      }
+    },
+    "timeWindow": {
+      "start": "2026-11-27T09:03:53.285Z",
+      "end": "2026-11-28T09:03:53.285Z"
+    },
+    "participationSchedules": {
+      "backpackgecko": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "gecko404": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "gedageda": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "isopodafugue": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "manual"
+      },
+      "leafback7": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "mango27": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "moss9": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "nearthermo": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "nightshift3": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "peachcrumble": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "slowblink": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "smallhide2": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "twosteps8": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "wallafterdark": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      },
+      "wednesday6": {
+        "timezone": "Asia/Shanghai",
+        "windows": [],
+        "mode": "unconfigured"
+      }
+    },
+    "caseAdaptation": {
+      "count": 1,
+      "intakeReceipt": {
+        "repository": "fivsevn/umwelt",
+        "path": "gsm/environment/sources-daily-opinions.md",
+        "revision": "2493d0ef9de137697ead6bb48b321b0fb4ecea0e",
+        "documentSha": "2493d0ef9de137697ead6bb48b321b0fb4ecea0e",
+        "documentDigest": "94dae874a7f10eee2ad56e76f743f39acaab63b29000452db442c966dd3ce435",
+        "collectedAt": "2026-11-28T04:57:12.000Z",
+        "fetchedAt": "2026-11-28T09:03:53.274Z"
+      },
+      "items": [
+        {
+          "postId": "gsm-20261128090353-89846710-e30eef5ea089",
+          "sourcePath": "environment/sources-daily-opinions.md",
+          "sample": {
+            "id": "sample-cd51214ca605",
+            "title": "讨论 2",
+            "text": "### 讨论 2\n\n1. **发言者 1**：A colorful fellow.  \n     \n   Slender lizard \\(\\*Liolaemus tenuis\\*\\). Endemic to Chile; very common in Santiago and the Central Valley—especially in sclerophyllous forests, though also found in parks, on walls, and in urban gardens.  \n     \n   LiolaemusTenuis, slenderlizard, herpetology, SantiagoDeChile, sclerophyllousforest, NaturePhotography, Travel  \n   \\[图片或视频省略，未读取画面\\]",
+            "context": "采集时间：2026-11-28 12:57:12（北京时间）"
+          }
+        }
+      ],
+      "rootOrder": [
+        "gsm-20261128090353-89846710-c54b47848a99",
+        "gsm-20261128090353-89846710-e30eef5ea089",
+        "gsm-20261128090353-89846710-3bda8d66fb06"
+      ]
+    },
+    "researchMaintenance": {
+      "candidates": [
+        {
+          "path": "environment/research-comments.md",
+          "updatedAt": "2026-11-28T04:57:21.000Z"
+        },
+        {
+          "path": "environment/research-everyday-life.md",
+          "updatedAt": "2026-11-28T04:57:21.000Z"
+        },
+        {
+          "path": "environment/research-meme.md",
+          "updatedAt": "2026-11-28T04:57:21.000Z"
+        },
+        {
+          "path": "environment/research-negative.md",
+          "updatedAt": "2026-11-28T04:57:21.000Z"
+        },
+        {
+          "path": "environment/research-worldview.md",
+          "updatedAt": "2026-11-28T04:57:21.000Z"
+        },
+        {
+          "path": "users/research-character.md",
+          "updatedAt": "2026-11-28T04:57:21.000Z"
+        },
+        {
+          "path": "users/research-speech.md",
+          "updatedAt": "2026-11-28T04:57:21.000Z"
+        }
+      ],
+      "selectedPaths": []
+    },
+    "seal": "18638da57ccd9c08b046cec4f5cfd558ee12a1a86616c0bd495fcc2dc3d53d4b"
+  },
+  "sourceDigest": "b9f04e4d9085ad6d79e784b47188e3c540b5949da28110e678f2690638bc9196",
+  "research": [
+    {
+      "category": "news",
+      "kind": "feed",
+      "url": "https://reptilesmagazine.com/feed/?paged=2",
+      "visitedAt": "2026-11-28T09:04:12+00:00",
+      "publishedAt": null,
+      "summary": "RSS 跳过10条，连续读第11到13条开头：野生动物倡导者访谈、会翻滚的细小蛇类、瓦胡岛捕获球蟒。均按原日期理解。gsm-20261128090353-89846710-e30eef5ea089 的智利蜥蜴介绍使用11月28日12:57当日讨论2的一条短介绍，并非这批报道。所附媒体未读，以硬叶林、矮墙与花园的栖息地示意画回应原文，未赋予原个体颜色分布、性别或位置。"
+    },
+    {
+      "category": "trend",
+      "kind": "thread",
+      "url": "https://community.morphmarket.com/t/enclosure-size-question/64224",
+      "visitedAt": "2026-11-28T09:04:12+00:00",
+      "publishedAt": "2026-11-23T08:13:46.728Z",
+      "summary": "跳过23串读连续5串开头和各自可见的前两条回复。箱子尺寸串问现有空间是否足以终生使用，回帖给出不同程度的解释；还有检验、猪鼻蛇晒图、蜕皮晒图和球蟒辨认。本轮未转用饲养参数或外部人物。"
+    },
+    {
+      "category": "daily",
+      "kind": "thread",
+      "url": "https://community.morphmarket.com/t/probe-placement-something-else/64233",
+      "visitedAt": "2026-11-28T09:04:12+00:00",
+      "publishedAt": "2026-11-24T10:44:32.581Z",
+      "summary": "跳过17串读连续3串的开头及可见的前两条回帖，涉及小蛇近况、与蟒相处、箱内测点。最后一串写位置在灯下有一段距离和温度不稳，回帖从灯下与动物活动处的差别说起。gsm-20261128090353-89846710-c54b47848a99 写洞口叶片在进退两个方向的触感，gsm-20261128090353-89846710-3bda8d66fb06 写不等间隔的敲击声，两条都是原创。"
+    }
+  ],
+  "posts": [
+    {
+      "id": "gsm-20261128090353-89846710-c54b47848a99",
+      "author": "wednesday6",
+      "createdAt": "2026-11-28T05:22:11.974Z",
+      "replyTo": null,
+      "text": "洞口那片叶子，进去还能顺着蹭过去，一往后退，叶尖就支起来刮我下巴。",
+      "likes": 0,
+      "canon": "derivative",
+      "media": []
+    },
+    {
+      "id": "gsm-20261128090353-89846710-e30eef5ea089",
+      "author": "guest-a0af06ceb699ca1d",
+      "guest": {
+        "name": "AB12"
+      },
+      "createdAt": "2026-11-28T06:59:54.481Z",
+      "replyTo": null,
+      "text": "开头就夸它一身颜色，真想瞧瞧。介绍里说，Liolaemus tenuis 是智利特有的一种蜥蜴，在圣地亚哥和中央谷地挺常见，尤其是在硬叶林里。那边的公园、墙上，连城里的花园也能遇见。",
+      "likes": 1,
+      "canon": "derivative",
+      "media": [
+        {
+          "kind": "image",
+          "src": "posts/2026/11/gsm-20261128090353-89846710-e30eef5ea089/media/habitat.webp",
+          "alt": "栖息地示意画从硬叶林、矮墙一直画到花园，下面印着 Liolaemus tenuis。"
+        }
+      ]
+    },
+    {
+      "id": "gsm-20261128090353-89846710-3bda8d66fb06",
+      "author": "guest-c390428282307cf5",
+      "guest": {
+        "name": "嗯嗯"
+      },
+      "createdAt": "2026-11-28T08:18:42.812Z",
+      "replyTo": null,
+      "text": "外头咚咚两声，我都当敲完了，隔那么久才补第三下。倒是连着敲完啊。",
+      "likes": 2,
+      "canon": "derivative",
+      "media": []
+    },
+    {
+      "id": "gsm-20261128090353-89846710-04",
+      "author": "moss9",
+      "createdAt": "2026-11-28T08:40:04.812Z",
+      "replyTo": "gsm-20261128090353-89846710-3bda8d66fb06",
+      "text": "连着敲我也嫌吵，两下就该停了。",
+      "likes": 4,
+      "canon": "derivative",
+      "media": []
+    },
+    {
+      "id": "gsm-20261128090353-89846710-05",
+      "author": "guest-6a3672c6a826a1e3",
+      "guest": {
+        "name": "toto"
+      },
+      "createdAt": "2026-11-28T08:49:39.812Z",
+      "replyTo": "gsm-20261128090353-89846710-04",
+      "text": "就三下，多一下还得问你啊？",
+      "likes": 0,
+      "canon": "derivative",
+      "media": []
+    },
+    {
+      "id": "gsm-20261128090353-89846710-06",
+      "author": "guest-373f9f8d2108087a",
+      "guest": {
+        "name": "墙边散步"
+      },
+      "createdAt": "2026-11-28T08:41:23.812Z",
+      "replyTo": "gsm-20261128090353-89846710-04",
+      "text": "两下就停？谁知道第四下是不是也在憋着呢。",
+      "likes": 0,
+      "canon": "derivative",
+      "media": [
+        {
+          "kind": "emote",
+          "alt": "守宫坐着偏头斜眼看，一只前爪抵着下巴，嘴巴抿起。",
+          "src": "assets/emotes/gsm/doubt.webp"
+        },
+        {
+          "kind": "emote",
+          "alt": "守宫趴着把两只前爪交叠在下巴下面，半眯眼向侧面看。",
+          "src": "assets/emotes/gsm/wait.webp"
+        }
+      ]
+    }
+  ],
+  "status": "prepared",
+  "reviews": [
+    {
+      "postId": "gsm-20261128090353-89846710-c54b47848a99",
+      "negative": true,
+      "reason": "嫌洞口叶片碍事，顺着进没什么，倒退出洞时叶尖刮下巴。"
+    },
+    {
+      "postId": "gsm-20261128090353-89846710-e30eef5ea089",
+      "negative": false,
+      "reason": "读到对这种蜥蜴颜色的称赞，会想看它；说的是当地可以遇见它的环境。"
+    },
+    {
+      "postId": "gsm-20261128090353-89846710-3bda8d66fb06",
+      "negative": true,
+      "reason": "埋怨两声与第三下之间那段停顿，让自己以为已经结束。"
+    },
+    {
+      "postId": "gsm-20261128090353-89846710-04",
+      "negative": true,
+      "reason": "阿苔读过希望连着敲完的末句，回说自己连着响也嫌吵，宁愿两下就停。"
+    },
+    {
+      "postId": "gsm-20261128090353-89846710-05",
+      "negative": true,
+      "reason": "toto 嫌阿苔规定两下就停，反问的是为什么第三下也得问她。"
+    },
+    {
+      "postId": "gsm-20261128090353-89846710-06",
+      "negative": false,
+      "reason": "顺着阿苔的两下就停，猜会不会有第四下，歪头看看又趴好等着；未说第四下已经响过。"
+    }
+  ],
+  "researchMaintenance": [],
+  "guestNames": {
+    "guest-a0af06ceb699ca1d": "AB12",
+    "guest-c390428282307cf5": "嗯嗯",
+    "guest-6a3672c6a826a1e3": "toto",
+    "guest-373f9f8d2108087a": "墙边散步"
+  },
+  "timingExceptions": {
+    "gsm-20261128090353-89846710-e30eef5ea089": {
+      "createdAt": "2026-11-28T06:59:54.481Z",
+      "reason": "转述今日12:57采集的介绍，排在材料到达及前一主帖之后。"
+    },
+    "gsm-20261128090353-89846710-3bda8d66fb06": {
+      "createdAt": "2026-11-28T08:18:42.812Z",
+      "reason": "保留冻结计划中原创在介绍帖后面的顺序。"
+    }
+  },
+  "mediaReviews": [
+    {
+      "postId": "gsm-20261128090353-89846710-e30eef5ea089",
+      "src": "posts/2026/11/gsm-20261128090353-89846710-e30eef5ea089/media/habitat.webp",
+      "type": "illustration",
+      "scene": "依介绍提及的地点类型生成栖息地示意，版画风格，左侧树枝与叶，中央步道，右侧矮墙和墙内花木。另排学名 Liolaemus tenuis，未描出来源所说的个体。"
+    }
+  ],
+  "diversityReview": {
+    "postsDigest": "f837b3c364cfc746b553765c50142ba91be40562d2269ddeafb78f75a958adf2",
+    "historyDigest": "0136a18fda6b62e44c0e5dea4f16b847bd2ec310d800710e57c60359ebf4a0a8",
+    "content": "c54b47848a99 的初稿是进退都被叶子刮鼻尖，和前轮树被浮叶追到鼻尖太像；改为顺着进、逆着退时叶尖刮下巴的一次地形差别，符合周三换皮关心退路的一面。e30eef5ea089 只转述11月28日匿名讨论2单条：称赞颜色，介绍智利特有的 Liolaemus tenuis 及可遇见的几种环境。原稿“这只叫”像给个体起名，改为明确是物种，花园限定在当地。没有看过原个体图片，不补花色、性别或出没地点。3bda8d66fb06 删去“趴着、抬头等”，区别前轮半夜上线找声源；保留嗯嗯以为敲完了，隔一阵才补第三声的怨气。-04 阿苔不同意连着敲就好，嫌次数也多。-05 toto 原稿说“你的拍子”，容易把嗯嗯的意思错当阿苔的话，改成多一下还得问你；-06 墙边散步较早回阿苔，加“两下就停？”接父楼，只当第四下是个猜想，不知后来 toto 怎么回。",
+    "images": "e30eef5ea089 配的是生成的版画风栖息地示意。已看实图，左侧枝叶、路右边的矮墙和花园分明，底下注的学名拼写无误。没有绘出具体动物，区别于先前图中晒太阳的幼蛇和石龙子。原创两条主帖、阿苔与 toto 均抽到纯文字，声音不用重画。-06 两张本站反应图已打开，doubt 歪着头托腮，wait 伏在地上等后续；这处连贴两图和其他人的纯文字形成自然的区别。"
+  }
+}

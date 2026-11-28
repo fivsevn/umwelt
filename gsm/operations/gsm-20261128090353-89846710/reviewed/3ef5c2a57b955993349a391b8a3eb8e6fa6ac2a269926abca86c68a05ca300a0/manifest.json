@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "operationId": "gsm-20261128090353-89846710",
+  "stage": "reviewed",
+  "sourceRevision": "2c71b4b784f29e604e91346c09a8d1c22002224e",
+  "files": [
+    {
+      "path": "media/posts/2026/11/gsm-20261128090353-89846710-e30eef5ea089/media/habitat.webp",
+      "bytes": 255952,
+      "sha256": "02ace44d7324235174a1ab4af6b8ae534f3c90f5faf4eea70012afa39610dfd9"
+    },
+    {
+      "path": "work/daily-material.json",
+      "bytes": 12928,
+      "sha256": "b5e7096cac8127833e1fe35446d2b1a7b7c63af4d9e54df83616f195be7fe3bd"
+    },
+    {
+      "path": "work/draft-history-gsm-20261128090353-89846710.json",
+      "bytes": 28358,
+      "sha256": "363242d5741fe77bb7c8da9ed686e93ec7cff5f9760b6429d85bdba48354081f"
+    },
+    {
+      "path": "work/operation.json",
+      "bytes": 22580,
+      "sha256": "c2c1c8223874f2ecfc7660fa111243394049bd72e7405faf128db3fd5f1fa29d"
+    },
+    {
+      "path": "work/reading-index.json",
+      "bytes": 5483,
+      "sha256": "ff27008f093bc83c85a1100895dc33410f999e9ffaa6efaae85f0439c2fa341a"
+    },
+    {
+      "path": "work/reading.md",
+      "bytes": 414801,
+      "sha256": "b1357884787e82246bab13d998f26435189b8787a7ce5bb56200dadd8dc91cb3"
+    }
+  ]
+}
