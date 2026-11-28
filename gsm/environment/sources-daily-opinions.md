@@ -57,44 +57,33 @@ node gsm/tools/engine/collect-gecko-opinions.js
 
 <!-- samples:start -->
 
-采集时间：2026-11-27 13:21:13（北京时间）
+采集时间：2026-11-28 12:57:12（北京时间）
 
 ### 讨论 1
 
-1. **发言者 1**：Seen leaving our yard yesterday morning. Rather full stomach. Someone’s pussy cat perhaps ? goldcoast python reptiles  
+1. **发言者 1**：Location-Accurate Weather For Your Gecko  
+     
+   \[链接隐去\]  
    \[图片或视频省略，未读取画面\]
 
 ### 讨论 2
 
-父回复关系未提供。
-
-1. **发言者 1**：I keep one adult crested gecko in a glass enclosure that I've had since he was small, and I'm starting to think about moving him into something taller. My current setup works, but it feels cramped when I add more climbing branches and foliage. I came across this REPTI ZOO RK0124N 24x18x36 Tall Glass Terrarium Review while browsing online: REPTI ZOO RK0124N 24x18x36 Tall Glass Terrarium Review. The dimensions sound like a good fit for a crested gecko, but I'm unsure about ventilation and whether the mesh top holds humidity well enough in a Maryland apartment that gets dry in winter. I also wonder if a single gecko would use all that vertical space or just stay near the top. Has anyone kept a crested gecko in a tall 24x18x36 glass tank? I'd like to hear how it holds heat and humidity before I decide.
-
-2. **发言者 2**：I have a single crested gecko in an 18"x18"x36" enclosure and it does fine.  
+1. **发言者 1**：A colorful fellow.  
      
-   Aliza
+   Slender lizard \(\*Liolaemus tenuis\*\). Endemic to Chile; very common in Santiago and the Central Valley—especially in sclerophyllous forests, though also found in parks, on walls, and in urban gardens.  
+     
+   LiolaemusTenuis, slenderlizard, herpetology, SantiagoDeChile, sclerophyllousforest, NaturePhotography, Travel  
+   \[图片或视频省略，未读取画面\]
 
 ### 讨论 3
 
 RSS 摘要。
 
-1. **发言者 1**：New Species of Egg-Eating Snake Discovered In Ethiopia  
+1. **发言者 1**：Seven Rare Lizards Most People Have Never Seen  
      
-   The discovery occurred when a local field assistant brought a young female snake to the research team.
+   From a pink iguana living on a single volcano to a lizard smaller than a coin, meet seven rare and unusual lizards and discover what makes each one truly special.
 
 ### 讨论 4
-
-1. **发言者 1**：Volunteer care workers save freshwater turtles  
-   "Thousands of turtles saved as citizen science project marches toward milestone. The 1 Million Turtles campaign, launched in 2021, has taken close to 40,000 records from citizen scientists of turtles in the wild across Australia."  
-   "Volunteers are invited to log their turtle discoveries on TurtleSAT, a mobile phone app and online tracking tool, allowing scientists to build a more accurate picture of turtle ecology. ..We find transmitters under trees chewed up and effectively spat out."  &gt;&gt;  
-   \[链接隐去\]
-
-### 讨论 5
-
-1. **发言者 1**：Clicked this wee wannabe dragon in my garden earlier today🦎  
-   \[图片或视频省略，未读取画面\]
-
-### 讨论 6
 
 父回复关系未提供。
 
@@ -106,6 +95,19 @@ RSS 摘要。
 
 2. **发言者 2**：Solid backs are not related to sables or lillies, plenty of lillies don’t have solid backs, and plenty of normals do. MM actually has solid back listed as a separate trait, although it’s a visual trait rather than a genetic trait.
 
+### 讨论 5
+
+1. **发言者 1**：A 100-year Scottish land restoration project is showing significant progress in only three years 🏴󠁧󠁢󠁳󠁣󠁴󠁿  
+   tiny electric cars are saving on fossil fuels in Europe 🚗  
+   New Zealand’s longest lizard returns to Aotea Great Barrier Island 🇳🇿  
+   and much more - in our new issue 👇  
+   \[链接隐去\]
+
+### 讨论 6
+
+1. **发言者 1**：Seen leaving our yard yesterday morning. Rather full stomach. Someone’s pussy cat perhaps ? goldcoast python reptiles  
+   \[图片或视频省略，未读取画面\]
+
 ### 讨论 7
 
 RSS 摘要。
@@ -116,26 +118,46 @@ RSS 摘要。
 
 ### 讨论 8
 
+父回复关系未提供。
+
+1. **发言者 1**：Is this scale rot or long shed cycle?  
+     
+   Hi there I’ve had my Hognose snake since mid August . He just turned a year old in September . When I first got him he was about 20ish grams and today 11/27 he is about 50ish grams no shed yet . I was handling him today cause I cleaned out his enclosure and couldn’t help but notice his tail being all flaky . I looked on the underside and noticed this \! It felt dry and I guess crusty . Compared to my other hognose this tail felt way more rough . Is he about to shed or is this early signs of scale rot ?  
+     
+   \[图片省略，未读取画面\]  
+     
+   \[图片省略，未读取画面\]  
+     
+   \[图片省略，未读取画面\]  
+     
+   \[图片省略，未读取画面\]
+
+2. **发言者 2**：I am tagging \[某参与者\] Erin.  This is definitely a question for you\!  
+     
+   In the meantime, are you keeping this hog the same as your other one?
+
+3. **发言者 1**：No I just got the other one so I have her in a quarantine tank with just paper towel and aspen she was shipped with
+
+### 讨论 9
+
 1. **发言者 1**：reptiles ,  animales . Cuidando mi ecosistema. Preciosa culebra de herradura, en Huelva, España.  
    Esta tranquila bebé me permitió trasladarla para esconderla antes de que los gatos que viven en la misma parcela la atacaran.  
    \[图片或视频省略，未读取画面\]
 
-### 讨论 9
+### 讨论 10
 
 RSS 摘要。
 
-1. **发言者 1**：Seven Rare Lizards Most People Have Never Seen  
+1. **发言者 1**：New Species of Egg-Eating Snake Discovered In Ethiopia  
      
-   From a pink iguana living on a single volcano to a lizard smaller than a coin, meet seven rare and unusual lizards and discover what makes each one truly special.
-
-### 讨论 10
-
-1. **发言者 1**：Prairie Lizard \(Sceloporus consobrinus\)  
-   This cutie was hiding under the leaves on a path up to Turkey Mountain's summit. I'm just happy I didn't crush him under my foot.  
-   iNaturalist link \[ \[链接隐去\] \]  
-   \[图片或视频省略，未读取画面\]
+   The discovery occurred when a local field assistant brought a young female snake to the research team.
 
 ### 讨论 11
+
+1. **发言者 1**：My best friend as a child \+ teenie was a boy. We were very close \+ also had a fallout, bt nt over reptiles. Bt despite the fallout he was the only one lending me a shoulder to lean on when I needed it most; I\`ll be grateful to him for the rest of my life, when everyone else \(especially my own family\) had abandoned me. friendship   
+   New Christmas story in December:
+
+### 讨论 12
 
 父回复关系未提供。
 
@@ -152,12 +174,5 @@ RSS 摘要。
 2. **发言者 2**：Get a Ceramic Heat Emitter, and a good UV light. As they need sunlight. Make sure the dragon can’t reach either.  
      
    \[链接隐去\]
-
-### 讨论 12
-
-1. **发言者 1**：Little Brown Skink \(Scincella lateralis\)  
-   This little reptile was nice enough to pause for me on the walking path.  
-   iNaturalist link \[ \[链接隐去\] \]  
-   \[图片或视频省略，未读取画面\]
 
 <!-- samples:end -->
